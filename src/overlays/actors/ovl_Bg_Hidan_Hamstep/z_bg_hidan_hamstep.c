@@ -36,9 +36,9 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { { { -20.0f, 3.0f, -20.0f }, { -20.0f, 3.0f, 20.0f }, { 20.0f, 3.0f, 20.0f } } },
     },
@@ -47,9 +47,9 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x40000040, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { { { 20.0f, 3.0f, 20.0f }, { 20.0f, 3.0f, -20.0f }, { -20.0f, 3.0f, -20.0f } } },
     },
@@ -58,10 +58,10 @@ static ColliderTrisElementInit sTrisElementsInit[2] = {
 static ColliderTrisInit sTrisInit = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_TRIS,
     },
     2,
@@ -286,7 +286,7 @@ void func_808887C4(BgHidanHamstep* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         func_800800F8(globalCtx, 3310, 100, &this->dyna.actor, 0);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_HAMMER_SWITCH);
-        this->collider.base.acFlags = AC_OFF;
+        this->collider.base.acFlags = AC_NONE;
         BgHidanHamstep_SetupAction(this, 1);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0xFF);
     } else {

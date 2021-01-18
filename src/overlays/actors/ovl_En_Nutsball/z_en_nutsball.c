@@ -34,10 +34,10 @@ const ActorInit En_Nutsball_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -102,15 +102,15 @@ void func_80ABBBA8(EnNutsball* this, GlobalContext* globalCtx) {
     this->actor.initPosRot.rot.z += 0x2AA8;
 
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & AT_HIT) ||
-        (this->collider.base.acFlags & AC_HIT) || (this->collider.base.ocFlags & OC_HIT)) {
+        (this->collider.base.acFlags & AC_HIT) || (this->collider.base.ocFlags1 & OC1_HIT)) {
         // Checking if the player is using a shield that reflects projectiles
         // And if so, reflects the projectile on impact
         if ((player->currentShield == PLAYER_SHIELD_DEKU) ||
             ((player->currentShield == PLAYER_SHIELD_HYLIAN) && LINK_IS_ADULT)) {
-            if ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.atFlags & AT_ENEMY) &&
+            if ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.atFlags & AT_TYPE_ENEMY) &&
                 (this->collider.base.atFlags & AT_BOUNCED)) {
-                this->collider.base.atFlags &= ~AT_ENEMY & ~AT_BOUNCED & ~AT_HIT;
-                this->collider.base.atFlags |= AT_PLAYER;
+                this->collider.base.atFlags &= ~AT_TYPE_ENEMY & ~AT_BOUNCED & ~AT_HIT;
+                this->collider.base.atFlags |= AT_TYPE_PLAYER;
 
                 this->collider.info.toucher.dmgFlags = 2;
                 func_800D20CC(&player->shieldMf, &sp4C, 0);

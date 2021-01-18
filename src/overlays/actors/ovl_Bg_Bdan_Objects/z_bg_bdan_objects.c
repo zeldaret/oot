@@ -47,10 +47,10 @@ const ActorInit Bg_Bdan_Objects_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_OFF,
-        OT_TYPE2,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -58,8 +58,8 @@ static ColliderCylinderInit sCylinderInit = {
         { 0xFFCFFFFF, 0x00, 0x04 },
         { 0x00000000, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_HARD,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { 0x00BB, 0x0050, 0x0000, { 0 } },
 };

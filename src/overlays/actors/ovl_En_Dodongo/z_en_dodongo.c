@@ -65,7 +65,7 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
             OCELEM_ON,
         },
@@ -76,7 +76,7 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
             OCELEM_ON,
         },
@@ -87,7 +87,7 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
             OCELEM_ON,
         },
@@ -98,8 +98,8 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_OFF,
-            BUMP_OFF,
+            TOUCH_NONE,
+            BUMP_NONE,
             OCELEM_ON,
         },
         { 21, { { 0, 0, 0 }, 20 }, 100 },
@@ -109,8 +109,8 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
-            TOUCH_OFF,
-            BUMP_OFF,
+            TOUCH_NONE,
+            BUMP_NONE,
             OCELEM_ON,
         },
         { 28, { { 0, 0, 0 }, 20 }, 100 },
@@ -120,7 +120,7 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x0D800691, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
             OCELEM_ON | OCELEM_UNK3,
         },
@@ -131,10 +131,10 @@ static ColliderJntSphElementInit sBodyElementsInit[6] = {
 static ColliderJntSphInit sBodyJntSphInit = {
     {
         COLTYPE_HIT0,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     6,
@@ -147,9 +147,9 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xF24BF96E, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
@@ -158,9 +158,9 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCBF96E, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
@@ -169,9 +169,9 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
             ELEMTYPE_UNK2,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCBF96E, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
@@ -180,10 +180,10 @@ static ColliderTrisElementInit sHardElementsInit[3] = {
 static ColliderTrisInit sHardTrisInit = {
     {
         COLTYPE_METAL,
-        AT_OFF,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_OFF,
-        OT_NONE,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_TRIS,
     },
     3,
@@ -193,10 +193,10 @@ static ColliderTrisInit sHardTrisInit = {
 static ColliderQuadInit sAttackQuadInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_OFF,
-        OT_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_QUAD,
     },
     {
@@ -204,8 +204,8 @@ static ColliderQuadInit sAttackQuadInit = {
         { 0x20000000, 0x01, 0x10 },
         { 0x00000000, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
@@ -615,9 +615,9 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime)) {
         if ((this->timer != 0) || (ABS(yawDiff1) < 0x4000)) {
-            this->sphElements[2].info.toucherFlags = TOUCH_OFF;
-            this->sphElements[1].info.toucherFlags = TOUCH_OFF;
-            this->colliderBody.base.atFlags = AT_OFF;
+            this->sphElements[2].info.toucherFlags = TOUCH_NONE;
+            this->sphElements[1].info.toucherFlags = TOUCH_NONE;
+            this->colliderBody.base.atFlags = AT_NONE;
             this->sphElements[2].info.toucher.dmgFlags = 0;
             this->sphElements[1].info.toucher.dmgFlags = 0;
             this->sphElements[2].info.toucher.damage = 0;
@@ -639,7 +639,7 @@ void EnDodongo_SweepTail(EnDodongo* this, GlobalContext* globalCtx) {
             Animation_PlayOnceSetSpeed(&this->skelAnime, animation, 2.0f);
             this->timer = 18;
             this->colliderBody.base.atFlags = this->sphElements[1].info.toucherFlags =
-                this->sphElements[2].info.toucherFlags = AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
+                this->sphElements[2].info.toucherFlags = AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
             this->sphElements[1].info.toucher.dmgFlags = this->sphElements[2].info.toucher.dmgFlags = 0xFFCFFFFF;
             this->sphElements[1].info.toucher.damage = this->sphElements[2].info.toucher.damage = 8;
         }

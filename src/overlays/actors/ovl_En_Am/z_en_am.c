@@ -37,17 +37,17 @@ const ActorInit En_Am_InitVars = {
 static ColliderCylinderInit D_809AFF80 = {
     {
         COLTYPE_HIT5,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -57,19 +57,19 @@ static ColliderCylinderInit D_809AFF80 = {
 static ColliderCylinderInit D_809AFFAC = {
     {
         COLTYPE_METAL,
-        AT_OFF,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_OFF,
-        OT_NONE,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00400106, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 15, 70, 0, { 0, 0, 0 } },
 };
@@ -77,10 +77,10 @@ static ColliderCylinderInit D_809AFFAC = {
 static ColliderQuadInit D_809AFFD8 = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_OFF,
-        OT_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_QUAD,
     },
     {
@@ -88,8 +88,8 @@ static ColliderQuadInit D_809AFFD8 = {
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };

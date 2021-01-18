@@ -99,10 +99,10 @@ const ActorInit Boss_Tw_InitVars = {
 static ColliderCylinderInit D_8094A7E8 = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ALL,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ALL,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -119,10 +119,10 @@ static ColliderCylinderInit D_8094A7E8 = {
 static ColliderCylinderInit D_8094A814 = {
     {
         COLTYPE_HIT3,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -139,10 +139,10 @@ static ColliderCylinderInit D_8094A814 = {
 static ColliderCylinderInit D_8094A840 = {
     {
         COLTYPE_HIT3,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {

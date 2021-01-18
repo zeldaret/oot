@@ -32,10 +32,10 @@ const ActorInit En_Dodojr_InitVars = {
 static ColliderCylinderInit D_809F7EB0 = {
     {
         COLTYPE_HIT6,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {

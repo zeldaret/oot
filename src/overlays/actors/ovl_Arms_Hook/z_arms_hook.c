@@ -27,10 +27,10 @@ const ActorInit Arms_Hook_InitVars = {
 ColliderQuadInit sQuadInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_PLAYER,
-        AC_OFF,
-        OC_OFF,
-        OT_PLAYER,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_PLAYER,
         COLSHAPE_QUAD,
     },
     {
@@ -38,8 +38,8 @@ ColliderQuadInit sQuadInit = {
         { 0x00000080, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NORMAL,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { 0 },
 };

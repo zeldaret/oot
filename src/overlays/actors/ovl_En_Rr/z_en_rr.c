@@ -87,9 +87,9 @@ static char* sDropNames[] = {
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     {
@@ -106,9 +106,9 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
 static ColliderCylinderInitType1 sCylinderInit2 = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_ON | OC_NO_PUSH | OC_PLAYER,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     {
@@ -499,9 +499,9 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
         }
         if ((this->ocTimer == 0) && (this->actor.dmgEffectTimer == 0) && (player->invincibilityTimer == 0) &&
             !(player->stateFlags2 & 0x80) &&
-            ((this->collider1.base.ocFlags & OC_HIT) || (this->collider2.base.ocFlags & OC_HIT))) {
-            this->collider1.base.ocFlags &= ~OC_HIT;
-            this->collider2.base.ocFlags &= ~OC_HIT;
+            ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
+            this->collider1.base.ocFlags1 &= ~OC1_HIT;
+            this->collider2.base.ocFlags1 &= ~OC1_HIT;
             // catch
             osSyncPrintf(VT_FGCOL(GREEN) "キャッチ(%d)！！" VT_RST "\n", this->frameCount);
             if (globalCtx->grabPlayer(globalCtx, player)) {
@@ -807,9 +807,9 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
     } else {
-        this->collider2.base.ocFlags &= ~OC_HIT;
+        this->collider2.base.ocFlags1 &= ~OC1_HIT;
         this->collider2.base.acFlags &= ~AC_HIT;
-        this->collider1.base.ocFlags &= ~OC_HIT;
+        this->collider1.base.ocFlags1 &= ~OC1_HIT;
         this->collider1.base.acFlags &= ~AC_HIT;
     }
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);

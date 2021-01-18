@@ -104,7 +104,7 @@ void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC,
 
 s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider) {
     static Collider init = {
-        NULL, NULL, NULL, NULL, AT_OFF, AC_OFF, OC_OFF, OT_NONE, COLTYPE_HIT3, COLSHAPE_INVALID,
+        NULL, NULL, NULL, NULL, AT_NONE, AC_NONE, OC1_NONE, OC2_NONE, COLTYPE_HIT3, COLSHAPE_INVALID,
     };
 
     *collider = init;
@@ -116,28 +116,28 @@ s32 Collider_DestroyBase(GlobalContext* globalCtx, Collider* collider) {
 }
 
 /**
- * Uses default OT_TYPE1 and COLTYPE_HIT0
+ * Uses default OC2_TYPE1 and COLTYPE_HIT0
  */
 s32 Collider_SetBaseToActor(GlobalContext* globalCtx, Collider* collider, ColliderInitToActor* src) {
     collider->actor = src->actor;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
-    collider->ocFlags = src->ocFlags;
-    collider->ocType = OT_TYPE1;
+    collider->ocFlags1 = src->ocFlags1;
+    collider->ocFlags2 = OC2_TYPE1;
     collider->shape = src->shape;
     return 1;
 }
 
 /**
- * Uses default OT_TYPE1
+ * Uses default OC2_TYPE1
  */
 s32 Collider_SetBaseType1(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInitType1* src) {
     collider->actor = actor;
     collider->colType = src->colType;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
-    collider->ocFlags = src->ocFlags;
-    collider->ocType = OT_TYPE1;
+    collider->ocFlags1 = src->ocFlags1;
+    collider->ocFlags2 = OC2_TYPE1;
     collider->shape = src->shape;
     return 1;
 }
@@ -147,8 +147,8 @@ s32 Collider_SetBase(GlobalContext* globalCtx, Collider* collider, Actor* actor,
     collider->colType = src->colType;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
-    collider->ocFlags = src->ocFlags;
-    collider->ocType = src->ocType;
+    collider->ocFlags1 = src->ocFlags1;
+    collider->ocFlags2 = src->ocFlags2;
     collider->shape = src->shape;
     return 1;
 }
@@ -165,8 +165,8 @@ void Collider_ResetACBase(GlobalContext* globalCtx, Collider* collider) {
 
 void Collider_ResetOCBase(GlobalContext* globalCtx, Collider* collider) {
     collider->oc = NULL;
-    collider->ocFlags &= ~OC_HIT;
-    collider->ocType &= ~OT_HIT_PLAYER;
+    collider->ocFlags1 &= ~OC1_HIT;
+    collider->ocFlags2 &= ~OC2_HIT_PLAYER;
 }
 
 s32 Collider_InitTouch(GlobalContext* globalCtx, ColliderTouch* touch) {
@@ -211,8 +211,8 @@ s32 Collider_SetBump(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpI
 s32 Collider_InitInfo(GlobalContext* globalCtx, ColliderInfo* info) {
     static ColliderInfo init = {
         { 0, 0, 0 },   { 0xFFCFFFFF, 0, 0, { 0, 0, 0 } },
-        ELEMTYPE_UNK0, TOUCH_OFF,
-        BUMP_OFF,      OCELEM_OFF,
+        ELEMTYPE_UNK0, TOUCH_NONE,
+        BUMP_NONE,      OCELEM_NONE,
         NULL,          NULL,
         NULL,          NULL,
     };
@@ -361,7 +361,7 @@ s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
 
 /**
  * Sets up the ColliderJntSph using the values in src, sets it to the actor specified in src, and dynamically allocates
- * the element array. Uses default OT_TYPE1 and COLTYPE_HIT0. Unused.
+ * the element array. Uses default OC2_TYPE1 and COLTYPE_HIT0. Unused.
  */
 s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInitToActor* src) {
     ColliderJntSphElement* destElem;
@@ -390,7 +390,7 @@ s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, Co
 
 /**
  * Sets up the ColliderJntSph using the values in src and dynamically allocates the element array. Uses default
- * OT_TYPE1. Only used by En_Nwc, an unused and unfinished actor.
+ * OC2_TYPE1. Only used by En_Nwc, an unused and unfinished actor.
  */
 s32 Collider_SetJntSphAllocType1(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
                                  ColliderJntSphInitType1* src) {
@@ -551,7 +551,7 @@ s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collide
 }
 
 /**
- * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default OT_TYPE1
+ * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default OC2_TYPE1
  * and COLTYPE_0. Used only by DekuJr, who sets it to himself anyways.
  */
 s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* collider,
@@ -563,7 +563,7 @@ s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* coll
 }
 
 /**
- * Sets up the ColliderCylinder using the values in src. Uses default OT_TYPE1
+ * Sets up the ColliderCylinder using the values in src. Uses default OC2_TYPE1
  */
 s32 Collider_SetCylinderType1(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
                               ColliderCylinderInitType1* src) {
@@ -732,7 +732,7 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris) {
 }
 
 /**
- * Sets up the ColliderTris using the values in src and dynamically allocates the element array. Uses default OT_TYPE1
+ * Sets up the ColliderTris using the values in src and dynamically allocates the element array. Uses default OC2_TYPE1
  * Unused.
  */
 s32 Collider_SetTrisAllocType1(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src) {
@@ -913,7 +913,7 @@ s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
 }
 
 /**
- * Sets up the ColliderQuad using the values in src. Uses the default OT_TYPE1
+ * Sets up the ColliderQuad using the values in src. Uses the default OC2_TYPE1
  */
 s32 Collider_SetQuadType1(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInitType1* src) {
     Collider_SetBaseType1(globalCtx, &collider->base, actor, &src->base);
@@ -1161,7 +1161,7 @@ void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContex
         if (AREG(23)) {
             for (i = 0; i < colChkCtx->colOCCount; i++) {
                 collider = colChkCtx->colOC[i];
-                if (collider->ocFlags & OC_ON) {
+                if (collider->ocFlags1 & OC1_ON) {
                     Collider_Draw(globalCtx, collider);
                 }
             }
@@ -1797,7 +1797,7 @@ void CollisionCheck_AC_JntSphVsJntSph(GlobalContext* globalCtx, CollisionCheckCo
                     }
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &atItem->info, &atPos, &ac->base, &acElem->info,
                                              &acPos, &hitPos);
-                    if (!(ac->base.ocType & OT_FIRST_ONLY)) {
+                    if (!(ac->base.ocFlags2 & OC2_FIRST_ONLY)) {
                         return;
                     }
                 }
@@ -1908,7 +1908,7 @@ void CollisionCheck_AC_CylVsJntSph(GlobalContext* globalCtx, CollisionCheckConte
                 }
                 CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info, &acPos,
                                          &hitPos);
-                if (!(ac->base.ocType & OT_FIRST_ONLY)) {
+                if (!(ac->base.ocFlags2 & OC2_FIRST_ONLY)) {
                     break;
                 }
             }
@@ -1991,7 +1991,7 @@ void CollisionCheck_AC_TrisVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                     atPos.z = (atItem->dim.vtx[0].z + atItem->dim.vtx[1].z + atItem->dim.vtx[2].z) * (1.0f / 3);
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &atItem->info, &atPos, &ac->base, &acElem->info,
                                              &acPos, &hitPos);
-                    if (!(ac->base.ocType & OT_FIRST_ONLY)) {
+                    if (!(ac->base.ocFlags2 & OC2_FIRST_ONLY)) {
                         return;
                     }
                 }
@@ -2087,7 +2087,7 @@ void CollisionCheck_AC_QuadVsJntSph(GlobalContext* globalCtx, CollisionCheckCont
                         (at->dim.quad[0].z + (at->dim.quad[1].z + (at->dim.quad[3].z + at->dim.quad[2].z))) / 4.0f;
                     CollisionCheck_SetATvsAC(globalCtx, &at->base, &at->info, &atPos, &ac->base, &acElem->info, &acPos,
                                              &hitPos);
-                    if ((ac->base.ocType & OT_FIRST_ONLY) == 0) {
+                    if ((ac->base.ocFlags2 & OC2_FIRST_ONLY) == 0) {
                         return;
                     }
                 }
@@ -2629,7 +2629,7 @@ void CollisionCheck_AC(GlobalContext* globalCtx, CollisionCheckContext* colChkCt
             if (colAC->actor != NULL && colAC->actor->update == NULL) {
                 continue;
             }
-            if ((colAC->acFlags & colAT->atFlags & AC_ALL) && (colAT != colAC)) {
+            if ((colAC->acFlags & colAT->atFlags & AC_TYPE_ALL) && (colAT != colAC)) {
                 if (!(colAT->atFlags & AT_SELF) && colAT->actor != NULL && colAC->actor == colAT->actor) {
                     continue;
                 }
@@ -2699,19 +2699,19 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     s32 leftMassType;
     s32 rightMassType;
 
-    left->ocFlags |= OC_HIT;
+    left->ocFlags1 |= OC1_HIT;
     left->oc = rightActor;
     leftInfo->ocElemFlags |= OCELEM_HIT;
-    if (right->ocType & OT_PLAYER) {
-        left->ocType |= OT_HIT_PLAYER;
+    if (right->ocFlags2 & OC2_PLAYER) {
+        left->ocFlags2 |= OC2_HIT_PLAYER;
     }
     right->oc = leftActor;
-    right->ocFlags |= OC_HIT;
+    right->ocFlags1 |= OC1_HIT;
     rightInfo->ocElemFlags |= OCELEM_HIT;
-    if (left->ocType & OT_PLAYER) {
-        right->ocType |= OT_HIT_PLAYER;
+    if (left->ocFlags2 & OC2_PLAYER) {
+        right->ocFlags2 |= OC2_HIT_PLAYER;
     }
-    if (leftActor == NULL || rightActor == NULL || left->ocFlags & OC_NO_PUSH || right->ocFlags & OC_NO_PUSH) {
+    if (leftActor == NULL || rightActor == NULL || left->ocFlags1 & OC1_NO_PUSH || right->ocFlags1 & OC1_NO_PUSH) {
         return;
     }
     rightMassType = CollisionCheck_GetMassType(leftActor->colChkInfo.mass);
@@ -2817,7 +2817,7 @@ void CollisionCheck_OC_JntSphVsCyl(GlobalContext* globalCtx, CollisionCheckConte
     f32 overlap;
 
     if (left->count > 0 && left->elements != NULL) {
-        if ((right->base.ocFlags & OC_ON) && (right->info.ocElemFlags & OCELEM_ON)) {
+        if ((right->base.ocFlags1 & OC1_ON) && (right->info.ocElemFlags & OCELEM_ON)) {
             for (leftElem = left->elements; leftElem < left->elements + left->count; leftElem++) {
                 if (!(leftElem->info.ocElemFlags & OCELEM_ON)) {
                     continue;
@@ -2852,7 +2852,7 @@ void CollisionCheck_OC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
     ColliderCylinder* right = (ColliderCylinder*)r;
     f32 deadSpace;
 
-    if ((left->base.ocFlags & OC_ON) && (right->base.ocFlags & OC_ON)) {
+    if ((left->base.ocFlags1 & OC1_ON) && (right->base.ocFlags1 & OC1_ON)) {
         if ((left->info.ocElemFlags & OCELEM_ON) && (right->info.ocElemFlags & OCELEM_ON)) {
             if (Math3D_CylOutsideCyl(&left->dim, &right->dim, &deadSpace) == 1) {
                 Vec3f leftPos;
@@ -2871,7 +2871,7 @@ void CollisionCheck_OC_CylVsCyl(GlobalContext* globalCtx, CollisionCheckContext*
  *  Skip any OC colliders that are off
  */
 s32 CollisionCheck_SkipOC(Collider* collider) {
-    if (!(collider->ocFlags & OC_ON)) {
+    if (!(collider->ocFlags1 & OC1_ON)) {
         return 1;
     }
     return 0;
@@ -2880,13 +2880,13 @@ s32 CollisionCheck_SkipOC(Collider* collider) {
 /**
  * Checks for OC compatibility. There are three conditions:
  * First, each collider must have an OC flag corresponding to the other's OC type.
- * Second, OT_UNK1 and OT_UNK2 can't collide with each other (has something to do with horses?)
+ * Second, OC2_UNK1 and OC2_UNK2 can't collide with each other (has something to do with horses?)
  * Third, the colliders can't collide if they belong to the same actor
  */
 s32 CollisionCheck_Incompatible(Collider* left, Collider* right) {
-    if (!(left->ocFlags & right->ocType & OC_ALL) || !(left->ocType & right->ocFlags & OC_ALL) ||
-        ((left->ocType & OT_UNK1) && (right->ocType & OT_UNK2)) ||
-        ((right->ocType & OT_UNK1) && (left->ocType & OT_UNK2))) {
+    if (!(left->ocFlags1 & right->ocFlags2 & OC1_TYPE_ALL) || !(left->ocFlags2 & right->ocFlags1 & OC1_TYPE_ALL) ||
+        ((left->ocFlags2 & OC2_UNK1) && (right->ocFlags2 & OC2_UNK2)) ||
+        ((right->ocFlags2 & OC2_UNK1) && (left->ocFlags2 & OC2_UNK2))) {
         return 1;
     }
     if (left->actor == right->actor) {
@@ -2906,8 +2906,8 @@ static ColChkVsFunc sOCVsFuncs[4][4] = {
  * Iterates through all OC colliders and collides them with all subsequent OC colliders on the list. During an OC
  * collision, colliders with overlapping elements move away from each other so that their elements no longer overlap.
  * The relative amount each collider is pushed is determined by the collider's mass. Only JntSph and Cylinder colliders
- * can collide, and each collider must have the OC flag corresponding to the other's OC type. Additionally, OT_UNK1
- * cannot collide with OT_UNK2, nor can two colliders that share an actor.
+ * can collide, and each collider must have the OC flag corresponding to the other's OC type. Additionally, OC2_UNK1
+ * cannot collide with OC2_UNK2, nor can two colliders that share an actor.
  */
 void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx) {
     Collider** left;

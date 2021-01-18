@@ -31,10 +31,10 @@ const ActorInit En_M_Thunder_InitVars = {
 static ColliderCylinderInit D_80AA0420 = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_PLAYER,
-        AC_OFF,
-        OC_OFF,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {

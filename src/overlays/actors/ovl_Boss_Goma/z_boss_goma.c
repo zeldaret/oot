@@ -171,10 +171,10 @@ static ColliderJntSphElementInit D_8091AE60[13] = {
 static ColliderJntSphInit D_8091B034 = {
     {
         COLTYPE_HIT3,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     13,

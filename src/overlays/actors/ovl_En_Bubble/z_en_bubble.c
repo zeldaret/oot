@@ -33,7 +33,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x04 },
             { 0xFFCFD753, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
             OCELEM_ON,
         },
@@ -44,9 +44,9 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00002824, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON | BUMP_NO_AT_INFO | BUMP_NO_DAMAGE | BUMP_NO_SWORD_SFX | BUMP_NO_HITMARK,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 16 }, 100 },
     },
@@ -55,10 +55,10 @@ static ColliderJntSphElementInit sJntSphElementsInit[2] = {
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_HIT6,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     2,
@@ -306,8 +306,8 @@ u32 EnBubble_DetectPop(EnBubble* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_208) != 0 || this->actionFunc == EnBubble_Pop) {
         return false;
     }
-    if (this->colliderSphere.base.ocType & OT_HIT_PLAYER) {
-        this->colliderSphere.base.ocType &= ~OT_HIT_PLAYER;
+    if (this->colliderSphere.base.ocFlags2 & OC2_HIT_PLAYER) {
+        this->colliderSphere.base.ocFlags2 &= ~OC2_HIT_PLAYER;
         EnBubble_DamagePlayer(this, globalCtx);
         this->unk_208 = 8;
         return true;

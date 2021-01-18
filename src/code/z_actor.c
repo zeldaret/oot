@@ -3989,7 +3989,7 @@ void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1) {
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = PLAYER;
 
-    if ((collider->acFlags & AC_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
+    if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
         return 1;
     } else {
         return 0;

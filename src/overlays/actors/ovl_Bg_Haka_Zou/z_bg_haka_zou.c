@@ -34,19 +34,19 @@ const ActorInit Bg_Haka_Zou_InitVars = {
 static ColliderCylinderInit D_808835F0 = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE2,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 5, 60, 0, { 0, 0, 0 } },
 };

@@ -57,17 +57,17 @@ const ActorInit En_Poh_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT3,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -81,7 +81,7 @@ static ColliderJntSphElementInit D_80AE1AA0[1] = {
             { 0xFFCFFFFF, 0x00, 0x08 },
             { 0x00000000, 0x00, 0x00 },
             TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_OFF,
+            BUMP_NONE,
             OCELEM_ON,
         },
         { 18, { { 0, 1400, 0 }, 10 }, 100 },
@@ -91,10 +91,10 @@ static ColliderJntSphElementInit D_80AE1AA0[1] = {
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_HIT3,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -435,7 +435,7 @@ void EnPoh_Talk(EnPoh* this, GlobalContext* globalCtx) {
     this->colliderCyl.dim.pos.x = this->actor.posRot.pos.x;
     this->colliderCyl.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     this->colliderCyl.dim.pos.z = this->actor.posRot.pos.z;
-    this->colliderCyl.base.ocFlags = OC_ON | OC_PLAYER;
+    this->colliderCyl.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
     if (this->actor.params == EN_POH_FLAT || this->actor.params == EN_POH_SHARP) {
         if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
             this->actor.textId = 0x5000;
@@ -793,7 +793,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         return;
     }
-    if (this->colliderCyl.base.ocFlags & OC_HIT) {
+    if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= 0x10000;
         func_8002F2F4(&this->actor, globalCtx);
     } else {

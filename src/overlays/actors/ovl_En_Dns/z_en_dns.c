@@ -59,16 +59,16 @@ const ActorInit En_Dns_InitVars = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -329,7 +329,7 @@ void EnDns_Wait(EnDns* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnDns_Talk;
     } else {
-        if ((this->collider.base.ocFlags & OC_HIT) || (this->actor.unk_10C != 0)) {
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->actor.unk_10C != 0)) {
             this->actor.flags |= 0x10000;
         } else {
             this->actor.flags &= ~0x10000;

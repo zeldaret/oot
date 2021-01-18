@@ -37,10 +37,10 @@ const ActorInit En_Goma_InitVars = {
 static ColliderCylinderInit D_80A4B7A0 = {
     {
         COLTYPE_HIT3,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -48,7 +48,7 @@ static ColliderCylinderInit D_80A4B7A0 = {
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_OFF,
+        BUMP_NONE,
         OCELEM_ON,
     },
     { 15, 30, 10, { 0, 0, 0 } },
@@ -57,19 +57,19 @@ static ColliderCylinderInit D_80A4B7A0 = {
 static ColliderCylinderInit D_80A4B7CC = {
     {
         COLTYPE_HIT3,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x08 },
         { 0xFFDFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 15, 30, 10, { 0, 0, 0 } },
 };

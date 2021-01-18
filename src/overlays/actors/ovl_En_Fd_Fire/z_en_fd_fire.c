@@ -30,10 +30,10 @@ const ActorInit En_Fd_Fire_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -115,8 +115,8 @@ s32 EnFdFire_CheckCollider(EnFdFire* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (this->collider.base.ocType & OT_HIT_PLAYER) {
-        this->collider.base.ocType &= ~OT_HIT_PLAYER;
+    if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
+        this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
         return true;
     }
     return false;

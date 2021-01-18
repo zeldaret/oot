@@ -45,17 +45,17 @@ const ActorInit En_Gm_InitVars = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_OFF,
-        OC_ON | OC_ALL,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_OFF,
-        BUMP_OFF,
+        TOUCH_NONE,
+        BUMP_NONE,
         OCELEM_ON,
     },
     { 100, 120, 0, { 0, 0, 0 } },
@@ -180,7 +180,7 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A3DC44;
     } else if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = func_80A3DBF4;
-    } else if ((this->collider.base.ocFlags & OC_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
+    } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
@@ -220,7 +220,7 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 
         this->actionFunc = EnGm_ProcessChoiceIndex;
     }
-    if ((this->collider.base.ocFlags & OC_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
+    if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }

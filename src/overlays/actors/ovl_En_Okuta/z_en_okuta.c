@@ -44,10 +44,10 @@ extern AnimationHeader D_06003C64;
 static ColliderCylinderInit sProjectileColliderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -64,17 +64,17 @@ static ColliderCylinderInit sProjectileColliderInit = {
 static ColliderCylinderInit sOctorockColliderInit = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -492,14 +492,14 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
     if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & AT_HIT) ||
-        this->collider.base.acFlags & AC_HIT || this->collider.base.ocFlags & OC_HIT ||
+        this->collider.base.acFlags & AC_HIT || this->collider.base.ocFlags1 & OC1_HIT ||
         this->actor.groundY == BGCHECK_Y_MIN) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
              (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
-            this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_ENEMY &&
+            this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_TYPE_ENEMY &&
             this->collider.base.atFlags & AT_BOUNCED) {
-            this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_ENEMY);
-            this->collider.base.atFlags |= AT_PLAYER;
+            this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
+            this->collider.base.atFlags |= AT_TYPE_PLAYER;
             this->collider.info.toucher.dmgFlags = 2;
             func_800D20CC(&player->shieldMf, &sp40, 0);
             this->actor.posRot.rot.y = sp40.y + 0x8000;

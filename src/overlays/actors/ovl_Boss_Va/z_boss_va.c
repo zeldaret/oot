@@ -63,10 +63,10 @@ const ActorInit Boss_Va_InitVars = {
 static ColliderCylinderInit D_8095BF60 = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -86,9 +86,9 @@ static ColliderJntSphElementInit D_8095BF8C[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000010, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 25 }, 100 },
     },
@@ -97,10 +97,10 @@ static ColliderJntSphElementInit D_8095BF8C[1] = {
 static ColliderJntSphInit D_8095BFB0 = {
     {
         COLTYPE_HIT6,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -110,10 +110,10 @@ static ColliderJntSphInit D_8095BFB0 = {
 static ColliderQuadInit D_8095BFF4 = {
     {
         COLTYPE_METAL,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_QUAD,
     },
     {
@@ -122,7 +122,7 @@ static ColliderQuadInit D_8095BFF4 = {
         { 0x00000010, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
@@ -135,7 +135,7 @@ static ColliderJntSphElementInit D_8095BFC0[1] = {
             { 0xFFCFFFFF, 0x00, 0x00 },
             TOUCH_ON | TOUCH_SFX_NORMAL,
             BUMP_ON,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 30 }, 100 },
     },
@@ -144,10 +144,10 @@ static ColliderJntSphElementInit D_8095BFC0[1] = {
 static ColliderJntSphInit D_8095BFE4 = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -157,10 +157,10 @@ static ColliderJntSphInit D_8095BFE4 = {
 static ColliderQuadInit D_8095BFF4 = {
     {
         COLTYPE_METAL,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_QUAD,
     },
     {
@@ -169,7 +169,7 @@ static ColliderQuadInit D_8095BFF4 = {
         { 0x00000010, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };

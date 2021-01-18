@@ -37,17 +37,17 @@ const ActorInit En_Bombf_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER | AC_OTHER,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER | AC_TYPE_OTHER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x0003F828, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -61,8 +61,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             { 0x00000008, 0x00, 0x08 },
             { 0x00000000, 0x00, 0x00 },
             TOUCH_ON | TOUCH_SFX_NONE,
-            BUMP_OFF,
-            OCELEM_OFF,
+            BUMP_NONE,
+            OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 0 }, 100 },
     },
@@ -71,10 +71,10 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ALL,
-        AC_OFF,
-        OC_OFF,
-        OT_NONE,
+        AT_ON | AT_TYPE_ALL,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -372,7 +372,7 @@ void EnBombf_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->bombCollider.base.acFlags & AC_HIT) ||
-            ((this->bombCollider.base.ocFlags & OC_HIT) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
+            ((this->bombCollider.base.ocFlags1 & OC1_HIT) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
             this->unk_200 = 1;
             this->timer = 0;
         } else {

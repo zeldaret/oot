@@ -39,18 +39,18 @@ const ActorInit Bg_Toki_Swd_InitVars = {
 
 static ColliderCylinderInit sCylinderInit = { {
                                                   COLTYPE_NONE,
-                                                  AT_OFF,
-                                                  AC_OFF,
-                                                  OC_ON | OC_ALL,
-                                                  OT_TYPE1 | OT_UNK1,
+                                                  AT_NONE,
+                                                  AC_NONE,
+                                                  OC1_ON | OC1_TYPE_ALL,
+                                                  OC2_TYPE1 | OC2_UNK1,
                                                   COLSHAPE_CYLINDER,
                                               },
                                               {
                                                   ELEMTYPE_UNK0,
                                                   { 0xFFCFFFFF, 0x00, 0x00 },
                                                   { 0xFFCFFFFF, 0x00, 0x00 },
-                                                  TOUCH_OFF,
-                                                  BUMP_OFF,
+                                                  TOUCH_NONE,
+                                                  BUMP_NONE,
                                                   OCELEM_ON,
                                               },
                                               { 10, 70, 0, { 0 } } };

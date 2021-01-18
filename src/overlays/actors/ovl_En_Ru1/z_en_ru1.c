@@ -72,9 +72,9 @@ void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx);
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_OFF,
-        OC_ON | OC_PLAYER,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
@@ -84,9 +84,9 @@ static ColliderCylinderInitType1 sCylinderInit1 = {
 static ColliderCylinderInitType1 sCylinderInit2 = {
     {
         COLTYPE_HIT0,
-        AT_ON | AT_PLAYER,
-        AC_OFF,
-        OC_ON | OC_PLAYER,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },

@@ -36,19 +36,19 @@ const ActorInit Bg_Dodoago_InitVars = {
 static ColliderCylinderInit sColCylinderInit0 = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_ALL,
-        OC_OFF,
-        OT_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ALL,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 80, 30, 80, { 0, 0, 0 } },
 };
@@ -56,18 +56,18 @@ static ColliderCylinderInit sColCylinderInit0 = {
 static ColliderCylinderInit sColCylinderInit1 = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_OFF,
-        OC_ON | OC_NO_PUSH | OC_ALL,
-        OT_TYPE2,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK2,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_OFF,
-        BUMP_OFF,
+        TOUCH_NONE,
+        BUMP_NONE,
         OCELEM_ON,
     },
     { 50, 60, 280, { 0, 0, 0 } },
@@ -267,15 +267,15 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (this->dyna.actor.parent == NULL) {
-        if ((s32)(this->colliders[1].base.ocFlags & OC_HIT) || (this->colliders[2].base.ocFlags & OC_HIT)) {
+        if ((s32)(this->colliders[1].base.ocFlags1 & OC1_HIT) || (this->colliders[2].base.ocFlags1 & OC1_HIT)) {
 
-            if ((s32)(this->colliders[1].base.ocFlags & OC_HIT)) {
+            if ((s32)(this->colliders[1].base.ocFlags1 & OC1_HIT)) {
                 bomb = (EnBom*)this->colliders[1].base.oc;
             } else {
                 bomb = (EnBom*)this->colliders[2].base.oc;
             }
-            this->colliders[1].base.ocFlags &= ~OC_HIT;
-            this->colliders[2].base.ocFlags &= ~OC_HIT;
+            this->colliders[1].base.ocFlags1 &= ~OC1_HIT;
+            this->colliders[2].base.ocFlags1 &= ~OC1_HIT;
             if (bomb->actor.type == ACTORTYPE_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;

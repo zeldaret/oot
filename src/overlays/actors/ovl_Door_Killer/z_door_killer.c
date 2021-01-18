@@ -26,10 +26,10 @@ const ActorInit Door_Killer_InitVars = {
 static ColliderCylinderInit D_80995FB0 = {
     {
         COLTYPE_METAL,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -38,7 +38,7 @@ static ColliderCylinderInit D_80995FB0 = {
         { 0x0001FFEE, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 20, 100, 0, { 0, 0, 0 } },
 };
@@ -49,9 +49,9 @@ static ColliderJntSphElementInit D_80995FDC[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0x00000008, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
-            OCELEM_OFF,
+            OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 100 }, 100 },
     },
@@ -60,10 +60,10 @@ static ColliderJntSphElementInit D_80995FDC[1] = {
 static ColliderJntSphInit D_80996000 = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_JNTSPH,
     },
     1,

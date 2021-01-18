@@ -36,10 +36,10 @@ const ActorInit En_Weiyer_InitVars = {
 static ColliderCylinderInit D_80B33A90 = {
     {
         COLTYPE_HIT0,
-        AT_OFF | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {

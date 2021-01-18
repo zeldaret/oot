@@ -49,17 +49,17 @@ const ActorInit En_Wood02_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_TREE,
-        AT_OFF,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK5,
         { 0x00000000, 0x00, 0x00 },
         { 0x0FC0074A, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },

@@ -43,10 +43,10 @@ const ActorInit Bg_Hidan_Fwbig_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_ON | OC_PLAYER,
-        OT_TYPE2,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -54,7 +54,7 @@ static ColliderCylinderInit sCylinderInit = {
         { 0x20000000, 0x01, 0x04 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_OFF,
+        BUMP_NONE,
         OCELEM_ON,
     },
     { 30, 130, 0, { 0, 0, 0 } },

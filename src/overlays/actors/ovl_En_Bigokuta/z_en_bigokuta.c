@@ -46,10 +46,10 @@ static ColliderJntSphElementInit D_809BF3D4[1] = {
 static ColliderJntSphInit D_809BF3F8 = {
     {
         COLTYPE_HIT0,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -59,10 +59,10 @@ static ColliderJntSphInit D_809BF3F8 = {
 static ColliderCylinderInit D_809BF408 = {
     {
         COLTYPE_HARD,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {

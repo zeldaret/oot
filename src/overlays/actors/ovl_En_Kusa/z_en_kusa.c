@@ -56,17 +56,17 @@ static s16 sObjectIds[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER | OC_TYPE2,
-        OT_TYPE2,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_2,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x4FC00758, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -320,8 +320,8 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9BEAC(this);
         this->actor.flags |= 0x800;
     } else {
-        if (!(this->collider.base.ocFlags & OC_PLAYER) && (this->actor.xzDistToLink > 12.0f)) {
-            this->collider.base.ocFlags |= OC_PLAYER;
+        if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToLink > 12.0f)) {
+            this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
 
         if (this->actor.xzDistToLink < 600.0f) {
@@ -472,7 +472,7 @@ void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     if (sp24) {
         Actor_SetScale(&this->actor, 0.4f);
         func_80A9B89C(this);
-        this->collider.base.ocFlags &= ~OC_PLAYER;
+        this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
     }
 }
 

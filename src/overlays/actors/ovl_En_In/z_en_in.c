@@ -40,18 +40,18 @@ const ActorInit En_In_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_OFF,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_OFF,
-        BUMP_OFF,
+        TOUCH_NONE,
+        BUMP_NONE,
         OCELEM_ON,
     },
     { 18, 46, 0, { 0, 0, 0 } },
@@ -334,7 +334,7 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
         return 0;
     }
     this->unk_1E6 = 1;
-    this->collider.base.ocFlags &= ~OC_ON;
+    this->collider.base.ocFlags1 &= ~OC1_ON;
     Animation_Change(&this->skelAnime, D_80A7B918[this->unk_1E6], 1.0f, 0.0f,
                      Animation_GetLastFrame(D_80A7B918[this->unk_1E6]), 2, 0.0f);
     this->actionFunc = func_80A7A304;

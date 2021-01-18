@@ -30,9 +30,9 @@ const ActorInit En_Fz_InitVars = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
         COLSHAPE_CYLINDER,
     },
     {
@@ -49,18 +49,18 @@ static ColliderCylinderInitType1 sCylinderInit = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_METAL,
-        AT_OFF,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_OFF,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0xFFCFFFFF, 0x00, 0x00 },
         { 0x0001F024, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 35, 80, 0, { 0, 0, 0 } },
 };
@@ -68,9 +68,9 @@ static ColliderCylinderInitType1 sCylinderInit = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_OFF,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
@@ -78,8 +78,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
         { 0x20000000, 0x02, 0x08 },
         { 0x00000000, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { 20, 30, -15, { 0, 0, 0 } },
 };

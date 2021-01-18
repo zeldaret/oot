@@ -60,10 +60,10 @@ const ActorInit En_Floormas_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT0,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -764,7 +764,7 @@ void EnFloormas_JumpAtLink(EnFloormas* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);
         EnFloormas_SetupLand(this);
-    } else if ((this->actor.yDistToLink < -10.0f) && (this->collider.base.ocFlags & OC_HIT) &&
+    } else if ((this->actor.yDistToLink < -10.0f) && (this->collider.base.ocFlags1 & OC1_HIT) &&
                (&player->actor == this->collider.base.oc)) {
         globalCtx->grabPlayer(globalCtx, player);
         EnFloormas_SetupGrabLink(this, player);
@@ -859,7 +859,7 @@ void EnFloormas_SmSlaveJumpAtMaster(EnFloormas* this, GlobalContext* globalCtx) 
                 (fabsf(this->actor.posRot.pos.x - primFloormas->posRot.pos.x) < 10.0f)) &&
                (fabsf(this->actor.posRot.pos.z - primFloormas->posRot.pos.z) < 10.0f)) {
         EnFloormas_SetupSmWait(this);
-        this->collider.base.ocFlags |= OC_ON;
+        this->collider.base.ocFlags1 |= OC1_ON;
     } else if (this->actor.bgCheckFlags & 2) {
         this->actor.speedXZ = 0.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLOORMASTER_SM_LAND);

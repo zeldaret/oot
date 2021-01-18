@@ -58,17 +58,17 @@ const ActorInit En_Dh_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_ON | OC_PLAYER,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -81,7 +81,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xFFCFFFFF, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
             OCELEM_ON | OCELEM_UNK3,
         },
@@ -92,10 +92,10 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_HIT6,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -314,7 +314,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
     } else if ((this->actor.xzDistToLink > 100.0f) || !func_8002E084(&this->actor, 60 * 0x10000 / 360)) {
         Animation_Change(&this->skelAnime, &D_06004658, -1.0f, this->skelAnime.curFrame, 0.0f, ANIMMODE_ONCE, -4.0f);
         this->actionState = 4;
-        this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
+        this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
         this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
     }
     switch (this->actionState) {
@@ -328,13 +328,13 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
         case 2:
             if (this->skelAnime.curFrame >= 4.0f) {
                 this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags =
-                    AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
+                    AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
                 this->collider2.elements[0].info.toucher.dmgFlags = 0xFFCFFFFF;
                 this->collider2.elements[0].info.toucher.damage = 8;
             }
             if (this->collider2.base.atFlags & AT_BOUNCED) {
                 this->collider2.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
-                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
+                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
                 this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
                 this->actionState++;
             } else if (this->collider2.base.atFlags & AT_HIT) {
@@ -351,7 +351,7 @@ void EnDh_Attack(EnDh* this, GlobalContext* globalCtx) {
                 Animation_Change(&this->skelAnime, &D_06004658, -1.0f, Animation_GetLastFrame(&D_06004658), 0.0f,
                                  ANIMMODE_ONCE, -4.0f);
                 this->actionState++;
-                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
+                this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
                 this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
             }
             break;
@@ -382,7 +382,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
             this->actionState++;
             this->drawDirtWave++;
             this->collider1.base.atFlags = this->collider1.info.toucherFlags =
-                AT_ON | AT_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
+                AT_ON | AT_TYPE_ENEMY; // also TOUCH_ON | TOUCH_SFX_WOOD
             this->collider1.info.toucher.dmgFlags = 0xFFCFFFFF;
             this->collider1.info.toucher.damage = 4;
         case 1:
@@ -399,7 +399,7 @@ void EnDh_Burrow(EnDh* this, GlobalContext* globalCtx) {
         case 2:
             this->drawDirtWave = false;
             this->collider1.dim.radius = 35;
-            this->collider1.base.atFlags = this->collider1.info.toucherFlags = AT_OFF; // Also TOUCH_OFF
+            this->collider1.base.atFlags = this->collider1.info.toucherFlags = AT_NONE; // Also TOUCH_NONE
             this->collider1.info.toucher.dmgFlags = this->collider1.info.toucher.damage = 0;
             EnDh_SetupWait(this);
             break;
@@ -483,7 +483,7 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
     if ((this->collider2.base.acFlags & AC_HIT) && !this->retreat) {
         this->collider2.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) && (this->actor.colChkInfo.damageEffect != 6)) {
-            this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_OFF; // also TOUCH_OFF
+            this->collider2.base.atFlags = this->collider2.elements[0].info.toucherFlags = AT_NONE; // also TOUCH_NONE
             this->collider2.elements[0].info.toucher.dmgFlags = this->collider2.elements[0].info.toucher.damage = 0;
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;

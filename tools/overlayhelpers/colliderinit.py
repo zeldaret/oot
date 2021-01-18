@@ -44,37 +44,37 @@ ATFLAGS_ENUM = [
     "AT_ON",
     "AT_HIT",
     "AT_BOUNCED",
-    "AT_PLAYER",
-    "AT_ENEMY",
-    "AT_OTHER",
+    "AT_TYPE_PLAYER",
+    "AT_TYPE_ENEMY",
+    "AT_TYPE_OTHER",
     "AT_SELF"]
 
 ACFLAGS_ENUM = [
     "AC_ON",
     "AC_HIT",
     "AC_HARD",
-    "AC_PLAYER",
-    "AC_ENEMY",
-    "AC_OTHER",
+    "AC_TYPE_PLAYER",
+    "AC_TYPE_ENEMY",
+    "AC_TYPE_OTHER",
     "AC_NO_DAMAGE",
     "AC_BOUNCED"]
 
 OCFLAGS_ENUM = [
-    "OC_ON",
-    "OC_HIT",
-    "OC_NO_PUSH",
-    "OC_PLAYER",
-    "OC_TYPE1",
-    "OC_TYPE2"]
+    "OC1_ON",
+    "OC1_HIT",
+    "OC1_NO_PUSH",
+    "OC1_TYPE_PLAYER",
+    "OC1_TYPE_1",
+    "OC1_TYPE_2"]
 
 OCTYPE_ENUM = [
-    "OT_HIT_PLAYER",
-    "OT_UNK1",
-    "OT_UNK2",
-    "OT_PLAYER",
-    "OT_TYPE1",
-    "OT_TYPE2",
-    "OT_FIRST_ONLY"]
+    "OC2_HIT_PLAYER",
+    "OC2_UNK1",
+    "OC2_UNK2",
+    "OC2_PLAYER",
+    "OC2_TYPE1",
+    "OC2_TYPE2",
+    "OC2_FIRST_ONLY"]
 
 TOUCHERFLAGS_ENUM = [
     "TOUCH_ON",
@@ -134,10 +134,10 @@ def GetATflags(at):
             if(at & (1 << i)):
                 output = "AT_ON"
             else:
-                output = "AT_OFF"
+                output = "AT_NONE"
         elif(at & (1 << i)):
             output += " | " + flag
-    return output.replace("AT_PLAYER | AT_ENEMY | AT_OTHER","AT_ALL")
+    return output.replace("AT_TYPE_PLAYER | AT_TYPE_ENEMY | AT_TYPE_OTHER","AT_TYPE_ALL")
 
 def GetACflags(at):
     for i, flag in enumerate(ACFLAGS_ENUM):
@@ -145,21 +145,21 @@ def GetACflags(at):
             if(at & (1 << i)):
                 output = "AC_ON"
             else:
-                output = "AC_OFF"
+                output = "AC_NONE"
         elif(at & (1 << i)):
             output += " | " + flag
-    return output.replace("AC_OTHER | AC_ENEMY | AC_PLAYER","AC_ALL")
+    return output.replace("AC_TYPE_OTHER | AC_TYPE_ENEMY | AC_TYPE_PLAYER","AC_TYPE_ALL")
 
 def GetOCflags(at):
     for i, flag in enumerate(OCFLAGS_ENUM):
         if(i == 0):
             if(at & (1 << i)):
-                output = "OC_ON"
+                output = "OC1_ON"
             else:
-                output = "OC_OFF"
+                output = "OC1_NONE"
         elif(at & (1 << i)):
             output += " | " + flag
-    return output.replace("OC_PLAYER | OC_TYPE1 | OC_TYPE2","OC_ALL")
+    return output.replace("OC1_TYPE_PLAYER | OC1_TYPE_1 | OC1_TYPE_2","OC1_TYPE_ALL")
 
 def GetOCtype(at):
     output = ""
@@ -167,7 +167,7 @@ def GetOCtype(at):
         if(at & (1 << i)):
             output = " | " + flag + output
     if(output == ""):
-        return "OT_NONE"
+        return "OC2_NONE"
     else:
         return output.strip(" | ")
 
@@ -177,7 +177,7 @@ def GetToucherFlags(at):
             if(at & (1 << i)):
                 output = "TOUCH_ON"
             else:
-                output = "TOUCH_OFF"
+                output = "TOUCH_NONE"
         elif(at & (1 << i)):
             output += " | " + flag
         if(i == 4 and output.find("SFX") == -1 and output.find("OFF") == -1):
@@ -190,7 +190,7 @@ def GetBumperFlags(at):
             if(at & (1 << i)):
                 output = "BUMP_ON"
             else:
-                output = "BUMP_OFF"
+                output = "BUMP_NONE"
         elif(at & (1 << i)):
             output += " | " + flag
     return output
@@ -201,7 +201,7 @@ def GetOcElemFlags(at):
             if(at & (1 << i)):
                 output = "OCELEM_ON"
             else:
-                output = "OCELEM_OFF"
+                output = "OCELEM_NONE"
         elif(at & (1 << i)):
             output += " | " + flag
     return output

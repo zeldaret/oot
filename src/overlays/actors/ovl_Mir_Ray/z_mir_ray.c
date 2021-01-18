@@ -48,10 +48,10 @@ u8 D_80B8E670 = 0;
 static ColliderQuadInit sQuadInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_PLAYER,
-        AC_OFF,
-        OC_OFF,
-        OT_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_QUAD,
     },
     {
@@ -59,8 +59,8 @@ static ColliderQuadInit sQuadInit = {
         { 0x00200000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
@@ -72,8 +72,8 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             { 0x00200000, 0x00, 0x00 },
             { 0x00000000, 0x00, 0x00 },
             TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_OFF,
-            OCELEM_OFF,
+            BUMP_NONE,
+            OCELEM_NONE,
         },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
@@ -82,10 +82,10 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_PLAYER,
-        AC_OFF,
-        OC_OFF,
-        OT_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
         COLSHAPE_JNTSPH,
     },
     1,

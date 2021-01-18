@@ -37,19 +37,19 @@ const ActorInit Bg_Breakwall_InitVars = {
 static ColliderQuadInit D_80870760 = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER | AC_OTHER,
-        OC_OFF,
-        OT_TYPE2,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER | AC_TYPE_OTHER,
+        OC1_NONE,
+        OC2_TYPE2,
         COLSHAPE_QUAD,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000048, 0x00, 0x00 },
         { 0x00000048, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };

@@ -70,10 +70,10 @@ const ActorInit En_Ssh_InitVars = {
 static ColliderCylinderInit sCylinderInit1 = {
     {
         COLTYPE_HIT6,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -82,7 +82,7 @@ static ColliderCylinderInit sCylinderInit1 = {
         { 0x00000000, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 32, 50, -24, { 0, 0, 0 } },
 };
@@ -92,18 +92,18 @@ static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, MASS_IMMOVABLE };
 static ColliderCylinderInit sCylinderInit2 = {
     {
         COLTYPE_HIT6,
-        AT_OFF,
-        AC_OFF,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000000, 0x00, 0x00 },
-        TOUCH_OFF,
-        BUMP_OFF,
+        TOUCH_NONE,
+        BUMP_NONE,
         OCELEM_ON,
     },
     { 20, 60, -30, { 0, 0, 0 } },
@@ -116,7 +116,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
             { 0xFFCFFFFF, 0x00, 0x04 },
             { 0x00000000, 0x00, 0x00 },
             TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_OFF,
+            BUMP_NONE,
             OCELEM_ON,
         },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
@@ -126,10 +126,10 @@ static ColliderJntSphElementInit sJntSphElementsInit[1] = {
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_HIT6,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     1,
@@ -476,8 +476,8 @@ s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
         return false;
     }
     for (i = 0; i < 3; i++) {
-        if (this->colCylinder[i + 3].base.ocType & OT_HIT_PLAYER) {
-            this->colCylinder[i + 3].base.ocType &= ~OT_HIT_PLAYER;
+        if (this->colCylinder[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) {
+            this->colCylinder[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
             hit = true;
         }
     }

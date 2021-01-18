@@ -65,7 +65,7 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
             ELEMTYPE_UNK0,
             { 0x00000000, 0x00, 0x00 },
             { 0xEFC1FFFE, 0x00, 0x00 },
-            TOUCH_OFF,
+            TOUCH_NONE,
             BUMP_ON,
             OCELEM_ON,
         },
@@ -76,10 +76,10 @@ static ColliderJntSphElementInit sJntSphElementsInit[] = {
 static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_JNTSPH,
     },
     1,

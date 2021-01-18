@@ -16,8 +16,8 @@ typedef struct {
     /* 0x0C */ struct Actor* oc; // Actor attached to what it collided with as an OC collider.
     /* 0x10 */ u8 atFlags; // Information flags for AT collisions. 
     /* 0x11 */ u8 acFlags; // Information flags for AC collisions.
-    /* 0x12 */ u8 ocFlags; // Information flags for OC collisions.
-    /* 0x13 */ u8 ocType;  // Flags related to which colliders it can OC collide with.
+    /* 0x12 */ u8 ocFlags1; // Information flags for OC collisions.
+    /* 0x13 */ u8 ocFlags2;  // Flags related to which colliders it can OC collide with.
     /* 0x14 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x15 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } Collider; // size = 0x18
@@ -26,8 +26,8 @@ typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
     /* 0x02 */ u8 acFlags; // Information flags for OC collisions.
-    /* 0x03 */ u8 ocFlags; // Information flags for OC collisions.
-    /* 0x04 */ u8 ocType; // Flags related to which colliders it can OC collide with.
+    /* 0x03 */ u8 ocFlags1; // Information flags for OC collisions.
+    /* 0x04 */ u8 ocFlags2; // Flags related to which colliders it can OC collide with.
     /* 0x05 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } ColliderInit; // size = 0x06
 
@@ -35,7 +35,7 @@ typedef struct {
     /* 0x00 */ u8 colType; // Determines hitmarks and sound effects during AC collisions.
     /* 0x01 */ u8 atFlags; // Information flags for AT collisions. 
     /* 0x02 */ u8 acFlags; // Information flags for AC collisions.
-    /* 0x03 */ u8 ocFlags; // Information flags for OC collisions.
+    /* 0x03 */ u8 ocFlags1; // Information flags for OC collisions.
     /* 0x04 */ u8 shape; // JntSph, Cylinder, Tris, or Quad
 } ColliderInitType1; // size = 0x05
 
@@ -43,7 +43,7 @@ typedef struct {
     /* 0x00 */ struct Actor* actor;
     /* 0x04 */ u8 atFlags; // Information flags for AT collisions.
     /* 0x05 */ u8 acFlags; // Information flags for AC collisions.
-    /* 0x06 */ u8 ocFlags; // Information flags for OC collisions.
+    /* 0x06 */ u8 ocFlags1; // Information flags for OC collisions.
     /* 0x07 */ u8 shape;   // JntSph, Cylinder, Tris, or Quad
 } ColliderInitToActor; // size = 0x08
 
@@ -231,28 +231,28 @@ typedef struct {
 } OcLine; // size = 0x1C
 
 typedef enum ColliderType {
-    COLTYPE_HIT0, // Blue blood, white hitmark
-    COLTYPE_HIT1, // No blood, dust hitmark
-    COLTYPE_HIT2, // Green blood, dust hitmark
-    COLTYPE_HIT3, // No blood, white hitmark
-    COLTYPE_HIT4, // Water burst, no hitmark
-    COLTYPE_HIT5, // No blood, red hitmark
-    COLTYPE_HIT6, // Green blood, white hitmark
-    COLTYPE_HIT7, // Red blood, white hitmark
-    COLTYPE_HIT8, // Blue blood, red hitmark
-    COLTYPE_METAL,
-    COLTYPE_NONE,
-    COLTYPE_WOOD,
-    COLTYPE_HARD,
-    COLTYPE_TREE
+    /* 0  */ COLTYPE_HIT0, // Blue blood, white hitmark
+    /* 1  */ COLTYPE_HIT1, // No blood, dust hitmark
+    /* 2  */ COLTYPE_HIT2, // Green blood, dust hitmark
+    /* 3  */ COLTYPE_HIT3, // No blood, white hitmark
+    /* 4  */ COLTYPE_HIT4, // Water burst, no hitmark
+    /* 5  */ COLTYPE_HIT5, // No blood, red hitmark
+    /* 6  */ COLTYPE_HIT6, // Green blood, white hitmark
+    /* 7  */ COLTYPE_HIT7, // Red blood, white hitmark
+    /* 8  */ COLTYPE_HIT8, // Blue blood, red hitmark
+    /* 9  */ COLTYPE_METAL,
+    /* 10 */ COLTYPE_NONE,
+    /* 11 */ COLTYPE_WOOD,
+    /* 12 */ COLTYPE_HARD,
+    /* 13 */ COLTYPE_TREE
 } ColliderType;
 
 typedef enum ColliderShape {
-    COLSHAPE_JNTSPH,
-    COLSHAPE_CYLINDER,
-    COLSHAPE_TRIS,
-    COLSHAPE_QUAD,
-    COLSHAPE_INVALID
+    /* 0 */ COLSHAPE_JNTSPH,
+    /* 1 */ COLSHAPE_CYLINDER,
+    /* 2 */ COLSHAPE_TRIS,
+    /* 3 */ COLSHAPE_QUAD,
+    /* 4 */ COLSHAPE_INVALID
 } ColliderShape;
 
 /**
@@ -262,61 +262,56 @@ typedef enum ColliderShape {
  * understand what this is.
  */
 typedef enum ElementType {
-    ELEMTYPE_UNK0,
-    ELEMTYPE_UNK1,
-    ELEMTYPE_UNK2,
-    ELEMTYPE_UNK3,
-    ELEMTYPE_UNK4,
-    ELEMTYPE_UNK5,
-    ELEMTYPE_UNK6,
-    ELEMTYPE_UNK7
+    /* 0 */ ELEMTYPE_UNK0,
+    /* 1 */ ELEMTYPE_UNK1,
+    /* 2 */ ELEMTYPE_UNK2,
+    /* 3 */ ELEMTYPE_UNK3,
+    /* 4 */ ELEMTYPE_UNK4,
+    /* 5 */ ELEMTYPE_UNK5,
+    /* 6 */ ELEMTYPE_UNK6,
+    /* 7 */ ELEMTYPE_UNK7
 } ElementType;
 
-
-#define AT_OFF 0 // Cannot have AT collisions when set as AT
+#define AT_NONE 0 // No flags set. Cannot have AT collisions when set as AT
 #define AT_ON (1 << 0) // Can have AT collisions when set as AT
 #define AT_HIT (1 << 1) // Had an AT collision
 #define AT_BOUNCED (1 << 2) // Had an AT collision with an AC_HARD collider
-#define AT_PLAYER (1 << 3) // Has player-aligned damage
-#define AT_ENEMY (1 << 4) // Has enemy-aligned damage
-#define AT_OTHER (1 << 5) // Has non-aligned damage
+#define AT_TYPE_PLAYER (1 << 3) // Has player-aligned damage
+#define AT_TYPE_ENEMY (1 << 4) // Has enemy-aligned damage
+#define AT_TYPE_OTHER (1 << 5) // Has non-aligned damage
 #define AT_SELF (1 << 6) // Can have AT collisions with colliders attached to the same actor
-#define AT_UNK7 (1 << 7) // Apparently unused
-#define AT_ALL (AT_PLAYER | AT_ENEMY | AT_OTHER) // Has all three damage alignments
+#define AT_TYPE_ALL (AT_TYPE_PLAYER | AT_TYPE_ENEMY | AT_TYPE_OTHER) // Has all three damage alignments
 
-#define AC_OFF 0 // Cannot have AC collisions when set as AC
+#define AC_NONE 0 // No flags set. Cannot have AC collisions when set as AC
 #define AC_ON (1 << 0) // Can have AC collisions when set as AC
 #define AC_HIT (1 << 1) // Had an AC collision
 #define AC_HARD (1 << 2) // Causes AT colliders to bounce off it
-#define AC_PLAYER (1 << 3) // Takes player-aligned damage
-#define AC_ENEMY (1 << 4) // Takes enemy-aligned damage
-#define AC_OTHER (1 << 5) // Takes non-aligned damage
+#define AC_TYPE_PLAYER AT_TYPE_PLAYER // Takes player-aligned damage
+#define AC_TYPE_ENEMY AT_TYPE_ENEMY // Takes enemy-aligned damage
+#define AC_TYPE_OTHER AT_TYPE_OTHER // Takes non-aligned damage
 #define AC_NO_DAMAGE (1 << 6) // Collider does not take damage
 #define AC_BOUNCED (1 << 7) // Caused an AT collider to bounce off it
-#define AC_ALL (AC_PLAYER | AC_ENEMY | AC_OTHER) // Takes damage from all three alignments
+#define AC_TYPE_ALL (AC_TYPE_PLAYER | AC_TYPE_ENEMY | AC_TYPE_OTHER) // Takes damage from all three alignments
 
-#define OC_OFF 0 // Cannot have OC collisions when set as OC
-#define OC_ON (1 << 0) // Can have OC collisions when set as OC
-#define OC_HIT (1 << 1) // Had an OC collision
-#define OC_NO_PUSH (1 << 2) // Does not push other colliders away during OC collisions
-#define OC_PLAYER (1 << 3) // Can have OC collisions with OC type player
-#define OC_TYPE1 (1 << 4) // Can have OC collisions with OC type 1
-#define OC_TYPE2 (1 << 5) // Can have OC collisions with OC type 2
-#define OC_UNK6 (1 << 6) // Apparently unused
-#define OC_UNK7 (1 << 7) // Apparently unused
-#define OC_ALL (OC_PLAYER | OC_TYPE1 | OC_TYPE2) // Can have collisions with all three OC types
+#define OC1_NONE 0 // No flags set. Cannot have OC collisions when set as OC
+#define OC1_ON (1 << 0) // Can have OC collisions when set as OC
+#define OC1_HIT (1 << 1) // Had an OC collision
+#define OC1_NO_PUSH (1 << 2) // Does not push other colliders away during OC collisions
+#define OC1_TYPE_PLAYER (1 << 3) // Can have OC collisions with OC type player
+#define OC1_TYPE_1 (1 << 4) // Can have OC collisions with OC type 1
+#define OC1_TYPE_2 (1 << 5) // Can have OC collisions with OC type 2
+#define OC1_TYPE_ALL (OC1_TYPE_PLAYER | OC1_TYPE_1 | OC1_TYPE_2) // Can have collisions with all three OC types
 
-#define OT_NONE 0 // Has no OC type
-#define OT_HIT_PLAYER (1 << 0) // Had an OC collision with OC type player
-#define OT_UNK1 (1 << 1) // Prevents OC collisions with OT_UNK2. Some horses and toki_sword have it.
-#define OT_UNK2 (1 << 2) // Prevents OC collisions with OT_UNK1. Nothing has it.
-#define OT_PLAYER (1 << 3) // Has OC type player
-#define OT_TYPE1 (1 << 4) // Has OC type 1
-#define OT_TYPE2 (1 << 5) // Has OC type 2
-#define OT_FIRST_ONLY (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
-#define OT_UNK7 (1 << 7) // Apparently unused
+#define OC2_NONE 0 // No flags set. Has no OC type
+#define OC2_HIT_PLAYER (1 << 0) // Had an OC collision with OC type player
+#define OC2_UNK1 (1 << 1) // Prevents OC collisions with OC2_UNK2. Some horses and toki_sword have it.
+#define OC2_UNK2 (1 << 2) // Prevents OC collisions with OC2_UNK1. Nothing has it.
+#define OC2_PLAYER (1 << 3) // Has OC type player
+#define OC2_TYPE1 (1 << 4) // Has OC type 1
+#define OC2_TYPE2 (1 << 5) // Has OC type 2
+#define OC2_FIRST_ONLY (1 << 6) // Skips AC checks on elements after the first collision. Only used by Ganon
 
-#define TOUCH_OFF 0 // Cannot have AT collisions
+#define TOUCH_NONE 0 // No flags set. Cannot have AT collisions
 #define TOUCH_ON (1 << 0) // Can have AT collisions
 #define TOUCH_HIT (1 << 1) // Had an AT collision
 #define TOUCH_NEAREST (1 << 2) // If a Quad, only collides with the closest bumper
@@ -328,7 +323,7 @@ typedef enum ElementType {
 #define TOUCH_DREW_HITMARK (1 << 6) // Already drew hitmark for this frame
 #define TOUCH_UNK7 (1 << 7) // Unknown purpose. Used by some enemy quads
 
-#define BUMP_OFF 0 // Cannot have AC collisions
+#define BUMP_NONE 0 // No flags set. Cannot have AC collisions
 #define BUMP_ON (1 << 0) // Can have AC collisions
 #define BUMP_HIT (1 << 1) // Had an AC collision
 #define BUMP_HOOKABLE (1 << 2) // Can be hooked if actor has hookability flags set.
@@ -338,15 +333,10 @@ typedef enum ElementType {
 #define BUMP_NO_HITMARK (1 << 6) // Skips hit effects.
 #define BUMP_DRAW_HITMARK (1 << 7) // Draw hitmark for AC collision this frame.
 
-#define OCELEM_OFF 0 // Cannot have OC collisions
+#define OCELEM_NONE 0 // No flags set. Cannot have OC collisions
 #define OCELEM_ON (1 << 0) // Can have OC collisions
 #define OCELEM_HIT (1 << 1) // Had an OC collision
-#define OCELEM_UNK2 (1 << 2) // Apparently unused
 #define OCELEM_UNK3 (1 << 3) // Unknown purpose. Used by Dead Hand element 0 and Dodongo element 5
-#define OCELEM_UNK4 (1 << 4) // Apparently unused
-#define OCELEM_UNK5 (1 << 5) // Apparently unused
-#define OCELEM_UNK6 (1 << 6) // Apparently unused
-#define OCELEM_UNK7 (1 << 7) // Apparently unused
 
 #define OCLINE_NONE 0 // Did not have an OcLine collision
 #define OCLINE_HIT (1 << 0) // Had an OcLine collision

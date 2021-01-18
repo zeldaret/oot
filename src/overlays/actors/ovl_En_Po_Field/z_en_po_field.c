@@ -48,17 +48,17 @@ const ActorInit En_Po_Field_InitVars = {
 static ColliderCylinderInit D_80AD7080 = {
     {
         COLTYPE_HIT3,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -68,10 +68,10 @@ static ColliderCylinderInit D_80AD7080 = {
 static ColliderCylinderInit D_80AD70AC = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_OFF,
-        OC_OFF,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -79,8 +79,8 @@ static ColliderCylinderInit D_80AD70AC = {
         { 0xFFCFFFFF, 0x01, 0x04 },
         { 0x00000000, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { 10, 30, 0, { 0, 0, 0 } },
 };
@@ -209,7 +209,7 @@ void EnPoField_SetupWaitForSpawn(EnPoField* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.flags &= ~0x00010001;
     this->collider.base.acFlags &= ~AC_ON;
-    this->collider.base.ocFlags = OC_ON | OC_ALL;
+    this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_ALL;
     this->actor.colChkInfo.health = D_80AD70D8.health;
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -353,7 +353,7 @@ void func_80AD4384(EnPoField* this) {
     this->collider.dim.pos.x = this->actor.posRot.pos.x;
     this->collider.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     this->collider.dim.pos.z = this->actor.posRot.pos.z;
-    this->collider.base.ocFlags = OC_ON | OC_PLAYER;
+    this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
     this->actor.textId = 0x5005;
     this->actionTimer = 400;
     this->unk_194 = 32;
@@ -675,7 +675,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
         EnPoField_SetupSoulDisappear(this);
         return;
     }
-    if (this->collider.base.ocFlags & OC_HIT) {
+    if (this->collider.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= 0x10000;
         func_8002F2F4(&this->actor, globalCtx);
     } else {

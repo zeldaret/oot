@@ -8153,7 +8153,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
         } else {
             if (this->linearVelocity >= 7.0f) {
                 if (((this->actor.bgCheckFlags & 0x200) && (D_8085360C < 0x2000)) ||
-                    ((this->cylinder.base.ocFlags & OC_HIT) &&
+                    ((this->cylinder.base.ocFlags1 & OC1_HIT) &&
                      (cylinderOc = this->cylinder.base.oc,
                       ((cylinderOc->id == ACTOR_EN_WOOD02) &&
                        (ABS((s16)(this->actor.posRot.rot.y - cylinderOc->yawTowardsLink)) > 0x6000))))) {
@@ -8889,17 +8889,17 @@ void func_80846578(Player* this, GlobalContext* globalCtx) {
 ColliderCylinderInit D_80854624 = {
     {
         COLTYPE_HIT5,
-        AT_OFF,
-        AC_ON | AC_ENEMY,
-        OC_ON | OC_ALL,
-        OT_PLAYER,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_PLAYER,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK1,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -8909,10 +8909,10 @@ ColliderCylinderInit D_80854624 = {
 ColliderQuadInit D_80854650 = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_PLAYER,
-        AC_OFF,
-        OC_OFF,
-        OT_PLAYER,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_PLAYER,
         COLSHAPE_QUAD,
     },
     {
@@ -8920,8 +8920,8 @@ ColliderQuadInit D_80854650 = {
         { 0x00000100, 0x00, 0x01 },
         { 0xFFCFFFFF, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
@@ -8929,10 +8929,10 @@ ColliderQuadInit D_80854650 = {
 ColliderQuadInit D_808546A0 = {
     {
         COLTYPE_METAL,
-        AT_ON | AT_PLAYER,
-        AC_ON | AC_HARD | AC_ENEMY,
-        OC_OFF,
-        OT_PLAYER,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_ON | AC_HARD | AC_TYPE_ENEMY,
+        OC1_NONE,
+        OC2_PLAYER,
         COLSHAPE_QUAD,
     },
     {
@@ -8941,7 +8941,7 @@ ColliderQuadInit D_808546A0 = {
         { 0xDFCFFFFF, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };

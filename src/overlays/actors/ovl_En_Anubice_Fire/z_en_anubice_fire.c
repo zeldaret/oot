@@ -33,10 +33,10 @@ const ActorInit En_Anubice_Fire_InitVars = {
 static ColliderCylinderInit D_809B31E0 = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -45,7 +45,7 @@ static ColliderCylinderInit D_809B31E0 = {
         { 0xFFCFFFFF, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NORMAL,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 0, 0, 0, { 0, 0, 0 } },
 };

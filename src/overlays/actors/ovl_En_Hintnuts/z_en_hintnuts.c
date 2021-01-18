@@ -55,17 +55,17 @@ const ActorInit En_Hintnuts_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT6,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
         OCELEM_ON,
     },
@@ -205,7 +205,7 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 3.0f;
     this->animFlagAndTimer = 100;
     this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    this->collider.base.ocFlags &= ~OC_ON;
+    this->collider.base.ocFlags1 &= ~OC1_ON;
     this->actor.flags |= 0x10;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ITEM00, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
@@ -334,7 +334,7 @@ void EnHintnuts_BeginFreeze(EnHintnuts* this, GlobalContext* globalCtx) {
 
 void EnHintnuts_CheckProximity(EnHintnuts* this, GlobalContext* globalCtx) {
     if (this->actor.type != ACTORTYPE_ENEMY) {
-        if ((this->collider.base.ocFlags & OC_HIT) || (this->actor.unk_10C != 0)) {
+        if ((this->collider.base.ocFlags1 & OC1_HIT) || (this->actor.unk_10C != 0)) {
             this->actor.flags |= 0x10000;
         } else {
             this->actor.flags &= ~0x10000;

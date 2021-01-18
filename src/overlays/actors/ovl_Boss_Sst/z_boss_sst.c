@@ -139,7 +139,7 @@ static ColliderJntSphElementInit D_80937630[11] = {
             { 0x20000000, 0x00, 0x30 },
             { 0x00000080, 0x00, 0x00 },
             TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_OFF,
+            BUMP_NONE,
             OCELEM_ON,
         },
         { 8, { { 1500, 0, 0 }, 70 }, 100 },
@@ -149,10 +149,10 @@ static ColliderJntSphElementInit D_80937630[11] = {
 static ColliderJntSphInit D_809377BC = {
     {
         COLTYPE_HARD,
-        AT_OFF | AT_ENEMY,
-        AC_ON | AC_HARD | AC_PLAYER,
-        OC_OFF | OC_ALL,
-        OT_TYPE1,
+        AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     11,
@@ -162,19 +162,19 @@ static ColliderJntSphInit D_809377BC = {
 static ColliderCylinderInit D_809377CC = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_OFF | AC_PLAYER,
-        OC_OFF,
-        OT_TYPE1,
+        AT_NONE,
+        AC_NONE | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0xFFCFFFFF, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 85, 100, -50, { 0, 0, 0 } },
 };
@@ -306,10 +306,10 @@ static ColliderJntSphElementInit D_80937494[11] = {
 static ColliderJntSphInit D_80937620 = {
     {
         COLTYPE_HIT0,
-        AT_OFF | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_OFF | OC_ALL,
-        OT_TYPE1,
+        AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     11,
@@ -319,10 +319,10 @@ static ColliderJntSphInit D_80937620 = {
 static ColliderCylinderInit D_809377F8 = {
     {
         COLTYPE_NONE,
-        AT_OFF | AT_ENEMY,
-        AC_OFF,
-        OC_OFF,
-        OT_TYPE1,
+        AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -330,8 +330,8 @@ static ColliderCylinderInit D_809377F8 = {
         { 0x20000000, 0x04, 0x10 },
         { 0x00000000, 0x00, 0x00 },
         TOUCH_ON | TOUCH_SFX_NONE,
-        BUMP_OFF,
-        OCELEM_OFF,
+        BUMP_NONE,
+        OCELEM_NONE,
     },
     { 85, 1, 0, { 0, 0, 0 } },
 };

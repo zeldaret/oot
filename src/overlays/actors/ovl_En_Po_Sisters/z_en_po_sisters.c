@@ -76,10 +76,10 @@ const ActorInit En_Po_Sisters_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT3,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE1,
         COLSHAPE_CYLINDER,
     },
     {
@@ -208,13 +208,13 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80ADA094(this, globalCtx);
     } else if (this->unk_194 == 0) {
         if (this->unk_195 == 0) {
-            this->collider.base.ocFlags = OC_ON | OC_PLAYER;
+            this->collider.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
             func_80AD9AA8(this, globalCtx);
         } else {
             this->actor.flags &= ~0x00004200;
             this->collider.info.elemType = ELEMTYPE_UNK4;
             this->collider.info.bumper.dmgFlags |= 1;
-            this->collider.base.ocFlags = OC_OFF;
+            this->collider.base.ocFlags1 = OC1_NONE;
             func_80AD9C24(this, NULL);
         }
     } else {

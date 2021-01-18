@@ -30,10 +30,10 @@ const ActorInit Obj_Tsubo_InitVars = {
 static ColliderCylinderInit D_80BA1B94 = {
     {
         COLTYPE_HARD,
-        AT_ON | AT_PLAYER,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {

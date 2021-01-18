@@ -41,10 +41,10 @@ const ActorInit Obj_Kibako_InitVars = {
 static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
-        AT_ON | AT_PLAYER,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_ALL,
-        OT_TYPE2,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -207,8 +207,8 @@ void ObjKibako_Idle(ObjKibako* this, GlobalContext* globalCtx) {
     } else {
         Actor_MoveForward(&this->actor);
         func_8002E4B4(globalCtx, &this->actor, 19.0f, 20.0f, 0.0f, 5);
-        if (!(this->collider.base.ocFlags & OC_PLAYER) && (this->actor.xzDistToLink > 28.0f)) {
-            this->collider.base.ocFlags |= OC_PLAYER;
+        if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToLink > 28.0f)) {
+            this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
         if (this->actor.xzDistToLink < 600.0f) {
             Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -235,7 +235,7 @@ void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx) {
         if (fabsf(this->actor.speedXZ) < 0.1f) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_PUT_DOWN_WOODBOX);
             ObjKibako_SetupIdle(this);
-            this->collider.base.ocFlags &= ~OC_PLAYER;
+            this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
         } else {
             ObjKibako_SetupThrown(this);
             ObjKibako_ApplyGravity(this);

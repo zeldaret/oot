@@ -62,9 +62,9 @@ static u32 D_8098783C = 0;
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_OFF,
-        OC_ON | OC_PLAYER,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },

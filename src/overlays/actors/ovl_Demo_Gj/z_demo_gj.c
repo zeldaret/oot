@@ -43,18 +43,18 @@ const ActorInit Demo_Gj_InitVars = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 30, 100, 0, { 0, 0, 0 } },
 };
@@ -62,18 +62,18 @@ static ColliderCylinderInitType1 sCylinderInit = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 25, 110, 0, { 0, 0, 0 } },
 };
@@ -81,18 +81,18 @@ static ColliderCylinderInitType1 sCylinderInit = {
 static ColliderCylinderInitType1 sCylinderInit = {
     {
         COLTYPE_HIT0,
-        AT_OFF,
-        AC_ON | AC_PLAYER,
-        OC_OFF,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
         COLSHAPE_CYLINDER,
     },
     {
         ELEMTYPE_UNK0,
         { 0x00000000, 0x00, 0x00 },
         { 0x00000008, 0x00, 0x00 },
-        TOUCH_OFF,
+        TOUCH_NONE,
         BUMP_ON,
-        OCELEM_OFF,
+        OCELEM_NONE,
     },
     { 25, 200, 0, { 0, 0, 0 } },
 };

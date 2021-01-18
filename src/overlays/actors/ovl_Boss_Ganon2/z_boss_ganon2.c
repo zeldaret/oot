@@ -234,10 +234,10 @@ static ColliderJntSphElementInit D_80906D7C[16] = {
 static ColliderJntSphInit D_80906FBC = {
     {
         COLTYPE_METAL,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER,
-        OT_FIRST_ONLY | OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_FIRST_ONLY | OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     16,
@@ -272,10 +272,10 @@ static ColliderJntSphElementInit D_80906FCC[2] = {
 static ColliderJntSphInit D_80907014 = {
     {
         COLTYPE_METAL,
-        AT_ON | AT_ENEMY,
-        AC_ON | AC_PLAYER,
-        OC_ON | OC_PLAYER,
-        OT_TYPE1,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE1,
         COLSHAPE_JNTSPH,
     },
     2,
