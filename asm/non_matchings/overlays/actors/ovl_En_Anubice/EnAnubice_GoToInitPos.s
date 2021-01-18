@@ -5,7 +5,7 @@ glabel D_809B2424
     .float -4230.0
 
 .text
-glabel func_809B16AC
+glabel EnAnubice_GoToInitPos
 /* 0058C 809B16AC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00590 809B16B0 AFB00020 */  sw      $s0, 0x0020($sp)           
 /* 00594 809B16B4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
@@ -77,10 +77,10 @@ glabel func_809B16AC
 /* 00688 809B17A8 C60800BC */  lwc1    $f8, 0x00BC($s0)           ## 000000BC
 .L809B17AC:
 /* 0068C 809B17AC C42A2420 */  lwc1    $f10, %lo(D_809B2420)($at) 
-/* 00690 809B17B0 3C18809B */  lui     $t8, %hi(func_809B142C)    ## $t8 = 809B0000
+/* 00690 809B17B0 3C18809B */  lui     $t8, %hi(EnAnubice_FindCurtains)    ## $t8 = 809B0000
 /* 00694 809B17B4 3C01809B */  lui     $at, %hi(D_809B2424)       ## $at = 809B0000
 /* 00698 809B17B8 460A403C */  c.lt.s  $f8, $f10                  
-/* 0069C 809B17BC 2718142C */  addiu   $t8, $t8, %lo(func_809B142C) ## $t8 = 809B142C
+/* 0069C 809B17BC 2718142C */  addiu   $t8, $t8, %lo(EnAnubice_FindCurtains) ## $t8 = 809B142C
 /* 006A0 809B17C0 4502000A */  bc1fl   .L809B17EC                 
 /* 006A4 809B17C4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 006A8 809B17C8 C4242424 */  lwc1    $f4, %lo(D_809B2424)($at)  

@@ -74,15 +74,15 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (anubis->unk_25A != 0) {
+    if (anubis->deathTimer != 0) {
         Actor_Kill(&this->actor);
         return;
     }
 
     if (this->actor.xzDistToLink < (200.0f + this->triggerRange)) {
-        if (anubis->unk_260 == 0) {
-            if (anubis->unk_262 == 0) {
-                anubis->unk_25E = 1;
+        if (!anubis->isLinkOutOfRange) {
+            if (!anubis->isKnockedback) {
+                anubis->isMirroringLink = 1;
                 offset.x = -Math_SinS(this->actor.yawTowardsLink) * this->actor.xzDistToLink;
                 offset.z = -Math_CosS(this->actor.yawTowardsLink) * this->actor.xzDistToLink;
                 Math_ApproachF(&anubis->actor.posRot.pos.x, (this->actor.posRot.pos.x + offset.x), 0.3f, 10.0f);
@@ -91,8 +91,8 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        if (anubis->unk_25E != 0) {
-            anubis->unk_260 = 1;
+        if (anubis->isMirroringLink) {
+            anubis->isLinkOutOfRange = 1;
         }
     }
 }
