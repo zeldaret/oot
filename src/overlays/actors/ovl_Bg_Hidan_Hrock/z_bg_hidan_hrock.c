@@ -56,7 +56,7 @@ ColliderTrisElementInit D_80889820[2] = {
     },
 };
 
-static ColliderTrisInit D_80889898 = {
+ColliderTrisInit D_80889898 = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -69,17 +69,9 @@ static ColliderTrisInit D_80889898 = {
     D_80889820,
 };
 
-s32 D_808898A4[] = {
-    D_80889820,
-};
-s32 D_808898A8[] = {
-    0xC8500064,
-    0x306CFFFF,
-};
-
 InitChainEntry D_808898A8[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
-    ICHAIN_F32(velocity, -1, ICHAIN_STOP),
+    ICHAIN_F32(gravity, -1, ICHAIN_STOP),
 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hrock/BgHidanHrock_Init.s")
@@ -87,7 +79,7 @@ InitChainEntry D_808898A8[] = {
 void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHrock* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     Collider_DestroyTris(globalCtx, &this->collider);
 }
 
@@ -100,9 +92,9 @@ void func_808894B0(BgHidanHrock* this, GlobalContext* globalCtx) {
     }
 
     this->dyna.actor.posRot.pos.x =
-        (Math_Sins(this->dyna.actor.posRot.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.initPosRot.pos.x;
+        (Math_SinS(this->dyna.actor.posRot.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z =
-        (Math_Coss(this->dyna.actor.posRot.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.initPosRot.pos.z;
+        (Math_CosS(this->dyna.actor.posRot.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.initPosRot.pos.z;
 
     if (this->unk_168 % 4) {
 
@@ -129,7 +121,7 @@ void func_808894B0(BgHidanHrock* this, GlobalContext* globalCtx) {
 void func_8088960C(BgHidanHrock* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y++;
 
-    if (Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
         this->dyna.actor.flags &= ~0x30;
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
 
@@ -162,9 +154,9 @@ void func_808896B8(BgHidanHrock* this, GlobalContext* globalCtx) {
     }
 
     if (func_8004356C(&this->dyna)) {
-        Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 5.0f, 1.0f);
+        Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 5.0f, 1.0f);
     } else {
-        Math_ApproxF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f);
+        Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f);
     }
 }
 
