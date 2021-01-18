@@ -41,17 +41,31 @@ const ActorInit Bg_Mori_Hashigo_InitVars = {
     NULL,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK4,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F820, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { 0, { { 0, 0, 0 }, 25 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChainClasp[] = {
@@ -94,10 +108,10 @@ void BgMoriHashigo_InitCollider(BgMoriHashigo* this, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
 
-    this->collider.list[0].dim.worldSphere.center.x = (s16)this->dyna.actor.posRot.pos.x;
-    this->collider.list[0].dim.worldSphere.center.y = (s16)this->dyna.actor.posRot.pos.y + 21;
-    this->collider.list[0].dim.worldSphere.center.z = (s16)this->dyna.actor.posRot.pos.z;
-    this->collider.list[0].dim.worldSphere.radius = 19;
+    this->collider.elements[0].dim.worldSphere.center.x = (s16)this->dyna.actor.posRot.pos.x;
+    this->collider.elements[0].dim.worldSphere.center.y = (s16)this->dyna.actor.posRot.pos.y + 21;
+    this->collider.elements[0].dim.worldSphere.center.z = (s16)this->dyna.actor.posRot.pos.z;
+    this->collider.elements[0].dim.worldSphere.radius = 19;
 }
 
 s32 BgMoriHashigo_SpawnLadder(BgMoriHashigo* this, GlobalContext* globalCtx) {
@@ -205,8 +219,8 @@ void BgMoriHashigo_SetupClasp(BgMoriHashigo* this) {
 
 void BgMoriHashigo_Clasp(BgMoriHashigo* this, GlobalContext* globalCtx) {
     if (this->hitTimer <= 0) {
-        if (this->collider.base.acFlags & 2) {
-            this->collider.base.acFlags &= ~2;
+        if (this->collider.base.acFlags & AC_HIT) {
+            this->collider.base.acFlags &= ~AC_HIT;
             this->hitTimer = 10;
         } else {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

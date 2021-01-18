@@ -87,7 +87,7 @@ glabel EnEiyer_Update
 /* 01700 80A016A0 1483001F */  bne     $a0, $v1, .L80A01720       
 /* 01704 80A016A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80A016A8:
-/* 01708 80A016A8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01708 80A016A8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 0170C 80A016AC AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 01710 80A016B0 92090298 */  lbu     $t1, 0x0298($s0)           ## 00000298
@@ -121,7 +121,7 @@ glabel EnEiyer_Update
 /* 01770 80A01710 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01774 80A01714 00812821 */  addu    $a1, $a0, $at              
 /* 01778 80A01718 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0177C 80A0171C 8FA6002C */  lw      $a2, 0x002C($sp)           
 .L80A01720:
 /* 01780 80A01720 8E0F0004 */  lw      $t7, 0x0004($s0)           ## 00000004

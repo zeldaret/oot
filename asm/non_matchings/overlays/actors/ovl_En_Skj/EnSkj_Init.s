@@ -192,7 +192,7 @@ glabel EnSkj_Init
 /* 004B8 80AFE768 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 004BC 80AFE76C 24E71678 */  addiu   $a3, $a3, %lo(D_80B01678)  ## $a3 = 80B01678
 /* 004C0 80AFE770 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 004C4 80AFE774 0C017114 */  jal     Collider_SetCylinder_Set3
+/* 004C4 80AFE774 0C017114 */  jal     Collider_SetCylinderType1
 /* 004C8 80AFE778 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 004CC 80AFE77C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
 /* 004D0 80AFE780 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)

@@ -36,7 +36,7 @@ glabel EnMu_Init
 /* 00288 80AB06A8 3C0680AB */  lui     $a2, %hi(D_80AB0BFC)       ## $a2 = 80AB0000
 /* 0028C 80AB06AC 24C60BFC */  addiu   $a2, $a2, %lo(D_80AB0BFC)  ## $a2 = 80AB0BFC
 /* 00290 80AB06B0 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00294 80AB06B4 0C0187BF */  jal     func_80061EFC
+/* 00294 80AB06B4 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 00298 80AB06B8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0029C 80AB06BC 240E0006 */  addiu   $t6, $zero, 0x0006         ## $t6 = 00000006
 /* 002A0 80AB06C0 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000

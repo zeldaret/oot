@@ -34,8 +34,22 @@ const ActorInit En_A_Obj_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x39, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ALL,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 25, 60, 0, { 0, 0, 0 } },
 };
 
@@ -138,7 +152,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_8001D234(this, thisx->params);
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-            thisx->colChkInfo.mass = 0xFF;
+            thisx->colChkInfo.mass = MASS_IMMOVABLE;
             thisx->unk_1F = 0;
             break;
         case A_OBJ_KNOB:
@@ -152,7 +166,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params < 5) {
-        thisx->colChkInfo.mass = 0xFF;
+        thisx->colChkInfo.mass = MASS_IMMOVABLE;
     }
 
     if (this->dyna.bgId != BGACTOR_NEG_ONE) {
@@ -315,8 +329,8 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:
         case A_OBJ_SIGNPOST_ARROW:
-            Collider_CylinderUpdate(&this->dyna.actor, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 

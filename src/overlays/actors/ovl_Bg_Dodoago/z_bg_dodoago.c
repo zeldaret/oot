@@ -34,14 +34,42 @@ const ActorInit Bg_Dodoago_InitVars = {
 };
 
 static ColliderCylinderInit sColCylinderInit0 = {
-    { COLTYPE_UNK10, 0x00, 0x39, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ALL,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 80, 30, 80, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sColCylinderInit1 = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x3D, 0x20, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 50, 60, 280, { 0, 0, 0 } },
 };
 
@@ -152,9 +180,9 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
     } else {
 
         if (Flags_GetEventChkInf(0xB0)) {
-            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[0]);
-            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[1]);
-            Collider_CylinderUpdate(&this->dyna.actor, &this->colliders[2]);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[0]);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[1]);
+            Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[2]);
             this->colliders[0].dim.pos.z += 0xC8;
             this->colliders[1].dim.pos.z += 0xD7;
             this->colliders[1].dim.pos.x += 0x5A;
@@ -239,15 +267,15 @@ void BgDodoago_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (this->dyna.actor.parent == NULL) {
-        if ((s32)(this->colliders[1].base.maskA & 2) || (this->colliders[2].base.maskA & 2)) {
+        if ((s32)(this->colliders[1].base.ocFlags1 & OC1_HIT) || (this->colliders[2].base.ocFlags1 & OC1_HIT)) {
 
-            if ((s32)(this->colliders[1].base.maskA & 2)) {
+            if ((s32)(this->colliders[1].base.ocFlags1 & OC1_HIT)) {
                 bomb = (EnBom*)this->colliders[1].base.oc;
             } else {
                 bomb = (EnBom*)this->colliders[2].base.oc;
             }
-            this->colliders[1].base.maskA &= ~2;
-            this->colliders[2].base.maskA &= ~2;
+            this->colliders[1].base.ocFlags1 &= ~OC1_HIT;
+            this->colliders[2].base.ocFlags1 &= ~OC1_HIT;
             if (bomb->actor.type == ACTORTYPE_EXPLOSIVES && bomb->actor.id == ACTOR_EN_BOM && bomb->actor.params == 0) {
                 this->dyna.actor.parent = &bomb->actor;
                 bomb->timer = 50;

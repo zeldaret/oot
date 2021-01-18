@@ -81,38 +81,117 @@ extern AnimationHeader D_060203D8;
 extern FlexSkeletonHeader D_060205C0;
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static ColliderTrisItemInit sTrisItemsInit[] = {
+static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
-        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFC3FFFF, 0x00, 0x00 }, 0x00, 0x09, 0x00 },
+        {
+            ELEMTYPE_UNK2,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFC3FFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_NO_AT_INFO,
+            OCELEM_NONE,
+        },
         { { { -10.0f, 14.0f, 2.0f }, { -10.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
     {
-        { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFC3FFFF, 0x00, 0x00 }, 0x00, 0x09, 0x00 },
+        {
+            ELEMTYPE_UNK2,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFC3FFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_NO_AT_INFO,
+            OCELEM_NONE,
+        },
         { { { -10.0f, -6.0f, 2.0f }, { 9.0f, -6.0f, 2.0f }, { 9.0f, 14.0f, 2.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_TRIS },
-    ARRAY_COUNT(sTrisItemsInit),
-    sTrisItemsInit,
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
+    2,
+    sTrisElementsInit,
 };
 
 static ColliderQuadInit sQuadInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0x20000000, 0x00, 0x40 }, { 0x00000000, 0x00, 0x00 }, 0x81, 0x00, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x20000000, 0x00, 0x40 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static DamageTable sDamageTable = { {
-    0xD0, 0xF2, 0xE1, 0xF2, 0xD0, 0xE2, 0xF2, 0xD0, 0xF1, 0xF2, 0xF4, 0xE2, 0xE2, 0xE2, 0xE2, 0xE2,
-    0xEF, 0x60, 0x60, 0x60, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0xFA, 0x00, 0xF4, 0x00,
-} };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0xD),
+    /* Deku stick    */ DMG_ENTRY(2, 0xF),
+    /* Slingshot     */ DMG_ENTRY(1, 0xE),
+    /* Explosive     */ DMG_ENTRY(2, 0xF),
+    /* Boomerang     */ DMG_ENTRY(0, 0xD),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xE),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
+    /* Hookshot      */ DMG_ENTRY(0, 0xD),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xE),
+    /* Ice arrow     */ DMG_ENTRY(2, 0xE),
+    /* Light arrow   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xE),
+    /* Unk arrow 3   */ DMG_ENTRY(15, 0xE),
+    /* Fire magic    */ DMG_ENTRY(0, 0x6),
+    /* Ice magic     */ DMG_ENTRY(0, 0x6),
+    /* Light magic   */ DMG_ENTRY(0, 0x6),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
+    /* Giant spin    */ DMG_ENTRY(4, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
+    /* Giant jump    */ DMG_ENTRY(8, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(10, 0xF),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
 void EnIk_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnIk* this = THIS;
@@ -147,7 +226,7 @@ void func_80A74398(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetQuad(globalCtx, &this->axeCollider, thisx, &sQuadInit);
 
     thisx->colChkInfo.damageTable = &sDamageTable;
-    thisx->colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.mass = MASS_HEAVY;
     this->unk_2FC = 0;
     thisx->colChkInfo.health = 30;
     thisx->gravity = -1.0f;
@@ -235,7 +314,7 @@ void func_80A74714(EnIk* this) {
 void func_80A747C0(EnIk* this, GlobalContext* globalCtx) {
     Vec3f sp24;
 
-    if (this->bodyCollider.base.acFlags & 2) {
+    if (this->bodyCollider.base.acFlags & AC_HIT) {
         sp24 = this->actor.posRot.pos;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
         sp24.y += 30.0f;
@@ -378,7 +457,7 @@ void func_80A74EBC(EnIk* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_HIT_GND);
         Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
         func_800AA000(this->actor.xzDistToLink, 0xFF, 0x14, 0x96);
-        func_80062CD4(globalCtx, &sp2C);
+        CollisionCheck_SpawnShieldParticles(globalCtx, &sp2C);
     }
 
     if ((this->skelAnime.curFrame > 17.0f) && (this->skelAnime.curFrame < 23.0f)) {
@@ -618,30 +697,30 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     if ((this->unk_2F8 == 3) || (this->unk_2F8 == 2)) {
         return;
     }
-    if (this->shieldCollider.base.acFlags & 0x80) {
+    if (this->shieldCollider.base.acFlags & AC_BOUNCED) {
         temp_f0 = Animation_GetLastFrame(&D_0600485C) - 2.0f;
         if (this->skelAnime.curFrame < temp_f0) {
             this->skelAnime.curFrame = temp_f0;
         }
-        this->shieldCollider.base.acFlags &= ~0x80;
-        this->bodyCollider.base.acFlags &= ~0x2;
+        this->shieldCollider.base.acFlags &= ~AC_BOUNCED;
+        this->bodyCollider.base.acFlags &= ~AC_HIT;
         return;
     }
-    if (!(this->bodyCollider.base.acFlags & 2)) {
+    if (!(this->bodyCollider.base.acFlags & AC_HIT)) {
         return;
     }
     sp38 = this->actor.posRot.pos;
     sp38.y += 50.0f;
-    func_80035650(&this->actor, &this->bodyCollider.body, 1);
+    func_80035650(&this->actor, &this->bodyCollider.info, 1);
     temp_v0_3 = this->actor.colChkInfo.damageEffect;
     this->unk_2FD = temp_v0_3 & 0xFF;
-    this->bodyCollider.base.acFlags &= ~0x2;
+    this->bodyCollider.base.acFlags &= ~AC_HIT;
 
     if (1) {}
 
     if ((this->unk_2FD == 0) || (this->unk_2FD == 0xD) || ((this->unk_2FB == 0) && (this->unk_2FD == 0xE))) {
         if (this->unk_2FD != 0) {
-            func_80062D60(globalCtx, &sp38);
+            CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sp38);
         }
         return;
     }
@@ -687,7 +766,7 @@ void func_80A75C38(EnIk* this, GlobalContext* globalCtx) {
     }
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_ARMOR_HIT);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_IRONNACK_DAMAGE);
-    func_80062CD4(globalCtx, &sp38);
+    CollisionCheck_SpawnShieldParticles(globalCtx, &sp38);
 }
 
 void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
@@ -703,8 +782,8 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     this->actionFunc(this, globalCtx);
-    if (this->axeCollider.base.atFlags & 2) {
-        this->axeCollider.base.atFlags &= ~0x2;
+    if (this->axeCollider.base.atFlags & AT_HIT) {
+        this->axeCollider.base.atFlags &= ~AT_HIT;
         if (&player->actor == this->axeCollider.base.at) {
             prevInvincibilityTimer = player->invincibilityTimer;
             if (player->invincibilityTimer <= 0) {
@@ -724,7 +803,7 @@ void func_80A75FA0(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 0x1D);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 45.0f;
-    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if ((this->actor.colChkInfo.health > 0) && (this->actor.dmgEffectTimer == 0) && (this->unk_2F8 >= 2)) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
@@ -824,8 +903,8 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_MultVec3f(&D_80A7847C[1], &this->axeCollider.dim.quad[0]);
         Matrix_MultVec3f(&D_80A7847C[2], &this->axeCollider.dim.quad[3]);
         Matrix_MultVec3f(&D_80A7847C[3], &this->axeCollider.dim.quad[2]);
-        func_80062734(&this->axeCollider, &this->axeCollider.dim.quad[0], &this->axeCollider.dim.quad[1],
-                      &this->axeCollider.dim.quad[2], &this->axeCollider.dim.quad[3]);
+        Collider_SetQuadVertices(&this->axeCollider, &this->axeCollider.dim.quad[0], &this->axeCollider.dim.quad[1],
+                                 &this->axeCollider.dim.quad[2], &this->axeCollider.dim.quad[3]);
         Matrix_MultVec3f(&D_80A7847C[0], &spF4);
         Matrix_MultVec3f(&D_80A7847C[1], &spE8);
         if (this->unk_2FE > 0) {
@@ -840,8 +919,8 @@ void EnIk_PostLimbDraw3(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                 Matrix_MultVec3f(&D_80A784D0[i], &sp78[i]);
             }
 
-            func_800627A0(&this->shieldCollider, 0, &sp9C[0], &sp9C[1], &sp9C[2]);
-            func_800627A0(&this->shieldCollider, 1, &sp78[0], &sp78[1], &sp78[2]);
+            Collider_SetTrisVertices(&this->shieldCollider, 0, &sp9C[0], &sp9C[1], &sp9C[2]);
+            Collider_SetTrisVertices(&this->shieldCollider, 1, &sp78[0], &sp78[1], &sp78[2]);
         }
     }
 
