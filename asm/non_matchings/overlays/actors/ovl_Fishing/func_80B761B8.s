@@ -186,7 +186,7 @@ glabel func_80B761B8
 /* 0CA98 80B76438 8CC6E070 */  lw      $a2, %lo(D_80B7E070)($a2)  
 /* 0CA9C 80B7643C 02612821 */  addu    $a1, $s3, $at              
 /* 0CAA0 80B76440 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0CAA4 80B76444 24C60230 */  addiu   $a2, $a2, 0x0230           ## $a2 = 80B80230
 .L80B76448:
 /* 0CAA8 80B76448 8FBF003C */  lw      $ra, 0x003C($sp)           

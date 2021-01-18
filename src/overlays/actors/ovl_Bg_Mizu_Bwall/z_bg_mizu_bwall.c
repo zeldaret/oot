@@ -31,55 +31,118 @@ const ActorInit Bg_Mizu_Bwall_InitVars = {
     (ActorFunc)BgMizuBwall_Draw,
 };
 
-static ColliderTrisItemInit sTrisElementInitFloor[2] = {
+static ColliderTrisElementInit sTrisElementInitFloor[2] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { -40.0f, 0.0f, -40.0f }, { -40.0f, 0.0f, 40.0f }, { 40.0f, 0.0f, 40.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { -40.0f, 0.0f, -40.0f }, { 40.0f, 0.0f, 40.0f }, { 40.0f, 0.0f, -40.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInitFloor = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     2,
     sTrisElementInitFloor,
 };
 
-static ColliderTrisItemInit sTrisElementInitRutoWall[1] = {
+static ColliderTrisElementInit sTrisElementInitRutoWall[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 0.0f, 116.0f, 0.0f }, { 0.0f, 0.0f, 70.0f }, { 0.0f, 0.0f, -70.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInitRutoWall = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     1,
     sTrisElementInitRutoWall,
 };
 
-static ColliderTrisItemInit sTrisElementInitWall[2] = {
+static ColliderTrisElementInit sTrisElementInitWall[2] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 0.0f, 120.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 60.0f, 0.0f, 0.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 0.0f, 120.0f, 0.0f }, { 60.0f, 0.0f, 0.0f }, { 60.0f, 120.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInitUnusedWall = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     2,
     sTrisElementInitWall,
 };
 
 static ColliderTrisInit sTrisInitStingerWall = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     2,
     sTrisElementInitWall,
 };
@@ -138,15 +201,15 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitFloor); i++) {
                         for (j = 0; j < 3; j++) {
-                            offset.x = sTrisInitFloor.list[i].dim.vtx[j].x;
-                            offset.y = sTrisInitFloor.list[i].dim.vtx[j].y;
-                            offset.z = sTrisInitFloor.list[i].dim.vtx[j].z + 2.0f;
+                            offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
+                            offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
+                            offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
                             vtx[j].x += this->dyna.actor.posRot.pos.x;
                             vtx[j].y += this->dyna.actor.posRot.pos.y;
                             vtx[j].z += this->dyna.actor.posRot.pos.z;
                         }
-                        func_800627A0(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
+                        Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
                     this->actionFunc = BgMizuBwall_Idle;
                 }
@@ -174,15 +237,15 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
                     for (i = 0; i < ARRAY_COUNT(sTrisElementInitRutoWall); i++) {
                         for (j = 0; j < 3; j++) {
-                            offset.x = sTrisInitRutoWall.list[i].dim.vtx[j].x;
-                            offset.y = sTrisInitRutoWall.list[i].dim.vtx[j].y;
-                            offset.z = sTrisInitRutoWall.list[i].dim.vtx[j].z + 2.0f;
+                            offset.x = sTrisInitRutoWall.elements[i].dim.vtx[j].x;
+                            offset.y = sTrisInitRutoWall.elements[i].dim.vtx[j].y;
+                            offset.z = sTrisInitRutoWall.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
                             vtx[j].x += this->dyna.actor.posRot.pos.x;
                             vtx[j].y += this->dyna.actor.posRot.pos.y;
                             vtx[j].z += this->dyna.actor.posRot.pos.z;
                         }
-                        func_800627A0(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
+                        Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
                     this->actionFunc = BgMizuBwall_Idle;
                 }
@@ -212,15 +275,15 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitUnusedWall.
-                            offset.x = sTrisInitFloor.list[i].dim.vtx[j].x;
-                            offset.y = sTrisInitFloor.list[i].dim.vtx[j].y;
-                            offset.z = sTrisInitFloor.list[i].dim.vtx[j].z;
+                            offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
+                            offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
+                            offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
                             vtx[j].x += this->dyna.actor.posRot.pos.x;
                             vtx[j].y += this->dyna.actor.posRot.pos.y;
                             vtx[j].z += this->dyna.actor.posRot.pos.z;
                         }
-                        func_800627A0(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
+                        Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
                     this->actionFunc = BgMizuBwall_Idle;
                 }
@@ -250,15 +313,15 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.
-                            offset.x = sTrisInitFloor.list[i].dim.vtx[j].x;
-                            offset.y = sTrisInitFloor.list[i].dim.vtx[j].y;
-                            offset.z = sTrisInitFloor.list[i].dim.vtx[j].z + 2.0f;
+                            offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
+                            offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
+                            offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
                             vtx[j].x += this->dyna.actor.posRot.pos.x;
                             vtx[j].y += this->dyna.actor.posRot.pos.y;
                             vtx[j].z += this->dyna.actor.posRot.pos.z;
                         }
-                        func_800627A0(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
+                        Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
                     this->actionFunc = BgMizuBwall_Idle;
                 }
@@ -288,15 +351,15 @@ void BgMizuBwall_Init(Actor* thisx, GlobalContext* globalCtx) {
                         for (j = 0; j < 3; j++) {
                             //! @bug This uses the wrong set of collision triangles, causing the collider to be
                             //!      flat to the ground instead of vertical. It should use sTrisInitStingerWall.
-                            offset.x = sTrisInitFloor.list[i].dim.vtx[j].x;
-                            offset.y = sTrisInitFloor.list[i].dim.vtx[j].y;
-                            offset.z = sTrisInitFloor.list[i].dim.vtx[j].z + 2.0f;
+                            offset.x = sTrisInitFloor.elements[i].dim.vtx[j].x;
+                            offset.y = sTrisInitFloor.elements[i].dim.vtx[j].y;
+                            offset.z = sTrisInitFloor.elements[i].dim.vtx[j].z + 2.0f;
                             BgMizuBwall_RotateVec3f(&vtx[j], &offset, sin, cos);
                             vtx[j].x += this->dyna.actor.posRot.pos.x;
                             vtx[j].y += this->dyna.actor.posRot.pos.y;
                             vtx[j].z += this->dyna.actor.posRot.pos.z;
                         }
-                        func_800627A0(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
+                        Collider_SetTrisVertices(&this->collider, i, &vtx[0], &vtx[1], &vtx[2]);
                     }
                     this->actionFunc = BgMizuBwall_Idle;
                 }
@@ -399,8 +462,8 @@ void BgMizuBwall_SpawnDebris(BgMizuBwall* this, GlobalContext* globalCtx) {
 
 void BgMizuBwall_Idle(BgMizuBwall* this, GlobalContext* globalCtx) {
     BgMizuBwall_SetAlpha(this, globalCtx);
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         Flags_SetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 8) & 0x3F);
         this->breakTimer = 1;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);

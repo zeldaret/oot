@@ -35,26 +35,53 @@ static AnimationHeader* sAnimationHeaders[] = { 0x06007148 };
 
 static f32 splaySpeeds[] = { 0.66666666f };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 40, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 13, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x12, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1 | OC2_UNK1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0xA, 0x23, 0x64, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 typedef struct {
     /* 0x0 */ Vec3s unk_0;
@@ -138,10 +165,10 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
-    Collider_SetCylinder_Set3(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->colliderCylinder, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
     Collider_SetJntSph(globalCtx, &this->colliderSphere, &this->actor, &sJntSphInit, &this->colliderSphereItem);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     this->animationIndex = 0;
     func_80A6DC7C(this);
 }
@@ -213,7 +240,7 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
     this->actor.posRot2.pos = this->actor.posRot.pos;
     this->actor.posRot2.pos.y += 70.0f;
-    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
+    Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
@@ -224,18 +251,18 @@ void func_80A6DFD4(EnHorseZelda* this, GlobalContext* globalCtx, PSkinAwb* skin)
     s32 i;
 
     for (i = 0; i < this->colliderSphere.count; i++) {
-        sp4C.x = this->colliderSphere.list[i].dim.modelSphere.center.x;
-        sp4C.y = this->colliderSphere.list[i].dim.modelSphere.center.y;
-        sp4C.z = this->colliderSphere.list[i].dim.modelSphere.center.z;
+        sp4C.x = this->colliderSphere.elements[i].dim.modelSphere.center.x;
+        sp4C.y = this->colliderSphere.elements[i].dim.modelSphere.center.y;
+        sp4C.z = this->colliderSphere.elements[i].dim.modelSphere.center.z;
 
-        func_800A6408(skin, this->colliderSphere.list[i].dim.joint, &sp4C, &sp40);
+        func_800A6408(skin, this->colliderSphere.elements[i].dim.limb, &sp4C, &sp40);
 
-        this->colliderSphere.list[i].dim.worldSphere.center.x = sp40.x;
-        this->colliderSphere.list[i].dim.worldSphere.center.y = sp40.y;
-        this->colliderSphere.list[i].dim.worldSphere.center.z = sp40.z;
+        this->colliderSphere.elements[i].dim.worldSphere.center.x = sp40.x;
+        this->colliderSphere.elements[i].dim.worldSphere.center.y = sp40.y;
+        this->colliderSphere.elements[i].dim.worldSphere.center.z = sp40.z;
 
-        this->colliderSphere.list[i].dim.worldSphere.radius =
-            this->colliderSphere.list[i].dim.modelSphere.radius * this->colliderSphere.list[i].dim.scale;
+        this->colliderSphere.elements[i].dim.worldSphere.radius =
+            this->colliderSphere.elements[i].dim.modelSphere.radius * this->colliderSphere.elements[i].dim.scale;
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
 }

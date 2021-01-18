@@ -39,7 +39,7 @@ glabel EnDu_Init
 /* 00600 809FE230 3C0680A0 */  lui     $a2, %hi(D_809FF25C)       ## $a2 = 80A00000
 /* 00604 809FE234 24C6F25C */  addiu   $a2, $a2, %lo(D_809FF25C)  ## $a2 = 809FF25C
 /* 00608 809FE238 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 0060C 809FE23C 0C0187BF */  jal     func_80061EFC
+/* 0060C 809FE23C 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 00610 809FE240 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 00614 809FE244 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00618 809FE248 0C27F76D */  jal     func_809FDDB4

@@ -38,21 +38,42 @@ const ActorInit Bg_Spot18_Basket_InitVars = {
     (ActorFunc)BgSpot18Basket_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 0, { { 0, 2040, 0 }, 54 }, 100 },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { 1, { { 0, 1400, 0 }, 13 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     2,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static s16 D_808B85C8[] = { 0x8000, 0x2AAA, 0xD555, 0x0000 };
@@ -61,8 +82,9 @@ void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
 
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit, &this->colliderJntSphItems);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit,
+                       &this->ColliderJntSphElements);
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void func_808B7770(BgSpot18Basket* this, GlobalContext* globalCtx, f32 arg2) {
@@ -197,7 +219,7 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     this->dyna.actor.posRot.pos.x = (Math_SinS(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.x;
     this->dyna.actor.posRot.pos.z = (Math_CosS(this->unk_20E) * this->unk_208) + this->dyna.actor.initPosRot.pos.z;
 
-    if (this->colliderJntSph.base.acFlags & 2) {
+    if (this->colliderJntSph.base.acFlags & AC_HIT) {
         colliderBaseAc = this->colliderJntSph.base.ac;
 
         if (colliderBaseAc != NULL) {
@@ -418,7 +440,7 @@ void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_808B7AFC) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
         if (this->actionFunc != func_808B7B6C) {
-            this->colliderJntSph.base.acFlags &= ~2;
+            this->colliderJntSph.base.acFlags &= ~AC_HIT;
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
         }
     }
@@ -427,7 +449,7 @@ void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot18Basket_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Basket* this = THIS;
 
-    func_800628A4(0, &this->colliderJntSph);
-    func_800628A4(1, &this->colliderJntSph);
+    Collider_UpdateSpheres(0, &this->colliderJntSph);
+    Collider_UpdateSpheres(1, &this->colliderJntSph);
     Gfx_DrawDListOpa(globalCtx, D_060018B0);
 }

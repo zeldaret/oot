@@ -41,8 +41,22 @@ const ActorInit Bg_Hidan_Fwbig_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x09, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x20000000, 0x01, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x20000000, 0x01, 0x04 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 30, 130, 0, { 0, 0, 0 } },
 };
 
@@ -58,7 +72,7 @@ void BgHidanFwbig_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->direction = (u16)(thisx->params >> 8);
     thisx->params &= 0xFF;
     if (this->direction != 0) {
@@ -205,8 +219,8 @@ void BgHidanFwbig_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHidanFwbig* this = THIS;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.posRot.rot.y, 1.0f);
         if (this->direction != 0) {
             this->actionFunc = BgHidanFwbig_Lower;

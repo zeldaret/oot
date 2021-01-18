@@ -2558,15 +2558,8 @@ void Interface_DrawMagicBar(GlobalContext* globalCtx) {
         OVERLAY_DISP = Gfx_TextureIA8(OVERLAY_DISP, D_02003940, 24, 16, R_MAGIC_BAR_X + 8, magicBarY,
                                       gSaveContext.unk_13F4, 16, 1024, 1024);
 
-        gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, D_020038C0);
-        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                   G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, 3, G_TX_NOLOD);
-        gDPLoadSync(OVERLAY_DISP++);
-        gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 63, 2048);
-        gDPPipeSync(OVERLAY_DISP++);
-        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 1, 0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                   G_TX_NOMASK, G_TX_NOLOD, G_TX_MIRROR | G_TX_WRAP, 3, G_TX_NOLOD);
-        gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 28, 60);
+        gDPLoadTextureBlock(OVERLAY_DISP++, D_020038C0, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 16, 0, G_TX_MIRROR | G_TX_WRAP,
+                            G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
         gSPTextureRectangle(OVERLAY_DISP++, ((R_MAGIC_BAR_X + gSaveContext.unk_13F4) + 8) << 2, magicBarY << 2,
                             ((R_MAGIC_BAR_X + gSaveContext.unk_13F4) + 16) << 2, (magicBarY + 16) << 2, G_TX_RENDERTILE,
@@ -2654,15 +2647,8 @@ void func_80088B34(s16 arg0) {
 void Interface_DrawActionLabel(GraphicsContext* gfxCtx, void* texture) {
     OPEN_DISPS(gfxCtx, "../z_parameter.c", 2820);
 
-    gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, texture);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPLoadSync(OVERLAY_DISP++);
-    gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 191, 683);
-    gDPPipeSync(OVERLAY_DISP++);
-    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_4b, 3, 0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 188, 60);
+    gDPLoadTextureBlock_4b(OVERLAY_DISP++, texture, G_IM_FMT_IA, 48, 16, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
 
@@ -2729,16 +2715,9 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-            gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1,
-                               (u32)interfaceCtx->do_actionSegment + 0x300);
-            gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-            gDPLoadSync(OVERLAY_DISP++);
-            gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 191, 683);
-            gDPPipeSync(OVERLAY_DISP++);
-            gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_4b, 3, 0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-            gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 188, 60);
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, (u32)interfaceCtx->do_actionSegment + 0x300, G_IM_FMT_IA, 48, 16, 0,
+                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                   G_TX_NOLOD, G_TX_NOLOD);
 
             dxdy = 1024.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
             width = 48.0f / (R_START_LABEL_DD(gSaveContext.language) / 100.0f);
@@ -2775,15 +2754,9 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-            gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, sCUpLabelTextures[gSaveContext.language]);
-            gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-            gDPLoadSync(OVERLAY_DISP++);
-            gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 63, 1024);
-            gDPPipeSync(OVERLAY_DISP++);
-            gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_4b, 2, 0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-            gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 124, 28);
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, sCUpLabelTextures[gSaveContext.language], G_IM_FMT_IA, 32, 8, 0,
+                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                   G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, R_C_UP_ICON_X << 2, R_C_UP_ICON_Y << 2, (R_C_UP_ICON_X + 32) << 2,
                                 (R_C_UP_ICON_Y + 8) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
@@ -3221,18 +3194,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
-            gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1,
-                               (u32)interfaceCtx->do_actionSegment + 0x180);
-            gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0,
-                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                       G_TX_NOLOD);
-            gDPLoadSync(OVERLAY_DISP++);
-            gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 191, 683);
-            gDPPipeSync(OVERLAY_DISP++);
-            gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_4b, 3, 0x0000, G_TX_RENDERTILE, 0,
-                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                       G_TX_NOLOD);
-            gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 188, 60);
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, (u32)interfaceCtx->do_actionSegment + 0x180, G_IM_FMT_IA, 48, 16, 0,
+                                   G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                   G_TX_NOLOD, G_TX_NOLOD);
 
             R_B_LABEL_DD = 1024.0f / (WREG(37 + gSaveContext.language) / 100.0f);
             gSPTextureRectangle(OVERLAY_DISP++, R_B_LABEL_X(gSaveContext.language) << 2,
@@ -3331,17 +3295,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_258);
                 gSPVertex(OVERLAY_DISP++, &pauseCtx->vtx_168[16], 4, 0);
 
-                gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 1, gItemIcons[pauseCtx->unk_24E]);
-                gDPSetTile(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0x0000, G_TX_LOADTILE, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                           G_TX_NOLOD);
-                gDPLoadSync(OVERLAY_DISP++);
-                gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 1023, 128);
-                gDPPipeSync(OVERLAY_DISP++);
-                gDPSetTile(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 8, 0x0000, G_TX_RENDERTILE, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                           G_TX_NOLOD);
-                gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 124, 124);
+                gDPLoadTextureBlock(OVERLAY_DISP++, gItemIcons[pauseCtx->unk_24E], G_IM_FMT_RGBA, G_IM_SIZ_32b, 32, 32,
+                                    0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                    G_TX_NOLOD, G_TX_NOLOD);
             } else {
                 // Magic Arrow Equip Effect
                 phi_s3_2 = pauseCtx->unk_24E - 0xBF;
@@ -3361,17 +3317,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 }
 
                 gSPVertex(OVERLAY_DISP++, &pauseCtx->vtx_168[16], 4, 0);
-                gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, D_080895C0);
-                gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                           G_TX_NOLOD);
-                gDPLoadSync(OVERLAY_DISP++);
-                gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 511, 512);
-                gDPPipeSync(OVERLAY_DISP++);
-                gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 4, 0x0000, G_TX_RENDERTILE, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                           G_TX_NOLOD);
-                gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 124, 124);
+                gDPLoadTextureBlock(OVERLAY_DISP++, D_080895C0, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
+                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                    G_TX_NOLOD, G_TX_NOLOD);
             }
 
             gSP1Quadrangle(OVERLAY_DISP++, 0, 2, 3, 1, 0);
@@ -3384,17 +3332,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 // Carrots rendering if the action corresponds to riding a horse
                 if (interfaceCtx->unk_1EE == 8) {
                     // Load Carrot Icon
-                    gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 1, &D_02002100);
-                    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 0, 0x0000, G_TX_LOADTILE, 0,
-                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
-                               G_TX_NOMASK, G_TX_NOLOD);
-                    gDPLoadSync(OVERLAY_DISP++);
-                    gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 255, 256);
-                    gDPPipeSync(OVERLAY_DISP++);
-                    gDPSetTile(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_32b, 4, 0x0000, G_TX_RENDERTILE, 0,
-                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP,
-                               G_TX_NOMASK, G_TX_NOLOD);
-                    gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 60, 60);
+                    gDPLoadTextureBlock(OVERLAY_DISP++, &D_02002100, G_IM_FMT_RGBA, G_IM_SIZ_32b, 16, 16, 0,
+                                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                        G_TX_NOLOD, G_TX_NOLOD);
 
                     // Draw 6 carrots
                     phi_s1 = ZREG(14);
@@ -3417,17 +3357,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
                 // Target Icon
-                gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, D_02002600);
-                gDPSetTile(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                           G_TX_NOLOD);
-                gDPLoadSync(OVERLAY_DISP++);
-                gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 383, 342);
-                gDPPipeSync(OVERLAY_DISP++);
-                gDPSetTile(OVERLAY_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 6, 0x0000, G_TX_RENDERTILE, 0,
-                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                           G_TX_NOLOD);
-                gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 92, 60);
+                gDPLoadTextureBlock(OVERLAY_DISP++, D_02002600, G_IM_FMT_RGBA, G_IM_SIZ_16b, 24, 16, 0,
+                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+                                    G_TX_NOLOD, G_TX_NOLOD);
 
                 gSPTextureRectangle(OVERLAY_DISP++, (WREG(32) + 28) << 2, ZREG(15) << 2, (WREG(32) + 52) << 2,
                                     (ZREG(15) + 16) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);

@@ -34,14 +34,42 @@ const ActorInit En_Ice_Hono_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInitCapturableFlame = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInitDroppedFlame = {
-    { COLTYPE_UNK10, 0x21, 0x00, 0x21, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_OTHER,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_2,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
@@ -82,9 +110,9 @@ void EnIceHono_InitCapturableFlame(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitCapturableFlame);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     EnIceHono_SetupActionCapturableFlame(this);
 }
 
@@ -101,7 +129,7 @@ void EnIceHono_InitDroppedFlame(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitDroppedFlame);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 
     this->collider.dim.radius = this->actor.scale.x * 4000.4f;
     this->collider.dim.height = this->actor.scale.y * 8000.2f;
@@ -217,7 +245,7 @@ void EnIceHono_DropFlame(EnIceHono* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 10.0f, this->actor.scale.x * 3500.0f, 0.0f, 5);
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = this->actor.scale.x * 4000.0f;
     this->collider.dim.height = this->actor.scale.y * 8000.0f;
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -250,7 +278,7 @@ void EnIceHono_SpreadFlames(EnIceHono* this, GlobalContext* globalCtx) {
     }
 
     if ((this->alpha > 100) && (this->timer < 40)) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         this->collider.dim.radius = this->actor.scale.x * 6000.0f;
         this->collider.dim.height = this->actor.scale.y * 8000.0f;
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
