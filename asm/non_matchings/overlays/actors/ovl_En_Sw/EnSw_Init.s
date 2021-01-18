@@ -277,7 +277,7 @@ glabel EnSw_Init
 .L80B0C8E8:
 /* 00B38 80B0C8E8 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00B3C 80B0C8EC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00B40 80B0C8F0 0C00CDD2 */  jal     Actor_ChangeType
+/* 00B40 80B0C8F0 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00B44 80B0C8F4 24070005 */  addiu   $a3, $zero, 0x0005         ## $a3 = 00000005
 /* 00B48 80B0C8F8 240F001F */  addiu   $t7, $zero, 0x001F         ## $t7 = 0000001F

@@ -174,7 +174,7 @@ glabel BossGanon2_Update
 /* 05A40 80902980 44070000 */  mfc1    $a3, $f0                   
 /* 05A44 80902984 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 05A48 80902988 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 05A4C 8090298C 0C00B92D */  jal     func_8002E4B4              
+/* 05A4C 8090298C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 05A50 80902990 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 05A54 80902994 96290088 */  lhu     $t1, 0x0088($s1)           ## 00000088
 /* 05A58 80902998 3C01C0A0 */  lui     $at, 0xC0A0                ## $at = C0A00000

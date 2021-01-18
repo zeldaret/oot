@@ -85,8 +85,8 @@ void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->vec = this->actor->velocity;
 
         if (this->rBodyPart < 0) {
-            Matrix_Translate(this->pos.x + this->actor->posRot.pos.x, this->pos.y + this->actor->posRot.pos.y,
-                             this->pos.z + this->actor->posRot.pos.z, MTXMODE_NEW);
+            Matrix_Translate(this->pos.x + this->actor->world.pos.x, this->pos.y + this->actor->world.pos.y,
+                             this->pos.z + this->actor->world.pos.z, MTXMODE_NEW);
         } else {
             Player* player = PLAYER;
             s16 bodyPart = this->rBodyPart;

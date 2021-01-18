@@ -32,7 +32,7 @@ static UNK_TYPE D_80880F30 = 0;
 
 const ActorInit Bg_Haka_Trap_InitVars = {
     ACTOR_BG_HAKA_TRAP,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HAKA_OBJECTS,
     sizeof(BgHakaTrap),
@@ -152,17 +152,17 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                     thisx->velocity.y = 0.5f;
                 }
 
-                thisx->groundY = thisx->initPosRot.pos.y - 225.0f;
-                this->unk_16A = (thisx->groundY + 50.0f) - 25.0f;
+                thisx->floorHeight = thisx->home.pos.y - 225.0f;
+                this->unk_16A = (thisx->floorHeight + 50.0f) - 25.0f;
 
                 this->colliderCylinder.dim.radius = 10;
                 this->colliderCylinder.dim.height = 40;
             } else {
                 if (thisx->params == HAKA_TRAP_SPIKED_WALL) {
                     CollisionHeader_GetVirtual(&D_060081D0, &colHeader);
-                    thisx->initPosRot.pos.x -= 200.0f;
+                    thisx->home.pos.x -= 200.0f;
                 } else {
-                    thisx->initPosRot.pos.x += 200.0f;
+                    thisx->home.pos.x += 200.0f;
                     CollisionHeader_GetVirtual(&D_06008D10, &colHeader);
                 }
 
@@ -213,7 +213,7 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
     f32 zNonNegative;
     Player* player = PLAYER;
 
-    func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.posRot.pos);
+    func_8002DBD0(&this->dyna.actor, &sp28, &player->actor.world.pos);
 
     sine = Math_SinS(this->dyna.actor.shape.rot.y);
     cosine = Math_CosS(this->dyna.actor.shape.rot.y);
@@ -227,8 +227,8 @@ void func_8087FFC0(BgHakaTrap* this, GlobalContext* globalCtx) {
         sp28.z = zNonNegative * 15.0f;
     }
 
-    this->colliderCylinder.dim.pos.x = this->dyna.actor.posRot.pos.x + sp28.x * cosine + sp28.z * sine;
-    this->colliderCylinder.dim.pos.z = this->dyna.actor.posRot.pos.z + sp28.x * sine + sp28.z * cosine;
+    this->colliderCylinder.dim.pos.x = this->dyna.actor.world.pos.x + sp28.x * cosine + sp28.z * sine;
+    this->colliderCylinder.dim.pos.z = this->dyna.actor.world.pos.z + sp28.x * sine + sp28.z * cosine;
 }
 
 void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
@@ -236,7 +236,7 @@ void func_808801B8(BgHakaTrap* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((D_80880F30 == 0) && (!Player_InCsMode(globalCtx))) {
-        if (!Math_StepToF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x, 0.5f)) {
+        if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x, 0.5f)) {
             func_8002F974(&this->dyna.actor, NA_SE_EV_TRAP_OBJ_SLIDE - SFX_FLAG);
         } else if (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) {
             D_80881018 |= 1;
@@ -274,9 +274,9 @@ void func_808802D8(BgHakaTrap* this, GlobalContext* globalCtx) {
 
         xScale = (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ? -30.0f : 30.0f;
 
-        vector.x = xScale * rand + this->dyna.actor.posRot.pos.x;
-        vector.y = Rand_ZeroOne() * 10.0f + this->dyna.actor.posRot.pos.y + 30.0f;
-        vector.z = Rand_CenteredFloat(320.0f) + this->dyna.actor.posRot.pos.z;
+        vector.x = xScale * rand + this->dyna.actor.world.pos.x;
+        vector.y = Rand_ZeroOne() * 10.0f + this->dyna.actor.world.pos.y + 30.0f;
+        vector.z = Rand_CenteredFloat(320.0f) + this->dyna.actor.world.pos.z;
 
         EffectSsDeadDb_Spawn(globalCtx, &vector, &zeroVec, &zeroVec, 130, 20, 255, 255, 150, 170, 255, 0, 0, 1, 9,
                              false);
@@ -302,8 +302,8 @@ void func_80880484(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->timer -= 1;
     }
 
-    sp24 = Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 185.0f,
-                        this->dyna.actor.velocity.y);
+    sp24 =
+        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 185.0f, this->dyna.actor.velocity.y);
     timer = this->timer;
 
     if ((timer == 10 && !this->unk_16A) || (timer == 13 && this->unk_16A)) {
@@ -330,12 +330,12 @@ void func_808805C0(BgHakaTrap* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_16A) {
-        Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 27.0f);
+        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 27.0f);
     } else {
         if (this->timer > 20) {
-            Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 90.0f, 9.0f);
+            Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 90.0f, 9.0f);
         } else {
-            Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 4.5f);
+            Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 4.5f);
         }
 
         if (this->timer == 20) {
@@ -345,7 +345,7 @@ void func_808805C0(BgHakaTrap* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         this->timer = 20;
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         this->dyna.actor.velocity.y = 0.1f;
         this->actionFunc = func_80880484;
     }
@@ -366,11 +366,11 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    vector.x = this->dyna.actor.posRot.pos.x + 90.0f;
-    vector.y = (this->dyna.actor.posRot.pos.y + 1.0f) + 25.0f;
-    vector.z = this->dyna.actor.posRot.pos.z;
+    vector.x = this->dyna.actor.world.pos.x + 90.0f;
+    vector.y = (this->dyna.actor.world.pos.y + 1.0f) + 25.0f;
+    vector.z = this->dyna.actor.world.pos.z;
 
-    tempf20 = this->dyna.actor.groundY;
+    tempf20 = this->dyna.actor.floorHeight;
 
     for (i = 0; i < 3; i++) {
         temp = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &sp64, &this->dyna.actor,
@@ -383,7 +383,7 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
         vector.x -= 90.0f;
     }
 
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, tempf20, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, tempf20, this->dyna.actor.velocity.y)) {
         if (this->dyna.actor.velocity.y > 0.01f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_TRAP_BOUND);
         }
@@ -397,8 +397,8 @@ void func_808806BC(BgHakaTrap* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         this->dyna.actor.velocity.y = 0.0f;
         this->timer = 30;
-        this->unk_16A = (s16)this->dyna.actor.posRot.pos.y + 50.0f;
-        this->unk_16A = CLAMP_MAX(this->unk_16A, this->dyna.actor.initPosRot.pos.y);
+        this->unk_16A = (s16)this->dyna.actor.world.pos.y + 50.0f;
+        this->unk_16A = CLAMP_MAX(this->unk_16A, this->dyna.actor.home.pos.y);
 
         this->actionFunc = func_808808F4;
     }
@@ -410,14 +410,14 @@ void func_808808F4(BgHakaTrap* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer > 20) {
-        this->unk_169 = Math_StepToF(&this->dyna.actor.posRot.pos.y, this->unk_16A, 15.0f);
+        this->unk_169 = Math_StepToF(&this->dyna.actor.world.pos.y, this->unk_16A, 15.0f);
     } else {
-        this->unk_169 = Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 20.0f);
+        this->unk_169 = Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 20.0f);
     }
 
     if (this->timer == 0) {
         this->timer = 30;
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         this->dyna.actor.velocity.y = 0.5f;
         this->actionFunc = func_808806BC;
     }
@@ -437,7 +437,7 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
     Player* player = PLAYER;
     Vec3f sp18;
 
-    func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.posRot.pos);
+    func_8002DBD0(&this->dyna.actor, &sp18, &player->actor.world.pos);
 
     if ((fabsf(sp18.x) < 70.0f) && (fabsf(sp18.y) < 100.0f) && (sp18.z < 500.0f) &&
         (PLAYER->currentBoots != PLAYER_BOOTS_IRON)) {
@@ -448,23 +448,23 @@ void func_808809E4(BgHakaTrap* this, GlobalContext* globalCtx, s16 arg2) {
 
 void func_80880AE8(BgHakaTrap* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
-        if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.z, 0, this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
+        if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 40;
             this->actionFunc = func_808809B0;
         }
     } else {
-        if (Math_ScaledStepToS(&this->dyna.actor.posRot.rot.z, 0x3A00, this->dyna.actor.posRot.rot.z * 0.03f + 5.0f)) {
+        if (Math_ScaledStepToS(&this->dyna.actor.world.rot.z, 0x3A00, this->dyna.actor.world.rot.z * 0.03f + 5.0f)) {
             this->timer = 100;
             this->actionFunc = func_80880C0C;
         }
     }
 
-    this->dyna.actor.shape.rot.z += this->dyna.actor.posRot.rot.z;
-    if (this->dyna.actor.posRot.rot.z >= 0x1801) {
+    this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
+    if (this->dyna.actor.world.rot.z >= 0x1801) {
         func_8002F974(&this->dyna.actor, NA_SE_EV_WIND_TRAP - SFX_FLAG);
     }
 
-    func_808809E4(this, globalCtx, this->dyna.actor.posRot.rot.z);
+    func_808809E4(this, globalCtx, this->dyna.actor.world.rot.z);
 }
 
 void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
@@ -479,13 +479,13 @@ void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80880AE8;
     }
 
-    this->dyna.actor.shape.rot.z += this->dyna.actor.posRot.rot.z;
-    func_808809E4(this, globalCtx, this->dyna.actor.posRot.rot.z);
+    this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
+    func_808809E4(this, globalCtx, this->dyna.actor.world.rot.z);
 }
 
 void BgHakaTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaTrap* this = THIS;
-    Vec3f* actorPos = &thisx->posRot.pos;
+    Vec3f* actorPos = &thisx->world.pos;
 
     this->actionFunc(this, globalCtx);
 
@@ -543,9 +543,9 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actionFunc == func_808808F4) && !this->unk_169) {
-        sp2C.x = thisx->posRot.pos.x;
-        sp2C.z = thisx->posRot.pos.z;
-        sp2C.y = thisx->posRot.pos.y + 110.0f;
+        sp2C.x = thisx->world.pos.x;
+        sp2C.z = thisx->world.pos.z;
+        sp2C.y = thisx->world.pos.y + 110.0f;
 
         SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
         func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);

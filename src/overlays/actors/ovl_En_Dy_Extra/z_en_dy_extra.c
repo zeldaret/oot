@@ -21,7 +21,7 @@ void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_DY_OBJ,
     sizeof(EnDyExtra),
@@ -47,7 +47,7 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_15C.x = 0.025f;
     this->unk_15C.y = 0.039f;
     this->unk_15C.z = 0.025f;
-    this->unk_168 = this->actor.posRot.pos;
+    this->unk_168 = this->actor.world.pos;
     this->actor.gravity = -0.2f;
     this->unk_158 = 1.0f;
     this->unk_154 = 0x3C;
@@ -56,7 +56,7 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
-    if (this->actor.posRot.pos.y < -55.0f) {
+    if (this->actor.world.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
     if (this->unk_154 == 0 && this->unk_152 != 0) {
@@ -72,7 +72,7 @@ void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
         return;
     }
     Math_ApproachZeroF(&this->unk_158, 0.03f, 0.05f);
-    if (this->actor.posRot.pos.y < -55.0f) {
+    if (this->actor.world.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
 }

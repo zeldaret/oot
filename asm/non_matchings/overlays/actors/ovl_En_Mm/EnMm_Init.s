@@ -8,8 +8,8 @@ glabel EnMm_Init
 /* 00138 80AAD8A8 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0013C 80AAD8AC 24A5EBE8 */  addiu   $a1, $a1, %lo(D_80AAEBE8)  ## $a1 = 80AAEBE8
-/* 00140 80AAD8B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00144 80AAD8B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00140 80AAD8B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00144 80AAD8B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00148 80AAD8B8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0014C 80AAD8BC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00150 80AAD8C0 0C00AC78 */  jal     ActorShape_Init
@@ -53,7 +53,7 @@ glabel EnMm_Init
 /* 001DC 80AAD94C 44070000 */  mfc1    $a3, $f0
 /* 001E0 80AAD950 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 001E4 80AAD954 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 001E8 80AAD958 0C00B92D */  jal     func_8002E4B4
+/* 001E8 80AAD958 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 001EC 80AAD95C E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 001F0 80AAD960 3C0380AB */  lui     $v1, %hi(D_80AAEB38)       ## $v1 = 80AB0000
 /* 001F4 80AAD964 2463EB38 */  addiu   $v1, $v1, %lo(D_80AAEB38)  ## $v1 = 80AAEB38

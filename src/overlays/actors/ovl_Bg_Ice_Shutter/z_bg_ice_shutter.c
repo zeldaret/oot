@@ -21,7 +21,7 @@ void func_80891DD4(BgIceShutter* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ice_Shutter_InitVars = {
     ACTOR_BG_ICE_SHUTTER,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_ICE_OBJECTS,
     sizeof(BgIceShutter),
@@ -42,12 +42,10 @@ void func_80891AC0(BgIceShutter* this) {
     f32 sp24;
 
     sp24 = Math_SinS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y;
-    this->dyna.actor.posRot.pos.y =
-        (Math_CosS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y) + this->dyna.actor.initPosRot.pos.y;
-    this->dyna.actor.posRot.pos.x =
-        (Math_SinS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z =
-        (Math_CosS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.world.pos.y =
+        (Math_CosS(this->dyna.actor.shape.rot.x) * this->dyna.actor.velocity.y) + this->dyna.actor.home.pos.y;
+    this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.shape.rot.y) * sp24) + this->dyna.actor.home.pos.z;
 }
 
 void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -85,13 +83,13 @@ void BgIceShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (sp28 == 2) {
         temp_f6 = Math_SinS(this->dyna.actor.shape.rot.x) * 50.0f;
-        this->dyna.actor.posRot2.pos.x =
-            (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.initPosRot.pos.x;
-        this->dyna.actor.posRot2.pos.y = this->dyna.actor.initPosRot.pos.y;
-        this->dyna.actor.posRot2.pos.z =
-            this->dyna.actor.initPosRot.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
+        this->dyna.actor.focus.pos.x =
+            (Math_SinS(this->dyna.actor.shape.rot.y) * temp_f6) + this->dyna.actor.home.pos.x;
+        this->dyna.actor.focus.pos.y = this->dyna.actor.home.pos.y;
+        this->dyna.actor.focus.pos.z =
+            this->dyna.actor.home.pos.z + (Math_CosS(this->dyna.actor.shape.rot.y) * temp_f6);
     } else {
-        Actor_SetHeight(&this->dyna.actor, 50.0f);
+        Actor_SetFocus(&this->dyna.actor, 50.0f);
     }
 }
 
@@ -103,7 +101,7 @@ void BgIceShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->dyna.actor.room)) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         if (this->dyna.actor.shape.rot.x == 0) {
             func_80080480(globalCtx, &this->dyna.actor);
@@ -113,7 +111,7 @@ void func_80891CF4(BgIceShutter* this, GlobalContext* globalCtx) {
 
 void func_80891D6C(BgIceShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_SLIDE_DOOR_OPEN);
         this->actionFunc = func_80891DD4;
         func_80080480(globalCtx, &this->dyna.actor);
     }

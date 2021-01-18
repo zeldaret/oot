@@ -16,7 +16,7 @@ extern UNK_TYPE D_0401909C;
 /*
 const ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnFish),

@@ -42,7 +42,7 @@ glabel func_809ADF28
 /* 000A0 809ADFC0 E608002C */  swc1    $f8, 0x002C($s0)           ## 0000002C
 /* 000A4 809ADFC4 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 000A8 809ADFC8 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 000AC 809ADFCC 0C00B92D */  jal     func_8002E4B4              
+/* 000AC 809ADFCC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 000B0 809ADFD0 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 000B4 809ADFD4 27AA0030 */  addiu   $t2, $sp, 0x0030           ## $t2 = FFFFFFE8
 /* 000B8 809ADFD8 8D4C0000 */  lw      $t4, 0x0000($t2)           ## FFFFFFE8

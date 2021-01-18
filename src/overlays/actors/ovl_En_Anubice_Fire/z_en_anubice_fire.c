@@ -20,7 +20,7 @@ extern UNK_TYPE D_06003510;
 /*
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_ANUBICE,
     sizeof(EnAnubiceFire),
