@@ -111,7 +111,6 @@ extern AnimationHeader D_06000064;
 extern AnimationHeader D_060000A4;
 extern SkeletonHeader D_06005848;
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/EnBili_Init.s")
 void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBili* this = THIS;
 
@@ -130,7 +129,6 @@ void EnBili_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/EnBili_Destroy.s")
 void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnBili* this = THIS;
 
@@ -139,7 +137,6 @@ void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 // Setup Action Functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BF9BC.s")
 void func_809BF9BC(EnBili* this) {
     this->actor.speedXZ = 0.7f;
     this->collider.info.bumper.effect = 1;
@@ -152,7 +149,6 @@ void func_809BF9BC(EnBili* this) {
     this->actor.velocity.y = 0.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFA14.s")
 void func_809BFA14(EnBili* this) {
     Animation_PlayLoop(&this->skelAnime, &D_060000A4);
     this->unk_196 = 0x19;
@@ -163,7 +159,6 @@ void func_809BFA14(EnBili* this) {
     this->actor.speedXZ = 3.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFA8C.s")
 void func_809BFA8C(EnBili* this) {
     Animation_PlayLoop(&this->skelAnime, &D_06000024);
     this->unk_196 = 0xA;
@@ -172,7 +167,6 @@ void func_809BFA8C(EnBili* this) {
     this->actor.velocity.y = -1.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFAE8.s")
 void func_809BFAE8(EnBili* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06000064);
     this->collider.base.atFlags &= ~1;
@@ -181,13 +175,11 @@ void func_809BFAE8(EnBili* this) {
     this->actor.velocity.y = 0.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFB40.s")
 void func_809BFB40(EnBili* this) {
     this->actor.speedXZ = 1.2f;
     this->actionFunc = func_809C0570;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFB5C.s")
 void func_809BFB5C(EnBili* this) {
     Animation_PlayLoop(&this->skelAnime, &D_060000A4);
     this->unk_196 = 0x60;
@@ -197,7 +189,6 @@ void func_809BFB5C(EnBili* this) {
     this->actor.initPosRot.pos.y = this->actor.posRot.pos.y;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFBC4.s")
 void func_809BFBC4(EnBili* this) {
     if (this->skelAnime.animation != &D_060000A4) {
         Animation_PlayLoop(&this->skelAnime, &D_060000A4);
@@ -208,7 +199,6 @@ void func_809BFBC4(EnBili* this) {
     this->actor.speedXZ = 5.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFC48.s")
 void func_809BFC48(EnBili* this) {
     if (this->actionFunc == func_809C04B4) {
         Animation_PlayLoop(&this->skelAnime, &D_060000A4);
@@ -222,7 +212,6 @@ void func_809BFC48(EnBili* this) {
     this->actionFunc = func_809C06E0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFCE8.s")
 void func_809BFCE8(EnBili* this) {
     this->unk_196 = 0x12;
     this->actor.flags &= ~1;
@@ -230,7 +219,6 @@ void func_809BFCE8(EnBili* this) {
     this->actor.speedXZ = 0.0f;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFD18.s")
 void func_809BFD18(EnBili* this) {
     this->unk_196 = 0x50;
     this->collider.info.bumper.effect = 0;
@@ -244,7 +232,6 @@ void func_809BFD18(EnBili* this) {
 
 // ?
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFD94.s")
 void func_809BFD94(EnBili* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f sp80;
@@ -274,7 +261,6 @@ void func_809BFD94(EnBili* this, GlobalContext* globalCtx) {
     this->actionFunc = func_809C09E0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809BFF6C.s")
 void func_809BFF6C(EnBili* this) {
     s16 curFrame;
     // s16 temp_v1_3;
@@ -301,7 +287,6 @@ void func_809BFF6C(EnBili* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C008C.s")
 void func_809C008C(EnBili* this) {
     f32 temp_f0;
     f32 phi_f12;
@@ -321,7 +306,6 @@ void func_809C008C(EnBili* this) {
 
 // Action functions
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0174.s")
 void func_809C0174(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
@@ -344,7 +328,6 @@ void func_809C0174(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0260.s")
 void func_809C0260(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_196 != 0) {
@@ -355,7 +338,6 @@ void func_809C0260(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C02B8.s")
 void func_809C02B8(EnBili* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f sp78;
@@ -387,7 +369,6 @@ void func_809C02B8(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C04B4.s")
 void func_809C04B4(EnBili* this, GlobalContext* globalCtx) {
     s32 skelAnimeUpdate = SkelAnime_Update(&this->skelAnime);
     f32 curFrame = this->skelAnime.curFrame;
@@ -406,7 +387,6 @@ void func_809C04B4(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0570.s")
 void func_809C0570(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 2, 0x71C);
@@ -426,7 +406,6 @@ void func_809C0570(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0600.s")
 void func_809C0600(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
@@ -442,7 +421,6 @@ void func_809C0600(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C067C.s")
 void func_809C067C(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
@@ -452,7 +430,6 @@ void func_809C067C(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C06E0.s")
 void func_809C06E0(EnBili* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
@@ -468,7 +445,6 @@ void func_809C06E0(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0754.s")
 void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
     static Vec3f D_809C16A8 = { 0.0f, 0.0f, 0.0f };
     static Vec3f D_809C16B4 = { 0.0f, 0.0f, 0.0f };
@@ -512,7 +488,6 @@ void func_809C0754(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0980.s")
 void func_809C0980(EnBili* this, GlobalContext* globalCtx) {
     if (this->unk_196 != 0) {
         this->unk_196--;
@@ -525,7 +500,6 @@ void func_809C0980(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C09E0.s")
 void func_809C09E0(EnBili* this, GlobalContext* globalCtx) {
     if (this->unk_196 != 0) {
         this->unk_196--;
@@ -542,7 +516,6 @@ void func_809C09E0(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0A70.s")
 void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
     u8 damageEffect;
 
@@ -590,7 +563,6 @@ void func_809C0A70(EnBili* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/EnBili_Update.s")
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnBili* this = THIS;
@@ -637,7 +609,6 @@ void EnBili_Update(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C0E08.s")
 void func_809C0E08(EnBili* this, f32 frame, Vec3f* arg2) {
     f32 cos;
     f32 sin;
@@ -667,7 +638,6 @@ void func_809C0E08(EnBili* this, f32 frame, Vec3f* arg2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C1020.s")
 void func_809C1020(EnBili* this, f32 frame, Vec3f* arg2) {
     f32 cos;
     f32 sin;
@@ -697,7 +667,6 @@ void func_809C1020(EnBili* this, f32 frame, Vec3f* arg2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C1240.s")
 void func_809C1240(EnBili* this, f32 frame, Vec3f* arg2) {
     f32 cos;
 
@@ -722,7 +691,6 @@ void func_809C1240(EnBili* this, f32 frame, Vec3f* arg2) {
 
 static Vec3f D_809C16C0 = { 1.0f, 1.0f, 1.0f };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/func_809C13A8.s")
 s32 func_809C13A8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     EnBili* this = THIS;
@@ -754,7 +722,6 @@ static Gfx D_809C16F0[] = { 0xFC621603, 0x1F5BFFF8, 0xDF000000, 0x00000000 };
 
 static Gfx D_809C1700[] = { 0xFC121603, 0xFF5BFFF8, 0xDF000000, 0x00000000 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/EnBili_Draw.s")
 void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnBili* this = THIS;
 
