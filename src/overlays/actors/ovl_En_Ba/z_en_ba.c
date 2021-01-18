@@ -21,7 +21,7 @@ extern UNK_TYPE D_06001D80;
 /*
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_BXA,
     sizeof(EnBa),

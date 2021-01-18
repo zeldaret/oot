@@ -90,7 +90,7 @@ glabel EnVali_Update
               ## CollisionCheck_setOC
 /* 01548 80B27BF8 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 0154C 80B27BFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01550 80B27C00 0C00B56E */  jal     Actor_SetHeight
+/* 01550 80B27C00 0C00B56E */  jal     Actor_SetFocus
               
 /* 01554 80B27C04 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 .L80B27C08:

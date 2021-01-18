@@ -42,7 +42,7 @@ extern UNK_TYPE D_060353C0;
 /*
 const ActorInit Boss_Ganon2_InitVars = {
     ACTOR_BOSS_GANON2,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GANON2,
     sizeof(BossGanon2),

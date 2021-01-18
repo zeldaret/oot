@@ -232,7 +232,7 @@ glabel func_80A61A28
 /* 06A4C 80A61D3C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 06A50 80A61D40 84A300B6 */  lh      $v1, 0x00B6($a1)           ## 000000B6
 /* 06A54 80A61D44 AFA6004C */  sw      $a2, 0x004C($sp)
-/* 06A58 80A61D48 0C00B69E */  jal     func_8002DA78
+/* 06A58 80A61D48 0C00B69E */  jal     Actor_WorldYawTowardActor
 /* 06A5C 80A61D4C A7A30046 */  sh      $v1, 0x0046($sp)
 /* 06A60 80A61D50 87A30046 */  lh      $v1, 0x0046($sp)
 /* 06A64 80A61D54 18400003 */  blez    $v0, .L80A61D64

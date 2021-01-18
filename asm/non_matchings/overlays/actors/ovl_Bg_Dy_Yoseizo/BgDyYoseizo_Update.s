@@ -135,7 +135,7 @@ glabel BgDyYoseizo_Update
 /* 022D8 80874B08 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 022DC 80874B0C 46083002 */  mul.s   $f0, $f6, $f8              
 /* 022E0 80874B10 44050000 */  mfc1    $a1, $f0                   
-/* 022E4 80874B14 0C00B56E */  jal     Actor_SetHeight
+/* 022E4 80874B14 0C00B56E */  jal     Actor_SetFocus
               
 /* 022E8 80874B18 E6000328 */  swc1    $f0, 0x0328($s0)           ## 00000328
 /* 022EC 80874B1C C60A0328 */  lwc1    $f10, 0x0328($s0)          ## 00000328

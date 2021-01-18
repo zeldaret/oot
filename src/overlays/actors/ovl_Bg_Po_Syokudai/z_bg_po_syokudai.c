@@ -60,7 +60,7 @@ static Color_RGBA8 sEnvColors[] = {
 
 const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SYOKUDAI,
     sizeof(BgPoSyokudai),
@@ -89,15 +89,15 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, (s16)thisx->posRot.pos.y + 65, thisx->posRot.pos.z,
-                            0, 0, 0, 0);
+    Lights_PointGlowSetInfo(&this->lightInfo, thisx->world.pos.x, (s16)thisx->world.pos.y + 65, thisx->world.pos.z, 0,
+                            0, 0, 0);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
-    this->collider.dim.pos.x = thisx->posRot.pos.x;
-    this->collider.dim.pos.y = thisx->posRot.pos.y;
-    this->collider.dim.pos.z = thisx->posRot.pos.z;
+    this->collider.dim.pos.x = thisx->world.pos.x;
+    this->collider.dim.pos.y = thisx->world.pos.y;
+    this->collider.dim.pos.z = thisx->world.pos.z;
 
     if (this->flameColor == POE_FLAME_PURPLE && Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_GREEN) &&
         Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_BLUE) &&
@@ -109,8 +109,8 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     } else if (!Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_PURPLE) && !Flags_GetSwitch(globalCtx, 0x1B)) {
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->posRot.pos.x,
-                    thisx->posRot.pos.y + 52.0f, thisx->posRot.pos.z, 0, 0, 0,
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->world.pos.x,
+                    thisx->world.pos.y + 52.0f, thisx->world.pos.z, 0, 0, 0,
                     (this->flameColor << 8) + thisx->params + 0x1000);
 
     } else if (!Flags_GetSwitch(globalCtx, thisx->params)) {

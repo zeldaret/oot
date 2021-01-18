@@ -87,7 +87,7 @@ glabel EnSa_Update
 /* 017B0 80AF6D10 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 017B4 80AF6D14 44060000 */  mfc1    $a2, $f0                   
 /* 017B8 80AF6D18 44070000 */  mfc1    $a3, $f0                   
-/* 017BC 80AF6D1C 0C00B92D */  jal     func_8002E4B4              
+/* 017BC 80AF6D1C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 017C0 80AF6D20 E7A00010 */  swc1    $f0, 0x0010($sp)           
 .L80AF6D24:
 /* 017C4 80AF6D24 0C2BD827 */  jal     func_80AF609C              

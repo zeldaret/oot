@@ -21,7 +21,7 @@ extern Gfx D_06000EB0[];
 
 const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_SKJ,
     sizeof(EnSkjneedle),
@@ -44,8 +44,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -54,7 +54,7 @@ void EnSkjneedle_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 20.0f);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 20.0f);
     thisx->flags &= ~0x1;
     Actor_SetScale(&this->actor, 0.01f);
 }
@@ -90,7 +90,7 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         Actor_MoveForward(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 7);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 7);
     }
 }
 

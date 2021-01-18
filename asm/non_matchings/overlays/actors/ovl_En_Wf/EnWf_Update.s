@@ -26,7 +26,7 @@ glabel EnWf_Update
 /* 035A0 80B37250 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 035A4 80B37254 3C064200 */  lui     $a2, 0x4200                ## $a2 = 42000000
 /* 035A8 80B37258 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
-/* 035AC 80B3725C 0C00B92D */  jal     func_8002E4B4              
+/* 035AC 80B3725C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 035B0 80B37260 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 035B4 80B37264 8E1902DC */  lw      $t9, 0x02DC($s0)           ## 000002DC
 /* 035B8 80B37268 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

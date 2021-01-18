@@ -21,7 +21,7 @@ glabel D_80136AE8
     .float 0.014285714
 
 .text
-glabel ActorShadow_DrawFunc_Teardrop
+glabel ActorShadow_DrawFeet
 /* AA2A64 8002B8C4 27BDFEC8 */  addiu $sp, $sp, -0x138
 /* AA2A68 8002B8C8 AFBF007C */  sw    $ra, 0x7c($sp)
 /* AA2A6C 8002B8CC AFBE0078 */  sw    $fp, 0x78($sp)
@@ -119,7 +119,7 @@ glabel ActorShadow_DrawFunc_Teardrop
 .L8002BA2C:
 /* AA2BCC 8002BA2C 44CEF800 */  ctc1  $t6, $31
 /* AA2BD0 8002BA30 A3CF00C8 */  sb    $t7, 0xc8($fp)
-/* AA2BD4 8002BA34 0C00AD7B */  jal   ActorShadow_DrawFunc_Circle
+/* AA2BD4 8002BA34 0C00AD7B */  jal   ActorShadow_DrawCircle
 /* AA2BD8 8002BA38 8FA5013C */   lw    $a1, 0x13c($sp)
 /* AA2BDC 8002BA3C E7D600C4 */  swc1  $f22, 0xc4($fp)
 /* AA2BE0 8002BA40 A3D000C8 */  sb    $s0, 0xc8($fp)
@@ -260,7 +260,7 @@ glabel ActorShadow_DrawFunc_Teardrop
 /* AA2DDC 8002BC3C 02479021 */  addu  $s2, $s2, $a3
 /* AA2DE0 8002BC40 E7B80010 */  swc1  $f24, 0x10($sp)
 /* AA2DE4 8002BC44 E7B60014 */  swc1  $f22, 0x14($sp)
-/* AA2DE8 8002BC48 0C00AD9B */  jal   func_8002B66C
+/* AA2DE8 8002BC48 0C00AD9B */  jal   ActorShadow_DrawFoot
 /* AA2DEC 8002BC4C E7B40018 */   swc1  $f20, 0x18($sp)
 /* AA2DF0 8002BC50 26310001 */  addiu $s1, $s1, 1
 .L8002BC54:
@@ -292,7 +292,7 @@ glabel ActorShadow_DrawFunc_Teardrop
 /* AA2E4C 8002BCAC 02802025 */   move  $a0, $s4
 /* AA2E50 8002BCB0 E7B80010 */  swc1  $f24, 0x10($sp)
 /* AA2E54 8002BCB4 E7B60014 */  swc1  $f22, 0x14($sp)
-/* AA2E58 8002BCB8 0C00AD9B */  jal   func_8002B66C
+/* AA2E58 8002BCB8 0C00AD9B */  jal   ActorShadow_DrawFoot
 /* AA2E5C 8002BCBC E7B40018 */   swc1  $f20, 0x18($sp)
 .L8002BCC0:
 /* AA2E60 8002BCC0 26310001 */  addiu $s1, $s1, 1

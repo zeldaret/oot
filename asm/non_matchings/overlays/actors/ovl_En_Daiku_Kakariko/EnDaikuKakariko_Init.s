@@ -74,8 +74,8 @@ glabel EnDaikuKakariko_Init
 /* 001B0 809E44D0 35AE0008 */  ori     $t6, $t5, 0x0008           ## $t6 = 00000008
 /* 001B4 809E44D4 A60E0200 */  sh      $t6, 0x0200($s0)           ## 00000200
 .L809E44D8:
-/* 001B8 809E44D8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 001BC 809E44DC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 001B8 809E44D8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 001BC 809E44DC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 001C0 809E44E0 0C00AC78 */  jal     ActorShape_Init
 
 /* 001C4 809E44E4 3C074220 */  lui     $a3, 0x4220                ## $a3 = 42200000
@@ -137,7 +137,7 @@ glabel EnDaikuKakariko_Init
 /* 00294 809E45B4 44070000 */  mfc1    $a3, $f0
 /* 00298 809E45B8 8FA4004C */  lw      $a0, 0x004C($sp)
 /* 0029C 809E45BC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 002A0 809E45C0 0C00B92D */  jal     func_8002E4B4
+/* 002A0 809E45C0 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 002A4 809E45C4 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 002A8 809E45C8 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 002AC 809E45CC 44818000 */  mtc1    $at, $f16                  ## $f16 = 3.00
