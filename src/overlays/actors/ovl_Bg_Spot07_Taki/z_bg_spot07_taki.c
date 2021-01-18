@@ -27,7 +27,7 @@ extern UNK_TYPE D_060038FC;
 /*
 const ActorInit Bg_Spot07_Taki_InitVars = {
     ACTOR_BG_SPOT07_TAKI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT07_OBJECT,
     sizeof(BgSpot07Taki),

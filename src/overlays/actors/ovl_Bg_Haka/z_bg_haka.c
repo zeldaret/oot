@@ -23,7 +23,7 @@ void func_8087BAE4(BgHaka* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Haka_InitVars = {
     ACTOR_BG_HAKA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HAKA,
     sizeof(BgHaka),
@@ -63,7 +63,7 @@ void BgHaka_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_8087B758(BgHaka* this, Player* player) {
     Vec3f sp1C;
 
-    func_8002DBD0(&this->dyna.actor, &sp1C, &player->actor.posRot.pos);
+    func_8002DBD0(&this->dyna.actor, &sp1C, &player->actor.world.pos);
     if (fabsf(sp1C.x) < 34.6f && sp1C.z > -112.8f && sp1C.z < -36.0f) {
         player->stateFlags2 |= 0x200;
     }
@@ -86,7 +86,7 @@ void func_8087B7E8(BgHaka* this, GlobalContext* globalCtx) {
             this->dyna.unk_150 = 0.0f;
             player->stateFlags2 &= ~0x10;
         } else {
-            this->dyna.actor.posRot.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
+            this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y + 0x8000;
             this->actionFunc = func_8087B938;
         }
     }
@@ -100,19 +100,19 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ += 0.05f;
     this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 1.5f);
     sp38 = Math_StepToF(&this->dyna.actor.minVelocityY, 60.0f, this->dyna.actor.speedXZ);
-    this->dyna.actor.posRot.pos.x =
-        Math_SinS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z =
-        Math_CosS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.world.pos.x =
+        Math_SinS(this->dyna.actor.world.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z =
+        Math_CosS(this->dyna.actor.world.rot.y) * this->dyna.actor.minVelocityY + this->dyna.actor.home.pos.z;
     if (sp38 != 0) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         } else if (gSaveContext.nightFlag && globalCtx->sceneNum == SCENE_SPOT02) {
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.initPosRot.pos.x,
-                        this->dyna.actor.initPosRot.pos.y, this->dyna.actor.initPosRot.pos.z, 0,
-                        this->dyna.actor.shape.rot.y, 0, 1);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.home.pos.x,
+                        this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0,
+                        1);
         }
         this->actionFunc = func_8087BAAC;
     }

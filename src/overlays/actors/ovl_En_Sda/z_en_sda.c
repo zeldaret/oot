@@ -21,7 +21,7 @@ void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2);
 
 const ActorInit En_Sda_InitVars = {
     ACTOR_EN_SDA,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnSda),
@@ -133,7 +133,7 @@ void EnSda_Update(Actor* thisx, GlobalContext* globalCtx) {
         player = PLAYER;
     }
 
-    this->actor.posRot.pos = player->actor.posRot.pos;
+    this->actor.world.pos = player->actor.world.pos;
 
     osSyncPrintf("SDA MOVE END\n");
 }
@@ -151,7 +151,7 @@ void EnSda_Draw(Actor* thisx, GlobalContext* globalCtx) {
         player = PLAYER;
     }
 
-    player->actor.shape.unk_14 = 0;
+    player->actor.shape.shadowAlpha = 0;
     func_80AF95C4(this, shadowTexture, player, globalCtx);
 
     if (KREG(0) < 5) {
@@ -182,13 +182,13 @@ void func_80AF8F60(Player* player, u8* shadowTexture, f32 arg2) {
                 lerp.y = D_80AFA660[i].y + (D_80AFA660[j].y - D_80AFA660[i].y) * arg2;
                 lerp.z = D_80AFA660[i].z + (D_80AFA660[j].z - D_80AFA660[i].z) * arg2;
 
-                sp88.x = lerp.x - player->actor.posRot.pos.x;
-                sp88.y = lerp.y - player->actor.posRot.pos.y + BREG(48) + 76.0f + 30.0f - 105.0f + 15.0f;
-                sp88.z = lerp.z - player->actor.posRot.pos.z;
+                sp88.x = lerp.x - player->actor.world.pos.x;
+                sp88.y = lerp.y - player->actor.world.pos.y + BREG(48) + 76.0f + 30.0f - 105.0f + 15.0f;
+                sp88.z = lerp.z - player->actor.world.pos.z;
             } else {
-                sp88.x = D_80AFA660[i].x - player->actor.posRot.pos.x;
-                sp88.y = D_80AFA660[i].y - player->actor.posRot.pos.y + BREG(48) + 76.0f + 30.0f - 105.0f + 15.0f;
-                sp88.z = D_80AFA660[i].z - player->actor.posRot.pos.z;
+                sp88.x = D_80AFA660[i].x - player->actor.world.pos.x;
+                sp88.y = D_80AFA660[i].y - player->actor.world.pos.y + BREG(48) + 76.0f + 30.0f - 105.0f + 15.0f;
+                sp88.z = D_80AFA660[i].z - player->actor.world.pos.z;
             }
             Matrix_MultVec3f(&sp88, &sp7C);
             sp7C.x *= (1.0f + (BREG(49) / 100.0f));
@@ -324,9 +324,9 @@ void func_80AF95C4(EnSda* this, u8* shadowTexture, Player* player, GlobalContext
         }
         Matrix_RotateX((BREG(50) + 70) / 100.0f, 0);
         for (i = 0; i < 22; i++) {
-            sp194.x = sp64[i].x - player->actor.posRot.pos.x;
-            sp194.y = sp64[i].y - player->actor.posRot.pos.y + KREG(80) + 16.0f;
-            sp194.z = sp64[i].z - player->actor.posRot.pos.z;
+            sp194.x = sp64[i].x - player->actor.world.pos.x;
+            sp194.y = sp64[i].y - player->actor.world.pos.y + KREG(80) + 16.0f;
+            sp194.z = sp64[i].z - player->actor.world.pos.z;
             Matrix_MultVec3f(&sp194, &sp188);
             sp188.x *= (1.0f + (KREG(90) / 100.0f));
             sp188.y *= (1.0f + (KREG(90) / 100.0f));
@@ -374,12 +374,12 @@ void func_80AF9C70(u8* shadowTexture, Player* player, GlobalContext* globalCtx) 
     func_80094044(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 0, (BREG(52) + 50));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, 0);
-    Matrix_Translate(player->actor.posRot.pos.x, player->actor.groundY, player->actor.posRot.pos.z, MTXMODE_NEW);
+    Matrix_Translate(player->actor.world.pos.x, player->actor.floorHeight, player->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateY(BREG(51) / 100.0f, MTXMODE_APPLY);
     Matrix_Scale(1.0f, 1.0f, (BREG(63) / 10.0f) + 1.0f, MTXMODE_APPLY);
     tempx = (BREG(62) / 10.0f) + 2.0f;
-    tempz =
-        ((player->actor.posRot.pos.y - player->actor.groundY + BREG(54)) * (BREG(55) - 5) / 10.0f) + BREG(58) - 20.0f;
+    tempz = ((player->actor.world.pos.y - player->actor.floorHeight + BREG(54)) * (BREG(55) - 5) / 10.0f) + BREG(58) -
+            20.0f;
     Matrix_Translate(tempx, 0.0f, tempz, MTXMODE_APPLY);
     Matrix_Scale(((BREG(56) - 250) / 1000.0f) + 0.6f, 1.0f, ((BREG(59) - 250) / 1000.0f) + 0.6f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_sda.c", 860),

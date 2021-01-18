@@ -30,7 +30,7 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx);
 
 const ActorInit En_Fu_InitVars = {
     ACTOR_EN_FU,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_FU,
     sizeof(EnFu),
@@ -90,7 +90,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTable, this->morphTable, 16);
     Animation_PlayLoop(&this->skelanime, &D_06000B04);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -106,7 +106,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->skelanime.playSpeed = 2.0f;
     }
     this->behaviorFlags = 0;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
 }
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -123,9 +123,9 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
         return true;
     }
     this->actor.textId = textID;
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToLink < 100.0f)) {
+    if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToPlayer < 100.0f)) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     } else {
         this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
@@ -230,7 +230,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     static s16 yawDiff;
     Player* player = PLAYER;
 
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((gSaveContext.eventChkInf[5] & 0x800)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & 0x1000000) {
@@ -241,7 +241,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
-        if (this->actor.xzDistToLink < 100.0f) {
+        if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
             player->stateFlags2 |= 0x800000;
@@ -256,7 +256,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
         Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
                          Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);
@@ -269,7 +269,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
         this->behaviorFlags &= ~FU_RESET_LOOK_ANGLE;
     } else {
-        func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.focus.pos);
     }
 }
 
@@ -304,7 +304,7 @@ void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnFu* this = THIS;
 
     if (limbIndex == 14) {
-        Matrix_MultVec3f(&sMtxSrc, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
     }
 }
 

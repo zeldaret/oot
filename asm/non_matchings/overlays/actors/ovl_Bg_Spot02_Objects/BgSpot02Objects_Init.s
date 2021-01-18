@@ -145,7 +145,7 @@ glabel L808AC824
 /* 001C8 808AC828 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 001CC 808AC82C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 001D0 808AC830 24070007 */  addiu   $a3, $zero, 0x0007         ## $a3 = 00000007
-/* 001D4 808AC834 0C00CDD2 */  jal     Actor_ChangeType
+/* 001D4 808AC834 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 001D8 808AC838 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 001DC 808AC83C 3C19808B */  lui     $t9, %hi(func_808ACC34)    ## $t9 = 808B0000
@@ -173,7 +173,7 @@ glabel L808AC87C
 /* 0022C 808AC88C 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 00230 808AC890 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00234 808AC894 24070007 */  addiu   $a3, $zero, 0x0007         ## $a3 = 00000007
-/* 00238 808AC898 0C00CDD2 */  jal     Actor_ChangeType
+/* 00238 808AC898 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 0023C 808AC89C 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00240 808AC8A0 3C0E808B */  lui     $t6, %hi(func_808AD3D4)    ## $t6 = 808B0000

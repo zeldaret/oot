@@ -23,7 +23,7 @@ void func_8001D5C8(EnAObj* this, s16 params);
 
 const ActorInit En_A_Obj_InitVars = {
     ACTOR_EN_A_OBJ,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnAObj),
@@ -108,9 +108,9 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         sp28 = 12.0f;
     }
 
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, sp28);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, sp28);
 
-    thisx->posRot2.pos = thisx->posRot.pos;
+    thisx->focus.pos = thisx->world.pos;
     this->dyna.bgId = BGACTOR_NEG_ONE;
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = DPM_UNK;
@@ -121,13 +121,13 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_BLOCK_LARGE:
         case A_OBJ_BLOCK_HUGE:
             this->dyna.bgId = 1;
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_BG);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
             func_8001D5C8(this, thisx->params);
             break;
         case A_OBJ_BLOCK_SMALL_ROT:
         case A_OBJ_BLOCK_LARGE_ROT:
             this->dyna.bgId = 3;
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_BG);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_BG);
             func_8001D310(this, thisx->params);
             break;
         case A_OBJ_UNKNOWN_6:
@@ -146,14 +146,14 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
         case A_OBJ_SIGNPOST_ARROW:
             thisx->textId = (this->textId & 0xFF) | 0x300;
             // clang-format off
-            thisx->flags |= 0x1 | 0x8; thisx->unk_4C = 500.0f;
+            thisx->flags |= 0x1 | 0x8; thisx->targetArrowOffset = 500.0f;
             // clang-format on
             this->unk_178 = 45.0f;
             func_8001D234(this, thisx->params);
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
             thisx->colChkInfo.mass = MASS_IMMOVABLE;
-            thisx->unk_1F = 0;
+            thisx->targetMode = 0;
             break;
         case A_OBJ_KNOB:
             thisx->gravity = -1.5f;
@@ -201,7 +201,7 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
     s16 var;
 
     if (this->dyna.actor.textId != 0) {
-        var = this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y;
+        var = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
         if ((ABS(var) < 0x2800) || ((this->dyna.actor.params == 0xA) && (ABS(var) > 0x5800))) {
             if (func_8002F194(&this->dyna.actor, globalCtx)) {
                 EnAObj_SetupAction(this, func_8001D204);
@@ -215,8 +215,8 @@ void func_8001D25C(EnAObj* this, GlobalContext* globalCtx) {
 void func_8001D310(EnAObj* this, s16 params) {
     this->unk_16E = 0;
     this->unk_168 = 10;
-    this->dyna.actor.posRot.rot.y = 0;
-    this->dyna.actor.shape.rot = this->dyna.actor.posRot.rot;
+    this->dyna.actor.world.rot.y = 0;
+    this->dyna.actor.shape.rot = this->dyna.actor.world.rot;
     EnAObj_SetupAction(this, func_8001D360);
 }
 
@@ -226,13 +226,13 @@ void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
             this->unk_16E++;
             this->unk_170 = 20;
 
-            if ((s16)(this->dyna.actor.yawTowardsLink + 0x4000) < 0) {
+            if ((s16)(this->dyna.actor.yawTowardsPlayer + 0x4000) < 0) {
                 this->unk_174 = -1000;
             } else {
                 this->unk_174 = 1000;
             }
 
-            if (this->dyna.actor.yawTowardsLink < 0) {
+            if (this->dyna.actor.yawTowardsPlayer < 0) {
                 this->unk_172 = -this->unk_174;
             } else {
                 this->unk_172 = this->unk_174;
@@ -248,12 +248,12 @@ void func_8001D360(EnAObj* this, GlobalContext* globalCtx) {
             this->dyna.actor.gravity = -1.0f;
 
             if (this->unk_170 == 0) {
-                this->dyna.actor.posRot.pos = this->dyna.actor.initPosRot.pos;
+                this->dyna.actor.world.pos = this->dyna.actor.home.pos;
                 this->unk_16E = 0;
                 this->unk_168 = 10;
                 this->dyna.actor.velocity.y = 0.0f;
                 this->dyna.actor.gravity = 0.0f;
-                this->dyna.actor.shape.rot = this->dyna.actor.posRot.rot;
+                this->dyna.actor.shape.rot = this->dyna.actor.world.rot;
             }
         }
     }
@@ -265,14 +265,13 @@ void func_8001D480(EnAObj* this, s16 params) {
 
 void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->dyna.actor.speedXZ, 1.0f, 1.0f, 0.5f, 0.0f);
-    this->dyna.actor.shape.rot.x = this->dyna.actor.shape.rot.x + (this->dyna.actor.posRot.rot.x >> 1);
-    this->dyna.actor.shape.rot.z = this->dyna.actor.shape.rot.z + (this->dyna.actor.posRot.rot.z >> 1);
+    this->dyna.actor.shape.rot.x = this->dyna.actor.shape.rot.x + (this->dyna.actor.world.rot.x >> 1);
+    this->dyna.actor.shape.rot.z = this->dyna.actor.shape.rot.z + (this->dyna.actor.world.rot.z >> 1);
 
     if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 0x8)) {
         if (1) { // Necessary to match
-            this->dyna.actor.posRot.rot.y =
-                ((this->dyna.actor.wallPolyRot - this->dyna.actor.posRot.rot.y) + this->dyna.actor.wallPolyRot) -
-                0x8000;
+            this->dyna.actor.world.rot.y =
+                ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) - 0x8000;
         }
         this->dyna.actor.bgCheckFlags &= ~0x8;
     }
@@ -296,7 +295,7 @@ void func_8001D5C8(EnAObj* this, s16 params) {
 
 void func_8001D608(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ += this->dyna.unk_150;
-    this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
+    this->dyna.actor.world.rot.y = this->dyna.unk_158;
     this->dyna.actor.speedXZ = CLAMP(this->dyna.actor.speedXZ, -2.5f, 2.5f);
 
     Math_SmoothStepToF(&this->dyna.actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
@@ -317,14 +316,14 @@ void EnAObj_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.gravity != 0.0f) {
         if (this->dyna.actor.params != A_OBJ_KNOB) {
-            func_8002E4B4(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 40.0f, 0.0f, 0x1D);
         } else {
-            func_8002E4B4(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 5.0f, 20.0f, 0.0f, 0x1D);
         }
     }
 
-    this->dyna.actor.posRot2.pos = this->dyna.actor.posRot.pos;
-    this->dyna.actor.posRot2.pos.y += this->unk_178;
+    this->dyna.actor.focus.pos = this->dyna.actor.world.pos;
+    this->dyna.actor.focus.pos.y += this->unk_178;
 
     switch (this->dyna.actor.params) {
         case A_OBJ_SIGNPOST_OBLONG:

@@ -167,7 +167,7 @@ glabel EnAm_Update
 /* 01D20 809AFC40 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 01D24 809AFC44 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 01D28 809AFC48 3C0741E0 */  lui     $a3, 0x41E0                ## $a3 = 41E00000
-/* 01D2C 809AFC4C 0C00B92D */  jal     func_8002E4B4              
+/* 01D2C 809AFC4C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01D30 809AFC50 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 01D34 809AFC54 26510274 */  addiu   $s1, $s2, 0x0274           ## $s1 = 00000274
 .L809AFC58:
@@ -198,7 +198,7 @@ glabel EnAm_Update
 /* 01D8C 809AFCAC 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01D90 809AFCB0 46062202 */  mul.s   $f8, $f4, $f6              
 /* 01D94 809AFCB4 44054000 */  mfc1    $a1, $f8                   
-/* 01D98 809AFCB8 0C00B56E */  jal     Actor_SetHeight
+/* 01D98 809AFCB8 0C00B56E */  jal     Actor_SetFocus
               
 /* 01D9C 809AFCBC 00000000 */  nop
 /* 01DA0 809AFCC0 924B0114 */  lbu     $t3, 0x0114($s2)           ## 00000114

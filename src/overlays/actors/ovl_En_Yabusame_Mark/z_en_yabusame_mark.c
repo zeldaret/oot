@@ -17,7 +17,7 @@ void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit En_Yabusame_Mark_InitVars = {
     ACTOR_EN_YABUSAME_MARK,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnYabusameMark),

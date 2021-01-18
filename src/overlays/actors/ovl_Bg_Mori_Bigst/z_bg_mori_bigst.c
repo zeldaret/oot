@@ -33,7 +33,7 @@ extern Gfx D_06001E50[];
 
 const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriBigst),
@@ -77,7 +77,7 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("mori (bigST.鍵型天井)(arg : %04x)(sw %d)(noE %d)(roomC %d)(playerPosY %f)\n", this->dyna.actor.params,
                  Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F),
                  Flags_GetTempClear(globalCtx, this->dyna.actor.room), Flags_GetClear(globalCtx, this->dyna.actor.room),
-                 PLAYER->actor.posRot.pos.y);
+                 PLAYER->actor.world.pos.y);
     BgMoriBigst_InitDynapoly(this, globalCtx, &D_0600221C, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
@@ -89,11 +89,11 @@ void BgMoriBigst_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
     } else {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + 270.0f;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 270.0f;
     }
-    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    Actor_SetFocus(&this->dyna.actor, 50.0f);
     BgMoriBigst_SetupWaitForMoriTex(this, globalCtx);
 }
 
@@ -113,7 +113,7 @@ void BgMoriBigst_WaitForMoriTex(BgMoriBigst* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->moriTexObjIndex)) {
         thisx->draw = BgMoriBigst_Draw;
-        if (Flags_GetClear(globalCtx, thisx->room) && (PLAYER->actor.posRot.pos.y > 700.0f)) {
+        if (Flags_GetClear(globalCtx, thisx->room) && (PLAYER->actor.world.pos.y > 700.0f)) {
             if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
                 BgMoriBigst_SetupDone(this, globalCtx);
             } else {
@@ -138,7 +138,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) 
                                  -3320.0f, 0, 0, 0, 1);
     if (stalfos != NULL) {
         this->dyna.actor.child = NULL;
-        this->dyna.actor.initPosRot.rot.z++;
+        this->dyna.actor.home.rot.z++;
     } else {
         // Second Stalfos failure
         osSyncPrintf("Warning : 第２スタルフォス発生失敗\n");
@@ -149,8 +149,7 @@ void BgMoriBigst_SetupStalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) 
 void BgMoriBigst_StalfosFight(BgMoriBigst* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((this->dyna.actor.initPosRot.rot.z == 0) &&
-        ((this->dyna.actor.initPosRot.pos.y - 5.0f) <= PLAYER->actor.posRot.pos.y)) {
+    if ((this->dyna.actor.home.rot.z == 0) && ((this->dyna.actor.home.pos.y - 5.0f) <= PLAYER->actor.world.pos.y)) {
         BgMoriBigst_SetupFall(this, globalCtx);
         func_800800F8(globalCtx, 0xC94, 0x48, &this->dyna.actor, 0);
     }
@@ -162,8 +161,8 @@ void BgMoriBigst_SetupFall(BgMoriBigst* this, GlobalContext* globalCtx) {
 
 void BgMoriBigst_Fall(BgMoriBigst* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
-    if (this->dyna.actor.posRot.pos.y <= this->dyna.actor.initPosRot.pos.y) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+    if (this->dyna.actor.world.pos.y <= this->dyna.actor.home.pos.y) {
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         BgMoriBigst_SetupLanding(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
         func_800800F8(globalCtx, 0x3FC, 8, &this->dyna.actor, 0);
@@ -199,7 +198,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalC
                                   -3383.0f, 0, 0, 0, 5);
     if (stalfos1 != NULL) {
         this->dyna.actor.child = NULL;
-        this->dyna.actor.initPosRot.rot.z++;
+        this->dyna.actor.home.rot.z++;
     } else {
         // Warning: 3-1 Stalfos failure
         osSyncPrintf("Warning : 第３-1スタルフォス発生失敗\n");
@@ -208,7 +207,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalC
                                   -3260.0f, 0, 0, 0, 5);
     if (stalfos2 != NULL) {
         this->dyna.actor.child = NULL;
-        this->dyna.actor.initPosRot.rot.z++;
+        this->dyna.actor.home.rot.z++;
     } else {
         // Warning: 3-2 Stalfos failure
         osSyncPrintf("Warning : 第３-2スタルフォス発生失敗\n");
@@ -217,7 +216,7 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalC
 }
 
 void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx) {
-    if ((this->dyna.actor.initPosRot.rot.z == 0) && !Player_InCsMode(globalCtx)) {
+    if ((this->dyna.actor.home.rot.z == 0) && !Player_InCsMode(globalCtx)) {
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         BgMoriBigst_SetupDone(this, globalCtx);
     }
@@ -231,7 +230,7 @@ void BgMoriBigst_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriBigst* this = THIS;
 
-    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    Actor_SetFocus(&this->dyna.actor, 50.0f);
     if (this->waitTimer > 0) {
         this->waitTimer--;
     }

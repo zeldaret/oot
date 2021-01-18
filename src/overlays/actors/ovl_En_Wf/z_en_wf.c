@@ -28,7 +28,7 @@ extern UNK_TYPE D_0600A4AC;
 /*
 const ActorInit En_Wf_InitVars = {
     ACTOR_EN_WF,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_WF,
     sizeof(EnWf),

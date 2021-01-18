@@ -12,7 +12,7 @@ void BossMo_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_MO,
     sizeof(BossMo),

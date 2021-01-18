@@ -28,7 +28,7 @@ extern Gfx D_06000A60[];
 
 const ActorInit En_Gs_InitVars = {
     ACTOR_EN_GS,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GS,
     sizeof(EnGs),
@@ -107,8 +107,8 @@ void EnGs_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
     CollisionCheck_SetInfo2(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
 
-    thisx->unk_1F = 6;
-    this->unk_1D8 = thisx->posRot.pos;
+    thisx->targetMode = 6;
+    this->unk_1D8 = thisx->world.pos;
     this->actionFunc = func_80A4F734;
     this->unk_1B4[0].x = 1.0f;
     this->unk_1B4[0].y = 1.0f;
@@ -145,7 +145,7 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     bREG(15) = 0;
-    if (this->actor.xzDistToLink <= 100.0f) {
+    if (this->actor.xzDistToPlayer <= 100.0f) {
         bREG(15) = 1;
         if (this->unk_19D == 0) {
             player->stateFlags2 |= 0x800000;
@@ -159,12 +159,12 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
                 if ((globalCtx->msgCtx.unk_E3F2 == 6) || (globalCtx->msgCtx.unk_E3F2 == 7) ||
                     (globalCtx->msgCtx.unk_E3F2 == 8) || (globalCtx->msgCtx.unk_E3F2 == 9) ||
                     (globalCtx->msgCtx.unk_E3F2 == 10)) {
-                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
+                                this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 } else if (globalCtx->msgCtx.unk_E3F2 == 11) {
-                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_HEAL_BIG);
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
+                                this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_HEAL_BIG);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
@@ -348,9 +348,9 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
             dustVelocity.x = Rand_CenteredFloat(15.0f);
             dustVelocity.y = Rand_ZeroFloat(-1.0f);
             dustVelocity.z = Rand_CenteredFloat(15.0f);
-            dustPos.x = this->actor.posRot.pos.x + (dustVelocity.x + dustVelocity.x);
-            dustPos.y = this->actor.posRot.pos.y + 7.0f;
-            dustPos.z = this->actor.posRot.pos.z + (dustVelocity.z + dustVelocity.z);
+            dustPos.x = this->actor.world.pos.x + (dustVelocity.x + dustVelocity.x);
+            dustPos.y = this->actor.world.pos.y + 7.0f;
+            dustPos.z = this->actor.world.pos.z + (dustVelocity.z + dustVelocity.z);
             func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrim, &dustEnv,
                           (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
@@ -367,11 +367,11 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_19F == 4) {
-        func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 3);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 3);
         if (this->actor.bgCheckFlags & 0x18) {
-            bomb2Pos.x = this->actor.posRot.pos.x;
-            bomb2Pos.y = this->actor.posRot.pos.y;
-            bomb2Pos.z = this->actor.posRot.pos.z;
+            bomb2Pos.x = this->actor.world.pos.x;
+            bomb2Pos.y = this->actor.world.pos.y;
+            bomb2Pos.z = this->actor.world.pos.z;
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
             EffectSsBomb2_SpawnLayered(globalCtx, &bomb2Pos, &bomb2Velocity, &bomb2Accel, 100, 20);
             this->unk_200 = 10;
@@ -382,7 +382,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         }
 
         Actor_MoveForward(&this->actor);
-        if (this->actor.yDistToLink < -12000.0f) {
+        if (this->actor.yDistToPlayer < -12000.0f) {
             Actor_Kill(&this->actor);
         }
     }
@@ -522,7 +522,7 @@ void EnGs_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGs* this = THIS;
 
-    Actor_SetHeight(&this->actor, 23.0f);
+    Actor_SetFocus(&this->actor, 23.0f);
     if (globalCtx) {};
     if (!(this->unk_19E & 0x10)) {
         if (globalCtx) {};

@@ -99,7 +99,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GND,
     sizeof(BossGanondrof),
@@ -226,10 +226,10 @@ static UNK_PTR D_80915074_16x32[] = { &gPhantomGanonUnknown_00AA80, &gPhantomGan
 static UNK_PTR D_8091507C_16x16[] = { &gPhantomGanonUnknown_0040B0, &gPhantomGanonUnknown_003FB0 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 43, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
 void BossGanondrof_ClearPixels8x8(s16* texture, u8* mask, s16 index) {
@@ -311,8 +311,8 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.params = 1;
         this->actor.colChkInfo.health = 30;
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                  this->actor.posRot.pos.z, 255, 255, 255, 255);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
+                                  this->actor.world.pos.z, 255, 255, 255, 255);
         BossGanondrof_SetupIntro(this, globalCtx);
     } else {
         BossGanondrof_SetupPaintings(this);
@@ -328,8 +328,8 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, 14.0f, -33.0f, -3315.0f, 0, 0, 0, -1);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 214.0f, -33.0f, -3315.0f, 0, 0, 0, 0);
     } else {
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG, this->actor.posRot.pos.x,
-                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, this->actor.params);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG, this->actor.world.pos.x,
+                           this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, this->actor.params);
     }
 }
 
@@ -362,8 +362,8 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
     EnfHG* horse = (EnfHG*)this->actor.child;
 
     SkelAnime_Update(&this->skelAnime);
-    this->actor.posRot.pos = horse->actor.posRot.pos;
-    this->actor.shape.rot.y = this->actor.posRot.rot.y = horse->actor.posRot.rot.y;
+    this->actor.world.pos = horse->actor.world.pos;
+    this->actor.shape.rot.y = this->actor.world.rot.y = horse->actor.world.rot.y;
 
     osSyncPrintf("SW %d------------------------------------------------\n", horse->bossFhgSignal);
 
@@ -479,9 +479,9 @@ void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
     }
 
     osSyncPrintf("RUN 3\n");
-    this->actor.posRot.pos = horse->actor.posRot.pos;
-    this->actor.posRot.pos.y = horse->actor.posRot.pos.y;
-    this->actor.shape.rot.y = this->actor.posRot.rot.y = horse->actor.posRot.rot.y;
+    this->actor.world.pos = horse->actor.world.pos;
+    this->actor.world.pos.y = horse->actor.world.pos.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y = horse->actor.world.rot.y;
     if (this->flyMode != FHG_FLY_PAINTING) {
         BossGanondrof_SetupNeutral(this, -20.0f);
         this->timers[0] = 100;
@@ -551,15 +551,15 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
                 targetX = 14.0f;
                 targetZ = -3315.0f;
             } else {
-                targetX = playerx->posRot.pos.x + (180.0f * Math_SinS(playerx->shape.rot.y));
-                targetZ = playerx->posRot.pos.z + (180.0f * Math_CosS(playerx->shape.rot.y));
+                targetX = playerx->world.pos.x + (180.0f * Math_SinS(playerx->shape.rot.y));
+                targetZ = playerx->world.pos.z + (180.0f * Math_CosS(playerx->shape.rot.y));
                 if (sqrtf(SQ(targetX - 14.0f) + SQ(targetZ - -3315.0f)) > 280.0f) {
                     this->timers[1] = 50;
                     this->floatSpeed = 0.0f;
                 }
             }
 
-            targetY = playerx->posRot.pos.y + 100.0f + 0.0f;
+            targetY = playerx->world.pos.y + 100.0f + 0.0f;
             targetX += Math_SinS(this->varianceTimer * 0x500) * 100.0f;
             targetZ += Math_CosS(this->varianceTimer * 0x700) * 100.0f;
             break;
@@ -567,7 +567,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
             targetX = 0.0f;
             targetZ = -3050.0f;
 
-            targetY = playerx->posRot.pos.y + 100.0f + 100.0f;
+            targetY = playerx->world.pos.y + 100.0f + 100.0f;
             targetX += Math_SinS(this->varianceTimer * 0x500) * 100.0f;
             targetZ += Math_CosS(this->varianceTimer * 0x700) * 100.0f;
             if (this->timers[0] == 0) {
@@ -581,7 +581,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
             targetX = 0.0f;
             targetZ = -3050.0f;
 
-            targetY = playerx->posRot.pos.y + 100.0f + 100.0f;
+            targetY = playerx->world.pos.y + 100.0f + 100.0f;
             targetX += Math_SinS(this->varianceTimer * 0x500) * 50.0f;
             targetZ += Math_CosS(this->varianceTimer * 0x700) * 50.0f;
             if (this->returnSuccess) {
@@ -598,7 +598,7 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
             targetX = 0.0f;
             targetZ = -3100.0f;
 
-            targetY = playerx->posRot.pos.y + 100.0f + 50.0f;
+            targetY = playerx->world.pos.y + 100.0f + 50.0f;
             targetX += Math_SinS(this->varianceTimer * 0x500) * 100.0f;
             targetZ += Math_CosS(this->varianceTimer * 0x700) * 100.0f;
             if (this->timers[0] == 0) {
@@ -607,19 +607,19 @@ void BossGanondrof_Neutral(BossGanondrof* this, GlobalContext* globalCtx) {
             break;
     }
 
-    Math_ApproachF(&thisx->posRot.pos.x, targetX, 0.05f, this->floatSpeed);
+    Math_ApproachF(&thisx->world.pos.x, targetX, 0.05f, this->floatSpeed);
     if (this->timers[2] != 0) {
-        Math_ApproachF(&thisx->posRot.pos.y, targetY + 100.0f, 0.1f, 50.0f);
+        Math_ApproachF(&thisx->world.pos.y, targetY + 100.0f, 0.1f, 50.0f);
     } else {
-        Math_ApproachF(&thisx->posRot.pos.y, targetY, 0.05f, 10.0f);
+        Math_ApproachF(&thisx->world.pos.y, targetY, 0.05f, 10.0f);
     }
 
-    Math_ApproachF(&thisx->posRot.pos.z, targetZ, 0.05f, this->floatSpeed);
+    Math_ApproachF(&thisx->world.pos.z, targetZ, 0.05f, this->floatSpeed);
     Math_ApproachF(&this->floatSpeed, 50.0f, 1.0f, 0.5f);
-    thisx->velocity.x = thisx->posRot.pos.x - thisx->pos4.x;
-    thisx->velocity.z = thisx->posRot.pos.z - thisx->pos4.z;
-    thisx->posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
-    Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0xBB8);
+    thisx->velocity.x = thisx->world.pos.x - thisx->prevPos.x;
+    thisx->velocity.z = thisx->world.pos.z - thisx->prevPos.z;
+    thisx->world.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
+    Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsPlayer, 5, 0xBB8);
     if ((this->varianceTimer & 1) == 0) {
         Vec3f sp5C;
         Vec3f sp50 = { 0.0f, 0.0f, 0.0f };
@@ -698,12 +698,12 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
         this->actor.child = &horse->actor;
     }
 
-    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0x7D0);
-    this->actor.posRot.pos.x += this->actor.velocity.x;
-    this->actor.posRot.pos.z += this->actor.velocity.z;
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 0x7D0);
+    this->actor.world.pos.x += this->actor.velocity.x;
+    this->actor.world.pos.z += this->actor.velocity.z;
     Math_ApproachZeroF(&this->actor.velocity.x, 1.0f, 0.5f);
     Math_ApproachZeroF(&this->actor.velocity.z, 1.0f, 0.5f);
-    this->actor.posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
+    this->actor.world.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
 }
 
 void BossGanondrof_SetupReturn(BossGanondrof* this, GlobalContext* globalCtx) {
@@ -728,11 +728,11 @@ void BossGanondrof_Return(BossGanondrof* this, GlobalContext* globalCtx) {
         BossGanondrof_SetupNeutral(this, 0.0f);
     }
 
-    this->actor.posRot.pos.x += this->actor.velocity.x;
-    this->actor.posRot.pos.z += this->actor.velocity.z;
+    this->actor.world.pos.x += this->actor.velocity.x;
+    this->actor.world.pos.z += this->actor.velocity.z;
     Math_ApproachZeroF(&this->actor.velocity.x, 1.0f, 0.5f);
     Math_ApproachZeroF(&this->actor.velocity.z, 1.0f, 0.5f);
-    this->actor.posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
+    this->actor.world.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
     if (this->returnSuccess) {
         this->returnSuccess = false;
         BossGanondrof_SetupReturn(this, globalCtx);
@@ -761,7 +761,7 @@ void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx) {
     osSyncPrintf("DAMAGE   .................................\n");
     SkelAnime_Update(&this->skelAnime);
     this->actor.gravity = -0.2f;
-    if (this->actor.posRot.pos.y <= 5.0f) {
+    if (this->actor.world.pos.y <= 5.0f) {
         if (this->actionState == STUNNED_FALL) {
             this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_011BCC);
             Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_011BCC, -10.0f);
@@ -801,11 +801,11 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
 void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
     this->colliderBody.base.colType = COLTYPE_METAL;
     SkelAnime_Update(&this->skelAnime);
-    this->actor.posRot.pos.x += this->actor.velocity.x;
-    this->actor.posRot.pos.z += this->actor.velocity.z;
+    this->actor.world.pos.x += this->actor.velocity.x;
+    this->actor.world.pos.z += this->actor.velocity.z;
     Math_ApproachZeroF(&this->actor.velocity.x, 1.0f, 0.5f);
     Math_ApproachZeroF(&this->actor.velocity.z, 1.0f, 0.5f);
-    this->actor.posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
+    this->actor.world.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
     if (this->timers[0] == 0) {
         BossGanondrof_SetupNeutral(this, -5.0f);
         this->timers[0] = 10;
@@ -825,8 +825,8 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* playerx = &player->actor;
     Actor* thisx = &this->actor;
-    f32 dxCenter = thisx->posRot.pos.x - 14.0f;
-    f32 dzCenter = thisx->posRot.pos.z - -3315.0f;
+    f32 dxCenter = thisx->world.pos.x - 14.0f;
+    f32 dzCenter = thisx->world.pos.z - -3315.0f;
 
     this->colliderBody.base.colType = COLTYPE_METAL;
     SkelAnime_Update(&this->skelAnime);
@@ -840,8 +840,8 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(thisx, NA_SE_EN_FANTOM_ATTACK);
             }
 
-            thisx->posRot.pos.x += thisx->velocity.x;
-            thisx->posRot.pos.z += thisx->velocity.z;
+            thisx->world.pos.x += thisx->velocity.x;
+            thisx->world.pos.z += thisx->velocity.z;
             Math_ApproachZeroF(&thisx->velocity.x, 1.0f, 0.5f);
             Math_ApproachZeroF(&thisx->velocity.z, 1.0f, 0.5f);
             if (this->timers[0] == 0) {
@@ -852,7 +852,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
                 Animation_MorphToPlayOnce(&this->skelAnime, &gPhantomGanonAnim_011F44, 0.0f);
             }
 
-            Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
+            Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsPlayer, 5, 0x7D0);
             break;
         case CHARGE_START:
             if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
@@ -864,19 +864,19 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             if (this->timers[0] != 0) {
                 Vec3f vecToLink;
 
-                Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
-                vecToLink.x = playerx->posRot.pos.x - thisx->posRot.pos.x;
-                vecToLink.y = playerx->posRot.pos.y + 40.0f - thisx->posRot.pos.y;
-                vecToLink.z = playerx->posRot.pos.z - thisx->posRot.pos.z;
-                thisx->posRot.rot.y = thisx->shape.rot.y;
-                thisx->posRot.rot.x =
+                Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsPlayer, 5, 0x7D0);
+                vecToLink.x = playerx->world.pos.x - thisx->world.pos.x;
+                vecToLink.y = playerx->world.pos.y + 40.0f - thisx->world.pos.y;
+                vecToLink.z = playerx->world.pos.z - thisx->world.pos.z;
+                thisx->world.rot.y = thisx->shape.rot.y;
+                thisx->world.rot.x =
                     Math_FAtan2F(vecToLink.y, sqrtf(SQ(vecToLink.x) + SQ(vecToLink.z))) * (0x8000 / M_PI);
             }
 
             func_8002D908(thisx);
             func_8002D7EC(thisx);
             Math_ApproachF(&thisx->speedXZ, 10.0f, 1.0f, 0.5f);
-            if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistToLinkSq < SQ(100.0f))) {
+            if ((sqrtf(SQ(dxCenter) + SQ(dzCenter)) > 280.0f) || (thisx->xyzDistToPlayerSq < SQ(100.0f))) {
                 this->actionState = CHARGE_FINISH;
                 this->timers[0] = 20;
             }
@@ -884,9 +884,9 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
         case CHARGE_FINISH:
             thisx->gravity = 0.2f;
             Actor_MoveForward(thisx);
-            osSyncPrintf("YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", thisx->posRot.pos.y);
-            if (thisx->posRot.pos.y < 5.0f) {
-                thisx->posRot.pos.y = 5.0f;
+            osSyncPrintf("YP %f @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n", thisx->world.pos.y);
+            if (thisx->world.pos.y < 5.0f) {
+                thisx->world.pos.y = 5.0f;
                 thisx->velocity.y = 0.0f;
             }
 
@@ -898,7 +898,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 0) {
                 Math_ApproachZeroF(&thisx->speedXZ, 1.0f, 2.0f);
                 Math_ApproachZeroF(&thisx->velocity.y, 1.0f, 2.0f);
-                Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsLink, 5, 0x7D0);
+                Math_ApproachS(&thisx->shape.rot.y, thisx->yawTowardsPlayer, 5, 0x7D0);
                 if ((thisx->speedXZ <= 0.5f) && (fabsf(thisx->velocity.y) <= 0.1f)) {
                     BossGanondrof_SetupNeutral(this, -10.0f);
                     this->timers[0] = 30;
@@ -908,8 +908,8 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             break;
     }
 
-    if (thisx->posRot.pos.y > 50.0f) {
-        thisx->posRot.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
+    if (thisx->world.pos.y > 50.0f) {
+        thisx->world.pos.y += 2.0f * Math_SinS(this->varianceTimer * 1500);
     }
     {
         s16 i;
@@ -971,7 +971,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
 
-    osSyncPrintf("PYP %f\n", player->actor.groundY);
+    osSyncPrintf("PYP %f\n", player->actor.floorHeight);
     SkelAnime_Update(&this->skelAnime);
     this->deathSfxTimer++;
     if (((60 < this->deathSfxTimer) && (this->deathSfxTimer < 500)) ||
@@ -1034,8 +1034,8 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             }
             Math_ApproachS(&this->actor.shape.rot.y, this->varianceTimer * -100, 5, 0xBB8);
             Math_ApproachF(&this->cameraNextEye.z, this->targetPos.z + 60.0f, 0.02f, 0.5f);
-            Math_ApproachF(&this->actor.posRot.pos.y, 100.0f, 0.05f, 100.0f);
-            this->actor.posRot.pos.y += Math_SinS(this->varianceTimer * 1500);
+            Math_ApproachF(&this->actor.world.pos.y, 100.0f, 0.05f, 100.0f);
+            this->actor.world.pos.y += Math_SinS(this->varianceTimer * 1500);
             this->cameraNextAt.x = this->targetPos.x;
             this->cameraNextAt.y = this->targetPos.y - 10.0f;
             this->cameraNextAt.z = this->targetPos.z;
@@ -1045,8 +1045,8 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 this->timers[1] = 50;
                 this->cameraZoom = 300.0f;
                 this->cameraNextEye.y = 200.0f;
-                player->actor.posRot.pos.x = -186.0f;
-                player->actor.posRot.pos.z = -3315.0f;
+                player->actor.world.pos.x = -186.0f;
+                player->actor.world.pos.z = -3315.0f;
                 holdCamera = true;
                 bodyDecayLevel = 1;
             }
@@ -1062,7 +1062,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             }
 
             this->actor.shape.rot.y -= 0xC8;
-            this->actor.posRot.pos.y += Math_SinS(this->varianceTimer * 1500);
+            this->actor.world.pos.y += Math_SinS(this->varianceTimer * 1500);
             this->cameraAngle += 120.0f;
             camX = Math_SinS(this->cameraAngle) * (*this).cameraZoom;
             camZ = Math_CosS(this->cameraAngle) * (*this).cameraZoom;
@@ -1074,16 +1074,16 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             this->cameraAt.z = -3315.0f;
             Math_ApproachF(&this->cameraNextEye.y, 0.0f, 0.05f, 0.5f);
             Math_ApproachF(&this->cameraZoom, 170.0f, 0.05f, 1.0f);
-            Math_ApproachF(&this->actor.posRot.pos.x, 14.0f, 0.05f, 1.5f);
-            Math_ApproachF(&this->actor.posRot.pos.y, 50.0f, 0.05f, 1.0f);
-            Math_ApproachF(&this->actor.posRot.pos.z, -3315.0f, 0.05f, 1.5f);
+            Math_ApproachF(&this->actor.world.pos.x, 14.0f, 0.05f, 1.5f);
+            Math_ApproachF(&this->actor.world.pos.y, 50.0f, 0.05f, 1.0f);
+            Math_ApproachF(&this->actor.world.pos.z, -3315.0f, 0.05f, 1.5f);
             if (this->timers[0] == 0) {
                 this->deathState = DEATH_SCREAM;
                 this->timers[0] = 50;
                 Animation_MorphToLoop(&this->skelAnime, &gPhantomGanonAnim_00189C, -10.0f);
-                this->actor.posRot.pos.x = 14.0f;
-                this->actor.posRot.pos.y = 50.0f;
-                this->actor.posRot.pos.z = -3315.0f;
+                this->actor.world.pos.x = 14.0f;
+                this->actor.world.pos.y = 50.0f;
+                this->actor.world.pos.z = -3315.0f;
                 this->actor.shape.rot.y = 0;
                 this->bodyDecayIndex = 0;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAST);
@@ -1095,7 +1095,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         case DEATH_SCREAM:
             holdCamera = true;
             bodyDecayLevel = 2;
-            this->actor.posRot.pos.y = 50.0f;
+            this->actor.world.pos.y = 50.0f;
             this->cameraEye.x = 14.0f;
             this->cameraEye.y = 50.0f;
             this->cameraEye.z = -3265.0f;
@@ -1159,8 +1159,8 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
         s16 limbDecayIndex;
         s16 i;
 
-        sp88.x = this->actor.posRot.pos.x - this->actor.pos4.x;
-        sp88.z = this->actor.posRot.pos.z - this->actor.pos4.z;
+        sp88.x = this->actor.world.pos.x - this->actor.prevPos.x;
+        sp88.z = this->actor.world.pos.z - this->actor.prevPos.z;
         if (bodyDecayLevel < 10) {
             if (this->deathEnvTimer == 0) {
                 if (globalCtx->envCtx.unk_BF == 0) {
@@ -1358,7 +1358,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSpear.base);
     }
 
-    this->actor.posRot2.pos = this->targetPos;
+    this->actor.focus.pos = this->targetPos;
 
     sp70 = Math_SinS(-this->actor.shape.rot.y);
     sp74 = Math_CosS(-this->actor.shape.rot.y);
@@ -1379,7 +1379,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("F 1\n");
         for (j = 0; j < 7; j++) {
             osSyncPrintf("F 15\n");
-            EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &this->actor.posRot.pos, 45, FHGFLASH_SHOCK_PG);
+            EffectSsFhgFlash_SpawnShock(globalCtx, &this->actor, &this->actor.world.pos, 45, FHGFLASH_SHOCK_PG);
         }
         osSyncPrintf("F 2\n");
     }
@@ -1514,7 +1514,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateY((horse->turnRot * 3.1416f) / (f32)0x8000, 1);
     }
 
-    osSyncPrintf("YP %f\n", this->actor.posRot.pos.y);
+    osSyncPrintf("YP %f\n", this->actor.world.pos.y);
     func_80093D18(globalCtx->state.gfxCtx);
     if (this->invincibilityTimer & 4) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);

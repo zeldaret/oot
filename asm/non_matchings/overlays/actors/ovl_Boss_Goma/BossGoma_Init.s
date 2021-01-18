@@ -9,8 +9,8 @@ glabel BossGoma_Init
 /* 00250 80915C60 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 00254 80915C64 24A5B2A8 */  addiu   $a1, $a1, %lo(D_8091B2A8)  ## $a1 = 8091B2A8
-/* 00258 80915C68 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0025C 80915C6C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00258 80915C68 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0025C 80915C6C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00260 80915C70 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00264 80915C74 3C05457A */  lui     $a1, 0x457A                ## $a1 = 457A0000
 /* 00268 80915C78 0C00AC78 */  jal     ActorShape_Init
