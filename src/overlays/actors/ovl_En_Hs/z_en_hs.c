@@ -32,8 +32,22 @@ const ActorInit En_Hs_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
@@ -55,7 +69,7 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
     Animation_PlayLoop(&this->skelAnime, &D_060005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
 
     if (LINK_IS_CHILD) {
@@ -165,7 +179,8 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        Animation_Change(&this->skelAnime, &D_060005C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060005C0), 0, 8.0f);
+        Animation_Change(&this->skelAnime, &D_060005C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060005C0), ANIMMODE_LOOP,
+                         8.0f);
     }
 
     this->unk_2A8 |= 1;
@@ -177,7 +192,8 @@ void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8010B720(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
-        Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), 0, 8.0f);
+        Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), ANIMMODE_LOOP,
+                         8.0f);
     }
 
     if (this->unk_2AA > 0) {
@@ -198,7 +214,8 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
         if (func_8002F368(globalCtx) == 7) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
-            Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000304), 0, 8.0f);
+            Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000304),
+                             ANIMMODE_LOOP, 8.0f);
             this->unk_2AA = 40;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
@@ -218,7 +235,7 @@ void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHs* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(thisx, &this->collider);
+    Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);

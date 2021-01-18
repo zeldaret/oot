@@ -59,8 +59,22 @@ const ActorInit En_Fhg_Fire_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x06, { 0x00100700, 0x03, 0x20 }, { 0x0D900700, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK6,
+        { 0x00100700, 0x03, 0x20 },
+        { 0x0D900700, 0x00, 0x00 },
+        TOUCH_ON,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 30, 10, { 0, 0, 0 } },
 };
 
@@ -197,8 +211,7 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
                         sp7C.z = Rand_CenteredFloat(30.f);
                         sp70.y = -0.2f;
                         EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &sp7C, &sp70,
-                                                        (s16)(Rand_ZeroOne() * 100.0f) + 240,
-                                                        FHGFLASH_LIGHTBALL_GREEN);
+                                                        (s16)(Rand_ZeroOne() * 100.0f) + 240, FHGFLASH_LIGHTBALL_GREEN);
                     }
                 }
                 func_80033E88(&this->actor, globalCtx, 4, 10);
@@ -272,8 +285,8 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f pos;
 
-    if (this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    if (this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
     }
 
@@ -284,7 +297,7 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(&this->actor);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     if (player->invincibilityTimer == 0) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
@@ -333,7 +346,7 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, this->scale);
     if (this->burstScale > 3.0f) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         if (player->invincibilityTimer == 0) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
@@ -453,8 +466,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                 spD4.y = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
                 spD4.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
                 spBC.y = -0.08f;
-                EffectSsFhgFlash_SpawnLightBall(globalCtx, &spD4, &spC8, &spBC,
-                                                (s16)(Rand_ZeroOne() * 80.0f) + 150, lightBallColor1);
+                EffectSsFhgFlash_SpawnLightBall(globalCtx, &spD4, &spC8, &spBC, (s16)(Rand_ZeroOne() * 80.0f) + 150,
+                                                lightBallColor1);
             }
         }
         switch (this->fireMode) {
@@ -465,8 +478,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                      (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f))
                         ? true
                         : false;
-                if ((this->collider.base.acFlags & 2) || canBottleReflect1) {
-                    ColliderBody* hurtbox = this->collider.body.acHitItem;
+                if ((this->collider.base.acFlags & AC_HIT) || canBottleReflect1) {
+                    ColliderInfo* hurtbox = this->collider.info.acHitInfo;
                     s16 i2;
                     Vec3f spA8;
                     Vec3f sp9C = { 0.0f, -0.5f, 0.0f };
@@ -478,11 +491,10 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                         spA8.y = Rand_CenteredFloat(20.0f);
                         spA8.z = Rand_CenteredFloat(20.0f);
                         EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &spA8, &sp9C,
-                                                        (s16)(Rand_ZeroOne() * 25.0f) + 50,
-                                                        FHGFLASH_LIGHTBALL_GREEN);
+                                                        (s16)(Rand_ZeroOne() * 25.0f) + 50, FHGFLASH_LIGHTBALL_GREEN);
                     }
                     canBottleReflect2 = canBottleReflect1;
-                    if (!canBottleReflect2 && (hurtbox->toucher.flags & 0x00100000)) {
+                    if (!canBottleReflect2 && (hurtbox->toucher.dmgFlags & 0x00100000)) {
                         killMode = BALL_IMPACT;
                         Audio_PlaySoundGeneral(NA_SE_IT_SHIELD_REFLECT_MG, &player->actor.projectedPos, 4, &D_801333E0,
                                                &D_801333E0, &D_801333E8);
@@ -563,8 +575,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                         sp88.y = Rand_CenteredFloat(20.0f);
                         sp88.z = Rand_CenteredFloat(20.0f);
                         EffectSsFhgFlash_SpawnLightBall(globalCtx, &this->actor.posRot.pos, &sp88, &sp7C,
-                                                        (s16)(Rand_ZeroOne() * 40.0f) + 80,
-                                                        FHGFLASH_LIGHTBALL_GREEN);
+                                                        (s16)(Rand_ZeroOne() * 40.0f) + 80, FHGFLASH_LIGHTBALL_GREEN);
                     }
                     this->actor.posRot.rot.y = Math_FAtan2F(dxL, dzL) * (0x8000 / M_PI);
                     dxzL = sqrtf(SQ(dxL) + SQ(dzL));
@@ -610,7 +621,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                 }
                 return;
             } else {
-                Collider_CylinderUpdate(&this->actor, &this->collider);
+                Collider_UpdateCylinder(&this->actor, &this->collider);
                 osSyncPrintf("BEFORE setAC   %d\n", this->collider.base.shape);
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
                 osSyncPrintf("AFTER  setAC\n");

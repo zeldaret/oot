@@ -45,14 +45,28 @@ const ActorInit En_Syateki_Niw_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK5, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT5,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 10, 20, 4, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(unk_1F, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
     ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
 };
 
@@ -80,7 +94,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
         // Bomb chicken
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         Actor_SetScale(&this->actor, 0.01f);
     }
 
@@ -199,7 +213,8 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
 }
 
 void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     if (this->unk_29E != 0) {
         Actor_SetScale(&this->actor, this->unk_2F4);
     }
@@ -337,7 +352,8 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     this->unk_27C = 6000.0f;
     this->unk_288 = -10000.0f;
     this->unk_2B0.z = 6000.0f;
@@ -534,8 +550,8 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         switch (this->unk_29E) {
             case 0:
                 if (this->unk_29C == 0) {
@@ -652,7 +668,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (i != 0) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }

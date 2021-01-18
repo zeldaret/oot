@@ -81,16 +81,16 @@ typedef struct {
 } ShutterInfo;
 
 static ShutterInfo D_80998134[] = {
-    { 0x060067A0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06006910, 0x0404B0D0, 130, 12, 20, 15 },
-    { 0x060000C0, 0x060001F0, 240, 14, 70, 15 }, { 0x06000590, 0x06006460, 0, 110, 50, 15 },
-    { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },       { 0x0601EC20, NULL, 130, 12, 50, 15 },
-    { 0x06000100, 0x060001F0, 240, 14, 50, 15 }, { 0x060010C0, NULL, 130, 12, 50, 15 },
-    { 0x04049FE0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06010CB0, 0x0404B0D0, 130, 12, 20, 15 },
-    { 0x06011F20, 0x0404B0D0, 130, 12, 20, 15 }, { 0x060000C0, 0x0404B0D0, 130, 12, 20, 15 },
-    { 0x06005D90, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06007000, 0x0404B0D0, 130, 12, 20, 15 },
-    { 0x06002620, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06003890, 0x0404B0D0, 130, 12, 20, 15 },
-    { 0x06001D10, 0x0404B0D0, 130, 12, 20, 15 }, { 0x060010D0, 0x0404B0D0, 130, 12, 20, 15 },
-    { 0x060020D0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x060000C0, 0x0404B0D0, 130, 12, 20, 15 },
+    { 0x060067A0, 0x0404B0D0, 130, 12, 20, 15 },    { 0x06006910, 0x0404B0D0, 130, 12, 20, 15 },
+    { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },    { 0x06000590, 0x06006460, 0, 110, 50, 15 },
+    { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 }, { 0x0601EC20, NULL, 130, 12, 50, 15 },
+    { 0x06000100, 0x060001F0, 240, 14, 50, 15 },    { 0x060010C0, NULL, 130, 12, 50, 15 },
+    { 0x04049FE0, 0x0404B0D0, 130, 12, 20, 15 },    { 0x06010CB0, 0x0404B0D0, 130, 12, 20, 15 },
+    { 0x06011F20, 0x0404B0D0, 130, 12, 20, 15 },    { 0x060000C0, 0x0404B0D0, 130, 12, 20, 15 },
+    { 0x06005D90, 0x0404B0D0, 130, 12, 20, 15 },    { 0x06007000, 0x0404B0D0, 130, 12, 20, 15 },
+    { 0x06002620, 0x0404B0D0, 130, 12, 20, 15 },    { 0x06003890, 0x0404B0D0, 130, 12, 20, 15 },
+    { 0x06001D10, 0x0404B0D0, 130, 12, 20, 15 },    { 0x060010D0, 0x0404B0D0, 130, 12, 20, 15 },
+    { 0x060020D0, 0x0404B0D0, 130, 12, 20, 15 },    { 0x060000C0, 0x0404B0D0, 130, 12, 20, 15 },
 };
 
 static s8 D_80998224[] = {
@@ -271,7 +271,8 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             this->unk_16C = D_809980F0[this->unk_16B].index1;
-            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &gPhantomGanonBarsCol, &colHeader);
+            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &gPhantomGanonBarsCol,
+                                       &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
                 this->dyna.actor.velocity.y = 0.0f;

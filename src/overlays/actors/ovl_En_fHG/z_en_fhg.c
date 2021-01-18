@@ -297,23 +297,23 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
         case INTRO_TITLE:
             if (this->timers[1] == 1) {
                 Animation_Change(&this->skin.skelAnime, &gPhantomHorseAnim_00E8A0, 0.5f, 0.0f,
-                                     Animation_GetLastFrame(&gPhantomHorseAnim_00E8A0), 1, -3.0f);
+                                 Animation_GetLastFrame(&gPhantomHorseAnim_00E8A0), 1, -3.0f);
             }
             Math_ApproachF(&this->cameraEye.x, 194.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.x);
             Math_ApproachF(&this->cameraEye.y, -26.0f, 0.1f, this->cameraSpeedMod * this->cameraEyeVel.y);
             Math_ApproachF(&this->cameraEye.z, this->cameraPanZ + -3175.0f, 0.1f,
-                                 this->cameraSpeedMod * this->cameraEyeVel.z);
+                           this->cameraSpeedMod * this->cameraEyeVel.z);
             Math_ApproachF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
             Math_ApproachF(&this->cameraAt.x, this->actor.posRot.pos.x, 0.1f, this->cameraSpeedMod * 10.0f);
             Math_ApproachF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
-                                 this->cameraSpeedMod * 10.0f);
+                           this->cameraSpeedMod * 10.0f);
             Math_ApproachF(&this->cameraAt.z, this->actor.posRot.pos.z, 0.1f, this->cameraSpeedMod * 10.0f);
             Math_ApproachF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 2.0f);
             this->actor.posRot.pos.y += 2.0f * Math_SinS(this->gallopTimer * 0x5DC);
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 75) {
-                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(&gPhantomGanonTitleCardTex),
-                                       0xA0, 0xB4, 0x80, 0x28);
+                TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
+                                       SEGMENTED_TO_VIRTUAL(&gPhantomGanonTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
             }
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_RETREAT;
@@ -321,7 +321,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 this->timers[1] = 23;
                 this->cameraSpeedMod = 0.0f;
                 Animation_Change(&this->skin.skelAnime, &gPhantomHorseAnim_00C65C, 1.0f, 0.0f,
-                                     Animation_GetLastFrame(&gPhantomHorseAnim_00C65C), 3, -4.0f);
+                                 Animation_GetLastFrame(&gPhantomHorseAnim_00C65C), 3, -4.0f);
                 this->bossFhgSignal = FHG_SPUR;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
@@ -330,7 +330,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
         case INTRO_RETREAT:
             if (this->timers[1] == 1) {
                 Animation_Change(&this->skin.skelAnime, &gPhantomHorseAnim_00CB1C, 0.5f, 0.0f,
-                                     Animation_GetLastFrame(&gPhantomHorseAnim_00CB1C), 3, -3.0f);
+                                 Animation_GetLastFrame(&gPhantomHorseAnim_00CB1C), 3, -3.0f);
                 this->bossFhgSignal = FHG_FINISH;
             }
             if (this->timers[0] == 170) {
@@ -366,7 +366,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->cameraEye.z, this->cameraPanZ + -3215.0f, 0.1f, this->cameraSpeedMod * 1.5f);
             Math_ApproachF(&this->cameraPanZ, -100.0f, 0.1f, 1.0f);
             Math_ApproachF(&this->cameraAt.y, (this->actor.posRot.pos.y + 70.0f) - 20.0f, 0.1f,
-                                 this->cameraSpeedMod * 10.0f);
+                           this->cameraSpeedMod * 10.0f);
             if (this->timers[1] == 0) {
                 camera = Gameplay_GetCamera(globalCtx, 0);
                 camera->eye = this->cameraEye;
@@ -523,7 +523,7 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
         this->actionFunc = EnfHG_Damage;
         this->spawnedWarp = false;
         Animation_Change(&this->skin.skelAnime, &gPhantomHorseAnim_00CB1C, -1.0f, 0.0f,
-                             Animation_GetLastFrame(&gPhantomHorseAnim_00CB1C), 2, -5.0f);
+                         Animation_GetLastFrame(&gPhantomHorseAnim_00CB1C), 2, -5.0f);
         this->timers[0] = 10;
         this->bossFhgSignal = FHG_RESET;
         this->damageSpeedMod = 1.0f;
@@ -577,11 +577,9 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
     } else {
         Math_ApproachF(&this->damageSpeedMod, 1.0f, 1.0f, 0.1f);
     }
-    Math_ApproachF(&this->actor.posRot.pos.x, this->inPaintingPos.x, 1.0f,
-                         this->damageSpeedMod * this->inPaintingVelX);
+    Math_ApproachF(&this->actor.posRot.pos.x, this->inPaintingPos.x, 1.0f, this->damageSpeedMod * this->inPaintingVelX);
     Math_ApproachF(&this->actor.posRot.pos.y, 60.0f, 0.1f, 1.0f);
-    Math_ApproachF(&this->actor.posRot.pos.z, this->inPaintingPos.z, 1.0f,
-                         this->damageSpeedMod * this->inPaintingVelZ);
+    Math_ApproachF(&this->actor.posRot.pos.z, this->inPaintingPos.z, 1.0f, this->damageSpeedMod * this->inPaintingVelZ);
     dx = this->actor.posRot.pos.x - this->inPaintingPos.x;
     dz = this->actor.posRot.pos.z - this->inPaintingPos.z;
     dxz2 = sqrtf(SQ(dx) + SQ(dz));
@@ -695,11 +693,10 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2439);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    POLY_OPA_DISP =
-        ((bossFhg->invincibilityTimer & 4) && (bossFhg->flyMode == FHG_FLY_PAINTING))
-            ? Gfx_SetFog(POLY_OPA_DISP, 0xFF, 50, 0, 0, 900, 1099)
-            : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
-                         (s32)this->warpFogUnk1 + 995, (s32)this->warpFogUnk2 + 1000);
+    POLY_OPA_DISP = ((bossFhg->invincibilityTimer & 4) && (bossFhg->flyMode == FHG_FLY_PAINTING))
+                        ? Gfx_SetFog(POLY_OPA_DISP, 0xFF, 50, 0, 0, 900, 1099)
+                        : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
+                                     (s32)this->warpFogUnk1 + 995, (s32)this->warpFogUnk2 + 1000);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);

@@ -78,9 +78,22 @@ extern AnimationHeader D_06005614; // crossed legs, looking behind to the right
 extern Gfx D_06013158[];
 extern UNK_TYPE D_0600D8E8;
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
@@ -138,14 +151,14 @@ void EnNb_SetupCollider(Actor* thisx, GlobalContext* globalCtx) {
     EnNb* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, thisx, &sCylinderInit);
 }
 
 void EnNb_UpdateCollider(EnNb* this, GlobalContext* globalCtx) {
     s32 pad[4];
     ColliderCylinder* collider = &this->collider;
 
-    Collider_CylinderUpdate(&this->actor, collider);
+    Collider_UpdateCylinder(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
 }
 
@@ -378,7 +391,8 @@ void EnNb_SetupArmRaise(EnNb* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[1];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 3) {
-            Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, 0.0f);
+            Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
+                             0.0f);
             this->action = NB_CHAMBER_RAISE_ARM;
         }
     }
@@ -388,7 +402,8 @@ void EnNb_SetupRaisedArmTransition(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_06002B4C;
 
     if (animFinished) {
-        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, 0.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
+                         0.0f);
         this->action = NB_CHAMBER_RAISE_ARM_TRANSITION;
     }
 }
@@ -615,14 +630,15 @@ void EnNb_SetRaisedArmCaptureAnim(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_06001350;
 
     if (animFinished) {
-        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, 0.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
+                         0.0f);
     }
 }
 
 void EnNb_SetupLookAroundInKidnap(EnNb* this) {
     AnimationHeader* animation = &D_06001E7C;
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP, -8.0f);
     this->action = NB_KIDNAPPED_LOOK_AROUND;
     this->drawMode = NB_DRAW_DEFAULT;
 }
@@ -630,7 +646,7 @@ void EnNb_SetupLookAroundInKidnap(EnNb* this) {
 void EnNb_SetupKidnap(EnNb* this) {
     AnimationHeader* animation = &D_06001104;
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 2, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, -8.0f);
     this->action = NB_PORTAL_FALLTHROUGH;
     this->drawMode = NB_DRAW_DEFAULT;
 }
@@ -754,7 +770,7 @@ void func_80AB26DC(EnNb* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(animation);
 
     EnNb_SetupCsPosRot(this, globalCtx, 1);
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = NB_ACTION_14;
     this->drawMode = NB_DRAW_KNEEL;
     this->actor.shape.unk_14 = 0xFF;
@@ -764,7 +780,7 @@ void EnNb_SetupKneel(EnNb* this) {
     AnimationHeader* animation = &D_06008BD0;
     f32 frames = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
     this->action = NB_KNEEL;
     this->drawMode = NB_DRAW_KNEEL;
     this->actor.shape.unk_14 = 0xFF;
@@ -774,7 +790,8 @@ void EnNb_CheckIfKneeling(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_060046A8;
 
     if (animFinished) {
-        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, 0.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
+                         0.0f);
         this->drawMode = NB_DRAW_KNEEL;
     }
 }
@@ -783,7 +800,7 @@ void EnNb_SetupLookRight(EnNb* this) {
     AnimationHeader* animation = &D_06003954;
     f32 frames = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
     this->action = NB_LOOK_RIGHT;
     this->drawMode = NB_DRAW_DEFAULT;
     this->actor.shape.unk_14 = 0xFF;
@@ -793,7 +810,8 @@ void EnNb_CheckIfLookingRight(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_06004030;
 
     if (animFinished) {
-        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, 0.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
+                         0.0f);
         this->drawMode = NB_DRAW_LOOK_DIRECTION;
     }
 }
@@ -802,7 +820,7 @@ void EnNb_SetupLookLeft(EnNb* this) {
     AnimationHeader* animation = &D_06002DBC;
     f32 frames = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
     this->action = NB_LOOK_LEFT;
     this->drawMode = NB_DRAW_LOOK_DIRECTION;
     this->actor.shape.unk_14 = 0xFF;
@@ -812,7 +830,8 @@ void EnNb_CheckIfLookLeft(EnNb* this, s32 animFinished) {
     AnimationHeader* animation = &D_060035A8;
 
     if (animFinished) {
-        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), 0, 0.0f);
+        Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_LOOP,
+                         0.0f);
     }
 }
 
@@ -827,7 +846,7 @@ void EnNb_SetupRun(EnNb* this) {
     AnimationHeader* animation = &D_06006320;
     f32 frames = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, 2, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
     this->action = NB_RUN;
     this->drawMode = NB_DRAW_LOOK_DIRECTION;
     this->actor.shape.unk_14 = 0xFF;

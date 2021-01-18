@@ -68,31 +68,73 @@ static AnimationHeader* sAnimations[] = {
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 40, 100, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 60, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[] = {
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 11, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
-    ARRAY_COUNT(sJntSphItemsInit),
-    sJntSphItemsInit,
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, 0xFE };
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 // Unused
 static EnHorseNormalUnkStruct1 D_80A6D428[] = {
@@ -165,10 +207,10 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit1);
     Collider_InitJntSph(globalCtx, &this->headCollider);
-    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderItems);
+    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
     Collider_InitCylinder(globalCtx, &this->cloneCollider);
     Collider_SetCylinder(globalCtx, &this->cloneCollider, &this->actor, &sCylinderInit2);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
     if (globalCtx->sceneNum == SCENE_SPOT20) {
         if (this->actor.posRot.rot.z == 0 || gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);
@@ -250,7 +292,7 @@ void func_80A6B91C(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->waypoint = 0;
     this->actor.speedXZ = 7.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
@@ -274,7 +316,7 @@ void EnHorseNormal_FollowPath(EnHorseNormal* this, GlobalContext* globalCtx) {
     this->skin.skelAnime.playSpeed = func_80A6B30C(this);
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
         func_80A6BCEC(this);
     }
 }
@@ -306,7 +348,7 @@ void func_80A6BC48(EnHorseNormal* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80A6BCEC(EnHorseNormal* this) {
@@ -363,9 +405,9 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 8.0f;
                 phi_t0 = 6;
             }
-            if (Rand_ZeroOne() < 0.1f ||
-                (this->unk_21E == 0 && (this->actor.bgCheckFlags & 8 || this->bodyCollider.base.maskA & 2 ||
-                                        this->headCollider.base.maskA & 2))) {
+            if (Rand_ZeroOne() < 0.1f || (this->unk_21E == 0 && ((this->actor.bgCheckFlags & 8) ||
+                                                                 (this->bodyCollider.base.ocFlags1 & OC1_HIT) ||
+                                                                 (this->headCollider.base.ocFlags1 & OC1_HIT)))) {
                 this->unk_21E += (Rand_ZeroOne() * 30.0f) - 15.0f;
                 if (this->unk_21E > 50) {
                     this->unk_21E = 50;
@@ -403,7 +445,7 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
                 func_80A6BCEC(this);
             }
             Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                             Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -3.0f);
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -3.0f);
         } else {
             switch (D_80A6D510[this->animationIdx]) {
                 case 0:
@@ -434,10 +476,10 @@ void EnHorseNormal_Wander(EnHorseNormal* this, GlobalContext* globalCtx) {
             if (phi_t0 != this->animationIdx) {
                 this->animationIdx = phi_t0;
                 Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, -3.0f);
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -3.0f);
             } else {
                 Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
             }
         }
     }
@@ -451,7 +493,7 @@ void func_80A6C4CC(EnHorseNormal* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
@@ -469,7 +511,7 @@ void EnHorseNormal_Wait(EnHorseNormal* this, GlobalContext* globalCtx) {
         }
 
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
     }
 }
 
@@ -482,7 +524,7 @@ void func_80A6C6B0(EnHorseNormal* this) {
     this->actor.speedXZ = 0.0f;
     this->unk_218 = 0.0f;
     Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                     Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx) {
@@ -504,7 +546,7 @@ void EnHorseNormal_WaitClone(EnHorseNormal* this, GlobalContext* globalCtx) {
         }
 
         Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A6B30C(this), 0.0f,
-                         Animation_GetLastFrame(sAnimations[this->animationIdx]), 2, 0.0f);
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 
         this->unk_1E4 &= ~1;
         this->unk_1E4 &= ~2;
@@ -546,12 +588,12 @@ void EnHorseNormal_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 70.0f;
     this->unk_204 = this->actor.projectedPos;
     this->unk_204.y += 120.0f;
-    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     if (this->actor.speedXZ == 0.0f) {
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     } else {
-        this->actor.colChkInfo.mass = 0xFE;
+        this->actor.colChkInfo.mass = MASS_HEAVY;
     }
 }
 
@@ -562,15 +604,15 @@ void func_80A6CAFC(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
-        sp4C.x = this->headCollider.list[i].dim.modelSphere.center.x;
-        sp4C.y = this->headCollider.list[i].dim.modelSphere.center.y;
-        sp4C.z = this->headCollider.list[i].dim.modelSphere.center.z;
-        func_800A6408(skin, this->headCollider.list[i].dim.joint, &sp4C, &sp40);
-        this->headCollider.list[i].dim.worldSphere.center.x = sp40.x;
-        this->headCollider.list[i].dim.worldSphere.center.y = sp40.y;
-        this->headCollider.list[i].dim.worldSphere.center.z = sp40.z;
-        this->headCollider.list[i].dim.worldSphere.radius =
-            this->headCollider.list[i].dim.modelSphere.radius * this->headCollider.list[i].dim.scale;
+        sp4C.x = this->headCollider.elements[i].dim.modelSphere.center.x;
+        sp4C.y = this->headCollider.elements[i].dim.modelSphere.center.y;
+        sp4C.z = this->headCollider.elements[i].dim.modelSphere.center.z;
+        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &sp4C, &sp40);
+        this->headCollider.elements[i].dim.worldSphere.center.x = sp40.x;
+        this->headCollider.elements[i].dim.worldSphere.center.y = sp40.y;
+        this->headCollider.elements[i].dim.worldSphere.center.z = sp40.z;
+        this->headCollider.elements[i].dim.worldSphere.radius =
+            this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);

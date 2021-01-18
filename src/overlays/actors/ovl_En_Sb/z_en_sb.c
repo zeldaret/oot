@@ -38,15 +38,51 @@ const ActorInit En_Sb_InitVars = {
     (ActorFunc)EnSb_Draw,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
 static DamageTable sDamageTable[] = {
-    0x00, 0x00, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x12, 0xD1, 0xD2, 0xD4, 0x24, 0xF2, 0xF2, 0xE4, 0xF2,
-    0xF2, 0x24, 0x00, 0x00, 0x00, 0x00, 0xD1, 0xD4, 0xD2, 0xD2, 0xD8, 0xD4, 0x00, 0x00, 0x00, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0xF),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xF),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
+    /* Hookshot      */ DMG_ENTRY(2, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xD),
+    /* Master sword  */ DMG_ENTRY(2, 0xD),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xD),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
+    /* Ice arrow     */ DMG_ENTRY(2, 0xF),
+    /* Light arrow   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(4, 0xE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0xF),
+    /* Fire magic    */ DMG_ENTRY(4, 0x2),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0xD),
+    /* Giant spin    */ DMG_ENTRY(4, 0xD),
+    /* Master spin   */ DMG_ENTRY(2, 0xD),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xD),
+    /* Giant jump    */ DMG_ENTRY(8, 0xD),
+    /* Master jump   */ DMG_ENTRY(4, 0xD),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -85,7 +121,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.health = 2;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002BF0, &D_06000194, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->isDead = false;
     this->actor.colChkInfo.mass = 0;
     Actor_SetScale(&this->actor, 0.006f);
@@ -115,20 +151,20 @@ void EnSb_SpawnBubbles(GlobalContext* globalCtx, EnSb* this) {
 }
 
 void EnSb_SetupWaitClosed(EnSb* this) {
-    Animation_Change(&this->skelAnime, &D_0600004C, 1.0f, 0, Animation_GetLastFrame(&D_0600004C), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600004C, 1.0f, 0, Animation_GetLastFrame(&D_0600004C), ANIMMODE_ONCE, 0.0f);
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     this->actionFunc = EnSb_WaitClosed;
 }
 
 void EnSb_SetupOpen(EnSb* this) {
-    Animation_Change(&this->skelAnime, &D_06000194, 1.0f, 0, Animation_GetLastFrame(&D_06000194), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000194, 1.0f, 0, Animation_GetLastFrame(&D_06000194), ANIMMODE_ONCE, 0.0f);
     this->behavior = SHELLBLADE_OPEN;
     this->actionFunc = EnSb_Open;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
 
 void EnSb_SetupWaitOpen(EnSb* this) {
-    Animation_Change(&this->skelAnime, &D_06002C8C, 1.0f, 0, Animation_GetLastFrame(&D_06002C8C), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06002C8C, 1.0f, 0, Animation_GetLastFrame(&D_06002C8C), ANIMMODE_LOOP, 0.0f);
     this->behavior = SHELLBLADE_WAIT_OPEN;
     this->actionFunc = EnSb_WaitOpen;
 }
@@ -137,14 +173,14 @@ void EnSb_SetupLunge(EnSb* this) {
     f32 frameCount = Animation_GetLastFrame(&D_06000124);
     f32 playbackSpeed = this->actor.yDistToWater > 0.0f ? 1.0f : 0.0f;
 
-    Animation_Change(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frameCount, 2, 0);
+    Animation_Change(&this->skelAnime, &D_06000124, playbackSpeed, 0.0f, frameCount, ANIMMODE_ONCE, 0);
     this->behavior = SHELLBLADE_LUNGE;
     this->actionFunc = EnSb_Lunge;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHELL_MOUTH);
 }
 
 void EnSb_SetupBounce(EnSb* this) {
-    Animation_Change(&this->skelAnime, &D_060000B4, 1.0f, 0, Animation_GetLastFrame(&D_060000B4), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060000B4, 1.0f, 0, Animation_GetLastFrame(&D_060000B4), ANIMMODE_ONCE, 0.0f);
     this->behavior = SHELLBLADE_BOUNCE;
     this->actionFunc = EnSb_Bounce;
 }
@@ -153,7 +189,7 @@ void EnSb_SetupCooldown(EnSb* this, s32 changeSpeed) {
     f32 frameCount = Animation_GetLastFrame(&D_0600004C);
 
     if (this->behavior != SHELLBLADE_WAIT_CLOSED) {
-        Animation_Change(&this->skelAnime, &D_0600004C, 1.0f, 0, frameCount, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_0600004C, 1.0f, 0, frameCount, ANIMMODE_ONCE, 0.0f);
     }
     this->behavior = SHELLBLADE_WAIT_CLOSED;
     if (changeSpeed) {
@@ -340,23 +376,23 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
     u8 hitByWindArrow;
 
     // hit box collided, switch to cool down
-    if ((this->collider.base.atFlags & 2)) {
+    if ((this->collider.base.atFlags & AT_HIT)) {
         EnSb_SetupCooldown(this, 1);
         return 1;
     }
 
     // hurt box collided, take damage if appropriate
-    if ((this->collider.base.acFlags & 2)) {
+    if ((this->collider.base.acFlags & AC_HIT)) {
         hitByWindArrow = false;
         tookDamage = false;
-        this->collider.base.acFlags &= ~2;
+        this->collider.base.acFlags &= ~AC_HIT;
 
         switch (this->actor.colChkInfo.damageEffect) {
             case 14: // wind arrow
                 hitByWindArrow = true;
             case 15: // explosions, arrow, hammer, ice arrow, light arrow, spirit arrow, shadow arrow
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.info.bumper.hitPos.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -374,7 +410,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 1:  // hookshot/longshot
             case 13: // all sword damage
                 if (EnSb_IsVulnerable(this)) {
-                    hitY = this->collider.body.bumper.unk_06.y - this->actor.posRot.pos.y;
+                    hitY = this->collider.info.bumper.hitPos.y - this->actor.posRot.pos.y;
                     yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
@@ -398,10 +434,10 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
 
         // if player attack didn't do damage, play recoil sound and spawn sparks
         if (!tookDamage) {
-            hitPoint.x = this->collider.body.bumper.unk_06.x;
-            hitPoint.y = this->collider.body.bumper.unk_06.y;
-            hitPoint.z = this->collider.body.bumper.unk_06.z;
-            func_80062DF4(globalCtx, &hitPoint);
+            hitPoint.x = this->collider.info.bumper.hitPos.x;
+            hitPoint.y = this->collider.info.bumper.hitPos.y;
+            hitPoint.z = this->collider.info.bumper.hitPos.z;
+            CollisionCheck_SpawnShieldParticlesMetal2(globalCtx, &hitPoint);
         }
     }
 
@@ -433,7 +469,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
         func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 5);
         EnSb_UpdateDamage(this, globalCtx);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

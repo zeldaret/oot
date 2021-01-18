@@ -69,8 +69,22 @@ const ActorInit En_Heishi2_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 33, 40, 0, { 0, 0, 0 } },
 };
 
@@ -80,7 +94,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
     this->initParams = this->actor.params & 0xFF;
-    this->actor.colChkInfo.mass = 255;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if ((this->initParams == 6) || (this->initParams == 9)) {
         this->actor.draw = func_80A54C6C;
@@ -167,7 +181,7 @@ void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A53278;
 }
 
@@ -266,7 +280,7 @@ void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53638;
 }
 
@@ -302,7 +316,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -338,7 +352,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A5399C;
 }
 
@@ -432,7 +446,7 @@ void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53D0C;
 }
 
@@ -469,7 +483,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -595,7 +609,7 @@ void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->audioFlag = 0;
     this->actionFunc = func_80A543A0;
 }
@@ -746,7 +760,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A549E8;
 }
 
@@ -793,8 +807,8 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
             break;
         default:
             func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
-            Collider_CylinderUpdate(&this->actor, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             break;
     }
 }

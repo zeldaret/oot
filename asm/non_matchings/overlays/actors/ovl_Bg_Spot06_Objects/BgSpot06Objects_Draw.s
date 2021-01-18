@@ -37,7 +37,7 @@ glabel BgSpot06Objects_Draw
 /* 01034 808AF7B4 24040001 */  addiu   $a0, $zero, 0x0001         ## $a0 = 00000001
 /* 01038 808AF7B8 55CF000D */  bnel    $t6, $t7, .L808AF7F0       
 /* 0103C 808AF7BC 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 01040 808AF7C0 0C018A29 */  jal     func_800628A4              
+/* 01040 808AF7C0 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 01044 808AF7C4 24C50170 */  addiu   $a1, $a2, 0x0170           ## $a1 = 00000170
 /* 01048 808AF7C8 10000009 */  beq     $zero, $zero, .L808AF7F0   
 /* 0104C 808AF7CC 8FBF0014 */  lw      $ra, 0x0014($sp)           

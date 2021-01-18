@@ -39,8 +39,22 @@ const ActorInit En_Cow_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
@@ -138,7 +152,7 @@ void EnCow_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_278 = ((u32)(Rand_ZeroFloat(1000.0f)) & 0xFFFF) + 40.0f;
             break;
     }
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_276 = 0;
 }
@@ -158,7 +172,7 @@ void func_809DF494(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Rand_ZeroFloat(500.0f) + 40.0f;
         Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&D_060001CC), 2, 1.0f);
+                         Animation_GetLastFrame(&D_060001CC), ANIMMODE_ONCE, 1.0f);
     }
 
     if ((this->actor.xzDistToLink < 150.0f) && (!(this->unk_276 & 2))) {
@@ -274,7 +288,7 @@ void func_809DFA84(EnCow* this, GlobalContext* globalCtx) {
     } else {
         this->unk_278 = Rand_ZeroFloat(200.0f) + 40.0f;
         Animation_Change(&this->skelAnime, &D_06004348, 1.0f, this->skelAnime.curFrame,
-                         Animation_GetLastFrame(&D_06004348), 2, 1.0f);
+                         Animation_GetLastFrame(&D_06004348), ANIMMODE_ONCE, 1.0f);
     }
 
     if ((this->actor.xzDistToLink < 150.0f) &&
@@ -301,9 +315,11 @@ void EnCow_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_060001CC) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_COW_CRY);
-            Animation_Change(&this->skelAnime, &D_06004264, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004264), 2, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004264, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004264),
+                             ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060001CC), 0, 1.0f);
+            Animation_Change(&this->skelAnime, &D_060001CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060001CC),
+                             ANIMMODE_LOOP, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);
@@ -338,9 +354,11 @@ void func_809DFE98(Actor* thisx, GlobalContext* globalCtx) {
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->skelAnime.animation == &D_06004348) {
-            Animation_Change(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004E98), 2, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004E98, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004E98),
+                             ANIMMODE_ONCE, 1.0f);
         } else {
-            Animation_Change(&this->skelAnime, &D_06004348, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004348), 0, 1.0f);
+            Animation_Change(&this->skelAnime, &D_06004348, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004348),
+                             ANIMMODE_LOOP, 1.0f);
         }
     }
     this->actionFunc(this, globalCtx);

@@ -46,7 +46,7 @@ glabel EnEiyer_Init
 /* 0009C 80A0003C 3C0680A0 */  lui     $a2, %hi(D_80A0199C)       ## $a2 = 80A00000
 /* 000A0 80A00040 24C6199C */  addiu   $a2, $a2, %lo(D_80A0199C)  ## $a2 = 80A0199C
 /* 000A4 80A00044 24A519A4 */  addiu   $a1, $a1, %lo(D_80A019A4)  ## $a1 = 80A019A4
-/* 000A8 80A00048 0C0187B5 */  jal     func_80061ED4              
+/* 000A8 80A00048 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 000AC 80A0004C 26240098 */  addiu   $a0, $s1, 0x0098           ## $a0 = 00000098
 /* 000B0 80A00050 8622001C */  lh      $v0, 0x001C($s1)           ## 0000001C
 /* 000B4 80A00054 28410003 */  slti    $at, $v0, 0x0003           

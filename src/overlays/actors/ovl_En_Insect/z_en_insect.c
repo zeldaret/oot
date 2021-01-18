@@ -45,15 +45,29 @@ const ActorInit En_Insect_InitVars = {
     (ActorFunc)EnInsect_Draw,
 };
 
-static ColliderJntSphItemInit sColliderItemInit[1] = {
+static ColliderJntSphElementInit sColliderItemInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 0, { { 0, 0, 0 }, 5 }, 100 },
     },
 };
 
 static ColliderJntSphInit sColliderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x19, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_1,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
     sColliderItemInit,
 };
@@ -94,7 +108,7 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7BF58(EnInsect* this) {
-    Animation_Change(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, 1, 0.0f);
+    Animation_Change(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f);
 }
 
 /**
@@ -779,6 +793,6 @@ void EnInsect_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, NULL);
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
     D_80A7DEB4 = 0;
 }

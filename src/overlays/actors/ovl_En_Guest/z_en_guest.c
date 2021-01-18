@@ -32,8 +32,14 @@ const ActorInit En_Guest_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 60, 0, { 0, 0, 0 } },
 };
@@ -86,13 +92,14 @@ void EnGuest_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->osAnimeBankIndex].segment);
-        Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060042AC), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060042AC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060042AC), ANIMMODE_LOOP,
+                         0.0f);
 
         this->actor.draw = EnGuest_Draw;
         this->actor.update = func_80A505CC;
 
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+        Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
         Actor_SetHeight(&this->actor, 60.0f);
 
@@ -169,7 +176,7 @@ void func_80A505CC(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     Actor_SetHeight(&this->actor, 60.0f);
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 

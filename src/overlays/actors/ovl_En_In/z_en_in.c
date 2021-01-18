@@ -38,13 +38,27 @@ const ActorInit En_In_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
+    0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
 static struct_D_80AA1678 sAnimationInfo[] = {
@@ -311,8 +325,8 @@ void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A796EC(EnIn* this, s32 arg1) {
     Animation_Change(&this->skelAnime, sAnimationInfo[arg1].animation, 1.0f, 0.0f,
-                         Animation_GetLastFrame(sAnimationInfo[arg1].animation), sAnimationInfo[arg1].unk_08,
-                         sAnimationInfo[arg1].transitionRate);
+                     Animation_GetLastFrame(sAnimationInfo[arg1].animation), sAnimationInfo[arg1].unk_08,
+                     sAnimationInfo[arg1].transitionRate);
 }
 
 s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
@@ -320,9 +334,9 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
         return 0;
     }
     this->unk_1E6 = 1;
-    this->collider.base.maskA &= ~1;
+    this->collider.base.ocFlags1 &= ~OC1_ON;
     Animation_Change(&this->skelAnime, D_80A7B918[this->unk_1E6], 1.0f, 0.0f,
-                         Animation_GetLastFrame(D_80A7B918[this->unk_1E6]), 2, 0.0f);
+                     Animation_GetLastFrame(D_80A7B918[this->unk_1E6]), 2, 0.0f);
     this->actionFunc = func_80A7A304;
     return 1;
 }
@@ -481,11 +495,10 @@ void func_80A79FB0(EnIn* this, GlobalContext* globalCtx) {
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->ingoObjBankIndex) || this->actor.params <= 0) {
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06013B88, NULL, this->jointTable,
-                           this->morphTable, 20);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06013B88, NULL, this->jointTable, this->morphTable, 20);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+        CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
         if (func_80A7975C(this, globalCtx)) {
             gSaveContext.eventInf[0] &= ~0x8000;
             return;
@@ -600,7 +613,7 @@ void func_80A7A304(EnIn* this, GlobalContext* globalCtx) {
             }
         }
         Animation_Change(&this->skelAnime, D_80A7B918[this->unk_1E6], 1.0f, 0.0f,
-                             Animation_GetLastFrame(D_80A7B918[this->unk_1E6]), 2, -10.0f);
+                         Animation_GetLastFrame(D_80A7B918[this->unk_1E6]), 2, -10.0f);
     }
 }
 
@@ -883,7 +896,7 @@ void EnIn_Update(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     collider = &this->collider;
-    Collider_CylinderUpdate(&this->actor, collider);
+    Collider_UpdateCylinder(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &collider->base);
     if (this->actionFunc != func_80A7A304) {
         SkelAnime_Update(&this->skelAnime);

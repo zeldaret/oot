@@ -21,7 +21,7 @@ typedef struct EnFirefly {
     /* 0x0266 */ Vec3s morphTable[28];
     /* 0x0310 */ f32 maxAltitude;
     /* 0x0314 */ ColliderJntSph collider;
-    /* 0x0344 */ ColliderJntSphItem colliderItems[1];
+    /* 0x0344 */ ColliderJntSphElement colliderItems[1];
 } EnFirefly; // size = 0x0374
 
 typedef enum {

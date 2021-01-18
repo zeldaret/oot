@@ -46,8 +46,22 @@ static s16 D_80ABB3B4[] = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
@@ -102,7 +116,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
                 this->unk_275 = 1;
             case 9:
                 frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 0:
             case 1:
@@ -117,7 +131,7 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 24:
             case 29:
                 frames = Animation_GetLastFrame(&D_06009F94);
-                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 7:
             case 20:
@@ -127,11 +141,11 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 27:
             case 28:
                 frames = Animation_GetLastFrame(&D_06000718);
-                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 100:
                 frames = Animation_GetLastFrame(&D_0600A630);
-                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
+                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 this->unk_276 = 0;
                 break;
         }
@@ -161,10 +175,10 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
                     frames = Animation_GetLastFrame(&D_0600A630);
-                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
                     frames = Animation_GetLastFrame(&D_060007D0);
-                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -174,7 +188,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 return;
             case 1:
                 frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
@@ -519,7 +533,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
             func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
-            Collider_CylinderUpdate(thisx, &this->collider);
+            Collider_UpdateCylinder(thisx, &this->collider);
             if (1) {}
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }

@@ -135,7 +135,7 @@ glabel L80863848
 /* 04204 80863854 24E74510 */  addiu   $a3, $a3, %lo(D_80864510)  ## $a3 = 80864510
 /* 04208 80863858 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 0420C 8086385C 8E0501A8 */  lw      $a1, 0x01A8($s0)           ## 000001A8
-/* 04210 80863860 0C02950A */  jal     SkelAnime_CopyVec3sTrue
+/* 04210 80863860 0C02950A */  jal     SkelAnime_CopyFrameTableTrue
 /* 04214 80863864 8E0604C8 */  lw      $a2, 0x04C8($s0)           ## 000004C8
 /* 04218 80863868 10000023 */  beq     $zero, $zero, .L808638F8
 /* 0421C 8086386C 92180114 */  lbu     $t8, 0x0114($s0)           ## 00000114
@@ -167,13 +167,13 @@ glabel L80863884
 /* 04278 808638C8 8E0701A8 */  lw      $a3, 0x01A8($s0)           ## 000001A8
 /* 0427C 808638CC 00A03025 */  or      $a2, $a1, $zero            ## $a2 = 00000000
 /* 04280 808638D0 46086281 */  sub.s   $f10, $f12, $f8
-/* 04284 808638D4 0C028B9C */  jal     SkelAnime_InterpVec3s
+/* 04284 808638D4 0C028B9C */  jal     SkelAnime_InterpFrameTable
 /* 04288 808638D8 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 0428C 808638DC 3C078086 */  lui     $a3, %hi(D_80864510)       ## $a3 = 80860000
 /* 04290 808638E0 24E74510 */  addiu   $a3, $a3, %lo(D_80864510)  ## $a3 = 80864510
 /* 04294 808638E4 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 04298 808638E8 8E0501A8 */  lw      $a1, 0x01A8($s0)           ## 000001A8
-/* 0429C 808638EC 0C02950A */  jal     SkelAnime_CopyVec3sTrue
+/* 0429C 808638EC 0C02950A */  jal     SkelAnime_CopyFrameTableTrue
 /* 042A0 808638F0 8E0604C8 */  lw      $a2, 0x04C8($s0)           ## 000004C8
 glabel L808638F4
 .L808638F4:
@@ -207,7 +207,7 @@ glabel L808638F4
 /* 04300 80863950 26050810 */  addiu   $a1, $s0, 0x0810           ## $a1 = 00000810
 .L80863954:
 /* 04304 80863954 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 04308 80863958 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 04308 80863958 0C0189B7 */  jal     Collider_UpdateCylinder
 
 /* 0430C 8086395C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 04310 80863960 8E080028 */  lw      $t0, 0x0028($s0)           ## 00000028
@@ -232,7 +232,7 @@ glabel L808638F4
 /* 04358 808639A8 00812821 */  addu    $a1, $a0, $at
 /* 0435C 808639AC AFA50038 */  sw      $a1, 0x0038($sp)
 /* 04360 808639B0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 04364 808639B4 8FA60034 */  lw      $a2, 0x0034($sp)
 /* 04368 808639B8 920C07C8 */  lbu     $t4, 0x07C8($s0)           ## 000007C8
 /* 0436C 808639BC 2981000A */  slti    $at, $t4, 0x000A

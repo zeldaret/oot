@@ -108,7 +108,7 @@ glabel EnDaikuKakariko_Init
 /* 00228 809E4548 3C06809E */  lui     $a2, %hi(D_809E54DC)       ## $a2 = 809E0000
 /* 0022C 809E454C 24C654DC */  addiu   $a2, $a2, %lo(D_809E54DC)  ## $a2 = 809E54DC
 /* 00230 809E4550 24A554E8 */  addiu   $a1, $a1, %lo(D_809E54E8)  ## $a1 = 809E54E8
-/* 00234 809E4554 0C0187BF */  jal     func_80061EFC
+/* 00234 809E4554 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 00238 809E4558 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 0023C 809E455C 3C03809E */  lui     $v1, %hi(D_809E5508)       ## $v1 = 809E0000
 /* 00240 809E4560 24635508 */  addiu   $v1, $v1, %lo(D_809E5508)  ## $v1 = 809E5508

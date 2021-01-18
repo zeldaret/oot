@@ -3382,8 +3382,8 @@ s32 Camera_KeepOn3(Camera* camera) {
         Camera_Vec3fVecSphGeoAdd(&lineChkPointB, &anim->atTarget, &atToEyeAdj);
         if (!(keep3->flags & 0x80)) {
             while (i < angleCnt) {
-                if (!func_800626B0(camera->globalCtx, &camera->globalCtx->colChkCtx, &anim->atTarget, &lineChkPointB,
-                                   &colChkActors, 2) &&
+                if (!CollisionCheck_LineOCCheck(camera->globalCtx, &camera->globalCtx->colChkCtx, &anim->atTarget,
+                                                &lineChkPointB, &colChkActors, 2) &&
                     !Camera_BGCheck(camera, &anim->atTarget, &lineChkPointB)) {
                     break;
                 }
@@ -3666,8 +3666,8 @@ s32 Camera_KeepOn4(Camera* camera) {
             if (!(keep4->unk_1C & 1)) {
                 angleCnt = ARRAY_COUNT(D_8011D3B0);
                 for (i = 0; i < angleCnt; i++) {
-                    if (!func_800626B0(camera->globalCtx, &camera->globalCtx->colChkCtx, &D_8015BD50, &D_8015BD70, spCC,
-                                       sp9C) &&
+                    if (!CollisionCheck_LineOCCheck(camera->globalCtx, &camera->globalCtx->colChkCtx, &D_8015BD50,
+                                                    &D_8015BD70, spCC, sp9C) &&
                         !Camera_BGCheck(camera, &D_8015BD50, &D_8015BD70)) {
                         break;
                     }
@@ -7160,26 +7160,24 @@ s32 Camera_CheckWater(Camera* camera) {
         if (camera->unk_150 > 0) {
             camera->unk_150--;
             camera->unk_152 |= 8;
-            return;
         } else if (camera->globalCtx->sceneNum == 0x49) {
             camera->unk_152 |= 0x10;
-            return;
         } else {
             camera->unk_152 |= 2;
-            return;
         }
-    }
-    if (camera->unk_14C & 0x100) {
-        camera->unk_14C &= ~0x100;
-        osSyncPrintf("kankyo changed water off, sound off\n");
-        func_800706A0(camera->globalCtx);
-        if (*quakeId != 0) {
-            Quake_RemoveFromIdx(*quakeId);
+    } else {
+        if (camera->unk_14C & 0x100) {
+            camera->unk_14C &= ~0x100;
+            osSyncPrintf("kankyo changed water off, sound off\n");
+            func_800706A0(camera->globalCtx);
+            if (*quakeId != 0) {
+                Quake_RemoveFromIdx(*quakeId);
+            }
+            camera->unk_150 = 0;
+            camera->unk_152 = 0;
         }
-        camera->unk_150 = 0;
-        camera->unk_152 = 0;
+        func_800F6828(0);
     }
-    func_800F6828(0);
     // @BUG: doesn't always return a value, but sometimes does.
 }
 

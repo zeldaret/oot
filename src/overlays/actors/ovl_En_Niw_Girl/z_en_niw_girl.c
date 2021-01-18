@@ -33,8 +33,22 @@ const ActorInit En_Niw_Girl_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 10, 30, 0, { 0, 0, 0 } },
 };
 
@@ -74,7 +88,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" VT_RST, this->path);
         osSyncPrintf("\n\n");
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = EnNiwGirl_Talk;
     } else {
         osSyncPrintf("\n\n");
@@ -90,7 +104,7 @@ void EnNiwGirl_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnNiwGirl_Jump(EnNiwGirl* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06000378);
-    Animation_Change(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000378, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
     this->actor.flags &= ~1;
     this->actionFunc = func_80AB9210;
 }
@@ -130,7 +144,8 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
 }
 
 void EnNiwGirl_Talk(EnNiwGirl* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06009C78), 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06009C78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06009C78), ANIMMODE_LOOP,
+                     -10.0f);
     this->actor.flags |= 1;
     this->actor.textId = 0x7000;
     if ((gSaveContext.eventChkInf[8] & 1) && (this->unk_27A == 0)) {
@@ -217,8 +232,8 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 100.0f, 100.0f, 200.0f, 0x1C);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 s32 EnNiwGirlOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,

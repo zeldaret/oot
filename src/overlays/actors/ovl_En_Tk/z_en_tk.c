@@ -158,19 +158,31 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 /** z_en_tk_eff.c ends here probably **/
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 30, 52, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
 
     this->actionCountdown = Rand_S16Offset(60, 60);
     this->actor.speedXZ = 0.0f;
@@ -179,7 +191,7 @@ void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001FA8;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP, -10.0f);
 
     this->actionCountdown = Rand_S16Offset(240, 240);
 }
@@ -187,7 +199,7 @@ void EnTk_WalkAnim(EnTk* this, GlobalContext* globalCtx) {
 void EnTk_DigAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06001144;
 
-    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001144), 0, -10.0f);
+    Animation_Change(&this->skelAnime, anim, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001144), ANIMMODE_LOOP, -10.0f);
 
     if (EnTk_CheckNextSpot(this, globalCtx) >= 0) {
         this->validDigHere = 1;
@@ -488,12 +500,13 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.0f);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, NULL, this->jointTable, this->morphTable, 18);
-    Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP,
+                     0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
@@ -659,8 +672,8 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnTk* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     SkelAnime_Update(&this->skelAnime);
 

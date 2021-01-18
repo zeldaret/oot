@@ -23,7 +23,7 @@ glabel func_80B8EF80
 /* 00554 80B8EFD4 018D2821 */  addu    $a1, $t4, $t5              
 /* 00558 80B8EFD8 00A12821 */  addu    $a1, $a1, $at              
 /* 0055C 80B8EFDC 0C01DF97 */  jal     Math_Vec3s_ToVec3f
-              ## Vec3f_CopyVec3s
+              ## Vec3f_CopyFrameTable
 /* 00560 80B8EFE0 248401D8 */  addiu   $a0, $a0, 0x01D8           ## $a0 = 000001D8
 /* 00564 80B8EFE4 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00568 80B8EFE8 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

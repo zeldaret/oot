@@ -43,14 +43,58 @@ const ActorInit En_Rd_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 20, 70, 0, { 0, 0, 0 } },
 };
 
 static DamageTable sDamageTable = {
-    0x00, 0xF2, 0x00, 0x00, 0x00, 0x00, 0xF2, 0x10, 0xF1, 0xF2, 0xF4, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0xE4, 0x60, 0xD3, 0x00, 0x00, 0xF1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(2, 0xF),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(0, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xF),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0xE),
+    /* Ice magic     */ DMG_ENTRY(0, 0x6),
+    /* Light magic   */ DMG_ENTRY(3, 0xD),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0xF),
+    /* Giant spin    */ DMG_ENTRY(4, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
+    /* Giant jump    */ DMG_ENTRY(8, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -101,7 +145,7 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_310 = this->unk_30E = 0;
     thisx->posRot2.pos = thisx->posRot.pos;
     thisx->posRot2.pos.y += 50.0f;
-    thisx->colChkInfo.mass = 0xFE;
+    thisx->colChkInfo.mass = MASS_HEAVY;
     thisx->colChkInfo.health = 8;
     this->unk_314 = this->unk_31D = 0xFF;
     this->unk_312 = (thisx->params & 0xFF00) >> 8;
@@ -231,7 +275,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2970(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_060087D0, 0, 0, Animation_GetLastFrame(&D_060087D0), 0, -6.0f);
+    Animation_Change(&this->skelAnime, &D_060087D0, 0, 0, Animation_GetLastFrame(&D_060087D0), ANIMMODE_LOOP, -6.0f);
     this->unk_31B = 0xB;
     this->unk_30C = 6;
     this->actor.shape.rot.x = -0x4000;
@@ -266,7 +310,8 @@ void func_80AE2A10(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2B90(EnRd* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, Animation_GetLastFrame(&D_0600EFDC), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600EFDC, 1.0f, 4.0f, Animation_GetLastFrame(&D_0600EFDC),
+                     ANIMMODE_LOOP_INTERP, -4.0f);
     this->actor.speedXZ = 0.4f;
     this->unk_31B = 4;
     EnRd_SetupAction(this, func_80AE2C1C);
@@ -333,7 +378,8 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE2F50(EnRd* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), ANIMMODE_LOOP_INTERP,
+                     -4.0f);
     this->unk_31B = 2;
     EnRd_SetupAction(this, func_80AE2FD0);
 }
@@ -381,7 +427,8 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE31DC(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_0600EFDC, 0.5f, 0, Animation_GetLastFrame(&D_0600EFDC), ANIMMODE_LOOP_INTERP,
+                     -4.0f);
     this->unk_31B = 3;
     this->unk_305 = 1;
     EnRd_SetupAction(this, func_80AE3260);
@@ -454,8 +501,8 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->unk_310, 0, 1, 0x5DC, 0);
         case 2:
             if (!(player->stateFlags2 & 0x80)) {
-                Animation_Change(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, Animation_GetLastFrame(&D_060046F8), 3,
-                                 0.0f);
+                Animation_Change(&this->skelAnime, &D_060046F8, 0.5f, 0.0f, Animation_GetLastFrame(&D_060046F8),
+                                 ANIMMODE_ONCE_INTERP, 0.0f);
                 this->unk_304++;
                 this->unk_31B = 4;
                 return;
@@ -505,7 +552,8 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE37BC(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, Animation_GetLastFrame(&D_06004F94), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06004F94, 0.0f, 0.0f, Animation_GetLastFrame(&D_06004F94), ANIMMODE_ONCE,
+                     0.0f);
     this->unk_31B = 7;
     EnRd_SetupAction(this, func_80AE3834);
 }
@@ -545,7 +593,8 @@ void func_80AE3978(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE39D4(EnRd* this) {
-    Animation_Change(&this->skelAnime, &D_06008040, -1.0f, Animation_GetLastFrame(&D_06008040), 0.0f, 2, -4.0f);
+    Animation_Change(&this->skelAnime, &D_06008040, -1.0f, Animation_GetLastFrame(&D_06008040), 0.0f, ANIMMODE_ONCE,
+                     -4.0f);
     this->unk_31B = 6;
     EnRd_SetupAction(this, func_80AE3A54);
 }
@@ -708,12 +757,12 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         this->unk_31C = this->actor.colChkInfo.damageEffect;
 
         if (this->unk_31B != 11) {
-            func_80035650(&this->actor, &this->collider.body, 1);
+            func_80035650(&this->actor, &this->collider.info, 1);
             if (player->unk_844 != 0) {
                 this->unk_31D = player->unk_845;
             }
@@ -749,10 +798,10 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
 }
 
 void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     EnRd* this = THIS;
-    CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
     Player* player = PLAYER;
-    ColliderCylinder* collider = &this->collider;
+    s32 pad2;
 
     func_80AE4114(this, globalCtx);
 
@@ -783,10 +832,10 @@ void EnRd_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 50.0f;
 
     if ((this->actor.colChkInfo.health > 0) && (this->unk_31B != 8)) {
-        Collider_CylinderUpdate(&this->actor, collider);
-        CollisionCheck_SetOC(globalCtx, colChkCtx, &collider->base);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if ((this->unk_31B != 9) || ((player->unk_844 != 0) && (player->unk_845 != this->unk_31D))) {
-            CollisionCheck_SetAC(globalCtx, colChkCtx, &collider->base);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
 }

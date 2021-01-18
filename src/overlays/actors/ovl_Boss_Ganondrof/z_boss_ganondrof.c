@@ -110,14 +110,42 @@ const ActorInit Boss_Ganondrof_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInitBody = {
-    { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFE, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x10 },
+        { 0xFFCFFFFE, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 30, 90, -50, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInitSpear = {
-    { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x30 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 30, -20, { 0, 0, 0 } },
 };
 
@@ -182,13 +210,17 @@ static u8 sDecayMaskTotal[16 * 16] = {
 
 // These appear to be Phantom Ganon's body textures, but I don't know which is which.
 static UNK_PTR D_80915028_8x8[] = {
-    &gPhantomGanonUnknown_00A800, &gPhantomGanonUnknown_00AE80, &gPhantomGanonUnknown_00AF00, &gPhantomGanonUnknown_00C180, &gPhantomGanonUnknown_00C400,
+    &gPhantomGanonUnknown_00A800, &gPhantomGanonUnknown_00AE80, &gPhantomGanonUnknown_00AF00,
+    &gPhantomGanonUnknown_00C180, &gPhantomGanonUnknown_00C400,
 };
 static UNK_PTR D_8091503C_16x8[] = {
-    &gPhantomGanonUnknown_00B980, &gPhantomGanonUnknown_00C480, &gPhantomGanonUnknown_00BC80, &gPhantomGanonUnknown_00BD80, &gPhantomGanonUnknown_00C080,
+    &gPhantomGanonUnknown_00B980, &gPhantomGanonUnknown_00C480, &gPhantomGanonUnknown_00BC80,
+    &gPhantomGanonUnknown_00BD80, &gPhantomGanonUnknown_00C080,
 };
 static UNK_PTR D_80915050_16x16[] = {
-    &gPhantomGanonUnknown_00C200, &gPhantomGanonUnknown_00A000, &gPhantomGanonUnknown_00A200, &gPhantomGanonUnknown_00A400, &gPhantomGanonUnknown_00A600, &gPhantomGanonUnknown_00A880, &gPhantomGanonUnknown_00B780, &gPhantomGanonUnknown_00BA80, &gPhantomGanonUnknown_00BE80,
+    &gPhantomGanonUnknown_00C200, &gPhantomGanonUnknown_00A000, &gPhantomGanonUnknown_00A200,
+    &gPhantomGanonUnknown_00A400, &gPhantomGanonUnknown_00A600, &gPhantomGanonUnknown_00A880,
+    &gPhantomGanonUnknown_00B780, &gPhantomGanonUnknown_00BA80, &gPhantomGanonUnknown_00BE80,
 };
 static UNK_PTR D_80915074_16x32[] = { &gPhantomGanonUnknown_00AA80, &gPhantomGanonUnknown_00AF80 };
 static UNK_PTR D_8091507C_16x16[] = { &gPhantomGanonUnknown_0040B0, &gPhantomGanonUnknown_003FB0 };
@@ -356,7 +388,7 @@ void BossGanondrof_Intro(BossGanondrof* this, GlobalContext* globalCtx) {
 
     if (horse->bossFhgSignal == FHG_LIGHTNING) {
         Animation_Change(&this->skelAnime, &gPhantomGanonAnim_001144, 0.5f, 0.0f,
-                             Animation_GetLastFrame(&gPhantomGanonAnim_001144), 3, 0.0f);
+                         Animation_GetLastFrame(&gPhantomGanonAnim_001144), 3, 0.0f);
         this->timers[1] = 40;
     }
 
@@ -767,7 +799,7 @@ void BossGanondrof_SetupBlock(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_Block(BossGanondrof* this, GlobalContext* globalCtx) {
-    this->colliderBody.base.type = 9;
+    this->colliderBody.base.colType = COLTYPE_METAL;
     SkelAnime_Update(&this->skelAnime);
     this->actor.posRot.pos.x += this->actor.velocity.x;
     this->actor.posRot.pos.z += this->actor.velocity.z;
@@ -796,7 +828,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
     f32 dxCenter = thisx->posRot.pos.x - 14.0f;
     f32 dzCenter = thisx->posRot.pos.z - -3315.0f;
 
-    this->colliderBody.base.type = 9;
+    this->colliderBody.base.colType = COLTYPE_METAL;
     SkelAnime_Update(&this->skelAnime);
     switch (this->actionState) {
         case CHARGE_WINDUP:
@@ -985,7 +1017,8 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 case DEATH_SPASM:
                     if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
                         this->endFrame = Animation_GetLastFrame(&gPhantomGanonAnim_0108D8);
-                        Animation_Change(&this->skelAnime, &gPhantomGanonAnim_0108D8, 0.5f, 0.0f, this->endFrame, 3, 0.0f);
+                        Animation_Change(&this->skelAnime, &gPhantomGanonAnim_0108D8, 0.5f, 0.0f, this->endFrame, 3,
+                                         0.0f);
                         this->actionState = DEATH_LIMP;
                     }
                     break;
@@ -1161,8 +1194,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                     sp70.z = (-3315.0f - sp94.z) * 0.001f;
                 }
 
-                EffectSsKFire_Spawn(globalCtx, &sp94, &sp88, &sp7C, (s16)Rand_ZeroFloat(20.0f) + 15,
-                                    bodyDecayLevel);
+                EffectSsKFire_Spawn(globalCtx, &sp94, &sp88, &sp7C, (s16)Rand_ZeroFloat(20.0f) + 15, bodyDecayLevel);
                 if ((Rand_ZeroOne() < 0.5f) || (bodyDecayLevel == 3)) {
                     EffectSsHahen_Spawn(globalCtx, &sp94, &sp88, &sp70, 0, (s16)Rand_ZeroFloat(4.0f) + 7,
                                         HAHEN_OBJECT_DEFAULT, 10, 0);
@@ -1192,17 +1224,17 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
     if (this->deathCamera != 0) {
         if (!holdCamera) {
             Math_ApproachF(&this->cameraEye.x, this->cameraNextEye.x, this->cameraEyeMaxVel.x,
-                                 this->cameraEyeVel.x * this->cameraSpeedMod);
+                           this->cameraEyeVel.x * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraEye.y, this->cameraNextEye.y, this->cameraEyeMaxVel.y,
-                                 this->cameraEyeVel.y * this->cameraSpeedMod);
+                           this->cameraEyeVel.y * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraEye.z, this->cameraNextEye.z, this->cameraEyeMaxVel.z,
-                                 this->cameraEyeVel.z * this->cameraSpeedMod);
+                           this->cameraEyeVel.z * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraAt.x, this->cameraNextAt.x, this->cameraAtMaxVel.x,
-                                 this->cameraAtVel.x * this->cameraSpeedMod);
+                           this->cameraAtVel.x * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraAt.y, this->cameraNextAt.y, this->cameraAtMaxVel.y,
-                                 this->cameraAtVel.y * this->cameraSpeedMod);
+                           this->cameraAtVel.y * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraAt.z, this->cameraNextAt.z, this->cameraAtMaxVel.z,
-                                 this->cameraAtVel.z * this->cameraSpeedMod);
+                           this->cameraAtVel.z * this->cameraSpeedMod);
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, this->cameraAccel);
         }
 
@@ -1211,36 +1243,35 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx) {
-    s32 acFlagCheck;
+    s32 acHit;
     EnfHG* horse = (EnfHG*)this->actor.child;
-    ColliderBody* hurtbox;
+    ColliderInfo* hurtbox;
 
     if (this->invincibilityTimer != 0) {
         this->invincibilityTimer--;
         this->returnCount = 0;
-        this->colliderBody.base.acFlags &= ~2;
+        this->colliderBody.base.acFlags &= ~AC_HIT;
     } else {
-        acFlagCheck = this->colliderBody.base.acFlags & 2;
-        if ((acFlagCheck && ((s8)this->actor.colChkInfo.health > 0)) || (this->returnCount != 0)) {
-            if (acFlagCheck) {
-                this->colliderBody.base.acFlags &= ~2;
-                hurtbox = this->colliderBody.body.acHitItem;
+        acHit = this->colliderBody.base.acFlags & AC_HIT;
+        if ((acHit && ((s8)this->actor.colChkInfo.health > 0)) || (this->returnCount != 0)) {
+            if (acHit) {
+                this->colliderBody.base.acFlags &= ~AC_HIT;
+                hurtbox = this->colliderBody.info.acHitInfo;
             }
             if (this->flyMode != FHG_FLY_PAINTING) {
-                if (acFlagCheck && (this->actionFunc != BossGanondrof_Stunned) &&
-                    (hurtbox->toucher.flags & 0x0001F8A4)) {
+                if (acHit && (this->actionFunc != BossGanondrof_Stunned) && (hurtbox->toucher.dmgFlags & 0x0001F8A4)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
                     osSyncPrintf("hit != 0 \n");
                 } else if (this->actionFunc != BossGanondrof_Charge) {
                     if (this->returnCount == 0) {
                         u8 dmg;
                         u8 canKill = false;
-                        s32 flags = hurtbox->toucher.flags;
+                        s32 dmgFlags = hurtbox->toucher.dmgFlags;
 
-                        if (flags & 0x80) {
+                        if (dmgFlags & 0x80) {
                             return;
                         }
-                        dmg = func_800635D0(flags);
+                        dmg = CollisionCheck_GetSwordDamage(dmgFlags);
                         (dmg == 0) ? (dmg = 2) : (canKill = true);
                         if (((s8)this->actor.colChkInfo.health > 2) || canKill) {
                             this->actor.colChkInfo.health -= dmg;
@@ -1262,7 +1293,7 @@ void BossGanondrof_CollisionCheck(BossGanondrof* this, GlobalContext* globalCtx)
                 } else {
                     Audio_PlayActorSound2(&this->actor, NA_SE_PL_WALK_GROUND - SFX_FLAG);
                 }
-            } else if (acFlagCheck && (hurtbox->toucher.flags & 0x1F8A4)) {
+            } else if (acHit && (hurtbox->toucher.dmgFlags & 0x1F8A4)) {
                 this->invincibilityTimer = 10;
                 this->actor.colChkInfo.health -= 2;
                 horse->hitTimer = 20;
@@ -1289,7 +1320,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("MOVE START %d\n", this->actor.params);
     this->actor.flags &= ~0x400;
-    this->colliderBody.base.type = 3;
+    this->colliderBody.base.colType = COLTYPE_HIT3;
     if (this->killActor) {
         Actor_Kill(&this->actor);
         return;
@@ -1300,7 +1331,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    for (i = 0; i < 5; i++) {
+    for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
         DECR(this->timers[i]);
     }
     DECR(this->unkTimer1);
@@ -1488,9 +1519,8 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->invincibilityTimer & 4) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);
     } else {
-        POLY_OPA_DISP =
-            Gfx_SetFog(POLY_OPA_DISP, (u32)horse->warpFogR, (u32)horse->warpFogG, (u32)horse->warpFogB, 0,
-                       (s32)horse->warpFogUnk1 + 995, (s32)horse->warpFogUnk2 + 1000);
+        POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, (u32)horse->warpFogR, (u32)horse->warpFogG, (u32)horse->warpFogB, 0,
+                                   (s32)horse->warpFogUnk1 + 995, (s32)horse->warpFogUnk2 + 1000);
     }
 
     osSyncPrintf("DRAW 11\n");
@@ -1504,7 +1534,7 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, BossGanondrof_OverrideLimbDraw,
-                   BossGanondrof_PostLimbDraw, this);
+                      BossGanondrof_PostLimbDraw, this);
     osSyncPrintf("DRAW 22\n");
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganondrof.c", 3814);

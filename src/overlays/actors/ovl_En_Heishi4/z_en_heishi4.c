@@ -37,8 +37,22 @@ const ActorInit En_Heishi4_InitVars = {
 static u32 sFaceReactionSets[] = { 6, 7 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 33, 40, 0, { 0, 0, 0 } },
 };
 
@@ -53,7 +67,7 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(thisx, 0.01f);
     this->type = thisx->params & 0xFF;
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->pos = thisx->posRot.pos;
     thisx->unk_1F = 6;
     if (this->type == HEISHI4_AT_MARKET_DYING) {
@@ -101,7 +115,7 @@ void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80A56328(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A563BC;
 }
 
@@ -156,7 +170,7 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56544(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
@@ -211,7 +225,7 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
             f32 frames = Animation_GetLastFrame(&D_0600C444);
-            Animation_Change(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+            Animation_Change(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
             this->unk_284 = 1;
@@ -246,7 +260,7 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_0600C6C8);
 
-    Animation_Change(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A56994;
 }
 
@@ -266,7 +280,7 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
     f32 frames = Animation_GetLastFrame(&D_0600C374);
     this->unk_288 = frames;
-    Animation_Change(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;
 }
 
@@ -350,8 +364,8 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(thisx);
     func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,

@@ -718,7 +718,7 @@ glabel func_80952858
 /* 03F88 80953248 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 03F8C 8095324C 2605028C */  addiu   $a1, $s0, 0x028C           ## $a1 = 0000028C
 /* 03F90 80953250 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 03F94 80953254 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 03F94 80953254 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 03F98 80953258 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03F9C 8095325C 8FA4005C */  lw      $a0, 0x005C($sp)           
@@ -727,7 +727,7 @@ glabel func_80952858
 /* 03FA8 80953268 00812821 */  addu    $a1, $a0, $at              
 /* 03FAC 8095326C AFA50038 */  sw      $a1, 0x0038($sp)           
 /* 03FB0 80953270 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 03FB4 80953274 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 03FB8 80953278 820B0196 */  lb      $t3, 0x0196($s0)           ## 00000196
 /* 03FBC 8095327C 8FA4005C */  lw      $a0, 0x005C($sp)           

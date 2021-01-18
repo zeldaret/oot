@@ -12,7 +12,7 @@ typedef struct EnBubble {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnBubbleActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph colliderSphere;
-    /* 0x0170 */ ColliderJntSphItem colliderSphereItems[2];
+    /* 0x0170 */ ColliderJntSphElement colliderSphereItems[2];
     /* 0x01F0 */ Vec3f unk_1F0; // set but never used
     /* 0x01FC */ Vec3f unk_1FC; // randomly generated, set but never used
     /* 0x0208 */ s16 unk_208;   // set to 8 when about to pop
