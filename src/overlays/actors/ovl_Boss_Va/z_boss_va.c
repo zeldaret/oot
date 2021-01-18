@@ -3983,8 +3983,8 @@ void BossVa_SpawnZapperCharge(GlobalContext* globalCtx, BossVaEffect* ptr, BossV
 
 void BossVa_DrawDoor(GlobalContext* globalCtx, s16 scale) {
     static Gfx* doorPieceDispList[] = {
-        &gBarinadeDL_01A3E8, &gBarinadeDL_01AEE8, &gBarinadeDL_01B9E8, &gBarinadeDL_01C4E8,
-        &gBarinadeDL_01CFE8, &gBarinadeDL_01DAE8, &gBarinadeDL_01E5E8, &gBarinadeDL_01F0E8,
+        gBarinadeDL_01A3E8, gBarinadeDL_01AEE8, gBarinadeDL_01B9E8, gBarinadeDL_01C4E8,
+        gBarinadeDL_01CFE8, gBarinadeDL_01DAE8, gBarinadeDL_01E5E8, gBarinadeDL_01F0E8,
     };
     static s16 doorPieceLength[] = { 836, 900, 836, 1016, 800, 1016, 836, 900 };
 
