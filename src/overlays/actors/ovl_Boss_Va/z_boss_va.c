@@ -60,11 +60,11 @@ typedef enum BossVaSparkMode {
     SPARK_LINK
 } BossVaSparkMode;
 
-typedef enum BossVaBloodMode { BLOOD_DROPLET, BLOOD_SPLATTER, BLOOD_SPOT } BossVaBloodMode;
+typedef enum BossVaBloodMode { /* 0 */ BLOOD_DROPLET, /* 1 */ BLOOD_SPLATTER, /* 2 */ BLOOD_SPOT } BossVaBloodMode;
 
-typedef enum BossVaTumorMode { TUMOR_UNUSED, TUMOR_BODY, TUMOR_ARM } BossVaTumorMode;
+typedef enum BossVaTumorMode { /* 0 */ TUMOR_UNUSED, /* 1 */ TUMOR_BODY, /* 2 */ TUMOR_ARM } BossVaTumorMode;
 
-typedef enum BossVaGoreMode { GORE_PERMANENT, GORE_FLOOR, GORE_FADING } BossVaGoreMode;
+typedef enum BossVaGoreMode { /* 0 */ GORE_PERMANENT, /* 1 */ GORE_FLOOR, /* 2 */ GORE_FADING } BossVaGoreMode;
 
 typedef enum BossVaCutscene {
     INTRO_UNUSED_START = -5,
