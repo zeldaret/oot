@@ -22,7 +22,7 @@ void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_D_ELEVATOR,
     sizeof(ObjElevator),
@@ -90,11 +90,11 @@ void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2)) {
-        sub = thisx->posRot.pos.y - thisx->initPosRot.pos.y;
+        sub = thisx->world.pos.y - thisx->home.pos.y;
         if (fabsf(sub) < 0.1f) {
-            this->unk_168 = thisx->initPosRot.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
+            this->unk_168 = thisx->home.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
         } else {
-            this->unk_168 = thisx->initPosRot.pos.y;
+            this->unk_168 = thisx->home.pos.y;
         }
         func_80B92D20(this);
     }
@@ -107,7 +107,7 @@ void func_80B92D20(ObjElevator* this) {
 void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (fabsf(Math_SmoothStepToF(&thisx->posRot.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
+    if (fabsf(Math_SmoothStepToF(&thisx->world.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {

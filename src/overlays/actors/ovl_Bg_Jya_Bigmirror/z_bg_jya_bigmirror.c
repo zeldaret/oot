@@ -26,7 +26,7 @@ static u8 sIsSpawned = false;
 
 const ActorInit Bg_Jya_Bigmirror_InitVars = {
     ACTOR_BG_JYA_BIGMIRROR,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBigmirror),
@@ -229,11 +229,11 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 435);
     func_80093D84(globalCtx->state.gfxCtx);
-    lift = Actor_Find(&globalCtx->actorCtx, ACTOR_BG_JYA_LIFT, ACTORTYPE_BG);
+    lift = Actor_Find(&globalCtx->actorCtx, ACTOR_BG_JYA_LIFT, ACTORCAT_BG);
     if (lift != NULL) {
-        this->liftHeight = lift->posRot.pos.y;
+        this->liftHeight = lift->world.pos.y;
     }
-    func_800D1694(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z,
+    func_800D1694(this->actor.world.pos.x, this->actor.world.pos.y + 40.0f, this->actor.world.pos.z,
                   &this->actor.shape.rot);
     // Second float seems to be either this or 1613/1280 + 0.13: both numerators relate to the lift height
     Matrix_Scale(0.1f, (this->liftHeight * -(1.0f / 1280.0f)) + (973.0f / 1280.0f + 0.63f) /* 1.3901563f */, 0.1f,
@@ -244,7 +244,7 @@ void BgJyaBigmirror_DrawLightBeam(Actor* thisx, GlobalContext* globalCtx) {
 
     if (lift != NULL) {
         if (1) {}
-        func_800D1694(lift->posRot.pos.x, lift->posRot.pos.y, lift->posRot.pos.z, &D_80893F4C);
+        func_800D1694(lift->world.pos.x, lift->world.pos.y, lift->world.pos.z, &D_80893F4C);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_bigmirror.c", 467),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

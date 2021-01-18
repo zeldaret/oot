@@ -20,7 +20,7 @@ extern Gfx D_0500A5E8[];
 
 const ActorInit Obj_Hamishi_InitVars = {
     ACTOR_OBJ_HAMISHI,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjHamishi),
@@ -80,19 +80,17 @@ void ObjHamishi_Shake(ObjHamishi* this) {
         Math_StepToF(&this->shakePosSize, 0.0f, 0.15f);
         Math_StepToF(&this->shakeRotSize, 0.0f, 40.0f);
 
-        this->actor.posRot.pos.x =
-            this->actor.initPosRot.pos.x + (Math_SinS(this->shakePosPhase * 4) * this->shakePosSize);
-        this->actor.posRot.pos.z =
-            this->actor.initPosRot.pos.z + (Math_CosS(this->shakePosPhase * 7) * this->shakePosSize);
+        this->actor.world.pos.x = this->actor.home.pos.x + (Math_SinS(this->shakePosPhase * 4) * this->shakePosSize);
+        this->actor.world.pos.z = this->actor.home.pos.z + (Math_CosS(this->shakePosPhase * 7) * this->shakePosSize);
         this->actor.shape.rot.x =
-            this->actor.initPosRot.rot.x + (s16)(Math_SinS(this->shakeRotPhase * 4) * this->shakeRotSize);
+            this->actor.home.rot.x + (s16)(Math_SinS(this->shakeRotPhase * 4) * this->shakeRotSize);
         this->actor.shape.rot.z =
-            this->actor.initPosRot.rot.z + (s16)(Math_CosS(this->shakeRotPhase * 7) * this->shakeRotSize);
+            this->actor.home.rot.z + (s16)(Math_CosS(this->shakeRotPhase * 7) * this->shakeRotSize);
     } else {
-        Math_StepToF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 1.0f);
-        Math_StepToF(&this->actor.posRot.pos.z, this->actor.initPosRot.pos.z, 1.0f);
-        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.initPosRot.rot.x, 0xBB8);
-        Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.initPosRot.rot.z, 0xBB8);
+        Math_StepToF(&this->actor.world.pos.x, this->actor.home.pos.x, 1.0f);
+        Math_StepToF(&this->actor.world.pos.z, this->actor.home.pos.z, 1.0f);
+        Math_ScaledStepToS(&this->actor.shape.rot.x, this->actor.home.rot.x, 0xBB8);
+        Math_ScaledStepToS(&this->actor.shape.rot.z, this->actor.home.rot.z, 0xBB8);
     }
 }
 
@@ -111,9 +109,9 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
         phi_s0 += 20000;
 
         temp_f20 = Rand_ZeroOne() * 10.0f;
-        pos.x = (Math_SinS(phi_s0) * temp_f20) + this->actor.posRot.pos.x;
-        pos.y = (Rand_ZeroOne() * 40.0f) + this->actor.posRot.pos.y + 5.0f;
-        pos.z = (Math_CosS(phi_s0) * temp_f20) + this->actor.posRot.pos.z;
+        pos.x = (Math_SinS(phi_s0) * temp_f20) + this->actor.world.pos.x;
+        pos.y = (Rand_ZeroOne() * 40.0f) + this->actor.world.pos.y + 5.0f;
+        pos.z = (Math_CosS(phi_s0) * temp_f20) + this->actor.world.pos.z;
 
         temp_f20 = (Rand_ZeroOne() * 10.0f) + 2.0f;
         velocity.x = Math_SinS(phi_s0) * temp_f20;
@@ -132,12 +130,12 @@ void ObjHamishi_Break(ObjHamishi* this, GlobalContext* globalCtx) {
             gravity = -320;
         }
 
-        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.posRot.pos, gravity, phi_v0, 30, 5, 0,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, gravity, phi_v0, 30, 5, 0,
                              sEffectScales[i], 3, 0, 70, 1, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
     }
 
-    func_80033480(globalCtx, &this->actor.posRot.pos, 140.0f, 6, 180, 90, 1);
-    func_80033480(globalCtx, &this->actor.posRot.pos, 140.0f, 12, 80, 90, 1);
+    func_80033480(globalCtx, &this->actor.world.pos, 140.0f, 6, 180, 90, 1);
+    func_80033480(globalCtx, &this->actor.world.pos, 140.0f, 12, 80, 90, 1);
 }
 
 void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -149,7 +147,7 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
-        this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.initPosRot.rot.y = Rand_ZeroFloat(65536.0f);
+        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.home.rot.y = Rand_ZeroFloat(65536.0f);
     }
 
     ObjHamishi_InitCollision(&this->actor, globalCtx);
@@ -160,7 +158,7 @@ void ObjHamishi_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    this->actor.shape.unk_08 = 80.0f;
+    this->actor.shape.yOffset = 80.0f;
 }
 
 void ObjHamishi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -185,14 +183,14 @@ void ObjHamishi_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->shakeRotSize = 400.0f;
         } else {
             ObjHamishi_Break(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
             Flags_SetSwitch(globalCtx, this->actor.params & 0x3F);
             Actor_Kill(&this->actor);
         }
     } else {
         this->collider.base.acFlags &= ~AC_HIT;
 
-        if (this->actor.xzDistToLink < 600.0f) {
+        if (this->actor.xzDistToPlayer < 600.0f) {
             CollisionCheck_SetAC(globalCtx, colChkCtx, &this->collider.base);
             CollisionCheck_SetOC(globalCtx, colChkCtx, &this->collider.base);
         }

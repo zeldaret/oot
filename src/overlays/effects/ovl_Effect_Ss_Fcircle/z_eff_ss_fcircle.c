@@ -28,9 +28,9 @@ u32 EffectSsFcircle_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 
     this->pos = initParams->pos;
     this->actor = initParams->actor;
-    this->vec.x = initParams->pos.x - initParams->actor->posRot.pos.x;
-    this->vec.y = initParams->pos.y - initParams->actor->posRot.pos.y;
-    this->vec.z = initParams->pos.z - initParams->actor->posRot.pos.z;
+    this->vec.x = initParams->pos.x - initParams->actor->world.pos.x;
+    this->vec.y = initParams->pos.y - initParams->actor->world.pos.y;
+    this->vec.z = initParams->pos.z - initParams->actor->world.pos.z;
     this->gfx = D_040184B0;
     this->life = 20;
     this->draw = EffectSsFcircle_Draw;
@@ -77,15 +77,15 @@ void EffectSsFcircle_Update(GlobalContext* globalCtx, u32 index, EffectSs* this)
 
     if (actor != NULL) {
         if (actor->update != NULL) {
-            this->pos.x = actor->posRot.pos.x + this->vec.x;
-            this->pos.y = actor->posRot.pos.y + this->vec.y;
-            this->pos.z = actor->posRot.pos.z + this->vec.z;
+            this->pos.x = actor->world.pos.x + this->vec.x;
+            this->pos.y = actor->world.pos.y + this->vec.y;
+            this->pos.z = actor->world.pos.z + this->vec.z;
             this->rYaw = actor->shape.rot.y;
 
-            if (actor->dmgEffectTimer > 20) {
+            if (actor->colorFilterTimer > 20) {
                 this->life = 20;
             } else {
-                this->life = actor->dmgEffectTimer;
+                this->life = actor->colorFilterTimer;
             }
 
             Math_StepToS(&this->rScale, 100, 20);

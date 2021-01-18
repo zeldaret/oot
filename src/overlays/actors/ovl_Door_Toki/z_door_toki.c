@@ -16,7 +16,7 @@ void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Door_Toki_InitVars = {
     ACTOR_DOOR_TOKI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_TOKI_OBJECTS,
     sizeof(DoorToki),

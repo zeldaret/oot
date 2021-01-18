@@ -82,7 +82,7 @@ glabel EnDntJiji_Update
 .L809F2D04:
 /* 01224 809F2D04 51E00004 */  beql    $t7, $zero, .L809F2D18     
 /* 01228 809F2D08 8618024E */  lh      $t8, 0x024E($s0)           ## 0000024E
-/* 0122C 809F2D0C 0C00B56E */  jal     Actor_SetHeight
+/* 0122C 809F2D0C 0C00B56E */  jal     Actor_SetFocus
               
 /* 01230 809F2D10 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
 /* 01234 809F2D14 8618024E */  lh      $t8, 0x024E($s0)           ## 0000024E
@@ -130,7 +130,7 @@ glabel EnDntJiji_Update
 /* 012C4 809F2DA4 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 012C8 809F2DA8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 012CC 809F2DAC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 012D0 809F2DB0 0C00B92D */  jal     func_8002E4B4              
+/* 012D0 809F2DB0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 012D4 809F2DB4 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 012D8 809F2DB8 2606025C */  addiu   $a2, $s0, 0x025C           ## $a2 = 0000025C
 /* 012DC 809F2DBC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000025C

@@ -14,7 +14,7 @@ glabel func_80A00950
 /* 009C8 80A00968 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 009CC 80A0096C 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 009D0 80A00970 AFA50020 */  sw      $a1, 0x0020($sp)           
-/* 009D4 80A00974 0C00B6EC */  jal     func_8002DBB0              
+/* 009D4 80A00974 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 009D8 80A00978 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 009DC 80A0097C 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 009E0 80A00980 44812000 */  mtc1    $at, $f4                   ## $f4 = 100.00
@@ -23,7 +23,7 @@ glabel func_80A00950
 /* 009EC 80A0098C 00000000 */  nop
 /* 009F0 80A00990 45020008 */  bc1fl   .L80A009B4                 
 /* 009F4 80A00994 860F0032 */  lh      $t7, 0x0032($s0)           ## 00000032
-/* 009F8 80A00998 0C00B6B0 */  jal     func_8002DAC0              
+/* 009F8 80A00998 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 009FC 80A0099C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A00 80A009A0 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 00A04 80A009A4 00417021 */  addu    $t6, $v0, $at              

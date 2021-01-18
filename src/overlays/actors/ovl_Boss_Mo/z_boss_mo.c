@@ -86,7 +86,7 @@ extern u64 D_04051DB0[];
 
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_MO,
     sizeof(BossMo),
@@ -500,10 +500,10 @@ static s16 sAttackRot[41] = {
 };
 
 static InitChainEntry sInitChain[4] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_S8(naviEnemyId, 37, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
 static Vec3f sAudioZeroVec = { 0.0f, 0.0f, 0.0f };
@@ -548,8 +548,8 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         for (i = 0; i < 300; i++) {
             sParticles[i].type = 0;
         }
-        this->actor.posRot.pos.x = 200.0f;
-        this->actor.posRot.pos.y = WATER_LEVEL(globalCtx) + 50.0f;
+        this->actor.world.pos.x = 200.0f;
+        this->actor.world.pos.y = WATER_LEVEL(globalCtx) + 50.0f;
         this->swingSizeX = 5.0f;
         this->drawActor = true;
         this->actor.colChkInfo.health = 20;
@@ -574,23 +574,23 @@ void BossMo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         } else {
             this->csState = MO_INTRO_WAIT;
             this->actionState = MO_CORE_INTRO_WAIT;
-            this->actor.posRot.pos.x = 1000.0f;
+            this->actor.world.pos.x = 1000.0f;
             this->timers[0] = 60;
         }
         sMorphaTent1 = (BossMo*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_MO,
-                                                   this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                                   this->actor.posRot.pos.z, 0, 0, 0, BOSSMO_TENTACLE);
+                                                   this->actor.world.pos.x, this->actor.world.pos.y,
+                                                   this->actor.world.pos.z, 0, 0, 0, BOSSMO_TENTACLE);
         this->actor.draw = BossMo_DrawCore;
         this->actor.update = BossMo_UpdateCore;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_BOSS);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_BOSS);
     } else {
         Actor_SetScale(&this->actor, 0.01f);
         BossMo_SetupTentacle(this, globalCtx);
         this->actor.colChkInfo.mass = 0xFF;
         WATER_LEVEL(globalCtx) = -50;
         this->waterTexAlpha = 90.0f;
-        this->actor.posRot.pos.y = WATER_LEVEL(globalCtx);
-        this->actor.pos4 = this->targetPos = this->actor.posRot.pos;
+        this->actor.world.pos.y = WATER_LEVEL(globalCtx);
+        this->actor.prevPos = this->targetPos = this->actor.world.pos;
         Collider_InitJntSph(globalCtx, &this->tentCollider);
         Collider_SetJntSph(globalCtx, &this->tentCollider, &this->actor, &sJntSphInit, this->tentElements);
         this->tentMaxAngle = 1.0f;
@@ -665,7 +665,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
     Vec3f spC8; // real
 
     if (this->actionState <= MO_TENT_DEATH_3) {
-        this->actor.posRot.pos.y = WATER_LEVEL(globalCtx);
+        this->actor.world.pos.y = WATER_LEVEL(globalCtx);
     }
     if ((this->actionState == MO_TENT_READY) || (this->actionState >= MO_TENT_DEATH_START) ||
         (this->actionState == MO_TENT_RETREAT) || (this->actionState == MO_TENT_SWING) ||
@@ -766,7 +766,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             if (this == sMorphaTent2) {
                 this->actionState = MO_TENT_SPAWN;
                 this->timers[0] = 70;
-                this->actor.shape.rot.y = this->actor.yawTowardsLink;
+                this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
             }
             break;
         case MO_TENT_SPAWN:
@@ -794,7 +794,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             for (indS1 = 0; indS1 < rippleCount; indS1++) {
                 rand_f = Rand_ZeroFloat(50.0f);
                 rand_angle = Rand_ZeroFloat(0x10000);
-                sp16C = this->actor.posRot.pos;
+                sp16C = this->actor.world.pos;
                 sp16C.x += sinf(rand_angle) * rand_f;
                 sp16C.z += cosf(rand_angle) * rand_f;
                 sp16C.y = WATER_LEVEL(globalCtx);
@@ -822,10 +822,10 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachS(&this->tentRot[indS1].x, temp_f22, 1.0f / this->tentMaxAngle, this->tentSpeed);
                 Math_ApproachS(&this->tentRot[indS1].z, temp_f24, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
-            this->targetPos = this->actor.posRot.pos;
+            this->targetPos = this->actor.world.pos;
             Math_ApproachF(&this->actor.speedXZ, 0.75f, 1.0f, 0.04f);
             if (this->actionState == MO_TENT_SWING) {
-                Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + this->attackAngleMod, 0xA, 0x1F4);
+                Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->attackAngleMod, 0xA, 0x1F4);
             }
             Math_ApproachF(&this->tentMaxStretch, 1.0f, 0.5f, 0.04);
             if (sMorphaCore->csState != MO_BATTLE) {
@@ -865,19 +865,19 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                this->tentSpeed);
                 Math_ApproachS(&this->tentRot[indS1].z, 0, 1.0f / this->tentMaxAngle, this->tentSpeed);
             }
-            this->targetPos = this->actor.posRot.pos;
+            this->targetPos = this->actor.world.pos;
             Math_ApproachF(&this->tentMaxAngle, 0.5f, 1.0f, 0.01);
             Math_ApproachF(&this->tentSpeed, 160.0f, 1.0f, 50.0f);
             if ((this->timers[0] == 0) || (this->linkHitTimer != 0)) {
-                dx = this->tentPos[22].x - player->actor.posRot.pos.x;
-                dy = this->tentPos[22].y - player->actor.posRot.pos.y;
-                dz = this->tentPos[22].z - player->actor.posRot.pos.z;
+                dx = this->tentPos[22].x - player->actor.world.pos.x;
+                dy = this->tentPos[22].y - player->actor.world.pos.y;
+                dz = this->tentPos[22].z - player->actor.world.pos.z;
                 if ((fabsf(dy) < 50.0f) && !HAS_LINK(otherTent) && (sqrtf(SQ(dx) + SQ(dy) + SQ(dz)) < 120.0f)) {
                     this->tentMaxAngle = .001f;
                     this->actionState = MO_TENT_CURL;
                     this->timers[0] = 40;
                     this->tentSpeed = 0;
-                    if ((s16)(this->actor.shape.rot.y - this->actor.yawTowardsLink) >= 0) {
+                    if ((s16)(this->actor.shape.rot.y - this->actor.yawTowardsPlayer) >= 0) {
                         this->linkToLeft = false;
                     } else {
                         this->linkToLeft = true;
@@ -891,9 +891,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     this->swingSizeX = 0;
                     this->swingSizeZ = 0;
                     this->timers[0] = 30;
-                    if ((fabsf(player->actor.posRot.pos.x - this->actor.posRot.pos.x) > 300.0f) ||
-                        (player->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) || HAS_LINK(otherTent) ||
-                        (fabsf(player->actor.posRot.pos.z - this->actor.posRot.pos.z) > 300.0f)) {
+                    if ((fabsf(player->actor.world.pos.x - this->actor.world.pos.x) > 300.0f) ||
+                        (player->actor.world.pos.y < WATER_LEVEL(globalCtx)) || HAS_LINK(otherTent) ||
+                        (fabsf(player->actor.world.pos.z - this->actor.world.pos.z) > 300.0f)) {
 
                         this->actionState = MO_TENT_RETREAT;
                         this->timers[0] = 75;
@@ -930,7 +930,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->tentMaxAngle, 0.1f, 1.0f, 0.01f);
             Math_ApproachF(&this->tentSpeed, 960.0f, 1.0f, 30.0f);
             if (this->timers[0] >= 30) {
-                Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 5, 0xC8);
+                Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 0xC8);
             }
             if (this->actionState == MO_TENT_CURL) {
                 if ((this->timers[0] >= 5) && (this->linkHitTimer != 0) && (player->actor.parent == NULL)) {
@@ -965,9 +965,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             if (this->actionState == MO_TENT_GRAB) {
                 player->unk_850 = 0xA;
                 player->actor.speedXZ = player->actor.velocity.y = 0;
-                Math_ApproachF(&player->actor.posRot.pos.x, this->grabPosRot.pos.x, 0.5f, 20.0f);
-                Math_ApproachF(&player->actor.posRot.pos.y, this->grabPosRot.pos.y, 0.5f, 20.0f);
-                Math_ApproachF(&player->actor.posRot.pos.z, this->grabPosRot.pos.z, 0.5f, 20.0f);
+                Math_ApproachF(&player->actor.world.pos.x, this->grabPosRot.pos.x, 0.5f, 20.0f);
+                Math_ApproachF(&player->actor.world.pos.y, this->grabPosRot.pos.y, 0.5f, 20.0f);
+                Math_ApproachF(&player->actor.world.pos.z, this->grabPosRot.pos.z, 0.5f, 20.0f);
                 Math_ApproachS(&player->actor.shape.rot.x, this->grabPosRot.rot.x, 2, 0x7D0);
                 Math_ApproachS(&player->actor.shape.rot.y, this->grabPosRot.rot.y, 2, 0x7D0);
                 Math_ApproachS(&player->actor.shape.rot.z, this->grabPosRot.rot.z, 2, 0x7D0);
@@ -986,8 +986,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     Gameplay_ChangeCameraStatus(globalCtx, this->csCamera, 7);
                     this->cameraEye = camera1->eye;
                     this->cameraAt = camera1->at;
-                    this->cameraYaw = Math_FAtan2F(this->cameraEye.x - this->actor.posRot.pos.x,
-                                                   this->cameraEye.z - this->actor.posRot.pos.z);
+                    this->cameraYaw = Math_FAtan2F(this->cameraEye.x - this->actor.world.pos.x,
+                                                   this->cameraEye.z - this->actor.world.pos.z);
                     this->cameraYawRate = 0;
                     goto tent_shake; // I think this is genuinely the correct code
                 }
@@ -1021,12 +1021,12 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 }
             }
             player->unk_850 = 0xA;
-            player->actor.posRot.pos.x = this->grabPosRot.pos.x;
-            player->actor.posRot.pos.y = this->grabPosRot.pos.y;
-            player->actor.posRot.pos.z = this->grabPosRot.pos.z;
-            player->actor.posRot.rot.x = player->actor.shape.rot.x = this->grabPosRot.rot.x;
-            player->actor.posRot.rot.y = player->actor.shape.rot.y = this->grabPosRot.rot.y;
-            player->actor.posRot.rot.z = player->actor.shape.rot.z = this->grabPosRot.rot.z;
+            player->actor.world.pos.x = this->grabPosRot.pos.x;
+            player->actor.world.pos.y = this->grabPosRot.pos.y;
+            player->actor.world.pos.z = this->grabPosRot.pos.z;
+            player->actor.world.rot.x = player->actor.shape.rot.x = this->grabPosRot.rot.x;
+            player->actor.world.rot.y = player->actor.shape.rot.y = this->grabPosRot.rot.y;
+            player->actor.world.rot.z = player->actor.shape.rot.z = this->grabPosRot.rot.z;
             player->actor.velocity.y = 0;
             player->actor.speedXZ = 0;
             Math_ApproachF(&this->tentMaxStretch, 1.0f, 0.5f, 0.01);
@@ -1057,12 +1057,12 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->cameraYawRate, 0.01, 1.0f, 0.002f);
                 Matrix_RotateY(this->cameraYaw, MTXMODE_NEW);
                 Matrix_MultVec3f(&sp138, &sp12C);
-                Math_ApproachF(&this->cameraEye.x, this->actor.posRot.pos.x + sp12C.x, 0.1f, 10.0f);
-                Math_ApproachF(&this->cameraEye.y, this->actor.posRot.pos.y + sp12C.y, 0.1f, 10.0f);
-                Math_ApproachF(&this->cameraEye.z, this->actor.posRot.pos.z + sp12C.z, 0.1f, 10.0f);
-                Math_ApproachF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraEye.x, this->actor.world.pos.x + sp12C.x, 0.1f, 10.0f);
+                Math_ApproachF(&this->cameraEye.y, this->actor.world.pos.y + sp12C.y, 0.1f, 10.0f);
+                Math_ApproachF(&this->cameraEye.z, this->actor.world.pos.z + sp12C.z, 0.1f, 10.0f);
+                Math_ApproachF(&this->cameraAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
                 Gameplay_CameraSetAtEye(globalCtx, this->csCamera, &this->cameraAt, &this->cameraEye);
             }
             break;
@@ -1096,11 +1096,11 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             break;
         case MO_TENT_RETREAT:
             if (this->csCamera != 0) {
-                Math_ApproachF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.y, player->actor.posRot.pos.y, 0.5f, 50.0f);
-                Math_ApproachF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.x, player->actor.world.pos.x, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.y, player->actor.world.pos.y, 0.5f, 50.0f);
+                Math_ApproachF(&this->cameraAt.z, player->actor.world.pos.z, 0.5f, 50.0f);
                 Gameplay_CameraSetAtEye(globalCtx, this->csCamera, &this->cameraAt, &this->cameraEye);
-                if (player->actor.posRot.pos.y <= 42.0f) {
+                if (player->actor.world.pos.y <= 42.0f) {
                     camera2 = Gameplay_GetCamera(globalCtx, 0);
                     camera2->eye = this->cameraEye;
                     camera2->eyeNext = this->cameraEye;
@@ -1130,10 +1130,10 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                     indT5 = Rand_ZeroFloat(20.9f);
                     VEC_SET(spFC, 0, 0, 0);
                     indS0 = sTentSpawnIndex[indT5];
-                    Matrix_RotateY((player->actor.posRot.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+                    Matrix_RotateY((player->actor.world.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
                     Matrix_MultVec3f(&spFC, &spF0);
-                    spF0.x = player->actor.posRot.pos.x + spF0.x;
-                    spF0.z = player->actor.posRot.pos.z + spF0.z;
+                    spF0.x = player->actor.world.pos.x + spF0.x;
+                    spF0.z = player->actor.world.pos.z + spF0.z;
                     if ((fabsf(spF0.x - sTentSpawnPos[indS0].x) <= 320) &&
                         (fabsf(spF0.z - sTentSpawnPos[indS0].y) <= 320) &&
                         ((sMorphaTent2 == NULL) || (sMorphaTent2->tentSpawnPos != indS0))) {
@@ -1148,8 +1148,8 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             }
             if ((this == sMorphaTent1) && (sMorphaCore->hitCount >= 3) && (sMorphaTent2 == NULL)) {
                 sMorphaTent2 =
-                    (BossMo*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BOSS_MO, this->actor.posRot.pos.x,
-                                         this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, BOSSMO_TENTACLE);
+                    (BossMo*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BOSS_MO, this->actor.world.pos.x,
+                                         this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, BOSSMO_TENTACLE);
 
                 sMorphaTent2->tentSpawnPos = this->tentSpawnPos;
                 if (sMorphaTent2->tentSpawnPos > 10) {
@@ -1170,9 +1170,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->baseAlpha, 0, 1.0f, 5.0f);
             if ((this->baseAlpha <= 0.5f) && (this->timers[0] == 0)) {
                 this->meltIndex = 0;
-                this->actor.posRot.pos.x = this->targetPos.x;
-                this->actor.posRot.pos.z = this->targetPos.z;
-                this->actor.pos4 = this->actor.posRot.pos;
+                this->actor.world.pos.x = this->targetPos.x;
+                this->actor.world.pos.z = this->targetPos.z;
+                this->actor.prevPos = this->actor.world.pos;
                 this->cutScale = 1.0f;
                 this->cutIndex = this->meltIndex;
                 this->actionState = MO_TENT_WAIT;
@@ -1211,7 +1211,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             this->baseBubblesTimer = 20;
             this->actor.shape.rot.y = 0x4000;
             this->actor.shape.rot.x = -0x8000;
-            this->actor.posRot.pos.y = sMorphaCore->waterLevel + 650.0f;
+            this->actor.world.pos.y = sMorphaCore->waterLevel + 650.0f;
             Math_ApproachF(&sMorphaCore->waterLevel, -300.0f, 0.1f, 1.3f);
             for (indS1 = 0; indS1 < 41; indS1++) {
                 pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
@@ -1228,7 +1228,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
         case MO_TENT_DEATH_2:
             this->baseBubblesTimer = 20;
             Math_ApproachF(&sMorphaCore->waterLevel, -295.0f, 0.1f, 1.3f);
-            this->actor.posRot.pos.y = sMorphaCore->waterLevel + 650.0f;
+            this->actor.world.pos.y = sMorphaCore->waterLevel + 650.0f;
             for (indS1 = 0; indS1 < 41; indS1++) {
                 pad158 = Math_SinS(((s16)this->swingLagX * indS1) + this->tentSwingX);
                 temp_f22 = this->swingSizeX * (indS1 * 0.025f * pad158);
@@ -1263,7 +1263,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
             }
             this->tentPulse = 0.0;
             if (this->timers[0] != 0) {
-                this->actor.posRot.pos.y = sMorphaCore->waterLevel + 650.0f;
+                this->actor.world.pos.y = sMorphaCore->waterLevel + 650.0f;
                 this->tentMaxStretch = 0.5f;
                 Math_ApproachF(&this->actor.scale.x, 0.0015f, 0.05f, this->tentMaxAngle);
                 Math_ApproachF(&this->tentMaxAngle, 0.00035f, 1.0f, 0.0000175f);
@@ -1274,10 +1274,10 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                 this->tentMaxStretch += Math_SinS(this->movementTimer * 0x2000) * 0.05f;
                 padEC = Math_CosS(this->movementTimer * 0x2000) * 0.0005f;
                 Math_ApproachF(&this->actor.scale.x, 0.002f + padEC, 0.5f, 0.0005f);
-                this->actor.posRot.pos.y += this->actor.velocity.y;
+                this->actor.world.pos.y += this->actor.velocity.y;
                 this->actor.velocity.y -= 1.0f;
-                if (this->actor.posRot.pos.y < -250.0f) {
-                    this->actor.posRot.pos.y = -250.0f;
+                if (this->actor.world.pos.y < -250.0f) {
+                    this->actor.world.pos.y = -250.0f;
                     this->actor.velocity.y = 0.0;
                     this->drawActor = false;
                     this->actionState = MO_TENT_DEATH_6;
@@ -1290,7 +1290,7 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                         Matrix_RotateY(indS1 * 0.23f, MTXMODE_NEW);
                         Matrix_MultVec3f(&spC8, &spE0);
                         spE0.y = Rand_ZeroFloat(7.0f) + 4.0f;
-                        spD4 = this->actor.posRot.pos;
+                        spD4 = this->actor.world.pos;
                         spD4.x += spE0.x * 3.0f;
                         spD4.y += (spE0.y * 3.0f) - 30.0f;
                         if (spD4.y < -280.0f) {
@@ -1301,9 +1301,9 @@ void BossMo_Tentacle(BossMo* this, GlobalContext* globalCtx) {
                                             ((300 - indS1) * .0015f) + 0.13f);
                     }
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
-                                       this->actor.posRot.pos.x, -280.0f, this->actor.posRot.pos.z, 0, 0, 0, -1);
-                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.posRot.pos.x + 200.0f,
-                                -280.0f, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                                       this->actor.world.pos.x, -280.0f, this->actor.world.pos.z, 0, 0, 0, -1);
+                    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, this->actor.world.pos.x + 200.0f,
+                                -280.0f, this->actor.world.pos.z, 0, 0, 0, 0);
                     Audio_SetBGM(0x21);
                     Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
                 }
@@ -1413,14 +1413,14 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 1) {
                 func_8010B680(globalCtx, 0x403F, NULL);
             }
-            if (((fabsf(player->actor.posRot.pos.z - 180.0f) < 40.0f) &&
-                 (fabsf(player->actor.posRot.pos.x - 180.0f) < 40.0f)) ||
-                ((fabsf(player->actor.posRot.pos.z - -180.0f) < 40.0f) &&
-                 (fabsf(player->actor.posRot.pos.x - 180.0f) < 40.0f)) ||
-                ((fabsf(player->actor.posRot.pos.z - 180.0f) < 40.0f) &&
-                 (fabsf(player->actor.posRot.pos.x - -180.0f) < 40.0f)) ||
-                ((fabsf(player->actor.posRot.pos.z - -180.0f) < 40.0f) &&
-                 (fabsf(player->actor.posRot.pos.x - -180.0f) < 40.0f))) {
+            if (((fabsf(player->actor.world.pos.z - 180.0f) < 40.0f) &&
+                 (fabsf(player->actor.world.pos.x - 180.0f) < 40.0f)) ||
+                ((fabsf(player->actor.world.pos.z - -180.0f) < 40.0f) &&
+                 (fabsf(player->actor.world.pos.x - 180.0f) < 40.0f)) ||
+                ((fabsf(player->actor.world.pos.z - 180.0f) < 40.0f) &&
+                 (fabsf(player->actor.world.pos.x - -180.0f) < 40.0f)) ||
+                ((fabsf(player->actor.world.pos.z - -180.0f) < 40.0f) &&
+                 (fabsf(player->actor.world.pos.x - -180.0f) < 40.0f))) {
                 // checks if Link is on one of the four platforms
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 8);
@@ -1431,7 +1431,7 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 this->csState = MO_INTRO_START;
                 this->timers[2] = 50;
                 this->rippleTimer = this->movementTimer = 0;
-                this->actor.posRot.rot.y = 0x721A;
+                this->actor.world.rot.y = 0x721A;
                 sMorphaTent1->actionState = MO_TENT_READY;
                 sMorphaTent1->timers[0] = 30000;
                 Audio_SetBGM(0x103200FF);
@@ -1440,14 +1440,14 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 break;
             }
         case MO_INTRO_START:
-            player->actor.posRot.pos.x = 180.0f;
-            player->actor.posRot.pos.z = -130.0f;
-            player->actor.shape.rot.y = player->actor.posRot.rot.y = 0;
+            player->actor.world.pos.x = 180.0f;
+            player->actor.world.pos.z = -130.0f;
+            player->actor.shape.rot.y = player->actor.world.rot.y = 0;
             player->actor.speedXZ = 0.0f;
             this->cameraEye.x = -424.0f;
             this->cameraEye.y = -190.0f;
             this->cameraEye.z = 180.0f;
-            this->cameraAt.x = player->actor.posRot.pos.x;
+            this->cameraAt.x = player->actor.world.pos.x;
             this->cameraAt.y = -330.0f;
             this->cameraAt.z = 0.0f;
             if (this->timers[2] == 0) {
@@ -1476,19 +1476,19 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
             dz = this->targetPos.z - this->cameraEye.z;
             temp_y = Math_FAtan2F(dx, dz);
             temp_x = Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz)));
-            Math_ApproachS(&this->actor.posRot.rot.y, temp_y * (0x8000 / M_PI), 5, this->cameraYawRate);
-            Math_ApproachS(&this->actor.posRot.rot.x, temp_x * (0x8000 / M_PI), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.y, temp_y * (0x8000 / M_PI), 5, this->cameraYawRate);
+            Math_ApproachS(&this->actor.world.rot.x, temp_x * (0x8000 / M_PI), 5, this->cameraYawRate);
             if (this->movementTimer == 150) {
-                this->cameraAtVel.x = fabsf(this->cameraAt.x - player->actor.posRot.pos.x);
-                this->cameraAtVel.y = fabsf(this->cameraAt.y - player->actor.posRot.pos.y);
-                this->cameraAtVel.z = fabsf(this->cameraAt.z - player->actor.posRot.pos.z);
+                this->cameraAtVel.x = fabsf(this->cameraAt.x - player->actor.world.pos.x);
+                this->cameraAtVel.y = fabsf(this->cameraAt.y - player->actor.world.pos.y);
+                this->cameraAtVel.z = fabsf(this->cameraAt.z - player->actor.world.pos.z);
             }
             if (this->movementTimer >= 150) {
-                Math_ApproachF(&this->cameraAt.x, player->actor.posRot.pos.x, 0.1f,
+                Math_ApproachF(&this->cameraAt.x, player->actor.world.pos.x, 0.1f,
                                this->cameraAtVel.x * this->cameraSpeedMod);
-                Math_ApproachF(&this->cameraAt.y, player->actor.posRot.pos.y + 50.0f, 0.1f,
+                Math_ApproachF(&this->cameraAt.y, player->actor.world.pos.y + 50.0f, 0.1f,
                                this->cameraAtVel.y * this->cameraSpeedMod);
-                Math_ApproachF(&this->cameraAt.z, player->actor.posRot.pos.z, 0.1f,
+                Math_ApproachF(&this->cameraAt.z, player->actor.world.pos.z, 0.1f,
                                this->cameraAtVel.z * this->cameraSpeedMod);
                 Math_ApproachF(&this->cameraSpeedMod, 0.02f, 1.0f, 0.001f);
             }
@@ -1537,16 +1537,16 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
                 this->csState = MO_INTRO_REVEAL;
                 func_8002DF54(globalCtx, &this->actor, 1);
                 sMorphaTent1->drawActor = true;
-                player->actor.posRot.pos.x = 180.0f;
-                player->actor.posRot.pos.z = -210.0f;
-                player->actor.posRot.rot.y = -0x8000;
-                player->actor.shape.rot.y = player->actor.posRot.rot.y;
+                player->actor.world.pos.x = 180.0f;
+                player->actor.world.pos.z = -210.0f;
+                player->actor.world.rot.y = -0x8000;
+                player->actor.shape.rot.y = player->actor.world.rot.y;
                 this->cameraYawShake = 0.0f;
                 sMorphaTent1->baseAlpha = 150.0;
                 this->actor.speedXZ = 0.0f;
                 this->timers[2] = 200;
                 this->cameraZoom = 60.0f;
-                this->actor.posRot.pos = sMorphaTent1->actor.posRot.pos;
+                this->actor.world.pos = sMorphaTent1->actor.world.pos;
                 this->actionState = MO_CORE_INTRO_REVEAL;
                 this->actor.flags &= ~1;
                 sMorphaTent1->actor.flags |= 1;
@@ -1648,11 +1648,11 @@ void BossMo_Intro(BossMo* this, GlobalContext* globalCtx) {
             break;
     }
     if (sMorphaTent1->actionState == MO_TENT_READY) {
-        sMorphaTent1->actor.posRot.pos.x = 180.0f;
-        sMorphaTent1->actor.posRot.pos.z = -360.0f;
-        sMorphaTent1->actor.pos4 = sMorphaTent1->actor.posRot.pos;
+        sMorphaTent1->actor.world.pos.x = 180.0f;
+        sMorphaTent1->actor.world.pos.z = -360.0f;
+        sMorphaTent1->actor.prevPos = sMorphaTent1->actor.world.pos;
         sMorphaTent1->actor.speedXZ = 0.0f;
-        sMorphaTent1->actor.shape.rot.y = sMorphaTent1->actor.yawTowardsLink;
+        sMorphaTent1->actor.shape.rot.y = sMorphaTent1->actor.yawTowardsPlayer;
     }
     if (this->csCamera != 0) {
         if (sp9F) {
@@ -1714,8 +1714,8 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
             this->csState = MO_DEATH_MO_CORE_BURST;
             this->cameraEye = camera->eye;
             this->timers[0] = 90;
-            dx = this->actor.posRot.pos.x - this->cameraEye.x;
-            dz = this->actor.posRot.pos.z - this->cameraEye.z;
+            dx = this->actor.world.pos.x - this->cameraEye.x;
+            dz = this->actor.world.pos.z - this->cameraEye.z;
             this->cameraYaw = Math_FAtan2F(dx, dz);
             this->cameraDist = sqrtf(SQ(dx) + SQ(dz));
             this->cameraYawRate = 0.0f;
@@ -1737,9 +1737,9 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
             } else {
                 Math_ApproachF(&this->cameraYawRate, 0.0f, 1.0f, 0.002f);
             }
-            Math_ApproachF(&this->actor.posRot.pos.y, 150.0f, 0.05f, 5.0f);
+            Math_ApproachF(&this->actor.world.pos.y, 150.0f, 0.05f, 5.0f);
             Math_ApproachF(&this->cameraEye.y, 100.0f, 0.05f, 2.0f);
-            this->cameraAt = this->cameraNextAt = this->actor.posRot.pos;
+            this->cameraAt = this->cameraNextAt = this->actor.world.pos;
             if (this->timers[0] > 20) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_DEAD - SFX_FLAG);
             }
@@ -1748,7 +1748,7 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                     sp54.x = Rand_CenteredFloat(10.0f);
                     sp54.y = Rand_CenteredFloat(10.0f);
                     sp54.z = Rand_CenteredFloat(10.0f);
-                    sp48 = this->actor.posRot.pos;
+                    sp48 = this->actor.world.pos;
                     sp48.x += 2.0f * sp54.x;
                     sp48.y += 2.0f * sp54.y;
                     sp48.z += 2.0f * sp54.z;
@@ -1757,12 +1757,12 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                 this->drawActor = false;
                 this->actor.flags &= ~1;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
-                Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 70, NA_SE_EN_MOFER_LASTVOICE);
+                Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 70, NA_SE_EN_MOFER_LASTVOICE);
             }
             if (this->timers[0] == 0) {
                 this->csState = MO_DEATH_DRAIN_WATER_1;
                 this->cameraDist = 490.0f;
-                this->actor.posRot.pos.y = -1000.0f;
+                this->actor.world.pos.y = -1000.0f;
                 this->swingSizeX = 15.0f;
                 this->cameraYaw = 0.0f;
                 this->cameraEye.x = 490.0f;
@@ -1782,9 +1782,9 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                 sMorphaTent1->drawActor = true;
                 sMorphaTent1->actionState = MO_TENT_DEATH_3;
                 sMorphaTent1->actor.shape.rot.x = 0;
-                sMorphaTent1->actor.posRot.pos.x = 0.0f;
-                sMorphaTent1->actor.posRot.pos.y = -50.0f;
-                sMorphaTent1->actor.posRot.pos.z = 0.0f;
+                sMorphaTent1->actor.world.pos.x = 0.0f;
+                sMorphaTent1->actor.world.pos.y = -50.0f;
+                sMorphaTent1->actor.world.pos.z = 0.0f;
                 sMorphaTent1->tentMaxStretch = 1.0f;
                 sMorphaTent1->tentPulse = 0.2f;
                 sMorphaCore->waterLevel = -50.0f;
@@ -1851,12 +1851,12 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
             }
             if (this->timers[0] == 0) {
                 if (-100.0f < this->cameraEye.y) {
-                    Math_ApproachF(&this->cameraEye.y, sMorphaTent1->actor.posRot.pos.y - 100.0f, 0.1f, 2000.0f);
+                    Math_ApproachF(&this->cameraEye.y, sMorphaTent1->actor.world.pos.y - 100.0f, 0.1f, 2000.0f);
                 } else {
                     Math_ApproachF(&this->cameraEye.y, -200.0f, 0.1f, 2000.0f);
                 }
 
-                Math_ApproachF(&this->cameraAt.y, (sMorphaTent1->actor.posRot.pos.y - 50.0f) + 30.0f, 0.5f, 2000.0f);
+                Math_ApproachF(&this->cameraAt.y, (sMorphaTent1->actor.world.pos.y - 50.0f) + 30.0f, 0.5f, 2000.0f);
                 this->cameraNextAt.y = this->cameraAt.y;
             } else {
                 Math_ApproachF(&this->cameraEye.y, 300.0f, 0.05f, this->cameraSpeed);
@@ -1875,7 +1875,7 @@ void BossMo_Death(BossMo* this, GlobalContext* globalCtx) {
                     this->csCamera = 0;
                     func_80064534(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 7);
-                    sMorphaTent1->actor.posRot.pos.y = -1000.0f;
+                    sMorphaTent1->actor.world.pos.y = -1000.0f;
                 }
             } else {
                 Math_ApproachF(&this->cameraDist, 150.0f, 0.05f, this->cameraSpeed);
@@ -1962,7 +1962,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
 
                 this->actor.speedXZ = 15.0f;
 
-                this->actor.posRot.rot.y = this->actor.yawTowardsLink + 0x8000;
+                this->actor.world.rot.y = this->actor.yawTowardsPlayer + 0x8000;
                 this->damageFlashTimer = 15;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_DAMAGE);
                 this->actor.colChkInfo.health -= damage;
@@ -2017,7 +2017,7 @@ void BossMo_CoreCollisionCheck(BossMo* this, GlobalContext* globalCtx) {
                 sp48.x = Rand_CenteredFloat(4.0f);
                 sp48.y = Rand_ZeroFloat(2.0f) + 3.0f;
                 sp48.z = Rand_CenteredFloat(4.0f);
-                sp54 = this->actor.posRot.pos;
+                sp54 = this->actor.world.pos;
                 sp54.x += (sp48.x * 3.0f);
                 sp54.z += (sp48.z * 3.0f);
                 BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &sp54, &sp48, Rand_ZeroFloat(0.08f) + 0.13f);
@@ -2081,7 +2081,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
         return;
     }
     if ((this->actionState < MO_CORE_ATTACK) && (this->actionState >= MO_CORE_MOVE) &&
-        (this->actor.posRot.pos.y > WATER_LEVEL(globalCtx))) {
+        (this->actor.world.pos.y > WATER_LEVEL(globalCtx))) {
         if (this->actor.velocity.y > 0.0f) {
             spC0 = 0.005f;
             spBC = 0.015f;
@@ -2095,9 +2095,9 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.scale.x, spC0, 0.2f, 0.001f);
     this->actor.scale.z = this->actor.scale.x;
     Math_ApproachF(&this->actor.scale.y, spBC, 0.2f, 0.001f);
-    this->drawShadow = BossMo_OnLand(&this->actor.posRot.pos, 15.0f);
-    onLand = BossMo_OnLand(&this->actor.posRot.pos, 0.0f);
-    if ((player->actor.posRot.pos.y < (WATER_LEVEL(globalCtx) - 50.0f)) &&
+    this->drawShadow = BossMo_OnLand(&this->actor.world.pos, 15.0f);
+    onLand = BossMo_OnLand(&this->actor.world.pos, 0.0f);
+    if ((player->actor.world.pos.y < (WATER_LEVEL(globalCtx) - 50.0f)) &&
         ((this->actionState == MO_CORE_MOVE) || (this->actionState == MO_CORE_MAKE_TENT))) {
         this->actionState = MO_CORE_UNDERWATER;
         this->actor.speedXZ = 0.0f;
@@ -2108,13 +2108,13 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
             this->actor.flags |= 1;
             if ((this->timers[0] == 0) &&
                 ((sMorphaTent1->actionState == MO_TENT_WAIT) || (sMorphaTent1->actionState == MO_TENT_READY)) &&
-                (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx))) {
+                (this->actor.world.pos.y < WATER_LEVEL(globalCtx))) {
                 this->actor.speedXZ = 0.0f;
                 this->actionState = MO_CORE_MAKE_TENT;
                 if (sMorphaTent1->actionState == MO_TENT_WAIT) {
                     sMorphaTent1->actionState = MO_TENT_SPAWN;
                     sMorphaTent1->timers[0] = 70;
-                    sMorphaTent1->actor.shape.rot.y = sMorphaTent1->actor.yawTowardsLink;
+                    sMorphaTent1->actor.shape.rot.y = sMorphaTent1->actor.yawTowardsPlayer;
                 }
             }
             break;
@@ -2136,7 +2136,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
             }
             break;
         case MO_CORE_UNDERWATER:
-            if (player->actor.posRot.pos.y >= WATER_LEVEL(globalCtx)) {
+            if (player->actor.world.pos.y >= WATER_LEVEL(globalCtx)) {
                 this->actionState = MO_CORE_MOVE;
                 this->actor.speedXZ = 0.0f;
             }
@@ -2147,7 +2147,7 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 this->actionState = MO_CORE_MOVE;
                 this->timers[0] = 30;
             }
-            if (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) {
+            if (this->actor.world.pos.y < WATER_LEVEL(globalCtx)) {
                 this->actionState = MO_CORE_MAKE_TENT;
                 this->timers[0] = 50;
                 this->actor.speedXZ = 0.0f;
@@ -2217,41 +2217,41 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
         if (this->corePos <= 1) {
             this->targetPos.y -= 20.0f;
         }
-        Math_ApproachF(&this->actor.posRot.pos.x, this->targetPos.x, 0.5f, this->actor.speedXZ);
-        Math_ApproachF(&this->actor.posRot.pos.y, this->targetPos.y, 0.5f, this->actor.speedXZ);
-        Math_ApproachF(&this->actor.posRot.pos.z, this->targetPos.z, 0.5f, this->actor.speedXZ);
+        Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 0.5f, this->actor.speedXZ);
+        Math_ApproachF(&this->actor.world.pos.y, this->targetPos.y, 0.5f, this->actor.speedXZ);
+        Math_ApproachF(&this->actor.world.pos.z, this->targetPos.z, 0.5f, this->actor.speedXZ);
         Math_ApproachF(&this->actor.speedXZ, 30.0f, 1.0f, 1.0f);
     } else {
         switch (this->actionState) {
             case MO_CORE_MOVE:
                 sp80 = Math_SinS(this->rippleTimer * 0x800) * 100.0f;
                 sp7C = Math_CosS(this->rippleTimer * 0x800) * 100.0f;
-                Math_ApproachF(&this->actor.posRot.pos.x, sMorphaTent1->targetPos.x + sp80, 0.05f, this->actor.speedXZ);
-                Math_ApproachF(&this->actor.posRot.pos.z, sMorphaTent1->targetPos.z + sp7C, 0.05f, this->actor.speedXZ);
+                Math_ApproachF(&this->actor.world.pos.x, sMorphaTent1->targetPos.x + sp80, 0.05f, this->actor.speedXZ);
+                Math_ApproachF(&this->actor.world.pos.z, sMorphaTent1->targetPos.z + sp7C, 0.05f, this->actor.speedXZ);
                 Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
                 break;
             case MO_CORE_STUNNED:
-                this->actor.velocity.x = Math_SinS(this->actor.posRot.rot.y) * this->actor.speedXZ;
-                this->actor.velocity.z = Math_CosS(this->actor.posRot.rot.y) * this->actor.speedXZ;
-                this->actor.posRot.pos.x += this->actor.velocity.x;
-                this->actor.posRot.pos.z += this->actor.velocity.z;
+                this->actor.velocity.x = Math_SinS(this->actor.world.rot.y) * this->actor.speedXZ;
+                this->actor.velocity.z = Math_CosS(this->actor.world.rot.y) * this->actor.speedXZ;
+                this->actor.world.pos.x += this->actor.velocity.x;
+                this->actor.world.pos.z += this->actor.velocity.z;
                 break;
         }
         if ((this->actionState == MO_CORE_MOVE) || (this->actionState == MO_CORE_STUNNED)) {
-            this->actor.posRot.pos.y += this->actor.velocity.y;
+            this->actor.world.pos.y += this->actor.velocity.y;
             this->actor.velocity.y -= 1.0f;
-            func_8002E4B4(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, 1);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, 1);
             spA4.x = spA4.y = spA4.z = 0.0f;
             for (i = 0; i < 1; i++) {
-                spB0.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                spB0.y = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.y;
-                spB0.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                spB0.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
+                spB0.y = Rand_CenteredFloat(20.0f) + this->actor.world.pos.y;
+                spB0.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
                 BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &spB0, &spA4, Rand_ZeroFloat(0.02f) + 0.05f);
             };
 
             if (onLand) {
-                if (this->actor.posRot.pos.y <= 10) {
-                    this->actor.posRot.pos.y = 10;
+                if (this->actor.world.pos.y <= 10) {
+                    this->actor.world.pos.y = 10;
                     this->actor.velocity.y = -0.01f;
                     if (this->timers[1] != 0) {
                         if (this->timers[1] == 1) {
@@ -2264,44 +2264,44 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                             spA4.x = Rand_CenteredFloat(4.0f);
                             spA4.y = Rand_ZeroFloat(2.0f) + 3.0f;
                             spA4.z = Rand_CenteredFloat(4.0f);
-                            spB0 = this->actor.posRot.pos;
+                            spB0 = this->actor.world.pos;
                             spB0.x += spA4.x;
                             spB0.z += spA4.z;
                             BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &spB0, &spA4,
                                                 Rand_ZeroFloat(0.08f) + 0.13f);
                         }
                         spA4.x = spA4.y = spA4.z = 0.0f;
-                        spB0 = this->actor.posRot.pos;
+                        spB0 = this->actor.world.pos;
                         spB0.y = 0.0f;
                         BossMo_SpawnDroplet(MO_DROPLET, globalCtx->unk_11E10, &spB0, &spA4, 0.4f);
                     }
                 }
-            } else if (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) {
-                this->actor.velocity.y = BossMo_OnLand(&this->actor.posRot.pos, 40.0f) ? 15.0f : 6.0f;
-                if ((this->actor.posRot.pos.y + 15.0f) >= WATER_LEVEL(globalCtx)) {
+            } else if (this->actor.world.pos.y < WATER_LEVEL(globalCtx)) {
+                this->actor.velocity.y = BossMo_OnLand(&this->actor.world.pos, 40.0f) ? 15.0f : 6.0f;
+                if ((this->actor.world.pos.y + 15.0f) >= WATER_LEVEL(globalCtx)) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
                 }
             }
         } else if (this->actionState >= MO_CORE_MOVE) {
-            if (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) {
+            if (this->actor.world.pos.y < WATER_LEVEL(globalCtx)) {
                 if (this->actionState == MO_CORE_MAKE_TENT) {
                     this->targetPos.x = sMorphaTent1->targetPos.x;
-                    this->targetPos.y = sMorphaTent1->actor.posRot.pos.y - 40.0f;
+                    this->targetPos.y = sMorphaTent1->actor.world.pos.y - 40.0f;
                     this->targetPos.z = sMorphaTent1->targetPos.z;
                     Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 0.5f);
                 } else if (this->actionState == MO_CORE_UNDERWATER) {
                     switch (this->waitUnderwater) {
                         case false:
-                            this->targetPos = player->actor.posRot.pos;
+                            this->targetPos = player->actor.world.pos;
                             this->targetPos.y += 30.0f;
                             sp70.x = 0.0f;
                             sp70.y = 0.0f;
                             sp70.z = 100.0f;
-                            Matrix_RotateY((player->actor.posRot.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
+                            Matrix_RotateY((player->actor.world.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
                             Matrix_MultVec3f(&sp70, &sp64);
-                            this->targetPos.x = player->actor.posRot.pos.x + sp64.x;
-                            this->targetPos.y = player->actor.posRot.pos.y + 30.0f;
-                            this->targetPos.z = player->actor.posRot.pos.z + sp64.z;
+                            this->targetPos.x = player->actor.world.pos.x + sp64.x;
+                            this->targetPos.y = player->actor.world.pos.y + 30.0f;
+                            this->targetPos.z = player->actor.world.pos.z + sp64.z;
                             Math_ApproachF(&this->actor.speedXZ, 10.0f, 1.0f, 1.0f);
                             if (this->timers[0] == 0) {
                                 this->waitUnderwater = true;
@@ -2323,34 +2323,34 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 this->targetPos.z += Math_SinS(this->movementTimer * 2796.0f) * 30.0f;
                 this->tentMaxAngle = 5.0f;
                 this->tentSpeed = 4000.0f;
-                spDC = this->targetPos.x - this->actor.posRot.pos.x;
-                spD8 = this->targetPos.y - this->actor.posRot.pos.y;
-                spD4 = this->targetPos.z - this->actor.posRot.pos.z;
+                spDC = this->targetPos.x - this->actor.world.pos.x;
+                spD8 = this->targetPos.y - this->actor.world.pos.y;
+                spD4 = this->targetPos.z - this->actor.world.pos.z;
                 spCC = (s16)(Math_FAtan2F(spDC, spD4) * (0x8000 / M_PI));
                 spD0 = (s16)(Math_FAtan2F(spD8, sqrtf(SQ(spDC) + SQ(spD4))) * (0x8000 / M_PI));
-                Math_ApproachS(&this->actor.posRot.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
-                Math_ApproachS(&this->actor.posRot.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->actor.world.rot.y, spCC, this->tentMaxAngle, this->tentSpeed);
+                Math_ApproachS(&this->actor.world.rot.x, spD0, this->tentMaxAngle, this->tentSpeed);
                 func_8002D908(&this->actor);
             } else {
-                this->actor.posRot.pos.y += this->actor.velocity.y;
+                this->actor.world.pos.y += this->actor.velocity.y;
                 this->actor.velocity.y -= 1.0f;
             }
             func_8002D7EC(&this->actor);
-            temp = (this->actor.posRot.pos.y < -200.0f) ? 5 : 1;
-            this->actor.posRot.pos.y -= 20.0f;
-            func_8002E4B4(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, temp);
-            this->actor.posRot.pos.y += 20.0f;
+            temp = (this->actor.world.pos.y < -200.0f) ? 5 : 1;
+            this->actor.world.pos.y -= 20.0f;
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 20.0f, 100.0f, temp);
+            this->actor.world.pos.y += 20.0f;
         }
     }
-    if ((this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) && (WATER_LEVEL(globalCtx) <= this->actor.pos4.y)) {
+    if ((this->actor.world.pos.y < WATER_LEVEL(globalCtx)) && (WATER_LEVEL(globalCtx) <= this->actor.prevPos.y)) {
         if (this->actor.velocity.y < -5.0f) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_JUMP);
         } else {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MOFER_CORE_SMJUMP);
         }
         if ((this->timers[3] != 0) || ((sMorphaTent1->tentMaxStretch > 0.2f) &&
-                                       (fabsf(this->actor.posRot.pos.x - sMorphaTent1->actor.posRot.pos.x) < 30.0f) &&
-                                       (fabsf(this->actor.posRot.pos.z - sMorphaTent1->actor.posRot.pos.z) < 30.0f))) {
+                                       (fabsf(this->actor.world.pos.x - sMorphaTent1->actor.world.pos.x) < 30.0f) &&
+                                       (fabsf(this->actor.world.pos.z - sMorphaTent1->actor.world.pos.z) < 30.0f))) {
             // This space intentionally left blank.
         } else {
             this->timers[3] = 8;
@@ -2361,20 +2361,20 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 spA4.z = Math_CosS(((i * (f32)0x10000) / 10.0f) + sp5C) * sp60;
                 spA4.y = Rand_ZeroFloat(0.3f) + 3.0f;
 
-                spB0 = this->actor.posRot.pos;
+                spB0 = this->actor.world.pos;
                 spB0.x += spA4.x * 3.0f;
                 spB0.y = WATER_LEVEL(globalCtx);
                 spB0.z += spA4.z * 3.0f;
                 BossMo_SpawnDroplet(MO_SPLASH, globalCtx->unk_11E10, &spB0, &spA4, Rand_ZeroFloat(0.075f) + 0.15f);
             }
-            spB0 = this->actor.posRot.pos;
+            spB0 = this->actor.world.pos;
             spB0.y = WATER_LEVEL(globalCtx);
             BossMo_SpawnRipples(globalCtx->unk_11E10, &spB0, 100.0f, 800.0f, 100, 290, MO_SMALL_RIPPLE);
             BossMo_SpawnRipples(globalCtx->unk_11E10, &spB0, 50.0f, 600.0f, 70, 290, MO_SMALL_RIPPLE);
             BossMo_SpawnRipples(globalCtx->unk_11E10, &spB0, 0, 400.0f, 50, 290, MO_SMALL_RIPPLE);
         }
     }
-    if ((this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) || (this->actionState >= MO_CORE_ATTACK)) {
+    if ((this->actor.world.pos.y < WATER_LEVEL(globalCtx)) || (this->actionState >= MO_CORE_ATTACK)) {
         for (i = 0; i < 3; i++) {
             sp98.x = sp98.z = 0.0f;
             spA4.x = spA4.y = spA4.z = 0.0f;
@@ -2385,9 +2385,9 @@ void BossMo_Core(BossMo* this, GlobalContext* globalCtx) {
                 sp98.y = 0.1f;
                 sp58 = 20.0f;
             }
-            spB0.x = Rand_CenteredFloat(sp58) + this->actor.posRot.pos.x;
-            spB0.y = Rand_CenteredFloat(sp58) + this->actor.posRot.pos.y;
-            spB0.z = Rand_CenteredFloat(sp58) + this->actor.posRot.pos.z;
+            spB0.x = Rand_CenteredFloat(sp58) + this->actor.world.pos.x;
+            spB0.y = Rand_CenteredFloat(sp58) + this->actor.world.pos.y;
+            spB0.z = Rand_CenteredFloat(sp58) + this->actor.world.pos.z;
             BossMo_SpawnBubble(globalCtx->unk_11E10, &spB0, &spA4, &sp98, Rand_ZeroFloat(0.05f) + 0.1f, NULL);
         }
     }
@@ -2407,7 +2407,7 @@ void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx) {
         WATER_LEVEL(globalCtx) = sMorphaTent2->waterLevelMod + ((s16)this->waterLevel + sMorphaTent1->waterLevelMod);
     }
     this->actor.flags |= 0x200;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     this->rippleTimer++;
     DECR(this->damageFlashTimer);
     DECR(this->invincibilityTimer);
@@ -2418,7 +2418,7 @@ void BossMo_UpdateCore(Actor* thisx, GlobalContext* globalCtx) {
     BossMo_Core(this, globalCtx);
     Collider_UpdateCylinder(&this->actor, &this->coreCollider);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->coreCollider.base);
-    if ((this->actionState != MO_CORE_STUNNED) || (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx))) {
+    if ((this->actionState != MO_CORE_STUNNED) || (this->actor.world.pos.y < WATER_LEVEL(globalCtx))) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->coreCollider.base);
     } else {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->coreCollider.base);
@@ -2496,16 +2496,16 @@ void BossMo_Update(Actor* thisx, GlobalContext* globalCtx) {
     for (i = 0; i < 5; i++) {
         DECR(this->timers[i]);
     }
-    Math_ApproachS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 0xA, 0xC8);
+    Math_ApproachS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 0xA, 0xC8);
     Actor_MoveForward(&this->actor);
     Math_ApproachF(&this->actor.speedXZ, 0.0, 1.0f, 0.02f);
 
-    if (BossMo_OnLand(&this->actor.posRot.pos, 40)) {
-        this->actor.posRot.pos = this->actor.pos4;
+    if (BossMo_OnLand(&this->actor.world.pos, 40)) {
+        this->actor.world.pos = this->actor.prevPos;
     }
     if ((this->rippleTimer % 8) == 0) {
         f32 rippleScale;
-        Vec3f sp94 = this->actor.posRot.pos;
+        Vec3f sp94 = this->actor.world.pos;
 
         if (this->actionState < MO_TENT_DEATH_START) {
             rippleScale = 400.0f;
@@ -2649,7 +2649,7 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_XLU_DISP++, 0x0C, matrix);
 
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_APPLY);
     Matrix_RotateX((this->actor.shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
 
@@ -2728,7 +2728,7 @@ void BossMo_DrawTentacle(BossMo* this, GlobalContext* globalCtx) {
 
         Matrix_MultVec3f(&zeroVec, &this->tentPos[i]);
         if (i == 36) {
-            Matrix_MultVec3f(&zeroVec, &this->actor.posRot2.pos);
+            Matrix_MultVec3f(&zeroVec, &this->actor.focus.pos);
         }
         if (i == 24) {
             MtxF sp98;
@@ -2792,7 +2792,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
     BossMo* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6688);
-    if (this->actor.posRot.pos.y > WATER_LEVEL(globalCtx)) {
+    if (this->actor.world.pos.y > WATER_LEVEL(globalCtx)) {
         BossMo_DrawWater(this, globalCtx);
     }
     if (this->drawActor) {
@@ -2827,11 +2827,11 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         }
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gMorphaCoreNucleusDL));
 
-        if ((this->drawShadow && (this->actor.posRot.pos.y >= 0.0f)) ||
-            (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx))) {
+        if ((this->drawShadow && (this->actor.world.pos.y >= 0.0f)) ||
+            (this->actor.world.pos.y < WATER_LEVEL(globalCtx))) {
             f32 groundLevel;
             s16 shadowAlpha;
-            if (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) {
+            if (this->actor.world.pos.y < WATER_LEVEL(globalCtx)) {
                 groundLevel = -280.0f;
                 shadowAlpha = 100;
             } else {
@@ -2843,7 +2843,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, shadowAlpha);
 
-            Matrix_Translate(this->actor.posRot.pos.x, groundLevel, this->actor.posRot.pos.z, MTXMODE_NEW);
+            Matrix_Translate(this->actor.world.pos.x, groundLevel, this->actor.world.pos.z, MTXMODE_NEW);
             Matrix_Scale(0.23f, 1.0f, 0.23f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6820),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -2852,7 +2852,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.posRot.pos.y < WATER_LEVEL(globalCtx)) {
+    if (this->actor.world.pos.y < WATER_LEVEL(globalCtx)) {
         BossMo_DrawWater(this, globalCtx);
     }
 

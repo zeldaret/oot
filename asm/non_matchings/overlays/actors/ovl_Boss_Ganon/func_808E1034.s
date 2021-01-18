@@ -647,7 +647,7 @@ glabel L808E176C
 /* 0B05C 808E18CC 44812000 */  mtc1    $at, $f4                   ## $f4 = 20.00
 /* 0B060 808E18D0 4406A000 */  mfc1    $a2, $f20                  
 /* 0B064 808E18D4 AFA90014 */  sw      $t1, 0x0014($sp)           
-/* 0B068 808E18D8 0C00B92D */  jal     func_8002E4B4              
+/* 0B068 808E18D8 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 0B06C 808E18DC E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 0B070 808E18E0 C6200024 */  lwc1    $f0, 0x0024($s1)           ## 00000024
 .L808E18E4:

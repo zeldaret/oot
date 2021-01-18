@@ -22,7 +22,7 @@ void func_80A6A724(EnHorseLinkChild* this);
 
 const ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HORSE_LINK_CHILD,
     sizeof(EnHorseLinkChild),
@@ -147,11 +147,11 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.005f);
     this->actor.gravity = -3.5f;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawHorse, 20.0f);
     this->actor.speedXZ = 0.0f;
     this->action = 1;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06007B20, &D_06002F98);
     this->animationIdx = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
@@ -176,7 +176,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80A69EC0(this);
     }
 
-    this->actor.initPosRot.rot.z = this->actor.posRot.rot.z = this->actor.shape.rot.z = 0;
+    this->actor.home.rot.z = this->actor.world.rot.z = this->actor.shape.rot.z = 0;
 }
 
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -224,7 +224,7 @@ void func_80A699FC(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     f32 distFromLink;
     s32 newAnimationIdx;
 
-    distFromLink = func_8002DB8C(&this->actor, &PLAYER->actor);
+    distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if ((distFromLink < 1000.0f) && (distFromLink > 70.0f)) {
@@ -257,21 +257,21 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     s32 newAnimationIdx;
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
-        yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.posRot.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
 
         if (yawDiff > 0x12C) {
-            this->actor.posRot.rot.y += 0x12C;
+            this->actor.world.rot.y += 0x12C;
         } else if (yawDiff < -0x12C) {
-            this->actor.posRot.rot.y -= 0x12C;
+            this->actor.world.rot.y -= 0x12C;
         } else {
-            this->actor.posRot.rot.y += yawDiff;
+            this->actor.world.rot.y += yawDiff;
         }
 
-        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
-        distFromLink = func_8002DB8C(&this->actor, &PLAYER->actor);
+        distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
 
         if (distFromLink > 1000.0f) {
             func_80A6993C(this, 0);
@@ -319,24 +319,24 @@ void func_80A69F5C(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
         player = PLAYER;
 
-        if (Math3D_Vec3f_DistXYZ(&player->actor.posRot.pos, &this->actor.initPosRot.pos) < 250.0f) {
+        if (Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos) < 250.0f) {
             yawDiff = player->actor.shape.rot.y;
-            yawSign = func_8002DA78(&this->actor, &player->actor) > 0 ? 1 : -1;
+            yawSign = Actor_WorldYawTowardActor(&this->actor, &player->actor) > 0 ? 1 : -1;
             yawOffset = yawSign << 0xE;
             yawDiff += yawOffset;
         } else {
-            yawDiff = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos) - this->actor.posRot.rot.y;
+            yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos) - this->actor.world.rot.y;
         }
 
         if (yawDiff > 0x12C) {
-            this->actor.posRot.rot.y += 0x12C;
+            this->actor.world.rot.y += 0x12C;
         } else if (yawDiff < -0x12C) {
-            this->actor.posRot.rot.y -= 0x12C;
+            this->actor.world.rot.y -= 0x12C;
         } else {
-            this->actor.posRot.rot.y += yawDiff;
+            this->actor.world.rot.y += yawDiff;
         }
 
-        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 }
 
@@ -350,7 +350,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     func_80A69F5C(this, globalCtx);
     player = PLAYER;
-    distFromLink = func_8002DB8C(&this->actor, &player->actor);
+    distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
     if (gSaveContext.entranceIndex == 0x2AE) {
         Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -370,8 +370,8 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (animationEnded || (this->animationIdx == 1) || (this->animationIdx == 0)) {
         if (gSaveContext.eventChkInf[1] & 0x20) {
-            distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-            distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.posRot.pos, &this->actor.initPosRot.pos);
+            distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
+            distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos);
             if (distLinkFromHome > 250.0f) {
                 if (distFromHome >= 300.0f) {
                     newAnimationIdx = 4;
@@ -450,10 +450,10 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         func_80A6A724(this);
     } else {
         this->actor.speedXZ = 0.0f;
-        yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.posRot.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
         // 0.7071 = cos(pi/4)
         if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
-            func_8006DD9C(&this->actor, &PLAYER->actor.posRot.pos, 300);
+            func_8006DD9C(&this->actor, &PLAYER->actor.world.pos, 300);
         }
 
         if (SkelAnime_Update(&this->skin.skelAnime)) {
@@ -490,17 +490,17 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
         if (!this->unk_1E8) {
-            func_8006DD9C(&this->actor, &player->actor.posRot.pos, 300);
+            func_8006DD9C(&this->actor, &player->actor.world.pos, 300);
         } else {
-            func_8006DD9C(&this->actor, &this->actor.initPosRot.pos, 300);
+            func_8006DD9C(&this->actor, &this->actor.home.pos, 300);
         }
     }
 
     if (SkelAnime_Update(&this->skin.skelAnime)) {
         if (!this->unk_1E8) {
-            dist = func_8002DB8C(&this->actor, &PLAYER->actor);
+            dist = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
         } else {
-            dist = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
+            dist = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         }
 
         if (!this->unk_1E8) {
@@ -555,14 +555,14 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
 
-    if ((globalCtx->sceneNum == SCENE_SPOT20) && (this->actor.posRot.pos.z < -2400.0f)) {
-        this->actor.posRot.pos.z = -2400.0f;
+    if ((globalCtx->sceneNum == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
+        this->actor.world.pos.z = -2400.0f;
     }
 
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
 
     if ((Rand_ZeroOne() < 0.025f) && (this->unk_1EC == 0)) {
         this->unk_1EC++;

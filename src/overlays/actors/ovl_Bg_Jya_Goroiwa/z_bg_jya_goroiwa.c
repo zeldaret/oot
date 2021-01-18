@@ -26,7 +26,7 @@ void func_80897970(BgJyaGoroiwa* this);
 
 const ActorInit Bg_Jya_Goroiwa_InitVars = {
     ACTOR_BG_JYA_GOROIWA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GOROIWA,
     sizeof(BgJyaGoroiwa),
@@ -76,9 +76,9 @@ static InitChainEntry sInitChain[] = {
 void func_80897970(BgJyaGoroiwa* this) {
     Sphere16* worldSphere = &this->collider.elements[0].dim.worldSphere;
 
-    worldSphere->center.x = this->actor.posRot.pos.x;
-    worldSphere->center.y = (s32)(this->actor.posRot.pos.y + 59.5f);
-    worldSphere->center.z = this->actor.posRot.pos.z;
+    worldSphere->center.x = this->actor.world.pos.x;
+    worldSphere->center.y = (s32)(this->actor.world.pos.y + 59.5f);
+    worldSphere->center.z = this->actor.world.pos.z;
 }
 
 void func_808979C0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
@@ -91,7 +91,7 @@ void func_808979C0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void func_80897A2C(BgJyaGoroiwa* this) {
-    f32 posDiff = this->actor.posRot.pos.x - this->actor.pos4.x;
+    f32 posDiff = this->actor.world.pos.x - this->actor.prevPos.x;
 
     this->actor.shape.rot.z -= 0x10000 / (119 * M_PI) * posDiff;
 }
@@ -103,8 +103,8 @@ void BgJyaGoroiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_808979C0(this, globalCtx);
     this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    ActorShape_Init(&this->actor.shape, 595.0f, &ActorShadow_DrawFunc_Circle, 9.0f);
-    this->actor.shape.unk_14 = 0x80;
+    ActorShape_Init(&this->actor.shape, 595.0f, ActorShadow_DrawCircle, 9.0f);
+    this->actor.shape.shadowAlpha = 128;
     func_80897B1C(this);
 }
 
@@ -125,37 +125,37 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
     f32 tmpf2;
     s16 tmp16;
-    f32 tmpf1 = (-100.0f - thisx->posRot.pos.y) * 2.5f;
+    f32 tmpf1 = (-100.0f - thisx->world.pos.y) * 2.5f;
 
     if (tmpf1 < 0.01f) {
         tmpf1 = 0.01f;
     }
 
     thisx->speedXZ = (sqrtf(tmpf1) * this->unk_1B0);
-    thisx->velocity.x = (Math_SinS(thisx->posRot.rot.y) * thisx->speedXZ);
+    thisx->velocity.x = (Math_SinS(thisx->world.rot.y) * thisx->speedXZ);
 
-    tmpf2 = Math_CosS(thisx->posRot.rot.y) * thisx->speedXZ;
+    tmpf2 = Math_CosS(thisx->world.rot.y) * thisx->speedXZ;
     thisx->velocity.z = tmpf2;
-    thisx->posRot.pos.x = thisx->posRot.pos.x + thisx->velocity.x;
-    thisx->posRot.pos.z = thisx->posRot.pos.z + tmpf2;
+    thisx->world.pos.x = thisx->world.pos.x + thisx->velocity.x;
+    thisx->world.pos.z = thisx->world.pos.z + tmpf2;
 
-    if ((1466.0f < thisx->posRot.pos.x) && (thisx->posRot.pos.x < 1673.0f)) {
-        thisx->posRot.pos.y = -129.5f;
+    if ((1466.0f < thisx->world.pos.x) && (thisx->world.pos.x < 1673.0f)) {
+        thisx->world.pos.y = -129.5f;
     } else {
-        tmpf2 = 1569.0f - thisx->posRot.pos.x;
+        tmpf2 = 1569.0f - thisx->world.pos.x;
         tmpf1 = fabsf(tmpf2) - 103.0f;
-        thisx->posRot.pos.y = (0.38043478f * tmpf1) - 129.5f;
+        thisx->world.pos.y = (0.38043478f * tmpf1) - 129.5f;
     }
 
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.atFlags &= ~AT_HIT & ~AT_ON;
 
-        tmp16 = thisx->yawTowardsLink - thisx->posRot.rot.y;
+        tmp16 = thisx->yawTowardsPlayer - thisx->world.rot.y;
         if ((tmp16 >= -0x3FFF) && (tmp16 < 0x4000)) {
-            thisx->posRot.rot.y += 0x8000;
+            thisx->world.rot.y += 0x8000;
         }
 
-        func_8002F6D4(globalCtx, thisx, 2.0f, thisx->yawTowardsLink, 0.0f, 0);
+        func_8002F6D4(globalCtx, thisx, 2.0f, thisx->yawTowardsPlayer, 0.0f, 0);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
 
         this->unk_1B8 = 10.0f;
@@ -165,19 +165,19 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
 
     if (this->unk_1B4) {
         this->unk_1B8 -= 1.5f;
-        thisx->shape.unk_08 += this->unk_1B8 * 10.0f;
-        if (thisx->shape.unk_08 < 595.0f) {
-            thisx->shape.unk_08 = 595.0f;
+        thisx->shape.yOffset += this->unk_1B8 * 10.0f;
+        if (thisx->shape.yOffset < 595.0f) {
+            thisx->shape.yOffset = 595.0f;
             func_80897DDC(this);
         }
     } else {
         Math_StepToF(&this->unk_1B0, 1.0f, 0.04f);
     }
 
-    if (thisx->posRot.pos.x > 1745.0f) {
-        thisx->posRot.rot.y = -0x4000;
-    } else if (thisx->posRot.pos.x < 1393.0f) {
-        thisx->posRot.rot.y = 0x4000;
+    if (thisx->world.pos.x > 1745.0f) {
+        thisx->world.rot.y = -0x4000;
+    } else if (thisx->world.pos.x < 1393.0f) {
+        thisx->world.rot.y = 0x4000;
     }
 
     Audio_PlayActorSound2(thisx, NA_SE_EV_BIGBALL_ROLL - SFX_FLAG);
@@ -206,10 +206,10 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x300000C0)) {
         this->actionFunc(this, globalCtx);
         func_80897A2C(this);
-        pos.x = this->actor.posRot.pos.x;
-        pos.y = this->actor.posRot.pos.y + 59.5f;
-        pos.z = this->actor.posRot.pos.z;
-        this->actor.groundY =
+        pos.x = this->actor.world.pos.x;
+        pos.y = this->actor.world.pos.y + 59.5f;
+        pos.z = this->actor.world.pos.z;
+        this->actor.floorHeight =
             BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
         func_80897970(this);
         if (this->collider.base.atFlags & AT_ON) {
