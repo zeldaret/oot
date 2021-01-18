@@ -31,7 +31,7 @@ extern AnimationHeader D_060012E8;
 extern AnimationHeader D_06002160;
 extern AnimationHeader D_0600265C;
 extern AnimationHeader D_060033B4;
-extern UNK_TYPE D_06005BC8;
+extern Gfx D_06005BC8[];
 
 const ActorInit En_Hy_InitVars = {
     ACTOR_EN_HY,
@@ -96,10 +96,10 @@ typedef struct {
     /* 0x04 */ FlexSkeletonHeader* unk_4;
 } EnHyUnknownStruct2; // size = 0x8
 
-static EnHyUnknownStruct2 D_80A72010[] = { { OBJECT_AOB, 0x060000F0 }, { OBJECT_BOB, 0x060000F0 },
-                                           { OBJECT_BOJ, 0x060000F0 }, { OBJECT_AHG, 0x060000F0 },
-                                           { OBJECT_BBA, 0x060000F0 }, { OBJECT_CNE, 0x060000F0 },
-                                           { OBJECT_BJI, 0x060000F0 }, { OBJECT_COB, 0x060021F8 } };
+static EnHyUnknownStruct2 D_80A72010[] = {
+    { OBJECT_AOB, 0x060000F0 }, { OBJECT_BOB, 0x060000F0 }, { OBJECT_BOJ, 0x060000F0 }, { OBJECT_AHG, 0x060000F0 },
+    { OBJECT_BBA, 0x060000F0 }, { OBJECT_CNE, 0x060000F0 }, { OBJECT_BJI, 0x060000F0 }, { OBJECT_COB, 0x060021F8 },
+};
 
 static struct_80034EC0_Entry D_80A72050[] = {
     { 0x0600092C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },   { 0x06000228, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
@@ -259,10 +259,10 @@ s32 func_80A6F790(EnHy* this, GlobalContext* globalCtx) {
     return true;
 }
 
-void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 itemId) {
-    this->unk_260 = itemId;
-    func_8002F434(&this->actor, globalCtx, itemId, this->actor.xzDistToLink + 1.0f,
-                  fabsf(this->actor.yDistToLink) + 1.0f);
+void func_80A6F7CC(EnHy* this, GlobalContext* globalCtx, s32 getItemId) {
+    this->unk_260 = getItemId;
+    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
+                  fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
 u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
@@ -547,9 +547,9 @@ void func_80A70660(EnHy* this) {
 void func_80A70698(EnHy* this) {
     u8 i = this->actor.params & 0x7F;
 
-    this->actor.shape.unk_10 = D_80A725A4[i].unk_0;
+    this->actor.shape.shadowScale = D_80A725A4[i].unk_0;
     Actor_SetScale(&this->actor, D_80A725A4[i].unk_10);
-    this->actor.unk_1F = D_80A725A4[i].unk_14;
+    this->actor.targetMode = D_80A725A4[i].unk_14;
     this->unk_264 = D_80A725A4[i].unk_4;
     this->unk_25C = D_80A725A4[i].unk_18;
     this->unk_25C += this->collider.dim.radius;
@@ -558,9 +558,9 @@ void func_80A70698(EnHy* this) {
 void func_80A70734(EnHy* this, GlobalContext* globalCtx) {
     Vec3s pos;
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y;
+    pos.z = this->actor.world.pos.z;
     pos.x += D_80A723D4[this->actor.params & 0x7F].offset.x;
     pos.y += D_80A723D4[this->actor.params & 0x7F].offset.y;
     pos.z += D_80A723D4[this->actor.params & 0x7F].offset.z;
@@ -636,7 +636,7 @@ void func_80A70978(EnHy* this, GlobalContext* globalCtx) {
             break;
     }
 
-    this->unk_1E8.unk_18 = player->actor.posRot.pos;
+    this->unk_1E8.unk_18 = player->actor.world.pos;
 
     if (LINK_IS_ADULT) {
         this->unk_1E8.unk_14 = D_80A724A8[this->actor.params & 0x7F].unk_8;
@@ -745,12 +745,12 @@ void func_80A70E34(EnHy* this, GlobalContext* globalCtx) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, D_80A72010[D_80A722D8[this->actor.params & 0x7F].unk_6].unk_4,
                            NULL, this->jointTable, this->morphTable, 16);
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->unk_199].segment);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80A71EC0);
         func_80A70660(this);
-        func_80061EFC(&this->actor.colChkInfo, NULL, &D_80A71EEC);
+        CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80A71EEC);
         func_80034EC0(&this->skelAnime, D_80A72050, D_80A722D8[this->actor.params & 0x7F].unk_B);
 
         if ((globalCtx->sceneNum == SCENE_MARKET_ALLEY) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) {
@@ -829,8 +829,8 @@ void func_80A711B4(EnHy* this, GlobalContext* globalCtx) {
     f32 distSq;
 
     distSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->unk_214, &yaw);
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, yaw, 10, 1000, 1);
-    this->actor.shape.rot = this->actor.posRot.rot;
+    Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 10, 1000, 1);
+    this->actor.shape.rot = this->actor.world.rot;
 
     if ((distSq > 0.0f) && (distSq < 1000.0f)) {
         this->unk_214++;
@@ -848,7 +848,7 @@ void func_80A712B4(EnHy* this, GlobalContext* globalCtx) {
 }
 
 void func_80A712C0(EnHy* this, GlobalContext* globalCtx) {
-    if ((this->actor.xzDistToLink <= 100.0f) && (this->path != NULL)) {
+    if ((this->actor.xzDistToPlayer <= 100.0f) && (this->path != NULL)) {
         func_80034EC0(&this->skelAnime, D_80A72050, 7);
         this->actor.speedXZ = 0.4f;
         this->actionFunc = func_80A7134C;
@@ -871,8 +871,8 @@ void func_80A7134C(EnHy* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = 0.4f;
     distSq = Path_OrientAndGetDistSq(&this->actor, this->path, this->unk_214, &yaw);
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, yaw, 10, 1000, 1);
-    this->actor.shape.rot = this->actor.posRot.rot;
+    Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 10, 1000, 1);
+    this->actor.shape.rot = this->actor.world.rot;
 
     if (!(distSq <= 0.0f) && !(distSq >= 1000.0f)) {
         if (!this->unk_195) {
@@ -895,8 +895,8 @@ void func_80A714C4(EnHy* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_80A71530;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToLink + 1.0f,
-                      fabsf(this->actor.yDistToLink) + 1.0f);
+        func_8002F434(&this->actor, globalCtx, this->unk_260, this->actor.xzDistToPlayer + 1.0f,
+                      fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
@@ -931,7 +931,7 @@ void EnHy_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_MoveForward(&this->actor);
         }
 
-        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
 
     this->actionFunc(this, globalCtx);
@@ -1001,11 +1001,11 @@ void func_80A71A64(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 
     if (((this->actor.params & 0x7F) == 3) && (limbIndex == 8)) {
-        gSPDisplayList(POLY_OPA_DISP++, &D_06005BC8);
+        gSPDisplayList(POLY_OPA_DISP++, D_06005BC8);
     }
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sp3C, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&sp3C, &this->actor.focus.pos);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_hy.c", 2281);

@@ -12,7 +12,7 @@ typedef struct EnHy {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnHyActionFunc actionFunc;
-    /* 0x0190 */ char unk_190;
+    /* 0x0194 */ char unk_194;
     /* 0x0195 */ u8 unk_195;
     /* 0x0196 */ s8 unk_196;
     /* 0x0197 */ s8 unk_197;
