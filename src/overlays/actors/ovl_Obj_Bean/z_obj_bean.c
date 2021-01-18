@@ -40,7 +40,7 @@ static ColliderCylinderInit D_80B90E54 = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_PLAYER,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_CYLINDER,
     },
     {

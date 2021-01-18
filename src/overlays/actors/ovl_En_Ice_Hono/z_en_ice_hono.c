@@ -39,7 +39,7 @@ static ColliderCylinderInit sCylinderInitCapturableFlame = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_CYLINDER,
     },
     {
@@ -59,7 +59,7 @@ static ColliderCylinderInit sCylinderInitDroppedFlame = {
         AT_ON | AT_TYPE_OTHER,
         AC_NONE,
         OC1_ON | OC1_TYPE_2,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_CYLINDER,
     },
     {

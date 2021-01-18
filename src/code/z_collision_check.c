@@ -116,20 +116,20 @@ s32 Collider_DestroyBase(GlobalContext* globalCtx, Collider* collider) {
 }
 
 /**
- * Uses default OC2_TYPE1 and COLTYPE_HIT0
+ * Uses default OC2_TYPE_1 and COLTYPE_HIT0
  */
 s32 Collider_SetBaseToActor(GlobalContext* globalCtx, Collider* collider, ColliderInitToActor* src) {
     collider->actor = src->actor;
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
     collider->ocFlags1 = src->ocFlags1;
-    collider->ocFlags2 = OC2_TYPE1;
+    collider->ocFlags2 = OC2_TYPE_1;
     collider->shape = src->shape;
     return 1;
 }
 
 /**
- * Uses default OC2_TYPE1
+ * Uses default OC2_TYPE_1
  */
 s32 Collider_SetBaseType1(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInitType1* src) {
     collider->actor = actor;
@@ -137,7 +137,7 @@ s32 Collider_SetBaseType1(GlobalContext* globalCtx, Collider* collider, Actor* a
     collider->atFlags = src->atFlags;
     collider->acFlags = src->acFlags;
     collider->ocFlags1 = src->ocFlags1;
-    collider->ocFlags2 = OC2_TYPE1;
+    collider->ocFlags2 = OC2_TYPE_1;
     collider->shape = src->shape;
     return 1;
 }
@@ -361,7 +361,7 @@ s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider) {
 
 /**
  * Sets up the ColliderJntSph using the values in src, sets it to the actor specified in src, and dynamically allocates
- * the element array. Uses default OC2_TYPE1 and COLTYPE_HIT0. Unused.
+ * the element array. Uses default OC2_TYPE_1 and COLTYPE_HIT0. Unused.
  */
 s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInitToActor* src) {
     ColliderJntSphElement* destElem;
@@ -390,7 +390,7 @@ s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, Co
 
 /**
  * Sets up the ColliderJntSph using the values in src and dynamically allocates the element array. Uses default
- * OC2_TYPE1. Only used by En_Nwc, an unused and unfinished actor.
+ * OC2_TYPE_1. Only used by En_Nwc, an unused and unfinished actor.
  */
 s32 Collider_SetJntSphAllocType1(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
                                  ColliderJntSphInitType1* src) {
@@ -551,7 +551,7 @@ s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collide
 }
 
 /**
- * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default OC2_TYPE1
+ * Sets up the ColliderCylinder using the values in src and sets it to the actor specified in src. Uses default OC2_TYPE_1
  * and COLTYPE_0. Used only by DekuJr, who sets it to himself anyways.
  */
 s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* collider,
@@ -563,7 +563,7 @@ s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* coll
 }
 
 /**
- * Sets up the ColliderCylinder using the values in src. Uses default OC2_TYPE1
+ * Sets up the ColliderCylinder using the values in src. Uses default OC2_TYPE_1
  */
 s32 Collider_SetCylinderType1(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
                               ColliderCylinderInitType1* src) {
@@ -732,7 +732,7 @@ s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris) {
 }
 
 /**
- * Sets up the ColliderTris using the values in src and dynamically allocates the element array. Uses default OC2_TYPE1
+ * Sets up the ColliderTris using the values in src and dynamically allocates the element array. Uses default OC2_TYPE_1
  * Unused.
  */
 s32 Collider_SetTrisAllocType1(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src) {
@@ -913,7 +913,7 @@ s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider) {
 }
 
 /**
- * Sets up the ColliderQuad using the values in src. Uses the default OC2_TYPE1
+ * Sets up the ColliderQuad using the values in src. Uses the default OC2_TYPE_1
  */
 s32 Collider_SetQuadType1(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInitType1* src) {
     Collider_SetBaseType1(globalCtx, &collider->base, actor, &src->base);
@@ -2702,13 +2702,13 @@ void CollisionCheck_SetOCvsOC(Collider* left, ColliderInfo* leftInfo, Vec3f* lef
     left->ocFlags1 |= OC1_HIT;
     left->oc = rightActor;
     leftInfo->ocElemFlags |= OCELEM_HIT;
-    if (right->ocFlags2 & OC2_PLAYER) {
+    if (right->ocFlags2 & OC2_TYPE_PLAYER) {
         left->ocFlags2 |= OC2_HIT_PLAYER;
     }
     right->oc = leftActor;
     right->ocFlags1 |= OC1_HIT;
     rightInfo->ocElemFlags |= OCELEM_HIT;
-    if (left->ocFlags2 & OC2_PLAYER) {
+    if (left->ocFlags2 & OC2_TYPE_PLAYER) {
         right->ocFlags2 |= OC2_HIT_PLAYER;
     }
     if (leftActor == NULL || rightActor == NULL || left->ocFlags1 & OC1_NO_PUSH || right->ocFlags1 & OC1_NO_PUSH) {

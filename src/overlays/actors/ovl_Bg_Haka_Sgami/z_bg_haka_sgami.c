@@ -94,7 +94,7 @@ static ColliderTrisInit sTrisInit = {
         AT_ON | AT_TYPE_ENEMY,
         AC_NONE,
         OC1_NONE,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_TRIS,
     },
     4,
@@ -107,7 +107,7 @@ static ColliderCylinderInit sCylinderInit = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE2,
+        OC2_TYPE_2,
         COLSHAPE_CYLINDER,
     },
     {

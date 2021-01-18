@@ -46,7 +46,7 @@ static ColliderJntSphInit D_80A17040 = {
         AT_NONE,
         AC_NONE,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
     1,

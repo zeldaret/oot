@@ -212,7 +212,7 @@ static ColliderJntSphInit D_80B7A888 = {
         AT_TYPE_ENEMY,
         AC_TYPE_PLAYER,
         OC1_ON | OC1_TYPE_PLAYER,
-        OC2_TYPE1,
+        OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
     12,

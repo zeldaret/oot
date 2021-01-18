@@ -8892,7 +8892,7 @@ ColliderCylinderInit D_80854624 = {
         AT_NONE,
         AC_ON | AC_TYPE_ENEMY,
         OC1_ON | OC1_TYPE_ALL,
-        OC2_PLAYER,
+        OC2_TYPE_PLAYER,
         COLSHAPE_CYLINDER,
     },
     {
@@ -8912,7 +8912,7 @@ ColliderQuadInit D_80854650 = {
         AT_ON | AT_TYPE_PLAYER,
         AC_NONE,
         OC1_NONE,
-        OC2_PLAYER,
+        OC2_TYPE_PLAYER,
         COLSHAPE_QUAD,
     },
     {
@@ -8932,7 +8932,7 @@ ColliderQuadInit D_808546A0 = {
         AT_ON | AT_TYPE_PLAYER,
         AC_ON | AC_HARD | AC_TYPE_ENEMY,
         OC1_NONE,
-        OC2_PLAYER,
+        OC2_TYPE_PLAYER,
         COLSHAPE_QUAD,
     },
     {
