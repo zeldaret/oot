@@ -35,17 +35,31 @@ const ActorInit Bg_Jya_Haheniron_InitVars = {
     (ActorFunc)BgJyaHaheniron_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 0, { { 0, 0, 0 }, 10 }, 100 },
     },
 };
 
-static ColliderJntSphInit D_80898764 = {
-    { COLTYPE_UNK10, 0x11, 0x01, 0x00, 0x00, COLSHAPE_JNTSPH },
+static ColliderJntSphInit sJntSphInit = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static s16 sKakeraScales[] = { 5, 8, 11, 14, 17 };
@@ -68,7 +82,7 @@ void BgJyaHaheniron_ColliderInit(BgJyaHaheniron* this, GlobalContext* globalCtx)
     s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80898764, this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
 }
 
 void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f* vec2) {
@@ -95,7 +109,7 @@ void BgJyaHaheniron_SpawnFragments(GlobalContext* globalCtx, Vec3f* vec1, Vec3f*
         }
 
         EffectSsKakera_Spawn(globalCtx, vec1, &vel, vec1, -350, arg5, 40, 4, 0, sKakeraScales[i], 0, 20, 40,
-                             KAKERA_COLOR_NONE, OBJECT_JYA_IRON, &D_06000880);
+                             KAKERA_COLOR_NONE, OBJECT_JYA_IRON, D_06000880);
         angle += 0x3333;
     }
     pos.x = vec1->x + (vec2->x * 5.0f);
@@ -139,17 +153,17 @@ void BgJyaHaheniron_ChairCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx)
 
     Actor_MoveForward(&this->actor);
     func_8002E4B4(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
-    if ((this->actor.bgCheckFlags & 9) || ((this->collider.base.atFlags & 2) && (this->collider.base.at != NULL) &&
+    if ((this->actor.bgCheckFlags & 9) || ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.at != NULL) &&
                                            (this->collider.base.at->type == ACTORTYPE_PLAYER))) {
         vec.x = -Rand_ZeroOne() * this->actor.velocity.x;
         vec.y = -Rand_ZeroOne() * this->actor.velocity.y;
         vec.z = -Rand_ZeroOne() * this->actor.velocity.z;
-        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot, &vec);
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot.pos, &vec);
         Actor_Kill(&this->actor);
     } else if (this->timer > 60) {
         Actor_Kill(&this->actor);
     } else {
-        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
     this->actor.shape.rot.y += 0x4B0;
     this->actor.shape.rot.x += 0xFA0;
@@ -163,7 +177,7 @@ void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx
     if (this->timer >= 8) {
         Actor_MoveForward(&this->actor);
     } else if (this->timer >= 17) {
-        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot, D_808987A0);
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot.pos, D_808987A0);
         Actor_Kill(&this->actor);
     }
     this->actor.shape.rot.y += 0x258;
@@ -176,8 +190,8 @@ void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this) {
 
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     if (this->timer >= 17) {
-        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot, D_808987AC);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot.pos, D_808987AC);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }
@@ -196,7 +210,7 @@ void BgJyaHaheniron_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaHaheniron* this = THIS;
 
     if (this->actor.params == 0) {
-        func_800628A4(0, &this->collider);
+        Collider_UpdateSpheres(0, &this->collider);
     }
     Gfx_DrawDListOpa(globalCtx, dLists[this->actor.params]);
 }

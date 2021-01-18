@@ -11,7 +11,7 @@ typedef void (*BgSpot18BasketActionFunc)(struct BgSpot18Basket*, GlobalContext*)
 typedef struct BgSpot18Basket {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ColliderJntSph colliderJntSph;
-    /* 0x0184 */ ColliderJntSphItem colliderJntSphItems[2];
+    /* 0x0184 */ ColliderJntSphElement ColliderJntSphElements[2];
     /* 0x0204 */ BgSpot18BasketActionFunc actionFunc;
     /* 0x0208 */ f32 unk_208;
     /* 0x020C */ s16 unk_20C;

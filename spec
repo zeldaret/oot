@@ -2907,8 +2907,7 @@ endseg
 beginseg
     name "ovl_En_Shopnuts"
     include "build/src/overlays/actors/ovl_En_Shopnuts/z_en_shopnuts.o"
-    include "build/data/overlays/actors/z_en_shopnuts.data.o"
-    include "build/data/overlays/actors/z_en_shopnuts.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Shopnuts/ovl_En_Shopnuts_reloc.o"
 endseg
 
 beginseg
@@ -3105,9 +3104,11 @@ endseg
 beginseg
     name "ovl_En_Viewer"
     include "build/src/overlays/actors/ovl_En_Viewer/z_en_viewer.o"
-    include "build/data/overlays/actors/z_en_viewer.data.o"
-    include "build/data/overlays/actors/z_en_viewer.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Viewer/ovl_En_Viewer_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_viewer.reloc.o"
+#endif
 endseg
 
 beginseg

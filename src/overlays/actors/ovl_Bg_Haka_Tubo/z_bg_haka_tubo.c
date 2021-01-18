@@ -31,14 +31,42 @@ const ActorInit Bg_Haka_Tubo_InitVars = {
 };
 
 static ColliderCylinderInit sPotColliderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 25, 60, 30, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sFlamesColliderInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x09, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000008, 0x00, 0x00 }, 0x19, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x20000000, 0x01, 0x04 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 60, 45, 235, { 0, 0, 0 } },
 };
 
@@ -89,13 +117,13 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
         this->dyna.actor.posRot.pos.z = Math_CosS(this->dyna.actor.shape.rot.y - 0x4000) * 145.0f + -1587.0f;
     }
     // Colliding with flame circle
-    if (this->flamesCollider.base.atFlags & 2) {
-        this->flamesCollider.base.atFlags &= ~2;
+    if (this->flamesCollider.base.atFlags & AT_HIT) {
+        this->flamesCollider.base.atFlags &= ~AT_HIT;
         func_8002F71C(globalCtx, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsLink, 5.0f);
     }
     // Colliding with hitbox inside the pot
-    if (this->potCollider.base.acFlags & 2) {
-        this->potCollider.base.acFlags &= ~2;
+    if (this->potCollider.base.acFlags & AC_HIT) {
+        this->potCollider.base.acFlags &= ~AC_HIT;
         // If the colliding actor is within a 50 unit radius and 50 unit height cylinder centered
         // on the actor's position, break the pot
         if (func_8002DBB0(&this->dyna.actor, &this->potCollider.base.ac->posRot.pos) < 50.0f &&
@@ -112,8 +140,8 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             this->actionFunc = BgHakaTubo_DropCollectible;
         }
     } else {
-        Collider_CylinderUpdate(&this->dyna.actor, &this->flamesCollider);
-        Collider_CylinderUpdate(&this->dyna.actor, &this->potCollider);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->flamesCollider);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->potCollider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->potCollider.base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->flamesCollider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->flamesCollider.base);

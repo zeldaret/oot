@@ -47,8 +47,22 @@ const ActorInit En_Po_Relay_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 30, 52, 0, { 0, 0, 0 } },
 };
 
@@ -114,7 +128,7 @@ void EnPoRelay_SetupIdle(EnPoRelay* this) {
     this->actor.room = -1;
     this->actor.shape.rot.y = 0;
     this->actor.posRot.rot.y = -0x8000;
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actionFunc = EnPoRelay_Idle;
 }
 
@@ -345,7 +359,7 @@ void EnPoRelay_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     EnPoRelay_CorrectY(this);
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 27.0f, 60.0f, 4);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_SetHeight(&this->actor, 50.0f);
     if (this->unk_195 != 0) {

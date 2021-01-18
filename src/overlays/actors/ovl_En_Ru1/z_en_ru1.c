@@ -69,14 +69,26 @@ void func_80AF03F4(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF0400(EnRu1* this, GlobalContext* globalCtx);
 void func_80AF05D4(EnRu1* this, GlobalContext* globalCtx);
 
-static ColliderCylinderInit_Set3 sCylinderInit1 = {
-    { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit1 = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0 } },
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit2 = {
-    { COLTYPE_UNK0, 0x09, 0x00, 0x09, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit2 = {
+    {
+        COLTYPE_HIT0,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0x00000101, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
     { 20, 30, 0, { 0 } },
 };
@@ -156,43 +168,38 @@ extern AnimationHeader D_06012E94;
 extern AnimationHeader D_06013A64;
 
 void func_80AEAC10(EnRu1* this, GlobalContext* globalCtx) {
-    s32 pad[4];
-    ColliderCylinder* collider = &this->collider;
+    s32 pad[5];
 
-    Collider_CylinderUpdate(&this->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void func_80AEAC54(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
-    ColliderCylinder* collider2 = &this->collider2;
-    s32 pad[3];
+    s32 pad[5];
 
-    Collider_CylinderUpdate(thisx, collider2);
+    Collider_UpdateCylinder(&this->actor, &this->collider2);
     if (this->unk_34C != 0) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider2);
-    } else if (thisx->xzDistToLink > 32.0f) {
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
+    } else if (this->actor.xzDistToLink > 32.0f) {
         this->unk_34C = 1;
     }
 }
 
 void func_80AEACDC(EnRu1* this, GlobalContext* globalCtx) {
-    s32 pad[4];
-    ColliderCylinder* collider2 = &this->collider2;
+    s32 pad[5];
 
-    Collider_CylinderUpdate(&this->actor, collider2);
-    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, collider2);
+    Collider_UpdateCylinder(&this->actor, &this->collider2);
+    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
 }
 
-void func_80AEAD20(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
+void func_80AEAD20(Actor* thisx, GlobalContext* globalCtx) {
+    EnRu1* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    if (!thisx) {} // necessary to match
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, thisx, &sCylinderInit1);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit1);
 
     Collider_InitCylinder(globalCtx, &this->collider2);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider2, thisx, &sCylinderInit2);
+    Collider_SetCylinderType1(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
 }
 
 void func_80AEAD98(EnRu1* this, GlobalContext* globalCtx) {
@@ -307,12 +314,12 @@ s32 func_80AEB020(EnRu1* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-DynaPolyActor* func_80AEB088(GlobalContext* globalCtx) {
+BgBdanObjects* func_80AEB088(GlobalContext* globalCtx) {
     Actor* actorIt = globalCtx->actorCtx.actorList[ACTORTYPE_BG].first;
 
     while (actorIt != NULL) {
         if (actorIt->id == ACTOR_BG_BDAN_OBJECTS && actorIt->params == 0) {
-            return actorIt;
+            return (BgBdanObjects*)actorIt;
         }
         actorIt = actorIt->next;
     }
@@ -1024,8 +1031,8 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnX = ((kREG(1) + 12.0f) * Math_SinS(yawTowardsLink)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsLink)) + pos->z;
-    this->unk_278 = Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX, spawnY, spawnZ,
-                                       0, yawTowardsLink, 0, 5);
+    this->unk_278 = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_DOOR_WARP1, spawnX,
+                                                   spawnY, spawnZ, 0, yawTowardsLink, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1578,7 +1585,7 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = dynaActor;
+            this->unk_28C = (BgBdanObjects*)dynaActor;
             this->actor.shape.unk_14 = 0;
             return 1;
         }

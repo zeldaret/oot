@@ -31,14 +31,14 @@ typedef enum {
     /*  9 */ HAND_FROZEN,
     /* 10 */ HAND_BREAK_ICE,
     /* 11 */ HAND_DEATH
-} BossSstHandStates;
+} BossSstHandState;
 
 typedef enum {
     /* 0 */ BONGO_NULL,
     /* 1 */ BONGO_ICE,
     /* 2 */ BONGO_SHOCKWAVE,
     /* 3 */ BONGO_SHADOW
-} BossSstEffectModes;
+} BossSstEffectMode;
 
 void BossSst_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossSst_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -220,130 +220,7 @@ const ActorInit Boss_Sst_InitVars = {
     (ActorFunc)BossSst_DrawHand,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInitHand[11] = {
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 2, { { 2000, -1500, 250 }, 65 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 10, { { 0, 0, 0 }, 22 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 11, { { 500, 0, 0 }, 22 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 15, { { -250, -250, 0 }, 25 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 16, { { 500, -250, 0 }, 25 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 20, { { 250, -250, 0 }, 25 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 21, { { 500, -250, 0 }, 25 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 25, { { 0, 0, 0 }, 27 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 26, { { 750, 0, 0 }, 26 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 5, { { 750, -150, 0 }, 21 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 6, { { 750, 0, 0 }, 20 }, 100 },
-    },
-};
-
-static ColliderJntSphInit sJntSphInitHand = {
-    { COLTYPE_UNK0, 0x10, 0x09, 0x38, 0x10, COLSHAPE_JNTSPH },
-    11,
-    sJntSphItemsInitHand,
-};
-
-static ColliderJntSphItemInit sJntSphItemsInitHead[11] = {
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 7, { { 1500, 0, 0 }, 70 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 6, { { 0, 0, 0 }, 75 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 4, { { 5000, 0, 0 }, 120 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 3, { { -2500, 0, 0 }, 150 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 43, { { 1500, 0, 0 }, 80 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 43, { { 7500, 0, 0 }, 70 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 44, { { 3000, 0, 0 }, 60 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 40, { { 1500, 0, 0 }, 80 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 40, { { 7500, 0, 0 }, 70 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
-        { 41, { { 3000, 0, 0 }, 60 }, 100 },
-    },
-    {
-        { 0x01, { 0x20000000, 0x00, 0x30 }, { 0x00000080, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
-        { 8, { { 1500, 0, 0 }, 70 }, 100 },
-    },
-};
-
-static ColliderJntSphInit sJntSphInitHead = {
-    { COLTYPE_UNK12, 0x10, 0x0D, 0x38, 0x10, COLSHAPE_JNTSPH },
-    11,
-    sJntSphItemsInitHead,
-};
-
-static ColliderCylinderInit sCylinderInitHead = {
-    { COLTYPE_UNK0, 0x00, 0x08, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
-    { 85, 100, -50, { 0, 0, 0 } },
-};
-
-static ColliderCylinderInit sCylinderInitHand = {
-    { COLTYPE_UNK10, 0x10, 0x00, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x20000000, 0x04, 0x10 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
-    { 85, 1, 0, { 0, 0, 0 } },
-};
-
-static CollisionCheckInfoInit sColChkInfoInit = { 36, 100, 100, 200 };
-
-static DamageTable sDamageTable = {
-    0x00, 0x02, 0x01, 0x02, 0x00, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0x02, 0x34, 0x02, 0x04, 0x02,
-    0x02, 0x00, 0x34, 0x44, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
-};
+#include "z_boss_sst_colchk.c"
 
 // Shockwaves
 extern Gfx D_040184B0[];
@@ -378,7 +255,7 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitCylinder(globalCtx, &this->colliderCyl);
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
-    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     Flags_SetSwitch(globalCtx, 0x14);
     if (this->actor.params == BONGO_HEAD) {
         sFloor = (BgSstFloor*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_SST_FLOOR, sRoomCenter.x,
@@ -425,7 +302,7 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBongoLeftHandSkel, &gBongoLeftHandAnim1, this->jointTable,
                                this->morphTable, 27);
             this->parity = -1;
-            this->colliderJntSph.list[0].dim.modelSphere.center.z *= -1;
+            this->colliderJntSph.elements[0].dim.modelSphere.center.z *= -1;
         } else {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBongoRightHandSkel, &gBongoRightHandAnim1,
                                this->jointTable, this->morphTable, 27);
@@ -520,9 +397,9 @@ void BossSst_HeadIntro(BossSst* this, GlobalContext* globalCtx) {
         Gameplay_ClearCamera(globalCtx, sCutsceneCamera);
         gSaveContext.eventChkInf[7] |= 0x80;
         BossSst_HeadSetupNeutral(this);
-        this->colliderJntSph.base.maskA |= 1;
-        sHand[LEFT]->colliderJntSph.base.maskA |= 1;
-        sHand[RIGHT]->colliderJntSph.base.maskA |= 1;
+        this->colliderJntSph.base.ocFlags1 |= OC1_ON;
+        sHand[LEFT]->colliderJntSph.base.ocFlags1 |= OC1_ON;
+        sHand[RIGHT]->colliderJntSph.base.ocFlags1 |= OC1_ON;
         this->timer = 112;
     } else if (this->timer >= 546) {
         if (player->actor.posRot.pos.y > 100.0f) {
@@ -792,7 +669,7 @@ void BossSst_HeadDamagedHand(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupReadyCharge(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadAnim10, -5.0f);
     this->actor.speedXZ = 0.0f;
-    this->colliderCyl.base.acFlags |= 1;
+    this->colliderCyl.base.acFlags |= AC_ON;
     this->actionFunc = BossSst_HeadReadyCharge;
 }
 
@@ -811,7 +688,7 @@ void BossSst_HeadSetupCharge(BossSst* this) {
                      ANIMMODE_ONCE_INTERP, -5.0f);
     BossSst_HandSetDamage(sHand[LEFT], 0x20);
     BossSst_HandSetDamage(sHand[RIGHT], 0x20);
-    this->colliderJntSph.base.atFlags |= 1;
+    this->colliderJntSph.base.atFlags |= AT_ON;
     this->actor.speedXZ = 3.0f;
     this->radius = -650.0f;
     this->ready = false;
@@ -855,10 +732,10 @@ void BossSst_HeadCharge(BossSst* this, GlobalContext* globalCtx) {
         sHandOffset[RIGHT].y += 5.0f;
     }
 
-    if (this->colliderJntSph.base.atFlags & 2) {
-        this->colliderJntSph.base.atFlags &= ~3;
-        sHand[LEFT]->colliderJntSph.base.atFlags &= ~3;
-        sHand[RIGHT]->colliderJntSph.base.atFlags &= ~3;
+    if (this->colliderJntSph.base.atFlags & AT_HIT) {
+        this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+        sHand[LEFT]->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+        sHand[RIGHT]->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
         func_8002F71C(globalCtx, &this->actor, 10.0f, this->actor.shape.rot.y, 5.0f);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
     }
@@ -867,8 +744,8 @@ void BossSst_HeadCharge(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupEndCharge(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadAnim9, -20.0f);
     this->targetYaw = func_8002DAC0(&this->actor, &sRoomCenter);
-    this->colliderJntSph.base.atFlags &= ~3;
-    this->colliderCyl.base.acFlags &= ~1;
+    this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+    this->colliderCyl.base.acFlags &= ~AC_ON;
     this->radius *= -1.0f;
     this->actionFunc = BossSst_HeadEndCharge;
 }
@@ -885,7 +762,7 @@ void BossSst_HeadEndCharge(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupFrozenHand(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadAnim10, -5.0f);
     this->ready = false;
-    this->colliderCyl.base.acFlags |= 1;
+    this->colliderCyl.base.acFlags |= AC_ON;
     this->actionFunc = BossSst_HeadFrozenHand;
 }
 
@@ -898,7 +775,7 @@ void BossSst_HeadFrozenHand(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HeadSetupUnfreezeHand(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadAnim4, -5.0f);
-    this->colliderCyl.base.acFlags &= ~1;
+    this->colliderCyl.base.acFlags &= ~AC_ON;
     this->actionFunc = BossSst_HeadUnfreezeHand;
 }
 
@@ -911,8 +788,8 @@ void BossSst_HeadUnfreezeHand(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HeadSetupStunned(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadAnim3, -5.0f);
     func_8003426C(&this->actor, 0, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadAnim3));
-    this->colliderJntSph.base.atFlags &= ~3;
-    this->colliderCyl.base.acFlags &= ~1;
+    this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+    this->colliderCyl.base.acFlags &= ~AC_ON;
     this->vanish = false;
     this->actor.flags &= ~0x80;
     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_FREEZE);
@@ -965,11 +842,11 @@ void BossSst_HeadStunned(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HeadSetupVulnerable(BossSst* this) {
     Animation_MorphToLoop(&this->skelAnime, &gBongoHeadAnim1, -5.0f);
-    this->colliderCyl.base.acFlags |= 1;
-    this->colliderCyl.body.bumper.flags = 0x0FC00702; // Sword-type damage
+    this->colliderCyl.base.acFlags |= AC_ON;
+    this->colliderCyl.info.bumper.dmgFlags = 0x0FC00702; // Sword-type damage
     this->actor.speedXZ = 0.0f;
-    this->colliderJntSph.list[10].body.bumperFlags |= 5;
-    this->colliderJntSph.list[0].body.bumperFlags &= ~1;
+    this->colliderJntSph.elements[10].info.bumperFlags |= BUMP_ON | BUMP_HOOKABLE;
+    this->colliderJntSph.elements[0].info.bumperFlags &= ~BUMP_ON;
     if (this->actionFunc != BossSst_HeadDamage) {
         this->timer = 50;
     }
@@ -1002,7 +879,7 @@ void BossSst_HeadSetupDamage(BossSst* this) {
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadAnim7));
     func_8003426C(&sHand[LEFT]->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadAnim7));
     func_8003426C(&sHand[RIGHT]->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadAnim7));
-    this->colliderCyl.base.acFlags &= ~1;
+    this->colliderCyl.base.acFlags &= ~AC_ON;
     BossSst_HeadSfx(this, NA_SE_EN_SHADEST_DAMAGE);
     this->actionFunc = BossSst_HeadDamage;
 }
@@ -1017,10 +894,10 @@ void BossSst_HeadDamage(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HeadSetupRecover(BossSst* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gBongoHeadAnim8, -5.0f);
-    this->colliderCyl.base.acFlags &= ~1;
-    this->colliderCyl.body.bumper.flags = 0xFFCFFFFF;
-    this->colliderJntSph.list[10].body.bumperFlags &= ~5;
-    this->colliderJntSph.list[0].body.bumperFlags |= 1;
+    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderCyl.info.bumper.dmgFlags = 0xFFCFFFFF;
+    this->colliderJntSph.elements[10].info.bumperFlags &= ~(BUMP_ON | BUMP_HOOKABLE);
+    this->colliderJntSph.elements[0].info.bumperFlags |= BUMP_ON;
     this->vanish = true;
     this->actor.speedXZ = 5.0f;
     this->actionFunc = BossSst_HeadRecover;
@@ -1104,10 +981,10 @@ void BossSst_HeadSetupDeath(BossSst* this, GlobalContext* globalCtx) {
     func_8003426C(&sHand[LEFT]->actor, 0x4000, 0xFF, 0, 60);
     func_8003426C(&sHand[RIGHT]->actor, 0x4000, 0xFF, 0, 60);
     this->timer = 60;
-    this->colliderCyl.base.acFlags &= ~1;
-    this->colliderJntSph.base.maskA &= ~1;
-    sHand[LEFT]->colliderJntSph.base.maskA &= ~1;
-    sHand[RIGHT]->colliderJntSph.base.maskA &= ~1;
+    this->colliderCyl.base.acFlags &= ~AC_ON;
+    this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
+    sHand[LEFT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
+    sHand[RIGHT]->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
     Audio_SetBGM(0x100100FF);
     sCutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -1305,7 +1182,7 @@ void BossSst_HeadFinish(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HandSetupWait(BossSst* this) {
     HAND_STATE(this) = HAND_WAIT;
-    this->colliderJntSph.base.atFlags &= ~3;
+    this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
     Animation_MorphToLoop(&this->skelAnime, D_8093784C[this->actor.params], 5.0f);
     this->ready = false;
     this->timer = 20;
@@ -1454,7 +1331,7 @@ void BossSst_HandOffbeatEnd(BossSst* this, GlobalContext* globalCtx) {
 
 void BossSst_HandSetupEndSlam(BossSst* this) {
     HAND_STATE(this) = HAND_RETREAT;
-    this->colliderJntSph.base.atFlags &= ~3;
+    this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
     Animation_MorphToPlayOnce(&this->skelAnime, D_8093787C[this->actor.params], 6.0f);
     this->actionFunc = BossSst_HandEndSlam;
 }
@@ -1468,8 +1345,8 @@ void BossSst_HandEndSlam(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HandSetupRetreat(BossSst* this) {
     HAND_STATE(this) = HAND_RETREAT;
     Animation_MorphToPlayOnce(&this->skelAnime, D_80937884[this->actor.params], 10.0f);
-    this->colliderJntSph.base.atFlags &= ~3;
-    this->colliderJntSph.base.acFlags |= 1;
+    this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+    this->colliderJntSph.base.acFlags |= AC_ON;
     this->actor.flags |= 1;
     BossSst_HandSetInvulnerable(this, false);
     this->timer = 0;
@@ -1556,36 +1433,36 @@ void BossSst_HandSlam(BossSst* this, GlobalContext* globalCtx) {
         DECR(this->timer);
 
         if (this->timer == 0) {
-            if (this->colliderJntSph.base.acFlags & 1) {
+            if (this->colliderJntSph.base.acFlags & AC_ON) {
                 BossSst_HandSetupEndSlam(this);
             } else {
-                this->colliderJntSph.base.acFlags |= 1;
+                this->colliderJntSph.base.acFlags |= AC_ON;
                 BossSst_HandSetupWait(this);
             }
         }
     } else {
         if (this->ready) {
             this->timer = 30;
-            this->colliderJntSph.base.atFlags &= ~3;
+            this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
         } else {
             this->actor.velocity.y *= 1.5f;
             if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.groundY, this->actor.velocity.y)) {
                 this->ready = true;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHADEST_TAIKO_LOW);
                 BossSst_SpawnShockwave(this);
-                this->colliderCyl.base.atFlags |= 1;
-                Collider_CylinderUpdate(&this->actor, &this->colliderCyl);
+                this->colliderCyl.base.atFlags |= AT_ON;
+                Collider_UpdateCylinder(&this->actor, &this->colliderCyl);
                 this->colliderCyl.dim.radius = sCylinderInitHand.dim.radius;
             }
         }
 
-        if (this->colliderJntSph.base.atFlags & 2) {
+        if (this->colliderJntSph.base.atFlags & AT_HIT) {
             Player* player = PLAYER;
 
             player->actor.posRot.pos.x = (Math_SinS(this->actor.yawTowardsLink) * 100.0f) + this->actor.posRot.pos.x;
             player->actor.posRot.pos.z = (Math_CosS(this->actor.yawTowardsLink) * 100.0f) + this->actor.posRot.pos.z;
 
-            this->colliderJntSph.base.atFlags &= ~3;
+            this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.yawTowardsLink, 0.0f);
         }
 
@@ -1640,10 +1517,10 @@ void BossSst_HandSweep(BossSst* this, GlobalContext* globalCtx) {
     this->handAngSpeed = CLAMP_MAX(this->handAngSpeed, this->handMaxSpeed);
 
     if (Math_SmoothStepToS(&this->actor.shape.rot.y, this->targetYaw, 4, this->handAngSpeed, 0x10) == 0) {
-        this->colliderJntSph.base.maskA &= ~4;
+        this->colliderJntSph.base.ocFlags1 &= ~OC1_NO_PUSH;
         BossSst_HandSetupRetreat(this);
-    } else if (this->colliderJntSph.base.atFlags & 2) {
-        this->colliderJntSph.base.atFlags &= ~3;
+    } else if (this->colliderJntSph.base.atFlags & AT_HIT) {
+        this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
         this->ready = true;
         func_8002F71C(globalCtx, &this->actor, 5.0f, this->actor.shape.rot.y - (this->parity * 0x3800), 0.0f);
         func_8002F7DC(&player->actor, NA_SE_PL_BODY_HIT);
@@ -1654,11 +1531,11 @@ void BossSst_HandSweep(BossSst* this, GlobalContext* globalCtx) {
     }
 
     if (!this->ready && ((player->cylinder.dim.height > 40.0f) || (player->actor.posRot.pos.y > 1.0f))) {
-        this->colliderJntSph.base.atFlags |= 1;
-        this->colliderJntSph.base.maskA &= ~4;
+        this->colliderJntSph.base.atFlags |= AT_ON;
+        this->colliderJntSph.base.ocFlags1 &= ~OC1_NO_PUSH;
     } else {
-        this->colliderJntSph.base.atFlags &= ~1;
-        this->colliderJntSph.base.maskA |= 4;
+        this->colliderJntSph.base.atFlags &= ~AT_ON;
+        this->colliderJntSph.base.ocFlags1 |= OC1_NO_PUSH;
     }
 
     this->actor.posRot.pos.x = (Math_SinS(this->actor.shape.rot.y) * this->radius) + sHead->actor.posRot.pos.x;
@@ -1702,7 +1579,7 @@ void BossSst_HandPunch(BossSst* this, GlobalContext* globalCtx) {
     this->actor.posRot.pos.z += this->actor.speedXZ * Math_CosS(this->actor.shape.rot.y);
     if (this->actor.bgCheckFlags & 8) {
         BossSst_HandSetupRetreat(this);
-    } else if (this->colliderJntSph.base.atFlags & 2) {
+    } else if (this->colliderJntSph.base.atFlags & AT_HIT) {
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
         func_8002F71C(globalCtx, &this->actor, 10.0f, this->actor.shape.rot.y, 5.0f);
         BossSst_HandSetupRetreat(this);
@@ -1781,15 +1658,15 @@ void BossSst_HandClap(BossSst* this, GlobalContext* globalCtx) {
             BossSst_HandSetupEndClap(this);
         }
     } else {
-        if (this->colliderJntSph.base.atFlags & 2) {
-            this->colliderJntSph.base.atFlags &= ~3;
-            OTHER_HAND->colliderJntSph.base.atFlags &= ~3;
+        if (this->colliderJntSph.base.atFlags & AT_HIT) {
+            this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+            OTHER_HAND->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             BossSst_HandGrabPlayer(this, globalCtx);
         }
 
         if (this->ready) {
             this->timer = 30;
-            this->colliderJntSph.base.atFlags &= ~3;
+            this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             if (!(player->stateFlags2 & 0x80)) {
                 dropFlag = true;
             }
@@ -1820,7 +1697,7 @@ void BossSst_HandClap(BossSst* this, GlobalContext* globalCtx) {
 void BossSst_HandSetupEndClap(BossSst* this) {
     this->targetYaw = this->actor.initPosRot.rot.y - (this->parity * 0x1000);
     Animation_MorphToPlayOnce(&this->skelAnime, D_8093785C[this->actor.params], 10.0f);
-    this->colliderJntSph.base.atFlags &= ~3;
+    this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
     this->actionFunc = BossSst_HandEndClap;
 }
 
@@ -1875,7 +1752,7 @@ void BossSst_HandGrab(BossSst* this, GlobalContext* globalCtx) {
     if (this->timer < 5) {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 25.0f, 5.0f);
         if (SkelAnime_Update(&this->skelAnime)) {
-            this->colliderJntSph.base.atFlags &= ~3;
+            this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
             this->actor.speedXZ = 0.0f;
             if (player->stateFlags2 & 0x80) {
                 if (Rand_ZeroOne() < 0.5f) {
@@ -1894,8 +1771,8 @@ void BossSst_HandGrab(BossSst* this, GlobalContext* globalCtx) {
         func_8002F974(&this->actor, NA_SE_EN_SHADEST_HAND_FLY - SFX_FLAG);
     }
 
-    if (this->colliderJntSph.base.atFlags & 2) {
-        this->colliderJntSph.base.atFlags &= ~3;
+    if (this->colliderJntSph.base.atFlags & AT_HIT) {
+        this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_SHADEST_CATCH);
         BossSst_HandGrabPlayer(this, globalCtx);
         this->timer = CLAMP_MAX(this->timer, 5);
@@ -2125,10 +2002,10 @@ void BossSst_HandReadyCharge(BossSst* this, GlobalContext* globalCtx) {
         if (this->ready) {
             this->actor.dmgEffectTimer = 0;
         }
-    } else if (this->colliderJntSph.base.atFlags & 2) {
-        this->colliderJntSph.base.atFlags &= ~3;
-        OTHER_HAND->colliderJntSph.base.atFlags &= ~3;
-        sHead->colliderJntSph.base.atFlags &= ~3;
+    } else if (this->colliderJntSph.base.atFlags & AT_HIT) {
+        this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+        OTHER_HAND->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+        sHead->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
         func_8002F71C(globalCtx, &this->actor, 10.0f, this->actor.shape.rot.y, 5.0f);
         func_8002F7DC(&PLAYER->actor, NA_SE_PL_BODY_HIT);
     }
@@ -2140,8 +2017,8 @@ void BossSst_HandSetupStunned(BossSst* hand) {
         hand->ready = false;
     }
 
-    hand->colliderJntSph.base.atFlags &= ~3;
-    hand->colliderJntSph.base.acFlags |= 1;
+    hand->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+    hand->colliderJntSph.base.acFlags |= AC_ON;
     BossSst_HandSetInvulnerable(hand, true);
     func_8003426C(&hand->actor, 0, 0xFF, 0, Animation_GetLastFrame(&gBongoHeadAnim3));
     hand->actionFunc = BossSst_HandStunned;
@@ -2447,9 +2324,9 @@ void BossSst_HandGrabPlayer(BossSst* this, GlobalContext* globalCtx) {
     if (globalCtx->grabPlayer(globalCtx, player)) {
         player->actor.parent = &this->actor;
         if (player->actor.colChkInfo.health > 0) {
-            this->colliderJntSph.base.maskA &= ~1;
+            this->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
             if (HAND_STATE(this) == HAND_CLAP) {
-                OTHER_HAND->colliderJntSph.base.maskA &= ~1;
+                OTHER_HAND->colliderJntSph.base.ocFlags1 &= ~OC1_ON;
             }
         }
     }
@@ -2461,8 +2338,8 @@ void BossSst_HandReleasePlayer(BossSst* this, GlobalContext* globalCtx, s32 arg2
     if (player->actor.parent == &this->actor) {
         player->actor.parent = NULL;
         player->unk_850 = 0x64;
-        this->colliderJntSph.base.maskA |= 1;
-        OTHER_HAND->colliderJntSph.base.maskA |= 1;
+        this->colliderJntSph.base.ocFlags1 |= OC1_ON;
+        OTHER_HAND->colliderJntSph.base.ocFlags1 |= OC1_ON;
         if (arg2 != 0) {
             func_8002F71C(globalCtx, &this->actor, 0.0f, this->actor.shape.rot.y, 0.0f);
         }
@@ -2532,20 +2409,20 @@ void BossSst_HandSelectAttack(BossSst* this) {
 void BossSst_HandSetDamage(BossSst* this, s32 damage) {
     s32 i;
 
-    this->colliderJntSph.base.atFlags |= 1;
+    this->colliderJntSph.base.atFlags |= AT_ON;
     for (i = 0; i < 11; i++) {
-        this->colliderJntSph.list[i].body.toucher.damage = damage;
+        this->colliderJntSph.elements[i].info.toucher.damage = damage;
     }
 }
 
 void BossSst_HandSetInvulnerable(BossSst* this, s32 setInv) {
-    this->colliderJntSph.base.acFlags &= ~2;
+    this->colliderJntSph.base.acFlags &= ~AC_HIT;
     if (setInv) {
-        this->colliderJntSph.base.type = COLTYPE_UNK12;
-        this->colliderJntSph.base.acFlags |= 4;
+        this->colliderJntSph.base.colType = COLTYPE_HARD;
+        this->colliderJntSph.base.acFlags |= AC_HARD;
     } else {
-        this->colliderJntSph.base.type = COLTYPE_UNK0;
-        this->colliderJntSph.base.acFlags &= ~4;
+        this->colliderJntSph.base.colType = COLTYPE_HIT0;
+        this->colliderJntSph.base.acFlags &= ~AC_HARD;
     }
 }
 
@@ -2554,14 +2431,14 @@ void BossSst_HeadSfx(BossSst* this, u16 sfxId) {
 }
 
 void BossSst_HandCollisionCheck(BossSst* this, GlobalContext* globalCtx) {
-    if ((this->colliderJntSph.base.acFlags & 2) && (this->colliderJntSph.base.type != COLTYPE_UNK12)) {
+    if ((this->colliderJntSph.base.acFlags & AC_HIT) && (this->colliderJntSph.base.colType != COLTYPE_HARD)) {
         s32 bothHands = true;
 
-        this->colliderJntSph.base.acFlags &= ~2;
+        this->colliderJntSph.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
-            this->colliderJntSph.base.atFlags &= ~3;
-            this->colliderJntSph.base.acFlags &= ~1;
-            this->colliderJntSph.base.maskA &= ~4;
+            this->colliderJntSph.base.atFlags &= ~(AT_ON | AT_HIT);
+            this->colliderJntSph.base.acFlags &= ~AC_ON;
+            this->colliderJntSph.base.ocFlags1 &= ~OC1_NO_PUSH;
             BossSst_HandReleasePlayer(this, globalCtx, 1);
             if (HAND_STATE(OTHER_HAND) == HAND_CLAP) {
                 BossSst_HandReleasePlayer(OTHER_HAND, globalCtx, 1);
@@ -2586,8 +2463,8 @@ void BossSst_HandCollisionCheck(BossSst* this, GlobalContext* globalCtx) {
 }
 
 void BossSst_HeadCollisionCheck(BossSst* this, GlobalContext* globalCtx) {
-    if (this->colliderCyl.base.acFlags & 2) {
-        this->colliderCyl.base.acFlags &= ~2;
+    if (this->colliderCyl.base.acFlags & AC_HIT) {
+        this->colliderCyl.base.acFlags &= ~AC_HIT;
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             if (this->actionFunc == BossSst_HeadVulnerable) {
                 if (Actor_ApplyDamage(&this->actor) == 0) {
@@ -2619,11 +2496,11 @@ void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx) {
     BossSst* this = THIS;
     BossSstHandTrail* trail;
 
-    if (this->colliderCyl.base.atFlags & 1) {
+    if (this->colliderCyl.base.atFlags & AT_ON) {
         if ((this->effects[0].move < 5) ||
             (this->actor.xzDistToLink < ((this->effects[2].scale * 0.01f) * sCylinderInitHand.dim.radius)) ||
-            (this->colliderCyl.base.atFlags & 2)) {
-            this->colliderCyl.base.atFlags &= ~3;
+            (this->colliderCyl.base.atFlags & AT_HIT)) {
+            this->colliderCyl.base.atFlags &= ~(AT_ON | AT_HIT);
         } else {
             this->colliderCyl.dim.radius = (this->effects[0].scale * 0.01f) * sCylinderInitHand.dim.radius;
         }
@@ -2633,7 +2510,7 @@ void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     func_8002E4B4(globalCtx, &this->actor, 50.0f, 130.0f, 0.0f, 5);
     Actor_SetHeight(&this->actor, 0.0f);
-    if (this->colliderJntSph.base.atFlags & 1) {
+    if (this->colliderJntSph.base.atFlags & AT_ON) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
     }
 
@@ -2642,11 +2519,11 @@ void BossSst_UpdateHand(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
     }
 
-    if (this->colliderJntSph.base.maskA & 1) {
+    if (this->colliderJntSph.base.ocFlags1 & OC1_ON) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
     }
 
-    if (this->colliderCyl.base.atFlags & 1) {
+    if (this->colliderCyl.base.atFlags & AT_ON) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
 
@@ -2689,7 +2566,7 @@ void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->colliderJntSph.base.atFlags & 1) {
+    if (this->colliderJntSph.base.atFlags & AT_ON) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
     }
 
@@ -2700,7 +2577,7 @@ void BossSst_UpdateHead(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
     }
 
-    if (this->colliderJntSph.base.maskA & 1) {
+    if (this->colliderJntSph.base.ocFlags1 & OC1_ON) {
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
     }
 
@@ -2734,7 +2611,7 @@ s32 BossSst_HandOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 void BossSst_HandPost(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossSst* this = THIS;
 
-    func_800628A4(limbIndex, &this->colliderJntSph);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 }
 
 s32 BossSst_HandTrailOverride(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* data,
@@ -2895,7 +2772,7 @@ void BossSst_HeadPost(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3
         this->colliderCyl.dim.pos.z = headPos.z;
     }
 
-    func_800628A4(limbIndex, &this->colliderJntSph);
+    Collider_UpdateSpheres(limbIndex, &this->colliderJntSph);
 }
 
 void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
@@ -3040,7 +2917,7 @@ void BossSst_SpawnIceCrystal(BossSst* this, s32 index) {
     Sphere16* sphere;
 
     if (index < 11) {
-        sphere = &this->colliderJntSph.list[index].dim.worldSphere;
+        sphere = &this->colliderJntSph.elements[index].dim.worldSphere;
 
         ice->pos.x = sphere->center.x;
         ice->pos.y = sphere->center.y;
@@ -3051,7 +2928,7 @@ void BossSst_SpawnIceCrystal(BossSst* this, s32 index) {
             ice->pos.z -= 25.0f;
         }
     } else {
-        sphere = &this->colliderJntSph.list[0].dim.worldSphere;
+        sphere = &this->colliderJntSph.elements[0].dim.worldSphere;
 
         ice->pos.x = ((((index - 11) & 1) ? 1 : -1) * 25.0f) + sphere->center.x;
         ice->pos.y = ((((index - 11) & 2) ? 1 : -1) * 25.0f) + sphere->center.y;

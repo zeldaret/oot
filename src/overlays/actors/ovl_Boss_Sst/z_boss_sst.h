@@ -44,7 +44,7 @@ typedef struct BossSst {
     /* 0x03C4 */ f32 radius;
     /* 0x03C8 */ Vec3f center;
     /* 0x03D4 */ ColliderJntSph colliderJntSph;
-    /* 0x03F4 */ ColliderJntSphItem colliderItems[11];
+    /* 0x03F4 */ ColliderJntSphElement colliderItems[11];
     /* 0x06B4 */ ColliderCylinder colliderCyl;
     /* 0x0700 */ BossSstEffect effects[18];
     /* 0x09D0 */ s16 trailIndex;

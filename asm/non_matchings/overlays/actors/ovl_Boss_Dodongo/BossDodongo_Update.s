@@ -933,7 +933,7 @@ glabel BossDodongo_Update
 /* 035C8 808C4758 00818021 */  addu    $s0, $a0, $at              
 /* 035CC 808C475C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
 /* 035D0 808C4760 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 035D4 808C4764 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 035D8 808C4768 8E2F0190 */  lw      $t7, 0x0190($s1)           ## 00000190
 /* 035DC 808C476C 3C03808C */  lui     $v1, %hi(func_808C3704)    ## $v1 = 808C0000
