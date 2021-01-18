@@ -539,7 +539,7 @@ glabel EnVbBall_Update
 .L80B29D28:
 /* 00D88 80B29D28 26300168 */  addiu   $s0, $s1, 0x0168           ## $s0 = 00000168
 /* 00D8C 80B29D2C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000168
-/* 00D90 80B29D30 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00D90 80B29D30 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00D94 80B29D34 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D98 80B29D38 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

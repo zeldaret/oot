@@ -55,21 +55,63 @@ const ActorInit En_Am_InitVars = {
     (ActorFunc)EnAm_Draw,
 };
 
-ColliderCylinderInit D_809AFF80 = {
-    { COLTYPE_UNK5, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+static ColliderCylinderInit D_809AFF80 = {
+    {
+        COLTYPE_HIT5,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 15, 70, 0, { 0, 0, 0 } },
 };
 
-ColliderCylinderInit D_809AFFAC = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00400106, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+static ColliderCylinderInit D_809AFFAC = {
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00400106, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 15, 70, 0, { 0, 0, 0 } },
 };
 
-ColliderQuadInit D_809AFFD8 = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+static ColliderQuadInit D_809AFFD8 = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -78,43 +120,43 @@ typedef enum {
     /* 01 */ AM_DMGEFF_NUT,
     /* 06 */ AM_DMGEFF_STUN = 6, // doesnt include deku nuts
     /* 13 */ AM_DMGEFF_ICE = 13,
-    /* 14 */ AM_DMGEFF_NON_ICE_MAGIC,
+    /* 14 */ AM_DMGEFF_MAGIC_FIRE_LIGHT,
     /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isnt a special case)
 } ArmosDamageEffect;
 
 static DamageTable D_809B0028 = {
-    /* Deku nut      */ 0x10,
-    /* Deku stick    */ 0x02,
-    /* Slingshot     */ 0x01,
-    /* Explosive     */ 0xF2,
-    /* Boomerang     */ 0x60,
-    /* Normal arrow  */ 0xF2,
-    /* Hammer swing  */ 0xF2,
-    /* Hookshot      */ 0x60,
-    /* Kokiri sword  */ 0x01,
-    /* Master sword  */ 0xF2,
-    /* Giant's Knife */ 0xF4,
-    /* Fire arrow    */ 0xF2,
-    /* Ice arrow     */ 0xD4,
-    /* Light arrow   */ 0xF2,
-    /* Wind arrow    */ 0x02,
-    /* Shadow arrow  */ 0x02,
-    /* Spirit arrow  */ 0x02,
-    /* Fire magic    */ 0xE0,
-    /* Ice magic     */ 0xD3,
-    /* Light magic   */ 0xE0,
-    /* Shield        */ 0x00,
-    /* Mirror Ray    */ 0x00,
-    /* Kokiri spin   */ 0x01,
-    /* Giant spin    */ 0xF4,
-    /* Master spin   */ 0xF2,
-    /* Kokiri jump   */ 0x02,
-    /* Giant jump    */ 0xF8,
-    /* Master jump   */ 0xF4,
-    /* Unknown 1     */ 0x00,
-    /* Unblockable   */ 0x00,
-    /* Hammer jump   */ 0xF4,
-    /* Unknown 2     */ 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, AM_DMGEFF_NUT),
+    /* Deku stick    */ DMG_ENTRY(2, AM_DMGEFF_NONE),
+    /* Slingshot     */ DMG_ENTRY(1, AM_DMGEFF_NONE),
+    /* Explosive     */ DMG_ENTRY(2, AM_DMGEFF_KILL),
+    /* Boomerang     */ DMG_ENTRY(0, AM_DMGEFF_STUN),
+    /* Normal arrow  */ DMG_ENTRY(2, AM_DMGEFF_KILL),
+    /* Hammer swing  */ DMG_ENTRY(2, AM_DMGEFF_KILL),
+    /* Hookshot      */ DMG_ENTRY(0, AM_DMGEFF_STUN),
+    /* Kokiri sword  */ DMG_ENTRY(1, AM_DMGEFF_NONE),
+    /* Master sword  */ DMG_ENTRY(2, AM_DMGEFF_KILL),
+    /* Giant's Knife */ DMG_ENTRY(4, AM_DMGEFF_KILL),
+    /* Fire arrow    */ DMG_ENTRY(2, AM_DMGEFF_KILL),
+    /* Ice arrow     */ DMG_ENTRY(4, AM_DMGEFF_ICE),
+    /* Light arrow   */ DMG_ENTRY(2, AM_DMGEFF_KILL),
+    /* Unk arrow 1   */ DMG_ENTRY(2, AM_DMGEFF_NONE),
+    /* Unk arrow 2   */ DMG_ENTRY(2, AM_DMGEFF_NONE),
+    /* Unk arrow 3   */ DMG_ENTRY(2, AM_DMGEFF_NONE),
+    /* Fire magic    */ DMG_ENTRY(0, AM_DMGEFF_MAGIC_FIRE_LIGHT),
+    /* Ice magic     */ DMG_ENTRY(3, AM_DMGEFF_ICE),
+    /* Light magic   */ DMG_ENTRY(0, AM_DMGEFF_MAGIC_FIRE_LIGHT),
+    /* Shield        */ DMG_ENTRY(0, AM_DMGEFF_NONE),
+    /* Mirror Ray    */ DMG_ENTRY(0, AM_DMGEFF_NONE),
+    /* Kokiri spin   */ DMG_ENTRY(1, AM_DMGEFF_NONE),
+    /* Giant spin    */ DMG_ENTRY(4, AM_DMGEFF_KILL),
+    /* Master spin   */ DMG_ENTRY(2, AM_DMGEFF_KILL),
+    /* Kokiri jump   */ DMG_ENTRY(2, AM_DMGEFF_NONE),
+    /* Giant jump    */ DMG_ENTRY(8, AM_DMGEFF_KILL),
+    /* Master jump   */ DMG_ENTRY(4, AM_DMGEFF_KILL),
+    /* Unknown 1     */ DMG_ENTRY(0, AM_DMGEFF_NONE),
+    /* Unblockable   */ DMG_ENTRY(0, AM_DMGEFF_NONE),
+    /* Hammer jump   */ DMG_ENTRY(4, AM_DMGEFF_KILL),
+    /* Unknown 2     */ DMG_ENTRY(0, AM_DMGEFF_NONE),
 };
 
 InitChainEntry D_809B0048[] = {
@@ -193,8 +235,8 @@ void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.params == ARMOS_STATUE) {
         this->dyna.actor.colChkInfo.health = 1;
         Collider_SetCylinder(globalCtx, &this->cylinder2, &this->dyna.actor, &D_809AFF80);
-        this->cylinder1.base.maskA = 0x35;
-        this->cylinder2.base.maskA = 0xD;
+        this->cylinder1.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_1 | OC1_TYPE_2);
+        this->cylinder2.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER);
         CollisionHeader_GetVirtual(&D_06000118, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->dyna.actor, ACTORTYPE_BG);
@@ -350,9 +392,10 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
     f32 sin;
     Player* player = PLAYER;
 
-    if ((this->unk_258 != 0) || ((this->cylinder1.base.maskA & 2) && (this->cylinder1.base.oc == &player->actor)) ||
-        (this->cylinder1.base.acFlags & 2)) {
-        this->cylinder1.base.acFlags &= ~2;
+    if ((this->unk_258 != 0) ||
+        ((this->cylinder1.base.ocFlags1 & OC1_HIT) && (this->cylinder1.base.oc == &player->actor)) ||
+        (this->cylinder1.base.acFlags & AC_HIT)) {
+        this->cylinder1.base.acFlags &= ~AC_HIT;
 
         if (this->textureBlend == 0) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
@@ -658,14 +701,14 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             temp158f = this->dyna.unk_158 + 0x8000;
         }
 
-        if (this->cylinder1.base.maskA & 2) {
+        if (this->cylinder1.base.ocFlags1 & OC1_HIT) {
             moveDir = Math_Vec3f_Yaw(&this->dyna.actor.posRot.pos, &this->cylinder1.base.oc->posRot.pos) - temp158f;
         }
 
         if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) || !(this->dyna.actor.bgCheckFlags & 1) ||
             !func_800435D8(globalCtx, &this->dyna, 0x14,
                            (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA) ||
-            ((this->cylinder1.base.maskA & 2) && (ABS(moveDir) <= 0x2000))) {
+            ((this->cylinder1.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
             player->stateFlags2 &= ~0x151;
@@ -754,8 +797,8 @@ void EnAm_TransformSwordHitbox(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&D_809B008C, &this->hitCollider.dim.quad[3]);
     Matrix_MultVec3f(&D_809B0098, &this->hitCollider.dim.quad[2]);
 
-    func_80062734(&this->hitCollider, &this->hitCollider.dim.quad[0], &this->hitCollider.dim.quad[1],
-                  &this->hitCollider.dim.quad[2], &this->hitCollider.dim.quad[3]);
+    Collider_SetQuadVertices(&this->hitCollider, &this->hitCollider.dim.quad[0], &this->hitCollider.dim.quad[1],
+                             &this->hitCollider.dim.quad[2], &this->hitCollider.dim.quad[3]);
 }
 
 void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
@@ -774,10 +817,10 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
             if ((this->cylinder1.base.acFlags & 2) && (this->behavior >= 5)) {
                 this->cylinder1.base.acFlags &= ~2;
 
-                if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_NON_ICE_MAGIC) {
+                if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                     this->unk_264 = 0;
                     this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                    func_80035650(&this->dyna.actor, &this->cylinder1.body, 0);
+                    func_80035650(&this->dyna.actor, &this->cylinder1.info, 0);
 
                     if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                         (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
@@ -791,7 +834,7 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
                         } else if (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) {
                             sparkPos = this->dyna.actor.posRot.pos;
                             sparkPos.y += 50.0f;
-                            func_80062D60(globalCtx, &sparkPos);
+                            CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sparkPos);
                         }
                     } else {
                         if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL) ||
@@ -825,7 +868,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnAm_UpdateDamage(this, globalCtx);
     }
 
-    if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_NON_ICE_MAGIC) {
+    if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
         if (this->attackTimer != 0) {
             this->attackTimer--;
         }
@@ -871,8 +914,8 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002E4B4(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f, 0x1D);
     }
 
-    Collider_CylinderUpdate(&this->dyna.actor, &this->cylinder1);
-    Collider_CylinderUpdate(&this->dyna.actor, &this->cylinder2);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder1);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder2);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cylinder1.base);
 
     if (this->dyna.actor.params != ARMOS_STATUE) {

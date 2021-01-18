@@ -55,25 +55,87 @@ const ActorInit En_Poh_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK3, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT3,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 40, 20, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit D_80AE1AA0[] = {
+static ColliderJntSphElementInit D_80AE1AA0[1] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x08 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 18, { { 0, 1400, 0 }, 10 }, 100 },
     },
 };
 
-static ColliderJntSphInit sJntSphInit = { { COLTYPE_UNK3, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH }, 1, D_80AE1AA0 };
+static ColliderJntSphInit sJntSphInit = {
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    1,
+    D_80AE1AA0,
+};
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0x04, 0x0019, 0x0032, 0x28 };
+static CollisionCheckInfoInit sColChkInfoInit = { 4, 25, 50, 40 };
 
 static DamageTable sDamageTable = {
-    0x00, 0x02, 0x01, 0x02, 0x11, 0x02, 0x02, 0x12, 0x01, 0x02, 0x04, 0x02, 0x02, 0x02, 0x02, 0x02,
-    0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static EnPohInfo sPoeInfo[2] = {
@@ -145,13 +207,13 @@ void EnPoh_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
     Collider_InitJntSph(globalCtx, &this->colliderSph);
     Collider_SetJntSph(globalCtx, &this->colliderSph, &this->actor, &sJntSphInit, &this->colliderSphItem);
-    this->colliderSph.list[0].dim.worldSphere.radius = 0;
-    this->colliderSph.list[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
-    this->colliderSph.list[0].dim.worldSphere.center.y = this->actor.posRot.pos.y;
-    this->colliderSph.list[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
+    this->colliderSph.elements[0].dim.worldSphere.radius = 0;
+    this->colliderSph.elements[0].dim.worldSphere.center.x = this->actor.posRot.pos.x;
+    this->colliderSph.elements[0].dim.worldSphere.center.y = this->actor.posRot.pos.y;
+    this->colliderSph.elements[0].dim.worldSphere.center.z = this->actor.posRot.pos.z;
     Collider_InitCylinder(globalCtx, &this->colliderCyl);
     Collider_SetCylinder(globalCtx, &this->colliderCyl, &this->actor, &sCylinderInit);
-    func_80061ED4(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
     this->unk_194 = 0;
     this->unk_195 = 32;
     this->visibilityTimer = Rand_S16Offset(700, 300);
@@ -248,12 +310,12 @@ void func_80ADE28C(EnPoh* this) {
     } else {
         Animation_PlayOnce(&this->skelAnime, &D_06000570);
     }
-    if (this->colliderCyl.body.acHitItem->toucher.flags & 0x0001F824) {
+    if (this->colliderCyl.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
         this->actor.posRot.rot.y = this->colliderCyl.base.ac->posRot.rot.y;
     } else {
         this->actor.posRot.rot.y = func_8002DA78(&this->actor, this->colliderCyl.base.ac) + 0x8000;
     }
-    this->colliderCyl.base.acFlags &= ~1;
+    this->colliderCyl.base.acFlags &= ~AC_ON;
     this->actor.speedXZ = 5.0f;
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x10);
     this->actionFunc = func_80ADEECC;
@@ -263,7 +325,7 @@ void func_80ADE368(EnPoh* this) {
     Animation_MorphToLoop(&this->skelAnime, this->info->unk_18, -5.0f);
     this->actor.speedXZ = 5.0f;
     this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x8000;
-    this->colliderCyl.base.acFlags |= 1;
+    this->colliderCyl.base.acFlags |= AC_ON;
     this->unk_198 = 200;
     this->actionFunc = func_80ADF894;
 }
@@ -373,7 +435,7 @@ void EnPoh_Talk(EnPoh* this, GlobalContext* globalCtx) {
     this->colliderCyl.dim.pos.x = this->actor.posRot.pos.x;
     this->colliderCyl.dim.pos.y = this->actor.posRot.pos.y - 20.0f;
     this->colliderCyl.dim.pos.z = this->actor.posRot.pos.z;
-    this->colliderCyl.base.maskA = 9;
+    this->colliderCyl.base.ocFlags1 = OC1_ON | OC1_TYPE_PLAYER;
     if (this->actor.params == EN_POH_FLAT || this->actor.params == EN_POH_SHARP) {
         if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
             this->actor.textId = 0x5000;
@@ -731,7 +793,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         return;
     }
-    if (this->colliderCyl.base.maskA & 2) {
+    if (this->colliderCyl.base.ocFlags1 & OC1_HIT) {
         this->actor.flags |= 0x10000;
         func_8002F2F4(&this->actor, globalCtx);
     } else {
@@ -817,8 +879,8 @@ void EnPoh_TalkComposer(EnPoh* this, GlobalContext* globalCtx) {
 }
 
 void func_80AE032C(EnPoh* this, GlobalContext* globalCtx) {
-    if (this->colliderCyl.base.acFlags & 2) {
-        this->colliderCyl.base.acFlags &= ~2;
+    if (this->colliderCyl.base.acFlags & AC_HIT) {
+        this->colliderCyl.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0 || this->actor.colChkInfo.damage != 0) {
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 func_80032C7C(globalCtx, &this->actor);
@@ -873,8 +935,8 @@ void EnPoh_Update(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006F90, &D_060009DC, this->jointTable,
                                this->morphTable, 12);
             this->actor.draw = EnPoh_DrawComposer;
-            this->colliderSph.list[0].dim.joint = 9;
-            this->colliderSph.list->dim.modelSphere.center.y *= -1;
+            this->colliderSph.elements[0].dim.limb = 9;
+            this->colliderSph.elements[0].dim.modelSphere.center.y *= -1;
             this->actor.shape.rot.y = this->actor.posRot.rot.y = -0x4000;
             this->colliderCyl.dim.radius = 20;
             this->colliderCyl.dim.height = 55;
@@ -943,8 +1005,8 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
     UNK_TYPE sp38;
 
-    if (this->colliderSph.base.atFlags & 2) {
-        this->colliderSph.base.atFlags &= ~2;
+    if (this->colliderSph.base.atFlags & AT_HIT) {
+        this->colliderSph.base.atFlags &= ~AT_HIT;
         func_80ADE4C8(this);
     }
     func_80AE032C(this, globalCtx);
@@ -955,8 +1017,8 @@ void EnPoh_UpdateLiving(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags |= 0x1000000;
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliderSph.base);
     }
-    Collider_CylinderUpdate(&this->actor, &this->colliderCyl);
-    if ((this->colliderCyl.base.acFlags & 1) && this->lightColor.a == 255) {
+    Collider_UpdateCylinder(&this->actor, &this->colliderCyl);
+    if ((this->colliderCyl.base.acFlags & AC_ON) && this->lightColor.a == 255) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
     }
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCyl.base);
@@ -998,7 +1060,7 @@ s32 EnPoh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
     EnPoh* this = THIS;
 
-    func_800628A4(limbIndex, &this->colliderSph);
+    Collider_UpdateSpheres(limbIndex, &this->colliderSph);
     if (this->actionFunc == func_80ADF15C && this->unk_198 >= 2 && limbIndex == this->info->unk_7) {
         gSPMatrix((*gfxP)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_poh.c", 2460),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1015,10 +1077,10 @@ void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
             this->actor.posRot.pos.y = this->unk_368.wy;
             this->actor.posRot.pos.z = this->unk_368.wz;
         }
-        Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.list[0].dim.worldSphere.center.x,
-                                this->colliderSph.list[0].dim.worldSphere.center.y,
-                                this->colliderSph.list[0].dim.worldSphere.center.z, this->envColor.r, this->envColor.g,
-                                this->envColor.b, this->envColor.a * 0.78431374f);
+        Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.elements[0].dim.worldSphere.center.x,
+                                this->colliderSph.elements[0].dim.worldSphere.center.y,
+                                this->colliderSph.elements[0].dim.worldSphere.center.z, this->envColor.r,
+                                this->envColor.g, this->envColor.b, this->envColor.a * 0.78431374f);
     }
 }
 

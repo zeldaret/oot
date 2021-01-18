@@ -48,21 +48,42 @@ const ActorInit Bg_Po_Event_InitVars = {
     (ActorFunc)BgPoEvent_Draw,
 };
 
-static ColliderTrisItemInit sTrisItemsInit[2] = {
+static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK4,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F820, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f } } },
     },
     {
-        { 0x04, { 0x00000000, 0x00, 0x00 }, { 0x0001F820, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK4,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x0001F820, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 25.0f, 33.0f, 0.0f }, { -25.0f, -33.0f, 0.0f }, { 25.0f, -33.0f, 0.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_TRIS,
+    },
     2,
-    sTrisItemsInit,
+    sTrisElementsInit,
 };
 
 static u8 sBlocksAtRest = 0;
@@ -75,7 +96,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
     static s16 paintingPosX[] = { -1302, -866, 1421, 985 };
     static s16 paintingPosY[] = { 1107, 1091 };
     static s16 paintingPosZ[] = { -3384, -3252 };
-    ColliderTrisItemInit* item;
+    ColliderTrisElementInit* item;
     Vec3f* vtxVec;
     s32 i1;
     s32 i2;
@@ -96,7 +117,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
         scaleY = 1.0f;
     }
     for (i1 = 0; i1 < sTrisInit.count; i1++) {
-        item = &sTrisInit.list[i1];
+        item = &sTrisInit.elements[i1];
         if (1) {} // This section looks like a macro of some sort.
         for (i2 = 0; i2 < 3; i2++) {
             vtxVec = &item->dim.vtx[i2];
@@ -104,7 +125,7 @@ void BgPoEvent_InitPaintings(BgPoEvent* this, GlobalContext* globalCtx) {
             sp9C[i2].y = (vtxVec->y * scaleY) + this->dyna.actor.initPosRot.pos.y;
             sp9C[i2].z = this->dyna.actor.initPosRot.pos.z + (coss * vtxVec->z) - (vtxVec->x * sins);
         }
-        func_800627A0(&this->collider, i1, &sp9C[0], &sp9C[1], &sp9C[2]);
+        Collider_SetTrisVertices(&this->collider, i1, &sp9C[0], &sp9C[1], &sp9C[2]);
     }
     if ((this->type != 4) && (this->index != 2)) {
         phi_t2 = (this->type == 2) ? this->index : this->index + 2;
@@ -434,7 +455,7 @@ void BgPoEvent_BlockSolved(BgPoEvent* this, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_AmyWait(BgPoEvent* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         sPuzzleState |= 0x20;
         this->timer = 5;
         func_8003426C(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
@@ -518,7 +539,7 @@ void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx) {
         this->timer = 0;
         Audio_PlayActorSound2(thisx, NA_SE_EN_PO_LAUGH);
         this->actionFunc = BgPoEvent_PaintingVanish;
-    } else if (this->collider.base.acFlags & 2) {
+    } else if (this->collider.base.acFlags & AC_HIT) {
         if (!BgPoEvent_NextPainting(this)) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->posRot.pos.x,
                         thisx->posRot.pos.y - 40.0f, thisx->posRot.pos.z, 0, thisx->shape.rot.y, 0,

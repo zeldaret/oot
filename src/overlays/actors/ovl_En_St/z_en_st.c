@@ -49,30 +49,72 @@ const ActorInit En_St_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 2, 0, 0, 0, MASS_IMMOVABLE };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 20, 60, -30, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK6, 0x11, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 extern SkeletonHeader D_06005298;
@@ -247,36 +289,36 @@ void EnSt_InitColliders(EnSt* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x0003F8F9;
-    this->colCylinder[1].body.bumper.flags = 0xFFC00706;
-    this->colCylinder[2].base.type = 9;
-    this->colCylinder[2].body.bumperFlags = 0xD;
-    this->colCylinder[2].body.flags = 2;
-    this->colCylinder[2].body.bumper.flags = 0xFFCC0706;
+    this->colCylinder[0].info.bumper.dmgFlags = 0x0003F8F9;
+    this->colCylinder[1].info.bumper.dmgFlags = 0xFFC00706;
+    this->colCylinder[2].base.colType = COLTYPE_METAL;
+    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
+    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].info.bumper.dmgFlags = 0xFFCC0706;
 
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInit);
 
     Collider_InitJntSph(globalCtx, &this->colSph);
     Collider_SetJntSph(globalCtx, &this->colSph, &this->actor, &sJntSphInit, this->colSphItems);
 }
 
 void EnSt_CheckBodyStickHit(EnSt* this, GlobalContext* globalCtx) {
-    ColliderBody* body = &this->colCylinder[0].body;
+    ColliderInfo* body = &this->colCylinder[0].info;
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
-        body->bumper.flags |= 2;
-        this->colCylinder[1].body.bumper.flags &= ~2;
-        this->colCylinder[2].body.bumper.flags &= ~2;
+        body->bumper.dmgFlags |= 2;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
     } else {
-        body->bumper.flags &= ~2;
-        this->colCylinder[1].body.bumper.flags |= 2;
-        this->colCylinder[2].body.bumper.flags |= 2;
+        body->bumper.dmgFlags &= ~2;
+        this->colCylinder[1].info.bumper.dmgFlags |= 2;
+        this->colCylinder[2].info.bumper.dmgFlags |= 2;
     }
 }
 
 void EnSt_SetBodyCylinderAC(EnSt* this, GlobalContext* globalCtx) {
-    Collider_CylinderUpdate(&this->actor, &this->colCylinder[0]);
+    Collider_UpdateCylinder(&this->actor, &this->colCylinder[0]);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[0].base);
 }
 
@@ -284,10 +326,10 @@ void EnSt_SetLegsCylinderAC(EnSt* this, GlobalContext* globalCtx) {
     s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
 
     if (angleTowardsLink < 0x3FFC) {
-        Collider_CylinderUpdate(&this->actor, &this->colCylinder[2]);
+        Collider_UpdateCylinder(&this->actor, &this->colCylinder[2]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[2].base);
     } else {
-        Collider_CylinderUpdate(&this->actor, &this->colCylinder[1]);
+        Collider_UpdateCylinder(&this->actor, &this->colCylinder[1]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[1].base);
     }
 }
@@ -342,10 +384,10 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0, hit = 0; i < 3; i++) {
-        if (((this->colCylinder[i + 3].base.maskB & 1) != 0) == 0) {
+        if (((this->colCylinder[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) != 0) == 0) {
             continue;
         }
-        this->colCylinder[i + 3].base.maskB &= ~0x1;
+        this->colCylinder[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
         hit = true;
     }
 
@@ -367,11 +409,11 @@ s32 EnSt_CheckHitLink(EnSt* this, GlobalContext* globalCtx) {
 s32 EnSt_CheckHitFrontside(EnSt* this) {
     u8 acFlags = this->colCylinder[2].base.acFlags;
 
-    if (!!(acFlags & 2) == 0) {
+    if (!!(acFlags & AC_HIT) == 0) {
         // not hit
         return false;
     } else {
-        this->colCylinder[2].base.acFlags &= ~0x2;
+        this->colCylinder[2].base.acFlags &= ~AC_HIT;
         this->invulnerableTimer = 8;
         this->playSwayFlag = 0;
         this->swayTimer = 60;
@@ -384,17 +426,17 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     s32 flags = 0; // ac hit flags from colliders 0 and 1
     s32 hit = false;
 
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->body.acHitItem->toucher.flags;
+        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
     }
 
     cyl = &this->colCylinder[1];
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
-        flags |= cyl->body.acHitItem->toucher.flags;
+        flags |= cyl->info.acHitInfo->toucher.dmgFlags;
     }
 
     if (!hit) {
@@ -475,9 +517,9 @@ void EnSt_SetColliderScale(EnSt* this) {
         scaleAmount = 1.4f;
     }
 
-    radius = this->colSph.list[0].dim.modelSphere.radius;
+    radius = this->colSph.elements[0].dim.modelSphere.radius;
     radius *= scaleAmount;
-    this->colSph.list[0].dim.modelSphere.radius = radius;
+    this->colSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
         yShift = this->colCylinder[i].dim.yShift;
@@ -1037,7 +1079,7 @@ s32 EnSt_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP,
 void EnSt_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dListP, Vec3s* rot, void* thisx) {
     EnSt* this = THIS;
 
-    func_800628A4(limbIndex, &this->colSph);
+    Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
 
 void EnSt_Draw(Actor* thisx, GlobalContext* globalCtx) {

@@ -32,8 +32,22 @@ const ActorInit En_Yukabyun_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x3D, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x04 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 28, 8, 0, { 0, 0, 0 } },
 };
 
@@ -106,12 +120,12 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnYukabyun* this = THIS;
     s32 pad;
 
-    if (((this->collider.base.atFlags & 2) || (this->collider.base.acFlags & 2) ||
-         ((this->collider.base.maskA & 2) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
+    if (((this->collider.base.atFlags & AT_HIT) || (this->collider.base.acFlags & AC_HIT) ||
+         ((this->collider.base.ocFlags1 & OC1_HIT) && !(this->collider.base.oc->id == ACTOR_EN_YUKABYUN))) ||
         ((this->actionfunc == func_80B43B6C) && (this->actor.bgCheckFlags & 8))) {
-        this->collider.base.atFlags &= ~0x2;
-        this->collider.base.acFlags &= ~0x2;
-        this->collider.base.maskA &= ~0x2;
+        this->collider.base.atFlags &= ~AT_HIT;
+        this->collider.base.acFlags &= ~AC_HIT;
+        this->collider.base.ocFlags1 &= ~OC1_HIT;
         this->actor.flags &= ~0x5;
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_ROCK);
         this->actionfunc = EnYukabyun_Break;
@@ -122,7 +136,7 @@ void EnYukabyun_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (!(this->actionfunc == func_80B43A94 || this->actionfunc == EnYukabyun_Break)) {
         func_8002E4B4(globalCtx, &this->actor, 5.0f, 20.0f, 8.0f, 5);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
 
         this->actor.flags |= 0x1000000;
 

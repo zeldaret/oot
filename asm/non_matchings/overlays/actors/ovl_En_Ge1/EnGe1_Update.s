@@ -7,7 +7,7 @@ glabel EnGe1_Update
 /* 01910 80A32280 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01914 80A32284 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 01918 80A32288 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 0191C 80A3228C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0191C 80A3228C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01920 80A32290 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01924 80A32294 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -15,7 +15,7 @@ glabel EnGe1_Update
 /* 0192C 80A3229C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01930 80A322A0 02212821 */  addu    $a1, $s1, $at              
 /* 01934 80A322A4 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01938 80A322A8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0193C 80A322AC 0C00B638 */  jal     Actor_MoveForward
               

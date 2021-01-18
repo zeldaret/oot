@@ -42,9 +42,22 @@ const ActorInit En_Gm_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 100, 120, 0, { 0, 0, 0 } },
 };
 
@@ -101,10 +114,10 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
                          0.0f);
         this->actor.draw = EnGm_Draw;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+        Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->eyeTexIndex = 0;
         this->blinkTimer = 20;
         this->actor.textId = 0x3049;
@@ -167,8 +180,8 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A3DC44;
     } else if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = func_80A3DBF4;
-    } else if ((this->collider.base.maskA & 2) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
-        this->collider.base.acFlags &= ~2;
+    } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
 }
@@ -207,8 +220,8 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 
         this->actionFunc = EnGm_ProcessChoiceIndex;
     }
-    if ((this->collider.base.maskA & 2) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
-        this->collider.base.acFlags &= ~2;
+    if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
 }

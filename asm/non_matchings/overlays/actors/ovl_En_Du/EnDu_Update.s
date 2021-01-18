@@ -7,7 +7,7 @@ glabel EnDu_Update
 /* 01100 809FED30 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01104 809FED34 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 01108 809FED38 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 0110C 809FED3C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0110C 809FED3C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01110 809FED40 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01114 809FED44 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -15,7 +15,7 @@ glabel EnDu_Update
 /* 0111C 809FED4C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01120 809FED50 02212821 */  addu    $a1, $s1, $at              
 /* 01124 809FED54 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01128 809FED58 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0112C 809FED5C 8E0F0154 */  lw      $t7, 0x0154($s0)           ## 00000154
 /* 01130 809FED60 3C0E0600 */  lui     $t6, %hi(D_060041F4)                ## $t6 = 06000000

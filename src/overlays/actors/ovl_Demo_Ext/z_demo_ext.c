@@ -1,17 +1,241 @@
+/*
+ * File: z_demo_ext.c
+ * Overlay: Demo_Ext
+ * Description: Magic Vortex in Silver Gauntlets Cutscene
+ */
+
 #include "z_demo_ext.h"
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
 #define THIS ((DemoExt*)thisx)
+
+typedef enum {
+    /* 0x00 */ EXT_WAIT,
+    /* 0x01 */ EXT_MAINTAIN,
+    /* 0x02 */ EXT_DISPELL
+} DemoExtAction;
+
+typedef enum {
+    /* 0x00 */ EXT_DRAW_NOTHING,
+    /* 0x01 */ EXT_DRAW_VORTEX
+} DemoExtDrawMode;
 
 void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0600FAA0;
+extern Gfx D_0600FAA0[];
 
-/*
+void DemoExt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+}
+
+void DemoExt_Init(Actor* thisx, GlobalContext* globalCtx) {
+    DemoExt* this = THIS;
+
+    this->scrollIncr[0] = 25;
+    this->scrollIncr[1] = 40;
+    this->scrollIncr[2] = 5;
+    this->scrollIncr[3] = 30;
+    this->primAlpha = kREG(28) + 255;
+    this->envAlpha = kREG(32) + 255;
+    this->scale.x = kREG(19) + 400.0f;
+    this->scale.y = kREG(20) + 100.0f;
+    this->scale.z = kREG(21) + 400.0f;
+}
+
+void DemoExt_PlayVortexSFX(DemoExt* this) {
+    if (this->alphaTimer <= (kREG(35) + 40.0f) - 15.0f) {
+        Audio_PlaySoundGeneral(NA_SE_EV_FANTOM_WARP_L - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
+                               &D_801333E0, &D_801333E8);
+    }
+}
+
+CsCmdActorAction* DemoExt_GetNpcAction(GlobalContext* globalCtx, s32 npcActionIndex) {
+    if (globalCtx->csCtx.state != 0) {
+        return globalCtx->csCtx.npcActions[npcActionIndex];
+    }
+    return NULL;
+}
+
+void DemoExt_SetupWait(DemoExt* this) {
+    this->action = EXT_WAIT;
+    this->drawMode = EXT_DRAW_NOTHING;
+}
+
+void DemoExt_SetupMaintainVortex(DemoExt* this, GlobalContext* globalCtx) {
+    CsCmdActorAction* npcAction = DemoExt_GetNpcAction(globalCtx, 5);
+
+    if (npcAction != NULL) {
+        this->actor.posRot.pos.x = npcAction->startPos.x;
+        this->actor.posRot.pos.y = npcAction->startPos.y;
+        this->actor.posRot.pos.z = npcAction->startPos.z;
+        this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+    }
+    this->action = EXT_MAINTAIN;
+    this->drawMode = EXT_DRAW_VORTEX;
+}
+
+void DemoExt_SetupDispellVortex(DemoExt* this) {
+    this->action = EXT_DISPELL;
+    this->drawMode = EXT_DRAW_VORTEX;
+}
+
+void DemoExt_FinishClosing(DemoExt* this) {
+    this->alphaTimer += 1.0f;
+    if ((kREG(35) + 40.0f) <= this->alphaTimer) {
+        Actor_Kill(&this->actor);
+    }
+}
+
+void DemoExt_CheckCsMode(DemoExt* this, GlobalContext* globalCtx) {
+    CsCmdActorAction* csCmdNPCAction = DemoExt_GetNpcAction(globalCtx, 5);
+    s32 csAction;
+    s32 previousCsAction;
+
+    if (csCmdNPCAction != NULL) {
+        csAction = csCmdNPCAction->action;
+        previousCsAction = this->previousCsAction;
+
+        if (csAction != previousCsAction) {
+            switch (csAction) {
+                case 1:
+                    DemoExt_SetupWait(this);
+                    break;
+                case 2:
+                    DemoExt_SetupMaintainVortex(this, globalCtx);
+                    break;
+                case 3:
+                    DemoExt_SetupDispellVortex(this);
+                    break;
+                default:
+                    // Demo_Ext_Check_DemoMode: there is no such action!
+                    osSyncPrintf("Demo_Ext_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    break;
+            }
+            this->previousCsAction = csAction;
+        }
+    }
+}
+
+void DemoExt_SetScrollAndRotation(DemoExt* this) {
+    s16* scrollIncr = this->scrollIncr;
+    s16* curScroll = this->curScroll;
+    s32 i;
+
+    for (i = 3; i != 0; i--) {
+        curScroll[i] += scrollIncr[i];
+    }
+    this->rotationPitch += (s16)(kREG(34) + 1000);
+}
+
+void DemoExt_SetColorsAndScales(DemoExt* this) {
+    Vec3f* scale = &this->scale;
+    f32 shrinkFactor;
+
+    shrinkFactor = ((kREG(35) + 40.0f) - this->alphaTimer) / (kREG(35) + 40.0f);
+    if (shrinkFactor < 0.0f) {
+        shrinkFactor = 0.0f;
+    }
+
+    this->primAlpha = (u32)(kREG(28) + 255) * shrinkFactor;
+    this->envAlpha = (u32)(kREG(32) + 255) * shrinkFactor;
+    scale->x = (kREG(19) + 400.0f) * shrinkFactor;
+    scale->y = (kREG(20) + 100.0f) * shrinkFactor;
+    scale->z = (kREG(21) + 400.0f) * shrinkFactor;
+}
+
+void DemoExt_Wait(DemoExt* this, GlobalContext* globalCtx) {
+    DemoExt_CheckCsMode(this, globalCtx);
+}
+
+void DemoExt_MaintainVortex(DemoExt* this, GlobalContext* globalCtx) {
+    DemoExt_PlayVortexSFX(this);
+    DemoExt_SetScrollAndRotation(this);
+    DemoExt_CheckCsMode(this, globalCtx);
+}
+
+void DemoExt_DispellVortex(DemoExt* this, GlobalContext* globalCtx) {
+    DemoExt_PlayVortexSFX(this);
+    DemoExt_SetScrollAndRotation(this);
+    DemoExt_SetColorsAndScales(this);
+    DemoExt_FinishClosing(this);
+}
+
+static DemoExtActionFunc sActionFuncs[] = {
+    DemoExt_Wait,
+    DemoExt_MaintainVortex,
+    DemoExt_DispellVortex,
+};
+
+void DemoExt_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DemoExt* this = THIS;
+
+    if ((this->action < EXT_WAIT) || (this->action > EXT_DISPELL) || sActionFuncs[this->action] == NULL) {
+        // Main mode is abnormal!
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        sActionFuncs[this->action](this, globalCtx);
+    }
+}
+
+void DemoExt_DrawNothing(Actor* thisx, GlobalContext* globalCtx) {
+}
+
+void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
+    DemoExt* this = THIS;
+    Mtx* mtx;
+    GraphicsContext* gfxCtx;
+    s16* curScroll;
+    Vec3f* scale;
+
+    scale = &this->scale;
+    gfxCtx = globalCtx->state.gfxCtx;
+    mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
+
+    OPEN_DISPS(gfxCtx, "../z_demo_ext.c", 460);
+    Matrix_Push();
+    Matrix_Scale(scale->x, scale->y, scale->z, MTXMODE_APPLY);
+    Matrix_RotateRPY((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
+    Matrix_Translate(kREG(22), kREG(23), kREG(24), MTXMODE_APPLY);
+    Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
+    Matrix_Pull();
+    func_80093D84(gfxCtx);
+
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, kREG(33) + 128, kREG(25) + 140, kREG(26) + 80, kREG(27) + 140, this->primAlpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, kREG(29) + 90, kREG(30) + 50, kREG(31) + 95, this->envAlpha);
+
+    curScroll = this->curScroll;
+    gSPSegment(
+        POLY_XLU_DISP++, 0x08,
+        Gfx_TwoTexScroll(gfxCtx, 0, curScroll[0], curScroll[1], 0x40, 0x40, 1, curScroll[2], curScroll[3], 0x40, 0x40));
+
+    gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_XLU_DISP++, D_0600FAA0);
+    gSPPopMatrix(POLY_XLU_DISP++, G_MTX_MODELVIEW);
+
+    CLOSE_DISPS(gfxCtx, "../z_demo_ext.c", 512);
+}
+
+static DemoExtDrawFunc sDrawFuncs[] = {
+    DemoExt_DrawNothing,
+    DemoExt_DrawVortex,
+};
+
+void DemoExt_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    DemoExt* this = THIS;
+
+    if ((this->drawMode < EXT_DRAW_NOTHING) || (this->drawMode > EXT_DRAW_VORTEX) ||
+        sDrawFuncs[this->drawMode] == NULL) {
+        // Draw mode is abnormal!
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
+    } else {
+        sDrawFuncs[this->drawMode](thisx, globalCtx);
+    }
+}
+
 const ActorInit Demo_Ext_InitVars = {
     ACTOR_DEMO_EXT,
     ACTORTYPE_NPC,
@@ -23,39 +247,3 @@ const ActorInit Demo_Ext_InitVars = {
     (ActorFunc)DemoExt_Update,
     (ActorFunc)DemoExt_Draw,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/DemoExt_Destroy.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/DemoExt_Init.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977450.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_809774D8.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_809774FC.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977508.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977590.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_809775A4.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977610.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_809776D0.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_8097771C.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977854.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977874.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_809778AC.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/DemoExt_Update.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977944.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/func_80977950.s")
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Ext/DemoExt_Draw.s")
