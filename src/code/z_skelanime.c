@@ -1054,9 +1054,9 @@ void AnimationContext_MoveActor(GlobalContext* globalCtx, AnimationEntryData* da
     Vec3f diff;
 
     SkelAnime_UpdateTranslation(entry->skelAnime, &diff, actor->shape.rot.y);
-    actor->posRot.pos.x += diff.x * actor->scale.x;
-    actor->posRot.pos.y += diff.y * actor->scale.y * entry->unk_08;
-    actor->posRot.pos.z += diff.z * actor->scale.z;
+    actor->world.pos.x += diff.x * actor->scale.x;
+    actor->world.pos.y += diff.y * actor->scale.y * entry->unk_08;
+    actor->world.pos.z += diff.z * actor->scale.z;
 }
 
 /**

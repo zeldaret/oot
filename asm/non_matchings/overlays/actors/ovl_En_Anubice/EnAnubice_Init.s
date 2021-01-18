@@ -18,8 +18,8 @@ glabel EnAnubice_Init
 /* 0018C 809B12AC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00190 809B12B0 AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 00194 809B12B4 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 00198 809B12B8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0019C 809B12BC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00198 809B12B8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0019C 809B12BC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 001A0 809B12C0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 001A4 809B12C4 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 001A8 809B12C8 0C00AC78 */  jal     ActorShape_Init

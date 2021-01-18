@@ -86,7 +86,7 @@ glabel EnBili_Update
 /* 014C8 809C0D68 3C0640A0 */  lui     $a2, 0x40A0                ## $a2 = 40A00000
 /* 014CC 809C0D6C 46803220 */  cvt.s.w $f8, $f6                   
 /* 014D0 809C0D70 44072000 */  mfc1    $a3, $f4                   
-/* 014D4 809C0D74 0C00B92D */  jal     func_8002E4B4              
+/* 014D4 809C0D74 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 014D8 809C0D78 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 014DC 809C0D7C 260501D4 */  addiu   $a1, $s0, 0x01D4           ## $a1 = 000001D4
 /* 014E0 809C0D80 AFA50028 */  sw      $a1, 0x0028($sp)           
@@ -122,7 +122,7 @@ glabel EnBili_Update
               ## CollisionCheck_setOC
 /* 01544 809C0DE4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01548 809C0DE8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0154C 809C0DEC 0C00B56E */  jal     Actor_SetHeight
+/* 0154C 809C0DEC 0C00B56E */  jal     Actor_SetFocus
               
 /* 01550 809C0DF0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01554 809C0DF4 8FBF0024 */  lw      $ra, 0x0024($sp)           

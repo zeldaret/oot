@@ -24,7 +24,7 @@ void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx);
 
 const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_SD,
     sizeof(EnHeishi4),
@@ -68,15 +68,15 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(thisx, 0.01f);
     this->type = thisx->params & 0xFF;
     thisx->colChkInfo.mass = MASS_IMMOVABLE;
-    this->pos = thisx->posRot.pos;
-    thisx->unk_1F = 6;
+    this->pos = thisx->world.pos;
+    thisx->targetMode = 6;
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, this->jointTable, this->morphTable, 17);
     } else {
         this->height = 60.0f;
-        ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+        ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
     }
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -266,7 +266,7 @@ void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
 
 void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    func_80038290(globalCtx, &this->actor, &this->unk_260.x, &this->unk_266.x, this->actor.posRot2.pos);
+    func_80038290(globalCtx, &this->actor, &this->unk_260.x, &this->unk_266.x, this->actor.focus.pos);
     if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);
@@ -347,14 +347,14 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    thisx->posRot.pos.x = this->pos.x;
-    thisx->posRot.pos.y = this->pos.y;
-    thisx->posRot.pos.z = this->pos.z;
-    Actor_SetHeight(thisx, this->height);
+    thisx->world.pos.x = this->pos.x;
+    thisx->world.pos.y = this->pos.y;
+    thisx->world.pos.z = this->pos.z;
+    Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
-        this->unk_28C.unk_18 = player->actor.posRot.pos;
+        this->unk_28C.unk_18 = player->actor.world.pos;
         if (LINK_IS_CHILD) {
-            this->unk_28C.unk_18.y = (player->actor.posRot.pos.y - 10.0f);
+            this->unk_28C.unk_18.y = (player->actor.world.pos.y - 10.0f);
         }
         func_80034A14(thisx, &this->unk_28C, 2, 4);
         this->unk_260 = this->unk_28C.unk_08;
@@ -363,7 +363,7 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_27E += 1;
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }

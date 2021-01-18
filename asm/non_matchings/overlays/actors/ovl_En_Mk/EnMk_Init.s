@@ -8,8 +8,8 @@ glabel EnMk_Init
 /* 00018 80AAC918 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 0001C 80AAC91C AFA50044 */  sw      $a1, 0x0044($sp)
 /* 00020 80AAC920 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00024 80AAC924 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00028 80AAC928 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00024 80AAC924 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00028 80AAC928 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0002C 80AAC92C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00030 80AAC930 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00034 80AAC934 3C074210 */  lui     $a3, 0x4210                ## $a3 = 42100000

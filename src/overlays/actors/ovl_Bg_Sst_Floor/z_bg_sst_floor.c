@@ -23,7 +23,7 @@ static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
 const ActorInit Bg_Sst_Floor_InitVars = {
     ACTOR_BG_SST_FLOOR,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SST,
     sizeof(BgSstFloor),
@@ -33,7 +33,7 @@ const ActorInit Bg_Sst_Floor_InitVars = {
     (ActorFunc)BgSstFloor_Draw,
 };
 
-InitChainEntry D_808B9E3C[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale.x, 100, ICHAIN_STOP),
 };
 
@@ -42,7 +42,7 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
     BgSstFloor* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_808B9E3C);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 1);
     CollisionHeader_GetVirtual(&gBongoDrumCol, &colHeader);
     this->dyna.bgId =
@@ -66,7 +66,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    if (func_80043590(&this->dyna) && (this->dyna.actor.yDistToLink < 1000.0f)) {
+    if (func_80043590(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
         Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0xC);
     } else {
         Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
@@ -78,7 +78,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->dyna.actor.params == BONGOFLOOR_HIT) {
-        Actor* misc = globalCtx->actorCtx.actorList[8].first;
+        Actor* misc = globalCtx->actorCtx.actorLists[ACTORCAT_MISC].head;
         f32 distFromRim;
         f32 xzDist;
 
@@ -87,7 +87,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
         this->drumPhase = 28;
 
         if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
-            distFromRim = 600.0f - this->dyna.actor.xzDistToLink;
+            distFromRim = 600.0f - this->dyna.actor.xzDistToPlayer;
             if (distFromRim > 0.0f) {
                 if (distFromRim > 350.0f) {
                     distFromRim = 350.0f;
@@ -97,9 +97,9 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        for (misc; misc != NULL; misc = misc->next) {
-            if ((misc->id == ACTOR_EN_ITEM00) && (misc->posRot.pos.y == 0.0f)) {
-                xzDist = func_8002DB8C(&this->dyna.actor, misc);
+        while (misc != NULL) {
+            if ((misc->id == ACTOR_EN_ITEM00) && (misc->world.pos.y == 0.0f)) {
+                xzDist = Actor_WorldDistXZToActor(&this->dyna.actor, misc);
                 distFromRim = 600.0f - xzDist;
                 if (xzDist < 600.0f) {
                     if (distFromRim > 350.0f) {
@@ -109,6 +109,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
                     misc->velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
                 }
             }
+            misc = misc->next;
         }
     }
     this->drumHeight = sinf(this->drumPhase * (M_PI / 2)) * (-this->drumAmp);
@@ -117,7 +118,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     colHeader->vtxList[1].y = colHeader->vtxList[0].y = colHeader->vtxList[2].y =
         colHeader->vtxList[3].y = colHeader->vtxList[4].y = colHeader->vtxList[7].y =
             colHeader->vtxList[9].y = colHeader->vtxList[11].y = colHeader->vtxList[13].y =
-                this->dyna.actor.initPosRot.pos.y + this->drumHeight;
+                this->dyna.actor.home.pos.y + this->drumHeight;
 
     if (this->drumPhase != 0) {
         this->drumPhase--;

@@ -22,7 +22,7 @@ extern UNK_TYPE D_060037C0;
 /*
 const ActorInit En_Dnt_Jiji_InitVars = {
     ACTOR_EN_DNT_JIJI,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DNS,
     sizeof(EnDntJiji),

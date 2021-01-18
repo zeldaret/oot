@@ -29,7 +29,7 @@ typedef struct EnSsh {
     /* 0x0536 */ s16 swayTimer;
     /* 0x0538 */ s32 blureIdx;
     /* 0x053C */ f32 colliderScale;
-    /* 0x0540 */ f32 groundYoffset;
+    /* 0x0540 */ f32 floorHeightOffset;
     /* 0x0544 */ Vec3f ceilingPos;
     /* 0x0558 */ char unk_558[0x78];
     /* 0x05C8 */ s16 swayAngle;

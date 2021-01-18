@@ -18,7 +18,7 @@ void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicFire),

@@ -23,7 +23,7 @@ void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ms_InitVars = {
     ACTOR_EN_MS,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MS,
     sizeof(EnMs),
@@ -54,8 +54,8 @@ static u16 sOfferTextIDs[] = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
 extern AnimationHeader D_060005EC;
@@ -84,7 +84,7 @@ void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, this->jointTable, this->morphTable, 9);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinderType1(globalCtx, &this->collider, this, &sCylinderInit);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -106,14 +106,14 @@ void EnMs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     EnMs_SetOfferText(&this->actor, globalCtx);
     if (func_8002F194(&this->actor, globalCtx) != 0) { // if talk is initiated
         this->actionFunc = EnMs_Talk;
         return;
     }
 
-    if ((this->actor.xzDistToLink < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
+    if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         func_8002F2CC(&this->actor, globalCtx, 90.0f);
     }
 }
@@ -169,8 +169,8 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     this->activeTimer += 1;
-    Actor_SetHeight(&this->actor, 20.0f);
-    this->actor.unk_4C = 500.0f;
+    Actor_SetFocus(&this->actor, 20.0f);
+    this->actor.targetArrowOffset = 500.0f;
     Actor_SetScale(&this->actor, 0.015f);
     SkelAnime_Update(&this->skelAnime);
     this->actionFunc(this, globalCtx);
@@ -178,7 +178,7 @@ void EnMs_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.entranceIndex == 0x157 && gSaveContext.sceneSetupIndex == 8) { // ride carpet if in credits
         Actor_MoveForward(&this->actor);
         osSyncPrintf("OOOHHHHHH %f\n", this->actor.velocity.y);
-        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

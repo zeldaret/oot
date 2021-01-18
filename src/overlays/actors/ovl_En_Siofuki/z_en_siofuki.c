@@ -21,7 +21,7 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx);
 
 const ActorInit En_Siofuki_InitVars = {
     ACTOR_EN_SIOFUKI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SIOFUKI,
     sizeof(EnSiofuki),
@@ -61,7 +61,7 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    this->initPosY = thisx->posRot.pos.y;
+    this->initPosY = thisx->world.pos.y;
     this->unk_174 = 35.0f;
     this->unk_170 = -6058.0f + this->unk_174;
 
@@ -78,9 +78,9 @@ void EnSiofuki_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->scale.z = thisx->shape.rot.z * 0.5f * 0.1f;
     }
 
-    thisx->posRot.rot.x = 0;
-    thisx->posRot.rot.y = 0;
-    thisx->posRot.rot.z = 0;
+    thisx->world.rot.x = 0;
+    thisx->world.rot.y = 0;
+    thisx->world.rot.z = 0;
     thisx->shape.rot.x = 0;
     thisx->shape.rot.y = 0;
     thisx->shape.rot.z = 0;
@@ -112,7 +112,7 @@ void func_80AFBDC8(EnSiofuki* this, GlobalContext* globalCtx) {
     this->oscillation = sinf((globalCtx->gameplayFrames & 0x1F) / 32.0f * M_PI * 2.0f) * 4.0f;
     this->unk_170 = this->unk_174 * 10.0f + -6058.0f - this->oscillation * 10.0f;
     this->unk_174 = 35.0f;
-    this->dyna.actor.posRot.pos.y = this->initPosY + this->currentHeight + this->oscillation;
+    this->dyna.actor.world.pos.y = this->initPosY + this->currentHeight + this->oscillation;
 }
 
 void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
@@ -125,15 +125,15 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
     f32 dist2d;
     f32 speedScale;
 
-    dX = player->actor.posRot.pos.x - this->dyna.actor.posRot.pos.x;
-    dY = player->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y;
-    dZ = player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z;
+    dX = player->actor.world.pos.x - this->dyna.actor.world.pos.x;
+    dY = player->actor.world.pos.y - this->dyna.actor.world.pos.y;
+    dZ = player->actor.world.pos.z - this->dyna.actor.world.pos.z;
 
     if ((dX > (this->dyna.actor.scale.x * -346.0f)) && (dX < (this->dyna.actor.scale.x * 346.0f)) &&
         (dZ > (this->dyna.actor.scale.z * -400.0f)) && (dZ < (this->dyna.actor.scale.z * 400.0f)) && (dY < 0.0f)) {
         if (func_8004356C(&this->dyna)) {
             if (this->splashTimer <= 0) {
-                EffectSsGSplash_Spawn(globalCtx, &player->actor.posRot.pos, NULL, NULL, 1, 1);
+                EffectSsGSplash_Spawn(globalCtx, &player->actor.world.pos, NULL, NULL, 1, 1);
                 this->splashTimer = 10;
             } else {
                 this->splashTimer--;
@@ -147,13 +147,13 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
             this->applySpeed = true;
             this->splashTimer = 0;
             angle = Math_FAtan2F(dX, dZ) * (0x8000 / M_PI);
-            dAngle = (player->actor.posRot.rot.y ^ 0x8000) - angle;
+            dAngle = (player->actor.world.rot.y ^ 0x8000) - angle;
             player->actor.gravity = 0.0f;
             player->actor.velocity.y = 0.0f;
-            Math_SmoothStepToF(&player->actor.posRot.pos.y, this->dyna.actor.posRot.pos.y, 0.5f, 4.0f, 1.0f);
+            Math_SmoothStepToF(&player->actor.world.pos.y, this->dyna.actor.world.pos.y, 0.5f, 4.0f, 1.0f);
 
             if ((dAngle < 0x4000) && (dAngle > -0x4000)) {
-                this->appliedYaw = player->actor.posRot.rot.y ^ 0x8000;
+                this->appliedYaw = player->actor.world.rot.y ^ 0x8000;
                 speedScale = dist2d / (this->dyna.actor.scale.x * 40.0f * 10.0f);
                 speedScale = CLAMP_MIN(speedScale, 0.0f);
                 speedScale = CLAMP_MAX(speedScale, 1.0f);
@@ -161,7 +161,7 @@ void func_80AFBE8C(EnSiofuki* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
                 Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.3f * speedScale);
             } else {
-                this->appliedYaw = player->actor.posRot.rot.y;
+                this->appliedYaw = player->actor.world.rot.y;
                 player->linearVelocity /= 2.0f;
                 Math_ApproachF(&this->targetAppliedSpeed, 3.0f, 1.0f, 1.0f);
                 Math_ApproachF(&this->appliedSpeed, this->targetAppliedSpeed, 1.0f, 0.1f);

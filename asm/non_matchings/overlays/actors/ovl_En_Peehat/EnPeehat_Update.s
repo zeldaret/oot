@@ -49,7 +49,7 @@ glabel EnPeehat_Update
 /* 029C0 80AD1E60 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 029C4 80AD1E64 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 029C8 80AD1E68 3C0641C8 */  lui     $a2, 0x41C8                ## $a2 = 41C80000
-/* 029CC 80AD1E6C 0C00B92D */  jal     func_8002E4B4              
+/* 029CC 80AD1E6C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 029D0 80AD1E70 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 029D4 80AD1E74 8E7902B8 */  lw      $t9, 0x02B8($s3)           ## 000002B8
 .L80AD1E78:

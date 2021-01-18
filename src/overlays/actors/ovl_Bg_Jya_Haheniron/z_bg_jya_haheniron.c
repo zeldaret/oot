@@ -25,7 +25,7 @@ void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx
 
 const ActorInit Bg_Jya_Haheniron_InitVars = {
     ACTOR_BG_JYA_HAHENIRON,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_JYA_IRON,
     sizeof(BgJyaHaheniron),
@@ -152,13 +152,13 @@ void BgJyaHaheniron_ChairCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx)
     Vec3f vec;
 
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 8.0f, 0.0f, 0x85);
     if ((this->actor.bgCheckFlags & 9) || ((this->collider.base.atFlags & AT_HIT) && (this->collider.base.at != NULL) &&
-                                           (this->collider.base.at->type == ACTORTYPE_PLAYER))) {
+                                           (this->collider.base.at->category == ACTORCAT_PLAYER))) {
         vec.x = -Rand_ZeroOne() * this->actor.velocity.x;
         vec.y = -Rand_ZeroOne() * this->actor.velocity.y;
         vec.z = -Rand_ZeroOne() * this->actor.velocity.z;
-        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot.pos, &vec);
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.world.pos, &vec);
         Actor_Kill(&this->actor);
     } else if (this->timer > 60) {
         Actor_Kill(&this->actor);
@@ -177,7 +177,7 @@ void BgJyaHaheniron_PillarCrumble(BgJyaHaheniron* this, GlobalContext* globalCtx
     if (this->timer >= 8) {
         Actor_MoveForward(&this->actor);
     } else if (this->timer >= 17) {
-        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot.pos, D_808987A0);
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.world.pos, D_808987A0);
         Actor_Kill(&this->actor);
     }
     this->actor.shape.rot.y += 0x258;
@@ -190,8 +190,8 @@ void BgJyaHaheniron_SetupRubbleCollide(BgJyaHaheniron* this) {
 
 void BgJyaHaheniron_RubbleCollide(BgJyaHaheniron* this, GlobalContext* globalCtx) {
     if (this->timer >= 17) {
-        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.posRot.pos, D_808987AC);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
+        BgJyaHaheniron_SpawnFragments(globalCtx, &this->actor.world.pos, D_808987AC);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 80, NA_SE_EN_IRONNACK_BREAK_PILLAR2);
         Actor_Kill(&this->actor);
     }
 }
