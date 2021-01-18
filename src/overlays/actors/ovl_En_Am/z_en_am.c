@@ -687,7 +687,7 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
 
     if (this->unk_258 == 0) {
         if (this->dyna.unk_150 != 0.0f) {
-            this->unk_258 = -0x8000;
+            this->unk_258 = 0x8000;
         }
     } else {
         this->unk_258 -= 0x800;
