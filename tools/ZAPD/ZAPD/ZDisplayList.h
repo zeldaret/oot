@@ -214,14 +214,12 @@ public:
 class ZDisplayList : public ZResource
 {
 protected:
-	// Test
 	uint32_t lastTexWidth, lastTexHeight, lastTexAddr, lastTexSeg;
 	F3DZEXTexFormats lastTexFmt;
 	F3DZEXTexSizes lastTexSiz, lastTexSizTest, lastCISiz;
 	bool lastTexLoaded;
 	bool lastTexIsPalette;
 
-	//void ParseXML(tinyxml2::XMLElement* reader);
 	static TextureType TexFormatToTexType(F3DZEXTexFormats fmt, F3DZEXTexSizes siz);
 	void ParseRawData();
 
@@ -260,9 +258,11 @@ public:
 	static int GetDListLength(std::vector<uint8_t> rawData, int rawDataIndex);
 
 	std::vector<uint8_t> GetRawData();
-	int GetRawDataSize();
-	std::string GetSourceOutputHeader(const std::string& prefix);
-	std::string GetSourceOutputCode(const std::string& prefix);
-	void Save(const std::string& outFolder);
-	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile);
+	int GetRawDataSize() override;
+	std::string GetSourceOutputHeader(const std::string& prefix) override;
+	std::string GetSourceOutputCode(const std::string& prefix) override;
+	void Save(const std::string& outFolder) override;
+	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile) override;
+
+	ZResourceType GetResourceType() override;
 };
