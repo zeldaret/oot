@@ -114,8 +114,8 @@ glabel EnBomChu_Update
               
 /* 00F48 809C6778 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00F4C 809C677C 8E09014C */  lw      $t1, 0x014C($s0)           ## 0000014C
-/* 00F50 809C6780 3C08809C */  lui     $t0, %hi(func_809C5F48)    ## $t0 = 809C0000
-/* 00F54 809C6784 25085F48 */  addiu   $t0, $t0, %lo(func_809C5F48) ## $t0 = 809C5F48
+/* 00F50 809C6780 3C08809C */  lui     $t0, %hi(EnBomChu_Move)    ## $t0 = 809C0000
+/* 00F54 809C6784 25085F48 */  addiu   $t0, $t0, %lo(EnBomChu_Move) ## $t0 = 809C5F48
 /* 00F58 809C6788 1509007D */  bne     $t0, $t1, .L809C6980       
 /* 00F5C 809C678C 262A07C0 */  addiu   $t2, $s1, 0x07C0           ## $t2 = 000007C0
 /* 00F60 809C6790 0C03F66B */  jal     Rand_ZeroOne

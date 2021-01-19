@@ -11,7 +11,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx);
-void func_809C5F48(EnBomChu* this, GlobalContext* globalCtx);
+void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx);
 void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx);
 
 extern Gfx D_04007E10[];
@@ -223,11 +223,11 @@ void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx) {
         func_809C5BA8(this, this->actor.floorPoly, globalCtx);
         this->actor.flags |= 1; // make chu targetable
         func_8002F850(globalCtx, &this->actor);
-        this->actionFunc = func_809C5F48;
+        this->actionFunc = EnBomChu_Move;
     }
 }
 
-void func_809C5F48(EnBomChu* this, GlobalContext* globalCtx) {
+void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx) {
     CollisionPoly* sp9C;
     CollisionPoly* sp98;
     s32 sp94;
@@ -380,7 +380,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.floorBgId != BGCHECK_SCENE) {
         sp6E = this->actor.shape.rot.y;
         func_800433A4(&globalCtx->colCtx, this->actor.floorBgId, &this->actor);
-        //newYaw = this->actor.shape.rot.y;
+        // newYaw = this->actor.shape.rot.y;
 
         if (sp6E != this->actor.shape.rot.y) {
             sp6E = this->actor.shape.rot.y - sp6E; // is it really reuse?
@@ -412,7 +412,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     Actor_SetFocus(&this->actor, 0.0f);
 
-    if (this->actionFunc == func_809C5F48) {
+    if (this->actionFunc == EnBomChu_Move) {
         sp38 = Rand_ZeroOne();
         this->unk_178 = Math_SinS(((Rand_ZeroOne() * 512.0f) + 12288.0f) * this->timer) * (5.0f + (sp38 * 3.0f));
 
