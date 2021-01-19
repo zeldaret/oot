@@ -115,6 +115,7 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetQuad(globalCtx, &this->collider, &this->actor, &D_809B4D50);
 
         if (this->actor.params <= ARROW_NORMAL) {
+            // weird flag assignment required to match
             this->collider.body.toucherFlags = this->collider.body.toucherFlags &= ~0x18;
         }
 
@@ -231,7 +232,15 @@ void EnArrow_CarryActor(EnArrow* this, GlobalContext* globalCtx) {
     }
 }
 
-// #ifdef NON_MATCHING
+#ifdef NON_MATCHING
+// Issues with the decrement and v0/v1 issues.
+// The best the permuter could find:
+//
+// u8 timer = this->timer;
+// if (((timer == 0) ? (0) : (this->timer -= 1)) == 0)
+// and changes `EffectSsHitMark_SpawnCustomScale` to return s32 instead of void
+//
+// This fixes everything but the stack. I dont think either of those changes are real.
 void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
     CollisionPoly* hitPoly; // sp94
     s32 bgId;
@@ -242,7 +251,7 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
     Actor* hitActor;
     Vec3f sp60;
     Vec3f sp54;
-
+ 
     if (DECR(this->timer) == 0) {
         Actor_Kill(&this->actor);
         return;
@@ -366,9 +375,10 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
         }
     }
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
-// #endif
+#else
+void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
+#endif
 
 void func_809B45E0(EnArrow* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);

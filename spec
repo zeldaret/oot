@@ -1886,7 +1886,11 @@ endseg
 beginseg
     name "ovl_En_Arrow"
     include "build/src/overlays/actors/ovl_En_Arrow/z_en_arrow.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Arrow/ovl_En_Arrow_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_arrow.reloc.o"
+#endif
 endseg
 
 beginseg
