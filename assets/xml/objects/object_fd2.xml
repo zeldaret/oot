@@ -22,9 +22,14 @@
         <Texture Name="gHoleVolvagiaEyeShutTex" Format="i8" Width="32" Height="32" Offset="0x2F08"/>
         
         <Animation Name="gHoleVolvagiaAnim_00CDAC" Offset="0xCDAC"/>
-        <!-- <Vertex Name="gHoleVolvagiaVtx_00DD80" Count="154" Offset="0xDD80"/> -->
-        <Blob Name="gHoleVolvagiaVtx_00DD80" Size="0x9A0" Offset="0xDD80"/>
-        <!-- <Vertex Name="gHoleVolvagiaVtx_00D000" Count="150" Offset="0xD000"/> -->
-        <Blob Name="gHoleVolvagiaVtx_00D000" Size="0x960" Offset="0xD000"/>
+        <!-- <Array Name="gHoleVolvagiaSkelVtx" Count="795" Offset="0xCDC0">
+            <Vtx/>
+        </Array> -->
+        <Array Name="gHoleVolvagiaVtx_00DD80" Count="154" Offset="0xDD80">
+            <Vtx/>
+        </Array>
+        <Array Name="gHoleVolvagiaVtx_00D000" Count="150" Offset="0xD000">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
