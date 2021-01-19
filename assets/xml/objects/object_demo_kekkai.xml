@@ -3,7 +3,9 @@
         <!-- Demo_Kekkai -->
         <DList Name="gTowerBarrierDL" Offset="0x4930"/>
         <DList Name="gTrialBarrierFloorDL" Offset="0x4F00"/>
-        <!-- <Vtx Name="gTrialBarrierEnergyVtx" Count="102" Offset="0x4FD0"/> -->
+        <Array Name="gTrialBarrierEnergyVtx" Count="102" Offset="0x4FD0">
+            <Vtx/>
+        </Array>
         <DList Name="gTrialBarrierEnergyDL" Offset="0x5A30"/>
         <DList Name="gTrialBarrierOrbDL" Offset="0x5CB0"/>
 
