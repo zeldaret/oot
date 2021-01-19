@@ -7,7 +7,7 @@ glabel func_80AFDF24
 /* 01598 80AFDF38 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 0159C 80AFDF3C AFA60030 */  sw      $a2, 0x0030($sp)           
 /* 015A0 80AFDF40 AFA70034 */  sw      $a3, 0x0034($sp)           
-/* 015A4 80AFDF44 0C018A29 */  jal     func_800628A4              
+/* 015A4 80AFDF44 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 015A8 80AFDF48 24A502A4 */  addiu   $a1, $a1, 0x02A4           ## $a1 = 000002A4
 /* 015AC 80AFDF4C 8FA30038 */  lw      $v1, 0x0038($sp)           
 /* 015B0 80AFDF50 8FA5002C */  lw      $a1, 0x002C($sp)           

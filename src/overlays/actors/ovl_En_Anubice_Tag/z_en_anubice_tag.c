@@ -21,7 +21,7 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx);
 
 const ActorInit En_Anubice_Tag_InitVars = {
     ACTOR_EN_ANUBICE_TAG,
-    ACTORTYPE_SWITCH,
+    ACTORCAT_SWITCH,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnAnubiceTag),
@@ -52,8 +52,8 @@ void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
     this->anubis =
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ANUBICE, this->actor.posRot.pos.x,
-                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, this->actor.yawTowardsLink, 0, 0);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ANUBICE, this->actor.world.pos.x,
+                           this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 0);
 
     if (this->anubis != NULL) {
         this->actionFunc = EnAnubiceTag_ManageAnubis;
@@ -79,14 +79,14 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->actor.xzDistToLink < (200.0f + this->triggerRange)) {
+    if (this->actor.xzDistToPlayer < (200.0f + this->triggerRange)) {
         if (anubis->unk_260 == 0) {
             if (anubis->unk_262 == 0) {
                 anubis->unk_25E = 1;
-                offset.x = -Math_SinS(this->actor.yawTowardsLink) * this->actor.xzDistToLink;
-                offset.z = -Math_CosS(this->actor.yawTowardsLink) * this->actor.xzDistToLink;
-                Math_ApproachF(&anubis->actor.posRot.pos.x, (this->actor.posRot.pos.x + offset.x), 0.3f, 10.0f);
-                Math_ApproachF(&anubis->actor.posRot.pos.z, (this->actor.posRot.pos.z + offset.z), 0.3f, 10.0f);
+                offset.x = -Math_SinS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
+                offset.z = -Math_CosS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
+                Math_ApproachF(&anubis->actor.world.pos.x, (this->actor.world.pos.x + offset.x), 0.3f, 10.0f);
+                Math_ApproachF(&anubis->actor.world.pos.z, (this->actor.world.pos.z + offset.z), 0.3f, 10.0f);
                 return;
             }
         }
@@ -107,8 +107,8 @@ void EnAnubiceTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceTag* this = THIS;
 
     if (BREG(0) != 0) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0xFF, 0, 0, 0xFF, 4, globalCtx->state.gfxCtx);
     }
 }

@@ -26,7 +26,7 @@ void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot12_Gate_InitVars = {
     ACTOR_BG_SPOT12_GATE,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Gate),
@@ -83,7 +83,7 @@ void func_808B30C0(BgSpot12Gate* this) {
     Actor* thisx = &this->dyna.actor;
 
     this->actionFunc = func_808B30D8;
-    thisx->posRot.pos.y = thisx->initPosRot.pos.y;
+    thisx->world.pos.y = thisx->home.pos.y;
 }
 
 void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
@@ -115,7 +115,7 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     s32 var;
 
     Math_StepToF(&thisx->velocity.y, 1.6f, 0.03f);
-    if (Math_StepToF(&thisx->posRot.pos.y, thisx->initPosRot.pos.y + 200.0f, thisx->velocity.y)) {
+    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 200.0f, thisx->velocity.y)) {
         func_808B3274(this);
         var = Quake_Add(ACTIVE_CAM, 3);
         Quake_SetSpeed(var, -0x3CB0);
@@ -131,7 +131,7 @@ void func_808B3274(BgSpot12Gate* this) {
     Actor* thisx = &this->dyna.actor;
 
     this->actionFunc = func_808B3298;
-    thisx->posRot.pos.y = thisx->initPosRot.pos.y + 200.0f;
+    thisx->world.pos.y = thisx->home.pos.y + 200.0f;
 }
 
 void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {

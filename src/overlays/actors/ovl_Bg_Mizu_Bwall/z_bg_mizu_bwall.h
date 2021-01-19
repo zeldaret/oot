@@ -11,7 +11,7 @@ typedef void (*BgMizuBwallActionFunc)(struct BgMizuBwall*, GlobalContext*);
 typedef struct BgMizuBwall {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ ColliderTris collider;
-    /* 0x0184 */ ColliderTrisItem elements[3]; // only ever uses 2
+    /* 0x0184 */ ColliderTrisElement elements[3]; // only ever uses 2
     /* 0x0298 */ BgMizuBwallActionFunc actionFunc;
     /* 0x029C */ f32 yRot;
     /* 0x02A0 */ s32 scrollAlpha1;

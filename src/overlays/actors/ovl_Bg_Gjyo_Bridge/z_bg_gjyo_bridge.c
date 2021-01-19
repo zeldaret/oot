@@ -21,7 +21,7 @@ void BgGjyoBridge_SpawnBridge(BgGjyoBridge* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Gjyo_Bridge_InitVars = {
     ACTOR_BG_GJYO_BRIDGE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GJYO_OBJECTS,
     sizeof(BgGjyoBridge),
@@ -75,9 +75,9 @@ void BgGjyoBridge_TriggerCutscene(BgGjyoBridge* this, GlobalContext* globalCtx) 
     Player* player = PLAYER;
 
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_SPIRIT) && CHECK_QUEST_ITEM(QUEST_MEDALLION_SHADOW) &&
-        (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) && (player->actor.posRot.pos.x > -70.0f) &&
-        (player->actor.posRot.pos.x < 300.0f) && (player->actor.posRot.pos.y > 1340.0f) &&
-        (player->actor.posRot.pos.z > 1340.0f) && (player->actor.posRot.pos.z < 1662.0f) &&
+        (INV_CONTENT(ITEM_ARROW_LIGHT) == ITEM_ARROW_LIGHT) && (player->actor.world.pos.x > -70.0f) &&
+        (player->actor.world.pos.x < 300.0f) && (player->actor.world.pos.y > 1340.0f) &&
+        (player->actor.world.pos.z > 1340.0f) && (player->actor.world.pos.z < 1662.0f) &&
         !Gameplay_InCsMode(globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_02002640);
         gSaveContext.cutsceneTrigger = 1;

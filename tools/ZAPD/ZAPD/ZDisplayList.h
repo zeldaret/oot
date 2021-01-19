@@ -244,6 +244,8 @@ public:
 	std::map<uint32_t, ZTexture*> textures;
 	std::map<uint32_t, std::string> texDeclarations;
 
+	std::vector<uint32_t> references;
+
 	std::string defines; // Hack for special cases where vertex arrays intersect...
 	std::vector<uint8_t> fileData;
 

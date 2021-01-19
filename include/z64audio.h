@@ -143,19 +143,19 @@ typedef struct {
     /* 0x014 */ u16 unk_14;
     /* 0x016 */ s16 unk_16;
 
-    /* 0x000 */ u8 unk_18;
-    /* 0x001 */ u8 unk_19;
-    /* 0x002 */ u8 unk_1A;
-    /* 0x003 */ u8 unk_1B;
-    /* 0x004 */ s32 nextRingBufPos;
-    /* 0x008 */ s32 unk_20;
-    /* 0x00C */ s32 bufSizePerChan;
-    /* 0x010 */ s16* leftRingBuf;
-    /* 0x014 */ s16* rightRingBuf;
-    /* 0x018 */ void* unk_30;
-    /* 0x01C */ void* unk_34;
-    /* 0x020 */ void* unk_38;
-    /* 0x024 */ void* unk_3C;
+    /* 0x018 */ u8 unk_18;
+    /* 0x019 */ u8 unk_19;
+    /* 0x01A */ u8 unk_1A;
+    /* 0x01B */ u8 unk_1B;
+    /* 0x01C */ s32 nextRingBufPos;
+    /* 0x020 */ s32 unk_20;
+    /* 0x024 */ s32 bufSizePerChan;
+    /* 0x028 */ s16* leftRingBuf;
+    /* 0x02C */ s16* rightRingBuf;
+    /* 0x030 */ void* unk_30;
+    /* 0x034 */ void* unk_34;
+    /* 0x038 */ void* unk_38;
+    /* 0x03C */ void* unk_3C;
 
     /* 0x040 */ ReverbRingBufferItem items[2][5];
     /*?0x158 */ ReverbRingBufferItem items2[2][5];
