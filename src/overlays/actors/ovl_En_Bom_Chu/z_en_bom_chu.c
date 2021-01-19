@@ -28,7 +28,7 @@ const ActorInit En_Bom_Chu_InitVars = {
     (ActorFunc)EnBomChu_Draw,
 };
 
-static ColliderJntSphElementInit D_809C6D30[1] = {
+static ColliderJntSphElementInit sJntSphElemInit[] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -42,7 +42,7 @@ static ColliderJntSphElementInit D_809C6D30[1] = {
     },
 };
 
-static ColliderJntSphInit D_809C6D54 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -52,7 +52,7 @@ static ColliderJntSphInit D_809C6D54 = {
         COLSHAPE_JNTSPH,
     },
     1,
-    D_809C6D30,
+    sJntSphElemInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -71,7 +71,7 @@ void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_809C6D54, this->colliderElements);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderElements);
 
     this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
 
