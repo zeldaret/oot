@@ -36,7 +36,7 @@ glabel func_809C5F48
 /* 0079C 809C5FCC 51410006 */  beql    $t2, $at, .L809C5FE8       
 /* 007A0 809C5FD0 C6200160 */  lwc1    $f0, 0x0160($s1)           ## 00000160
 .L809C5FD4:
-/* 007A4 809C5FD4 0C271687 */  jal     func_809C5A1C              
+/* 007A4 809C5FD4 0C271687 */  jal     EnBomChu_Explode              
 /* 007A8 809C5FD8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 007AC 809C5FDC 10000119 */  beq     $zero, $zero, .L809C6444   
 /* 007B0 809C5FE0 8FBF0044 */  lw      $ra, 0x0044($sp)           
@@ -310,7 +310,7 @@ glabel func_809C5F48
 /* 00BB4 809C63E4 24010003 */  addiu   $at, $zero, 0x0003         ## $at = 00000003
 /* 00BB8 809C63E8 16010003 */  bne     $s0, $at, .L809C63F8       
 /* 00BBC 809C63EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00BC0 809C63F0 0C271687 */  jal     func_809C5A1C              
+/* 00BC0 809C63F0 0C271687 */  jal     EnBomChu_Explode              
 /* 00BC4 809C63F4 8FA500A4 */  lw      $a1, 0x00A4($sp)           
 .L809C63F8:
 /* 00BC8 809C63F8 86250030 */  lh      $a1, 0x0030($s1)           ## 00000030

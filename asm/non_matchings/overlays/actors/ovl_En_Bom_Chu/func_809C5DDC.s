@@ -1,4 +1,4 @@
-glabel func_809C5DDC
+glabel EnBomChu_WaitForRelease
 /* 005AC 809C5DDC 27BDFFC8 */  addiu   $sp, $sp, 0xFFC8           ## $sp = FFFFFFC8
 /* 005B0 809C5DE0 AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 005B4 809C5DE4 AFB10028 */  sw      $s1, 0x0028($sp)           
@@ -17,7 +17,7 @@ glabel func_809C5DDC
 .L809C5E18:
 /* 005E8 809C5E18 14400005 */  bne     $v0, $zero, .L809C5E30     
 /* 005EC 809C5E1C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 005F0 809C5E20 0C271687 */  jal     func_809C5A1C              
+/* 005F0 809C5E20 0C271687 */  jal     EnBomChu_Explode              
 /* 005F4 809C5E24 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 005F8 809C5E28 10000042 */  beq     $zero, $zero, .L809C5F34   
 /* 005FC 809C5E2C 8FBF002C */  lw      $ra, 0x002C($sp)           

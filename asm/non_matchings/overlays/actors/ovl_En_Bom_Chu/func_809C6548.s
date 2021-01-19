@@ -1,4 +1,4 @@
-glabel func_809C6548
+glabel EnBomChu_SpawnRipples
 /* 00D18 809C6548 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00D1C 809C654C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00D20 809C6550 AFA40030 */  sw      $a0, 0x0030($sp)           

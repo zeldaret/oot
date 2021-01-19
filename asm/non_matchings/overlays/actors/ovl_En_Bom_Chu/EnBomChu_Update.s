@@ -100,8 +100,8 @@ glabel EnBomChu_Update
               ## CollisionCheck_setAC
 /* 00F1C 809C674C AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 00F20 809C6750 8E18014C */  lw      $t8, 0x014C($s0)           ## 0000014C
-/* 00F24 809C6754 3C19809C */  lui     $t9, %hi(func_809C5DDC)    ## $t9 = 809C0000
-/* 00F28 809C6758 27395DDC */  addiu   $t9, $t9, %lo(func_809C5DDC) ## $t9 = 809C5DDC
+/* 00F24 809C6754 3C19809C */  lui     $t9, %hi(EnBomChu_WaitForRelease)    ## $t9 = 809C0000
+/* 00F28 809C6758 27395DDC */  addiu   $t9, $t9, %lo(EnBomChu_WaitForRelease) ## $t9 = 809C5DDC
 /* 00F2C 809C675C 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 00F30 809C6760 13380003 */  beq     $t9, $t8, .L809C6770       
 /* 00F34 809C6764 8FA6002C */  lw      $a2, 0x002C($sp)           
@@ -205,7 +205,7 @@ glabel EnBomChu_Update
 /* 010A4 809C68D4 304F0020 */  andi    $t7, $v0, 0x0020           ## $t7 = 00000000
 /* 010A8 809C68D8 51E00005 */  beql    $t7, $zero, .L809C68F0     
 /* 010AC 809C68DC 3059FFDF */  andi    $t9, $v0, 0xFFDF           ## $t9 = 00000000
-/* 010B0 809C68E0 0C271952 */  jal     func_809C6548              
+/* 010B0 809C68E0 0C271952 */  jal     EnBomChu_SpawnRipples              
 /* 010B4 809C68E4 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 010B8 809C68E8 96020088 */  lhu     $v0, 0x0088($s0)           ## 00000088
 /* 010BC 809C68EC 3059FFDF */  andi    $t9, $v0, 0xFFDF           ## $t9 = 00000000
@@ -225,7 +225,7 @@ glabel EnBomChu_Update
 /* 010EC 809C691C 51210007 */  beql    $t1, $at, .L809C693C       
 /* 010F0 809C6920 3C014170 */  lui     $at, 0x4170                ## $at = 41700000
 /* 010F4 809C6924 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 010F8 809C6928 0C271952 */  jal     func_809C6548              
+/* 010F8 809C6928 0C271952 */  jal     EnBomChu_SpawnRipples              
 /* 010FC 809C692C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 01100 809C6930 1000000A */  beq     $zero, $zero, .L809C695C   
 /* 01104 809C6934 960A0088 */  lhu     $t2, 0x0088($s0)           ## 00000088

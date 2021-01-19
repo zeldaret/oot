@@ -1,4 +1,4 @@
-glabel func_809C5A1C
+glabel EnBomChu_Explode
 /* 001EC 809C5A1C 27BDFF98 */  addiu   $sp, $sp, 0xFF98           ## $sp = FFFFFF98
 /* 001F0 809C5A20 AFB40060 */  sw      $s4, 0x0060($sp)           
 /* 001F4 809C5A24 0080A025 */  or      $s4, $a0, $zero            ## $s4 = 00000000

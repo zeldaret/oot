@@ -93,10 +93,10 @@ glabel EnBomChu_Init
 /* 00164 809C5994 0C009B35 */  jal     Effect_Add
               ## Effect_Add
 /* 00168 809C5998 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 0016C 809C599C 3C19809C */  lui     $t9, %hi(func_809C5DDC)    ## $t9 = 809C0000
+/* 0016C 809C599C 3C19809C */  lui     $t9, %hi(EnBomChu_WaitForRelease)    ## $t9 = 809C0000
 /* 00170 809C59A0 240FFFFF */  addiu   $t7, $zero, 0xFFFF         ## $t7 = FFFFFFFF
 /* 00174 809C59A4 24180078 */  addiu   $t8, $zero, 0x0078         ## $t8 = 00000078
-/* 00178 809C59A8 27395DDC */  addiu   $t9, $t9, %lo(func_809C5DDC) ## $t9 = 809C5DDC
+/* 00178 809C59A8 27395DDC */  addiu   $t9, $t9, %lo(EnBomChu_WaitForRelease) ## $t9 = 809C5DDC
 /* 0017C 809C59AC A20F0003 */  sb      $t7, 0x0003($s0)           ## 00000003
 /* 00180 809C59B0 A6180150 */  sh      $t8, 0x0150($s0)           ## 00000150
 /* 00184 809C59B4 AE19014C */  sw      $t9, 0x014C($s0)           ## 0000014C

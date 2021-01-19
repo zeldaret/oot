@@ -95,7 +95,7 @@ glabel func_809C5BA8
 /* 004C4 809C5CF4 00000000 */  nop
 /* 004C8 809C5CF8 45020006 */  bc1fl   .L809C5D14
 /* 004CC 809C5CFC 44819000 */  mtc1    $at, $f18                  ## $f18 = 1.00
-/* 004D0 809C5D00 0C271687 */  jal     func_809C5A1C
+/* 004D0 809C5D00 0C271687 */  jal     EnBomChu_Explode
 /* 004D4 809C5D04 8FA50098 */  lw      $a1, 0x0098($sp)
 /* 004D8 809C5D08 10000030 */  beq     $zero, $zero, .L809C5DCC
 /* 004DC 809C5D0C 8FBF001C */  lw      $ra, 0x001C($sp)
