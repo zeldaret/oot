@@ -33,7 +33,7 @@ typedef enum {
 
 const ActorInit Mir_Ray_InitVars = {
     ACTOR_MIR_RAY,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_MIR_RAY,
     sizeof(MirRay),
@@ -46,22 +46,50 @@ const ActorInit Mir_Ray_InitVars = {
 u8 D_80B8E670 = 0;
 
 static ColliderQuadInit sQuadInit = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0x00200000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00200000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00200000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00200000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 0, { { 0, 0, 0 }, 50 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x00, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static MirRayDataEntry sMirRayData[] = {
@@ -89,16 +117,15 @@ extern Gfx D_06000C50[];
 
 void MirRay_SetupCollider(MirRay* this) {
     Vec3f colliderOffset;
-    MirRayDataEntry* dataEntry;
+    MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
 
-    dataEntry = &sMirRayData[this->actor.params];
     colliderOffset.x = (this->poolPt.x - this->sourcePt.x) * dataEntry->unk_10;
     colliderOffset.y = (this->poolPt.y - this->sourcePt.y) * dataEntry->unk_10;
     colliderOffset.z = (this->poolPt.z - this->sourcePt.z) * dataEntry->unk_10;
-    this->colliderSph.list->dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
-    this->colliderSph.list->dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
-    this->colliderSph.list->dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
-    this->colliderSph.list->dim.worldSphere.radius = dataEntry->unk_14 * this->colliderSph.list->dim.scale;
+    this->colliderSph.elements[0].dim.worldSphere.center.x = colliderOffset.x + this->sourcePt.x;
+    this->colliderSph.elements[0].dim.worldSphere.center.y = colliderOffset.y + this->sourcePt.y;
+    this->colliderSph.elements[0].dim.worldSphere.center.z = colliderOffset.z + this->sourcePt.z;
+    this->colliderSph.elements[0].dim.worldSphere.radius = dataEntry->unk_14 * this->colliderSph.elements->dim.scale;
 }
 
 // Set up a light point between source point and reflection point. Reflection point is the pool point (for windows) or
@@ -109,12 +136,12 @@ void MirRay_MakeShieldLight(MirRay* this, GlobalContext* globalCtx) {
     Vec3f reflectionPt;
     Vec3s lightPt;
 
-    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, player->actor.posRot.pos.x,
-                              player->actor.posRot.pos.y + 30.0f, player->actor.posRot.pos.z, this->sourceEndRad,
+    if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, player->actor.world.pos.x,
+                              player->actor.world.pos.y + 30.0f, player->actor.world.pos.z, this->sourceEndRad,
                               this->poolEndRad)) {
 
         if (dataEntry->params & 8) { // Light beams from mirrors
-            Math_Vec3f_Diff(&player->actor.posRot.pos, &this->sourcePt, &reflectionPt);
+            Math_Vec3f_Diff(&player->actor.world.pos, &this->sourcePt, &reflectionPt);
         } else { // Light beams from windows
             Math_Vec3f_Diff(&this->poolPt, &this->sourcePt, &reflectionPt);
         }
@@ -381,7 +408,7 @@ void MirRay_ReflectedBeam(MirRay* this, GlobalContext* globalCtx, MirRayShieldRe
     vecC.y = vecD.y + (shieldMtx->xy * 300.0f);
     vecC.z = vecD.z + (shieldMtx->xz * 300.0f);
 
-    func_80062734(&this->shieldRay, &vecA, &vecB, &vecC, &vecD);
+    Collider_SetQuadVertices(&this->shieldRay, &vecA, &vecB, &vecC, &vecD);
 
     for (i = 0; i < 6; i++) {
         currentReflection = &reflection[i];

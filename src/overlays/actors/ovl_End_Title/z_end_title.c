@@ -18,7 +18,7 @@ void func_80B65DA8(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit End_Title_InitVars = {
     ACTOR_END_TITLE,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EndTitle),

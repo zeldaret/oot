@@ -34,7 +34,7 @@ extern FlexSkeletonHeader D_06002530;
 
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_NIW,
     sizeof(EnSyatekiNiw),
@@ -45,15 +45,29 @@ const ActorInit En_Syateki_Niw_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK5, 0x00, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT5,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 10, 20, 4, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 1, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 64536, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 0, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 1, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
 void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -61,7 +75,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags &= ~1;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
 
     this->unk_29E = this->actor.params;
@@ -80,12 +94,12 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
         // Bomb chicken
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ボムにわ！ ☆☆☆☆☆ \n" VT_RST);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         Actor_SetScale(&this->actor, 0.01f);
     }
 
-    this->unk_2DC = this->actor.posRot.pos;
-    this->unk_2E8 = this->actor.posRot.pos;
+    this->unk_2DC = this->actor.world.pos;
+    this->unk_2E8 = this->actor.world.pos;
     this->actionFunc = func_80B11DEC;
 }
 
@@ -301,11 +315,11 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
     if (this->unk_25C != 0) {
         sp4A = 1;
-        Math_ApproachF(&this->actor.posRot.pos.x, this->unk_2E8.x, 1.0f, this->unk_2C8.y);
-        Math_ApproachF(&this->actor.posRot.pos.z, this->unk_2E8.z, 1.0f, this->unk_2C8.y);
+        Math_ApproachF(&this->actor.world.pos.x, this->unk_2E8.x, 1.0f, this->unk_2C8.y);
+        Math_ApproachF(&this->actor.world.pos.z, this->unk_2E8.z, 1.0f, this->unk_2C8.y);
         Math_ApproachF(&this->unk_2C8.y, 3.0f, 1.0f, 0.3f);
-        tmpf1 = this->unk_2E8.x - this->actor.posRot.pos.x;
-        tmpf2 = this->unk_2E8.z - this->actor.posRot.pos.z;
+        tmpf1 = this->unk_2E8.x - this->actor.world.pos.x;
+        tmpf2 = this->unk_2E8.z - this->actor.world.pos.z;
 
         if (fabsf(tmpf1) < 10.0f) {
             tmpf1 = 0;
@@ -320,7 +334,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_294 = 7;
         }
 
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, Math_FAtan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z, 0);
         Math_ApproachF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
 
@@ -332,7 +346,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     if ((globalCtx->gameplayFrames % 4) == 0) {
         dustVelocity.y = Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
-        dustPos = this->actor.posRot.pos;
+        dustPos = this->actor.world.pos;
         func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 600, 40, 30);
     }
 }
@@ -380,7 +394,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             }
 
             phi_f16 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
-            if (this->actor.posRot.pos.z > 100.0f) {
+            if (this->actor.world.pos.z > 100.0f) {
                 this->actor.speedXZ = 2.0f;
                 this->actor.gravity = -0.3f;
                 this->actor.velocity.y = 5.0f;
@@ -389,11 +403,11 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             break;
 
         case 2:
-            if ((player->actor.posRot.pos.z - 40.0f) < this->actor.posRot.pos.z) {
+            if ((player->actor.world.pos.z - 40.0f) < this->actor.world.pos.z) {
                 this->actor.speedXZ = 0.0f;
             }
 
-            if ((this->actor.bgCheckFlags & 1) && (this->actor.posRot.pos.z > 110.0f)) {
+            if ((this->actor.bgCheckFlags & 1) && (this->actor.world.pos.z > 110.0f)) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = 0.0f;
                 this->unk_284 = 0.0f;
@@ -410,7 +424,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             break;
 
         case 3:
-            if ((player->actor.posRot.pos.z - 50.0f) < this->actor.posRot.pos.z) {
+            if ((player->actor.world.pos.z - 50.0f) < this->actor.world.pos.z) {
                 this->actor.speedXZ = 0.0f;
                 this->unk_262 = 0x3C;
                 this->unk_25A = 0x14;
@@ -444,7 +458,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 1.0f;
             }
 
-            if ((this->unk_25A == 0) && ((player->actor.posRot.pos.z - 30.0f) < this->actor.posRot.pos.z)) {
+            if ((this->unk_25A == 0) && ((player->actor.world.pos.z - 30.0f) < this->actor.world.pos.z)) {
                 Audio_PlaySoundGeneral(NA_SE_VO_LI_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                        &D_801333E8);
                 this->unk_25E = 0x14;
@@ -465,9 +479,9 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    Math_SmoothStepToS(&this->actor.posRot.rot.y,
-                       (s16)(Math_FAtan2F(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
-                                          player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
+    Math_SmoothStepToS(&this->actor.world.rot.y,
+                       (s16)(Math_FAtan2F(player->actor.world.pos.x - this->actor.world.pos.x,
+                                          player->actor.world.pos.z - this->actor.world.pos.z) *
                              10430.378f) +
                            phi_f16,
                        5, this->unk_2C8.y, 0);
@@ -490,7 +504,7 @@ void func_80B128F8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 sp26;
     s16 sp24;
 
-    Actor_SetHeight(&this->actor, this->unk_2D4);
+    Actor_SetFocus(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
         (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
@@ -510,7 +524,7 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     s16 sp2C;
     f32 tmpf2;
 
-    Actor_SetHeight(&this->actor, this->unk_2D4);
+    Actor_SetFocus(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
     if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
         (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {
@@ -530,14 +544,14 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
     phi_f2 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
     tmpf2 = this->unk_2D8 + phi_f2;
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, tmpf2, 3, this->unk_2C8.y, 0);
+    Math_SmoothStepToS(&this->actor.world.rot.y, tmpf2, 3, this->unk_2C8.y, 0);
     Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
     func_80B11A94(this, globalCtx, 2);
 }
 
 void func_80B12BA4(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         switch (this->unk_29E) {
             case 0:
                 if (this->unk_29C == 0) {
@@ -606,18 +620,18 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_260--;
     }
 
-    this->actor.shape.rot = this->actor.posRot.rot;
-    this->actor.shape.unk_10 = 15.0f;
+    this->actor.shape.rot = this->actor.world.rot;
+    this->actor.shape.shadowScale = 15.0f;
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
 
     if (this->unk_2A0 != 0) {
         for (i = 0; i < 20; i++) {
-            sp78.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-            sp78.y = Rand_CenteredFloat(10.0f) + (this->actor.posRot.pos.y + 20.0f);
-            sp78.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+            sp78.x = Rand_CenteredFloat(10.0f) + this->actor.world.pos.x;
+            sp78.y = Rand_CenteredFloat(10.0f) + (this->actor.world.pos.y + 20.0f);
+            sp78.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
             sp6C.x = Rand_CenteredFloat(3.0f);
             sp6C.y = (Rand_ZeroFloat(2.0f) * 0.5f) + 2.0f;
             sp6C.z = Rand_CenteredFloat(3.0f);
@@ -654,7 +668,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (i != 0) {
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }

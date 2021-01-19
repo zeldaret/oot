@@ -5,7 +5,7 @@ glabel D_809B4F58
     .float -0.4
 
 .text
-glabel func_809B3FDC
+glabel EnArrow_Fly
 /* 006BC 809B3FDC 27BDFF68 */  addiu   $sp, $sp, 0xFF68           ## $sp = FFFFFF68
 /* 006C0 809B3FE0 AFBF0034 */  sw      $ra, 0x0034($sp)
 /* 006C4 809B3FE4 AFB00030 */  sw      $s0, 0x0030($sp)

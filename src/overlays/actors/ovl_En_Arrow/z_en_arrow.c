@@ -16,13 +16,13 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnArrow_Shoot(EnArrow* this, GlobalContext* globalCtx);
-void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx);
+void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx);
 void func_809B45E0(EnArrow* this, GlobalContext* globalCtx);
 void func_809B4640(EnArrow* this, GlobalContext* globalCtx);
 
 const ActorInit En_Arrow_InitVars = {
     ACTOR_EN_ARROW,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnArrow),
@@ -32,15 +32,27 @@ const ActorInit En_Arrow_InitVars = {
     (ActorFunc)EnArrow_Draw,
 };
 
-// sQuadInit
-ColliderQuadInit D_809B4D50 = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x08, COLSHAPE_QUAD },
-    { 0x02, { 0x00000020, 0x00, 0x01 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x1D, 0x00, 0x00 },
+static ColliderQuadInit sColliderInit = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_PLAYER,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000020, 0x00, 0x01 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_NEAREST | TOUCH_SFX_NONE,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-// sInitChain
-InitChainEntry D_809B4DA0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(minVelocityY, 65386, ICHAIN_STOP),
 };
 
@@ -70,13 +82,13 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         0, 4, 0, { 0, 255, 200, 255 },   { 0, 255, 255, 255 }, { 0, 255, 200, 0 }, { 0, 255, 255, 0 }, 16,
         0, 1, 0, { 255, 255, 170, 255 }, { 255, 255, 0, 0 },
     };
-    static u32 toucherFlags[] = {
+    static u32 dmgFlags[] = {
         0x00000800, 0x00000020, 0x00000020, 0x00000800, 0x00001000,
         0x00002000, 0x00010000, 0x00004000, 0x00008000, 0x00000004,
     };
     EnArrow* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_809B4DA0);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
 
     if (this->actor.params == ARROW_CS_NUT) {
         this->isCsNut = true;
@@ -112,18 +124,18 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         Collider_InitQuad(globalCtx, &this->collider);
-        Collider_SetQuad(globalCtx, &this->collider, &this->actor, &D_809B4D50);
+        Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sColliderInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
             // weird flag assignment required to match
-            this->collider.body.toucherFlags = this->collider.body.toucherFlags &= ~0x18;
+            this->collider.info.toucherFlags = this->collider.info.toucherFlags &= ~0x18;
         }
 
         if (this->actor.params < 0) {
-            this->collider.base.atFlags = 0x11;
+            this->collider.base.atFlags = (AT_ON | AT_TYPE_ENEMY);
         } else if (this->actor.params <= ARROW_SEED) {
-            this->collider.body.toucher.flags = toucherFlags[this->actor.params];
-            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.body.toucher.flags, "../z_en_arrow.c",
+            this->collider.info.toucher.dmgFlags = dmgFlags[this->actor.params];
+            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.info.toucher.dmgFlags, "../z_en_arrow.c",
                     707);
         }
     }
@@ -173,8 +185,8 @@ void EnArrow_Shoot(EnArrow* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        EnArrow_SetupAction(this, func_809B3FDC);
-        Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot.pos);
+        EnArrow_SetupAction(this, EnArrow_Fly);
+        Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
 
         if (this->actor.params >= ARROW_SEED) {
             func_8002D9A4(&this->actor, 80.0f);
@@ -190,7 +202,7 @@ void EnArrow_Shoot(EnArrow* this, GlobalContext* globalCtx) {
 void func_809B3CEC(GlobalContext* globalCtx, EnArrow* this) {
     EnArrow_SetupAction(this, func_809B4640);
     Animation_PlayOnce(&this->skelAnime, &D_04004310);
-    this->actor.posRot.rot.y += (s32)(24576.0f * (Rand_ZeroOne() - 0.5f)) + 0x8000;
+    this->actor.world.rot.y += (s32)(24576.0f * (Rand_ZeroOne() - 0.5f)) + 0x8000;
     this->actor.velocity.y += (this->actor.speedXZ * (0.4f + (0.4f * Rand_ZeroOne())));
     this->actor.speedXZ *= (0.04f + 0.3f * Rand_ZeroOne());
     this->timer = 50;
@@ -206,11 +218,11 @@ void EnArrow_CarryActor(EnArrow* this, GlobalContext* globalCtx) {
     f32 scale;
     s32 bgId;
 
-    Math_Vec3f_Diff(&this->actor.posRot.pos, &this->unk_210, &posDiffLastFrame);
+    Math_Vec3f_Diff(&this->actor.world.pos, &this->unk_210, &posDiffLastFrame);
 
-    temp_f12 = ((this->actor.posRot.pos.x - this->hitActor->posRot.pos.x) * posDiffLastFrame.x) +
-               ((this->actor.posRot.pos.y - this->hitActor->posRot.pos.y) * posDiffLastFrame.y) +
-               ((this->actor.posRot.pos.z - this->hitActor->posRot.pos.z) * posDiffLastFrame.z);
+    temp_f12 = ((this->actor.world.pos.x - this->hitActor->world.pos.x) * posDiffLastFrame.x) +
+               ((this->actor.world.pos.y - this->hitActor->world.pos.y) * posDiffLastFrame.y) +
+               ((this->actor.world.pos.z - this->hitActor->world.pos.z) * posDiffLastFrame.z);
 
     if (!(temp_f12 < 0.0f)) {
         scale = Math3D_Vec3fMagnitudeSq(&posDiffLastFrame);
@@ -218,22 +230,22 @@ void EnArrow_CarryActor(EnArrow* this, GlobalContext* globalCtx) {
         if (!(scale < 1.0f)) {
             scale = temp_f12 / scale;
             Math_Vec3f_Scale(&posDiffLastFrame, scale);
-            Math_Vec3f_Sum(&this->hitActor->posRot.pos, &posDiffLastFrame, &actorNextPos);
+            Math_Vec3f_Sum(&this->hitActor->world.pos, &posDiffLastFrame, &actorNextPos);
 
-            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->hitActor->posRot.pos, &actorNextPos, &hitPos,
+            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->hitActor->world.pos, &actorNextPos, &hitPos,
                                         &hitPoly, true, true, true, true, &bgId)) {
-                this->hitActor->posRot.pos.x = hitPos.x + ((actorNextPos.x <= hitPos.x) ? 1.0f : -1.0f);
-                this->hitActor->posRot.pos.y = hitPos.y + ((actorNextPos.y <= hitPos.y) ? 1.0f : -1.0f);
-                this->hitActor->posRot.pos.z = hitPos.z + ((actorNextPos.z <= hitPos.z) ? 1.0f : -1.0f);
+                this->hitActor->world.pos.x = hitPos.x + ((actorNextPos.x <= hitPos.x) ? 1.0f : -1.0f);
+                this->hitActor->world.pos.y = hitPos.y + ((actorNextPos.y <= hitPos.y) ? 1.0f : -1.0f);
+                this->hitActor->world.pos.z = hitPos.z + ((actorNextPos.z <= hitPos.z) ? 1.0f : -1.0f);
             } else {
-                Math_Vec3f_Copy(&this->hitActor->posRot.pos, &actorNextPos);
+                Math_Vec3f_Copy(&this->hitActor->world.pos, &actorNextPos);
             }
         }
     }
 }
 
 #ifdef NON_MATCHING
-// Issues with the decrement and v0/v1 issues.
+// Issues with the decrement and v0/v1 swaps.
 // The best the permuter could find:
 //
 // u8 timer = this->timer;
@@ -241,7 +253,7 @@ void EnArrow_CarryActor(EnArrow* this, GlobalContext* globalCtx) {
 // and changes `EffectSsHitMark_SpawnCustomScale` to return s32 instead of void
 //
 // This fixes everything but the stack. I dont think either of those changes are real.
-void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
+void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
     CollisionPoly* hitPoly; // sp94
     s32 bgId;
     Vec3f hitPoint; // sp84
@@ -266,52 +278,52 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
     if (atTouched) {
         atTouched = this->actor.params <= ARROW_SEED;
         if (atTouched) {
-            atTouched = (this->collider.base.atFlags & 2) != 0;
+            atTouched = (this->collider.base.atFlags & AT_HIT) != 0;
         }
     }
 
     if (atTouched || this->touchedPoly) {
         if (this->actor.params >= ARROW_SEED) {
             if (atTouched) {
-                this->actor.posRot.pos.x = (this->actor.posRot.pos.x + this->actor.pos4.x) * 0.5f;
-                this->actor.posRot.pos.y = (this->actor.posRot.pos.y + this->actor.pos4.y) * 0.5f;
-                this->actor.posRot.pos.z = (this->actor.posRot.pos.z + this->actor.pos4.z) * 0.5f;
+                this->actor.world.pos.x = (this->actor.world.pos.x + this->actor.prevPos.x) * 0.5f;
+                this->actor.world.pos.y = (this->actor.world.pos.y + this->actor.prevPos.y) * 0.5f;
+                this->actor.world.pos.z = (this->actor.world.pos.z + this->actor.prevPos.z) * 0.5f;
             }
 
             if (this->actor.params == ARROW_NUT) {
                 iREG(50) = -1;
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_M_FIRE1, this->actor.posRot.pos.x,
-                            this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_M_FIRE1, this->actor.world.pos.x,
+                            this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
                 sfxId = NA_SE_IT_DEKU;
             } else {
                 sfxId = NA_SE_IT_SLING_REFLECT;
             }
 
-            EffectSsStone1_Spawn(globalCtx, &this->actor.posRot.pos, 0);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, sfxId);
+            EffectSsStone1_Spawn(globalCtx, &this->actor.world.pos, 0);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, sfxId);
             Actor_Kill(&this->actor);
         } else {
-            EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 150, &this->actor.posRot.pos);
+            EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 150, &this->actor.world.pos);
 
-            if (atTouched && (this->collider.body.atHitItem->flags != 4)) {
+            if (atTouched && (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
                 hitActor = this->collider.base.at;
 
-                if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & 4)) && (hitActor->flags & 0x4000)) {
+                if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & AT_BOUNCED)) && (hitActor->flags & 0x4000)) {
                     this->hitActor = hitActor;
                     EnArrow_CarryActor(this, globalCtx);
-                    Math_Vec3f_Diff(&hitActor->posRot.pos, &this->actor.posRot.pos, &this->unk_250);
+                    Math_Vec3f_Diff(&hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
                     hitActor->flags |= 0x8000;
-                    this->collider.base.atFlags &= ~2;
+                    this->collider.base.atFlags &= ~AT_HIT;
                     this->actor.speedXZ *= 0.5f;
                     this->actor.velocity.y *= 0.5f;
                 } else {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
 
-                    if (this->collider.body.atHitItem->bumperFlags & 2) {
-                        this->actor.posRot.pos.x = this->collider.body.atHitItem->bumper.unk_06.x;
-                        this->actor.posRot.pos.y = this->collider.body.atHitItem->bumper.unk_06.y;
-                        this->actor.posRot.pos.z = this->collider.body.atHitItem->bumper.unk_06.z;
+                    if (this->collider.info.atHitInfo->bumperFlags & 2) {
+                        this->actor.world.pos.x = this->collider.info.atHitInfo->bumper.hitPos.x;
+                        this->actor.world.pos.y = this->collider.info.atHitInfo->bumper.hitPos.y;
+                        this->actor.world.pos.z = this->collider.info.atHitInfo->bumper.hitPos.z;
                     }
 
                     func_809B3CEC(globalCtx, this);
@@ -332,16 +344,16 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        Math_Vec3f_Copy(&this->unk_210, &this->actor.posRot.pos);
+        Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
         Actor_MoveForward(&this->actor);
 
-        this->touchedPoly = BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.pos4, &this->actor.posRot.pos,
+        this->touchedPoly = BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.prevPos, &this->actor.world.pos,
                                                        &hitPoint, &this->actor.wallPoly, true, true, true, true, &bgId);
 
         if (this->touchedPoly) {
             func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, bgId, &hitPoint);
-            Math_Vec3f_Copy(&posCopy, &this->actor.posRot.pos);
-            Math_Vec3f_Copy(&this->actor.posRot.pos, &hitPoint);
+            Math_Vec3f_Copy(&posCopy, &this->actor.world.pos);
+            Math_Vec3f_Copy(&this->actor.world.pos, &hitPoint);
         }
 
         if (this->actor.params <= ARROW_0E) {
@@ -352,18 +364,18 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
     if (this->hitActor != NULL) {
         if (this->hitActor->update != NULL) {
             Math_Vec3f_Sum(&this->unk_210, &this->unk_250, &sp60);
-            Math_Vec3f_Sum(&this->actor.posRot.pos, &this->unk_250, &sp54);
+            Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &sp54);
 
             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &sp54, &hitPoint, &hitPoly, true, true, true, true,
                                         &bgId)) {
-                this->hitActor->posRot.pos.x = hitPoint.x + ((sp54.x <= hitPoint.x) ? 1.0f : -1.0f);
-                this->hitActor->posRot.pos.y = hitPoint.y + ((sp54.y <= hitPoint.y) ? 1.0f : -1.0f);
-                this->hitActor->posRot.pos.z = hitPoint.z + ((sp54.z <= hitPoint.z) ? 1.0f : -1.0f);
-                Math_Vec3f_Diff(&this->hitActor->posRot.pos, &this->actor.posRot.pos, &this->unk_250);
+                this->hitActor->world.pos.x = hitPoint.x + ((sp54.x <= hitPoint.x) ? 1.0f : -1.0f);
+                this->hitActor->world.pos.y = hitPoint.y + ((sp54.y <= hitPoint.y) ? 1.0f : -1.0f);
+                this->hitActor->world.pos.z = hitPoint.z + ((sp54.z <= hitPoint.z) ? 1.0f : -1.0f);
+                Math_Vec3f_Diff(&this->hitActor->world.pos, &this->actor.world.pos, &this->unk_250);
                 this->hitActor->flags &= ~0x8000;
                 this->hitActor = NULL;
             } else {
-                Math_Vec3f_Sum(&this->actor.posRot.pos, &this->unk_250, &this->hitActor->posRot.pos);
+                Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
 
             if (this->touchedPoly && (this->hitActor != NULL)) {
@@ -376,8 +388,8 @@ void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx) {
     }
 }
 #else
-void func_809B3FDC(EnArrow* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/func_809B3FDC.s")
+void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Arrow/EnArrow_Fly.s")
 #endif
 
 void func_809B45E0(EnArrow* this, GlobalContext* globalCtx) {
@@ -413,7 +425,7 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->actor.child == NULL) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, elementalActorIds[this->actor.params - 3],
-                               this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0,
+                               this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
                                0);
         }
     } else if (this->actor.params == ARROW_NORMAL_LIT) {
@@ -421,7 +433,7 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
         static Vec3f accel = { 0.0f, 0.5f, 0.0f };
         static Color_RGBA8 primColor = { 255, 255, 100, 255 };
         static Color_RGBA8 envColor = { 255, 50, 0, 0 };
-
+        // spawn dust for the flame
         func_8002836C(globalCtx, &this->unk_21C, &velocity, &accel, &primColor, &envColor, 100, 0, 8);
     }
 }
@@ -436,7 +448,7 @@ void func_809B4800(EnArrow* this, GlobalContext* globalCtx) {
 
     Matrix_MultVec3f(&D_809B4EA0, &this->unk_21C);
 
-    if (func_809B3FDC == this->actionFunc) {
+    if (EnArrow_Fly == this->actionFunc) {
         Matrix_MultVec3f(&D_809B4E88, &sp44);
         Matrix_MultVec3f(&D_809B4E94, &sp38);
 
@@ -465,7 +477,7 @@ void func_809B4800(EnArrow* this, GlobalContext* globalCtx) {
 void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnArrow* this = THIS;
-    u8 sp6F;
+    u8 alpha;
     f32 scale;
 
     if (this->actor.params <= ARROW_0E) {
@@ -473,7 +485,7 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_DrawLod(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, NULL, NULL, this,
                           (this->actor.projectedPos.z < MREG(95)) ? 0 : 1);
     } else if (this->actor.speedXZ != 0.0f) {
-        sp6F = (Math_CosS(this->timer * 5000) * 127.5f) + 127.5f;
+        alpha = (Math_CosS(this->timer * 5000) * 127.5f) + 127.5f;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1346);
 
@@ -481,11 +493,11 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->actor.params == ARROW_SEED) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
-            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, sp6F);
+            gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 255, alpha);
             scale = 50.0f;
         } else {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 12, 0, 0, 255);
-            gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 0, sp6F);
+            gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 0, alpha);
             scale = 150.0f;
         }
 
@@ -500,7 +512,7 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_04037880);
         Matrix_Pull();
-        Matrix_RotateY(this->actor.posRot.rot.y * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768), MTXMODE_APPLY);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1381);
     }

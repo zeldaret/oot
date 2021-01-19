@@ -157,7 +157,7 @@ glabel BossGanon_Init
 /* 00B20 808D7390 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B24 808D7394 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00B28 808D7398 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00B2C 808D739C 0C00CDD2 */  jal     Actor_ChangeType
+/* 00B2C 808D739C 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 00B30 808D73A0 24070009 */  addiu   $a3, $zero, 0x0009         ## $a3 = 00000009
 /* 00B34 808D73A4 100000E0 */  beq     $zero, $zero, .L808D7728

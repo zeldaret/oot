@@ -76,7 +76,7 @@ typedef enum {
 
 const ActorInit En_Owl_InitVars = {
     ACTOR_EN_OWL,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OWL,
     sizeof(EnOwl),
@@ -86,9 +86,23 @@ const ActorInit En_Owl_InitVars = {
     (ActorFunc)EnOwl_Draw,
 };
 
-ColliderCylinderInit sOwlCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+static ColliderCylinderInit sOwlCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
@@ -106,15 +120,15 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 switchFlag;
 
     Actor_ProcessInitChain(&this->actor, sOwlInitChain);
-    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->jointTable, this->morphTable, 21);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->jointTable2, this->morphTable2,
                        16);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sOwlCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.minVelocityY = -10.0f;
-    this->actor.unk_4C = 500.0f;
+    this->actor.targetArrowOffset = 500.0f;
     EnOwl_ChangeMode(this, EnOwl_WaitDefault, func_80ACC540, &this->skelAnime2, &D_0600C8A0, 0.0f);
     this->actionFlags = this->unk_406 = this->unk_409 = 0;
     this->unk_405 = 4;
@@ -136,7 +150,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_3EE = 0;
-    this->unk_400 = this->actor.posRot.rot.y;
+    this->unk_400 = this->actor.world.rot.y;
 
     switch (owlType) {
         case OWL_DEFAULT:
@@ -240,8 +254,8 @@ void EnOwl_LookAtLink(EnOwl* this, GlobalContext* globalCtx) {
     s16 yaw;
     Player* player = PLAYER;
 
-    yaw = Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->actor.posRot.pos);
-    this->actor.posRot.rot.y = yaw;
+    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &player->actor.world.pos);
+    this->actor.world.rot.y = yaw;
     this->actor.shape.rot.y = yaw;
 }
 
@@ -272,7 +286,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
     } else {
         this->actor.textId = textId;
         distCheck = (flags & 2) ? 200.0f : 1000.0f;
-        if (this->actor.xzDistToLink < targetDist) {
+        if (this->actor.xzDistToPlayer < targetDist) {
             this->actor.flags |= 0x10000;
             func_8002F1C4(&this->actor, globalCtx, targetDist, distCheck, 0);
         }
@@ -286,7 +300,7 @@ s32 func_80ACA558(EnOwl* this, GlobalContext* globalCtx, u16 textId) {
         return true;
     } else {
         this->actor.textId = textId;
-        if (this->actor.xzDistToLink < 120.0f) {
+        if (this->actor.xzDistToPlayer < 120.0f) {
             func_8002F1C4(&this->actor, globalCtx, 350.0f, 1000.0f, 0);
         }
 
@@ -810,7 +824,7 @@ void EnOwl_WaitDefault(EnOwl* this, GlobalContext* globalCtx) {
             func_80ACD130(this, globalCtx, 7);
             func_80ACBAB8(this, globalCtx);
         } else {
-            this->actor.posRot.rot.z = globalCtx->csCtx.npcActions[7]->urot.y;
+            this->actor.world.rot.z = globalCtx->csCtx.npcActions[7]->urot.y;
         }
     }
 
@@ -847,18 +861,18 @@ void func_80ACBAB8(EnOwl* this, GlobalContext* globalCtx) {
 void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x20;
 
-    if (this->actor.xzDistToLink > 6000.0f && !(this->actionFlags & 0x80)) {
+    if (this->actor.xzDistToPlayer > 6000.0f && !(this->actionFlags & 0x80)) {
         Actor_Kill(&this->actor);
     }
 
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x80, 0x40);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x80, 0x40);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (this->actor.speedXZ < 16.0f) {
         this->actor.speedXZ += 0.5f;
     }
 
-    if ((this->unk_3F8 + 1000.0f) < this->actor.posRot.pos.y) {
+    if ((this->unk_3F8 + 1000.0f) < this->actor.world.pos.y) {
         if (this->actor.velocity.y > 0.0f) {
             this->actor.velocity.y -= 0.4f;
         }
@@ -871,8 +885,8 @@ void func_80ACBC0C(EnOwl* this, GlobalContext* globalCtx) {
 
 void func_80ACBD4C(EnOwl* this, GlobalContext* globalCtx) {
     if (this->skelAnime.curFrame > 10.0f) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x400, 0x40);
-        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x400, 0x40);
+        this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
     if (this->skelAnime.curFrame > 45.0f) {
@@ -902,12 +916,12 @@ void func_80ACBEA0(EnOwl* this, GlobalContext* GlobalContext) {
     if (this->actionFlags & 1) {
         this->unk_3FE = 3;
         EnOwl_ChangeMode(this, func_80ACBD4C, func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
-        this->unk_3F8 = this->actor.posRot.pos.y;
+        this->unk_3F8 = this->actor.world.pos.y;
         this->actor.velocity.y = 2.0f;
         if (this->actionFlags & 0x40) {
-            this->unk_400 = this->actor.posRot.rot.y + 0x4000;
+            this->unk_400 = this->actor.world.rot.y + 0x4000;
         } else {
-            this->unk_400 = this->actor.posRot.rot.y - 0x4000;
+            this->unk_400 = this->actor.world.rot.y - 0x4000;
         }
     }
 
@@ -915,8 +929,8 @@ void func_80ACBEA0(EnOwl* this, GlobalContext* GlobalContext) {
 }
 
 void func_80ACBF50(EnOwl* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x384, 0x258);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 
     if (this->actionFlags & 1) {
         EnOwl_ChangeMode(this, func_80ACBC0C, func_80ACC460, &this->skelAnime, &D_060015CC, 0.0f);
@@ -933,10 +947,10 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
     s32 temp_v0;
     s32 temp_v0_2;
 
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x384, 0x258);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (this->actor.xzDistToLink < 50.0f) {
+    if (this->actor.xzDistToPlayer < 50.0f) {
         if (!Gameplay_InCsMode(globalCtx)) {
             owlType = (this->actor.params & 0xFC0) >> 6;
             osSyncPrintf(VT_FGCOL(CYAN));
@@ -987,8 +1001,8 @@ void func_80ACC23C(EnOwl* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 1.5f;
     } else {
         this->actor.speedXZ = 0.0f;
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->unk_400, 2, 0x384, 0x258);
-        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->unk_400, 2, 0x384, 0x258);
+        this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
     if (this->skelAnime.curFrame >= 37.0f) {
@@ -1007,7 +1021,7 @@ void func_80ACC30C(EnOwl* this, GlobalContext* globalCtx) {
     if (this->actionFlags & 1) {
         this->unk_3FE = 3;
         EnOwl_ChangeMode(this, func_80ACC23C, func_80ACC540, &this->skelAnime, &D_06001168, 0.0f);
-        this->unk_3F8 = this->actor.posRot.pos.y;
+        this->unk_3F8 = this->actor.world.pos.y;
         this->actor.velocity.y = 0.2f;
     }
 
@@ -1086,16 +1100,14 @@ s32 func_80ACC624(EnOwl* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// Minor regalloc surrounding the unk_3EE at the end of the function.
 void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnOwl* this = THIS;
     s16 phi_a1;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 10.0f, 5);
     this->unk_410(this);
     this->actionFlags &= ~8;
     this->actionFunc(this, globalCtx);
@@ -1265,7 +1277,7 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
         if (phi_a1) {}
-        this->unk_3F0 = (s16)(this->unk_3EE * 1024) + phi_a1;
+        this->unk_3F0 = (u16)((this->unk_3EE << 2) << 8) + phi_a1;
         this->unk_3EC = ABS(this->unk_3F0) >> 3;
     } else {
         this->unk_3F2 = 0;
@@ -1278,9 +1290,6 @@ void EnOwl_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_3EC = ABS(this->unk_3F0) >> 3;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Owl/EnOwl_Update.s")
-#endif
 
 s32 EnOwl_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnOwl* this = THIS;
@@ -1323,7 +1332,7 @@ void EnOwl_PostLimbUpdate(GlobalContext* globalCtx, s32 limbIndex, Gfx** gfx, Ve
         vec.x = 1400.0f;
     }
     if (limbIndex == 3) {
-        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
 }
 
@@ -1356,8 +1365,8 @@ void func_80ACD130(EnOwl* this, GlobalContext* globalCtx, s32 idx) {
     startPos.x = globalCtx->csCtx.npcActions[idx]->startPos.x;
     startPos.y = globalCtx->csCtx.npcActions[idx]->startPos.y;
     startPos.z = globalCtx->csCtx.npcActions[idx]->startPos.z;
-    this->actor.posRot.pos = startPos;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.npcActions[idx]->rot.y;
+    this->actor.world.pos = startPos;
+    this->actor.world.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.npcActions[idx]->rot.y;
     this->actor.shape.rot.z = globalCtx->csCtx.npcActions[idx]->urot.z;
 }
 
@@ -1375,14 +1384,14 @@ f32 func_80ACD1C4(GlobalContext* globalCtx, s32 idx) {
 void func_80ACD220(EnOwl* this, Vec3f* arg1, f32 arg2) {
     Vec3f rpy;
 
-    rpy.x = (arg1->x - this->actor.posRot.pos.x) * arg2;
-    rpy.y = (arg1->y - this->actor.posRot.pos.y) * arg2;
-    rpy.z = (arg1->z - this->actor.posRot.pos.z) * arg2;
+    rpy.x = (arg1->x - this->actor.world.pos.x) * arg2;
+    rpy.y = (arg1->y - this->actor.world.pos.y) * arg2;
+    rpy.z = (arg1->z - this->actor.world.pos.z) * arg2;
 
     Math_StepToF(&this->actor.velocity.y, rpy.y, 1.0f);
     this->actor.speedXZ = sqrtf(SQ(rpy.x) + SQ(rpy.z));
-    this->actor.posRot.rot.y = Math_Vec3f_Yaw(&this->actor.posRot.pos, arg1);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.world.rot.y = Math_Vec3f_Yaw(&this->actor.world.pos, arg1);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
@@ -1395,11 +1404,11 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
     pos.x = globalCtx->csCtx.npcActions[7]->startPos.x;
     pos.y = globalCtx->csCtx.npcActions[7]->startPos.y;
     pos.z = globalCtx->csCtx.npcActions[7]->startPos.z;
-    angle = (s16)globalCtx->csCtx.npcActions[7]->rot.y - this->actor.posRot.rot.z;
+    angle = (s16)globalCtx->csCtx.npcActions[7]->rot.y - this->actor.world.rot.z;
     if (angle < 0) {
         angle += 0x10000;
     }
-    angle = (s16)((t * angle) + this->actor.posRot.rot.z);
+    angle = (s16)((t * angle) + this->actor.world.rot.z);
     angle = (u16)angle;
     if (this->actionFlags & 4) {
         phi_f2 = globalCtx->csCtx.npcActions[7]->urot.x;
@@ -1410,7 +1419,7 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
         pos.x -= Math_SinS(angle) * phi_f2;
         pos.z += Math_CosS(angle) * phi_f2;
         this->unk_3F8 = phi_f2;
-        this->actor.posRot.pos = pos;
+        this->actor.world.pos = pos;
         this->actor.draw = &EnOwl_Draw;
         this->actionFlags &= ~4;
         this->actor.speedXZ = 0.0f;
