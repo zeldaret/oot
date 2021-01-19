@@ -59,8 +59,8 @@ glabel EnBomChu_Explode
 /* 002C4 809C5AF4 5612FFF8 */  bnel    $s0, $s2, .L809C5AD8       
 /* 002C8 809C5AF8 4406A000 */  mfc1    $a2, $f20                  
 .L809C5AFC:
-/* 002CC 809C5AFC 3C0F809C */  lui     $t7, %hi(func_809C645C)    ## $t7 = 809C0000
-/* 002D0 809C5B00 25EF645C */  addiu   $t7, $t7, %lo(func_809C645C) ## $t7 = 809C645C
+/* 002CC 809C5AFC 3C0F809C */  lui     $t7, %hi(EnBomChu_WaitForKill)    ## $t7 = 809C0000
+/* 002D0 809C5B00 25EF645C */  addiu   $t7, $t7, %lo(EnBomChu_WaitForKill) ## $t7 = 809C645C
 /* 002D4 809C5B04 AE8F014C */  sw      $t7, 0x014C($s4)           ## 0000014C
 /* 002D8 809C5B08 8FBF0064 */  lw      $ra, 0x0064($sp)           
 /* 002DC 809C5B0C 8FB40060 */  lw      $s4, 0x0060($sp)           

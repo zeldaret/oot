@@ -1,4 +1,4 @@
-glabel func_809C645C
+glabel EnBomChu_WaitForKill
 /* 00C2C 809C645C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00C30 809C6460 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00C34 809C6464 AFA5001C */  sw      $a1, 0x001C($sp)           

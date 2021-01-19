@@ -5,11 +5,6 @@
 
 #define THIS ((EnBomChu*)thisx)
 
-// void EnBomChu_Init(EnBomChu* this, GlobalContext* globalCtx);
-// void EnBomChu_Destroy(EnBomChu* this, GlobalContext* globalCtx);
-// void EnBomChu_Update(EnBomChu* this, GlobalContext* globalCtx);
-// void EnBomChu_Draw(EnBomChu* this, GlobalContext* globalCtx);
-
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -17,7 +12,7 @@ void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx);
 void func_809C5F48(EnBomChu* this, GlobalContext* globalCtx);
-void func_809C645C(EnBomChu* this, GlobalContext* globalCtx);
+void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx);
 
 extern Gfx D_04007E10[];
 
@@ -60,39 +55,39 @@ static ColliderJntSphInit D_809C6D54 = {
     D_809C6D30,
 };
 
-InitChainEntry D_809C6D64[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_STOP),
 };
 
 void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static u8 D_809C6D6C[] = { 250, 0, 0, 250 };
-    static u8 D_809C6D70[] = { 200, 0, 0, 130 };
-    static u8 D_809C6D74[] = { 150, 0, 0, 100 };
-    static u8 D_809C6D78[] = { 100, 0, 0, 50 };
+    static u8 p1StartColor[] = { 250, 0, 0, 250 };
+    static u8 p2StartColor[] = { 200, 0, 0, 130 };
+    static u8 p1EndColor[] = { 150, 0, 0, 100 };
+    static u8 p2EndColor[] = { 100, 0, 0, 50 };
     EnBomChu* this = THIS;
-    EffectBlureInit1 sp34;
+    EffectBlureInit1 blureInit;
     s32 i;
 
-    Actor_ProcessInitChain(&this->actor, D_809C6D64);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_809C6D54, this->colliderElements);
 
     this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
 
     for (i = 0; i < 4; i++) {
-        sp34.p1StartColor[i] = D_809C6D6C[i];
-        sp34.p2StartColor[i] = D_809C6D70[i];
-        sp34.p1EndColor[i] = D_809C6D74[i];
-        sp34.p2EndColor[i] = D_809C6D78[i];
+        blureInit.p1StartColor[i] = p1StartColor[i];
+        blureInit.p2StartColor[i] = p2StartColor[i];
+        blureInit.p1EndColor[i] = p1EndColor[i];
+        blureInit.p2EndColor[i] = p2EndColor[i];
     }
 
-    sp34.elemDuration = 16;
-    sp34.unkFlag = 0;
-    sp34.calcMode = 0;
+    blureInit.elemDuration = 16;
+    blureInit.unkFlag = 0;
+    blureInit.calcMode = 0;
 
-    Effect_Add(globalCtx, &this->blure1Index, EFFECT_BLURE1, 0, 0, &sp34);
-    Effect_Add(globalCtx, &this->blure2Index, EFFECT_BLURE1, 0, 0, &sp34);
+    Effect_Add(globalCtx, &this->blure1Index, EFFECT_BLURE1, 0, 0, &blureInit);
+    Effect_Add(globalCtx, &this->blure2Index, EFFECT_BLURE1, 0, 0, &blureInit);
 
     this->actor.room = -1;
     this->timer = 120;
@@ -126,7 +121,7 @@ void EnBomChu_Explode(EnBomChu* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->actionFunc = func_809C645C;
+    this->actionFunc = EnBomChu_WaitForKill;
 }
 
 void func_809C5B38(Vec3f* arg0, Vec3f* arg1, Vec3f* dest) {
@@ -280,7 +275,6 @@ void func_809C5F48(EnBomChu* this, GlobalContext* globalCtx) {
             this->actor.floorBgId = sp94;
             this->actor.speedXZ = 0.0f;
         } else {
-            // 9B0
             if (this->actor.floorPoly != sp98) {
                 func_809C5BA8(this, sp98, globalCtx);
             }
@@ -331,7 +325,7 @@ void func_809C5F48(EnBomChu* this, GlobalContext* globalCtx) {
     func_8002F8F0(&this->actor, NA_SE_IT_BOMBCHU_MOVE - SFX_FLAG);
 }
 
-void func_809C645C(EnBomChu* this, GlobalContext* globalCtx) {
+void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
@@ -365,6 +359,7 @@ void EnBomChu_SpawnRipples(EnBomChu* this, GlobalContext* globalCtx, f32 height)
 }
 
 #ifdef NON_MATCHING
+// float ordering and regalloc, mostly contained within first block
 void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     static Vec3f D_809C6D7C = { 0.0f, 7.0f, -6.0f };
     static Vec3f D_809C6D88 = { 12.0f, 0.0f, -5.0f };
@@ -445,7 +440,7 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if (!(this->actor.bgCheckFlags & 0x20) && (this->timer != 120)) {
                     EnBomChu_SpawnRipples(this, globalCtx, waterHeight);
                 } else {
-                    EffectSsBubble_Spawn(globalCtx, &this->actor.world, 0.0f, 3.0f, 15.0f, 0.25f);
+                    EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 3.0f, 15.0f, 0.25f);
                 }
 
                 this->actor.bgCheckFlags |= 0x20;
@@ -492,12 +487,12 @@ void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     colorIntensity = timerMod / (f32)phi_a1;
 
-    gDPSetEnvColor(POLY_OPA_DISP++, ((colorIntensity * 209.0f) + 9.0f), (9.0f + (colorIntensity * 34.0f)),
+    gDPSetEnvColor(POLY_OPA_DISP++, (9.0f + (colorIntensity * 209.0f)), (9.0f + (colorIntensity * 34.0f)),
                    (35.0f + (colorIntensity * -35.0f)), 255);
     Matrix_Translate(this->unk_178 * 100.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 956),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_04007E10);
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 961);
 }
