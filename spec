@@ -2783,11 +2783,7 @@ endseg
 beginseg
     name "ovl_En_Owl"
     include "build/src/overlays/actors/ovl_En_Owl/z_en_owl.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Owl/ovl_En_Owl_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_owl.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3107,11 +3103,7 @@ endseg
 beginseg
     name "ovl_En_Viewer"
     include "build/src/overlays/actors/ovl_En_Viewer/z_en_viewer.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Viewer/ovl_En_Viewer_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_viewer.reloc.o"
-#endif
 endseg
 
 beginseg
