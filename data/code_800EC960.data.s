@@ -42,7 +42,7 @@ glabel D_801305CC
 glabel D_801305D0
     .incbin "baserom.z64", 0xBA7770, 0x10
 
-glabel D_801305E0
+glabel sPrevChargeLevel
     .incbin "baserom.z64", 0xBA7780, 0x4
 
 glabel D_801305E4

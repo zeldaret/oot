@@ -579,7 +579,7 @@ extern u8 D_80130594[4][7];
 //extern ? D_801305BC;
 //extern ? D_801305C0;
 //extern ? D_801305CC;
-//extern ? D_801305E0;
+//extern ? sPrevChargeLevel;
 //extern ? D_801305F4;
 //extern ? D_801305FF;
 //extern ? D_80130600;

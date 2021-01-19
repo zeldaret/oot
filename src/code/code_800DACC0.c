@@ -1,41 +1,42 @@
 #include "ultra64.h"
 #include "global.h"
 
-Acmd *AudioSynth_LoadRingBuffer(Acmd *arg0, u16 arg1, u16 arg2, s32 arg3, SynthesisReverb *arg4);
-Acmd *AudioSynth_SaveBuffer(Acmd *arg0, u16 arg1, u16 arg2, s32 arg3, s16* arg4);
-Acmd *AudioSynth_SaveRingBuffer(Acmd *arg0, u16 arg1, u16 arg2, s32 arg3, SynthesisReverb *arg4);
+Acmd* AudioSynth_LoadRingBuffer(Acmd* arg0, u16 arg1, u16 arg2, s32 arg3, SynthesisReverb* arg4);
+Acmd* AudioSynth_SaveBuffer(Acmd* arg0, u16 arg1, u16 arg2, s32 arg3, s16* arg4);
+Acmd* AudioSynth_SaveRingBuffer(Acmd* arg0, u16 arg1, u16 arg2, s32 arg3, SynthesisReverb* arg4);
 Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx);
-Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx);
-Acmd *func_800DD9F4(Acmd *arg0, NoteSubEu *arg1, NoteSynthesisState *arg2, s32 arg3);
-Acmd *func_800DDB64(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthState, s32 arg3, s32 arg4, s32 arg5);
-Acmd* func_800DD6CC(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState *synthState, s32 aiBufLen, u16, s32, s32);
-Acmd *func_800DD62C(Acmd *cmd, NoteSynthesisState *synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags);
+Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
+                    Acmd* cmd, s32 updateIdx);
+Acmd* func_800DD9F4(Acmd* arg0, NoteSubEu* arg1, NoteSynthesisState* arg2, s32 arg3);
+Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 arg3, s32 arg4, s32 arg5);
+Acmd* func_800DD6CC(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen, u16, s32, s32);
+Acmd* func_800DD62C(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags);
 extern s16 D_8012FBAA[];
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/pad_800DACB0.s")
 
 void AudioSynth_InitNextRingBuf(s32 chunkSize, s32 bufIdx, s32 reverbIdx) {
-    ReverbRingBufferItem *bufItem;
+    ReverbRingBufferItem* bufItem;
     s32 pad[3];
-    SynthesisReverb *reverb = &gAudioContext.gSynthesisReverbs[reverbIdx];
+    SynthesisReverb* reverb = &gAudioContext.gSynthesisReverbs[reverbIdx];
     s32 temp_a0_2;
     s32 temp_a0_4;
     s32 sampleCnt;
     s32 extraSamples;
     s32 i;
     s32 j;
-    
+
     if (reverb->downsampleRate >= 2) {
         if (reverb->framesToIgnore == 0) {
             bufItem = &reverb->items[reverb->curFrame][bufIdx];
             // inval dcache
             func_800E6840(bufItem->toDownsampleLeft, 0x340);
 
-            for(j = 0, i = 0; i < bufItem->lengthA / 2; j += reverb->downsampleRate, i++) {
+            for (j = 0, i = 0; i < bufItem->lengthA / 2; j += reverb->downsampleRate, i++) {
                 reverb->leftRingBuf[bufItem->startPos + i] = bufItem->toDownsampleLeft[j];
                 reverb->rightRingBuf[bufItem->startPos + i] = bufItem->toDownsampleRight[j];
             }
 
-            for(i = 0; i < bufItem->lengthB / 2; j += reverb->downsampleRate, i++) {
+            for (i = 0; i < bufItem->lengthB / 2; j += reverb->downsampleRate, i++) {
                 reverb->leftRingBuf[i] = bufItem->toDownsampleLeft[j];
                 reverb->rightRingBuf[i] = bufItem->toDownsampleRight[j];
             }
@@ -57,7 +58,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkSize, s32 bufIdx, s32 reverbIdx) {
         bufItem->startPos = reverb->nextRingBufPos;
         reverb->nextRingBufPos = extraSamples;
     }
-    
+
     bufItem->numSamplesAfterDownsampling = sampleCnt;
     bufItem->chunkLen = chunkSize;
 
@@ -84,16 +85,16 @@ void AudioSynth_InitNextRingBuf(s32 chunkSize, s32 bufIdx, s32 reverbIdx) {
 }
 
 void func_800DB03C(s32 arg0) {
-    NoteSubEu *temp_v0_2;
-    NoteSubEu *subEu;
+    NoteSubEu* temp_v0_2;
+    NoteSubEu* subEu;
     s32 t;
     s32 i;
 
     t = gAudioContext.gMaxSimultaneousNotes * arg0;
-    for(i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+    for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
         subEu = &gAudioContext.gNotes[i].noteSubEu;
         temp_v0_2 = &gAudioContext.gNoteSubsEu[t + i];
-        if(subEu->bitField0.s.enabled) {
+        if (subEu->bitField0.s.enabled) {
             subEu->bitField0.s.needsInit = 0;
         } else {
             temp_v0_2->bitField0.s.enabled = 0;
@@ -103,23 +104,23 @@ void func_800DB03C(s32 arg0) {
     }
 }
 
-Acmd *AudioSynth_Update(Acmd *cmdStart, s32 *cmdCnt, s16 *aiStart, s32 aiBufLen) {
+Acmd* AudioSynth_Update(Acmd* cmdStart, s32* cmdCnt, s16* aiStart, s32 aiBufLen) {
     s32 chunkSize;
-    s16 *aiBufP;
-    Acmd *cmdP;
+    s16* aiBufP;
+    Acmd* cmdP;
     s32 i;
     s32 j;
-    SynthesisReverb *reverb;
+    SynthesisReverb* reverb;
 
     cmdP = cmdStart;
-    for(i = gAudioContext.gAudioBufferParameters.updatesPerFrame; i > 0; i--) {
+    for (i = gAudioContext.gAudioBufferParameters.updatesPerFrame; i > 0; i--) {
         Audio_ProcessSequences(i - 1);
         func_800DB03C(gAudioContext.gAudioBufferParameters.updatesPerFrame - i);
     }
 
     aiBufP = aiStart;
     gAudioContext.unk_0x10 = 0;
-    for(i = gAudioContext.gAudioBufferParameters.updatesPerFrame; i > 0; i--){
+    for (i = gAudioContext.gAudioBufferParameters.updatesPerFrame; i > 0; i--) {
         if (i == 1) {
             chunkSize = aiBufLen;
         } else if ((aiBufLen / i) >= gAudioContext.gAudioBufferParameters.samplesPerUpdateMax) {
@@ -130,7 +131,7 @@ Acmd *AudioSynth_Update(Acmd *cmdStart, s32 *cmdCnt, s16 *aiStart, s32 aiBufLen)
             chunkSize = gAudioContext.gAudioBufferParameters.samplesPerUpdate;
         }
 
-        for(j = 0; j < gAudioContext.gNumSynthesisReverbs; j++) {
+        for (j = 0; j < gAudioContext.gNumSynthesisReverbs; j++) {
             if (gAudioContext.gSynthesisReverbs[j].useReverb) {
                 AudioSynth_InitNextRingBuf(chunkSize, gAudioContext.gAudioBufferParameters.updatesPerFrame - i, j);
             }
@@ -141,7 +142,7 @@ Acmd *AudioSynth_Update(Acmd *cmdStart, s32 *cmdCnt, s16 *aiStart, s32 aiBufLen)
         aiBufP += chunkSize * 2;
     }
 
-    for(j = 0; j < gAudioContext.gNumSynthesisReverbs; j++) {
+    for (j = 0; j < gAudioContext.gNumSynthesisReverbs; j++) {
         if (gAudioContext.gSynthesisReverbs[j].framesToIgnore != 0) {
             gAudioContext.gSynthesisReverbs[j].framesToIgnore--;
         }
@@ -153,10 +154,10 @@ Acmd *AudioSynth_Update(Acmd *cmdStart, s32 *cmdCnt, s16 *aiStart, s32 aiBufLen)
 }
 
 void func_800DB2C0(s32 arg0, s32 arg1) {
-    NoteSubEu *temp_v1;
+    NoteSubEu* temp_v1;
     s32 i;
 
-    for(i = arg0 + 1; i < gAudioContext.gAudioBufferParameters.updatesPerFrame; i++) {
+    for (i = arg0 + 1; i < gAudioContext.gAudioBufferParameters.updatesPerFrame; i++) {
         temp_v1 = &gAudioContext.gNoteSubsEu[(gAudioContext.gMaxSimultaneousNotes * i) + arg1];
         if (!temp_v1->bitField0.s.needsInit) {
             temp_v1->bitField0.s.enabled = 0;
@@ -166,8 +167,8 @@ void func_800DB2C0(s32 arg0, s32 arg1) {
     }
 }
 
-Acmd *func_800DB330(Acmd *arg0, SynthesisReverb *reverb, s16 arg2) {
-    ReverbRingBufferItem *bufItem = &reverb->items[reverb->curFrame][arg2];
+Acmd* func_800DB330(Acmd* arg0, SynthesisReverb* reverb, s16 arg2) {
+    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][arg2];
 
     arg0 = AudioSynth_LoadRingBuffer(arg0, 0x3E0, bufItem->startPos, bufItem->lengthA, reverb);
     if (bufItem->lengthB != 0) {
@@ -176,8 +177,8 @@ Acmd *func_800DB330(Acmd *arg0, SynthesisReverb *reverb, s16 arg2) {
     return arg0;
 }
 
-Acmd *func_800DB3D8(Acmd *arg0, SynthesisReverb *arg1, s16 arg2) {
-    ReverbRingBufferItem *temp_v1;
+Acmd* func_800DB3D8(Acmd* arg0, SynthesisReverb* arg1, s16 arg2) {
+    ReverbRingBufferItem* temp_v1;
 
     temp_v1 = &arg1->items[arg1->curFrame][arg2];
     arg0 = AudioSynth_SaveRingBuffer(arg0, 0x3E0, temp_v1->startPos, temp_v1->lengthA, arg1);
@@ -187,9 +188,9 @@ Acmd *func_800DB3D8(Acmd *arg0, SynthesisReverb *arg1, s16 arg2) {
     return arg0;
 }
 
-Acmd *func_800DB480(Acmd *arg0, SynthesisReverb *arg1) {
-    void *temp_a2;
-    void *temp_a3;
+Acmd* func_800DB480(Acmd* arg0, SynthesisReverb* arg1) {
+    void* temp_a2;
+    void* temp_a3;
 
     aDMEMMove(arg0++, 0xC80, 0x720, 0x1A0);
     aMix(arg0++, 0x1A, arg1->unk_10, 0xE20, 0xC80);
@@ -197,8 +198,8 @@ Acmd *func_800DB480(Acmd *arg0, SynthesisReverb *arg1) {
     return arg0;
 }
 
-Acmd *func_800DB4E4(Acmd *arg0, s32 arg1, SynthesisReverb *arg2, s16 arg3) {
-    ReverbRingBufferItem *temp_v1;
+Acmd* func_800DB4E4(Acmd* arg0, s32 arg1, SynthesisReverb* arg2, s16 arg3) {
+    ReverbRingBufferItem* temp_v1;
     s16 temp_t0_2;
     s16 temp_t1_2;
 
@@ -216,8 +217,8 @@ Acmd *func_800DB4E4(Acmd *arg0, s32 arg1, SynthesisReverb *arg2, s16 arg3) {
     return arg0;
 }
 
-Acmd *func_800DB680(Acmd *cmd, SynthesisReverb *reverb, s16 bufIdx) {
-    ReverbRingBufferItem *bufItem = &reverb->items[reverb->curFrame][bufIdx];
+Acmd* func_800DB680(Acmd* cmd, SynthesisReverb* reverb, s16 bufIdx) {
+    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][bufIdx];
 
     aSetBuffer(cmd++, 0, 0xC80, 0x720, bufItem->unk_18 * 2);
     aResample(cmd++, reverb->resampleFlags, bufItem->unk_16, reverb->unk_38);
@@ -237,8 +238,8 @@ Acmd *func_800DB680(Acmd *cmd, SynthesisReverb *reverb, s16 bufIdx) {
     return cmd;
 }
 
-Acmd *func_800DB828(Acmd *arg0, s32 arg1, SynthesisReverb *arg2, s16 arg3) {
-    ReverbRingBufferItem *temp_v1;
+Acmd* func_800DB828(Acmd* arg0, s32 arg1, SynthesisReverb* arg2, s16 arg3) {
+    ReverbRingBufferItem* temp_v1;
     s16 temp_t1;
     s16 temp_t2_2;
 
@@ -258,7 +259,7 @@ Acmd *func_800DB828(Acmd *arg0, s32 arg1, SynthesisReverb *arg2, s16 arg3) {
     return arg0;
 }
 
-Acmd *func_800DBA40(Acmd *arg0, s32 arg1, SynthesisReverb *arg2) {
+Acmd* func_800DBA40(Acmd* arg0, s32 arg1, SynthesisReverb* arg2) {
     if (arg2->unk_270 != NULL) {
         aFilter(arg0++, 2, arg1, arg2->unk_270);
         aFilter(arg0++, arg2->resampleFlags, 0xC80, arg2->unk_278);
@@ -266,13 +267,13 @@ Acmd *func_800DBA40(Acmd *arg0, s32 arg1, SynthesisReverb *arg2) {
 
     if (arg2->unk_274 != NULL) {
         aFilter(arg0++, 2, arg1, arg2->unk_274);
-        aFilter(arg0++, arg2->resampleFlags, 0xE20, arg2->unk_27C);    
+        aFilter(arg0++, arg2->resampleFlags, 0xE20, arg2->unk_27C);
     }
     return arg0;
 }
 
-Acmd *func_800DBAE8(Acmd *arg0, SynthesisReverb *arg1, s32 arg2) {
-    SynthesisReverb *temp_a3;
+Acmd* func_800DBAE8(Acmd* arg0, SynthesisReverb* arg1, s32 arg2) {
+    SynthesisReverb* temp_a3;
 
     temp_a3 = &gAudioContext.gSynthesisReverbs[arg1->unk_05];
     if (temp_a3->downsampleRate == 1) {
@@ -284,170 +285,146 @@ Acmd *func_800DBAE8(Acmd *arg0, SynthesisReverb *arg1, s32 arg2) {
 }
 
 void func_800DBB94(void) {
-
 }
 
-void func_800DBB9C(Acmd *arg0, s32 arg1, s32 arg2) {
+void func_800DBB9C(Acmd* arg0, s32 arg1, s32 arg2) {
     aClearBuffer(arg0, arg1, arg2);
 }
 
 void func_800DBBBC(void) {
-
 }
 
 void func_800DBBC4(void) {
-
 }
 
 void func_800DBBCC(void) {
-
 }
 
-void func_800DBBD4(Acmd *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void func_800DBBD4(Acmd* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     aMix(arg0, arg1, arg2, arg3, arg4);
 }
 
 void func_800DBC08(void) {
-
 }
 
 void func_800DBC10(void) {
-
 }
 
 void func_800DBC18(void) {
-
 }
 
-void AudioSynth_SetBuffer(Acmd *cmd, s32 flag, s32 dmemIn, s32 dmemOut, s32 count) {
+void AudioSynth_SetBuffer(Acmd* cmd, s32 flag, s32 dmemIn, s32 dmemOut, s32 count) {
     aSetBuffer(cmd, flag, dmemIn, dmemOut, count);
 }
 
 void func_800DBC54(void) {
-
 }
 
 void func_800DBC5C(void) {
-
 }
 
-// possible fake match?  
-void AudioSynth_DMemMove(Acmd *cmd, s32 dmemIn, s32 dmemOut, s32 count) {
+// possible fake match?
+void AudioSynth_DMemMove(Acmd* cmd, s32 dmemIn, s32 dmemOut, s32 count) {
     cmd->words.w0 = _SHIFTL(A_DMEMMOVE, 24, 8) | _SHIFTL(dmemIn, 0, 24);
     cmd->words.w1 = _SHIFTL(dmemOut, 16, 16) | _SHIFTL(count, 0, 16);
 }
 
 void func_800DBC90(void) {
-
 }
 
 void func_800DBC98(void) {
-
 }
 
 void func_800DBCA0(void) {
-
 }
 
 void func_800DBCA8(void) {
-
 }
 
-void AudioSynth_InterL(Acmd *cmd, s32 dmemIn, s32 dmemOut, s32 count) {
+void AudioSynth_InterL(Acmd* cmd, s32 dmemIn, s32 dmemOut, s32 count) {
     cmd->words.w0 = _SHIFTL(A_INTERL, 24, 8) | _SHIFTL(count, 0, 16);
     cmd->words.w1 = _SHIFTL(dmemIn, 16, 16) | _SHIFTL(dmemOut, 0, 16);
 }
 
-void func_800DBCD4(Acmd *arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void func_800DBCD4(Acmd* arg0, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     aEnvSetup1(arg0, arg1, arg2, arg3, arg4);
 }
 
 void func_800DBD08(void) {
-
 }
 
-void func_800DBD10(Acmd *arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_800DBD10(Acmd* arg0, s32 arg1, s32 arg2, s32 arg3) {
     aLoadBuffer(arg0, arg3, arg1, arg2);
 }
 
-void func_800DBD38(Acmd *arg0, s32 arg1, s32 arg2, s32 arg3) {
+void func_800DBD38(Acmd* arg0, s32 arg1, s32 arg2, s32 arg3) {
     aSaveBuffer(arg0, arg1, arg3, arg2);
 }
 
-void AudioSynth_EnvSetup2(Acmd *cmd, s32 volLeft, s32 volRight) {
+void AudioSynth_EnvSetup2(Acmd* cmd, s32 volLeft, s32 volRight) {
     cmd->words.w0 = _SHIFTL(A_ENVSETUP2, 24, 8);
     cmd->words.w1 = _SHIFTL(volLeft, 16, 16) | _SHIFTL(volRight, 0, 16);
 }
 
 void func_800DBD7C(void) {
-
 }
 
 void func_800DBD84(void) {
-
 }
 
 void func_800DBD8C(void) {
-
 }
 
-void AudioSynth_UnkCmd17(Acmd *arg0, s32 arg1, s32 arg2) {
+void AudioSynth_UnkCmd17(Acmd* arg0, s32 arg1, s32 arg2) {
     aUnkCmd17(arg0, arg1, arg2);
 }
 
-void AudioSynth_HiLoGain(Acmd *cmd, s32 gain, s32 dmemIn, s32 dmemOut, s32 count) {
+void AudioSynth_HiLoGain(Acmd* cmd, s32 gain, s32 dmemIn, s32 dmemOut, s32 count) {
     cmd->words.w0 = _SHIFTL(A_HILOGAIN, 24, 8) | _SHIFTL(gain, 16, 8) | _SHIFTL(count, 0, 16);
     cmd->words.w1 = _SHIFTL(dmemIn, 16, 16) | _SHIFTL(dmemOut, 0, 16);
 }
 
-void AudioSynth_UnkCmd19(Acmd *cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
+void AudioSynth_UnkCmd19(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3, s32 arg4) {
     cmd->words.w0 = _SHIFTL(A_UNK19, 24, 8) | _SHIFTL(arg4, 16, 8) | _SHIFTL(arg3, 0, 16);
     cmd->words.w1 = _SHIFTL(arg1, 16, 16) | _SHIFTL(arg2, 0, 16);
 }
 
 void func_800DBE18(void) {
-
 }
 
 void func_800DBE20(void) {
-
 }
 
 void func_800DBE28(void) {
-
 }
 
 void func_800DBE30(void) {
-
 }
 
-void AudioSynth_UnkCmd3(Acmd *cmd, s32 arg1, s32 arg2, s32 arg3) {
+void AudioSynth_UnkCmd3(Acmd* cmd, s32 arg1, s32 arg2, s32 arg3) {
     cmd->words.w0 = _SHIFTL(A_UNK3, 24, 8) | _SHIFTL(arg3, 0, 16);
     cmd->words.w1 = _SHIFTL(arg1, 16, 16) | _SHIFTL(arg2, 0, 16);
 }
 
 void func_800DBE5C(void) {
-
 }
 
 void func_800DBE64(void) {
-
 }
 
 void func_800DBE6C(void) {
-
 }
 
-void AudioSynth_SetFilter(Acmd *cmd, s32 flags, s32 countOrBuf, s32 addr) {
+void AudioSynth_SetFilter(Acmd* cmd, s32 flags, s32 countOrBuf, s32 addr) {
     aFilter(cmd, flags, countOrBuf, addr);
 }
 
-void AudioSynth_SetFilterCount(Acmd *cmd, s32 count, s32 addr) {
+void AudioSynth_SetFilterCount(Acmd* cmd, s32 count, s32 addr) {
     aFilter(cmd, 2, count, addr);
 }
 
-Acmd *func_800DBEB0(Acmd *cmd, s32 arg1, SynthesisReverb *reverb, s16 arg3) {
-    ReverbRingBufferItem *ringBufferItem = &reverb->items[reverb->curFrame][arg3];
+Acmd* func_800DBEB0(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
+    ReverbRingBufferItem* ringBufferItem = &reverb->items[reverb->curFrame][arg3];
 
     cmd = AudioSynth_LoadRingBuffer(cmd, 0xC80, ringBufferItem->startPos, ringBufferItem->lengthA, reverb);
     if (ringBufferItem->lengthB != 0) {
@@ -457,34 +434,34 @@ Acmd *func_800DBEB0(Acmd *cmd, s32 arg1, SynthesisReverb *reverb, s16 arg3) {
     return cmd;
 }
 
-Acmd *func_800DBF5C(Acmd *cmd, s32 arg1, SynthesisReverb *reverb, s16 bufIdx) {
-    ReverbRingBufferItem *bufItem = &reverb->items2[reverb->curFrame][bufIdx];
+Acmd* func_800DBF5C(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 bufIdx) {
+    ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][bufIdx];
 
     cmd = AudioSynth_LoadRingBuffer(cmd, 0xC80, bufItem->startPos, bufItem->lengthA, reverb);
     if (bufItem->lengthB != 0) {
-        cmd = AudioSynth_LoadRingBuffer(cmd, bufItem->lengthA+ 0xC80, 0, bufItem->lengthB, reverb);
+        cmd = AudioSynth_LoadRingBuffer(cmd, bufItem->lengthA + 0xC80, 0, bufItem->lengthB, reverb);
     }
     return cmd;
 }
 
-Acmd *AudioSynth_LoadRingBuffer(Acmd *cmd, u16 dmem, u16 startPos, s32 length, SynthesisReverb *reverb) {
+Acmd* AudioSynth_LoadRingBuffer(Acmd* cmd, u16 dmem, u16 startPos, s32 length, SynthesisReverb* reverb) {
     aLoadBuffer(cmd++, &reverb->leftRingBuf[startPos], dmem, length);
     aLoadBuffer(cmd++, &reverb->rightRingBuf[startPos], dmem + 0x1A0, length);
     return cmd;
 }
 
-Acmd *AudioSynth_SaveRingBuffer(Acmd *cmd, u16 dmem, u16 startPos, s32 length, SynthesisReverb *reverb) {
+Acmd* AudioSynth_SaveRingBuffer(Acmd* cmd, u16 dmem, u16 startPos, s32 length, SynthesisReverb* reverb) {
     aSaveBuffer(cmd++, dmem, &reverb->leftRingBuf[startPos], length);
     aSaveBuffer(cmd++, dmem + 0x1A0, &reverb->rightRingBuf[startPos], length);
     return cmd;
 }
 
-Acmd *AudioSynth_SaveBuffer(Acmd *cmd, u16 dmem, u16 offset, s32 length, s16* buf) {
+Acmd* AudioSynth_SaveBuffer(Acmd* cmd, u16 dmem, u16 offset, s32 length, s16* buf) {
     aSaveBuffer(cmd++, dmem, &buf[offset], length);
     return cmd;
 }
 
-Acmd *func_800DC124(Acmd *cmd, s32 arg1, SynthesisReverb *reverb, s16 arg3) {
+Acmd* func_800DC124(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
     if (reverb->downsampleRate == 1) {
         cmd = func_800DBF5C(cmd, arg1, reverb, arg3);
     }
@@ -492,7 +469,7 @@ Acmd *func_800DC124(Acmd *cmd, s32 arg1, SynthesisReverb *reverb, s16 arg3) {
     return cmd;
 }
 
-Acmd *func_800DC164(Acmd *cmd, s32 arg1, SynthesisReverb *reverb, s16 arg3) {
+Acmd* func_800DC164(Acmd* cmd, s32 arg1, SynthesisReverb* reverb, s16 arg3) {
     if (reverb->downsampleRate == 1) {
         if (reverb->unk_18 != 0) {
             cmd = func_800DB828(cmd, arg1, reverb, arg3);
@@ -505,8 +482,8 @@ Acmd *func_800DC164(Acmd *cmd, s32 arg1, SynthesisReverb *reverb, s16 arg3) {
     return cmd;
 }
 
-Acmd *func_800DC1D8(Acmd *cmd, SynthesisReverb *reverb, s16 bufIdx) {
-    ReverbRingBufferItem *bufItem = &reverb->items[reverb->curFrame][bufIdx];
+Acmd* func_800DC1D8(Acmd* cmd, SynthesisReverb* reverb, s16 bufIdx) {
+    ReverbRingBufferItem* bufItem = &reverb->items[reverb->curFrame][bufIdx];
 
     if (reverb->downsampleRate == 1) {
         if (reverb->unk_18 != 0) {
@@ -525,8 +502,8 @@ Acmd *func_800DC1D8(Acmd *cmd, SynthesisReverb *reverb, s16 bufIdx) {
     return cmd;
 }
 
-Acmd *func_800DC2DC(Acmd *cmd, SynthesisReverb *reverb, s16 bufIdx) {
-    ReverbRingBufferItem *bufItem = &reverb->items2[reverb->curFrame][bufIdx];
+Acmd* func_800DC2DC(Acmd* cmd, SynthesisReverb* reverb, s16 bufIdx) {
+    ReverbRingBufferItem* bufItem = &reverb->items2[reverb->curFrame][bufIdx];
 
     cmd = AudioSynth_SaveRingBuffer(cmd, 0xC80, bufItem->startPos, bufItem->lengthA, reverb);
     if (bufItem->lengthB != 0) {
@@ -536,22 +513,22 @@ Acmd *func_800DC2DC(Acmd *cmd, SynthesisReverb *reverb, s16 bufIdx) {
 }
 
 #ifdef NON_MATCHING
-Acmd *func_800DC384(s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
-    NoteSubEu *phi_v0;
+Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
+    NoteSubEu* phi_v0;
     u8 sp9C[88];
     s16 phi_s2;
     s16 phi_s4;
     s32 t;
     s32 useReverb;
-    SynthesisReverb *temp_t8;
+    SynthesisReverb* temp_t8;
     u8 t2;
     s32 i;
-    s32 unk14;   
+    s32 unk14;
 
     t = gAudioContext.gMaxSimultaneousNotes * updateIdx;
     phi_s2 = 0;
     if (gAudioContext.gNumSynthesisReverbs == 0) {
-        for(i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+        for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
             phi_v0 = &gAudioContext.gNoteSubsEu[t + i];
             if (phi_v0->bitField0.s.enabled) {
                 sp9C[phi_s2++] = i;
@@ -559,8 +536,8 @@ Acmd *func_800DC384(s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
         }
         i = 0;
     } else {
-        for(phi_s4 = 0; phi_s4 < gAudioContext.gNumSynthesisReverbs; phi_s4++) {
-            for(i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+        for (phi_s4 = 0; phi_s4 < gAudioContext.gNumSynthesisReverbs; phi_s4++) {
+            for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
                 phi_v0 = &gAudioContext.gNoteSubsEu[t + i];
                 if (phi_v0->bitField0.s.enabled && phi_v0->bitField1.s.reverbIndex == phi_s4) {
                     sp9C[phi_s2++] = i;
@@ -568,7 +545,7 @@ Acmd *func_800DC384(s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
             }
         }
 
-        for(i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
+        for (i = 0; i < gAudioContext.gMaxSimultaneousNotes; i++) {
             phi_v0 = &gAudioContext.gNoteSubsEu[t + i];
             if (phi_v0->bitField0.s.enabled && phi_v0->bitField1.s.reverbIndex >= gAudioContext.gNumSynthesisReverbs) {
                 sp9C[phi_s2++] = i;
@@ -578,7 +555,7 @@ Acmd *func_800DC384(s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
     }
 
     aClearBuffer(cmd++, 0x940, 0x340);
-    for(phi_s4 = 0; phi_s4 < gAudioContext.gNumSynthesisReverbs; phi_s4++) {
+    for (phi_s4 = 0; phi_s4 < gAudioContext.gNumSynthesisReverbs; phi_s4++) {
         temp_t8 = &gAudioContext.gSynthesisReverbs[phi_s4];
         useReverb = temp_t8->useReverb;
         if (useReverb) {
@@ -604,10 +581,11 @@ Acmd *func_800DC384(s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
             }
         }
 
-        while(i < phi_s2){
+        while (i < phi_s2) {
             phi_v0 = &gAudioContext.gNoteSubsEu[sp9C[i] + t];
             if (phi_v0->bitField1.s.reverbIndex == phi_s4) {
-                cmd = func_800DC910(sp9C[i], phi_v0, &gAudioContext.gNotes[sp9C[i]].synthesisState, aiBuf, aiBufLen, cmd, updateIdx);
+                cmd = func_800DC910(sp9C[i], phi_v0, &gAudioContext.gNotes[sp9C[i]].synthesisState, aiBuf, aiBufLen,
+                                    cmd, updateIdx);
             } else {
                 break;
             }
@@ -629,8 +607,9 @@ Acmd *func_800DC384(s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
         }
     }
 
-    while(i < phi_s2) {
-        cmd = func_800DC910(sp9C[i], &gAudioContext.gNoteSubsEu[t + sp9C[i]], &gAudioContext.gNotes[sp9C[i]].synthesisState, aiBuf, aiBufLen, cmd, updateIdx);
+    while (i < phi_s2) {
+        cmd = func_800DC910(sp9C[i], &gAudioContext.gNoteSubsEu[t + sp9C[i]],
+                            &gAudioContext.gNotes[sp9C[i]].synthesisState, aiBuf, aiBufLen, cmd, updateIdx);
         i++;
     }
 
@@ -645,9 +624,10 @@ Acmd *func_800DC384(s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
 #endif
 
 #ifdef NON_MATCHING
-Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synthState, s16 *aiBuf, s32 aiBufLen, Acmd *cmd, s32 updateIdx) {
-    AudioBankSample *sp150;
-    AdpcmLoop *sp14C;
+Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s16* aiBuf, s32 aiBufLen,
+                    Acmd* cmd, s32 updateIdx) {
+    AudioBankSample* sp150;
+    AdpcmLoop* sp14C;
     s32 sp140;
     s32 sp13C;
     s32 sp138;
@@ -664,21 +644,21 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
     s32 spBC;
     s32 spB0;
     u16 spAE;
-    Note *sp9C;
+    Note* sp9C;
     u32 sp8C;
     u32 sp88;
     u32 sp50;
-    Acmd *temp_a0_3;
-    Acmd *temp_v0;
-    Acmd *temp_v0_10;
-    Acmd *temp_v0_11;
-    Acmd *temp_v0_12;
-    Acmd *temp_v0_13;
-    Acmd *temp_v0_8;
-    Acmd *temp_v0_9;
-    Acmd *temp_v1_3;
-    NoteSubEu *temp_a1;
-    NoteSynthesisState *temp_a2;
+    Acmd* temp_a0_3;
+    Acmd* temp_v0;
+    Acmd* temp_v0_10;
+    Acmd* temp_v0_11;
+    Acmd* temp_v0_12;
+    Acmd* temp_v0_13;
+    Acmd* temp_v0_8;
+    Acmd* temp_v0_9;
+    Acmd* temp_v1_3;
+    NoteSubEu* temp_a1;
+    NoteSynthesisState* temp_a2;
     s32 temp_a1_3;
     s32 temp_a2_2;
     s32 temp_a2_3;
@@ -707,9 +687,9 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
     u32 temp_t0_2;
     u32 temp_v0_6;
     u8 temp_a1_4;
-    AdpcmLoop *temp_a1_2;
-    AudioBankSample *temp_v0_2;
-    AdpcmBook *temp_v0_4;
+    AdpcmLoop* temp_a1_2;
+    AudioBankSample* temp_v0_2;
+    AdpcmBook* temp_v0_4;
     s32 phi_t1;
     u8 phi_v1;
     s32 phi_fp;
@@ -730,15 +710,15 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
     s32 phi_v1_4;
     s32 phi_t1_5;
     s32 phi_a1_2;
-    NoteSubEu *phi_s6_2;
+    NoteSubEu* phi_s6_2;
     s32 phi_s1_2;
-    NoteSubEu *phi_s6_3;
+    NoteSubEu* phi_s6_3;
 
     sp8C = noteSubEu->bitField1.s.bookOffset;
-    sp88 = noteSubEu->bitField0.s.finished; 
+    sp88 = noteSubEu->bitField0.s.finished;
     sp9C = &gAudioContext.gNotes[noteIdx];
     sp138 = 0;
-    
+
     if (noteSubEu->bitField0.s.needsInit == 1) {
         synthState->restart = 0;
         synthState->unk_06 = 0;
@@ -759,9 +739,7 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
     spC0 = noteSubEu->bitField1.s.isSyntheticWave + 1;
     temp_t0 = (sp136 * aiBufLen * 2) + synthState->unk_06;
     synthState->unk_06 = temp_t0;
-    if (1 != synthState->unk_05) {
-
-    }
+    if (1 != synthState->unk_05) {}
     synthState->unk_05 = spC0;
     if (noteSubEu->bitField1.s.bit2) {
         sp50 = temp_t0 >> 0x10;
@@ -779,7 +757,7 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
         spB0 = 0;
         spBC = 0;
         sp110 = sp150->sampleAddr;
-        for(spBC = 0; !sp88 && spBC < spC0; spBC++) {
+        for (spBC = 0; !sp88 && spBC < spC0; spBC++) {
             if (spC0 == 1) {
                 phi_fp = sp50;
             } else if (sp50 & 1) {
@@ -787,12 +765,13 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
             } else {
                 phi_fp = sp50;
             }
-            
+
             if (sp150->bits4 == 0 || sp150->bits4 == 3) {
                 if (gAudioContext.unk_0x10 != sp150->bits4 + 8) {
-                    switch(sp8C){
+                    switch (sp8C) {
                         case 1:
-                            gAudioContext.unk_0x10 = D_8012FBAA;;
+                            gAudioContext.unk_0x10 = D_8012FBAA;
+                            ;
                             break;
                         case 2:
                             gAudioContext.unk_0x10 = sp150->bits4 + 8;
@@ -807,7 +786,7 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
             }
             sp104 = 0;
             phi_s5 = 0;
-            while(sp104 != phi_fp) {
+            while (sp104 != phi_fp) {
                 sp140 = 0;
                 sp13C = 0;
                 spFC = phi_fp - sp104;
@@ -816,7 +795,7 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
                     phi_s3 = 0x10;
                 }
                 if (spFC < (sp14C->end - synthState->samplePosInt)) {
-                    phi_s1 = (s32) ((spFC - (0x10 - phi_s3)) + 0xF) / 0x10;
+                    phi_s1 = (s32)((spFC - (0x10 - phi_s3)) + 0xF) / 0x10;
                     phi_s0 = phi_s1 * 0x10;
                     phi_s6 = (0x10 - phi_s3);
                     phi_s7 = ((0x10 - phi_s3) + phi_s0) - spFC;
@@ -827,7 +806,7 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
                         phi_s0 = 0;
                         phi_s6 = (sp14C->end - synthState->samplePosInt);
                     }
-                    phi_s1 = (s32) (phi_s0 + 0xF) / 0x10;
+                    phi_s1 = (s32)(phi_s0 + 0xF) / 0x10;
                     if (sp14C->count != 0) {
                         sp13C = 1;
                         phi_s7 = 0;
@@ -836,7 +815,7 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
                         phi_s7 = 0;
                     }
                 }
-                switch(sp150->bits4) {
+                switch (sp150->bits4) {
                     case 0:
                         spCC = 0x10;
                         spC8 = 0;
@@ -870,17 +849,19 @@ Acmd *func_800DC910(s32 noteIdx, NoteSubEu *noteSubEu, NoteSynthesisState *synth
                         // OLD BLOCK 78
 
                     case 4:
-block_39:
+                    block_39:
                         if (phi_s1 != 0) {
-                            temp_v1_5 = (s32) ((synthState->samplePosInt + spCC) - phi_s3) / 0x10;
+                            temp_v1_5 = (s32)((synthState->samplePosInt + spCC) - phi_s3) / 0x10;
                             if (sp150->bits2 == 0) {
                                 phi_a1 = spC8 + (temp_v1_5 * spD4) + sp110;
-                            } else if(sp150->bits2 != 1){
-                                phi_a1 = func_800E12DC(spC8 + (temp_v1_5 * spD4) + sp110, ((phi_s1 * spD4) + 0x1F) & ~0xF, sp138, &synthState->sampleDmaIndex, sp150->bits2);
+                            } else if (sp150->bits2 != 1) {
+                                phi_a1 =
+                                    func_800E12DC(spC8 + (temp_v1_5 * spD4) + sp110, ((phi_s1 * spD4) + 0x1F) & ~0xF,
+                                                  sp138, &synthState->sampleDmaIndex, sp150->bits2);
                             } else {
                                 return cmd;
                             }
-                            
+
                             if (phi_a1 != 0) {
                                 phi_t0 = phi_a1 & 0xF;
                                 temp_v0_7 = ((phi_s1 * spD4) + 0x1F) & 0xFFF0;
@@ -902,30 +883,33 @@ block_39:
                             } else {
                                 phi_s4 = (phi_s5 + 0x1F) & ~0xF;
                             }
-                            switch(sp150->bits4) {
+                            switch (sp150->bits4) {
                                 case 0:
-                                    aSetBuffer(cmd++, 0, ((0x940 - (((phi_s1 * spD4) + 0x1F) & 0xFFF0)) + phi_t0), phi_s4 + 0x580, phi_s0 * 2);
+                                    aSetBuffer(cmd++, 0, ((0x940 - (((phi_s1 * spD4) + 0x1F) & 0xFFF0)) + phi_t0),
+                                               phi_s4 + 0x580, phi_s0 * 2);
                                     aADPCMdec(cmd++, sp138, synthState->synthesisBuffers);
                                     break;
                                 case 3:
-                                    aSetBuffer(cmd++, 0, ((0x940 - (((phi_s1 * spD4) + 0x1F) & 0xFFF0)) + phi_t0), phi_s4 + 0x580, phi_s0 * 2);
+                                    aSetBuffer(cmd++, 0, ((0x940 - (((phi_s1 * spD4) + 0x1F) & 0xFFF0)) + phi_t0),
+                                               phi_s4 + 0x580, phi_s0 * 2);
                                     aADPCMdec(cmd++, sp138 | 4, synthState->synthesisBuffers);
                                     break;
                                 case 1:
-                                    AudioSynth_SetBuffer(cmd++, 0, 0x940 - (((phi_s1 * spD4) + 0x1F) & 0xFFF0) + phi_t0, phi_s4 + 0x580, phi_s0 * 2);
-                                    AudioSynth_UnkCmd17(cmd++, sp138, (s32) synthState->synthesisBuffers);
+                                    AudioSynth_SetBuffer(cmd++, 0, 0x940 - (((phi_s1 * spD4) + 0x1F) & 0xFFF0) + phi_t0,
+                                                         phi_s4 + 0x580, phi_s0 * 2);
+                                    AudioSynth_UnkCmd17(cmd++, sp138, (s32)synthState->synthesisBuffers);
                                     break;
-
                             }
 
                             if (sp104 != 0) {
-                                aDMEMMove(cmd++, phi_s4 + (phi_s3 * 2) + 0x580, phi_s5 + 0x580, (((phi_s0 + phi_s6) - phi_s7) * 2));
+                                aDMEMMove(cmd++, phi_s4 + (phi_s3 * 2) + 0x580, phi_s5 + 0x580,
+                                          (((phi_s0 + phi_s6) - phi_s7) * 2));
                             }
 
                             temp_v1_6 = (phi_s0 + phi_s6) - phi_s7;
                             temp_t1 = sp104 + temp_v1_6;
-                            
-                            switch(sp138){
+
+                            switch (sp138) {
                                 case 1:
                                     sp120 = 0x20;
                                     phi_s5 = (phi_s0 * 2) + 0x20;
@@ -945,7 +929,7 @@ block_39:
                             sp138 = 0;
                             break;
                         }
-                    }
+                }
 
                 if (sp140 != 0) {
                     sp88 = 1;
@@ -961,17 +945,16 @@ block_39:
                     }
                 }
                 phi_v1_2 = spC0;
-                
             }
 
-            switch(spC0){
+            switch (spC0) {
                 case 1:
                     spAE = sp120 + 0x580;
                     break;
                 case 2:
                     break;
                 default:
-                    switch(spBC){
+                    switch (spBC) {
                         case 0:
                             spAE = 0x3E0;
                             AudioSynth_InterL(cmd++, sp120 + 0x580, 0x3E0, ((phi_fp / 2) + 7) & ~7);
@@ -987,7 +970,7 @@ block_39:
             }
         }
     }
-    
+
     sp138 = 0;
     if (noteSubEu->bitField0.s.needsInit == 1) {
         noteSubEu->bitField0.s.needsInit = 0;
@@ -1022,9 +1005,11 @@ block_39:
             func_800DBB9C(cmd++, 0x760 - noteSubEu->unk_07, noteSubEu->unk_07);
             synthState->unk_1A = 0;
         } else {
-            func_800DBD10(cmd++, 0x760 - noteSubEu->unk_07, noteSubEu->unk_07, &synthState->synthesisBuffers->panSamplesBuffer[0x18]);
+            func_800DBD10(cmd++, 0x760 - noteSubEu->unk_07, noteSubEu->unk_07,
+                          &synthState->synthesisBuffers->panSamplesBuffer[0x18]);
         }
-        AudioSynth_SaveBuffer(cmd++, ((aiBufLen * 2) - noteSubEu->unk_07) + 0x3C0, noteSubEu->unk_07, &synthState->synthesisBuffers->panSamplesBuffer[0x18], NULL);
+        AudioSynth_SaveBuffer(cmd++, ((aiBufLen * 2) - noteSubEu->unk_07) + 0x3C0, noteSubEu->unk_07,
+                              &synthState->synthesisBuffers->panSamplesBuffer[0x18], NULL);
         func_800DBBD4(cmd++, (aiBufLen * 2) >> 4, noteSubEu->unk_10, 0x760, 0x760 - noteSubEu->unk_07);
         AudioSynth_DMemMove(cmd++, 0x760 - noteSubEu->unk_07, 0x3C0, aiBufLen * 2);
     } else {
@@ -1051,7 +1036,7 @@ block_39:
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DC910.s")
 #endif
 
-Acmd *func_800DD62C(Acmd *cmd, NoteSynthesisState *synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags) {
+Acmd* func_800DD62C(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags) {
     if (pitch == 0) {
         func_800DBB9C(cmd++, 0x3C0, count);
     } else {
@@ -1065,7 +1050,8 @@ extern u32 D_801304A4;
 extern u32 D_801304A8;
 extern u32 D_801304AC;
 
-Acmd *func_800DD6CC(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthState, s32 aiBufLen, u16 arg4, s32 arg5, s32 arg6) {
+Acmd* func_800DD6CC(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen, u16 arg4, s32 arg5,
+                    s32 arg6) {
     u32 phi_a1;
     u16 curVolLeft;
     u16 targetVolLeft;
@@ -1092,7 +1078,7 @@ Acmd *func_800DD6CC(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthSt
 
     sp50 = synthState->samplePosFrac;
     phi_t1 = sp50 & 0x7F;
-    
+
     if (sp50 != reverVol) {
         sp52 = (((reverVol & 0x7F) - phi_t1) << 9) / (aiBufLen >> 3);
         synthState->samplePosFrac = reverVol;
@@ -1102,12 +1088,12 @@ Acmd *func_800DD6CC(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthSt
 
     synthState->curVolLeft = curVolLeft + (phi_a3 * (aiBufLen >> 3));
     synthState->curVolRight = curVolRight + (phi_t0 * (aiBufLen >> 3));
-    
+
     if (noteSubEu->bitField1.s.hasTwoAdpcmParts) {
         func_800DBB9C(cmd++, 0x5C0, 0x1A0);
         func_800DBCD4(cmd++, phi_t1 * 2, sp52, phi_a3, phi_t0);
         AudioSynth_EnvSetup2(cmd++, curVolLeft, curVolRight);
-        switch(arg5){
+        switch (arg5) {
             case 1:
                 phi_a1 = D_801304A4;
                 break;
@@ -1117,7 +1103,6 @@ Acmd *func_800DD6CC(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthSt
             default:
                 phi_a1 = D_801304AC;
                 break;
-
         }
     } else {
         aEnvSetup1(cmd++, phi_t1 * 2, sp52, phi_a3, phi_t0);
@@ -1125,17 +1110,14 @@ Acmd *func_800DD6CC(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthSt
         phi_a1 = D_801304AC;
     }
 
-    aEnvMixer(cmd++, arg4, aiBufLen, (sp50 & 0x80) >> 7, 
-                noteSubEu->bitField0.s.stereoHeadsetEffects,
-                noteSubEu->bitField0.s.usesHeadsetPanEffects, 
-                noteSubEu->bitField0.s.stereoStrongRight, 
-                noteSubEu->bitField0.s.stereoStrongLeft,
-                phi_a1);
+    aEnvMixer(cmd++, arg4, aiBufLen, (sp50 & 0x80) >> 7, noteSubEu->bitField0.s.stereoHeadsetEffects,
+              noteSubEu->bitField0.s.usesHeadsetPanEffects, noteSubEu->bitField0.s.stereoStrongRight,
+              noteSubEu->bitField0.s.stereoStrongLeft, phi_a1);
     return cmd;
 }
 
 extern u8 D_801304C0[];
-Acmd *func_800DD9F4(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthState, s32 arg3) {
+Acmd* func_800DD9F4(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 arg3) {
     s32 temp_v0;
     s32 temp_t0;
     s32 samplePosInt;
@@ -1162,12 +1144,12 @@ Acmd *func_800DD9F4(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthSt
 }
 
 #ifdef NON_MATCHING
-Acmd *func_800DDB64(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthState, s32 arg3, s32 arg4, s32 arg5) {
+Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 arg3, s32 arg4, s32 arg5) {
     s32 phi_v0;
     s32 phi_v1;
     s32 phi_t0;
 
-    switch(arg5){
+    switch (arg5) {
         case 1:
             phi_v1 = noteSubEu->headsetPanRight;
             phi_v0 = synthState->prevHeadsetPanRight;
@@ -1185,7 +1167,7 @@ Acmd *func_800DDB64(Acmd *cmd, NoteSubEu *noteSubEu, NoteSynthesisState *synthSt
         default:
             return cmd;
     }
-    
+
     if (arg4 != 1) {
         if (phi_v0 != phi_v1) {
             aSetBuffer(cmd++, 0, 0x5C0, 0x3C0, (arg3 + phi_v1) - phi_v0);

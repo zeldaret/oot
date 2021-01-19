@@ -2183,7 +2183,7 @@ void func_800F41E0(Vec3f*, u16 sfxId, u8);
 void func_800F4138(Vec3f*, u16 sfxId, f32);
 void func_800F4190(Vec3f*, u16 sfxId);
 void func_800F436C(Vec3f* pos, u16 sfxId, f32 arg2);
-void func_800F4414(s32*, u16, f32);
+void func_800F4414(Vec3f* pos, u16 sfxId, f32);
 void func_800F44EC(s8 arg0, s8 arg1);
 void func_800F4524(Vec3f *arg0, u16 arg1, s8 arg2);
 void func_800F46E0(Vec3f* pos, f32 arg0);

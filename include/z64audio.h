@@ -760,10 +760,7 @@ typedef struct {
     /* 0x0014 */ s32 unk_14;
     /* 0x0018 */ s32 unk_18;
     /* 0x001C */ s8* unk_1C;
-    /* 0x0020 */ u32 unk_20;
-    /* 0x0024 */ u8* sampleAddr;
-    /* 0x0028 */ AdpcmLoop* loop;
-    /* 0x002C */ AdpcmBook* book;
+    /* 0x0020 */ AudioBankSample sample;
     /* 0x0030 */ OSMesgQueue msgqueue;
     /* 0x0048 */ OSMesg msg;
     /* 0x004C */ OSIoMesg ioMesg;
