@@ -358,42 +358,42 @@ void EnBomChu_SpawnRipples(EnBomChu* this, GlobalContext* globalCtx, f32 height)
     EffectSsGRipple_Spawn(globalCtx, &pos, 70, 500, 8);
 }
 
-#ifdef NON_MATCHING
-// float ordering and regalloc, mostly contained within first block
 void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     static Vec3f D_809C6D7C = { 0.0f, 7.0f, -6.0f };
     static Vec3f D_809C6D88 = { 12.0f, 0.0f, -5.0f };
     static Vec3f D_809C6D94 = { -12.0f, 0.0f, -5.0f };
     GlobalContext* globalCtx = globalCtx2;
     EnBomChu* this = THIS;
-    s16 sp6E; // prevYaw
-    s16 newYaw;
-    f32 sin; // sp68
-    f32 cos; // sp64?
+    s16 prevYaw;
+    f32 sin;
+    f32 cos;
+    f32 tempX;
     Vec3f sp54;
     Vec3f sp48;
-    WaterBox* waterBox; // sp44
-    f32 waterHeight;    // sp40
-    f32 sp3C;
-    f32 sp38;
+    WaterBox* waterBox;
+    f32 waterHeight;
 
     if (this->actor.floorBgId != BGCHECK_SCENE) {
-        sp6E = this->actor.shape.rot.y;
+        prevYaw = this->actor.shape.rot.y;
         func_800433A4(&globalCtx->colCtx, this->actor.floorBgId, &this->actor);
-        // newYaw = this->actor.shape.rot.y;
 
-        if (sp6E != this->actor.shape.rot.y) {
-            sp6E = this->actor.shape.rot.y - sp6E; // is it really reuse?
+        if (prevYaw != this->actor.shape.rot.y) {
+            prevYaw = this->actor.shape.rot.y - prevYaw;
 
-            sin = Math_SinS(sp6E);
-            cos = Math_CosS(sp6E);
+            sin = Math_SinS(prevYaw);
+            cos = Math_CosS(prevYaw);
 
-            this->unk_154.x = (this->unk_154.z * sin) + (cos * this->unk_154.x);
-            this->unk_154.z = (this->unk_154.z * cos) + (-sin * this->unk_154.x);
-            this->unk_160.x = (this->unk_160.z * sin) + (cos * this->unk_160.x);
-            this->unk_160.z = (this->unk_160.z * cos) + (-sin * this->unk_160.x);
-            this->unk_16C.x = (this->unk_16C.z * sin) + (cos * this->unk_16C.x);
-            this->unk_16C.z = (this->unk_16C.z * cos) + (-sin * this->unk_16C.x);
+            tempX = this->unk_154.x;
+            this->unk_154.x = (this->unk_154.z * sin) + (cos * tempX);
+            this->unk_154.z = (this->unk_154.z * cos) - (sin * tempX);
+
+            tempX = this->unk_160.x;
+            this->unk_160.x = (this->unk_160.z * sin) + (cos * tempX);
+            this->unk_160.z = (this->unk_160.z * cos) - (sin * tempX);
+
+            tempX = this->unk_16C.x;
+            this->unk_16C.x = (this->unk_16C.z * sin) + (cos * tempX);
+            this->unk_16C.z = (this->unk_16C.z * cos) - (sin * tempX);
         }
     }
 
@@ -413,8 +413,8 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_SetFocus(&this->actor, 0.0f);
 
     if (this->actionFunc == EnBomChu_Move) {
-        sp38 = Rand_ZeroOne();
-        this->unk_178 = Math_SinS(((Rand_ZeroOne() * 512.0f) + 12288.0f) * this->timer) * (5.0f + (sp38 * 3.0f));
+        this->unk_178 =
+            (5.0f + (Rand_ZeroOne() * 3.0f)) * Math_SinS(((Rand_ZeroOne() * 512.0f) + 12288.0f) * this->timer);
 
         func_809C649C(this, &D_809C6D7C, &sp54);
 
@@ -451,13 +451,6 @@ void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx2) {
         }
     }
 }
-#else
-Vec3f D_809C6D7C = { 0.0f, 7.0f, -6.0f };
-Vec3f D_809C6D88 = { 12.0f, 0.0f, -5.0f };
-Vec3f D_809C6D94 = { -12.0f, 0.0f, -5.0f };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bom_Chu/EnBomChu_Update.s")
-#endif
-
 void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBomChu* this = THIS;

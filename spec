@@ -1963,11 +1963,7 @@ endseg
 beginseg
     name "ovl_En_Bom_Chu"
     include "build/src/overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Bom_Chu/ovl_En_Bom_Chu_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_bom_chu.reloc.o"
-#endif
 endseg
 
 beginseg
