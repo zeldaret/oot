@@ -23,7 +23,7 @@ void MagicWind_Grow(MagicWind* this, GlobalContext* globalCtx);
 
 const ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicWind),

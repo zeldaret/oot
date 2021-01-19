@@ -4,18 +4,16 @@
 #include "ultra64.h"
 #include "global.h"
 
-typedef enum {
-    SPIKETRAP_LINEAR = 0x10,
-    SPIKETRAP_CIRCULAR = 0x20,
-    SPIKETRAP_FOUR_WAY = 0x30
-} EnTrap_Mode;
+// Different movement modes (set in params):
+#define SPIKETRAP_MODE_LINEAR 0x10
+#define SPIKETRAP_MODE_CIRCULAR 0x20
+#define SPIKETRAP_MODE_FOUR_WAY 0x30
 
-typedef enum {
-    SPIKETRAP_FWD_ALLOWED = 1,
-    SPIKETRAP_BACK_ALLOWED = 2,
-    SPIKETRAP_LEFT_ALLOWED = 4,
-    SPIKETRAP_RIGHT_ALLOWED = 8
-} EnTrap_FourWayDirs;
+// When four-way mode is set, these flags decide on which directions are allowed:
+#define SPIKETRAP_FOURWAY_FWD_ALLOWED (1 << 0)
+#define SPIKETRAP_FOURWAY_BACK_ALLOWED (1 << 1)
+#define SPIKETRAP_FOURWAY_LEFT_ALLOWED (1 << 2)
+#define SPIKETRAP_FOURWAY_RIGHT_ALLOWED (1 << 3)
 
 struct EnTrap;
 

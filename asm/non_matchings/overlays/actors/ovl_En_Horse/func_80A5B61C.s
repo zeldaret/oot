@@ -175,12 +175,12 @@ glabel func_80A5B61C
 /* 00574 80A5B864 8FB90074 */  lw      $t9, 0x0074($sp)           
 .L80A5B868:
 /* 00578 80A5B868 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0057C 80A5B86C 0C00B6E3 */  jal     func_8002DB8C              
+/* 0057C 80A5B86C 0C00B6E3 */  jal     Actor_WorldDistXZToActor              
 /* 00580 80A5B870 8F251C44 */  lw      $a1, 0x1C44($t9)           ## 00001C44
 /* 00584 80A5B874 8FB80074 */  lw      $t8, 0x0074($sp)           
 /* 00588 80A5B878 E7A00050 */  swc1    $f0, 0x0050($sp)           
 /* 0058C 80A5B87C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00590 80A5B880 0C00B69E */  jal     func_8002DA78              
+/* 00590 80A5B880 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 00594 80A5B884 8F051C44 */  lw      $a1, 0x1C44($t8)           ## 00001C44
 /* 00598 80A5B888 3C014348 */  lui     $at, 0x4348                ## $at = 43480000
 /* 0059C 80A5B88C 44814000 */  mtc1    $at, $f8                   ## $f8 = 200.00

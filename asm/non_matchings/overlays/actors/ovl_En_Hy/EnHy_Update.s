@@ -40,7 +40,7 @@ glabel EnHy_Update
 /* 020B8 80A71668 44070000 */  mfc1    $a3, $f0                   
 /* 020BC 80A7166C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 020C0 80A71670 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 020C4 80A71674 0C00B92D */  jal     func_8002E4B4              
+/* 020C4 80A71674 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 020C8 80A71678 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 020CC 80A7167C 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
 .L80A71680:

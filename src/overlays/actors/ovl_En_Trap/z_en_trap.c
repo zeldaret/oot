@@ -37,7 +37,7 @@ void EnTrap_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Trap_InitVars = {
     ACTOR_EN_TRAP,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_TRAP,
     sizeof(EnTrap),
@@ -48,8 +48,15 @@ const ActorInit En_Trap_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x35, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_NO_PUSH | OC1_TYPE_1 | OC1_TYPE_2,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00001000, 0x00, 0x00 }, TOUCH_NONE, BUMP_ON, OCELEM_ON },
     { 30, 20, 0, { 0, 0, 0 } },
 };
 
@@ -67,14 +74,14 @@ void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params &= 0xFF;
     Actor_SetScale(thisx, 0.1f);
     thisx->gravity = -2.0f;
-    if (thisx->params & SPIKETRAP_LINEAR) {
+    if (thisx->params & SPIKETRAP_MODE_LINEAR) {
         thisx->speedXZ = this->moveSpeedForwardBack.z = this->upperParams & 0xF;
         Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
-    } else if (thisx->params & SPIKETRAP_CIRCULAR) {
+    } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
         this->vRadius = (this->upperParams & 0xF) * 40.0f;
         this->vAngularVel = ((this->upperParams & 0xF0) + 0x10) << 5;
-        thisx->posRot.pos.x = thisx->initPosRot.pos.x + (Math_SinS(0) * this->vRadius);
-        thisx->posRot.pos.z = thisx->initPosRot.pos.z + (Math_CosS(0) * this->vRadius);
+        thisx->world.pos.x = thisx->home.pos.x + (Math_SinS(0) * this->vRadius);
+        thisx->world.pos.z = thisx->home.pos.z + (Math_CosS(0) * this->vRadius);
     } else { // Four-way motion
         if (this->upperParams != 0) {
             trapDist = (this->upperParams >> 4) * 40;
@@ -84,29 +91,29 @@ void EnTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
             trapSpeed = 10.0f;
             thisx->params = 0xF;
         }
-        func_8002E4B4(globalCtx, thisx, 10.0f, 20.0f, 20.0f, 0x1D);
-        thisx->initPosRot.pos = thisx->posRot.pos;
-        this->targetPosLeft.x = thisx->posRot.pos.x + (trapDist * Math_CosS(thisx->posRot.rot.y));
-        this->targetPosLeft.z = thisx->posRot.pos.z - (trapDist * Math_SinS(thisx->posRot.rot.y));
-        this->targetPosRight.x = thisx->posRot.pos.x + (trapDist * Math_CosS(thisx->posRot.rot.y + 0x8000));
-        this->targetPosRight.z = thisx->posRot.pos.z - (trapDist * Math_SinS(thisx->posRot.rot.y + 0x8000));
-        this->targetPosFwd.x = thisx->posRot.pos.x + (trapDist * Math_SinS(thisx->posRot.rot.y));
-        this->targetPosFwd.z = thisx->posRot.pos.z + (trapDist * Math_CosS(thisx->posRot.rot.y));
-        this->targetPosBack.x = thisx->posRot.pos.x + (trapDist * Math_SinS(thisx->posRot.rot.y + 0x8000));
-        this->targetPosBack.z = thisx->posRot.pos.z + (trapDist * Math_CosS(thisx->posRot.rot.y + 0x8000));
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 20.0f, 20.0f, 0x1D);
+        thisx->home.pos = thisx->world.pos;
+        this->targetPosLeft.x = thisx->world.pos.x + (trapDist * Math_CosS(thisx->world.rot.y));
+        this->targetPosLeft.z = thisx->world.pos.z - (trapDist * Math_SinS(thisx->world.rot.y));
+        this->targetPosRight.x = thisx->world.pos.x + (trapDist * Math_CosS(thisx->world.rot.y + 0x8000));
+        this->targetPosRight.z = thisx->world.pos.z - (trapDist * Math_SinS(thisx->world.rot.y + 0x8000));
+        this->targetPosFwd.x = thisx->world.pos.x + (trapDist * Math_SinS(thisx->world.rot.y));
+        this->targetPosFwd.z = thisx->world.pos.z + (trapDist * Math_CosS(thisx->world.rot.y));
+        this->targetPosBack.x = thisx->world.pos.x + (trapDist * Math_SinS(thisx->world.rot.y + 0x8000));
+        this->targetPosBack.z = thisx->world.pos.z + (trapDist * Math_CosS(thisx->world.rot.y + 0x8000));
 
-        zSpeed = trapSpeed * Math_CosS(thisx->posRot.rot.y);
-        xSpeed = trapSpeed * Math_SinS(thisx->posRot.rot.y);
+        zSpeed = trapSpeed * Math_CosS(thisx->world.rot.y);
+        xSpeed = trapSpeed * Math_SinS(thisx->world.rot.y);
         zSpeed = ABS(zSpeed);
         xSpeed = ABS(xSpeed);
         this->moveSpeedLeftRight.x = this->moveSpeedForwardBack.z = zSpeed;
         this->moveSpeedLeftRight.z = this->moveSpeedForwardBack.x = xSpeed;
     }
-    thisx->posRot2.pos = thisx->posRot.pos;
+    thisx->focus.pos = thisx->world.pos;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-    ActorShape_Init(&thisx->shape, 0.0f, &ActorShadow_DrawFunc_Circle, 0.0f);
-    thisx->unk_1F = 3;
+    ActorShape_Init(&thisx->shape, 0.0f, &ActorShadow_DrawCircle, 0.0f);
+    thisx->targetMode = 3;
     thisx->colChkInfo.mass = 0xFF;
 }
 
@@ -133,17 +140,17 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     touchingActor = false;
     blockedOnReturn = false;
-    angleToWall = thisx->wallPolyRot - thisx->posRot.rot.y;
-    if (this->collider.base.maskA & 2) {
-        this->collider.base.maskA &= ~2;
+    angleToWall = thisx->wallYaw - thisx->world.rot.y;
+    if (this->collider.base.ocFlags1 & OC1_HIT) {
+        this->collider.base.ocFlags1 &= ~OC1_HIT;
         angleToCollidedActor =
-            thisx->posRot.rot.y + Math_Vec3f_Yaw(&this->collider.base.oc->posRot.pos, &thisx->posRot.pos);
+            thisx->world.rot.y + Math_Vec3f_Yaw(&this->collider.base.oc->world.pos, &thisx->world.pos);
         touchingActor = true;
     }
     // Freeze the trap if hit by ice arrows:
-    if ((this->collider.base.acFlags & 2) != 0) {
-        icePos = thisx->posRot.pos;
-        this->collider.base.acFlags &= ~2;
+    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+        icePos = thisx->world.pos;
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8003426C(thisx, 0, 250, 0, 250);
         icePos.y += 10.0f;
         icePos.z += 10.0f;
@@ -155,25 +162,25 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);
     }
     // If not frozen:
-    if (thisx->dmgEffectTimer == 0) {
+    if (thisx->colorFilterTimer == 0) {
         DECR(this->playerDmgTimer);
         // Handles damaging player:
-        //! @bug there is no yDistToLink check for player being below. Therefore hitbox extends down infinitely
-        if ((thisx->xzDistToLink <= 40.0f) && (this->playerDmgTimer == 0) && (thisx->yDistToLink <= 20.0f)) {
-            if (!(thisx->params & (SPIKETRAP_LINEAR | SPIKETRAP_CIRCULAR))) { // if in 4-way mode:
-                if ((s16)(this->vClosestDirection - thisx->yawTowardsLink) >= 0) {
+        //! @bug there is no yDistToPlayer check for player being below. Therefore hitbox extends down infinitely
+        if ((thisx->xzDistToPlayer <= 40.0f) && (this->playerDmgTimer == 0) && (thisx->yDistToPlayer <= 20.0f)) {
+            if (!(thisx->params & (SPIKETRAP_MODE_LINEAR | SPIKETRAP_MODE_CIRCULAR))) { // if in 4-way mode:
+                if ((s16)(this->vClosestDirection - thisx->yawTowardsPlayer) >= 0) {
                     angleToKnockPlayer = this->vClosestDirection - 0x4000;
                 } else {
                     angleToKnockPlayer = this->vClosestDirection + 0x4000;
                 }
             } else {
-                angleToKnockPlayer = thisx->yawTowardsLink;
+                angleToKnockPlayer = thisx->yawTowardsPlayer;
             }
             globalCtx->damagePlayer(globalCtx, -4);
             func_8002F7A0(globalCtx, thisx, 6.0f, angleToKnockPlayer, 6.0f);
             this->playerDmgTimer = 15;
         }
-        if (thisx->params & SPIKETRAP_LINEAR) {
+        if (thisx->params & SPIKETRAP_MODE_LINEAR) {
             this->vContinue = 1.0f;
             // If physically touching a wall and wall faces towards spike trap
             if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) >= 0x6000)) {
@@ -181,44 +188,44 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             // If there is a collision poly between current position and a position 30 units ahead of spike trap
             if (this->vContinue != 0.0f) {
-                posAhead.x = (Math_SinS(thisx->posRot.rot.y) * 30.0f) + thisx->posRot.pos.x;
-                posAhead.z = (Math_CosS(thisx->posRot.rot.y) * 30.0f) + thisx->posRot.pos.z;
-                posAhead.y = thisx->posRot.pos.y;
-                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->posRot.pos, &posAhead, &colPoint, &colPoly, 1,
-                                            1, 0, 1, &bgId) == true) {
+                posAhead.x = (Math_SinS(thisx->world.rot.y) * 30.0f) + thisx->world.pos.x;
+                posAhead.z = (Math_CosS(thisx->world.rot.y) * 30.0f) + thisx->world.pos.z;
+                posAhead.y = thisx->world.pos.y;
+                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->world.pos, &posAhead, &colPoint, &colPoly, 1, 1,
+                                            0, 1, &bgId) == true) {
                     this->vContinue = 0.0f;
                 }
             }
             // If spike trap is touching an actor which is in the path of the spike trap
             if (touchingActor && (this->vContinue != 0.0f)) {
                 angleToCollidedActor =
-                    Math_Vec3f_Yaw(&thisx->posRot.pos, &this->collider.base.oc->posRot.pos) - thisx->posRot.rot.y;
+                    Math_Vec3f_Yaw(&thisx->world.pos, &this->collider.base.oc->world.pos) - thisx->world.rot.y;
                 if (ABS(angleToCollidedActor) < 0x1000) {
                     this->vContinue = 0.0f;
                 }
             }
             // If any of the above three conditions are met, turn around
             if (this->vContinue == 0.0f) {
-                thisx->posRot.rot.y += 0x8000;
+                thisx->world.rot.y += 0x8000;
                 Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
             }
-        } else if (thisx->params & SPIKETRAP_CIRCULAR) {
+        } else if (thisx->params & SPIKETRAP_MODE_CIRCULAR) {
             temp_cond = Math_SinS(this->vAngularPos);
             this->vAngularPos += this->vAngularVel;
             // Every full circle make a sound:
             if ((temp_cond < 0.0f) && (Math_SinS(this->vAngularPos) >= 0.0f)) {
                 Audio_PlayActorSound2(thisx, NA_SE_EV_ROUND_TRAP_MOVE);
             }
-            thisx->posRot.pos.x = (this->vRadius * Math_SinS(this->vAngularPos)) + thisx->initPosRot.pos.x;
-            thisx->posRot.pos.z = (this->vRadius * Math_CosS(this->vAngularPos)) + thisx->initPosRot.pos.z;
-            thisx->posRot.pos.y = thisx->groundY;
-            thisx->pos4 = thisx->posRot.pos;
+            thisx->world.pos.x = (this->vRadius * Math_SinS(this->vAngularPos)) + thisx->home.pos.x;
+            thisx->world.pos.z = (this->vRadius * Math_CosS(this->vAngularPos)) + thisx->home.pos.z;
+            thisx->world.pos.y = thisx->floorHeight;
+            thisx->prevPos = thisx->world.pos;
         } else { // 4 way movement
             // if moving outwards:
             if (this->vMovementMetric != 0.0f) {
                 switch (this->vClosestDirection) { // movement direction relative to spike trap
                     case DIR_FWD:
-                        if (!(thisx->params & SPIKETRAP_FWD_ALLOWED)) {
+                        if (!(thisx->params & SPIKETRAP_FOURWAY_FWD_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
                         } else if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) > 0x6000)) {
                             this->vMovementMetric = 0.0f;
@@ -230,14 +237,14 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
                                 Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
-                            this->vMovementMetric = Math_SmoothStepToF(&thisx->posRot.pos.z, this->targetPosFwd.z, 1.0f,
+                            this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosFwd.z, 1.0f,
                                                                        this->moveSpeedForwardBack.z, 0.0f);
-                            this->vMovementMetric += Math_SmoothStepToF(&thisx->posRot.pos.x, this->targetPosFwd.x,
-                                                                        1.0f, this->moveSpeedForwardBack.x, 0.0f);
+                            this->vMovementMetric += Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosFwd.x, 1.0f,
+                                                                        this->moveSpeedForwardBack.x, 0.0f);
                         }
                         break;
                     case DIR_LEFT:
-                        if (!(thisx->params & SPIKETRAP_LEFT_ALLOWED)) {
+                        if (!(thisx->params & SPIKETRAP_FOURWAY_LEFT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
                         } else if ((thisx->bgCheckFlags & 8) && (angleToWall < -0x2000) && (angleToWall > -0x6000)) {
                             this->vMovementMetric = 0.0f;
@@ -252,14 +259,14 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
                                 Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
-                            this->vMovementMetric = Math_SmoothStepToF(&thisx->posRot.pos.x, this->targetPosLeft.x,
-                                                                       1.0f, this->moveSpeedLeftRight.x, 0.0f);
-                            this->vMovementMetric += Math_SmoothStepToF(&thisx->posRot.pos.z, this->targetPosLeft.z,
+                            this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosLeft.x, 1.0f,
+                                                                       this->moveSpeedLeftRight.x, 0.0f);
+                            this->vMovementMetric += Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosLeft.z,
                                                                         1.0f, this->moveSpeedLeftRight.z, 0.0f);
                         }
                         break;
                     case DIR_BACK:
-                        if (!(thisx->params & SPIKETRAP_BACK_ALLOWED)) {
+                        if (!(thisx->params & SPIKETRAP_FOURWAY_BACK_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
                         } else if ((thisx->bgCheckFlags & 8) && (ABS(angleToWall) < 0x2000)) {
                             this->vMovementMetric = 0.0f;
@@ -273,14 +280,14 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
                                 Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
-                            this->vMovementMetric = Math_SmoothStepToF(&thisx->posRot.pos.z, this->targetPosBack.z,
-                                                                       1.0f, this->moveSpeedForwardBack.z, 0.0f);
-                            this->vMovementMetric += Math_SmoothStepToF(&thisx->posRot.pos.x, this->targetPosBack.x,
+                            this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosBack.z, 1.0f,
+                                                                       this->moveSpeedForwardBack.z, 0.0f);
+                            this->vMovementMetric += Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosBack.x,
                                                                         1.0f, this->moveSpeedForwardBack.x, 0.0f);
                         }
                         break;
                     case DIR_RIGHT:
-                        if (!(thisx->params & SPIKETRAP_RIGHT_ALLOWED)) {
+                        if (!(thisx->params & SPIKETRAP_FOURWAY_RIGHT_ALLOWED)) {
                             this->vMovementMetric = 0.0f;
                         } else if ((thisx->bgCheckFlags & 8) && (angleToWall > 0x2000) && (angleToWall < 0x6000)) {
                             this->vMovementMetric = 0.0f;
@@ -295,9 +302,9 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                             if (this->vMovementMetric == BEGIN_MOVE_OUT) {
                                 Audio_PlayActorSound2(thisx, NA_SE_EV_SPINE_TRAP_MOVE);
                             }
-                            this->vMovementMetric = Math_SmoothStepToF(&thisx->posRot.pos.x, this->targetPosRight.x,
+                            this->vMovementMetric = Math_SmoothStepToF(&thisx->world.pos.x, this->targetPosRight.x,
                                                                        1.0f, this->moveSpeedLeftRight.x, 0.0f);
-                            this->vMovementMetric += Math_SmoothStepToF(&thisx->posRot.pos.z, this->targetPosRight.z,
+                            this->vMovementMetric += Math_SmoothStepToF(&thisx->world.pos.z, this->targetPosRight.z,
                                                                         1.0f, this->moveSpeedLeftRight.z, 0.0f);
                         }
                         break;
@@ -306,24 +313,22 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                     this->vMovementMetric = 0.0f;
                 }
                 // if in initial position:
-            } else if ((thisx->posRot.pos.x == thisx->initPosRot.pos.x) &&
-                       (thisx->posRot.pos.z == thisx->initPosRot.pos.z)) {
+            } else if ((thisx->world.pos.x == thisx->home.pos.x) && (thisx->world.pos.z == thisx->home.pos.z)) {
                 // of the available 4-way directions, get the one which is closest to the direction of player:
-                this->vClosestDirection = ((thisx->yawTowardsLink - thisx->posRot.rot.y) + 0x2000) & 0xC000;
+                this->vClosestDirection = ((thisx->yawTowardsPlayer - thisx->world.rot.y) + 0x2000) & 0xC000;
                 this->vMovementMetric = 0.0f;
-                if (thisx->xzDistToLink < 200.0f) {
+                if (thisx->xzDistToPlayer < 200.0f) {
                     this->vMovementMetric = BEGIN_MOVE_OUT;
                 }
                 // If returning to origin:
             } else {
                 // Of the four real world compass directions, get the one which is closest to the movement direction of
                 // the returning spike. Note that this is different from the previous usages of vClosestDirection
-                this->vClosestDirection =
-                    (Math_Vec3f_Yaw(&thisx->posRot.pos, &thisx->initPosRot.pos) + 0x2000) & 0xC000;
+                this->vClosestDirection = (Math_Vec3f_Yaw(&thisx->world.pos, &thisx->home.pos) + 0x2000) & 0xC000;
                 switch (this->vClosestDirection) {
                     case 0: // movement is closest to +z direction
                         if (thisx->bgCheckFlags & 8) {
-                            if (ABS(thisx->wallPolyRot) > 0x6000) {
+                            if (ABS(thisx->wallYaw) > 0x6000) {
                                 blockedOnReturn = true;
                             }
                         } else if (touchingActor && (ABS(angleToCollidedActor) > 0x6000)) {
@@ -332,7 +337,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         break;
                     case 0x4000: // movement is closest to +x direction
                         if (thisx->bgCheckFlags & 8) {
-                            if ((thisx->wallPolyRot < -0x2000) && (thisx->wallPolyRot > -0x6000)) {
+                            if ((thisx->wallYaw < -0x2000) && (thisx->wallYaw > -0x6000)) {
                                 blockedOnReturn = true;
                             }
                         } else if (touchingActor && (angleToCollidedActor < -0x2000) &&
@@ -342,7 +347,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         break;
                     case -0x8000: // movement is closest to -z direction
                         if (thisx->bgCheckFlags & 8) {
-                            if (ABS(thisx->wallPolyRot) < 0x2000) {
+                            if (ABS(thisx->wallYaw) < 0x2000) {
                                 blockedOnReturn = true;
                             }
                         } else if (touchingActor && (ABS(angleToCollidedActor) < 0x2000)) {
@@ -351,7 +356,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         break;
                     case -0x4000: // movement is closest to -x direction
                         if (thisx->bgCheckFlags & 8) {
-                            if ((thisx->wallPolyRot > 0x2000) && (thisx->wallPolyRot < 0x6000)) {
+                            if ((thisx->wallYaw > 0x2000) && (thisx->wallYaw < 0x6000)) {
                                 blockedOnReturn = true;
                             }
                         } else if (touchingActor && (angleToCollidedActor > 0x2000) &&
@@ -361,25 +366,25 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
                         break;
                 }
                 if (!blockedOnReturn) {
-                    Math_SmoothStepToF(&thisx->posRot.pos.x, thisx->initPosRot.pos.x, 1.0f, 3.0f, 0.0f);
-                    Math_SmoothStepToF(&thisx->posRot.pos.z, thisx->initPosRot.pos.z, 1.0f, 3.0f, 0.0f);
+                    Math_SmoothStepToF(&thisx->world.pos.x, thisx->home.pos.x, 1.0f, 3.0f, 0.0f);
+                    Math_SmoothStepToF(&thisx->world.pos.z, thisx->home.pos.z, 1.0f, 3.0f, 0.0f);
                 }
             }
         }
         Actor_MoveForward(thisx); // Only used by straight line logic
         // Adjust position using bgcheck, but do not adjust x, z position if in straight line mode:
-        if (thisx->params & SPIKETRAP_LINEAR) {
-            posTemp = thisx->posRot.pos;
+        if (thisx->params & SPIKETRAP_MODE_LINEAR) {
+            posTemp = thisx->world.pos;
         }
-        func_8002E4B4(globalCtx, thisx, 25.0f, 20.0f, 20.0f, 0x1D);
-        if (thisx->params & SPIKETRAP_LINEAR) {
-            thisx->posRot.pos.x = posTemp.x;
-            thisx->posRot.pos.z = posTemp.z;
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 25.0f, 20.0f, 20.0f, 0x1D);
+        if (thisx->params & SPIKETRAP_MODE_LINEAR) {
+            thisx->world.pos.x = posTemp.x;
+            thisx->world.pos.z = posTemp.z;
         }
     }
-    Collider_CylinderUpdate(thisx, &this->collider);
+    Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    if (thisx->dmgEffectTimer == 0) {
+    if (thisx->colorFilterTimer == 0) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

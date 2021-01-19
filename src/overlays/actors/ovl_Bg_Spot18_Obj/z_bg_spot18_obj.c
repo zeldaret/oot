@@ -32,7 +32,7 @@ void func_808B9040(BgSpot18Obj* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot18_Obj_InitVars = {
     ACTOR_BG_SPOT18_OBJ,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Obj),
@@ -163,10 +163,8 @@ s32 func_808B8BB4(BgSpot18Obj* this, GlobalContext* globalCtx) {
         func_808B9030(this);
     } else if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         func_808B9030(this);
-        this->dyna.actor.posRot.pos.x =
-            (Math_SinS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;
-        this->dyna.actor.posRot.pos.z =
-            (Math_CosS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z;
+        this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
     } else {
         func_808B8E64(this);
     }
@@ -212,7 +210,7 @@ void func_808B8DD0(BgSpot18Obj* this, GlobalContext* globalCtx) {
 }
 
 void func_808B8DDC(BgSpot18Obj* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f, 28);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 46.0f, 0.0f, 28);
 }
 
 void func_808B8E20(BgSpot18Obj* this, GlobalContext* globalCtx) {
@@ -242,7 +240,7 @@ void func_808B8E7C(BgSpot18Obj* this, GlobalContext* globalCtx) {
 
 void func_808B8EE0(BgSpot18Obj* this) {
     this->actionFunc = func_808B8F08;
-    this->dyna.actor.posRot.rot.y = 0;
+    this->dyna.actor.world.rot.y = 0;
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.velocity.z = 0.0f;
     this->dyna.actor.velocity.y = 0.0f;
@@ -257,13 +255,11 @@ void func_808B8F08(BgSpot18Obj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     func_808B8DDC(this, globalCtx);
 
-    if (Math3D_Dist2DSq(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.x,
-                        this->dyna.actor.initPosRot.pos.z) >= 6400.0f) {
+    if (Math3D_Dist2DSq(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.x,
+                        this->dyna.actor.home.pos.z) >= 6400.0f) {
         func_808B9030(this);
-        this->dyna.actor.posRot.pos.x =
-            (Math_SinS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.x;
-        this->dyna.actor.posRot.pos.z =
-            (Math_CosS(this->dyna.actor.posRot.rot.y) * 80.0f) + this->dyna.actor.initPosRot.pos.z;
+        this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.actor.world.rot.y) * 80.0f) + this->dyna.actor.home.pos.z;
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);

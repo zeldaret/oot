@@ -61,7 +61,7 @@ extern FlexSkeletonHeader D_06007958;
 
 const ActorInit En_Daiku_InitVars = {
     ACTOR_EN_DAIKU,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DAIKU,
     sizeof(EnDaiku),
@@ -72,14 +72,61 @@ const ActorInit En_Daiku_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 66, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static DamageTable sDamageTable = { 0 };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(0, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(0, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(0, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0x0),
+    /* Master sword  */ DMG_ENTRY(0, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(0, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(0, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(0, 0x0),
+    /* Light arrow   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0x0),
+    /* Giant spin    */ DMG_ENTRY(0, 0x0),
+    /* Master spin   */ DMG_ENTRY(0, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0x0),
+    /* Giant jump    */ DMG_ENTRY(0, 0x0),
+    /* Master jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
 static EnDaikuAnimation sAnimations[] = {
     { 0x06001AB0, 1.0f, 0, 0 }, { 0x06007DE0, 1.0f, 0, 0 }, { 0x0600885C, 1.0f, 0, 0 },
@@ -133,7 +180,7 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->startFightSwitchFlag = this->actor.shape.rot.z & 0x3F;
     this->actor.shape.rot.z = 0;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, this->jointTable, this->morphTable, 17);
 
     if (!noKill) {
@@ -143,18 +190,18 @@ void EnDaiku_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
 
     Animation_Change(&this->skelAnime, sAnimations[0].anim, 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[0].anim),
                      sAnimations[0].mode, sAnimations[0].transitionRate);
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->currentAnimIndex = -1;
     this->runSpeed = 5.0f;
-    this->initRot = this->actor.posRot.rot;
-    this->initPos = this->actor.posRot.pos;
+    this->initRot = this->actor.world.rot;
+    this->initPos = this->actor.world.pos;
 
     if (globalCtx->sceneNum == SCENE_GERUDOWAY) {
         EnDaiku_Change(this, ENDAIKU_ANIM_STAND, &this->currentAnimIndex);
@@ -336,7 +383,7 @@ void EnDaiku_Jailed(EnDaiku* this, GlobalContext* globalCtx) {
     }
     SkelAnime_Update(&this->skelAnime);
 
-    gerudo = (EnGeldB*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_GELDB, ACTORTYPE_ENEMY);
+    gerudo = (EnGeldB*)Actor_Find(&globalCtx->actorCtx, ACTOR_EN_GELDB, ACTORCAT_ENEMY);
     if (gerudo == NULL) {
         this->stateFlags |= ENDAIKU_STATEFLAG_GERUDODEFEATED;
         this->stateFlags &= ~ENDAIKU_STATEFLAG_GERUDOFIGHTING;
@@ -386,8 +433,8 @@ void EnDaiku_InitEscape(EnDaiku* this, GlobalContext* globalCtx) {
     path = &globalCtx->setupPathList[this->actor.params >> 4 & 0xF];
     while (!exitLoop) {
         pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
-        dx = pointPos->x - this->actor.posRot.pos.x;
-        dz = pointPos->z - this->actor.posRot.pos.z;
+        dx = pointPos->x - this->actor.world.pos.x;
+        dz = pointPos->z - this->actor.world.pos.z;
         this->rotYtowardsPath = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
         dxz = sqrtf(SQ(dx) + SQ(dz));
         if (dxz > 10.0f) {
@@ -425,19 +472,19 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     eyePosDeltaLocal.x = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.x;
     eyePosDeltaLocal.y = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.y;
     eyePosDeltaLocal.z = sEscapeSubCamParams[this->actor.params & 3].eyePosDeltaLocal.z;
-    Matrix_RotateY(this->actor.posRot.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
+    Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
     Matrix_MultVec3f(&eyePosDeltaLocal, &eyePosDeltaWorld);
 
-    this->subCamEyeInit.x = this->subCamEye.x = this->actor.posRot.pos.x + eyePosDeltaWorld.x;
-    this->subCamEyeInit.y = this->subCamEye.y = this->actor.posRot.pos.y + eyePosDeltaWorld.y;
+    this->subCamEyeInit.x = this->subCamEye.x = this->actor.world.pos.x + eyePosDeltaWorld.x;
+    this->subCamEyeInit.y = this->subCamEye.y = this->actor.world.pos.y + eyePosDeltaWorld.y;
     if (1) {}
-    this->subCamEyeInit.z = this->subCamEye.z = this->actor.posRot.pos.z + eyePosDeltaWorld.z;
+    this->subCamEyeInit.z = this->subCamEye.z = this->actor.world.pos.z + eyePosDeltaWorld.z;
 
     if (1) {}
-    this->subCamAtTarget.x = this->subCamAt.x = this->actor.posRot.pos.x;
-    this->subCamAtTarget.y = this->subCamAt.y = this->actor.posRot.pos.y + 60.0f;
+    this->subCamAtTarget.x = this->subCamAt.x = this->actor.world.pos.x;
+    this->subCamAtTarget.y = this->subCamAt.y = this->actor.world.pos.y + 60.0f;
     if (1) {}
-    this->subCamAtTarget.z = this->subCamAt.z = this->actor.posRot.pos.z;
+    this->subCamAtTarget.z = this->subCamAt.z = this->actor.world.pos.z;
 
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -451,9 +498,9 @@ void EnDaiku_InitSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
 void EnDaiku_UpdateSubCamera(EnDaiku* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    this->subCamAtTarget.x = this->actor.posRot.pos.x;
-    this->subCamAtTarget.y = this->actor.posRot.pos.y + 60.0f;
-    this->subCamAtTarget.z = this->actor.posRot.pos.z;
+    this->subCamAtTarget.x = this->actor.world.pos.x;
+    this->subCamAtTarget.y = this->actor.world.pos.y + 60.0f;
+    this->subCamAtTarget.z = this->actor.world.pos.z;
 
     Math_SmoothStepToF(&this->subCamAt.x, this->subCamAtTarget.x, 1.0f, 1000.0f, 0.0f);
     Math_SmoothStepToF(&this->subCamAt.y, this->subCamAtTarget.y, 1.0f, 1000.0f, 0.0f);
@@ -501,8 +548,8 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
 
     path = &globalCtx->setupPathList[this->actor.params >> 4 & 0xF];
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points) + this->waypoint;
-    dx = pointPos->x - this->actor.posRot.pos.x;
-    dz = pointPos->z - this->actor.posRot.pos.z;
+    dx = pointPos->x - this->actor.world.pos.x;
+    dz = pointPos->z - this->actor.world.pos.z;
     ry = Math_FAtan2F(dx, dz) * (0x8000 / M_PI);
     dxz = sqrtf(SQ(dx) + SQ(dz));
     if (dxz <= 20.88f) {
@@ -517,10 +564,10 @@ void EnDaiku_EscapeRun(EnDaiku* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, ry, 1, 0xFA0, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     Math_SmoothStepToF(&this->actor.speedXZ, this->runSpeed, 0.6f, dxz, 0.0f);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     if (this->subCamActive) {
         EnDaiku_UpdateSubCamera(this, globalCtx);
@@ -544,15 +591,15 @@ void EnDaiku_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     this->actionFunc(this, globalCtx);
 
     if (this->stateFlags & ENDAIKU_STATEFLAG_1) {
-        this->unk_244.unk_18.x = player->actor.posRot2.pos.x;
-        this->unk_244.unk_18.y = player->actor.posRot2.pos.y;
-        this->unk_244.unk_18.z = player->actor.posRot2.pos.z;
+        this->unk_244.unk_18.x = player->actor.focus.pos.x;
+        this->unk_244.unk_18.y = player->actor.focus.pos.y;
+        this->unk_244.unk_18.z = player->actor.focus.pos.z;
 
         if (this->stateFlags & ENDAIKU_STATEFLAG_2) {
             func_80034A14(&this->actor, &this->unk_244, 0, 4);
@@ -610,7 +657,7 @@ void EnDaiku_PostLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3s
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku.c", 1323);
 
     if (limb == 15) { // head
-        Matrix_MultVec3f(&targetPosHeadLocal, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&targetPosHeadLocal, &this->actor.focus.pos);
         gSPDisplayList(POLY_OPA_DISP++, hairDLists[this->actor.params & 3]);
     }
 

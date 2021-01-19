@@ -14,7 +14,7 @@ typedef struct BgYdanMaruta {
     /* 0x0168 */ u8 unk_168;
     /* 0x016A */ s16 unk_16A;
     /* 0x016C */ ColliderTris collider;
-    /* 0x018C */ ColliderTrisItem colliderItems[2];
+    /* 0x018C */ ColliderTrisElement elements[2];
 } BgYdanMaruta; // size = 0x0244
 
 extern const ActorInit Bg_Ydan_Maruta_InitVars;
