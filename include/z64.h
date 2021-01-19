@@ -298,16 +298,10 @@ typedef enum {
 } MessageBoxIcon;
 
 typedef struct {
-    /* 0x0000 */ s8     unk_0; // "status"
-    /* 0x0001 */ u8     unk_1; // "status"
-    /* 0x0002 */ s8     unk_2;
-} SubMessageContext_E2B8; // some kind of audio info?
-
-// typedef struct {
-//     /* 0x0000 */ u32 offset;
-//     /* 0x0004 */ u32 size;
-//     /* 0x0008 */ u8 xy;
-// } MessageData;
+    /* 0x00 */ u8 noteIdx;
+    /* 0x01 */ u8 state;    // "status"
+    /* 0x02 */ u8 pos;      // "locate"
+} OcarinaStaff;
 
 #define LANGUAGE_ENG 0
 #define LANGUAGE_GER 1
@@ -338,7 +332,7 @@ typedef struct {
     /* 0x0128 */ Font   font;
     /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x04];
-    /* 0xE2B8 */ SubMessageContext_E2B8* unk_E2B8; // original name : info
+    /* 0xE2B8 */ OcarinaStaff* unk_E2B8; // original name : info
     /* 0xE2BC */ u8     unk_E2BC;
     /* 0xE2BD */ char   unk_E2BD[0x02];
     /* 0xE2BF */ u8     unk_E2BF;
@@ -360,8 +354,7 @@ typedef struct {
     /* 0xE300 */ s32    unk_E300; // original name : msg_data
     /* 0xE304 */ u8     msgMode;
     /* 0xE305 */ u8     unk_E305;
-    /* 0xE306 */ char   unk_E306[2]; // decoded message buffer, TODO size
-    /* 0xE308 */ char   unk_E308[0xC6];
+    /* 0xE306 */ u8     unk_E306[200]; // decoded message buffer, TODO size
     /* 0xE3CE */ u16    unk_E3CE; // original name : rdp
     /* 0xE3D0 */ u16    unk_E3D0;
     /* 0xE3D2 */ u16    unk_E3D2;
