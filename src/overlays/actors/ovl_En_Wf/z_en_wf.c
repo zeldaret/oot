@@ -25,12 +25,14 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx);
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx);
 void func_80B359A8(EnWf* this, GlobalContext* globalCtx);
 void func_80B35C10(EnWf* this, GlobalContext* globalCtx);
-void func_80B35D90(EnWf* this, GlobalContext* globalCtx);
-void func_80B35EE4(EnWf* this, GlobalContext* globalCtx);
+void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx);
+void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx);
 void func_80B361A0(EnWf* this, GlobalContext* globalCtx);
 void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx);
 void func_80B36740(EnWf* this, GlobalContext* globalCtx);
 void func_80B36D3C(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupDeath(EnWf* this);
+void func_80B360E8(EnWf* this);
 
 extern FlexSkeletonHeader D_06003BC0;
 extern AnimationHeader D_06004638;
@@ -344,12 +346,30 @@ void EnWf_SetupStunned(EnWf* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06009B20, 0.0f);
     this->unk_2D4 = 15;
-    EnWf_SetupAction(this, func_80B35D90);
+    EnWf_SetupAction(this, EnWf_Stunned);
 }
 
-// EnWf_Stunned
-void func_80B35D90(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B35D90.s")
+void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx) {
+    if (this->actor.bgCheckFlags & 2) {
+        this->actor.speedXZ = 0.0f;
+    }
+
+    if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.speedXZ < 0.0f) {
+            this->actor.speedXZ += 0.05f;
+        }
+
+        this->unk_300 = 0;
+    }
+
+    if ((this->actor.dmgEffectTimer == 0) && ((this->actor.bgCheckFlags & 1) != 0)) {
+        if (this->actor.colChkInfo.health == 0) {
+            EnWf_SetupDeath(this);
+        } else {
+            func_80B33FB0(globalCtx, this, 1);
+        }
+    }
+}
 
 void EnWf_SetupDamaged(EnWf* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06009B20, -4.0f);
@@ -365,12 +385,53 @@ void EnWf_SetupDamaged(EnWf* this) {
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DAMAGE);
     this->unk_2D4 = 3;
-    EnWf_SetupAction(this, func_80B35EE4);
+    EnWf_SetupAction(this, EnWf_Damaged);
 }
 
-// EnWf_Damaged
-void func_80B35EE4(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B35EE4.s")
+void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
+    s16 angleToWall;
+
+    if (this->actor.bgCheckFlags & 2) {
+        this->actor.speedXZ = 0.0f;
+    }
+
+    if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.speedXZ < 0.0f) {
+            this->actor.speedXZ += 0.05f;
+        }
+
+        this->unk_300 = 0;
+    }
+
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 4500, 0);
+
+    if ((func_80B33FB0(globalCtx, this, 0) == 0) && (SkelAnime_Update(&this->skelAnime) != 0)) {
+        if ((this->actor.bgCheckFlags & 1) != 0) {
+            angleToWall = this->actor.wallPolyRot - this->actor.shape.rot.y;
+            angleToWall = ABS(angleToWall);
+
+            if ((this->actor.bgCheckFlags & 8) != 0) {
+                if ((ABS(angleToWall) < 12000) && (this->actor.xzDistToLink < 120.0f)) {
+                    func_80B360E8(this);
+                    return;
+                }
+            }
+
+            if (func_80B37830(globalCtx, this) == 0) {
+                if ((this->actor.xzDistToLink <= 80.0f) && (!(func_80033AB8(globalCtx, this))) &&
+                    (globalCtx->gameplayFrames & 7)) {
+                    func_80B35540(this);
+                } else if (Rand_ZeroOne() > 0.5f) {
+                    EnWf_SetupWait(this);
+                    this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
+                    this->unk_2E2 = 30;
+                } else {
+                    EnWf_SetupBackFlip(this);
+                }
+            }
+        }
+    }
+}
 
 // EnWf_Setup?????? (Related to moving around?)
 void func_80B360E8(EnWf* this) {
@@ -388,8 +449,27 @@ void func_80B360E8(EnWf* this) {
 }
 
 // EnWf_?????? (Related to moving around?)
-void func_80B361A0(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B361A0.s")
+void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 4000, 1);
+
+    if (this->actor.velocity.y >= 5.0f) {
+        func_800355B8(globalCtx, &this->unk_4C8);
+        func_800355B8(globalCtx, &this->unk_4BC);
+    }
+
+    if ((SkelAnime_Update(&this->skelAnime)) && (this->actor.bgCheckFlags & 3)) {
+        this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
+        this->actor.shape.rot.x = 0;
+        this->actor.speedXZ = this->actor.velocity.y = 0.0f;
+        this->actor.posRot.pos.y = this->actor.groundY;
+
+        if (func_80033AB8(globalCtx, this) == 0) {
+            func_80B35540(this);
+        } else {
+            EnWf_SetupWait(this);
+        }
+    }
+}
 
 void EnWf_SetupReactToPlayer(EnWf* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_06004CA4);
