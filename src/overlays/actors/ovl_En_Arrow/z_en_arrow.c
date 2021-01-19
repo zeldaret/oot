@@ -127,8 +127,8 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sColliderInit);
 
         if (this->actor.params <= ARROW_NORMAL) {
-            // weird flag assignment required to match
-            this->collider.info.toucherFlags = this->collider.info.toucherFlags &= ~0x18;
+            this->collider.info.toucherFlags &= ~0x18;
+            this->collider.info.toucherFlags |= 0;
         }
 
         if (this->actor.params < 0) {
