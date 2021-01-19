@@ -26,7 +26,7 @@ typedef struct DoorKiller {
     /* 0x021C */ u8 doorObjBankIndex;
     /* 0x021D */ u8 textureEntryIndex;
     /* 0x0220 */ ColliderJntSph colliderJntSph;
-    /* 0x0240 */ ColliderJntSphItem colliderJntSphItems[1];
+    /* 0x0240 */ ColliderJntSphElement colliderJntSphItems[1];
     /* 0x0280 */ DoorKillerActionFunc actionFunc;
 } DoorKiller; // size = 0x0284
 

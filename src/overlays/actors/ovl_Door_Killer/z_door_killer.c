@@ -32,7 +32,7 @@ extern FlexSkeletonHeader D_06001BC8;
 
 const ActorInit Door_Killer_InitVars = {
     ACTOR_DOOR_KILLER,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_DOOR_KILLER,
     sizeof(DoorKiller),
@@ -43,20 +43,48 @@ const ActorInit Door_Killer_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL_SHIELD, 0x11, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x10 }, { 0x0001FFEE, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x10 },
+        { 0x0001FFEE, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 20, 100, 0, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphItemsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { 0, { { 0, 0, 0 }, 100 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
     sJntSphItemsInit,
 };
@@ -110,10 +138,10 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_InitJntSph(globalCtx2, &this->colliderJntSph);
             Collider_SetJntSph(globalCtx2, &this->colliderJntSph, &this->actor, &sJntSphInit,
                                this->colliderJntSphItems);
-            this->colliderJntSph.list[0].dim.worldSphere.radius = 80;
-            this->colliderJntSph.list[0].dim.worldSphere.center.x = (s16)this->actor.posRot.pos.x;
-            this->colliderJntSph.list[0].dim.worldSphere.center.y = (s16)this->actor.posRot.pos.y + 50;
-            this->colliderJntSph.list[0].dim.worldSphere.center.z = (s16)this->actor.posRot.pos.z;
+            this->colliderJntSph.elements[0].dim.worldSphere.radius = 80;
+            this->colliderJntSph.elements[0].dim.worldSphere.center.x = (s16)this->actor.world.pos.x;
+            this->colliderJntSph.elements[0].dim.worldSphere.center.y = (s16)this->actor.world.pos.y + 50;
+            this->colliderJntSph.elements[0].dim.worldSphere.center.z = (s16)this->actor.world.pos.z;
 
             // If tied to a switch flag and that switch flag is already set, kill the actor.
             if ((((this->actor.params >> 8) & 0x3F) != 0x3F) &&
@@ -134,16 +162,16 @@ void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Random trajectories for rubble pieces
             randF = Rand_CenteredFloat(8.0f);
             this->actor.velocity.z = Rand_ZeroFloat(8.0f);
-            this->actor.velocity.x = (Math_CosS(this->actor.posRot.rot.y) * randF) +
-                                     (Math_SinS(this->actor.posRot.rot.y) * this->actor.velocity.z);
-            this->actor.velocity.z = (-Math_SinS(this->actor.posRot.rot.y) * randF) +
-                                     (Math_CosS(this->actor.posRot.rot.y) * this->actor.velocity.z);
+            this->actor.velocity.x = (Math_CosS(this->actor.world.rot.y) * randF) +
+                                     (Math_SinS(this->actor.world.rot.y) * this->actor.velocity.z);
+            this->actor.velocity.z = (-Math_SinS(this->actor.world.rot.y) * randF) +
+                                     (Math_CosS(this->actor.world.rot.y) * this->actor.velocity.z);
             this->actor.velocity.y = Rand_ZeroFloat(4.0f) + 4.0f;
 
             // These are used as the x,y,z rotational velocities in DoorKiller_FallAsRubble
-            this->actor.posRot.rot.x = Rand_CenteredFloat(0x1000);
-            this->actor.posRot.rot.y = Rand_CenteredFloat(0x1000);
-            this->actor.posRot.rot.z = Rand_CenteredFloat(0x1000);
+            this->actor.world.rot.x = Rand_CenteredFloat(0x1000);
+            this->actor.world.rot.y = Rand_CenteredFloat(0x1000);
+            this->actor.world.rot.z = Rand_CenteredFloat(0x1000);
             this->timer = 80;
             break;
     }
@@ -159,17 +187,17 @@ void DoorKiller_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_SpawnRubble(Actor* thisx, GlobalContext* globalCtx) {
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x, thisx->posRot.pos.y + 9.0f,
-                thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z,
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->world.pos.x, thisx->world.pos.y + 9.0f,
+                thisx->world.pos.z, thisx->shape.rot.x, thisx->shape.rot.y, thisx->shape.rot.z,
                 DOOR_KILLER_RUBBLE_PIECE_1);
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x + 7.88f,
-                thisx->posRot.pos.y + 39.8f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y,
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->world.pos.x + 7.88f,
+                thisx->world.pos.y + 39.8f, thisx->world.pos.z, thisx->shape.rot.x, thisx->shape.rot.y,
                 thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_2);
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x - 15.86f,
-                thisx->posRot.pos.y + 61.98f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y,
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->world.pos.x - 15.86f,
+                thisx->world.pos.y + 61.98f, thisx->world.pos.z, thisx->shape.rot.x, thisx->shape.rot.y,
                 thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_3);
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->posRot.pos.x + 3.72f,
-                thisx->posRot.pos.y + 85.1f, thisx->posRot.pos.z, thisx->shape.rot.x, thisx->shape.rot.y,
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_KILLER, thisx->world.pos.x + 3.72f,
+                thisx->world.pos.y + 85.1f, thisx->world.pos.z, thisx->shape.rot.x, thisx->shape.rot.y,
                 thisx->shape.rot.z, DOOR_KILLER_RUBBLE_PIECE_4);
 }
 
@@ -185,10 +213,10 @@ void DoorKiller_FallAsRubble(DoorKiller* this, GlobalContext* globalCtx) {
     this->actor.velocity.x *= 0.98f;
     this->actor.velocity.z *= 0.98f;
 
-    // posRot.rot is repurposed to be the rotation velocity for the rubble pieces
-    this->actor.shape.rot.x += this->actor.posRot.rot.x;
-    this->actor.shape.rot.y += this->actor.posRot.rot.y;
-    this->actor.shape.rot.z += this->actor.posRot.rot.z;
+    // world.rot is repurposed to be the rotation velocity for the rubble pieces
+    this->actor.shape.rot.x += this->actor.world.rot.x;
+    this->actor.shape.rot.y += this->actor.world.rot.y;
+    this->actor.shape.rot.z += this->actor.world.rot.z;
 
     if (this->timer != 0) {
         this->timer--;
@@ -200,14 +228,14 @@ void DoorKiller_FallAsRubble(DoorKiller* this, GlobalContext* globalCtx) {
 
 s32 DoorKiller_IsHit(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = THIS;
-    if ((this->colliderCylinder.base.acFlags & 2) && (this->colliderCylinder.body.acHitItem != NULL)) {
+    if ((this->colliderCylinder.base.acFlags & 2) && (this->colliderCylinder.info.acHitInfo != NULL)) {
         return 1;
     }
     return 0;
 }
 
 void DoorKiller_SetAC(DoorKiller* this, GlobalContext* globalCtx) {
-    Collider_CylinderUpdate(&this->actor, &this->colliderCylinder);
+    Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
 }
@@ -307,26 +335,26 @@ void DoorKiller_FallOver(DoorKiller* this, GlobalContext* globalCtx) {
             pos.y = 0.0f;
             randF = Rand_CenteredFloat(40.0f);
             pos.z = Rand_ZeroFloat(100.0f);
-            pos.x = (Math_CosS(this->actor.posRot.rot.y) * randF) + (Math_SinS(this->actor.posRot.rot.y) * pos.z);
-            pos.z = (-Math_SinS(this->actor.posRot.rot.y) * randF) + (Math_CosS(this->actor.posRot.rot.y) * pos.z);
+            pos.x = (Math_CosS(this->actor.world.rot.y) * randF) + (Math_SinS(this->actor.world.rot.y) * pos.z);
+            pos.z = (-Math_SinS(this->actor.world.rot.y) * randF) + (Math_CosS(this->actor.world.rot.y) * pos.z);
             velocity.x = pos.x * 0.2f;
             velocity.z = pos.z * 0.2f;
             accel.x = -(velocity.x) * 0.1f;
             accel.z = -(velocity.z) * 0.1f;
-            pos.x += this->actor.posRot.pos.x;
-            pos.y += this->actor.posRot.pos.y;
-            pos.z += this->actor.posRot.pos.z;
+            pos.x += this->actor.world.pos.x;
+            pos.y += this->actor.world.pos.y;
+            pos.z += this->actor.world.pos.z;
             func_8002865C(globalCtx, &pos, &velocity, &accel, 300, 30);
         }
     }
     if (!(this->hasHitPlayerOrGround & 1)) {
         Vec3f playerPosRelToDoor;
         Player* player = PLAYER;
-        func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.posRot.pos);
+        func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
         if ((fabsf(playerPosRelToDoor.y) < 20.0f) && (fabsf(playerPosRelToDoor.x) < 20.0f) &&
             (playerPosRelToDoor.z < 100.0f) && (playerPosRelToDoor.z > 0.0f)) {
             this->hasHitPlayerOrGround |= 1;
-            func_8002F6D4(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsLink, 6.0f, 16);
+            func_8002F6D4(globalCtx, &this->actor, 6.0f, this->actor.yawTowardsPlayer, 6.0f, 16);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_KDOOR_HIT);
             func_8002F7DC(&player->actor, NA_SE_PL_BODY_HIT);
         }
@@ -385,7 +413,7 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
     s16 angleToFacingPlayer;
 
     player = PLAYER;
-    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.posRot.pos);
+    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
     // playerIsOpening is set from the player overlay when the player opens the door
     if (this->playerIsOpening != 0) {
         this->actionFunc = DoorKiller_WaitBeforeWobble;
@@ -394,20 +422,20 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
         return;
     }
     if (DoorKiller_IsHit(&this->actor, globalCtx)) {
-        // AC cylinder: wobble if hit by most weapons, die if hit by hammer
-        if ((this->colliderCylinder.body.acHitItem->toucher.flags & 0x1FFA6) != 0) {
+        // AC cylinder: wobble if hit by most weapons, die if hit by explosives or hammer
+        if ((this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & 0x1FFA6) != 0) {
             this->timer = 16;
             this->actionFunc = DoorKiller_Wobble;
-        } else if ((this->colliderCylinder.body.acHitItem->toucher.flags & 0x48) != 0) {
+        } else if ((this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & 0x48) != 0) {
             DoorKiller_SpawnRubble(&this->actor, globalCtx);
             this->actionFunc = DoorKiller_Die;
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_KDOOR_BREAK);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
         }
     } else if (Actor_GetCollidedExplosive(globalCtx, &this->colliderJntSph.base) != NULL) {
         // AC sphere: die if hit by explosive
         DoorKiller_SpawnRubble(&this->actor, globalCtx);
         this->actionFunc = DoorKiller_Die;
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_KDOOR_BREAK);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_KDOOR_BREAK);
     } else if (!Player_InCsMode(globalCtx) && (fabsf(playerPosRelToDoor.y) < 20.0f) &&
                (fabsf(playerPosRelToDoor.x) < 20.0f) && (playerPosRelToDoor.z < 50.0f) &&
                (playerPosRelToDoor.z > 0.0f)) {

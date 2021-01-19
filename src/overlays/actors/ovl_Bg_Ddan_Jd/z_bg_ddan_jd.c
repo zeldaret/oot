@@ -23,7 +23,7 @@ extern CollisionHeader D_06003CE0;
 
 const ActorInit Bg_Ddan_Jd_InitVars = {
     ACTOR_BG_DDAN_JD,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_DDAN_OBJECTS,
     sizeof(BgDdanJd),
@@ -94,35 +94,35 @@ void BgDdanJd_Idle(BgDdanJd* this, GlobalContext* globalCtx) {
         this->ySpeed = SHORTCUT_Y_SPEED;
         this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
         this->idleTimer = 0;
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_MIDDLE;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
         func_800800F8(globalCtx, 0xBF4, -0x63, &this->dyna.actor, 0);
     }
     if (this->idleTimer == 0) {
         this->idleTimer = IDLE_FRAMES;
         if (this->state == STATE_GO_BOTTOM) {
             this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
-            this->targetY = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_MIDDLE;
+            this->targetY = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
         } else if (this->state == STATE_GO_MIDDLE_FROM_BOTTOM) {
             // If the platform has been activated as a shortcut
             if (this->ySpeed != DEFAULT_Y_SPEED) {
                 this->state = STATE_GO_TOP;
-                this->targetY = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_TOP;
+                this->targetY = this->dyna.actor.home.pos.y + MOVE_HEIGHT_TOP;
             } else {
                 this->state = STATE_GO_BOTTOM;
-                this->targetY = this->dyna.actor.initPosRot.pos.y;
+                this->targetY = this->dyna.actor.home.pos.y;
             }
         } else if (this->state == STATE_GO_MIDDLE_FROM_TOP) {
             // If the platform has been activated as a shortcut
             if (this->ySpeed != DEFAULT_Y_SPEED) {
                 this->state = STATE_GO_TOP;
-                this->targetY = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_TOP;
+                this->targetY = this->dyna.actor.home.pos.y + MOVE_HEIGHT_TOP;
             } else {
                 this->state = STATE_GO_BOTTOM;
-                this->targetY = this->dyna.actor.initPosRot.pos.y;
+                this->targetY = this->dyna.actor.home.pos.y;
             }
         } else if (this->state == STATE_GO_TOP) {
             this->state = STATE_GO_MIDDLE_FROM_TOP;
-            this->targetY = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_MIDDLE;
+            this->targetY = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
         }
         this->actionFunc = BgDdanJd_Move;
     }
@@ -133,20 +133,20 @@ void BgDdanJd_MoveEffects(BgDdanJd* this, GlobalContext* globalCtx) {
     Vec3f dustPos;
 
     // Generate random dust particles at the platform's base.
-    dustPos.y = this->dyna.actor.initPosRot.pos.y;
+    dustPos.y = this->dyna.actor.home.pos.y;
     if (globalCtx->gameplayFrames & 1) {
-        dustPos.x = this->dyna.actor.posRot.pos.x + 65.0f;
-        dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
+        dustPos.x = this->dyna.actor.world.pos.x + 65.0f;
+        dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.z;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
-        dustPos.x = this->dyna.actor.posRot.pos.x - 65.0f;
-        dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.z;
+        dustPos.x = this->dyna.actor.world.pos.x - 65.0f;
+        dustPos.z = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.z;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     } else {
-        dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
-        dustPos.z = this->dyna.actor.posRot.pos.z + 65.0f;
+        dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.x;
+        dustPos.z = this->dyna.actor.world.pos.z + 65.0f;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
-        dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.posRot.pos.x;
-        dustPos.z = this->dyna.actor.posRot.pos.z - 65.0f;
+        dustPos.x = Rand_CenteredFloat(110.0f) + this->dyna.actor.world.pos.x;
+        dustPos.z = this->dyna.actor.world.pos.z - 65.0f;
         func_80033480(globalCtx, &dustPos, 5.0f, 1, 20, 60, 1);
     }
     if (this->ySpeed == SHORTCUT_Y_SPEED) {
@@ -161,11 +161,11 @@ void BgDdanJd_Move(BgDdanJd* this, GlobalContext* globalCtx) {
         Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
         this->ySpeed = SHORTCUT_Y_SPEED;
         this->state = STATE_GO_MIDDLE_FROM_BOTTOM;
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y + MOVE_HEIGHT_MIDDLE;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + MOVE_HEIGHT_MIDDLE;
         this->idleTimer = 0;
         this->actionFunc = BgDdanJd_Idle;
         func_800800F8(globalCtx, 0xBF4, -0x63, &this->dyna.actor, 0);
-    } else if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->targetY, this->ySpeed)) {
+    } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->targetY, this->ySpeed)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_PILLAR_MOVE_STOP);
         this->actionFunc = BgDdanJd_Idle;
     }

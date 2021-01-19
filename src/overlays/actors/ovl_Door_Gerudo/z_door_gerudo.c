@@ -22,7 +22,7 @@ void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Gerudo_InitVars = {
     ACTOR_DOOR_GERUDO,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_DOOR_GERUDO,
     sizeof(DoorGerudo),
@@ -51,7 +51,7 @@ void DoorGerudo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         this->actionFunc = func_8099485C;
-        thisx->posRot.pos.y = thisx->initPosRot.pos.y + 200.0f;
+        thisx->world.pos.y = thisx->home.pos.y + 200.0f;
     } else {
         this->actionFunc = func_8099485C;
         this->unk_166 = 10;
@@ -69,9 +69,9 @@ f32 func_809946BC(GlobalContext* globalCtx, DoorGerudo* this, f32 arg2, f32 arg3
     Vec3f playerPos;
     Vec3f sp1C;
 
-    playerPos.x = player->actor.posRot.pos.x;
-    playerPos.y = player->actor.posRot.pos.y + arg2;
-    playerPos.z = player->actor.posRot.pos.z;
+    playerPos.x = player->actor.world.pos.x;
+    playerPos.y = player->actor.world.pos.y + arg2;
+    playerPos.z = player->actor.world.pos.z;
     func_8002DBD0(&this->dyna.actor, &sp1C, &playerPos);
 
     if ((arg3 < fabsf(sp1C.x)) || (arg4 < fabsf(sp1C.y))) {
@@ -136,8 +136,7 @@ void func_8099496C(DoorGerudo* this, GlobalContext* globalCtx) {
 
 void func_809949C8(DoorGerudo* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->dyna.actor.velocity.y, 15.0f, 3.0f);
-    Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 200.0f,
-                 this->dyna.actor.velocity.y);
+    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f, this->dyna.actor.velocity.y);
 }
 
 void DoorGerudo_Update(Actor* thisx, GlobalContext* globalCtx) {

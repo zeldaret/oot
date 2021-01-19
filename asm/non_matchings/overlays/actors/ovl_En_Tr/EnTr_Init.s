@@ -14,9 +14,9 @@ glabel EnTr_Init
 /* 00010 80B22D00 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00014 80B22D04 AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00018 80B22D08 AFA50034 */  sw      $a1, 0x0034($sp)
-/* 0001C 80B22D0C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0001C 80B22D0C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 00020 80B22D10 AFB10028 */  sw      $s1, 0x0028($sp)
-/* 00024 80B22D14 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00024 80B22D14 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00028 80B22D18 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0002C 80B22D1C 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00030 80B22D20 0C00AC78 */  jal     ActorShape_Init

@@ -18,8 +18,8 @@ glabel EnZl4_Init
 /* 0063C 80B5BDEC AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00640 80B5BDF0 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00644 80B5BDF4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00648 80B5BDF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0064C 80B5BDFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00648 80B5BDF8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0064C 80B5BDFC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00650 80B5BE00 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00654 80B5BE04 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00658 80B5BE08 0C00AC78 */  jal     ActorShape_Init
@@ -45,7 +45,7 @@ glabel EnZl4_Init
 /* 0069C 80B5BE4C 3C0680B6 */  lui     $a2, %hi(D_80B5E7AC)       ## $a2 = 80B60000
 /* 006A0 80B5BE50 24C6E7AC */  addiu   $a2, $a2, %lo(D_80B5E7AC)  ## $a2 = 80B5E7AC
 /* 006A4 80B5BE54 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 006A8 80B5BE58 0C0187BF */  jal     func_80061EFC
+/* 006A8 80B5BE58 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 006AC 80B5BE5C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 006B0 80B5BE60 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
 /* 006B4 80B5BE64 34A5D70A */  ori     $a1, $a1, 0xD70A           ## $a1 = 3C23D70A

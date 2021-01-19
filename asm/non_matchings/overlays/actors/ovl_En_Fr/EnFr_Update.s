@@ -131,7 +131,7 @@ glabel EnFr_Update
 /* 0046C 80A1AE0C C432D290 */  lwc1    $f18, %lo(D_80A1D290)($at)
 /* 00470 80A1AE10 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00474 80A1AE14 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
-/* 00478 80A1AE18 0C00B56E */  jal     Actor_SetHeight
+/* 00478 80A1AE18 0C00B56E */  jal     Actor_SetFocus
 
 /* 0047C 80A1AE1C E6120070 */  swc1    $f18, 0x0070($s0)          ## 00000070
 /* 00480 80A1AE20 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
