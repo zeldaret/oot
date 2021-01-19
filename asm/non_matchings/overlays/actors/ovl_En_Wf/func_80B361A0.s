@@ -54,7 +54,7 @@ glabel func_80B361A0
 /* 025B4 80B36264 10000004 */  beq     $zero, $zero, .L80B36278   
 /* 025B8 80B36268 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B3626C:
-/* 025BC 80B3626C 0C2CD157 */  jal     func_80B3455C              
+/* 025BC 80B3626C 0C2CD157 */  jal     EnWf_SetupWait              
 /* 025C0 80B36270 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 025C4 80B36274 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80B36278:

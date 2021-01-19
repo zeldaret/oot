@@ -44,7 +44,7 @@ glabel func_80B35D90
 /* 02168 80B35E18 00E02825 */  or      $a1, $a3, $zero            ## $a1 = 00000000
 /* 0216C 80B35E1C 15200005 */  bne     $t1, $zero, .L80B35E34     
 /* 02170 80B35E20 00000000 */  nop
-/* 02174 80B35E24 0C2CDB23 */  jal     func_80B36C8C              
+/* 02174 80B35E24 0C2CDB23 */  jal     EnWf_SetupDeath              
 /* 02178 80B35E28 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 0217C 80B35E2C 10000004 */  beq     $zero, $zero, .L80B35E40   
 /* 02180 80B35E30 8FBF0014 */  lw      $ra, 0x0014($sp)           

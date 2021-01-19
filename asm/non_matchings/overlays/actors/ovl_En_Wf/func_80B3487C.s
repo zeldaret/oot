@@ -189,7 +189,7 @@ glabel func_80B3487C
 /* 00E4C 80B34AFC 10000049 */  beq     $zero, $zero, .L80B34C24   
 /* 00E50 80B34B00 8FA40064 */  lw      $a0, 0x0064($sp)           
 .L80B34B04:
-/* 00E54 80B34B04 0C2CD157 */  jal     func_80B3455C              
+/* 00E54 80B34B04 0C2CD157 */  jal     EnWf_SetupWait              
 /* 00E58 80B34B08 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00E5C 80B34B0C 10000045 */  beq     $zero, $zero, .L80B34C24   
 /* 00E60 80B34B10 8FA40064 */  lw      $a0, 0x0064($sp)           
@@ -261,7 +261,7 @@ glabel func_80B3487C
 /* 00F4C 80B34BFC 00000000 */  nop
 /* 00F50 80B34C00 45000005 */  bc1f    .L80B34C18                 
 /* 00F54 80B34C04 00000000 */  nop
-/* 00F58 80B34C08 0C2CD6E5 */  jal     func_80B35B94              
+/* 00F58 80B34C08 0C2CD6E5 */  jal     EnWf_SetupBackFlip              
 /* 00F5C 80B34C0C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00F60 80B34C10 10000004 */  beq     $zero, $zero, .L80B34C24   
 /* 00F64 80B34C14 8FA40064 */  lw      $a0, 0x0064($sp)           

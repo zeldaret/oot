@@ -41,7 +41,7 @@ glabel func_80B37830
 /* 03C18 80B378C8 00000000 */  nop
 /* 03C1C 80B378CC 45020006 */  bc1fl   .L80B378E8                 
 /* 03C20 80B378D0 861800B6 */  lh      $t8, 0x00B6($s0)           ## 000000B6
-/* 03C24 80B378D4 0C2CD8A2 */  jal     func_80B36288              
+/* 03C24 80B378D4 0C2CD8A2 */  jal     EnWf_SetupReactToPlayer              
 /* 03C28 80B378D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03C2C 80B378DC 10000026 */  beq     $zero, $zero, .L80B37978   
 /* 03C30 80B378E0 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
@@ -67,7 +67,7 @@ glabel func_80B37830
 /* 03C74 80B37924 14200008 */  bne     $at, $zero, .L80B37948     
 /* 03C78 80B37928 00000000 */  nop
 .L80B3792C:
-/* 03C7C 80B3792C 0C2CD96A */  jal     func_80B365A8              
+/* 03C7C 80B3792C 0C2CD96A */  jal     EnWf_SetupSideStep              
 /* 03C80 80B37930 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 03C84 80B37934 C6000068 */  lwc1    $f0, 0x0068($s0)           ## 00000068
 /* 03C88 80B37938 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
@@ -83,7 +83,7 @@ glabel func_80B37830
 /* 03CA8 80B37958 28415FFF */  slti    $at, $v0, 0x5FFF           
 /* 03CAC 80B3795C 10200003 */  beq     $at, $zero, .L80B3796C     
 /* 03CB0 80B37960 00000000 */  nop
-/* 03CB4 80B37964 0C2CD6E5 */  jal     func_80B35B94              
+/* 03CB4 80B37964 0C2CD6E5 */  jal     EnWf_SetupBackFlip              
 /* 03CB8 80B37968 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B3796C:
 /* 03CBC 80B3796C 10000002 */  beq     $zero, $zero, .L80B37978   

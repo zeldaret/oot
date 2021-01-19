@@ -55,12 +55,12 @@ glabel func_80B35C10
 /* 02010 80B35CC0 31F80001 */  andi    $t8, $t7, 0x0001           ## $t8 = 00000000
 /* 02014 80B35CC4 13000005 */  beq     $t8, $zero, .L80B35CDC     
 /* 02018 80B35CC8 00000000 */  nop
-/* 0201C 80B35CCC 0C2CD96A */  jal     func_80B365A8              
+/* 0201C 80B35CCC 0C2CD96A */  jal     EnWf_SetupSideStep              
 /* 02020 80B35CD0 01C02825 */  or      $a1, $t6, $zero            ## $a1 = 00000000
 /* 02024 80B35CD4 10000004 */  beq     $zero, $zero, .L80B35CE8   
 /* 02028 80B35CD8 8FB90024 */  lw      $t9, 0x0024($sp)           
 .L80B35CDC:
-/* 0202C 80B35CDC 0C2CD157 */  jal     func_80B3455C              
+/* 0202C 80B35CDC 0C2CD157 */  jal     EnWf_SetupWait              
 /* 02030 80B35CE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B35CE4:
 /* 02034 80B35CE4 8FB90024 */  lw      $t9, 0x0024($sp)           

@@ -345,12 +345,12 @@ glabel func_80B35024
 /* 01828 80B354D8 00000000 */  nop
 /* 0182C 80B354DC 45000005 */  bc1f    .L80B354F4                 
 /* 01830 80B354E0 00000000 */  nop
-/* 01834 80B354E4 0C2CD6E5 */  jal     func_80B35B94              
+/* 01834 80B354E4 0C2CD6E5 */  jal     EnWf_SetupBackFlip              
 /* 01838 80B354E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0183C 80B354EC 10000010 */  beq     $zero, $zero, .L80B35530   
 /* 01840 80B354F0 8FBF0034 */  lw      $ra, 0x0034($sp)           
 .L80B354F4:
-/* 01844 80B354F4 0C2CD157 */  jal     func_80B3455C              
+/* 01844 80B354F4 0C2CD157 */  jal     EnWf_SetupWait              
 /* 01848 80B354F8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0184C 80B354FC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float

@@ -150,7 +150,7 @@ glabel func_80B355BC
 /* 01AF8 80B357A8 2401000F */  addiu   $at, $zero, 0x000F         ## $at = 0000000F
 /* 01AFC 80B357AC 10C10014 */  beq     $a2, $at, .L80B35800       
 /* 01B00 80B357B0 00000000 */  nop
-/* 01B04 80B357B4 0C2CD157 */  jal     func_80B3455C              
+/* 01B04 80B357B4 0C2CD157 */  jal     EnWf_SetupWait              
 /* 01B08 80B357B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01B0C 80B357BC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
@@ -189,7 +189,7 @@ glabel func_80B355BC
 /* 01B88 80B35838 4502000F */  bc1fl   .L80B35878                 
 /* 01B8C 80B3583C 8619008A */  lh      $t9, 0x008A($s0)           ## 0000008A
 .L80B35840:
-/* 01B90 80B35840 0C2CD157 */  jal     func_80B3455C              
+/* 01B90 80B35840 0C2CD157 */  jal     EnWf_SetupWait              
 /* 01B94 80B35844 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01B98 80B35848 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
@@ -216,7 +216,7 @@ glabel func_80B355BC
 /* 01BE4 80B35894 29012711 */  slti    $at, $t0, 0x2711           
 /* 01BE8 80B35898 45000005 */  bc1f    .L80B358B0                 
 /* 01BEC 80B3589C 00000000 */  nop
-/* 01BF0 80B358A0 0C2CD96A */  jal     func_80B365A8              
+/* 01BF0 80B358A0 0C2CD96A */  jal     EnWf_SetupSideStep              
 /* 01BF4 80B358A4 8FA5004C */  lw      $a1, 0x004C($sp)           
 /* 01BF8 80B358A8 10000014 */  beq     $zero, $zero, .L80B358FC   
 /* 01BFC 80B358AC 8FBF0034 */  lw      $ra, 0x0034($sp)           
