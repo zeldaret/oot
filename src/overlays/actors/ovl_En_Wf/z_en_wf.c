@@ -111,11 +111,8 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-
     thisx->colChkInfo.damageTable = &sDamageTable;
-
     ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
-
     thisx->posRot2.pos = thisx->posRot.pos;
     thisx->colChkInfo.mass = 0xFE;
     thisx->colChkInfo.health = 8;
@@ -173,7 +170,7 @@ void EnWf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             osSyncPrintf("\n\n");
-            // Translation: "Number of concurrent events"
+            // Translation: "☆☆☆☆☆ Number of concurrent events ☆☆☆☆☆"
             osSyncPrintf("\x1b[32m☆☆☆☆☆ 同時発生数 ☆☆☆☆☆%d\n\x1b[m", parent->bodyPartsPos[1].x);
             osSyncPrintf("\n\n");
         }
@@ -207,7 +204,6 @@ void func_80B34428(EnWf* this, GlobalContext* globalCtx) {
 
             if ((this->actor.params != 0) && (this->unk_2FC != 0xFF)) {
                 func_800F5ACC(0x38); // Mini-Boss Battle Theme
-                return;
             }
         }
     } else if (this->actionTimer != 0) {
@@ -218,7 +214,6 @@ void func_80B34428(EnWf* this, GlobalContext* globalCtx) {
 
         if (this->actionTimer == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_APPEAR);
-            return;
         }
     } else if (SkelAnime_Update(&this->skelAnime)) {
         this->actor.scale.y = this->actor.scale.x;
@@ -310,14 +305,14 @@ void func_80B355BC(EnWf* this, GlobalContext* globalCtx);
 
 // EnWf_Setup??????
 void func_80B3590C(EnWf* this) {
-    f32 phi_f0 = 1.0f;
+    f32 endFrame = 1.0f;
 
     if ((s32)this->skelAnime.curFrame >= 0x10) {
-        phi_f0 = 15.0f;
+        endFrame = 15.0f;
     }
 
-    Animation_Change(&this->skelAnime, &D_06004638, -0.5f, this->skelAnime.curFrame - 1.0f, phi_f0, 3, 0.0f);
-    this->unk_2D4 = 0xC;
+    Animation_Change(&this->skelAnime, &D_06004638, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame, 3, 0.0f);
+    this->unk_2D4 = 12;
     this->unk_2F8 = 0;
     EnWf_SetupAction(this, func_80B359A8);
 }
@@ -422,9 +417,9 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        s16 temp_v0_2 = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
-        if ((!(ABS(temp_v0_2) > 0x4000)) && (this->actor.xzDistToLink < 60.0f) &&
+        if ((!(ABS(yawDiff) > 0x4000)) && (this->actor.xzDistToLink < 60.0f) &&
             (ABS(this->actor.yDistToLink) < 50.0f)) {
             if (func_800354B4(globalCtx, this, 100.0f, 10000, 0x4000, this->actor.shape.rot.y)) {
                 if (player->swordAnimation == 0x11) {
@@ -437,10 +432,10 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
                     }
                 }
             } else {
-                s16 temp_a2 = player->actor.shape.rot.y - this->actor.shape.rot.y;
+                s16 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 if (!((func_80033AB8(globalCtx, this)) ||
-                      ((!(globalCtx->gameplayFrames & 1)) && (!(ABS(temp_a2) < 0x38E0))))) {
+                      ((!(globalCtx->gameplayFrames & 1)) && (!(ABS(angleFacingLink) < 0x38E0))))) {
                     func_80B35540(this);
                 } else {
                     func_80B34F28(this);
@@ -537,13 +532,12 @@ void EnWf_ApplyDamage(EnWf* this, GlobalContext* globalCtx) {
         this->colliderSphere.base.acFlags &= ~0x82;
         this->colliderCylinder1.base.acFlags &= ~2;
         this->colliderCylinder2.base.acFlags &= ~2;
-
     } else if ((this->colliderCylinder1.base.acFlags & 2) || (this->colliderCylinder2.base.acFlags & 2)) {
         if (this->unk_2D4 >= 6) {
-            s16 angle = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+            s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
 
             if (((!(this->colliderCylinder1.base.acFlags & 2)) && (this->colliderCylinder2.base.acFlags & 2)) ||
-                (ABS(angle) > 19000)) {
+                (ABS(yawDiff) > 19000)) {
                 this->actor.colChkInfo.damage *= 4;
             }
 
@@ -568,7 +562,7 @@ void EnWf_ApplyDamage(EnWf* this, GlobalContext* globalCtx) {
                         this->fireTimer = 40;
                     }
 
-                    if (Actor_ApplyDamage(&this->actor) == 0) {
+                    if (!(Actor_ApplyDamage(&this->actor))) {
                         EnWf_SetupDeath(this);
                         func_80032C7C(globalCtx, &this->actor);
                     } else {
@@ -588,16 +582,16 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.damageEffect != 6) {
         Actor_MoveForward(this);
-        func_8002E4B4(globalCtx, this, 32.0f, 30.0f, 60.0f, 29);
+        func_8002E4B4(globalCtx, &this->actor, 32.0f, 30.0f, 60.0f, 29);
         this->actionFunc(this, globalCtx);
         EnWf_FaceTowardsPlayer(this, globalCtx);
     }
 
     if (this->actor.bgCheckFlags & 3) {
-        func_800359B8(this, this->actor.shape.rot.y, &this->actor.shape);
+        func_800359B8(&this->actor, this->actor.shape.rot.y, &this->actor.shape.rot);
     } else {
-        Math_SmoothStepToS(&this->actor.shape, 0, 1, 0x3E8, 0);
-        Math_SmoothStepToS(&this->actor.shape.rot.z, 0, 1, 0x3E8, 0);
+        Math_SmoothStepToS(&this->actor.shape, 0, 1, 1000, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.z, 0, 1, 1000, 0);
     }
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
@@ -626,7 +620,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.posRot2.pos.y += 25.0f;
 
     if (this->eyeIndex == 0) {
-        if ((Rand_ZeroOne() < 0.2f) && ((globalCtx->gameplayFrames & 3) == 0) && (this->actor.dmgEffectTimer == 0)) {
+        if ((Rand_ZeroOne() < 0.2f) && (!(globalCtx->gameplayFrames & 3)) && (this->actor.dmgEffectTimer == 0)) {
             this->eyeIndex++;
         }
     } else {
