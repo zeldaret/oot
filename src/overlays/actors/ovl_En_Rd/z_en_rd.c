@@ -269,7 +269,7 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((globalCtx->gameplayFrames & 95) == 0) {
+    if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -352,10 +352,12 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
         }
     }
 
-    DECR(this->unk_307);
+    if (this->unk_307 != 0) {
+        this->unk_307--;
+    }
 
-    if ((this->unk_307 == 0) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
-        (func_8002E084(&this->actor, 0x38E3))) {
+    if (!this->unk_307 && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
+        func_8002E084(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (globalCtx->grabPlayer(globalCtx, player)) {
             this->actor.flags &= ~1;
@@ -371,7 +373,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
 
     if ((this->skelAnime.curFrame == 10.0f) || (this->skelAnime.curFrame == 22.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 95) == 0) {
+    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -420,7 +422,7 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 
     if (this->skelAnime.curFrame == 10.0f || this->skelAnime.curFrame == 22.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 95) == 0) {
+    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -466,7 +468,7 @@ void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
 
     if (this->skelAnime.curFrame == 10.0f || this->skelAnime.curFrame == 22.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 95) == 0) {
+    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
