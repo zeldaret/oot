@@ -124,10 +124,10 @@ void EnBomChu_Explode(EnBomChu* this, GlobalContext* globalCtx) {
     this->actionFunc = EnBomChu_WaitForKill;
 }
 
-void func_809C5B38(Vec3f* arg0, Vec3f* arg1, Vec3f* dest) {
-    dest->x = (arg0->y * arg1->z) - (arg0->z * arg1->y);
-    dest->y = (arg0->z * arg1->x) - (arg0->x * arg1->z);
-    dest->z = (arg0->x * arg1->y) - (arg0->y * arg1->x);
+void EnBomChu_CrossProduct(Vec3f* a, Vec3f* b, Vec3f* dest) {
+    dest->x = (a->y * b->z) - (a->z * b->y);
+    dest->y = (a->z * b->x) - (a->x * b->z);
+    dest->z = (a->x * b->y) - (a->y * b->x);
 }
 
 void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* globalCtx) {
@@ -150,11 +150,11 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
         sp74 = Math_FAcosF(temp_f12);
 
         if (!(sp74 < 0.001f)) {
-            func_809C5B38(&this->unk_160, &sp84, &sp78);
+            EnBomChu_CrossProduct(&this->unk_160, &sp84, &sp78);
             func_800D23FC(sp74, &sp78, 0);
             Matrix_MultVec3f(&this->unk_16C, &sp78);
             this->unk_16C = sp78;
-            func_809C5B38(&this->unk_16C, &sp84, &this->unk_154);
+            EnBomChu_CrossProduct(&this->unk_16C, &sp84, &this->unk_154);
 
             magnitude = Math3D_Vec3fMagnitude(&this->unk_154);
 
