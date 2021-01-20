@@ -7,8 +7,8 @@ glabel EnBrob_Destroy
 /* 00288 809CAD98 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0028C 809CAD9C 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00290 809CADA0 AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00294 809CADA4 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 00294 809CADA4 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00298 809CADA8 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 0029C 809CADAC 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002A0 809CADB0 8FA4001C */  lw      $a0, 0x001C($sp)           

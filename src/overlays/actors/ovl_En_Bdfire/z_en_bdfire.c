@@ -20,7 +20,7 @@ extern UNK_TYPE D_0601D950;
 /*
 const ActorInit En_Bdfire_InitVars = {
     0,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_KINGDODONGO,
     sizeof(EnBdfire),

@@ -12,7 +12,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit En_Jsjutan_InitVars = {
     ACTOR_EN_JSJUTAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnJsjutan),

@@ -19,7 +19,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DEKUJR,
     sizeof(ObjDekujr),
@@ -29,8 +29,14 @@ const ActorInit Obj_Dekujr_InitVars = {
     (ActorFunc)ObjDekujr_Draw,
 };
 
-static ColliderCylinderInit_Actor sCylinderInit = {
-    { NULL, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
+static ColliderCylinderInitToActor sCylinderInit = {
+    {
+        NULL,
+        0x00,
+        0x00,
+        0x39,
+        COLSHAPE_CYLINDER,
+    },
     { 0x02, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 60, 80, 0, { 0, 0, 0 } },
 };
@@ -59,8 +65,8 @@ void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
         ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
         Collider_InitCylinder(globalCtx, &this->collider);
         sCylinderInit.base.actor = thisx; // thisx required to match here
-        Collider_SetCylinder_Actor(globalCtx, &this->collider, &sCylinderInit);
-        this->actor.colChkInfo.mass = 0xFF;
+        Collider_SetCylinderToActor(globalCtx, &this->collider, &sCylinderInit);
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actor.textId = func_80037C30(globalCtx, 0xF);
         Actor_SetScale(&this->actor, 0.4f);
     }
@@ -101,7 +107,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx) {
             ObjDekujr_SetInitialPos(csCmdNPCAction, &initPos);
             ObjDekujr_SetFinalPos(csCmdNPCAction, &finalPos);
             if (this->unk_19C == 0) {
-                this->actor.posRot.pos = initPos;
+                this->actor.world.pos = initPos;
                 this->unk_19C = 1;
             }
             this->actor.shape.rot.x = csCmdNPCAction->urot.x;
@@ -127,7 +133,7 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjDekujr* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     if ((gSaveContext.cutsceneIndex >= 0xFFF0) && (this->unk_19B == 0)) {
         this->unk_19C = 0;
@@ -135,12 +141,12 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->unk_19B == 1) {
         ObjDekujr_ComeUp(this, globalCtx);
-        this->actor.posRot.pos.x += this->actor.velocity.x;
-        this->actor.posRot.pos.y += this->actor.velocity.y;
-        this->actor.posRot.pos.z += this->actor.velocity.z;
+        this->actor.world.pos.x += this->actor.velocity.x;
+        this->actor.world.pos.y += this->actor.velocity.y;
+        this->actor.world.pos.z += this->actor.velocity.z;
     } else {
         func_80037D98(globalCtx, &this->actor, 0xF, &this->unk_1A0);
-        Actor_SetHeight(&this->actor, 40.0f);
+        Actor_SetFocus(&this->actor, 40.0f);
     }
 }
 

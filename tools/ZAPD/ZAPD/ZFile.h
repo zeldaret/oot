@@ -28,6 +28,7 @@ public:
 
 	ZFile(std::string nOutPath, std::string nName);
 	ZFile(ZFileMode mode, tinyxml2::XMLElement* reader, std::string nBasePath, std::string nOutPath, bool placeholderMode);
+	~ZFile();
 
 	std::string GetVarName(int address);
 	void ExtractResources(std::string outputDir);
@@ -36,17 +37,18 @@ public:
 	void AddResource(ZResource* res);
 
 	Declaration* AddDeclaration(uint32_t address, DeclarationAlignment alignment, uint32_t size, std::string varType, std::string varName, std::string body);
-	void AddDeclaration(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, std::string varType, std::string varName, std::string body);
-	void AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, uint32_t size, std::string varType, std::string varName, int arrayItemCnt, std::string body);
-	void AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, std::string varType, std::string varName, int arrayItemCnt, std::string body);
-	void AddDeclarationPlaceholder(uint32_t address);
-	void AddDeclarationPlaceholder(uint32_t address, std::string varName);
-	void AddDeclarationInclude(uint32_t address, std::string includePath, uint32_t size, std::string varType, std::string varName);
-	void AddDeclarationIncludeArray(uint32_t address, std::string includePath, uint32_t size, std::string varType, std::string varName, int arrayItemCnt);
+	Declaration* AddDeclaration(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, std::string varType, std::string varName, std::string body);
+	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, uint32_t size, std::string varType, std::string varName, int arrayItemCnt, std::string body);
+	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, std::string varType, std::string varName, int arrayItemCnt, std::string body);
+	Declaration* AddDeclarationPlaceholder(uint32_t address);
+	Declaration* AddDeclarationPlaceholder(uint32_t address, std::string varName);
+	Declaration* AddDeclarationInclude(uint32_t address, std::string includePath, uint32_t size, std::string varType, std::string varName);
+	Declaration* AddDeclarationIncludeArray(uint32_t address, std::string includePath, uint32_t size, std::string varType, std::string varName, int arrayItemCnt);
 	std::string GetDeclarationName(uint32_t address);
 	std::string GetDeclarationName(uint32_t address, std::string defaultResult);
 	Declaration* GetDeclaration(uint32_t address);
 	Declaration* GetDeclarationRanged(uint32_t address);
+	uint32_t GetDeclarationRangedAddress(uint32_t address);
 	bool HasDeclaration(uint32_t address);
 	std::string GetHeaderInclude();
 	void GeneratePlaceholderDeclarations();
@@ -64,5 +66,6 @@ protected:
 	void GenerateHLIntermediette();
 	void AddDeclarationDebugChecks(uint32_t address);
 	std::string ProcessDeclarations();
+	void ProcessDeclarationText(Declaration* decl);
 	std::string ProcessExterns();
 };

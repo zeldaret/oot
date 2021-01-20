@@ -304,7 +304,7 @@ glabel EnTrap_Update
 /* 00818 80B24E78 AFAC0018 */  sw      $t4, 0x0018($sp)           
 /* 0081C 80B24E7C AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 00820 80B24E80 AFB90010 */  sw      $t9, 0x0010($sp)           
-/* 00824 80B24E84 0C00F7A1 */  jal     func_8003DE84              
+/* 00824 80B24E84 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 00828 80B24E88 E7A40074 */  swc1    $f4, 0x0074($sp)           
 /* 0082C 80B24E8C 44801000 */  mtc1    $zero, $f2                 ## $f2 = 0.00
 /* 00830 80B24E90 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -943,7 +943,7 @@ glabel EnTrap_Update
 /* 010E0 80B25740 240F001D */  addiu   $t7, $zero, 0x001D         ## $t7 = 0000001D
 /* 010E4 80B25744 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 010E8 80B25748 8FA400AC */  lw      $a0, 0x00AC($sp)           
-/* 010EC 80B2574C 0C00B92D */  jal     func_8002E4B4              
+/* 010EC 80B2574C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 010F0 80B25750 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 010F4 80B25754 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 010F8 80B25758 C7A80098 */  lwc1    $f8, 0x0098($sp)           
@@ -956,7 +956,7 @@ glabel EnTrap_Update
 /* 01114 80B25774 260501A0 */  addiu   $a1, $s0, 0x01A0           ## $a1 = 000001A0
 .L80B25778:
 /* 01118 80B25778 AFA50048 */  sw      $a1, 0x0048($sp)           
-/* 0111C 80B2577C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0111C 80B2577C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01120 80B25780 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01124 80B25784 8FA400AC */  lw      $a0, 0x00AC($sp)           
@@ -965,7 +965,7 @@ glabel EnTrap_Update
 /* 01130 80B25790 00812821 */  addu    $a1, $a0, $at              
 /* 01134 80B25794 AFA5004C */  sw      $a1, 0x004C($sp)           
 /* 01138 80B25798 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0113C 80B2579C 8FA60048 */  lw      $a2, 0x0048($sp)           
 /* 01140 80B257A0 920D0114 */  lbu     $t5, 0x0114($s0)           ## 00000114
 /* 01144 80B257A4 8FA5004C */  lw      $a1, 0x004C($sp)           
