@@ -60,7 +60,7 @@ glabel EnYabusameMark_Update
 /* 0066C 80B4342C 460C8480 */  add.s   $f18, $f16, $f12           
 /* 00670 80B43430 E612018C */  swc1    $f18, 0x018C($s0)          ## 0000018C
 /* 00674 80B43434 AFA40050 */  sw      $a0, 0x0050($sp)           
-/* 00678 80B43438 0C0189CD */  jal     func_80062734              
+/* 00678 80B43438 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 0067C 80B4343C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00680 80B43440 8FA40074 */  lw      $a0, 0x0074($sp)           
 /* 00684 80B43444 3C010001 */  lui     $at, 0x0001                ## $at = 00010000

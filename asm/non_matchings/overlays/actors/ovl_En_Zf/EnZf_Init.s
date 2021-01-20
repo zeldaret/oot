@@ -26,8 +26,8 @@ glabel EnZf_Init
 /* 002FC 80B4434C 344CFF00 */  ori     $t4, $v0, 0xFF00           ## $t4 = 0000FF00
 /* 00300 80B44350 A60C001C */  sh      $t4, 0x001C($s0)           ## 0000001C
 .L80B44354:
-/* 00304 80B44354 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
-/* 00308 80B44358 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
+/* 00304 80B44354 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFeet)
+/* 00308 80B44358 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFeet)
 /* 0030C 80B4435C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00310 80B44360 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00314 80B44364 0C00AC78 */  jal     ActorShape_Init
@@ -80,7 +80,7 @@ glabel EnZf_Init
 /* 003C8 80B44418 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 003CC 80B4441C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 003D0 80B44420 3C064296 */  lui     $a2, 0x4296                ## $a2 = 42960000
-/* 003D4 80B44424 0C00B92D */  jal     func_8002E4B4              
+/* 003D4 80B44424 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 003D8 80B44428 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 003DC 80B4442C 240B00FF */  addiu   $t3, $zero, 0x00FF         ## $t3 = 000000FF
 /* 003E0 80B44430 240C0028 */  addiu   $t4, $zero, 0x0028         ## $t4 = 00000028

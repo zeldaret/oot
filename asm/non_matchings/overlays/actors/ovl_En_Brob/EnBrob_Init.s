@@ -71,7 +71,7 @@ glabel EnBrob_Init
 /* 000D4 809CABE4 3C06809D */  lui     $a2, %hi(D_809CBAAC)       ## $a2 = 809D0000
 /* 000D8 809CABE8 24C6BAAC */  addiu   $a2, $a2, %lo(D_809CBAAC)  ## $a2 = 809CBAAC
 /* 000DC 809CABEC 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 000E0 809CABF0 0C0187B5 */  jal     func_80061ED4
+/* 000E0 809CABF0 0C0187B5 */  jal     CollisionCheck_SetInfo
 /* 000E4 809CABF4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000E8 809CABF8 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 000EC 809CABFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
