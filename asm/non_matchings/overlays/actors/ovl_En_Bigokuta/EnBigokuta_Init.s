@@ -68,7 +68,7 @@ glabel EnBigokuta_Init
 /* 000E4 809BCD44 3C06809C */  lui     $a2, %hi(D_809BF460)       ## $a2 = 809C0000
 /* 000E8 809BCD48 24C6F460 */  addiu   $a2, $a2, %lo(D_809BF460)  ## $a2 = 809BF460
 /* 000EC 809BCD4C 24A5F468 */  addiu   $a1, $a1, %lo(D_809BF468)  ## $a1 = 809BF468
-/* 000F0 809BCD50 0C0187B5 */  jal     func_80061ED4
+/* 000F0 809BCD50 0C0187B5 */  jal     CollisionCheck_SetInfo
 /* 000F4 809BCD54 26440098 */  addiu   $a0, $s2, 0x0098           ## $a0 = 00000098
 /* 000F8 809BCD58 8649001C */  lh      $t1, 0x001C($s2)           ## 0000001C
 /* 000FC 809BCD5C 24100001 */  addiu   $s0, $zero, 0x0001         ## $s0 = 00000001
@@ -77,7 +77,7 @@ glabel EnBigokuta_Init
 /* 00108 809BCD68 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0010C 809BCD6C 26651C24 */  addiu   $a1, $s3, 0x1C24           ## $a1 = 00001C24
 /* 00110 809BCD70 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00114 809BCD74 0C00CDD2 */  jal     Actor_ChangeType
+/* 00114 809BCD74 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 00118 809BCD78 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
 /* 0011C 809BCD7C 0C26F4C6 */  jal     func_809BD318

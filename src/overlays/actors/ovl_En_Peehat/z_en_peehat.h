@@ -45,7 +45,7 @@ typedef struct EnPeehat {
     /* 0x02FE */ s16 unk_t_2FE;
     /* 0x0300 */ ColliderCylinder colCylinder;
     /* 0x034C */ ColliderJntSph colJntSph;
-    /* 0x036C */ ColliderJntSphItem colJntSphItemList[1];
+    /* 0x036C */ ColliderJntSphElement colJntSphItemList[1];
     /* 0x03AC */ ColliderQuad colQuad;
 } EnPeehat; // size = 0x042C
 

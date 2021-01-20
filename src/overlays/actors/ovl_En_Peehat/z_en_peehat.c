@@ -45,7 +45,7 @@ extern AnimationHeader D_06000350;
 
 const ActorInit En_Peehat_InitVars = {
     ACTOR_EN_PEEHAT,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_PEEHAT,
     sizeof(EnPeehat),
@@ -56,27 +56,69 @@ const ActorInit En_Peehat_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_WOODEN_SHIELD, 0x00, 0x09, 0x09, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    {
+        COLTYPE_WOOD,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 50, 160, -70, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElemInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 0, { { 0, 0, 0 }, 20 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x09, 0x10, COLSHAPE_JNTSPH },
-    1, sJntSphItemsInit,
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    1,
+    sJntSphElemInit,
 };
 
-static ColliderQuadInit sQuadInit =
-{
-    { COLTYPE_METAL_SHIELD, 0x11, 0x0D, 0x00, 0x00, COLSHAPE_QUAD },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x10 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+static ColliderQuadInit sQuadInit = {
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x10 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
@@ -84,7 +126,7 @@ DamageTable D_80AD27F0 = {
     0xF0, 0x02, 0x01, 0x02, 0xE0, 0x02, 0x02, 0xD2, 0x01, 0x02, 0x04, 0xC4, 0x02, 0x02, 0x02, 0x02, 0x02, 0xC3, 0x60, 0x60, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00, };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_4C, 700, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 700, ICHAIN_STOP),
 };
 
 void EnPeehat_SetActionFunc(EnPeehat* this, EnPeehatActionFunc actionFunc) {
@@ -97,14 +139,14 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     Actor_SetScale(thisx, 36.0f * 0.001f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06001C80, &D_060009C4, this->limbDrawTable, this->transitionDrawTable, 24);
-    ActorShape_Init(&thisx->shape, 100.0f, (void*)&ActorShadow_DrawFunc_Circle, 27.0f);
-    thisx->posRot2.pos = thisx->posRot.pos;
+    ActorShape_Init(&thisx->shape, 100.0f, (void*)&ActorShadow_DrawCircle, 27.0f);
+    thisx->focus.pos = thisx->world.pos;
     this->unk2D4 = 0;
-    thisx->posRot.rot.y = 0;
+    thisx->world.rot.y = 0;
     thisx->colChkInfo.mass = 0xFE;
     thisx->colChkInfo.health = 6;
     thisx->colChkInfo.damageTable = &D_80AD27F0;
-    thisx->groundY = thisx->posRot.pos.y;
+    thisx->floorHeight = thisx->world.pos.y;
     Collider_InitCylinder(globalCtx, &this->colCylinder);
     Collider_SetCylinder(globalCtx, &this->colCylinder, thisx, &sCylinderInit);
     Collider_InitQuad(globalCtx, &this->colQuad);
@@ -137,9 +179,9 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->colCylinder.dim.radius = 25;
         this->colCylinder.dim.height = 15;
         this->colCylinder.dim.yShift = -5;
-        this->colCylinder.body.bumper.flags = 0x1F824;
-        this->colQuad.base.atFlags = 0x11;
-        this->colQuad.base.acFlags = 0x09;
+        this->colCylinder.info.bumper.dmgFlags = 0x1F824;
+        this->colQuad.base.atFlags = AT_ON | AT_TYPE_ENEMY;
+        this->colQuad.base.acFlags = AC_ON | AC_TYPE_PLAYER;
         thisx->naviEnemyId = 0x49; //Larva
         EnPeehat_Larva_SetStateInit(this);
     }
@@ -176,7 +218,7 @@ void EnPeehat_SpawnDust(GlobalContext* globalCtx, EnPeehat* this, Vec3f* pos, f3
     sp44 = D_80AD2820;
 
     sp40 = (Rand_ZeroOne() - 0.5f) * 6.28f;
-    sp5C.y = this->actor.groundY; //unk80
+    sp5C.y = this->actor.floorHeight; //unk80
     sp5C.x = (Math_SinF(sp40) * arg3) + pos->x;
     sp5C.z = (Math_CosF(sp40) * arg3) + pos->z;
     sp44.x = (Rand_ZeroOne() - 0.5f) * arg5;
@@ -193,7 +235,7 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 
     this->colCylinder.base.acFlags &= ~2;
     if ((globalCtx->gameplayFrames & 0xF) == 0) {
-        sp9C = this->actor.posRot.pos;
+        sp9C = this->actor.world.pos;
         sp9C.y += 70.0f;
         Item_DropCollectibleRandom(globalCtx, &this->actor, &sp9C, 0x40);
         Item_DropCollectibleRandom(globalCtx, &this->actor, &sp9C, 0x40);
@@ -204,12 +246,12 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
         this->colCylinder.base.acFlags &= ~2;
         for (i = MAX_LARVA - this->unk2FA; i > 0; i--) {
             larva = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_PEEHAT,
-                Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.x, Rand_CenteredFloat(25.0f) + (this->actor.posRot.pos.y + 50.0f),
-                Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.z,
+                Rand_CenteredFloat(25.0f) + this->actor.world.pos.x, Rand_CenteredFloat(25.0f) + (this->actor.world.pos.y + 50.0f),
+                Rand_CenteredFloat(25.0f) + this->actor.world.pos.z,
                 0, 0, 0, TYPE_LARVA);
             if (larva != NULL) {
                 larva->velocity.y = 6.0f;
-                larva->shape.rot.y = larva->posRot.rot.y = (s16)Rand_CenteredFloat(65535.0f);
+                larva->shape.rot.y = larva->world.rot.y = (s16)Rand_CenteredFloat(65535.0f);
                 this->unk2FA++;
             }
         }
@@ -233,18 +275,18 @@ void EnPeehat_Ground_GroundState(EnPeehat* this, GlobalContext* globalCtx) {
     if (gSaveContext.nightFlag == 0) {
         this->actor.flags |= 1;
         if (this->unk2F6 == 0) {
-            if (this->actor.xzDistToLink < this->xzDistToRise) {
+            if (this->actor.xzDistToPlayer < this->xzDistToRise) {
                 EnPeehat_Ground_SetStateRise(this);
             }
         }
         else {
-            Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 10.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 10.0f, 0.0f);
             this->unk2F6--;
         }
     }
     else {
         this->actor.flags &= ~1;
-        Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
         if (this->unk2D4 != 0) {
             this->unk2D4--;
             if ((this->unk2D4 & 4) != 0) {
@@ -271,12 +313,12 @@ void EnPeehat_Fly_SetStateGround(EnPeehat* this) {
 
 void EnPeehat_Fly_StateGrounded(EnPeehat* this, GlobalContext* globalCtx) {
     if (gSaveContext.nightFlag == 0) {
-        if (this->actor.xzDistToLink < this->xzDistToRise) {
+        if (this->actor.xzDistToPlayer < this->xzDistToRise) {
             EnPeehat_Fly_SetStateRise(this);
         }
     }
     else {
-        Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
         if (this->unk2D4 != 0) {
             this->unk2D4--;
             if (this->unk2D4 & 4) {
@@ -303,19 +345,19 @@ void EnPeehat_Fly_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
     SkelAnime_Update(&this->skelAnime);
-    if ((gSaveContext.nightFlag != 0) || this->xzDistToRise < this->actor.xzDistToLink) {
+    if ((gSaveContext.nightFlag != 0) || this->xzDistToRise < this->actor.xzDistToPlayer) {
         func_80AD0D3C(this);
     }
     else {
-        if (this->actor.xzDistToLink < this->xzDistMax) {
+        if (this->actor.xzDistToPlayer < this->xzDistMax) {
             if (this->unk2FA < MAX_LARVA && (globalCtx->gameplayFrames & 7) == 0) {
                 larva = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_PEEHAT,
-                    Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.x,
-                    Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.y,
-                    Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.z,
+                    Rand_CenteredFloat(25.0f) + this->actor.world.pos.x,
+                    Rand_CenteredFloat(5.0f) + this->actor.world.pos.y,
+                    Rand_CenteredFloat(25.0f) + this->actor.world.pos.z,
                     0, 0, 0, 1);
                 if (larva != NULL) {
-                    larva->shape.rot.y = larva->posRot.rot.y = (s16)Rand_CenteredFloat(65535.0f);
+                    larva->shape.rot.y = larva->world.rot.y = (s16)Rand_CenteredFloat(65535.0f);
                     this->unk2FA++;
                 }
             }
@@ -340,7 +382,7 @@ void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
 void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 1.0f, 50.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 50.0f, 0.0f);
     if (Math_SmoothStepToS(&this->unk2F0, 4000, 1, 800, 0) == 0) {
         if (this->unk2FC != 0) {
             this->unk2FC--;
@@ -355,15 +397,15 @@ void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
             EnPeehat_Ground_SetState_80AD0FC8(this);
         }
         else {
-            this->actor.posRot.pos.y += 6.5f;
+            this->actor.world.pos.y += 6.5f;
         }
-        if (this->actor.posRot.pos.y - this->actor.groundY < 80.0f) {
-            pos = this->actor.posRot.pos;
-            pos.y = this->actor.groundY;
+        if (this->actor.world.pos.y - this->actor.floorHeight < 80.0f) {
+            pos = this->actor.world.pos;
+            pos.y = this->actor.floorHeight;
             func_80033480(globalCtx, &pos, 90.0f, 1, 0x96, 100, 1);
         }
     }
-    EnPeehat_SpawnDust(globalCtx, this, &this->actor.posRot.pos, 75.0f, 2, 1.05f, 2.0f);
+    EnPeehat_SpawnDust(globalCtx, this, &this->actor.world.pos, 75.0f, 2, 1.05f, 2.0f);
     Math_SmoothStepToF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
     this->unk2F2 += this->unk2F0;
 }
@@ -384,7 +426,7 @@ void EnPeehat_Fly_SetStateRise(EnPeehat* this) {
 void EnPeehat_Fly_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 1.0f, 50.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 50.0f, 0.0f);
     if (Math_SmoothStepToS(&this->unk2F0, 0xFA0, 1, 0x320, 0) == 0) {
         if (this->unk2FC != 0) {
             this->unk2FC--;
@@ -400,15 +442,15 @@ void EnPeehat_Fly_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
             EnPeehat_Fly_SetStateFly(this);
         }
         else {
-            this->actor.posRot.pos.y += 18.0f;
+            this->actor.world.pos.y += 18.0f;
         }
-        if (this->actor.posRot.pos.y - this->actor.groundY < 80.0f) {
-            pos = this->actor.posRot.pos;
-            pos.y = this->actor.groundY;
+        if (this->actor.world.pos.y - this->actor.floorHeight < 80.0f) {
+            pos = this->actor.world.pos;
+            pos.y = this->actor.floorHeight;
             func_80033480(globalCtx, &pos, 90.0f, 1, 0x96, 100, 1);
         }
     }
-    EnPeehat_SpawnDust(globalCtx, this, &this->actor.posRot.pos, 75.0f, 2, 1.05f, 2.0f);
+    EnPeehat_SpawnDust(globalCtx, this, &this->actor.world.pos, 75.0f, 2, 1.05f, 2.0f);
     Math_SmoothStepToF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
     this->unk2F2 += this->unk2F0;
 }
@@ -425,7 +467,7 @@ void func_80AD05A8(EnPeehat* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     Math_SmoothStepToF(&this->actor.speedXZ, 3.0f, 1.0f, 0.25f, 0.0f);
-    Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY + 80.0f, 1.0f, 3.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 80.0f, 1.0f, 3.0f, 0.0f);
     if (this->unk2F8 <= 0) {
         func_80AD0B3C(this);
         this->unk2F6 = 40;
@@ -433,8 +475,8 @@ void func_80AD05A8(EnPeehat* this, GlobalContext* globalCtx) {
     else {
         this->unk2F8--;
     }
-    if ((gSaveContext.nightFlag == 0) && (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->xzDistMax)) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 1000, 0);
+    if ((gSaveContext.nightFlag == 0) && (Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax)) {
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 1000, 0);
         if (this->unk2FA != 0) {
             this->actor.shape.rot.y += 0x1C2;
         }
@@ -468,8 +510,8 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f sp6C;
 
     speedXZ = 5.3f;
-    if (this->actor.xzDistToLink <= 5.3f) {
-        speedXZ = this->actor.xzDistToLink + 0.0005f;
+    if (this->actor.xzDistToPlayer <= 5.3f) {
+        speedXZ = this->actor.xzDistToPlayer + 0.0005f;
     }
     if (this->actor.parent != NULL) {
         if (this->actor.parent->update == NULL) {
@@ -477,14 +519,14 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
         }
     }
     this->actor.speedXZ = speedXZ;
-    if (70.0f <= (this->actor.posRot.pos.y - this->actor.groundY)) {
+    if (70.0f <= (this->actor.world.pos.y - this->actor.floorHeight)) {
         Math_SmoothStepToF(&this->actor.velocity.y, -1.3f, 1.0f, 0.5f, 0.0f);
     }
     else {
         Math_SmoothStepToF(&this->actor.velocity.y, -0.135f, 1.0f, 0.05f, 0.0f);
     }
     if (this->unk2D4 == 0) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 830, 0);
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1, 830, 0);
     }
     else {
         this->unk2D4--;
@@ -506,10 +548,10 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
         this->colQuad.base.atFlags &= ~2;
         if ((this->colCylinder.base.acFlags & 2) == 0 && &player->actor == this->colQuad.base.at) {
             if (0.5f < Rand_ZeroOne()) {
-                this->actor.posRot.rot.y += 0x2000;
+                this->actor.world.rot.y += 0x2000;
             }
             else {
-                this->actor.posRot.rot.y -= 0x2000;
+                this->actor.world.rot.y -= 0x2000;
             }
             this->unk2D4 = 0x28;
         }
@@ -517,9 +559,9 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
             sp7C = D_80AD282C;
             for (i = 4; i >= 0; i--)
             {
-                sp6C.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                sp6C.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-                sp6C.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                sp6C.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
+                sp6C.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
+                sp6C.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
                 EffectSsDeadDb_Spawn(globalCtx, &sp6C, &sp7C, &sp7C, 0x28, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 1, 9, 1);
             }
         }
@@ -527,7 +569,7 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
             if ((this->actor.bgCheckFlags & 1) == 0) {
                 EffectSsDeadSound_SpawnStationary(globalCtx, &this->actor.projectedPos, NA_SE_EN_PIHAT_SM_DEAD, 1, 1, 40);
             }
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x20);
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x20);
             Actor_Kill(&this->actor);
         }
     }
@@ -542,20 +584,20 @@ void func_80AD0B3C(EnPeehat* this) {
 void func_80AD0B84(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 50, 0);
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnPeehat_Ground_SetStateGround(this);
-        this->actor.posRot.pos.y = this->actor.groundY;
+        this->actor.world.pos.y = this->actor.floorHeight;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_LAND);
     }
     else {
-        if (this->actor.groundY < this->actor.posRot.pos.y) {
-            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY, 0.3f, 3.5f, 0.25f);
-            if (this->actor.posRot.pos.y - this->actor.groundY < 60.0f) {
-                pos = this->actor.posRot.pos;
-                pos.y = this->actor.groundY;
+        if (this->actor.floorHeight < this->actor.world.pos.y) {
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight, 0.3f, 3.5f, 0.25f);
+            if (this->actor.world.pos.y - this->actor.floorHeight < 60.0f) {
+                pos = this->actor.world.pos;
+                pos.y = this->actor.floorHeight;
                 func_80033480(globalCtx, &pos, 80.0f, 1, 0x96, 0x64, 1);
                 EnPeehat_SpawnDust(globalCtx, this, &pos, 75.0f, 2, 1.05f, 2.0f);
             }
@@ -574,20 +616,20 @@ void func_80AD0D3C(EnPeehat* this) {
 void EnPeehat_Fly_StateFall(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.shape.yOffset, -1000.0f, 1.0f, 50.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 50, 0);
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnPeehat_Fly_SetStateGround(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_LAND);
-        this->actor.posRot.pos.y = this->actor.groundY;
+        this->actor.world.pos.y = this->actor.floorHeight;
     }
     else {
-        if (this->actor.groundY < this->actor.posRot.pos.y) {
-            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY, 0.3f, 13.5f, 0.25f);
-            if ((this->actor.posRot.pos.y - this->actor.groundY) < 60.0f) {
-                pos = this->actor.posRot.pos;
-                pos.y = this->actor.groundY;
+        if (this->actor.floorHeight < this->actor.world.pos.y) {
+            Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight, 0.3f, 13.5f, 0.25f);
+            if ((this->actor.world.pos.y - this->actor.floorHeight) < 60.0f) {
+                pos = this->actor.world.pos;
+                pos.y = this->actor.floorHeight;
                 func_80033480(globalCtx, &pos, 80.0f, 1, 0x96, 0x64, 1);
                 EnPeehat_SpawnDust(globalCtx, this, &pos, 75.0f, 2, 1.05f, 2.0f);
             }
@@ -612,10 +654,10 @@ void EnPeehat_Ground_State_80AD0FC8(EnPeehat* this, GlobalContext* globalCtx) {
     player = PLAYER;
 
     //hover but don't gain altitude
-    if (75.0f < this->actor.posRot.pos.y - this->actor.groundY) {
-        this->actor.posRot.pos.y -= 1.0f;
+    if (75.0f < this->actor.world.pos.y - this->actor.floorHeight) {
+        this->actor.world.pos.y -= 1.0f;
     }
-    this->actor.posRot.pos.y += Math_CosF(this->unk2E0) * 1.4f;
+    this->actor.world.pos.y += Math_CosF(this->unk2E0) * 1.4f;
     phi_f0 = Math_CosF(this->unk2E0) * 0.18f;
     this->unk2E0 += ((0.0f <= phi_f0) ? phi_f0 : -phi_f0) + 0.07f;
     this->unk2D4--;
@@ -625,7 +667,7 @@ void EnPeehat_Ground_State_80AD0FC8(EnPeehat* this, GlobalContext* globalCtx) {
         this->unk2F4 = (s16)((Rand_ZeroOne() - 0.5f) * 1000.0f);
     }
     SkelAnime_Update(&this->skelAnime);
-    this->actor.posRot.rot.y += this->unk2F4;
+    this->actor.world.rot.y += this->unk2F4;
     if (this->unk2F8 <= 0) {
         func_80AD0B3C(this);
         this->unk2F6 = 40;
@@ -635,8 +677,8 @@ void EnPeehat_Ground_State_80AD0FC8(EnPeehat* this, GlobalContext* globalCtx) {
     }
     this->actor.shape.rot.y += 0x15E;
     //if daytime, and the player is close to the initial spawn position
-    if ((gSaveContext.nightFlag == 0) && Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->xzDistMax) {
-        this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    if ((gSaveContext.nightFlag == 0) && Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax) {
+        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         func_80AD0558(this);
         this->unk2FA = globalCtx->gameplayFrames & 1;
     }
@@ -662,25 +704,25 @@ void EnPeehat_Ground_State_80AD1258(EnPeehat* this, GlobalContext* globalCtx) {
     Player* player;
 
     player = PLAYER;
-    if (75.0f < this->actor.posRot.pos.y - this->actor.groundY) {
-        this->actor.posRot.pos.y -= 1.0f;
+    if (75.0f < this->actor.world.pos.y - this->actor.floorHeight) {
+        this->actor.world.pos.y -= 1.0f;
     }
     else {
-        this->actor.posRot.pos.y += 1.0f;
+        this->actor.world.pos.y += 1.0f;
     }
-    this->actor.posRot.pos.y += Math_CosF(this->unk2E0) * 1.4f;
+    this->actor.world.pos.y += Math_CosF(this->unk2E0) * 1.4f;
     phi_f0 = Math_CosF(this->unk2E0) * 0.18f;
     this->unk2E0 += ((0.0f <= phi_f0) ? phi_f0 : -phi_f0) + 0.07f;
-    yRot = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, yRot, 1, 600, 0);
+    yRot = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos);
+    Math_SmoothStepToS(&this->actor.world.rot.y, yRot, 1, 600, 0);
     Math_SmoothStepToS(&this->actor.shape.rot.x, 4500, 1, 600, 0);
     this->actor.shape.rot.y += 0x15E;
     this->unk2F2 += this->unk2F0;
-    if (Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos) < 2.0f) {
+    if (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) < 2.0f) {
         func_80AD0B3C(this);
         this->unk2F6 = 0x3C;
     }
-    if (gSaveContext.nightFlag == 0 && Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->xzDistMax) {
+    if (gSaveContext.nightFlag == 0 && Math_Vec3f_DistXZ(&this->actor.home.pos, &player->actor.world.pos) < this->xzDistMax) {
         this->unk2F8 = 0x190;
         func_80AD0558(this);
         this->unk2FA = (globalCtx->gameplayFrames & 1);
@@ -692,7 +734,7 @@ void func_80AD1440(EnPeehat* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000844, -4.0f);
     this->unk2B0 = 7;
     this->actor.speedXZ = -9.0f;
-    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     EnPeehat_SetActionFunc(this, func_80AD14A0);
 }
 
@@ -710,9 +752,9 @@ void func_80AD14A0(EnPeehat* this, GlobalContext* globalCtx) {
         if (this->actor.params > 0) {
             sp84 = D_80AD2838;
             for (i = 4; i >= 0; i--) {
-                sp74.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                sp74.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-                sp74.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                sp74.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
+                sp74.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
+                sp74.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
                 EffectSsDeadDb_Spawn(globalCtx, &sp74, &sp84, &sp84, 40, 7, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             }
             Actor_Kill(&this->actor);
@@ -730,11 +772,11 @@ void func_80AD14A0(EnPeehat* this, GlobalContext* globalCtx) {
 
 void func_80AD167C(EnPeehat* this) {
     this->unk2B0 = 13;
-    if (this->actor.groundY < this->actor.posRot.pos.y) {
+    if (this->actor.floorHeight < this->actor.world.pos.y) {
         this->actor.speedXZ = -9.0f;
     }
     this->unk2F0 = 0;
-    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     func_8003426C(&this->actor, 0, 0xC8, 0, 0x50);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnPeehat_SetActionFunc(this, func_80AD1700);
@@ -742,8 +784,8 @@ void func_80AD167C(EnPeehat* this) {
 
 void func_80AD1700(EnPeehat* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
-    Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY, 1.0f, 8.0f, 0.0f);
-    if (this->actor.dmgEffectTimer == 0) {
+    Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight, 1.0f, 8.0f, 0.0f);
+    if (this->actor.colorFilterTimer == 0) {
         EnPeehat_Ground_SetStateRise(this);
     }
 }
@@ -755,7 +797,7 @@ void func_80AD177C(EnPeehat* this) {
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
     this->unk2B0 = 0;
     this->unk2EC = 0.0f;
-    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     EnPeehat_SetActionFunc(this, func_80AD17E8);
 }
 
@@ -773,7 +815,7 @@ void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx) {
             this->actor.velocity.y = 6;
             this->unk2B4 = 0;
             this->actor.shape.rot.z = this->actor.shape.rot.x = 0;
-        } else if (this->actor.dmgEffectTimer & 4) {
+        } else if (this->actor.colorFilterTimer & 4) {
             Math_SmoothStepToF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0);
         }
         else {
@@ -788,10 +830,10 @@ void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx) {
             this->actor.scale.x -= 0.0015f;
             Actor_SetScale(&this->actor, this->actor.scale.x);
         }
-        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f
-            && this->actor.posRot.pos.y - this->actor.groundY < 59.0f) {
-            pos = this->actor.posRot.pos;
-            pos.y = this->actor.groundY;
+        if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f
+            && this->actor.world.pos.y - this->actor.floorHeight < 59.0f) {
+            pos = this->actor.world.pos;
+            pos.y = this->actor.floorHeight;
             func_80033480(globalCtx, &pos, 80.0f, 1, 0x96, 0x64, 1);
             EnPeehat_SpawnDust(globalCtx, this, &pos, 75.0f, 2, 1.05f, 2.0f);
         }
@@ -829,16 +871,16 @@ void func_80AD1B00(EnPeehat* this, GlobalContext* globalCtx) {
 
     if (this->unk2FC == 5) {
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM,
-            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0x602, 0);
+            this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x602, 0);
         if (bomb != NULL) {
             bomb->timer = 0;
         }
     }
     this->unk2FC--;
     if (this->unk2FC == 0) {
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x40);
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x40);
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x40);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x40);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x40);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x40);
         Actor_Kill(&this->actor);
     }
 }
@@ -878,9 +920,9 @@ void func_80AD1BD8(EnPeehat* this, GlobalContext* globalCtx) {
 
         if (this->actor.colChkInfo.damageEffect == 0xC) {
             for (i = 4; i >= 0; i--) {
-                pos.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                pos.y = (Rand_ZeroOne() * 25.0f) + this->actor.posRot.pos.y;
-                pos.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                pos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
+                pos.y = (Rand_ZeroOne() * 25.0f) + this->actor.world.pos.y;
+                pos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
                 EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &pos, 0x46, 0, 0, -1);
             }
             func_8003426C(&this->actor, 0x4000, 0xC8, 0, 0x64);
@@ -907,7 +949,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->colChkInfo.damageEffect != 6) {
         if ((0.0f != thisx->speedXZ) || (0.0f != thisx->velocity.y)) {
             Actor_MoveForward(thisx);
-            func_8002E4B4(globalCtx, thisx, 25.0f, 30.0f, 30.0f, 5);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 25.0f, 30.0f, 30.0f, 5);
         }
 
         this->actionFunc(this, globalCtx);
@@ -919,9 +961,9 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     //if TYPE_GROUNDED
     if (thisx->params < 0) {
         //Set the Z-Target point on the Peahat's weak point
-        thisx->posRot2.pos.x = this->colJntSph.list[0].dim.worldSphere.center.x;
-        thisx->posRot2.pos.y = this->colJntSph.list[0].dim.worldSphere.center.y;
-        thisx->posRot2.pos.z = this->colJntSph.list[0].dim.worldSphere.center.z;
+        thisx->focus.pos.x = this->colJntSph.elements[0].dim.worldSphere.center.x;
+        thisx->focus.pos.y = this->colJntSph.elements[0].dim.worldSphere.center.y;
+        thisx->focus.pos.z = this->colJntSph.elements[0].dim.worldSphere.center.z;
         if (this->unk2B0 == 0xE) {
             Math_SmoothStepToS(&thisx->shape.rot.x, 6000, 1, 300, 0);
         }
@@ -930,14 +972,14 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     else {
-        thisx->posRot2.pos = thisx->posRot.pos;
+        thisx->focus.pos = thisx->world.pos;
     }
-    Collider_CylinderUpdate(thisx, &this->colCylinder);
+    Collider_UpdateCylinder(thisx, &this->colCylinder);
     if (thisx->colChkInfo.health > 0) {
         if (thisx->params <= 0) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colJntSph.base);
-            if (thisx->dmgEffectTimer == 0 || (thisx->dmgEffectParams & 0x4000) == 0) {
+            if (thisx->colorFilterTimer == 0 || (thisx->colorFilterParams & 0x4000) == 0) {
                 if (this->unk2B0 != 1) {
                     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colJntSph.base);
                 }
@@ -961,7 +1003,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
             for (i = 1; i >= 0; i--) {
                 temp2BC = &this->unk2BC[i];
                 poly = NULL;
-                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->posRot.pos, temp2BC, &sp70, &poly, true, true, false, true, &bgId) == true) {
+                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->world.pos, temp2BC, &sp70, &poly, true, true, false, true, &bgId) == true) {
                     func_80033480(globalCtx, &sp70, 0.0f, 1, 0x12C, 0x96, 1);
                     EnPeehat_SpawnDust(globalCtx, this, &sp70, 0.0f, 3, 1.05f, 1.5f);
                 }
@@ -1023,11 +1065,11 @@ void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1981);
         Matrix_Push();
         Matrix_Translate(-1000.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        func_800628A4(0, &this->colJntSph);
+        Collider_UpdateSpheres(0, &this->colJntSph);
         Matrix_Translate(500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-        if (this->actor.dmgEffectTimer != 0) {
-            if (this->actor.dmgEffectParams & 0x4000) {
-                damageYRot = Math_SinS(this->actor.dmgEffectTimer * 0x4E20) * 0.35f;
+        if (this->actor.colorFilterTimer != 0) {
+            if (this->actor.colorFilterParams & 0x4000) {
+                damageYRot = Math_SinS(this->actor.colorFilterTimer * 0x4E20) * 0.35f;
             }
         }
         Matrix_RotateY(3.2f + damageYRot, MTXMODE_APPLY);
@@ -1053,6 +1095,6 @@ void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_MultVec3f(&D_80AD2868, &this->colQuad.dim.quad[0]); 
         Matrix_MultVec3f(&D_80AD2874, &this->colQuad.dim.quad[3]); 
         Matrix_MultVec3f(&D_80AD2880, &this->colQuad.dim.quad[2]);
-        func_80062734(&this->colQuad, &this->colQuad.dim.quad[0], &this->colQuad.dim.quad[1], &this->colQuad.dim.quad[2], &this->colQuad.dim.quad[3]);
+        Collider_SetQuadVertices(&this->colQuad, &this->colQuad.dim.quad[0], &this->colQuad.dim.quad[1], &this->colQuad.dim.quad[2], &this->colQuad.dim.quad[3]);
     }
 }

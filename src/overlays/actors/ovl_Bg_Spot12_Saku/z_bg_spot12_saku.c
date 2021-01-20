@@ -24,7 +24,7 @@ void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot12_Saku_InitVars = {
     ACTOR_BG_SPOT12_SAKU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT12_OBJ,
     sizeof(BgSpot12Saku),
@@ -81,8 +81,8 @@ void func_808B3550(BgSpot12Saku* this) {
 
     this->actionFunc = func_808B357C;
     thisx->scale.x = 0.1f;
-    thisx->posRot.pos.x = thisx->initPosRot.pos.x;
-    thisx->posRot.pos.z = thisx->initPosRot.pos.z;
+    thisx->world.pos.x = thisx->home.pos.x;
+    thisx->world.pos.z = thisx->home.pos.z;
 }
 
 void func_808B357C(BgSpot12Saku* this, GlobalContext* globalCtx) {
@@ -105,10 +105,10 @@ void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx) {
     f32 temp_ret = Math_SmoothStepToF(&this->dyna.actor.scale.x, 0.001f / 0.14f, 0.16f, 0.0022f, 0.001f);
     f32 temp_f18 = ((0.1f - this->dyna.actor.scale.x) * 840.0f);
 
-    this->dyna.actor.posRot.pos.x =
-        this->dyna.actor.initPosRot.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
-    this->dyna.actor.posRot.pos.z =
-        this->dyna.actor.initPosRot.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
+    this->dyna.actor.world.pos.x =
+        this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
+    this->dyna.actor.world.pos.z =
+        this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * temp_f18);
     if (fabsf(temp_ret) < 0.0001f) {
         func_808B3714(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
@@ -122,8 +122,8 @@ void func_808B3714(BgSpot12Saku* this) {
 
     this->actionFunc = func_808B37AC;
     thisx->scale.x = 0.001f / 0.14f;
-    thisx->posRot.pos.x = thisx->initPosRot.pos.x - (Math_SinS(thisx->shape.rot.y + 0x4000) * 78.0f);
-    thisx->posRot.pos.z = thisx->initPosRot.pos.z - (Math_CosS(thisx->shape.rot.y + 0x4000) * 78.0f);
+    thisx->world.pos.x = thisx->home.pos.x - (Math_SinS(thisx->shape.rot.y + 0x4000) * 78.0f);
+    thisx->world.pos.z = thisx->home.pos.z - (Math_CosS(thisx->shape.rot.y + 0x4000) * 78.0f);
 }
 
 void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx) {

@@ -22,7 +22,7 @@ void OceffStorm_UnkAction(OceffStorm* this, GlobalContext* globalCtx);
 
 const ActorInit Oceff_Storm_InitVars = {
     ACTOR_OCEFF_STORM,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffStorm),
@@ -54,8 +54,8 @@ void OceffStorm_Init(Actor* thisx, GlobalContext* globalCtx) {
         OceffStorm_SetupAction(this, OceffStorm_UnkAction);
         this->actor.draw = OceffStorm_Draw2;
     } else {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_OKARINA_EFFECT, this->actor.posRot.pos.x,
-                    this->actor.posRot.pos.y - 30.0f, this->actor.posRot.pos.z, 0, 0, 0, 1);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_OKARINA_EFFECT, this->actor.world.pos.x,
+                    this->actor.world.pos.y - 30.0f, this->actor.world.pos.z, 0, 0, 0, 1);
     }
 }
 
@@ -96,7 +96,7 @@ void OceffStorm_DefaultAction(OceffStorm* this, GlobalContext* globalCtx) {
     }
 
     if (this->counter > 60) {
-        this->actor.posRot.pos.y += this->posYOff * 0.01f;
+        this->actor.world.pos.y += this->posYOff * 0.01f;
         this->posYOff += this->posYOffAdd;
         this->posYOffAdd += 10;
     }
@@ -119,7 +119,7 @@ void OceffStorm_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffStorm* this = THIS;
     Player* player = PLAYER;
 
-    this->actor.posRot.pos = player->actor.posRot.pos;
+    this->actor.world.pos = player->actor.world.pos;
     this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM);
     this->actionFunc(this, globalCtx);
 }

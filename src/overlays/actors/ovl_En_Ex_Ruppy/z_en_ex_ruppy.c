@@ -31,7 +31,7 @@ static s16 sRupeeValues[] = {
 
 const ActorInit En_Ex_Ruppy_InitVars = {
     ACTOR_EN_EX_RUPPY,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnExRuppy),
@@ -51,7 +51,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->type = this->actor.params;
     // "Index"
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ インデックス ☆☆☆☆☆ %x\n" VT_RST, this->type);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
 
     switch (this->type) {
         case 0:
@@ -101,10 +101,10 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
 
-            this->actor.shape.unk_10 = 7.0f;
-            this->actor.shape.unk_08 = 700.0f;
-            this->unk_15A = this->actor.posRot.rot.z;
-            this->actor.posRot.rot.z = 0;
+            this->actor.shape.shadowScale = 7.0f;
+            this->actor.shape.yOffset = 700.0f;
+            this->unk_15A = this->actor.world.rot.z;
+            this->actor.world.rot.z = 0;
             this->timer = 30;
             this->actor.flags &= ~1;
             this->actionFunc = EnExRuppy_DropIntoWater;
@@ -122,8 +122,8 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = -3.0f;
             // "Wow Coin"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ わーなーコイン ☆☆☆☆☆ \n" VT_RST);
-            this->actor.shape.unk_10 = 6.0f;
-            this->actor.shape.unk_08 = 700.0f;
+            this->actor.shape.shadowScale = 6.0f;
+            this->actor.shape.yOffset = 700.0f;
             this->actor.flags &= ~1;
             this->actionFunc = EnExRuppy_WaitToBlowUp;
             break;
@@ -144,8 +144,8 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = -3.0f;
             // "Normal rupee"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ノーマルルピー ☆☆☆☆☆ \n" VT_RST);
-            this->actor.shape.unk_10 = 6.0f;
-            this->actor.shape.unk_08 = 700.0f;
+            this->actor.shape.shadowScale = 6.0f;
+            this->actor.shape.yOffset = 700.0f;
             this->actor.flags &= ~1;
             this->actionFunc = EnExRuppy_WaitAsCollectible;
             break;
@@ -154,8 +154,8 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.gravity = -3.0f;
             this->actor.flags &= ~1;
             Actor_SetScale(&this->actor, 0.01f);
-            this->actor.shape.unk_10 = 6.0f;
-            this->actor.shape.unk_08 = -700.0f;
+            this->actor.shape.shadowScale = 6.0f;
+            this->actor.shape.yOffset = -700.0f;
             this->actionFunc = EnExRuppy_GalleryTarget;
             break;
     }
@@ -198,9 +198,9 @@ void EnExRuppy_SpawnSparkles(EnExRuppy* this, GlobalContext* globalCtx, s16 numS
             scale = 5000;
             life = 20;
         }
-        pos.x = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.x;
-        pos.y = (Rand_ZeroOne() - 0.5f) * 10.0f + (this->actor.posRot.pos.y + this->unk_160 * 600.0f);
-        pos.z = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.posRot.pos.z;
+        pos.x = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.world.pos.x;
+        pos.y = (Rand_ZeroOne() - 0.5f) * 10.0f + (this->actor.world.pos.y + this->unk_160 * 600.0f);
+        pos.z = (Rand_ZeroOne() - 0.5f) * 10.0f + this->actor.world.pos.z;
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, scale, life);
     }
 }
@@ -230,15 +230,15 @@ void EnExRuppy_EnterWater(EnExRuppy* this, GlobalContext* globalCtx) {
 
     if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_2A2 == 2)) {
         this->invisible = false;
-        this->actor.posRot.pos.x = ((Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
-        this->actor.posRot.pos.y = ((Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
+        this->actor.world.pos.x = ((Rand_ZeroOne() - 0.5f) * 300.0f) + -260.0f;
+        this->actor.world.pos.y = ((Rand_ZeroOne() - 0.5f) * 200.0f) + 370.0f;
         temp_f2 = this->unk_15A * -50.0f;
         if (!(gSaveContext.eventChkInf[3] & 0x100)) {
             temp_f2 += -500.0f;
-            this->actor.posRot.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + temp_f2;
+            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 80.0f) + temp_f2;
         } else {
             temp_f2 += -300.0f;
-            this->actor.posRot.pos.z = ((Rand_ZeroOne() - 0.5f) * 60.0f) + temp_f2;
+            this->actor.world.pos.z = ((Rand_ZeroOne() - 0.5f) * 60.0f) + temp_f2;
         }
         this->actionFunc = EnExRuppy_Sink;
         this->actor.gravity = -1.0f;
@@ -251,7 +251,7 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
-        pos = this->actor.posRot.pos;
+        pos = this->actor.world.pos;
         pos.y += this->actor.yDistToWater;
         this->actor.velocity.y = -1.0f;
         this->actor.gravity = -0.2f;
@@ -274,7 +274,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
 
     if (this->timer == 0) {
         this->timer = 10;
-        EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 5.0f, 5.0f, Rand_ZeroFloat(0.03f) + 0.07f);
+        EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 5.0f, 5.0f, Rand_ZeroFloat(0.03f) + 0.07f);
     }
     if (this->actor.parent != NULL) {
         divingGame = (EnDivingGame*)this->actor.parent;
@@ -283,7 +283,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
                 this->timer = 20;
                 this->actionFunc = EnExRuppy_Kill;
                 if (1) {}
-            } else if (this->actor.xyzDistToLinkSq < SQ(localConst)) {
+            } else if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
                 Rupees_ChangeBy(this->rupeeValue);
                 func_80078884(NA_SE_SY_GET_RUPY);
                 divingGame->unk_2A4++;
@@ -320,7 +320,7 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
     if (this->type == 2) {
         distToBlowUp = 30.0f;
     }
-    if (this->actor.xyzDistToLinkSq < SQ(distToBlowUp)) {
+    if (this->actor.xyzDistToPlayerSq < SQ(distToBlowUp)) {
         parent = (EnExRuppyParentActor*)this->actor.parent;
         if (parent != NULL) {
             if (parent->actor.update != NULL) {
@@ -338,9 +338,9 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
             explosionScale = 20;
             explosionScaleStep = 6;
         }
-        EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.posRot.pos, &velocity, &accel, explosionScale,
+        EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.world.pos, &velocity, &accel, explosionScale,
                                    explosionScaleStep);
-        func_8002F71C(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsLink, 0.0f);
+        func_8002F71C(globalCtx, &this->actor, 2.0f, this->actor.yawTowardsPlayer, 0.0f);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
         Actor_Kill(&this->actor);
     }
@@ -349,18 +349,18 @@ void EnExRuppy_WaitToBlowUp(EnExRuppy* this, GlobalContext* globalCtx) {
 void EnExRuppy_WaitAsCollectible(EnExRuppy* this, GlobalContext* globalCtx) {
     f32 localConst = 30.0f;
 
-    if (this->actor.xyzDistToLinkSq < SQ(localConst)) {
+    if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
         func_80078884(NA_SE_SY_GET_RUPY);
-        Item_DropCollectible(globalCtx, &this->actor.posRot.pos, (sEnExRuppyCollectibleTypes[this->colorIdx] | 0x8000));
+        Item_DropCollectible(globalCtx, &this->actor.world.pos, (sEnExRuppyCollectibleTypes[this->colorIdx] | 0x8000));
         Actor_Kill(&this->actor);
     }
 }
 
 void EnExRuppy_GalleryTarget(EnExRuppy* this, GlobalContext* globalCtx) {
     if (this->galleryFlag) {
-        Math_ApproachF(&this->actor.shape.unk_08, 700.0f, 0.5f, 200.0f);
+        Math_ApproachF(&this->actor.shape.yOffset, 700.0f, 0.5f, 200.0f);
     } else {
-        Math_ApproachF(&this->actor.shape.unk_08, -700.0f, 0.5f, 200.0f);
+        Math_ApproachF(&this->actor.shape.yOffset, -700.0f, 0.5f, 200.0f);
     }
 }
 
@@ -373,7 +373,7 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
 
 UNK_PTR D_80A0B3B8[] = { 0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0 };

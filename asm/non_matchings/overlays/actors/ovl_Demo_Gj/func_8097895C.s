@@ -12,7 +12,7 @@ glabel func_8097895C
 /* 00050 80978980 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00054 80978984 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00058 80978988 8FA60018 */  lw      $a2, 0x0018($sp)           
-/* 0005C 8097898C 0C017114 */  jal     Collider_SetCylinder_Set3              
+/* 0005C 8097898C 0C017114 */  jal     Collider_SetCylinderType1              
 /* 00060 80978990 8FA70024 */  lw      $a3, 0x0024($sp)           
 /* 00064 80978994 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00068 80978998 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

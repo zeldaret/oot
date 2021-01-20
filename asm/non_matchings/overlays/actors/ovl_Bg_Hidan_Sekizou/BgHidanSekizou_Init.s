@@ -93,7 +93,7 @@ glabel BgHidanSekizou_Init
 /* 00500 8088D3C0 AE22014C */  sw      $v0, 0x014C($s1)           ## 0000014C
 /* 00504 8088D3C4 24C6E268 */  addiu   $a2, $a2, %lo(D_8088E268)  ## $a2 = 8088E268
 /* 00508 8088D3C8 26240098 */  addiu   $a0, $s1, 0x0098           ## $a0 = 00000098
-/* 0050C 8088D3CC 0C0187B5 */  jal     func_80061ED4              
+/* 0050C 8088D3CC 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 00510 8088D3D0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00514 8088D3D4 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 00518 8088D3D8 8FB00020 */  lw      $s0, 0x0020($sp)           

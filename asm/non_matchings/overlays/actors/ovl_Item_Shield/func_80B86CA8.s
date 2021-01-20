@@ -42,7 +42,7 @@ glabel func_80B86CA8
 /* 003EC 80B86D0C AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 003F0 80B86D10 8FA40074 */  lw      $a0, 0x0074($sp)           
 /* 003F4 80B86D14 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
-/* 003F8 80B86D18 0C00B92D */  jal     func_8002E4B4              
+/* 003F8 80B86D18 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 003FC 80B86D1C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00400 80B86D20 0C01DE1C */  jal     Math_SinS
               ## sins?

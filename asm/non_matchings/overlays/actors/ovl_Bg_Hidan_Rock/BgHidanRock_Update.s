@@ -22,7 +22,7 @@ glabel BgHidanRock_Update
 /* 00B44 8088BBC4 44070000 */  mfc1    $a3, $f0                   
 /* 00B48 8088BBC8 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00B4C 8088BBCC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00B50 8088BBD0 0C00B92D */  jal     func_8002E4B4              
+/* 00B50 8088BBD0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00B54 8088BBD4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00B58 8088BBD8 C600016C */  lwc1    $f0, 0x016C($s0)           ## 0000016C
 .L8088BBDC:

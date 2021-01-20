@@ -223,7 +223,7 @@ glabel L80B0ECB8
 /* 02FB0 80B0ED60 016E7825 */  or      $t7, $t3, $t6              ## $t7 = FB000000
 /* 02FB4 80B0ED64 AC6F0004 */  sw      $t7, 0x0004($v1)           ## 00000004
 .L80B0ED68:
-/* 02FB8 80B0ED68 0C018A29 */  jal     func_800628A4              
+/* 02FB8 80B0ED68 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 02FBC 80B0ED6C 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 02FC0 80B0ED70 8FB80088 */  lw      $t8, 0x0088($sp)           
 /* 02FC4 80B0ED74 3C0680B1 */  lui     $a2, %hi(D_80B0F1B0)       ## $a2 = 80B10000

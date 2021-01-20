@@ -24,7 +24,7 @@ void func_80B93E38(ObjHsblock* this);
 
 const ActorInit Obj_Hsblock_InitVars = {
     ACTOR_OBJ_HSBLOCK,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_D_HSBLOCK,
     sizeof(ObjHsblock),
@@ -69,9 +69,9 @@ void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, CollisionHeader* 
 
 void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 5) & 1) {
-        Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_OBJ_ICE_POLY, this->dyna.actor.posRot.pos.x,
-                           this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, this->dyna.actor.posRot.rot.x,
-                           this->dyna.actor.posRot.rot.y, this->dyna.actor.posRot.rot.z, 1);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, this, globalCtx, ACTOR_OBJ_ICE_POLY, this->dyna.actor.world.pos.x,
+                           this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.world.rot.x,
+                           this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 1);
     }
 }
 
@@ -112,7 +112,7 @@ void func_80B93D90(ObjHsblock* this) {
 
 void func_80B93DB0(ObjHsblock* this) {
     this->dyna.actor.flags |= 0x10;
-    this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - 105.0f;
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 105.0f;
     ObjHsblock_SetupAction(this, func_80B93DF4);
 }
 
@@ -128,9 +128,9 @@ void func_80B93E38(ObjHsblock* this) {
 
 void func_80B93E5C(ObjHsblock* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->dyna.actor.velocity.y, 16.0f, 0.1f, 0.8f, 0.0f);
-    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 0.3f,
+    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 0.3f,
                                  this->dyna.actor.velocity.y, 0.3f)) < 0.001f) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         func_80B93D90(this);
         this->dyna.actor.flags &= ~0x10;
     }
@@ -142,7 +142,7 @@ void ObjHsblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
     }
-    Actor_SetHeight(thisx, D_80B940C0[thisx->params & 3]);
+    Actor_SetFocus(thisx, D_80B940C0[thisx->params & 3]);
 }
 
 void ObjHsblock_Draw(Actor* thisx, GlobalContext* globalCtx) {

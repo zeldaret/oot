@@ -352,7 +352,7 @@ void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
 
     if (this->rReg8 == 0) {
         if ((((this->rReg4 >> 4) & 1) * 0x10) == 0x10) {
-            if (this->pos.y <= (player->actor.groundY - ((this->rReg4 >> 2) & 3))) {
+            if (this->pos.y <= (player->actor.floorHeight - ((this->rReg4 >> 2) & 3))) {
                 this->rReg9 = 0;
                 this->rReg0 = 0;
                 this->rReg4 &= ~0x60;
@@ -362,7 +362,7 @@ void func_809AA230(EffectSs* this, GlobalContext* globalCtx) {
                 this->rGravity = this->rReg9;
             }
         } else {
-            if (this->pos.y <= ((player->actor.groundY - ((this->rReg4 >> 2) & 3)) - 600.0f)) {
+            if (this->pos.y <= ((player->actor.floorHeight - ((this->rReg4 >> 2) & 3)) - 600.0f)) {
                 this->life = 0;
             }
         }
