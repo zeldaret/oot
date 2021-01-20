@@ -10,7 +10,7 @@ glabel func_8092EF28
 /* 02978 8092EF48 24A5E7B8 */  addiu   $a1, $a1, 0xE7B8           ## $a1 = 0600E7B8
 /* 0297C 8092EF4C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 02980 8092EF50 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
-/* 02984 8092EF54 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 02984 8092EF54 0C0294D3 */  jal     Animation_MorphToLoop
 /* 02988 8092EF58 AFAE002C */  sw      $t6, 0x002C($sp)
 /* 0298C 8092EF5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02990 8092EF60 0C24CF4B */  jal     func_80933D2C
@@ -76,7 +76,7 @@ glabel func_8092EF28
 /* 02A7C 8092F04C 3C058094 */  lui     $a1, %hi(D_80938CC4)       ## $a1 = 80940000
 /* 02A80 8092F050 84A58CC4 */  lh      $a1, %lo(D_80938CC4)($a1)
 /* 02A84 8092F054 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 02A88 8092F058 0C0301E3 */  jal     func_800C078C
+/* 02A88 8092F058 0C0301E3 */  jal     Gameplay_CopyCamera
 /* 02A8C 8092F05C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 02A90 8092F060 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A94 8092F064 8FA5002C */  lw      $a1, 0x002C($sp)

@@ -5,7 +5,7 @@
  */
 
 #include "z_en_syateki_niw.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x00000010
 
@@ -30,7 +30,7 @@ void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f3
 extern AnimationHeader D_060000E8;
 extern Gfx D_060023B0[];
 extern Gfx D_06002428[];
-extern SkeletonHeader D_06002530;
+extern FlexSkeletonHeader D_06002530;
 
 const ActorInit En_Syateki_Niw_InitVars = {
     ACTOR_EN_SYATEKI_NIW,
@@ -62,8 +62,7 @@ void EnSyatekiNiw_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.flags &= ~1;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 25.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->limbDrawTable,
-                     this->transitionDrawTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002530, &D_060000E8, this->jointTable, this->morphTable, 16);
 
     this->unk_29E = this->actor.params;
     if (this->unk_29E < 0) {
@@ -109,7 +108,7 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
         if (!(this->unk_28E & 1)) {
             this->unk_264 = 0.0f;
             if (arg2 == 0) {
-                this->unk_254 = Math_Rand_ZeroFloat(30.0f);
+                this->unk_254 = Rand_ZeroFloat(30.0f);
             }
         }
     }
@@ -171,37 +170,37 @@ void func_80B11A94(EnSyatekiNiw* this, GlobalContext* globalCtx, s16 arg2) {
     }
 
     if (this->unk_264 != this->unk_2BC.x) {
-        Math_SmoothScaleMaxF(&this->unk_2BC.x, this->unk_264, 0.5f, 4000.0f);
+        Math_ApproachF(&this->unk_2BC.x, this->unk_264, 0.5f, 4000.0f);
     }
 
     if (this->unk_26C != this->unk_2A4.x) {
-        Math_SmoothScaleMaxF(&this->unk_2A4.x, this->unk_26C, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2A4.x, this->unk_26C, 0.8f, 7000.0f);
     }
 
     if (this->unk_280 != this->unk_2A4.y) {
-        Math_SmoothScaleMaxF(&this->unk_2A4.y, this->unk_280, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2A4.y, this->unk_280, 0.8f, 7000.0f);
     }
 
     if (this->unk_284 != this->unk_2A4.z) {
-        Math_SmoothScaleMaxF(&this->unk_2A4.z, this->unk_284, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2A4.z, this->unk_284, 0.8f, 7000.0f);
     }
 
     if (this->unk_268 != this->unk_2B0.x) {
-        Math_SmoothScaleMaxF(&this->unk_2B0.x, this->unk_268, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2B0.x, this->unk_268, 0.8f, 7000.0f);
     }
 
     if (this->unk_278 != this->unk_2B0.y) {
-        Math_SmoothScaleMaxF(&this->unk_2B0.y, this->unk_278, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2B0.y, this->unk_278, 0.8f, 7000.0f);
     }
 
     if (this->unk_27C != this->unk_2B0.z) {
-        Math_SmoothScaleMaxF(&this->unk_2B0.z, this->unk_27C, 0.8f, 7000.0f);
+        Math_ApproachF(&this->unk_2B0.z, this->unk_27C, 0.8f, 7000.0f);
     }
 }
 
 void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8.genericHeader),
-                         0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     if (this->unk_29E != 0) {
         Actor_SetScale(&this->actor, this->unk_2F4);
     }
@@ -212,8 +211,8 @@ void func_80B11DEC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     Vec3f dustVelocity = { 0.0f, 0.0f, 0.0f };
     Vec3f dustAccel = { 0.0f, 0.2f, 0.0f };
-    Color_RGBA8_n dustPrimColor = { 0, 0, 0, 255 };
-    Color_RGBA8_n dustEnvColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustPrimColor = { 0, 0, 0, 255 };
+    Color_RGBA8 dustEnvColor = { 0, 0, 0, 255 };
     Vec3f dustPos;
     f32 tmpf2;
     f32 sp4C;
@@ -231,19 +230,19 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     if ((this->unk_25E == 0) && (this->unk_25C == 0)) {
         this->unk_294++;
         if (this->unk_294 >= 8) {
-            this->unk_25E = Math_Rand_ZeroFloat(30.0f);
-            this->unk_294 = Math_Rand_ZeroFloat(3.99f);
+            this->unk_25E = Rand_ZeroFloat(30.0f);
+            this->unk_294 = Rand_ZeroFloat(3.99f);
 
             switch (this->unk_29E) {
                 case 0:
-                    sp50 = Math_Rand_CenteredFloat(100.0f);
+                    sp50 = Rand_CenteredFloat(100.0f);
                     if (sp50 < 0.0f) {
                         sp50 -= 100.0f;
                     } else {
                         sp50 += 100.0f;
                     }
 
-                    sp4C = Math_Rand_CenteredFloat(100.0f);
+                    sp4C = Rand_CenteredFloat(100.0f);
                     if (sp4C < 0.0f) {
                         sp4C -= 100.0f;
                     } else {
@@ -271,14 +270,14 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
                     break;
 
                 case 1:
-                    sp50 = Math_Rand_CenteredFloat(50.0f);
+                    sp50 = Rand_CenteredFloat(50.0f);
                     if (sp50 < 0.0f) {
                         sp50 -= 50.0f;
                     } else {
                         sp50 += 50.0f;
                     }
 
-                    sp4C = Math_Rand_CenteredFloat(30.0f);
+                    sp4C = Rand_CenteredFloat(30.0f);
                     if (sp4C < 0.0f) {
                         sp4C -= 30.0f;
                     } else {
@@ -293,7 +292,7 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_25C = 4;
             if (this->actor.bgCheckFlags & 1) {
                 this->actor.velocity.y = 2.5f;
-                if ((Math_Rand_ZeroFloat(10.0f) < 1.0f) && (this->unk_29E == 0)) {
+                if ((Rand_ZeroFloat(10.0f) < 1.0f) && (this->unk_29E == 0)) {
                     this->unk_25C = 0xC;
                     this->actor.velocity.y = 10.0f;
                 }
@@ -302,9 +301,9 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
     if (this->unk_25C != 0) {
         sp4A = 1;
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.x, this->unk_2E8.x, 1.0f, this->unk_2C8.y);
-        Math_SmoothScaleMaxF(&this->actor.posRot.pos.z, this->unk_2E8.z, 1.0f, this->unk_2C8.y);
-        Math_SmoothScaleMaxF(&this->unk_2C8.y, 3.0f, 1.0f, 0.3f);
+        Math_ApproachF(&this->actor.posRot.pos.x, this->unk_2E8.x, 1.0f, this->unk_2C8.y);
+        Math_ApproachF(&this->actor.posRot.pos.z, this->unk_2E8.z, 1.0f, this->unk_2C8.y);
+        Math_ApproachF(&this->unk_2C8.y, 3.0f, 1.0f, 0.3f);
         tmpf1 = this->unk_2E8.x - this->actor.posRot.pos.x;
         tmpf2 = this->unk_2E8.z - this->actor.posRot.pos.z;
 
@@ -321,9 +320,8 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             this->unk_294 = 7;
         }
 
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, Math_atan2f(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z,
-                                0);
-        Math_SmoothScaleMaxF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_FAtan2F(tmpf1, tmpf2) * 10430.378f, 3, this->unk_2C8.z, 0);
+        Math_ApproachF(&this->unk_2C8.z, 10000.0f, 1.0f, 1000.0f);
     }
 
     if (this->unk_260 == 0) {
@@ -332,16 +330,16 @@ void func_80B11E78(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     }
 
     if ((globalCtx->gameplayFrames % 4) == 0) {
-        dustVelocity.y = Math_Rand_CenteredFloat(5.0f);
+        dustVelocity.y = Rand_CenteredFloat(5.0f);
         dustAccel.y = 0.2f;
         dustPos = this->actor.posRot.pos;
-        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 0x258, 0x28, 0x1E);
+        func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrimColor, &dustEnvColor, 600, 40, 30);
     }
 }
 
 void func_80B123A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000E8.genericHeader),
-                         0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060000E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000E8), ANIMMODE_LOOP,
+                     -10.0f);
     this->unk_27C = 6000.0f;
     this->unk_288 = -10000.0f;
     this->unk_2B0.z = 6000.0f;
@@ -459,7 +457,7 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             if (this->unk_25E == 1) {
                 globalCtx->sceneLoadFlag = 0x14;
                 globalCtx->nextEntranceIndex = gSaveContext.entranceIndex;
-                globalCtx->unk_11E5C = 0;
+                globalCtx->shootingGalleryStatus = 0;
                 player->actor.freezeTimer = 20;
                 this->unk_25E = 0x14;
                 this->actionFunc = func_80B128D8;
@@ -467,13 +465,13 @@ void func_80B12460(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             break;
     }
 
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y,
-                            (s16)(Math_atan2f(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
-                                              player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
-                                  10430.378f) +
-                                phi_f16,
-                            5, this->unk_2C8.y, 0);
-    Math_SmoothScaleMaxF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y,
+                       (s16)(Math_FAtan2F(player->actor.posRot.pos.x - this->actor.posRot.pos.x,
+                                          player->actor.posRot.pos.z - this->actor.posRot.pos.z) *
+                             10430.378f) +
+                           phi_f16,
+                       5, this->unk_2C8.y, 0);
+    Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
     if (this->unk_296 == 2) {
         this->unk_256 = 10;
         this->unk_254 = this->unk_256;
@@ -495,10 +493,10 @@ void func_80B128F8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     Actor_SetHeight(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
     if ((this->actor.projectedPos.z > 200.0f) && (this->actor.projectedPos.z < 800.0f) && (sp26 > 0) &&
-        (sp26 < 0x140) && (sp24 > 0) && (sp24 < 0xF0)) {
+        (sp26 < SCREEN_WIDTH) && (sp24 > 0) && (sp24 < SCREEN_HEIGHT)) {
         this->actor.speedXZ = 5.0f;
-        this->unk_298 = Math_Rand_ZeroFloat(1.99f);
-        this->unk_2D8 = Math_Rand_CenteredFloat(8000.0f) + -10000.0f;
+        this->unk_298 = Rand_ZeroFloat(1.99f);
+        this->unk_2D8 = Rand_CenteredFloat(8000.0f) + -10000.0f;
         this->unk_262 = 0x1E;
         this->unk_25E = 0x64;
         this->actionFunc = func_80B129EC;
@@ -514,8 +512,8 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
 
     Actor_SetHeight(&this->actor, this->unk_2D4);
     func_8002F374(globalCtx, &this->actor, &sp2E, &sp2C);
-    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E >= 0x141) || (sp2C < 0) ||
-        (sp2C >= 0xF1)) {
+    if ((this->unk_25E == 0) || (this->actor.projectedPos.z < -70.0f) || (sp2E < 0) || (sp2E > SCREEN_WIDTH) ||
+        (sp2C < 0) || (sp2C > SCREEN_HEIGHT)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -524,16 +522,16 @@ void func_80B129EC(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     if (this->unk_25C == 0) {
         this->unk_298++;
         this->unk_298 &= 1;
-        this->unk_25C = (s16)Math_Rand_CenteredFloat(4.0f) + 5;
-        if ((Math_Rand_ZeroFloat(5.0f) < 1.0f) && (this->actor.bgCheckFlags & 1)) {
+        this->unk_25C = (s16)Rand_CenteredFloat(4.0f) + 5;
+        if ((Rand_ZeroFloat(5.0f) < 1.0f) && (this->actor.bgCheckFlags & 1)) {
             this->actor.velocity.y = 4.0f;
         }
     }
 
     phi_f2 = (this->unk_298 == 0) ? 5000.0f : -5000.0f;
     tmpf2 = this->unk_2D8 + phi_f2;
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, tmpf2, 3, this->unk_2C8.y, 0);
-    Math_SmoothScaleMaxF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, tmpf2, 3, this->unk_2C8.y, 0);
+    Math_ApproachF(&this->unk_2C8.y, 3000.0f, 1.0f, 500.0f);
     func_80B11A94(this, globalCtx, 2);
 }
 
@@ -617,15 +615,15 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_2A0 != 0) {
         for (i = 0; i < 20; i++) {
-            sp78.x = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
-            sp78.y = Math_Rand_CenteredFloat(10.0f) + (this->actor.posRot.pos.y + 20.0f);
-            sp78.z = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
-            sp6C.x = Math_Rand_CenteredFloat(3.0f);
-            sp6C.y = (Math_Rand_ZeroFloat(2.0f) * 0.5f) + 2.0f;
-            sp6C.z = Math_Rand_CenteredFloat(3.0f);
+            sp78.x = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.x;
+            sp78.y = Rand_CenteredFloat(10.0f) + (this->actor.posRot.pos.y + 20.0f);
+            sp78.z = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.z;
+            sp6C.x = Rand_CenteredFloat(3.0f);
+            sp6C.y = (Rand_ZeroFloat(2.0f) * 0.5f) + 2.0f;
+            sp6C.z = Rand_CenteredFloat(3.0f);
             sp60.z = sp60.x = 0.0f;
             sp60.y = -0.15f;
-            func_80B131B8(this, &sp78, &sp6C, &sp60, Math_Rand_ZeroFloat(8.0f) + 8.0f);
+            func_80B131B8(this, &sp78, &sp6C, &sp60, Rand_ZeroFloat(8.0f) + 8.0f);
         }
 
         this->unk_2A0 = 0;
@@ -645,7 +643,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
     i = 0;
     switch (this->unk_29E) {
         case 0:
-            if (globalCtx->unk_11E5C != 0) {
+            if (globalCtx->shootingGalleryStatus != 0) {
                 i = 1;
             }
             break;
@@ -663,7 +661,7 @@ void EnSyatekiNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                Actor* thisx) {
+                                void* thisx) {
     EnSyatekiNiw* this = THIS;
     Vec3f sp0 = { 0.0f, 0.0f, 0.0f };
 
@@ -683,7 +681,7 @@ s32 SyatekiNiw_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         rot->z += (s16)this->unk_2A4.x;
     }
 
-    return 0;
+    return false;
 }
 
 void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -696,8 +694,8 @@ void EnSyatekiNiw_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_80026230(globalCtx, &sp30, 0, 0x14);
         }
 
-        SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                         SyatekiNiw_OverrideLimbDraw, NULL, &this->actor);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, SyatekiNiw_OverrideLimbDraw, NULL, this);
         func_80026608(globalCtx);
         func_80B13464(this, globalCtx);
     }
@@ -715,8 +713,8 @@ void func_80B131B8(EnSyatekiNiw* this, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3, f3
             ptr->unk_1C = *arg3;
             ptr->unk_34 = 0;
             ptr->unk_2C = (arg4 / 1000.0f);
-            ptr->unk_28 = (s16)Math_Rand_ZeroFloat(20.0f) + 0x28;
-            ptr->unk_2A = Math_Rand_ZeroFloat(1000.0f);
+            ptr->unk_28 = (s16)Rand_ZeroFloat(20.0f) + 0x28;
+            ptr->unk_2A = Rand_ZeroFloat(1000.0f);
             return;
         }
     }
@@ -737,13 +735,13 @@ void func_80B132A8(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             ptr->unk_10.z += ptr->unk_1C.z;
             if (ptr->unk_00 == 1) {
                 ptr->unk_2A++;
-                Math_SmoothScaleMaxF(&ptr->unk_10.x, 0.0f, 1.0f, 0.05f);
-                Math_SmoothScaleMaxF(&ptr->unk_10.z, 0.0f, 1.0f, 0.05f);
+                Math_ApproachF(&ptr->unk_10.x, 0.0f, 1.0f, 0.05f);
+                Math_ApproachF(&ptr->unk_10.z, 0.0f, 1.0f, 0.05f);
                 if (ptr->unk_10.y < -0.5f) {
                     ptr->unk_10.y = 0.5f;
                 }
 
-                ptr->unk_30 = (Math_Sins(ptr->unk_2A * 3000) * M_PI) * 0.2f;
+                ptr->unk_30 = (Math_SinS(ptr->unk_2A * 3000) * M_PI) * 0.2f;
                 if (ptr->unk_28 < ptr->unk_34) {
                     ptr->unk_00 = 0;
                 }
@@ -765,7 +763,7 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
     for (i = 0; i < 5; i++, ptr++) {
         if (ptr->unk_00 == 1) {
             if (flag == 0) {
-                gSPDisplayList(oGfxCtx->polyXlu.p++, D_060023B0);
+                gSPDisplayList(POLY_XLU_DISP++, D_060023B0);
                 flag++;
             }
 
@@ -775,9 +773,9 @@ void func_80B13464(EnSyatekiNiw* this, GlobalContext* globalCtx) {
             Matrix_RotateZ(ptr->unk_30, MTXMODE_APPLY);
             Matrix_Translate(0.0f, -1000.0f, 0.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_syateki_niw.c", 1251),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_06002428);
+            gSPDisplayList(POLY_XLU_DISP++, D_06002428);
         }
     }
 

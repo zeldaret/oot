@@ -99,7 +99,7 @@ glabel EnMu_Draw
 /* 00748 80AB0B68 AFAC0010 */  sw      $t4, 0x0010($sp)
 /* 0074C 80AB0B6C AFAD0014 */  sw      $t5, 0x0014($sp)
 /* 00750 80AB0B70 AFB60018 */  sw      $s6, 0x0018($sp)
-/* 00754 80AB0B74 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 00754 80AB0B74 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 00758 80AB0B78 03C02025 */  or      $a0, $s8, $zero            ## $a0 = 00000000
 /* 0075C 80AB0B7C 3C0680AB */  lui     $a2, %hi(D_80AB0C80)       ## $a2 = 80AB0000
 /* 00760 80AB0B80 24C60C80 */  addiu   $a2, $a2, %lo(D_80AB0C80)  ## $a2 = 80AB0C80

@@ -11,7 +11,7 @@ glabel func_8087D2F0
 /* 00350 8087D310 8605001C */  lh      $a1, 0x001C($s0)           ## 0000001C
 /* 00354 8087D314 504000A4 */  beql    $v0, $zero, .L8087D5A8     
 /* 00358 8087D318 8FBF0034 */  lw      $ra, 0x0034($sp)           
-/* 0035C 8087D31C 0C023A62 */  jal     func_8008E988              
+/* 0035C 8087D31C 0C023A62 */  jal     Player_InCsMode              
 /* 00360 8087D320 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00364 8087D324 1440009F */  bne     $v0, $zero, .L8087D5A4     
 /* 00368 8087D328 240E0019 */  addiu   $t6, $zero, 0x0019         ## $t6 = 00000019
@@ -29,19 +29,19 @@ glabel func_8087D2F0
 /* 00398 8087D358 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
 /* 0039C 8087D35C 54610061 */  bnel    $v1, $at, .L8087D4E4       
 /* 003A0 8087D360 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 003A4 8087D364 0C01DE0D */  jal     Math_Coss
+/* 003A4 8087D364 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 003A8 8087D368 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 003AC 8087D36C E7A00040 */  swc1    $f0, 0x0040($sp)           
-/* 003B0 8087D370 0C01DE1C */  jal     Math_Sins
+/* 003B0 8087D370 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 003B4 8087D374 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 003B8 8087D378 E7A00044 */  swc1    $f0, 0x0044($sp)           
-/* 003BC 8087D37C 0C01DE1C */  jal     Math_Sins
+/* 003BC 8087D37C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 003C0 8087D380 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 003C4 8087D384 E7A00048 */  swc1    $f0, 0x0048($sp)           
-/* 003C8 8087D388 0C01DE0D */  jal     Math_Coss
+/* 003C8 8087D388 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 003CC 8087D38C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 003D0 8087D390 3C01C1C8 */  lui     $at, 0xC1C8                ## $at = C1C80000
@@ -82,19 +82,19 @@ glabel func_8087D2F0
 /* 0045C 8087D41C 0C00C7D4 */  jal     Actor_Spawn
               ## ActorSpawn
 /* 00460 8087D420 AFA00020 */  sw      $zero, 0x0020($sp)         
-/* 00464 8087D424 0C01DE0D */  jal     Math_Coss
+/* 00464 8087D424 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00468 8087D428 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 0046C 8087D42C E7A00040 */  swc1    $f0, 0x0040($sp)           
-/* 00470 8087D430 0C01DE1C */  jal     Math_Sins
+/* 00470 8087D430 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00474 8087D434 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00478 8087D438 E7A00044 */  swc1    $f0, 0x0044($sp)           
-/* 0047C 8087D43C 0C01DE1C */  jal     Math_Sins
+/* 0047C 8087D43C 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00480 8087D440 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00484 8087D444 E7A00048 */  swc1    $f0, 0x0048($sp)           
-/* 00488 8087D448 0C01DE0D */  jal     Math_Coss
+/* 00488 8087D448 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 0048C 8087D44C 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00490 8087D450 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
@@ -138,19 +138,19 @@ glabel func_8087D2F0
 .L8087D4E4:
 /* 00524 8087D4E4 54610030 */  bnel    $v1, $at, .L8087D5A8       
 /* 00528 8087D4E8 8FBF0034 */  lw      $ra, 0x0034($sp)           
-/* 0052C 8087D4EC 0C01DE0D */  jal     Math_Coss
+/* 0052C 8087D4EC 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00530 8087D4F0 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00534 8087D4F4 E7A00040 */  swc1    $f0, 0x0040($sp)           
-/* 00538 8087D4F8 0C01DE1C */  jal     Math_Sins
+/* 00538 8087D4F8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0053C 8087D4FC 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00540 8087D500 E7A00044 */  swc1    $f0, 0x0044($sp)           
-/* 00544 8087D504 0C01DE1C */  jal     Math_Sins
+/* 00544 8087D504 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00548 8087D508 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 0054C 8087D50C E7A00048 */  swc1    $f0, 0x0048($sp)           
-/* 00550 8087D510 0C01DE0D */  jal     Math_Coss
+/* 00550 8087D510 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00554 8087D514 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
 /* 00558 8087D518 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000

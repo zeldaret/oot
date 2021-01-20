@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_comb.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00000000
 
@@ -32,14 +33,14 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphItemInit sJntSphItemsInit[1] = {
     {
         { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
         { 0x00, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
-ColliderJntSphInit sJntSphInit = {
+static ColliderJntSphInit sJntSphInit = {
     { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
     1,
     &sJntSphItemsInit,
@@ -57,60 +58,63 @@ extern Gfx D_05009940[];
 
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
-    Vec3f posSum;
-    Vec3f pos2;
+    Vec3f pos;
+    Vec3f velocity;
     Gfx** dlist = D_05009940;
     s16 scale;
     s16 angle = 0;
-    s16 gravityInfluence;
-    u8 u0;
-    u8 rotSpeed;
+    s16 gravity;
+    u8 arg5;
+    u8 arg6;
     f32 rand1;
     f32 rand2;
     s32 i;
 
     for (i = 0; i < 31; i++) {
         angle += 20000;
-        rand1 = Math_Rand_ZeroOne() * 10.0f;
+        rand1 = Rand_ZeroOne() * 10.0f;
 
-        pos1.x = Math_Sins(angle) * rand1;
+        pos1.x = Math_SinS(angle) * rand1;
         pos1.y = (i - 15) * 0.7f;
-        pos1.z = Math_Coss(angle) * rand1;
+        pos1.z = Math_CosS(angle) * rand1;
 
-        Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &posSum);
+        Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &pos);
 
-        pos2.x = (Math_Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
-        pos2.y = (Math_Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
-        pos2.z = (Math_Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
+        velocity.y = (Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
 
-        scale = Math_Rand_ZeroOne() * 72.0f + 25.0f;
+        scale = Rand_ZeroOne() * 72.0f + 25.0f;
+
         if (scale < 40) {
-            gravityInfluence = -200;
-            rotSpeed = 40;
+            gravity = -200;
+            arg6 = 40;
         } else if (scale < 70) {
-            gravityInfluence = -280;
-            rotSpeed = 30;
+            gravity = -280;
+            arg6 = 30;
         } else {
-            gravityInfluence = -340;
-            rotSpeed = 20;
+            gravity = -340;
+            arg6 = 20;
         }
 
-        rand2 = Math_Rand_ZeroOne();
+        rand2 = Rand_ZeroOne();
+
         if (rand2 < 0.1f) {
-            u0 = 96;
+            arg5 = 96;
         } else if (rand2 < 0.8f) {
-            u0 = 64;
+            arg5 = 64;
         } else {
-            u0 = 32;
+            arg5 = 32;
         }
-        func_80029E8C(globalCtx, &posSum, &pos2, &posSum, gravityInfluence, u0, rotSpeed, 4, 0, scale, 0, 0, 80, -1, 2,
-                      dlist);
+
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, gravity, arg5, arg6, 4, 0, scale, 0, 0, 80,
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, dlist);
     }
 
-    posSum.x = this->actor.posRot.pos.x;
-    posSum.y = this->actor.posRot.pos.y - 10.0f;
-    posSum.z = this->actor.posRot.pos.z;
-    func_80033480(globalCtx, &posSum, 40.0f, 6, 70, 60, 1);
+    pos.x = this->actor.posRot.pos.x;
+    pos.y = this->actor.posRot.pos.y - 10.0f;
+    pos.z = this->actor.posRot.pos.z;
+    func_80033480(globalCtx, &pos, 40.0f, 6, 70, 60, 1);
 }
 
 void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
@@ -123,7 +127,7 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
             } else {
                 params = (params | (((this->actor.params >> 8) & 0x3F) << 8));
             }
-        } else if (Math_Rand_ZeroOne() < 0.5f) {
+        } else if (Rand_ZeroOne() < 0.5f) {
             params = -1;
         }
         if (params >= 0) {
@@ -141,8 +145,11 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjComb_SetupWait(this);
 }
 
-void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+void ObjComb_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    ObjComb* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void ObjComb_SetupWait(ObjComb* this) {
@@ -165,7 +172,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
         } else {
             ObjComb_Break(this, globalCtx);
             ObjComb_ChooseItemDrop(this, globalCtx);
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
         }
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
@@ -181,7 +188,7 @@ void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_1B2 += 12000;
     this->actionFunc(this, globalCtx);
-    this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
+    this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
 }
 
 void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -199,10 +206,10 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(0, -(this->actor.scale.y * 118.0f), 0, 1);
     Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, 1);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_050095B0);
+    gSPDisplayList(POLY_OPA_DISP++, D_050095B0);
 
     func_800628A4(0, &this->collider);
 

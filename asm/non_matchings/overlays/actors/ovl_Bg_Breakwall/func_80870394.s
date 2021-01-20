@@ -20,8 +20,8 @@ glabel func_80870394
 /* 007E8 808703C8 31090003 */  andi    $t1, $t0, 0x0003           ## $t1 = 00000000
 /* 007EC 808703CC AFA90030 */  sw      $t1, 0x0030($sp)           
 /* 007F0 808703D0 8E06014C */  lw      $a2, 0x014C($s0)           ## 0000014C
-/* 007F4 808703D4 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 007F4 808703D4 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 007F8 808703D8 AFA70044 */  sw      $a3, 0x0044($sp)           
 /* 007FC 808703DC 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 00800 808703E0 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
@@ -88,8 +88,8 @@ glabel func_80870394
 /* 008D4 808704B4 0C00D6DD */  jal     Flags_SetEventChkInf
               
 /* 008D8 808704B8 240400B0 */  addiu   $a0, $zero, 0x00B0         ## $a0 = 000000B0
-/* 008DC 808704BC 3C050201 */  lui     $a1, 0x0201                ## $a1 = 02010000
-/* 008E0 808704C0 24A54F80 */  addiu   $a1, $a1, 0x4F80           ## $a1 = 02014F80
+/* 008DC 808704BC 3C050201 */  lui     $a1, %hi(D_02014F80)                ## $a1 = 02010000
+/* 008E0 808704C0 24A54F80 */  addiu   $a1, $a1, %lo(D_02014F80)           ## $a1 = 02014F80
 /* 008E4 808704C4 0C01A4F6 */  jal     Cutscene_SetSegment
               
 /* 008E8 808704C8 8FA40044 */  lw      $a0, 0x0044($sp)           

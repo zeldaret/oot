@@ -5,7 +5,7 @@
  */
 
 #include "z_en_wonder_talk.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x08000009
 
@@ -150,7 +150,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
                 }
                 this->actionFunc = func_80B391CC;
             }
-        } else if (!(this->unk_15C < this->actor.xzDistFromLink)) {
+        } else if (!(this->unk_15C < this->actor.xzDistToLink)) {
             yawDiffTemp = (this->actor.yawTowardsLink - this->actor.posRot.rot.y);
             yawDiff = ABS(yawDiffTemp);
 

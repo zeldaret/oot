@@ -1,5 +1,4 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
 void __osViSwapContext() {
     register OSViMode* s0;

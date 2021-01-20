@@ -4,8 +4,8 @@
  * Description: Death Mountain Trail Gate
  */
 
+#include "vt.h"
 #include "z_bg_gate_shutter.h"
-#include <vt.h>
 
 #define FLAGS 0x00000000
 
@@ -34,16 +34,16 @@ const ActorInit Bg_Gate_Shutter_InitVars = {
 };
 
 extern Gfx D_06001CD0[];
-extern UNK_TYPE D_06001DA8;
+extern CollisionHeader D_06001DA8;
 
 void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgGateShutter* this = THIS;
     s32 pad[2];
-    s32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06001DA8, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06001DA8, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     this->somePos.x = thisx->posRot.pos.x;
     this->somePos.y = thisx->posRot.pos.y;
     this->somePos.z = thisx->posRot.pos.z;
@@ -63,7 +63,7 @@ void BgGateShutter_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgGateShutter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgGateShutter* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8087828C(BgGateShutter* this, GlobalContext* globalCtx) {
@@ -85,7 +85,7 @@ void func_80878300(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_178 == 0) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->posRot.pos.x -= 2.0f;
-        Math_SmoothScaleMaxF(&thisx->posRot.pos.z, -1375.0f, 0.8f, 0.3f);
+        Math_ApproachF(&thisx->posRot.pos.z, -1375.0f, 0.8f, 0.3f);
         if (thisx->posRot.pos.x < -89.0f) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_178 = 0x1E;
@@ -107,7 +107,7 @@ void func_808783D4(BgGateShutter* this, GlobalContext* globalCtx) {
     if (this->unk_178 == 0) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
         thisx->posRot.pos.x += 2.0f;
-        Math_SmoothScaleMaxF(&thisx->posRot.pos.z, -1350.0f, 0.8f, 0.3f);
+        Math_ApproachF(&thisx->posRot.pos.z, -1350.0f, 0.8f, 0.3f);
         if (thisx->posRot.pos.x > 90.0f) {
             thisx->posRot.pos.x = 91.0f;
             Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
@@ -131,9 +131,9 @@ void BgGateShutter_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 328),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001CD0);
+    gSPDisplayList(POLY_OPA_DISP++, D_06001CD0);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_gate_shutter.c", 333);
 }

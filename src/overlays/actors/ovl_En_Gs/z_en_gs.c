@@ -5,6 +5,7 @@
  */
 
 #include "z_en_gs.h"
+#include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x02000009
 
@@ -43,11 +44,11 @@ static ColliderCylinderInit D_80A4FDA0 = {
     { 21, 48, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 D_80A4FDCC = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 D_80A4FDCC = { 0, 0, 0, 0, 0xFF };
 
-DamageTable D_80A4FDD8 = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0, 0xF0, 0xF0,
-                           0xB0, 0xB0, 0xB0, 0x00, 0x00, 0x00, 0xB0, 0xB0, 0xB0, 0x00, 0x00,
-                           0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
+static DamageTable D_80A4FDD8 = { 0x00, 0x00, 0xE0, 0xC0, 0xE0, 0xE0, 0xD0, 0xE0, 0xF0, 0xF0, 0xF0,
+                                  0xB0, 0xB0, 0xB0, 0x00, 0x00, 0x00, 0xB0, 0xB0, 0xB0, 0x00, 0x00,
+                                  0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
@@ -99,7 +100,7 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     bREG(15) = 0;
-    if (this->actor.xzDistFromLink <= 100.0f) {
+    if (this->actor.xzDistToLink <= 100.0f) {
         bREG(15) = 1;
         if (this->unk_19D == 0) {
             player->stateFlags2 |= 0x800000;
@@ -114,11 +115,11 @@ void func_80A4E470(EnGs* this, GlobalContext* globalCtx) {
                     (globalCtx->msgCtx.unk_E3F2 == 8) || (globalCtx->msgCtx.unk_E3F2 == 9) ||
                     (globalCtx->msgCtx.unk_E3F2 == 10)) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 2);
+                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_HEAL_TIMED);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 } else if (globalCtx->msgCtx.unk_E3F2 == 11) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, 7);
+                                this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_HEAL_BIG);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EV_BUTTERFRY_TO_FAIRY);
                 }
                 this->unk_19D = 0;
@@ -143,9 +144,9 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19C = 2;
     } else {
         func_8002F374(globalCtx, &this->actor, &sp26, &sp24);
-        if ((sp26 >= 0) && (sp26 < 0x141) && (sp24 >= 0) && (sp24 < 0xF1) && (this->unk_19C != 3)) {
+        if ((sp26 >= 0) && (sp26 <= SCREEN_WIDTH) && (sp24 >= 0) && (sp24 <= SCREEN_HEIGHT) && (this->unk_19C != 3)) {
             if (func_8002F2CC(&this->actor, globalCtx, 40.0f) == 1) {
-                if (func_8008F080(globalCtx) == 8) {
+                if (Player_GetMask(globalCtx) == PLAYER_MASK_TRUTH) {
                     this->actor.textId = 0x2054;
                 } else {
                     this->actor.textId = 0x2053;
@@ -157,10 +158,10 @@ void func_80A4E648(EnGs* this, GlobalContext* globalCtx) {
 
 f32 func_80A4E754(EnGs* this, GlobalContext* globalCtx, f32* arg2, f32* arg3, u16* arg4, f32 arg5, f32 arg6, f32 arg7,
                   s32 arg8, s32 arg9) {
-    f32 sp2C = Math_SmoothScaleMaxMinF(arg2, *arg3, arg5, arg6, arg7);
+    f32 sp2C = Math_SmoothStepToF(arg2, *arg3, arg5, arg6, arg7);
 
     if (arg9 == 0) {
-        sp2C = Math_SmoothScaleMaxMinF(arg2, *arg3, arg5, arg6, arg7);
+        sp2C = Math_SmoothStepToF(arg2, *arg3, arg5, arg6, arg7);
         this->unk_1B4[0].x = 1.0f + (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
         this->unk_1B4[0].y = 1.0f - (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
         *arg4 += 1;
@@ -213,7 +214,7 @@ void func_80A4EB3C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1EC = -0.8f;
         this->unk_19F++;
     } else if (this->unk_19F == 1) {
-        ret = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.4f, 0.001f);
+        ret = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.4f, 0.001f);
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (ret == 0.0f) {
             this->unk_200 = 0;
@@ -227,7 +228,7 @@ void func_80A4EB3C(EnGs* this, GlobalContext* globalCtx) {
             this->unk_1EC = 0.0f;
         }
     } else if (this->unk_19F == 3) {
-        ret = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.5f, 0.001f);
+        ret = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, 0.5f, 0.001f);
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (ret == 0.0f) {
             this->unk_1E8 = 0.5f;
@@ -299,18 +300,18 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
 
     if (this->unk_19F == 3) {
         for (i = 0; i < 3; i++) {
-            dustVelocity.x = Math_Rand_CenteredFloat(15.0f);
-            dustVelocity.y = Math_Rand_ZeroFloat(-1.0f);
-            dustVelocity.z = Math_Rand_CenteredFloat(15.0f);
+            dustVelocity.x = Rand_CenteredFloat(15.0f);
+            dustVelocity.y = Rand_ZeroFloat(-1.0f);
+            dustVelocity.z = Rand_CenteredFloat(15.0f);
             dustPos.x = this->actor.posRot.pos.x + (dustVelocity.x + dustVelocity.x);
             dustPos.y = this->actor.posRot.pos.y + 7.0f;
             dustPos.z = this->actor.posRot.pos.z + (dustVelocity.z + dustVelocity.z);
             func_8002836C(globalCtx, &dustPos, &dustVelocity, &dustAccel, &dustPrim, &dustEnv,
-                          (s16)Math_Rand_ZeroFloat(50.0f) + 200, 40, 15);
+                          (s16)Rand_ZeroFloat(50.0f) + 200, 40, 15);
         }
 
         func_8002F974(&this->actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
-        if ((this->unk_200++ < 0x28) ^ 1) {
+        if (this->unk_200++ >= 40) {
             this->unk_19E |= 0x10;
             this->actor.flags |= 0x10;
             this->actor.uncullZoneForward = 12000.0f;
@@ -336,7 +337,7 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
         }
 
         Actor_MoveForward(&this->actor);
-        if (this->actor.yDistFromLink < -12000.0f) {
+        if (this->actor.yDistToLink < -12000.0f) {
             Actor_Kill(&this->actor);
         }
     }
@@ -358,8 +359,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_19F = 1;
     }
     if (this->unk_19F == 1) {
-        Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
+        Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
         this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
         if (tmpf1 == 0.0f) {
             this->unk_200 = 0;
@@ -379,8 +380,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     }
     if (this->unk_19F == 3) {
         this->unk_1A0[0].y += 0x4000;
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.2f, 0.001f);
-        Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.2f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.2f, 0.001f);
+        Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.2f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (tmpf1 == 0.0f) {
@@ -390,7 +391,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_19F == 4) {
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 16384.0f, 3640.0f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 16384.0f, 3640.0f);
         this->unk_1A0[0].y += (s16)this->unk_1E8;
         if (tmpf1 == 0.0f) {
 
@@ -410,7 +411,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
             tmp += 0xFFFF0001;
         }
         this->unk_1E8 = tmp;
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 3640.0f, 0.001f);
         this->unk_1A0[0].y = this->unk_1E8;
         if (tmpf1 == 0.0f) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
@@ -426,9 +427,9 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         }
     }
     if (this->unk_19F == 6) {
-        tmpf1 = Math_SmoothScaleMaxMinF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.1f, 0.001f);
-        tmpf2 = Math_SmoothScaleMaxMinF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.1f, 0.001f);
-        tmpf3 = Math_SmoothScaleMaxMinF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
+        tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 0.8f, 0.1f, 0.001f);
+        tmpf2 = Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 0.8f, 0.1f, 0.001f);
+        tmpf3 = Math_SmoothStepToF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         this->unk_1B4[0].x += sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8;
@@ -541,19 +542,19 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
         }
 
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000950);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000950);
 
         if (this->unk_19E & 4) {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->flashColor.r, this->flashColor.g, this->flashColor.b,
                             this->flashColor.a);
         } else {
-            gDPSetPrimColor(oGfxCtx->polyOpa.p++, 0, 0, 255, 255, 255, 255);
+            gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
         }
 
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_060009D0);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, D_06000A60);
+        gSPDisplayList(POLY_OPA_DISP++, D_060009D0);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000A60);
 
         Matrix_Pull();
         if (this->unk_19E & 2) {
@@ -561,14 +562,14 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(0.05f, -0.05f, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1087),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(
-                oGfxCtx->polyXlu.p++, 0x08,
+                POLY_XLU_DISP++, 0x08,
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 128, 128, 255, 255, 0, 255);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, D_0404D4E0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 0, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+            gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);

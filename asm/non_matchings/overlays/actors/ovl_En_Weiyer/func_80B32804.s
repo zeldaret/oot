@@ -16,7 +16,7 @@ glabel func_80B32804
 /* 005AC 80B3283C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 005B0 80B32840 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 005B4 80B32844 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
-/* 005B8 80B32848 0C00F269 */  jal     func_8003C9A4              
+/* 005B8 80B32848 0C00F269 */  jal     BgCheck_EntityRaycastFloor4              
 /* 005BC 80B3284C AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 005C0 80B32850 E6000080 */  swc1    $f0, 0x0080($s0)           ## 00000080
 /* 005C4 80B32854 8E060024 */  lw      $a2, 0x0024($s0)           ## 00000024
@@ -26,7 +26,7 @@ glabel func_80B32804
 /* 005D4 80B32864 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 005D8 80B32868 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 005DC 80B3286C 8FA5002C */  lw      $a1, 0x002C($sp)           
-/* 005E0 80B32870 0C010891 */  jal     func_80042244              
+/* 005E0 80B32870 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 005E4 80B32874 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 005E8 80B32878 10400009 */  beq     $v0, $zero, .L80B328A0     
 /* 005EC 80B3287C 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

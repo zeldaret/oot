@@ -100,7 +100,7 @@ glabel EnAm_Update
 /* 01C2C 809AFB4C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 01C30 809AFB50 44816000 */  mtc1    $at, $f12                  ## $f12 = 10.00
 /* 01C34 809AFB54 46128100 */  add.s   $f4, $f16, $f18            
-/* 01C38 809AFB58 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 01C38 809AFB58 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 01C3C 809AFB5C E7A40070 */  swc1    $f4, 0x0070($sp)           
 /* 01C40 809AFB60 3C014220 */  lui     $at, 0x4220                ## $at = 42200000

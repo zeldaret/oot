@@ -263,7 +263,7 @@ glabel func_80B4781C
 /* 03B70 80B47BC0 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 03B74 80B47BC4 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 /* 03B78 80B47BC8 24070FA0 */  addiu   $a3, $zero, 0x0FA0         ## $a3 = 00000FA0
-/* 03B7C 80B47BCC 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 03B7C 80B47BCC 0C01E1A7 */  jal     Math_SmoothStepToS
 
 /* 03B80 80B47BD0 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 03B84 80B47BD4 86190032 */  lh      $t9, 0x0032($s0)           ## 00000032
@@ -296,10 +296,10 @@ glabel func_80B4781C
 /* 03BE0 80B47C30 3C0580B5 */  lui     $a1, %hi(D_80B4A280)       ## $a1 = 80B50000
 /* 03BE4 80B47C34 00AC2821 */  addu    $a1, $a1, $t4
 /* 03BE8 80B47C38 8CA5A280 */  lw      $a1, %lo(D_80B4A280)($a1)
-/* 03BEC 80B47C3C 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 03BEC 80B47C3C 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 03BF0 80B47C40 8FA60070 */  lw      $a2, 0x0070($sp)
 .L80B47C44:
-/* 03BF4 80B47C44 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03BF4 80B47C44 0C02927F */  jal     SkelAnime_Update
 
 /* 03BF8 80B47C48 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03BFC 80B47C4C 8FBF003C */  lw      $ra, 0x003C($sp)

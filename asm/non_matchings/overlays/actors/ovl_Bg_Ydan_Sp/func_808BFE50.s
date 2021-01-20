@@ -28,7 +28,7 @@ glabel func_808BFE50
 /* 00A80 808BFE90 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00A84 808BFE94 27A50030 */  addiu   $a1, $sp, 0x0030           ## $a1 = FFFFFFF0
 /* 00A88 808BFE98 AFA3003C */  sw      $v1, 0x003C($sp)           
-/* 00A8C 808BFE9C 0C023BD7 */  jal     func_8008EF5C              
+/* 00A8C 808BFE9C 0C023BD7 */  jal     Player_IsBurningStickInRange              
 /* 00A90 808BFEA0 E7AA0038 */  swc1    $f10, 0x0038($sp)          
 /* 00A94 808BFEA4 1040000A */  beq     $v0, $zero, .L808BFED0     
 /* 00A98 808BFEA8 8FA3003C */  lw      $v1, 0x003C($sp)           
@@ -172,7 +172,7 @@ glabel func_808BFE50
 /* 00C90 808C00A0 2604016C */  addiu   $a0, $s0, 0x016C           ## $a0 = 0000016C
 /* 00C94 808C00A4 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
 /* 00C98 808C00A8 46062200 */  add.s   $f8, $f4, $f6              
-/* 00C9C 808C00AC 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 00C9C 808C00AC 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 00CA0 808C00B0 E6080028 */  swc1    $f8, 0x0028($s0)           ## 00000028
 /* 00CA4 808C00B4 8619016A */  lh      $t9, 0x016A($s0)           ## 0000016A

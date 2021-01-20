@@ -11,7 +11,7 @@ glabel func_80932674
 /* 060AC 8093267C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 060B0 80932680 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 060B4 80932684 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 060B8 80932688 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 060B8 80932688 0C02927F */  jal     SkelAnime_Update
               
 /* 060BC 8093268C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 060C0 80932690 86020198 */  lh      $v0, 0x0198($s0)           ## 00000198

@@ -175,14 +175,14 @@ void EnPeehat_SpawnDust(GlobalContext* globalCtx, EnPeehat* this, Vec3f* pos, f3
     sp50 = D_80AD2814;
     sp44 = D_80AD2820;
 
-    sp40 = (Math_Rand_ZeroOne() - 0.5f) * 6.28f;
+    sp40 = (Rand_ZeroOne() - 0.5f) * 6.28f;
     sp5C.y = this->actor.groundY; //unk80
-    sp5C.x = (func_800CA720(sp40) * arg3) + pos->x;
-    sp5C.z = (func_800CA774(sp40) * arg3) + pos->z;
-    sp44.x = (Math_Rand_ZeroOne() - 0.5f) * arg5;
-    sp44.z = (Math_Rand_ZeroOne() - 0.5f) * arg5;
-    sp50.y += ((Math_Rand_ZeroOne() - 0.5f) * 4.0f);
-    func_80029724(globalCtx, &sp5C, &sp50, &sp44, arg4, (s32)(((Math_Rand_ZeroOne() * 5.0f) + 12.0f) * arg6), -1, 10, NULL);
+    sp5C.x = (Math_SinF(sp40) * arg3) + pos->x;
+    sp5C.z = (Math_CosF(sp40) * arg3) + pos->z;
+    sp44.x = (Rand_ZeroOne() - 0.5f) * arg5;
+    sp44.z = (Rand_ZeroOne() - 0.5f) * arg5;
+    sp50.y += ((Rand_ZeroOne() - 0.5f) * 4.0f);
+    EffectSsHahen_Spawn(globalCtx, &sp5C, &sp50, &sp44, arg4, (s32)(((Rand_ZeroOne() * 5.0f) + 12.0f) * arg6), -1, 10, NULL);
 }
 
 //Handles being hit when on the ground
@@ -204,12 +204,12 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
         this->colCylinder.base.acFlags &= ~2;
         for (i = MAX_LARVA - this->unk2FA; i > 0; i--) {
             larva = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_PEEHAT,
-                Math_Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.x, Math_Rand_CenteredFloat(25.0f) + (this->actor.posRot.pos.y + 50.0f),
-                Math_Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.z,
+                Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.x, Rand_CenteredFloat(25.0f) + (this->actor.posRot.pos.y + 50.0f),
+                Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.z,
                 0, 0, 0, TYPE_LARVA);
             if (larva != NULL) {
                 larva->velocity.y = 6.0f;
-                larva->shape.rot.y = larva->posRot.rot.y = (s16)Math_Rand_CenteredFloat(65535.0f);
+                larva->shape.rot.y = larva->posRot.rot.y = (s16)Rand_CenteredFloat(65535.0f);
                 this->unk2FA++;
             }
         }
@@ -219,7 +219,7 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, (f32)SkelAnime_GetFrameCount(&D_060009C4.genericHeader), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, (f32)Animation_GetLastFrame(&D_060009C4.common), 2, 0.0f);
     this->unk2F8 = 0x258;
     this->unk2D4 = 0;
     this->unk2FA = 0;
@@ -233,25 +233,25 @@ void EnPeehat_Ground_GroundState(EnPeehat* this, GlobalContext* globalCtx) {
     if (gSaveContext.nightFlag == 0) {
         this->actor.flags |= 1;
         if (this->unk2F6 == 0) {
-            if (this->actor.xzDistFromLink < this->xzDistToRise) {
+            if (this->actor.xzDistToLink < this->xzDistToRise) {
                 EnPeehat_Ground_SetStateRise(this);
             }
         }
         else {
-            Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 10.0f, 0.0f);
+            Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 10.0f, 0.0f);
             this->unk2F6--;
         }
     }
     else {
         this->actor.flags &= ~1;
-        Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
         if (this->unk2D4 != 0) {
             this->unk2D4--;
             if ((this->unk2D4 & 4) != 0) {
-                Math_SmoothScaleMaxMinF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0.0f);
+                Math_SmoothStepToF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0.0f);
             }
             else {
-                Math_SmoothScaleMaxMinF(&this->unk2EC, 0.0f, 1.0f, 0.005f, 0.0f);
+                Math_SmoothStepToF(&this->unk2EC, 0.0f, 1.0f, 0.005f, 0.0f);
             }
 
         } else if (this->colCylinder.base.acFlags & 2) {
@@ -261,7 +261,7 @@ void EnPeehat_Ground_GroundState(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Fly_SetStateGround(EnPeehat* this) {
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, (f32)SkelAnime_GetFrameCount(&D_060009C4.genericHeader), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, (f32)Animation_GetLastFrame(&D_060009C4.common), 2, 0.0f);
     this->unk2F8 = 0x190;
     this->unk2D4 = 0;
     this->unk2FA = 0;
@@ -271,19 +271,19 @@ void EnPeehat_Fly_SetStateGround(EnPeehat* this) {
 
 void EnPeehat_Fly_StateGrounded(EnPeehat* this, GlobalContext* globalCtx) {
     if (gSaveContext.nightFlag == 0) {
-        if (this->actor.xzDistFromLink < this->xzDistToRise) {
+        if (this->actor.xzDistToLink < this->xzDistToRise) {
             EnPeehat_Fly_SetStateRise(this);
         }
     }
     else {
-        Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
         if (this->unk2D4 != 0) {
             this->unk2D4--;
             if (this->unk2D4 & 4) {
-                Math_SmoothScaleMaxMinF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0.0f);
+                Math_SmoothStepToF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0.0f);
             }
             else {
-                Math_SmoothScaleMaxMinF(&this->unk2EC, 0.0f, 1.0f, 0.005f, 0.0f);
+                Math_SmoothStepToF(&this->unk2EC, 0.0f, 1.0f, 0.005f, 0.0f);
             }
         }
         else if (this->colCylinder.base.acFlags & 2) {
@@ -293,7 +293,7 @@ void EnPeehat_Fly_StateGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Fly_SetStateFly(EnPeehat* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C4);
+    Animation_PlayLoop(&this->skelAnime, &D_060005C4);
     this->unk2B0 = 5;
     EnPeehat_SetActionFunc(this, EnPeehat_Fly_StateFly);
 }
@@ -302,20 +302,20 @@ void EnPeehat_Fly_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
     Actor* larva;
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    if ((gSaveContext.nightFlag != 0) || this->xzDistToRise < this->actor.xzDistFromLink) {
+    SkelAnime_Update(&this->skelAnime);
+    if ((gSaveContext.nightFlag != 0) || this->xzDistToRise < this->actor.xzDistToLink) {
         func_80AD0D3C(this);
     }
     else {
-        if (this->actor.xzDistFromLink < this->xzDistMax) {
+        if (this->actor.xzDistToLink < this->xzDistMax) {
             if (this->unk2FA < MAX_LARVA && (globalCtx->gameplayFrames & 7) == 0) {
                 larva = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_PEEHAT,
-                    Math_Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.x,
-                    Math_Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.y,
-                    Math_Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.z,
+                    Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.x,
+                    Rand_CenteredFloat(5.0f) + this->actor.posRot.pos.y,
+                    Rand_CenteredFloat(25.0f) + this->actor.posRot.pos.z,
                     0, 0, 0, 1);
                 if (larva != NULL) {
-                    larva->shape.rot.y = larva->posRot.rot.y = (s16)Math_Rand_CenteredFloat(65535.0f);
+                    larva->shape.rot.y = larva->posRot.rot.y = (s16)Rand_CenteredFloat(65535.0f);
                     this->unk2FA++;
                 }
             }
@@ -327,9 +327,9 @@ void EnPeehat_Fly_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
     f32 frame;
 
-    frame = SkelAnime_GetFrameCount(&D_060009C4.genericHeader);
+    frame = Animation_GetLastFrame(&D_060009C4.common);
     if (this->unk2B0 != 0xD) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, frame, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, frame, 2, 0.0f);
     }
     this->unk2B0 = 8;
     this->unk2FC = (s16)frame;
@@ -340,18 +340,18 @@ void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
 void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0.0f, 1.0f, 50.0f, 0.0f);
-    if (Math_SmoothScaleMaxMinS(&this->unk2F0, 4000, 1, 800, 0) == 0) {
+    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 1.0f, 50.0f, 0.0f);
+    if (Math_SmoothStepToS(&this->unk2F0, 4000, 1, 800, 0) == 0) {
         if (this->unk2FC != 0) {
             this->unk2FC--;
-            if (0.0f == this->skelAnime.animPlaybackSpeed) {
+            if (0.0f == this->skelAnime.playSpeed) {
                 if (this->unk2FC == 0) {
                     this->unk2FC = 40;
-                    this->skelAnime.animPlaybackSpeed = 1.0f;
+                    this->skelAnime.playSpeed = 1.0f;
                 }
             }
         }
-        if ((SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) || (this->unk2FC == 0)) {
+        if ((SkelAnime_Update(&this->skelAnime) != 0) || (this->unk2FC == 0)) {
             EnPeehat_Ground_SetState_80AD0FC8(this);
         }
         else {
@@ -364,16 +364,16 @@ void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
         }
     }
     EnPeehat_SpawnDust(globalCtx, this, &this->actor.posRot.pos, 75.0f, 2, 1.05f, 2.0f);
-    Math_SmoothScaleMaxMinF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
+    Math_SmoothStepToF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
     this->unk2F2 += this->unk2F0;
 }
 
 void EnPeehat_Fly_SetStateRise(EnPeehat* this) {
     f32 timer;
 
-    timer = SkelAnime_GetFrameCount(&D_060009C4.genericHeader);
+    timer = Animation_GetLastFrame(&D_060009C4.common);
     if (this->unk2B0 != 0xD) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, timer, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, timer, 2, 0.0f);
     }
     this->unk2B0 = 9;
     this->unk2FC = (s16)timer;
@@ -384,18 +384,18 @@ void EnPeehat_Fly_SetStateRise(EnPeehat* this) {
 void EnPeehat_Fly_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, 0.0f, 1.0f, 50.0f, 0.0f);
-    if (Math_SmoothScaleMaxMinS(&this->unk2F0, 0xFA0, 1, 0x320, 0) == 0) {
+    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 1.0f, 50.0f, 0.0f);
+    if (Math_SmoothStepToS(&this->unk2F0, 0xFA0, 1, 0x320, 0) == 0) {
         if (this->unk2FC != 0) {
             this->unk2FC--;
-            if (0.0f == this->skelAnime.animPlaybackSpeed) {
+            if (0.0f == this->skelAnime.playSpeed) {
                 if (this->unk2FC == 0) {
                     this->unk2FC = 40;
-                    this->skelAnime.animPlaybackSpeed = 1.0f;
+                    this->skelAnime.playSpeed = 1.0f;
                 }
             }
         }
-        if ((SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) || (this->unk2FC == 0)) {
+        if ((SkelAnime_Update(&this->skelAnime) != 0) || (this->unk2FC == 0)) {
             this->unk2FA = 0;
             EnPeehat_Fly_SetStateFly(this);
         }
@@ -409,12 +409,12 @@ void EnPeehat_Fly_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
         }
     }
     EnPeehat_SpawnDust(globalCtx, this, &this->actor.posRot.pos, 75.0f, 2, 1.05f, 2.0f);
-    Math_SmoothScaleMaxMinF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
+    Math_SmoothStepToF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
     this->unk2F2 += this->unk2F0;
 }
 
 void func_80AD0558(EnPeehat* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C4);
+    Animation_PlayLoop(&this->skelAnime, &D_060005C4);
     this->unk2B0 = 0xE;
     this->unk2E0 = 0.0f;
     EnPeehat_SetActionFunc(this, func_80AD05A8);
@@ -424,8 +424,8 @@ void func_80AD05A8(EnPeehat* this, GlobalContext* globalCtx) {
     Player* player;
 
     player = PLAYER;
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 3.0f, 1.0f, 0.25f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY + 80.0f, 1.0f, 3.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 3.0f, 1.0f, 0.25f, 0.0f);
+    Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY + 80.0f, 1.0f, 3.0f, 0.0f);
     if (this->unk2F8 <= 0) {
         func_80AD0B3C(this);
         this->unk2F6 = 40;
@@ -434,7 +434,7 @@ void func_80AD05A8(EnPeehat* this, GlobalContext* globalCtx) {
         this->unk2F8--;
     }
     if ((gSaveContext.nightFlag == 0) && (Math_Vec3f_DistXZ(&this->actor.initPosRot.pos, &player->actor.posRot.pos) < this->xzDistMax)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 1000, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 1000, 0);
         if (this->unk2FA != 0) {
             this->actor.shape.rot.y += 0x1C2;
         }
@@ -445,15 +445,15 @@ void func_80AD05A8(EnPeehat* this, GlobalContext* globalCtx) {
     else {
         func_80AD1220(this);
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->unk2F0, 4000, 1, 500, 0);
+    SkelAnime_Update(&this->skelAnime);
+    Math_SmoothStepToS(&this->unk2F0, 4000, 1, 500, 0);
     this->unk2F2 += this->unk2F0;
-    Math_SmoothScaleMaxMinF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
+    Math_SmoothStepToF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
 }
 
 void EnPeehat_Larva_SetStateInit(EnPeehat* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C4);
+    Animation_PlayLoop(&this->skelAnime, &D_060005C4);
     this->unk2B0 = 14;
     this->unk2D4 = 0;
     EnPeehat_SetActionFunc(this, func_80AD076C);
@@ -468,8 +468,8 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f sp6C;
 
     speedXZ = 5.3f;
-    if (this->actor.xzDistFromLink <= 5.3f) {
-        speedXZ = this->actor.xzDistFromLink + 0.0005f;
+    if (this->actor.xzDistToLink <= 5.3f) {
+        speedXZ = this->actor.xzDistToLink + 0.0005f;
     }
     if (this->actor.parent != NULL) {
         if (this->actor.parent->update == NULL) {
@@ -478,22 +478,22 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
     }
     this->actor.speedXZ = speedXZ;
     if (70.0f <= (this->actor.posRot.pos.y - this->actor.groundY)) {
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, -1.3f, 1.0f, 0.5f, 0.0f);
+        Math_SmoothStepToF(&this->actor.velocity.y, -1.3f, 1.0f, 0.5f, 0.0f);
     }
     else {
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, -0.135f, 1.0f, 0.05f, 0.0f);
+        Math_SmoothStepToF(&this->actor.velocity.y, -0.135f, 1.0f, 0.05f, 0.0f);
     }
     if (this->unk2D4 == 0) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 830, 0);
+        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 1, 830, 0);
     }
     else {
         this->unk2D4--;
     }
     this->actor.shape.rot.y = (s16)(this->actor.shape.rot.y + 0x15E);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    Math_SmoothScaleMaxMinS(&this->unk2F0, 4000, 1, 500, 0);
+    SkelAnime_Update(&this->skelAnime);
+    Math_SmoothStepToS(&this->unk2F0, 4000, 1, 500, 0);
     this->unk2F2 += this->unk2F0;
-    Math_SmoothScaleMaxMinF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
+    Math_SmoothStepToF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_SM_FLY - SFX_FLAG);
     if ((this->colQuad.base.atFlags & 4) != 0) {
         this->actor.colChkInfo.health = 0;
@@ -505,7 +505,7 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
         player = PLAYER;
         this->colQuad.base.atFlags &= ~2;
         if ((this->colCylinder.base.acFlags & 2) == 0 && &player->actor == this->colQuad.base.at) {
-            if (0.5f < Math_Rand_ZeroOne()) {
+            if (0.5f < Rand_ZeroOne()) {
                 this->actor.posRot.rot.y += 0x2000;
             }
             else {
@@ -517,10 +517,10 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
             sp7C = D_80AD282C;
             for (i = 4; i >= 0; i--)
             {
-                sp6C.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                sp6C.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-                sp6C.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-                func_8002A6B8(globalCtx, &sp6C, &sp7C, &sp7C, 0x28, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 1, 9, 1);
+                sp6C.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+                sp6C.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+                sp6C.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                EffectSsDeadDb_Spawn(globalCtx, &sp6C, &sp7C, &sp7C, 0x28, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 1, 9, 1);
             }
         }
         if (&player->actor != this->colQuad.base.at || this->colCylinder.base.acFlags & 2) {
@@ -535,24 +535,24 @@ void func_80AD076C(EnPeehat* this, GlobalContext* globalCtx) {
 
 void func_80AD0B3C(EnPeehat* this) {
     this->unk2B0 = 10;
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000350);
+    Animation_PlayOnce(&this->skelAnime, &D_06000350);
     EnPeehat_SetActionFunc(this, func_80AD0B84);
 }
 
 void func_80AD0B84(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, 0, 1, 50, 0);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 50, 0);
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnPeehat_Ground_SetStateGround(this);
         this->actor.posRot.pos.y = this->actor.groundY;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_LAND);
     }
     else {
         if (this->actor.groundY < this->actor.posRot.pos.y) {
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY, 0.3f, 3.5f, 0.25f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY, 0.3f, 3.5f, 0.25f);
             if (this->actor.posRot.pos.y - this->actor.groundY < 60.0f) {
                 pos = this->actor.posRot.pos;
                 pos.y = this->actor.groundY;
@@ -561,12 +561,12 @@ void func_80AD0B84(EnPeehat* this, GlobalContext* globalCtx) {
             }
         }
     }
-    Math_SmoothScaleMaxMinS(&this->unk2F0, 0, 1, 100, 0);
+    Math_SmoothStepToS(&this->unk2F0, 0, 1, 100, 0);
     this->unk2F2 += this->unk2F0;
 }
 
 void func_80AD0D3C(EnPeehat* this) {
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_06000350);
+    Animation_PlayOnce(&this->skelAnime, &D_06000350);
     this->unk2B0 = 10;
     EnPeehat_SetActionFunc(this, EnPeehat_Fly_StateFall);
 }
@@ -574,17 +574,17 @@ void func_80AD0D3C(EnPeehat* this) {
 void EnPeehat_Fly_StateFall(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    Math_SmoothScaleMaxMinF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, 0, 1, 50, 0);
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
+    Math_SmoothStepToF(&this->actor.shape.unk_08, -1000.0f, 1.0f, 50.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 1, 50, 0);
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
         EnPeehat_Fly_SetStateGround(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_LAND);
         this->actor.posRot.pos.y = this->actor.groundY;
     }
     else {
         if (this->actor.groundY < this->actor.posRot.pos.y) {
-            Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY, 0.3f, 13.5f, 0.25f);
+            Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY, 0.3f, 13.5f, 0.25f);
             if ((this->actor.posRot.pos.y - this->actor.groundY) < 60.0f) {
                 pos = this->actor.posRot.pos;
                 pos.y = this->actor.groundY;
@@ -593,14 +593,14 @@ void EnPeehat_Fly_StateFall(EnPeehat* this, GlobalContext* globalCtx) {
             }
         }
     }
-    Math_SmoothScaleMaxMinS(&this->unk2F0, 0, 1, 100, 0);
+    Math_SmoothStepToS(&this->unk2F0, 0, 1, 100, 0);
     this->unk2F2 += this->unk2F0;
 }
 
 void EnPeehat_Ground_SetState_80AD0FC8(EnPeehat* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C4);
-    this->actor.speedXZ = Math_Rand_ZeroOne() * 0.5f + 2.5f;
-    this->unk2D4 = Math_Rand_ZeroOne() * 10.0f + 10.0f;
+    Animation_PlayLoop(&this->skelAnime, &D_060005C4);
+    this->actor.speedXZ = Rand_ZeroOne() * 0.5f + 2.5f;
+    this->unk2D4 = Rand_ZeroOne() * 10.0f + 10.0f;
     this->unk2B0 = 0xF;
     EnPeehat_SetActionFunc(this, EnPeehat_Ground_State_80AD0FC8);
 }
@@ -615,16 +615,16 @@ void EnPeehat_Ground_State_80AD0FC8(EnPeehat* this, GlobalContext* globalCtx) {
     if (75.0f < this->actor.posRot.pos.y - this->actor.groundY) {
         this->actor.posRot.pos.y -= 1.0f;
     }
-    this->actor.posRot.pos.y += func_800CA774(this->unk2E0) * 1.4f;
-    phi_f0 = func_800CA774(this->unk2E0) * 0.18f;
+    this->actor.posRot.pos.y += Math_CosF(this->unk2E0) * 1.4f;
+    phi_f0 = Math_CosF(this->unk2E0) * 0.18f;
     this->unk2E0 += ((0.0f <= phi_f0) ? phi_f0 : -phi_f0) + 0.07f;
     this->unk2D4--;
     if (this->unk2D4 <= 0) {
-        this->actor.speedXZ = Math_Rand_ZeroOne() * 0.5f + 2.5f;
-        this->unk2D4 = Math_Rand_ZeroOne() * 10.0f + 10.0f;
-        this->unk2F4 = (s16)((Math_Rand_ZeroOne() - 0.5f) * 1000.0f);
+        this->actor.speedXZ = Rand_ZeroOne() * 0.5f + 2.5f;
+        this->unk2D4 = Rand_ZeroOne() * 10.0f + 10.0f;
+        this->unk2F4 = (s16)((Rand_ZeroOne() - 0.5f) * 1000.0f);
     }
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.posRot.rot.y += this->unk2F4;
     if (this->unk2F8 <= 0) {
         func_80AD0B3C(this);
@@ -643,9 +643,9 @@ void EnPeehat_Ground_State_80AD0FC8(EnPeehat* this, GlobalContext* globalCtx) {
     else {
         func_80AD1220(this);
     }
-    Math_SmoothScaleMaxMinS(&this->unk2F0, 4000, 1, 500, 0);
+    Math_SmoothStepToS(&this->unk2F0, 4000, 1, 500, 0);
     this->unk2F2 += this->unk2F0;
-    Math_SmoothScaleMaxMinF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
+    Math_SmoothStepToF(&this->unk2EC, 0.075f, 1.0f, 0.005f, 0.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_FLY - SFX_FLAG);
 }
 
@@ -668,12 +668,12 @@ void EnPeehat_Ground_State_80AD1258(EnPeehat* this, GlobalContext* globalCtx) {
     else {
         this->actor.posRot.pos.y += 1.0f;
     }
-    this->actor.posRot.pos.y += func_800CA774(this->unk2E0) * 1.4f;
-    phi_f0 = func_800CA774(this->unk2E0) * 0.18f;
+    this->actor.posRot.pos.y += Math_CosF(this->unk2E0) * 1.4f;
+    phi_f0 = Math_CosF(this->unk2E0) * 0.18f;
     this->unk2E0 += ((0.0f <= phi_f0) ? phi_f0 : -phi_f0) + 0.07f;
     yRot = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-    Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, yRot, 1, 600, 0);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.x, 4500, 1, 600, 0);
+    Math_SmoothStepToS(&this->actor.posRot.rot.y, yRot, 1, 600, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, 4500, 1, 600, 0);
     this->actor.shape.rot.y += 0x15E;
     this->unk2F2 += this->unk2F0;
     if (Math_Vec3f_DistXZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos) < 2.0f) {
@@ -689,7 +689,7 @@ void EnPeehat_Ground_State_80AD1258(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD1440(EnPeehat* this) {
-    SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000844, -4.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000844, -4.0f);
     this->unk2B0 = 7;
     this->actor.speedXZ = -9.0f;
     this->actor.posRot.rot.y = this->actor.yawTowardsLink;
@@ -703,17 +703,17 @@ void func_80AD14A0(EnPeehat* this, GlobalContext* globalCtx) {
     Vec3f sp74;
 
     this->unk2F2 += this->unk2F0;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->actor.speedXZ += 0.5f;
     if (0.0f == this->actor.speedXZ) {
         //Is TYPE_LARVA
         if (this->actor.params > 0) {
             sp84 = D_80AD2838;
             for (i = 4; i >= 0; i--) {
-                sp74.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                sp74.y = Math_Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
-                sp74.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-                func_8002A6B8(globalCtx, &sp74, &sp84, &sp84, 0x28, 7, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0, 0, 1, 9, 1);
+                sp74.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+                sp74.y = Rand_CenteredFloat(10.0f) + this->actor.posRot.pos.y;
+                sp74.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                EffectSsDeadDb_Spawn(globalCtx, &sp74, &sp84, &sp84, 40, 7, 255, 255, 255, 255, 255, 0, 0, 1, 9, 1);
             }
             Actor_Kill(&this->actor);
         }
@@ -741,8 +741,8 @@ void func_80AD167C(EnPeehat* this) {
 }
 
 void func_80AD1700(EnPeehat* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
-    Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY, 1.0f, 8.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY, 1.0f, 8.0f, 0.0f);
     if (this->actor.dmgEffectTimer == 0) {
         EnPeehat_Ground_SetStateRise(this);
     }
@@ -766,7 +766,7 @@ void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx) {
         this->unk2D4--;
         if (this->unk2D4 <= 0 || this->actor.colChkInfo.health == 0) {
 
-            SkelAnime_ChangeAnimTransitionStop(&this->skelAnime, &D_06000844, -4.0f);
+            Animation_MorphToPlayOnce(&this->skelAnime, &D_06000844, -4.0f);
             this->unk2F0 = 4000;
             this->unk2D4 = 14;
             this->actor.speedXZ = 0;
@@ -774,21 +774,21 @@ void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx) {
             this->unk2B4 = 0;
             this->actor.shape.rot.z = this->actor.shape.rot.x = 0;
         } else if (this->actor.dmgEffectTimer & 4) {
-            Math_SmoothScaleMaxMinF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0);
+            Math_SmoothStepToF(&this->unk2EC, 0.205f, 1.0f, 0.235f, 0);
         }
         else {
-            Math_SmoothScaleMaxMinF(&this->unk2EC, 0, 1.0f, 0.005f, 0);
+            Math_SmoothStepToF(&this->unk2EC, 0, 1.0f, 0.005f, 0);
         }
     }
     else {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
         this->unk2F2 += this->unk2F0;
-        Math_SmoothScaleMaxMinS(&this->unk2F0, 4000, 1, 250, 0);
+        Math_SmoothStepToS(&this->unk2F0, 4000, 1, 250, 0);
         if (this->actor.colChkInfo.health == 0) {
             this->actor.scale.x -= 0.0015f;
             Actor_SetScale(&this->actor, this->actor.scale.x);
         }
-        if (Math_SmoothScaleMaxMinF(&this->actor.posRot.pos.y, this->actor.groundY + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f
+        if (Math_SmoothStepToF(&this->actor.posRot.pos.y, this->actor.groundY + 88.5f, 1.0f, 3.0f, 0.0f) == 0.0f
             && this->actor.posRot.pos.y - this->actor.groundY < 59.0f) {
             pos = this->actor.posRot.pos;
             pos.y = this->actor.groundY;
@@ -816,7 +816,7 @@ void func_80AD17E8(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD1AA8(EnPeehat* this) {
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelAnime, &D_060005C4);
+    Animation_PlayLoop(&this->skelAnime, &D_060005C4);
     this->unk2B0 = 1;
     this->unk2FC = 5;
     this->unk2E0 = 0.0f;
@@ -878,10 +878,10 @@ void func_80AD1BD8(EnPeehat* this, GlobalContext* globalCtx) {
 
         if (this->actor.colChkInfo.damageEffect == 0xC) {
             for (i = 4; i >= 0; i--) {
-                pos.x = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
-                pos.y = (Math_Rand_ZeroOne() * 25.0f) + this->actor.posRot.pos.y;
-                pos.z = Math_Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
-                func_8002A4D4(globalCtx, &this->actor, &pos, 0x46, 0, 0, -1);
+                pos.x = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.x;
+                pos.y = (Rand_ZeroOne() * 25.0f) + this->actor.posRot.pos.y;
+                pos.z = Rand_CenteredFloat(20.0f) + this->actor.posRot.pos.z;
+                EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &pos, 0x46, 0, 0, -1);
             }
             func_8003426C(&this->actor, 0x4000, 0xC8, 0, 0x64);
         }
@@ -912,7 +912,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         this->actionFunc(this, globalCtx);
         if ((globalCtx->gameplayFrames & 0x7F) == 0) {
-            this->unk2E8 = (Math_Rand_ZeroOne() * 0.25f) + 0.5f;
+            this->unk2E8 = (Rand_ZeroOne() * 0.25f) + 0.5f;
         }
         this->unk2E4 += this->unk2E8;
     }
@@ -923,10 +923,10 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
         thisx->posRot2.pos.y = this->colJntSph.list[0].dim.worldSphere.center.y;
         thisx->posRot2.pos.z = this->colJntSph.list[0].dim.worldSphere.center.z;
         if (this->unk2B0 == 0xE) {
-            Math_SmoothScaleMaxMinS(&thisx->shape.rot.x, 6000, 1, 300, 0);
+            Math_SmoothStepToS(&thisx->shape.rot.x, 6000, 1, 300, 0);
         }
         else {
-            Math_SmoothScaleMaxMinS(&thisx->shape.rot.x, 0, 1, 300, 0);
+            Math_SmoothStepToS(&thisx->shape.rot.x, 0, 1, 300, 0);
         }
     }
     else {
@@ -961,7 +961,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
             for (i = 1; i >= 0; i--) {
                 temp2BC = &this->unk2BC[i];
                 poly = NULL;
-                if (func_8003DE84(&globalCtx->colCtx, &thisx->posRot.pos, temp2BC, &sp70, &poly, true, true, false, true, &bgId) == true) {
+                if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &thisx->posRot.pos, temp2BC, &sp70, &poly, true, true, false, true, &bgId) == true) {
                     func_80033480(globalCtx, &sp70, 0.0f, 1, 0x12C, 0x96, 1);
                     EnPeehat_SpawnDust(globalCtx, this, &sp70, 0.0f, 3, 1.05f, 1.5f);
                 }
@@ -974,11 +974,11 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder.base);
     }
-    Math_SmoothScaleMaxMinF(&this->unk2EC, 0.0f, 1.0f, 0.001f, 0.0f);
+    Math_SmoothStepToF(&this->unk2EC, 0.0f, 1.0f, 0.001f, 0.0f);
 }
 
 //override limb draw
-s32 func_80AD2224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_80AD2224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnPeehat* this = THIS;
 
     if (limbIndex == 4) {
@@ -996,8 +996,8 @@ s32 func_80AD2224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateZ(-(this->unk2E4 * 0.1f), MTXMODE_APPLY);
         Matrix_RotateY(-(this->unk2E4 * 0.13f), MTXMODE_APPLY);
         Matrix_RotateX(-(this->unk2E4 * 0.115f), MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1959), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, *dList);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1959), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pull();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1963);
         return true;
@@ -1006,7 +1006,7 @@ s32 func_80AD2224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 //post limb draw
-void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80AD2844 = { 0, 0, 5500 };
     static Vec3f D_80AD2850 = { 0, 0, -5500 };
 
@@ -1018,7 +1018,7 @@ void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_MultVec3f(&D_80AD2850, &this->unk2BC[1]);
         return;
     }
-    if (limbIndex == 3 && thisx->params <= 0) {
+    if (limbIndex == 3 && this->actor.params <= 0) {
         damageYRot = 0.0f;
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1981);
         Matrix_Push();
@@ -1027,13 +1027,13 @@ void func_80AD2438(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_Translate(500.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         if (this->actor.dmgEffectTimer != 0) {
             if (this->actor.dmgEffectParams & 0x4000) {
-                damageYRot = Math_Sins(this->actor.dmgEffectTimer * 0x4E20) * 0.35f;
+                damageYRot = Math_SinS(this->actor.dmgEffectTimer * 0x4E20) * 0.35f;
             }
         }
         Matrix_RotateY(3.2f + damageYRot, MTXMODE_APPLY);
         Matrix_Scale(0.3f, 0.2f, 0.2f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1990), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyOpa.p++, *dList);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1990), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_OPA_DISP++, *dList);
         Matrix_Pull();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1994);
     }
@@ -1047,7 +1047,7 @@ void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnPeehat* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, &func_80AD2224, &func_80AD2438, thisx);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, &func_80AD2224, &func_80AD2438, thisx);
     if (0.0f != thisx->speedXZ || 0.0f != thisx->velocity.y) {
         Matrix_MultVec3f(&D_80AD285C, &this->colQuad.dim.quad[1]); 
         Matrix_MultVec3f(&D_80AD2868, &this->colQuad.dim.quad[0]); 
