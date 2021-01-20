@@ -45,8 +45,10 @@ void EffDust_setDrawFunc(EffDust* this, EffDustActionFunc callback_drawFunc) {
 }
 
 
+// Members initializer (?)
 void func_8099D8E0(EffDust *this) {
     s32 i;
+
     for (i = 0; i < 0x40; i++) {
         this->unk_024C[i].z = 0.0f;
         this->unk_024C[i].y = 0.0f;
@@ -59,8 +61,6 @@ void func_8099D8E0(EffDust *this) {
 }
 
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/EffDust_Init.s")
-
 void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
     EffDust *this = THIS;
     u32 sp20;
@@ -72,45 +72,45 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
     case 0:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DB28);
         EffDust_setDrawFunc(this, func_8099E4F4);
-        this->unk_0554 = 0.8f;
-        this->unk_0558 = 0.8f;
-        this->unk_0550 = 1.0f;
-        this->unk_055C = 0.1f;
+        this->dy = 0.8f;
+        this->dz = 0.8f;
+        this->dx = 1.0f;
+        this->scalingFactor = 0.1f;
         break;
 
     case 1:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DD74);
         EffDust_setDrawFunc(this, func_8099E4F4);
-        this->unk_0550 = 0.8f;
-        this->unk_0558 = 0.8f;
-        this->unk_0554 = 1.0f;
-        this->unk_055C = 0.5f;
+        this->dx = 0.8f;
+        this->dz = 0.8f;
+        this->dy = 1.0f;
+        this->scalingFactor = 0.5f;
         break;
 
     case 2:
         EffDust_setUpdateFunc(this, func_8099DFC0);
         EffDust_setDrawFunc(this, func_8099E784);
-        this->unk_0550 = 0.5f;
-        this->unk_055C = 15.0f;
+        this->dx = 0.5f;
+        this->scalingFactor = 15.0f;
         break;
 
     case 3:
         EffDust_setUpdateFunc(this, func_8099DFC0);
         EffDust_setDrawFunc(this, func_8099E784);
-        this->unk_0550 = 0.5f;
-        this->unk_055C = 10.0f;
+        this->dx = 0.5f;
+        this->scalingFactor = 10.0f;
         break;
 
     case 4:
         EffDust_setUpdateFunc(this, func_8099DFC0);
         EffDust_setDrawFunc(this, func_8099E784);
         this->actor.room = -1;
-        this->unk_0550 = 0.5f;
-        this->unk_055C = 20.0f;
+        this->dx = 0.5f;
+        this->scalingFactor = 20.0f;
         break;
 
     default:
-        SystemArena_FreeDebug(this, "../z_eff_dust.c", 0xCA);
+        SystemArena_FreeDebug(this, "../z_eff_dust.c", 202);
         break;
 
     }
@@ -138,11 +138,16 @@ void EffDust_UpdateFunc_8099DB28(EffDust *this, GlobalContext *globalCtx) {
             *unk_014C += 0.05f;
         }
         unk_014C++;
+        // This won't match.
+        /*if (this->unk_014C[i] < 1.0f) {
+            this->unk_014C[i] += 0.05f;
+        }*/
     }
 
     for (j = 0; j < 3; j++){
         i = this->unk_054C & 0x3F;
         if (this->unk_014C[i] >= 1.0f) {
+            // Spherical coordinates.
             fi = Rand_CenteredFloat(8192.0f); 
             theta = Rand_CenteredFloat(4096.0f); 
             this->unk_024C[i].x = -800.0f * Math_CosS(fi) * Math_CosS(theta); 
@@ -167,17 +172,22 @@ void EffDust_UpdateFunc_8099DD74(EffDust *this, GlobalContext *globalCtx) {
     unk_014C = this->unk_014C;
     for (i = 0; i < 0x40; i++) {
         if ((*unk_014C) < 1.0f) {
-            *unk_014C += 0.03f;
+           *unk_014C += 0.03f;
         }
         unk_014C++;
+        // This won't match.
+        /*if (this->unk_014C[i] < 1.0f) {
+            this->unk_014C[i] += 0.03f;
+        }*/
     }
 
     for (j = 0; j < 2; j++){
         i = this->unk_054C & 0x3F;
         if (this->unk_014C[i] >= 1.0f) {
-            fi = Rand_CenteredFloat(65536.0f); 
-            theta = Rand_ZeroFloat(8192.0f); 
-            this->unk_024C[i].x = 400.0f * Math_CosS(fi) * Math_CosS(theta); 
+            // Spherical coordinates.
+            fi = Rand_CenteredFloat(65536.0f);
+            theta = Rand_ZeroFloat(8192.0f);
+            this->unk_024C[i].x = 400.0f * Math_CosS(fi) * Math_CosS(theta);
             this->unk_024C[i].y = 400.0f * Math_SinS(theta);
             this->unk_024C[i].z = 400.0f * Math_SinS(fi) * Math_CosS(theta);
             this->unk_014C[i] = 0.0f;
