@@ -3179,7 +3179,7 @@ endseg
 beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
-    include "build/data/overlays/actors/z_en_yabusame_mark.data.o"
+    //include "build/data/overlays/actors/z_en_yabusame_mark.data.o"
     include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
 endseg
 
@@ -8223,7 +8223,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/assets/scenes/test_levels/syotes2/syotes2_scene.o"
-    number 2   
+    number 2
 endseg
 
 beginseg
