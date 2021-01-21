@@ -839,7 +839,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_194 = Animation_GetLastFrame(&D_06002168);
                 this->actor.world.pos.x = this->actor.world.pos.z = -200.0f;
                 this->actor.world.pos.y = 1009.0f;
-                this->actor.shape.unk_08 = 7000.0f;
+                this->actor.shape.yOffset = 7000.0f;
                 this->actor.world.rot.y = 0x5000;
                 this->unk_3A4.x = -60.0f;
                 this->unk_3A4.y = 1106.0f;
@@ -1266,7 +1266,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                     this->unk_398 = 0;
                     Animation_MorphToPlayOnce(&this->skelAnime, &D_060147E0, 0.0f);
                     this->unk_194 = Animation_GetLastFrame(&D_060147E0);
-                    this->actor.shape.unk_08 = 0.0f;
+                    this->actor.shape.yOffset = 0.0f;
                     this->actor.world.pos.y = 1086.0f;
                     this->actor.gravity = -1.0f;
                     this->unk_335 = 1;
