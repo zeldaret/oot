@@ -25,9 +25,23 @@ const ActorInit En_M_Thunder_InitVars = {
     (ActorFunc)EnMThunder_Draw,
 };
 
-ColliderCylinderInit D_80AA0420 = {
-    { COLTYPE_UNK10, 0x09, 0x00, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000001, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x19, 0x01, 0x01 },
+static ColliderCylinderInit D_80AA0420 = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_PLAYER,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000001, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 200, 200, 0, { 0, 0, 0 } },
 };
 
