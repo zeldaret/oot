@@ -22,8 +22,8 @@ typedef void (*EnPeehatActionFunc)(struct EnPeehat*, GlobalContext*);
 typedef struct EnPeehat {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[24]; //unkLength
-    /* 0x0220 */ Vec3s transitionDrawTable[24]; //unkLength
+    /* 0x0190 */ Vec3s jointTable[24]; //unkLength
+    /* 0x0220 */ Vec3s morphTable[24]; //unkLength
     /* 0x02B0 */ s32 unk2B0;
     /* 0x02B4 */ s32 unk2B4;
     /* 0x02B8 */ EnPeehatActionFunc actionFunc;
