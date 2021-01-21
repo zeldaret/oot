@@ -17,7 +17,7 @@ void BgMizuUzu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mizu_Uzu_InitVars = {
     ACTOR_BG_MIZU_UZU,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuUzu),

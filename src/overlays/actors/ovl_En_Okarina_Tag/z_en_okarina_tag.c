@@ -24,7 +24,7 @@ void func_80ABF7CC(EnOkarinaTag* this, GlobalContext* globalCtx);
 
 const ActorInit En_Okarina_Tag_InitVars = {
     ACTOR_EN_OKARINA_TAG,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOkarinaTag),
@@ -60,9 +60,9 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_152 = 0;
         this->unk_158 = 1;
     }
-    this->actor.unk_1F = 1;
-    if (this->actor.posRot.rot.z > 0) {
-        this->unk_15C = this->actor.posRot.rot.z * 40.0f;
+    this->actor.targetMode = 1;
+    if (this->actor.world.rot.z > 0) {
+        this->unk_15C = this->actor.world.rot.z * 40.0f;
     }
 
     // "Save information"
@@ -72,7 +72,7 @@ void EnOkarinaTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Correct answer information"
     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 正解情報\t ☆☆☆☆☆ %d\n" VT_RST, this->unk_152);
     // "Range information"
-    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" VT_RST, this->actor.posRot.rot.z);
+    osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 範囲情報\t ☆☆☆☆☆ %d\n" VT_RST, this->actor.world.rot.z);
     // "Processing range information"
     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 処理範囲情報\t ☆☆☆☆☆ %f\n" VT_RST, this->unk_15C);
     // "Hit?"
@@ -120,10 +120,10 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
         if ((this->unk_152 != 6) || (gSaveContext.scarecrowSpawnSongSet)) {
             if (player->stateFlags2 & 0x1000000) {
                 // "North! ! ! ! !"
-                osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToLink);
+                osSyncPrintf(VT_FGCOL(RED) "☆☆☆☆☆ 北！！！！！ ☆☆☆☆☆ %f\n" VT_RST, this->actor.xzDistToPlayer);
             }
-            if ((this->actor.xzDistToLink < (90.0f + this->unk_15C)) &&
-                (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
+            if ((this->actor.xzDistToPlayer < (90.0f + this->unk_15C)) &&
+                (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
                 if (player->stateFlags2 & 0x2000000) {
                     unk_152 = this->unk_152;
                     if (unk_152 == 6) {
@@ -132,8 +132,8 @@ void func_80ABEF2C(EnOkarinaTag* this, GlobalContext* globalCtx) {
                     player->stateFlags2 |= 0x800000;
                     func_8010BD58(globalCtx, unk_152 + 0x22);
                     this->actionFunc = func_80ABF0CC;
-                } else if ((this->actor.xzDistToLink < (50.0f + this->unk_15C) &&
-                            ((fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 40.0f)))) {
+                } else if ((this->actor.xzDistToPlayer < (50.0f + this->unk_15C) &&
+                            ((fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)))) {
                     this->unk_15A = 0;
                     player->unk_6A8 = &this->actor;
                 }
@@ -194,8 +194,8 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
             this->actor.flags &= ~1;
         } else if (((this->unk_150 != 4) || !(gSaveContext.eventChkInf[4] & 0x800)) &&
                    ((this->unk_150 != 6) || !(gSaveContext.eventChkInf[1] & 0x2000)) &&
-                   (this->actor.xzDistToLink < (90.0f + this->unk_15C)) &&
-                   (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 80.0f)) {
+                   (this->actor.xzDistToPlayer < (90.0f + this->unk_15C)) &&
+                   (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 80.0f)) {
             if (player->stateFlags2 & 0x1000000) {
                 switch (this->unk_150) {
                     case 1:
@@ -219,8 +219,8 @@ void func_80ABF28C(EnOkarinaTag* this, GlobalContext* globalCtx) {
                 }
                 player->stateFlags2 |= 0x800000;
                 this->actionFunc = func_80ABF4C8;
-            } else if ((this->actor.xzDistToLink < (50.0f + this->unk_15C)) &&
-                       (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 40.0f)) {
+            } else if ((this->actor.xzDistToPlayer < (50.0f + this->unk_15C)) &&
+                       (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 40.0f)) {
                 this->unk_15A = 0;
                 player->stateFlags2 |= 0x800000;
             }
@@ -285,9 +285,9 @@ void func_80ABF708(EnOkarinaTag* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80ABF7CC;
     } else {
-        yawDiff = this->actor.yawTowardsLink - this->actor.posRot.rot.y;
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
         this->unk_15A++;
-        if (!(this->actor.xzDistToLink > 120.0f)) {
+        if (!(this->actor.xzDistToPlayer > 120.0f)) {
             if (CHECK_QUEST_ITEM(QUEST_SONG_SUN)) {
                 // "This poem is dedicated to the memory of the dearly departed members of the Royal Family."
                 this->actor.textId = 0x5021;
@@ -322,13 +322,13 @@ void EnOkarinaTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (BREG(0) != 0) {
         if (this->unk_15A != 0) {
             if (!(this->unk_15A & 1)) {
-                DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                       this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
-                                       1.0f, 1.0f, 1.0f, 120, 120, 120, 255, 4, globalCtx->state.gfxCtx);
+                DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
+                                       1.0f, 1.0f, 120, 120, 120, 255, 4, globalCtx->state.gfxCtx);
             }
         } else {
-            DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                   this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f,
+            DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                   this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
                                    1.0f, 1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
         }
     }

@@ -30,7 +30,7 @@ extern UNK_TYPE D_0600FEF0;
 /*
 const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOssan),

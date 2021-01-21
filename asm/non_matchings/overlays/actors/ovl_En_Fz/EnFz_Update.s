@@ -24,7 +24,7 @@ glabel EnFz_Update
 /* 0134C 80A2110C 2448FFFF */  addiu   $t0, $v0, 0xFFFF           ## $t0 = FFFFFFFF
 /* 01350 80A21110 A2080263 */  sb      $t0, 0x0263($s0)           ## 00000263
 .L80A21114:
-/* 01354 80A21114 0C00B56E */  jal     Actor_SetHeight
+/* 01354 80A21114 0C00B56E */  jal     Actor_SetFocus
               
 /* 01358 80A21118 3C054248 */  lui     $a1, 0x4248                ## $a1 = 42480000
 /* 0135C 80A2111C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -40,12 +40,12 @@ glabel EnFz_Update
 /* 01384 80A21144 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 01388 80A21148 5520001E */  bnel    $t1, $zero, .L80A211C4     
 /* 0138C 80A2114C 3C063E4C */  lui     $a2, 0x3E4C                ## $a2 = 3E4C0000
-/* 01390 80A21150 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01390 80A21150 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01394 80A21154 AFA50030 */  sw      $a1, 0x0030($sp)           
 /* 01398 80A21158 2605019C */  addiu   $a1, $s0, 0x019C           ## $a1 = 0000019C
 /* 0139C 80A2115C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 013A0 80A21160 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 013A0 80A21160 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 013A4 80A21164 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 013A8 80A21168 920A0248 */  lbu     $t2, 0x0248($s0)           ## 00000248
@@ -72,7 +72,7 @@ glabel EnFz_Update
 /* 013F0 80A211B0 02212821 */  addu    $a1, $s1, $at              
 /* 013F4 80A211B4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 013F8 80A211B8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 013FC 80A211BC 8FA60030 */  lw      $a2, 0x0030($sp)           
 /* 01400 80A211C0 3C063E4C */  lui     $a2, 0x3E4C                ## $a2 = 3E4C0000
 .L80A211C4:
@@ -94,7 +94,7 @@ glabel EnFz_Update
 /* 01438 80A211F8 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 0143C 80A211FC 44060000 */  mfc1    $a2, $f0                   
 /* 01440 80A21200 44070000 */  mfc1    $a3, $f0                   
-/* 01444 80A21204 0C00B92D */  jal     func_8002E4B4              
+/* 01444 80A21204 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01448 80A21208 E7A00010 */  swc1    $f0, 0x0010($sp)           
 .L80A2120C:
 /* 0144C 80A2120C 920E0260 */  lbu     $t6, 0x0260($s0)           ## 00000260

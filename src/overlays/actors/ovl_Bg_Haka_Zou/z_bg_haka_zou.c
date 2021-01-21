@@ -32,14 +32,23 @@ void func_80883328(BgHakaZou* this, GlobalContext* globalCtx);
 void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx);
 void BgHakaZou_DoNothing(BgHakaZou* this, GlobalContext* globalCtx);
 
-extern Gfx D_06000A10[];
-extern CollisionHeader D_06005E30;
-extern CollisionHeader D_06006F70;
-extern CollisionHeader D_06000C2C;
-
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 5, 60, 0, { 0, 0, 0 } },
 };
 
@@ -47,7 +56,7 @@ static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 const ActorInit Bg_Haka_Zou_InitVars = {
     ACTOR_BG_HAKA_ZOU,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgHakaZou),
@@ -62,6 +71,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
+extern Gfx D_06000A10[];
+extern CollisionHeader D_06005E30;
+extern CollisionHeader D_06006F70;
+extern CollisionHeader D_06000C2C;
+
 void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaZou* this = THIS;
     s32 pad;
@@ -75,16 +89,16 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, (Rand_ZeroOne() * 0.005f) + 0.025f);
 
         thisx->speedXZ = Rand_ZeroOne();
-        thisx->posRot.rot.y = thisx->shape.rot.y * ((Rand_ZeroOne() < 0.5f) ? -1 : 1) + Rand_CenteredFloat(4096.0f);
+        thisx->world.rot.y = thisx->shape.rot.y * ((Rand_ZeroOne() < 0.5f) ? -1 : 1) + Rand_CenteredFloat(4096.0f);
         this->timer = 20;
-        thisx->posRot.rot.x = Rand_S16Offset(0x100, 0x300) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
-        thisx->posRot.rot.z = Rand_S16Offset(0x400, 0x800) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
+        thisx->world.rot.x = Rand_S16Offset(0x100, 0x300) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
+        thisx->world.rot.z = Rand_S16Offset(0x400, 0x800) * ((Rand_ZeroOne() < 0.5f) ? -1 : 1);
     } else {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-        Collider_CylinderUpdate(thisx, &this->collider);
+        Collider_UpdateCylinder(thisx, &this->collider);
 
-        DynaPolyActor_Init(thisx, 0);
+        DynaPolyActor_Init(&this->dyna, 0);
 
         if (thisx->params == STA_GIANT_BIRD_STATUE) {
             thisx->uncullZoneForward = 2000.0f;
@@ -104,8 +118,8 @@ void BgHakaZou_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(thisx);
         } else {
             thisx->shape.rot.x = -0x4000;
-            thisx->posRot.pos.z -= 80.0f;
-            thisx->posRot.pos.y -= 54.0f;
+            thisx->world.pos.z -= 80.0f;
+            thisx->world.pos.y -= 54.0f;
         }
     }
 
@@ -133,14 +147,14 @@ void func_808828F4(BgHakaZou* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 2; i++) {
         if (i == 0) {
-            effectPos.x = this->dyna.actor.posRot.pos.x - (Rand_CenteredFloat(10.0f) + 112.0f);
+            effectPos.x = this->dyna.actor.world.pos.x - (Rand_CenteredFloat(10.0f) + 112.0f);
         } else {
-            effectPos.x = Rand_CenteredFloat(10.0f) + this->dyna.actor.posRot.pos.x;
+            effectPos.x = Rand_CenteredFloat(10.0f) + this->dyna.actor.world.pos.x;
         }
 
         rand = Rand_ZeroOne();
-        effectPos.y = this->dyna.actor.posRot.pos.y + (60.0f * rand);
-        effectPos.z = this->dyna.actor.posRot.pos.z + (112.0f * rand);
+        effectPos.y = this->dyna.actor.world.pos.y + (60.0f * rand);
+        effectPos.z = this->dyna.actor.world.pos.z + (112.0f * rand);
 
         func_800286CC(globalCtx, &effectPos, &effectVelocity, &sZeroVec, (Rand_ZeroOne() * 200.0f) + 1000.0f, 100);
     }
@@ -194,8 +208,8 @@ void func_80882BDC(BgHakaZou* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    this->dyna.actor.shape.rot.x += this->dyna.actor.posRot.rot.x;
-    this->dyna.actor.shape.rot.z += this->dyna.actor.posRot.rot.z;
+    this->dyna.actor.shape.rot.x += this->dyna.actor.world.rot.x;
+    this->dyna.actor.shape.rot.z += this->dyna.actor.world.rot.z;
 
     if (this->dyna.actor.bgCheckFlags & 2) {
         if (this->dyna.actor.velocity.y < -8.0f) {
@@ -226,9 +240,9 @@ void func_80882CC4(BgHakaZou* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 3; i++) {
         for (j = 0; j < 3; j++) {
-            actorSpawnPos.x = this->dyna.actor.posRot.pos.x + (j - 1) * sin;
-            actorSpawnPos.z = this->dyna.actor.posRot.pos.z + (j - 1) * cos;
-            actorSpawnPos.y = this->dyna.actor.posRot.pos.y + (i - 1) * 55;
+            actorSpawnPos.x = this->dyna.actor.world.pos.x + (j - 1) * sin;
+            actorSpawnPos.z = this->dyna.actor.world.pos.z + (j - 1) * cos;
+            actorSpawnPos.y = this->dyna.actor.world.pos.y + (i - 1) * 55;
 
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_HAKA_ZOU, actorSpawnPos.x, actorSpawnPos.y,
                         actorSpawnPos.z, 0, this->dyna.actor.shape.rot.y, 0, this->dyna.actor.params + 2);
@@ -238,23 +252,23 @@ void func_80882CC4(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void func_80882E54(BgHakaZou* this, GlobalContext* globalCtx) {
-    Vec3f effectPos;
+    Vec3f fragmentPos;
     s32 i;
     s32 j;
     s32 num = 25;
 
-    effectPos.x = this->collider.dim.pos.x;
-    effectPos.y = this->collider.dim.pos.y;
-    effectPos.z = this->collider.dim.pos.z;
+    fragmentPos.x = this->collider.dim.pos.x;
+    fragmentPos.y = this->collider.dim.pos.y;
+    fragmentPos.z = this->collider.dim.pos.z;
 
-    EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 10, 10, 4, 141, 40, D_06000A10);
+    EffectSsHahen_SpawnBurst(globalCtx, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, D_06000A10);
 
     for (i = 0; i < 2; i++) {
         for (j = 0; j < 2; j++) {
-            effectPos.x = this->collider.dim.pos.x + (((j * 2) - 1) * num);
-            effectPos.z = this->collider.dim.pos.z + (((i * 2) - 1) * num);
-            EffectSsHahen_SpawnBurst(globalCtx, &effectPos, 10.0f, 0, 10, 10, 4, 141, 40, D_06000A10);
-            func_800286CC(globalCtx, &effectPos, &sZeroVec, &sZeroVec, 1000, 50);
+            fragmentPos.x = this->collider.dim.pos.x + (((j * 2) - 1) * num);
+            fragmentPos.z = this->collider.dim.pos.z + (((i * 2) - 1) * num);
+            EffectSsHahen_SpawnBurst(globalCtx, &fragmentPos, 10.0f, 0, 10, 10, 4, 141, 40, D_06000A10);
+            func_800286CC(globalCtx, &fragmentPos, &sZeroVec, &sZeroVec, 1000, 50);
         }
     }
 }
@@ -274,7 +288,7 @@ void func_80883000(BgHakaZou* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
             this->actionFunc = func_80883104;
         } else {
-            func_80882CC4(&this->dyna.actor, globalCtx);
+            func_80882CC4(this, globalCtx);
             this->timer = 1;
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
             this->actionFunc = func_80883104;
@@ -295,18 +309,18 @@ void func_80883104(BgHakaZou* this, GlobalContext* globalCtx) {
 }
 
 void func_80883144(BgHakaZou* this, GlobalContext* globalCtx) {
-    Vec3f effectPos;
+    Vec3f explosionPos;
 
     if (this->timer != 0) {
         this->timer--;
     }
 
     if (!(this->timer % 4)) {
-        effectPos.x = Rand_CenteredFloat(200.0f) + (this->dyna.actor.posRot.pos.x - 56.0f);
-        effectPos.y = (Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.y;
-        effectPos.z = Rand_CenteredFloat(200.0f) + (this->dyna.actor.posRot.pos.z + 56.0f);
+        explosionPos.x = Rand_CenteredFloat(200.0f) + (this->dyna.actor.world.pos.x - 56.0f);
+        explosionPos.y = (Rand_ZeroOne() * 80.0f) + this->dyna.actor.world.pos.y;
+        explosionPos.z = Rand_CenteredFloat(200.0f) + (this->dyna.actor.world.pos.z + 56.0f);
 
-        EffectSsBomb2_SpawnLayered(globalCtx, &effectPos, &sZeroVec, &sZeroVec, 150, 70);
+        EffectSsBomb2_SpawnLayered(globalCtx, &explosionPos, &sZeroVec, &sZeroVec, 150, 70);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_IT_BOMB_EXPLOSION);
     }
 
@@ -319,16 +333,16 @@ void func_80883144(BgHakaZou* this, GlobalContext* globalCtx) {
 void func_80883254(BgHakaZou* this, GlobalContext* globalCtx) {
     f32 moveDist = (Rand_ZeroOne() * 0.5f) + 0.5f;
 
-    Math_StepToF(&this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.z - 80.0f, 2.0f * moveDist);
+    Math_StepToF(&this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.z - 80.0f, 2.0f * moveDist);
 
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 40.0f, moveDist) != 0) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 40.0f, moveDist)) {
         if (this->timer != 0) {
             this->timer--;
         }
 
         if (this->timer == 0) {
             this->timer = 60;
-            this->dyna.actor.posRot.rot.x = 0x0008;
+            this->dyna.actor.world.rot.x = 0x0008;
             this->actionFunc = func_80883328;
         }
     } else {
@@ -341,14 +355,14 @@ void func_80883328(BgHakaZou* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
 
-    this->dyna.actor.posRot.rot.x += this->dyna.actor.posRot.rot.x * 0.125f;
+    this->dyna.actor.world.rot.x += this->dyna.actor.world.rot.x * 0.125f;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, this->dyna.actor.posRot.rot.x) != 0) {
-        effectPos.x = this->dyna.actor.posRot.pos.x;
-        effectPos.y = this->dyna.actor.posRot.pos.y;
+    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, this->dyna.actor.world.rot.x) != 0) {
+        effectPos.x = this->dyna.actor.world.pos.x;
+        effectPos.y = this->dyna.actor.world.pos.y;
 
         for (j = 0; j < 2; j++) {
-            effectPos.z = this->dyna.actor.posRot.pos.z;
+            effectPos.z = this->dyna.actor.world.pos.z;
 
             for (i = 0; i < 4; i++) {
                 effectPos.z -= (i == 2) ? 550.0f : 50.0f;
@@ -372,7 +386,7 @@ void func_808834D8(BgHakaZou* this, GlobalContext* globalCtx) {
     }
 
     moveDist = ((this->timer % 2) ? 15.0f : -15.0f);
-    this->dyna.actor.posRot.pos.y += ((this->timer & 0xFE) * 0.04f * moveDist);
+    this->dyna.actor.world.pos.y += ((this->timer & 0xFE) * 0.04f * moveDist);
 
     if (this->timer == 0) {
         this->actionFunc = BgHakaZou_DoNothing;
@@ -392,13 +406,8 @@ void BgHakaZou_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static Gfx* sDisplayLists[] = {
-    0x060064E0,
-    0x06005CE0,
-    0x06000A10,
-    0x06005CE0,
-};
-
 void BgHakaZou_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, sDisplayLists[thisx->params]);
+    static Gfx* dLists[] = { 0x060064E0, 0x06005CE0, 0x06000A10, 0x06005CE0 };
+
+    Gfx_DrawDListOpa(globalCtx, dLists[thisx->params]);
 }

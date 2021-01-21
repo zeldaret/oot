@@ -1033,7 +1033,7 @@ glabel EnTorch2_Update
 /* 012F4 80B1EC74 24A50150 */  addiu   $a1, $a1, %lo(sSpawnPoint)  ## $a1 = 80B20150
 /* 012F8 80B1EC78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012FC 80B1EC7C 46044280 */  add.s   $f10, $f8, $f4             
-/* 01300 80B1EC80 0C00B6DB */  jal     func_8002DB6C              
+/* 01300 80B1EC80 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 01304 80B1EC84 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
 /* 01308 80B1EC88 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 0130C 80B1EC8C 44818000 */  mtc1    $at, $f16                  ## $f16 = 800.00
@@ -1684,10 +1684,10 @@ glabel EnTorch2_Update
 /* 01C48 80B1F5C8 0C028EF0 */  jal     LinkAnimation_Update              
 /* 01C4C 80B1F5CC 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 01C50 80B1F5D0 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C54 80B1F5D4 0C017458 */  jal     Collider_QuadSetAT              
+/* 01C54 80B1F5D4 0C017458 */  jal     Collider_ResetQuadAT              
 /* 01C58 80B1F5D8 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 01C5C 80B1F5DC 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C60 80B1F5E0 0C017458 */  jal     Collider_QuadSetAT              
+/* 01C60 80B1F5E0 0C017458 */  jal     Collider_ResetQuadAT              
 /* 01C64 80B1F5E4 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 01C68 80B1F5E8 3C0780B2 */  lui     $a3, %hi(sStaggerTimer)       ## $a3 = 80B20000
 /* 01C6C 80B1F5EC 3C0680B2 */  lui     $a2, %hi(sCounterState)       ## $a2 = 80B20000
