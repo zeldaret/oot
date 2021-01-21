@@ -3591,15 +3591,15 @@ glabel L800F17F8
 /* B68A28 800F1888 8FA400B0 */  lw    $a0, 0xb0($sp)
 /* B68A2C 800F188C 0C03EF2D */  jal   GfxPrint_Printf
 /* B68A30 800F1890 AFB90010 */   sw    $t9, 0x10($sp)
-/* B68A34 800F1894 3C0A8017 */  lui   $t2, %hi(sOcarinaUpdateTaskCntEnd) # $t2, 0x8017
-/* B68A38 800F1898 3C0B8017 */  lui   $t3, %hi(sOcarinaUpdateTaskCntStart) # $t3, 0x8017
-/* B68A3C 800F189C 8D6BBABC */  lw    $t3, %lo(sOcarinaUpdateTaskCntStart)($t3)
-/* B68A40 800F18A0 8D4ABAC0 */  lw    $t2, %lo(sOcarinaUpdateTaskCntEnd)($t2)
+/* B68A34 800F1894 3C0A8017 */  lui   $t2, %hi(sAudioUpdateTaskEnd) # $t2, 0x8017
+/* B68A38 800F1898 3C0B8017 */  lui   $t3, %hi(sAudioUpdateTaskStart) # $t3, 0x8017
+/* B68A3C 800F189C 8D6BBABC */  lw    $t3, %lo(sAudioUpdateTaskStart)($t3)
+/* B68A40 800F18A0 8D4ABAC0 */  lw    $t2, %lo(sAudioUpdateTaskEnd)($t2)
 /* B68A44 800F18A4 154B0020 */  bne   $t2, $t3, .L800F1928
-/* B68A48 800F18A8 3C0D8017 */   lui   $t5, %hi(sOcarinaUpdateEndTime) # $t5, 0x8017
-/* B68A4C 800F18AC 3C0C8017 */  lui   $t4, %hi(sOcarinaUpdateStartTime) # $t4, 0x8017
-/* B68A50 800F18B0 8D8CB7A0 */  lw    $t4, %lo(sOcarinaUpdateStartTime)($t4)
-/* B68A54 800F18B4 8DADB7A4 */  lw    $t5, %lo(sOcarinaUpdateEndTime)($t5)
+/* B68A48 800F18A8 3C0D8017 */   lui   $t5, %hi(sAudioUpdateEndTime) # $t5, 0x8017
+/* B68A4C 800F18AC 3C0C8017 */  lui   $t4, %hi(sAudioUpdateStartTime) # $t4, 0x8017
+/* B68A50 800F18B0 8D8CB7A0 */  lw    $t4, %lo(sAudioUpdateStartTime)($t4)
+/* B68A54 800F18B4 8DADB7A4 */  lw    $t5, %lo(sAudioUpdateEndTime)($t5)
 /* B68A58 800F18B8 24040000 */  li    $a0, 0
 /* B68A5C 800F18BC 24060000 */  li    $a2, 0
 /* B68A60 800F18C0 24070040 */  li    $a3, 64

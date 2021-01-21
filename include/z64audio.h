@@ -684,13 +684,6 @@ typedef struct {
 } AudioStruct0D68; // size = 0x14
 
 typedef struct {
-    u8 b0;
-    u8 b1;
-    u8 b2;
-    u8 b3;
-} unk_5c50_b;
-
-typedef struct {
     union{
         u32 unk_00;
         struct {
@@ -699,7 +692,6 @@ typedef struct {
             u8 b2; // channel idx?
             u8 b3; // soundScriptIOIdx ?
         };
-        unk_5c50_b bytes;
     };
     union {
         void* unk_04; // data?
@@ -710,7 +702,7 @@ typedef struct {
         u8 asUbyte;
         u32 asUInt;
     };
-} unk_5C50_s;
+} AudioCmd;
 
 typedef struct {
     union{
@@ -977,22 +969,21 @@ typedef struct {
     /* 0x5B84 */ s32 gNoteSubEuOffset;
     /* 0x5B88 */ AudioListItem gLayerFreeList;
     /* 0x5B98 */ NotePool gNoteFreeLists; 
-    /* 0x5BD8 */ u8 unk_5BD8;
-    /* 0x5BD9 */ u8 unk_5BD9;
-    /* 0x5BDA */ u8 unk_5BDA;
+    /* 0x5BD8 */ u8 cmdWrPos;
+    /* 0x5BD9 */ u8 cmdRdPos;
+    /* 0x5BDA */ u8 cmdQueueFinished;
     /* 0x5BDB */ char unk_5BDB[0x1];
     /* 0x5BDC */ u16 unk_5BDC[4];
-    /* 0x5BE4 */ OSMesgQueue* unk_5BE4;
-    /* 0x5BE8 */ OSMesgQueue* unk_5BE8;
-    /* 0x5BEC */ OSMesgQueue* unk_5BEC;
-    /* 0x5BF0 */ OSMesgQueue unk_5BF0;
-    /* 0x5C08 */ OSMesgQueue unk_5C08;
-    /* 0x5C20 */ OSMesgQueue unk_5C20;
-    /* 0x5C38 */ OSMesg unk_5C38;
-    /* 0x5C3C */ OSMesg unk_5C3C;
-    /* 0x5C40 */ OSMesg unk_5C40;
-    /* 0x5C44 */ char unk_5C44[0xC];
-    /* 0x5C50 */ unk_5C50_s unk_5C50[0x100];
+    /* 0x5BE4 */ OSMesgQueue* audioResetQueueP;
+    /* 0x5BE8 */ OSMesgQueue* taskStartQueueP;
+    /* 0x5BEC */ OSMesgQueue* cmdProcQueueP;
+    /* 0x5BF0 */ OSMesgQueue taskStartQueue;
+    /* 0x5C08 */ OSMesgQueue cmdProcQueue;
+    /* 0x5C20 */ OSMesgQueue audioResetQueue;
+    /* 0x5C38 */ OSMesg taskStartMsgs[1];
+    /* 0x5C3C */ OSMesg audioResetMesgs[1];
+    /* 0x5C40 */ OSMesg cmdProcMsgs[4];
+    /* 0x5C50 */ AudioCmd cmdBuf[0x100];
 } AudioContext; // size = 0x6450
 
 typedef struct {
@@ -1056,6 +1047,16 @@ typedef struct {
     /* 0x0260 */ u8 unk_260;
     /* 0x0261 */ char unk_261[0x3];
 } unk_D_8016E750; // size = 0x264
+
+typedef enum {
+    BANK_PLAYER,
+    BANK_ITEM,
+    BANK_ENV,
+    BANK_ENEMY,
+    BANK_SYSTEM,
+    BANK_OCARINA,
+    BANK_VOICE
+} SoundBankTypes;
 
 typedef struct {
     /* 0x00 */ f32*     posX;

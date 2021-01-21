@@ -2020,7 +2020,7 @@ glabel L8010D9D8
 /* B84DA8 8010DC08 10000419 */  b     .L8010EC70
 /* B84DAC 8010DC0C 92026304 */   lbu   $v0, 0x6304($s0)
 glabel L8010DC10
-/* B84DB0 8010DC10 0C03B8FE */  jal   AudioOcarina_GetDisplayedStaff
+/* B84DB0 8010DC10 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B84DB4 8010DC14 00000000 */   nop   
 /* B84DB8 8010DC18 26217FFF */  addiu $at, $s1, 0x7fff
 /* B84DBC 8010DC1C AC2262B9 */  sw    $v0, 0x62b9($at)
@@ -2415,7 +2415,7 @@ glabel L8010DF4C
 /* B85370 8010E1D0 100002A7 */  b     .L8010EC70
 /* B85374 8010E1D4 92026304 */   lbu   $v0, 0x6304($s0)
 glabel L8010E1D8
-/* B85378 8010E1D8 0C03B8FE */  jal   AudioOcarina_GetDisplayedStaff
+/* B85378 8010E1D8 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B8537C 8010E1DC 00000000 */   nop   
 /* B85380 8010E1E0 26217FFF */  addiu $at, $s1, 0x7fff
 /* B85384 8010E1E4 AC2262B9 */  sw    $v0, 0x62b9($at)
@@ -2672,7 +2672,7 @@ glabel L8010E580
 /* B85730 8010E590 3C048016 */  lui   $a0, %hi(gSaveContext+0x3f) # $a0, 0x8016
 /* B85734 8010E594 0C03B95F */  jal   func_800EE57C
 /* B85738 8010E598 9084E69F */   lbu   $a0, %lo(gSaveContext+0x3f)($a0)
-/* B8573C 8010E59C 0C03B8FE */  jal   AudioOcarina_GetDisplayedStaff
+/* B8573C 8010E59C 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B85740 8010E5A0 00000000 */   nop   
 /* B85744 8010E5A4 3C088015 */  lui   $t0, %hi(D_8014B2F8) # $t0, 0x8015
 /* B85748 8010E5A8 26217FFF */  addiu $at, $s1, 0x7fff
@@ -2705,7 +2705,7 @@ glabel L8010E5F0
 /* B857B0 8010E610 24044038 */  li    $a0, 16440
 /* B857B4 8010E614 0C03DCE3 */  jal   Audio_PlaySoundGeneral
 /* B857B8 8010E618 24060004 */   li    $a2, 4
-/* B857BC 8010E61C 0C03B8FE */  jal   AudioOcarina_GetDisplayedStaff
+/* B857BC 8010E61C 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B857C0 8010E620 00000000 */   nop   
 /* B857C4 8010E624 26217FFF */  addiu $at, $s1, 0x7fff
 /* B857C8 8010E628 AC2262B9 */  sw    $v0, 0x62b9($at)
@@ -2781,7 +2781,7 @@ glabel L8010E5F0
 /* B858C8 8010E728 10000151 */  b     .L8010EC70
 /* B858CC 8010E72C 92026304 */   lbu   $v0, 0x6304($s0)
 glabel L8010E730
-/* B858D0 8010E730 0C03B8FE */  jal   AudioOcarina_GetDisplayedStaff
+/* B858D0 8010E730 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B858D4 8010E734 00000000 */   nop   
 /* B858D8 8010E738 26217FFF */  addiu $at, $s1, 0x7fff
 /* B858DC 8010E73C AC2262B9 */  sw    $v0, 0x62b9($at)
@@ -2986,7 +2986,7 @@ glabel L8010EA20
 /* B85BC4 8010EA24 24044836 */   li    $a0, 18486
 /* B85BC8 8010EA28 1440000F */  bnez  $v0, .L8010EA68
 /* B85BCC 8010EA2C 00000000 */   nop   
-/* B85BD0 8010EA30 0C03B8FE */  jal   AudioOcarina_GetDisplayedStaff
+/* B85BD0 8010EA30 0C03B8FE */  jal   Audio_OcaGetDisplayStaff
 /* B85BD4 8010EA34 00000000 */   nop   
 /* B85BD8 8010EA38 3C088015 */  lui   $t0, %hi(D_8014B2F8) # $t0, 0x8015
 /* B85BDC 8010EA3C 26217FFF */  addiu $at, $s1, 0x7fff

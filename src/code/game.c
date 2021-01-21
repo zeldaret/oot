@@ -441,7 +441,7 @@ void GameState_Destroy(GameState* gameState) {
     // game destructor start
     osSyncPrintf("game デストラクタ開始\n");
     func_800C3C20();
-    OcarinaAudio_Update();
+    func_800F30534();
     osRecvMesg(&gameState->gfxCtx->queue, NULL, OS_MESG_BLOCK);
     LogUtils_CheckNullPointer("this->cleanup", gameState->destroy, "../game.c", 1139);
     if (gameState->destroy != NULL) {

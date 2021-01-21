@@ -377,10 +377,10 @@ void func_800F8480(u8 bankId) {
                     }
                 }
                 func_800F3A08(bankId, bankIndex, D_8016E260);
-                func_800E5B20(0x06020000 | ((D_8016E260 & 0xFF) << 8), 1);
-                func_800E5B20(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 4, entry->unk_28 & 0xFF);
+                Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8), 1);
+                Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 4, entry->unk_28 & 0xFF);
                 if (D_80130570[bankId] != 0) {
-                    func_800E5B20(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 5, (entry->unk_28 & 0x100) >> 8);
+                    Audio_QueueCmdS8(0x06020000 | ((D_8016E260 & 0xFF) << 8) | 5, (entry->unk_28 & 0x100) >> 8);
                 }
                 if (entry->unk_28 & 0xC00) {
                     entry->unk_2A = 4;
@@ -411,7 +411,7 @@ void func_800F87A0(u8 bankId) {
     while (bankIndex != 0xFF) {
         entry = &gSoundBanks[bankId][bankIndex];
         if (entry->unk_2A >= 3) {
-            func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+            Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
         }
         if (entry->unk_2A != 0) {
             func_800F7B54(bankId, bankIndex);
@@ -431,7 +431,7 @@ void func_800F8884(u8 bankId, Vec3f* pos) {
         entry = &gSoundBanks[bankId][bankIndex];
         if (entry->posX == &pos->x) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(bankId, bankIndex);
@@ -473,7 +473,7 @@ void func_800F8A44(Vec3f* pos, u16 sfxId) {
         entry = &gSoundBanks[SFX_BANK(sfxId)][bankIndex];
         if (entry->posX == &pos->x && entry->unk_28 == sfxId) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(SFX_BANK(sfxId), bankIndex);
@@ -501,7 +501,7 @@ void func_800F8BA0(u8 arg0, u16 sfxId) {
         entry = &gSoundBanks[SFX_BANK(sfxId)][bankIndex];
         if (entry->unk_C == arg0 && entry->unk_28 == sfxId) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(SFX_BANK(sfxId), bankIndex);
@@ -528,7 +528,7 @@ void func_800F8D04(u32 sfxId) {
         entry = &gSoundBanks[SFX_BANK(sfxId)][bankIndex];
         if (entry->unk_28 == sfxId) {
             if (entry->unk_2A >= 3) {
-                func_800E5B20(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
+                Audio_QueueCmdS8(0x06020000 | ((entry->unk_2E & 0xFF) << 8), 0);
             }
             if (entry->unk_2A != 0) {
                 func_800F7B54(SFX_BANK(sfxId), bankIndex);

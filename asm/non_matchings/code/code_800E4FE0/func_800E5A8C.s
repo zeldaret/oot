@@ -1,4 +1,4 @@
-glabel func_800E5A8C
+glabel Audio_QueueCmd
 /* B5CC2C 800E5A8C 3C068017 */  lui   $a2, %hi(gAudioContext) # $a2, 0x8017
 /* B5CC30 800E5A90 24C6F180 */  addiu $a2, %lo(gAudioContext) # addiu $a2, $a2, -0xe80
 /* B5CC34 800E5A94 90CF5BD8 */  lbu   $t7, 0x5bd8($a2)

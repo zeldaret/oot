@@ -1547,7 +1547,7 @@ glabel L80827D78
 /* 14564 80827D84 100006EF */  beq     $zero, $zero, .L80829944   
 /* 14568 80827D88 8FBF0024 */  lw      $ra, 0x0024($sp)           
 glabel L80827D8C
-/* 1456C 80827D8C 0C03B8FE */  jal     AudioOcarina_GetDisplayedStaff              
+/* 1456C 80827D8C 0C03B8FE */  jal     Audio_OcaGetDisplayStaff              
 /* 14570 80827D90 00000000 */  nop
 /* 14574 80827D94 AE020194 */  sw      $v0, 0x0194($s0)           ## 00000194
 /* 14578 80827D98 90580001 */  lbu     $t8, 0x0001($v0)           ## 00000001

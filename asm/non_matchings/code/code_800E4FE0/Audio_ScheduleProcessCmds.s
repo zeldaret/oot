@@ -1,4 +1,4 @@
-glabel func_800E5B80
+glabel Audio_ScheduleProcessCmds
 /* B5CD20 800E5B80 3C038017 */  lui   $v1, %hi(gAudioContext) # $v1, 0x8017
 /* B5CD24 800E5B84 2463F180 */  addiu $v1, %lo(gAudioContext) # addiu $v1, $v1, -0xe80
 /* B5CD28 800E5B88 90625BD8 */  lbu   $v0, 0x5bd8($v1)

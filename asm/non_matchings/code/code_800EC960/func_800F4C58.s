@@ -80,7 +80,7 @@ glabel func_800F4C58
 /* B6BF24 800F4D84 958D0028 */  lhu   $t5, 0x28($t4)
 /* B6BF28 800F4D88 54ED000C */  bnel  $a3, $t5, .L800F4DBC
 /* B6BF2C 800F4D8C 007E4821 */   addu  $t1, $v1, $fp
-/* B6BF30 800F4D90 0C0396C8 */  jal   func_800E5B20
+/* B6BF30 800F4D90 0C0396C8 */  jal   Audio_QueueCmdS8
 /* B6BF34 800F4D94 AFA70048 */   sw    $a3, 0x48($sp)
 /* B6BF38 800F4D98 3C188013 */  lui   $t8, %hi(D_801333CC) # $t8, 0x8013
 /* B6BF3C 800F4D9C 931833CC */  lbu   $t8, %lo(D_801333CC)($t8)

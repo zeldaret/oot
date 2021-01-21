@@ -210,7 +210,7 @@ glabel func_800ED458
 /* B648AC 800ED70C 3C038013 */  lui   $v1, %hi(D_80130F2C) # $v1, 0x8013
 /* B648B0 800ED710 24630F2C */  addiu $v1, %lo(D_80130F2C) # addiu $v1, $v1, 0xf2c
 /* B648B4 800ED714 A06C0000 */  sb    $t4, ($v1)
-/* B648B8 800ED718 0C03B298 */  jal   AudioOcarina_NormalizeTone
+/* B648B8 800ED718 0C03B298 */  jal   Audio_OcaAdjStick
 /* B648BC 800ED71C 80640000 */   lb    $a0, ($v1)
 /* B648C0 800ED720 3C028017 */  lui   $v0, %hi(D_8016BA08) # $v0, 0x8017
 /* B648C4 800ED724 8042BA08 */  lb    $v0, %lo(D_8016BA08)($v0)
@@ -228,7 +228,7 @@ glabel func_800ED458
 /* B648EC 800ED74C 00036883 */  sra   $t5, $v1, 2
 /* B648F0 800ED750 A04D0000 */  sb    $t5, ($v0)
 /* B648F4 800ED754 80450000 */  lb    $a1, ($v0)
-/* B648F8 800ED758 0C0396C8 */  jal   func_800E5B20
+/* B648F8 800ED758 0C0396C8 */  jal   Audio_QueueCmdS8
 /* B648FC 800ED75C 34840D06 */   ori   $a0, (0x06020D06 & 0xFFFF) # ori $a0, $a0, 0xd06
 /* B64900 800ED760 3C0A8013 */  lui   $t2, %hi(sCurOcarinaBtnVal) # $t2, 0x8013
 /* B64904 800ED764 254A0F14 */  addiu $t2, %lo(sCurOcarinaBtnVal) # addiu $t2, $t2, 0xf14
@@ -255,13 +255,13 @@ glabel func_800ED458
 /* B64950 800ED7B0 34840D07 */  ori   $a0, (0x06020D07 & 0xFFFF) # ori $a0, $a0, 0xd07
 /* B64954 800ED7B4 24A5FFFF */  addiu $a1, $a1, -1
 /* B64958 800ED7B8 00052E00 */  sll   $a1, $a1, 0x18
-/* B6495C 800ED7BC 0C0396C8 */  jal   func_800E5B20
+/* B6495C 800ED7BC 0C0396C8 */  jal   Audio_QueueCmdS8
 /* B64960 800ED7C0 00052E03 */   sra   $a1, $a1, 0x18
 /* B64964 800ED7C4 3C0A8013 */  lui   $t2, %hi(sCurOcarinaBtnVal) # $t2, 0x8013
 /* B64968 800ED7C8 254A0F14 */  addiu $t2, %lo(sCurOcarinaBtnVal) # addiu $t2, $t2, 0xf14
 /* B6496C 800ED7CC 3C040602 */  lui   $a0, (0x06020D05 >> 16) # lui $a0, 0x602
 /* B64970 800ED7D0 34840D05 */  ori   $a0, (0x06020D05 & 0xFFFF) # ori $a0, $a0, 0xd05
-/* B64974 800ED7D4 0C0396C8 */  jal   func_800E5B20
+/* B64974 800ED7D4 0C0396C8 */  jal   Audio_QueueCmdS8
 /* B64978 800ED7D8 81450000 */   lb    $a1, ($t2)
 /* B6497C 800ED7DC 3C0F8013 */  lui   $t7, %hi(D_80130F28) # $t7, 0x8013
 /* B64980 800ED7E0 3C188013 */  lui   $t8, %hi(D_801333E8) # $t8, 0x8013

@@ -272,7 +272,7 @@ glabel func_800E5000
 /* B5C570 800E53D0 1041000B */  beq   $v0, $at, .L800E5400
 /* B5C574 800E53D4 00000000 */   nop
 .L800E53D8:
-/* B5C578 800E53D8 0C03975B */  jal   func_800E5D6C
+/* B5C578 800E53D8 0C03975B */  jal   Audio_ProcessCmds
 /* B5C57C 800E53DC 8FA4004C */   lw    $a0, 0x4c($sp)
 /* B5C580 800E53E0 8E445BEC */  lw    $a0, 0x5bec($s2)
 /* B5C584 800E53E4 02202825 */  move  $a1, $s1
@@ -288,7 +288,7 @@ glabel func_800E5000
 /* B5C5A8 800E5408 92495BDA */  lbu   $t1, 0x5bda($s2)
 /* B5C5AC 800E540C 51200004 */  beql  $t1, $zero, .L800E5420
 /* B5C5B0 800E5410 8FA8003C */   lw    $t0, 0x3c($sp)
-/* B5C5B4 800E5414 0C0396E0 */  jal   func_800E5B80
+/* B5C5B4 800E5414 0C0396E0 */  jal   Audio_ScheduleProcessCmds
 /* B5C5B8 800E5418 00000000 */   nop
 /* B5C5BC 800E541C 8FA8003C */  lw    $t0, 0x3c($sp)
 .L800E5420:

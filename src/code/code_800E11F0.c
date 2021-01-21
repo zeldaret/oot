@@ -942,10 +942,9 @@ void func_800E3034(s32 arg0) {
     ctlEnt->numSfx = tableEnt->unk_0E;
 }
 
-u32 D_801304D8 = 0;
+s32 gAudioContextInitalized = 0;
 
-// AudioContext_Init
-void func_800E3094(void* heap, u32 heapSize) {
+void Audio_ContextInit(void* heap, u32 heapSize) {
     char pad[0x48];
     s32 sp24;
     void* temp_v0_3;
@@ -980,7 +979,7 @@ void func_800E3094(void* heap, u32 heapSize) {
             gAudioContext.gRefreshRate = 60;
     }
 
-    func_800E6818();
+    Audio_InitMesgQueues();
 
     for (i = 0; i < 3; i++) {
         gAudioContext.aiBufLengths[i] = 0xA0;
@@ -1046,8 +1045,8 @@ void func_800E3094(void* heap, u32 heapSize) {
     }
 
     Audio_SoundAllocPoolInit(&gAudioContext.unk_2D50, temp_v0_3, D_8014A6C4.initPool);
-    D_801304D8 = 1;
-    osSendMesg(gAudioContext.unk_5BE8, (void*)gAudioContext.totalTaskCnt, 0);
+    gAudioContextInitalized = 1;
+    osSendMesg(gAudioContext.taskStartQueueP, (void*)gAudioContext.totalTaskCnt, 0);
 }
 
 void func_800E3400(void) {
