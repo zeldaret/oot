@@ -361,29 +361,13 @@ void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
     *p = gfx;
 }
 
-#ifdef NON_MATCHING
-// regalloc only, rodata unmigrated
 void func_80107244(MessageContext *msgCtx) {
-    static f32 D_80153988[] = {
-        1.20000004768f, 1.5f, 1.79999995232f, 2.0f, 2.09999990463f, 2.20000004768f, 2.09999990463f, 2.0f,
-    };
-    static f32 D_801539A8[] = {
-        0.600000023842f, 0.75f, 0.899999976158f, 1.0f, 1.04999995232f, 1.10000002384f, 1.04999995232f, 1.0f,
-    };
-    f32 temp_f0;
-    f32 temp_f18;
-    f32 temp_f14;
-    f32 temp_f4;
-    f32 temp_f2;
-    f32 temp_f16;
+    f32 temp_f0 = XREG(74) * (D_80153988[msgCtx->unk_E3E7] + D_80153988[msgCtx->unk_E3E7]);
+    f32 temp_f14 = XREG(75) * D_801539A8[msgCtx->unk_E3E7];
+    f32 temp_f18 = XREG(76) / (D_80153988[msgCtx->unk_E3E7] + D_80153988[msgCtx->unk_E3E7]);
+    f32 temp_f4 = XREG(77) / D_801539A8[msgCtx->unk_E3E7];
 
-    temp_f2 = D_80153988[msgCtx->unk_E3E7];
-    temp_f16 = D_801539A8[msgCtx->unk_E3E7];
-    temp_f0 = (temp_f2 + temp_f2) * XREG(74);
-    temp_f14 = temp_f16 * XREG(75);
-    temp_f18 = XREG(76) / (temp_f2 + temp_f2);
-    temp_f4 = XREG(77) / temp_f16;
-    VREG(1) = XREG(73) + (XREG(73) - (s16)(temp_f16 * XREG(73) + 0.5f)) / 2;
+    VREG(1) = XREG(73) + (XREG(73) - (s16)(XREG(73) * D_801539A8[msgCtx->unk_E3E7] + 0.5f)) / 2;
     msgCtx->unk_E406 += msgCtx->unk_E404 / 8;
     msgCtx->unk_E3E7++;
     if (msgCtx->unk_E3E7 == 8) {
@@ -398,10 +382,6 @@ void func_80107244(MessageContext *msgCtx) {
     YREG(17) = temp_f4 + 0.5f;
     VREG(0) = (XREG(72) + XREG(74)) - (YREG(22) / 2);
 }
-#else
-void func_80107244(MessageContext* msgCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80107244.s")
-#endif
 
 void func_80107448(GlobalContext* globalCtx, u16 textId) {
     const char* foundSeg;
@@ -592,22 +572,7 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
     s32 sp8;
     s32 sp4;
     s32 sp0;
-    GameInfo *temp_v1;
-    Gfx *temp_a1_3;
     Gfx *temp_v0;
-    Gfx *temp_v0_10;
-    Gfx *temp_v0_11;
-    Gfx *temp_v0_12;
-    Gfx *temp_v0_13;
-    Gfx *temp_v0_2;
-    Gfx *temp_v0_3;
-    Gfx *temp_v0_4;
-    Gfx *temp_v0_5;
-    Gfx *temp_v0_6;
-    Gfx *temp_v0_7;
-    Gfx *temp_v0_8;
-    Gfx *temp_v0_9;
-    MessageContext *temp_v1_2;
     s16 temp_a1;
     s16 temp_a2;
     s16 temp_a2_3;
@@ -634,8 +599,8 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
     s32 temp_a3;
     s32 temp_a3_2;
     s32 temp_f18;
-    s32 temp_t1_2;
-    s32 temp_t2_2;
+    s16 temp_t1_2;
+    s16 temp_t2_2;
     s32 temp_t6;
     Vec3s *temp_a0;
     Vec3s *temp_a1_2;
@@ -648,111 +613,89 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
     s16 phi_t2_2;
     s32 phi_v1_2;
     s32 phi_v1_3;
-    s32 phi_t5_2;
+    s16 phi_t5_2;
     s32 phi_t1_3;
     s32 phi_v1_4;
     s32 phi_v1_5;
     s32 phi_v1_6;
+    s32 temp_1;
 
     temp_v0 = *p;
-    if (D_8014B308[0] == 0) {
+
+    if (D_8014B308 == 0) {
         temp_a0 = &D_801539C8[D_801539F0];
-        temp_t0 = D_801539EC;
 
-        temp_a1 = temp_a0->x;
-        temp_a3 = D_801539E0 - temp_a1;
-        temp_t5 = ABS(temp_a3) / temp_t0;
+        temp_a3 = D_801539E0 - temp_a0->x;
+        temp_t5 = ((temp_a3 >= 0) ? temp_a3 : -temp_a3) / D_801539EC;
 
-        temp_t3 = temp_a0->y;
-        temp_a3_2 = D_801539E4 - temp_t3;
-        sp60 = ABS(temp_a3_2) / temp_t0;
+        temp_a3_2 = D_801539E4 - temp_a0->y;
+        sp60 = ((temp_a3_2 >= 0) ? temp_a3_2 : -temp_a3_2) / D_801539EC;
 
-        temp_t4 = temp_a0->z;
-        temp_t6 = D_801539E8 - temp_t4;
-        phi_v1_3 = ABS(temp_t6) / temp_t0;
+        temp_t6 = D_801539E8 - temp_a0->z;
+        phi_v1_3 = (temp_t6 >= 0) ? temp_t6 : -temp_t6;
 
-        if (D_801539E0 >= temp_a1) {
-            temp_t2_2 = D_801539E0 - temp_t5;
+        if (D_801539E0 >= temp_a0->x) {
+            temp_t2_2 = (D_801539E0 - temp_t5);
         } else {
-            temp_t2_2 = D_801539E0 + temp_t5;
+            temp_t2_2 = (D_801539E0 + temp_t5);
+        }
+        if (D_801539E4 >= temp_a0->y) {
+            temp_t1_2 = (D_801539E4 - sp60);
+        } else {
+            temp_t1_2 = (D_801539E4 + sp60);
+        }
+        if (D_801539E8 >= temp_a0->z) {
+            phi_a3 = D_801539E8 - (phi_v1_3 / D_801539EC);
+        } else {
+            phi_a3 = D_801539E8 + (phi_v1_3 / D_801539EC);
         }
 
-        if (D_801539E4 >= temp_t3) {
-            temp_t1_2 = D_801539E4 - sp60;
-        } else {
-            temp_t1_2 = D_801539E4 + sp60;
-        }
-
-        if (D_801539E8 >= temp_t4) {
-            phi_a3 = D_801539E8 - phi_v1_3;
-        } else {
-            phi_a3 = D_801539E8 + phi_v1_3;
-        }
-
-        spC = temp_a1;
         temp_a1_2 = &D_801539D4[D_801539F0];
-        temp_t5_2 = D_801539F4;
-        temp_t9 = temp_a1_2->x;
-        temp_a0_2 = temp_t5_2 - temp_t9;
-        if (temp_a0_2 >= 0) {
-            D_801539E4 = temp_t1_2;
-            D_801539E0 = temp_t2_2;
-            phi_v1_4 = temp_a0_2;
+
+        D_801539E0 = temp_t2_2;
+        spC = temp_a0->x;
+
+        temp_a0_2 = D_801539F4 - temp_a1_2->x;
+        temp_a2_3 = ((temp_a0_2 >= 0) ? temp_a0_2 : -temp_a0_2) / D_801539EC;
+
+        D_801539E4 = temp_t1_2;
+        sp8 = temp_a0->y;
+
+        temp_a0_3 = D_801539F8 - temp_a1_2->y;
+        temp_a3_4 = ((temp_a0_3 >= 0) ? temp_a0_3 : -temp_a0_3) / D_801539EC;
+
+        D_801539E8 = phi_a3;
+        sp4 = temp_a0->z;
+
+        temp_a0_4 = D_801539FC - temp_a1_2->z;
+        phi_v1_6 = (temp_a0_4 >= 0) ? temp_a0_4 : -temp_a0_4;
+
+        if (D_801539F4 >= temp_a1_2->x) {
+            phi_t5 = (D_801539F4 - temp_a2_3);
         } else {
-            D_801539E4 = temp_t1_2;
-            D_801539E0 = temp_t2_2;
-            phi_v1_4 = -temp_a0_2;
+            phi_t5 = (D_801539F4 + temp_a2_3);
         }
-        sp8 = temp_t3;
-        temp_t1_3 = D_801539F8;
-        temp_t3_2 = temp_a1_2->y;
-        temp_a0_3 = temp_t1_3 - temp_t3_2;
-        temp_a2_3 = phi_v1_4 / temp_t0;
-        if (temp_a0_3 >= 0) {
-            D_801539E8 = phi_a3;
-            phi_v1_5 = temp_a0_3;
+        if (D_801539F8 >= temp_a1_2->y) {
+            phi_t1_2 = (D_801539F8 - temp_a3_4);
         } else {
-            D_801539E8 = phi_a3;
-            phi_v1_5 = -temp_a0_3;
+            phi_t1_2 = (D_801539F8 + temp_a3_4);
         }
-        sp4 = temp_t4;
-        temp_t2_3 = D_801539FC;
-        temp_t4_2 = temp_a1_2->z;
-        temp_a0_4 = temp_t2_3 - temp_t4_2;
-        temp_a3_4 = phi_v1_5 / temp_t0;
-        if (temp_a0_4 >= 0) {
-            phi_v1_6 = temp_a0_4;
+        if (D_801539FC >= temp_a1_2->z) {
+            phi_t2_2 = D_801539FC - (s16)(phi_v1_6 / D_801539EC);
         } else {
-            phi_v1_6 = -temp_a0_4;
+            phi_t2_2 = D_801539FC + (s16)(phi_v1_6 / D_801539EC);
         }
-        if (temp_t5_2 >= temp_t9) {
-            phi_t5_2 = (temp_t5_2 - temp_a2_3) << 0x10;
-        } else {
-            phi_t5_2 = (temp_t5_2 + temp_a2_3) << 0x10;
-        }
-        if (temp_t1_3 >= temp_t3_2) {
-            phi_t1_3 = (temp_t1_3 - temp_a3_4) << 0x10;
-        } else {
-            phi_t1_3 = (temp_t1_3 + temp_a3_4) << 0x10;
-        }
-        if (temp_t2_3 >= temp_t4_2) {
-            phi_t2_2 = temp_t2_3 - (phi_v1_6 / temp_t0);
-        } else {
-            phi_t2_2 = temp_t2_3 + (phi_v1_6 / temp_t0);
-        }
-        temp_t0_2 = temp_t0 - 1;
-        D_801539EC = temp_t0_2;
-        phi_t5 = phi_t5_2 >> 0x10;
-        phi_t1_2 = phi_t1_3 >> 0x10;
-        if (temp_t0_2 == 0) {
+
+        D_801539EC--;
+        if (D_801539EC == 0) {
             D_801539E0 = spC;
             D_801539E4 = sp8;
             D_801539E8 = sp4;
-            D_801539F0 = D_801539F0 ^ 1;
+            D_801539F0 ^= 1;
             D_801539EC = 0xC;
-            phi_t5 = sp0;
-            phi_t1_2 = temp_t3_2;
-            phi_t2_2 = temp_t4_2;
+            phi_t5 = temp_a1_2->x;
+            phi_t1_2 = temp_a1_2->y;
+            phi_t2_2 = temp_a1_2->z;
         }
 
         gDPPipeSync(temp_v0++);
@@ -784,119 +727,6 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
 
         globalCtx->msgCtx.unk_E3E7++;
         *p = temp_v0;
-    }
-} */
-
-
-
-/* void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3) {
-    MessageContext* msgCtx = &globalCtx->msgCtx;
-    s16 sp60;
-
-    Gfx* gfx;
-
-    s16 temp_a2;
-
-    s16 temp_t5;
-    Vec3s *temp_a0;
-    Vec3s *temp_a1;
-    s32 phi_v1;
-    s32 phi_v2;
-    s32 phi_v3;
-    s32 phi_a3;
-
-    s16 temp_t1;
-    s16 temp_t2;
-    s16 temp_a3;
-
-    s16 phi_t5;
-    s16 phi_t1;
-    s16 phi_t2;
-
-    gfx = *p;
-    if (D_8014B308[0] == 0) {
-
-        phi_v1 = ABS(D_801539E0 - D_801539C8[D_801539F0].x);
-        if (D_801539E0 >= D_801539C8[D_801539F0].x) {
-            D_801539E0 -= phi_v1 / D_801539EC;
-        } else {
-            D_801539E0 += phi_v1 / D_801539EC;
-        }
-
-        phi_v2 = ABS(D_801539E4 - D_801539C8[D_801539F0].y);
-        if (D_801539E4 >= D_801539C8[D_801539F0].y) {
-            D_801539E4 -= phi_v2 / D_801539EC;
-        } else {
-            D_801539E4 += phi_v2 / D_801539EC;
-        }
-
-        phi_v3 = ABS(D_801539E8 - D_801539C8[D_801539F0].z);
-        if (D_801539E8 >= D_801539C8[D_801539F0].z) {
-            D_801539E8 -= phi_v3 / D_801539EC;
-        } else {
-            D_801539E8 += phi_v3 / D_801539EC;
-        }
-
-        phi_v1 = ABS(D_801539F4 - D_801539D4[D_801539F0].x);
-        if (D_801539F4 >= D_801539D4[D_801539F0].x) {
-            D_801539F4 -= phi_v1 / D_801539EC;
-        } else {
-            D_801539F4 += phi_v1 / D_801539EC;
-        }
-
-        phi_v2 = ABS(D_801539F8 - D_801539D4[D_801539F0].y);
-        if (D_801539F8 >= D_801539D4[D_801539F0].y) {
-            D_801539F8 -= phi_v2 / D_801539EC;
-        } else {
-            D_801539F8 += phi_v2 / D_801539EC;
-        }
-
-        phi_v3 = ABS(D_801539FC - D_801539D4[D_801539F0].z);
-        if (D_801539FC >= D_801539D4[D_801539F0].z) {
-            D_801539FC -= phi_v3 / D_801539EC;
-        } else {
-            D_801539FC += phi_v3 / D_801539EC;
-        }
-
-        D_801539EC--;
-        if (D_801539EC == 0) {
-            D_801539E0 = D_801539C8[D_801539F0].x;
-            D_801539E4 = D_801539C8[D_801539F0].y;
-            D_801539E8 = D_801539C8[D_801539F0].z;
-            D_801539F0 ^= 1;
-            D_801539EC = 0xC;
-            D_801539F4 = D_801539D4[D_801539F0].x;
-            D_801539F8 = D_801539D4[D_801539F0].y;
-            D_801539FC = D_801539D4[D_801539F0].z;
-        }
-
-        gDPPipeSync(gfx++);
-        gDPSetCombineLERP(gfx++, 
-                        PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0, 
-                        PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(gfx++, 0, 0, D_801539E0, D_801539E4, D_801539E8, 255);
-        gDPSetEnvColor(gfx++, D_801539F4, D_801539F8, D_801539FC, 255);
-
-        // gDPLoadTextureBlock
-        gDPSetTextureImage(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 1, globalCtx->msgCtx.font.iconBuf);
-        gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPLoadSync(gfx++);
-        gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 63, 2048);
-        gDPPipeSync(gfx++);
-        gDPSetTile(gfx++, G_IM_FMT_I, G_IM_SIZ_4b, 1, 0x0000, G_TX_RENDERTILE, 0, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD, 
-                        G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 60, 60);
-
-        D_801759A0 = (XREG(57) / 100.0f) * 16.0f;
-        D_801759A4 = 1024.0f / (XREG(57) / 100.0f);
-
-        gSPTextureRectangle(gfx++, arg2 * 4, arg3 * 4, (arg2 + D_801759A0) * 4, (arg3 + D_801759A0) * 4 , G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
-
-        msgCtx->unk_E3E7++;
-        *p = gfx;
     }
 } */
 
@@ -1704,8 +1534,6 @@ void func_80109B3C(GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_80109B3C.s")
 #endif
 
-#ifdef NON_MATCHING
-// Issues with %hi reuse
 void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
     static s16 D_80153C50[] = {
         0x0000, 0x0001, 0x0003, 0x0002,
@@ -1722,9 +1550,7 @@ void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
         Interface_ChangeAlpha(5);
     }
 
-    D_8014B308 = 0;
-    D_8014B2F4 = D_8014B300 = D_8014B308;
-    D_8014B318 = D_8014B308 & 0xFF;
+    D_8014B318 = D_8014B2F4 = D_8014B300 = D_8014B308 = 0;
 
     if (textId >= 0x0500 && textId < 0x0600) { // text ids 0500 to 0600 are reserved for credits
         D_8014B308 = 1;
@@ -1828,13 +1654,6 @@ void func_8010B0C0(GlobalContext* globalCtx, u16 textId) {
     msgCtx->unk_E3E6 = msgCtx->unk_E3D6 = msgCtx->unk_E3E4 = 0;
     msgCtx->unk_E3CE = msgCtx->unk_E3D0 = msgCtx->unk_E3D2 = 0;
 }
-#else
-void func_8010B0C0(GlobalContext*, u16);
-s16 D_80153C50[] = {
-    0x0000, 0x0001, 0x0003, 0x0002,
-};
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010B0C0.s")
-#endif
 
 // Message_Begin
 void func_8010B680(GlobalContext* globalCtx, u16 textId, Actor* actor) {
@@ -2044,7 +1863,7 @@ u8 func_8010BDBC(MessageContext* msgCtx) {
 }
 
 #ifdef NON_MATCHING
-// Very small reorderings, regalloc
+// Missing useless move, very small reorderings, some regalloc
 void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Gfx* gfx = *p;
@@ -2053,31 +1872,42 @@ void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->unk_E3FE, msgCtx->unk_E400, msgCtx->unk_E402, msgCtx->unk_E406);
 
     if (msgCtx->unk_E2FD == 0 || msgCtx->unk_E2FD == 2) {
-        gDPLoadTextureBlock_4b(gfx++, (u32)msgCtx->textboxSegment, G_IM_FMT_I, 128, 64, 0, 
+        gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment, G_IM_FMT_I, 128, 64, 0, 
                 G_TX_MIRROR | G_TX_WRAP, 
                 G_TX_NOMIRROR | G_TX_WRAP, 
                 7, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     } else {
         if (msgCtx->unk_E2FD == 3) {
-            gDPSetEnvColor(gfx++, 0x00, 0x00, 0x00, 0xFF);
+            gDPSetEnvColor(gfx++, 0, 0, 0, 255);
         } else {
-            gDPSetEnvColor(gfx++, 0x32, 0x14, 0x00, 0xFF);
+            gDPSetEnvColor(gfx++, 50, 20, 0, 255);
         }
-        gDPLoadTextureBlock_4b(gfx++, (u32)msgCtx->textboxSegment, G_IM_FMT_IA, 128, 64, 0, 
+        gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment, G_IM_FMT_IA, 128, 64, 0, 
                 G_TX_MIRROR | G_TX_WRAP, 
                 G_TX_MIRROR | G_TX_WRAP, 
                 7, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     }
-    gSPTextureRectangle(gfx++, VREG(0)*4, VREG(1)*4, (VREG(0) + YREG(22))*4, (VREG(1) + YREG(23))*4, 0, 0, 0, YREG(16)*2, YREG(17)*2);
+    gSPTextureRectangle(gfx++, 
+            VREG(0)*4, 
+            VREG(1)*4, 
+            (VREG(0) + YREG(22))*4, 
+            (VREG(1) + YREG(23))*4, 
+            0, 0, 0, YREG(16)*2, YREG(17)*2);
     if (msgCtx->unk_E2FD == 3) {
         gDPPipeSync(gfx++);
-        gDPSetCombineLERP(gfx++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
-        gDPSetPrimColor(gfx++, 0, 0, 0xFF, 0x64, 0x00, 0xFF);
+        gDPSetCombineLERP(gfx++, 
+                1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetPrimColor(gfx++, 0, 0, 255, 100, 0, 255);
         gDPLoadTextureBlock_4b(gfx++, &D_02002E40, G_IM_FMT_I, 16, 32, 0, 
                 G_TX_MIRROR | G_TX_WRAP, 
                 G_TX_MIRROR | G_TX_WRAP, 
                 G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, VREG(7)*4, VREG(8)*4, (u16)(VREG(7) + 0x10)*4, (u16)(VREG(8) + 0x20)*4, 0, 0, 0, 0x0400, 0x0400);
+        gSPTextureRectangle(gfx++, 
+                VREG(7)*4, 
+                VREG(8)*4, 
+                (VREG(7) + 0x10)*4, 
+                (VREG(8) + 0x20)*4, 
+                0, 0, 0, 0x0400, 0x0400);
     }
     *p = gfx;
 }
