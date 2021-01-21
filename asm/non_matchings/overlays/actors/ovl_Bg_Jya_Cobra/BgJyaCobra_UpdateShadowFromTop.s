@@ -1,4 +1,4 @@
-glabel func_80896518
+glabel BgJyaCobra_UpdateShadowFromTop
 /* 00C28 80896518 27BDFEA8 */  addiu   $sp, $sp, 0xFEA8           ## $sp = FFFFFEA8
 /* 00C2C 8089651C 3C0141FC */  lui     $at, 0x41FC                ## $at = 41FC0000
 /* 00C30 80896520 44811000 */  mtc1    $at, $f2                   ## $f2 = 31.50
