@@ -203,7 +203,64 @@ void EffDust_Update(Actor *thisx, GlobalContext *globalCtx) {
     this->updateFunc(this, globalCtx);
 }
 
+#ifdef NON_MATCHING
+void func_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
+    Vec3f *unk_024C;
+
+    f32 temp_f0;
+    f32 dx;
+    f32 dy;
+    f32 dz;
+
+    s32 i;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_dust.c", 425);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gDPPipeSync(POLY_XLU_DISP++);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0x80, 0x80, 0x80, 0xFF);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0x80, 0x80, 0x80, 0x00);
+    gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
+
+    for (i = 0; i < 0x40; i++) {
+        if (this->unk_014C[i] < 1.0f) {
+            dx = this->dx;
+            dy = this->dy;
+            dz = this->dz;
+
+            temp_f0 = 1.0f - (this->unk_014C[i] * this->unk_014C[i]);
+            
+            unk_024C = &this->unk_024C[i];
+
+            Matrix_Translate(
+                //this->actor.posRot.pos.x + (unk_024C->x * ((temp_f2 * temp_f0) + (1.0f - temp_f2))),
+                //this->actor.posRot.pos.x + (unk_024C->x * ((dx * temp_f0) + (1.0f - dx))),
+                this->actor.posRot.pos.x + (unk_024C->x * ((this->dx * temp_f0) + (1.0f - this->dx))),
+                //this->actor.posRot.pos.y + (unk_024C->y * ((temp_f16 * temp_f0) + (1.0f - temp_f16))),
+                //this->actor.posRot.pos.y + (unk_024C->y * ((dy * temp_f0) + (1.0f - dy))),
+                this->actor.posRot.pos.y + (unk_024C->y * ((this->dy * temp_f0) + (1.0f - this->dy))),
+                //this->actor.posRot.pos.z + (unk_024C->z * ((temp_f18 * temp_f0) + (1.0f - temp_f18))),
+                //this->actor.posRot.pos.z + (unk_024C->z * ((dz * temp_f0) + (1.0f - dz))),
+                this->actor.posRot.pos.z + (unk_024C->z * ((this->dz * temp_f0) + (1.0f - this->dz))),
+                MTXMODE_NEW
+                );
+
+            Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
+
+            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_dust.c", 449), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
+        }
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_dust.c", 458);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E4F4.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E784.s")
 
