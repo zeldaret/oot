@@ -2240,6 +2240,7 @@ endseg
 beginseg
     name "ovl_En_Fire_Rock"
     include "build/src/overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.o"
+    //include "build/src/overlays/actors/ovl_En_Fire_Rock/ovl_En_Fire_Rock_reloc.o"
     include "build/data/overlays/actors/z_en_fire_rock.data.o"
     include "build/data/overlays/actors/z_en_fire_rock.reloc.o"
 endseg
