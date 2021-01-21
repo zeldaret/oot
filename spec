@@ -569,11 +569,7 @@ endseg
 beginseg
     name "ovl_player_actor"
     include "build/src/overlays/actors/ovl_player_actor/z_player.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_player_actor/ovl_player_actor_reloc.o"
-#else
-    include "build/data/overlays/actors/z_player.reloc.o"
-#endif
 endseg
 
 beginseg
