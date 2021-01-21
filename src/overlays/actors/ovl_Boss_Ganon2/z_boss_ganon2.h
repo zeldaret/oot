@@ -88,8 +88,8 @@ typedef struct BossGanon2 {
     /* 0x0420 */ f32 unk_420;
     /* 0x0424 */ ColliderJntSph unk_424;
     /* 0x0444 */ ColliderJntSph unk_444;
-    /* 0x0464 */ ColliderJntSphItem unk_464[16];
-    /* 0x0864 */ ColliderJntSphItem unk_864[2];
+    /* 0x0464 */ ColliderJntSphElement unk_464[16];
+    /* 0x0864 */ ColliderJntSphElement unk_864[2];
 } BossGanon2; // size = 0x08E4
 
 extern const ActorInit Boss_Ganon2_InitVars;

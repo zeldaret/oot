@@ -21,7 +21,7 @@ glabel BgYdanSp_Init
 /* 00048 808BF458 A2080169 */  sb      $t0, 0x0169($s0)           ## 00000169
 /* 0004C 808BF45C A60B001C */  sh      $t3, 0x001C($s0)           ## 0000001C
 /* 00050 808BF460 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00054 808BF464 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00054 808BF464 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00058 808BF468 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 0005C 808BF46C 26050170 */  addiu   $a1, $s0, 0x0170           ## $a1 = 00000170
@@ -43,7 +43,7 @@ glabel BgYdanSp_Init
 /* 0009C 808BF4AC 00000000 */  nop
 /* 000A0 808BF4B0 3C040600 */  lui     $a0, %hi(D_06006460)                ## $a0 = 06000000
 /* 000A4 808BF4B4 24846460 */  addiu   $a0, $a0, %lo(D_06006460)           ## $a0 = 06006460
-/* 000A8 808BF4B8 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 000A8 808BF4B8 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 000AC 808BF4BC 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFCC
 /* 000B0 808BF4C0 3C0E808C */  lui     $t6, %hi(func_808BFE50)    ## $t6 = 808C0000
@@ -91,7 +91,7 @@ glabel BgYdanSp_Init
 /* 00150 808BF560 8FA40030 */  lw      $a0, 0x0030($sp)           
 /* 00154 808BF564 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00158 808BF568 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFFD4
-/* 0015C 808BF56C 0C0189E8 */  jal     func_800627A0              
+/* 0015C 808BF56C 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 00160 808BF570 27A70060 */  addiu   $a3, $sp, 0x0060           ## $a3 = FFFFFFE0
 /* 00164 808BF574 C7B20054 */  lwc1    $f18, 0x0054($sp)          
 /* 00168 808BF578 C7A40074 */  lwc1    $f4, 0x0074($sp)           
@@ -102,20 +102,20 @@ glabel BgYdanSp_Init
 /* 0017C 808BF58C 27A60054 */  addiu   $a2, $sp, 0x0054           ## $a2 = FFFFFFD4
 /* 00180 808BF590 27A7006C */  addiu   $a3, $sp, 0x006C           ## $a3 = FFFFFFEC
 /* 00184 808BF594 E7B20060 */  swc1    $f18, 0x0060($sp)          
-/* 00188 808BF598 0C0189E8 */  jal     func_800627A0              
+/* 00188 808BF598 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 0018C 808BF59C E7A40068 */  swc1    $f4, 0x0068($sp)           
 /* 00190 808BF5A0 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00
 /* 00194 808BF5A4 10000080 */  beq     $zero, $zero, .L808BF7A8   
 /* 00198 808BF5A8 E606016C */  swc1    $f6, 0x016C($s0)           ## 0000016C
 .L808BF5AC:
-/* 0019C 808BF5AC 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 0019C 808BF5AC 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 001A0 808BF5B0 27A5004C */  addiu   $a1, $sp, 0x004C           ## $a1 = FFFFFFCC
 /* 001A4 808BF5B4 3C19808C */  lui     $t9, %hi(func_808C0464)    ## $t9 = 808C0000
 /* 001A8 808BF5B8 27390464 */  addiu   $t9, $t9, %lo(func_808C0464) ## $t9 = 808C0464
 /* 001AC 808BF5BC AE190164 */  sw      $t9, 0x0164($s0)           ## 00000164
 /* 001B0 808BF5C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001B4 808BF5C4 0C00B56E */  jal     Actor_SetHeight
+/* 001B4 808BF5C4 0C00B56E */  jal     Actor_SetFocus
               
 /* 001B8 808BF5C8 3C0541F0 */  lui     $a1, 0x41F0                ## $a1 = 41F00000
 /* 001BC 808BF5CC 0C01DE1C */  jal     Math_SinS
@@ -207,7 +207,7 @@ glabel BgYdanSp_Init
 /* 002FC 808BF70C E7A20040 */  swc1    $f2, 0x0040($sp)           
 /* 00300 808BF710 E7AC0044 */  swc1    $f12, 0x0044($sp)          
 /* 00304 808BF714 E7AE0038 */  swc1    $f14, 0x0038($sp)          
-/* 00308 808BF718 0C0189E8 */  jal     func_800627A0              
+/* 00308 808BF718 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 0030C 808BF71C E7B0003C */  swc1    $f16, 0x003C($sp)          
 /* 00310 808BF720 3C01808C */  lui     $at, %hi(D_808C0984)       ## $at = 808C0000
 /* 00314 808BF724 C7AC0044 */  lwc1    $f12, 0x0044($sp)          
@@ -241,14 +241,14 @@ glabel BgYdanSp_Init
 /* 00384 808BF794 46122201 */  sub.s   $f8, $f4, $f18             
 /* 00388 808BF798 460E3102 */  mul.s   $f4, $f6, $f14             
 /* 0038C 808BF79C 46082480 */  add.s   $f18, $f4, $f8             
-/* 00390 808BF7A0 0C0189E8 */  jal     func_800627A0              
+/* 00390 808BF7A0 0C0189E8 */  jal     Collider_SetTrisVertices              
 /* 00394 808BF7A4 E7B20068 */  swc1    $f18, 0x0068($sp)          
 .L808BF7A8:
 /* 00398 808BF7A8 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0039C 808BF7AC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 003A0 808BF7B0 8FA7004C */  lw      $a3, 0x004C($sp)           
-/* 003A4 808BF7B4 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 003A4 808BF7B4 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 003A8 808BF7B8 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 003AC 808BF7BC AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 003B0 808BF7C0 A600016A */  sh      $zero, 0x016A($s0)         ## 0000016A

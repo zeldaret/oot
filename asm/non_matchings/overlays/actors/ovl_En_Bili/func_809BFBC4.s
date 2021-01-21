@@ -12,14 +12,14 @@ glabel func_809BFBC4
 .L809BFBEC:
 /* 0034C 809BFBEC 8E0501DC */  lw      $a1, 0x01DC($s0)           ## 000001DC
 /* 00350 809BFBF0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00354 809BFBF4 0C00B6B0 */  jal     func_8002DAC0
+/* 00354 809BFBF4 0C00B6B0 */  jal     Actor_WorldYawTowardPoint
 /* 00358 809BFBF8 24A50100 */  addiu   $a1, $a1, 0x0100           ## $a1 = 00000100
 /* 0035C 809BFBFC 8E0501DC */  lw      $a1, 0x01DC($s0)           ## 000001DC
 /* 00360 809BFC00 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 00364 809BFC04 00417821 */  addu    $t7, $v0, $at
 /* 00368 809BFC08 A60F0032 */  sh      $t7, 0x0032($s0)           ## 00000032
 /* 0036C 809BFC0C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00370 809BFC10 0C00B6CA */  jal     func_8002DB28
+/* 00370 809BFC10 0C00B6CA */  jal     Actor_WorldPitchTowardPoint
 /* 00374 809BFC14 24A50100 */  addiu   $a1, $a1, 0x0100           ## $a1 = 00000100
 /* 00378 809BFC18 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000
 /* 0037C 809BFC1C 44812000 */  mtc1    $at, $f4                   ## $f4 = 5.00

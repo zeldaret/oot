@@ -11,7 +11,7 @@ glabel EnTr_Update
 /* 00EF0 80B23BE0 44070000 */  mfc1    $a3, $f0
 /* 00EF4 80B23BE4 AFAE0014 */  sw      $t6, 0x0014($sp)
 /* 00EF8 80B23BE8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00EFC 80B23BEC 0C00B92D */  jal     func_8002E4B4
+/* 00EFC 80B23BEC 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 00F00 80B23BF0 E7A00010 */  swc1    $f0, 0x0010($sp)
 /* 00F04 80B23BF4 8E1902DC */  lw      $t9, 0x02DC($s0)           ## 000002DC
 /* 00F08 80B23BF8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -95,7 +95,7 @@ glabel EnTr_Update
 .L80B23D00:
 /* 01010 80B23D00 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80B23D04:
-/* 01014 80B23D04 0C00B56E */  jal     Actor_SetHeight
+/* 01014 80B23D04 0C00B56E */  jal     Actor_SetFocus
 
 /* 01018 80B23D08 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0101C 80B23D0C 860302E2 */  lh      $v1, 0x02E2($s0)           ## 000002E2

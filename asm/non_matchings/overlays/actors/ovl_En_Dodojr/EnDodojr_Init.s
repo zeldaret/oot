@@ -42,7 +42,7 @@ glabel EnDodojr_Init
 /* 0008C 809F644C 3C06809F */  lui     $a2, %hi(D_809F7EDC)       ## $a2 = 809F0000
 /* 00090 809F6450 24C67EDC */  addiu   $a2, $a2, %lo(D_809F7EDC)  ## $a2 = 809F7EDC
 /* 00094 809F6454 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 00098 809F6458 0C0187BF */  jal     func_80061EFC              
+/* 00098 809F6458 0C0187BF */  jal     CollisionCheck_SetInfo2              
 /* 0009C 809F645C 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 000A0 809F6460 8E080004 */  lw      $t0, 0x0004($s0)           ## 00000004
 /* 000A4 809F6464 2401FFFE */  addiu   $at, $zero, 0xFFFE         ## $at = FFFFFFFE

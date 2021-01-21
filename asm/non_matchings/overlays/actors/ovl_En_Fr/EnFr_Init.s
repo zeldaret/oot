@@ -70,7 +70,7 @@ glabel EnFr_Init
 /* 0015C 80A1AAFC 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00160 80A1AB00 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00164 80A1AB04 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 00168 80A1AB08 0C00CDD2 */  jal     Actor_ChangeType
+/* 00168 80A1AB08 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 0016C 80A1AB0C 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00170 80A1AB10 3C0A80A2 */  lui     $t2, %hi(func_80A1BCB4)    ## $t2 = 80A20000

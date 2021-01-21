@@ -140,7 +140,7 @@ glabel Interface_Draw
 /* B01C74 8008AAD4 02E02025 */   move  $a0, $s7
 /* B01C78 8008AAD8 0C022A65 */  jal   func_8008A994
 /* B01C7C 8008AADC 02C02025 */   move  $a0, $s6
-/* B01C80 8008AAE0 0C01E3C7 */  jal   Health_Draw
+/* B01C80 8008AAE0 0C01E3C7 */  jal   HealthMeter_Draw
 /* B01C84 8008AAE4 02E02025 */   move  $a0, $s7
 /* B01C88 8008AAE8 0C025148 */  jal   func_80094520
 /* B01C8C 8008AAEC 8EE40000 */   lw    $a0, ($s7)
