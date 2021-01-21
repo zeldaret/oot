@@ -1964,6 +1964,7 @@ void func_80906AB0(u64* tex, BossGanon2* this, GlobalContext* globalCtx) {
     OPEN_DISPS(gfxCtx, "../z_boss_ganon2.c", 6430);
 
     func_80093D18(globalCtx->state.gfxCtx);
+
     if ((globalCtx->envCtx.unk_BD == 1) || (globalCtx->envCtx.unk_BD == 2)) {
         alpha = (s16)(globalCtx->envCtx.unk_D8 * 180.0f) + 30;
     } else {
