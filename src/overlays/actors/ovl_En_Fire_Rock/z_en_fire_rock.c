@@ -16,12 +16,10 @@ void func_80A12730(EnFireRock* this, GlobalContext* globalCtx);
 void func_80A120CC(EnFireRock* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06000DE0;
-extern ColliderCylinderInit D_80A12CA0[];
-extern ColliderCylinderInit D_80A12CCC[];
 
 const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_EFC_STAR_FIELD,
     sizeof(EnFireRock),
@@ -29,6 +27,46 @@ const ActorInit En_Fire_Rock_InitVars = {
     (ActorFunc)EnFireRock_Destroy,
     (ActorFunc)EnFireRock_Update,
     (ActorFunc)EnFireRock_Draw,
+};
+
+static ColliderCylinderInit D_80A12CCC[] = {
+    {
+        COLTYPE_HARD,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x01, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 30, 30, -10, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_80A12CA0[] = {
+    {
+        COLTYPE_HARD,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x09, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 30, 30, -10, { 0, 0, 0 } },
 };
 
 void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
@@ -40,7 +78,7 @@ void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     this->unk18C = this->actor.params;
     if (this->unk18C != 5){
-        ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 15.0f);
+        ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 15.0f);
         if (this->unk18C != 6){
             this->unk14C.x = (Rand_ZeroFloat(10.0f) + 15.0f);
             this->unk14C.y = (Rand_ZeroFloat(10.0f) + 15.0f);
@@ -66,16 +104,16 @@ void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
             this->unk168 = &func_80A12730;
             break;
         case 0:
-            this->unk17C.x = (f32) (Rand_CenteredFloat(50.0f) + player->actor.posRot.pos.x);
-            this->unk17C.z = (f32) (Rand_CenteredFloat(50.0f) + player->actor.posRot.pos.z);
+            this->unk17C.x = (f32) (Rand_CenteredFloat(50.0f) + player->actor.world.pos.x);
+            this->unk17C.z = (f32) (Rand_CenteredFloat(50.0f) + player->actor.world.pos.z);
         case 3:
             this->unk16C = (Rand_ZeroFloat(2.0f) / 100.0f) + 0.02f;
             Actor_SetScale(&this->actor, this->unk16C);
             Collider_InitCylinder(globalCtx, &this->unk194);
             Collider_SetCylinder(globalCtx, &this->unk194, &this->actor, D_80A12CA0);
-            this->actor.posRot.rot.y = this->actor.shape.rot.y = Rand_CenteredFloat(65535.0f);
+            this->actor.world.rot.y = this->actor.shape.rot.y = Rand_CenteredFloat(65535.0f);
             this->unk168 = &func_80A120CC;
-            this->actor.shape.unk_10 = 15.0f;
+            this->actor.shape.shadowScale = 15.0f;
             break;
         case 1:
             this->actor.velocity.y = Rand_ZeroFloat(3.0f) + 4.0f;
@@ -85,8 +123,8 @@ void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
             this->actor.gravity = -1.5f;
             Collider_InitCylinder(globalCtx, &this->unk194);
             Collider_SetCylinder(globalCtx, &this->unk194, &this->actor, D_80A12CA0);
-            this->actor.shape.unk_10 = 10.0f;
-            this->actor.posRot.rot.y = this->actor.shape.rot.y = Rand_CenteredFloat(65535.0f);
+            this->actor.shape.shadowScale = 10.0f;
+            this->actor.world.rot.y = this->actor.shape.rot.y = Rand_CenteredFloat(65535.0f);
             this->unk168 = &func_80A120CC;
             break;
         case 2:
@@ -95,8 +133,8 @@ void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
             this->unk16C = (Rand_ZeroFloat(1.0f) / 500.0f) + 0.01f;
             Actor_SetScale(&this->actor, this->unk16C);
             this->actor.gravity = -1.2f;
-            this->actor.shape.unk_10 = 5.0f;
-            this->actor.posRot.rot.y = this->actor.shape.rot.y = Rand_CenteredFloat(65535.0f);
+            this->actor.shape.shadowScale = 5.0f;
+            this->actor.world.rot.y = this->actor.shape.rot.y = Rand_CenteredFloat(65535.0f);
             this->unk168 = &func_80A120CC;
             break;
         default:

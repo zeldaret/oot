@@ -24,7 +24,7 @@ void EnWallTubo_SetWallFall(EnWallTubo* this, GlobalContext* globalCtx);
 
 const ActorInit En_Wall_Tubo_InitVars = {
     ACTOR_EN_WALL_TUBO,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWallTubo),
@@ -40,7 +40,7 @@ void EnWallTubo_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     // Wall Target
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 壁のツボ ☆☆☆☆☆ \n" VT_RST);
-    this->unk_164 = this->actor.posRot.pos;
+    this->unk_164 = this->actor.world.pos;
     this->actionFunc = EnWallTubo_FindGirl;
 }
 
@@ -50,7 +50,7 @@ void EnWallTubo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnWallTubo_FindGirl(EnWallTubo* this, GlobalContext* globalCtx) {
     Actor* lookForGirl;
 
-    lookForGirl = globalCtx->actorCtx.actorList[ACTORTYPE_NPC].first;
+    lookForGirl = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
 
     while (lookForGirl != NULL) {
         if (lookForGirl->id != ACTOR_EN_BOM_BOWL_MAN) {
@@ -74,7 +74,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
 
     if (this->chuGirl->minigamePlayStatus != 0) {
         if (globalCtx->cameraPtrs[0]->setting == 0x15) {
-            chu = (EnBomChu*)globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
+            chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
             while (chu != NULL) {
                 if ((&chu->actor == &this->actor) || (chu->actor.id != ACTOR_EN_BOM_CHU)) {
@@ -82,9 +82,9 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
                     continue;
                 }
 
-                chuPosDiff.x = chu->actor.posRot.pos.x - this->actor.posRot.pos.x;
-                chuPosDiff.y = chu->actor.posRot.pos.y - this->actor.posRot.pos.y;
-                chuPosDiff.z = chu->actor.posRot.pos.z - this->actor.posRot.pos.z;
+                chuPosDiff.x = chu->actor.world.pos.x - this->actor.world.pos.x;
+                chuPosDiff.y = chu->actor.world.pos.y - this->actor.world.pos.y;
+                chuPosDiff.z = chu->actor.world.pos.z - this->actor.world.pos.z;
 
                 if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2))) &&
                     (fabsf(chuPosDiff.z) < 40.0f || (BREG(2)))) {
@@ -149,8 +149,8 @@ void EnWallTubo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (BREG(0)) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 0, 0, 255, 255, 4, globalCtx->state.gfxCtx);
     }
 }

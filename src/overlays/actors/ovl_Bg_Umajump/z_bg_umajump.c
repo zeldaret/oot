@@ -17,7 +17,7 @@ void BgUmaJump_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Umajump_InitVars = {
     ACTOR_BG_UMAJUMP,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_UMAJUMP,
     sizeof(BgUmaJump),

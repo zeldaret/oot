@@ -32,7 +32,7 @@ typedef struct EnFd {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnFdActionFunc actionFunc;
     /* 0x0194 */ ColliderJntSph collider;
-    /* 0x01B4 */ ColliderJntSphItem colSphs[12];
+    /* 0x01B4 */ ColliderJntSphElement colSphs[12];
     /* 0x04B4 */ u8 coreActive;
     /* 0x04B6 */ s16 initYawToInitPos;
     /* 0x04B8 */ s16 curYawToInitPos;

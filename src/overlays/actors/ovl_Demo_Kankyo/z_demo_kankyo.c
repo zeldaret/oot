@@ -21,7 +21,7 @@ extern UNK_TYPE D_06008390;
 /*
 const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoKankyo),

@@ -23,7 +23,7 @@ glabel EnFz_Init
 /* 0004C 80A1FE0C 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00050 80A1FE10 24E71B90 */  addiu   $a3, $a3, %lo(D_80A21B90)  ## $a3 = 80A21B90
 /* 00054 80A1FE14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00058 80A1FE18 0C017114 */  jal     Collider_SetCylinder_Set3              
+/* 00058 80A1FE18 0C017114 */  jal     Collider_SetCylinderType1              
 /* 0005C 80A1FE1C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00060 80A1FE20 2605019C */  addiu   $a1, $s0, 0x019C           ## $a1 = 0000019C
 /* 00064 80A1FE24 AFA50020 */  sw      $a1, 0x0020($sp)           
@@ -34,7 +34,7 @@ glabel EnFz_Init
 /* 00074 80A1FE34 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00078 80A1FE38 24E71BBC */  addiu   $a3, $a3, %lo(D_80A21BBC)  ## $a3 = 80A21BBC
 /* 0007C 80A1FE3C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00080 80A1FE40 0C017114 */  jal     Collider_SetCylinder_Set3              
+/* 00080 80A1FE40 0C017114 */  jal     Collider_SetCylinderType1              
 /* 00084 80A1FE44 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00088 80A1FE48 260501E8 */  addiu   $a1, $s0, 0x01E8           ## $a1 = 000001E8
 /* 0008C 80A1FE4C AFA50020 */  sw      $a1, 0x0020($sp)           
@@ -45,7 +45,7 @@ glabel EnFz_Init
 /* 0009C 80A1FE5C 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 000A0 80A1FE60 24E71BE8 */  addiu   $a3, $a3, %lo(D_80A21BE8)  ## $a3 = 80A21BE8
 /* 000A4 80A1FE64 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 000A8 80A1FE68 0C017114 */  jal     Collider_SetCylinder_Set3              
+/* 000A8 80A1FE68 0C017114 */  jal     Collider_SetCylinderType1              
 /* 000AC 80A1FE6C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 000B0 80A1FE70 3C053C03 */  lui     $a1, 0x3C03                ## $a1 = 3C030000
 /* 000B4 80A1FE74 34A5126F */  ori     $a1, $a1, 0x126F           ## $a1 = 3C03126F

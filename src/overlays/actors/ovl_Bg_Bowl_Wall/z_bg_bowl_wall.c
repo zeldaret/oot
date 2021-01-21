@@ -31,7 +31,7 @@ extern Gfx D_06001390[];
 
 const ActorInit Bg_Bowl_Wall_InitVars = {
     ACTOR_BG_BOWL_WALL,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BOWL,
     sizeof(BgBowlWall),
@@ -65,7 +65,7 @@ void BgBowlWall_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->initPos = this->dyna.actor.posRot.pos;
+    this->initPos = this->dyna.actor.world.pos;
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ボーリングおじゃま壁発生 ☆☆☆☆☆ %d\n" VT_RST, this->dyna.actor.params);
     this->actionFunc = BgBowlWall_SpawnBullseyes;
@@ -87,12 +87,12 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
     type = this->dyna.actor.params;
     if (type != 0) {
         type += (s16)Rand_ZeroFloat(2.99f);
-        this->dyna.actor.shape.rot.z = this->dyna.actor.posRot.rot.z = sTargetRot[type];
+        this->dyna.actor.shape.rot.z = this->dyna.actor.world.rot.z = sTargetRot[type];
         osSyncPrintf("\n\n");
     }
-    this->bullseyeCenter.x = sBullseyeOffset[type].x + this->dyna.actor.posRot.pos.x;
-    this->bullseyeCenter.y = sBullseyeOffset[type].y + this->dyna.actor.posRot.pos.y;
-    this->bullseyeCenter.z = sBullseyeOffset[type].z + this->dyna.actor.posRot.pos.z;
+    this->bullseyeCenter.x = sBullseyeOffset[type].x + this->dyna.actor.world.pos.x;
+    this->bullseyeCenter.y = sBullseyeOffset[type].y + this->dyna.actor.world.pos.y;
+    this->bullseyeCenter.z = sBullseyeOffset[type].z + this->dyna.actor.world.pos.z;
     if (1) {}
     bullseye = (EnWallTubo*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_WALL_TUBO,
                                                this->bullseyeCenter.x, this->bullseyeCenter.y, this->bullseyeCenter.z,
@@ -100,10 +100,10 @@ void BgBowlWall_SpawnBullseyes(BgBowlWall* this, GlobalContext* globalCtx) {
     if (bullseye != NULL) {
         bullseye->explosionCenter = this->bullseyeCenter;
         if (type != 0) {
-            bullseye->explosionCenter = this->bullseyeCenter = this->dyna.actor.posRot.pos;
+            bullseye->explosionCenter = this->bullseyeCenter = this->dyna.actor.world.pos;
         }
         if (this->chuGirl == NULL) {
-            lookForGirl = globalCtx->actorCtx.actorList[ACTORTYPE_NPC].first;
+            lookForGirl = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
             while (lookForGirl != NULL) {
                 if (lookForGirl->id != ACTOR_EN_BOM_BOWL_MAN) {
                     lookForGirl = lookForGirl->next;
@@ -136,13 +136,13 @@ void BgBowlWall_FallDoEffects(BgBowlWall* this, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.params == 0) { // wall collapses backwards
         Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 3, 500, 0);
-        this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x;
+        this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x;
         if (this->dyna.actor.shape.rot.x < -0x3C1E) {
             wallFallen = true;
         }
     } else { // wall slides downwards
-        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
-        if (this->dyna.actor.posRot.pos.y < (this->initPos.y - 400.0f)) {
+        Math_ApproachF(&this->dyna.actor.world.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
+        if (this->dyna.actor.world.pos.y < (this->initPos.y - 400.0f)) {
             wallFallen = true;
         }
     }
@@ -171,11 +171,11 @@ void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.params == 0) {
             Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, -0x3E80, 1, 200, 0);
         } else {
-            Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
+            Math_ApproachF(&this->dyna.actor.world.pos.y, this->initPos.y - 450.0f, 0.3f, 10.0f);
         }
     } else if (this->timer == 1) {
-        this->dyna.actor.posRot.rot.x = this->dyna.actor.shape.rot.x = 0;
-        this->dyna.actor.posRot.pos.y = this->initPos.y - 450.0f;
+        this->dyna.actor.world.rot.x = this->dyna.actor.shape.rot.x = 0;
+        this->dyna.actor.world.pos.y = this->initPos.y - 450.0f;
         this->chuGirl->wallStatus[this->dyna.actor.params] = 2;
         this->actionFunc = BgBowlWall_Reset;
     }
@@ -183,9 +183,9 @@ void BgBowlWall_FinishFall(BgBowlWall* this, GlobalContext* globalCtx) {
 
 void BgBowlWall_Reset(BgBowlWall* this, GlobalContext* globalCtx) {
     if (this->chuGirl->wallStatus[this->dyna.actor.params] != 2) {
-        Math_ApproachF(&this->dyna.actor.posRot.pos.y, this->initPos.y, 0.3f, 50.0f);
-        if (fabsf(this->dyna.actor.posRot.pos.y - this->initPos.y) <= 10.0f) {
-            this->dyna.actor.posRot.pos.y = this->initPos.y;
+        Math_ApproachF(&this->dyna.actor.world.pos.y, this->initPos.y, 0.3f, 50.0f);
+        if (fabsf(this->dyna.actor.world.pos.y - this->initPos.y) <= 10.0f) {
+            this->dyna.actor.world.pos.y = this->initPos.y;
             this->isHit = false;
             this->actionFunc = BgBowlWall_SpawnBullseyes;
         }
