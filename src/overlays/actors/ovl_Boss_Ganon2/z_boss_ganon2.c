@@ -2091,16 +2091,12 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905DA8.s")
 
-#ifdef NON_MATCHING
 void func_809060E8(GlobalContext* globalCtx) {
     s16 alpha;
     u8 spCD;
-    f32 temp_f0;
     BossGanon2Effect* effect;
-    BossGanon2Effect* effects;
-    f32 angle;
     s16 i;
-    Vec3f spA0;
+    BossGanon2Effect* effects;
 
     spCD = 0;
     effects = effect = globalCtx->unk_11E10;
@@ -2111,6 +2107,10 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     for (i = 0; i < 1; i++) {
         if (effect->type == 1) {
+            Vec3f spA0;
+            f32 temp_f0;
+            f32 angle;
+
             func_80093D84(globalCtx->state.gfxCtx);
             spA0.x = globalCtx->envCtx.unk_2A;
             spA0.y = globalCtx->envCtx.unk_2B;
@@ -2164,9 +2164,6 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6185);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809060E8.s")
-#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80906538.s")
 
