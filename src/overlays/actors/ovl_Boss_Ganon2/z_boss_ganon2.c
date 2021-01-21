@@ -1987,10 +1987,10 @@ void func_809060E8(GlobalContext* globalCtx) {
             gSPDisplayList(POLY_OPA_DISP++, D_8090D2E8);
             if ((globalCtx->envCtx.unk_BD == 1) || (globalCtx->envCtx.unk_BD == 2)) {
                 alpha = (s16)(globalCtx->envCtx.unk_D8 * 150.0f) + 50;
-                angle = 0.62831855f;
+                angle = M_PI / 5.0f;
             } else {
                 alpha = 100;
-                angle = 1.5707964f;
+                angle = M_PI / 2.0f;
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, alpha);
             temp_f0 = effect->position.y - 1098.0f;
