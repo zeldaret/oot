@@ -17,7 +17,7 @@ void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx);
 void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx);
 
-extern Gfx D_06010790;
+extern Gfx D_06010790[];
 extern Gfx D_06010C20[];
 extern UNK_TYPE D_0601167C;
 extern Gfx D_060117D0[];
@@ -154,8 +154,8 @@ void BgJyaCobra_InitDynapoly(BgJyaCobra* this, GlobalContext* globalCtx, void* a
 }
 
 void BgJyaCobra_SpawnRay(BgJyaCobra* this, GlobalContext* globalCtx) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_MIR_RAY, this->dyna.actor.posRot.pos.x,
-                       this->dyna.actor.posRot.pos.y + 57.0f, this->dyna.actor.posRot.pos.z, 0, 0, 0, 6);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_MIR_RAY, this->dyna.actor.world.pos.x,
+                       this->dyna.actor.world.pos.y + 57.0f, this->dyna.actor.world.pos.z, 0, 0, 0, 6);
     if (this->dyna.actor.child == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
         //  	Ｅｒｒｏｒ : Mir Ray occurrence failure
@@ -227,9 +227,9 @@ void func_80895BEC(BgJyaCobra* this, GlobalContext* globalCtx) {
     Vec3f sp2C;
 
     func_808958F0(&sp2C, &this->unk_174, Math_SinS(this->unk_170), Math_CosS(this->unk_170));
-    player->actor.posRot.pos.x = this->dyna.actor.posRot.pos.x + sp2C.x;
-    player->actor.posRot.pos.y = this->dyna.actor.posRot.pos.y + sp2C.y;
-    player->actor.posRot.pos.z = this->dyna.actor.posRot.pos.z + sp2C.z;
+    player->actor.world.pos.x = this->dyna.actor.world.pos.x + sp2C.x;
+    player->actor.world.pos.y = this->dyna.actor.world.pos.y + sp2C.y;
+    player->actor.world.pos.z = this->dyna.actor.world.pos.z + sp2C.z;
 }
 
 #ifdef NON_MATCHING
@@ -258,9 +258,9 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->unk_180.x = this->dyna.actor.posRot.pos.x;
-    this->unk_180.y = this->dyna.actor.posRot.pos.y + 57.0f;
-    this->unk_180.z = this->dyna.actor.posRot.pos.z;
+    this->unk_180.x = this->dyna.actor.world.pos.x;
+    this->unk_180.y = this->dyna.actor.world.pos.y + 57.0f;
+    this->unk_180.z = this->dyna.actor.world.pos.z;
 
     if (!(params & 3)) {
         this->unk_190 = 0.1f;
@@ -448,7 +448,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra_InitDynapoly(this, globalCtx, &D_0601167C, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, D_80897528);
     if (!(this->dyna.actor.params & 3) && Flags_GetSwitch(globalCtx, ((s32)this->dyna.actor.params >> 8) & 0x3F)) {
-        this->dyna.actor.posRot.rot.y = this->dyna.actor.initPosRot.rot.y = this->dyna.actor.shape.rot.y = 0;
+        this->dyna.actor.world.rot.y = this->dyna.actor.home.rot.y = this->dyna.actor.shape.rot.y = 0;
     }
 
     if (!(this->dyna.actor.params & 3)) {
@@ -479,8 +479,8 @@ void BgJyaCobra_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void func_80896918(BgJyaCobra* this, GlobalContext* globalCtx) {
     this->actionFunc = &func_80896950;
     this->unk_168 = 0;
-    this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y =
-        (s16)((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y);
+    this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y =
+        (s16)((this->unk_16C << 0xD) + this->dyna.actor.home.rot.y);
 }
 
 void func_80896950(BgJyaCobra* this, GlobalContext* globalCtx) {
@@ -508,7 +508,7 @@ void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     this->actionFunc = func_80896ABC;
-    temp2 = this->dyna.actor.yawTowardsLink - this->dyna.actor.shape.rot.y;
+    temp2 = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.shape.rot.y;
     phi_a3 = (s16)(this->dyna.actor.shape.rot.y - this->dyna.unk_158);
     phi_a3 = ABS(phi_a3);
 
@@ -526,9 +526,9 @@ void func_808969F8(BgJyaCobra* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->unk_174.x = player->actor.posRot.pos.x - this->dyna.actor.posRot.pos.x;
-    this->unk_174.y = player->actor.posRot.pos.y - this->dyna.actor.posRot.pos.y;
-    this->unk_174.z = player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z;
+    this->unk_174.x = player->actor.world.pos.x - this->dyna.actor.world.pos.x;
+    this->unk_174.y = player->actor.world.pos.y - this->dyna.actor.world.pos.y;
+    this->unk_174.z = player->actor.world.pos.z - this->dyna.actor.world.pos.z;
     this->unk_170 = this->unk_16E = 0;
     this->unk_172 = 1;
 }
@@ -539,7 +539,7 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
 
-    temp_v0 = (s16)((this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y) - this->dyna.actor.posRot.rot.y;
+    temp_v0 = (s16)((this->unk_16C << 0xD) + this->dyna.actor.home.rot.y) - this->dyna.actor.world.rot.y;
     if (ABS(temp_v0) < 7424) {
         Math_StepToS(&this->unk_16E, 106, 4);
     } else {
@@ -552,8 +552,8 @@ void func_80896ABC(BgJyaCobra* this, GlobalContext* globalCtx) {
         this->dyna.unk_150 = 0.0f;
         func_80896918(this, globalCtx);
     } else {
-        temp_v0 = (this->unk_16C << 0xD) + this->dyna.actor.initPosRot.rot.y + this->unk_170;
-        this->dyna.actor.posRot.rot.y = temp_v0;
+        temp_v0 = (this->unk_16C << 0xD) + this->dyna.actor.home.rot.y + this->unk_170;
+        this->dyna.actor.world.rot.y = temp_v0;
         this->dyna.actor.shape.rot.y = temp_v0;
     }
 
@@ -631,20 +631,20 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
     func_80094044(globalCtx->state.gfxCtx);
 
     if (params == 0) {
-        sp64.x = this->dyna.actor.posRot.pos.x - 50.0f;
-        sp64.y = this->dyna.actor.posRot.pos.y;
-        sp64.z = this->dyna.actor.posRot.pos.z;
+        sp64.x = this->dyna.actor.world.pos.x - 50.0f;
+        sp64.y = this->dyna.actor.world.pos.y;
+        sp64.z = this->dyna.actor.world.pos.z;
         phi_a3 = &D_80897538;
     } else {
         phi_a3 = &this->dyna.actor.shape.rot;
         if (params == 2) {
-            sp64.x = this->dyna.actor.posRot.pos.x + 70.0f;
-            sp64.y = this->dyna.actor.posRot.pos.y;
-            sp64.z = this->dyna.actor.posRot.pos.z;
+            sp64.x = this->dyna.actor.world.pos.x + 70.0f;
+            sp64.y = this->dyna.actor.world.pos.y;
+            sp64.z = this->dyna.actor.world.pos.z;
             phi_a3 = &D_80897540;
             // params == 1
         } else {
-            Math_Vec3f_Copy(&sp64, &this->dyna.actor.posRot.pos);
+            Math_Vec3f_Copy(&sp64, &this->dyna.actor.world.pos);
         }
     }
     func_800D1694(sp64.x, sp64.y, sp64.z, phi_a3);
@@ -669,16 +669,17 @@ void BgJyaCobra_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
 
     func_80896CB4(globalCtx);
-    Gfx_DrawDListOpa(globalCtx, &D_06010790);
+    Gfx_DrawDListOpa(globalCtx, D_06010790);
 
     if (this->unk_18C > 0.0f) {
         func_80896D78(this, globalCtx);
     }
 
     if ((this->dyna.actor.params & 3) == 2) {
-        BgJyaBigmirror* parent = (BgJyaBigmirror*)this->dyna.actor.parent;
-        if (parent != NULL && (parent->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) &&
-            (parent->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
+        BgJyaBigmirror* mirror = (BgJyaBigmirror*)this->dyna.actor.parent;
+
+        if (mirror != NULL && (mirror->puzzleFlags & BIGMIR_PUZZLE_BOMBIWA_DESTROYED) &&
+            (mirror->puzzleFlags & BIGMIR_PUZZLE_COBRA1_SOLVED)) {
             BgJyaCobra_DrawShadow(this, globalCtx);
         }
     } else {
