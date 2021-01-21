@@ -587,7 +587,7 @@ glabel Fishing_Init
 /* 01398 80B6AD38 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0139C 80B6AD3C 26651C24 */  addiu   $a1, $s3, 0x1C24           ## $a1 = 00001C24
 /* 013A0 80B6AD40 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 013A4 80B6AD44 0C00CDD2 */  jal     Actor_ChangeType
+/* 013A4 80B6AD44 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 013A8 80B6AD48 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
 /* 013AC 80B6AD4C 8E480004 */  lw      $t0, 0x0004($s2)           ## 00000004

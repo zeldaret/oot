@@ -37,8 +37,8 @@ glabel BossDodongo_Init
 
 /* 00818 808C19A8 24A5A3C8 */  addiu   $a1, $a1, %lo(D_808CA3C8)  ## $a1 = 808CA3C8
 /* 0081C 808C19AC 3C05460F */  lui     $a1, 0x460F                ## $a1 = 460F0000
-/* 00820 808C19B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00824 808C19B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00820 808C19B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00824 808C19B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00828 808C19B8 34A5C000 */  ori     $a1, $a1, 0xC000           ## $a1 = 460FC000
 /* 0082C 808C19BC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00830 808C19C0 0C00AC78 */  jal     ActorShape_Init

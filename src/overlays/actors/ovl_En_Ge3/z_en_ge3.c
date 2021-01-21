@@ -21,7 +21,7 @@ extern UNK_TYPE D_0600B07C;
 /*
 const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GELDB,
     sizeof(EnGe3),
@@ -29,6 +29,26 @@ const ActorInit En_Ge3_InitVars = {
     (ActorFunc)EnGe3_Destroy,
     (ActorFunc)EnGe3_Update,
     (ActorFunc)EnGe3_Draw,
+};
+
+static ColliderCylinderInit D_80A35190 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000722, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 20, 50, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ge3/func_80A34620.s")

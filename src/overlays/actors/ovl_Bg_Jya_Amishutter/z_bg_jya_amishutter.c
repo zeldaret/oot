@@ -26,7 +26,7 @@ void func_8089350C(BgJyaAmishutter* this);
 
 const ActorInit Bg_Jya_Amishutter_InitVars = {
     ACTOR_BG_JYA_AMISHUTTER,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaAmishutter),
@@ -79,8 +79,8 @@ void func_808933BC(BgJyaAmishutter* this) {
 }
 
 void func_808933CC(BgJyaAmishutter* this) {
-    if (this->actor.xzDistToLink < 60.0f) {
-        if (fabsf(this->actor.yDistToLink) < 30.0f) {
+    if (this->actor.xzDistToPlayer < 60.0f) {
+        if (fabsf(this->actor.yDistToPlayer) < 30.0f) {
             func_80893428(this);
         }
     }
@@ -91,7 +91,7 @@ void func_80893428(BgJyaAmishutter* this) {
 }
 
 void func_80893438(BgJyaAmishutter* this) {
-    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y + 100.0f, 3.0f)) {
+    if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 100.0f, 3.0f)) {
         func_808934B0(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {
@@ -104,7 +104,7 @@ void func_808934B0(BgJyaAmishutter* this) {
 }
 
 void func_808934C0(BgJyaAmishutter* this) {
-    if (this->actor.xzDistToLink > 300.0f) {
+    if (this->actor.xzDistToPlayer > 300.0f) {
         func_808934FC(this);
     }
 }
@@ -114,7 +114,7 @@ void func_808934FC(BgJyaAmishutter* this) {
 }
 
 void func_8089350C(BgJyaAmishutter* this) {
-    if (Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 3.0f)) {
+    if (Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 3.0f)) {
         func_808933BC(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_METALDOOR_STOP);
     } else {

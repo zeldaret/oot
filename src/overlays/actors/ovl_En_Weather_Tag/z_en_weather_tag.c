@@ -33,7 +33,7 @@ void func_80B31CC0(EnWeatherTag* this, GlobalContext* globalCtx);
 
 const ActorInit En_Weather_Tag_InitVars = {
     ACTOR_EN_WEATHER_TAG,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWeatherTag),
@@ -134,7 +134,7 @@ u8 func_80B312C8(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
     u8 ret = 0;
     Player* player = PLAYER;
 
-    if (func_8002DB8C(&player->actor, &this->actor) < (this->actor.params >> 8) * 100.0f) {
+    if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < (this->actor.params >> 8) * 100.0f) {
         if ((globalCtx->envCtx.unk_1E != 0) ||
             (!D_8011FB3C || !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
             D_8011FB38 = 1;
@@ -175,7 +175,7 @@ u8 func_80B3149C(EnWeatherTag* this, GlobalContext* globalCtx, u8 arg2, u8 arg3,
     u8 ret = 0;
     Player* player = PLAYER;
 
-    if ((((this->actor.params >> 8) * 100.0f) + 100.0f) < func_8002DB8C(&player->actor, &this->actor)) {
+    if ((((this->actor.params >> 8) * 100.0f) + 100.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         if ((globalCtx->envCtx.unk_1E != 0) ||
             (!D_8011FB3C || !(globalCtx->skyboxId == 1 || globalCtx->envCtx.unk_1F != globalCtx->envCtx.unk_20))) {
             D_8011FB38 = 1;
@@ -293,7 +293,7 @@ void func_80B31AA0(EnWeatherTag* this, GlobalContext* globalCtx) {
 void func_80B31B24(EnWeatherTag* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_8002DB8C(&player->actor, &this->actor) < ((this->actor.params >> 8) * 100.0f)) {
+    if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < ((this->actor.params >> 8) * 100.0f)) {
         Math_SmoothStepToS(&globalCtx->envCtx.unk_9E, -0x50, 1, 2, 1);
         Math_SmoothStepToS(&globalCtx->envCtx.unk_A0, -0x7D0, 1, 0x32, 1);
     } else {
@@ -305,7 +305,7 @@ void func_80B31B24(EnWeatherTag* this, GlobalContext* globalCtx) {
 void func_80B31C20(EnWeatherTag* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_8002DB8C(&player->actor, &this->actor) < ((this->actor.params >> 8) * 100.0f)) {
+    if (Actor_WorldDistXZToActor(&player->actor, &this->actor) < ((this->actor.params >> 8) * 100.0f)) {
         func_80077624(globalCtx);
         globalCtx->envCtx.lightning = 1;
         globalCtx->envCtx.unk_EE[0] = 0x19;
@@ -316,7 +316,7 @@ void func_80B31C20(EnWeatherTag* this, GlobalContext* globalCtx) {
 void func_80B31CC0(EnWeatherTag* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if ((((this->actor.params >> 8) * 100.0f) + 10.0f) < func_8002DB8C(&player->actor, &this->actor)) {
+    if ((((this->actor.params >> 8) * 100.0f) + 10.0f) < Actor_WorldDistXZToActor(&player->actor, &this->actor)) {
         func_80077684(globalCtx);
         globalCtx->envCtx.lightning = 2;
         globalCtx->envCtx.unk_EE[0] = 0;
@@ -330,8 +330,8 @@ void EnWeatherTag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (BREG(0) != 0) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 255, 255, 4, globalCtx->state.gfxCtx);
     }
 }

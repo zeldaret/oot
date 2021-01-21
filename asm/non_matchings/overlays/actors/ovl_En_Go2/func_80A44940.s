@@ -79,7 +79,7 @@ glabel func_80A44940
 /* 01D3C 80A44A6C A4EF0206 */  sh      $t7, 0x0206($a3)           ## 00000206
 /* 01D40 80A44A70 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 01D44 80A44A74 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01D48 80A44A78 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 01D4C 80A44A7C 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 01D50 80A44A80 8FA60018 */  lw      $a2, 0x0018($sp)           

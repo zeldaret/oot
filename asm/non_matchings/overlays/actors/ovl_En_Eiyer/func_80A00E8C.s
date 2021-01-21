@@ -26,7 +26,7 @@ glabel func_80A00E8C
 /* 00F48 80A00EE8 46083280 */  add.s   $f10, $f6, $f8             
 /* 00F4C 80A00EEC E7AA002C */  swc1    $f10, 0x002C($sp)          
 /* 00F50 80A00EF0 C470002C */  lwc1    $f16, 0x002C($v1)          ## 0000002C
-/* 00F54 80A00EF4 0C00B6CA */  jal     func_8002DB28              
+/* 00F54 80A00EF4 0C00B6CA */  jal     Actor_WorldPitchTowardPoint              
 /* 00F58 80A00EF8 E7B00030 */  swc1    $f16, 0x0030($sp)          
 /* 00F5C 80A00EFC 00022C00 */  sll     $a1, $v0, 16               
 /* 00F60 80A00F00 00052C03 */  sra     $a1, $a1, 16               

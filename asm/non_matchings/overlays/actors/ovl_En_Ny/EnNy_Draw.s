@@ -31,7 +31,7 @@ glabel EnNy_Draw
 /* 011A0 80ABDD50 0C031AB1 */  jal     Graph_OpenDisps              
 /* 011A4 80ABDD54 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000
 /* 011A8 80ABDD58 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 011AC 80ABDD5C 0C018A29 */  jal     func_800628A4              
+/* 011AC 80ABDD5C 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 011B0 80ABDD60 26250150 */  addiu   $a1, $s1, 0x0150           ## $a1 = 00000150
 /* 011B4 80ABDD64 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 011B8 80ABDD68 8FA50094 */  lw      $a1, 0x0094($sp)           
