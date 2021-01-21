@@ -1969,7 +1969,7 @@ void func_809060E8(GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    for (i = 0; i <= 0; i++) {
+    for (i = 0; i < 1; i++) {
         if (effect->type == 1) {
             func_80093D84(globalCtx->state.gfxCtx);
             spA0.x = globalCtx->envCtx.unk_2A;
