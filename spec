@@ -2630,8 +2630,11 @@ endseg
 beginseg
     name "ovl_En_M_Thunder"
     include "build/src/overlays/actors/ovl_En_M_Thunder/z_en_m_thunder.o"
-    include "build/data/overlays/actors/z_en_m_thunder.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_M_Thunder/ovl_En_M_Thunder_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_m_thunder.reloc.o"
+#endif
 endseg
 
 beginseg
