@@ -15,7 +15,7 @@ typedef struct {
     /* 0x28 */ char unk_28[0x6];
     /* 0x2E */ s16 unk_2E;
     /* 0x30 */ char unk_30[0x4];
-    /* 0x34 */ f32 unk_34;
+    /* 0x34 */ f32 scale;
     /* 0x38 */ Vec3f unk_38;
 } BossGanon2Effect; // size = 0x44
 
@@ -45,7 +45,7 @@ void func_809069F8(u32* tex, BossGanon2* this, GlobalContext* globalCtx);
 void func_80906AB0(u32* tex, BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000BFC;
-extern UNK_TYPE D_06000EA0;
+extern Gfx D_06000EA0[];
 extern AnimationHeader D_06002168;
 extern AnimationHeader D_060028A8;
 extern AnimationHeader D_06002E6C;
@@ -398,7 +398,7 @@ void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1) {
     effect->accel.z = 0.0f;
 }
 
-void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 arg3) {
+void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 scale) {
     BossGanon2Effect* effect = (BossGanon2Effect*)globalCtx->unk_11E10;
     s16 i;
 
@@ -413,7 +413,7 @@ void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f
             effect->unk_38.z = Rand_ZeroFloat(2 * M_PI);
             effect->unk_38.y = Rand_ZeroFloat(2 * M_PI);
             effect->unk_38.x = Rand_ZeroFloat(2 * M_PI);
-            effect->unk_34 = arg3;
+            effect->scale = scale;
             break;
         }
     }
@@ -1951,7 +1951,82 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905DA8.s")
 
+#ifdef NON_MATCHING
+void func_809060E8(GlobalContext* globalCtx) {
+    s16 alpha;
+    u8 spCD;
+    f32 temp_f0;
+    BossGanon2Effect* effect;
+    BossGanon2Effect* effects;
+    f32 angle;
+    s16 i;
+    Vec3f spA0;
+
+    spCD = 0;
+    effects = effect = globalCtx->unk_11E10;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6086);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    for (i = 0; i <= 0; i++) {
+        if (effect->type == 1) {
+            func_80093D84(globalCtx->state.gfxCtx);
+            spA0.x = globalCtx->envCtx.unk_2A;
+            spA0.y = globalCtx->envCtx.unk_2B;
+            spA0.z = globalCtx->envCtx.unk_2C;
+            func_8002EABC(&effect->position, &globalCtx->view.eye, &spA0, globalCtx->state.gfxCtx);
+            Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
+            Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
+            Matrix_RotateY(effect->unk_38.z, MTXMODE_APPLY);
+            Matrix_RotateX(effect->unk_38.y, MTXMODE_APPLY);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6116),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPSegment(POLY_OPA_DISP++, 0x08,
+                       Gfx_TexScroll(globalCtx->state.gfxCtx, 0, 0 - (globalCtx->gameplayFrames & 0x7F), 32, 32));
+            gSPDisplayList(POLY_OPA_DISP++, D_8090D2E8);
+            if ((globalCtx->envCtx.unk_BD == 1) || (globalCtx->envCtx.unk_BD == 2)) {
+                alpha = (s16)(globalCtx->envCtx.unk_D8 * 150.0f) + 50;
+                angle = 0.62831855f;
+            } else {
+                alpha = 100;
+                angle = 1.5707964f;
+            }
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, alpha);
+            temp_f0 = effect->position.y - 1098.0f;
+            Matrix_Translate(effect->position.x + temp_f0, 1086.0f, (effect->position.z - 1.0f) + temp_f0, MTXMODE_NEW);
+            Matrix_RotateY(angle, MTXMODE_APPLY);
+            Matrix_Scale(1.0f, 0.0f, 1.0f, MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6155),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, D_8090C0C8);
+        }
+    }
+
+    effect = effects;
+
+    for (i = 0; i < 100; i++, effect++) {
+        if (effect->type == 2) {
+            if (spCD == 0) {
+                func_808FD108(NULL, globalCtx, OBJECT_GEFF, MTXMODE_APPLY);
+                spCD++;
+            }
+            Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
+            Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
+            Matrix_RotateY(effect->unk_38.z, MTXMODE_APPLY);
+            Matrix_RotateX(effect->unk_38.y, MTXMODE_APPLY);
+            Matrix_RotateZ(effect->unk_38.x, MTXMODE_APPLY);
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6179),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_OPA_DISP++, D_06000EA0);
+        }
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6185);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809060E8.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80906538.s")
 
