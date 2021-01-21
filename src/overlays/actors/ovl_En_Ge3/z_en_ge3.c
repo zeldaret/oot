@@ -21,7 +21,7 @@ extern UNK_TYPE D_0600B07C;
 /*
 const ActorInit En_Ge3_InitVars = {
     ACTOR_EN_GE3,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GELDB,
     sizeof(EnGe3),

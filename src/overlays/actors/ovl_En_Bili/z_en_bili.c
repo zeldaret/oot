@@ -25,7 +25,7 @@ void func_809C09E0(EnBili* this, GlobalContext* globalCtx);
 
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_BL,
     sizeof(EnBili),

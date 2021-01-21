@@ -22,7 +22,7 @@ s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot09_Obj_InitVars = {
     ACTOR_BG_SPOT09_OBJ,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT09_OBJ,
     sizeof(BgSpot09Obj),

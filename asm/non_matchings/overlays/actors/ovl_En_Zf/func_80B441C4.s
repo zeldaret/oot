@@ -55,7 +55,7 @@ glabel func_80B441C4
 /* 0023C 80B4428C E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
 /* 00240 80B44290 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 00244 80B44294 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 00248 80B44298 0C00B92D */  jal     func_8002E4B4              
+/* 00248 80B44298 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 0024C 80B4429C E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 00250 80B442A0 27AA0030 */  addiu   $t2, $sp, 0x0030           ## $t2 = FFFFFFE8
 /* 00254 80B442A4 8D4C0000 */  lw      $t4, 0x0000($t2)           ## FFFFFFE8

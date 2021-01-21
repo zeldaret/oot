@@ -32,7 +32,7 @@ extern AnimationHeader D_060002B8;
 
 const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGm),
@@ -62,8 +62,8 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -115,7 +115,7 @@ void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
         this->actor.draw = EnGm_Draw;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->eyeTexIndex = 0;
@@ -172,8 +172,8 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     f32 dz;
     Player* player = PLAYER;
 
-    dx = this->talkPos.x - player->actor.posRot.pos.x;
-    dz = this->talkPos.z - player->actor.posRot.pos.z;
+    dx = this->talkPos.x - player->actor.world.pos.x;
+    dz = this->talkPos.z - player->actor.world.pos.z;
 
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         EnGm_SetTextID(this);
@@ -200,8 +200,8 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 
     EnGm_SetTextID(this);
 
-    dx = this->talkPos.x - player->actor.posRot.pos.x;
-    dz = this->talkPos.z - player->actor.posRot.pos.z;
+    dx = this->talkPos.x - player->actor.world.pos.x;
+    dz = this->talkPos.z - player->actor.world.pos.z;
 
     if (func_8002F194(&this->actor, globalCtx)) {
         switch (func_80A3D7C8()) {
@@ -278,9 +278,9 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
     this->timer++;
     this->actionFunc(this, globalCtx);
-    this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
-    this->actor.posRot2.rot.y = this->actor.posRot.rot.y;
-    this->actor.posRot2.rot.z = this->actor.posRot.rot.z;
+    this->actor.focus.rot.x = this->actor.world.rot.x;
+    this->actor.focus.rot.y = this->actor.world.rot.y;
+    this->actor.focus.rot.z = this->actor.world.rot.z;
     EnGm_UpdateEye(this);
     SkelAnime_Update(&this->skelAnime);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -298,7 +298,7 @@ void func_80A3E090(EnGm* this) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 2600.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &vec2);
     this->collider.dim.pos.x = vec2.x;
@@ -307,15 +307,15 @@ void func_80A3E090(EnGm* this) {
     Matrix_Pull();
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 4300.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &this->talkPos);
     Matrix_Pull();
     Matrix_Translate(0.0f, 0.0f, 3800.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
-    Matrix_MultVec3f(&vec1, &this->actor.posRot2.pos);
-    this->actor.posRot2.pos.y += 100.0f;
+    Matrix_MultVec3f(&vec1, &this->actor.focus.pos);
+    this->actor.focus.pos.y += 100.0f;
 }
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {

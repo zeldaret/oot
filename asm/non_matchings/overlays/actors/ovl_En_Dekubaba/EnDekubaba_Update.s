@@ -41,7 +41,7 @@ glabel EnDekubaba_Update
 /* 02CB4 809E8484 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02CB8 809E8488 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 02CBC 809E848C 44074000 */  mfc1    $a3, $f8                   
-/* 02CC0 809E8490 0C00B92D */  jal     func_8002E4B4              
+/* 02CC0 809E8490 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 02CC4 809E8494 00000000 */  nop
 /* 02CC8 809E8498 3C03809F */  lui     $v1, %hi(func_809E80D8)    ## $v1 = 809F0000
 /* 02CCC 809E849C 10000013 */  beq     $zero, $zero, .L809E84EC   
@@ -57,7 +57,7 @@ glabel EnDekubaba_Update
 /* 02CF0 809E84C0 44070000 */  mfc1    $a3, $f0                   
 /* 02CF4 809E84C4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02CF8 809E84C8 AFA3002C */  sw      $v1, 0x002C($sp)           
-/* 02CFC 809E84CC 0C00B92D */  jal     func_8002E4B4              
+/* 02CFC 809E84CC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 02D00 809E84D0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 02D04 809E84D4 8E0A0234 */  lw      $t2, 0x0234($s0)           ## 00000234
 /* 02D08 809E84D8 8FA3002C */  lw      $v1, 0x002C($sp)           

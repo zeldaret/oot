@@ -49,7 +49,7 @@ extern UNK_TYPE D_0601C0E8;
 /*
 const ActorInit En_Xc_InitVars = {
     ACTOR_EN_XC,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_XC,
     sizeof(EnXc),

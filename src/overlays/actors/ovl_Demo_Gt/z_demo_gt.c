@@ -334,7 +334,7 @@ u8 func_8097E704(GlobalContext* globalCtx, u16 arg1, s32 arg2) {
 
 void func_8097E744(DemoGt* this, GlobalContext* globalCtx, u32 actionIdx) {
     CsCmdActorAction* npcAction = DemoGt_GetNpcAction(globalCtx, actionIdx);
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     f32 startX;
     f32 startY;
     f32 startZ;
@@ -362,7 +362,7 @@ void func_8097E824(DemoGt* this, s32 arg1) {
     s16 phi_a1;
     s16 phi_a2;
     s16 phi_a3;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3s* unk16C = &this->unk_16C;
     s32 pad;
     f32 tempf3;
@@ -513,7 +513,7 @@ void func_8097EF40(DemoGt* this, GlobalContext* globalCtx) {
     Vec3f dustPos;
     Vec3f velocity = { 0.0f, -16.0f, 0.0f };
     Vec3f accel = { 0.0f, 1.20000004768f, 0.0f };
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     s32 pad;
 
     if ((kREG(1) == 20) || (frames == 220)) {
@@ -540,16 +540,16 @@ void func_8097F0AC(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad2;
 
     if ((frames == 140) || (kREG(1) == 19)) {
-        sp38.x = this->dyna.actor.posRot.pos.x + 260.0f;
-        sp38.y = this->dyna.actor.posRot.pos.y + 340.0f;
-        sp38.z = this->dyna.actor.posRot.pos.z + 45.0f;
+        sp38.x = this->dyna.actor.world.pos.x + 260.0f;
+        sp38.y = this->dyna.actor.world.pos.y + 340.0f;
+        sp38.z = this->dyna.actor.world.pos.z + 45.0f;
         DemoGt_SpawnExplosionWithSound(globalCtx, &sp38, 2.0f);
     }
 
     if (frames == 176) {
-        sp24.x = this->dyna.actor.posRot.pos.x + 260.0f;
-        sp24.y = this->dyna.actor.posRot.pos.y + 840.0f;
-        sp24.z = this->dyna.actor.posRot.pos.z + 45.0f;
+        sp24.x = this->dyna.actor.world.pos.x + 260.0f;
+        sp24.y = this->dyna.actor.world.pos.y + 840.0f;
+        sp24.z = this->dyna.actor.world.pos.z + 45.0f;
         DemoGt_SpawnExplosionWithSound(globalCtx, &sp24, 2.0f);
     }
 }
@@ -720,17 +720,17 @@ void func_8097F96C(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (((frames > 1059) && (frames < 1062)) || kREG(1) == 17) {
-        pos.x = this->dyna.actor.posRot.pos.x;
-        pos.y = this->dyna.actor.posRot.pos.y + 612.0f;
-        pos.z = this->dyna.actor.posRot.pos.z;
+        pos.x = this->dyna.actor.world.pos.x;
+        pos.y = this->dyna.actor.world.pos.y + 612.0f;
+        pos.z = this->dyna.actor.world.pos.z;
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 2);
         } else {
             actor = cloudRing;
-            actor->posRot.pos.x = pos.x;
-            actor->posRot.pos.y = pos.y;
-            actor->posRot.pos.z = pos.z;
+            actor->world.pos.x = pos.x;
+            actor->world.pos.y = pos.y;
+            actor->world.pos.z = pos.z;
         }
     }
 }
@@ -739,7 +739,7 @@ void func_8097FA1C(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { -12.0f, -17.0, 5.0 };
     s32 pad1[3];
 
@@ -765,7 +765,7 @@ void func_8097FAFC(DemoGt* this, GlobalContext* globalCtx) {
     f32 new_var = -200.0;
 
     if (((frames > 582) && (frames < 683)) || (kREG(1) == 6)) {
-        pos = this->dyna.actor.posRot.pos;
+        pos = this->dyna.actor.world.pos;
         pos.y += 680.0f;
 
         if (frames == 682) {
@@ -782,7 +782,7 @@ void func_8097FC1C(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -800,9 +800,9 @@ void func_8097FCE4(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if (frames == 0x1F7 || kREG(1) == 4) {
-        vec.x = this->dyna.actor.posRot.pos.x + 300.0f;
-        vec.y = this->dyna.actor.posRot.pos.y + 560.0f;
-        vec.z = this->dyna.actor.posRot.pos.z - 377.0f;
+        vec.x = this->dyna.actor.world.pos.x + 300.0f;
+        vec.y = this->dyna.actor.world.pos.y + 560.0f;
+        vec.z = this->dyna.actor.world.pos.z - 377.0f;
         DemoGt_SpawnExplosionWithSound(globalCtx, &vec, 2.0f);
     }
 }
@@ -900,17 +900,17 @@ void func_80980184(DemoGt* this, GlobalContext* globalCtx) {
     Actor* actor;
 
     if ((globalCtx->csCtx.frames > 1027) && (globalCtx->csCtx.frames < 1031)) {
-        pos.x = this->dyna.actor.posRot.pos.x;
-        pos.y = this->dyna.actor.posRot.pos.y + 247.0f;
-        pos.z = this->dyna.actor.posRot.pos.z;
+        pos.x = this->dyna.actor.world.pos.x;
+        pos.y = this->dyna.actor.world.pos.y + 247.0f;
+        pos.z = this->dyna.actor.world.pos.z;
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 3);
         } else {
             actor = cloudRing;
-            actor->posRot.pos.x = pos.x;
-            actor->posRot.pos.y = pos.y;
-            actor->posRot.pos.z = pos.z;
+            actor->world.pos.x = pos.x;
+            actor->world.pos.y = pos.y;
+            actor->world.pos.z = pos.z;
         }
     }
 }
@@ -922,17 +922,17 @@ void func_80980218(DemoGt* this, GlobalContext* globalCtx) {
     Actor* actor;
 
     if ((globalCtx->csCtx.frames > 997) && (globalCtx->csCtx.frames < 1001)) {
-        pos.x = this->dyna.actor.initPosRot.pos.x;
-        pos.y = this->dyna.actor.initPosRot.pos.y + 38.0f;
-        pos.z = this->dyna.actor.initPosRot.pos.z;
+        pos.x = this->dyna.actor.home.pos.x;
+        pos.y = this->dyna.actor.home.pos.y + 38.0f;
+        pos.z = this->dyna.actor.home.pos.z;
 
         if (cloudRing == NULL) {
             cloudRing = DemoGt_SpawnCloudRing(globalCtx, &pos, 4);
         } else {
             actor = cloudRing;
-            actor->posRot.pos.x = pos.x;
-            actor->posRot.pos.y = pos.y;
-            actor->posRot.pos.z = pos.z;
+            actor->world.pos.x = pos.x;
+            actor->world.pos.y = pos.y;
+            actor->world.pos.z = pos.z;
         }
     }
 }
@@ -941,7 +941,7 @@ void func_809802AC(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 0.0f, 0.0f, -10.0f };
     s32 pad1[3];
 
@@ -957,14 +957,14 @@ void func_8098036C(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* posRot = &this->dyna.actor.posRot.pos;
+    Vec3f* world = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
 
     if ((frames > 284) && (frames < 421)) {
-        dustPos.x = posRot->x + 760.0f;
-        dustPos.y = posRot->y - 40.0f;
-        dustPos.z = posRot->z - 240.0f;
+        dustPos.x = world->x + 760.0f;
+        dustPos.y = world->y - 40.0f;
+        dustPos.z = world->z - 240.0f;
         func_8097D7D8(globalCtx, &dustPos, &velOffset, 6.0f, 6, 1, 35);
     }
 }
@@ -973,7 +973,7 @@ void func_80980430(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f dustPos;
     s32 frames = globalCtx->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -3.0f, 0.0f };
     s32 pad1[3];
 
@@ -989,7 +989,7 @@ void func_80980504(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -1005,7 +1005,7 @@ void func_809805D8(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* homePos = &this->dyna.actor.initPosRot.pos;
+    Vec3f* homePos = &this->dyna.actor.home.pos;
     Vec3f velOffset = { 15.0f, -26.0, 0.0f };
     s32 pad1[3];
 
@@ -1021,7 +1021,7 @@ void func_809806B8(DemoGt* this, GlobalContext* globalContext) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalContext->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -1037,7 +1037,7 @@ void func_8098078C(DemoGt* this, GlobalContext* globalContext) {
     s32 pad[3];
     Vec3f dustPos;
     u16 frames = globalContext->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     Vec3f velOffset = { 5.0f, -16.0f, -16.0f };
     s32 pad1[3];
 
@@ -1053,7 +1053,7 @@ void func_8098085C(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad[3];
     Vec3f sp28;
     u16 frames = globalCtx->csCtx.frames;
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
 
     if ((frames == 58) || (kREG(1) == 1)) {
         sp28.x = pos->x + 900.0f;
@@ -1086,9 +1086,9 @@ void func_809809C0(DemoGt* this, GlobalContext* globalCtx) {
         Vec3f sp34 = { 0.0f, 0.0f, 0.0f };
         s16 pad2[3];
 
-        sp54.x = this2->dyna.actor.posRot.pos.x + 790.0f;
-        sp54.y = this2->dyna.actor.posRot.pos.y + 60.0f;
-        sp54.z = this2->dyna.actor.posRot.pos.z + 23.0f;
+        sp54.x = this2->dyna.actor.world.pos.x + 790.0f;
+        sp54.y = this2->dyna.actor.world.pos.y + 60.0f;
+        sp54.z = this2->dyna.actor.world.pos.z + 23.0f;
 
         if (ABS(gameplayFrames % 12) == 0) {
             DemoGt_SpawnExplosionNoSound(globalCtx2, &sp54, &sp40, &sp34, 2.0f);
@@ -1102,9 +1102,9 @@ void func_80980AD4(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if ((frames == 477) || (kREG(2) == 1)) {
-        pos.x = this->dyna.actor.posRot.pos.x + 790.0f;
-        pos.y = this->dyna.actor.posRot.pos.y + 60.0f;
-        pos.z = this->dyna.actor.posRot.pos.z + 23.0f;
+        pos.x = this->dyna.actor.world.pos.x + 790.0f;
+        pos.y = this->dyna.actor.world.pos.y + 60.0f;
+        pos.z = this->dyna.actor.world.pos.z + 23.0f;
 
         func_8097DAC8(this, globalCtx, &pos);
         DemoGt_PlayExplosion2Sfx(globalCtx, &pos);
@@ -1117,9 +1117,9 @@ void func_80980B68(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if ((frames == 317) || (kREG(3) == 1)) {
-        pos.x = this->dyna.actor.posRot.pos.x + 980.0f;
-        pos.y = this->dyna.actor.posRot.pos.y + 410.0f;
-        pos.z = this->dyna.actor.posRot.pos.z - 177.0f;
+        pos.x = this->dyna.actor.world.pos.x + 980.0f;
+        pos.y = this->dyna.actor.world.pos.y + 410.0f;
+        pos.z = this->dyna.actor.world.pos.z - 177.0f;
         func_8097DD28(this, globalCtx, &pos);
         DemoGt_PlayExplosion2Sfx(globalCtx, &pos);
     }
@@ -1131,9 +1131,9 @@ void func_80980BFC(DemoGt* this, GlobalContext* globalCtx) {
     u16 frames = globalCtx->csCtx.frames;
 
     if ((frames == 740) || (kREG(4) == 1)) {
-        pos.x = this->dyna.actor.posRot.pos.x + 790.0f;
-        pos.y = this->dyna.actor.posRot.pos.y + 60.0f;
-        pos.z = this->dyna.actor.posRot.pos.z + 23.0f;
+        pos.x = this->dyna.actor.world.pos.x + 790.0f;
+        pos.y = this->dyna.actor.world.pos.y + 60.0f;
+        pos.z = this->dyna.actor.world.pos.z + 23.0f;
 
         func_8097DF70(this, globalCtx, &pos);
         DemoGt_PlayExplosion2Sfx(globalCtx, &pos);
@@ -1783,7 +1783,7 @@ void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 const ActorInit Demo_Gt_InitVars = {
     ACTOR_DEMO_GT,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GT,
     sizeof(DemoGt),

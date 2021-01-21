@@ -1033,7 +1033,7 @@ glabel EnTorch2_Update
 /* 012F4 80B1EC74 24A50150 */  addiu   $a1, $a1, %lo(sSpawnPoint)  ## $a1 = 80B20150
 /* 012F8 80B1EC78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012FC 80B1EC7C 46044280 */  add.s   $f10, $f8, $f4             
-/* 01300 80B1EC80 0C00B6DB */  jal     func_8002DB6C              
+/* 01300 80B1EC80 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 01304 80B1EC84 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
 /* 01308 80B1EC88 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 0130C 80B1EC8C 44818000 */  mtc1    $at, $f16                  ## $f16 = 800.00

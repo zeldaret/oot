@@ -27,7 +27,7 @@ glabel EnNy_Update
 /* 0093C 80ABD4EC A49801CA */  sh      $t8, 0x01CA($a0)           ## 000001CA
 .L80ABD4F0:
 /* 00940 80ABD4F0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 00944 80ABD4F4 0C00B56E */  jal     Actor_SetHeight
+/* 00944 80ABD4F4 0C00B56E */  jal     Actor_SetFocus
               
 /* 00948 80ABD4F8 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0094C 80ABD4FC 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000
@@ -97,7 +97,7 @@ glabel EnNy_Update
 /* 00A40 80ABD5F0 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 00A44 80ABD5F4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A48 80ABD5F8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
-/* 00A4C 80ABD5FC 0C00B92D */  jal     func_8002E4B4              
+/* 00A4C 80ABD5FC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00A50 80ABD600 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 00A54 80ABD604 C6480028 */  lwc1    $f8, 0x0028($s2)           ## 00000028
 /* 00A58 80ABD608 E65601F0 */  swc1    $f22, 0x01F0($s2)          ## 000001F0

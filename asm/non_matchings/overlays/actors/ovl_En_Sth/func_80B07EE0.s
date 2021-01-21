@@ -26,7 +26,7 @@ glabel func_80B07EE0
 /* 009F4 80B07F34 44070000 */  mfc1    $a3, $f0                   
 /* 009F8 80B07F38 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 009FC 80B07F3C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00A00 80B07F40 0C00B92D */  jal     func_8002E4B4              
+/* 00A00 80B07F40 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00A04 80B07F44 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00A08 80B07F48 0C02927F */  jal     SkelAnime_Update
               
