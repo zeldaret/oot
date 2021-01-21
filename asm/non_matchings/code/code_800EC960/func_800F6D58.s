@@ -61,7 +61,7 @@ glabel func_800F6D58
 .L800F6E38:
 /* B6DFD8 800F6E38 00115200 */  sll   $t2, $s1, 8
 /* B6DFDC 800F6E3C 026A5825 */  or    $t3, $s3, $t2
-/* B6DFE0 800F6E40 0C03E803 */  jal   Audio_SetBGM
+/* B6DFE0 800F6E40 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6DFE4 800F6E44 01742025 */   or    $a0, $t3, $s4
 /* B6DFE8 800F6E48 26100001 */  addiu $s0, $s0, 1
 /* B6DFEC 800F6E4C 321000FF */  andi  $s0, $s0, 0xff

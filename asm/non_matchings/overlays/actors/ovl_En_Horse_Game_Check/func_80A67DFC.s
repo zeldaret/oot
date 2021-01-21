@@ -243,7 +243,7 @@ glabel func_80A67DFC
 /* 00C18 80A68168 24040041 */  addiu   $a0, $zero, 0x0041         ## $a0 = 00000041
 /* 00C1C 80A6816C 56980017 */  bnel    $s4, $t8, .L80A681CC       
 /* 00C20 80A68170 8E430174 */  lw      $v1, 0x0174($s2)           ## 00000174
-/* 00C24 80A68174 0C03E803 */  jal     Audio_SetBGM
+/* 00C24 80A68174 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 00C28 80A68178 AE5901A0 */  sw      $t9, 0x01A0($s2)           ## 000001A0
 /* 00C2C 80A6817C 3C078013 */  lui     $a3, %hi(D_801333E0)

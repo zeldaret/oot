@@ -178,7 +178,7 @@ glabel Fishing_Init
 /* 00DD8 80B6A778 3C0180B8 */  lui     $at, %hi(D_80B7E0A6)       ## $at = 80B80000
 /* 00DDC 80B6A77C 3C041001 */  lui     $a0, 0x1001                ## $a0 = 10010000
 /* 00DE0 80B6A780 A422E0A6 */  sh      $v0, %lo(D_80B7E0A6)($at)
-/* 00DE4 80B6A784 0C03E803 */  jal     Audio_SetBGM
+/* 00DE4 80B6A784 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00DE8 80B6A788 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 00DEC 80B6A78C 3C0E80B8 */  lui     $t6, %hi(D_80B7E075)       ## $t6 = 80B80000

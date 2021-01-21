@@ -241,7 +241,7 @@ glabel func_8093F1C4
 /* 067FC 8093F4CC 3C041050 */  lui     $a0, 0x1050                ## $a0 = 10500000
 /* 06800 8093F4D0 A7B90038 */  sh      $t9, 0x0038($sp)
 /* 06804 8093F4D4 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 105000FF
-/* 06808 8093F4D8 0C03E803 */  jal     Audio_SetBGM
+/* 06808 8093F4D8 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0680C 8093F4DC A7A3003A */  sh      $v1, 0x003A($sp)
 /* 06810 8093F4E0 87A3003A */  lh      $v1, 0x003A($sp)

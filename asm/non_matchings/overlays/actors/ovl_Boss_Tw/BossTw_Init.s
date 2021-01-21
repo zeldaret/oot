@@ -300,7 +300,7 @@ glabel BossTw_Init
 /* 00E30 80939B00 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 00E34 80939B04 E60A0024 */  swc1    $f10, 0x0024($s0)          ## 00000024
 /* 00E38 80939B08 E6100028 */  swc1    $f16, 0x0028($s0)          ## 00000028
-/* 00E3C 80939B0C 0C03E803 */  jal     Audio_SetBGM
+/* 00E3C 80939B0C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00E40 80939B10 E612002C */  swc1    $f18, 0x002C($s0)          ## 0000002C
 /* 00E44 80939B14 10000003 */  beq     $zero, $zero, .L80939B24

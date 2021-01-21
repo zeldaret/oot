@@ -180,7 +180,7 @@ glabel L808D79E8
 /* 01290 808D7B00 3C018016 */  lui     $at, %hi(gSaveContext+0x1424)
 /* 01294 808D7B04 3C041000 */  lui     $a0, 0x1000                ## $a0 = 10000000
 /* 01298 808D7B08 A42CFA84 */  sh      $t4, %lo(gSaveContext+0x1424)($at)
-/* 0129C 808D7B0C 0C03E803 */  jal     Audio_SetBGM
+/* 0129C 808D7B0C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 012A0 808D7B10 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100000FF
 /* 012A4 808D7B14 8FA40074 */  lw      $a0, 0x0074($sp)
@@ -688,7 +688,7 @@ glabel L808D8220
 /* 019CC 808D823C 3C041001 */  lui     $a0, 0x1001                ## $a0 = 10010000
 /* 019D0 808D8240 54610010 */  bnel    $v1, $at, .L808D8284
 /* 019D4 808D8244 2C61001F */  sltiu   $at, $v1, 0x001F
-/* 019D8 808D8248 0C03E803 */  jal     Audio_SetBGM
+/* 019D8 808D8248 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 019DC 808D824C 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 019E0 808D8250 3C040600 */  lui     $a0, %hi(D_06004F64)                ## $a0 = 06000000
@@ -1340,7 +1340,7 @@ glabel L808D8A98
 
 /* 0232C 808D8B9C E5EA16C4 */  swc1    $f10, 0x16C4($t7)          ## 809016C4
 /* 02330 808D8BA0 A2000198 */  sb      $zero, 0x0198($s0)         ## 00000198
-/* 02334 808D8BA4 0C03E803 */  jal     Audio_SetBGM
+/* 02334 808D8BA4 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 02338 808D8BA8 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
 /* 0233C 808D8BAC 8E030674 */  lw      $v1, 0x0674($s0)           ## 00000674

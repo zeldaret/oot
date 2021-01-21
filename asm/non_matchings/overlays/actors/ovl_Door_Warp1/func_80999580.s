@@ -11,7 +11,7 @@ glabel func_80999580
 /* 00E20 809995A0 240F00C8 */  addiu   $t7, $zero, 0x00C8         ## $t7 = 000000C8
 /* 00E24 809995A4 8FB80018 */  lw      $t8, 0x0018($sp)           
 /* 00E28 809995A8 24040021 */  addiu   $a0, $zero, 0x0021         ## $a0 = 00000021
-/* 00E2C 809995AC 0C03E803 */  jal     Audio_SetBGM
+/* 00E2C 809995AC 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 00E30 809995B0 A70F0192 */  sh      $t7, 0x0192($t8)           ## 00000192
 /* 00E34 809995B4 3C05809A */  lui     $a1, %hi(func_809995D4)    ## $a1 = 809A0000

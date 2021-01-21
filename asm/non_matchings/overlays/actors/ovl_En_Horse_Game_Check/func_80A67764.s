@@ -160,7 +160,7 @@ glabel func_80A67764
 /* 00454 80A679A4 1900000F */  blez    $t0, .L80A679E4
 /* 00458 80A679A8 AE48017C */  sw      $t0, 0x017C($s2)           ## 0000017C
 /* 0045C 80A679AC AE530174 */  sw      $s3, 0x0174($s2)           ## 00000174
-/* 00460 80A679B0 0C03E803 */  jal     Audio_SetBGM
+/* 00460 80A679B0 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00464 80A679B4 AE4A0178 */  sw      $t2, 0x0178($s2)           ## 00000178
 /* 00468 80A679B8 3C078013 */  lui     $a3, %hi(D_801333E0)
@@ -217,7 +217,7 @@ glabel func_80A67764
 /* 00524 80A67A74 3C010080 */  lui     $at, 0x0080                ## $at = 00800000
 /* 00528 80A67A78 24040041 */  addiu   $a0, $zero, 0x0041         ## $a0 = 00000041
 /* 0052C 80A67A7C 01014825 */  or      $t1, $t0, $at              ## $t1 = 00800000
-/* 00530 80A67A80 0C03E803 */  jal     Audio_SetBGM
+/* 00530 80A67A80 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00534 80A67A84 AC4901F0 */  sw      $t1, 0x01F0($v0)           ## 000001F0
 /* 00538 80A67A88 3C078013 */  lui     $a3, %hi(D_801333E0)
@@ -273,7 +273,7 @@ glabel func_80A67764
 /* 005E8 80A67B38 10400007 */  beq     $v0, $zero, .L80A67B58
 /* 005EC 80A67B3C 00000000 */  nop
 .L80A67B40:
-/* 005F0 80A67B40 0C03E803 */  jal     Audio_SetBGM
+/* 005F0 80A67B40 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 005F4 80A67B44 24040041 */  addiu   $a0, $zero, 0x0041         ## $a0 = 00000041
 /* 005F8 80A67B48 240B0002 */  addiu   $t3, $zero, 0x0002         ## $t3 = 00000002
@@ -290,7 +290,7 @@ glabel func_80A67764
 /* 00620 80A67B70 31CF0002 */  andi    $t7, $t6, 0x0002           ## $t7 = 00000000
 /* 00624 80A67B74 51E00010 */  beql    $t7, $zero, .L80A67BB8
 /* 00628 80A67B78 8FBF003C */  lw      $ra, 0x003C($sp)
-/* 0062C 80A67B7C 0C03E803 */  jal     Audio_SetBGM
+/* 0062C 80A67B7C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00630 80A67B80 24040041 */  addiu   $a0, $zero, 0x0041         ## $a0 = 00000041
 /* 00634 80A67B84 24180014 */  addiu   $t8, $zero, 0x0014         ## $t8 = 00000014

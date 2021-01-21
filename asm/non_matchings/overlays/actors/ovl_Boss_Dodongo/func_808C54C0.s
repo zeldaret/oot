@@ -41,7 +41,7 @@ glabel func_808C54C0
 /* 043C0 808C5550 A600019C */  sh      $zero, 0x019C($s0)         ## 0000019C
 /* 043C4 808C5554 AE190004 */  sw      $t9, 0x0004($s0)           ## 00000004
 /* 043C8 808C5558 A60801BC */  sh      $t0, 0x01BC($s0)           ## 000001BC
-/* 043CC 808C555C 0C03E803 */  jal     Audio_SetBGM
+/* 043CC 808C555C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 043D0 808C5560 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 043D4 808C5564 8FBF002C */  lw      $ra, 0x002C($sp)

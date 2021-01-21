@@ -3270,7 +3270,7 @@ glabel L8091ED18
 /* 035F8 8091F0F8 0C00C7D4 */  jal     Actor_Spawn
               ## ActorSpawn
 /* 035FC 8091F0FC E7A40014 */  swc1    $f4, 0x0014($sp)           
-/* 03600 8091F100 0C03E803 */  jal     Audio_SetBGM
+/* 03600 8091F100 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 03604 8091F104 24040021 */  addiu   $a0, $zero, 0x0021         ## $a0 = 00000021
 /* 03608 8091F108 8FA401BC */  lw      $a0, 0x01BC($sp)           

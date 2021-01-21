@@ -209,7 +209,7 @@ glabel L800F1E70
 /* B69014 800F1E74 010E7821 */  addu  $t7, $t0, $t6
 /* B69018 800F1E78 95F80000 */  lhu   $t8, ($t7)
 /* B6901C 800F1E7C 0003CE00 */  sll   $t9, $v1, 0x18
-/* B69020 800F1E80 0C03E803 */  jal   Audio_SetBGM
+/* B69020 800F1E80 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B69024 800F1E84 03192025 */   or    $a0, $t8, $t9
 /* B69028 800F1E88 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B6902C 800F1E8C 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
@@ -260,7 +260,7 @@ glabel L800F1F2C
 /* B690D4 800F1F34 95840000 */  lhu   $a0, ($t4)
 /* B690D8 800F1F38 3C01E000 */  lui   $at, (0xE0000100 >> 16) # lui $at, 0xe000
 /* B690DC 800F1F3C 34210100 */  ori   $at, (0xE0000100 & 0xFFFF) # ori $at, $at, 0x100
-/* B690E0 800F1F40 0C03E803 */  jal   Audio_SetBGM
+/* B690E0 800F1F40 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B690E4 800F1F44 00812025 */   or    $a0, $a0, $at
 /* B690E8 800F1F48 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B690EC 800F1F4C 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
@@ -274,7 +274,7 @@ glabel L800F1F64
 /* B69108 800F1F68 010FC021 */  addu  $t8, $t0, $t7
 /* B6910C 800F1F6C 93040001 */  lbu   $a0, 1($t8)
 /* B69110 800F1F70 3C01F000 */  lui   $at, 0xf000
-/* B69114 800F1F74 0C03E803 */  jal   Audio_SetBGM
+/* B69114 800F1F74 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B69118 800F1F78 00812025 */   or    $a0, $a0, $at
 /* B6911C 800F1F7C 3C198013 */  lui   $t9, %hi(D_80131E14) # $t9, 0x8013
 /* B69120 800F1F80 97391E14 */  lhu   $t9, %lo(D_80131E14)($t9)
@@ -349,7 +349,7 @@ glabel L800F2078
 /* B69218 800F2078 3C011000 */  lui   $at, (0x100000FF >> 16) # lui $at, 0x1000
 /* B6921C 800F207C 342100FF */  ori   $at, (0x100000FF & 0xFFFF) # ori $at, $at, 0xff
 /* B69220 800F2080 00032600 */  sll   $a0, $v1, 0x18
-/* B69224 800F2084 0C03E803 */  jal   Audio_SetBGM
+/* B69224 800F2084 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B69228 800F2088 00812025 */   or    $a0, $a0, $at
 /* B6922C 800F208C 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B69230 800F2090 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013
@@ -358,7 +358,7 @@ glabel L800F2078
 /* B6923C 800F209C 8C84BAB8 */   lw    $a0, %lo(sDebugPadPress)($a0)
 glabel L800F20A0
 /* B69240 800F20A0 3C041000 */  lui   $a0, (0x100000FF >> 16) # lui $a0, 0x1000
-/* B69244 800F20A4 0C03E803 */  jal   Audio_SetBGM
+/* B69244 800F20A4 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B69248 800F20A8 348400FF */   ori   $a0, (0x100000FF & 0xFFFF) # ori $a0, $a0, 0xff
 /* B6924C 800F20AC 3C048017 */  lui   $a0, %hi(sDebugPadPress) # $a0, 0x8017
 /* B69250 800F20B0 3C0B8013 */  lui   $t3, %hi(D_80131CA4) # $t3, 0x8013

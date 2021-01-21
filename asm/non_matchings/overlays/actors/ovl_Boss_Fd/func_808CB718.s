@@ -964,7 +964,7 @@ glabel L808CC140
 /* 01510 808CC2D0 240100A0 */  addiu   $at, $zero, 0x00A0         ## $at = 000000A0
 /* 01514 808CC2D4 54410005 */  bnel    $v0, $at, .L808CC2EC       
 /* 01518 808CC2D8 24010082 */  addiu   $at, $zero, 0x0082         ## $at = 00000082
-/* 0151C 808CC2DC 0C03E803 */  jal     Audio_SetBGM
+/* 0151C 808CC2DC 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 01520 808CC2E0 2404006B */  addiu   $a0, $zero, 0x006B         ## $a0 = 0000006B
 /* 01524 808CC2E4 86C2024E */  lh      $v0, 0x024E($s6)           ## 0000024E
@@ -1772,7 +1772,7 @@ glabel L808CCDF0
 /* 020B8 808CCE78 86CE021E */  lh      $t6, 0x021E($s6)           ## 0000021E
 /* 020BC 808CCE7C 55C00008 */  bnel    $t6, $zero, .L808CCEA0     
 /* 020C0 808CCE80 86D90224 */  lh      $t9, 0x0224($s6)           ## 00000224
-/* 020C4 808CCE84 0C03E803 */  jal     Audio_SetBGM
+/* 020C4 808CCE84 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 020C8 808CCE88 24040021 */  addiu   $a0, $zero, 0x0021         ## $a0 = 00000021
 /* 020CC 808CCE8C 10000004 */  beq     $zero, $zero, .L808CCEA0   

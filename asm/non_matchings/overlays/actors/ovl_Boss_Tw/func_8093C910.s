@@ -90,7 +90,7 @@ glabel func_8093C910
 /* 03D40 8093CA10 A52000B4 */  sh      $zero, 0x00B4($t1)         ## 809500B4
 /* 03D44 8093CA14 E63601A8 */  swc1    $f22, 0x01A8($s1)          ## 000001A8
 /* 03D48 8093CA18 E63601AC */  swc1    $f22, 0x01AC($s1)          ## 000001AC
-/* 03D4C 8093CA1C 0C03E803 */  jal     Audio_SetBGM
+/* 03D4C 8093CA1C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 03D50 8093CA20 E62801B0 */  swc1    $f8, 0x01B0($s1)           ## 000001B0
 /* 03D54 8093CA24 A6200152 */  sh      $zero, 0x0152($s1)         ## 00000152
@@ -540,7 +540,7 @@ glabel func_8093C910
 /* 043BC 8093D08C 0C00BE0A */  jal     Audio_PlayActorSound2
 
 /* 043C0 8093D090 2405390D */  addiu   $a1, $zero, 0x390D         ## $a1 = 0000390D
-/* 043C4 8093D094 0C03E803 */  jal     Audio_SetBGM
+/* 043C4 8093D094 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 043C8 8093D098 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 .L8093D09C:

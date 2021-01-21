@@ -1059,7 +1059,7 @@ glabel L80917738
 
 /* 02134 80917B44 240700A0 */  addiu   $a3, $zero, 0x00A0         ## $a3 = 000000A0
 .L80917B48:
-/* 02138 80917B48 0C03E803 */  jal     Audio_SetBGM
+/* 02138 80917B48 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0213C 80917B4C 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 02140 80917B50 3C0A8016 */  lui     $t2, %hi(gSaveContext+0xee2)

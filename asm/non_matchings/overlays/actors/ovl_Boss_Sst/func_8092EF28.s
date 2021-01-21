@@ -57,7 +57,7 @@ glabel func_8092EF28
 /* 02A34 8092F004 8CC30004 */  lw      $v1, 0x0004($a2)           ## 80938C9C
 /* 02A38 8092F008 906F03E6 */  lbu     $t7, 0x03E6($v1)           ## 000003E6
 /* 02A3C 8092F00C 31F8FFFE */  andi    $t8, $t7, 0xFFFE           ## $t8 = 00000000
-/* 02A40 8092F010 0C03E803 */  jal     Audio_SetBGM
+/* 02A40 8092F010 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 02A44 8092F014 A07803E6 */  sb      $t8, 0x03E6($v1)           ## 000003E6
 /* 02A48 8092F018 0C03008C */  jal     Gameplay_CreateSubCamera

@@ -2988,7 +2988,7 @@ glabel L80B738A0
 /* 0A17C 80B73B1C 3C0180B8 */  lui     $at, %hi(D_80B7E124)       ## $at = 80B80000
 /* 0A180 80B73B20 2404081A */  addiu   $a0, $zero, 0x081A         ## $a0 = 0000081A
 /* 0A184 80B73B24 E60A019C */  swc1    $f10, 0x019C($s0)          ## 0000019C
-/* 0A188 80B73B28 0C03E803 */  jal     Audio_SetBGM
+/* 0A188 80B73B28 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0A18C 80B73B2C A038E124 */  sb      $t8, %lo(D_80B7E124)($at)
 /* 0A190 80B73B30 3C0180B8 */  lui     $at, %hi(D_80B7E0A6)       ## $at = 80B80000
@@ -3833,7 +3833,7 @@ glabel L80B738A0
 /* 0AD6C 80B7470C 0C02A7DB */  jal     func_800A9F6C
 /* 0AD70 80B74710 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 0AD74 80B74714 3C04100A */  lui     $a0, 0x100A                ## $a0 = 100A0000
-/* 0AD78 80B74718 0C03E803 */  jal     Audio_SetBGM
+/* 0AD78 80B74718 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0AD7C 80B7471C 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100A00FF
 .L80B74720:
@@ -4042,7 +4042,7 @@ glabel L80B748A0
 /* 0B07C 80B74A1C 2401005A */  addiu   $at, $zero, 0x005A         ## $at = 0000005A
 /* 0B080 80B74A20 55E10068 */  bnel    $t7, $at, .L80B74BC4
 /* 0B084 80B74A24 240AC000 */  addiu   $t2, $zero, 0xC000         ## $t2 = FFFFC000
-/* 0B088 80B74A28 0C03E803 */  jal     Audio_SetBGM
+/* 0B088 80B74A28 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0B08C 80B74A2C 24040924 */  addiu   $a0, $zero, 0x0924         ## $a0 = 00000924
 /* 0B090 80B74A30 3C0480B8 */  lui     $a0, %hi(D_80B7A67C)       ## $a0 = 80B80000
@@ -4432,7 +4432,7 @@ glabel L80B748A0
 /* 0B620 80B74FC0 44813000 */  mtc1    $at, $f6                   ## $f6 = 195.00
 /* 0B624 80B74FC4 3C0180B8 */  lui     $at, %hi(D_80B7E144)       ## $at = 80B80000
 /* 0B628 80B74FC8 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100A00FF
-/* 0B62C 80B74FCC 0C03E803 */  jal     Audio_SetBGM
+/* 0B62C 80B74FCC 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0B630 80B74FD0 E426E144 */  swc1    $f6, %lo(D_80B7E144)($at)
 /* 0B634 80B74FD4 240F0014 */  addiu   $t7, $zero, 0x0014         ## $t7 = 00000014

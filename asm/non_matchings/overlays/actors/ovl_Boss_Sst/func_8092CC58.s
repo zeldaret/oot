@@ -889,7 +889,7 @@ glabel func_8092CC58
 .L8092D97C:
 /* 013AC 8092D97C 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 013B0 8092D980 AFA80044 */  sw      $t0, 0x0044($sp)
-/* 013B4 8092D984 0C03E803 */  jal     Audio_SetBGM
+/* 013B4 8092D984 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 013B8 8092D988 AFA90048 */  sw      $t1, 0x0048($sp)
 /* 013BC 8092D98C 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000

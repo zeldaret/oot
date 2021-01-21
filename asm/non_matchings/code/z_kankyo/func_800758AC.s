@@ -59,7 +59,7 @@ glabel func_800758AC
 /* AECAB0 80075910 00000000 */   nop   
 /* AECAB4 80075914 14400003 */  bnez  $v0, .L80075924
 /* AECAB8 80075918 3C028016 */   lui   $v0, %hi(gSaveContext+0x140e) # $v0, 0x8016
-/* AECABC 8007591C 0C03E803 */  jal   Audio_SetBGM
+/* AECABC 8007591C 0C03E803 */  jal   Audio_QueueSeqCmd
 /* AECAC0 80075920 9444FA6E */   lhu   $a0, %lo(gSaveContext+0x140e)($v0)
 .L80075924:
 /* AECAC4 80075924 3C018016 */  lui   $at, %hi(gSaveContext+0x140e) # $at, 0x8016

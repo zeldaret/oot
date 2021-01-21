@@ -8,7 +8,7 @@ typedef struct {
     /* 0x08 */ u8 unk_8;
     /* 0x0C */ f32* unk_C;
     /* 0x10 */ f32* unk_10;
-    /* 0x14 */ f32* unk_14;
+    /* 0x14 */ s8* unk_14;
 } Struct_800F738C; // size = 0x18
 
 typedef struct {
@@ -83,7 +83,7 @@ f32 D_801333E0 = 1.0f;
 
 UNK_TYPE D_801333E4 = 0;
 
-f32 D_801333E8 = 0.0f;
+s8 D_801333E8 = 0;
 
 UNK_TYPE D_801333EC = 0;
 
@@ -125,7 +125,7 @@ void func_800F731C(u8 arg0) {
     }
 }
 
-void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, f32* a5) {
+void Audio_PlaySoundGeneral(u16 sfxId, Vec3f* a1, u8 a2, f32* a3, f32* a4, s8* a5) {
     u8 i;
     Struct_800F738C* phi_v0;
 

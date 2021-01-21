@@ -13,7 +13,7 @@ glabel func_8092F894
 /* 032DC 8092F8AC AC8E0134 */  sw      $t6, 0x0134($a0)           ## 00000134
 /* 032E0 8092F8B0 A48F0198 */  sh      $t7, 0x0198($a0)           ## 00000198
 /* 032E4 8092F8B4 AFA50018 */  sw      $a1, 0x0018($sp)           
-/* 032E8 8092F8B8 0C03E803 */  jal     Audio_SetBGM
+/* 032E8 8092F8B8 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 032EC 8092F8BC 24040021 */  addiu   $a0, $zero, 0x0021         ## $a0 = 00000021
 /* 032F0 8092F8C0 3C018093 */  lui     $at, %hi(D_809379E4)       ## $at = 80930000

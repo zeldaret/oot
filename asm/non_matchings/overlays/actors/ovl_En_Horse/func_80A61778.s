@@ -111,7 +111,7 @@ glabel func_80A61778
 /* 0660C 80A618FC 0061C024 */  and     $t8, $v1, $at              
 /* 06610 80A61900 ACF803A4 */  sw      $t8, 0x03A4($a3)           ## 000003A4
 /* 06614 80A61904 AFA70028 */  sw      $a3, 0x0028($sp)           
-/* 06618 80A61908 0C03E803 */  jal     Audio_SetBGM
+/* 06618 80A61908 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 0661C 80A6190C 24040041 */  addiu   $a0, $zero, 0x0041         ## $a0 = 00000041
 /* 06620 80A61910 8FA70028 */  lw      $a3, 0x0028($sp)           

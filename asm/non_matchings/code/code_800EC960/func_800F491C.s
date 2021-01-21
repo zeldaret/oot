@@ -31,7 +31,7 @@ glabel func_800F491C
 .L800F498C:
 /* B6BB2C 800F498C 3C018004 */  lui   $at, (0x80040F00 >> 16) # lui $at, 0x8004
 /* B6BB30 800F4990 34210F00 */  ori   $at, (0x80040F00 & 0xFFFF) # ori $at, $at, 0xf00
-/* B6BB34 800F4994 0C03E803 */  jal   Audio_SetBGM
+/* B6BB34 800F4994 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6BB38 800F4998 00412025 */   or    $a0, $v0, $at
 /* B6BB3C 800F499C 3C128017 */  lui   $s2, %hi(gAudioContext) # $s2, 0x8017
 /* B6BB40 800F49A0 3C118017 */  lui   $s1, %hi(gAudioContext+0x5AB0) # $s1, 0x8017

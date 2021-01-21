@@ -1529,7 +1529,7 @@ glabel L808C5FE4
 /* 05870 808C6A00 24010334 */  addiu   $at, $zero, 0x0334         ## $at = 00000334
 /* 05874 808C6A04 5461001F */  bnel    $v1, $at, .L808C6A84
 /* 05878 808C6A08 24010258 */  addiu   $at, $zero, 0x0258         ## $at = 00000258
-/* 0587C 808C6A0C 0C03E803 */  jal     Audio_SetBGM
+/* 0587C 808C6A0C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 05880 808C6A10 24040021 */  addiu   $a0, $zero, 0x0021         ## $a0 = 00000021
 /* 05884 808C6A14 0C01DE1C */  jal     Math_SinS

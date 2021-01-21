@@ -182,7 +182,7 @@ glabel L80B62CA4
 /* 00364 80B62D24 0C00BE0A */  jal     Audio_PlayActorSound2
 
 /* 00368 80B62D28 8E04011C */  lw      $a0, 0x011C($s0)           ## 0000011C
-/* 0036C 80B62D2C 0C03E803 */  jal     Audio_SetBGM
+/* 0036C 80B62D2C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00370 80B62D30 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 00374 80B62D34 860301D4 */  lh      $v1, 0x01D4($s0)           ## 000001D4
@@ -232,7 +232,7 @@ glabel L80B62CA4
 /* 00418 80B62DD8 A60901CA */  sh      $t1, 0x01CA($s0)           ## 000001CA
 /* 0041C 80B62DDC A60A01D4 */  sh      $t2, 0x01D4($s0)           ## 000001D4
 /* 00420 80B62DE0 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
-/* 00424 80B62DE4 0C03E803 */  jal     Audio_SetBGM
+/* 00424 80B62DE4 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00428 80B62DE8 E6060028 */  swc1    $f6, 0x0028($s0)           ## 00000028
 /* 0042C 80B62DEC 3C028016 */  lui     $v0, %hi(gSaveContext)
@@ -331,7 +331,7 @@ glabel L80B62EFC
 /* 00578 80B62F38 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 0057C 80B62F3C 54610004 */  bnel    $v1, $at, .L80B62F50
 /* 00580 80B62F40 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
-/* 00584 80B62F44 0C03E803 */  jal     Audio_SetBGM
+/* 00584 80B62F44 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00588 80B62F48 24040023 */  addiu   $a0, $zero, 0x0023         ## $a0 = 00000023
 /* 0058C 80B62F4C 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
@@ -749,7 +749,7 @@ glabel L80B632DC
 /* 00B5C 80B6351C 24010082 */  addiu   $at, $zero, 0x0082         ## $at = 00000082
 /* 00B60 80B63520 14610004 */  bne     $v1, $at, .L80B63534
 /* 00B64 80B63524 3C041050 */  lui     $a0, 0x1050                ## $a0 = 10500000
-/* 00B68 80B63528 0C03E803 */  jal     Audio_SetBGM
+/* 00B68 80B63528 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00B6C 80B6352C 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 105000FF
 /* 00B70 80B63530 860301D4 */  lh      $v1, 0x01D4($s0)           ## 000001D4
@@ -783,7 +783,7 @@ glabel L80B632DC
 /* 00BD0 80B63590 24010014 */  addiu   $at, $zero, 0x0014         ## $at = 00000014
 /* 00BD4 80B63594 54610005 */  bnel    $v1, $at, .L80B635AC
 /* 00BD8 80B63598 24010002 */  addiu   $at, $zero, 0x0002         ## $at = 00000002
-/* 00BDC 80B6359C 0C03E803 */  jal     Audio_SetBGM
+/* 00BDC 80B6359C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 00BE0 80B635A0 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 00BE4 80B635A4 860301D4 */  lh      $v1, 0x01D4($s0)           ## 000001D4

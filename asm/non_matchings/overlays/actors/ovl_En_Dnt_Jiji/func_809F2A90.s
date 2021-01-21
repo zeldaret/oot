@@ -90,7 +90,7 @@ glabel func_809F2A90
 /* 010E8 809F2BC8 A44D0158 */  sh      $t5, 0x0158($v0)           ## 00000158
 /* 010EC 809F2BCC 8E0F0258 */  lw      $t7, 0x0258($s0)           ## 00000258
 /* 010F0 809F2BD0 2404081A */  addiu   $a0, $zero, 0x081A         ## $a0 = 0000081A
-/* 010F4 809F2BD4 0C03E803 */  jal     Audio_SetBGM
+/* 010F4 809F2BD4 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 010F8 809F2BD8 A5EE015A */  sh      $t6, 0x015A($t7)           ## 0000015A
 .L809F2BDC:

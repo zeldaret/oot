@@ -509,7 +509,7 @@ glabel func_80B7825C
 /* 0EE20 80B787C0 0C01E221 */  jal     func_80078884              
 /* 0EE24 80B787C4 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
 /* 0EE28 80B787C8 3C041014 */  lui     $a0, 0x1014                ## $a0 = 10140000
-/* 0EE2C 80B787CC 0C03E803 */  jal     Audio_SetBGM
+/* 0EE2C 80B787CC 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 0EE30 80B787D0 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 101400FF
 /* 0EE34 80B787D4 8FA800E4 */  lw      $t0, 0x00E4($sp)           
@@ -533,7 +533,7 @@ glabel func_80B7825C
 /* 0EE78 80B78818 0C01E221 */  jal     func_80078884              
 /* 0EE7C 80B7881C 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
 /* 0EE80 80B78820 3C041014 */  lui     $a0, 0x1014                ## $a0 = 10140000
-/* 0EE84 80B78824 0C03E803 */  jal     Audio_SetBGM
+/* 0EE84 80B78824 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 0EE88 80B78828 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 101400FF
 /* 0EE8C 80B7882C 8FA800E4 */  lw      $t0, 0x00E4($sp)           
@@ -1186,7 +1186,7 @@ glabel L80B791B0
 /* 0F818 80B791B8 2401001E */  addiu   $at, $zero, 0x001E         ## $at = 0000001E
 /* 0F81C 80B791BC 55C10004 */  bnel    $t6, $at, .L80B791D0       
 /* 0F820 80B791C0 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
-/* 0F824 80B791C4 0C03E803 */  jal     Audio_SetBGM
+/* 0F824 80B791C4 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 0F828 80B791C8 24040922 */  addiu   $a0, $zero, 0x0922         ## $a0 = 00000922
 /* 0F82C 80B791CC 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001

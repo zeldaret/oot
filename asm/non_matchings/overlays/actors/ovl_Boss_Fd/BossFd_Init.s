@@ -85,7 +85,7 @@ glabel BossFd_Init
 /* 00670 808CB430 86181402 */  lh      $t8, 0x1402($s0)           ## 00001402
 /* 00674 808CB434 57000004 */  bnel    $t8, $zero, .L808CB448     
 /* 00678 808CB438 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 0067C 808CB43C 0C03E803 */  jal     Audio_SetBGM
+/* 0067C 808CB43C 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 00680 808CB440 2404006B */  addiu   $a0, $zero, 0x006B         ## $a0 = 0000006B
 /* 00684 808CB444 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00

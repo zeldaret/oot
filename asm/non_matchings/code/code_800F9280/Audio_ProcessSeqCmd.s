@@ -19,7 +19,7 @@ glabel jtbl_8014A640
     .word L800F9FB8
 
 .text
-glabel func_800F94FC
+glabel Audio_ProcessSeqCmd
 /* B7069C 800F94FC 3C0E8013 */  lui   $t6, %hi(D_8013340C) # $t6, 0x8013
 /* B706A0 800F9500 91CE340C */  lbu   $t6, %lo(D_8013340C)($t6)
 /* B706A4 800F9504 27BDFF98 */  addiu $sp, $sp, -0x68

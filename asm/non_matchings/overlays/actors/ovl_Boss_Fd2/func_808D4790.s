@@ -256,7 +256,7 @@ glabel func_808D4790
 /* 02470 808D4AE0 3C041001 */  lui     $a0, 0x1001                ## $a0 = 10010000
 /* 02474 808D4AE4 A66D01A6 */  sh      $t5, 0x01A6($s3)           ## 000001A6
 /* 02478 808D4AE8 A66801AA */  sh      $t0, 0x01AA($s3)           ## 000001AA
-/* 0247C 808D4AEC 0C03E803 */  jal     Audio_SetBGM
+/* 0247C 808D4AEC 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 02480 808D4AF0 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 02484 808D4AF4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000

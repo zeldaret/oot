@@ -58,18 +58,18 @@ glabel func_800F6268
 /* B6D4DC 800F633C 3C016003 */  lui   $at, 0x6003
 /* B6D4E0 800F6340 00412025 */  or    $a0, $v0, $at
 /* B6D4E4 800F6344 AFA20028 */  sw    $v0, 0x28($sp)
-/* B6D4E8 800F6348 0C03E803 */  jal   Audio_SetBGM
+/* B6D4E8 800F6348 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6D4EC 800F634C A3A3002E */   sb    $v1, 0x2e($sp)
 /* B6D4F0 800F6350 8FA20028 */  lw    $v0, 0x28($sp)
 /* B6D4F4 800F6354 3C016003 */  lui   $at, (0x60030100 >> 16) # lui $at, 0x6003
 /* B6D4F8 800F6358 34210100 */  ori   $at, (0x60030100 & 0xFFFF) # ori $at, $at, 0x100
-/* B6D4FC 800F635C 0C03E803 */  jal   Audio_SetBGM
+/* B6D4FC 800F635C 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6D500 800F6360 00412025 */   or    $a0, $v0, $at
 /* B6D504 800F6364 83A3002E */  lb    $v1, 0x2e($sp)
 /* B6D508 800F6368 3C016003 */  lui   $at, (0x60030D00 >> 16) # lui $at, 0x6003
 /* B6D50C 800F636C 34210D00 */  ori   $at, (0x60030D00 & 0xFFFF) # ori $at, $at, 0xd00
 /* B6D510 800F6370 306400FF */  andi  $a0, $v1, 0xff
-/* B6D514 800F6374 0C03E803 */  jal   Audio_SetBGM
+/* B6D514 800F6374 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6D518 800F6378 00812025 */   or    $a0, $a0, $at
 /* B6D51C 800F637C 3C038017 */  lui   $v1, %hi(D_8016B9D8) # $v1, 0x8017
 /* B6D520 800F6380 2463B9D8 */  addiu $v1, %lo(D_8016B9D8) # addiu $v1, $v1, -0x4628
@@ -106,7 +106,7 @@ glabel func_800F6268
 /* B6D594 800F63F4 0C03D786 */  jal   func_800F5E18
 /* B6D598 800F63F8 E7AC0030 */   swc1  $f12, 0x30($sp)
 /* B6D59C 800F63FC 3C04A300 */  lui   $a0, (0xA300FFFC >> 16) # lui $a0, 0xa300
-/* B6D5A0 800F6400 0C03E803 */  jal   Audio_SetBGM
+/* B6D5A0 800F6400 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6D5A4 800F6404 3484FFFC */   ori   $a0, (0xA300FFFC & 0xFFFF) # ori $a0, $a0, 0xfffc
 /* B6D5A8 800F6408 240D000A */  li    $t5, 10
 /* B6D5AC 800F640C 3C018017 */  lui   $at, %hi(D_8016B9D8)
@@ -148,12 +148,12 @@ glabel func_800F6268
 /* B6D62C 800F648C 01E31023 */  subu  $v0, $t7, $v1
 /* B6D630 800F6490 3C016303 */  lui   $at, 0x6303
 /* B6D634 800F6494 00412025 */  or    $a0, $v0, $at
-/* B6D638 800F6498 0C03E803 */  jal   Audio_SetBGM
+/* B6D638 800F6498 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6D63C 800F649C AFA20028 */   sw    $v0, 0x28($sp)
 /* B6D640 800F64A0 8FA20028 */  lw    $v0, 0x28($sp)
 /* B6D644 800F64A4 3C016303 */  lui   $at, (0x63030100 >> 16) # lui $at, 0x6303
 /* B6D648 800F64A8 34210100 */  ori   $at, (0x63030100 & 0xFFFF) # ori $at, $at, 0x100
-/* B6D64C 800F64AC 0C03E803 */  jal   Audio_SetBGM
+/* B6D64C 800F64AC 0C03E803 */  jal   Audio_QueueSeqCmd
 /* B6D650 800F64B0 00412025 */   or    $a0, $v0, $at
 .L800F64B4:
 /* B6D654 800F64B4 3C038017 */  lui   $v1, %hi(D_8016B9D8) # $v1, 0x8017

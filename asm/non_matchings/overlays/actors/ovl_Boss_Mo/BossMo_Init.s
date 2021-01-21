@@ -153,7 +153,7 @@ glabel BossMo_Init
 /* 007DC 8091C2DC 33280010 */  andi    $t0, $t9, 0x0010           ## $t0 = 00000000
 /* 007E0 8091C2E0 11000009 */  beq     $t0, $zero, .L8091C308     
 /* 007E4 8091C2E4 3C01447A */  lui     $at, 0x447A                ## $at = 447A0000
-/* 007E8 8091C2E8 0C03E803 */  jal     Audio_SetBGM
+/* 007E8 8091C2E8 0C03E803 */  jal     Audio_QueueSeqCmd
               
 /* 007EC 8091C2EC 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 007F0 8091C2F0 3C0140A0 */  lui     $at, 0x40A0                ## $at = 40A00000

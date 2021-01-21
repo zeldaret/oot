@@ -8,7 +8,7 @@ extern u8 D_80133404;
 extern u8 D_80133400;
 extern u8 D_80133408;
 
-void func_800F94FC(u32 arg0);
+void Audio_ProcessSeqCmd(u32 arg0);
 
 void func_800F9280(u8 arg0, u8 arg1, u8 arg2, u16 arg3);
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800F9280.s")
@@ -20,16 +20,17 @@ void func_800F9474(u8 arg0, u16 arg1) {
 }
 
 extern u32 D_8013340C;
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800F94FC.s")
+extern u16 D_8016E320[4][5];
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/Audio_ProcessSeqCmd.s")
 
-void Audio_SetBGM(u32 bgmID) {
+void Audio_QueueSeqCmd(u32 bgmID) {
     D_8016E350[D_80133400] = bgmID;
     D_80133400++;
 }
 
-void func_800FA034(void) {
+void Audio_ProcessSeqCmds(void) {
     while (D_80133400 != D_80133404) {
-        func_800F94FC(D_8016E350[D_80133404++]);
+        Audio_ProcessSeqCmd(D_8016E350[D_80133404++]);
     }
 }
 
@@ -83,7 +84,7 @@ void func_800FA240(u8 arg0, u8 arg1, u8 arg2, u8 arg3) {
         phi_f0 *= D_8016E750[arg0].unk_0E[i] / 127.0f;
     }
 
-    func_800F94FC((arg0 << 0x18) | 0x40000000 | (arg3 << 0x10) | ((u8)(phi_f0 * 127.0f)));
+    Audio_ProcessSeqCmd((arg0 << 0x18) | 0x40000000 | (arg3 << 0x10) | ((u8)(phi_f0 * 127.0f)));
 }
 
 #ifdef NON_MATCHING
@@ -112,7 +113,7 @@ void func_800FA3DC(void) {
             temp_v0 = func_800E5E20(&sp70);
             if ((temp_v0 == 1) || (temp_v0 == 2) || (temp_v0 == 3) || (temp_v0 == 4)) {
                 D_8016E750[i].unk_260 = 0;
-                func_800F94FC(D_8016E750[i].unk_25C);
+                Audio_ProcessSeqCmd(D_8016E750[i].unk_25C);
             }
         }
 
@@ -122,7 +123,7 @@ void func_800FA3DC(void) {
                 phi_f0 *= (D_8016E750[i].unk_0E[j] / 127.0f);
             }
 
-            Audio_SetBGM(0x40000000 | (i << 0x18) | (D_8016E750[i].unk_12 << 0x10) | ((u8)(phi_f0 * 127.0f) & 0xFFFF));
+            Audio_QueueSeqCmd(0x40000000 | (i << 0x18) | (D_8016E750[i].unk_12 << 0x10) | ((u8)(phi_f0 * 127.0f) & 0xFFFF));
             D_8016E750[i].unk_13 = 0;
         }
 
@@ -256,22 +257,22 @@ void func_800FA3DC(void) {
                             }
                             break;
                         case 1:
-                            Audio_SetBGM(0x30000000 | ((u8)(i) << 0x18) | ((u16)(D_8016E750[i].unk_254)));
+                            Audio_QueueSeqCmd(0x30000000 | ((u8)(i) << 0x18) | ((u16)(D_8016E750[i].unk_254)));
                             break;
                         case 2:
-                            Audio_SetBGM(((u8)(temp_s1) << 0x18) | 0x10000 | ((u16)(D_8016E750[temp_s1].unk_254)));
+                            Audio_QueueSeqCmd(((u8)(temp_s1) << 0x18) | 0x10000 | ((u16)(D_8016E750[temp_s1].unk_254)));
                             D_8016E750[temp_s1].unk_13 = 1;
                             D_8016E750[temp_s1].unk_0E[1] = 0x7F;
                             break;
                         case 3:
-                            Audio_SetBGM(0xB0003000 | ((u8)(temp_s1) << 0x18) | ((u8)(temp_s0_3) << 0x10) |
+                            Audio_QueueSeqCmd(0xB0003000 | ((u8)(temp_s1) << 0x18) | ((u8)(temp_s0_3) << 0x10) |
                                          ((u8)(temp_a3_3)));
                             break;
                         case 4:
-                            Audio_SetBGM(0xB0004000 | ((u8)(temp_s1) << 0x18) | ((u8)(temp_a3_3) << 0x10));
+                            Audio_QueueSeqCmd(0xB0004000 | ((u8)(temp_s1) << 0x18) | ((u8)(temp_a3_3) << 0x10));
                             break;
                         case 5:
-                            Audio_SetBGM(((u8)(temp_s1) << 0x18) | ((u16)(D_8016E750[i].unk_2C[j])) |
+                            Audio_QueueSeqCmd(((u8)(temp_s1) << 0x18) | ((u16)(D_8016E750[i].unk_2C[j])) |
                                          ((u8)(D_8016E750[temp_s1].unk_4E) << 0x10));
                             func_800FA240(temp_s1, 1, 0x7F, 0);
                             D_8016E750[temp_s1].unk_4E = 0;
@@ -297,10 +298,10 @@ void func_800FA3DC(void) {
                             break;
                         case 9:
                             phi_a2 = D_8016E750[i].unk_2C[j];
-                            Audio_SetBGM(0xA0000000 | (((u8)temp_s1) << 0x18) | (phi_a2));
+                            Audio_QueueSeqCmd(0xA0000000 | (((u8)temp_s1) << 0x18) | (phi_a2));
                             break;
                         case 10:
-                            Audio_SetBGM(0x50000000 | ((u8)(temp_s1) << 0x18) | ((u8)(temp_s0_3) << 0x10) |
+                            Audio_QueueSeqCmd(0x50000000 | ((u8)(temp_s1) << 0x18) | ((u8)(temp_s0_3) << 0x10) |
                                          ((u16)(temp_a3_3 * 10)));
                             break;
                     }

@@ -806,7 +806,7 @@ glabel L80901AB0
 /* 04DD8 80901D18 2F010051 */  sltiu   $at, $t8, 0x0051
 /* 04DDC 80901D1C 5420015D */  bnel    $at, $zero, .L80902294
 /* 04DE0 80901D20 8605039E */  lh      $a1, 0x039E($s0)           ## 0000039E
-/* 04DE4 80901D24 0C03E803 */  jal     Audio_SetBGM
+/* 04DE4 80901D24 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 04DE8 80901D28 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 04DEC 80901D2C 3C0142E0 */  lui     $at, 0x42E0                ## $at = 42E00000

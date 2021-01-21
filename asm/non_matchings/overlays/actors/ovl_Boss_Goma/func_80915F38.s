@@ -41,7 +41,7 @@ glabel func_80915F38
 /* 005BC 80915FCC AE090004 */  sw      $t1, 0x0004($s0)           ## 00000004
 /* 005C0 80915FD0 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 100100FF
 /* 005C4 80915FD4 E6000068 */  swc1    $f0, 0x0068($s0)           ## 00000068
-/* 005C8 80915FD8 0C03E803 */  jal     Audio_SetBGM
+/* 005C8 80915FD8 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 005CC 80915FDC E60000C4 */  swc1    $f0, 0x00C4($s0)           ## 000000C4
 /* 005D0 80915FE0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

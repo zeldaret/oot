@@ -122,13 +122,13 @@ glabel func_80B7A278
 /* 10A44 80B7A3E4 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 10A48 80B7A3E8 11410005 */  beq     $t2, $at, .L80B7A400
 /* 10A4C 80B7A3EC 00000000 */  nop
-/* 10A50 80B7A3F0 0C03E803 */  jal     Audio_SetBGM
+/* 10A50 80B7A3F0 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 10A54 80B7A3F4 24040019 */  addiu   $a0, $zero, 0x0019         ## $a0 = 00000019
 /* 10A58 80B7A3F8 10000003 */  beq     $zero, $zero, .L80B7A408
 /* 10A5C 80B7A3FC 00000000 */  nop
 .L80B7A400:
-/* 10A60 80B7A400 0C03E803 */  jal     Audio_SetBGM
+/* 10A60 80B7A400 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 10A64 80B7A404 24040027 */  addiu   $a0, $zero, 0x0027         ## $a0 = 00000027
 .L80B7A408:
@@ -137,13 +137,13 @@ glabel func_80B7A278
 /* 10A70 80B7A410 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 10A74 80B7A414 11C10005 */  beq     $t6, $at, .L80B7A42C
 /* 10A78 80B7A418 00000000 */  nop
-/* 10A7C 80B7A41C 0C03E803 */  jal     Audio_SetBGM
+/* 10A7C 80B7A41C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 10A80 80B7A420 24040019 */  addiu   $a0, $zero, 0x0019         ## $a0 = 00000019
 /* 10A84 80B7A424 10000003 */  beq     $zero, $zero, .L80B7A434
 /* 10A88 80B7A428 00000000 */  nop
 .L80B7A42C:
-/* 10A8C 80B7A42C 0C03E803 */  jal     Audio_SetBGM
+/* 10A8C 80B7A42C 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 10A90 80B7A430 24040027 */  addiu   $a0, $zero, 0x0027         ## $a0 = 00000027
 .L80B7A434:

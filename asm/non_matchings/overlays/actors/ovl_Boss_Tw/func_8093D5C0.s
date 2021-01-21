@@ -107,7 +107,7 @@ glabel func_8093D5C0
 /* 0495C 8093D62C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 8094A7D0
 /* 04960 8093D630 0C01E245 */  jal     func_80078914
 /* 04964 8093D634 240539B1 */  addiu   $a1, $zero, 0x39B1         ## $a1 = 000039B1
-/* 04968 8093D638 0C03E803 */  jal     Audio_SetBGM
+/* 04968 8093D638 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 0496C 8093D63C 24040061 */  addiu   $a0, $zero, 0x0061         ## $a0 = 00000061
 /* 04970 8093D640 862205FE */  lh      $v0, 0x05FE($s1)           ## 000005FE
@@ -1393,7 +1393,7 @@ glabel L8093E854
 /* 05BE0 8093E8B0 14610005 */  bne     $v1, $at, .L8093E8C8
 /* 05BE4 8093E8B4 24100001 */  addiu   $s0, $zero, 0x0001         ## $s0 = 00000001
 /* 05BE8 8093E8B8 3C04105A */  lui     $a0, 0x105A                ## $a0 = 105A0000
-/* 05BEC 8093E8BC 0C03E803 */  jal     Audio_SetBGM
+/* 05BEC 8093E8BC 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 05BF0 8093E8C0 348400FF */  ori     $a0, $a0, 0x00FF           ## $a0 = 105A00FF
 /* 05BF4 8093E8C4 86230150 */  lh      $v1, 0x0150($s1)           ## 00000150
@@ -1445,7 +1445,7 @@ glabel L8093E854
 /* 05CA4 8093E974 944B0EE2 */  lhu     $t3, 0x0EE2($v0)           ## 8015F542
 /* 05CA8 8093E978 2404001B */  addiu   $a0, $zero, 0x001B         ## $a0 = 0000001B
 /* 05CAC 8093E97C 356C0020 */  ori     $t4, $t3, 0x0020           ## $t4 = 00000020
-/* 05CB0 8093E980 0C03E803 */  jal     Audio_SetBGM
+/* 05CB0 8093E980 0C03E803 */  jal     Audio_QueueSeqCmd
 
 /* 05CB4 8093E984 A44C0EE2 */  sh      $t4, 0x0EE2($v0)           ## 8015F542
 /* 05CB8 8093E988 86230150 */  lh      $v1, 0x0150($s1)           ## 00000150

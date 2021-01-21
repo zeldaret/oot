@@ -31,7 +31,7 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
     gSaveContext.buttonStatus[1] = BTN_ENABLED;
     gSaveContext.buttonStatus[0] = BTN_ENABLED;
     gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
-    Audio_SetBGM(NA_BGM_STOP);
+    Audio_QueueSeqCmd(NA_BGM_STOP);
     gSaveContext.entranceIndex = entranceIndex;
     gSaveContext.respawnFlag = 0;
     gSaveContext.respawn[RESPAWN_MODE_DOWN].entranceIndex = -1;
