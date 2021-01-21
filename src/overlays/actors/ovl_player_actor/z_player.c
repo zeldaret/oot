@@ -9084,14 +9084,12 @@ void (*D_80854738[])(GlobalContext* globalCtx, Player* this) = {
 
 Vec3f D_80854778 = { 0.0f, 50.0f, 0.0f };
 
-#ifdef NON_MATCHING
-// single regalloc difference
 void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Player* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
     Scene* scene = globalCtx->loadedScene;
+    u32 titleFileSize;
     s32 initMode;
-    s32 pad;
     s32 sp50;
     s32 sp4C;
 
@@ -9146,7 +9144,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if ((sp50 == 0) || (sp50 < -1)) {
-        if ((scene->titleFile.vromStart != scene->titleFile.vromEnd) && gSaveContext.showTitleCard) {
+        titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
+        if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
             if ((gSaveContext.sceneSetupIndex < 4) &&
                 (gEntranceTable[(0, gSaveContext.entranceIndex) + (0, gSaveContext.sceneSetupIndex)].field & 0x4000) &&
                 ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
@@ -9200,9 +9199,6 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Map_SavePlayerInitialInfo(globalCtx);
     MREG(64) = 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_player_actor/Player_Init.s")
-#endif
 
 void func_808471F4(s16* pValue) {
     s16 step;
