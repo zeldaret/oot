@@ -26,7 +26,7 @@ static f32 D_80889E40[] = { 120.0f, 150.0f, 150.0f };
 
 const ActorInit Bg_Hidan_Kousi_InitVars = {
     ACTOR_BG_HIDAN_KOUSI,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanKousi),
@@ -40,10 +40,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static UNK_PTR D_80889E70[] = {
-    0x0600E2CC,
-    0x0600E380,
-    0x0600E430,
+extern CollisionHeader D_0600E2CC, D_0600E380, D_0600E430;
+
+static CollisionHeader* D_80889E70[] = {
+    &D_0600E2CC,
+    &D_0600E380,
+    &D_0600E430,
 };
 
 static s16 D_80889E7C[] = {
@@ -53,7 +55,7 @@ static s16 D_80889E7C[] = {
     0x0000,
 };
 
-static Gfx* D_80889E84[] = {
+static Gfx (*D_80889E84[])[] = {
     0x0600C798,
     0x0600BFA8,
     0x0600BB58,
@@ -66,10 +68,10 @@ void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionF
 void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
     s32 pad;
-    u32 localC = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    Actor_SetHeight(thisx, 50.0f);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    Actor_SetFocus(thisx, 50.0f);
     osSyncPrintf("◯◯◯炎の神殿オブジェクト【格子(arg_data : %0x)】出現 (%d %d)\n", thisx->params, thisx->params & 0xFF,
                  ((s32)thisx->params >> 8) & 0xFF);
 
@@ -78,9 +80,9 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("arg_data おかしい 【格子】\n");
     }
 
-    DynaPolyInfo_Alloc(D_80889E70[thisx->params & 0xFF], &localC);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, localC);
-    thisx->posRot.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
+    CollisionHeader_GetVirtual(D_80889E70[thisx->params & 0xFF], &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    thisx->world.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
         func_80889ACC(this);
         BgHidanKousi_SetupAction(this, func_80889D28);
@@ -91,18 +93,18 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgHidanKousi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanKousi* this = THIS;
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80889ACC(BgHidanKousi* this) {
     s32 pad[2];
-    Vec3s* rot = &this->dyna.actor.posRot.rot;
+    Vec3s* rot = &this->dyna.actor.world.rot;
     f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_SinS(rot->y);
     f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_CosS(rot->y);
-    Vec3f* initPos = &this->dyna.actor.initPosRot.pos;
+    Vec3f* initPos = &this->dyna.actor.home.pos;
 
-    this->dyna.actor.posRot.pos.x = initPos->x + temp1;
-    this->dyna.actor.posRot.pos.z = initPos->z + temp2;
+    this->dyna.actor.world.pos.x = initPos->x + temp1;
+    this->dyna.actor.world.pos.z = initPos->z + temp2;
 }
 
 void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx) {
@@ -115,7 +117,7 @@ void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx) {
 
 void func_80889BC0(BgHidanKousi* this, GlobalContext* globalCtx) {
     this->unk_168 -= 1;
-    if (this->dyna.actor.type == func_8005B198() || (this->unk_168 <= 0)) {
+    if (this->dyna.actor.category == func_8005B198() || (this->unk_168 <= 0)) {
         BgHidanKousi_SetupAction(this, func_80889C18);
     }
 }
@@ -133,7 +135,7 @@ void func_80889C18(BgHidanKousi* this, GlobalContext* globalCtx) {
 void func_80889C90(BgHidanKousi* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->dyna.actor);
     if (D_80889E40[this->dyna.actor.params & 0xFF] <
-        Math_Vec3f_DistXYZ(&this->dyna.actor.initPosRot.pos, &this->dyna.actor.posRot.pos)) {
+        Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &this->dyna.actor.world.pos)) {
         func_80889ACC(this);
         BgHidanKousi_SetupAction(this, func_80889D28);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);

@@ -25,7 +25,7 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 		outName = name;
 }
 
-void ZResource::Save(string outFolder)
+void ZResource::Save(const std::string& outFolder)
 {
 
 }
@@ -46,7 +46,7 @@ std::string ZResource::GetOutName()
 
 void ZResource::SetName(string nName)
 {
-	name = nName;
+	name = std::move(nName);
 }
 
 bool ZResource::IsExternalResource()
@@ -84,12 +84,12 @@ void ZResource::SetRawDataIndex(int value)
 	rawDataIndex = value;
 }
 
-string ZResource::GetSourceOutputCode(std::string prefix)
+string ZResource::GetSourceOutputCode(const std::string& prefix)
 {
 	return "";
 }
 
-string ZResource::GetSourceOutputHeader(std::string prefix)
+string ZResource::GetSourceOutputHeader(const std::string& prefix)
 {
 	return "";
 }

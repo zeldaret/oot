@@ -1673,7 +1673,7 @@ glabel func_8007C850
 /* AF49CC 8007D82C 27B000A0 */  addiu $s0, $sp, 0xa0
 .L8007D830:
 /* AF49D0 8007D830 02002025 */  move  $a0, $s0
-/* AF49D4 8007D834 0C00BBB9 */  jal   func_8002EEE4
+/* AF49D4 8007D834 0C00BBB9 */  jal   Actor_GetFocus
 /* AF49D8 8007D838 02202825 */   move  $a1, $s1
 /* AF49DC 8007D83C 8E190000 */  lw    $t9, ($s0)
 /* AF49E0 8007D840 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2067,7 +2067,7 @@ glabel L8007DDF8
 /* AF4FB4 8007DE14 02202825 */  move  $a1, $s1
 /* AF4FB8 8007DE18 E7B000B8 */  swc1  $f16, 0xb8($sp)
 /* AF4FBC 8007DE1C E7A600BC */  swc1  $f6, 0xbc($sp)
-/* AF4FC0 8007DE20 0C00BBB9 */  jal   func_8002EEE4
+/* AF4FC0 8007DE20 0C00BBB9 */  jal   Actor_GetFocus
 /* AF4FC4 8007DE24 E7A400B4 */   swc1  $f4, 0xb4($sp)
 /* AF4FC8 8007DE28 8E0D0000 */  lw    $t5, ($s0)
 /* AF4FCC 8007DE2C 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2412,7 +2412,7 @@ glabel L8007E340
 /* AF54E0 8007E340 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF54E4 8007E344 02002025 */  move  $a0, $s0
 /* AF54E8 8007E348 02202825 */  move  $a1, $s1
-/* AF54EC 8007E34C 0C00BBC5 */  jal   func_8002EF14
+/* AF54EC 8007E34C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF54F0 8007E350 AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF54F4 8007E354 8E0E0000 */  lw    $t6, ($s0)
 /* AF54F8 8007E358 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2432,7 +2432,7 @@ glabel L8007E340
 /* AF5530 8007E390 02002025 */  move  $a0, $s0
 /* AF5534 8007E394 E7A600C4 */  swc1  $f6, 0xc4($sp)
 /* AF5538 8007E398 02802825 */  move  $a1, $s4
-/* AF553C 8007E39C 0C00BBC5 */  jal   func_8002EF14
+/* AF553C 8007E39C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5540 8007E3A0 E7A800D0 */   swc1  $f8, 0xd0($sp)
 /* AF5544 8007E3A4 02202025 */  move  $a0, $s1
 /* AF5548 8007E3A8 0C01F1C1 */  jal   func_8007C704
@@ -2473,7 +2473,7 @@ glabel L8007E340
 glabel L8007E434
 /* AF55D4 8007E434 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF55D8 8007E438 02002025 */  move  $a0, $s0
-/* AF55DC 8007E43C 0C00BBC5 */  jal   func_8002EF14
+/* AF55DC 8007E43C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF55E0 8007E440 02202825 */   move  $a1, $s1
 /* AF55E4 8007E444 8E0E0000 */  lw    $t6, ($s0)
 /* AF55E8 8007E448 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2517,7 +2517,7 @@ glabel L8007E4DC
 /* AF567C 8007E4DC 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5680 8007E4E0 02002025 */  move  $a0, $s0
 /* AF5684 8007E4E4 02202825 */  move  $a1, $s1
-/* AF5688 8007E4E8 0C00BBD1 */  jal   func_8002EF44
+/* AF5688 8007E4E8 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF568C 8007E4EC AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF5690 8007E4F0 8E190000 */  lw    $t9, ($s0)
 /* AF5694 8007E4F4 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2622,11 +2622,11 @@ glabel L8007E5DC
 /* AF5818 8007E678 E66400FC */   swc1  $f4, 0xfc($s3)
 /* AF581C 8007E67C 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5820 8007E680 02002025 */  move  $a0, $s0
-/* AF5824 8007E684 0C00BBD1 */  jal   func_8002EF44
+/* AF5824 8007E684 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF5828 8007E688 8FA500F4 */   lw    $a1, 0xf4($sp)
 /* AF582C 8007E68C 27B5008C */  addiu $s5, $sp, 0x8c
 /* AF5830 8007E690 02A02025 */  move  $a0, $s5
-/* AF5834 8007E694 0C00BBB9 */  jal   func_8002EEE4
+/* AF5834 8007E694 0C00BBB9 */  jal   Actor_GetFocus
 /* AF5838 8007E698 02802825 */   move  $a1, $s4
 /* AF583C 8007E69C 3C01428C */  li    $at, 0x428C0000 # 0.000000
 /* AF5840 8007E6A0 44814000 */  mtc1  $at, $f8
@@ -2681,7 +2681,7 @@ glabel L8007E5DC
 .L8007E764:
 /* AF5904 8007E764 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5908 8007E768 02002025 */  move  $a0, $s0
-/* AF590C 8007E76C 0C00BBC5 */  jal   func_8002EF14
+/* AF590C 8007E76C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5910 8007E770 02202825 */   move  $a1, $s1
 /* AF5914 8007E774 8E0D0000 */  lw    $t5, ($s0)
 /* AF5918 8007E778 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2730,7 +2730,7 @@ glabel L8007E5DC
 glabel L8007E824
 /* AF59C4 8007E824 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF59C8 8007E828 02002025 */  move  $a0, $s0
-/* AF59CC 8007E82C 0C00BBB9 */  jal   func_8002EEE4
+/* AF59CC 8007E82C 0C00BBB9 */  jal   Actor_GetFocus
 /* AF59D0 8007E830 02202825 */   move  $a1, $s1
 /* AF59D4 8007E834 8E190000 */  lw    $t9, ($s0)
 /* AF59D8 8007E838 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2746,7 +2746,7 @@ glabel L8007E824
 /* AF5A00 8007E860 0C030202 */  jal   func_800C0808
 /* AF5A04 8007E864 AE390008 */   sw    $t9, 8($s1)
 /* AF5A08 8007E868 02002025 */  move  $a0, $s0
-/* AF5A0C 8007E86C 0C00BBC5 */  jal   func_8002EF14
+/* AF5A0C 8007E86C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5A10 8007E870 02802825 */   move  $a1, $s4
 /* AF5A14 8007E874 27A400D0 */  addiu $a0, $sp, 0xd0
 /* AF5A18 8007E878 02202825 */  move  $a1, $s1
@@ -2821,7 +2821,7 @@ glabel L8007E914
 /* AF5B24 8007E984 0C00B7D5 */  jal   func_8002DF54
 /* AF5B28 8007E988 24060008 */   li    $a2, 8
 /* AF5B2C 8007E98C 27A400A0 */  addiu $a0, $sp, 0xa0
-/* AF5B30 8007E990 0C00BBC5 */  jal   func_8002EF14
+/* AF5B30 8007E990 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5B34 8007E994 8FA500F4 */   lw    $a1, 0xf4($sp)
 /* AF5B38 8007E998 3C018014 */  lui   $at, %hi(D_8013D6CC)
 /* AF5B3C 8007E99C C42AD6CC */  lwc1  $f10, %lo(D_8013D6CC)($at)
@@ -3033,7 +3033,7 @@ glabel L8007EC78
 /* AF5E5C 8007ECBC 8E5900E8 */  lw    $t9, 0xe8($s2)
 /* AF5E60 8007ECC0 ADF90008 */  sw    $t9, 8($t7)
 /* AF5E64 8007ECC4 C65000D0 */  lwc1  $f16, 0xd0($s2)
-/* AF5E68 8007ECC8 0C00BBB9 */  jal   func_8002EEE4
+/* AF5E68 8007ECC8 0C00BBB9 */  jal   Actor_GetFocus
 /* AF5E6C 8007ECCC E4301F24 */   swc1  $f16, %lo(D_80121F24)($at)
 /* AF5E70 8007ECD0 87AD00AE */  lh    $t5, 0xae($sp)
 /* AF5E74 8007ECD4 3C0E8012 */  lui   $t6, %hi(D_80121F1C) # $t6, 0x8012
@@ -3756,10 +3756,10 @@ glabel L8007F6E8
 /* AF693C 8007F79C 8FBF0044 */   lw    $ra, 0x44($sp)
 .L8007F7A0:
 /* AF6940 8007F7A0 27A400A0 */  addiu $a0, $sp, 0xa0
-/* AF6944 8007F7A4 0C00BBB9 */  jal   func_8002EEE4
+/* AF6944 8007F7A4 0C00BBB9 */  jal   Actor_GetFocus
 /* AF6948 8007F7A8 02202825 */   move  $a1, $s1
 /* AF694C 8007F7AC 27A4008C */  addiu $a0, $sp, 0x8c
-/* AF6950 8007F7B0 0C00BBB9 */  jal   func_8002EEE4
+/* AF6950 8007F7B0 0C00BBB9 */  jal   Actor_GetFocus
 /* AF6954 8007F7B4 02802825 */   move  $a1, $s4
 /* AF6958 8007F7B8 C7A600A4 */  lwc1  $f6, 0xa4($sp)
 /* AF695C 8007F7BC C7A80090 */  lwc1  $f8, 0x90($sp)
@@ -3907,7 +3907,7 @@ glabel L8007F6E8
 /* AF6B6C 8007F9CC 27B000A0 */  addiu $s0, $sp, 0xa0
 .L8007F9D0:
 /* AF6B70 8007F9D0 02002025 */  move  $a0, $s0
-/* AF6B74 8007F9D4 0C00BBD1 */  jal   func_8002EF44
+/* AF6B74 8007F9D4 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF6B78 8007F9D8 02802825 */   move  $a1, $s4
 /* AF6B7C 8007F9DC 8FA600DC */  lw    $a2, 0xdc($sp)
 /* AF6B80 8007F9E0 27A400D0 */  addiu $a0, $sp, 0xd0

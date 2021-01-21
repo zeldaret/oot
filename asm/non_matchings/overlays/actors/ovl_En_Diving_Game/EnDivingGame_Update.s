@@ -63,7 +63,7 @@ glabel EnDivingGame_Update
 /* 013F4 809EEC64 0320F809 */  jalr    $ra, $t9                   
 /* 013F8 809EEC68 00000000 */  nop
 /* 013FC 809EEC6C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01400 809EEC70 0C00B56E */  jal     Actor_SetHeight
+/* 01400 809EEC70 0C00B56E */  jal     Actor_SetFocus
               
 /* 01404 809EEC74 3C0542A0 */  lui     $a1, 0x42A0                ## $a1 = 42A00000
 /* 01408 809EEC78 8FAB003C */  lw      $t3, 0x003C($sp)           
@@ -129,12 +129,12 @@ glabel EnDivingGame_Update
 /* 014F4 809EED64 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 014F8 809EED68 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 014FC 809EED6C 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 01500 809EED70 0C00B92D */  jal     func_8002E4B4              
+/* 01500 809EED70 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01504 809EED74 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01508 809EED78 2606034C */  addiu   $a2, $s0, 0x034C           ## $a2 = 0000034C
 /* 0150C 809EED7C 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000034C
 /* 01510 809EED80 AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 01514 809EED84 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01514 809EED84 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01518 809EED88 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0151C 809EED8C 8FA4004C */  lw      $a0, 0x004C($sp)           
@@ -142,7 +142,7 @@ glabel EnDivingGame_Update
 /* 01524 809EED94 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 01528 809EED98 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 0152C 809EED9C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01530 809EEDA0 00812821 */  addu    $a1, $a0, $at              
 /* 01534 809EEDA4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 01538 809EEDA8 8FB00020 */  lw      $s0, 0x0020($sp)           

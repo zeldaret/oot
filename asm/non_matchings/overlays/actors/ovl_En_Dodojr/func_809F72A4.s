@@ -4,7 +4,7 @@ glabel func_809F72A4
 /* 00EEC 809F72AC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00EF0 809F72B0 24850194 */  addiu   $a1, $a0, 0x0194           ## $a1 = 00000194
 /* 00EF4 809F72B4 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00EF8 809F72B8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00EF8 809F72B8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00EFC 809F72BC AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 00F00 809F72C0 8FA70028 */  lw      $a3, 0x0028($sp)           
@@ -67,7 +67,7 @@ glabel func_809F72A4
 /* 00FD0 809F7390 8FA4002C */  lw      $a0, 0x002C($sp)           
 .L809F7394:
 /* 00FD4 809F7394 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00FD8 809F7398 8FA60024 */  lw      $a2, 0x0024($sp)           
 .L809F739C:
 /* 00FDC 809F739C 8FBF0014 */  lw      $ra, 0x0014($sp)           

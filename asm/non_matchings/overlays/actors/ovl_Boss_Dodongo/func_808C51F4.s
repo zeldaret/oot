@@ -2,7 +2,7 @@ glabel func_808C51F4
 /* 04064 808C51F4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 04068 808C51F8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 0406C 808C51FC 8CA51C44 */  lw      $a1, 0x1C44($a1)           ## 00001C44
-/* 04070 808C5200 0C00B69E */  jal     func_8002DA78              
+/* 04070 808C5200 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 04074 808C5204 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 04078 808C5208 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 0407C 808C520C 848E0032 */  lh      $t6, 0x0032($a0)           ## 00000032

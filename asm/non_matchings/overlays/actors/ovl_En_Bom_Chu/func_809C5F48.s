@@ -91,7 +91,7 @@ glabel func_809C5F48
 /* 00870 809C60A0 AFAC0014 */  sw      $t4, 0x0014($sp)           
 /* 00874 809C60A4 46125101 */  sub.s   $f4, $f10, $f18            
 /* 00878 809C60A8 AFAB0010 */  sw      $t3, 0x0010($sp)           
-/* 0087C 809C60AC 0C00F7A1 */  jal     func_8003DE84              
+/* 0087C 809C60AC 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 00880 809C60B0 E7A40078 */  swc1    $f4, 0x0078($sp)           
 /* 00884 809C60B4 1040005A */  beq     $v0, $zero, .L809C6220     
 /* 00888 809C60B8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 000007C0
@@ -102,7 +102,7 @@ glabel func_809C5F48
 /* 0089C 809C60CC 17200054 */  bne     $t9, $zero, .L809C6220     
 /* 008A0 809C60D0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 000007C0
 /* 008A4 809C60D4 8FA50098 */  lw      $a1, 0x0098($sp)           
-/* 008A8 809C60D8 0C010812 */  jal     func_80042048              
+/* 008A8 809C60D8 0C010812 */  jal     SurfaceType_IsIgnoredByProjectiles              
 /* 008AC 809C60DC 8FA60090 */  lw      $a2, 0x0090($sp)           
 /* 008B0 809C60E0 54400050 */  bnel    $v0, $zero, .L809C6224     
 /* 008B4 809C60E4 44809000 */  mtc1    $zero, $f18                ## $f18 = 0.00
@@ -136,7 +136,7 @@ glabel func_809C5F48
 /* 00924 809C6154 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 00928 809C6158 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 0092C 809C615C 46082180 */  add.s   $f6, $f4, $f8              
-/* 00930 809C6160 0C00F7A1 */  jal     func_8003DE84              
+/* 00930 809C6160 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 00934 809C6164 E7A60078 */  swc1    $f6, 0x0078($sp)           
 /* 00938 809C6168 1040001B */  beq     $v0, $zero, .L809C61D8     
 /* 0093C 809C616C 02402025 */  or      $a0, $s2, $zero            ## $a0 = 000007C0
@@ -147,7 +147,7 @@ glabel func_809C5F48
 /* 00950 809C6180 15C00015 */  bne     $t6, $zero, .L809C61D8     
 /* 00954 809C6184 02402025 */  or      $a0, $s2, $zero            ## $a0 = 000007C0
 /* 00958 809C6188 8FA5009C */  lw      $a1, 0x009C($sp)           
-/* 0095C 809C618C 0C010812 */  jal     func_80042048              
+/* 0095C 809C618C 0C010812 */  jal     SurfaceType_IsIgnoredByProjectiles              
 /* 00960 809C6190 8FA60094 */  lw      $a2, 0x0094($sp)           
 /* 00964 809C6194 14400010 */  bne     $v0, $zero, .L809C61D8     
 /* 00968 809C6198 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -273,7 +273,7 @@ glabel func_809C5F48
 /* 00B28 809C6358 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 00B2C 809C635C AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 00B30 809C6360 02402025 */  or      $a0, $s2, $zero            ## $a0 = 000007C0
-/* 00B34 809C6364 0C00F7A1 */  jal     func_8003DE84              
+/* 00B34 809C6364 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 00B38 809C6368 27A70064 */  addiu   $a3, $sp, 0x0064           ## $a3 = FFFFFFC4
 /* 00B3C 809C636C 10400019 */  beq     $v0, $zero, .L809C63D4     
 /* 00B40 809C6370 02402025 */  or      $a0, $s2, $zero            ## $a0 = 000007C0
@@ -284,7 +284,7 @@ glabel func_809C5F48
 /* 00B54 809C6384 15A00013 */  bne     $t5, $zero, .L809C63D4     
 /* 00B58 809C6388 02402025 */  or      $a0, $s2, $zero            ## $a0 = 000007C0
 /* 00B5C 809C638C 8FA5009C */  lw      $a1, 0x009C($sp)           
-/* 00B60 809C6390 0C010812 */  jal     func_80042048              
+/* 00B60 809C6390 0C010812 */  jal     SurfaceType_IsIgnoredByProjectiles              
 /* 00B64 809C6394 8FA60094 */  lw      $a2, 0x0094($sp)           
 /* 00B68 809C6398 1440000E */  bne     $v0, $zero, .L809C63D4     
 /* 00B6C 809C639C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
