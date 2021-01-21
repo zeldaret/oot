@@ -399,7 +399,7 @@ void func_808FD210(GlobalContext* globalCtx, Vec3f* arg1) {
 }
 
 void func_808FD27C(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, f32 scale) {
-    BossGanon2Effect* effect = (BossGanon2Effect*)globalCtx->unk_11E10;
+    BossGanon2Effect* effect = globalCtx->unk_11E10;
     s16 i;
 
     for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++, effect++) {
