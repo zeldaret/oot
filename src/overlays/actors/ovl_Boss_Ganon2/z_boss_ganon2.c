@@ -40,8 +40,8 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
-void func_809069F8(Mtx* mtx, BossGanon2* this, GlobalContext* globalCtx);
-void func_80906AB0(Mtx* mtx, BossGanon2* this, GlobalContext* globalCtx);
+void func_809069F8(u64* tex, BossGanon2* this, GlobalContext* globalCtx);
+void func_80906AB0(u64* tex, BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000BFC;
 extern UNK_TYPE D_06000EA0;
@@ -1873,7 +1873,7 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905674.s")
 
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, 64 * sizeof(Mtx));
+    u64* tex = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
     BossGanon2* this = THIS;
     s16 i;
 
@@ -1908,8 +1908,8 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                   this->skelAnime.dListCount, func_80904818, func_809049A0, this);
             POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
-            func_809069F8(mtx, this, globalCtx);
-            func_80906AB0(mtx, this, globalCtx);
+            func_809069F8(tex, this, globalCtx);
+            func_80906AB0(tex, this, globalCtx);
             break;
     }
 
@@ -1956,7 +1956,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809069F8.s")
 
-void func_80906AB0(Mtx* mtx, BossGanon2* this, GlobalContext* globalCtx) {
+void func_80906AB0(u64* tex, BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 alpha;
@@ -1977,7 +1977,7 @@ void func_80906AB0(Mtx* mtx, BossGanon2* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 0x1939),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_80908310);
-    gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, mtx);
+    gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 1, tex);
     gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_I, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, 6,
                G_TX_NOLOD, G_TX_NOMIRROR | G_TX_CLAMP, 6, G_TX_NOLOD);
     gDPLoadSync(POLY_OPA_DISP++);
