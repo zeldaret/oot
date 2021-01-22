@@ -29,7 +29,7 @@ void BgHeavyBlock_DoNothing(BgHeavyBlock* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Heavy_Block_InitVars = {
     ACTOR_BG_HEAVY_BLOCK,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HEAVY_OBJECT,
     sizeof(BgHeavyBlock),
@@ -52,9 +52,9 @@ extern Gfx D_06001A30[];
 extern Gfx D_060018A0[];
 
 void BgHeavyBlock_SetPieceRandRot(BgHeavyBlock* this, f32 scale) {
-    this->dyna.actor.posRot.rot.x = Rand_CenteredFloat(1024.0f) * scale;
-    this->dyna.actor.posRot.rot.y = Rand_CenteredFloat(1024.0f) * scale;
-    this->dyna.actor.posRot.rot.z = Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.world.rot.x = Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.world.rot.y = Rand_CenteredFloat(1024.0f) * scale;
+    this->dyna.actor.world.rot.z = Rand_CenteredFloat(1024.0f) * scale;
 }
 
 void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
@@ -68,12 +68,12 @@ void BgHeavyBlock_InitPiece(BgHeavyBlock* this, f32 scale) {
     rand = (randChoice < 0.0f) ? randChoice - 2.0f : randChoice + 2.0f;
     this->dyna.actor.velocity.y = (Rand_ZeroFloat(8.0f) + 4.0f) * scale;
     this->dyna.actor.velocity.z = Rand_ZeroFloat(-8.0f * scale);
-    yawSinCos = Math_CosS(this->dyna.actor.posRot.rot.y);
+    yawSinCos = Math_CosS(this->dyna.actor.world.rot.y);
     this->dyna.actor.velocity.x =
-        (Math_SinS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z + (yawSinCos * rand));
-    yawSinCos = Math_SinS(this->dyna.actor.posRot.rot.y);
+        (Math_SinS(this->dyna.actor.world.rot.y) * this->dyna.actor.velocity.z + (yawSinCos * rand));
+    yawSinCos = Math_SinS(this->dyna.actor.world.rot.y);
     this->dyna.actor.velocity.z =
-        (Math_CosS(this->dyna.actor.posRot.rot.y) * this->dyna.actor.velocity.z) + (-yawSinCos * rand);
+        (Math_CosS(this->dyna.actor.world.rot.y) * this->dyna.actor.velocity.z) + (-yawSinCos * rand);
     BgHeavyBlock_SetPieceRandRot(this, scale);
     Actor_SetScale(&this->dyna.actor, Rand_CenteredFloat(0.2f) + 1.0f);
 }
@@ -131,12 +131,12 @@ void BgHeavyBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0x3F)) {
                 this->actionFunc = BgHeavyBlock_DoNothing;
-                thisx->shape.rot.x = thisx->posRot.rot.x = 0x8AD0;
-                thisx->shape.rot.y = thisx->posRot.rot.y = 0xC000;
-                thisx->shape.rot.z = thisx->posRot.rot.z = 0x0;
-                thisx->posRot.pos.x = 1704.0f;
-                thisx->posRot.pos.y = 1504.0f;
-                thisx->posRot.pos.z = 516.0f;
+                thisx->shape.rot.x = thisx->world.rot.x = 0x8AD0;
+                thisx->shape.rot.y = thisx->world.rot.y = 0xC000;
+                thisx->shape.rot.z = thisx->world.rot.z = 0x0;
+                thisx->world.pos.x = 1704.0f;
+                thisx->world.pos.y = 1504.0f;
+                thisx->world.pos.z = 516.0f;
             }
 
             this->actionFunc = BgHeavyBlock_Wait;
@@ -178,16 +178,16 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
     thisx->velocity.x *= 0.98f;
     thisx->velocity.z *= 0.98f;
     func_8002D7EC(thisx);
-    thisx->shape.rot.x += thisx->posRot.rot.x;
-    thisx->shape.rot.y += thisx->posRot.rot.y;
-    thisx->shape.rot.z += thisx->posRot.rot.z;
+    thisx->shape.rot.x += thisx->world.rot.x;
+    thisx->shape.rot.y += thisx->world.rot.y;
+    thisx->shape.rot.z += thisx->world.rot.z;
 
     if (!(this->pieceFlags & PIECE_FLAG_HIT_FLOOR)) {
-        thisx->posRot.pos.y += this->unk_164.y;
-        thisx->pos4.y += this->unk_164.y;
-        func_8002E4B4(globalCtx, thisx, 50.0f, 50.0f, 0.0f, 5);
-        thisx->posRot.pos.y -= this->unk_164.y;
-        thisx->pos4.y -= this->unk_164.y;
+        thisx->world.pos.y += this->unk_164.y;
+        thisx->prevPos.y += this->unk_164.y;
+        Actor_UpdateBgCheckInfo(globalCtx, thisx, 50.0f, 50.0f, 0.0f, 5);
+        thisx->world.pos.y -= this->unk_164.y;
+        thisx->prevPos.y -= this->unk_164.y;
         if (thisx->bgCheckFlags & 1) {
             this->pieceFlags |= PIECE_FLAG_HIT_FLOOR;
             thisx->velocity.y = Rand_ZeroFloat(4.0f) + 2.0f;
@@ -195,7 +195,7 @@ void BgHeavyBlock_MovePiece(BgHeavyBlock* this, GlobalContext* globalCtx) {
             thisx->velocity.z = Rand_CenteredFloat(8.0f);
             BgHeavyBlock_SetPieceRandRot(this, 1.0f);
             Audio_PlayActorSound2(thisx, NA_SE_EV_ROCK_BROKEN);
-            func_800AA000(thisx->xzDistToLink, 0x96, 0xA, 8);
+            func_800AA000(thisx->xzDistToPlayer, 0x96, 0xA, 8);
         }
     }
 
@@ -297,17 +297,17 @@ void BgHeavyBlock_SpawnPieces(BgHeavyBlock* this, GlobalContext* globalCtx) {
     f32 sinYaw;
     f32 cosYaw;
 
-    sinPitch = Math_SinS(this->dyna.actor.posRot.rot.x);
-    cosPitch = Math_CosS(this->dyna.actor.posRot.rot.x);
-    sinYaw = Math_SinS(this->dyna.actor.posRot.rot.y);
-    cosYaw = Math_CosS(this->dyna.actor.posRot.rot.y);
+    sinPitch = Math_SinS(this->dyna.actor.world.rot.x);
+    cosPitch = Math_CosS(this->dyna.actor.world.rot.x);
+    sinYaw = Math_SinS(this->dyna.actor.world.rot.y);
+    cosYaw = Math_CosS(this->dyna.actor.world.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(spA4); i++) {
         pos.z = (spA4[i].y * sinPitch) + (spA4[i].z * cosPitch);
 
-        pos.x = this->dyna.actor.posRot.pos.x + (spA4[i].x * cosYaw) + (sinYaw * pos.z);
-        pos.y = this->dyna.actor.posRot.pos.y + (spA4[i].y * cosPitch) + (-spA4[i].z * sinPitch);
-        pos.z = this->dyna.actor.posRot.pos.z + (spA4[i].x * -sinYaw) + (cosYaw * pos.z);
+        pos.x = this->dyna.actor.world.pos.x + (spA4[i].x * cosYaw) + (sinYaw * pos.z);
+        pos.y = this->dyna.actor.world.pos.y + (spA4[i].y * cosPitch) + (-spA4[i].z * sinPitch);
+        pos.z = this->dyna.actor.world.pos.z + (spA4[i].x * -sinYaw) + (cosYaw * pos.z);
 
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BG_HEAVY_BLOCK, pos.x, pos.y, pos.z,
                     this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, 2);
@@ -365,9 +365,9 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
         zOffset = Rand_CenteredFloat(110.0f);
         cosYaw = Math_CosS(this->dyna.actor.shape.rot.y);
 
-        BgHeavyBlock_SpawnDust(globalCtx, (sinYaw * -70.0f) + (this->dyna.actor.posRot.pos.x + xOffset),
-                               this->dyna.actor.posRot.pos.y + 10.0f,
-                               (cosYaw * -70.0f) + (this->dyna.actor.posRot.pos.z + zOffset), 0.0f, -1.0f, 0.0f, 0xC);
+        BgHeavyBlock_SpawnDust(globalCtx, (sinYaw * -70.0f) + (this->dyna.actor.world.pos.x + xOffset),
+                               this->dyna.actor.world.pos.y + 10.0f,
+                               (cosYaw * -70.0f) + (this->dyna.actor.world.pos.z + zOffset), 0.0f, -1.0f, 0.0f, 0xC);
     }
 
     this->timer++;
@@ -388,14 +388,14 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
     f32 raycastResult;
 
     Actor_MoveForward(&this->dyna.actor);
-    pos.x = this->dyna.actor.initPosRot.pos.x;
-    pos.y = this->dyna.actor.initPosRot.pos.y + 1000.0f;
-    pos.z = this->dyna.actor.initPosRot.pos.z;
+    pos.x = this->dyna.actor.home.pos.x;
+    pos.y = this->dyna.actor.home.pos.y + 1000.0f;
+    pos.z = this->dyna.actor.home.pos.z;
     raycastResult =
         BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId, &this->dyna.actor, &pos);
-    this->dyna.actor.groundY = raycastResult;
+    this->dyna.actor.floorHeight = raycastResult;
 
-    if (this->dyna.actor.initPosRot.pos.y <= raycastResult) {
+    if (this->dyna.actor.home.pos.y <= raycastResult) {
         func_800AA000(0.0f, 0xFF, 0x3C, 4);
 
         switch (this->dyna.actor.params & 0xFF) {
@@ -414,7 +414,7 @@ void BgHeavyBlock_Fly(BgHeavyBlock* this, GlobalContext* globalCtx) {
                 Quake_SetQuakeValues(quakeIndex, 5, 0, 0, 0);
                 Quake_SetCountdown(quakeIndex, 999);
 
-                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 30, NA_SE_EV_ELECTRIC_EXPLOSION);
+                Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_ELECTRIC_EXPLOSION);
                 return;
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
@@ -459,9 +459,9 @@ void BgHeavyBlock_Land(BgHeavyBlock* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->dyna.actor.speedXZ, 0.0f, 20.0f);
         Math_StepToF(&this->dyna.actor.velocity.y, 0.0f, 3.0f);
         this->dyna.actor.gravity = 0.0f;
-        this->dyna.actor.posRot.pos = this->dyna.actor.initPosRot.pos;
+        this->dyna.actor.world.pos = this->dyna.actor.home.pos;
         Actor_MoveForward(&this->dyna.actor);
-        this->dyna.actor.initPosRot.pos = this->dyna.actor.posRot.pos;
+        this->dyna.actor.home.pos = this->dyna.actor.world.pos;
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
                 BgHeavyBlock_SpawnDust(globalCtx, Rand_CenteredFloat(30.0f) + 1678.0f, Rand_ZeroFloat(100.0f) + 1286.0f,
@@ -499,12 +499,12 @@ void BgHeavyBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800D1694(player->leftHandPos.x, player->leftHandPos.y, player->leftHandPos.z, &thisx->shape.rot);
         Matrix_Translate(-this->unk_164.x, -this->unk_164.y, -this->unk_164.z, MTXMODE_APPLY);
     } else if ((thisx->gravity == 0.0f) && (BgHeavyBlock_Land == this->actionFunc)) {
-        func_800D1694(thisx->initPosRot.pos.x, thisx->initPosRot.pos.y, thisx->initPosRot.pos.z, &thisx->shape.rot);
+        func_800D1694(thisx->home.pos.x, thisx->home.pos.y, thisx->home.pos.z, &thisx->shape.rot);
         Matrix_Translate(-D_80884ED4.x, -D_80884ED4.y, -D_80884ED4.z, MTXMODE_APPLY);
     }
 
-    Matrix_MultVec3f(&D_80884EC8, &thisx->posRot.pos);
-    Matrix_MultVec3f(&D_80884ED4, &thisx->initPosRot.pos);
+    Matrix_MultVec3f(&D_80884EC8, &thisx->world.pos);
+    Matrix_MultVec3f(&D_80884ED4, &thisx->home.pos);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_heavy_block.c", 931),

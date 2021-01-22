@@ -28,7 +28,7 @@ glabel ObjTsubo_Init
 /* 001BC 80BA0F1C 3C0680BA */  lui     $a2, %hi(D_80BA1BC0)       ## $a2 = 80BA0000
 /* 001C0 80BA0F20 24C61BC0 */  addiu   $a2, $a2, %lo(D_80BA1BC0)  ## $a2 = 80BA1BC0
 /* 001C4 80BA0F24 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 001C8 80BA0F28 0C0187B5 */  jal     func_80061ED4              
+/* 001C8 80BA0F28 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 001CC 80BA0F2C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 001D0 80BA0F30 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 001D4 80BA0F34 0C2E837D */  jal     func_80BA0DF4              

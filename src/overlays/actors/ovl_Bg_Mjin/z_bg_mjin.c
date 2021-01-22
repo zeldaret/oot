@@ -20,7 +20,7 @@ void func_808A0920(BgMjin* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mjin_InitVars = {
     ACTOR_BG_MJIN,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMjin),

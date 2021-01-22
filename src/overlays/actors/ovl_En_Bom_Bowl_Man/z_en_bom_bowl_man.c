@@ -42,7 +42,7 @@ extern AnimationHeader D_060072AC;
 
 const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_BG,
     sizeof(EnBomBowlMan),
@@ -61,15 +61,15 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     GlobalContext* globalCtx2 = globalCtx;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06006EB0, &D_06000710, this->jointTable, this->morphTable, 11);
     // ☆ Man, my shoulders hurt~ ☆
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
     // ☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST,
                  globalCtx2->bombchuBowlingStatus);
-    this->posCopy = this->actor.posRot.pos;
-    this->actor.shape.unk_08 = -60.0f;
+    this->posCopy = this->actor.world.pos;
+    this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
 
     for (i = 0; i < 2; i++) {
@@ -83,7 +83,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->prizeSelect = (s16)Rand_ZeroFloat(4.99f);
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     this->actionFunc = EnBomBowMan_SetupWaitAsleep;
 }
 
@@ -106,9 +106,9 @@ void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowMan_TalkAsleep;
     } else {
-        yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
+        yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
-        if (!(this->actor.xzDistToLink > 120.0f) && (yawDiff < 0x4300)) {
+        if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
             func_8002F2CC(&this->actor, globalCtx, 120.0f);
         }
     }
@@ -238,7 +238,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
         if ((globalCtx->bombchuBowlingStatus == -1) &&
-            (globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].length == 0) && (this->bowlPit->status == 0) &&
+            (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) && (this->bowlPit->status == 0) &&
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             // Bombchu lost
@@ -269,8 +269,8 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_809C41FC;
             }
         } else {
-            yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
-            if (!(this->actor.xzDistToLink > 120.0f) && (yawDiff < 0x4300)) {
+            yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
+            if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
                 func_8002F2CC(&this->actor, globalCtx, 120.0f);
             }
         }
@@ -454,8 +454,8 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlMan* this = THIS;
 
     this->timer++;
-    this->actor.posRot2.pos.y = 60.0f;
-    Actor_SetHeight(&this->actor, 60.0f);
+    this->actor.focus.pos.y = 60.0f;
+    Actor_SetFocus(&this->actor, 60.0f);
 
     switch (this->eyeMode) {
         case CHU_GIRL_EYES_ASLEEP:
@@ -483,7 +483,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
 
-            func_80038290(globalCtx, &this->actor, &this->unk_218, &this->unk_224, this->actor.posRot2.pos);
+            func_80038290(globalCtx, &this->actor, &this->unk_218, &this->unk_224, this->actor.focus.pos);
             break;
     }
 

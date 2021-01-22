@@ -39,9 +39,9 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
         this->pos = initParams->pos;
-        this->vec.x = this->pos.x - initParams->actor->posRot.pos.x;
-        this->vec.y = this->pos.y - initParams->actor->posRot.pos.y;
-        this->vec.z = this->pos.z - initParams->actor->posRot.pos.z;
+        this->vec.x = this->pos.x - initParams->actor->world.pos.x;
+        this->vec.y = this->pos.y - initParams->actor->world.pos.y;
+        this->vec.z = this->pos.z - initParams->actor->world.pos.z;
         this->velocity = zeroVec;
         this->accel = zeroVec;
         this->life = 10;
@@ -138,14 +138,14 @@ void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* t
     s16 rand;
 
     if ((this->actor != NULL) && (this->actor->update != NULL)) {
-        if ((this->life >= 9) && (this->actor->dmgEffectTimer != 0) && (!(this->actor->dmgEffectParams & 0xC000))) {
-            this->pos.x = this->actor->posRot.pos.x + this->vec.x;
-            this->pos.y = this->actor->posRot.pos.y + this->vec.y;
-            this->pos.z = this->actor->posRot.pos.z + this->vec.z;
+        if ((this->life >= 9) && (this->actor->colorFilterTimer != 0) && (!(this->actor->colorFilterParams & 0xC000))) {
+            this->pos.x = this->actor->world.pos.x + this->vec.x;
+            this->pos.y = this->actor->world.pos.y + this->vec.y;
+            this->pos.z = this->actor->world.pos.z + this->vec.z;
             this->life++;
         } else if (this->life == 9) {
-            this->accel.x = Math_SinS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
-            this->accel.z = Math_CosS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
+            this->accel.x = Math_SinS(Math_Vec3f_Yaw(&this->actor->world.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
+            this->accel.z = Math_CosS(Math_Vec3f_Yaw(&this->actor->world.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }

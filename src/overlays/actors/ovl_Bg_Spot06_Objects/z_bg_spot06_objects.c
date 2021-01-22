@@ -55,7 +55,7 @@ extern Gfx D_06002490[];           // Water Temple entrance lock
 
 const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SPOT06_OBJECTS,
     sizeof(BgSpot06Objects),
@@ -65,16 +65,30 @@ const ActorInit Bg_Spot06_Objects_InitVars = {
     (ActorFunc)BgSpot06Objects_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphItemsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000080, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000080, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 1, { { 0, 0, -160 }, 18 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x20, COLSHAPE_JNTSPH },
-    ARRAY_COUNT(sJntSphItemsInit),
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
+    1,
     sJntSphItemsInit,
 };
 
@@ -104,7 +118,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
             if (LINK_IS_ADULT && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
-                thisx->posRot.pos.y = thisx->initPosRot.pos.y + 120.0f;
+                thisx->world.pos.y = thisx->home.pos.y + 120.0f;
                 this->actionFunc = BgSpot06Objects_DoNothing;
 
             } else {
@@ -119,24 +133,24 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             if ((LINK_IS_ADULT) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
                 if (!(gSaveContext.eventChkInf[6] & 0x200)) {
-                    thisx->initPosRot.pos.y = thisx->posRot.pos.y = (f32)WATER_LEVEL_LOWERED;
+                    thisx->home.pos.y = thisx->world.pos.y = (f32)WATER_LEVEL_LOWERED;
                 } else {
-                    thisx->initPosRot.pos.y = thisx->posRot.pos.y = (f32)WATER_LEVEL_RAISED;
+                    thisx->home.pos.y = thisx->world.pos.y = (f32)WATER_LEVEL_RAISED;
                 }
 
                 this->actionFunc = BgSpot06Objects_LockFloat;
-                thisx->posRot.pos.z -= 100.0f;
-                thisx->initPosRot.pos.z = thisx->posRot.pos.z + 16.0f;
-                this->collider.list[0].dim.worldSphere.radius = this->collider.list[0].dim.modelSphere.radius * 2;
-                this->collider.list[0].dim.worldSphere.center.z = thisx->posRot.pos.z + 16.0f;
+                thisx->world.pos.z -= 100.0f;
+                thisx->home.pos.z = thisx->world.pos.z + 16.0f;
+                this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius * 2;
+                this->collider.elements[0].dim.worldSphere.center.z = thisx->world.pos.z + 16.0f;
             } else {
                 this->actionFunc = BgSpot06Objects_LockWait;
-                this->collider.list[0].dim.worldSphere.radius = this->collider.list[0].dim.modelSphere.radius;
-                this->collider.list[0].dim.worldSphere.center.z = thisx->posRot.pos.z;
+                this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius;
+                this->collider.elements[0].dim.worldSphere.center.z = thisx->world.pos.z;
             }
 
-            this->collider.list[0].dim.worldSphere.center.x = thisx->posRot.pos.x;
-            this->collider.list[0].dim.worldSphere.center.y = thisx->posRot.pos.y;
+            this->collider.elements[0].dim.worldSphere.center.x = thisx->world.pos.x;
+            this->collider.elements[0].dim.worldSphere.center.y = thisx->world.pos.y;
             thisx->colChkInfo.mass = MASS_IMMOVABLE;
             break;
         case LHO_WATER_PLANE:
@@ -153,8 +167,8 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
                     globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = WATER_LEVEL_LOWERED;
                     this->actionFunc = BgSpot06Objects_DoNothing;
                 } else {
-                    thisx->posRot.pos.y = this->lakeHyliaWaterLevel = -681.0f;
-                    thisx->posRot.pos.y += (f32)WATER_LEVEL_RAISED;
+                    thisx->world.pos.y = this->lakeHyliaWaterLevel = -681.0f;
+                    thisx->world.pos.y += (f32)WATER_LEVEL_RAISED;
                     this->actionFunc = BgSpot06Objects_WaterPlaneCutsceneWait;
                 }
             } else {
@@ -201,9 +215,9 @@ void BgSpot06Objects_GateSpawnBubbles(BgSpot06Objects* this, GlobalContext* glob
 
     if ((globalCtx->gameplayFrames % 3) == 0) {
         tmp = Rand_CenteredFloat(160.0f);
-        sp34.x = (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.posRot.pos.x;
-        sp34.y = this->dyna.actor.posRot.pos.y;
-        sp34.z = (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.posRot.pos.z;
+        sp34.x = (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.world.pos.x;
+        sp34.y = this->dyna.actor.world.pos.y;
+        sp34.z = (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * tmp) + this->dyna.actor.world.pos.z;
         EffectSsBubble_Spawn(globalCtx, &sp34.x, 50.0f, 70.0f, 10.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
@@ -216,7 +230,7 @@ void BgSpot06Objects_GateWaitForSwitch(BgSpot06Objects* this, GlobalContext* glo
 
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
         this->timer = 100;
-        this->dyna.actor.posRot.pos.y += 3.0f;
+        this->dyna.actor.world.pos.y += 3.0f;
         this->actionFunc = BgSpot06Objects_GateWaitToOpen;
 
         for (i = 0; i < 15; i++) {
@@ -244,7 +258,7 @@ void BgSpot06Objects_GateWaitToOpen(BgSpot06Objects* this, GlobalContext* global
 void BgSpot06Objects_GateOpen(BgSpot06Objects* this, GlobalContext* globalCtx) {
     BgSpot06Objects_GateSpawnBubbles(this, globalCtx);
 
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 0.6f)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 0.6f)) {
         this->actionFunc = BgSpot06Objects_DoNothing;
         this->timer = 0;
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_METALDOOR_STOP);
@@ -261,13 +275,13 @@ void BgSpot06Objects_DoNothing(BgSpot06Objects* this, GlobalContext* globalCtx) 
  */
 void BgSpot06Objects_LockSpawnWaterRipples(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
     if ((flag) || ((globalCtx->gameplayFrames % 7) == 0)) {
-        EffectSsGRipple_Spawn(globalCtx, &this->dyna.actor.initPosRot, 300, 700, 0);
+        EffectSsGRipple_Spawn(globalCtx, &this->dyna.actor.home, 300, 700, 0);
     }
 }
 
 void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
     if (((globalCtx->gameplayFrames % 7) == 0) || (flag)) {
-        EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.posRot, 0.0f, 40.0f, 30.0f,
+        EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.world, 0.0f, 40.0f, 30.0f,
                              (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
@@ -286,25 +300,25 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         this->timer = 130;
         this->dyna.actor.flags |= 0x10;
-        sin = Math_SinS(this->dyna.actor.posRot.rot.y);
-        cos = Math_CosS(this->dyna.actor.posRot.rot.y);
-        this->dyna.actor.posRot.pos.x += (3.0f * sin);
-        this->dyna.actor.posRot.pos.z += (3.0f * cos);
+        sin = Math_SinS(this->dyna.actor.world.rot.y);
+        cos = Math_CosS(this->dyna.actor.world.rot.y);
+        this->dyna.actor.world.pos.x += (3.0f * sin);
+        this->dyna.actor.world.pos.z += (3.0f * cos);
 
         for (i = 0; i < 20; i++) {
             BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 1);
         }
 
-        effectPos.x = this->dyna.actor.posRot.pos.x + (5.0f * sin);
-        effectPos.y = this->dyna.actor.posRot.pos.y;
-        effectPos.z = this->dyna.actor.posRot.pos.z + (5.0f * cos);
+        effectPos.x = this->dyna.actor.world.pos.x + (5.0f * sin);
+        effectPos.y = this->dyna.actor.world.pos.y;
+        effectPos.z = this->dyna.actor.world.pos.z + (5.0f * cos);
 
         for (i = 0; i < 3; i++) {
             EffectSsBubble_Spawn(globalCtx, &effectPos, 0.0f, 20.0f, 20.0f, (Rand_ZeroOne() * 0.1f) + 0.7f);
         }
 
-        EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.posRot, NULL, NULL, 1, 700);
-        this->collider.list->dim.worldSphere.radius = 45;
+        EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.world, NULL, NULL, 1, 700);
+        this->collider.elements->dim.worldSphere.radius = 45;
         this->actionFunc = BgSpot06Objects_LockPullOutward;
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         Flags_SetSwitch(globalCtx, this->switchFlag);
@@ -322,8 +336,8 @@ void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, GlobalContext* globa
         this->timer--;
     }
 
-    this->dyna.actor.posRot.pos.x += (0.3f * Math_SinS(this->dyna.actor.posRot.rot.y));
-    this->dyna.actor.posRot.pos.z += (0.3f * Math_CosS(this->dyna.actor.posRot.rot.y));
+    this->dyna.actor.world.pos.x += (0.3f * Math_SinS(this->dyna.actor.world.rot.y));
+    this->dyna.actor.world.pos.z += (0.3f * Math_CosS(this->dyna.actor.world.rot.y));
     BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 0);
 
     if (this->timer == 0) {
@@ -342,35 +356,35 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, GlobalContext* glo
     f32 cos;
     f32 pad;
 
-    this->dyna.actor.posRot.pos.y += this->dyna.actor.velocity.y;
+    this->dyna.actor.world.pos.y += this->dyna.actor.velocity.y;
 
     if (this->dyna.actor.velocity.y <= 0.0f) {
         cos = Math_CosS(this->dyna.actor.shape.rot.x) * 4.3f;
-        this->dyna.actor.posRot.pos.x += (cos * Math_SinS(this->dyna.actor.shape.rot.y));
-        this->dyna.actor.posRot.pos.z += (cos * Math_CosS(this->dyna.actor.shape.rot.y));
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.posRot.pos.y - 1.3f;
+        this->dyna.actor.world.pos.x += (cos * Math_SinS(this->dyna.actor.shape.rot.y));
+        this->dyna.actor.world.pos.z += (cos * Math_CosS(this->dyna.actor.shape.rot.y));
+        this->dyna.actor.world.pos.y = this->dyna.actor.world.pos.y - 1.3f;
         BgSpot06Objects_LockSpawnWaterRipples(this, globalCtx, 0);
 
         if (Math_ScaledStepToS(&this->dyna.actor.shape, 0, 0x260) != 0) {
-            this->dyna.actor.initPosRot.pos.x =
-                this->dyna.actor.posRot.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y) * 16.0f);
-            this->dyna.actor.initPosRot.pos.z =
-                this->dyna.actor.posRot.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y) * 16.0f);
-            this->dyna.actor.posRot.pos.y = -1993.0f;
+            this->dyna.actor.home.pos.x =
+                this->dyna.actor.world.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y) * 16.0f);
+            this->dyna.actor.home.pos.z =
+                this->dyna.actor.world.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y) * 16.0f);
+            this->dyna.actor.world.pos.y = -1993.0f;
             this->timer = 32;
             this->dyna.actor.flags &= ~0x10;
-            this->collider.list[0].dim.worldSphere.radius = this->collider.list[0].dim.modelSphere.radius * 2;
+            this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius * 2;
             this->actionFunc = BgSpot06Objects_LockFloat;
         }
     } else {
-        if (this->dyna.actor.posRot.pos.y >= -1973.0f) {
+        if (this->dyna.actor.world.pos.y >= -1973.0f) {
             this->dyna.actor.velocity.y = 0.0f;
             BgSpot06Objects_LockSpawnWaterRipples(this, globalCtx, 1);
-            EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.initPosRot, NULL, NULL, 1, 700);
+            EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.home, NULL, NULL, 1, 700);
         } else if (this->dyna.actor.shape.rot.x == -0x4000) {
             this->dyna.actor.velocity.y += 0.02f;
-            this->dyna.actor.posRot.pos.x = Rand_CenteredFloat(1.0f) + this->dyna.actor.initPosRot.pos.x;
-            this->dyna.actor.posRot.pos.z = Rand_CenteredFloat(1.0f) + this->dyna.actor.initPosRot.pos.z;
+            this->dyna.actor.world.pos.x = Rand_CenteredFloat(1.0f) + this->dyna.actor.home.pos.x;
+            this->dyna.actor.world.pos.z = Rand_CenteredFloat(1.0f) + this->dyna.actor.home.pos.z;
             this->dyna.actor.velocity.y =
                 (this->dyna.actor.velocity.y > 10.0f) ? (10.0f) : (this->dyna.actor.velocity.y);
             BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 0);
@@ -378,9 +392,9 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, GlobalContext* glo
             BgSpot06Objects_LockSpawnBubbles(this, globalCtx, 0);
 
             if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, 0x30)) {
-                this->dyna.actor.initPosRot.pos.x = this->dyna.actor.posRot.pos.x;
-                this->dyna.actor.initPosRot.pos.y = -1993.0f;
-                this->dyna.actor.initPosRot.pos.z = ((0, this->dyna)).actor.posRot.pos.z;
+                this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
+                this->dyna.actor.home.pos.y = -1993.0f;
+                this->dyna.actor.home.pos.z = ((0, this->dyna)).actor.world.pos.z;
             }
         }
     }
@@ -397,7 +411,7 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx) 
         this->timer--;
     }
 
-    this->dyna.actor.posRot.pos.y = (2.0f * sinf(this->timer * (M_PI / 16.0f))) + this->dyna.actor.initPosRot.pos.y;
+    this->dyna.actor.world.pos.y = (2.0f * sinf(this->timer * (M_PI / 16.0f))) + this->dyna.actor.home.pos.y;
 
     if (this->timer == 0) {
         this->timer = 32;
@@ -459,7 +473,7 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Gfx_DrawDListOpa(globalCtx, D_06002490);
 
             if (this->actionFunc == BgSpot06Objects_LockSwimToSurface) {
-                func_800628A4(1, &this->collider);
+                Collider_UpdateSpheres(1, &this->collider);
             }
             break;
         case LHO_WATER_PLANE:
@@ -487,16 +501,16 @@ void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    this->dyna.actor.posRot.pos.y = this->lakeHyliaWaterLevel + (f32)WATER_LEVEL_RAISED;
+    this->dyna.actor.world.pos.y = this->lakeHyliaWaterLevel + (f32)WATER_LEVEL_RAISED;
 
     if (this->lakeHyliaWaterLevel >= 0.0001f) {
-        this->dyna.actor.posRot.pos.y = (f32)WATER_LEVEL_RAISED;
+        this->dyna.actor.world.pos.y = (f32)WATER_LEVEL_RAISED;
         this->actionFunc = BgSpot06Objects_DoNothing;
     } else {
         Math_SmoothStepToF(&this->lakeHyliaWaterLevel, 1.0f, 0.1f, 1.0f, 0.001f);
         globalCtx->colCtx.colHeader->waterBoxes[LHWB_GERUDO_VALLEY_RIVER_LOWER].ySurface = WATER_LEVEL_RIVER_LOWERED;
-        globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = this->dyna.actor.posRot.pos.y;
-        globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.posRot.pos.y;
+        globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_1].ySurface = this->dyna.actor.world.pos.y;
+        globalCtx->colCtx.colHeader->waterBoxes[LHWB_MAIN_2].ySurface = this->dyna.actor.world.pos.y;
     }
 
     func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);

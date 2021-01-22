@@ -59,7 +59,7 @@ glabel func_808615F4
 /* 0205C 808616AC 10000057 */  beq     $zero, $zero, .L8086180C   
 /* 02060 808616B0 ACCA07E8 */  sw      $t2, 0x07E8($a2)           ## 000007E8
 .L808616B4:
-/* 02064 808616B4 0C00B69E */  jal     func_8002DA78              
+/* 02064 808616B4 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 02068 808616B8 AFA60020 */  sw      $a2, 0x0020($sp)           
 /* 0206C 808616BC 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 02070 808616C0 0C03F66B */  jal     Rand_ZeroOne

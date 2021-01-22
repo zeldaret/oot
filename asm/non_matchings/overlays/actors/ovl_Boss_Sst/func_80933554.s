@@ -26,12 +26,12 @@ glabel func_80933554
 .L809335B4:
 /* 06FE4 809335B4 8E05011C */  lw      $a1, 0x011C($s0)           ## 0000011C
 /* 06FE8 809335B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 06FEC 809335BC 0C00B6EC */  jal     func_8002DBB0
+/* 06FEC 809335BC 0C00B6EC */  jal     Actor_WorldDistXZToPoint
 /* 06FF0 809335C0 24A503C8 */  addiu   $a1, $a1, 0x03C8           ## $a1 = 000003C8
 /* 06FF4 809335C4 8E05011C */  lw      $a1, 0x011C($s0)           ## 0000011C
 /* 06FF8 809335C8 E60003C4 */  swc1    $f0, 0x03C4($s0)           ## 000003C4
 /* 06FFC 809335CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 07000 809335D0 0C00B6B0 */  jal     func_8002DAC0
+/* 07000 809335D0 0C00B6B0 */  jal     Actor_WorldYawTowardPoint
 /* 07004 809335D4 24A503C8 */  addiu   $a1, $a1, 0x03C8           ## $a1 = 000003C8
 /* 07008 809335D8 A60201A4 */  sh      $v0, 0x01A4($s0)           ## 000001A4
 /* 0700C 809335DC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
