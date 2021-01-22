@@ -2014,7 +2014,7 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905674.s")
 
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    u32* tex = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(u32) * 1024);
+    u32* tex = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
     BossGanon2* this = THIS;
     s16 i;
 
