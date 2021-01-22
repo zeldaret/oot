@@ -363,7 +363,7 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, GlobalContext* glo
             this->actionFunc = BgSpot06Objects_LockFloat;
         }
     } else {
-        if (this->dyna.actor.posRot.pos.y >= (-1973.0f)) {
+        if (this->dyna.actor.posRot.pos.y >= -1973.0f) {
             this->dyna.actor.velocity.y = 0.0f;
             BgSpot06Objects_LockSpawnWaterRipples(this, globalCtx, 1);
             EffectSsGSplash_Spawn(globalCtx, &this->dyna.actor.initPosRot, NULL, NULL, 1, 700);
