@@ -65,38 +65,38 @@ static ColliderCylinderInit sCylinderInit = {
 };
 static CollisionCheckInfoInit sColChkInfoInit = { 0x02, 0x2D, 0xF, 0x64 };
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0 , 0x1),
-    /* Deku stick    */ DMG_ENTRY(2 , 0x0),
-    /* Slingshot     */ DMG_ENTRY(1 , 0x0),
-    /* Explosive     */ DMG_ENTRY(2 , 0x0),
-    /* Boomerang     */ DMG_ENTRY(0 , 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2 , 0x0),
-    /* Hammer swing  */ DMG_ENTRY(2 , 0x0),
-    /* Hookshot      */ DMG_ENTRY(2 , 0x0),
-    /* Kokiri sword  */ DMG_ENTRY(1 , 0x0),
-    /* Master sword  */ DMG_ENTRY(2 , 0x0),
-    /* Giant's Knife */ DMG_ENTRY(4 , 0x0),
-    /* Fire arrow    */ DMG_ENTRY(2 , 0x0),
-    /* Ice arrow     */ DMG_ENTRY(2 , 0x0),
-    /* Light arrow   */ DMG_ENTRY(2 , 0x0),
-    /* Unk arrow 1   */ DMG_ENTRY(2 , 0x0),
-    /* Unk arrow 2   */ DMG_ENTRY(0 , 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(0 , 0x0),
-    /* Fire magic    */ DMG_ENTRY(0 , 0x0),
-    /* Ice magic     */ DMG_ENTRY(0 , 0x0),
-    /* Light magic   */ DMG_ENTRY(0 , 0x0),
-    /* Shield        */ DMG_ENTRY(0 , 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1 , 0x0),
-    /* Giant spin    */ DMG_ENTRY(4 , 0x0),
-    /* Master spin   */ DMG_ENTRY(2 , 0x0),
-    /* Kokiri jump   */ DMG_ENTRY(2 , 0x0),
-    /* Giant jump    */ DMG_ENTRY(8 , 0x0),
-    /* Master jump   */ DMG_ENTRY(4 , 0x0),
-    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
-    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4 , 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(2, 0x0),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 25, ICHAIN_CONTINUE),
@@ -216,15 +216,15 @@ void func_80B327D8(EnWeiyer* this) {
 }
 
 void func_80B32804(EnWeiyer* this, GlobalContext* globalCtx) {
-    WaterBox* sp34;
-    UNK_TYPE sp30;
+    WaterBox* waterBox;
+    s32 bgId;
 
     this->actor.world.pos.y += 0.5f;
-    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp30,
+    this->actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId,
                                                           &this->actor, &this->actor.world.pos);
 
     if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, this->actor.world.pos.x, this->actor.world.pos.z,
-                                 &this->actor.home.pos.y, &sp34) ||
+                                 &this->actor.home.pos.y, &waterBox) ||
         ((this->actor.home.pos.y - 5.0f) <= this->actor.floorHeight)) {
         Actor_Kill(&this->actor);
     } else {
