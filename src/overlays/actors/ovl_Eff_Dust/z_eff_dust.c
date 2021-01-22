@@ -477,33 +477,33 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
 
     #if 1
 
-    f32 temp_f0_2;
+    //f32 temp_f0_2;
     GraphicsContext *temp_s2;
-    f32 temp_f12;
+    //f32 temp_f12;
     EffDust *new_var9;
-    f32 temp_f20;
+    f32 temp_f20; //
     f32 *phi_s1;
-    f32 *new_var5;
-    f32 *new_var2;
+    //f32 *new_var5;
+    //f32 *new_var2;
     Vec3f *phi_s3;
-    GlobalContext *new_var4;
-    f32 *new_var3;
-    Gfx *new_var;
-    GraphicsContext *new_var6;
+    GlobalContext *new_var4; //
+    //f32 *new_var3;
+    //Gfx *new_var;
+    //GraphicsContext *new_var6;
     s32 i;
 
-    int new_var8;
+    //int new_var8;
 
-    Player *player;
+    Player *player; //
 
-    if (!this->scalingFactor)
+    /*if (!this->scalingFactor)
     {
-    }
+    }*/
 
     temp_s2 = globalCtx->state.gfxCtx;
     player = PLAYER;
 
-    new_var2 = this->unk_014C;
+    //new_var2 = this->unk_014C;
 
     OPEN_DISPS(temp_s2, "../z_eff_dust.c", 472);
 
@@ -513,10 +513,14 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
 
     gDPPipeSync(POLY_XLU_DISP++);
 
-    new_var6 = temp_s2;
+    //new_var6 = temp_s2;
+    if(!temp_s2){
+        
+    }
 
-    new_var = POLY_XLU_DISP++;
-    gDPSetPrimColor(new_var, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+    //new_var = POLY_XLU_DISP++;
+    //gDPSetPrimColor(new_var, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
 
     if (player->unk_858 >= 0.85f) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0x00);
@@ -526,7 +530,9 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
     }
 
     phi_s3 = this->unk_024C;
-    phi_s1 = new_var2;
+    //phi_s1 = new_var2;
+    phi_s1 = this->unk_014C;
+
     gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
     for (i = 0; i < 0x40; i++) {
         if ((*phi_s1) < 1.0f) {
@@ -534,32 +540,34 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF,  (255.0f * (*phi_s1)));
             
             new_var9 = this;
-            if (!(&new_var4->state)) {
-                if (!new_var9) {
-                }
-
+            if (!new_var9) {
             }
+
 
             temp_f20 = 1.0f - ((*phi_s1) * (*phi_s1));
             
             Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
             
-            new_var3 = &phi_s3->x;
-            new_var5 = &phi_s3->y;
+            //new_var3 = &phi_s3->x;
+            //new_var5 = &phi_s3->y;
 
             Matrix_Translate(
-                (*new_var3) * ((new_var9->dx * temp_f20) + (1.0f - new_var9->dx)), 
-                ((*new_var5) * (1.0f - (*phi_s1))) + 320.0f, 
+                //(*new_var3) * ((new_var9->dx * temp_f20) + (1.0f - new_var9->dx)), 
+                ((phi_s3->x)) * ((new_var9->dx * temp_f20) + (1.0f - new_var9->dx)), 
+                //((*new_var5) * (1.0f - (*phi_s1))) + 320.0f, 
+                (((phi_s3->y)) * (1.0f - (*phi_s1))) + 320.0f, 
                 (phi_s3->z * (1.0f - (*phi_s1))) + (-20.0f), 
                 MTXMODE_APPLY
                 );
 
-            temp_f12 = (*phi_s1) * new_var9->scalingFactor;                
-            Matrix_Scale(temp_f12, temp_f12, temp_f12, MTXMODE_APPLY);
+            //temp_f12 = (*phi_s1) * new_var9->scalingFactor;                
+            //Matrix_Scale(temp_f12, temp_f12, temp_f12, MTXMODE_APPLY);
+            Matrix_Scale((*phi_s1) * new_var9->scalingFactor, (*phi_s1) * new_var9->scalingFactor, (*phi_s1) * new_var9->scalingFactor, MTXMODE_APPLY);
 
             func_800D1FD4(&new_var4->mf_11DA0);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(new_var6, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            //gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(new_var6, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(temp_s2, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
         }
