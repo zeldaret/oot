@@ -1157,8 +1157,8 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
             case 5:
                 this->fireIceTimer = 0x30;
                 //! @bug
-                //! Setting fireIceTimer here without calling Actor_SetColorFilter causes a crash if the bubble is killed
-                //! in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
+                //! Setting fireIceTimer here without calling Actor_SetColorFilter causes a crash if the bubble is
+                //! killed in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
