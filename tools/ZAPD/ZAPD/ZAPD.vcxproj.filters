@@ -195,6 +195,12 @@
     <ClCompile Include="ZVector.cpp">
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
+    <ClCompile Include="ZArray.cpp">
+      <Filter>Source Files\Z64</Filter>
+    </ClCompile>
+    <ClCompile Include="ZVtx.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Path.h">
@@ -409,6 +415,12 @@
     </ClInclude>
     <ClInclude Include="..\lib\stb\tinyxml2.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ZArray.h">
+      <Filter>Header Files\Z64</Filter>
+    </ClInclude>
+    <ClInclude Include="ZVtx.h">
+      <Filter>Header Files\Z64</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

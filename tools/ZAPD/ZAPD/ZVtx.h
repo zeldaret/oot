@@ -7,25 +7,25 @@
 #include "ZScalar.h"
 #include "tinyxml2.h"
 
-class ZVector : public ZResource
+class ZVtx : public ZResource
 {
 public:
-	std::vector<ZScalar*> scalars;
-	ZScalarType scalarType;
-	uint32_t dimensions;
+	int16_t x, y, z;
+	uint16_t flag;
+	int16_t s, t;
+	uint8_t r, g, b, a;
 
-	ZVector();
+	ZVtx();
 
 	void ParseXML(tinyxml2::XMLElement* reader);
 	std::string GetSourceTypeName() override;
-	std::string GetSourceValue();
 	std::string GetSourceOutputCode(const std::string& prefix);
 	void ParseRawData() override;
 	int GetRawDataSize();
 	bool DoesSupportArray() override;
 	ZResourceType GetResourceType();
 
-	static ZVector* ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath);
+	static ZVtx* ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath);
 
 protected:
 };
