@@ -98,7 +98,7 @@ typedef struct {
             /* 0x00 */ u32 bits2 : 2;
             /* 0x00 */ u32 unk_bits26 : 1;
             /* 0x00 */ u32 unk_bits25 : 1;
-            /* 0x01 */ u32 bits24 : 24;
+            /* 0x01 */ u32 size : 24;
         };
         u32 bits;
     };
@@ -685,16 +685,16 @@ typedef struct {
 
 typedef struct {
     union{
-        u32 unk_00;
+        u32 opArgs;
         struct {
-            u8 b0; // flags? / type?
-            u8 b1; // player idx?
-            u8 b2; // channel idx?
-            u8 b3; // soundScriptIOIdx ?
+            u8 op;
+            u8 arg0;
+            u8 arg1;
+            u8 arg2;
         };
     };
     union {
-        void* unk_04; // data?
+        void* data; // data?
         f32 asFloat;
         s32 asInt;
         u16 asUShort;
@@ -749,14 +749,14 @@ typedef struct {
     /* 0x0008 */ s32 devAddr;
     /* 0x000C */ u8* ramAddr;
     /* 0x0010 */ u8* unk_10;
-    /* 0x0014 */ s32 unk_14;
-    /* 0x0018 */ s32 unk_18;
-    /* 0x001C */ s8* unk_1C;
+    /* 0x0014 */ s32 status;
+    /* 0x0018 */ s32 size;
+    /* 0x001C */ s8* isDone;
     /* 0x0020 */ AudioBankSample sample;
     /* 0x0030 */ OSMesgQueue msgqueue;
     /* 0x0048 */ OSMesg msg;
     /* 0x004C */ OSIoMesg ioMesg;
-} unk_1D50_s; // size = 0x64
+} AudioSyncLoad; // size = 0x64
 
 typedef struct {
     u16 offsets[18];
@@ -869,8 +869,8 @@ typedef struct {
     /* 0x1CF0 */ OSMesgQueue unk_queue_1CF0;
     /* 0x1D08 */ char unk_1D08[0x40];
     /* 0x1D48 */ u32 unk_1D48;
-    /* 0x1D4C */ u32 unk_1D4C;
-    /* 0x1D50 */ unk_1D50_s unk_1D50[2];
+    /* 0x1D4C */ u32 syncLoadPos;
+    /* 0x1D50 */ AudioSyncLoad syncLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
     /* probably an unused PI handle for n64 disk drive */
     /* 0x1E1C */ OSPiHandle* unk_1E1C;  
@@ -905,7 +905,7 @@ typedef struct {
     /* 0x283C */ u16* unk_283C;
     /* 0x283C */ char* unk_283Cb;
     };
-    /* 0x2840 */ u16 unk_2840; // channels used?
+    /* 0x2840 */ u16 seqTabEntCnt; // channels used?
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
@@ -921,8 +921,8 @@ typedef struct {
     /* 0x28A0 */ s32 sampleIoReqIdx;
     /* 0x28A4 */ s32 rspTaskIdx;
     /* 0x28A8 */ s32 curAIBufIdx;
-    /* 0x28AC */ u64* gAudioCmdBuffers[2];
-    /* 0x28B4 */ u64* currCmdBuff;
+    /* 0x28AC */ u64* abiCmdBufs[2];
+    /* 0x28B4 */ u64* curAbiCmdBuf;
     /* 0x28B8 */ AudioTask* currTask;
     /* 0x28BC */ char unk_28BC[0x4];
     /* 0x28C0 */ AudioTask rspTask[2];
@@ -953,9 +953,9 @@ typedef struct {
     /* 0x3418 */ AudioPoolSplit2 sSeqAndBankPoolSplit;
     /* 0x3420 */ AudioPoolSplit3 sPersistentCommonPoolSplit;
     /* 0x342C */ AudioPoolSplit3 sTemporaryCommonPoolSplit;
-    /* 0x3438 */ u8 gUnusedLoadStatus[0x30];
-    /* 0x3468 */ u8 gBankLoadStatus[0x30];
-    /* 0x3498 */ u8 gSeqLoadStatus[0x80];
+    /* 0x3438 */ u8 audioTableLoadStatus[0x30];
+    /* 0x3468 */ u8 bankLoadStatus[0x30];
+    /* 0x3498 */ u8 seqLoadstatus[0x80];
     /* 0x3518 */ volatile u8 gAudioResetStatus;
     /* 0x3519 */ u8 gAudioResetPresetIdToLoad;
     /* 0x351C */ s32 gAudioResetFadeOutFramesLeft;

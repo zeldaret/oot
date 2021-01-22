@@ -2810,11 +2810,13 @@ void func_800F6B3C(void) {
     func_800F9280(2, 0, 0xFF, 5);
 }
 
-void func_800F6B68(void) {
-    Audio_QueueCmdS32(0x83000000, 0);
-    Audio_QueueCmdS32(0x83010000, 0);
-    Audio_QueueCmdS32(0x83020000, 0);
-    Audio_QueueCmdS32(0x83030000, 0);
+#define Audio_DisableSeq(seqIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqIdx << 16), fadeOut)
+
+void Audio_DisableAllSeq(void) {
+    Audio_DisableSeq(0, 0);
+    Audio_DisableSeq(1, 0);
+    Audio_DisableSeq(2, 0);
+    Audio_DisableSeq(3, 0);
     Audio_ScheduleProcessCmds();
 }
 
@@ -2823,7 +2825,7 @@ s8 func_800F6BB8(void) {
 }
 
 void func_800F6BDC(void) {
-    func_800F6B68();
+    Audio_DisableAllSeq();
     Audio_ScheduleProcessCmds();
     while (true) {
         if (!func_800F6BB8()) {
@@ -2833,7 +2835,7 @@ void func_800F6BDC(void) {
 }
 
 void Audio_PreNMI(void) {
-    func_800E6024();
+    Audio_PreNMIInternal();
 }
 
 void func_800F6C34(void) {

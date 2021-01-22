@@ -12,7 +12,7 @@ Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
 Acmd* func_800DD6CC(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthState, s32 aiBufLen, u16, s32, s32);
 Acmd* func_800DD62C(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags);
 extern s16 D_8012FBAA[];
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/pad_800DACB0.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/pad_800DACB0.s")
 
 void AudioSynth_InitNextRingBuf(s32 chunkSize, s32 bufIdx, s32 reverbIdx) {
     ReverbRingBufferItem* bufItem;
@@ -620,7 +620,7 @@ Acmd* func_800DC384(s16* aiBuf, s32 aiBufLen, Acmd* cmd, s32 updateIdx) {
     return cmd;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DC384.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/func_800DC384.s")
 #endif
 
 #ifdef NON_MATCHING
@@ -1033,7 +1033,7 @@ Acmd* func_800DC910(s32 noteIdx, NoteSubEu* noteSubEu, NoteSynthesisState* synth
     return cmd;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DC910.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/func_800DC910.s")
 #endif
 
 Acmd* func_800DD62C(Acmd* cmd, NoteSynthesisState* synthState, s32 count, u16 pitch, u16 inpDmem, s32 resampleFlags) {
@@ -1195,5 +1195,5 @@ Acmd* func_800DDB64(Acmd* cmd, NoteSubEu* noteSubEu, NoteSynthesisState* synthSt
     return cmd;
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800DACC0/func_800DDB64.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_synthesis/func_800DDB64.s")
 #endif

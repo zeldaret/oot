@@ -1050,7 +1050,7 @@ glabel L800EBBDC
 /* B62D94 800EBBF4 A05E00C4 */  sb    $fp, 0xc4($v0)
 /* B62D98 800EBBF8 82C50019 */  lb    $a1, 0x19($s6)
 /* B62D9C 800EBBFC 92840007 */  lbu   $a0, 7($s4)
-/* B62DA0 800EBC00 0C038D05 */  jal   func_800E3414
+/* B62DA0 800EBC00 0C038D05 */  jal   Audio_SyncLoadSample
 /* B62DA4 800EBC04 244600C4 */   addiu $a2, $v0, 0xc4
 /* B62DA8 800EBC08 145EFD3A */  bne   $v0, $fp, .L800EB0F4
 /* B62DAC 800EBC0C 00000000 */   nop   
@@ -1064,7 +1064,7 @@ glabel L800EBBDC
 /* B62DC8 800EBC28 96850022 */  lhu   $a1, 0x22($s4)
 /* B62DCC 800EBC2C 92840007 */  lbu   $a0, 7($s4)
 /* B62DD0 800EBC30 244600C4 */  addiu $a2, $v0, 0xc4
-/* B62DD4 800EBC34 0C038D05 */  jal   func_800E3414
+/* B62DD4 800EBC34 0C038D05 */  jal   Audio_SyncLoadSample
 /* B62DD8 800EBC38 24A50100 */   addiu $a1, $a1, 0x100
 /* B62DDC 800EBC3C 145EFD2D */  bne   $v0, $fp, .L800EB0F4
 /* B62DE0 800EBC40 00000000 */   nop   

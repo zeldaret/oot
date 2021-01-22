@@ -3,7 +3,7 @@ glabel func_800E2454
 /* B595F8 800E2458 AFBF0014 */  sw    $ra, 0x14($sp)
 /* B595FC 800E245C AFA40048 */  sw    $a0, 0x48($sp)
 /* B59600 800E2460 8FA50048 */  lw    $a1, 0x48($sp)
-/* B59604 800E2464 0C0389DA */  jal   func_800E2768
+/* B59604 800E2464 0C0389DA */  jal   Audio_GetTableIndex
 /* B59608 800E2468 24040001 */   li    $a0, 1
 /* B5960C 800E246C 3C058017 */  lui   $a1, %hi(gAudioContext) # $a1, 0x8017
 /* B59610 800E2470 24A5F180 */  addiu $a1, %lo(gAudioContext) # addiu $a1, $a1, -0xe80

@@ -33,20 +33,20 @@ void Audio_ResetLoadStatus(void) {
     s32 i;
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.gBankLoadStatus[i] != 5) {
-            gAudioContext.gBankLoadStatus[i] = 0;
+        if (gAudioContext.bankLoadStatus[i] != 5) {
+            gAudioContext.bankLoadStatus[i] = 0;
         }
     }
 
     for (i = 0; i < 0x30; i++) {
-        if (gAudioContext.gUnusedLoadStatus[i] != 5) {
-            gAudioContext.gUnusedLoadStatus[i] = 0;
+        if (gAudioContext.audioTableLoadStatus[i] != 5) {
+            gAudioContext.audioTableLoadStatus[i] = 0;
         }
     }
 
     for (i = 0; i < 0x80; i++) {
-        if (gAudioContext.gSeqLoadStatus[i] != 5) {
-            gAudioContext.gSeqLoadStatus[i] = 0;
+        if (gAudioContext.seqLoadstatus[i] != 5) {
+            gAudioContext.seqLoadstatus[i] = 0;
         }
     }
 }
@@ -207,15 +207,15 @@ void func_800DE4B0(s32 poolIdx) {
     switch (poolIdx) {
         case 0:
             loadedPool = &gAudioContext.gSeqLoadedPool;
-            table = gAudioContext.gSeqLoadStatus;
+            table = gAudioContext.seqLoadstatus;
             break;
         case 1:
             loadedPool = &gAudioContext.gBankLoadedPool;
-            table = gAudioContext.gBankLoadStatus;
+            table = gAudioContext.bankLoadStatus;
             break;
         case 2:
             loadedPool = &gAudioContext.gUnusedLoadedPool;
-            table = gAudioContext.gUnusedLoadStatus;
+            table = gAudioContext.audioTableLoadStatus;
             break;
     }
 
@@ -304,15 +304,15 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
     switch (poolIdx) {
         case 0:
             loadedPool = &gAudioContext.gSeqLoadedPool;
-            table = gAudioContext.gSeqLoadStatus;
+            table = gAudioContext.seqLoadstatus;
             break;
         case 1:
             loadedPool = &gAudioContext.gBankLoadedPool;
-            table = gAudioContext.gBankLoadStatus;
+            table = gAudioContext.bankLoadStatus;
             break;
         case 2:
             loadedPool = &gAudioContext.gUnusedLoadedPool;
-            table = gAudioContext.gUnusedLoadStatus;
+            table = gAudioContext.audioTableLoadStatus;
             break;
     }
 
@@ -880,7 +880,7 @@ void func_800DFBF8(void) {
                                                       gAudioContext.gMaxSimultaneousNotes * sizeof(NoteSubEu));
 
     for (i = 0; i != 2; i++) {
-        gAudioContext.gAudioCmdBuffers[i] =
+        gAudioContext.abiCmdBufs[i] =
             Audio_AllocDmaMemoryZeroed(&gAudioContext.gNotesAndBuffersPool, gAudioContext.gMaxAudioCmds * sizeof(u64));
     }
 
@@ -920,7 +920,7 @@ void func_800DFBF8(void) {
         reverb->sound.tuning = 1.0f;
         reverb->sample.bits4 = 4;
         reverb->sample.bits2 = 0;
-        reverb->sample.bits24 = reverb->windowSize * 2;
+        reverb->sample.size = reverb->windowSize * 2;
         reverb->sample.sampleAddr = (u8*)reverb->leftRingBuf;
         reverb->loop.start = 0;
         reverb->loop.count = 1;
@@ -968,9 +968,9 @@ void func_800DFBF8(void) {
     func_800E0634(preset->unk_30, preset->unk_34);
     func_800E1618(gAudioContext.gMaxSimultaneousNotes);
     gAudioContext.unk_176C = 0;
-    func_800E3400();
+    Audio_SyncLoadsInit();
     func_800E4FB0();
-    func_800E3A14();
+    Audio_AsyncLoadReqInit();
     gAudioContext.unk_4 = 0x1000;
     func_800E4D94();
     intMask = osSetIntMask(1);
@@ -1077,7 +1077,7 @@ UnkHeapEntry* func_800E06CC(u32 size) {
         thing = &gAudioContext.unk_0D54[i + 1];
         if (thing->unk_10 == 0) {
             start = thing->unk_08;
-            end = thing->unk_08 + thing->sample->bits24 - 1;
+            end = thing->unk_08 + thing->sample->size - 1;
 
             if (end < allocBefore && start < allocBefore) {
                 continue;
