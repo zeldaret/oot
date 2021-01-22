@@ -31,9 +31,9 @@ typedef enum {
 typedef enum {
     /* 0 */ EN_BILI_LIMB_NONE,
     /* 1 */ EN_BILI_LIMB_1,
-    /* 2 */ EN_BILI_LIMB_2,
-    /* 3 */ EN_BILI_LIMB_3,
-    /* 4 */ EN_BILI_LIMB_4
+    /* 2 */ EN_BILI_LIMB_BELL,
+    /* 3 */ EN_BILI_LIMB_STOMACH,
+    /* 4 */ EN_BILI_LIMB_ORALARMS
 } EnBiliLimbs;
 
 #endif
