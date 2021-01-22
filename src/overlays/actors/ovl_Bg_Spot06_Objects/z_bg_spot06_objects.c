@@ -117,7 +117,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             CollisionHeader_GetVirtual(&D_06000EE8, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
-            if (LINK_IS_ADULT && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
+            if (LINK_IS_ADULT && Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 thisx->world.pos.y = thisx->home.pos.y + 120.0f;
                 this->actionFunc = BgSpot06Objects_DoNothing;
 
@@ -131,11 +131,11 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_InitJntSph(globalCtx, &this->collider);
             Collider_SetJntSph(globalCtx, &this->collider, thisx, &sJntSphInit, &this->colliderItem);
 
-            if ((LINK_IS_ADULT) && (Flags_GetSwitch(globalCtx, this->switchFlag))) {
+            if (LINK_IS_ADULT && Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 if (!(gSaveContext.eventChkInf[6] & 0x200)) {
-                    thisx->home.pos.y = thisx->world.pos.y = (f32)WATER_LEVEL_LOWERED;
+                    thisx->home.pos.y = thisx->world.pos.y = WATER_LEVEL_LOWERED;
                 } else {
-                    thisx->home.pos.y = thisx->world.pos.y = (f32)WATER_LEVEL_RAISED;
+                    thisx->home.pos.y = thisx->world.pos.y = WATER_LEVEL_RAISED;
                 }
 
                 this->actionFunc = BgSpot06Objects_LockFloat;
@@ -168,7 +168,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
                     this->actionFunc = BgSpot06Objects_DoNothing;
                 } else {
                     thisx->world.pos.y = this->lakeHyliaWaterLevel = -681.0f;
-                    thisx->world.pos.y += (f32)WATER_LEVEL_RAISED;
+                    thisx->world.pos.y += WATER_LEVEL_RAISED;
                     this->actionFunc = BgSpot06Objects_WaterPlaneCutsceneWait;
                 }
             } else {
@@ -206,7 +206,7 @@ void BgSpot06Objects_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-/*
+/**
  * Water Temple entrance gate effect functions
  */
 void BgSpot06Objects_GateSpawnBubbles(BgSpot06Objects* this, GlobalContext* globalCtx) {
@@ -222,7 +222,7 @@ void BgSpot06Objects_GateSpawnBubbles(BgSpot06Objects* this, GlobalContext* glob
     }
 }
 
-/*
+/**
  * This is where the gate waits for the switch to be set by the fish shaped lock.
  */
 void BgSpot06Objects_GateWaitForSwitch(BgSpot06Objects* this, GlobalContext* globalCtx) {
@@ -239,7 +239,7 @@ void BgSpot06Objects_GateWaitForSwitch(BgSpot06Objects* this, GlobalContext* glo
     }
 }
 
-/*
+/**
  * This is where the gate waits a few frames before rising after the switch is set.
  */
 void BgSpot06Objects_GateWaitToOpen(BgSpot06Objects* this, GlobalContext* globalCtx) {
@@ -252,7 +252,7 @@ void BgSpot06Objects_GateWaitToOpen(BgSpot06Objects* this, GlobalContext* global
     }
 }
 
-/*
+/**
  * This is where the gate finally rises upward.
  */
 void BgSpot06Objects_GateOpen(BgSpot06Objects* this, GlobalContext* globalCtx) {
@@ -270,23 +270,23 @@ void BgSpot06Objects_GateOpen(BgSpot06Objects* this, GlobalContext* globalCtx) {
 void BgSpot06Objects_DoNothing(BgSpot06Objects* this, GlobalContext* globalCtx) {
 }
 
-/*
+/**
  * Fish shaped lock effect functions
  */
 void BgSpot06Objects_LockSpawnWaterRipples(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
-    if ((flag) || ((globalCtx->gameplayFrames % 7) == 0)) {
+    if (flag || !(globalCtx->gameplayFrames % 7)) {
         EffectSsGRipple_Spawn(globalCtx, &this->dyna.actor.home, 300, 700, 0);
     }
 }
 
 void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
-    if (((globalCtx->gameplayFrames % 7) == 0) || (flag)) {
+    if (!(globalCtx->gameplayFrames % 7) || flag) {
         EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.world, 0.0f, 40.0f, 30.0f,
                              (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
 
-/*
+/**
  * This is where the fish shaped lock waits to be pulled out by the hookshot. Once it does it will spawn bubbles.
  */
 void BgSpot06Objects_LockWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
@@ -328,7 +328,7 @@ void BgSpot06Objects_LockWait(BgSpot06Objects* this, GlobalContext* globalCtx) {
     }
 }
 
-/*
+/**
  * Once the fish shaped lock is pulled out from the Hookshot it will move outward.
  */
 void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, GlobalContext* globalCtx) {
@@ -348,7 +348,7 @@ void BgSpot06Objects_LockPullOutward(BgSpot06Objects* this, GlobalContext* globa
     }
 }
 
-/*
+/**
  * After being pulled all the way out the fish shaped lock will rise to the surface, creating bubbles in the water as it
  * does so.
  */
@@ -394,13 +394,13 @@ void BgSpot06Objects_LockSwimToSurface(BgSpot06Objects* this, GlobalContext* glo
             if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, -0x4000, 0x30)) {
                 this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
                 this->dyna.actor.home.pos.y = -1993.0f;
-                this->dyna.actor.home.pos.z = ((0, this->dyna)).actor.world.pos.z;
+                this->dyna.actor.home.pos.z = this->dyna.actor.world.pos.z;
             }
         }
     }
 }
 
-/*
+/**
  * Once the fish shaped lock finishes rising to the surface it will float and create ripples in the water every few
  * frames.
  */
@@ -428,7 +428,7 @@ void BgSpot06Objects_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-/*
+/**
  * Draw the Lake Hylia water plane, and scroll its texture
  */
 void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, GlobalContext* globalCtx) {
@@ -485,7 +485,7 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-/*
+/**
  * This is where the Lake Hylia water plane waits for the cutscene to set the water risen flag after the Water Temple is
  * cleared.
  */
@@ -495,16 +495,16 @@ void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext
     }
 }
 
-/*
+/**
  * This is where the Lake Hylia water plane rises in the cutscene after the Water Temple is cleared.
  */
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    this->dyna.actor.world.pos.y = this->lakeHyliaWaterLevel + (f32)WATER_LEVEL_RAISED;
+    this->dyna.actor.world.pos.y = this->lakeHyliaWaterLevel + WATER_LEVEL_RAISED;
 
     if (this->lakeHyliaWaterLevel >= 0.0001f) {
-        this->dyna.actor.world.pos.y = (f32)WATER_LEVEL_RAISED;
+        this->dyna.actor.world.pos.y = WATER_LEVEL_RAISED;
         this->actionFunc = BgSpot06Objects_DoNothing;
     } else {
         Math_SmoothStepToF(&this->lakeHyliaWaterLevel, 1.0f, 0.1f, 1.0f, 0.001f);
