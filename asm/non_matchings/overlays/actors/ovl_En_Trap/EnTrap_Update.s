@@ -75,7 +75,7 @@ glabel EnTrap_Update
 /* 004B0 80B24B10 A7AA0092 */  sh      $t2, 0x0092($sp)           
 /* 004B4 80B24B14 A7A90094 */  sh      $t1, 0x0094($sp)           
 /* 004B8 80B24B18 A7A8008A */  sh      $t0, 0x008A($sp)           
-/* 004BC 80B24B1C 0C00D09B */  jal     func_8003426C              
+/* 004BC 80B24B1C 0C00D09B */  jal     Actor_SetColorFilter              
 /* 004C0 80B24B20 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 004C4 80B24B24 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 004C8 80B24B28 44810000 */  mtc1    $at, $f0                   ## $f0 = 10.00

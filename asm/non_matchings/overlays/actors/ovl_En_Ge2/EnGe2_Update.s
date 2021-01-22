@@ -46,7 +46,7 @@ glabel EnGe2_Update
 /* 012E4 80A33EB4 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 012E8 80A33EB8 240B0190 */  addiu   $t3, $zero, 0x0190         ## $t3 = 00000190
 /* 012EC 80A33EBC AFAB0010 */  sw      $t3, 0x0010($sp)           
-/* 012F0 80A33EC0 0C00D09B */  jal     func_8003426C              
+/* 012F0 80A33EC0 0C00D09B */  jal     Actor_SetColorFilter              
 /* 012F4 80A33EC4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012F8 80A33EC8 3C0C80A3 */  lui     $t4, %hi(func_80A3402C)    ## $t4 = 80A30000
 /* 012FC 80A33ECC 258C402C */  addiu   $t4, $t4, %lo(func_80A3402C) ## $t4 = 80A3402C

@@ -14,7 +14,7 @@ glabel func_809BFD18
 /* 004A8 809BFD48 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 004AC 809BFD4C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 004B0 809BFD50 24060096 */  addiu   $a2, $zero, 0x0096         ## $a2 = 00000096
-/* 004B4 809BFD54 0C00D09B */  jal     func_8003426C              
+/* 004B4 809BFD54 0C00D09B */  jal     Actor_SetColorFilter              
 /* 004B8 809BFD58 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 004BC 809BFD5C 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 004C0 809BFD60 0C00BE0A */  jal     Audio_PlayActorSound2

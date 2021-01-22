@@ -3566,7 +3566,7 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(globalCtx, arg1);
 }
 
-void func_8003426C(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
     if ((colorFlag == 0x8000) && !(colorIntensityMax & 0x8000)) {
         Audio_PlayActorSound2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }

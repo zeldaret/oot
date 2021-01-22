@@ -64,7 +64,7 @@ glabel func_809C0A70
 /* 012B4 809C0B54 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 012B8 809C0B58 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 012BC 809C0B5C 240600C8 */  addiu   $a2, $zero, 0x00C8         ## $a2 = 000000C8
-/* 012C0 809C0B60 0C00D09B */  jal     func_8003426C              
+/* 012C0 809C0B60 0C00D09B */  jal     Actor_SetColorFilter              
 /* 012C4 809C0B64 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 012C8 809C0B68 921800AF */  lbu     $t8, 0x00AF($s0)           ## 000000AF
 /* 012CC 809C0B6C 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001

@@ -391,7 +391,7 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
         if (this->textureBlend == 0) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_VOICE);
-            func_8003426C(&this->dyna.actor, 0x4000, 255, 0, 8);
+            Actor_SetColorFilter(&this->dyna.actor, 0x4000, 255, 0, 8);
         }
 
         if (this->textureBlend >= 240) {
@@ -731,7 +731,7 @@ void EnAm_SetupStunned(EnAm* this, GlobalContext* globalCtx) {
         this->dyna.actor.speedXZ = -6.0f;
     }
 
-    func_8003426C(&this->dyna.actor, 0, 120, 0, 100);
+    Actor_SetColorFilter(&this->dyna.actor, 0, 120, 0, 100);
 
     if (this->damageEffect == AM_DMGEFF_ICE) {
         this->iceTimer = 48;
@@ -899,7 +899,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
 
             if ((this->deathTimer & 3) == 0) {
-                func_8003426C(&this->dyna.actor, 0x4000, 255, 0, 4);
+                Actor_SetColorFilter(&this->dyna.actor, 0x4000, 255, 0, 4);
             }
         }
 

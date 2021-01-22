@@ -90,7 +90,7 @@ glabel func_80ABD190
 /* 0072C 80ABD2DC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00730 80ABD2E0 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 00734 80ABD2E4 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 00738 80ABD2E8 0C00D09B */  jal     func_8003426C              
+/* 00738 80ABD2E8 0C00D09B */  jal     Actor_SetColorFilter              
 /* 0073C 80ABD2EC 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 00740 80ABD2F0 10000017 */  beq     $zero, $zero, .L80ABD350   
 /* 00744 80ABD2F4 920F00AF */  lbu     $t7, 0x00AF($s0)           ## 000000AF
@@ -103,7 +103,7 @@ glabel func_80ABD190
 /* 00758 80ABD308 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0075C 80ABD30C 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 00760 80ABD310 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 00764 80ABD314 0C00D09B */  jal     func_8003426C              
+/* 00764 80ABD314 0C00D09B */  jal     Actor_SetColorFilter              
 /* 00768 80ABD318 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 0076C 80ABD31C 1000000C */  beq     $zero, $zero, .L80ABD350   
 /* 00770 80ABD320 920F00AF */  lbu     $t7, 0x00AF($s0)           ## 000000AF
@@ -117,7 +117,7 @@ glabel func_80ABD190
 /* 00788 80ABD338 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0078C 80ABD33C 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 00790 80ABD340 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 00794 80ABD344 0C00D09B */  jal     func_8003426C              
+/* 00794 80ABD344 0C00D09B */  jal     Actor_SetColorFilter              
 /* 00798 80ABD348 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 0079C 80ABD34C 920F00AF */  lbu     $t7, 0x00AF($s0)           ## 000000AF
 .L80ABD350:

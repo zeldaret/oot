@@ -364,7 +364,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
         if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
             return;
         } else {
-            func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;

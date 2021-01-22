@@ -153,7 +153,7 @@ glabel EnAm_Update
 /* 01CF0 809AFC10 AFA80010 */  sw      $t0, 0x0010($sp)           
 /* 01CF4 809AFC14 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 01CF8 809AFC18 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 01CFC 809AFC1C 0C00D09B */  jal     func_8003426C              
+/* 01CFC 809AFC1C 0C00D09B */  jal     Actor_SetColorFilter              
 /* 01D00 809AFC20 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 .L809AFC24:
 /* 01D04 809AFC24 0C00B638 */  jal     Actor_MoveForward

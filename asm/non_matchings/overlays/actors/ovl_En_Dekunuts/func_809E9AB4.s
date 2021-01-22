@@ -31,7 +31,7 @@ glabel func_809E9AB4
 /* 005C0 809E9B20 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 005C4 809E9B24 0000C812 */  mflo    $t9
 /* 005C8 809E9B28 AFB90010 */  sw      $t9, 0x0010($sp)
-/* 005CC 809E9B2C 0C00D09B */  jal     func_8003426C
+/* 005CC 809E9B2C 0C00D09B */  jal     Actor_SetColorFilter
 /* 005D0 809E9B30 00000000 */  nop
 /* 005D4 809E9B34 8FBF0024 */  lw      $ra, 0x0024($sp)
 /* 005D8 809E9B38 8FB00020 */  lw      $s0, 0x0020($sp)

@@ -159,7 +159,7 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_KAICHO_DEAD);
 
     if (this->actor.colChkInfo.damageEffect == 3) {
-        func_8003426C(&this->actor, 0, 255, 0, 40);
+        Actor_SetColorFilter(&this->actor, 0, 255, 0, 40);
         for (i = 0; i < 8; i++) {
             iceParticlePos.x = ((i & 1 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.x;
             iceParticlePos.y = ((i & 2 ? 7.0f : -7.0f) * scale) + this->actor.world.pos.y;
@@ -168,13 +168,13 @@ void func_809E03B4(EnCrow* this, GlobalContext* globalCtx) {
                                            ((Rand_ZeroOne() * 0.15f) + 0.85f) * scale);
         }
     } else if (this->actor.colChkInfo.damageEffect == 2) {
-        func_8003426C(&this->actor, 0x4000, 255, 0, 40);
+        Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
 
         for (i = 0; i < 4; i++) {
             EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &this->actor.world.pos, 50.0f * scale, 0, 0, i);
         }
     } else {
-        func_8003426C(&this->actor, 0x4000, 255, 0, 40);
+        Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 40);
     }
 
     if (this->actor.flags & 0x8000) {
@@ -198,7 +198,7 @@ void func_809E06E8(EnCrow* this) {
     this->aimRotX = -0x1000;
     this->aimRotY = this->actor.yawTowardsPlayer + 0x8000;
     this->skelAnime.playSpeed = 2.0f;
-    func_8003426C(&this->actor, 0, 255, 0, 5);
+    Actor_SetColorFilter(&this->actor, 0, 255, 0, 5);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->actionFunc = func_809E1004;
 }
