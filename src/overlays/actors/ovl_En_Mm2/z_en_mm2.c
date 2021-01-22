@@ -14,7 +14,7 @@ extern UNK_TYPE D_06005E18;
 /*
 const ActorInit En_Mm2_InitVars = {
     ACTOR_EN_MM2,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MM,
     sizeof(EnMm2),

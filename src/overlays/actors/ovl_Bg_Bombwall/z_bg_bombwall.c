@@ -76,7 +76,7 @@ static ColliderTrisInit sTrisInit = {
 
 const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(BgBombwall),
@@ -143,9 +143,9 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
                 BgBombwall_RotateVec(&vecs[j], &sp80, sin, cos);
 
-                vecs[j].x += this->dyna.actor.posRot.pos.x;
-                vecs[j].y += this->dyna.actor.posRot.pos.y;
-                vecs[j].z += this->dyna.actor.posRot.pos.z;
+                vecs[j].x += this->dyna.actor.world.pos.x;
+                vecs[j].y += this->dyna.actor.world.pos.y;
+                vecs[j].z += this->dyna.actor.world.pos.z;
             }
             Collider_SetTrisVertices(&this->collider, i, &vecs[0], &vecs[1], &vecs[2]);
         }
@@ -187,7 +187,7 @@ void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx) {
     s32 i;
     f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     f32 temp;
     f32 new_var;
 
@@ -219,7 +219,7 @@ void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         func_8086EDFC(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-    } else if (this->dyna.actor.xzDistToLink < 600.0f) {
+    } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

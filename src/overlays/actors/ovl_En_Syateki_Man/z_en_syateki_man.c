@@ -49,7 +49,7 @@ extern FlexSkeletonHeader D_06009B38;
 
 const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OSSAN,
     sizeof(EnSyatekiMan),
@@ -77,7 +77,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     // Old man appeared!! Muhohohohohohohon
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     Actor_SetScale(&this->actor, 0.01f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, this->jointTable, this->morphTable, 9);
     if (LINK_IS_CHILD) {
@@ -86,7 +86,7 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->blinkTimer = 20;
     this->eyeState = 0;
     this->blinkFunc = EnSyatekiMan_BlinkWait;
-    this->actor.colChkInfo.unk_10 = 100;
+    this->actor.colChkInfo.cylRadius = 100;
     this->actionFunc = EnSyatekiMan_Start;
 }
 
@@ -389,9 +389,9 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     EnSyatekiMan_SetBgm();
     this->blinkFunc(this);
-    this->actor.posRot2.pos.y = 70.0f;
-    Actor_SetHeight(&this->actor, 70.0f);
-    func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.posRot2.pos);
+    this->actor.focus.pos.y = 70.0f;
+    Actor_SetFocus(&this->actor, 70.0f);
+    func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
 s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {

@@ -18,7 +18,7 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit En_Vb_Ball_InitVars = {
     0,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_FD,
     sizeof(EnVbBall),

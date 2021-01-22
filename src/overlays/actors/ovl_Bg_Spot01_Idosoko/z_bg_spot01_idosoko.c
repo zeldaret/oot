@@ -19,7 +19,7 @@ void func_808ABF54(BgSpot01Idosoko* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Idosoko_InitVars = {
     ACTOR_BG_SPOT01_IDOSOKO,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT01_MATOYA,
     sizeof(BgSpot01Idosoko),

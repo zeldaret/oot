@@ -17,7 +17,7 @@ void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot00_Break_InitVars = {
     ACTOR_BG_SPOT00_BREAK,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SPOT00_BREAK,
     sizeof(BgSpot00Break),

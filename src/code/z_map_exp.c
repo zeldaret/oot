@@ -11,8 +11,8 @@ s16 sEntranceIconMapIndex = 0;
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    sPlayerInitialPosX = player->actor.posRot.pos.x;
-    sPlayerInitialPosZ = player->actor.posRot.pos.z;
+    sPlayerInitialPosX = player->actor.world.pos.x;
+    sPlayerInitialPosZ = player->actor.world.pos.z;
     sPlayerInitialDirection = (s16)((0x7FFF - player->actor.shape.rot.y) / 0x400);
 }
 
@@ -326,8 +326,8 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
         gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, 255);
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
 
-        tempX = player->actor.posRot.pos.x;
-        tempZ = player->actor.posRot.pos.z;
+        tempX = player->actor.world.pos.x;
+        tempZ = player->actor.world.pos.z;
         tempX /= R_COMPASS_SCALE_X;
         tempZ /= R_COMPASS_SCALE_Y;
         Matrix_Translate((R_COMPASS_OFFSET_X + tempX) / 10.0f, (R_COMPASS_OFFSET_Y - tempZ) / 10.0f, 0.0f, MTXMODE_NEW);
@@ -531,7 +531,7 @@ void Map_Update(GlobalContext* globalCtx) {
                 }
 
                 for (floor = 0; floor < 8; floor++) {
-                    if (player->actor.posRot.pos.y > gMapData->floorCoordY[mapIndex][floor]) {
+                    if (player->actor.world.pos.y > gMapData->floorCoordY[mapIndex][floor]) {
                         break;
                     }
                 }
