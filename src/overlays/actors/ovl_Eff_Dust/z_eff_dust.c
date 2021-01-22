@@ -295,64 +295,64 @@ void EffDust_Update(Actor *thisx, GlobalContext *globalCtx) {
     this->updateFunc(this, globalCtx);
 }
 
-#ifdef NON_MATCHING
-void func_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
-    Vec3f *initialPositions;
 
-    f32 temp_f0;
-    f32 dx;
-    f32 dy;
-    f32 dz;
+void func_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
+    EffDust *this2;
+
+    GlobalContext *glb_ctx;
+    GraphicsContext *gfx_ctx;
+
+    Vec3f *initialPositions;
+    f32 *distanceTraveled;
 
     s32 i;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_dust.c", 425);
+    f32 aux;
 
-    func_80093D18(globalCtx->state.gfxCtx);
+    glb_ctx = globalCtx;
+    gfx_ctx = globalCtx->state.gfxCtx;
+    this2 = this;
+
+    OPEN_DISPS(gfx_ctx, "../z_eff_dust.c", 425);
+
+    func_80093D18(gfx_ctx);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0x80, 0x80, 0x80, 0xFF);
     gDPSetEnvColor(POLY_XLU_DISP++, 0x80, 0x80, 0x80, 0x00);
+
+    initialPositions = this2->initialPositions;
+    distanceTraveled = this2->distanceTraveled;
+
     gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
 
     for (i = 0; i < 0x40; i++) {
-        if (this->distanceTraveled[i] < 1.0f) {
-            dx = this->dx;
-            dy = this->dy;
-            dz = this->dz;
+        if (*distanceTraveled < 1.0f) {
+            // TODO: find a way to match without needing to do this.
+            if (!this2) { }
 
-            temp_f0 = 1.0f - (this->distanceTraveled[i] * this->distanceTraveled[i]);
-            
-            initialPositions = &this->initialPositions[i];
-
+            aux = 1.0f - (*distanceTraveled * *distanceTraveled);
             Matrix_Translate(
-                //this->actor.posRot.pos.x + (initialPositions->x * ((temp_f2 * temp_f0) + (1.0f - temp_f2))),
-                //this->actor.posRot.pos.x + (initialPositions->x * ((dx * temp_f0) + (1.0f - dx))),
-                this->actor.posRot.pos.x + (initialPositions->x * ((this->dx * temp_f0) + (1.0f - this->dx))),
-                //this->actor.posRot.pos.y + (initialPositions->y * ((temp_f16 * temp_f0) + (1.0f - temp_f16))),
-                //this->actor.posRot.pos.y + (initialPositions->y * ((dy * temp_f0) + (1.0f - dy))),
-                this->actor.posRot.pos.y + (initialPositions->y * ((this->dy * temp_f0) + (1.0f - this->dy))),
-                //this->actor.posRot.pos.z + (initialPositions->z * ((temp_f18 * temp_f0) + (1.0f - temp_f18))),
-                //this->actor.posRot.pos.z + (initialPositions->z * ((dz * temp_f0) + (1.0f - dz))),
-                this->actor.posRot.pos.z + (initialPositions->z * ((this->dz * temp_f0) + (1.0f - this->dz))),
+                this2->actor.posRot.pos.x + (initialPositions->x * ((this2->dx * aux) + (1.0f - this2->dx))),
+                this2->actor.posRot.pos.y + (initialPositions->y * ((this2->dy * aux) + (1.0f - this2->dy))),
+                this2->actor.posRot.pos.z + (initialPositions->z * ((this2->dz * aux) + (1.0f - this2->dz))),
                 MTXMODE_NEW
                 );
 
-            Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
+            Matrix_Scale(this2->scalingFactor, this2->scalingFactor, this2->scalingFactor, MTXMODE_APPLY);
+            Matrix_Mult(&glb_ctx->mf_11DA0, MTXMODE_APPLY);
 
-            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_dust.c", 449), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfx_ctx, "../z_eff_dust.c", 449), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
         }
+        initialPositions++;
+        distanceTraveled++;
+        // Needed for matching.
+        if (1) { }  { } if (1) { }  if (1) { }  if (1 != 0) { } 
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_dust.c", 458);
+    CLOSE_DISPS(gfx_ctx, "../z_eff_dust.c", 458);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E4F4.s")
-#endif
 
 void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
     EffDust *this2;
@@ -380,8 +380,8 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
     if (player->unk_858 >= 0.85f) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0x00);
-
-    } else {
+    }
+    else {
         gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0xFF, 0x00);
     }
 
