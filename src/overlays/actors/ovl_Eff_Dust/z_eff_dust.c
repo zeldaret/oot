@@ -196,7 +196,99 @@ void EffDust_UpdateFunc_8099DD74(EffDust *this, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099DFC0.s")
+
+void func_8099DFC0(EffDust *this, GlobalContext *globalCtx) {
+    s16 theta;
+
+    Player *player;
+    Actor *parent;
+
+    f32 *unk_014C;
+
+    s32 i;
+    s32 j;
+
+    player = PLAYER;
+
+    parent = this->actor.parent;
+    unk_014C = this->unk_014C;
+
+    if(parent == NULL || parent->update == NULL || !(player->stateFlags1 & 0x1000)){
+        if (this->unk_054D != 0) {
+            this->unk_054D -= 1;
+        }
+        else {
+            Actor_Kill(&this->actor);
+        }
+
+        for (i = 0; i < 0x40; i++) {
+            if ((*unk_014C) < 1.0f) {
+                *unk_014C += 0.2f;
+            }
+            unk_014C++;
+        }
+
+        return;
+    }
+
+    for (i = 0; i < 0x40; i++) {
+        if ((*unk_014C) < 1.0f) {
+            *unk_014C += 0.1f;
+        }
+        unk_014C++;
+    }
+
+    this->actor.posRot.pos = parent->posRot.pos;
+
+    for(j = 0; j < 3; j++){
+        i = this->unk_054C & 0x3F;
+        if (this->unk_014C[i] >= 1.0f) {
+
+            theta = Rand_CenteredFloat(65536.0f);
+            switch (this->actor.params) {
+            case 2:
+                this->unk_024C[i].x = (Rand_ZeroOne() * 4500.0f) + 700.0f;
+                if (this->unk_024C[i].x > 3000.0f) {
+                    this->unk_024C[i].y = (3000.0f * Rand_ZeroOne()) * Math_SinS(theta);
+                    this->unk_024C[i].z = (3000.0f * Rand_ZeroOne()) * Math_CosS(theta);
+                } else {
+                    this->unk_024C[i].y = 3000.0f * Math_SinS(theta);
+                    this->unk_024C[i].z = 3000.0f * Math_CosS(theta);
+                }
+                break;
+
+            case 3:
+                this->unk_024C[i].x = (Rand_ZeroOne() * 2500.0f) + 700.0f;
+                if (this->unk_024C[i].x > 2000.0f) {
+                    this->unk_024C[i].y = (2000.0f * Rand_ZeroOne()) * Math_SinS(theta);
+                    this->unk_024C[i].z = (2000.0f * Rand_ZeroOne()) *  Math_CosS(theta);
+                } else {
+                    this->unk_024C[i].y = 2000.0f * Math_SinS(theta);
+                    this->unk_024C[i].z = 2000.0f * Math_CosS(theta);
+                }
+                break;
+
+            case 4:
+                this->unk_024C[i].x = (Rand_ZeroOne() * 8500.0f) + 1700.0f;
+                if (this->unk_024C[i].x > 5000.0f) {
+                    this->unk_024C[i].y = (4000.0f * Rand_ZeroOne()) * Math_SinS(theta);
+                    this->unk_024C[i].z = (4000.0f * Rand_ZeroOne()) * Math_CosS(theta);
+                } else {
+                    this->unk_024C[i].y = 4000.0f * Math_SinS(theta);
+                    this->unk_024C[i].z = 4000.0f * Math_CosS(theta);
+                }
+
+                break;
+            default:
+                break;
+            }
+
+            this->unk_014C[i] = 0.0f;
+            this->unk_054C += 1;
+        }
+    }
+}
+
 
 void EffDust_Update(Actor *thisx, GlobalContext *globalCtx) {
     EffDust *this = THIS;
