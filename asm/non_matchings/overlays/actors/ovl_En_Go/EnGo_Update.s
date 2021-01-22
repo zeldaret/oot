@@ -53,7 +53,7 @@ glabel EnGo_Update
 /* 0298C 80A40EFC 44070000 */  mfc1    $a3, $f0                   
 /* 02990 80A40F00 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02994 80A40F04 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 02998 80A40F08 0C00B92D */  jal     func_8002E4B4              
+/* 02998 80A40F08 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 0299C 80A40F0C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 029A0 80A40F10 0C28FC39 */  jal     func_80A3F0E4              
 /* 029A4 80A40F14 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

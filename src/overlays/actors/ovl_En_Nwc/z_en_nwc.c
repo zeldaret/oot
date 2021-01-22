@@ -39,7 +39,7 @@ extern Gfx D_06000D50[];
 
 const ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_NWC,
     sizeof(EnNwc),
@@ -227,9 +227,9 @@ void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
     chick = this->chicks;
     for (i = 0; i < this->count; i++, chick++) {
         chick->type = CHICK_NORMAL;
-        chick->pos.x = thisx->posRot.pos.x + ((Rand_ZeroOne() * 100.0f) - 50.0f);
-        chick->pos.y = thisx->posRot.pos.y + 20.0f;
-        chick->pos.z = thisx->posRot.pos.z + ((Rand_ZeroOne() * 100.0f) - 50.0f);
+        chick->pos.x = thisx->world.pos.x + ((Rand_ZeroOne() * 100.0f) - 50.0f);
+        chick->pos.y = thisx->world.pos.y + 20.0f;
+        chick->pos.z = thisx->world.pos.z + ((Rand_ZeroOne() * 100.0f) - 50.0f);
         chick->height = 5;
     }
     EnNwc_SetUpdate(this, EnNwc_Idle);

@@ -32,7 +32,7 @@ extern UNK_TYPE D_06000900;
 /*
 const ActorInit Demo_Ik_InitVars = {
     ACTOR_DEMO_IK,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_IK,
     sizeof(DemoIk),

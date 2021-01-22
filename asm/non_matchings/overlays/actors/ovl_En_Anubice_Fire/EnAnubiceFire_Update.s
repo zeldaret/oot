@@ -62,7 +62,7 @@ glabel EnAnubiceFire_Update
 /* 00820 809B2DC0 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 00824 809B2DC4 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00828 809B2DC8 AFAC0014 */  sw      $t4, 0x0014($sp)           
-/* 0082C 809B2DCC 0C00B92D */  jal     func_8002E4B4              
+/* 0082C 809B2DCC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00830 809B2DD0 AFA8002C */  sw      $t0, 0x002C($sp)           
 /* 00834 809B2DD4 3C01809B */  lui     $at, %hi(D_809B32E8)       ## $at = 809B0000
 /* 00838 809B2DD8 C42632E8 */  lwc1    $f6, %lo(D_809B32E8)($at)  

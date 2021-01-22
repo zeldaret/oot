@@ -20,7 +20,7 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Dalm_InitVars = {
     ACTOR_BG_HIDAN_DALM,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanDalm),
@@ -135,12 +135,12 @@ void BgHidanDalm_Wait(BgHidanDalm* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~AC_HIT;
         if ((this->collider.elements[0].info.bumperFlags & BUMP_HIT) ||
             (this->collider.elements[1].info.bumperFlags & BUMP_HIT)) {
-            this->dyna.actor.posRot.rot.y -= 0x4000;
+            this->dyna.actor.world.rot.y -= 0x4000;
         } else {
-            this->dyna.actor.posRot.rot.y += 0x4000;
+            this->dyna.actor.world.rot.y += 0x4000;
         }
-        this->dyna.actor.posRot.pos.x += 32.5f * Math_SinS(this->dyna.actor.posRot.rot.y);
-        this->dyna.actor.posRot.pos.z += 32.5f * Math_CosS(this->dyna.actor.posRot.rot.y);
+        this->dyna.actor.world.pos.x += 32.5f * Math_SinS(this->dyna.actor.world.rot.y);
+        this->dyna.actor.world.pos.z += 32.5f * Math_CosS(this->dyna.actor.world.rot.y);
 
         func_8002DF54(globalCtx, &this->dyna.actor, 8);
         this->dyna.actor.flags |= 0x10;
@@ -169,13 +169,13 @@ void BgHidanDalm_Shrink(BgHidanDalm* this, GlobalContext* globalCtx) {
 
     this->dyna.actor.scale.y = this->dyna.actor.scale.z = this->dyna.actor.scale.x;
 
-    pos.x = this->dyna.actor.posRot.pos.x;
-    pos.y = this->dyna.actor.posRot.pos.y + this->dyna.actor.scale.x * 160.0f;
-    pos.z = this->dyna.actor.posRot.pos.z;
+    pos.x = this->dyna.actor.world.pos.x;
+    pos.y = this->dyna.actor.world.pos.y + this->dyna.actor.scale.x * 160.0f;
+    pos.z = this->dyna.actor.world.pos.z;
 
     for (i = 0; i < 4; i++) {
-        velocity.x = 5.0f * Math_SinS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
-        velocity.z = 5.0f * Math_CosS(this->dyna.actor.posRot.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.x = 5.0f * Math_SinS(this->dyna.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
+        velocity.z = 5.0f * Math_CosS(this->dyna.actor.world.rot.y + 0x8000) + (Rand_ZeroOne() - 0.5f) * 5.0f;
         velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
         EffectSsKiraKira_SpawnSmallYellow(globalCtx, &pos, &velocity, &accel);
     }
@@ -186,7 +186,7 @@ void BgHidanDalm_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->dyna.actor);
-    func_8002E4B4(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 15.0f, 32.0f, 5);
 }
 
 /**

@@ -11,7 +11,7 @@ glabel func_80969C58
 /* 001AC 80969C7C AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 001B0 80969C80 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 001B4 80969C84 3C064296 */  lui     $a2, 0x4296                ## $a2 = 42960000
-/* 001B8 80969C88 0C00B92D */  jal     func_8002E4B4              
+/* 001B8 80969C88 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 001BC 80969C8C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 001C0 80969C90 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 001C4 80969C94 27BD0020 */  addiu   $sp, $sp, 0x0020           ## $sp = 00000000

@@ -23,7 +23,7 @@ void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot18_Shutter_InitVars = {
     ACTOR_BG_SPOT18_SHUTTER,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Shutter),
@@ -53,22 +53,22 @@ void BgSpot18Shutter_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
             if (gSaveContext.infTable[16] & 0x200) {
                 this->actionFunc = func_808B95AC;
-                this->dyna.actor.posRot.pos.y += 180.0f;
+                this->dyna.actor.world.pos.y += 180.0f;
             } else {
                 this->actionFunc = func_808B9618;
             }
         } else {
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
                 this->actionFunc = func_808B95AC;
-                this->dyna.actor.posRot.pos.y += 180.0f;
+                this->dyna.actor.world.pos.y += 180.0f;
             } else {
                 this->actionFunc = func_808B95B8;
             }
         }
     } else {
         if (gSaveContext.infTable[16] & 0x200) {
-            this->dyna.actor.posRot.pos.x += 125.0f * Math_CosS(this->dyna.actor.posRot.rot.y);
-            this->dyna.actor.posRot.pos.z -= 125.0f * Math_SinS(this->dyna.actor.posRot.rot.y);
+            this->dyna.actor.world.pos.x += 125.0f * Math_CosS(this->dyna.actor.world.rot.y);
+            this->dyna.actor.world.pos.z -= 125.0f * Math_SinS(this->dyna.actor.world.rot.y);
             this->actionFunc = func_808B95AC;
         } else {
             this->actionFunc = func_808B9618;
@@ -90,7 +90,7 @@ void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 
 void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
-        Actor_SetHeight(&this->dyna.actor, 70.0f);
+        Actor_SetFocus(&this->dyna.actor, 70.0f);
         func_80080480(globalCtx, this);
         this->actionFunc = func_808B9698;
     }
@@ -98,7 +98,7 @@ void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 
 void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[16] & 0x200) {
-        Actor_SetHeight(&this->dyna.actor, 70.0f);
+        Actor_SetFocus(&this->dyna.actor, 70.0f);
         if (((this->dyna.actor.params >> 8) & 1) == 0) {
             this->actionFunc = func_808B9698;
         } else {
@@ -109,7 +109,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 180.0f, 1.44f)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 180.0f, 1.44f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);
         this->actionFunc = func_808B95AC;
     } else {
@@ -118,13 +118,11 @@ void func_808B9698(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 }
 
 void func_808B971C(BgSpot18Shutter* this, GlobalContext* globalCtx) {
-    f32 sin = Math_SinS(this->dyna.actor.posRot.rot.y);
-    f32 cos = Math_CosS(this->dyna.actor.posRot.rot.y);
+    f32 sin = Math_SinS(this->dyna.actor.world.rot.y);
+    f32 cos = Math_CosS(this->dyna.actor.world.rot.y);
     s32 flag =
-        Math_StepToF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (125.0f * cos), fabsf(cos)) &
-        1;
-    flag &=
-        Math_StepToF(&this->dyna.actor.posRot.pos.z, this->dyna.actor.initPosRot.pos.z - (125.0f * sin), fabsf(sin));
+        Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (125.0f * cos), fabsf(cos)) & 1;
+    flag &= Math_StepToF(&this->dyna.actor.world.pos.z, this->dyna.actor.home.pos.z - (125.0f * sin), fabsf(sin));
 
     if (flag) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONEDOOR_STOP);

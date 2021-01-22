@@ -27,7 +27,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx);
 
 const ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ANE,
     sizeof(EnNiwLady),
@@ -165,11 +165,11 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
-        ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 20.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 20.0f);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         this->unk_272 = 0;
-        this->actor.unk_1F = 6;
+        this->actor.targetMode = 6;
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:
@@ -206,11 +206,11 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     s32 phi_s1;
 
     this->cuccosInPen = 0;
-    currentCucco = (EnNiw*)globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    currentCucco = (EnNiw*)globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (currentCucco != NULL) {
         if (currentCucco->actor.id == ACTOR_EN_NIW) {
-            if ((fabsf(currentCucco->actor.posRot.pos.x - 330.0f) < 90.0f) &&
-                (fabsf(currentCucco->actor.posRot.pos.z - 1610.0f) < 190.0f)) {
+            if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
+                (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
                     gSaveContext.infTable[25] |= D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
@@ -494,10 +494,10 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwLady* this = THIS;
     Player* player = PLAYER;
 
-    Actor_SetHeight(thisx, 60.0f);
-    this->unk_288.unk_18 = player->actor.posRot.pos;
+    Actor_SetFocus(thisx, 60.0f);
+    this->unk_288.unk_18 = player->actor.world.pos;
     if (LINK_IS_CHILD) {
-        this->unk_288.unk_18.y = player->actor.posRot.pos.y - 10.0f;
+        this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;
     }
     func_80034A14(thisx, &this->unk_288, 2, 4);
     this->unk_254 = this->unk_288.unk_08;
@@ -532,7 +532,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
                     this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
                 }
             }
-            func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
             Collider_UpdateCylinder(thisx, &this->collider);
             if (1) {}
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

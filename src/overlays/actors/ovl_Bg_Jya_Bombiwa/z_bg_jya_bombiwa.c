@@ -13,7 +13,7 @@ void BgJyaBombiwa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Jya_Bombiwa_InitVars = {
     ACTOR_BG_JYA_BOMBIWA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBombiwa),
@@ -120,9 +120,9 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
     s16 scale;
 
     for (i = 0; i < 16; i++) {
-        pos.x = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.x) - 40.0f;
-        pos.y = (Rand_ZeroOne() * 140.0f) + this->dyna.actor.posRot.pos.y;
-        pos.z = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.posRot.pos.z) - 40.0f;
+        pos.x = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.world.pos.x) - 40.0f;
+        pos.y = (Rand_ZeroOne() * 140.0f) + this->dyna.actor.world.pos.y;
+        pos.z = ((Rand_ZeroOne() * 80.0f) + this->dyna.actor.world.pos.z) - 40.0f;
         velocity.x = (Rand_ZeroOne() - 0.5f) * 10.0f;
         velocity.y = Rand_ZeroOne() * 12.0f;
         velocity.z = (Rand_ZeroOne() - 0.5f) * 10.0f;
@@ -148,9 +148,9 @@ void BgJyaBombiwa_Break(BgJyaBombiwa* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -400, arg5, arg6, arg7, 0, scale, 1, 20, 80,
                              KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600EDC0);
     }
-    pos.x = this->dyna.actor.posRot.pos.x;
-    pos.y = this->dyna.actor.posRot.pos.y + 70.0f;
-    pos.z = this->dyna.actor.posRot.pos.z;
+    pos.x = this->dyna.actor.world.pos.x;
+    pos.y = this->dyna.actor.world.pos.y + 70.0f;
+    pos.z = this->dyna.actor.world.pos.z;
     func_80033480(globalCtx, &pos, 100.0f, 0xA, 0x64, 0xA0, 1);
 }
 
@@ -160,7 +160,7 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot, 40, NA_SE_EV_WALL_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

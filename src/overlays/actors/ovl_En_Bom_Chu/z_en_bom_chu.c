@@ -14,7 +14,7 @@ extern UNK_TYPE D_04007E10;
 /*
 const ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
-    ACTORTYPE_EXPLOSIVES,
+    ACTORCAT_EXPLOSIVE,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomChu),

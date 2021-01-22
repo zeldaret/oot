@@ -943,7 +943,7 @@ glabel EnTrap_Update
 /* 010E0 80B25740 240F001D */  addiu   $t7, $zero, 0x001D         ## $t7 = 0000001D
 /* 010E4 80B25744 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 010E8 80B25748 8FA400AC */  lw      $a0, 0x00AC($sp)           
-/* 010EC 80B2574C 0C00B92D */  jal     func_8002E4B4              
+/* 010EC 80B2574C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 010F0 80B25750 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 010F4 80B25754 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 010F8 80B25758 C7A80098 */  lwc1    $f8, 0x0098($sp)           

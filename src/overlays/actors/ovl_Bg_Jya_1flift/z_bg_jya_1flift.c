@@ -28,7 +28,7 @@ static u8 sIsSpawned = false;
 
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJya1flift),
@@ -128,7 +128,7 @@ void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80892DB0(BgJya1flift* this) {
     this->actionFunc = func_80892DCC;
-    this->dyna.actor.posRot.pos.y = sFinalPositions[0];
+    this->dyna.actor.world.pos.y = sFinalPositions[0];
 }
 
 void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx) {
@@ -139,7 +139,7 @@ void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx) {
 
 void func_80892E0C(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_DoNothing;
-    this->dyna.actor.posRot.pos.y = sFinalPositions[0];
+    this->dyna.actor.world.pos.y = sFinalPositions[0];
 }
 
 void BgJya1flift_DoNothing(BgJya1flift* this, GlobalContext* globalCtx) {
@@ -160,9 +160,9 @@ void BgJya1flift_Move(BgJya1flift* this, GlobalContext* globalCtx) {
     } else {
         tempVelocity = this->dyna.actor.velocity.y;
     }
-    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
+    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.world.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
                                  tempVelocity, 1.0f)) < 0.001f) {
-        this->dyna.actor.posRot.pos.y = sFinalPositions[this->isMovingDown];
+        this->dyna.actor.world.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {

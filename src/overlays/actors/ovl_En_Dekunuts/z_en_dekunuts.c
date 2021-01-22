@@ -31,7 +31,7 @@ extern UNK_TYPE D_06003650;
 /*
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_DEKUNUTS,
     sizeof(EnDekunuts),

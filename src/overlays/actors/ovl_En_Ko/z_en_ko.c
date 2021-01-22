@@ -18,7 +18,7 @@ extern UNK_TYPE D_06008F6C;
 /*
 const ActorInit En_Ko_InitVars = {
     ACTOR_EN_KO,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKo),

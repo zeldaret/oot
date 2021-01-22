@@ -24,7 +24,7 @@ glabel func_80A34C40
 /* 00670 80A34C90 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00674 80A34C94 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00678 80A34C98 3C0741C8 */  lui     $a3, 0x41C8                ## $a3 = 41C80000
-/* 0067C 80A34C9C 0C00B92D */  jal     func_8002E4B4              
+/* 0067C 80A34C9C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00680 80A34CA0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00684 80A34CA4 960F030C */  lhu     $t7, 0x030C($s0)           ## 0000030C
 /* 00688 80A34CA8 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
