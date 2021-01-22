@@ -36,12 +36,12 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ ColliderJntSph col;
-    /* 0x20 */ ColliderJntSphItem items[2];
+    /* 0x20 */ ColliderJntSphElement items[2];
 } ObjSwitchJntSph;
 
 typedef struct {
     /* 0x00 */ ColliderTris col;
-    /* 0x20 */ ColliderTrisItem items[2];
+    /* 0x20 */ ColliderTrisElement items[2];
 } ObjSwitchTris;
 
 typedef struct ObjSwitch {

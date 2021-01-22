@@ -22,7 +22,7 @@ void MagicDark_DimLighting(GlobalContext* globalCtx, f32 intensity);
 
 const ActorInit Magic_Dark_InitVars = {
     ACTOR_MAGIC_DARK,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicDark),
@@ -47,7 +47,7 @@ void MagicDark_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->scale = 0.6f;
     }
 
-    thisx->posRot.pos = player->actor.posRot.pos;
+    thisx->world.pos = player->actor.world.pos;
     Actor_SetScale(&this->actor, 0.0f);
     thisx->room = -1;
 
@@ -123,8 +123,8 @@ void MagicDark_DiamondUpdate(Actor* thisx, GlobalContext* globalCtx) {
         this->primAlpha = phi_a0;
     }
 
-    thisx->posRot.rot.y += 0x3E8;
-    thisx->shape.rot.y = thisx->posRot.rot.y + Camera_GetCamDirYaw(ACTIVE_CAM);
+    thisx->world.rot.y += 0x3E8;
+    thisx->shape.rot.y = thisx->world.rot.y + Camera_GetCamDirYaw(ACTIVE_CAM);
     this->timer++;
     gSaveContext.nayrusLoveTimer = nayrusLoveTimer + 1;
 
@@ -206,15 +206,15 @@ void MagicDark_DiamondDraw(Actor* thisx, GlobalContext* globalCtx) {
         Player* player = PLAYER;
         f32 heightDiff;
 
-        this->actor.posRot.pos.x = player->bodyPartsPos[0].x;
-        this->actor.posRot.pos.z = player->bodyPartsPos[0].z;
-        heightDiff = player->bodyPartsPos[0].y - this->actor.posRot.pos.y;
+        this->actor.world.pos.x = player->bodyPartsPos[0].x;
+        this->actor.world.pos.z = player->bodyPartsPos[0].z;
+        heightDiff = player->bodyPartsPos[0].y - this->actor.world.pos.y;
         if (heightDiff < -2.0f) {
-            this->actor.posRot.pos.y = player->bodyPartsPos[0].y + 2.0f;
+            this->actor.world.pos.y = player->bodyPartsPos[0].y + 2.0f;
         } else if (heightDiff > 2.0f) {
-            this->actor.posRot.pos.y = player->bodyPartsPos[0].y - 2.0f;
+            this->actor.world.pos.y = player->bodyPartsPos[0].y - 2.0f;
         }
-        Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
+        Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
         Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
         Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_dark.c", 553),

@@ -17,7 +17,7 @@ void EnVase_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Vase_InitVars = {
     ACTOR_EN_VASE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_VASE,
     sizeof(EnVase),
@@ -31,8 +31,8 @@ void EnVase_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnVase* this = THIS;
 
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
+    this->actor.focus.pos = this->actor.world.pos;
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
 }
 
 void EnVase_Destroy(Actor* thisx, GlobalContext* globalCtx) {

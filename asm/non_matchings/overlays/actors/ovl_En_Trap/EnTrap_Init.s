@@ -100,7 +100,7 @@ glabel EnTrap_Init
 /* 00168 80B247C8 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 0016C 80B247CC AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00170 80B247D0 44070000 */  mfc1    $a3, $f0                   
-/* 00174 80B247D4 0C00B92D */  jal     func_8002E4B4              
+/* 00174 80B247D4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00178 80B247D8 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 0017C 80B247DC 26020024 */  addiu   $v0, $s0, 0x0024           ## $v0 = 00000024
 /* 00180 80B247E0 8C4D0000 */  lw      $t5, 0x0000($v0)           ## 00000024
@@ -245,8 +245,8 @@ glabel EnTrap_Init
               
 /* 00374 80B249D4 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00378 80B249D8 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 0037C 80B249DC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00380 80B249E0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 0037C 80B249DC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00380 80B249E0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00384 80B249E4 44050000 */  mfc1    $a1, $f0                   
 /* 00388 80B249E8 44070000 */  mfc1    $a3, $f0                   
 /* 0038C 80B249EC 0C00AC78 */  jal     ActorShape_Init

@@ -39,9 +39,9 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 
     if (initParams->updateMode == 0) {
         this->life = 10;
-        this->vec.x = initParams->pos.x - initParams->actor->posRot.pos.x;
-        this->vec.y = initParams->pos.y - initParams->actor->posRot.pos.y;
-        this->vec.z = initParams->pos.z - initParams->actor->posRot.pos.z;
+        this->vec.x = initParams->pos.x - initParams->actor->world.pos.x;
+        this->vec.y = initParams->pos.y - initParams->actor->world.pos.y;
+        this->vec.z = initParams->pos.z - initParams->actor->world.pos.z;
         this->update = EffectSsGSpk_Update;
     } else {
         this->life = 5;
@@ -113,10 +113,10 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->accel.z = (Rand_ZeroOne() - 0.5f) * 3.0f;
 
     if (this->actor != NULL) {
-        if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {
-            this->pos.x = this->actor->posRot.pos.x + this->vec.x;
-            this->pos.y = this->actor->posRot.pos.y + this->vec.y;
-            this->pos.z = this->actor->posRot.pos.z + this->vec.z;
+        if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
+            this->pos.x = this->actor->world.pos.x + this->vec.x;
+            this->pos.y = this->actor->world.pos.y + this->vec.y;
+            this->pos.z = this->actor->world.pos.z + this->vec.z;
         }
     }
 
@@ -132,9 +132,9 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 // with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
 void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (this->actor != NULL) {
-        if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {
-            this->pos.x += (Math_SinS(this->actor->posRot.rot.y) * this->actor->speedXZ);
-            this->pos.z += (Math_CosS(this->actor->posRot.rot.y) * this->actor->speedXZ);
+        if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
+            this->pos.x += (Math_SinS(this->actor->world.rot.y) * this->actor->speedXZ);
+            this->pos.z += (Math_CosS(this->actor->world.rot.y) * this->actor->speedXZ);
         }
     }
 

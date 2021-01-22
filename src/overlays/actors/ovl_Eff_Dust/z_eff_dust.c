@@ -13,7 +13,7 @@ void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EffDust),

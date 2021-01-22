@@ -23,7 +23,7 @@ void func_80899A08(BgJyaKanaami* this);
 
 const ActorInit Bg_Jya_Kanaami_InitVars = {
     ACTOR_BG_JYA_KANAAMI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaKanaami),
@@ -83,7 +83,7 @@ void func_80899880(BgJyaKanaami* this) {
 
 void func_80899894(BgJyaKanaami* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F) || this->unk_16A > 0) {
-        if (this->actor.posRot.pos.x > -1000.0f && this->unk_16A == 0) {
+        if (this->actor.world.pos.x > -1000.0f && this->unk_16A == 0) {
             func_800800F8(globalCtx, 0xD7A, -0x63, &this->actor, 0);
         }
         this->unk_16A += 1;
@@ -102,7 +102,7 @@ void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 var;
     this->unk_168 += 0x20;
-    if (Math_ScaledStepToS(&this->actor.posRot.rot.x, 0x4000, this->unk_168)) {
+    if (Math_ScaledStepToS(&this->actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_TRAP_BOUND);
         var = Quake_Add(ACTIVE_CAM, 3);
@@ -114,7 +114,7 @@ void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
 
 void func_80899A08(BgJyaKanaami* this) {
     this->actionFunc = 0;
-    this->actor.posRot.rot.x = 0x4000;
+    this->actor.world.rot.x = 0x4000;
 }
 
 void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -123,7 +123,7 @@ void BgJyaKanaami_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
     }
-    this->actor.shape.rot.x = this->actor.posRot.rot.x;
+    this->actor.shape.rot.x = this->actor.world.rot.x;
 }
 
 void BgJyaKanaami_Draw(Actor* thisx, GlobalContext* globalCtx) {

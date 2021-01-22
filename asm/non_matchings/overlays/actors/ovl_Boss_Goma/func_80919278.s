@@ -15,7 +15,7 @@ glabel func_80919278
 /* 03894 809192A4 24070BB8 */  addiu   $a3, $zero, 0x0BB8         ## $a3 = 00000BB8
 /* 03898 809192A8 8FAE0024 */  lw      $t6, 0x0024($sp)           
 /* 0389C 809192AC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 038A0 809192B0 0C00B69E */  jal     func_8002DA78              
+/* 038A0 809192B0 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 038A4 809192B4 8DC51C44 */  lw      $a1, 0x1C44($t6)           ## 00001C44
 /* 038A8 809192B8 00022C00 */  sll     $a1, $v0, 16               
 /* 038AC 809192BC 00052C03 */  sra     $a1, $a1, 16               

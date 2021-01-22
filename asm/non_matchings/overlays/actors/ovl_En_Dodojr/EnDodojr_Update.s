@@ -32,7 +32,7 @@ glabel EnDodojr_Update
 /* 01940 809F7D00 468031A0 */  cvt.s.w $f6, $f6                   
 /* 01944 809F7D04 44062000 */  mfc1    $a2, $f4                   
 /* 01948 809F7D08 44073000 */  mfc1    $a3, $f6                   
-/* 0194C 809F7D0C 0C00B92D */  jal     func_8002E4B4              
+/* 0194C 809F7D0C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01950 809F7D10 00000000 */  nop
 /* 01954 809F7D14 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
 /* 01958 809F7D18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -40,7 +40,7 @@ glabel EnDodojr_Update
 /* 0195C 809F7D1C 0040F809 */  jalr    $ra, $v0                   
 /* 01960 809F7D20 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 01964 809F7D24 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 01968 809F7D28 0C00B56E */  jal     Actor_SetHeight
+/* 01968 809F7D28 0C00B56E */  jal     Actor_SetFocus
               
 /* 0196C 809F7D2C 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
 /* 01970 809F7D30 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

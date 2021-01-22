@@ -18,7 +18,7 @@ typedef struct BgSpot16Bombstone {
     /* 0x015C */ f32 sinRotation;
     /* 0x0160 */ f32 cosRotation;
     /* 0x0164 */ ColliderJntSph colliderJntSph;
-    /* 0x0184 */ ColliderJntSphItem colliderJntSphItems[1];
+    /* 0x0184 */ ColliderJntSphElement colliderElements[1];
     /* 0x01C4 */ ColliderCylinder colliderCylinder;
     /* 0x0210 */ s16 unk_210;
     /* 0x0212 */ s16 unk_212;

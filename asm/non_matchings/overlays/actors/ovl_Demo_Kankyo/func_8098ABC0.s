@@ -231,7 +231,7 @@ glabel func_8098ABC0
 .L8098AEBC:
 /* 0203C 8098AEBC 27A400B8 */  addiu   $a0, $sp, 0x00B8           ## $a0 = FFFFFFC0
 .L8098AEC0:
-/* 02040 8098AEC0 0C00BBC5 */  jal     func_8002EF14              
+/* 02040 8098AEC0 0C00BBC5 */  jal     Actor_GetWorld              
 /* 02044 8098AEC4 8FA500E4 */  lw      $a1, 0x00E4($sp)           
 /* 02048 8098AEC8 3C068099 */  lui     $a2, %hi(D_8098CF98)       ## $a2 = 80990000
 /* 0204C 8098AECC 24C6CF98 */  addiu   $a2, $a2, %lo(D_8098CF98)  ## $a2 = 8098CF98

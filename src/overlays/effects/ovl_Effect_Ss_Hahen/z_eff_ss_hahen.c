@@ -122,7 +122,7 @@ void EffectSsHahen_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     this->rPitch += 55;
     this->rYaw += 10;
 
-    if ((this->pos.y <= player->actor.groundY) && (this->life < this->rMinLife)) {
+    if ((this->pos.y <= player->actor.floorHeight) && (this->life < this->rMinLife)) {
         this->life = 0;
     }
 
