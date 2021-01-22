@@ -354,61 +354,30 @@ void func_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E4F4.s")
 #endif
 
-#ifdef NON_MATCHING
 void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
-    #if 0
-    //Gfx *temp_v0;
-    //Gfx *temp_v0_2;
-    //Gfx *temp_v0_3;
-    //Gfx *temp_v0_4;
-    //Gfx *temp_v0_5;
-    //Gfx *temp_v0_6;
-    //Gfx *temp_v0_7;
-    //Gfx *temp_v1;
-    GraphicsContext *temp_s2;
-    //MtxF *temp_s0;
-    //f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f12;
-    //f32 temp_f16;
-    f32 temp_f20;
-    //f32 temp_f2;
-    //s32 temp_f18;
-    //s32 temp_s4;
-    //u32 *temp_s5;
-    f32 *phi_s1;
-    //s32 phi_t9;
-    Vec3f *phi_s3;
-    //s32 phi_s4;
+    EffDust *this2;
+    GlobalContext *glb_ctx;
+    GraphicsContext *gfx_ctx;
 
-    f32 x;
-    f32 y;
-    f32 z;
+    f32 *unk_014C;
+    Vec3f *unk_024C;
+
+    s32 i;
+    f32 aux;
 
     Player *player;
 
-    MtxF *mtxf_ptr;
-
-    s32 i;
-
-
-    temp_s2 = globalCtx->state.gfxCtx;
-    
-    mtxf_ptr = &globalCtx->mf_11DA0;
-
-
+    gfx_ctx = globalCtx->state.gfxCtx;
     player = PLAYER;
-    
 
+    OPEN_DISPS(gfx_ctx, "../z_eff_dust.c", 472);
 
-    OPEN_DISPS(temp_s2, "../z_eff_dust.c", 472);
+    glb_ctx = globalCtx;
 
-    func_80093D18(temp_s2);
+    func_80093D18(gfx_ctx);
 
     gDPPipeSync(POLY_XLU_DISP++);
-
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-
     if (player->unk_858 >= 0.85f) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0x00);
 
@@ -416,173 +385,44 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0xFF, 0x00);
     }
 
-    phi_s3 = this->unk_024C;
-    phi_s1 = this->unk_014C;
-
+    unk_024C = this->unk_024C;
+    unk_014C = this->unk_014C;
 
     gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
 
     for (i = 0; i < 0x40; i++) {
-        if (*phi_s1 < 1.0f) {
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, ((u8)(*phi_s1 * 255.0f)));
+        if (*unk_014C < 1.0f) {
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, ((255.0f * (*unk_014C))));
 
+            // TODO: find a way to match without needing to do this.
+            this2 = this;
+            if (!this2) { }
 
-            //temp_f0 = *phi_s1;
-            //temp_f20 = 1.0f - (temp_f0 * temp_f0);
-            temp_f20 = 1.0f - (*phi_s1 * *phi_s1);
-            
-            //Matrix_Mult(spB0 + 0x9E0, (u8)0U);
+            aux = 1.0f - (*unk_014C * *unk_014C);
+
             Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
             
-            x = phi_s3->x;
-            y = phi_s3->y;
-            z = phi_s3->z;
-
-            //temp_f2 = this->dx;
-            temp_f0_2 = 1.0f - *phi_s1;
-            
             Matrix_Translate(
-                //phi_s3->x * ((temp_f2 * temp_f20) + (1.0f - temp_f2)), 
-                //phi_s3->x * ((temp_f2 * (1.0f - (temp_f0 * temp_f0))) + (1.0f - temp_f2)), 
-                //phi_s3->x * ((this->dx * (1.0f - (temp_f0 * temp_f0))) + (1.0f - this->dx)), 
-                //phi_s3->x * ((this->dx * (1.0f - (*phi_s1 * *phi_s1))) + (1.0f - this->dx)), 
-                //phi_s3->x * ((this->dx * temp_f20) + (1.0f - this->dx)), 
-                /*phi_s3->x * ((this->dx * temp_f20) + (1.0f - this->dx)), 
-                (temp_f0_2 * phi_s3->y) + 320.0f, 
-                (temp_f0_2 * phi_s3->z) + -20.0f, */
-                x * ((this->dx * temp_f20) + (1.0f - this->dx)), 
-                //y * temp_f0_2 + 320.0f, 
-                y * temp_f0_2 + 320.0f, 
-                //z * temp_f0_2 + -20.0f, 
-                z * temp_f0_2 + -20.0f, 
-                MTXMODE_APPLY
-                );
-            
-            temp_f12 = *phi_s1 * this->scalingFactor;
-            Matrix_Scale(temp_f12, temp_f12, temp_f12, MTXMODE_APPLY);
-
-            //func_800D1FD4(&globalCtx->mf_11DA0);
-            func_800D1FD4(mtxf_ptr);
-
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(temp_s2, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
-        }
-        phi_s3++;
-        phi_s1++;
-    }
-
-    CLOSE_DISPS(temp_s2, "../z_eff_dust.c", 515);
-    #endif
-
-    #if 1
-
-    //f32 temp_f0_2;
-    GraphicsContext *temp_s2;
-    //f32 temp_f12;
-    EffDust *new_var9;
-    f32 temp_f20; //
-    f32 *phi_s1;
-    //f32 *new_var5;
-    //f32 *new_var2;
-    Vec3f *phi_s3;
-    GlobalContext *new_var4; //
-    //f32 *new_var3;
-    //Gfx *new_var;
-    //GraphicsContext *new_var6;
-    s32 i;
-
-    //int new_var8;
-
-    Player *player; //
-
-    /*if (!this->scalingFactor)
-    {
-    }*/
-
-    temp_s2 = globalCtx->state.gfxCtx;
-    player = PLAYER;
-
-    //new_var2 = this->unk_014C;
-
-    OPEN_DISPS(temp_s2, "../z_eff_dust.c", 472);
-
-    new_var4 = globalCtx;
-
-    func_80093D18(temp_s2);
-
-    gDPPipeSync(POLY_XLU_DISP++);
-
-    //new_var6 = temp_s2;
-    if(!temp_s2){
-        
-    }
-
-    //new_var = POLY_XLU_DISP++;
-    //gDPSetPrimColor(new_var, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-
-    if (player->unk_858 >= 0.85f) {
-        gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0x00);
-    }
-    else {
-        gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0xFF, 0x00);
-    }
-
-    phi_s3 = this->unk_024C;
-    //phi_s1 = new_var2;
-    phi_s1 = this->unk_014C;
-
-    gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
-    for (i = 0; i < 0x40; i++) {
-        if ((*phi_s1) < 1.0f) {
-
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF,  (255.0f * (*phi_s1)));
-            
-            new_var9 = this;
-            if (!new_var9) {
-            }
-
-
-            temp_f20 = 1.0f - ((*phi_s1) * (*phi_s1));
-            
-            Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
-            
-            //new_var3 = &phi_s3->x;
-            //new_var5 = &phi_s3->y;
-
-            Matrix_Translate(
-                //(*new_var3) * ((new_var9->dx * temp_f20) + (1.0f - new_var9->dx)), 
-                ((phi_s3->x)) * ((new_var9->dx * temp_f20) + (1.0f - new_var9->dx)), 
-                //((*new_var5) * (1.0f - (*phi_s1))) + 320.0f, 
-                (((phi_s3->y)) * (1.0f - (*phi_s1))) + 320.0f, 
-                (phi_s3->z * (1.0f - (*phi_s1))) + (-20.0f), 
+                unk_024C->x * ((this2->dx * aux) + (1.0f - this2->dx)), 
+                unk_024C->y * (1.0f - *unk_014C) + 320.0f, 
+                unk_024C->z * (1.0f - *unk_014C) + -20.0f, 
                 MTXMODE_APPLY
                 );
 
-            //temp_f12 = (*phi_s1) * new_var9->scalingFactor;                
-            //Matrix_Scale(temp_f12, temp_f12, temp_f12, MTXMODE_APPLY);
-            Matrix_Scale((*phi_s1) * new_var9->scalingFactor, (*phi_s1) * new_var9->scalingFactor, (*phi_s1) * new_var9->scalingFactor, MTXMODE_APPLY);
+            Matrix_Scale(*unk_014C * this2->scalingFactor, *unk_014C * this2->scalingFactor, *unk_014C * this2->scalingFactor, MTXMODE_APPLY);
 
-            func_800D1FD4(&new_var4->mf_11DA0);
+            func_800D1FD4(&glb_ctx->mf_11DA0);
 
-            //gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(new_var6, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(temp_s2, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfx_ctx, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
         }
 
-        phi_s3++;
-        phi_s1++;
+        unk_024C++;
+        unk_014C++;
     }
 
-    CLOSE_DISPS(temp_s2, "../z_eff_dust.c", 515);
-
-    #endif
+    CLOSE_DISPS(gfx_ctx, "../z_eff_dust.c", 515);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Eff_Dust/func_8099E784.s")
-#endif
 
 void EffDust_Draw(Actor *thisx, GlobalContext *globalCtx) {
     EffDust *this = THIS;
