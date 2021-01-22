@@ -69,16 +69,16 @@ extern UNK_TYPE D_06004EF0;
 extern AnimationHeader D_0600504C;
 extern AnimationHeader D_060050A8;
 extern UNK_TYPE D_060052F0;
-extern FlexSkeletonHeader D_06006B2C;
+extern SkeletonHeader D_06006B2C;
 extern AnimationHeader D_06007148;
 extern UNK_TYPE D_06007210;
-extern FlexSkeletonHeader D_06008668;
+extern SkeletonHeader D_06008668;
 extern UNK_TYPE D_0600A4E0;
 extern Gfx D_0600BE90[];
 extern Gfx D_0600C410[];
 extern Gfx D_0600D0D8[];
 extern Gfx D_0600DE08[];
-extern SkeletonHeader D_0600E038;
+extern FlexSkeletonHeader D_0600E038;
 extern Gfx D_0600E1A8[];
 extern UNK_TYPE D_0600F178;
 extern UNK_TYPE D_0600F378;
@@ -145,8 +145,7 @@ static EnViewerDrawFunc sDrawFuncs[] = {
     func_80B2C130,
 };
 
-// angle
-s16 D_80B2CFEC = 0;
+// angl
 
 EnGanonMant* sGanonCape;
 
@@ -168,8 +167,8 @@ void EnViewer_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1E5 = 0;
     this->unk_1E6 = false;
     if (params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        sGanonCape = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GANON_MANT, 0.0f, 0.0f,
-                                        0.0f, 0, 0, 0, 35);
+        sGanonCape = (EnGanonMant*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
+                                                      ACTOR_EN_GANON_MANT, 0.0f, 0.0f, 0.0f, 0, 0, 0, 35);
     }
 }
 
@@ -880,16 +879,10 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2034);
 }
 
-// regalloc
-// Using any of the three temps in the comments results in equivalency with only the stack pointer being too large.
-// Can't find an equivalent without a temp
-#ifdef NON_MATCHING
 void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
+    static s16 D_80B2CFEC = 0;
     Vec3f vec1;
     Vec3f vec2;
-    // u8 index = 19;
-    // s16 angle_1 = 0x1000;
-    // s16 angle_2 = 0x2000;
 
     if (this->actor.params >> 8 == 5) {
         if (1) {}
@@ -900,15 +893,9 @@ void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
         sGanonCape->unk_16D0 = 0.0f;
         sGanonCape->unk_16C8 = (BREG(67) - 10) / 10.0f;
         vec1.x = KREG(16) - 13.0f;
-
-        // Any of the temps defined above vec1.y results in a near match
-        // with only the stack pointer being too large
         vec1.y = KREG(17) + 3.0f + Math_SinS(D_80B2CFEC) * KREG(20);
         vec1.z = KREG(18) - 10.0f;
         D_80B2CFEC += KREG(19) * 0x1000 + 0x2000;
-        // D_80B2CFEC += KREG(index) * 0x1000 + 0x2000;
-        // D_80B2CFEC += KREG(19) * angle_1 + 0x2000;
-        // D_80B2CFEC += KREG(19) * 0x1000 + angle_2;
 
         Matrix_RotateY((this->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
         Matrix_MultVec3f(&vec1, &vec2);
@@ -922,6 +909,3 @@ void func_80B2CC1C(GlobalContext* globalCtx, EnViewer* this) {
         sGanonCape->unk_16E0.z = D_80B2D448.z + vec2.z;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Viewer/func_80B2CC1C.s")
-#endif
