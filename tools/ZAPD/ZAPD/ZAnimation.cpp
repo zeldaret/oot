@@ -46,6 +46,11 @@ string ZAnimation::GetSourceOutputCode(const std::string& prefix)
 	return "";
 }
 
+ZResourceType ZAnimation::GetResourceType()
+{
+	return ZResourceType::Animation;
+}
+
 ZNormalAnimation::ZNormalAnimation() : ZAnimation()
 {
 	rotationValues = vector<uint16_t>();

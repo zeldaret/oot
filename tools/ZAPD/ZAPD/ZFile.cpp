@@ -8,7 +8,9 @@
 #include "ZCollision.h"
 #include "ZScalar.h"
 #include "ZVector.h"
+#include "ZVtx.h"
 #include "ZCutscene.h"
+#include "ZArray.h"
 #include "Path.h"
 #include "File.h"
 #include "Directory.h"
@@ -38,7 +40,7 @@ ZFile::ZFile(string nOutPath, string nName) : ZFile()
 	name = nName;
 }
 
-ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPath, bool placeholderMode) : ZFile()
+ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPath, std::string filename, bool placeholderMode) : ZFile()
 {
 	if (nBasePath == "")
 		basePath = Directory::GetCurrentDirectory();
@@ -50,7 +52,7 @@ ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPa
 	else
 		outputPath = nOutPath;
 
-	ParseXML(mode, reader, placeholderMode);
+	ParseXML(mode, reader, filename, placeholderMode);
 }
 
 ZFile::~ZFile()
@@ -59,9 +61,13 @@ ZFile::~ZFile()
 		delete res;
 }
 
-void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
+void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, std::string filename, bool placeholderMode)
 {
-	name = reader->Attribute("Name");
+	if (filename == "")
+		name = reader->Attribute("Name");
+	else
+		name = filename;
+
 	int segment = -1;
 
 	if (reader->Attribute("BaseAddress") != NULL)
@@ -289,6 +295,26 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 					printf("No ZVector created!!");
 			}
 		}
+		else if (string(child->Name()) == "Vtx")
+		{
+			ZVtx* vtx = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				vtx = ZVtx::ExtractFromXML(child, rawData, rawDataIndex, folderName);
+
+			if (vtx != nullptr)
+			{
+				vtx->parent = this;
+				resources.push_back(vtx);
+
+				rawDataIndex += vtx->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZVtx created!!");
+			}
+		}
 		else if (string(child->Name()) == "Cutscene")
 		{
 			ZCutscene* cs = nullptr;
@@ -303,10 +329,24 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 				rawDataIndex += cs->GetRawDataSize();
 			}
 		}
+		else if (string(child->Name()) == "Array")
+		{
+			ZArray* array = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				array = ZArray::ExtractFromXML(child, rawData, rawDataIndex, folderName, this);
+
+			if (array != nullptr)
+			{
+				resources.push_back(array);
+				rawDataIndex += array->GetRawDataSize();
+			}
+		}
 		else
 		{
-			if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
-				printf("Encountered unknown resource type: %s\n", string(child->Name()).c_str());
+			std::cerr << "ERROR bad type\n";
+			printf("Encountered unknown resource type: %s on line: %d\n", child->Name(), child->GetLineNum());
+			std::exit(EXIT_FAILURE);
 		}
 	}
 }
@@ -357,6 +397,11 @@ std::string ZFile::GetVarName(int address)
 	}
 
 	return "";
+}
+
+std::string ZFile::GetName()
+{
+	return name;
 }
 
 void ZFile::ExtractResources(string outputDir)
