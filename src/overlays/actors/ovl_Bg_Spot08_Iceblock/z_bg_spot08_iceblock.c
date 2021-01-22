@@ -107,11 +107,7 @@ void BgSpot08Iceblock_SinkUnderPlayer(BgSpot08Iceblock* this) {
     }
 
     // Sink under Player's weight if standing on it
-    if (func_80043548(&this->dyna)) {
-        target = -4.0f;
-    } else {
-        target = 0.0f;
-    }
+    target = (func_80043548(&this->dyna) ? -4.0f : 0.0f);
 
     Math_StepToF(&this->sinkOffset, target, step);
 }
