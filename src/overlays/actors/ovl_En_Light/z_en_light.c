@@ -171,7 +171,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
             POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
 
-        dList = gEffectFire1DL;
+        dList = gEffFire1DL;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
                         flameParams->primColor.b, flameParams->primColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b, 0);

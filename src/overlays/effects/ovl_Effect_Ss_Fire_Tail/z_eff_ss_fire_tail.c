@@ -127,9 +127,9 @@ void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
                                 (globalCtx->state.frames * -0x14) & 0x1FF, 32, 128));
 
     if (this->rType != 0) {
-        gSPDisplayList(POLY_XLU_DISP++, gEffectFire2DL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire2DL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, gEffectFire1DL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fire_tail.c", 273);

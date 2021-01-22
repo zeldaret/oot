@@ -116,8 +116,8 @@ glabel func_80BA414C
 /* 01800 80BA42A0 25EF6FA8 */  addiu   $t7, %lo(gSegments)
 /* 01804 80BA42A4 000D7080 */  sll     $t6, $t5,  2               
 /* 01808 80BA42A8 3C080100 */  lui     $t0, %hi(D_01000000)                ## $t0 = 01000000
-/* 0180C 80BA42AC 3C090401 */  lui     $t1, %hi(gEffectDustDL)                ## $t1 = 04010000
-/* 01810 80BA42B0 25290050 */  addiu   $t1, $t1, %lo(gEffectDustDL)           ## $t1 = 04010050
+/* 0180C 80BA42AC 3C090401 */  lui     $t1, %hi(gEffDustDL)                ## $t1 = 04010000
+/* 01810 80BA42B0 25290050 */  addiu   $t1, $t1, %lo(gEffDustDL)           ## $t1 = 04010050
 /* 01814 80BA42B4 25080000 */  addiu   $t0, $t0, %lo(D_01000000)           ## $t0 = 01000000
 /* 01818 80BA42B8 01CFC021 */  addu    $t8, $t6, $t7              
 /* 0181C 80BA42BC 4481F000 */  mtc1    $at, $f30                  ## $f30 = 80.00

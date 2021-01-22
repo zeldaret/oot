@@ -249,9 +249,9 @@ void BgHidanFwbig_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_fwbig.c", 630);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gEffectUnknown4Tex));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gEffUnknown4Tex));
 
-    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(gEffectUnknown5Tex));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(gEffUnknown5Tex));
 
     height = thisx->scale.y * 2400.0f;
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 220, 0,

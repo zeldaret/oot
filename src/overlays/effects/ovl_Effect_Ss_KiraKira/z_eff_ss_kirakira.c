@@ -41,12 +41,12 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 
     if ((this->life = initParams->life) < 0) {
         this->life = -this->life;
-        this->gfx = SEGMENTED_TO_VIRTUAL(gEffectFairySparklesDL);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL);
         this->update = func_809AAD6C;
         this->rEnvColorA = initParams->scale;
         this->rScale = 0;
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(gEffectFairySparklesDL);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL);
 
         if (initParams->updateMode == 0) {
             this->update = func_809AABF0;

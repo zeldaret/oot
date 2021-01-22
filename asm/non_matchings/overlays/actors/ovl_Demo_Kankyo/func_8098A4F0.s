@@ -50,8 +50,8 @@ glabel func_8098A4F0
 /* 016F8 8098A578 000E7F02 */  srl     $t7, $t6, 28               
 /* 016FC 8098A57C 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000
 /* 01700 8098A580 3C198016 */  lui     $t9, %hi(gSegments)
-/* 01704 8098A584 3C080401 */  lui     $t0, %hi(gEffectDustDL)                ## $t0 = 04010000
-/* 01708 8098A588 25080050 */  addiu   $t0, $t0, %lo(gEffectDustDL)           ## $t0 = 04010050
+/* 01704 8098A584 3C080401 */  lui     $t0, %hi(gEffDustDL)                ## $t0 = 04010000
+/* 01708 8098A588 25080050 */  addiu   $t0, $t0, %lo(gEffDustDL)           ## $t0 = 04010050
 /* 0170C 8098A58C 27396FA8 */  addiu   $t9, %lo(gSegments)
 /* 01710 8098A590 000FC080 */  sll     $t8, $t7,  2               
 /* 01714 8098A594 3C1E0100 */  lui     $s8, %hi(D_01000000)                ## $s8 = 01000000

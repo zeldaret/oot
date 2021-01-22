@@ -28,14 +28,14 @@ static Color_RGB8 sColors[] = {
 };
 
 static UNK_PTR sTextures[] = {
-    gEffectDamageParticles1Tex,  gEffectDamageParticles2Tex,  gEffectDamageParticles3Tex,  gEffectDamageParticles4Tex,
-    gEffectDamageParticles5Tex,  gEffectDamageParticles6Tex,  gEffectDamageParticles7Tex,  gEffectDamageParticles8Tex,
-    gEffectDamageParticles9Tex,  gEffectDamageParticles10Tex, gEffectDamageParticles11Tex, gEffectDamageParticles12Tex,
-    gEffectDamageParticles13Tex, gEffectDamageParticles14Tex, gEffectDamageParticles15Tex, gEffectDamageParticles16Tex,
-    gEffectDamageParticles17Tex, gEffectDamageParticles18Tex, gEffectDamageParticles19Tex, gEffectDamageParticles20Tex,
-    gEffectDamageParticles21Tex, gEffectDamageParticles22Tex, gEffectDamageParticles23Tex, gEffectDamageParticles24Tex,
-    gEffectDamageParticles1Tex,  gEffectDamageParticles2Tex,  gEffectDamageParticles3Tex,  gEffectDamageParticles4Tex,
-    gEffectDamageParticles5Tex,  gEffectDamageParticles6Tex,  gEffectDamageParticles7Tex,  gEffectDamageParticles8Tex,
+    gEffHitMark1Tex,  gEffHitMark2Tex,  gEffHitMark3Tex,  gEffHitMark4Tex,
+    gEffHitMark5Tex,  gEffHitMark6Tex,  gEffHitMark7Tex,  gEffHitMark8Tex,
+    gEffHitMark9Tex,  gEffHitMark10Tex, gEffHitMark11Tex, gEffHitMark12Tex,
+    gEffHitMark13Tex, gEffHitMark14Tex, gEffHitMark15Tex, gEffHitMark16Tex,
+    gEffHitMark17Tex, gEffHitMark18Tex, gEffHitMark19Tex, gEffHitMark20Tex,
+    gEffHitMark21Tex, gEffHitMark22Tex, gEffHitMark23Tex, gEffHitMark24Tex,
+    gEffHitMark1Tex,  gEffHitMark2Tex,  gEffHitMark3Tex,  gEffHitMark4Tex,
+    gEffHitMark5Tex,  gEffHitMark6Tex,  gEffHitMark7Tex,  gEffHitMark8Tex,
 };
 
 EffectSsInit Effect_Ss_HitMark_InitVars = {
@@ -47,7 +47,7 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     s32 colorIdx;
     EffectSsHitMarkInitParams* initParams = (EffectSsHitMarkInitParams*)initParamsx;
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectDamageParticlesDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffHitMarkDL);
 
     if (initParams->type == EFFECT_HITMARK_DUST) {
         this->life = 16;

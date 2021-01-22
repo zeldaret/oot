@@ -133,7 +133,7 @@ void BgHakaTubo_Idle(BgHakaTubo* this, GlobalContext* globalCtx) {
             EffectSsBomb2_SpawnLayered(globalCtx, &pos, &sZeroVector, &sZeroVector, 100, 45);
             Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 50, NA_SE_EV_BOX_BREAK);
             EffectSsHahen_SpawnBurst(globalCtx, &pos, 20.0f, 0, 350, 100, 50, OBJECT_HAKA_OBJECTS, 40,
-                                     gEffectFragments2DL);
+                                     gEffFragments2DL);
             this->dropTimer = 5;
             this->dyna.actor.draw = NULL;
             Actor_SetScale(&this->dyna.actor, 0.0f);
@@ -240,7 +240,7 @@ void BgHakaTubo_DrawFlameCircle(BgHakaTubo* this, GlobalContext* globalCtx) {
                                 (this->fireScroll * -15) & 0xFF, 32, 64));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 497),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gEffectFireCircleDL);
+    gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_tubo.c", 501);
 }

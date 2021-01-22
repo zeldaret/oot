@@ -38,7 +38,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     waterBox = NULL;
     this->velocity = this->accel = zeroVec;
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectWaterRippleDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffWaterRippleDL);
     this->life = initParams->life + 20;
     this->flags = 0;
     this->draw = EffectSsGRipple_Draw;
@@ -103,7 +103,7 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
 
 void EffectSsGRipple_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (this->rLifespan == 0) {
-        EffectSsGRipple_DrawRipple(globalCtx, this, gEffectWaterRippleTex);
+        EffectSsGRipple_DrawRipple(globalCtx, this, gEffWaterRippleTex);
     }
 }
 

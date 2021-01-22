@@ -340,13 +340,13 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     switch (this->unk_1C6) {
         case 0:
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
-            gSPDisplayList(POLY_XLU_DISP++, gEffectSpinAttack3DL);
-            gSPDisplayList(POLY_XLU_DISP++, gEffectSpinAttack4DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack3DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack4DL);
             break;
         case 1:
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
-            gSPDisplayList(POLY_XLU_DISP++, gEffectSpinAttack1DL);
-            gSPDisplayList(POLY_XLU_DISP++, gEffectSpinAttack2DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack1DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack2DL);
             break;
     }
 
@@ -399,7 +399,7 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                                 (globalCtx->gameplayFrames * 0x14) & 0xFF,
                                 (u8)(globalCtx->gameplayFrames * phi_t1) & 0xFF, 8, 8));
 
-    gSPDisplayList(POLY_XLU_DISP++, gEffectSpinAttackChargingDL);
+    gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 1031);
 }

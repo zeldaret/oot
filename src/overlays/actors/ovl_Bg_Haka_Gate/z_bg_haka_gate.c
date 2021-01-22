@@ -338,7 +338,7 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx) {
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 744),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gEffectFire1DL);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 749);
     }
 }

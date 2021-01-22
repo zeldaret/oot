@@ -293,7 +293,7 @@ glabel func_80074704
 /* AEBC90 80074AF0 C438C7F0 */  lwc1  $f24, %lo(D_8013C7F0)($at)
 /* AEBC94 80074AF4 3C014000 */  lui   $at, 0x4000
 /* AEBC98 80074AF8 3C0A0402 */  li    $t2, 0x04020000 # 0.000000
-/* AEBC9C 80074AFC 254AA0B0 */  addiu $t2, %lo(gEffectShockwaveDL) # addiu $t2, $t2, -0x5f50
+/* AEBC9C 80074AFC 254AA0B0 */  addiu $t2, %lo(gEffShockwaveDL) # addiu $t2, $t2, -0x5f50
 /* AEBCA0 80074B00 4481B000 */  mtc1  $at, $f22
 /* AEBCA4 80074B04 AFAA007C */  sw    $t2, 0x7c($sp)
 .L80074B08:

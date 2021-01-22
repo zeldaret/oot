@@ -33,7 +33,7 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
         initParams->scale = 600;
     }
 
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectWaterSplashDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffWaterSplashDL);
     this->life = 8;
     this->rgScale = initParams->scale;
     this->rgTexIdx = 0;
@@ -90,8 +90,8 @@ u32 EffectSsGSplash_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectWaterSplash1Tex, gEffectWaterSplash2Tex, gEffectWaterSplash3Tex, gEffectWaterSplash4Tex,
-    gEffectWaterSplash5Tex, gEffectWaterSplash6Tex, gEffectWaterSplash7Tex, gEffectWaterSplash8Tex,
+    gEffWaterSplash1Tex, gEffWaterSplash2Tex, gEffWaterSplash3Tex, gEffWaterSplash4Tex,
+    gEffWaterSplash5Tex, gEffWaterSplash6Tex, gEffWaterSplash7Tex, gEffWaterSplash8Tex,
 };
 
 void EffectSsGSplash_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

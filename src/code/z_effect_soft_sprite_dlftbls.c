@@ -13,7 +13,7 @@
 #define EFFECT_SS_OVERLAY_UNSET \
     { 0 }
 
-EffectSsOverlay gEffectSsOverlayTable[] = {
+EffectSsOverlay gEffSsOverlayTable[] = {
     EFFECT_SS_OVERLAY(Effect_Ss_Dust),
     EFFECT_SS_OVERLAY(Effect_Ss_KiraKira),
     EFFECT_SS_OVERLAY(Effect_Ss_Bomb),

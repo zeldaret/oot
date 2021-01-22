@@ -43,7 +43,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectDustDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffDustDL);
     this->life = initParams->life;
     this->update = sUpdateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;

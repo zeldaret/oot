@@ -36,9 +36,9 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->accel = initParams->accel;
 
     if (KREG(2) != 0) {
-        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffectBubble2Tex);
+        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffBubble2Tex);
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffectBubble1Tex);
+        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffBubble1Tex);
     }
 
     this->life = ((s16)((Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
@@ -73,7 +73,7 @@ void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_OPA_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
     gSPSegment(POLY_OPA_DISP++, 0x08, this->gfx);
-    gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gEffectBubbleDL));
+    gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gEffBubbleDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki.c", 198);
 }

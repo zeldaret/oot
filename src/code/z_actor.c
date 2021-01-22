@@ -41,7 +41,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
             func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &sp60);
             Matrix_Put(&sp60);
 
-            if (dlist != gCircularShadowDL) {
+            if (dlist != gCircleShadowDL) {
                 Matrix_RotateY(actor->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
             }
 
@@ -58,13 +58,13 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
 }
 
 void ActorShadow_DrawCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    ActorShadow_Draw(actor, lights, globalCtx, gCircularShadowDL, NULL);
+    ActorShadow_Draw(actor, lights, globalCtx, gCircleShadowDL, NULL);
 }
 
 void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
     static Color_RGBA8 white = { 255, 255, 255, 255 };
 
-    ActorShadow_Draw(actor, lights, globalCtx, gCircularShadowDL, &white);
+    ActorShadow_Draw(actor, lights, globalCtx, gCircleShadowDL, &white);
 }
 
 void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
@@ -90,7 +90,7 @@ void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s3
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 1687),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &gFootprintShadowDL);
+    gSPDisplayList(POLY_OPA_DISP++, &gFootShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1693);
 }
@@ -1919,7 +1919,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
                       G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffectFlash1DL);
+            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
 
             Matrix_Pull();
             phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
@@ -1927,7 +1927,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
                       G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffectFlash1DL);
+            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
         }
 
         lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
@@ -3457,7 +3457,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8149),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &gCircularShadowDL);
+    gSPDisplayList(POLY_OPA_DISP++, &gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8155);
 }

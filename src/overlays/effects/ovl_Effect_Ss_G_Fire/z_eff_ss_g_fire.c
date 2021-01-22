@@ -24,7 +24,7 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->pos = initParams->pos;
     this->draw = EffectSsGFire_Draw;
     this->update = EffectSsGFire_Update;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectFireFootprintDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffFireFootprintDL);
     this->life = 8;
     this->flags = 0;
     this->rgScale = 200;
@@ -44,8 +44,8 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 
 void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     UNK_PTR textures[] = {
-        gEffectFireFootprint1Tex, gEffectFireFootprint2Tex, gEffectFireFootprint3Tex, gEffectFireFootprint4Tex,
-        gEffectFireFootprint5Tex, gEffectFireFootprint6Tex, gEffectFireFootprint7Tex, gEffectFireFootprint8Tex,
+        gEffFireFootprint1Tex, gEffFireFootprint2Tex, gEffFireFootprint3Tex, gEffFireFootprint4Tex,
+        gEffFireFootprint5Tex, gEffFireFootprint6Tex, gEffFireFootprint7Tex, gEffFireFootprint8Tex,
     };
     s16 texIdx = (this->rgTexIdx / 100) % 7;
 

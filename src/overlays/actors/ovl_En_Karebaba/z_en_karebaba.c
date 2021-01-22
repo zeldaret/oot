@@ -460,7 +460,7 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
     Matrix_Scale(0.15f, 1.0f, 0.15f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1029),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gCircularShadowDL);
+    gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1034);
 }

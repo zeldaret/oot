@@ -30,7 +30,7 @@ u32 EffectSsFcircle_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->vec.x = initParams->pos.x - initParams->actor->world.pos.x;
     this->vec.y = initParams->pos.y - initParams->actor->world.pos.y;
     this->vec.z = initParams->pos.z - initParams->actor->world.pos.z;
-    this->gfx = gEffectFireCircleDL;
+    this->gfx = gEffFireCircleDL;
     this->life = 20;
     this->draw = EffectSsFcircle_Draw;
     this->update = EffectSsFcircle_Update;

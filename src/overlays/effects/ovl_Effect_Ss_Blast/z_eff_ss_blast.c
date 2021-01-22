@@ -36,7 +36,7 @@ u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->pos.y += 5.0f;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectShockwaveDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffShockwaveDL);
     this->life = initParams->life;
     this->draw = EffectSsBlast_Draw;
     this->update = EffectSsBlast_Update;

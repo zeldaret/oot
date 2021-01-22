@@ -35,7 +35,7 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectEnemyDeathFlameDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffEnemyDeathFlameDL);
     this->life = initParams->unk_34;
     this->flags = 4;
     this->rScaleStep = initParams->scaleStep;
@@ -57,9 +57,9 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectEnemyDeathFlame1Tex, gEffectEnemyDeathFlame2Tex,  gEffectEnemyDeathFlame3Tex, gEffectEnemyDeathFlame4Tex,
-    gEffectEnemyDeathFlame5Tex, gEffectEnemyDeathFlame6Tex,  gEffectEnemyDeathFlame7Tex, gEffectEnemyDeathFlame8Tex,
-    gEffectEnemyDeathFlame9Tex, gEffectEnemyDeathFlame10Tex,
+    gEffEnemyDeathFlame1Tex, gEffEnemyDeathFlame2Tex,  gEffEnemyDeathFlame3Tex, gEffEnemyDeathFlame4Tex,
+    gEffEnemyDeathFlame5Tex, gEffEnemyDeathFlame6Tex,  gEffEnemyDeathFlame7Tex, gEffEnemyDeathFlame8Tex,
+    gEffEnemyDeathFlame9Tex, gEffEnemyDeathFlame10Tex,
 };
 
 void EffectSsDeadDb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

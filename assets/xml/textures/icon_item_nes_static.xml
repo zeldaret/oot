@@ -1,14 +1,14 @@
 <Root>
     <File Name="icon_item_nes_static">
-        <Texture Name="gPauseInsideDekuTreeTitleTex" OutName="pause_inside_deku_tree_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseDodongosCavernTitleTex" OutName="pause_dodongos_cavern_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseInsideJabuJabusBellyTitleTex" OutName="pause_inside_jabu_jabus_belly_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseForestTempleTitleTex" OutName="pause_forest_temple_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseFireTempleTitleTex" OutName="pause_fire_temple_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseWaterTempleTitleTex" OutName="pause_water_temple_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseSpiritTempleTitleTex" OutName="pause_spirit_temple_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseShadowTempleTitleTex" OutName="pause_shadow_temple_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseBottomofWellTitleTex" OutName="pause_bottom_of_the_well_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseDekuTitleTex" OutName="pause_deku_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseDodongoTitleTex" OutName="pause_dodongo_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseJabuTitleTex" OutName="pause_inside_jabu_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseForestTitleTex" OutName="pause_forest_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseFireTitleTex" OutName="pause_fire_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseWaterTitleTex" OutName="pause_water_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseSpiritTitleTex" OutName="pause_spirit_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseShadowTitleTex" OutName="pause_shadow_title" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseBotWTitleTex" OutName="pause_botw_title" Format="ia8" Width="96" Height="16"/>
         <Texture Name="gPauseIceCavernTitleTex" OutName="pause_ice_cavern_title" Format="ia8" Width="96" Height="16"/>
         <Texture Name="gPauseToEquipTex" OutName="pause_to_equip" Format="ia8" Width="56" Height="16"/>
         <Texture Name="gPauseToDecideTex" OutName="pause_to_decide" Format="ia8" Width="64" Height="16"/>

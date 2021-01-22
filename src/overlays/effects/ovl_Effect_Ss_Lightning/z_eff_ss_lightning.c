@@ -33,7 +33,7 @@ u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, 
     EffectSsLightningInitParams* initParams = (EffectSsLightningInitParams*)initParamsx;
 
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectLightningDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffLightningDL);
     this->life = initParams->life;
     this->draw = EffectSsLightning_Draw;
     this->update = EffectSsLightning_Update;
@@ -67,8 +67,8 @@ void EffectSsLightning_NewLightning(GlobalContext* globalCtx, Vec3f* pos, s16 ya
 }
 
 static UNK_PTR sTextures[] = {
-    gEffectLightning1Tex, gEffectLightning2Tex, gEffectLightning3Tex, gEffectLightning4Tex,
-    gEffectLightning5Tex, gEffectLightning6Tex, gEffectLightning7Tex, gEffectLightning8Tex,
+    gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
+    gEffLightning5Tex, gEffLightning6Tex, gEffLightning7Tex, gEffLightning8Tex,
 };
 
 void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

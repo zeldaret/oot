@@ -24,7 +24,7 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->pos = initParams->pos;
     this->draw = EffectSsGMagma_Draw;
     this->update = EffectSsGMagma_Update;
-    this->gfx = SEGMENTED_TO_VIRTUAL(gEffectMagmaBubbleDL);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffMagmaBubbleDL);
     this->life = 16;
     this->rgScale = (s16)(Rand_ZeroOne() * 100.0f) + 200;
     this->rgTexIdx = 0;
@@ -42,8 +42,8 @@ u32 EffectSsGMagma_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
 }
 
 static void* sTextures[] = {
-    gEffectMagmaBubble1Tex, gEffectMagmaBubble2Tex, gEffectMagmaBubble3Tex, gEffectMagmaBubble4Tex,
-    gEffectMagmaBubble5Tex, gEffectMagmaBubble6Tex, gEffectMagmaBubble7Tex, gEffectMagmaBubble8Tex,
+    gEffMagmaBubble1Tex, gEffMagmaBubble2Tex, gEffMagmaBubble3Tex, gEffMagmaBubble4Tex,
+    gEffMagmaBubble5Tex, gEffMagmaBubble6Tex, gEffMagmaBubble7Tex, gEffMagmaBubble8Tex,
 };
 
 void EffectSsGMagma_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
