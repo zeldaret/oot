@@ -137,7 +137,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             this->collider.list[0].dim.worldSphere.center.x = thisx->posRot.pos.x;
             this->collider.list[0].dim.worldSphere.center.y = thisx->posRot.pos.y;
-            thisx->colChkInfo.mass = -1;
+            thisx->colChkInfo.mass = MASS_IMMOVABLE;
             break;
         case LHO_WATER_PLANE:
             Actor_ProcessInitChain(thisx, sInitChainWaterPlane);
