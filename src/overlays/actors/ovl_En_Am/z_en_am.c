@@ -33,15 +33,12 @@ void EnAm_RecoilFromDamage(EnAm* this, GlobalContext* globalCtx);
 typedef enum {
     /* 00 */ AM_BEHAVIOR_NONE,
     /* 01 */ AM_BEHAVIOR_DAMAGED,
-    /* 02 */ AM_BEHAVIOR_2, // unused
-    /* 03 */ AM_BEHAVIOR_DO_NOTHING,
-    /* 04 */ AM_BEHAVIOR_4, // unused
-    /* 05 */ AM_BEHAVIOR_5, // unused
+    /* 03 */ AM_BEHAVIOR_DO_NOTHING = 3,
+    /* 05 */ AM_BEHAVIOR_5 = 5, // checked but never set
     /* 06 */ AM_BEHAVIOR_STUNNED,
     /* 07 */ AM_BEHAVIOR_GO_HOME,
     /* 08 */ AM_BEHAVIOR_RICOCHET,
-    /* 09 */ AM_BEHAVIOR_9, // unused
-    /* 10 */ AM_BEHAVIOR_AGRO
+    /* 10 */ AM_BEHAVIOR_AGRO = 10
 } ArmosBehavior;
 
 const ActorInit En_Am_InitVars = {
@@ -160,7 +157,7 @@ static DamageTable D_809B0028 = {
     /* Unknown 2     */ DMG_ENTRY(0, AM_DMGEFF_NONE),
 };
 
-InitChainEntry D_809B0048[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 19, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 5300, ICHAIN_STOP),
@@ -197,9 +194,7 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     this->dyna.actor.world.pos.z += cos;
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 0.0f, 0.0f, 0.0f, 4);
-
     this->dyna.actor.world.pos = curPos;
-
     ret = this->dyna.actor.bgCheckFlags & 1;
 
     if (!ret) {
@@ -218,7 +213,7 @@ void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnAm* this = THIS;
 
-    Actor_ProcessInitChain(&this->dyna.actor, D_809B0048);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
     SkelAnime_Init(globalCtx, &this->skelAnime, &gArmosSkel, &gArmosRicochetAnim, this->jointTable, this->morphTable,
                    14);
@@ -630,7 +625,7 @@ void EnAm_Lunge(EnAm* this, GlobalContext* globalCtx) {
             }
 
             this->unk_264 = 1;
-            this->hitCollider.base.atFlags &= ~6;
+            this->hitCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
         } else if (this->skelAnime.curFrame > 11.0f) {
             if (!(this->dyna.actor.bgCheckFlags & 1)) {
                 this->skelAnime.curFrame = 11;
@@ -808,11 +803,11 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
             this->cylinder2.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
             this->cylinder1.base.acFlags &= ~AC_HIT;
 
-            if (this->behavior >= 5) {
+            if (this->behavior >= AM_BEHAVIOR_5) {
                 EnAm_SetupRicochet(this, globalCtx);
             }
         } else {
-            if ((this->cylinder1.base.acFlags & AC_HIT) && (this->behavior >= 5)) {
+            if ((this->cylinder1.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
                 this->cylinder1.base.acFlags &= ~AC_HIT;
 
                 if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
@@ -926,8 +921,8 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinder1.base);
 
         if ((this->behavior >= 4) && (this->unk_264 > 0)) {
-            if (!(this->hitCollider.base.atFlags & 4)) {
-                if (this->hitCollider.base.atFlags & 2) {
+            if (!(this->hitCollider.base.atFlags & AT_BOUNCED)) {
+                if (this->hitCollider.base.atFlags & AT_HIT) {
                     Player* player = PLAYER;
 
                     if (this->hitCollider.base.at == &player->actor) {
@@ -936,7 +931,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
                 CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->hitCollider.base);
             } else {
-                this->hitCollider.base.atFlags &= ~6;
+                this->hitCollider.base.atFlags &= ~(AT_HIT | AT_BOUNCED);
                 this->hitCollider.base.at = NULL;
                 EnAm_SetupRicochet(this, globalCtx);
             }
