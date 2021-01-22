@@ -117,7 +117,7 @@ void BgSpot08Iceblock_SinkUnderPlayer(BgSpot08Iceblock* this) {
 }
 
 void BgSpot08Iceblock_SetWaterline(BgSpot08Iceblock* this) {
-    this->dyna.actor.posRot.pos.y = this->sinkOffset + this->bobOffset + this->dyna.actor.initPosRot.pos.y;
+    this->dyna.actor.world.pos.y = this->sinkOffset + this->bobOffset + this->dyna.actor.home.pos.y;
 }
 
 void BgSpot08Iceblock_MultVectorScalar(Vec3f* dest, Vec3f* v, f32 scale) {
@@ -200,7 +200,7 @@ void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
             break;
     }
 
-    Math_Vec3f_Diff(&player->actor.posRot.pos, &this->dyna.actor.posRot.pos, &playerCentroidDiff);
+    Math_Vec3f_Diff(&player->actor.world.pos, &this->dyna.actor.world.pos, &playerCentroidDiff);
     playerCentroidDiff.y -= (150.0f * this->dyna.actor.scale.y);
     playerCentroidDist = Math3D_Vec3fMagnitude(&playerCentroidDiff);
 
@@ -269,20 +269,20 @@ void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, GlobalContext* globa
     f32 sin;
     f32 cos;
 
-    sin = Math_SinS(this->dyna.actor.initPosRot.rot.y) * 100.0f;
-    cos = Math_CosS(this->dyna.actor.initPosRot.rot.y) * 100.0f;
+    sin = Math_SinS(this->dyna.actor.home.rot.y) * 100.0f;
+    cos = Math_CosS(this->dyna.actor.home.rot.y) * 100.0f;
 
     if (!(this->dyna.actor.params & 0x100)) {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT08_ICEBLOCK,
-                           this->dyna.actor.initPosRot.pos.x, this->dyna.actor.initPosRot.pos.y,
-                           this->dyna.actor.initPosRot.pos.z, this->dyna.actor.initPosRot.rot.x,
-                           this->dyna.actor.initPosRot.rot.y, this->dyna.actor.initPosRot.rot.z, 0x123);
+                           this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
+                           this->dyna.actor.home.pos.z, this->dyna.actor.home.rot.x,
+                           this->dyna.actor.home.rot.y, this->dyna.actor.home.rot.z, 0x123);
 
-        this->dyna.actor.posRot.pos.x += sin;
-        this->dyna.actor.posRot.pos.z += cos;
+        this->dyna.actor.world.pos.x += sin;
+        this->dyna.actor.world.pos.z += cos;
     } else {
-        this->dyna.actor.posRot.pos.x -= sin;
-        this->dyna.actor.posRot.pos.z -= cos;
+        this->dyna.actor.world.pos.x -= sin;
+        this->dyna.actor.world.pos.z -= cos;
     }
     BgSpot08Iceblock_SetupFloatOrbitingTwins(this);
 }
@@ -373,7 +373,7 @@ void BgSpot08Iceblock_FloatNonrotating(BgSpot08Iceblock* this, GlobalContext* gl
     BgSpot08Iceblock_Bobbing(this);
     BgSpot08Iceblock_SinkUnderPlayer(this);
     BgSpot08Iceblock_SetWaterline(this);
-    this->dyna.actor.shape.rot.y = this->dyna.actor.initPosRot.rot.y;
+    this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y;
     BgSpot08Iceblock_Roll(this, globalCtx);
 }
 
@@ -385,8 +385,8 @@ void BgSpot08Iceblock_FloatRotating(BgSpot08Iceblock* this, GlobalContext* globa
     BgSpot08Iceblock_Bobbing(this);
     BgSpot08Iceblock_SinkUnderPlayer(this);
     BgSpot08Iceblock_SetWaterline(this);
-    this->dyna.actor.posRot.rot.y = this->dyna.actor.posRot.rot.y + 0x190;
-    this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y;
+    this->dyna.actor.world.rot.y = this->dyna.actor.world.rot.y + 0x190;
+    this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y;
     BgSpot08Iceblock_Roll(this, globalCtx);
 }
 
@@ -404,20 +404,20 @@ void BgSpot08Iceblock_FloatOrbitingTwins(BgSpot08Iceblock* this, GlobalContext* 
 
     // parent handles rotations of both
     if (!(this->dyna.actor.params & 0x100)) {
-        this->dyna.actor.posRot.rot.y += 0x190;
-        sin = Math_SinS(this->dyna.actor.posRot.rot.y) * 100.0f;
-        cos = Math_CosS(this->dyna.actor.posRot.rot.y) * 100.0f;
+        this->dyna.actor.world.rot.y += 0x190;
+        sin = Math_SinS(this->dyna.actor.world.rot.y) * 100.0f;
+        cos = Math_CosS(this->dyna.actor.world.rot.y) * 100.0f;
 
-        this->dyna.actor.posRot.pos.x = this->dyna.actor.initPosRot.pos.x + sin;
-        this->dyna.actor.posRot.pos.z = this->dyna.actor.initPosRot.pos.z + cos;
+        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + sin;
+        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + cos;
 
         if (this->dyna.actor.child != NULL) {
-            this->dyna.actor.child->posRot.pos.x = this->dyna.actor.initPosRot.pos.x - sin;
-            this->dyna.actor.child->posRot.pos.z = this->dyna.actor.initPosRot.pos.z - cos;
+            this->dyna.actor.child->world.pos.x = this->dyna.actor.home.pos.x - sin;
+            this->dyna.actor.child->world.pos.z = this->dyna.actor.home.pos.z - cos;
         }
     }
 
-    this->dyna.actor.shape.rot.y = this->dyna.actor.initPosRot.rot.y;
+    this->dyna.actor.shape.rot.y = this->dyna.actor.home.rot.y;
     BgSpot08Iceblock_Roll(this, globalCtx);
 }
 
