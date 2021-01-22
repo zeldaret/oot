@@ -483,87 +483,83 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
     EffDust *new_var9;
     f32 temp_f20;
     f32 *phi_s1;
-    f32 *new_var7;
     f32 *new_var5;
     f32 *new_var2;
     Vec3f *phi_s3;
     GlobalContext *new_var4;
     f32 *new_var3;
-    MtxF *mtxf_ptr;
     Gfx *new_var;
     GraphicsContext *new_var6;
     s32 i;
     Player *player;
     int new_var8;
+
     new_var4 = globalCtx;
-    new_var2 = this->unk_014C;
+
     if (!this->scalingFactor)
     {
     }
 
     temp_s2 = globalCtx->state.gfxCtx;
-    mtxf_ptr = &new_var4->mf_11DA0;
     player = PLAYER;
 
     OPEN_DISPS(temp_s2, "../z_eff_dust.c", 472);
-    func_80093D18(temp_s2);
-    gDPPipeSync(POLY_XLU_DISP++);
-    new_var6 = temp_s2;
-    new_var = POLY_XLU_DISP++;
-    gDPSetPrimColor(new_var, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
-    mtxf_ptr = mtxf_ptr;
-    if (player->unk_858 >= 0.85f)
-    {
-        gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0x00);
-    }
-    else
-    {
-        gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0xFF, 0x00);
-    }
+        new_var2 = this->unk_014C;
+        func_80093D18(temp_s2);
+        gDPPipeSync(POLY_XLU_DISP++);
+        new_var6 = temp_s2;
+        new_var = POLY_XLU_DISP++;
+        gDPSetPrimColor(new_var, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
 
-    phi_s3 = this->unk_024C;
-    new_var7 = new_var2;
-    phi_s1 = new_var7;
-    gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
-    for (i = 0; i < 0x40; i++) {
-        if ((*phi_s1) < 1.0f) {
-
-            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, (u8) (255.0f * (*phi_s1)));
-            
-            new_var9 = this;
-            if (!(&new_var4->state)) {
-                if (!new_var9) {
-                }
-
-            }
-
-            temp_f20 = 1.0f - ((*phi_s1) * (*phi_s1));
-            
-            Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
-            
-            new_var3 = &phi_s3->x;
-            new_var2 = &phi_s3->y;
-            new_var5 = new_var2;
-
-            Matrix_Translate(
-                (*new_var3) * ((new_var9->dx * temp_f20) + (1.0f - new_var9->dx)), 
-                ((*new_var5) * (1.0f - (*phi_s1))) + 320.0f, 
-                (phi_s3->z * (1.0f - (*phi_s1))) + (-20.0f), 
-                MTXMODE_APPLY
-                );
-            temp_f12 = (*phi_s1) * new_var9->scalingFactor;
-            
-            Matrix_Scale(temp_f12, temp_f12, temp_f12, MTXMODE_APPLY);
-            
-            func_800D1FD4(mtxf_ptr);
-
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(new_var6, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
+        if (player->unk_858 >= 0.85f) {
+            gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0x00);
+        }
+        else {
+            gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0xFF, 0x00);
         }
 
-        phi_s3++;
-        phi_s1++;
-    }
+        phi_s3 = this->unk_024C;
+        phi_s1 = new_var2;
+        gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
+        for (i = 0; i < 0x40; i++) {
+            if ((*phi_s1) < 1.0f) {
+
+                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, (u8) (255.0f * (*phi_s1)));
+                
+                new_var9 = this;
+                if (!(&new_var4->state)) {
+                    if (!new_var9) {
+                    }
+
+                }
+
+                temp_f20 = 1.0f - ((*phi_s1) * (*phi_s1));
+                
+                Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
+                
+                new_var3 = &phi_s3->x;
+                new_var2 = &phi_s3->y;
+                new_var5 = new_var2;
+
+                Matrix_Translate(
+                    (*new_var3) * ((new_var9->dx * temp_f20) + (1.0f - new_var9->dx)), 
+                    ((*new_var5) * (1.0f - (*phi_s1))) + 320.0f, 
+                    (phi_s3->z * (1.0f - (*phi_s1))) + (-20.0f), 
+                    MTXMODE_APPLY
+                    );
+                temp_f12 = (*phi_s1) * new_var9->scalingFactor;
+                
+                Matrix_Scale(temp_f12, temp_f12, temp_f12, MTXMODE_APPLY);
+
+                func_800D1FD4(&new_var4->mf_11DA0);
+
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(new_var6, "../z_eff_dust.c", 506), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
+            }
+
+            phi_s3++;
+            phi_s1++;
+        }
 
     CLOSE_DISPS(temp_s2, "../z_eff_dust.c", 515);
 
