@@ -141,7 +141,8 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
                 this->actionFunc = BgSpot06Objects_LockFloat;
                 thisx->world.pos.z -= 100.0f;
                 thisx->home.pos.z = thisx->world.pos.z + 16.0f;
-                this->collider.elements[0].dim.worldSphere.radius = this->collider.elements[0].dim.modelSphere.radius * 2;
+                this->collider.elements[0].dim.worldSphere.radius =
+                    this->collider.elements[0].dim.modelSphere.radius * 2;
                 this->collider.elements[0].dim.worldSphere.center.z = thisx->world.pos.z + 16.0f;
             } else {
                 this->actionFunc = BgSpot06Objects_LockWait;
@@ -281,8 +282,7 @@ void BgSpot06Objects_LockSpawnWaterRipples(BgSpot06Objects* this, GlobalContext*
 
 void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
     if (!(globalCtx->gameplayFrames % 7) || flag) {
-        EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.world, 0.0f, 40.0f, 30.0f,
-                             (Rand_ZeroOne() * 0.05f) + 0.175f);
+        EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.world, 0.0f, 40.0f, 30.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
 
