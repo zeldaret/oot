@@ -1174,8 +1174,8 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                 break;
             default:
             block_15:
-                if ((this->dmgEff == 14) || (this->dmgEff == 12) || (this->dmgEff == 11) ||
-                    (this->dmgEff == 10) || (this->dmgEff == 7) || (this->dmgEff == 5)) {
+                if ((this->dmgEff == 14) || (this->dmgEff == 12) || (this->dmgEff == 11) || (this->dmgEff == 10) ||
+                    (this->dmgEff == 7) || (this->dmgEff == 5)) {
                     if ((this->action != BB_DOWN) || (this->timer < 190)) {
                         Actor_ApplyDamage(&this->actor);
                     }

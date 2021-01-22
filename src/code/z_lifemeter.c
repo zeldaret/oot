@@ -258,12 +258,10 @@ s32 func_80078E84(GlobalContext* globalCtx) {
 }
 
 u64* sHeartTextures[] = {
-    gHUDHeartFullTex,         gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
-    gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
-    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartHalfTex,
-    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartThreeQuarterTex,
-    gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex,
-    gHUDHeartThreeQuarterTex,
+    gHUDHeartFullTex,         gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
+    gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartHalfTex,         gHUDHeartHalfTex,
+    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartThreeQuarterTex,
+    gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex,
 };
 
 u64* sDDHeartTextures[] = {
