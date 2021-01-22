@@ -9,13 +9,13 @@ void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8099D8E0(EffDust* this);
+void EffDust_InitPosAndDistance(EffDust* this);
 
 void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx);
 void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx);
-void func_8099DFC0(EffDust* this, GlobalContext* globalCtx);
-void func_8099E4F4(EffDust* this, GlobalContext* globalCtx);
-void func_8099E784(EffDust* this, GlobalContext* globalCtx);
+void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx);
+void EffDust_DrawFunc_8099E4F4(EffDust* this, GlobalContext* globalCtx);
+void EffDust_DrawFunc_8099E784(EffDust* this, GlobalContext* globalCtx);
 
 extern Gfx D_04037880[];
 
@@ -46,7 +46,7 @@ void EffDust_setDrawFunc(EffDust* this, EffDustActionFunc callback_drawFunc) {
 
 
 // Members initializer (?)
-void func_8099D8E0(EffDust *this) {
+void EffDust_InitPosAndDistance(EffDust *this) {
     s32 i;
 
     for (i = 0; i < 0x40; i++) {
@@ -63,15 +63,15 @@ void func_8099D8E0(EffDust *this) {
 
 void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
     EffDust *this = THIS;
-    u32 sp20;
+    u32 dust_effect;
 
-    sp20 = this->actor.params;
-    func_8099D8E0(this);
+    dust_effect = this->actor.params;
+    EffDust_InitPosAndDistance(this);
 
-    switch(sp20){
+    switch (dust_effect) {
     case 0:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DB28);
-        EffDust_setDrawFunc(this, func_8099E4F4);
+        EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E4F4);
         this->dy = 0.8f;
         this->dz = 0.8f;
         this->dx = 1.0f;
@@ -80,7 +80,7 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     case 1:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DD74);
-        EffDust_setDrawFunc(this, func_8099E4F4);
+        EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E4F4);
         this->dx = 0.8f;
         this->dz = 0.8f;
         this->dy = 1.0f;
@@ -88,22 +88,22 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
         break;
 
     case 2:
-        EffDust_setUpdateFunc(this, func_8099DFC0);
-        EffDust_setDrawFunc(this, func_8099E784);
+        EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
+        EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
         this->dx = 0.5f;
         this->scalingFactor = 15.0f;
         break;
 
     case 3:
-        EffDust_setUpdateFunc(this, func_8099DFC0);
-        EffDust_setDrawFunc(this, func_8099E784);
+        EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
+        EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
         this->dx = 0.5f;
         this->scalingFactor = 10.0f;
         break;
 
     case 4:
-        EffDust_setUpdateFunc(this, func_8099DFC0);
-        EffDust_setDrawFunc(this, func_8099E784);
+        EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
+        EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
         this->actor.room = -1;
         this->dx = 0.5f;
         this->scalingFactor = 20.0f;
@@ -197,7 +197,7 @@ void EffDust_UpdateFunc_8099DD74(EffDust *this, GlobalContext *globalCtx) {
 }
 
 
-void func_8099DFC0(EffDust *this, GlobalContext *globalCtx) {
+void EffDust_UpdateFunc_8099DFC0(EffDust *this, GlobalContext *globalCtx) {
     s16 theta;
 
     Player *player;
@@ -296,7 +296,7 @@ void EffDust_Update(Actor *thisx, GlobalContext *globalCtx) {
 }
 
 
-void func_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
+void EffDust_DrawFunc_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
     EffDust *this2;
 
     GlobalContext *glb_ctx;
@@ -328,7 +328,7 @@ void func_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
 
     for (i = 0; i < 0x40; i++) {
         if (*distanceTraveled < 1.0f) {
-            // TODO: find a way to match without needing to do this.
+            // Needed to match.
             if (!this2) { }
 
             aux = 1.0f - (*distanceTraveled * *distanceTraveled);
@@ -354,7 +354,7 @@ void func_8099E4F4(EffDust *this, GlobalContext *globalCtx) {
     CLOSE_DISPS(gfx_ctx, "../z_eff_dust.c", 458);
 }
 
-void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
+void EffDust_DrawFunc_8099E784(EffDust *this, GlobalContext *globalCtx) {
     EffDust *this2;
     GlobalContext *glb_ctx;
     GraphicsContext *gfx_ctx;
@@ -394,7 +394,7 @@ void func_8099E784(EffDust *this, GlobalContext *globalCtx) {
         if (*distanceTraveled < 1.0f) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, ((255.0f * (*distanceTraveled))));
 
-            // TODO: find a way to match without needing to do this.
+            // Needed to match.
             this2 = this;
             if (!this2) { }
 

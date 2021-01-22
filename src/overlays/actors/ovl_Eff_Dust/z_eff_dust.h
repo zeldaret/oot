@@ -15,9 +15,9 @@ typedef struct EffDust {
     /* 0x054C */ u8 index;
     /* 0x054D */ u8 life; // only considered if actor.params is 2, 3 or 4.
     /* 0x054E */ char padding[0x02];
-    /* 0x0550 */ f32 dx; // x translate (?)
-    /* 0x0554 */ f32 dy; // y translate (?)
-    /* 0x0558 */ f32 dz; // z translate (?)
+    /* 0x0550 */ f32 dx; // normalized. 0.0f to 1.0f
+    /* 0x0554 */ f32 dy; // normalized. 0.0f to 1.0f
+    /* 0x0558 */ f32 dz; // normalized. 0.0f to 1.0f
     /* 0x055C */ f32 scalingFactor;
     /* 0x0560 */ EffDustActionFunc updateFunc; // function to be called by EffDust_Update()
     /* 0x0560 */ EffDustActionFunc drawFunc; // function to be called by EffDust_Draw()
