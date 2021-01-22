@@ -264,6 +264,11 @@ void ZSkeleton::Save(const std::string& outFolder)
 
 }
 
+ZResourceType ZSkeleton::GetResourceType()
+{
+	return ZResourceType::Skeleton;
+}
+
 ZLimbLOD::ZLimbLOD() : ZLimbStandard()
 {
 	farDListPtr = 0;

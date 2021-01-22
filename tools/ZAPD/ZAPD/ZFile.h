@@ -27,10 +27,11 @@ public:
 	uint32_t baseAddress, rangeStart, rangeEnd;
 
 	ZFile(std::string nOutPath, std::string nName);
-	ZFile(ZFileMode mode, tinyxml2::XMLElement* reader, std::string nBasePath, std::string nOutPath, bool placeholderMode);
+	ZFile(ZFileMode mode, tinyxml2::XMLElement* reader, std::string nBasePath, std::string nOutPath, std::string filename, bool placeholderMode);
 	~ZFile();
 
 	std::string GetVarName(int address);
+	std::string GetName();
 	void ExtractResources(std::string outputDir);
 	void BuildResources();
 	void BuildSourceFile(std::string outputDir);
@@ -61,7 +62,7 @@ protected:
 	std::string sourceOutput;
 
 	ZFile();
-	void ParseXML(ZFileMode mode, tinyxml2::XMLElement* reader, bool placeholderMode);
+	void ParseXML(ZFileMode mode, tinyxml2::XMLElement* reader, std::string filename, bool placeholderMode);
 	void GenerateSourceFiles(std::string outputDir);
 	void GenerateHLIntermediette();
 	void AddDeclarationDebugChecks(uint32_t address);

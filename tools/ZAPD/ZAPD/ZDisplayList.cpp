@@ -1367,6 +1367,11 @@ void ZDisplayList::GenerateHLIntermediette(HLFileIntermediette& hlFile)
 	mdl->blocks.push_back(new HLTerminator());
 }
 
+ZResourceType ZDisplayList::GetResourceType()
+{
+	return ZResourceType::DisplayList;
+}
+
 vector<uint8_t> ZDisplayList::GetRawData()
 {
 	return rawData;
