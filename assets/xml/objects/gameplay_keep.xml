@@ -684,9 +684,6 @@
         <Texture Name="gEffUnknown4Tex" OutName="eff_unknown_4" Format="i8" Width="32" Height="64" Offset="0x000173D0"/>
         <Texture Name="gEffUnknown5Tex" OutName="eff_unknown_5" Format="i8" Width="32" Height="64" Offset="0x00017BD0"/>
         <DList Name="gEffFireCircleDL" Offset="0x000184B0"/>
-        <DList Name="gFishLimb1DL" Offset="0x000188B0"/>
-        <DList Name="gFishLimb2DL" Offset="0x00018950"/>
-        <DList Name="gFishLimb3DL" Offset="0x00018A68"/>
         <Animation Name="gFish1Anim" Offset="0x000185FC"/>
         <Skeleton Name="gFishSkel" Type="Flex" LimbType="Standard" Offset="0x00018FE0"/>
         <Animation Name="gFish2Anim" Offset="0x0001909C"/>

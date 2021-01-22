@@ -258,21 +258,21 @@ s32 func_80078E84(GlobalContext* globalCtx) {
 }
 
 u64* sHeartTextures[] = {
-    gInterfaceHeartFullTex,         gInterfaceHeartQuarterTex,      gInterfaceHeartQuarterTex,
-    gInterfaceHeartQuarterTex,      gInterfaceHeartQuarterTex,      gInterfaceHeartQuarterTex,
-    gInterfaceHeartHalfTex,         gInterfaceHeartHalfTex,         gInterfaceHeartHalfTex,
-    gInterfaceHeartHalfTex,         gInterfaceHeartHalfTex,         gInterfaceHeartThreeQuarterTex,
-    gInterfaceHeartThreeQuarterTex, gInterfaceHeartThreeQuarterTex, gInterfaceHeartThreeQuarterTex,
-    gInterfaceHeartThreeQuarterTex,
+    gHUDHeartFullTex,         gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
+    gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
+    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartHalfTex,
+    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartThreeQuarterTex,
+    gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex,
+    gHUDHeartThreeQuarterTex,
 };
 
 u64* sDDHeartTextures[] = {
-    gInterfaceDefenseHeartFullTex,         gInterfaceDefenseHeartQuarterTex,      gInterfaceDefenseHeartQuarterTex,
-    gInterfaceDefenseHeartQuarterTex,      gInterfaceDefenseHeartQuarterTex,      gInterfaceDefenseHeartQuarterTex,
-    gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartHalfTex,
-    gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartHalfTex,         gInterfaceDefenseHeartThreeQuarterTex,
-    gInterfaceDefenseHeartThreeQuarterTex, gInterfaceDefenseHeartThreeQuarterTex, gInterfaceDefenseHeartThreeQuarterTex,
-    gInterfaceDefenseHeartThreeQuarterTex,
+    gHUDDefenseHeartFullTex,         gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
+    gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
+    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,
+    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartThreeQuarterTex,
+    gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex,
+    gHUDDefenseHeartThreeQuarterTex,
 };
 
 void HealthMeter_Draw(GlobalContext* globalCtx) {
