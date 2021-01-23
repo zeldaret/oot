@@ -14,8 +14,8 @@ glabel EnGe1_Init
 /* 00008 80A30978 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0000C 80A3097C AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00010 80A30980 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00014 80A30984 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00018 80A30988 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00014 80A30984 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00018 80A30988 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0001C 80A3098C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00020 80A30990 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00024 80A30994 0C00AC78 */  jal     ActorShape_Init
@@ -37,7 +37,7 @@ glabel EnGe1_Init
 /* 00060 80A309D0 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 00064 80A309D4 3C050600 */  lui     $a1, %hi(D_06000228)                ## $a1 = 06000000
 /* 00068 80A309D8 24A50228 */  addiu   $a1, $a1, %lo(D_06000228)           ## $a1 = 06000228
-/* 0006C 80A309DC 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 0006C 80A309DC 0C02947A */  jal     Animation_PlayOnce
 /* 00070 80A309E0 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 00074 80A309E4 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00078 80A309E8 AFA50030 */  sw      $a1, 0x0030($sp)

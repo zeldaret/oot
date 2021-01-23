@@ -20,7 +20,7 @@ glabel func_80B47CF8
               
 /* 03CF0 80B47D40 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L80B47D44:
-/* 03CF4 80B47D44 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03CF4 80B47D44 0C02927F */  jal     SkelAnime_Update
               
 /* 03CF8 80B47D48 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 03CFC 80B47D4C 10400009 */  beq     $v0, $zero, .L80B47D74     

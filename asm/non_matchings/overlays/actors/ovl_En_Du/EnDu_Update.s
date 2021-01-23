@@ -7,7 +7,7 @@ glabel EnDu_Update
 /* 01100 809FED30 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01104 809FED34 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 01108 809FED38 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 0110C 809FED3C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0110C 809FED3C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01110 809FED40 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 01114 809FED44 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -15,7 +15,7 @@ glabel EnDu_Update
 /* 0111C 809FED4C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 01120 809FED50 02212821 */  addu    $a1, $s1, $at              
 /* 01124 809FED54 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01128 809FED58 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0112C 809FED5C 8E0F0154 */  lw      $t7, 0x0154($s0)           ## 00000154
 /* 01130 809FED60 3C0E0600 */  lui     $t6, %hi(D_060041F4)                ## $t6 = 06000000
@@ -23,7 +23,7 @@ glabel EnDu_Update
 /* 01138 809FED68 15CF000A */  bne     $t6, $t7, .L809FED94       
 /* 0113C 809FED6C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01140 809FED70 8E05015C */  lw      $a1, 0x015C($s0)           ## 0000015C
-/* 01144 809FED74 0C0295B2 */  jal     func_800A56C8              
+/* 01144 809FED74 0C0295B2 */  jal     Animation_OnFrame              
 /* 01148 809FED78 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 0114C 809FED7C 10400005 */  beq     $v0, $zero, .L809FED94     
 /* 01150 809FED80 8FA4002C */  lw      $a0, 0x002C($sp)           
@@ -32,7 +32,7 @@ glabel EnDu_Update
 /* 0115C 809FED8C 0C00D3B0 */  jal     func_80034EC0              
 /* 01160 809FED90 24060001 */  addiu   $a2, $zero, 0x0001         ## $a2 = 00000001
 .L809FED94:
-/* 01164 809FED94 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01164 809FED94 0C02927F */  jal     SkelAnime_Update
               
 /* 01168 809FED98 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 0116C 809FED9C 0C27F7A7 */  jal     func_809FDE9C              
@@ -69,7 +69,7 @@ glabel EnDu_Update
 /* 011E0 809FEE10 44070000 */  mfc1    $a3, $f0                   
 /* 011E4 809FEE14 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 011E8 809FEE18 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 011EC 809FEE1C 0C00B92D */  jal     func_8002E4B4              
+/* 011EC 809FEE1C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 011F0 809FEE20 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 011F4 809FEE24 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190
 /* 011F8 809FEE28 3C0980A0 */  lui     $t1, %hi(func_809FE4A4)    ## $t1 = 80A00000

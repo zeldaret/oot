@@ -5,7 +5,7 @@ glabel func_809EA5B0
 /* 0105C 809EA5BC AFBF004C */  sw      $ra, 0x004C($sp)           
 /* 01060 809EA5C0 AFB10048 */  sw      $s1, 0x0048($sp)           
 /* 01064 809EA5C4 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
-/* 01068 809EA5C8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01068 809EA5C8 0C02927F */  jal     SkelAnime_Update
               
 /* 0106C 809EA5CC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01070 809EA5D0 10400049 */  beq     $v0, $zero, .L809EA6F8     
@@ -79,7 +79,7 @@ glabel func_809EA5B0
 /* 0117C 809EA6DC 26251C24 */  addiu   $a1, $s1, 0x1C24           ## $a1 = 00001C24
 /* 01180 809EA6E0 10C00003 */  beq     $a2, $zero, .L809EA6F0     
 /* 01184 809EA6E4 00000000 */  nop
-/* 01188 809EA6E8 0C00CDD2 */  jal     Actor_ChangeType
+/* 01188 809EA6E8 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 0118C 809EA6EC 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
 .L809EA6F0:

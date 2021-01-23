@@ -30,7 +30,7 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx);
 
 const ActorInit En_Fu_InitVars = {
     ACTOR_EN_FU,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_FU,
     sizeof(EnFu),
@@ -41,8 +41,22 @@ const ActorInit En_Fu_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
@@ -76,13 +90,12 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->limbDrawTable,
-                       this->transitionDrawTable, 16);
-    SkelAnime_ChangeAnimDefaultRepeat(&this->skelanime, &D_06000B04);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTable, this->morphTable, 16);
+    Animation_PlayLoop(&this->skelanime, &D_06000B04);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
     if (LINK_IS_CHILD) {
         this->actionFunc = EnFu_WaitChild;
@@ -90,10 +103,10 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->actionFunc = EnFu_WaitAdult;
         this->facialExpression = FU_FACE_MAD;
-        this->skelanime.animPlaybackSpeed = 2.0f;
+        this->skelanime.playSpeed = 2.0f;
     }
     this->behaviorFlags = 0;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
 }
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -110,9 +123,9 @@ s32 func_80A1D94C(EnFu* this, GlobalContext* globalCtx, u16 textID, EnFuActionFu
         return true;
     }
     this->actor.textId = textID;
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistFromLink < 100.0f)) {
+    if ((ABS(yawDiff) < 0x2301) && (this->actor.xzDistToPlayer < 100.0f)) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     } else {
         this->behaviorFlags |= FU_RESET_LOOK_ANGLE;
@@ -126,8 +139,8 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
         this->actionFunc = EnFu_WaitChild;
 
         if (this->skelanime.animation == &D_0600057C) {
-            SkelAnime_ChangeAnim(&this->skelanime, &D_06000B04, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_06000B04), 2,
-                                 -4.0f);
+            Animation_Change(&this->skelanime, &D_06000B04, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B04),
+                             ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -146,8 +159,8 @@ void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
     // if func_80A1D94C returns 1, actionFunc is set to func_80A1DA04
     if (func_80A1D94C(this, globalCtx, textID, func_80A1DA04)) {
         if (textID == 0x5033) {
-            SkelAnime_ChangeAnim(&this->skelanime, &D_0600057C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600057C), 2,
-                                 -4.0f);
+            Animation_Change(&this->skelanime, &D_0600057C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600057C),
+                             ANIMMODE_ONCE, -4.0f);
         }
     }
 }
@@ -217,7 +230,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     static s16 yawDiff;
     Player* player = PLAYER;
 
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((gSaveContext.eventChkInf[5] & 0x800)) {
         func_80A1D94C(this, globalCtx, 0x508E, func_80A1DBA0);
     } else if (player->stateFlags2 & 0x1000000) {
@@ -228,7 +241,7 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_80A1DBA0;
     } else if (ABS(yawDiff) < 0x2301) {
-        if (this->actor.xzDistFromLink < 100.0f) {
+        if (this->actor.xzDistToPlayer < 100.0f) {
             this->actor.textId = 0x5034;
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
             player->stateFlags2 |= 0x800000;
@@ -240,13 +253,13 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_FrameUpdateMatrix(&this->skelanime) != 0)) {
-        SkelAnime_ChangeAnim(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(this->skelanime.animation), 2, 0.0f);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    if ((!(this->behaviorFlags & FU_WAIT)) && (SkelAnime_Update(&this->skelanime) != 0)) {
+        Animation_Change(&this->skelanime, this->skelanime.animation, 1.0f, 0.0f,
+                         Animation_GetLastFrame(this->skelanime.animation), ANIMMODE_ONCE, 0.0f);
     }
     this->actionFunc(this, globalCtx);
     if ((this->behaviorFlags & FU_RESET_LOOK_ANGLE)) {
@@ -256,7 +269,7 @@ void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
         this->behaviorFlags &= ~FU_RESET_LOOK_ANGLE;
     } else {
-        func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->lookAngleOffset, &this->unk_2A2, this->actor.focus.pos);
     }
 }
 
@@ -265,7 +278,7 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     s32 pad1;
 
     if (limbIndex == 10) {
-        return 0;
+        return false;
     }
     switch (limbIndex) {
         case 14:
@@ -277,21 +290,21 @@ s32 EnFu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     }
 
     if (!(this->behaviorFlags & FU_WAIT)) {
-        return 0;
+        return false;
     }
 
     if (limbIndex == 8) {
         rot->y += (Math_SinS((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
         rot->z += (Math_CosS((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
     }
-    return 0;
+    return false;
 }
 
 void EnFu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnFu* this = THIS;
 
     if (limbIndex == 14) {
-        Matrix_MultVec3f(&sMtxSrc, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&sMtxSrc, &this->actor.focus.pos);
     }
 }
 
@@ -304,7 +317,7 @@ void EnFu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyesSegments[this->facialExpression]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthSegments[this->facialExpression]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.limbDrawTbl, this->skelanime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, this->skelanime.dListCount,
                           EnFu_OverrideLimbDraw, EnFu_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fu.c", 791);

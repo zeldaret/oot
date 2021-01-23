@@ -8,7 +8,7 @@ glabel EnZl4_Update
 /* 02B20 80B5E2D0 25CEE108 */  addiu   $t6, $t6, %lo(func_80B5E108) ## $t6 = 80B5E108
 /* 02B24 80B5E2D4 11CF0003 */  beq     $t6, $t7, .L80B5E2E4       
 /* 02B28 80B5E2D8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 02B2C 80B5E2DC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02B2C 80B5E2DC 0C02927F */  jal     SkelAnime_Update
               
 /* 02B30 80B5E2E0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 .L80B5E2E4:
@@ -21,7 +21,7 @@ glabel EnZl4_Update
 /* 02B4C 80B5E2FC 44070000 */  mfc1    $a3, $f0                   
 /* 02B50 80B5E300 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 02B54 80B5E304 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 02B58 80B5E308 0C00B92D */  jal     func_8002E4B4              
+/* 02B58 80B5E308 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 02B5C 80B5E30C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 02B60 80B5E310 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190
 /* 02B64 80B5E314 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -31,7 +31,7 @@ glabel EnZl4_Update
 /* 02B74 80B5E324 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 02B78 80B5E328 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 02B7C 80B5E32C AFA6002C */  sw      $a2, 0x002C($sp)           
-/* 02B80 80B5E330 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02B80 80B5E330 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02B84 80B5E334 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02B88 80B5E338 8FA4003C */  lw      $a0, 0x003C($sp)           
@@ -39,7 +39,7 @@ glabel EnZl4_Update
 /* 02B90 80B5E340 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02B94 80B5E344 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 02B98 80B5E348 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02B9C 80B5E34C 00812821 */  addu    $a1, $a0, $at              
 /* 02BA0 80B5E350 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 02BA4 80B5E354 8FB00020 */  lw      $s0, 0x0020($sp)           

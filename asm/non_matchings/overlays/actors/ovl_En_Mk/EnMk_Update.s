@@ -11,7 +11,7 @@ glabel EnMk_Update
 /* 009E0 80AAD2E0 AFA50054 */  sw      $a1, 0x0054($sp)           
 /* 009E4 80AAD2E4 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 009E8 80AAD2E8 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 009EC 80AAD2EC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 009EC 80AAD2EC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 009F0 80AAD2F0 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 009F4 80AAD2F4 8FA40054 */  lw      $a0, 0x0054($sp)           
@@ -19,7 +19,7 @@ glabel EnMk_Update
 /* 009FC 80AAD2FC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00A00 80AAD300 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 00A04 80AAD304 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00A08 80AAD308 00812821 */  addu    $a1, $a0, $at              
 /* 00A0C 80AAD30C 0C00B638 */  jal     Actor_MoveForward
               
@@ -31,13 +31,13 @@ glabel EnMk_Update
 /* 00A24 80AAD324 44070000 */  mfc1    $a3, $f0                   
 /* 00A28 80AAD328 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00A2C 80AAD32C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00A30 80AAD330 0C00B92D */  jal     func_8002E4B4              
+/* 00A30 80AAD330 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00A34 80AAD334 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00A38 80AAD338 960F027E */  lhu     $t7, 0x027E($s0)           ## 0000027E
 /* 00A3C 80AAD33C 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
 /* 00A40 80AAD340 57000009 */  bnel    $t8, $zero, .L80AAD368     
 /* 00A44 80AAD344 8E190284 */  lw      $t9, 0x0284($s0)           ## 00000284
-/* 00A48 80AAD348 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00A48 80AAD348 0C02927F */  jal     SkelAnime_Update
               
 /* 00A4C 80AAD34C 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
 /* 00A50 80AAD350 50400005 */  beql    $v0, $zero, .L80AAD368     

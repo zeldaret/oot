@@ -14,7 +14,7 @@ glabel EnGo2_Update
 /* 04B8C 80A478BC 26050220 */  addiu   $a1, $s0, 0x0220           ## $a1 = 00000220
 /* 04B90 80A478C0 0C291680 */  jal     func_80A45A00              
 /* 04B94 80A478C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 04B98 80A478C8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04B98 80A478C8 0C02927F */  jal     SkelAnime_Update
               
 /* 04B9C 80A478CC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04BA0 80A478D0 0C29151B */  jal     func_80A4546C              
@@ -39,7 +39,7 @@ glabel EnGo2_Update
 /* 04BEC 80A4791C 46049182 */  mul.s   $f6, $f18, $f4             
 /* 04BF0 80A47920 44065000 */  mfc1    $a2, $f10                  
 /* 04BF4 80A47924 44073000 */  mfc1    $a3, $f6                   
-/* 04BF8 80A47928 0C00B92D */  jal     func_8002E4B4              
+/* 04BF8 80A47928 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 04BFC 80A4792C 00000000 */  nop
 /* 04C00 80A47930 86190194 */  lh      $t9, 0x0194($s0)           ## 00000194
 /* 04C04 80A47934 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

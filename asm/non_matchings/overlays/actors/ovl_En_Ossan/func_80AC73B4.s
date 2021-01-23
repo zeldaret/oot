@@ -46,10 +46,10 @@ glabel func_80AC73B4
 /* 047B8 80AC7458 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 047BC 80AC745C 3C0641D0 */  lui     $a2, 0x41D0                ## $a2 = 41D00000
 /* 047C0 80AC7460 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
-/* 047C4 80AC7464 0C00B92D */  jal     func_8002E4B4              
+/* 047C4 80AC7464 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 047C8 80AC7468 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 047CC 80AC746C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 047D0 80AC7470 0C00B56E */  jal     Actor_SetHeight
+/* 047D0 80AC7470 0C00B56E */  jal     Actor_SetFocus
               
 /* 047D4 80AC7474 3C0542B4 */  lui     $a1, 0x42B4                ## $a1 = 42B40000
 /* 047D8 80AC7478 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C
@@ -67,7 +67,7 @@ glabel func_80AC73B4
 /* 04804 80AC74A4 0040F809 */  jalr    $ra, $v0                   
 /* 04808 80AC74A8 8FA50034 */  lw      $a1, 0x0034($sp)           
 .L80AC74AC:
-/* 0480C 80AC74AC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0480C 80AC74AC 0C02927F */  jal     SkelAnime_Update
               
 /* 04810 80AC74B0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 04814 80AC74B4 8FBF0024 */  lw      $ra, 0x0024($sp)           

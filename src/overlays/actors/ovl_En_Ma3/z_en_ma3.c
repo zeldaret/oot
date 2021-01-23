@@ -27,7 +27,7 @@ void func_80AA3200(EnMa3* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma3_InitVars = {
     ACTOR_EN_MA3,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MA2,
     sizeof(EnMa3),
@@ -38,12 +38,26 @@ const ActorInit En_Ma3_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 0x00, 0x0000, 0x0000, 0x0000, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_D_80AA1678 D_80AA3848[] = {
     { 0x060007D4, 1.0f, 0x00, 0.0f }, { 0x060007D4, 1.0f, 0x00, -10.0f }, { 0x060093BC, 1.0f, 0x00, 0.0f },
@@ -83,13 +97,13 @@ u16 func_80AA2AA0(GlobalContext* globalCtx, Actor* thisx) {
         if (gSaveContext.timer1Value >= 0xD3) {
             return 0x208E;
         }
-        if ((gSaveContext.horseRaceRecord == 0) || (gSaveContext.horseRaceRecord >= 0xB4)) {
-            gSaveContext.horseRaceRecord = 0xB4;
+        if ((HIGH_SCORE(HS_HORSE_RACE) == 0) || (HIGH_SCORE(HS_HORSE_RACE) >= 0xB4)) {
+            HIGH_SCORE(HS_HORSE_RACE) = 0xB4;
             gSaveContext.timer1Value = *timer1ValuePtr;
         }
         if (!(gSaveContext.eventChkInf[1] & 0x4000) && (gSaveContext.timer1Value < 0x32)) {
             return 0x208F;
-        } else if (gSaveContext.timer1Value < gSaveContext.horseRaceRecord) {
+        } else if (gSaveContext.timer1Value < HIGH_SCORE(HS_HORSE_RACE)) {
             return 0x2012;
         } else {
             return 0x2004;
@@ -126,7 +140,7 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                 if (globalCtx->msgCtx.choiceIndex == 0) {
                     if (gSaveContext.eventChkInf[1] & 0x4000) {
                         func_8010B720(globalCtx, 0x2091);
-                    } else if (gSaveContext.horseRaceRecord == 0) {
+                    } else if (HIGH_SCORE(HS_HORSE_RACE) == 0) {
                         func_8010B720(globalCtx, 0x2092);
                     } else {
                         func_8010B720(globalCtx, 0x2090);
@@ -144,8 +158,8 @@ s16 func_80AA2BD4(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.eventChkInf[1] |= 0x4000;
                 case 0x2004:
                 case 0x2012:
-                    if (gSaveContext.horseRaceRecord > gSaveContext.timer1Value) {
-                        gSaveContext.horseRaceRecord = gSaveContext.timer1Value;
+                    if (HIGH_SCORE(HS_HORSE_RACE) > gSaveContext.timer1Value) {
+                        HIGH_SCORE(HS_HORSE_RACE) = gSaveContext.timer1Value;
                     }
                 case 0x208E:
                     gSaveContext.eventInf[0] &= ~0x400;
@@ -186,7 +200,7 @@ void func_80AA2E54(EnMa3* this, GlobalContext* globalCtx) {
         phi_a3 = 0;
     }
 
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     this->unk_1E0.unk_14 = 0.0f;
     func_80034A14(&this->actor, &this->unk_1E0, 0, phi_a3);
 }
@@ -230,21 +244,21 @@ void func_80AA2F80(EnMa3* this) {
 }
 
 void func_80AA3004(EnMa3* this, s32 idx) {
-    f32 frameCount = SkelAnime_GetFrameCount(D_80AA3848[idx].animation);
+    f32 frameCount = Animation_GetLastFrame(D_80AA3848[idx].animation);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, D_80AA3848[idx].animation, 1.0f, 0.0f, frameCount, D_80AA3848[idx].unk_08,
-                         D_80AA3848[idx].transitionRate);
+    Animation_Change(&this->skelAnime, D_80AA3848[idx].animation, 1.0f, 0.0f, frameCount, D_80AA3848[idx].unk_08,
+                     D_80AA3848[idx].transitionRate);
 }
 
 void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMa3* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, 0, 0, 0);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
     switch (func_80AA2EC8(this, globalCtx)) {
         case 0:
@@ -260,7 +274,7 @@ void EnMa3_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
     }
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Actor_SetScale(&this->actor, 0.01f);
     this->unk_1E0.unk_00 = (u16)0;
 }
@@ -283,9 +297,9 @@ void EnMa3_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMa3* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80AA2F80(this);
     this->actionFunc(this, globalCtx);
     func_80AA2E54(this, globalCtx);
@@ -325,7 +339,7 @@ s32 EnMa3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         rot->y += Math_SinS(this->unk_212[limbIndex].y) * 200.0f;
         rot->z += Math_CosS(this->unk_212[limbIndex].z) * 200.0f;
     }
-    return 0;
+    return false;
 }
 
 void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
@@ -335,7 +349,7 @@ void EnMa3_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 927);
 
     if (limbIndex == 18) {
-        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, &D_06005420);
@@ -353,14 +367,14 @@ void EnMa3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 978);
 
     camera = globalCtx->cameraPtrs[globalCtx->activeCamera];
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_80AA38A4[this->unk_210]));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AA38B0[this->unk_20E]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMa3_OverrideLimbDraw, EnMa3_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ma3.c", 1013);

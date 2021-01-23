@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_pit.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x00000010
 
@@ -23,7 +24,7 @@ static s32 sGetItemIds[] = { GI_BOMB_BAG_30, GI_HEART_PIECE, GI_BOMBCHUS_10, GI_
 
 const ActorInit En_Bom_Bowl_Pit_InitVars = {
     ACTOR_EN_BOM_BOWL_PIT,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBomBowlPit),
@@ -54,7 +55,7 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
     Vec3f chuPosDiff;
 
     if (globalCtx->cameraPtrs[0]->setting == 0x15) {
-        chu = (EnBomChu*)globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
+        chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
         while (chu != NULL) {
             if ((&chu->actor == &this->actor) || (chu->actor.id != ACTOR_EN_BOM_CHU)) {
@@ -62,9 +63,9 @@ void EnBomBowlPit_DetectHit(EnBomBowlPit* this, GlobalContext* globalCtx) {
                 continue;
             }
 
-            chuPosDiff.x = chu->actor.posRot.pos.x - this->actor.posRot.pos.x;
-            chuPosDiff.y = chu->actor.posRot.pos.y - this->actor.posRot.pos.y;
-            chuPosDiff.z = chu->actor.posRot.pos.z - this->actor.posRot.pos.z;
+            chuPosDiff.x = chu->actor.world.pos.x - this->actor.world.pos.x;
+            chuPosDiff.y = chu->actor.world.pos.y - this->actor.world.pos.y;
+            chuPosDiff.z = chu->actor.world.pos.z - this->actor.world.pos.z;
 
             if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2))) &&
                 ((fabsf(chuPosDiff.z) < 40.0f) || (BREG(2)))) {
@@ -146,8 +147,8 @@ void EnBomBowlPit_CameraDollyIn(EnBomBowlPit* this, GlobalContext* globalCtx) {
 void EnBomBowlPit_SpawnPrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         this->exItem = (EnExItem*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
-                                                     this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                                     this->actor.posRot.pos.z - 70.0f, 0, 0, 0, this->prizeIndex);
+                                                     this->actor.world.pos.x, this->actor.world.pos.y,
+                                                     this->actor.world.pos.z - 70.0f, 0, 0, 0, this->prizeIndex);
         if (this->exItem != NULL) {
             this->actionFunc = EnBomBowlPit_SetupGivePrize;
         }
@@ -155,12 +156,12 @@ void EnBomBowlPit_SpawnPrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlPit_SetupGivePrize(EnBomBowlPit* this, GlobalContext* globalCtx) {
-    if (this->unk_156 != 0) {
+    if (this->exItemDone != 0) {
         switch (this->prizeIndex) {
-            case 0:
+            case EXITEM_BOMB_BAG_BOWLING:
                 gSaveContext.itemGetInf[1] |= 2;
                 break;
-            case 1:
+            case EXITEM_HEART_PIECE_BOWLING:
                 gSaveContext.itemGetInf[1] |= 4;
                 break;
         }
@@ -206,7 +207,7 @@ void EnBomBowlPit_Reset(EnBomBowlPit* this, GlobalContext* globalCtx) {
             // Ah recovery! (?)
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ あぁ回復！ ☆☆☆☆☆ \n" VT_RST);
         }
-        this->unk_156 = 0;
+        this->exItemDone = 0;
         this->status = 2;
         this->actionFunc = EnBomBowlPit_SetupDetectHit;
     }

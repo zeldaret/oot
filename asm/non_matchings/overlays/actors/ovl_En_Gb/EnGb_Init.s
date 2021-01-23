@@ -24,19 +24,19 @@ glabel EnGb_Init
 
 /* 00074 80A2F1F4 24A50740 */  addiu   $a1, $a1, %lo(D_80A30740)  ## $a1 = 80A30740
 /* 00078 80A2F1F8 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
-/* 0007C 80A2F1FC 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 0007C 80A2F1FC 0C010D20 */  jal     DynaPolyActor_Init
 
 /* 00080 80A2F200 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00084 80A2F204 3C040601 */  lui     $a0, %hi(D_0600C2D0)                ## $a0 = 06010000
 /* 00088 80A2F208 2484C2D0 */  addiu   $a0, $a0, %lo(D_0600C2D0)           ## $a0 = 0600C2D0
-/* 0008C 80A2F20C 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 0008C 80A2F20C 0C010620 */  jal     CollisionHeader_GetVirtual
 
 /* 00090 80A2F210 27A50084 */  addiu   $a1, $sp, 0x0084           ## $a1 = FFFFFFF4
 /* 00094 80A2F214 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00098 80A2F218 26650810 */  addiu   $a1, $s3, 0x0810           ## $a1 = 00000810
 /* 0009C 80A2F21C 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 000A0 80A2F220 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 000A0 80A2F220 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 000A4 80A2F224 8FA70084 */  lw      $a3, 0x0084($sp)
 /* 000A8 80A2F228 AE42014C */  sw      $v0, 0x014C($s2)           ## 0000014C
 /* 000AC 80A2F22C 3C060601 */  lui     $a2, %hi(D_0600C220)                ## $a2 = 06010000
@@ -61,7 +61,7 @@ glabel EnGb_Init
 /* 000F4 80A2F274 24E70690 */  addiu   $a3, $a3, %lo(D_80A30690)  ## $a3 = 80A30690
 /* 000F8 80A2F278 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 000FC 80A2F27C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000023C
-/* 00100 80A2F280 0C017114 */  jal     Collider_SetCylinder_Set3
+/* 00100 80A2F280 0C017114 */  jal     Collider_SetCylinderType1
 /* 00104 80A2F284 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
 /* 00108 80A2F288 3C1080A3 */  lui     $s0, %hi(D_80A306BC)       ## $s0 = 80A30000
 /* 0010C 80A2F28C 3C1480A3 */  lui     $s4, %hi(D_80A30740)       ## $s4 = 80A30000
@@ -76,7 +76,7 @@ glabel EnGb_Init
 /* 00128 80A2F2A8 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0012C 80A2F2AC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000288
 /* 00130 80A2F2B0 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 00134 80A2F2B4 0C017114 */  jal     Collider_SetCylinder_Set3
+/* 00134 80A2F2B4 0C017114 */  jal     Collider_SetCylinderType1
 /* 00138 80A2F2B8 02003825 */  or      $a3, $s0, $zero            ## $a3 = 80A306BC
 /* 0013C 80A2F2BC 2610002C */  addiu   $s0, $s0, 0x002C           ## $s0 = 80A306E8
 /* 00140 80A2F2C0 0214082B */  sltu    $at, $s0, $s4
@@ -116,8 +116,8 @@ glabel EnGb_Init
 
 /* 001C4 80A2F344 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000370
 /* 001C8 80A2F348 4480C000 */  mtc1    $zero, $f24                ## $f24 = 0.00
-/* 001CC 80A2F34C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 001D0 80A2F350 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 001CC 80A2F34C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 001D0 80A2F350 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 001D4 80A2F354 4405C000 */  mfc1    $a1, $f24
 /* 001D8 80A2F358 264400B4 */  addiu   $a0, $s2, 0x00B4           ## $a0 = 000000B4
 /* 001DC 80A2F35C 0C00AC78 */  jal     ActorShape_Init

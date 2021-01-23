@@ -12,14 +12,14 @@
 
 #define SQ(x) ((x)*(x))
 #define ABS(x) ((x) >= 0 ? (x) : -(x))
-#define DECR(x) ((x) == 0 ? 0 : ((x) -= 1))
+#define DECR(x) ((x) == 0 ? 0 : --(x))
 #define CLAMP(x, min, max) ((x) < (min) ? (min) : (x) > (max) ? (max) : (x))
 #define CLAMP_MAX(x, max) ((x) > (max) ? (max) : (x))
 #define CLAMP_MIN(x, min) ((x) < (min) ? (min) : (x))
 
 #define RGBA8(r, g, b, a) (((r & 0xFF) << 24) | ((g & 0xFF) << 16) | ((b & 0xFF) << 8) | ((a & 0xFF) << 0))
 
-#define PLAYER ((Player*)globalCtx->actorCtx.actorList[ACTORTYPE_PLAYER].first)
+#define PLAYER ((Player*)globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head)
 
 #define ACTIVE_CAM globalCtx->cameraPtrs[globalCtx->activeCamera]
 
@@ -44,6 +44,8 @@
 
 #define CHECK_QUEST_ITEM(item) (gBitFlags[item] & gSaveContext.inventory.questItems)
 #define CHECK_DUNGEON_ITEM(item, dungeonIndex) (gSaveContext.inventory.dungeonItems[dungeonIndex] & gBitFlags[item])
+
+#define HIGH_SCORE(score) (gSaveContext.highScores[score])
 
 #define B_BTN_ITEM ((gSaveContext.buttonStatus[0] == ITEM_NONE)                    \
                         ? ITEM_NONE                                                \
@@ -70,6 +72,7 @@
 #define LOG_TIME(exp, value, file, line) LOG(exp, value, "%lld", file, line)
 #define LOG_NUM(exp, value, file, line) LOG(exp, value, "%d", file, line)
 #define LOG_HEX(exp, value, file, line) LOG(exp, value, "%x", file, line)
+#define LOG_FLOAT(exp, value, file, line) LOG(exp, value, "%f", file, line)
 
 #define SET_NEXT_GAMESTATE(curState, newInit, newStruct) \
     (curState)->init = newInit;                          \

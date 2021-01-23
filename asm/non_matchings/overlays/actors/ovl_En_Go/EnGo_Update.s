@@ -7,7 +7,7 @@ glabel EnGo_Update
 /* 028F0 80A40E60 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 028F4 80A40E64 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 028F8 80A40E68 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 028FC 80A40E6C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 028FC 80A40E6C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02900 80A40E70 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 02904 80A40E74 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -15,9 +15,9 @@ glabel EnGo_Update
 /* 0290C 80A40E7C 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 02910 80A40E80 02212821 */  addu    $a1, $s1, $at              
 /* 02914 80A40E84 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02918 80A40E88 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 0291C 80A40E8C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0291C 80A40E8C 0C02927F */  jal     SkelAnime_Update
               
 /* 02920 80A40E90 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 02924 80A40E94 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
@@ -53,7 +53,7 @@ glabel EnGo_Update
 /* 0298C 80A40EFC 44070000 */  mfc1    $a3, $f0                   
 /* 02990 80A40F00 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02994 80A40F04 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 02998 80A40F08 0C00B92D */  jal     func_8002E4B4              
+/* 02998 80A40F08 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 0299C 80A40F0C E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 029A0 80A40F10 0C28FC39 */  jal     func_80A3F0E4              
 /* 029A4 80A40F14 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

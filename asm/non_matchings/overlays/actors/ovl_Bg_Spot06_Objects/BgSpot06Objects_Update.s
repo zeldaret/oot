@@ -15,7 +15,7 @@ glabel BgSpot06Objects_Update
 /* 00D84 808AF504 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00D88 808AF508 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00D8C 808AF50C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00D90 808AF510 00812821 */  addu    $a1, $a0, $at              
 .L808AF514:
 /* 00D94 808AF514 8FBF0014 */  lw      $ra, 0x0014($sp)           

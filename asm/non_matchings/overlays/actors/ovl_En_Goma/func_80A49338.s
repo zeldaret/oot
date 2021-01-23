@@ -4,7 +4,7 @@ glabel func_80A49338
 /* 00480 80A49340 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00484 80A49344 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00488 80A49348 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 0048C 80A4934C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0048C 80A4934C 0C02927F */  jal     SkelAnime_Update
               
 /* 00490 80A49350 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00494 80A49354 3C0540D5 */  lui     $a1, 0x40D5                ## $a1 = 40D50000
@@ -16,7 +16,7 @@ glabel func_80A49338
 /* 004A8 80A49368 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
 /* 004AC 80A4936C 8FAE0024 */  lw      $t6, 0x0024($sp)           
 /* 004B0 80A49370 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 004B4 80A49374 0C00B69E */  jal     func_8002DA78              
+/* 004B4 80A49374 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 004B8 80A49378 8DC51C44 */  lw      $a1, 0x1C44($t6)           ## 00001C44
 /* 004BC 80A4937C 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 004C0 80A49380 00412821 */  addu    $a1, $v0, $at              

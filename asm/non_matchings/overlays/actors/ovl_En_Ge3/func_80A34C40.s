@@ -6,7 +6,7 @@ glabel func_80A34C40
 /* 00630 80A34C50 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00634 80A34C54 2606014C */  addiu   $a2, $s0, 0x014C           ## $a2 = 0000014C
 /* 00638 80A34C58 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 0000014C
-/* 0063C 80A34C5C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0063C 80A34C5C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00640 80A34C60 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 00644 80A34C64 8FA4003C */  lw      $a0, 0x003C($sp)           
@@ -14,7 +14,7 @@ glabel func_80A34C40
 /* 0064C 80A34C6C 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00650 80A34C70 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00654 80A34C74 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00658 80A34C78 00812821 */  addu    $a1, $a0, $at              
 /* 0065C 80A34C7C 3C014220 */  lui     $at, 0x4220                ## $at = 42200000
 /* 00660 80A34C80 44810000 */  mtc1    $at, $f0                   ## $f0 = 40.00
@@ -24,13 +24,13 @@ glabel func_80A34C40
 /* 00670 80A34C90 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 00674 80A34C94 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00678 80A34C98 3C0741C8 */  lui     $a3, 0x41C8                ## $a3 = 41C80000
-/* 0067C 80A34C9C 0C00B92D */  jal     func_8002E4B4              
+/* 0067C 80A34C9C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00680 80A34CA0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00684 80A34CA4 960F030C */  lhu     $t7, 0x030C($s0)           ## 0000030C
 /* 00688 80A34CA8 31F80002 */  andi    $t8, $t7, 0x0002           ## $t8 = 00000000
 /* 0068C 80A34CAC 57000009 */  bnel    $t8, $zero, .L80A34CD4     
 /* 00690 80A34CB0 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00694 80A34CB4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00694 80A34CB4 0C02927F */  jal     SkelAnime_Update
               
 /* 00698 80A34CB8 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
 /* 0069C 80A34CBC 50400005 */  beql    $v0, $zero, .L80A34CD4     

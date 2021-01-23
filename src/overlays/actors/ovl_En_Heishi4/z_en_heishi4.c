@@ -24,7 +24,7 @@ void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx);
 
 const ActorInit En_Heishi4_InitVars = {
     ACTOR_EN_HEISHI4,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_SD,
     sizeof(EnHeishi4),
@@ -37,8 +37,22 @@ const ActorInit En_Heishi4_InitVars = {
 static u32 sFaceReactionSets[] = { 6, 7 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 33, 40, 0, { 0, 0, 0 } },
 };
 
@@ -53,19 +67,17 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(thisx, 0.01f);
     this->type = thisx->params & 0xFF;
-    thisx->colChkInfo.mass = 0xFF;
-    this->pos = thisx->posRot.pos;
-    thisx->unk_1F = 6;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
+    this->pos = thisx->world.pos;
+    thisx->targetMode = 6;
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, &this->limbDrawTable,
-                       &this->transitionDrawTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_0600C444, this->jointTable, this->morphTable, 17);
     } else {
         this->height = 60.0f;
-        ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, &this->limbDrawTable,
-                       &this->transitionDrawTable, 17);
+        ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
     }
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -101,9 +113,9 @@ void EnHeishi4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A56328(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005C30);
+    f32 frames = Animation_GetLastFrame(&D_06005C30);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A563BC;
 }
 
@@ -139,7 +151,7 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
             } else {
                 this->actor.textId = 0x507A;
             }
-        } else if (!gSaveContext.nightFlag) {
+        } else if (gSaveContext.nightFlag == 0) {
             if (this->unk_284 == 0) {
                 this->actor.textId = 0x5063;
             } else {
@@ -156,9 +168,9 @@ void func_80A563BC(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56544(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_06005C30);
+    f32 frames = Animation_GetLastFrame(&D_06005C30);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     if (LINK_AGE_IN_YEARS != YEARS_CHILD) {
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ ぎゃぁ！オトナだー ☆☆☆☆☆ \n" VT_RST);
         Actor_Kill(&this->actor);
@@ -191,7 +203,7 @@ void func_80A56614(EnHeishi4* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x709A;
         }
     } else if (globalCtx->sceneNum != SCENE_MARKET_NIGHT) {
-        if (!gSaveContext.nightFlag) {
+        if (gSaveContext.nightFlag == 0) {
             this->actor.textId = 0x7002;
         } else {
             this->actor.textId = 0x7003;
@@ -212,8 +224,8 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     this->unk_284 = 0;
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
-            f32 frames = SkelAnime_GetFrameCount(&D_0600C444);
-            SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+            f32 frames = Animation_GetLastFrame(&D_0600C444);
+            Animation_Change(&this->skelAnime, &D_0600C444, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
             this->unk_284 = 1;
@@ -231,7 +243,7 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
 
 void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
     if (this->unk_284 != 0) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
     }
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->unk_284 == 0) {
@@ -246,15 +258,15 @@ void func_80A56874(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600C6C8);
+    f32 frames = Animation_GetLastFrame(&D_0600C6C8);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_0600C6C8, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A56994;
 }
 
 void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
-    func_80038290(globalCtx, &this->actor, &this->unk_260.x, &this->unk_266.x, this->actor.posRot2.pos);
+    SkelAnime_Update(&this->skelAnime);
+    func_80038290(globalCtx, &this->actor, &this->unk_260.x, &this->unk_266.x, this->actor.focus.pos);
     if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);
@@ -266,16 +278,16 @@ void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
 }
 
 void func_80A56A50(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 frames = SkelAnime_GetFrameCount(&D_0600C374);
+    f32 frames = Animation_GetLastFrame(&D_0600C374);
     this->unk_288 = frames;
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_0600C374, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A56ACC;
 }
 
 void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx) {
-    f32 currentFrame = this->skelAnime.animCurrentFrame;
+    f32 currentFrame = this->skelAnime.curFrame;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_288 <= currentFrame) {
         func_8002DF54(globalCtx, NULL, 7);
         this->actionFunc = func_80A5673C;
@@ -285,7 +297,7 @@ void func_80A56ACC(EnHeishi4* this, GlobalContext* globalCtx) {
 void func_80A56B40(EnHeishi4* this, GlobalContext* globalCtx) {
     s16 reactionOffset;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     reactionOffset = (this->type - 4);
     if (reactionOffset < 0) {
         reactionOffset = 0;
@@ -335,14 +347,14 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
 
-    thisx->posRot.pos.x = this->pos.x;
-    thisx->posRot.pos.y = this->pos.y;
-    thisx->posRot.pos.z = this->pos.z;
-    Actor_SetHeight(thisx, this->height);
+    thisx->world.pos.x = this->pos.x;
+    thisx->world.pos.y = this->pos.y;
+    thisx->world.pos.z = this->pos.z;
+    Actor_SetFocus(thisx, this->height);
     if (this->type != HEISHI4_AT_MARKET_DYING) {
-        this->unk_28C.unk_18 = player->actor.posRot.pos;
+        this->unk_28C.unk_18 = player->actor.world.pos;
         if (LINK_IS_CHILD) {
-            this->unk_28C.unk_18.y = (player->actor.posRot.pos.y - 10.0f);
+            this->unk_28C.unk_18.y = (player->actor.world.pos.y - 10.0f);
         }
         func_80034A14(thisx, &this->unk_28C, 2, 4);
         this->unk_260 = this->unk_28C.unk_08;
@@ -351,9 +363,9 @@ void EnHeishi4_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_27E += 1;
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 10.0f, 10.0f, 30.0f, 0x1D);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
@@ -367,13 +379,13 @@ s32 EnHeishi_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         rot->x += this->unk_260.y;
         rot->z += this->unk_260.z;
     }
-    return 0;
+    return false;
 }
 
 void EnHeishi4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi4* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnHeishi_OverrideLimbDraw, NULL,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi_OverrideLimbDraw, NULL,
                       this);
 }

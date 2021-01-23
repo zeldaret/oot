@@ -37,8 +37,8 @@ glabel EnTest_Init
 /* 0008C 8085F6DC 0C02915F */  jal     SkelAnime_Init
               
 /* 00090 8085F6E0 260504A8 */  addiu   $a1, $s0, 0x04A8           ## $a1 = 000004A8
-/* 00094 8085F6E4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Teardrop)
-/* 00098 8085F6E8 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Teardrop)
+/* 00094 8085F6E4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFeet)
+/* 00098 8085F6E8 24C6B8C4 */  addiu   $a2, %lo(ActorShadow_DrawFeet)
 /* 0009C 8085F6EC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 000A0 8085F6F0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 000A4 8085F6F4 0C00AC78 */  jal     ActorShape_Init

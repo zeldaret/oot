@@ -33,7 +33,7 @@ typedef struct EnFz {
     /* 0x0240 */ s16 counter; // A perpetual counter
     /* 0x0242 */ s16 unusedTimer1; 
     /* 0x0244 */ s16 timer; // Used to time transition into next action. Can be 10, 20, 40, 60, 80, 100
-    /* 0x0246 */ u8 isAlwaysTrue; // Always true in every instance
+    /* 0x0246 */ u8 updateBgInfo; // Always true in every instance
     /* 0x0247 */ u8 isMoving; // Freezard is moving in xz plane
     /* 0x0248 */ u8 isFreezing; // Freezard shooting ice projectiles that can freeze Link
     /* 0x0249 */ u8 unusedCounter; // Incremented when Freezard takes damage
@@ -48,8 +48,8 @@ typedef struct EnFz {
     /* 0x0261 */ u8 isActive; // Default true. Set to false after beginning to despawn
     /* 0x0262 */ u8 isDespawning; // Default false. Set to false after beginning to despawn or melting
     /* 0x0263 */ u8 unusedTimer2; // Timer
-    /* 0x0264 */ Vec3f collisionPos; // Related to collision position
-    /* 0x0270 */ f32 xzDistSquare; // xz distance squared, used for collision
+    /* 0x0264 */ Vec3f wallHitPos; // Position contact was made with a wall
+    /* 0x0270 */ f32 distToTargetSq;
     /* 0x0274 */ EnFzEffectSsIceSmoke iceSmoke[40];
 } EnFz; // size = 0x0BD4
 

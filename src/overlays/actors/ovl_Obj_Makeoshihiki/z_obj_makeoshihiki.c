@@ -16,7 +16,7 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Obj_Makeoshihiki_InitVars = {
-    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORTYPE_PROP,          FLAGS,
+    ACTOR_OBJ_MAKEOSHIHIKI,       ACTORCAT_PROP,           FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP, sizeof(ObjMakeoshihiki), (ActorFunc)ObjMakeoshihiki_Init,
     (ActorFunc)Actor_Noop,        (ActorFunc)Actor_Noop,   (ActorFunc)ObjMakeoshihiki_Draw,
 };
@@ -51,7 +51,7 @@ static u32 sFlags[3][2] = { { 0, 0 }, { 1, 0 }, { 0, 1 } };
 static void (*sFlagSwitchFuncs[])(GlobalContext* globalCtx, s32 flag) = { Flags_UnsetSwitch, Flags_SetSwitch };
 
 void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BlockConfig* block = &sBlocks[thisx->initPosRot.rot.z & 1];
+    BlockConfig* block = &sBlocks[thisx->home.rot.z & 1];
     s32 typeIdx;
     Vec3f* spawnPos;
 
@@ -78,13 +78,12 @@ void ObjMakeoshihiki_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (block->unk_24[typeIdx] & 2) {
         ((ObjOshihiki*)thisx->child)->cantMove = true;
     }
-    thisx->posRot.rot.z = thisx->shape.rot.z = 0;
-    osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params,
-                 thisx->initPosRot.rot.z);
+    thisx->world.rot.z = thisx->shape.rot.z = 0;
+    osSyncPrintf("(%s)(arg_data %04xF)(angleZ %d)\n", "../z_obj_makeoshihiki.c", thisx->params, thisx->home.rot.z);
 }
 
 void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    BlockConfig* block = &sBlocks[thisx->initPosRot.rot.z & 1];
+    BlockConfig* block = &sBlocks[thisx->home.rot.z & 1];
     s32 i;
     s32 sfxCond1;
     s32 sfxCond2;
@@ -92,7 +91,7 @@ void ObjMakeoshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 cond2;
 
     for (i = 0; i < 3; i++) {
-        if (Math3D_Vec3fDistSq(&thisx->child->posRot.pos, &block->posVecs[i]) < 0.001f) {
+        if (Math3D_Vec3fDistSq(&thisx->child->world.pos, &block->posVecs[i]) < 0.001f) {
             if (block->unk_24[i] & 1) {
                 if ((thisx->params >> 6) & 1) {
                     sfxCond1 = false;

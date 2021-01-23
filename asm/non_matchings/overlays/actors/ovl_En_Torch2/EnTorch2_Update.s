@@ -551,7 +551,7 @@ glabel EnTorch2_Update
 /* 00C0C 80B1E58C E5E601CC */  swc1    $f6, 0x01CC($t7)           ## 000001D0
 /* 00C10 80B1E590 8FA50078 */  lw      $a1, 0x0078($sp)           
 /* 00C14 80B1E594 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 00C18 80B1E598 0C028EF0 */  jal     func_800A3BC0              
+/* 00C18 80B1E598 0C028EF0 */  jal     LinkAnimation_Update              
 /* 00C1C 80B1E59C 24A501B4 */  addiu   $a1, $a1, 0x01B4           ## $a1 = 000001B4
 /* 00C20 80B1E5A0 3C0180B2 */  lui     $at, %hi(sHoldShieldTimer)       ## $at = 80B20000
 /* 00C24 80B1E5A4 AC20F9FC */  sw      $zero, %lo(sHoldShieldTimer)($at) 
@@ -1033,7 +1033,7 @@ glabel EnTorch2_Update
 /* 012F4 80B1EC74 24A50150 */  addiu   $a1, $a1, %lo(sSpawnPoint)  ## $a1 = 80B20150
 /* 012F8 80B1EC78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012FC 80B1EC7C 46044280 */  add.s   $f10, $f8, $f4             
-/* 01300 80B1EC80 0C00B6DB */  jal     func_8002DB6C              
+/* 01300 80B1EC80 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 01304 80B1EC84 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
 /* 01308 80B1EC88 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 0130C 80B1EC8C 44818000 */  mtc1    $at, $f16                  ## $f16 = 800.00
@@ -1681,13 +1681,13 @@ glabel EnTorch2_Update
 /* 01C3C 80B1F5BC E61001D0 */  swc1    $f16, 0x01D0($s0)          ## 000001D0
 /* 01C40 80B1F5C0 AFAE0030 */  sw      $t6, 0x0030($sp)           
 /* 01C44 80B1F5C4 AFB90038 */  sw      $t9, 0x0038($sp)           
-/* 01C48 80B1F5C8 0C028EF0 */  jal     func_800A3BC0              
+/* 01C48 80B1F5C8 0C028EF0 */  jal     LinkAnimation_Update              
 /* 01C4C 80B1F5CC 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 01C50 80B1F5D0 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C54 80B1F5D4 0C017458 */  jal     Collider_QuadSetAT              
+/* 01C54 80B1F5D4 0C017458 */  jal     Collider_ResetQuadAT              
 /* 01C58 80B1F5D8 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 01C5C 80B1F5DC 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C60 80B1F5E0 0C017458 */  jal     Collider_QuadSetAT              
+/* 01C60 80B1F5E0 0C017458 */  jal     Collider_ResetQuadAT              
 /* 01C64 80B1F5E4 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 01C68 80B1F5E8 3C0780B2 */  lui     $a3, %hi(sStaggerTimer)       ## $a3 = 80B20000
 /* 01C6C 80B1F5EC 3C0680B2 */  lui     $a2, %hi(sCounterState)       ## $a2 = 80B20000

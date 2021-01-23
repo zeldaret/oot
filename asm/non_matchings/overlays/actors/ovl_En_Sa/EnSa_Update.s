@@ -7,7 +7,7 @@ glabel EnSa_Update
 /* 01694 80AF6BF4 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01698 80AF6BF8 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 0169C 80AF6BFC 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
-/* 016A0 80AF6C00 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 016A0 80AF6C00 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 016A4 80AF6C04 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 016A8 80AF6C08 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -15,9 +15,9 @@ glabel EnSa_Update
 /* 016B0 80AF6C10 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 016B4 80AF6C14 02212821 */  addu    $a1, $s1, $at              
 /* 016B8 80AF6C18 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 016BC 80AF6C1C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 016C0 80AF6C20 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 016C0 80AF6C20 0C02927F */  jal     SkelAnime_Update
               
 /* 016C4 80AF6C24 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 016C8 80AF6C28 8E0E0154 */  lw      $t6, 0x0154($s0)           ## 00000154
@@ -25,7 +25,7 @@ glabel EnSa_Update
 /* 016D0 80AF6C30 24841D50 */  addiu   $a0, $a0, %lo(D_06001D50)           ## $a0 = 06001D50
 /* 016D4 80AF6C34 548E000E */  bnel    $a0, $t6, .L80AF6C70       
 /* 016D8 80AF6C38 8E0F0190 */  lw      $t7, 0x0190($s0)           ## 00000190
-/* 016DC 80AF6C3C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 016DC 80AF6C3C 0C028800 */  jal     Animation_GetLastFrame
               
 /* 016E0 80AF6C40 00000000 */  nop
 /* 016E4 80AF6C44 44823000 */  mtc1    $v0, $f6                   ## $f6 = 0.00
@@ -87,7 +87,7 @@ glabel EnSa_Update
 /* 017B0 80AF6D10 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 017B4 80AF6D14 44060000 */  mfc1    $a2, $f0                   
 /* 017B8 80AF6D18 44070000 */  mfc1    $a3, $f0                   
-/* 017BC 80AF6D1C 0C00B92D */  jal     func_8002E4B4              
+/* 017BC 80AF6D1C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 017C0 80AF6D20 E7A00010 */  swc1    $f0, 0x0010($sp)           
 .L80AF6D24:
 /* 017C4 80AF6D24 0C2BD827 */  jal     func_80AF609C              

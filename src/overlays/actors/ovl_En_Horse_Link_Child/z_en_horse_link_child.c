@@ -22,7 +22,7 @@ void func_80A6A724(EnHorseLinkChild* this);
 
 const ActorInit En_Horse_Link_Child_InitVars = {
     ACTOR_EN_HORSE_LINK_CHILD,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HORSE_LINK_CHILD,
     sizeof(EnHorseLinkChild),
@@ -33,19 +33,54 @@ const ActorInit En_Horse_Link_Child_InitVars = {
 };
 
 static AnimationHeader* sAnimations[] = { 0x060043E4, 0x06004B08, 0x060053F0, 0x0600360C, 0x06002F98 };
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 20, 100, 0, { 0, 0, 0 } }
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 20, 100, 0, { 0, 0, 0 } },
 };
-static ColliderJntSphItemInit sJntSphItemInit[] = {
-    { { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-      { 0xD, { { 0, 0, 0 }, 10 }, 100 } }
+
+static ColliderJntSphElementInit sJntSphElementInit[1] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
+        { 13, { { 0, 0, 0 }, 10 }, 100 },
+    },
 };
-static ColliderJntSphInit sJntSphInit = { { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x12, COLSHAPE_JNTSPH },
-                                          ARRAY_COUNT(sJntSphItemInit),
-                                          sJntSphItemInit };
-static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, 0xFE };
+
+static ColliderJntSphInit sJntSphInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1 | OC2_UNK1,
+        COLSHAPE_JNTSPH,
+    },
+    1,
+    sJntSphElementInit,
+};
+
+static CollisionCheckInfoInit sColCheckInfoInit = { 10, 35, 100, MASS_HEAVY };
 
 extern AnimationHeader D_06002F98;
 extern SkeletonHeader D_06007B20;
@@ -53,8 +88,8 @@ extern SkeletonHeader D_06007B20;
 void func_80A693D0(EnHorseLinkChild* this) {
     static s32 D_80A6AF5C[] = { 1, 19 };
 
-    if ((this->skin.skelAnime.animCurrentFrame > D_80A6AF5C[this->unk_1F0]) &&
-        !((this->unk_1F0 == 0) && (this->skin.skelAnime.animCurrentFrame > D_80A6AF5C[1]))) {
+    if ((this->skin.skelAnime.curFrame > D_80A6AF5C[this->unk_1F0]) &&
+        !((this->unk_1F0 == 0) && (this->skin.skelAnime.curFrame > D_80A6AF5C[1]))) {
         Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_WALK, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         this->unk_1F0++;
@@ -67,7 +102,7 @@ void func_80A693D0(EnHorseLinkChild* this) {
 void func_80A6948C(EnHorseLinkChild* this) {
     if (this->animationIdx == 2) {
         func_80A693D0(this);
-    } else if (this->skin.skelAnime.animCurrentFrame == 0.0f) {
+    } else if (this->skin.skelAnime.curFrame == 0.0f) {
         if ((this->animationIdx == 3) || (this->animationIdx == 4)) {
             Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_RUN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
@@ -112,19 +147,19 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Actor_SetScale(&this->actor, 0.005f);
     this->actor.gravity = -3.5f;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawHorse, 20.0f);
     this->actor.speedXZ = 0.0f;
     this->action = 1;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06007B20, &D_06002F98);
     this->animationIdx = 0;
-    SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimations[0]);
+    Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
-    Collider_SetCylinder_Set3(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->bodyCollider, &this->actor, &sCylinderInit);
     Collider_InitJntSph(globalCtx, &this->headCollider);
-    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headColliderItems);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
+    Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
     this->unk_1F0 = 0;
     this->unk_1EC = 0;
 
@@ -141,7 +176,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80A69EC0(this);
     }
 
-    this->actor.initPosRot.rot.z = this->actor.posRot.rot.z = this->actor.shape.rot.z = 0;
+    this->actor.home.rot.z = this->actor.world.rot.z = this->actor.shape.rot.z = 0;
 }
 
 void EnHorseLinkChild_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -159,13 +194,13 @@ void func_80A6988C(EnHorseLinkChild* this) {
         this->animationIdx = 0;
     }
 
-    SkelAnime_ChangeAnimDefaultStop(&this->skin.skelAnime, sAnimations[this->animationIdx]);
-    this->skin.skelAnime.animPlaybackSpeed = func_80A695A4(this);
+    Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
+    this->skin.skelAnime.playSpeed = func_80A695A4(this);
 }
 
 void func_80A698F4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
-    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         func_80A6988C(this);
     }
 }
@@ -180,8 +215,8 @@ void func_80A6993C(EnHorseLinkChild* this, s32 newAnimationIdx) {
 
     if (this->animationIdx != newAnimationIdx) {
         this->animationIdx = newAnimationIdx;
-        SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                             SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+        Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
     }
 }
 
@@ -189,20 +224,20 @@ void func_80A699FC(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     f32 distFromLink;
     s32 newAnimationIdx;
 
-    distFromLink = func_8002DB8C(&this->actor, &PLAYER->actor);
+    distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         if ((distFromLink < 1000.0f) && (distFromLink > 70.0f)) {
             func_80A69B7C(this);
         } else {
             newAnimationIdx = this->animationIdx == 1 ? 0 : 1;
             if (this->animationIdx != newAnimationIdx) {
                 this->animationIdx = newAnimationIdx;
-                SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                     SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+                Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
             } else {
-                SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                     SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, 0.0);
+                Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                                 Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0);
             }
         }
     }
@@ -212,8 +247,8 @@ void func_80A69B7C(EnHorseLinkChild* this) {
     this->action = 1;
     this->animationIdx = 0;
     this->actor.speedXZ = 0.0f;
-    SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                         SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+    Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -222,21 +257,21 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     s32 newAnimationIdx;
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
-        yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.posRot.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
 
         if (yawDiff > 0x12C) {
-            this->actor.posRot.rot.y += 0x12C;
+            this->actor.world.rot.y += 0x12C;
         } else if (yawDiff < -0x12C) {
-            this->actor.posRot.rot.y -= 0x12C;
+            this->actor.world.rot.y -= 0x12C;
         } else {
-            this->actor.posRot.rot.y += yawDiff;
+            this->actor.world.rot.y += yawDiff;
         }
 
-        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
-        distFromLink = func_8002DB8C(&this->actor, &PLAYER->actor);
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
+        distFromLink = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
 
         if (distFromLink > 1000.0f) {
             func_80A6993C(this, 0);
@@ -258,11 +293,11 @@ void func_80A69C18(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
         if (this->animationIdx != newAnimationIdx) {
             this->animationIdx = newAnimationIdx;
-            SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                 SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+            Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                 SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, 0.0f);
+            Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
         }
     }
 }
@@ -271,8 +306,8 @@ void func_80A69EC0(EnHorseLinkChild* this) {
     this->action = 3;
     this->animationIdx = 0;
     this->actor.speedXZ = 0.0f;
-    SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                         SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+    Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80A69F5C(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -284,24 +319,24 @@ void func_80A69F5C(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
         player = PLAYER;
 
-        if (Math3D_Vec3f_DistXYZ(&player->actor.posRot.pos, &this->actor.initPosRot.pos) < 250.0f) {
+        if (Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos) < 250.0f) {
             yawDiff = player->actor.shape.rot.y;
-            yawSign = func_8002DA78(&this->actor, &player->actor) > 0 ? 1 : -1;
+            yawSign = Actor_WorldYawTowardActor(&this->actor, &player->actor) > 0 ? 1 : -1;
             yawOffset = yawSign << 0xE;
             yawDiff += yawOffset;
         } else {
-            yawDiff = Math_Vec3f_Yaw(&this->actor.posRot.pos, &this->actor.initPosRot.pos) - this->actor.posRot.rot.y;
+            yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos) - this->actor.world.rot.y;
         }
 
         if (yawDiff > 0x12C) {
-            this->actor.posRot.rot.y += 0x12C;
+            this->actor.world.rot.y += 0x12C;
         } else if (yawDiff < -0x12C) {
-            this->actor.posRot.rot.y -= 0x12C;
+            this->actor.world.rot.y -= 0x12C;
         } else {
-            this->actor.posRot.rot.y += yawDiff;
+            this->actor.world.rot.y += yawDiff;
         }
 
-        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 }
 
@@ -315,7 +350,7 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     func_80A69F5C(this, globalCtx);
     player = PLAYER;
-    distFromLink = func_8002DB8C(&this->actor, &player->actor);
+    distFromLink = Actor_WorldDistXZToActor(&this->actor, &player->actor);
 
     if (gSaveContext.entranceIndex == 0x2AE) {
         Audio_PlaySoundGeneral(NA_SE_EV_KID_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
@@ -332,11 +367,11 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
     }
 
     newAnimationIdx = this->animationIdx;
-    animationEnded = SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime);
+    animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (animationEnded || (this->animationIdx == 1) || (this->animationIdx == 0)) {
         if (gSaveContext.eventChkInf[1] & 0x20) {
-            distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
-            distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.posRot.pos, &this->actor.initPosRot.pos);
+            distFromHome = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
+            distLinkFromHome = Math3D_Vec3f_DistXYZ(&player->actor.world.pos, &this->actor.home.pos);
             if (distLinkFromHome > 250.0f) {
                 if (distFromHome >= 300.0f) {
                     newAnimationIdx = 4;
@@ -388,12 +423,12 @@ void func_80A6A068(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     if ((this->animationIdx != newAnimationIdx) || (animationEnded == true)) {
         this->animationIdx = newAnimationIdx;
-        SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                             SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+        Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                         Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
     } else {
-        SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this),
-                             this->skin.skelAnime.animCurrentFrame,
-                             SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, 0.0f);
+        Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this),
+                         this->skin.skelAnime.curFrame, Animation_GetLastFrame(sAnimations[this->animationIdx]), 2,
+                         0.0f);
     }
 }
 
@@ -401,8 +436,8 @@ void func_80A6A4DC(EnHorseLinkChild* this) {
     this->action = 5;
     this->animationIdx = Rand_ZeroOne() > 0.5f ? 0 : 1;
     DREG(53) = 0;
-    SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                         SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, 0.0f);
+    Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
 }
 
 void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -415,18 +450,17 @@ void func_80A6A5A4(EnHorseLinkChild* this, GlobalContext* globalCtx) {
         func_80A6A724(this);
     } else {
         this->actor.speedXZ = 0.0f;
-        yawDiff = func_8002DA78(&this->actor, &PLAYER->actor) - this->actor.posRot.rot.y;
+        yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
         // 0.7071 = cos(pi/4)
         if ((Math_CosS(yawDiff) < 0.7071f) && (this->animationIdx == 2)) {
-            func_8006DD9C(&this->actor, &PLAYER->actor.posRot.pos, 300);
+            func_8006DD9C(&this->actor, &PLAYER->actor.world.pos, 300);
         }
 
-        if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+        if (SkelAnime_Update(&this->skin.skelAnime)) {
             if (Math_CosS(yawDiff) < 0.0f) {
                 this->animationIdx = 2;
-                SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx],
-                                     D_80A6AF64[this->animationIdx], 0.0f,
-                                     SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+                Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], D_80A6AF64[this->animationIdx],
+                                 0.0f, Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
             } else {
                 func_80A6A4DC(this);
             }
@@ -440,8 +474,8 @@ void func_80A6A724(EnHorseLinkChild* this) {
     this->animationIdx = 2;
     this->unk_1E8 = false;
     this->actor.speedXZ = 2.0f;
-    SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                         SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+    Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                     Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
 }
 
 void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
@@ -456,17 +490,17 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
     if ((this->animationIdx == 4) || (this->animationIdx == 3) || (this->animationIdx == 2)) {
         if (!this->unk_1E8) {
-            func_8006DD9C(&this->actor, &player->actor.posRot.pos, 300);
+            func_8006DD9C(&this->actor, &player->actor.world.pos, 300);
         } else {
-            func_8006DD9C(&this->actor, &this->actor.initPosRot.pos, 300);
+            func_8006DD9C(&this->actor, &this->actor.home.pos, 300);
         }
     }
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skin.skelAnime)) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         if (!this->unk_1E8) {
-            dist = func_8002DB8C(&this->actor, &PLAYER->actor);
+            dist = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
         } else {
-            dist = Math3D_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
+            dist = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         }
 
         if (!this->unk_1E8) {
@@ -500,11 +534,11 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 
         if (this->animationIdx != newAnimationIdx) {
             this->animationIdx = newAnimationIdx;
-            SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                 SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, -5.0f);
+            Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, -5.0f);
         } else {
-            SkelAnime_ChangeAnim(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
-                                 SkelAnime_GetFrameCount(sAnimations[this->animationIdx]), 2, 0.0f);
+            Animation_Change(&this->skin.skelAnime, sAnimations[this->animationIdx], func_80A695A4(this), 0.0f,
+                             Animation_GetLastFrame(sAnimations[this->animationIdx]), ANIMMODE_ONCE, 0.0f);
         }
     }
 }
@@ -521,14 +555,14 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 0x1D);
 
-    if ((globalCtx->sceneNum == SCENE_SPOT20) && (this->actor.posRot.pos.z < -2400.0f)) {
-        this->actor.posRot.pos.z = -2400.0f;
+    if ((globalCtx->sceneNum == SCENE_SPOT20) && (this->actor.world.pos.z < -2400.0f)) {
+        this->actor.world.pos.z = -2400.0f;
     }
 
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
 
     if ((Rand_ZeroOne() < 0.025f) && (this->unk_1EC == 0)) {
         this->unk_1EC++;
@@ -539,7 +573,7 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->bodyCollider);
+    Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
     func_80A6948C(this);
 }
@@ -551,15 +585,15 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     s32 i;
 
     for (i = 0; i < this->headCollider.count; i++) {
-        center.x = this->headCollider.list[i].dim.modelSphere.center.x;
-        center.y = this->headCollider.list[i].dim.modelSphere.center.y;
-        center.z = this->headCollider.list[i].dim.modelSphere.center.z;
-        func_800A6408(skin, this->headCollider.list[i].dim.joint, &center, &newCenter);
-        this->headCollider.list[i].dim.worldSphere.center.x = newCenter.x;
-        this->headCollider.list[i].dim.worldSphere.center.y = newCenter.y;
-        this->headCollider.list[i].dim.worldSphere.center.z = newCenter.z;
-        this->headCollider.list[i].dim.worldSphere.radius =
-            this->headCollider.list[i].dim.modelSphere.radius * this->headCollider.list[i].dim.scale;
+        center.x = this->headCollider.elements[i].dim.modelSphere.center.x;
+        center.y = this->headCollider.elements[i].dim.modelSphere.center.y;
+        center.z = this->headCollider.elements[i].dim.modelSphere.center.z;
+        func_800A6408(skin, this->headCollider.elements[i].dim.limb, &center, &newCenter);
+        this->headCollider.elements[i].dim.worldSphere.center.x = newCenter.x;
+        this->headCollider.elements[i].dim.worldSphere.center.y = newCenter.y;
+        this->headCollider.elements[i].dim.worldSphere.center.z = newCenter.z;
+        this->headCollider.elements[i].dim.worldSphere.radius =
+            this->headCollider.elements[i].dim.modelSphere.radius * this->headCollider.elements[i].dim.scale;
     }
 
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);

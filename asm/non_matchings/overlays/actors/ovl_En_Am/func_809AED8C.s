@@ -63,7 +63,7 @@ glabel func_809AED8C
 /* 00F4C 809AEE6C 0C26B89C */  jal     func_809AE270              
 /* 00F50 809AEE70 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 00F54 809AEE74 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00F58 809AEE78 0C00B6DB */  jal     func_8002DB6C              
+/* 00F58 809AEE78 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 00F5C 809AEE7C 8FA50028 */  lw      $a1, 0x0028($sp)           
 /* 00F60 809AEE80 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
 /* 00F64 809AEE84 44812000 */  mtc1    $at, $f4                   ## $f4 = 80.00
@@ -92,7 +92,7 @@ glabel func_809AED8C
               
 /* 00FB8 809AEED8 A60C0032 */  sh      $t4, 0x0032($s0)           ## 00000032
 .L809AEEDC:
-/* 00FBC 809AEEDC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00FBC 809AEEDC 0C02927F */  jal     SkelAnime_Update
               
 /* 00FC0 809AEEE0 26040164 */  addiu   $a0, $s0, 0x0164           ## $a0 = 00000164
 /* 00FC4 809AEEE4 860D0032 */  lh      $t5, 0x0032($s0)           ## 00000032
