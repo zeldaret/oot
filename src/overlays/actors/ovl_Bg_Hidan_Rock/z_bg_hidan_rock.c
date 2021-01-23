@@ -121,8 +121,13 @@ void BgHidanRock_Init(Actor *thisx, GlobalContext *globalCtx) {
     this->unk_16A = 0;
 }
 
+void BgHidanRock_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    BgHidanRock *this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/BgHidanRock_Destroy.s")
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+    func_800F89E8(&this->unk_170);
+}
 
 void func_8088B24C(BgHidanRock *this) {
     this->dyna.actor.flags = this->dyna.actor.flags | 0x30;
