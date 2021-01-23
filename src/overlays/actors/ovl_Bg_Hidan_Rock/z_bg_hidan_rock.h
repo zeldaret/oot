@@ -6,9 +6,11 @@
 
 struct BgHidanRock;
 
+typedef void (*BgHidanRockActionFunc)(struct BgHidanRock*, GlobalContext*);
+
 typedef struct BgHidanRock {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ s32 *unk_164;
+    /* 0x0164 */ BgHidanRockActionFunc* callback;
     /* 0x0168 */ u8 unk_168;
     /* 0x0169 */ u8 unk_169;
     /* 0x016A */ u16 unk_16A;

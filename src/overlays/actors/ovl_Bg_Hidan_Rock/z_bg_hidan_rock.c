@@ -9,6 +9,20 @@ void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+
+void func_8088B24C(BgHidanRock* this);
+
+extern UNK_TYPE func_8088B268;
+void func_8088B5F4(BgHidanRock* this, GlobalContext* globalCtx);
+void func_8088B634(BgHidanRock* this, GlobalContext* globalCtx);
+extern UNK_TYPE func_8088B69C;
+extern UNK_TYPE func_8088B79C;
+void func_8088B90C(BgHidanRock* this, GlobalContext *globalCtx);
+void func_8088B954(BgHidanRock* this, GlobalContext *globalCtx);
+extern UNK_TYPE func_8088B990;
+
+extern UNK_TYPE func_8088BC40;
+
 extern UNK_TYPE D_0600C100;
 extern UNK_TYPE D_0600C1F0;
 extern UNK_TYPE D_0600CA10;
@@ -68,11 +82,6 @@ extern s32 D_8088BFC0[];
 extern s32 D_8088BFC4[];
 
 
-extern UNK_TYPE func_8088B5F4;
-extern UNK_TYPE func_8088B268;
-extern UNK_TYPE func_8088B634;
-
-
 void BgHidanRock_Init(Actor *thisx, GlobalContext *globalCtx) {
     BgHidanRock* this = THIS;
     DynaPolyActor* dyna = &this->dyna;
@@ -94,9 +103,9 @@ void BgHidanRock_Init(Actor *thisx, GlobalContext *globalCtx) {
             Math_Vec3f_Copy(&this->dyna.actor.home.pos, (Vec3f *) D_8088BF60);
             Math_Vec3f_Copy(&this->dyna.actor.world.pos, (Vec3f *) D_8088BF60);
             this->unk_16A = 0x3C;
-            this->unk_164 = &func_8088B5F4;
+            this->callback = &func_8088B5F4;
         } else {
-            this->unk_164 = &func_8088B268;
+            this->callback = &func_8088B268;
         }
         this->dyna.actor.flags = dyna->actor.flags | 0x30;
         CollisionHeader_GetVirtual((void *) &D_0600CB80, &col_header);
@@ -105,7 +114,7 @@ void BgHidanRock_Init(Actor *thisx, GlobalContext *globalCtx) {
         this->collider.dim.pos.x = dyna->actor.home.pos.x;
         this->collider.dim.pos.y = dyna->actor.home.pos.y;
         this->collider.dim.pos.z = dyna->actor.home.pos.z;
-        this->unk_164 = &func_8088B634;
+        this->callback = &func_8088B634;
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &dyna->actor, col_header);
@@ -115,21 +124,58 @@ void BgHidanRock_Init(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/BgHidanRock_Destroy.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B24C.s")
+void func_8088B24C(BgHidanRock *this) {
+    this->dyna.actor.flags = this->dyna.actor.flags | 0x30;
+    this->callback = &func_8088B990;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B268.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B5F4.s")
+void func_8088B5F4(BgHidanRock *this, GlobalContext *globalCtx) {
+    s16 unk_16A;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B634.s")
+    unk_16A = this->unk_16A;
+    if (unk_16A != 0) {
+        this->unk_16A = unk_16A - 1;
+        unk_16A = this->unk_16A;
+    }
+    if (unk_16A == 0) {
+        func_8088B24C(this);
+    }
+}
+
+void func_8088B634(BgHidanRock *this, GlobalContext *globalCtx) {
+    if (func_8004356C(&this->dyna) != 0) {
+        this->unk_16A = 0x14;
+        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x4000;
+        this->callback = &func_8088B69C;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B69C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B79C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B90C.s")
+void func_8088B90C(BgHidanRock *this, GlobalContext *globalCtx) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f) != 0) {
+        this->callback = func_8088B634;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B954.s")
+void func_8088B954(BgHidanRock *this, GlobalContext *globalCtx) {
+    s16 unk_16A;
+
+    unk_16A = this->unk_16A;
+    if (unk_16A != 0) {
+        this->unk_16A = unk_16A - 1;
+        unk_16A = this->unk_16A;
+    }
+
+    if (unk_16A == 0) {
+        this->callback = &func_8088B79C;
+        this->dyna.actor.velocity.y = 0.0f;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B990.s")
 
