@@ -1,3 +1,8 @@
+/*
+ * File: z_en_firefly.c
+ * Overlay: ovl_En_Firefly
+ * Description: Keese (Normal, Fire, Ice)
+ */
 #include "z_en_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
