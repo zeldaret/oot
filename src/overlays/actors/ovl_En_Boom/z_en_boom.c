@@ -95,7 +95,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &trail);
 
     Collider_InitQuad(globalCtx, &this->collider);
-    Collider_SetQuad(globalCtx, &this->collider, this, &sQuadInit);
+    Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
 
     EnBoom_SetupAction(this, EnBoom_Fly);
 }
@@ -153,7 +153,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     // Set xyz speed, move forward, and play the boomerang sound
     func_8002D9A4(&this->actor, 12.0f);
     Actor_MoveForward(&this->actor);
-    func_8002F974(this, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
+    func_8002F974(&this->actor, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
     collided = this->collider.base.atFlags & AT_HIT;
@@ -171,7 +171,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     // Otherwise handle grabbing and colliding.
     if (DECR(this->returnTimer) == 0) {
         distFromLink = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.focus.pos);
-        this->moveTo = player;
+        this->moveTo = &player->actor;
 
         // If the boomerang is less than 40 units away from Link, he can catch it.
         if (distFromLink < 40.0f) {
@@ -222,7 +222,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
         if (collided) {
             this->actor.world.rot.x = -this->actor.world.rot.x;
             this->actor.world.rot.y += 0x8000;
-            this->moveTo = player;
+            this->moveTo = &player->actor;
             this->returnTimer = 0;
         }
     }
