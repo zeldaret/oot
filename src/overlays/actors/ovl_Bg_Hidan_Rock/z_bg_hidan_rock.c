@@ -21,7 +21,7 @@ void func_8088B90C(BgHidanRock* this, GlobalContext *globalCtx);
 void func_8088B954(BgHidanRock* this, GlobalContext *globalCtx);
 void func_8088B990(BgHidanRock* this, GlobalContext *globalCtx);
 
-extern UNK_TYPE func_8088BC40;
+void func_8088BC40(GlobalContext *globalCtx, BgHidanRock* this);
 
 extern UNK_TYPE D_0600C100;
 extern UNK_TYPE D_0600C1F0;
@@ -201,4 +201,26 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088BC40.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/BgHidanRock_Draw.s")
+void BgHidanRock_Draw(Actor* thisx, GlobalContext *globalCtx) {
+    BgHidanRock *this = THIS;
+    Vec3f *unk_170;
+
+    if (this->unk_168 == 0) {
+        Gfx_DrawDListOpa(globalCtx, (Gfx *) &D_0600C100);
+    } else {
+        Gfx_DrawDListOpa(globalCtx, (Gfx *) &D_0600C1F0);
+    }
+
+    if (this->unk_16C > 0.0f) {
+        unk_170 = &this->unk_170;
+
+        if (this->unk_168 == 0) {
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, (Vec3f *) D_8088BF60, unk_170);
+        } else {
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->dyna.actor.home.pos, unk_170);
+        }
+
+        func_80078914(unk_170, (u16)0x2033U);
+        func_8088BC40(globalCtx, this);
+    }
+}
