@@ -229,7 +229,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
         distanceTraveled++;
     }
 
-    this->actor.posRot.pos = parent->posRot.pos;
+    this->actor.world.pos = parent->world.pos;
 
     for (j = 0; j < 3; j++) {
         i = this->index & 0x3F;
@@ -322,9 +322,9 @@ void EffDust_DrawFunc_8099E4F4(EffDust* this, GlobalContext* globalCtx) {
 
             aux = 1.0f - (*distanceTraveled * *distanceTraveled);
             Matrix_Translate(
-                this2->actor.posRot.pos.x + (initialPositions->x * ((this2->dx * aux) + (1.0f - this2->dx))),
-                this2->actor.posRot.pos.y + (initialPositions->y * ((this2->dy * aux) + (1.0f - this2->dy))),
-                this2->actor.posRot.pos.z + (initialPositions->z * ((this2->dz * aux) + (1.0f - this2->dz))),
+                this2->actor.world.pos.x + (initialPositions->x * ((this2->dx * aux) + (1.0f - this2->dx))),
+                this2->actor.world.pos.y + (initialPositions->y * ((this2->dy * aux) + (1.0f - this2->dy))),
+                this2->actor.world.pos.z + (initialPositions->z * ((this2->dz * aux) + (1.0f - this2->dz))),
                 MTXMODE_NEW);
 
             Matrix_Scale(this2->scalingFactor, this2->scalingFactor, this2->scalingFactor, MTXMODE_APPLY);
