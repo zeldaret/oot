@@ -53,7 +53,7 @@ const ActorInit En_Am_InitVars = {
     (ActorFunc)EnAm_Draw,
 };
 
-static ColliderCylinderInit D_809AFF80 = {
+static ColliderCylinderInit sHurtCylinderInit = {
     {
         COLTYPE_HIT5,
         AT_NONE,
@@ -73,7 +73,7 @@ static ColliderCylinderInit D_809AFF80 = {
     { 15, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit D_809AFFAC = {
+static ColliderCylinderInit sBlockCylinderInit = {
     {
         COLTYPE_METAL,
         AT_NONE,
@@ -93,7 +93,7 @@ static ColliderCylinderInit D_809AFFAC = {
     { 15, 70, 0, { 0, 0, 0 } },
 };
 
-static ColliderQuadInit D_809AFFD8 = {
+static ColliderQuadInit sQuadInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -122,7 +122,7 @@ typedef enum {
     /* 15 */ AM_DMGEFF_KILL // any damage source that can kill the armos (and isnt a special case)
 } ArmosDamageEffect;
 
-static DamageTable D_809B0028 = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, AM_DMGEFF_NUT),
     /* Deku stick    */ DMG_ENTRY(2, AM_DMGEFF_NONE),
     /* Slingshot     */ DMG_ENTRY(1, AM_DMGEFF_NONE),
@@ -219,25 +219,25 @@ void EnAm_Init(Actor* thisx, GlobalContext* globalCtx) {
                    14);
     Actor_SetScale(&this->dyna.actor, 0.01f);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    Collider_InitCylinder(globalCtx, &this->cylinder1);
-    Collider_InitCylinder(globalCtx, &this->cylinder2);
-    Collider_SetCylinder(globalCtx, &this->cylinder1, &this->dyna.actor, &D_809AFF80);
+    Collider_InitCylinder(globalCtx, &this->hurtCollider);
+    Collider_InitCylinder(globalCtx, &this->blockCollider);
+    Collider_SetCylinder(globalCtx, &this->hurtCollider, &this->dyna.actor, &sHurtCylinderInit);
 
     if (this->dyna.actor.params == ARMOS_STATUE) {
         this->dyna.actor.colChkInfo.health = 1;
-        Collider_SetCylinder(globalCtx, &this->cylinder2, &this->dyna.actor, &D_809AFF80);
-        this->cylinder1.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_1 | OC1_TYPE_2);
-        this->cylinder2.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER);
+        Collider_SetCylinder(globalCtx, &this->blockCollider, &this->dyna.actor, &sHurtCylinderInit);
+        this->hurtCollider.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_1 | OC1_TYPE_2);
+        this->blockCollider.base.ocFlags1 = (OC1_ON | OC1_NO_PUSH | OC1_TYPE_PLAYER);
         CollisionHeader_GetVirtual(&gArmosCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->dyna.actor, ACTORCAT_BG);
         EnAm_SetupStatue(this);
     } else {
-        Collider_SetCylinder(globalCtx, &this->cylinder2, &this->dyna.actor, &D_809AFFAC);
+        Collider_SetCylinder(globalCtx, &this->blockCollider, &this->dyna.actor, &sBlockCylinderInit);
         Collider_InitQuad(globalCtx, &this->hitCollider);
-        Collider_SetQuad(globalCtx, &this->hitCollider, &this->dyna.actor, &D_809AFFD8);
+        Collider_SetQuad(globalCtx, &this->hitCollider, &this->dyna.actor, &sQuadInit);
         this->dyna.actor.colChkInfo.health = 1;
-        this->dyna.actor.colChkInfo.damageTable = &D_809B0028;
+        this->dyna.actor.colChkInfo.damageTable = &sDamageTable;
         EnAm_SetupSleep(this);
         this->unk_258 = 0;
     }
@@ -250,8 +250,8 @@ void EnAm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAm* this = THIS;
 
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    Collider_DestroyCylinder(globalCtx, &this->cylinder1);
-    Collider_DestroyCylinder(globalCtx, &this->cylinder2);
+    Collider_DestroyCylinder(globalCtx, &this->hurtCollider);
+    Collider_DestroyCylinder(globalCtx, &this->blockCollider);
     //! @bug Quad collider is not destroyed (though destroy doesnt really do anything anyway)
 }
 
@@ -384,9 +384,9 @@ void EnAm_Sleep(EnAm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((this->unk_258 != 0) ||
-        ((this->cylinder1.base.ocFlags1 & OC1_HIT) && (this->cylinder1.base.oc == &player->actor)) ||
-        (this->cylinder1.base.acFlags & AC_HIT)) {
-        this->cylinder1.base.acFlags &= ~AC_HIT;
+        ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (this->hurtCollider.base.oc == &player->actor)) ||
+        (this->hurtCollider.base.acFlags & AC_HIT)) {
+        this->hurtCollider.base.acFlags &= ~AC_HIT;
 
         if (this->textureBlend == 0) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_AMOS_WAVE);
@@ -692,14 +692,14 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             temp158f = this->dyna.unk_158 + 0x8000;
         }
 
-        if (this->cylinder1.base.ocFlags1 & OC1_HIT) {
-            moveDir = Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->cylinder1.base.oc->world.pos) - temp158f;
+        if (this->hurtCollider.base.ocFlags1 & OC1_HIT) {
+            moveDir = Math_Vec3f_Yaw(&this->dyna.actor.world.pos, &this->hurtCollider.base.oc->world.pos) - temp158f;
         }
 
         if ((this->dyna.unk_150 == 0.0f) || (this->unk_258 == 0) || !(this->dyna.actor.bgCheckFlags & 1) ||
             !func_800435D8(globalCtx, &this->dyna, 0x14,
                            (Math_SinS(this->unk_258) * (this->dyna.unk_150 * 0.5f)) + 40.0f, 0xA) ||
-            ((this->cylinder1.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
+            ((this->hurtCollider.base.ocFlags1 & OC1_HIT) && (ABS(moveDir) <= 0x2000))) {
 
             this->unk_258 = 0;
             player->stateFlags2 &= ~0x151;
@@ -799,21 +799,21 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
     Vec3f sparkPos;
 
     if (this->deathTimer == 0) {
-        if (this->cylinder2.base.acFlags & AC_BOUNCED) {
-            this->cylinder2.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
-            this->cylinder1.base.acFlags &= ~AC_HIT;
+        if (this->blockCollider.base.acFlags & AC_BOUNCED) {
+            this->blockCollider.base.acFlags &= ~(AC_HIT | AC_BOUNCED);
+            this->hurtCollider.base.acFlags &= ~AC_HIT;
 
             if (this->behavior >= AM_BEHAVIOR_5) {
                 EnAm_SetupRicochet(this, globalCtx);
             }
         } else {
-            if ((this->cylinder1.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
-                this->cylinder1.base.acFlags &= ~AC_HIT;
+            if ((this->hurtCollider.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
+                this->hurtCollider.base.acFlags &= ~AC_HIT;
 
                 if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
                     this->unk_264 = 0;
                     this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                    func_80035650(&this->dyna.actor, &this->cylinder1.info, 0);
+                    func_80035650(&this->dyna.actor, &this->hurtCollider.info, 0);
 
                     if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
                         (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
@@ -907,18 +907,18 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 28.0f, 80.0f, 0x1D);
     }
 
-    Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder1);
-    Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder2);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cylinder1.base);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->hurtCollider);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->blockCollider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->hurtCollider.base);
 
     if (this->dyna.actor.params != ARMOS_STATUE) {
         Actor_SetFocus(&this->dyna.actor, this->dyna.actor.scale.x * 4500.0f);
 
         if (this->dyna.actor.colorFilterTimer == 0) {
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinder2.base);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->blockCollider.base);
         }
 
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinder1.base);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->hurtCollider.base);
 
         if ((this->behavior >= 4) && (this->unk_264 > 0)) {
             if (!(this->hitCollider.base.atFlags & AT_BOUNCED)) {
@@ -937,7 +937,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     } else {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->cylinder2.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->blockCollider.base);
     }
 }
 
