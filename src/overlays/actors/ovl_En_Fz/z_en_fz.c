@@ -639,15 +639,15 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->counter++;
 
-    if (this->unusedTimer1) {
+    if (this->unusedTimer1 != 0) {
         this->unusedTimer1--;
     }
 
-    if (this->timer) {
+    if (this->timer != 0) {
         this->timer--;
     }
 
-    if (this->unusedTimer2) {
+    if (this->unusedTimer2 != 0) {
         this->unusedTimer2--;
     }
 
