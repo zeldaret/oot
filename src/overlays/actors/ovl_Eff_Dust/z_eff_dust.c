@@ -36,6 +36,15 @@ static Gfx *D_8099EB60[] = {
 };
 
 
+enum DustEffect{
+    Effect_0 = 0,
+    Effect_1 = 1,
+    Effect_2 = 2,
+    Effect_3 = 3,
+    Effect_4 = 4
+};
+
+
 void EffDust_setUpdateFunc(EffDust* this, EffDustActionFunc callback_updateFunc) {
     this->updateFunc = callback_updateFunc;
 }
@@ -63,13 +72,13 @@ void EffDust_InitPosAndDistance(EffDust *this) {
 
 void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
     EffDust *this = THIS;
-    u32 dust_effect;
+    enum DustEffect dust_effect;
 
     dust_effect = this->actor.params;
     EffDust_InitPosAndDistance(this);
 
     switch (dust_effect) {
-    case 0:
+    case Effect_0:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DB28);
         EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E4F4);
         this->dy = 0.8f;
@@ -78,7 +87,7 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
         this->scalingFactor = 0.1f;
         break;
 
-    case 1:
+    case Effect_1:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DD74);
         EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E4F4);
         this->dx = 0.8f;
@@ -87,21 +96,21 @@ void EffDust_Init(Actor *thisx, GlobalContext *globalCtx) {
         this->scalingFactor = 0.5f;
         break;
 
-    case 2:
+    case Effect_2:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
         EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
         this->dx = 0.5f;
         this->scalingFactor = 15.0f;
         break;
 
-    case 3:
+    case Effect_3:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
         EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
         this->dx = 0.5f;
         this->scalingFactor = 10.0f;
         break;
 
-    case 4:
+    case Effect_4:
         EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
         EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
         this->actor.room = -1;
@@ -246,7 +255,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust *this, GlobalContext *globalCtx) {
 
             theta = Rand_CenteredFloat(65536.0f);
             switch (this->actor.params) {
-            case 2:
+            case Effect_2:
                 this->initialPositions[i].x = (Rand_ZeroOne() * 4500.0f) + 700.0f;
                 if (this->initialPositions[i].x > 3000.0f) {
                     this->initialPositions[i].y = (3000.0f * Rand_ZeroOne()) * Math_SinS(theta);
@@ -257,7 +266,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust *this, GlobalContext *globalCtx) {
                 }
                 break;
 
-            case 3:
+            case Effect_3:
                 this->initialPositions[i].x = (Rand_ZeroOne() * 2500.0f) + 700.0f;
                 if (this->initialPositions[i].x > 2000.0f) {
                     this->initialPositions[i].y = (2000.0f * Rand_ZeroOne()) * Math_SinS(theta);
@@ -268,7 +277,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust *this, GlobalContext *globalCtx) {
                 }
                 break;
 
-            case 4:
+            case Effect_4:
                 this->initialPositions[i].x = (Rand_ZeroOne() * 8500.0f) + 1700.0f;
                 if (this->initialPositions[i].x > 5000.0f) {
                     this->initialPositions[i].y = (4000.0f * Rand_ZeroOne()) * Math_SinS(theta);
