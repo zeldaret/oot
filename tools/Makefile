@@ -7,7 +7,7 @@ all: $(PROGRAMS)
 	cd ZAPD && $(MAKE)
 
 clean:
-	$(RM) $(PROGRAMS)
+	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
 	$(RM) ZAPD/ZAPD.out
 # Need to clean the above line later...
 

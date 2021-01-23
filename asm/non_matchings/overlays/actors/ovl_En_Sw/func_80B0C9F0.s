@@ -69,8 +69,8 @@ glabel func_80B0C9F0
 /* 00D10 80B0CAC0 0C00CB1F */  jal     func_80032C7C              
 /* 00D14 80B0CAC4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00D18 80B0CAC8 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
-/* 00D1C 80B0CACC 3C0E8003 */  lui     $t6, %hi(ActorShadow_DrawFunc_Circle)
-/* 00D20 80B0CAD0 25CEB5EC */  addiu   $t6, %lo(ActorShadow_DrawFunc_Circle)
+/* 00D1C 80B0CACC 3C0E8003 */  lui     $t6, %hi(ActorShadow_DrawCircle)
+/* 00D20 80B0CAD0 25CEB5EC */  addiu   $t6, %lo(ActorShadow_DrawCircle)
 /* 00D24 80B0CAD4 31F8E000 */  andi    $t8, $t7, 0xE000           ## $t8 = 00000000
 /* 00D28 80B0CAD8 0018CB43 */  sra     $t9, $t8, 13               
 /* 00D2C 80B0CADC 1320001D */  beq     $t9, $zero, .L80B0CB54     

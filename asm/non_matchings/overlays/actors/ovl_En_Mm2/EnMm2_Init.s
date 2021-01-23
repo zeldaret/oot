@@ -14,8 +14,8 @@ glabel EnMm2_Init
 /* 00204 80AAF054 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 00208 80AAF058 24A5FB5C */  addiu   $a1, $a1, %lo(D_80AAFB5C)  ## $a1 = 80AAFB5C
-/* 0020C 80AAF05C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00210 80AAF060 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 0020C 80AAF05C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00210 80AAF060 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00214 80AAF064 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00218 80AAF068 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0021C 80AAF06C 0C00AC78 */  jal     ActorShape_Init

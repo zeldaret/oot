@@ -25,8 +25,8 @@ glabel EnXc_Init
 /* 0572C 80B4190C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 05730 80B41910 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
 /* 05734 80B41914 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 05738 80B41918 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0573C 80B4191C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 05738 80B41918 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0573C 80B4191C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 05740 80B41920 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 05744 80B41924 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 05748 80B41928 0C00AC78 */  jal     ActorShape_Init

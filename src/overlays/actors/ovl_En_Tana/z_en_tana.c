@@ -18,7 +18,7 @@ void func_80B1809C(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Tana_InitVars = {
     ACTOR_EN_TANA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SHOP_DUNGEN,
     sizeof(EnTana),

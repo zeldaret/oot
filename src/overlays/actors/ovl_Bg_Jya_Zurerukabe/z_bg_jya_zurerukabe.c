@@ -26,7 +26,7 @@ static f32 D_8089B9C0[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
 
 const ActorInit Bg_Jya_Zurerukabe_InitVars = {
     ACTOR_BG_JYA_ZURERUKABE,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaZurerukabe),
@@ -85,7 +85,7 @@ void func_8089B4C8(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
         s32 i;
 
         for (i = 0; i < ARRAY_COUNT(D_8089BA18); i++) {
-            f32 posY = player->actor.posRot.pos.y;
+            f32 posY = player->actor.world.pos.y;
             if ((posY >= D_8089BA18[i][0]) && (posY <= D_8089BA18[i][1])) {
                 break;
             }
@@ -118,7 +118,7 @@ void BgJyaZurerukabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
 
     for (i = 0; i < ARRAY_COUNT(D_8089B9F0); i++) {
-        if (fabsf(D_8089B9F0[i] - this->dyna.actor.initPosRot.pos.y) < 1.0f) {
+        if (fabsf(D_8089B9F0[i] - this->dyna.actor.home.pos.y) < 1.0f) {
             this->unk_168 = i;
             break;
         }
@@ -166,7 +166,7 @@ void func_8089B80C(BgJyaZurerukabe* this) {
 }
 
 void func_8089B870(BgJyaZurerukabe* this, GlobalContext* globalCtx) {
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.x, this->dyna.actor.initPosRot.pos.x + (this->unk_16C * 75),
+    if (Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + (this->unk_16C * 75),
                      D_8089BA08[this->unk_168])) {
         func_8089B7B4(this);
     }

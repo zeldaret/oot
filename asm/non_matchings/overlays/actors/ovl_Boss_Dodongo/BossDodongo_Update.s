@@ -155,7 +155,7 @@ glabel BossDodongo_Update
 /* 02AD8 808C3C68 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 02ADC 808C3C6C 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 02AE0 808C3C70 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
-/* 02AE4 808C3C74 0C00B92D */  jal     func_8002E4B4              
+/* 02AE4 808C3C74 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 02AE8 808C3C78 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 02AEC 808C3C7C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 02AF0 808C3C80 3C073A83 */  lui     $a3, 0x3A83                ## $a3 = 3A830000
@@ -933,7 +933,7 @@ glabel BossDodongo_Update
 /* 035C8 808C4758 00818021 */  addu    $s0, $a0, $at              
 /* 035CC 808C475C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
 /* 035D0 808C4760 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 035D4 808C4764 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 035D8 808C4768 8E2F0190 */  lw      $t7, 0x0190($s1)           ## 00000190
 /* 035DC 808C476C 3C03808C */  lui     $v1, %hi(func_808C3704)    ## $v1 = 808C0000

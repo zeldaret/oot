@@ -29,7 +29,7 @@ void func_808BCAF0(BgTreemouth* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT04_OBJECTS,
     sizeof(BgTreemouth),
@@ -40,7 +40,7 @@ const ActorInit Bg_Treemouth_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_VEC3F(scale, 1, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 8000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
@@ -69,7 +69,7 @@ void BgTreemouth_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&D_06000E94, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
-    Actor_SetHeight(thisx, 50.0f);
+    Actor_SetFocus(thisx, 50.0f);
 
     if ((gSaveContext.sceneSetupIndex < 4) && LINK_IS_CHILD) {
         BgTreemouth_SetupAction(this, func_808BC8B8);
@@ -144,7 +144,7 @@ void func_808BC8B8(BgTreemouth* this, GlobalContext* globalCtx) {
             if (Flags_GetEventChkInf(0xC)) {
                 if (func_8002E12C(&this->dyna.actor, 1658.0f, 0x7530)) {
                     this->dyna.actor.flags |= 1;
-                    if (this->dyna.actor.unk_10C != 0) {
+                    if (this->dyna.actor.isTargeted) {
                         this->dyna.actor.flags &= ~1;
                         globalCtx->csCtx.segment = D_808BD2A0;
                         gSaveContext.cutsceneTrigger = 1;
@@ -168,9 +168,9 @@ void func_808BC9EC(BgTreemouth* this, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state == 3) {
         if (func_8002E12C(&this->dyna.actor, 350.0f, 0x7530)) {
-            player->actor.posRot.pos.x = 3827.0f;
-            player->actor.posRot.pos.y = -161.0f;
-            player->actor.posRot.pos.z = -1142.0f;
+            player->actor.world.pos.x = 3827.0f;
+            player->actor.world.pos.y = -161.0f;
+            player->actor.world.pos.z = -1142.0f;
         }
 
         globalCtx->csCtx.frames = 0;
@@ -219,9 +219,9 @@ void BgTreemouth_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     unk_168 = this->unk_168;
-    thisx->posRot.pos.x = (unk_168 * -160.0f) + 4029.0f;
-    thisx->posRot.pos.y = (unk_168 * -399.0f) + 136.0f;
-    thisx->posRot.pos.z = (unk_168 * 92.0f) + -1255.0f;
+    thisx->world.pos.x = (unk_168 * -160.0f) + 4029.0f;
+    thisx->world.pos.y = (unk_168 * -399.0f) + 136.0f;
+    thisx->world.pos.z = (unk_168 * 92.0f) + -1255.0f;
 }
 
 void BgTreemouth_Draw(Actor* thisx, GlobalContext* globalCtx) {
