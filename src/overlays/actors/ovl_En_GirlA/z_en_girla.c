@@ -71,7 +71,7 @@ void func_80A3BC6C(GlobalContext* globalCtx, EnGirlA* this);
 
 const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGirlA),
@@ -963,9 +963,9 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf("%s(%2d)\n", D_80A3C590[params], params);
         this->actor.flags &= ~1;
         Actor_SetScale(&this->actor, 0.25f);
-        this->actor.shape.unk_08 = 24.0f;
-        this->actor.shape.unk_10 = 4.0f;
-        this->actor.groundY = this->actor.initPosRot.pos.y;
+        this->actor.shape.yOffset = 24.0f;
+        this->actor.shape.shadowScale = 4.0f;
+        this->actor.floorHeight = this->actor.home.pos.y;
         this->actor.gravity = 0.0f;
         func_80A3A750(this, func_80A3BD80);
         this->unk_19C = 1;
@@ -978,11 +978,11 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
 
 void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.25f);
-    this->actor.shape.unk_08 = 24.0f;
-    this->actor.shape.unk_10 = 4.0f;
+    this->actor.shape.yOffset = 24.0f;
+    this->actor.shape.shadowScale = 4.0f;
     func_80A3BF54(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, 5.0f);
+    Actor_SetFocus(&this->actor, 5.0f);
     this->actor.shape.rot.x = 0.0f;
     if (this->actor.params != 38) {
         if (this->unk_1B4 != 0) {

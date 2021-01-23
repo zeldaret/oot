@@ -19,7 +19,7 @@ void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, GlobalContext* globalCtx
 
 const ActorInit Bg_Mizu_Shutter_InitVars = {
     ACTOR_BG_MIZU_SHUTTER,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuShutter),
@@ -55,22 +55,22 @@ void BgMizuShutter_Init(BgMizuShutter* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(sCollisionHeaders[SIZE_PARAM], &sp30);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp30);
     if ((SIZE_PARAM == BGMIZUSHUTTER_SMALL) || (SIZE_PARAM == BGMIZUSHUTTER_LARGE)) {
-        this->closedPos = this->dyna.actor.posRot.pos;
+        this->closedPos = this->dyna.actor.world.pos;
         this->timer = 0;
         this->timerMax = TIMER_PARAM * 20;
-        Matrix_RotateY(this->dyna.actor.posRot.rot.y * (M_PI / 0x8000), 0);
-        Matrix_RotateX(this->dyna.actor.posRot.rot.x * (M_PI / 0x8000), 1);
-        Matrix_RotateZ(this->dyna.actor.posRot.rot.z * (M_PI / 0x8000), 1);
+        Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), 0);
+        Matrix_RotateX(this->dyna.actor.world.rot.x * (M_PI / 0x8000), 1);
+        Matrix_RotateZ(this->dyna.actor.world.rot.z * (M_PI / 0x8000), 1);
         Matrix_MultVec3f(&sDisplacements[SIZE_PARAM], &this->openPos);
-        this->openPos.x += this->dyna.actor.posRot.pos.x;
-        this->openPos.y += this->dyna.actor.posRot.pos.y;
-        this->openPos.z += this->dyna.actor.posRot.pos.z;
+        this->openPos.x += this->dyna.actor.world.pos.x;
+        this->openPos.y += this->dyna.actor.world.pos.y;
+        this->openPos.z += this->dyna.actor.world.pos.z;
         if (this->timerMax != 0x3F * 20) {
             Flags_UnsetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F);
-            this->dyna.actor.posRot.pos = this->closedPos;
+            this->dyna.actor.world.pos = this->closedPos;
         }
         if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
-            this->dyna.actor.posRot.pos = this->openPos;
+            this->dyna.actor.world.pos = this->openPos;
             this->actionFunc = BgMizuShutter_WaitForTimer;
         } else {
             this->actionFunc = BgMizuShutter_WaitForSwitch;
@@ -87,7 +87,7 @@ void BgMizuShutter_Destroy(BgMizuShutter* thisx, GlobalContext* globalCtx) {
 
 void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
-        if (ABS(this->dyna.actor.posRot.rot.x) > 0x2C60) {
+        if (ABS(this->dyna.actor.world.rot.x) > 0x2C60) {
             func_800800F8(globalCtx, 0x119E, -0x63, &this->dyna.actor, 0);
         } else {
             func_80080480(globalCtx, &this->dyna.actor);
@@ -106,23 +106,23 @@ void BgMizuShutter_WaitForCutscene(BgMizuShutter* this, GlobalContext* globalCtx
 
 void BgMizuShutter_Move(BgMizuShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
-        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
-        if ((this->dyna.actor.posRot.pos.x == this->openPos.x) && (this->dyna.actor.posRot.pos.y == this->openPos.y) &&
-            (this->dyna.actor.posRot.pos.z == this->openPos.z)) {
+        Math_SmoothStepToF(&this->dyna.actor.world.pos.x, this->openPos.x, 1.0f, 4.0f, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->openPos.y, 1.0f, 4.0f, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.world.pos.z, this->openPos.z, 1.0f, 4.0f, 0.1f);
+        if ((this->dyna.actor.world.pos.x == this->openPos.x) && (this->dyna.actor.world.pos.y == this->openPos.y) &&
+            (this->dyna.actor.world.pos.z == this->openPos.z)) {
             this->timer = this->timerMax;
             this->actionFunc = BgMizuShutter_WaitForTimer;
         }
     } else {
         Math_SmoothStepToF(&this->maxSpeed, 20.0f, 1.0f, 3.0f, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
-        Math_SmoothStepToF(&this->dyna.actor.posRot.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
-        if ((this->dyna.actor.posRot.pos.x == this->closedPos.x) &&
-            (this->dyna.actor.posRot.pos.y == this->closedPos.y) &&
-            (this->dyna.actor.posRot.pos.z == this->closedPos.z)) {
-            func_800AA000(this->dyna.actor.xyzDistToLinkSq, 0x78, 0x14, 0xA);
+        Math_SmoothStepToF(&this->dyna.actor.world.pos.x, this->closedPos.x, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->closedPos.y, 1.0f, this->maxSpeed, 0.1f);
+        Math_SmoothStepToF(&this->dyna.actor.world.pos.z, this->closedPos.z, 1.0f, this->maxSpeed, 0.1f);
+        if ((this->dyna.actor.world.pos.x == this->closedPos.x) &&
+            (this->dyna.actor.world.pos.y == this->closedPos.y) &&
+            (this->dyna.actor.world.pos.z == this->closedPos.z)) {
+            func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0x78, 0x14, 0xA);
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_STONE_BOUND);
             this->actionFunc = BgMizuShutter_WaitForSwitch;
         }

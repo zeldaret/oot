@@ -173,9 +173,9 @@ extern u8 D_80114930[];
 //extern ? D_801159A8;
 //extern ? D_801159A9;
 //extern ? D_801159AA;
-extern EffectSsOverlay gEffectSsOverlayTable[37];
+extern EffectSsOverlay gEffectSsOverlayTable[EFFECT_SS_TYPE_MAX];
 extern Gfx D_80116280[];
-extern ActorOverlay gActorOverlayTable[471]; // original name: "actor_dlftbls" 801162A0
+extern ActorOverlay gActorOverlayTable[ACTOR_ID_MAX]; // original name: "actor_dlftbls" 801162A0
 extern s32 gMaxActorId; // original name: "MaxProfile"
 //extern ? D_80119E2C;
 //extern ? D_80119E52;
@@ -397,9 +397,9 @@ extern u8 gItemSlots[56];
 extern void (*gSceneCmdHandlers[26])(GlobalContext*, SceneCmd*);
 extern s16 gLinkObjectIds[2];
 extern u32 gObjectTableSize;
-extern RomFile gObjectTable[402];
+extern RomFile gObjectTable[OBJECT_ID_MAX];
 extern EntranceInfo gEntranceTable[1556];
-extern Scene gSceneTable[110];
+extern Scene gSceneTable[SCENE_ID_MAX];
 //extern ? D_8012A4A0;
 extern u16 gSramSlotOffsets[2][3];
 //extern ? D_8012A690;

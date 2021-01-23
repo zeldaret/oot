@@ -31,7 +31,7 @@ void func_80ABD3B8(EnNy* this, f32, f32);
 
 const ActorInit En_Ny_InitVars = {
     ACTOR_EN_NY,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_NY,
     sizeof(EnNy),
@@ -41,17 +41,31 @@ const ActorInit En_Ny_InitVars = {
     (ActorFunc)EnNy_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x04, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x04, 0x08 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 0, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
 static ColliderJntSphInit sColliderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static DamageTable sDamageTable = { {
@@ -61,8 +75,8 @@ static DamageTable sDamageTable = { {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 40, ICHAIN_CONTINUE),
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -72,8 +86,8 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->colChkInfo.damageTable = &sDamageTable;
     thisx->colChkInfo.health = 2;
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, thisx, &sColliderInit, &this->items);
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
+    Collider_SetJntSph(globalCtx, &this->collider, thisx, &sColliderInit, &this->elements);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     this->unk_1CA = 0;
     this->unk_1D0 = 0;
     Actor_SetScale(thisx, 0.01f);
@@ -101,7 +115,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", thisx->params);
         osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
         thisx->colChkInfo.mass = 0xFF;
-        this->collider.base.type = COLTYPE_METAL_SHIELD;
+        this->collider.base.colType = COLTYPE_METAL;
         thisx->update = EnNy_UpdateUnused;
     }
 }
@@ -150,7 +164,7 @@ void func_80ABCE38(EnNy* this) {
 }
 
 void func_80ABCE50(EnNy* this, GlobalContext* globalCtx) {
-    if (this->actor.xyzDistToLinkSq <= 25600.0f) {
+    if (this->actor.xyzDistToPlayerSq <= 25600.0f) {
         func_80ABCD94(this);
     }
 }
@@ -195,10 +209,10 @@ void EnNy_Move(EnNy* this, GlobalContext* globalCtx) {
     if ((stoneTimer <= 0) || (this->hitLink != false)) {
         EnNy_SetupTurnToStone(this);
     } else {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, this->unk_1F4, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xA, this->unk_1F4, 0);
         Math_ApproachF(&this->unk_1F4, 2000.0f, 1.0f, 100.0f);
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        yawDiff = Math_FAtan2F(this->actor.yDistToLink, this->actor.xzDistToLink);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
+        yawDiff = Math_FAtan2F(this->actor.yDistToPlayer, this->actor.xzDistToPlayer);
         this->actor.speedXZ = fabsf(cosf(yawDiff) * this->unk_1E8);
         if (this->unk_1F0 < this->actor.yDistToWater) {
             this->unk_1EC = sinf(yawDiff) * this->unk_1E8;
@@ -219,7 +233,7 @@ void EnNy_TurnToStone(EnNy* this, GlobalContext* globalCtx) {
             }
             this->actor.bgCheckFlags &= ~2;
             this->actor.speedXZ = 0.0f;
-            this->actor.posRot.rot.y = this->actor.shape.rot.y;
+            this->actor.world.rot.y = this->actor.shape.rot.y;
             func_80ABCE38(this);
         }
     }
@@ -256,7 +270,7 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
     if (this->collider.base.atFlags & 4) {
         this->collider.base.atFlags &= ~4;
         this->hitLink = 1;
-        this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.speedXZ = -4.0f;
         return 0;
     }
@@ -267,9 +281,9 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
     } else {
         if (this->collider.base.acFlags & 2) {
             this->collider.base.acFlags &= ~2;
-            effectPos.x = this->collider.list[0].body.bumper.unk_06.x;
-            effectPos.y = this->collider.list[0].body.bumper.unk_06.y;
-            effectPos.z = this->collider.list[0].body.bumper.unk_06.z;
+            effectPos.x = this->collider.elements[0].info.bumper.hitPos.x;
+            effectPos.y = this->collider.elements[0].info.bumper.hitPos.y;
+            effectPos.z = this->collider.elements[0].info.bumper.hitPos.z;
             if ((this->unk_1E0 == 0.25f) && (this->unk_1D4 == 0xFF)) {
                 switch (this->actor.colChkInfo.damageEffect) {
                     case 0xE:
@@ -291,7 +305,7 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
             }
             this->stoneTimer = 0;
             if (this->actor.colChkInfo.health == 0) {
-                this->actor.shape.unk_14 = 0;
+                this->actor.shape.shadowAlpha = 0;
                 this->actor.flags &= ~1;
                 this->unk_1D0 = sp3F;
                 func_80032C7C(globalCtx, &this->actor);
@@ -336,25 +350,25 @@ void EnNy_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1CA != 0) {
         this->unk_1CA--;
     }
-    Actor_SetHeight(thisx, 0.0f);
+    Actor_SetFocus(thisx, 0.0f);
     Actor_SetScale(thisx, 0.01f);
-    this->collider.list[0].dim.scale = (1.33f * temp_f20) + 1.0f;
+    this->collider.elements[0].dim.scale = (1.33f * temp_f20) + 1.0f;
     temp_f22 = (24.0f * temp_f20) + 12.0f;
     thisx->shape.rot.x = thisx->shape.rot.x + (s16)(this->unk_1E8 * 1000.0f);
     func_80ABD3B8(this, temp_f22 + 10.0f, temp_f22 - 10.0f);
     Actor_MoveForward(thisx);
     Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
     this->actionFunc(this, globalCtx);
-    thisx->pos4.y -= temp_f22;
-    thisx->posRot.pos.y -= temp_f22;
-    func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 7);
+    thisx->prevPos.y -= temp_f22;
+    thisx->world.pos.y -= temp_f22;
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 7);
     this->unk_1F0 = temp_f22;
-    thisx->posRot.pos.y = thisx->posRot.pos.y + temp_f22;
+    thisx->world.pos.y = thisx->world.pos.y + temp_f22;
     if (EnNy_CollisionCheck(this, globalCtx) != 0) {
         for (i = 0; i < 8; i++) {
-            this->unk_1F8[i].x = (Rand_CenteredFloat(20.0f) + thisx->posRot.pos.x);
-            this->unk_1F8[i].y = (Rand_CenteredFloat(20.0f) + thisx->posRot.pos.y);
-            this->unk_1F8[i].z = (Rand_CenteredFloat(20.0f) + thisx->posRot.pos.z);
+            this->unk_1F8[i].x = (Rand_CenteredFloat(20.0f) + thisx->world.pos.x);
+            this->unk_1F8[i].y = (Rand_CenteredFloat(20.0f) + thisx->world.pos.y);
+            this->unk_1F8[i].z = (Rand_CenteredFloat(20.0f) + thisx->world.pos.z);
         }
         this->timer = 0;
         thisx->update = EnNy_UpdateDeath;
@@ -379,17 +393,17 @@ void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx) {
     if (this->timer >= 2) {
         if (this->actor.yDistToWater > 0.0f) {
             for (i = 0; i < 10; i++) {
-                effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
-                effectPos.y = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.y;
-                effectPos.z = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
+                effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
+                effectPos.y = Rand_CenteredFloat(30.0f) + this->actor.world.pos.y;
+                effectPos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
                 effectScale = Rand_S16Offset(0x50, 0x64);
                 EffectSsDtBubble_SpawnColorProfile(globalCtx, &effectPos, &effectVelocity, &effectAccel, effectScale,
                                                    0x19, 0, 1);
             }
             for (i = 0; i < 0x14; i++) {
-                effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.x;
-                effectPos.y = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.y;
-                effectPos.z = Rand_CenteredFloat(30.0f) + this->actor.posRot.pos.z;
+                effectPos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
+                effectPos.y = Rand_CenteredFloat(30.0f) + this->actor.world.pos.y;
+                effectPos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
                 EffectSsBubble_Spawn(globalCtx, &effectPos, 10.0f, 10.0f, 30.0f, 0.25f);
             }
         }
@@ -400,9 +414,9 @@ void EnNy_SetupDie(EnNy* this, GlobalContext* globalCtx) {
         }
         this->timer = 0;
         if (this->unk_1D0 == 0) {
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xA0);
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xA0);
         } else {
-            Item_DropCollectible(globalCtx, &this->actor.posRot.pos, 8);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, 8);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NYU_DEAD);
         this->actionFunc = EnNy_Die;
@@ -459,15 +473,15 @@ void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
 
     sp3C = this->unk_1E0 - 0.25f;
     this->timer++;
-    Actor_SetHeight(&this->actor, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
     Actor_SetScale(&this->actor, 0.01f);
     temp_f0 = (24.0f * sp3C) + 12.0f;
-    thisx->pos4.y -= temp_f0;
-    thisx->posRot.pos.y -= temp_f0;
+    thisx->prevPos.y -= temp_f0;
+    thisx->world.pos.y -= temp_f0;
 
-    func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 7);
     this->unk_1F0 = temp_f0;
-    thisx->posRot.pos.y += temp_f0;
+    thisx->world.pos.y += temp_f0;
 
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -487,7 +501,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnNy* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 837);
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
     func_8002ED80(&this->actor, globalCtx, 1);
     func_80093D84(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 845),
@@ -495,18 +509,18 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_1D8);
-    gSPDisplayList(POLY_XLU_DISP++, gNyDlist3);
+    gSPDisplayList(POLY_XLU_DISP++, gEnNyMetalBodyDlist);
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_1D4);
-    gSPDisplayList(POLY_XLU_DISP++, gNyDlist2);
+    gSPDisplayList(POLY_XLU_DISP++, gEnNyRockBodyDlist);
     if (this->unk_1E0 > 0.25f) {
         Matrix_Scale(this->unk_1E0, this->unk_1E0, this->unk_1E0, MTXMODE_APPLY);
         func_8002EBCC(&this->actor, globalCtx, 1);
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 868),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gNyDlist4);
+        gSPDisplayList(POLY_OPA_DISP++, gEnNySpikeDlist);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 872);
     if (this->unk_1CA != 0) {
@@ -514,12 +528,12 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f* offset;
         s16 temp;
         temp = this->unk_1CA - 1;
-        this->actor.dmgEffectTimer++;
+        this->actor.colorFilterTimer++;
         if (temp == 0) {
             offset = &sOffset[temp & 3];
-            tempVec.x = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.x + offset->x);
-            tempVec.y = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.y + offset->y);
-            tempVec.z = Rand_CenteredFloat(5.0f) + (this->actor.posRot.pos.z + offset->z);
+            tempVec.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + offset->x);
+            tempVec.y = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.y + offset->y);
+            tempVec.z = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.z + offset->z);
             EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &tempVec, 100, 0, 0, -1);
         }
     }
@@ -544,7 +558,7 @@ void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ny.c", 912),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, gNyDlist2);
+            gSPDisplayList(POLY_OPA_DISP++, gEnNyRockBodyDlist);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ny.c", 919);
@@ -554,12 +568,12 @@ void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* globalCtx) {
         s16 temp;
 
         temp = this->unk_1CA - 1;
-        thisx->dmgEffectTimer++;
+        thisx->colorFilterTimer++;
         if ((temp & 1) == 0) {
             offset = &sOffset[temp & 3];
-            tempVec.x = Rand_CenteredFloat(5.0f) + (thisx->posRot.pos.x + offset->x);
-            tempVec.y = Rand_CenteredFloat(5.0f) + (thisx->posRot.pos.y + offset->y);
-            tempVec.z = Rand_CenteredFloat(5.0f) + (thisx->posRot.pos.z + offset->z);
+            tempVec.x = Rand_CenteredFloat(5.0f) + (thisx->world.pos.x + offset->x);
+            tempVec.y = Rand_CenteredFloat(5.0f) + (thisx->world.pos.y + offset->y);
+            tempVec.z = Rand_CenteredFloat(5.0f) + (thisx->world.pos.z + offset->z);
             EffectSsEnFire_SpawnVec3f(globalCtx, thisx, &tempVec, 100, 0, 0, -1);
         }
     }

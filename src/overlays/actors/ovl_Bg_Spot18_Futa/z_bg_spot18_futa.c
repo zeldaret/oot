@@ -17,7 +17,7 @@ void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot18_Futa_InitVars = {
     ACTOR_BG_SPOT18_FUTA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Futa),

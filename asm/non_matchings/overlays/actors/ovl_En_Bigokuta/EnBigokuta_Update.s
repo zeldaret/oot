@@ -67,7 +67,7 @@ glabel EnBigokuta_Update
 /* 01E60 809BEAC0 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01E64 809BEAC4 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 01E68 809BEAC8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01E6C 809BEACC 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000002EC
 /* 01E70 809BEAD0 2610004C */  addiu   $s0, $s0, 0x004C           ## $s0 = 00000098
 /* 01E74 809BEAD4 1615FFFA */  bne     $s0, $s5, .L809BEAC0
@@ -104,7 +104,7 @@ glabel EnBigokuta_Update
 /* 01EDC 809BEB3C 2686028C */  addiu   $a2, $s4, 0x028C           ## $a2 = 0000028C
 /* 01EE0 809BEB40 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 01EE4 809BEB44 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01EE8 809BEB48 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 01EEC 809BEB4C 10000005 */  beq     $zero, $zero, .L809BEB64
 /* 01EF0 809BEB50 3C0141C8 */  lui     $at, 0x41C8                ## $at = 41C80000
@@ -123,7 +123,7 @@ glabel EnBigokuta_Update
 /* 01F18 809BEB78 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 01F1C 809BEB7C 460A4402 */  mul.s   $f16, $f8, $f10
 /* 01F20 809BEB80 44058000 */  mfc1    $a1, $f16
-/* 01F24 809BEB84 0C00B56E */  jal     Actor_SetHeight
+/* 01F24 809BEB84 0C00B56E */  jal     Actor_SetFocus
 
 /* 01F28 809BEB88 00000000 */  nop
 /* 01F2C 809BEB8C 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000

@@ -389,7 +389,7 @@ void func_8008EDF0(Player* this) {
 
 void func_8008EE08(Player* this) {
     if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8A00000) ||
-        (!(this->stateFlags1 & 0xC0000) && ((this->actor.posRot.pos.y - this->actor.groundY) < 100.0f))) {
+        (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~0x400F8000;
     } else if (!(this->stateFlags1 & 0x2C0000)) {
         this->stateFlags1 |= 0x80000;
@@ -945,7 +945,7 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                  Vec3f* newBase) {
     if (weaponInfo->active == 0) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -955,12 +955,12 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
                (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         return 0;
     } else {
         if (collider != NULL) {
-            func_80062734(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
+            Collider_SetQuadVertices(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -972,22 +972,22 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
 
 void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
     static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_WOODEN_SHIELD,
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_METAL_SHIELD,
+        COLTYPE_METAL,
+        COLTYPE_WOOD,
+        COLTYPE_METAL,
+        COLTYPE_METAL,
     };
 
     if (this->stateFlags1 & 0x400000) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.type = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colType = shieldColTypes[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);
         Matrix_MultVec3f(&quadSrc[2], &quadDest[2]);
         Matrix_MultVec3f(&quadSrc[3], &quadDest[3]);
-        func_80062734(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
+        Collider_SetQuadVertices(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
 
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
@@ -1215,11 +1215,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & 0x200) {
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->posRot.pos);
+                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
                     Matrix_RotateRPY(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
-                    func_800D20CC(&sp14C, &hookedActor->posRot.rot, 0);
-                    hookedActor->shape.rot = hookedActor->posRot.rot;
+                    func_800D20CC(&sp14C, &hookedActor->world.rot, 0);
+                    hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & 0x800) {
                     Vec3s spB8;
 
@@ -1227,10 +1227,9 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     func_800D20CC(&sp14C, &spB8, 0);
 
                     if (hookedActor->flags & 0x20000) {
-                        hookedActor->posRot.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->posRot.rot.y = hookedActor->shape.rot.y =
-                            this->actor.shape.rot.y + this->unk_3BC.y;
+                        hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
             } else {
@@ -1298,11 +1297,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     MtxF sp44;
                     s32 pad;
 
-                    Matrix_MultVec3f(&D_80126190, &heldActor->posRot.pos);
+                    Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
                     Matrix_RotateRPY(0, -0x4000, -0x4000, MTXMODE_APPLY);
                     Matrix_Get(&sp44);
-                    func_800D20CC(&sp44, &heldActor->posRot.rot, 0);
-                    heldActor->shape.rot = heldActor->posRot.rot;
+                    func_800D20CC(&sp44, &heldActor->world.rot, 0);
+                    heldActor->shape.rot = heldActor->world.rot;
 
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
@@ -1322,7 +1321,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 }
 
                 if (this->unk_862 == 0) {
-                    Math_Vec3f_Copy(&heldActor->posRot.pos, &sGetItemRefPos);
+                    Math_Vec3f_Copy(&heldActor->world.pos, &sGetItemRefPos);
                 }
             }
         }
@@ -1337,11 +1336,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
-            Matrix_MultVec3f(&D_801260D4, &this->actor.posRot2.pos);
+            Matrix_MultVec3f(&D_801260D4, &this->actor.focus.pos);
         } else {
             Vec3f* vec = &D_801261E0[(0, gSaveContext.linkAge)];
 
-            func_8002BDB0(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
+            Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
         }
     }
 }

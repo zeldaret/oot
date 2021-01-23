@@ -20,7 +20,7 @@ void BgIngate_DoNothing(BgIngate* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Ingate_InitVars = {
     ACTOR_BG_INGATE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_INGATE,
     sizeof(BgIngate),
@@ -79,7 +79,7 @@ void func_80892890(BgIngate* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.params & 2) == 0) {
             phi0 = -0x4000;
         }
-        this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y + phi0;
+        this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi0;
         BgIngate_SetupAction(this, &BgIngate_DoNothing);
     } else if (globalCtx->csCtx.frames >= 10) {
         csFrames = globalCtx->csCtx.frames - 10;
@@ -93,7 +93,7 @@ void func_80892890(BgIngate* this, GlobalContext* globalCtx) {
         if ((this->dyna.actor.params & 2) == 0) {
             phi1 = -phi1;
         }
-        this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y + phi1;
+        this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y + phi1;
     }
 }
 

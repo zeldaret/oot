@@ -5,7 +5,7 @@ glabel func_80A4A608
 /* 01754 80A4A614 AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 01758 80A4A618 AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 0175C 80A4A61C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 01760 80A4A620 0C00B69E */  jal     func_8002DA78              
+/* 01760 80A4A620 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 01764 80A4A624 8CA51C44 */  lw      $a1, 0x1C44($a1)           ## 00001C44
 /* 01768 80A4A628 860F00B6 */  lh      $t7, 0x00B6($s0)           ## 000000B6
 /* 0176C 80A4A62C 8FB8002C */  lw      $t8, 0x002C($sp)           
@@ -13,7 +13,7 @@ glabel func_80A4A608
 /* 01774 80A4A634 004F8823 */  subu    $s1, $v0, $t7              
 /* 01778 80A4A638 00118C00 */  sll     $s1, $s1, 16               
 /* 0177C 80A4A63C 00118C03 */  sra     $s1, $s1, 16               
-/* 01780 80A4A640 0C00B6B8 */  jal     func_8002DAE0              
+/* 01780 80A4A640 0C00B6B8 */  jal     Actor_WorldPitchTowardActor              
 /* 01784 80A4A644 8F051C44 */  lw      $a1, 0x1C44($t8)           ## 00001C44
 /* 01788 80A4A648 861900B4 */  lh      $t9, 0x00B4($s0)           ## 000000B4
 /* 0178C 80A4A64C 2A211771 */  slti    $at, $s1, 0x1771           

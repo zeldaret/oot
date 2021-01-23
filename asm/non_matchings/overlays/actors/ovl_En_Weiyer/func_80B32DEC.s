@@ -11,7 +11,7 @@ glabel func_80B32DEC
 /* 00B80 80B32E10 46083280 */  add.s   $f10, $f6, $f8             
 /* 00B84 80B32E14 E7AA001C */  swc1    $f10, 0x001C($sp)          
 /* 00B88 80B32E18 C450002C */  lwc1    $f16, 0x002C($v0)          ## 0000002C
-/* 00B8C 80B32E1C 0C00B6CA */  jal     func_8002DB28              
+/* 00B8C 80B32E1C 0C00B6CA */  jal     Actor_WorldPitchTowardPoint              
 /* 00B90 80B32E20 E7B00020 */  swc1    $f16, 0x0020($sp)          
 /* 00B94 80B32E24 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00B98 80B32E28 27BD0028 */  addiu   $sp, $sp, 0x0028           ## $sp = 00000000

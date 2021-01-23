@@ -18,7 +18,7 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit En_fHG_InitVars = {
     ACTOR_EN_FHG,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_FHG,
     sizeof(EnfHG),

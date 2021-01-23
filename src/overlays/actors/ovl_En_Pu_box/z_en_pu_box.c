@@ -18,7 +18,7 @@ void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Pu_box_InitVars = {
     ACTOR_EN_PU_BOX,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_PU_BOX,
     sizeof(EnPubox),
@@ -48,14 +48,14 @@ void EnPubox_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
     this->unk_164 = 1;
-    thisx->colChkInfo.unk_10 = 0x14;
-    thisx->colChkInfo.unk_12 = 0x32;
+    thisx->colChkInfo.cylRadius = 20;
+    thisx->colChkInfo.cylHeight = 50;
     thisx->uncullZoneDownward = 1200.0f;
     thisx->uncullZoneScale = 720.0f;
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 6.0f);
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 6.0f);
     this->dyna.unk_160 = 0;
     this->dyna.unk_15C = DPM_UNK;
-    thisx->unk_1F = 1;
+    thisx->targetMode = 1;
     thisx->gravity = -2.0f;
     CollisionHeader_GetVirtual(&gPuBoxCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
@@ -71,7 +71,7 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnPubox* this = THIS;
 
     thisx->speedXZ += this->dyna.unk_150;
-    thisx->posRot.rot.y = this->dyna.unk_158;
+    thisx->world.rot.y = this->dyna.unk_158;
     thisx->speedXZ = (thisx->speedXZ < -2.5f) ? -2.5f : ((thisx->speedXZ > 2.5f) ? 2.5f : thisx->speedXZ);
     Math_SmoothStepToF(&thisx->speedXZ, 0.0f, 1.0f, 1.0f, 0.0f);
     if (thisx->speedXZ != 0.0f) {
@@ -81,8 +81,9 @@ void EnPubox_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.unk_154 = 0.0f;
     this->dyna.unk_150 = 0.0f;
     Actor_MoveForward(thisx);
-    func_8002E4B4(globalCtx, thisx, thisx->colChkInfo.unk_12, thisx->colChkInfo.unk_10, thisx->colChkInfo.unk_10, 0x1D);
-    thisx->posRot2.pos = thisx->posRot.pos;
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, thisx->colChkInfo.cylHeight, thisx->colChkInfo.cylRadius,
+                            thisx->colChkInfo.cylRadius, 0x1D);
+    thisx->focus.pos = thisx->world.pos;
 }
 
 void EnPubox_Draw(Actor* thisx, GlobalContext* globalCtx) {
