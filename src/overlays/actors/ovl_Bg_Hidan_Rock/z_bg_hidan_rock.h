@@ -7,8 +7,13 @@
 struct BgHidanRock;
 
 typedef struct BgHidanRock {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x7C];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ s32 *unk_164;
+    /* 0x0168 */ u8 unk_168;
+    /* 0x0169 */ u8 unk_169;
+    /* 0x016A */ u16 unk_16A;
+    /* 0x016C */ char unk_16C[0x10];
+    /* 0x017C */ ColliderCylinder collider;
 } BgHidanRock; // size = 0x01C8
 
 extern const ActorInit Bg_Hidan_Rock_InitVars;
