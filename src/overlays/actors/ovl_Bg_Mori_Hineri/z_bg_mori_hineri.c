@@ -62,7 +62,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 t6;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
     switchFlagParam = this->dyna.actor.params & 0x3F;
     t6 = this->dyna.actor.params & 0x4000;
