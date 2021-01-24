@@ -2010,8 +2010,32 @@ void func_8090523C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905508(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905508.s")
 
-void func_80905674(BossGanon2* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905674.s")
+void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    if (this->unk_380 > 0.0f) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5772);
+
+        Matrix_Push();
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_19C * -8, 0, 32, 64, 1, this->unk_19C * -4,
+                                    this->unk_19C * -8, 32, 32));
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, (s16)this->unk_37C);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 128);
+        Matrix_Translate(D_8090EB2C->actor.world.pos.x + 100.0f, D_8090EB2C->actor.world.pos.y + 35.0f + 7.0f,
+                         D_8090EB2C->actor.world.pos.z - 100.0f, MTXMODE_NEW);
+        Matrix_RotateY(-0.7853982f, MTXMODE_APPLY);
+        Matrix_Scale(0.040000003f, 0.040000003f, this->unk_380, MTXMODE_APPLY);
+        Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5814),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_8090BB80));
+        Matrix_Pull();
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5817);
+    }
+}
 
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32* tex = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
