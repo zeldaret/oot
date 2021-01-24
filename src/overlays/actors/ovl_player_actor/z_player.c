@@ -606,8 +606,10 @@ GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_NUT_UPGRADE_30, OBJECT_GI_NUTS, 0x11, 0xA7, 0x80, CHEST_ANIM_SHORT),
     GET_ITEM(ITEM_NUT_UPGRADE_40, OBJECT_GI_NUTS, 0x11, 0xA8, 0x80, CHEST_ANIM_SHORT),
     GET_ITEM(ITEM_BULLET_BAG_50, OBJECT_GI_DEKUPOUCH, 0x72, 0x6C, 0x80, CHEST_ANIM_LONG),
-    { ITEM_NONE },
-    { ITEM_NONE },
+    GET_ITEM(ITEM_NONE, OBJECT_UNSET_0, -1, 0x00, 0x00, CHEST_ANIM_SHORT),
+    GET_ITEM(ITEM_NONE, OBJECT_UNSET_0, -1, 0x00, 0x00, CHEST_ANIM_SHORT),
+    // { ITEM_NONE, 0, 0, 0, 0 },
+    // { ITEM_NONE, 0, 0, 0, 0 },
 };
 
 LinkAnimationHeader* D_80853914[] = {
@@ -4131,7 +4133,7 @@ f32 func_8083973C(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Vec3f* ar
     return func_808396F4(globalCtx, this, arg2, arg3, &sp24, &sp20);
 }
 
-s32 func_80839768(GlobalContext* globalCtx, Player* this, Vec3f* arg2, CollisionPoly** arg3, u32* arg4, Vec3f* arg5) {
+s32 func_80839768(GlobalContext* globalCtx, Player* this, Vec3f* arg2, CollisionPoly** arg3, s32* arg4, Vec3f* arg5) {
     Vec3f sp44;
     Vec3f sp38;
 
@@ -4503,7 +4505,7 @@ void func_8083A5C4(GlobalContext* globalCtx, Player* this, CollisionPoly* arg2, 
 
 s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
     CollisionPoly* sp84;
-    u32 sp80;
+    s32 sp80;
     Vec3f sp74;
     Vec3f sp68;
     f32 temp1;
@@ -6188,7 +6190,7 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
     if (LINK_IS_CHILD && !(this->stateFlags1 & 0x8000000) && (arg2 & 0x30)) {
         wallPoly = this->actor.wallPoly;
-        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, &sp50);
+        CollisionPoly_GetVerticesByBgId(wallPoly, this->actor.wallBgId, &globalCtx->colCtx, sp50);
 
         sp4C = phi_f2 = sp50[0].x;
         sp44 = phi_f12 = sp50[0].z;
@@ -6240,7 +6242,7 @@ s32 func_8083F0C8(Player* this, GlobalContext* globalCtx, u32 arg2) {
 
 s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f32 arg3, f32 arg4) {
     CollisionPoly* wallPoly;
-    u32 sp78;
+    s32 sp78;
     Vec3f sp6C;
     Vec3f sp60;
     Vec3f sp54;
@@ -6336,7 +6338,7 @@ void func_8083F72C(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
 }
 
 s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
-    DynaPolyActor* wallPolyActor;
+    Actor* wallPolyActor;
 
     if (!(this->stateFlags1 & 0x800) && (this->actor.bgCheckFlags & 0x200) && (D_80853608 < 0x3000)) {
 
@@ -6355,14 +6357,14 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
                 if ((this->actor.wallBgId != BGCHECK_SCENE) &&
                     ((wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId)) != NULL)) {
 
-                    if (wallPolyActor->actor.id == ACTOR_BG_HEAVY_BLOCK) {
+                    if (wallPolyActor->id == ACTOR_BG_HEAVY_BLOCK) {
                         if (Player_GetStrength() < PLAYER_STR_GOLD_G) {
                             return 0;
                         }
 
                         func_80836898(globalCtx, this, func_8083A0F4);
                         this->stateFlags1 |= 0x800;
-                        this->interactRangeActor = &wallPolyActor->actor;
+                        this->interactRangeActor = wallPolyActor;
                         this->getItemId = GI_NONE;
                         this->currentYaw = this->actor.wallYaw + 0x8000;
                         func_80832224(this);
@@ -6370,7 +6372,7 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
                         return 1;
                     }
 
-                    this->unk_3C4 = &wallPolyActor->actor;
+                    this->unk_3C4 = wallPolyActor;
                 } else {
                     this->unk_3C4 = NULL;
                 }
@@ -6388,13 +6390,13 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
 s32 func_8083F9D0(GlobalContext* globalCtx, Player* this) {
     if ((this->actor.bgCheckFlags & 0x200) &&
         ((this->stateFlags2 & 0x10) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
-        DynaPolyActor* wallPolyActor = NULL;
+        Actor* wallPolyActor = NULL;
 
         if (this->actor.wallBgId != BGCHECK_SCENE) {
             wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
         }
 
-        if (&wallPolyActor->actor == this->unk_3C4) {
+        if (wallPolyActor == this->unk_3C4) {
             if (this->stateFlags2 & 0x10) {
                 return 1;
             } else {
@@ -7546,7 +7548,7 @@ void func_80842D20(GlobalContext* globalCtx, Player* this) {
 s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
     f32 phi_f2;
     CollisionPoly* sp78;
-    u32 sp74;
+    s32 sp74;
     Vec3f sp68;
     Vec3f sp5C;
     Vec3f sp50;
@@ -8129,7 +8131,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
     Actor* cylinderOc;
     s32 temp;
     s32 sp44;
-    DynaPolyActor* wallPolyActor;
+    Actor* wallPolyActor;
     s32 pad;
     f32 sp38;
     s16 sp36;
@@ -8163,8 +8165,8 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
                         cylinderOc->home.rot.y = 1;
                     } else if (this->actor.wallBgId != BGCHECK_SCENE) {
                         wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
-                        if ((wallPolyActor != NULL) && (wallPolyActor->actor.id == ACTOR_OBJ_KIBAKO2)) {
-                            wallPolyActor->actor.home.rot.z = 1;
+                        if ((wallPolyActor != NULL) && (wallPolyActor->id == ACTOR_OBJ_KIBAKO2)) {
+                            wallPolyActor->home.rot.z = 1;
                         }
                     }
 
@@ -9147,7 +9149,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
         titleFileSize = scene->titleFile.vromEnd - scene->titleFile.vromStart;
         if ((titleFileSize != 0) && gSaveContext.showTitleCard) {
             if ((gSaveContext.sceneSetupIndex < 4) &&
-                (gEntranceTable[(0, gSaveContext.entranceIndex) + (0, gSaveContext.sceneSetupIndex)].field & 0x4000) &&
+                (gEntranceTable[((void)0, gSaveContext.entranceIndex) + ((void)0, gSaveContext.sceneSetupIndex)].field & 0x4000) &&
                 ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
                 ((globalCtx->sceneNum != SCENE_NIGHT_SHOP) || (gSaveContext.eventChkInf[2] & 0x20))) {
                 TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 0xA0, 0x78,
@@ -9192,7 +9194,7 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (gSaveContext.entranceSound != 0) {
-        Audio_PlayActorSound2(&this->actor, (0, gSaveContext.entranceSound));
+        Audio_PlayActorSound2(&this->actor, ((void)0, gSaveContext.entranceSound));
         gSaveContext.entranceSound = 0;
     }
 
@@ -9511,7 +9513,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
 
     if (this->actor.bgCheckFlags & 8) {
         CollisionPoly* spA0;
-        u32 sp9C;
+        s32 sp9C;
         s16 sp9A;
         s32 pad;
 
@@ -9558,7 +9560,7 @@ void func_80847BA0(GlobalContext* globalCtx, Player* this) {
                 f32 wallHeight;
                 CollisionPoly* sp7C;
                 CollisionPoly* sp78;
-                u32 sp74;
+                s32 sp74;
                 Vec3f sp68;
                 f32 sp64;
                 f32 sp60;
@@ -10807,7 +10809,7 @@ void func_8084B78C(Player* this, GlobalContext* globalCtx) {
 
 void func_8084B840(GlobalContext* globalCtx, Player* this, f32 arg2) {
     if (this->actor.wallBgId != BGCHECK_SCENE) {
-        DynaPolyActor* dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
+        DynaPolyActor* dynaActor = (DynaPolyActor*)DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
 
         if (dynaActor != NULL) {
             func_8002DFA4(dynaActor, arg2, this->actor.world.rot.y);
@@ -10871,7 +10873,7 @@ void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
     Vec3f sp5C;
     f32 temp2;
     CollisionPoly* sp54;
-    u32 sp50;
+    s32 sp50;
     Vec3f sp44;
     Vec3f sp38;
 
@@ -11040,9 +11042,9 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
 
     if (this->unk_850 >= 0) {
         if ((this->actor.wallPoly != NULL) && (this->actor.wallBgId != BGCHECK_SCENE)) {
-            DynaPolyActor* wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
+            Actor* wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
             if (wallPolyActor != NULL) {
-                Math_Vec3f_Diff(&wallPolyActor->actor.world.pos, &wallPolyActor->actor.prevPos, &sp6C);
+                Math_Vec3f_Diff(&wallPolyActor->world.pos, &wallPolyActor->prevPos, &sp6C);
                 Math_Vec3f_Sum(&this->actor.world.pos, &sp6C, &this->actor.world.pos);
             }
         }
@@ -11252,7 +11254,7 @@ s32 func_8084C89C(GlobalContext* globalCtx, Player* this, s32 arg2, f32* arg3) {
     Vec3f sp40;
     Vec3f sp34;
     CollisionPoly* sp30;
-    u32 sp2C;
+    s32 sp2C;
 
     sp50 = rideActor->actor.world.pos.y + 20.0f;
     sp4C = rideActor->actor.world.pos.y - 20.0f;
@@ -13722,8 +13724,8 @@ Vec3s D_80855210[2][2] = {
 
 void func_808526EC(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     static Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
-    static Color_RGB8 primColor = { 255, 255, 255 };
-    static Color_RGB8 envColor = { 0, 128, 128 };
+    static Color_RGBA8 primColor = { 255, 255, 255, 0 };
+    static Color_RGBA8 envColor = { 0, 128, 128, 0 };
     s32 age = gSaveContext.linkAge;
     Vec3f sparklePos;
     Vec3f sp34;
