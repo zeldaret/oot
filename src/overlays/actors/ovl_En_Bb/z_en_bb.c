@@ -483,7 +483,7 @@ void EnBb_Death(EnBb* this, GlobalContext* globalCtx) {
         if (this->enPartInfo.unk_10 == 0) {
             func_80032E24(&this->enPartInfo, 0xC, globalCtx);
         }
-        if ((this->dmgEff == 7) || (this->dmgEff == 5)) {
+        if ((this->dmgEffect == 7) || (this->dmgEffect == 5)) {
             sp4E = 0xB;
         }
         if (!func_8003305C(&this->actor, &this->enPartInfo, globalCtx, sp4E)) {
@@ -1081,7 +1081,7 @@ void EnBb_SetupStunned(EnBb* this) {
             EnBb_KillFlameTrail(this);
         }
     }
-    switch (this->dmgEff) {
+    switch (this->dmgEffect) {
         case 8:
             func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0x50);
             break;
@@ -1149,9 +1149,9 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
     }
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
-        this->dmgEff = this->actor.colChkInfo.damageEffect;
+        this->dmgEffect = this->actor.colChkInfo.damageEffect;
         func_80035650(&this->actor, &this->collider.elements[0].info, 0);
-        switch (this->dmgEff) {
+        switch (this->dmgEffect) {
             case 7:
                 this->actor.freezeTimer = this->collider.elements[0].info.acHitInfo->toucher.damage;
             case 5:
@@ -1174,8 +1174,8 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                 break;
             default:
             block_15:
-                if ((this->dmgEff == 14) || (this->dmgEff == 12) || (this->dmgEff == 11) || (this->dmgEff == 10) ||
-                    (this->dmgEff == 7) || (this->dmgEff == 5)) {
+                if ((this->dmgEffect == 14) || (this->dmgEffect == 12) || (this->dmgEffect == 11) || (this->dmgEffect == 10) ||
+                    (this->dmgEffect == 7) || (this->dmgEffect == 5)) {
                     if ((this->action != BB_DOWN) || (this->timer < 190)) {
                         Actor_ApplyDamage(&this->actor);
                     }
@@ -1307,7 +1307,7 @@ void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     sp70.y = this->actor.world.pos.y + sFireIceOffsets[index].y;
                     sp70.z = this->actor.world.pos.z + sFireIceOffsets[index].z;
 
-                    if ((this->dmgEff != 7) && (this->dmgEff != 5)) {
+                    if ((this->dmgEffect != 7) && (this->dmgEffect != 5)) {
                         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &sp70, 0x96, 0x96, 0x96, 0xFA, 0xEB,
                                                        0xF5, 0xFF, 0.8f);
                     } else {

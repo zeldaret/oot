@@ -178,14 +178,14 @@
         <Texture Name="gUnknownJPTex" OutName="unknown_JP" Format="ia8" Width="80" Height="16"/>
         <Texture Name="gSongNoteTex" OutName="song_note" Format="ia8" Width="16" Height="24"/>
         <Texture Name="gMagicArrowEquipEffectTex" OutName="magic_arrow_equip_effect" Format="ia8" Width="32" Height="32"/>
-        <DList Name="D_020899C0" Offset="0x899C0"/>
-        <DList Name="D_02089A50" Offset="0x89A50"/>
-        <DList Name="D_02089AA0" Offset="0x89AA0"/>
-        <DList Name="D_02089AF0" Offset="0x89AF0"/>
-        <DList Name="D_02089B48" Offset="0x89B48"/>
-        <DList Name="D_02089BA0" Offset="0x89BA0"/>
-        <DList Name="D_02089BF8" Offset="0x89BF8"/>
-        <DList Name="D_02089C48" Offset="0x89C48"/>
-        <DList Name="D_02089C48" Offset="0x89C48"/>
+        <DList Name="gItemStaticDL_080899C0" Offset="0x899C0"/>
+        <DList Name="gItemStaticDL_08089A50" Offset="0x89A50"/>
+        <DList Name="gItemStaticDL_08089AA0" Offset="0x89AA0"/>
+        <DList Name="gItemStaticDL_08089AF0" Offset="0x89AF0"/>
+        <DList Name="gItemStaticDL_08089B48" Offset="0x89B48"/>
+        <DList Name="gItemStaticDL_08089BA0" Offset="0x89BA0"/>
+        <DList Name="gItemStaticDL_08089BF8" Offset="0x89BF8"/>
+        <DList Name="gItemStaticDL_08089C48" Offset="0x89C48"/>
+        <DList Name="gItemStaticDL_08089C48" Offset="0x89C48"/>
     </File>
 </Root>

@@ -66,7 +66,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     f32 cz;
     f32 cw;
 
-    //---1Col---
+    //---COL1---
     cx = mfB->xx;
     cy = mfB->yx;
     cz = mfB->zx;
