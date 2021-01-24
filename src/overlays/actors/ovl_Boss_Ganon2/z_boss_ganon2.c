@@ -1144,7 +1144,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = ((player->actor.world.pos.y + 10.0f + 60.0f) - 20.0f) - 2.0f;
             this->unk_3B0.z = player->actor.world.pos.z;
             if (this->unk_398 == 0xE4) {
-                func_80078884(0x1808);
+                func_80078884(NA_SE_IT_SHIELD_REFLECT_SW);
                 func_8002DF54(globalCtx, &this->actor, 0x56);
                 func_800A9F6C(0.0f, 0xFF, 0xA, 0x32);
             }
@@ -2089,7 +2089,70 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_809060E8(globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905DA8.s")
+void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx) {
+    s32 pad[5];
+    Player* player;
+    BossGanon2Effect* effect;
+    Vec3f sp78;
+    s16 i;
+
+    player = PLAYER;
+    effect = globalCtx->unk_11E10;
+
+    for (i = 0; i < ARRAY_COUNT(D_8090EB38); i++, effect++) {
+        if (effect->type != 0) {
+            effect->position.x += effect->velocity.x;
+            effect->position.y += effect->velocity.y;
+            effect->position.z += effect->velocity.z;
+            effect->unk_01++;
+            effect->velocity.x += effect->accel.x;
+            effect->velocity.y += effect->accel.y;
+            effect->velocity.z += effect->accel.z;
+            if (effect->type == 1) {
+                if (effect->unk_2E == 0) {
+                    effect->unk_38.z += 1.0f;
+                    effect->unk_38.y = (2.0f * M_PI) / 5.0f;
+                } else {
+                    effect->unk_38.z = M_PI / 2.0f;
+                    effect->unk_38.y = 0.0f;
+                    if (effect->position.y <= 1098.0f) {
+                        effect->position.y = 1098.0f;
+                        if (effect->velocity.y < -10.0f) {
+                            sp78 = effect->position;
+                            sp78.y = 1086.0f;
+                            func_80078884(NA_SE_IT_SHIELD_REFLECT_SW);
+                            CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sp78);
+                        }
+                        effect->velocity.y = 0.0f;
+                    }
+                    if ((SQ(player->actor.world.pos.x - effect->position.x) +
+                         SQ(player->actor.world.pos.z - effect->position.z)) < 625.0f) {
+                        effect->type = 0;
+                        this->unk_39C = 10;
+                    }
+                }
+            } else if (effect->type == 2) {
+                effect->unk_38.x += 0.1f;
+                effect->unk_38.y += 0.4f;
+                if ((sqrtf(SQ(-200.0f - effect->position.x) + SQ(-200.0f - effect->position.z)) < 1000.0f)) {
+                    if (effect->position.y < 1186.0f) {
+                        if (effect->unk_2E == 0) {
+                            effect->unk_2E++;
+                            effect->position.y = 1186.0f;
+                            effect->velocity.x *= 0.75f;
+                            effect->velocity.z *= 0.75f;
+                            effect->velocity.y *= -0.2f;
+                        } else {
+                            effect->type = 0;
+                        }
+                    }
+                } else if ((effect->position.y < 0.0f)) {
+                    effect->type = 0;
+                }
+            }
+        }
+    }
+}
 
 void func_809060E8(GlobalContext* globalCtx) {
     s16 alpha;
