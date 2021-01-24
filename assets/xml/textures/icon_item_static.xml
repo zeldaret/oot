@@ -45,7 +45,7 @@
         <Texture Name="gGerudoMaskIconTex" OutName="gerudos_mask_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gMaskofTruthIconTex" OutName="mask_of_truth_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gSoldOutIconTex" OutName="sold_out_icon" Format="rgba32" Width="32" Height="32"/>
-        <Texture Name="gPocketEggIconTex" OutName="pocket_egg"Format="rgba32" Width="32" Height="32"/>
+        <Texture Name="gPocketEggIconTex" OutName="pocket_egg" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gPocketCuccoIconTex" OutName="pocket_cucco_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gCojiroIconTex" OutName="cojiro_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gOddMushroomIconTex" OutName="odd_mushroom_icon" Format="rgba32" Width="32" Height="32"/>
@@ -138,7 +138,7 @@
         <Texture Name="gSave12Tex" OutName="save_1_2" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gSave22Tex" OutName="save_2_2" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gEquipment03Tex" OutName="equipment_0_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment13Tex" OutName="equipment_1_3"Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gEquipment13Tex" OutName="equipment_1_3" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gEquipment23Tex" OutName="equipment_2_3" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gSelectItem03Tex" OutName="select_item_0_3" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gSelectItem13Tex" OutName="select_item_1_3" Format="ia8" Width="80" Height="32"/>
