@@ -157,7 +157,25 @@ void func_8088B634(BgHidanRock *this, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B69C.s")
+void func_8088B69C(BgHidanRock *this, GlobalContext *globalCtx) {
+    if (this->unk_16A != 0) {
+        this->unk_16A--;
+    }
+
+    if (this->unk_16A != 0) {
+        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + 5.0f * Math_SinS((this->dyna.actor.world.rot.y + (this->unk_16A << 0xE)));
+        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + 5.0f * Math_CosS((this->dyna.actor.world.rot.y + (this->unk_16A << 0xE)));
+    } else {
+        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
+        func_8088B24C(this);
+    }
+
+    if (!(this->unk_16A % 4)) {
+        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0xB4, 0x0A, 0x64);
+        Audio_PlayActorSound2(&this->dyna.actor, 0x2838);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B79C.s")
 
