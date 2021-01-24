@@ -1997,8 +1997,36 @@ s32 func_80904818(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void func_809049A0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809049A0.s")
 
-void func_80904D88(BossGanon2* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904D88.s")
+void func_80904D88(BossGanon2* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s16 i;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5575);
+
+    if (this->unk_30C > 0.0f) {
+        func_80093D84(globalCtx->state.gfxCtx);
+        if (this->unk_380 > 0.0f) {
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 0);
+        } else {
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, 255);
+            gDPSetEnvColor(POLY_XLU_DISP++, 100, 255, 255, 0);
+        }
+        gSPDisplayList(POLY_XLU_DISP++, D_80908248);
+
+        for (i = 0; i < 15; i++) {
+            Matrix_Translate(this->unk_234[i].x, this->unk_234[i].y, this->unk_234[i].z, MTXMODE_NEW);
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_Scale(this->unk_30C, this->unk_30C, this->unk_30C, MTXMODE_APPLY);
+            Matrix_RotateZ(Rand_CenteredFloat(M_PI), MTXMODE_APPLY);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5618),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, D_809082B8);
+        }
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5622);
+}
 
 void func_80904FC8(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
