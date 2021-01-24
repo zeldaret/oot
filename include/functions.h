@@ -2,7 +2,6 @@
 #define _FUNCTIONS_H_
 
 #include "z64.h"
-// #include "overlays/actors/ovl_En_Part/z_en_part.h"
 
 f32 fabsf(f32 f);
 #pragma intrinsic(fabsf)
