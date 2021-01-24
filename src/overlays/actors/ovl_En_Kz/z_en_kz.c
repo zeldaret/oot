@@ -97,7 +97,8 @@ u16 EnKz_GetTextNoMaskAdult(GlobalContext* globalCtx, EnKz* this) {
     }
 }
 
-u16 EnKz_GetText(GlobalContext* globalCtx, EnKz* this) {
+u16 EnKz_GetText(GlobalContext* globalCtx, Actor* thisx) {
+    EnKz* this = THIS;
     u16 reactionText = Text_GetFaceReaction(globalCtx, 0x1E);
 
     if (reactionText != 0) {
@@ -111,8 +112,8 @@ u16 EnKz_GetText(GlobalContext* globalCtx, EnKz* this) {
     }
 }
 
-s16 func_80A9C6C0(GlobalContext* globalCtx, EnKz* this) {
-    s32 pad;
+s16 func_80A9C6C0(GlobalContext* globalCtx, Actor* thisx) {
+    EnKz* this = THIS;
     s16 ret = 1;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -197,7 +198,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
     }
 
     if (*arg2 != 0) {
-        *arg2 = callback2(globalCtx, this);
+        *arg2 = callback2(globalCtx, &this->actor);
         return 0;
     }
 
@@ -222,7 +223,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
         return 0;
     }
     this->actor.xzDistToPlayer = xzDistToPlayer;
-    this->actor.textId = callback1(globalCtx, this);
+    this->actor.textId = callback1(globalCtx, &this->actor);
 
     return 0;
 }
@@ -230,7 +231,7 @@ s32 func_80A9C95C(GlobalContext* globalCtx, EnKz* this, s16* arg2, f32 unkf, cal
 void func_80A9CB18(EnKz* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0) != 0) {
+    if (func_80A9C95C(globalCtx, this, &this->unk_1E0.unk_00, 340.0f, EnKz_GetText, func_80A9C6C0)) {
         if ((this->actor.textId == 0x401A) && !(gSaveContext.eventChkInf[3] & 8)) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_LETTER_RUTO) {
                 this->actor.textId = 0x401B;
@@ -354,7 +355,7 @@ void EnKz_PreMweepWait(EnKz* this, GlobalContext* globalCtx) {
         this->unk_1E0.unk_00 = 0;
         this->actionFunc = EnKz_SetupMweep;
     } else {
-        func_80034F54(globalCtx, &this->unk_2A6, &this->unk_2BE, 12);
+        func_80034F54(globalCtx, this->unk_2A6, this->unk_2BE, 12);
     }
 }
 
@@ -414,7 +415,7 @@ void EnKz_Wait(EnKz* this, GlobalContext* globalCtx) {
         this->actionFunc = EnKz_SetupGetItem;
         EnKz_SetupGetItem(this, globalCtx);
     } else {
-        func_80034F54(globalCtx, &this->unk_2A6, &this->unk_2BE, 12);
+        func_80034F54(globalCtx, this->unk_2A6, this->unk_2BE, 12);
     }
 }
 
@@ -423,7 +424,7 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
     f32 xzRange;
     f32 yRange;
 
-    if (Actor_HasParent(this, globalCtx)) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
         this->unk_1E0.unk_00 = 1;
         this->actionFunc = EnKz_StartTimer;
