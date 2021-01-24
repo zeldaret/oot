@@ -23,9 +23,10 @@ void func_8088B990(BgHidanRock* this, GlobalContext *globalCtx);
 
 void func_8088BC40(GlobalContext *globalCtx, BgHidanRock* this);
 
+
 extern UNK_TYPE D_0600C100;
 extern UNK_TYPE D_0600C1F0;
-extern UNK_TYPE D_0600CA10;
+extern Gfx D_0600CA10[];
 extern UNK_TYPE D_0600CB80;
 extern UNK_TYPE D_0600DF78;
 
@@ -349,9 +350,32 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static s32 D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0, 0x00000000, 0x00000000, 0x00000000 };
+void func_8088BC40(GlobalContext *globalCtx, BgHidanRock *this) {
+    const static Gfx *D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0, 0x00000000, 0x00000000, 0x00000000 };
+    GlobalContext *glb_ctx = globalCtx;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088BC40.s")
+    OPEN_DISPS(glb_ctx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
+
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14U);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0xFF);
+
+    if (this->unk_168 == 0) {
+        Matrix_Translate(D_8088BF60.x, D_8088BF60.y - 40.0f, D_8088BF60.z, MTXMODE_NEW);
+    } else {
+        Matrix_Translate(this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y - 40.0f, this->dyna.actor.home.pos.z, MTXMODE_NEW);
+    }
+
+    Matrix_RotateRPY(0, Camera_GetCamDirYaw(glb_ctx->cameraPtrs[glb_ctx->activeCamera]) + 0x8000, 0, MTXMODE_APPLY);
+    Matrix_Translate(-10.5f, 0.0f, 0.0f, MTXMODE_APPLY);
+    Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
+
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8088BFC4[glb_ctx->gameplayFrames & 7]));
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(glb_ctx->state.gfxCtx, "../z_bg_hidan_rock.c", 853), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_XLU_DISP++, D_0600CA10);
+
+    CLOSE_DISPS(glb_ctx->state.gfxCtx, "../z_bg_hidan_rock.c", 857);
+}
 
 void BgHidanRock_Draw(Actor* thisx, GlobalContext *globalCtx) {
     BgHidanRock *this = THIS;
