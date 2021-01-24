@@ -29,11 +29,7 @@ extern UNK_TYPE D_0600CA10;
 extern UNK_TYPE D_0600CB80;
 extern UNK_TYPE D_0600DF78;
 
-extern s32 D_8088BF60[];
-extern s32 D_8088BF68[];
-/*
-s32 D_8088BF60[] = { 0x454EE000, 0x42F00000 };
-s32 D_8088BF68[] = { 0x00000000 };
+static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
 const ActorInit Bg_Hidan_Rock_InitVars = {
     ACTOR_BG_HIDAN_ROCK,
@@ -67,27 +63,17 @@ static ColliderCylinderInit D_8088BF8C = {
     { 45, 77, -40, { 3310, 120, 0 } },
 };
 
-//s32 D_8088BFB8[] = { 0xC8500064, 0x386CFDA8 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -600, ICHAIN_STOP),
 };
-
-s32 D_8088BFC0[] = { 0x00000000 };
-s32 D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0, 0x00000000, 0x00000000, 0x00000000 };
-*/
-extern ColliderCylinderInit D_8088BF8C;
-extern InitChainEntry D_8088BFB8[];
-extern s32 D_8088BFC0[];
-extern s32 D_8088BFC4[];
-
 
 void BgHidanRock_Init(Actor *thisx, GlobalContext *globalCtx) {
     BgHidanRock* this = THIS;
     DynaPolyActor* dyna = &this->dyna;
     CollisionHeader *col_header = NULL;
 
-    Actor_ProcessInitChain(&dyna->actor, D_8088BFB8);
+    Actor_ProcessInitChain(&dyna->actor, sInitChain);
     DynaPolyActor_Init(dyna, DPM_PLAYER);
 
     this->unk_168 = dyna->actor.params & 0xFF;
@@ -100,8 +86,8 @@ void BgHidanRock_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     if (this->unk_168 == 0) {
         if (Flags_GetSwitch(globalCtx, dyna->actor.params) != 0) {
-            Math_Vec3f_Copy(&this->dyna.actor.home.pos, (Vec3f *) D_8088BF60);
-            Math_Vec3f_Copy(&this->dyna.actor.world.pos, (Vec3f *) D_8088BF60);
+            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &D_8088BF60);
+            Math_Vec3f_Copy(&this->dyna.actor.world.pos, &D_8088BF60);
             this->unk_16A = 0x3C;
             this->actionFunc = func_8088B5F4;
         } else {
@@ -134,7 +120,87 @@ void func_8088B24C(BgHidanRock *this) {
     this->actionFunc = func_8088B990;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B268.s")
+void func_8088B268(BgHidanRock *this, GlobalContext *globalCtx) {
+    static f32 D_8088BFC0 = 0.0f;
+
+    f32 sp2C;
+    s32 temp_v1;
+    s32 temp_v1_2;
+
+    Player *player = PLAYER;
+
+    if (this->dyna.unk_150 != 0.0f) {
+        if (this->unk_16A == 0) {
+            if (D_8088BFC0 == 0.0f) {
+                //D_8088BFC0 += (this->dyna.unk_150 > 0.0f) ? 0.01f: -0.01f;
+                if (this->dyna.unk_150 > 0.0f) {
+                    D_8088BFC0 += 0.01f;
+                } else {
+                    D_8088BFC0 -= 0.01f;
+                }
+            }
+
+            this->dyna.actor.speedXZ = this->dyna.actor.speedXZ + 0.05f;
+            this->dyna.actor.speedXZ = (this->dyna.actor.speedXZ > 2.0f) ? 2.0f : this->dyna.actor.speedXZ;
+            
+            if (D_8088BFC0 > 0.0f) {
+                temp_v1 = Math_StepToF(&D_8088BFC0, 20.0f, this->dyna.actor.speedXZ);
+            } else {
+                temp_v1 = Math_StepToF(&D_8088BFC0, -20.0f, this->dyna.actor.speedXZ);
+            }
+
+            this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.unk_158) * D_8088BFC0) + this->dyna.actor.home.pos.x;
+            this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.unk_158) * D_8088BFC0) + this->dyna.actor.home.pos.z;
+
+            if (temp_v1 != 0) {
+                player->stateFlags2 &= ~0x10;
+                this->dyna.unk_150 = 0.0f;
+                this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
+                this->dyna.actor.home.pos.z = this->dyna.actor.world.pos.z;
+                D_8088BFC0 = 0.0f;
+                this->dyna.actor.speedXZ = 0.0f;
+                this->unk_16A = 5;
+            }
+            func_8002F974(&this->dyna.actor, 0x200A);
+        } else {
+            player->stateFlags2 &= ~0x10;
+            this->dyna.unk_150 = 0.0f;
+            if (this->unk_16A != 0) {
+                this->unk_16A--;
+            }
+        }
+    } else {
+        this->unk_16A = 0;
+    }
+
+    sp2C = this->dyna.actor.world.pos.z - D_8088BF60.z;
+    if (sp2C < 0.5f) {
+        Flags_SetSwitch(globalCtx, this->dyna.actor.params);
+        Math_Vec3f_Copy(&this->dyna.actor.home.pos, &D_8088BF60);
+        this->dyna.actor.world.pos.x = D_8088BF60.x;
+        this->dyna.actor.world.pos.z = D_8088BF60.z;
+        this->dyna.actor.speedXZ = 0.0f;
+        D_8088BFC0 = 0.0f;
+        player->stateFlags2 &= ~0x10;
+        this->actionFunc = func_8088B79C;
+    }
+
+    temp_v1_2 = globalCtx->gameplayFrames & 0xFF;
+    if ((globalCtx->gameplayFrames & 0x100) != 0) {
+        this->unk_16C = 0.0f;
+    } else if (temp_v1_2 < 0x80) {
+        this->unk_16C = sinf(temp_v1_2 * 0.012566372f) * 19.625f;
+    } else if (temp_v1_2 < 0xE6) {
+        this->unk_16C = 19.625f;
+    } else {
+        this->unk_16C -= 1.0f;
+        this->unk_16C = (this->unk_16C < 0.0f) ? 0.0f : this->unk_16C;
+    }
+
+    if (sp2C < 100.0f) {
+        this->unk_16C = (this->unk_16C > 6.125f) ? 6.125f : this->unk_16C;
+    }
+}
 
 void func_8088B5F4(BgHidanRock *this, GlobalContext *globalCtx) {
     s16 unk_16A;
@@ -283,6 +349,8 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
+static s32 D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0, 0x00000000, 0x00000000, 0x00000000 };
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088BC40.s")
 
 void BgHidanRock_Draw(Actor* thisx, GlobalContext *globalCtx) {
@@ -299,7 +367,7 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext *globalCtx) {
         unk_170 = &this->unk_170;
 
         if (this->unk_168 == 0) {
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, (Vec3f *) D_8088BF60, unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &D_8088BF60, unk_170);
         } else {
             SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->dyna.actor.home.pos, unk_170);
         }
