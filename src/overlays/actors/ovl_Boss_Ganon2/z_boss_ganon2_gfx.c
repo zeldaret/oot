@@ -1,7 +1,7 @@
 #include "z_boss_ganon2.h"
 
-extern UNK_TYPE D_04032490[];
-extern UNK_TYPE D_04032C90[];
+extern u64 D_04032490[];
+extern u64 D_04032C90[];
 extern Gfx D_08000000[];
 
 /* static */ u64 D_80907208[] = {
