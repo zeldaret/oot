@@ -173,7 +173,7 @@ void func_8088B69C(BgHidanRock *this, GlobalContext *globalCtx) {
 
     if (!(this->unk_16A % 4)) {
         func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0xB4, 0x0A, 0x64);
-        Audio_PlayActorSound2(&this->dyna.actor, 0x2838);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
@@ -233,7 +233,40 @@ void func_8088B954(BgHidanRock *this, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Rock/func_8088B990.s")
+void func_8088B990(BgHidanRock *this, GlobalContext *globalCtx) {
+    Player *player = PLAYER;
+
+    this->unk_16A++;
+    if (this->dyna.unk_150 != 0.0f) {
+        this->dyna.actor.speedXZ = 0.0f;
+        player->stateFlags2 &= ~0x10;
+    }
+
+    if ((this->unk_168 == 0 && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 1820.0f, 0.25f, 20.0f, 0.5f) < 0.1f)) || (this->unk_168 != 0) && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, (f32) ((f64) this->dyna.actor.home.pos.y + 480.0), 0.25f, 20.0f, 0.5f) < 0.1f)) {
+        if (this->unk_168 == 0) {
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
+        }
+        this->unk_16A = 0x14;
+        this->actionFunc = func_8088B954;
+    }
+
+    this->unk_16C = (((this->dyna.actor.world.pos.y + 50.0f) - this->dyna.actor.home.pos.y) + 40.0f) / 80.0f;
+    if (this->unk_168 == 0) {
+        if (func_8004356C(&this->dyna) != 0) {
+            if (this->unk_169 == 0) {
+                this->unk_169 = 3;
+            }
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x30);
+            return;
+        }
+        if (func_8004356C(&this->dyna) == 0) {
+            if (this->unk_169 != 0) {
+                Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
+            }
+            this->unk_169 = 0;
+        }
+    }
+}
 
 void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRock *this = THIS;
