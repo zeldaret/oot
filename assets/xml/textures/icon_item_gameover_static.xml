@@ -4,6 +4,6 @@
         <Texture Name="gGameOverMaskTex" OutName="game_over_mask" Format="ia8" Width="64" Height="32"/>
         <Texture Name="gContinuePlayingENGTex" OutName="continue_playing_eng" Format="ia8" Width="152" Height="16"/>
         <Texture Name="gContinuePlayingGERTex" OutName="continue_playing_ger" Format="ia8" Width="152" Height="16"/>
-        <Texture Name="gContinuePlayingFRTex" OutName="continue_playing_fr" Format="ia8" Width="152" Height="16"/>
+        <Texture Name="gContinuePlayingFRATex" OutName="continue_playing_fra" Format="ia8" Width="152" Height="16"/>
     </File>
 </Root>
