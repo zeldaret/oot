@@ -138,7 +138,7 @@
         <Texture Name="gSave12Tex" OutName="save_1_2" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gSave22Tex" OutName="save_2_2" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gEquipment03Tex" OutName="equipment_0_3" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gEquipment13Tex" OutName="equipment_1_3"Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gEquipment13Tex" OutName="equipment_1_3" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gEquipment23Tex" OutName="equipment_2_3" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gSelectItem03Tex" OutName="select_item_0_3" Format="ia8" Width="80" Height="32"/>
         <Texture Name="gSelectItem13Tex" OutName="select_item_1_3" Format="ia8" Width="80" Height="32"/>
