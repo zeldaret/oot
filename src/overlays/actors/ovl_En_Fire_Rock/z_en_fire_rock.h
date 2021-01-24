@@ -39,9 +39,3 @@ typedef struct EnFireRock {
 extern const ActorInit En_Fire_Rock_InitVars;
 
 #endif
-/*
-     0x0000  s16 radius;
-    0x0002  s16 height;
-     0x0004 s16 yShift;
-     0x0006  Vec3s pos;
-    */
