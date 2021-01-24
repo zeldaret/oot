@@ -12,7 +12,7 @@ void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MIZU_OBJECTS,
     sizeof(BgMizuMovebg),

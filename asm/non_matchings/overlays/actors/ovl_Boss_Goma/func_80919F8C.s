@@ -51,7 +51,7 @@ glabel func_80919F8C
 /* 04630 8091A040 1462001F */  bne     $v1, $v0, .L8091A0C0       
 /* 04634 8091A044 8FAE002C */  lw      $t6, 0x002C($sp)           
 /* 04638 8091A048 8DC40000 */  lw      $a0, 0x0000($t6)           ## 00000000
-/* 0463C 8091A04C 0C018D74 */  jal     func_800635D0              
+/* 0463C 8091A04C 0C018D74 */  jal     CollisionCheck_GetSwordDamage              
 /* 04640 8091A050 AFA30024 */  sw      $v1, 0x0024($sp)           
 /* 04644 8091A054 1040001A */  beq     $v0, $zero, .L8091A0C0     
 /* 04648 8091A058 8FA30024 */  lw      $v1, 0x0024($sp)           

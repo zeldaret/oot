@@ -88,7 +88,7 @@ glabel func_8092DB4C
 /* 016B4 8092DC84 10000014 */  beq     $zero, $zero, .L8092DCD8   
 /* 016B8 8092DC88 A6090198 */  sh      $t1, 0x0198($s0)           ## 00000198
 .L8092DC8C:
-/* 016BC 8092DC8C 0C00B6B0 */  jal     func_8002DAC0              
+/* 016BC 8092DC8C 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 016C0 8092DC90 8CC41C44 */  lw      $a0, 0x1C44($a2)           ## 00001C44
 /* 016C4 8092DC94 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 016C8 8092DC98 00412821 */  addu    $a1, $v0, $at              

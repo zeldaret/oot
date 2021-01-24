@@ -19,7 +19,7 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Fusya),

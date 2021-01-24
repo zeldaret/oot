@@ -106,7 +106,7 @@ glabel func_80B44E8C
 /* 00FB8 80B45008 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00FBC 80B4500C 55C10019 */  bnel    $t6, $at, .L80B45074       
 /* 00FC0 80B45010 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00FC4 80B45014 0C00B6D2 */  jal     func_8002DB48              
+/* 00FC4 80B45014 0C00B6D2 */  jal     Actor_WorldDistXYZToActor              
 /* 00FC8 80B45018 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 00FCC 80B4501C 3C0142A0 */  lui     $at, 0x42A0                ## $at = 42A00000
 /* 00FD0 80B45020 44819000 */  mtc1    $at, $f18                  ## $f18 = 80.00

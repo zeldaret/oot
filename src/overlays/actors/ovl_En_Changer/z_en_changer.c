@@ -28,7 +28,7 @@ void EnChanger_SetHeartPieceFlag(EnChanger* this, GlobalContext* globalCtx);
 
 const ActorInit En_Changer_InitVars = {
     ACTOR_EN_CHANGER,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnChanger),
@@ -239,9 +239,9 @@ void EnChanger_OpenChests(EnChanger* this, GlobalContext* globalCtx) {
 
         switch (temp_s0_2) {
             case CHEST_LEFT:
-                xPos = right->dyna.actor.posRot.pos.x;
-                yPos = right->dyna.actor.posRot.pos.y;
-                zPos = right->dyna.actor.posRot.pos.z;
+                xPos = right->dyna.actor.world.pos.x;
+                yPos = right->dyna.actor.world.pos.y;
+                zPos = right->dyna.actor.world.pos.z;
 
                 if (this->rightChestGetItemId == GI_DOOR_KEY) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0, 0xF);
@@ -255,9 +255,9 @@ void EnChanger_OpenChests(EnChanger* this, GlobalContext* globalCtx) {
                 }
                 break;
             case CHEST_RIGHT:
-                xPos = left->dyna.actor.posRot.pos.x;
-                yPos = left->dyna.actor.posRot.pos.y;
-                zPos = left->dyna.actor.posRot.pos.z;
+                xPos = left->dyna.actor.world.pos.x;
+                yPos = left->dyna.actor.world.pos.y;
+                zPos = left->dyna.actor.world.pos.z;
 
                 if (this->leftChestGetItemId == GI_DOOR_KEY) {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_ITEM, xPos, yPos, zPos, 0, 0, 0, 0xF);
@@ -295,8 +295,8 @@ void EnChanger_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (BREG(0)) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 255, 255, 4, globalCtx->state.gfxCtx);
     }
 }

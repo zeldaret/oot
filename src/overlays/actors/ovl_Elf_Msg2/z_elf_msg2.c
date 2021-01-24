@@ -22,7 +22,7 @@ void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx);
 
 const ActorInit Elf_Msg2_InitVars = {
     ACTOR_ELF_MSG2,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ElfMsg2),
@@ -74,8 +74,8 @@ void ElfMsg2_SetupAction(ElfMsg2* this, ElfMsg2ActionFunc actionFunc) {
  */
 s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
 
-    if ((this->actor.posRot.rot.y > 0) && (this->actor.posRot.rot.y < 0x41) &&
-        (Flags_GetSwitch(globalCtx, this->actor.posRot.rot.y - 1))) {
+    if ((this->actor.world.rot.y > 0) && (this->actor.world.rot.y < 0x41) &&
+        (Flags_GetSwitch(globalCtx, this->actor.world.rot.y - 1))) {
         // "Mutual destruction"
         LOG_STRING("共倒れ", "../z_elf_msg2.c", 171);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
@@ -83,7 +83,7 @@ s32 ElfMsg2_KillCheck(ElfMsg2* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
         return 1;
-    } else if ((this->actor.posRot.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
+    } else if ((this->actor.world.rot.y == -1) && (Flags_GetClear(globalCtx, this->actor.room))) {
         // "Mutual destruction 2"
         LOG_STRING("共倒れ２", "../z_elf_msg2.c", 182);
         if (((this->actor.params >> 8) & 0x3F) != 0x3F) {
@@ -107,11 +107,11 @@ void ElfMsg2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf(VT_FGCOL(CYAN) " Elf_Msg2_Actor_ct %04x\n\n" VT_RST, this->actor.params);
     if (!ElfMsg2_KillCheck(this, globalCtx)) {
-        if ((this->actor.posRot.rot.x > 0) && (this->actor.posRot.rot.x < 8)) {
-            this->actor.unk_1F = this->actor.posRot.rot.x - 1;
+        if ((this->actor.world.rot.x > 0) && (this->actor.world.rot.x < 8)) {
+            this->actor.targetMode = this->actor.world.rot.x - 1;
         }
         Actor_ProcessInitChain(thisx, sInitChain);
-        if (this->actor.posRot.rot.y >= 0x41) {
+        if (this->actor.world.rot.y >= 0x41) {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitUntilActivated);
         } else {
             ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
@@ -137,7 +137,7 @@ void ElfMsg2_WaitForTextClose(ElfMsg2* this, GlobalContext* globalCtx) {
     s32 switchFlag;
 
     if (func_8002F334(&this->actor, globalCtx)) {
-        if (this->actor.posRot.rot.z != 1) {
+        if (this->actor.world.rot.z != 1) {
             Actor_Kill(&this->actor);
             switchFlag = (this->actor.params >> 8) & 0x3F;
             if (switchFlag != 0x3F) {
@@ -162,10 +162,10 @@ void ElfMsg2_WaitForTextRead(ElfMsg2* this, GlobalContext* globalCtx) {
  * Idles until a switch flag is set, at which point the actor becomes interactable
  */
 void ElfMsg2_WaitUntilActivated(ElfMsg2* this, GlobalContext* globalCtx) {
-    // If (y >= 0x41) && (y <= 0x80), Idles until switch flag (actor.posRot.rot.y - 0x41) is set
+    // If (y >= 0x41) && (y <= 0x80), Idles until switch flag (actor.world.rot.y - 0x41) is set
     // If (y > 0x80), Idles forever (Bug?)
-    if ((this->actor.posRot.rot.y >= 0x41) && (this->actor.posRot.rot.y <= 0x80) &&
-        (Flags_GetSwitch(globalCtx, (this->actor.posRot.rot.y - 0x41)))) {
+    if ((this->actor.world.rot.y >= 0x41) && (this->actor.world.rot.y <= 0x80) &&
+        (Flags_GetSwitch(globalCtx, (this->actor.world.rot.y - 0x41)))) {
         ElfMsg2_SetupAction(this, ElfMsg2_WaitForTextRead);
         this->actor.flags |= 0x00040001; // Make actor targetable and Navi-checkable
         this->actor.textId = ElfMsg2_GetMessageId(this);

@@ -98,6 +98,11 @@ string ZBlob::GetExternalExtension()
 	return "bin";
 }
 
+std::string ZBlob::GetSourceTypeName()
+{
+	return "u8";
+}
+
 ZResourceType ZBlob::GetResourceType()
 {
 	return ZResourceType::Blob;

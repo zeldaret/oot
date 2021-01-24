@@ -18,7 +18,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot17_Bakudankabe_InitVars = {
     ACTOR_BG_SPOT17_BAKUDANKABE,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT17_OBJ,
     sizeof(BgSpot17Bakudankabe),
@@ -64,9 +64,9 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
         temp1 = (Rand_ZeroOne() - 0.5f) * 140.0f;
         temp2 = (Rand_ZeroOne() - 0.5f) * 20.0f;
 
-        burstDepthY.x = this->dyna.actor.posRot.pos.x + temp2 * sinY + (temp1 * cosY);
-        burstDepthY.y = this->dyna.actor.posRot.pos.y + 30.0f + (i * 6.5f);
-        burstDepthY.z = this->dyna.actor.posRot.pos.z + temp2 * cosY - (temp1 * sinY);
+        burstDepthY.x = this->dyna.actor.world.pos.x + temp2 * sinY + (temp1 * cosY);
+        burstDepthY.y = this->dyna.actor.world.pos.y + 30.0f + (i * 6.5f);
+        burstDepthY.z = this->dyna.actor.world.pos.z + temp2 * cosY - (temp1 * sinY);
 
         burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;
         scale = Rand_ZeroOne() * 55.0f + 8.0f;
@@ -87,7 +87,7 @@ void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &burstDepthY, &burstDepthX, &burstDepthY, gravityInfluence, rotationSpeed, 0x1E,
                              4, 0, scale, 1, 3, 80, KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
     }
-    Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.posRot.pos);
+    Math_Vec3f_Copy(&burstDepthY, &this->dyna.actor.world.pos);
     func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 110, 160, 1);
     burstDepthY.y += 40.0f;
     func_80033480(globalCtx, &burstDepthY, 60.0f, 4, 120, 160, 1);
@@ -117,10 +117,10 @@ void BgSpot17Bakudankabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgSpot17Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot17Bakudankabe* this = THIS;
-    if (this->dyna.actor.xzDistToLink < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
+    if (this->dyna.actor.xzDistToPlayer < 650.0f && func_80033684(globalCtx, &this->dyna.actor) != NULL) {
         func_808B6BC0(this, globalCtx);
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params & 0x3F));
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Actor_Kill(&this->dyna.actor);
     }

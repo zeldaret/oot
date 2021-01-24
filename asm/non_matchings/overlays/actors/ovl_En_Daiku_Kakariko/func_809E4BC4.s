@@ -186,7 +186,7 @@ glabel func_809E4BC4
 /* 00B40 809E4E60 4407A000 */  mfc1    $a3, $f20                  
 /* 00B44 809E4E64 24080004 */  addiu   $t0, $zero, 0x0004         ## $t0 = 00000004
 /* 00B48 809E4E68 AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 00B4C 809E4E6C 0C00B92D */  jal     func_8002E4B4              
+/* 00B4C 809E4E6C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00B50 809E4E70 E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 00B54 809E4E74 10000017 */  beq     $zero, $zero, .L809E4ED4   
 /* 00B58 809E4E78 00000000 */  nop
@@ -209,7 +209,7 @@ glabel func_809E4BC4
 /* 00B94 809E4EB4 4406A000 */  mfc1    $a2, $f20                  
 /* 00B98 809E4EB8 4407A000 */  mfc1    $a3, $f20                  
 /* 00B9C 809E4EBC E7B40010 */  swc1    $f20, 0x0010($sp)          
-/* 00BA0 809E4EC0 0C00B92D */  jal     func_8002E4B4              
+/* 00BA0 809E4EC0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00BA4 809E4EC4 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 00BA8 809E4EC8 96190202 */  lhu     $t9, 0x0202($s0)           ## 00000202
 /* 00BAC 809E4ECC 332EFFFE */  andi    $t6, $t9, 0xFFFE           ## $t6 = 00000000

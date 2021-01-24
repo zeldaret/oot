@@ -20,7 +20,7 @@ extern Gfx* D_06000DE0[];
 
 const ActorInit En_Encount2_InitVars = {
     ACTOR_EN_ENCOUNT2,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_EFC_STAR_FIELD,
     sizeof(EnEncount2),

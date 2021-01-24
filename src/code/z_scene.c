@@ -527,7 +527,7 @@ RomFile sNaviMsgFiles[] = {
 
 s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
 
-u32 gObjectTableSize = 402;
+u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
 
 RomFile gObjectTable[] = {
     ROM_FILE_UNSET,

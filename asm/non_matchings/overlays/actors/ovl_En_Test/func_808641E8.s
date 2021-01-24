@@ -10,7 +10,7 @@ glabel func_808641E8
 /* 04BB8 80864208 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 04BBC 8086420C 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 04BC0 80864210 AFA20024 */  sw      $v0, 0x0024($sp)           
-/* 04BC4 80864214 0C00B69E */  jal     func_8002DA78              
+/* 04BC4 80864214 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 04BC8 80864218 AFA7002C */  sw      $a3, 0x002C($sp)           
 /* 04BCC 8086421C 8FA7002C */  lw      $a3, 0x002C($sp)           
 /* 04BD0 80864220 00004025 */  or      $t0, $zero, $zero          ## $t0 = 00000000

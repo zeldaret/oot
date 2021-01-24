@@ -47,11 +47,11 @@ glabel EnFireRock_Init
 /* 0000C 80A11C2C AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 00010 80A11C30 8CAF1C44 */  lw      $t7, 0x1C44($a1)           ## 00001C44
 /* 00014 80A11C34 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
-/* 00018 80A11C38 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 00018 80A11C38 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 0001C 80A11C3C AFAF0030 */  sw      $t7, 0x0030($sp)           
 /* 00020 80A11C40 8498001C */  lh      $t8, 0x001C($a0)           ## 0000001C
 /* 00024 80A11C44 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 00028 80A11C48 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00028 80A11C48 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0002C 80A11C4C A498018C */  sh      $t8, 0x018C($a0)           ## 0000018C
 /* 00030 80A11C50 8482018C */  lh      $v0, 0x018C($a0)           ## 0000018C
 /* 00034 80A11C54 3C074170 */  lui     $a3, 0x4170                ## $a3 = 41700000
@@ -141,7 +141,7 @@ glabel L80A11D14
 /* 00150 80A11D70 A60B01D8 */  sh      $t3, 0x01D8($s0)           ## 000001D8
 /* 00154 80A11D74 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00158 80A11D78 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 0015C 80A11D7C 0C00CDD2 */  jal     Actor_ChangeType
+/* 0015C 80A11D7C 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00160 80A11D80 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00164 80A11D84 3C0D80A1 */  lui     $t5, %hi(func_80A12730)    ## $t5 = 80A10000
