@@ -97,33 +97,140 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 200, 0, { 0, 0, 0 } },
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978930.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978940.s")
+/*
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(unk_50, 100, ICHAIN_STOP),
+};
+*/
+// D_8097BE84
+extern InitChainEntry sInitChain[];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978950.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097895C.s")
+s32 func_80978930(DemoGj *this) {
+    s32 params = this->dyna.actor.params >> 0xB;
+    return params & 0x1F;
+}
 
+s32 func_80978940(DemoGj *this) {
+    s32 params = this->dyna.actor.params >> 0x8;
+    return params & 7;
+}
+
+s32 func_80978950(DemoGj *this) {
+    s32 params = this->dyna.actor.params;
+    return params & 0xFF;
+}
+
+void func_8097895C(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* arg2, ColliderCylinderInitType1* arg3) {
+    Collider_InitCylinder(globalCtx, arg2);
+    Collider_SetCylinderType1(globalCtx, arg2, &this->dyna.actor, arg3);
+}
+
+#ifdef NON_MATCHING
+/*s32 func_809789A4(s32 arg0, GlobalContext* globalCtx, Collider* collider) {
+    if (Actor_GetCollidedExplosive(globalCtx, collider) != 0) {
+        return 1;
+    }
+    return 0;
+}*/
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_809789A4.s")
+#endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_809789D8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/DemoGj_Destroy.s")
+void func_809789D8(DemoGj* this, GlobalContext* globalCtx) {
+    s32 temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978AC4.s")
+    temp_v0 = func_80978950(this);
+
+    switch (temp_v0) {
+    case 0x10:
+        Collider_DestroyCylinder(globalCtx, &this->unk_184);
+        Collider_DestroyCylinder(globalCtx, &this->unk_1D0);
+        Collider_DestroyCylinder(globalCtx, &this->unk_21C);
+        break;
+
+    case 0x11:
+        Collider_DestroyCylinder(globalCtx, &this->unk_184);
+        Collider_DestroyCylinder(globalCtx, &this->unk_1D0);
+        Collider_DestroyCylinder(globalCtx, &this->unk_21C);
+        return;
+
+    case 0x16:
+        Collider_DestroyCylinder(globalCtx, &this->unk_184);
+        return;
+    
+    default:
+        break;
+    }
+}
+
+void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGj* this = THIS;
+    func_809789D8(this, globalCtx);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+}
+
+void func_80978AC4(DemoGj* this, GlobalContext* globalCtx) {
+    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 0x32, NA_SE_EV_GRAVE_EXPLOSION);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978AFC.s")
 
+void func_80978B90(DemoGj* this, GlobalContext* globalCtx);
+#ifdef NON_MATCHING
+// register usage doesn't match.
+void func_80978B90(DemoGj* this, GlobalContext* globalCtx) {
+    s32 temp_v0;
+    s16 temp_s2;
+
+    s32 i;
+
+    temp_s2 = func_80978930(this);
+    temp_v0 = func_80978940(this);
+
+    for (i = 0; i < temp_v0; i++) {
+        Item_DropCollectible(globalCtx, &this->dyna.actor.world.pos, temp_s2);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978B90.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978C20.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978EBC.s")
+s32 func_80978EBC(void) {
+    if (gSaveContext.sceneSetupIndex < 4) {
+        return 0;
+    }
+    return 1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978EE4.s")
 
+#ifdef NON_MATCHING
+void func_80978F60(DemoGj* this, GlobalContext* globalCtx, void *arg2) {
+    GlobalContext* glb_ctx;
+    Actor* actor;
+    DynaCollisionContext* colctx_dyna;
+    CollisionHeader *sp18;
+
+    actor = &this->dyna.actor;
+    glb_ctx = globalCtx;
+    colctx_dyna = &glb_ctx->colCtx.dyna;
+
+    if (arg2 != NULL) {
+        Actor_ProcessInitChain(actor, sInitChain);
+        DynaPolyActor_Init(&this->dyna, 0);
+        sp18 = NULL;
+        CollisionHeader_GetVirtual(arg2, &sp18);
+        this->dyna.bgId = DynaPoly_SetBgActor(glb_ctx, colctx_dyna, actor, sp18);
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978F60.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978FCC.s")
 
@@ -329,7 +436,58 @@ static ColliderCylinderInitType1 sCylinderInit = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/DemoGj_Update.s")
 
+#ifdef NON_MATCHING
+/*void DemoGj_Init(Actor* thisx, GlobalContext *globalCtx) {
+    DemoGj *this = THIS
+    DemoGj *temp_a2;
+    u32 temp_t6;
+
+    temp_t6 = func_80978950() - 4;
+    temp_a2 = this;
+    if (temp_t6 < 0x13U) {
+        goto **(&jtbl_8097C234 + (temp_t6 * 4));
+    case 0:
+        func_8097ADC0(temp_a2, globalCtx, temp_a2);
+        return;
+    case 4:
+        func_80979FD0(temp_a2, globalCtx, temp_a2);
+        return;
+    case 5:
+        func_8097A208(temp_a2, globalCtx, temp_a2);
+        return;
+    case 6:
+        func_8097A444(temp_a2, globalCtx, temp_a2);
+        return;
+    case 7:
+        func_8097A614(temp_a2, globalCtx, temp_a2);
+        return;
+    case 8:
+        func_8097A7E4(temp_a2, globalCtx, temp_a2);
+        return;
+    case 9:
+        func_8097A9B4(temp_a2, globalCtx, temp_a2);
+        return;
+    case 10:
+        func_8097AB84(temp_a2, globalCtx, temp_a2);
+        return;
+    case 12:
+        func_8097AE5C(temp_a2, globalCtx, temp_a2);
+        return;
+    case 13:
+        func_8097B3C4(temp_a2, globalCtx, temp_a2);
+        return;
+    case 18:
+        func_8097B8E8(temp_a2, globalCtx, temp_a2);
+        return;
+    }
+default:
+    this = temp_a2;
+    osSyncPrintf((const char *) "\x1b[31mDemo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m", globalCtx, temp_a2);
+    Actor_Kill((Actor *) this);
+}*/
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/DemoGj_Init.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097BD70.s")
 
