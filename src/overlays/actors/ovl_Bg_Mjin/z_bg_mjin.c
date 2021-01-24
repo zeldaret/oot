@@ -79,7 +79,7 @@ void func_808A0850(BgMjin* this, GlobalContext* globalCtx) {
         this->dyna.actor.flags &= ~0x10;
         this->dyna.actor.objBankIndex = this->objBankIndex;
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
-        DynaPolyActor_Init(&this->dyna.actor, 0);
+        DynaPolyActor_Init(&this->dyna, 0);
         collision = this->dyna.actor.params != 0 ? &D_06000658 : &D_06000330_;
         CollisionHeader_GetVirtual(collision, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
