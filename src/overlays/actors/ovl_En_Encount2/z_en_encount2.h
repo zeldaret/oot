@@ -33,7 +33,6 @@ typedef struct EnEncount2 {
     /* 0x0178 */ f32 unk170;
     /* 0x0174 */ char unk174[0x4];
     /* 0x0178 */ s16 envEffectsTimer;
-    /* 0x017A */ char unk17A[0x2];
     /* 0x017C */ f32 unk17C;
     /* 0x0180 */ u64 isQuaking;
     /* 0x0188 */ EnEncount2Particle particles[50];

@@ -108,7 +108,7 @@ void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case FIRE_ROCK_SPAWNED_FALLING1: // spawned by encount2
             // sets unused vars?
-            this->unk17C.x = (f32)(Rand_CenteredFloat(50.0f) + player->actor.world.pos.x); 
+            this->unk17C.x = (f32)(Rand_CenteredFloat(50.0f) + player->actor.world.pos.x);
             this->unk17C.z = (f32)(Rand_CenteredFloat(50.0f) + player->actor.world.pos.z);
         case FIRE_ROCK_SPAWNED_FALLING2: // spawned by encount2 and by the ceilling spawner
             this->scale = (Rand_ZeroFloat(2.0f) / 100.0f) + 0.02f;
@@ -154,7 +154,7 @@ void EnFireRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.parent != NULL) && (this->actor.parent == &this->spawner->actor)) {
         EnEncount2* spawner = (EnEncount2*)this->actor.parent;
-        if ((spawner->actor.update != NULL) && (spawner->numSpawnedRocks > 0)){
+        if ((spawner->actor.update != NULL) && (spawner->numSpawnedRocks > 0)) {
             spawner->numSpawnedRocks--;
             osSyncPrintf("\n\n");
             // "☆☆☆☆☆ Number of spawned instances recovery ☆☆☆☆☆%d"
@@ -222,7 +222,8 @@ void EnFireRock_Fall(EnFireRock* this, GlobalContext* globalCtx) {
     }
 }
 
-// After the rock has already hit the ground and started rolling, spawn two more, giving the illusion of breaking into two pieces.
+// After the rock has already hit the ground and started rolling, spawn two more, giving the illusion of breaking into
+// two pieces.
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, GlobalContext* globalCtx) {
     EnFireRock* spawnedFireRock;
     s32 nextRockType;
@@ -268,7 +269,8 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, GlobalContext* globalC
             this->timer2 = 30;
             spawnedFireRock = (EnFireRock*)Actor_Spawn(
                 &globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x,
-                this->actor.world.pos.y + 10.0f, Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, FIRE_ROCK_SPAWNED_FALLING2);
+                this->actor.world.pos.y + 10.0f, Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0,
+                FIRE_ROCK_SPAWNED_FALLING2);
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->timer = 10;
             } else {
@@ -336,7 +338,8 @@ void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         setCollision = false;
         if (this->actionFunc != EnFireRock_SpawnMoreBrokenPieces) {
-            if ((this->type == FIRE_ROCK_SPAWNED_FALLING1) || (this->type == FIRE_ROCK_SPAWNED_FALLING2) || (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
+            if ((this->type == FIRE_ROCK_SPAWNED_FALLING1) || (this->type == FIRE_ROCK_SPAWNED_FALLING2) ||
+                (this->type == FIRE_ROCK_BROKEN_PIECE1)) {
                 if (this->collider.base.atFlags & 4) {
                     this->collider.base.atFlags &= ~4;
                     Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);

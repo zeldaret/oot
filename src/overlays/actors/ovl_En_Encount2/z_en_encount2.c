@@ -9,7 +9,7 @@
 typedef enum {
     /* 0x0 */ INACTIVE,
     /* 0x1 */ ACTIVE_DEATH_MOUNTAIN,
-    /* 0x2 */ ACTIVE_GANONS_TOWER,
+    /* 0x2 */ ACTIVE_GANONS_TOWER
 } EnTiteAction;
 
 void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -75,7 +75,9 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
         }
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37))) {
         s16 scene = globalCtx->sceneNum;
-        if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) || (scene == SCENE_GANONTIKA_SONOGO)) && (!this->collapseSpawnerInactive)) {
+        if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
+             (scene == SCENE_GANONTIKA_SONOGO)) &&
+            (!this->collapseSpawnerInactive)) {
             spawnerState = ACTIVE_GANONS_TOWER;
         }
     }
@@ -137,14 +139,18 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
             this->actionFunc = &EnEncount2_Wait;
             return;
         }
-        if ((player->actor.world.pos.y > 1500.0f) && (player->actor.world.pos.x > -700.0f) && (player->actor.world.pos.x < 100.0f) && (player->actor.world.pos.z < -1290.0f) && (player->actor.world.pos.z > -3860.0f)) {
+        if ((player->actor.world.pos.y > 1500.0f) && (player->actor.world.pos.x > -700.0f) &&
+            (player->actor.world.pos.x < 100.0f) && (player->actor.world.pos.z < -1290.0f) &&
+            (player->actor.world.pos.z > -3860.0f)) {
             maxRocks = 2;
             spawnerState = ACTIVE_DEATH_MOUNTAIN;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
-    } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37) != 0)){
+    } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37) != 0)) {
         s16 scene = globalCtx->sceneNum;
-        if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) || (scene == SCENE_GANONTIKA_SONOGO)) && (!this->collapseSpawnerInactive)) {
+        if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
+             (scene == SCENE_GANONTIKA_SONOGO)) &&
+            (!this->collapseSpawnerInactive)) {
             maxRocks = 1;
             spawnerState = ACTIVE_GANONS_TOWER;
         }

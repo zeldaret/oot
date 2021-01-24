@@ -12,7 +12,7 @@ typedef enum {
     /* 0x02 */ FIRE_ROCK_BROKEN_PIECE2,
     /* 0x03 */ FIRE_ROCK_SPAWNED_FALLING2,
     /* 0x05 */ FIRE_ROCK_CEILING_SPOT_SPAWNER = 5,
-    /* 0x06 */ FIRE_ROCK_ON_FLOOR,
+    /* 0x06 */ FIRE_ROCK_ON_FLOOR
 } EnFireRockType;
 
 struct EnFireRock;
@@ -28,8 +28,8 @@ typedef struct EnFireRock {
     /* 0x016C */ f32 scale;
     /* 0x0170 */ Vec3f relativePos;
     /* 0x017C */ Vec3f unk17C; // set but unused?
-    /* 0x0188 */ s16 timer; // spawn timer for rocks waiting in the ceiling amd flame timer for burning rocks on floor
-    /* 0x018A */ s16 timer2; // spawn timer for rocks waiting in the ceiling amd flame timer for burning rocks on floor
+    /* 0x0188 */ s16 timer;
+    /* 0x018A */ s16 timer2;
     /* 0x018C */ s16 type;
     /* 0x018E */ u8 playerNearby;
     /* 0x0190 */ EnEncount2* spawner;
