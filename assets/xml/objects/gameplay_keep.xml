@@ -618,7 +618,7 @@
         <DList Name="gArrowNearDL" Offset="0x5AA0"/>
         <DList Name="gArrowFarDL" Offset="0x5E20"/>
         <Skeleton Name="gArrowSkel" Type="Normal" LimbType="LOD" Offset="0x6010"/> <!-- fix pointer for this! -->
-        <Texture Name="gUnknownBlureEffectTex" OutName="unknown_blure_effect" Format="i8" Width="64" Height="32" Offset="0x6020"/>
+        <Texture Name="gUnknownEffBlureTex" OutName="unknown_eff_blure" Format="i8" Width="64" Height="32" Offset="0x6020"/>
         <Texture Name="gBombBodyTex" OutName="bomb_body" Format="ia8" Width="64" Height="64" Offset="0x6820"/>
         <DList Name="gBombBodyDL" Offset="0x7860"/>
         <Texture Name="gBombCapTex" OutName="bomb_cap" Format="rgb5a1" Width="8" Height="8" Offset="0x78F0"/>
@@ -770,15 +770,15 @@
         <Texture Name="gEffWaterSplash7Tex" OutName="eff_water_splash_7" Format="i8" Width="32" Height="40" Offset="0x273F0"/>
         <Texture Name="gEffWaterSplash8Tex" OutName="eff_water_splash_8" Format="i8" Width="32" Height="40" Offset="0x278F0"/>
         <DList Name="gEffWaterSplashDL" Offset="0x27DF0"/>
-        <Texture Name="gUnknownEffectStone1Tex" OutName="unknown_eff_stone_1" Format="ia8" Width="32" Height="32" Offset="0x27E90"/>
-        <Texture Name="gUnknownEffectStone2Tex" OutName="unknown_eff_stone_2" Format="ia8" Width="32" Height="32" Offset="0x28290"/>
-        <Texture Name="gUnknownEffectStone3Tex" OutName="unknown_eff_stone_3" Format="ia8" Width="32" Height="32" Offset="0x28690"/>
-        <Texture Name="gUnknownEffectStone4Tex" OutName="unknown_eff_stone_4" Format="ia8" Width="32" Height="32" Offset="0x28A90"/>
-        <Texture Name="gUnknownEffectStone5Tex" OutName="unknown_eff_stone_5" Format="ia8" Width="32" Height="32" Offset="0x28E90"/>
-        <Texture Name="gUnknownEffectStone6Tex" OutName="unknown_eff_stone_6" Format="ia8" Width="32" Height="32" Offset="0x29290"/>
-        <Texture Name="gUnknownEffectStone7Tex" OutName="unknown_eff_stone_7" Format="ia8" Width="32" Height="32" Offset="0x29690"/>
-        <Texture Name="gUnknownEffectStone8Tex" OutName="unknown_eff_stone_8" Format="ia8" Width="32" Height="32" Offset="0x29A90"/>
-        <DList Name="gUnknownEffectStoneDL" Offset="0x29E90"/>
+        <Texture Name="gUnknownEffStone1Tex" OutName="unknown_eff_stone_1" Format="ia8" Width="32" Height="32" Offset="0x27E90"/>
+        <Texture Name="gUnknownEffStone2Tex" OutName="unknown_eff_stone_2" Format="ia8" Width="32" Height="32" Offset="0x28290"/>
+        <Texture Name="gUnknownEffStone3Tex" OutName="unknown_eff_stone_3" Format="ia8" Width="32" Height="32" Offset="0x28690"/>
+        <Texture Name="gUnknownEffStone4Tex" OutName="unknown_eff_stone_4" Format="ia8" Width="32" Height="32" Offset="0x28A90"/>
+        <Texture Name="gUnknownEffStone5Tex" OutName="unknown_eff_stone_5" Format="ia8" Width="32" Height="32" Offset="0x28E90"/>
+        <Texture Name="gUnknownEffStone6Tex" OutName="unknown_eff_stone_6" Format="ia8" Width="32" Height="32" Offset="0x29290"/>
+        <Texture Name="gUnknownEffStone7Tex" OutName="unknown_eff_stone_7" Format="ia8" Width="32" Height="32" Offset="0x29690"/>
+        <Texture Name="gUnknownEffStone8Tex" OutName="unknown_eff_stone_8" Format="ia8" Width="32" Height="32" Offset="0x29A90"/>
+        <DList Name="gUnknownEffStoneDL" Offset="0x29E90"/>
         <Texture Name="gEffLightning1Tex" OutName="eff_lightning_1" Format="i8" Width="16" Height="96" Offset="0x29F30"/>
         <Texture Name="gEffLightning2Tex" OutName="eff_lightning_2" Format="i8" Width="16" Height="96" Offset="0x2A530"/>
         <Texture Name="gEffLightning3Tex" OutName="eff_lightning_3" Format="i8" Width="16" Height="96" Offset="0x2AB30"/>
