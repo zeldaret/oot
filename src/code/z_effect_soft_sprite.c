@@ -8,8 +8,8 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
     EffectSs* effectSs;
     EffectSsOverlay* overlay;
 
-    for (i = 0; i < ARRAY_COUNT(gEffSsOverlayTable); i++) {
-        overlay = &gEffSsOverlayTable[i];
+    for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
+        overlay = &gEffectSsOverlayTable[i];
         osSyncPrintf("effect index %3d:size=%6dbyte romsize=%6dbyte\n", i,
                      (u32)overlay->vramEnd - (u32)overlay->vramStart, overlay->vromEnd - overlay->vromStart);
     }
@@ -27,8 +27,8 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
         EffectSs_Reset(effectSs);
     }
 
-    overlay = &gEffSsOverlayTable[0];
-    for (i = 0; i < ARRAY_COUNT(gEffSsOverlayTable); i++) {
+    overlay = &gEffectSsOverlayTable[0];
+    for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         overlay->loadedRamAddr = NULL;
         overlay++;
     }
@@ -49,8 +49,8 @@ void EffectSs_ClearAll(GlobalContext* globalCtx) {
         EffectSs_Delete(effectSs);
     }
 
-    overlay = &gEffSsOverlayTable[0];
-    for (i = 0; i < ARRAY_COUNT(gEffSsOverlayTable); i++) {
+    overlay = &gEffectSsOverlayTable[0];
+    for (i = 0; i < ARRAY_COUNT(gEffectSsOverlayTable); i++) {
         addr = overlay->loadedRamAddr;
 
         if (addr != NULL) {
@@ -173,7 +173,7 @@ void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* init
     EffectSsOverlay* overlayEntry;
     EffectSsInit* initInfo;
 
-    overlayEntry = &gEffSsOverlayTable[type];
+    overlayEntry = &gEffectSsOverlayTable[type];
 
     if (type >= EFFECT_SS_TYPE_MAX) {
         __assert("type < EFFECT_SS2_TYPE_LAST_LABEL", "../z_effect_soft_sprite.c", 556);
