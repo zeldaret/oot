@@ -514,7 +514,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
         if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
-            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
+            dynaActor = (DynaPolyActor*)DynaPoly_GetActor(&globalCtx->colCtx, bgId);
             if (dynaActor != NULL) {
                 func_800434A8(dynaActor);
                 func_80043538(dynaActor);
@@ -542,7 +542,7 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
         if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupFall(this, globalCtx);
         } else {
-            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
+            dynaActor = (DynaPolyActor*)DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 
             if ((dynaActor != NULL) && (dynaActor->unk_15C & 1)) {
                 func_800434A8(dynaActor);
