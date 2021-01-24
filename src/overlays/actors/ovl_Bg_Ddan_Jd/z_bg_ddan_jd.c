@@ -38,10 +38,10 @@ static InitChainEntry sInitChain[] = {
 };
 
 typedef enum {
-    STATE_GO_BOTTOM,
-    STATE_GO_MIDDLE_FROM_BOTTOM,
-    STATE_GO_MIDDLE_FROM_TOP,
-    STATE_GO_TOP
+    /* 0 */ STATE_GO_BOTTOM,
+    /* 1 */ STATE_GO_MIDDLE_FROM_BOTTOM,
+    /* 2 */ STATE_GO_MIDDLE_FROM_TOP,
+    /* 3 */ STATE_GO_TOP
 } BgDdanJdState;
 
 #define MOVE_HEIGHT_MIDDLE 140.0f
