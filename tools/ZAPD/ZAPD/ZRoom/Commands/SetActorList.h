@@ -21,6 +21,7 @@ class SetActorList : public ZRoomCommand
 {
 public:
 	SetActorList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	~SetActorList();
 
 	std::string GetSourceOutputCode(std::string prefix);
 	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);

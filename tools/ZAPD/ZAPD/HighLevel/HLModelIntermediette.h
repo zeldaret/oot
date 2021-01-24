@@ -7,8 +7,8 @@
 #include "HLFileIntermediette.h"
 #include "../ZDisplayList.h"
 #include "../ZSkeleton.h"
-#include "../tinyxml2.h"
-#include "../assimp/scene.h"
+#include <tinyxml2.h>
+#include <assimp/scene.h>
 
 /*
  * An intermediette format for models. Goes from FBX<-->Intermediette<-->Display List C Code.

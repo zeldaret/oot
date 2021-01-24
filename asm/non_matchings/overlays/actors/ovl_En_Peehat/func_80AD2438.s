@@ -71,7 +71,7 @@ glabel func_80AD2438
 /* 03040 80AD24E0 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 03044 80AD24E4 8FA50050 */  lw      $a1, 0x0050($sp)           
 /* 03048 80AD24E8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 0304C 80AD24EC 0C018A29 */  jal     func_800628A4              
+/* 0304C 80AD24EC 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 03050 80AD24F0 24A5034C */  addiu   $a1, $a1, 0x034C           ## $a1 = 0000034C
 /* 03054 80AD24F4 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
 /* 03058 80AD24F8 44816000 */  mtc1    $at, $f12                  ## $f12 = 500.00

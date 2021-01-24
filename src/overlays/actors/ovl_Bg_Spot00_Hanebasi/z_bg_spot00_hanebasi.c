@@ -33,7 +33,7 @@ extern CollisionHeader D_060005E0; // drawbridge collision
 
 const ActorInit Bg_Spot00_Hanebasi_InitVars = {
     ACTOR_BG_SPOT00_HANEBASI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT00_OBJECTS,
     sizeof(BgSpot00Hanebasi),

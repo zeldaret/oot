@@ -26,7 +26,7 @@ static s16 D_808A43E0 = -1;
 
 const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(BgMoriHineri),
@@ -162,8 +162,8 @@ void BgMoriHineri_DoNothing(BgMoriHineri* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx) {
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOX, this->dyna.actor.posRot.pos.x + 147.0f,
-                this->dyna.actor.posRot.pos.y + -245.0f, this->dyna.actor.posRot.pos.z + -453.0f, 0, 0x4000, 0, 0x27EE);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOX, this->dyna.actor.world.pos.x + 147.0f,
+                this->dyna.actor.world.pos.y + -245.0f, this->dyna.actor.world.pos.z + -453.0f, 0, 0x4000, 0, 0x27EE);
     this->actionFunc = BgMoriHineri_DoNothing;
 }
 
@@ -171,7 +171,7 @@ void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
     f32 f0;
     Player* player = PLAYER;
 
-    f0 = 1100.0f - (player->actor.posRot.pos.z - this->dyna.actor.posRot.pos.z);
+    f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
     Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
     if (this->dyna.actor.params != 0) {
@@ -215,7 +215,7 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
             D_808A43E0 = -1;
         }
     }
-    if ((D_808A43E0 > 0) && ((ACTIVE_CAM->eye.z - this->dyna.actor.posRot.pos.z) < 1100.0f)) {
+    if ((D_808A43E0 > 0) && ((ACTIVE_CAM->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }

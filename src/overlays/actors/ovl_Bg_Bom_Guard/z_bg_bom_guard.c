@@ -20,7 +20,7 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BOWL,
     sizeof(BgBomGuard),
@@ -51,7 +51,7 @@ void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;
     thisx->scale.z = 1.0f;
-    this->unk_16C = thisx->posRot.pos;
+    this->unk_16C = thisx->world.pos;
     BgBomGuard_SetupAction(this, func_8086E638);
 }
 
@@ -62,7 +62,7 @@ void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
-    Actor* it = globalCtx->actorCtx.actorList[ACTORTYPE_NPC].first;
+    Actor* it = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
     Actor* thisx = &this->dyna.actor;
 
     this->unk_168 = 0;
@@ -79,9 +79,9 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_168 == 0) {
-        thisx->posRot.pos.y = sREG(64) + -200.0f;
+        thisx->world.pos.y = sREG(64) + -200.0f;
     } else {
-        thisx->posRot.pos.y = 0.0f;
+        thisx->world.pos.y = 0.0f;
     }
 }
 

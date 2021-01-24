@@ -2,7 +2,7 @@
 
 #include <stdint.h>
 #include "../ZAnimation.h"
-#include "../tinyxml2.h"
+#include <tinyxml2.h>
 #include "HLFileIntermediette.h"
 
 /*

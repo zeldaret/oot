@@ -39,9 +39,9 @@ void EffectSsSolderSrchBall_Update(GlobalContext* globalCtx, u32 index, EffectSs
 
     linkDetected = this->actor;
 
-    playerPosDiffX = player->actor.posRot.pos.x - this->pos.x;
-    playerPosDiffY = player->actor.posRot.pos.y - this->pos.y;
-    playerPosDiffZ = player->actor.posRot.pos.z - this->pos.z;
+    playerPosDiffX = player->actor.world.pos.x - this->pos.x;
+    playerPosDiffY = player->actor.world.pos.y - this->pos.y;
+    playerPosDiffZ = player->actor.world.pos.z - this->pos.z;
 
     if (!BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->pos, 30.0f)) {
         if (sqrtf(SQ(playerPosDiffX) + SQ(playerPosDiffY) + SQ(playerPosDiffZ)) < 70.0f) {
