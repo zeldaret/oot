@@ -10,11 +10,21 @@
         <Texture Name="gLinkTunic2Tex" OutName="link_tunic_2" Format="i8" Width="16" Height="16" Offset="0x1C40"/>
         <Texture Name="gLinkTunic3Tex" OutName="link_tunic_3" Format="i8" Width="16" Height="32" Offset="0x1D40"/>
         <Texture Name="gLinkTunic4Tex" OutName="link_tunic_4" Format="i8" Width="16" Height="16" Offset="0x1F40"/>    
-        <Blob Name="blob_04002040" Offset="0x2040" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_040020D0" Offset="0x20D0" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_04002160" Offset="0x2160" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_040021F0" Offset="0x21F0" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
-        <Blob Name="blob_04002280" Offset="0x2280" Size="0x90"/> <!-- Appears to be an array of Vec3s used for player -->
+        <Array Name="D_04002040" Count="24" Offset="0x2040">
+            <Vector Type="s16" Dimensions="3" />
+        </Array>
+        <Array Name="D_040020D0" Count="24" Offset="0x20D0">
+            <Vector Type="s16" Dimensions="3" />
+        </Array>
+        <Array Name="D_04002160" Count="24" Offset="0x2160">
+            <Vector Type="s16" Dimensions="3" />
+        </Array>
+        <Array Name="D_040021F0" Count="24" Offset="0x21F0">
+            <Vector Type="s16" Dimensions="3" />
+        </Array>
+        <Array Name="D_04002280" Count="24" Offset="0x2280">
+            <Vector Type="s16" Dimensions="3" />
+        </Array>
         <!-- TODO: these start at 3 when they should really start at 1 -->
         <PlayerAnimation Name="gPlayer3Anim" Offset="0x2310"/>
         <PlayerAnimation Name="gPlayer4Anim"/>
