@@ -285,7 +285,7 @@ static ColliderJntSphInit D_80906FBC = {
         OC2_FIRST_ONLY | OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    16,
+    ARRAY_COUNT(D_80906D7C),
     D_80906D7C,
 };
 
