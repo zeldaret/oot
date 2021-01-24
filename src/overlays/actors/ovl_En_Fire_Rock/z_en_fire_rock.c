@@ -16,9 +16,8 @@ void func_80A12730(EnFireRock* this, GlobalContext* globalCtx);
 void func_80A120CC(EnFireRock* this, GlobalContext* globalCtx);
 void func_80A1241C(EnFireRock* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06000DE0;
+extern Gfx D_06000DE0[];
 
-/*
 const ActorInit En_Fire_Rock_InitVars = {
     ACTOR_EN_FIRE_ROCK,
     ACTORCAT_ENEMY,
@@ -70,11 +69,7 @@ static ColliderCylinderInit D_80A12CCC = {
     },
     { 30, 30, -10, { 0, 0, 0 } },
 };
-*/
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/EnFireRock_Init.s")
-// This matches once initvars is in!
-/*
 void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
     
     GlobalContext* globalCtx2 = globalCtx;
@@ -149,7 +144,6 @@ void EnFireRock_Init(Actor *thisx, GlobalContext *globalCtx) {
             break;
     }
 }
-*/
 
 void EnFireRock_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     EnFireRock* this = THIS;
@@ -253,16 +247,133 @@ void func_80A1241C(EnFireRock *this, GlobalContext *globalCtx) {
                 osSyncPrintf("\x1b[33m☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n\x1b[m");
             }
         }
-        Audio_PlayActorSound2(this, (u16)0x38D7U);
+        Audio_PlayActorSound2(&this->actor, (u16)0x38D7U);
     }
-    Actor_Kill(this);
+    Actor_Kill(&this->actor);
 }
 
+void func_80A125B8(EnFireRock *this, GlobalContext *globalCtx) {
+    EnFireRock *spawnedFireRock;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/func_80A125B8.s")
+    if (this->actor.xzDistToPlayer < 200.0f) {
+        if ((this->unk18E == 0) && (this->unk18A == 0)) {
+            this->unk18A = 0x1E;
+            spawnedFireRock = (EnFireRock*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x, this->actor.world.pos.y + 10.0f, Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, 3);
+            if (spawnedFireRock != NULL) {
+                spawnedFireRock->unk188 = 0xA;
+            } else {
+                osSyncPrintf("\x1b[33m☆☆☆☆☆ イッパイデッス ☆☆☆☆☆ \n\x1b[m");
+            }
+        }
+        this->unk18E = 1;
+    } else {
+        this->unk18E = 0;
+    }
+    if (gGameInfo->data[2400] != 0) {
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f, 1.0f, 0, 0xFF, 0, 0xFF, 4, globalCtx->state.gfxCtx);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/func_80A12730.s")
+void func_80A12730(EnFireRock *this, GlobalContext *globalCtx) {
+    Vec3f sp34;
+    s16 scale;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/EnFireRock_Update.s")
+    if (this->unk18A == 0) {
+        sp34.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
+        sp34.y = Rand_CenteredFloat(20.0f) + this->actor.world.pos.y;
+        sp34.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
+        scale = 130 + (s16)Rand_CenteredFloat(60.0f);
+        this->unk18A = 3 + (s16)Rand_ZeroFloat(3.0f);
+        EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &sp34, scale, 0, 0, -1);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fire_Rock/EnFireRock_Draw.s")
+void EnFireRock_Update(Actor *thisx, GlobalContext *globalCtx) {
+    EnFireRock* this = THIS;
+    s16 i;
+    Player *player = PLAYER;
+    Actor *playerActor = &PLAYER->actor;
+    
+    DECR(this->unk18A);
+    DECR(this->unk188);
+    this->unk168(this, globalCtx);
+
+    if (this->unk18C != 5) {
+        f32 temp;
+        this->unk158 += this->unk14C.x;
+        this->unk15C += this->unk14C.y;
+        this->unk160 += this->unk14C.z;
+        this->unk174 = 3.0f;
+
+        temp = 10.0f + (this->unk16C * 300.0f);
+        thisx->shape.shadowScale = temp;
+        if (thisx->shape.shadowScale < 10.0f) {
+            thisx->shape.shadowScale = 10.0f;
+        }
+        if (thisx->shape.shadowScale > 20.0f) {
+            thisx->shape.shadowScale = 20.0f;
+        }
+
+        if ((this->unk18C == 0) || (this->unk18C == 3)) {
+            thisx->gravity = -0.3f - (this->unk16C * 7.0f);
+        }
+        if (this->unk18C != 6) {
+            Actor_MoveForward(thisx);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 50.0f, 50.0f, 100.0f, 0x1C);
+        }
+
+        i = 0;
+        if (this->unk168 != &func_80A1241C) {
+            if ((this->unk18C == 0) || (this->unk18C == 3) || (this->unk18C == 1)){
+                if (this->unk194.base.atFlags & 4) {
+                    this->unk194.base.atFlags &= ~4;
+                    Audio_PlayActorSound2(thisx, 0x280E);
+                    thisx->velocity.y = 0.0f;
+                    thisx->speedXZ = 0.0f;
+                    this->unk168 = &func_80A1241C;
+                    osSyncPrintf("\x1b[33m☆☆☆☆☆ シールド防御 Lv１ ☆☆☆☆☆ \n\x1b[m");
+                    return;
+                }
+                i = 1;
+            }
+        }
+        
+        if (this->unk18C == 6){
+            if (this->unk194.base.atFlags & 2){
+                this->unk194.base.atFlags &= ~2;
+                if (this->unk194.base.at == playerActor){
+                    if (!(player->stateFlags1 & 0x04000000)) {
+                        func_8002F758(globalCtx, thisx, 2.0f, -player->actor.world.rot.y, 3.0f, 4);
+                    }
+                    return;
+                }
+
+
+
+            }
+            i = 1;
+        }
+        if (i != 0){
+            Collider_UpdateCylinder(thisx, &this->unk194);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk194.base);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk194.base); 
+        }
+    }
+}
+void EnFireRock_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    EnFireRock* this = THIS;
+    s32 pad;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fire_rock.c", 747);
+    Matrix_Translate(thisx->world.pos.x + this->unk170, thisx->world.pos.y + this->unk174, thisx->world.pos.z + this->unk178, (u8)0U);
+    Matrix_RotateX(this->unk158 * 0.017453292f, (u8)1U);
+    Matrix_RotateY(this->unk15C * 0.017453292f, (u8)1U);
+    Matrix_RotateZ(this->unk160 * 0.017453292f, (u8)1U);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, 1);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0xFF, 0x9B, 0x37, 0xFF);
+    gDPSetEnvColor(POLY_OPA_DISP++, 0x9B, 0xFF, 0x37, 0xFF);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fire_rock.c", 768), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, D_06000DE0);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fire_rock.c", 773);
+}
