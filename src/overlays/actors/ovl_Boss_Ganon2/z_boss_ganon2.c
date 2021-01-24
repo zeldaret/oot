@@ -355,53 +355,52 @@ static ColliderJntSphInit D_80907014 = {
 
 /* static */ u8 D_80907090[] = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 };
 
-/* static */ u8 D_8090709C[] = {
+/* static */ s8 D_8090709C[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0x00, 0xFF, 0xFF, 0x02, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0xFF, 0xFF, 0xFF, 0x0F, 0xFF, 0x00,
 };
 
-/* static */ UNK_TYPE D_809070CC[] = {
-    0xFFFF01FF, 0x0304FFFF, 0x05FF0607, 0xFFFF08FF, 0xFFFFFFFF, 0xFFFFFFFF,
-    0xFFFFFFFF, 0xFFFFFFFF, 0x00FFFF02, 0x0C0D0E09, 0x0A0BFFFF, 0xFFFFFF00,
+/* static */ s8 D_809070CC[] = {
+    0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
+    0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
+    0x00, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
 };
 
-/* static */ UNK_TYPE D_809070FC[] = {
-    0x00000000,
-    0x00000000,
-    0x459C4000,
+/* static */ Vec3f D_809070FC = {
+    0.0f,
+    0.0f,
+    5000.0f,
 };
 
-/* static */ UNK_TYPE D_80907108[] = {
-    0x00000000,
-    0x44FA0000,
-    0x00000000,
+/* static */ Vec3f D_80907108 = {
+    0.0f,
+    2000.0f,
+    0.0f,
 };
 
-/* static */ UNK_TYPE D_80907114[] = {
-    0x00000000,
-    0x44FA0000,
-    0x00000000,
+/* static */ Vec3f D_80907114 = {
+    0.0f,
+    2000.0f,
+    0.0f,
 };
 
-/* static */ UNK_TYPE D_80907120[] = {
-    0x00000000,
-    0x00000000,
+/* static */ Vec3f D_80907120 = {
+    0.0f,
+    0.0f,
+    17000.0f,
 };
 
-/* static */ UNK_TYPE D_80907128[] = { 0x4684D000 };
-
-/* static */ UNK_TYPE D_8090712C[] = {
-    0x00000000,
-    0x00000000,
+/* static */ Vec3f D_8090712C = {
+    0.0f,
+    0.0f,
+    3000.0f,
 };
 
-/* static */ UNK_TYPE D_80907134[] = { 0x453B8000 };
-
-/* static */ UNK_TYPE D_80907138[] = {
-    0x00000000,
-    0x00000000,
-    0x00000000,
+/* static */ Vec3f D_80907138 = {
+    0.0f,
+    0.0f,
+    0.0f,
 };
 
 /* static */ s8 D_80907144[] = {
@@ -1993,9 +1992,73 @@ void func_8090464C(BossGanon2* this, GlobalContext* globalCtx);
 s32 func_80904818(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904818.s")
 
-// PostLimbDraw
-void func_809049A0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_809049A0.s")
+void BossGanon2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    s8 pad;
+    s8 temp_v0;
+    BossGanon2* this = thisx;
+    Vec3f sp4C;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5459);
+
+    D_80907120.z = 17000.0f;
+    D_8090712C.z = 3000.0f;
+
+    if (D_809070CC[limbIndex] >= 0) {
+        Matrix_MultVec3f(&D_80906D60, &this->unk_234[D_809070CC[limbIndex]]);
+    }
+
+    if (limbIndex == 15) {
+        Matrix_MultVec3f(&D_80906D60, &this->unk_1B8);
+    } else if (limbIndex == 3) {
+        Matrix_MultVec3f(&D_80907108, &this->unk_1F4);
+    } else if (limbIndex == 9) {
+        Matrix_MultVec3f(&D_80907114, &this->unk_1E8);
+    } else if (limbIndex == 38) {
+        Matrix_MultVec3f(&D_80906D60, &this->unk_1DC);
+    } else if (limbIndex == 41) {
+        Matrix_MultVec3f(&D_80906D60, &this->unk_1D0);
+    } else if (limbIndex == 45) {
+        Matrix_MultVec3f(&D_80907138, &this->unk_1C4);
+    }
+
+    temp_v0 = D_8090709C[limbIndex];
+    if (temp_v0 >= 0) {
+        Matrix_MultVec3f(&D_80906D60, &sp4C);
+        func_808FD080(temp_v0, &this->unk_424, &sp4C);
+    }
+
+    if ((limbIndex == 7) || (limbIndex == 0xD)) {
+        Matrix_Push();
+        Matrix_Scale(this->unk_224, this->unk_224, this->unk_224, MTXMODE_APPLY);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5522),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_OPA_DISP++, *dList);
+        Matrix_Pull();
+    } else if ((limbIndex == 33) || (limbIndex == 34)) {
+        Matrix_Push();
+        Matrix_Scale(this->unk_228, this->unk_228, this->unk_228, MTXMODE_APPLY);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5533),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_OPA_DISP++, *dList);
+        Matrix_Pull();
+    }
+
+    if (*dList != NULL) {
+        if ((limbIndex == 7) && (this->unk_312 == 1)) {
+            Matrix_MultVec3f(&D_809070FC, &this->unk_218);
+            func_808FD080(0, &this->unk_444, &this->unk_218);
+            Matrix_MultVec3f(&D_80907120, &this->unk_200);
+            Matrix_MultVec3f(&D_8090712C, &this->unk_20C);
+        } else if ((limbIndex == 13) && (this->unk_312 == 2)) {
+            Matrix_MultVec3f(&D_809070FC, &this->unk_218);
+            func_808FD080(1, &this->unk_444, &this->unk_218);
+            Matrix_MultVec3f(&D_80907120, &this->unk_200);
+            Matrix_MultVec3f(&D_8090712C, &this->unk_20C);
+        }
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5566);
+}
 
 void func_80904D88(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -2173,7 +2236,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5910),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                                  this->skelAnime.dListCount, func_80904818, func_809049A0, this);
+                                  this->skelAnime.dListCount, func_80904818, BossGanon2_PostLimbDraw, this);
             POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
             func_809069F8(tex, this, globalCtx);
             func_80906AB0(tex, this, globalCtx);

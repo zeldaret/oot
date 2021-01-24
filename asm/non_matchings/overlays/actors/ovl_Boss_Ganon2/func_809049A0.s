@@ -22,7 +22,7 @@ glabel D_8090DD40
     .float 3000.0
 
 .text
-glabel func_809049A0
+glabel BossGanon2_PostLimbDraw
 /* 07A60 809049A0 27BDFFA0 */  addiu   $sp, $sp, 0xFFA0           ## $sp = FFFFFFA0
 /* 07A64 809049A4 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 07A68 809049A8 AFB00018 */  sw      $s0, 0x0018($sp)           

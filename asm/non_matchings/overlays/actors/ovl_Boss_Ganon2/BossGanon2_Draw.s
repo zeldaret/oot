@@ -195,12 +195,12 @@ glabel BossGanon2_Draw
 /* 08C68 80905BA8 AFA30048 */  sw      $v1, 0x0048($sp)
 /* 08C6C 80905BAC 8FA70048 */  lw      $a3, 0x0048($sp)
 /* 08C70 80905BB0 3C0A8090 */  lui     $t2, %hi(func_80904818)    ## $t2 = 80900000
-/* 08C74 80905BB4 3C0B8090 */  lui     $t3, %hi(func_809049A0)    ## $t3 = 80900000
+/* 08C74 80905BB4 3C0B8090 */  lui     $t3, %hi(BossGanon2_PostLimbDraw)    ## $t3 = 80900000
 /* 08C78 80905BB8 ACE20004 */  sw      $v0, 0x0004($a3)           ## 00000004
 /* 08C7C 80905BBC 9207014E */  lbu     $a3, 0x014E($s0)           ## 0000014E
 /* 08C80 80905BC0 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 08C84 80905BC4 8E050150 */  lw      $a1, 0x0150($s0)           ## 00000150
-/* 08C88 80905BC8 256B49A0 */  addiu   $t3, $t3, %lo(func_809049A0) ## $t3 = 809049A0
+/* 08C88 80905BC8 256B49A0 */  addiu   $t3, $t3, %lo(BossGanon2_PostLimbDraw) ## $t3 = 809049A0
 /* 08C8C 80905BCC 254A4818 */  addiu   $t2, $t2, %lo(func_80904818) ## $t2 = 80904818
 /* 08C90 80905BD0 AFAA0010 */  sw      $t2, 0x0010($sp)
 /* 08C94 80905BD4 AFAB0014 */  sw      $t3, 0x0014($sp)
