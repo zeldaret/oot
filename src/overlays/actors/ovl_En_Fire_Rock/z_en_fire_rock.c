@@ -366,9 +366,9 @@ void EnFireRock_Draw(Actor *thisx, GlobalContext *globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fire_rock.c", 747);
     Matrix_Translate(thisx->world.pos.x + this->unk170, thisx->world.pos.y + this->unk174, thisx->world.pos.z + this->unk178, (u8)0U);
-    Matrix_RotateX(this->unk158 * 0.017453292f, (u8)1U);
-    Matrix_RotateY(this->unk15C * 0.017453292f, (u8)1U);
-    Matrix_RotateZ(this->unk160 * 0.017453292f, (u8)1U);
+    Matrix_RotateX(DEG_TO_RAD(this->unk158), 1); 
+    Matrix_RotateY(DEG_TO_RAD(this->unk15C), 1);
+    Matrix_RotateZ(DEG_TO_RAD(this->unk160), 1);
     Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, 1);
     func_80093D18(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0xFF, 0x9B, 0x37, 0xFF);
