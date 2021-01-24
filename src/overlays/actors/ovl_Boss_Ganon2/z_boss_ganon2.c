@@ -1985,8 +1985,28 @@ void func_80904108(BossGanon2* this, GlobalContext* globalCtx);
 void func_80904340(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904340.s")
 
-void func_8090464C(BossGanon2* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090464C.s")
+void func_8090464C(BossGanon2* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    if (this->unk_1B4 > 0.0f) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5264);
+
+        Matrix_Push();
+        gDPPipeSync(POLY_XLU_DISP++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, (s16)this->unk_1B4);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 128);
+        Matrix_Translate(this->unk_1B8.x, this->unk_1B8.y, this->unk_1B8.z, MTXMODE_NEW);
+        func_800D1FD4(&globalCtx->mf_11DA0);
+        Matrix_RotateZ(-0.2f, MTXMODE_APPLY);
+        Matrix_Scale(0.6f, 0.6f, 1.0f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5290),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_80909C18));
+        Matrix_Pull();
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5293);
+    }
+}
 
 s32 BossGanon2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                 void* thisx) {
