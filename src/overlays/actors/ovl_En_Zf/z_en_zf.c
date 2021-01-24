@@ -15,21 +15,6 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06006690;
-extern UNK_TYPE D_06008138;
-extern UNK_TYPE D_06008C6C;
-extern UNK_TYPE D_06009530;
-extern UNK_TYPE D_0600A3D4;
-extern UNK_TYPE D_0600B10C;
-extern UNK_TYPE D_0600E198;
-extern UNK_TYPE D_06010060;
-extern UNK_TYPE D_060104B8;
-extern UNK_TYPE D_060119F4;
-extern UNK_TYPE D_0601366C;
-extern UNK_TYPE D_06014E60;
-extern UNK_TYPE D_060157F8;
-extern UNK_TYPE D_06016388;
-
 /*
 const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
@@ -83,6 +68,22 @@ static ColliderQuadInit D_80B4A204 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 */
+
+extern UNK_TYPE D_06006690;
+extern UNK_TYPE D_06008138;
+extern UNK_TYPE D_06008C6C;
+extern UNK_TYPE D_06009530;
+extern UNK_TYPE D_0600A3D4;
+extern UNK_TYPE D_0600B10C;
+extern UNK_TYPE D_0600E198;
+extern UNK_TYPE D_06010060;
+extern UNK_TYPE D_060104B8;
+extern UNK_TYPE D_060119F4;
+extern UNK_TYPE D_0601366C;
+extern UNK_TYPE D_06014E60;
+extern UNK_TYPE D_060157F8;
+extern UNK_TYPE D_06016388;
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44050.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44058.s")
@@ -91,7 +92,19 @@ static ColliderQuadInit D_80B4A204 = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Destroy.s")
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Destroy.s")
+void EnZf_Destroy(Actor *thisx, GlobalContext *globalCtx) {
+    EnZf* this = THIS;
+
+    if ((this->actor.params >= 0) && (Actor_FindNearby(globalCtx, &this->actor, ACTOR_EN_ZF, ACTORCAT_ENEMY, 10000.0f) == NULL)) {
+        func_800F5B58();
+    }
+    Effect_Delete(globalCtx, this->blureIndex);
+    Collider_DestroyCylinder(globalCtx, &this->bodyCollider);
+    Collider_DestroyQuad(globalCtx, &this->daggerCollider);
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B446A8.s")
 
