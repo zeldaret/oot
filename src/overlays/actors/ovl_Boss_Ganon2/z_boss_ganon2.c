@@ -2025,9 +2025,9 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 200, 0, 128);
         Matrix_Translate(D_8090EB2C->actor.world.pos.x + 100.0f, D_8090EB2C->actor.world.pos.y + 35.0f + 7.0f,
                          D_8090EB2C->actor.world.pos.z - 100.0f, MTXMODE_NEW);
-        Matrix_RotateY(-0.7853982f, MTXMODE_APPLY);
+        Matrix_RotateY(-M_PI / 4.0f, MTXMODE_APPLY);
         Matrix_Scale(0.040000003f, 0.040000003f, this->unk_380, MTXMODE_APPLY);
-        Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
+        Matrix_RotateX(M_PI / 2.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5814),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_8090BB80));
