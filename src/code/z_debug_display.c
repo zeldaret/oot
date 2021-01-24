@@ -17,8 +17,8 @@ static DebugDispObject_DrawFunc sDebugObjectDrawFuncTable[] = {
 };
 
 static DebugDispObjectInfo sDebugObjectInfoTable[] = {
-    { 0, gUnknownCircle1Tex }, { 0, gDebugCrossTex }, { 0, gUnknownCircle2Tex },
-    { 0, gDebugTargetTex },    { 1, gDebugArrowDL },  { 1, gDebugCameraDL },
+    { 0, gDebugCircleTex }, { 0, gDebugCrossTex }, { 0, gDebugBallTex },
+    { 0, gDebugCursorTex },    { 1, gDebugArrowDL },  { 1, gDebugCameraDL },
 };
 
 static Lights1 sDebugObjectLights = gdSPDefLights1(0x80, 0x80, 0x80, 0xFF, 0xFF, 0xFF, 0x49, 0x49, 0x49);

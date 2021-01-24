@@ -592,9 +592,9 @@
         <!-- TODO: this padding should be static -->
         <Scalar Type="u64" Name="pad34F8"/>
         <DList Name="gDebugPyramidDL" Offset="0x000035C0"/>
-        <Texture Name="gUnknownCircle1Tex" OutName="unknown_circle_1" Format="i8" Width="16" Height="16" Offset="0x000035F0"/>
-        <Texture Name="gUnknownCircle2Tex" OutName="unknown_circle_2" Format="i8" Width="16" Height="16" Offset="0x000036F0"/>
-        <Texture Name="gDebugTargetTex" OutName="debug_target" Format="i8" Width="16" Height="16" Offset="0x000037F0"/>
+        <Texture Name="gDebugCircleTex" OutName="debug_circle" Format="i8" Width="16" Height="16" Offset="0x000035F0"/>
+        <Texture Name="gDebugBallTex" OutName="debug_ball" Format="i8" Width="16" Height="16" Offset="0x000036F0"/>
+        <Texture Name="gDebugCursorTex" OutName="debug_cursor" Format="i8" Width="16" Height="16" Offset="0x000037F0"/>
         <Texture Name="gDebugCrossTex" OutName="debug_cross" Format="i8" Width="16" Height="16" Offset="0x000038F0"/>
         <DList Name="gDebugArrowDL" Offset="0x000039F0"/>
         <DList Name="gDebugCameraDL" Offset="0x00003C90"/>
