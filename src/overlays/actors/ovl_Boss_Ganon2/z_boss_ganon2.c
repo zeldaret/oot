@@ -56,7 +56,7 @@ extern UNK_TYPE D_06007288;
 extern UNK_TYPE D_06008EB8;
 extern Gfx D_0600A8E0[];
 extern AnimationHeader D_0600ADD0;
-extern UNK_TYPE D_0600BE90;
+extern Gfx D_0600BE90[];
 extern AnimationHeader D_0600CAF8;
 extern AnimationHeader D_0600DFF0;
 extern AnimationHeader D_0600E8EC;
@@ -404,7 +404,7 @@ static ColliderJntSphInit D_80907014 = {
     0x00000000,
 };
 
-/* static */ u8 D_80907144[] = {
+/* static */ s8 D_80907144[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0x05, 0xFF, 0x06, 0x07, 0x08, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0xFF, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00,
 };
@@ -2006,9 +2006,25 @@ void func_80904FC8(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090523C(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090523C.s")
 
-// PostLimbDraw
-void func_80905508(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80905508.s")
+void BossGanon2_PostLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    s8 temp_v1 = D_80907144[limbIndex];
+    BossGanon2* this = thisx;
+
+    if (temp_v1 >= 0) {
+        Matrix_MultVec3f(&D_80906D60, &this->unk_234[temp_v1]);
+    }
+    if (limbIndex == 11) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5749);
+
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5752),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0600BE90));
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5754);
+    } else if (limbIndex == 10) {
+        Matrix_MultVec3f(&D_80907164, &this->unk_1B8);
+    }
+}
 
 void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
@@ -2053,7 +2069,7 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
             gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600A8E0));
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                                  this->skelAnime.dListCount, NULL, func_80905508, this);
+                                  this->skelAnime.dListCount, NULL, BossGanon2_PostLimbDraw2, this);
             break;
         case 1:
         case 2:

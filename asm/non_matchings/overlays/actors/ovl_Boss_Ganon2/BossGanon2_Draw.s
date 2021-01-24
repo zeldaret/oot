@@ -78,8 +78,8 @@ glabel BossGanon2_Draw
 /* 08AA0 809059E0 3C19DB06 */  lui     $t9, 0xDB06                ## $t9 = DB060000
 /* 08AA4 809059E4 37390024 */  ori     $t9, $t9, 0x0024           ## $t9 = DB060024
 /* 08AA8 809059E8 8DC302D0 */  lw      $v1, 0x02D0($t6)           ## 000002D0
-/* 08AAC 809059EC 3C0C8090 */  lui     $t4, %hi(func_80905508)    ## $t4 = 80900000
-/* 08AB0 809059F0 258C5508 */  addiu   $t4, $t4, %lo(func_80905508) ## $t4 = 80905508
+/* 08AAC 809059EC 3C0C8090 */  lui     $t4, %hi(BossGanon2_PostLimbDraw2)    ## $t4 = 80900000
+/* 08AB0 809059F0 258C5508 */  addiu   $t4, $t4, %lo(BossGanon2_PostLimbDraw2) ## $t4 = 80905508
 /* 08AB4 809059F4 24780008 */  addiu   $t8, $v1, 0x0008           ## $t8 = 00000008
 /* 08AB8 809059F8 ADD802D0 */  sw      $t8, 0x02D0($t6)           ## 000002D0
 /* 08ABC 809059FC AC790000 */  sw      $t9, 0x0000($v1)           ## 00000000

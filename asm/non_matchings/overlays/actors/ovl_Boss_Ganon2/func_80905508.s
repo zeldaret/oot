@@ -12,7 +12,7 @@ glabel D_8090D96C
     .balign 4
 
 .text
-glabel func_80905508
+glabel BossGanon2_PostLimbDraw2
 /* 085C8 80905508 3C0E8090 */  lui     $t6, %hi(D_80907144)       ## $t6 = 80900000
 /* 085CC 8090550C 25CE7144 */  addiu   $t6, $t6, %lo(D_80907144)  ## $t6 = 80907144
 /* 085D0 80905510 00AE1021 */  addu    $v0, $a1, $t6              
