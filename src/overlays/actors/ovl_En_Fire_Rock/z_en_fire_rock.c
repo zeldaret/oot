@@ -222,8 +222,10 @@ void EnFireRock_Fall(EnFireRock* this, GlobalContext* globalCtx) {
     }
 }
 
-// After the rock has already hit the ground and started rolling, spawn two more, giving the illusion of breaking into
-// two pieces.
+/**
+ * After the rock has already hit the ground and started rolling, spawn two more, giving the illusion of breaking into
+ * two pieces.
+ */
 void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, GlobalContext* globalCtx) {
     EnFireRock* spawnedFireRock;
     s32 nextRockType;
