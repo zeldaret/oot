@@ -59,11 +59,11 @@ void func_80A07A4C(EnEncount2* this, GlobalContext *globalCtx) {
 
     phi_v1 = 0;
     if (this->unk15A == 0) {
-        if ((player->actor.posRot.pos.y > 1500.0f) && (player->actor.posRot.pos.x > -700.0f) && (player->actor.posRot.pos.x < 100.0f) && (player->actor.posRot.pos.z < -1290.0f) && (player->actor.posRot.pos.z > -3600.0f)) {
+        if ((player->actor.world.pos.y > 1500.0f) && (player->actor.world.pos.x > -700.0f) && (player->actor.world.pos.x < 100.0f) && (player->actor.world.pos.z < -1290.0f) && (player->actor.world.pos.z > -3600.0f)) {
             phi_v1 = 1;
         }
     } else {
-        if ((this->actor.xzDistToLink < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37))) {
+        if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37))) {
             if ((globalCtx->sceneNum == 0x4F) || (globalCtx->sceneNum == 0x1A) || (globalCtx->sceneNum == 0xE) || (globalCtx->sceneNum == 0xF)) {
                 if (this->unk_15C == 0) {
                     phi_v1 = 2;
@@ -130,9 +130,9 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
             this->unk14C = &func_80A07A4C;
             return;
         }
-        if (player->actor.posRot.pos.y > 1500.0f) {
-            if ((player->actor.posRot.pos.x > -700.0f) && (player->actor.posRot.pos.x < 100.0f)) {
-                if ((player->actor.posRot.pos.z < -1290.0f) && (player->actor.posRot.pos.z > -3860.0f)) {
+        if (player->actor.world.pos.y > 1500.0f) {
+            if ((player->actor.world.pos.x > -700.0f) && (player->actor.world.pos.x < 100.0f)) {
+                if ((player->actor.world.pos.z < -1290.0f) && (player->actor.world.pos.z > -3860.0f)) {
                     sp5E = 2;
                     sp60 = 1;
                 }
@@ -140,7 +140,7 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
         }
         Audio_PlayActorSound2(&this->actor, 0x2049);
     } else {
-        if (this->actor.xzDistToLink < 700.0f) {
+        if (this->actor.xzDistToPlayer < 700.0f) {
             if (Flags_GetSwitch(globalCtx, 0x37) != 0) {
                 if ((globalCtx->sceneNum == 0x4F) || (globalCtx->sceneNum == 0x1A) || (globalCtx->sceneNum == 0xE) || (globalCtx->sceneNum == 0xF)) {
                     if (this->unk_15C == 0) {
@@ -191,8 +191,8 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
                 sp62 = 0;
                 if ((Rand_ZeroFloat(1.99f) < 1.0f) && (LINK_IS_CHILD)) {
                     // rock spawn pos X,Z near player
-                    tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.x;
-                    tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.z;
+                    tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.world.pos.x;
+                    tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.world.pos.z;
                 } else {
                     if (player->linearVelocity != 0.0f) {
                         // rock spawn pos is between 300 and 600 units from the camera depending on the camera yaw.
@@ -202,8 +202,8 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
                         tempVec2Z = Rand_CenteredFloat(50.0f) + (globalCtx->view.eye.z + (tempVec2Z * 600.0f));
                     } else {
                         // rock spawn pos X,Z near player
-                        tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.x;
-                        tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.posRot.pos.z;
+                        tempVec2X = Rand_CenteredFloat(10.0f) + player->actor.world.pos.x;
+                        tempVec2Z = Rand_CenteredFloat(10.0f) + player->actor.world.pos.z;
                     }
                     sp62 = 3;
                 }
@@ -214,8 +214,8 @@ void func_80A07CA4(EnEncount2* this, GlobalContext *globalCtx) {
                 tempVec2X = Rand_CenteredFloat(100.0f) + tempVec1X;
                 tempVec2Z = Rand_CenteredFloat(100.0f) + tempVec1Z;
                 if (Rand_ZeroFloat(3.99f) < 1.0f) {
-                    tempVec2X = Rand_CenteredFloat(70.0f) + player->actor.posRot.pos.x;
-                    tempVec2Z = Rand_CenteredFloat(70.0f) + player->actor.posRot.pos.z;
+                    tempVec2X = Rand_CenteredFloat(70.0f) + player->actor.world.pos.x;
+                    tempVec2Z = Rand_CenteredFloat(70.0f) + player->actor.world.pos.z;
                 }
             }
             temp_v0_2 = (EnFireRock*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FIRE_ROCK, tempVec2X, tempVec1Y, tempVec2Z, 0, 0, 0, sp62);
@@ -305,7 +305,7 @@ void func_80A08748(EnEncount2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&struc->unk0.z, temp3, 0.3f, 30.0f);
             Math_ApproachF(&struc->unk14.y, -20.0f, 0.9f, 1.0f);
             if (globalCtx->sceneNum != 0x60) {
-                if (struc->unk0.y < (player->actor.groundY - 50.0f)) {
+                if (struc->unk0.y < (player->actor.floorHeight - 50.0f)) {
                     struc->unk10 = 0;
                 }
             } else if (struc->unk0.y < 1500.0f) {
