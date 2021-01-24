@@ -1,0 +1,11 @@
+<Root>
+     <File Name="message_static">
+        <Texture Name="gDefaultMessageBackground" Format="ia4" Width="128" Height="64"/>
+        <Texture Name="gSignMessageBackground" Format="ia4" Width="128" Height="64"/>
+        <Texture Name="gNoteStaffMessageBackground" Format="ia4" Width="128" Height="64"/>
+        <Texture Name="gFadingMessageBackground" Format="i4" Width="128" Height="64"/>
+        <Texture Name="gMessageContinueTriangle" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMessageEndSquare" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMessageArrow" Format="i4" Width="16" Height="16"/>
+     </File>
+</Root>
