@@ -100,8 +100,8 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
                      (Math_CosS(this->dyna.actor.shape.rot.y) * chainPos.z);
 
         if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT00_HANEBASI,
-                               this->dyna.actor.posRot.pos.x + chainPos.x, this->dyna.actor.posRot.pos.y + chainPos.y,
-                               this->dyna.actor.posRot.pos.z + chainPos.z,
+                               this->dyna.actor.world.pos.x + chainPos.x, this->dyna.actor.world.pos.y + chainPos.y,
+                               this->dyna.actor.world.pos.z + chainPos.z,
                                ((this->dyna.actor.shape.rot.x == 0) ? 0 : 0xF020), this->dyna.actor.shape.rot.y, 0,
                                DT_CHAIN_1) == NULL) {
             Actor_Kill(&this->dyna.actor);
@@ -111,9 +111,9 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->destAngle = 40;
     } else if (this->dyna.actor.params == DT_CHAIN_1) {
         if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT00_HANEBASI,
-                               this->dyna.actor.posRot.pos.x - (Math_CosS(this->dyna.actor.shape.rot.y) * 316.0f),
-                               this->dyna.actor.posRot.pos.y,
-                               this->dyna.actor.posRot.pos.z + (Math_SinS(this->dyna.actor.shape.rot.y) * 316.0f),
+                               this->dyna.actor.world.pos.x - (Math_CosS(this->dyna.actor.shape.rot.y) * 316.0f),
+                               this->dyna.actor.world.pos.y,
+                               this->dyna.actor.world.pos.z + (Math_SinS(this->dyna.actor.shape.rot.y) * 316.0f),
                                this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y, 0, DT_CHAIN_2) == NULL) {
             Actor_Kill(&this->dyna.actor);
             Actor_Kill(this->dyna.actor.parent);
@@ -223,8 +223,8 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
                 (gSaveContext.linkAge == 1)) {
                 Player* player = PLAYER;
 
-                if ((player->actor.posRot.pos.x > -450.0f) && (player->actor.posRot.pos.x < 450.0f) &&
-                    (player->actor.posRot.pos.z > 1080.0f) && (player->actor.posRot.pos.z < 1700.0f) &&
+                if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&
+                    (player->actor.world.pos.z > 1080.0f) && (player->actor.world.pos.z < 1700.0f) &&
                     (!(Gameplay_InCsMode(globalCtx)))) {
                     gSaveContext.eventChkInf[8] |= 1;
                     Flags_SetEventChkInf(0x82);
@@ -314,15 +314,15 @@ void BgSpot00Hanebasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_OPA_DISP++, D_06000430);
 
         Matrix_MultVec3f(&basePos, &newPos);
-        thisx->child->posRot.pos.x = newPos.x;
-        thisx->child->posRot.pos.y = newPos.y;
-        thisx->child->posRot.pos.z = newPos.z;
+        thisx->child->world.pos.x = newPos.x;
+        thisx->child->world.pos.y = newPos.y;
+        thisx->child->world.pos.z = newPos.z;
         basePos.x *= -1.0f;
 
         Matrix_MultVec3f(&basePos, &newPos);
-        thisx->child->child->posRot.pos.x = newPos.x;
-        thisx->child->child->posRot.pos.y = newPos.y;
-        thisx->child->child->posRot.pos.z = newPos.z;
+        thisx->child->child->world.pos.x = newPos.x;
+        thisx->child->child->world.pos.y = newPos.y;
+        thisx->child->child->world.pos.z = newPos.z;
 
         if (gSaveContext.sceneSetupIndex != 12) {
             if ((gSaveContext.sceneSetupIndex >= 4) || ((LINK_IS_CHILD) && (thisx->shape.rot.x < -0x2000))) {
