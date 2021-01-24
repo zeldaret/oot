@@ -45,7 +45,7 @@
         <Texture Name="gGerudoMaskIconTex" OutName="gerudos_mask_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gMaskofTruthIconTex" OutName="mask_of_truth_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gSoldOutIconTex" OutName="sold_out_icon" Format="rgba32" Width="32" Height="32"/>
-        <Texture Name="gPocketEggIconTex" OutName="pocket_egg"Format="rgba32" Width="32" Height="32"/>
+        <Texture Name="gPocketEggIconTex" OutName="pocket_egg" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gPocketCuccoIconTex" OutName="pocket_cucco_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gCojiroIconTex" OutName="cojiro_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gOddMushroomIconTex" OutName="odd_mushroom_icon" Format="rgba32" Width="32" Height="32"/>
