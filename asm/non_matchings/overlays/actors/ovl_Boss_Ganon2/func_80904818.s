@@ -8,7 +8,7 @@ glabel D_8090D818
     .balign 4
 
 .text
-glabel func_80904818
+glabel BossGanon2_OverrideLimbDraw
 /* 078D8 80904818 27BDFFB8 */  addiu   $sp, $sp, 0xFFB8           ## $sp = FFFFFFB8
 /* 078DC 8090481C AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 078E0 80904820 00A08025 */  or      $s0, $a1, $zero            ## $s0 = 00000000

@@ -1988,9 +1988,37 @@ void func_80904340(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090464C(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090464C.s")
 
-// OverrideLimbDraw
-s32 func_80904818(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904818.s")
+s32 BossGanon2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                void* thisx) {
+    s32 pad;
+    BossGanon2* this = thisx;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5355);
+
+    if (limbIndex == 15) {
+        rot->y += this->unk_31A;
+        rot->z += this->unk_31C;
+    }
+
+    if (limbIndex >= 42) {
+        rot->x += this->unk_2F4[limbIndex] + this->unk_346;
+        rot->y += this->unk_2FE[limbIndex];
+
+        if (this->unk_342 & 1) {
+            gDPSetEnvColor(POLY_OPA_DISP++, 255, 0, 0, 255);
+        } else {
+            // Terrible and probably fake.
+            gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->unk_1B0, (s16)this->unk_1B0, (s16)(*this).unk_1B0, 255);
+        }
+    }
+
+    if ((limbIndex == 7) || (limbIndex == 13) || (limbIndex == 33) || (limbIndex == 34)) {
+        *dList = NULL;
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5431);
+    return 0;
+}
 
 void BossGanon2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s8 pad;
@@ -2236,7 +2264,8 @@ void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5910),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
-                                  this->skelAnime.dListCount, func_80904818, BossGanon2_PostLimbDraw, this);
+                                  this->skelAnime.dListCount, BossGanon2_OverrideLimbDraw, BossGanon2_PostLimbDraw,
+                                  this);
             POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
             func_809069F8(tex, this, globalCtx);
             func_80906AB0(tex, this, globalCtx);
