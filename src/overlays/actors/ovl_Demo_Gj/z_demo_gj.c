@@ -293,14 +293,16 @@ void func_80979030(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
+    void* dummy;
     GraphicsContext *gfxCtx;
-    Mtx* matrix;
     
     s16 sp56;
     s16 sp54;
     s16 sp52;
+
+    void* dummy2;
+    Mtx* matrix;
 
     sp56 = this->unk_16C.x;
     sp54 = this->unk_16C.y;
@@ -325,9 +327,6 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gj.c", 1201);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097911C.s")
-#endif
 
 void func_8097923C(DemoGj* this, UNK_TYPE arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097923C.s")
