@@ -12,13 +12,13 @@ void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 extern UNK_TYPE D_06000DC0;
 extern UNK_TYPE D_06000EA0;
 extern UNK_TYPE D_06001B70;
-extern UNK_TYPE D_06001D20;
-extern UNK_TYPE D_06001F70;
-extern UNK_TYPE D_06002160;
+extern Gfx D_06001D20;
+extern CollisionHeader D_06001F70;
+extern Gfx D_06002160;
 extern UNK_TYPE D_06002448;
-extern UNK_TYPE D_06002600;
+extern Gfx D_06002600;
 extern UNK_TYPE D_06002850;
-extern UNK_TYPE D_06002A40;
+extern Gfx D_06002A40;
 extern UNK_TYPE D_06002D28;
 extern UNK_TYPE D_06002E80;
 extern UNK_TYPE D_06002FE4;
@@ -176,6 +176,13 @@ void func_80978AC4(DemoGj* this, GlobalContext* globalCtx) {
     Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 0x32, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
+void func_80978AFC(GlobalContext *globalCtx, Vec3f *arg1, f32 arg2);
+/*
+void func_80978AFC(GlobalContext *globalCtx, Vec3f *arg1, f32 arg2) {
+    arg2 = arg2;
+    func_800283D4(globalCtx, arg1, &D_8097BE64, &D_8097BE70, &D_8097BE7C, &D_8097BE80, (s32) ((Rand_ZeroOne() * (arg2 * 0.2f)) + arg2), 0xF, 0x5A);
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978AFC.s")
 
 void func_80978B90(DemoGj* this, GlobalContext* globalCtx);
@@ -207,10 +214,37 @@ s32 func_80978EBC(void) {
     return 1;
 }
 
+void func_80978EE4(DemoGj* this, GlobalContext* globalCtx);
+/*
+void func_80978EE4(DemoGj* this, GlobalContext* globalCtx) {
+    Actor *temp_v0;
+    char *temp_v0_2;
+    char *phi_v0;
+
+    if (this->unk_178 == 0) {
+        temp_v0 = globalCtx->actorCtx.actorLists[9].head;
+        phi_v0 = (char *) temp_v0;
+        if (temp_v0 != 0) {
+loop_2:
+            if (phi_v0->unk0 == 0x17A) {
+                this->unk_178 = phi_v0;
+                osSyncPrintf((const char *) "Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params, this);
+                return;
+            }
+            temp_v0_2 = phi_v0->unk124;
+            phi_v0 = temp_v0_2;
+            if (temp_v0_2 != 0) {
+                goto loop_2;
+            }
+        }
+        osSyncPrintf((const char *) "Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params, this);
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978EE4.s")
 
 #ifdef NON_MATCHING
-void func_80978F60(DemoGj* this, GlobalContext* globalCtx, void *arg2) {
+void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2) {
     GlobalContext* glb_ctx;
     Actor* actor;
     DynaCollisionContext* colctx_dyna;
@@ -232,95 +266,391 @@ void func_80978F60(DemoGj* this, GlobalContext* globalCtx, void *arg2) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978F60.s")
 #endif
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978FCC.s")
+s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 arg2, s32 arg3, CollisionHeader* arg4) {
+    if (func_80978EBC() == 0) {
+        this->unk_164 = arg2;
+        this->unk_168 = arg3;
+        func_80978F60(this, globalCtx, arg4);
+        return 1;
+    }
+    Actor_Kill((Actor *) this);
+    return 0;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80979030.s")
+void func_80979030(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
+    if (gGameInfo->data[2592] == 0) {
+        GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+        OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
 
+        func_80093D18(gfxCtx);
+
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gj.c", 1165), G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPDisplayList(POLY_OPA_DISP++, displayList);
+        gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
+
+        CLOSE_DISPS(gfxCtx, "../z_demo_gj.c", 1169);
+    }
+}
+
+#ifdef NON_MATCHING
+void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
+    GraphicsContext *gfxCtx;
+    Mtx* matrix;
+    
+    s16 sp56;
+    s16 sp54;
+    s16 sp52;
+
+    sp56 = this->unk_16C.x;
+    sp54 = this->unk_16C.y;
+    sp52 = this->unk_16C.z;
+
+    gfxCtx = globalCtx->state.gfxCtx;
+
+    matrix = Graph_Alloc(gfxCtx, 0x40);
+
+    OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
+
+    Matrix_Push();
+    Matrix_RotateRPY(sp56, sp54, sp52, MTXMODE_APPLY);
+    Matrix_ToMtx(matrix, "../z_demo_gj.c", 1193);
+    Matrix_Pull();
+
+    func_80093D18(gfxCtx);
+
+    gSPMatrix(POLY_OPA_DISP++, matrix, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPDisplayList(POLY_OPA_DISP++, displayList);
+    gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
+
+    CLOSE_DISPS(gfxCtx, "../z_demo_gj.c", 1201);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097911C.s")
+#endif
 
+void func_8097923C(DemoGj* this, UNK_TYPE arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097923C.s")
 
+/*
+s32 func_809797E4(void* arg0, s32 arg1) {
+    void *temp_v0;
+
+    temp_v0 = this->arg0;
+    if ((temp_v0 != 0) && ((arg1 & 0xFF) == arg0->unk314)) {
+        return 1;
+    }
+    return 0;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_809797E4.s")
 
+/*
+void func_80979818(? arg1) {
+    func_809797E4(1);
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80979818.s")
 
+/*
+void func_8097983C(? arg1) {
+    func_809797E4(2);
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097983C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80979860.s")
 
+/*
+void func_80979F9C(void *arg0) {
+    if (func_809797E4(3) != 0) {
+        arg0->unk17C = 1;
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80979F9C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80979FD0.s")
+void func_80979FD0(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978FCC(this, globalCtx, 1, 2, &D_06001F70);
+}
 
+void func_8097A000(DemoGj* this, s32 arg1);
+#ifdef NON_MATCHING
+void func_8097A000(DemoGj *this, s32 arg1) {
+    Actor_MoveForward(&this->dyna.actor);
+    this->unk_16C.x += gGameInfo->data[2610];
+    this->unk_16C.y += 0x3E8 + gGameInfo->data[2611];
+    this->unk_16C.z = 0xBB8 + gGameInfo->data[2612] + this->unk_16C.z;
+    func_8097923C(this, arg1);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A000.s")
+#endif
 
+//s32 func_8097A07C(DemoGj* this, GlobalContext* globalCtx);
+/*
+s32 func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
+    s32 phi_return;
+
+    phi_return = globalCtx + 0x10000;
+    if (this->unk17C == 0) {
+        if (((u32) globalCtx->gameplayFrames % 3U) == 0) {
+            this = this;
+            func_80978AFC(globalCtx, &D_8097BE88, 300.0f);
+        }
+        phi_return = func_80979F9C(this);
+    }
+    return phi_return;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A07C.s")
 
+void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx);
+#ifdef NON_MATCHING
+void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx) {
+    if (func_80979818() != 0) {
+        func_80979860(this, globalCtx);
+        this->unk_164 = 8;
+        this->unk_168 = 9;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A0E4.s")
+#endif
 
+/*
+void func_8097A130(DemoGj *this) {
+    if (func_8097983C() != 0) {
+        Actor_Kill(&this->dyna.actor);
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A130.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A160.s")
+void func_8097A160(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097A0E4(this, globalCtx);
+}
 
+void func_8097A190(DemoGj* this, s32 arg1);
+/*
+void func_8097A190(DemoGj* this, s32 arg1) {
+    func_8097A000(this, arg1);
+    func_8097A130(this, arg1);
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A190.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A1C0.s")
+void func_8097A1C0(DemoGj* this, GlobalContext* globalCtx) {
+    func_80979030(this, globalCtx, &D_06001D20);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A1E4.s")
+void func_8097A1E4(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097911C(this, globalCtx, &D_06001D20);
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A1E4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A208.s")
+void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978FCC(this, globalCtx, 2, 3, &D_06002448);
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A208.s")
 
+void func_8097A238(DemoGj* this, s32 arg1);
+#ifdef NON_MATCHING
+void func_8097A238(DemoGj *this, s32 arg1) {
+    Actor_MoveForward(&this->dyna.actor);
+    this->unk_16C.x = this->unk_16C.x + gGameInfo->data[2623];
+    this->unk_16C.y = this->unk_16C.y + (gGameInfo->data[2624] + 0x3E8);
+    this->unk_16C.z = this->unk_16C.z + (gGameInfo->data[2625] + 0xBB8);
+    func_8097923C(this, arg1);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A238.s")
+#endif
 
+/*
+s32 func_8097A2B4(void *arg0, GlobalContext* globalCtx) {
+    s32 phi_return;
+
+    phi_return = globalCtx + 0x10000;
+    if (arg0->unk17C == 0) {
+        if (((u32) globalCtx->gameplayFrames % 3U) == 1) {
+            arg0 = arg0;
+            func_80978AFC(globalCtx, &D_8097BE94, 300.0f);
+        }
+        phi_return = func_80979F9C(arg0);
+    }
+    return phi_return;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A2B4.s")
 
+/*
+void func_8097A320(DemoGj* this, s32 arg1) {
+    if (func_80979818() != 0) {
+        func_80979860(this, arg1);
+        this->unk_164 = 9;
+        this->unk_168 = 0xA;
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A320.s")
 
+/*
+void func_8097A36C(DemoGj* this) {
+    if (func_8097983C() != 0) {
+        Actor_Kill(&this->dyna.actor);
+    }
+}*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A36C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A39C.s")
+void func_8097A39C(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097A320(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A3CC.s")
+void func_8097A3CC(DemoGj* this, s32 arg1) {
+    func_8097A238(this, arg1);
+    func_8097A36C(this, arg1);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A3FC.s")
+void func_8097A3FC(DemoGj* this, GlobalContext* globalCtx) {
+    func_80979030(this, globalCtx, &D_06002160);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A420.s")
+void func_8097A420(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097911C(this, globalCtx, &D_06002160);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A444.s")
+void func_8097A444(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978FCC(this, globalCtx, 3, 4, &D_06002850);
+}
 
+void func_8097A474(DemoGj* this, s32 arg1);
+#ifdef NON_MATCHING
+void func_8097A474(DemoGj* this, s32 arg1) {
+    Actor_MoveForward(&this->dyna.actor);
+    this->unk_16C.x = this->unk_16C.x + gGameInfo->data[2636];
+    this->unk_16C.y = this->unk_16C.y + (gGameInfo->data[2637] + 0x3E8);
+    this->unk_16C.z = this->unk_16C.z + (gGameInfo->data[2638] + 0xBB8);
+    func_8097923C(this, arg1);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A474.s")
+#endif
 
+void func_8097A4F0(DemoGj* this, s32 arg1);
+/*
+void func_8097A4F0(DemoGj* this, s32 arg1) {
+    if (func_80979818() != 0) {
+        func_80979860(this, arg1);        
+        this->unk_164 = 0xA;
+        this->unk_168 = 0xB;
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A4F0.s")
 
+/*
+void func_8097A53C(DemoGj* this) {
+    if (func_8097983C() != 0) {
+        Actor_Kill(&this->dyna.actor);
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A53C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A56C.s")
+void func_8097A56C(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097A4F0(this, (s32) globalCtx); // TODO: check this.
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A59C.s")
+void func_8097A59C(DemoGj* this, s32 arg1) {
+    func_8097A474(this, arg1);
+    func_8097A53C(this, arg1);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A5CC.s")
+void func_8097A5CC(DemoGj* this, GlobalContext* globalCtx) {
+    func_80979030(this, globalCtx, &D_06002600);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A5F0.s")
+void func_8097A5F0(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097911C(this, globalCtx, &D_06002600);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A614.s")
+void func_8097A614(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978FCC(this, globalCtx, 4, 5, &D_06002D28);
+}
 
+void func_8097A644(DemoGj* this, s32 arg1);
+#ifdef NON_MATCHING
+void func_8097A644(DemoGj* this, s32 arg1) {
+    Actor_MoveForward(&this->dyna.actor);
+    this->unk_16C.x = this->unk_16C.x + gGameInfo->data[2649];
+    this->unk_16C.y = this->unk_16C.y + (gGameInfo->data[2650] + 0x3E8);
+    this->unk_16C.z = this->unk_16C.z + (gGameInfo->data[2651] + 0xBB8);
+    func_8097923C(this, arg1);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A644.s")
+#endif
 
+void func_8097A6C0(DemoGj* this, s32 arg1);
+/*
+void func_8097A6C0(DemoGj* this, s32 arg1) {
+    if (func_80979818() != 0) {
+        func_80979860(this, arg1);
+        this->unk_164 = 0xB;
+        this->unk_168 = 0xC;
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A6C0.s")
 
+void func_8097A70C(DemoGj* this, s32 arg1);
+/*
+void func_8097A70C(DemoGj* this, s32 arg1) {
+    if (func_8097983C() != 0) {
+        Actor_Kill(&this->dyna.actor);
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A70C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A73C.s")
+void func_8097A73C(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097A6C0(this, (s32) globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A76C.s")
+void func_8097A76C(DemoGj* this, s32 arg1) {
+    func_8097A644(this, arg1);
+    func_8097A70C(this, arg1);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A79C.s")
+void func_8097A79C(DemoGj* this, GlobalContext* globalCtx) {
+    func_80979030(this, globalCtx, &D_06002A40);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A7C0.s")
+void func_8097A7C0(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097911C(this, globalCtx, &D_06002A40);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A7E4.s")
+void func_8097A7E4(DemoGj* this, GlobalContext* globalCtx) {
+    func_80978FCC(this, globalCtx, 5, 6, &D_06002FE4);
+}
 
+void func_8097A814(DemoGj* this, s32 arg1);
+#ifdef NON_MATCHING
+void func_8097A814(DemoGj* this, s32 arg1) {
+    Actor_MoveForward(&this->dyna.actor);
+    this->unk_16C.x = (s16) (this->unk_16C.x + gGameInfo->data[2662]);
+    this->unk_16C.y = (s16) (this->unk_16C.y+ (gGameInfo->data[2663] + 0x3E8));
+    this->unk_16C.z = (s16) (this->unk_16C.z + (gGameInfo->data[2664] + 0xBB8));
+    func_8097923C(this, arg1);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A814.s")
+#endif
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A890.s")
 
