@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_blast.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -28,8 +29,6 @@ EffectSsInit Effect_Ss_Blast_InitVars = {
     EffectSsBlast_Init,
 };
 
-extern Gfx D_0401A0B0[];
-
 u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBlastParams* initParams = (EffectSsBlastParams*)initParamsx;
 
@@ -37,7 +36,7 @@ u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->pos.y += 5.0f;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_0401A0B0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffShockwaveDL);
     this->life = initParams->life;
     this->draw = EffectSsBlast_Draw;
     this->update = EffectSsBlast_Update;

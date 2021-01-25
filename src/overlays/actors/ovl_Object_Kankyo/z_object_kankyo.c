@@ -5,6 +5,7 @@
  */
 
 #include "z_object_kankyo.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x02000030
 
@@ -16,12 +17,6 @@ void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_01000000;
-extern UNK_TYPE D_04010050;
-extern UNK_TYPE D_0402CF30;
-extern UNK_TYPE D_0404C160;
-extern UNK_TYPE D_0404D160;
-extern UNK_TYPE D_0404D1A8;
-extern UNK_TYPE D_04052DB0;
 extern UNK_TYPE D_06005FF0;
 extern UNK_TYPE D_06009620;
 

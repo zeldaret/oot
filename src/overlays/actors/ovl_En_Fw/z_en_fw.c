@@ -1,5 +1,6 @@
 #include "z_en_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000215
 
@@ -440,8 +441,8 @@ void EnFw_UpdateDust(EnFw* this) {
 }
 
 void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
-    static Gfx* D_80A1FC18[] = {
-        0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0,
+    static UNK_PTR D_80A1FC18[] = {
+        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
     EnFwEffect* eff = this->effects;
     s16 firstDone;

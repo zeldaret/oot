@@ -16,7 +16,10 @@ ZResource::ZResource()
 
 void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 {
-	name = reader->Attribute("Name");
+	if (reader->Attribute("Name") != nullptr)
+		name = reader->Attribute("Name");
+	else
+		name = "";
 
 	if (reader->Attribute("OutName") != nullptr)
 		outName = reader->Attribute("OutName");

@@ -5,8 +5,9 @@
  */
 
 #include "z_en_ex_item.h"
-#include "vt.h"
 #include "overlays/actors/ovl_En_Bom_Bowl_Pit/z_en_bom_bowl_pit.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
+#include "vt.h"
 
 #define FLAGS 0x00000030
 
@@ -504,7 +505,7 @@ void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 887),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(keySegments[index]));
-    gSPDisplayList(POLY_OPA_DISP++, D_0403F070);
+    gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_item.c", 893);
 }
