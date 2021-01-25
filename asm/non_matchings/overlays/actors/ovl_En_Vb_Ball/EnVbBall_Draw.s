@@ -136,8 +136,8 @@ glabel EnVbBall_Draw
 /* 00FAC 80B29F4C 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00FB0 80B29F50 AFA20028 */  sw      $v0, 0x0028($sp)           
 /* 00FB4 80B29F54 8FA30028 */  lw      $v1, 0x0028($sp)           
-/* 00FB8 80B29F58 3C040405 */  lui     $a0, %hi(D_04049210)                ## $a0 = 04050000
-/* 00FBC 80B29F5C 24849210 */  addiu   $a0, $a0, %lo(D_04049210)           ## $a0 = 04049210
+/* 00FB8 80B29F58 3C040405 */  lui     $a0, %hi(gCircleShadowDL)                ## $a0 = 04050000
+/* 00FBC 80B29F5C 24849210 */  addiu   $a0, $a0, %lo(gCircleShadowDL)           ## $a0 = 04049210
 /* 00FC0 80B29F60 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00FC4 80B29F64 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00FC8 80B29F68 00046900 */  sll     $t5, $a0,  4               

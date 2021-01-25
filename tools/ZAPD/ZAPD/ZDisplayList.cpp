@@ -26,6 +26,7 @@ ZDisplayList::ZDisplayList() : ZResource()
 	lastTexIsPalette = false;
 	name = "";
 	scene = nullptr;
+	dListType = Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX;
 
 	fileData = vector<uint8_t>();
 	instructions = vector<uint64_t>();
@@ -83,16 +84,364 @@ void ZDisplayList::ParseRawData()
 		instructions.push_back(BitConverter::ToUInt64BE(rawDataArr, (i * 8)));
 }
 
-int ZDisplayList::GetDListLength(vector<uint8_t> rawData, int rawDataIndex)
+void ZDisplayList::ParseF3DZEX(F3DZEXOpcode opcode, uint64_t data, int i, std::string prefix, char* line)
+{
+	switch (opcode)
+	{
+	case F3DZEXOpcode::G_NOOP:
+		sprintf(line, "gsDPNoOpTag(0x%08lX),", data & 0xFFFFFFFF);
+		break;
+	case F3DZEXOpcode::G_DL:
+		Opcode_G_DL(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_MODIFYVTX:
+		Opcode_G_MODIFYVTX(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_CULLDL:
+		Opcode_G_CULLDL(data, i, prefix, line);
+	break;
+	/*case F3DZEXOpcode::G_BRANCH_Z:
+	{
+		int aaa = (data & 0x00FFF00000000000) >> 44;
+		int bbb = (data & 0x00000FFF00000000) >> 32;
+		int zzzzzzzz = (data & 0x00000000FFFFFFFF);
+
+		sprintf(line, "gsSPBranchLessZraw(%i, %i, %i),", );
+	}
+	break;*/
+	case F3DZEXOpcode::G_TRI1:
+		Opcode_G_TRI1(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_TRI2:
+		Opcode_G_TRI2(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_QUAD:
+	{
+		int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
+		int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
+		int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
+		int dd = ((data & 0x000000000000FFULL)) / 2;
+		sprintf(line, "gsSP1Quadrangle(%i, %i, %i, %i, 0),", aa, bb, cc, dd);
+	}
+	break;
+	case F3DZEXOpcode::G_VTX:
+	{
+		Opcode_G_VTX(data, i, prefix, line);
+	}
+	break;
+	case F3DZEXOpcode::G_SETTIMG: // HOTSPOT
+	{
+		Opcode_G_SETTIMG(data, i, prefix, line);
+	}
+	break;
+	case F3DZEXOpcode::G_GEOMETRYMODE:
+	{
+		int cccccc = (data & 0x00FFFFFF00000000) >> 32;
+		int ssssssss = (data & 0xFFFFFFFF);
+		string geoModeStr = "G_TEXTURE_ENABLE";
+
+		int geoModeParam = ~cccccc;
+
+		if (ssssssss != 0)
+			geoModeParam = ssssssss;
+
+		if (geoModeParam & 0x00000001)
+			geoModeStr += " | G_ZBUFFER";
+
+		if (geoModeParam & 0x00000004)
+			geoModeStr += " | G_SHADE";
+
+		if (geoModeParam & 0x00000200)
+			geoModeStr += " | G_CULL_FRONT";
+
+		if (geoModeParam & 0x00000400)
+			geoModeStr += " | G_CULL_BACK";
+
+		if (geoModeParam & 0x00010000)
+			geoModeStr += " | G_FOG";
+
+		if (geoModeParam & 0x00020000)
+			geoModeStr += " | G_LIGHTING";
+
+		if (geoModeParam & 0x00040000)
+			geoModeStr += " | G_TEXTURE_GEN";
+
+		if (geoModeParam & 0x00080000)
+			geoModeStr += " | G_TEXTURE_GEN_LINEAR";
+
+		if (geoModeParam & 0x00200000)
+			geoModeStr += " | G_SHADING_SMOOTH";
+
+		if (geoModeParam & 0x00800000)
+			geoModeStr += " | G_CLIPPING";
+
+		if (ssssssss != 0)
+		{
+			if ((~cccccc & 0xFF000000) != 0)
+				sprintf(line, "gsSPSetGeometryMode(%s),", geoModeStr.c_str());
+			else
+				sprintf(line, "gsSPLoadGeometryMode(%s),", geoModeStr.c_str());
+		}
+		else
+			sprintf(line, "gsSPClearGeometryMode(%s),", geoModeStr.c_str());
+
+		//sprintf(line, "gsSPGeometryMode(0x%08X, 0x%08X),", ~cccccc, ssssssss);
+	}
+	break;
+	case F3DZEXOpcode::G_SETPRIMCOLOR:
+		Opcode_G_SETPRIMCOLOR(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_SETOTHERMODE_L:
+		Opcode_G_SETOTHERMODE_L(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_SETOTHERMODE_H:
+		Opcode_G_SETOTHERMODE_H(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_SETTILE:
+		Opcode_G_SETTILE(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_SETTILESIZE:
+		Opcode_G_SETTILESIZE(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_LOADBLOCK:
+		Opcode_G_LOADBLOCK(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_TEXTURE:
+		Opcode_G_TEXTURE(data, i, prefix, line);
+	break;
+	case F3DZEXOpcode::G_RDPSETOTHERMODE:
+	{
+		int hhhhhh = (data & 0x00FFFFFF00000000) >> 32;
+		int llllllll = (data & 0x00000000FFFFFFFF);
+
+		sprintf(line, "gsDPSetOtherMode(%i, %i),", hhhhhh, llllllll);
+	}
+	break;
+	case F3DZEXOpcode::G_POPMTX:
+	{
+		sprintf(line, "gsSPPopMatrix(%li),", data);
+	}
+	break;
+	case F3DZEXOpcode::G_LOADTLUT:
+		Opcode_G_LOADTLUT(data, i, prefix, line);
+		break;
+	case F3DZEXOpcode::G_SETENVCOLOR:
+	{
+		uint8_t r = (uint8_t)((data & 0xFF000000) >> 24);
+		uint8_t g = (uint8_t)((data & 0x00FF0000) >> 16);
+		uint8_t b = (uint8_t)((data & 0xFF00FF00) >> 8);
+		uint8_t a = (uint8_t)((data & 0x000000FF) >> 0);
+
+		sprintf(line, "gsDPSetEnvColor(%i, %i, %i, %i),", r, g, b, a);
+	}
+	break;
+	case F3DZEXOpcode::G_SETCOMBINE:
+	{
+		Opcode_G_SETCOMBINE(data, i, prefix, line);
+	}
+	break;
+	case F3DZEXOpcode::G_RDPLOADSYNC:
+		sprintf(line, "gsDPLoadSync(),");
+		break;
+	case F3DZEXOpcode::G_RDPPIPESYNC:
+		sprintf(line, "gsDPPipeSync(),");
+		break;
+	case F3DZEXOpcode::G_RDPTILESYNC:
+		sprintf(line, "gsDPTileSync(),");
+		break;
+	case F3DZEXOpcode::G_RDPFULLSYNC:
+		sprintf(line, "gsDPFullSync(),");
+		break;
+	case F3DZEXOpcode::G_ENDDL:
+		Opcode_G_ENDDL(data, i, prefix, line);
+		break;
+	case F3DZEXOpcode::G_RDPHALF_1:
+	{
+		uint64_t data2 = instructions[i + 1];
+		uint32_t h = (data & 0xFFFFFFFF);
+		F3DZEXOpcode opcode2 = (F3DZEXOpcode)(instructions[i + 1] >> 56);
+
+		if (opcode2 == F3DZEXOpcode::G_BRANCH_Z)
+		{
+			uint32_t a = (data2 & 0x00FFF00000000000) >> 44;
+			uint32_t b = (data2 & 0x00000FFF00000000) >> 32;
+			uint32_t z = (data2 & 0x00000000FFFFFFFF) >> 0;
+
+			//sprintf(line, "gsDPWord(%i, 0),", h);
+			sprintf(line, "gsSPBranchLessZraw(%sDlist0x%06X, 0x%02X, 0x%02X),", prefix.c_str(), h & 0x00FFFFFF, (a / 5) | (b / 2), z);
+
+			ZDisplayList* nList = new ZDisplayList(fileData, h & 0x00FFFFFF, GetDListLength(fileData, h & 0x00FFFFFF, dListType));
+			nList->scene = scene;
+			nList->parent = parent;
+			otherDLists.push_back(nList);
+
+			i++;
+		}
+	}
+	break;
+	/*case F3DZEXOpcode::G_BRANCH_Z:
+	{
+		uint8_t h = (data & 0xFFFFFFFF);
+
+		sprintf(line, "gsSPBranchLessZraw(%i, %i, %i),", h);
+	}
+		break;*/
+	case F3DZEXOpcode::G_MTX:
+		Opcode_G_MTX(data, i, prefix, line);
+	break;
+	default:
+		sprintf(line, "// Opcode 0x%02X unimplemented!", (uint32_t)opcode);
+		break;
+	}
+}
+
+void ZDisplayList::ParseF3DEX(F3DEXOpcode opcode, uint64_t data, int i, std::string prefix, char* line)
+{
+	switch (opcode)
+	{
+	case F3DEXOpcode::G_NOOP:
+		sprintf(line, "gsDPNoOpTag(0x%08lX),", data & 0xFFFFFFFF);
+		break;
+	case F3DEXOpcode::G_VTX:
+		Opcode_G_VTX(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_DL:
+		Opcode_G_DL(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_CULLDL:
+		Opcode_G_CULLDL(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_MODIFYVTX:
+		Opcode_G_MODIFYVTX(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_MTX:
+		Opcode_G_MTX(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_TRI1:
+		Opcode_G_TRI1(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_TRI2:
+		Opcode_G_TRI2(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_ENDDL:
+		Opcode_G_ENDDL(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_RDPLOADSYNC:
+		sprintf(line, "gsDPLoadSync(),");
+		break;
+	case F3DEXOpcode::G_RDPPIPESYNC:
+		sprintf(line, "gsDPPipeSync(),");
+		break;
+	case F3DEXOpcode::G_RDPTILESYNC:
+		sprintf(line, "gsDPTileSync(),");
+		break;
+	case F3DEXOpcode::G_RDPFULLSYNC:
+		sprintf(line, "gsDPFullSync(),");
+		break;
+	case F3DEXOpcode::G_TEXTURE:
+		Opcode_G_TEXTURE(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_SETTIMG:
+		Opcode_G_SETTIMG(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_SETTILE:
+		Opcode_G_SETTILE(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_SETTILESIZE:
+		Opcode_G_SETTILESIZE(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_LOADBLOCK:
+		Opcode_G_LOADBLOCK(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_SETCOMBINE:
+		Opcode_G_SETCOMBINE(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_SETPRIMCOLOR:
+		Opcode_G_SETPRIMCOLOR(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_SETOTHERMODE_L:
+		Opcode_G_SETOTHERMODE_L(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_SETOTHERMODE_H:
+		Opcode_G_SETOTHERMODE_H(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_LOADTLUT:
+		Opcode_G_LOADTLUT(data, i, prefix, line);
+		break;
+	case F3DEXOpcode::G_CLEARGEOMETRYMODE:
+	case F3DEXOpcode::G_SETGEOMETRYMODE:
+	{
+		int cccccc = (data & 0x00FFFFFF00000000) >> 32;
+		int ssssssss = (data & 0xFFFFFFFF);
+		string geoModeStr = "G_TEXTURE_ENABLE";
+
+		int geoModeParam = ~cccccc;
+
+		if (ssssssss != 0)
+			geoModeParam = ssssssss;
+
+		if (geoModeParam & 0x00000002)
+			geoModeStr += " | G_TEXTURE_ENABLE";
+
+		if (geoModeParam & 0x00000200)
+			geoModeStr += " | G_SHADING_SMOOTH";
+
+		if (geoModeParam & 0x00001000)
+			geoModeStr += " | G_CULL_FRONT";
+
+		if (geoModeParam & 0x00002000)
+			geoModeStr += " | G_CULL_BACK";
+
+		if (geoModeParam & 0x00000001)
+			geoModeStr += " | G_ZBUFFER";
+
+		if (geoModeParam & 0x00000004)
+			geoModeStr += " | G_SHADE";
+
+		if (geoModeParam & 0x00010000)
+			geoModeStr += " | G_FOG";
+
+		if (geoModeParam & 0x00020000)
+			geoModeStr += " | G_LIGHTING";
+
+		if (geoModeParam & 0x00040000)
+			geoModeStr += " | G_TEXTURE_GEN";
+
+		if (geoModeParam & 0x00080000)
+			geoModeStr += " | G_TEXTURE_GEN_LINEAR";
+
+		if (geoModeParam & 0x00800000)
+			geoModeStr += " | G_CLIPPING";
+
+		if (opcode == F3DEXOpcode::G_SETGEOMETRYMODE)
+			sprintf(line, "gsSPSetGeometryMode(%s),", geoModeStr.c_str());
+		else
+			sprintf(line, "gsSPClearGeometryMode(%s),", geoModeStr.c_str());
+	}
+	break;
+	default:
+		sprintf(line, "// Opcode 0x%02X unimplemented!", (uint32_t)opcode);
+		break;
+	}
+}
+
+int ZDisplayList::GetDListLength(vector<uint8_t> rawData, int rawDataIndex, DListType dListType)
 {
 	int i = 0;
 
+	uint8_t endDLOpcode;
+
+	if (dListType == DListType::F3DZEX)
+		endDLOpcode = (uint8_t)F3DZEXOpcode::G_ENDDL;
+	else
+		endDLOpcode = (uint8_t)F3DEXOpcode::G_ENDDL;
+
 	while (true)
 	{
-		F3DZEXOpcode opcode = (F3DZEXOpcode)rawData[rawDataIndex + (i * 8)];
+		uint8_t opcode = (uint8_t)rawData[rawDataIndex + (i * 8)];
 		i++;
 
-		if (opcode == F3DZEXOpcode::G_ENDDL)
+		if (opcode == endDLOpcode)
 			return i * 8;
 	}
 }
@@ -132,6 +481,11 @@ int ZDisplayList::OptimizationChecks(int startIndex, string& output, string pref
 
 int ZDisplayList::OptimizationCheck_LoadTextureBlock(int startIndex, string& output, string prefix)
 {
+	if (scene == nullptr)
+	{
+		return -1;
+	}
+
 	std::vector<F3DZEXOpcode> sequence = { F3DZEXOpcode::G_SETTIMG, F3DZEXOpcode::G_SETTILE, F3DZEXOpcode::G_RDPLOADSYNC, F3DZEXOpcode::G_LOADBLOCK, F3DZEXOpcode::G_RDPPIPESYNC, F3DZEXOpcode::G_SETTILE, F3DZEXOpcode::G_SETTILESIZE };
 
 	bool seqRes = SequenceCheck(sequence, startIndex);
@@ -261,13 +615,17 @@ int ZDisplayList::OptimizationCheck_LoadTextureBlock(int startIndex, string& out
 					texStr.c_str(), tmem, rtile, fmtTbl[fmt].c_str(), width2, height2, pal, cms, cmt, masks, maskt, shifts, shiftt);
 			else
 				output += StringHelper::Sprintf("gsDPLoadTextureBlock_4b(%s, %s, %i, %i, %i, %i, %i, %i, %i, %i, %i),",
-				texStr.c_str(), fmtTbl[fmt].c_str(), width2, height2, pal, cms, cmt, masks, maskt, shifts, shiftt);
+					texStr.c_str(), fmtTbl[fmt].c_str(), width2, height2, pal, cms, cmt, masks, maskt, shifts, shiftt);
 		}
-		/*else if (siz == 2 && sizB == 1)
+		else if (siz == 2 && sizB != 0)
 		{
-			output += StringHelper::Sprintf("gsDPLoadTextureBlock(%s, %s, %s, %i, %i, %i, %i, %i, %i, %i, %i, %i),",
-				texStr.c_str(), fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), width2, height2, pal, cms, cmt, masks, maskt, shifts, shiftt);
-		}*/
+			if (tmem != 0)
+				output += StringHelper::Sprintf("gsDPLoadMultiBlock(%s, %i, %i, %s, %s, %i, %i, %i, %i, %i, %i, %i, %i, %i),",
+					texStr.c_str(), tmem, rtile, fmtTbl[fmt].c_str(), sizTbl[sizB].c_str(), width2, height2, pal, cms, cmt, masks, maskt, shifts, shiftt);
+			else
+				output += StringHelper::Sprintf("gsDPLoadTextureBlock(%s, %s, %s, %i, %i, %i, %i, %i, %i, %i, %i, %i),",
+					texStr.c_str(), fmtTbl[fmt].c_str(), sizTbl[sizB].c_str(), width2, height2, pal, cms, cmt, masks, maskt, shifts, shiftt);
+		}
 		else
 		{
 			if (siz != sizB)
@@ -303,6 +661,760 @@ int ZDisplayList::OptimizationCheck_LoadTextureBlock(int startIndex, string& out
 	return -1;
 }
 
+void ZDisplayList::Opcode_G_DL(uint64_t data, int i, std::string prefix, char* line)
+{
+	int pp = (data & 0x00FF000000000000) >> 56;
+	int segNum = (data & 0xFF000000) >> 24;
+
+	Declaration* dListDecl = nullptr;
+
+	if (parent != nullptr)
+		dListDecl = parent->GetDeclaration(SEG2FILESPACE(data));
+
+	if (pp != 0)
+	{
+		if (!Globals::Instance->HasSegment(segNum))
+			sprintf(line, "gsSPBranchList(0x%08lX),", data & 0xFFFFFFFF);
+		else if (dListDecl != nullptr)
+			sprintf(line, "gsSPBranchList(%s),", dListDecl->varName.c_str());
+		else
+			sprintf(line, "gsSPBranchList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
+	}
+	else
+	{
+		if (!Globals::Instance->HasSegment(segNum))
+			sprintf(line, "gsSPDisplayList(0x%08lX),", data & 0xFFFFFFFF);
+		else if (dListDecl != nullptr)
+			sprintf(line, "gsSPDisplayList(%s),", dListDecl->varName.c_str());
+		else
+			sprintf(line, "gsSPDisplayList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
+	}
+
+	int segmentNumber = (data & 0xFF000000) >> 24;
+
+	if (segmentNumber == 8 || segmentNumber == 9 || segmentNumber == 10 || segmentNumber == 11 || segmentNumber == 12 || segmentNumber == 13) // Used for runtime-generated display lists
+	{
+		if (pp != 0)
+			sprintf(line, "gsSPBranchList(0x%08lX),", data & 0xFFFFFFFF);
+		else
+			sprintf(line, "gsSPDisplayList(0x%08lX),", data & 0xFFFFFFFF);
+	}
+	else
+	{
+		ZDisplayList* nList = new ZDisplayList(fileData, data & 0x00FFFFFF, GetDListLength(fileData, data & 0x00FFFFFF, dListType));
+		nList->scene = scene;
+		nList->parent = parent;
+		otherDLists.push_back(nList);
+	}
+}
+
+void ZDisplayList::Opcode_G_MODIFYVTX(uint64_t data, int i, std::string prefix, char* line)
+{
+	int ww = (data & 0x00FF000000000000ULL) >> 48;
+	int nnnn = (data & 0x0000FFFF00000000ULL) >> 32;
+	int vvvvvvvv = (data & 0x00000000FFFFFFFFULL);
+
+	sprintf(line, "gsSPModifyVertex(%i, %i, %i),", nnnn / 2, ww, vvvvvvvv);
+}
+
+void ZDisplayList::Opcode_G_CULLDL(uint64_t data, int i, std::string prefix, char* line)
+{
+	int vvvv = (data & 0xFFFF00000000) >> 32;
+	int wwww = (data & 0x0000FFFF);
+
+	sprintf(line, "gsSPCullDisplayList(%i, %i),", vvvv / 2, wwww / 2);
+}
+
+void ZDisplayList::Opcode_G_TRI1(uint64_t data, int i, std::string prefix, char* line)
+{
+	if (dListType == DListType::F3DZEX)
+	{
+		int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
+		int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
+		int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
+		sprintf(line, "gsSP1Triangle(%i, %i, %i, 0),", aa, bb, cc);
+	}
+	else
+	{
+		int aa = ((data & 0x0000000000FF0000ULL) >> 16) / 2;
+		int bb = ((data & 0x000000000000FF00ULL) >> 8) / 2;
+		int cc = ((data & 0x00000000000000FFULL) >> 0) / 2;
+		sprintf(line, "gsSP1Triangle(%i, %i, %i, 0),", aa, bb, cc);
+	}
+}
+
+void ZDisplayList::Opcode_G_TRI2(uint64_t data, int i, std::string prefix, char* line)
+{
+	int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
+	int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
+	int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
+	int dd = ((data & 0x00000000FF0000ULL) >> 16) / 2;
+	int ee = ((data & 0x0000000000FF00ULL) >> 8) / 2;
+	int ff = ((data & 0x000000000000FFULL) >> 0) / 2;
+	sprintf(line, "gsSP2Triangles(%i, %i, %i, 0, %i, %i, %i, 0),", aa, bb, cc, dd, ee, ff);
+}
+
+void ZDisplayList::Opcode_G_MTX(uint64_t data, int i, std::string prefix, char* line)
+{
+	// TODO: FINISH THIS
+	uint32_t pp = 0;
+	uint32_t mm = (data & 0x00000000FFFFFFFF);
+
+	if (dListType == DListType::F3DEX)
+		pp = (data & 0x00FF000000000000) >> 48;
+	else
+		pp = (data & 0x000000FF00000000) >> 32;
+
+	std::string matrixRef = "";
+
+	if (Globals::Instance->symbolMap.find(mm) != Globals::Instance->symbolMap.end())
+		matrixRef = StringHelper::Sprintf("&%s", Globals::Instance->symbolMap[mm].c_str());
+	else
+		matrixRef = StringHelper::Sprintf("0x%08X", mm);
+
+	sprintf(line, "gsSPMatrix(%s, 0x%02X),", matrixRef.c_str(), pp ^ 0x01);
+}
+
+void ZDisplayList::Opcode_G_VTX(uint64_t data, int i, std::string prefix, char* line)
+{
+	int nn = (data & 0x000FF00000000000ULL) >> 44;
+	int aa = (data & 0x000000FF00000000ULL) >> 32;
+
+	uint32_t vtxAddr = SEG2FILESPACE(data);
+
+	if (GETSEGNUM(data) == 0x80) // Are these vertices defined in code?
+		vtxAddr -= SEG2FILESPACE(parent->baseAddress);
+
+	if (dListType == DListType::F3DZEX)
+		sprintf(line, "gsSPVertex(@r, %i, %i),", nn, ((aa >> 1) - nn));
+	else
+	{
+		uint32_t hi = data >> 32;
+
+#define _SHIFTR( v, s, w )	\
+			(((uint32_t)v >> s) & ((0x01 << w) - 1))
+
+		nn = _SHIFTR(hi, 10, 6);
+
+		sprintf(line, "gsSPVertex(@r, %i, %i),", nn, _SHIFTR(hi, 17, 7));
+	}
+
+	references.push_back(vtxAddr);
+
+	{
+		uint32_t currentPtr = SEG2FILESPACE(data);
+
+		if (GETSEGNUM(data) == 0x80) // Are these vertices defined in code?
+			currentPtr -= SEG2FILESPACE(parent->baseAddress);
+
+		// Check for vertex intersections from other display lists
+		// TODO: These two could probably be condenced to one...
+		if (parent->GetDeclarationRanged(vtxAddr + (nn * 16)) != nullptr)
+		{
+			Declaration* decl = parent->GetDeclarationRanged(vtxAddr + (nn * 16));
+			uint32_t addr = parent->GetDeclarationRangedAddress(vtxAddr + (nn * 16));
+			int diff = addr - vtxAddr;
+			if (diff > 0)
+				nn = diff / 16;
+			else
+				nn = 0;
+		}
+
+		if (parent->GetDeclarationRanged(vtxAddr) != nullptr)
+		{
+			Declaration* decl = parent->GetDeclarationRanged(vtxAddr);
+			uint32_t addr = parent->GetDeclarationRangedAddress(vtxAddr);
+			int diff = addr - vtxAddr;
+			if (diff > 0)
+				nn = diff / 16;
+			else
+				nn = 0;
+		}
+
+		if (nn > 0)
+		{
+			vector<Vertex> vtxList = vector<Vertex>();
+			vtxList.reserve(nn);
+
+			for (int i = 0; i < nn; i++)
+			{
+				Vertex vtx = Vertex(fileData, currentPtr);
+				vtxList.push_back(vtx);
+
+				currentPtr += 16;
+			}
+
+			vertices[vtxAddr] = vtxList;
+		}
+	}
+}
+
+void ZDisplayList::Opcode_G_TEXTURE(uint64_t data, int i, std::string prefix, char* line)
+{
+	int ____ = (data & 0x0000FFFF00000000) >> 32;
+	int ssss = (data & 0x00000000FFFF0000) >> 16;
+	int tttt = (data & 0x000000000000FFFF);
+	int lll = (____ & 0x3800) >> 11;
+	int ddd = (____ & 0x700) >> 8;
+	int nnnnnnn = 0;
+
+	if (dListType == DListType::F3DEX)
+		nnnnnnn = (____ & 0xFF);
+	else
+		nnnnnnn = (____ & 0xFE) >> 1;
+
+	sprintf(line, "gsSPTexture(%i, %i, %i, %i, %s),", ssss, tttt, lll, ddd, nnnnnnn == 1 ? "G_ON" : "G_OFF");
+}
+
+void ZDisplayList::Opcode_G_SETTIMG(uint64_t data, int i, std::string prefix, char* line)
+{
+	int __ = (data & 0x00FF000000000000) >> 48;
+	int www = (data & 0x00000FFF00000000) >> 32;
+	string fmtTbl[] = { "G_IM_FMT_RGBA", "G_IM_FMT_YUV", "G_IM_FMT_CI", "G_IM_FMT_IA", "G_IM_FMT_I" };
+	string sizTbl[] = { "G_IM_SIZ_4b", "G_IM_SIZ_8b", "G_IM_SIZ_16b", "G_IM_SIZ_32b" };
+
+	uint32_t fmt = (__ & 0xE0) >> 5;
+	uint32_t siz = (__ & 0x18) >> 3;
+
+	if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+		printf("TextureGenCheck G_SETTIMG\n");
+
+	TextureGenCheck(prefix); // HOTSPOT
+
+	lastTexFmt = (F3DZEXTexFormats)fmt;
+	lastTexSiz = (F3DZEXTexSizes)siz;
+	lastTexSeg = data;
+	lastTexAddr = data & 0x00FFFFFF;
+
+	if (GETSEGNUM(lastTexSeg) == 0x80) // Is this texture defined in code?
+		lastTexAddr -= SEG2FILESPACE(parent->baseAddress);
+
+	int segmentNumber = (data >> 24) & 0xFF;
+
+	if (segmentNumber != 2)
+	{
+		char texStr[2048];
+		int32_t texAddress = SEG2FILESPACE(data);
+		Declaration* texDecl = nullptr;
+
+		if (segmentNumber == 0x80) // Is this texture defined in code?
+			texAddress -= SEG2FILESPACE(parent->baseAddress);
+
+		if (parent != nullptr)
+		{
+			if (Globals::Instance->HasSegment(segmentNumber))
+				texDecl = parent->GetDeclaration(texAddress);
+			else
+				texDecl = parent->GetDeclaration(data);
+		}
+
+		if (texDecl != nullptr)
+			sprintf(texStr, "%s", texDecl->varName.c_str());
+		else if (data != 0 && Globals::Instance->HasSegment(segmentNumber))
+			sprintf(texStr, "%sTex_%06X", prefix.c_str(), texAddress);
+		else
+		{
+			// TEST: CHECK OTHER FILES FOR REF
+			//if (segmentNumber == 4)
+			//{
+				//Globals::Instance->FindSymbolSegRef(segmentNumber, texAddress);
+			//}
+			//else
+			{
+				sprintf(texStr, "0x%08lX", data & 0xFFFFFFFF);
+			}
+		}
+
+		sprintf(line, "gsDPSetTextureImage(%s, %s, %i, %s),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1, texStr);
+		//sprintf(line, "gsDPSetTextureImage(%s, %s, %i, @r),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1);
+		//references.push_back(data & 0x00FFFFFF);
+	}
+	else
+	{
+		//sprintf(line, "gsDPSetTextureImage(%s, %s, %i, 0x%08X),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1, data & 0xFFFFFFFF);
+		sprintf(line, "gsDPSetTextureImage(%s, %s, %i, %sTex_%06lX),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1, scene->GetName().c_str(), SEG2FILESPACE(data));
+	}
+}
+
+void ZDisplayList::Opcode_G_SETTILE(uint64_t data, int i, std::string prefix, char* line)
+{
+	int fff = (data & 0b0000000011100000000000000000000000000000000000000000000000000000) >> 53;
+	int ii = (data & 0b0000000000011000000000000000000000000000000000000000000000000000) >> 51;
+	int nnnnnnnnn = (data & 0b0000000000000011111111100000000000000000000000000000000000000000) >> 41;
+	int mmmmmmmmm = (data & 0b0000000000000000000000011111111100000000000000000000000000000000) >> 32;
+	int ttt = (data & 0b0000000000000000000000000000000000000111000000000000000000000000) >> 24;
+	int pppp = (data & 0b0000000000000000000000000000000000000000111100000000000000000000) >> 20;
+	int cc = (data & 0b0000000000000000000000000000000000000000000011000000000000000000) >> 18;
+	int aaaa = (data & 0b0000000000000000000000000000000000000000000000111100000000000000) >> 14;
+	int ssss = (data & 0b0000000000000000000000000000000000000000000000000011110000000000) >> 10;
+	int dd = (data & 0b0000000000000000000000000000000000000000000000000000001100000000) >> 8;
+	int bbbb = (data & 0b0000000000000000000000000000000000000000000000000000000011110000) >> 4;
+	int uuuu = (data & 0b0000000000000000000000000000000000000000000000000000000000001111);
+
+	string fmtTbl[] = { "G_IM_FMT_RGBA", "G_IM_FMT_YUV", "G_IM_FMT_CI", "G_IM_FMT_IA", "G_IM_FMT_I" };
+	string sizTbl[] = { "G_IM_SIZ_4b", "G_IM_SIZ_8b", "G_IM_SIZ_16b", "G_IM_SIZ_32b" };
+
+	if (fff == (int)F3DZEXTexFormats::G_IM_FMT_CI)
+		lastCISiz = (F3DZEXTexSizes)ii;
+
+	lastTexSizTest = (F3DZEXTexSizes)ii;
+
+	sprintf(line, "gsDPSetTile(%s, %s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i),", fmtTbl[fff].c_str(), sizTbl[ii].c_str(), nnnnnnnnn, mmmmmmmmm, ttt, pppp, cc, aaaa, ssss, dd, bbbb, uuuu);
+}
+
+void ZDisplayList::Opcode_G_SETTILESIZE(uint64_t data, int index, std::string prefix, char* line)
+{
+	int sss = (data & 0x00FFF00000000000) >> 44;
+	int ttt = (data & 0x00000FFF00000000) >> 32;
+	int uuu = (data & 0x0000000000FFF000) >> 12;
+	int vvv = (data & 0x0000000000000FFF);
+	int i = (data & 0x000000000F000000) >> 24;
+
+	int shiftAmtW = 2;
+	int shiftAmtH = 2;
+
+	if (lastTexSizTest == F3DZEXTexSizes::G_IM_SIZ_8b && lastTexFmt == F3DZEXTexFormats::G_IM_FMT_IA)
+		shiftAmtW = 3;
+
+	//if (lastTexFmt == F3DZEXTexFormats::G_IM_FMT_I || lastTexFmt == F3DZEXTexFormats::G_IM_FMT_CI)
+	if (lastTexSizTest == F3DZEXTexSizes::G_IM_SIZ_4b)
+		shiftAmtW = 3;
+
+	if (lastTexSizTest == F3DZEXTexSizes::G_IM_SIZ_4b && lastTexFmt == F3DZEXTexFormats::G_IM_FMT_IA)
+		shiftAmtH = 3;
+
+
+	lastTexWidth = (uuu >> shiftAmtW) + 1;
+	lastTexHeight = (vvv >> shiftAmtH) + 1;
+
+	if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+		printf("lastTexWidth: %i lastTexHeight: %i, lastTexSizTest: 0x%x, lastTexFmt: 0x%x\n", lastTexWidth, lastTexHeight, (uint32_t)lastTexSizTest, (uint32_t)lastTexFmt);
+
+	if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+		printf("TextureGenCheck G_SETTILESIZE\n");
+
+	TextureGenCheck(prefix);
+
+	sprintf(line, "gsDPSetTileSize(%i, %i, %i, %i, %i),", i, sss, ttt, uuu, vvv);
+}
+
+void ZDisplayList::Opcode_G_LOADBLOCK(uint64_t data, int index, std::string prefix, char* line)
+{
+	int sss = (data & 0x00FFF00000000000) >> 48;
+	int ttt = (data & 0x00000FFF00000000) >> 36;
+	int i = (data & 0x000000000F000000) >> 24;
+	int xxx = (data & 0x0000000000FFF000) >> 12;
+	int ddd = (data & 0x0000000000000FFF);
+
+	//lastTexHeight = (ddd + 1) / 16;
+
+	lastTexLoaded = true;
+
+	//TextureGenCheck(prefix);
+
+	sprintf(line, "gsDPLoadBlock(%i, %i, %i, %i, %i),", i, sss, ttt, xxx, ddd);
+}
+
+void ZDisplayList::Opcode_G_SETCOMBINE(uint64_t data, int i, std::string prefix, char* line)
+{
+	int a0 = (data & 0b000000011110000000000000000000000000000000000000000000000000000) >> 52;
+	int c0 = (data & 0b000000000001111100000000000000000000000000000000000000000000000) >> 47;
+	int aa0 = (data & 0b00000000000000011100000000000000000000000000000000000000000000) >> 44;
+	int ac0 = (data & 0b00000000000000000011100000000000000000000000000000000000000000) >> 41;
+	int a1 = (data & 0b000000000000000000000011110000000000000000000000000000000000000) >> 37;
+	int c1 = (data & 0b000000000000000000000000001111100000000000000000000000000000000) >> 32;
+	int b0 = (data & 0b000000000000000000000000000000011110000000000000000000000000000) >> 28;
+	int b1 = (data & 0b000000000000000000000000000000000001111000000000000000000000000) >> 24;
+	int aa1 = (data & 0b00000000000000000000000000000000000000111000000000000000000000) >> 21;
+	int ac1 = (data & 0b00000000000000000000000000000000000000000111000000000000000000) >> 18;
+	int d0 = (data & 0b000000000000000000000000000000000000000000000111000000000000000) >> 15;
+	int ab0 = (data & 0b00000000000000000000000000000000000000000000000111000000000000) >> 12;
+	int ad0 = (data & 0b00000000000000000000000000000000000000000000000000111000000000) >> 9;
+	int d1 = (data & 0b000000000000000000000000000000000000000000000000000000111000000) >> 6;
+	int ab1 = (data & 0b00000000000000000000000000000000000000000000000000000000111000) >> 3;
+	int ad1 = (data & 0b00000000000000000000000000000000000000000000000000000000000111) >> 0;
+
+	string modes[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "COMBINED_ALPHA",
+		"TEXEL0_ALPHA", "TEXEL1_ALPHA", "PRIMITIVE_ALPHA", "SHADE_ALPHA", "ENV_ALPHA", "LOD_FRACTION", "PRIM_LOD_FRAC", "K5",
+		"17", "18", "19", "20", "21", "22", "23", "24",
+		"25", "26", "27", "28", "29", "30", "31", "0" };
+
+	string modes2[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "0" };
+
+	sprintf(line, "gsDPSetCombineLERP(%s, %s, %s, %s, %s, %s, %s, %s,\n                       %s, %s, %s, %s, %s, %s, %s, %s),",
+		modes[a0].c_str(), modes[b0].c_str(), modes[c0].c_str(), modes[d0].c_str(),
+		modes2[aa0].c_str(), modes2[ab0].c_str(), modes2[ac0].c_str(), modes2[ad0].c_str(),
+		modes[a1].c_str(), modes[b1].c_str(), modes[c1].c_str(), modes[d1].c_str(),
+		modes2[aa1].c_str(), modes2[ab1].c_str(), modes2[ac1].c_str(), modes2[ad1].c_str());
+}
+
+void ZDisplayList::Opcode_G_SETPRIMCOLOR(uint64_t data, int i, std::string prefix, char* line)
+{
+	int mm = (data & 0x0000FF0000000000) >> 40;
+	int ff = (data & 0x000000FF00000000) >> 32;
+	int rr = (data & 0x00000000FF000000) >> 24;
+	int gg = (data & 0x0000000000FF0000) >> 16;
+	int bb = (data & 0x000000000000FF00) >> 8;
+	int aa = (data & 0x00000000000000FF) >> 0;
+	sprintf(line, "gsDPSetPrimColor(%i, %i, %i, %i, %i, %i),", mm, ff, rr, gg, bb, aa);
+}
+
+void ZDisplayList::Opcode_F3DEX_G_SETOTHERMODE_L(uint64_t data, int i, std::string prefix, char* line)
+{
+	int sft = (data & 0x0000FF0000000000) >> 40;
+	int len = (data & 0x000000FF00000000) >> 32;
+	int dat = (data & 0xFFFFFFFF);
+
+	// TODO: Output the correct render modes in data
+
+	sprintf(line, "gsSPSetOtherMode(0xE2, %i, %i, 0x%08X),", sft, len, dat);
+}
+
+void ZDisplayList::Opcode_G_SETOTHERMODE_L(uint64_t data, int i, std::string prefix, char* line)
+{
+	int dd = (data & 0xFFFFFFFF);
+	int sft = 0;
+	int len = 0;
+
+	if (dListType == DListType::F3DEX)
+	{
+		sft = (data & 0x0000FF0000000000) >> 40;
+		len = (data & 0x000000FF00000000) >> 32;
+	}
+	else
+	{
+		int ss = (data & 0x0000FF0000000000) >> 40;
+		len = ((data & 0x000000FF00000000) >> 32) + 1;
+		sft = 32 - (len) - ss;
+	}
+
+	if (sft == G_MDSFT_RENDERMODE)
+	{
+		int mode1 = (dd & 0xCCCC0000) >> 0;
+		int mode2 = (dd & 0x3333FFFF);
+
+		// TODO: Jesus Christ This is Messy
+
+		uint32_t tblA[] =
+		{
+			G_RM_FOG_SHADE_A, G_RM_FOG_PRIM_A, G_RM_PASS, G_RM_AA_ZB_OPA_SURF,
+			G_RM_AA_ZB_XLU_SURF, G_RM_AA_ZB_OPA_DECAL, G_RM_AA_ZB_XLU_DECAL,
+			G_RM_AA_ZB_OPA_INTER, G_RM_AA_ZB_XLU_INTER, G_RM_AA_ZB_XLU_LINE,
+			G_RM_AA_ZB_DEC_LINE, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_INTER,
+			G_RM_AA_ZB_SUB_SURF, G_RM_AA_ZB_PCL_SURF, G_RM_AA_ZB_OPA_TERR,
+			G_RM_AA_ZB_TEX_TERR, G_RM_AA_ZB_SUB_TERR, G_RM_RA_ZB_OPA_SURF,
+			G_RM_RA_ZB_OPA_DECAL, G_RM_RA_ZB_OPA_INTER, G_RM_AA_OPA_SURF,
+			G_RM_AA_XLU_SURF, G_RM_AA_XLU_LINE, G_RM_AA_DEC_LINE,
+			G_RM_AA_TEX_EDGE, G_RM_AA_SUB_SURF, G_RM_AA_PCL_SURF,
+			G_RM_AA_OPA_TERR, G_RM_AA_TEX_TERR, G_RM_AA_SUB_TERR,
+			G_RM_RA_OPA_SURF, G_RM_ZB_OPA_SURF, G_RM_ZB_XLU_SURF,
+			G_RM_ZB_OPA_DECAL, G_RM_ZB_XLU_DECAL, G_RM_ZB_CLD_SURF,
+			G_RM_ZB_OVL_SURF, G_RM_ZB_PCL_SURF, G_RM_OPA_SURF,
+			G_RM_XLU_SURF, G_RM_CLD_SURF, G_RM_TEX_EDGE, G_RM_PCL_SURF,
+			G_RM_ADD, G_RM_NOOP, G_RM_VISCVG, G_RM_OPA_CI
+		};
+
+		uint32_t tblB[] =
+		{
+			G_RM_AA_ZB_OPA_SURF2,
+			G_RM_AA_ZB_XLU_SURF2, G_RM_AA_ZB_OPA_DECAL2, G_RM_AA_ZB_XLU_DECAL2,
+			G_RM_AA_ZB_OPA_INTER2, G_RM_AA_ZB_XLU_INTER2, G_RM_AA_ZB_XLU_LINE2,
+			G_RM_AA_ZB_DEC_LINE2, G_RM_AA_ZB_TEX_EDGE2, G_RM_AA_ZB_TEX_INTER2,
+			G_RM_AA_ZB_SUB_SURF2, G_RM_AA_ZB_PCL_SURF2, G_RM_AA_ZB_OPA_TERR2,
+			G_RM_AA_ZB_TEX_TERR2, G_RM_AA_ZB_SUB_TERR2, G_RM_RA_ZB_OPA_SURF2,
+			G_RM_RA_ZB_OPA_DECAL2, G_RM_RA_ZB_OPA_INTER2, G_RM_AA_OPA_SURF2,
+			G_RM_AA_XLU_SURF2, G_RM_AA_XLU_LINE2, G_RM_AA_DEC_LINE2,
+			G_RM_AA_TEX_EDGE2, G_RM_AA_SUB_SURF2, G_RM_AA_PCL_SURF2,
+			G_RM_AA_OPA_TERR2, G_RM_AA_TEX_TERR2, G_RM_AA_SUB_TERR2,
+			G_RM_RA_OPA_SURF2, G_RM_ZB_OPA_SURF2, G_RM_ZB_XLU_SURF2,
+			G_RM_ZB_OPA_DECAL2, G_RM_ZB_XLU_DECAL2, G_RM_ZB_CLD_SURF2,
+			G_RM_ZB_OVL_SURF2, G_RM_ZB_PCL_SURF2, G_RM_OPA_SURF2,
+			G_RM_XLU_SURF2, G_RM_CLD_SURF2, G_RM_TEX_EDGE2, G_RM_PCL_SURF2,
+			G_RM_ADD2, G_RM_NOOP2,G_RM_VISCVG2, G_RM_OPA_CI2
+		};
+
+		map<uint32_t, string> str =
+		{
+			{ G_RM_FOG_SHADE_A, "G_RM_FOG_SHADE_A" },
+			{ G_RM_FOG_PRIM_A, "G_RM_FOG_PRIM_A" },
+			{ G_RM_PASS, "G_RM_PASS" },
+			{ G_RM_AA_ZB_OPA_SURF, "G_RM_AA_ZB_OPA_SURF" },
+			{ G_RM_AA_ZB_OPA_SURF2, "G_RM_AA_ZB_OPA_SURF2" },
+			{ G_RM_AA_ZB_XLU_SURF, "G_RM_AA_ZB_XLU_SURF" },
+			{ G_RM_AA_ZB_XLU_SURF2, "G_RM_AA_ZB_XLU_SURF2" },
+			{ G_RM_AA_ZB_OPA_DECAL, "G_RM_AA_ZB_OPA_DECAL" },
+			{ G_RM_AA_ZB_OPA_DECAL2, "G_RM_AA_ZB_OPA_DECAL2" },
+			{ G_RM_AA_ZB_XLU_DECAL, "G_RM_AA_ZB_XLU_DECAL" },
+			{ G_RM_AA_ZB_XLU_DECAL2, "G_RM_AA_ZB_XLU_DECAL2" },
+			{ G_RM_AA_ZB_OPA_INTER, "G_RM_AA_ZB_OPA_INTER" },
+			{ G_RM_AA_ZB_OPA_INTER2, "G_RM_AA_ZB_OPA_INTER2" },
+			{ G_RM_AA_ZB_XLU_INTER, "G_RM_AA_ZB_XLU_INTER" },
+			{ G_RM_AA_ZB_XLU_INTER2, "G_RM_AA_ZB_XLU_INTER2" },
+			{ G_RM_AA_ZB_XLU_LINE, "G_RM_AA_ZB_XLU_LINE" },
+			{ G_RM_AA_ZB_XLU_LINE2, "G_RM_AA_ZB_XLU_LINE2" },
+			{ G_RM_AA_ZB_DEC_LINE, "G_RM_AA_ZB_DEC_LINE" },
+			{ G_RM_AA_ZB_DEC_LINE2, "G_RM_AA_ZB_DEC_LINE2" },
+			{ G_RM_AA_ZB_TEX_EDGE, "G_RM_AA_ZB_TEX_EDGE" },
+			{ G_RM_AA_ZB_TEX_EDGE2, "G_RM_AA_ZB_TEX_EDGE2" },
+			{ G_RM_AA_ZB_TEX_INTER, "G_RM_AA_ZB_TEX_INTER" },
+			{ G_RM_AA_ZB_TEX_INTER2, "G_RM_AA_ZB_TEX_INTER2" },
+			{ G_RM_AA_ZB_SUB_SURF, "G_RM_AA_ZB_SUB_SURF" },
+			{ G_RM_AA_ZB_SUB_SURF2, "G_RM_AA_ZB_SUB_SURF2" },
+			{ G_RM_AA_ZB_PCL_SURF, "G_RM_AA_ZB_PCL_SURF" },
+			{ G_RM_AA_ZB_PCL_SURF2, "G_RM_AA_ZB_PCL_SURF2" },
+			{ G_RM_AA_ZB_OPA_TERR, "G_RM_AA_ZB_OPA_TERR" },
+			{ G_RM_AA_ZB_OPA_TERR2, "G_RM_AA_ZB_OPA_TERR2" },
+			{ G_RM_AA_ZB_TEX_TERR, "G_RM_AA_ZB_TEX_TERR" },
+			{ G_RM_AA_ZB_TEX_TERR2, "G_RM_AA_ZB_TEX_TERR2" },
+			{ G_RM_AA_ZB_SUB_TERR, "G_RM_AA_ZB_SUB_TERR" },
+			{ G_RM_AA_ZB_SUB_TERR2, "G_RM_AA_ZB_SUB_TERR2" },
+			{ G_RM_RA_ZB_OPA_SURF, "G_RM_RA_ZB_OPA_SURF" },
+			{ G_RM_RA_ZB_OPA_SURF2, "G_RM_RA_ZB_OPA_SURF2" },
+			{ G_RM_RA_ZB_OPA_DECAL, "G_RM_RA_ZB_OPA_DECAL" },
+			{ G_RM_RA_ZB_OPA_DECAL2, "G_RM_RA_ZB_OPA_DECAL2" },
+			{ G_RM_RA_ZB_OPA_INTER, "G_RM_RA_ZB_OPA_INTER" },
+			{ G_RM_RA_ZB_OPA_INTER2, "G_RM_RA_ZB_OPA_INTER2" },
+			{ G_RM_AA_OPA_SURF, "G_RM_AA_OPA_SURF" },
+			{ G_RM_AA_OPA_SURF2, "G_RM_AA_OPA_SURF2" },
+			{ G_RM_AA_XLU_SURF, "G_RM_AA_XLU_SURF" },
+			{ G_RM_AA_XLU_SURF2, "G_RM_AA_XLU_SURF2" },
+			{ G_RM_AA_XLU_LINE, "G_RM_AA_XLU_LINE" },
+			{ G_RM_AA_XLU_LINE2, "G_RM_AA_XLU_LINE2" },
+			{ G_RM_AA_DEC_LINE, "G_RM_AA_DEC_LINE" },
+			{ G_RM_AA_DEC_LINE2, "G_RM_AA_DEC_LINE2" },
+			{ G_RM_AA_TEX_EDGE, "G_RM_AA_TEX_EDGE" },
+			{ G_RM_AA_TEX_EDGE2, "G_RM_AA_TEX_EDGE2" },
+			{ G_RM_AA_SUB_SURF, "G_RM_AA_SUB_SURF" },
+			{ G_RM_AA_SUB_SURF2, "G_RM_AA_SUB_SURF2" },
+			{ G_RM_AA_PCL_SURF, "G_RM_AA_PCL_SURF" },
+			{ G_RM_AA_PCL_SURF2, "G_RM_AA_PCL_SURF2" },
+			{ G_RM_AA_OPA_TERR, "G_RM_AA_OPA_TERR" },
+			{ G_RM_AA_OPA_TERR2, "G_RM_AA_OPA_TERR2" },
+			{ G_RM_AA_TEX_TERR, "G_RM_AA_TEX_TERR" },
+			{ G_RM_AA_TEX_TERR2, "G_RM_AA_TEX_TERR2" },
+			{ G_RM_AA_TEX_TERR, "G_RM_AA_TEX_TERR" },
+			{ G_RM_AA_TEX_TERR2, "G_RM_AA_TEX_TERR2" },
+			{ G_RM_AA_SUB_TERR, "G_RM_AA_SUB_TERR" },
+			{ G_RM_AA_SUB_TERR2, "G_RM_AA_SUB_TERR2" },
+			{ G_RM_RA_OPA_SURF, "G_RM_RA_OPA_SURF" },
+			{ G_RM_RA_OPA_SURF2, "G_RM_RA_OPA_SURF2" },
+			{ G_RM_ZB_OPA_SURF, "G_RM_ZB_OPA_SURF" },
+			{ G_RM_ZB_OPA_SURF2, "G_RM_ZB_OPA_SURF2" },
+			{ G_RM_ZB_XLU_SURF, "G_RM_ZB_XLU_SURF" },
+			{ G_RM_ZB_XLU_SURF2, "G_RM_ZB_XLU_SURF2" },
+			{ G_RM_ZB_OPA_DECAL, "G_RM_ZB_OPA_DECAL" },
+			{ G_RM_ZB_OPA_DECAL2, "G_RM_ZB_OPA_DECAL2" },
+			{ G_RM_ZB_XLU_DECAL, "G_RM_ZB_XLU_DECAL" },
+			{ G_RM_ZB_XLU_DECAL2, "G_RM_ZB_XLU_DECAL2" },
+			{ G_RM_ZB_CLD_SURF, "G_RM_ZB_CLD_SURF" },
+			{ G_RM_ZB_CLD_SURF2, "G_RM_ZB_CLD_SURF2" },
+			{ G_RM_ZB_OVL_SURF, "G_RM_ZB_OVL_SURF" },
+			{ G_RM_ZB_OVL_SURF2, "G_RM_ZB_OVL_SURF2" },
+			{ G_RM_ZB_PCL_SURF, "G_RM_ZB_PCL_SURF" },
+			{ G_RM_ZB_PCL_SURF2, "G_RM_ZB_PCL_SURF2" },
+			{ G_RM_OPA_SURF, "G_RM_OPA_SURF" },
+			{ G_RM_OPA_SURF2, "G_RM_OPA_SURF2" },
+			{ G_RM_XLU_SURF, "G_RM_XLU_SURF" },
+			{ G_RM_XLU_SURF2, "G_RM_XLU_SURF2" },
+			{ G_RM_CLD_SURF, "G_RM_CLD_SURF" },
+			{ G_RM_CLD_SURF2, "G_RM_CLD_SURF2" },
+			{ G_RM_TEX_EDGE, "G_RM_TEX_EDGE" },
+			{ G_RM_TEX_EDGE2, "G_RM_TEX_EDGE2" },
+			{ G_RM_PCL_SURF, "G_RM_PCL_SURF" },
+			{ G_RM_PCL_SURF2, "G_RM_PCL_SURF2" },
+			{ G_RM_ADD, "G_RM_ADD" },
+			{ G_RM_ADD2, "G_RM_ADD2" },
+			{ G_RM_NOOP, "G_RM_NOOP" },
+			{ G_RM_NOOP2, "G_RM_NOOP2" },
+			{ G_RM_VISCVG, "G_RM_VISCVG" },
+			{ G_RM_VISCVG2, "G_RM_VISCVG2" },
+			{ G_RM_OPA_CI, "G_RM_OPA_CI" },
+			{ G_RM_OPA_CI2, "G_RM_OPA_CI2" },
+		};
+
+		for (int k = 0; k < sizeof(tblA) / 4; k++)
+		{
+			if ((dd & tblA[k]) == tblA[k])
+			{
+				if (tblA[k] > mode1)
+					mode1 = tblA[k];
+			}
+		}
+
+		for (int k = 0; k < sizeof(tblB) / 4; k++)
+		{
+			if ((dd & tblB[k]) == tblB[k])
+			{
+				if (tblB[k] > mode2)
+					mode2 = tblB[k];
+			}
+		}
+
+		std::string mode1Str = str[mode1];
+		std::string mode2Str = str[mode2];
+
+		if (mode1Str == "")
+		{
+			mode1Str = StringHelper::Sprintf("0x%08X", mode1);
+		}
+
+		if (mode2Str == "")
+		{
+			int remainingFlags = mode2;
+
+			if (mode2 & AA_EN)
+			{
+				mode2Str += "AA_EN | ";
+				remainingFlags ^= AA_EN;
+			}
+
+			if (mode2 & Z_CMP)
+			{
+				mode2Str += "Z_CMP | ";
+				remainingFlags ^= Z_CMP;
+			}
+
+			if (mode2 & Z_UPD)
+			{
+				mode2Str += "Z_UPD | ";
+				remainingFlags ^= Z_UPD;
+			}
+
+			if (mode2 & IM_RD)
+			{
+				mode2Str += "IM_RD | ";
+				remainingFlags ^= IM_RD;
+			}
+
+			if (mode2 & CLR_ON_CVG)
+			{
+				mode2Str += "CLR_ON_CVG | ";
+				remainingFlags ^= CLR_ON_CVG;
+			}
+
+			if (mode2 & CVG_DST_CLAMP)
+			{
+				mode2Str += "CVG_DST_CLAMP | ";
+				remainingFlags ^= CVG_DST_CLAMP;
+			}
+
+			if (mode2 & CVG_DST_WRAP)
+			{
+				mode2Str += "CVG_DST_WRAP | ";
+				remainingFlags ^= CVG_DST_WRAP;
+			}
+
+			if (mode2 & CVG_DST_FULL)
+			{
+				mode2Str += "CVG_DST_FULL | ";
+				remainingFlags ^= CVG_DST_FULL;
+			}
+
+			if (mode2 & CVG_DST_SAVE)
+			{
+				mode2Str += "CVG_DST_SAVE | ";
+				remainingFlags ^= CVG_DST_SAVE;
+			}
+
+			int zMode = mode2 & 0xC00;
+
+			if (zMode == ZMODE_INTER)
+			{
+				mode2Str += "ZMODE_INTER | ";
+				remainingFlags ^= ZMODE_INTER;
+			}
+			else if (zMode == ZMODE_XLU)
+			{
+				mode2Str += "ZMODE_XLU | ";
+				remainingFlags ^= ZMODE_XLU;
+			}
+			else if (zMode == ZMODE_DEC)
+			{
+				mode2Str += "ZMODE_DEC | ";
+				remainingFlags ^= ZMODE_DEC;
+			}
+
+			if (mode2 & CVG_X_ALPHA)
+			{
+				mode2Str += "CVG_X_ALPHA | ";
+				remainingFlags ^= CVG_X_ALPHA;
+			}
+
+			if (mode2 & ALPHA_CVG_SEL)
+			{
+				mode2Str += "ALPHA_CVG_SEL | ";
+				remainingFlags ^= ALPHA_CVG_SEL;
+			}
+
+			if (mode2 & FORCE_BL)
+			{
+				mode2Str += "FORCE_BL | ";
+				remainingFlags ^= FORCE_BL;
+			}
+
+			int bp = (mode2 >> 28) & 0b11;
+			int ba = (mode2 >> 24) & 0b11;
+			int bm = (mode2 >> 20) & 0b11;
+			int bb = (mode2 >> 16) & 0b11;
+
+			mode2Str += StringHelper::Sprintf("GBL_c2(%i, %i, %i, %i)", bp, ba, bm, bb);
+			//mode2Str = StringHelper::Sprintf("0x%08X", mode2);
+		}
+
+		sprintf(line, "gsDPSetRenderMode(%s, %s),", mode1Str.c_str(), mode2Str.c_str());
+	}
+	else
+	{
+		sprintf(line, "gsSPSetOtherMode(0xE2, %i, %i, 0x%08X),", sft, len, dd);
+	}
+}
+
+void ZDisplayList::Opcode_G_SETOTHERMODE_H(uint64_t data, int i, std::string prefix, char* line)
+{
+	int ss = (data & 0x0000FF0000000000) >> 40;
+	int nn = (data & 0x000000FF00000000) >> 32;
+	int dd = (data & 0xFFFFFFFF);
+
+	int sft = 32 - (nn + 1) - ss;
+
+	if (sft == 14) // G_MDSFT_TEXTLUT
+	{
+		string types[] = { "G_TT_NONE", "G_TT_NONE", "G_TT_RGBA16", "G_TT_IA16" };
+		sprintf(line, "gsDPSetTextureLUT(%s),", types[dd >> 14].c_str());
+	}
+	else
+		sprintf(line, "gsSPSetOtherMode(0xE3, %i, %i, 0x%08X),", sft, nn + 1, dd);
+}
+
+void ZDisplayList::Opcode_G_LOADTLUT(uint64_t data, int i, std::string prefix, char* line)
+{
+	int t = (data & 0x0000000007000000) >> 24;
+	int ccc = (data & 0x00000000003FF000) >> 14;
+
+	lastTexWidth = sqrt(ccc + 1);
+	lastTexHeight = sqrt(ccc + 1);
+
+	lastTexLoaded = true;
+	lastTexIsPalette = true;
+
+	if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+		printf("TextureGenCheck G_LOADTLUT (lastCISiz: %i)\n", (uint32_t)lastCISiz);
+
+	TextureGenCheck(prefix);
+
+	sprintf(line, "gsDPLoadTLUTCmd(%i, %i),", t, ccc);
+}
+
+void ZDisplayList::Opcode_G_ENDDL(uint64_t data, int i, std::string prefix, char* line)
+{
+	sprintf(line, "gsSPEndDisplayList(),");
+
+	if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+		printf("TextureGenCheck G_ENDDL\n");
+
+	TextureGenCheck(prefix);
+}
+
 string ZDisplayList::GetSourceOutputHeader(const std::string& prefix)
 {
 	return "";
@@ -315,7 +1427,7 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 
 	for (int i = 0; i < instructions.size(); i++)
 	{
-		F3DZEXOpcode opcode = (F3DZEXOpcode)(instructions[i] >> 56);
+		uint8_t opcode = (uint8_t)(instructions[i] >> 56);
 		uint64_t data = instructions[i];
 		sourceOutput += "    ";
 
@@ -330,743 +1442,10 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 		}
 		else
 		{
-			switch (opcode)
-			{
-			case F3DZEXOpcode::G_NOOP:
-				sprintf(line, "gsDPNoOpTag(0x%08lX),", data & 0xFFFFFFFF);
-				break;
-			case F3DZEXOpcode::G_DL:
-			{
-				int pp = (data & 0x00FF000000000000) >> 56;
-				int segNum = (data & 0xFF000000) >> 24;
-
-				Declaration* dListDecl = nullptr;
-
-				if (parent != nullptr)
-					dListDecl = parent->GetDeclaration(SEG2FILESPACE(data));
-
-				if (pp != 0)
-				{
-					if (!Globals::Instance->HasSegment(segNum))
-						sprintf(line, "gsSPBranchList(0x%08lX),", data & 0xFFFFFFFF);
-					else if (dListDecl != nullptr)
-						sprintf(line, "gsSPBranchList(%s),", dListDecl->varName.c_str());
-					else
-						sprintf(line, "gsSPBranchList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
-				}
-				else
-				{
-					if (!Globals::Instance->HasSegment(segNum))
-						sprintf(line, "gsSPDisplayList(0x%08lX),", data & 0xFFFFFFFF);
-					else if (dListDecl != nullptr)
-						sprintf(line, "gsSPDisplayList(%s),", dListDecl->varName.c_str());
-					else
-						sprintf(line, "gsSPDisplayList(%sDlist0x%06lX),", prefix.c_str(), SEG2FILESPACE(data));
-				}
-
-				int segmentNumber = (data & 0xFF000000) >> 24;
-
-				if (segmentNumber == 8 || segmentNumber == 9 || segmentNumber == 10 || segmentNumber == 11 || segmentNumber == 12 || segmentNumber == 13) // Used for runtime-generated display lists
-				{
-					if (pp != 0)
-						sprintf(line, "gsSPBranchList(0x%08lX),", data & 0xFFFFFFFF);
-					else
-						sprintf(line, "gsSPDisplayList(0x%08lX),", data & 0xFFFFFFFF);
-				}
-				else
-				{
-					ZDisplayList* nList = new ZDisplayList(fileData, data & 0x00FFFFFF, GetDListLength(fileData, data & 0x00FFFFFF));
-					nList->scene = scene;
-					nList->parent = parent;
-					otherDLists.push_back(nList);
-				}
-			}
-			break;
-			case F3DZEXOpcode::G_MODIFYVTX:
-			{
-				int ww = (data & 0x00FF000000000000ULL) >> 48;
-				int nnnn = (data & 0x0000FFFF00000000ULL) >> 32;
-				int vvvvvvvv = (data & 0x00000000FFFFFFFFULL);
-
-				sprintf(line, "gsSPModifyVertex(%i, %i, %i),", nnnn / 2, ww, vvvvvvvv);
-			}
-			break;
-			case F3DZEXOpcode::G_CULLDL:
-			{
-				int vvvv = (data & 0xFFFF00000000) >> 32;
-				int wwww = (data & 0x0000FFFF);
-
-				sprintf(line, "gsSPCullDisplayList(%i, %i),", vvvv / 2, wwww / 2);
-			}
-			break;
-			/*case F3DZEXOpcode::G_BRANCH_Z:
-			{
-				int aaa = (data & 0x00FFF00000000000) >> 44;
-				int bbb = (data & 0x00000FFF00000000) >> 32;
-				int zzzzzzzz = (data & 0x00000000FFFFFFFF);
-
-				sprintf(line, "gsSPBranchLessZraw(%i, %i, %i),", );
-			}
-			break;*/
-			case F3DZEXOpcode::G_TRI1:
-			{
-				int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
-				int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
-				int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
-				sprintf(line, "gsSP1Triangle(%i, %i, %i, 0),", aa, bb, cc);
-			}
-			break;
-			case F3DZEXOpcode::G_TRI2:
-			{
-				int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
-				int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
-				int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
-				int dd = ((data & 0x00000000FF0000ULL) >> 16) / 2;
-				int ee = ((data & 0x0000000000FF00ULL) >> 8) / 2;
-				int ff = ((data & 0x000000000000FFULL) >> 0) / 2;
-				sprintf(line, "gsSP2Triangles(%i, %i, %i, 0, %i, %i, %i, 0),", aa, bb, cc, dd, ee, ff);
-			}
-			break;
-			case F3DZEXOpcode::G_QUAD:
-			{
-				int aa = ((data & 0x00FF000000000000ULL) >> 48) / 2;
-				int bb = ((data & 0x0000FF0000000000ULL) >> 40) / 2;
-				int cc = ((data & 0x000000FF00000000ULL) >> 32) / 2;
-				int dd = ((data & 0x000000000000FFULL)) / 2;
-				sprintf(line, "gsSP1Quadrangle(%i, %i, %i, %i, 0),", aa, bb, cc, dd);
-			}
-			break;
-			case F3DZEXOpcode::G_VTX:
-			{
-				int nn = (data & 0x000FF00000000000ULL) >> 44;
-				int aa = (data & 0x000000FF00000000ULL) >> 32;
-				uint32_t vtxAddr = SEG2FILESPACE(data);
-
-				if (GETSEGNUM(data) == 0x80) // Are these vertices defined in code?
-					vtxAddr -= SEG2FILESPACE(parent->baseAddress);
-
-				//sprintf(line, "gsSPVertex(%sVtx_%06X, %i, %i),", prefix.c_str(), vtxAddr, nn, ((aa >> 1) - nn));
-				sprintf(line, "gsSPVertex(@r, %i, %i),", nn, ((aa >> 1) - nn));
-				references.push_back(vtxAddr);
-
-				{
-					uint32_t currentPtr = SEG2FILESPACE(data);
-
-					if (GETSEGNUM(data) == 0x80) // Are these vertices defined in code?
-						currentPtr -= SEG2FILESPACE(parent->baseAddress);
-
-					// Check for vertex intersections from other display lists
-					// TODO: These two could probably be condenced to one...
-					if (parent->GetDeclarationRanged(vtxAddr + (nn * 16)) != nullptr)
-					{
-						Declaration* decl = parent->GetDeclarationRanged(vtxAddr + (nn * 16));
-						uint32_t addr = parent->GetDeclarationRangedAddress(vtxAddr + (nn * 16));
-						int diff = addr - vtxAddr;
-						if (diff > 0)
-							nn = diff / 16;
-						else
-							nn = 0;
-					}
-
-					if (parent->GetDeclarationRanged(vtxAddr) != nullptr)
-					{
-						Declaration* decl = parent->GetDeclarationRanged(vtxAddr);
-						uint32_t addr = parent->GetDeclarationRangedAddress(vtxAddr);
-						int diff = addr - vtxAddr;
-						if (diff > 0)
-							nn = diff / 16;
-						else
-							nn = 0;
-					}
-
-					if (nn > 0)
-					{
-						vector<Vertex> vtxList = vector<Vertex>();
-						vtxList.reserve(nn);
-
-						for (int i = 0; i < nn; i++)
-						{
-							Vertex vtx = Vertex(fileData, currentPtr);
-							vtxList.push_back(vtx);
-
-							currentPtr += 16;
-						}
-
-						vertices[vtxAddr] = vtxList;
-					}
-				}
-
-			}
-			break;
-			case F3DZEXOpcode::G_SETTIMG: // HOTSPOT
-			{
-				int __ = (data & 0x00FF000000000000) >> 48;
-				int www = (data & 0x00000FFF00000000) >> 32;
-				string fmtTbl[] = { "G_IM_FMT_RGBA", "G_IM_FMT_YUV", "G_IM_FMT_CI", "G_IM_FMT_IA", "G_IM_FMT_I" };
-				string sizTbl[] = { "G_IM_SIZ_4b", "G_IM_SIZ_8b", "G_IM_SIZ_16b", "G_IM_SIZ_32b" };
-
-				uint32_t fmt = (__ & 0xE0) >> 5;
-				uint32_t siz = (__ & 0x18) >> 3;
-
-				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
-					printf("TextureGenCheck G_SETTIMG\n");
-
-				TextureGenCheck(prefix); // HOTSPOT
-
-				lastTexFmt = (F3DZEXTexFormats)fmt;
-				lastTexSiz = (F3DZEXTexSizes)siz;
-				lastTexSeg = data;
-				lastTexAddr = data & 0x00FFFFFF;
-
-				if (GETSEGNUM(lastTexSeg) == 0x80) // Is this texture defined in code?
-					lastTexAddr -= SEG2FILESPACE(parent->baseAddress);
-
-				int segmentNumber = (data >> 24) & 0xFF;
-
-				if (segmentNumber != 2)
-				{
-					char texStr[2048];
-					int32_t texAddress = SEG2FILESPACE(data);
-					Declaration* texDecl = nullptr;
-
-					if (segmentNumber == 0x80) // Is this texture defined in code?
-						texAddress -= SEG2FILESPACE(parent->baseAddress);
-
-					if (parent != nullptr)
-					{
-						if (Globals::Instance->HasSegment(segmentNumber))
-							texDecl = parent->GetDeclaration(texAddress);
-						else
-							texDecl = parent->GetDeclaration(data);
-					}
-
-					if (texDecl != nullptr)
-						sprintf(texStr, "%s", texDecl->varName.c_str());
-					else if (data != 0 && Globals::Instance->HasSegment(segmentNumber))
-						sprintf(texStr, "%sTex_%06X", prefix.c_str(), texAddress);
-					else
-					{
-						// TEST: CHECK OTHER FILES FOR REF
-						//if (segmentNumber == 4)
-						//{
-							//Globals::Instance->FindSymbolSegRef(segmentNumber, texAddress);
-						//}
-						//else
-						{
-							sprintf(texStr, "0x%08lX", data & 0xFFFFFFFF);
-						}
-					}
-
-					sprintf(line, "gsDPSetTextureImage(%s, %s, %i, %s),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1, texStr);
-					//sprintf(line, "gsDPSetTextureImage(%s, %s, %i, @r),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1);
-					//references.push_back(data & 0x00FFFFFF);
-				}
-				else
-				{
-					//sprintf(line, "gsDPSetTextureImage(%s, %s, %i, 0x%08X),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1, data & 0xFFFFFFFF);
-					sprintf(line, "gsDPSetTextureImage(%s, %s, %i, %sTex_%06lX),", fmtTbl[fmt].c_str(), sizTbl[siz].c_str(), www + 1, scene->GetName().c_str(), SEG2FILESPACE(data));
-				}
-			}
-			break;
-			case F3DZEXOpcode::G_GEOMETRYMODE:
-			{
-				int cccccc = (data & 0x00FFFFFF00000000) >> 32;
-				int ssssssss = (data & 0xFFFFFFFF);
-				string geoModeStr = "G_TEXTURE_ENABLE";
-
-				int geoModeParam = ~cccccc;
-
-				if (ssssssss != 0)
-					geoModeParam = ssssssss;
-
-				if (geoModeParam & 0x00000001)
-					geoModeStr += " | G_ZBUFFER";
-
-				if (geoModeParam & 0x00000004)
-					geoModeStr += " | G_SHADE";
-
-				if (geoModeParam & 0x00000200)
-					geoModeStr += " | G_CULL_FRONT";
-
-				if (geoModeParam & 0x00000400)
-					geoModeStr += " | G_CULL_BACK";
-
-				if (geoModeParam & 0x00010000)
-					geoModeStr += " | G_FOG";
-
-				if (geoModeParam & 0x00020000)
-					geoModeStr += " | G_LIGHTING";
-
-				if (geoModeParam & 0x00040000)
-					geoModeStr += " | G_TEXTURE_GEN";
-
-				if (geoModeParam & 0x00080000)
-					geoModeStr += " | G_TEXTURE_GEN_LINEAR";
-
-				if (geoModeParam & 0x00200000)
-					geoModeStr += " | G_SHADING_SMOOTH";
-
-				if (geoModeParam & 0x00800000)
-					geoModeStr += " | G_CLIPPING";
-
-				if (ssssssss != 0)
-				{
-					if ((~cccccc & 0xFF000000) != 0)
-						sprintf(line, "gsSPSetGeometryMode(%s),", geoModeStr.c_str());
-					else
-						sprintf(line, "gsSPLoadGeometryMode(%s),", geoModeStr.c_str());
-				}
-				else
-					sprintf(line, "gsSPClearGeometryMode(%s),", geoModeStr.c_str());
-
-				//sprintf(line, "gsSPGeometryMode(0x%08X, 0x%08X),", ~cccccc, ssssssss);
-			}
-			break;
-			case F3DZEXOpcode::G_SETPRIMCOLOR:
-			{
-				int mm = (data & 0x0000FF0000000000) >> 40;
-				int ff = (data & 0x000000FF00000000) >> 32;
-				int rr = (data & 0x00000000FF000000) >> 24;
-				int gg = (data & 0x0000000000FF0000) >> 16;
-				int bb = (data & 0x000000000000FF00) >> 8;
-				int aa = (data & 0x00000000000000FF) >> 0;
-				sprintf(line, "gsDPSetPrimColor(%i, %i, %i, %i, %i, %i),", mm, ff, rr, gg, bb, aa);
-			}
-			break;
-			case F3DZEXOpcode::G_SETOTHERMODE_L:
-			{
-				int ss = (data & 0x0000FF0000000000) >> 40;
-				int nn = (data & 0x000000FF00000000) >> 32;
-				int dd = (data & 0xFFFFFFFF);
-
-				int sft = 32 - (nn + 1) - ss;
-
-				//if (sft == 3)
-				if (false)
-				{
-					int mode1 = (dd & 0xCCCC0000) >> 0;
-					int mode2 = (dd & 0x33330000) >> 0;
-
-					// TODO: Jesus Christ This is Messy
-
-					uint32_t tblA[] =
-					{
-						G_RM_FOG_SHADE_A, G_RM_FOG_PRIM_A, G_RM_PASS, G_RM_AA_ZB_OPA_SURF,
-						G_RM_AA_ZB_XLU_SURF, G_RM_AA_ZB_OPA_DECAL, G_RM_AA_ZB_XLU_DECAL,
-						G_RM_AA_ZB_OPA_INTER, G_RM_AA_ZB_XLU_INTER, G_RM_AA_ZB_XLU_LINE,
-						G_RM_AA_ZB_DEC_LINE, G_RM_AA_ZB_TEX_EDGE, G_RM_AA_ZB_TEX_INTER,
-						G_RM_AA_ZB_SUB_SURF, G_RM_AA_ZB_PCL_SURF, G_RM_AA_ZB_OPA_TERR,
-						G_RM_AA_ZB_TEX_TERR, G_RM_AA_ZB_SUB_TERR, G_RM_RA_ZB_OPA_SURF,
-						G_RM_RA_ZB_OPA_DECAL, G_RM_RA_ZB_OPA_INTER, G_RM_AA_OPA_SURF,
-						G_RM_AA_XLU_SURF, G_RM_AA_XLU_LINE, G_RM_AA_DEC_LINE,
-						G_RM_AA_TEX_EDGE, G_RM_AA_SUB_SURF, G_RM_AA_PCL_SURF,
-						G_RM_AA_OPA_TERR, G_RM_AA_TEX_TERR, G_RM_AA_SUB_TERR,
-						G_RM_RA_OPA_SURF, G_RM_ZB_OPA_SURF, G_RM_ZB_XLU_SURF,
-						G_RM_ZB_OPA_DECAL, G_RM_ZB_XLU_DECAL, G_RM_ZB_CLD_SURF,
-						G_RM_ZB_OVL_SURF, G_RM_ZB_PCL_SURF, G_RM_OPA_SURF,
-						G_RM_XLU_SURF, G_RM_CLD_SURF, G_RM_TEX_EDGE, G_RM_PCL_SURF,
-						G_RM_ADD, G_RM_NOOP, G_RM_VISCVG, G_RM_OPA_CI
-					};
-
-					uint32_t tblB[] =
-					{
-						G_RM_AA_ZB_OPA_SURF2,
-						G_RM_AA_ZB_XLU_SURF2, G_RM_AA_ZB_OPA_DECAL2, G_RM_AA_ZB_XLU_DECAL2,
-						G_RM_AA_ZB_OPA_INTER2, G_RM_AA_ZB_XLU_INTER2, G_RM_AA_ZB_XLU_LINE2,
-						G_RM_AA_ZB_DEC_LINE2, G_RM_AA_ZB_TEX_EDGE2, G_RM_AA_ZB_TEX_INTER2,
-						G_RM_AA_ZB_SUB_SURF2, G_RM_AA_ZB_PCL_SURF2, G_RM_AA_ZB_OPA_TERR2,
-						G_RM_AA_ZB_TEX_TERR2, G_RM_AA_ZB_SUB_TERR2, G_RM_RA_ZB_OPA_SURF2,
-						G_RM_RA_ZB_OPA_DECAL2, G_RM_RA_ZB_OPA_INTER2, G_RM_AA_OPA_SURF2,
-						G_RM_AA_XLU_SURF2, G_RM_AA_XLU_LINE2, G_RM_AA_DEC_LINE2,
-						G_RM_AA_TEX_EDGE2, G_RM_AA_SUB_SURF2, G_RM_AA_PCL_SURF2,
-						G_RM_AA_OPA_TERR2, G_RM_AA_TEX_TERR2, G_RM_AA_SUB_TERR2,
-						G_RM_RA_OPA_SURF2, G_RM_ZB_OPA_SURF2, G_RM_ZB_XLU_SURF2,
-						G_RM_ZB_OPA_DECAL2, G_RM_ZB_XLU_DECAL2, G_RM_ZB_CLD_SURF2,
-						G_RM_ZB_OVL_SURF2, G_RM_ZB_PCL_SURF2, G_RM_OPA_SURF2,
-						G_RM_XLU_SURF2, G_RM_CLD_SURF2, G_RM_TEX_EDGE2, G_RM_PCL_SURF2,
-						G_RM_ADD2, G_RM_NOOP2,G_RM_VISCVG2, G_RM_OPA_CI2
-					};
-
-					map<uint32_t, string> str =
-					{
-						{ G_RM_FOG_SHADE_A, "G_RM_FOG_SHADE_A" },
-						{ G_RM_FOG_PRIM_A, "G_RM_FOG_PRIM_A" },
-						{ G_RM_PASS, "G_RM_PASS" },
-						{ G_RM_AA_ZB_OPA_SURF, "G_RM_AA_ZB_OPA_SURF" },
-						{ G_RM_AA_ZB_OPA_SURF2, "G_RM_AA_ZB_OPA_SURF2" },
-						{ G_RM_AA_ZB_XLU_SURF, "G_RM_AA_ZB_XLU_SURF" },
-						{ G_RM_AA_ZB_XLU_SURF2, "G_RM_AA_ZB_XLU_SURF2" },
-						{ G_RM_AA_ZB_OPA_DECAL, "G_RM_AA_ZB_OPA_DECAL" },
-						{ G_RM_AA_ZB_OPA_DECAL2, "G_RM_AA_ZB_OPA_DECAL2" },
-						{ G_RM_AA_ZB_XLU_DECAL, "G_RM_AA_ZB_XLU_DECAL" },
-						{ G_RM_AA_ZB_XLU_DECAL2, "G_RM_AA_ZB_XLU_DECAL2" },
-						{ G_RM_AA_ZB_OPA_INTER, "G_RM_AA_ZB_OPA_INTER" },
-						{ G_RM_AA_ZB_OPA_INTER2, "G_RM_AA_ZB_OPA_INTER2" },
-						{ G_RM_AA_ZB_XLU_INTER, "G_RM_AA_ZB_XLU_INTER" },
-						{ G_RM_AA_ZB_XLU_INTER2, "G_RM_AA_ZB_XLU_INTER2" },
-						{ G_RM_AA_ZB_XLU_LINE, "G_RM_AA_ZB_XLU_LINE" },
-						{ G_RM_AA_ZB_XLU_LINE2, "G_RM_AA_ZB_XLU_LINE2" },
-						{ G_RM_AA_ZB_DEC_LINE, "G_RM_AA_ZB_DEC_LINE" },
-						{ G_RM_AA_ZB_DEC_LINE2, "G_RM_AA_ZB_DEC_LINE2" },
-						{ G_RM_AA_ZB_TEX_EDGE, "G_RM_AA_ZB_TEX_EDGE" },
-						{ G_RM_AA_ZB_TEX_EDGE2, "G_RM_AA_ZB_TEX_EDGE2" },
-						{ G_RM_AA_ZB_TEX_INTER, "G_RM_AA_ZB_TEX_INTER" },
-						{ G_RM_AA_ZB_TEX_INTER2, "G_RM_AA_ZB_TEX_INTER2" },
-						{ G_RM_AA_ZB_SUB_SURF, "G_RM_AA_ZB_SUB_SURF" },
-						{ G_RM_AA_ZB_SUB_SURF2, "G_RM_AA_ZB_SUB_SURF2" },
-						{ G_RM_AA_ZB_PCL_SURF, "G_RM_AA_ZB_PCL_SURF" },
-						{ G_RM_AA_ZB_PCL_SURF2, "G_RM_AA_ZB_PCL_SURF2" },
-						{ G_RM_AA_ZB_OPA_TERR, "G_RM_AA_ZB_OPA_TERR" },
-						{ G_RM_AA_ZB_OPA_TERR2, "G_RM_AA_ZB_OPA_TERR2" },
-						{ G_RM_AA_ZB_TEX_TERR, "G_RM_AA_ZB_TEX_TERR" },
-						{ G_RM_AA_ZB_TEX_TERR2, "G_RM_AA_ZB_TEX_TERR2" },
-						{ G_RM_AA_ZB_SUB_TERR, "G_RM_AA_ZB_SUB_TERR" },
-						{ G_RM_AA_ZB_SUB_TERR2, "G_RM_AA_ZB_SUB_TERR2" },
-						{ G_RM_RA_ZB_OPA_SURF, "G_RM_RA_ZB_OPA_SURF" },
-						{ G_RM_RA_ZB_OPA_SURF2, "G_RM_RA_ZB_OPA_SURF2" },
-						{ G_RM_RA_ZB_OPA_DECAL, "G_RM_RA_ZB_OPA_DECAL" },
-						{ G_RM_RA_ZB_OPA_DECAL2, "G_RM_RA_ZB_OPA_DECAL2" },
-						{ G_RM_RA_ZB_OPA_INTER, "G_RM_RA_ZB_OPA_INTER" },
-						{ G_RM_RA_ZB_OPA_INTER2, "G_RM_RA_ZB_OPA_INTER2" },
-						{ G_RM_AA_OPA_SURF, "G_RM_AA_OPA_SURF" },
-						{ G_RM_AA_OPA_SURF2, "G_RM_AA_OPA_SURF2" },
-						{ G_RM_AA_XLU_SURF, "G_RM_AA_XLU_SURF" },
-						{ G_RM_AA_XLU_SURF2, "G_RM_AA_XLU_SURF2" },
-						{ G_RM_AA_XLU_LINE, "G_RM_AA_XLU_LINE" },
-						{ G_RM_AA_XLU_LINE2, "G_RM_AA_XLU_LINE2" },
-						{ G_RM_AA_DEC_LINE, "G_RM_AA_DEC_LINE" },
-						{ G_RM_AA_DEC_LINE2, "G_RM_AA_DEC_LINE2" },
-						{ G_RM_AA_TEX_EDGE, "G_RM_AA_TEX_EDGE" },
-						{ G_RM_AA_TEX_EDGE2, "G_RM_AA_TEX_EDGE2" },
-						{ G_RM_AA_SUB_SURF, "G_RM_AA_SUB_SURF" },
-						{ G_RM_AA_SUB_SURF2, "G_RM_AA_SUB_SURF2" },
-						{ G_RM_AA_PCL_SURF, "G_RM_AA_PCL_SURF" },
-						{ G_RM_AA_PCL_SURF2, "G_RM_AA_PCL_SURF2" },
-						{ G_RM_AA_OPA_TERR, "G_RM_AA_OPA_TERR" },
-						{ G_RM_AA_OPA_TERR2, "G_RM_AA_OPA_TERR2" },
-						{ G_RM_AA_TEX_TERR, "G_RM_AA_TEX_TERR" },
-						{ G_RM_AA_TEX_TERR2, "G_RM_AA_TEX_TERR2" },
-						{ G_RM_AA_TEX_TERR, "G_RM_AA_TEX_TERR" },
-						{ G_RM_AA_TEX_TERR2, "G_RM_AA_TEX_TERR2" },
-						{ G_RM_AA_SUB_TERR, "G_RM_AA_SUB_TERR" },
-						{ G_RM_AA_SUB_TERR2, "G_RM_AA_SUB_TERR2" },
-						{ G_RM_RA_OPA_SURF, "G_RM_RA_OPA_SURF" },
-						{ G_RM_RA_OPA_SURF2, "G_RM_RA_OPA_SURF2" },
-						{ G_RM_ZB_OPA_SURF, "G_RM_ZB_OPA_SURF" },
-						{ G_RM_ZB_OPA_SURF2, "G_RM_ZB_OPA_SURF2" },
-						{ G_RM_ZB_XLU_SURF, "G_RM_ZB_XLU_SURF" },
-						{ G_RM_ZB_XLU_SURF2, "G_RM_ZB_XLU_SURF2" },
-						{ G_RM_ZB_OPA_DECAL, "G_RM_ZB_OPA_DECAL" },
-						{ G_RM_ZB_OPA_DECAL2, "G_RM_ZB_OPA_DECAL2" },
-						{ G_RM_ZB_XLU_DECAL, "G_RM_ZB_XLU_DECAL" },
-						{ G_RM_ZB_XLU_DECAL2, "G_RM_ZB_XLU_DECAL2" },
-						{ G_RM_ZB_CLD_SURF, "G_RM_ZB_CLD_SURF" },
-						{ G_RM_ZB_CLD_SURF2, "G_RM_ZB_CLD_SURF2" },
-						{ G_RM_ZB_OVL_SURF, "G_RM_ZB_OVL_SURF" },
-						{ G_RM_ZB_OVL_SURF2, "G_RM_ZB_OVL_SURF2" },
-						{ G_RM_ZB_PCL_SURF, "G_RM_ZB_PCL_SURF" },
-						{ G_RM_ZB_PCL_SURF2, "G_RM_ZB_PCL_SURF2" },
-						{ G_RM_OPA_SURF, "G_RM_OPA_SURF" },
-						{ G_RM_OPA_SURF2, "G_RM_OPA_SURF2" },
-						{ G_RM_XLU_SURF, "G_RM_XLU_SURF" },
-						{ G_RM_XLU_SURF2, "G_RM_XLU_SURF2" },
-						{ G_RM_CLD_SURF, "G_RM_CLD_SURF" },
-						{ G_RM_CLD_SURF2, "G_RM_CLD_SURF2" },
-						{ G_RM_TEX_EDGE, "G_RM_TEX_EDGE" },
-						{ G_RM_TEX_EDGE2, "G_RM_TEX_EDGE2" },
-						{ G_RM_PCL_SURF, "G_RM_PCL_SURF" },
-						{ G_RM_PCL_SURF2, "G_RM_PCL_SURF2" },
-						{ G_RM_ADD, "G_RM_ADD" },
-						{ G_RM_ADD2, "G_RM_ADD2" },
-						{ G_RM_NOOP, "G_RM_NOOP" },
-						{ G_RM_NOOP2, "G_RM_NOOP2" },
-						{ G_RM_VISCVG, "G_RM_VISCVG" },
-						{ G_RM_VISCVG2, "G_RM_VISCVG2" },
-						{ G_RM_OPA_CI, "G_RM_OPA_CI" },
-						{ G_RM_OPA_CI2, "G_RM_OPA_CI2" },
-					};
-
-					for (int k = 0; k < sizeof(tblA) / 4; k++)
-					{
-						if ((dd & tblA[k]) == tblA[k])
-						{
-							if (tblA[k] > mode1)
-								mode1 = tblA[k];
-
-							int bp = 0;
-						}
-					}
-
-					for (int k = 0; k < sizeof(tblB) / 4; k++)
-					{
-						if ((dd & tblB[k]) == tblB[k])
-						{
-							if (tblB[k] > mode2)
-								mode2 = tblB[k];
-
-							int bp = 0;
-						}
-					}
-
-					sprintf(line, "gsDPSetRenderMode(%s, %s),", str[mode1].c_str(), str[mode2].c_str());
-				}
-				else
-					sprintf(line, "gsSPSetOtherMode(0xE2, %i, %i, 0x%08X),", sft, nn + 1, dd);
-			}
-			break;
-			case F3DZEXOpcode::G_SETOTHERMODE_H:
-			{
-				int ss = (data & 0x0000FF0000000000) >> 40;
-				int nn = (data & 0x000000FF00000000) >> 32;
-				int dd = (data & 0xFFFFFFFF);
-
-				int sft = 32 - (nn + 1) - ss;
-
-				if (sft == 14) // G_MDSFT_TEXTLUT
-				{
-					string types[] = { "G_TT_NONE", "G_TT_NONE", "G_TT_RGBA16", "G_TT_IA16" };
-					sprintf(line, "gsDPSetTextureLUT(%s),", types[dd >> 14].c_str());
-				}
-				else
-					sprintf(line, "gsSPSetOtherMode(0xE3, %i, %i, 0x%08X),", sft, nn + 1, dd);
-			}
-			break;
-			case F3DZEXOpcode::G_SETTILE:
-			{
-				int fff = (data & 0b0000000011100000000000000000000000000000000000000000000000000000) >> 53;
-				int ii = (data & 0b0000000000011000000000000000000000000000000000000000000000000000) >> 51;
-				int nnnnnnnnn = (data & 0b0000000000000011111111100000000000000000000000000000000000000000) >> 41;
-				int mmmmmmmmm = (data & 0b0000000000000000000000011111111100000000000000000000000000000000) >> 32;
-				int ttt = (data & 0b0000000000000000000000000000000000000111000000000000000000000000) >> 24;
-				int pppp = (data & 0b0000000000000000000000000000000000000000111100000000000000000000) >> 20;
-				int cc = (data & 0b0000000000000000000000000000000000000000000011000000000000000000) >> 18;
-				int aaaa = (data & 0b0000000000000000000000000000000000000000000000111100000000000000) >> 14;
-				int ssss = (data & 0b0000000000000000000000000000000000000000000000000011110000000000) >> 10;
-				int dd = (data & 0b0000000000000000000000000000000000000000000000000000001100000000) >> 8;
-				int bbbb = (data & 0b0000000000000000000000000000000000000000000000000000000011110000) >> 4;
-				int uuuu = (data & 0b0000000000000000000000000000000000000000000000000000000000001111);
-
-				string fmtTbl[] = { "G_IM_FMT_RGBA", "G_IM_FMT_YUV", "G_IM_FMT_CI", "G_IM_FMT_IA", "G_IM_FMT_I" };
-				string sizTbl[] = { "G_IM_SIZ_4b", "G_IM_SIZ_8b", "G_IM_SIZ_16b", "G_IM_SIZ_32b" };
-
-				if (fff == (int)F3DZEXTexFormats::G_IM_FMT_CI)
-					lastCISiz = (F3DZEXTexSizes)ii;
-
-				lastTexSizTest = (F3DZEXTexSizes)ii;
-
-				sprintf(line, "gsDPSetTile(%s, %s, %i, %i, %i, %i, %i, %i, %i, %i, %i, %i),", fmtTbl[fff].c_str(), sizTbl[ii].c_str(), nnnnnnnnn, mmmmmmmmm, ttt, pppp, cc, aaaa, ssss, dd, bbbb, uuuu);
-			}
-			break;
-			case F3DZEXOpcode::G_SETTILESIZE:
-			{
-				int sss = (data & 0x00FFF00000000000) >> 44;
-				int ttt = (data & 0x00000FFF00000000) >> 32;
-				int uuu = (data & 0x0000000000FFF000) >> 12;
-				int vvv = (data & 0x0000000000000FFF);
-				int i = (data & 0x000000000F000000) >> 24;
-
-				int shiftAmtW = 2;
-				int shiftAmtH = 2;
-
-				if (lastTexSizTest == F3DZEXTexSizes::G_IM_SIZ_8b && lastTexFmt == F3DZEXTexFormats::G_IM_FMT_IA)
-					shiftAmtW = 3;
-
-				//if (lastTexFmt == F3DZEXTexFormats::G_IM_FMT_I || lastTexFmt == F3DZEXTexFormats::G_IM_FMT_CI)
-				if (lastTexSizTest == F3DZEXTexSizes::G_IM_SIZ_4b)
-					shiftAmtW = 3;
-
-				if (lastTexSizTest == F3DZEXTexSizes::G_IM_SIZ_4b && lastTexFmt == F3DZEXTexFormats::G_IM_FMT_IA)
-					shiftAmtH = 3;
-
-
-				lastTexWidth = (uuu >> shiftAmtW) + 1;
-				lastTexHeight = (vvv >> shiftAmtH) + 1;
-
-				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
-					printf("lastTexWidth: %i lastTexHeight: %i, lastTexSizTest: 0x%x, lastTexFmt: 0x%x\n", lastTexWidth, lastTexHeight, (uint32_t)lastTexSizTest, (uint32_t)lastTexFmt);
-
-				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
-					printf("TextureGenCheck G_SETTILESIZE\n");
-
-				TextureGenCheck(prefix);
-
-				sprintf(line, "gsDPSetTileSize(%i, %i, %i, %i, %i),", i, sss, ttt, uuu, vvv);
-			}
-			break;
-			case F3DZEXOpcode::G_LOADBLOCK:
-			{
-				int sss = (data & 0x00FFF00000000000) >> 48;
-				int ttt = (data & 0x00000FFF00000000) >> 36;
-				int i	= (data & 0x000000000F000000) >> 24;
-				int xxx = (data & 0x0000000000FFF000) >> 12;
-				int ddd = (data & 0x0000000000000FFF);
-
-				//lastTexHeight = (ddd + 1) / 16;
-
-				lastTexLoaded = true;
-
-				//TextureGenCheck(prefix);
-
-				sprintf(line, "gsDPLoadBlock(%i, %i, %i, %i, %i),", i, sss, ttt, xxx, ddd);
-			}
-			break;
-			case F3DZEXOpcode::G_TEXTURE:
-			{
-				int ____ = (data & 0x0000FFFF00000000) >> 32;
-				int ssss = (data & 0x00000000FFFF0000) >> 16;
-				int tttt = (data & 0x000000000000FFFF);
-				int lll = (____ & 0x3800) >> 11;
-				int ddd = (____ & 0x700) >> 8;
-				int nnnnnnn = (____ & 0xFE) >> 1;
-
-				sprintf(line, "gsSPTexture(%i, %i, %i, %i, %s),", ssss, tttt, lll, ddd, nnnnnnn == 1 ? "G_ON" : "G_OFF");
-			}
-			break;
-			case F3DZEXOpcode::G_RDPSETOTHERMODE:
-			{
-				int hhhhhh = (data & 0x00FFFFFF00000000) >> 32;
-				int llllllll = (data & 0x00000000FFFFFFFF);
-
-				sprintf(line, "gsDPSetOtherMode(%i, %i),", hhhhhh, llllllll);
-			}
-			break;
-			case F3DZEXOpcode::G_POPMTX:
-			{
-				sprintf(line, "gsSPPopMatrix(%li),", data);
-			}
-			break;
-			case F3DZEXOpcode::G_LOADTLUT:
-			{
-				int t = (data & 0x0000000007000000) >> 24;
-				int ccc = (data & 0x00000000003FF000) >> 14;
-
-				lastTexWidth = sqrt(ccc + 1);
-				lastTexHeight = sqrt(ccc + 1);
-
-				lastTexLoaded = true;
-				lastTexIsPalette = true;
-
-				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
-					printf("TextureGenCheck G_LOADTLUT (lastCISiz: %i)\n", (uint32_t)lastCISiz);
-
-				TextureGenCheck(prefix);
-
-				sprintf(line, "gsDPLoadTLUTCmd(%i, %i),", t, ccc);
-			}
-			break;
-			case F3DZEXOpcode::G_SETENVCOLOR:
-			{
-				uint8_t r = (uint8_t)((data & 0xFF000000) >> 24);
-				uint8_t g = (uint8_t)((data & 0x00FF0000) >> 16);
-				uint8_t b = (uint8_t)((data & 0xFF00FF00) >> 8);
-				uint8_t a = (uint8_t)((data & 0x000000FF) >> 0);
-
-				sprintf(line, "gsDPSetEnvColor(%i, %i, %i, %i),", r, g, b, a);
-			}
-			break;
-			case F3DZEXOpcode::G_SETCOMBINE:
-			{
-				int a0 = (data & 0b000000011110000000000000000000000000000000000000000000000000000) >> 52;
-				int c0 = (data & 0b000000000001111100000000000000000000000000000000000000000000000) >> 47;
-				int aa0 = (data & 0b00000000000000011100000000000000000000000000000000000000000000) >> 44;
-				int ac0 = (data & 0b00000000000000000011100000000000000000000000000000000000000000) >> 41;
-				int a1 = (data & 0b000000000000000000000011110000000000000000000000000000000000000) >> 37;
-				int c1 = (data & 0b000000000000000000000000001111100000000000000000000000000000000) >> 32;
-				int b0 = (data & 0b000000000000000000000000000000011110000000000000000000000000000) >> 28;
-				int b1 = (data & 0b000000000000000000000000000000000001111000000000000000000000000) >> 24;
-				int aa1 = (data & 0b00000000000000000000000000000000000000111000000000000000000000) >> 21;
-				int ac1 = (data & 0b00000000000000000000000000000000000000000111000000000000000000) >> 18;
-				int d0 = (data & 0b000000000000000000000000000000000000000000000111000000000000000) >> 15;
-				int ab0 = (data & 0b00000000000000000000000000000000000000000000000111000000000000) >> 12;
-				int ad0 = (data & 0b00000000000000000000000000000000000000000000000000111000000000) >> 9;
-				int d1 = (data & 0b000000000000000000000000000000000000000000000000000000111000000) >> 6;
-				int ab1 = (data & 0b00000000000000000000000000000000000000000000000000000000111000) >> 3;
-				int ad1 = (data & 0b00000000000000000000000000000000000000000000000000000000000111) >> 0;
-
-				string modes[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "COMBINED_ALPHA",
-					"TEXEL0_ALPHA", "TEXEL1_ALPHA", "PRIMITIVE_ALPHA", "SHADE_ALPHA", "ENV_ALPHA", "LOD_FRACTION", "PRIM_LOD_FRAC", "K5",
-					"17", "18", "19", "20", "21", "22", "23", "24",
-					"25", "26", "27", "28", "29", "30", "31", "0" };
-
-				string modes2[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "0" };
-
-				sprintf(line, "gsDPSetCombineLERP(%s, %s, %s, %s, %s, %s, %s, %s,\n                       %s, %s, %s, %s, %s, %s, %s, %s),",
-					modes[a0].c_str(), modes[b0].c_str(), modes[c0].c_str(), modes[d0].c_str(),
-					modes2[aa0].c_str(), modes2[ab0].c_str(), modes2[ac0].c_str(), modes2[ad0].c_str(),
-					modes[a1].c_str(), modes[b1].c_str(), modes[c1].c_str(), modes[d1].c_str(),
-					modes2[aa1].c_str(), modes2[ab1].c_str(), modes2[ac1].c_str(), modes2[ad1].c_str());
-			}
-			break;
-			case F3DZEXOpcode::G_RDPLOADSYNC:
-				sprintf(line, "gsDPLoadSync(),");
-				break;
-			case F3DZEXOpcode::G_RDPPIPESYNC:
-				sprintf(line, "gsDPPipeSync(),");
-				break;
-			case F3DZEXOpcode::G_RDPTILESYNC:
-				sprintf(line, "gsDPTileSync(),");
-				break;
-			case F3DZEXOpcode::G_RDPFULLSYNC:
-				sprintf(line, "gsDPFullSync(),");
-				break;
-			case F3DZEXOpcode::G_ENDDL:
-				sprintf(line, "gsSPEndDisplayList(),");
-
-				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
-					printf("TextureGenCheck G_ENDDL\n");
-
-				TextureGenCheck(prefix);
-				break;
-			case F3DZEXOpcode::G_RDPHALF_1:
-			{
-				uint64_t data2 = instructions[i + 1];
-				uint32_t h = (data & 0xFFFFFFFF);
-				F3DZEXOpcode opcode2 = (F3DZEXOpcode)(instructions[i + 1] >> 56);
-
-				if (opcode2 == F3DZEXOpcode::G_BRANCH_Z)
-				{
-					uint32_t a = (data2 & 0x00FFF00000000000) >> 44;
-					uint32_t b = (data2 & 0x00000FFF00000000) >> 32;
-					uint32_t z = (data2 & 0x00000000FFFFFFFF) >> 0;
-
-					//sprintf(line, "gsDPWord(%i, 0),", h);
-					sprintf(line, "gsSPBranchLessZraw(%sDlist0x%06X, 0x%02X, 0x%02X),", prefix.c_str(), h & 0x00FFFFFF, (a / 5) | (b / 2), z);
-
-					ZDisplayList* nList = new ZDisplayList(fileData, h & 0x00FFFFFF, GetDListLength(fileData, h & 0x00FFFFFF));
-					nList->scene = scene;
-					nList->parent = parent;
-					otherDLists.push_back(nList);
-
-					i++;
-				}
-			}
-			break;
-			/*case F3DZEXOpcode::G_BRANCH_Z:
-			{
-				uint8_t h = (data & 0xFFFFFFFF);
-
-				sprintf(line, "gsSPBranchLessZraw(%i, %i, %i),", h);
-			}
-				break;*/
-			case F3DZEXOpcode::G_MTX:
-			{
-				// TODO: FINISH THIS
-				uint32_t pp = (data & 0x000000FF00000000) >> 32;
-				uint32_t mm = (data & 0x00000000FFFFFFFF);
-				std::string matrixRef = "";
-
-				if (Globals::Instance->symbolMap.find(mm) != Globals::Instance->symbolMap.end())
-					matrixRef = StringHelper::Sprintf("&%s", Globals::Instance->symbolMap[mm].c_str());
-				else
-					matrixRef = StringHelper::Sprintf("0x%08X", mm);
-
-				sprintf(line, "gsSPMatrix(%s, 0x%02X),", matrixRef.c_str(), pp ^ 0x01);
-			}
-			break;
-			default:
-				sprintf(line, "// Opcode 0x%02X unimplemented!", (uint32_t)opcode);
-				break;
-			}
+			if (dListType == DListType::F3DZEX)
+				ParseF3DZEX((F3DZEXOpcode)opcode, data, i, prefix, line);
+			else
+				ParseF3DEX((F3DEXOpcode)opcode, data, i, prefix, line);
 		}
 
 		auto end = chrono::steady_clock::now();
@@ -1150,77 +1529,77 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 		}
 	}
 
-		// Check for texture intersections
+	// Check for texture intersections
+	{
+		if (scene != nullptr && scene->textures.size() != 0)
 		{
-			if (scene != nullptr && scene->textures.size() != 0)
-			{
-				vector<pair<uint32_t, ZTexture*>> texturesSorted(scene->textures.begin(), scene->textures.end());
+			vector<pair<uint32_t, ZTexture*>> texturesSorted(scene->textures.begin(), scene->textures.end());
 
-				sort(texturesSorted.begin(), texturesSorted.end(), [](const auto& lhs, const auto& rhs)
+			sort(texturesSorted.begin(), texturesSorted.end(), [](const auto& lhs, const auto& rhs)
 				{
 					return lhs.first < rhs.first;
 				});
 
-				for (int i = 0; i < texturesSorted.size() - 1; i++)
+			for (int i = 0; i < texturesSorted.size() - 1; i++)
+			{
+				int texSize = scene->textures[texturesSorted[i].first]->GetRawDataSize();
+
+				if ((texturesSorted[i].first + texSize) > texturesSorted[i + 1].first)
 				{
-					int texSize = scene->textures[texturesSorted[i].first]->GetRawDataSize();
+					int intersectAmt = (texturesSorted[i].first + texSize) - texturesSorted[i + 1].first;
 
-					if ((texturesSorted[i].first + texSize) > texturesSorted[i + 1].first)
+					defines += StringHelper::Sprintf("#define %sTex_%06X ((u32)%sTex_%06X + 0x%06X)\n", scene->GetName().c_str(), texturesSorted[i + 1].first, scene->GetName().c_str(),
+						texturesSorted[i].first, texturesSorted[i + 1].first - texturesSorted[i].first);
+
+					scene->parent->declarations.erase(texturesSorted[i + 1].first);
+					scene->textures.erase(texturesSorted[i + 1].first);
+					texturesSorted.erase(texturesSorted.begin() + i + 1);
+
+					i--;
+				}
+			}
+
+			scene->extDefines += defines;
+		}
+
+		{
+			vector<pair<uint32_t, ZTexture*>> texturesSorted(textures.begin(), textures.end());
+
+			sort(texturesSorted.begin(), texturesSorted.end(), [](const auto& lhs, const auto& rhs)
+				{
+					return lhs.first < rhs.first;
+				});
+
+			for (int i = 0; i < texturesSorted.size() - 1; i++)
+			{
+				if (texturesSorted.size() == 0) // ?????
+					break;
+
+				int texSize = textures[texturesSorted[i].first]->GetRawDataSize();
+
+				if ((texturesSorted[i].first + texSize) > texturesSorted[i + 1].first)
+				{
+					int intersectAmt = (texturesSorted[i].first + texSize) - texturesSorted[i + 1].first;
+
+					// If we're working with a palette, resize it to its "real" dimensions
+					if (texturesSorted[i].second->isPalette)
 					{
-						int intersectAmt = (texturesSorted[i].first + texSize) - texturesSorted[i + 1].first;
-
-						defines += StringHelper::Sprintf("#define %sTex_%06X ((u32)%sTex_%06X + 0x%06X)\n", scene->GetName().c_str(), texturesSorted[i + 1].first, scene->GetName().c_str(),
+						texturesSorted[i].second->SetWidth((texturesSorted[i + 1].first - texturesSorted[i].first) / 2);
+						texturesSorted[i].second->SetHeight(1);
+					}
+					else
+					{
+						defines += StringHelper::Sprintf("#define %sTex_%06X ((u32)%sTex_%06X + 0x%06X)\n", prefix.c_str(), texturesSorted[i + 1].first, prefix.c_str(),
 							texturesSorted[i].first, texturesSorted[i + 1].first - texturesSorted[i].first);
 
-						scene->parent->declarations.erase(texturesSorted[i + 1].first);
-						scene->textures.erase(texturesSorted[i + 1].first);
+						textures.erase(texturesSorted[i + 1].first);
 						texturesSorted.erase(texturesSorted.begin() + i + 1);
 
 						i--;
 					}
 				}
-
-				scene->extDefines += defines;
 			}
-
-			{
-				vector<pair<uint32_t, ZTexture*>> texturesSorted(textures.begin(), textures.end());
-
-				sort(texturesSorted.begin(), texturesSorted.end(), [](const auto& lhs, const auto& rhs)
-					{
-						return lhs.first < rhs.first;
-					});
-
-				for (int i = 0; i < texturesSorted.size() - 1; i++)
-				{
-					if (texturesSorted.size() == 0) // ?????
-						break;
-
-					int texSize = textures[texturesSorted[i].first]->GetRawDataSize();
-
-					if ((texturesSorted[i].first + texSize) > texturesSorted[i + 1].first)
-					{
-						int intersectAmt = (texturesSorted[i].first + texSize) - texturesSorted[i + 1].first;
-
-						// If we're working with a palette, resize it to its "real" dimensions
-						if (texturesSorted[i].second->isPalette)
-						{
-							texturesSorted[i].second->SetWidth((texturesSorted[i + 1].first - texturesSorted[i].first) / 2);
-							texturesSorted[i].second->SetHeight(1);
-						}
-						else
-						{
-							defines += StringHelper::Sprintf("#define %sTex_%06X ((u32)%sTex_%06X + 0x%06X)\n", prefix.c_str(), texturesSorted[i + 1].first, prefix.c_str(),
-								texturesSorted[i].first, texturesSorted[i + 1].first - texturesSorted[i].first);
-
-							textures.erase(texturesSorted[i + 1].first);
-							texturesSorted.erase(texturesSorted.begin() + i + 1);
-
-							i--;
-						}
-					}
-				}
-			}
+		}
 
 		// Generate Texture Declarations
 		for (pair<int32_t, ZTexture*> item : textures)
@@ -1248,7 +1627,7 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 		}
 
 	}
-	 
+
 	if (parent != nullptr)
 	{
 		Declaration* decl = parent->AddDeclarationArray(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(), "Gfx", StringHelper::Sprintf("%s", name.c_str()), 0, sourceOutput);
@@ -1320,7 +1699,7 @@ TextureType ZDisplayList::TexFormatToTexType(F3DZEXTexFormats fmt, F3DZEXTexSize
 	else if (fmt == F3DZEXTexFormats::G_IM_FMT_CI)
 	{
 		//if (siz == F3DZEXTexSizes::G_IM_SIZ_8b)
-			return TextureType::Palette8bpp;
+		return TextureType::Palette8bpp;
 	}
 	else if (fmt == F3DZEXTexFormats::G_IM_FMT_IA)
 	{
