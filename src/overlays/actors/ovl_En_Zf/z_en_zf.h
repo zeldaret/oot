@@ -20,9 +20,9 @@ typedef struct EnZf {
     /* 0x03EC */ s16 unk_3EC;
     /* 0x03EE */ s16 unk_3EE;
     /* 0x03F0 */ s32 unk_3F0;
-    /* 0x03F4 */ char unk_3F4[0x2];
+    /* 0x03F4 */ s16 unk_3F4;
     /* 0x03F6 */ s16 unk_3F6;
-    /* 0x03F8 */ char unk_3F8[0x2];
+    /* 0x03F8 */ s16 unk_3F8;
     /* 0x03FA */ s16 unk_3FA;
     /* 0x03FC */ s16 unk_3FC;
     /* 0x03FE */ s16 unk_3FE;
@@ -30,7 +30,9 @@ typedef struct EnZf {
     /* 0x0402 */ s16 unk_402;
     /* 0x0404 */ Color_RGBA8 unk_404;
     // /* 0x0405 */ char unk_405[0x3];
-    /* 0x0408 */ char unk_408[0xC];
+    /* 0x0408 */ char unk_408[0x8];
+    /* 0x0408 */ u8 unk_410;
+    /* 0x0408 */ char unk_411[0x3];
     /* 0x0414 */ s32 blureIndex;
     /* 0x0418 */ ColliderCylinder bodyCollider;
     /* 0x0464 */ ColliderQuad swordCollider;

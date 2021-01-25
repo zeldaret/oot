@@ -20,25 +20,31 @@ void func_80B450AC(EnZf* this);
 void func_80B45174(EnZf* this, GlobalContext* globalCtx);
 void func_80B45384(EnZf* this);
 void func_80B4543C(EnZf* this, GlobalContext* globalCtx);
+void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
+void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
+void func_80B47120(EnZf* this, GlobalContext* globalCtx);
+void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
+void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
+void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
 
-// glabel D_80B4A090
-//  .word 0x455E8000, 0x42C80000, 0xC4BDA000, 0x45462000, 0x42C80000, 0xC4DCE000, 0x4545D000, 0x42C80000, 0xC50A9000,
-//  0x455EB000, 0x42C80000, 0xC5185000, 0x4576A000, 0x42C80000, 0xC50A9000, 0x45766000, 0x42C80000, 0xC4DCA000,
-//  0x4532D000, 0x42C80000, 0xC515A000, 0x452D8000, 0x42C80000, 0xC4F86000, 0x458D7800, 0x4404C000, 0xC48F4000,
-//  0x458AD000, 0x4404C000, 0xC4AFA000, 0x45825000, 0x4404C000, 0xC4AE6000, 0x457BE000, 0x4404C000, 0xC4914000,
-//  0x457AA000, 0x4404C000, 0xC45CC000, 0x45857000, 0x4404C000, 0xC44A8000, 0x458D4000, 0x4404C000, 0xC45C0000,
-//  0x45852000, 0x4404C000, 0xC4816000, 0x4594A800, 0x4404C000, 0xC48F4000, 0x4570A000, 0x4404C000, 0xC45CC000,
-//  0x4588E000, 0x4404C000, 0xC42C8000, 0x45832800, 0x4404C000, 0xC4218000, 0x457E6000, 0x4404C000, 0xC4C4E000,
-//  0x4575A000, 0x4404C000, 0xC4D52000, 0x456C4000, 0x4404C000, 0xC4E56000, 0x455E8000, 0x4404C000, 0xC4F82000
+// extern Vec3f D_80B4A090[];
+/* static */ s32 D_80B4A090[] = {
+    0x455E8000, 0x42C80000, 0xC4BDA000, 0x45462000, 0x42C80000, 0xC4DCE000, 0x4545D000, 0x42C80000, 0xC50A9000,
+    0x455EB000, 0x42C80000, 0xC5185000, 0x4576A000, 0x42C80000, 0xC50A9000, 0x45766000, 0x42C80000, 0xC4DCA000,
+    0x4532D000, 0x42C80000, 0xC515A000, 0x452D8000, 0x42C80000, 0xC4F86000, 0x458D7800, 0x4404C000, 0xC48F4000,
+    0x458AD000, 0x4404C000, 0xC4AFA000, 0x45825000, 0x4404C000, 0xC4AE6000, 0x457BE000, 0x4404C000, 0xC4914000,
+    0x457AA000, 0x4404C000, 0xC45CC000, 0x45857000, 0x4404C000, 0xC44A8000, 0x458D4000, 0x4404C000, 0xC45C0000,
+    0x45852000, 0x4404C000, 0xC4816000, 0x4594A800, 0x4404C000, 0xC48F4000, 0x4570A000, 0x4404C000, 0xC45CC000,
+    0x4588E000, 0x4404C000, 0xC42C8000, 0x45832800, 0x4404C000, 0xC4218000, 0x457E6000, 0x4404C000, 0xC4C4E000,
+    0x4575A000, 0x4404C000, 0xC4D52000, 0x456C4000, 0x4404C000, 0xC4E56000, 0x455E8000, 0x4404C000, 0xC4F82000,
+};
 
-// glabel D_80B4A1B0
-//  .word 0x00000000
+// extern s16 D_80B4A1B0;
+/* static */ s16 D_80B4A1B0 = 0;
 
-extern s16 D_80B4A1B4;
-// glabel D_80B4A1B4
-//  .word 0x00010000
+// extern s16 D_80B4A1B4;
+/* static */ s16 D_80B4A1B4 = 1;
 
-/*
 const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
     ACTORCAT_ENEMY,
@@ -90,98 +96,69 @@ static ColliderQuadInit D_80B4A204 = {
     },
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
-*/
 
-extern ColliderCylinderInit D_80B4A1D8;
-extern ColliderQuadInit D_80B4A204;
+// extern ColliderCylinderInit D_80B4A1D8;
+// extern ColliderQuadInit D_80B4A204;
 
-extern DamageTable D_80B4A254;
-// static DamageTable D_80B4A254 = {
-//     /* Deku nut      */ DMG_ENTRY(0 , 0x1),
-//     /* Deku stick    */ DMG_ENTRY(2 , 0x0),
-//     /* Slingshot     */ DMG_ENTRY(1 , 0xD),
-//     /* Explosive     */ DMG_ENTRY(2 , 0x0),
-//     /* Boomerang     */ DMG_ENTRY(0 , 0x1),
-//     /* Normal arrow  */ DMG_ENTRY(2 , 0x0),
-//     /* Hammer swing  */ DMG_ENTRY(2 , 0x0),
-//     /* Hookshot      */ DMG_ENTRY(0 , 0x1),
-//     /* Kokiri sword  */ DMG_ENTRY(1 , 0x0),
-//     /* Master sword  */ DMG_ENTRY(2 , 0x0),
-//     /* Giant's Knife */ DMG_ENTRY(4 , 0x0),
-//     /* Fire arrow    */ DMG_ENTRY(2 , 0xD),
-//     /* Ice arrow     */ DMG_ENTRY(4 , 0xF),
-//     /* Light arrow   */ DMG_ENTRY(2 , 0xD),
-//     /* Unk arrow 1   */ DMG_ENTRY(2 , 0xD),
-//     /* Unk arrow 2   */ DMG_ENTRY(2 , 0xD),
-//     /* Unk arrow 3   */ DMG_ENTRY(2 , 0xD),
-//     /* Fire magic    */ DMG_ENTRY(0 , 0x6),
-//     /* Ice magic     */ DMG_ENTRY(3 , 0xF),
-//     /* Light magic   */ DMG_ENTRY(0 , 0x6),
-//     /* Shield        */ DMG_ENTRY(0 , 0x0),
-//     /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
-//     /* Kokiri spin   */ DMG_ENTRY(1 , 0x0),
-//     /* Giant spin    */ DMG_ENTRY(4 , 0x0),
-//     /* Master spin   */ DMG_ENTRY(2 , 0x0),
-//     /* Kokiri jump   */ DMG_ENTRY(2 , 0x0),
-//     /* Giant jump    */ DMG_ENTRY(8 , 0x0),
-//     /* Master jump   */ DMG_ENTRY(4 , 0x0),
-//     /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
-//     /* Unblockable   */ DMG_ENTRY(0 , 0x0),
-//     /* Hammer jump   */ DMG_ENTRY(4 , 0x0),
-//     /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
-// };
+// extern DamageTable D_80B4A254;
+static DamageTable D_80B4A254 = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0xD),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0xD),
+    /* Ice arrow     */ DMG_ENTRY(4, 0xF),
+    /* Light arrow   */ DMG_ENTRY(2, 0xD),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0xD),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0xD),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0xD),
+    /* Fire magic    */ DMG_ENTRY(0, 0x6),
+    /* Ice magic     */ DMG_ENTRY(3, 0xF),
+    /* Light magic   */ DMG_ENTRY(0, 0x6),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
-extern InitChainEntry D_80B4A274[];
-// static InitChainEntry sInitChain[] = {
-//     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
-//     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
-//     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
-// };
+// extern InitChainEntry D_80B4A274[];
+static InitChainEntry D_80B4A274[] = {
+    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
+};
 
-// glabel D_80B4A280
-//  .word 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000
-
-extern Vec3f D_80B4A298;
-// static Vec3f D_80B4A298 = { 300.0f, 0.0f, 0.0f };
-
-extern Vec3f D_80B4A2A4;
-// static Vec3f D_80B4A2A4 = { 300.0f, -1700.0f, 0.0f };
-
-extern Vec3f D_80B4A2B0;
-// static Vec3f D_80B4A2B0 = { -600.0f, 300.0f, 0.0f };
-
-extern Vec3f D_80B4A2BC;
-// static Vec3f D_80B4A2BC = { 0.0f, 1500.0f, 0.0f };
-
-extern Vec3f D_80B4A2C8;
-// static Vec3f D_80B4A2C8 = { -600.0f, -3000.0f, 1000.0f };
-
-extern Vec3f D_80B4A2D4;
-// static Vec3f D_80B4A2D4 = { -600.0f, -3000.0f, -1000.0f };
-
-extern Vec3f D_80B4A2E0;
-// static Vec3f D_80B4A2E0 = { 1500.0f, -3000.0f, 0.0f };
-
-extern Vec3f D_80B4A2EC;
-// static Vec3f D_80B4A2EC = { 0.0f, 0.0f, 0.0f };
-
-extern Gfx D_80B4A2F8[];
-// glabel D_80B4A2F8
-//  .word 0xD7000002, 0x0A000A00, 0xDF000000, 0x00000000, 0x00000000, 0x00000000
+// extern UNK_PTR D_80B4A280[];
+s32 D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000 };
 
 extern SkeletonHeader D_06006690;
 extern UNK_TYPE D_06008138;
 extern UNK_TYPE D_06008C6C;
 extern AnimationHeader D_06009530;
-extern UNK_TYPE D_0600A3D4;
+extern AnimationHeader D_0600A3D4;
 extern AnimationHeader D_0600B10C;
 extern Gfx D_0600E198[];
 extern Gfx D_06010060[];
 extern SkeletonHeader D_060104B8;
 extern UNK_TYPE D_060119F4;
 extern UNK_TYPE D_0601366C;
-extern UNK_TYPE D_06014E60;
-extern UNK_TYPE D_060157F8;
+extern AnimationHeader D_06014E60;
+extern AnimationHeader D_060157F8;
 extern UNK_TYPE D_06016388;
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44050.s")
@@ -190,6 +167,7 @@ void func_80B44050(EnZf* this, EnZfActionFunc actionFunc) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44058.s")
+s16 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 arg2);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B441C4.s")
 
@@ -289,6 +267,7 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44B14.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44CF0.s")
+s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44DC4.s")
 
@@ -302,7 +281,7 @@ void func_80B450AC(EnZf* this);
 
     this->actor.world.pos.y = this->actor.floorHeight + 300.0f;
     this->actor.shape.shadowAlpha = 0;
-    this->unk_404 = 0;
+    this->unk_404.r = 0;
     this->unk_3F0 = 0xA;
     this->unk_3E4 = 1;
     this->unk_3DC = 0;
@@ -342,23 +321,72 @@ void func_80B45384(EnZf* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B463E4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46A24.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46A24.s")
+void func_80B46A24(EnZf* this) {
+    Animation_Change(&this->skelAnime, &D_0600A3D4, 1.25f, 0.0f, Animation_GetLastFrame(&D_0600A3D4), 2, -4.0f);
+    if (this->actor.params == -2) {
+        this->skelAnime.playSpeed = 1.75f;
+    }
+    this->swordCollider.base.atFlags &= ~4;
+    this->unk_3DC = 9;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+    this->actor.speedXZ = 0.0f;
+    func_80B44050(this, func_80B46AE0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46AE0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46D64.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46D64.s")
+void func_80B46D64(EnZf* this) {
+    f32 frame = this->skelAnime.curFrame - 3.0f;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46DD4.s")
+    Animation_Change(&this->skelAnime, &D_0600A3D4, -1.0f, frame, 0.0f, 2, 0.0f);
+    this->unk_3DC = 8;
+    func_80B44050(this, func_80B46DD4);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46DD4.s")
+void func_80B46DD4(EnZf* this, GlobalContext* globalCtx) {
+    if (SkelAnime_Update(&this->skelAnime)) {
+        if (Rand_ZeroOne() > 0.7f) {
+            func_80B45384(this);
+        } else if ((Rand_ZeroOne() > 0.2f) && func_80B44CF0(globalCtx, this)) {
+            func_80B46A24(this);
+        } else {
+            func_80B483E4(this, globalCtx);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46E8C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46F2C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47050.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47050.s")
+void func_80B47050(EnZf* this) {
+    if ((this->actor.bgCheckFlags & 1) && ((this->actor.velocity.y == 0.0f) || (this->actor.velocity.y == -4.0f))) {
+        this->actor.speedXZ = 0.0f;
+        this->unk_3E4 = 0;
+    } else {
+
+        this->unk_3E4 = 1;
+    }
+
+    if (this->unk_410 == 0xF) {
+        this->unk_3F6 = 0x24;
+    } else {
+        Animation_PlayOnceSetSpeed(&this->skelAnime, &D_060157F8, 0.0f);
+    }
+
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
+    this->unk_3DC = 0xE;
+    func_80B44050(this, func_80B47120);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47120.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47360.s")
+void func_80B47360(EnZf* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4743C.s")
 
@@ -371,10 +399,33 @@ void func_80B45384(EnZf* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4781C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47C64.s")
+void func_80B47C64(EnZf* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47CF8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47DA8.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47DA8.s")
+void func_80B47DA8(EnZf* this) {
+    Animation_Change(&this->skelAnime, &D_060157F8, 1.5f, 0.0f, Animation_GetLastFrame(&D_060157F8), 2, -4.0f);
+
+    if ((this->actor.bgCheckFlags & 1) && ((this->actor.velocity.y == 0.0f) || (this->actor.velocity.y == -4.0f))) {
+        this->actor.speedXZ = -4.0f;
+        this->unk_3E4 = 0;
+    } else {
+        this->unk_3E4 = 1;
+    }
+
+    if (this->actor.params == -2) {
+        this->skelAnime.playSpeed = 4.5f;
+    }
+
+    if (this->actor.params < 0) {
+        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+    }
+
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DAMAGE);
+    this->unk_3DC = 0x10;
+    func_80B44050(this, func_80B47EB4);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47EB4.s")
 
@@ -386,19 +437,247 @@ void func_80B45384(EnZf* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48578.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48CEC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48CEC.s")
+void func_80B48CEC(EnZf* this) {
+    Animation_Change(&this->skelAnime, &D_06014E60, 1.5f, 0.0f, Animation_GetLastFrame(&D_06014E60), 2, -4.0f);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48E50.s")
+    if ((this->actor.bgCheckFlags & 1) && ((this->actor.velocity.y == 0.0f) || (this->actor.velocity.y == -4.0f))) {
+        this->actor.speedXZ = 0.0f;
+        this->unk_3E4 = 0;
+    } else {
+        this->unk_3E4 = 1;
+    }
+
+    this->unk_3DC = 0xF;
+    this->actor.flags &= ~1;
+
+    if (D_80B4A1B4 != -1) {
+        if (this->actor.prev != 0) {
+            ((EnZf*)this->actor.prev)->unk_3F4 = 90;
+
+            if (this->actor.prev->colChkInfo.health < 3) {
+                this->actor.prev->colChkInfo.health = 3;
+            }
+        } else {
+            ((EnZf*)this->actor.next)->unk_3F4 = 90;
+
+            if (this->actor.next->colChkInfo.health < 3) {
+                this->actor.next->colChkInfo.health = 3;
+            }
+        }
+    }
+
+    D_80B4A1B0 = 0;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DEAD);
+    func_80B44050(this, func_80B48E50);
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48E50.s")
+void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
+    s32 curFrame;
+
+    if (this->actor.bgCheckFlags & 2) {
+        this->actor.speedXZ = 0.0f;
+    }
+
+    if (this->actor.bgCheckFlags & 1) {
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.15f, 0.0f);
+        this->unk_3E4 = 0;
+    }
+
+    if (SkelAnime_Update(&this->skelAnime)) {
+        if (this->actor.category != ACTORCAT_PROP) {
+            if ((this->actor.params >= 0) && (D_80B4A1B4 == -1)) {
+                Flags_SetSwitch(globalCtx, this->unk_3FC);
+                func_800F5B58();
+            } else {
+                D_80B4A1B4 = -1;
+            }
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
+        }
+
+        if (this->unk_404.r != 0) {
+            this->actor.shape.shadowAlpha = this->unk_404.r -= 5;
+
+        } else {
+            Actor_Kill(&this->actor);
+            return;
+        }
+    } else {
+        curFrame = this->skelAnime.curFrame;
+        if ((curFrame == 0xA) || (curFrame == 0x12)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_DOWN);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48F90.s")
+void func_80B48F90(EnZf* this, GlobalContext* globalCtx);
+/* void func_80B48F90(EnZf* this, GlobalContext* globalCtx) {
+    // s16 temp_a0;
+    // s16 temp_v0;
+    // s16 temp_v0_2;
+    // s16 temp_v0_3;
+    // s16 phi_v1;
+    // s16 phi_v1_2;
+    // u32 new_var;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B490B4.s")
+    if ((this->actor.params == -2) && (this->unk_3DC == 3) && (this->unk_3F4 != 0)) {
+        // temp_a0 = this->unk_3F4 * 1400;
+        this->unk_3EC = (Math_SinS(this->unk_3F4 * 1400) * 10920.0f);
+    } else {
+        // temp = this->unk_3EC + this->actor.shape.rot.y;
+        // temp_v0_2 = this->actor.yawTowardsPlayer - (u16)(this->unk_3EC + this->actor.shape.rot.y);
+    //     new_var = this->unk_3EC + this->actor.shape.rot.y;
+    // temp_v0_2 = new_var;
+    // temp_v0_2 = this->actor.yawTowardsPlayer - temp_v0_2;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Update.s")
+        this->unk_3EE = CLAMP((s16)(this->actor.yawTowardsPlayer - (u16)(this->unk_3EC + this->actor.shape.rot.y)), -0x7D0, 0x7D0);
+        this->unk_3EC += this->unk_3EE;
+        // temp_v0_2 = this->unk_3EC;
+        this->unk_3EC = CLAMP(this->unk_3EC, -0x1CD7, 0x1CD7);
+    }
+} */
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B490B4.s")
+void func_80B490B4(EnZf* this, GlobalContext* globalCtx) {
+    s32 pad;
+    s16 dropParams;
+
+    if ((this->bodyCollider.base.acFlags & 2) && (this->unk_3DC < 0xF)) {
+        this->bodyCollider.base.acFlags &= ~2;
+        if (((this->actor.params < 0) || (D_80B4A1B4 != this->actor.params)) &&
+            (this->actor.colChkInfo.damageEffect != 6)) {
+            this->unk_410 = this->actor.colChkInfo.damageEffect;
+            func_80035650(&this->actor, &this->bodyCollider.info, 0);
+
+            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
+                if (this->unk_3DC != 0xE) {
+                    func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+                    Actor_ApplyDamage(&this->actor);
+                    func_80B47050(this);
+                }
+            } else {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+                func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+
+                if (Actor_ApplyDamage(&this->actor) == 0) {
+                    dropParams = 0x40;
+                    func_80B48CEC(this);
+
+                    if (this->actor.params == -2) {
+                        dropParams = 0xE0;
+                    }
+
+                    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, dropParams);
+                    func_80032C7C(globalCtx, &this->actor);
+                } else {
+                    if ((D_80B4A1B4 != -1) && ((this->actor.colChkInfo.health + this->actor.colChkInfo.damage) >= 4) &&
+                        (this->actor.colChkInfo.health < 4)) {
+                        this->unk_410 = 13;
+                    }
+
+                    func_80B47DA8(this);
+                }
+            }
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Update.s")
+void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnZf* this = THIS;
+    s32 pad2;
+
+    func_80B490B4(this, globalCtx);
+    if (this->actor.colChkInfo.damageEffect != 6) {
+        this->unk_3F8 = 0;
+        if ((this->unk_3E4 != 1) && (this->unk_3DC != 0x13)) {
+            if (this->actor.speedXZ != 0.0f) {
+                this->unk_3F8 = func_80B44058(this, globalCtx, this->actor.speedXZ * 1.5f);
+            }
+            if (this->unk_3F8 == 0) {
+                this->unk_3F8 = func_80B44058(this, globalCtx, 0);
+            }
+        }
+
+        if (this->unk_3F8 == 0) {
+            Actor_MoveForward(&this->actor);
+        }
+
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 25.0f, 30.0f, 60.0f, 0x1D);
+
+        if (!(this->actor.bgCheckFlags & 1)) {
+            this->unk_3E4 = 1;
+        }
+
+        this->actionFunc(this, globalCtx);
+    }
+
+    if (this->actor.colChkInfo.health > 0) {
+        if ((this->unk_3DC != 9) && (this->unk_3DC != 0xE)) {
+            func_80B48F90(this, globalCtx);
+        }
+
+        if ((D_80B4A1B0 != 0) && (D_80B4A1B4 != this->actor.params)) {
+            func_80B47360(this, globalCtx);
+            D_80B4A1B4 = this->actor.params;
+            D_80B4A1B0 = 0;
+
+            if (this->actor.prev != NULL) {
+                ((EnZf*)this->actor.prev)->unk_3F4 = 90;
+            } else {
+                ((EnZf*)this->actor.next)->unk_3F4 = 90;
+            }
+        }
+    }
+
+    if (this->unk_3DC >= 0xF) {
+        Math_SmoothStepToS(&this->unk_3EC, 0, 1, 2000, 0);
+        if (this->unk_3DC < 0x15) {
+            if ((this->unk_3F4 == 1) && (this->actor.bgCheckFlags & 1)) {
+                if (this->actor.colChkInfo.health > 0) {
+                    func_80B47C64(this, globalCtx);
+                }
+                this->unk_3F4--;
+            }
+        }
+
+        if (this->unk_3F4 >= 2) {
+            this->unk_3F4--;
+        }
+    }
+
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 40.0f;
+
+    if ((this->actor.colChkInfo.health > 0) && (this->unk_404.r == 0xFF)) {
+        Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
+
+        if ((this->actor.world.pos.y == this->actor.floorHeight) && (this->unk_3DC < 0x11)) {
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
+        }
+
+        if ((this->actor.params < 0) || (D_80B4A1B4 != this->actor.params)) {
+            if ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000)) {
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->bodyCollider.base);
+            }
+        }
+    }
+
+    if ((this->unk_3DC == 9) && (this->skelAnime.curFrame >= 14.0f) && (this->skelAnime.curFrame <= 20.0f)) {
+        if (!(this->swordCollider.base.atFlags & 4) && !(this->swordCollider.base.acFlags & 2)) {
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->swordCollider.base);
+        } else {
+            this->swordCollider.base.atFlags &= ~4;
+            this->swordCollider.base.acFlags &= ~2;
+            func_80B46D64(this);
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B495FC.s")
-// s32 func_80B495FC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-//                                 void* thisx, Gfx** gfx);
 s32 func_80B495FC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     EnZf* this = THIS;
@@ -425,8 +704,15 @@ s32 func_80B495FC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49688.s")
-// void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx);
 void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
+    static Vec3f D_80B4A298 = { 300.0f, 0.0f, 0.0f };
+    static Vec3f D_80B4A2A4 = { 300.0f, -1700.0f, 0.0f };
+    static Vec3f D_80B4A2B0 = { -600.0f, 300.0f, 0.0f };
+    static Vec3f D_80B4A2BC = { 0.0f, 1500.0f, 0.0f };
+    static Vec3f D_80B4A2C8 = { -600.0f, -3000.0f, 1000.0f };
+    static Vec3f D_80B4A2D4 = { -600.0f, -3000.0f, -1000.0f };
+    static Vec3f D_80B4A2E0 = { 1500.0f, -3000.0f, 0.0f };
+    static Vec3f D_80B4A2EC = { 0.0f, 0.0f, 0.0f };
     Vec3f sp54;
     Vec3f sp48;
     EnZf* this = THIS;
@@ -456,17 +742,12 @@ void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     switch (limbIndex) {
         case 45:
-        Matrix_MultVec3f(&D_80B4A298, &this->unk_4F0);
-        break;
+            Matrix_MultVec3f(&D_80B4A298, &this->unk_4F0);
+            break;
         case 38:
-        Matrix_MultVec3f(&D_80B4A298, &this->unk_4E4);
-        break;
+            Matrix_MultVec3f(&D_80B4A298, &this->unk_4E4);
+            break;
     }
-    // if (limbIndex == 38) {
-    //     Matrix_MultVec3f(&D_80B4A298, &this->unk_4F0);
-    // } else if (limbIndex == 45) {
-    //     Matrix_MultVec3f(&D_80B4A298, &this->unk_4E4);
-    // }
 
     if (this->unk_3F6 != 0) {
         switch (limbIndex) {
@@ -500,11 +781,18 @@ void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             default:
                 break;
         }
-    if (phi_s1 >= 0) {
-        Matrix_MultVec3f(&D_80B4A2EC, &this->unk_4FC[phi_s1]);
-    }
+        if (phi_s1 >= 0) {
+            Matrix_MultVec3f(&D_80B4A2EC, &this->unk_4FC[phi_s1]);
+        }
     }
 }
+
+/* static */ Gfx D_80B4A2F8[] = {
+    0xD7000002,
+    0x0A000A00,
+    0xDF000000,
+    0x00000000,
+};
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Draw.s")
 /* void EnZf_Draw(Actor *thisx, GlobalContext *globalCtx) {
