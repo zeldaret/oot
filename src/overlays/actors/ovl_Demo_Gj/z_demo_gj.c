@@ -483,13 +483,10 @@ void func_8097A160(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A0E4(this, globalCtx);
 }
 
-/*
-void func_8097A190(DemoGj* this, s32 arg1) {
-    func_8097A000(this, arg1);
-    func_8097A130(this, arg1);
+void func_8097A190(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097A000(this, globalCtx);
+    func_8097A130(this, globalCtx);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A190.s")
 
 void func_8097A1C0(DemoGj* this, GlobalContext* globalCtx) {
     func_80979030(this, globalCtx, &D_06001D20);
@@ -498,12 +495,10 @@ void func_8097A1C0(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A1E4(DemoGj* this, GlobalContext* globalCtx) {
     func_8097911C(this, globalCtx, &D_06001D20);
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A1E4.s")
 
 void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
     func_80978FCC(this, globalCtx, 2, 3, &D_06002448);
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A208.s")
 
 void func_8097A238(DemoGj* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
@@ -692,14 +687,14 @@ void func_8097A7E4(DemoGj* this, GlobalContext* globalCtx) {
     func_80978FCC(this, globalCtx, 5, 6, &D_06002FE4);
 }
 
-void func_8097A814(DemoGj* this, s32 arg1);
+void func_8097A814(DemoGj* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
-void func_8097A814(DemoGj* this, s32 arg1) {
+void func_8097A814(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     this->unk_16C.x = (s16) (this->unk_16C.x + gGameInfo->data[2662]);
     this->unk_16C.y = (s16) (this->unk_16C.y+ (gGameInfo->data[2663] + 0x3E8));
     this->unk_16C.z = (s16) (this->unk_16C.z + (gGameInfo->data[2664] + 0xBB8));
-    func_8097923C(this, arg1);
+    func_8097923C(this, globalCtx);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A814.s")
@@ -709,9 +704,15 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A8DC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A90C.s")
+void func_8097A90C(DemoGj *this, GlobalContext *globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097A890(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A93C.s")
+void func_8097A93C(DemoGj *this, GlobalContext *globalCtx) {
+    func_8097A814(this, globalCtx);
+    func_8097A8DC(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A96C.s")
 
@@ -719,15 +720,22 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A9B4.s")
 
+void func_8097A9E4(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A9E4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AA60.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AAAC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AADC.s")
+void func_8097AADC(DemoGj *this, GlobalContext *globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097AA60(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AB0C.s")
+void func_8097AB0C(DemoGj *this, GlobalContext *globalCtx) {
+    func_8097A9E4(this, globalCtx);
+    func_8097AAAC(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AB3C.s")
 
@@ -735,6 +743,7 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AB84.s")
 
+void func_8097ABB4(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097ABB4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AC30.s")
@@ -743,9 +752,15 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097ACE8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AD18.s")
+void func_8097AD18(DemoGj *this, GlobalContext *globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097AC9C(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AD48.s")
+void func_8097AD48(DemoGj *this, GlobalContext *globalCtx) {
+    func_8097ABB4(this, globalCtx);
+    func_8097ACE8(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AD78.s")
 
@@ -753,7 +768,12 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097ADC0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097ADF0.s")
+void func_8097ADF0(DemoGj *this, GlobalContext *globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097A07C(this, globalCtx);
+    func_8097A2B4(this, globalCtx);
+    func_8097AC30(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AE38.s")
 
@@ -771,11 +791,18 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B1B4.s")
 
+void func_8097B22C(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B22C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B340.s")
+void func_8097B340(DemoGj *this, GlobalContext *globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097B128(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B370.s")
+void func_8097B370(DemoGj *this, GlobalContext *globalCtx) {
+    func_8097B22C(this, globalCtx);
+    func_8097AEDC(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B3A0.s")
 
@@ -793,11 +820,18 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B6C4.s")
 
+void func_8097B750(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B750.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B864.s")
+void func_8097B864(DemoGj *this, GlobalContext *globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097B6C4(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B894.s")
+void func_8097B894(DemoGj *this, GlobalContext *globalCtx) {
+    func_8097B750(this, globalCtx);
+    func_8097B444(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B8C4.s")
 
@@ -809,11 +843,18 @@ void func_8097A814(DemoGj* this, s32 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B9BC.s")
 
+void func_8097BA48(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097BA48.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097BB78.s")
+void func_8097BB78(DemoGj *this, GlobalContext *globalCtx) {
+    func_80978EE4(this, globalCtx);
+    func_8097B9BC(this, globalCtx);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097BBA8.s")
+void func_8097BBA8(DemoGj *this, GlobalContext *globalCtx) {
+    func_8097BA48(this, globalCtx);
+    func_8097B930(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097BBD8.s")
 
