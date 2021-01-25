@@ -28,6 +28,129 @@ extern UNK_TYPE D_060033E0;
 extern Gfx D_06003710;
 extern UNK_TYPE D_06003AF0;
 
+
+// sCylinderInit
+static ColliderCylinderInitType1 D_8097BDE0 = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 30, 100, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInitType1 D_8097BE0C = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 25, 110, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInitType1 D_8097BE38 = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 25, 200, 0, { 0, 0, 0 } },
+};
+
+// velocity
+static Vec3f D_8097BE64 = {
+    0.0f, 6.0f, 0.0f
+};
+
+// accel 
+static Vec3f D_8097BE70 = {
+    0.0f, 0.0f, 0.0f
+};
+
+// primColor
+static Color_RGBA8 D_8097BE7C = {
+    0, 0, 0, 0
+};
+
+// envColor
+static Color_RGBA8 D_8097BE80 = {
+    0, 0, 0, 0
+};
+
+
+// D_8097BE84
+static InitChainEntry sInitChain[] = {
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
+
+static Vec3f D_8097BE88 = {
+    -371.0f, 1188.0f, -303.0f
+};
+
+static Vec3f D_8097BE94 = {
+    -119.0f, 1056.0f, -147.0f
+};
+
+static Vec3f D_8097BEA0 = {
+    -6.0f, 1053.0f, -473.0f
+};
+
+/*
+glabel D_8097BEAC
+ .word 0x00000000, 0x00000000, 0x00000000
+*/
+static s32 D_8097BEAC[] = {
+    0, 0, 0
+};
+
+/*
+glabel D_8097BEB8
+ .word 0x00000000, 0x00000000, 0x00000000
+*/
+static s32 D_8097BEB8[] = {
+    0, 0, 0
+};
+
+/*
+glabel D_8097BEC4
+ .word 0x00000000, 0x00000000, 0x00000000
+*/
+static s32 D_8097BEC4[] = {
+    0, 0, 0
+};
+
+
+
 typedef void (*DemoGjActionFunc)(DemoGj*, GlobalContext*);
 
 void func_8097ADF0(DemoGj* this, GlobalContext* globalCtx);
@@ -52,8 +175,6 @@ void func_8097B370(DemoGj* this, GlobalContext* globalCtx);
 void func_8097B894(DemoGj* this, GlobalContext* globalCtx);
 void func_8097BBA8(DemoGj* this, GlobalContext* globalCtx);
 
-extern DemoGjActionFunc D_8097BED0[];
-/*
 static DemoGjActionFunc D_8097BED0[] = {
     func_8097ADF0,
     func_8097A160,
@@ -77,7 +198,6 @@ static DemoGjActionFunc D_8097BED0[] = {
     func_8097B894,
     func_8097BBA8,
 };
-*/
 
 
 void func_8097BD70(DemoGj* this, GlobalContext* globalCtx); 
@@ -100,8 +220,7 @@ void func_8097B3A0(DemoGj* this, GlobalContext* globalCtx);
 void func_8097B8C4(DemoGj* this, GlobalContext* globalCtx); 
 void func_8097BBD8(DemoGj* this, GlobalContext* globalCtx); 
 
-extern DemoGjActionFunc D_8097BF24[];
-/*
+
 static DemoGjActionFunc D_8097BF24[] = {
     func_8097BD70, 
     func_8097AE38, 
@@ -123,9 +242,9 @@ static DemoGjActionFunc D_8097BF24[] = {
     func_8097B8C4, 
     func_8097BBD8, 
 };
-*/
 
-/*
+
+
 const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
     ACTORCAT_PROP,
@@ -138,84 +257,6 @@ const ActorInit Demo_Gj_InitVars = {
     (ActorFunc)DemoGj_Draw,
 };
 
-static ColliderCylinderInitType1 sCylinderInit = {
-    {
-        COLTYPE_HIT0,
-        AT_NONE,
-        AC_ON | AC_TYPE_PLAYER,
-        OC1_NONE,
-        COLSHAPE_CYLINDER,
-    },
-    {
-        ELEMTYPE_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
-        OCELEM_NONE,
-    },
-    { 30, 100, 0, { 0, 0, 0 } },
-};
-
-static ColliderCylinderInitType1 sCylinderInit = {
-    {
-        COLTYPE_HIT0,
-        AT_NONE,
-        AC_ON | AC_TYPE_PLAYER,
-        OC1_NONE,
-        COLSHAPE_CYLINDER,
-    },
-    {
-        ELEMTYPE_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
-        OCELEM_NONE,
-    },
-    { 25, 110, 0, { 0, 0, 0 } },
-};
-
-static ColliderCylinderInitType1 sCylinderInit = {
-    {
-        COLTYPE_HIT0,
-        AT_NONE,
-        AC_ON | AC_TYPE_PLAYER,
-        OC1_NONE,
-        COLSHAPE_CYLINDER,
-    },
-    {
-        ELEMTYPE_UNK0,
-        { 0x00000000, 0x00, 0x00 },
-        { 0x00000008, 0x00, 0x00 },
-        TOUCH_NONE,
-        BUMP_ON,
-        OCELEM_NONE,
-    },
-    { 25, 200, 0, { 0, 0, 0 } },
-};
-*/
-
-/*
-static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(unk_50, 100, ICHAIN_STOP),
-};
-*/
-// D_8097BE84
-extern InitChainEntry sInitChain[];
-
-
-extern Vec3f D_8097BE64; // velocity
-extern Vec3f D_8097BE70; // accel
-extern Color_RGBA8 D_8097BE7C; // primColor
-extern Color_RGBA8 D_8097BE80; // envColor
-
-extern Vec3f D_8097BE88;
-extern Vec3f D_8097BEA0;
-
-extern ColliderCylinderInitType1 D_8097BDE0;
-extern ColliderCylinderInitType1 D_8097BE0C;
-extern ColliderCylinderInitType1 D_8097BE38;
 
 
 s32 func_80978930(DemoGj *this) {
