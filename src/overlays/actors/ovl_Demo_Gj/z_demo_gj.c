@@ -51,6 +51,7 @@ void func_8097B370(DemoGj* this, GlobalContext* globalCtx);
 void func_8097B894(DemoGj* this, GlobalContext* globalCtx);
 void func_8097BBA8(DemoGj* this, GlobalContext* globalCtx);
 
+extern DemoGjActionFunc D_8097BED0[];
 /*
 static DemoGjActionFunc D_8097BED0[] = {
     func_8097ADF0,
@@ -98,6 +99,7 @@ void func_8097B3A0(DemoGj* this, GlobalContext* globalCtx);
 void func_8097B8C4(DemoGj* this, GlobalContext* globalCtx); 
 void func_8097BBD8(DemoGj* this, GlobalContext* globalCtx); 
 
+extern DemoGjActionFunc D_8097BF24[];
 /*
 static DemoGjActionFunc D_8097BF24[] = {
     func_8097BD70, 
@@ -923,7 +925,18 @@ void func_8097BBD8(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06003710);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/DemoGj_Update.s")
+void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DemoGj *this = THIS;
+    DemoGjActionFunc temp_v1;
+
+    if (this->unk_164 < 0 || this->unk_164 >= 0x15 || (temp_v1 = D_8097BED0[this->unk_164]) == NULL) {
+        // The main mode is strange!!!!!!!!!!!!!!!!!!!!!!!!!
+        osSyncPrintf("\x1b[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
+        return;
+    }
+
+    temp_v1(this, globalCtx);
+}
 
 #ifdef NON_MATCHING
 /*void DemoGj_Init(Actor* thisx, GlobalContext *globalCtx) {
@@ -981,4 +994,15 @@ default:
 void func_8097BD70(DemoGj *this, GlobalContext *globalCtx) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/DemoGj_Draw.s")
+void DemoGj_Draw(Actor *thisx, GlobalContext *globalCtx) {
+    DemoGj *this = THIS;
+    DemoGjActionFunc temp_v1;
+
+    if (this->unk_168 < 0 || this->unk_168 >= 0x13 || (temp_v1 = D_8097BF24[this->unk_168]) == NULL) {
+        // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
+        osSyncPrintf("\x1b[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
+        return;
+    }
+
+    temp_v1(thisx, globalCtx);
+}
