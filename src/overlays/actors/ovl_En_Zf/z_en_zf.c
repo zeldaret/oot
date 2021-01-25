@@ -270,7 +270,32 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyQuad(globalCtx, &this->swordCollider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B446A8.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B446A8.s")
+s16 func_80B446A8(Vec3f* pos, s16 arg1) {
+    f32 phi_f0;
+    s16 phi_v1;
+
+    phi_f0 = 210.0f;
+    if (pos->y >= 420.0f) {
+        phi_f0 = 110.0f;
+    }
+
+    if ((arg1 != -1) && ((D_80B4A090[arg1].y - 150.0f) <= pos->y) && (pos->y <= (D_80B4A090[arg1].y + 150.0f)) &&
+        ((D_80B4A090[arg1].x - phi_f0) <= pos->x) && (pos->x <= (D_80B4A090[arg1].x + phi_f0)) &&
+        ((D_80B4A090[arg1].z - phi_f0) <= pos->z) && (pos->z <= (D_80B4A090[arg1].z + phi_f0))) {
+        return arg1;
+    }
+
+for (phi_v1 = 0x17; phi_v1 > -1; phi_v1--) {
+    if (((D_80B4A090[phi_v1].y - 150.0f) <= pos->y) && (pos->y <= (D_80B4A090[phi_v1].y + 150.0f)) &&
+        ((D_80B4A090[phi_v1].x - phi_f0) <= pos->x) && (pos->x <= (D_80B4A090[phi_v1].x + phi_f0)) &&
+        ((D_80B4A090[phi_v1].z - phi_f0) <= pos->z) && (pos->z <= (D_80B4A090[phi_v1].z + phi_f0))) {
+        // continue;
+    break;
+    }
+}
+    return phi_v1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44870.s")
 
@@ -284,9 +309,9 @@ s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44E8C.s")
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B450AC.s")
-void func_80B450AC(EnZf *this) {
+void func_80B450AC(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06009530, 0.0f, 9.0f, Animation_GetLastFrame(&D_06009530), ANIMMODE_LOOP,
-0.0f);
+                     0.0f);
 
     this->actor.world.pos.y = this->actor.floorHeight + 300.0f;
     this->unk_404.r = this->actor.shape.shadowAlpha = 0;
