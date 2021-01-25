@@ -204,6 +204,13 @@ static InitChainEntry sInitChain[] = {
 extern InitChainEntry sInitChain[];
 
 
+extern Vec3f D_8097BE64; // velocity
+extern Vec3f D_8097BE70; // accel
+extern Color_RGBA8 D_8097BE7C; // primColor
+extern Color_RGBA8 D_8097BE80; // envColor
+
+
+
 s32 func_80978930(DemoGj *this) {
     s32 params = this->dyna.actor.params >> 0xB;
     return params & 0x1F;
@@ -273,7 +280,7 @@ void func_80978AC4(DemoGj* this, GlobalContext* globalCtx) {
     Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 0x32, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
-void func_80978AFC(GlobalContext *globalCtx, Vec3f *arg1, f32 arg2);
+void func_80978AFC(GlobalContext *globalCtx, Vec3f* pos, f32 arg2);
 /*
 void func_80978AFC(GlobalContext *globalCtx, Vec3f *arg1, f32 arg2) {
     arg2 = arg2;
@@ -370,7 +377,7 @@ s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 arg2, s32 arg3, Co
         func_80978F60(this, globalCtx, arg4);
         return 1;
     }
-    Actor_Kill((Actor *) this);
+    Actor_Kill(&this->dyna.actor);
     return 0;
 }
 
@@ -484,6 +491,7 @@ void func_8097A000(DemoGj *this, s32 arg1) {
 #endif
 
 //s32 func_8097A07C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A07C(DemoGj* this, GlobalContext* globalCtx);
 /*
 s32 func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
     s32 phi_return;
@@ -516,6 +524,7 @@ void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A0E4.s")
 //#endif
 
+void func_8097A130(DemoGj* this, GlobalContext* globalCtx);
 /*
 void func_8097A130(DemoGj *this) {
     if (func_8097983C() != 0) {
@@ -560,6 +569,8 @@ void func_8097A238(DemoGj *this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A238.s")
 #endif
 
+//s32 func_8097A2B4(void *arg0, GlobalContext* globalCtx);
+void func_8097A2B4(void *arg0, GlobalContext* globalCtx);
 /*
 s32 func_8097A2B4(void *arg0, GlobalContext* globalCtx) {
     s32 phi_return;
@@ -633,7 +644,7 @@ void func_8097A474(DemoGj* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A474.s")
 #endif
 
-void func_8097A4F0(DemoGj* this, s32 arg1);
+void func_8097A4F0(DemoGj* this, GlobalContext* globalCtx);
 /*
 void func_8097A4F0(DemoGj* this, s32 arg1) {
     if (func_80979818() != 0) {
@@ -657,7 +668,7 @@ void func_8097A53C(DemoGj* this) {
 
 void func_8097A56C(DemoGj* this, GlobalContext* globalCtx) {
     func_80978EE4(this, globalCtx);
-    func_8097A4F0(this, (s32) globalCtx); // TODO: check this.
+    func_8097A4F0(this, globalCtx);
 }
 
 void func_8097A59C(DemoGj* this, GlobalContext* globalCtx) {
@@ -690,7 +701,7 @@ void func_8097A644(DemoGj* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A644.s")
 #endif
 
-void func_8097A6C0(DemoGj* this, s32 arg1);
+void func_8097A6C0(DemoGj* this, GlobalContext* globalCtx);
 /*
 void func_8097A6C0(DemoGj* this, s32 arg1) {
     if (func_80979818() != 0) {
@@ -702,7 +713,7 @@ void func_8097A6C0(DemoGj* this, s32 arg1) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A6C0.s")
 
-void func_8097A70C(DemoGj* this, s32 arg1);
+void func_8097A70C(DemoGj* this, GlobalContext* globalCtx);
 /*
 void func_8097A70C(DemoGj* this, s32 arg1) {
     if (func_8097983C() != 0) {
@@ -714,7 +725,7 @@ void func_8097A70C(DemoGj* this, s32 arg1) {
 
 void func_8097A73C(DemoGj* this, GlobalContext* globalCtx) {
     func_80978EE4(this, globalCtx);
-    func_8097A6C0(this, (s32) globalCtx);
+    func_8097A6C0(this, globalCtx);
 }
 
 void func_8097A76C(DemoGj* this, GlobalContext* globalCtx) {
@@ -747,8 +758,10 @@ void func_8097A814(DemoGj* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A814.s")
 #endif
 
+void func_8097A890(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A890.s")
 
+void func_8097A8DC(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A8DC.s")
 
 void func_8097A90C(DemoGj *this, GlobalContext *globalCtx) {
@@ -775,8 +788,10 @@ void func_8097A9B4(DemoGj *this, GlobalContext *globalCtx);
 void func_8097A9E4(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A9E4.s")
 
+void func_8097AA60(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AA60.s")
 
+void func_8097AAAC(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AAAC.s")
 
 void func_8097AADC(DemoGj *this, GlobalContext *globalCtx) {
@@ -803,10 +818,13 @@ void func_8097AB84(DemoGj *this, GlobalContext *globalCtx);
 void func_8097ABB4(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097ABB4.s")
 
+void func_8097AC30(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AC30.s")
 
+void func_8097AC9C(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AC9C.s")
 
+void func_8097ACE8(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097ACE8.s")
 
 void func_8097AD18(DemoGj *this, GlobalContext *globalCtx) {
@@ -878,6 +896,7 @@ void func_8097B3A0(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B3C4.s")
 
+void func_8097B444(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B444.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B450.s")
@@ -888,6 +907,7 @@ void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B688.s")
 
+void func_8097B6C4(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B6C4.s")
 
 void func_8097B750(DemoGj *this, GlobalContext *globalCtx);
@@ -910,10 +930,12 @@ void func_8097B8C4(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097B8E8(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B8E8.s")
 
+void func_8097B930(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B930.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B93C.s")
 
+void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B9BC.s")
 
 void func_8097BA48(DemoGj *this, GlobalContext *globalCtx);
@@ -938,7 +960,7 @@ void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGjActionFunc temp_v1;
 
     if (this->unk_164 < 0 || this->unk_164 >= 0x15 || (temp_v1 = D_8097BED0[this->unk_164]) == NULL) {
-        // The main mode is strange!!!!!!!!!!!!!!!!!!!!!!!!!
+        // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf("\x1b[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
         return;
     }
@@ -1006,5 +1028,5 @@ void DemoGj_Draw(Actor *thisx, GlobalContext *globalCtx) {
         return;
     }
 
-    temp_v1(thisx, globalCtx);
+    temp_v1(this, globalCtx);
 }
