@@ -272,29 +272,28 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B446A8.s")
 s16 func_80B446A8(Vec3f* pos, s16 arg1) {
-    f32 phi_f0;
-    s16 phi_v1;
+    f32 rangeXZ;
+    s16 i;
 
-    phi_f0 = 210.0f;
+    rangeXZ = 210.0f;
     if (pos->y >= 420.0f) {
-        phi_f0 = 110.0f;
+        rangeXZ = 110.0f;
     }
 
     if ((arg1 != -1) && ((D_80B4A090[arg1].y - 150.0f) <= pos->y) && (pos->y <= (D_80B4A090[arg1].y + 150.0f)) &&
-        ((D_80B4A090[arg1].x - phi_f0) <= pos->x) && (pos->x <= (D_80B4A090[arg1].x + phi_f0)) &&
-        ((D_80B4A090[arg1].z - phi_f0) <= pos->z) && (pos->z <= (D_80B4A090[arg1].z + phi_f0))) {
+        ((D_80B4A090[arg1].x - rangeXZ) <= pos->x) && (pos->x <= (D_80B4A090[arg1].x + rangeXZ)) &&
+        ((D_80B4A090[arg1].z - rangeXZ) <= pos->z) && (pos->z <= (D_80B4A090[arg1].z + rangeXZ))) {
         return arg1;
     }
 
-for (phi_v1 = 0x17; phi_v1 > -1; phi_v1--) {
-    if (((D_80B4A090[phi_v1].y - 150.0f) <= pos->y) && (pos->y <= (D_80B4A090[phi_v1].y + 150.0f)) &&
-        ((D_80B4A090[phi_v1].x - phi_f0) <= pos->x) && (pos->x <= (D_80B4A090[phi_v1].x + phi_f0)) &&
-        ((D_80B4A090[phi_v1].z - phi_f0) <= pos->z) && (pos->z <= (D_80B4A090[phi_v1].z + phi_f0))) {
-        // continue;
-    break;
+    for (i = 23; i > -1; i--) {
+        if (((D_80B4A090[i].y - 150.0f) <= pos->y) && (pos->y <= (D_80B4A090[i].y + 150.0f)) &&
+            ((D_80B4A090[i].x - rangeXZ) <= pos->x) && (pos->x <= (D_80B4A090[i].x + rangeXZ)) &&
+            ((D_80B4A090[i].z - rangeXZ) <= pos->z) && (pos->z <= (D_80B4A090[i].z + rangeXZ))) {
+            break;
+        }
     }
-}
-    return phi_v1;
+    return i;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44870.s")
