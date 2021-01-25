@@ -15,17 +15,67 @@ extern UNK_TYPE D_06001B70;
 extern Gfx D_06001D20;
 extern CollisionHeader D_06001F70;
 extern Gfx D_06002160;
-extern UNK_TYPE D_06002448;
+extern CollisionHeader D_06002448;
 extern Gfx D_06002600;
-extern UNK_TYPE D_06002850;
+extern CollisionHeader D_06002850;
 extern Gfx D_06002A40;
-extern UNK_TYPE D_06002D28;
+extern CollisionHeader D_06002D28;
 extern UNK_TYPE D_06002E80;
-extern UNK_TYPE D_06002FE4;
+extern CollisionHeader D_06002FE4;
 extern UNK_TYPE D_06003190;
 extern UNK_TYPE D_060033E0;
 extern UNK_TYPE D_06003710;
 extern UNK_TYPE D_06003AF0;
+
+typedef void (*DemoGjUpdateFunc)(DemoGj*, GlobalContext*);
+
+void func_8097ADF0(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A160(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A39C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A56C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A73C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A90C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097AADC(DemoGj* this, GlobalContext* globalCtx);
+void func_8097AD18(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A190(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A3CC(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A59C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A76C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097A93C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097AB0C(DemoGj* this, GlobalContext* globalCtx);
+void func_8097AD48(DemoGj* this, GlobalContext* globalCtx);
+void func_8097B340(DemoGj* this, GlobalContext* globalCtx);
+void func_8097B864(DemoGj* this, GlobalContext* globalCtx);
+void func_8097BB78(DemoGj* this, GlobalContext* globalCtx);
+void func_8097B370(DemoGj* this, GlobalContext* globalCtx);
+void func_8097B894(DemoGj* this, GlobalContext* globalCtx);
+void func_8097BBA8(DemoGj* this, GlobalContext* globalCtx);
+
+/*
+static DemoGjUpdateFunc D_8097BED0[] = {
+    func_8097ADF0,
+    func_8097A160,
+    func_8097A39C,
+    func_8097A56C,
+    func_8097A73C,
+    func_8097A90C,
+    func_8097AADC,
+    func_8097AD18,
+    func_8097A190,
+    func_8097A3CC,
+    func_8097A59C,
+    func_8097A76C,
+    func_8097A93C,
+    func_8097AB0C,
+    func_8097AD48,
+    func_8097B340,
+    func_8097B864,
+    func_8097BB78,
+    func_8097B370,
+    func_8097B894,
+    func_8097BBA8,
+};
+*/
 
 /*
 const ActorInit Demo_Gj_InitVars = {
@@ -405,7 +455,8 @@ s32 func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A07C.s")
 
 void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx);
-#ifdef NON_MATCHING
+//#ifdef NON_MATCHING
+/*
 void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx) {
     if (func_80979818() != 0) {
         func_80979860(this, globalCtx);
@@ -413,9 +464,10 @@ void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx) {
         this->unk_168 = 9;
     }
 }
-#else
+*/
+//#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A0E4.s")
-#endif
+//#endif
 
 /*
 void func_8097A130(DemoGj *this) {
@@ -431,7 +483,6 @@ void func_8097A160(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A0E4(this, globalCtx);
 }
 
-void func_8097A190(DemoGj* this, s32 arg1);
 /*
 void func_8097A190(DemoGj* this, s32 arg1) {
     func_8097A000(this, arg1);
@@ -454,14 +505,14 @@ void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
 }
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A208.s")
 
-void func_8097A238(DemoGj* this, s32 arg1);
+void func_8097A238(DemoGj* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
-void func_8097A238(DemoGj *this, s32 arg1) {
+void func_8097A238(DemoGj *this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     this->unk_16C.x = this->unk_16C.x + gGameInfo->data[2623];
     this->unk_16C.y = this->unk_16C.y + (gGameInfo->data[2624] + 0x3E8);
     this->unk_16C.z = this->unk_16C.z + (gGameInfo->data[2625] + 0xBB8);
-    func_8097923C(this, arg1);
+    func_8097923C(this, globalCtx);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A238.s")
@@ -484,6 +535,7 @@ s32 func_8097A2B4(void *arg0, GlobalContext* globalCtx) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A2B4.s")
 
+void func_8097A320(DemoGj* this, GlobalContext* globalCtx);
 /*
 void func_8097A320(DemoGj* this, s32 arg1) {
     if (func_80979818() != 0) {
@@ -495,8 +547,9 @@ void func_8097A320(DemoGj* this, s32 arg1) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A320.s")
 
+void func_8097A36C(DemoGj* this, GlobalContext* globalCtx);
 /*
-void func_8097A36C(DemoGj* this) {
+void func_8097A36C(DemoGj* this, GlobalContext* globalCtx) {
     if (func_8097983C() != 0) {
         Actor_Kill(&this->dyna.actor);
     }
@@ -508,9 +561,9 @@ void func_8097A39C(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A320(this, globalCtx);
 }
 
-void func_8097A3CC(DemoGj* this, s32 arg1) {
-    func_8097A238(this, arg1);
-    func_8097A36C(this, arg1);
+void func_8097A3CC(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097A238(this, globalCtx);
+    func_8097A36C(this, globalCtx);
 }
 
 void func_8097A3FC(DemoGj* this, GlobalContext* globalCtx) {
@@ -525,14 +578,14 @@ void func_8097A444(DemoGj* this, GlobalContext* globalCtx) {
     func_80978FCC(this, globalCtx, 3, 4, &D_06002850);
 }
 
-void func_8097A474(DemoGj* this, s32 arg1);
+void func_8097A474(DemoGj* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
-void func_8097A474(DemoGj* this, s32 arg1) {
+void func_8097A474(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     this->unk_16C.x = this->unk_16C.x + gGameInfo->data[2636];
     this->unk_16C.y = this->unk_16C.y + (gGameInfo->data[2637] + 0x3E8);
     this->unk_16C.z = this->unk_16C.z + (gGameInfo->data[2638] + 0xBB8);
-    func_8097923C(this, arg1);
+    func_8097923C(this, globalCtx);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A474.s")
@@ -550,6 +603,7 @@ void func_8097A4F0(DemoGj* this, s32 arg1) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A4F0.s")
 
+void func_8097A53C(DemoGj* this, GlobalContext* globalCtx);
 /*
 void func_8097A53C(DemoGj* this) {
     if (func_8097983C() != 0) {
@@ -564,9 +618,9 @@ void func_8097A56C(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A4F0(this, (s32) globalCtx); // TODO: check this.
 }
 
-void func_8097A59C(DemoGj* this, s32 arg1) {
-    func_8097A474(this, arg1);
-    func_8097A53C(this, arg1);
+void func_8097A59C(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097A474(this, globalCtx);
+    func_8097A53C(this, globalCtx);
 }
 
 void func_8097A5CC(DemoGj* this, GlobalContext* globalCtx) {
@@ -581,14 +635,14 @@ void func_8097A614(DemoGj* this, GlobalContext* globalCtx) {
     func_80978FCC(this, globalCtx, 4, 5, &D_06002D28);
 }
 
-void func_8097A644(DemoGj* this, s32 arg1);
+void func_8097A644(DemoGj* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
-void func_8097A644(DemoGj* this, s32 arg1) {
+void func_8097A644(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
     this->unk_16C.x = this->unk_16C.x + gGameInfo->data[2649];
     this->unk_16C.y = this->unk_16C.y + (gGameInfo->data[2650] + 0x3E8);
     this->unk_16C.z = this->unk_16C.z + (gGameInfo->data[2651] + 0xBB8);
-    func_8097923C(this, arg1);
+    func_8097923C(this, globalCtx);
 }
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A644.s")
@@ -621,9 +675,9 @@ void func_8097A73C(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A6C0(this, (s32) globalCtx);
 }
 
-void func_8097A76C(DemoGj* this, s32 arg1) {
-    func_8097A644(this, arg1);
-    func_8097A70C(this, arg1);
+void func_8097A76C(DemoGj* this, GlobalContext* globalCtx) {
+    func_8097A644(this, globalCtx);
+    func_8097A70C(this, globalCtx);
 }
 
 void func_8097A79C(DemoGj* this, GlobalContext* globalCtx) {
