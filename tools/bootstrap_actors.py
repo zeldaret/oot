@@ -34,7 +34,7 @@ def get_actor_id_name(actor_id):
 def get_actor_type_name(actor_type):
     matches = re.findall(actor_type + " .*\n", z64actor_text)
     for m in matches:
-        if "ACTORTYPE" in m:
+        if "ACTORCAT" in m:
             match = m.replace(",", "").strip().split(" ")[-1]
             return match
     return "0x" + actor_type

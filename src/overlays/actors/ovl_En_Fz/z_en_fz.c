@@ -17,7 +17,7 @@ extern UNK_TYPE D_06003160;
 /*
 const ActorInit En_Fz_InitVars = {
     ACTOR_EN_FZ,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_FZ,
     sizeof(EnFz),
@@ -25,6 +25,63 @@ const ActorInit En_Fz_InitVars = {
     (ActorFunc)EnFz_Destroy,
     (ActorFunc)EnFz_Update,
     (ActorFunc)EnFz_Draw,
+};
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0xFFCE0FDB, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
+    { 30, 80, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        { 0x0001F024, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 35, 80, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x20000000, 0x02, 0x08 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_NONE,
+    },
+    { 20, 30, -15, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fz/EnFz_Init.s")

@@ -80,9 +80,9 @@ glabel func_80AC7094
 /* 044C8 80AC7168 E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 044CC 80AC716C C4500004 */  lwc1    $f16, 0x0004($v0)          ## 00000004
 /* 044D0 80AC7170 012A5821 */  addu    $t3, $t1, $t2              
-/* 044D4 80AC7174 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 044D4 80AC7174 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 044D8 80AC7178 46105480 */  add.s   $f18, $f10, $f16           
-/* 044DC 80AC717C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 044DC 80AC717C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 044E0 80AC7180 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 044E4 80AC7184 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 044E8 80AC7188 E6120028 */  swc1    $f18, 0x0028($s0)          ## 00000028

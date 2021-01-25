@@ -16,7 +16,7 @@ typedef struct BgYdanSp {
     /* 0x016A */ s16 timer;
     /* 0x016C */ f32 unk16C;
     /* 0x0170 */ ColliderTris trisCollider;
-    /* 0x0190 */ ColliderTrisItem trisColliderItems[2];
+    /* 0x0190 */ ColliderTrisElement trisColliderItems[2];
 } BgYdanSp; // size = 0x0248
 
 extern const ActorInit Bg_Ydan_Sp_InitVars;

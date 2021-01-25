@@ -25,7 +25,7 @@ void ItemOcarina_DoNothing(ItemOcarina* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Ocarina_InitVars = {
     ACTOR_ITEM_OCARINA,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GI_OCARINA,
     sizeof(ItemOcarina),
@@ -94,17 +94,17 @@ void ItemOcarina_Fly(ItemOcarina* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.frames == 881) {
-        this->actor.posRot.pos.x = 250.0f;
-        this->actor.posRot.pos.y = 60.0f;
-        this->actor.posRot.pos.z = 1075.0f;
+        this->actor.world.pos.x = 250.0f;
+        this->actor.world.pos.y = 60.0f;
+        this->actor.world.pos.z = 1075.0f;
         this->actor.velocity.x = 1.0f;
         this->actor.velocity.y = -5.0f;
         this->actor.velocity.z = -7.0f;
     }
 
     if (globalCtx->csCtx.frames == 897) {
-        EffectSsGRipple_Spawn(globalCtx, &this->actor.posRot.pos, 100, 500, 0);
-        EffectSsGSplash_Spawn(globalCtx, &this->actor.posRot.pos, 0, 0, 1, 0);
+        EffectSsGRipple_Spawn(globalCtx, &this->actor.world.pos, 100, 500, 0);
+        EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, 0, 0, 1, 0);
         this->actor.velocity.x = 0.0f;
         this->actor.velocity.y = 0.0f;
         this->actor.velocity.z = 0.0f;
@@ -146,9 +146,9 @@ void func_80B864EC(ItemOcarina* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->csCtx.frames == 220) {
-        this->actor.posRot.pos.x = 144.0f;
-        this->actor.posRot.pos.y = 80.0f;
-        this->actor.posRot.pos.z = 1686.0f;
+        this->actor.world.pos.x = 144.0f;
+        this->actor.world.pos.y = 80.0f;
+        this->actor.world.pos.z = 1686.0f;
         this->actor.velocity.x = 1.0f;
         this->actor.velocity.y = 2.0f;
         this->actor.velocity.z = -7.0f;
@@ -186,7 +186,7 @@ void ItemOcarina_WaitInWater(ItemOcarina* this, GlobalContext* globalCtx) {
         func_8002F434(&this->actor, globalCtx, GI_OCARINA_OOT, 30.0f, 50.0f);
 
         if ((globalCtx->gameplayFrames & 13) == 0) {
-            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
     }
 }

@@ -99,7 +99,7 @@ glabel func_80A89860
 /* 00228 80A899C8 E62A002C */  swc1    $f10, 0x002C($s1)          ## 0000002C
 /* 0022C 80A899CC AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 00230 80A899D0 E7B40010 */  swc1    $f20, 0x0010($sp)          
-/* 00234 80A899D4 0C00B92D */  jal     func_8002E4B4              
+/* 00234 80A899D4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00238 80A899D8 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 0023C 80A899DC C6300080 */  lwc1    $f16, 0x0080($s1)          ## 00000080
 /* 00240 80A899E0 27AD0068 */  addiu   $t5, $sp, 0x0068           ## $t5 = FFFFFFE8

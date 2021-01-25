@@ -1,4 +1,5 @@
 #include "z_en_go2.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000039
 
@@ -21,7 +22,7 @@ extern UNK_TYPE D_0600FEF0;
 /*
 const ActorInit En_Go2_InitVars = {
     ACTOR_EN_GO2,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGo2),
@@ -29,6 +30,26 @@ const ActorInit En_Go2_InitVars = {
     (ActorFunc)EnGo2_Destroy,
     (ActorFunc)EnGo2_Update,
     (ActorFunc)EnGo2_Draw,
+};
+
+static ColliderCylinderInit D_80A48114 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 40, 65, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Go2/func_80A42D30.s")

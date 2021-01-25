@@ -25,7 +25,7 @@ extern Gfx D_06000180[];
 
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Rrbox),
@@ -81,9 +81,8 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->bgId);
 
-    if (dynaPolyActor != NULL &&
-        Math3D_Dist2DSq(dynaPolyActor->actor.posRot.pos.x, dynaPolyActor->actor.posRot.pos.z,
-                        this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.z) < 0.01f) {
+    if (dynaPolyActor != NULL && Math3D_Dist2DSq(dynaPolyActor->actor.world.pos.x, dynaPolyActor->actor.world.pos.z,
+                                                 this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z) < 0.01f) {
         return true;
     }
     return false;
@@ -99,11 +98,11 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (actor->posRot.pos.x <= 930.0f && actor->posRot.pos.z >= -360.0f) {
+    if (actor->world.pos.x <= 930.0f && actor->world.pos.z >= -360.0f) {
         if (this->dyna.unk_150 >= 0.0f) {
-            rotY = actor->posRot.rot.y;
+            rotY = actor->world.rot.y;
         } else {
-            rotY = actor->posRot.rot.y + 0x8000;
+            rotY = actor->world.rot.y + 0x8000;
         }
 
         if (rotY < 0x2000 && rotY > -0x6000) {
@@ -123,7 +122,7 @@ void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_808B3A34(this);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         func_808B44B8(this, globalCtx);
-        this->dyna.actor.posRot.pos = D_808B45C4[D_808B4590];
+        this->dyna.actor.world.pos = D_808B45C4[D_808B4590];
         D_808B4590++;
     } else {
         func_808B4084(this, globalCtx);
@@ -151,15 +150,15 @@ s32 func_808B3CA0(BgSpot15Rrbox* this, GlobalContext* globalCtx, s32 arg2) {
 
     func_808B39E8(&actorPosition, &actorScale, this->unk_16C, this->unk_170);
 
-    actorPosition.x += this->dyna.actor.posRot.pos.x;
-    actorPosition.y += this->dyna.actor.pos4.y;
-    actorPosition.z += this->dyna.actor.posRot.pos.z;
+    actorPosition.x += this->dyna.actor.world.pos.x;
+    actorPosition.y += this->dyna.actor.prevPos.y;
+    actorPosition.z += this->dyna.actor.world.pos.z;
 
-    this->dyna.actor.groundY = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &this->bgId,
-                                                           &this->dyna.actor, &actorPosition, chkDist);
+    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &this->dyna.actor.floorPoly,
+                                                               &this->bgId, &this->dyna.actor, &actorPosition, chkDist);
 
-    if ((this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) >= -0.001f) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
+    if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
+        this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         return true;
     }
     return false;
@@ -182,9 +181,9 @@ f32 func_808B3DDC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
         func_808B39E8(&position, &scale, this->unk_16C, this->unk_170);
 
-        position.x += actor->posRot.pos.x;
-        position.y += actor->pos4.y;
-        position.z += actor->posRot.pos.z;
+        position.x += actor->world.pos.x;
+        position.y += actor->prevPos.y;
+        position.z += actor->world.pos.z;
 
         yIntersect = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, &actor->floorPoly, &bgId, actor, &position, 0);
 
@@ -266,12 +265,12 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     sign = this->unk_17C >= 0.0f ? 1.0f : -1.0f;
 
     tempUnk178 = (f32)sign * this->unk_178;
-    actor->posRot.pos.x = actor->initPosRot.pos.x + (tempUnk178 * this->unk_16C);
-    actor->posRot.pos.z = actor->initPosRot.pos.z + (tempUnk178 * this->unk_170);
+    actor->world.pos.x = actor->home.pos.x + (tempUnk178 * this->unk_16C);
+    actor->world.pos.z = actor->home.pos.z + (tempUnk178 * this->unk_170);
 
     if (!func_808B3F58(this, globalCtx)) {
-        actor->initPosRot.pos.x = actor->posRot.pos.x;
-        actor->initPosRot.pos.z = actor->posRot.pos.z;
+        actor->home.pos.x = actor->world.pos.x;
+        actor->home.pos.z = actor->world.pos.z;
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
         this->unk_178 = 0.0f;
@@ -285,8 +284,8 @@ void func_808B4194(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         if (func_808B3A40(this, globalCtx)) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
-        actor->initPosRot.pos.x = actor->posRot.pos.x;
-        actor->initPosRot.pos.z = actor->posRot.pos.z;
+        actor->home.pos.x = actor->world.pos.x;
+        actor->home.pos.z = actor->world.pos.z;
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
         this->unk_178 = 0.0f;
@@ -302,12 +301,12 @@ void func_808B4380(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y = 0.0f;
     this->dyna.actor.velocity.z = 0.0f;
     this->dyna.actor.gravity = -1.0f;
-    this->dyna.actor.groundY = func_808B3DDC(this, globalCtx);
+    this->dyna.actor.floorHeight = func_808B3DDC(this, globalCtx);
     this->actionFunc = func_808B43D0;
 }
 
 void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    f32 groundY;
+    f32 floorHeight;
     Player* player = PLAYER;
     Actor* actor = &this->dyna.actor;
 
@@ -318,7 +317,7 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 
     Actor_MoveForward(actor);
 
-    if (actor->posRot.pos.y <= -31990.0f) {
+    if (actor->world.pos.y <= -31990.0f) {
         osSyncPrintf("Warning : ロンロン木箱落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_bg_spot15_rrbox.c", 599,
                      actor->params);
 
@@ -327,10 +326,10 @@ void func_808B43D0(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
         return;
     }
 
-    groundY = actor->groundY;
+    floorHeight = actor->floorHeight;
 
-    if ((groundY - actor->posRot.pos.y) >= -0.001f) {
-        actor->posRot.pos.y = groundY;
+    if ((floorHeight - actor->world.pos.y) >= -0.001f) {
+        actor->world.pos.y = floorHeight;
         func_808B4084(this, globalCtx);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WOOD_BOUND);
     }
@@ -353,9 +352,9 @@ void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_168 > 0) {
         this->unk_168--;
     }
-    this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
-    this->unk_16C = Math_SinS(this->dyna.actor.posRot.rot.y);
-    this->unk_170 = Math_CosS(this->dyna.actor.posRot.rot.y);
+    this->dyna.actor.world.rot.y = this->dyna.unk_158;
+    this->unk_16C = Math_SinS(this->dyna.actor.world.rot.y);
+    this->unk_170 = Math_CosS(this->dyna.actor.world.rot.y);
     this->actionFunc(this, globalCtx);
 }
 

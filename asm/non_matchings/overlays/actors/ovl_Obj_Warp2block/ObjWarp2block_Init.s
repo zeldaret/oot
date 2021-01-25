@@ -42,7 +42,7 @@ glabel ObjWarp2block_Init
 /* 005D8 80BA23C8 AE090168 */  sw      $t1, 0x0168($s0)           ## 00000168
 /* 005DC 80BA23CC 00AD2821 */  addu    $a1, $a1, $t5              
 /* 005E0 80BA23D0 8CA52844 */  lw      $a1, %lo(D_80BA2844)($a1)  
-/* 005E4 80BA23D4 0C00B56E */  jal     Actor_SetHeight
+/* 005E4 80BA23D4 0C00B56E */  jal     Actor_SetFocus
               
 /* 005E8 80BA23D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 005EC 80BA23DC 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C

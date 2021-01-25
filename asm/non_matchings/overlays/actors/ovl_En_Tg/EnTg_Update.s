@@ -31,7 +31,7 @@ glabel EnTg_Update
 /* 002F8 80B18658 A48F01DE */  sh      $t7, 0x01DE($a0)           ## 000001DE
 /* 002FC 80B1865C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00300 80B18660 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00304 80B18664 00A12821 */  addu    $a1, $a1, $at              
 /* 00308 80B18668 0C02927F */  jal     SkelAnime_Update
               
@@ -43,7 +43,7 @@ glabel EnTg_Update
 /* 00320 80B18680 44070000 */  mfc1    $a3, $f0                   
 /* 00324 80B18684 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00328 80B18688 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0032C 80B1868C 0C00B92D */  jal     func_8002E4B4              
+/* 0032C 80B1868C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00330 80B18690 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00334 80B18694 8E190190 */  lw      $t9, 0x0190($s0)           ## 00000190
 /* 00338 80B18698 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

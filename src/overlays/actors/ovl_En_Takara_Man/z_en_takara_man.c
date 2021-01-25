@@ -25,7 +25,7 @@ void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx);
 
 const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_TS,
     sizeof(EnTakaraMan),
@@ -59,17 +59,17 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     globalCtx->actorCtx.flags.chest = 0;
     gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->jointTable, this->morphTable, 10);
-    thisx->posRot2.pos = thisx->posRot.pos;
-    this->pos = thisx->posRot.pos;
-    thisx->posRot.pos.x = 133.0f;
-    thisx->posRot.pos.y = -12.0f;
-    thisx->posRot.pos.z = 102.0f;
+    thisx->focus.pos = thisx->world.pos;
+    this->pos = thisx->world.pos;
+    thisx->world.pos.x = 133.0f;
+    thisx->world.pos.y = -12.0f;
+    thisx->world.pos.z = 102.0f;
     Actor_SetScale(&this->actor, 0.013f);
     this->height = 90.0f;
     this->originalRoomNum = thisx->room;
     thisx->room = -1;
-    thisx->posRot.rot.y = thisx->shape.rot.y = -0x4E20;
-    thisx->unk_1F = 1;
+    thisx->world.rot.y = thisx->shape.rot.y = -0x4E20;
+    thisx->targetMode = 1;
     this->actionFunc = func_80B176E0;
 }
 
@@ -96,7 +96,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
             this->actionFunc = func_80B17B14;
         }
     } else {
-        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         if (globalCtx->roomCtx.curRoom.num == 6 && !this->unk_21A) {
             this->actor.textId = 0x6E; // "Great! You are a real gambler!"
             this->unk_21A = 1;
@@ -187,8 +187,8 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->eyeTimer--;
     }
 
-    Actor_SetHeight(&this->actor, this->height);
-    func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.posRot2.pos);
+    Actor_SetFocus(&this->actor, this->height);
+    func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
     if (this->eyeTimer == 0) {
         this->eyeTextureIdx++;
         if (this->eyeTextureIdx >= 2) {

@@ -7,6 +7,8 @@ class PathwayEntry
 {
 public:
 	int16_t x, y, z;
+
+	PathwayEntry();
 };
 
 class SetPathways : public ZRoomCommand
