@@ -9,8 +9,8 @@ glabel ObjWarp2block_Destroy
 /* 006B4 80BA24A4 31F80001 */  andi    $t8, $t7, 0x0001           ## $t8 = 00000000
 /* 006B8 80BA24A8 13000003 */  beq     $t8, $zero, .L80BA24B8     
 /* 006BC 80BA24AC 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 006C0 80BA24B0 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 006C0 80BA24B0 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 006C4 80BA24B4 8CE6014C */  lw      $a2, 0x014C($a3)           ## 0000014C
 .L80BA24B8:
 /* 006C8 80BA24B8 8FBF0014 */  lw      $ra, 0x0014($sp)           

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_po_syokudai.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -25,8 +26,22 @@ void BgPoSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_METAL_SHIELD, 0x00, 0x0D, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_METAL,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 12, 60, 0, { 0, 0, 0 } },
 };
 
@@ -46,7 +61,7 @@ static Color_RGBA8 sEnvColors[] = {
 
 const ActorInit Bg_Po_Syokudai_InitVars = {
     ACTOR_BG_PO_SYOKUDAI,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SYOKUDAI,
     sizeof(BgPoSyokudai),
@@ -61,7 +76,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_060003A0[];
-extern Gfx D_0404D4E0[];
 
 void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgPoSyokudai* this = THIS;
@@ -72,18 +86,18 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->flameColor = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0x3F;
 
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointGlowSetInfo(&this->lightInfo, thisx->posRot.pos.x, (s16)thisx->posRot.pos.y + 65, thisx->posRot.pos.z,
-                            0, 0, 0, 0);
+    Lights_PointGlowSetInfo(&this->lightInfo, thisx->world.pos.x, (s16)thisx->world.pos.y + 65, thisx->world.pos.z, 0,
+                            0, 0, 0);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
-    this->collider.dim.pos.x = thisx->posRot.pos.x;
-    this->collider.dim.pos.y = thisx->posRot.pos.y;
-    this->collider.dim.pos.z = thisx->posRot.pos.z;
+    this->collider.dim.pos.x = thisx->world.pos.x;
+    this->collider.dim.pos.y = thisx->world.pos.y;
+    this->collider.dim.pos.z = thisx->world.pos.z;
 
     if (this->flameColor == POE_FLAME_PURPLE && Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_GREEN) &&
         Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_BLUE) &&
@@ -95,8 +109,8 @@ void BgPoSyokudai_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     } else if (!Flags_GetSwitch(globalCtx, POE_TORCH_FLAG + POE_FLAME_PURPLE) && !Flags_GetSwitch(globalCtx, 0x1B)) {
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->posRot.pos.x,
-                    thisx->posRot.pos.y + 52.0f, thisx->posRot.pos.z, 0, 0, 0,
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_PO_SISTERS, thisx->world.pos.x,
+                    thisx->world.pos.y + 52.0f, thisx->world.pos.z, 0, 0, 0,
                     (this->flameColor << 8) + thisx->params + 0x1000);
 
     } else if (!Flags_GetSwitch(globalCtx, thisx->params)) {
@@ -172,7 +186,7 @@ void BgPoSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 368),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_po_syokudai.c", 373);
 }

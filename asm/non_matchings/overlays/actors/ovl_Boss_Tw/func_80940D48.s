@@ -432,7 +432,7 @@ glabel func_80940D48
 /* 08614 809412E4 A64E05F0 */  sh      $t6, 0x05F0($s2)           ## 000005F0
 /* 08618 809412E8 264505AC */  addiu   $a1, $s2, 0x05AC           ## $a1 = 000005AC
 /* 0861C 809412EC AFA5004C */  sw      $a1, 0x004C($sp)           
-/* 08620 809412F0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 08620 809412F0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 08624 809412F4 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 08628 809412F8 8648015A */  lh      $t0, 0x015A($s2)           ## 0000015A
@@ -482,7 +482,7 @@ glabel func_80940D48
 /* 086CC 8094139C 8E5005E8 */  lw      $s0, 0x05E8($s2)           ## 000005E8
 /* 086D0 809413A0 A24805BD */  sb      $t0, 0x05BD($s2)           ## 000005BD
 /* 086D4 809413A4 00008825 */  or      $s1, $zero, $zero          ## $s1 = 00000000
-/* 086D8 809413A8 0C018D74 */  jal     func_800635D0              
+/* 086D8 809413A8 0C018D74 */  jal     CollisionCheck_GetSwordDamage              
 /* 086DC 809413AC 8E040000 */  lw      $a0, 0x0000($s0)           ## 00000001
 /* 086E0 809413B0 14400003 */  bne     $v0, $zero, .L809413C0     
 /* 086E4 809413B4 304600FF */  andi    $a2, $v0, 0x00FF           ## $a2 = 00000000
@@ -523,7 +523,7 @@ glabel func_80940D48
 /* 08754 80941424 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 08758 80941428 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000001
 /* 0875C 8094142C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 08760 80941430 8FA6004C */  lw      $a2, 0x004C($sp)           
 /* 08764 80941434 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 08768 80941438 24100002 */  addiu   $s0, $zero, 0x0002         ## $s0 = 00000002

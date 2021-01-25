@@ -126,7 +126,7 @@ glabel func_80949E10
 /* 112F0 80949FC0 AFA80014 */  sw      $t0, 0x0014($sp)
 /* 112F4 80949FC4 8FA4006C */  lw      $a0, 0x006C($sp)
 /* 112F8 80949FC8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 112FC 80949FCC 0C00B92D */  jal     func_8002E4B4
+/* 112FC 80949FCC 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 11300 80949FD0 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 11304 80949FD4 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000
 /* 11308 80949FD8 44813000 */  mtc1    $at, $f6                   ## $f6 = 30.00

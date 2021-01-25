@@ -43,8 +43,8 @@ glabel EnNy_Init
 /* 00058 80ABCC08 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 0005C 80ABCC0C 0C017014 */  jal     Collider_SetJntSph              
 /* 00060 80ABCC10 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00064 80ABCC14 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00068 80ABCC18 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00064 80ABCC14 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00068 80ABCC18 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0006C 80ABCC1C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00070 80ABCC20 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00074 80ABCC24 0C00AC78 */  jal     ActorShape_Init

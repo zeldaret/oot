@@ -36,7 +36,7 @@ typedef struct EnMb {
     /* 0x0368 */ ColliderCylinder collider1;
     /* 0x03B4 */ ColliderQuad collider2;
     /* 0x0434 */ ColliderTris collider3;
-    /* 0x0454 */ ColliderTrisItem collider3Items[2];
+    /* 0x0454 */ ColliderTrisElement collider3Items[2];
 } EnMb; // size = 0x050C
 
 extern const ActorInit En_Mb_InitVars;
