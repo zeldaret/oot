@@ -1,4 +1,5 @@
 #include "z_en_bom_chu.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -8,8 +9,6 @@ void EnBomChu_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_04007E10;
 
 /*
 const ActorInit En_Bom_Chu_InitVars = {

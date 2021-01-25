@@ -7,6 +7,7 @@
 #include "Overlays/ZOverlay.h"
 #include "Path.h"
 #include "File.h"
+#include "Directory.h"
 #include "Globals.h"
 
 #if !defined(_MSC_VER) && !defined(__CYGWIN__)
