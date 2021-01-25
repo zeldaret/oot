@@ -225,7 +225,7 @@ void EnZf_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_UpdateBgCheckInfo(globalCtx, thisx, 75.0f, 45.0f, 45.0f, 0x1D);
 
-    this->unk_404.r = 0xFF;
+    this->unk_404 = 0xFF;
     thisx->colChkInfo.cylRadius = 40;
     thisx->colChkInfo.cylHeight = 100;
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
@@ -321,7 +321,7 @@ void func_80B450AC(EnZf* this) {
                      0.0f);
 
     this->actor.world.pos.y = this->actor.floorHeight + 300.0f;
-    this->unk_404.r = this->actor.shape.shadowAlpha = 0;
+    this->unk_404 = this->actor.shape.shadowAlpha = 0;
     this->unk_3F0 = 0xA;
     this->unk_3E4 = 1;
     this->unk_3DC = 0;
@@ -536,8 +536,8 @@ void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         }
 
-        if (this->unk_404.r != 0) {
-            this->actor.shape.shadowAlpha = this->unk_404.r -= 5;
+        if (this->unk_404 != 0) {
+            this->actor.shape.shadowAlpha = this->unk_404 -= 5;
 
         } else {
             Actor_Kill(&this->actor);
@@ -679,7 +679,7 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 40.0f;
 
-    if ((this->actor.colChkInfo.health > 0) && (this->unk_404.r == 0xFF)) {
+    if ((this->actor.colChkInfo.health > 0) && (this->unk_404 == 0xFF)) {
         Collider_UpdateCylinder(&this->actor, &this->bodyCollider);
 
         if ((this->actor.world.pos.y == this->actor.floorHeight) && (this->unk_3DC < 0x11)) {
@@ -856,14 +856,14 @@ void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     // temp_v0_2->words.w0 = 0xDB060020;
     gSPSegment(POLY_OPA_DISP++, 0x08, D_80B4A2F8);
 
-    if (this->unk_404.r == 0xFF) {
+    if (this->unk_404 == 0xFF) {
         func_80093D18(globalCtx->state.gfxCtx);
 
         // temp_v0_3 = temp_s1->polyOpa.p;
         // temp_s1->polyOpa.p = temp_v0_3 + 8;
         // temp_v0_3->words.w0 = 0xFB000000;
         // temp_v0_3->words.w1 = (u32) this->unk_404;
-        gDPSetEnvColor(POLY_OPA_DISP++, this->unk_404.r, this->unk_404.g, this->unk_404.b, this->unk_404.a);
+        gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_404);
 
         // temp_v0_4 = temp_s1->polyOpa.p;
         // temp_s1->polyOpa.p = temp_v0_4 + 8;
@@ -896,7 +896,7 @@ func_80B49688, this, POLY_OPA_DISP);
         // temp_s1->polyXlu.p = temp_v0_6 + 8;
         // temp_v0_6->words.w0 = 0xFB000000;
         // temp_v0_6->words.w1 = (u32) this->unk_404;
-        gDPSetEnvColor(POLY_XLU_DISP++, this->unk_404.r, this->unk_404.g, this->unk_404.b, this->unk_404.a);
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_404.a);
 
         // temp_v0_7 = temp_s1->polyXlu.p;
         // temp_s1->polyXlu.p = temp_v0_7 + 8;

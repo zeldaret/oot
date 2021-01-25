@@ -28,8 +28,8 @@ typedef struct EnZf {
     /* 0x03FE */ s16 unk_3FE;
     /* 0x0400 */ s16 unk_400;
     /* 0x0402 */ s16 unk_402;
-    /* 0x0404 */ Color_RGBA8 unk_404;
-    // /* 0x0405 */ char unk_405[0x3];
+    /* 0x0404 */ u8 unk_404;
+    /* 0x0405 */ char unk_405[0x3];
     /* 0x0408 */ char unk_408[0x8];
     /* 0x0408 */ u8 unk_410;
     /* 0x0408 */ char unk_411[0x3];
