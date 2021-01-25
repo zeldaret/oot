@@ -511,33 +511,20 @@ void func_80B48E50(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48F90.s")
-void func_80B48F90(EnZf* this, GlobalContext* globalCtx);
-/* void func_80B48F90(EnZf* this, GlobalContext* globalCtx) {
-    // s16 temp_a0;
-    // s16 temp_v0;
-    // s16 temp_v0_2;
-    // s16 temp_v0_3;
-    // s16 phi_v1;
-    // s16 phi_v1_2;
-    // u32 new_var;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48F90.s")
+void func_80B48F90(EnZf* this, GlobalContext* globalCtx) {
+    s16 temp_v0_2;
 
     if ((this->actor.params == -2) && (this->unk_3DC == 3) && (this->unk_3F4 != 0)) {
-        // temp_a0 = this->unk_3F4 * 1400;
         this->unk_3EC = (Math_SinS(this->unk_3F4 * 1400) * 10920.0f);
     } else {
-        // temp = this->unk_3EC + this->actor.shape.rot.y;
-        // temp_v0_2 = this->actor.yawTowardsPlayer - (u16)(this->unk_3EC + this->actor.shape.rot.y);
-    //     new_var = this->unk_3EC + this->actor.shape.rot.y;
-    // temp_v0_2 = new_var;
-    // temp_v0_2 = this->actor.yawTowardsPlayer - temp_v0_2;
-
-        this->unk_3EE = CLAMP((s16)(this->actor.yawTowardsPlayer - (u16)(this->unk_3EC + this->actor.shape.rot.y)), -0x7D0, 0x7D0);
+        temp_v0_2 = this->actor.yawTowardsPlayer;
+        temp_v0_2 -= (s16)(s32)(this->unk_3EC + this->actor.shape.rot.y);
+        this->unk_3EE = CLAMP(temp_v0_2, -0x7D0, 0x7D0);
         this->unk_3EC += this->unk_3EE;
-        // temp_v0_2 = this->unk_3EC;
         this->unk_3EC = CLAMP(this->unk_3EC, -0x1CD7, 0x1CD7);
     }
-} */
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B490B4.s")
 void func_80B490B4(EnZf* this, GlobalContext* globalCtx) {
