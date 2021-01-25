@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_g_ripple.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rWaterBoxNum regs[0]
 #define rRadius regs[1]
@@ -28,9 +29,6 @@ EffectSsInit Effect_Ss_G_Ripple_InitVars = {
     EffectSsGRipple_Init,
 };
 
-extern Gfx D_040254B0[];
-extern Gfx D_040244B0[];
-
 u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 pad;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -40,7 +38,7 @@ u32 EffectSsGRipple_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     waterBox = NULL;
     this->velocity = this->accel = zeroVec;
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_040254B0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffWaterRippleDL);
     this->life = initParams->life + 20;
     this->flags = 0;
     this->draw = EffectSsGRipple_Draw;
@@ -105,7 +103,7 @@ void EffectSsGRipple_DrawRipple(GlobalContext* globalCtx, EffectSs* this, UNK_PT
 
 void EffectSsGRipple_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (this->rLifespan == 0) {
-        EffectSsGRipple_DrawRipple(globalCtx, this, D_040244B0);
+        EffectSsGRipple_DrawRipple(globalCtx, this, gEffWaterRippleTex);
     }
 }
 
