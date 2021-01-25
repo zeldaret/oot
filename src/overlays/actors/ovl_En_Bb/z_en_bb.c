@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bb.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x01000015
 
@@ -90,7 +91,6 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx);
 
 void EnBb_Stunned(EnBb* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];
 extern AnimationHeader D_06000184;
 extern AnimationHeader D_06000444;
 extern SkeletonHeader D_06001A30;
@@ -1336,7 +1336,7 @@ void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(this->flameScaleX * 0.01f, this->flameScaleY * 0.01f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bb.c", 2106),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+            gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         } else {
             Matrix_MultVec3f(&blureBase1, &blureVtx1);
             Matrix_MultVec3f(&blureBase2, &blureVtx2);

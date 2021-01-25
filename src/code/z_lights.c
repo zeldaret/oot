@@ -1,4 +1,5 @@
 #include "global.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define LIGHTS_BUFFER_SIZE 32
 
@@ -366,7 +367,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
     POLY_XLU_DISP = func_800947AC(POLY_XLU_DISP++);
     gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_NOISE);
     gDPSetColorDither(POLY_XLU_DISP++, G_CD_MAGICSQ);
-    gSPDisplayList(POLY_XLU_DISP++, D_04015720);
+    gSPDisplayList(POLY_XLU_DISP++, gGlowCircleTextureLoadDL);
 
     while (node != NULL) {
         LightInfo* info;
@@ -385,7 +386,7 @@ void Lights_DrawGlow(GlobalContext* globalCtx) {
             Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_lights.c", 918),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_04015760);
+            gSPDisplayList(POLY_XLU_DISP++, gGlowCircleDL);
         }
 
         node = node->next;
