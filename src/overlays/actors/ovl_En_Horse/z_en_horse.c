@@ -1,4 +1,5 @@
 #include "z_en_horse.h"
+#include "overlays/actors/ovl_En_In/z_en_in.h"
 
 #define FLAGS 0x00000010
 
@@ -2046,12 +2047,8 @@ void func_80A600E8(EnHorse* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1F0 & 0x00800000) {
-        *(s16*)((u8*)this->rider + 0x1e6) = 7;
-        *(f32*)((u8*)this->rider + 0x1e0) = 0;
-        /*
-           this->rider->unk1E6 = 7;
-           this->rider->unk1E0 = 0.0f;
-           */
+        ((EnIn*)this->rider)->unk_1E6 = 7;
+        ((EnIn*)this->rider)->unk_1E0 = 0;
         return;
     }
 
