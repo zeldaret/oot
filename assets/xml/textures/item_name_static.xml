@@ -1,373 +1,373 @@
 <Root>
      <File Name="item_name_static">
-			<Texture Name="gDekuStickItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDekuNutItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairyBowItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFireArrowItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDinsFireItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairySlingshotItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairyOcarinaItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOcarinaOfTimeItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombchuItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHookshotItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLongshotItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gIceArrowItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFaroresWindItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBoomerangItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLensItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMagicBeansItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMegatonHammerItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLightArrowItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gNayrusLoveItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEmptyBottleItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRedPotionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGreenPotionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBluePotionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBottledFairyItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFishItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFullMilkItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRutosLetterItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBlueFireItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBugItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBigPoeItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHalfMilkItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPoeItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gWeirdEggItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCuccoItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZeldasLetterItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKeatonMaskItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSkullMaskItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSpookyMaskItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBunnyHoodItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronMaskItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZoraMaskItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGerudoMaskItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMaskofTruthItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSOLDOUTItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPocketEggItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPocketCuccoItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCojiroItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOddMushroomItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOddPotionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPoachersSawItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBrokenGoronsSwordItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPrescriptionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEyeBallFrogItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEyeDropsItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gClaimCheckItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedWindMedallionItemNameJPN_1" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedFireMedallionItemNameJPN_1" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedIceMedallionItemNameJPN_1" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriSwordItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMasterSwordItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGiantsKnifeItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDekuShieldItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHylianShieldItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMirrorShieldItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriTunicItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronTunicItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZoraTunicItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriBootsItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gIronBootsItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHoverBootsItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag30ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag40ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag50ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver30ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver40ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver50ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag20ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag30ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag40ItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronsBraceletItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSilverGauntletsItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldenGauntletsItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSilverScaleItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldenScaleItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBrokenGiantsKnifeItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_1" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_2" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_3" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_4" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMinuetOfForestItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBoleroOfFireItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSerenadeOfWaterItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRequiemOfSpiritItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gNocturneOfShadowItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPreludeOfLightItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZeldasLullabyItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEponasSongItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSariasSongItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSunsSongItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSongOfTimeItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSongOfStormsItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gForestMedallionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFireMedallionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gWaterMedallionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSpiritMedallionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gShadowMedallionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLightMedallionItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriEmeraldItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronsRubyItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZorasSapphireItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gStoneofAgonyItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGerudosCardItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldSkulltulaItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPieceOfHeartItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedPieceOfHeartItemNameJPN_1" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBigKeyItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCompassItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDungeonMapItemNameENG" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_5" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_6" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_7" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBiggoronsSwordItemNameENG" Format="ia4" Width="128" Height="16"/>
-            <Texture Name="gDekuStickItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDekuNutItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombItemNameItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairyBowItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFireArrowItemNameGER_unk2" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDinsFireItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairySlingshotItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairyOcarinaItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOcarinaOfTimeItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombchuItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHookshotItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLongshotItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gIceArrowItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFaroresWindItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBoomerangItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLensItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMagicBeansItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMegatonHammerItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLightArrowItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gNayrusLoveItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEmptyBottleItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRedPotionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGreenPotionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBluePotionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBottledFairyItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFishItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFullMilkItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRutosLetterItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBlueFireItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBugItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBigPoeItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHalfMilkItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPoeItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gWeirdEggItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCuccoItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZeldasLetterItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKeatonMaskItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSkullMaskItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSpookyMaskItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBunnyHoodItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronMaskItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZoraMaskItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGerudoMaskItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMaskofTruthItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSOLDOUTItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPocketEggItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPocketCuccoItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCojiroItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOddMushroomItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOddPotionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPoachersSawItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBrokenGoronsSwordItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPrescriptionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEyeBallFrogItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEyeDropsItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gClaimCheckItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedWindMedallionItemNameJPN_2" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedFireMedallionItemNameJPN_2" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedIceMedallionItemNameJPN_2" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriSwordItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMasterSwordItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGiantsKnifeItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDekuShieldItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHylianShieldItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMirrorShieldItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriTunicItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronTunicItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZoraTunicItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriBootsItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gIronBootsItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHoverBootsItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag30ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag40ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag50ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver30ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver40ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver50ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag20ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag30ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag40ItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronsBraceletItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSilverGauntletsItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldenGauntletsItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSilverScaleItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldenScaleItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBrokenGiantsKnifeItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_8" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_9" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_10" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_11" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMinuetOfForestItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBoleroOfFireItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSerenadeOfWaterItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRequiemOfSpiritItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gNocturneOfShadowItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPreludeOfLightItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZeldasLullabyItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEponasSongItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSariasSongItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSunsSongItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSongOfTimeItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSongOfStormsItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gForestMedallionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFireMedallionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gWaterMedallionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSpiritMedallionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gShadowMedallionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLightMedallionItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriEmeraldItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronsRubyItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZorasSapphireItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gStoneofAgonyItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGerudosCardItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldSkulltulaItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHeartContainerItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedPieceOfHeartItemNameJPN_2" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBigKeyItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCompassItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDungeonMapItemNameGER" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_12" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_13" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_14" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBiggoronsSwordItemNameGER" Format="ia4" Width="128" Height="16"/>
-            <Texture Name="gDekuStickItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDekuNutItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairyBowItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFireArrowItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDinsFireItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairySlingshotItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFairyOcarinaItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOcarinaOfTimeItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombchuItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHookshotItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLongshotItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gIceArrowItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFaroresWindItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBoomerangItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLensItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMagicBeansItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMegatonHammerItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLightArrowItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gNayrusLoveItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEmptyBottleItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRedPotionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGreenPotionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBluePotionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBottledFairyItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFishItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFullMilkItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRutosLetterItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBlueFireItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBugItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBigPoeItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHalfMilkItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPoeItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gWeirdEggItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCuccoItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZeldasLetterItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKeatonMaskItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSkullMaskItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSpookyMaskItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBunnyHoodItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronMaskItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZoraMaskItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGerudoMaskItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMaskofTruthItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSOLDOUTItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPocketEggItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPocketCuccoItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCojiroItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOddMushroomItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gOddPotionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPoachersSawItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBrokenGoronsSwordItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPrescriptionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEyeBallFrogItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEyeDropsItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gClaimCheckItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedWindMedallionItemNameJPN_3" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedFireMedallionItemNameJPN_3" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedIceMedallionItemNameJPN_3" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriSwordItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMasterSwordItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGiantsKnifeItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDekuShieldItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHylianShieldItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMirrorShieldItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriTunicItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronTunicItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZoraTunicItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriBootsItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gIronBootsItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHoverBootsItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag30ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag40ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBulletBag50ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver30ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver40ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gQuiver50ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag20ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag30ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBombBag40ItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronsBraceletItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSilverGauntletsItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldenGauntletsItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSilverScaleItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldenScaleItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBrokenGiantsKnifeItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_15" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_16" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_17" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_18" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gMinuetOfForestItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBoleroOfFireItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSerenadeOfWaterItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gRequiemOfSpiritItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gNocturneOfShadowItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gPreludeOfLightItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZeldasLullabyItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gEponasSongItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSariasSongItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSunsSongItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSongOfTimeItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSongOfStormsItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gForestMedallionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gFireMedallionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gWaterMedallionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gSpiritMedallionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gShadowMedallionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gLightMedallionItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gKokiriEmeraldItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoronsRubyItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gZorasSapphireItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gStoneofAgonyItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGerudosCardItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gGoldSkulltulaItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gHeartContainerItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedPieceOfHeartItemNameJPN_3" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBossKeyItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gCompassItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gDungeonMapItemNameFRA" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_19" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_20" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gUnusedBossKeyItemNameJPN_21" Format="ia4" Width="128" Height="16"/>
-			<Texture Name="gBiggoronsSwordItemNameFRA" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDekuStickItemNameTexENG" OutName="deku_stick_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDekuNutItemNameTexENG" OutName="deku_nut_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombItemNameTexENG" OutName="bomb_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairyBowItemNameTexENG" OutName="fairy_bow_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFireArrowItemNameTexENG" OutName="fire_arrow_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDinsFireItemNameTexENG" OutName="dins_fire_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairySlingshotItemNameTexENG" OutName="fairy_slingshot_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairyOcarinaItemNameTexENG" OutName="fairy_ocarina_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOcarinaOfTimeItemNameTexENG" OutName="ocarina_of_time_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombchuItemNameTexENG" OutName="bombchu_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHookshotItemNameTexENG" OutName="hookshot_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLongshotItemNameTexENG" OutName="longshot_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gIceArrowItemNameTexENG" OutName="icearrow_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFaroresWindItemNameTexENG" OutName="farores_wind_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBoomerangItemNameTexENG" OutName="boomerang_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLensItemNameTexENG" OutName="lens_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMagicBeansItemNameTexENG" OutName="magic_beans_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMegatonHammerItemNameTexENG" OutName="megaton_hammer_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLightArrowItemNameTexENG" OutName="light_arrow_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gNayrusLoveItemNameTexENG" OutName="nayrus_love_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEmptyBottleItemNameTexENG" OutName="empty_bottle_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRedPotionItemNameTexENG" OutName="red_potion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGreenPotionItemNameTexENG" OutName="green_potion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBluePotionItemNameTexENG" OutName="blue_potion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBottledFairyItemNameTexENG" OutName="bottled_fairy_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFishItemNameTexENG" OutName="fish_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFullMilkItemNameTexENG" OutName="full_milk_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRutosLetterItemNameTexENG" OutName="rutos_letter_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBlueFireItemNameTexENG" OutName="blue_fire_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBugItemNameTexENG" OutName="bug_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBigPoeItemNameTexENG" OutName="big_poe_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHalfMilkItemNameTexENG" OutName="half_milk_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPoeItemNameTexENG" OutName="poe_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gWeirdEggItemNameTexENG" OutName="weird_egg_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCuccoItemNameTexENG" OutName="cucco_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZeldasLetterItemNameTexENG" OutName="zeldas_letter_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKeatonMaskItemNameTexENG" OutName="keaton_mask_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSkullMaskItemNameTexENG" OutName="skull_mask_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSpookyMaskItemNameTexENG" OutName="spooky_mask_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBunnyHoodItemNameTexENG" OutName="bunny_hood_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronMaskItemNameTexENG" OutName="goron_mask_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZoraMaskItemNameTexENG" OutName="zora_mask_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGerudoMaskItemNameTexENG" OutName="gerudo_mask_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMaskofTruthItemNameTexENG" OutName="mask_of_truth_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSOLDOUTItemNameTexENG" OutName="sold_out_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPocketEggItemNameTexENG" OutName="pocket_egg_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPocketCuccoItemNameTexENG" OutName="pocket_cucco_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCojiroItemNameTexENG" OutName="cojiro_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOddMushroomItemNameTexENG" OutName="odd_mushroom_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOddPotionItemNameTexENG" OutName="odd_potion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPoachersSawItemNameTexENG" OutName="poachers_saw_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBrokenGoronsSwordItemNameTexENG" OutName="broken_gorons_sword_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPrescriptionItemNameTexENG" OutName="prescription_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEyeBallFrogItemNameTexENG" OutName="eyeball_frog_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEyeDropsItemNameTexENG" OutName="eyedrops_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gClaimCheckItemNameTexENG" OutName="claim_check_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedWindMedallionItemNameTexJPN_1" OutName="wind_medallion_item_name_unused_JPN_1" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedFireMedallionItemNameTexJPN_1" OutName="fire_medallion_item_name_unused_JPN_1" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedIceMedallionItemNameTexJPN_1" OutName="ice_medallion_item_name_unused_JPN_1" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriSwordItemNameTexENG" OutName="kokiri_sword_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMasterSwordItemNameTexENG" OutName="master_sword_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGiantsKnifeItemNameTexENG" OutName="giants_knife_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDekuShieldItemNameTexENG" OutName="deku_shield_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHylianShieldItemNameTexENG" OutName="hylian_shield_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMirrorShieldItemNameTexENG" OutName="mirror_shield_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriTunicItemNameTexENG" OutName="kokiri_tunic_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronTunicItemNameTexENG" OutName="goron_tunic_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZoraTunicItemNameTexENG" OutName="zora_tunic_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriBootsItemNameTexENG" OutName="kokiri_boots_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gIronBootsItemNameTexENG" OutName="iron_boots_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHoverBootsItemNameTexENG" OutName="hover_boots_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag30ItemNameTexENG" OutName="bullet_bag_30_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag40ItemNameTexENG" OutName="bullet_bag_40_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag50ItemNameTexENG" OutName="bullet_bag_50_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver30ItemNameTexENG" OutName="quiver_30_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver40ItemNameTexENG" OutName="quiver_40_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver50ItemNameTexENG" OutName="quiver_50_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag20ItemNameTexENG" OutName="bomb_bag_20_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag30ItemNameTexENG" OutName="bomb_bag_30_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag40ItemNameTexENG" OutName="bomb_bag_40_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronsBraceletItemNameTexENG" OutName="gorons_bracelet_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSilverGauntletsItemNameTexENG" OutName="silver_gauntlets_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldenGauntletsItemNameTexENG" OutName="golden_gauntlets_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSilverScaleItemNameTexENG" OutName="silver_scale_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldenScaleItemNameTexENG" OutName="golden_scale_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBrokenGiantsKnifeItemNameTexENG" OutName="broken_giants_knife_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_1" OutName="boss_key_item_name_unused_JPN_1" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_2" OutName="boss_key_item_name_unused_JPN_2" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_3" OutName="boss_key_item_name_unused_JPN_3" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_4" OutName="boss_key_item_name_unused_JPN_4" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMinuetOfForestItemNameTexENG" OutName="minuet_of_forest_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBoleroOfFireItemNameTexENG" OutName="bolero_of_fire_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSerenadeOfWaterItemNameTexENG" OutName="serenade_of_water_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRequiemOfSpiritItemNameTexENG" OutName="requiem_of_spirit_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gNocturneOfShadowItemNameTexENG" OutName="nocturne_of_shadow_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPreludeOfLightItemNameTexENG" OutName="prelude_of_light_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZeldasLullabyItemNameTexENG" OutName="zeldas_lullaby_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEponasSongItemNameTexENG" OutName="eponas_song_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSariasSongItemNameTexENG" OutName="sarias_song_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSunsSongItemNameTexENG" OutName="suns_song_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSongOfTimeItemNameTexENG" OutName="song_of_time_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSongOfStormsItemNameTexENG" OutName="song_of_storms_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gForestMedallionItemNameTexENG" OutName="forest_medallion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFireMedallionItemNameTexENG" OutName="fire_medallion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gWaterMedallionItemNameTexENG" OutName="water_medallion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSpiritMedallionItemNameTexENG" OutName="spirit_medallion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gShadowMedallionItemNameTexENG" OutName="shadow_medallion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLightMedallionItemNameTexENG" OutName="light_medallion_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriEmeraldItemNameTexENG" OutName="kokiri_emerald_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronsRubyItemNameTexENG" OutName="gorons_ruby_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZorasSapphireItemNameTexENG" OutName="zoras_sapphire_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gStoneofAgonyItemNameTexENG" OutName="stone_of_agony_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGerudosCardItemNameTexENG" OutName="gerudos_card_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldSkulltulaItemNameTexENG" OutName="gold_skulltula_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPieceOfHeartItemNameTexENG" OutName="piece_of_heart_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedPieceOfHeartItemNameTexJPN_1" OutName="piece_of_heart_item_name_unused_JPN_1" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBigKeyItemNameTexENG" OutName="bigkey_item_name_unused_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCompassItemNameTexENG" OutName="compass_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDungeonMapItemNameTexENG" OutName="dungeon_map_item_name_eng" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_5" OutName="boss_key_item_name_unused_JPN_5" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_6" OutName="boss_key_item_name_unused_JPN_6" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_7" OutName="boss_key_item_name_unused_JPN_7" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBiggoronsSwordItemNameTexENG" OutName="biggorons_sword_item_name_eng" Format="ia4" Width="128" Height="16"/>
+            <Texture Name="gDekuStickItemNameTexGER" OutName="deku_stick_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDekuNutItemNameTexGER" OutName="dekunut_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombItemNameItemNameTexGER" OutName="bomb_item_name_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairyBowItemNameTexGER" OutName="fairy_bow_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFireArrowItemNameTexGER_unk2" OutName="fire_arrow_item_name_unk2_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDinsFireItemNameTexGER" OutName="dins_fire_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairySlingshotItemNameTexGER" OutName="fairy_slingshot_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairyOcarinaItemNameTexGER" OutName="fairy_ocarina_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOcarinaOfTimeItemNameTexGER" OutName="ocarina_of_time_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombchuItemNameTexGER" OutName="bombchu_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHookshotItemNameTexGER" OutName="hookshot_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLongshotItemNameTexGER" OutName="longshot_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gIceArrowItemNameTexGER" OutName="icearrow_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFaroresWindItemNameTexGER" OutName="farores_wind_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBoomerangItemNameTexGER" OutName="boomerang_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLensItemNameTexGER" OutName="lens_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMagicBeansItemNameTexGER" OutName="magic_beans_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMegatonHammerItemNameTexGER" OutName="megaton_hammer_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLightArrowItemNameTexGER" OutName="light_arrow_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gNayrusLoveItemNameTexGER" OutName="nayrus_love_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEmptyBottleItemNameTexGER" OutName="empty_bottle_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRedPotionItemNameTexGER" OutName="red_potion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGreenPotionItemNameTexGER" OutName="green_potion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBluePotionItemNameTexGER" OutName="blue_potion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBottledFairyItemNameTexGER" OutName="bottled_fairy_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFishItemNameTexGER" OutName="fish_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFullMilkItemNameTexGER" OutName="full_milk_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRutosLetterItemNameTexGER" OutName="rutos_letter_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBlueFireItemNameTexGER" OutName="blue_fire_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBugItemNameTexGER" OutName="bug_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBigPoeItemNameTexGER" OutName="big_poe_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHalfMilkItemNameTexGER" OutName="half_milk_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPoeItemNameTexGER" OutName="poe_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gWeirdEggItemNameTexGER" OutName="weird_egg_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCuccoItemNameTexGER" OutName="cucco_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZeldasLetterItemNameTexGER" OutName="zeldas_letter_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKeatonMaskItemNameTexGER" OutName="keaton_mask_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSkullMaskItemNameTexGER" OutName="skull_mask_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSpookyMaskItemNameTexGER" OutName="spooky_mask_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBunnyHoodItemNameTexGER" OutName="bunny_hood_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronMaskItemNameTexGER" OutName="goron_mask_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZoraMaskItemNameTexGER" OutName="zora_mask_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGerudoMaskItemNameTexGER" OutName="gerudo_mask_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMaskofTruthItemNameTexGER" OutName="mask_of_truth_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSOLDOUTItemNameTexGER" OutName="sold_out_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPocketEggItemNameTexGER" OutName="pocket_egg_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPocketCuccoItemNameTexGER" OutName="pocket_cucco_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCojiroItemNameTexGER" OutName="cojiro_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOddMushroomItemNameTexGER" OutName="odd_mushroom_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOddPotionItemNameTexGER" OutName="odd_potion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPoachersSawItemNameTexGER" OutName="poachers_saw_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBrokenGoronsSwordItemNameTexGER" OutName="broken_gorons_sword_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPrescriptionItemNameTexGER" OutName="prescription_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEyeBallFrogItemNameTexGER" OutName="eyeball_frog_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEyeDropsItemNameTexGER" OutName="eyedrops_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gClaimCheckItemNameTexGER" OutName="claim_check_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedWindMedallionItemNameTexJPN_2" OutName="wind_medallion_item_name_unused_JPN_2" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedFireMedallionItemNameTexJPN_2" OutName="fire_medallion_item_name_unused_JPN_2" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedIceMedallionItemNameTexJPN_2" OutName="ice_medallion_item_name_unused_JPN_2" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriSwordItemNameTexGER" OutName="kokiri_sword_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMasterSwordItemNameTexGER" OutName="master_sword_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGiantsKnifeItemNameTexGER" OutName="giants_knife_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDekuShieldItemNameTexGER" OutName="deku_shield_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHylianShieldItemNameTexGER" OutName="hylian_shield_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMirrorShieldItemNameTexGER" OutName="mirror_shield_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriTunicItemNameTexGER" OutName="kokiri_tunic_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronTunicItemNameTexGER" OutName="goron_tunic_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZoraTunicItemNameTexGER" OutName="zora_tunic_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriBootsItemNameTexGER" OutName="kokiri_boots_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gIronBootsItemNameTexGER" OutName="iron_boots_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHoverBootsItemNameTexGER" OutName="hover_boots_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag30ItemNameTexGER" OutName="bullet_bag_30_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag40ItemNameTexGER" OutName="bullet_bag_40_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag50ItemNameTexGER" OutName="bullet_bag_50_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver30ItemNameTexGER" OutName="quiver_30_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver40ItemNameTexGER" OutName="quiver_40_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver50ItemNameTexGER" OutName="quiver_50_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag20ItemNameTexGER" OutName="bomb_bag_20_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag30ItemNameTexGER" OutName="bomb_bag_30_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag40ItemNameTexGER" OutName="bomb_bag_40_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronsBraceletItemNameTexGER" OutName="gorons_bracelet_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSilverGauntletsItemNameTexGER" OutName="silver_gauntlets_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldenGauntletsItemNameTexGER" OutName="golden_gauntlets_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSilverScaleItemNameTexGER" OutName="silver_scale_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldenScaleItemNameTexGER" OutName="golden_scale_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBrokenGiantsKnifeItemNameTexGER" OutName="broken_giants_knife_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_8" OutName="boss_key_item_name_unused_JPN_8" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_9" OutName="boss_key_item_name_unused_JPN_9" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_10" OutName="boss_key_item_name_unused_JPN_10" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_11" OutName="boss_key_item_name_unused_JPN_11" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMinuetOfForestItemNameTexGER" OutName="minuet_of_forest_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBoleroOfFireItemNameTexGER" OutName="bolero_of_fire_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSerenadeOfWaterItemNameTexGER" OutName="serenade_of_water_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRequiemOfSpiritItemNameTexGER" OutName="requiem_of_spirit_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gNocturneOfShadowItemNameTexGER" OutName="nocturne_of_shadow_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPreludeOfLightItemNameTexGER" OutName="prelude_of_light_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZeldasLullabyItemNameTexGER" OutName="zeldas_lullaby_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEponasSongItemNameTexGER" OutName="eponas_song_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSariasSongItemNameTexGER" OutName="sarias_song_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSunsSongItemNameTexGER" OutName="suns_song_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSongOfTimeItemNameTexGER" OutName="song_of_time_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSongOfStormsItemNameTexGER" OutName="song_of_storms_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gForestMedallionItemNameTexGER" OutName="forest_medallion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFireMedallionItemNameTexGER" OutName="fire_medallion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gWaterMedallionItemNameTexGER" OutName="water_medallion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSpiritMedallionItemNameTexGER" OutName="spirit_medallion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gShadowMedallionItemNameTexGER" OutName="shadow_medallion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLightMedallionItemNameTexGER" OutName="light_medallion_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriEmeraldItemNameTexGER" OutName="kokiri_emerald_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronsRubyItemNameTexGER" OutName="gorons_ruby_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZorasSapphireItemNameTexGER" OutName="zoras_sapphire_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gStoneofAgonyItemNameTexGER" OutName="stone_of_agony_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGerudosCardItemNameTexGER" OutName="gerudos_card_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldSkulltulaItemNameTexGER" OutName="gold_skulltula_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHeartContainerItemNameTexGER" OutName="heart_container_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedPieceOfHeartItemNameTexJPN_2" OutName="piece_of_heart_item_name_unused_JPN_2" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBigKeyItemNameTexGER" OutName="big_key_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCompassItemNameTexGER" OutName="compass_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDungeonMapItemNameTexGER" OutName="dungeon_map_item_name_ger" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_12" OutName="boss_key_item_name_unused_JPN_12" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_13" OutName="boss_key_item_name_unused_JPN_13" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_14" OutName="boss_key_item_name_unused_JPN_14" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBiggoronsSwordItemNameTexGER" OutName="biggorons_sword_item_name_ger" Format="ia4" Width="128" Height="16"/>
+            <Texture Name="gDekuStickItemNameTexFRA" OutName="deku_stick_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDekuNutItemNameTexFRA" OutName="deku_nut_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombItemNameTexFRA" OutName="bomb_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairyBowItemNameTexFRA" OutName="fairy_bow_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFireArrowItemNameTexFRA" OutName="fire_arrow_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDinsFireItemNameTexFRA" OutName="dins_fire_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairySlingshotItemNameTexFRA" OutName="fairy_slingshot_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFairyOcarinaItemNameTexFRA" OutName="fairy_ocarina_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOcarinaOfTimeItemNameTexFRA" OutName="ocarina_of_time_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombchuItemNameTexFRA" OutName="bombchu_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHookshotItemNameTexFRA" OutName="hookshot_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLongshotItemNameTexFRA" OutName="longshot_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gIceArrowItemNameTexFRA" OutName="ice_arrow_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFaroresWindItemNameTexFRA" OutName="farores_wind_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBoomerangItemNameTexFRA" OutName="boomerang_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLensItemNameTexFRA" OutName="lens_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMagicBeansItemNameTexFRA" OutName="magic_beans_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMegatonHammerItemNameTexFRA" OutName="megaton_hammer_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLightArrowItemNameTexFRA" OutName="light_arrow_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gNayrusLoveItemNameTexFRA" OutName="nayrus_love_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEmptyBottleItemNameTexFRA" OutName="empty_bottle_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRedPotionItemNameTexFRA" OutName="red_potion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGreenPotionItemNameTexFRA" OutName="green_potion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBluePotionItemNameTexFRA" OutName="blue_potion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBottledFairyItemNameTexFRA" OutName="bottled_fairy_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFishItemNameTexFRA" OutName="fish_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFullMilkItemNameTexFRA" OutName="full_milk_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRutosLetterItemNameTexFRA" OutName="rutos_letter_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBlueFireItemNameTexFRA" OutName="blue_fire_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBugItemNameTexFRA" OutName="bug_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBigPoeItemNameTexFRA" OutName="big_poe_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHalfMilkItemNameTexFRA" OutName="half_milk_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPoeItemNameTexFRA" OutName="poe_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gWeirdEggItemNameTexFRA" OutName="weird_egg_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCuccoItemNameTexFRA" OutName="cucco_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZeldasLetterItemNameTexFRA" OutName="zeldas_letter_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKeatonMaskItemNameTexFRA" OutName="keaton_mask_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSkullMaskItemNameTexFRA" OutName="skull_mask_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSpookyMaskItemNameTexFRA" OutName="spooky_mask_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBunnyHoodItemNameTexFRA" OutName="bunny_hood_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronMaskItemNameTexFRA" OutName="goron_mask_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZoraMaskItemNameTexFRA" OutName="zora_mask_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGerudoMaskItemNameTexFRA" OutName="gerudo_mask_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMaskofTruthItemNameTexFRA" OutName="mask_of_truth_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSOLDOUTItemNameTexFRA" OutName="sold_out_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPocketEggItemNameTexFRA" OutName="pocket_egg_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPocketCuccoItemNameTexFRA" OutName="pocket_cucco_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCojiroItemNameTexFRA" OutName="cojiro_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOddMushroomItemNameTexFRA" OutName="odd_mushroom_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gOddPotionItemNameTexFRA" OutName="odd_potion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPoachersSawItemNameTexFRA" OutName="poachers_saw_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBrokenGoronsSwordItemNameTexFRA" OutName="broken_gorons_sword_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPrescriptionItemNameTexFRA" OutName="prescription_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEyeBallFrogItemNameTexFRA" OutName="eyeball_frog_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEyeDropsItemNameTexFRA" OutName="eyedrops_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gClaimCheckItemNameTexFRA" OutName="claim_check_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedWindMedallionItemNameTexJPN_3" OutName="wind_medallion_item_name_unused_JPN_3" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedFireMedallionItemNameTexJPN_3" OutName="fire_medallion_item_name_unused_JPN_3" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedIceMedallionItemNameTexJPN_3" OutName="ice_medallion_item_name_unused_JPN_3" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriSwordItemNameTexFRA" OutName="kokiri_sword_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMasterSwordItemNameTexFRA" OutName="master_sword_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGiantsKnifeItemNameTexFRA" OutName="giants_knife_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDekuShieldItemNameTexFRA" OutName="deku_shield_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHylianShieldItemNameTexFRA" OutName="hylian_shield_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMirrorShieldItemNameTexFRA" OutName="mirror_shield_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriTunicItemNameTexFRA" OutName="kokiri_tunic_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronTunicItemNameTexFRA" OutName="goron_tunic_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZoraTunicItemNameTexFRA" OutName="zora_tunic_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriBootsItemNameTexFRA" OutName="kokiri_boots_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gIronBootsItemNameTexFRA" OutName="iron_boots_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHoverBootsItemNameTexFRA" OutName="hover_boots_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag30ItemNameTexFRA" OutName="bullet_bag_30_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag40ItemNameTexFRA" OutName="bullet_bag_40_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBulletBag50ItemNameTexFRA" OutName="bullet_bag_50_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver30ItemNameTexFRA" OutName="quiver_30_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver40ItemNameTexFRA" OutName="quiver_40_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gQuiver50ItemNameTexFRA" OutName="quiver_50_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag20ItemNameTexFRA" OutName="bomb_bag_20_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag30ItemNameTexFRA" OutName="bomb_bag_30_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBombBag40ItemNameTexFRA" OutName="bomb_bag_40_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronsBraceletItemNameTexFRA" OutName="gorons_bracelet_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSilverGauntletsItemNameTexFRA" OutName="silver_gauntlets_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldenGauntletsItemNameTexFRA" OutName="golden_gauntlets_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSilverScaleItemNameTexFRA" OutName="silver_scale_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldenScaleItemNameTexFRA" OutName="golden_scale_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBrokenGiantsKnifeItemNameTexFRA" OutName="broken_giants_knife_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_15" OutName="boss_key_item_name_unused_JPN_15" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_16" OutName="boss_key_item_name_unused_JPN_16" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_17" OutName="boss_key_item_name_unused_JPN_17" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_18" OutName="boss_key_item_name_unused_JPN_18" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gMinuetOfForestItemNameTexFRA" OutName="minuet_of_forest_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBoleroOfFireItemNameTexFRA" OutName="bolero_of_fire_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSerenadeOfWaterItemNameTexFRA" OutName="serenade_of_water_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gRequiemOfSpiritItemNameTexFRA" OutName="requiem_of_spirit_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gNocturneOfShadowItemNameTexFRA" OutName="nocturne_of_shadow_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gPreludeOfLightItemNameTexFRA" OutName="prelude_of_light_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZeldasLullabyItemNameTexFRA" OutName="zeldas_lullaby_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gEponasSongItemNameTexFRA" OutName="eponas_song_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSariasSongItemNameTexFRA" OutName="sarias_song_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSunsSongItemNameTexFRA" OutName="suns_song_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSongOfTimeItemNameTexFRA" OutName="song_of_time_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSongOfStormsItemNameTexFRA" OutName="song_of_storms_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gForestMedallionItemNameTexFRA" OutName="forest_medallion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gFireMedallionItemNameTexFRA" OutName="fire_medallion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gWaterMedallionItemNameTexFRA" OutName="water_medallion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gSpiritMedallionItemNameTexFRA" OutName="spirit_medallion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gShadowMedallionItemNameTexFRA" OutName="shadow_medallion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gLightMedallionItemNameTexFRA" OutName="light_medallion_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gKokiriEmeraldItemNameTexFRA" OutName="kokiri_emerald_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoronsRubyItemNameTexFRA" OutName="gorons_ruby_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gZorasSapphireItemNameTexFRA" OutName="zoras_sapphire_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gStoneofAgonyItemNameTexFRA" OutName="stone_of_agony_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGerudosCardItemNameTexFRA" OutName="gerudos_card_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gGoldSkulltulaItemNameTexFRA" OutName="gold_skulltula_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gHeartContainerItemNameTexFRA" OutName="heart_container_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedPieceOfHeartItemNameTexJPN_3" OutName="piece_of_heart_item_name_unused_JPN_3" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBossKeyItemNameTexFRA" OutName="boss_key_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gCompassItemNameTexFRA" OutName="compass_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gDungeonMapItemNameTexFRA" OutName="dungeon_map_item_name_fra" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_19" OutName="boss_key_item_name_unused_JPN_19" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_20" OutName="boss_key_item_name_unused_JPN_20" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gUnusedBossKeyItemNameTexJPN_21" OutName="boss_key_item_name_unused_JPN_21" Format="ia4" Width="128" Height="16"/>
+			<Texture Name="gBiggoronsSwordItemNameTexFRA" OutName="biggorons_sword_item_name_fra" Format="ia4" Width="128" Height="16"/>
         </File>
 </Root>

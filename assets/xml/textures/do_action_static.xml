@@ -1,91 +1,91 @@
 <Root>
      <File Name="do_action_static">
-        <Texture Name="gAttackActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gCheckActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gEnterActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gReturnActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gOpenActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gJumpActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDecideActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDiveActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gFasterActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gThrowActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gUnusedNaviActionLabelENG" Format="i4" Width="48" Height="16"/>
-        <Texture Name="gClimbActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDropActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDownActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gSaveActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gSpeakActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gNextActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gGrabActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gStopActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gPutAwayActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gReelActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g1ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g2ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g3ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g4ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g5ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g6ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g7ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g8ActionLabelENG" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gAttackActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gCheckActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gEnterActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gReturnActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gOpenActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gJumpActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDecideActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDiveActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gFasterActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gThrowActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gUnusedNaviActionLabelGER" Format="i4" Width="48" Height="16"/>
-        <Texture Name="gClimbActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDropActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDownActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gSaveActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gSpeakActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gNextActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gGrabActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gStopActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gPutAwayActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gReelActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g1ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g2ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g3ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g4ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g5ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g6ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g7ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g8ActionLabelGER" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gAttackActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gCheckActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gEnterActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gReturnActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gOpenActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gJumpActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDecideActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDiveActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gFasterActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gThrowActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gUnusedNaviActionLabelFRA" Format="i4" Width="48" Height="16"/>
-        <Texture Name="gClimbActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDropActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gDownActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gSaveActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gSpeakActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gNextActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gGrabActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gStopActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gPutAwayActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="gReelActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g1ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g2ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g3ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g4ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g5ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g6ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g7ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
-        <Texture Name="g8ActionLabelFRA" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gAttackActionLabelTexENG" OutName="attack_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gCheckActionLabelTexENG" OutName="check_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gEnterActionLabelTexENG" OutName="enter_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gReturnActionLabelTexENG" OutName="return_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gOpenActionLabelTexENG" OutName="open_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gJumpActionLabelTexENG" OutName="jump_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDecideActionLabelTexENG" OutName="decide_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDiveActionLabelTexENG" OutName="dive_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gFasterActionLabelTexENG" OutName="faster_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gThrowActionLabelTexENG" OutName="throw_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gUnusedNaviActionLabelTexENG" OutName="navi_action_label_unused_eng" Format="i4" Width="48" Height="16"/>
+        <Texture Name="gClimbActionLabelTexENG" OutName="climb_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDropActionLabelTexENG" OutName="drop_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDownActionLabelTexENG" OutName="down_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gSaveActionLabelTexENG" OutName="save_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gSpeakActionLabelTexENG" OutName="speak_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gNextActionLabelTexENG" OutName="next_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gGrabActionLabelTexENG" OutName="grab_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gStopActionLabelTexENG" OutName="stop_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gPutAwayActionLabelTexENG" OutName="put_away_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gReelActionLabelTexENG" OutName="reel_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g1ActionLabelTexENG" OutName="1_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g2ActionLabelTexENG" OutName="2_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g3ActionLabelTexENG" OutName="3_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g4ActionLabelTexENG" OutName="4_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g5ActionLabelTexENG" OutName="5_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g6ActionLabelTexENG" OutName="6_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g7ActionLabelTexENG" OutName="7_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g8ActionLabelTexENG" OutName="8_action_label_eng" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gAttackActionLabelTexGER" OutName="attack_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gCheckActionLabelTexGER" OutName="check_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gEnterActionLabelTexGER" OutName="enter_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gReturnActionLabelTexGER" OutName="return_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gOpenActionLabelTexGER" OutName="open_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gJumpActionLabelTexGER" OutName="jump_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDecideActionLabelTexGER" OutName="decide_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDiveActionLabelTexGER" OutName="dive_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gFasterActionLabelTexGER" OutName="faster_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gThrowActionLabelTexGER" OutName="throw_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gUnusedNaviActionLabelTexGER" OutName="navi_action_label_unused_ger" Format="i4" Width="48" Height="16"/>
+        <Texture Name="gClimbActionLabelTexGER" OutName="climb_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDropActionLabelTexGER" OutName="drop_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDownActionLabelTexGER" OutName="down_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gSaveActionLabelTexGER" OutName="save_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gSpeakActionLabelTexGER" OutName="speak_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gNextActionLabelTexGER" OutName="next_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gGrabActionLabelTexGER" OutName="grab_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gStopActionLabelTexGER" OutName="stop_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gPutAwayActionLabelTexGER" OutName="put_away_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gReelActionLabelTexGER" OutName="reel_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g1ActionLabelTexGER" OutName="1_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g2ActionLabelTexGER" OutName="2_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g3ActionLabelTexGER" OutName="3_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g4ActionLabelTexGER" OutName="4_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g5ActionLabelTexGER" OutName="5_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g6ActionLabelTexGER" OutName="6_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g7ActionLabelTexGER" OutName="7_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g8ActionLabelTexGER" OutName="8_action_label_ger" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gAttackActionLabelFRA" OutName="attack_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gCheckActionLabelFRA" OutName="check_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gEnterActionLabelFRA" OutName="enter_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gReturnActionLabelFRA" OutName="return_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gOpenActionLabelFRA" OutName="open_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gJumpActionLabelFRA" OutName="jump_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDecideActionLabelFRA" OutName="decide_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDiveActionLabelFRA" OutName="dive_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gFasterActionLabelFRA" OutName="faster_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gThrowActionLabelFRA" OutName="throw_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gUnusedNaviActionLabelFRA" OutName="navi_action_label_unused_fra" Format="i4" Width="48" Height="16"/>
+        <Texture Name="gClimbActionLabelFRA" OutName="climb_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDropActionLabelFRA" OutName="drop_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gDownActionLabelFRA" OutName="down_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gSaveActionLabelFRA" OutName="save_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gSpeakActionLabelFRA" OutName="speak_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gNextActionLabelFRA" OutName="next_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gGrabActionLabelFRA" OutName="grab_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gStopActionLabelFRA" OutName="stop_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gPutAwayActionLabelFRA" OutName="put_away_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="gReelActionLabelFRA" OutName="reel_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g1ActionLabelFRA" OutName="1_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g2ActionLabelFRA" OutName="2_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g3ActionLabelFRA" OutName="3_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g4ActionLabelFRA" OutName="4_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g5ActionLabelFRA" OutName="5_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g6ActionLabelFRA" OutName="6_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g7ActionLabelFRA" OutName="7_action_label_fra" Format="ia4" Width="48" Height="16"/>
+        <Texture Name="g8ActionLabelFRA" OutName="8_action_label_fra" Format="ia4" Width="48" Height="16"/>
      </File>
 </Root>
