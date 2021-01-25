@@ -122,7 +122,7 @@ glabel func_80A20100
 /* 004DC 80A2029C 00000000 */  nop
 .L80A202A0:
 /* 004E0 80A202A0 8FA400BC */  lw      $a0, 0x00BC($sp)           
-/* 004E4 80A202A4 0C018B35 */  jal     func_80062CD4              
+/* 004E4 80A202A4 0C018B35 */  jal     CollisionCheck_SpawnShieldParticles              
 /* 004E8 80A202A8 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000000
 /* 004EC 80A202AC 8FBF007C */  lw      $ra, 0x007C($sp)           
 /* 004F0 80A202B0 D7B40028 */  ldc1    $f20, 0x0028($sp)          

@@ -31,7 +31,7 @@ glabel func_80A1BB34
 /* 011F0 80A1BB90 1000001C */  beq     $zero, $zero, .L80A1BC04   
 /* 011F4 80A1BB94 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L80A1BB98:
-/* 011F8 80A1BB98 0C00B56E */  jal     Actor_SetHeight
+/* 011F8 80A1BB98 0C00B56E */  jal     Actor_SetFocus
               
 /* 011FC 80A1BB9C 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
 /* 01200 80A1BBA0 8E190374 */  lw      $t9, 0x0374($s0)           ## 00000374

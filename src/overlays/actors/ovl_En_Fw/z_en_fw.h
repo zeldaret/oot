@@ -26,7 +26,7 @@ typedef struct EnFw {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnFwActionFunc actionFunc;
     /* 0x0194 */ ColliderJntSph collider;
-    /* 0x01B4 */ ColliderJntSphItem sphs[1];
+    /* 0x01B4 */ ColliderJntSphElement sphs[1];
     /* 0x01F4 */ Vec3f bompPos;
     /* 0x0200 */ u8 lastDmgHook;
     /* 0x0202 */ s16 runDirection;

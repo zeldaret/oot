@@ -30,7 +30,7 @@ glabel func_809AF7CC
 /* 0191C 809AF83C 2604030C */  addiu   $a0, $s0, 0x030C           ## $a0 = 0000030C
 /* 01920 809AF840 8FA50034 */  lw      $a1, 0x0034($sp)           
 /* 01924 809AF844 8FA60038 */  lw      $a2, 0x0038($sp)           
-/* 01928 809AF848 0C0189CD */  jal     func_80062734              
+/* 01928 809AF848 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 0192C 809AF84C AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 01930 809AF850 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 01934 809AF854 8FB00020 */  lw      $s0, 0x0020($sp)           

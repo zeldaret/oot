@@ -43,7 +43,7 @@ typedef struct EnHorse {
     /* 0x0278 */ ColliderCylinder cyl1;
     /* 0x02C4 */ ColliderCylinder cyl2;
     /* 0x0310 */ ColliderJntSph jntSph;
-    /* 0x0330 */ ColliderJntSphItem jntSphList;
+    /* 0x0330 */ ColliderJntSphElement jntSphList;
     /* 0x0370 */ u32 unk_370;
     /* 0x0374 */ s16 unk_374;
     /* 0x0376 */ s16 unk_376;
