@@ -3,6 +3,7 @@
  * Overlay: ovl_Bg_Ydan_Hasi
  * Description: Deku Tree Puzzle elements. Water plane and floating block in B1, and 3 blocks on 2F
  */
+
 #include "z_bg_ydan_hasi.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 
@@ -22,6 +23,12 @@ WaterBox* BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx);
 void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, GlobalContext* globalCtx);
 void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx);
 
+typedef enum {
+    /* 0 */ HASI_WATER_BLOCK,
+    /* 1 */ HASI_WATER,
+    /* 2 */ HASI_THREE_BLOCKS
+} HasiTypes;
+
 const ActorInit Bg_Ydan_Hasi_InitVars = {
     ACTOR_BG_YDAN_HASI,
     ACTORCAT_BG,
@@ -38,12 +45,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static Gfx* D_808BEC24[] = { gYdanHasiDlist1, gYdanHasiDlist2, gYdanHasiDlist3 };
-
-//extern CollisionHeader D_06005780;
-//extern CollisionHeader D_06007798;
-//extern Gfx* D_06005DE0[];
-
 void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad1;
     BgYdanHasi* this = THIS;
@@ -52,33 +53,33 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad2;
 
     colHeader = NULL;
-    Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk_168 = ((thisx->params >> 8) & 0x3F);
-    thisx->params = thisx->params & 0xFF;
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    this->type = (this->dyna.actor.params >> 8) & 0x3F;
+    thisx->params = thisx->params & 0xFF; // thisx is required to match here
     waterBox = globalCtx->colCtx.colHeader->waterBoxes + 0x1;
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    if (thisx->params == 1) {
+    if (this->dyna.actor.params == HASI_WATER) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
-        thisx->home.pos.y = (thisx->home.pos.y + -5.0f);
-        thisx->world.pos.y = thisx->home.pos.y;
-        waterBox->ySurface = thisx->home.pos.y;
+        this->dyna.actor.home.pos.y = this->dyna.actor.home.pos.y + -5.0f;
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
+        waterBox->ySurface = this->dyna.actor.home.pos.y;
         this->actionFunc = BgYdanHasi_InitWater;
     } else {
-        if (thisx->params == 0) {
+        if (this->dyna.actor.params == HASI_WATER_BLOCK) {
             // Moving platform on the water in B1
             CollisionHeader_GetVirtual(&gYdanHasiCol2, &colHeader);
-            thisx->scale.z = 0.15f;
-            thisx->scale.x = 0.15f;
-            thisx->world.pos.y = (waterBox->ySurface + 20.0f);
+            this->dyna.actor.scale.z = 0.15f;
+            this->dyna.actor.scale.x = 0.15f;
+            this->dyna.actor.world.pos.y = waterBox->ySurface + 20.0f;
             this->actionFunc = BgYdanHasi_UpdateFloatingBlock;
         } else {
             // 3 platforms on 2F
             CollisionHeader_GetVirtual(&gYdanHasiCol, &colHeader);
-            thisx->draw = NULL;
+            this->dyna.actor.draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
-            Actor_SetFocus(thisx, 40.0f);
+            Actor_SetFocus(&this->dyna.actor, 40.0f);
         }
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     }
     this->timer = 0;
 }
@@ -113,18 +114,19 @@ void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) 
 }
 
 void BgYdanHasi_InitWater(BgYdanHasi* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->unk_168)) {
+    if (Flags_GetSwitch(globalCtx, this->type)) {
         this->timer = 600;
         this->actionFunc = BgYdanHasi_MoveWater;
     }
 }
 
+//! @bug This is an actionFunc and should not return anything however it returns waterBox + 1 for an unknown reason
 WaterBox* BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx) {
     WaterBox* waterBox;
 
     if (this->timer == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f) != 0) {
-            Flags_UnsetSwitch(globalCtx, this->unk_168);
+            Flags_UnsetSwitch(globalCtx, this->type);
             this->actionFunc = BgYdanHasi_InitWater;
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
@@ -151,7 +153,7 @@ void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_SetupThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
-    if (Flags_GetSwitch(globalCtx, this->unk_168) != 0) {
+    if (Flags_GetSwitch(globalCtx, this->type) != 0) {
         this->timer = 260;
         this->dyna.actor.draw = BgYdanHasi_Draw;
         this->actionFunc = BgYdanHasi_UpdateThreeBlocks;
@@ -167,19 +169,18 @@ void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
     }
     if (this->timer == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.0f) != 0) {
-            Flags_UnsetSwitch(globalCtx, this->unk_168);
+            Flags_UnsetSwitch(globalCtx, this->type);
             this->dyna.actor.draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
-            return;
+        } else {
+            func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
         }
+    } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 3.0f) == 0) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
-        return;
+
+    } else {
+        func_8002F994(&this->dyna.actor, this->timer);
     }
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 3.0f) == 0) {
-        func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
-        return;
-    }
-    func_8002F994(&this->dyna.actor, this->timer);
 }
 
 void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -189,10 +190,11 @@ void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Gfx* sDlists[] = { gYdanHasiWaterBlockDlist, gYdanHasiWaterDlist, gYdanHasiThreeBlocksDlist };
     BgYdanHasi* this = THIS;
 
-    if (this->dyna.actor.params == 0 || this->dyna.actor.params == 2) {
-        Gfx_DrawDListOpa(globalCtx, D_808BEC24[this->dyna.actor.params]);
+    if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
+        Gfx_DrawDListOpa(globalCtx, sDlists[this->dyna.actor.params]);
         return;
     }
 
@@ -205,7 +207,7 @@ void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                 globalCtx->gameplayFrames & 0x7F, 0x20, 0x20));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, &gYdanHasiDlist2);
+    gSPDisplayList(POLY_XLU_DISP++, &gYdanHasiWaterDlist);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 597);
 }

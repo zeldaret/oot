@@ -1,8 +1,8 @@
 <Root>
     <File Name="object_ydan_objects" Segment="6">
-        <DList Name="gYdanHasiDlist1" Offset="0x7508"/>
-        <DList Name="gYdanHasiDlist2" Offset="0x5DE0"/>
-        <DList Name="gYdanHasiDlist3" Offset="0x5018"/>
+        <DList Name="gYdanHasiWaterBlockDlist" Offset="0x7508"/>
+        <DList Name="gYdanHasiWaterDlist" Offset="0x5DE0"/>
+        <DList Name="gYdanHasiThreeBlocksDlist" Offset="0x5018"/>
         <Collision Name="gYdanHasiCol" Offset="0x5780"/>
         <Collision Name="gYdanHasiCol2" Offset="0x7798"/>
         <Collision Name="gYdanMarutaCol" Offset="0x66A8"/>

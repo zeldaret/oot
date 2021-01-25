@@ -16,7 +16,7 @@ typedef struct EnMb {
     /* 0x01D0 */ Vec3s jointTable[28];
     /* 0x0278 */ Vec3s morphTable[28];
     /* 0x0320 */ s32 unk_320;
-    /* 0x0324 */ EnMbActionFunc actionFunc; 
+    /* 0x0324 */ EnMbActionFunc actionFunc;
     /* 0x0328 */ s16 unk_328;
     /* 0x032A */ s16 unk_32A;
     /* 0x032C */ s16 soundTimer;
@@ -24,7 +24,7 @@ typedef struct EnMb {
     /* 0x0330 */ s16 unk_330;
     /* 0x0332 */ s16 unk_332;
     /* 0x0334 */ s16 attackParams;
-    /* 0x0338 */ Vec3f effSpawnPos; 
+    /* 0x0338 */ Vec3f effSpawnPos;
     /* 0x0344 */ Vec3f waypointPos;
     /* 0x0350 */ char unk_34A[0xC];
     /* 0x035C */ s8 waypoint;
