@@ -6,10 +6,10 @@
 #include "../File.h"
 
 #ifdef USE_ASSIMP
-#include "../assimp/Importer.hpp"
-#include "../assimp/Exporter.hpp"
-#include "../assimp/scene.h"
-#include "../assimp/postprocess.h"
+#include <assimp/Importer.hpp>
+#include <assimp/Exporter.hpp>
+#include <assimp/scene.h>
+#include <assimp/postprocess.h>
 #endif
 
 using namespace std;

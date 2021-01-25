@@ -572,7 +572,7 @@ glabel func_808D08F8
 .L808D1084:
 /* 062C4 808D1084 1A200003 */  blez    $s1, .L808D1094            
 /* 062C8 808D1088 26240001 */  addiu   $a0, $s1, 0x0001           ## $a0 = 00000001
-/* 062CC 808D108C 0C018A29 */  jal     func_800628A4              
+/* 062CC 808D108C 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 062D0 808D1090 8FA5007C */  lw      $a1, 0x007C($sp)           
 .L808D1094:
 /* 062D4 808D1094 26310001 */  addiu   $s1, $s1, 0x0001           ## $s1 = 00000001
@@ -680,7 +680,7 @@ glabel func_808D08F8
               
 /* 06460 808D1220 24841E1C */  addiu   $a0, $a0, %lo(D_808D1E1C)  ## $a0 = 808D1E1C
 /* 06464 808D1224 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 06468 808D1228 0C018A29 */  jal     func_800628A4              
+/* 06468 808D1228 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 0646C 808D122C 8FA5007C */  lw      $a1, 0x007C($sp)           
 /* 06470 808D1230 0C034221 */  jal     Matrix_Pull              
 /* 06474 808D1234 00000000 */  nop

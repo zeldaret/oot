@@ -25,7 +25,6 @@ struct DynaPolyActor;
 #define FUNC_80041EA4_VOID_OUT 12
 
 #define WATERBOX_ROOM(p) ((p >> 13) & 0x3F)
-#define RoomPoly CollisionPoly // FIXME: Update ZAP to remove RoomPoly
 
 typedef struct {
     Vec3f scale;

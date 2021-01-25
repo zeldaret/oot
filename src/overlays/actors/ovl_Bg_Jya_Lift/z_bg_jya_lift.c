@@ -27,7 +27,7 @@ static s16 sIsSpawned = false;
 
 const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaLift),
@@ -94,7 +94,7 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgJyaLift_SetInitPosY(BgJyaLift* this) {
     this->actionFunc = BgJyaLift_DelayMove;
-    this->dyna.actor.posRot.pos.y = 1613.0f;
+    this->dyna.actor.world.pos.y = 1613.0f;
     this->moveDelay = 0;
 }
 
@@ -118,8 +118,8 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->dyna.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
     tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
-    distFromBottom = Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
-    if ((this->dyna.actor.posRot.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.pos4.y)) {
+    distFromBottom = Math_SmoothStepToF(&this->dyna.actor.world.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
+    if ((this->dyna.actor.world.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.prevPos.y)) {
         func_8005B1A4(ACTIVE_CAM);
     }
     if (fabsf(distFromBottom) < 0.001f) {
@@ -132,7 +132,7 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this) {
     this->actionFunc = NULL;
-    this->dyna.actor.posRot.pos.y = 973.0f;
+    this->dyna.actor.world.pos.y = 973.0f;
 }
 
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {

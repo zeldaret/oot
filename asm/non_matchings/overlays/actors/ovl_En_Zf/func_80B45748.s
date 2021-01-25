@@ -87,7 +87,7 @@ glabel func_80B45748
 /* 01800 80B45850 000B6080 */  sll     $t4, $t3,  2               
 /* 01804 80B45854 018B6023 */  subu    $t4, $t4, $t3              
 /* 01808 80B45858 000C6080 */  sll     $t4, $t4,  2               
-/* 0180C 80B4585C 0C00B6B0 */  jal     func_8002DAC0              
+/* 0180C 80B4585C 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 01810 80B45860 018D2821 */  addu    $a1, $t4, $t5              
 /* 01814 80B45864 A60200B6 */  sh      $v0, 0x00B6($s0)           ## 000000B6
 /* 01818 80B45868 860F00B6 */  lh      $t7, 0x00B6($s0)           ## 000000B6
@@ -129,7 +129,7 @@ glabel func_80B45748
 /* 0189C 80B458EC 01495023 */  subu    $t2, $t2, $t1              
 /* 018A0 80B458F0 000A5080 */  sll     $t2, $t2,  2               
 /* 018A4 80B458F4 014B2821 */  addu    $a1, $t2, $t3              
-/* 018A8 80B458F8 0C00B6EC */  jal     func_8002DBB0              
+/* 018A8 80B458F8 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 018AC 80B458FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 018B0 80B45900 C7A60044 */  lwc1    $f6, 0x0044($sp)           
 /* 018B4 80B45904 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -160,7 +160,7 @@ glabel func_80B45748
 /* 01914 80B45964 01EE7823 */  subu    $t7, $t7, $t6              
 /* 01918 80B45968 000F7880 */  sll     $t7, $t7,  2               
 /* 0191C 80B4596C 01F92821 */  addu    $a1, $t7, $t9              
-/* 01920 80B45970 0C00B6B0 */  jal     func_8002DAC0              
+/* 01920 80B45970 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 01924 80B45974 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01928 80B45978 10000009 */  beq     $zero, $zero, .L80B459A0   
 /* 0192C 80B4597C A6020032 */  sh      $v0, 0x0032($s0)           ## 00000032

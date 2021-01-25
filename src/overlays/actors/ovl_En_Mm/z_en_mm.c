@@ -15,7 +15,7 @@ extern UNK_TYPE D_0602CA38;
 /*
 const ActorInit En_Mm_InitVars = {
     ACTOR_EN_MM,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MM,
     sizeof(EnMm),
@@ -23,6 +23,26 @@ const ActorInit En_Mm_InitVars = {
     (ActorFunc)EnMm_Destroy,
     (ActorFunc)EnMm_Update,
     (ActorFunc)EnMm_Draw,
+};
+
+static ColliderCylinderInit D_80AAEAE0 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 18, 63, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mm/func_80AAD770.s")

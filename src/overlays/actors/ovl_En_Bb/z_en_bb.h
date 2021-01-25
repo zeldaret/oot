@@ -41,7 +41,7 @@ typedef struct EnBb {
     /* 0x02A8 */ s16 fireIceTimer;
     /* 0x02AA */ u8 dmgEffect;  
     /* 0x02AC */ ColliderJntSph collider;
-    /* 0x02CC */ ColliderJntSphItem elements[1];
+    /* 0x02CC */ ColliderJntSphElement elements[1];
     /* 0x030C */ struct_80032E24 enPartInfo;
     /* 0x0324 */ Actor* targetActor;
 } EnBb; // size = 0x0328

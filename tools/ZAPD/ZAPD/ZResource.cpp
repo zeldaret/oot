@@ -12,7 +12,6 @@ ZResource::ZResource()
 	rawData = vector<uint8_t>();
 	rawDataIndex = 0;
 	outputDeclaration = true;
-	arrayCnt = -1;
 }
 
 void ZResource::ParseXML(tinyxml2::XMLElement* reader)
@@ -25,7 +24,7 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 		outName = name;
 }
 
-void ZResource::Save(string outFolder)
+void ZResource::Save(const std::string& outFolder)
 {
 
 }
@@ -46,10 +45,15 @@ std::string ZResource::GetOutName()
 
 void ZResource::SetName(string nName)
 {
-	name = nName;
+	name = std::move(nName);
 }
 
 bool ZResource::IsExternalResource()
+{
+	return false;
+}
+
+bool ZResource::DoesSupportArray()
 {
 	return false;
 }
@@ -84,19 +88,28 @@ void ZResource::SetRawDataIndex(int value)
 	rawDataIndex = value;
 }
 
-string ZResource::GetSourceOutputCode(std::string prefix)
+string ZResource::GetSourceOutputCode(const std::string& prefix)
 {
 	return "";
 }
 
-string ZResource::GetSourceOutputHeader(std::string prefix)
+string ZResource::GetSourceOutputHeader(const std::string& prefix)
 {
 	return "";
+}
+
+void ZResource::ParseRawData()
+{
 }
 
 void ZResource::GenerateHLIntermediette(HLFileIntermediette& hlFile)
 {
 
+}
+
+std::string ZResource::GetSourceTypeName()
+{
+	return "";
 }
 
 ZResourceType ZResource::GetResourceType()

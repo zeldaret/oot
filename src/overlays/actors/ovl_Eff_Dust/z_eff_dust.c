@@ -14,7 +14,7 @@ extern UNK_TYPE D_04037880;
 /*
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EffDust),
