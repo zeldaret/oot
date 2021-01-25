@@ -12,7 +12,7 @@ void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern Gfx D_06000DC0;
 extern UNK_TYPE D_06000EA0;
-extern UNK_TYPE D_06001B70;
+extern CollisionHeader D_06001B70;
 extern Gfx D_06001D20;
 extern CollisionHeader D_06001F70;
 extern Gfx D_06002160;
@@ -24,9 +24,9 @@ extern CollisionHeader D_06002D28;
 extern Gfx D_06002E80;
 extern CollisionHeader D_06002FE4;
 extern Gfx D_06003190;
-extern UNK_TYPE D_060033E0;
+extern CollisionHeader D_060033E0;
 extern Gfx D_06003710;
-extern UNK_TYPE D_06003AF0;
+extern CollisionHeader D_06003AF0;
 
 
 // sCylinderInit
@@ -389,6 +389,7 @@ s32 func_80978EE4(DemoGj *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978EE4.s")
 #endif
 
+void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2);
 #ifdef NON_MATCHING
 void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2) {
     GlobalContext* glb_ctx;
@@ -1150,7 +1151,7 @@ void func_8097AE38(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097AE5C(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 0xF, 0, 0);
+    func_80978FCC(this, globalCtx, 0xF, 0, NULL);
     func_8097895C(this, globalCtx, &this->unk_184, &D_8097BDE0);
     func_8097895C(this, globalCtx, &this->unk_1D0, &D_8097BDE0);
     func_8097895C(this, globalCtx, &this->unk_21C, &D_8097BDE0);
@@ -1245,7 +1246,7 @@ void func_8097B3A0(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 0x10, 0, 0);
+    func_80978FCC(this, globalCtx, 0x10, 0, NULL);
     func_8097895C(this, globalCtx, &this->unk_184, &D_8097BE0C);
     func_8097895C(this, globalCtx, &this->unk_1D0, &D_8097BE0C);
     func_8097895C(this, globalCtx, &this->unk_21C, &D_8097BE0C);
@@ -1329,7 +1330,7 @@ void func_8097B8C4(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097B8E8(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 0x11, 0, 0);
+    func_80978FCC(this, globalCtx, 0x11, 0, NULL);
     func_8097895C(this, globalCtx, &this->unk_184, &D_8097BE38);
 }
 
