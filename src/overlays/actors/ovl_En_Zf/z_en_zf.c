@@ -38,21 +38,9 @@ void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
     { 4380.0f, 531.0f, -690.0f },  { 4197.0f, 531.0f, -646.0f },  { 4070.0f, 531.0f, -1575.0f },
     { 3930.0f, 531.0f, -1705.0f }, { 3780.0f, 531.0f, -1835.0f }, { 3560.0f, 531.0f, -1985.0f },
 };
-// {
-//     0x455E8000, 0x42C80000, 0xC4BDA000, 0x45462000, 0x42C80000, 0xC4DCE000, 0x4545D000, 0x42C80000, 0xC50A9000,
-//     0x455EB000, 0x42C80000, 0xC5185000, 0x4576A000, 0x42C80000, 0xC50A9000, 0x45766000, 0x42C80000, 0xC4DCA000,
-//     0x4532D000, 0x42C80000, 0xC515A000, 0x452D8000, 0x42C80000, 0xC4F86000, 0x458D7800, 0x4404C000, 0xC48F4000,
-//     0x458AD000, 0x4404C000, 0xC4AFA000, 0x45825000, 0x4404C000, 0xC4AE6000, 0x457BE000, 0x4404C000, 0xC4914000,
-//     0x457AA000, 0x4404C000, 0xC45CC000, 0x45857000, 0x4404C000, 0xC44A8000, 0x458D4000, 0x4404C000, 0xC45C0000,
-//     0x45852000, 0x4404C000, 0xC4816000, 0x4594A800, 0x4404C000, 0xC48F4000, 0x4570A000, 0x4404C000, 0xC45CC000,
-//     0x4588E000, 0x4404C000, 0xC42C8000, 0x45832800, 0x4404C000, 0xC4218000, 0x457E6000, 0x4404C000, 0xC4C4E000,
-//     0x4575A000, 0x4404C000, 0xC4D52000, 0x456C4000, 0x4404C000, 0xC4E56000, 0x455E8000, 0x4404C000, 0xC4F82000,
-// };
 
-// extern s16 D_80B4A1B0;
 /* static */ s16 D_80B4A1B0 = 0;
 
-// extern s16 D_80B4A1B4;
 /* static */ s16 D_80B4A1B4 = 1;
 
 const ActorInit En_Zf_InitVars = {
@@ -107,10 +95,6 @@ static ColliderQuadInit D_80B4A204 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-// extern ColliderCylinderInit D_80B4A1D8;
-// extern ColliderQuadInit D_80B4A204;
-
-// extern DamageTable D_80B4A254;
 static DamageTable D_80B4A254 = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -146,14 +130,12 @@ static DamageTable D_80B4A254 = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-// extern InitChainEntry D_80B4A274[];
 static InitChainEntry D_80B4A274[] = {
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 15, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
 
-// extern UNK_PTR D_80B4A280[];
 s32 D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000 };
 
 extern SkeletonHeader D_06006690;
@@ -176,8 +158,34 @@ void func_80B44050(EnZf* this, EnZfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44058.s")
-s16 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 arg2);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44058.s")
+s16 func_80B44058(EnZf *this, GlobalContext *globalCtx, f32 arg2) {
+    s16 ret;
+    s16 oldBgCheckFlags;
+    f32 sin;
+    f32 cos;
+    Vec3f oldPos;
+    
+    if (arg2 == 0.0f) {
+        arg2 = ((this->actor.speedXZ >= 0.0f) ? 1.0f : -1.0f );
+        arg2 = ((this->actor.params >= 0) ? arg2 * 45.0f : arg2 * 30.0f );
+    }
+
+    oldPos = this->actor.world.pos;
+    oldBgCheckFlags = this->actor.bgCheckFlags;
+    
+    sin = Math_SinS(this->actor.world.rot.y) * arg2;
+    cos = Math_CosS(this->actor.world.rot.y) * arg2;
+
+    this->actor.world.pos.x += sin;
+    this->actor.world.pos.z += cos;
+
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 0x1C);
+    this->actor.world.pos = oldPos;
+    ret = !(this->actor.bgCheckFlags & 1);
+    this->actor.bgCheckFlags = oldBgCheckFlags;
+    return ret;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B441C4.s")
 
