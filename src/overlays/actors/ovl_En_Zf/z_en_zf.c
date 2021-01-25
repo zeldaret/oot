@@ -28,16 +28,26 @@ void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
 
 // extern Vec3f D_80B4A090[];
-/* static */ s32 D_80B4A090[] = {
-    0x455E8000, 0x42C80000, 0xC4BDA000, 0x45462000, 0x42C80000, 0xC4DCE000, 0x4545D000, 0x42C80000, 0xC50A9000,
-    0x455EB000, 0x42C80000, 0xC5185000, 0x4576A000, 0x42C80000, 0xC50A9000, 0x45766000, 0x42C80000, 0xC4DCA000,
-    0x4532D000, 0x42C80000, 0xC515A000, 0x452D8000, 0x42C80000, 0xC4F86000, 0x458D7800, 0x4404C000, 0xC48F4000,
-    0x458AD000, 0x4404C000, 0xC4AFA000, 0x45825000, 0x4404C000, 0xC4AE6000, 0x457BE000, 0x4404C000, 0xC4914000,
-    0x457AA000, 0x4404C000, 0xC45CC000, 0x45857000, 0x4404C000, 0xC44A8000, 0x458D4000, 0x4404C000, 0xC45C0000,
-    0x45852000, 0x4404C000, 0xC4816000, 0x4594A800, 0x4404C000, 0xC48F4000, 0x4570A000, 0x4404C000, 0xC45CC000,
-    0x4588E000, 0x4404C000, 0xC42C8000, 0x45832800, 0x4404C000, 0xC4218000, 0x457E6000, 0x4404C000, 0xC4C4E000,
-    0x4575A000, 0x4404C000, 0xC4D52000, 0x456C4000, 0x4404C000, 0xC4E56000, 0x455E8000, 0x4404C000, 0xC4F82000,
+/* static */ Vec3f D_80B4A090[] = {
+    { 3560.0f, 100.0f, -1517.0f }, { 3170.0f, 100.0f, -1767.0f }, { 3165.0f, 100.0f, -2217.0f },
+    { 3563.0f, 100.0f, -2437.0f }, { 3946.0f, 100.0f, -2217.0f }, { 3942.0f, 100.0f, -1765.0f },
+    { 2861.0f, 100.0f, -2394.0f }, { 2776.0f, 100.0f, -1987.0f }, { 4527.0f, 531.0f, -1146.0f },
+    { 4442.0f, 531.0f, -1405.0f }, { 4170.0f, 531.0f, -1395.0f }, { 4030.0f, 531.0f, -1162.0f },
+    { 4010.0f, 531.0f, -883.0f },  { 4270.0f, 531.0f, -810.0f },  { 4520.0f, 531.0f, -880.0f },
+    { 4260.0f, 531.0f, -1035.0f }, { 4757.0f, 531.0f, -1146.0f }, { 3850.0f, 531.0f, -883.0f },
+    { 4380.0f, 531.0f, -690.0f },  { 4197.0f, 531.0f, -646.0f },  { 4070.0f, 531.0f, -1575.0f },
+    { 3930.0f, 531.0f, -1705.0f }, { 3780.0f, 531.0f, -1835.0f }, { 3560.0f, 531.0f, -1985.0f },
 };
+// {
+//     0x455E8000, 0x42C80000, 0xC4BDA000, 0x45462000, 0x42C80000, 0xC4DCE000, 0x4545D000, 0x42C80000, 0xC50A9000,
+//     0x455EB000, 0x42C80000, 0xC5185000, 0x4576A000, 0x42C80000, 0xC50A9000, 0x45766000, 0x42C80000, 0xC4DCA000,
+//     0x4532D000, 0x42C80000, 0xC515A000, 0x452D8000, 0x42C80000, 0xC4F86000, 0x458D7800, 0x4404C000, 0xC48F4000,
+//     0x458AD000, 0x4404C000, 0xC4AFA000, 0x45825000, 0x4404C000, 0xC4AE6000, 0x457BE000, 0x4404C000, 0xC4914000,
+//     0x457AA000, 0x4404C000, 0xC45CC000, 0x45857000, 0x4404C000, 0xC44A8000, 0x458D4000, 0x4404C000, 0xC45C0000,
+//     0x45852000, 0x4404C000, 0xC4816000, 0x4594A800, 0x4404C000, 0xC48F4000, 0x4570A000, 0x4404C000, 0xC45CC000,
+//     0x4588E000, 0x4404C000, 0xC42C8000, 0x45832800, 0x4404C000, 0xC4218000, 0x457E6000, 0x4404C000, 0xC4C4E000,
+//     0x4575A000, 0x4404C000, 0xC4D52000, 0x456C4000, 0x4404C000, 0xC4E56000, 0x455E8000, 0x4404C000, 0xC4F82000,
+// };
 
 // extern s16 D_80B4A1B0;
 /* static */ s16 D_80B4A1B0 = 0;
@@ -273,15 +283,13 @@ s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44E8C.s")
 
-void func_80B450AC(EnZf* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B450AC.s")
-/* void func_80B450AC(EnZf *this) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B450AC.s")
+void func_80B450AC(EnZf *this) {
     Animation_Change(&this->skelAnime, &D_06009530, 0.0f, 9.0f, Animation_GetLastFrame(&D_06009530), ANIMMODE_LOOP,
 0.0f);
 
     this->actor.world.pos.y = this->actor.floorHeight + 300.0f;
-    this->actor.shape.shadowAlpha = 0;
-    this->unk_404.r = 0;
+    this->unk_404.r = this->actor.shape.shadowAlpha = 0;
     this->unk_3F0 = 0xA;
     this->unk_3E4 = 1;
     this->unk_3DC = 0;
@@ -289,7 +297,7 @@ void func_80B450AC(EnZf* this);
     this->actor.flags &= ~1;
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     func_80B44050(this, func_80B45174);
-} */
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45174.s")
 
