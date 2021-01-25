@@ -91,7 +91,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetTris(globalCtx, &this->collider, &this->dyna.actor, &sTrisInit, this->elements);
 
     this->switchFlag = this->dyna.actor.params & 0xFFFF;
-    thisx->params = (thisx->params >> 8) & 0xFF;//thisx is required to match here
+    thisx->params = (thisx->params >> 8) & 0xFF; // thisx is required to match here
 
     if (this->dyna.actor.params == 0) {
         triInit = &sTrisElementsInit[0];

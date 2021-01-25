@@ -59,14 +59,13 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     waterBox = globalCtx->colCtx.colHeader->waterBoxes + 0x1;
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (this->dyna.actor.params == HASI_WATER) {
-        // Water the moving platform floats on in B1. Never runs in Master Quest
+        //This code never runs in Master Quest
         this->dyna.actor.home.pos.y = this->dyna.actor.home.pos.y + -5.0f;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         waterBox->ySurface = this->dyna.actor.home.pos.y;
         this->actionFunc = BgYdanHasi_InitWater;
     } else {
         if (this->dyna.actor.params == HASI_WATER_BLOCK) {
-            // Moving platform on the water in B1
             CollisionHeader_GetVirtual(&gYdanHasiCol2, &colHeader);
             this->dyna.actor.scale.z = 0.15f;
             this->dyna.actor.scale.x = 0.15f;

@@ -3820,7 +3820,6 @@ endseg
 beginseg
     name "object_ydan_objects"
     romalign 0x1000
-    //include "build/baserom/object_ydan_objects.o"
     include "build/assets/objects/object_ydan_objects/object_ydan_objects.o"
     number 6
 endseg
