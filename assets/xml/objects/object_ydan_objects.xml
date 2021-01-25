@@ -1,0 +1,33 @@
+<Root>
+    <File Name="object_ydan_objects" Segment="6">
+        <DList Name="gYdanHasiDlist1" Offset="0x7508"/>
+        <DList Name="gYdanHasiDlist2" Offset="0x5DE0"/>
+        <DList Name="gYdanHasiDlist3" Offset="0x5018"/>
+        <Collision Name="gYdanHasiCol" Offset="0x5780"/>
+        <Collision Name="gYdanHasiCol2" Offset="0x7798"/>
+        <Collision Name="gYdanMarutaCol" Offset="0x66A8"/>
+        <DList Name="gYdanMarutaDlist1" Offset="0x8D88"/>
+        <DList Name="gYdanMarutaDlist2" Offset="0x6570"/>
+        <DList Name="gYdanSpDlist1" Offset="0x3850"/>
+        <DList Name="gYdanSpDlist2" Offset="0x5F40"/>
+        <Collision Name="gYdanSpCol1" Offset="0x6050"/>
+        <DList Name="gYdanSpDlist3" Offset="0x61B0"/>
+        <Collision Name="gYdanSpCol2" Offset="0x6460"/>
+        <DList Name="gYdanDoorDlist1" Offset="0x67A0"/>7
+        <DList Name="gYdanDoorDlist2" Offset="0x6910"/>
+        <Texture Name="gYdanDoorTex1" Format="rgb5a1" Width="32" Height="64" Offset="0x2800"/>
+        <Texture Name="gYdanWebTex" Format="ia16" Width="32" Height="64" Offset="0x1000"/>
+        <Texture Name="gYdanHasiFloatingBlockSideTex" Format="rgb5a1" Width="32" Height="32" Offset="0x0"/>
+        <Texture Name="gYdanHasiFloatingBlockBottomTex" Format="rgb5a1" Width="32" Height="32" Offset="0x800"/>
+        <Texture Name="gYdanUnusedTex1" Format="ci8" Width="32" Height="64" Offset="0x6BC8"/>
+        <Texture Name="gYdanHasiPalette2" Format="rgb5a1" Width="16" Height="16" Offset="0x69C0"/>
+        <Texture Name="gYdanHasi3BlocksTopTex" Format="ci8" Width="32" Height="64" Offset="0x3AF8"/>
+        <Texture Name="gYdanPalette38F0" Format="rgb5a1" Width="16" Height="16" Offset="0x38F0"/> <!--3Blocks Palette?-->
+        <Texture Name="gYdanHasi3BlocksSideTex" Format="ci8" Width="32" Height="64" Offset="0x42F8"/>
+        <Texture Name="gYdanHasiWaterTex" Format="ci8" Width="32" Height="32" Offset="0x5950"/>
+        <Texture Name="gYdanHasiWaterPalette" Format="rgb5a1" Width="208" Height="1" Offset="0x57B0"/>
+        <Texture Name="gYdanMarutaUnusedTex1" Format="rgb5a1" Width="32" Height="32" Offset="0x2000"/>
+        <Texture Name="gYdanMarutaUnusedTex2" Format="ci8" Width="32" Height="64" Offset="0x79D8"/>
+        <Texture Name="gYdanMarutaPalette1" Format="rgb5a1" Width="16" Height="16" Offset="0x77D0"/>
+    </File>
+</Root>

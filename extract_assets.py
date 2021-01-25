@@ -34,7 +34,7 @@ def main():
                             outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
                             xmlFiles.append(fullPath)
 
-    numCores = 1
+    numCores = cpu_count()
     print("Extracting assets with " + str(numCores) + " CPU cores.")
     p = Pool(numCores)
     p.map(ExtractFunc, xmlFiles)

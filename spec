@@ -169,7 +169,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -3782,7 +3782,6 @@ endseg
 beginseg
     name "object_mb"
     romalign 0x1000
-    //include "build/baserom/object_mb.o"
     include "build/assets/objects/object_mb/object_mb.o"
     number 6
 endseg
@@ -3821,7 +3820,9 @@ endseg
 beginseg
     name "object_ydan_objects"
     romalign 0x1000
-    include "build/baserom/object_ydan_objects.o"
+    //include "build/baserom/object_ydan_objects.o"
+    include "build/assets/objects/object_ydan_objects/object_ydan_objects.o"
+    number 6
 endseg
 
 beginseg

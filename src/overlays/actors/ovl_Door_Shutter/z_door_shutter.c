@@ -6,6 +6,7 @@
 
 #include "z_door_shutter.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
+#include "objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -80,7 +81,7 @@ typedef struct {
 } ShutterInfo;
 
 static ShutterInfo D_80998134[] = {
-    { 0x060067A0, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06006910, 0x0404B0D0, 130, 12, 20, 15 },
+    { gYdanDoorDlist1, 0x0404B0D0, 130, 12, 20, 15 }, { 0x06006910, 0x0404B0D0, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 }, { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { 0x06012AB0, NULL, 130, 12, 50, 15 },       { 0x0601EC20, NULL, 130, 12, 50, 15 },
     { 0x06000100, 0x060001F0, 240, 14, 50, 15 }, { 0x060010C0, NULL, 130, 12, 50, 15 },

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_ydan_maruta.h"
+#include "objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -75,9 +76,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_060066A8;
-extern Gfx D_06008D88[];
-extern Gfx D_06006570[];
+//extern CollisionHeader D_060066A8;
+//extern Gfx D_06008D88[];
+//extern Gfx D_06006570[];
 
 void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -102,7 +103,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         triInit = &sTrisElementsInit[1];
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
-        CollisionHeader_GetVirtual(&D_060066A8, &colHeader);
+        CollisionHeader_GetVirtual(&gYdanMarutaCol, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
         thisx->home.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->unk_168)) {
@@ -205,8 +206,8 @@ void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params == 0) {
-        Gfx_DrawDListOpa(globalCtx, D_06008D88);
+        Gfx_DrawDListOpa(globalCtx, gYdanMarutaDlist1);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_06006570);
+        Gfx_DrawDListOpa(globalCtx, gYdanMarutaDlist2);
     }
 }
