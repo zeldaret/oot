@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_haka_gate.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -46,7 +47,6 @@ void BgHakaGate_GateOpen(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_SkullOfTruth(BgHakaGate* this, GlobalContext* globalCtx);
 void BgHakaGate_FalseSkull(BgHakaGate* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];
 extern CollisionHeader D_0600A938;
 extern Gfx D_0600F1B0[];
 extern Gfx D_06010A10[];
@@ -338,7 +338,7 @@ void BgHakaGate_DrawFlame(BgHakaGate* this, GlobalContext* globalCtx) {
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 744),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_haka_gate.c", 749);
     }
 }

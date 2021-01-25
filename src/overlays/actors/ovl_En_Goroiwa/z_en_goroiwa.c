@@ -6,7 +6,7 @@
 
 #include "z_en_goroiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
-
+#include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -76,7 +76,6 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 // Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
 
-extern Gfx D_0400D340[];
 extern Gfx D_060006B0[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
@@ -501,7 +500,7 @@ void func_80A4D0FC(EnGoroiwa* this, GlobalContext* globalCtx) {
         fragmentVelocity.z = effectPos.z * 0.2f;
         Math_Vec3f_Sum(&effectPos, thisPos, &effectPos);
         EffectSsKakera_Spawn(globalCtx, &effectPos, &fragmentVelocity, &effectPos, -340, 33, 28, 2, 0,
-                             (Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, D_0400D340);
+                             (Rand_ZeroOne() * 7.0f) + 1.0f, 1, 0, 70, KAKERA_COLOR_NONE, 1, gBoulderFragmentsDL);
     }
 
     effectPos.x = thisPos->x;

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bw.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000015
 
@@ -33,7 +34,6 @@ void func_809D0268(EnBw* this, GlobalContext* globalCtx);
 void func_809D03CC(EnBw* this);
 void func_809D0424(EnBw* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];
 extern AnimationHeader D_06000228;
 extern SkeletonHeader D_060020F0;
 extern AnimationHeader D_060021A0;
@@ -889,7 +889,7 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 1500),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     if (this->iceTimer != 0) {
         thisx->colorFilterTimer++;

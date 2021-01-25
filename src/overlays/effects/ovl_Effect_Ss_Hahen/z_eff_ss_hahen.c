@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_hahen.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPitch regs[0]
 #define rYaw regs[1]
@@ -23,9 +24,6 @@ EffectSsInit Effect_Ss_Hahen_InitVars = {
     EFFECT_SS_HAHEN,
     EffectSsHahen_Init,
 };
-
-extern Gfx D_0400C0D0[];
-extern Gfx D_0400CD80[];
 
 void EffectSsHahen_CheckForObject(EffectSs* this, GlobalContext* globalCtx) {
     if (((this->rObjBankIdx = Object_GetIndex(&globalCtx->objectCtx, this->rObjId)) < 0) ||
@@ -48,11 +46,11 @@ u32 EffectSsHahen_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->rObjId = initParams->objId;
         EffectSsHahen_CheckForObject(this, globalCtx);
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(D_0400C0D0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffFragments1DL);
         this->rObjId = -1;
     }
 
-    if ((this->rObjId == OBJECT_HAKA_OBJECTS) && (this->gfx == D_0400CD80)) {
+    if ((this->rObjId == OBJECT_HAKA_OBJECTS) && (this->gfx == gEffFragments2DL)) {
         this->draw = EffectSsHahen_DrawGray;
     } else {
         this->draw = EffectSsHahen_Draw;
