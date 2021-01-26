@@ -352,8 +352,6 @@ void func_80978B90(DemoGj* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978B90.s")
 #endif
 
-void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *arg3);
-#ifdef NON_MATCHING
 void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *arg3) {
     Vec3f pos;
     Vec3f velocity;
@@ -366,39 +364,27 @@ void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *a
     s32 i;
 
     for (i = 0; i < 6; i++) {
-        /*pos.z = Math_SinS(theta) * 16.0f;
-        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
-        pos.x = Math_CosS(theta) * 16.0f;*/
-
         pos.x = Math_SinS(theta) * 16.0f;
         pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
         pos.z = Math_CosS(theta) * 16.0f;
-
-        /*velocity.z = (pos.z * 0.6f) + (12.0f * arg3->x);
-        velocity.y = (Rand_ZeroOne() * 36.0f) + 6.0f;
-        velocity.x = (pos.x * 0.6f) + (12.0f * arg3->z);*/
 
         velocity.x = (pos.x * 0.6f) + (12.0f * arg3->x);
         velocity.y = (Rand_ZeroOne() * 36.0f) + 6.0f;
         velocity.z = (pos.z * 0.6f) + (12.0f * arg3->z);
 
-        //pos.z = pos.z + arg2->x;
         pos.x += arg2->x;
-        //pos.y = pos.y + arg2->y;
         pos.y += arg2->y;
-        //pos.x = pos.x + arg2->z;
         pos.z += arg2->z;
 
         temp_f0 = Rand_ZeroOne();
         if (temp_f0 < 0.1f) {
             phi_s0 = 0x61;
-        } else {
-            phi_s0 = 0x21;
-            if (temp_f0 < 0.7f) {
-                phi_s0 = 0x41;
-            }
+        } else if (temp_f0 < 0.7f) {
+            phi_s0 = 0x41;
         }
-        //temp_f20 = Rand_ZeroOne();
+        else {
+            phi_s0 = 0x21;
+        }
 
         EffectSsKakera_Spawn(
             globalCtx, 
@@ -424,9 +410,6 @@ void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *a
 
     func_80978AC4(this, globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978C20.s")
-#endif
 
 s32 func_80978EBC(void) {
     if (gSaveContext.sceneSetupIndex < 4) {
