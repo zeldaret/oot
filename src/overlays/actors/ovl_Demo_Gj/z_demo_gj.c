@@ -11,7 +11,7 @@ void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern Gfx D_06000DC0;
-extern UNK_TYPE D_06000EA0;
+extern Gfx D_06000EA0;
 extern CollisionHeader D_06001B70;
 extern Gfx D_06001D20;
 extern CollisionHeader D_06001F70;
@@ -352,7 +352,81 @@ void func_80978B90(DemoGj* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978B90.s")
 #endif
 
+void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *arg3);
+#ifdef NON_MATCHING
+void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *arg3) {
+    Vec3f pos;
+    Vec3f velocity;
+
+    s32 phi_s0;
+    f32 temp_f0;
+
+    s16 theta = 0;
+
+    s32 i;
+
+    for (i = 0; i < 6; i++) {
+        /*pos.z = Math_SinS(theta) * 16.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.x = Math_CosS(theta) * 16.0f;*/
+
+        pos.x = Math_SinS(theta) * 16.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = Math_CosS(theta) * 16.0f;
+
+        /*velocity.z = (pos.z * 0.6f) + (12.0f * arg3->x);
+        velocity.y = (Rand_ZeroOne() * 36.0f) + 6.0f;
+        velocity.x = (pos.x * 0.6f) + (12.0f * arg3->z);*/
+
+        velocity.x = (pos.x * 0.6f) + (12.0f * arg3->x);
+        velocity.y = (Rand_ZeroOne() * 36.0f) + 6.0f;
+        velocity.z = (pos.z * 0.6f) + (12.0f * arg3->z);
+
+        //pos.z = pos.z + arg2->x;
+        pos.x += arg2->x;
+        //pos.y = pos.y + arg2->y;
+        pos.y += arg2->y;
+        //pos.x = pos.x + arg2->z;
+        pos.z += arg2->z;
+
+        temp_f0 = Rand_ZeroOne();
+        if (temp_f0 < 0.1f) {
+            phi_s0 = 0x61;
+        } else {
+            phi_s0 = 0x21;
+            if (temp_f0 < 0.7f) {
+                phi_s0 = 0x41;
+            }
+        }
+        //temp_f20 = Rand_ZeroOne();
+
+        EffectSsKakera_Spawn(
+            globalCtx, 
+            &pos, 
+            &velocity, 
+            arg2, 
+            -0xC8, 
+            phi_s0, 
+            0xA, 
+            0xA, 
+            0, 
+            //(s32) ((temp_f20 * 20.0f) + 20.0f), 
+            (s32) ((Rand_ZeroOne() * 20.0f) + 20.0f), 
+            0x14, 
+            0x12C, 
+            (s32) (Rand_ZeroOne() * 30.0f) + 0x1E, 
+            -1, 
+            0x186, 
+            &D_06000EA0);
+
+        theta += 0x2AAA;
+    }
+
+    func_80978AC4(this, globalCtx);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978C20.s")
+#endif
 
 s32 func_80978EBC(void) {
     if (gSaveContext.sceneSetupIndex < 4) {
@@ -441,14 +515,14 @@ void func_80979030(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
 }
 
 void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
-    void* dummy; // Needed for matching.
+    s32 pad; // Needed for matching.
     GraphicsContext *gfxCtx;
     
     s16 sp56;
     s16 sp54;
     s16 sp52;
 
-    void* dummy2; // Needed for matching.
+    s32 pad2; // Needed for matching.
     Mtx* matrix;
 
     sp56 = this->unk_16C.x;
@@ -578,7 +652,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
 s32 func_809797E4(DemoGj *this, s32 arg1);
 #if NON_MATCHING
 s32 func_809797E4(DemoGj *this, s32 arg1) {
-    BossGanon2 *ganon = this->ganon;
+    BossGanon2 *ganon = (BossGanon2 *)this->ganon;
     arg1 &= 0xFF;
 
     //if ((ganon != 0) && ((arg1 & 0xFF) == ganon->unk314)) {
@@ -1160,11 +1234,72 @@ void func_8097AE5C(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097AEDC(DemoGj *this, GlobalContext *globalCtx) {
 }
 
+/*
+void *func_8097AEE8(void *arg0, ? arg1) {
+    s16 sp22;
+    f32 sp1C;
+    f32 temp_f0;
+    f32 temp_f12;
+    f32 temp_f14;
+    f32 temp_f16;
+    f32 temp_f2;
+    s16 temp_a0;
+    void *temp_a0_2;
+    void *temp_a2;
+    void *temp_v0;
+    void *temp_v1;
+
+    temp_a0 = arg0->unk32;
+    arg0 = arg0;
+    sp22 = temp_a0;
+    sp1C = Math_CosS(temp_a0);
+    temp_f0 = Math_SinS(temp_a0);
+    temp_f2 = 20.0f * sp1C;
+    temp_v0 = arg0 + 0x24;
+    temp_f12 = -20.0f * temp_f0;
+    temp_v1 = arg0 + 0x184;
+    temp_a0_2 = arg0 + 0x1D0;
+    temp_a2 = arg0 + 0x21C;
+    temp_f14 = 20.0f * temp_f0;
+    temp_f16 = -20.0f * sp1C;
+    temp_v1->unk4A = (s16) (s32) ((temp_v0->unk8 + temp_f2) - temp_f12);
+    temp_v1->unk46 = (s16) (s32) (temp_v0->unk0 + temp_f14 + temp_f16);
+    temp_v1->unk48 = (s16) (s32) temp_v0->unk4;
+    temp_a0_2->unk4A = (s16) (s32) ((temp_v0->unk8 + temp_f16) - temp_f14);
+    temp_a0_2->unk46 = (s16) (s32) (temp_v0->unk0 + temp_f12 + temp_f2);
+    temp_a0_2->unk48 = (s16) (s32) temp_v0->unk4;
+    temp_a2->unk4A = (s16) (s32) ((temp_v0->unk8 + (-60.0f * sp1C)) - (60.0f * temp_f0));
+    temp_a2->unk46 = (s16) (s32) (temp_v0->unk0 + (-60.0f * temp_f0) + (60.0f * sp1C));
+    temp_a2->unk48 = (s16) (s32) temp_v0->unk4;
+    return temp_v0;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AEE8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B080.s")
+void func_8097B080(DemoGj *this, GlobalContext *globalCtx) {
+    CollisionCheckContext *temp_a1;
+    GlobalContext* glbCtx = globalCtx;
+    Collider* unk_184 = &this->unk_184.base;
+    Collider* unk_1D0 = &this->unk_1D0.base;
+    Collider* unk_21C = &this->unk_21C.base;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B0EC.s")
+    s32 pad[3];
+
+    temp_a1 = &glbCtx->colChkCtx;
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_1D0);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_21C);
+}
+
+void func_8097B0EC(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
+    Vec3f aux;
+
+    aux.x = this->dyna.actor.world.pos.x;
+    aux.y = this->dyna.actor.world.pos.y;
+    aux.z = this->dyna.actor.world.pos.z;
+
+    func_80978C20(this, globalCtx, &aux, arg2);
+}
 
 void func_8097B128(DemoGj *this, GlobalContext *globalCtx);
 /*
@@ -1255,13 +1390,79 @@ void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097B444(DemoGj *this, GlobalContext *globalCtx) {
 }
 
+/*
+void *func_8097B450(void *arg0, ? arg1) {
+    s16 sp22;
+    f32 sp1C;
+    f32 temp_f0;
+    s16 temp_a0;
+    void *temp_a0_2;
+    void *temp_a2;
+    void *temp_v0;
+    void *temp_v1;
+
+    temp_a0 = arg0->unk32;
+    arg0 = arg0;
+    sp22 = temp_a0;
+    sp1C = Math_CosS(temp_a0);
+    temp_f0 = Math_SinS(temp_a0);
+    temp_v0 = arg0 + 0x24;
+    temp_v1 = arg0 + 0x184;
+    temp_a0_2 = arg0 + 0x1D0;
+    temp_a2 = arg0 + 0x21C;
+    temp_v1->unk4A = (s16) (s32) (temp_v0->unk8 - (35.0f * temp_f0));
+    temp_v1->unk46 = (s16) (s32) (temp_v0->unk0 + (35.0f * sp1C));
+    temp_v1->unk48 = (s16) (s32) temp_v0->unk4;
+    temp_a0_2->unk4A = (s16) (s32) (temp_v0->unk8 - (-10.0f * temp_f0));
+    temp_a0_2->unk46 = (s16) (s32) (temp_v0->unk0 + (-10.0f * sp1C));
+    temp_a0_2->unk48 = (s16) (s32) temp_v0->unk4;
+    temp_a2->unk4A = (s16) (s32) (temp_v0->unk8 - (-55.0f * temp_f0));
+    temp_a2->unk46 = (s16) (s32) (temp_v0->unk0 + (-55.0f * sp1C));
+    temp_a2->unk48 = (s16) (s32) temp_v0->unk4;
+    return temp_v0;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B450.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B5A4.s")
+void func_8097B5A4(DemoGj *this, GlobalContext *globalCtx) {
+    CollisionCheckContext *temp_a1;
+    GlobalContext* glbCtx = globalCtx;
+    Collider* unk_184 = &this->unk_184.base;
+    Collider* unk_1D0 = &this->unk_1D0.base;
+    Collider* unk_21C = &this->unk_21C.base;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B610.s")
+    s32 pad[3];
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B688.s")
+    glbCtx = globalCtx;
+    temp_a1 = &glbCtx->colChkCtx;
+
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_1D0);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_21C);
+}
+
+s32 func_8097B610(DemoGj *this, GlobalContext *globalCtx) {
+    if (func_809789A4(this, globalCtx, &this->unk_184.base) != 0) {
+        return 1;
+    }
+    if (func_809789A4(this, globalCtx, &this->unk_1D0.base) != 0) {
+        return 1;
+    }
+    if (func_809789A4(this, globalCtx, &this->unk_21C.base) != 0) {
+        return 1;
+    }
+    return 0;
+}
+
+
+void func_8097B688(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
+    Vec3f aux;
+
+    aux.x = this->dyna.actor.world.pos.x;
+    aux.y = this->dyna.actor.world.pos.y;
+    aux.z = this->dyna.actor.world.pos.z;
+    func_80978C20(this, globalCtx, &aux, arg2);
+}
 
 void func_8097B6C4(DemoGj *this, GlobalContext *globalCtx);
 /*
@@ -1337,7 +1538,20 @@ void func_8097B8E8(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097B930(DemoGj *this, GlobalContext *globalCtx) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B93C.s")
+void func_8097B93C(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
+    Vec3f aux;
+
+    aux.x = this->dyna.actor.world.pos.x;
+    aux.y = this->dyna.actor.world.pos.y;
+    aux.z = this->dyna.actor.world.pos.z;
+    func_80978C20(this, globalCtx, &aux, arg2);
+
+
+    aux.x = this->dyna.actor.world.pos.x;
+    aux.y = this->dyna.actor.world.pos.y + 100.0f;
+    aux.z = this->dyna.actor.world.pos.z;
+    func_80978C20(this, globalCtx, &aux, arg2);
+}
 
 void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx);
 /*
