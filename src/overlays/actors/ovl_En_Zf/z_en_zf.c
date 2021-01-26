@@ -818,7 +818,33 @@ void func_80B48210(EnZf* this) {
     func_80B44050(this, func_80B482B8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B482B8.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B482B8.s")
+void func_80B482B8(EnZf *this, GlobalContext *globalCtx) {
+    s16 temp_v0; // Need this temp for stack size
+
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 1);
+    if (this->actor.velocity.y >= 5.0f) {
+        func_800355B8(globalCtx, &this->unk_4F0);
+        func_800355B8(globalCtx, &this->unk_4E4);
+    }
+    
+    if (SkelAnime_Update(&this->skelAnime)) {
+        if (this->unk_3F0 == 0) {
+            Animation_Change(&this->skelAnime, &D_0600A3D4, 3.0f, 0.0f, 13.0f, 2, -4.0f);
+            this->unk_3F0 = 0xA;
+        } else if (this->actor.bgCheckFlags & 3) {
+            this->actor.velocity.y = 0.0f;
+            temp_v0 = this->actor.yawTowardsPlayer;
+            this->actor.shape.rot.y = temp_v0;
+            this->actor.world.rot.y = temp_v0;
+            this->actor.speedXZ = 0.0f;
+            this->actor.world.pos.y = this->actor.floorHeight;
+            func_80B46A24(this);
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_ATTACK);
+            this->skelAnime.curFrame = 13.0f;
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B483E4.s")
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx) {
