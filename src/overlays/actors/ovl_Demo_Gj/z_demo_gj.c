@@ -293,19 +293,19 @@ void func_809789D8(DemoGj* this, GlobalContext* globalCtx) {
 
     switch (temp_v0) {
     case 0x10:
-        Collider_DestroyCylinder(globalCtx, &this->unk_184);
-        Collider_DestroyCylinder(globalCtx, &this->unk_1D0);
-        Collider_DestroyCylinder(globalCtx, &this->unk_21C);
+        Collider_DestroyCylinder(globalCtx, &this->unk_184[0]);
+        Collider_DestroyCylinder(globalCtx, &this->unk_184[1]);
+        Collider_DestroyCylinder(globalCtx, &this->unk_184[2]);
         break;
 
     case 0x11:
-        Collider_DestroyCylinder(globalCtx, &this->unk_184);
-        Collider_DestroyCylinder(globalCtx, &this->unk_1D0);
-        Collider_DestroyCylinder(globalCtx, &this->unk_21C);
+        Collider_DestroyCylinder(globalCtx, &this->unk_184[0]);
+        Collider_DestroyCylinder(globalCtx, &this->unk_184[1]);
+        Collider_DestroyCylinder(globalCtx, &this->unk_184[2]);
         return;
 
     case 0x16:
-        Collider_DestroyCylinder(globalCtx, &this->unk_184);
+        Collider_DestroyCylinder(globalCtx, &this->unk_184[0]);
         return;
     
     default:
@@ -1211,70 +1211,55 @@ void func_8097AE38(DemoGj *this, GlobalContext *globalCtx) {
 
 void func_8097AE5C(DemoGj *this, GlobalContext *globalCtx) {
     func_80978FCC(this, globalCtx, 0xF, 0, NULL);
-    func_8097895C(this, globalCtx, &this->unk_184, &D_8097BDE0);
-    func_8097895C(this, globalCtx, &this->unk_1D0, &D_8097BDE0);
-    func_8097895C(this, globalCtx, &this->unk_21C, &D_8097BDE0);
+    func_8097895C(this, globalCtx, &this->unk_184[0], &D_8097BDE0);
+    func_8097895C(this, globalCtx, &this->unk_184[1], &D_8097BDE0);
+    func_8097895C(this, globalCtx, &this->unk_184[2], &D_8097BDE0);
 }
 
 void func_8097AEDC(DemoGj *this, GlobalContext *globalCtx) {
 }
 
-void func_8097AEE8(DemoGj *this, GlobalContext *globalCtx);
-/*
-void *func_8097AEE8(void *arg0, ? arg1) {
-    s16 sp22;
-    f32 sp1C;
-    f32 temp_f0;
-    f32 temp_f12;
-    f32 temp_f14;
-    f32 temp_f16;
-    f32 temp_f2;
-    s16 temp_a0;
-    void *temp_a0_2;
-    void *temp_a2;
-    void *temp_v0;
-    void *temp_v1;
+void func_8097AEE8(DemoGj *this, GlobalContext *globalCtx) {
+    ColliderCylinder *cylinder0 = &this->unk_184[0];
+    ColliderCylinder *cylinder1 = &this->unk_184[1];
+    ColliderCylinder *cylinder2 = &this->unk_184[2];
+    PosRot *actorPosRot = &this->dyna.actor.world;
 
-    temp_a0 = arg0->unk32;
-    arg0 = arg0;
-    sp22 = temp_a0;
-    sp1C = Math_CosS(temp_a0);
-    temp_f0 = Math_SinS(temp_a0);
-    temp_f2 = 20.0f * sp1C;
-    temp_v0 = arg0 + 0x24;
-    temp_f12 = -20.0f * temp_f0;
-    temp_v1 = arg0 + 0x184;
-    temp_a0_2 = arg0 + 0x1D0;
-    temp_a2 = arg0 + 0x21C;
-    temp_f14 = 20.0f * temp_f0;
-    temp_f16 = -20.0f * sp1C;
-    temp_v1->unk4A = (s16) (s32) ((temp_v0->unk8 + temp_f2) - temp_f12);
-    temp_v1->unk46 = (s16) (s32) (temp_v0->unk0 + temp_f14 + temp_f16);
-    temp_v1->unk48 = (s16) (s32) temp_v0->unk4;
-    temp_a0_2->unk4A = (s16) (s32) ((temp_v0->unk8 + temp_f16) - temp_f14);
-    temp_a0_2->unk46 = (s16) (s32) (temp_v0->unk0 + temp_f12 + temp_f2);
-    temp_a0_2->unk48 = (s16) (s32) temp_v0->unk4;
-    temp_a2->unk4A = (s16) (s32) ((temp_v0->unk8 + (-60.0f * sp1C)) - (60.0f * temp_f0));
-    temp_a2->unk46 = (s16) (s32) (temp_v0->unk0 + (-60.0f * temp_f0) + (60.0f * sp1C));
-    temp_a2->unk48 = (s16) (s32) temp_v0->unk4;
-    return temp_v0;
+    s32 pad;
+
+    s16 theta = actorPosRot->rot.y;
+    f32 cos_theta;
+    f32 sin_theta;
+
+    cos_theta = Math_CosS(theta);
+    sin_theta = Math_SinS(theta);
+
+    cylinder0->dim.pos.z = actorPosRot->pos.z + (20.0f * cos_theta) - (-20.0f * sin_theta);
+    cylinder0->dim.pos.x = actorPosRot->pos.x + (20.0f * sin_theta) + (-20.0f * cos_theta);
+    cylinder0->dim.pos.y = actorPosRot->pos.y;
+
+    cylinder1->dim.pos.z = actorPosRot->pos.z + (-20.0f * cos_theta) - (20.0f * sin_theta);
+    cylinder1->dim.pos.x = actorPosRot->pos.x + (-20.0f * sin_theta) + (20.0f * cos_theta);
+    cylinder1->dim.pos.y = actorPosRot->pos.y;
+
+    cylinder2->dim.pos.z = actorPosRot->pos.z + (-60.0f * cos_theta) - (60.0f * sin_theta);
+    cylinder2->dim.pos.x = actorPosRot->pos.x + (-60.0f * sin_theta) + (60.0f * cos_theta);
+    cylinder2->dim.pos.y = actorPosRot->pos.y;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AEE8.s")
 
 void func_8097B080(DemoGj *this, GlobalContext *globalCtx) {
     CollisionCheckContext *temp_a1;
     GlobalContext* glbCtx = globalCtx;
-    Collider* unk_184 = &this->unk_184.base;
-    Collider* unk_1D0 = &this->unk_1D0.base;
-    Collider* unk_21C = &this->unk_21C.base;
+    Collider* unk_184_0= &this->unk_184[0].base;
+    Collider* unk_184_1 = &this->unk_184[1].base;
+    Collider* unk_184_2 = &this->unk_184[2].base;
 
     s32 pad[3];
 
     temp_a1 = &glbCtx->colChkCtx;
-    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184);
-    CollisionCheck_SetAC(glbCtx, temp_a1, unk_1D0);
-    CollisionCheck_SetAC(glbCtx, temp_a1, unk_21C);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184_0);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184_1);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184_2);
 }
 
 void func_8097B0EC(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
@@ -1301,13 +1286,13 @@ void func_8097B128(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 s32 func_8097B1B4(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_809789A4(this, globalCtx, &this->unk_184.base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->unk_184[0].base) != 0) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->unk_1D0.base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->unk_184[1].base) != 0) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->unk_21C.base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->unk_184[2].base) != 0) {
         return 1;
     }
     return 0;
@@ -1360,74 +1345,67 @@ void func_8097B3A0(DemoGj *this, GlobalContext *globalCtx) {
 
 void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx) {
     func_80978FCC(this, globalCtx, 0x10, 0, NULL);
-    func_8097895C(this, globalCtx, &this->unk_184, &D_8097BE0C);
-    func_8097895C(this, globalCtx, &this->unk_1D0, &D_8097BE0C);
-    func_8097895C(this, globalCtx, &this->unk_21C, &D_8097BE0C);
+    func_8097895C(this, globalCtx, &this->unk_184[0], &D_8097BE0C);
+    func_8097895C(this, globalCtx, &this->unk_184[1], &D_8097BE0C);
+    func_8097895C(this, globalCtx, &this->unk_184[2], &D_8097BE0C);
 }
 
 void func_8097B444(DemoGj *this, GlobalContext *globalCtx) {
 }
 
-void func_8097B450(DemoGj *this, GlobalContext *globalCtx);
-/*
-void *func_8097B450(void *arg0, ? arg1) {
-    s16 sp22;
-    f32 sp1C;
-    f32 temp_f0;
-    s16 temp_a0;
-    void *temp_a0_2;
-    void *temp_a2;
-    void *temp_v0;
-    void *temp_v1;
+void func_8097B450(DemoGj *this, GlobalContext *globalCtx) {
+    ColliderCylinder *cylinder0 = &this->unk_184[0];
+    ColliderCylinder *cylinder1 = &this->unk_184[1];
+    ColliderCylinder *cylinder2 = &this->unk_184[2];
+    PosRot *actorPosRot = &this->dyna.actor.world;
 
-    temp_a0 = arg0->unk32;
-    arg0 = arg0;
-    sp22 = temp_a0;
-    sp1C = Math_CosS(temp_a0);
-    temp_f0 = Math_SinS(temp_a0);
-    temp_v0 = arg0 + 0x24;
-    temp_v1 = arg0 + 0x184;
-    temp_a0_2 = arg0 + 0x1D0;
-    temp_a2 = arg0 + 0x21C;
-    temp_v1->unk4A = (s16) (s32) (temp_v0->unk8 - (35.0f * temp_f0));
-    temp_v1->unk46 = (s16) (s32) (temp_v0->unk0 + (35.0f * sp1C));
-    temp_v1->unk48 = (s16) (s32) temp_v0->unk4;
-    temp_a0_2->unk4A = (s16) (s32) (temp_v0->unk8 - (-10.0f * temp_f0));
-    temp_a0_2->unk46 = (s16) (s32) (temp_v0->unk0 + (-10.0f * sp1C));
-    temp_a0_2->unk48 = (s16) (s32) temp_v0->unk4;
-    temp_a2->unk4A = (s16) (s32) (temp_v0->unk8 - (-55.0f * temp_f0));
-    temp_a2->unk46 = (s16) (s32) (temp_v0->unk0 + (-55.0f * sp1C));
-    temp_a2->unk48 = (s16) (s32) temp_v0->unk4;
-    return temp_v0;
+    s32 pad;
+
+    s16 theta = actorPosRot->rot.y;
+    f32 cos_theta;
+    f32 sin_theta;
+
+    cos_theta = Math_CosS(theta);
+    sin_theta = Math_SinS(theta);
+
+    cylinder0->dim.pos.z = actorPosRot->pos.z - (35.0f * sin_theta);
+    cylinder0->dim.pos.x = actorPosRot->pos.x + (35.0f * cos_theta);
+    cylinder0->dim.pos.y = actorPosRot->pos.y;
+
+    cylinder1->dim.pos.z = actorPosRot->pos.z - (-10.0f * sin_theta);
+    cylinder1->dim.pos.x = actorPosRot->pos.x + (-10.0f * cos_theta);
+    cylinder1->dim.pos.y = actorPosRot->pos.y;
+
+    cylinder2->dim.pos.z = actorPosRot->pos.z - (-55.0f * sin_theta);
+    cylinder2->dim.pos.x = actorPosRot->pos.x + (-55.0f * cos_theta);
+    cylinder2->dim.pos.y = actorPosRot->pos.y;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B450.s")
 
 void func_8097B5A4(DemoGj *this, GlobalContext *globalCtx) {
     CollisionCheckContext *temp_a1;
     GlobalContext* glbCtx = globalCtx;
-    Collider* unk_184 = &this->unk_184.base;
-    Collider* unk_1D0 = &this->unk_1D0.base;
-    Collider* unk_21C = &this->unk_21C.base;
+    Collider* unk_184_0 = &this->unk_184[0].base;
+    Collider* unk_184_1 = &this->unk_184[1].base;
+    Collider* unk_184_2 = &this->unk_184[2].base;
 
     s32 pad[3];
 
     glbCtx = globalCtx;
     temp_a1 = &glbCtx->colChkCtx;
 
-    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184);
-    CollisionCheck_SetAC(glbCtx, temp_a1, unk_1D0);
-    CollisionCheck_SetAC(glbCtx, temp_a1, unk_21C);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184_0);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184_1);
+    CollisionCheck_SetAC(glbCtx, temp_a1, unk_184_2);
 }
 
 s32 func_8097B610(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_809789A4(this, globalCtx, &this->unk_184.base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->unk_184[0].base) != 0) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->unk_1D0.base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->unk_184[1].base) != 0) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->unk_21C.base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->unk_184[2].base) != 0) {
         return 1;
     }
     return 0;
@@ -1503,7 +1481,7 @@ void func_8097B8C4(DemoGj *this, GlobalContext *globalCtx) {
 
 void func_8097B8E8(DemoGj *this, GlobalContext *globalCtx) {
     func_80978FCC(this, globalCtx, 0x11, 0, NULL);
-    func_8097895C(this, globalCtx, &this->unk_184, &D_8097BE38);
+    func_8097895C(this, globalCtx, &this->unk_184[0], &D_8097BE38);
 }
 
 void func_8097B930(DemoGj *this, GlobalContext *globalCtx) {
@@ -1538,7 +1516,7 @@ void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx) {
 
 void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
     Actor* actor = &this->dyna.actor;
-    ColliderCylinder *colCylinder = &this->unk_184;
+    ColliderCylinder *colCylinder = &this->unk_184[0];
     Collider *collider = &colCylinder->base;
     CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
 
