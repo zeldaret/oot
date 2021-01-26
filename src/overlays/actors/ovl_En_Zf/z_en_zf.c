@@ -27,7 +27,7 @@ void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
 
-// extern Vec3f D_80B4A090[];
+// Array of platform positions in Dodongo's Cavern miniboss room
 /* static */ Vec3f D_80B4A090[] = {
     { 3560.0f, 100.0f, -1517.0f }, { 3170.0f, 100.0f, -1767.0f }, { 3165.0f, 100.0f, -2217.0f },
     { 3563.0f, 100.0f, -2437.0f }, { 3946.0f, 100.0f, -2217.0f }, { 3942.0f, 100.0f, -1765.0f },
@@ -308,8 +308,40 @@ s16 func_80B446A8(Vec3f* pos, s16 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44B14.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44CF0.s")
-s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44CF0.s")
+// Player not targeting this or another EnZf
+s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this) {
+    Actor* targetedActor;
+    Player* player = PLAYER;
+
+    if (this->actor.params >= 0) {
+        if (player->stateFlags1 & 0x6000) {
+            return false;
+        } else {
+            return true;
+        }
+    } else {
+        if (!func_80033AB8(globalCtx, &this->actor)) {
+            return true;
+        }
+        if (this->actor.params == -2) {
+            targetedActor = player->unk_664;
+            if (targetedActor == NULL) {
+                return false;
+            } else {
+                if (targetedActor->category != ACTORCAT_ENEMY) {
+                    return true;
+                }
+                if (targetedActor->id != ACTOR_EN_ZF) {
+                    return false;
+                } else if (targetedActor->colorFilterTimer != 0) {
+                    return true;
+                }
+            }
+        }
+    }
+    return false;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44DC4.s")
 
@@ -705,6 +737,7 @@ void EnZf_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B495FC.s")
+// EnZf_OverrideLimbDraw
 s32 func_80B495FC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx,
                   Gfx** gfx) {
     EnZf* this = THIS;
@@ -731,6 +764,7 @@ s32 func_80B495FC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49688.s")
+// EnZf_PostLimbDraw
 void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfx) {
     static Vec3f D_80B4A298 = { 300.0f, 0.0f, 0.0f };
     static Vec3f D_80B4A2A4 = { 300.0f, -1700.0f, 0.0f };
@@ -814,15 +848,16 @@ void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-    static Gfx D_80B4A2F8[] = {
-        gsSPTexture(0x0A00, 0x0A00, 0, G_TX_RENDERTILE, G_ON),
-        gsSPEndDisplayList(),
-    };
+static Gfx D_80B4A2F8[] = {
+    gsSPTexture(0x0A00, 0x0A00, 0, G_TX_RENDERTILE, G_ON),
+    gsSPEndDisplayList(),
+};
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Draw.s")
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
-    EnZf* this = THIS;; // Extra ';' required for matching. Cannot be if (1) {} or the like. Probably a typo.
+    EnZf* this = THIS;
+    ; // Extra ";" required for matching. Cannot be if (1) {} or the like. Probably a typo.
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zf.c", 3533);
 
@@ -847,10 +882,10 @@ void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if ((this->unk_3F6 % 4) == 0) {
                 s32 icePosIndex = this->unk_3F6 >> 2;
 
-                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &this->unk_4FC[icePosIndex], 150, 150, 150, 250, 235, 245,
-                                               255, 1.4f);
+                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &this->unk_4FC[icePosIndex], 150, 150, 150, 250, 235,
+                                               245, 255, 1.4f);
             }
-        if (1) {}
+            if (1) {}
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
