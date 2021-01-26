@@ -30,6 +30,7 @@ void func_80B4743C(EnZf* this, GlobalContext* globalCtx);
 void func_80B47CF8(EnZf* this, GlobalContext* globalCtx);
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48210(EnZf* this);
+void func_80B482B8(EnZf* this, GlobalContext* globalCtx);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48578(EnZf* this, GlobalContext* globalCtx);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
@@ -459,9 +460,9 @@ void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
     angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (angleDiff < 0) {
-        angleDiff = - angleDiff;
+        angleDiff = -angleDiff;
     }
-    
+
     if (angleDiff >= 0x1B58) {
         func_80B483E4(this, globalCtx);
     } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames & 7) != 0) &&
@@ -804,7 +805,18 @@ void func_80B47DA8(EnZf* this) {
     }
 } */
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48210.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48210.s")
+void func_80B48210(EnZf* this) {
+    Animation_Change(&this->skelAnime, &D_06009530, 1.0f, 0.0f, 3.0f, 2, 0.0f);
+    this->unk_3F0 = 0;
+    this->unk_3E4 = 1;
+    this->unk_3DC = 0x16;
+    this->actor.velocity.y = 22.0f;
+    this->actor.speedXZ = 7.5f;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_JUMP);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
+    func_80B44050(this, func_80B482B8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B482B8.s")
 
