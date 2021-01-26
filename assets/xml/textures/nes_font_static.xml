@@ -1,143 +1,143 @@
 <Root>
      <File Name="nes_font_static">
-        <Texture Name="gMsgCharSpace" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharExclamationMark" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharQuotationMark" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharNumberSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDollarSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharPercentSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharAmpersand" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharApostrophe" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLeftParentheses" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharRightParentheses" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharAsterisk" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharPlusSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharComma" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharHyphenMinus" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharPeriod" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharSlash" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar0" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar1" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar2" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar3" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar4" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar5" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar6" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar7" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar8" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgChar9" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharColon" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharSemicolon" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLessThanSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharEqualsSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharGreaterThanSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharQuestionMark" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharAtSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseB" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseC" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseD" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseF" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseG" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseH" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseI" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseJ" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseK" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseL" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseM" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseN" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseO" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseP" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseQ" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseR" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseS" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseT" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseU" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseV" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseW" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseX" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseY" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseZ" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLeftSquareBracket" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharYenSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharRightSquareBracket" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharCaret" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUnderscore" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharGraveAccent" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_a" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_b" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_c" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_d" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_e" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_f" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_g" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_h" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_i" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_j" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_k" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_l" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_m" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_n" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_o" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_p" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_q" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_r" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_s" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_t" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_u" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_v" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_w" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_x" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_y" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_z" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLeftCurlyBracket" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharVerticalBar" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharRightCurlyBracket" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharOverline" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseAccentedA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseCircumflexedI" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseCircumflexedA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseDiaeresisA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseLatinScriptC" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseGraveAccentedE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseAccentedE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseCircumflexedE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseDiaeresisE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseDiaeresisI" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseCircumflexedO" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseDiaeresisO" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseGraveAccentedU" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseCircumflexedU" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharUppercaseDiaeresisU" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_Eszett" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_GraveAccentedA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_AccentedA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_CircumflexedA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_DiaeresisA" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_LatinScriptC" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_GraveAccentedE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_AccentedE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_CircumflexedE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_DiaeresisE" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_DiaeresisI" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_CircumflexedO" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_DiaeresisO" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_GraveAccentedU" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_CircumflexedU" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLowercase_DiaeresisU" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharAButton" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharBButton" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharCButton" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharLTrigger" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharRTrigger" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharZTrigger" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharCUpButton" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharCDownButton" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharCLeftButton" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharCRightButton" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharZTargetSign" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharAnalogStick" Format="i4" Width="16" Height="16"/>
-        <Texture Name="gMsgCharDPad" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharSpace" OutName="msg_char_space" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharExclamationMark" OutName="msg_char_exclamation_mark" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharQuotationMark" OutName="msg_char_quotation_mark" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharNumberSign" OutName="msg_char_number_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDollarSign" OutName="msg_char_dollar_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharPercentSign" OutName="msg_char_percent_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharAmpersand" OutName="msg_char_ampersand" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharApostrophe" OutName="msg_char_apostrophe" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLeftParentheses" OutName="msg_char_left_parentheses" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharRightParentheses" OutName="msg_char_right_parentheses" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharAsterisk" OutName="msg_char_asterisk" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharPlusSign" OutName="msg_char_plus_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharComma" OutName="msg_char_comma" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharHyphenMinus" OutName="msg_char_hyphen_minus" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharPeriod" OutName="msg_char_period" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharSlash" OutName="msg_char_slash" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar0" OutName="msg_char_0" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar1" OutName="msg_char_1" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar2" OutName="msg_char_2" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar3" OutName="msg_char_3" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar4" OutName="msg_char_4" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar5" OutName="msg_char_5" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar6" OutName="msg_char_6" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar7" OutName="msg_char_7" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar8" OutName="msg_char_8" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgChar9" OutName="msg_char_9" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharColon" OutName="msg_char_colon" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharSemicolon" OutName="msg_char_semi_colon" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLessThanSign" OutName="msg_char_less_than_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharEqualsSign" OutName="msg_char_equals_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharGreaterThanSign" OutName="msg_char_greater_than_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharQuestionMark" OutName="msg_char_question_mark" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharAtSign" OutName="msg_char_at_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseA" OutName="msg_char_uppercase_A" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseB" OutName="msg_char_uppercase_B" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseC" OutName="msg_char_uppercase_C" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseD" OutName="msg_char_uppercase_D" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseE" OutName="msg_char_uppercase_E" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseF" OutName="msg_char_uppercase_F" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseG" OutName="msg_char_uppercase_G" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseH" OutName="msg_char_uppercase_H" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseI" OutName="msg_char_uppercase_I" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseJ" OutName="msg_char_uppercase_J" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseK" OutName="msg_char_uppercase_K" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseL" OutName="msg_char_uppercase_L" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseM" OutName="msg_char_uppercase_M" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseN" OutName="msg_char_uppercase_N" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseO" OutName="msg_char_uppercase_O" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseP" OutName="msg_char_uppercase_P" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseQ" OutName="msg_char_uppercase_Q" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseR" OutName="msg_char_uppercase_R" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseS" OutName="msg_char_uppercase_S" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseT" OutName="msg_char_uppercase_T" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseU" OutName="msg_char_uppercase_U" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseV" OutName="msg_char_uppercase_V" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseW" OutName="msg_char_uppercase_W" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseX" OutName="msg_char_uppercase_X" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseY" OutName="msg_char_uppercase_Y" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseZ" OutName="msg_char_uppercase_Z" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLeftSquareBracket" OutName="msg_char_left_square_bracket" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharYenSign" OutName="msg_char_yen_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharRightSquareBracket" OutName="msg_char_right_square_bracket" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharCaret" OutName="msg_char_caret" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUnderscore" OutName="msg_char_underscore" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharGraveAccent" OutName="msg_char_grave_accent" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseA" OutName="msg_char_lowercase_a" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseB" OutName="msg_char_lowercase_b" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseC" OutName="msg_char_lowercase_c" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseD" OutName="msg_char_lowercase_d" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseE" OutName="msg_char_lowercase_e" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseF" OutName="msg_char_lowercase_f" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseG" OutName="msg_char_lowercase_g" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseH" OutName="msg_char_lowercase_h" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseI" OutName="msg_char_lowercase_i" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseJ" OutName="msg_char_lowercase_j" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseK" OutName="msg_char_lowercase_k" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseL" OutName="msg_char_lowercase_l" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseM" OutName="msg_char_lowercase_m" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseN" OutName="msg_char_lowercase_n" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseO" OutName="msg_char_lowercase_o" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseP" OutName="msg_char_lowercase_p" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseQ" OutName="msg_char_lowercase_q" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseR" OutName="msg_char_lowercase_r" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseS" OutName="msg_char_lowercase_s" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseT" OutName="msg_char_lowercase_t" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseU" OutName="msg_char_lowercase_u" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseV" OutName="msg_char_lowercase_v" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseW" OutName="msg_char_lowercase_w" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseX" OutName="msg_char_lowercase_x" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseY" OutName="msg_char_lowercase_y" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercaseZ" OutName="msg_char_lowercase_z" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLeftCurlyBracket" OutName="msg_char_left_curly_bracket" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharVerticalBar" OutName="msg_char_vertical_bar" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharRightCurlyBracket" OutName="msg_char_right_curly_bracket" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharOverline" OutName="msg_char_overline" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseAccentedA" OutName="msg_char_uppercase_accented_A" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseCircumflexedI" OutName="msg_char_uppercase_circumflexed_I" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseCircumflexedA" OutName="msg_char_uppercase_circumflexed_A" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseDiaeresisA" OutName="msg_char_uppercase_diaeresis_A" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseLatinScriptC" OutName="msg_char_uppercase_latinscript_C" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseGraveAccentedE" OutName="msg_char_uppercase_grave_accented_E" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseAccentedE" OutName="msg_char_uppercase_accented_E" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseCircumflexedE" OutName="msg_char_uppercase_circumflexed_E" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseDiaeresisE" OutName="msg_char_uppercase_diaeresis_E" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseDiaeresisI" OutName="msg_char_uppercase_diaeresis_I" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseCircumflexedO" OutName="msg_char_uppercase_circumflexed_O" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseDiaeresisO" OutName="msg_char_uppercase_diaeresis_O" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseGraveAccentedU" OutName="msg_char_uppercase_grave_accented_U" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseCircumflexedU" OutName="msg_char_uppercase_circumflexed_U" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharUppercaseDiaeresisU" OutName="msg_char_uppercase_diaeresis_U" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharEszett" OutName="msg_char_eszett" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_GraveAccentedA" OutName="msg_char_lowercase_grave_accented_a" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_AccentedA" OutName="msg_char_lowercase_accented_a" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_CircumflexedA" OutName="msg_char_lowercase_circumflexed_a" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_DiaeresisA" OutName="msg_char_lowercase_diaeresis_a" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_LatinScriptC" OutName="msg_char_lowercase_latin_script_c" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_GraveAccentedE" OutName="msg_char_lowercase_grave_accented_e" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_AccentedE" OutName="msg_char_lowercase_accented_e" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_CircumflexedE" OutName="msg_char_lowercase_circumflexed_e" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_DiaeresisE" OutName="msg_char_lowercase_diaeresis_e" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_DiaeresisI" OutName="msg_char_lowercase_diaeresis_i" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_CircumflexedO" OutName="msg_char_lowercase_circumflexed_o" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_DiaeresisO" OutName="msg_char_lowercase_diaeresis_o" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_GraveAccentedU" OutName="msg_char_lowercase_grave_accented_u" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_CircumflexedU" OutName="msg_char_lowercase_circumflexed_u" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLowercase_DiaeresisU" OutName="msg_char_lowercase_diaeresis_u" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharAButton" OutName="msg_char_a_button" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharBButton" OutName="msg_char_b_button" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharCButton" OutName="msg_char_c_button" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharLTrigger" OutName="msg_char_l_trigger" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharRTrigger" OutName="msg_char_r_trigger" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharZTrigger" OutName="msg_char_z_trigger" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharCUpButton" OutName="msg_char_c_up_button" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharCDownButton" OutName="msg_char_c_down_button" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharCLeftButton" OutName="msg_char_c_left_button" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharCRightButton" OutName="msg_char_c_right_button" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharZTargetSign" OutName="msg_char_z_target_sign" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharAnalogStick" OutName="msg_char_analog_stick" Format="i4" Width="16" Height="16"/>
+        <Texture Name="gMsgCharDPad" OutName="msg_char_dpad" Format="i4" Width="16" Height="16"/>
      </File>
 </Root>
