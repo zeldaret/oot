@@ -63,7 +63,7 @@ glabel D_808D1A84
 glabel D_808D1A90
  .word 0xFF8000FF, 0x0000FFFF, 0x00FF0000
 glabel D_808D1A9C
- .word 0x04051DB0, 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0
+ .word gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex
 glabel D_808D1AC0
  .byte 0x00, 0x00
 glabel D_808D1AC2

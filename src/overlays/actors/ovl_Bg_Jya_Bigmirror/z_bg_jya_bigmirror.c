@@ -10,13 +10,6 @@
 
 #define THIS ((BgJyaBigmirror*)thisx)
 
-#define BIGMIR_PUZZLE_COBRA1_SOLVED 1 << 0
-#define BIGMIR_PUZZLE_COBRA2_SOLVED 1 << 1
-#define BIGMIR_PUZZLE_BOMBIWA_DESTROYED 1 << 2
-#define BIGMIR_PUZZLE_IN_STATUE_ROOM 1 << 3
-#define BIGMIR_PUZZLE_IN_1ST_TOP_ROOM 1 << 4
-#define BIGMIR_PUZZLE_IN_2ND_TOP_ROOM 1 << 5
-
 void BgJyaBigmirror_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaBigmirror_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -81,7 +74,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
             curCobraInfo = &this->cobraInfo[i];
 
             if (curCobraInfo->cobra != NULL) {
-                curCobraInfo->rotY = curCobraInfo->cobra->actor.shape.rot.y;
+                curCobraInfo->rotY = curCobraInfo->cobra->dyna.actor.shape.rot.y;
 
                 if (curCobraInfo->rotY == curSpawnData->solvedRotY) {
                     this->puzzleFlags |= cobraPuzzleFlags[i];
@@ -89,7 +82,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
                     this->puzzleFlags &= ~cobraPuzzleFlags[i];
                 }
 
-                if (curCobraInfo->cobra->actor.update == NULL) {
+                if (curCobraInfo->cobra->dyna.actor.update == NULL) {
                     // Cobra deleted
                     osSyncPrintf("Error : コブラ削除された (%s %d)\n", "../z_bg_jya_bigmirror.c", 203);
                 }
@@ -99,7 +92,7 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
                     curSpawnData->pos.y, curSpawnData->pos.z, 0, curCobraInfo->rotY, 0, curSpawnData->params);
                 this->actor.child = NULL;
 
-                if (&curCobraInfo->cobra->actor == NULL) {
+                if (&curCobraInfo->cobra->dyna.actor == NULL) {
                     // Cobra generation failed
                     osSyncPrintf("Error : コブラ発生失敗 (%s %d)\n", "../z_bg_jya_bigmirror.c", 221);
                 }
@@ -110,11 +103,11 @@ void BgJyaBigmirror_HandleCobra(Actor* thisx, GlobalContext* globalCtx) {
         for (i = 0; i < 2; i++) {
             curCobraInfo = &this->cobraInfo[i];
             if (curCobraInfo->cobra != NULL) {
-                if (curCobraInfo->cobra->actor.child != NULL) {
-                    Actor_Kill(curCobraInfo->cobra->actor.child);
-                    curCobraInfo->cobra->actor.child = NULL;
+                if (curCobraInfo->cobra->dyna.actor.child != NULL) {
+                    Actor_Kill(curCobraInfo->cobra->dyna.actor.child);
+                    curCobraInfo->cobra->dyna.actor.child = NULL;
                 }
-                Actor_Kill(&curCobraInfo->cobra->actor);
+                Actor_Kill(&curCobraInfo->cobra->dyna.actor);
                 curCobraInfo->cobra = NULL;
             }
         }

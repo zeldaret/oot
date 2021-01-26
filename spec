@@ -140,6 +140,7 @@ beginseg
     name "icon_item_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_static/icon_item_static.o"
+    number 8
 endseg
 
 beginseg
@@ -169,7 +170,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -569,11 +570,7 @@ endseg
 beginseg
     name "ovl_player_actor"
     include "build/src/overlays/actors/ovl_player_actor/z_player.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_player_actor/ovl_player_actor_reloc.o"
-#else
-    include "build/data/overlays/actors/z_player.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -788,8 +785,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Zou"
     include "build/src/overlays/actors/ovl_Bg_Haka_Zou/z_bg_haka_zou.o"
-    include "build/data/overlays/actors/z_bg_haka_zou.data.o"
-    include "build/data/overlays/actors/z_bg_haka_zou.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Zou/ovl_Bg_Haka_Zou_reloc.o"
 endseg
 
 beginseg
@@ -956,8 +952,11 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Cobra"
     include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/z_bg_jya_cobra.o"
-    include "build/data/overlays/actors/z_bg_jya_cobra.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra_reloc.o"
+#else
     include "build/data/overlays/actors/z_bg_jya_cobra.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1196,8 +1195,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot06_Objects"
     include "build/src/overlays/actors/ovl_Bg_Spot06_Objects/z_bg_spot06_objects.o"
-    include "build/data/overlays/actors/z_bg_spot06_objects.data.o"
-    include "build/data/overlays/actors/z_bg_spot06_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot06_Objects/ovl_Bg_Spot06_Objects_reloc.o"
 endseg
 
 beginseg
@@ -2500,8 +2498,7 @@ endseg
 beginseg
     name "ovl_En_Hy"
     include "build/src/overlays/actors/ovl_En_Hy/z_en_hy.o"
-    include "build/data/overlays/actors/z_en_hy.data.o"
-    include "build/data/overlays/actors/z_en_hy.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Hy/ovl_En_Hy_reloc.o"
 endseg
 
 beginseg
@@ -2631,8 +2628,11 @@ endseg
 beginseg
     name "ovl_En_M_Thunder"
     include "build/src/overlays/actors/ovl_En_M_Thunder/z_en_m_thunder.o"
-    include "build/data/overlays/actors/z_en_m_thunder.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_M_Thunder/ovl_En_M_Thunder_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_m_thunder.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -6181,7 +6181,8 @@ endseg
 beginseg
     name "parameter_static"
     romalign 0x1000
-    include "build/baserom/parameter_static.o"
+    include "build/assets/textures/parameter_static/parameter_static.o"
+    number 2
 endseg
 
 beginseg

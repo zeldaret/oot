@@ -10,7 +10,7 @@
 .balign 16
 
 glabel D_80A480D0
- .word 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0
+ .word gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex
 glabel D_80A480F0
  .word 0x00000000, 0x00000000, 0x00000000
 glabel D_80A480FC
