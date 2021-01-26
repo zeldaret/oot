@@ -5,7 +5,6 @@
  */
 
 #include "z_magic_fire.h"
-#include "global.h"
 
 #define FLAGS 0x02000010
 
@@ -16,7 +15,22 @@ void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B88E3C(Actor* thisx, GlobalContext* globalCtx);
+void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx);
+
+typedef enum {
+    /* 0x00 */ ACTION_INITIALIZE,
+    /* 0x01 */ ACTION_GROW_SLOWLY,
+    /* 0x02 */ ACTION_STOP_GROWING,
+    /* 0x03 */ ACTION_GROW_QUICKLY
+} MagicFireAction;
+
+typedef enum {
+    /* 0x00 */ SCREEN_TINT_NONE,
+    /* 0x01 */ SCREEN_TINT_FADE_IN,
+    /* 0x02 */ SCREEN_TINT_MAINTAIN,
+    /* 0x03 */ SCREEN_TINT_FADE_OUT,
+    /* 0x04 */ SCREEN_TINT_FINISHED
+} MagicFireScreenTint;
 
 const ActorInit Magic_Fire_InitVars = {
     ACTOR_MAGIC_FIRE,
@@ -30,7 +44,7 @@ const ActorInit Magic_Fire_InitVars = {
     (ActorFunc)MagicFire_Draw,
 };
 
-static u64 D_80B89900[] = {
+static u64 sTexture[] = {
     0x144849353C7496B7, 0xB18E6A462F170702, 0x07193C4D618CB0AE, 0x896E685931273E21, 0x204A36355385C9DE,
     0xB3856F5A492D0F03, 0x07152C46678BAA9D, 0x6D647F856028140B, 0x175B6A4E4A799BB6, 0xAF946A43250F0403,
     0x0C20425B79A9CAA8, 0x6E5B5E522E294D2D, 0x1A4841425B8BD3D8, 0xAE7F61473F290E05, 0x0E213C5A81A0C6AE,
@@ -136,7 +150,7 @@ static u64 D_80B89900[] = {
     0x040D2039597D9B9D, 0x72646B746C4D2508,
 };
 
-static Vtx D_80B8A900[] = {
+static Vtx sFireSphereVertices[] = {
     VTX(-707, 1732, 707, 1792, 137, 0xFF, 0xFF, 0xFF, 0x4C),
     VTX(0, 1732, 1000, 2048, 137, 0xFF, 0xFF, 0xFF, 0x4C),
     VTX(0, 2000, 0, 1920, 0, 0xFF, 0xFF, 0xFF, 0x00),
@@ -201,17 +215,21 @@ static Vtx D_80B8A900[] = {
     VTX(1600, -1000, -663, 640, 1536, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(707, -1732, -707, 768, 1911, 0xFF, 0xFF, 0xFF, 0x4C),
     VTX(0, -2000, 0, 896, 2048, 0xFF, 0xFF, 0xFF, 0x00),
-};
-static Vtx D_80B8AD00[] = {
-    VTX(0, 1732, 1000, 0, 137, 0xFF, 0xFF, 0xFF, 0x4C),        VTX(707, 1732, 707, 256, 137, 0xFF, 0xFF, 0xFF, 0x4C),
-    VTX(0, 2000, 0, 128, 0, 0xFF, 0xFF, 0xFF, 0x00),           VTX(663, 1000, 1600, 128, 512, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1600, 1000, 663, 384, 512, 0xFF, 0xFF, 0xFF, 0xFF),    VTX(1414, 0, 1414, 256, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(2000, 0, 0, 512, 1024, 0xFF, 0xFF, 0xFF, 0xFF),        VTX(1600, -1000, 663, 384, 1536, 0xFF, 0xFF, 0xFF, 0xFF),
-    VTX(1600, -1000, -663, 640, 1536, 0xFF, 0xFF, 0xFF, 0xFF), VTX(1000, -1732, 0, 512, 1911, 0xFF, 0xFF, 0xFF, 0x4C),
-    VTX(707, -1732, -707, 768, 1911, 0xFF, 0xFF, 0xFF, 0x4C),  VTX(0, -2000, 0, 640, 2048, 0xFF, 0xFF, 0xFF, 0x00),
+    VTX(0, 1732, 1000, 0, 137, 0xFF, 0xFF, 0xFF, 0x4C),
+    VTX(707, 1732, 707, 256, 137, 0xFF, 0xFF, 0xFF, 0x4C),
+    VTX(0, 2000, 0, 128, 0, 0xFF, 0xFF, 0xFF, 0x00),
+    VTX(663, 1000, 1600, 128, 512, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(1600, 1000, 663, 384, 512, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(1414, 0, 1414, 256, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(2000, 0, 0, 512, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(1600, -1000, 663, 384, 1536, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(1600, -1000, -663, 640, 1536, 0xFF, 0xFF, 0xFF, 0xFF),
+    VTX(1000, -1732, 0, 512, 1911, 0xFF, 0xFF, 0xFF, 0x4C),
+    VTX(707, -1732, -707, 768, 1911, 0xFF, 0xFF, 0xFF, 0x4C),
+    VTX(0, -2000, 0, 640, 2048, 0xFF, 0xFF, 0xFF, 0x00),
 };
 
-static Gfx D_80B8ADC0[] = {
+static Gfx sTextureDList[] = {
     gsDPPipeSync(),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL1, 1, PRIM_LOD_FRAC, TEXEL0, PRIMITIVE,
                        ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
@@ -222,8 +240,8 @@ static Gfx D_80B8ADC0[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx D_80B8ADE8[] = {
-    gsSPVertex(D_80B8A900, 32, 0),
+static Gfx sVertexDList[] = {
+    gsSPVertex(sFireSphereVertices, 32, 0),
     gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
     gsSP2Triangles(3, 4, 1, 0, 5, 4, 3, 0),
     gsSP2Triangles(6, 7, 8, 0, 9, 7, 6, 0),
@@ -240,7 +258,7 @@ static Gfx D_80B8ADE8[] = {
     gsSP2Triangles(27, 18, 17, 0, 28, 18, 27, 0),
     gsSP2Triangles(28, 20, 18, 0, 20, 28, 29, 0),
     gsSP1Triangle(30, 23, 31, 0),
-    gsSPVertex(&D_80B8A900[0x20], 32, 0),
+    gsSPVertex(&sFireSphereVertices[0x20], 32, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0),
     gsSP2Triangles(4, 3, 0, 0, 4, 5, 3, 0),
     gsSP2Triangles(6, 5, 4, 0, 6, 7, 5, 0),
@@ -261,7 +279,7 @@ static Gfx D_80B8ADE8[] = {
     gsSP2Triangles(29, 21, 28, 0, 29, 22, 21, 0),
     gsSP2Triangles(30, 22, 29, 0, 30, 23, 22, 0),
     gsSP1Triangle(23, 30, 31, 0),
-    gsSPVertex(D_80B8AD00, 12, 0),
+    gsSPVertex(&sFireSphereVertices[0x40], 12, 0),
     gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0),
     gsSP2Triangles(3, 4, 1, 0, 5, 4, 3, 0),
     gsSP2Triangles(5, 6, 4, 0, 7, 6, 5, 0),
@@ -270,7 +288,7 @@ static Gfx D_80B8ADE8[] = {
     gsSPEndDisplayList(),
 };
 
-static ColliderCylinderInit D_80B8AF50 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_PLAYER,
@@ -290,11 +308,11 @@ static ColliderCylinderInit D_80B8AF50 = {
     { 9, 9, 0, { 0, 0, 0 } },
 };
 
-static InitChainEntry D_80B8AF7C[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 0, ICHAIN_STOP),
 };
 
-static u8 D_80B8AF80[] = {
+static u8 sVertexIndices[] = {
     0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x10, 0x11, 0x12, 0x13, 0x19, 0x1A, 0x1B, 0x20,
     0x23, 0x24, 0x25, 0x26, 0x27, 0x2D, 0x2E, 0x2F, 0x34, 0x35, 0x36, 0x3B, 0x3C, 0x3D, 0x43, 0x44,
     0x45, 0x46, 0x47, 0x48, 0x00, 0x01, 0x0B, 0x0C, 0x0E, 0x14, 0x15, 0x17, 0x1C, 0x1E, 0x21, 0x22,
@@ -304,17 +322,17 @@ static u8 D_80B8AF80[] = {
 void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     MagicFire* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80B8AF7C);
-    this->unk1A4 = 0;
-    this->unk1A6 = 0;
-    this->unk1A8 = 0;
-    this->unk198 = -3.0f;
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    this->action = 0;
+    this->screenTintBehaviour = 0;
+    this->actionTimer = 0;
+    this->alphaMultiplier = -3.0f;
     Actor_SetScale(&this->actor, 0.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B8AF50);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     Collider_UpdateCylinder(thisx, &this->collider);
-    this->actor.update = &func_80B88E3C;
-    this->unk1A8 = 20;
+    this->actor.update = &MagicFire_UpdateBeforeCast;
+    this->actionTimer = 20;
     this->actor.room = -1;
 }
 
@@ -322,7 +340,7 @@ void MagicFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800876C8(globalCtx);
 }
 
-void func_80B88E3C(Actor* thisx, GlobalContext* globalCtx) {
+void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {
     MagicFire* this = THIS;
     Player* player = PLAYER;
 
@@ -330,8 +348,8 @@ void func_80B88E3C(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (this->unk1A8 > 0) {
-        this->unk1A8--;
+    if (this->actionTimer > 0) {
+        this->actionTimer--;
     } else {
         this->actor.update = &MagicFire_Update;
         func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_FIRE);
@@ -350,10 +368,10 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (this->unk1A4 == 1) {
-        this->collider.info.toucher.damage = this->unk1A8 + 25;
-    } else if (this->unk1A4 == 2) {
-        this->collider.info.toucher.damage = this->unk1A8;
+    if (this->action == ACTION_GROW_SLOWLY) {
+        this->collider.info.toucher.damage = this->actionTimer + 25;
+    } else if (this->action == ACTION_STOP_GROWING) {
+        this->collider.info.toucher.damage = this->actionTimer;
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
     this->collider.dim.radius = (this->actor.scale.x * 325.0f);
@@ -361,77 +379,76 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->collider.dim.yShift = (this->actor.scale.y * -225.0f);
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-    switch (this->unk1A4) {
-        case 0:
-            this->unk1A8 = 30;
+    switch (this->action) {
+        case ACTION_INITIALIZE:
+            this->actionTimer = 30;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
             this->actor.shape.rot.x = this->actor.shape.rot.y = this->actor.shape.rot.z = 0;
-            this->unk198 = 0.0f;
-            this->unk1A0 = 0.08f;
-            this->unk1A4++;
+            this->alphaMultiplier = 0.0f;
+            this->scalingSpeed = 0.08f;
+            this->action++;
             break;
-        case 1:
-            Math_StepToF(&this->unk198, 1.0f, 1.0f / 30.0f);
-            if (this->unk1A8 > 0) {
-                Math_SmoothStepToF(&this->actor.scale.x, 0.4f, this->unk1A0, 0.1f, 0.001f);
+        case ACTION_GROW_SLOWLY: // Fire sphere slowly grows out of player for 30 frames
+            Math_StepToF(&this->alphaMultiplier, 1.0f, 1.0f / 30.0f);
+            if (this->actionTimer > 0) {
+                Math_SmoothStepToF(&this->actor.scale.x, 0.4f, this->scalingSpeed, 0.1f, 0.001f);
                 this->actor.scale.y = this->actor.scale.z = this->actor.scale.x;
             } else {
-                this->unk1A8 = 25;
-                this->unk1A4++;
+                this->actionTimer = 25;
+                this->action++;
             }
             break;
-        case 2:
-            if (this->unk1A8 <= 0) {
-                this->unk1A8 = 15;
-                this->unk1A4++;
-                this->unk1A0 = 0.05f;
+        case ACTION_STOP_GROWING: // Sphere stops growing and maintains size for 25 frames
+            if (this->actionTimer <= 0) {
+                this->actionTimer = 15;
+                this->action++;
+                this->scalingSpeed = 0.05f;
             }
             break;
-        case 3:
-            this->unk198 -= 0.06722689f; // 8/119 ?
-            this->actor.scale.x += this->unk1A0;
-            this->actor.scale.y += this->unk1A0;
-            this->actor.scale.z += this->unk1A0;
-            if (this->unk198 <= 0.0f) {
-                this->unk1A4 = 0;
+        case ACTION_GROW_QUICKLY: // Sphere beings to grow again and quickly expands out until killed
+            this->alphaMultiplier -= 0.06722689f;
+            this->actor.scale.x += this->scalingSpeed;
+            this->actor.scale.y += this->scalingSpeed;
+            this->actor.scale.z += this->scalingSpeed;
+            if (this->alphaMultiplier <= 0.0f) {
+                this->action = 0;
                 Actor_Kill(&this->actor);
             }
             break;
     }
-    switch (this->unk1A6) {
-        case 0:
-            if (this->unk1AA <= 0) {
-                this->unk1AA = 20;
-                this->unk1A6 = 1;
+    switch (this->screenTintBehaviour) {
+        case SCREEN_TINT_NONE:
+            if (this->screenTintBehaviourTimer <= 0) {
+                this->screenTintBehaviourTimer = 20;
+                this->screenTintBehaviour = SCREEN_TINT_FADE_IN;
             }
             break;
-        case 1:
-            this->unk19C = 1.0f - (this->unk1AA / 20.0f);
-            if (this->unk1AA <= 0) {
-                this->unk1AA = 45;
-                this->unk1A6 = 2;
+        case SCREEN_TINT_FADE_IN:
+            this->screenTintIntensity = 1.0f - (this->screenTintBehaviourTimer / 20.0f);
+            if (this->screenTintBehaviourTimer <= 0) {
+                this->screenTintBehaviourTimer = 45;
+                this->screenTintBehaviour = SCREEN_TINT_MAINTAIN;
             }
             break;
-        case 2:
-            if (this->unk1AA <= 0) {
-                this->unk1AA = 5;
-                this->unk1A6 = 3;
+        case SCREEN_TINT_MAINTAIN:
+            if (this->screenTintBehaviourTimer <= 0) {
+                this->screenTintBehaviourTimer = 5;
+                this->screenTintBehaviour = SCREEN_TINT_FADE_OUT;
             }
             break;
-        case 3:
-            this->unk19C = (this->unk1AA / 5.0f);
-            if (this->unk1AA <= 0) {
-                this->unk1A6 = 4;
+        case SCREEN_TINT_FADE_OUT:
+            this->screenTintIntensity = (this->screenTintBehaviourTimer / 5.0f);
+            if (this->screenTintBehaviourTimer <= 0) {
+                this->screenTintBehaviour = SCREEN_TINT_FINISHED;
             }
             break;
     }
-
-    if (this->unk1A8 > 0) {
-        this->unk1A8--;
+    if (this->actionTimer > 0) {
+        this->actionTimer--;
     }
-    if (this->unk1AA > 0) {
-        this->unk1AA--;
+    if (this->screenTintBehaviourTimer > 0) {
+        this->screenTintBehaviourTimer--;
     }
 }
 
@@ -443,44 +460,45 @@ void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     u8 alpha;
 
-    if (this->unk1A4 > 0) {
+    if (this->action > 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_magic_fire.c", 682);
         POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (u8)(s32)(60.0f * this->unk19C), (u8)(s32)(20.0f * this->unk19C),
-                        (u8)(s32)(0.0f * this->unk19C), (u8)(s32)(120.0f * this->unk19C));
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (u8)(s32)(60 * this->screenTintIntensity),
+                        (u8)(s32)(20 * this->screenTintIntensity), (u8)(s32)(0 * this->screenTintIntensity),
+                        (u8)(s32)(120 * this->screenTintIntensity));
         gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
         gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
         gDPFillRectangle(POLY_XLU_DISP++, 0, 0, 319, 239);
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 0xFF, 0xC8, 0x00, (u8)(this->unk198 * 0xFF)); // or maybe here?
-        gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, (u8)(this->unk198 * 0xFF));           // problems here?
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, 255, 200, 0, (u8)(this->alphaMultiplier * 255));
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, (u8)(this->alphaMultiplier * 255));
         Matrix_Scale(0.15f, 0.15f, 0.15f, 1);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_magic_fire.c", 715),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_XLU_DISP++);
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
         gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
-        gDPLoadTextureBlock(POLY_XLU_DISP++, D_80B89900, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+        gDPLoadTextureBlock(POLY_XLU_DISP++, sTexture, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
                             G_TX_NOMIRROR | G_TX_WRAP, 6, 6, 15, G_TX_NOLOD);
         gDPSetTile(POLY_XLU_DISP++, G_IM_FMT_I, G_IM_SIZ_8b, 8, 0, 1, 0, G_TX_NOMIRROR | G_TX_WRAP, 6, 14,
                    G_TX_NOMIRROR | G_TX_WRAP, 6, 14);
         gDPSetTileSize(POLY_XLU_DISP++, 1, 0, 0, 252, 252);
-        gSPDisplayList(POLY_XLU_DISP++, D_80B8ADC0);
+        gSPDisplayList(POLY_XLU_DISP++, sTextureDList);
         gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (gameplayFrames * 2) % 512,
-                                        511 - ((gameplayFrames * 5) % 512), 0x40, 0x40, 1, (gameplayFrames * 2) % 256,
-                                        255 - ((gameplayFrames * 20) % 256), 0x20, 0x20));
-        gSPDisplayList(POLY_XLU_DISP++, D_80B8ADE8);
+                                        511 - ((gameplayFrames * 5) % 512), 64, 64, 1, (gameplayFrames * 2) % 256,
+                                        255 - ((gameplayFrames * 20) % 256), 32, 32));
+        gSPDisplayList(POLY_XLU_DISP++, sVertexDList);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_fire.c", 750);
 
-        alpha = (s32)(this->unk198 * 0xFF);
+        alpha = (s32)(this->alphaMultiplier * 255);
         for (i = 0; i < 0x24; i++) {
-            D_80B8A900[D_80B8AF80[i]].n.a = alpha;
+            sFireSphereVertices[sVertexIndices[i]].n.a = alpha;
         }
 
-        alpha = (s32)(this->unk198 * 0x4C);
+        alpha = (s32)(this->alphaMultiplier * 76);
         for (i = 0x24; i < 0x3C; i++) {
-            D_80B8A900[D_80B8AF80[i]].n.a = alpha;
+            sFireSphereVertices[sVertexIndices[i]].n.a = alpha;
         }
     }
 }
