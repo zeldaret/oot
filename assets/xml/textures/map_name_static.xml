@@ -1,106 +1,106 @@
 <Root>
      <File Name="map_name_static">
-        <Texture Name="gHauntedWastelandTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gGerudosFortressTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gGerudoValleyTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHyliaLakesideTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gLonLonRanchTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gMarketTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHyruleFieldTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gDeathMountainTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gKakarikoVillageTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gLostWoodsTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gKokiriForestTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gZorasDomainTitleCardENG" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHauntedWastelandTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gGerudosFortressTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gGerudoValleyTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHyliaLakesideTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gLonLonRanchTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gMarketTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHyruleFieldTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gDeathMountainTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gKakarikoVillageTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gLostWoodsTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gKokiriForestTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gZorasDomainTitleCardGER" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHauntedWastelandTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gGerudosFortressTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gGerudoValleyTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHyliaLakesideTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gLonLonRanchTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gMarketTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHyruleFieldTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gDeathMountainTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gKakarikoVillageTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gLostWoodsTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gKokiriForestTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gZorasDomainTitleCardFRA" Format="ia4" Width="128" Height="16"/>
-        <Texture Name="gHyruleFieldMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gKakarikoVillageMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGraveyardMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasRiverMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gKokiriForestMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSacredForestMeadowMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLakeHyliaMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasDomainMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasFountainMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGerudoValleyMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLostWoodsMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDesertColossusMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGerudosFortressMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHauntedWastelandMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMarketMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHyruleCastleMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDeathMountainTrailMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDeathMountainCraterMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGoronCityMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLonLonRanchMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestionMarkMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGanonsCastleMapTitleENG" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHyruleFieldMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gKakarikoVillageMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGraveyardMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasRiverMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gKokiriForestMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSacredForestMeadowMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLakeHyliaMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasDomainMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasFountainMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGerudoValleyMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLostWoodsMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDesertColossusMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGerudosFortressMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHauntedWastelandMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMarketMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHyruleCastleMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDeathMountainTrailMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDeathMountainCraterMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGoronCityMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLonLonRanchMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestionMarkMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGanonsCastleMapTitleGER" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHyruleFieldMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gKakarikoVillageMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGraveyardMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasRiverMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gKokiriForestMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gSacredForestMeadowMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLakeHyliaMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasDomainMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gZorasFountainMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGerudoValleyMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLostWoodsMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDesertColossusMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGerudosFortressMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHauntedWastelandMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gMarketMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gHyruleCastleMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDeathMountainTrailMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gDeathMountainCraterMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGoronCityMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gLonLonRanchMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gQuestionMarkMapTitleFRA" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gGanonsCastleMapTitleFRA" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHauntedWastelandTitleCardTexENG" OutName="haunted_wasteland_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gGerudosFortressTitleCardTexENG" OutName="gerudos_fortress_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gGerudoValleyTitleCardTexENG" OutName="gerudo_valley_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHyliaLakesideTitleCardTexENG" OutName="hylia_lakeside_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gLonLonRanchTitleCardTexENG" OutName="lon_lon_ranch_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gMarketTitleCardTexENG" OutName="market_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHyruleFieldTitleCardTexENG" OutName="hyrulefield_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gDeathMountainTitleCardTexENG" OutName="death_mountain_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gKakarikoVillageTitleCardTexENG" OutName="kakariko_village_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gLostWoodsTitleCardTexENG" OutName="lost_woods_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gKokiriForestTitleCardTexENG" OutName="kokiri_forest_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gZorasDomainTitleCardTexENG" OutName="zoras_domain_title_card_eng" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHauntedWastelandTitleCardTexGER" OutName="haunted_wasteland_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gGerudosFortressTitleCardTexGER" OutName="gerudos_fortress_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gGerudoValleyTitleCardTexGER" OutName="gerudo_valley_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHyliaLakesideTitleCardTexGER" OutName="hylia_lakeside_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gLonLonRanchTitleCardTexGER" OutName="lon_lon_ranch_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gMarketTitleCardTexGER" OutName="market_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHyruleFieldTitleCardTexGER" OutName="hyrule_field_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gDeathMountainTitleCardTexGER" OutName="death_mountain_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gKakarikoVillageTitleCardTexGER" OutName="kakariko_village_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gLostWoodsTitleCardTexGER" OutName="lost_woods_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gKokiriForestTitleCardTexGER" OutName="kokiri_forest_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gZorasDomainTitleCardTexGER" OutName="zoras_domain_title_card_ger" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHauntedWastelandTitleCardTexFRA" OutName="haunted_wasteland_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gGerudosFortressTitleCardTexFRA" OutName="gerudos_fortress_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gGerudoValleyTitleCardTexFRA" OutName="gerudo_valley_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHyliaLakesideTitleCardTexFRA" OutName="hylia_lakeside_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gLonLonRanchTitleCardTexFRA" OutName="lon_lon_ranch_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gMarketTitleCardTexFRA" OutName="market_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHyruleFieldTitleCardTexFRA" OutName="hyrule_field_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gDeathMountainTitleCardTexFRA" OutName="death_mountain_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gKakarikoVillageTitleCardTexFRA" OutName="kakariko_village_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gLostWoodsTitleCardTexFRA" OutName="lost_woods_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gKokiriForestTitleCardTexFRA" OutName="kokiri_forest_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gZorasDomainTitleCardTexFRA" OutName="zoras_domain_title_card_fra" Format="ia4" Width="128" Height="16"/>
+        <Texture Name="gHyruleFieldMapTitleTexENG" OutName="hyrule_field_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gKakarikoVillageMapTitleTexENG" OutName="kakariko_village_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGraveyardMapTitleTexENG" OutName="graveyard_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasRiverMapTitleTexENG" OutName="zoras_river_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gKokiriForestMapTitleTexENG" OutName="kokiri_forest_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gSacredForestMeadowMapTitleTexENG" OutName="sacred_forest_meadow_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLakeHyliaMapTitleTexENG" OutName="lake_hylia_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasDomainMapTitleTexENG" OutName="zoras_domain_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasFountainMapTitleTexENG" OutName="zoras_fountain_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGerudoValleyMapTitleTexENG" OutName="gerudo_valley_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLostWoodsMapTitleTexENG" OutName="lost_woods_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDesertColossusMapTitleTexENG" OutName="desert_colossus_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGerudosFortressMapTitleTexENG" OutName="gerudos_fortress_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHauntedWastelandMapTitleTexENG" OutName="haunted_wasteland_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gMarketMapTitleTexENG" OutName="market_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHyruleCastleMapTitleTexENG" OutName="hyrule_castle_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDeathMountainTrailMapTitleTexENG" OutName="death_mountain_trail_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDeathMountainCraterMapTitleTexENG" OutName="death_mountain_crater_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGoronCityMapTitleTexENG" OutName="goron_city_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLonLonRanchMapTitleTexENG" OutName="lon_lon_ranch_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gQuestionMarkMapTitleTexENG" OutName="question_mark_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGanonsCastleMapTitleTexENG" OutName="ganons_castle_map_title_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHyruleFieldMapTitleTexGER" OutName="hyrule_field_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gKakarikoVillageMapTitleTexGER" OutName="kakariko_village_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGraveyardMapTitleTexGER" OutName="graveyard_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasRiverMapTitleTexGER" OutName="zoras_river_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gKokiriForestMapTitleTexGER" OutName="kokiri_forest_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gSacredForestMeadowMapTitleTexGER" OutName="sacred_forest_meadow_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLakeHyliaMapTitleTexGER" OutName="lake_hylia_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasDomainMapTitleTexGER" OutName="zoras_domain_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasFountainMapTitleTexGER" OutName="zoras_fountain_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGerudoValleyMapTitleTexGER" OutName="gerudo_valley_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLostWoodsMapTitleTexGER" OutName="lost_woods_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDesertColossusMapTitleTexGER" OutName="desert_colossus_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGerudosFortressMapTitleTexGER" OutName="gerudos_fortress_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHauntedWastelandMapTitleTexGER" OutName="haunted_wasteland_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gMarketMapTitleTexGER" OutName="market_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHyruleCastleMapTitleTexGER" OutName="hyrule_castle_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDeathMountainTrailMapTitleTexGER" OutName="death_mountain_trail_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDeathMountainCraterMapTitleTexGER" OutName="death_mountain_crater_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGoronCityMapTitleTexGER" OutName="goron_city_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLonLonRanchMapTitleTexGER" OutName="lon_lon_ranch_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gQuestionMarkMapTitleTexGER" OutName="question_mark_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGanonsCastleMapTitleTexGER" OutName="ganons_castle_map_title_ger" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHyruleFieldMapTitleTexFRA" OutName="hyrule_field_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gKakarikoVillageMapTitleTexFRA" OutName="kakariko_village_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGraveyardMapTitleTexFRA" OutName="graveyard_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasRiverMapTitleTexFRA" OutName="zoras_river_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gKokiriForestMapTitleTexFRA" OutName="kokiri_forest_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gSacredForestMeadowMapTitleTexFRA" OutName="sacred_forest_meadow_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLakeHyliaMapTitleTexFRA" OutName="lake_hylia_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasDomainMapTitleTexFRA" OutName="zoras_domain_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gZorasFountainMapTitleTexFRA" OutName="zoras_fountain_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGerudoValleyMapTitleTexFRA" OutName="gerudo_valley_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLostWoodsMapTitleTexFRA" OutName="lost_woods_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDesertColossusMapTitleTexFRA" OutName="desert_colossus_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGerudosFortressMapTitleTexFRA" OutName="gerudos_fortress_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHauntedWastelandMapTitleTexFRA" OutName="haunted_wasteland_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gMarketMapTitleTexFRA" OutName="market_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gHyruleCastleMapTitleTexFRA" OutName="hyrule_castle_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDeathMountainTrailMapTitleTexFRA" OutName="death_mountain_trail_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gDeathMountainCraterMapTitleTexFRA" OutName="death_mountain_crater_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGoronCityMapTitleTexFRA" OutName="goron_city_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gLonLonRanchMapTitleTexFRA" OutName="lon_lon_ranch_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gQuestionMarkMapTitleTexFRA" OutName="question_mark_map_title_fra" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gGanonsCastleMapTitleTexFRA" OutName="ganons_castle_map_title_fra" Format="ia8" Width="80" Height="32"/>
      </File>
 </Root>
