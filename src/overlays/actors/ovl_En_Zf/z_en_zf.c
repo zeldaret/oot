@@ -23,9 +23,12 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
 void func_80B47120(EnZf* this, GlobalContext* globalCtx);
+void func_80B47360(EnZf* this, GlobalContext* globalCtx);
+void func_80B4743C(EnZf *this, GlobalContext *globalCtx);
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
+
 
 // Array of platform positions in Dodongo's Cavern miniboss room
 /* static */ Vec3f D_80B4A090[] = {
@@ -140,14 +143,14 @@ s32 D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000,
 
 extern SkeletonHeader D_06006690;
 extern UNK_TYPE D_06008138;
-extern UNK_TYPE D_06008C6C;
+extern AnimationHeader D_06008C6C;
 extern AnimationHeader D_06009530;
 extern AnimationHeader D_0600A3D4;
 extern AnimationHeader D_0600B10C;
 extern Gfx D_0600E198[];
 extern Gfx D_06010060[];
 extern SkeletonHeader D_060104B8;
-extern UNK_TYPE D_060119F4;
+extern AnimationHeader D_060119F4;
 extern UNK_TYPE D_0601366C;
 extern AnimationHeader D_06014E60;
 extern AnimationHeader D_060157F8;
@@ -305,6 +308,7 @@ s16 func_80B446A8(Vec3f* pos, s16 arg1) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44870.s")
+s16 func_80B44870(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44B14.s")
 
@@ -363,7 +367,52 @@ void func_80B450AC(EnZf* this) {
     func_80B44050(this, func_80B45174);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45174.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45174.s")
+void func_80B45174(EnZf* this, GlobalContext* globalCtx) {
+    if (this->unk_3F0 == 1) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+        this->actor.flags |= 1;
+
+        if (this->actor.params == 0) {
+            func_800F5ACC(0x38);
+        }
+    }
+
+    if (this->unk_3F0 != 0) {
+        if (this->actor.params != -1) {
+            this->unk_3F0--;
+        } else if (this->actor.xzDistToPlayer <= 160.0f) {
+            this->unk_3F0 = 0;
+            this->actor.flags |= 1;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+        }
+
+        this->actor.world.pos.y = this->actor.floorHeight + 300.0f;
+    } else if (this->unk_404 < 0xFF) {
+        this->unk_404 += 0x33;
+    }
+
+    if ((this->actor.bgCheckFlags & 3) && (this->unk_3E4 != 0)) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_ONGND);
+        Animation_Change(&this->skelAnime, &D_06008C6C, 1.0f, 0.0f, 17.0f, ANIMMODE_ONCE, 0.0f);
+        this->unk_3E4 = 0;
+        this->actor.bgCheckFlags &= ~2;
+        this->actor.world.pos.y = this->actor.floorHeight;
+        this->actor.velocity.y = 0.0f;
+        func_80033260(globalCtx, &this->actor, &this->unk_4F0, 3.0f, 2, 2.0f, 0, 0, 0);
+        func_80033260(globalCtx, &this->actor, &this->unk_4E4, 3.0f, 2, 2.0f, 0, 0, 0);
+    }
+
+    if (SkelAnime_Update(&this->skelAnime)) {
+        this->unk_404 = 0xFF;
+        if (this->actor.params > 0) {
+            func_80B47360(this, globalCtx);
+        } else {
+            func_80B45384(this);
+        }
+    }
+    this->actor.shape.shadowAlpha = this->unk_404;
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45384.s")
 void func_80B45384(EnZf* this) {
@@ -457,8 +506,24 @@ void func_80B47050(EnZf* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47120.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47360.s")
-void func_80B47360(EnZf* this, GlobalContext* globalCtx);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47360.s")
+// void func_80B47360(EnZf* this, GlobalContext* globalCtx);
+void func_80B47360(EnZf *this, GlobalContext *globalCtx) {
+    f32 morphFrames = 0.0f;
+    f32 lastFrame = Animation_GetLastFrame(&D_060119F4);
+
+    if (this->unk_3DC < 0x11) {
+        morphFrames = -4.0f;
+    }
+    
+    Animation_Change(&this->skelAnime, &D_060119F4, 2.0f, 0.0f, lastFrame, 2, morphFrames);
+    this->unk_3DC = 0x12;
+    this->actor.speedXZ = 0.0f;
+    this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+    this->unk_402 = func_80B44870(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
+    func_80B44050(this, func_80B4743C);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4743C.s")
 
