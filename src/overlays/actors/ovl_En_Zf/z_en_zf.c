@@ -19,6 +19,7 @@ s16 func_80B446A8(Vec3f* pos, s16 arg1);
 void func_80B450AC(EnZf* this);
 void func_80B45174(EnZf* this, GlobalContext* globalCtx);
 void func_80B45384(EnZf* this);
+void func_80B45748(EnZf* this, GlobalContext* globalCtx);
 void func_80B4543C(EnZf* this, GlobalContext* globalCtx);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
@@ -143,7 +144,7 @@ static InitChainEntry D_80B4A274[] = {
 s32 D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000 };
 
 extern SkeletonHeader D_06006690;
-extern UNK_TYPE D_06008138;
+extern AnimationHeader D_06008138;
 extern AnimationHeader D_06008C6C;
 extern AnimationHeader D_06009530;
 extern AnimationHeader D_0600A3D4;
@@ -410,6 +411,7 @@ temp_f0)) { if (temp_f0 < phi_f20) { phi_f20 = temp_f0; phi_f22 = phi_f20; phi_s
 } */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44B14.s")
+s16 func_80B44B14(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx);
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44CF0.s")
 // Player not targeting this or another EnZf
@@ -525,8 +527,21 @@ void func_80B45384(EnZf* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4543C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B456B4.s")
-void func_80B456B4(EnZf* this, GlobalContext* globalCtx);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B456B4.s")
+// void func_80B456B4(EnZf* this, GlobalContext* globalCtx);
+void func_80B456B4(EnZf *this, GlobalContext* globalCtx) {
+    Animation_MorphToLoop(&this->skelAnime, &D_06008138, -4.0f);
+    this->unk_3DC = 5;
+
+    if (this->actor.params >= 0) {
+        this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+        this->unk_402 = func_80B44B14(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
+        this->unk_3E4 = 0;
+    }
+    this->actor.speedXZ = 0.0f;
+    func_80B44050(this, func_80B45748);
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
 
