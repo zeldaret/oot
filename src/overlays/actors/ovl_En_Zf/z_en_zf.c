@@ -21,6 +21,7 @@ void func_80B45174(EnZf* this, GlobalContext* globalCtx);
 void func_80B45384(EnZf* this);
 void func_80B45748(EnZf* this, GlobalContext* globalCtx);
 void func_80B4543C(EnZf* this, GlobalContext* globalCtx);
+void func_80B46A24(EnZf* this);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
 void func_80B47120(EnZf* this, GlobalContext* globalCtx);
@@ -28,9 +29,11 @@ void func_80B47360(EnZf* this, GlobalContext* globalCtx);
 void func_80B4743C(EnZf* this, GlobalContext* globalCtx);
 void func_80B47CF8(EnZf* this, GlobalContext* globalCtx);
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
+void func_80B48210(EnZf* this);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48578(EnZf* this, GlobalContext* globalCtx);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
+s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this);
 
 // Array of platform positions in Dodongo's Cavern miniboss room
 /* static */ Vec3f D_80B4A090[] = {
@@ -448,9 +451,29 @@ s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this) {
     return false;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44DC4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44DC4.s")
+// void func_80B44DC4(EnZf* this, GlobalContext* globalCtx);
+void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
+    s16 angleDiff;
+
+    angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+
+    if (angleDiff < 0) {
+        angleDiff = - angleDiff;
+    }
+    
+    if (angleDiff >= 0x1B58) {
+        func_80B483E4(this, globalCtx);
+    } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames & 7) != 0) &&
+               func_80B44CF0(globalCtx, this)) {
+        func_80B46A24(this);
+    } else {
+        func_80B45384(this);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44E8C.s")
+s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this);
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B450AC.s")
 void func_80B450AC(EnZf* this) {
@@ -529,7 +552,7 @@ void func_80B45384(EnZf* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B456B4.s")
 // void func_80B456B4(EnZf* this, GlobalContext* globalCtx);
-void func_80B456B4(EnZf *this, GlobalContext* globalCtx) {
+void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
     Animation_MorphToLoop(&this->skelAnime, &D_06008138, -4.0f);
     this->unk_3DC = 5;
 
@@ -541,7 +564,6 @@ void func_80B456B4(EnZf *this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
     func_80B44050(this, func_80B45748);
 }
-
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
 
@@ -705,6 +727,82 @@ void func_80B47DA8(EnZf* this) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47EB4.s")
+/* void func_80B47EB4(EnZf* this, GlobalContext* globalCtx) {
+    // f32 temp_f0;
+    s16 temp_v0;
+    // u16 temp_v1;
+    s32 phi_v0;
+    s32 phi_v1;
+
+    if (this->actor.bgCheckFlags & 2) {
+        this->actor.speedXZ = 0.0f;
+    }
+
+    if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.speedXZ < 0.0f) {
+            this->actor.speedXZ += 0.05f;
+        }
+        this->unk_3E4 = 0;
+    }
+
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4500, 0);
+
+    if ((this->actor.params != -2) || (func_80B44E8C(globalCtx, this) == 0)) {
+        if (SkelAnime_Update(&this->skelAnime) != 0) {
+            // temp_v1 = this->actor.bgCheckFlags;
+            if (this->actor.bgCheckFlags & 1) {
+                if (D_80B4A1B4 != -1) {
+                    if (this->unk_410 != 0xD) {
+                        this->actor.world.rot.y = this->actor.shape.rot.y;
+                        if ((func_80B44058(this, globalCtx, 135.0f) == 0) && (this->actor.xzDistToPlayer < 90.0f)) {
+                            func_80B48210(this);
+                        } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames & 3) == 0)) {
+                            func_80B46A24(this);
+                        } else {
+                            func_80B44DC4(this, globalCtx);
+                        }
+                        return;
+                    }
+                    D_80B4A1B0++;
+                    return;
+                }
+                temp_v0 = this->actor.wallYaw - this->actor.shape.rot.y;
+                phi_v0 = (s32)temp_v0;
+                if ((s32)temp_v0 < 0) {
+                    phi_v0 = (s32)(s16)(0 - temp_v0);
+                }
+                if ((this->actor.params == -2) && (this->actor.bgCheckFlags & 8)) {
+                    phi_v1 = 0 - phi_v0;
+                    if (phi_v0 >= 0) {
+                        phi_v1 = phi_v0;
+                    }
+                    if ((ABS(phi_v1) < 0x2EE0) && (this->actor.xzDistToPlayer < 90.0f)) {
+                        func_80B48210(this);
+                        return;
+                    }
+                }
+                if (func_80B49C2C(globalCtx, this) == 0) {
+                    if (this->actor.params != -2) {
+                        this->actor.world.rot.y = this->actor.shape.rot.y;
+                        if (!func_80B44058(this, globalCtx, 135.0f) && (this->actor.xzDistToPlayer < 90.0f)) {
+                            func_80B48210(this);
+                        } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames & 3) == 0)) {
+                            func_80B46A24(this);
+                        } else {
+                            func_80B44DC4(this, globalCtx);
+                        }
+
+                    } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames & 3) == 0) &&
+                               func_80B44CF0(globalCtx, this)) {
+                        func_80B46A24(this);
+                    } else {
+                        func_80B44DC4(this, globalCtx);
+                    }
+                }
+            }
+        }
+    }
+} */
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48210.s")
 
