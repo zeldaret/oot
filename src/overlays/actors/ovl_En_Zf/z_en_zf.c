@@ -159,21 +159,21 @@ void func_80B44050(EnZf* this, EnZfActionFunc actionFunc) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44058.s")
-s16 func_80B44058(EnZf *this, GlobalContext *globalCtx, f32 arg2) {
+s16 func_80B44058(EnZf* this, GlobalContext* globalCtx, f32 arg2) {
     s16 ret;
     s16 oldBgCheckFlags;
     f32 sin;
     f32 cos;
     Vec3f oldPos;
-    
+
     if (arg2 == 0.0f) {
-        arg2 = ((this->actor.speedXZ >= 0.0f) ? 1.0f : -1.0f );
-        arg2 = ((this->actor.params >= 0) ? arg2 * 45.0f : arg2 * 30.0f );
+        arg2 = ((this->actor.speedXZ >= 0.0f) ? 1.0f : -1.0f);
+        arg2 = ((this->actor.params >= 0) ? arg2 * 45.0f : arg2 * 30.0f);
     }
 
     oldPos = this->actor.world.pos;
     oldBgCheckFlags = this->actor.bgCheckFlags;
-    
+
     sin = Math_SinS(this->actor.world.rot.y) * arg2;
     cos = Math_CosS(this->actor.world.rot.y) * arg2;
 
@@ -814,101 +814,54 @@ void func_80B49688(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-/* static */ Gfx D_80B4A2F8[] = {
-    0xD7000002,
-    0x0A000A00,
-    0xDF000000,
-    0x00000000,
-};
+    static Gfx D_80B4A2F8[] = {
+        gsSPTexture(0x0A00, 0x0A00, 0, G_TX_RENDERTILE, G_ON),
+        gsSPEndDisplayList(),
+    };
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Draw.s")
-/* void EnZf_Draw(Actor *thisx, GlobalContext *globalCtx) {
-    EnZf* this = THIS;
-    Gfx *sp64;
-    GameInfo *temp_v0;
-    Gfx *temp_v0_2;
-    Gfx *temp_v0_3;
-    Gfx *temp_v0_4;
-    Gfx *temp_v0_5;
-    Gfx *temp_v0_6;
-    Gfx *temp_v0_7;
-    GraphicsContext *temp_a1;
-    GraphicsContext *temp_s1;
-    s16 temp_v1;
-
-    temp_a1 = globalCtx->state.gfxCtx;
-    temp_s1 = temp_a1;
-
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/EnZf_Draw.s")
+void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
+    EnZf* this = THIS;; // Extra ';' required for matching. Cannot be if (1) {} or the like. Probably a typo.
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zf.c", 3533);
 
+    func_8002EBCC(thisx, globalCtx, 1);
 
-    func_8002EBCC(&this->actor, globalCtx, 1);
-    // D_80B4A2F8.unk0 = 0xD7000002;
+    gSPTexture(D_80B4A2F8, IREG(0), IREG(1), 0, G_TX_RENDERTILE, G_ON);
 
-    // temp_v0 = gGameInfo;
-    // D_80B4A2F8.unk4 = (s32) ((temp_v0->data[865] & 0xFFFF) | (temp_v0->data[864] << 0x10));
-    D_80B4A2F8 = { gsSPTexture(gGameInfo->data[864], gGameInfo->data[865], 0, G_TX_RENDERTILE, G_ON), };
-
-    // temp_v0_2 = temp_s1->polyOpa.p;
-    // temp_s1->polyOpa.p = temp_v0_2 + 8;
-    // temp_v0_2->words.w1 = (u32) &D_80B4A2F8;
-    // temp_v0_2->words.w0 = 0xDB060020;
     gSPSegment(POLY_OPA_DISP++, 0x08, D_80B4A2F8);
 
     if (this->unk_404 == 0xFF) {
         func_80093D18(globalCtx->state.gfxCtx);
-
-        // temp_v0_3 = temp_s1->polyOpa.p;
-        // temp_s1->polyOpa.p = temp_v0_3 + 8;
-        // temp_v0_3->words.w0 = 0xFB000000;
-        // temp_v0_3->words.w1 = (u32) this->unk_404;
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, this->unk_404);
-
-        // temp_v0_4 = temp_s1->polyOpa.p;
-        // temp_s1->polyOpa.p = temp_v0_4 + 8;
-        // temp_v0_4->words.w1 = (u32) (D_80116280 + 0x10);
-        // temp_v0_4->words.w0 = 0xDB060024;
-        gSPSegment(POLY_OPA_DISP++, 0x09, D_80116280 + 0x10);
+        gSPSegment(POLY_OPA_DISP++, 0x09, &D_80116280[2]);
 
         POLY_OPA_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80B495FC,
-func_80B49688, this, POLY_OPA_DISP);
+                                       func_80B49688, this, POLY_OPA_DISP);
 
         if (this->unk_3F6 != 0) {
+            thisx->colorFilterTimer++;
             this->unk_3F6--;
-            temp_v1 = this->unk_3F6;
-            this->actor.colorFilterTimer++;
-            if ((temp_v1 & 3) == 0) {
-                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, this + (((s32) temp_v1 >> 2) * 0xC) + 0x4FC,
-150, 150, 150, 250, 235, 245, 255, 1.4f);
+
+            if ((this->unk_3F6 % 4) == 0) {
+                s32 icePosIndex = this->unk_3F6 >> 2;
+
+                EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &this->unk_4FC[icePosIndex], 150, 150, 150, 250, 235, 245,
+                                               255, 1.4f);
             }
+        if (1) {}
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
-
-        // temp_v0_5 = temp_s1->polyXlu.p;
-        // temp_s1->polyXlu.p = temp_v0_5 + 8;
-        // temp_v0_5->words.w1 = 0;
-        // temp_v0_5->words.w0 = 0xE7000000;
         gDPPipeSync(POLY_XLU_DISP++);
-
-        // temp_v0_6 = temp_s1->polyXlu.p;
-        // temp_s1->polyXlu.p = temp_v0_6 + 8;
-        // temp_v0_6->words.w0 = 0xFB000000;
-        // temp_v0_6->words.w1 = (u32) this->unk_404;
-        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_404.a);
-
-        // temp_v0_7 = temp_s1->polyXlu.p;
-        // temp_s1->polyXlu.p = temp_v0_7 + 8;
-        // temp_v0_7->words.w1 = (u32) D_80116280;
-        // temp_v0_7->words.w0 = 0xDB060024;
-        gSPSegment(POLY_XLU_DISP++, 0x09, D_80116280);
-
+        gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->unk_404);
+        gSPSegment(POLY_XLU_DISP++, 0x09, &D_80116280[0]);
         POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, func_80B495FC,
-func_80B49688, this, POLY_XLU_DISP);
+                                       func_80B49688, this, POLY_XLU_DISP);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_zf.c", 3601);
-} */
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49B60.s")
 
