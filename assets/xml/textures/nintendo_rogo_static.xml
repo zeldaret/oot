@@ -1,0 +1,8 @@
+<Root>
+     <File Name="nintendo_rogo_static">
+        <Texture Name="gNintendo64LogoTex" OutName="nintendo_64_logo" Format="i8" Width="192" Height="32"/>
+        <Texture Name="gNintendo64LogoAnimationMaskTex" OutName="nintendo_64_logo_anim_mask" Format="i8" Width="32" Height="32"/>
+        <DList Name="gNintendo64LogoDL" Offset="0x2720"/>
+        <Texture Name="gNintendo64ModelAnimationMaskTex" OutName="nintendo_64_model_anim_mask" Format="i8" Width="32" Height="32"/>
+     </File>
+</Root>

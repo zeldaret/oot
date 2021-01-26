@@ -6178,7 +6178,8 @@ endseg
 beginseg
     name "nintendo_rogo_static"
     romalign 0x1000
-    include "build/baserom/nintendo_rogo_static.o"
+    include "build/assets/textures/nintendo_rogo_static/nintendo_rogo_static.o"
+    number 01
 endseg
 
 beginseg
