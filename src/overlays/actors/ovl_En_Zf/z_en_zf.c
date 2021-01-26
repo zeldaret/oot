@@ -28,6 +28,7 @@ void func_80B4743C(EnZf* this, GlobalContext* globalCtx);
 void func_80B47CF8(EnZf* this, GlobalContext* globalCtx);
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
+void func_80B48578(EnZf* this, GlobalContext* globalCtx);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
 
 // Array of platform positions in Dodongo's Cavern miniboss room
@@ -154,7 +155,7 @@ extern AnimationHeader D_060119F4;
 extern AnimationHeader D_0601366C;
 extern AnimationHeader D_06014E60;
 extern AnimationHeader D_060157F8;
-extern UNK_TYPE D_06016388;
+extern AnimationHeader D_06016388;
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44050.s")
 void func_80B44050(EnZf* this, EnZfActionFunc actionFunc) {
@@ -525,6 +526,7 @@ void func_80B45384(EnZf* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4543C.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B456B4.s")
+void func_80B456B4(EnZf* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
 
@@ -648,7 +650,7 @@ void func_80B47CF8(EnZf* this, GlobalContext* globalCtx) {
     s16 yawTowardsPlayer = this->actor.yawTowardsPlayer;
 
     if (this->skelAnime.curFrame >= 26.0f) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, yawTowardsPlayer, 1, 0x1770, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, yawTowardsPlayer, 1, 6000, 0);
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
@@ -693,7 +695,35 @@ void func_80B47DA8(EnZf* this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B482B8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B483E4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B483E4.s")
+void func_80B483E4(EnZf* this, GlobalContext* globalCtx) {
+    s16 playerRotY;
+    Player* player;
+
+    if ((this->actor.params < 0) ||
+        func_800339B8(&this->actor, globalCtx, 40.0f, (s16)(this->actor.shape.rot.y + 0x3FFF)) ||
+        func_800339B8(&this->actor, globalCtx, -40.0f, (s16)(this->actor.shape.rot.y + 0x3FFF))) {
+        Animation_PlayLoop(&this->skelAnime, &D_06016388);
+        player = PLAYER;
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 1);
+        playerRotY = player->actor.shape.rot.y;
+
+        if (Math_SinS(playerRotY - this->actor.shape.rot.y) >= 0.0f) {
+            this->actor.speedXZ = -6.0f;
+        } else if (Math_SinS(playerRotY - this->actor.shape.rot.y) < 0.0f) {
+            this->actor.speedXZ = 6.0f;
+        }
+
+        this->unk_408 = 0.0f;
+        this->unk_3E4 = 0;
+        this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
+        this->unk_3F0 = (s32)(Rand_ZeroOne() * 10.0f + 5.0f);
+        this->unk_3DC = 0xC;
+        func_80B44050(this, func_80B48578);
+    } else {
+        func_80B456B4(this, globalCtx);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B48578.s")
 
