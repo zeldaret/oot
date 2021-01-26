@@ -660,8 +660,8 @@ s32  func_8097983C(DemoGj *this, GlobalContext* globalCtx) {
 void func_80979860(DemoGj *this, GlobalContext *globalCtx);
 #ifdef NON_MATCHING
 void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
-    f32 sp24;
-    f32 sp20;
+    //f32 sp24;
+    //f32 sp20;
     Actor *temp_v0;
     Actor *temp_v1_8;
     PosRot *temp_v0_2;
@@ -673,9 +673,9 @@ void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
     Vec3s *temp_v1_6;
     Vec3s *temp_v1_7;
     f32 temp_f10;
-    f32 temp_f12;
+    //f32 temp_f12;
     f32 temp_f12_2;
-    f32 temp_f14;
+    //f32 temp_f14;
     f32 temp_f14_2;
     f32 temp_f4;
     f32 temp_f6;
@@ -688,10 +688,10 @@ void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
         temp_f6 = temp_v0->world.pos.x;
         temp_f8 = this->dyna.actor.world.pos.z;
         temp_f10 = temp_v0->world.pos.z;
-        temp_f12 = temp_f4 - temp_f6;
-        temp_f14 = temp_f8 - temp_f10;
-        sp24 = temp_f12;
-        sp20 = temp_f14;
+        //temp_f12 = temp_f4 - temp_f6;
+        //temp_f14 = temp_f8 - temp_f10;
+        //sp24 = temp_f12;
+        //sp20 = temp_f14;
         temp_t6 = func_80978950(this) - 8;
         switch (temp_t6) {
         case 0:
@@ -765,8 +765,8 @@ void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
             this->dyna.actor.gravity = ((f32) gGameInfo->data[2603] * 0.01f) + -5.0f;
             break;
         default:
-            sp20 = temp_f14;
-            sp24 = temp_f12;
+            //sp20 = temp_f14;
+            //sp24 = temp_f12;
             // Demo_Gj_Setup_Move_common : This arg_data is not supported = %d
             osSyncPrintf((const char *) "\x1b[31mDemo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n\x1b[m", this->dyna.actor.params);
             break;
@@ -1219,6 +1219,7 @@ void func_8097AE5C(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097AEDC(DemoGj *this, GlobalContext *globalCtx) {
 }
 
+void func_8097AEE8(DemoGj *this, GlobalContext *globalCtx);
 /*
 void *func_8097AEE8(void *arg0, ? arg1) {
     s16 sp22;
@@ -1286,26 +1287,18 @@ void func_8097B0EC(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
     func_80978C20(this, globalCtx, &aux, arg2);
 }
 
-void func_8097B128(DemoGj *this, GlobalContext *globalCtx);
-/*
 void func_8097B128(DemoGj *this, GlobalContext *globalCtx) {
-    DemoGj *temp_a0;
-    Vec3f *temp_v0;
+    Vec3f *scale = &this->dyna.actor.scale;
 
-    temp_a0 = this;
     if (func_8097983C(this, globalCtx) != 0) {
-        this = temp_a0;
-        func_80978F60(temp_a0, globalCtx, &D_06001F70);
+        func_80978F60(this, globalCtx, &D_06001F70);
         this->unk_164 = 0x12;
         this->unk_168 = 0x10;
-        temp_v0 = &this->dyna.actor.scale;
-        temp_v0->x = temp_v0->x * 0.8f;
-        temp_v0->y = temp_v0->y * 0.8f;
-        temp_v0->z = temp_v0->z * 0.8f;
+        scale->x *= 0.8f;
+        scale->y *= 0.8f;
+        scale->z *= 0.8f;
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B128.s")
 
 s32 func_8097B1B4(DemoGj *this, GlobalContext *globalCtx) {
     if (func_809789A4(this, globalCtx, &this->unk_184.base) != 0) {
@@ -1320,36 +1313,36 @@ s32 func_8097B1B4(DemoGj *this, GlobalContext *globalCtx) {
     return 0;
 }
 
-void func_8097B22C(DemoGj *this, GlobalContext *globalCtx);
-/*
 void func_8097B22C(DemoGj *this, GlobalContext *globalCtx) {
-    ? sp30;
-    f32 sp28;
-    ? sp24;
+    s32 pad;
 
-    if (func_809797E4(4) != 0) {
-        Actor_Kill(&this->dyna.actor);
+    Vec3f sp30;
+    Vec3f sp24;
+
+    Actor* actor = &this->dyna.actor;
+
+    if (func_809797E4(this, 4) != 0) {
+        Actor_Kill(actor);
     } else if (func_8097B1B4(this, globalCtx) != 0) {
-        sp30.unk0 = (s32) D_8097BEAC.unk0;
-        sp30.unk4 = (s32) D_8097BEAC.unk4;
-        sp30.unk8 = (s32) D_8097BEAC.unk8;
+        sp30 = D_8097BEAC;
+
         func_80978B90(this, globalCtx);
         func_8097B0EC(this, globalCtx, &sp30);
-        Actor_Kill(&this->dyna.actor);
+
+        Actor_Kill(actor);
     } else if (this->unk_268 != 0) {
-        sp24.unk0 = (s32) this->unk26C;
-        sp24.unk4 = (s32) this->unk270;
-        sp24.unk8 = (s32) this->unk274;
-        sp28 = 0.0f;
+        sp24 = this->unk_26C;
+        sp24.y = 0.0f;
+
         func_80978B90(this, globalCtx);
         func_8097B0EC(this, globalCtx, &sp24);
-        Actor_Kill(&this->dyna.actor);
+
+        Actor_Kill(actor);
     }
+
     func_8097AEE8(this, globalCtx);
     func_8097B080(this, globalCtx);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B22C.s")
 
 void func_8097B340(DemoGj *this, GlobalContext *globalCtx) {
     func_80978EE4(this, globalCtx);
@@ -1375,6 +1368,7 @@ void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097B444(DemoGj *this, GlobalContext *globalCtx) {
 }
 
+void func_8097B450(DemoGj *this, GlobalContext *globalCtx);
 /*
 void *func_8097B450(void *arg0, ? arg1) {
     s16 sp22;
@@ -1449,57 +1443,49 @@ void func_8097B688(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
     func_80978C20(this, globalCtx, &aux, arg2);
 }
 
-void func_8097B6C4(DemoGj *this, GlobalContext *globalCtx);
-/*
 void func_8097B6C4(DemoGj *this, GlobalContext *globalCtx) {
-    DemoGj *temp_a0;
-    Vec3f *temp_v0;
+    Vec3f *scale = &this->dyna.actor.scale;
 
-    temp_a0 = this;
     if (func_8097983C(this, globalCtx) != 0) {
-        this = temp_a0;
-        func_80978F60(temp_a0, globalCtx, &D_06002448);
+        func_80978F60(this, globalCtx, &D_06002448);
         this->unk_164 = 0x13;
         this->unk_168 = 0x11;
-        temp_v0 = &this->dyna.actor.scale;
-        temp_v0->x = temp_v0->x * 0.8f;
-        temp_v0->y = temp_v0->y * 0.8f;
-        temp_v0->z = temp_v0->z * 0.8f;
+        scale->x *= 0.8f;
+        scale->y *= 0.8f;
+        scale->z *= 0.8f;
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B6C4.s")
 
-void func_8097B750(DemoGj *this, GlobalContext *globalCtx);
-/*
 void func_8097B750(DemoGj *this, GlobalContext *globalCtx) {
-    ? sp30;
-    f32 sp28;
-    ? sp24;
+    s32 pad;
 
-    if (func_809797E4(4) != 0) {
-        Actor_Kill(&this->dyna.actor);
+    Vec3f sp30;
+    Vec3f sp24;
+
+    Actor* actor = &this->dyna.actor;
+
+    if (func_809797E4(this, 4) != 0) {
+        Actor_Kill(actor);
     } else if (func_8097B610(this, globalCtx) != 0) {
-        sp30.unk0 = (s32) D_8097BEB8.unk0;
-        sp30.unk4 = (s32) D_8097BEB8.unk4;
-        sp30.unk8 = (s32) D_8097BEB8.unk8;
+        sp30 = D_8097BEB8;
+
         func_80978B90(this, globalCtx);
         func_8097B688(this, globalCtx, &sp30);
-        Actor_Kill(&this->dyna.actor);
+
+        Actor_Kill(actor);
     } else if (this->unk_268 != 0) {
-        sp24.unk0 = (s32) this->unk26C;
-        sp24.unk4 = (s32) this->unk270;
-        sp24.unk8 = (s32) this->unk274;
-        sp28 = 0.0f;
+        sp24 = this->unk_26C;
+        sp24.y = 0.0f;
+
         func_80978B90(this, globalCtx);
         func_8097B688(this, globalCtx, &sp24);
-        Actor_Kill(&this->dyna.actor);
+
+        Actor_Kill(actor);
     }
+
     func_8097B450(this, globalCtx);
     func_8097B5A4(this, globalCtx);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B750.s")
 
 void func_8097B864(DemoGj *this, GlobalContext *globalCtx) {
     func_80978EE4(this, globalCtx);
@@ -1531,33 +1517,24 @@ void func_8097B93C(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
     aux.z = this->dyna.actor.world.pos.z;
     func_80978C20(this, globalCtx, &aux, arg2);
 
-
     aux.x = this->dyna.actor.world.pos.x;
     aux.y = this->dyna.actor.world.pos.y + 100.0f;
     aux.z = this->dyna.actor.world.pos.z;
     func_80978C20(this, globalCtx, &aux, arg2);
 }
 
-void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx);
-/*
 void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx) {
-    DemoGj *temp_a0;
-    Vec3f *temp_v0;
+    Vec3f *scale = &this->dyna.actor.scale;
 
-    temp_a0 = this;
     if (func_8097983C(this, globalCtx) != 0) {
-        this = temp_a0;
-        func_80978F60(temp_a0, globalCtx, (CollisionHeader *) &D_06003AF0);
+        func_80978F60(this, globalCtx, &D_06003AF0);
         this->unk_164 = 0x14;
         this->unk_168 = 0x12;
-        temp_v0 = &this->dyna.actor.scale;
-        temp_v0->x = temp_v0->x * 0.8f;
-        temp_v0->y = temp_v0->y * 0.8f;
-        temp_v0->z = temp_v0->z * 0.8f;
+        scale->x *= 0.8f;
+        scale->y *= 0.8f;
+        scale->z *= 0.8f;
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B9BC.s")
 
 void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
     Actor* actor = &this->dyna.actor;
