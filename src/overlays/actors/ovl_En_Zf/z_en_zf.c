@@ -28,6 +28,7 @@ void func_80B47120(EnZf* this, GlobalContext* globalCtx);
 void func_80B47360(EnZf* this, GlobalContext* globalCtx);
 void func_80B4743C(EnZf* this, GlobalContext* globalCtx);
 void func_80B4779C(EnZf* this, GlobalContext* globalCtx);
+void func_80B4781C(EnZf* this, GlobalContext* globalCtx);
 void func_80B47CF8(EnZf* this, GlobalContext* globalCtx);
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48210(EnZf* this);
@@ -146,7 +147,7 @@ static InitChainEntry D_80B4A274[] = {
     ICHAIN_F32_DIV1000(gravity, -3500, ICHAIN_STOP),
 };
 
-s32 D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000 };
+AnimationHeader* D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000 };
 
 extern SkeletonHeader D_06006690;
 extern AnimationHeader D_06008138;
@@ -680,7 +681,15 @@ void func_80B4743C(EnZf *this, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47544.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4779C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4779C.s")
+void func_80B4779C(EnZf *this, GlobalContext *globalCtx) {
+    this->unk_3E4 = 0;
+    Animation_PlayOnce(&this->skelAnime, D_80B4A280[0]);
+    this->unk_3DC = 0x13;
+    this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+    this->unk_402 = func_80B44870(&this->actor.world.pos, this->unk_3FE, this->unk_400, globalCtx);
+    func_80B44050(this, func_80B4781C);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4781C.s")
 
