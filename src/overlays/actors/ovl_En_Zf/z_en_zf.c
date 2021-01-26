@@ -27,6 +27,7 @@ void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
 void func_80B47120(EnZf* this, GlobalContext* globalCtx);
 void func_80B47360(EnZf* this, GlobalContext* globalCtx);
 void func_80B4743C(EnZf* this, GlobalContext* globalCtx);
+void func_80B4779C(EnZf* this, GlobalContext* globalCtx);
 void func_80B47CF8(EnZf* this, GlobalContext* globalCtx);
 void func_80B47EB4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48210(EnZf* this);
@@ -453,7 +454,6 @@ s32 func_80B44CF0(GlobalContext* globalCtx, EnZf* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44DC4.s")
-// void func_80B44DC4(EnZf* this, GlobalContext* globalCtx);
 void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
     s16 angleDiff;
 
@@ -662,7 +662,19 @@ void func_80B47360(EnZf* this, GlobalContext* globalCtx) {
     func_80B44050(this, func_80B4743C);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4743C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4743C.s")
+void func_80B4743C(EnZf *this, GlobalContext *globalCtx) {
+    s16 yaw = Actor_WorldYawTowardPoint(&this->actor, &D_80B4A090[this->unk_402]) + 0x8000;
+
+    Math_SmoothStepToS(&this->actor.world.rot.y, yaw, 1, 1000, 0);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
+
+    if (SkelAnime_Update(&this->skelAnime)) {
+        this->actor.world.rot.y = yaw - 0x8000;
+        func_80B4779C(this, globalCtx);
+        this->unk_3FA = 1;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B474E4.s")
 
