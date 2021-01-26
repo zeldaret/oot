@@ -5,6 +5,7 @@
  */
 
 #include "z_en_horse_normal.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -715,7 +716,7 @@ void EnHorseNormal_Draw(Actor* thisx, GlobalContext* globalCtx) {
         mtx2 = Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_horse_normal.c", 2329);
         if (mtx2 != NULL) {
             gSPMatrix(POLY_XLU_DISP++, mtx2, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_04049AD0);
+            gSPDisplayList(POLY_XLU_DISP++, gHorseShadowDL);
         }
     }
 

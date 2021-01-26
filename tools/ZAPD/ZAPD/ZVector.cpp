@@ -28,8 +28,6 @@ void ZVector::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
 
-	name = reader->Attribute("Name");
-
 	std::string type = reader->Attribute("Type");
 	this->scalarType = ZScalar::MapOutputTypeToScalarType(type);
 
