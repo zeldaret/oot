@@ -129,24 +129,24 @@ static Vec3f D_8097BEA0 = {
 glabel D_8097BEAC
  .word 0x00000000, 0x00000000, 0x00000000
 */
-static s32 D_8097BEAC[] = {
-    0, 0, 0
+static Vec3f D_8097BEAC = {
+    0.0f, 0.0f, 0.0f
 };
 
 /*
 glabel D_8097BEB8
  .word 0x00000000, 0x00000000, 0x00000000
 */
-static s32 D_8097BEB8[] = {
-    0, 0, 0
+static Vec3f D_8097BEB8 = {
+    0.0f, 0.0f, 0.0f
 };
 
 /*
 glabel D_8097BEC4
  .word 0x00000000, 0x00000000, 0x00000000
 */
-static s32 D_8097BEC4[] = {
-    0, 0, 0
+static Vec3f D_8097BEC4 = {
+    0.0f, 0.0f, 0.0f
 };
 
 
@@ -605,6 +605,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f22 = gGameInfo->data[2597] * 0.01f + 1.0f;
         break;
     default:
+        // Demo_Gj_common_Reflect : This arg_data is not supported = %d
         osSyncPrintf("\x1b[31mDemo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n\x1b[m", this->dyna.actor.params);
         return;
     }
@@ -633,7 +634,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
 
 
 s32 func_809797E4(DemoGj *this, s32 arg1);
-#if NON_MATCHING
+#ifdef NON_MATCHING
 s32 func_809797E4(DemoGj *this, s32 arg1) {
     BossGanon2 *ganon = (BossGanon2 *)this->ganon;
     arg1 &= 0xFF;
@@ -766,6 +767,7 @@ void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
         default:
             sp20 = temp_f14;
             sp24 = temp_f12;
+            // Demo_Gj_Setup_Move_common : This arg_data is not supported = %d
             osSyncPrintf((const char *) "\x1b[31mDemo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n\x1b[m", this->dyna.actor.params);
             break;
         }
@@ -1557,47 +1559,37 @@ void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097B9BC.s")
 
-void func_8097BA48(DemoGj *this, GlobalContext *globalCtx);
-/*
 void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
-    ? sp3C;
-    f32 sp34;
-    ? sp30;
-    ColliderCylinder *temp_s2;
-    ColliderCylinder *phi_s2;
+    Actor* actor = &this->dyna.actor;
+    ColliderCylinder *colCylinder = &this->unk_184;
+    Collider *collider = &colCylinder->base;
+    CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
 
-    if (func_809797E4(4) != 0) {
-        Actor_Kill(&this->dyna.actor);
-        phi_s2 = &this->unk_184;
-    } else {
-        temp_s2 = &this->unk_184;
-        if (func_809789A4(this, globalCtx, temp_s2) != 0) {
-            sp3C.unk0 = (s32) D_8097BEC4.unk0;
-            sp3C.unk4 = (s32) D_8097BEC4.unk4;
-            sp3C.unk8 = (s32) D_8097BEC4.unk8;
-            func_80978B90(this, globalCtx);
-            func_8097B93C(this, globalCtx, &sp3C);
-            Actor_Kill(&this->dyna.actor);
-            phi_s2 = temp_s2;
-        } else {
-            phi_s2 = temp_s2;
-            if (this->unk_268 != 0) {
-                sp30.unk0 = (s32) this->unk26C;
-                sp30.unk4 = (s32) this->unk270;
-                sp30.unk8 = (s32) this->unk274;
-                sp34 = 0.0f;
-                func_80978B90(this, globalCtx);
-                func_8097B93C(this, globalCtx, &sp30);
-                Actor_Kill(&this->dyna.actor);
-                phi_s2 = temp_s2;
-            }
-        }
+    Vec3f sp3C;
+    Vec3f sp30;
+
+    if (func_809797E4(this, 4) != 0) {
+        Actor_Kill(actor);
+    } else if (func_809789A4(this, globalCtx, collider) != 0) {
+        sp3C = D_8097BEC4;
+
+        func_80978B90(this, globalCtx);
+        func_8097B93C(this, globalCtx, &sp3C);
+
+        Actor_Kill(actor);
+    } else if (this->unk_268 != 0) {
+        sp30 = this->unk_26C;
+        sp30.y = 0.0f;
+
+        func_80978B90(this, globalCtx);
+        func_8097B93C(this, globalCtx, &sp30);
+
+        Actor_Kill(actor);
     }
-    Collider_UpdateCylinder(&this->dyna.actor, phi_s2);
-    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, (Collider *) phi_s2);
+
+    Collider_UpdateCylinder(actor, colCylinder);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, collider);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097BA48.s")
 
 void func_8097BB78(DemoGj *this, GlobalContext *globalCtx) {
     func_80978EE4(this, globalCtx);
