@@ -2074,8 +2074,7 @@ endseg
 beginseg
     name "ovl_En_Dekunuts"
     include "build/src/overlays/actors/ovl_En_Dekunuts/z_en_dekunuts.o"
-    include "build/data/overlays/actors/z_en_dekunuts.data.o"
-    include "build/data/overlays/actors/z_en_dekunuts.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dekunuts/ovl_En_Dekunuts_reloc.o"
 endseg
 
 beginseg
