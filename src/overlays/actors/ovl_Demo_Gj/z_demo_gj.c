@@ -446,13 +446,11 @@ s32 func_80978EE4(DemoGj *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978EE4.s")
 #endif
 
-void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2);
-#ifdef NON_MATCHING
 void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2) {
     GlobalContext* glb_ctx;
     Actor* actor;
     DynaCollisionContext* colctx_dyna;
-    CollisionHeader *sp18;
+    CollisionHeader *header;
 
     actor = &this->dyna.actor;
     glb_ctx = globalCtx;
@@ -461,14 +459,11 @@ void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2
     if (arg2 != NULL) {
         Actor_ProcessInitChain(actor, sInitChain);
         DynaPolyActor_Init(&this->dyna, 0);
-        sp18 = NULL;
-        CollisionHeader_GetVirtual(arg2, &sp18);
-        this->dyna.bgId = DynaPoly_SetBgActor(glb_ctx, colctx_dyna, actor, sp18);
+        header = NULL;
+        CollisionHeader_GetVirtual(arg2, &header);
+        this->dyna.bgId = DynaPoly_SetBgActor(glb_ctx, colctx_dyna, actor, header);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978F60.s")
-#endif
 
 s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 arg2, s32 arg3, CollisionHeader* arg4) {
     if (func_80978EBC() == 0) {
@@ -657,138 +652,115 @@ s32  func_8097983C(DemoGj *this, GlobalContext* globalCtx) {
     return func_809797E4(this, 2);
 }
 
-void func_80979860(DemoGj *this, GlobalContext *globalCtx);
-#ifdef NON_MATCHING
 void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
-    //f32 sp24;
-    //f32 sp20;
-    Actor *temp_v0;
-    Actor *temp_v1_8;
-    PosRot *temp_v0_2;
-    Vec3s *temp_v1;
-    Vec3s *temp_v1_2;
-    Vec3s *temp_v1_3;
-    Vec3s *temp_v1_4;
-    Vec3s *temp_v1_5;
-    Vec3s *temp_v1_6;
-    Vec3s *temp_v1_7;
-    f32 temp_f10;
-    //f32 temp_f12;
-    f32 temp_f12_2;
-    //f32 temp_f14;
-    f32 temp_f14_2;
-    f32 temp_f4;
-    f32 temp_f6;
-    f32 temp_f8;
-    u32 temp_t6;
+    Actor* actor = &this->dyna.actor;
 
-    temp_v0 = this->ganon;
-    if (temp_v0 != 0) {
-        temp_f4 = this->dyna.actor.world.pos.x;
-        temp_f6 = temp_v0->world.pos.x;
-        temp_f8 = this->dyna.actor.world.pos.z;
-        temp_f10 = temp_v0->world.pos.z;
-        //temp_f12 = temp_f4 - temp_f6;
-        //temp_f14 = temp_f8 - temp_f10;
-        //sp24 = temp_f12;
-        //sp20 = temp_f14;
-        temp_t6 = func_80978950(this) - 8;
-        switch (temp_t6) {
+    Player* player;
+    Vec3f* pos;
+    Vec3s *unk_172;
+
+    f32 xDistance;
+    f32 zDistance;
+
+    pos = &actor->world.pos;
+
+    if (this->ganon != NULL) {
+        xDistance = actor->world.pos.x - this->ganon->world.pos.x;
+        zDistance = actor->world.pos.z - this->ganon->world.pos.z;
+
+        unk_172 = &this->unk_172;
+
+        switch (func_80978950(this) - 8) {
         case 0:
-            temp_v1 = &this->unk_172;
-            this->dyna.actor.speedXZ = (f32) gGameInfo->data[2608] + 10.0f;
-            this->dyna.actor.velocity.y = (f32) gGameInfo->data[2609] + 40.0f;
-            temp_v1->x = gGameInfo->data[2610];
-            temp_v1->y = gGameInfo->data[2611] + 0x3E8;
-            temp_v1->z = gGameInfo->data[2612] + 0xBB8;
-            this->dyna.actor.minVelocityY = ((f32) gGameInfo->data[2613] * 0.01f) + -29.0f;
-            this->dyna.actor.gravity = ((f32) gGameInfo->data[2614] * 0.01f) + -5.0f;
+            actor->speedXZ = (f32) kREG(16) + 10.0f;
+            actor->velocity.y = (f32) kREG(17) + 40.0f;
+            unk_172->x = (s16) (kREG(18));
+            unk_172->y = (s16) (kREG(19) + 0x3E8);
+            unk_172->z = (s16) (kREG(20) + 0xBB8);
+            actor->minVelocityY = ((f32) kREG(21) * 0.01f) + -29.0f;
+            actor->gravity = ((f32) kREG(22) * 0.01f) + -5.0f;
             break;
+
         case 1:
-            temp_v1_2 = &this->unk_172;
-            this->dyna.actor.speedXZ = (f32) gGameInfo->data[2621] + 10.0f;
-            this->dyna.actor.velocity.y = (f32) gGameInfo->data[2622] + 40.0f;
-            temp_v1_2->x = gGameInfo->data[2623];
-            temp_v1_2->y = gGameInfo->data[2624] + 0x3E8;
-            temp_v1_2->z = gGameInfo->data[2625] + 0xBB8;
-            this->dyna.actor.minVelocityY = ((f32) gGameInfo->data[2626] * 0.01f) + -29.0f;
-            this->dyna.actor.gravity = ((f32) gGameInfo->data[2627] * 0.01f) + -5.0f;
+            actor->speedXZ = (f32) kREG(29) + 10.0f;
+            actor->velocity.y = (f32) kREG(30) + 40.0f;
+            unk_172->x = (s16) (kREG(31));
+            unk_172->y = (s16) (kREG(32) + 0x3E8);
+            unk_172->z = (s16) (kREG(33) + 0xBB8);
+            actor->minVelocityY = ((f32) kREG(34) * 0.01f) + -29.0f;
+            actor->gravity = ((f32) kREG(35) * 0.01f) + -5.0f;
             break;
+
         case 2:
-            temp_v1_3 = &this->unk_172;
-            this->dyna.actor.speedXZ = (f32) gGameInfo->data[2634] + 10.0f;
-            this->dyna.actor.velocity.y = (f32) gGameInfo->data[2635] + 40.0f;
-            temp_v1_3->x = gGameInfo->data[2636];
-            temp_v1_3->y = gGameInfo->data[2637] + 0x3E8;
-            temp_v1_3->z = gGameInfo->data[2638] + 0xBB8;
-            this->dyna.actor.minVelocityY = ((f32) gGameInfo->data[2639] * 0.01f) + -29.0f;
-            this->dyna.actor.gravity = ((f32) gGameInfo->data[2640] * 0.01f) + -5.0f;
+            actor->speedXZ = (f32) kREG(42) + 10.0f;
+            actor->velocity.y = (f32) kREG(43) + 40.0f;
+            unk_172->x = (s16) (kREG(44));
+            unk_172->y = (s16) (kREG(45) + 0x3E8);
+            unk_172->z = (s16) (kREG(46) + 0xBB8);
+            actor->minVelocityY = ((f32) kREG(47) * 0.01f) + -29.0f;
+            actor->gravity = ((f32) kREG(48) * 0.01f) + -5.0f;
             break;
+
         case 3:
-            temp_v1_4 = &this->unk_172;
-            this->dyna.actor.speedXZ = (f32) gGameInfo->data[2647] + 10.0f;
-            this->dyna.actor.velocity.y = (f32) gGameInfo->data[2648] + 40.0f;
-            temp_v1_4->x = gGameInfo->data[2649];
-            temp_v1_4->y = gGameInfo->data[2650] + 0x3E8;
-            temp_v1_4->z = gGameInfo->data[2651] + 0xBB8;
-            this->dyna.actor.minVelocityY = ((f32) gGameInfo->data[2652] * 0.01f) + -29.0f;
-            this->dyna.actor.gravity = ((f32) gGameInfo->data[2653] * 0.01f) + -5.0f;
+            actor->speedXZ = (f32) kREG(55) + 10.0f;
+            actor->velocity.y = (f32) kREG(56) + 40.0f;
+            unk_172->x = (s16) (kREG(57));
+            unk_172->y = (s16) (kREG(58) + 0x3E8);
+            unk_172->z = (s16) (kREG(59) + 0xBB8);
+            actor->minVelocityY = ((f32) kREG(60) * 0.01f) + -29.0f;
+            actor->gravity = ((f32) kREG(61) * 0.01f) + -5.0f;
             break;
+
         case 4:
-            temp_v1_5 = &this->unk_172;
-            this->dyna.actor.speedXZ = (f32) gGameInfo->data[2660] + 10.0f;
-            this->dyna.actor.velocity.y = (f32) gGameInfo->data[2661] + 40.0f;
-            temp_v1_5->x = gGameInfo->data[2662];
-            temp_v1_5->y = gGameInfo->data[2663] + 0x3E8;
-            temp_v1_5->z = gGameInfo->data[2664] + 0xBB8;
-            this->dyna.actor.minVelocityY = ((f32) gGameInfo->data[2665] * 0.01f) + -29.0f;
-            this->dyna.actor.gravity = ((f32) gGameInfo->data[2666] * 0.01f) + -5.0f;
+            actor->speedXZ = (f32) kREG(68) + 10.0f;
+            actor->velocity.y = (f32) kREG(69) + 40.0f;
+            unk_172->x = (s16) (kREG(70));
+            unk_172->y = (s16) (kREG(71) + 0x3E8);
+            unk_172->z = (s16) (kREG(72) + 0xBB8);
+            actor->minVelocityY = ((f32) kREG(73) * 0.01f) + -29.0f;
+            actor->gravity = ((f32) kREG(74) * 0.01f) + -5.0f;
             break;
+
         case 5:
-            temp_v1_6 = &this->unk_172;
-            this->dyna.actor.speedXZ = (f32) gGameInfo->data[2673] + 10.0f;
-            this->dyna.actor.velocity.y = (f32) gGameInfo->data[2674] + 40.0f;
-            temp_v1_6->x = gGameInfo->data[2675];
-            temp_v1_6->y = gGameInfo->data[2676] + 0x3E8;
-            temp_v1_6->z = gGameInfo->data[2677] + 0xBB8;
-            this->dyna.actor.minVelocityY = ((f32) gGameInfo->data[2678] * 0.01f) + -29.0f;
-            this->dyna.actor.gravity = ((f32) gGameInfo->data[2679] * 0.01f) + -5.0f;
+            actor->speedXZ = (f32) kREG(81) + 10.0f;
+            actor->velocity.y = (f32) kREG(82) + 40.0f;
+            unk_172->x = (s16) (kREG(83));
+            unk_172->y = (s16) (kREG(84) + 0x3E8);
+            unk_172->z = (s16) (kREG(85) + 0xBB8);
+            actor->minVelocityY = ((f32) kREG(86) * 0.01f) + -29.0f;
+            actor->gravity = ((f32) kREG(87) * 0.01f) + -5.0f;
             break;
+
         case 6:
-            temp_v1_7 = &this->unk_172;
-            this->dyna.actor.speedXZ = (f32) gGameInfo->data[2686] + 10.0f;
-            this->dyna.actor.velocity.y = (f32) gGameInfo->data[2687] + 70.0f;
-            temp_v1_7->x = gGameInfo->data[2607];
-            temp_v1_7->y = gGameInfo->data[2606] + 0x3E8;
-            temp_v1_7->z = gGameInfo->data[2605] + 0xBB8;
-            this->dyna.actor.minVelocityY = ((f32) gGameInfo->data[2604] * 0.01f) + -29.0f;
-            this->dyna.actor.gravity = ((f32) gGameInfo->data[2603] * 0.01f) + -5.0f;
+            actor->speedXZ = (f32) kREG(94) + 10.0f;
+            actor->velocity.y = (f32) kREG(95) + 70.0f;
+            unk_172->x = (s16) (kREG(15));
+            unk_172->y = (s16) (kREG(14) + 0x3E8);
+            unk_172->z = (s16) (kREG(13) + 0xBB8);
+            actor->minVelocityY = ((f32) kREG(12) * 0.01f) + -29.0f;
+            actor->gravity = ((f32) kREG(11) * 0.01f) + -5.0f;
             break;
+
         default:
-            //sp20 = temp_f14;
-            //sp24 = temp_f12;
-            // Demo_Gj_Setup_Move_common : This arg_data is not supported = %d
-            osSyncPrintf((const char *) "\x1b[31mDemo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n\x1b[m", this->dyna.actor.params);
+            osSyncPrintf("\x1b[31mDemo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n\x1b[m", actor->params);
             break;
         }
 
-        if (((temp_f4 - temp_f6) == 0.0f) && ((temp_f8 - temp_f10) == 0.0f)) {
-            temp_v1_8 = globalCtx->actorCtx.actorLists[2].head;
-            temp_v0_2 = &this->dyna.actor.world;
-            temp_f12_2 = temp_v1_8->world.pos.x - temp_v0_2->pos.x;
-            temp_f14_2 = temp_v1_8->world.pos.z - temp_v0_2->pos.z;
-            if (temp_f12_2 != 0.0f || temp_f14_2 != 0.0f) {
-                this->dyna.actor.world.rot.y = (s16) (s32) (Math_FAtan2F(temp_f12_2, temp_f14_2) * 10430.378f);
+        if ((xDistance == 0.0f) && (zDistance == 0.0f)) {
+            player = PLAYER;
+
+            xDistance = player->actor.world.pos.x - pos->x;
+            zDistance = player->actor.world.pos.z - pos->z;
+
+            if (xDistance != 0.0f || zDistance != 0.0f) {
+                actor->world.rot.y = (Math_FAtan2F(xDistance, zDistance) * (0x8000/M_PI));
                 return;
             }
         } else {
-            this->dyna.actor.world.rot.y = (s16) (s32) (Math_FAtan2F(temp_f4 - temp_f6, temp_f8 - temp_f10) * 10430.378f);
+            actor->world.rot.y = (Math_FAtan2F(xDistance, zDistance) * (0x8000/M_PI));
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80979860.s")
-#endif
 
 void func_80979F9C(DemoGj* this){
     if (func_809797E4(this, 3) != 0) {
@@ -1124,6 +1096,16 @@ void func_8097AC30(DemoGj *this, GlobalContext *globalCtx);
     if (this->unk_17C == 0) {
         if (((u32) globalCtx->gameplayFrames % 3U) == 2) {
             this = this;
+            func_80978AFC(globalCtx, &D_8097BEA0, 300.0f);
+        }
+        func_80979F9C(this);
+    }
+}
+*/
+/*
+void func_8097AC30(DemoGj *this, GlobalContext *globalCtx) {
+    if (this->unk_17C == 0) {
+        if ((globalCtx->gameplayFrames % 3) == 2) {
             func_80978AFC(globalCtx, &D_8097BEA0, 300.0f);
         }
         func_80979F9C(this);
