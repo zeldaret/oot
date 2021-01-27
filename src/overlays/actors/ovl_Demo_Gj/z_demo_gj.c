@@ -323,14 +323,20 @@ void func_80978AC4(DemoGj* this, GlobalContext* globalCtx) {
     Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 0x32, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
-void func_80978AFC(GlobalContext *globalCtx, Vec3f* pos, f32 arg2);
-/*
-void func_80978AFC(GlobalContext *globalCtx, Vec3f *arg1, f32 arg2) {
-    arg2 = arg2;
-    func_800283D4(globalCtx, arg1, &D_8097BE64, &D_8097BE70, &D_8097BE7C, &D_8097BE80, (s32) ((Rand_ZeroOne() * (arg2 * 0.2f)) + arg2), 0xF, 0x5A);
+void func_80978AFC(GlobalContext *globalCtx, Vec3f *pos, f32 arg2) {
+    if (1)
+    func_800283D4(
+        globalCtx, 
+        pos, 
+        &D_8097BE64, 
+        &D_8097BE70, 
+        &D_8097BE7C, 
+        &D_8097BE80, 
+        Rand_ZeroOne() * (arg2 * 0.2f) + arg2, 
+        0xF, 
+        0x5A
+        );
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978AFC.s")
 
 void func_80978B90(DemoGj* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
