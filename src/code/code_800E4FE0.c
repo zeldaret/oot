@@ -111,7 +111,7 @@ AudioTask* func_800E5000(void) {
     gAudioContext.curAIBufIdx %= 3;
     temp_hi = (gAudioContext.curAIBufIdx - 2 + 3) % 3;
     sp6C = osAiGetLength() / 4;
-    if (gAudioContext.unk_2984 < 0x10) {
+    if (gAudioContext.resetTimer < 16) {
         if (gAudioContext.aiBufLengths[temp_hi] != 0) {
             sp34 = &gAudioContext + (temp_hi * 4);
             sp3C = &gAudioContext + (temp_hi * 2);
@@ -144,10 +144,10 @@ AudioTask* func_800E5000(void) {
     }
     gAudioContext.sampleIoReqIdx = 0;
     func_800E11F0();
-    func_800E2FEC(gAudioContext.gAudioResetStatus);
+    Audio_ProcessLoads(gAudioContext.resetStatus);
     func_800E4F58();
-    if ((gAudioContext.gAudioResetStatus != 0) && (Audio_ResetStep() == 0)) {
-        if (gAudioContext.gAudioResetStatus == 0) {
+    if ((gAudioContext.resetStatus != 0) && (Audio_ResetStep() == 0)) {
+        if (gAudioContext.resetStatus == 0) {
             osSendMesg(gAudioContext.audioResetQueueP, gAudioContext.gAudioResetPresetIdToLoad, 0);
         }
 
@@ -155,10 +155,10 @@ AudioTask* func_800E5000(void) {
         return NULL;
     }
 
-    if (gAudioContext.unk_2984 > 0x10) {
+    if (gAudioContext.resetTimer > 16) {
         return NULL;
-    } else if (gAudioContext.unk_2984 != 0) {
-        gAudioContext.unk_2984++;
+    } else if (gAudioContext.resetTimer != 0) {
+        gAudioContext.resetTimer++;
     }
 
     gAudioContext.currTask = &gAudioContext.rspTask[gAudioContext.rspTaskIdx];
@@ -175,7 +175,7 @@ AudioTask* func_800E5000(void) {
         gAudioContext.aiBufLengths[gAudioContext.curAIBufIdx] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
     }
 
-    if (gAudioContext.gAudioResetStatus == 0) {
+    if (gAudioContext.resetStatus == 0) {
         i = 0;
         // msg = 0000RREE R = read pos, E = End Pos
         while (osRecvMesg(gAudioContext.cmdProcQueueP, &sp4C, 0) != -1) {
@@ -308,7 +308,7 @@ void func_800E5584(AudioCmd* cmd) {
             gAudioContext.unk_5BDC[cmd->arg0] = cmd->asUShort;
             return;
         case 0xF9:
-            gAudioContext.gAudioResetStatus = 5;
+            gAudioContext.resetStatus = 5;
             gAudioContext.gAudioResetPresetIdToLoad = cmd->asUInt;
             return;
         case 0xFB:
@@ -544,7 +544,7 @@ s32 func_800E5F88(u32 resetPreloadID) {
     s32 pad;
 
     func_800E5F34();
-    resetStatus = gAudioContext.gAudioResetStatus;
+    resetStatus = gAudioContext.resetStatus;
     if (resetStatus != 0) {
         Audio_ResetCmdQueue();
         if (gAudioContext.gAudioResetPresetIdToLoad == resetPreloadID) {
@@ -564,10 +564,10 @@ s32 func_800E5F88(u32 resetPreloadID) {
 }
 
 void Audio_PreNMIInternal(void) {
-    gAudioContext.unk_2984 = 1;
+    gAudioContext.resetTimer = 1;
     if (gAudioContextInitalized) {
         func_800E5F88(0);
-        gAudioContext.gAudioResetStatus = 0;
+        gAudioContext.resetStatus = 0;
     }
 }
 

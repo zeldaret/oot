@@ -737,7 +737,7 @@ typedef struct {
     /* 0x1C */ u32 retMsg;
     /* 0x20 */ OSMesgQueue* retQueue;
     /* 0x24 */ OSMesgQueue msgQueue;
-    /* 0x3C */ OSMesg msg;
+    /* 0x3C */ OSMesg msg[1];
     /* 0x40 */ OSIoMesg ioMesg;
 } AsyncLoadReq; // size = 0x58
 
@@ -754,7 +754,7 @@ typedef struct {
     /* 0x001C */ s8* isDone;
     /* 0x0020 */ AudioBankSample sample;
     /* 0x0030 */ OSMesgQueue msgqueue;
-    /* 0x0048 */ OSMesg msg;
+    /* 0x0048 */ OSMesg msg[1];
     /* 0x004C */ OSIoMesg ioMesg;
 } AudioSyncLoad; // size = 0x64
 
@@ -836,7 +836,7 @@ typedef struct {
     s32 unk_0C;
     s32 unk_10;
     s32 unk_14;
-} unk_4C;
+} RelocInfo;
 
 typedef enum {
     SEQUENCE_TABLE,
@@ -846,7 +846,7 @@ typedef enum {
 
 typedef struct {
     Drum** drums;
-    AudioBankSound** sfx;
+    AudioBankSound* sfx;
     Instrument* instruments[1];
 } unk_ldr;
 
@@ -866,9 +866,9 @@ typedef struct {
     /* 0x1768 */ s32 unk_1768;
     /* 0x176C */ s32 unk_176C;
     /* 0x1770 */ AsyncLoadReq asyncReqs[0x10];
-    /* 0x1CF0 */ OSMesgQueue unk_queue_1CF0;
+    /* 0x1CF0 */ OSMesgQueue asyncLoadQueue;
     /* 0x1D08 */ char unk_1D08[0x40];
-    /* 0x1D48 */ u32 unk_1D48;
+    /* 0x1D48 */ AsyncLoadReq* curAsyncReq;
     /* 0x1D4C */ u32 syncLoadPos;
     /* 0x1D50 */ AudioSyncLoad syncLoads[2];
     /* 0x1E18 */ OSPiHandle* cartHandle;
@@ -932,7 +932,7 @@ typedef struct {
     /* 0x2974 */ s16 aiBufLengths[3];
     /* 0x297C */ u32 gAudioRandom;
     /* 0x2980 */ s32 gAudioErrorFlags;
-    /* 0x2984 */ volatile u32 unk_2984;
+    /* 0x2984 */ volatile u32 resetTimer;
     /* 0x2988 */ char unk_2988[0x8];
     /* 0x2990 */ SoundAllocPool gAudioSessionPool;
     /* 0x29A0 */ SoundAllocPool gUnkPool;
@@ -956,7 +956,7 @@ typedef struct {
     /* 0x3438 */ u8 audioTableLoadStatus[0x30];
     /* 0x3468 */ u8 bankLoadStatus[0x30];
     /* 0x3498 */ u8 seqLoadstatus[0x80];
-    /* 0x3518 */ volatile u8 gAudioResetStatus;
+    /* 0x3518 */ volatile u8 resetStatus;
     /* 0x3519 */ u8 gAudioResetPresetIdToLoad;
     /* 0x351C */ s32 gAudioResetFadeOutFramesLeft;
     /* 0x3520 */ f32* unk_3520;

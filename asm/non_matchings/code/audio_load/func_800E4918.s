@@ -233,7 +233,7 @@ glabel func_800E4918
 /* B5BDF8 800E4C58 3C0100FF */  lui   $at, (0x00FFFFFF >> 16) # lui $at, 0xff
 /* B5BDFC 800E4C5C 3421FFFF */  ori   $at, (0x00FFFFFF & 0xFFFF) # ori $at, $at, 0xffff
 /* B5BE00 800E4C60 00613024 */  and   $a2, $v1, $at
-/* B5BE04 800E4C64 0C038AAA */  jal   func_800E2AA8
+/* B5BE04 800E4C64 0C038AAA */  jal   Audio_DMAFastCopy
 /* B5BE08 800E4C68 8E040004 */   lw    $a0, 4($s0)
 /* B5BE0C 800E4C6C 920D0000 */  lbu   $t5, ($s0)
 /* B5BE10 800E4C70 AE110004 */  sw    $s1, 4($s0)
@@ -303,7 +303,7 @@ glabel func_800E4918
 /* B5BEFC 800E4D5C 00033900 */  sll   $a3, $v1, 4
 /* B5BF00 800E4D60 24420D54 */  addiu $v0, $v0, 0xd54
 /* B5BF04 800E4D64 00073F82 */  srl   $a3, $a3, 0x1e
-/* B5BF08 800E4D68 0C038EB2 */  jal   func_800E3AC8
+/* B5BF08 800E4D68 0C038EB2 */  jal   Audio_InitAsyncReq
 /* B5BF0C 800E4D6C AFAD0018 */   sw    $t5, 0x18($sp)
 .L800E4D70:
 /* B5BF10 800E4D70 8FBF003C */  lw    $ra, 0x3c($sp)

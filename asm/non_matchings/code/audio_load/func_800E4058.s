@@ -1,4 +1,4 @@
-glabel func_800E4058
+glabel Audio_SampleReloc
 /* B5B1F8 800E4058 8C820000 */  lw    $v0, ($a0)
 /* B5B1FC 800E405C 3C018000 */  lui   $at, (0x80000001 >> 16) # lui $at, 0x8000
 /* B5B200 800E4060 34210001 */  ori   $at, (0x80000001 & 0xFFFF) # ori $at, $at, 1

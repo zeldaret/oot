@@ -29,7 +29,7 @@ void AudioSynth_InitNextRingBuf(s32 chunkSize, s32 bufIdx, s32 reverbIdx) {
         if (reverb->framesToIgnore == 0) {
             bufItem = &reverb->items[reverb->curFrame][bufIdx];
             // inval dcache
-            func_800E6840(bufItem->toDownsampleLeft, 0x340);
+            Audio_osInvalDCache(bufItem->toDownsampleLeft, 0x340);
 
             for (j = 0, i = 0; i < bufItem->lengthA / 2; j += reverb->downsampleRate, i++) {
                 reverb->leftRingBuf[bufItem->startPos + i] = bufItem->toDownsampleLeft[j];

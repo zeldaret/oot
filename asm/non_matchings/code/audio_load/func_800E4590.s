@@ -106,7 +106,7 @@ glabel func_800E4590
 /* B5B8B8 800E4718 8C78000C */  lw    $t8, 0xc($v1)
 /* B5B8BC 800E471C 02002025 */  move  $a0, $s0
 /* B5B8C0 800E4720 01003825 */  move  $a3, $t0
-/* B5B8C4 800E4724 0C038EB2 */  jal   func_800E3AC8
+/* B5B8C4 800E4724 0C038EB2 */  jal   Audio_InitAsyncReq
 /* B5B8C8 800E4728 AFB80018 */   sw    $t8, 0x18($sp)
 .L800E472C:
 /* B5B8CC 800E472C 24020001 */  li    $v0, 1

@@ -1,6 +1,7 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define Audio_DisableSeq(seqIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqIdx << 16), fadeOut)
 #define Audio_StartSeq(seqIdx, fadeTimer, seqId) Audio_QueueSeqCmd(((u8)seqIdx << 0x18) | ((u8)fadeTimer << 0x10) | (u16)seqId)
 #define Audio_SeqCmd7(seqIdx, a, b) Audio_QueueSeqCmd(0x70000000 | ((u8)seqIdx << 0x18) | ((u8)a << 0x10) | (u8)(b))
 #define Audio_SeqCmdC(seqIdx, a, b, c) Audio_QueueSeqCmd(0xC0000000 | ((u8)seqIdx << 24) | ((u8)a << 16) | ((u8)b << 8) | ((u8)(c)))
@@ -147,6 +148,7 @@ extern u8 D_80131F4C[];
 extern u8 D_80131F50;
 extern OcarinaSong sOcarinaSongs[];         // 80130F80
 extern OcarinaSongInfo sOcarinaSongNotes[]; // D_80131C00
+extern OcarinaSongInfo sOcarinaSongNotes[0xC];
 extern u32 sNotePlaybackTimer;
 extern u16 sPlaybackNotePos;
 extern u32 D_80131860;
@@ -249,7 +251,7 @@ void func_800EC960(u8 custom) {
 
 #ifdef NON_MATCHING
 void PadMgr_RequestPadData(PadMgr* padmgr, Input* inputs, s32 mode);
-void func_800ECA00(void) {
+void Audio_InputUpdate(void) {
     Input input[4];
     u32 sp18;
     s32 pad;
@@ -262,8 +264,8 @@ void func_800ECA00(void) {
     D_8016BA09 = input[0].rel.stick_y;
 }
 #else
-void func_800ECA00(void);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800ECA00.s")
+void Audio_InputUpdate(void);
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/Audio_InputUpdate.s")
 #endif
 
 f32 Audio_OcaAdjStick(s8 inp) {
@@ -311,8 +313,7 @@ u8 Audio_OcaMapNoteValue(u8 arg0) {
     return temp_v1;
 }
 
-// append scarecrow song ?
-void func_800ECB7C(u8 arg0) {
+void func_800ECB7C(u8 songIdx) {
     u8 savedSongIdx;
     u8 scarecrowSongIdx;
     u8 noteIdx;
@@ -320,7 +321,7 @@ void func_800ECB7C(u8 arg0) {
     savedSongIdx = 0;
     scarecrowSongIdx = 0;
     while (savedSongIdx < 8 && scarecrowSongIdx < 0x10) {
-        noteIdx = sOcarinaSongs[arg0].notes[scarecrowSongIdx++].noteIdx;
+        noteIdx = sOcarinaSongs[songIdx].notes[scarecrowSongIdx++].noteIdx;
         if (noteIdx != 0xFF) {
             sOcarinaSongNotes[0xC].notesIdx[savedSongIdx++] = sNoteValueIndexMap[noteIdx];
         }
@@ -328,29 +329,29 @@ void func_800ECB7C(u8 arg0) {
 }
 
 // start ocarina.
-void func_800ECC04(u16 arg0) {
+void func_800ECC04(u16 flg) {
     u8 i;
 
-    if ((sOcarinaSongs[0xC].notes[1].volume != 0xFF) && ((arg0 & 0xFFF) == 0xFFF)) {
-        arg0 |= 0x1000;
+    if ((sOcarinaSongs[0xC].notes[1].volume != 0xFF) && ((flg & 0xFFF) == 0xFFF)) {
+        flg |= 0x1000;
     }
 
-    if ((arg0 == 0xCFFF) && (sOcarinaSongs[0xC].notes[1].volume != 0xFF)) {
-        arg0 = 0xDFFF;
+    if ((flg == 0xCFFF) && (sOcarinaSongs[0xC].notes[1].volume != 0xFF)) {
+        flg = 0xDFFF;
     }
 
-    if ((arg0 == 0xFFF) && (sOcarinaSongs[0xC].notes[1].volume != 0xFF)) {
-        arg0 = 0x1FFF;
+    if ((flg == 0xFFF) && (sOcarinaSongs[0xC].notes[1].volume != 0xFF)) {
+        flg = 0x1FFF;
     }
 
-    if (arg0 != 0xFFFF) {
-        D_80130F3C = 0x80000000 + (u32)arg0;
+    if (flg != 0xFFFF) {
+        D_80130F3C = 0x80000000 + (u32)flg;
         sOcarinaSongNotestartIdx = 0;
         sOcarinaSongCnt = 0xE;
-        if (arg0 != 0xA000) {
+        if (flg != 0xA000) {
             sOcarinaSongCnt--;
         }
-        sOcarinaAvailSongs = arg0 & 0x3FFF;
+        sOcarinaAvailSongs = flg & 0x3FFF;
         D_8013187C = 8;
         sOcarinaHasStartedSong = 0;
         D_80131878 = 0;
@@ -365,15 +366,15 @@ void func_800ECC04(u16 arg0) {
             D_8016BA90[i] = 0;
         }
 
-        if (arg0 & 0x8000) {
+        if (flg & 0x8000) {
             D_8013187C = 0;
         }
 
-        if (arg0 & 0x4000) {
+        if (flg & 0x4000) {
             sOcarinaSongAppendPos = 0;
         }
 
-        if (arg0 & 0xD000) {
+        if (flg & 0xD000) {
             func_800ECB7C(0xC);
             return;
         }
@@ -526,7 +527,7 @@ void func_800ED858(u8 arg0) {
         func_800F731C(0xD);
     } else {
         sCurOcarinaBtnPress = 0;
-        func_800ECA00();
+        Audio_InputUpdate();
         D_8016BA10 = sCurOcarinaBtnPress;
         func_800F72B8(0xD);
     }
@@ -924,7 +925,7 @@ void func_800EE6F4(void) {
     D_8016BA04 = gAudioContext.totalTaskCnt;
     if (D_80130F10 != 0) {
         if (sOcarinaInpEnabled == 1) {
-            func_800ECA00();
+            Audio_InputUpdate();
         }
         if ((sPlaybackState == 0) && (sOcarinaInpEnabled == 1)) {
             func_800ED458(0);
@@ -2809,8 +2810,6 @@ void func_800F6AB0(u16 arg0) {
 void func_800F6B3C(void) {
     func_800F9280(2, 0, 0xFF, 5);
 }
-
-#define Audio_DisableSeq(seqIdx, fadeOut) Audio_QueueCmdS32(0x83000000 | ((u8)seqIdx << 16), fadeOut)
 
 void Audio_DisableAllSeq(void) {
     Audio_DisableSeq(0, 0);

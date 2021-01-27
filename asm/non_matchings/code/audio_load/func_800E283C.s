@@ -45,7 +45,7 @@ glabel func_800E283C
 /* B59A84 800E28E4 02602825 */   move  $a1, $s3
 /* B59A88 800E28E8 02803025 */  move  $a2, $s4
 /* B59A8C 800E28EC AFA3003C */  sw    $v1, 0x3c($sp)
-/* B59A90 800E28F0 0C039016 */  jal   func_800E4058
+/* B59A90 800E28F0 0C039016 */  jal   Audio_SampleReloc
 /* B59A94 800E28F4 AFA70054 */   sw    $a3, 0x54($sp)
 /* B59A98 800E28F8 8E30000C */  lw    $s0, 0xc($s1)
 /* B59A9C 800E28FC 8FA3003C */  lw    $v1, 0x3c($sp)
@@ -79,7 +79,7 @@ glabel func_800E283C
 /* B59AFC 800E295C 02602825 */  move  $a1, $s3
 /* B59B00 800E2960 51C00004 */  beql  $t6, $zero, .L800E2974
 /* B59B04 800E2964 26310008 */   addiu $s1, $s1, 8
-/* B59B08 800E2968 0C039016 */  jal   func_800E4058
+/* B59B08 800E2968 0C039016 */  jal   Audio_SampleReloc
 /* B59B0C 800E296C 02803025 */   move  $a2, $s4
 /* B59B10 800E2970 26310008 */  addiu $s1, $s1, 8
 .L800E2974:
@@ -115,19 +115,19 @@ glabel func_800E283C
 /* B59B78 800E29D8 02602825 */  move  $a1, $s3
 /* B59B7C 800E29DC 51400004 */  beql  $t2, $zero, .L800E29F0
 /* B59B80 800E29E0 26240010 */   addiu $a0, $s1, 0x10
-/* B59B84 800E29E4 0C039016 */  jal   func_800E4058
+/* B59B84 800E29E4 0C039016 */  jal   Audio_SampleReloc
 /* B59B88 800E29E8 02803025 */   move  $a2, $s4
 /* B59B8C 800E29EC 26240010 */  addiu $a0, $s1, 0x10
 .L800E29F0:
 /* B59B90 800E29F0 02602825 */  move  $a1, $s3
-/* B59B94 800E29F4 0C039016 */  jal   func_800E4058
+/* B59B94 800E29F4 0C039016 */  jal   Audio_SampleReloc
 /* B59B98 800E29F8 02803025 */   move  $a2, $s4
 /* B59B9C 800E29FC 922B0002 */  lbu   $t3, 2($s1)
 /* B59BA0 800E2A00 2401007F */  li    $at, 127
 /* B59BA4 800E2A04 26240018 */  addiu $a0, $s1, 0x18
 /* B59BA8 800E2A08 11610003 */  beq   $t3, $at, .L800E2A18
 /* B59BAC 800E2A0C 02602825 */   move  $a1, $s3
-/* B59BB0 800E2A10 0C039016 */  jal   func_800E4058
+/* B59BB0 800E2A10 0C039016 */  jal   Audio_SampleReloc
 /* B59BB4 800E2A14 02803025 */   move  $a2, $s4
 .L800E2A18:
 /* B59BB8 800E2A18 8E300004 */  lw    $s0, 4($s1)

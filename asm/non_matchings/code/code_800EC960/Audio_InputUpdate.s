@@ -1,4 +1,4 @@
-glabel func_800ECA00
+glabel Audio_InputUpdate
 /* B63BA0 800ECA00 3C0E8017 */  lui   $t6, %hi(sCurOcarinaBtnPress) # $t6, 0x8017
 /* B63BA4 800ECA04 8DCEBA0C */  lw    $t6, %lo(sCurOcarinaBtnPress)($t6)
 /* B63BA8 800ECA08 27BDFF80 */  addiu $sp, $sp, -0x80

@@ -97,7 +97,7 @@ void Audio_DiscardSequence(s32 seqId) {
 }
 
 void func_800DE238(void* mem, u32 size) {
-    func_800E6880(mem, size);
+    Audio_osWritebackDCache(mem, size);
 }
 
 void* func_800DE258(SoundAllocPool* pool, u32 size) {
@@ -709,13 +709,13 @@ s32 Audio_ResetStep(void) {
         sp24 = 1;
     }
 
-    switch (gAudioContext.gAudioResetStatus) {
+    switch (gAudioContext.resetStatus) {
         case 5:
             for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
                 Audio_SequencePlayerDisableAsFinished(&gAudioContext.gSequencePlayers[i]);
             }
             gAudioContext.gAudioResetFadeOutFramesLeft = 2 / sp24;
-            gAudioContext.gAudioResetStatus--;
+            gAudioContext.resetStatus--;
             break;
 
         case 4:
@@ -732,7 +732,7 @@ s32 Audio_ResetStep(void) {
                     }
                 }
                 gAudioContext.gAudioResetFadeOutFramesLeft = 8 / sp24;
-                gAudioContext.gAudioResetStatus--;
+                gAudioContext.resetStatus--;
             }
             break;
 
@@ -742,7 +742,7 @@ s32 Audio_ResetStep(void) {
                 func_800DF7C4();
             } else {
                 gAudioContext.gAudioResetFadeOutFramesLeft = 2 / sp24;
-                gAudioContext.gAudioResetStatus--;
+                gAudioContext.resetStatus--;
             }
             break;
 
@@ -751,15 +751,15 @@ s32 Audio_ResetStep(void) {
             if (gAudioContext.gAudioResetFadeOutFramesLeft != 0) {
                 gAudioContext.gAudioResetFadeOutFramesLeft--;
             } else {
-                gAudioContext.gAudioResetStatus--;
+                gAudioContext.resetStatus--;
                 func_800E0CBC();
                 func_800E1148();
             }
             break;
 
         case 1:
-            func_800DFBF8();
-            gAudioContext.gAudioResetStatus = 0;
+            Audio_InitHeap();
+            gAudioContext.resetStatus = 0;
             for (i = 0; i < 3; i++) {
                 gAudioContext.aiBufLengths[i] = gAudioContext.gAudioBufferParameters.maxAiBufferLength;
                 for (j = 0; j < 0x580; j++) {
@@ -769,14 +769,14 @@ s32 Audio_ResetStep(void) {
             break;
     }
 
-    if (gAudioContext.gAudioResetStatus < 3) {
+    if (gAudioContext.resetStatus < 3) {
         return 0;
     }
 
     return 1;
 }
 
-void func_800DFBF8(void) {
+void Audio_InitHeap(void) {
     s32 pad1[4];
     s16* mem;
     s32 persistentMem;

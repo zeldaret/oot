@@ -214,7 +214,7 @@ glabel func_800E12DC
 /* B58774 800E15D4 00003025 */  move  $a2, $zero
 /* B58778 800E15D8 AFA20014 */  sw    $v0, 0x14($sp)
 /* B5877C 800E15DC AFB90010 */  sw    $t9, 0x10($sp)
-/* B58780 800E15E0 0C038AF8 */  jal   func_800E2BE0
+/* B58780 800E15E0 0C038AF8 */  jal   Audio_DMA
 /* B58784 800E15E4 AFAE001C */   sw    $t6, 0x1c($sp)
 /* B58788 800E15E8 8FAA0038 */  lw    $t2, 0x38($sp)
 /* B5878C 800E15EC 8FB8005C */  lw    $t8, 0x5c($sp)
