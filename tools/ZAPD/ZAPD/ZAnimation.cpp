@@ -37,13 +37,16 @@ void ZAnimation::Save(const std::string& outFolder)
 void ZAnimation::ParseXML(tinyxml2::XMLElement* reader)
 {
 	ZResource::ParseXML(reader);
-
-	name = reader->Attribute("Name");
 }
 
 string ZAnimation::GetSourceOutputCode(const std::string& prefix)
 {
 	return "";
+}
+
+ZResourceType ZAnimation::GetResourceType()
+{
+	return ZResourceType::Animation;
 }
 
 ZNormalAnimation::ZNormalAnimation() : ZAnimation()

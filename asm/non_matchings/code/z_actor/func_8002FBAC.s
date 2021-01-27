@@ -529,8 +529,8 @@ glabel func_8002FBAC
 /* AA746C 800302CC 0C0346A2 */  jal   Matrix_NewMtx
 /* AA7470 800302D0 AFA20058 */   sw    $v0, 0x58($sp)
 /* AA7474 800302D4 8FA30058 */  lw    $v1, 0x58($sp)
-/* AA7478 800302D8 3C040401 */  lui   $a0, %hi(gGameKeepMoteDL0) # $a0, 0x401
-/* AA747C 800302DC 24840130 */  addiu $a0, %lo(gGameKeepMoteDL0) # addiu $a0, $a0, 0x130
+/* AA7478 800302D8 3C040401 */  lui   $a0, %hi(gEffFlash1DL) # $a0, 0x401
+/* AA747C 800302DC 24840130 */  addiu $a0, %lo(gEffFlash1DL) # addiu $a0, $a0, 0x130
 /* AA7480 800302E0 AC620004 */  sw    $v0, 4($v1)
 /* AA7484 800302E4 8FA500EC */  lw    $a1, 0xec($sp)
 /* AA7488 800302E8 3C18DE00 */  li    $t8, 0xDE000000 # 0.000000

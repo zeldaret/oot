@@ -6,6 +6,7 @@
 
 #include "z_en_viewer.h"
 #include "overlays/actors/ovl_En_Ganon_Mant/z_en_ganon_mant.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -37,7 +38,6 @@ void func_80B2BA38(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2C130(EnViewer* this, GlobalContext* globalCtx);
 
 extern Mtx D_01000000;
-extern Gfx D_0404D4E0[];
 extern AnimationHeader D_06000450;
 extern AnimationHeader D_060005B4;
 extern AnimationHeader D_060008A0;
@@ -874,7 +874,7 @@ void func_80B2C8AC(EnViewer* this2, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2027),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_viewer.c", 2034);
 }
