@@ -804,17 +804,23 @@ void func_8097A000(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097A07C(DemoGj* this, GlobalContext* globalCtx);
-/*
+#ifdef NON_MATCHING
 void func_8097A07C(DemoGj *this, GlobalContext *globalCtx) {
+    u32 gameplayFrames;
+
     if (this->unk_17C == 0) {
-        if ((globalCtx->gameplayFrames % 3)==0) {
+        gameplayFrames = globalCtx->gameplayFrames;
+
+        if ((gameplayFrames % 3) == 0) {
             func_80978AFC(globalCtx, &D_8097BE88, 300.0f);
         }
+
         func_80979F9C(this);
     }
 }
-*/
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A07C.s")
+#endif
 
 void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx) {
     if (func_80979818(this, globalCtx) != 0) {
@@ -862,24 +868,24 @@ void func_8097A238(DemoGj *this, GlobalContext *globalCtx) {
     func_8097923C(this, globalCtx);
 }
 
-//s32 func_8097A2B4(void *arg0, GlobalContext* globalCtx);
-void func_8097A2B4(void *arg0, GlobalContext* globalCtx);
-/*
-s32 func_8097A2B4(void *arg0, GlobalContext* globalCtx) {
-    s32 phi_return;
+void func_8097A2B4(DemoGj *this, GlobalContext* globalCtx);
+#ifdef NON_MATCHING
+void func_8097A2B4(DemoGj *this, GlobalContext *globalCtx) {
+    u32 gameplayFrames;
 
-    phi_return = globalCtx + 0x10000;
-    if (arg0->unk17C == 0) {
-        if (((u32) globalCtx->gameplayFrames % 3U) == 1) {
-            arg0 = arg0;
+    if (this->unk_17C == 0) {
+        gameplayFrames = globalCtx->gameplayFrames;
+        
+        if ((gameplayFrames % 3) == 1) {
             func_80978AFC(globalCtx, &D_8097BE94, 300.0f);
         }
-        phi_return = func_80979F9C(arg0);
+
+        func_80979F9C(this);
     }
-    return phi_return;
 }
-*/
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097A2B4.s")
+#endif
 
 void func_8097A320(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx) != 0) {
@@ -1112,27 +1118,23 @@ void func_8097ABB4(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097AC30(DemoGj *this, GlobalContext *globalCtx);
-/*void func_8097AC30(DemoGj *this, GlobalContext *globalCtx) {
-    if (this->unk_17C == 0) {
-        if (((u32) globalCtx->gameplayFrames % 3U) == 2) {
-            this = this;
-            func_80978AFC(globalCtx, &D_8097BEA0, 300.0f);
-        }
-        func_80979F9C(this);
-    }
-}
-*/
-/*
+#ifdef NON_MATCHING
 void func_8097AC30(DemoGj *this, GlobalContext *globalCtx) {
+    u32 gameplayFrames;
+
     if (this->unk_17C == 0) {
-        if ((globalCtx->gameplayFrames % 3) == 2) {
+        gameplayFrames = globalCtx->gameplayFrames;
+
+        if ((gameplayFrames % 3) == 2) {
             func_80978AFC(globalCtx, &D_8097BEA0, 300.0f);
         }
+
         func_80979F9C(this);
     }
 }
-*/
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097AC30.s")
+#endif
 
 void func_8097AC9C(DemoGj *this, GlobalContext *globalCtx) {
     if (func_80979818(this, globalCtx) != 0) {
