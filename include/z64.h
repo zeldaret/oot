@@ -372,7 +372,7 @@ typedef struct {
     /* 0xE3E7 */ u8     unk_E3E7;
     /* 0xE3E8 */ u16    unk_E3E8;
     /* 0xE3EA */ u16    unk_E3EA;
-    /* 0xE3EA */ u16    unk_E3EC;
+    /* 0xE3EA */ u16    unk_E3EC; // "Ocarina_Flog" , "Ocarina_Free"
     /* 0xE3EE */ u16    unk_E3EE; // original name : ocarina_mode
     /* 0xE3F0 */ u16    unk_E3F0; // original name : ocarina_no
     /* 0xE3F2 */ u16    unk_E3F2; // original name : chk_ocarina_no
