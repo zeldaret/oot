@@ -129,11 +129,11 @@ void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809EAB84, &sColChkInfoInit);
-        this->unk_19A = ((this->actor.params >> 8) & 0xFF);
+        this->shotsPerRound = ((this->actor.params >> 8) & 0xFF);
         this->actor.params &= 0xFF;
-        temp = this->unk_19A;
+        temp = this->shotsPerRound;
         if ((temp == 0xFF) || (temp == 0)) {
-            this->unk_19A = 1;
+            this->shotsPerRound = 1;
         }
         EnDekunuts_SetupWait(this);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DEKUNUTS, this->actor.world.pos.x,
@@ -166,7 +166,7 @@ void EnDekunuts_SetupLookAround(EnDekunuts* this) {
 
 void EnDekunuts_SetupThrowNut(EnDekunuts* this) {
     Animation_PlayOnce(&this->skelAnime, &D_060001C4);
-    this->animFlagAndTimer = this->unk_19A;
+    this->animFlagAndTimer = this->shotsPerRound;
     this->actionFunc = EnDekunuts_ThrowNut;
 }
 
@@ -321,7 +321,7 @@ void EnDekunuts_ThrowNut(EnDekunuts* this, GlobalContext* globalCtx) {
                         this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 0) != NULL) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
         }
-    } else if ((this->animFlagAndTimer >= 2) && Animation_OnFrame(&this->skelAnime, 12.0f)) {
+    } else if ((this->animFlagAndTimer > 1) && Animation_OnFrame(&this->skelAnime, 12.0f)) {
         Animation_MorphToPlayOnce(&this->skelAnime, &D_060001C4, -3.0f);
         if (this->animFlagAndTimer != 0) {
             this->animFlagAndTimer--;
