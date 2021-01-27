@@ -13,18 +13,22 @@ def get_reg_macro(offset):
     reg_in_group = reg % GROUP_SIZE
     return "%cREG(%d)\n" % (REGISTER_NAMES[group], reg_in_group)
 
+def parse_number(string):
+    if string.lower().startswith("0x"):
+        return int(string, 16)
+    return int(string, 10)
+
+def index_to_offset(index):
+    return (index + 10) * 2
+
 def main():
     parser = argparse.ArgumentParser(description="Converts a GameInfo->data index to a REG macro.")
     parser.add_argument("index", help="index of GameInfo->data in decimal (or hexadecimal if starts with 0x)")
     args = parser.parse_args()
 
-    index = 0
-    if args.index.lower().startswith("0x"):
-        index = int(args.index, 16)
-    else:
-        index = int(args.index, 10)
+    index = parse_number(args.index)
+    offset = index_to_offset(index)
 
-    offset = (index + 10)*2
     print(get_reg_macro(offset))
 
 if __name__ == "__main__":
