@@ -65,12 +65,16 @@ def main():
     # file_group = parser.add_argument_group(title="file", description="")
     file_group = parser.add_argument_group()
     file_group.add_argument("--file", help="use the parameter as a filepath, then replace every occurrence of `gGameInfo->data[number]` in that file a REG macro", action="store_true")
+    file_group.add_argument("--stdout", help="print the processed file to stdout instead of overwriting the original", action="store_true")
     args = parser.parse_args()
 
     if args.file:
         filename = args.index
         contents = read_file(filename)
-        write_file(filename, contents)
+        if args.stdout:
+            print(contents)
+        else:
+            write_file(filename, contents)
     else:
         index = parse_number(args.index, args.hex)
         offset = index_to_offset(index)
