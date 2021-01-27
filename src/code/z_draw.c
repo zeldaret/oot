@@ -78,32 +78,32 @@
 #include "objects/object_gi_sword_1/object_gi_sword_1.h"
 
 // "Get Item" Model Draw Functions
-void func_800694E4(GlobalContext* globalCtx, s16 drawId);
-void func_800695C0(GlobalContext* globalCtx, s16 drawId);
-void func_8006969C(GlobalContext* globalCtx, s16 drawId);
-void func_80069880(GlobalContext* globalCtx, s16 drawId);
-void func_80069AC8(GlobalContext* globalCtx, s16 drawId);
-void func_80069CF0(GlobalContext* globalCtx, s16 drawId);
-void func_80069EB0(GlobalContext* globalCtx, s16 drawId);
-void func_8006A060(GlobalContext* globalCtx, s16 drawId);
-void func_8006A158(GlobalContext* globalCtx, s16 drawId);
-void func_8006A2A0(GlobalContext* globalCtx, s16 drawId);
-void func_8006A4B0(GlobalContext* globalCtx, s16 drawId);
-void func_8006A5F0(GlobalContext* globalCtx, s16 drawId);
-void func_8006A73C(GlobalContext* globalCtx, s16 drawId);
-void func_8006A88C(GlobalContext* globalCtx, s16 drawId);
-void func_8006A9CC(GlobalContext* globalCtx, s16 drawId);
-void func_8006AAA8(GlobalContext* globalCtx, s16 drawId);
-void func_8006ABEC(GlobalContext* globalCtx, s16 drawId);
-void func_8006ACE4(GlobalContext* globalCtx, s16 drawId);
-void func_8006AE40(GlobalContext* globalCtx, s16 drawId);
-void func_8006AF9C(GlobalContext* globalCtx, s16 drawId);
-void func_8006B124(GlobalContext* globalCtx, s16 drawId);
-void func_8006B24C(GlobalContext* globalCtx, s16 drawId);
-void func_8006B3C0(GlobalContext* globalCtx, s16 drawId);
-void func_8006B54C(GlobalContext* globalCtx, s16 drawId);
-void func_8006B6E4(GlobalContext* globalCtx, s16 drawId);
-void func_8006B870(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawMaskOrBombchu(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawSoldOut(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawBlueFire(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawPoes(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawFairy(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawMirrorShield(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawSkullToken(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawEggOrMedallion(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawCompass(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawPotion(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawGoronSword(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawDekuNuts(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawRecoveryHeart(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawFish(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawOpa0(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawOpa0Xlu1(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawXlu01(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawOpa10Xlu2(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawMagicArrow(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawMagicSpell(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawOpa1023(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawOpa10Xlu32(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawSmallRupee(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawScale(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawBulletBag(GlobalContext* globalCtx, s16 drawId);
+void GetItem_DrawWallet(GlobalContext* globalCtx, s16 drawId);
 
 typedef struct {
     /* 0x00 */ void (*drawFunc)(GlobalContext*, s16);
@@ -112,268 +112,268 @@ typedef struct {
 
 DrawItemTableEntry sDrawItemTable[] = {
     // bottle, OBJECT_GI_BOTTLE
-    { func_8006AAA8, { gGiBottleStopperDL, gGiBottleDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiBottleStopperDL, gGiBottleDL } },
     // small key, OBJECT_GI_KEY
-    { func_8006A9CC, { gGiSmallKeyDL } },
+    { GetItem_DrawOpa0, { gGiSmallKeyDL } },
     // minuet of forest, OBJECT_GI_MELODY
-    { func_8006ABEC, { gGiMinuetColorDL, gGiSongNoteDL } },
+    { GetItem_DrawXlu01, { gGiMinuetColorDL, gGiSongNoteDL } },
     // bolero of fire, OBJECT_GI_MELODY
-    { func_8006ABEC, { gGiBoleroColorDL, gGiSongNoteDL } },
+    { GetItem_DrawXlu01, { gGiBoleroColorDL, gGiSongNoteDL } },
     // serenade of water, OBJECT_GI_MELODY
-    { func_8006ABEC, { gGiSerenadeColorDL, gGiSongNoteDL } },
+    { GetItem_DrawXlu01, { gGiSerenadeColorDL, gGiSongNoteDL } },
     // requiem of spirit, OBJECT_GI_MELODY
-    { func_8006ABEC, { gGiRequiemColorDL, gGiSongNoteDL } },
+    { GetItem_DrawXlu01, { gGiRequiemColorDL, gGiSongNoteDL } },
     // nocturne of shadow, OBJECT_GI_MELODY
-    { func_8006ABEC, { gGiNocturneColorDL, gGiSongNoteDL } },
+    { GetItem_DrawXlu01, { gGiNocturneColorDL, gGiSongNoteDL } },
     // prelude of light, OBJECT_GI_MELODY
-    { func_8006ABEC, { gGiPreludeColorDL, gGiSongNoteDL } },
+    { GetItem_DrawXlu01, { gGiPreludeColorDL, gGiSongNoteDL } },
     // recovery heart, OBJECT_GI_HEART
-    { func_8006A73C, { gGiRecoveryHeartDL } },
+    { GetItem_DrawRecoveryHeart, { gGiRecoveryHeartDL } },
     // boss key, OBJECT_GI_BOSSKEY
-    { func_8006AAA8, { gGiBossKeyDL, gGiBossKeyGemDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiBossKeyDL, gGiBossKeyGemDL } },
     // compass, OBJECT_GI_COMPASS
-    { func_8006A158, { gGiCompassDL, gGiCompassGlassDL } },
+    { GetItem_DrawCompass, { gGiCompassDL, gGiCompassGlassDL } },
     // forest medallion, OBJECT_GI_MEDAL
-    { func_8006A060, { gGiForestMedallionFaceDL, gGiMedallionDL } },
+    { GetItem_DrawEggOrMedallion, { gGiForestMedallionFaceDL, gGiMedallionDL } },
     // fire medallion, OBJECT_GI_MEDAL
-    { func_8006A060, { gGiFireMedallionFaceDL, gGiMedallionDL } },
+    { GetItem_DrawEggOrMedallion, { gGiFireMedallionFaceDL, gGiMedallionDL } },
     // water medallion, OBJECT_GI_MEDAL
-    { func_8006A060, { gGiWaterMedallionFaceDL, gGiMedallionDL } },
+    { GetItem_DrawEggOrMedallion, { gGiWaterMedallionFaceDL, gGiMedallionDL } },
     // spirit medallion, OBJECT_GI_MEDAL
-    { func_8006A060, { gGiSpiritMedallionFaceDL, gGiMedallionDL } },
+    { GetItem_DrawEggOrMedallion, { gGiSpiritMedallionFaceDL, gGiMedallionDL } },
     // shadow medallion, OBJECT_GI_MEDAL
-    { func_8006A060, { gGiShadowMedallionFaceDL, gGiMedallionDL } },
+    { GetItem_DrawEggOrMedallion, { gGiShadowMedallionFaceDL, gGiMedallionDL } },
     // light medallion, OBJECT_GI_MEDAL
-    { func_8006A060, { gGiLightMedallionFaceDL, gGiMedallionDL } },
+    { GetItem_DrawEggOrMedallion, { gGiLightMedallionFaceDL, gGiMedallionDL } },
     // deku nuts, OBJECT_GI_NUTS
-    { func_8006A5F0, { gGiNutDL } },
+    { GetItem_DrawDekuNuts, { gGiNutDL } },
     // heart container, OBJECT_GI_HEARTS
-    { func_8006ABEC, { gGiHeartBorderDL, gGiHeartContainerDL } },
+    { GetItem_DrawXlu01, { gGiHeartBorderDL, gGiHeartContainerDL } },
     // heart piece, OBJECT_GI_HEARTS
-    { func_8006ABEC, { gGiHeartBorderDL, gGiHeartPieceDL } },
+    { GetItem_DrawXlu01, { gGiHeartBorderDL, gGiHeartPieceDL } },
     // quiver 30, OBJECT_GI_ARROWCASE
-    { func_8006B124, { gGiQuiverInnerDL, gGiQuiver30InnerColorDL, gGiQuiver30OuterColorDL, gGiQuiverOuterDL } },
+    { GetItem_DrawOpa1023, { gGiQuiverInnerDL, gGiQuiver30InnerColorDL, gGiQuiver30OuterColorDL, gGiQuiverOuterDL } },
     // quiver 40, OBJECT_GI_ARROWCASE
-    { func_8006B124, { gGiQuiverInnerDL, gGiQuiver40InnerColorDL, gGiQuiver40OuterColorDL, gGiQuiverOuterDL } },
+    { GetItem_DrawOpa1023, { gGiQuiverInnerDL, gGiQuiver40InnerColorDL, gGiQuiver40OuterColorDL, gGiQuiverOuterDL } },
     // quiver 50, OBJECT_GI_ARROWCASE
-    { func_8006B124, { gGiQuiverInnerDL, gGiQuiver50InnerColorDL, gGiQuiver50OuterColorDL, gGiQuiverOuterDL } },
+    { GetItem_DrawOpa1023, { gGiQuiverInnerDL, gGiQuiver50InnerColorDL, gGiQuiver50OuterColorDL, gGiQuiverOuterDL } },
     // bomb bag 20, OBJECT_GI_BOMBPOUCH
-    { func_8006B124, { gGiBombBagDL, gGiBombBag20BagColorDL, gGiBombBag20RingColorDL, gGiBombBagRingDL } },
+    { GetItem_DrawOpa1023, { gGiBombBagDL, gGiBombBag20BagColorDL, gGiBombBag20RingColorDL, gGiBombBagRingDL } },
     // bomb bag 30, OBJECT_GI_BOMBPOUCH
-    { func_8006B124, { gGiBombBagDL, gGiBombBag30BagColorDL, gGiBombBag30RingColorDL, gGiBombBagRingDL } },
+    { GetItem_DrawOpa1023, { gGiBombBagDL, gGiBombBag30BagColorDL, gGiBombBag30RingColorDL, gGiBombBagRingDL } },
     // bomb bag 40, OBJECT_GI_BOMBPOUCH
-    { func_8006B124, { gGiBombBagDL, gGiBombBag40BagColorDL, gGiBombBag40RingColorDL, gGiBombBagRingDL } },
+    { GetItem_DrawOpa1023, { gGiBombBagDL, gGiBombBag40BagColorDL, gGiBombBag40RingColorDL, gGiBombBagRingDL } },
     // stick, OBJECT_GI_STICK
-    { func_8006A9CC, { gGiStickDL } },
+    { GetItem_DrawOpa0, { gGiStickDL } },
     // dungeon map, OBJECT_GI_MAP
-    { func_8006A9CC, { gGiDungeonMapDL } },
+    { GetItem_DrawOpa0, { gGiDungeonMapDL } },
     // deku shield, OBJECT_GI_SHIELD_1
-    { func_8006A9CC, { gGiDekuShieldDL } },
+    { GetItem_DrawOpa0, { gGiDekuShieldDL } },
     // small magic jar, OBJECT_GI_MAGICPOT
-    { func_8006A9CC, { gGiMagicJarSmallDL } },
+    { GetItem_DrawOpa0, { gGiMagicJarSmallDL } },
     // large magic jar, OBJECT_GI_MAGICPOT
-    { func_8006A9CC, { gGiMagicJarLargeDL } },
+    { GetItem_DrawOpa0, { gGiMagicJarLargeDL } },
     // bombs, OBJECT_GI_BOMB_1
-    { func_8006A9CC, { gGiBombDL } },
+    { GetItem_DrawOpa0, { gGiBombDL } },
     // stone of agony, OBJECT_GI_MAP
-    { func_8006A9CC, { gGiStoneOfAgonyDL } },
+    { GetItem_DrawOpa0, { gGiStoneOfAgonyDL } },
     // adult's wallet, OBJECT_GI_PURSE
-    { func_8006B870,
+    { GetItem_DrawWallet,
       { gGiWalletDL, gGiAdultWalletColorDL, gGiAdultWalletRupeeOuterColorDL, gGiWalletRupeeOuterDL,
         gGiAdultWalletStringColorDL, gGiWalletStringDL, gGiAdultWalletRupeeInnerColorDL, gGiWalletRupeeInnerDL } },
     // giant's wallet, OBJECT_GI_PURSE
-    { func_8006B870,
+    { GetItem_DrawWallet,
       { gGiWalletDL, gGiGiantsWalletColorDL, gGiGiantsWalletRupeeOuterColorDL, gGiWalletRupeeOuterDL,
         gGiGiantsWalletStringColorDL, gGiWalletStringDL, gGiGiantsWalletRupeeInnerColorDL, gGiWalletRupeeInnerDL } },
     // gerudo card, OBJECT_GI_GERUDO
-    { func_8006A9CC, { gGiGerudoCardDL } },
+    { GetItem_DrawOpa0, { gGiGerudoCardDL } },
     // arrows (small), OBJECT_GI_ARROW
-    { func_8006A9CC, { gGiArrowSmallDL } },
+    { GetItem_DrawOpa0, { gGiArrowSmallDL } },
     // arrows (medium), OBJECT_GI_ARROW
-    { func_8006A9CC, { gGiArrowMediumDL } },
+    { GetItem_DrawOpa0, { gGiArrowMediumDL } },
     // arrows (large), OBJECT_GI_ARROW
-    { func_8006A9CC, { gGiArrowLargeDL } },
+    { GetItem_DrawOpa0, { gGiArrowLargeDL } },
     // bombchus, OBJECT_GI_BOMB_2
-    { func_800694E4, { gGiBombchuDL } },
+    { GetItem_DrawMaskOrBombchu, { gGiBombchuDL } },
     // egg, OBJECT_GI_EGG
-    { func_8006A060, { gGiEggSetupDL, gGiEggDL } },
+    { GetItem_DrawEggOrMedallion, { gGiEggSetupDL, gGiEggDL } },
     // silver scale, OBJECT_GI_SCALE
-    { func_8006B54C, { gGiScaleWaterDL, gGiSilverScaleWaterColorDL, gGiSilverScaleColorDL, gGiScaleDL } },
+    { GetItem_DrawScale, { gGiScaleWaterDL, gGiSilverScaleWaterColorDL, gGiSilverScaleColorDL, gGiScaleDL } },
     // gold scale, OBJECT_GI_SCALE
-    { func_8006B54C, { gGiScaleWaterDL, gGiGoldenScaleWaterColorDL, gGiGoldenScaleColorDL, gGiScaleDL } },
+    { GetItem_DrawScale, { gGiScaleWaterDL, gGiGoldenScaleWaterColorDL, gGiGoldenScaleColorDL, gGiScaleDL } },
     // hylian shield, OBJECT_GI_SHIELD_2
-    { func_8006A9CC, { gGiHylianShieldDL } },
+    { GetItem_DrawOpa0, { gGiHylianShieldDL } },
     // hookshot, OBJECT_GI_HOOKSHOT
-    { func_8006A9CC, { gGiHookshotDL } },
+    { GetItem_DrawOpa0, { gGiHookshotDL } },
     // longshot, OBJECT_GI_HOOKSHOT
-    { func_8006A9CC, { gGiLongshotDL } },
+    { GetItem_DrawOpa0, { gGiLongshotDL } },
     // ocarina of time, OBJECT_GI_OCARINA
-    { func_8006AAA8, { gGiOcarinaTimeDL, gGiOcarinaTimeHolesDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiOcarinaTimeDL, gGiOcarinaTimeHolesDL } },
     // milk, OBJECT_GI_MILK
-    { func_8006AAA8, { gGiMilkBottleContentsDL, gGiMilkBottleDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiMilkBottleContentsDL, gGiMilkBottleDL } },
     // keaton mask, OBJECT_GI_KI_TAN_MASK
-    { func_8006AAA8, { gGiKeatonMaskDL, gGiKeatonMaskEyesDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiKeatonMaskDL, gGiKeatonMaskEyesDL } },
     // spooky mask, OBJECT_GI_REDEAD_MASK
-    { func_8006A9CC, { gGiSpookyMaskDL } },
+    { GetItem_DrawOpa0, { gGiSpookyMaskDL } },
     // slingshot, OBJECT_GI_PACHINKO
-    { func_8006A9CC, { gGiSlingshotDL } },
+    { GetItem_DrawOpa0, { gGiSlingshotDL } },
     // boomerang, OBJECT_GI_BOOMERANG
-    { func_8006A9CC, { gGiBoomerangDL } },
+    { GetItem_DrawOpa0, { gGiBoomerangDL } },
     // bow, OBJECT_GI_BOW
-    { func_8006A9CC, { gGiBowDL } },
+    { GetItem_DrawOpa0, { gGiBowDL } },
     // lens, OBJECT_GI_GLASSES
-    { func_8006AAA8, { gGiLensDL, gGiLensGlassDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiLensDL, gGiLensGlassDL } },
     // green potion, OBJECT_GI_LIQUID
-    { func_8006A2A0,
+    { GetItem_DrawPotion,
       { gGiPotionPotDL, gGiGreenPotColorDL, gGiGreenLiquidColorDL, gGiPotionLiquidDL, gGiGreenPatternColorDL,
         gGiPotionPatternDL } },
     // red potion, OBJECT_GI_LIQUID
-    { func_8006A2A0,
+    { GetItem_DrawPotion,
       { gGiPotionPotDL, gGiRedPotColorDL, gGiRedLiquidColorDL, gGiPotionLiquidDL, gGiRedPatternColorDL,
         gGiPotionPatternDL } },
     // blue potion, OBJECT_GI_LIQUID
-    { func_8006A2A0,
+    { GetItem_DrawPotion,
       { gGiPotionPotDL, gGiBluePotColorDL, gGiBlueLiquidColorDL, gGiPotionLiquidDL, gGiBluePatternColorDL,
         gGiPotionPatternDL } },
     // mirror shield, OBJECT_GI_SHIELD_3
-    { func_80069CF0, { gGiMirrorShieldDL, gGiMirrorShieldSymbolDL } },
+    { GetItem_DrawMirrorShield, { gGiMirrorShieldDL, gGiMirrorShieldSymbolDL } },
     // zelda's letter, OBJECT_GI_LETTER
-    { func_8006AAA8, { gGiLetterDL, gGiLetterWritingDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiLetterDL, gGiLetterWritingDL } },
     // goron tunic, OBJECT_GI_CLOTHES
-    { func_8006B124, { gGiTunicCollarDL, gGiGoronCollarColorDL, gGiGoronTunicColorDL, gGiTunicDL } },
+    { GetItem_DrawOpa1023, { gGiTunicCollarDL, gGiGoronCollarColorDL, gGiGoronTunicColorDL, gGiTunicDL } },
     // zora tunic, OBJECT_GI_CLOTHES
-    { func_8006B124, { gGiTunicCollarDL, gGiZoraCollarColorDL, gGiZoraTunicColorDL, gGiTunicDL } },
+    { GetItem_DrawOpa1023, { gGiTunicCollarDL, gGiZoraCollarColorDL, gGiZoraTunicColorDL, gGiTunicDL } },
     // beans, OBJECT_GI_BEAN
-    { func_8006A9CC, { gGiBeanDL } },
+    { GetItem_DrawOpa0, { gGiBeanDL } },
     // fish, OBJECT_GI_FISH
-    { func_8006A88C, { gGiFishDL } },
+    { GetItem_DrawFish, { gGiFishDL } },
     // saw, OBJECT_GI_SAW
-    { func_8006A9CC, { gGiSawDL } },
+    { GetItem_DrawOpa0, { gGiSawDL } },
     // hammer, OBJECT_GI_HAMMER
-    { func_8006A9CC, { gGiHammerDL } },
+    { GetItem_DrawOpa0, { gGiHammerDL } },
     // grass, OBJECT_GI_GRASS
-    { func_8006A9CC, { gGiGrassDL } },
+    { GetItem_DrawOpa0, { gGiGrassDL } },
     // biggorons sword, OBJECT_GI_LONGSWORD
-    { func_8006A4B0, { gGiBiggoronSwordDL } },
+    { GetItem_DrawGoronSword, { gGiBiggoronSwordDL } },
     // chicken, OBJECT_GI_NIWATORI
-    { func_8006ACE4, { gGiChickenDL, gGiChickenColorDL, gGiChickenEyesDL } },
+    { GetItem_DrawOpa10Xlu2, { gGiChickenDL, gGiChickenColorDL, gGiChickenEyesDL } },
     // ruto's letter, OBJECT_GI_BOTTLE_LETTER
-    { func_8006AAA8, { gGiLetterBottleContentsDL, gGiLetterBottleDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiLetterBottleContentsDL, gGiLetterBottleDL } },
     // fairy ocarina, OBJECT_GI_OCARINA_0
-    { func_8006AAA8, { gGiOcarinaFairyDL, gGiOcarinaFairyHolesDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiOcarinaFairyDL, gGiOcarinaFairyHolesDL } },
     // iron boots, OBJECT_GI_BOOTS_2
-    { func_8006AAA8, { gGiIronBootsDL, gGiIronBootsRivetsDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiIronBootsDL, gGiIronBootsRivetsDL } },
     // seeds, OBJECT_GI_SEED
-    { func_8006A9CC, { gGiSeedDL } },
+    { GetItem_DrawOpa0, { gGiSeedDL } },
     // silver gauntlets, OBJECT_GI_GLOVES
-    { func_8006B24C,
+    { GetItem_DrawOpa10Xlu32,
       { gGiGauntletsDL, gGiSilverGauntletsColorDL, gGiGauntletsPlateDL, gGiSilverGauntletsPlateColorDL } },
     // golden gauntlets, OBJECT_GI_GLOVES
-    { func_8006B24C,
+    { GetItem_DrawOpa10Xlu32,
       { gGiGauntletsDL, gGiGoldenGauntletsColorDL, gGiGauntletsPlateDL, gGiGoldenGauntletsPlateColorDL } },
     // yellow n coin, OBJECT_GI_COIN
-    { func_8006ACE4, { gGiCoinDL, gGiYellowCoinColorDL, gGiNDL } },
+    { GetItem_DrawOpa10Xlu2, { gGiCoinDL, gGiYellowCoinColorDL, gGiNDL } },
     // red n coin, OBJECT_GI_COIN
-    { func_8006ACE4, { gGiCoinDL, gGiRedCoinColorDL, gGiNDL } },
+    { GetItem_DrawOpa10Xlu2, { gGiCoinDL, gGiRedCoinColorDL, gGiNDL } },
     // green n coin, OBJECT_GI_COIN
-    { func_8006ACE4, { gGiCoinDL, gGiGreenCoinColorDL, gGiNDL } },
+    { GetItem_DrawOpa10Xlu2, { gGiCoinDL, gGiGreenCoinColorDL, gGiNDL } },
     // blue n coin, OBJECT_GI_COIN
-    { func_8006ACE4, { gGiCoinDL, gGiBlueCoinColorDL, gGiNDL } },
+    { GetItem_DrawOpa10Xlu2, { gGiCoinDL, gGiBlueCoinColorDL, gGiNDL } },
     // skull mask, OBJECT_GI_SKJ_MASK
-    { func_8006A9CC, { gGiSkullMaskDL } },
+    { GetItem_DrawOpa0, { gGiSkullMaskDL } },
     // bunny hood OBJECT_GI_RABIT_MASK
-    { func_8006AAA8, { gGiBunnyHoodDL, gGiBunnyHoodEyesDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiBunnyHoodDL, gGiBunnyHoodEyesDL } },
     // mask of truth, OBJECT_GI_TRUTH_MASK
-    { func_8006AAA8, { gGiMaskOfTruthDL, gGiMaskOfTruthAccentsDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiMaskOfTruthDL, gGiMaskOfTruthAccentsDL } },
     // eyedrops, OBJECT_GI_EYE_LOTION
-    { func_8006AAA8, { gGiEyeDropsCapDL, gGiEyeDropsBottleDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiEyeDropsCapDL, gGiEyeDropsBottleDL } },
     // odd potion, OBJECT_GI_POWDER
-    { func_8006A9CC, { gGiOddPotionDL } },
+    { GetItem_DrawOpa0, { gGiOddPotionDL } },
     // odd mushroom, OBJECT_GI_MUSHROOM
-    { func_8006A9CC, { gGiOddMushroomDL } },
+    { GetItem_DrawOpa0, { gGiOddMushroomDL } },
     // claim check, OBJECT_GI_TICKETSTONE
-    { func_8006AAA8, { gGiClaimCheckDL, gGiClaimCheckWritingDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiClaimCheckDL, gGiClaimCheckWritingDL } },
     // broken goron's sword, OBJECT_GI_BROKENSWORD
-    { func_8006A4B0, { gGiBrokenGoronSwordDL } },
+    { GetItem_DrawGoronSword, { gGiBrokenGoronSwordDL } },
     // prescription, OBJECT_GI_PRESCRIPTION
-    { func_8006AAA8, { gGiPrescriptionDL, gGiPrescriptionWritingDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiPrescriptionDL, gGiPrescriptionWritingDL } },
     // goron bracelet, OBJECT_GI_BRACELET
-    { func_8006A9CC, { gGiGoronBraceletDL } },
+    { GetItem_DrawOpa0, { gGiGoronBraceletDL } },
     // sold out, OBJECT_GI_SOLDOUT
-    { func_800695C0, { gGiSoldOutDL } },
+    { GetItem_DrawSoldOut, { gGiSoldOutDL } },
     // frog, OBJECT_GI_FROG
-    { func_8006AAA8, { gGiFrogDL, gGiFrogEyesDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiFrogDL, gGiFrogEyesDL } },
     // goron mask, OBJECT_GI_GOLONMASK
-    { func_800694E4, { gGiGoronMaskDL } },
+    { GetItem_DrawMaskOrBombchu, { gGiGoronMaskDL } },
     // zora mask, OBJECT_GI_ZORAMASK
-    { func_800694E4, { gGiZoraMaskDL } },
+    { GetItem_DrawMaskOrBombchu, { gGiZoraMaskDL } },
     // gerudo mask, OBJECT_GI_GERUDOMASK
-    { func_800694E4, { gGiGerudoMaskDL } },
+    { GetItem_DrawMaskOrBombchu, { gGiGerudoMaskDL } },
     // cojiro, OBJECT_GI_NIWATORI
-    { func_8006ACE4, { gGiChickenDL, gGiCojiroColorDL, gGiChickenEyesDL } },
+    { GetItem_DrawOpa10Xlu2, { gGiChickenDL, gGiCojiroColorDL, gGiChickenEyesDL } },
     // hover boots, OBJECT_GI_HOVERBOOTS
-    { func_8006A9CC, { gGiHoverBootsDL } },
+    { GetItem_DrawOpa0, { gGiHoverBootsDL } },
     // fire arrows, OBJECT_GI_M_ARROW
-    { func_8006AE40, { gGiMagicArrowDL, gGiFireArrowColorDL, gGiArrowMagicDL } },
+    { GetItem_DrawMagicArrow, { gGiMagicArrowDL, gGiFireArrowColorDL, gGiArrowMagicDL } },
     // ice arrows, OBJECT_GI_M_ARROW
-    { func_8006AE40, { gGiMagicArrowDL, gGiIceArrowColorDL, gGiArrowMagicDL } },
+    { GetItem_DrawMagicArrow, { gGiMagicArrowDL, gGiIceArrowColorDL, gGiArrowMagicDL } },
     // light arrows, OBJECT_GI_M_ARROW
-    { func_8006AE40, { gGiMagicArrowDL, gGiLightArrowColorDL, gGiArrowMagicDL } },
+    { GetItem_DrawMagicArrow, { gGiMagicArrowDL, gGiLightArrowColorDL, gGiArrowMagicDL } },
     // skulltula token, OBJECT_GI_SUTARU
-    { func_80069EB0, { gGiSkulltulaTokenDL, gGiSkulltulaTokenFlameDL } },
+    { GetItem_DrawSkullToken, { gGiSkulltulaTokenDL, gGiSkulltulaTokenFlameDL } },
     // din's fire, OBJECT_GI_GODDESS
-    { func_8006AF9C, { gGiMagicSpellDiamondDL, gGiDinsFireColorDL, gGiMagicSpellOrbDL } },
+    { GetItem_DrawMagicSpell, { gGiMagicSpellDiamondDL, gGiDinsFireColorDL, gGiMagicSpellOrbDL } },
     // farore's wind, OBJECT_GI_GODDESS
-    { func_8006AF9C, { gGiMagicSpellDiamondDL, gGiFaroresWindColorDL, gGiMagicSpellOrbDL } },
+    { GetItem_DrawMagicSpell, { gGiMagicSpellDiamondDL, gGiFaroresWindColorDL, gGiMagicSpellOrbDL } },
     // nayru's Love, OBJECT_GI_GODDESS
-    { func_8006AF9C, { gGiMagicSpellDiamondDL, gGiNayrusLoveColorDL, gGiMagicSpellOrbDL } },
+    { GetItem_DrawMagicSpell, { gGiMagicSpellDiamondDL, gGiNayrusLoveColorDL, gGiMagicSpellOrbDL } },
     // blue fire, OBJECT_GI_FIRE
-    { func_8006969C, { gGiBlueFireChamberstickDL, gGiBlueFireFlameDL } },
+    { GetItem_DrawBlueFire, { gGiBlueFireChamberstickDL, gGiBlueFireFlameDL } },
     // bugs, OBJECT_GI_INSECT
-    { func_8006AAA8, { gGiBugsContainerDL, gGiBugsGlassDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiBugsContainerDL, gGiBugsGlassDL } },
     // butterfly, OBJECT_GI_BUTTERFLY
-    { func_8006AAA8, { gGiButterflyContainerDL, gGiButterflyGlassDL } },
+    { GetItem_DrawOpa0Xlu1, { gGiButterflyContainerDL, gGiButterflyGlassDL } },
     // poe, OBJECT_GI_GHOST
-    { func_80069880, { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiPoeColorDL } },
+    { GetItem_DrawPoes, { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiPoeColorDL } },
     // fairy, OBJECT_GI_SOUL
-    { func_80069AC8, { gGiFairyContainerBaseCapDL, gGiFairyContainerGlassDL, gGiFairyContainerContentsDL } },
+    { GetItem_DrawFairy, { gGiFairyContainerBaseCapDL, gGiFairyContainerGlassDL, gGiFairyContainerContentsDL } },
     // bullet bag 40, OBJECT_GI_DEKUPOUCH
-    { func_8006B6E4,
+    { GetItem_DrawBulletBag,
       { gGiBulletBagDL, gGiBulletBagColorDL, gGiBulletBagStringDL, gGiBulletBagStringColorDL, gGiBulletBagWritingDL } },
     // green rupee, OBJECT_GI_RUPY
-    { func_8006B3C0, { gGiRupeeInnerDL, gGiGreenRupeeInnerColorDL, gGiRupeeOuterDL, gGiGreenRupeeOuterColorDL } },
+    { GetItem_DrawSmallRupee, { gGiRupeeInnerDL, gGiGreenRupeeInnerColorDL, gGiRupeeOuterDL, gGiGreenRupeeOuterColorDL } },
     // blue rupee, OBJECT_GI_RUPY
-    { func_8006B3C0, { gGiRupeeInnerDL, gGiBlueRupeeInnerColorDL, gGiRupeeOuterDL, gGiBlueRupeeOuterColorDL } },
+    { GetItem_DrawSmallRupee, { gGiRupeeInnerDL, gGiBlueRupeeInnerColorDL, gGiRupeeOuterDL, gGiBlueRupeeOuterColorDL } },
     // red rupee, OBJECT_GI_RUPY
-    { func_8006B3C0, { gGiRupeeInnerDL, gGiRedRupeeInnerColorDL, gGiRupeeOuterDL, gGiRedRupeeOuterColorDL } },
+    { GetItem_DrawSmallRupee, { gGiRupeeInnerDL, gGiRedRupeeInnerColorDL, gGiRupeeOuterDL, gGiRedRupeeOuterColorDL } },
     // big poe, OBJECT_GI_GHOST
-    { func_80069880,
+    { GetItem_DrawPoes,
       { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiBigPoeColorDL } },
     // purple rupee, OBJECT_GI_RUPY
-    { func_8006B24C, { gGiRupeeInnerDL, gGiPurpleRupeeInnerColorDL, gGiRupeeOuterDL, gGiPurpleRupeeOuterColorDL } },
+    { GetItem_DrawOpa10Xlu32, { gGiRupeeInnerDL, gGiPurpleRupeeInnerColorDL, gGiRupeeOuterDL, gGiPurpleRupeeOuterColorDL } },
     // gold rupee, OBJECT_GI_RUPY
-    { func_8006B24C, { gGiRupeeInnerDL, gGiGoldRupeeInnerColorDL, gGiRupeeOuterDL, gGiGoldRupeeOuterColorDL } },
+    { GetItem_DrawOpa10Xlu32, { gGiRupeeInnerDL, gGiGoldRupeeInnerColorDL, gGiRupeeOuterDL, gGiGoldRupeeOuterColorDL } },
     // bullet bag 50, OBJECT_GI_DEKUPOUCH
-    { func_8006B6E4,
+    { GetItem_DrawBulletBag,
       { gGiBulletBagDL, gGiBulletBag50ColorDL, gGiBulletBagStringDL, gGiBulletBag50StringColorDL,
         gGiBulletBagWritingDL } },
     // kokiri sword, OBJECT_GI_SWORD_1
-    { func_8006A9CC, { gGiKokiriSwordDL } },
+    { GetItem_DrawOpa0, { gGiKokiriSwordDL } },
     // gold skulltula token, OBJECT_ST
-    { func_80069EB0, { 0x06004DB0, 0x06004EB8 } }, // TODO symbols from this object
+    { GetItem_DrawSkullToken, { 0x06004DB0, 0x06004EB8 } }, // TODO symbols from this object
 };
 
 /**
  * Draw "Get Item" Model
  * Calls the corresponding draw function for the given draw ID
  */
-void func_800694A0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_Draw(GlobalContext* globalCtx, s16 drawId) {
     sDrawItemTable[drawId].drawFunc(globalCtx, drawId);
 }
 
 // All remaining functions in this file are draw functions referenced in the table and called by the function above
 
-void func_800694E4(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawMaskOrBombchu(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 556);
@@ -386,7 +386,7 @@ void func_800694E4(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 565);
 }
 
-void func_800695C0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawSoldOut(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 572);
@@ -399,7 +399,7 @@ void func_800695C0(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 581);
 }
 
-void func_8006969C(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawBlueFire(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 588);
@@ -425,7 +425,7 @@ void func_8006969C(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 621);
 }
 
-void func_80069880(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawPoes(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 628);
@@ -454,7 +454,7 @@ void func_80069880(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 663);
 }
 
-void func_80069AC8(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawFairy(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 670);
@@ -482,8 +482,7 @@ void func_80069AC8(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 704);
 }
 
-// Mirror Shield
-void func_80069CF0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawMirrorShield(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 712);
@@ -506,7 +505,7 @@ void func_80069CF0(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 735);
 }
 
-void func_80069EB0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawSkullToken(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 742);
@@ -528,7 +527,7 @@ void func_80069EB0(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 765);
 }
 
-void func_8006A060(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawEggOrMedallion(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 772);
@@ -542,7 +541,7 @@ void func_8006A060(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 783);
 }
 
-void func_8006A158(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawCompass(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 811);
@@ -560,7 +559,7 @@ void func_8006A158(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 827);
 }
 
-void func_8006A2A0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawPotion(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 834);
@@ -586,7 +585,7 @@ void func_8006A2A0(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 861);
 }
 
-void func_8006A4B0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawGoronSword(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 868);
@@ -603,7 +602,7 @@ void func_8006A4B0(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 883);
 }
 
-void func_8006A5F0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawDekuNuts(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 890);
@@ -620,7 +619,7 @@ void func_8006A5F0(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 906);
 }
 
-void func_8006A73C(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawRecoveryHeart(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 913);
@@ -637,7 +636,7 @@ void func_8006A73C(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 929);
 }
 
-void func_8006A88C(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawFish(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 936);
@@ -654,8 +653,7 @@ void func_8006A88C(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 952);
 }
 
-// several, opa0 / DrawSimple
-void func_8006A9CC(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawOpa0(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 959);
@@ -668,8 +666,7 @@ void func_8006A9CC(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 968);
 }
 
-// several, opa0 xlu1 / DrawWithTranslucentOverlay
-void func_8006AAA8(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawOpa0Xlu1(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 975);
@@ -687,7 +684,7 @@ void func_8006AAA8(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 991);
 }
 
-void func_8006ABEC(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawXlu01(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 998);
@@ -701,7 +698,7 @@ void func_8006ABEC(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1008);
 }
 
-void func_8006ACE4(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawOpa10Xlu2(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1015);
@@ -720,7 +717,7 @@ void func_8006ACE4(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1032);
 }
 
-void func_8006AE40(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawMagicArrow(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1039);
@@ -739,7 +736,7 @@ void func_8006AE40(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1056);
 }
 
-void func_8006AF9C(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawMagicSpell(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1063);
@@ -758,7 +755,7 @@ void func_8006AF9C(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1081);
 }
 
-void func_8006B124(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawOpa1023(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1088);
@@ -774,7 +771,7 @@ void func_8006B124(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1100);
 }
 
-void func_8006B24C(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawOpa10Xlu32(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1108);
@@ -794,7 +791,7 @@ void func_8006B24C(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1126);
 }
 
-void func_8006B3C0(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawSmallRupee(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1133);
@@ -816,7 +813,7 @@ void func_8006B3C0(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1154);
 }
 
-void func_8006B54C(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawScale(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1162);
@@ -836,7 +833,7 @@ void func_8006B54C(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1181);
 }
 
-void func_8006B6E4(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawBulletBag(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1188);
@@ -857,7 +854,7 @@ void func_8006B6E4(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1207);
 }
 
-void func_8006B870(GlobalContext* globalCtx, s16 drawId) {
+void GetItem_DrawWallet(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 1214);

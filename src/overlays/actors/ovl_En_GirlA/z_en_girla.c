@@ -1016,5 +1016,5 @@ void func_80A3C4D4(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1D0 != NULL) {
         this->unk_1D0(thisx, globalCtx, 0);
     }
-    func_800694A0(globalCtx, this->drawId);
+    GetItem_Draw(globalCtx, this->drawId);
 }

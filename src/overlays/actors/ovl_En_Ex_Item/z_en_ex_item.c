@@ -481,19 +481,19 @@ void EnExItem_DrawItems(EnExItem* this, GlobalContext* globalCtx) {
     }
     if (this) {}
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, this->drawId);
+    GetItem_Draw(globalCtx, this->drawId);
 }
 
 void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx) {
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, DI_HEART_PIECE);
+    GetItem_Draw(globalCtx, DI_HEART_PIECE);
 }
 
 void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex) {
     static s16 sDrawIds[] = { DI_DINS_FIRE, DI_FARORES_WIND, DI_NAYRUS_LOVE };
 
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, sDrawIds[magicIndex]);
+    GetItem_Draw(globalCtx, sDrawIds[magicIndex]);
 }
 
 void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
@@ -517,5 +517,5 @@ void EnExItem_DrawRupee(EnExItem* this, GlobalContext* globalCtx) {
     if (this->unk_180 != NULL) {
         this->unk_180(&this->actor, globalCtx, 0);
     }
-    func_800694A0(globalCtx, this->drawId);
+    GetItem_Draw(globalCtx, this->drawId);
 }

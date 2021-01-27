@@ -2049,7 +2049,7 @@ void DemoEffect_DrawGetItem(Actor* thisx, GlobalContext* globalCtx) {
         }
         func_8002EBCC(thisx, globalCtx, 0);
         func_8002ED80(thisx, globalCtx, 0);
-        func_800694A0(globalCtx, this->getItem.drawId);
+        GetItem_Draw(globalCtx, this->getItem.drawId);
     }
 }
 
