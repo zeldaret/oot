@@ -51,6 +51,20 @@ def write_file(filename, contents):
     dst_file.write(contents)
     dst_file.close()
 
+def check_valid_index(index):
+    if index < 0x0:
+        return False
+    if index > 0xADF:
+        return False
+    return True
+
+def check_valid_offset(offset):
+    if offset < 0x14:
+        return False
+    if offset > 0x15D2:
+        return False
+    return True
+
 def main():
     parser = argparse.ArgumentParser(description="Converts a gGameInfo->data index to a REG macro.")
 
@@ -76,10 +90,25 @@ def main():
         else:
             write_file(filename, contents)
     else:
-        index = parse_number(args.index, args.hex)
-        offset = index_to_offset(index)
+        index = parse_number(args.index, args.hex)        
         if args.offset:
             offset = index
+            if not check_valid_offset(offset):
+                print("Invalid offset: " + args.index)
+                if args.hex:
+                    print("Offset should be in the range from 0x14 to 0x15D2")
+                else:
+                    print("Offset should be in the range from 20 to 5586")
+                exit(-1)
+        else:
+            if not check_valid_index(index):
+                print("Invalid index: " + args.index)
+                if args.hex:
+                    print("Index should be in the range from 0x0 to 0xADF")
+                else:
+                    print("Index should be in the range from 0 to 2783")
+                exit(-1)
+            offset = index_to_offset(index)
 
         print(get_reg_macro(offset)+"\n")
 
