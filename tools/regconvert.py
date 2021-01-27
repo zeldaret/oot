@@ -15,9 +15,15 @@ def get_reg_macro(offset):
 
 def main():
     parser = argparse.ArgumentParser(description="Converts a GameInfo offset to a REG macro.")
-    parser.add_argument("offset", help="offset to GameInfo in hexadecimal")
+    parser.add_argument("offset", help="offset to GameInfo in decimal (or hexadecimal if starts with 0x)")
     args = parser.parse_args()
-    print(get_reg_macro(int(args.offset, 16)))
+    offset = 0
+    if args.offset.lower().startswith("0x"):
+        offset = int(args.offset, 16)
+    else:
+        offset = int(args.offset, 10)
+    offset = (offset + 10)*2
+    print(get_reg_macro(offset))
 
 if __name__ == "__main__":
     main()
