@@ -756,9 +756,11 @@ void ZDisplayList::Opcode_G_TRI2(uint64_t data, int i, std::string prefix, char*
 
 void ZDisplayList::Opcode_G_MTX(uint64_t data, int i, std::string prefix, char* line)
 {
-	// TODO: FINISH THIS
 	uint32_t pp = 0;
 	uint32_t mm = (data & 0x00000000FFFFFFFF);
+	bool push = false;
+	bool load = false;
+	bool projection = false;
 
 	if (dListType == DListType::F3DEX)
 		pp = (data & 0x00FF000000000000) >> 48;
@@ -772,7 +774,21 @@ void ZDisplayList::Opcode_G_MTX(uint64_t data, int i, std::string prefix, char* 
 	else
 		matrixRef = StringHelper::Sprintf("0x%08X", mm);
 
-	sprintf(line, "gsSPMatrix(%s, 0x%02X),", matrixRef.c_str(), pp ^ 0x01);
+	pp ^= 0x01;
+
+	if (pp & 0x01)
+		push = true;
+	
+	if (pp & 0x02)
+		load = true;
+	
+	if (pp & 0x04)
+		projection = true;
+
+	sprintf(line, "gsSPMatrix(%s, %s | %s | %s),", matrixRef.c_str(),
+		projection ? "G_MTX_PROJECTION" : "G_MTX_MODELVIEW",
+		push ? "G_MTX_PUSH" : "G_MTX_NOPUSH",
+		load ? "G_MTX_LOAD" : "G_MTX_MUL");
 }
 
 void ZDisplayList::Opcode_G_VTX(uint64_t data, int i, std::string prefix, char* line)
@@ -1034,18 +1050,24 @@ void ZDisplayList::Opcode_G_SETCOMBINE(uint64_t data, int i, std::string prefix,
 	int ab1 = (data & 0b00000000000000000000000000000000000000000000000000000000111000) >> 3;
 	int ad1 = (data & 0b00000000000000000000000000000000000000000000000000000000000111) >> 0;
 
-	string modes[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "COMBINED_ALPHA",
+	string modesA[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "NOISE",
+		"0", "9", "10", "11", "12", "13", "14", "0"};
+	string modesB[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "CENTER", "K4",
+		"8", "9", "10", "11", "12", "13", "14", "0"};
+	string modesC[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "COMBINED_ALPHA",
 		"TEXEL0_ALPHA", "TEXEL1_ALPHA", "PRIMITIVE_ALPHA", "SHADE_ALPHA", "ENV_ALPHA", "LOD_FRACTION", "PRIM_LOD_FRAC", "K5",
-		"17", "18", "19", "20", "21", "22", "23", "24",
-		"25", "26", "27", "28", "29", "30", "31", "0" };
+		"16", "17", "18", "19", "20", "21", "22", "23",
+		"24", "25", "26", "27", "28", "29", "30", "0" };
+	string modesD[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "0"};
 
 	string modes2[] = { "COMBINED", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "1", "0" };
+	string modes2C[] = { "LOD_FRACTION", "TEXEL0", "TEXEL1", "PRIMITIVE", "SHADE", "ENVIRONMENT", "PRIM_LOD_FRAC", "0" };
 
 	sprintf(line, "gsDPSetCombineLERP(%s, %s, %s, %s, %s, %s, %s, %s,\n                       %s, %s, %s, %s, %s, %s, %s, %s),",
-		modes[a0].c_str(), modes[b0].c_str(), modes[c0].c_str(), modes[d0].c_str(),
-		modes2[aa0].c_str(), modes2[ab0].c_str(), modes2[ac0].c_str(), modes2[ad0].c_str(),
-		modes[a1].c_str(), modes[b1].c_str(), modes[c1].c_str(), modes[d1].c_str(),
-		modes2[aa1].c_str(), modes2[ab1].c_str(), modes2[ac1].c_str(), modes2[ad1].c_str());
+		modesA[a0].c_str(), modesB[b0].c_str(), modesC[c0].c_str(), modesD[d0].c_str(),
+		modes2[aa0].c_str(), modes2[ab0].c_str(), modes2C[ac0].c_str(), modes2[ad0].c_str(),
+		modesA[a1].c_str(), modesB[b1].c_str(), modesC[c1].c_str(), modesD[d1].c_str(),
+		modes2[aa1].c_str(), modes2[ab1].c_str(), modes2C[ac1].c_str(), modes2[ad1].c_str());
 }
 
 void ZDisplayList::Opcode_G_SETPRIMCOLOR(uint64_t data, int i, std::string prefix, char* line)
