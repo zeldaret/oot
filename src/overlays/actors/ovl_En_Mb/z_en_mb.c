@@ -406,8 +406,8 @@ void func_80AA68FC(EnMb* this, GlobalContext* globalCtx) {
 }
 
 void func_80AA6974(EnMb* this) {
-    Animation_Change(&this->skelAnime, &gEnMbAnimWalk, 0.0f, 0.0f, Animation_GetLastFrame(&gEnMbAnimWalk), ANIMMODE_LOOP,
-                     -4.0f);
+    Animation_Change(&this->skelAnime, &gEnMbAnimWalk, 0.0f, 0.0f, Animation_GetLastFrame(&gEnMbAnimWalk),
+                     ANIMMODE_LOOP, -4.0f);
     this->actor.speedXZ = 0.59999996f;
     this->unk_32A = Rand_S16Offset(50, 70);
     this->unk_332 = 1;
@@ -482,7 +482,7 @@ void func_80AA6BF0(EnMb* this) {
 }
 
 void func_80AA6CC0(EnMb* this) {
-    Animation_PlayOnce(&this->skelAnime, &gEnMbAnim_009280);//Resume patrol?
+    Animation_PlayOnce(&this->skelAnime, &gEnMbAnim_009280); // Resume patrol?
     this->unk_320 = 11;
     this->unk_32A = 0;
     this->unk_32E = 5;
@@ -643,8 +643,8 @@ void func_80AA7310(EnMb* this, GlobalContext* globalCtx) {
         if (this->unk_32A == 0) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
-                Animation_Change(&this->skelAnime, &gEnMbAnimReadyAttack, -1.0f, Animation_GetLastFrame(&gEnMbAnimReadyAttack), 0.0f,
-                                 ANIMMODE_ONCE, 0.0f);
+                Animation_Change(&this->skelAnime, &gEnMbAnimReadyAttack, -1.0f,
+                                 Animation_GetLastFrame(&gEnMbAnimReadyAttack), 0.0f, ANIMMODE_ONCE, 0.0f);
                 this->unk_32A = 1;
                 this->actor.speedXZ = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
@@ -693,7 +693,8 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
                     func_80AA6AC8(this);
                 } else {
                     endFrame = Animation_GetLastFrame(&gEnMbAnimReadyAttack);
-                    Animation_Change(&this->skelAnime, &gEnMbAnimReadyAttack, -1.0f, endFrame, 0.0f, ANIMMODE_ONCE, 0.0f);
+                    Animation_Change(&this->skelAnime, &gEnMbAnimReadyAttack, -1.0f, endFrame, 0.0f, ANIMMODE_ONCE,
+                                     0.0f);
                     this->actor.speedXZ = 0.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_SPEAR_NORM);
                 }
@@ -707,7 +708,8 @@ void func_80AA74BC(EnMb* this, GlobalContext* globalCtx) {
         if (SkelAnime_Update(&this->skelAnime) != 0) {
             if (this->unk_32A == 0) {
                 endFrame = Animation_GetLastFrame(&gEnMbAnimChargePlayer);
-                Animation_Change(&this->skelAnime, &gEnMbAnimChargePlayer, 0.5f, 0.0f, endFrame, ANIMMODE_LOOP_INTERP, 0.0f);
+                Animation_Change(&this->skelAnime, &gEnMbAnimChargePlayer, 0.5f, 0.0f, endFrame, ANIMMODE_LOOP_INTERP,
+                                 0.0f);
                 this->unk_32A = 1;
             } else {
                 yawDiff = Math_Vec3f_Yaw(&this->actor.world.pos, &this->waypointPos) - this->actor.yawTowardsPlayer;
@@ -991,13 +993,13 @@ void func_80AA840C(EnMb* this, GlobalContext* globalCtx) {
             this->unk_32E--;
             if (this->unk_32E == 0) {
                 if (this->unk_32A == 0) {
-                    Animation_Change(&this->skelAnime, &gEnMbAnim_00E18C, 3.0f, 0.0f, Animation_GetLastFrame(&gEnMbAnim_00E18C),
-                                     ANIMMODE_ONCE_INTERP, 0.0f);
+                    Animation_Change(&this->skelAnime, &gEnMbAnim_00E18C, 3.0f, 0.0f,
+                                     Animation_GetLastFrame(&gEnMbAnim_00E18C), ANIMMODE_ONCE_INTERP, 0.0f);
                     this->unk_32A = 1;
                     this->unk_32E = 6;
                 } else {
-                    Animation_Change(&this->skelAnime, &gEnMbAnim_00E18C, 3.0f, 0.0f, Animation_GetLastFrame(&gEnMbAnim_00E18C),
-                                     ANIMMODE_ONCE_INTERP, 0.0f);
+                    Animation_Change(&this->skelAnime, &gEnMbAnim_00E18C, 3.0f, 0.0f,
+                                     Animation_GetLastFrame(&gEnMbAnim_00E18C), ANIMMODE_ONCE_INTERP, 0.0f);
                 }
             }
         } else {

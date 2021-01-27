@@ -59,7 +59,7 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     waterBox = globalCtx->colCtx.colHeader->waterBoxes + 0x1;
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (this->dyna.actor.params == HASI_WATER) {
-        //This code never runs in Master Quest
+        // This code never runs in Master Quest
         this->dyna.actor.home.pos.y = this->dyna.actor.home.pos.y + -5.0f;
         this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
         waterBox->ySurface = this->dyna.actor.home.pos.y;

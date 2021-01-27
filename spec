@@ -5470,7 +5470,6 @@ endseg
 beginseg
     name "object_ec"
     romalign 0x1000
-    //include "build/baserom/object_ec.o"
     include "build/assets/objects/object_ec/object_ec.o"
     number 6
 endseg

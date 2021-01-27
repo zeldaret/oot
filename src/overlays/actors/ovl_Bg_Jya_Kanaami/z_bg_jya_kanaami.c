@@ -49,8 +49,7 @@ void BgJyaKanaami_InitDynaPoly(BgJyaKanaami* this, GlobalContext* globalCtx, Col
 
     DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId =
-        DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_kanaami.c", 145,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -101,7 +100,7 @@ void func_8089993C(BgJyaKanaami* this) {
 void func_80899950(BgJyaKanaami* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s32 quakeId;
-    
+
     this->unk_168 += 0x20;
     if (Math_ScaledStepToS(&this->dyna.actor.world.rot.x, 0x4000, this->unk_168)) {
         func_80899A08(this);
