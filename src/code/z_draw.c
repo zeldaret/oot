@@ -1,4 +1,81 @@
 #include "global.h"
+#include "objects/object_gi_key/object_gi_key.h"
+#include "objects/object_gi_jewel/object_gi_jewel.h"
+#include "objects/object_gi_melody/object_gi_melody.h"
+#include "objects/object_gi_heart/object_gi_heart.h"
+#include "objects/object_gi_compass/object_gi_compass.h"
+#include "objects/object_gi_bosskey/object_gi_bosskey.h"
+#include "objects/object_gi_medal/object_gi_medal.h"
+#include "objects/object_gi_nuts/object_gi_nuts.h"
+#include "objects/object_gi_hearts/object_gi_hearts.h"
+#include "objects/object_gi_arrowcase/object_gi_arrowcase.h"
+#include "objects/object_gi_bombpouch/object_gi_bombpouch.h"
+#include "objects/object_gi_bottle/object_gi_bottle.h"
+#include "objects/object_gi_stick/object_gi_stick.h"
+#include "objects/object_gi_map/object_gi_map.h"
+#include "objects/object_gi_shield_1/object_gi_shield_1.h"
+#include "objects/object_gi_magicpot/object_gi_magicpot.h"
+#include "objects/object_gi_bomb_1/object_gi_bomb_1.h"
+#include "objects/object_gi_purse/object_gi_purse.h"
+#include "objects/object_gi_gerudo/object_gi_gerudo.h"
+#include "objects/object_gi_arrow/object_gi_arrow.h"
+#include "objects/object_gi_bomb_2/object_gi_bomb_2.h"
+#include "objects/object_gi_egg/object_gi_egg.h"
+#include "objects/object_gi_scale/object_gi_scale.h"
+#include "objects/object_gi_shield_2/object_gi_shield_2.h"
+#include "objects/object_gi_hookshot/object_gi_hookshot.h"
+#include "objects/object_gi_ocarina/object_gi_ocarina.h"
+#include "objects/object_gi_milk/object_gi_milk.h"
+#include "objects/object_gi_pachinko/object_gi_pachinko.h"
+#include "objects/object_gi_boomerang/object_gi_boomerang.h"
+#include "objects/object_gi_bow/object_gi_bow.h"
+#include "objects/object_gi_glasses/object_gi_glasses.h"
+#include "objects/object_gi_liquid/object_gi_liquid.h"
+#include "objects/object_gi_shield_3/object_gi_shield_3.h"
+#include "objects/object_gi_letter/object_gi_letter.h"
+#include "objects/object_gi_clothes/object_gi_clothes.h"
+#include "objects/object_gi_bean/object_gi_bean.h"
+#include "objects/object_gi_fish/object_gi_fish.h"
+#include "objects/object_gi_saw/object_gi_saw.h"
+#include "objects/object_gi_hammer/object_gi_hammer.h"
+#include "objects/object_gi_grass/object_gi_grass.h"
+#include "objects/object_gi_longsword/object_gi_longsword.h"
+#include "objects/object_gi_niwatori/object_gi_niwatori.h"
+#include "objects/object_gi_bottle_letter/object_gi_bottle_letter.h"
+#include "objects/object_gi_ocarina_0/object_gi_ocarina_0.h"
+#include "objects/object_gi_boots_2/object_gi_boots_2.h"
+#include "objects/object_gi_seed/object_gi_seed.h"
+#include "objects/object_gi_gloves/object_gi_gloves.h"
+#include "objects/object_gi_coin/object_gi_coin.h"
+#include "objects/object_gi_ki_tan_mask/object_gi_ki_tan_mask.h"
+#include "objects/object_gi_redead_mask/object_gi_redead_mask.h"
+#include "objects/object_gi_skj_mask/object_gi_skj_mask.h"
+#include "objects/object_gi_rabit_mask/object_gi_rabit_mask.h"
+#include "objects/object_gi_truth_mask/object_gi_truth_mask.h"
+#include "objects/object_gi_eye_lotion/object_gi_eye_lotion.h"
+#include "objects/object_gi_powder/object_gi_powder.h"
+#include "objects/object_gi_mushroom/object_gi_mushroom.h"
+#include "objects/object_gi_ticketstone/object_gi_ticketstone.h"
+#include "objects/object_gi_brokensword/object_gi_brokensword.h"
+#include "objects/object_gi_prescription/object_gi_prescription.h"
+#include "objects/object_gi_bracelet/object_gi_bracelet.h"
+#include "objects/object_gi_soldout/object_gi_soldout.h"
+#include "objects/object_gi_frog/object_gi_frog.h"
+#include "objects/object_gi_golonmask/object_gi_golonmask.h"
+#include "objects/object_gi_zoramask/object_gi_zoramask.h"
+#include "objects/object_gi_gerudomask/object_gi_gerudomask.h"
+#include "objects/object_gi_hoverboots/object_gi_hoverboots.h"
+#include "objects/object_gi_m_arrow/object_gi_m_arrow.h"
+#include "objects/object_gi_sutaru/object_gi_sutaru.h"
+#include "objects/object_gi_goddess/object_gi_goddess.h"
+#include "objects/object_gi_fire/object_gi_fire.h"
+#include "objects/object_gi_insect/object_gi_insect.h"
+#include "objects/object_gi_butterfly/object_gi_butterfly.h"
+#include "objects/object_gi_ghost/object_gi_ghost.h"
+#include "objects/object_gi_soul/object_gi_soul.h"
+#include "objects/object_gi_dekupouch/object_gi_dekupouch.h"
+#include "objects/object_gi_rupy/object_gi_rupy.h"
+#include "objects/object_gi_sword_1/object_gi_sword_1.h"
 
 // "Get Item" Model Draw Functions
 void func_800694E4(GlobalContext* globalCtx, s16 drawId);
@@ -33,128 +110,259 @@ typedef struct {
     /* 0x04 */ u32 dlists[8];
 } DrawItemTableEntry; // size = 0x24
 
-// TODO: use symbols for these dlists once objects are in C
 DrawItemTableEntry sDrawItemTable[] = {
-    { func_8006AAA8, { 0x06000670, 0x06000750 } },
-    { func_8006A9CC, { 0x06000800 } },
-    { func_8006ABEC, { 0x06000A80, 0x06000AE0 } },
-    { func_8006ABEC, { 0x06000A90, 0x06000AE0 } },
-    { func_8006ABEC, { 0x06000AA0, 0x06000AE0 } },
-    { func_8006ABEC, { 0x06000AB0, 0x06000AE0 } },
-    { func_8006ABEC, { 0x06000AC0, 0x06000AE0 } },
-    { func_8006ABEC, { 0x06000AD0, 0x06000AE0 } },
-    { func_8006A73C, { 0x060000E0 } },
-    { func_8006AAA8, { 0x06000CA0, 0x06000F08 } },
-    { func_8006A158, { 0x06000960, 0x06000C50 } },
-    { func_8006A060, { 0x06000CB0, 0x06000E18 } },
-    { func_8006A060, { 0x06001AF0, 0x06000E18 } },
-    { func_8006A060, { 0x06002830, 0x06000E18 } },
-    { func_8006A060, { 0x06003610, 0x06000E18 } },
-    { func_8006A060, { 0x06004330, 0x06000E18 } },
-    { func_8006A060, { 0x06005220, 0x06000E18 } },
-    { func_8006A5F0, { 0x06000E90 } },
-    { func_8006ABEC, { 0x06001290, 0x06001470 } },
-    { func_8006ABEC, { 0x06001290, 0x06001590 } },
-    { func_8006B124, { 0x06000990, 0x060008D0, 0x06000930, 0x06000A80 } },
-    { func_8006B124, { 0x06000990, 0x060008F0, 0x06000950, 0x06000A80 } },
-    { func_8006B124, { 0x06000990, 0x06000910, 0x06000970, 0x06000A80 } },
-    { func_8006B124, { 0x06000B90, 0x06000AD0, 0x06000B30, 0x06000D98 } },
-    { func_8006B124, { 0x06000B90, 0x06000AF0, 0x06000B50, 0x06000D98 } },
-    { func_8006B124, { 0x06000B90, 0x06000B10, 0x06000B70, 0x06000D98 } },
-    { func_8006A9CC, { 0x060004D0 } },
-    { func_8006A9CC, { 0x060003C0 } },
-    { func_8006A9CC, { 0x06000A50 } },
-    { func_8006A9CC, { 0x06000580 } },
-    { func_8006A9CC, { 0x06000EE0 } },
-    { func_8006A9CC, { 0x060009A0 } },
-    { func_8006A9CC, { 0x06000B70 } },
+    // bottle, OBJECT_GI_BOTTLE
+    { func_8006AAA8, { gGiBottleStopperDL, gGiBottleDL } },
+    // small key, OBJECT_GI_KEY
+    { func_8006A9CC, { gGiSmallKeyDL } },
+    // minuet of forest, OBJECT_GI_MELODY
+    { func_8006ABEC, { gGiMinuetColorDL, gGiSongNoteDL } },
+    // bolero of fire, OBJECT_GI_MELODY
+    { func_8006ABEC, { gGiBoleroColorDL, gGiSongNoteDL } },
+    // serenade of water, OBJECT_GI_MELODY
+    { func_8006ABEC, { gGiSerenadeColorDL, gGiSongNoteDL } },
+    // requiem of spirit, OBJECT_GI_MELODY
+    { func_8006ABEC, { gGiRequiemColorDL, gGiSongNoteDL } },
+    // nocturne of shadow, OBJECT_GI_MELODY
+    { func_8006ABEC, { gGiNocturneColorDL, gGiSongNoteDL } },
+    // prelude of light, OBJECT_GI_MELODY
+    { func_8006ABEC, { gGiPreludeColorDL, gGiSongNoteDL } },
+    // recovery heart, OBJECT_GI_HEART
+    { func_8006A73C, { gGiRecoveryHeartDL } },
+    // boss key, OBJECT_GI_BOSSKEY
+    { func_8006AAA8, { gGiBossKeyDL, gGiBossKeyGemDL } },
+    // compass, OBJECT_GI_COMPASS
+    { func_8006A158, { gGiCompassDL, gGiCompassGlassDL } },
+    // forest medallion, OBJECT_GI_MEDAL
+    { func_8006A060, { gGiForestMedallionFaceDL, gGiMedallionDL } },
+    // fire medallion, OBJECT_GI_MEDAL
+    { func_8006A060, { gGiFireMedallionFaceDL, gGiMedallionDL } },
+    // water medallion, OBJECT_GI_MEDAL
+    { func_8006A060, { gGiWaterMedallionFaceDL, gGiMedallionDL } },
+    // spirit medallion, OBJECT_GI_MEDAL
+    { func_8006A060, { gGiSpiritMedallionFaceDL, gGiMedallionDL } },
+    // shadow medallion, OBJECT_GI_MEDAL
+    { func_8006A060, { gGiShadowMedallionFaceDL, gGiMedallionDL } },
+    // light medallion, OBJECT_GI_MEDAL
+    { func_8006A060, { gGiLightMedallionFaceDL, gGiMedallionDL } },
+    // deku nuts, OBJECT_GI_NUTS
+    { func_8006A5F0, { gGiNutDL } },
+    // heart container, OBJECT_GI_HEARTS
+    { func_8006ABEC, { gGiHeartBorderDL, gGiHeartContainerDL } },
+    // heart piece, OBJECT_GI_HEARTS
+    { func_8006ABEC, { gGiHeartBorderDL, gGiHeartPieceDL } },
+    // quiver 30, OBJECT_GI_ARROWCASE
+    { func_8006B124, { gGiQuiverInnerDL, gGiQuiver30InnerColorDL, gGiQuiver30OuterColorDL, gGiQuiverOuterDL } },
+    // quiver 40, OBJECT_GI_ARROWCASE
+    { func_8006B124, { gGiQuiverInnerDL, gGiQuiver40InnerColorDL, gGiQuiver40OuterColorDL, gGiQuiverOuterDL } },
+    // quiver 50, OBJECT_GI_ARROWCASE
+    { func_8006B124, { gGiQuiverInnerDL, gGiQuiver50InnerColorDL, gGiQuiver50OuterColorDL, gGiQuiverOuterDL } },
+    // bomb bag 20, OBJECT_GI_BOMBPOUCH
+    { func_8006B124, { gGiBombBagDL, gGiBombBag20BagColorDL, gGiBombBag20RingColorDL, gGiBombBagRingDL } },
+    // bomb bag 30, OBJECT_GI_BOMBPOUCH
+    { func_8006B124, { gGiBombBagDL, gGiBombBag30BagColorDL, gGiBombBag30RingColorDL, gGiBombBagRingDL } },
+    // bomb bag 40, OBJECT_GI_BOMBPOUCH
+    { func_8006B124, { gGiBombBagDL, gGiBombBag40BagColorDL, gGiBombBag40RingColorDL, gGiBombBagRingDL } },
+    // stick, OBJECT_GI_STICK
+    { func_8006A9CC, { gGiStickDL } },
+    // dungeon map, OBJECT_GI_MAP
+    { func_8006A9CC, { gGiDungeonMapDL } },
+    // deku shield, OBJECT_GI_SHIELD_1
+    { func_8006A9CC, { gGiDekuShieldDL } },
+    // small magic jar, OBJECT_GI_MAGICPOT
+    { func_8006A9CC, { gGiMagicJarSmallDL } },
+    // large magic jar, OBJECT_GI_MAGICPOT
+    { func_8006A9CC, { gGiMagicJarLargeDL } },
+    // bombs, OBJECT_GI_BOMB_1
+    { func_8006A9CC, { gGiBombDL } },
+    // stone of agony, OBJECT_GI_MAP
+    { func_8006A9CC, { gGiStoneOfAgonyDL } },
+    // adult's wallet, OBJECT_GI_PURSE
     { func_8006B870,
-      { 0x06001850, 0x06001750, 0x06001790, 0x060019A0, 0x060017B0, 0x06001A28, 0x060017D0, 0x06001AD8 } },
+      { gGiWalletDL, gGiAdultWalletColorDL, gGiAdultWalletRupeeOuterColorDL, gGiWalletRupeeOuterDL,
+        gGiAdultWalletStringColorDL, gGiWalletStringDL, gGiAdultWalletRupeeInnerColorDL, gGiWalletRupeeInnerDL } },
+    // giant's wallet, OBJECT_GI_PURSE
     { func_8006B870,
-      { 0x06001850, 0x06001770, 0x060017F0, 0x060019A0, 0x06001810, 0x06001A28, 0x06001830, 0x06001AD8 } },
-    { func_8006A9CC, { 0x06000F60 } },
-    { func_8006A9CC, { 0x06000340 } },
-    { func_8006A9CC, { 0x06000B90 } },
-    { func_8006A9CC, { 0x06001830 } },
-    { func_800694E4, { 0x060004B0 } },
-    { func_8006A060, { 0x06000FD0, 0x06001008 } },
-    { func_8006B54C, { 0x06000AA0, 0x06000A20, 0x06000A60, 0x06000CC8 } },
-    { func_8006B54C, { 0x06000AA0, 0x06000A40, 0x06000A80, 0x06000CC8 } },
-    { func_8006A9CC, { 0x06000C70 } },
-    { func_8006A9CC, { 0x06000750 } },
-    { func_8006A9CC, { 0x06001240 } },
-    { func_8006AAA8, { 0x060008C0, 0x06000AF8 } },
-    { func_8006AAA8, { 0x06001060, 0x06001288 } },
-    { func_8006AAA8, { 0x06000AC0, 0x06000D50 } },
-    { func_8006A9CC, { 0x060007E0 } },
-    { func_8006A9CC, { 0x06000940 } },
-    { func_8006A9CC, { 0x06000A30 } },
-    { func_8006A9CC, { 0x06000990 } },
-    { func_8006AAA8, { 0x06000D80, 0x06001010 } },
-    { func_8006A2A0, { 0x06001438, 0x06001270, 0x060012D0, 0x06001790, 0x06001330, 0x06001848 } },
-    { func_8006A2A0, { 0x06001438, 0x06001290, 0x060012F0, 0x06001790, 0x06001388, 0x06001848 } },
-    { func_8006A2A0, { 0x06001438, 0x060012B0, 0x06001310, 0x06001790, 0x060013E0, 0x06001848 } },
-    { func_80069CF0, { 0x06000FB0, 0x060011C8 } },
-    { func_8006AAA8, { 0x06000CC0, 0x06000D60 } },
-    { func_8006B124, { 0x06001560, 0x060014E0, 0x06001520, 0x06001608 } },
-    { func_8006B124, { 0x06001560, 0x06001500, 0x06001540, 0x06001608 } },
-    { func_8006A9CC, { 0x06000580 } },
-    { func_8006A88C, { 0x06000600 } },
-    { func_8006A9CC, { 0x060007E0 } },
-    { func_8006A9CC, { 0x060009D0 } },
-    { func_8006A9CC, { 0x060008E0 } },
-    { func_8006A4B0, { 0x06000600 } },
-    { func_8006ACE4, { 0x06001630, 0x060015F0, 0x06001948 } },
-    { func_8006AAA8, { 0x060008E0, 0x06000AE0 } },
-    { func_8006AAA8, { 0x060008E0, 0x06000B58 } },
-    { func_8006AAA8, { 0x06001630, 0x06001A98 } },
-    { func_8006A9CC, { 0x06000810 } },
-    { func_8006B24C, { 0x06001540, 0x060014C0, 0x06001860, 0x06001500 } },
-    { func_8006B24C, { 0x06001540, 0x060014E0, 0x06001860, 0x06001520 } },
-    { func_8006ACE4, { 0x060005E0, 0x06000560, 0x06000768 } },
-    { func_8006ACE4, { 0x060005E0, 0x06000580, 0x06000768 } },
-    { func_8006ACE4, { 0x060005E0, 0x060005A0, 0x06000768 } },
-    { func_8006ACE4, { 0x060005E0, 0x060005C0, 0x06000768 } },
-    { func_8006A9CC, { 0x060009D0 } },
-    { func_8006AAA8, { 0x06000BC0, 0x06000E58 } },
-    { func_8006AAA8, { 0x060013D0, 0x060016B0 } },
-    { func_8006AAA8, { 0x06000680, 0x06000768 } },
-    { func_8006A9CC, { 0x060008B0 } },
-    { func_8006A9CC, { 0x060009D0 } },
-    { func_8006AAA8, { 0x06000F00, 0x06001188 } },
-    { func_8006A4B0, { 0x060006E0 } },
-    { func_8006AAA8, { 0x060009C0, 0x06000AF0 } },
-    { func_8006A9CC, { 0x06000960 } },
-    { func_800695C0, { 0x06000440 } },
-    { func_8006AAA8, { 0x06000D60, 0x06001060 } },
-    { func_800694E4, { 0x060014F8 } },
-    { func_800694E4, { 0x06001398 } },
-    { func_800694E4, { 0x060010E8 } },
-    { func_8006ACE4, { 0x06001630, 0x06001610, 0x06001948 } },
-    { func_8006A9CC, { 0x06001850 } },
-    { func_8006AE40, { 0x06000AE0, 0x06000CA0, 0x06000D00 } },
-    { func_8006AE40, { 0x06000AE0, 0x06000CC0, 0x06000D00 } },
-    { func_8006AE40, { 0x06000AE0, 0x06000CE0, 0x06000D00 } },
-    { func_80069EB0, { 0x06000330, 0x06000438 } },
-    { func_8006AF9C, { 0x06000920, 0x060009E0, 0x06000A40 } },
-    { func_8006AF9C, { 0x06000920, 0x06000A00, 0x06000A40 } },
-    { func_8006AF9C, { 0x06000920, 0x06000A20, 0x06000A40 } },
-    { func_8006969C, { 0x06000C60, 0x06000F08 } },
-    { func_8006AAA8, { 0x06000830, 0x06000B20 } },
-    { func_8006AAA8, { 0x06000830, 0x06000A70 } },
-    { func_80069880, { 0x06000990, 0x06000BE0, 0x06000CF0, 0x06000950 } },
-    { func_80069AC8, { 0x06000BD0, 0x06000DB8, 0x06000EF0 } },
-    { func_8006B6E4, { 0x06000B70, 0x06000AF0, 0x06000F48, 0x06000B30, 0x06000FF0 } },
-    { func_8006B3C0, { 0x060005E0, 0x060004A0, 0x060006F0, 0x06000540 } },
-    { func_8006B3C0, { 0x060005E0, 0x060004C0, 0x060006F0, 0x06000560 } },
-    { func_8006B3C0, { 0x060005E0, 0x060004E0, 0x060006F0, 0x06000580 } },
-    { func_80069880, { 0x06000990, 0x06000BE0, 0x06000CF0, 0x06000970 } },
-    { func_8006B24C, { 0x060005E0, 0x06000500, 0x060006F0, 0x060005A0 } },
-    { func_8006B24C, { 0x060005E0, 0x06000520, 0x060006F0, 0x060005C0 } },
-    { func_8006B6E4, { 0x06000B70, 0x06000B10, 0x06000F48, 0x06000B50, 0x06000FF0 } },
-    { func_8006A9CC, { 0x06000960 } },
-    { func_80069EB0, { 0x06004DB0, 0x06004EB8 } },
+      { gGiWalletDL, gGiGiantsWalletColorDL, gGiGiantsWalletRupeeOuterColorDL, gGiWalletRupeeOuterDL,
+        gGiGiantsWalletStringColorDL, gGiWalletStringDL, gGiGiantsWalletRupeeInnerColorDL, gGiWalletRupeeInnerDL } },
+    // gerudo card, OBJECT_GI_GERUDO
+    { func_8006A9CC, { gGiGerudoCardDL } },
+    // arrows (small), OBJECT_GI_ARROW
+    { func_8006A9CC, { gGiArrowSmallDL } },
+    // arrows (medium), OBJECT_GI_ARROW
+    { func_8006A9CC, { gGiArrowMediumDL } },
+    // arrows (large), OBJECT_GI_ARROW
+    { func_8006A9CC, { gGiArrowLargeDL } },
+    // bombchus, OBJECT_GI_BOMB_2
+    { func_800694E4, { gGiBombchuDL } },
+    // egg, OBJECT_GI_EGG
+    { func_8006A060, { gGiEggSetupDL, gGiEggDL } },
+    // silver scale, OBJECT_GI_SCALE
+    { func_8006B54C, { gGiScaleWaterDL, gGiSilverScaleWaterColorDL, gGiSilverScaleColorDL, gGiScaleDL } },
+    // gold scale, OBJECT_GI_SCALE
+    { func_8006B54C, { gGiScaleWaterDL, gGiGoldenScaleWaterColorDL, gGiGoldenScaleColorDL, gGiScaleDL } },
+    // hylian shield, OBJECT_GI_SHIELD_2
+    { func_8006A9CC, { gGiHylianShieldDL } },
+    // hookshot, OBJECT_GI_HOOKSHOT
+    { func_8006A9CC, { gGiHookshotDL } },
+    // longshot, OBJECT_GI_HOOKSHOT
+    { func_8006A9CC, { gGiLongshotDL } },
+    // ocarina of time, OBJECT_GI_OCARINA
+    { func_8006AAA8, { gGiOcarinaTimeDL, gGiOcarinaTimeHolesDL } },
+    // milk, OBJECT_GI_MILK
+    { func_8006AAA8, { gGiMilkBottleContentsDL, gGiMilkBottleDL } },
+    // keaton mask, OBJECT_GI_KI_TAN_MASK
+    { func_8006AAA8, { gGiKeatonMaskDL, gGiKeatonMaskEyesDL } },
+    // spooky mask, OBJECT_GI_REDEAD_MASK
+    { func_8006A9CC, { gGiSpookyMaskDL } },
+    // slingshot, OBJECT_GI_PACHINKO
+    { func_8006A9CC, { gGiSlingshotDL } },
+    // boomerang, OBJECT_GI_BOOMERANG
+    { func_8006A9CC, { gGiBoomerangDL } },
+    // bow, OBJECT_GI_BOW
+    { func_8006A9CC, { gGiBowDL } },
+    // lens, OBJECT_GI_GLASSES
+    { func_8006AAA8, { gGiLensDL, gGiLensGlassDL } },
+    // green potion, OBJECT_GI_LIQUID
+    { func_8006A2A0,
+      { gGiPotionPotDL, gGiGreenPotColorDL, gGiGreenLiquidColorDL, gGiPotionLiquidDL, gGiGreenPatternColorDL,
+        gGiPotionPatternDL } },
+    // red potion, OBJECT_GI_LIQUID
+    { func_8006A2A0,
+      { gGiPotionPotDL, gGiRedPotColorDL, gGiRedLiquidColorDL, gGiPotionLiquidDL, gGiRedPatternColorDL,
+        gGiPotionPatternDL } },
+    // blue potion, OBJECT_GI_LIQUID
+    { func_8006A2A0,
+      { gGiPotionPotDL, gGiBluePotColorDL, gGiBlueLiquidColorDL, gGiPotionLiquidDL, gGiBluePatternColorDL,
+        gGiPotionPatternDL } },
+    // mirror shield, OBJECT_GI_SHIELD_3
+    { func_80069CF0, { gGiMirrorShieldDL, gGiMirrorShieldSymbolDL } },
+    // zelda's letter, OBJECT_GI_LETTER
+    { func_8006AAA8, { gGiLetterDL, gGiLetterWritingDL } },
+    // goron tunic, OBJECT_GI_CLOTHES
+    { func_8006B124, { gGiTunicCollarDL, gGiGoronCollarColorDL, gGiGoronTunicColorDL, gGiTunicDL } },
+    // zora tunic, OBJECT_GI_CLOTHES
+    { func_8006B124, { gGiTunicCollarDL, gGiZoraCollarColorDL, gGiZoraTunicColorDL, gGiTunicDL } },
+    // beans, OBJECT_GI_BEAN
+    { func_8006A9CC, { gGiBeanDL } },
+    // fish, OBJECT_GI_FISH
+    { func_8006A88C, { gGiFishDL } },
+    // saw, OBJECT_GI_SAW
+    { func_8006A9CC, { gGiSawDL } },
+    // hammer, OBJECT_GI_HAMMER
+    { func_8006A9CC, { gGiHammerDL } },
+    // grass, OBJECT_GI_GRASS
+    { func_8006A9CC, { gGiGrassDL } },
+    // biggorons sword, OBJECT_GI_LONGSWORD
+    { func_8006A4B0, { gGiBiggoronSwordDL } },
+    // chicken, OBJECT_GI_NIWATORI
+    { func_8006ACE4, { gGiChickenDL, gGiChickenColorDL, gGiChickenEyesDL } },
+    // ruto's letter, OBJECT_GI_BOTTLE_LETTER
+    { func_8006AAA8, { gGiLetterBottleContentsDL, gGiLetterBottleDL } },
+    // fairy ocarina, OBJECT_GI_OCARINA_0
+    { func_8006AAA8, { gGiOcarinaFairyDL, gGiOcarinaFairyHolesDL } },
+    // iron boots, OBJECT_GI_BOOTS_2
+    { func_8006AAA8, { gGiIronBootsDL, gGiIronBootsRivetsDL } },
+    // seeds, OBJECT_GI_SEED
+    { func_8006A9CC, { gGiSeedDL } },
+    // silver gauntlets, OBJECT_GI_GLOVES
+    { func_8006B24C,
+      { gGiGauntletsDL, gGiSilverGauntletsColorDL, gGiGauntletsPlateDL, gGiSilverGauntletsPlateColorDL } },
+    // golden gauntlets, OBJECT_GI_GLOVES
+    { func_8006B24C,
+      { gGiGauntletsDL, gGiGoldenGauntletsColorDL, gGiGauntletsPlateDL, gGiGoldenGauntletsPlateColorDL } },
+    // yellow n coin, OBJECT_GI_COIN
+    { func_8006ACE4, { gGiCoinDL, gGiYellowCoinColorDL, gGiNDL } },
+    // red n coin, OBJECT_GI_COIN
+    { func_8006ACE4, { gGiCoinDL, gGiRedCoinColorDL, gGiNDL } },
+    // green n coin, OBJECT_GI_COIN
+    { func_8006ACE4, { gGiCoinDL, gGiGreenCoinColorDL, gGiNDL } },
+    // blue n coin, OBJECT_GI_COIN
+    { func_8006ACE4, { gGiCoinDL, gGiBlueCoinColorDL, gGiNDL } },
+    // skull mask, OBJECT_GI_SKJ_MASK
+    { func_8006A9CC, { gGiSkullMaskDL } },
+    // bunny hood OBJECT_GI_RABIT_MASK
+    { func_8006AAA8, { gGiBunnyHoodDL, gGiBunnyHoodEyesDL } },
+    // mask of truth, OBJECT_GI_TRUTH_MASK
+    { func_8006AAA8, { gGiMaskOfTruthDL, gGiMaskOfTruthAccentsDL } },
+    // eyedrops, OBJECT_GI_EYE_LOTION
+    { func_8006AAA8, { gGiEyeDropsCapDL, gGiEyeDropsBottleDL } },
+    // odd potion, OBJECT_GI_POWDER
+    { func_8006A9CC, { gGiOddPotionDL } },
+    // odd mushroom, OBJECT_GI_MUSHROOM
+    { func_8006A9CC, { gGiOddMushroomDL } },
+    // claim check, OBJECT_GI_TICKETSTONE
+    { func_8006AAA8, { gGiClaimCheckDL, gGiClaimCheckWritingDL } },
+    // broken goron's sword, OBJECT_GI_BROKENSWORD
+    { func_8006A4B0, { gGiBrokenGoronSwordDL } },
+    // prescription, OBJECT_GI_PRESCRIPTION
+    { func_8006AAA8, { gGiPrescriptionDL, gGiPrescriptionWritingDL } },
+    // goron bracelet, OBJECT_GI_BRACELET
+    { func_8006A9CC, { gGiGoronBraceletDL } },
+    // sold out, OBJECT_GI_SOLDOUT
+    { func_800695C0, { gGiSoldOutDL } },
+    // frog, OBJECT_GI_FROG
+    { func_8006AAA8, { gGiFrogDL, gGiFrogEyesDL } },
+    // goron mask, OBJECT_GI_GOLONMASK
+    { func_800694E4, { gGiGoronMaskDL } },
+    // zora mask, OBJECT_GI_ZORAMASK
+    { func_800694E4, { gGiZoraMaskDL } },
+    // gerudo mask, OBJECT_GI_GERUDOMASK
+    { func_800694E4, { gGiGerudoMaskDL } },
+    // cojiro, OBJECT_GI_NIWATORI
+    { func_8006ACE4, { gGiChickenDL, gGiCojiroColorDL, gGiChickenEyesDL } },
+    // hover boots, OBJECT_GI_HOVERBOOTS
+    { func_8006A9CC, { gGiHoverBootsDL } },
+    // fire arrows, OBJECT_GI_M_ARROW
+    { func_8006AE40, { gGiMagicArrowDL, gGiFireArrowColorDL, gGiArrowMagicDL } },
+    // ice arrows, OBJECT_GI_M_ARROW
+    { func_8006AE40, { gGiMagicArrowDL, gGiIceArrowColorDL, gGiArrowMagicDL } },
+    // light arrows, OBJECT_GI_M_ARROW
+    { func_8006AE40, { gGiMagicArrowDL, gGiLightArrowColorDL, gGiArrowMagicDL } },
+    // skulltula token, OBJECT_GI_SUTARU
+    { func_80069EB0, { gGiSkulltulaTokenDL, gGiSkulltulaTokenFlameDL } },
+    // din's fire, OBJECT_GI_GODDESS
+    { func_8006AF9C, { gGiMagicSpellDiamondDL, gGiDinsFireColorDL, gGiMagicSpellOrbDL } },
+    // farore's wind, OBJECT_GI_GODDESS
+    { func_8006AF9C, { gGiMagicSpellDiamondDL, gGiFaroresWindColorDL, gGiMagicSpellOrbDL } },
+    // nayru's Love, OBJECT_GI_GODDESS
+    { func_8006AF9C, { gGiMagicSpellDiamondDL, gGiNayrusLoveColorDL, gGiMagicSpellOrbDL } },
+    // blue fire, OBJECT_GI_FIRE
+    { func_8006969C, { gGiBlueFireChamberstickDL, gGiBlueFireFlameDL } },
+    // bugs, OBJECT_GI_INSECT
+    { func_8006AAA8, { gGiBugsContainerDL, gGiBugsGlassDL } },
+    // butterfly, OBJECT_GI_BUTTERFLY
+    { func_8006AAA8, { gGiButterflyContainerDL, gGiButterflyGlassDL } },
+    // poe, OBJECT_GI_GHOST
+    { func_80069880, { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiPoeColorDL } },
+    // fairy, OBJECT_GI_SOUL
+    { func_80069AC8, { gGiFairyContainerBaseCapDL, gGiFairyContainerGlassDL, gGiFairyContainerContentsDL } },
+    // bullet bag 40, OBJECT_GI_DEKUPOUCH
+    { func_8006B6E4,
+      { gGiBulletBagDL, gGiBulletBagColorDL, gGiBulletBagStringDL, gGiBulletBagStringColorDL, gGiBulletBagWritingDL } },
+    // green rupee, OBJECT_GI_RUPY
+    { func_8006B3C0, { gGiRupeeInnerDL, gGiGreenRupeeInnerColorDL, gGiRupeeOuterDL, gGiGreenRupeeOuterColorDL } },
+    // blue rupee, OBJECT_GI_RUPY
+    { func_8006B3C0, { gGiRupeeInnerDL, gGiBlueRupeeInnerColorDL, gGiRupeeOuterDL, gGiBlueRupeeOuterColorDL } },
+    // red rupee, OBJECT_GI_RUPY
+    { func_8006B3C0, { gGiRupeeInnerDL, gGiRedRupeeInnerColorDL, gGiRupeeOuterDL, gGiRedRupeeOuterColorDL } },
+    // big poe, OBJECT_GI_GHOST
+    { func_80069880,
+      { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiBigPoeColorDL } },
+    // purple rupee, OBJECT_GI_RUPY
+    { func_8006B24C, { gGiRupeeInnerDL, gGiPurpleRupeeInnerColorDL, gGiRupeeOuterDL, gGiPurpleRupeeOuterColorDL } },
+    // gold rupee, OBJECT_GI_RUPY
+    { func_8006B24C, { gGiRupeeInnerDL, gGiGoldRupeeInnerColorDL, gGiRupeeOuterDL, gGiGoldRupeeOuterColorDL } },
+    // bullet bag 50, OBJECT_GI_DEKUPOUCH
+    { func_8006B6E4,
+      { gGiBulletBagDL, gGiBulletBag50ColorDL, gGiBulletBagStringDL, gGiBulletBag50StringColorDL,
+        gGiBulletBagWritingDL } },
+    // kokiri sword, OBJECT_GI_SWORD_1
+    { func_8006A9CC, { gGiKokiriSwordDL } },
+    // gold skulltula token, OBJECT_ST
+    { func_80069EB0, { 0x06004DB0, 0x06004EB8 } }, // TODO symbols from this object
 };
+
 /**
  * Draw "Get Item" Model
  * Calls the corresponding draw function for the given draw ID
@@ -274,6 +482,7 @@ void func_80069AC8(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 704);
 }
 
+// Mirror Shield
 void func_80069CF0(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
@@ -445,6 +654,7 @@ void func_8006A88C(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 952);
 }
 
+// several, opa0 / DrawSimple
 void func_8006A9CC(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 
@@ -458,6 +668,7 @@ void func_8006A9CC(GlobalContext* globalCtx, s16 drawId) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_draw.c", 968);
 }
 
+// several, opa0 xlu1 / DrawWithTranslucentOverlay
 void func_8006AAA8(GlobalContext* globalCtx, s16 drawId) {
     s32 pad;
 

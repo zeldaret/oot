@@ -44,7 +44,8 @@ static s16 sObjectIds[] = {
 
 // Indexes passed to the item table in z_draw.c
 static s16 sDrawItemIndexes[] = {
-    0x0000, 0x0044, 0x002B, 0x0015, 0x0029, 0x002A, 0x0001, 0x005F, 0x006C, 0x006D, 0x006E, 0x0070, 0x0013, 0x0001,
+    DI_BOTTLE,     DI_LETTER_RUTO, DI_SHIELD_HYLIAN, DI_QUIVER_40, DI_SCALE_SILVER, DI_SCALE_GOLDEN, DI_KEY_SMALL,
+    DI_ARROW_FIRE, DI_RUPEE_GREEN, DI_RUPEE_BLUE,    DI_RUPEE_RED, DI_RUPEE_PURPLE, DI_HEART_PIECE,  DI_KEY_SMALL,
 };
 
 static s16 sGetItemIds[] = {
