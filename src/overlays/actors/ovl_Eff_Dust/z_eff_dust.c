@@ -1,4 +1,5 @@
 #include "z_eff_dust.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -16,8 +17,6 @@ void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx);
 void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx);
 void EffDust_DrawFunc_8099E4F4(EffDust* this, GlobalContext* globalCtx);
 void EffDust_DrawFunc_8099E784(EffDust* this, GlobalContext* globalCtx);
-
-extern Gfx D_04037880[];
 
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
@@ -332,7 +331,7 @@ void EffDust_DrawFunc_8099E4F4(EffDust* this, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfx_ctx, "../z_eff_dust.c", 449),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL));
         }
         initialPositions++;
         distanceTraveled++;
@@ -405,7 +404,7 @@ void EffDust_DrawFunc_8099E784(EffDust* this, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfx_ctx, "../z_eff_dust.c", 506),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04037880));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL));
         }
 
         initialPositions++;

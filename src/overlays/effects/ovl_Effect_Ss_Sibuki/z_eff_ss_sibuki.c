@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_sibuki.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -27,10 +28,6 @@ EffectSsInit Effect_Ss_Sibuki_InitVars = {
     EffectSsSibuki_Init,
 };
 
-extern void* D_04055EB0;
-extern void* D_04055DB0;
-extern Gfx D_0401A160[];
-
 u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsSibukiInitParams* initParams = (EffectSsSibukiInitParams*)initParamsx;
 
@@ -39,9 +36,9 @@ u32 EffectSsSibuki_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->accel = initParams->accel;
 
     if (KREG(2) != 0) {
-        this->gfx = SEGMENTED_TO_VIRTUAL(&D_04055EB0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffBubble2Tex);
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(&D_04055DB0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(&gEffBubble1Tex);
     }
 
     this->life = ((s16)((Rand_ZeroOne() * (500.0f + KREG(64))) * 0.01f)) + KREG(65) + 10;
@@ -76,7 +73,7 @@ void EffectSsSibuki_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     gDPSetEnvColor(POLY_OPA_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
     gSPSegment(POLY_OPA_DISP++, 0x08, this->gfx);
-    gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(D_0401A160));
+    gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gEffBubbleDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_sibuki.c", 198);
 }
