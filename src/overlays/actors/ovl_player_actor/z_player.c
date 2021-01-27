@@ -5704,7 +5704,7 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
         this->stateFlags1 |= 0x800000;
         this->actor.bgCheckFlags &= ~0x20;
 
-        if (this->unk_43C < 0) {
+        if (this->mountSide < 0) {
             temp = 0;
         } else {
             temp = 1;
@@ -5720,7 +5720,7 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
         this->unk_878 = rideActor->actor.world.pos.y - this->actor.world.pos.y;
         this->currentYaw = this->actor.shape.rot.y = rideActor->actor.shape.rot.y;
 
-        func_8002DECC(globalCtx, this, &rideActor->actor);
+        Actor_MountHorse(globalCtx, this, &rideActor->actor);
         func_80832264(globalCtx, this, D_80854578[temp].anim);
         func_80832F54(globalCtx, this, 0x9B);
         this->actor.parent = this->rideActor;
@@ -11157,13 +11157,13 @@ s32 func_8084C9BC(Player* this, GlobalContext* globalCtx) {
     if (this->unk_850 < 0) {
         this->unk_850 = 99;
     } else {
-        sp38 = (this->unk_43C < 0) ? 0 : 1;
+        sp38 = (this->mountSide < 0) ? 0 : 1;
         if (!func_8084C89C(globalCtx, this, sp38, &sp34)) {
             sp38 ^= 1;
             if (!func_8084C89C(globalCtx, this, sp38, &sp34)) {
                 return 0;
             } else {
-                this->unk_43C = -this->unk_43C;
+                this->mountSide = -this->mountSide;
             }
         }
 
@@ -11176,7 +11176,7 @@ s32 func_8084C9BC(Player* this, GlobalContext* globalCtx) {
                 rideActor->actor.child = NULL;
                 func_80835DAC(globalCtx, this, func_8084D3E4, 0);
                 this->unk_878 = sp34 - rideActor->actor.world.pos.y;
-                func_80832264(globalCtx, this, (this->unk_43C < 0) ? &gPlayer531Anim : &gPlayer533Anim);
+                func_80832264(globalCtx, this, (this->mountSide < 0) ? &gPlayer531Anim : &gPlayer533Anim);
                 return 1;
             }
         }
@@ -11263,7 +11263,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
             return;
         }
 
-        arr = D_80854998[(this->unk_43C < 0) ? 0 : 1];
+        arr = D_80854998[(this->mountSide < 0) ? 0 : 1];
 
         if (LinkAnimation_OnFrame(&this->skelAnime, arr[0])) {
             func_8002F7DC(&this->actor, NA_SE_PL_CLIMB_CLIFF);
@@ -11314,7 +11314,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
             func_80832924(this, D_808549A4);
         }
     } else {
-        this->skelAnime.curFrame = rideActor->unk_214;
+        this->skelAnime.curFrame = rideActor->curFrame;
         LinkAnimation_AnimateFrame(globalCtx, &this->skelAnime);
     }
 
@@ -11346,7 +11346,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
         if (D_808535E0 == 0) {
             if (this->unk_84F != 0) {
                 if (LinkAnimation_Update(globalCtx, &this->skelAnime2)) {
-                    rideActor->unk_1F0 &= ~0x100;
+                    rideActor->flags &= ~0x100;
                     this->unk_84F = 0;
                 }
 
@@ -11447,7 +11447,7 @@ void func_8084D3E4(Player* this, GlobalContext* globalCtx) {
     } else {
         Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_NORMAL0);
 
-        if (this->unk_43C < 0) {
+        if (this->mountSide < 0) {
             D_808549C4[0].field = 0x2828;
         } else {
             D_808549C4[0].field = 0x281D;

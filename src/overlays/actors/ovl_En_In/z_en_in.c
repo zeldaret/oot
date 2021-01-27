@@ -655,7 +655,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                 return;
             }
             gSaveContext.eventInf[0] =
-                (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)PLAYER->rideActor)->unk_158 << 4);
+                (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)PLAYER->rideActor)->type << 4);
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             phi_a2 = 2;
             phi_a3 = 2;
