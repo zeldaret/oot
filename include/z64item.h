@@ -476,7 +476,7 @@ typedef enum {
     /* 0x5F */ DI_ARROW_FIRE,
     /* 0x60 */ DI_ARROW_ICE,
     /* 0x61 */ DI_ARROW_LIGHT,
-    /* 0x62 */ DI_SKULL_TOKEN_ITEM,
+    /* 0x62 */ DI_SKULL_TOKEN,
     /* 0x63 */ DI_DINS_FIRE,
     /* 0x64 */ DI_FARORES_WIND,
     /* 0x65 */ DI_NAYRUS_LOVE,
@@ -494,7 +494,7 @@ typedef enum {
     /* 0x71 */ DI_RUPEE_GOLD,
     /* 0x72 */ DI_BULLET_BAG_50,
     /* 0x73 */ DI_SWORD_KOKIRI,
-    /* 0x74 */ DI_SKULL_TOKEN,
+    /* 0x74 */ DI_SKULL_TOKEN_2,
     /* 0x75 */ DI_MAX
 } GetItemDrawID;
 
