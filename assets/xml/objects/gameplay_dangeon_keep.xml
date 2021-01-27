@@ -1,7 +1,7 @@
 <Root>
     <File Name="gameplay_dangeon_keep" Segment="5">
         <DList Name="gUnusedCandleDL" Offset="0x440"/>
-        <DList Name="gFireTempleWallFragmentDL" Offset="0x530"/>
+        <DList Name="gBrownFragmentDL" Offset="0x530"/>
         <Texture Name="gUnusedStoneTex" OutName="unused_stone_tex" Format="rgb5a1" Width="32" Height="32" Offset="0x7C0"/>
         <DList Name="gDoorLockDL" Offset="0x1100"/>
         <DList Name="gDoorChainsDL" Offset="0x11F0"/>

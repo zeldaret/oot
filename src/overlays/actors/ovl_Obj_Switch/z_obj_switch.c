@@ -755,8 +755,10 @@ void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjSwitch_DrawCrystal(ObjSwitch* this, GlobalContext* globalCtx) {
-    static Gfx* xluDLists[] = { gCrystalSwitchCoreXluDL, gCrystalSwitchDiamondXluDL, NULL, NULL, gCrystalSwitchCoreXluDL };
-    static Gfx* opaDLists[] = { gCrystalSwitchCoreOpaDL, gCrystalSwitchDiamondOpaDL, NULL, NULL, gCrystalSwitchCoreOpaDL };
+    static Gfx* xluDLists[] = { gCrystalSwitchCoreXluDL, gCrystalSwitchDiamondXluDL, NULL, NULL,
+                                gCrystalSwitchCoreXluDL };
+    static Gfx* opaDLists[] = { gCrystalSwitchCoreOpaDL, gCrystalSwitchDiamondOpaDL, NULL, NULL,
+                                gCrystalSwitchCoreOpaDL };
     s32 pad1;
     s32 pad2;
     s32 subType;

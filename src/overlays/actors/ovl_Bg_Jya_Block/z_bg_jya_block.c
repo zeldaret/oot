@@ -35,9 +35,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-
-
-
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgJyaBlock* this = THIS;
