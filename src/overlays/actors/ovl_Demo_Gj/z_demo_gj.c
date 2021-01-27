@@ -396,7 +396,6 @@ void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *a
             0xA, 
             0xA, 
             0, 
-            //(s32) ((temp_f20 * 20.0f) + 20.0f), 
             (s32) ((Rand_ZeroOne() * 20.0f) + 20.0f), 
             0x14, 
             0x12C, 
@@ -529,11 +528,13 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
 
 void func_8097923C(DemoGj* this, GlobalContext* globalCtx);
 #ifdef NON_MATCHING
+// register usage doesn't match.
 void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
-    f32 actor_y = this->dyna.actor.world.pos.y;
-    f32* actor_y_velocity = &this->dyna.actor.velocity.y;
-    f32* actor_speedXZ = &this->dyna.actor.speedXZ;
-    Vec3s* unk_172 = &this->unk_172;
+    f32 yPosition;
+
+    f32 *yVelocity;
+    f32 *speedXZ;
+    Vec3s *unk_172;
 
     f32 phi_f12;
     f32 phi_f14;
@@ -541,6 +542,8 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
     f32 phi_f18;
     f32 phi_f20;
     f32 phi_f22;
+
+    yPosition = this->dyna.actor.world.pos.y;
 
     switch (func_80978950(this) - 8) {
     case 0:
@@ -551,6 +554,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f20 = gGameInfo->data[2619] * 0.01f + -1.0f;
         phi_f22 = gGameInfo->data[2620] * 0.01f + 1.0f;
         break;
+
     case 1:
         phi_f12 = gGameInfo->data[2628];
         phi_f14 = gGameInfo->data[2629] * 0.01f + 1.0f;
@@ -559,6 +563,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f20 = gGameInfo->data[2632] * 0.01f + -1.0f;
         phi_f22 = gGameInfo->data[2633] * 0.01f + 1.0f;
         break;
+
     case 2:
         phi_f12 = gGameInfo->data[2641];
         phi_f14 = gGameInfo->data[2642] * 0.01f + 1.0f;
@@ -567,6 +572,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f20 = gGameInfo->data[2645] * 0.01f + -1.0f;
         phi_f22 = gGameInfo->data[2646] * 0.01f + 1.0f;
         break;
+
     case 3:
         phi_f12 = gGameInfo->data[2654];
         phi_f14 = gGameInfo->data[2655] * 0.01f + 1.0f;
@@ -575,6 +581,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f20 = gGameInfo->data[2658] * 0.01f + -1.0f;
         phi_f22 = gGameInfo->data[2659] * 0.01f + 1.0f;
         break;
+
     case 4:
         phi_f12 = gGameInfo->data[2667];
         phi_f14 = gGameInfo->data[2668] * 0.01f + 1.0f;
@@ -583,6 +590,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f20 = gGameInfo->data[2671] * 0.01f + -1.0f;
         phi_f22 = gGameInfo->data[2672] * 0.01f + 1.0f;
         break;
+
     case 5:
         phi_f12 = gGameInfo->data[2680];
         phi_f14 = gGameInfo->data[2681] * 0.01f + 1.0f;
@@ -591,6 +599,7 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f20 = gGameInfo->data[2684] * 0.01f + -1.0f;
         phi_f22 = gGameInfo->data[2685] * 0.01f + 1.0f;
         break;
+
     case 6:
         phi_f12 = gGameInfo->data[2602] + -190.0f;
         phi_f14 = gGameInfo->data[2601] * 0.01f + 1.0f;
@@ -599,26 +608,36 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         phi_f20 = gGameInfo->data[2598] * 0.01f + -1.0f;
         phi_f22 = gGameInfo->data[2597] * 0.01f + 1.0f;
         break;
+
     default:
         // Demo_Gj_common_Reflect : This arg_data is not supported = %d
         osSyncPrintf("\x1b[31mDemo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n\x1b[m", this->dyna.actor.params);
         return;
     }
 
-    if ((actor_y + phi_f12) <= 1086.0f) {
-        if ((*actor_y_velocity < 0.0f) && (this->unk_180 == 0)) {
-            *actor_y_velocity *= phi_f20;
-            *actor_speedXZ *= phi_f22;
+    yVelocity = &this->dyna.actor.velocity.y;
+    speedXZ = &this->dyna.actor.speedXZ;
+
+    unk_172 = &this->unk_172;
+
+    if ((yPosition + phi_f12) <= 1086.0f) {
+        if ((*yVelocity < 0.0f) && (this->unk_180 == 0)) {
+            *yVelocity *= phi_f20;
+            *speedXZ *= phi_f22;
+
             unk_172->x *= phi_f14;
             unk_172->y *= phi_f16;
             unk_172->z *= phi_f18;
-            if (*actor_y_velocity <= -this->dyna.actor.gravity) {
-                *actor_y_velocity = 0.0f;
-                *actor_speedXZ = 0.0f;
+
+            if (*yVelocity <= -this->dyna.actor.gravity) {
+                *yVelocity = 0.0f;
+                *speedXZ = 0.0f;
+
                 unk_172->x = 0;
                 unk_172->y = 0;
                 unk_172->z = 0;
             }
+
             this->unk_180 = 1;
         }
     }
@@ -742,6 +761,7 @@ void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
             break;
 
         default:
+            // Demo_Gj_Setup_Move_common : This arg_data is not supported = %d
             osSyncPrintf("\x1b[31mDemo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n\x1b[m", actor->params);
             break;
         }
