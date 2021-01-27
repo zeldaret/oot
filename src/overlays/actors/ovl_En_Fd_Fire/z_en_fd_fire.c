@@ -1,6 +1,7 @@
 #include "z_en_fd_fire.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
+
 #define FLAGS 0x00000015
 
 #define THIS ((EnFdFire*)thisx)
