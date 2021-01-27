@@ -6,7 +6,6 @@
 
 #include "z_obj_makeoshihiki.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
-#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x00000020

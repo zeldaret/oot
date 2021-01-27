@@ -35,9 +35,8 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_05004350;
-extern Gfx D_05004CD0[];
-extern CollisionHeader D_05004E98;
+
+
 
 void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -45,7 +44,7 @@ void BgJyaBlock_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, 0);
-    CollisionHeader_GetVirtual(&D_05004E98, &colHeader);
+    CollisionHeader_GetVirtual(&gPushBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
@@ -73,11 +72,11 @@ void BgJyaBlock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_05004350));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gPushBlockGrayTex));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_jya_block.c", 153),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetEnvColor(POLY_OPA_DISP++, 232, 210, 176, 255);
-    gSPDisplayList(POLY_OPA_DISP++, D_05004CD0);
+    gSPDisplayList(POLY_OPA_DISP++, gPushBlockDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_block.c", 158);
 }
