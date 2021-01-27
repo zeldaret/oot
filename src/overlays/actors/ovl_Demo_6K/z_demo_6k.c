@@ -1,4 +1,5 @@
 #include "z_demo_6k.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -8,8 +9,6 @@ void Demo6K_Init(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void Demo6K_Update(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_040101A8;
-extern UNK_TYPE D_04015780;
 extern UNK_TYPE D_06001040;
 extern UNK_TYPE D_06001190;
 extern UNK_TYPE D_060022B0;
