@@ -6184,7 +6184,8 @@ endseg
 beginseg
     name "title_static"
     romalign 0x1000
-    include "build/baserom/title_static.o"
+    include "build/assets/textures/title_static/title_static.o"
+    number 01
 endseg
 
 beginseg
