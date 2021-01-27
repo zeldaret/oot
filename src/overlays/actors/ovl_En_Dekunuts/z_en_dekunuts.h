@@ -16,7 +16,7 @@ typedef struct EnDekunuts {
     /* 0x0195 */ u8 runAwayCount;
     /* 0x0196 */ s16 animFlagAndTimer;
     /* 0x0198 */ s16 runDirection;
-    /* 0x019A */ volatile s16 shotsPerRound;
+    /* 0x019A */ s16 shotsPerRound;
     /* 0x019C */ Vec3s jointTable[25];
     /* 0x0232 */ Vec3s morphTable[25];
     /* 0x02C8 */ ColliderCylinder collider;

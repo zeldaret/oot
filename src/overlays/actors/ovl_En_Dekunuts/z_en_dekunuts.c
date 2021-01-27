@@ -118,26 +118,25 @@ static InitChainEntry sInitChain[] = {
 
 void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDekunuts* this = THIS;
-    s32 temp;
+    s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    if (this->actor.params == 0xA) {
-        this->actor.flags &= ~0x5;
+    if (thisx->params == 0xA) {
+        thisx->flags &= ~0x5;
     } else {
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
+        ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003268, &D_06000E6C, this->jointTable, this->morphTable, 25);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        CollisionCheck_SetInfo(&this->actor.colChkInfo, &D_809EAB84, &sColChkInfoInit);
-        this->shotsPerRound = ((this->actor.params >> 8) & 0xFF);
-        this->actor.params &= 0xFF;
-        temp = this->shotsPerRound;
-        if ((temp == 0xFF) || (temp == 0)) {
+        CollisionCheck_SetInfo(&thisx->colChkInfo, &D_809EAB84, &sColChkInfoInit);
+        this->shotsPerRound = ((thisx->params >> 8) & 0xFF);
+        thisx->params &= 0xFF;
+        if ((this->shotsPerRound == 0xFF) || (this->shotsPerRound == 0)) {
             this->shotsPerRound = 1;
         }
         EnDekunuts_SetupWait(this);
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_DEKUNUTS, this->actor.world.pos.x,
-                           this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.world.rot.y, 0, 0xA);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_EN_DEKUNUTS, thisx->world.pos.x,
+                           thisx->world.pos.y, thisx->world.pos.z, 0, thisx->world.rot.y, 0, 0xA);
     }
 }
 
