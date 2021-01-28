@@ -1,4 +1,5 @@
 #include "z_demo_gj.h"
+#include "vt.h"
 
 #define FLAGS 0x00000030
 
@@ -141,94 +142,94 @@ static Vec3f D_8097BEC4 = {
 
 typedef void (*DemoGjActionFunc)(DemoGj*, GlobalContext*);
 
-void func_8097ADF0(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A160(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A39C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A56C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A73C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A90C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097AADC(DemoGj* this, GlobalContext* globalCtx);
-void func_8097AD18(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A190(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A3CC(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A59C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A76C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097A93C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097AB0C(DemoGj* this, GlobalContext* globalCtx);
-void func_8097AD48(DemoGj* this, GlobalContext* globalCtx);
-void func_8097B340(DemoGj* this, GlobalContext* globalCtx);
-void func_8097B864(DemoGj* this, GlobalContext* globalCtx);
-void func_8097BB78(DemoGj* this, GlobalContext* globalCtx);
-void func_8097B370(DemoGj* this, GlobalContext* globalCtx);
-void func_8097B894(DemoGj* this, GlobalContext* globalCtx);
-void func_8097BBA8(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update0(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update1(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update2(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update3(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update4(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update5(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update6(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update7(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update8(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update9(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update10(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update11(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update12(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update13(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update14(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update15(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update16(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update17(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update18(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update19(DemoGj* this, GlobalContext* globalCtx);
+void DemoGj_Update20(DemoGj* this, GlobalContext* globalCtx);
 
-static DemoGjActionFunc sUpdateCallbacks[] = {
-    func_8097ADF0,
-    func_8097A160,
-    func_8097A39C,
-    func_8097A56C,
-    func_8097A73C,
-    func_8097A90C,
-    func_8097AADC,
-    func_8097AD18,
-    func_8097A190,
-    func_8097A3CC,
-    func_8097A59C,
-    func_8097A76C,
-    func_8097A93C,
-    func_8097AB0C,
-    func_8097AD48,
-    func_8097B340,
-    func_8097B864,
-    func_8097BB78,
-    func_8097B370,
-    func_8097B894,
-    func_8097BBA8,
+static DemoGjActionFunc sUpdateFuncs[] = {
+    DemoGj_Update0,
+    DemoGj_Update1,
+    DemoGj_Update2,
+    DemoGj_Update3,
+    DemoGj_Update4,
+    DemoGj_Update5,
+    DemoGj_Update6,
+    DemoGj_Update7,
+    DemoGj_Update8,
+    DemoGj_Update9,
+    DemoGj_Update10,
+    DemoGj_Update11,
+    DemoGj_Update12,
+    DemoGj_Update13,
+    DemoGj_Update14,
+    DemoGj_Update15,
+    DemoGj_Update16,
+    DemoGj_Update17,
+    DemoGj_Update18,
+    DemoGj_Update19,
+    DemoGj_Update20,
 };
 
 
-void func_8097BD70(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097AE38(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A1C0(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A3FC(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A5CC(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A79C(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A96C(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097AB3C(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097AD78(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A1E4(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A420(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A5F0(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A7C0(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097A990(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097AB60(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097AD9C(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097B3A0(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097B8C4(DemoGj* this, GlobalContext* globalCtx); 
-void func_8097BBD8(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw0(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw1(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw2(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw3(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw4(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw5(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw6(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw7(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw8(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw9(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw10(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw11(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw12(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw13(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw14(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw15(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw16(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw17(DemoGj* this, GlobalContext* globalCtx); 
+void DemoGj_Draw18(DemoGj* this, GlobalContext* globalCtx); 
 
 
-static DemoGjActionFunc sDrawCallbacks[] = {
-    func_8097BD70, 
-    func_8097AE38, 
-    func_8097A1C0, 
-    func_8097A3FC, 
-    func_8097A5CC, 
-    func_8097A79C, 
-    func_8097A96C, 
-    func_8097AB3C, 
-    func_8097AD78, 
-    func_8097A1E4, 
-    func_8097A420, 
-    func_8097A5F0, 
-    func_8097A7C0, 
-    func_8097A990, 
-    func_8097AB60, 
-    func_8097AD9C, 
-    func_8097B3A0, 
-    func_8097B8C4, 
-    func_8097BBD8, 
+static DemoGjActionFunc sDrawFuncs[] = {
+    DemoGj_Draw0, 
+    DemoGj_Draw1, 
+    DemoGj_Draw2, 
+    DemoGj_Draw3, 
+    DemoGj_Draw4, 
+    DemoGj_Draw5, 
+    DemoGj_Draw6, 
+    DemoGj_Draw7, 
+    DemoGj_Draw8, 
+    DemoGj_Draw9, 
+    DemoGj_Draw10, 
+    DemoGj_Draw11, 
+    DemoGj_Draw12, 
+    DemoGj_Draw13, 
+    DemoGj_Draw14, 
+    DemoGj_Draw15, 
+    DemoGj_Draw16, 
+    DemoGj_Draw17, 
+    DemoGj_Draw18, 
 };
 
 
@@ -269,14 +270,14 @@ void func_8097895C(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* arg
     Collider_SetCylinderType1(globalCtx, arg2, &this->dyna.actor, arg3);
 }
 
-s32 func_809789A4(DemoGj* this, GlobalContext* globalCtx, Collider* collider) {
-    if (Actor_GetCollidedExplosive(globalCtx, collider) != NULL) {
+s32 DemoGj_Cylinder_HasExploded(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* cylinder) {
+    if (Actor_GetCollidedExplosive(globalCtx, &cylinder->base) != NULL) {
         return 1; // return true; (?)
     }
     return 0; // return false; (?)
 }
 
-void DemoGj_DestroyCylinders(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Cylinder_Destroy(DemoGj* this, GlobalContext* globalCtx) {
     switch (DemoGj_GetType(this)) {
     case 16:
         Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
@@ -301,11 +302,11 @@ void DemoGj_DestroyCylinders(DemoGj* this, GlobalContext* globalCtx) {
 
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
-    DemoGj_DestroyCylinders(this, globalCtx);
+    DemoGj_Cylinder_Destroy(this, globalCtx);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_80978AC4(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_PlayExplosionSfx(DemoGj* this, GlobalContext* globalCtx) {
     Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
@@ -397,10 +398,10 @@ void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *a
         theta += 0x2AAA;
     }
 
-    func_80978AC4(this, globalCtx);
+    DemoGj_PlayExplosionSfx(this, globalCtx);
 }
 
-s32 func_80978EBC(void) {
+s32 DemoGj_IsSceneInvalid(void) {
     if (gSaveContext.sceneSetupIndex < 4) {
         return 0; // return false; (?)
     }
@@ -432,28 +433,24 @@ s32 DemoGj_FindGanon(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2) {
-    GlobalContext* glb_ctx;
-    Actor* actor;
-    DynaCollisionContext* colctx_dyna;
+    GlobalContext* globalCtx2 = globalCtx;
+    Actor* actor = &this->dyna.actor;
+    DynaCollisionContext* colCtx_dyna = &globalCtx2->colCtx.dyna;
     CollisionHeader *header;
-
-    actor = &this->dyna.actor;
-    glb_ctx = globalCtx;
-    colctx_dyna = &glb_ctx->colCtx.dyna;
 
     if (arg2 != NULL) {
         Actor_ProcessInitChain(actor, sInitChain);
         DynaPolyActor_Init(&this->dyna, 0);
         header = NULL;
         CollisionHeader_GetVirtual(arg2, &header);
-        this->dyna.bgId = DynaPoly_SetBgActor(glb_ctx, colctx_dyna, actor, header);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, colCtx_dyna, actor, header);
     }
 }
 
-s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 arg2, s32 arg3, CollisionHeader* arg4) {
-    if (func_80978EBC() == 0) {
-        this->updateIndex = arg2;
-        this->drawIndex = arg3;
+s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 updateIndex, s32 drawIndex, CollisionHeader* arg4) {
+    if (!DemoGj_IsSceneInvalid()) {
+        this->updateIndex = updateIndex;
+        this->drawIndex = drawIndex;
         func_80978F60(this, globalCtx, arg4);
         return 1; // return true; (?)
     }
@@ -478,17 +475,17 @@ void func_80979030(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
 }
 
 void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
-    s32 pad; // Needed for matching.
-    GraphicsContext *gfxCtx;
-    
+    GlobalContext* globalCtx2 = globalCtx;
+    GraphicsContext* gfxCtx;
+
     s16 x = this->rotationVec.x;
     s16 y = this->rotationVec.y;
     s16 z = this->rotationVec.z;
 
-    s32 pad2; // Needed for matching.
+    s32 pad; // Needed for matching.
     Mtx* matrix;
 
-    gfxCtx = globalCtx->state.gfxCtx;
+    gfxCtx = globalCtx2->state.gfxCtx;
 
     matrix = Graph_Alloc(gfxCtx, 0x40);
 
@@ -587,7 +584,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
 
     default:
         // Demo_Gj_common_Reflect : This arg_data is not supported = %d
-        osSyncPrintf("\x1b[31mDemo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n\x1b[m", this->dyna.actor.params);
+        osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_common_Reflect : そんなarg_dataには対応していない = %d\n" VT_RST, this->dyna.actor.params);
         return;
     }
 
@@ -722,7 +719,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
 
         default:
             // Demo_Gj_Setup_Move_common : This arg_data is not supported = %d
-            osSyncPrintf("\x1b[31mDemo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n\x1b[m", actor->params);
+            osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Setup_Move_common : そんなarg_dataには対応していない = %d\n" VT_RST, actor->params);
             break;
         }
 
@@ -746,7 +743,6 @@ void func_80979F9C(DemoGj* this){
     if (func_809797E4(this, 3)) {
         this->flag1 = 1; // this->flag1 = true; (?)
     }
-
 }
 
 void func_80979FD0(DemoGj* this, GlobalContext* globalCtx) {
@@ -793,21 +789,21 @@ void func_8097A130(DemoGj *this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097A160(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update1(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A0E4(this, globalCtx);
 }
 
-void func_8097A190(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update8(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A000(this, globalCtx);
     func_8097A130(this, globalCtx);
 }
 
-void func_8097A1C0(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw2(DemoGj* this, GlobalContext* globalCtx) {
     func_80979030(this, globalCtx, &D_06001D20);
 }
 
-void func_8097A1E4(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw9(DemoGj* this, GlobalContext* globalCtx) {
     func_8097911C(this, globalCtx, &D_06001D20);
 }
 
@@ -855,21 +851,21 @@ void func_8097A36C(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097A39C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update2(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A320(this, globalCtx);
 }
 
-void func_8097A3CC(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update9(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A238(this, globalCtx);
     func_8097A36C(this, globalCtx);
 }
 
-void func_8097A3FC(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw3(DemoGj* this, GlobalContext* globalCtx) {
     func_80979030(this, globalCtx, &D_06002160);
 }
 
-void func_8097A420(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw10(DemoGj* this, GlobalContext* globalCtx) {
     func_8097911C(this, globalCtx, &D_06002160);
 }
 
@@ -901,21 +897,21 @@ void func_8097A53C(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097A56C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update3(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A4F0(this, globalCtx);
 }
 
-void func_8097A59C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update10(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A474(this, globalCtx);
     func_8097A53C(this, globalCtx);
 }
 
-void func_8097A5CC(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw4(DemoGj* this, GlobalContext* globalCtx) {
     func_80979030(this, globalCtx, &D_06002600);
 }
 
-void func_8097A5F0(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw11(DemoGj* this, GlobalContext* globalCtx) {
     func_8097911C(this, globalCtx, &D_06002600);
 }
 
@@ -947,21 +943,21 @@ void func_8097A70C(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097A73C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A6C0(this, globalCtx);
 }
 
-void func_8097A76C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Update11(DemoGj* this, GlobalContext* globalCtx) {
     func_8097A644(this, globalCtx);
     func_8097A70C(this, globalCtx);
 }
 
-void func_8097A79C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw5(DemoGj* this, GlobalContext* globalCtx) {
     func_80979030(this, globalCtx, &D_06002A40);
 }
 
-void func_8097A7C0(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_Draw12(DemoGj* this, GlobalContext* globalCtx) {
     func_8097911C(this, globalCtx, &D_06002A40);
 }
 
@@ -993,21 +989,21 @@ void func_8097A8DC(DemoGj *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8097A90C(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update5(DemoGj *this, GlobalContext *globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A890(this, globalCtx);
 }
 
-void func_8097A93C(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update12(DemoGj *this, GlobalContext *globalCtx) {
     func_8097A814(this, globalCtx);
     func_8097A8DC(this, globalCtx);
 }
 
-void func_8097A96C(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw6(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06002E80);
 }
 
-void func_8097A990(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw13(DemoGj *this, GlobalContext *globalCtx) {
     func_8097911C(this, globalCtx, &D_06002E80);
 }
 
@@ -1039,21 +1035,21 @@ void func_8097AAAC(DemoGj *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8097AADC(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update6(DemoGj *this, GlobalContext *globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097AA60(this, globalCtx);
 }
 
-void func_8097AB0C(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update13(DemoGj *this, GlobalContext *globalCtx) {
     func_8097A9E4(this, globalCtx);
     func_8097AAAC(this, globalCtx);
 }
 
-void func_8097AB3C(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw7(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06003190);
 }
 
-void func_8097AB60(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw14(DemoGj *this, GlobalContext *globalCtx) {
     func_8097911C(this, globalCtx, &D_06003190);
 }
 
@@ -1101,21 +1097,21 @@ void func_8097ACE8(DemoGj *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8097AD18(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update7(DemoGj *this, GlobalContext *globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097AC9C(this, globalCtx);
 }
 
-void func_8097AD48(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update14(DemoGj *this, GlobalContext *globalCtx) {
     func_8097ABB4(this, globalCtx);
     func_8097ACE8(this, globalCtx);
 }
 
-void func_8097AD78(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw8(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06003710);
 }
 
-void func_8097AD9C(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw15(DemoGj *this, GlobalContext *globalCtx) {
     func_8097911C(this, globalCtx, &D_06003710);
 }
 
@@ -1123,19 +1119,19 @@ void func_8097ADC0(DemoGj *this, GlobalContext *globalCtx) {
     func_80978FCC(this, globalCtx, 0, 1, &D_06001B70);
 }
 
-void func_8097ADF0(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update0(DemoGj *this, GlobalContext *globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A07C(this, globalCtx);
     func_8097A2B4(this, globalCtx);
     func_8097AC30(this, globalCtx);
 }
 
-void func_8097AE38(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw1(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06000DC0);
 }
 
 void func_8097AE5C(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 0xF, 0, NULL);
+    func_80978FCC(this, globalCtx, 15, 0, NULL);
     func_8097895C(this, globalCtx, &this->cylinders[0], &sCylinderInit1);
     func_8097895C(this, globalCtx, &this->cylinders[1], &sCylinderInit1);
     func_8097895C(this, globalCtx, &this->cylinders[2], &sCylinderInit1);
@@ -1145,31 +1141,29 @@ void func_8097AEDC(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097AEE8(DemoGj *this, GlobalContext *globalCtx) {
-    ColliderCylinder *cylinder0 = &this->cylinders[0];
-    ColliderCylinder *cylinder1 = &this->cylinders[1];
-    ColliderCylinder *cylinder2 = &this->cylinders[2];
+    ColliderCylinder *cylinders_0 = &this->cylinders[0];
+    ColliderCylinder *cylinders_1 = &this->cylinders[1];
+    ColliderCylinder *cylinders_2 = &this->cylinders[2];
     PosRot *actorPosRot = &this->dyna.actor.world;
 
     s32 pad;
 
     s16 theta = actorPosRot->rot.y;
-    f32 cos_theta;
-    f32 sin_theta;
 
-    cos_theta = Math_CosS(theta);
-    sin_theta = Math_SinS(theta);
+    f32 cos_theta = Math_CosS(theta);
+    f32 sin_theta = Math_SinS(theta);
 
-    cylinder0->dim.pos.z = actorPosRot->pos.z + (20.0f * cos_theta) - (-20.0f * sin_theta);
-    cylinder0->dim.pos.x = actorPosRot->pos.x + (20.0f * sin_theta) + (-20.0f * cos_theta);
-    cylinder0->dim.pos.y = actorPosRot->pos.y;
+    cylinders_0->dim.pos.z = actorPosRot->pos.z + (20.0f * cos_theta) - (-20.0f * sin_theta);
+    cylinders_0->dim.pos.x = actorPosRot->pos.x + (20.0f * sin_theta) + (-20.0f * cos_theta);
+    cylinders_0->dim.pos.y = actorPosRot->pos.y;
 
-    cylinder1->dim.pos.z = actorPosRot->pos.z + (-20.0f * cos_theta) - (20.0f * sin_theta);
-    cylinder1->dim.pos.x = actorPosRot->pos.x + (-20.0f * sin_theta) + (20.0f * cos_theta);
-    cylinder1->dim.pos.y = actorPosRot->pos.y;
+    cylinders_1->dim.pos.z = actorPosRot->pos.z + (-20.0f * cos_theta) - (20.0f * sin_theta);
+    cylinders_1->dim.pos.x = actorPosRot->pos.x + (-20.0f * sin_theta) + (20.0f * cos_theta);
+    cylinders_1->dim.pos.y = actorPosRot->pos.y;
 
-    cylinder2->dim.pos.z = actorPosRot->pos.z + (-60.0f * cos_theta) - (60.0f * sin_theta);
-    cylinder2->dim.pos.x = actorPosRot->pos.x + (-60.0f * sin_theta) + (60.0f * cos_theta);
-    cylinder2->dim.pos.y = actorPosRot->pos.y;
+    cylinders_2->dim.pos.z = actorPosRot->pos.z + (-60.0f * cos_theta) - (60.0f * sin_theta);
+    cylinders_2->dim.pos.x = actorPosRot->pos.x + (-60.0f * sin_theta) + (60.0f * cos_theta);
+    cylinders_2->dim.pos.y = actorPosRot->pos.y;
 }
 
 void func_8097B080(DemoGj *this, GlobalContext *globalCtx) {
@@ -1210,14 +1204,14 @@ void func_8097B128(DemoGj *this, GlobalContext *globalCtx) {
     }
 }
 
-s32 func_8097B1B4(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_809789A4(this, globalCtx, &this->cylinders[0].base)) {
+s32 DemoGj_Cylinder_AnyHasExploded(DemoGj *this, GlobalContext *globalCtx) {
+    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[0])) {
         return 1; // return true; (?)
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[1].base)) {
+    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[1])) {
         return 1; // return true; (?)
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[2].base)) {
+    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[2])) {
         return 1; // return true; (?)
     }
     return 0; // return false; (?)
@@ -1233,7 +1227,7 @@ void func_8097B22C(DemoGj *this, GlobalContext *globalCtx) {
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(actor);
-    } else if (func_8097B1B4(this, globalCtx)) {
+    } else if (DemoGj_Cylinder_AnyHasExploded(this, globalCtx)) {
         vec1 = D_8097BEAC;
 
         func_80978B90(this, globalCtx);
@@ -1254,22 +1248,22 @@ void func_8097B22C(DemoGj *this, GlobalContext *globalCtx) {
     func_8097B080(this, globalCtx);
 }
 
-void func_8097B340(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update15(DemoGj *this, GlobalContext *globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097B128(this, globalCtx);
 }
 
-void func_8097B370(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update18(DemoGj *this, GlobalContext *globalCtx) {
     func_8097B22C(this, globalCtx);
     func_8097AEDC(this, globalCtx);
 }
 
-void func_8097B3A0(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw16(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06001D20);
 }
 
 void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 0x10, 0, NULL);
+    func_80978FCC(this, globalCtx, 16, 0, NULL);
     func_8097895C(this, globalCtx, &this->cylinders[0], &sCylinderInit2);
     func_8097895C(this, globalCtx, &this->cylinders[1], &sCylinderInit2);
     func_8097895C(this, globalCtx, &this->cylinders[2], &sCylinderInit2);
@@ -1287,14 +1281,12 @@ void func_8097B450(DemoGj *this, GlobalContext *globalCtx) {
     s32 pad;
 
     s16 theta = actorPosRot->rot.y;
-    f32 cos_theta;
-    f32 sin_theta;
 
-    cos_theta = Math_CosS(theta);
-    sin_theta = Math_SinS(theta);
+    f32 cos_theta = Math_CosS(theta);
+    f32 sin_theta = Math_SinS(theta);
 
-    cylinder0->dim.pos.z = actorPosRot->pos.z - (35.0f * sin_theta);
-    cylinder0->dim.pos.x = actorPosRot->pos.x + (35.0f * cos_theta);
+    cylinder0->dim.pos.z = actorPosRot->pos.z - ( 35.0f * sin_theta);
+    cylinder0->dim.pos.x = actorPosRot->pos.x + ( 35.0f * cos_theta);
     cylinder0->dim.pos.y = actorPosRot->pos.y;
 
     cylinder1->dim.pos.z = actorPosRot->pos.z - (-10.0f * sin_theta);
@@ -1307,35 +1299,33 @@ void func_8097B450(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097B5A4(DemoGj *this, GlobalContext *globalCtx) {
-    CollisionCheckContext *temp_a1;
     GlobalContext* globalCtx2 = globalCtx;
+    CollisionCheckContext* colChkCtx = &globalCtx2->colChkCtx;
+
     Collider* cylinders_0 = &this->cylinders[0].base;
     Collider* cylinders_1 = &this->cylinders[1].base;
     Collider* cylinders_2 = &this->cylinders[2].base;
 
     s32 pad[3];
 
-    globalCtx2 = globalCtx;
-    temp_a1 = &globalCtx2->colChkCtx;
-
-    CollisionCheck_SetAC(globalCtx2, temp_a1, cylinders_0);
-    CollisionCheck_SetAC(globalCtx2, temp_a1, cylinders_1);
-    CollisionCheck_SetAC(globalCtx2, temp_a1, cylinders_2);
+    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_0);
+    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_1);
+    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_2);
 }
 
-s32 func_8097B610(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_809789A4(this, globalCtx, &this->cylinders[0].base)) {
+// Does the same as `DemoGj_Cylinder_AnyHasExploded`
+s32 DemoGj_Cylinder_AnyHasExploded2(DemoGj *this, GlobalContext *globalCtx) {
+    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[0])) {
         return 1; // return true; (?)
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[1].base)) {
+    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[1])) {
         return 1; // return true; (?)
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[2].base)) {
+    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[2])) {
         return 1; // return true; (?)
     }
     return 0; // return false; (?)
 }
-
 
 void func_8097B688(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
     Vec3f aux;
@@ -1361,7 +1351,7 @@ void func_8097B6C4(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097B750(DemoGj *this, GlobalContext *globalCtx) {
-    s32 pad;
+    GlobalContext *globalCtx2 = globalCtx;
 
     Vec3f vec1;
     Vec3f vec2;
@@ -1370,43 +1360,43 @@ void func_8097B750(DemoGj *this, GlobalContext *globalCtx) {
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(actor);
-    } else if (func_8097B610(this, globalCtx)) {
+    } else if (DemoGj_Cylinder_AnyHasExploded2(this, globalCtx2)) {
         vec1 = D_8097BEB8;
 
-        func_80978B90(this, globalCtx);
-        func_8097B688(this, globalCtx, &vec1);
+        func_80978B90(this, globalCtx2);
+        func_8097B688(this, globalCtx2, &vec1);
 
         Actor_Kill(actor);
     } else if (this->flag3) {
         vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
-        func_80978B90(this, globalCtx);
-        func_8097B688(this, globalCtx, &vec2);
+        func_80978B90(this, globalCtx2);
+        func_8097B688(this, globalCtx2, &vec2);
 
         Actor_Kill(actor);
     }
 
-    func_8097B450(this, globalCtx);
-    func_8097B5A4(this, globalCtx);
+    func_8097B450(this, globalCtx2);
+    func_8097B5A4(this, globalCtx2);
 }
 
-void func_8097B864(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update16(DemoGj *this, GlobalContext *globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097B6C4(this, globalCtx);
 }
 
-void func_8097B894(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update19(DemoGj *this, GlobalContext *globalCtx) {
     func_8097B750(this, globalCtx);
     func_8097B444(this, globalCtx);
 }
 
-void func_8097B8C4(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw17(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06002160);
 }
 
 void func_8097B8E8(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 0x11, 0, NULL);
+    func_80978FCC(this, globalCtx, 17, 0, NULL);
     func_8097895C(this, globalCtx, &this->cylinders[0], &sCylinderInit3);
 }
 
@@ -1442,8 +1432,8 @@ void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx) {
 
 void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
     Actor* actor = &this->dyna.actor;
-    ColliderCylinder *colCylinder = &this->cylinders[0];
-    Collider *collider = &colCylinder->base;
+    ColliderCylinder *cylinder = &this->cylinders[0];
+    Collider *collider = &cylinder->base;
     CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
 
     Vec3f vec1;
@@ -1451,7 +1441,7 @@ void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(actor);
-    } else if (func_809789A4(this, globalCtx, collider)) {
+    } else if (DemoGj_Cylinder_HasExploded(this, globalCtx, cylinder)) {
         vec1 = D_8097BEC4;
 
         func_80978B90(this, globalCtx);
@@ -1468,35 +1458,35 @@ void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
         Actor_Kill(actor);
     }
 
-    Collider_UpdateCylinder(actor, colCylinder);
+    Collider_UpdateCylinder(actor, cylinder);
     CollisionCheck_SetAC(globalCtx, colChkCtx, collider);
 }
 
-void func_8097BB78(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update17(DemoGj *this, GlobalContext *globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097B9BC(this, globalCtx);
 }
 
-void func_8097BBA8(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Update20(DemoGj *this, GlobalContext *globalCtx) {
     func_8097BA48(this, globalCtx);
     func_8097B930(this, globalCtx);
 }
 
-void func_8097BBD8(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw18(DemoGj *this, GlobalContext *globalCtx) {
     func_80979030(this, globalCtx, &D_06003710);
 }
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj *this = THIS;
-    DemoGjActionFunc callback;
+    DemoGjActionFunc func;
 
-    if (this->updateIndex < 0 || this->updateIndex >= 21 || (callback = sUpdateCallbacks[this->updateIndex]) == NULL) {
+    if (this->updateIndex < 0 || this->updateIndex >= 21 || (func = sUpdateFuncs[this->updateIndex]) == NULL) {
         // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
-        osSyncPrintf("\x1b[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    callback(this, globalCtx);
+    func(this, globalCtx);
 }
 
 void DemoGj_Init(Actor *thisx, GlobalContext *globalCtx) {
@@ -1549,23 +1539,23 @@ void DemoGj_Init(Actor *thisx, GlobalContext *globalCtx) {
 
     default:
         // Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!
-        osSyncPrintf("\x1b[31mDemo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m", globalCtx, this);
+        osSyncPrintf(VT_FGCOL(RED) "Demo_Gj_Actor_ct そんな引数は無い!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST, globalCtx, this);
         Actor_Kill(&this->dyna.actor);
     }
 }
 
-void func_8097BD70(DemoGj *this, GlobalContext *globalCtx) {
+void DemoGj_Draw0(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw(Actor *thisx, GlobalContext *globalCtx) {
     DemoGj *this = THIS;
-    DemoGjActionFunc callback;
+    DemoGjActionFunc func;
 
-    if (this->drawIndex < 0 || this->drawIndex >= 19 || (callback = sDrawCallbacks[this->drawIndex]) == NULL) {
+    if (this->drawIndex < 0 || this->drawIndex >= 19 || (func = sDrawFuncs[this->drawIndex]) == NULL) {
         // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
-        osSyncPrintf("\x1b[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    callback(this, globalCtx);
+    func(this, globalCtx);
 }
