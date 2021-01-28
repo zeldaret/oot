@@ -15,9 +15,18 @@
         <Animation Name="gDekuNutsGaspAnim" Offset="0x1024"/>
         <Animation Name="gDekuNutsRunAnim" Offset="0x3650"/>
 
-        <Texture Name="gDekuNutsUnusedDekuNutTex" OutName="unused_deku_nut" Format="rgb5a1" Width="16" Height="16" Offset="0x2EE8"/>
+        <!-- Deku Scrub Textures -->
+        <Texture Name="gDekuNutsLeafTex" OutName="leaf" Format="rgb5a1" Width="32" Height="32" Offset="0x2368"/>
+        <Texture Name="gDekuNutsBodyTex" OutName="body" Format="rgb5a1" Width="16" Height="16" Offset="0x2B68"/>
+        <Texture Name="gDekuNutsEyeTex" OutName="eye" Format="rgb5a1" Width="8" Height="8" Offset="0x2D68"/>
+        <Texture Name="gDekuNutsSnoutTex" OutName="snout" Format="rgb5a1" Width="8" Height="8" Offset="0x2DE8"/>
+        <Texture Name="gDekuNutsMouthTex" OutName="mouth" Format="rgb5a1" Width="8" Height="8" Offset="0x2E68"/>
 
         <!-- Deku Scrub flower -->
         <DList Name="gDekuNutsFlowerDL" Offset="0x2298"/>
+
+        <!-- Deku Nut -->
+        <DList Name="gDekuNutsDekuNutDL" Offset="0x2028"/>
+        <Texture Name="gDekuNutsDekuNutTex" OutName="deku_nut" Format="rgb5a1" Width="16" Height="16" Offset="0x2EE8"/>
     </File>
 </Root>
