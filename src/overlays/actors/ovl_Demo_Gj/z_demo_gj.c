@@ -524,15 +524,12 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gj.c", 1201);
 }
 
-void func_8097923C(DemoGj* this, GlobalContext* globalCtx);
-#ifdef NON_MATCHING
-// register usage doesn't match.
 void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
-    f32 yPosition;
+    f32 yPosition = this->dyna.actor.world.pos.y;
 
-    f32 *yVelocity;
-    f32 *speedXZ;
-    Vec3s *unk_172;
+    f32 *yVelocity = &this->dyna.actor.velocity.y;
+    f32 *speedXZ = &this->dyna.actor.speedXZ;
+    Vec3s *unk_172 = &this->unk_172;
 
     f32 phi_f12;
     f32 phi_f14;
@@ -540,8 +537,6 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
     f32 phi_f18;
     f32 phi_f20;
     f32 phi_f22;
-
-    yPosition = this->dyna.actor.world.pos.y;
 
     switch (func_80978950(this) - 8) {
     case 0:
@@ -613,13 +608,9 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         return;
     }
 
-    yVelocity = &this->dyna.actor.velocity.y;
-    speedXZ = &this->dyna.actor.speedXZ;
-
-    unk_172 = &this->unk_172;
-
-    if ((yPosition + phi_f12) <= 1086.0f) {
-        if ((*yVelocity < 0.0f) && (this->unk_180 == 0)) {
+    yPosition += phi_f12;
+    if (yPosition <= 1086.0f && (*yVelocity < 0.0f)) {
+        if (this->unk_180 == 0) {
             *yVelocity *= phi_f20;
             *speedXZ *= phi_f22;
 
@@ -640,9 +631,6 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097923C.s")
-#endif
 
 s32 func_809797E4(DemoGj *this, u8 arg1) {
     BossGanon2 *ganon = this->ganon;
