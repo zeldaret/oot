@@ -25,6 +25,7 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx);
 void func_80B45E30(EnZf* this);
 void func_80B45EF0(EnZf* this, GlobalContext* globalCtx);
 void func_80B4604C(EnZf* this);
+void func_80B46098(EnZf* this, GlobalContext* globalCtx);
 void func_80B46A24(EnZf* this);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
@@ -720,7 +721,7 @@ void func_80B45E30(EnZf *this) {
     } else {
         this->actor.speedXZ = 10.0f;
     }
-    
+
     this->unk_3DC = 0xD;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_JUMP);
     func_80B44050(this, func_80B45EF0);
@@ -728,7 +729,12 @@ void func_80B45E30(EnZf *this) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45EF0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4604C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4604C.s")
+void func_80B4604C(EnZf *this) {
+    Animation_MorphToLoop(&this->skelAnime, &D_06008138, -4.0f);
+    this->unk_3DC = 6;
+    func_80B44050(this, func_80B46098);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46098.s")
 
