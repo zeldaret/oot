@@ -338,25 +338,21 @@ void func_80978AFC(GlobalContext *globalCtx, Vec3f *pos, f32 arg2) {
         );
 }
 
-void func_80978B90(DemoGj* this, GlobalContext* globalCtx);
-#ifdef NON_MATCHING
-// register usage doesn't match.
-void func_80978B90(DemoGj* this, GlobalContext* globalCtx) {
-    s32 temp_v0;
-    s16 temp_s2;
+void func_80978B90(DemoGj *this, GlobalContext *globalCtx) {
+    Vec3f* pos = &this->dyna.actor.world.pos;
+
+    s16 collectible;
+    s32 amount;
 
     s32 i;
 
-    temp_s2 = func_80978930(this);
-    temp_v0 = func_80978940(this);
+    collectible = func_80978930(this);
+    amount = func_80978940(this);
 
-    for (i = 0; i < temp_v0; i++) {
-        Item_DropCollectible(globalCtx, &this->dyna.actor.world.pos, temp_s2);
+    for (i = 0; i < amount; i++) {
+        Item_DropCollectible(globalCtx, pos, collectible);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978B90.s")
-#endif
 
 void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *arg3) {
     Vec3f pos;
