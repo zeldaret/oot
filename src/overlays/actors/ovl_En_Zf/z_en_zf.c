@@ -727,7 +727,38 @@ void func_80B45E30(EnZf *this) {
     func_80B44050(this, func_80B45EF0);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45EF0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45EF0.s")
+void func_80B45EF0(EnZf *this, GlobalContext *globalCtx) {
+    if ((this->unk_3F0 != 0) && (this->actor.world.pos.y <= this->actor.floorHeight)) {
+            this->actor.world.pos.y = this->actor.floorHeight;
+            this->unk_3E4 = 0;
+            this->actor.velocity.y = 0.0f;
+            this->actor.speedXZ = 0.0f;
+        }
+    
+    if (SkelAnime_Update(&this->skelAnime)) {
+        if (this->unk_3F0 == 0) {
+            Animation_Change(&this->skelAnime, &D_06008C6C, 3.0f, 0.0f, 17.0f, 2, -3.0f);
+            this->unk_3F0 = 0xA;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_JUMP);
+        } else {
+            this->actor.speedXZ = 0.0f;
+            this->unk_3E4 = 0;
+            func_80B456B4(this, globalCtx);
+        }
+    }
+    if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+    }
+    
+    if ((this->actor.params == -2) && (this->actor.bgCheckFlags & 3)) {
+        if (func_80B44CF0(globalCtx, this)) {
+            func_80B46A24(this);
+        } else {
+        func_80B483E4(this, globalCtx);
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4604C.s")
 void func_80B4604C(EnZf *this) {
