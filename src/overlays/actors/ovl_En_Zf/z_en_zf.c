@@ -26,6 +26,7 @@ void func_80B45E30(EnZf* this);
 void func_80B45EF0(EnZf* this, GlobalContext* globalCtx);
 void func_80B4604C(EnZf* this);
 void func_80B46098(EnZf* this, GlobalContext* globalCtx);
+void func_80B462E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B46A24(EnZf* this);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
@@ -750,7 +751,7 @@ void func_80B45EF0(EnZf *this, GlobalContext *globalCtx) {
     if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
     }
-    
+
     if ((this->actor.params == -2) && (this->actor.bgCheckFlags & 3)) {
         if (func_80B44CF0(globalCtx, this)) {
             func_80B46A24(this);
@@ -767,7 +768,62 @@ void func_80B4604C(EnZf *this) {
     func_80B44050(this, func_80B46098);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46098.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46098.s")
+void func_80B46098(EnZf *this, GlobalContext *globalCtx) {
+    s32 pad;
+    f32 phi_f2;
+    Player* player = PLAYER;
+    s16 temp_v0;
+    s16 phi_v1;
+
+    if (!func_80B49C2C(globalCtx, this)) {
+        if ((this->actor.params != -2) || (!func_80B44E8C(globalCtx, this))) {
+            temp_v0 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+
+            if (temp_v0 > 0) {
+                phi_v1 = (temp_v0 * 0.25f) + 2000.0f;
+            } else {
+                phi_v1 = (temp_v0 * 0.25f) - 2000.0f;
+            }
+            
+            this->actor.shape.rot.y += phi_v1;
+            this->actor.world.rot.y = this->actor.shape.rot.y;
+
+            if (temp_v0 > 0) {
+                phi_f2 = phi_v1 * 1.5f;
+                if (phi_f2 > 2.0f) {
+                    phi_f2 = 2.0f;
+                }
+            } else {
+                phi_f2 = phi_v1 * 1.5f;
+                if (phi_f2 < -2.0f) {
+                    phi_f2 = -2.0f;
+                }
+            }
+            
+            this->skelAnime.playSpeed = -phi_f2;
+            SkelAnime_Update(&this->skelAnime);
+
+            if (this->actor.params >= 0) {
+                this->unk_3FE = func_80B446A8(&this->actor.world.pos, this->unk_3FE);
+                if (this->unk_3FE != func_80B446A8(&player->actor.world.pos, -1)) {
+                    func_80B456B4(this, globalCtx);
+                    return; // Seems to be necessary for matching
+                }
+            }
+            if (func_8002E084(&this->actor, 30 * 0x10000 / 360)) {
+                if (Rand_ZeroOne() > 0.8f) {
+                    func_80B462E4(this, globalCtx);
+                } else {
+                    func_80B456B4(this, globalCtx);
+                }
+            }
+            if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B462E4.s")
 
