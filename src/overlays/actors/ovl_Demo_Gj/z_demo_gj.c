@@ -268,7 +268,7 @@ void func_8097895C(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* arg
 }
 
 s32 func_809789A4(DemoGj* this, GlobalContext* globalCtx, Collider* collider) {
-    if (Actor_GetCollidedExplosive(globalCtx, collider) != 0) {
+    if (Actor_GetCollidedExplosive(globalCtx, collider) != NULL) {
         return 1;
     }
     return 0;
@@ -450,8 +450,8 @@ void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2
 
 s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 arg2, s32 arg3, CollisionHeader* arg4) {
     if (func_80978EBC() == 0) {
-        this->unk_164 = arg2;
-        this->unk_168 = arg3;
+        this->updateIndex = arg2;
+        this->drawIndex = arg3;
         func_80978F60(this, globalCtx, arg4);
         return 1;
     }
@@ -479,16 +479,12 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     s32 pad; // Needed for matching.
     GraphicsContext *gfxCtx;
     
-    s16 sp56;
-    s16 sp54;
-    s16 sp52;
+    s16 x = this->rotationVec.x;
+    s16 y = this->rotationVec.y;
+    s16 z = this->rotationVec.z;
 
     s32 pad2; // Needed for matching.
     Mtx* matrix;
-
-    sp56 = this->unk_16C.x;
-    sp54 = this->unk_16C.y;
-    sp52 = this->unk_16C.z;
 
     gfxCtx = globalCtx->state.gfxCtx;
 
@@ -497,7 +493,7 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
 
     Matrix_Push();
-    Matrix_RotateRPY(sp56, sp54, sp52, MTXMODE_APPLY);
+    Matrix_RotateRPY(x, y, z, MTXMODE_APPLY);
     Matrix_ToMtx(matrix, "../z_demo_gj.c", 1193);
     Matrix_Pull();
 
@@ -510,82 +506,81 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     CLOSE_DISPS(gfxCtx, "../z_demo_gj.c", 1201);
 }
 
-void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
+// TODO: find a better name
+void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
     f32 yPosition = this->dyna.actor.world.pos.y;
 
     f32 *yVelocity = &this->dyna.actor.velocity.y;
     f32 *speedXZ = &this->dyna.actor.speedXZ;
     Vec3s *unk_172 = &this->unk_172;
 
-    f32 phi_f12;
-    f32 phi_f14;
-    f32 phi_f16;
-    f32 phi_f18;
-    f32 phi_f20;
-    f32 phi_f22;
+    f32 verticalTranslation;
+    Vec3f vec;
+    f32 verticalFactor;
+    f32 xzPlaneFactor;
 
     switch (DemoGj_GetType(this)) {
     case 8:
-        phi_f12 = gGameInfo->data[2615];
-        phi_f14 = gGameInfo->data[2616] * 0.01f + 1.0f;
-        phi_f16 = gGameInfo->data[2617] * 0.01f + 1.0f;
-        phi_f18 = gGameInfo->data[2618] * 0.01f + 1.0f;
-        phi_f20 = gGameInfo->data[2619] * 0.01f + -1.0f;
-        phi_f22 = gGameInfo->data[2620] * 0.01f + 1.0f;
+        verticalTranslation = gGameInfo->data[2615];
+        vec.x = gGameInfo->data[2616] * 0.01f + 1.0f;
+        vec.y = gGameInfo->data[2617] * 0.01f + 1.0f;
+        vec.z = gGameInfo->data[2618] * 0.01f + 1.0f;
+        verticalFactor = gGameInfo->data[2619] * 0.01f + -1.0f;
+        xzPlaneFactor = gGameInfo->data[2620] * 0.01f + 1.0f;
         break;
 
     case 9:
-        phi_f12 = gGameInfo->data[2628];
-        phi_f14 = gGameInfo->data[2629] * 0.01f + 1.0f;
-        phi_f16 = gGameInfo->data[2630] * 0.01f + 1.0f;
-        phi_f18 = gGameInfo->data[2631] * 0.01f + 1.0f;
-        phi_f20 = gGameInfo->data[2632] * 0.01f + -1.0f;
-        phi_f22 = gGameInfo->data[2633] * 0.01f + 1.0f;
+        verticalTranslation = gGameInfo->data[2628];
+        vec.x = gGameInfo->data[2629] * 0.01f + 1.0f;
+        vec.y = gGameInfo->data[2630] * 0.01f + 1.0f;
+        vec.z = gGameInfo->data[2631] * 0.01f + 1.0f;
+        verticalFactor = gGameInfo->data[2632] * 0.01f + -1.0f;
+        xzPlaneFactor = gGameInfo->data[2633] * 0.01f + 1.0f;
         break;
 
     case 10:
-        phi_f12 = gGameInfo->data[2641];
-        phi_f14 = gGameInfo->data[2642] * 0.01f + 1.0f;
-        phi_f16 = gGameInfo->data[2643] * 0.01f + 1.0f;
-        phi_f18 = gGameInfo->data[2644] * 0.01f + 1.0f;
-        phi_f20 = gGameInfo->data[2645] * 0.01f + -1.0f;
-        phi_f22 = gGameInfo->data[2646] * 0.01f + 1.0f;
+        verticalTranslation = gGameInfo->data[2641];
+        vec.x = gGameInfo->data[2642] * 0.01f + 1.0f;
+        vec.y = gGameInfo->data[2643] * 0.01f + 1.0f;
+        vec.z = gGameInfo->data[2644] * 0.01f + 1.0f;
+        verticalFactor = gGameInfo->data[2645] * 0.01f + -1.0f;
+        xzPlaneFactor = gGameInfo->data[2646] * 0.01f + 1.0f;
         break;
 
     case 11:
-        phi_f12 = gGameInfo->data[2654];
-        phi_f14 = gGameInfo->data[2655] * 0.01f + 1.0f;
-        phi_f16 = gGameInfo->data[2656] * 0.01f + 1.0f;
-        phi_f18 = gGameInfo->data[2657] * 0.01f + 1.0f;
-        phi_f20 = gGameInfo->data[2658] * 0.01f + -1.0f;
-        phi_f22 = gGameInfo->data[2659] * 0.01f + 1.0f;
+        verticalTranslation = gGameInfo->data[2654];
+        vec.x = gGameInfo->data[2655] * 0.01f + 1.0f;
+        vec.y = gGameInfo->data[2656] * 0.01f + 1.0f;
+        vec.z = gGameInfo->data[2657] * 0.01f + 1.0f;
+        verticalFactor = gGameInfo->data[2658] * 0.01f + -1.0f;
+        xzPlaneFactor = gGameInfo->data[2659] * 0.01f + 1.0f;
         break;
 
     case 12:
-        phi_f12 = gGameInfo->data[2667];
-        phi_f14 = gGameInfo->data[2668] * 0.01f + 1.0f;
-        phi_f16 = gGameInfo->data[2669] * 0.01f + 1.0f;
-        phi_f18 = gGameInfo->data[2670] * 0.01f + 1.0f;
-        phi_f20 = gGameInfo->data[2671] * 0.01f + -1.0f;
-        phi_f22 = gGameInfo->data[2672] * 0.01f + 1.0f;
+        verticalTranslation = gGameInfo->data[2667];
+        vec.x = gGameInfo->data[2668] * 0.01f + 1.0f;
+        vec.y = gGameInfo->data[2669] * 0.01f + 1.0f;
+        vec.z = gGameInfo->data[2670] * 0.01f + 1.0f;
+        verticalFactor = gGameInfo->data[2671] * 0.01f + -1.0f;
+        xzPlaneFactor = gGameInfo->data[2672] * 0.01f + 1.0f;
         break;
 
     case 13:
-        phi_f12 = gGameInfo->data[2680];
-        phi_f14 = gGameInfo->data[2681] * 0.01f + 1.0f;
-        phi_f16 = gGameInfo->data[2682] * 0.01f + 1.0f;
-        phi_f18 = gGameInfo->data[2683] * 0.01f + 1.0f;
-        phi_f20 = gGameInfo->data[2684] * 0.01f + -1.0f;
-        phi_f22 = gGameInfo->data[2685] * 0.01f + 1.0f;
+        verticalTranslation = gGameInfo->data[2680];
+        vec.x = gGameInfo->data[2681] * 0.01f + 1.0f;
+        vec.y = gGameInfo->data[2682] * 0.01f + 1.0f;
+        vec.z = gGameInfo->data[2683] * 0.01f + 1.0f;
+        verticalFactor = gGameInfo->data[2684] * 0.01f + -1.0f;
+        xzPlaneFactor = gGameInfo->data[2685] * 0.01f + 1.0f;
         break;
 
     case 14:
-        phi_f12 = gGameInfo->data[2602] + -190.0f;
-        phi_f14 = gGameInfo->data[2601] * 0.01f + 1.0f;
-        phi_f16 = gGameInfo->data[2600] * 0.01f + 1.0f;
-        phi_f18 = gGameInfo->data[2599] * 0.01f + 1.0f;
-        phi_f20 = gGameInfo->data[2598] * 0.01f + -1.0f;
-        phi_f22 = gGameInfo->data[2597] * 0.01f + 1.0f;
+        verticalTranslation = gGameInfo->data[2602] + -190.0f;
+        vec.x = gGameInfo->data[2601] * 0.01f + 1.0f;
+        vec.y = gGameInfo->data[2600] * 0.01f + 1.0f;
+        vec.z = gGameInfo->data[2599] * 0.01f + 1.0f;
+        verticalFactor = gGameInfo->data[2598] * 0.01f + -1.0f;
+        xzPlaneFactor = gGameInfo->data[2597] * 0.01f + 1.0f;
         break;
 
     default:
@@ -594,15 +589,15 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
         return;
     }
 
-    yPosition += phi_f12;
+    yPosition += verticalTranslation;
     if (yPosition <= 1086.0f && (*yVelocity < 0.0f)) {
-        if (this->unk_180 == 0) {
-            *yVelocity *= phi_f20;
-            *speedXZ *= phi_f22;
+        if (!this->flag2) {
+            *yVelocity *= verticalFactor;
+            *speedXZ *= xzPlaneFactor;
 
-            unk_172->x *= phi_f14;
-            unk_172->y *= phi_f16;
-            unk_172->z *= phi_f18;
+            unk_172->x *= vec.x;
+            unk_172->y *= vec.y;
+            unk_172->z *= vec.z;
 
             if (*yVelocity <= -this->dyna.actor.gravity) {
                 *yVelocity = 0.0f;
@@ -613,16 +608,15 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
                 unk_172->z = 0;
             }
 
-            this->unk_180 = 1;
+            this->flag2 = 1; // this->flag2 = true; (?)
         }
     }
 }
 
 s32 func_809797E4(DemoGj *this, u8 arg1) {
     BossGanon2 *ganon = this->ganon;
-    arg1 &= 0xFF;
 
-    if ((ganon != 0) && (ganon->unk_314 == arg1)) {
+    if ((ganon != NULL) && (ganon->unk_314 == arg1)) {
         return 1;
     }
     return 0;
@@ -636,17 +630,16 @@ s32  func_8097983C(DemoGj *this, GlobalContext* globalCtx) {
     return func_809797E4(this, 2);
 }
 
-void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
+// TODO: find a better name
+void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
     Actor* actor = &this->dyna.actor;
 
     Player* player;
-    Vec3f* pos;
+    Vec3f* pos = &actor->world.pos;
     Vec3s *unk_172;
 
     f32 xDistance;
     f32 zDistance;
-
-    pos = &actor->world.pos;
 
     if (this->ganon != NULL) {
         xDistance = actor->world.pos.x - this->ganon->actor.world.pos.x;
@@ -748,8 +741,8 @@ void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_80979F9C(DemoGj* this){
-    if (func_809797E4(this, 3) != 0) {
-        this->unk_17C = 1;
+    if (func_809797E4(this, 3)) {
+        this->flag1 = 1; // this->flag1 = true; (?)
     }
 
 }
@@ -761,17 +754,17 @@ void func_80979FD0(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A000(DemoGj *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
-    this->unk_16C.x += (s16) (kREG(18));
-    this->unk_16C.y += (s16) (kREG(19) + 0x3E8);
-    this->unk_16C.z += (s16) (kREG(20) + 0xBB8);
+    this->rotationVec.x += (s16) (kREG(18));
+    this->rotationVec.y += (s16) (kREG(19) + 0x3E8);
+    this->rotationVec.z += (s16) (kREG(20) + 0xBB8);
 
-    func_8097923C(this, globalCtx);
+    DemoGj_Reflect(this, globalCtx);
 }
 
 void func_8097A07C(DemoGj *this, GlobalContext *globalCtx) {
     u32 gameplayFrames;
 
-    if (this->unk_17C == 0) {
+    if (!this->flag1) {
         gameplayFrames = globalCtx->gameplayFrames % 3;
 
         if (1) { }
@@ -785,15 +778,15 @@ void func_8097A07C(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097A0E4(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_80979818(this, globalCtx) != 0) {
-        func_80979860(this, globalCtx);
-        this->unk_164 = 8;
-        this->unk_168 = 9;
+    if (func_80979818(this, globalCtx)) {
+        DemoGj_SetupMovement(this, globalCtx);
+        this->updateIndex = 8;
+        this->drawIndex = 9;
     }
 }
 
 void func_8097A130(DemoGj *this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -823,21 +816,21 @@ void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A238(DemoGj *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
-    this->unk_16C.x += (s16) (kREG(31));
-    this->unk_16C.y += (s16) (kREG(32) + 0x3E8);
-    this->unk_16C.z += (s16) (kREG(33) + 0xBB8);
+    this->rotationVec.x += (s16) (kREG(31));
+    this->rotationVec.y += (s16) (kREG(32) + 0x3E8);
+    this->rotationVec.z += (s16) (kREG(33) + 0xBB8);
 
-    func_8097923C(this, globalCtx);
+    DemoGj_Reflect(this, globalCtx);
 }
 
 void func_8097A2B4(DemoGj *this, GlobalContext *globalCtx) {
     u32 gameplayFrames;
 
-    if (this->unk_17C == 0) {
+    if (!this->flag1) {
         gameplayFrames = globalCtx->gameplayFrames % 3;
 
         if (1) { }
-        if ((gameplayFrames ) == 1) {
+        if (gameplayFrames == 1) {
             if (!globalCtx->gameplayFrames) { }
             func_80978AFC(globalCtx, &D_8097BE94, 300.0f);
         }
@@ -847,15 +840,15 @@ void func_8097A2B4(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097A320(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx) != 0) {
-        func_80979860(this, globalCtx);
-        this->unk_164 = 9;
-        this->unk_168 = 10;
+    if (func_80979818(this, globalCtx)) {
+        DemoGj_SetupMovement(this, globalCtx);
+        this->updateIndex = 9;
+        this->drawIndex = 10;
     }
 }
 
 void func_8097A36C(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -885,23 +878,23 @@ void func_8097A444(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A474(DemoGj *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
-    this->unk_16C.x += (s16) (kREG(44));
-    this->unk_16C.y += (s16) (kREG(45) + 0x3E8);
-    this->unk_16C.z += (s16) (kREG(46) + 0xBB8);
+    this->rotationVec.x += (s16) (kREG(44));
+    this->rotationVec.y += (s16) (kREG(45) + 0x3E8);
+    this->rotationVec.z += (s16) (kREG(46) + 0xBB8);
 
-    func_8097923C(this, globalCtx);
+    DemoGj_Reflect(this, globalCtx);
 }
 
 void func_8097A4F0(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx) != 0) {
-        func_80979860(this, globalCtx);        
-        this->unk_164 = 10;
-        this->unk_168 = 11;
+    if (func_80979818(this, globalCtx)) {
+        DemoGj_SetupMovement(this, globalCtx);        
+        this->updateIndex = 10;
+        this->drawIndex = 11;
     }
 }
 
 void func_8097A53C(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -931,23 +924,23 @@ void func_8097A614(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A644(DemoGj *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
-    this->unk_16C.x += (s16) (kREG(57));
-    this->unk_16C.y += (s16) (kREG(58) + 0x3E8);
-    this->unk_16C.z += (s16) (kREG(59) + 0xBB8);
+    this->rotationVec.x += (s16) (kREG(57));
+    this->rotationVec.y += (s16) (kREG(58) + 0x3E8);
+    this->rotationVec.z += (s16) (kREG(59) + 0xBB8);
 
-    func_8097923C(this, globalCtx);
+    DemoGj_Reflect(this, globalCtx);
 }
 
 void func_8097A6C0(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx) != 0) {
-        func_80979860(this, globalCtx);
-        this->unk_164 = 11;
-        this->unk_168 = 12;
+    if (func_80979818(this, globalCtx)) {
+        DemoGj_SetupMovement(this, globalCtx);
+        this->updateIndex = 11;
+        this->drawIndex = 12;
     }
 }
 
 void func_8097A70C(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -977,23 +970,23 @@ void func_8097A7E4(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A814(DemoGj *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
-    this->unk_16C.x += (s16) (kREG(70));
-    this->unk_16C.y += (s16) (kREG(71) + 0x3E8);
-    this->unk_16C.z += (s16) (kREG(72) + 0xBB8);
+    this->rotationVec.x += (s16) (kREG(70));
+    this->rotationVec.y += (s16) (kREG(71) + 0x3E8);
+    this->rotationVec.z += (s16) (kREG(72) + 0xBB8);
 
-    func_8097923C(this, globalCtx);
+    DemoGj_Reflect(this, globalCtx);
 }
 
 void func_8097A890(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_80979818(this, globalCtx) != 0) {
-        func_80979860(this, globalCtx);
-        this->unk_164 = 12;
-        this->unk_168 = 13;
+    if (func_80979818(this, globalCtx)) {
+        DemoGj_SetupMovement(this, globalCtx);
+        this->updateIndex = 12;
+        this->drawIndex = 13;
     }
 }
 
 void func_8097A8DC(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1023,23 +1016,23 @@ void func_8097A9B4(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097A9E4(DemoGj *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
-    this->unk_16C.x += (s16) (kREG(83));
-    this->unk_16C.y += (s16) (kREG(84) + 0x3E8);
-    this->unk_16C.z += (s16) (kREG(85) + 0xBB8);
+    this->rotationVec.x += (s16) (kREG(83));
+    this->rotationVec.y += (s16) (kREG(84) + 0x3E8);
+    this->rotationVec.z += (s16) (kREG(85) + 0xBB8);
 
-    func_8097923C(this, globalCtx);
+    DemoGj_Reflect(this, globalCtx);
 }
 
 void func_8097AA60(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_80979818(this, globalCtx) != 0) {
-        func_80979860(this, globalCtx);
-        this->unk_164 = 13;
-        this->unk_168 = 14;
+    if (func_80979818(this, globalCtx)) {
+        DemoGj_SetupMovement(this, globalCtx);
+        this->updateIndex = 13;
+        this->drawIndex = 14;
     }
 }
 
 void func_8097AAAC(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1069,17 +1062,17 @@ void func_8097AB84(DemoGj *this, GlobalContext *globalCtx) {
 void func_8097ABB4(DemoGj *this, GlobalContext *globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
-    this->unk_16C.x += (s16) (kREG(15));
-    this->unk_16C.y += (s16) (kREG(14) + 0x3E8);
-    this->unk_16C.z += (s16) (kREG(13) + 0xBB8);
+    this->rotationVec.x += (s16) (kREG(15));
+    this->rotationVec.y += (s16) (kREG(14) + 0x3E8);
+    this->rotationVec.z += (s16) (kREG(13) + 0xBB8);
 
-    func_8097923C(this, globalCtx);
+    DemoGj_Reflect(this, globalCtx);
 }
 
 void func_8097AC30(DemoGj *this, GlobalContext *globalCtx) {
     u32 gameplayFrames;
 
-    if (this->unk_17C == 0) {
+    if (!this->flag1) {
         gameplayFrames = globalCtx->gameplayFrames % 3;
 
         if (1) { }
@@ -1093,15 +1086,15 @@ void func_8097AC30(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097AC9C(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_80979818(this, globalCtx) != 0) {
-        func_80979860(this, globalCtx);
-        this->unk_164 = 14;
-        this->unk_168 = 15;
+    if (func_80979818(this, globalCtx)) {
+        DemoGj_SetupMovement(this, globalCtx);
+        this->updateIndex = 14;
+        this->drawIndex = 15;
     }
 }
 
 void func_8097ACE8(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -1205,10 +1198,10 @@ void func_8097B0EC(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
 void func_8097B128(DemoGj *this, GlobalContext *globalCtx) {
     Vec3f *scale = &this->dyna.actor.scale;
 
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         func_80978F60(this, globalCtx, &D_06001F70);
-        this->unk_164 = 18;
-        this->unk_168 = 16;
+        this->updateIndex = 18;
+        this->drawIndex = 16;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
         scale->z *= 0.8f;
@@ -1216,13 +1209,13 @@ void func_8097B128(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 s32 func_8097B1B4(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_809789A4(this, globalCtx, &this->cylinders[0].base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->cylinders[0].base)) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[1].base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->cylinders[1].base)) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[2].base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->cylinders[2].base)) {
         return 1;
     }
     return 0;
@@ -1236,16 +1229,16 @@ void func_8097B22C(DemoGj *this, GlobalContext *globalCtx) {
 
     Actor* actor = &this->dyna.actor;
 
-    if (func_809797E4(this, 4) != 0) {
+    if (func_809797E4(this, 4)) {
         Actor_Kill(actor);
-    } else if (func_8097B1B4(this, globalCtx) != 0) {
+    } else if (func_8097B1B4(this, globalCtx)) {
         vec1 = D_8097BEAC;
 
         func_80978B90(this, globalCtx);
         func_8097B0EC(this, globalCtx, &vec1);
 
         Actor_Kill(actor);
-    } else if (this->unk_268 != 0) {
+    } else if (this->flag3) {
         vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
@@ -1329,13 +1322,13 @@ void func_8097B5A4(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 s32 func_8097B610(DemoGj *this, GlobalContext *globalCtx) {
-    if (func_809789A4(this, globalCtx, &this->cylinders[0].base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->cylinders[0].base)) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[1].base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->cylinders[1].base)) {
         return 1;
     }
-    if (func_809789A4(this, globalCtx, &this->cylinders[2].base) != 0) {
+    if (func_809789A4(this, globalCtx, &this->cylinders[2].base)) {
         return 1;
     }
     return 0;
@@ -1354,10 +1347,10 @@ void func_8097B688(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
 void func_8097B6C4(DemoGj *this, GlobalContext *globalCtx) {
     Vec3f *scale = &this->dyna.actor.scale;
 
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         func_80978F60(this, globalCtx, &D_06002448);
-        this->unk_164 = 19;
-        this->unk_168 = 17;
+        this->updateIndex = 19;
+        this->drawIndex = 17;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
         scale->z *= 0.8f;
@@ -1372,16 +1365,16 @@ void func_8097B750(DemoGj *this, GlobalContext *globalCtx) {
 
     Actor* actor = &this->dyna.actor;
 
-    if (func_809797E4(this, 4) != 0) {
+    if (func_809797E4(this, 4)) {
         Actor_Kill(actor);
-    } else if (func_8097B610(this, globalCtx) != 0) {
+    } else if (func_8097B610(this, globalCtx)) {
         vec1 = D_8097BEB8;
 
         func_80978B90(this, globalCtx);
         func_8097B688(this, globalCtx, &vec1);
 
         Actor_Kill(actor);
-    } else if (this->unk_268 != 0) {
+    } else if (this->flag3) {
         vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
@@ -1434,10 +1427,10 @@ void func_8097B93C(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
 void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx) {
     Vec3f *scale = &this->dyna.actor.scale;
 
-    if (func_8097983C(this, globalCtx) != 0) {
+    if (func_8097983C(this, globalCtx)) {
         func_80978F60(this, globalCtx, &D_06003AF0);
-        this->unk_164 = 20;
-        this->unk_168 = 18;
+        this->updateIndex = 20;
+        this->drawIndex = 18;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
         scale->z *= 0.8f;
@@ -1453,16 +1446,16 @@ void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
     Vec3f vec1;
     Vec3f vec2;
 
-    if (func_809797E4(this, 4) != 0) {
+    if (func_809797E4(this, 4)) {
         Actor_Kill(actor);
-    } else if (func_809789A4(this, globalCtx, collider) != 0) {
+    } else if (func_809789A4(this, globalCtx, collider)) {
         vec1 = D_8097BEC4;
 
         func_80978B90(this, globalCtx);
         func_8097B93C(this, globalCtx, &vec1);
 
         Actor_Kill(actor);
-    } else if (this->unk_268 != 0) {
+    } else if (this->flag3) {
         vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
@@ -1494,7 +1487,7 @@ void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj *this = THIS;
     DemoGjActionFunc callback;
 
-    if (this->unk_164 < 0 || this->unk_164 >= 21 || (callback = sUpdateCallbacks[this->unk_164]) == NULL) {
+    if (this->updateIndex < 0 || this->updateIndex >= 21 || (callback = sUpdateCallbacks[this->updateIndex]) == NULL) {
         // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf("\x1b[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
         return;
@@ -1565,7 +1558,7 @@ void DemoGj_Draw(Actor *thisx, GlobalContext *globalCtx) {
     DemoGj *this = THIS;
     DemoGjActionFunc callback;
 
-    if (this->unk_168 < 0 || this->unk_168 >= 19 || (callback = sDrawCallbacks[this->unk_168]) == NULL) {
+    if (this->drawIndex < 0 || this->drawIndex >= 19 || (callback = sDrawCallbacks[this->drawIndex]) == NULL) {
         // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf("\x1b[31m描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
         return;
