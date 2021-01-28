@@ -1,5 +1,4 @@
 #include "z_demo_gj.h"
-#include "overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
 
 #define FLAGS 0x00000030
 
@@ -432,18 +431,18 @@ s32 DemoGj_FindGanon(DemoGj *this, GlobalContext *globalCtx) {
 
         while (actor != NULL) {
             if (actor->id == ACTOR_BOSS_GANON2) {
-                this->ganon = actor;
+                this->ganon = (BossGanon2 *) actor;
 
                 // Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!
                 osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
-                return 1;
+                return true;
             }
             actor = actor->next;
         }
 
         // Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon
         osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
-        return 0;
+        return false;
     }
     //! @bug: Missing return value when `this->ganon` is already set.
 }
@@ -649,22 +648,15 @@ void func_8097923C(DemoGj *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_8097923C.s")
 #endif
 
-
-s32 func_809797E4(DemoGj *this, s32 arg1);
-#ifdef NON_MATCHING
-s32 func_809797E4(DemoGj *this, s32 arg1) {
-    BossGanon2 *ganon = (BossGanon2 *)this->ganon;
+s32 func_809797E4(DemoGj *this, u8 arg1) {
+    BossGanon2 *ganon = this->ganon;
     arg1 &= 0xFF;
 
-    //if ((ganon != 0) && ((arg1 & 0xFF) == ganon->unk314)) {
-    if ((ganon != NULL) && (arg1 == *((u8 *)ganon + 0x314))) {
+    if ((ganon != 0) && (ganon->unk_314 == arg1)) {
         return 1;
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_809797E4.s")
-#endif
 
 s32 func_80979818(DemoGj *this, GlobalContext* globalCtx) {
     return func_809797E4(this, 1);
@@ -687,8 +679,8 @@ void func_80979860(DemoGj *this, GlobalContext *globalCtx) {
     pos = &actor->world.pos;
 
     if (this->ganon != NULL) {
-        xDistance = actor->world.pos.x - this->ganon->world.pos.x;
-        zDistance = actor->world.pos.z - this->ganon->world.pos.z;
+        xDistance = actor->world.pos.x - this->ganon->actor.world.pos.x;
+        zDistance = actor->world.pos.z - this->ganon->actor.world.pos.z;
 
         unk_172 = &this->unk_172;
 

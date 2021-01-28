@@ -4,6 +4,8 @@
 #include "ultra64.h"
 #include "global.h"
 
+#include "overlays/actors/ovl_Boss_Ganon2/z_boss_ganon2.h"
+
 struct DemoGj;
 
 typedef struct DemoGj {
@@ -12,7 +14,7 @@ typedef struct DemoGj {
     /* 0x0168 */ s32 unk_168;
     /* 0x016C */ Vec3s unk_16C; // x,y,z?
     /* 0x0172 */ Vec3s unk_172;
-    /* 0x0178 */ Actor* ganon;
+    /* 0x0178 */ BossGanon2* ganon;
     /* 0x017C */ s32 unk_17C;
     /* 0x0180 */ s32 unk_180;
     /* 0x0184 */ ColliderCylinder unk_184[3];
