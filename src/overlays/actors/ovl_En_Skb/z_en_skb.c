@@ -101,14 +101,10 @@ static InitChainEntry D_80AFE0D0[] = {
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFC9A0.s")
 void EnSkb_SetupAction(EnSkb* this, EnSkbActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFC9A8.s")
 void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     Vec3f pos;
     Vec3f vel = D_80AFE0B8;
@@ -128,7 +124,6 @@ void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     func_80033480(globalCtx, &pos, 10.0f, 1, 150, 0, 1);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Init.s")
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
 
@@ -162,8 +157,6 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80AFCDF8(this);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Destroy.s")
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
     EnSkb* this = THIS;
@@ -179,8 +172,6 @@ void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFCD60.s")
 void func_80AFCD60(EnSkb* this) {
     if (gSaveContext.nightFlag == 0) {
         func_80AFCF48(this);
@@ -192,8 +183,6 @@ void func_80AFCD60(EnSkb* this) {
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFCDF8.s")
 void func_80AFCDF8(EnSkb* this) {
     Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06001854, 1.0f);
     this->unk_280 = 0;
@@ -202,8 +191,6 @@ void func_80AFCDF8(EnSkb* this) {
     EnSkb_SetupAction(this, func_80AFCE5C);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFCE5C.s")
 void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
     if (this->skelAnime.curFrame < 4.0f) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -221,8 +208,6 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFCF48.s")
 void func_80AFCF48(EnSkb* this) {
     Animation_Change(&this->skelAnime, &D_06001854, -1.0f, Animation_GetLastFrame(&D_06001854), 0.0f, 2, -4.0f);
     this->unk_280 = 0;
@@ -233,8 +218,6 @@ void func_80AFCF48(EnSkb* this) {
     EnSkb_SetupAction(this, func_80AFCFF0);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFCFF0.s")
 void func_80AFCFF0(EnSkb* this, GlobalContext* globalCtx) {
     if ((Math_SmoothStepToF(&this->actor.shape.yOffset, -8000.0f, 1.0f, 500.0f, 0.0f) != 0.0f) &&
         (globalCtx->gameplayFrames & 1)) {
@@ -246,7 +229,6 @@ void func_80AFCFF0(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD0A4.s")
 void func_80AFD0A4(EnSkb* this) {
     Animation_Change(&this->skelAnime, &D_060047E0, 0.96000004f, 0.0f, Animation_GetLastFrame(&D_060047E0), 0, -4.0f);
     this->unk_280 = 4;
@@ -255,7 +237,6 @@ void func_80AFD0A4(EnSkb* this) {
     EnSkb_SetupAction(this, EnSkb_Advance);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD13C.s")
 void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
     s32 thisKeyFrame;
     s32 prevKeyFrame;
@@ -295,8 +276,6 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD33C.s")
 void func_80AFD33C(EnSkb* this) {
     Animation_Change(&this->skelAnime, &D_06000460, 0.6f, 0.0f, Animation_GetLastFrame(&D_06000460), 3, 4.0f);
     this->collider.base.atFlags = this->collider.base.atFlags & 0xFFFB;
@@ -305,8 +284,6 @@ void func_80AFD33C(EnSkb* this) {
     EnSkb_SetupAction(this, EnSkb_SetupAttack);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD3D4.s")
 void EnSkb_SetupAttack(EnSkb* this, GlobalContext* globalCtx) {
     s32 frameData;
 
@@ -325,7 +302,6 @@ void EnSkb_SetupAttack(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD47C.s")
 void func_80AFD47C(EnSkb* this) {
     Animation_Change(&this->skelAnime, &D_06000460, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f, 3, 0.0f);
     this->collider.base.atFlags &= 0xFFFB;
@@ -334,15 +310,12 @@ void func_80AFD47C(EnSkb* this) {
     EnSkb_SetupAction(this, func_80AFD508);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD508.s")
 void func_80AFD508(EnSkb* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         func_80AFCD60(this);
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD540.s")
 void EnSkb_SetupStunned(EnSkb* this) {
     if (this->actor.bgCheckFlags & 1) {
         this->actor.speedXZ = 0.0f;
@@ -353,8 +326,6 @@ void EnSkb_SetupStunned(EnSkb* this) {
     EnSkb_SetupAction(this, func_80AFD59C);
 }
 
-// Matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD59C.s")
 void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
 
     if ((this->actor.bgCheckFlags & 2) != 0) {
@@ -374,7 +345,6 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD644.s")
 void func_80AFD644(EnSkb* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06000D98, -4.0f);
     if (this->actor.bgCheckFlags & 1) {
@@ -386,7 +356,6 @@ void func_80AFD644(EnSkb* this) {
     EnSkb_SetupAction(this, func_80AFD6CC);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD6CC.s")
 void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
     // this cast is likely not real, but allows for a match
     u8* new_var;
@@ -411,8 +380,6 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD7B4.s")
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_060009DC, -4.0f);
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
@@ -428,8 +395,6 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
     EnSkb_SetupAction(this, func_80AFD880);
 }
 
-// Matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD880.s")
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
     if (func_8003305C(&this->actor, &this->unk_28C, globalCtx, 1) != 0) {
         if (0.01f == this->actor.scale.x) {
@@ -448,7 +413,6 @@ void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFD968.s")
 void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
     s16 pad;
     s32 i;
@@ -509,8 +473,6 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Update.s")
 void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
     s32 pad;
@@ -534,8 +496,6 @@ void EnSkb_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-// Override limb? --> matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDD30.s")
 s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSkb* this = THIS;
     s16 color;
@@ -557,21 +517,26 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     return 0;
 }
 
+#ifdef NON_MATCHING
 // Regalloc issues
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
+void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnSkb* this = THIS;
+    u8 test;
+
+    Collider_UpdateSpheres(limbIndex, &this->collider);
+    test = this->unk_283;
+    if ((test ^ 1) == 0) {
+        func_80032F54(&this->unk_28C, limbIndex, 0xB, 0xC, 0x12, dList, -1);
+    } else if ((this->unk_283 | 4) == this->unk_283) {
+        func_80032F54(&this->unk_28C, limbIndex, 0, 0x12, 0x12, dList, -1);
+    }
+}
+
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
-// void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-//     EnSkb* this = THIS;
+#endif
 
-//     Collider_UpdateSpheres(limbIndex, &this->collider);
-//     if ((this->unk_283 ^ 1) == 0) {
-//         func_80032F54(&this->unk_28C, limbIndex, 0xB, 0xC, 0x12, dList, -1);
-//     } else if ((this->unk_283 | 4) == this->unk_283) {
-//         func_80032F54(&this->unk_28C, limbIndex, 0, 0x12, 0x12, dList, -1);
-//     }
-// }
-
-// Matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_Draw.s")
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
     func_80093D18(globalCtx->state.gfxCtx);
