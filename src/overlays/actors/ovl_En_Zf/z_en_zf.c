@@ -19,8 +19,11 @@ s16 func_80B446A8(Vec3f* pos, s16 arg1);
 void func_80B450AC(EnZf* this);
 void func_80B45174(EnZf* this, GlobalContext* globalCtx);
 void func_80B45384(EnZf* this);
-void func_80B45748(EnZf* this, GlobalContext* globalCtx);
 void func_80B4543C(EnZf* this, GlobalContext* globalCtx);
+void func_80B456B4(EnZf* this, GlobalContext* globalCtx);
+void func_80B45748(EnZf* this, GlobalContext* globalCtx);
+void func_80B45E30(EnZf* this);
+void func_80B4604C(EnZf* this);
 void func_80B46A24(EnZf* this);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
@@ -628,10 +631,67 @@ void func_80B45384(EnZf* this) {
     func_80B44050(this, func_80B4543C);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4543C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4543C.s")
+void func_80B4543C(EnZf* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    s32 pad;
+    s16 angleToPlayer;
+
+    angleToPlayer = (this->actor.yawTowardsPlayer - this->unk_3EC) - this->actor.shape.rot.y;
+    angleToPlayer = ABS(angleToPlayer);
+    SkelAnime_Update(&this->skelAnime);
+
+    if (!func_80B49C2C(globalCtx, this)) {
+        if (this->actor.params == -2) {
+            if (this->unk_3F4 != 0) {
+                this->unk_3F4--;
+                if (angleToPlayer >= 0x1FFE) {
+                    return;
+                }
+                this->unk_3F4 = 0;
+
+            } else if (func_80B44E8C(globalCtx, this)) {
+                return;
+            }
+        }
+        angleToPlayer = player->actor.shape.rot.y - this->actor.shape.rot.y;
+        angleToPlayer = ABS(angleToPlayer);
+
+        if ((this->actor.xzDistToPlayer < 100.0f) && (player->swordState != 0) && (angleToPlayer >= 0x1F40)) {
+            this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+            func_80B483E4(this, globalCtx);
+        } else {
+
+            if (this->unk_3F0 != 0) {
+                this->unk_3F0--;
+            } else {
+                if (func_8002E084(&this->actor, 30 * 0x10000 / 360)) {
+                    if ((this->actor.xzDistToPlayer < 200.0f) && (this->actor.xzDistToPlayer > 100.0f) &&
+                        (Rand_ZeroOne() < 0.3f)) {
+                        if (this->actor.params == -2) {
+                            this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
+                            func_80B45E30(this);
+                        } else {
+                            func_80B483E4(this, globalCtx);
+                        }
+                    } else if ((Rand_ZeroOne() > 0.3f)) {
+                        func_80B456B4(this, globalCtx);
+                    } else {
+                        func_80B483E4(this, globalCtx);
+                    }
+                } else {
+                    func_80B4604C(this);
+                }
+
+                if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+                }
+            }
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B456B4.s")
-// void func_80B456B4(EnZf* this, GlobalContext* globalCtx);
 void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
     Animation_MorphToLoop(&this->skelAnime, &D_06008138, -4.0f);
     this->unk_3DC = 5;
