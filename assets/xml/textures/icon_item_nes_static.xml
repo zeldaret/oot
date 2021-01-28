@@ -1,5 +1,5 @@
 <Root>
-    <File Name="icon_item_nes_static">
+    <File Name="icon_item_nes_static" Segment="13">
         <Texture Name="gPauseDekuTitleTexENG" OutName="pause_deku_title_eng" Format="ia8" Width="96" Height="16"/>
         <Texture Name="gPauseDodongoTitleTexENG" OutName="pause_dodongo_title_eng" Format="ia8" Width="96" Height="16"/>
         <Texture Name="gPauseJabuTitleTexENG" OutName="pause_inside_jabu_title_eng" Format="ia8" Width="96" Height="16"/>

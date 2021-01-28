@@ -1,5 +1,5 @@
 <Root>
-     <File Name="map_grand_static">
+     <File Name="map_grand_static" Segment="11">
         <Texture Name="gHyruleFieldMinimapTex" OutName="hyrule_field_minimap" Format="ia4" Width="80" Height="73"/>
         <Texture Name="gKakarikoVillageMinimapTex" OutName="kakariko_village_minimap" Format="ia4" Width="80" Height="64"/>
         <Texture Name="gGraveyardMinimapTex" OutName="graveyard_minimap" Format="ia4" Width="80" Height="39"/>

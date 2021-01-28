@@ -1,5 +1,5 @@
 <Root>
-     <File Name="message_static">
+     <File Name="message_static" Segment="7">
         <Texture Name="gDefaultMessageBackgroundTex" OutName="default_message_background" Format="ia4" Width="128" Height="64"/>
         <Texture Name="gSignMessageBackgroundTex" OutName="sign_message_background" Format="ia4" Width="128" Height="64"/>
         <Texture Name="gNoteStaffMessageBackgroundTex" OutName="note_staff_message_background" Format="ia4" Width="128" Height="64"/>

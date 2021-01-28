@@ -1,5 +1,5 @@
 <Root>
-    <File Name="icon_item_static">
+    <File Name="icon_item_static" Segment="8">
         <Texture Name="gDekuStickIconTex" OutName="deku_stick_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gDekuNutIconTex" OutName="deku_nut_icon" Format="rgba32" Width="32" Height="32"/>
         <Texture Name="gBombIconTex" OutName="bomb_icon" Format="rgba32" Width="32" Height="32"/>

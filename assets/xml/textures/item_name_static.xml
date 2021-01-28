@@ -1,5 +1,5 @@
 <Root>
-     <File Name="item_name_static">
+     <File Name="item_name_static" Segment="10">
 			<Texture Name="gDekuStickItemNameTexENG" OutName="deku_stick_item_name_eng" Format="ia4" Width="128" Height="16"/>
 			<Texture Name="gDekuNutItemNameTexENG" OutName="deku_nut_item_name_eng" Format="ia4" Width="128" Height="16"/>
 			<Texture Name="gBombItemNameTexENG" OutName="bomb_item_name_eng" Format="ia4" Width="128" Height="16"/>

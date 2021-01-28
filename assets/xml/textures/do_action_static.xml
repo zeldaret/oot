@@ -1,5 +1,5 @@
 <Root>
-     <File Name="do_action_static">
+     <File Name="do_action_static" Segment="7">
         <Texture Name="gAttackActionLabelTexENG" OutName="attack_action_label_eng" Format="ia4" Width="48" Height="16"/>
         <Texture Name="gCheckActionLabelTexENG" OutName="check_action_label_eng" Format="ia4" Width="48" Height="16"/>
         <Texture Name="gEnterActionLabelTexENG" OutName="enter_action_label_eng" Format="ia4" Width="48" Height="16"/>

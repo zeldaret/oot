@@ -1,5 +1,5 @@
 <Root>
-     <File Name="nes_font_static">
+     <File Name="nes_font_static" Segment="10">
         <Texture Name="gMsgCharSpaceTex" OutName="msg_char_space" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharExclamationMarkTex" OutName="msg_char_exclamation_mark" Format="i4" Width="16" Height="16"/>
         <Texture Name="gMsgCharQuotationMarkTex" OutName="msg_char_quotation_mark" Format="i4" Width="16" Height="16"/>

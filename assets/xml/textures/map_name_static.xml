@@ -1,5 +1,5 @@
 <Root>
-     <File Name="map_name_static">
+     <File Name="map_name_static" Segment="11">
         <Texture Name="gHauntedWastelandTitleCardTexENG" OutName="haunted_wasteland_title_card_eng" Format="ia4" Width="128" Height="16"/>
         <Texture Name="gGerudosFortressTitleCardTexENG" OutName="gerudos_fortress_title_card_eng" Format="ia4" Width="128" Height="16"/>
         <Texture Name="gGerudoValleyTitleCardTexENG" OutName="gerudo_valley_title_card_eng" Format="ia4" Width="128" Height="16"/>

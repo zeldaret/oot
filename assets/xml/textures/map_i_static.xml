@@ -1,5 +1,5 @@
 <Root>
-     <File Name="map_i_static">
+     <File Name="map_i_static" Segment="11">
          <Texture Name="gDekuTreeRoom0Floor1MinimapTex" OutName="deku_tree_room_0_floor_1_minimap" Format="i4" Width="96" Height="85"/>
 		   <Texture Name="gDekuTreeRoom1MinimapTex" OutName="deku_tree_room_1_minimap" Format="i4" Width="96" Height="85"/>
 		   <Texture Name="gDekuTreeRoom2MinimapTex" OutName="deku_tree_room_2_minimap" Format="i4" Width="96" Height="85"/>
