@@ -1,0 +1,29 @@
+<Root>
+    <File Name="object_sd" Segment="6">
+    <Skeleton Name="gEnHeishiSkel" Type="Standard" LimbType="Standard" Offset="0xBAC8"/>
+    <Animation Name="gEnHeishiSlamSpearAnim" Offset="0x5500"/>
+    <Animation Name="gEnHeishiWalkAnim" Offset="0x5880"/>
+    <Animation Name="gEnHeishiIdleAnim" Offset="0x5C30"/>
+    <Animation Name="gEnHeishiDyingGuardTalk" Offset="0xC6C8"/>
+    <Animation Name="gEnHeishiDyingGuardDie" Offset="0xC374"/>
+    <Animation Name="gEnHeishiDyingGuard_unk" Offset="0xC444"/>
+    <DList Name="gHeishiKingGuard" Offset="0x2C10"/>
+    <DList Name="gEnHeishiHeadDlist" Offset="0xA030"/>
+    <DList Name="gEnHeishiTorsoArmorDlist" Offset="0xA440"/>
+    <DList Name="gEnHeishiDlist_A6F8" Offset="0xA6F8"/><!--Belt?-->
+    <DList Name="gEnHeishiFootDlist1" Offset="0xA848"/>
+    <DList Name="gEnHeishiLegDlist1" Offset="0xA930"/>
+    <DList Name="gEnHeishiUpperLegDlist1" Offset="0xAAC0"/>
+    <DList Name="gEnHeishiSpearDlist" Offset="0xAC10"/>
+    <DList Name="gEnHeishiLowerArmDlist1" Offset="0xAEC0"/>
+    <DList Name="gEnHeishiUpperArmDlist" Offset="0xB050"/>
+    <DList Name="gEnHeishiFootDlist2" Offset="0xB158"/>
+    <DList Name="gEnHeishiLegDlist2" Offset="0xB240"/>
+    <DList Name="gEnHeishiUpperLegDlist2" Offset="0xB3D0"/>
+    <DList Name="gEnHeishiHandDlist" Offset="0xB520"/>
+    <DList Name="gEnHeishiLowerArmDlist2" Offset="0xB730"/>
+    <DList Name="gEnHeishiUpperArmDlist2" Offset="0xB8C0"/>
+    <Texture Name="gHeishiKingGuardPalette" Format="rb5a1" Width="16" Height="16" Offset="0x000"/>
+    <Texture Name="gHeishiKingGuardTex_C80" Format="ci8" Width="16" Height="16" Offset="0xC80"/>
+    </File>
+</Root>

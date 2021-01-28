@@ -4333,7 +4333,8 @@ endseg
 beginseg
     name "object_sd"
     romalign 0x1000
-    include "build/baserom/object_sd.o"
+    include "build/assets/objects/object_sd/object_sd.o"
+    number 6
 endseg
 
 beginseg
