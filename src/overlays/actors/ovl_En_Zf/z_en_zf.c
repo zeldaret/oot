@@ -44,6 +44,7 @@ void func_80B48210(EnZf* this);
 void func_80B482B8(EnZf* this, GlobalContext* globalCtx);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48578(EnZf* this, GlobalContext* globalCtx);
+void func_80B48CEC(EnZf* this);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
 void func_80B49B60(EnZf* this, f32 arg1);
 s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this);
@@ -994,7 +995,49 @@ void func_80B47050(EnZf* this) {
     func_80B44050(this, func_80B47120);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47120.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47120.s")
+void func_80B47120(EnZf* this, GlobalContext* globalCtx) {
+    s16 angleToWall;
+
+    if (this->actor.bgCheckFlags & 2) {
+        this->actor.speedXZ = 0.0f;
+    }
+
+    if (this->actor.bgCheckFlags & 1) {
+        if (this->actor.speedXZ < 0.0f) {
+            this->actor.speedXZ += 0.05f;
+        }
+        this->unk_3E4 = 0;
+    }
+
+    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
+        if (this->actor.colChkInfo.health == 0) {
+            func_80B48CEC(this);
+        } else if ((this->actor.params != -2) || (!func_80B44E8C(globalCtx, this))) {
+            if (D_80B4A1B4 != -1) {
+                func_80B44DC4(this, globalCtx);
+            } else {
+                angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
+                angleToWall = ABS(angleToWall);
+
+                if ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 8) != 0) && (ABS(angleToWall) < 0x2EE0) &&
+                    (this->actor.xzDistToPlayer < 90.0f)) {
+                    this->actor.world.rot.y = this->actor.shape.rot.y;
+                    func_80B48210(this);
+                } else if (func_80B49C2C(globalCtx, this) == 0) {
+                    if (this->actor.params != -2) {
+                        func_80B44DC4(this, globalCtx);
+                    } else if ((this->actor.xzDistToPlayer <= 100.0f) && ((globalCtx->gameplayFrames & 3) != 0) &&
+                               func_80B44CF0(globalCtx, this)) {
+                        func_80B46A24(this);
+                    } else {
+                        func_80B44DC4(this, globalCtx);
+                    }
+                }
+            }
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47360.s")
 void func_80B47360(EnZf* this, GlobalContext* globalCtx) {
