@@ -15,9 +15,16 @@ void EnBa_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_809B6568(Actor* thisx);
+void func_809B69D4(Actor* thisx);
+
 extern UNK_TYPE D_06000890;
 extern UNK_TYPE D_06001D80;
 
+extern InitChainEntry D_809B80F0;
+extern Vec3f D_809B80E4;
+
+extern ColliderJntSphInit D_809B80D4;
 /*
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
@@ -69,9 +76,51 @@ static ColliderJntSphInit D_809B80D4 = {
     D_809B808C,
 };
 */
+
+// void func_809B6350(EnBa* this, u32* arg1) {
+//     this->unk150 = arg1;
+// }
+
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6350.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Init.s")
+void EnBa_Init(Actor *thisx, GlobalContext *globalCtx) {
+    EnBa* this = THIS;
+    Vec3f sp38 = D_809B80E4;
+    s32 pad;
+    s16 i;
+
+    Actor_ProcessInitChain(&this->actor, &D_809B80F0);
+    this->actor.world.pos.y = this->actor.home.pos.y + 100.0f;
+    for (i = 13; i >= 0; i--){
+        this->unk200[i] = sp38;
+        this->unk2A8[i].x = -0x4000;
+        this->unk158[i] = this->actor.world.pos;
+        this->unk158[i].y = this->actor.world.pos.y - (i+1)*32.0f;
+    }
+    
+    this->actor.targetMode = 4;
+    this->unk154 = (thisx->params >> 8) & 0xFF;
+    thisx->params &= 0xFF;
+    
+    if (this->actor.params < 3) {
+        if (Flags_GetSwitch(globalCtx, this->unk154) != 0) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 48.0f);
+        Actor_SetScale(&this->actor, 0.01f);
+        func_809B6568(&this->actor);
+        this->actor.colChkInfo.health = 4;
+        this->actor.colChkInfo.mass = 0xFE;
+        Collider_InitJntSph(globalCtx, &this->unk320);
+        Collider_SetJntSph(globalCtx, &this->unk320, &this->actor, &D_809B80D4, this->unk340);
+    } else {
+        Actor_SetScale(&this->actor, 0.021f);
+        func_809B69D4(&this->actor);
+    }
+}
+
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Init.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Destroy.s")
 
