@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_dekunuts" Segment="6">
-        <!-- Deku scrub skeleton -->
+        <!-- Deku Scrub skeleton -->
         <Skeleton Name="gDekuNutsSkel" Type="Standard" LimbType="Standard" Offset="0x3268"/>
         
         <!-- Deku Scrub animations -->
@@ -15,7 +15,7 @@
         <Animation Name="gDekuNutsGaspAnim" Offset="0x1024"/>
         <Animation Name="gDekuNutsRunAnim" Offset="0x3650"/>
 
-        <!-- Deku Scrub Textures -->
+        <!-- Deku Scrub textures -->
         <Texture Name="gDekuNutsLeafTex" OutName="leaf" Format="rgb5a1" Width="32" Height="32" Offset="0x2368"/>
         <Texture Name="gDekuNutsBodyTex" OutName="body" Format="rgb5a1" Width="16" Height="16" Offset="0x2B68"/>
         <Texture Name="gDekuNutsEyeTex" OutName="eye" Format="rgb5a1" Width="8" Height="8" Offset="0x2D68"/>
