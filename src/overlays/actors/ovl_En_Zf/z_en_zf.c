@@ -23,6 +23,7 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx);
 void func_80B456B4(EnZf* this, GlobalContext* globalCtx);
 void func_80B45748(EnZf* this, GlobalContext* globalCtx);
 void func_80B45E30(EnZf* this);
+void func_80B45EF0(EnZf* this, GlobalContext* globalCtx);
 void func_80B4604C(EnZf* this);
 void func_80B46A24(EnZf* this);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
@@ -707,7 +708,23 @@ void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45E30.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45E30.s")
+void func_80B45E30(EnZf *this) {
+    Animation_Change(&this->skelAnime, &D_06009530, 1.0f, 0.0f, 3.0f, 2, -3.0f);
+    this->unk_3F0 = 0;
+    this->unk_3E4 = 1;
+    this->actor.velocity.y = 15.0f;
+
+    if (this->actor.params >= 0) {
+        this->actor.speedXZ = 16.0f;
+    } else {
+        this->actor.speedXZ = 10.0f;
+    }
+    
+    this->unk_3DC = 0xD;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_JUMP);
+    func_80B44050(this, func_80B45EF0);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45EF0.s")
 
