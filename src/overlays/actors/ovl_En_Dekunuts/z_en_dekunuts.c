@@ -5,6 +5,7 @@
  */
 
 #include "z_en_dekunuts.h"
+#include "objects/object_dekunuts/object_dekunuts.h"
 
 #define FLAGS 0x00000005
 
@@ -28,18 +29,18 @@ void EnDekunuts_BeDamaged(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_BeStunned(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx);
 
-extern AnimationHeader D_060001C4;
-extern AnimationHeader D_06000368;
-extern AnimationHeader D_060004D8;
-extern AnimationHeader D_060006B0;
-extern AnimationHeader D_060008C4;
-extern AnimationHeader D_06000AF0;
-extern AnimationHeader D_06000D1C;
-extern AnimationHeader D_06000E6C;
-extern AnimationHeader D_06001024;
-extern Gfx D_06002298[];
-extern SkeletonHeader D_06003268;
-extern AnimationHeader D_06003650;
+extern AnimationHeader gDekuNutsSpitAnim;
+extern AnimationHeader gDekuNutsDamageAnim;
+extern AnimationHeader gDekuNutsBurrowAnim;
+extern AnimationHeader gDekuNutsDieAnim;
+extern AnimationHeader gDekuNutsUnburrowAnim;
+extern AnimationHeader gDekuNutsLookAroundAnim;
+extern AnimationHeader gDekuNutsUpAnim;
+extern AnimationHeader gDekuNutsStandAnim;
+extern AnimationHeader gDekuNutsGaspAnim;
+extern Gfx gDekuNutsFlowerDL[];
+extern SkeletonHeader gDekuNutsSkel;
+extern AnimationHeader gDekuNutsRunAnim;
 
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
@@ -125,7 +126,7 @@ void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         thisx->flags &= ~0x5;
     } else {
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003268, &D_06000E6C, this->jointTable, this->morphTable, 25);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gDekuNutsSkel, &gDekuNutsStandAnim, this->jointTable, this->morphTable, 25);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&thisx->colChkInfo, &D_809EAB84, &sColChkInfoInit);
@@ -149,7 +150,7 @@ void EnDekunuts_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDekunuts_SetupWait(EnDekunuts* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06000D1C, 0.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gDekuNutsUpAnim, 0.0f);
     this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
     Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.home.pos);
@@ -158,19 +159,19 @@ void EnDekunuts_SetupWait(EnDekunuts* this) {
 }
 
 void EnDekunuts_SetupLookAround(EnDekunuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06000AF0);
+    Animation_PlayLoop(&this->skelAnime, &gDekuNutsLookAroundAnim);
     this->animFlagAndTimer = 2;
     this->actionFunc = EnDekunuts_LookAround;
 }
 
 void EnDekunuts_SetupThrowNut(EnDekunuts* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_060001C4);
+    Animation_PlayOnce(&this->skelAnime, &gDekuNutsSpitAnim);
     this->animFlagAndTimer = this->shotsPerRound;
     this->actionFunc = EnDekunuts_ThrowNut;
 }
 
 void EnDekunuts_SetupStand(EnDekunuts* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06000E6C, -3.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gDekuNutsStandAnim, -3.0f);
     if (this->actionFunc == EnDekunuts_ThrowNut) {
         this->animFlagAndTimer = 2 | 0x1000; // sets timer and flag
     } else {
@@ -180,13 +181,13 @@ void EnDekunuts_SetupStand(EnDekunuts* this) {
 }
 
 void EnDekunuts_SetupBurrow(EnDekunuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060004D8, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsBurrowAnim, -5.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnDekunuts_Burrow;
 }
 
 void EnDekunuts_SetupBeginRun(EnDekunuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060008C4, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsUnburrowAnim, -3.0f);
     this->collider.dim.height = 0x25;
     this->actor.colChkInfo.mass = 0x32;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
@@ -195,7 +196,7 @@ void EnDekunuts_SetupBeginRun(EnDekunuts* this) {
 }
 
 void EnDekunuts_SetupRun(EnDekunuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06003650);
+    Animation_PlayLoop(&this->skelAnime, &gDekuNutsRunAnim);
     this->animFlagAndTimer = 2;
     this->playWalkSound = false;
     this->collider.base.acFlags |= AC_ON;
@@ -203,7 +204,7 @@ void EnDekunuts_SetupRun(EnDekunuts* this) {
 }
 
 void EnDekunuts_SetupGasp(EnDekunuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06001024);
+    Animation_PlayLoop(&this->skelAnime, &gDekuNutsGaspAnim);
     this->animFlagAndTimer = 3;
     this->actor.speedXZ = 0.0f;
     if (this->runAwayCount != 0) {
@@ -213,7 +214,7 @@ void EnDekunuts_SetupGasp(EnDekunuts* this) {
 }
 
 void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000368, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsDamageAnim, -3.0f);
     if ((this->collider.info.acHitInfo->toucher.dmgFlags & 0x1F824) != 0) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
@@ -224,20 +225,20 @@ void EnDekunuts_SetupBeDamaged(EnDekunuts* this) {
     this->actor.speedXZ = 10.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_CUTBODY);
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&D_06000368));
+    func_8003426C(&this->actor, 0x4000, 0xFF, 0, Animation_GetLastFrame(&gDekuNutsDamageAnim));
 }
 
 void EnDekunuts_SetupBeStunned(EnDekunuts* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06000368, -3.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gDekuNutsDamageAnim, -3.0f);
     this->animFlagAndTimer = 5;
     this->actionFunc = EnDekunuts_BeStunned;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    func_8003426C(&this->actor, 0, 0xFF, 0, Animation_GetLastFrame(&D_06000368) * this->animFlagAndTimer);
+    func_8003426C(&this->actor, 0, 0xFF, 0, Animation_GetLastFrame(&gDekuNutsDamageAnim) * this->animFlagAndTimer);
 }
 
 void EnDekunuts_SetupDie(EnDekunuts* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_060006B0);
+    Animation_PlayOnce(&this->skelAnime, &gDekuNutsDieAnim);
     this->actionFunc = EnDekunuts_Die;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DEAD);
@@ -321,7 +322,7 @@ void EnDekunuts_ThrowNut(EnDekunuts* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_THROW);
         }
     } else if ((this->animFlagAndTimer > 1) && Animation_OnFrame(&this->skelAnime, 12.0f)) {
-        Animation_MorphToPlayOnce(&this->skelAnime, &D_060001C4, -3.0f);
+        Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsSpitAnim, -3.0f);
         if (this->animFlagAndTimer != 0) {
             this->animFlagAndTimer--;
         }
@@ -495,7 +496,7 @@ void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnDekunuts_Burrow) {
             Actor_SetFocus(&this->actor,
-                           20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame((void*)&D_060004D8)));
+                           20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame((void*)&gDekuNutsBurrowAnim)));
         } else {
             Actor_SetFocus(&this->actor, 20.0f);
         }
@@ -537,7 +538,7 @@ void EnDekunuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDekunuts* this = THIS;
 
     if (this->actor.params == 0xA) {
-        Gfx_DrawDListOpa(globalCtx, D_06002298);
+        Gfx_DrawDListOpa(globalCtx, gDekuNutsFlowerDL);
     } else {
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnDekunuts_OverrideLimbDraw,
                           NULL, this);

@@ -3932,7 +3932,8 @@ endseg
 beginseg
     name "object_dekunuts"
     romalign 0x1000
-    include "build/baserom/object_dekunuts.o"
+    include "build/assets/objects/object_dekunuts/object_dekunuts.o"
+    number 6
 endseg
 
 beginseg
