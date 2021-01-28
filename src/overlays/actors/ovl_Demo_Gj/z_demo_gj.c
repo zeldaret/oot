@@ -246,17 +246,19 @@ const ActorInit Demo_Gj_InitVars = {
 };
 
 
-
+// bits 11-15
 s32 func_80978930(DemoGj *this) {
     s32 params = this->dyna.actor.params >> 0xB;
     return params & 0x1F;
 }
 
+// bits 8-10
 s32 func_80978940(DemoGj *this) {
     s32 params = this->dyna.actor.params >> 0x8;
     return params & 7;
 }
 
+// bits 0-7
 s32 DemoGj_GetType(DemoGj *this) {
     s32 params = this->dyna.actor.params;
     return params & 0xFF;
@@ -269,9 +271,9 @@ void func_8097895C(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* arg
 
 s32 func_809789A4(DemoGj* this, GlobalContext* globalCtx, Collider* collider) {
     if (Actor_GetCollidedExplosive(globalCtx, collider) != NULL) {
-        return 1;
+        return 1; // return true; (?)
     }
-    return 0;
+    return 0; // return false; (?)
 }
 
 void DemoGj_DestroyCylinders(DemoGj* this, GlobalContext* globalCtx) {
@@ -400,9 +402,9 @@ void func_80978C20(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2, Vec3f *a
 
 s32 func_80978EBC(void) {
     if (gSaveContext.sceneSetupIndex < 4) {
-        return 0;
+        return 0; // return false; (?)
     }
-    return 1;
+    return 1; // return true; (?)
 }
 
 s32 DemoGj_FindGanon(DemoGj *this, GlobalContext *globalCtx) {
@@ -453,14 +455,14 @@ s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 arg2, s32 arg3, Co
         this->updateIndex = arg2;
         this->drawIndex = arg3;
         func_80978F60(this, globalCtx, arg4);
-        return 1;
+        return 1; // return true; (?)
     }
     Actor_Kill(&this->dyna.actor);
-    return 0;
+    return 0; // return false; (?)
 }
 
 void func_80979030(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
-    if (gGameInfo->data[2592] == 0) {
+    if (kREG(0) == 0) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
 
@@ -521,66 +523,66 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
 
     switch (DemoGj_GetType(this)) {
     case 8:
-        verticalTranslation = gGameInfo->data[2615];
-        vec.x = gGameInfo->data[2616] * 0.01f + 1.0f;
-        vec.y = gGameInfo->data[2617] * 0.01f + 1.0f;
-        vec.z = gGameInfo->data[2618] * 0.01f + 1.0f;
-        verticalFactor = gGameInfo->data[2619] * 0.01f + -1.0f;
-        xzPlaneFactor = gGameInfo->data[2620] * 0.01f + 1.0f;
+        verticalTranslation = kREG(23);
+        vec.x = kREG(24) * 0.01f + 1.0f;
+        vec.y = kREG(25) * 0.01f + 1.0f;
+        vec.z = kREG(26) * 0.01f + 1.0f;
+        verticalFactor = kREG(27) * 0.01f + -1.0f;
+        xzPlaneFactor = kREG(28) * 0.01f + 1.0f;
         break;
 
     case 9:
-        verticalTranslation = gGameInfo->data[2628];
-        vec.x = gGameInfo->data[2629] * 0.01f + 1.0f;
-        vec.y = gGameInfo->data[2630] * 0.01f + 1.0f;
-        vec.z = gGameInfo->data[2631] * 0.01f + 1.0f;
-        verticalFactor = gGameInfo->data[2632] * 0.01f + -1.0f;
-        xzPlaneFactor = gGameInfo->data[2633] * 0.01f + 1.0f;
+        verticalTranslation = kREG(36);
+        vec.x = kREG(37) * 0.01f + 1.0f;
+        vec.y = kREG(38) * 0.01f + 1.0f;
+        vec.z = kREG(39) * 0.01f + 1.0f;
+        verticalFactor = kREG(40) * 0.01f + -1.0f;
+        xzPlaneFactor = kREG(41) * 0.01f + 1.0f;
         break;
 
     case 10:
-        verticalTranslation = gGameInfo->data[2641];
-        vec.x = gGameInfo->data[2642] * 0.01f + 1.0f;
-        vec.y = gGameInfo->data[2643] * 0.01f + 1.0f;
-        vec.z = gGameInfo->data[2644] * 0.01f + 1.0f;
-        verticalFactor = gGameInfo->data[2645] * 0.01f + -1.0f;
-        xzPlaneFactor = gGameInfo->data[2646] * 0.01f + 1.0f;
+        verticalTranslation = kREG(49);
+        vec.x = kREG(50) * 0.01f + 1.0f;
+        vec.y = kREG(51) * 0.01f + 1.0f;
+        vec.z = kREG(52) * 0.01f + 1.0f;
+        verticalFactor = kREG(53) * 0.01f + -1.0f;
+        xzPlaneFactor = kREG(54) * 0.01f + 1.0f;
         break;
 
     case 11:
-        verticalTranslation = gGameInfo->data[2654];
-        vec.x = gGameInfo->data[2655] * 0.01f + 1.0f;
-        vec.y = gGameInfo->data[2656] * 0.01f + 1.0f;
-        vec.z = gGameInfo->data[2657] * 0.01f + 1.0f;
-        verticalFactor = gGameInfo->data[2658] * 0.01f + -1.0f;
-        xzPlaneFactor = gGameInfo->data[2659] * 0.01f + 1.0f;
+        verticalTranslation = kREG(62);
+        vec.x = kREG(63) * 0.01f + 1.0f;
+        vec.y = kREG(64) * 0.01f + 1.0f;
+        vec.z = kREG(65) * 0.01f + 1.0f;
+        verticalFactor = kREG(66) * 0.01f + -1.0f;
+        xzPlaneFactor = kREG(67) * 0.01f + 1.0f;
         break;
 
     case 12:
-        verticalTranslation = gGameInfo->data[2667];
-        vec.x = gGameInfo->data[2668] * 0.01f + 1.0f;
-        vec.y = gGameInfo->data[2669] * 0.01f + 1.0f;
-        vec.z = gGameInfo->data[2670] * 0.01f + 1.0f;
-        verticalFactor = gGameInfo->data[2671] * 0.01f + -1.0f;
-        xzPlaneFactor = gGameInfo->data[2672] * 0.01f + 1.0f;
+        verticalTranslation = kREG(75);
+        vec.x = kREG(76) * 0.01f + 1.0f;
+        vec.y = kREG(77) * 0.01f + 1.0f;
+        vec.z = kREG(78) * 0.01f + 1.0f;
+        verticalFactor = kREG(79) * 0.01f + -1.0f;
+        xzPlaneFactor = kREG(80) * 0.01f + 1.0f;
         break;
 
     case 13:
-        verticalTranslation = gGameInfo->data[2680];
-        vec.x = gGameInfo->data[2681] * 0.01f + 1.0f;
-        vec.y = gGameInfo->data[2682] * 0.01f + 1.0f;
-        vec.z = gGameInfo->data[2683] * 0.01f + 1.0f;
-        verticalFactor = gGameInfo->data[2684] * 0.01f + -1.0f;
-        xzPlaneFactor = gGameInfo->data[2685] * 0.01f + 1.0f;
+        verticalTranslation = kREG(88);
+        vec.x = kREG(89) * 0.01f + 1.0f;
+        vec.y = kREG(90) * 0.01f + 1.0f;
+        vec.z = kREG(91) * 0.01f + 1.0f;
+        verticalFactor = kREG(92) * 0.01f + -1.0f;
+        xzPlaneFactor = kREG(93) * 0.01f + 1.0f;
         break;
 
     case 14:
-        verticalTranslation = gGameInfo->data[2602] + -190.0f;
-        vec.x = gGameInfo->data[2601] * 0.01f + 1.0f;
-        vec.y = gGameInfo->data[2600] * 0.01f + 1.0f;
-        vec.z = gGameInfo->data[2599] * 0.01f + 1.0f;
-        verticalFactor = gGameInfo->data[2598] * 0.01f + -1.0f;
-        xzPlaneFactor = gGameInfo->data[2597] * 0.01f + 1.0f;
+        verticalTranslation = kREG(10) + -190.0f;
+        vec.x = kREG(9) * 0.01f + 1.0f;
+        vec.y = kREG(8) * 0.01f + 1.0f;
+        vec.z = kREG(7) * 0.01f + 1.0f;
+        verticalFactor = kREG(6) * 0.01f + -1.0f;
+        xzPlaneFactor = kREG(5) * 0.01f + 1.0f;
         break;
 
     default:
@@ -617,9 +619,9 @@ s32 func_809797E4(DemoGj *this, u8 arg1) {
     BossGanon2 *ganon = this->ganon;
 
     if ((ganon != NULL) && (ganon->unk_314 == arg1)) {
-        return 1;
+        return 1; // return true; (?)
     }
-    return 0;
+    return 0; // return false; (?)
 }
 
 s32 func_80979818(DemoGj *this, GlobalContext* globalCtx) {
@@ -1171,18 +1173,18 @@ void func_8097AEE8(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097B080(DemoGj *this, GlobalContext *globalCtx) {
-    CollisionCheckContext *temp_a1;
-    GlobalContext* glbCtx = globalCtx;
-    Collider* cylinders_0= &this->cylinders[0].base;
+    CollisionCheckContext *colChkCtx;
+    GlobalContext* globalCtx2 = globalCtx;
+    Collider* cylinders_0 = &this->cylinders[0].base;
     Collider* cylinders_1 = &this->cylinders[1].base;
     Collider* cylinders_2 = &this->cylinders[2].base;
 
     s32 pad[3];
 
-    temp_a1 = &glbCtx->colChkCtx;
-    CollisionCheck_SetAC(glbCtx, temp_a1, cylinders_0);
-    CollisionCheck_SetAC(glbCtx, temp_a1, cylinders_1);
-    CollisionCheck_SetAC(glbCtx, temp_a1, cylinders_2);
+    colChkCtx = &globalCtx2->colChkCtx;
+    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_0);
+    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_1);
+    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_2);
 }
 
 void func_8097B0EC(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
@@ -1210,15 +1212,15 @@ void func_8097B128(DemoGj *this, GlobalContext *globalCtx) {
 
 s32 func_8097B1B4(DemoGj *this, GlobalContext *globalCtx) {
     if (func_809789A4(this, globalCtx, &this->cylinders[0].base)) {
-        return 1;
+        return 1; // return true; (?)
     }
     if (func_809789A4(this, globalCtx, &this->cylinders[1].base)) {
-        return 1;
+        return 1; // return true; (?)
     }
     if (func_809789A4(this, globalCtx, &this->cylinders[2].base)) {
-        return 1;
+        return 1; // return true; (?)
     }
-    return 0;
+    return 0; // return false; (?)
 }
 
 void func_8097B22C(DemoGj *this, GlobalContext *globalCtx) {
@@ -1306,32 +1308,32 @@ void func_8097B450(DemoGj *this, GlobalContext *globalCtx) {
 
 void func_8097B5A4(DemoGj *this, GlobalContext *globalCtx) {
     CollisionCheckContext *temp_a1;
-    GlobalContext* glbCtx = globalCtx;
+    GlobalContext* globalCtx2 = globalCtx;
     Collider* cylinders_0 = &this->cylinders[0].base;
     Collider* cylinders_1 = &this->cylinders[1].base;
     Collider* cylinders_2 = &this->cylinders[2].base;
 
     s32 pad[3];
 
-    glbCtx = globalCtx;
-    temp_a1 = &glbCtx->colChkCtx;
+    globalCtx2 = globalCtx;
+    temp_a1 = &globalCtx2->colChkCtx;
 
-    CollisionCheck_SetAC(glbCtx, temp_a1, cylinders_0);
-    CollisionCheck_SetAC(glbCtx, temp_a1, cylinders_1);
-    CollisionCheck_SetAC(glbCtx, temp_a1, cylinders_2);
+    CollisionCheck_SetAC(globalCtx2, temp_a1, cylinders_0);
+    CollisionCheck_SetAC(globalCtx2, temp_a1, cylinders_1);
+    CollisionCheck_SetAC(globalCtx2, temp_a1, cylinders_2);
 }
 
 s32 func_8097B610(DemoGj *this, GlobalContext *globalCtx) {
     if (func_809789A4(this, globalCtx, &this->cylinders[0].base)) {
-        return 1;
+        return 1; // return true; (?)
     }
     if (func_809789A4(this, globalCtx, &this->cylinders[1].base)) {
-        return 1;
+        return 1; // return true; (?)
     }
     if (func_809789A4(this, globalCtx, &this->cylinders[2].base)) {
-        return 1;
+        return 1; // return true; (?)
     }
-    return 0;
+    return 0; // return false; (?)
 }
 
 
@@ -1341,6 +1343,7 @@ void func_8097B688(DemoGj *this, GlobalContext *globalCtx, Vec3f *arg2) {
     aux.x = this->dyna.actor.world.pos.x;
     aux.y = this->dyna.actor.world.pos.y;
     aux.z = this->dyna.actor.world.pos.z;
+
     func_80978C20(this, globalCtx, &aux, arg2);
 }
 
