@@ -24,6 +24,8 @@ void func_80B4543C(EnZf* this, GlobalContext* globalCtx);
 void func_80B46A24(EnZf* this);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
+void func_80B46E8C(EnZf* this);
+void func_80B46F2C(EnZf* this, GlobalContext* globalCtx);
 void func_80B47120(EnZf* this, GlobalContext* globalCtx);
 void func_80B47360(EnZf* this, GlobalContext* globalCtx);
 void func_80B4743C(EnZf* this, GlobalContext* globalCtx);
@@ -36,6 +38,7 @@ void func_80B482B8(EnZf* this, GlobalContext* globalCtx);
 void func_80B483E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B48578(EnZf* this, GlobalContext* globalCtx);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
+void func_80B49B60(EnZf* this, f32 arg1);
 s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this);
 
 // Array of platform positions in Dodongo's Cavern miniboss room
@@ -476,6 +479,81 @@ void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44E8C.s")
 s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this);
+/* s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this) {
+    // s16 sp2E;
+    // Actor *sp28;
+    // Actor *temp_a1;
+    Actor* temp_v0_2;
+    s16 temp_t0;
+    s16 temp_t0_2;
+    s16 temp_v0;
+    s16 temp_v1;
+    s16 temp_v1_2;
+    s16 phi_t0;
+    s32 phi_v0;
+
+    temp_v0 = this->actor.shape.rot.y;
+    temp_t0 = this->actor.wallYaw - temp_v0;
+    phi_t0 = temp_t0;
+    if ((s32)temp_t0 < 0) {
+        phi_t0 = (s16)(0 - temp_t0);
+    }
+    // sp2E = phi_t0;
+    temp_t0_2 = phi_t0;
+    if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x5DC0, 0x2AA8, temp_v0)) {
+        temp_v1 = this->actor.yawTowardsPlayer;
+        this->actor.world.rot.y = temp_v1;
+        this->actor.shape.rot.y = temp_v1;
+        if ((this->actor.bgCheckFlags & 8) == 0) {
+        block_9:
+            if (!(this->actor.xzDistToPlayer < 90.0f)) {
+            block_12:
+                func_80B46E8C(this);
+                return 1;
+            }
+            if ((globalCtx->gameplayFrames & 1) == 0) {
+                goto block_12;
+            }
+            func_80B48210(this);
+            return 1;
+        }
+        phi_v0 = 0 - temp_t0_2;
+        if ((s32)temp_t0_2 >= 0) {
+            phi_v0 = (s32)temp_t0_2;
+        }
+        if (phi_v0 >= 0x2EE0) {
+            goto block_9;
+        }
+        if (!(this->actor.xzDistToPlayer < 80.0f)) {
+            goto block_9;
+        }
+        func_80B48210(this);
+        return 1;
+    }
+    // sp2E = temp_t0_2;
+    temp_v0_2 = Actor_FindNearby(globalCtx, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+    // temp_a1 = temp_v0_2;
+    if (temp_v0_2 != NULL) {
+        temp_v1_2 = this->actor.yawTowardsPlayer;
+        this->actor.world.rot.y = temp_v1_2;
+        this->actor.shape.rot.y = temp_v1_2;
+        if (((this->actor.bgCheckFlags & 8)) || (temp_t0_2  0x2EE0)) {
+            if (temp_v0_2->id != ACTOR_EN_BOM_CHU) {
+                func_80B46E8C(this);
+                return 1;
+            }
+        }
+        if ((temp_v0_2->id != ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(&this->actor, temp_v0_2) < 80.0f) &&
+            ((s16)((this->actor.shape.rot.y - temp_v0_2->world.rot.y) + 0x8000) < 0x3E80)) {
+            func_80B48210(this);
+            return 1;
+        }
+        func_80B49B60(this, 4.0f);
+        return 1;
+        // sp28 = temp_a1;
+    }
+    return 0;
+} */
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B450AC.s")
 void func_80B450AC(EnZf* this) {
@@ -670,7 +748,18 @@ void func_80B46DD4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46E8C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46E8C.s")
+void func_80B46E8C(EnZf *this) {
+    Animation_Change(&this->skelAnime, &D_06009530, -1.0f, 3.0f, 0.0f, 2, -3.0f);
+    this->unk_3F0 = 0;
+    this->unk_3E4 = 1;
+    this->unk_3DC = 0xB;
+    this->actor.velocity.y = 15.0f;
+    this->actor.speedXZ = -15.0f;
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_JUMP);
+    func_80B44050(this, func_80B46F2C);
+}
+
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46F2C.s")
 
