@@ -27,6 +27,7 @@ void func_80B45EF0(EnZf* this, GlobalContext* globalCtx);
 void func_80B4604C(EnZf* this);
 void func_80B46098(EnZf* this, GlobalContext* globalCtx);
 void func_80B462E4(EnZf* this, GlobalContext* globalCtx);
+void func_80B463E4(EnZf* this, GlobalContext* globalCtx);
 void func_80B46A24(EnZf* this);
 void func_80B46AE0(EnZf* this, GlobalContext* globalCtx);
 void func_80B46DD4(EnZf* this, GlobalContext* globalCtx);
@@ -711,7 +712,7 @@ void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45E30.s")
-void func_80B45E30(EnZf *this) {
+void func_80B45E30(EnZf* this) {
     Animation_Change(&this->skelAnime, &D_06009530, 1.0f, 0.0f, 3.0f, 2, -3.0f);
     this->unk_3F0 = 0;
     this->unk_3E4 = 1;
@@ -729,14 +730,14 @@ void func_80B45E30(EnZf *this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45EF0.s")
-void func_80B45EF0(EnZf *this, GlobalContext *globalCtx) {
+void func_80B45EF0(EnZf* this, GlobalContext* globalCtx) {
     if ((this->unk_3F0 != 0) && (this->actor.world.pos.y <= this->actor.floorHeight)) {
-            this->actor.world.pos.y = this->actor.floorHeight;
-            this->unk_3E4 = 0;
-            this->actor.velocity.y = 0.0f;
-            this->actor.speedXZ = 0.0f;
-        }
-    
+        this->actor.world.pos.y = this->actor.floorHeight;
+        this->unk_3E4 = 0;
+        this->actor.velocity.y = 0.0f;
+        this->actor.speedXZ = 0.0f;
+    }
+
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->unk_3F0 == 0) {
             Animation_Change(&this->skelAnime, &D_06008C6C, 3.0f, 0.0f, 17.0f, 2, -3.0f);
@@ -756,20 +757,20 @@ void func_80B45EF0(EnZf *this, GlobalContext *globalCtx) {
         if (func_80B44CF0(globalCtx, this)) {
             func_80B46A24(this);
         } else {
-        func_80B483E4(this, globalCtx);
+            func_80B483E4(this, globalCtx);
         }
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4604C.s")
-void func_80B4604C(EnZf *this) {
+void func_80B4604C(EnZf* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06008138, -4.0f);
     this->unk_3DC = 6;
     func_80B44050(this, func_80B46098);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B46098.s")
-void func_80B46098(EnZf *this, GlobalContext *globalCtx) {
+void func_80B46098(EnZf* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 phi_f2;
     Player* player = PLAYER;
@@ -785,7 +786,7 @@ void func_80B46098(EnZf *this, GlobalContext *globalCtx) {
             } else {
                 phi_v1 = (temp_v0 * 0.25f) - 2000.0f;
             }
-            
+
             this->actor.shape.rot.y += phi_v1;
             this->actor.world.rot.y = this->actor.shape.rot.y;
 
@@ -800,7 +801,7 @@ void func_80B46098(EnZf *this, GlobalContext *globalCtx) {
                     phi_f2 = -2.0f;
                 }
             }
-            
+
             this->skelAnime.playSpeed = -phi_f2;
             SkelAnime_Update(&this->skelAnime);
 
@@ -825,7 +826,23 @@ void func_80B46098(EnZf *this, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B462E4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B462E4.s")
+void func_80B462E4(EnZf* this, GlobalContext* globalCtx) {
+    if ((this->actor.params < 0) ||
+        func_800339B8(&this->actor, globalCtx, 40.0f, (s16)(this->actor.shape.rot.y + 0x3FFF)) ||
+        func_800339B8(&this->actor, globalCtx, -40.0f, (s16)(this->actor.shape.rot.y + 0x3FFF))) {
+        Animation_PlayLoop(&this->skelAnime, &D_06016388);
+        this->actor.speedXZ = Rand_CenteredFloat(12.0f);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
+        this->unk_3F0 = (Rand_ZeroOne() * 10.0f) + 20.0f;
+        this->unk_3E4 = 0;
+        this->unk_3DC = 7;
+        this->unk_408 = 0.0f;
+        func_80B44050(this, func_80B463E4);
+    } else {
+        func_80B456B4(this, globalCtx);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B463E4.s")
 
