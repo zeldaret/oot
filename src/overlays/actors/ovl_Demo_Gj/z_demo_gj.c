@@ -424,33 +424,29 @@ s32 func_80978EBC(void) {
     return 1;
 }
 
-s32 func_80978EE4(DemoGj *this, GlobalContext *globalCtx);
-#ifdef NON_MATCHING
-s32 func_80978EE4(DemoGj *this, GlobalContext *globalCtx) {
+s32 DemoGj_FindGanon(DemoGj *this, GlobalContext *globalCtx) {
     Actor* actor;
 
     if (this->ganon == NULL) {
         actor = globalCtx->actorCtx.actorLists[ACTORCAT_BOSS].head;
 
-        for (; actor != NULL; actor = actor->next) {
+        while (actor != NULL) {
             if (actor->id == ACTOR_BOSS_GANON2) {
                 this->ganon = actor;
 
                 // Demo_Gj_Search_Boss_Ganon %d: Discover Ganon !!!!
-                osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params, this);
+                osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見!!!!\n", this->dyna.actor.params);
                 return 1;
             }
+            actor = actor->next;
         }
 
         // Demo_Gj_Search_Boss_Ganon %d: I couldn't find Ganon
-        osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params, this);
+        osSyncPrintf("Demo_Gj_Search_Boss_Ganon %d:ガノン発見出来ず\n", this->dyna.actor.params);
+        return 0;
     }
-
-    return 0;
+    //! @bug: Missing return value when `this->ganon` is already set.
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978EE4.s")
-#endif
 
 void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *arg2) {
     GlobalContext* glb_ctx;
@@ -841,7 +837,7 @@ void func_8097A130(DemoGj *this, GlobalContext* globalCtx) {
 }
 
 void func_8097A160(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097A0E4(this, globalCtx);
 }
 
@@ -903,7 +899,7 @@ void func_8097A36C(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A39C(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097A320(this, globalCtx);
 }
 
@@ -949,7 +945,7 @@ void func_8097A53C(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A56C(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097A4F0(this, globalCtx);
 }
 
@@ -995,7 +991,7 @@ void func_8097A70C(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A73C(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097A6C0(this, globalCtx);
 }
 
@@ -1041,7 +1037,7 @@ void func_8097A8DC(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097A90C(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097A890(this, globalCtx);
 }
 
@@ -1087,7 +1083,7 @@ void func_8097AAAC(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097AADC(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097AA60(this, globalCtx);
 }
 
@@ -1149,7 +1145,7 @@ void func_8097ACE8(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097AD18(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097AC9C(this, globalCtx);
 }
 
@@ -1171,7 +1167,7 @@ void func_8097ADC0(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097ADF0(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097A07C(this, globalCtx);
     func_8097A2B4(this, globalCtx);
     func_8097AC30(this, globalCtx);
@@ -1302,7 +1298,7 @@ void func_8097B22C(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097B340(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097B128(this, globalCtx);
 }
 
@@ -1438,7 +1434,7 @@ void func_8097B750(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097B864(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097B6C4(this, globalCtx);
 }
 
@@ -1519,7 +1515,7 @@ void func_8097BA48(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097BB78(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978EE4(this, globalCtx);
+    DemoGj_FindGanon(this, globalCtx);
     func_8097B9BC(this, globalCtx);
 }
 
