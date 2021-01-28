@@ -17,7 +17,7 @@ typedef struct DemoGj {
     /* 0x0178 */ BossGanon2* ganon;
     /* 0x017C */ s32 unk_17C;
     /* 0x0180 */ s32 unk_180;
-    /* 0x0184 */ ColliderCylinder unk_184[3];
+    /* 0x0184 */ ColliderCylinder cylinders[3];
     /* 0x0268 */ s32 unk_268;
     /* 0x026C */ Vec3f unk_26C;
 } DemoGj; // size = 0x0278
