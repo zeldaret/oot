@@ -24,4 +24,18 @@ typedef struct DemoGj {
 
 extern const ActorInit Demo_Gj_InitVars;
 
+typedef enum DemoGjType {
+    /* 0x04 */ DemoGj_Type_04 = 4,
+    /* 0x08 */ DemoGj_Type_08 = 8,
+    /* 0x09 */ DemoGj_Type_09 = 9,
+    /* 0x0A */ DemoGj_Type_10 = 10,
+    /* 0x0B */ DemoGj_Type_11 = 11,
+    /* 0x0C */ DemoGj_Type_12 = 12,
+    /* 0x0D */ DemoGj_Type_13 = 13,
+    /* 0x0E */ DemoGj_Type_14 = 14,
+    /* 0x10 */ DemoGj_Type_16 = 16,
+    /* 0x11 */ DemoGj_Type_17 = 17,
+    /* 0x16 */ DemoGj_Type_22 = 22,
+} DemoGjType;
+
 #endif

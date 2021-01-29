@@ -88,22 +88,22 @@ static ColliderCylinderInitType1 sCylinderInit3 = {
 };
 
 // velocity
-static Vec3f D_8097BE64 = {
+static Vec3f sVelocity = {
     0.0f, 6.0f, 0.0f
 };
 
 // accel 
-static Vec3f D_8097BE70 = {
+static Vec3f sAccel = {
     0.0f, 0.0f, 0.0f
 };
 
 // primColor
-static Color_RGBA8 D_8097BE7C = {
+static Color_RGBA8 sPrimColor = {
     0, 0, 0, 0
 };
 
 // envColor
-static Color_RGBA8 D_8097BE80 = {
+static Color_RGBA8 sEnvColor = {
     0, 0, 0, 0
 };
 
@@ -279,19 +279,19 @@ s32 DemoGj_Cylinder_HasExploded(DemoGj* this, GlobalContext* globalCtx, Collider
 
 void DemoGj_Cylinder_Destroy(DemoGj* this, GlobalContext* globalCtx) {
     switch (DemoGj_GetType(this)) {
-    case 16:
+    case DemoGj_Type_16:
         Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
         Collider_DestroyCylinder(globalCtx, &this->cylinders[1]);
         Collider_DestroyCylinder(globalCtx, &this->cylinders[2]);
         break;
 
-    case 17:
+    case DemoGj_Type_17:
         Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
         Collider_DestroyCylinder(globalCtx, &this->cylinders[1]);
         Collider_DestroyCylinder(globalCtx, &this->cylinders[2]);
         return;
 
-    case 22:
+    case DemoGj_Type_22:
         Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
         return;
     
@@ -317,10 +317,10 @@ void func_80978AFC(GlobalContext *globalCtx, Vec3f *pos, f32 arg2) {
     func_800283D4(
         globalCtx, 
         pos, 
-        &D_8097BE64, 
-        &D_8097BE70, 
-        &D_8097BE7C, 
-        &D_8097BE80, 
+        &sVelocity, 
+        &sAccel, 
+        &sPrimColor, 
+        &sEnvColor, 
         temp * Rand_ZeroOne() + arg2, 
         0xF, 
         0x5A
@@ -432,7 +432,7 @@ s32 DemoGj_FindGanon(DemoGj *this, GlobalContext *globalCtx) {
     //! @bug: Missing return value when `this->ganon` is already set.
 }
 
-void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *header) {
+void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *header) {
     GlobalContext* globalCtx2 = globalCtx;
     Actor* actor = &this->dyna.actor;
     DynaCollisionContext* colCtx_dyna = &globalCtx2->colCtx.dyna;
@@ -447,18 +447,18 @@ void func_80978F60(DemoGj* this, GlobalContext* globalCtx, CollisionHeader *head
     }
 }
 
-s32 func_80978FCC(DemoGj* this, GlobalContext* globalCtx, s32 updateIndex, s32 drawIndex, CollisionHeader* header) {
+s32 DemoGj_InitSetIndexes(DemoGj* this, GlobalContext* globalCtx, s32 updateIndex, s32 drawIndex, CollisionHeader* header) {
     if (!DemoGj_IsSceneInvalid()) {
         this->updateIndex = updateIndex;
         this->drawIndex = drawIndex;
-        func_80978F60(this, globalCtx, header);
+        DemoGj_InitCommon(this, globalCtx, header);
         return 1; // return true; (?)
     }
     Actor_Kill(&this->dyna.actor);
     return 0; // return false; (?)
 }
 
-void func_80979030(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
+void DemoGj_DrawCommon(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     if (kREG(0) == 0) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
         OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
@@ -519,7 +519,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
     f32 xzPlaneFactor;
 
     switch (DemoGj_GetType(this)) {
-    case 8:
+    case DemoGj_Type_08:
         verticalTranslation = kREG(23);
         vec.x = kREG(24) * 0.01f + 1.0f;
         vec.y = kREG(25) * 0.01f + 1.0f;
@@ -528,7 +528,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
         xzPlaneFactor = kREG(28) * 0.01f + 1.0f;
         break;
 
-    case 9:
+    case DemoGj_Type_09:
         verticalTranslation = kREG(36);
         vec.x = kREG(37) * 0.01f + 1.0f;
         vec.y = kREG(38) * 0.01f + 1.0f;
@@ -537,7 +537,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
         xzPlaneFactor = kREG(41) * 0.01f + 1.0f;
         break;
 
-    case 10:
+    case DemoGj_Type_10:
         verticalTranslation = kREG(49);
         vec.x = kREG(50) * 0.01f + 1.0f;
         vec.y = kREG(51) * 0.01f + 1.0f;
@@ -546,7 +546,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
         xzPlaneFactor = kREG(54) * 0.01f + 1.0f;
         break;
 
-    case 11:
+    case DemoGj_Type_11:
         verticalTranslation = kREG(62);
         vec.x = kREG(63) * 0.01f + 1.0f;
         vec.y = kREG(64) * 0.01f + 1.0f;
@@ -555,7 +555,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
         xzPlaneFactor = kREG(67) * 0.01f + 1.0f;
         break;
 
-    case 12:
+    case DemoGj_Type_12:
         verticalTranslation = kREG(75);
         vec.x = kREG(76) * 0.01f + 1.0f;
         vec.y = kREG(77) * 0.01f + 1.0f;
@@ -564,7 +564,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
         xzPlaneFactor = kREG(80) * 0.01f + 1.0f;
         break;
 
-    case 13:
+    case DemoGj_Type_13:
         verticalTranslation = kREG(88);
         vec.x = kREG(89) * 0.01f + 1.0f;
         vec.y = kREG(90) * 0.01f + 1.0f;
@@ -573,7 +573,7 @@ void DemoGj_Reflect(DemoGj *this, GlobalContext *globalCtx) {
         xzPlaneFactor = kREG(93) * 0.01f + 1.0f;
         break;
 
-    case 14:
+    case DemoGj_Type_14:
         verticalTranslation = kREG(10) + -190.0f;
         vec.x = kREG(9) * 0.01f + 1.0f;
         vec.y = kREG(8) * 0.01f + 1.0f;
@@ -647,7 +647,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
         unk_172 = &this->unk_172;
 
         switch (DemoGj_GetType(this)) {
-        case 8:
+        case DemoGj_Type_08:
             actor->speedXZ = (f32) kREG(16) + 10.0f;
             actor->velocity.y = (f32) kREG(17) + 40.0f;
             unk_172->x = (s16) (kREG(18));
@@ -657,7 +657,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
             actor->gravity = ((f32) kREG(22) * 0.01f) + -5.0f;
             break;
 
-        case 9:
+        case DemoGj_Type_09:
             actor->speedXZ = (f32) kREG(29) + 10.0f;
             actor->velocity.y = (f32) kREG(30) + 40.0f;
             unk_172->x = (s16) (kREG(31));
@@ -667,7 +667,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
             actor->gravity = ((f32) kREG(35) * 0.01f) + -5.0f;
             break;
 
-        case 10:
+        case DemoGj_Type_10:
             actor->speedXZ = (f32) kREG(42) + 10.0f;
             actor->velocity.y = (f32) kREG(43) + 40.0f;
             unk_172->x = (s16) (kREG(44));
@@ -677,7 +677,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
             actor->gravity = ((f32) kREG(48) * 0.01f) + -5.0f;
             break;
 
-        case 11:
+        case DemoGj_Type_11:
             actor->speedXZ = (f32) kREG(55) + 10.0f;
             actor->velocity.y = (f32) kREG(56) + 40.0f;
             unk_172->x = (s16) (kREG(57));
@@ -687,7 +687,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
             actor->gravity = ((f32) kREG(61) * 0.01f) + -5.0f;
             break;
 
-        case 12:
+        case DemoGj_Type_12:
             actor->speedXZ = (f32) kREG(68) + 10.0f;
             actor->velocity.y = (f32) kREG(69) + 40.0f;
             unk_172->x = (s16) (kREG(70));
@@ -697,7 +697,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
             actor->gravity = ((f32) kREG(74) * 0.01f) + -5.0f;
             break;
 
-        case 13:
+        case DemoGj_Type_13:
             actor->speedXZ = (f32) kREG(81) + 10.0f;
             actor->velocity.y = (f32) kREG(82) + 40.0f;
             unk_172->x = (s16) (kREG(83));
@@ -707,7 +707,7 @@ void DemoGj_SetupMovement(DemoGj *this, GlobalContext *globalCtx) {
             actor->gravity = ((f32) kREG(87) * 0.01f) + -5.0f;
             break;
 
-        case 14:
+        case DemoGj_Type_14:
             actor->speedXZ = (f32) kREG(94) + 10.0f;
             actor->velocity.y = (f32) kREG(95) + 70.0f;
             unk_172->x = (s16) (kREG(15));
@@ -746,7 +746,7 @@ void func_80979F9C(DemoGj* this){
 }
 
 void func_80979FD0(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978FCC(this, globalCtx, 1, 2, &D_06001F70);
+    DemoGj_InitSetIndexes(this, globalCtx, 1, 2, &D_06001F70);
 }
 
 void func_8097A000(DemoGj *this, GlobalContext *globalCtx) {
@@ -800,7 +800,7 @@ void DemoGj_Update8(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw2(DemoGj* this, GlobalContext* globalCtx) {
-    func_80979030(this, globalCtx, &D_06001D20);
+    DemoGj_DrawCommon(this, globalCtx, &D_06001D20);
 }
 
 void DemoGj_Draw9(DemoGj* this, GlobalContext* globalCtx) {
@@ -808,7 +808,7 @@ void DemoGj_Draw9(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978FCC(this, globalCtx, 2, 3, &D_06002448);
+    DemoGj_InitSetIndexes(this, globalCtx, 2, 3, &D_06002448);
 }
 
 void func_8097A238(DemoGj *this, GlobalContext *globalCtx) {
@@ -862,7 +862,7 @@ void DemoGj_Update9(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw3(DemoGj* this, GlobalContext* globalCtx) {
-    func_80979030(this, globalCtx, &D_06002160);
+    DemoGj_DrawCommon(this, globalCtx, &D_06002160);
 }
 
 void DemoGj_Draw10(DemoGj* this, GlobalContext* globalCtx) {
@@ -870,7 +870,7 @@ void DemoGj_Draw10(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A444(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978FCC(this, globalCtx, 3, 4, &D_06002850);
+    DemoGj_InitSetIndexes(this, globalCtx, 3, 4, &D_06002850);
 }
 
 void func_8097A474(DemoGj *this, GlobalContext *globalCtx) {
@@ -908,7 +908,7 @@ void DemoGj_Update10(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw4(DemoGj* this, GlobalContext* globalCtx) {
-    func_80979030(this, globalCtx, &D_06002600);
+    DemoGj_DrawCommon(this, globalCtx, &D_06002600);
 }
 
 void DemoGj_Draw11(DemoGj* this, GlobalContext* globalCtx) {
@@ -916,7 +916,7 @@ void DemoGj_Draw11(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A614(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978FCC(this, globalCtx, 4, 5, &D_06002D28);
+    DemoGj_InitSetIndexes(this, globalCtx, 4, 5, &D_06002D28);
 }
 
 void func_8097A644(DemoGj *this, GlobalContext *globalCtx) {
@@ -954,7 +954,7 @@ void DemoGj_Update11(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw5(DemoGj* this, GlobalContext* globalCtx) {
-    func_80979030(this, globalCtx, &D_06002A40);
+    DemoGj_DrawCommon(this, globalCtx, &D_06002A40);
 }
 
 void DemoGj_Draw12(DemoGj* this, GlobalContext* globalCtx) {
@@ -962,7 +962,7 @@ void DemoGj_Draw12(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A7E4(DemoGj* this, GlobalContext* globalCtx) {
-    func_80978FCC(this, globalCtx, 5, 6, &D_06002FE4);
+    DemoGj_InitSetIndexes(this, globalCtx, 5, 6, &D_06002FE4);
 }
 
 void func_8097A814(DemoGj *this, GlobalContext *globalCtx) {
@@ -1000,7 +1000,7 @@ void DemoGj_Update12(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw6(DemoGj *this, GlobalContext *globalCtx) {
-    func_80979030(this, globalCtx, &D_06002E80);
+    DemoGj_DrawCommon(this, globalCtx, &D_06002E80);
 }
 
 void DemoGj_Draw13(DemoGj *this, GlobalContext *globalCtx) {
@@ -1008,7 +1008,7 @@ void DemoGj_Draw13(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097A9B4(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 6, 7, &D_060033E0);
+    DemoGj_InitSetIndexes(this, globalCtx, 6, 7, &D_060033E0);
 }
 
 void func_8097A9E4(DemoGj *this, GlobalContext *globalCtx) {
@@ -1046,7 +1046,7 @@ void DemoGj_Update13(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw7(DemoGj *this, GlobalContext *globalCtx) {
-    func_80979030(this, globalCtx, &D_06003190);
+    DemoGj_DrawCommon(this, globalCtx, &D_06003190);
 }
 
 void DemoGj_Draw14(DemoGj *this, GlobalContext *globalCtx) {
@@ -1054,7 +1054,7 @@ void DemoGj_Draw14(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097AB84(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 7, 8, &D_06003AF0);
+    DemoGj_InitSetIndexes(this, globalCtx, 7, 8, &D_06003AF0);
 }
 
 void func_8097ABB4(DemoGj *this, GlobalContext *globalCtx) {
@@ -1108,7 +1108,7 @@ void DemoGj_Update14(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw8(DemoGj *this, GlobalContext *globalCtx) {
-    func_80979030(this, globalCtx, &D_06003710);
+    DemoGj_DrawCommon(this, globalCtx, &D_06003710);
 }
 
 void DemoGj_Draw15(DemoGj *this, GlobalContext *globalCtx) {
@@ -1116,7 +1116,7 @@ void DemoGj_Draw15(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void func_8097ADC0(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 0, 1, &D_06001B70);
+    DemoGj_InitSetIndexes(this, globalCtx, 0, 1, &D_06001B70);
 }
 
 void DemoGj_Update0(DemoGj *this, GlobalContext *globalCtx) {
@@ -1127,11 +1127,11 @@ void DemoGj_Update0(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw1(DemoGj *this, GlobalContext *globalCtx) {
-    func_80979030(this, globalCtx, &D_06000DC0);
+    DemoGj_DrawCommon(this, globalCtx, &D_06000DC0);
 }
 
 void func_8097AE5C(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 15, 0, NULL);
+    DemoGj_InitSetIndexes(this, globalCtx, 15, 0, NULL);
     DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[0], &sCylinderInit1);
     DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[1], &sCylinderInit1);
     DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[2], &sCylinderInit1);
@@ -1195,7 +1195,7 @@ void func_8097B128(DemoGj *this, GlobalContext *globalCtx) {
     Vec3f *scale = &this->dyna.actor.scale;
 
     if (func_8097983C(this, globalCtx)) {
-        func_80978F60(this, globalCtx, &D_06001F70);
+        DemoGj_InitCommon(this, globalCtx, &D_06001F70);
         this->updateIndex = 18;
         this->drawIndex = 16;
         scale->x *= 0.8f;
@@ -1259,11 +1259,11 @@ void DemoGj_Update18(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw16(DemoGj *this, GlobalContext *globalCtx) {
-    func_80979030(this, globalCtx, &D_06001D20);
+    DemoGj_DrawCommon(this, globalCtx, &D_06001D20);
 }
 
 void func_8097B3C4(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 16, 0, NULL);
+    DemoGj_InitSetIndexes(this, globalCtx, 16, 0, NULL);
     DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[0], &sCylinderInit2);
     DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[1], &sCylinderInit2);
     DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[2], &sCylinderInit2);
@@ -1341,7 +1341,7 @@ void func_8097B6C4(DemoGj *this, GlobalContext *globalCtx) {
     Vec3f *scale = &this->dyna.actor.scale;
 
     if (func_8097983C(this, globalCtx)) {
-        func_80978F60(this, globalCtx, &D_06002448);
+        DemoGj_InitCommon(this, globalCtx, &D_06002448);
         this->updateIndex = 19;
         this->drawIndex = 17;
         scale->x *= 0.8f;
@@ -1392,11 +1392,11 @@ void DemoGj_Update19(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw17(DemoGj *this, GlobalContext *globalCtx) {
-    func_80979030(this, globalCtx, &D_06002160);
+    DemoGj_DrawCommon(this, globalCtx, &D_06002160);
 }
 
 void func_8097B8E8(DemoGj *this, GlobalContext *globalCtx) {
-    func_80978FCC(this, globalCtx, 17, 0, NULL);
+    DemoGj_InitSetIndexes(this, globalCtx, 17, 0, NULL);
     DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[0], &sCylinderInit3);
 }
 
@@ -1421,7 +1421,7 @@ void func_8097B9BC(DemoGj *this, GlobalContext *globalCtx) {
     Vec3f *scale = &this->dyna.actor.scale;
 
     if (func_8097983C(this, globalCtx)) {
-        func_80978F60(this, globalCtx, &D_06003AF0);
+        DemoGj_InitCommon(this, globalCtx, &D_06003AF0);
         this->updateIndex = 20;
         this->drawIndex = 18;
         scale->x *= 0.8f;
@@ -1473,7 +1473,7 @@ void DemoGj_Update20(DemoGj *this, GlobalContext *globalCtx) {
 }
 
 void DemoGj_Draw18(DemoGj *this, GlobalContext *globalCtx) {
-    func_80979030(this, globalCtx, &D_06003710);
+    DemoGj_DrawCommon(this, globalCtx, &D_06003710);
 }
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1493,47 +1493,47 @@ void DemoGj_Init(Actor *thisx, GlobalContext *globalCtx) {
     DemoGj *this = THIS;
 
     switch (DemoGj_GetType(this)) {
-    case 4:
+    case DemoGj_Type_04:
         func_8097ADC0(this, globalCtx);
         return;
 
-    case 8:
+    case DemoGj_Type_08:
         func_80979FD0(this, globalCtx);
         return;
 
-    case 9:
+    case DemoGj_Type_09:
         func_8097A208(this, globalCtx);
         return;
 
-    case 10:
+    case DemoGj_Type_10:
         func_8097A444(this, globalCtx);
         return;
 
-    case 11:
+    case DemoGj_Type_11:
         func_8097A614(this, globalCtx);
         return;
 
-    case 12:
+    case DemoGj_Type_12:
         func_8097A7E4(this, globalCtx);
         return;
 
-    case 13:
+    case DemoGj_Type_13:
         func_8097A9B4(this, globalCtx);
         return;
 
-    case 14:
+    case DemoGj_Type_14:
         func_8097AB84(this, globalCtx);
         return;
 
-    case 16:
+    case DemoGj_Type_16:
         func_8097AE5C(this, globalCtx);
         return;
 
-    case 17:
+    case DemoGj_Type_17:
         func_8097B3C4(this, globalCtx);
         return;
 
-    case 22:
+    case DemoGj_Type_22:
         func_8097B8E8(this, globalCtx);
         return;
 
