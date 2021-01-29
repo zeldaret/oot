@@ -37,7 +37,7 @@ extern AnimationHeader D_06000D98;
 extern AnimationHeader D_060047E0;
 extern AnimationHeader D_06000460;
 
-static ColliderJntSphElementInit D_80AFE020[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -62,7 +62,7 @@ static ColliderJntSphElementInit D_80AFE020[2] = {
     },
 };
 
-static ColliderJntSphInit D_80AFE068 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_HIT6,
         AT_ON | AT_TYPE_ENEMY,
@@ -72,42 +72,42 @@ static ColliderJntSphInit D_80AFE068 = {
         COLSHAPE_JNTSPH,
     },
     2,
-    D_80AFE020,
+    sJntSphElementsInit,
 };
 
-static DamageTable D_80AFE078 = {
-    /* Deku nut      */ DMG_ENTRY(0 , 0x1),
-    /* Deku stick    */ DMG_ENTRY(2 , 0xF),
-    /* Slingshot     */ DMG_ENTRY(1 , 0xF),
-    /* Explosive     */ DMG_ENTRY(2 , 0xF),
-    /* Boomerang     */ DMG_ENTRY(0 , 0x1),
-    /* Normal arrow  */ DMG_ENTRY(2 , 0xF),
-    /* Hammer swing  */ DMG_ENTRY(2 , 0xF),
-    /* Hookshot      */ DMG_ENTRY(0 , 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(1 , 0xE),
-    /* Master sword  */ DMG_ENTRY(2 , 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4 , 0xF),
-    /* Fire arrow    */ DMG_ENTRY(4 , 0x7),
-    /* Ice arrow     */ DMG_ENTRY(2 , 0xF),
-    /* Light arrow   */ DMG_ENTRY(2 , 0xF),
-    /* Unk arrow 1   */ DMG_ENTRY(2 , 0xF),
-    /* Unk arrow 2   */ DMG_ENTRY(0 , 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(0 , 0x0),
-    /* Fire magic    */ DMG_ENTRY(4 , 0x7),
-    /* Ice magic     */ DMG_ENTRY(0 , 0x6),
-    /* Light magic   */ DMG_ENTRY(3 , 0xD),
-    /* Shield        */ DMG_ENTRY(0 , 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(1 , 0xD),
-    /* Giant spin    */ DMG_ENTRY(4 , 0xF),
-    /* Master spin   */ DMG_ENTRY(2 , 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(2 , 0xF),
-    /* Giant jump    */ DMG_ENTRY(8 , 0xF),
-    /* Master jump   */ DMG_ENTRY(4 , 0xF),
-    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
-    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
-    /* Hammer jump   */ DMG_ENTRY(4 , 0xF),
-    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x1),
+    /* Deku stick    */ DMG_ENTRY(2, 0xF),
+    /* Slingshot     */ DMG_ENTRY(1, 0xF),
+    /* Explosive     */ DMG_ENTRY(2, 0xF),
+    /* Boomerang     */ DMG_ENTRY(0, 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xF),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
+    /* Hookshot      */ DMG_ENTRY(0, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0xE),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x7),
+    /* Ice arrow     */ DMG_ENTRY(2, 0xF),
+    /* Light arrow   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0x7),
+    /* Ice magic     */ DMG_ENTRY(0, 0x6),
+    /* Light magic   */ DMG_ENTRY(3, 0xD),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0xD),
+    /* Giant spin    */ DMG_ENTRY(4, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0xF),
+    /* Giant jump    */ DMG_ENTRY(8, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 const ActorInit En_Skb_InitVars = {
@@ -122,9 +122,9 @@ const ActorInit En_Skb_InitVars = {
     (ActorFunc)EnSkb_Draw,
 };
 
-Vec3f D_80AFE0B8 = { 0.0f, 8.0f, 0.0f };
+Vec3f sVelocity = { 0.0f, 8.0f, 0.0f };
 
-Vec3f D_80AFE0C4 = { 0.0f, -1.5f, 0.0f };
+Vec3f sAcceleration = { 0.0f, -1.5f, 0.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
@@ -137,8 +137,8 @@ void EnSkb_SetupAction(EnSkb* this, EnSkbActionFunc actionFunc) {
 
 void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     Vec3f pos;
-    Vec3f vel = D_80AFE0B8;
-    Vec3f accel = D_80AFE0C4;
+    Vec3f vel = sVelocity;
+    Vec3f accel = sAcceleration;
     f32 spreadAngle;
     f32 scale;
 
@@ -148,9 +148,9 @@ void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     pos.z = (Math_CosF(spreadAngle) * 15.0f) + spawnPos->z;
     accel.x = Rand_CenteredFloat(1.0f);
     accel.z = Rand_CenteredFloat(1.0f);
-    vel.y += ((Rand_ZeroOne() - 0.5f) * 4.0f);
+    vel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
     scale = (Rand_ZeroOne() * 5.0f) + 12.0f;
-    EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 2, (scale * 0.8f), -1, 10, 0);
+    EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 2, scale * 0.8f, -1, 10, 0);
     func_80033480(globalCtx, &pos, 10.0f, 1, 150, 0, 1);
 }
 
@@ -160,7 +160,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 paramOffsetArm;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.colChkInfo.damageTable = &D_80AFE078;
+    this->actor.colChkInfo.damageTable = &sDamageTable;
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.colChkInfo.mass = 0xFE;
@@ -171,7 +171,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.naviEnemyId = 0x55;
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80AFE068, this->colliderItem);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
     Actor_SetScale(&this->actor, ((this->actor.params * 0.1f) + 1.0f) * 0.01f);
 
     paramOffsetBody = this->actor.params + 0xA;
@@ -355,7 +355,6 @@ void EnSkb_SetupStunned(EnSkb* this) {
 }
 
 void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
-
     if ((this->actor.bgCheckFlags & 2) != 0) {
         this->actor.speedXZ = 0.0f;
     }
@@ -367,9 +366,9 @@ void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
     if ((this->actor.colorFilterTimer == 0) && ((this->actor.bgCheckFlags & 1) != 0)) {
         if (this->actor.colChkInfo.health == 0) {
             func_80AFD7B4(this, globalCtx);
-            return;
+        } else {
+            func_80AFCD60(this);
         }
-        func_80AFCD60(this);
     }
 }
 
@@ -425,7 +424,7 @@ void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx) {
     if (func_8003305C(&this->actor, &this->unk_28C, globalCtx, 1) != 0) {
-        if (0.01f == this->actor.scale.x) {
+        if (this->actor.scale.x == 0.01f) {
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x10);
         } else {
             if (this->actor.scale.x <= 0.015f) {
@@ -537,10 +536,10 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
             gDPSetEnvColor(POLY_OPA_DISP++, color, color, color, 0xFF);
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 978);
         } else {
-            *dList = 0;
+            *dList = NULL;
         }
     } else if ((limbIndex == 12) && ((this->unk_283 & 2) != 0)) {
-        *dList = 0;
+        *dList = NULL;
     }
     return 0;
 }
