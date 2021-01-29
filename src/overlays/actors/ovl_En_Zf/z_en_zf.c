@@ -1140,7 +1140,7 @@ void func_80B47544(EnZf* this, GlobalContext* globalCtx) {
 
             Animation_Change(&this->skelAnime, D_80B4A280[this->unk_3E4], 1.5f, 0.0f, lastFrame, 2, 0.0f);
         }
-        
+
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
         }
@@ -1900,7 +1900,7 @@ s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
 
     temp_actor = func_80033780(globalCtx, &this->actor, 600.0f);
 
-    if (temp_actor != 0) {
+    if (temp_actor != NULL) {
         temp_yaw = Actor_WorldYawTowardActor(&this->actor, temp_actor) - (s16)(u16)(this->actor.shape.rot.y);
         this->actor.world.rot.y = (this->actor.shape.rot.y) + 0x3FFF;
 
@@ -1950,4 +1950,78 @@ s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49E4C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B49E4C.s")
+s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this) {
+    Actor* temp_actor;
+    s16 temp_yaw;
+    s16 phi_t0;
+    s16 sp1E;
+    s16 sp1C = 0;
+
+    temp_actor = func_80033780(globalCtx, &this->actor, 600.0f);
+    if (temp_actor != NULL) {
+        temp_yaw = (Actor_WorldYawTowardActor(&this->actor, temp_actor) - (s16)(u16)this->actor.shape.rot.y);
+        this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
+
+        phi_t0 = 0;
+
+        if (func_80B44058(this, globalCtx, -70.0f)) {
+            phi_t0 = 1;
+        }
+
+        if (func_80B44058(this, globalCtx, 70.0f)) {
+            phi_t0 |= 2;
+        }
+
+        this->actor.speedXZ = 0.0f;
+
+        if ((ABS(temp_yaw) < 0x2000) || (ABS(temp_yaw) >= 0x6000)) {
+            if (phi_t0 == 0) {
+                if ((globalCtx->gameplayFrames & 1) != 0) {
+                    sp1E = 6;
+                } else {
+                    sp1E = -6;
+                }
+            } else {
+                switch (phi_t0) {
+                    case 1:
+                        sp1E = 6;
+                        break;
+                    case 2:
+                        sp1E = -6;
+                        break;
+                    case 3:
+                        sp1C = 5;
+                        sp1E = 0;
+                        break;
+                }
+            }
+        } else if (ABS(temp_yaw) < 0x5FFF) {
+            if (phi_t0 == 0) {
+                if ((globalCtx->gameplayFrames & 1) != 0) {
+                    sp1E = 6;
+                } else {
+                    sp1E = -6;
+                }
+            } else {
+                switch (phi_t0) {
+                    case 1:
+                        sp1E = 6;
+                        break;
+                    case 2:
+                        sp1E = -6;
+                        break;
+                    case 3:
+                        sp1C = 10;
+                        sp1E = 0;
+                        break;
+                }
+            }
+        }
+
+        this->unk_408 = sp1E;
+        this->unk_40C = sp1C;
+        return 1;
+    }
+    return 0;
+}
