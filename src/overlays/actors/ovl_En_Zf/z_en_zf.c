@@ -49,7 +49,7 @@ void func_80B48CEC(EnZf* this);
 void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
 void func_80B49B60(EnZf* this, f32 arg1);
 s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this);
-
+s32 func_80B49E4C(GlobalContext* globalCtx, EnZf* this);
 
 // Array of platform positions in Dodongo's Cavern miniboss room
 /* static */ Vec3f D_80B4A090[] = {
@@ -163,7 +163,6 @@ static InitChainEntry D_80B4A274[] = {
 AnimationHeader* D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000 };
 
 s32 D_80B4AB30;
-
 
 extern SkeletonHeader D_06006690;
 extern AnimationHeader D_06008138;
@@ -1087,7 +1086,66 @@ void func_80B474E4(EnZf* this) {
     func_80B44050(this, func_80B47544);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47544.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B47544.s")
+void func_80B47544(EnZf* this, GlobalContext* globalCtx) {
+    f32 lastFrame;
+    f32 maxDist = 400.0f;
+
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, (this->actor.yawTowardsPlayer + 0x8000), 1, 4000, 0);
+
+    if (this->actor.world.pos.y >= 420.0f) {
+        maxDist = 250.0f;
+    }
+
+    if ((this->actor.xzDistToPlayer < maxDist) && (this->unk_3E4 != 1)) {
+        this->actor.shape.rot.y = this->actor.world.rot.y;
+        func_80B47360(this, globalCtx);
+    } else {
+        if (this->unk_3E4 != 1) {
+            func_80B49E4C(globalCtx, this);
+        }
+
+        if (SkelAnime_Update(&this->skelAnime)) {
+            this->unk_3E4++;
+
+            if (this->unk_3E4 >= 3) {
+                this->unk_3E4 = 0;
+            }
+
+            if ((this->unk_408 != 0.0f) || (this->unk_40C != 0.0f)) {
+                this->unk_3E4 = 1;
+            }
+
+            lastFrame = Animation_GetLastFrame(D_80B4A280[this->unk_3E4]);
+
+            switch (this->unk_3E4) {
+                case 0:
+                    this->actor.velocity.y = 0.0f;
+                    this->actor.world.pos.y = this->actor.floorHeight;
+                    break;
+                case 1:
+                    this->actor.velocity.y = this->unk_40C + 10.0f;
+                    this->actor.speedXZ = this->unk_408;
+                    this->unk_408 = 0.0f;
+                    this->unk_40C = 0.0f;
+                    break;
+                case 2:
+                    this->actor.world.pos.y = this->actor.floorHeight;
+                    lastFrame = 3.0f;
+                    break;
+                default:
+                    break;
+            }
+
+            Animation_Change(&this->skelAnime, D_80B4A280[this->unk_3E4], 1.5f, 0.0f, lastFrame, 2, 0.0f);
+        }
+        
+        if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
+        }
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B4779C.s")
 void func_80B4779C(EnZf* this, GlobalContext* globalCtx) {
