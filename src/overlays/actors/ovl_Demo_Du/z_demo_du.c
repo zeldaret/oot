@@ -143,7 +143,12 @@ const ActorInit Demo_Du_InitVars = {
     (ActorFunc)DemoDu_Draw,
 };
 */
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/DemoDu_Destroy.s")
+
+void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    DemoDu* this = THIS;
+
+    SkelAnime_Free(&this->unk_14C, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969AF0.s")
 
