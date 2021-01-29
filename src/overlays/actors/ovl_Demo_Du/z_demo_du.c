@@ -16,11 +16,11 @@ extern UNK_TYPE D_06002374;
 extern UNK_TYPE D_0600288C;
 extern UNK_TYPE D_06005458;
 extern UNK_TYPE D_06006104;
-extern UNK_TYPE D_060067CC;
-extern UNK_TYPE D_06006EB0;
+extern AnimationHeader D_060067CC;
+extern AnimationHeader D_06006EB0;
 extern UNK_TYPE D_06007FC0;
-extern UNK_TYPE D_06011CA8;
-extern UNK_TYPE D_06012014;
+extern FlexSkeletonHeader D_06011CA8;
+extern AnimationHeader D_06012014;
 
 
 
@@ -147,9 +147,13 @@ const ActorInit Demo_Du_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969AF0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969B78.s")
+void func_80969B78(DemoDu* this, s16 arg1) {
+    this->unk_190 = arg1;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969B8C.s")
+void func_80969B8C(DemoDu* this, s16 arg1) {
+    this->unk_194 = arg1;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969BA0.s")
 
@@ -169,8 +173,12 @@ const ActorInit Demo_Du_InitVars = {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969DDC.s")
 
-void func_80969E6C(DemoDu* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969E6C.s")
+void func_80969E6C(DemoDu* this, GlobalContext* globalCtx) {
+    SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, &D_06006EB0, NULL, NULL, 0);
+    this->actor.shape.yOffset = -10000.0f;
+    func_80969B78(this, 1);
+    func_80969B8C(this, 3);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969EDC.s")
 
@@ -204,8 +212,10 @@ void func_80969E6C(DemoDu* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A338.s")
 
-void func_8096A360(DemoDu* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A360.s")
+void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
+    SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, NULL, NULL, NULL, 0);
+    this->unk_198 = 7;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A3B4.s")
 
@@ -281,8 +291,20 @@ void func_8096A360(DemoDu* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B3A4.s")
 
-void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B3E4.s")
+void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx) {
+    GlobalContext* globalCtx2 = globalCtx;
+    SkelAnime* unk_14C = &this->unk_14C;
+
+    s32 pad;
+
+    f32 lastFrame;
+
+    lastFrame = (f32) Animation_GetLastFrame(&D_06012014);
+    SkelAnime_InitFlex(globalCtx2, unk_14C, &D_06011CA8, NULL, NULL, NULL, 0);
+    Animation_Change(unk_14C, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
+    this->unk_198 = 0x15;
+    this->actor.shape.shadowAlpha = 0;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B488.s")
 
@@ -302,8 +324,13 @@ void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B840.s")
 
-void func_8096BA2C(DemoDu* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BA2C.s")
+void func_8096BA2C(DemoDu* this, GlobalContext* globalCtx) {
+    SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, &D_060067CC, NULL, NULL, 0);
+    this->unk_198 = 0x18;
+    this->unk_19C = NULL;
+    this->actor.shape.shadowAlpha = 0;
+    func_80969B8C(this, (u16)3);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BA98.s")
 
@@ -333,7 +360,6 @@ void func_8096BA2C(DemoDu* this, GlobalContext* globalCtx);
 
 void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
-    //s16 temp_v0;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     switch (this->actor.params) {
