@@ -35,7 +35,7 @@ typedef enum DemoGjType {
     /* 0x0E */ DemoGj_Type_14 = 14,
     /* 0x10 */ DemoGj_Type_16 = 16,
     /* 0x11 */ DemoGj_Type_17 = 17,
-    /* 0x16 */ DemoGj_Type_22 = 22,
+    /* 0x16 */ DemoGj_Type_22 = 22
 } DemoGjType;
 
 #endif

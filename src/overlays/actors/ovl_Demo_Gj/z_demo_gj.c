@@ -186,18 +186,21 @@ const ActorInit Demo_Gj_InitVars = {
 // bits 11-15
 s32 DemoGj_GetCollectibleType(DemoGj* this) {
     s32 params = this->dyna.actor.params >> 0xB;
+
     return params & 0x1F;
 }
 
 // bits 8-10
 s32 DemoGj_GetCollectibleAmount(DemoGj* this) {
     s32 params = this->dyna.actor.params >> 0x8;
+
     return params & 7;
 }
 
 // bits 0-7
 s32 DemoGj_GetType(DemoGj* this) {
     s32 params = this->dyna.actor.params;
+
     return params & 0xFF;
 }
 
@@ -239,6 +242,7 @@ void DemoGj_Cylinder_Destroy(DemoGj* this, GlobalContext* globalCtx) {
 
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
+
     DemoGj_Cylinder_Destroy(this, globalCtx);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
@@ -307,7 +311,7 @@ void func_80978C20(DemoGj* this, GlobalContext* globalCtx, Vec3f* arg2, Vec3f* a
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg2, -0xC8, phi_s0, 0xA, 0xA, 0,
                              Rand_ZeroOne() * 20.0f + 20.0f, 0x14, 0x12C, (s32)(Rand_ZeroOne() * 30.0f) + 0x1E, -1,
-                             0x186, &D_06000EA0);
+                             OBJECT_GEFF, &D_06000EA0);
 
         theta += 0x2AAA;
     }
@@ -376,6 +380,7 @@ s32 DemoGj_InitSetIndexes(DemoGj* this, GlobalContext* globalCtx, s32 updateInde
 void DemoGj_DrawCommon(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     if (kREG(0) == 0) {
         GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+
         OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1163);
 
         func_80093D18(gfxCtx);
@@ -403,7 +408,7 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
 
     gfxCtx = globalCtx2->state.gfxCtx;
 
-    matrix = Graph_Alloc(gfxCtx, 0x40);
+    matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
 
@@ -424,11 +429,9 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
 // TODO: find a better name
 void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
     f32 yPosition = this->dyna.actor.world.pos.y;
-
     f32* yVelocity = &this->dyna.actor.velocity.y;
     f32* speedXZ = &this->dyna.actor.speedXZ;
     Vec3s* unk_172 = &this->unk_172;
-
     f32 verticalTranslation;
     Vec3f vec;
     f32 verticalFactor;
@@ -549,11 +552,9 @@ s32 func_8097983C(DemoGj* this, GlobalContext* globalCtx) {
 // TODO: find a better name
 void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
     Actor* actor = &this->dyna.actor;
-
     Player* player;
     Vec3f* pos = &actor->world.pos;
     Vec3s* unk_172;
-
     f32 xDistance;
     f32 zDistance;
 
@@ -1137,10 +1138,8 @@ s32 DemoGj_Cylinder_AnyHasExploded(DemoGj* this, GlobalContext* globalCtx) {
 
 void func_8097B22C(DemoGj* this, GlobalContext* globalCtx) {
     s32 pad;
-
     Vec3f vec1;
     Vec3f vec2;
-
     Actor* actor = &this->dyna.actor;
 
     if (func_809797E4(this, 4)) {
@@ -1396,15 +1395,14 @@ void DemoGj_Draw18(DemoGj* this, GlobalContext* globalCtx) {
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
-    DemoGjActionFunc func;
 
-    if (this->updateIndex < 0 || this->updateIndex >= 21 || (func = sUpdateFuncs[this->updateIndex]) == NULL) {
+    if (this->updateIndex < 0 || this->updateIndex >= 21 || sUpdateFuncs[this->updateIndex] == NULL) {
         // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    func(this, globalCtx);
+    sUpdateFuncs[this->updateIndex](this, globalCtx);
 }
 
 void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -1468,13 +1466,12 @@ void DemoGj_Draw0(DemoGj* this, GlobalContext* globalCtx) {
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
-    DemoGjActionFunc func;
 
-    if (this->drawIndex < 0 || this->drawIndex >= 19 || (func = sDrawFuncs[this->drawIndex]) == NULL) {
+    if (this->drawIndex < 0 || this->drawIndex >= 19 || sDrawFuncs[this->drawIndex] == NULL) {
         // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    func(this, globalCtx);
+    sDrawFuncs[this->drawIndex](this, globalCtx);
 }
