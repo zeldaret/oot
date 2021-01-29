@@ -75,9 +75,40 @@ static ColliderJntSphInit D_80AFE068 = {
     D_80AFE020,
 };
 
-static DamageTable D_80AFE078[] = { 0x10, 0xF2, 0xF1, 0xF2, 0x10, 0xF2, 0xF2, 0x10, 0xE1, 0xF2, 0xF4,
-                                    0x74, 0xF2, 0xF2, 0xF2, 0x00, 0x00, 0x74, 0x60, 0xD3, 0x00, 0x00,
-                                    0xD1, 0xF4, 0xF2, 0xF2, 0xF8, 0xF4, 0x00, 0x00, 0xF4, 0x00 };
+static DamageTable D_80AFE078 = {
+    /* Deku nut      */ DMG_ENTRY(0 , 0x1),
+    /* Deku stick    */ DMG_ENTRY(2 , 0xF),
+    /* Slingshot     */ DMG_ENTRY(1 , 0xF),
+    /* Explosive     */ DMG_ENTRY(2 , 0xF),
+    /* Boomerang     */ DMG_ENTRY(0 , 0x1),
+    /* Normal arrow  */ DMG_ENTRY(2 , 0xF),
+    /* Hammer swing  */ DMG_ENTRY(2 , 0xF),
+    /* Hookshot      */ DMG_ENTRY(0 , 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(1 , 0xE),
+    /* Master sword  */ DMG_ENTRY(2 , 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0xF),
+    /* Fire arrow    */ DMG_ENTRY(4 , 0x7),
+    /* Ice arrow     */ DMG_ENTRY(2 , 0xF),
+    /* Light arrow   */ DMG_ENTRY(2 , 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(2 , 0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(0 , 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0 , 0x0),
+    /* Fire magic    */ DMG_ENTRY(4 , 0x7),
+    /* Ice magic     */ DMG_ENTRY(0 , 0x6),
+    /* Light magic   */ DMG_ENTRY(3 , 0xD),
+    /* Shield        */ DMG_ENTRY(0 , 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1 , 0xD),
+    /* Giant spin    */ DMG_ENTRY(4 , 0xF),
+    /* Master spin   */ DMG_ENTRY(2 , 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(2 , 0xF),
+    /* Giant jump    */ DMG_ENTRY(8 , 0xF),
+    /* Master jump   */ DMG_ENTRY(4 , 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4 , 0xF),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+};
 
 const ActorInit En_Skb_InitVars = {
     ACTOR_EN_SKB,
@@ -95,8 +126,7 @@ Vec3f D_80AFE0B8 = { 0.0f, 8.0f, 0.0f };
 
 Vec3f D_80AFE0C4 = { 0.0f, -1.5f, 0.0f };
 
-// sInitChain
-static InitChainEntry D_80AFE0D0[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
 };
@@ -126,12 +156,11 @@ void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
-
     s16 paramOffsetBody;
     s16 paramOffsetArm;
 
-    Actor_ProcessInitChain(&this->actor, D_80AFE0D0);
-    this->actor.colChkInfo.damageTable = D_80AFE078;
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    this->actor.colChkInfo.damageTable = &D_80AFE078;
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 0.0f);
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.colChkInfo.mass = 0xFE;
@@ -148,7 +177,7 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     paramOffsetBody = this->actor.params + 0xA;
     this->collider.elements[0].dim.worldSphere.radius = paramOffsetBody;
     this->collider.elements[0].dim.modelSphere.radius = paramOffsetBody;
-    if (1) {}; // Yay...
+    if (1) {};
     paramOffsetArm = (this->actor.params * 2) + 0x14;
     this->collider.elements[1].dim.worldSphere.radius = paramOffsetArm;
     this->collider.elements[1].dim.modelSphere.radius = paramOffsetArm;
@@ -158,7 +187,6 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSkb_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-
     EnSkb* this = THIS;
     if (this->actor.parent != NULL) {
         EnEncount1* spawner = (EnEncount1*)this->actor.parent;
