@@ -489,83 +489,49 @@ void func_80B44DC4(EnZf* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44E8C.s")
-s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this);
-/* s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this) {
-    // s16 sp2E;
-    // Actor *sp28;
-    // Actor *temp_a1;
-    Actor* temp_v0_2;
-    s16 temp_t0;
-    s16 temp_t0_2;
-    s16 temp_v0;
-    s16 temp_v1;
-    s16 temp_v1_2;
-    s16 phi_t0;
-    s32 phi_v0;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44E8C.s")
+s32 func_80B44E8C(GlobalContext* globalCtx, EnZf* this) {
+    s16 angleToWall;
+    Actor* explosive;
+    
+    angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
+    angleToWall = ABS(angleToWall);
 
-    temp_v0 = this->actor.shape.rot.y;
-    temp_t0 = this->actor.wallYaw - temp_v0;
-    phi_t0 = temp_t0;
-    if ((s32)temp_t0 < 0) {
-        phi_t0 = (s16)(0 - temp_t0);
-    }
-    // sp2E = phi_t0;
-    temp_t0_2 = phi_t0;
-    if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x5DC0, 0x2AA8, temp_v0)) {
-        temp_v1 = this->actor.yawTowardsPlayer;
-        this->actor.world.rot.y = temp_v1;
-        this->actor.shape.rot.y = temp_v1;
-        if ((this->actor.bgCheckFlags & 8) == 0) {
-        block_9:
-            if (!(this->actor.xzDistToPlayer < 90.0f)) {
-            block_12:
-                func_80B46E8C(this);
-                return 1;
-            }
-            if ((globalCtx->gameplayFrames & 1) == 0) {
-                goto block_12;
-            }
+    if (func_800354B4(globalCtx, &this->actor, 100.0f, 0x5DC0, 0x2AA8, this->actor.shape.rot.y)) {
+        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+
+        if ((this->actor.bgCheckFlags & 8) && (ABS(angleToWall) < 0x2EE0) && (this->actor.xzDistToPlayer < 80.0f)) {
             func_80B48210(this);
-            return 1;
-        }
-        phi_v0 = 0 - temp_t0_2;
-        if ((s32)temp_t0_2 >= 0) {
-            phi_v0 = (s32)temp_t0_2;
-        }
-        if (phi_v0 >= 0x2EE0) {
-            goto block_9;
-        }
-        if (!(this->actor.xzDistToPlayer < 80.0f)) {
-            goto block_9;
-        }
-        func_80B48210(this);
-        return 1;
-    }
-    // sp2E = temp_t0_2;
-    temp_v0_2 = Actor_FindNearby(globalCtx, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
-    // temp_a1 = temp_v0_2;
-    if (temp_v0_2 != NULL) {
-        temp_v1_2 = this->actor.yawTowardsPlayer;
-        this->actor.world.rot.y = temp_v1_2;
-        this->actor.shape.rot.y = temp_v1_2;
-        if (((this->actor.bgCheckFlags & 8)) || (temp_t0_2  0x2EE0)) {
-            if (temp_v0_2->id != ACTOR_EN_BOM_CHU) {
-                func_80B46E8C(this);
-                return 1;
-            }
-        }
-        if ((temp_v0_2->id != ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(&this->actor, temp_v0_2) < 80.0f) &&
-            ((s16)((this->actor.shape.rot.y - temp_v0_2->world.rot.y) + 0x8000) < 0x3E80)) {
+            return true;
+        } else if ((this->actor.xzDistToPlayer < 90.0f) && ((globalCtx->gameplayFrames & 1) != 0)) {
             func_80B48210(this);
-            return 1;
+            return true;
+        } else {
+            func_80B46E8C(this);
+            return true;
         }
-        func_80B49B60(this, 4.0f);
-        return 1;
-        // sp28 = temp_a1;
     }
-    return 0;
-} */
+
+    explosive = Actor_FindNearby(globalCtx, &this->actor, -1, ACTORCAT_EXPLOSIVE, 80.0f);
+    
+    if (explosive != NULL) {
+        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        if (((this->actor.bgCheckFlags & 8) && (angleToWall < 0x2EE0)) || (explosive->id == ACTOR_EN_BOM_CHU)) {
+            if ((explosive->id == ACTOR_EN_BOM_CHU) && (Actor_WorldDistXYZToActor(&this->actor, explosive) < 80.0f) &&
+                ((s16)((this->actor.shape.rot.y - explosive->world.rot.y) + 0x8000) < 0x3E80)) {
+                func_80B48210(this);
+                return true;
+            } else {
+                func_80B49B60(this, 4.0f);
+                return true;
+            }
+        } else {
+            func_80B46E8C(this);
+            return true;
+        }
+    }
+    return false;
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B450AC.s")
 void func_80B450AC(EnZf* this) {
