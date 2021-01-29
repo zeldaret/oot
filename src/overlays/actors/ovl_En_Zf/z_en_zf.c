@@ -50,6 +50,7 @@ void func_80B48E50(EnZf* this, GlobalContext* globalCtx);
 void func_80B49B60(EnZf* this, f32 arg1);
 s32 func_80B49C2C(GlobalContext* globalCtx, EnZf* this);
 
+
 // Array of platform positions in Dodongo's Cavern miniboss room
 /* static */ Vec3f D_80B4A090[] = {
     { 3560.0f, 100.0f, -1517.0f }, { 3170.0f, 100.0f, -1767.0f }, { 3165.0f, 100.0f, -2217.0f },
@@ -161,7 +162,8 @@ static InitChainEntry D_80B4A274[] = {
 
 AnimationHeader* D_80B4A280[] = { 0x0601081C, 0x06010CAC, 0x06011070, 0x44898000, 0xC42F0000, 0x00000000 };
 
-s32 D_80B4AB30 = 0;
+s32 D_80B4AB30;
+
 
 extern SkeletonHeader D_06006690;
 extern AnimationHeader D_06008138;
@@ -1023,8 +1025,8 @@ void func_80B47120(EnZf* this, GlobalContext* globalCtx) {
                 angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
                 angleToWall = ABS(angleToWall);
 
-                if ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 8) != 0) && (ABS(angleToWall) < 0x2EE0) &&
-                    (this->actor.xzDistToPlayer < 90.0f)) {
+                if ((this->actor.params == -2) && ((this->actor.bgCheckFlags & 8) != 0) &&
+                    (ABS(angleToWall) < 0x2EE0) && (this->actor.xzDistToPlayer < 90.0f)) {
                     this->actor.world.rot.y = this->actor.shape.rot.y;
                     func_80B48210(this);
                 } else if (func_80B49C2C(globalCtx, this) == 0) {
