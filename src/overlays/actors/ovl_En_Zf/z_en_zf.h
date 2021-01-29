@@ -31,7 +31,7 @@ typedef struct EnZf {
     /* 0x0404 */ u8 unk_404;
     /* 0x0405 */ char unk_405[0x3];
     /* 0x0408 */ f32 unk_408;
-    /* 0x0408 */ char unk_40C[0x4];
+    /* 0x0408 */ f32 unk_40C;
     /* 0x0408 */ u8 unk_410;
     /* 0x0408 */ char unk_411[0x3];
     /* 0x0414 */ s32 blureIndex;
