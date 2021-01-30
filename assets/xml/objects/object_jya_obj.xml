@@ -2,42 +2,42 @@
 	<File Name="object_jya_obj" Segment="6">
 		<DList Name="g1fliftDlist" Offset="0x1F0"/>
 		<Collision Name="g1fliftCol" Offset="0x4A8" />
-		<Texture Name="g1f1fiftTopTex" Format="rgb5a1" Width="32" Height="32" Offset="0x1B940"/>
-		<Texture Name="g1fLiftBottomTex" Format="rgb5a1" Width="32" Height="32" Offset="0x17540"/>
+		<Texture Name="g1f1fiftTopTex" OutName="1flift_top" Format="rgb5a1" Width="32" Height="32" Offset="0x1B940"/>
+		<Texture Name="g1fLiftBottomTex" OutName="1flift_bottom" Format="rgb5a1" Width="32" Height="32" Offset="0x17540"/>
 		<DList Name="gAmishutterDlist" Offset="0xC0A0"/>
 		<Collision Name="gAmishutterCol" Offset="0xC4C8" />
 		<DList Name="gBigMirrorDlist1" Offset="0xBC70"/>
 		<DList Name="gBigMirrorDlist2" Offset="0xBD80"/>
 		<DList Name="gBigMirrorDlist3" Offset="0xE1B0"/>
 		<DList Name="gBigMirrorDlist4" Offset="0xE2D0"/>
-		<Texture Name="gBigMirrorGradientTex" Format="ia16" Width="8" Height="128" Offset="0x1AB40"/>
+		<Texture Name="gBigMirrorGradientTex" OutName="mirror_gradient" Format="ia16" Width="8" Height="128" Offset="0x1AB40"/>
 		<DList Name="gBombchuiwaDlist" Offset="0xE8D0"/>
 		<DList Name="gBombchuiwaLightDlist1" Offset="0xDC40"/>
 		<DList Name="gBombchuiwaLightDlist2" Offset="0xDB60"/>
 		<DList Name="gBombchuiwaDlist2" Offset="0x119B0"/>
 		<DList Name="gBombiwaDlist" Offset="0xE490"/>
 		<DList Name="gBombiwaEffectDlist" Offset="0xEDC0"/>
-		<Texture Name="gBombiwaRockTex" Format="rgb5a1" Width="32" Height="64" Offset="0x18B40"/>
-		<Texture Name="gBombiwaLightTex1" Format="ia16" Width="32" Height="64" Offset="0x19B40"/>
+		<Texture Name="gBombiwaRockTex" OutName="bombiwa_rock" Format="rgb5a1" Width="32" Height="64" Offset="0x18B40"/>
+		<Texture Name="gBombiwaLightTex1" OutName="bombiwa_light" Format="ia16" Width="32" Height="64" Offset="0x19B40"/>
 		<Collision Name="gBombiwaCol" Offset="0xE710" />
 		<DList Name="gCobraDlist1" Offset="0x10790"/>
 		<DList Name="gCobraDlist2" Offset="0x10C20"/>
 		<Collision Name="gCobraCol" Offset="0x1167C" />
 		<DList Name="gCobraDlist3" Offset="0x117D0"/>
-		<Texture Name="gCobraMirrorStoneTex" Format="rgb5a1" Width="32" Height="32" Offset="0x13D40"/>
-		<Texture Name="gCobraMirrorBorderTex" Format="rgb5a1" Width="16" Height="16" Offset="0x15D40"/>
-		<Texture Name="gCobraMirrorEyeTex" Format="rgb5a1" Width="32" Height="32" Offset="0x15540"/>
-		<Texture Name="gCobraMirrorHandleTex" Format="rgb5a1" Width="32" Height="8" Offset="0x15F40"/>
-		<Texture Name="gCobraMirrorMirrorTex" Format="ia16" Width="32" Height="32" Offset="0x14540"/>
-		<Texture Name="gCobraMirrorToothTex" Format="ia16" Width="32" Height="32" Offset="0x14D40"/>
+		<Texture Name="gCobraMirrorStoneTex" OutName="cobra_stone" Format="rgb5a1" Width="32" Height="32" Offset="0x13D40"/>
+		<Texture Name="gCobraMirrorBorderTex" OutName="cobra_boarder" Format="rgb5a1" Width="16" Height="16" Offset="0x15D40"/>
+		<Texture Name="gCobraMirrorEyeTex" OutName="cobra_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x15540"/>
+		<Texture Name="gCobraMirrorHandleTex" OutName="cobra_handle" Format="rgb5a1" Width="32" Height="8" Offset="0x15F40"/>
+		<Texture Name="gCobraMirrorMirrorTex" OutName="cobra_mirror" Format="ia16" Width="32" Height="32" Offset="0x14540"/>
+		<Texture Name="gCobraMirrorToothTex" OutName="cobra_tooth" Format="ia16" Width="32" Height="32" Offset="0x14D40"/>
 		<DList Name="gKanaamiDlist" Offset="0xF000"/>
 		<Collision Name="gKanaamiCol" Offset="0xF208" />
-		<Texture Name="gKanaamiTopTex" Format="rgb5a1" Width="32" Height="64" Offset="0x12540"/>
-		<Texture Name="gKanaamiMiddleTex" Format="rgb5a1" Width="32" Height="32" Offset="0x13540"/>
+		<Texture Name="gKanaamiTopTex" OutName="kanaami_top" Format="rgb5a1" Width="32" Height="64" Offset="0x12540"/>
+		<Texture Name="gKanaamiMiddleTex" OutName="kanaami_middle" Format="rgb5a1" Width="32" Height="32" Offset="0x13540"/>
 		<DList Name="gLiftDlist" Offset="0xCCE0"/>
-		<Texture Name="gLiftChainTex" Format="rgb5a1" Width="16" Height="32" Offset="0x17D40"/>
-		<Texture Name="gLiftTopTex" Format="rgb5a1" Width="16" Height="64" Offset="0x18140"/>
-		<Texture Name="gLiftUpperChainTex" Format="rgb5a1" Width="8" Height="32" Offset="0x18940"/>
+		<Texture Name="gLiftChainTex" OutName="lift_chain" Format="rgb5a1" Width="16" Height="32" Offset="0x17D40"/>
+		<Texture Name="gLiftTopTex" OutName="lift_top" Format="rgb5a1" Width="16" Height="64" Offset="0x18140"/>
+		<Texture Name="gLiftUpperChainTex" OutName="lift_upper_chain" Format="rgb5a1" Width="8" Height="32" Offset="0x18940"/>
 		<Collision Name="gLiftCol" Offset="0xD7E8" />
 		<DList Name="gMegamiDlist1" Offset="0x5780"/>
 		<Collision Name="GMegamiCol" Offset="0x5C4C" />
@@ -55,24 +55,24 @@
 		<DList Name="gMegamiPieceDlist11" Offset="0xA7E0"/>
 		<DList Name="gMegamiPieceDlist12" Offset="0xA978"/>
 		<DList Name="gMegamiPieceDlist13" Offset="0xAAC8"/>
-		<Texture Name="gMegamiPalette1" Format="rgb5a1" Width="4" Height="4" Offset="0x5C80"/>
-		<Texture Name="gMegamiTex1" Format="ci4" Width="64" Height="64" Offset="0x5CE8"/>
-		<Texture Name="gMegamiPalette2" Format="rgb5a1" Width="4" Height="4" Offset="0xAC50"/>
-		<Texture Name="gMegamiTex2" Format="ci4" Width="64" Height="64" Offset="0xACB8"/>
-		<Texture Name="gMegamiPalette3" Format="rgb5a1" Width="4" Height="64" Offset="0x6CE8"/>
-		<Texture Name="gMegamiTex3" Format="ci4" Width="64" Height="64" Offset="0x64E8"/>
-		<Texture Name="gMegamiPalette4" Format="rgb5a1" Width="4" Height="4" Offset="0x5CA0"/>
-		<Texture Name="gMegamiPalette5" Format="rgb5a1" Width="4" Height="4" Offset="0xAC70"/>
-		<Texture Name="gMeagmiRightCrumbleTex1" Format="ci4" Width="64" Height="64" Offset="0xD00"/>
-		<Texture Name="gMeagmiRightCrumbleTex2" Format="ci4" Width="64" Height="64" Offset="0x1D00"/>
-		<Texture Name="gMeagmiRightCrumbleTex3" Format="ci4" Width="64" Height="64" Offset="0x2500"/>
-		<Texture Name="gMeagmiRightCrumbleTex4" Format="ci4" Width="64" Height="64" Offset="0x2D00"/>
-		<Texture Name="gMeagmiRightCrumbleTex5" Format="ci4" Width="64" Height="64" Offset="0x4D00"/>
-		<Texture Name="gMeagmiLeftCrumbleTex1" Format="ci4" Width="64" Height="64" Offset="0x1500"/>
-		<Texture Name="gMeagmiLeftCrumbleTex2" Format="ci4" Width="64" Height="64" Offset="0x3500"/>
-		<Texture Name="gMeagmiLeftCrumbleTex3" Format="ci4" Width="64" Height="64" Offset="0x3D00"/>
-		<Texture Name="gMeagmiLeftCrumbleTex4" Format="ci4" Width="64" Height="64" Offset="0x4500"/>
-		<Texture Name="gMeagmiLeftCrumbleTex5" Format="ci4" Width="64" Height="64" Offset="0x0500"/>
+		<Texture Name="gMegamiPalette1" OutName="megami_palette_1" Format="rgb5a1" Width="4" Height="4" Offset="0x5C80"/>
+		<Texture Name="gMegamiTex1" OutName="megami_tex_1" Format="ci4" Width="64" Height="64" Offset="0x5CE8"/>
+		<Texture Name="gMegamiPalette2" OutName="megami_palette_2" Format="rgb5a1" Width="4" Height="4" Offset="0xAC50"/>
+		<Texture Name="gMegamiTex2" OutName="megami_tex_2" Format="ci4" Width="64" Height="64" Offset="0xACB8"/>
+		<Texture Name="gMegamiPalette3" OutName="megami_palette_3" Format="rgb5a1" Width="4" Height="64" Offset="0x6CE8"/>
+		<Texture Name="gMegamiTex3" OutName="megami_tex_3" Format="ci4" Width="64" Height="64" Offset="0x64E8"/>
+		<Texture Name="gMegamiPalette4" OutName="megami_palette_4" Format="rgb5a1" Width="4" Height="4" Offset="0x5CA0"/>
+		<Texture Name="gMegamiPalette5" OutName="megami_palette_5" Format="rgb5a1" Width="4" Height="4" Offset="0xAC70"/>
+		<Texture Name="gMeagmiRightCrumbleTex1" OutName="megami_right_crumble_1" Format="ci4" Width="64" Height="64" Offset="0xD00"/>
+		<Texture Name="gMeagmiRightCrumbleTex2" OutName="megami_right_crumble_2" Format="ci4" Width="64" Height="64" Offset="0x1D00"/>
+		<Texture Name="gMeagmiRightCrumbleTex3" OutName="megami_right_crumble_3" Format="ci4" Width="64" Height="64" Offset="0x2500"/>
+		<Texture Name="gMeagmiRightCrumbleTex4" OutName="megami_right_crumble_4" Format="ci4" Width="64" Height="64" Offset="0x2D00"/>
+		<Texture Name="gMeagmiRightCrumbleTex5" OutName="megami_right_crumble_5" Format="ci4" Width="64" Height="64" Offset="0x4D00"/>
+		<Texture Name="gMeagmiLeftCrumbleTex1" OutName="megami_left_crumble_1" Format="ci4" Width="64" Height="64" Offset="0x1500"/>
+		<Texture Name="gMeagmiLeftCrumbleTex2" OutName="megami_left_crumble_2" Format="ci4" Width="64" Height="64" Offset="0x3500"/>
+		<Texture Name="gMeagmiLeftCrumbleTex3" OutName="megami_left_crumble_3" Format="ci4" Width="64" Height="64" Offset="0x3D00"/>
+		<Texture Name="gMeagmiLeftCrumbleTex4" OutName="megami_left_crumble_4" Format="ci4" Width="64" Height="64" Offset="0x4500"/>
+		<Texture Name="gMeagmiLeftCrumbleTex5" OutName="megami_left_crumble_5" Format="ci4" Width="64" Height="64" Offset="0x0500"/>
 		<DList Name="gZurerukabeDlist" Offset="0x12340"/>
 		<Collision Name="gZurerukabeCol" Offset="0x12508" />
 	</File>
