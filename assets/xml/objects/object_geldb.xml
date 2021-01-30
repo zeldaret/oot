@@ -17,9 +17,9 @@
         <Animation Name="gGerudoRedStandAnim" Offset="0xB07C"/>
 
         <!-- Red-clothed Gerudo eye textures -->
-        <Texture Name="gGerudoRedEyeOpenTex" Format="ci8" Width="32" Height="32" Offset="0x5FE8"/>
-        <Texture Name="gGerudoRedEyeHalfTex" Format="ci8" Width="32" Height="32" Offset="0x65A8"/>
-        <Texture Name="gGerudoRedEyeShutTex" Format="ci8" Width="32" Height="32" Offset="0x6D28"/>
+        <Texture Name="gGerudoRedEyeOpenTex" OutName="gerudo_red_eye_open" Format="ci8" Width="32" Height="32" Offset="0x5FE8"/>
+        <Texture Name="gGerudoRedEyeHalfTex" OutName="gerudo_red_eye_half" Format="ci8" Width="32" Height="32" Offset="0x65A8"/>
+        <Texture Name="gGerudoRedEyeShutTex" OutName="gerudo_red_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x6D28"/>
 
         <!-- These hints are currently needed for ZAPD to extract the textures properly. -->
         <Texture Name="sGerudoRedTexHint1" Format="rgb5a1" Width="18" Height="14" Offset="0x5D30"/>
