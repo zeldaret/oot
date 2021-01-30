@@ -26,21 +26,30 @@ def count_non_matching():
     overlays = {}
 
     for root, dirs, files in os.walk(asm_dir):
-        for dir in dirs:
+        for actor_dir in dirs:
             total_size = 0
             max_size = -1
-            ovl_path = os.path.join(root, dir)
+            ovl_path = os.path.join(root, actor_dir)
             num_files = 0
+
+            actor_funcs = {}
+
             for root2, dirs2, files2 in os.walk(ovl_path):
                 for f_name in files2:
+                    file_path = os.path.join(ovl_path, f_name)
+                    file_size = get_num_instructions(file_path)
+
                     num_files += 1
-                    file_size = get_num_instructions(
-                        os.path.join(ovl_path, f_name))
                     total_size += file_size
                     if file_size > max_size:
                         max_size = file_size
-            overlays[dir] = (num_files, max_size, total_size,
-                             total_size / num_files, "", "")
+                    actor_funcs[f_name] = file_size
+
+            overlays[actor_dir] = {
+                "summary": (num_files, max_size, total_size, 
+                    total_size / num_files),
+                "funcs": actor_funcs
+            }
     
     return overlays
 
@@ -77,28 +86,36 @@ def count_build():
     overlays = {}
 
     for root, dirs, files in os.walk(build_dir):
-        for dir in dirs:
+        for actor_dir in dirs:
             total_size = 0
             max_size = -1
-            ovl_path = os.path.join(root, dir)
+            ovl_path = os.path.join(root, actor_dir)
             num_files = 0
+
+            actor_funcs = {}
+
             for f_name in os.listdir(ovl_path):
                 if not f_name.endswith(".s"):
                     continue
                 if f_name.endswith("_reloc.s"):
                     continue
 
-                funcs = count_builded_funcs_and_instructions(
-                    os.path.join(ovl_path, f_name))
+                file_path = os.path.join(ovl_path, f_name)
+                funcs = count_builded_funcs_and_instructions(file_path)
                 
                 if len(funcs) > 0:
                     num_files += len(funcs)
                     # round up the file size to a multiple of four.
                     total_size += math.ceil(sum(funcs.values())/4)*4
-                    max_size += max(funcs.values())
+                    max_size = max(max_size, max(funcs.values()))
+                    # merges both dictionaries
+                    actor_funcs = {**actor_funcs, **funcs}
 
-            overlays[dir] = (num_files, max_size, total_size,
-                             total_size / num_files, "", "")
+            overlays[actor_dir] = {
+                "summary": (num_files, max_size, total_size, 
+                    total_size / num_files),
+                "funcs": actor_funcs
+            }
 
     return overlays
 
@@ -107,16 +124,16 @@ def get_ignored(filename):
     ignored = []
     if filename is not None:
         with open(filename) as f:
-            ignored = f.read().split("\n")
+            ignored = list(map(lambda x: x.strip().split(",")[0], f.readlines()))
     return ignored
 
 
 def print_csv(overlays, ignored):
-    sorted_actors = [(k, v) for k, v in overlays.items()]
+    sorted_actors = [(k, v["summary"]) for k, v in overlays.items()]
     sorted_actors.sort()
 
-    row = "{},{},{},{},{},{},{}"
-    print(row.format("Overlay", "Num files", "Max size", "Total size", "Average size", "Description", "Status"))
+    row = "{},{},{},{},{}"
+    print(row.format("Overlay", "Num files", "Max size", "Total size", "Average size"))
 
     for actor in sorted_actors:
         name = actor[0]
@@ -126,12 +143,45 @@ def print_csv(overlays, ignored):
         print(row.format(name, *other))
 
 
+def print_function_lines(overlays, ignored):
+    sorted_actors = []
+    for k, v in overlays.items():
+        func_data = []
+        for func_name, lines in v["funcs"].items():
+            func_data.append((func_name, lines))
+        func_data.sort(key=lambda x: x[1], reverse=True)
+        sorted_actors.append((k, func_data))
+    sorted_actors.sort()
+
+    row = "{},{},{}"
+    print(row.format("actor_name", "function_name", "lines"))
+
+    for actor in sorted_actors:
+        name = actor[0]
+        func_data = actor[1]
+        if name in ignored:
+            continue
+        for func_name, lines in func_data:
+            print(row.format(name, func_name, lines))
+
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Collects actor's functions sizes, and print them in csv format.")
+    description = "Collects actor's functions sizes, and print them in csv format."
+
+    epilog = """\
+
+To make a .csv with the data, simply redirect the output. For example:
+    ./tools/get_actor_sizes.py > results.csv
+
+Flags can be mixed to produce a customized result:
+    ./tools/get_actor_sizes.py --function-lines --non-matching --ignore pull_request.csv > functions.csv
+    """
+    print(epilog)
+    parser = argparse.ArgumentParser(description=description, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--non-matching", help="Collect data of the non-matching actors instead.", action="store_true")
     parser.add_argument("--ignore", help="Path to file that contains overlays names which should be ignored.")
+    parser.add_argument("--function-lines", help="Prints the size of every function instead of a summary.", action="store_true")
     args = parser.parse_args()
 
     if args.non_matching:
@@ -141,7 +191,9 @@ def main():
 
     ignored = get_ignored(args.ignore)
 
-    print_csv(overlays, ignored)
-
+    if args.function_lines:
+        print_function_lines(overlays, ignored)
+    else:
+        print_csv(overlays, ignored)
 
 main()
