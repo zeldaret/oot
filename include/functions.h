@@ -2236,6 +2236,7 @@ void func_800F4010(Vec3f*, u16 sfxId, f32);
 void func_800F41E0(Vec3f*, u16 sfxId, u8);
 void func_800F4138(Vec3f*, u16 sfxId, f32);
 void func_800F4190(Vec3f*, u16 sfxId);
+void func_800F4254(Vec3f* pos, u8 arg1);
 void func_800F436C(Vec3f*, s16 arg1, f32 arg2);
 void func_800F4414(Vec3f*, u16, f32);
 void func_800F44EC(UNK_TYPE arg0, UNK_TYPE arg1);
