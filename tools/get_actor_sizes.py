@@ -11,7 +11,6 @@ asm_dir = root_dir + "asm/non_matchings/overlays/actors"
 build_dir = root_dir + "build/src/overlays/actors"
 
 
-
 def get_num_instructions(f_path):
     with open(f_path) as f:
         f_lines = f.readlines()
@@ -44,13 +43,6 @@ def count_non_matching():
     
     return overlays
 
-    """sorted_actors = {k: v for k, v in sorted(
-        overlays.items(), key=lambda item: item[1][2])
-    }
-    for actor in sorted_actors.items():
-        print(
-            f"{actor[0]}, {actor[1][0]}, {actor[1][1]}, {actor[1][2]}, {actor[1][3]}")"""
-
 
 pattern_function = re.compile("^[0-9a-fA-F]+ <(.+)>:")
 pattern_switchcase = re.compile("L[0-9a-fA-F]{8}")
@@ -73,9 +65,6 @@ def count_builded_funcs_and_instructions(f_path):
                 # probably a case from a switch
                 # for example: <L80979A80>
                 continue
-            #if "<" in line and ">:" in line:
-            #    current = line.split("<")[1].split(">:")[0]
-            #    funcs[current] = 0
             current = func_name
             funcs[current] = 0
         elif current != "":
@@ -113,17 +102,6 @@ def count_build():
                              total_size / num_files, "", "")
 
     return overlays
-
-    """sorted_actors = [(k, v) for k, v in overlays.items()]
-    sorted_actors.sort()
-
-    row = "{},{},{},{},{},{},{}"
-    print(row.format("Overlay", "Num files", "Max size", "Total size", "Average size", "Description", "Status"))
-
-    for actor in sorted_actors:
-        name = actor[0]
-        other = actor[1]
-        print(row.format(name, *other))"""
 
 
 def get_ignored(filename):
