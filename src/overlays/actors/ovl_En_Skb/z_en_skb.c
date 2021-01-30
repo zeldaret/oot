@@ -122,23 +122,14 @@ const ActorInit En_Skb_InitVars = {
     (ActorFunc)EnSkb_Draw,
 };
 
-Vec3f sVelocity = { 0.0f, 8.0f, 0.0f };
-
-Vec3f sAcceleration = { 0.0f, -1.5f, 0.0f };
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
-};
-
 void EnSkb_SetupAction(EnSkb* this, EnSkbActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     Vec3f pos;
-    Vec3f vel = sVelocity;
-    Vec3f accel = sAcceleration;
+    Vec3f vel = { 0.0f, 8.0f, 0.0f };
+    Vec3f accel = { 0.0f, -1.5f, 0.0f };
     f32 spreadAngle;
     f32 scale;
 
@@ -153,6 +144,11 @@ void EnSkb_SpawnDebris(GlobalContext* globalCtx, EnSkb* this, Vec3f* spawnPos) {
     EffectSsHahen_Spawn(globalCtx, &pos, &vel, &accel, 2, scale * 0.8f, -1, 10, 0);
     func_80033480(globalCtx, &pos, 10.0f, 1, 150, 0, 1);
 }
+
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -2000, ICHAIN_STOP),
+};
 
 void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
