@@ -90,14 +90,11 @@ def count_build():
                 funcs = count_builded_funcs_and_instructions(
                     os.path.join(ovl_path, f_name))
                 
-                num_files = len(funcs)
-                if num_files > 0:
-                    total_size = sum(funcs.values())
-                    max_size = max(funcs.values())
-                    # every function is in one file so,
-                    # if the file with the functions is
-                    # found, we should not keep searching
-                    break
+                if len(funcs) > 0:
+                    num_files += len(funcs)
+                    total_size += sum(funcs.values())
+                    max_size += max(funcs.values())
+
             overlays[dir] = (num_files, max_size, total_size,
                              total_size / num_files, "", "")
 
