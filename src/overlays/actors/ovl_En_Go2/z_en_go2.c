@@ -76,16 +76,16 @@ extern AnimationHeader D_06003768;
 extern AnimationHeader D_060038E4;
 extern AnimationHeader D_06004930;
 extern AnimationHeader D_06010590;
-extern Gfx* D_0600BD80;
-extern Gfx* D_0600C140;
-extern Gfx* D_0600CE80;
-extern Gfx* D_0600D280;
-extern Gfx* D_0600D680;
-extern Gfx* D_0600DA80;
-extern Gfx* D_0600DE80;
-extern Gfx* D_0600E680;
-extern Gfx* D_0600FD40;
-extern Gfx* D_0600FD50;
+extern Gfx D_0600BD80[];
+extern Gfx D_0600C140[];
+extern u64 D_0600CE80[];
+extern u64 D_0600D280[];
+extern u64 D_0600D680[];
+extern u64 D_0600DA80[];
+extern u64 D_0600DE80[];
+extern u64 D_0600E680[];
+extern Gfx D_0600FD40[];
+extern Gfx D_0600FD50[];
 
 extern FlexSkeletonHeader D_0600FEF0;
 
@@ -118,7 +118,7 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
+    0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
 const ActorInit En_Go2_InitVars = {
@@ -163,10 +163,12 @@ static struct_80034EC0_Entry sAnimations[] = {
 };
 
 static EnGo2DustEffectData sDustEffectData[2][4] = {
-    { { 12, 0.2f, 0.2f, 1, 18.0f, 0.0f },
-      { 12, 0.1f, 0.2f, 12, 26.0f, 0.0f },
-      { 12, 0.1f, 0.3f, 4, 10.0f, 0.0f },
-      { 12, 0.2f, 0.2f, 1, 18.0f, 0.0f } },
+    {
+        { 12, 0.2f, 0.2f, 1, 18.0f, 0.0f },
+        { 12, 0.1f, 0.2f, 12, 26.0f, 0.0f },
+        { 12, 0.1f, 0.3f, 4, 10.0f, 0.0f },
+        { 12, 0.2f, 0.2f, 1, 18.0f, 0.0f },
+    },
     {
         { 12, 0.5f, 0.4f, 3, 42.0f, 0.0f },
         { 12, 0.5f, 0.4f, 3, 42.0f, 0.0f },
@@ -175,7 +177,7 @@ static EnGo2DustEffectData sDustEffectData[2][4] = {
     },
 };
 
-static s32 unusedPadding[] = { 0.0f, 0.0f, 0.0f };
+static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
 
 void EnGo2_AddDust(EnGo2* this, Vec3f* pos, Vec3f* velocity, Vec3f* accel, u8 initialTimer, f32 scale, f32 scaleStep) {
     EnGoEffect* dustEffect = this->dustEffects;
@@ -232,14 +234,16 @@ void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 111);
+
     firstDone = false;
     func_80093D84(globalCtx->state.gfxCtx);
     if (1) {}
+
     for (i = 0; i < ARRAY_COUNT(this->dustEffects); i++, dustEffect++) {
         if (dustEffect->type) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, &D_0600FD40);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 firstDone = true;
             }
@@ -254,9 +258,10 @@ void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDLists[index]));
-            gSPDisplayList(POLY_XLU_DISP++, &D_0600FD50);
+            gSPDisplayList(POLY_XLU_DISP++, D_0600FD50);
         }
     }
+    
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 151);
 }
 
@@ -302,7 +307,6 @@ s32 EnGo2_GetDialogState(EnGo2* this, GlobalContext* globalCtx) {
     return dialogState;
 }
 
-// EnGo2_getTextIdGoronFireGeneric (too identical)
 u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
     switch ((this->actor.params & 0xFC00) >> 0xA) {
         case 3:
@@ -326,7 +330,7 @@ u16 EnGo2_GoronFireGenericGetTextId(EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
     if (gSaveContext.infTable[17] & 0x4000) {
         return 0x3013;
     } else if (CUR_CAPACITY(UPG_BOMB_BAG) >= 20 && this->waypoint > 7 && this->waypoint < 12) {
@@ -336,7 +340,7 @@ u16 EnGo2_getTextIdGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
     s32 bombBagUpgrade;
 
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
@@ -360,12 +364,12 @@ u16 EnGo2_getStateGoronCityRollingBig(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     return CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ? 0x3027 : 0x300A;
 }
 
 // DMT Goron by Bomb Flower Choice
-u16 EnGo2_getStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
             if ((this->actor.textId == 0x300B) && (gSaveContext.infTable[14] & 0x800) == 0) {
@@ -392,7 +396,7 @@ u16 EnGo2_getStateGoronDmtBombFlower(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
         return 0x3027;
     } else {
@@ -400,7 +404,7 @@ u16 EnGo2_getTextIdGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return 0;
     } else {
@@ -408,7 +412,7 @@ u16 EnGo2_getStateGoronDmtRollingSmall(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -418,7 +422,7 @@ u16 EnGo2_getTextIdGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3008) {
             gSaveContext.infTable[14] |= 0x1;
@@ -429,7 +433,7 @@ u16 EnGo2_getStateGoronDmtDcEntrance(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -439,7 +443,7 @@ u16 EnGo2_getTextIdGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3014) {
             gSaveContext.infTable[15] |= 0x1;
@@ -450,7 +454,7 @@ u16 EnGo2_getStateGoronCityEntrance(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -460,7 +464,7 @@ u16 EnGo2_getTextIdGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3016) {
             gSaveContext.infTable[15] |= 0x10;
@@ -471,7 +475,7 @@ u16 EnGo2_getStateGoronCityIsland(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE) && LINK_IS_ADULT) {
         return 0x3043;
     } else if (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) {
@@ -483,7 +487,7 @@ u16 EnGo2_getTextIdGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3018) {
             gSaveContext.infTable[15] |= 0x100;
@@ -494,7 +498,7 @@ u16 EnGo2_getStateGoronCityLowestFloor(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
         return gSaveContext.infTable[16] & 0x8000 ? 0x3042 : 0x3041;
     } else if (CHECK_OWNED_EQUIP(EQUIP_TUNIC, 1)) {
@@ -508,7 +512,7 @@ u16 EnGo2_getTextIdGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     switch (EnGo2_GetDialogState(this, globalCtx)) {
         case 2:
             switch (this->actor.textId) {
@@ -560,16 +564,16 @@ u16 EnGo2_getStateGoronCityLink(GlobalContext* globalCtx, EnGo2* this) {
     return 1;
 }
 
-u16 EnGo2_getTextIdGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
     Player* player = PLAYER;
 
     if (gSaveContext.bgsFlag) {
         player->exchangeItemId = EXCH_ITEM_CLAIM_CHECK;
         return 0x305E;
-    } else if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_CLAIM_CHECK) {
+    } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
         player->exchangeItemId = EXCH_ITEM_CLAIM_CHECK;
         return 0x305E;
-    } else if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_PRESCRIPTION) {
+    } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) {
         player->exchangeItemId = EXCH_ITEM_EYEDROPS;
         return 0x3058;
     } else {
@@ -578,7 +582,7 @@ u16 EnGo2_getTextIdGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
     s32 unusedPad;
     u8 dialogState = this->dialogState;
 
@@ -638,7 +642,7 @@ u16 EnGo2_getStateGoronDmtBiggoron(GlobalContext* globalCtx, EnGo2* this) {
     return 1;
 }
 
-u16 EnGo2_getTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
         return 0x3071;
     } else {
@@ -646,7 +650,7 @@ u16 EnGo2_getTextIdGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
             return 0;
@@ -663,11 +667,11 @@ u16 EnGo2_getStateGoronFireGeneric(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
     return LINK_IS_CHILD ? gSaveContext.infTable[14] & 0x8 ? 0x3022 : 0x300E : 0x3043;
 }
 
-u16 EnGo2_getStateGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x300E) {
             gSaveContext.infTable[14] |= 0x8;
@@ -679,11 +683,11 @@ u16 EnGo2_getStateGoronCityStairwell(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 // Goron in child market bazaar after obtaining Goron Ruby
-u16 EnGo2_getTextIdGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
     return 0x7122;
 }
 
-u16 EnGo2_getStateGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return 0;
     } else {
@@ -691,7 +695,7 @@ u16 EnGo2_getStateGoronMarketBazaar(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
     if (LINK_IS_CHILD) {
         if (Flags_GetSwitch(globalCtx, 0x1C)) {
             return 0x302F;
@@ -703,7 +707,7 @@ u16 EnGo2_getTextIdGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         if (this->actor.textId == 0x3024) {
             gSaveContext.infTable[14] |= 0x40;
@@ -715,7 +719,7 @@ u16 EnGo2_getStateGoronCityLostWoods(GlobalContext* globalCtx, EnGo2* this) {
 }
 
 // Goron at base of DMT summit
-u16 EnGo2_getTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
     if (LINK_IS_CHILD) {
         return CHECK_QUEST_ITEM(QUEST_GORON_RUBY) ? 0x3065 : 0x3064;
     } else {
@@ -723,7 +727,7 @@ u16 EnGo2_getTextIdGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getStateGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetStateGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
         return 0;
     } else {
@@ -731,7 +735,7 @@ u16 EnGo2_getStateGoronDmtFairyHint(GlobalContext* globalCtx, EnGo2* this) {
     }
 }
 
-u16 EnGo2_getTextId(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetTextId(GlobalContext* globalCtx, EnGo2* this) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, 0x20);
 
     if (faceReaction) {
@@ -739,73 +743,73 @@ u16 EnGo2_getTextId(GlobalContext* globalCtx, EnGo2* this) {
     } else {
         switch (this->actor.params & 0x1F) {
             case GORON_CITY_ROLLING_BIG:
-                return EnGo2_getTextIdGoronCityRollingBig(globalCtx, this);
+                return EnGo2_GetTextIdGoronCityRollingBig(globalCtx, this);
             case GORON_CITY_LINK:
-                return EnGo2_getTextIdGoronCityLink(globalCtx, this);
+                return EnGo2_GetTextIdGoronCityLink(globalCtx, this);
             case GORON_DMT_BIGGORON:
-                return EnGo2_getTextIdGoronDmtBiggoron(globalCtx, this);
+                return EnGo2_GetTextIdGoronDmtBiggoron(globalCtx, this);
             case GORON_FIRE_GENERIC:
-                return EnGo2_getTextIdGoronFireGeneric(globalCtx, this);
+                return EnGo2_GetTextIdGoronFireGeneric(globalCtx, this);
             case GORON_DMT_BOMB_FLOWER:
-                return EnGo2_getTextIdGoronDmtBombFlower(globalCtx, this);
+                return EnGo2_GetTextIdGoronDmtBombFlower(globalCtx, this);
             case GORON_DMT_ROLLING_SMALL:
-                return EnGo2_getTextIdGoronDmtRollingSmall(globalCtx, this);
+                return EnGo2_GetTextIdGoronDmtRollingSmall(globalCtx, this);
             case GORON_DMT_DC_ENTRANCE:
-                return EnGo2_getTextIdGoronDmtDcEntrance(globalCtx, this);
+                return EnGo2_GetTextIdGoronDmtDcEntrance(globalCtx, this);
             case GORON_CITY_ENTRANCE:
-                return EnGo2_getTextIdGoronCityEntrance(globalCtx, this);
+                return EnGo2_GetTextIdGoronCityEntrance(globalCtx, this);
             case GORON_CITY_ISLAND:
-                return EnGo2_getTextIdGoronCityIsland(globalCtx, this);
+                return EnGo2_GetTextIdGoronCityIsland(globalCtx, this);
             case GORON_CITY_LOWEST_FLOOR:
-                return EnGo2_getTextIdGoronCityLowestFloor(globalCtx, this);
+                return EnGo2_GetTextIdGoronCityLowestFloor(globalCtx, this);
             case GORON_CITY_STAIRWELL:
-                return EnGo2_getTextIdGoronCityStairwell(globalCtx, this);
+                return EnGo2_GetTextIdGoronCityStairwell(globalCtx, this);
             case GORON_CITY_LOST_WOODS:
-                return EnGo2_getTextIdGoronCityLostWoods(globalCtx, this);
+                return EnGo2_GetTextIdGoronCityLostWoods(globalCtx, this);
             case GORON_DMT_FAIRY_HINT:
-                return EnGo2_getTextIdGoronDmtFairyHint(globalCtx, this);
+                return EnGo2_GetTextIdGoronDmtFairyHint(globalCtx, this);
             case GORON_MARKET_BAZAAR:
-                return EnGo2_getTextIdGoronMarketBazaar(globalCtx, this);
+                return EnGo2_GetTextIdGoronMarketBazaar(globalCtx, this);
         }
     }
 }
 
-u16 EnGo2_getState(GlobalContext* globalCtx, EnGo2* this) {
+u16 EnGo2_GetState(GlobalContext* globalCtx, EnGo2* this) {
     switch (this->actor.params & 0x1F) {
         case GORON_CITY_ROLLING_BIG:
-            return EnGo2_getStateGoronCityRollingBig(globalCtx, this);
+            return EnGo2_GetStateGoronCityRollingBig(globalCtx, this);
         case GORON_CITY_LINK:
-            return EnGo2_getStateGoronCityLink(globalCtx, this);
+            return EnGo2_GetStateGoronCityLink(globalCtx, this);
         case GORON_DMT_BIGGORON:
-            return EnGo2_getStateGoronDmtBiggoron(globalCtx, this);
+            return EnGo2_GetStateGoronDmtBiggoron(globalCtx, this);
         case GORON_FIRE_GENERIC:
-            return EnGo2_getStateGoronFireGeneric(globalCtx, this);
+            return EnGo2_GetStateGoronFireGeneric(globalCtx, this);
         case GORON_DMT_BOMB_FLOWER:
-            return EnGo2_getStateGoronDmtBombFlower(globalCtx, this);
+            return EnGo2_GetStateGoronDmtBombFlower(globalCtx, this);
         case GORON_DMT_ROLLING_SMALL:
-            return EnGo2_getStateGoronDmtRollingSmall(globalCtx, this);
+            return EnGo2_GetStateGoronDmtRollingSmall(globalCtx, this);
         case GORON_DMT_DC_ENTRANCE:
-            return EnGo2_getStateGoronDmtDcEntrance(globalCtx, this);
+            return EnGo2_GetStateGoronDmtDcEntrance(globalCtx, this);
         case GORON_CITY_ENTRANCE:
-            return EnGo2_getStateGoronCityEntrance(globalCtx, this);
+            return EnGo2_GetStateGoronCityEntrance(globalCtx, this);
         case GORON_CITY_ISLAND:
-            return EnGo2_getStateGoronCityIsland(globalCtx, this);
+            return EnGo2_GetStateGoronCityIsland(globalCtx, this);
         case GORON_CITY_LOWEST_FLOOR:
-            return EnGo2_getStateGoronCityLowestFloor(globalCtx, this);
+            return EnGo2_GetStateGoronCityLowestFloor(globalCtx, this);
         case GORON_CITY_STAIRWELL:
-            return EnGo2_getStateGoronCityStairwell(globalCtx, this);
+            return EnGo2_GetStateGoronCityStairwell(globalCtx, this);
         case GORON_CITY_LOST_WOODS:
-            return EnGo2_getStateGoronCityLostWoods(globalCtx, this);
+            return EnGo2_GetStateGoronCityLostWoods(globalCtx, this);
         case GORON_DMT_FAIRY_HINT:
-            return EnGo2_getStateGoronDmtFairyHint(globalCtx, this);
+            return EnGo2_GetStateGoronDmtFairyHint(globalCtx, this);
         case GORON_MARKET_BAZAAR:
-            return EnGo2_getStateGoronMarketBazaar(globalCtx, this);
+            return EnGo2_GetStateGoronMarketBazaar(globalCtx, this);
     }
 }
 
 s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return func_800343CC(globalCtx, &this->actor, &this->unk_194, this->unk_218, EnGo2_getTextId, EnGo2_getState);
+        return func_800343CC(globalCtx, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId, EnGo2_GetState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
@@ -813,10 +817,10 @@ s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
             this->unk_194.unk_00 = 1;
             return true;
         } else if (this->unk_194.unk_00 != 0) {
-            this->unk_194.unk_00 = EnGo2_getState(globalCtx, this);
+            this->unk_194.unk_00 = EnGo2_GetState(globalCtx, this);
             return false;
         } else if (func_8002F2CC(&this->actor, globalCtx, this->unk_218)) {
-            this->actor.textId = EnGo2_getTextId(globalCtx, this);
+            this->actor.textId = EnGo2_GetTextId(globalCtx, this);
         }
         return false;
     }
@@ -825,17 +829,17 @@ s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_SetColliderDim(EnGo2* this) {
     u8 index = this->actor.params & 0x1F;
 
-    this->collider.dim.radius = (&D_80A4816C[index])->radius;
-    this->collider.dim.height = (&D_80A4816C[index])->height;
+    this->collider.dim.radius = D_80A4816C[index].radius;
+    this->collider.dim.height = D_80A4816C[index].height;
 }
 
 void EnGo2_SetShape(EnGo2* this) {
     u8 index = this->actor.params & 0x1F;
 
-    this->actor.shape.shadowScale = (&D_80A481F8[index])->shape_unk_10;
-    Actor_SetScale(&this->actor, (&D_80A481F8[index])->scale);
-    this->actor.targetMode = (&D_80A481F8[index])->actor_unk_1F;
-    this->unk_218 = (&D_80A481F8[index])->unk_218;
+    this->actor.shape.shadowScale = D_80A481F8[index].shape_unk_10;
+    Actor_SetScale(&this->actor, D_80A481F8[index].scale);
+    this->actor.targetMode = D_80A481F8[index].actor_unk_1F;
+    this->unk_218 = D_80A481F8[index].unk_218;
     this->unk_218 += this->collider.dim.radius;
 }
 
@@ -1020,7 +1024,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
             }
             player->actor.textId = this->actor.textId;
 
-        } else if (!gSaveContext.bgsFlag && (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_CLAIM_CHECK)) {
+        } else if (!gSaveContext.bgsFlag && (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK)) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_CLAIM_CHECK) {
                 if (func_800775CC() >= 3) {
                     textId = 0x305E;
@@ -1038,8 +1042,8 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
             }
             player->actor.textId = this->actor.textId;
 
-        } else if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_PRESCRIPTION) &&
-                   (INV_CONTENT(ITEM_POCKET_EGG) <= ITEM_CLAIM_CHECK)) {
+        } else if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) &&
+                   (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_CLAIM_CHECK)) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_EYEDROPS) {
                 this->actor.textId = 0x3059;
             } else {
@@ -1050,7 +1054,7 @@ void EnGo2_BiggoronSetTextId(EnGo2* this, GlobalContext* globalCtx, Player* play
             }
             player->actor.textId = this->actor.textId;
 
-        } else if (INV_CONTENT(ITEM_POCKET_EGG) <= ITEM_SWORD_BROKEN) {
+        } else if (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_SWORD_BROKEN) {
             if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
                 if (gSaveContext.infTable[11] & 0x10) {
                     textId = 0x3055;
@@ -1094,7 +1098,8 @@ void func_80A45360(EnGo2* this, f32* alpha) {
 }
 
 void EnGo2_RollForward(EnGo2* this) {
-    f32 speedXZ = this->actor.speedXZ;;
+    f32 speedXZ = this->actor.speedXZ;
+    ;
 
     if (this->unk_194.unk_00 != 0) {
         this->actor.speedXZ = 0.0f;
@@ -1117,12 +1122,13 @@ void func_80A454CC(EnGo2* this) {
             func_80034EC0(&this->skelAnime, sAnimations, 9);
             break;
         case GORON_DMT_BIGGORON:
-            if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_POCKET_EGG) <= ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS) {
                 func_80034EC0(&this->skelAnime, sAnimations, 4);
                 break;
             }
         default:
             this->skelAnime.playSpeed = 0.0f;
+            break;
     }
 }
 
@@ -1130,7 +1136,8 @@ f32 EnGo2_GetTargetXZSpeed(EnGo2* this) {
     f32 yDist = (this->actor.params & 0x1F) == GORON_DMT_BIGGORON ? 400.0f : 60.0f;
     s32 index = this->actor.params & 0x1F;
 
-    if (index == GORON_CITY_LINK && (fabsf(this->actor.yDistToPlayer) < yDist) && (this->actor.xzDistToPlayer < 400.0f)) {
+    if (index == GORON_CITY_LINK && (fabsf(this->actor.yDistToPlayer) < yDist) &&
+        (this->actor.xzDistToPlayer < 400.0f)) {
         return 9.0f;
     } else {
         return index == GORON_CITY_ROLLING_BIG ? 3.6000001f : 6.0f;
@@ -1367,7 +1374,7 @@ s32 EnGo2_IsFreeingGoronInFire(EnGo2* this, GlobalContext* globalCtx) {
     this->actor.world.pos.x += (globalCtx->state.frames & 1) ? 1.0f : -1.0f;
     if (Flags_GetSwitch(globalCtx, (this->actor.params & 0xFC00) >> 0xA)) {
         return true;
-    } 
+    }
     return false;
 }
 
@@ -1462,7 +1469,7 @@ void EnGo2_GoronFireCamera(EnGo2* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, this->camID, CAM_STAT_ACTIVE);
     Path_CopyLastPoint(this->path, &this->at);
-    yaw = Math_Vec3f_Yaw(&this->actor.world, &this->at) + 0xE38;
+    yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->at) + 0xE38;
     this->eye.x = Math_SinS(yaw) * 100.0f + this->actor.world.pos.x;
     this->eye.z = Math_CosS(yaw) * 100.0f + this->actor.world.pos.z;
     this->eye.y = this->actor.world.pos.y + 20.0f;
@@ -1478,7 +1485,7 @@ void EnGo2_GoronFireClearCamera(EnGo2* this, GlobalContext* globalCtx) {
 }
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {
-    if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_POCKET_EGG) <= ITEM_EYEDROPS &&
+    if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN && INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS &&
         (this->actor.params & 0x1F) == GORON_DMT_BIGGORON && this->unk_194.unk_00 == 0) {
         if (DECR(this->animTimer) == 0) {
             this->animTimer = Rand_S16Offset(30, 30);
@@ -1492,8 +1499,7 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 28.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, &this->jointTable, &this->morphTable,
-                       18);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, &this->jointTable, &this->morphTable, 18);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -1556,14 +1562,14 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
                 }
             } else {
                 gSaveContext.infTable[16] &= ~0x1000;
-                this->collider.dim.height = ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
+                this->collider.dim.height = (D_80A4816C[this->actor.params & 0x1F].height * 0.6f);
                 EnGo2_SetupRolling(this, globalCtx);
                 this->isAwake = true;
             }
             break;
         case GORON_CITY_ROLLING_BIG:
         case GORON_DMT_ROLLING_SMALL:
-            this->collider.dim.height = ((&D_80A4816C[this->actor.params & 0x1F])->height * 0.6f);
+            this->collider.dim.height = (D_80A4816C[this->actor.params & 0x1F].height * 0.6f);
             EnGo2_SetupRolling(this, globalCtx);
             break;
         case GORON_FIRE_GENERIC:
@@ -1577,8 +1583,8 @@ void EnGo2_Init(Actor* thisx, GlobalContext* globalCtx) {
         case GORON_DMT_BIGGORON:
             this->actor.shape.shadowDraw = NULL;
             this->actor.flags &= ~1;
-            if ((INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_SWORD_BROKEN) &&
-                (INV_CONTENT(ITEM_POCKET_EGG) <= ITEM_EYEDROPS)) {
+            if ((INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_SWORD_BROKEN) &&
+                (INV_CONTENT(ITEM_TRADE_ADULT) <= ITEM_EYEDROPS)) {
                 this->eyeMouthTexState = 1;
             }
             this->collider.base.acFlags = 0;
@@ -1618,11 +1624,11 @@ void EnGo2_CurledUp(EnGo2* this, GlobalContext* globalCtx) {
     }
 
     if ((s32)this->skelAnime.curFrame == 0) {
-        this->collider.dim.height = ((&D_80A4816C[index])->height * 0.6f);
+        this->collider.dim.height = (D_80A4816C[index].height * 0.6f);
     } else {
-        height = (&D_80A4816C[index])->height;
+        height = D_80A4816C[index].height;
         this->collider.dim.height =
-            (((&D_80A4816C[index])->height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.startFrame)) +
+            ((D_80A4816C[index].height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.startFrame)) +
              (height * 0.6f));
     }
     if (EnGo2_IsFreeingGoronInFire(this, globalCtx)) {
@@ -1657,12 +1663,11 @@ void func_80A46B40(EnGo2* this, GlobalContext* globalCtx) {
             }
             func_80A454CC(this);
             this->unk_211 = true;
-            this->collider.dim.height = (&D_80A4816C[index])->height;
+            this->collider.dim.height = D_80A4816C[index].height;
         } else {
-            height = (&D_80A4816C[index])->height;
+            height = D_80A4816C[index].height;
             this->collider.dim.height =
-                (s16)((height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.endFrame)) +
-                      (height * 0.6f));
+                (s16)((height * 0.4f * (this->skelAnime.curFrame / this->skelAnime.endFrame)) + (height * 0.6f));
         }
     }
     if ((!EnGo2_IsCameraModified(this, globalCtx)) && (!EnGo2_IsWakingUp(this))) {
@@ -1930,7 +1935,7 @@ void EnGo2_GoronFireGenericAction(EnGo2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_IRON_DOOR_OPEN);
             }
             if (this->animTimer > 44) {
-                Audio_PlaySoundAtPosition(globalCtx, &this->actor.world, 20, NA_SE_EV_IRON_DOOR_CLOSE);
+                Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_IRON_DOOR_CLOSE);
             } else {
                 break;
             }
@@ -1952,14 +1957,14 @@ void EnGo2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2_SitDownAnimation(this);
     SkelAnime_Update(&this->skelAnime);
     EnGo2_RollForward(this);
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f, (f32)this->collider.dim.radius * 0.6f,
-                  0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, (f32)this->collider.dim.height * 0.5f,
+                            (f32)this->collider.dim.radius * 0.6f, 0.0f, 5);
     if (this->unk_194.unk_00 == 0) {
         func_80A44AB0(this, globalCtx);
     }
     this->actionFunc(this, globalCtx);
     if (this->unk_211 == true) {
-        func_80034F54(globalCtx, &this->unk_226, &this->unk_24A, 18);
+        func_80034F54(globalCtx, this->unk_226, this->unk_24A, 18);
     }
     func_80A45288(this, globalCtx);
     EnGo2_EyeMouthTexState(this);
@@ -1973,9 +1978,9 @@ s32 EnGo2_DrawCurledUp(EnGo2* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 2884),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_0600BD80);
+    gSPDisplayList(POLY_OPA_DISP++, D_0600BD80);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 2889);
-    Matrix_MultVec3f(&D_80A48554, &this->actor.focus);
+    Matrix_MultVec3f(&D_80A48554, &this->actor.focus.pos);
 
     return 1;
 }
@@ -1991,9 +1996,9 @@ s32 EnGo2_DrawRolling(EnGo2* this, GlobalContext* globalCtx) {
     Matrix_RotateRPY((globalCtx->state.frames * ((s16)speedXZ * 1400)), 0, this->actor.shape.rot.z, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2.c", 2926),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_0600C140);
+    gSPDisplayList(POLY_OPA_DISP++, D_0600C140);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 2930);
-    Matrix_MultVec3f(&D_80A48560, &this->actor.focus);
+    Matrix_MultVec3f(&D_80A48560, &this->actor.focus.pos);
     return 1;
 }
 
@@ -2038,8 +2043,8 @@ void EnGo2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 
 void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2* this = THIS;
-    u8* EyeTextures[] = { &D_0600DA80, &D_0600CE80, &D_0600D280, &D_0600D680 };
-    u8* MouthTextures[] = { &D_0600DE80, &D_0600E680 };
+    u64* eyeTextures[] = { D_0600DA80, D_0600CE80, D_0600D280, D_0600D680 };
+    u64* mouthTextures[] = { D_0600DE80, D_0600E680 };
 
     EnGo2_UpdateDust(this);
     Matrix_Push();
@@ -2057,8 +2062,8 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go2.c", 3063);
         func_80093D18(globalCtx->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(EyeTextures[this->eyeTexIndex]));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(MouthTextures[this->mouthTexIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGo2_OverrideLimbDraw, EnGo2_PostLimbDraw, this);

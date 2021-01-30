@@ -36,12 +36,12 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_060029A8;
 extern AnimationHeader D_06004930;
-extern Gfx* D_0600BD80;
-extern Gfx* D_0600C140;
-extern Gfx* D_0600CE80;
-extern Gfx* D_0600DE80;
-extern Gfx* D_0600FD40;
-extern Gfx* D_0600FD50;
+extern Gfx D_0600BD80[];
+extern Gfx D_0600C140[];
+extern u64 D_0600CE80[];
+extern u64 D_0600DE80[];
+extern Gfx D_0600FD40[];
+extern Gfx D_0600FD50[];
 extern FlexSkeletonHeader D_0600FEF0;
 extern AnimationHeader D_06010590;
 
@@ -1027,11 +1027,11 @@ void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     EnGo* this = THIS;
-    ColliderCylinder* collider = &this->collider;
 
-    Collider_UpdateCylinder(&this->actor, collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
 
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
@@ -1063,9 +1063,9 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2326),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, &D_0600BD80);
+    gSPDisplayList(POLY_OPA_DISP++, D_0600BD80);
 
-    Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus);
+    Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus.pos);
     Matrix_Pull();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2341);
@@ -1082,8 +1082,8 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
                      MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_0600C140);
-    Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus);
+    gSPDisplayList(POLY_OPA_DISP++, D_0600C140);
+    Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
     Matrix_Pull();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2383);
@@ -1151,8 +1151,8 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         func_800943C8(globalCtx->state.gfxCtx);
 
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_0600CE80));
-        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_0600DE80));
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_0600CE80));
+        gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
 
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnGo_OverrideLimbDraw, EnGo_PostLimbDraw, &this->actor);
@@ -1225,7 +1225,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
         if (dustEffect->type) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
-                gSPDisplayList(POLY_XLU_DISP++, &D_0600FD40);
+                gSPDisplayList(POLY_XLU_DISP++, D_0600FD40);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 firstDone = true;
             }
@@ -1241,7 +1241,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
 
             index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
-            gSPDisplayList(POLY_XLU_DISP++, &D_0600FD50);
+            gSPDisplayList(POLY_XLU_DISP++, D_0600FD50);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2678);
