@@ -435,37 +435,37 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case DEMO_EFFECT_MEDAL_FIRE:
             DemoEffect_InitGetItem(this);
-            this->getItem.drawId = DI_MEDALLION_FIRE;
+            this->getItem.drawId = GID_MEDALLION_FIRE;
             break;
 
         case DEMO_EFFECT_MEDAL_WATER:
             DemoEffect_InitGetItem(this);
-            this->getItem.drawId = DI_MEDALLION_WATER;
+            this->getItem.drawId = GID_MEDALLION_WATER;
             break;
 
         case DEMO_EFFECT_MEDAL_FOREST:
             DemoEffect_InitGetItem(this);
-            this->getItem.drawId = DI_MEDALLION_FOREST;
+            this->getItem.drawId = GID_MEDALLION_FOREST;
             break;
 
         case DEMO_EFFECT_MEDAL_SPIRIT:
             DemoEffect_InitGetItem(this);
-            this->getItem.drawId = DI_MEDALLION_SPIRIT;
+            this->getItem.drawId = GID_MEDALLION_SPIRIT;
             break;
 
         case DEMO_EFFECT_MEDAL_SHADOW:
             DemoEffect_InitGetItem(this);
-            this->getItem.drawId = DI_MEDALLION_SHADOW;
+            this->getItem.drawId = GID_MEDALLION_SHADOW;
             break;
 
         case DEMO_EFFECT_MEDAL_LIGHT:
             DemoEffect_InitGetItem(this);
-            this->getItem.drawId = DI_MEDALLION_LIGHT;
+            this->getItem.drawId = GID_MEDALLION_LIGHT;
             break;
 
         case DEMO_EFFECT_LIGHTARROW:
             DemoEffect_InitGetItem(this);
-            this->getItem.drawId = DI_ARROW_LIGHT;
+            this->getItem.drawId = GID_ARROW_LIGHT;
             break;
 
         case DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE:
@@ -635,7 +635,7 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
             this->getItem.isPositionInit = 1;
         }
 
-        if (this->getItem.drawId != DI_ARROW_LIGHT) {
+        if (this->getItem.drawId != GID_ARROW_LIGHT) {
             this->actor.shape.rot.x = 0xE0C0;
         } else {
             this->actor.shape.rot.y += 0x0400;
@@ -660,14 +660,14 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
                 } else {
                     func_800788CC(NA_SE_EV_MEDAL_APPEAR_S - SFX_FLAG);
                 }
-                if (this->getItem.drawId != DI_ARROW_LIGHT) {
+                if (this->getItem.drawId != GID_ARROW_LIGHT) {
                     this->actor.shape.rot.y += 0x3E80;
                 }
                 this->getItem.rotation = 0x3E80;
                 break;
             case 3:
                 this->getItem.rotation -= (s16)((this->getItem.rotation - 0x03E8) * 0.10f);
-                if (this->getItem.drawId != DI_ARROW_LIGHT) {
+                if (this->getItem.drawId != GID_ARROW_LIGHT) {
                     this->actor.shape.rot.y += this->getItem.rotation;
                 }
                 if (gSaveContext.entranceIndex == 0x0053) {

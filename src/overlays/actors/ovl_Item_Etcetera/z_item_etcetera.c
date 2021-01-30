@@ -44,8 +44,8 @@ static s16 sObjectIds[] = {
 
 // Indexes passed to the item table in z_draw.c
 static s16 sDrawItemIndexes[] = {
-    DI_BOTTLE,     DI_LETTER_RUTO, DI_SHIELD_HYLIAN, DI_QUIVER_40, DI_SCALE_SILVER, DI_SCALE_GOLDEN, DI_KEY_SMALL,
-    DI_ARROW_FIRE, DI_RUPEE_GREEN, DI_RUPEE_BLUE,    DI_RUPEE_RED, DI_RUPEE_PURPLE, DI_HEART_PIECE,  DI_KEY_SMALL,
+    GID_BOTTLE,     GID_LETTER_RUTO, GID_SHIELD_HYLIAN, GID_QUIVER_40, GID_SCALE_SILVER, GID_SCALE_GOLDEN, GID_KEY_SMALL,
+    GID_ARROW_FIRE, GID_RUPEE_GREEN, GID_RUPEE_BLUE,    GID_RUPEE_RED, GID_RUPEE_PURPLE, GID_HEART_PIECE,  GID_KEY_SMALL,
 };
 
 static s16 sGetItemIds[] = {
@@ -72,7 +72,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->objBankIndex = objBankIndex;
     }
-    this->drawId = sDrawItemIndexes[type];
+    this->giDrawId = sDrawItemIndexes[type];
     this->getItemId = sGetItemIds[type];
     this->futureActionFunc = func_80B85824;
     this->drawFunc = ItemEtcetera_Draw;
@@ -205,7 +205,7 @@ void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->actorCtx.unk_03 != 0) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        GetItem_Draw(globalCtx, this->drawId);
+        GetItem_Draw(globalCtx, this->giDrawId);
     }
 }
 
@@ -214,5 +214,5 @@ void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002EBCC(&this->actor, globalCtx, 0);
     func_8002ED80(&this->actor, globalCtx, 0);
-    GetItem_Draw(globalCtx, this->drawId);
+    GetItem_Draw(globalCtx, this->giDrawId);
 }

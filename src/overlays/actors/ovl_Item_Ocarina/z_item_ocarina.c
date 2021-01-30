@@ -202,5 +202,5 @@ void ItemOcarina_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002EBCC(thisx, globalCtx, 0);
     func_8002ED80(thisx, globalCtx, 0);
-    GetItem_Draw(globalCtx, DI_OCARINA_TIME);
+    GetItem_Draw(globalCtx, GID_OCARINA_TIME);
 }
