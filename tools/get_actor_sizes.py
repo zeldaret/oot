@@ -150,7 +150,7 @@ def print_function_lines(overlays, ignored, include_only):
         func_data = []
         for func_name, lines in v["funcs"].items():
             func_data.append((func_name, lines))
-        func_data.sort(key=lambda x: x[1], reverse=True)
+        #func_data.sort(key=lambda x: x[1], reverse=True)
         sorted_actors.append((k, func_data))
     sorted_actors.sort()
 
