@@ -87,6 +87,9 @@ glabel D_8096CEE8
 */
 extern UNK_TYPE D_8096CEE8;
 
+
+typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
+
 /*
 glabel D_8096CF30
  .word func_8096A224
@@ -119,7 +122,7 @@ glabel D_8096CF30
 .word func_8096BDD4
 .word func_8096BE14
 */
-extern UNK_TYPE D_8096CF30[];
+extern DemoDuActionFunc D_8096CF30[];
 
 /*
 glabel D_8096CFA4
@@ -219,7 +222,7 @@ void func_80969E6C(DemoDu* this, GlobalContext* globalCtx) {
 
 void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, NULL, NULL, NULL, 0);
-    this->unk_198 = 7;
+    this->updateIndex = 7;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A3B4.s")
@@ -299,15 +302,13 @@ void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
 void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     SkelAnime* unk_14C = &this->unk_14C;
-
     s32 pad;
-
     f32 lastFrame;
 
     lastFrame = (f32) Animation_GetLastFrame(&D_06012014);
     SkelAnime_InitFlex(globalCtx2, unk_14C, &D_06011CA8, NULL, NULL, NULL, 0);
     Animation_Change(unk_14C, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
-    this->unk_198 = 0x15;
+    this->updateIndex = 0x15;
     this->actor.shape.shadowAlpha = 0;
 }
 
@@ -331,7 +332,7 @@ void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx) {
 
 void func_8096BA2C(DemoDu* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, &D_060067CC, NULL, NULL, 0);
-    this->unk_198 = 0x18;
+    this->updateIndex = 0x18;
     this->unk_19C = NULL;
     this->actor.shape.shadowAlpha = 0;
     func_80969B8C(this, (u16)3);
@@ -361,7 +362,16 @@ void func_8096BA2C(DemoDu* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BE14.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/DemoDu_Update.s")
+void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
+    DemoDu* this = THIS;
+    DemoDuActionFunc temp_v1;
+
+    if (this->updateIndex < 0 || this->updateIndex >= 29 || D_8096CF30[this->updateIndex] == NULL) {
+        osSyncPrintf((const char *) "\x1b[31mメインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n\x1b[m");
+        return;
+    }
+    D_8096CF30[this->updateIndex](this, globalCtx);
+}
 
 void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
