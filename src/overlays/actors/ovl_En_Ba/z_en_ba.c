@@ -17,12 +17,21 @@ void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_809B6568(Actor* thisx);
 void func_809B69D4(Actor* thisx);
+void func_809B65A8(EnBa* this, GlobalContext* globalCtx);
+void func_809B6A44(EnBa* this, GlobalContext* globalCtx);
+void func_809B6B58(EnBa* this, GlobalContext* globalCtx);
+void func_809B71F0(EnBa* this, GlobalContext* globalCtx);
+void func_809B781C(EnBa* this, GlobalContext* globalCtx);
+void func_809B6B04(EnBa* this);
 
 extern UNK_TYPE D_06000890;
 extern UNK_TYPE D_06001D80;
 
 extern InitChainEntry D_809B80F0;
 extern Vec3f D_809B80E4;
+extern Vec3f D_809B8080;
+extern Vec3f D_809B8100;
+extern Vec3f D_809B810C;
 
 extern ColliderJntSphInit D_809B80D4;
 /*
@@ -77,11 +86,11 @@ static ColliderJntSphInit D_809B80D4 = {
 };
 */
 
-// void func_809B6350(EnBa* this, u32* arg1) {
-//     this->unk150 = arg1;
-// }
+void func_809B6350(EnBa* this, EnBaActionFunc actionFunc) {
+    this->unk150 = actionFunc;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6350.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6350.s")
 
 void EnBa_Init(Actor *thisx, GlobalContext *globalCtx) {
     EnBa* this = THIS;
@@ -120,30 +129,347 @@ void EnBa_Init(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Init.s")
+void EnBa_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+    EnBa* this = THIS;
+    Collider_DestroyJntSph(globalCtx, &this->unk320);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Destroy.s")
+void func_809B6568(Actor* thisx) {
+    EnBa* this = THIS;
+    this->unk14C = 2;
+    this->unk31C = 1500;
+    this->actor.speedXZ = 10.0f;
+    func_809B6350(this, func_809B65A8);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6568.s")
+void func_809B65A8(EnBa* this, GlobalContext* globalCtx) {
+    Player* player;
+    s32 i;
+    s32 pad;
+    Vec3s sp5C;
+    player = PLAYER;
+    
+    if ((this->actor.colChkInfo.mass == 0xFF) && (this->actor.xzDistToPlayer > 175.0f)) {
+        Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 330.0f, 1.0f, 7.0f, 0.0f);
+    } else {
+        this->actor.flags |= 1;
+        Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 100.0f, 1.0f, 10.0f, 0.0f);
+    }
+    this->unk2FC = this->actor.world.pos;
+    if (globalCtx->gameplayFrames % 0x10 == 0) {
+        this->unk308.z += Rand_CenteredFloat(180.0f);
+        this->unk314 += Rand_CenteredFloat(180.0f);
+        this->unk308.x = Math_SinF(this->unk308.z) * 80.0f;
+        this->unk308.y = Math_CosF(this->unk314) * 80.0f;
+    }
+    this->unk2FC.y -= 448.0f;
+    this->unk2FC.x += this->unk308.x;
+    this->unk2FC.z += this->unk308.y;
+    func_80033AEC(&this->unk2FC, &this->unk158[13], 1.0f, this->actor.speedXZ, 0.0f, 0.0f);
+    for (i = 12; i >= 0; i--){
+        func_80035844(&this->unk158[i+1], &this->unk158[i], &sp5C.x, 0);
+        Matrix_Translate(this->unk158[i+1].x, this->unk158[i+1].y, this->unk158[i+1].z, 0);
+        Matrix_RotateRPY(sp5C.x, sp5C.y, 0, 1);
+        Matrix_MultVec3f(&D_809B8080, &this->unk158[i]);
+    }
+    func_80035844(&this->unk158[0], &this->unk2FC, &sp5C.x, 0);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk2A8[0].y, 3, this->unk31C, 182);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, this->unk2A8[0].x, 3, this->unk31C, 182);
+    Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, 1);
+    Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
+    this->unk2F6.y = sp5C.y;
+    this->unk2F6.x = sp5C.x + 0x8000;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B65A8.s")
+    for (i = 0; i < 13; i++) {
+        Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+        Math_SmoothStepToS(&this->unk2A8[i].y, this->unk2A8[i+1].y, 3, this->unk31C, 0xB6);
+        Math_SmoothStepToS(&this->unk2A8[i].x, this->unk2A8[i+1].x, 3, this->unk31C, 0xB6);
+        Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, 1);
+        Matrix_MultVec3f(&D_809B8080, &this->unk158[i+1]);
+    }
+    this->unk2F6.x = this->unk2A8[12].x;
+    this->unk2F6.y = this->unk2A8[12].y;
+    if (!(player->stateFlags1 & 0x4000000) && (this->actor.xzDistToPlayer <= 175.0f) && (this->actor.world.pos.y == this->actor.home.pos.y + 100.0f)) {
+        func_809B6B04(this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B69D4.s")
+void func_809B69D4(Actor* thisx) {
+    EnBa* this = THIS;
+    this->unk14C = 0;
+    this->actor.speedXZ = Rand_CenteredFloat(8.0f);
+    this->actor.world.rot.y = Rand_CenteredFloat(65535.0f);
+    this->unk318 = 0x14;
+    this->actor.gravity = -2.0f;
+    func_809B6350(this, func_809B6A44);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6A44.s")
+void func_809B6A44(EnBa* this, GlobalContext* globalCtx) {
+    if ((this->actor.bgCheckFlags & 1) != 0) {
+        this->actor.scale.y -= 0.001f;
+        this->actor.scale.x += 0.0005f;
+        this->actor.scale.z += 0.0005f;
+        this->unk318--;
+        if (this->unk318 == 0) {
+            Actor_Kill(&this->actor);
+            return;
+        }
+    } else {
+        Actor_MoveForward(&this->actor);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 30.0f, 28.0f, 80.0f, 5);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6B04.s")
+void func_809B6B04(EnBa* this) {
+    this->unk14C = 3;
+    this->unk318 = (u16)0x14;
+    this->unk31A = (u16)0;
+    this->unk31C = (u16)0x5DC;
+    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.speedXZ = 20.0f;
+    func_809B6350(this, func_809B6B58);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6B58.s")
+void func_809B6B58(EnBa* this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    s16 temp;
+    s16 i;
+    Vec3s sp58;
+    s16 phi_fp;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B7174.s")
+    Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 60.0f, 1.0f, 10.0f, 0.0f);
+    if ((this->actor.xzDistToPlayer <= 175.0f) || (this->unk31A != 0)) {
+        if (this->unk318 == 0x14) {
+            Audio_PlayActorSound2(&this->actor, 0x3959);
+            this->unk31C = (u16)0x5DC;
+        }
+        if (this->unk318 != 0) {
+            this->unk31A = 10;
+            this->unk318--;
+            if (this->unk318 >= 11) {
+                this->unk2FC = player->actor.world.pos;
+                this->unk2FC.y += 30.0f;
+                phi_fp = this->actor.yawTowardsPlayer;
+            } else {
+                phi_fp = (s16)Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk2FC);
+            }
+            Math_SmoothStepToS(&this->unk31C, 0x5DC, 1, 0x1E, 0);
+            func_80035844(&this->actor.world.pos, &this->unk158[0], &sp58.x, 0);
+            Math_SmoothStepToS(&this->actor.shape.rot.y, sp58.y, 1, this->unk31C, 0);
+            Math_SmoothStepToS(&this->actor.shape.rot.x, (sp58.x + 0x8000), 1, this->unk31C, 0);
+            Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
+            Matrix_RotateRPY((this->actor.shape.rot.x - 0x8000), this->actor.shape.rot.y, 0, 1);
+            Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B71F0.s")
+            for (i = 0; i < 13; i++){
+                Math_SmoothStepToS(&this->unk2A8[i].x, (i * 0x4B0) - 0x4000, 1, this->unk31C, 0);
+                Math_SmoothStepToS(&this->unk2A8[i].y, phi_fp, 1, this->unk31C, 0);
+                Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+                Matrix_RotateRPY((this->unk2A8[i].x - 0x8000), this->unk2A8[i].y, 0, 1);
+                Matrix_MultVec3f(&D_809B8080, &this->unk158[i+1]);
+            }
+        } else {
+            if (this->unk31A == 0xA) {
+                Audio_PlayActorSound2(&this->actor, 0x3958);
+            }
+            if (this->unk31A != 0) {
+                this->unk31C = 0x1F40;
+                this->actor.speedXZ = 30.0f;
+                phi_fp = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk2FC);
+                temp = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk158[0]) + 0x8000;
+                Math_SmoothStepToS(&this->actor.shape.rot.y, phi_fp, 1, this->unk31C, 0);
+                Math_SmoothStepToS(&this->actor.shape.rot.x, temp, 1, this->unk31C, 0);
+                Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
+                Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, 1);
+                Matrix_MultVec3f(&D_809B8080, this->unk158);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B75A0.s")
+                for (i = 0; i < 13; i++){
+                    temp = -Math_CosS(this->unk31A * 0xCCC) * (i * 0x4B0);
+                    Math_SmoothStepToS(&this->unk2A8[i].x, temp - 0x4000, 1, this->unk31C, 0);
+                    Math_SmoothStepToS(&this->unk2A8[i].y, phi_fp, 1, this->unk31C, 0);
+                    Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+                    Matrix_RotateRPY((s16) (this->unk2A8[i].x - 0x8000), this->unk2A8[i].y, 0, 1);
+                    Matrix_MultVec3f(&D_809B8080, &this->unk158[i+1]);
+                }
+                this->unk31A--;
+            } else if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & 0x4000000)) {
+                func_809B6568(&this->actor);
+            } else {
+                func_809B6B04(this);
+                this->unk318 = 27;
+                this->unk31C = 750;
+            }
+        }
+        this->unk2F6.x = this->unk2A8[12].x;
+        this->unk2F6.y = this->unk2A8[12].y;
+        if (this->unk320.base.atFlags & 2) {
+            this->unk320.base.atFlags &= ~2;
+            if (&player->actor == this->unk320.base.at) {
+                func_8002F71C(globalCtx, &this->actor, 8.0f, this->actor.yawTowardsPlayer, 8.0f);
+            }
+        }
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->unk320.base);
+        return;
+    }
+    if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & 0x4000000)) {
+        func_809B6568(&this->actor);
+        return;
+    }
+    func_809B6B04(this);
+    this->unk318 = 0x1B;
+    this->unk31C = 0x2EE;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B781C.s")
+void func_809B7174(EnBa *this) {
+    this->unk14C = 1;
+    this->unk31C = 0x5DC;
+    this->unk318 = 0x14;
+    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.speedXZ = 10.0f;
+    Audio_PlayActorSound2(&this->actor, (u16)0x395AU);
+    func_8003426C(&this->actor, (u16)0x4000, (u16)0xFF, (u16)0, 0xC);
+    func_809B6350(this, func_809B71F0);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Update.s")
+void func_809B71F0(EnBa* this, GlobalContext* globalCtx) {
+    s32 i;
+    Vec3s sp6C;
+
+    Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 330.0f, 1.0f, 30.0f, 0.0f);
+    this->unk2FC = this->actor.world.pos;
+    if (globalCtx->gameplayFrames % 0x10 == 0) {
+        this->unk308.z += Rand_CenteredFloat(180.0f);
+        this->unk314 += Rand_CenteredFloat(180.0f);
+        this->unk308.x = Math_SinF(this->unk308.z) * 80.0f;
+        this->unk308.y = Math_CosF(this->unk314) * 80.0f;
+    }
+    this->unk2FC.y -= 448.0f;
+    this->unk2FC.x += this->unk308.x;
+    this->unk2FC.z += this->unk308.y;
+    func_80033AEC(&this->unk2FC, &this->unk158[13], 1.0f, this->actor.speedXZ, 0.0f, 0.0f);
+    for (i = 12; i >= 0; i--){
+        func_80035844(&this->unk158[i+1], &this->unk158[i], &sp6C.x, 0);
+        Matrix_Translate(this->unk158[i+1].x, this->unk158[i+1].y, this->unk158[i+1].z, 0);
+        Matrix_RotateRPY(sp6C.x, sp6C.y, 0, 1);
+        Matrix_MultVec3f(&D_809B8080, &this->unk158[i]);
+    }
+    func_80035844(&this->actor.world.pos, &this->unk158[0], &sp6C.x, 0);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, sp6C.y, 3, this->unk31C, 0xB6);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, sp6C.x + 0x8000, 3, this->unk31C, 0xB6);
+    Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, 1);
+    Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
+
+    for (i = 0; i < 13; i++) {
+        func_80035844(&this->unk158[i], &this->unk158[i+1], &sp6C.x, 0);
+        Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+        Math_SmoothStepToS(&this->unk2A8[i].y, sp6C.y, 3, this->unk31C, 0xB6);
+        Math_SmoothStepToS(&this->unk2A8[i].x, sp6C.x + 0x8000, 3, this->unk31C, 0xB6);
+        Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, 1);
+        Matrix_MultVec3f(&D_809B8080, &this->unk158[i+1]);
+    }
+
+    this->unk2F6.x = this->unk2A8[12].x;
+    this->unk2F6.y = this->unk2A8[12].y;
+    this->unk318--;
+    if (this->unk318 == 0) {
+        func_809B6568(&this->actor);
+    }
+}
+
+void func_809B75A0(EnBa* this, GlobalContext *globalCtx) {
+    s16 temp_s1_2;
+    s32 i;
+    Vec3f sp74 = D_809B8100;
+    GlobalContext* globalCtx2 = globalCtx;
+
+    this->unk31C = 2500;
+    EffectSsDeadSound_SpawnStationary(globalCtx2, &this->actor.projectedPos, 0x395B, 1, 1, 0x28);
+    this->unk14C = 0;
+
+    for (i = 7; i < 14; i++){
+        Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_BA, this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0, 0, 0, 3);
+    }
+
+    temp_s1_2 = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk158[0]) + 0x8000;
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, this->unk31C, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, temp_s1_2, 1, this->unk31C, 0);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
+    Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, 1);
+    Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
+    this->actor.flags &= ~1;
+
+    for (i = 5; i < 13; i++){
+        Math_SmoothStepToS(&this->unk2A8[i].x, this->unk2A8[5].x, 1, this->unk31C, 0);
+        Math_SmoothStepToS(&this->unk2A8[i].y, this->unk2A8[5].y, 1, this->unk31C, 0);
+        Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+        Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, 1);
+        Matrix_MultVec3f(&sp74, &this->unk158[i+1]);    
+    }
+    this->unk31A = 0xF;
+    func_809B6350(this, func_809B781C);
+}
+
+void func_809B781C(EnBa* this, GlobalContext *globalCtx) {
+    Vec3f sp6C = D_809B810C;
+    s16 temp;
+    s32 i;
+    
+
+    if (this->unk31A != 0) {
+        this->actor.speedXZ = 30.0f;
+        this->unk31C = 8000;
+        this->actor.world.pos.y += 8.0f;
+        temp = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk158[0]) + 0x8000;
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, (u16)1, this->unk31C, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.x, temp, 1, this->unk31C, 0);
+        Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
+        Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, 1);
+        Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
+        for (i = 0; i < 5; i++){
+            temp = -Math_CosS(this->unk31A * 0x444) * (i * 400);
+            Math_SmoothStepToS(&this->unk2A8[i].x, temp - 0x4000, 1, this->unk31C, 0);
+            Math_SmoothStepToS(&this->unk2A8[i].y, this->actor.yawTowardsPlayer, 1, this->unk31C, 0);
+            Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+            Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, 1);
+            Matrix_MultVec3f(&D_809B8080, &this->unk158[i+1]);
+        }
+        for (i = 5; i < 13; i++){
+            Math_SmoothStepToS(&this->unk2A8[i].x, this->unk2A8[5].x, 1, this->unk31C, 0);
+            Math_SmoothStepToS(&this->unk2A8[i].y, this->unk2A8[5].y, 1, this->unk31C, 0);
+            Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+            Matrix_RotateRPY(this->unk2A8[i].x - 0x8000, this->unk2A8[i].y, 0, 1);
+            Matrix_MultVec3f(&sp6C, &this->unk158[i+1]);    
+        }
+        this->unk31A--;
+    } else{
+        Flags_SetSwitch(globalCtx, (s32) this->unk154);
+        Actor_Kill(&this->actor);
+    }
+}
+
+void EnBa_Update(Actor *thisx, GlobalContext *globalCtx) {
+    EnBa* this = THIS;
+
+    if (this->actor.params < 3) {
+        if ((this->unk320.base.acFlags & 2) != 0) {
+            this->unk320.base.acFlags &= ~2;
+            this->actor.colChkInfo.health--;
+            if (this->actor.colChkInfo.health == 0) {
+                func_809B75A0(this, globalCtx);
+            } else {
+                func_809B7174(this);
+            }
+        }
+    }
+    this->unk150(this, globalCtx);
+    if (this->actor.params < 3) {
+        this->actor.focus.pos = this->unk158[6];
+    }
+    if (this->unk14C >= 2) {
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->unk320.base);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Draw.s")
