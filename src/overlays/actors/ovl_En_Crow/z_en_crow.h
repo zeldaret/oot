@@ -19,7 +19,7 @@ typedef struct EnCrow {
     /* 0x01CA */ Vec3s jointTable[9];
     /* 0x0200 */ Vec3s morphTable[9];
     /* 0x0238 */ ColliderJntSph collider;
-    /* 0x0258 */ ColliderJntSphItem colliderItems[1];
+    /* 0x0258 */ ColliderJntSphElement colliderItems[1];
 } EnCrow; // size = 0x0298
 
 extern const ActorInit En_Crow_InitVars;

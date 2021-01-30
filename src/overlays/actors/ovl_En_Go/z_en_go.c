@@ -1,5 +1,6 @@
 #include "z_en_go.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000039
 
@@ -53,7 +54,7 @@ typedef struct {
 
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGo),
@@ -64,13 +65,27 @@ const ActorInit En_Go_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
+    0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
 static EnGoSkelAnime D_80A41B38[4] = { { &D_06004930, 0.0f, 0x01, 0.0f },
@@ -192,9 +207,9 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
 s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
     s16 unkState = 1;
     f32 xzRange;
-    f32 yRange = fabsf(this->actor.yDistFromLink) + 1.0f;
+    f32 yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
 
-    xzRange = this->actor.xzDistFromLink + 1.0f;
+    xzRange = this->actor.xzDistToPlayer + 1.0f;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         if (globalCtx) {}
         case 2:
@@ -396,7 +411,7 @@ void func_80A3F060(EnGo* this, GlobalContext* globalCtx) {
         unkVal = 1;
     }
 
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     this->unk_1E0.unk_14 = EnGo_GetGoronSize(this);
     func_80034A14(&this->actor, &this->unk_1E0, 4, unkVal);
 }
@@ -413,7 +428,7 @@ void func_80A3F0E4(EnGo* this) {
 
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     f32 xyzDist;
-    s16 yawDiff = (s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y);
+    s16 yawDiff = (s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
     Camera* camera = globalCtx->cameraPtrs[0];
 
     if (fabsf(yawDiff) > 10920.0f) {
@@ -426,7 +441,7 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
         xyzDist *= 4.8f;
     }
 
-    if (fabsf(this->actor.xyzDistFromLinkSq) > xyzDist) {
+    if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
         if (camera->setting == 0x3F) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
@@ -444,16 +459,16 @@ void EnGo_SwapInitialFrameAnimFrameCount(EnGo* this) {
 }
 
 void func_80A3F274(EnGo* this) {
-    s16 unk_14;
+    s16 shadowAlpha;
     f32 currentFrame = this->skelAnime.curFrame;
-    s16 unk_14Target =
+    s16 shadowAlphaTarget =
         (this->skelAnime.animation == &D_06004930 && currentFrame > 32.0f) || this->skelAnime.animation != &D_06004930
-            ? 0xFF
+            ? 255
             : 0;
 
-    unk_14 = this->actor.shape.unk_14;
-    Math_SmoothStepToS(&unk_14, unk_14Target, 10, 60, 1);
-    this->actor.shape.unk_14 = unk_14;
+    shadowAlpha = this->actor.shape.shadowAlpha;
+    Math_SmoothStepToS(&shadowAlpha, shadowAlphaTarget, 10, 60, 1);
+    this->actor.shape.shadowAlpha = shadowAlpha;
 }
 
 s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
@@ -469,9 +484,9 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     path = &globalCtx->setupPathList[this->actor.params & 0xF];
     pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->unk_218;
-    xDist = pointPos->x - this->actor.posRot.pos.x;
-    zDist = pointPos->z - this->actor.posRot.pos.z;
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0X8000 / M_PI)), 10,
+    xDist = pointPos->x - this->actor.world.pos.x;
+    zDist = pointPos->z - this->actor.world.pos.z;
+    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0X8000 / M_PI)), 10,
                             1000, 1);
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;
@@ -500,10 +515,10 @@ s32 EnGo_SetMovedPos(EnGo* this, GlobalContext* globalCtx) {
         path = &globalCtx->setupPathList[(this->actor.params & 0xF)];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
-        this->actor.posRot.pos.x = pointPos->x;
-        this->actor.posRot.pos.y = pointPos->y;
-        this->actor.posRot.pos.z = pointPos->z;
-        this->actor.initPosRot.pos = this->actor.posRot.pos;
+        this->actor.world.pos.x = pointPos->x;
+        this->actor.world.pos.y = pointPos->y;
+        this->actor.world.pos.z = pointPos->z;
+        this->actor.home.pos = this->actor.world.pos;
         return true;
     }
 }
@@ -515,15 +530,15 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
     s16 angle;
     s32 i;
 
-    pos = this->actor.posRot.pos; // Overwrites pos
-    pos.y = this->actor.groundY;
+    pos = this->actor.world.pos; // Overwrites pos
+    pos.y = this->actor.floorHeight;
     angle = (Rand_ZeroOne() - 0.5f) * 0x10000;
     i = numDustEffects;
     while (i >= 0) {
         accel.x = (Rand_ZeroOne() - 0.5f) * xzAccel;
         accel.z = (Rand_ZeroOne() - 0.5f) * xzAccel;
-        pos.x = (Math_SinS(angle) * radius) + this->actor.posRot.pos.x;
-        pos.z = (Math_CosS(angle) * radius) + this->actor.posRot.pos.z;
+        pos.x = (Math_SinS(angle) * radius) + this->actor.world.pos.x;
+        pos.z = (Math_CosS(angle) * radius) + this->actor.world.pos.z;
         EnGo_AddDust(this, &pos, &velocity, &accel, initialTimer, scale, scaleStep);
         angle += (s16)(0x10000 / numDustEffects);
         i--;
@@ -539,9 +554,9 @@ s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
         return true;
     } else if (DECR(this->unk_21C)) {
         if ((this->unk_21C & 1)) {
-            this->actor.posRot.pos.y += 1.5f;
+            this->actor.world.pos.y += 1.5f;
         } else {
-            this->actor.posRot.pos.y -= 1.5f;
+            this->actor.world.pos.y -= 1.5f;
         }
         return true;
     } else {
@@ -616,11 +631,11 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f D_80A41B9C = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3f D_80A41BA8 = { 0.0f, 0.0f, 0.0f }; // unused
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
     if (!EnGo_IsActorSpawned(this, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
@@ -632,7 +647,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80A3EDE0(this, 0);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
     this->actor.gravity = -1.0f;
     switch (this->actor.params & 0xF0) {
@@ -642,7 +657,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
                 EnGo_SetMovedPos(this, globalCtx);
                 EnGo_SetupAction(this, EnGo_CurledUp);
             } else {
-                this->actor.shape.unk_08 = 1400.0f;
+                this->actor.shape.yOffset = 1400.0f;
                 this->actor.speedXZ = 3.0f;
                 EnGo_SetupAction(this, EnGo_GoronLinkRolling);
             }
@@ -660,12 +675,12 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnGo_SetupAction(this, EnGo_CurledUp);
             break;
         case 0x30:
-            this->actor.shape.unk_08 = 1400.0f;
+            this->actor.shape.yOffset = 1400.0f;
             Actor_SetScale(&this->actor, 0.01f);
             EnGo_SetupAction(this, func_80A3FEB4);
             break;
         case 0x90:
-            this->actor.unk_1F = 5;
+            this->actor.targetMode = 5;
             Actor_SetScale(&this->actor, 0.16f);
             EnGo_SetupAction(this, EnGo_CurledUp);
             break;
@@ -688,7 +703,7 @@ void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80A3FEB4(EnGo* this, GlobalContext* globalCtx) {
-    if (!(this->actor.xyzDistFromLinkSq > SQ(1200.0f))) {
+    if (!(this->actor.xyzDistToPlayerSq > SQ(1200.0f))) {
         EnGo_SetupAction(this, EnGo_StopRolling);
     }
 }
@@ -697,25 +712,25 @@ void EnGo_StopRolling(EnGo* this, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (DECR(this->unk_20E) == 0) {
-        if (this->collider.base.maskB & 1) {
-            this->collider.base.maskB &= ~1;
+        if (this->collider.base.ocFlags2 & 1) {
+            this->collider.base.ocFlags2 &= ~1;
             globalCtx->damagePlayer(globalCtx, -4);
-            func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsLink, 6.0f);
+            func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
             this->unk_20E = 0x10;
         }
     }
 
     this->actor.speedXZ = 3.0f;
     if ((EnGo_FollowPath(this, globalCtx) == true) && (this->unk_218 == 0)) {
-        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
-                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
         if (bomb != NULL) {
             bomb->timer = 0;
         }
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
     }
-    this->actor.shape.rot = this->actor.posRot.rot;
+    this->actor.shape.rot = this->actor.world.rot;
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
         EnGo_SpawnDust(this, 12, 0.16f, 0.1f, 1, 10.0f, 20.0f);
     }
@@ -724,7 +739,7 @@ void EnGo_StopRolling(EnGo* this, GlobalContext* globalCtx) {
 void func_80A4008C(EnGo* this, GlobalContext* globalCtx) {
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
         if (this->unk_21A == 0) {
-            this->actor.shape.unk_08 = 0.0f;
+            this->actor.shape.yOffset = 0.0f;
             EnGo_SetupAction(this, EnGo_CurledUp);
         } else {
             EnGo_SpawnDust(this, 12, 0.16f, 0.1f, 1, 10.0f, 20.0f);
@@ -740,7 +755,7 @@ void EnGo_GoronLinkRolling(EnGo* this, GlobalContext* globalCtx) {
         gSaveContext.infTable[16] |= 0x200;
     }
 
-    this->actor.shape.rot = this->actor.posRot.rot;
+    this->actor.shape.rot = this->actor.world.rot;
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
         EnGo_SpawnDust(this, 12, 0.18f, 0.2f, 2, 13.0f, 20.0f);
     }
@@ -952,8 +967,8 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
             getItem = GI_TUNIC_GORON;
         }
 
-        yDist = fabsf(this->actor.yDistFromLink) + 1.0f;
-        xzDist = this->actor.xzDistFromLink + 1.0f;
+        yDist = fabsf(this->actor.yDistToPlayer) + 1.0f;
+        xzDist = this->actor.xzDistToPlayer + 1.0f;
         func_8002F434(&this->actor, globalCtx, getItem, xzDist, yDist);
     }
 }
@@ -1002,7 +1017,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnGo* this = THIS;
     ColliderCylinder* collider = &this->collider;
 
-    Collider_CylinderUpdate(&this->actor, collider);
+    Collider_UpdateCylinder(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
     SkelAnime_Update(&this->skelAnime);
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
@@ -1013,7 +1028,7 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 0) {
         Actor_MoveForward(&this->actor);
     }
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     func_80A3F0E4(this);
     func_80A3F908(this, globalCtx);
     this->actionFunc(this, globalCtx);
@@ -1032,7 +1047,7 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
 
     gSPDisplayList(POLY_OPA_DISP++, &D_0600BD80);
 
-    Matrix_MultVec3f(&D_80A41BB4, &this->actor.posRot2);
+    Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus);
     Matrix_Pull();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2341);
 }
@@ -1048,7 +1063,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go.c", 2368),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, &D_0600C140);
-    Matrix_MultVec3f(&D_80A41BC0, &this->actor.posRot2);
+    Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus);
     Matrix_Pull();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2383);
@@ -1092,7 +1107,7 @@ void EnGo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f D_80A41BCC = { 600.0f, 0.0f, 0.0f };
 
     if (limbIndex == 17) {
-        Matrix_MultVec3f(&D_80A41BCC, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80A41BCC, &this->actor.focus.pos);
     }
 }
 

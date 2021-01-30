@@ -242,7 +242,7 @@ glabel L80966BCC
 /* 002A8 80966BF8 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 002AC 80966BFC 02203025 */  or      $a2, $s1, $zero            ## $a2 = 00000000
 /* 002B0 80966C00 24070007 */  addiu   $a3, $zero, 0x0007         ## $a3 = 00000007
-/* 002B4 80966C04 0C00CDD2 */  jal     Actor_ChangeType
+/* 002B4 80966C04 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 002B8 80966C08 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 002BC 80966C0C 10000029 */  beq     $zero, $zero, .L80966CB4   

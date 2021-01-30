@@ -21,7 +21,7 @@ void func_80A6E6B0(EnHs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Hs_InitVars = {
     ACTOR_EN_HS,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_HS,
     sizeof(EnHs),
@@ -32,8 +32,22 @@ const ActorInit En_Hs_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 40, 40, 0, { 0, 0, 0 } },
 };
 
@@ -50,12 +64,12 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHs* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06006260, &D_060005C0, this->jointTable, this->morphTable, 16);
     Animation_PlayLoop(&this->skelAnime, &D_060005C0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
 
     if (LINK_IS_CHILD) {
@@ -80,7 +94,7 @@ void EnHs_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_2A8 = 0;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
 }
 
 void EnHs_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -98,8 +112,8 @@ s32 func_80A6E53C(EnHs* this, GlobalContext* globalCtx, u16 textId, EnHsActionFu
     }
 
     this->actor.textId = textId;
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistFromLink < 100.0f)) {
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
         this->unk_2A8 |= 1;
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
@@ -165,7 +179,8 @@ void func_80A6E7BC(EnHs* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        Animation_Change(&this->skelAnime, &D_060005C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060005C0), 0, 8.0f);
+        Animation_Change(&this->skelAnime, &D_060005C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060005C0), ANIMMODE_LOOP,
+                         8.0f);
     }
 
     this->unk_2A8 |= 1;
@@ -177,7 +192,8 @@ void func_80A6E8CC(EnHs* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8010B720(globalCtx, 0x10B3);
         func_80A6E3A0(this, func_80A6E7BC);
-        Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), 0, 8.0f);
+        Animation_Change(&this->skelAnime, &D_06000528, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000528), ANIMMODE_LOOP,
+                         8.0f);
     }
 
     if (this->unk_2AA > 0) {
@@ -198,7 +214,8 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
         if (func_8002F368(globalCtx) == 7) {
             player->actor.textId = 0x10B2;
             func_80A6E3A0(this, func_80A6E8CC);
-            Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000304), 0, 8.0f);
+            Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000304),
+                             ANIMMODE_LOOP, 8.0f);
             this->unk_2AA = 40;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
@@ -206,9 +223,9 @@ void func_80A6E9AC(EnHs* this, GlobalContext* globalCtx) {
             func_80A6E3A0(this, func_80A6E6D8);
         }
     } else {
-        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         this->actor.textId = 0x10B1;
-        if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistFromLink < 100.0f)) {
+        if ((ABS(yawDiff) <= 0x2150) && (this->actor.xzDistToPlayer < 100.0f)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, 7);
         }
     }
@@ -218,10 +235,10 @@ void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHs* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(thisx, &this->collider);
+    Collider_UpdateCylinder(thisx, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
@@ -229,7 +246,7 @@ void EnHs_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->unk_2A8 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A8 &= ~1;
     } else {
         Math_SmoothStepToS(&this->unk_29C.x, 12800, 6, 6200, 100);
@@ -274,7 +291,7 @@ void EnHs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnHs* this = THIS;
 
     if (limbIndex == 9) {
-        Matrix_MultVec3f(&D_80A6EDFC, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80A6EDFC, &this->actor.focus.pos);
     }
 }
 

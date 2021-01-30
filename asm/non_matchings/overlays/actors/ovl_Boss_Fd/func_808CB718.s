@@ -1537,7 +1537,7 @@ glabel L808CC944
 /* 01D64 808CCB24 8FA401D4 */  lw      $a0, 0x01D4($sp)           
 .L808CCB28:
 /* 01D68 808CCB28 E7BC0010 */  swc1    $f28, 0x0010($sp)          
-/* 01D6C 808CCB2C 0C00B92D */  jal     func_8002E4B4              
+/* 01D6C 808CCB2C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01D70 808CCB30 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 01D74 808CCB34 86CF024A */  lh      $t7, 0x024A($s6)           ## 0000024A
 /* 01D78 808CCB38 26C4027C */  addiu   $a0, $s6, 0x027C           ## $a0 = 0000027C

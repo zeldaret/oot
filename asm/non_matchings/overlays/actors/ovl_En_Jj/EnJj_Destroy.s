@@ -17,8 +17,8 @@ glabel EnJj_Destroy
 /* 002CC 80A87ACC 8DE6014C */  lw      $a2, 0x014C($t7)           ## 0000014C
 /* 002D0 80A87AD0 AFA7001C */  sw      $a3, 0x001C($sp)           
 /* 002D4 80A87AD4 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
-/* 002D8 80A87AD8 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 002D8 80A87AD8 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 002DC 80A87ADC 24E50810 */  addiu   $a1, $a3, 0x0810           ## $a1 = 00000810
 /* 002E0 80A87AE0 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 002E4 80A87AE4 8FA4001C */  lw      $a0, 0x001C($sp)           
@@ -32,8 +32,8 @@ glabel EnJj_Destroy
 .L80A87AFC:
 /* 002FC 80A87AFC 00E02025 */  or      $a0, $a3, $zero            ## $a0 = 00000000
 /* 00300 80A87B00 24E50810 */  addiu   $a1, $a3, 0x0810           ## $a1 = 00000810
-/* 00304 80A87B04 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 00304 80A87B04 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00308 80A87B08 8F06014C */  lw      $a2, 0x014C($t8)           ## 0000014C
 /* 0030C 80A87B0C 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80A87B10:
