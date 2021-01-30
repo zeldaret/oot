@@ -8,14 +8,16 @@ struct DemoDu;
 
 typedef struct DemoDu {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ SkelAnime unk_14C;
-    /* 0x0190 */ s16 unk_190;
+    /* 0x014C */ SkelAnime skelAnime;
+    /* 0x0190 */ s16 unk_190; // index for D_8096CE74
     /* 0x0192 */ char unk_192[0x02];
-    /* 0x0194 */ s16 unk_194;
+    /* 0x0194 */ s16 unk_194; // index for D_8096CE84
     /* 0x0196 */ char unk_196[0x02];
     /* 0x0198 */ s32 updateIndex;
     /* 0x019C */ s32 drawIndex;
-    /* 0x01A0 */ char unk_1A0[0x14];
+    /* 0x01A0 */ char unk_1A0[0x08];
+    /* 0x01A8 */ s32 unk_1A8;
+    /* 0x01AC */ s32 unk_1AC[0x08];
 } DemoDu; // size = 0x01B4
 
 extern const ActorInit Demo_Du_InitVars;

@@ -39,13 +39,13 @@ extern CutsceneData D_8096C1A4[];
 glabel D_8096CE74
  .word 0x06008080, 0x06008480, 0x06008880, 0x0600A540
 */
-extern UNK_TYPE D_8096CE74[4];
+extern Gfx* D_8096CE74[];
 
 /*
 glabel D_8096CE84
  .word 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180
 */
-extern UNK_TYPE D_8096CE84[4];
+extern Gfx* D_8096CE84[];
 
 /*
 glabel D_8096CE94
@@ -154,7 +154,7 @@ const ActorInit Demo_Du_InitVars = {
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
 
-    SkelAnime_Free(&this->unk_14C, globalCtx);
+    SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969AF0.s")
@@ -186,7 +186,7 @@ void func_80969B8C(DemoDu* this, s16 arg1) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969DDC.s")
 
 void func_80969E6C(DemoDu* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, &D_06006EB0, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011CA8, &D_06006EB0, NULL, NULL, 0);
     this->actor.shape.yOffset = -10000.0f;
     func_80969B78(this, 1);
     func_80969B8C(this, 3);
@@ -243,7 +243,7 @@ void func_80969FD0(DemoDu* this, GlobalContext* globalCtx2) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A338.s")
 
 void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011CA8, NULL, NULL, NULL, 0);
     this->updateIndex = 7;
 }
 
@@ -323,13 +323,13 @@ void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
 
 void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
-    SkelAnime* unk_14C = &this->unk_14C;
+    SkelAnime* skelAnime = &this->skelAnime;
     s32 pad;
     f32 lastFrame;
 
     lastFrame = (f32) Animation_GetLastFrame(&D_06012014);
-    SkelAnime_InitFlex(globalCtx2, unk_14C, &D_06011CA8, NULL, NULL, NULL, 0);
-    Animation_Change(unk_14C, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
+    SkelAnime_InitFlex(globalCtx2, skelAnime, &D_06011CA8, NULL, NULL, NULL, 0);
+    Animation_Change(skelAnime, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
     this->updateIndex = 0x15;
     this->actor.shape.shadowAlpha = 0;
 }
@@ -350,10 +350,36 @@ void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B7EC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B840.s")
+void func_8096B840(Actor* thisx, GlobalContext *globalCtx2) {
+    GlobalContext *globalCtx = globalCtx2;
+    DemoDu* this = THIS;
+    s16 unk_190 = this->unk_190;
+    Gfx* sp70 = D_8096CE74[unk_190];
+    s32 pad;
+    s16 unk_194 = this->unk_194;
+    Gfx* sp64 = D_8096CE84[unk_194];
+    SkelAnime* skelAnime = &this->skelAnime;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 275);
+
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp70));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp64));
+
+    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06007FC0));
+
+    gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0x00, this->unk_1A8);
+
+    gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, (s32) skelAnime->dListCount, 0, 0, 0, POLY_XLU_DISP);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 304);
+}
 
 void func_8096BA2C(DemoDu* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->unk_14C, &D_06011CA8, &D_060067CC, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011CA8, &D_060067CC, NULL, NULL, 0);
     this->updateIndex = 24;
     this->drawIndex = 0;
     this->actor.shape.shadowAlpha = 0;
