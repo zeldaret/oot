@@ -93,6 +93,7 @@ def count_build():
                 
                 if len(funcs) > 0:
                     num_files += len(funcs)
+                    # round up the file size to a multiple of four.
                     total_size += math.ceil(sum(funcs.values())/4)*4
                     max_size += max(funcs.values())
 
@@ -110,6 +111,23 @@ def get_ignored(filename):
     return ignored
 
 
+def print_csv(overlays, ignored):
+    sorted_actors = [(k, v) for k, v in overlays.items()]
+    sorted_actors.sort()
+
+    row = "{},{},{},{},{},{},{}"
+    print(row.format("Overlay", "Num files", "Max size", "Total size", "Average size", "Description", "Status"))
+
+    for actor in sorted_actors:
+        name = actor[0]
+        other = actor[1]
+        if name in ignored:
+            continue
+        print(row.format(name, *other))
+
+
+
+
 def main():
     parser = argparse.ArgumentParser(description="Collects actor's functions sizes, and print them in csv format.")
     parser.add_argument("--non-matching", help="Collect data of the non-matching actors instead.", action="store_true")
@@ -123,18 +141,7 @@ def main():
 
     ignored = get_ignored(args.ignore)
 
-    sorted_actors = [(k, v) for k, v in overlays.items()]
-    sorted_actors.sort()
-
-    row = "{},{},{},{},{},{},{}"
-    print(row.format("Overlay", "Num files", "Max size", "Total size", "Average size", "Description", "Status"))
-
-    for actor in sorted_actors:
-        name = actor[0]
-        other = actor[1]
-        if name in ignored:
-            continue
-        print(row.format(name, *other))
+    print_csv(overlays, ignored)
 
 
 main()
