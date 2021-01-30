@@ -3684,7 +3684,8 @@ endseg
 beginseg
     name "object_torch2"
     romalign 0x1000
-    include "build/baserom/object_torch2.o"
+    include "build/assets/objects/object_torch2/object_torch2.o"
+    number 6
 endseg
 
 beginseg
@@ -5147,7 +5148,8 @@ endseg
 beginseg
     name "object_blkobj"
     romalign 0x1000
-    include "build/baserom/object_blkobj.o"
+    include "build/assets/objects/object_blkobj/object_blkobj.o"
+    number 6
 endseg
 
 beginseg
@@ -5555,7 +5557,8 @@ endseg
 beginseg
     name "object_geldb"
     romalign 0x1000
-    include "build/baserom/object_geldb.o"
+    include "build/assets/objects/object_geldb/object_geldb.o"
+    number 6
 endseg
 
 beginseg
