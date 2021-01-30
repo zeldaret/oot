@@ -25,7 +25,7 @@ def get_num_instructions(f_path):
 def count_non_matching():
     overlays = {}
 
-    for root, dirs, files in os.walk(asm_dir):
+    for root, dirs, _ in os.walk(asm_dir):
         for actor_dir in dirs:
             total_size = 0
             max_size = -1
@@ -34,16 +34,15 @@ def count_non_matching():
 
             actor_funcs = {}
 
-            for root2, dirs2, files2 in os.walk(ovl_path):
-                for f_name in files2:
-                    file_path = os.path.join(ovl_path, f_name)
-                    file_size = get_num_instructions(file_path)
+            for f_name in os.listdir(ovl_path):
+                file_path = os.path.join(ovl_path, f_name)
+                file_size = get_num_instructions(file_path)
 
-                    num_files += 1
-                    total_size += file_size
-                    if file_size > max_size:
-                        max_size = file_size
-                    actor_funcs[f_name] = file_size
+                num_files += 1
+                total_size += file_size
+                if file_size > max_size:
+                    max_size = file_size
+                actor_funcs[f_name] = file_size
 
             overlays[actor_dir] = {
                 "summary": (num_files, max_size, total_size, 
@@ -85,7 +84,7 @@ def count_builded_funcs_and_instructions(f_path):
 def count_build():
     overlays = {}
 
-    for root, dirs, files in os.walk(build_dir):
+    for root, dirs, _ in os.walk(build_dir):
         for actor_dir in dirs:
             total_size = 0
             max_size = -1
@@ -120,30 +119,32 @@ def count_build():
     return overlays
 
 
-def get_ignored(filename):
-    ignored = []
+def get_list_from_file(filename):
+    actor_list = []
     if filename is not None:
         with open(filename) as f:
-            ignored = list(map(lambda x: x.strip().split(",")[0], f.readlines()))
-    return ignored
+            actor_list = list(map(lambda x: x.strip().split(",")[0], f.readlines()))
+    return actor_list
 
 
-def print_csv(overlays, ignored):
+def print_csv(overlays, ignored, include_only):
     sorted_actors = [(k, v["summary"]) for k, v in overlays.items()]
     sorted_actors.sort()
 
     row = "{},{},{},{},{}"
     print(row.format("Overlay", "Num files", "Max size", "Total size", "Average size"))
 
-    for actor in sorted_actors:
-        name = actor[0]
-        other = actor[1]
+    for actor_data in sorted_actors:
+        name = actor_data[0]
+        other = actor_data[1]
         if name in ignored:
+            continue
+        if include_only and name not in include_only:
             continue
         print(row.format(name, *other))
 
 
-def print_function_lines(overlays, ignored):
+def print_function_lines(overlays, ignored, include_only):
     sorted_actors = []
     for k, v in overlays.items():
         func_data = []
@@ -156,32 +157,34 @@ def print_function_lines(overlays, ignored):
     row = "{},{},{}"
     print(row.format("actor_name", "function_name", "lines"))
 
-    for actor in sorted_actors:
-        name = actor[0]
-        func_data = actor[1]
+    for actor_data in sorted_actors:
+        name = actor_data[0]
+        func_data = actor_data[1]
         if name in ignored:
+            continue
+        if include_only and name not in include_only:
             continue
         for func_name, lines in func_data:
             print(row.format(name, func_name, lines))
-
 
 
 def main():
     description = "Collects actor's functions sizes, and print them in csv format."
 
     epilog = """\
-
 To make a .csv with the data, simply redirect the output. For example:
     ./tools/get_actor_sizes.py > results.csv
 
 Flags can be mixed to produce a customized result:
-    ./tools/get_actor_sizes.py --function-lines --non-matching --ignore pull_request.csv > functions.csv
+    ./tools/get_actor_sizes.py --function-lines --non-matching > status.csv
+    ./tools/get_actor_sizes.py --non-matching --ignore pull_request.csv > non_matching.csv
+    ./tools/get_actor_sizes.py --non-matching --function-lines --include-only my_reserved.csv > my_status.csv
     """
-    print(epilog)
     parser = argparse.ArgumentParser(description=description, epilog=epilog, formatter_class=argparse.RawTextHelpFormatter)
     parser.add_argument("--non-matching", help="Collect data of the non-matching actors instead.", action="store_true")
-    parser.add_argument("--ignore", help="Path to file that contains overlays names which should be ignored.")
     parser.add_argument("--function-lines", help="Prints the size of every function instead of a summary.", action="store_true")
+    parser.add_argument("--ignore", help="Path to a file containing actor's names. The data of actors in this list will be ignored.")
+    parser.add_argument("--include-only", help="Path to a file containing actor's names. Only data of actors in this list will be printed.")
     args = parser.parse_args()
 
     if args.non_matching:
@@ -189,11 +192,12 @@ Flags can be mixed to produce a customized result:
     else:
         overlays = count_build()
 
-    ignored = get_ignored(args.ignore)
+    ignored = get_list_from_file(args.ignore)
+    include_only = get_list_from_file(args.include_only)
 
     if args.function_lines:
-        print_function_lines(overlays, ignored)
+        print_function_lines(overlays, ignored, include_only)
     else:
-        print_csv(overlays, ignored)
+        print_csv(overlays, ignored, include_only)
 
 main()
