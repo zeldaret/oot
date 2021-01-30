@@ -15,8 +15,8 @@ void EffDust_InitPosAndDistance(EffDust* this);
 void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx);
 void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx);
 void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx);
-void EffDust_DrawFunc_8099E4F4(EffDust* this, GlobalContext* globalCtx);
-void EffDust_DrawFunc_8099E784(EffDust* this, GlobalContext* globalCtx);
+void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx);
+void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Eff_Dust_InitVars = {
     ACTOR_EFF_DUST,
@@ -30,16 +30,18 @@ const ActorInit Eff_Dust_InitVars = {
     (ActorFunc)EffDust_Draw,
 };
 
-static Gfx* D_8099EB60[] = { 0xDF000000, 0x00000000, 0x00000000, 0x00000000 };
+static Gfx D_8099EB60[] = {
+    gsSPEndDisplayList(),
+};
 
 enum DustEffect { Effect_0 = 0, Effect_1 = 1, Effect_2 = 2, Effect_3 = 3, Effect_4 = 4 };
 
-void EffDust_setUpdateFunc(EffDust* this, EffDustActionFunc callback_updateFunc) {
-    this->updateFunc = callback_updateFunc;
+void EffDust_SetupAction(EffDust* this, EffDustActionFunc actionFunc) {
+    this->updateFunc = actionFunc;
 }
 
-void EffDust_setDrawFunc(EffDust* this, EffDustActionFunc callback_drawFunc) {
-    this->drawFunc = callback_drawFunc;
+void EffDust_SetupDraw(EffDust* this, EffDustDrawFunc drawFunc) {
+    this->drawFunc = drawFunc;
 }
 
 // Members initializer (?)
@@ -53,58 +55,51 @@ void EffDust_InitPosAndDistance(EffDust* this) {
 
         this->distanceTraveled[i] = 1.0f;
     }
-
     this->index = 0;
 }
 
 void EffDust_Init(Actor* thisx, GlobalContext* globalCtx) {
     EffDust* this = THIS;
-    enum DustEffect dust_effect;
+    enum DustEffect dust_effect = this->actor.params;
 
-    dust_effect = this->actor.params;
     EffDust_InitPosAndDistance(this);
 
     switch (dust_effect) {
         case Effect_0:
-            EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DB28);
-            EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E4F4);
+            EffDust_SetupAction(this, EffDust_UpdateFunc_8099DB28);
+            EffDust_SetupDraw(this, EffDust_DrawFunc_8099E4F4);
             this->dy = 0.8f;
             this->dz = 0.8f;
             this->dx = 1.0f;
             this->scalingFactor = 0.1f;
             break;
-
         case Effect_1:
-            EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DD74);
-            EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E4F4);
+            EffDust_SetupAction(this, EffDust_UpdateFunc_8099DD74);
+            EffDust_SetupDraw(this, EffDust_DrawFunc_8099E4F4);
             this->dx = 0.8f;
             this->dz = 0.8f;
             this->dy = 1.0f;
             this->scalingFactor = 0.5f;
             break;
-
         case Effect_2:
-            EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
-            EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
+            EffDust_SetupAction(this, EffDust_UpdateFunc_8099DFC0);
+            EffDust_SetupDraw(this, EffDust_DrawFunc_8099E784);
             this->dx = 0.5f;
             this->scalingFactor = 15.0f;
             break;
-
         case Effect_3:
-            EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
-            EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
+            EffDust_SetupAction(this, EffDust_UpdateFunc_8099DFC0);
+            EffDust_SetupDraw(this, EffDust_DrawFunc_8099E784);
             this->dx = 0.5f;
             this->scalingFactor = 10.0f;
             break;
-
         case Effect_4:
-            EffDust_setUpdateFunc(this, EffDust_UpdateFunc_8099DFC0);
-            EffDust_setDrawFunc(this, EffDust_DrawFunc_8099E784);
+            EffDust_SetupAction(this, EffDust_UpdateFunc_8099DFC0);
+            EffDust_SetupDraw(this, EffDust_DrawFunc_8099E784);
             this->actor.room = -1;
             this->dx = 0.5f;
             this->scalingFactor = 20.0f;
             break;
-
         default:
             SystemArena_FreeDebug(this, "../z_eff_dust.c", 202);
             break;
@@ -119,22 +114,15 @@ void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx) {
     s16 theta;
     s16 fi;
-
-    f32* distanceTraveled;
-
+    f32* distanceTraveled = this->distanceTraveled;
     s32 i;
     s32 j;
 
-    distanceTraveled = this->distanceTraveled;
     for (i = 0; i < 0x40; i++) {
         if ((*distanceTraveled) < 1.0f) {
             *distanceTraveled += 0.05f;
         }
         distanceTraveled++;
-        // This won't match.
-        /*if (this->distanceTraveled[i] < 1.0f) {
-            this->distanceTraveled[i] += 0.05f;
-        }*/
     }
 
     for (j = 0; j < 3; j++) {
@@ -155,22 +143,15 @@ void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx) {
 void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx) {
     s16 theta;
     s16 fi;
-
-    f32* distanceTraveled;
-
+    f32* distanceTraveled = this->distanceTraveled;
     s32 i;
     s32 j;
 
-    distanceTraveled = this->distanceTraveled;
     for (i = 0; i < 0x40; i++) {
         if ((*distanceTraveled) < 1.0f) {
             *distanceTraveled += 0.03f;
         }
         distanceTraveled++;
-        // This won't match.
-        /*if (this->distanceTraveled[i] < 1.0f) {
-            this->distanceTraveled[i] += 0.03f;
-        }*/
     }
 
     for (j = 0; j < 2; j++) {
@@ -190,19 +171,11 @@ void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx) {
 
 void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
     s16 theta;
-
-    Player* player;
-    Actor* parent;
-
-    f32* distanceTraveled;
-
+    Player* player = PLAYER;
+    Actor* parent = this->actor.parent;
+    f32* distanceTraveled = this->distanceTraveled;
     s32 i;
     s32 j;
-
-    player = PLAYER;
-
-    parent = this->actor.parent;
-    distanceTraveled = this->distanceTraveled;
 
     if (parent == NULL || parent->update == NULL || !(player->stateFlags1 & 0x1000)) {
         if (this->life != 0) {
@@ -284,52 +257,43 @@ void EffDust_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->updateFunc(this, globalCtx);
 }
 
-void EffDust_DrawFunc_8099E4F4(EffDust* this, GlobalContext* globalCtx) {
-    EffDust* this2;
-
-    GlobalContext* glb_ctx;
-    GraphicsContext* gfx_ctx;
-
+void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
+    EffDust* this = THIS;
+    GlobalContext* globalCtx = globalCtx2;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Vec3f* initialPositions;
     f32* distanceTraveled;
-
     s32 i;
-
     f32 aux;
 
-    glb_ctx = globalCtx;
-    gfx_ctx = globalCtx->state.gfxCtx;
-    this2 = this;
+    OPEN_DISPS(gfxCtx, "../z_eff_dust.c", 425);
 
-    OPEN_DISPS(gfx_ctx, "../z_eff_dust.c", 425);
-
-    func_80093D18(gfx_ctx);
+    func_80093D18(gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0x80, 0x80, 0x80, 0xFF);
     gDPSetEnvColor(POLY_XLU_DISP++, 0x80, 0x80, 0x80, 0x00);
 
-    initialPositions = this2->initialPositions;
-    distanceTraveled = this2->distanceTraveled;
+    initialPositions = this->initialPositions;
+    distanceTraveled = this->distanceTraveled;
 
     gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
 
     for (i = 0; i < 0x40; i++) {
         if (*distanceTraveled < 1.0f) {
             // Needed to match.
-            if (!this2) {}
+            if (!this) {}
 
             aux = 1.0f - (*distanceTraveled * *distanceTraveled);
-            Matrix_Translate(
-                this2->actor.world.pos.x + (initialPositions->x * ((this2->dx * aux) + (1.0f - this2->dx))),
-                this2->actor.world.pos.y + (initialPositions->y * ((this2->dy * aux) + (1.0f - this2->dy))),
-                this2->actor.world.pos.z + (initialPositions->z * ((this2->dz * aux) + (1.0f - this2->dz))),
-                MTXMODE_NEW);
+            Matrix_Translate(this->actor.world.pos.x + (initialPositions->x * ((this->dx * aux) + (1.0f - this->dx))),
+                             this->actor.world.pos.y + (initialPositions->y * ((this->dy * aux) + (1.0f - this->dy))),
+                             this->actor.world.pos.z + (initialPositions->z * ((this->dz * aux) + (1.0f - this->dz))),
+                             MTXMODE_NEW);
 
-            Matrix_Scale(this2->scalingFactor, this2->scalingFactor, this2->scalingFactor, MTXMODE_APPLY);
-            Matrix_Mult(&glb_ctx->mf_11DA0, MTXMODE_APPLY);
+            Matrix_Scale(this->scalingFactor, this->scalingFactor, this->scalingFactor, MTXMODE_APPLY);
+            Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfx_ctx, "../z_eff_dust.c", 449),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 449),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL));
         }
@@ -343,30 +307,24 @@ void EffDust_DrawFunc_8099E4F4(EffDust* this, GlobalContext* globalCtx) {
         if (1 != 0) {}
     }
 
-    CLOSE_DISPS(gfx_ctx, "../z_eff_dust.c", 458);
+    CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 458);
 }
 
-void EffDust_DrawFunc_8099E784(EffDust* this, GlobalContext* globalCtx) {
-    EffDust* this2;
-    GlobalContext* glb_ctx;
-    GraphicsContext* gfx_ctx;
-
+void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx) {
+    EffDust* this = THIS;
+    GlobalContext* globalCtx2;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     f32* distanceTraveled;
     Vec3f* initialPositions;
-
     s32 i;
     f32 aux;
+    Player* player = PLAYER;
 
-    Player* player;
+    OPEN_DISPS(gfxCtx, "../z_eff_dust.c", 472);
 
-    gfx_ctx = globalCtx->state.gfxCtx;
-    player = PLAYER;
+    globalCtx2 = globalCtx;
 
-    OPEN_DISPS(gfx_ctx, "../z_eff_dust.c", 472);
-
-    glb_ctx = globalCtx;
-
-    func_80093D18(gfx_ctx);
+    func_80093D18(gfxCtx);
 
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF);
@@ -386,23 +344,22 @@ void EffDust_DrawFunc_8099E784(EffDust* this, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0xFF, 0xFF, 0xFF, ((255.0f * (*distanceTraveled))));
 
             // Needed to match.
-            this2 = this;
-            if (!this2) {}
+            if (!this) {}
 
             aux = 1.0f - (*distanceTraveled * *distanceTraveled);
 
             Matrix_Mult(&player->mf_9E0, MTXMODE_NEW);
 
-            Matrix_Translate(initialPositions->x * ((this2->dx * aux) + (1.0f - this2->dx)),
+            Matrix_Translate(initialPositions->x * ((this->dx * aux) + (1.0f - this->dx)),
                              initialPositions->y * (1.0f - *distanceTraveled) + 320.0f,
                              initialPositions->z * (1.0f - *distanceTraveled) + -20.0f, MTXMODE_APPLY);
 
-            Matrix_Scale(*distanceTraveled * this2->scalingFactor, *distanceTraveled * this2->scalingFactor,
-                         *distanceTraveled * this2->scalingFactor, MTXMODE_APPLY);
+            Matrix_Scale(*distanceTraveled * this->scalingFactor, *distanceTraveled * this->scalingFactor,
+                         *distanceTraveled * this->scalingFactor, MTXMODE_APPLY);
 
-            func_800D1FD4(&glb_ctx->mf_11DA0);
+            func_800D1FD4(&globalCtx2->mf_11DA0);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfx_ctx, "../z_eff_dust.c", 506),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_dust.c", 506),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL));
         }
@@ -411,10 +368,10 @@ void EffDust_DrawFunc_8099E784(EffDust* this, GlobalContext* globalCtx) {
         distanceTraveled++;
     }
 
-    CLOSE_DISPS(gfx_ctx, "../z_eff_dust.c", 515);
+    CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 515);
 }
 
 void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EffDust* this = THIS;
-    this->drawFunc(this, globalCtx);
+    this->drawFunc(thisx, globalCtx);
 }
