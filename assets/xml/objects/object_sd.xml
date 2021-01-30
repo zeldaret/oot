@@ -23,7 +23,5 @@
     <DList Name="gEnHeishiHandDlist" Offset="0xB520"/>
     <DList Name="gEnHeishiLowerArmDlist2" Offset="0xB730"/>
     <DList Name="gEnHeishiUpperArmDlist2" Offset="0xB8C0"/>
-    <Texture Name="gHeishiKingGuardPalette" OutName="king_guard_palette" Format="rb5a1" Width="16" Height="16" Offset="0x000"/>
-    <Texture Name="gHeishiKingGuardTex_C80" OutName="king_guard_tex1" Format="ci8" Width="16" Height="16" Offset="0xC80"/>
     </File>
 </Root>
