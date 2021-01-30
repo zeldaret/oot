@@ -6,6 +6,7 @@
 
 #include "z_en_gs.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x02000009
 
@@ -21,7 +22,6 @@ void func_80A4F700(EnGs* this, GlobalContext* globalCtx);
 
 void func_80A4F77C(EnGs* this);
 
-extern Gfx D_0404D4E0[];
 extern Gfx D_06000950[];
 extern Gfx D_060009D0[];
 extern Gfx D_06000A60[];
@@ -614,7 +614,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, -frames * 0x14, 0x20, 0x80));
             gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 0, 255);
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
-            gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+            gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         }
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gs.c", 1101);

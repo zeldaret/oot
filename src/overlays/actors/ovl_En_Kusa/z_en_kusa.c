@@ -6,6 +6,7 @@
 
 #include "z_en_kusa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x00800010
@@ -91,8 +92,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_060002E0[];
-extern Gfx D_040355E0[]; // bush fragments 1
-extern Gfx D_040356A0[]; // bush fragments 2
 
 void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
     this->timer = 0;
@@ -191,7 +190,7 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         index = (s32)(Rand_ZeroOne() * 111.1f) & 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubStalkDL);
 
         pos.x = this->actor.world.pos.x + (scale->x * this->actor.scale.x * 40.0f);
         pos.y = this->actor.world.pos.y + (scale->y * this->actor.scale.y * 40.0f) + 10.0f;
@@ -204,7 +203,7 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         index = (s32)(Rand_ZeroOne() * 111.1f) % 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubTipDL);
     }
 }
 
