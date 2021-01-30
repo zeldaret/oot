@@ -29,19 +29,6 @@ void EnDekunuts_BeDamaged(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_BeStunned(EnDekunuts* this, GlobalContext* globalCtx);
 void EnDekunuts_Die(EnDekunuts* this, GlobalContext* globalCtx);
 
-extern AnimationHeader gDekuNutsSpitAnim;
-extern AnimationHeader gDekuNutsDamageAnim;
-extern AnimationHeader gDekuNutsBurrowAnim;
-extern AnimationHeader gDekuNutsDieAnim;
-extern AnimationHeader gDekuNutsUnburrowAnim;
-extern AnimationHeader gDekuNutsLookAroundAnim;
-extern AnimationHeader gDekuNutsUpAnim;
-extern AnimationHeader gDekuNutsStandAnim;
-extern AnimationHeader gDekuNutsGaspAnim;
-extern Gfx gDekuNutsFlowerDL[];
-extern SkeletonHeader gDekuNutsSkel;
-extern AnimationHeader gDekuNutsRunAnim;
-
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
     ACTORCAT_ENEMY,
@@ -76,7 +63,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 0x01, 0x0012, 0x0020, MASS_IMMOVABLE };
 
-static DamageTable D_809EAB84 = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
     /* Slingshot     */ DMG_ENTRY(1, 0x0),
@@ -129,7 +116,7 @@ void EnDekunuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Init(globalCtx, &this->skelAnime, &gDekuNutsSkel, &gDekuNutsStandAnim, this->jointTable, this->morphTable, 25);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        CollisionCheck_SetInfo(&thisx->colChkInfo, &D_809EAB84, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
         this->shotsPerRound = ((thisx->params >> 8) & 0xFF);
         thisx->params &= 0xFF;
         if ((this->shotsPerRound == 0xFF) || (this->shotsPerRound == 0)) {
@@ -296,7 +283,7 @@ void EnDekunuts_Stand(EnDekunuts* this, GlobalContext* globalCtx) {
     if (!(this->animFlagAndTimer & 0x1000)) {
         Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 2, 0xE38);
     }
-    if ((this->animFlagAndTimer == 0x1000)) {
+    if (this->animFlagAndTimer == 0x1000) {
         if ((this->actor.xzDistToPlayer > 480.0f) || (this->actor.xzDistToPlayer < 120.0f)) {
             EnDekunuts_SetupBurrow(this);
         } else {
@@ -496,7 +483,7 @@ void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnDekunuts_Burrow) {
             Actor_SetFocus(&this->actor,
-                           20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame((void*)&gDekuNutsBurrowAnim)));
+                           20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&gDekuNutsBurrowAnim)));
         } else {
             Actor_SetFocus(&this->actor, 20.0f);
         }
