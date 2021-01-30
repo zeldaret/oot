@@ -4,6 +4,7 @@ import os
 #import pprint
 import re
 import argparse
+import math
 
 script_dir = os.path.dirname(os.path.realpath(__file__))
 root_dir = script_dir + "/../"
@@ -92,7 +93,7 @@ def count_build():
                 
                 if len(funcs) > 0:
                     num_files += len(funcs)
-                    total_size += sum(funcs.values())
+                    total_size += math.ceil(sum(funcs.values())/4)*4
                     max_size += max(funcs.values())
 
             overlays[dir] = (num_files, max_size, total_size,
