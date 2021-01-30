@@ -121,11 +121,9 @@ void func_8088B24C(BgHidanRock* this) {
 
 void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
     static f32 D_8088BFC0 = 0.0f;
-
     f32 sp2C;
     s32 temp_v1;
     s32 frame;
-
     Player* player = PLAYER;
 
     if (this->dyna.unk_150 != 0.0f) {
@@ -188,8 +186,7 @@ void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
     if ((globalCtx->gameplayFrames & 0x100) != 0) {
         this->unk_16C = 0.0f;
     } else if (frame < 0x80) {
-        // 0.012566372f ~ (M_PI/250.0f). But it doesn't match.
-        this->unk_16C = sinf(frame * 0.012566372f) * 19.625f;
+        this->unk_16C = sinf(frame * (4 * 0.001f * M_PI)) * 19.625f;
     } else if (frame < 0xE6) {
         this->unk_16C = 19.625f;
     } else {
@@ -357,12 +354,12 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
+void func_8088BC40(GlobalContext* globalCtx2, BgHidanRock* this) {
     static const Gfx* D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0,
                                        0x06014E20, 0x060155A0, 0x00000000, 0x00000000, 0x00000000 };
-    GlobalContext* glb_ctx = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
-    OPEN_DISPS(glb_ctx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
 
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
@@ -375,16 +372,16 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
                          MTXMODE_NEW);
     }
 
-    Matrix_RotateRPY(0, Camera_GetCamDirYaw(glb_ctx->cameraPtrs[glb_ctx->activeCamera]) + 0x8000, 0, MTXMODE_APPLY);
+    Matrix_RotateRPY(0, Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000, 0, MTXMODE_APPLY);
     Matrix_Translate(-10.5f, 0.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8088BFC4[glb_ctx->gameplayFrames & 7]));
-    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(glb_ctx->state.gfxCtx, "../z_bg_hidan_rock.c", 853),
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8088BFC4[globalCtx->gameplayFrames & 7]));
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_0600CA10);
 
-    CLOSE_DISPS(glb_ctx->state.gfxCtx, "../z_bg_hidan_rock.c", 857);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 857);
 }
 
 void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
