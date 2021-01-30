@@ -45,13 +45,6 @@ extern Gfx* D_0600FD50;
 extern FlexSkeletonHeader D_0600FEF0;
 extern AnimationHeader D_06010590;
 
-typedef struct {
-    AnimationHeader* animationseg;
-    f32 playbackSpeed;
-    u8 mode;
-    f32 transitionRate;
-} EnGoSkelAnime;
-
 const ActorInit En_Go_InitVars = {
     ACTOR_EN_GO,
     ACTORCAT_NPC,
@@ -88,12 +81,21 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
     0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
-static EnGoSkelAnime D_80A41B38[4] = { { &D_06004930, 0.0f, 0x01, 0.0f },
-                                       { &D_06004930, 0.0f, 0x01, -10.0f },
-                                       { &D_060029A8, 1.0f, 0x01, -10.0f },
-                                       { &D_06010590, 1.0f, 0x01, -10.0f } };
+typedef struct {
+    AnimationHeader* animation;
+    f32 playSpeed;
+    u8 mode;
+    f32 morphRate;
+} EnGoAnimation;
 
-void EnGo_SetupAction(EnGo* this, void* actionFunc) {
+static EnGoAnimation sAnimationEntries[] = {
+    { &D_06004930, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f },
+    { &D_06004930, 0.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &D_060029A8, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { &D_06010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+};
+
+void EnGo_SetupAction(EnGo* this, EnGoActionFunc* actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -104,16 +106,16 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
         case 0x90:
             if (gSaveContext.bgsFlag) {
                 return 0x305E;
-            } else if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_CLAIM_CHECK) {
+            } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_CLAIM_CHECK) {
                 if (func_800775CC(globalCtx) >= 3) {
                     return 0x305E;
                 } else {
                     return 0x305D;
                 }
-            } else if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_EYEDROPS) {
+            } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_EYEDROPS) {
                 player->exchangeItemId = EXCH_ITEM_EYEDROPS;
                 return 0x3059;
-            } else if (INV_CONTENT(ITEM_POCKET_EGG) >= ITEM_PRESCRIPTION) {
+            } else if (INV_CONTENT(ITEM_TRADE_ADULT) >= ITEM_PRESCRIPTION) {
                 return 0x3058;
             } else {
                 player->exchangeItemId = EXCH_ITEM_SWORD_BROKEN;
@@ -357,11 +359,11 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     }
 }
 
-void func_80A3EDE0(EnGo* this, s32 unkVal) {
-    Animation_Change(&this->skelAnime, (&D_80A41B38[unkVal])->animationseg,
-                         (&D_80A41B38[unkVal])->playbackSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f),
-                         0.0f, Animation_GetLastFrame((&D_80A41B38[unkVal])->animationseg),
-                         (&D_80A41B38[unkVal])->mode, (&D_80A41B38[unkVal])->transitionRate);
+void EnGo_ChangeAnimation(EnGo* this, s32 animIndex) {
+    Animation_Change(&this->skelAnime, sAnimationEntries[animIndex].animation,
+                     sAnimationEntries[animIndex].playSpeed * ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f), 0.0f,
+                     Animation_GetLastFrame(sAnimationEntries[animIndex].animation), sAnimationEntries[animIndex].mode,
+                     sAnimationEntries[animIndex].morphRate);
 }
 
 s32 EnGo_IsActorSpawned(EnGo* this, GlobalContext* globalCtx) {
@@ -428,7 +430,7 @@ void func_80A3F0E4(EnGo* this) {
 
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     f32 xyzDist;
-    s16 yawDiff = (s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y);
+    s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     Camera* camera = globalCtx->cameraPtrs[0];
 
     if (fabsf(yawDiff) > 10920.0f) {
@@ -451,14 +453,14 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnGo_SwapInitialFrameAnimFrameCount(EnGo* this) {
-    f32 initialFrame = this->skelAnime.startFrame;
+void EnGo_ReverseAnimation(EnGo* this) {
+    f32 startFrame = this->skelAnime.startFrame;
 
     this->skelAnime.startFrame = this->skelAnime.endFrame;
-    this->skelAnime.endFrame = initialFrame;
+    this->skelAnime.endFrame = startFrame;
 }
 
-void func_80A3F274(EnGo* this) {
+void EnGo_UpdateShadow(EnGo* this) {
     s16 shadowAlpha;
     f32 currentFrame = this->skelAnime.curFrame;
     s16 shadowAlphaTarget =
@@ -486,13 +488,14 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
     zDist = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0X8000 / M_PI)), 10,
-                            1000, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0X8000 / M_PI)), 10, 1000, 1);
+
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;
         if (this->unk_218 >= path->count) {
             this->unk_218 = 0;
         }
+
         if ((this->actor.params & 0xF0) != 0x00) {
             return true;
         } else if (Flags_GetSwitch(globalCtx, this->actor.params >> 8)) {
@@ -500,8 +503,10 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
         } else if (this->unk_218 >= this->actor.shape.rot.z) {
             this->unk_218 = 0;
         }
+
         return true;
     }
+
     return false;
 }
 
@@ -546,7 +551,6 @@ s32 EnGo_SpawnDust(EnGo* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 nu
     return 0;
 }
 
-// EnGo2_IsRollingOnGround
 s32 EnGo_IsRollingOnGround(EnGo* this, s16 unkArg1, f32 unkArg2) {
     if ((this->actor.bgCheckFlags & 1) == 0 || this->actor.velocity.y > 0.0f) {
         return false;
@@ -600,7 +604,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {
-            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_SWORD_BROKEN) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
                 if (func_8002F368(globalCtx) == EXCH_ITEM_SWORD_BROKEN) {
                     if (gSaveContext.infTable[11] & 0x10) {
                         this->actor.textId = 0x3055;
@@ -613,7 +617,7 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
                 player->actor.textId = this->actor.textId;
             }
 
-            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
                 if (func_8002F368(globalCtx) == EXCH_ITEM_EYEDROPS) {
                     this->actor.textId = 0x3059;
                 } else {
@@ -636,6 +640,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+
     if (!EnGo_IsActorSpawned(this, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
@@ -646,10 +651,11 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x20;
     }
 
-    func_80A3EDE0(this, 0);
+    EnGo_ChangeAnimation(this, 0);
     this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
     this->actor.gravity = -1.0f;
+
     switch (this->actor.params & 0xF0) {
         case 0x00:
             Actor_SetScale(&this->actor, 0.008f);
@@ -698,6 +704,7 @@ void EnGo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnGo* this = THIS;
+
     SkelAnime_Free(&this->skelAnime, globalCtx);
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
@@ -727,10 +734,13 @@ void EnGo_StopRolling(EnGo* this, GlobalContext* globalCtx) {
         if (bomb != NULL) {
             bomb->timer = 0;
         }
+
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, func_80A4008C);
     }
+
     this->actor.shape.rot = this->actor.world.rot;
+
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
         EnGo_SpawnDust(this, 12, 0.16f, 0.1f, 1, 10.0f, 20.0f);
     }
@@ -756,6 +766,7 @@ void EnGo_GoronLinkRolling(EnGo* this, GlobalContext* globalCtx) {
     }
 
     this->actor.shape.rot = this->actor.world.rot;
+
     if (EnGo_IsRollingOnGround(this, 3, 6.0f)) {
         EnGo_SpawnDust(this, 12, 0.18f, 0.2f, 2, 13.0f, 20.0f);
     }
@@ -783,10 +794,11 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                                ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f, 1000.0f, 0.1f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * 0.5f, 0.1f,
+                           1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
+
         if (frame <= 12.0f) {
             return;
         } else {
@@ -802,9 +814,9 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_212) == 0) {
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
-        EnGo_SetupAction(this, &func_80A405CC);
+        EnGo_SetupAction(this, func_80A405CC);
     } else if (!EnGo_IsCameraModified(this, globalCtx)) {
-        EnGo_SwapInitialFrameAnimFrameCount(this);
+        EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
         EnGo_SetupAction(this, func_80A40494);
     }
@@ -813,15 +825,16 @@ void EnGo_WakeUp(EnGo* this, GlobalContext* globalCtx) {
 void func_80A40494(EnGo* this, GlobalContext* globalCtx) {
     f32 frame;
 
-    Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                            ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f, 1000.0f, 0.1f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -0.5f, 0.1f,
+                       1000.0f, 0.1f);
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
+
     if (!(frame >= 0.0f)) {
         Audio_PlaySoundGeneral(NA_SE_EN_DODO_M_GND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         EnGo_SpawnDust(this, 10, 0.4f, 0.1f, 16, 26.0f, 2.0f);
-        EnGo_SwapInitialFrameAnimFrameCount(this);
+        EnGo_ReverseAnimation(this);
         this->skelAnime.playSpeed = 0.0f;
         this->skelAnime.curFrame = 0.0f;
         this->unk_210 = Rand_S16Offset(30, 30);
@@ -834,11 +847,12 @@ void func_80A405CC(EnGo* this, GlobalContext* globalCtx) {
     f32 frame;
 
     lastFrame = Animation_GetLastFrame(&D_06004930);
-    Math_SmoothStepToF(&this->skelAnime.playSpeed, (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f,
-                            1000.0f, 0.1f);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f, 0.1f, 1000.0f,
+                       0.1f);
 
     frame = this->skelAnime.curFrame;
     frame += this->skelAnime.playSpeed;
+
     if (!(frame < lastFrame)) {
         this->skelAnime.curFrame = lastFrame;
         this->skelAnime.playSpeed = 0.0f;
@@ -856,8 +870,8 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
         if (gSaveContext.bgsFlag) {
             this->unk_1E0.unk_00 = 0;
         } else {
-            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_EYEDROPS) {
-                func_80A3EDE0(this, 2);
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
+                EnGo_ChangeAnimation(this, 2);
                 this->unk_21E = 100;
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_Eyedrops);
@@ -877,7 +891,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode = 0x36;
     } else {
         if ((DECR(this->unk_212) == 0) && !EnGo_IsCameraModified(this, globalCtx)) {
-            EnGo_SwapInitialFrameAnimFrameCount(this);
+            EnGo_ReverseAnimation(this);
             this->skelAnime.playSpeed = -0.1f;
             this->skelAnime.playSpeed *= (this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f;
             EnGo_SetupAction(this, func_80A408D8);
@@ -889,8 +903,8 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
     f32 frame;
 
     if (this->skelAnime.playSpeed != 0.0f) {
-        Math_SmoothStepToF(&this->skelAnime.playSpeed,
-                                ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -1.0f, 0.1f, 1000.0f, 0.1f);
+        Math_SmoothStepToF(&this->skelAnime.playSpeed, ((this->actor.params & 0xF0) == 0x90 ? 0.5f : 1.0f) * -1.0f,
+                           0.1f, 1000.0f, 0.1f);
         frame = this->skelAnime.curFrame;
         frame += this->skelAnime.playSpeed;
         if (frame >= 12.0f) {
@@ -908,7 +922,7 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
     if (DECR(this->unk_212) == 0) {
         EnGo_SetupAction(this, func_80A40494);
     } else if (EnGo_IsCameraModified(this, globalCtx)) {
-        EnGo_SwapInitialFrameAnimFrameCount(this);
+        EnGo_ReverseAnimation(this);
         Audio_PlaySoundGeneral(NA_SE_EN_GOLON_SIT_DOWN, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
         this->skelAnime.playSpeed = 0.0f;
@@ -922,7 +936,7 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
     this->actor.speedXZ = Math_SinS((s16)float2);
     if (EnGo_FollowPath(this, globalCtx) && this->unk_218 == 0) {
-        func_80A3EDE0(this, 1);
+        EnGo_ChangeAnimation(this, 1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
         this->actor.speedXZ = 0.0f;
         EnGo_SetupAction(this, EnGo_BiggoronActionFunc);
@@ -931,14 +945,13 @@ void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40B1C(EnGo* this, GlobalContext* globalCtx) {
     if (gSaveContext.infTable[14] & 0x800) {
-        func_80A3EDE0(this, 3);
+        EnGo_ChangeAnimation(this, 3);
         EnGo_SetupAction(this, func_80A40A54);
     } else {
         EnGo_BiggoronActionFunc(this, globalCtx);
     }
 }
 
-// EnGo2_InitGetItem & EnGo2_SetGetItem & EnGo2_GetItem
 void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
     f32 xzDist;
     f32 yDist;
@@ -951,14 +964,14 @@ void EnGo_GetItem(EnGo* this, GlobalContext* globalCtx) {
     } else {
         this->unk_20C = 0;
         if ((this->actor.params & 0xF0) == 0x90) {
-            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_CLAIM_CHECK) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
                 getItem = GI_SWORD_BGS;
                 this->unk_20C = 1;
             }
-            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_EYEDROPS) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_EYEDROPS) {
                 getItem = GI_CLAIM_CHECK;
             }
-            if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_SWORD_BROKEN) {
+            if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_SWORD_BROKEN) {
                 getItem = GI_PRESCRIPTION;
             }
         }
@@ -981,11 +994,11 @@ void func_80A40C78(EnGo* this, GlobalContext* globalCtx) {
         } else if (this->unk_20C) {
             this->unk_1E0.unk_00 = 0;
             gSaveContext.bgsFlag = true;
-        } else if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_PRESCRIPTION) {
+        } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_PRESCRIPTION) {
             this->actor.textId = 0x3058;
             func_8010B720(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
-        } else if (INV_CONTENT(ITEM_POCKET_EGG) == ITEM_CLAIM_CHECK) {
+        } else if (INV_CONTENT(ITEM_TRADE_ADULT) == ITEM_CLAIM_CHECK) {
             this->actor.textId = 0x305C;
             func_8010B720(globalCtx, this->actor.textId);
             this->unk_1E0.unk_00 = 1;
@@ -1005,7 +1018,7 @@ void EnGo_Eyedrops(EnGo* this, GlobalContext* globalCtx) {
 
 void func_80A40DCC(EnGo* this, GlobalContext* globalCtx) {
     if (this->unk_1E0.unk_00 == 2) {
-        func_80A3EDE0(this, 1);
+        EnGo_ChangeAnimation(this, 1);
         this->skelAnime.curFrame = Animation_GetLastFrame(&D_06004930);
         func_80106CCC(globalCtx);
         EnGo_SetupAction(this, EnGo_GetItem);
@@ -1020,14 +1033,18 @@ void EnGo_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, collider);
     SkelAnime_Update(&this->skelAnime);
+
     if (this->actionFunc == EnGo_BiggoronActionFunc || this->actionFunc == EnGo_FireGenericActionFunc ||
         this->actionFunc == func_80A40B1C) {
         func_80034F54(globalCtx, this->jointTable, this->morphTable, 18);
     }
-    func_80A3F274(this);
+
+    EnGo_UpdateShadow(this);
+
     if (this->unk_1E0.unk_00 == 0) {
         Actor_MoveForward(&this->actor);
     }
+
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     func_80A3F0E4(this);
     func_80A3F908(this, globalCtx);
@@ -1039,6 +1056,7 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
     Vec3f D_80A41BB4 = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2320);
+
     Matrix_Push();
     func_80093D18(globalCtx->state.gfxCtx);
 
@@ -1049,6 +1067,7 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
 
     Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus);
     Matrix_Pull();
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2341);
 }
 
@@ -1056,6 +1075,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
     Vec3f D_80A41BC0 = { 0.0f, 0.0f, 0.0f };
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2355);
+
     Matrix_Push();
     func_80093D18(globalCtx->state.gfxCtx);
     Matrix_RotateRPY((s16)(globalCtx->state.frames * ((s16)this->actor.speedXZ * 1400)), 0, this->actor.shape.rot.z,
@@ -1115,6 +1135,7 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2479);
+
     EnGo_UpdateDust(this);
     Matrix_Push();
     EnGo_DrawDust(this, globalCtx);
@@ -1189,8 +1210,7 @@ void EnGo_UpdateDust(EnGo* this) {
 }
 
 void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
-    static Gfx* sDLists[] = { 0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0,
-                              0x040525B0, 0x040521B0, 0x04051DB0, 0x00000000, 0x00000000 };
+    static u64* dustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
     EnGoEffect* dustEffect = this->dustEffects;
     s16 alpha;
     s16 firstDone;
@@ -1220,7 +1240,7 @@ void EnGo_DrawDust(EnGo* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDLists[index]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustTex[index]));
             gSPDisplayList(POLY_XLU_DISP++, &D_0600FD50);
         }
     }
