@@ -5,6 +5,7 @@
  */
 
 #include "z_en_torch2.h"
+#include "objects/object_torch2/object_torch2.h"
 
 #define FLAGS 0x00000035
 
@@ -52,8 +53,6 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnTorch2_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern FlexSkeletonHeader D_06004764;
 
 const ActorInit En_Torch2_InitVars = {
     ACTOR_EN_TORCH2,
@@ -132,7 +131,7 @@ void EnTorch2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->currentShield = PLAYER_SHIELD_HYLIAN;
     this->heldItemActionParam = this->heldItemId = PLAYER_AP_SWORD_MASTER;
     Player_SetModelGroup(this, 2);
-    globalCtx->playerInit(this, globalCtx, &D_06004764);
+    globalCtx->playerInit(this, globalCtx, &gDarkLinkSkel);
     this->actor.naviEnemyId = 0x26;
     this->cylinder.base.acFlags = AC_ON | AC_TYPE_PLAYER;
     this->swordQuads[0].base.atFlags = this->swordQuads[1].base.atFlags = AT_ON | AT_TYPE_ENEMY;
