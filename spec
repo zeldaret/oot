@@ -140,6 +140,7 @@ beginseg
     name "icon_item_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_static/icon_item_static.o"
+    number 8
 endseg
 
 beginseg
@@ -1194,8 +1195,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot06_Objects"
     include "build/src/overlays/actors/ovl_Bg_Spot06_Objects/z_bg_spot06_objects.o"
-    include "build/data/overlays/actors/z_bg_spot06_objects.data.o"
-    include "build/data/overlays/actors/z_bg_spot06_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot06_Objects/ovl_Bg_Spot06_Objects_reloc.o"
 endseg
 
 beginseg
@@ -6188,7 +6188,8 @@ endseg
 beginseg
     name "parameter_static"
     romalign 0x1000
-    include "build/baserom/parameter_static.o"
+    include "build/assets/textures/parameter_static/parameter_static.o"
+    number 2
 endseg
 
 beginseg

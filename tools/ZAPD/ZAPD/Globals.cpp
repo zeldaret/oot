@@ -17,6 +17,7 @@ Globals::Globals()
 	symbolMap = std::map <uint32_t, std::string>();
 	segmentRefs = map<int, string>();
 	segmentRefFiles = map<int, ZFile*>();
+	game = ZGame::OOT_RETAIL;
 	genSourceFile = true;
 	testMode = false;
 	profile = false;
@@ -116,4 +117,13 @@ void Globals::AddSegment(int segment)
 bool Globals::HasSegment(int segment)
 {
 	return std::find(segments.begin(), segments.end(), segment) != segments.end();
+}
+
+GameConfig::GameConfig()
+{
+	segmentRefs = map<int, string>();
+	segmentRefFiles = map<int, ZFile*>();
+	symbolMap = std::map<uint32_t, std::string>();
+	actorList = std::vector<std::string>();
+	objectList = std::vector<std::string>();
 }

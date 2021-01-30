@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_fcircle.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rUnused regs[3] // probably supposed to be an alpha
 #define rRadius regs[8]
@@ -21,8 +22,6 @@ EffectSsInit Effect_Ss_Fcircle_InitVars = {
     EffectSsFcircle_Init,
 };
 
-extern Gfx D_040184B0[];
-
 u32 EffectSsFcircle_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFcircleInitParams* initParams = (EffectSsFcircleInitParams*)initParamsx;
 
@@ -31,7 +30,7 @@ u32 EffectSsFcircle_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     this->vec.x = initParams->pos.x - initParams->actor->world.pos.x;
     this->vec.y = initParams->pos.y - initParams->actor->world.pos.y;
     this->vec.z = initParams->pos.z - initParams->actor->world.pos.z;
-    this->gfx = D_040184B0;
+    this->gfx = gEffFireCircleDL;
     this->life = 20;
     this->draw = EffectSsFcircle_Draw;
     this->update = EffectSsFcircle_Update;

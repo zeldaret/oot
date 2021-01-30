@@ -6,6 +6,7 @@
 
 #include "z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -83,9 +84,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_STOP),
 };
-
-extern Gfx D_04007A50[]; // gold fuse cap
-extern Gfx D_04007860[]; // bomb
 
 void EnBom_SetupAction(EnBom* this, EnBomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -369,14 +367,14 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_04007A50);
+        gSPDisplayList(POLY_OPA_DISP++, gBombCapDL);
         Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
-        gSPDisplayList(POLY_OPA_DISP++, D_04007860);
+        gSPDisplayList(POLY_OPA_DISP++, gBombBodyDL);
         Collider_UpdateSpheres(0, &this->explosionCollider);
     }
 
