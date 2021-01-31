@@ -25,7 +25,7 @@ extern FlexSkeletonHeader D_06005DF0;
 
 const ActorInit En_Mk_InitVars = {
     ACTOR_EN_MK,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MK,
     sizeof(EnMk),
@@ -36,8 +36,22 @@ const ActorInit En_Mk_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
@@ -47,7 +61,7 @@ void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005DF0, &D_06000D88, &this->jointTable, &this->morphTable, 13);
     Animation_PlayLoop(&this->skelAnime, &D_06000D88);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -58,7 +72,7 @@ void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = EnMk_Wait;
     this->flags = 0;
     this->swimFlag = 0;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
 
     if (gSaveContext.itemGetInf[1] & 1) {
         this->flags |= 4;
@@ -257,9 +271,9 @@ void EnMk_Wait(EnMk* this, GlobalContext* globalCtx) {
             this->actor.textId = 0x4018;
         }
 
-        angle = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-        if ((ABS(angle) < 0x2151) && (this->actor.xzDistToLink < 100.0f)) {
+        if ((ABS(angle) < 0x2151) && (this->actor.xzDistToPlayer < 100.0f)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_FROG);
             this->flags |= 1;
         }
@@ -285,7 +299,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->flags & 1) {
-        func_80038290(globalCtx, &this->actor, &this->headRotation, &vec, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->headRotation, &vec, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRotation.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRotation.y, 0, 6, 6200, 100);
@@ -344,7 +358,7 @@ void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     static Vec3f D_80AAD64C = { 1000.0f, -100.0f, 0.0f };
 
     if (limbIndex == 11) {
-        Matrix_MultVec3f(&D_80AAD64C, &thisx->posRot2);
+        Matrix_MultVec3f(&D_80AAD64C, &thisx->focus);
     }
 }
 

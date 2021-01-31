@@ -76,7 +76,7 @@ glabel func_80B44058
 /* 00114 80B44164 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
 /* 00118 80B44168 AFA90014 */  sw      $t1, 0x0014($sp)           
 /* 0011C 80B4416C 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 00120 80B44170 0C00B92D */  jal     func_8002E4B4              
+/* 00120 80B44170 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00124 80B44174 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 00128 80B44178 27AB0030 */  addiu   $t3, $sp, 0x0030           ## $t3 = FFFFFFE8
 /* 0012C 80B4417C 8D6D0000 */  lw      $t5, 0x0000($t3)           ## FFFFFFE8

@@ -21,7 +21,7 @@ glabel func_809E99D8
 /* 004C4 809E9A24 10000006 */  beq     $zero, $zero, .L809E9A40
 /* 004C8 809E9A28 A6080032 */  sh      $t0, 0x0032($s0)           ## 00000032
 .L809E9A2C:
-/* 004CC 809E9A2C 0C00B69E */  jal     func_8002DA78
+/* 004CC 809E9A2C 0C00B69E */  jal     Actor_WorldYawTowardActor
 /* 004D0 809E9A30 8E0502D0 */  lw      $a1, 0x02D0($s0)           ## 000002D0
 /* 004D4 809E9A34 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 004D8 809E9A38 00414821 */  addu    $t1, $v0, $at

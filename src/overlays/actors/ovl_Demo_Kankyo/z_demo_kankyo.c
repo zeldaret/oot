@@ -1,4 +1,5 @@
 #include "z_demo_kankyo.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -10,8 +11,6 @@ void DemoKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_01000000;
-extern UNK_TYPE D_04010050;
-extern UNK_TYPE D_04052DB0;
 extern UNK_TYPE D_06000080;
 extern UNK_TYPE D_06000DE0;
 extern UNK_TYPE D_06007440;
@@ -21,7 +20,7 @@ extern UNK_TYPE D_06008390;
 /*
 const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoKankyo),

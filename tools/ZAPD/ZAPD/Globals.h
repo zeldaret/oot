@@ -1,10 +1,19 @@
 #pragma once
 
+#include <map>
 #include <string>
 #include <vector>
 #include "ZFile.h"
 #include "ZTexture.h"
 #include "ZRoom/ZRoom.h"
+
+typedef enum VerbosityLevel {
+	VERBOSITY_SILENT,
+	VERBOSITY_INFO,
+	VERBOSITY_DEBUG
+} VerbosityLevel;
+
+class GameConfig;
 
 class Globals
 {
@@ -14,12 +23,13 @@ public:
 	bool genSourceFile; // Used for extraction
 	bool useExternalResources;
 	bool testMode; // Enables certain experimental features
-	bool debugMessages; // Enables certain printfs
 	bool profile; // Measure performance of certain operations
 	bool includeFilePrefix; // Include the file prefix in symbols
+	VerbosityLevel verbosity; // ZAPD outputs additional information
 	ZFileMode fileMode;
 	std::string baseRomPath, inputPath, outputPath, cfgPath;
 	TextureType texType;
+	ZGame game;
 
 	std::vector<ZFile*> files;
 	std::vector<int> segments;
@@ -30,10 +40,25 @@ public:
 
 	Globals();
 	std::string FindSymbolSegRef(int segNumber, uint32_t symbolAddress);
-	void ReadConfigFile(std::string configFilePath);
-	void GenSymbolMap(std::string symbolMapPath);
+	void ReadConfigFile(const std::string& configFilePath);
+	void GenSymbolMap(const std::string& symbolMapPath);
 	void AddSegment(int segment);
 	bool HasSegment(int segment);
+};
+
+class GameConfig
+{
+public:
+	std::map<int, std::string> segmentRefs;
+	std::map<int, ZFile*> segmentRefFiles;
+	std::map<uint32_t, std::string> symbolMap;
+	std::vector<std::string> actorList;
+	std::vector<std::string> objectList;
+
+	GameConfig();
+
+private:
+
 };
 
 /*

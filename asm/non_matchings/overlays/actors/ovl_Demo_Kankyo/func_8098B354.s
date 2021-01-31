@@ -170,7 +170,7 @@ glabel func_8098B354
 /* 026F4 8098B574 258D0001 */  addiu   $t5, $t4, 0x0001           ## $t5 = 00000001
 /* 026F8 8098B578 A20D0172 */  sb      $t5, 0x0172($s0)           ## 00000172
 .L8098B57C:
-/* 026FC 8098B57C 0C00BBC5 */  jal     func_8002EF14              
+/* 026FC 8098B57C 0C00BBC5 */  jal     Actor_GetWorld              
 /* 02700 8098B580 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 02704 8098B584 3C068099 */  lui     $a2, %hi(D_8098CFB8)       ## $a2 = 80990000
 /* 02708 8098B588 24C6CFB8 */  addiu   $a2, $a2, %lo(D_8098CFB8)  ## $a2 = 8098CFB8
@@ -309,8 +309,8 @@ glabel func_8098B354
 /* 028E4 8098B764 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 028E8 8098B768 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
 /* 028EC 8098B76C 44060000 */  mfc1    $a2, $f0                   
-/* 028F0 8098B770 3C150401 */  lui     $s5, %hi(gGameKeepMoteDL0)                ## $s5 = 04010000
-/* 028F4 8098B774 26B50130 */  addiu   $s5, $s5, %lo(gGameKeepMoteDL0)           ## $s5 = 04010130
+/* 028F0 8098B770 3C150401 */  lui     $s5, %hi(gEffFlash1DL)                ## $s5 = 04010000
+/* 028F4 8098B774 26B50130 */  addiu   $s5, $s5, %lo(gEffFlash1DL)           ## $s5 = 04010130
 /* 028F8 8098B778 02C19021 */  addu    $s2, $s6, $at              
 /* 028FC 8098B77C 0C034261 */  jal     Matrix_Translate              
 /* 02900 8098B780 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000

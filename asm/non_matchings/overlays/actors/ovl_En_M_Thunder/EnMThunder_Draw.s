@@ -184,16 +184,16 @@ glabel EnMThunder_Draw
 /* 00F38 80A9FF18 AC6F0004 */  sw      $t7, 0x0004($v1)           ## 00000004
 /* 00F3C 80A9FF1C 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00F40 80A9FF20 44D8F800 */  ctc1    $t8, $31
-/* 00F44 80A9FF24 3C190401 */  lui     $t9, %hi(D_04012AF0)                ## $t9 = 04010000
+/* 00F44 80A9FF24 3C190401 */  lui     $t9, %hi(gSpinAttack3DL)                ## $t9 = 04010000
 /* 00F48 80A9FF28 244E0008 */  addiu   $t6, $v0, 0x0008           ## $t6 = 00000008
 /* 00F4C 80A9FF2C AE0E02D0 */  sw      $t6, 0x02D0($s0)           ## 000002D0
-/* 00F50 80A9FF30 27392AF0 */  addiu   $t9, $t9, %lo(D_04012AF0)           ## $t9 = 04012AF0
+/* 00F50 80A9FF30 27392AF0 */  addiu   $t9, $t9, %lo(gSpinAttack3DL)           ## $t9 = 04012AF0
 /* 00F54 80A9FF34 3C18DE00 */  lui     $t8, 0xDE00                ## $t8 = DE000000
 /* 00F58 80A9FF38 AC580000 */  sw      $t8, 0x0000($v0)           ## 00000000
 /* 00F5C 80A9FF3C AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
 /* 00F60 80A9FF40 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
-/* 00F64 80A9FF44 3C0F0401 */  lui     $t7, %hi(D_04012C10)                ## $t7 = 04010000
-/* 00F68 80A9FF48 25EF2C10 */  addiu   $t7, $t7, %lo(D_04012C10)           ## $t7 = 04012C10
+/* 00F64 80A9FF44 3C0F0401 */  lui     $t7, %hi(gSpinAttack4DL)                ## $t7 = 04010000
+/* 00F68 80A9FF48 25EF2C10 */  addiu   $t7, $t7, %lo(gSpinAttack4DL)           ## $t7 = 04012C10
 /* 00F6C 80A9FF4C 244C0008 */  addiu   $t4, $v0, 0x0008           ## $t4 = 00000008
 /* 00F70 80A9FF50 AE0C02D0 */  sw      $t4, 0x02D0($s0)           ## 000002D0
 /* 00F74 80A9FF54 3C0DDE00 */  lui     $t5, 0xDE00                ## $t5 = DE000000
@@ -253,16 +253,16 @@ glabel EnMThunder_Draw
 /* 0103C 80AA001C AC6E0004 */  sw      $t6, 0x0004($v1)           ## 00000004
 /* 01040 80AA0020 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 01044 80AA0024 44D9F800 */  ctc1    $t9, $31
-/* 01048 80AA0028 3C0C0401 */  lui     $t4, %hi(D_04012570)                ## $t4 = 04010000
+/* 01048 80AA0028 3C0C0401 */  lui     $t4, %hi(gSpinAttack1DL)                ## $t4 = 04010000
 /* 0104C 80AA002C 24580008 */  addiu   $t8, $v0, 0x0008           ## $t8 = 00000008
 /* 01050 80AA0030 AE1802D0 */  sw      $t8, 0x02D0($s0)           ## 000002D0
-/* 01054 80AA0034 258C2570 */  addiu   $t4, $t4, %lo(D_04012570)           ## $t4 = 04012570
+/* 01054 80AA0034 258C2570 */  addiu   $t4, $t4, %lo(gSpinAttack1DL)           ## $t4 = 04012570
 /* 01058 80AA0038 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000
 /* 0105C 80AA003C AC590000 */  sw      $t9, 0x0000($v0)           ## 00000000
 /* 01060 80AA0040 AC4C0004 */  sw      $t4, 0x0004($v0)           ## 00000004
 /* 01064 80AA0044 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
-/* 01068 80AA0048 3C0E0401 */  lui     $t6, %hi(D_04012690)                ## $t6 = 04010000
-/* 0106C 80AA004C 25CE2690 */  addiu   $t6, $t6, %lo(D_04012690)           ## $t6 = 04012690
+/* 01068 80AA0048 3C0E0401 */  lui     $t6, %hi(gSpinAttack2DL)                ## $t6 = 04010000
+/* 0106C 80AA004C 25CE2690 */  addiu   $t6, $t6, %lo(gSpinAttack2DL)           ## $t6 = 04012690
 /* 01070 80AA0050 244D0008 */  addiu   $t5, $v0, 0x0008           ## $t5 = 00000008
 /* 01074 80AA0054 AE0D02D0 */  sw      $t5, 0x02D0($s0)           ## 000002D0
 /* 01078 80AA0058 3C0FDE00 */  lui     $t7, 0xDE00                ## $t7 = DE000000
@@ -485,8 +485,8 @@ glabel EnMThunder_Draw
 /* 013BC 80AA039C 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 013C0 80AA03A0 AFA20050 */  sw      $v0, 0x0050($sp)           
 /* 013C4 80AA03A4 8FA80050 */  lw      $t0, 0x0050($sp)           
-/* 013C8 80AA03A8 3C0C0401 */  lui     $t4, %hi(D_04013610)                ## $t4 = 04010000
-/* 013CC 80AA03AC 258C3610 */  addiu   $t4, $t4, %lo(D_04013610)           ## $t4 = 04013610
+/* 013C8 80AA03A8 3C0C0401 */  lui     $t4, %hi(gSpinAttackChargingDL)                ## $t4 = 04010000
+/* 013CC 80AA03AC 258C3610 */  addiu   $t4, $t4, %lo(gSpinAttackChargingDL)           ## $t4 = 04013610
 /* 013D0 80AA03B0 AD020004 */  sw      $v0, 0x0004($t0)           ## 00000004
 /* 013D4 80AA03B4 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 013D8 80AA03B8 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000
