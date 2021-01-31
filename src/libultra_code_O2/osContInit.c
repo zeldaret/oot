@@ -51,7 +51,7 @@ void __osContGetInitData(u8* ctlBitfield, OSContStatus* status) {
     u8 bitfieldTemp = 0;
 
     bufptr = (u8*)(&__osPifInternalBuff);
-    
+
     for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(req), status++) {
         req = *((__OSContRequestHeader*)bufptr);
         status->errno = (req.rxsize & 0xC0) >> 4;

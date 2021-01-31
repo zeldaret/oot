@@ -2577,7 +2577,7 @@ s32 Camera_Jump3(Camera* camera) {
     }
 
     spB0 = *eye; // unused
-    (void)spB0; // suppresses set but unused warning
+    (void)spB0;  // suppresses set but unused warning
 
     spC4 = PCT(OREG(25)) * camera->speedRatio;
     spC0 = camera->speedRatio * PCT(OREG(26));
@@ -3770,7 +3770,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     *eye = *eyeNext;
 
     sceneCamRot = BGCAM_ROT(sceneCamData); // unused
-    (void)sceneCamRot; // suppresses set but unused warning
+    (void)sceneCamRot;                     // suppresses set but unused warning
 
     fov = BGCAM_FOV(sceneCamData);
     if (fov == -1) {
@@ -4951,7 +4951,7 @@ s32 Camera_Unique7(Camera* camera) {
     Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(sceneCamData));
     *eye = *eyeNext;
     sceneCamRot = BGCAM_ROT(sceneCamData); // unused
-    (void)sceneCamRot; // suppresses set but unused warning
+    (void)sceneCamRot;                     // suppresses set but unused warning
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 

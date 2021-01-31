@@ -80,7 +80,8 @@ OSTime __osInsertTimer(OSTimer* timer) {
     u64 timerValue;
     s32 prevInt = __osDisableInt();
 
-    for (nextTimer = __osTimerList->next, timerValue = timer->value; nextTimer != __osTimerList && timerValue > nextTimer->value;
+    for (nextTimer = __osTimerList->next, timerValue = timer->value;
+         nextTimer != __osTimerList && timerValue > nextTimer->value;
          timerValue -= nextTimer->value, nextTimer = nextTimer->next) {
         ;
     }

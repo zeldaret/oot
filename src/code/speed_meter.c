@@ -64,7 +64,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
 
     gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        temp = ((f64)*(gSpeedMeterTimeEntryPtr->time) / gIrqMgrRetraceTime) * 64.0;
+        temp = ((f64) * (gSpeedMeterTimeEntryPtr->time) / gIrqMgrRetraceTime) * 64.0;
         gSpeedMeterTimeEntryPtr->x = temp + baseX;
         gSpeedMeterTimeEntryPtr++;
     }

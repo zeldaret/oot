@@ -85,7 +85,7 @@ void IrqMgr_SendMesgForClient(IrqMgr* this, OSMesg msg) {
 
 void IrqMgr_JamMesgForClient(IrqMgr* this, OSMesg msg) {
     IrqMgrClient* iter = this->clients;
-    
+
     while (iter != NULL) {
         if (iter->queue->validCount >= iter->queue->msgCount) {
             // irqmgr_JamMesgForClient: Message queue is overflowing mq=%08x cnt=%d
@@ -108,7 +108,7 @@ void IrqMgr_HandlePreNMI(IrqMgr* this) {
     sIrqMgrResetTime = this->resetTime = osGetTime();
 
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(450000), 0ull, &this->queue, (OSMesg)PRENMI450_MSG);
-    IrqMgr_JamMesgForClient(this, (OSMesg)&this->prenmiMsg);
+    IrqMgr_JamMesgForClient(this, (OSMesg) & this->prenmiMsg);
 }
 
 void IrqMgr_CheckStack() {
@@ -132,7 +132,7 @@ void IrqMgr_HandlePRENMI450(IrqMgr* this) {
     this->resetStatus = STATUS_NMI;
 
     osSetTimer(&this->timer, OS_USEC_TO_CYCLES(30000), 0ull, &this->queue, (OSMesg)PRENMI480_MSG);
-    IrqMgr_SendMesgForClient(this, (OSMesg)&this->nmiMsg);
+    IrqMgr_SendMesgForClient(this, (OSMesg) & this->nmiMsg);
 }
 
 void IrqMgr_HandlePRENMI480(IrqMgr* this) {

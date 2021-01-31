@@ -257,7 +257,6 @@ void* __osMallocRDebug(Arena* arena, u32 size, const char* file, s32 line) {
     ArenaNode* next;
     void* allocR = NULL;
 
-    
     size = ALIGN16(size);
     ArenaImpl_Lock(arena);
     iter = ArenaImpl_GetLastBlock(arena);
@@ -423,7 +422,7 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
         osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x)\n" VT_RST,
-                        ptr); // __osFree: Unauthorized release (%08x)
+                     ptr); // __osFree: Unauthorized release (%08x)
         return;
     }
     if (node->isFree) {
@@ -433,7 +432,7 @@ void __osFree_NoLock(Arena* arena, void* ptr) {
     if (arena != node->arena && arena != NULL) {
         // __osFree:Tried to release in a different way than when it was secured (%08x:%08x)
         osSyncPrintf(VT_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" VT_RST, arena,
-                        node->arena);
+                     node->arena);
         return;
     }
 
@@ -492,18 +491,18 @@ void __osFree_NoLockDebug(Arena* arena, void* ptr, const char* file, s32 line) {
     node = (ArenaNode*)((u32)ptr - sizeof(ArenaNode));
     if (node == NULL || node->magic != NODE_MAGIC) {
         osSyncPrintf(VT_COL(RED, WHITE) "__osFree:不正解放(%08x) [%s:%d ]\n" VT_RST, ptr, file,
-                        line); // __osFree: Unauthorized release (%08x)
+                     line); // __osFree: Unauthorized release (%08x)
         return;
     }
     if (node->isFree) {
         osSyncPrintf(VT_COL(RED, WHITE) "__osFree:二重解放(%08x) [%s:%d ]\n" VT_RST, ptr, file,
-                        line); // __osFree: Double release (%08x)
+                     line); // __osFree: Double release (%08x)
         return;
     }
     if (arena != node->arena && arena != NULL) {
         // __osFree:Tried to release in a different way than when it was secured (%08x:%08x)
         osSyncPrintf(VT_COL(RED, WHITE) "__osFree:確保時と違う方法で解放しようとした (%08x:%08x)\n" VT_RST, arena,
-                        node->arena);
+                     node->arena);
         return;
     }
 

@@ -68,7 +68,7 @@ s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size)
     s32 error;
     s32 ret = false;
     s32 pad;
-    
+
     mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
 
     if (size < sMempakFreeBytes) {
@@ -158,7 +158,7 @@ s32 Mempak_DeleteFile(s32 controllerNb, char idx) {
     OSMesgQueue* mq;
     s32 error;
     s32 ret = false;
-    
+
     mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
 
     sMempakExtName[0] = idx - 0x27;

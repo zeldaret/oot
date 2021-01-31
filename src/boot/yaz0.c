@@ -79,9 +79,9 @@ void Yaz0_DecompressImpl(Yaz0Header* hdr, u8* dst) {
             backPtr = dst - off;
             src += 2;
 
-            chunkSize = (nibble == 0)       // N = chunkSize; B = back offset
+            chunkSize = (nibble == 0)              // N = chunkSize; B = back offset
                             ? (u32)(*src++ + 0x12) // 3 bytes 0B BB NN
-                            : nibble + 2;   // 2 bytes NB BB
+                            : nibble + 2;          // 2 bytes NB BB
 
             do {
                 *dst++ = *(backPtr++ - 1);

@@ -212,7 +212,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     JpegHuffmanTable hTables[4]; // 0xB8
     JpegDecoder decoder;         // 0x9C
     JpegDecoderState state;      // 0x88
-    u16 (*src)[0x180];
+    u16(*src)[0x180];
     OSTime diff; // 0x78
     OSTime time; // 0x70
     OSTime time2;
@@ -270,27 +270,22 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
 
     switch (ctx.dhtCount) {
         case 1: {
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes,
-                                              4)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 4)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;
         }
         case 4: {
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], workBuff->codesLengths, workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], workBuff->codesLengths, workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], workBuff->codesLengths, workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;

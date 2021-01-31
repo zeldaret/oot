@@ -1501,8 +1501,8 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
-    func_8008F470(globalCtx, arg3->skeleton, arg3->jointTable, arg3->dListCount, 0, tunic, boots, 0, (OverrideLimbDrawOpa)func_80091880,
-                  NULL, &sp12C);
+    func_8008F470(globalCtx, arg3->skeleton, arg3->jointTable, arg3->dListCount, 0, tunic, boots, 0,
+                  (OverrideLimbDrawOpa)func_80091880, NULL, &sp12C);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);

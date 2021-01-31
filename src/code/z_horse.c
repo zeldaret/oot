@@ -81,9 +81,9 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
                      DREG(1));
 
         if (func_8006CFC0(gSaveContext.horseData.scene)) {
-            Actor* horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, gSaveContext.horseData.pos.x,
-                                     gSaveContext.horseData.pos.y, gSaveContext.horseData.pos.z, 0,
-                                     gSaveContext.horseData.angle, 0, 1);
+            Actor* horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
+                                            gSaveContext.horseData.pos.x, gSaveContext.horseData.pos.y,
+                                            gSaveContext.horseData.pos.z, 0, gSaveContext.horseData.angle, 0, 1);
             if (horseActor == NULL) {
                 __assert("horse_actor != NULL", "../z_horse.c", 414);
             }
@@ -99,7 +99,8 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
             func_8006D074(globalCtx);
         }
     } else if ((globalCtx->sceneNum == SCENE_SPOT20) && !Flags_GetEventChkInf(0x18) && (DREG(1) == 0)) {
-        Actor* horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
+        Actor* horseActor =
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
         if (horseActor == NULL) {
             __assert("horse_actor != NULL", "../z_horse.c", 443);
         }

@@ -54,7 +54,7 @@ void ListAlloc_Free(ListAlloc* this, void* data) {
 
 void ListAlloc_FreeAll(ListAlloc* this) {
     ListAlloc* iter = this->prev;
-    
+
     while (iter != NULL) {
         ListAlloc_Free(this, (u8*)iter + sizeof(ListAlloc));
         iter = this->prev;
