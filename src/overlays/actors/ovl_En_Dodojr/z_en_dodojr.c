@@ -80,7 +80,7 @@ void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020E0, &D_060009D4, &this->jointTable, &this->morphTable, 15);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
 
     this->actor.naviEnemyId = 0xE;
     this->actor.flags &= ~1;
@@ -376,7 +376,7 @@ s32 func_809F70E8(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F72A4(EnDodojr* this, GlobalContext* globalCtx) {
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if ((this->actionFunc != func_809F73AC) && (this->actionFunc != func_809F7BE4)) {
         if ((this->actionFunc == func_809F74C4) || (this->actionFunc == func_809F758C) ||
@@ -617,11 +617,11 @@ void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_809F70E8(this, globalCtx);
 
     if (this->actionFunc != func_809F73AC) {
-        func_8002E4B4(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height, 0.0f, 5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, this->collider.dim.radius, this->collider.dim.height, 0.0f, 5);
     }
 
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, 10.0f);
+    Actor_SetFocus(&this->actor, 10.0f);
     func_809F72A4(this, globalCtx);
 }
 
