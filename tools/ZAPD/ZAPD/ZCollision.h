@@ -87,5 +87,7 @@ public:
 	ZCollisionHeader(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData, int rawDataIndex);
 	~ZCollisionHeader();
 
+	ZResourceType GetResourceType() override;
+
 	static ZCollisionHeader* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex);
 };
