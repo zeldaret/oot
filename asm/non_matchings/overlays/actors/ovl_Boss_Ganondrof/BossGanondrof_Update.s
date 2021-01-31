@@ -144,7 +144,7 @@ glabel BossGanondrof_Update
 /* 039E8 80914028 02402025 */  or      $a0, $s2, $zero            ## $a0 = 00000000
 /* 039EC 8091402C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 039F0 80914030 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 039F4 80914034 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 039F8 80914038 1000001A */  beq     $zero, $zero, .L809140A4   
 /* 039FC 8091403C 8FAC0038 */  lw      $t4, 0x0038($sp)           

@@ -45,40 +45,103 @@ extern AnimationHeader D_060098C8;
 extern AnimationHeader D_06009B20;
 extern AnimationHeader D_0600A4AC;
 
-static ColliderJntSphItemInit sJntSphItemsInit[4] = {
+static ColliderJntSphElementInit sJntSphItemsInit[4] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 15, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 21, { { 0, 0, 0 }, 15 }, 100 },
     },
     {
-        { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFC1FFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+        {
+            ELEMTYPE_UNK1,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFC1FFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 17, { { 800, 0, 0 }, 25 }, 100 },
     },
     {
-        { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFC1FFFF, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+        {
+            ELEMTYPE_UNK1,
+            { 0x00000000, 0x00, 0x00 },
+            { 0xFFC1FFFF, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 12, { { 0, 0, 0 }, 30 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_METAL_SHIELD, 0x11, 0x0D, 0x39, 0x10, COLSHAPE_JNTSPH },
-    ARRAY_COUNT(sJntSphItemsInit),
+    {
+        COLTYPE_METAL,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    4,
     sJntSphItemsInit,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK5, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_HIT5,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK5, 0x00, 0x09, 0x00, 0x00, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_HIT5,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 15, 20, -15, { 0, 0, 0 } },
 };
 
@@ -89,7 +152,7 @@ static DamageTable sDamageTable = {
 
 const ActorInit En_Wf_InitVars = {
     ACTOR_EN_WF,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_WF,
     sizeof(EnWf),
@@ -100,7 +163,7 @@ const ActorInit En_Wf_InitVars = {
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, -3000, ICHAIN_STOP),
 };
 
@@ -114,19 +177,19 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     thisx->colChkInfo.damageTable = &sDamageTable;
-    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
-    thisx->posRot2.pos = thisx->posRot.pos;
+    ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
+    thisx->focus.pos = thisx->world.pos;
     thisx->colChkInfo.mass = 0xFE;
     thisx->colChkInfo.health = 8;
-    thisx->colChkInfo.unk_10 = 50;
-    thisx->colChkInfo.unk_12 = 100;
+    thisx->colChkInfo.cylRadius = 50;
+    thisx->colChkInfo.cylHeight = 100;
     this->unk_2FC = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     this->eyeIndex = 0;
     this->unk_2F4 = 10.0f;
 
     Collider_InitJntSph(globalCtx, &this->colliderSphere);
-    Collider_SetJntSph(globalCtx, &this->colliderSphere, thisx, &sJntSphInit, this->colliderSphereItems);
+    Collider_SetJntSph(globalCtx, &this->colliderSphere, thisx, &sJntSphInit, this->colliderSphereElements);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder1);
     Collider_SetCylinder(globalCtx, &this->colliderCylinder1, thisx, &sCylinderInit1);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder2);
@@ -141,7 +204,7 @@ void EnWf_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003BC0, &D_0600A4AC, this->jointTable, this->morphTable,
                            22);
         Actor_SetScale(thisx, 0.01f);
-        this->colliderSphere.list[0].body.toucher.damage = this->colliderSphere.list[1].body.toucher.damage = 8;
+        this->colliderSphere.elements[0].info.toucher.damage = this->colliderSphere.elements[1].info.toucher.damage = 8;
         thisx->naviEnemyId = 0x57;
     }
 
@@ -184,8 +247,8 @@ s32 func_80B33FB0(GlobalContext* globalCtx, EnWf* this, s16 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B33FB0.s")
 
 void EnWf_SetupWaitToAppear(EnWf* this) {
-    Animation_Change(&this->skelAnime, &D_06005430, 0.5f, 0.0f, 7.0f, 3, 0.0f);
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 5.0f;
+    Animation_Change(&this->skelAnime, &D_06005430, 0.5f, 0.0f, 7.0f, ANIMMODE_ONCE_INTERP, 0.0f);
+    this->actor.world.pos.y = this->actor.home.pos.y - 5.0f;
     this->actionTimer = 20;
     this->unk_300 = 0;
     this->unk_2D4 = 0;
@@ -198,9 +261,9 @@ void EnWf_SetupWaitToAppear(EnWf* this) {
 // EnWf_WaitToAppear
 void func_80B34428(EnWf* this, GlobalContext* globalCtx) {
     if (this->actionTimer >= 6) {
-        this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 5.0f;
+        this->actor.world.pos.y = this->actor.home.pos.y - 5.0f;
 
-        if (this->actor.xzDistToLink < 240.0f) {
+        if (this->actor.xzDistToPlayer < 240.0f) {
             this->actionTimer = 5;
             this->actor.flags |= 1;
 
@@ -210,8 +273,8 @@ void func_80B34428(EnWf* this, GlobalContext* globalCtx) {
         }
     } else if (this->actionTimer != 0) {
         this->actor.scale.y += (this->actor.scale.x * 0.2f);
-        this->actor.posRot.pos.y += 0.5f;
-        Math_SmoothStepToF(&this->actor.shape.unk_10, 70.0f, 1.0f, 14.0f, 0.0f);
+        this->actor.world.pos.y += 0.5f;
+        Math_SmoothStepToF(&this->actor.shape.shadowScale, 70.0f, 1.0f, 14.0f, 0.0f);
         this->actionTimer--;
 
         if (this->actionTimer == 0) {
@@ -229,7 +292,7 @@ void EnWf_SetupWait(EnWf* this) {
     this->unk_2D4 = 6;
     this->actionTimer = (Rand_ZeroOne() * 10.0f) + 2.0f;
     this->actor.speedXZ = 0.0f;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     EnWf_SetupAction(this, func_80B345E4);
 }
 
@@ -241,7 +304,7 @@ void func_80B345E4(EnWf* this, GlobalContext* globalCtx);
 void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&D_060057A0);
 
-    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
     this->unk_2D4 = 9;
     EnWf_SetupAction(this, func_80B3487C);
 }
@@ -265,7 +328,7 @@ void func_80B34D48(EnWf* this, GlobalContext* globalCtx);
 void func_80B34F28(EnWf* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_060057A0);
 
-    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
 
     if (Rand_ZeroOne() > 0.5f) {
         this->unk_2FE = 16000;
@@ -275,7 +338,7 @@ void func_80B34F28(EnWf* this) {
 
     this->skelAnime.playSpeed = this->actor.speedXZ = 6.0f;
     this->skelAnime.playSpeed *= 0.175f;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actionTimer = (Rand_ZeroOne() * 30.0f) + 30.0f;
     this->unk_2D4 = 11;
     this->unk_2EC = 0.0f;
@@ -291,7 +354,7 @@ void func_80B35024(EnWf* this, GlobalContext* globalCtx);
 void func_80B35540(EnWf* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06004638);
     this->colliderSphere.base.atFlags &= ~4;
-    this->actor.shape.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->unk_2D4 = 8;
     this->unk_2FA = 0;
     this->actionTimer = 7;
@@ -313,7 +376,8 @@ void func_80B3590C(EnWf* this) {
         endFrame = 15.0f;
     }
 
-    Animation_Change(&this->skelAnime, &D_06004638, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame, 3, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06004638, -0.5f, this->skelAnime.curFrame - 1.0f, endFrame,
+                     ANIMMODE_ONCE_INTERP, 0.0f);
     this->unk_2D4 = 12;
     this->unk_2F8 = 0;
     EnWf_SetupAction(this, func_80B359A8);
@@ -326,7 +390,7 @@ void func_80B359A8(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupBackFlip(EnWf* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06004AD0, -3.0f);
     this->actor.speedXZ = -6.0f;
-    this->actor.shape.rot.y = this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     this->actionTimer = 0;
     this->unk_300 = 1;
     this->unk_2D4 = 5;
@@ -362,7 +426,7 @@ void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx) {
         this->unk_300 = 0;
     }
 
-    if ((this->actor.dmgEffectTimer == 0) && ((this->actor.bgCheckFlags & 1) != 0)) {
+    if ((this->actor.colorFilterTimer == 0) && ((this->actor.bgCheckFlags & 1) != 0)) {
         if (this->actor.colChkInfo.health == 0) {
             EnWf_SetupDeath(this);
         } else {
@@ -382,7 +446,7 @@ void EnWf_SetupDamaged(EnWf* this) {
     }
 
     this->unk_2E2 = 0;
-    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DAMAGE);
     this->unk_2D4 = 3;
     EnWf_SetupAction(this, EnWf_Damaged);
@@ -403,22 +467,22 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
         this->unk_300 = 0;
     }
 
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 4500, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4500, 0);
 
     if ((func_80B33FB0(globalCtx, this, 0) == 0) && (SkelAnime_Update(&this->skelAnime) != 0)) {
         if ((this->actor.bgCheckFlags & 1) != 0) {
-            angleToWall = this->actor.wallPolyRot - this->actor.shape.rot.y;
+            angleToWall = this->actor.wallYaw - this->actor.shape.rot.y;
             angleToWall = ABS(angleToWall);
 
             if ((this->actor.bgCheckFlags & 8) != 0) {
-                if ((ABS(angleToWall) < 12000) && (this->actor.xzDistToLink < 120.0f)) {
+                if ((ABS(angleToWall) < 12000) && (this->actor.xzDistToPlayer < 120.0f)) {
                     func_80B360E8(this);
                     return;
                 }
             }
 
             if (func_80B37830(globalCtx, this) == 0) {
-                if ((this->actor.xzDistToLink <= 80.0f) && (!(func_80033AB8(globalCtx, this))) &&
+                if ((this->actor.xzDistToPlayer <= 80.0f) && (!(func_80033AB8(globalCtx, this))) &&
                     (globalCtx->gameplayFrames & 7)) {
                     func_80B35540(this);
                 } else if (Rand_ZeroOne() > 0.5f) {
@@ -437,20 +501,20 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
 void func_80B360E8(EnWf* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_06004AD0);
 
-    Animation_Change(&this->skelAnime, &D_06004AD0, -1.0f, lastFrame, 0.0f, 2, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06004AD0, -1.0f, lastFrame, 0.0f, ANIMMODE_ONCE, -3.0f);
     this->actionTimer = 0;
     this->unk_300 = 0;
     this->unk_2D4 = 4;
     this->actor.speedXZ = 6.5f;
     this->actor.velocity.y = 15.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     EnWf_SetupAction(this, func_80B361A0);
 }
 
 // EnWf_?????? (Related to moving around?)
 void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 1, 4000, 1);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 4000, 1);
 
     if (this->actor.velocity.y >= 5.0f) {
         func_800355B8(globalCtx, &this->unk_4C8);
@@ -458,10 +522,10 @@ void func_80B361A0(EnWf* this, GlobalContext* globalCtx) {
     }
 
     if ((SkelAnime_Update(&this->skelAnime)) && (this->actor.bgCheckFlags & 3)) {
-        this->actor.posRot.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsLink;
+        this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.x = 0;
         this->actor.speedXZ = this->actor.velocity.y = 0.0f;
-        this->actor.posRot.pos.y = this->actor.groundY;
+        this->actor.world.pos.y = this->actor.floorHeight;
 
         if (func_80033AB8(globalCtx, this) == 0) {
             func_80B35540(this);
@@ -482,7 +546,7 @@ void EnWf_SetupReactToPlayer(EnWf* this) {
     this->unk_2D4 = 7;
     this->actionTimer = 10;
 
-    Animation_Change(&this->skelAnime, &D_06004CA4, 0.0f, 0.0f, lastFrame, 3, -4.0f);
+    Animation_Change(&this->skelAnime, &D_06004CA4, 0.0f, 0.0f, lastFrame, ANIMMODE_ONCE_INTERP, -4.0f);
     EnWf_SetupAction(this, EnWf_ReactToPlayer);
 }
 
@@ -497,10 +561,10 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
     }
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-        if ((!(ABS(yawDiff) > 0x4000)) && (this->actor.xzDistToLink < 60.0f) &&
-            (ABS(this->actor.yDistToLink) < 50.0f)) {
+        if ((!(ABS(yawDiff) > 0x4000)) && (this->actor.xzDistToPlayer < 60.0f) &&
+            (ABS(this->actor.yDistToPlayer) < 50.0f)) {
             if (func_800354B4(globalCtx, this, 100.0f, 10000, 0x4000, this->actor.shape.rot.y)) {
                 if (player->swordAnimation == 0x11) {
                     EnWf_SetupReactToPlayer(this);
@@ -542,14 +606,14 @@ void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx) {
     Player* player;
     f32 lastFrame = Animation_GetLastFrame(&D_060057A0);
 
-    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, 1, -4.0f);
+    Animation_Change(&this->skelAnime, &D_060057A0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -4.0f);
 
     player = PLAYER;
     angle = player->actor.shape.rot.y + this->unk_2FE;
 
-    if (Math_SinS(angle - this->actor.yawTowardsLink) > 0.0f) {
+    if (Math_SinS(angle - this->actor.yawTowardsPlayer) > 0.0f) {
         this->unk_2FE = 16000;
-    } else if (Math_SinS(angle - this->actor.yawTowardsLink) < 0.0f) {
+    } else if (Math_SinS(angle - this->actor.yawTowardsPlayer) < 0.0f) {
         this->unk_2FE = -16000;
     } else if (Rand_ZeroOne() > 0.5f) {
         this->unk_2FE = 16000;
@@ -559,7 +623,7 @@ void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx) {
 
     this->skelAnime.playSpeed = this->actor.speedXZ = 6.0f;
     this->skelAnime.playSpeed *= 0.175f;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     this->unk_2EC = 0.0f;
     this->actionTimer = (Rand_ZeroOne() * 10.0f) + 5.0f;
     this->unk_2D4 = 14;
@@ -573,7 +637,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx);
 
 void EnWf_SetupDeath(EnWf* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06005430, -4.0f);
-    this->actor.posRot.rot.y = this->actor.yawTowardsLink;
+    this->actor.world.rot.y = this->actor.yawTowardsPlayer;
 
     if (this->actor.bgCheckFlags & 1) {
         this->unk_300 = 0;
@@ -599,7 +663,7 @@ void EnWf_FaceTowardsPlayer(EnWf* this, GlobalContext* globalCtx) {
         this->unk_4D4.y = Math_SinS(this->unk_2E2 * 0x1068) * 8920.0f;
     } else if (this->unk_2D4 != 15) {
         if (this->unk_2D4 != 8) {
-            Math_SmoothStepToS(&this->unk_4D4.y, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 1500, 0);
+            Math_SmoothStepToS(&this->unk_4D4.y, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1, 1500, 0);
             this->unk_4D4.y = CLAMP(this->unk_4D4.y, -0x3127, 0x3127);
         } else {
             this->unk_4D4.y = 0;
@@ -614,7 +678,7 @@ void EnWf_ApplyDamage(EnWf* this, GlobalContext* globalCtx) {
         this->colliderCylinder2.base.acFlags &= ~2;
     } else if ((this->colliderCylinder1.base.acFlags & 2) || (this->colliderCylinder2.base.acFlags & 2)) {
         if (this->unk_2D4 >= 6) {
-            s16 yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+            s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
             if (((!(this->colliderCylinder1.base.acFlags & 2)) && (this->colliderCylinder2.base.acFlags & 2)) ||
                 (ABS(yawDiff) > 19000)) {
@@ -677,7 +741,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderSphere.base);
 
     if (this->unk_2D4 >= 6) {
-        if ((this->actor.dmgEffectTimer == 0) || (!(this->actor.dmgEffectParams & 0x4000))) {
+        if ((this->actor.colorFilterTimer == 0) || (!(this->actor.colorFilterParams & 0x4000))) {
             Collider_CylinderUpdate(&this->actor, &this->colliderCylinder1);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder2.base);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder1.base);
@@ -696,11 +760,11 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 25.0f;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 25.0f;
 
     if (this->eyeIndex == 0) {
-        if ((Rand_ZeroOne() < 0.2f) && (!(globalCtx->gameplayFrames & 3)) && (this->actor.dmgEffectTimer == 0)) {
+        if ((Rand_ZeroOne() < 0.2f) && (!(globalCtx->gameplayFrames & 3)) && (this->actor.colorFilterTimer == 0)) {
             this->eyeIndex++;
         }
     } else {
@@ -736,7 +800,7 @@ void EnWf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         this->colliderCylinder2.dim.pos.z = colliderPos.z;
     }
 
-    if ((this->fireTimer != 0) || ((this->actor.dmgEffectTimer != 0) && (this->actor.dmgEffectParams & 0x4000))) {
+    if ((this->fireTimer != 0) || ((this->actor.colorFilterTimer != 0) && (this->actor.colorFilterParams & 0x4000))) {
         switch (limbIndex) {
             case 18:
                 bodyPartIndex = 0;
@@ -801,7 +865,7 @@ void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               this->skelAnime.dListCount, EnWf_OverrideLimbDraw, EnWf_PostLimbDraw, &this->actor);
 
         if (this->fireTimer != 0) {
-            this->actor.dmgEffectTimer++;
+            this->actor.colorFilterTimer++;
             if (1) {}
             this->fireTimer--;
 
@@ -831,8 +895,8 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
         f32 dist;
 
         angleToFacing = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
-        this->actor.posRot.rot.y = (u16)this->actor.shape.rot.y & 0xFFFF;
-        dist = func_8002DB6C(&this->actor, &actor->posRot.pos);
+        this->actor.world.rot.y = (u16)this->actor.shape.rot.y & 0xFFFF;
+        dist = func_8002DB6C(&this->actor, &actor->world.pos);
         //! @bug
         // func_8002DB6C already sqrtfs the distance, so this actually checks for a
         // distance of 360000. Also it's a double calculation because no f on sqrt.
@@ -843,7 +907,7 @@ s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
                 EnGeldB_SetupBlock(this);
             }
         } else {
-            this->actor.posRot.rot.y = this->actor.shape.rot.y + 0x3FFF;
+            this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
             if ((ABS(angleToFacing) < 0x2000) || (ABS(angleToFacing) > 0x5FFF)) {
                 EnGeldB_SetupSidestep(this, globalCtx);
                 this->actor.speedXZ *= 3.0f;

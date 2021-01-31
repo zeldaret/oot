@@ -32,7 +32,7 @@ typedef struct EnWf {
     /* 0x0300 */ s16 unk_300;
     /* 0x0302 */ u8 eyeIndex;
     /* 0x0304 */ ColliderJntSph colliderSphere;
-    /* 0x0324 */ ColliderJntSphItem colliderSphereItems[4];
+    /* 0x0324 */ ColliderJntSphElement colliderSphereElements[4];
     /* 0x0424 */ ColliderCylinder colliderCylinder1;
     /* 0x0470 */ ColliderCylinder colliderCylinder2;
     /* 0x04BC */ Vec3f unk_4BC;

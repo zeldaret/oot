@@ -9,7 +9,7 @@ glabel func_80B37830
 /* 03B9C 80B3784C 10400049 */  beq     $v0, $zero, .L80B37974     
 /* 03BA0 80B37850 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 03BA4 80B37854 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
-/* 03BA8 80B37858 0C00B69E */  jal     func_8002DA78              
+/* 03BA8 80B37858 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 03BAC 80B3785C AFA20024 */  sw      $v0, 0x0024($sp)           
 /* 03BB0 80B37860 860F00B6 */  lh      $t7, 0x00B6($s0)           ## 000000B6
 /* 03BB4 80B37864 8FA70024 */  lw      $a3, 0x0024($sp)           
@@ -19,7 +19,7 @@ glabel func_80B37830
 /* 03BC4 80B37874 00063403 */  sra     $a2, $a2, 16               
 /* 03BC8 80B37878 A60F0032 */  sh      $t7, 0x0032($s0)           ## 00000032
 /* 03BCC 80B3787C A7A60022 */  sh      $a2, 0x0022($sp)           
-/* 03BD0 80B37880 0C00B6DB */  jal     func_8002DB6C              
+/* 03BD0 80B37880 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 03BD4 80B37884 24E50024 */  addiu   $a1, $a3, 0x0024           ## $a1 = 00000024
 /* 03BD8 80B37888 87A60022 */  lh      $a2, 0x0022($sp)           
 /* 03BDC 80B3788C 46000086 */  mov.s   $f2, $f0                   

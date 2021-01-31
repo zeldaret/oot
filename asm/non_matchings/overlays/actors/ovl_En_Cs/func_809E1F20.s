@@ -132,7 +132,7 @@ glabel func_809E1F20
 /* 00844 809E20F4 44070000 */  mfc1    $a3, $f0                   
 /* 00848 809E20F8 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 0084C 809E20FC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00850 809E2100 0C00B92D */  jal     func_8002E4B4              
+/* 00850 809E2100 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00854 809E2104 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00858 809E2108 8FBF004C */  lw      $ra, 0x004C($sp)           
 /* 0085C 809E210C D7B40020 */  ldc1    $f20, 0x0020($sp)          

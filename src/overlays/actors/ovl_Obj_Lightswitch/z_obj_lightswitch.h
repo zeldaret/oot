@@ -19,7 +19,7 @@ typedef struct ObjLightswitch {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ObjLightswitchActionFunc actionFunc;
     /* 0x0150 */ ColliderJntSph collider;
-    /* 0x0170 */ ColliderJntSphItem colliderItems[1];
+    /* 0x0170 */ ColliderJntSphElement colliderItems[1];
     /* 0x01B0 */ s16 timer;       // collision-related threshold and controls animation/logic when turning on/off
     /* 0x01B2 */ s16 toggleDelay; // timer ticking down used for delaying tuning on/off or disappearing, can be bypassed
     /* 0x01B4 */ s16 faceTextureIndex; // texture used by the center part of the sun

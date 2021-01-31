@@ -57,10 +57,10 @@ glabel func_809E89E4
 /* 032B8 809E8A88 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
 /* 032BC 809E8A8C 8FB00040 */  lw      $s0, 0x0040($sp)
 /* 032C0 809E8A90 26100238 */  addiu   $s0, $s0, 0x0238           ## $s0 = 00000238
-/* 032C4 809E8A94 0C018A29 */  jal     func_800628A4
+/* 032C4 809E8A94 0C018A29 */  jal     Collider_UpdateSpheres
 /* 032C8 809E8A98 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000238
 /* 032CC 809E8A9C 24040038 */  addiu   $a0, $zero, 0x0038         ## $a0 = 00000038
-/* 032D0 809E8AA0 0C018A29 */  jal     func_800628A4
+/* 032D0 809E8AA0 0C018A29 */  jal     Collider_UpdateSpheres
 /* 032D4 809E8AA4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000238
 /* 032D8 809E8AA8 8FAB0044 */  lw      $t3, 0x0044($sp)
 /* 032DC 809E8AAC 3C06809F */  lui     $a2, %hi(D_809E90E0)       ## $a2 = 809F0000
