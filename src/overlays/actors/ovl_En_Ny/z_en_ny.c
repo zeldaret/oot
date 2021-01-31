@@ -64,10 +64,40 @@ static ColliderJntSphInit sColliderInit = {
     sJntSphElementsInit,
 };
 
-static DamageTable sDamageTable = { {
-    0x00, 0x00, 0x00, 0xF2, 0x00, 0xF2, 0xF2, 0x12, 0x00, 0xF2, 0xF4, 0x24, 0xF2, 0xF2, 0xE4, 0x00,
-    0x00, 0x24, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF4, 0xF2, 0x00, 0xF8, 0xF4, 0x00, 0x00, 0x00, 0x00,
-} };
+static DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0 , 0x0),
+    /* Deku stick    */ DMG_ENTRY(0 , 0x0),
+    /* Slingshot     */ DMG_ENTRY(0 , 0x0),
+    /* Explosive     */ DMG_ENTRY(2 , 0xF),
+    /* Boomerang     */ DMG_ENTRY(0 , 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2 , 0xF),
+    /* Hammer swing  */ DMG_ENTRY(2 , 0xF),
+    /* Hookshot      */ DMG_ENTRY(2 , 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(0 , 0x0),
+    /* Master sword  */ DMG_ENTRY(2 , 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4 , 0xF),
+    /* Fire arrow    */ DMG_ENTRY(4 , 0x2),
+    /* Ice arrow     */ DMG_ENTRY(2 , 0xF),
+    /* Light arrow   */ DMG_ENTRY(2 , 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(4 , 0xE),
+    /* Unk arrow 2   */ DMG_ENTRY(0 , 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0 , 0x0),
+    /* Fire magic    */ DMG_ENTRY(4 , 0x2),
+    /* Ice magic     */ DMG_ENTRY(0 , 0x0),
+    /* Light magic   */ DMG_ENTRY(0 , 0x0),
+    /* Shield        */ DMG_ENTRY(0 , 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0 , 0x0),
+    /* Giant spin    */ DMG_ENTRY(4 , 0xF),
+    /* Master spin   */ DMG_ENTRY(2 , 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(0 , 0x0),
+    /* Giant jump    */ DMG_ENTRY(8 , 0xF),
+    /* Master jump   */ DMG_ENTRY(4 , 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
+    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0 , 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+};
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 40, ICHAIN_CONTINUE),
@@ -484,11 +514,11 @@ void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_MoveForward(&this->actor);
     Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
 }
+    static Vec3f sFireOffsets[] = {
+        { 5.0f, 0.0f, 0.0f }, { -5.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 5.0f }, { 0.0f, 0.0f, -5.0f },
+    };
 
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Vec3f sFireOffsets[] = {
-        { 5.0f, 0.0f, 0.0f }, { -5.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 5.0f }, { 0.0f, 0.0f, -5.0f }
-    };
     s32 pad;
     EnNy* this = THIS;
 
@@ -562,7 +592,7 @@ void EnNy_DrawDeathEffect(Actor* thisx, GlobalContext* globalCtx) {
         fireOffsetIndex = this->unk_1CA - 1;
         this->actor.colorFilterTimer++;
         if ((fireOffsetIndex & 1) == 0) {
-            fireOffset = &sFireOffset[fireOffsetIndex & 3];
+            fireOffset = &sFireOffsets[fireOffsetIndex & 3];
             tempVec.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + fireOffset->x);
             tempVec.y = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.y + fireOffset->y);
             tempVec.z = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.z + fireOffset->z);
