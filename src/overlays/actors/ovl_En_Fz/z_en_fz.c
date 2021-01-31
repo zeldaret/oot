@@ -163,7 +163,7 @@ static InitChainEntry sInitChain[] = {
 void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFz* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, &sInitChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 6;
 
@@ -219,7 +219,7 @@ void EnFz_UpdateTargetPos(EnFz* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Vec3f hitPos;
     Vec3f vec1;
-    u32 bgId;
+    s32 bgId;
     CollisionPoly* hitPoly;
 
     pos.x = this->actor.world.pos.x;
@@ -558,7 +558,7 @@ void EnFz_SetupDespawn(EnFz* this, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0.0f;
     this->actor.speedXZ = 0.0f;
     Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
-    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world, 0x60);
+    Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x60);
     this->actionFunc = EnFz_Despawn;
 }
 
@@ -690,10 +690,10 @@ void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
         Collider_UpdateCylinder(&this->actor, &this->collider2);
         if (this->isFreezing) {
             if (this->actor.colorFilterTimer == 0) {
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1);
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider2.base);
             }
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider1.base);
         }
     }
 
@@ -840,7 +840,7 @@ void EnFz_UpdateIceSmoke(EnFz* this, GlobalContext* globalCtx) {
                     this->collider3.dim.pos.x = (s16)iceSmoke->pos.x;
                     this->collider3.dim.pos.y = (s16)iceSmoke->pos.y;
                     this->collider3.dim.pos.z = (s16)iceSmoke->pos.z;
-                    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider3);
+                    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider3.base);
                 }
 
                 pos.x = iceSmoke->pos.x;
