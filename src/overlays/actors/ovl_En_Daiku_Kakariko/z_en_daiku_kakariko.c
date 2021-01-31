@@ -59,7 +59,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 18, 66, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static DamageTable sDamageTable = { 0 };
 
@@ -69,17 +69,17 @@ static struct_D_80AA1678 sAnimations[] = {
 };
 
 void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32* currentAnimIndex) {
-    f32 transitionRate;
+    f32 morphFrames;
 
     if ((*currentAnimIndex < 0) || (animIndex == *currentAnimIndex)) {
-        transitionRate = 0.0f;
+        morphFrames = 0.0f;
     } else {
-        transitionRate = sAnimations[animIndex].transitionRate;
+        morphFrames = sAnimations[animIndex].transitionRate;
     }
 
     Animation_Change(&this->skelAnime, sAnimations[animIndex].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimations[animIndex].animation), sAnimations[animIndex].mode,
-                     transitionRate);
+                     morphFrames);
 
     *currentAnimIndex = animIndex;
 }
