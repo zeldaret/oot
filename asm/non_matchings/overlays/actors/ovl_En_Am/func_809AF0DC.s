@@ -78,7 +78,7 @@ glabel func_809AF0DC
 /* 012D4 809AF1F4 0C26B89C */  jal     func_809AE270              
 /* 012D8 809AF1F8 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 012DC 809AF1FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 012E0 809AF200 0C00B6EC */  jal     func_8002DBB0              
+/* 012E0 809AF200 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 012E4 809AF204 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 012E8 809AF208 3C014370 */  lui     $at, 0x4370                ## $at = 43700000
 /* 012EC 809AF20C 44815000 */  mtc1    $at, $f10                  ## $f10 = 240.00

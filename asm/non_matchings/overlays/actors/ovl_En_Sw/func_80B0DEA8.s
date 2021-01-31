@@ -80,7 +80,7 @@ glabel func_80B0DEA8
 /* 02210 80B0DFC0 AFAB0014 */  sw      $t3, 0x0014($sp)           
 /* 02214 80B0DFC4 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 02218 80B0DFC8 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 0221C 80B0DFCC 0C00F7A1 */  jal     func_8003DE84              
+/* 0221C 80B0DFCC 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02220 80B0DFD0 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 02224 80B0DFD4 54400004 */  bnel    $v0, $zero, .L80B0DFE8     
 /* 02228 80B0DFD8 00001025 */  or      $v0, $zero, $zero          ## $v0 = 00000000

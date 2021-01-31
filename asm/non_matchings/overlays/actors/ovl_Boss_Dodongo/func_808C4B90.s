@@ -53,7 +53,7 @@ glabel func_808C4B90
 /* 03AC0 808C4C50 8FA50028 */  lw      $a1, 0x0028($sp)           
 .L808C4C54:
 /* 03AC4 808C4C54 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 03AC8 808C4C58 0C018A29 */  jal     func_800628A4              
+/* 03AC8 808C4C58 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 03ACC 808C4C5C 24A50440 */  addiu   $a1, $a1, 0x0440           ## $a1 = 00000440
 /* 03AD0 808C4C60 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 03AD4 808C4C64 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

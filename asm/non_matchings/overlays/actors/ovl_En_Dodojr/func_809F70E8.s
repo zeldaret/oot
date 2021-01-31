@@ -40,8 +40,8 @@ glabel func_809F70E8
 /* 00DB8 809F7178 3C0D809F */  lui     $t5, %hi(func_809F74C4)    ## $t5 = 809F0000
 /* 00DBC 809F717C 25AD74C4 */  addiu   $t5, $t5, %lo(func_809F74C4) ## $t5 = 809F74C4
 /* 00DC0 809F7180 15A20003 */  bne     $t5, $v0, .L809F7190       
-/* 00DC4 809F7184 3C0E8003 */  lui     $t6, %hi(ActorShadow_DrawFunc_Circle)
-/* 00DC8 809F7188 25CEB5EC */  addiu   $t6, %lo(ActorShadow_DrawFunc_Circle)
+/* 00DC4 809F7184 3C0E8003 */  lui     $t6, %hi(ActorShadow_DrawCircle)
+/* 00DC8 809F7188 25CEB5EC */  addiu   $t6, %lo(ActorShadow_DrawCircle)
 /* 00DCC 809F718C AE0E00C0 */  sw      $t6, 0x00C0($s0)           ## 000000C0
 .L809F7190:
 /* 00DD0 809F7190 0C27DC27 */  jal     func_809F709C              
@@ -65,8 +65,8 @@ glabel func_809F70E8
 /* 00E0C 809F71CC 250874C4 */  addiu   $t0, $t0, %lo(func_809F74C4) ## $t0 = 809F74C4
 /* 00E10 809F71D0 15020003 */  bne     $t0, $v0, .L809F71E0       
 .L809F71D4:
-/* 00E14 809F71D4 3C098003 */  lui     $t1, %hi(ActorShadow_DrawFunc_Circle)
-/* 00E18 809F71D8 2529B5EC */  addiu   $t1, %lo(ActorShadow_DrawFunc_Circle)
+/* 00E14 809F71D4 3C098003 */  lui     $t1, %hi(ActorShadow_DrawCircle)
+/* 00E18 809F71D8 2529B5EC */  addiu   $t1, %lo(ActorShadow_DrawCircle)
 /* 00E1C 809F71DC AE0900C0 */  sw      $t1, 0x00C0($s0)           ## 000000C0
 .L809F71E0:
 /* 00E20 809F71E0 920200B1 */  lbu     $v0, 0x00B1($s0)           ## 000000B1

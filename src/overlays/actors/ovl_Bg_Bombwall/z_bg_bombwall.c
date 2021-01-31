@@ -25,30 +25,58 @@ extern CollisionHeader D_050041B0;
 extern Gfx D_05003FC0[];
 extern Gfx D_05004088[];
 
-static ColliderTrisItemInit sTrimItemInit[3] = {
+static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000048, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { -70.0f, 176.0f, 0.0f }, { -70.0f, -4.0f, 0.0f }, { 0.0f, -4.0f, 30.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000048, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 70.0f, 176.0f, 0.0f }, { -70.0f, 176.0f, 0.0f }, { 0.0f, -4.0f, 30.0f } } },
     },
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x40000048, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x40000048, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_NONE,
+        },
         { { { 70.0f, -4.0f, 0.0f }, { 70.0f, 176.0f, 0.0f }, { 0.0f, -4.0f, 30.0f } } },
     },
 };
 
 static ColliderTrisInit sTrisInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x00, 0x00, COLSHAPE_TRIS },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_TRIS,
+    },
     3,
-    sTrimItemInit,
+    sTrisElementsInit,
 };
 
 const ActorInit Bg_Bombwall_InitVars = {
     ACTOR_BG_BOMBWALL,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(BgBombwall),
@@ -61,14 +89,13 @@ const ActorInit Bg_Bombwall_InitVars = {
 void BgBombwall_InitDynapoly(BgBombwall* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_050041B0, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_050041B0, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_bombwall.c", 243,
                      this->dyna.actor.params);
@@ -110,17 +137,17 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         for (i = 0; i <= 2; i++) {
             for (j = 0; j <= 2; j++) {
-                sp80.x = sTrisInit.list[i].dim.vtx[j].x;
-                sp80.y = sTrisInit.list[i].dim.vtx[j].y;
-                sp80.z = sTrisInit.list[i].dim.vtx[j].z + 2.0f;
+                sp80.x = sTrisInit.elements[i].dim.vtx[j].x;
+                sp80.y = sTrisInit.elements[i].dim.vtx[j].y;
+                sp80.z = sTrisInit.elements[i].dim.vtx[j].z + 2.0f;
 
                 BgBombwall_RotateVec(&vecs[j], &sp80, sin, cos);
 
-                vecs[j].x += this->dyna.actor.posRot.pos.x;
-                vecs[j].y += this->dyna.actor.posRot.pos.y;
-                vecs[j].z += this->dyna.actor.posRot.pos.z;
+                vecs[j].x += this->dyna.actor.world.pos.x;
+                vecs[j].y += this->dyna.actor.world.pos.y;
+                vecs[j].z += this->dyna.actor.world.pos.z;
             }
-            func_800627A0(&this->collider, i, &vecs[0], &vecs[1], &vecs[2]);
+            Collider_SetTrisVertices(&this->collider, i, &vecs[0], &vecs[1], &vecs[2]);
         }
 
         this->unk_2A2 |= 1;
@@ -133,7 +160,7 @@ void BgBombwall_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void BgBombwall_DestroyCollision(BgBombwall* this, GlobalContext* globalCtx) {
     if (this->unk_2A2 & 2) {
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->unk_2A2 &= ~2;
     }
 
@@ -160,7 +187,7 @@ void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx) {
     s32 i;
     f32 sin = Math_SinS(this->dyna.actor.shape.rot.y);
     f32 cos = Math_CosS(this->dyna.actor.shape.rot.y);
-    Vec3f* pos = &this->dyna.actor.posRot.pos;
+    Vec3f* pos = &this->dyna.actor.world.pos;
     f32 temp;
     f32 new_var;
 
@@ -188,11 +215,11 @@ void func_8086ED50(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8086EDFC(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-    } else if (this->dyna.actor.xzDistToLink < 600.0f) {
+    } else if (this->dyna.actor.xzDistToPlayer < 600.0f) {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }

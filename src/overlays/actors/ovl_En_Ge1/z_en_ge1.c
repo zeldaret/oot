@@ -64,7 +64,7 @@ void EnGe1_StopFidget(EnGe1* this);
 
 const ActorInit En_Ge1_InitVars = {
     ACTOR_EN_GE1,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GE1,
     sizeof(EnGe1),
@@ -75,8 +75,22 @@ const ActorInit En_Ge1_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000702, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000702, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 40, 0, { 0, 0, 0 } },
 };
 
