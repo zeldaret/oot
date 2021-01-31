@@ -18,6 +18,13 @@ enum class ZFileMode
 	Invalid
 };
 
+enum class ZGame
+{
+	OOT_RETAIL,
+	OOT_SW97,
+	MM_RETAIL
+};
+
 class ZFile
 {
 public:

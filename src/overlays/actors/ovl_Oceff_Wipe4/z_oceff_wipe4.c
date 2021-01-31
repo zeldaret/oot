@@ -98,12 +98,12 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params == OCEFF_WIPE4_UNUSED) {
-        gSPDisplayList(POLY_XLU_DISP++, sTextureDL1);
+        gSPDisplayList(POLY_XLU_DISP++, sTexture1DL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, sTextureDL0);
+        gSPDisplayList(POLY_XLU_DISP++, sTexture0DL);
     }
 
-    gSPDisplayList(POLY_XLU_DISP++, sTextureDL2);
+    gSPDisplayList(POLY_XLU_DISP++, sTexture2DL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
                                                      scroll * (-1), scroll, 32, 32));
     gSPDisplayList(POLY_XLU_DISP++, sFrustrumDl);

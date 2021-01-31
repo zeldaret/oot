@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dead_dd.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rPrimColorR regs[2]
@@ -115,7 +116,7 @@ void EffectSsDeadDd_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
         gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                           PRIMITIVE, 0);
-        gSPDisplayList(POLY_XLU_DISP++, D_04037730);
+        gSPDisplayList(POLY_XLU_DISP++, gEffBurnMark1DL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dead_dd.c", 259);

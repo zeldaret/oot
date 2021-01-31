@@ -157,8 +157,8 @@ glabel func_80074704
 /* AEBA78 800748D8 C43EC7DC */  lwc1  $f30, %lo(D_8013C7DC)($at)
 /* AEBA7C 800748DC 3C0142C8 */  li    $at, 0x42C80000 # 0.000000
 /* AEBA80 800748E0 4481E000 */  mtc1  $at, $f28
-/* AEBA84 800748E4 3C0B0405 */  lui   $t3, %hi(D_04048160) # $t3, 0x405
-/* AEBA88 800748E8 256B8160 */  addiu $t3, %lo(D_04048160) # addiu $t3, $t3, -0x7ea0
+/* AEBA84 800748E4 3C0B0405 */  lui   $t3, %hi(gRaindropDL) # $t3, 0x405
+/* AEBA88 800748E8 256B8160 */  addiu $t3, %lo(gRaindropDL) # addiu $t3, $t3, -0x7ea0
 /* AEBA8C 800748EC 3C018014 */  lui   $at, %hi(D_8013C7E0)
 /* AEBA90 800748F0 3C130100 */  lui   $s3, 0x100
 /* AEBA94 800748F4 3C17DA38 */  lui   $s7, (0xDA380003 >> 16) # lui $s7, 0xda38
@@ -293,7 +293,7 @@ glabel func_80074704
 /* AEBC90 80074AF0 C438C7F0 */  lwc1  $f24, %lo(D_8013C7F0)($at)
 /* AEBC94 80074AF4 3C014000 */  lui   $at, 0x4000
 /* AEBC98 80074AF8 3C0A0402 */  li    $t2, 0x04020000 # 0.000000
-/* AEBC9C 80074AFC 254AA0B0 */  addiu $t2, %lo(D_0401A0B0) # addiu $t2, $t2, -0x5f50
+/* AEBC9C 80074AFC 254AA0B0 */  addiu $t2, %lo(gEffShockwaveDL) # addiu $t2, $t2, -0x5f50
 /* AEBCA0 80074B00 4481B000 */  mtc1  $at, $f22
 /* AEBCA4 80074B04 AFAA007C */  sw    $t2, 0x7c($sp)
 .L80074B08:

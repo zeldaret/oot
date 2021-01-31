@@ -140,6 +140,7 @@ beginseg
     name "icon_item_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_static/icon_item_static.o"
+    number 8
 endseg
 
 beginseg
@@ -169,7 +170,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -2454,8 +2455,7 @@ endseg
 beginseg
     name "ovl_En_Horse_Game_Check"
     include "build/src/overlays/actors/ovl_En_Horse_Game_Check/z_en_horse_game_check.o"
-    include "build/data/overlays/actors/z_en_horse_game_check.data.o"
-    include "build/data/overlays/actors/z_en_horse_game_check.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse_Game_Check/ovl_En_Horse_Game_Check_reloc.o"
 endseg
 
 beginseg
@@ -3062,15 +3062,17 @@ endseg
 beginseg
     name "ovl_En_Tr"
     include "build/src/overlays/actors/ovl_En_Tr/z_en_tr.o"
-    include "build/data/overlays/actors/z_en_tr.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Tr/ovl_En_Tr_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_tr.reloc.o"
+#endif
 endseg
 
 beginseg
     name "ovl_En_Trap"
     include "build/src/overlays/actors/ovl_En_Trap/z_en_trap.o"
-    include "build/data/overlays/actors/z_en_trap.data.o"
-    include "build/data/overlays/actors/z_en_trap.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Trap/ovl_En_Trap_reloc.o"
 endseg
 
 beginseg
@@ -3685,7 +3687,8 @@ endseg
 beginseg
     name "object_torch2"
     romalign 0x1000
-    include "build/baserom/object_torch2.o"
+    include "build/assets/objects/object_torch2/object_torch2.o"
+    number 6
 endseg
 
 beginseg
@@ -5148,7 +5151,8 @@ endseg
 beginseg
     name "object_blkobj"
     romalign 0x1000
-    include "build/baserom/object_blkobj.o"
+    include "build/assets/objects/object_blkobj/object_blkobj.o"
+    number 6
 endseg
 
 beginseg
@@ -5556,7 +5560,8 @@ endseg
 beginseg
     name "object_geldb"
     romalign 0x1000
-    include "build/baserom/object_geldb.o"
+    include "build/assets/objects/object_geldb/object_geldb.o"
+    number 6
 endseg
 
 beginseg
@@ -6181,7 +6186,8 @@ endseg
 beginseg
     name "parameter_static"
     romalign 0x1000
-    include "build/baserom/parameter_static.o"
+    include "build/assets/textures/parameter_static/parameter_static.o"
+    number 2
 endseg
 
 beginseg
