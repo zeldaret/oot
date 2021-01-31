@@ -274,8 +274,8 @@ void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 angleIndex;
 
-    if (((this->bomb == NULL) || (this->bomb->update == NULL)) ||
-        (((this->bomb != NULL) && (this->bomb->parent != NULL)))) {
+    if ((this->bomb == NULL) || (this->bomb->update == NULL) ||
+        ((this->bomb != NULL) && (this->bomb->parent != NULL))) {
         func_809F6CA4(this, globalCtx);
     }
 
