@@ -5,6 +5,7 @@
  */
 
 #include "z_en_ge3.h"
+#include "objects/object_geldb/object_geldb.h"
 
 #define FLAGS 0x00000019
 
@@ -51,11 +52,8 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 50, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_0600A458; // Same as GeldB
-extern AnimationHeader D_0600B07C;    // Idle with right hand on hip and left over mouth
-
 static EnGe3ActionFunc sActionFuncs[] = { EnGe3_WaitLookAtPlayer };
-static AnimationHeader* sAnimations[] = { 0x0600B07C }; // Idle with right hand on hip and left over mouth
+static AnimationHeader* sAnimations[] = { &gGerudoRedStandAnim }; // Idle with right hand on hip and left over mouth
 static u8 sAnimationModes[] = { ANIMMODE_LOOP };
 
 void EnGe3_ChangeAction(EnGe3* this, s32 i) {
@@ -72,9 +70,9 @@ void EnGe3_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600A458, NULL, this->jointTable, this->morphTable,
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoRedSkel, NULL, this->jointTable, this->morphTable,
                        GELDB_LIMB_MAX);
-    Animation_PlayLoop(&this->skelAnime, &D_0600B07C);
+    Animation_PlayLoop(&this->skelAnime, &gGerudoRedStandAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
