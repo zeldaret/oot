@@ -654,7 +654,8 @@ void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BF54.s")
+void func_8096BF54(Actor *thisx, GlobalContext *globalCtx2) {
+}
 
 void func_8096BF60(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext *globalCtx = globalCtx2;
