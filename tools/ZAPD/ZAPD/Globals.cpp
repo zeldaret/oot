@@ -17,13 +17,14 @@ Globals::Globals()
 	symbolMap = std::map <uint32_t, std::string>();
 	segmentRefs = map<int, string>();
 	segmentRefFiles = map<int, ZFile*>();
+	game = ZGame::OOT_RETAIL;
 	genSourceFile = true;
 	testMode = false;
-	debugMessages = false;
 	profile = false;
 	includeFilePrefix = false;
 	useExternalResources = true;
 	lastScene = nullptr;
+	verbosity = VERBOSITY_SILENT;
 }
 
 string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
@@ -50,7 +51,7 @@ string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
 			{
 				if (string(child->Name()) == "File")
 				{
-					ZFile* file = new ZFile(fileMode, child, "", "", true);
+					ZFile* file = new ZFile(fileMode, child, "", "", "", true);
 					file->GeneratePlaceholderDeclarations();
 					segmentRefFiles[segNumber] = file;
 					break;
@@ -64,7 +65,7 @@ string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
 	return "ERROR";
 }
 
-void Globals::ReadConfigFile(string configFilePath)
+void Globals::ReadConfigFile(const std::string& configFilePath)
 {
 	XMLDocument doc;
 	XMLError eResult = doc.LoadFile(configFilePath.c_str());
@@ -93,7 +94,7 @@ void Globals::ReadConfigFile(string configFilePath)
 	}
 }
 
-void Globals::GenSymbolMap(string symbolMapPath)
+void Globals::GenSymbolMap(const std::string& symbolMapPath)
 {
 	auto symbolLines = File::ReadAllLines(symbolMapPath);
 
@@ -116,4 +117,13 @@ void Globals::AddSegment(int segment)
 bool Globals::HasSegment(int segment)
 {
 	return std::find(segments.begin(), segments.end(), segment) != segments.end();
+}
+
+GameConfig::GameConfig()
+{
+	segmentRefs = map<int, string>();
+	segmentRefFiles = map<int, ZFile*>();
+	symbolMap = std::map<uint32_t, std::string>();
+	actorList = std::vector<std::string>();
+	objectList = std::vector<std::string>();
 }

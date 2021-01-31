@@ -19,7 +19,7 @@ extern UNK_TYPE D_06008190;
 /*
 const ActorInit Bg_Toki_Hikari_InitVars = {
     ACTOR_BG_TOKI_HIKARI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiHikari),

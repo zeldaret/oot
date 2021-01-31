@@ -17,7 +17,7 @@ glabel func_80B8EA80
               
 /* 00038 80B8EAB8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0003C 80B8EABC 8FA40020 */  lw      $a0, 0x0020($sp)           
-/* 00040 80B8EAC0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00040 80B8EAC0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00044 80B8EAC4 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 00048 80B8EAC8 8FBF0014 */  lw      $ra, 0x0014($sp)           

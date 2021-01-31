@@ -10,7 +10,7 @@ typedef void (*BgJyaKanaamiActionFunc)(struct BgJyaKanaami*, GlobalContext*);
 
 typedef struct BgJyaKanaami {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u32 dynaPolyId;
+    /* 0x014C */ s32 bgId;
     /* 0x014C */ char unk_150[0x14];
     /* 0x0164 */ BgJyaKanaamiActionFunc actionFunc;
     /* 0x0168 */ s16 unk_168;

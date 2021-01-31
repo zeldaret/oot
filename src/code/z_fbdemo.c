@@ -25,12 +25,8 @@ Gfx D_8012B000[] = {
     gsSPEndDisplayList(),
 };
 
-#ifdef NON_EQUIVALENT
-// The general control flow is correct and nothing is especially out of order but there are
-// many small reoderings and regalloc all over so functional equivalence cannot be verified
-// The first loop is down to regalloc. The second needs work.
 void TransitionUnk_InitGraphics(TransitionUnk* this) {
-    s32 pad;
+    s32 row2;
     s32 pad2;
     s32 pad3;
     Vtx_t* vtx2;
@@ -48,9 +44,9 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
 
     for (frame = 0; frame < 2; frame++) {
         this->frame = frame;
-        vtx = (frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
+        vtx = (this->frame == 0) ? this->vtxFrame1 : this->vtxFrame2;
         for (colTex = 0, col = 0; col < this->col + 1; colTex += 0x20, col++) {
-            for (rowTex = 0, row = 0; row < this->row + 1; rowTex += 0x20, row++) {
+            for (rowTex = 0, row = 0; row < this->row + 1; row++) {
                 vtx2 = &vtx->v;
                 vtx++;
 
@@ -64,37 +60,36 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
                 vtx2->cn[1] = 0;
                 vtx2->cn[2] = 120;
                 vtx2->cn[3] = 255;
+                rowTex += 0x20;
             }
         }
     }
-
     gfx = this->gfx;
-    for (col = 0, colTex = 0; col < this->col; col++, colTex += 0x20) {
-        gSPVertex(gfx++, SEGMENT_ADDR(0xA, col * (this->row + 1) * sizeof(Vtx)), this->row + 1, 0);
-        for (row = 0, rowTex = 0; row < this->row; row++, rowTex += 0x20) {
+    for (colTex = 0, col = 0; col < this->col; colTex += 0x20, col++) {
+
+        gSPVertex(gfx++, SEGMENT_ADDR(0xA, (u32)col * (this->row + 1) * sizeof(Vtx)), 2 * (this->row + 1), 0);
+
+        for (rowTex = 0, row = 0, row2 = 0; row < this->row;) {
             gDPPipeSync(gfx++);
-            gDPSetTextureImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, SEGMENT_ADDR(0xB, 0));
-            gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 9, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-            gDPLoadSync(gfx++);
-            gDPLoadTile(gfx++, G_TX_LOADTILE, rowTex, colTex, rowTex + 0x20, colTex + 0x20);
-            gDPPipeSync(gfx++);
-            gDPSetTile(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, 9, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                       G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-            gDPSetTileSize(gfx++, G_TX_RENDERTILE, rowTex, colTex, rowTex + 0x20, colTex + 0x20);
-            gSP1Quadrangle(gfx++, row, row + 1, row + this->row, row + this->row + 1, 0);
+
+            gDPLoadTextureTile(gfx++, SEGMENT_ADDR(0xB, 0), G_IM_FMT_RGBA, G_IM_SIZ_16b, SCREEN_WIDTH, SCREEN_HEIGHT,
+                               rowTex, colTex, rowTex + 0x20, colTex + 0x20, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                               G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+            gSP1Quadrangle(gfx++, row, row + 1, row2 + this->row + 2, this->row + row2 + 1, 0);
+            if (1) {}
+            rowTex += 0x20;
+            row2++;
+            row++;
         }
     }
     gDPPipeSync(gfx++);
     gSPEndDisplayList(gfx++);
 
-    LOG("this->col * (1 + this->row * (1 + 7 + 1)) + 1 + 1", this->col * (1 + this->row * 9) + 2, "%d", "../z_fbdemo.c",
-        144);
-    LOG("gp - this->gfxtbl", gfx - this->gfx, "%d", "../z_fbdemo.c", 145);
+    LOG_NUM("this->col * (1 + this->row * (1 + 7 + 1)) + 1 + 1", this->col * (1 + this->row * 9) + 2, "../z_fbdemo.c",
+            144);
+    LOG_NUM("gp - this->gfxtbl", gfx - this->gfx, "../z_fbdemo.c", 145);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_fbdemo/TransitionUnk_InitGraphics.s")
-#endif
 
 void TransitionUnk_InitData(TransitionUnk* this) {
     s32 col;

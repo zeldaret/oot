@@ -64,7 +64,7 @@ glabel func_80898DB4
               
 /* 00598 80898E38 00E02825 */  or      $a1, $a3, $zero            ## $a1 = 00000000
 /* 0059C 80898E3C 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 005A0 80898E40 0C00B69E */  jal     func_8002DA78              
+/* 005A0 80898E40 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 005A4 80898E44 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 005A8 80898E48 820E02FF */  lb      $t6, 0x02FF($s0)           ## 000002FF
 /* 005AC 80898E4C 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000

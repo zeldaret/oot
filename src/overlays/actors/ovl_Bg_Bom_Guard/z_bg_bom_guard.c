@@ -20,7 +20,7 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Bom_Guard_InitVars = {
     ACTOR_BG_BOM_GUARD,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BOWL,
     sizeof(BgBomGuard),
@@ -30,7 +30,7 @@ const ActorInit Bg_Bom_Guard_InitVars = {
     NULL,
 };
 
-extern UNK_TYPE D_06001C40;
+extern CollisionHeader D_06001C40;
 
 void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -39,11 +39,11 @@ void BgBomGuard_SetupAction(BgBomGuard* this, BgBomGuardActionFunc actionFunc) {
 void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgBomGuard* this = THIS;
     s32 pad[2];
-    s32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_06001C40, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06001C40, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 透明ガード出現 ☆☆☆☆☆ \n" VT_RST);
@@ -51,18 +51,18 @@ void BgBomGuard_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->scale.x = 1.0f;
     thisx->scale.y = 1.0f;
     thisx->scale.z = 1.0f;
-    this->unk_16C = thisx->posRot.pos;
+    this->unk_16C = thisx->world.pos;
     BgBomGuard_SetupAction(this, func_8086E638);
 }
 
 void BgBomGuard_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBomGuard* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
-    Actor* it = globalCtx->actorCtx.actorList[ACTORTYPE_NPC].first;
+    Actor* it = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
     Actor* thisx = &this->dyna.actor;
 
     this->unk_168 = 0;
@@ -79,9 +79,9 @@ void func_8086E638(BgBomGuard* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_168 == 0) {
-        thisx->posRot.pos.y = sREG(64) + -200.0f;
+        thisx->world.pos.y = sREG(64) + -200.0f;
     } else {
-        thisx->posRot.pos.y = 0.0f;
+        thisx->world.pos.y = 0.0f;
     }
 }
 

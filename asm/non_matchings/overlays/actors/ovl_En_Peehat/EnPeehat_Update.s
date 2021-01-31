@@ -49,7 +49,7 @@ glabel EnPeehat_Update
 /* 029C0 80AD1E60 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 029C4 80AD1E64 02602825 */  or      $a1, $s3, $zero            ## $a1 = 00000000
 /* 029C8 80AD1E68 3C0641C8 */  lui     $a2, 0x41C8                ## $a2 = 41C80000
-/* 029CC 80AD1E6C 0C00B92D */  jal     func_8002E4B4              
+/* 029CC 80AD1E6C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 029D0 80AD1E70 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 029D4 80AD1E74 8E7902B8 */  lw      $t9, 0x02B8($s3)           ## 000002B8
 .L80AD1E78:
@@ -132,7 +132,7 @@ glabel EnPeehat_Update
 /* 02AEC 80AD1F8C 26720300 */  addiu   $s2, $s3, 0x0300           ## $s2 = 00000300
 .L80AD1F90:
 /* 02AF0 80AD1F90 02402825 */  or      $a1, $s2, $zero            ## $a1 = 00000300
-/* 02AF4 80AD1F94 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 02AF4 80AD1F94 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 02AF8 80AD1F98 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 02AFC 80AD1F9C 926A00AF */  lbu     $t2, 0x00AF($s3)           ## 000000AF
@@ -146,13 +146,13 @@ glabel EnPeehat_Update
 /* 02B1C 80AD1FBC 02818021 */  addu    $s0, $s4, $at              
 /* 02B20 80AD1FC0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02B24 80AD1FC4 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02B28 80AD1FC8 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000300
 /* 02B2C 80AD1FCC 2671034C */  addiu   $s1, $s3, 0x034C           ## $s1 = 0000034C
 /* 02B30 80AD1FD0 02203025 */  or      $a2, $s1, $zero            ## $a2 = 0000034C
 /* 02B34 80AD1FD4 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 02B38 80AD1FD8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 02B3C 80AD1FDC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 02B40 80AD1FE0 926C0114 */  lbu     $t4, 0x0114($s3)           ## 00000114
 /* 02B44 80AD1FE4 51800006 */  beql    $t4, $zero, .L80AD2000     
@@ -247,7 +247,7 @@ glabel EnPeehat_Update
 /* 02C7C 80AD211C AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 02C80 80AD2120 02203025 */  or      $a2, $s1, $zero            ## $a2 = 000002C8
 /* 02C84 80AD2124 02403825 */  or      $a3, $s2, $zero            ## $a3 = FFFFFFE8
-/* 02C88 80AD2128 0C00F7A1 */  jal     func_8003DE84              
+/* 02C88 80AD2128 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02C8C 80AD212C AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 02C90 80AD2130 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 02C94 80AD2134 14410018 */  bne     $v0, $at, .L80AD2198       

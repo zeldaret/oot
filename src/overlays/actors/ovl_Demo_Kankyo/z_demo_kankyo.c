@@ -42,7 +42,7 @@ extern CutsceneData sChildWarpOutToTCS[];
 
 const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoKankyo),
@@ -176,9 +176,6 @@ static s16 D_8098CF84;
 
 extern Mtx D_01000000; // perspective mtx
 
-extern Gfx D_04010050[];    // clouds DL
-extern UNK_TYPE D_04052DB0; // clouds texture
-
 extern Gfx D_06000080[]; // rain DL
 extern Gfx D_06000DE0[]; // rocks DL
 extern Gfx D_06007440[]; // DoT DL left
@@ -245,7 +242,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_150[0].unk_18 = 0.0f;
             if (!(gSaveContext.eventChkInf[4] & 0x800)) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_TOKI,
-                                   this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0,
+                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
                                    0, 0x0000);
             } else {
                 globalCtx->unk_11D30[1] = 0xFF;
@@ -258,7 +255,7 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
         case DEMOKANKYO_WARP_OUT:
         case DEMOKANKYO_WARP_IN:
-            Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORTYPE_ITEMACTION);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_ITEMACTION);
             this->actor.flags |= 0x2000000;
             this->actor.room = -1;
             this->warpTimer = 35;
@@ -394,9 +391,9 @@ void DemoKankyo_SetRockPos(DemoKankyo* this, GlobalContext* globalCtx, s32 param
     endPos.y = csAction->endPos.y;
     endPos.z = csAction->endPos.z;
     temp_f0 = func_8006F93C(csAction->endFrame, csAction->startFrame, globalCtx->csCtx.frames);
-    this->actor.posRot.pos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
-    this->actor.posRot.pos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
-    this->actor.posRot.pos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
+    this->actor.world.pos.x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
+    this->actor.world.pos.y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
+    this->actor.world.pos.z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
 }
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, GlobalContext* globalCtx) {
@@ -645,7 +642,7 @@ void DemoKankyo_DrawRock(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1376);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, MTXMODE_NEW);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
     Matrix_RotateX(DEG_TO_RAD(this->unk_150[0].unk_C.x), MTXMODE_APPLY);
     Matrix_RotateY(DEG_TO_RAD(this->unk_150[0].unk_C.y), MTXMODE_APPLY);
     Matrix_RotateZ(DEG_TO_RAD(this->unk_150[0].unk_C.z), MTXMODE_APPLY);
@@ -685,12 +682,12 @@ void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1461),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_04052DB0));
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust5Tex));
 
         func_80094C50(globalCtx->state.gfxCtx);
 
         gSPMatrix(POLY_XLU_DISP++, &D_01000000, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_04010050);
+        gSPDisplayList(POLY_XLU_DISP++, gEffDustDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 0x5C2);
@@ -819,7 +816,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                         this->unk_150[i].unk_22++;
                     }
                 }
-                func_8002EF14(&posRot, &player->actor);
+                Actor_GetWorld(&posRot, &player->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CF98);
                 break;
             case 2:
@@ -866,7 +863,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
         translateZ = this->unk_150[i].unk_C.z + this->unk_150[i].unk_0.z;
 
         if (this->unk_150[i].unk_22 < 2) {
-            disp = (u32)gGameKeepMoteDL0;
+            disp = (u32)gEffFlash1DL;
             if (linkAge != 0) {
                 Matrix_Translate(translateX, translateY, translateZ, MTXMODE_NEW);
             } else {
@@ -940,7 +937,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
                                   &this->unk_150[i].unk_20, &this->unk_150[i].unk_1C) != 0) {
                     this->unk_150[i].unk_22++;
                 }
-                func_8002EF14(&posRot, &this->actor);
+                Actor_GetWorld(&posRot, &this->actor);
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CFB8);
                 break;
             case 2:
@@ -992,7 +989,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(DEG_TO_RAD(this->unk_150[i].unk_24), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 2572),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
+            gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
             this->unk_150[i].unk_24 += 0x190;
         }
     }

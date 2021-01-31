@@ -776,22 +776,19 @@ s32 Audio_ResetStep(void) {
     return 1;
 }
 
-#ifdef NON_EQUIVALENT
-// first half matches, reorderings and regalloc in second half
 void func_800DFBF8(void) {
-    s32 pad[6];
-    s32 i;
-    s32 j;
+    s32 pad1[4];
     s16* mem;
-    u16 windowSize;
     s32 persistentMem;
     s32 temporaryMem;
     s32 totalMem;
-    AudioSessionSettings* preset;
     s32 wantMisc;
     u32 intMask;
+    s32 i;
+    s32 j;
+    s32 pad2;
+    AudioSessionSettings* preset = &gAudioSessionPresets[gAudioContext.gAudioResetPresetIdToLoad];
 
-    preset = &gAudioSessionPresets[gAudioContext.gAudioResetPresetIdToLoad];
     gAudioContext.gSampleDmaNumListItems = 0;
     gAudioContext.gAudioBufferParameters.frequency = preset->frequency;
     gAudioContext.gAudioBufferParameters.aiFrequency = osAiSetFrequency(gAudioContext.gAudioBufferParameters.frequency);
@@ -894,8 +891,8 @@ void func_800DFBF8(void) {
 
     gAudioContext.gNumSynthesisReverbs = preset->numReverbs;
     for (i = 0; i < gAudioContext.gNumSynthesisReverbs; i++) {
-        SynthesisReverb* reverb = &gAudioContext.gSynthesisReverbs[i];
         ReverbSettings* settings = &preset->reverbSettings[i];
+        SynthesisReverb* reverb = &gAudioContext.gSynthesisReverbs[i];
         reverb->downsampleRate = settings->downsampleRate;
         reverb->windowSize = settings->windowSize * 64;
         reverb->windowSize /= reverb->downsampleRate;
@@ -914,19 +911,19 @@ void func_800DFBF8(void) {
         reverb->unk_1C = 0;
         reverb->unk_20 = 0;
         reverb->unk_03 = 0;
+        reverb->unk_24 = reverb->windowSize;
         reverb->unk_02 = 2;
         reverb->unk_00 = 1;
-        reverb->unk_24 = reverb->windowSize;
         reverb->sound.sample = &reverb->sample;
         reverb->sample.loop = &reverb->loop;
+        reverb->sound.tuning = 1.0f;
         reverb->sample.bits4 = 4;
         reverb->sample.bits2 = 0;
         reverb->sample.bits24 = reverb->windowSize * 2;
+        reverb->sample.sampleAddr = (u8*)reverb->unk_28;
         reverb->loop.start = 0;
         reverb->loop.count = 1;
         reverb->loop.end = reverb->windowSize;
-        reverb->sound.tuning = 1.0f;
-        reverb->sample.sampleAddr = (u8*)reverb->unk_28;
 
         if (reverb->downsampleRate != 1) {
             reverb->unk_0E = 0x8000 / reverb->downsampleRate;
@@ -934,7 +931,6 @@ void func_800DFBF8(void) {
             reverb->unk_34 = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, 0x20);
             reverb->unk_38 = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, 0x20);
             reverb->unk_3C = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, 0x20);
-            reverb = reverb;
             for (j = 0; j < gAudioContext.gAudioBufferParameters.updatesPerFrame; j++) {
                 mem = func_800DE258(&gAudioContext.gNotesAndBuffersPool, 0x340);
                 reverb->items[0][j].toDownsampleLeft = mem;
@@ -963,9 +959,9 @@ void func_800DFBF8(void) {
     }
 
     Audio_InitSequencePlayers();
-    for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-        func_800EC734(i);
-        Audio_ResetSequencePlayer(&gAudioContext.gSequencePlayers[i]);
+    for (j = 0; j < gAudioContext.gAudioBufferParameters.numSequencePlayers; j++) {
+        func_800EC734(j);
+        Audio_ResetSequencePlayer(&gAudioContext.gSequencePlayers[j]);
     }
 
     func_800E0634(preset->unk_30, preset->unk_34);
@@ -980,9 +976,6 @@ void func_800DFBF8(void) {
     osWritebackDCacheAll();
     osSetIntMask(intMask);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_heap/func_800DFBF8.s")
-#endif
 
 void* func_800E04E8(s32 poolIdx, s32 id) {
     s32 i;
