@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_en_fire.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScaleMax regs[0]
 #define rScale regs[1]
@@ -25,9 +26,6 @@ EffectSsInit Effect_Ss_En_Fire_InitVars = {
     EFFECT_SS_EN_FIRE,
     EffectSsEnFire_Init,
 };
-
-extern Gfx D_0404D5A0[];
-extern Gfx D_0404D4E0[];
 
 u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsEnFireInitParams* initParams = (EffectSsEnFireInitParams*)initParamsx;
@@ -97,9 +95,9 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                                 0x20, 0x80));
 
     if (((this->rFlags & 0x7FFF) != 0) || (this->life < 18)) {
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D5A0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire2DL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_fire.c", 213);

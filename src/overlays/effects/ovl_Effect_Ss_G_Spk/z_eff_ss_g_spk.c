@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_g_spk.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -28,15 +29,13 @@ EffectSsInit Effect_Ss_G_Spk_InitVars = {
     EffectSsGSpk_Init,
 };
 
-extern Gfx D_04025550[];
-
 u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsGSpkInitParams* initParams = (EffectSsGSpkInitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04025550);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffSparkDL);
 
     if (initParams->updateMode == 0) {
         this->life = 10;
@@ -66,11 +65,11 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     return 1;
 }
 
-static void* sTextures[] = {
-    0x04055FB0,
-    0x040561B0,
-    0x040563B0,
-    0x040565B0,
+static UNK_PTR sTextures[] = {
+    gEffSpark1Tex,
+    gEffSpark2Tex,
+    gEffSpark3Tex,
+    gEffSpark4Tex,
 };
 
 void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

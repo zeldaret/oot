@@ -7754,7 +7754,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
             return -2;
         }
     }
-    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && (gSaveContext.linkAge == 0) &&
+    if (((setting == CAM_SET_SPOT05A) || (setting == CAM_SET_SPOT05B)) && (LINK_IS_ADULT) &&
         (camera->globalCtx->sceneNum == SCENE_SPOT05)) {
         camera->unk_14A |= 0x10;
         return -5;
