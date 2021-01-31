@@ -690,7 +690,7 @@ void EnWf_ApplyDamage(EnWf* this, GlobalContext* globalCtx) {
 
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_2E6 = this->actor.colChkInfo.damageEffect;
-                func_80035650(&this->actor, &this->colliderCylinder1.body, 1);
+                func_80035650(&this->actor, &this->colliderCylinder1.info, 1);
                 this->unk_2F8 = 0;
 
                 if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 15)) {
@@ -726,7 +726,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->actor.colChkInfo.damageEffect != 6) {
         Actor_MoveForward(this);
-        func_8002E4B4(globalCtx, &this->actor, 32.0f, 30.0f, 60.0f, 29);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 32.0f, 30.0f, 60.0f, 29);
         this->actionFunc(this, globalCtx);
         EnWf_FaceTowardsPlayer(this, globalCtx);
     }
@@ -742,7 +742,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->unk_2D4 >= 6) {
         if ((this->actor.colorFilterTimer == 0) || (!(this->actor.colorFilterParams & 0x4000))) {
-            Collider_CylinderUpdate(&this->actor, &this->colliderCylinder1);
+            Collider_UpdateCylinder(&this->actor, &this->colliderCylinder1);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder2.base);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder1.base);
         }
@@ -788,7 +788,7 @@ void EnWf_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnWf* this = THIS;
     s32 bodyPartIndex = -1;
 
-    func_800628A4(limbIndex, &this->colliderSphere);
+    Collider_UpdateSpheres(limbIndex, &this->colliderSphere);
 
     if (limbIndex == 6) {
         Vec3f colliderPos;
