@@ -101,7 +101,7 @@ void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.dim.radius = 23;
             this->collider.dim.height = 37;
             this->collider.dim.yShift = -10;
-            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
             this->actor.colChkInfo.mass = 0xFF;
             this->actionFunc = FireRock_WaitOnFloor;
             break;
