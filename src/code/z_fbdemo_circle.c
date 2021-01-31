@@ -282,6 +282,7 @@ Gfx sCircleDList[] = {
 
 void TransitionCircle_Start(TransitionCircle* this) {
     this->isDone = 0;
+
     switch (this->effect) {
         case 1:
             this->texture = sCircleTexWave;

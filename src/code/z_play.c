@@ -55,38 +55,38 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
     transitionCtx->transitionType = transitionType;
 
     if ((transitionCtx->transitionType >> 5) == 1) {
-        transitionCtx->init = TransitionCircle_Init;
-        transitionCtx->destroy = TransitionCircle_Destroy;
-        transitionCtx->start = TransitionCircle_Start;
-        transitionCtx->isDone = TransitionCircle_IsDone;
-        transitionCtx->draw = TransitionCircle_Draw;
-        transitionCtx->update = TransitionCircle_Update;
-        transitionCtx->setType = TransitionCircle_SetType;
-        transitionCtx->setColor = TransitionCircle_SetColor;
-        transitionCtx->setEnvColor = TransitionCircle_SetEnvColor;
+        transitionCtx->init = (TransitionInit)TransitionCircle_Init;
+        transitionCtx->destroy = (TransitionDestroy)TransitionCircle_Destroy;
+        transitionCtx->start = (TransitionStart)TransitionCircle_Start;
+        transitionCtx->isDone = (TransitionIsDone)TransitionCircle_IsDone;
+        transitionCtx->draw = (TransitionDraw)TransitionCircle_Draw;
+        transitionCtx->update = (TransitionUpdate)TransitionCircle_Update;
+        transitionCtx->setType = (TransitionSetType)TransitionCircle_SetType;
+        transitionCtx->setColor = (TransitionSetColor)TransitionCircle_SetColor;
+        transitionCtx->setEnvColor = (TransitionSetEnvColor)TransitionCircle_SetEnvColor;
     } else {
         switch (transitionCtx->transitionType) {
             case 1:
-                transitionCtx->init = TransitionTriforce_Init;
-                transitionCtx->destroy = TransitionTriforce_Destroy;
-                transitionCtx->start = TransitionTriforce_Start;
-                transitionCtx->isDone = TransitionTriforce_IsDone;
-                transitionCtx->draw = TransitionTriforce_Draw;
-                transitionCtx->update = TransitionTriforce_Update;
-                transitionCtx->setType = TransitionTriforce_SetType;
-                transitionCtx->setColor = TransitionTriforce_SetColor;
+                transitionCtx->init = (TransitionInit)TransitionTriforce_Init;
+                transitionCtx->destroy = (TransitionDestroy)TransitionTriforce_Destroy;
+                transitionCtx->start = (TransitionStart)TransitionTriforce_Start;
+                transitionCtx->isDone = (TransitionIsDone)TransitionTriforce_IsDone;
+                transitionCtx->draw = (TransitionDraw)TransitionTriforce_Draw;
+                transitionCtx->update = (TransitionUpdate)TransitionTriforce_Update;
+                transitionCtx->setType = (TransitionSetType)TransitionTriforce_SetType;
+                transitionCtx->setColor = (TransitionSetColor)TransitionTriforce_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
             case 0:
             case 8:
-                transitionCtx->init = TransitionWipe_Init;
-                transitionCtx->destroy = TransitionWipe_Destroy;
-                transitionCtx->start = TransitionWipe_Start;
-                transitionCtx->isDone = TransitionWipe_IsDone;
-                transitionCtx->draw = TransitionWipe_Draw;
-                transitionCtx->update = TransitionWipe_Update;
-                transitionCtx->setType = TransitionWipe_SetType;
-                transitionCtx->setColor = TransitionWipe_SetColor;
+                transitionCtx->init = (TransitionInit)TransitionWipe_Init;
+                transitionCtx->destroy = (TransitionDestroy)TransitionWipe_Destroy;
+                transitionCtx->start = (TransitionStart)TransitionWipe_Start;
+                transitionCtx->isDone = (TransitionIsDone)TransitionWipe_IsDone;
+                transitionCtx->draw = (TransitionDraw)TransitionWipe_Draw;
+                transitionCtx->update = (TransitionUpdate)TransitionWipe_Update;
+                transitionCtx->setType = (TransitionSetType)TransitionWipe_SetType;
+                transitionCtx->setColor = (TransitionSetColor)TransitionWipe_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
             case 2:
@@ -98,14 +98,14 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
             case 17:
             case 18:
             case 19:
-                transitionCtx->init = TransitionFade_Init;
-                transitionCtx->destroy = TransitionFade_Destroy;
-                transitionCtx->start = TransitionFade_Start;
-                transitionCtx->isDone = TransitionFade_IsDone;
-                transitionCtx->draw = TransitionFade_Draw;
-                transitionCtx->update = TransitionFade_Update;
-                transitionCtx->setType = TransitionFade_SetType;
-                transitionCtx->setColor = TransitionFade_SetColor;
+                transitionCtx->init = (TransitionInit)TransitionFade_Init;
+                transitionCtx->destroy = (TransitionDestroy)TransitionFade_Destroy;
+                transitionCtx->start = (TransitionStart)TransitionFade_Start;
+                transitionCtx->isDone = (TransitionIsDone)TransitionFade_IsDone;
+                transitionCtx->draw = (TransitionDraw)TransitionFade_Draw;
+                transitionCtx->update = (TransitionUpdate)TransitionFade_Update;
+                transitionCtx->setType = (TransitionSetType)TransitionFade_SetType;
+                transitionCtx->setColor = (TransitionSetColor)TransitionFade_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
             case 9:
@@ -208,7 +208,7 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     SystemArena_Display();
-    GameState_Realloc(globalCtx, 0x1D4790);
+    GameState_Realloc(&globalCtx->state, 0x1D4790);
     KaleidoManager_Init(globalCtx);
     View_Init(&globalCtx->view, gfxCtx);
     func_800F6828(0);
@@ -460,7 +460,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTrnsnUnkState = 0;
                     } else {
-                        sTrnsnUnk.zBuffer = gZBuffer;
+                        sTrnsnUnk.zBuffer = (u16*)gZBuffer;
                         gTrnsnUnkState = 3;
                         R_UPDATE_RATE = 1;
                     }
@@ -1280,10 +1280,10 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = gfxCtx->overlay.p;
                     globalCtx->preRenderCtx.fbuf = gfxCtx->curFrameBuffer;
-                    globalCtx->preRenderCtx.fbufSave = gZBuffer;
+                    globalCtx->preRenderCtx.fbufSave = (u16*)gZBuffer;
                     func_800C1F20(&globalCtx->preRenderCtx, &sp70);
                     if (R_PAUSE_MENU_MODE == 1) {
-                        globalCtx->preRenderCtx.cvgSave = gfxCtx->curFrameBuffer;
+                        globalCtx->preRenderCtx.cvgSave = (u8*)gfxCtx->curFrameBuffer;
                         func_800C20B4(&globalCtx->preRenderCtx, &sp70);
                         R_PAUSE_MENU_MODE = 2;
                     } else {

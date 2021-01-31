@@ -126,6 +126,7 @@ void func_800FC8D8(void* blk, u32 nBlk, s32 blkSize, arg3_800FC8D8 arg3) {
 
 void* func_800FC948(void* blk, u32 nBlk, u32 blkSize, arg3_800FC948 arg3) {
     u32 pos;
+
     if (blk == NULL) {
         blk = func_800FC800(nBlk * blkSize);
     }
@@ -171,13 +172,9 @@ void func_800FCA18(void* blk, u32 nBlk, u32 blkSize, arg3_800FCA18 arg3, s32 arg
 }
 
 void func_800FCB34(void) {
-    InitFunc* initFunc;
-    u32 nextOffset;
-    InitFunc* prev;
-
-    initFunc = (InitFunc*)&sInitFuncs;
-    nextOffset = initFunc->nextOffset;
-    prev = NULL;
+    InitFunc* initFunc = (InitFunc*)&sInitFuncs;
+    u32 nextOffset = initFunc->nextOffset;
+    InitFunc* prev = NULL;
 
     while (nextOffset != 0) {
         initFunc = (InitFunc*)((s32)initFunc + nextOffset);

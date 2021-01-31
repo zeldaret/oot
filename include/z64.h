@@ -705,6 +705,16 @@ typedef struct {
     /* 0x4C */ u32 unk_4C;
 } PreRenderContext; // size = 0x50
 
+typedef void* (*TransitionInit)(void* transition);
+typedef void (*TransitionDestroy)(void* transition);
+typedef void (*TransitionUpdate)(void* transition, s32 updateRate);
+typedef void (*TransitionDraw)(void* transition, Gfx** gfxP);
+typedef void (*TransitionStart)(void* transition);
+typedef void (*TransitionSetType)(void* transition, s32 type);
+typedef void (*TransitionSetColor)(void* transition, u32 color);
+typedef void (*TransitionSetEnvColor)(void* transition, u32 color);
+typedef s32 (*TransitionIsDone)(void* transition);
+
 typedef struct {
     union {
         TransitionFade fade;
@@ -714,15 +724,15 @@ typedef struct {
         char data[0x228];
     };
     /* 0x228 */ s32    transitionType;
-    /* 0x22C */ void* (*init)(void* transition);
-    /* 0x230 */ void  (*destroy)(void* transition);
-    /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
-    /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
-    /* 0x23C */ void  (*start)(void* transition);
-    /* 0x240 */ void  (*setType)(void* transition, s32 type);
-    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
-    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
-    /* 0x24C */ s32   (*isDone)(void* transition);
+    /* 0x22C */ TransitionInit init;
+    /* 0x230 */ TransitionDestroy destroy;
+    /* 0x234 */ TransitionUpdate update;
+    /* 0x238 */ TransitionDraw draw;
+    /* 0x23C */ TransitionStart start;
+    /* 0x240 */ TransitionSetType setType;
+    /* 0x244 */ TransitionSetColor setColor;
+    /* 0x248 */ TransitionSetEnvColor setEnvColor;
+    /* 0x24C */ TransitionIsDone isDone;
 } TransitionContext; // size = 0x250
 
 typedef struct {
@@ -1227,7 +1237,7 @@ typedef struct {
     /* 0x14 */ u16 backColor;
     /* 0x14 */ u16 cursorX;
     /* 0x16 */ u16 cursorY;
-    /* 0x18 */ u32* fontData;
+    /* 0x18 */ const u32* fontData;
     /* 0x1C */ u8 charW;
     /* 0x1D */ u8 charH;
     /* 0x1E */ s8 charWPad;
@@ -1239,7 +1249,7 @@ typedef struct {
 } FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint*(*callback)(struct GfxPrint*, const char*, size_t);
+    /* 0x00 */ struct GfxPrint *(*callback)(struct GfxPrint*, const char*, size_t);
     /* 0x04 */ Gfx* dlist;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
@@ -1329,7 +1339,7 @@ typedef struct {
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
 
-typedef struct {
+typedef struct PadMgr {
     /* 0x0000 */ OSContStatus padStatus[4];
     /* 0x0010 */ OSMesg serialMsgBuf[1];
     /* 0x0014 */ OSMesg lockMsgBuf[1];
@@ -1343,7 +1353,7 @@ typedef struct {
     /* 0x0230 */ Input inputs[4];
     /* 0x0290 */ OSContPad pads[4];
     /* 0x02A8 */ vu8 validCtrlrsMask;
-    /* 0x02A9 */ u8 ncontrollers;
+    /* 0x02A9 */ u8 nControllers;
     /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
     /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
     /* 0x02B2 */ vu8 rumbleEnable[4];
@@ -1352,7 +1362,7 @@ typedef struct {
     /* 0x045C */ vu8 rumbleOffFrames;
     /* 0x045D */ vu8 rumbleOnFrames;
     /* 0x045E */ u8 preNMIShutdown;
-    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padmgr, s32 unk464);
     /* 0x0464 */ u32 retraceCallbackValue;
 } PadMgr; // size = 0x468
 
@@ -1639,6 +1649,13 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
 } JpegDecoderState; // size = 0x14
 
+typedef struct {
+    /* 0x0000 */ OSViMode viMode;
+    /* 0x0050 */ char unk_50[0x30];
+    /* 0x0080 */ u32 viFeatures;
+    /* 0x0084 */ char unk_84[4];
+} unk_80166528;
+
 // Vis...
 typedef struct {
     /* 0x00 */ u32 type;
@@ -1698,7 +1715,7 @@ typedef struct {
 } SpeedMeterAllocEntry; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ OSTime* time;
+    /* 0x00 */ volatile OSTime* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;

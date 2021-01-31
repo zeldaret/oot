@@ -46,6 +46,7 @@ void TransitionTriforce_Destroy(TransitionTriforce* this) {
 void TransitionTriforce_Update(TransitionTriforce* this, s32 updateRate) {
     f32 temp_f0;
     s32 i;
+
     for (i = updateRate; i > 0; i--) {
         if (this->state == 1) {
             this->transPos = CLAMP_MIN(this->transPos * (1.0f - this->step), 0.03f);
@@ -73,16 +74,12 @@ void TransitionTriforce_SetState(TransitionTriforce* this, s32 state) {
 }
 
 void TransitionTriforce_Draw(TransitionTriforce* this, Gfx** gfxP) {
-
     Gfx* gfx = *gfxP;
     Mtx* modelView;
     f32 scale;
-    char pad[4];
+    s32 pad[2];
+    f32 rotation = this->transPos * 360.0f;
 
-    char pad2[4];
-    f32 rotation;
-
-    rotation = this->transPos * 360.0f;
     modelView = this->modelView[this->frame];
     scale = this->transPos * 0.625f;
     this->frame ^= 1;
@@ -127,6 +124,7 @@ void TransitionTriforce_Draw(TransitionTriforce* this, Gfx** gfxP) {
 
 s32 TransitionTriforce_IsDone(TransitionTriforce* this) {
     s32 ret = 0;
+
     if (this->state == 1 || this->state == 2) {
         return this->transPos <= 0.03f;
 

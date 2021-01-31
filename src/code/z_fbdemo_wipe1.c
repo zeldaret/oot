@@ -163,6 +163,7 @@ Gfx sWipeSyncDList[] = {
 
 void TransitionWipe_Start(TransitionWipe* this) {
     this->isDone = 0;
+
     if (this->direction) {
         this->texY = 0x14D;
     } else {
@@ -203,11 +204,10 @@ void TransitionWipe_Update(TransitionWipe* this, s32 updateRate) {
 
 void TransitionWipe_Draw(TransitionWipe* this, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
-    Mtx* modelView;
-    char pad[0x14];
+    Mtx* modelView = this->modelView[this->frame];
+    s32 pad[5];
     Gfx* tex;
 
-    modelView = this->modelView[this->frame];
     this->frame ^= 1;
     guScale(&modelView[0], 0.56f, 0.56f, 1.0f);
     guRotate(&modelView[1], 0.0f, 0.0f, 0.0f, 1.0f);

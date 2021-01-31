@@ -83,9 +83,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad;
     EnAObj* this = THIS;
-    f32 sp28;
-
-    sp28 = 6.0f;
+    f32 sp28 = 6.0f;
 
     this->textId = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
@@ -276,10 +274,9 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.z = this->dyna.actor.shape.rot.z + (this->dyna.actor.world.rot.z >> 1);
 
     if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 0x8)) {
-        if (1) { // Necessary to match
-            this->dyna.actor.world.rot.y =
-                ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) - 0x8000;
-        }
+        this->dyna.actor.world.rot.y =
+            ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) - 0x8000;
+        if (1) {} // Necessary to match
         this->dyna.actor.bgCheckFlags &= ~0x8;
     }
 

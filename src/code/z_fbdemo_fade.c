@@ -53,7 +53,7 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
                 osSyncPrintf(VT_COL(RED, WHITE) "０除算! ZCommonGet fade_speed に０がはいってる" VT_RST);
             }
 
-            alpha = (255.0f * this->fadeTimer) / (0, gSaveContext.fadeDuration);
+            alpha = (255.0f * this->fadeTimer) / ((void)0, gSaveContext.fadeDuration);
             this->fadeColor.a = (this->fadeDirection != 0) ? 255 - alpha : alpha;
             break;
         case 2:
@@ -79,6 +79,7 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
 void TransitionFade_Draw(TransitionFade* this, Gfx** gfxP) {
     Gfx* gfx;
     Color_RGBA8_u32* color;
+
     if (this->fadeColor.a > 0) {
         color = &this->fadeColor;
         gfx = *gfxP;

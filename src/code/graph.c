@@ -36,7 +36,7 @@ void Graph_FaultClient() {
     osViSwapBuffer(nextFb);
 }
 
-void Graph_DisassembleUCode(void* arg0) {
+void Graph_DisassembleUCode(Gfx* workBuf) {
     UCodeDisas disassembler;
 
     if (HREG(80) == 7 && HREG(81) != 0) {
@@ -44,7 +44,7 @@ void Graph_DisassembleUCode(void* arg0) {
         disassembler.enableLog = HREG(83);
         UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D230), D_8012D230);
         UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
-        UCodeDisas_Disassemble(&disassembler, arg0);
+        UCodeDisas_Disassemble(&disassembler, workBuf);
         HREG(93) = disassembler.dlCnt;
         HREG(84) = disassembler.tri2Cnt * 2 + disassembler.tri1Cnt + (disassembler.quadCnt * 2) + disassembler.lineCnt;
         HREG(85) = disassembler.vtxCnt;
@@ -71,14 +71,14 @@ void Graph_DisassembleUCode(void* arg0) {
     }
 }
 
-void Graph_UCodeFaultClient(void* arg0) {
+void Graph_UCodeFaultClient(Gfx* workBuf) {
     UCodeDisas disassembler;
 
     UCodeDisas_Init(&disassembler);
     disassembler.enableLog = true;
     UCodeDisas_RegisterUCode(&disassembler, ARRAY_COUNT(D_8012D248), D_8012D248);
     UCodeDisas_SetCurUCode(&disassembler, D_80155F50);
-    UCodeDisas_Disassemble(&disassembler, arg0);
+    UCodeDisas_Disassemble(&disassembler, workBuf);
     UCodeDisas_Destroy(&disassembler);
 }
 
@@ -149,7 +149,7 @@ void Graph_Destroy(GraphicsContext* gfxCtx) {
 }
 
 void Graph_TaskSet00(GraphicsContext* gfxCtx) {
-    static u32 D_8012D260 = 0;
+    static Gfx* D_8012D260 = NULL;
     static s32 sGraphCfbInfoIdx = 0;
 
     OSTime time;
@@ -174,8 +174,8 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("RCPが帰ってきませんでした。"); // "RCP did not return."
         osSyncPrintf(VT_RST);
-        LogUtils_LogHexDump(&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-        LogUtils_LogHexDump(&DPC_START_REG, 0x20);
+        LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
+        LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
         LogUtils_LogHexDump(gGfxSPTaskYieldBuffer, sizeof(gGfxSPTaskYieldBuffer));
 
         SREG(6) = -1;
@@ -316,8 +316,8 @@ void Graph_Update(GraphicsContext* gfxCtx, GameState* gameState) {
         }
 
         if (HREG(81) < 0) {
-            LogUtils_LogHexDump(&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
-            LogUtils_LogHexDump(&DPC_START_REG, 0x20);
+            LogUtils_LogHexDump((void*)&HW_REG(SP_MEM_ADDR_REG, u32), 0x20);
+            LogUtils_LogHexDump((void*)&DPC_START_REG, 0x20);
         }
 
         if (HREG(81) < 0) {
@@ -521,7 +521,7 @@ void* Graph_DlistAlloc(Gfx** gfx, u32 size) {
 
     size = ((size + 7) & ~7),
 
-    ptr = *gfx + 1;
+    ptr = (u8*)(*gfx + 1);
 
     dst = (Gfx*)(ptr + size);
     gSPBranchList(*gfx, dst);

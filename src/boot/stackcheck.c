@@ -9,7 +9,7 @@ void StackCheck_Init(StackEntry* entry, void* stackTop, void* stackBottom, u32 i
     StackEntry* iter;
     u32* addr;
 
-    if (!entry) {
+    if (entry == NULL) {
         sStackInfoListStart = NULL;
     } else {
         entry->head = (u32)stackTop;
@@ -90,7 +90,7 @@ StackStatus StackCheck_GetState(StackEntry* entry) {
     if (free == 0) {
         ret = STACK_STATUS_OVERFLOW;
         osSyncPrintf(VT_FGCOL(RED));
-    } else if (free < entry->minSpace && entry->minSpace != -1) {
+    } else if (free < (u32)entry->minSpace && entry->minSpace != -1) {
         ret = STACK_STATUS_WARNING;
         osSyncPrintf(VT_FGCOL(YELLOW));
     } else {
@@ -109,10 +109,10 @@ StackStatus StackCheck_GetState(StackEntry* entry) {
     return ret;
 }
 
-u32 StackCheck_CheckAll() {
+u32 StackCheck_CheckAll(void) {
     u32 ret = 0;
-
     StackEntry* iter = sStackInfoListStart;
+
     while (iter) {
         u32 state = StackCheck_GetState(iter);
         if (state != STACK_STATUS_OK) {
@@ -125,7 +125,7 @@ u32 StackCheck_CheckAll() {
 }
 
 u32 StackCheck_Check(StackEntry* entry) {
-    if (!entry) {
+    if (entry == NULL) {
         return StackCheck_CheckAll();
     } else {
         return StackCheck_GetState(entry);

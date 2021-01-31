@@ -4,7 +4,7 @@ void PadUtils_Init(Input* input) {
     bzero(input, sizeof(Input));
 }
 
-void func_800FCB70() {
+void func_800FCB70(void) {
 }
 
 void PadUtils_ResetPressRel(Input* input) {

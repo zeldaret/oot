@@ -22,9 +22,10 @@ u32 __additional_scanline = 0;
 void viMgrMain(void*);
 
 void osCreateViManager(OSPri pri) {
-    u32 int_disabled;
+    u32 prevInt;
     OSPri newPri;
     OSPri currentPri;
+
     if (!__osViDevMgr.initialized) {
         __osTimerServicesInit();
         __additional_scanline = 0;
@@ -44,7 +45,7 @@ void osCreateViManager(OSPri pri) {
             osSetThreadPri(NULL, pri);
         }
 
-        int_disabled = __osDisableInt();
+        prevInt = __osDisableInt();
         __osViDevMgr.initialized = true;
         __osViDevMgr.mgrThread = &viThread;
         __osViDevMgr.cmdQueue = &viEventQueue;
@@ -56,7 +57,7 @@ void osCreateViManager(OSPri pri) {
         osCreateThread(&viThread, 0, &viMgrMain, &__osViDevMgr, viThreadStack + sizeof(viThreadStack), pri);
         __osViInit();
         osStartThread(&viThread);
-        __osRestoreInt(int_disabled);
+        __osRestoreInt(prevInt);
         if (newPri != -1) {
             osSetThreadPri(NULL, newPri);
         }
@@ -68,9 +69,8 @@ void viMgrMain(void* vargs) {
     static u16 viRetrace;
     u32 addTime;
     viMesgStruct* mesg;
-    u32 temp; // always 0
+    u32 temp = 0; // always 0
 
-    temp = 0;
     mesg = NULL;
     viRetrace = __osViGetCurrentContext()->retraceCount;
     if (viRetrace == 0) {
@@ -79,7 +79,7 @@ void viMgrMain(void* vargs) {
 
     args = (OSMgrArgs*)vargs;
 
-    while (1) {
+    while (true) {
         osRecvMesg(args->eventQueue, (OSMesg)&mesg, OS_MESG_BLOCK);
         switch (mesg->unk00) {
             case 13:
@@ -107,9 +107,7 @@ void viMgrMain(void* vargs) {
                 __osBaseCounter = osGetCount();
                 addTime = __osBaseCounter - addTime;
                 __osCurrentTime = __osCurrentTime + addTime;
-
                 break;
-
             case 14:
                 __osTimerInterrupt();
                 break;
