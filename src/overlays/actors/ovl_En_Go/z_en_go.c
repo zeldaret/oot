@@ -344,7 +344,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
 }
 
 s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* arg2, f32 arg3,
-                  u16 (*GetTextID)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*)) {
+                  u16 (*getTextId)(GlobalContext*, Actor*), s16 (*unkFunc2)(GlobalContext*, Actor*)) {
     if (arg2->unk_00) {
         arg2->unk_00 = unkFunc2(globalCtx, &this->actor);
         return false;
@@ -354,7 +354,7 @@ s32 func_80A3ED24(GlobalContext* globalCtx, EnGo* this, struct_80034A14_arg1* ar
     } else if (!func_8002F2CC(&this->actor, globalCtx, arg3)) {
         return false;
     } else {
-        this->actor.textId = GetTextID(globalCtx, &this->actor);
+        this->actor.textId = getTextId(globalCtx, &this->actor);
         return false;
     }
 }
@@ -484,11 +484,11 @@ s32 EnGo_FollowPath(EnGo* this, GlobalContext* globalCtx) {
     }
 
     path = &globalCtx->setupPathList[this->actor.params & 0xF];
-    pointPos = (Vec3s*)SEGMENTED_TO_VIRTUAL(path->points);
+    pointPos = SEGMENTED_TO_VIRTUAL(path->points);
     pointPos += this->unk_218;
     xDist = pointPos->x - this->actor.world.pos.x;
     zDist = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0X8000 / M_PI)), 10, 1000, 1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, (s16)(Math_FAtan2F(xDist, zDist) * ((f32)0x8000 / M_PI)), 10, 1000, 1);
 
     if ((SQ(xDist) + SQ(zDist)) < 600.0f) {
         this->unk_218++;
@@ -517,7 +517,7 @@ s32 EnGo_SetMovedPos(EnGo* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0xF) == 0xF) {
         return false;
     } else {
-        path = &globalCtx->setupPathList[(this->actor.params & 0xF)];
+        path = &globalCtx->setupPathList[this->actor.params & 0xF];
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += (path->count - 1);
         this->actor.world.pos.x = pointPos->x;
@@ -931,7 +931,7 @@ void func_80A408D8(EnGo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A40A54(EnGo* this, GlobalContext* globalCtx) {
-    f32 float1 = ((f32)0X8000 / Animation_GetLastFrame(&D_06010590));
+    f32 float1 = ((f32)0x8000 / Animation_GetLastFrame(&D_06010590));
     f32 float2 = this->skelAnime.curFrame * float1;
 
     this->actor.speedXZ = Math_SinS((s16)float2);
@@ -1097,18 +1097,18 @@ s32 EnGo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limb, Gfx** dList, Vec3f
     if (limb == 17) {
         Matrix_Translate(2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
         vec1 = this->unk_1E0.unk_08;
-        float1 = (vec1.y / (f32)0X8000) * M_PI;
+        float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateX(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0X8000) * M_PI;
+        float1 = (vec1.x / (f32)0x8000) * M_PI;
         Matrix_RotateZ(float1, MTXMODE_APPLY);
         Matrix_Translate(-2800.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
 
     if (limb == 10) {
         vec1 = this->unk_1E0.unk_0E;
-        float1 = (vec1.y / (f32)0X8000) * M_PI;
+        float1 = (vec1.y / (f32)0x8000) * M_PI;
         Matrix_RotateY(float1, MTXMODE_APPLY);
-        float1 = (vec1.x / (f32)0X8000) * M_PI;
+        float1 = (vec1.x / (f32)0x8000) * M_PI;
         Matrix_RotateX(float1, MTXMODE_APPLY);
     }
 

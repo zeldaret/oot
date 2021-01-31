@@ -11,35 +11,35 @@ typedef void (*EnGo2ActionFunc)(struct EnGo2*, GlobalContext*);
 
 typedef enum {
     /* 0x00 */ GORON_CITY_ROLLING_BIG,
-    /* 0X01 */ GORON_CITY_LINK,
-    /* 0X02 */ GORON_DMT_BIGGORON,
-    /* 0X03 */ GORON_FIRE_GENERIC,
-    /* 0X04 */ GORON_DMT_BOMB_FLOWER,
-    /* 0X05 */ GORON_DMT_ROLLING_SMALL,
-    /* 0X06 */ GORON_DMT_DC_ENTRANCE,
+    /* 0x01 */ GORON_CITY_LINK,
+    /* 0x02 */ GORON_DMT_BIGGORON,
+    /* 0x03 */ GORON_FIRE_GENERIC,
+    /* 0x04 */ GORON_DMT_BOMB_FLOWER,
+    /* 0x05 */ GORON_DMT_ROLLING_SMALL,
+    /* 0x06 */ GORON_DMT_DC_ENTRANCE,
     /* 0x07 */ GORON_CITY_ENTRANCE,
-    /* 0X08 */ GORON_CITY_ISLAND,
-    /* 0X09 */ GORON_CITY_LOWEST_FLOOR,
-    /* 0X0A */ GORON_CITY_STAIRWELL,
-    /* 0X0B */ GORON_CITY_LOST_WOODS,
-    /* 0X0C */ GORON_DMT_FAIRY_HINT,
-    /* 0X0D */ GORON_MARKET_BAZAAR
+    /* 0x08 */ GORON_CITY_ISLAND,
+    /* 0x09 */ GORON_CITY_LOWEST_FLOOR,
+    /* 0x0A */ GORON_CITY_STAIRWELL,
+    /* 0x0B */ GORON_CITY_LOST_WOODS,
+    /* 0x0C */ GORON_DMT_FAIRY_HINT,
+    /* 0x0D */ GORON_MARKET_BAZAAR
 } GoronType;
 
-// typedef enum {
-//     /* 0x00 */ UNUSED
-//     /* 0x01 */ GORON_FIRE_LAVA_ROOM_OPEN
-//     /* 0x02 */ GORON_FIRE_LAVA_ROOM_BOMB
-//     /* 0x03 */ GORON_FIRE_MAZE_LOWER
-//     /* 0x04 */ GORON_FIRE_MAZE_SHORTCUT
-//     /* 0x05 */ GORON_FIRE_MAZE_SIDE_ROOM
-//     /* 0x06 */ GORON_FIRE_BOSS_KEY
-//     /* 0x07 */ GORON_FIRE_BOSS_KEY
-//     /* 0x08 */ GORON_FIRE_NEAR_BOSS
-//     /* 0x09 */ GORON_FIRE_BOSS_KEY
-//     /* 0x0A */ GORON_FIRE_MAZE_UPPER, 
-//     /* 0x0B */ GORON_FIRE_HIGHEST
-// } GoronFireTempleType;
+// WIP fire temple type docs
+// /* 0x00 */ UNUSED
+// /* 0x01 */ GORON_FIRE_LAVA_ROOM_OPEN
+// /* 0x02 */ GORON_FIRE_LAVA_ROOM_BOMB
+// /* 0x03 */ GORON_FIRE_MAZE_LOWER
+// /* 0x04 */ GORON_FIRE_MAZE_SHORTCUT
+// /* 0x05 */ GORON_FIRE_MAZE_SIDE_ROOM
+// /* 0x06 */ GORON_FIRE_BOSS_KEY
+// /* 0x07 */ GORON_FIRE_BOSS_KEY
+// /* 0x08 */ GORON_FIRE_NEAR_BOSS
+// /* 0x09 */ GORON_FIRE_BOSS_KEY
+// /* 0x0A */ GORON_FIRE_MAZE_UPPER, 
+// /* 0x0B */ GORON_FIRE_HIGHEST
+
 
 typedef struct {
     s16 unused;
@@ -87,7 +87,7 @@ typedef struct EnGo2 {
     /* 0x0215 */ u8 mouthTexIndex; 
     /* 0x0216 */ u8 unk_216; // Set to z rotation, checked by waypoint
     /* 0x0218 */ f32 unk_218;
-    /* 0x021C */ s32 unusedPad1;
+    /* 0x021C */ char unk_21C[0x04];
     /* 0x0220 */ f32 alpha; // Set to 0, used by func_80A45360, smoothed to this->actor.shape.unk_14 from either 0 or 255.0f
     /* 0x0224 */ s16 blinkTimer; 
     /* 0x0226 */ s16 unk_226[18]; // Remains unknown
@@ -100,9 +100,9 @@ typedef struct EnGo2 {
     /* 0x0524 */ Vec3s morphTable[18];
     /* 0x0590 */ s16 unk_590; // timer
     /* 0x0592 */ s16 animTimer; // animTimer. Plays NA_SE_EN_MORIBLIN_WALK, NA_SE_EV_IRON_DOOR_OPEN, NA_SE_EV_IRON_DOOR_CLOSE
-    /* 0x0594 */ s32 getItemID;
-    /* 0x0598 */ s16 unusedPad2;
-    /* 0x059A */ s16 camID;
+    /* 0x0594 */ s32 getItemId;
+    /* 0x0598 */ char unk_598[0x02];
+    /* 0x059A */ s16 camId;
     /* 0x059C */ s16 unk_59C;
 } EnGo2; // size = 0x05A0
 

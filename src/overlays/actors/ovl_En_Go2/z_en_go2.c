@@ -89,9 +89,7 @@ extern Gfx D_0600FD50[];
 
 extern FlexSkeletonHeader D_0600FEF0;
 
-static Gfx* sDLists[] = {
-    0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0,
-};
+static u64* sDustTex[] = { gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex };
 
 static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
 static Vec3f sVelocity = { 0.0f, 0.0f, 0.0f };
@@ -257,11 +255,11 @@ void EnGo2_DrawDust(EnGo2* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 137),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             index = dustEffect->timer * (8.0f / dustEffect->initialTimer);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDLists[index]));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sDustTex[index]));
             gSPDisplayList(POLY_XLU_DISP++, D_0600FD50);
         }
     }
-    
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go2_eff.c", 151);
 }
 
@@ -288,9 +286,9 @@ s32 EnGo2_SpawnDust(EnGo2* this, u8 initialTimer, f32 scale, f32 scaleStep, s32 
     return 0;
 }
 
-void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemID) {
-    this->getItemID = getItemID;
-    func_8002F434(&this->actor, globalCtx, getItemID, this->actor.xzDistToPlayer + 1.0f,
+void EnGo2_GetItem(EnGo2* this, GlobalContext* globalCtx, s32 getItemId) {
+    this->getItemId = getItemId;
+    func_8002F434(&this->actor, globalCtx, getItemId, this->actor.xzDistToPlayer + 1.0f,
                   fabsf(this->actor.yDistToPlayer) + 1.0f);
 }
 
@@ -809,7 +807,8 @@ u16 EnGo2_GetState(GlobalContext* globalCtx, EnGo2* this) {
 
 s32 func_80A44790(EnGo2* this, GlobalContext* globalCtx) {
     if ((this->actor.params & 0x1F) != GORON_DMT_BIGGORON && (this->actor.params & 0x1F) != GORON_CITY_ROLLING_BIG) {
-        return func_800343CC(globalCtx, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId, EnGo2_GetState);
+        return func_800343CC(globalCtx, &this->actor, &this->unk_194.unk_00, this->unk_218, EnGo2_GetTextId,
+                             EnGo2_GetState);
     } else if (((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) && ((this->collider.base.ocFlags2 & 1) == 0)) {
         return false;
     } else {
@@ -1099,7 +1098,6 @@ void func_80A45360(EnGo2* this, f32* alpha) {
 
 void EnGo2_RollForward(EnGo2* this) {
     f32 speedXZ = this->actor.speedXZ;
-    ;
 
     if (this->unk_194.unk_00 != 0) {
         this->actor.speedXZ = 0.0f;
@@ -1465,9 +1463,9 @@ void EnGo2_GoronLinkAnimation(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_GoronFireCamera(EnGo2* this, GlobalContext* globalCtx) {
     s16 yaw;
 
-    this->camID = Gameplay_CreateSubCamera(globalCtx);
+    this->camId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camID, CAM_STAT_ACTIVE);
+    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
     Path_CopyLastPoint(this->path, &this->at);
     yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->at) + 0xE38;
     this->eye.x = Math_SinS(yaw) * 100.0f + this->actor.world.pos.x;
@@ -1476,12 +1474,12 @@ void EnGo2_GoronFireCamera(EnGo2* this, GlobalContext* globalCtx) {
     this->at.x = this->actor.world.pos.x;
     this->at.y = this->actor.world.pos.y + 40.0f;
     this->at.z = this->actor.world.pos.z;
-    Gameplay_CameraSetAtEye(globalCtx, this->camID, &this->at, &this->eye);
+    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->at, &this->eye);
 }
 
 void EnGo2_GoronFireClearCamera(EnGo2* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
-    Gameplay_ClearCamera(globalCtx, this->camID);
+    Gameplay_ClearCamera(globalCtx, this->camId);
 }
 
 void EnGo2_BiggoronAnimation(EnGo2* this) {
@@ -1772,7 +1770,7 @@ void EnGo2_SetupGetItem(EnGo2* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = EnGo2_SetGetItem;
     } else {
-        func_8002F434(&this->actor, globalCtx, this->getItemID, this->actor.xzDistToPlayer + 1.0f,
+        func_8002F434(&this->actor, globalCtx, this->getItemId, this->actor.xzDistToPlayer + 1.0f,
                       fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
@@ -1780,7 +1778,7 @@ void EnGo2_SetupGetItem(EnGo2* this, GlobalContext* globalCtx) {
 void EnGo2_SetGetItem(EnGo2* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         this->unk_194.unk_00 = 0;
-        switch (this->getItemID) {
+        switch (this->getItemId) {
             case GI_CLAIM_CHECK:
                 func_800775D8();
                 EnGo2_GetItemAnimation(this, globalCtx);
