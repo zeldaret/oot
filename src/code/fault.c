@@ -269,6 +269,7 @@ void Fault_Sleep(u32 duration) {
     Fault_SleepImpl(duration);
 }
 
+
 void Fault_PadCallback(Input* input) {
     //! @bug This function is not called correctly and thus will crash from reading a bad pointer at 0x800C7E4C
     PadMgr_RequestPadData(input, 0);

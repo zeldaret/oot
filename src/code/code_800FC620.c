@@ -71,6 +71,7 @@ s32 Overlay_Load(u32 vRomStart, u32 vRomEnd, void* vRamStart, void* vRamEnd, voi
         bssSize = size;
         bzero((void*)end, bssSize);
         relocCnt = ovl->nRelocations;
+        (void)relocCnt; // suppresses set but unused warning
     }
 
     size = (u32)&ovl->relocations[ovl->nRelocations] - (u32)ovl;

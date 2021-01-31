@@ -16,7 +16,7 @@ void osCreateThread(OSThread* thread, OSId id, void (*entry)(void*), void* arg, 
     thread->queue = NULL;
     thread->context.pc = (u32)entry;
     thread->context.a0 = arg;
-    thread->context.sp = (u64)sp - 16;
+    thread->context.sp = (u64)(s32)sp - 16;
     thread->context.ra = __osCleanupThread;
     t8 = 0x3FFF01;
     thread->context.sr = (t8 & 0xFF01) | 2;

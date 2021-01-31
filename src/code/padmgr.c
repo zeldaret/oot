@@ -415,6 +415,6 @@ void PadMgr_Init(PadMgr* padMgr, OSMesgQueue* siIntMsgQ, IrqMgr* irqMgr, OSId id
     padMgr->nControllers = 4;
     osContSetCh(padMgr->nControllers);
 
-    osCreateThread(&padMgr->thread, id, PadMgr_ThreadEntry, padMgr, stack, priority);
+    osCreateThread(&padMgr->thread, id, (void (*)(void*))PadMgr_ThreadEntry, padMgr, stack, priority);
     osStartThread(&padMgr->thread);
 }

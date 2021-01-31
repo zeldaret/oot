@@ -39,5 +39,7 @@ s32 osSetTimer(OSTimer* timer, OSTime countdown, OSTime interval, OSMesgQueue* m
 
     __osRestoreInt(prevInt);
 
+    if (time) {} // suppresses set but unused warning
+
     return 0;
 }
