@@ -57,37 +57,80 @@ extern UNK_TYPE D_8096CE94;
 glabel D_8096CE98
  .word 0x00000000, 0x00000000, 0x00000000
 */
-extern UNK_TYPE D_8096CE98[3];
+extern UNK_TYPE D_8096CE98[];
+//extern Vec3f D_8096CE98;
 
 /*
 glabel D_8096CEA4
  .word 0x00000000, 0x3E99999A, 0x00000000
 */
-extern UNK_TYPE D_8096CEA4[3];
+extern UNK_TYPE D_8096CEA4[];
+//extern Vec3f D_8096CEA4;
 
 /*
 glabel D_8096CEB0
  .word 0xBE966EFF
 */
 extern UNK_TYPE D_8096CEB0;
+/*
+glabel D_8096CEB0
+ 190, 150, 110, 255
+*/
+//extern Color_RGBA8 D_8096CEB0;
 
 /*
 glabel D_8096CEB4
  .word 0x785028FF
 */
 extern UNK_TYPE D_8096CEB4;
+/*
+glabel D_8096CEB4
+ 120, 80, 40, 255
+*/
+//extern Color_RGBA8 D_8096CEB4;
 
 /*
 glabel D_8096CEB8
- .word 0x41300000, 0xC1300000, 0xC0C00000, 0x00000000, 0x41600000, 0xC1500000, 0x41600000, 0xC0000000, 0xC1200000, 0x41200000, 0xC0C00000, 0xC1000000
+ .word 
+ 0x41300000, 0xC1300000, 0xC0C00000, 
+ 0x00000000, 0x41600000, 0xC1500000, 
+ 0x41600000, 0xC0000000, 0xC1200000, 
+ 0x41200000, 0xC0C00000, 0xC1000000
 */
-extern UNK_TYPE D_8096CEB8;
+extern UNK_TYPE D_8096CEB8[];
+/*
+glabel D_8096CEB8
+ .word 
+ 11.0f, -11.0f, -6.0f, 
+ 0.0f, 14.0f, -13.0f, 
+ 14.0f, -2.0f, -10.0f, 
+ 10.0f, -6.0f, -8.0f
+*/
+//extern f32 D_8096CEB8[];
 
 /*
 glabel D_8096CEE8
- .word 0x41000000, 0x40C00000, 0x41000000, 0x41500000, 0x41000000, 0xC1200000, 0xC1600000, 0x3F800000, 0xC1600000, 0x40A00000, 0x41400000, 0xC1100000, 0x41300000, 0x40C00000, 0xC0E00000, 0x41600000, 0x41600000, 0xC1600000
+ .word 
+ 0x41000000, 0x40C00000, 0x41000000,
+ 0x41500000, 0x41000000, 0xC1200000, 
+ 0xC1600000, 0x3F800000, 0xC1600000, 
+ 0x40A00000, 0x41400000, 0xC1100000, 
+ 0x41300000, 0x40C00000, 0xC0E00000, 
+ 0x41600000, 0x41600000, 0xC1600000
 */
-extern UNK_TYPE D_8096CEE8;
+extern UNK_TYPE D_8096CEE8[];
+/*
+glabel D_8096CEE8
+ .word 
+ 8.0f, 6.0f, 8.0f,
+ 13.0f, 8.0f, -10.0f, 
+ -14.0f, 1.0f, -14.0f, 
+ 5.0f, 12.0f, -9.0f, 
+ 11.0f, 6.0f, -7.0f, 
+ 14.0f, 14.0f, -14.0f
+*/
+//extern Vec3f D_8096CEE8[6];
+//extern f32 D_8096CEE8[];
 
 
 typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
@@ -169,6 +212,22 @@ void func_80969B8C(DemoDu* this, s16 arg1) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969BA0.s")
 
+void func_80969BC4(DemoDu* this, GlobalContext* globalCtx);
+/*
+void func_80969BC4(DemoDu* this, GlobalContext* globalCtx) {
+    if (globalCtx->csCtx.state == 0) {
+        if (D_8096CE94 != 0) {
+            if (this->actor.params == 2) {
+                func_80969BA0(this, globalCtx);
+            }
+            D_8096CE94 = 0;
+            return;
+        }
+    } else if (D_8096CE94 == 0) {
+        D_8096CE94 = 1;
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969BC4.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969C38.s")
@@ -263,6 +322,84 @@ void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A630.s")
 
+void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx);
+// maybe when i import the data this will be fixed, hopefully...
+/*
+void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx2) {
+    SkelAnime* skelAnime = &this->skelAnime;
+    GlobalContext* globalCtx = globalCtx2;
+    Vec3f spA4;
+    //s32 pad2[2];
+    //s32 pad3;
+    //s32 pad2[1];
+    //s32 pad;
+    Vec3f* temp_s1;// = &player->bodyPartsPos[0x0B];
+    //s32 pad;
+    
+    s32 temp_v0;
+    Color_RGBA8 sp98;
+    Color_RGBA8 sp9C;
+    f32* phi_s0;
+    Vec3f sp88;
+    //Player* player;// = PLAYER;
+    Vec3f spB0;
+
+    if ((Animation_OnFrame(skelAnime, 31.0f)) || (Animation_OnFrame(skelAnime, 41.0f))) {
+        temp_s1 = &PLAYER->bodyPartsPos[0x0B];
+
+        spB0 = D_8096CE98;
+        spA4 = D_8096CEA4;
+            phi_s0 = D_8096CEE8;
+
+        do {
+        //for (; phi_s0 >= (f32*) &D_8096CEB8; phi_s0 -= 3) {
+        loop_3: 
+            sp9C = D_8096CEB0;
+                //*(s32*)0 = 0;
+            sp98 = D_8096CEB4; 
+
+
+            if (Animation_OnFrame(skelAnime, 31.0f)) {
+                sp88.x = phi_s0[5*3] + temp_s1->x;
+                sp88.y = phi_s0[5*3+1] + temp_s1->y;
+                sp88.z = phi_s0[5*3+2] + temp_s1->z;
+            } else {
+                sp88.x = phi_s0[0] + temp_s1->x;
+                sp88.y = phi_s0[0+1] + temp_s1->y;
+                sp88.z = phi_s0[0+2] + temp_s1->z;
+            }
+
+            temp_v0 = (s32) ((Rand_ZeroOne() * 20.0f) - 10.0f);
+
+            sp9C.r += temp_v0;
+            sp9C.g += temp_v0;
+            sp9C.b += temp_v0;
+            sp98.r += temp_v0;
+            sp98.g += temp_v0;
+            sp98.b += temp_v0;
+            
+            func_8002829C(
+                globalCtx, 
+                &sp88, 
+                &spB0, 
+                &spA4, 
+                &sp9C, 
+                &sp98, 
+                (s32) ((Rand_ZeroOne() * 40.0f) + 200.0f), 
+                0
+                );
+                
+
+            //D_8096CEE8--;
+            phi_s0 -= 3;
+
+
+        } while (phi_s0 >= D_8096CEB8);
+
+        func_8096A408(globalCtx);
+    }
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A6E0.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A970.s")
