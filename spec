@@ -1139,8 +1139,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot00_Hanebasi"
     include "build/src/overlays/actors/ovl_Bg_Spot00_Hanebasi/z_bg_spot00_hanebasi.o"
-    include "build/data/overlays/actors/z_bg_spot00_hanebasi.data.o"
-    include "build/data/overlays/actors/z_bg_spot00_hanebasi.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot00_Hanebasi/ovl_Bg_Spot00_Hanebasi_reloc.o"
 endseg
 
 beginseg
