@@ -303,8 +303,9 @@ void func_80969BC4(DemoDu* this, GlobalContext* globalCtx) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969BC4.s")
 
-void func_80969C38(DemoDu* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969C38.s")
+s32 func_80969C38(DemoDu* this) {
+    return SkelAnime_Update(&this->skelAnime);
+}
 
 void func_80969C58(DemoDu *this, GlobalContext *globalCtx); // ?
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969C58.s")
@@ -362,6 +363,7 @@ void func_8096A0AC(DemoDu *this);
 void func_8096A0D8(DemoDu *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A0D8.s")
 
+void func_8096A16C(DemoDu* this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A16C.s")
 
 void func_8096A1D8(DemoDu *this, GlobalContext *globalCtx);
@@ -387,14 +389,13 @@ void func_8096A294(DemoDu *this, GlobalContext *globalCtx) {
     func_8096A0D8(this, globalCtx);
 }
 
-/*
 void func_8096A2CC(DemoDu *this, GlobalContext *globalCtx) {
+    s32 aux;
+
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
-    func_8096A16C(this, ERROR(Read from unset register $v0));
+    aux = func_80969C38(this);
+    func_8096A16C(this, aux);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A2CC.s")
 
 void func_8096A300(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
@@ -419,6 +420,7 @@ void func_8096A3D8(GlobalContext *globalCtx);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A408.s")
 
+void func_8096A45C(DemoDu *this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A45C.s")
 
 void func_8096A480(GlobalContext *globalCtx);
@@ -527,23 +529,28 @@ void func_8096AB00(DemoDu *this, GlobalContext *globalCtx);
 void func_8096AB54(DemoDu *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AB54.s")
 
+void func_8096AB8C(DemoDu *this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AB8C.s")
 
 void func_8096ABF8(DemoDu *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096ABF8.s")
 
+void func_8096AC90(DemoDu *this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AC90.s")
 
 void func_8096ACFC(DemoDu *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096ACFC.s")
 
+void func_8096AD90(DemoDu *this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AD90.s")
 
+void func_8096AE00(DemoDu *this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AE00.s")
 
 void func_8096AE6C(DemoDu *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AE6C.s")
 
+void func_8096AF00(DemoDu *this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AF00.s")
 
 void func_8096AF6C(DemoDu *this, GlobalContext *globalCtx);
@@ -574,18 +581,14 @@ void func_8096B0C0(DemoDu *this, GlobalContext *globalCtx) {
     func_8096AB54(this, globalCtx);
 }
 
-/*
 void func_8096B0F8(DemoDu *this, GlobalContext *globalCtx) {
-    s32 sp1C;
+    s32 aux;
 
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
-    sp1C = ERROR(Read from unset register $v0);
+    aux = func_80969C38(this);
     func_8096A528(this, globalCtx);
-    func_8096AB8C(this, sp1C);
+    func_8096AB8C(this, aux);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B0F8.s")
 
 void func_8096B140(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
@@ -594,19 +597,15 @@ void func_8096B140(DemoDu *this, GlobalContext *globalCtx) {
     func_8096ABF8(this, globalCtx);
 }
 
-/*
 void func_8096B184(DemoDu *this, GlobalContext *globalCtx) {
-    s32 sp24;
+    s32 aux;
 
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
-    sp24 = ERROR(Read from unset register $v0);
+    aux = func_80969C38(this);
     func_8096A45C(this);
     func_8096A528(this, globalCtx);
-    func_8096AC90(this, sp24);
+    func_8096AC90(this, aux);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B184.s")
 
 void func_8096B1DC(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
@@ -615,33 +614,25 @@ void func_8096B1DC(DemoDu *this, GlobalContext *globalCtx) {
     func_8096ACFC(this, globalCtx);
 }
 
-/*
 void func_8096B220(DemoDu *this, GlobalContext *globalCtx) {
-    s32 sp24;
+    s32 aux;
 
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
-    sp24 = ERROR(Read from unset register $v0);
+    aux = func_80969C38(this);
     func_8096A528(this, globalCtx);
     func_8096A6E0(this, globalCtx);
-    func_8096AD90(this, sp24);
+    func_8096AD90(this, aux);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B220.s")
 
-/*
 void func_8096B27C(DemoDu *this, GlobalContext *globalCtx) {
-    s32 sp24;
+    s32 aux;
 
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
-    sp24 = ERROR(Read from unset register $v0);
+    aux = func_80969C38(this);
     func_8096A45C(this);
     func_8096A528(this, globalCtx);
-    func_8096AE00(this, sp24);
+    func_8096AE00(this, aux);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B27C.s")
 
 void func_8096B2D4(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
@@ -650,18 +641,14 @@ void func_8096B2D4(DemoDu *this, GlobalContext *globalCtx) {
     func_8096AE6C(this, globalCtx);
 }
 
-/*
 void func_8096B318(DemoDu *this, GlobalContext *globalCtx) {
-    s32 sp1C;
+    s32 aux;
 
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
-    sp1C = ERROR(Read from unset register $v0);
+    aux = func_80969C38(this);
     func_8096A528(this, globalCtx);
-    func_8096AF00(this, sp1C);
+    func_8096AF00(this, aux);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B318.s")
 
 void func_8096B360(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
@@ -772,6 +759,7 @@ void func_8096BB5C(DemoDu *this);
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BBE8.s")
 
+void func_8096BC28(DemoDu *this, s32 arg1);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BC28.s")
 
 void func_8096BC6C(DemoDu *this, GlobalContext *globalCtx);
@@ -803,18 +791,14 @@ void func_8096BDD4(DemoDu *this, GlobalContext *globalCtx) {
     func_8096BC6C(this, globalCtx);
 }
 
-/*
 void func_8096BE14(DemoDu *this, GlobalContext *globalCtx) {
-    s32 sp1C;
+    s32 aux;
 
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
-    sp1C = ERROR(Read from unset register $v0);
+    aux = func_80969C38(this);
     func_80969AF0(this);
-    func_8096BC28(this, sp1C);
+    func_8096BC28(this, aux);
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BE14.s")
 
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
