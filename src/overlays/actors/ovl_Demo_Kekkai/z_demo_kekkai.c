@@ -80,7 +80,7 @@ void DemoKekkai_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->sfxFlag = 0;
     this->energyAlpha = 1.0f;
     Actor_SetScale(thisx, 0.1f);
-    thisx->colChkInfo.mass = 0xFF;
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
     Collider_InitCylinder(globalCtx, &this->collider1);
     Collider_SetCylinder(globalCtx, &this->collider1, thisx, &sCylinderInit);
     Collider_InitCylinder(globalCtx, &this->collider2);

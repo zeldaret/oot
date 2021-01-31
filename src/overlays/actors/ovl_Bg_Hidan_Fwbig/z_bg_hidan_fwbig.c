@@ -1,4 +1,5 @@
 #include "z_bg_hidan_fwbig.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -25,8 +26,6 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx);
 void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx);
 
 extern Gfx D_0600DB20[];
-extern Gfx D_040173D0[];
-extern Gfx D_04017BD0[];
 
 const ActorInit Bg_Hidan_Fwbig_InitVars = {
     ACTOR_BG_HIDAN_FWBIG,
@@ -250,9 +249,9 @@ void BgHidanFwbig_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_fwbig.c", 630);
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_040173D0));
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gEffUnknown4Tex));
 
-    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_04017BD0));
+    gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(gEffUnknown5Tex));
 
     height = thisx->scale.y * 2400.0f;
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 220, 0,
