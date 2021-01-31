@@ -2795,7 +2795,7 @@ endseg
 beginseg
     name "ovl_En_Peehat"
     include "build/src/overlays/actors/ovl_En_Peehat/z_en_peehat.o"
-    include "build/src/overlays/actors/ovl_En_Peehat/Ovl_En_Peehat_reloc.o"
+    include "build/src/overlays/actors/ovl_En_Peehat/ovl_En_Peehat_reloc.o"
 endseg
 
 beginseg

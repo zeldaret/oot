@@ -186,7 +186,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 700, ICHAIN_STOP),
 };
 
-void EnPeehat_SetActionFunc(EnPeehat* this, EnPeehatActionFunc actionFunc) {
+void EnPeehat_SetupAction(EnPeehat* this, EnPeehatActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -229,8 +229,7 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
             thisx->flags &= -2;
             break;
         case TYPE_LARVA:
-            thisx->scale.z = 0.006f;
-            thisx->scale.x = 0.006f;
+            thisx->scale.x = thisx->scale.z = 0.006f;
             thisx->scale.y = 0.003f;
             this->colCylinder.dim.radius = 25;
             this->colCylinder.dim.height = 15;
@@ -309,13 +308,13 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Ground_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, Animation_GetLastFrame(&D_060009C4.common), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, Animation_GetLastFrame(&D_060009C4), 2, 0.0f);
     this->seekPlayerTimer = 600;
     this->unk2D4 = 0;
     this->unk2FA = 0;
     this->state = PEAHAT_STATE_3;
     this->colCylinder.base.acFlags &= ~AC_HIT;
-    EnPeehat_SetActionFunc(this, EnPeehat_Ground_StateGround);
+    EnPeehat_SetupAction(this, EnPeehat_Ground_StateGround);
 }
 
 void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
@@ -346,12 +345,12 @@ void EnPeehat_Ground_StateGround(EnPeehat* this, GlobalContext* globalCtx) {
 }
 
 void EnPeehat_Flying_SetStateGround(EnPeehat* this) {
-    Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, Animation_GetLastFrame(&D_060009C4.common), 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, Animation_GetLastFrame(&D_060009C4), 2, 0.0f);
     this->seekPlayerTimer = 400;
     this->unk2D4 = 0;
     this->unk2FA = 0; //@bug: overwrites number of child larva spawned, allowing for more than MAX_LARVA spawns
     this->state = PEAHAT_STATE_4;
-    EnPeehat_SetActionFunc(this, EnPeehat_Flying_StateGrounded);
+    EnPeehat_SetupAction(this, EnPeehat_Flying_StateGrounded);
 }
 
 void EnPeehat_Flying_StateGrounded(EnPeehat* this, GlobalContext* globalCtx) {
@@ -377,7 +376,7 @@ void EnPeehat_Flying_StateGrounded(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Flying_SetStateFly(EnPeehat* this) {
     Animation_PlayLoop(&this->skelAnime, &D_060005C4);
     this->state = PEAHAT_STATE_FLY;
-    EnPeehat_SetActionFunc(this, EnPeehat_Flying_StateFly);
+    EnPeehat_SetupAction(this, EnPeehat_Flying_StateFly);
 }
 
 void EnPeehat_Flying_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
@@ -403,14 +402,14 @@ void EnPeehat_Flying_StateFly(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Ground_SetStateRise(EnPeehat* this) {
     f32 lastFrame;
 
-    lastFrame = Animation_GetLastFrame(&D_060009C4.common);
+    lastFrame = Animation_GetLastFrame(&D_060009C4);
     if (this->state != PEAHAT_STATE_STUNNED) {
         Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, lastFrame, 2, 0.0f);
     }
     this->state = PEAHAT_STATE_8;
     this->animTimer = (s16)lastFrame;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_UP);
-    EnPeehat_SetActionFunc(this, EnPeehat_Ground_StateRise);
+    EnPeehat_SetupAction(this, EnPeehat_Ground_StateRise);
 }
 
 void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
@@ -444,14 +443,14 @@ void EnPeehat_Ground_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Flying_SetStateRise(EnPeehat* this) {
     f32 lastFrame;
 
-    lastFrame = Animation_GetLastFrame(&D_060009C4.common);
+    lastFrame = Animation_GetLastFrame(&D_060009C4);
     if (this->state != PEAHAT_STATE_STUNNED) {
         Animation_Change(&this->skelAnime, &D_060009C4, 0.0f, 3.0f, lastFrame, 2, 0.0f);
     }
     this->state = PEAHAT_STATE_9;
     this->animTimer = (s16)lastFrame;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_UP);
-    EnPeehat_SetActionFunc(this, EnPeehat_Flying_StateRise);
+    EnPeehat_SetupAction(this, EnPeehat_Flying_StateRise);
 }
 
 void EnPeehat_Flying_StateRise(EnPeehat* this, GlobalContext* globalCtx) {
@@ -487,7 +486,7 @@ void EnPeehat_Ground_SetStateSeekPlayer(EnPeehat* this) {
     Animation_PlayLoop(&this->skelAnime, &D_060005C4);
     this->state = PEAHAT_STATE_SEEK_PLAYER;
     this->unk2E0 = 0.0f;
-    EnPeehat_SetActionFunc(this, EnPeehat_Ground_StateSeekPlayer);
+    EnPeehat_SetupAction(this, EnPeehat_Ground_StateSeekPlayer);
 }
 
 void EnPeehat_Ground_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
@@ -523,7 +522,7 @@ void EnPeehat_Larva_SetStateSeekPlayer(EnPeehat* this) {
     Animation_PlayLoop(&this->skelAnime, &D_060005C4);
     this->state = PEAHAT_STATE_SEEK_PLAYER;
     this->unk2D4 = 0;
-    EnPeehat_SetActionFunc(this, EnPeehat_Larva_StateSeekPlayer);
+    EnPeehat_SetupAction(this, EnPeehat_Larva_StateSeekPlayer);
 }
 
 void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
@@ -595,7 +594,7 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Ground_SetStateLanding(EnPeehat* this) {
     this->state = PEAHAT_STATE_LANDING;
     Animation_PlayOnce(&this->skelAnime, &D_06000350);
-    EnPeehat_SetActionFunc(this, EnPeehat_Ground_StateLanding);
+    EnPeehat_SetupAction(this, EnPeehat_Ground_StateLanding);
 }
 
 void EnPeehat_Ground_StateLanding(EnPeehat* this, GlobalContext* globalCtx) {
@@ -622,7 +621,7 @@ void EnPeehat_Ground_StateLanding(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Flying_SetStateLanding(EnPeehat* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06000350);
     this->state = PEAHAT_STATE_LANDING;
-    EnPeehat_SetActionFunc(this, EnPeehat_Flying_StateLanding);
+    EnPeehat_SetupAction(this, EnPeehat_Flying_StateLanding);
 }
 
 void EnPeehat_Flying_StateLanding(EnPeehat* this, GlobalContext* globalCtx) {
@@ -651,7 +650,7 @@ void EnPeehat_Ground_SetStateHover(EnPeehat* this) {
     this->actor.speedXZ = Rand_ZeroOne() * 0.5f + 2.5f;
     this->unk2D4 = Rand_ZeroOne() * 10 + 10;
     this->state = PEAHAT_STATE_15;
-    EnPeehat_SetActionFunc(this, EnPeehat_Ground_StateHover);
+    EnPeehat_SetupAction(this, EnPeehat_Ground_StateHover);
 }
 
 void EnPeehat_Ground_StateHover(EnPeehat* this, GlobalContext* globalCtx) {
@@ -698,7 +697,7 @@ void EnPeehat_Ground_StateHover(EnPeehat* this, GlobalContext* globalCtx) {
 void EnPeehat_Ground_SetStateReturnHome(EnPeehat* this) {
     this->state = PEAHAT_STATE_RETURN_HOME;
     this->actor.speedXZ = 2.5f;
-    EnPeehat_SetActionFunc(this, EnPeehat_Ground_StateReturnHome);
+    EnPeehat_SetupAction(this, EnPeehat_Ground_StateReturnHome);
 }
 
 void EnPeehat_Ground_StateReturnHome(EnPeehat* this, GlobalContext* globalCtx) {
@@ -738,7 +737,7 @@ void EnPeehat_SetStateAttackRecoil(EnPeehat* this) {
     this->state = PEAHAT_STATE_ATTACK_RECOIL;
     this->actor.speedXZ = -9.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    EnPeehat_SetActionFunc(this, EnPeehat_StateAttackRecoil);
+    EnPeehat_SetupAction(this, EnPeehat_StateAttackRecoil);
 }
 
 void EnPeehat_StateAttackRecoil(EnPeehat* this, GlobalContext* globalCtx) {
@@ -779,7 +778,7 @@ void EnPeehat_SetStateBoomerangStunned(EnPeehat* this) {
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     func_8003426C(&this->actor, 0, 200, 0, 80);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-    EnPeehat_SetActionFunc(this, EnPeehat_StateBoomerangStunned);
+    EnPeehat_SetupAction(this, EnPeehat_StateBoomerangStunned);
 }
 
 void EnPeehat_StateBoomerangStunned(EnPeehat* this, GlobalContext* globalCtx) {
@@ -798,7 +797,7 @@ void EnPeehat_Adult_SetStateDie(EnPeehat* this) {
     this->state = PEAHAT_STATE_DYING;
     this->scaleShift = 0.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    EnPeehat_SetActionFunc(this, EnPeehat_Adult_StateDie);
+    EnPeehat_SetupAction(this, EnPeehat_Adult_StateDie);
 }
 
 void EnPeehat_Adult_StateDie(EnPeehat* this, GlobalContext* globalCtx) {
@@ -854,7 +853,7 @@ void EnPeehat_SetStateExplode(EnPeehat* this) {
     this->state = PEAHAT_STATE_EXPLODE;
     this->animTimer = 5;
     this->unk2E0 = 0.0f;
-    EnPeehat_SetActionFunc(this, &EnPeehat_StateExplode);
+    EnPeehat_SetupAction(this, &EnPeehat_StateExplode);
 }
 
 void EnPeehat_StateExplode(EnPeehat* this, GlobalContext* globalCtx) {
@@ -885,10 +884,8 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
     } else if (this->colJntSph.base.acFlags & AC_HIT) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
         func_8003573C(&this->actor, &this->colJntSph, 1);
-        if (this->actor.colChkInfo.damageEffect == DMG_EFF_NUT) {
-            return;
-        }
-        if (this->actor.colChkInfo.damageEffect == DMG_EFF_LIGHT_ICE_ARROW) {
+        if (this->actor.colChkInfo.damageEffect == DMG_EFF_NUT
+            || this->actor.colChkInfo.damageEffect == DMG_EFF_LIGHT_ICE_ARROW) {
             return;
         }
         if (this->actor.colChkInfo.damageEffect == DMG_EFF_HOOKSHOT) {
@@ -962,19 +959,17 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (thisx->params <= 0) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder.base);
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colJntSph.base);
-            if (thisx->colorFilterTimer == 0 || (thisx->colorFilterParams & 0x4000) == 0) {
+            if (thisx->colorFilterTimer == 0 || !(thisx->colorFilterParams & 0x4000)) {
                 if (this->state != PEAHAT_STATE_EXPLODE) {
                     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colJntSph.base);
                 }
             }
         }
         // If not TYPE_FLYING
-        if (thisx->params != 0) {
-            if (this->colQuad.base.atFlags & AT_HIT) {
-                this->colQuad.base.atFlags &= ~AT_HIT;
-                if (&player->actor == this->colQuad.base.at) {
-                    EnPeehat_SetStateAttackRecoil(this);
-                }
+        if (thisx->params != 0 && this->colQuad.base.atFlags & AT_HIT) {
+            this->colQuad.base.atFlags &= ~AT_HIT;
+            if (&player->actor == this->colQuad.base.at) {
+                EnPeehat_SetStateAttackRecoil(this);
             }
         }
     }
@@ -1077,8 +1072,8 @@ void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnPeehat* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, &EnPeehat_OverrideLimbDraw,
-                      &EnPeehat_PostLimbDraw, thisx);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPeehat_OverrideLimbDraw,
+                      EnPeehat_PostLimbDraw, thisx);
     if (thisx->speedXZ != 0.0f || thisx->velocity.y != 0.0f) {
         Matrix_MultVec3f(&D_80AD285C, &this->colQuad.dim.quad[1]);
         Matrix_MultVec3f(&D_80AD2868, &this->colQuad.dim.quad[0]);
