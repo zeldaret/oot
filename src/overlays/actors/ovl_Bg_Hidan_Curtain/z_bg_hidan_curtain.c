@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_curtain.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -21,8 +22,6 @@ void BgHidanCurtain_WaitForClear(BgHidanCurtain* this, GlobalContext* globalCtx)
 void BgHidanCurtain_TurnOn(BgHidanCurtain* this, GlobalContext* globalCtx);
 void BgHidanCurtain_TurnOff(BgHidanCurtain* this, GlobalContext* globalCtx);
 void BgHidanCurtain_WaitForTimer(BgHidanCurtain* this, GlobalContext* globalCtx);
-
-extern Gfx D_040184B0[];
 
 typedef struct {
     /* 0x00 */ s16 radius;
@@ -257,7 +256,7 @@ void BgHidanCurtain_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_curtain.c", 698),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_XLU_DISP++, D_040184B0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffFireCircleDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_curtain.c", 702);
 }

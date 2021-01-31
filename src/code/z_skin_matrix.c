@@ -96,7 +96,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     rw = mfA->ww;
     dest->wx = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
-    //---COL2---
+    //---2Col---
     cx = mfB->xy;
     cy = mfB->yy;
     cz = mfB->zy;
@@ -126,7 +126,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     rw = mfA->ww;
     dest->wy = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
-    //---COL3---
+    //---3Col---
     cx = mfB->xz;
     cy = mfB->yz;
     cz = mfB->zz;
@@ -156,7 +156,7 @@ void SkinMatrix_MtxFMtxFMult(MtxF* mfB, MtxF* mfA, MtxF* dest) {
     rw = mfA->ww;
     dest->wz = (cx * rx) + (cy * ry) + (cz * rz) + (cw * rw);
 
-    //---COL4---
+    //---4Col---
     cx = mfB->xw;
     cy = mfB->yw;
     cz = mfB->zw;
