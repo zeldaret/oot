@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_en_ice.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rLifespan regs[0]
 #define rYaw regs[1]
@@ -30,8 +31,6 @@ EffectSsInit Effect_Ss_En_Ice_InitVars = {
     EffectSsEnIce_Init,
 };
 
-extern Gfx D_04033818[];
-
 u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsEnIceInitParams* initParams = (EffectSsEnIceInitParams*)initParamsx;
 
@@ -39,9 +38,9 @@ u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
 
         this->pos = initParams->pos;
-        this->vec.x = this->pos.x - initParams->actor->posRot.pos.x;
-        this->vec.y = this->pos.y - initParams->actor->posRot.pos.y;
-        this->vec.z = this->pos.z - initParams->actor->posRot.pos.z;
+        this->vec.x = this->pos.x - initParams->actor->world.pos.x;
+        this->vec.y = this->pos.y - initParams->actor->world.pos.y;
+        this->vec.z = this->pos.z - initParams->actor->world.pos.z;
         this->velocity = zeroVec;
         this->accel = zeroVec;
         this->life = 10;
@@ -129,7 +128,7 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                     this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, (u32)alpha);
-    gSPDisplayList(POLY_XLU_DISP++, D_04033818);
+    gSPDisplayList(POLY_XLU_DISP++, gEffIceFragment2DL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_ice.c", 294);
 }
@@ -138,14 +137,14 @@ void EffectSsEnIce_UpdateFlying(GlobalContext* globalCtx, u32 index, EffectSs* t
     s16 rand;
 
     if ((this->actor != NULL) && (this->actor->update != NULL)) {
-        if ((this->life >= 9) && (this->actor->dmgEffectTimer != 0) && (!(this->actor->dmgEffectParams & 0xC000))) {
-            this->pos.x = this->actor->posRot.pos.x + this->vec.x;
-            this->pos.y = this->actor->posRot.pos.y + this->vec.y;
-            this->pos.z = this->actor->posRot.pos.z + this->vec.z;
+        if ((this->life >= 9) && (this->actor->colorFilterTimer != 0) && (!(this->actor->colorFilterParams & 0xC000))) {
+            this->pos.x = this->actor->world.pos.x + this->vec.x;
+            this->pos.y = this->actor->world.pos.y + this->vec.y;
+            this->pos.z = this->actor->world.pos.z + this->vec.z;
             this->life++;
         } else if (this->life == 9) {
-            this->accel.x = Math_SinS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
-            this->accel.z = Math_CosS(Math_Vec3f_Yaw(&this->actor->posRot.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
+            this->accel.x = Math_SinS(Math_Vec3f_Yaw(&this->actor->world.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
+            this->accel.z = Math_CosS(Math_Vec3f_Yaw(&this->actor->world.pos, &this->pos)) * (Rand_ZeroOne() + 1.0f);
             this->accel.y = -1.5f;
             this->velocity.y = 5.0f;
         }

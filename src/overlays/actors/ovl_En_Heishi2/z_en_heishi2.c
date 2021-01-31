@@ -58,7 +58,7 @@ extern Gfx D_06002C10[]; // 2D Guard in Window
 
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_SD,
     sizeof(EnHeishi2),
@@ -69,8 +69,22 @@ const ActorInit En_Heishi2_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 33, 40, 0, { 0, 0, 0 } },
 };
 
@@ -80,12 +94,12 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
     this->initParams = this->actor.params & 0xFF;
-    this->actor.colChkInfo.mass = 255;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     if ((this->initParams == 6) || (this->initParams == 9)) {
         this->actor.draw = func_80A54C6C;
         this->actor.flags &= -2;
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
         if (this->initParams == 6) {
             this->actionFunc = func_80A531CC;
 
@@ -96,12 +110,12 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
 
             Actor_SetScale(&this->actor, 0.02f);
 
-            this->unk_274 = this->actor.posRot.pos;
-            this->actor.posRot.rot.y = 0x7918;
-            this->actor.posRot.pos.x += 90.0f;
-            this->actor.posRot.pos.y -= 60.0f;
-            this->actor.posRot.pos.z += 90.0f;
-            this->actor.shape.rot.y = this->actor.posRot.rot.y;
+            this->unk_274 = this->actor.world.pos;
+            this->actor.world.rot.y = 0x7918;
+            this->actor.world.pos.x += 90.0f;
+            this->actor.world.pos.y -= 60.0f;
+            this->actor.world.pos.z += 90.0f;
+            this->actor.shape.rot.y = this->actor.world.rot.y;
             Collider_DestroyCylinder(globalCtx, &this->collider);
             func_8002DF54(globalCtx, 0, 8);
             this->actor.flags |= 0x11;
@@ -109,7 +123,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         this->unk_2E0 = 60.0f;
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_0600BAC8, &D_06005C30, this->jointTable, this->morphTable, 17);
         collider = &this->collider;
         Collider_InitCylinder(globalCtx, collider);
@@ -117,7 +131,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.yShift = 0;
         this->collider.dim.radius = 0xF;
         this->collider.dim.height = 0x46;
-        this->actor.unk_1F = 6;
+        this->actor.targetMode = 6;
 
         switch (this->initParams) {
 
@@ -167,7 +181,7 @@ void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A53278;
 }
 
@@ -186,7 +200,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 6;
         this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.nightFlag) {
+    } else if (gSaveContext.nightFlag != 0) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;
@@ -266,7 +280,7 @@ void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53638;
 }
 
@@ -277,7 +291,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 
     frameCount = this->skelAnime.curFrame;
     thisx = &this->actor;
-    actor = globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
+    actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
@@ -302,7 +316,7 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A5372C(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -338,7 +352,7 @@ void func_80A53850(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53908(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A5399C;
 }
 
@@ -409,9 +423,9 @@ void func_80A53AD4(EnHeishi2* this, GlobalContext* globalCtx) {
             player->actor.textId = 0x200F; // "I don't want that!"
         }
     } else {
-        yawDiffTemp = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiffTemp = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         yawDiff = ABS(yawDiffTemp);
-        if (!(120.0f < this->actor.xzDistToLink) && (yawDiff < 0x4300)) {
+        if (!(120.0f < this->actor.xzDistToPlayer) && (yawDiff < 0x4300)) {
             func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_LETTER_ZELDA);
         }
     }
@@ -432,7 +446,7 @@ void func_80A53C90(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->actionFunc = func_80A53D0C;
 }
 
@@ -442,7 +456,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
     BgGateShutter* gate;
 
     frameCount = this->skelAnime.curFrame;
-    gate = (BgGateShutter*)globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first;
+    gate = (BgGateShutter*)globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
     SkelAnime_Update(&this->skelAnime);
     if (12.0f <= frameCount) {
         if (this->audioFlag == 0) {
@@ -469,7 +483,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->unk_2F2[0] = 200;
     this->cameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -595,7 +609,7 @@ void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005500);
 
     this->unk_2EC = frameCount;
-    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005500, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -10.0f);
     this->audioFlag = 0;
     this->actionFunc = func_80A543A0;
 }
@@ -607,7 +621,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
 
     frameCount = this->skelAnime.curFrame;
     thisx = &this->actor;
-    gate = (BgGateShutter*)(globalCtx->actorCtx.actorList[ACTORTYPE_ITEMACTION].first);
+    gate = (BgGateShutter*)(globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head);
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
@@ -637,7 +651,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.z, -6100, 5, this->unk_2E4, 0);
     Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
-    this->actor.posRot.rot.z = this->actor.shape.rot.z;
+    this->actor.world.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z < -6000) {
         func_8010B680(globalCtx, 0x708F, NULL);
         this->actor.flags |= 0x10000;
@@ -659,7 +673,7 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
         pos.x = Rand_CenteredFloat(20.0f) + this->unk_274.x;
         pos.y = Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
         pos.z = Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
-        rotY = Rand_CenteredFloat(7000.0f) + thisx->yawTowardsLink;
+        rotY = Rand_CenteredFloat(7000.0f) + thisx->yawTowardsPlayer;
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, pos.x, pos.y, pos.z, 0, rotY, 0, 0);
         if (bomb != NULL) {
             bomb->actor.speedXZ = Rand_CenteredFloat(5.0f) + 10.0f;
@@ -675,7 +689,7 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.z, 200, 5, this->unk_2E4, 0);
     Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
-    this->actor.posRot.rot.z = this->actor.shape.rot.z;
+    this->actor.world.rot.z = this->actor.shape.rot.z;
     if (this->actor.shape.rot.z > 0) {
         Actor_Kill(&this->actor);
     }
@@ -736,8 +750,8 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
     }
 
     if (((this->initParams != 2) && (this->initParams != 5)) ||
-        ((yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)),
-          !(this->actor.xzDistToLink > 120.0f)) &&
+        ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
+          !(this->actor.xzDistToPlayer > 120.0f)) &&
          (yawDiff < 0x4300))) {
         func_8002F2F4(&this->actor, globalCtx);
     }
@@ -746,7 +760,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 void func_80A54954(EnHeishi2* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = func_80A549E8;
 }
 
@@ -770,11 +784,11 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = THIS;
     s32 i;
 
-    Actor_SetHeight(&this->actor, this->unk_2E0);
+    Actor_SetFocus(&this->actor, this->unk_2E0);
     if ((this->initParams == 2) || (this->initParams == 5)) {
-        this->actor.posRot2.pos.y = 70.0f;
-        Actor_SetHeight(&this->actor, 70.0f);
-        func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.posRot2.pos);
+        this->actor.focus.pos.y = 70.0f;
+        Actor_SetFocus(&this->actor, 70.0f);
+        func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
     }
 
     this->unk_2FC++;
@@ -792,9 +806,9 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
         case 9:
             break;
         default:
-            func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
-            Collider_CylinderUpdate(&this->actor, &this->collider);
-            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+            Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 30.0f, 0x1D);
+            Collider_UpdateCylinder(&this->actor, &this->collider);
+            CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             break;
     }
 }

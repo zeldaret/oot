@@ -1,6 +1,7 @@
 #include "ZSkeleton.h"
 #include "BitConverter.h"
 #include "StringHelper.h"
+#include "Globals.h"
 #include "HighLevel/HLModelIntermediette.h"
 #include <typeinfo>
 
@@ -50,16 +51,16 @@ ZLimbStandard* ZLimbStandard::FromRawData(std::vector<uint8_t> nRawData, int raw
 	limb->transX = BitConverter::ToInt16BE(nRawData, rawDataIndex + 0);
 	limb->transY = BitConverter::ToInt16BE(nRawData, rawDataIndex + 2);
 	limb->transZ = BitConverter::ToInt16BE(nRawData, rawDataIndex + 4);
-	
+
 	limb->childIndex = nRawData[rawDataIndex + 6];
 	limb->siblingIndex = nRawData[rawDataIndex + 7];
-	
+
 	limb->dListPtr = BitConverter::ToInt32BE(nRawData, rawDataIndex + 8) & 0x00FFFFFF;
 
 	return limb;
 }
 
-string ZLimbStandard::GetSourceOutputCode(string prefix)
+string ZLimbStandard::GetSourceOutputCode(const std::string& prefix)
 {
 	string dListStr = dListPtr == 0 ? "NULL" : StringHelper::Sprintf("%s", parent->GetVarName(dListPtr).c_str());
 
@@ -154,7 +155,7 @@ ZSkeleton* ZSkeleton::FromXML(XMLElement* reader, vector<uint8_t> nRawData, int 
 	return skeleton;
 }
 
-std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
+std::string ZSkeleton::GetSourceOutputCode(const std::string& prefix)
 {
 	if (parent != nullptr)
 	{
@@ -164,13 +165,13 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 		for (int i = 0; i < limbs.size(); i++)
 		{
 			ZLimbStandard* limb = limbs[i];
-			
+
 			string defaultDLName = StringHelper::Sprintf("%sLimbDL_%06X", defaultPrefix.c_str(), limb->dListPtr);
 			string dListStr = limb->dListPtr == 0 ? "NULL" : StringHelper::Sprintf("%s", parent->GetDeclarationName(limb->dListPtr, defaultDLName).c_str());
 
 			if (limb->dListPtr != 0 && parent->GetDeclaration(limb->dListPtr) == nullptr)
 			{
-				ZDisplayList* dList = new ZDisplayList(rawData, limb->dListPtr, ZDisplayList::GetDListLength(rawData, limb->dListPtr));
+				ZDisplayList* dList = new ZDisplayList(rawData, limb->dListPtr, ZDisplayList::GetDListLength(rawData, limb->dListPtr, Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX));
 				dList->parent = parent;
 				dList->SetName(StringHelper::Sprintf("%sLimbDL_%06X", defaultPrefix.c_str(), limb->dListPtr));
 				dList->GetSourceOutputCode(defaultPrefix);
@@ -187,7 +188,7 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 
 				if (limbLOD->farDListPtr != 0 && parent->GetDeclaration(limbLOD->farDListPtr) == nullptr)
 				{
-					ZDisplayList* dList = new ZDisplayList(rawData, limbLOD->farDListPtr, ZDisplayList::GetDListLength(rawData, limbLOD->farDListPtr));
+					ZDisplayList* dList = new ZDisplayList(rawData, limbLOD->farDListPtr, ZDisplayList::GetDListLength(rawData, limbLOD->farDListPtr, Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX));
 					dList->parent = parent;
 					dList->SetName(StringHelper::Sprintf("%s_farLimbDlist_%06X", defaultPrefix.c_str(), limbLOD->farDListPtr));
 					dList->GetSourceOutputCode(defaultPrefix);
@@ -211,7 +212,7 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 			if (parent->HasDeclaration(limb->address))
 				limbName = parent->GetDeclarationName(limb->address);
 
-			parent->AddDeclaration(limb->address, DeclarationAlignment::None, 12, entryType, limbName, entryStr);
+			parent->AddDeclaration(limb->address, DeclarationAlignment::None, limb->GetRawDataSize(), entryType, limbName, entryStr);
 		}
 
 		// Table
@@ -224,10 +225,12 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 			//string decl = StringHelper::Sprintf("    &_%sLimb_%04X,\n", prefix.c_str(), limb->address);
 			string decl = "";
 
-			if (parent->HasDeclaration(limb->address))
+			if (parent->HasDeclaration(limb->address)) {
 				decl = StringHelper::Sprintf("    &%s,", parent->GetDeclarationName(limb->address).c_str());
-				if (i != (limbs.size() - 1))
+				if (i != (limbs.size() - 1)) {
 				    decl += "\n";
+				}
+			}
 
 			tblStr += decl;
 		}
@@ -257,9 +260,14 @@ std::string ZSkeleton::GetSourceOutputCode(std::string prefix)
 	return "";
 }
 
-void ZSkeleton::Save(string outFolder)
+void ZSkeleton::Save(const std::string& outFolder)
 {
 
+}
+
+ZResourceType ZSkeleton::GetResourceType()
+{
+	return ZResourceType::Skeleton;
 }
 
 ZLimbLOD::ZLimbLOD() : ZLimbStandard()
@@ -286,7 +294,7 @@ ZLimbLOD* ZLimbLOD::FromRawData(vector<uint8_t> nRawData, int rawDataIndex)
 	return limb;
 }
 
-string ZLimbLOD::GetSourceOutputCode(string prefix)
+string ZLimbLOD::GetSourceOutputCode(const std::string& prefix)
 {
 	return std::string();
 }

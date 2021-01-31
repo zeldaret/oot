@@ -1,5 +1,12 @@
+/*
+ * File: z_bg_spot11_oasis.c
+ * Overlay: ovl_Bg_Spot11_Oasis
+ * Description: Refilling Oasis (Desert Colossus)
+ */
+
 #include "z_bg_spot11_oasis.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "objects/object_spot11_obj/object_spot11_obj.h"
 
 #define FLAGS 0x00000010
 
@@ -17,7 +24,7 @@ void func_808B2AB8(BgSpot11Oasis* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot11_Oasis_InitVars = {
     ACTOR_BG_SPOT11_OASIS,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT11_OBJ,
     sizeof(BgSpot11Oasis),
@@ -43,12 +50,10 @@ static Vec3f D_808B2E34[] = {
     { -75.0f, -90.0f, 90.0f }, { 30.0f, -100.0f, 40.0f },
 };
 
-extern Gfx D_06000870[];
+void func_808B27F0(GlobalContext* globalCtx, s16 waterSurface) {
+    WaterBox* waterBox = &globalCtx->colCtx.colHeader->waterBoxes[0];
 
-void func_808B27F0(GlobalContext* globalCtx, s16 arg1) {
-    WaterBox* waterBox = &globalCtx->colCtx.stat.colHeader->waterBoxes[0];
-
-    waterBox->ySurface = arg1;
+    waterBox->ySurface = waterSurface;
 }
 
 s32 func_808B280C(GlobalContext* globalCtx) {
@@ -70,8 +75,7 @@ s32 func_808B280C(GlobalContext* globalCtx) {
         sp4C.z = D_808B2E10[i][1];
         sp40.x = D_808B2E10[i + 1][0];
         sp40.z = D_808B2E10[i + 1][1];
-        if (Math3D_TriChkPointParaYSlopedY(&sp58, &sp4C, &sp40, player->actor.posRot.pos.z,
-                                           player->actor.posRot.pos.x)) {
+        if (Math3D_TriChkPointParaYSlopedY(&sp58, &sp4C, &sp40, player->actor.world.pos.z, player->actor.world.pos.x)) {
             return 1;
         }
     }
@@ -83,7 +87,7 @@ void BgSpot11Oasis_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     func_808B2970(this);
-    this->actor.posRot.pos.y = -100.0f;
+    this->actor.world.pos.y = -100.0f;
     func_808B27F0(globalCtx, -100);
 }
 
@@ -103,13 +107,13 @@ void func_808B29E0(BgSpot11Oasis* this) {
 }
 
 void func_808B29F0(BgSpot11Oasis* this, GlobalContext* globalCtx) {
-    if (Math_StepToF(&this->actor.posRot.pos.y, 0.0f, 0.7f)) {
+    if (Math_StepToF(&this->actor.world.pos.y, 0.0f, 0.7f)) {
         func_808B2AA8(this);
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                    this->actor.posRot.pos.y + 40.0f, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_SPAWNER);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
+                    this->actor.world.pos.y + 40.0f, this->actor.world.pos.z, 0, 0, 0, FAIRY_SPAWNER);
         func_80078884(NA_SE_SY_CORRECT_CHIME);
     }
-    func_808B27F0(globalCtx, this->actor.posRot.pos.y);
+    func_808B27F0(globalCtx, this->actor.world.pos.y);
 }
 
 void func_808B2AA8(BgSpot11Oasis* this) {
@@ -134,7 +138,7 @@ void BgSpot11Oasis_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_150 && (this->actor.projectedPos.z < 400.0f) && (this->actor.projectedPos.z > -40.0f)) {
         gameplayFrames = globalCtx->gameplayFrames;
         if (gameplayFrames & 4) {
-            Math_Vec3f_Sum(&this->actor.posRot.pos, &D_808B2E34[this->unk_151], &sp30);
+            Math_Vec3f_Sum(&this->actor.world.pos, &D_808B2E34[this->unk_151], &sp30);
             EffectSsBubble_Spawn(globalCtx, &sp30, 0.0f, 15.0f, 50.0f, (Rand_ZeroOne() * 0.12f) + 0.02f);
             if (Rand_ZeroOne() < 0.3f) {
                 this->unk_151 = Rand_ZeroOne() * 4.9f;
@@ -155,6 +159,6 @@ void BgSpot11Oasis_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - (gameplayFrames % 128), (gameplayFrames * 1) % 128,
                                 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000870);
+    gSPDisplayList(POLY_XLU_DISP++, gDesertColossusOasisDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot11_oasis.c", 346);
 }

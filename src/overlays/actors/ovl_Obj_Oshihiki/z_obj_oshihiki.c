@@ -25,7 +25,7 @@ void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx);
 
-extern ColHeader D_05004E98;
+extern CollisionHeader D_05004E98;
 extern UNK_TYPE D_05003350;
 extern UNK_TYPE D_05003B50;
 extern UNK_TYPE D_05004350;
@@ -33,7 +33,7 @@ extern Gfx D_05004CD0[];
 
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_DANGEON_KEEP,
     sizeof(ObjOshihiki),
@@ -90,18 +90,17 @@ static Vec2f sFaceDirection[] = {
     { -1.0f, -1.0f },
 };
 
-void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, ColHeader* collision,
+void ObjOshihiki_InitDynapoly(ObjOshihiki* this, GlobalContext* globalCtx, CollisionHeader* collision,
                               DynaPolyMoveFlag moveFlag) {
     s32 pad;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(collision, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 50) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG registration failure
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 280,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -144,17 +143,17 @@ void ObjOshihiki_ResetFloors(ObjOshihiki* this) {
     s32 i;
 
     for (i = 0; i < ARRAY_COUNT(this->floorBgIds); i++) {
-        this->floorBgIds[i] = 50;
+        this->floorBgIds[i] = BGCHECK_SCENE;
     }
 }
 
 ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) {
-    DynaPolyActor* dyna;
+    Actor* dyna;
 
-    if ((this->floorBgIds[this->highestFloor] != 50) &&
-        (fabsf(this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) < 0.001f)) {
-        dyna = DynaPolyInfo_GetActor(&globalCtx->colCtx, this->floorBgIds[this->highestFloor]);
-        if ((dyna != NULL) && (dyna->actor.id == ACTOR_OBJ_OSHIHIKI)) {
+    if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE) &&
+        (fabsf(this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
+        dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->floorBgIds[this->highestFloor]);
+        if ((dyna != NULL) && (dyna->id == ACTOR_OBJ_OSHIHIKI)) {
             return (ObjOshihiki*)dyna;
         }
     }
@@ -162,22 +161,22 @@ ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, GlobalContext* globalC
 }
 
 void ObjOshihiki_UpdateInitPos(ObjOshihiki* this) {
-    if (this->dyna.actor.initPosRot.pos.x < this->dyna.actor.posRot.pos.x) {
-        while ((this->dyna.actor.posRot.pos.x - this->dyna.actor.initPosRot.pos.x) >= 20.0f) {
-            this->dyna.actor.initPosRot.pos.x += 20.0f;
+    if (this->dyna.actor.home.pos.x < this->dyna.actor.world.pos.x) {
+        while ((this->dyna.actor.world.pos.x - this->dyna.actor.home.pos.x) >= 20.0f) {
+            this->dyna.actor.home.pos.x += 20.0f;
         }
     } else {
-        while ((this->dyna.actor.initPosRot.pos.x - this->dyna.actor.posRot.pos.x) >= 20.0f) {
-            this->dyna.actor.initPosRot.pos.x -= 20.0f;
+        while ((this->dyna.actor.home.pos.x - this->dyna.actor.world.pos.x) >= 20.0f) {
+            this->dyna.actor.home.pos.x -= 20.0f;
         }
     }
-    if (this->dyna.actor.initPosRot.pos.z < this->dyna.actor.posRot.pos.z) {
-        while ((this->dyna.actor.posRot.pos.z - this->dyna.actor.initPosRot.pos.z) >= 20.0f) {
-            this->dyna.actor.initPosRot.pos.z += 20.0f;
+    if (this->dyna.actor.home.pos.z < this->dyna.actor.world.pos.z) {
+        while ((this->dyna.actor.world.pos.z - this->dyna.actor.home.pos.z) >= 20.0f) {
+            this->dyna.actor.home.pos.z += 20.0f;
         }
     } else {
-        while ((this->dyna.actor.initPosRot.pos.z - this->dyna.actor.posRot.pos.z) >= 20.0f) {
-            this->dyna.actor.initPosRot.pos.z -= 20.0f;
+        while ((this->dyna.actor.home.pos.z - this->dyna.actor.world.pos.z) >= 20.0f) {
+            this->dyna.actor.home.pos.z -= 20.0f;
         }
     }
 }
@@ -307,7 +306,7 @@ void ObjOshihiki_Init(Actor* thisx, GlobalContext* globalCtx2) {
     ObjOshihiki_SetScale(this, globalCtx);
     ObjOshihiki_SetTexture(this, globalCtx);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
     ObjOshihiki_SetColor(this, globalCtx);
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetupOnActor(this, globalCtx);
@@ -319,7 +318,7 @@ void ObjOshihiki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjOshihiki* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void ObjOshihiki_SetFloors(ObjOshihiki* this, GlobalContext* globalCtx) {
@@ -335,14 +334,14 @@ void ObjOshihiki_SetFloors(ObjOshihiki* this, GlobalContext* globalCtx) {
         colCheckOffset.y = sColCheckPoints[i].y * (this->dyna.actor.scale.y * 10.0f);
         colCheckOffset.z = sColCheckPoints[i].z * (this->dyna.actor.scale.z * 10.0f);
         ObjOshihiki_RotateXZ(&colCheckPoint, &colCheckOffset, this->yawSin, this->yawCos);
-        colCheckPoint.x += this->dyna.actor.posRot.pos.x;
-        colCheckPoint.y += this->dyna.actor.pos4.y;
-        colCheckPoint.z += this->dyna.actor.posRot.pos.z;
+        colCheckPoint.x += this->dyna.actor.world.pos.x;
+        colCheckPoint.y += this->dyna.actor.prevPos.y;
+        colCheckPoint.z += this->dyna.actor.world.pos.z;
 
         floorPoly = &this->floorPolys[i];
         floorBgId = &this->floorBgIds[i];
-        this->floorHeights[i] =
-            func_8003CA64(&globalCtx->colCtx, floorPoly, floorBgId, &this->dyna.actor, &colCheckPoint, 0.0f);
+        this->floorHeights[i] = BgCheck_EntityRaycastFloor6(&globalCtx->colCtx, floorPoly, floorBgId, &this->dyna.actor,
+                                                            &colCheckPoint, 0.0f);
     }
 }
 
@@ -353,24 +352,24 @@ s16 ObjOshihiki_GetHighestFloor(ObjOshihiki* this) {
 
     if (phi_f0 > this->floorHeights[highestFloor]) {
         highestFloor = temp;
-    } else if ((this->floorBgIds[temp] == 50) && ((phi_f0 - this->floorHeights[highestFloor]) > -0.001f)) {
+    } else if ((this->floorBgIds[temp] == BGCHECK_SCENE) && ((phi_f0 - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp;
     }
     if (this->floorHeights[temp + 1] > this->floorHeights[highestFloor]) {
         highestFloor = temp + 1;
-    } else if ((this->floorBgIds[temp + 1] == 50) &&
+    } else if ((this->floorBgIds[temp + 1] == BGCHECK_SCENE) &&
                ((this->floorHeights[temp + 1] - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp + 1;
     }
     if (this->floorHeights[temp + 2] > this->floorHeights[highestFloor]) {
         highestFloor = temp + 2;
-    } else if ((this->floorBgIds[temp + 2] == 50) &&
+    } else if ((this->floorBgIds[temp + 2] == BGCHECK_SCENE) &&
                ((this->floorHeights[temp + 2] - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp + 2;
     }
     if (this->floorHeights[temp + 3] > this->floorHeights[highestFloor]) {
         highestFloor = temp + 3;
-    } else if ((this->floorBgIds[temp + 3] == 50) &&
+    } else if ((this->floorBgIds[temp + 3] == BGCHECK_SCENE) &&
                ((this->floorHeights[temp + 3] - this->floorHeights[highestFloor]) > -0.001f)) {
         highestFloor = temp + 3;
     }
@@ -381,14 +380,14 @@ void ObjOshihiki_SetGround(ObjOshihiki* this, GlobalContext* globalCtx) {
     ObjOshihiki_ResetFloors(this);
     ObjOshihiki_SetFloors(this, globalCtx);
     this->highestFloor = ObjOshihiki_GetHighestFloor(this);
-    this->dyna.actor.groundY = this->floorHeights[this->highestFloor];
+    this->dyna.actor.floorHeight = this->floorHeights[this->highestFloor];
 }
 
 s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, GlobalContext* globalCtx) {
     ObjOshihiki_SetGround(this, globalCtx);
 
-    if ((this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) >= -0.001f) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
+    if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
+        this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         return 1;
     }
 
@@ -396,15 +395,15 @@ s32 ObjOshihiki_CheckFloor(ObjOshihiki* this, GlobalContext* globalCtx) {
 }
 
 s32 ObjOshihiki_CheckGround(ObjOshihiki* this, GlobalContext* globalCtx) {
-    if (this->dyna.actor.posRot.pos.y <= -31990.0f) {
+    if (this->dyna.actor.world.pos.y <= -31990.0f) {
         // Warning : Push-pull block fell too much
         osSyncPrintf("Warning : 押し引きブロック落ちすぎた(%s %d)(arg_data 0x%04x)\n", "../z_obj_oshihiki.c", 809,
                      this->dyna.actor.params);
         Actor_Kill(&this->dyna.actor);
         return 0;
     }
-    if ((this->dyna.actor.groundY - this->dyna.actor.posRot.pos.y) >= -0.001f) {
-        this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
+    if ((this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) >= -0.001f) {
+        this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
         return 1;
     }
     return 0;
@@ -421,21 +420,21 @@ s32 ObjOshihiki_CheckWall(GlobalContext* globalCtx, s16 angle, f32 direction, Ob
         Vec3f faceVtxNext;
         Vec3f posResult;
         Vec3f faceVtxOffset;
-        u32 bgId;
+        s32 bgId;
         CollisionPoly* outPoly;
 
         faceVtxOffset.x = (sFaceVtx[i].x * this->dyna.actor.scale.x * 10.0f) + sFaceDirection[i].x;
         faceVtxOffset.y = (sFaceVtx[i].y * this->dyna.actor.scale.y * 10.0f) + sFaceDirection[i].y;
         faceVtxOffset.z = 0.0f;
         ObjOshihiki_RotateXZ(&faceVtx, &faceVtxOffset, sn, cs);
-        faceVtx.x += this->dyna.actor.posRot.pos.x;
-        faceVtx.y += this->dyna.actor.posRot.pos.y;
-        faceVtx.z += this->dyna.actor.posRot.pos.z;
+        faceVtx.x += this->dyna.actor.world.pos.x;
+        faceVtx.y += this->dyna.actor.world.pos.y;
+        faceVtx.z += this->dyna.actor.world.pos.z;
         faceVtxNext.x = faceVtx.x + maxDist * sn;
         faceVtxNext.y = faceVtx.y;
         faceVtxNext.z = faceVtx.z + maxDist * cs;
-        if (func_8003DFA0(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, 1, 0, 0, 1, &bgId,
-                          &this->dyna.actor, 0.0f)) {
+        if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, 1, 0, 0, 1, &bgId,
+                                    &this->dyna.actor, 0.0f)) {
             return 1;
         }
     }
@@ -453,10 +452,10 @@ s32 ObjOshihiki_MoveWithBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) 
 
     if ((this->stateFlags & PUSHBLOCK_MOVE_UNDER) && (this->blockUnder != NULL)) {
         if (this->blockUnder->stateFlags & PUSHBLOCK_PUSH) {
-            this->underDistX = this->blockUnder->dyna.actor.posRot.pos.x - this->blockUnder->dyna.actor.pos4.x;
-            this->underDistZ = this->blockUnder->dyna.actor.posRot.pos.z - this->blockUnder->dyna.actor.pos4.z;
-            this->dyna.actor.posRot.pos.x += this->underDistX;
-            this->dyna.actor.posRot.pos.z += this->underDistZ;
+            this->underDistX = this->blockUnder->dyna.actor.world.pos.x - this->blockUnder->dyna.actor.prevPos.x;
+            this->underDistZ = this->blockUnder->dyna.actor.world.pos.z - this->blockUnder->dyna.actor.prevPos.z;
+            this->dyna.actor.world.pos.x += this->underDistX;
+            this->dyna.actor.world.pos.z += this->underDistZ;
             ObjOshihiki_UpdateInitPos(this);
             return 1;
         } else if (!(this->blockUnder->stateFlags & PUSHBLOCK_SETUP_PUSH)) {
@@ -512,10 +511,10 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
 
     if (ObjOshihiki_CheckFloor(this, globalCtx)) {
         bgId = this->floorBgIds[this->highestFloor];
-        if (bgId == 50) {
+        if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
-            dynaActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, bgId);
+            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
             if (dynaActor != NULL) {
                 func_800434A8(dynaActor);
                 func_80043538(dynaActor);
@@ -540,15 +539,15 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
         }
     } else {
         bgId = this->floorBgIds[this->highestFloor];
-        if (bgId == 50) {
+        if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupFall(this, globalCtx);
         } else {
-            dynaActor = DynaPolyInfo_GetActor(&globalCtx->colCtx, bgId);
+            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 
             if ((dynaActor != NULL) && (dynaActor->unk_15C & 1)) {
                 func_800434A8(dynaActor);
                 func_80043538(dynaActor);
-                this->dyna.actor.posRot.pos.y = this->dyna.actor.groundY;
+                this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {
                 ObjOshihiki_SetupFall(this, globalCtx);
             }
@@ -573,12 +572,12 @@ void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx) {
     this->pushSpeed = CLAMP_MAX(this->pushSpeed, 2.0f);
     stopFlag = Math_StepToF(&this->pushDist, 20.0f, this->pushSpeed);
     pushDistSigned = ((this->direction >= 0.0f) ? 1.0f : -1.0f) * this->pushDist;
-    thisx->posRot.pos.x = thisx->initPosRot.pos.x + (pushDistSigned * this->yawSin);
-    thisx->posRot.pos.z = thisx->initPosRot.pos.z + (pushDistSigned * this->yawCos);
+    thisx->world.pos.x = thisx->home.pos.x + (pushDistSigned * this->yawSin);
+    thisx->world.pos.z = thisx->home.pos.z + (pushDistSigned * this->yawCos);
 
     if (!ObjOshihiki_CheckFloor(this, globalCtx)) {
-        thisx->initPosRot.pos.x = thisx->posRot.pos.x;
-        thisx->initPosRot.pos.z = thisx->posRot.pos.z;
+        thisx->home.pos.x = thisx->world.pos.x;
+        thisx->home.pos.z = thisx->world.pos.z;
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
         this->pushDist = 0.0f;
@@ -590,14 +589,14 @@ void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
         }
 
-        thisx->initPosRot.pos.x = thisx->posRot.pos.x;
-        thisx->initPosRot.pos.z = thisx->posRot.pos.z;
+        thisx->home.pos.x = thisx->world.pos.x;
+        thisx->home.pos.z = thisx->world.pos.z;
         player->stateFlags2 &= ~0x10;
         this->dyna.unk_150 = 0.0f;
         this->pushDist = 0.0f;
         this->pushSpeed = 0.0f;
         this->timer = 10;
-        if (this->floorBgIds[this->highestFloor] == 50) {
+        if (this->floorBgIds[this->highestFloor] == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
             ObjOshihiki_SetupOnActor(this, globalCtx);
@@ -624,15 +623,16 @@ void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx) {
     }
     Actor_MoveForward(&this->dyna.actor);
     if (ObjOshihiki_CheckGround(this, globalCtx)) {
-        if (this->floorBgIds[this->highestFloor] == 50) {
+        if (this->floorBgIds[this->highestFloor] == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
             ObjOshihiki_SetupOnActor(this, globalCtx);
         }
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
-        Audio_PlayActorSound2(&this->dyna.actor, func_80041F34(&globalCtx->colCtx, this->floorPolys[this->highestFloor],
-                                                               this->floorBgIds[this->highestFloor]) +
-                                                     SFX_FLAG);
+        Audio_PlayActorSound2(&this->dyna.actor,
+                              SurfaceType_GetSfx(&globalCtx->colCtx, this->floorPolys[this->highestFloor],
+                                                 this->floorBgIds[this->highestFloor]) +
+                                  SFX_FLAG);
     }
 }
 
@@ -649,10 +649,10 @@ void ObjOshihiki_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    this->dyna.actor.posRot.rot.y = this->dyna.unk_158;
+    this->dyna.actor.world.rot.y = this->dyna.unk_158;
 
-    this->yawSin = Math_SinS(this->dyna.actor.posRot.rot.y);
-    this->yawCos = Math_CosS(this->dyna.actor.posRot.rot.y);
+    this->yawSin = Math_SinS(this->dyna.actor.world.rot.y);
+    this->yawCos = Math_CosS(this->dyna.actor.world.rot.y);
 
     if (this->actionFunc != NULL) {
         this->actionFunc(this, globalCtx);
