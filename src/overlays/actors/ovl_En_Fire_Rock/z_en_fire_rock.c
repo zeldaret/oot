@@ -71,7 +71,6 @@ static ColliderCylinderInit D_80A12CCC = {
 };
 
 void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
-
     GlobalContext* globalCtx2 = globalCtx;
     Player* player = PLAYER;
     EnFireRock* this = THIS;
@@ -102,7 +101,7 @@ void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.dim.radius = 23;
             this->collider.dim.height = 37;
             this->collider.dim.yShift = -10;
-            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, (u8)6U);
+            Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
             this->actor.colChkInfo.mass = 0xFF;
             this->actionFunc = FireRock_WaitOnFloor;
             break;
@@ -310,8 +309,12 @@ void EnFireRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* playerActor = &PLAYER->actor;
 
-    DECR(this->timer2);
-    DECR(this->timer);
+    if (this->timer2 != 0) {
+        this->timer2--;
+    }
+    if (this->timer != 0) {
+        this->timer--;
+    }
     this->actionFunc(this, globalCtx);
 
     if (this->type != FIRE_ROCK_CEILING_SPOT_SPAWNER) {

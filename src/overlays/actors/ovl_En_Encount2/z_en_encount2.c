@@ -47,7 +47,7 @@ void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
         // "☆☆☆☆☆ Death Mountain Encount2 set ☆☆☆☆☆"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ デスマウンテンエンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
-                     thisx->params);
+                     this->actor.params);
         if (LINK_IS_ADULT && (gSaveContext.eventChkInf[4] & 0x200)) { // flag for having used fire temple blue warp
             Actor_Kill(thisx);
         }
@@ -55,7 +55,7 @@ void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
         // "☆☆☆☆☆ Ganon Tower Escape Encount2 set ☆☆☆☆☆"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
-                     thisx->params);
+                     this->actor.params);
     }
     this->actionFunc = EnEncount2_Wait;
 }
@@ -236,28 +236,34 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
     }
 }
 
-void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnEncount2* this = THIS;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
 
-    DECR(this->deathMountainSpawnerTimer);
-    DECR(this->timerBetweenRockSpawns);
-    DECR(this->particleSpawnTimer);
+    if (this->deathMountainSpawnerTimer != 0) {
+        this->deathMountainSpawnerTimer--;
+    }
+    if (this->timerBetweenRockSpawns != 0) {
+        this->timerBetweenRockSpawns--;
+    }
+    if (this->particleSpawnTimer != 0) {
+        this->particleSpawnTimer--;
+    }
     this->actionFunc(this, globalCtx);
     EnEncount2_ParticleUpdate(this, globalCtx);
     if (!this->isNotDeathMountain) {
         this->unk17C = this->envEffectsTimer / 60.0f;
         this->unk160 = this->unk17C * -50.0f;
-        globalCtx2->envCtx.unk_8C[0][0] = (s16)this->unk160 * -1.5f;
-        globalCtx2->envCtx.unk_8C[0][1] = globalCtx2->envCtx.unk_8C[0][2] = this->unk160;
+        globalCtx->envCtx.unk_8C[0][0] = (s16)this->unk160 * -1.5f;
+        globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = this->unk160;
         this->unk168 = this->unk17C * -20.0f;
-        globalCtx2->envCtx.unk_8C[1][0] = (s16)this->unk168 * -1.5f;
-        globalCtx2->envCtx.unk_8C[1][1] = globalCtx2->envCtx.unk_8C[1][2] = this->unk168;
+        globalCtx->envCtx.unk_8C[1][0] = (s16)this->unk168 * -1.5f;
+        globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = this->unk168;
         this->unk170 = this->unk17C * -50.0f;
-        globalCtx2->envCtx.unk_9E = this->unk170;
-        globalCtx2->envCtx.unk_8C[2][0] = (u8)((160.0f - globalCtx2->envCtx.unk_CF[0]) * this->unk17C);
-        globalCtx2->envCtx.unk_8C[2][1] = (u8)((160.0f - globalCtx2->envCtx.unk_CF[1]) * this->unk17C);
-        globalCtx2->envCtx.unk_8C[2][2] = (u8)((150.0f - globalCtx2->envCtx.unk_CF[2]) * this->unk17C);
+        globalCtx->envCtx.unk_9E = this->unk170;
+        globalCtx->envCtx.unk_8C[2][0] = (u8)((160.0f - globalCtx->envCtx.unk_CF[0]) * this->unk17C);
+        globalCtx->envCtx.unk_8C[2][1] = (u8)((160.0f - globalCtx->envCtx.unk_CF[1]) * this->unk17C);
+        globalCtx->envCtx.unk_8C[2][2] = (u8)((150.0f - globalCtx->envCtx.unk_CF[2]) * this->unk17C);
     }
 }
 
