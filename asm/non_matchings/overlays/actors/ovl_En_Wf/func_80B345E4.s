@@ -133,7 +133,7 @@ glabel func_80B345E4
 /* 00B00 80B347B0 10000004 */  beq     $zero, $zero, .L80B347C4   
 /* 00B04 80B347B4 8FAA0034 */  lw      $t2, 0x0034($sp)           
 .L80B347B8:
-/* 00B08 80B347B8 0C2CD33F */  jal     func_80B34CFC              
+/* 00B08 80B347B8 0C2CD33F */  jal     EnWf_SetupSearchForPlayer              
 /* 00B0C 80B347BC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B10 80B347C0 8FAA0034 */  lw      $t2, 0x0034($sp)           
 .L80B347C4:

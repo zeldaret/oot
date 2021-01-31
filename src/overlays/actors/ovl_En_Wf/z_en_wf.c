@@ -20,7 +20,7 @@ void func_80B34428(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupWait(EnWf* this);
 void func_80B345E4(EnWf* this, GlobalContext* globalCtx);
 void func_80B3487C(EnWf* this, GlobalContext* globalCtx);
-void func_80B34D48(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx);
 void func_80B35024(EnWf* this, GlobalContext* globalCtx);
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx);
 void func_80B359A8(EnWf* this, GlobalContext* globalCtx);
@@ -33,6 +33,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx);
 void func_80B36D3C(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupDeath(EnWf* this);
 void func_80B360E8(EnWf* this);
+void func_80B34F28(EnWf* this);
 
 extern FlexSkeletonHeader D_06003BC0;
 extern AnimationHeader D_06004638;
@@ -313,16 +314,51 @@ void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
 void func_80B3487C(EnWf* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B3487C.s")
 
-// EnWf_Setup?????? (searching for the player?)
-void func_80B34CFC(EnWf* this) {
+void EnWf_SetupSearchForPlayer(EnWf* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_060098C8, -4.0f);
     this->unk_2D4 = 10;
-    EnWf_SetupAction(this, func_80B34D48);
+    EnWf_SetupAction(this, EnWf_SearchForPlayer);
 }
 
-// EnWf_?????? (searching for the player?)
-void func_80B34D48(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B34D48.s")
+void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx) {
+    s16 yawDiff;
+    s16 phi_v1;
+    f32 phi_f2;
+
+    if (!(EnWf_DodgeRanged(globalCtx, this)) && (!(func_80B33FB0(globalCtx, this, 0)))) {
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+        phi_v1 = (yawDiff > 0) ? (yawDiff * 0.25f) + 2000.0f : (yawDiff * 0.25f) - 2000.0f;
+        this->actor.shape.rot.y += phi_v1;
+        this->actor.world.rot.y = this->actor.shape.rot.y;
+
+        if (yawDiff > 0) {
+            phi_f2 = phi_v1 * 0.5f;
+            if (phi_f2 > 1.0f) {
+                phi_f2 = 1.0f;
+            }
+        } else {
+            phi_f2 = phi_v1 * 0.5f;
+            if (phi_f2 < -1.0f) {
+                phi_f2 = -1.0f;
+            }
+        }
+
+        this->skelAnime.playSpeed = -phi_f2;
+        SkelAnime_Update(&this->skelAnime);
+
+        if (func_8002E084(&this->actor, 0x1555)) {
+            if (Rand_ZeroOne() > 0.8f) {
+                func_80B34F28(this);
+            } else {
+                func_80B347FC(this, globalCtx);
+            }
+        }
+
+        if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+        }
+    }
+}
 
 // EnWf_Setup???? (Related to moving in front of the player)
 void func_80B34F28(EnWf* this) {
@@ -483,7 +519,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
 
             if (EnWf_DodgeRanged(globalCtx, this) == 0) {
                 if ((this->actor.xzDistToPlayer <= 80.0f) && (!(func_80033AB8(globalCtx, this))) &&
-                    (globalCtx->gameplayFrames & 7)) {
+                    ((globalCtx->gameplayFrames & 7) != 0)) {
                     func_80B35540(this);
                 } else if (Rand_ZeroOne() > 0.5f) {
                     EnWf_SetupWait(this);
@@ -569,7 +605,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
                 if (player->swordAnimation == 0x11) {
                     EnWf_SetupReactToPlayer(this);
                 } else {
-                    if (globalCtx->gameplayFrames & 1) {
+                    if ((globalCtx->gameplayFrames & 1) != 0) {
                         EnWf_SetupReactToPlayer(this);
                     } else {
                         EnWf_SetupBackFlip(this);
@@ -579,7 +615,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
                 s16 angleFacingLink = player->actor.shape.rot.y - this->actor.shape.rot.y;
 
                 if (!((func_80033AB8(globalCtx, this)) ||
-                      ((!(globalCtx->gameplayFrames & 1)) && (!(ABS(angleFacingLink) < 0x38E0))))) {
+                      (((globalCtx->gameplayFrames & 1) == 0) && (!(ABS(angleFacingLink) < 0x38E0))))) {
                     func_80B35540(this);
                 } else {
                     func_80B34F28(this);
@@ -592,7 +628,7 @@ void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx) {
         if (func_800354B4(globalCtx, &this->actor, 100.0f, 10000, 0x4000, this->actor.shape.rot.y)) {
             if (player->swordAnimation == 0x11) {
                 EnWf_SetupReactToPlayer(this);
-            } else if (globalCtx->gameplayFrames & 1) {
+            } else if ((globalCtx->gameplayFrames & 1) != 0) {
                 EnWf_SetupReactToPlayer(this);
             } else {
                 EnWf_SetupBackFlip(this);
@@ -764,7 +800,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos.y += 25.0f;
 
     if (this->eyeIndex == 0) {
-        if ((Rand_ZeroOne() < 0.2f) && (!(globalCtx->gameplayFrames & 3)) && (this->actor.colorFilterTimer == 0)) {
+        if ((Rand_ZeroOne() < 0.2f) && ((globalCtx->gameplayFrames & 3) == 0) && (this->actor.colorFilterTimer == 0)) {
             this->eyeIndex++;
         }
     } else {
