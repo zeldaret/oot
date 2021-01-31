@@ -9,8 +9,8 @@ struct DemoDu;
 typedef struct DemoDu {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ s16 unk_190; // index for D_8096CE74
-    /* 0x0192 */ char unk_192[0x02];
+    /* 0x0190 */ s16 eyeTexIndex; // index for D_8096CE74
+    /* 0x0192 */ s16 blinkTimer;
     /* 0x0194 */ s16 unk_194; // index for D_8096CE84
     /* 0x0196 */ char unk_196[0x02];
     /* 0x0198 */ s32 updateIndex;

@@ -7,7 +7,7 @@ glabel func_8096A528
 /* 00A6C 8096A53C 29C10104 */  slti    $at, $t6, 0x0104           
 /* 00A70 8096A540 50200009 */  beql    $at, $zero, .L8096A568     
 /* 00A74 8096A544 94A21D74 */  lhu     $v0, 0x1D74($a1)           ## 00001D74
-/* 00A78 8096A548 0C25A6BC */  jal     func_80969AF0              
+/* 00A78 8096A548 0C25A6BC */  jal     DemoDu_UpdateEyes              
 /* 00A7C 8096A54C 00000000 */  nop
 /* 00A80 8096A550 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A84 8096A554 0C25A6E3 */  jal     func_80969B8C              
@@ -19,7 +19,7 @@ glabel func_8096A528
 /* 00A98 8096A568 2841014F */  slti    $at, $v0, 0x014F           
 /* 00A9C 8096A56C 50200009 */  beql    $at, $zero, .L8096A594     
 /* 00AA0 8096A570 2841016D */  slti    $at, $v0, 0x016D           
-/* 00AA4 8096A574 0C25A6BC */  jal     func_80969AF0              
+/* 00AA4 8096A574 0C25A6BC */  jal     DemoDu_UpdateEyes              
 /* 00AA8 8096A578 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00AAC 8096A57C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00AB0 8096A580 0C25A6E3 */  jal     func_80969B8C              
@@ -52,7 +52,7 @@ glabel func_8096A528
 /* 00B10 8096A5E0 2841019A */  slti    $at, $v0, 0x019A           
 /* 00B14 8096A5E4 10200008 */  beq     $at, $zero, .L8096A608     
 /* 00B18 8096A5E8 00000000 */  nop
-/* 00B1C 8096A5EC 0C25A6BC */  jal     func_80969AF0              
+/* 00B1C 8096A5EC 0C25A6BC */  jal     DemoDu_UpdateEyes              
 /* 00B20 8096A5F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B24 8096A5F4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B28 8096A5F8 0C25A6E3 */  jal     func_80969B8C              
@@ -60,7 +60,7 @@ glabel func_8096A528
 /* 00B30 8096A600 10000007 */  beq     $zero, $zero, .L8096A620   
 /* 00B34 8096A604 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L8096A608:
-/* 00B38 8096A608 0C25A6BC */  jal     func_80969AF0              
+/* 00B38 8096A608 0C25A6BC */  jal     DemoDu_UpdateEyes              
 /* 00B3C 8096A60C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B40 8096A610 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B44 8096A614 0C25A6E3 */  jal     func_80969B8C              

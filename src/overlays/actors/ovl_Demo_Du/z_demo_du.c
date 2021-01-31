@@ -272,11 +272,23 @@ void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
-void func_80969AF0(DemoDu *this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969AF0.s")
+void DemoDu_UpdateEyes(DemoDu* this) {
+    s16* blinkTimer = &this->blinkTimer;
+    s16* eyeTexIndex = &this->eyeTexIndex;
+    s32 pad[3];
 
-void func_80969B78(DemoDu* this, s16 arg1) {
-    this->unk_190 = arg1;
+    if (DECR(*blinkTimer) == 0) {
+        *blinkTimer = Rand_S16Offset(60, 60);
+    }
+
+    *eyeTexIndex = *blinkTimer;
+    if (*eyeTexIndex >= 3) {
+        *eyeTexIndex = 0;
+    }
+}
+
+void func_80969B78(DemoDu* this, s16 eyeTexIndex) {
+    this->eyeTexIndex = eyeTexIndex;
 }
 
 void func_80969B8C(DemoDu* this, s16 arg1) {
@@ -698,7 +710,7 @@ void func_8096B768(DemoDu *this, GlobalContext *globalCtx) {
 void func_8096B798(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
     func_80969C38(this);
-    func_80969AF0(this);
+    DemoDu_UpdateEyes(this);
     func_8096B57C(this, globalCtx);
     func_80969BC4(this, globalCtx);
 }
@@ -706,7 +718,7 @@ void func_8096B798(DemoDu *this, GlobalContext *globalCtx) {
 void func_8096B7EC(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
     func_80969C38(this);
-    func_80969AF0(this);
+    DemoDu_UpdateEyes(this);
     func_8096B6D0(this, globalCtx);
     func_80969BC4(this, globalCtx);
 }
@@ -714,8 +726,8 @@ void func_8096B7EC(DemoDu *this, GlobalContext *globalCtx) {
 void func_8096B840(Actor* thisx, GlobalContext *globalCtx2) {
     GlobalContext *globalCtx = globalCtx2;
     DemoDu* this = THIS;
-    s16 unk_190 = this->unk_190;
-    Gfx* sp70 = D_8096CE74[unk_190];
+    s16 eyeTexIndex = this->eyeTexIndex;
+    Gfx* sp70 = D_8096CE74[eyeTexIndex];
     s32 pad;
     s16 unk_194 = this->unk_194;
     Gfx* sp64 = D_8096CE84[unk_194];
@@ -772,7 +784,7 @@ void func_8096BD2C(DemoDu *this, GlobalContext *globalCtx) {
 void func_8096BD4C(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
     func_80969C38(this);
-    func_80969AF0(this);
+    DemoDu_UpdateEyes(this);
     func_8096BA98(this);
     func_8096BB5C(this);
 }
@@ -780,14 +792,14 @@ void func_8096BD4C(DemoDu *this, GlobalContext *globalCtx) {
 void func_8096BD94(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
     func_80969C38(this);
-    func_80969AF0(this);
+    DemoDu_UpdateEyes(this);
     func_8096BC6C(this, globalCtx);
 }
 
 void func_8096BDD4(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
     func_80969C38(this);
-    func_80969AF0(this);
+    DemoDu_UpdateEyes(this);
     func_8096BC6C(this, globalCtx);
 }
 
@@ -796,7 +808,7 @@ void func_8096BE14(DemoDu *this, GlobalContext *globalCtx) {
 
     func_80969C58(this, globalCtx);
     aux = func_80969C38(this);
-    func_80969AF0(this);
+    DemoDu_UpdateEyes(this);
     func_8096BC28(this, aux);
 }
 
@@ -841,8 +853,8 @@ void func_8096BF54(Actor *thisx, GlobalContext *globalCtx2) {
 void func_8096BF60(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext *globalCtx = globalCtx2;
     DemoDu* this = THIS;
-    s16 unk_190 = this->unk_190;
-    Gfx* sp68 = D_8096CE74[unk_190];
+    s16 eyeTexIndex = this->eyeTexIndex;
+    Gfx* sp68 = D_8096CE74[eyeTexIndex];
     s32 pad;
     s16 unk_194 = this->unk_194;
     Gfx* sp5C = D_8096CE84[unk_194];
