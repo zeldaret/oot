@@ -151,7 +151,7 @@ s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if ((this->actor.bgCheckFlags & 1) != 0) {
+    if (this->actor.bgCheckFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         this->dustPos = this->actor.world.pos;
         func_809F6510(this, globalCtx, 10);
@@ -288,8 +288,8 @@ void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 angleIndex;
 
-    if (((this->bomb == NULL) || (this->bomb->update == NULL)) ||
-        (((this->bomb != NULL) && (this->bomb->parent != NULL)))) {
+    if ((this->bomb == NULL) || (this->bomb->update == NULL) ||
+        ((this->bomb != NULL) && (this->bomb->parent != NULL))) {
         func_809F6CA4(this, globalCtx);
     }
 
@@ -585,7 +585,7 @@ void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx) {
         }
     } else {
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.world.pos.x,
-                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
+                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, BOMB_BODY);
 
         if (bomb != NULL) {
             bomb->timer = 0;
