@@ -11,34 +11,6 @@
 #define GE1_STATE_STOP_FIDGET 1 << 3
 
 typedef enum {
-    /* 0x00 */ GE1_TYPE_GATE_GUARD,
-    /* 0x01 */ GE1_TYPE_GATE_OPERATOR,
-    /* 0x04 */ GE1_TYPE_NORMAL = 4,
-    /* 0x05 */ GE1_TYPE_VALLEY_FLOOR,
-    /* 0x45 */ GE1_TYPE_HORSEBACK_ARCHERY = 0x45,
-    /* 0x46 */ GE1_TYPE_TRAINING_GROUNDS_GUARD
-} EnGe1Tye;
-
-typedef enum {
-    /* 00 */ GE1_LIMB_NONE,
-    /* 01 */ GE1_LIMB_HIPS,
-    /* 02 */ GE1_LIMB_LEFT_THIGH,
-    /* 03 */ GE1_LIMB_LEFT_LOWER_LEG,
-    /* 04 */ GE1_LIMB_LEFT_FOOT,
-    /* 05 */ GE1_LIMB_RIGHT_THIGH,
-    /* 06 */ GE1_LIMB_RIGHT_LOWER_LEG,
-    /* 07 */ GE1_LIMB_RIGHT_FOOT,
-    /* 08 */ GE1_LIMB_TORSO,
-    /* 09 */ GE1_LIMB_LEFT_UPPER_ARM,
-    /* 10 */ GE1_LIMB_LEFT_FOREARM,
-    /* 11 */ GE1_LIMB_LEFT_HAND,
-    /* 12 */ GE1_LIMB_RIGHT_UPPER_ARM,
-    /* 13 */ GE1_LIMB_RIGHT_FOREARM,
-    /* 14 */ GE1_LIMB_RIGHT_HAND,
-    /* 15 */ GE1_LIMB_HEAD
-} EnGe1Limbs;
-
-typedef enum {
     /* 00 */ GE1_HAIR_BOB,
     /* 01 */ GE1_HAIR_STRAIGHT,
     /* 02 */ GE1_HAIR_SPIKEY
@@ -118,18 +90,19 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGe1* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000330, &D_06000228, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000330, &D_06000228, this->jointTable, this->morphTable,
+                       GE1_LIMB_MAX);
     Animation_PlayOnce(&this->skelAnime, &D_06000228);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->animation = &D_06000228;
     this->animFunc = EnGe1_CueUpAnimation;
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
 
     // In Gerudo Valley
-    this->actor.uncullZoneForward = ((globalCtx->sceneNum == SCENE_SPOT09) ? 1000.0f : 1200.0f );
+    this->actor.uncullZoneForward = ((globalCtx->sceneNum == SCENE_SPOT09) ? 1000.0f : 1200.0f);
 
     switch (this->actor.params & 0xFF) {
 
@@ -272,9 +245,7 @@ void EnGe1_SpotPlayer(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
-    s16 angleDiff;
-
-    angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
         EnGe1_SpotPlayer(this, globalCtx);
@@ -326,15 +297,14 @@ void EnGe1_WatchForAndSensePlayer(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_GetReaction_ValleyFloor(EnGe1* this, GlobalContext* globalCtx) {
-    u16 reactionText;
+    u16 reactionText = Text_GetFaceReaction(globalCtx, 0x22);
 
-    reactionText = Text_GetFaceReaction(globalCtx, 0x22);
     if (reactionText == 0) {
         reactionText = 0x6019;
     }
+
     EnGe1_SetTalkAction(this, globalCtx, reactionText, 100.0f, EnGe1_ChooseActionFromTextId);
 }
-
 
 // Gerudo Training Ground Guard functions
 
@@ -345,6 +315,7 @@ void EnGe1_WaitTillOpened_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
         EnGe1_SetAnimationIdle(this);
         this->actionFunc = EnGe1_SetNormalText;
     }
+
     this->stateFlags |= GE1_STATE_STOP_FIDGET;
 }
 
@@ -412,8 +383,9 @@ void EnGe1_RefuseOpenNoCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_CheckForCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     if (CHECK_QUEST_ITEM(QUEST_GERUDO_CARD)) {
         EnGe1_SetTalkAction(this, globalCtx, 0x6014, 100.0f, EnGe1_OfferOpen_GTGGuard);
-    } else { //! @bug This branch is inaccessible in normal gameplay since this function it is unreachable without
-             //! obtaining the card in the first place.
+    } else {
+        //! @bug This outcome is inaccessible in normal gameplay since this function it is unreachable without
+        //! obtaining the card in the first place.
         EnGe1_SetTalkAction(this, globalCtx, 0x6013, 100.0f, EnGe1_RefuseOpenNoCard_GTGGuard);
     }
 }
@@ -509,7 +481,6 @@ void EnGe1_SetupWait_Archery(EnGe1* this, GlobalContext* globalCtx) {
     }
 }
 
-// void EnGe1_WaitTillItemGiven_Archery(EnGe1 *this, GlobalContext *globalCtx);
 void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
@@ -794,8 +765,7 @@ s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
     // The purpose of the state flag GE1_STATE_STOP_FIDGET is to skip this code, which this actor has in lieu of an idle
     // animation.
-    if ((limbIndex == GE1_LIMB_TORSO) || (limbIndex == GE1_LIMB_LEFT_FOREARM) ||
-        (limbIndex == GE1_LIMB_RIGHT_FOREARM)) {
+    if ((limbIndex == GE1_LIMB_TORSO) || (limbIndex == GE1_LIMB_L_FOREARM) || (limbIndex == GE1_LIMB_R_FOREARM)) {
         rot->y += Math_SinS(globalCtx->state.frames * (limbIndex * 50 + 0x814)) * 200.0f;
         rot->z += Math_CosS(globalCtx->state.frames * (limbIndex * 50 + 0x940)) * 200.0f;
     }
