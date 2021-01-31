@@ -2127,8 +2127,7 @@ endseg
 beginseg
     name "ovl_En_Dodojr"
     include "build/src/overlays/actors/ovl_En_Dodojr/z_en_dodojr.o"
-    include "build/data/overlays/actors/z_en_dodojr.data.o"
-    include "build/data/overlays/actors/z_en_dodojr.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dodojr/ovl_En_Dodojr_reloc.o"
 endseg
 
 beginseg

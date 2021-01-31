@@ -618,7 +618,8 @@ void func_80AF68E4(EnSa* this, GlobalContext* globalCtx) {
                 phi_v0 = this->unk_20C;
             }
             if (phi_v0 == 0) {
-                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                Audio_PlaySoundGeneral(NA_SE_PL_WALK_GROUND, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                                       &D_801333E8);
                 this->unk_20C = 8;
             }
         }
