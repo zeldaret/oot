@@ -22,12 +22,12 @@ void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx
 void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx);
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx);
 
-extern ColHeader D_06001AF8;
-extern ColHeader D_060089E0;
+extern CollisionHeader D_06001AF8;
+extern CollisionHeader D_060089E0;
 
 const ActorInit Bg_Mori_Hashira4_InitVars = {
     ACTOR_BG_MORI_HASHIRA4,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriHashira4),
@@ -52,18 +52,18 @@ void BgMoriHashira4_SetupAction(BgMoriHashira4* this, BgMoriHashira4ActionFunc a
     this->actionFunc = actionFunc;
 }
 
-void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx, ColHeader* collision, s32 moveFlag) {
+void BgMoriHashira4_InitDynaPoly(BgMoriHashira4* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                                 s32 moveFlag) {
     s32 pad;
-    ColHeader* colHeader;
+    CollisionHeader* colHeader;
     s32 pad2;
 
     colHeader = NULL;
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(collision, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_mori_hashira4.c", 155,
                      this->dyna.actor.id, this->dyna.actor.params);
@@ -95,7 +95,7 @@ void BgMoriHashira4_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    Actor_SetHeight(&this->dyna.actor, 50.0f);
+    Actor_SetFocus(&this->dyna.actor, 50.0f);
     BgMoriHashira4_SetupWaitForMoriTex(this);
     // (4 pillars of the Forest Temple) Bank danger
     osSyncPrintf("(森の神殿 ４本柱)(arg_data 0x%04x)\n", this->dyna.actor.params);
@@ -106,7 +106,7 @@ void BgMoriHashira4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriHashira4* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgMoriHashira4_SetupWaitForMoriTex(BgMoriHashira4* this) {
@@ -130,7 +130,7 @@ void BgMoriHashira4_SetupPillarsRotate(BgMoriHashira4* this) {
 }
 
 void BgMoriHashira4_PillarsRotate(BgMoriHashira4* this, GlobalContext* globalCtx) {
-    this->dyna.actor.shape.rot.y = this->dyna.actor.posRot.rot.y += 0x96;
+    this->dyna.actor.shape.rot.y = this->dyna.actor.world.rot.y += 0x96;
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
 }
 
@@ -147,7 +147,7 @@ void BgMoriHashira4_GateWait(BgMoriHashira4* this, GlobalContext* globalCtx) {
 }
 
 void BgMoriHashira4_GateOpen(BgMoriHashira4* this, GlobalContext* globalCtx) {
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y + 120.0f, 10.0f)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 10.0f)) {
         Actor_Kill(&this->dyna.actor);
     }
 }

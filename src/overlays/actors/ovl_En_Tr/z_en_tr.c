@@ -26,7 +26,7 @@ void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex);
 
 const ActorInit En_Tr_InitVars = {
     ACTOR_EN_TR,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_TR,
     sizeof(EnTr),

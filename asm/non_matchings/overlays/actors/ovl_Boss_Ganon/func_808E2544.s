@@ -585,7 +585,7 @@ glabel L808E29A8
 /* 0C4BC 808E2D2C 26300610 */  addiu   $s0, $s1, 0x0610           ## $s0 = 00000610
 .L808E2D30:
 /* 0C4C0 808E2D30 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000610
-/* 0C4C4 808E2D34 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0C4C4 808E2D34 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 0C4C8 808E2D38 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0C4CC 808E2D3C 862A01B8 */  lh      $t2, 0x01B8($s1)           ## 000001B8

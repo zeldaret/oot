@@ -347,12 +347,13 @@ void EffectSsIceSmoke_Spawn(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocit
 void FlagSet_Update(GlobalContext* globalCtx);
 void Overlay_LoadGameState(GameStateOverlay* overlayEntry);
 void Overlay_FreeGameState(GameStateOverlay* overlayEntry);
-void ActorShape_Init(ActorShape* shape, f32 arg1, void* shadowDrawFunc, f32 arg3);
-void ActorShadow_DrawFunc_Circle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
-void ActorShadow_DrawFunc_WhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
-void ActorShadow_DrawFunc_Squiggly(Actor* actor, Lights* lights, GlobalContext* globalCtx);
-void ActorShadow_DrawFunc_Teardrop(Actor* actor, Lights* lights, GlobalContext* globalCtx);
-void func_8002BDB0(Actor* actor, s32 arg1, s32 arg2, Vec3f* arg3, s32 arg4, Vec3f* arg5);
+void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale);
+void ActorShadow_DrawCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void ActorShadow_DrawFeet(Actor* actor, Lights* lights, GlobalContext* globalCtx);
+void Actor_SetFeetPos(Actor* actor, s32 limbIndex, s32 leftFootIndex, Vec3f* leftFootPos, s32 rightFootIndex,
+                      Vec3f* rightFootPos);
 void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx);
 s32 Flags_GetSwitch(GlobalContext* globalCtx, s32 flag);
 void Flags_SetSwitch(GlobalContext* globalCtx, s32 flag);
@@ -376,7 +377,7 @@ void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCt
                              s32 arg5, s32 arg6, s32 arg7);
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
-void Actor_SetHeight(Actor* actor, f32 offset);
+void Actor_SetFocus(Actor* actor, f32 offset);
 void Actor_SetScale(Actor* actor, f32 scale);
 void Actor_SetObjectDependency(GlobalContext* globalCtx, Actor* actor);
 void func_8002D7EC(Actor* actor);
@@ -385,14 +386,14 @@ void Actor_MoveForward(Actor* actor);
 void func_8002D908(Actor* actor);
 void func_8002D97C(Actor* actor);
 void func_8002D9A4(Actor* actor, f32 arg1);
-s16 func_8002DA78(Actor* actorA, Actor* actorB);
-s16 func_8002DAC0(Actor* actor, Vec3f* arg1);
-f32 func_8002DB48(Actor* actorA, Actor* actorB);
-f32 func_8002DB6C(Actor* actor, Vec3f* arg1);
-s16 func_8002DAE0(Actor* actorA, Actor* actorB);
-s16 func_8002DB28(Actor* actor, Vec3f* arg1);
-f32 func_8002DB8C(Actor* actorA, Actor* actorB);
-f32 func_8002DBB0(Actor* actor, Vec3f* arg1);
+s16 Actor_WorldYawTowardActor(Actor* actorA, Actor* actorB);
+s16 Actor_WorldYawTowardPoint(Actor* actor, Vec3f* refPoint);
+f32 Actor_WorldDistXYZToActor(Actor* actorA, Actor* actorB);
+f32 Actor_WorldDistXYZToPoint(Actor* actor, Vec3f* refPoint);
+s16 Actor_WorldPitchTowardActor(Actor* actorA, Actor* actorB);
+s16 Actor_WorldPitchTowardPoint(Actor* actor, Vec3f* refPoint);
+f32 Actor_WorldDistXZToActor(Actor* actorA, Actor* actorB);
+f32 Actor_WorldDistXZToPoint(Actor* actor, Vec3f* refPoint);
 void func_8002DBD0(Actor* actor, Vec3f* result, Vec3f* arg2);
 f32 Actor_HeightDiff(Actor* actorA, Actor* actorB);
 f32 Player_GetHeight(Player* player);
@@ -414,14 +415,14 @@ s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx);
 s32 func_8002E084(Actor* actor, s16 arg1);
 s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2);
 s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3);
-void func_8002E4B4(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
+void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5);
 Hilite* func_8002EABC(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 Hilite* func_8002EB44(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx);
 void func_8002EBCC(Actor* actor, GlobalContext* globalCtx, s32 flag);
 void func_8002ED80(Actor* actor, GlobalContext* globalCtx, s32 flag);
-PosRot* func_8002EEE4(PosRot* arg0, Actor* actor);
-PosRot* func_8002EF14(PosRot* arg0, Actor* actor);
-PosRot* func_8002EF44(PosRot* arg0, Actor* actor);
+PosRot* Actor_GetFocus(PosRot* arg0, Actor* actor);
+PosRot* Actor_GetWorld(PosRot* arg0, Actor* actor);
+PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor);
 s32 func_8002F0C8(Actor* actor, Player* player, s32 arg2);
 u32 func_8002F194(Actor* actor, GlobalContext* globalCtx);
 s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 arg4);
@@ -454,7 +455,7 @@ void func_8002F91C(Actor* actor, u16 sfxId);
 void func_8002F948(Actor* actor, u16 sfxId);
 void func_8002F974(Actor* actor, u16 sfxId);
 void func_8002F994(Actor* actor, s32 arg1);
-s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* arg2, u32 arg3, Vec3f* arg4);
+s32 func_8002F9EC(GlobalContext* globalCtx, Actor* actor, CollisionPoly* poly, s32 bgId, Vec3f* pos);
 void func_800304B0(GlobalContext* globalCtx);
 void func_800304DC(GlobalContext* globalCtx, ActorContext* actorCtx, ActorEntry* actorEntry);
 void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx);
@@ -469,7 +470,7 @@ void Actor_SpawnTransitionActors(GlobalContext* globalCtx, ActorContext* actorCt
 Actor* Actor_SpawnEntry(ActorContext* actorCtx, ActorEntry* actorEntry, GlobalContext* globalCtx);
 Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalCtx);
 Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** actorPtr, Player* player);
-Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorType);
+Actor* Actor_Find(ActorContext* actorCtx, s32 actorId, s32 actorCategory);
 void func_80032C7C(GlobalContext* globalCtx, Actor* actor);
 void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx);
 void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4, Gfx** dList, s16 arg6);
@@ -480,7 +481,7 @@ void func_80033480(GlobalContext* globalCtx, Vec3f* arg1, f32 arg2, s32 arg3, s1
 Actor* Actor_GetCollidedExplosive(GlobalContext* globalCtx, Collider* collider);
 Actor* func_80033684(GlobalContext* globalCtx, Actor* explosiveActor);
 Actor* func_80033780(GlobalContext* globalCtx, Actor* refActor, f32 arg2);
-void Actor_ChangeType(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorType);
+void Actor_ChangeCategory(GlobalContext* globalCtx, ActorContext* actorCtx, Actor* actor, u8 actorCategory);
 void Actor_SetTextWithPrefix(GlobalContext* globalCtx, Actor* actor, s16 textIdLower);
 s16 func_800339B8(Actor* actor, GlobalContext* globalCtx, f32 arg2, s16 arg3);
 s32 func_80033A84(GlobalContext* globalCtx, Actor* actor);
@@ -511,13 +512,13 @@ void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
 void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist);
 void Gfx_DrawDListXlu(GlobalContext* globalCtx, Gfx* dlist);
-Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, u8 actorType, f32 range);
+Actor* Actor_FindNearby(GlobalContext* globalCtx, Actor* refActor, s16 actorId, u8 actorCategory, f32 range);
 s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s16 arg4, s16 arg5);
 void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3);
 void func_800355B8(GlobalContext* globalCtx, Vec3f* arg1);
 u8 func_800355E4(GlobalContext* globalCtx, Collider* collider);
 u8 Actor_ApplyDamage(Actor* actor);
-void func_80035650(Actor* actor, ColliderBody* colBody, s32 freezeFlag);
+void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
 void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
@@ -532,178 +533,217 @@ void ActorOverlayTable_LogPrint(void);
 void ActorOverlayTable_Init(void);
 void ActorOverlayTable_Cleanup(void);
 // ? func_80038600(?);
-// ? func_80038708(?);
-// ? func_8003871C(?);
+// ? SSNode_SetValue(?);
+// ? SSNode_SetNull(?);
 // ? func_80038728(?);
 // ? func_80038780(?);
-// ? func_800387FC(?);
-// ? func_8003880C(?);
-// ? func_80038870(?);
-// ? func_80038878(?);
+// ? DynaSSNodeList_Initialize(?);
+// ? DynaSSNodeList_Alloc(?);
+// ? DynaSSNodeList_ResetCount(?);
+u16 DynaSSNodeList_GetNextNodeIdx(DynaSSNodeList*);
 // ? func_800388A8(?);
 // ? func_800388E8(?);
-// ? func_80038924(?);
 // ? func_800389D4(?);
-void func_80038A28(CollisionPoly* poly, f32 x, f32 y, f32 z, MtxF* mtxF);
-f32 func_80038B7C(CollisionPoly*, Vec3f*);
-void func_80038C78(CollisionPoly*, u8, CollisionContext*, Vec3f*);
+void func_80038A28(CollisionPoly* poly, f32 tx, f32 ty, f32 tz, MtxF* dest);
+f32 CollisionPoly_GetPointDistanceFromPlane(CollisionPoly* poly, Vec3f* point);
+void CollisionPoly_GetVerticesByBgId(CollisionPoly* poly, s32 bgId, CollisionContext* colCtx, Vec3f* dest);
 // ? func_80038BE0(?);
-// ? func_80038D48(?);
-// ? func_80038E78(?);
-// ? func_80038F20(?);
-// ? func_80038F60(?);
-// ? func_80039000(?);
-// ? func_800390A0(?);
-// ? func_8003937C(?);
-// ? func_80039448(?);
+// ? CollisionPoly_CheckYIntersectApprox1(?);
+// ? CollisionPoly_CheckYIntersect(?);
+// ? CollisionPoly_CheckYIntersectApprox2(?);
+// ? CollisionPoly_CheckXIntersectApprox(?);
+// ? CollisionPoly_CheckZIntersectApprox(?);
+// ? CollisionPoly_LineVsPoly(?);
+// ? CollisionPoly_SphVsPoly(?);
+// ? StaticLookup_AddPolyToNodeList(?);
 // ? func_8003965C(?);
 // ? func_800396F0(?);
 // ? func_8003992C(?);
-// ? func_80039A3C(?);
-// ? func_80039AEC(?);
-// ? func_8003A3E0(?);
-// ? func_8003A5B8(?);
+// ? BgCheck_ComputeWallDisplacement(?);
+// ? BgCheck_SphVsStaticWall(?);
+s32 BgCheck_CheckStaticCeiling(StaticLookup* lookup, u16 xpFlags, CollisionContext* colCtx, f32* outY, Vec3f* pos,
+                               f32 checkHeight, CollisionPoly** outPoly);
+s32 func_8003A5B8(SSList* headNodeId, CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
+                  Vec3f* outPos, CollisionPoly** outPoly, f32* outDistSq, f32 chkDist, s32 bccFlags);
 // ? func_8003A7D8(?);
-// ? func_8003A95C(?);
-// ? func_8003AB28(?);
-// ? func_8003AC54(?);
-// ? func_8003AD00(?);
-// ? func_8003ADC8(?);
+// ? BgCheck_SphVsFirstStaticPolyList(?);
+// ? BgCheck_SphVsFirstStaticPoly(?);
+// ? BgCheck_GetNearestStaticLookup(?);
+// ? BgCheck_GetStaticLookup(?);
+void BgCheck_GetStaticLookupIndicesFromPos(CollisionContext* colCtx, Vec3f* pos, Vec3i* arg2);
 // ? func_8003AEA8(?);
 // ? func_8003B04C(?);
 // ? func_8003B218(?);
 // ? func_8003B3C8(?);
 // ? func_8003BB18(?);
-// ? func_8003BF18(?);
-// ? func_8003BF5C(?);
-// ? func_8003BFF4(?);
-// ? func_8003C078(?);
-// ? T_BGCheck_getBGDataInfo(?);
-// ? func_8003C55C(?);
-// ? func_8003C614(?);
-f32 func_8003C890(CollisionContext*, CollisionPoly**, Vec3f*);
-f32 func_8003C8EC(GlobalContext*, CollisionContext*, CollisionPoly**, Vec3f*);
-f32 func_8003C940(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
-f32 func_8003C9A4(CollisionContext*, CollisionPoly**, UNK_PTR, Actor*, Vec3f*);
-f32 func_8003CA0C(GlobalContext* globalCtx, CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
-                  Vec3f* pos);
-f32 func_8003CA64(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos, f32 chkDist);
-f32 func_8003CB30(CollisionContext*, CollisionPoly*, Vec3f*, MtxF*);
-f32 func_8003CCA4(CollisionContext*, CollisionPoly**, s32*, Vec3f*);
-// ? func_8003CDD4(?);
-s32 func_8003D464(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 arg4,
-                  CollisionPoly** outPoly, f32 checkHeight);
-s32 func_8003D52C(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, f32, CollisionPoly**, u32*, Actor*, f32);
-s32 func_8003D594(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, f32, CollisionPoly**, u32*, Actor*, f32);
-// ? func_8003D600(?);
-s32 func_8003D7A0(CollisionContext*, f32*, Vec3f*, f32, UNK_PTR, u32*, Actor*);
-// ? func_8003D7F0(?);
-// ? func_8003DD28(?);
-s32 func_8003DD6C(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, UNK_TYPE, UNK_TYPE, UNK_TYPE, UNK_TYPE,
-                  UNK_PTR);
-s32 func_8003DE84(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*);
-s32 func_8003DF10(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*);
-s32 func_8003DFA0(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, u32*, Actor*, f32);
-s32 func_8003E0B8(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
-                  s32 chkOneFace);
-s32 func_8003E0FC(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32);
-// ? func_8003E0FC(?);
-s32 func_8003E188(CollisionContext*, Vec3f*, Vec3f*, Vec3f*, CollisionPoly**, u32, u32, u32, u32, f32*);
-// ? func_8003E214(?);
-s32 func_8003E30C(CollisionContext* colCtx, Vec3f* center, f32 radius);
-// ? func_8003E398(?);
-// ? func_8003E3AC(?);
-// ? func_8003E4DC(?);
-// ? func_8003E530(?);
-// ? func_8003E568(?);
-// ? func_8003E5B4(?);
-// ? func_8003E688(?);
-// ? func_8003E6C4(?);
-// ? func_8003E6E4(?);
-// ? func_8003E6EC(?);
-// ? func_8003E750(?);
-// ? func_8003E804(?);
-// ? func_8003E82C(?);
-// ? func_8003E834(?);
-// ? func_8003E888(?);
-// ? func_8003E890(?);
-// ? func_8003E8EC(?);
-// ? func_8003E934(?);
-// ? func_8003E954(?);
-// ? func_8003E9A0(?);
-void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
-void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
-void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
-u32 DynaPolyInfo_RegisterActor(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, Actor* actor, UNK_TYPE arg3);
-DynaPolyActor* DynaPolyInfo_GetActor(CollisionContext* colCtx, UNK_TYPE dynaPolyId);
-void DynaPolyInfo_Free(GlobalContext* globalCtx, DynaCollisionContext* dynaColCtx, UNK_TYPE dynaPolyId);
-// ? func_8003EE80(?);
-// ? func_8003F8EC(?);
-// ? func_8003F984(?);
-// ? func_8003FB64(?);
-// ? func_8003FBF4(?);
-// ? func_8003FDDC(?);
-// ? func_80040284(?);
-// ? func_800409A8(?);
-// ? func_80040BE4(?);
-// ? func_80040E40(?);
+// ? BgCheck_IsSpotScene(?);
+// ? BgCheck_TryGetCustomMemsize(?);
+// ? BgCheck_SetSubdivisionDimension(?);
+void BgCheck_Allocate(CollisionContext* colCtx, GlobalContext* globalCtx, CollisionHeader* colHeader);
+// ? BgCheck_GetCollisionHeader(?);
+s32 BgCheck_PosInStaticBoundingBox(CollisionContext* colCtx, Vec3f* pos);
+f32 BgCheck_EntityRaycastFloor1(CollisionContext* colCtx, CollisionPoly** outPoly, Vec3f* pos);
+f32 BgCheck_EntityRaycastFloor2(GlobalContext* globalCtx, CollisionContext* colCtx, CollisionPoly** outPoly,
+                                Vec3f* pos);
+f32 BgCheck_EntityRaycastFloor3(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_EntityRaycastFloor4(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor,
+                                Vec3f* arg4);
+f32 BgCheck_EntityRaycastFloor5(GlobalContext* globalCtx, CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId,
+                                Actor* actor, Vec3f* pos);
+f32 BgCheck_EntityRaycastFloor6(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos,
+                                f32 chkDist);
+f32 BgCheck_EntityRaycastFloor7(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
+f32 BgCheck_AnyRaycastFloor1(CollisionContext* colCtx, CollisionPoly* outPoly, Vec3f* pos);
+f32 BgCheck_AnyRaycastFloor2(CollisionContext* colCtx, CollisionPoly* outPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_CameraRaycastFloor2(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
+f32 BgCheck_EntityRaycastFloor8(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Actor* actor, Vec3f* pos);
+f32 BgCheck_EntityRaycastFloor9(CollisionContext* colCtx, CollisionPoly** outPoly, s32* bgId, Vec3f* pos);
+s32 BgCheck_SphVsWallImpl(CollisionContext* colCtx, u16 xpFlags, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev,
+                          f32 radius, CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight, u8 argA);
+s32 BgCheck_EntitySphVsWall1(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
+                             CollisionPoly** outPoly, f32 checkHeight);
+s32 BgCheck_EntitySphVsWall2(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
+                             CollisionPoly** outPoly, s32* outBgId, f32 checkHeight);
+s32 BgCheck_EntitySphVsWall3(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
+                             CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight);
+s32 BgCheck_EntitySphVsWall4(CollisionContext* colCtx, Vec3f* posResult, Vec3f* posNext, Vec3f* posPrev, f32 radius,
+                             CollisionPoly** outPoly, s32* outBgId, Actor* actor, f32 checkHeight);
+// ? BgCheck_CheckCeilingImpl(?);
+s32 BgCheck_AnyCheckCeiling(CollisionContext* colCtx, f32* outY, Vec3f* pos, f32 checkHeight);
+s32 BgCheck_EntityCheckCeiling(CollisionContext* colCtx, f32* arg1, Vec3f* arg2, f32 arg3, CollisionPoly** outPoly,
+                               s32* outBgId, Actor* actor);
+s32 BgCheck_LineTestImpl(CollisionContext* colCtx, u16 xpFlags1, u16 xpFlags2, Vec3f* posA, Vec3f* posB,
+                         Vec3f* posResult, CollisionPoly** outPoly, s32* bgId, Actor* actor, f32 chkDist, u32 bccFlags);
+s32 BgCheck_CameraLineTest1(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+                            CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
+s32 BgCheck_CameraLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+                            CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
+s32 BgCheck_EntityLineTest1(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+                            CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
+s32 BgCheck_EntityLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+                            CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId,
+                            Actor* actor);
+s32 BgCheck_EntityLineTest3(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+                            CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId,
+                            Actor* actor, f32 chkDist);
+s32 BgCheck_ProjectileLineTest(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+                               CollisionPoly** outPoly, s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace,
+                               s32* bgId);
+s32 BgCheck_AnyLineTest1(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
+                         s32 chkOneFace);
+s32 BgCheck_AnyLineTest2(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
+                         s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace);
+s32 BgCheck_AnyLineTest3(CollisionContext* colCtx, Vec3f* posA, Vec3f* posB, Vec3f* posResult, CollisionPoly** outPoly,
+                         s32 chkWall, s32 chkFloor, s32 chkCeil, s32 chkOneFace, s32* bgId);
+// ? BgCheck_SphVsFirstPolyImpl(?);
+s32 BgCheck_SphVsFirstPoly(CollisionContext* colCtx, Vec3f* center, f32 radius);
+void SSNodeList_Initialize(SSNodeList*);
+void SSNodeList_Alloc(GlobalContext* globalCtx, SSNodeList* this, s32 tblMax, s32 numPolys);
+u16 SSNodeList_GetNextNodeIdx(SSNodeList* this);
+// ? ScaleRotPos_Initialize(?);
+// ? ScaleRotPos_SetValue(?);
+// ? ScaleRotPos_Equals(?);
+// ? DynaLookup_ResetLists(?);
+// ? DynaLookup_Reset(?);
+// ? DynaLookup_ResetVtxStartIndex(?);
+// ? BgActor_Initialize(?);
+// ? BgActor_SetActor(?);
+// ? BgActor_HasTransformChanged(?);
+// ? DynaPoly_NullPolyList(?);
+// ? DynaPoly_AllocPolyList(?);
+// ? DynaPoly_NullVtxList(?);
+// ? DynaPoly_AllocVtxList(?);
+// ? DynaPoly_SetBgActorPrevTransform(?);
+s32 DynaPoly_IsBgIdBgActor(s32 bgId);
+void DynaPoly_Init(GlobalContext* globalCtx, DynaCollisionContext* dyna);
+void DynaPoly_Alloc(GlobalContext* globalCtx, DynaCollisionContext* dyna);
+void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId);
+void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId);
+void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId);
+s32 DynaPoly_SetBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor, CollisionHeader* colHeader);
+Actor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId);
+void DynaPoly_DeleteBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId);
+// ? DynaPoly_ExpandSRT(?);
+void func_8003F8EC(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor);
+void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna);
+void DynaPoly_UpdateBgActorTransforms(GlobalContext* globalCtx, DynaCollisionContext* dyna);
+// ? BgCheck_RaycastFloorDynaList(?);
+f32 BgCheck_RaycastFloorDyna(DynaRaycast* dynaRaycast);
+// ? BgCheck_SphVsDynaWallInBgActor(?);
+s32 BgCheck_SphVsDynaWall(CollisionContext* colCtx, u16 xpFlags, f32* outX, f32* outZ, Vec3f* pos, f32 radius,
+                          CollisionPoly** outPoly, s32* outBgId, Actor* actor);
+// ? BgCheck_CheckDynaCeilingList(?);
+s32 BgCheck_CheckDynaCeiling(CollisionContext* colCtx, u16 xpFlags, f32* outY, Vec3f* pos, f32 chkDist,
+                             CollisionPoly** outPoly, s32* outBgId, Actor* actor);
 // ? func_80040FA4(?);
 // ? func_80041128(?);
-// ? func_80041240(?);
-// ? func_800413F8(?);
-// ? func_80041510(?);
-// ? func_80041648(?);
-// ? func_800417A0(?);
-void DynaPolyInfo_Alloc(UNK_PTR arg0, UNK_PTR arg1);
-// ? func_80041978(?);
-// ? func_800419B0(?);
-s32 func_80041A28(CollisionContext* colCtx, CollisionPoly*, u32);
-s32 func_80041A4C(CollisionContext* colCtx, s32 camDataIdx, s32 arg2);
+s32 func_80041240(CollisionContext* colCtx, u16 xpFlags, Vec3f* posA, Vec3f* posB, Vec3f* posResult,
+                  CollisionPoly** outPoly, f32* distSq, s32* outBgId, Actor* actor, f32 chkDist, s32 bccFlags);
+// ? BgCheck_SphVsFirstDynaPolyList(?);
+// ? BgCheck_SphVsFirstDynaPolyInBgActor(?);
+s32 BgCheck_SphVsFirstDynaPoly(CollisionContext* colCtx, u16 xpFlags, CollisionPoly** outPoly, s32* outBgId,
+                               Vec3f* center, f32 radius, Actor* actor, u16 bciFlags);
+// ? CollisionHeader_SegmentedToVirtual(?);
+void CollisionHeader_GetVirtual(void* colHeader, CollisionHeader** dest);
+void BgCheck_ResetPolyCheckTbl(SSNodeList* nodeList, s32 numPolys);
+// ? SurfaceType_GetData(?);
+u32 SurfaceType_GetCamDataIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 func_80041A4C(CollisionContext* colCtx, u32 camId, s32 bgId);
+u16 SurfaceType_GetCameraSType(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 // ? func_80041B24(?);
-u16 func_80041B80(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-Vec3s* func_80041C10(CollisionContext* colCtx, s32, s32);
-Vec3s* func_80041C98(CollisionContext* colCtx, CollisionPoly*, s32);
+u16 SurfaceType_GetNumCameras(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+Vec3s* func_80041C10(CollisionContext* colCtx, s32 camId, s32 bgId);
+Vec3s* SurfaceType_GetCamPosData(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetSceneExitIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 u32 func_80041D4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
-s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* wallPoly, u8 source);
-s32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
+u32 func_80041D70(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
 // ? func_80041D94(?);
-s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
-s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
-s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
-// ? func_80041EC8(?);
-// ? func_80041F10(?);
-u16 func_80041F34(CollisionContext*, CollisionPoly*, u32);
-s32 func_80041FA0(CollisionContext*, CollisionPoly*, u32);
-s32 func_80041FC4(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
-s32 func_80042048(CollisionContext*, CollisionPoly*, s32);
-s32 func_80042084(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
-s32 func_800420C0(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
-s32 func_800420E4(CollisionContext* colCtx, CollisionPoly* floorPoly, s32 source);
-// ? func_80042108(?);
-s32 func_8004213C(GlobalContext*, CollisionContext*, f32, f32, f32*, WaterBox**);
-s32 func_8004239C(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* arg2, f32 arg3, WaterBox** arg4);
-s32 func_80042244(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
-                  WaterBox** outWaterBox);
-u32 func_80042538(CollisionContext* colCtx, WaterBox* waterBox);
-u16 func_80042548(CollisionContext* colCtx, WaterBox* waterBox);
-u32 func_8004259C(CollisionContext* colCtx, WaterBox* waterBox);
-s32 func_800427B4(CollisionPoly*, CollisionPoly*, Vec3f*, Vec3f*, Vec3f*);
-// ? func_80042868(?);
-// ? func_80042B2C(?);
-void func_80042C3C(GlobalContext*, CollisionContext*);
-// ? func_80042CB8(?);
-// ? func_80042EF8(?);
-void func_80042FC4(GlobalContext*, CollisionContext*);
+s32 func_80041DB8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 func_80041DE4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 func_80041E18(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 func_80041E4C(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 func_80041EA4(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 func_80041EC8(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_IsHorseBlocked(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 func_80041F10(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u16 SurfaceType_GetSfx(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetSlope(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetLightSettingIndex(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetEcho(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_IsHookshotSurface(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_IsIgnoredByEntities(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_IsIgnoredByProjectiles(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 SurfaceType_IsConveyor(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetConveyorSpeed(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_GetConveyorDirection(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+u32 SurfaceType_IsWallDamage(CollisionContext* colCtx, CollisionPoly* poly, s32 bgId);
+s32 WaterBox_GetSurface1(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+                         WaterBox** outWaterBox);
+s32 WaterBox_GetSurface2(GlobalContext* globalCtx, CollisionContext* colCtx, Vec3f* pos, f32 surfaceChkDist,
+                         WaterBox** outWaterBox);
+s32 WaterBox_GetSurfaceImpl(GlobalContext* globalCtx, CollisionContext* colCtx, f32 x, f32 z, f32* ySurface,
+                            WaterBox** outWaterBox);
+u32 WaterBox_GetCamDataIndex(CollisionContext* colCtx, WaterBox* waterBox);
+u16 WaterBox_GetCameraSType(CollisionContext* colCtx, WaterBox* waterBox);
+u32 WaterBox_GetLightSettingIndex(CollisionContext* colCtx, WaterBox* waterBox);
+s32 func_80042708(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* point, Vec3f* closestPoint);
+s32 func_800427B4(CollisionPoly* polyA, CollisionPoly* polyB, Vec3f* pointA, Vec3f* pointB, Vec3f* closestPoint);
+// ? BgCheck_DrawDynaPolyList(?);
+// ? BgCheck_DrawBgActor(?);
+void BgCheck_DrawDynaCollision(GlobalContext*, CollisionContext*);
+// ? BgCheck_DrawStaticPoly(?);
+// ? BgCheck_DrawStaticPolyList(?);
+void BgCheck_DrawStaticCollision(GlobalContext*, CollisionContext*);
 // ? func_800430A0(?);
 // ? func_800432A0(?);
-// ? func_80043334(?);
-// ? func_800433A4(?);
-void DynaPolyInfo_SetActorMove(DynaPolyActor* actor, DynaPolyMoveFlag flags);
+void func_80043334(CollisionContext* colCtx, Actor* actor, s32 bgId);
+s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor);
+void DynaPolyActor_Init(DynaPolyActor* dynaActor, DynaPolyMoveFlag flags);
 void func_800434A0(DynaPolyActor* dynaActor);
-void func_800434A8(DynaPolyActor* actor);
-void func_800434C8(CollisionContext* colCtx, u32 floorPolySource);
-void func_80043508(CollisionContext* colCtx, u32 floorPolySource);
-void func_80043538(DynaPolyActor* actor);
+void func_800434A8(DynaPolyActor* dynaActor);
+void func_800434C8(CollisionContext* colCtx, s32 floorBgId);
+void func_80043508(CollisionContext* colCtx, s32 floorBgId);
+void func_80043538(DynaPolyActor* dynaActor);
 s32 func_80043548(DynaPolyActor* dynaActor);
 s32 func_8004356C(DynaPolyActor* dynaActor);
 s32 func_80043590(DynaPolyActor* dynaActor);
@@ -731,103 +771,63 @@ s32 Camera_ChangeDoorCam(Camera* camera, Actor* doorActor, s16 camDataIdx, f32 a
                          s16 timer3);
 s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);
-void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0,
-                          void* data1, s16 data2, s16 data3, UNK_TYPE arg6);
+void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
+                          UNK_TYPE arg6);
 s16 func_8005B1A4(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
-void func_8005B280(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
-void func_8005B2AC(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
-s32 Collider_InitBase(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_DestroyBase(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_SetBase_Actor(GlobalContext* globalCtx, Collider* collider, ColliderInit_Actor* src);
-s32 Collider_SetBase_Set3(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInit_Set3* src);
-s32 Collider_SetBase(GlobalContext* globalCtx, Collider* collider, Actor* actor, ColliderInit* src);
-void Collider_BaseSetAT(GlobalContext* globalCtx, Collider* collider);
-void Collider_BaseSetAC(GlobalContext* globalCtx, Collider* collider);
-void Collider_BaseSetOC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_InitTouch(GlobalContext* globalCtx, ColliderTouch* touch);
-s32 Collider_DestroyTouch(GlobalContext* globalCtx, ColliderTouch* touch);
-s32 Collider_SetTouch(GlobalContext* globalCtx, ColliderTouch* dest, ColliderTouch* src);
-void Collider_BodySetAT_Unk(GlobalContext* globalCtx, ColliderBody* body);
-s32 Collider_InitBump(GlobalContext* globalCtx, ColliderBump* bump);
-s32 Collider_DestroyBump(GlobalContext* globalCtx, ColliderBump* bump);
-s32 Collider_SetBump(GlobalContext* globalCtx, ColliderBump* bump, ColliderBumpInit* init);
-s32 Collider_InitBody(GlobalContext* globalCtx, ColliderBody* body);
-s32 Collider_DestroyBody(GlobalContext* globalCtx, ColliderBody* body);
-s32 Collider_SetBody(GlobalContext* globalCtx, ColliderBody* body, ColliderBodyInit* bodyInit);
-void Collider_BodySetAT(GlobalContext* globalCtx, ColliderBody* body);
-void Collider_BodySetAC(GlobalContext* globalCtx, ColliderBody* body);
-void Collider_BodySetOC(GlobalContext* globalCtx, ColliderBody* body);
-s32 Collider_InitJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphItemDim* dim);
-s32 Collider_DestroyJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphItemDim* item);
-s32 Collider_SetJntSphItemDim(GlobalContext* globalCtx, ColliderJntSphItemDim* dest, ColliderJntSphItemDimInit* src);
-s32 Collider_InitJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* item);
-s32 Collider_DestroyJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* item);
-s32 Collider_SetJntSphItem(GlobalContext* globalCtx, ColliderJntSphItem* dest, ColliderJntSphItemInit* src);
-s32 Collider_JntSphItemSetAT(GlobalContext* globalCtx, ColliderJntSphItem* collider);
-s32 Collider_JntSphItemSetAC(GlobalContext* globalCtx, ColliderJntSphItem* collider);
-s32 Collider_JntSphItemSetOC(GlobalContext* globalCtx, ColliderJntSphItem* collider);
+void DamageTable_Clear(DamageTable* table);
+void Collider_DrawRedPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC);
+void Collider_DrawPoly(GraphicsContext* gfxCtx, Vec3f* vA, Vec3f* vB, Vec3f* vC, u8 r, u8 g, u8 b);
 s32 Collider_InitJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_FreeJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
 s32 Collider_DestroyJntSph(GlobalContext* globalCtx, ColliderJntSph* collider);
-s32 Collider_SetJntSph_Set(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInit_Actor* src);
-s32 Collider_SetJntSph_Set3(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit_Set3* src);
-s32 Collider_SetJntSph_Set5(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
+s32 Collider_SetJntSphToActor(GlobalContext* globalCtx, ColliderJntSph* dest, ColliderJntSphInitToActor* src);
+s32 Collider_SetJntSphAllocType1(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor,
+                                 ColliderJntSphInitType1* src);
+s32 Collider_SetJntSphAlloc(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src);
 s32 Collider_SetJntSph(GlobalContext* globalCtx, ColliderJntSph* dest, Actor* actor, ColliderJntSphInit* src,
-                       ColliderJntSphItem* list);
-s32 Collider_InitCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
-s32 Collider_DestroyCylinderDim(GlobalContext* globalCtx, Cylinder16* dim);
-s32 Collider_SetCylinderDim(GlobalContext* globalCtx, Cylinder16* dest, Cylinder16* src);
+                       ColliderJntSphElement* elements);
+s32 Collider_ResetJntSphAT(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetJntSphAC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetJntSphOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
 s32 Collider_DestroyCylinder(GlobalContext* globalCtx, ColliderCylinder* collider);
-s32 Collider_SetCylinder_Actor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInit_Actor* arg2);
-s32 Collider_SetCylinder_Set3(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
-                              ColliderCylinderInit_Set3* src);
+s32 Collider_SetCylinderToActor(GlobalContext* globalCtx, ColliderCylinder* collider, ColliderCylinderInitToActor* src);
+s32 Collider_SetCylinderType1(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor,
+                              ColliderCylinderInitType1* src);
 s32 Collider_SetCylinder(GlobalContext* globalCtx, ColliderCylinder* collider, Actor* actor, ColliderCylinderInit* src);
-s32 Collider_CylinderSetAT(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_CylinderSetAC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_CylinderSetOC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_InitTrisItemDim(GlobalContext* globalCtx, TriNorm* dim);
-s32 Collider_DestroyTrisItemDim(GlobalContext* globalCtx, TriNorm* dim);
-s32 Collider_SetTrisItemDim(GlobalContext* globalCtx, TriNorm* dest, ColliderTrisItemDimInit* src);
-s32 Collider_InitTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider);
-s32 Collider_DestroyTrisItem(GlobalContext* globalCtx, ColliderTrisItem* collider);
-s32 Collider_SetTrisItem(GlobalContext* globalCtx, ColliderTrisItem* dest, ColliderTrisItemInit* src);
-s32 Collider_TrisItemSetAT(GlobalContext* globalCtx, ColliderTrisItem* item);
-s32 Collider_TrisItemSetAC(GlobalContext* globalCtx, ColliderTrisItem* item);
-s32 Collider_TrisItemSetOC(GlobalContext* globalCtx, ColliderTrisItem* item);
+s32 Collider_ResetCylinderAT(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetCylinderAC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetCylinderOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_FreeTris(GlobalContext* globalCtx, ColliderTris* tris);
 s32 Collider_DestroyTris(GlobalContext* globalCtx, ColliderTris* tris);
-s32 Collider_SetTris_Set3(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit_Set3* src);
-s32 Collider_SetTris_Set5(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
+s32 Collider_SetTrisAllocType1(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInitType1* src);
+s32 Collider_SetTrisAlloc(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src);
 s32 Collider_SetTris(GlobalContext* globalCtx, ColliderTris* dest, Actor* actor, ColliderTrisInit* src,
-                     ColliderTrisItem* list);
-s32 Collider_TrisSetAT(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_TrisSetAC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_TrisSetOC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_InitQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim);
-s32 Collider_DestroyQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dim);
-s32 func_8005CEC4(GlobalContext* globalCtx, ColliderQuadDim* dim);
-void func_8005CEDC(ColliderQuadDim* dim);
-s32 Collider_SetQuadDim(GlobalContext* globalCtx, ColliderQuadDim* dest, ColliderQuadDimInit* src);
+                     ColliderTrisElement* elements);
+s32 Collider_ResetTrisAT(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetTrisAC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetTrisOC(GlobalContext* globalCtx, Collider* collider);
 s32 Collider_InitQuad(GlobalContext* globalCtx, ColliderQuad* collider);
 s32 Collider_DestroyQuad(GlobalContext* globalCtx, ColliderQuad* collider);
-s32 Collider_SetQuad_Set3(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit_Set3* src);
+s32 Collider_SetQuadType1(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInitType1* src);
 s32 Collider_SetQuad(GlobalContext* globalCtx, ColliderQuad* collider, Actor* actor, ColliderQuadInit* src);
-s32 Collider_QuadSetAT(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_QuadSetAC(GlobalContext* globalCtx, Collider* collider);
-s32 Collider_QuadSetOC(GlobalContext* globalCtx, Collider* collider);
-s32 func_8005D218(GlobalContext* globalCtx, ColliderQuad* quad, Vec3f* arg2);
-s32 Collider_InitOcLine(GlobalContext* globalCtx, OcLine* line);
-s32 Collider_DestroyOcLine(GlobalContext* globalCtx, OcLine* line);
-void func_8005D3BC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
-void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+s32 Collider_ResetQuadAT(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetQuadAC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_ResetQuadOC(GlobalContext* globalCtx, Collider* collider);
+s32 Collider_InitLine(GlobalContext* globalCtx, OcLine* line);
+s32 Collider_DestroyLine(GlobalContext* globalCtx, OcLine* line);
+s32 Collider_SetLinePoints(GlobalContext* globalCtx, OcLine* ocLine, Vec3f* a, Vec3f* b);
+s32 Collider_SetLine(GlobalContext* globalCtx, OcLine* dest, OcLine* src);
+s32 Collider_ResetLineOC(GlobalContext* globalCtx, OcLine* line);
 void CollisionCheck_InitContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+void CollisionCheck_DestroyContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+void CollisionCheck_ClearContext(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_EnableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_DisableSAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
-void func_8005D4DC(GlobalContext* globalCtx, Collider* collider);
-void CollisionCheck_Draw(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+void Collider_Draw(GlobalContext* globalCtx, Collider* collider);
+void CollisionCheck_DrawCollision(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
 s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
 s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
@@ -835,44 +835,35 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
 s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
 s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider, s32 index);
 s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider);
-void func_8005DFAC(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
-// ? func_8005E4F8(?);
-// ? func_8005E604(?);
-// ? func_8005E800(?);
-// ? func_8005E81C(?);
-// ? func_800611A0(?);
-// ? func_80061274(?);
-void func_8006139C(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
-// ? func_8006146C(?);
-// ? func_800614A4(?);
-// ? func_80061BF4(?);
-// ? func_80061C18(?);
+void CollisionCheck_BlueBlood(GlobalContext* globalCtx, Collider* collider, Vec3f* v);
+void CollisionCheck_AT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
 void CollisionCheck_OC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
-// ? func_80061E48(?);
-void func_80061E8C(CollisionCheckInfo* info);
-void func_80061EB0(CollisionCheckInfo* info, CollisionCheckInfoInit* init);
-void func_80061ED4(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init);
-void func_80061EFC(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init);
-// ? func_80061F64(?);
-// ? func_800622E4(?);
-s32 CollisionCheck_GeneralLineOcCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C,
-                                      Vec3f* arg3, Actor** arg4, s32 arg5);
-s32 func_800626B0(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* camera_3C, Vec3f* arg3,
-                  Actor** arg4, s32 arg5);
-void Collider_CylinderUpdate(Actor* actor, ColliderCylinder* collider);
-void func_80062718(ColliderCylinder* collider, Vec3s* pos);
-void func_80062734(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d);
-void func_800627A0(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
-void func_800628A4(s32 arg0, ColliderJntSph* collider);
-void func_80062A28(GlobalContext*, Vec3f*);
-void func_80062B80(GlobalContext*, Vec3f*);
-void func_80062CD4(GlobalContext* globalCtx, Vec3f* v);
-void func_80062D60(GlobalContext* globalCtx, Vec3f* v);
-void func_80062DAC(GlobalContext* globalCtx, Vec3f* v, Vec3f* arg2);
-void func_80062DF4(GlobalContext* globalCtx, Vec3f* v);
-void func_80062E14(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2);
-s32 func_80062ECC(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos, Vec3f* itemProjPos, Vec3f* out1,
-                  Vec3f* out2);
+void CollisionCheck_InitInfo(CollisionCheckInfo* info);
+void CollisionCheck_ResetDamage(CollisionCheckInfo* info);
+void CollisionCheck_SetInfoNoDamageTable(CollisionCheckInfo* info, CollisionCheckInfoInit* init);
+void CollisionCheck_SetInfo(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit* init);
+void CollisionCheck_SetInfo2(CollisionCheckInfo* info, DamageTable* damageTable, CollisionCheckInfoInit2* init);
+void CollisionCheck_SetInfoGetDamageTable(CollisionCheckInfo* info, s32 index, CollisionCheckInfoInit2* init);
+void CollisionCheck_Damage(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx);
+s32 CollisionCheck_LineOCCheckAll(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b);
+s32 CollisionCheck_LineOCCheck(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Vec3f* a, Vec3f* b,
+                               Actor** exclusions, s32 numExclusions);
+void Collider_UpdateCylinder(Actor* actor, ColliderCylinder* collider);
+void Collider_SetCylinderPosition(ColliderCylinder* collider, Vec3s* pos);
+void Collider_SetQuadVertices(ColliderQuad* collider, Vec3f* a, Vec3f* b, Vec3f* c, Vec3f* d);
+void Collider_SetTrisVertices(ColliderTris* collider, s32 index, Vec3f* a, Vec3f* b, Vec3f* c);
+void Collider_SetTrisDim(GlobalContext* globalCtx, ColliderTris* collider, s32 index, ColliderTrisElementDimInit* init);
+void Collider_UpdateSpheres(s32 limb, ColliderJntSph* collider);
+void CollisionCheck_SpawnRedBlood(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnWaterDroplets(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnShieldParticles(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesMetal(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesMetalSound(GlobalContext* globalCtx, Vec3f* v, Vec3f* actorPos);
+void CollisionCheck_SpawnShieldParticlesMetal2(GlobalContext* globalCtx, Vec3f* v);
+void CollisionCheck_SpawnShieldParticlesWood(GlobalContext* globalCtx, Vec3f* b, Vec3f* actorPos);
+s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* actorPos, Vec3f* itemPos,
+                                    Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
+u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
 void SaveContext_Init(void);
 // ? func_800636C0(?);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);
@@ -922,6 +913,7 @@ void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skel
 // ? func_8006D0EC(?);
 // ? func_8006D684(?);
 void func_8006DC68(GlobalContext* globalCtx, Player* player);
+void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 u32 Jpeg_SendTask(JpegContext* ctx);
 void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y);
 u16 Jpeg_GetU16(u8* ptr);
@@ -1008,11 +1000,11 @@ void Color_RGBA8_Copy(Color_RGBA8* dst, Color_RGBA8* src);
 void func_80078884(u16 sfxId);
 void func_800788CC(u16 sfxId);
 void func_80078914(Vec3f* arg0, u16 sfxId);
-void Health_InitData(GlobalContext* globalCtx);
-void Health_UpdateData(GlobalContext* globalCtx);
-void Health_Draw(GlobalContext* globalCtx);
-void Health_HandleCriticalAlarm(GlobalContext* globalCtx);
-u32 Health_IsCritical(void);
+void HealthMeter_Init(GlobalContext* globalCtx);
+void HealthMeter_Update(GlobalContext* globalCtx);
+void HealthMeter_Draw(GlobalContext* globalCtx);
+void HealthMeter_HandleCriticalAlarm(GlobalContext* globalCtx);
+u32 HealthMeter_IsCritical(void);
 void Lights_PointSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius, s32 type);
 void Lights_PointNoGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius);
 void Lights_PointGlowSetInfo(LightInfo* info, s16 x, s16 y, s16 z, u8 r, u8 g, u8 b, s16 radius);
@@ -1080,7 +1072,7 @@ s16 func_800800F8(GlobalContext* globalCtx, s16 csID, s16 timer, Actor* actor, s
 void func_800803F0(GlobalContext* globalCtx, s16 camId);
 s16 func_80080480(GlobalContext* globalCtx, Actor* actor);
 void func_800806BC(GlobalContext* globalCtx, Actor* actor, u16 sfxId);
-UNK_TYPE func_80080728(GlobalContext* globalCtx, u8 actorType);
+UNK_TYPE func_80080728(GlobalContext* globalCtx, u8 actorCategory);
 void func_80080788(UNK_TYPE, UNK_TYPE);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor);
@@ -1280,7 +1272,7 @@ Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable
                     PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
 Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount,
                         OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw, void* arg, Gfx* gfx);
-void SkelAnime_InterpVec3s(s32 limbCount, Vec3s* dst, Vec3s* start, Vec3s* target, f32 weight);
+void SkelAnime_InterpFrameTable(s32 limbCount, Vec3s* dst, Vec3s* start, Vec3s* target, f32 weight);
 void AnimationContext_Reset(AnimationContext* animationCtx);
 void AnimationContext_SetNextQueue(GlobalContext* globalCtx);
 void AnimationContext_DisableQueue(GlobalContext* globalCtx);
@@ -1293,29 +1285,31 @@ void AnimationContext_SetCopyFalse(GlobalContext* globalCtx, s32 vecCount, Vec3s
 void AnimationContext_SetMoveActor(GlobalContext* globalCtx, Actor* actor, SkelAnime* skelAnime, f32 arg3);
 void AnimationContext_Update(GlobalContext* globalCtx, AnimationContext* animationCtx);
 void SkelAnime_InitLink(GlobalContext* globalCtx, SkelAnime* skelAnime, FlexSkeletonHeader* skeletonHeaderSeg,
-                        LinkAnimationHeader* segment, s32 initFlags, Vec3s* jointTable, Vec3s* morphTable,
+                        LinkAnimationHeader* animation, s32 initFlags, Vec3s* jointTable, Vec3s* morphTable,
                         s32 limbCount);
 void LinkAnimation_SetUpdateFunction(SkelAnime* skelAnime);
 s32 LinkAnimation_Update(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void LinkAnimation_AnimateFrame(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void Animation_SetMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 morphFrames);
-void LinkAnimation_Change(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 playSpeed,
+void LinkAnimation_Change(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation, f32 playSpeed,
                           f32 startFrame, f32 endFrame, u8 mode, f32 morphFrames);
-void LinkAnimation_PlayOnce(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment);
-void LinkAnimation_PlayOnceSetSpeed(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment,
+void LinkAnimation_PlayOnce(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation);
+void LinkAnimation_PlayOnceSetSpeed(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation,
                                     f32 playSpeed);
-void LinkAnimation_PlayLoop(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment);
-void LinkAnimation_PlayLoopSetSpeed(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment,
+void LinkAnimation_PlayLoop(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation);
+void LinkAnimation_PlayLoopSetSpeed(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation,
                                     f32 playSpeed);
 void LinkAnimation_CopyJointToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime);
 void LinkAnimation_CopyMorphToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime);
-void LinkAnimation_LoadToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 frame);
-void LinkAnimation_LoadToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment, f32 frame);
+void LinkAnimation_LoadToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation,
+                               f32 frame);
+void LinkAnimation_LoadToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation,
+                               f32 frame);
 void LinkAnimation_InterpJointMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, f32 frame);
-void LinkAnimation_BlendToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment1,
-                                f32 frame1, LinkAnimationHeader* segment2, f32 frame2, f32 weight, Vec3s* blendTable);
-void LinkAnimation_BlendToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* segment1,
-                                f32 frame1, LinkAnimationHeader* segment2, f32 frame2, f32 weight, Vec3s* blendTable);
+void LinkAnimation_BlendToJoint(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
+                                f32 frame1, LinkAnimationHeader* animation2, f32 frame2, f32 weight, Vec3s* blendTable);
+void LinkAnimation_BlendToMorph(GlobalContext* globalCtx, SkelAnime* skelAnime, LinkAnimationHeader* animation1,
+                                f32 frame1, LinkAnimationHeader* animation2, f32 frame2, f32 weight, Vec3s* blendTable);
 void LinkAnimation_EndLoop(SkelAnime* skelAnime);
 s32 LinkAnimation_OnFrame(SkelAnime* skelAnime, f32 frame);
 s32 SkelAnime_Init(GlobalContext* globalCtx, SkelAnime* skelAnime, SkeletonHeader* skeletonHeaderSeg,
@@ -1337,22 +1331,25 @@ void Animation_MorphToLoop(SkelAnime* skelAnime, AnimationHeader* animation, f32
 void Animation_PlayLoopSetSpeed(SkelAnime* skelAnime, AnimationHeader* animation, f32 playSpeed);
 void Animation_EndLoop(SkelAnime* skelAnime);
 void Animation_Reverse(SkelAnime* skelAnime);
-void SkelAnime_CopyVec3sTrue(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* copyFlags);
-void SkelAnime_CopyVec3sFalse(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* copyFlag);
+void SkelAnime_CopyFrameTableTrue(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* copyFlag);
+void SkelAnime_CopyFrameTableFalse(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src, u8* copyFlag);
 void SkelAnime_UpdateTranslation(SkelAnime* skelAnime, Vec3f* pos, s16 angle);
 s32 Animation_OnFrame(SkelAnime* skelAnime, f32 frame);
 void SkelAnime_Free(SkelAnime* skelAnime, GlobalContext* globalCtx);
-void SkelAnime_CopyVec3s(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src);
+void SkelAnime_CopyFrameTable(SkelAnime* skelAnime, Vec3s* dst, Vec3s* src);
 void func_800A57C0(MtxF* mtx, Struct_800A57C0* arg1, Struct_800A598C* arg2, Vtx* arg3, Vec3f* arg4);
 void func_800A598C(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3);
 void func_800A5E28(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, s32 arg3, s32 arg4);
 void func_800A5F60(GraphicsContext* gfxCtx, PSkinAwb* skin, s32 limbIndex, Gfx* arg3, s32 arg4);
-void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_800A60D8(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+                   s32 arg5, s32 arg6, s32 arg7);
 void func_800A6330(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, s32 arg4);
-void func_800A63CC(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4, s32 arg5, s32 arg6, s32 arg7);
+void func_800A63CC(Actor* actor, GlobalContext* globalCtx, PSkinAwb* skin, SkinCallback callback, SkinCallback2 arg4,
+                   s32 arg5, s32 arg6, s32 arg7);
 void func_800A6408(PSkinAwb* skin, s32 joint, Vec3f* arg2, Vec3f* arg3);
 void func_800A6460(GlobalContext* globalCtx, PSkinAwb* skin, s32 arg2);
-void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeletonHeader, AnimationHeader* animationHeader);
+void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeletonHeader,
+                   AnimationHeader* animationHeader);
 void func_800A6888(GlobalContext* globalCtx, PSkinAwb* skin);
 s32 func_800A698C(PSkinAwb* skin, SkinLimb** limbs, Mtx* arg2, u8 arg3, u8 arg4);
 s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3);
@@ -2239,8 +2236,10 @@ void func_800F4010(Vec3f*, u16 sfxId, f32);
 void func_800F41E0(Vec3f*, u16 sfxId, u8);
 void func_800F4138(Vec3f*, u16 sfxId, f32);
 void func_800F4190(Vec3f*, u16 sfxId);
-void func_800F436C(UNK_TYPE arg0, s16 arg1, f32 arg2);
-// ? func_800F4414(?);
+void func_800F4254(Vec3f* pos, u8 arg1);
+void func_800F436C(Vec3f*, s16 arg1, f32 arg2);
+void func_800F4414(Vec3f*, u16, f32);
+void func_800F44EC(UNK_TYPE arg0, UNK_TYPE arg1);
 void func_800F4524(Vec3f*, u16 sfxId, u8);
 void func_800F46E0(Vec3f* pos, f32 arg0);
 // ? func_800F4784(?);
@@ -2633,5 +2632,4 @@ void func_80820434(GlobalContext*, GraphicsContext*);
 void func_80821C10(GlobalContext*);
 void func_80825C14(GlobalContext*);
 void func_808161AC(GlobalContext*);
-
 #endif

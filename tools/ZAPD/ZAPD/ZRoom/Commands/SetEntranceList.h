@@ -15,6 +15,7 @@ class SetEntranceList : public ZRoomCommand
 {
 public:
 	SetEntranceList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	~SetEntranceList();
 
 	virtual std::string GenerateSourceCodePass1(std::string roomName, int baseAddress);
 	virtual std::string GenerateExterns();
