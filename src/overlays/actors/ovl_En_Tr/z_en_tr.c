@@ -96,7 +96,7 @@ void EnTr_SetupAction(EnTr* this, EnTrActionFunc actionFunc) {
 void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTr* this = THIS;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     EnTr_SetupAction(this, EnTr_DoNothing);
     this->unk_2D4 = 0; // Set and not used
     this->actor.child = NULL;
@@ -169,7 +169,7 @@ void EnTr_ChooseAction2(EnTr* this, GlobalContext* globalCtx) {
                     this->animation = D_80B24378[this->actor.params];
                     this->timer = 39;
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K,
-                                       this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0,
+                                       this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0,
                                        0, 0, this->actor.params + 9);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
                     break;
@@ -188,28 +188,28 @@ void EnTr_FlyKidnapCutscene(EnTr* this, GlobalContext* globalCtx) {
     Vec3f originalPos;
     s16 actionIndex;
 
-    originalPos = this->actor.posRot.pos;
+    originalPos = this->actor.world.pos;
     if (globalCtx->csCtx.state != 0) {
         actionIndex = this->actionIndex;
 
         if (globalCtx->csCtx.npcActions[actionIndex] != NULL) {
             if (globalCtx->csCtx.npcActions[actionIndex]->action == 8) {
                 func_80B24038(this, globalCtx, actionIndex);
-                this->actor.posRot.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
-                Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.posRot.rot.y, 10, 0x400, 0x100);
-                this->actor.posRot.rot.y = this->actor.shape.rot.y;
+                this->actor.world.rot.y = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
+                Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.world.rot.y, 10, 0x400, 0x100);
+                this->actor.world.rot.y = this->actor.shape.rot.y;
             } else {
                 EnTr_SetStartPosRot(this, globalCtx, actionIndex);
-                this->actor.posRot.pos.x += Math_SinS(this->timer) * 150.0f;
-                this->actor.posRot.pos.y += -100.0f;
-                this->actor.posRot.pos.z += Math_CosS(this->timer) * 150.0f;
+                this->actor.world.pos.x += Math_SinS(this->timer) * 150.0f;
+                this->actor.world.pos.y += -100.0f;
+                this->actor.world.pos.z += Math_CosS(this->timer) * 150.0f;
 
                 this->actor.shape.rot.y = (s16)(this->timer) + 0x4000;
                 this->timer += 0x400;
 
-                this->actor.velocity.x = this->actor.posRot.pos.x - originalPos.x;
-                this->actor.velocity.y = this->actor.posRot.pos.y - originalPos.y;
-                this->actor.velocity.z = this->actor.posRot.pos.z - originalPos.z;
+                this->actor.velocity.x = this->actor.world.pos.x - originalPos.x;
+                this->actor.velocity.y = this->actor.world.pos.y - originalPos.y;
+                this->actor.velocity.z = this->actor.world.pos.z - originalPos.z;
             }
 
             if (globalCtx->csCtx.frames < 670) {
@@ -232,8 +232,8 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     f32 sp3C;
 
     cameraEye = ACTIVE_CAM->eye;
-    yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.posRot.pos);
-    reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.posRot.pos);
+    yaw = Math_Vec3f_Yaw(&cameraEye, &this->actor.world.pos);
+    reversePitch = -Math_Vec3f_Pitch(&cameraEye, &this->actor.world.pos);
     accel.z = 0.0f;
     accel.x = 0.0f;
     sp3C = Math_SinS(yaw);
@@ -246,7 +246,7 @@ void func_80B23254(EnTr* this, GlobalContext* globalCtx, s32 arg2, f32 arg3, f32
     primColor = &D_80B243C0[2 * this->actor.params];
     envColor = &D_80B243C0[2 * this->actor.params + 1];
 
-    sp58 = this->actor.posRot.pos;
+    sp58 = this->actor.world.pos;
     sp58.x -= velocity.x * 10.0f;
     sp58.y -= velocity.y * 10.0f;
     sp58.z -= velocity.z * 10.0f;
@@ -394,7 +394,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnTr* this = THIS;
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 5);
     this->actionFunc(this, globalCtx);
 
     if (SkelAnime_Update(&this->skelAnime) != 0) {
@@ -418,7 +418,7 @@ void EnTr_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->skelAnime.curFrame = 0.0f;
         }
     }
-    Actor_SetHeight(&this->actor, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
 
     if (DECR(this->blinkTimer) == 0) {
         this->blinkTimer = Rand_S16Offset(60, 60);
@@ -439,7 +439,7 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_MultVec3f(&src, &dest);
         dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera])));
         dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera])));
-        child->posRot.pos = dest;
+        child->world.pos = dest;
     }
     return 0;
 }
@@ -451,11 +451,11 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (1) {}
 
     if ((globalCtx->csCtx.state == 0) || (globalCtx->csCtx.npcActions[this->actionIndex] == 0)) {
-        this->actor.shape.shadowDrawFunc = NULL;
+        this->actor.shape.shadowDraw = NULL;
         return;
     }
 
-    this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
+    this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 840);
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
@@ -495,9 +495,9 @@ void func_80B24038(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
 
     temp_f0 = func_80B23FDC(globalCtx, actionIndex);
 
-    goalVel.x = ((((endPos.x - startPos.x) * temp_f0) + startPos.x) - this->actor.posRot.pos.x) * 0.1f;
-    goalVel.y = ((((endPos.y - startPos.y) * temp_f0) + startPos.y) - this->actor.posRot.pos.y) * 0.1f;
-    goalVel.z = ((((endPos.z - startPos.z) * temp_f0) + startPos.z) - this->actor.posRot.pos.z) * 0.1f;
+    goalVel.x = ((((endPos.x - startPos.x) * temp_f0) + startPos.x) - this->actor.world.pos.x) * 0.1f;
+    goalVel.y = ((((endPos.y - startPos.y) * temp_f0) + startPos.y) - this->actor.world.pos.y) * 0.1f;
+    goalVel.z = ((((endPos.z - startPos.z) * temp_f0) + startPos.z) - this->actor.world.pos.z) * 0.1f;
 
     temp_f0_2 = sqrtf(SQ(goalVel.x) + SQ(goalVel.y) + SQ(goalVel.z));
     phi_f12 = CLAMP(temp_f0_2, 0.0f, 20.0f);
@@ -525,7 +525,7 @@ void EnTr_UpdateRotation(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) 
     s32 rotSign;
 
     rotY = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
-    rotDiff = this->actor.posRot.rot.y - rotY;
+    rotDiff = this->actor.world.rot.y - rotY;
 
     if (rotDiff < 0) {
         rotDiff = 0 - rotDiff;
@@ -541,8 +541,8 @@ void EnTr_UpdateRotation(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) 
 
     rotDiff *= 0.1f;
 
-    this->actor.posRot.rot.y += rotDiff * rotSign;
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.world.rot.y += rotDiff * rotSign;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) {
@@ -551,6 +551,6 @@ void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) 
     startPos.x = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
     startPos.y = globalCtx->csCtx.npcActions[actionIndex]->startPos.y;
     startPos.z = globalCtx->csCtx.npcActions[actionIndex]->startPos.z;
-    this->actor.posRot.pos = startPos;
-    this->actor.posRot.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
+    this->actor.world.pos = startPos;
+    this->actor.world.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
 }
