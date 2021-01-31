@@ -24,7 +24,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx);
 
 const ActorInit En_Du_InitVars = {
     ACTOR_EN_DU,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DU,
     sizeof(EnDu),
@@ -35,13 +35,27 @@ const ActorInit En_Du_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0, 0, 0, 0, 0xFF,
+    0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
@@ -140,7 +154,7 @@ void func_809FDE24(EnDu* this, GlobalContext* globalCtx) {
     if (this->actionFunc == func_809FE890) {
         phi_a3 = 1;
     }
-    this->unk_1F4.unk_18 = player->actor.posRot.pos;
+    this->unk_1F4.unk_18 = player->actor.world.pos;
     this->unk_1F4.unk_14 = 10.0f;
     func_80034A14(&this->actor, &this->unk_1F4, 3, phi_a3);
 }
@@ -240,18 +254,18 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDu* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011CA8, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
     if (func_809FDDB4(this, globalCtx) == 0) {
         Actor_Kill(&this->actor);
         return;
     }
     func_80034EC0(&this->skelAnime, sAnimations, 0);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     this->unk_1F4.unk_00 = 0;
 
     if (gSaveContext.cutsceneIndex >= 0xFFF0) {
@@ -291,7 +305,7 @@ void func_809FE3C0(EnDu* this, GlobalContext* globalCtx) {
         func_8002DF54(globalCtx, &this->actor, 7);
         this->unk_1F4.unk_00 = 0;
     }
-    if (this->actor.xzDistToLink < 116.0f + this->collider.dim.radius) {
+    if (this->actor.xzDistToPlayer < 116.0f + this->collider.dim.radius) {
         player->stateFlags2 |= 0x800000;
     }
 }
@@ -325,7 +339,7 @@ void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
 
     if (!(player->stateFlags1 & 0x20000000)) {
         func_800800F8(globalCtx, 0xD02, -0x63, &this->actor, 0);
-        player->actor.shape.rot.y = player->actor.posRot.rot.y = this->actor.posRot.rot.y + 0x7FFF;
+        player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.world.rot.y + 0x7FFF;
         func_800F5C64(0x51);
         EnDu_SetupAction(this, func_809FE6CC);
         this->unk_1E2 = 0x32;
@@ -382,7 +396,7 @@ void func_809FE798(EnDu* this, GlobalContext* globalCtx) {
                 break;
         }
         if (this->unk_1E2 >= 0x3D) {
-            this->actor.posRot.pos.x -= 10.0f;
+            this->actor.world.pos.x -= 10.0f;
         }
     } else {
         Actor_Kill(&this->actor);
@@ -409,7 +423,7 @@ void func_809FE890(EnDu* this, GlobalContext* globalCtx) {
         func_809FE000(csAction, &endPos);
         if (this->unk_1EA == 0) {
             func_809FDFC0(csAction, &startPos);
-            this->actor.posRot.pos = startPos;
+            this->actor.world.pos = startPos;
         }
         if (this->unk_1EA != csAction->action) {
             if (csAction->action == 1) {
@@ -495,8 +509,8 @@ void func_809FEC70(EnDu* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         EnDu_SetupAction(this, func_809FECE4);
     } else {
-        f32 xzRange = this->actor.xzDistToLink + 1.0f;
-        func_8002F434(&this->actor, globalCtx, 0x54, xzRange, fabsf(this->actor.yDistToLink) + 1.0f);
+        f32 xzRange = this->actor.xzDistToPlayer + 1.0f;
+        func_8002F434(&this->actor, globalCtx, 0x54, xzRange, fabsf(this->actor.yDistToPlayer) + 1.0f);
     }
 }
 
@@ -511,7 +525,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDu* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     if (this->skelAnime.animation == &D_060041F4 && Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
@@ -523,14 +537,14 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_809FDE24(this, globalCtx);
 
     if (this->actionFunc == func_809FE890) {
-        this->actor.posRot.pos.x += this->actor.velocity.x;
-        this->actor.posRot.pos.y += this->actor.velocity.y;
-        this->actor.posRot.pos.z += this->actor.velocity.z;
+        this->actor.world.pos.x += this->actor.velocity.x;
+        this->actor.world.pos.y += this->actor.velocity.y;
+        this->actor.world.pos.z += this->actor.velocity.z;
     } else {
         func_8002D7EC(&this->actor);
     }
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     if (this->actionFunc != func_809FE4A4) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1F4.unk_00, this->collider.dim.radius + 116.0f, func_809FDC38,
@@ -564,7 +578,7 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f D_809FF40C = { 0.0f, -1000.0f, 0.0f };
 
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&D_809FF40C, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_809FF40C, &this->actor.focus.pos);
     }
 }
 

@@ -21,7 +21,7 @@ glabel func_80B0DB00
 /* 01D98 80B0DB48 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 01D9C 80B0DB4C 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 01DA0 80B0DB50 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 01DA4 80B0DB54 0C00B92D */  jal     func_8002E4B4              
+/* 01DA4 80B0DB54 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01DA8 80B0DB58 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 01DAC 80B0DB5C 96030088 */  lhu     $v1, 0x0088($s0)           ## 00000088
 /* 01DB0 80B0DB60 30690001 */  andi    $t1, $v1, 0x0001           ## $t1 = 00000000

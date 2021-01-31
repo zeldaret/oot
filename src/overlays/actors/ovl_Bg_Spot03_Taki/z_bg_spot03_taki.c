@@ -19,7 +19,7 @@ void func_808ADEF0(BgSpot03Taki* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot03_Taki_InitVars = {
     ACTOR_BG_SPOT03_TAKI,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT03_OBJECT,
     sizeof(BgSpot03Taki),

@@ -24,7 +24,7 @@ glabel func_80BA180C
 /* 00B04 80BA1864 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00B08 80BA1868 3C0640A0 */  lui     $a2, 0x40A0                ## $a2 = 40A00000
 /* 00B0C 80BA186C 3C074170 */  lui     $a3, 0x4170                ## $a3 = 41700000
-/* 00B10 80BA1870 0C00B92D */  jal     func_8002E4B4              
+/* 00B10 80BA1870 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00B14 80BA1874 E7A40010 */  swc1    $f4, 0x0010($sp)           
 .L80BA1878:
 /* 00B18 80BA1878 8FBF0024 */  lw      $ra, 0x0024($sp)           

@@ -21,7 +21,7 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSyoku),
@@ -48,7 +48,7 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&D_0600E568, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
-    this->dyna.actor.initPosRot.pos.y += 540.0f;
+    this->dyna.actor.home.pos.y += 540.0f;
 }
 
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -74,7 +74,7 @@ void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
-    this->dyna.actor.posRot.pos.y = (cosf(this->unk_16A * (M_PI / 140)) * 540.0f) + this->dyna.actor.initPosRot.pos.y;
+    this->dyna.actor.world.pos.y = (cosf(this->unk_16A * (M_PI / 140)) * 540.0f) + this->dyna.actor.home.pos.y;
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
@@ -86,7 +86,7 @@ void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
-    this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - (cosf(this->unk_16A * (M_PI / 140)) * 540.0f);
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->unk_16A * (M_PI / 140)) * 540.0f);
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
@@ -100,7 +100,7 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
     if (this->unk_16A == 0) {
         this->unk_16A = 0x8c;
-        if (this->dyna.actor.posRot.pos.y < this->dyna.actor.initPosRot.pos.y) {
+        if (this->dyna.actor.world.pos.y < this->dyna.actor.home.pos.y) {
             this->actionFunc = func_8088F514;
         } else {
             this->actionFunc = func_8088F5A0;

@@ -34,9 +34,9 @@ typedef struct EnDodongo {
     /* 0x03D0 */ s32 blureIdx;
     /* 0x03D4 */ ColliderQuad colliderAT;
     /* 0x0454 */ ColliderTris colliderHard;
-    /* 0x0474 */ ColliderTrisItem trisElements[3];
+    /* 0x0474 */ ColliderTrisElement trisElements[3];
     /* 0x0588 */ ColliderJntSph colliderBody;
-    /* 0x05A8 */ ColliderJntSphItem sphElements[6];
+    /* 0x05A8 */ ColliderJntSphElement sphElements[6];
 } EnDodongo; // size = 0x0728
 
 typedef enum {

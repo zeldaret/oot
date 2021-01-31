@@ -16,7 +16,7 @@ extern UNK_TYPE D_06002CA8;
 /*
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_WARP1,
     sizeof(DoorWarp1),

@@ -83,7 +83,7 @@ glabel EnVbBall_Update
 /* 00728 80B296C8 46144281 */  sub.s   $f10, $f8, $f20            
 /* 0072C 80B296CC E62A0028 */  swc1    $f10, 0x0028($s1)          ## 00000028
 /* 00730 80B296D0 AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 00734 80B296D4 0C00B92D */  jal     func_8002E4B4              
+/* 00734 80B296D4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00738 80B296D8 E7B00010 */  swc1    $f16, 0x0010($sp)          
 /* 0073C 80B296DC C6320028 */  lwc1    $f18, 0x0028($s1)          ## 00000028
 /* 00740 80B296E0 962C0088 */  lhu     $t4, 0x0088($s1)           ## 00000088
@@ -539,7 +539,7 @@ glabel EnVbBall_Update
 .L80B29D28:
 /* 00D88 80B29D28 26300168 */  addiu   $s0, $s1, 0x0168           ## $s0 = 00000168
 /* 00D8C 80B29D2C 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000168
-/* 00D90 80B29D30 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00D90 80B29D30 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00D94 80B29D34 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D98 80B29D38 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
