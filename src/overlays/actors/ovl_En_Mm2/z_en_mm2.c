@@ -121,7 +121,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 21.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005E18, NULL, this->jointTable, this->morphTable, 16);
     Animation_Change(&this->skelAnime, sAnimations[2].animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimations[2].animation), sAnimations[2].mode, sAnimations[2].morphFrames);
@@ -130,7 +130,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = 0xFF;
     this->unk_1E0 = 0;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->unk_1F4 |= 1;
     this->actor.gravity = -1.0f;
     if (this->actor.params == 1) {
@@ -163,8 +163,8 @@ s32 func_80AAF224(EnMm2* this, GlobalContext* globalCtx, EnMm2ActionFunc actionF
         this->actionFunc = actionFunc;
         return 1;
     }
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
-    if ((ABS(yawDiff) < 0x4301) && (this->actor.xzDistToLink < 100.0f)) {
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    if ((ABS(yawDiff) < 0x4301) && (this->actor.xzDistToPlayer < 100.0f)) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
     return 0;
@@ -257,8 +257,8 @@ void func_80AAF5EC(EnMm2* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAF668(EnMm2* this, GlobalContext* globalCtx) {
-    this->actor.posRot.rot.y = -0x3E80;
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.world.rot.y = -0x3E80;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
     SkelAnime_Update(&this->skelAnime);
     if (SAVE_TIMER_2 < HIGH_SCORE(HS_MARATHON)) {
         this->actor.textId = 0x6085;
@@ -287,7 +287,7 @@ void EnMm2_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->unk_1F4 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_1E8, &this->unk_1EE, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_1E8, &this->unk_1EE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->unk_1E8.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->unk_1E8.y, 0, 6, 6200, 100);
@@ -295,10 +295,10 @@ void EnMm2_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->unk_1EE.y, 0, 6, 6200, 100);
     }
     this->actionFunc(this, globalCtx);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 }
 
 void EnMm2_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -334,6 +334,6 @@ void EnMm2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnMm2* this = THIS;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&D_80AAFB68, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80AAFB68, &this->actor.focus.pos);
     }
 }
