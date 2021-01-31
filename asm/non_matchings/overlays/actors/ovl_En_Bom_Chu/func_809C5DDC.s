@@ -39,7 +39,7 @@ glabel func_809C5DDC
 /* 00638 809C5E68 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 0063C 809C5E6C AE08002C */  sw      $t0, 0x002C($s0)           ## 0000002C
 /* 00640 809C5E70 AFA90014 */  sw      $t1, 0x0014($sp)           
-/* 00644 809C5E74 0C00B92D */  jal     func_8002E4B4              
+/* 00644 809C5E74 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00648 809C5E78 E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 0064C 809C5E7C 8FAA0034 */  lw      $t2, 0x0034($sp)           
 /* 00650 809C5E80 854B00B6 */  lh      $t3, 0x00B6($t2)           ## 000000B6

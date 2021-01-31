@@ -8,8 +8,8 @@ glabel EnWeiyer_Init
 /* 00018 80B322A8 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 0001C 80B322AC 24A53AE4 */  addiu   $a1, $a1, %lo(D_80B33AE4)  ## $a1 = 80B33AE4
-/* 00020 80B322B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00024 80B322B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00020 80B322B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00024 80B322B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00028 80B322B8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 80B322BC 3C05447A */  lui     $a1, 0x447A                ## $a1 = 447A0000
 /* 00030 80B322C0 0C00AC78 */  jal     ActorShape_Init
@@ -45,7 +45,7 @@ glabel EnWeiyer_Init
 /* 00098 80B32328 3C0680B3 */  lui     $a2, %hi(D_80B33ABC)       ## $a2 = 80B30000
 /* 0009C 80B3232C 24C63ABC */  addiu   $a2, $a2, %lo(D_80B33ABC)  ## $a2 = 80B33ABC
 /* 000A0 80B32330 24A53AC4 */  addiu   $a1, $a1, %lo(D_80B33AC4)  ## $a1 = 80B33AC4
-/* 000A4 80B32334 0C0187B5 */  jal     func_80061ED4              
+/* 000A4 80B32334 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 000A8 80B32338 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 000AC 80B3233C 3C1980B3 */  lui     $t9, %hi(func_80B32804)    ## $t9 = 80B30000
 /* 000B0 80B32340 27392804 */  addiu   $t9, $t9, %lo(func_80B32804) ## $t9 = 80B32804

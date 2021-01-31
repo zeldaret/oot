@@ -16,6 +16,8 @@
 #define SEG2FILESPACE(x) (x & 0x00FFFFFF)
 #define GETSEGNUM(x) ((x >> 24) & 0xFF)
 
+typedef uint32_t segptr_t;
+
 class ZFile;
 class HLFileIntermediette;
 
@@ -33,7 +35,11 @@ enum class ZResourceType
 	Cutscene,
 	Blob,
 	Limb,
-	Skeleton
+	Skeleton,
+	Scalar,
+	Vector,
+	Vertex,
+	CollisionHeader
 };
 
 class ZResource
@@ -41,11 +47,10 @@ class ZResource
 public:
 	ZFile* parent;
 	bool outputDeclaration;
-	int arrayCnt;
 
 	ZResource();
 	virtual void ParseXML(tinyxml2::XMLElement* reader);
-	virtual void Save(std::string outFolder);
+	virtual void Save(const std::string& outFolder);
 	virtual void PreGenSourceFiles();
 	std::string GetName();
 	std::string GetOutName();
@@ -53,13 +58,16 @@ public:
 	std::string GetRelativePath();
 	virtual std::vector<uint8_t> GetRawData();
 	virtual bool IsExternalResource();
+	virtual bool DoesSupportArray(); // Can this type be wrapped in an <Array> node?
 	virtual std::string GetExternalExtension();
 	virtual int GetRawDataIndex();
 	virtual int GetRawDataSize();
 	virtual void SetRawDataIndex(int value);
-	virtual std::string GetSourceOutputCode(std::string prefix);
-	virtual std::string GetSourceOutputHeader(std::string prefix);
+	virtual std::string GetSourceOutputCode(const std::string& prefix);
+	virtual std::string GetSourceOutputHeader(const std::string& prefix);
+	virtual void ParseRawData();
 	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile);
+	virtual std::string GetSourceTypeName();
 	virtual ZResourceType GetResourceType();
 	virtual void CalcHash();
 
@@ -106,6 +114,7 @@ public:
 	std::string includePath;
 	bool isArray;
 	int arrayItemCnt;
+	std::vector<uint32_t> references;
 
 	Declaration(DeclarationAlignment nAlignment, uint32_t nSize, std::string nVarType, std::string nVarName, bool nIsArray, std::string nText);
 	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, uint32_t nSize, std::string nVarType, std::string nVarName, bool nIsArray, std::string nText);

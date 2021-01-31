@@ -231,7 +231,7 @@ glabel func_8098ABC0
 .L8098AEBC:
 /* 0203C 8098AEBC 27A400B8 */  addiu   $a0, $sp, 0x00B8           ## $a0 = FFFFFFC0
 .L8098AEC0:
-/* 02040 8098AEC0 0C00BBC5 */  jal     func_8002EF14              
+/* 02040 8098AEC0 0C00BBC5 */  jal     Actor_GetWorld              
 /* 02044 8098AEC4 8FA500E4 */  lw      $a1, 0x00E4($sp)           
 /* 02048 8098AEC8 3C068099 */  lui     $a2, %hi(D_8098CF98)       ## $a2 = 80990000
 /* 0204C 8098AECC 24C6CF98 */  addiu   $a2, $a2, %lo(D_8098CF98)  ## $a2 = 8098CF98
@@ -390,8 +390,8 @@ glabel func_8098ABC0
 /* 02274 8098B0F4 93AF00B7 */  lbu     $t7, 0x00B7($sp)           
 /* 02278 8098B0F8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 0227C 8098B0FC 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
-/* 02280 8098B100 3C0D0401 */  lui     $t5, %hi(gGameKeepMoteDL0)                ## $t5 = 04010000
-/* 02284 8098B104 25AD0130 */  addiu   $t5, $t5, %lo(gGameKeepMoteDL0)           ## $t5 = 04010130
+/* 02280 8098B100 3C0D0401 */  lui     $t5, %hi(gEffFlash1DL)                ## $t5 = 04010000
+/* 02284 8098B104 25AD0130 */  addiu   $t5, $t5, %lo(gEffFlash1DL)           ## $t5 = 04010130
 /* 02288 8098B108 02417021 */  addu    $t6, $s2, $at              
 /* 0228C 8098B10C AFAE0078 */  sw      $t6, 0x0078($sp)           
 /* 02290 8098B110 11E00007 */  beq     $t7, $zero, .L8098B130     

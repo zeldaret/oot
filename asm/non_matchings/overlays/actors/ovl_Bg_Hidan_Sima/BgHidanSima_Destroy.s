@@ -7,8 +7,8 @@ glabel BgHidanSima_Destroy
 /* 00114 8088E4E4 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00118 8088E4E8 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 0011C 8088E4EC AFA7001C */  sw      $a3, 0x001C($sp)           
-/* 00120 8088E4F0 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 00120 8088E4F0 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00124 8088E4F4 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
 /* 00128 8088E4F8 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 0012C 8088E4FC 8FA4001C */  lw      $a0, 0x001C($sp)           

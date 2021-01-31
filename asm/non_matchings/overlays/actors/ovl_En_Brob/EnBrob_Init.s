@@ -29,19 +29,19 @@ glabel EnBrob_Init
 /* 00048 809CAB58 0C0291BE */  jal     SkelAnime_InitFlex
 /* 0004C 809CAB5C AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 00050 809CAB60 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00054 809CAB64 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00054 809CAB64 0C010D20 */  jal     DynaPolyActor_Init
 
 /* 00058 809CAB68 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0005C 809CAB6C 3C040600 */  lui     $a0, %hi(D_06001A70)                ## $a0 = 06000000
 /* 00060 809CAB70 24841A70 */  addiu   $a0, $a0, %lo(D_06001A70)           ## $a0 = 06001A70
-/* 00064 809CAB74 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00064 809CAB74 0C010620 */  jal     CollisionHeader_GetVirtual
 
 /* 00068 809CAB78 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFF4
 /* 0006C 809CAB7C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00070 809CAB80 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00074 809CAB84 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00078 809CAB88 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 00078 809CAB88 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 0007C 809CAB8C 8FA70034 */  lw      $a3, 0x0034($sp)
 /* 00080 809CAB90 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00084 809CAB94 26050228 */  addiu   $a1, $s0, 0x0228           ## $a1 = 00000228
@@ -71,7 +71,7 @@ glabel EnBrob_Init
 /* 000D4 809CABE4 3C06809D */  lui     $a2, %hi(D_809CBAAC)       ## $a2 = 809D0000
 /* 000D8 809CABE8 24C6BAAC */  addiu   $a2, $a2, %lo(D_809CBAAC)  ## $a2 = 809CBAAC
 /* 000DC 809CABEC 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 000E0 809CABF0 0C0187B5 */  jal     func_80061ED4
+/* 000E0 809CABF0 0C0187B5 */  jal     CollisionCheck_SetInfo
 /* 000E4 809CABF4 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 000E8 809CABF8 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
 /* 000EC 809CABFC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

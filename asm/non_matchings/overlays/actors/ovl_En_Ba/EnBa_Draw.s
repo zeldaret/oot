@@ -167,7 +167,7 @@ glabel EnBa_Draw
 /* 01B08 809B7E58 16350006 */  bne     $s1, $s5, .L809B7E74
 /* 01B0C 809B7E5C 26500320 */  addiu   $s0, $s2, 0x0320           ## $s0 = 00000320
 /* 01B10 809B7E60 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01B14 809B7E64 0C018A29 */  jal     func_800628A4
+/* 01B14 809B7E64 0C018A29 */  jal     Collider_UpdateSpheres
 /* 01B18 809B7E68 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000320
 /* 01B1C 809B7E6C 10000009 */  beq     $zero, $zero, .L809B7E94
 /* 01B20 809B7E70 00000000 */  nop
@@ -178,7 +178,7 @@ glabel EnBa_Draw
 /* 01B30 809B7E80 0C0342A3 */  jal     Matrix_Scale
 /* 01B34 809B7E84 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 01B38 809B7E88 24040008 */  addiu   $a0, $zero, 0x0008         ## $a0 = 00000008
-/* 01B3C 809B7E8C 0C018A29 */  jal     func_800628A4
+/* 01B3C 809B7E8C 0C018A29 */  jal     Collider_UpdateSpheres
 /* 01B40 809B7E90 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000320
 .L809B7E94:
 /* 01B44 809B7E94 3C05809C */  lui     $a1, %hi(D_809B8140)       ## $a1 = 809C0000

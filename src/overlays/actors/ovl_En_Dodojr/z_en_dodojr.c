@@ -41,7 +41,7 @@ extern SkeletonHeader D_060020E0;
 
 const ActorInit En_Dodojr_InitVars = {
     ACTOR_EN_DODOJR,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_DODOJR,
     sizeof(EnDodojr),
@@ -52,8 +52,22 @@ const ActorInit En_Dodojr_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK6, 0x11, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFC5FFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFC5FFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 18, 20, 0, { 0, 0, 0 } },
 };
 
@@ -117,7 +131,7 @@ void func_809F6730(EnDodojr* this, GlobalContext* globalCtx, Vec3f* arg2) {
     Vec3f pos;
     s16 angle = ((Rand_ZeroOne() - 0.5f) * 65536.0f);
 
-    pos.y = this->actor.groundY;
+    pos.y = this->actor.floorHeight;
 
     accel.x = (Rand_ZeroOne() - 0.5f) * 2;
     accel.z = (Rand_ZeroOne() - 0.5f) * 2;
@@ -139,7 +153,7 @@ s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
 
     if ((this->actor.bgCheckFlags & 1) != 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
-        this->dustPos = this->actor.posRot.pos;
+        this->dustPos = this->actor.world.pos;
         func_809F6510(this, globalCtx, 10);
         this->actor.velocity.y = 10.0f / (4 - this->unk_1FC);
         this->unk_1FC--;
@@ -195,13 +209,13 @@ void func_809F6B38(EnDodojr* this) {
 }
 
 void func_809F6BBC(EnDodojr* this) {
-    this->actor.shape.shadowDrawFunc = NULL;
+    this->actor.shape.shadowDraw = NULL;
     this->actor.flags &= ~1;
-    this->actor.initPosRot.pos = this->actor.posRot.pos;
+    this->actor.home.pos = this->actor.world.pos;
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = -0.8f;
     this->timer3 = 30;
-    this->dustPos = this->actor.posRot.pos;
+    this->dustPos = this->actor.world.pos;
 }
 
 void func_809F6C24(EnDodojr* this) {
@@ -221,7 +235,7 @@ s32 func_809F6CA4(EnDodojr* this, GlobalContext* globalCtx) {
     f32 yDist;
     f32 zDist;
 
-    bomb = globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
+    bomb = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
     this->bomb = NULL;
 
     while (bomb != NULL) {
@@ -235,9 +249,9 @@ s32 func_809F6CA4(EnDodojr* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        xDist = bomb->posRot.pos.x - this->actor.posRot.pos.x;
-        yDist = bomb->posRot.pos.y - this->actor.posRot.pos.y;
-        zDist = bomb->posRot.pos.z - this->actor.posRot.pos.z;
+        xDist = bomb->world.pos.x - this->actor.world.pos.x;
+        yDist = bomb->world.pos.y - this->actor.world.pos.y;
+        zDist = bomb->world.pos.z - this->actor.world.pos.z;
 
         if ((fabsf(xDist) >= fabsf(unkVec.x)) || (fabsf(yDist) >= fabsf(unkVec.y)) ||
             (fabsf(zDist) >= fabsf(unkVec.z))) {
@@ -246,7 +260,7 @@ s32 func_809F6CA4(EnDodojr* this, GlobalContext* globalCtx) {
         }
 
         this->bomb = bomb;
-        unkVec = bomb->posRot.pos;
+        unkVec = bomb->world.pos;
         retVar = 1;
         bomb = bomb->next;
     }
@@ -259,7 +273,7 @@ s32 func_809F6DD0(EnDodojr* this) {
         return 0;
     } else if (this->bomb->parent != NULL) {
         return 0;
-    } else if (Math_Vec3f_DistXYZ(&this->actor.posRot, &this->bomb->posRot.pos) > 30.0f) {
+    } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->bomb->world.pos) > 30.0f) {
         return 0;
     } else {
         this->bomb->parent = this;
@@ -280,13 +294,13 @@ void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
     }
 
     if (this->bomb != NULL) {
-        pos = this->bomb->posRot.pos;
+        pos = this->bomb->world.pos;
     } else {
-        pos = player->actor.posRot.pos;
+        pos = player->actor.world.pos;
     }
 
-    if (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &pos) > 80.0f) {
-        angleIndex = (s16)(this->actor.initPosRot.pos.x + this->actor.initPosRot.pos.y + this->actor.initPosRot.pos.z +
+    if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &pos) > 80.0f) {
+        angleIndex = (s16)(this->actor.home.pos.x + this->actor.home.pos.y + this->actor.home.pos.z +
                            globalCtx->state.frames / 30) %
                      12;
         angleIndex = ABS(angleIndex);
@@ -294,12 +308,12 @@ void func_809F6E54(EnDodojr* this, GlobalContext* globalCtx) {
         pos.z += 80.0f * cosf(angles[angleIndex]);
     }
 
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, Math_Vec3f_Yaw(&this->actor.posRot.pos, &pos), 10, 1000, 1);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    Math_SmoothStepToS(&this->actor.world.rot.y, Math_Vec3f_Yaw(&this->actor.world.pos, &pos), 10, 1000, 1);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 s32 func_809F706C(EnDodojr* this) {
-    if (this->actor.xzDistToLink > 40.0f) {
+    if (this->actor.xzDistToPlayer > 40.0f) {
         return 0;
     } else {
         return 1;
@@ -324,7 +338,7 @@ s32 func_809F70E8(EnDodojr* this, GlobalContext* globalCtx) {
     if (globalCtx->actorCtx.unk_02 != 0) {
         if (this->actionFunc != func_809F73AC) {
             if (this->actionFunc == func_809F74C4) {
-                this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
+                this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
             }
 
             func_809F709C(this);
@@ -338,7 +352,7 @@ s32 func_809F70E8(EnDodojr* this, GlobalContext* globalCtx) {
         this->collider.base.acFlags &= ~2;
 
         if ((this->actionFunc == func_809F73AC) || (this->actionFunc == func_809F74C4)) {
-            this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
+            this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
         }
 
         if ((this->actor.colChkInfo.damageEffect == 0) && (this->actor.colChkInfo.damage != 0)) {
@@ -385,18 +399,18 @@ void func_809F73AC(EnDodojr* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 dist;
 
-    if (!(this->actor.xzDistToLink >= 320.0f)) {
-        dist = this->actor.posRot.pos.y - player->actor.posRot.pos.y;
+    if (!(this->actor.xzDistToPlayer >= 320.0f)) {
+        dist = this->actor.world.pos.y - player->actor.world.pos.y;
 
         if (!(dist >= 40.0f)) {
             Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, 1, -10.0f);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_UP);
-            this->actor.posRot.pos.y -= 60.0f;
+            this->actor.world.pos.y -= 60.0f;
             this->actor.flags |= 1;
-            this->actor.posRot.rot.x -= 0x4000;
-            this->actor.shape.rot.x = this->actor.posRot.rot.x;
-            this->dustPos = this->actor.posRot.pos;
-            this->dustPos.y = this->actor.groundY;
+            this->actor.world.rot.x -= 0x4000;
+            this->actor.shape.rot.x = this->actor.world.rot.x;
+            this->dustPos = this->actor.world.pos;
+            this->dustPos.y = this->actor.floorHeight;
             this->actionFunc = func_809F74C4;
         }
     }
@@ -408,12 +422,12 @@ void func_809F74C4(EnDodojr* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape, 0, 4, 0x3E8, 0x64);
     sp2C = this->actor.shape.rot.x;
     sp2C /= 16384.0f;
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y + (60.0f * sp2C);
+    this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * sp2C);
     func_809F6510(this, globalCtx, 3);
 
     if (sp2C == 0.0f) {
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
-        this->actor.posRot.rot.x = this->actor.shape.rot.x;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
+        this->actor.world.rot.x = this->actor.shape.rot.x;
         this->actor.speedXZ = 2.6f;
         this->actionFunc = func_809F758C;
     }
@@ -421,7 +435,7 @@ void func_809F74C4(EnDodojr* this, GlobalContext* globalCtx) {
 
 void func_809F758C(EnDodojr* this, GlobalContext* globalCtx) {
     func_8002D868(&this->actor);
-    func_809F6730(this, globalCtx, &this->actor.posRot.pos);
+    func_809F6730(this, globalCtx, &this->actor.world.pos);
 
     if (DECR(this->timer4) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_MOVE);
@@ -455,7 +469,7 @@ void func_809F768C(EnDodojr* this, GlobalContext* globalCtx) {
     if (((s16)this->skelAnime.curFrame - 8) < 4) {
         bomb = (EnBom*)this->bomb;
         bomb->timer++;
-        this->bomb->posRot.pos = this->headPos;
+        this->bomb->world.pos = this->headPos;
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DRINK);
         Actor_Kill(this->bomb);
@@ -476,7 +490,7 @@ void func_809F773C(EnDodojr* this, GlobalContext* globalCtx) {
 
 void func_809F77AC(EnDodojr* this, GlobalContext* globalCtx) {
     this->rootScale = 1.2f;
-    this->rootScale *= ((f32)this->actor.dmgEffectTimer / 8);
+    this->rootScale *= ((f32)this->actor.colorFilterTimer / 8);
     func_8002D868(&this->actor);
 
     if (func_809F68B0(this, globalCtx) != 0) {
@@ -500,19 +514,19 @@ void func_809F786C(EnDodojr* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
-    this->actor.posRot.rot.x = this->actor.shape.rot.x;
-    this->actor.dmgEffectTimer = this->timer1;
+    this->actor.world.rot.x = this->actor.shape.rot.x;
+    this->actor.colorFilterTimer = this->timer1;
 }
 
 void func_809F78EC(EnDodojr* this, GlobalContext* globalCtx) {
     if (DECR(this->timer1) != 0) {
         if (this->timer1 < 30) {
             if ((this->timer1 & 1) != 0) {
-                this->actor.posRot.pos.x += 1.5f;
-                this->actor.posRot.pos.z += 1.5f;
+                this->actor.world.pos.x += 1.5f;
+                this->actor.world.pos.z += 1.5f;
             } else {
-                this->actor.posRot.pos.x -= 1.5f;
-                this->actor.posRot.pos.z -= 1.5f;
+                this->actor.world.pos.x -= 1.5f;
+                this->actor.world.pos.z -= 1.5f;
             }
 
             return;
@@ -540,7 +554,7 @@ void func_809F7A00(EnDodojr* this, GlobalContext* globalCtx) {
 
     if (DECR(this->timer3) != 0) {
         tmp = (30 - this->timer3) / 30.0f;
-        this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - (60.0f * tmp);
+        this->actor.world.pos.y = this->actor.home.pos.y - (60.0f * tmp);
     } else {
         Actor_Kill(&this->actor);
     }
@@ -551,7 +565,7 @@ void func_809F7A00(EnDodojr* this, GlobalContext* globalCtx) {
 void func_809F7AB8(EnDodojr* this, GlobalContext* globalCtx) {
     func_8002D868(this);
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
-    this->actor.posRot.rot.x = this->actor.shape.rot.x;
+    this->actor.world.rot.x = this->actor.shape.rot.x;
 
     if (func_809F68B0(this, globalCtx) != 0) {
         this->timer3 = 60;
@@ -565,13 +579,13 @@ void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx) {
     EnBom* bomb;
 
     if (this->unk_1FC != 0) {
-        if (this->actor.dmgEffectTimer == 0) {
+        if (this->actor.colorFilterTimer == 0) {
             func_8003426C(&this->actor, 0x4000, 200, 0, this->unk_1FC);
             this->unk_1FC--;
         }
     } else {
-        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
-                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
 
         if (bomb != NULL) {
             bomb->timer = 0;
@@ -584,7 +598,7 @@ void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx) {
 
 void func_809F7BE4(EnDodojr* this, GlobalContext* globalCtx) {
     if (DECR(this->timer3) == 0) {
-        Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, 0x40);
+        Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 0x40);
         Actor_Kill(&this->actor);
     }
 }

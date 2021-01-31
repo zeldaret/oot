@@ -17,7 +17,7 @@ extern UNK_TYPE D_060027D8;
 /*
 const ActorInit Efc_Erupc_InitVars = {
     ACTOR_EFC_ERUPC,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_EFC_ERUPC,
     sizeof(EfcErupc),

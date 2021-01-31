@@ -17,7 +17,7 @@ typedef struct BgSpot15Rrbox {
     /* 0x0174 */ f32 unk_174;
     /* 0x0178 */ f32 unk_178;
     /* 0x017C */ f32 unk_17C;
-    /* 0x0180 */ s32 bgId;
+    /* 0x0180 */ s32 bgId; // Id of BgActor beneath the box
 } BgSpot15Rrbox; // size = 0x0184
 
 extern const ActorInit Bg_Spot15_Rrbox_InitVars;
