@@ -485,14 +485,10 @@ void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
     Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
 }
 
-static Vec3f sFireOffset[] = {
-    { 5.0f, 0.0f, 0.0f },
-    { -5.0f, 0.0f, 0.0f },
-    { 0.0f, 0.0f, 5.0f },
-    { 0.0f, 0.0f, -5.0f },
-};
-
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    static Vec3f sFireOffsets[] = {
+        { 5.0f, 0.0f, 0.0f }, { -5.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 5.0f }, { 0.0f, 0.0f, -5.0f }
+    };
     s32 pad;
     EnNy* this = THIS;
 
@@ -526,7 +522,7 @@ void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         temp = this->unk_1CA - 1;
         this->actor.colorFilterTimer++;
         if (temp == 0) {
-            fireOffset = &sFireOffset[temp & 3];
+            fireOffset = &sFireOffsets[temp & 3];
             tempVec.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + fireOffset->x);
             tempVec.y = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.y + fireOffset->y);
             tempVec.z = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.z + fireOffset->z);

@@ -4782,7 +4782,6 @@ endseg
 beginseg
     name "object_ny"
     romalign 0x1000
-    //include "build/baserom/object_ny.o"
     include "build/assets/objects/object_ny/object_ny.o"
     number 6
 endseg
