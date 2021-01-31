@@ -119,9 +119,39 @@ static ColliderCylinderInitType1 sCylinderInit3 = {
     { 20, 30, -15, { 0, 0, 0 } },
 };
 
-static DamageTable sDamageTable = {
-    0x00, 0xF0, 0xF0, 0xF2, 0xF0, 0xF0, 0xF2, 0xF2, 0xF0, 0xF2, 0xF4, 0x24, 0xF0, 0xF0, 0xF0, 0xF0,
-    0xF0, 0x24, 0x00, 0x00, 0x00, 0x00, 0xF0, 0xF4, 0xF2, 0xF0, 0xF8, 0xF4, 0x00, 0x00, 0x00, 0x00,
+DamageTable sDamageTable = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0xF),
+    /* Slingshot     */ DMG_ENTRY(0, 0xF),
+    /* Explosive     */ DMG_ENTRY(2, 0xF),
+    /* Boomerang     */ DMG_ENTRY(0, 0xF),
+    /* Normal arrow  */ DMG_ENTRY(0, 0xF),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
+    /* Hookshot      */ DMG_ENTRY(2, 0xF),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0xF),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
+    /* Ice arrow     */ DMG_ENTRY(0, 0xF),
+    /* Light arrow   */ DMG_ENTRY(0, 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0xF),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0xF),
+    /* Fire magic    */ DMG_ENTRY(4, 0x2),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0xF),
+    /* Giant spin    */ DMG_ENTRY(4, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0xF),
+    /* Giant jump    */ DMG_ENTRY(8, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -160,7 +190,7 @@ void EnFz_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.gravity = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->posOrigin.y = this->actor.world.pos.y;
-    this->IceSmokeFreezingSpawnHeight = this->actor.world.pos.y;
+    this->iceSmokeFreezingSpawnHeight = this->actor.world.pos.y;
     this->posOrigin.x = this->actor.world.pos.x;
     this->posOrigin.z = this->actor.world.pos.z;
     this->unusedFloat = 135.0f;
@@ -284,7 +314,7 @@ void EnFz_SpawnIceSmokeActiveState(EnFz* this) {
 
     if ((this->counter % 4) == 0) {
         pos.x = Rand_CenteredFloat(40.0f) + this->actor.world.pos.x;
-        pos.y = this->IceSmokeFreezingSpawnHeight;
+        pos.y = this->iceSmokeFreezingSpawnHeight;
         pos.z = Rand_CenteredFloat(40.0f) + this->actor.world.pos.z;
         accel.x = accel.z = 0.0f;
         accel.y = 0.1f;
@@ -627,15 +657,16 @@ void EnFz_BlowSmokeStationary(EnFz* this, GlobalContext* globalCtx) {
     }
 }
 
+static EnFzSpawnIceSmokeFunc iceSmokeSpawnFuncs[] = {
+    EnFz_SpawnIceSmokeHiddenState,
+    EnFz_SpawnIceSmokeGrowingState,
+    EnFz_SpawnIceSmokeActiveState,
+    EnFz_SpawnIceSmokeActiveState,
+};
+
 void EnFz_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFz* this = THIS;
     s32 pad;
-    static EnFzSpawnIceSmokeFunc iceSmokeSpawnFuncs[] = {
-        EnFz_SpawnIceSmokeHiddenState,
-        EnFz_SpawnIceSmokeGrowingState,
-        EnFz_SpawnIceSmokeActiveState,
-        EnFz_SpawnIceSmokeActiveState,
-    };
 
     this->counter++;
 
@@ -681,7 +712,7 @@ void EnFz_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static Gfx* displayLists[] = {
         0x06001130, // Body fully intact           (5 or 6 health)
         0x060021A0, // Top right horn chipped off  (from Freezards perspective)   (3 or 4 health)
-        0x06002CA0  // Entire head chipped off     (1 or 2 health)
+        0x06002CA0, // Entire head chipped off     (1 or 2 health)
     };
     EnFz* this = THIS;
     s32 pad;
@@ -830,10 +861,10 @@ void EnFz_UpdateIceSmoke(EnFz* this, GlobalContext* globalCtx) {
 void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
     EnFzEffectSsIceSmoke* iceSmoke = this->iceSmoke;
     s16 i;
-    GraphicsContext* state = globalCtx->state.gfxCtx;
+    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     u8 texLoaded = false;
 
-    OPEN_DISPS(state, "../z_en_fz.c", 1384);
+    OPEN_DISPS(gfxCtx, "../z_en_fz.c", 1384);
 
     func_80093D84(globalCtx->state.gfxCtx);
 
@@ -853,7 +884,7 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
             Matrix_Translate(iceSmoke->pos.x, iceSmoke->pos.y, iceSmoke->pos.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(iceSmoke->xyScale, iceSmoke->xyScale, 1.0f, MTXMODE_APPLY);
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(state, "../z_en_fz.c", 1424),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_fz.c", 1424),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_06003158));
         }
@@ -861,5 +892,5 @@ void EnFz_DrawIceSmoke(EnFz* this, GlobalContext* globalCtx) {
         iceSmoke++;
     }
 
-    CLOSE_DISPS(state, "../z_en_fz.c", 1430);
+    CLOSE_DISPS(gfxCtx, "../z_en_fz.c", 1430);
 }

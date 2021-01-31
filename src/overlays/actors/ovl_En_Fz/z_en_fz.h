@@ -6,7 +6,7 @@
 
 struct EnFz;
 
-typedef void (*EnFzActionFunc)(struct EnFz*, struct GlobalContext*);
+typedef void (*EnFzActionFunc)(struct EnFz*, GlobalContext*);
 typedef void (*EnFzSpawnIceSmokeFunc)(struct EnFz*);
 
 typedef struct {
@@ -15,7 +15,7 @@ typedef struct {
     /* 0x0004 */ Vec3f pos; // Random position within 20.0f of actor
     /* 0x0010 */ Vec3f velocity; 
     /* 0x001C */ Vec3f accel;
-    /* 0x0028 */ s32 padding; // Unused
+    /* 0x0028 */ char unk_28[0x4];
     /* 0x002C */ s16 primAlpha; // transparency in RGBA colour system
     /* 0x002E */ s16 primAlphaState; // 0: increasing (more opaque) 1: decreasing (more transparent) 2: collision
     /* 0x0030 */ f32 xyScale; // 
@@ -37,8 +37,7 @@ typedef struct EnFz {
     /* 0x0247 */ u8 isMoving; // Freezard is moving in xz plane
     /* 0x0248 */ u8 isFreezing; // Freezard shooting ice projectiles that can freeze Link
     /* 0x0249 */ u8 unusedCounter; // Incremented when Freezard takes damage
-    /* 0x024A */ s16 padding;
-    /* 0x024C */ f32 IceSmokeFreezingSpawnHeight; // Height for Ice Smoke Spawn, only when freezing
+    /* 0x024C */ f32 iceSmokeFreezingSpawnHeight; // Height for Ice Smoke Spawn, only when freezing
     /* 0x0250 */ f32 unusedFloat; // Set to 135.0f
     /* 0x0254 */ f32 speedXZ; // Set to 4.0f when moving
     /* 0x0258 */ u32 envAlpha; // transparency in RGBA colour system
