@@ -58,9 +58,9 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x0600075C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x0600075C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
+    { 0x0600075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x0600075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x0600046C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 extern FlexSkeletonHeader D_060086D0;
