@@ -65,38 +65,38 @@ static ColliderJntSphInit sColliderInit = {
 };
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0 , 0x0),
-    /* Deku stick    */ DMG_ENTRY(0 , 0x0),
-    /* Slingshot     */ DMG_ENTRY(0 , 0x0),
-    /* Explosive     */ DMG_ENTRY(2 , 0xF),
-    /* Boomerang     */ DMG_ENTRY(0 , 0x0),
-    /* Normal arrow  */ DMG_ENTRY(2 , 0xF),
-    /* Hammer swing  */ DMG_ENTRY(2 , 0xF),
-    /* Hookshot      */ DMG_ENTRY(2 , 0x1),
-    /* Kokiri sword  */ DMG_ENTRY(0 , 0x0),
-    /* Master sword  */ DMG_ENTRY(2 , 0xF),
-    /* Giant's Knife */ DMG_ENTRY(4 , 0xF),
-    /* Fire arrow    */ DMG_ENTRY(4 , 0x2),
-    /* Ice arrow     */ DMG_ENTRY(2 , 0xF),
-    /* Light arrow   */ DMG_ENTRY(2 , 0xF),
-    /* Unk arrow 1   */ DMG_ENTRY(4 , 0xE),
-    /* Unk arrow 2   */ DMG_ENTRY(0 , 0x0),
-    /* Unk arrow 3   */ DMG_ENTRY(0 , 0x0),
-    /* Fire magic    */ DMG_ENTRY(4 , 0x2),
-    /* Ice magic     */ DMG_ENTRY(0 , 0x0),
-    /* Light magic   */ DMG_ENTRY(0 , 0x0),
-    /* Shield        */ DMG_ENTRY(0 , 0x0),
-    /* Mirror Ray    */ DMG_ENTRY(0 , 0x0),
-    /* Kokiri spin   */ DMG_ENTRY(0 , 0x0),
-    /* Giant spin    */ DMG_ENTRY(4 , 0xF),
-    /* Master spin   */ DMG_ENTRY(2 , 0xF),
-    /* Kokiri jump   */ DMG_ENTRY(0 , 0x0),
-    /* Giant jump    */ DMG_ENTRY(8 , 0xF),
-    /* Master jump   */ DMG_ENTRY(4 , 0xF),
-    /* Unknown 1     */ DMG_ENTRY(0 , 0x0),
-    /* Unblockable   */ DMG_ENTRY(0 , 0x0),
-    /* Hammer jump   */ DMG_ENTRY(0 , 0x0),
-    /* Unknown 2     */ DMG_ENTRY(0 , 0x0),
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0x0),
+    /* Slingshot     */ DMG_ENTRY(0, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0xF),
+    /* Boomerang     */ DMG_ENTRY(0, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0xF),
+    /* Hammer swing  */ DMG_ENTRY(2, 0xF),
+    /* Hookshot      */ DMG_ENTRY(2, 0x1),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(4, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(4, 0x2),
+    /* Ice arrow     */ DMG_ENTRY(2, 0xF),
+    /* Light arrow   */ DMG_ENTRY(2, 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(4, 0xE),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0x0),
+    /* Fire magic    */ DMG_ENTRY(4, 0x2),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
@@ -136,7 +136,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_1E0 = 1.0f;
         func_80ABCDBC(this);
     } else {
-        //@Bug this block is never reached because params is never set to anything other than 0
+        // This mode is unused in the final game
         // Dummy new initials
         osSyncPrintf("ダミーニュウ イニシャル[ %d ] ！！\n", this->actor.params);
         osSyncPrintf("En_Ny_actor_move2[ %x ] ！！\n", EnNy_UpdateUnused);
@@ -514,9 +514,12 @@ void EnNy_UpdateUnused(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_MoveForward(&this->actor);
     Math_StepToF(&this->unk_1E4, this->unk_1E8, 0.1f);
 }
-    static Vec3f sFireOffsets[] = {
-        { 5.0f, 0.0f, 0.0f }, { -5.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 5.0f }, { 0.0f, 0.0f, -5.0f },
-    };
+static Vec3f sFireOffsets[] = {
+    { 5.0f, 0.0f, 0.0f },
+    { -5.0f, 0.0f, 0.0f },
+    { 0.0f, 0.0f, 5.0f },
+    { 0.0f, 0.0f, -5.0f },
+};
 
 void EnNy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
