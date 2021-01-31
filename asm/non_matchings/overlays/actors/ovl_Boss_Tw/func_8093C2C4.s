@@ -155,7 +155,7 @@ glabel func_8093C2C4
 /* 03808 8093C4D8 AFA90014 */  sw      $t1, 0x0014($sp)
 /* 0380C 8093C4DC 8FA4006C */  lw      $a0, 0x006C($sp)
 /* 03810 8093C4E0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 03814 8093C4E4 0C00B92D */  jal     func_8002E4B4
+/* 03814 8093C4E4 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 03818 8093C4E8 E7B20010 */  swc1    $f18, 0x0010($sp)
 /* 0381C 8093C4EC 3C014248 */  lui     $at, 0x4248                ## $at = 42480000
 /* 03820 8093C4F0 44813000 */  mtc1    $at, $f6                   ## $f6 = 50.00

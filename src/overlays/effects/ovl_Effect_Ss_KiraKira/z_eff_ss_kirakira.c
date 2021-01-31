@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_kirakira.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rRotSpeed regs[0]
 #define rYaw regs[1]
@@ -31,8 +32,6 @@ EffectSsInit Effect_Ss_KiraKira_InitVars = {
     EffectSsKiraKira_Init,
 };
 
-extern Gfx D_04037880[];
-
 u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsKiraKiraInitParams* initParams = (EffectSsKiraKiraInitParams*)initParamsx;
 
@@ -42,12 +41,12 @@ u32 EffectSsKiraKira_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
 
     if ((this->life = initParams->life) < 0) {
         this->life = -this->life;
-        this->gfx = SEGMENTED_TO_VIRTUAL(D_04037880);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL);
         this->update = func_809AAD6C;
         this->rEnvColorA = initParams->scale;
         this->rScale = 0;
     } else {
-        this->gfx = SEGMENTED_TO_VIRTUAL(D_04037880);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gEffFairySparklesDL);
 
         if (initParams->updateMode == 0) {
             this->update = func_809AABF0;

@@ -600,8 +600,8 @@ glabel func_80073A5C
 /* AEB468 800742C8 2A21000A */   slti  $at, $s1, 0xa
 .L800742CC:
 /* AEB46C 800742CC 8E0702D0 */  lw    $a3, 0x2d0($s0)
-/* AEB470 800742D0 3C030403 */  lui   $v1, %hi(D_04037730) # $v1, 0x403
-/* AEB474 800742D4 24637730 */  addiu $v1, %lo(D_04037730) # addiu $v1, $v1, 0x7730
+/* AEB470 800742D0 3C030403 */  lui   $v1, %hi(gEffBurnMark1DL) # $v1, 0x403
+/* AEB474 800742D4 24637730 */  addiu $v1, %lo(gEffBurnMark1DL) # addiu $v1, $v1, 0x7730
 /* AEB478 800742D8 24E80008 */  addiu $t0, $a3, 8
 /* AEB47C 800742DC AE0802D0 */  sw    $t0, 0x2d0($s0)
 /* AEB480 800742E0 3C0FDE00 */  lui   $t7, 0xde00

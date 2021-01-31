@@ -32,7 +32,7 @@ void func_80B9A6E8(ObjMure2* this);
 
 const ActorInit Obj_Mure2_InitVars = {
     ACTOR_OBJ_MURE2,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjMure2),
@@ -56,9 +56,9 @@ void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
     Vec3f* vecPtr = vec;
     s32 i;
 
-    Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
+    Math_Vec3f_Copy(vecPtr, &this->actor.world.pos);
     for (i = 1, vecPtr++; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
-        Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
+        Math_Vec3f_Copy(vecPtr, &this->actor.world.pos);
         vecPtr->x += (80.0f * Math_SinS((i - 1) * 0x2000));
         vecPtr->z += (80.0f * Math_CosS((i - 1) * 0x2000));
     }
@@ -76,8 +76,8 @@ void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
 
     Vec3f* vecPtr;
     s32 i;
-    Vec3f* actorPos = &this->actor.posRot.pos; // Required to match
-    ObjMure2* this2 = this;                    // Required to match
+    Vec3f* actorPos = &this->actor.world.pos; // Required to match
+    ObjMure2* this2 = this;                   // Required to match
 
     for (vecPtr = vec, i = 0; i < D_80B9A818[this2->actor.params & 3]; vecPtr++, i++) {
         Math_Vec3f_Copy(vecPtr, actorPos);
@@ -92,7 +92,7 @@ void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this) {
     s32 i;
 
     for (i = 0; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
-        Math_Vec3f_Copy(vecPtr, &this->actor.posRot.pos);
+        Math_Vec3f_Copy(vecPtr, &this->actor.world.pos);
         vecPtr->x += (80.0f * Math_SinS(i * 0x2000));
         vecPtr->z += (80.0f * Math_CosS(i * 0x2000));
     }
@@ -134,7 +134,7 @@ void ObjMure2_SpawnActors(ObjMure2* this, GlobalContext* globalCtx) {
         if (((this->currentActorNum >> i) & 1) == 0) {
             this->actorSpawnPtrList[i] =
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, sActorSpawnIDs[actorNum], spawnPos[i].x, spawnPos[i].y,
-                            spawnPos[i].z, this->actor.posRot.rot.x, 0, this->actor.posRot.rot.z, params);
+                            spawnPos[i].z, this->actor.world.rot.x, 0, this->actor.world.rot.z, params);
             if (this->actorSpawnPtrList[i] != NULL) {
                 this->actorSpawnPtrList[i]->room = this->actor.room;
             }

@@ -63,7 +63,7 @@ glabel EnMm2_Update
 /* 00A1C 80AAF86C 26060194 */  addiu   $a2, $s0, 0x0194           ## $a2 = 00000194
 /* 00A20 80AAF870 00C02825 */  or      $a1, $a2, $zero            ## $a1 = 00000194
 /* 00A24 80AAF874 AFA60034 */  sw      $a2, 0x0034($sp)           
-/* 00A28 80AAF878 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00A28 80AAF878 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00A2C 80AAF87C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00A30 80AAF880 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -71,7 +71,7 @@ glabel EnMm2_Update
 /* 00A38 80AAF888 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 00A3C 80AAF88C 02212821 */  addu    $a1, $s1, $at              
 /* 00A40 80AAF890 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00A44 80AAF894 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00A48 80AAF898 0C00B638 */  jal     Actor_MoveForward
               
@@ -83,7 +83,7 @@ glabel EnMm2_Update
 /* 00A60 80AAF8B0 44070000 */  mfc1    $a3, $f0                   
 /* 00A64 80AAF8B4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00A68 80AAF8B8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00A6C 80AAF8BC 0C00B92D */  jal     func_8002E4B4              
+/* 00A6C 80AAF8BC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00A70 80AAF8C0 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00A74 80AAF8C4 8FBF002C */  lw      $ra, 0x002C($sp)           
 /* 00A78 80AAF8C8 8FB00024 */  lw      $s0, 0x0024($sp)           

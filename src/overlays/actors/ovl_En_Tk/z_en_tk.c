@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tk.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000009
 
@@ -20,14 +21,6 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Walk(EnTk* this, GlobalContext* globalCtx);
 void EnTk_Dig(EnTk* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_04051DB0;
-extern UNK_TYPE D_040521B0;
-extern UNK_TYPE D_040525B0;
-extern UNK_TYPE D_040529B0;
-extern UNK_TYPE D_04052DB0;
-extern UNK_TYPE D_040531B0;
-extern UNK_TYPE D_040535B0;
-extern UNK_TYPE D_040539B0;
 extern AnimationHeader D_06001144;
 extern AnimationHeader D_06001FA8;
 extern AnimationHeader D_06002F84;
@@ -41,7 +34,7 @@ extern FlexSkeletonHeader D_0600BE40;
 
 const ActorInit En_Tk_InitVars = {
     ACTOR_EN_TK,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_TK,
     sizeof(EnTk),
@@ -96,8 +89,8 @@ void EnTkEff_Update(EnTk* this) {
 }
 
 void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
-    static UNK_PTR images[] = {
-        &D_040539B0, &D_040535B0, &D_040531B0, &D_04052DB0, &D_040529B0, &D_040525B0, &D_040521B0, &D_04051DB0,
+    static UNK_PTR dustImages[] = {
+        &gDust8Tex, &gDust7Tex, &gDust6Tex, &gDust5Tex, &gDust4Tex, &gDust3Tex, &gDust2Tex, &gDust1Tex,
     };
 
     EnTkEff* eff = this->eff;
@@ -133,8 +126,8 @@ void EnTkEff_Draw(EnTk* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tk_eff.c", 140),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(images) / eff->timeTotal);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(images[imageIdx]));
+            imageIdx = eff->timeLeft * ((f32)ARRAY_COUNT(dustImages) / eff->timeTotal);
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(dustImages[imageIdx]));
 
             gSPDisplayList(POLY_XLU_DISP++, D_0600BCA0);
         }
@@ -158,14 +151,26 @@ s32 EnTkEff_CreateDflt(EnTk* this, Vec3f* pos, u8 duration, f32 size, f32 growth
 /** z_en_tk_eff.c ends here probably **/
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 30, 52, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 void EnTk_RestAnim(EnTk* this, GlobalContext* globalCtx) {
     AnimationHeader* anim = &D_06002F84;
@@ -215,7 +220,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     s16 v0;
     s16 v1;
 
-    if (this->actor.xyzDistToLinkSq > 10000.0f) {
+    if (this->actor.xyzDistToPlayerSq > 10000.0f) {
         return 0;
     }
 
@@ -223,7 +228,7 @@ s32 EnTk_CheckFacingPlayer(EnTk* this) {
     v0 -= this->h_21E;
     v0 -= this->headRot;
 
-    v1 = this->actor.yawTowardsLink - v0;
+    v1 = this->actor.yawTowardsPlayer - v0;
     if (ABS(v1) < 0x1554) {
         return 1;
     } else {
@@ -236,7 +241,7 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
     f32 dxz;
     f32 dy;
 
-    prop = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    prop = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
 
     while (prop != NULL) {
         if (prop->id != ACTOR_EN_IT) {
@@ -249,8 +254,8 @@ s32 EnTk_CheckNextSpot(EnTk* this, GlobalContext* globalCtx) {
             continue;
         }
 
-        dy = prop->posRot.pos.y - this->actor.groundY;
-        dxz = func_8002DB8C(&this->actor, prop);
+        dy = prop->world.pos.y - this->actor.floorHeight;
+        dxz = Actor_WorldDistXZToActor(&this->actor, prop);
         if (dxz > 40.0f || dy > 10.0f) {
             prop = prop->next;
             continue;
@@ -268,8 +273,8 @@ void EnTk_CheckCurrentSpot(EnTk* this) {
     f32 dy;
 
     if (this->currentSpot != NULL) {
-        dy = this->currentSpot->posRot.pos.y - this->actor.groundY;
-        dxz = func_8002DB8C(&this->actor, this->currentSpot);
+        dy = this->currentSpot->world.pos.y - this->actor.floorHeight;
+        dxz = Actor_WorldDistXZToActor(&this->actor, this->currentSpot);
         if (dxz > 40.0f || dy > 10.0f) {
             this->currentSpot = NULL;
         }
@@ -317,11 +322,11 @@ s32 EnTk_Orient(EnTk* this, GlobalContext* globalCtx) {
     point = SEGMENTED_TO_VIRTUAL(path->points);
     point += this->currentWaypoint;
 
-    dx = point->x - this->actor.posRot.pos.x;
-    dz = point->z - this->actor.posRot.pos.z;
+    dx = point->x - this->actor.world.pos.x;
+    dz = point->z - this->actor.world.pos.z;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 10, 1000, 1);
-    this->actor.posRot.rot = this->actor.shape.rot;
+    this->actor.world.rot = this->actor.shape.rot;
 
     if (SQ(dx) + SQ(dz) < 10.0f) {
         this->currentWaypoint++;
@@ -485,7 +490,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnTk* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawFunc_Circle, 24.0f);
+    ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 24.0f);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BE40, NULL, this->jointTable, this->morphTable, 18);
     Animation_Change(&this->skelAnime, &D_06002F84, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002F84), ANIMMODE_LOOP,
@@ -494,7 +499,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (gSaveContext.dayTime <= 0xC000 || gSaveContext.dayTime >= 0xE000 || !LINK_IS_CHILD ||
         globalCtx->sceneNum != SCENE_SPOT02) {
@@ -504,7 +509,7 @@ void EnTk_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
 
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->actor.gravity = -0.1f;
     this->currentReward = -1;
     this->currentSpot = NULL;
@@ -524,7 +529,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     if (this->h_1E0 != 0) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.yawTowardsLink - v1;
+        v1 = this->actor.yawTowardsPlayer - v1;
 
         if (this->h_1E0 == 2) {
             EnTk_DigAnim(this, globalCtx);
@@ -538,7 +543,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (EnTk_CheckFacingPlayer(this)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.yawTowardsLink - v1;
+        v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
         func_800343CC(globalCtx, &this->actor, &this->h_1E0, this->collider.dim.radius + 30.0f, func_80B1C54C,
@@ -546,7 +551,7 @@ void EnTk_Rest(EnTk* this, GlobalContext* globalCtx) {
     } else if (func_8002F194(&this->actor, globalCtx)) {
         v1 = this->actor.shape.rot.y;
         v1 -= this->h_21E;
-        v1 = this->actor.yawTowardsLink - v1;
+        v1 = this->actor.yawTowardsPlayer - v1;
 
         this->actionCountdown = 0;
         this->h_1E0 = 1;
@@ -605,9 +610,9 @@ void EnTk_Dig(EnTk* this, GlobalContext* globalCtx) {
             Matrix_RotateY(this->actor.shape.rot.y, MTXMODE_NEW);
             Matrix_MultVec3f(&rewardOrigin, &rewardPos);
 
-            rewardPos.x += this->actor.posRot.pos.x;
-            rewardPos.y += this->actor.posRot.pos.y;
-            rewardPos.z += this->actor.posRot.pos.z;
+            rewardPos.x += this->actor.world.pos.x;
+            rewardPos.y += this->actor.world.pos.y;
+            rewardPos.z += this->actor.world.pos.z;
 
             this->currentReward = EnTk_ChooseReward(this);
             if (this->currentReward == 3) {
@@ -660,14 +665,14 @@ void EnTk_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnTk* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     SkelAnime_Update(&this->skelAnime);
 
     Actor_MoveForward(&this->actor);
 
-    func_8002E4B4(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 10.0f, 0.0f, 5);
 
     this->actionFunc(this, globalCtx);
 
@@ -709,7 +714,7 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
     /* Limb 16 - Jaw */
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&sp1C, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&sp1C, &this->actor.focus.pos);
     }
 
     /* Limb 14 - Neck */
