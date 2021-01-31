@@ -1880,7 +1880,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
         if (this->light.flicker == 0) {
             this->light.flicker = 1;
         } else {
-            disp = (u32)gGameKeepMoteDL0; // necessary to match, should be able to remove after fake matches are fixed
+            disp = (u32)gEffFlash1DL; // necessary to match, should be able to remove after fake matches are fixed
             alpha = &this->light.alpha;
             func_80093D84(globalCtx->state.gfxCtx);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 128, this->primXluColor[0], this->primXluColor[1],
@@ -1923,7 +1923,7 @@ void DemoEffect_DrawBlueOrb(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2901),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     this->blueOrb.rotation += 0x01F4;
-    gSPDisplayList(POLY_XLU_DISP++, gGameKeepMoteDL0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffFlash1DL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2907);
 }
 

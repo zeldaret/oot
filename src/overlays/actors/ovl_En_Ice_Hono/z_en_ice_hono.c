@@ -1,4 +1,5 @@
 #include "z_en_ice_hono.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -18,8 +19,6 @@ void EnIceHono_SetupActionCapturableFlame(EnIceHono* this);
 void EnIceHono_SetupActionDroppedFlame(EnIceHono* this);
 void EnIceHono_SetupActionSpreadFlames(EnIceHono* this);
 void EnIceHono_SetupActionSmallFlame(EnIceHono* this);
-
-extern Gfx D_0404D4E0[];
 
 const ActorInit En_Ice_Hono_InitVars = {
     ACTOR_EN_ICE_HONO,
@@ -387,7 +386,7 @@ void EnIceHono_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 718),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ice_hono.c", 722);
 }

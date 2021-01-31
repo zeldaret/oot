@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot00_hanebasi.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -25,7 +26,6 @@ void BgSpot00Hanebasi_DrawBridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
 void BgSpot00Hanebasi_DrawBridgeRiseAndFall(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
 void BgSpot00Hanebasi_SetTorchLightInfo(BgSpot00Hanebasi* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];           // torch flame
 extern Gfx D_060000C0[];           // bridge chains
 extern CollisionHeader D_06000280; // chains collision
 extern Gfx D_06000430[];           // drawbridge
@@ -293,7 +293,7 @@ void BgSpot00Hanebasi_DrawTorches(Actor* thisx, GlobalContext* globalCtx2) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 674),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot00_hanebasi.c", 681);

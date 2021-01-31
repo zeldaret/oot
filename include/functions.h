@@ -507,7 +507,7 @@ void func_80034BA0(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbD
 void func_80034CC4(GlobalContext* globalCtx, SkelAnime* skelAnime, OverrideLimbDraw overrideLimbDraw,
                    PostLimbDraw postLimbDraw, Actor* actor, s16 alpha);
 s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3);
-void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2);
+void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* animations, s32 index);
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
 void Actor_Noop(Actor* actor, GlobalContext* globalCtx);
 void Gfx_DrawDListOpa(GlobalContext* globalCtx, Gfx* dlist);
@@ -2599,6 +2599,7 @@ void func_8010B720(GlobalContext* globalCtx, u16 textId);
 // ? func_8010B820(?);
 // ? func_8010BD58(?);
 void func_8010BD58(GlobalContext* globalCtx, u16 arg1);
+void func_8010BD88(GlobalContext* globalCtx, u16 arg1);
 u8 func_8010BDBC(MessageContext* msgCtx);
 // ? func_8010BED8(?);
 // ? func_8010C358(?);

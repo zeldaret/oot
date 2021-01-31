@@ -32,7 +32,7 @@ beginseg
     include "build/src/libultra_boot_O1/osViModePalLan1.o"
     include "build/src/libultra_boot_O1/osRecvMesg.o"
     include "build/src/libultra_boot_O1/initialize.o"
-    include "build/asm/libm.o"
+    include "build/src/libultra_boot_O1/ll.o"
     include "build/asm/exceptasm.o"
     include "build/src/libultra_boot_O1/__osDequeueThread.o"
     include "build/src/libultra_boot_O1/osDestroyThread.o"
@@ -140,6 +140,7 @@ beginseg
     name "icon_item_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_static/icon_item_static.o"
+    number 8
 endseg
 
 beginseg
@@ -169,7 +170,7 @@ endseg
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o" //include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    include "build/baserom/icon_item_nes_static.o"
 endseg
 
 beginseg
@@ -2156,8 +2157,7 @@ endseg
 beginseg
     name "ovl_En_Du"
     include "build/src/overlays/actors/ovl_En_Du/z_en_du.o"
-    include "build/data/overlays/actors/z_en_du.data.o"
-    include "build/data/overlays/actors/z_en_du.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Du/ovl_En_Du_reloc.o"
 endseg
 
 beginseg
@@ -2281,8 +2281,7 @@ endseg
 beginseg
     name "ovl_En_Fz"
     include "build/src/overlays/actors/ovl_En_Fz/z_en_fz.o"
-    include "build/data/overlays/actors/z_en_fz.data.o"
-    include "build/data/overlays/actors/z_en_fz.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fz/ovl_En_Fz_reloc.o"
 endseg
 
 beginseg
@@ -2354,16 +2353,13 @@ endseg
 beginseg
     name "ovl_En_Go"
     include "build/src/overlays/actors/ovl_En_Go/z_en_go.o"
-    include "build/data/overlays/actors/z_en_go.data.o"
-    include "build/data/overlays/actors/z_en_go.rodata.o"
-    include "build/data/overlays/actors/z_en_go.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Go/ovl_En_Go_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Go2"
     include "build/src/overlays/actors/ovl_En_Go2/z_en_go2.o"
-    include "build/data/overlays/actors/z_en_go2.data.o"
-    include "build/data/overlays/actors/z_en_go2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Go2/ovl_En_Go2_reloc.o"
 endseg
 
 beginseg
@@ -2453,8 +2449,7 @@ endseg
 beginseg
     name "ovl_En_Horse_Game_Check"
     include "build/src/overlays/actors/ovl_En_Horse_Game_Check/z_en_horse_game_check.o"
-    include "build/data/overlays/actors/z_en_horse_game_check.data.o"
-    include "build/data/overlays/actors/z_en_horse_game_check.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse_Game_Check/ovl_En_Horse_Game_Check_reloc.o"
 endseg
 
 beginseg
@@ -2879,8 +2874,7 @@ endseg
 beginseg
     name "ovl_En_Sa"
     include "build/src/overlays/actors/ovl_En_Sa/z_en_sa.o"
-    include "build/data/overlays/actors/z_en_sa.data.o"
-    include "build/data/overlays/actors/z_en_sa.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Sa/ovl_En_Sa_reloc.o"
 endseg
 
 beginseg
@@ -3061,15 +3055,17 @@ endseg
 beginseg
     name "ovl_En_Tr"
     include "build/src/overlays/actors/ovl_En_Tr/z_en_tr.o"
-    include "build/data/overlays/actors/z_en_tr.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Tr/ovl_En_Tr_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_tr.reloc.o"
+#endif
 endseg
 
 beginseg
     name "ovl_En_Trap"
     include "build/src/overlays/actors/ovl_En_Trap/z_en_trap.o"
-    include "build/data/overlays/actors/z_en_trap.data.o"
-    include "build/data/overlays/actors/z_en_trap.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Trap/ovl_En_Trap_reloc.o"
 endseg
 
 beginseg
@@ -3684,7 +3680,8 @@ endseg
 beginseg
     name "object_torch2"
     romalign 0x1000
-    include "build/baserom/object_torch2.o"
+    include "build/assets/objects/object_torch2/object_torch2.o"
+    number 6
 endseg
 
 beginseg
@@ -5147,7 +5144,8 @@ endseg
 beginseg
     name "object_blkobj"
     romalign 0x1000
-    include "build/baserom/object_blkobj.o"
+    include "build/assets/objects/object_blkobj/object_blkobj.o"
+    number 6
 endseg
 
 beginseg
@@ -5555,7 +5553,8 @@ endseg
 beginseg
     name "object_geldb"
     romalign 0x1000
-    include "build/baserom/object_geldb.o"
+    include "build/assets/objects/object_geldb/object_geldb.o"
+    number 6
 endseg
 
 beginseg
@@ -6180,7 +6179,8 @@ endseg
 beginseg
     name "parameter_static"
     romalign 0x1000
-    include "build/baserom/parameter_static.o"
+    include "build/assets/textures/parameter_static/parameter_static.o"
+    number 2
 endseg
 
 beginseg

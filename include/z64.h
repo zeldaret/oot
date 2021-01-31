@@ -1038,9 +1038,9 @@ typedef enum {
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              playbackSpeed;
-    /* 0x08 */ f32              unk_08;
+    /* 0x08 */ f32              startFrame;
     /* 0x0C */ f32              frameCount;
-    /* 0x10 */ u8               unk_10;
+    /* 0x10 */ u8               mode;
     /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
 
@@ -1048,7 +1048,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              frameCount;
-    /* 0x08 */ u8               unk_08;
+    /* 0x08 */ u8               mode;
     /* 0x0C */ f32              transitionRate;
 } struct_D_80AA1678; // size = 0x10
 
