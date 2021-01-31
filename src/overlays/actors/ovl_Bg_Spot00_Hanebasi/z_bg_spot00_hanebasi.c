@@ -11,9 +11,9 @@
 #define THIS ((BgSpot00Hanebasi*)thisx)
 
 typedef enum {
-    DT_CHAIN_1,
-    DT_CHAIN_2,
-    DT_DRAWBRIDGE = -1,
+    /* -1 */ DT_DRAWBRIDGE = -1,
+    /*  0 */ DT_CHAIN_1,
+    /*  1 */ DT_CHAIN_2
 } DrawbridgeType;
 
 void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx);
