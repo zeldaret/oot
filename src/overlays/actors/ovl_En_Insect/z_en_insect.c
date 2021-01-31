@@ -1,5 +1,6 @@
 #include "z_en_insect.h"
 #include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -25,9 +26,6 @@ void func_80A7D1F4(EnInsect* this);
 void func_80A7D26C(EnInsect* this, GlobalContext* globalCtx);
 void func_80A7D39C(EnInsect* this);
 void func_80A7D460(EnInsect* this, GlobalContext* globalCtx);
-
-extern SkeletonHeader D_04035590;
-extern AnimationHeader D_040341FC;
 
 static f32 D_80A7DEB0 = 0.0f;
 static s16 D_80A7DEB4 = 0;
@@ -108,7 +106,7 @@ s32 func_80A7BE6C(EnInsect* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7BF58(EnInsect* this) {
-    Animation_Change(&this->skelAnime, &D_040341FC, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f);
+    Animation_Change(&this->skelAnime, &gBugCrawlAnim, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f);
 }
 
 /**
@@ -168,7 +166,7 @@ void EnInsect_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     temp_s2 = this->actor.params & 3;
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04035590, &D_040341FC, this->jointTable, this->morphTable, 24);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gBugSkel, &gBugCrawlAnim, this->jointTable, this->morphTable, 24);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, &this->colliderItem);
 

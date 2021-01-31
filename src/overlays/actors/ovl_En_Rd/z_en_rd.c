@@ -269,14 +269,14 @@ void func_80AE2744(EnRd* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((globalCtx->gameplayFrames & 95) == 0) {
+    if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
 
 void func_80AE2970(EnRd* this) {
     Animation_Change(&this->skelAnime, &D_060087D0, 0, 0, Animation_GetLastFrame(&D_060087D0), ANIMMODE_LOOP, -6.0f);
-    this->unk_31B = 0xB;
+    this->unk_31B = 11;
     this->unk_30C = 6;
     this->actor.shape.rot.x = -0x4000;
     this->actor.gravity = 0.0f;
@@ -352,10 +352,12 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
         }
     }
 
-    DECR(this->unk_307);
+    if (this->unk_307 != 0) {
+        this->unk_307--;
+    }
 
-    if ((this->unk_307 == 0) && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
-        (func_8002E084(&this->actor, 0x38E3))) {
+    if (!this->unk_307 && (Actor_WorldDistXYZToActor(&this->actor, &player->actor) <= 45.0f) &&
+        func_8002E084(&this->actor, 0x38E3)) {
         player->actor.freezeTimer = 0;
         if (globalCtx->grabPlayer(globalCtx, player)) {
             this->actor.flags &= ~1;
@@ -371,7 +373,7 @@ void func_80AE2C1C(EnRd* this, GlobalContext* globalCtx) {
 
     if ((this->skelAnime.curFrame == 10.0f) || (this->skelAnime.curFrame == 22.0f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 95) == 0) {
+    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -420,7 +422,7 @@ void func_80AE2FD0(EnRd* this, GlobalContext* globalCtx) {
 
     if (this->skelAnime.curFrame == 10.0f || this->skelAnime.curFrame == 22.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 95) == 0) {
+    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -466,7 +468,7 @@ void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
 
     if (this->skelAnime.curFrame == 10.0f || this->skelAnime.curFrame == 22.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_WALK);
-    } else if ((globalCtx->gameplayFrames & 95) == 0) {
+    } else if ((globalCtx->gameplayFrames & 0x5F) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_CRY);
     }
 }
@@ -474,7 +476,7 @@ void func_80AE3260(EnRd* this, GlobalContext* globalCtx) {
 void func_80AE33F0(EnRd* this) {
     Animation_PlayOnce(&this->skelAnime, &D_06004ADC);
     this->unk_30C = this->unk_304 = 0;
-    this->unk_319 = 0xC8;
+    this->unk_319 = 200;
     this->unk_31B = 8;
     this->actor.speedXZ = 0.0f;
     EnRd_SetupAction(this, func_80AE3454);
@@ -494,7 +496,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             this->unk_304++;
             globalCtx->damagePlayer(globalCtx, -8);
             func_800AA000(this->actor.xzDistToPlayer, 0xFF, 1, 0xC);
-            this->unk_319 = 0x14;
+            this->unk_319 = 20;
         case 0:
             Math_SmoothStepToS(&this->unk_30E, 0, 1, 0x5DC, 0);
             Math_SmoothStepToS(&this->unk_310, 0, 1, 0x5DC, 0);
@@ -528,7 +530,7 @@ void func_80AE3454(EnRd* this, GlobalContext* globalCtx) {
             if (this->unk_319 == 0) {
                 globalCtx->damagePlayer(globalCtx, -8);
                 func_800AA000(this->actor.xzDistToPlayer, 0xF0, 1, 0xC);
-                this->unk_319 = 0x14;
+                this->unk_319 = 20;
                 func_8002F7DC(&player->actor, NA_SE_VO_LI_DAMAGE_S + player->ageProperties->unk_92);
             }
             break;
@@ -644,8 +646,8 @@ void func_80AE3B18(EnRd* this, GlobalContext* globalCtx) {
 
 void func_80AE3C20(EnRd* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06006E88, -1.0f);
-    this->unk_31B = 0xA;
-    this->unk_30C = 0x12C;
+    this->unk_31B = 10;
+    this->unk_30C = 300;
     this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_REDEAD_DEAD);
@@ -751,7 +753,7 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((gSaveContext.unk_1422 != 0) && (this->actor.shape.rot.x == 0) && (this->unk_318 == 0) &&
-        (this->unk_31B != 9) && (this->unk_31B != 0xA) && (this->unk_31B != 1)) {
+        (this->unk_31B != 9) && (this->unk_31B != 10) && (this->unk_31B != 1)) {
         func_80AE3DE4(this);
         return;
     }

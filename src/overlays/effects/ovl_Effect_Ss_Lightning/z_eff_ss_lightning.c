@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_lightning.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -28,13 +29,11 @@ EffectSsInit Effect_Ss_Lightning_InitVars = {
     EffectSsLightning_Init,
 };
 
-extern Gfx D_0402CF30[];
-
 u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsLightningInitParams* initParams = (EffectSsLightningInitParams*)initParamsx;
 
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_0402CF30);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffLightningDL);
     this->life = initParams->life;
     this->draw = EffectSsLightning_Draw;
     this->update = EffectSsLightning_Update;
@@ -67,8 +66,9 @@ void EffectSsLightning_NewLightning(GlobalContext* globalCtx, Vec3f* pos, s16 ya
     EffectSs_Insert(globalCtx, &newLightning);
 }
 
-static void* sTextures[] = {
-    0x04029F30, 0x0402A530, 0x0402AB30, 0x0402B130, 0x0402B730, 0x0402BD30, 0x0402C330, 0x0402C930,
+static UNK_PTR sTextures[] = {
+    gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
+    gEffLightning5Tex, gEffLightning6Tex, gEffLightning7Tex, gEffLightning8Tex,
 };
 
 void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
