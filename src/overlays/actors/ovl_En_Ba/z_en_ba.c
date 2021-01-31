@@ -24,17 +24,9 @@ void func_809B71F0(EnBa* this, GlobalContext* globalCtx);
 void func_809B781C(EnBa* this, GlobalContext* globalCtx);
 void func_809B6B04(EnBa* this);
 
-extern UNK_TYPE D_06000890;
-extern UNK_TYPE D_06001D80;
+extern Gfx D_06000890[];
+extern Gfx D_06001D80[];
 
-extern InitChainEntry D_809B80F0;
-extern Vec3f D_809B80E4;
-extern Vec3f D_809B8080;
-extern Vec3f D_809B8100;
-extern Vec3f D_809B810C;
-
-extern ColliderJntSphInit D_809B80D4;
-/*
 const ActorInit En_Ba_InitVars = {
     ACTOR_EN_BA,
     ACTORCAT_ENEMY,
@@ -46,6 +38,8 @@ const ActorInit En_Ba_InitVars = {
     (ActorFunc)EnBa_Update,
     (ActorFunc)EnBa_Draw,
 };
+
+static Vec3f D_809B8080 = { 0.0f, 0.0f, 32.0f};
 
 static ColliderJntSphElementInit D_809B808C[2] = {
     {
@@ -84,13 +78,20 @@ static ColliderJntSphInit D_809B80D4 = {
     2,
     D_809B808C,
 };
-*/
+
 
 void func_809B6350(EnBa* this, EnBaActionFunc actionFunc) {
     this->unk150 = actionFunc;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/func_809B6350.s")
+static Vec3f D_809B80E4 = {0.01f, 0.01f, 0.01f};
+
+static InitChainEntry D_809B80F0[] = {
+    ICHAIN_S8(naviEnemyId, 21, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
+};
 
 void EnBa_Init(Actor *thisx, GlobalContext *globalCtx) {
     EnBa* this = THIS;
@@ -98,7 +99,7 @@ void EnBa_Init(Actor *thisx, GlobalContext *globalCtx) {
     s32 pad;
     s16 i;
 
-    Actor_ProcessInitChain(&this->actor, &D_809B80F0);
+    Actor_ProcessInitChain(&this->actor, D_809B80F0);
     this->actor.world.pos.y = this->actor.home.pos.y + 100.0f;
     for (i = 13; i >= 0; i--){
         this->unk200[i] = sp38;
@@ -379,9 +380,9 @@ void func_809B71F0(EnBa* this, GlobalContext* globalCtx) {
 }
 
 void func_809B75A0(EnBa* this, GlobalContext *globalCtx) {
-    s16 temp_s1_2;
+    s16 i_2;
     s32 i;
-    Vec3f sp74 = D_809B8100;
+    Vec3f sp74 = { 0.0f, 0.0f, 0.0f};
     GlobalContext* globalCtx2 = globalCtx;
 
     this->unk31C = 2500;
@@ -392,9 +393,9 @@ void func_809B75A0(EnBa* this, GlobalContext *globalCtx) {
         Actor_Spawn(&globalCtx2->actorCtx, globalCtx2, ACTOR_EN_BA, this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0, 0, 0, 3);
     }
 
-    temp_s1_2 = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk158[0]) + 0x8000;
+    i_2 = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk158[0]) + 0x8000;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, this->unk31C, 0);
-    Math_SmoothStepToS(&this->actor.shape.rot.x, temp_s1_2, 1, this->unk31C, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, i_2, 1, this->unk31C, 0);
     Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0);
     Matrix_RotateRPY(this->actor.shape.rot.x - 0x8000, this->actor.shape.rot.y, 0, 1);
     Matrix_MultVec3f(&D_809B8080, &this->unk158[0]);
@@ -412,7 +413,7 @@ void func_809B75A0(EnBa* this, GlobalContext *globalCtx) {
 }
 
 void func_809B781C(EnBa* this, GlobalContext *globalCtx) {
-    Vec3f sp6C = D_809B810C;
+    Vec3f sp6C = { 0.0f, 0.0f, 0.0f};
     s16 temp;
     s32 i;
     
@@ -472,4 +473,51 @@ void EnBa_Update(Actor *thisx, GlobalContext *globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ba/EnBa_Draw.s")
+static u32 D_809B8118[] = {0x060024F0, 0x060027F0, 0x060029F0};
+
+void EnBa_Draw(Actor *thisx, GlobalContext* globalCtx) {
+    EnBa* this = THIS;
+    s32 pad;
+    s16 i;
+    Mtx *temp_v0 = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx)*14);
+    Vec3f spA4 = { 0.0f, 0.0f, 448.0f};
+
+    OPEN_DISPS(globalCtx->state.gfxCtx,"../z_en_ba.c", 0x3A5);
+    func_80093D18(globalCtx->state.gfxCtx);
+    if (this->actor.params < 3) {
+        Matrix_Push();
+        gSPSegment(POLY_OPA_DISP++, 0x0C, temp_v0);
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B8118[this->actor.params]));
+        gSPSegment(POLY_OPA_DISP++, 0x09, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0,
+            0, 0, 16, 16, 1,
+            0, (globalCtx->gameplayFrames * -10) % 128, 32, 32));
+        for (i = 0; i < 14; i++, temp_v0++){
+            Matrix_Translate(this->unk158[i].x, this->unk158[i].y, this->unk158[i].z, 0);
+            Matrix_RotateRPY(this->unk2A8[i].x, this->unk2A8[i].y, this->unk2A8[i].z, 1);
+            Matrix_Scale(this->unk200[i].x, this->unk200[i].y, this->unk200[i].z, 1);
+            if ((i == 6) || (i == 13)){
+                switch (i){
+                    case 13:
+                        Collider_UpdateSpheres(i,  &this->unk320);
+                        break;
+                    default:
+                        Matrix_Scale(0.5f, 0.5f, 1.0f, 1);
+                        Collider_UpdateSpheres(8,  &this->unk320);
+                        break;
+                }
+            }
+            Matrix_ToMtx(temp_v0, "../z_en_ba.c", 0x3CA);
+        }
+        Matrix_Pull();
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ba.c", 0x3CD), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_OPA_DISP++, D_06000890);
+    } else {
+        gSPSegment(POLY_OPA_DISP++, 0x08, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0,
+            (globalCtx->gameplayFrames * 2) % 128, (globalCtx->gameplayFrames * 2) % 128, 32, 32, 1,
+            (globalCtx->gameplayFrames * -5) % 128, (globalCtx->gameplayFrames * -5) % 128, 32, 32));
+        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0xFF, 0x7D, 0x64, 0xFF);
+        gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ba.c", 0x3DF), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_OPA_DISP++, D_06001D80);
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx,"../z_en_ba.c", 0x3E3);
+}

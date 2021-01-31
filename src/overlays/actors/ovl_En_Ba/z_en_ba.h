@@ -10,10 +10,10 @@ typedef void (*EnBaActionFunc)(struct EnBa*, GlobalContext*);
 
 typedef struct EnBa {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 unk14C; //unk
-    /* 0x0150 */ EnBaActionFunc unk150; // unk
+    /* 0x014C */ s32 unk14C; 
+    /* 0x0150 */ EnBaActionFunc unk150; 
     /* 0x0154 */ s16 unk154; 
-    /* 0x0156 */ s16 unk156; // unk
+    /* 0x0156 */ s16 unk156;
     /* 0x0158 */ Vec3f unk158[14];
     /* 0x0200 */ Vec3f unk200[13];
     /* 0x029C */ char unk_29C[0xC];
