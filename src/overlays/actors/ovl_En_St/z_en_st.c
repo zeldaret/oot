@@ -123,7 +123,7 @@ extern AnimationHeader D_06005B98;
 extern AnimationHeader D_060055A8;
 extern AnimationHeader D_060055A8;
 
-struct_80034EC0_Entry sAnimations[] = {
+static struct_80034EC0_Entry sAnimations[] = {
     { &D_06000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, 0.0f },
     { &D_06005B98, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
     { &D_06000304, 4.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
