@@ -759,7 +759,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Ship"
     include "build/src/overlays/actors/ovl_Bg_Haka_Ship/z_bg_haka_ship.o"
-    include "build/data/overlays/actors/z_bg_haka_ship.data.o"
+    //include "build/data/overlays/actors/z_bg_haka_ship.data.o"
     include "build/data/overlays/actors/z_bg_haka_ship.reloc.o"
 endseg
 
@@ -8223,7 +8223,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/assets/scenes/test_levels/syotes2/syotes2_scene.o"
-    number 2   
+    number 2
 endseg
 
 beginseg
