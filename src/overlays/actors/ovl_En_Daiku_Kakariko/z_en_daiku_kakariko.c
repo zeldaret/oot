@@ -78,7 +78,7 @@ void EnDaikuKakariko_SetAnimFromIndex(EnDaikuKakariko* this, s32 animIndex, s32*
     }
 
     Animation_Change(&this->skelAnime, sAnimations[animIndex].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations[animIndex].animation), sAnimations[animIndex].unk_08,
+                     Animation_GetLastFrame(sAnimations[animIndex].animation), sAnimations[animIndex].mode,
                      transitionRate);
 
     *currentAnimIndex = animIndex;
@@ -116,7 +116,7 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->flags |= 8;
     }
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 40.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007958, NULL, &this->jointTable, &this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -125,14 +125,14 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
     func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
 
     Animation_Change(&this->skelAnime, sAnimations->animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations->animation), sAnimations->unk_08, sAnimations->transitionRate);
+                     Animation_GetLastFrame(sAnimations->animation), sAnimations->mode, sAnimations->transitionRate);
 
     func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     this->actor.gravity = 0.0f;
     this->runSpeed = 3.0f;
     this->actor.uncullZoneForward = 1200.0f;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->currentAnimIndex = -1;
 
     if (this->flags & 0x40) {
@@ -321,8 +321,8 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     do {
         path = &globalCtx->setupPathList[(this->actor.params >> 8) & 0xFF];
         pathPos = &((Vec3s*)SEGMENTED_TO_VIRTUAL(path->points))[this->waypoint];
-        xDist = pathPos->x - this->actor.posRot.pos.x;
-        zDist = pathPos->z - this->actor.posRot.pos.z;
+        xDist = pathPos->x - this->actor.world.pos.x;
+        zDist = pathPos->z - this->actor.world.pos.z;
         runAngle = Math_FAtan2F(xDist, zDist) * (32768.0f / M_PI);
         runDist = sqrtf((xDist * xDist) + (zDist * zDist));
 
@@ -374,7 +374,7 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
 
     angleStepDiff = Math_SmoothStepToS(&this->actor.shape.rot.y, runAngle, 1, 5000, 0);
 
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
 
     if (this->run == false) {
         if (angleStepDiff == 0) {
@@ -434,9 +434,9 @@ void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    this->npcInfo.unk_18.x = player->actor.posRot2.pos.x;
-    this->npcInfo.unk_18.y = player->actor.posRot2.pos.y;
-    this->npcInfo.unk_18.z = player->actor.posRot2.pos.z;
+    this->npcInfo.unk_18.x = player->actor.focus.pos.x;
+    this->npcInfo.unk_18.y = player->actor.focus.pos.y;
+    this->npcInfo.unk_18.z = player->actor.focus.pos.z;
 
     if (this->flags & 0x100) {
         this->neckAngleTarget.x = 5900;
@@ -464,7 +464,7 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->npcInfo.unk_08;
+            angle = this->npcInfo.mode;
 
             if (this->flags & 0x1000) {
                 osSyncPrintf("<%d>\n", this->neckAngle.x);
@@ -490,7 +490,7 @@ void EnDaikuKakariko_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_daiku_kakariko.c", 1104);
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&unkVec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&unkVec, &this->actor.focus.pos);
         gSPDisplayList(POLY_OPA_DISP++, carpenterHeadDLists[this->actor.params & 3]);
     }
 
