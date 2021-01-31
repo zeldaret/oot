@@ -16,7 +16,7 @@ void EnWf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnWf_SetupWaitToAppear(EnWf* this);
-void func_80B34428(EnWf* this, GlobalContext* globalCtx);
+void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupWait(EnWf* this);
 void func_80B345E4(EnWf* this, GlobalContext* globalCtx);
 void func_80B3487C(EnWf* this, GlobalContext* globalCtx);
@@ -30,7 +30,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx);
 void func_80B361A0(EnWf* this, GlobalContext* globalCtx);
 void EnWf_ReactToPlayer(EnWf* this, GlobalContext* globalCtx);
 void func_80B36740(EnWf* this, GlobalContext* globalCtx);
-void func_80B36D3C(EnWf* this, GlobalContext* globalCtx);
+void EnWf_Die(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupDeath(EnWf* this);
 void func_80B360E8(EnWf* this);
 void func_80B34F28(EnWf* this);
@@ -286,11 +286,10 @@ void EnWf_SetupWaitToAppear(EnWf* this) {
     this->actor.flags &= ~1;
     this->actor.scale.y = 0.0f;
     this->actor.gravity = 0.0f;
-    EnWf_SetupAction(this, func_80B34428);
+    EnWf_SetupAction(this, EnWf_WaitToAppear);
 }
 
-// EnWf_WaitToAppear
-void func_80B34428(EnWf* this, GlobalContext* globalCtx) {
+void EnWf_WaitToAppear(EnWf* this, GlobalContext* globalCtx) {
     if (this->actionTimer >= 6) {
         this->actor.world.pos.y = this->actor.home.pos.y - 5.0f;
 
@@ -716,13 +715,43 @@ void EnWf_SetupDeath(EnWf* this) {
     this->actor.flags &= ~1;
     this->actionTimer = this->skelAnime.animLength;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_DEAD);
-    EnWf_SetupAction(this, func_80B36D3C);
+    EnWf_SetupAction(this, EnWf_Die);
 }
 
-Vec3f D_80B37AD0 = { 0.0f, 0.5f, 0.0f };
-// EnWf_Die
-void func_80B36D3C(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B36D3C.s")
+void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
+    if (this->actor.bgCheckFlags & 2) {
+        this->actor.speedXZ = 0.0f;
+    }
+
+    if (this->actor.bgCheckFlags & 1) {
+        Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+        this->unk_300 = 0;
+    }
+
+    if (SkelAnime_Update(&this->skelAnime)) {
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xD0);
+
+        if (this->unk_2FC != 0xFF) {
+            Flags_SetSwitch(globalCtx, this->unk_2FC);
+        }
+
+        Actor_Kill(this);
+    } else {
+        s32 i;
+        Vec3f pos;
+        Vec3f velAndAccel = { 0.0f, 0.5f, 0.0f };
+
+        this->actionTimer--;
+
+        for (i = ((s32)this->skelAnime.animLength - this->actionTimer) >> 1; i >= 0; i++) {
+            pos.x = Rand_CenteredFloat(60.0f) + this->actor.world.pos.x;
+            pos.z = Rand_CenteredFloat(60.0f) + this->actor.world.pos.z;
+            pos.y = Rand_CenteredFloat(50.0f) + (this->actor.world.pos.y + 20.0f);
+            EffectSsDeadDb_Spawn(globalCtx, &pos, &velAndAccel, &velAndAccel, 100, 0, 255, 255, 255, 255, 0, 0, 255, 1,
+                                 9, true);
+        }
+    }
+}
 
 void EnWf_FaceTowardsPlayer(EnWf* this, GlobalContext* globalCtx) {
     if ((this->unk_2D4 == 6) && (this->unk_2E2 != 0)) {
