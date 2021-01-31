@@ -32,7 +32,7 @@ beginseg
     include "build/src/libultra_boot_O1/osViModePalLan1.o"
     include "build/src/libultra_boot_O1/osRecvMesg.o"
     include "build/src/libultra_boot_O1/initialize.o"
-    include "build/asm/libm.o"
+    include "build/src/libultra_boot_O1/ll.o"
     include "build/asm/exceptasm.o"
     include "build/src/libultra_boot_O1/__osDequeueThread.o"
     include "build/src/libultra_boot_O1/osDestroyThread.o"
