@@ -28,17 +28,17 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx);
 void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx);
 
 // adult warp songs cutscenes
-extern CutsceneData sAdultWarpInCS[];
-extern CutsceneData sAdultWarpOutCS[];
+extern CutsceneData gAdultWarpInCS[];
+extern CutsceneData gAdultWarpOutCS[];
 // adult warp songs cutscenes in temple of time
-extern CutsceneData sAdultWarpInToTCS[];
-extern CutsceneData sAdultWarpOutToTCS[];
+extern CutsceneData gAdultWarpInToTCS[];
+extern CutsceneData gAdultWarpOutToTCS[];
 // child warp songs cutscenes
-extern CutsceneData sChildWarpInCS[];
-extern CutsceneData sChildWarpOutCS[];
+extern CutsceneData gChildWarpInCS[];
+extern CutsceneData gChildWarpOutCS[];
 // child warp songs cutscenes in temple of time
-extern CutsceneData sChildWarpInToTCS[];
-extern CutsceneData sChildWarpOutToTCS[];
+extern CutsceneData gChildWarpInToTCS[];
+extern CutsceneData gChildWarpOutToTCS[];
 
 const ActorInit Demo_Kankyo_InitVars = {
     ACTOR_DEMO_KANKYO,
@@ -329,16 +329,16 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
                     if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                         D_8098CF84 = 25;
                         if (LINK_IS_CHILD) {
-                            globalCtx->csCtx.segment = sChildWarpInToTCS;
+                            globalCtx->csCtx.segment = gChildWarpInToTCS;
                         } else {
-                            globalCtx->csCtx.segment = sAdultWarpInToTCS;
+                            globalCtx->csCtx.segment = gAdultWarpInToTCS;
                         }
                     } else {
                         D_8098CF84 = 32;
                         if (LINK_IS_CHILD) {
-                            globalCtx->csCtx.segment = sChildWarpInCS;
+                            globalCtx->csCtx.segment = gChildWarpInCS;
                         } else {
-                            globalCtx->csCtx.segment = sAdultWarpInCS;
+                            globalCtx->csCtx.segment = gAdultWarpInCS;
                         }
                     }
                     if (func_800C0CB8(globalCtx) != 0) {
@@ -350,15 +350,15 @@ void DemoKankyo_SetupType(DemoKankyo* this, GlobalContext* globalCtx) {
             case DEMOKANKYO_WARP_IN:
                 if (globalCtx->sceneNum == SCENE_TOKINOMA) {
                     if (LINK_IS_CHILD) {
-                        globalCtx->csCtx.segment = sChildWarpOutToTCS;
+                        globalCtx->csCtx.segment = gChildWarpOutToTCS;
                     } else {
-                        globalCtx->csCtx.segment = sAdultWarpOutToTCS;
+                        globalCtx->csCtx.segment = gAdultWarpOutToTCS;
                     }
                 } else {
                     if (LINK_IS_CHILD) {
-                        globalCtx->csCtx.segment = sChildWarpOutCS;
+                        globalCtx->csCtx.segment = gChildWarpOutCS;
                     } else {
-                        globalCtx->csCtx.segment = sAdultWarpOutCS;
+                        globalCtx->csCtx.segment = gAdultWarpOutCS;
                     }
                 }
                 gSaveContext.cutsceneTrigger = 1;

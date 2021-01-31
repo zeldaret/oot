@@ -2,7 +2,7 @@
 #include "z64cutscene_commands.h"
 
 // clang-format off
-CutsceneData sAdultWarpInToTCS[] = {
+CutsceneData gAdultWarpInToTCS[] = {
     CS_BEGIN_CUTSCENE(2, 118),
     CS_CAM_POS_PLAYER_LIST(0, 89),
         CS_CAM_POS_PLAYER(CS_CMD_CONTINUE, 0x00, 0, 71.32476043701172f, 53, 53, 40, 0x010F),

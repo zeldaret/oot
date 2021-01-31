@@ -2,7 +2,7 @@
 #include "z64cutscene_commands.h"
 
 // clang-format off
-CutsceneData sChildWarpOutCS[] = {
+CutsceneData gChildWarpOutCS[] = {
     CS_BEGIN_CUTSCENE(5, 1167),
     CS_SCENE_TRANS_FX(0x0005, 36, 46),
     CS_SCENE_TRANS_FX(0x0001, 30, 35),
