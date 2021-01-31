@@ -7,20 +7,14 @@
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSth_Update(Actor* thisx, GlobalContext* globalCtx);
+void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx);
+void EnSth_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-// action funcs
-void func_80B07878(EnSth* this, GlobalContext* globalCtx);
-void func_80B07B68(EnSth* this, GlobalContext* globalCtx);
-void func_80B07D7C(EnSth* this, GlobalContext* globalCtx);
-void func_80B07E18(EnSth* this, GlobalContext* globalCtx);
+void EnSth_WaitForObjectLoaded(EnSth* this, GlobalContext* globalCtx);
+void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx);
+void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx);
+void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx);
 
-// update funcs
-void func_80B07EE0(Actor* thisx, GlobalContext* globalCtx);
-
-// draw funcs
-void func_80B08258(Actor* thisx, GlobalContext* globalCtx);
-
-/*
 const ActorInit En_Sth_InitVars = {
     ACTOR_EN_STH,
     ACTORCAT_NPC,
@@ -33,7 +27,9 @@ const ActorInit En_Sth_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit D_80B0B404 = {
+#include "z_en_sth_gfx.c"
+
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -52,27 +48,42 @@ static ColliderCylinderInit D_80B0B404 = {
     },
     { 30, 40, 0, { 0, 0, 0 } },
 };
-*/
 
-extern Gfx D_80B0A050[];
-extern Gfx D_80B0A3C0[];
-extern ColliderCylinderInit D_80B0B404;
-extern s16 D_80B0B430[];
-extern FlexSkeletonHeader* D_80B0B43C[];
-extern AnimationHeader* D_80B0B454[];
-extern EnSthActionFunc D_80B0B46C[];
-extern u16 D_80B0B484[];
-extern s16 D_80B0B490[];
-extern Vec3f D_80B0B49C;
-extern Color_RGB8 D_80B0B4A8[];
+static s16 sObjectIds[6] = {
+    OBJECT_AHG, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ, OBJECT_BOJ,
+};
 
-// EnSth_SetupAction
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07540.s")
-void func_80B07540(EnSth* this, EnSthActionFunc actionFunc) {
+static FlexSkeletonHeader* sSkeletons[6] = {
+    0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0, 0x060000F0,
+};
+
+static AnimationHeader* sAnimations[6] = {
+    &gParentDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim, &gChildDanceAnim,
+};
+
+static EnSthActionFunc sRewardObtainedWaitActions[6] = {
+    EnSth_ParentRewardObtainedWait, EnSth_ChildRewardObtainedWait, EnSth_ChildRewardObtainedWait,
+    EnSth_ChildRewardObtainedWait,  EnSth_ChildRewardObtainedWait, EnSth_ChildRewardObtainedWait,
+};
+
+static u16 sEventFlags[6] = {
+    0x0000, 0x0400, 0x0800, 0x1000, 0x2000, 0x4000,
+};
+
+static s16 sGetItemIds[6] = {
+    GI_RUPEE_GOLD, GI_WALLET_ADULT, GI_STONE_OF_AGONY, GI_WALLET_GIANT, GI_BOMBCHUS_10, GI_HEART_PIECE,
+};
+
+static Vec3f D_80B0B49C = { 700.0f, 400.0f, 0.0f };
+
+static Color_RGB8 sTunicColors[6] = {
+    { 190, 110, 0 }, { 0, 180, 110 }, { 0, 255, 80 }, { 255, 160, 60 }, { 190, 230, 250 }, { 240, 230, 120 },
+};
+
+void EnSth_SetupAction(EnSth* this, EnSthActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/EnSth_Init.s")
 void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSth* this = THIS;
 
@@ -81,21 +92,24 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 objectBankIdx;
     s32 params2;
 
+    // Translation: Gold Skulltula Shop
     osSyncPrintf("\x1b[34m金スタル屋 no = %d\n\x1b[m", params);
     params2 = this->actor.params;
     if (params2 == 0) {
         if (gSaveContext.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
+            // Translation: Gold Skulltula Shop I still can't be a human
             osSyncPrintf("金スタル屋 まだ 人間に戻れない \n");
             return;
         }
     } else if (gSaveContext.inventory.gsTokens < (params2 * 10)) {
         Actor_Kill(&this->actor);
+        // Translation: Gold Skulltula Shop I still can't be a human
         osSyncPrintf("\x1b[34m金スタル屋 まだ 人間に戻れない \n\x1b[m");
         return;
     }
 
-    objectId = D_80B0B430[params];
+    objectId = sObjectIds[params];
     if (objectId != 1) {
         objectBankIdx = Object_GetIndex(&globalCtx->objectCtx, objectId);
     } else {
@@ -106,64 +120,59 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (objectBankIdx < 0) {
         __assert("0", "../z_en_sth.c", 1564);
     }
-    this->unk_2A4 = objectBankIdx;
-    this->unk_2A0 = func_80B08258;
+    this->objectBankIdx = objectBankIdx;
+    this->drawFunc = EnSth_Draw;
     Actor_SetScale(&this->actor, 0.01f);
-    func_80B07540(this, func_80B07878);
+    EnSth_SetupAction(this, EnSth_WaitForObjectLoaded);
     this->actor.draw = NULL;
     this->unk_2B2 = 0;
     this->actor.targetMode = 6;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B076B0.s")
-void func_80B076B0(EnSth* this, GlobalContext* globalCtx) {
+void EnSth_SetupCollider(EnSth* this, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80B0B404);
-    this->actor.colChkInfo.mass = 0xFF;
-    this->actor.update = func_80B07EE0;
-    this->actor.draw = this->unk_2A0;
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
+    this->actor.update = EnSth_Update2;
+    this->actor.draw = this->drawFunc;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07734.s")
-void func_80B07734(EnSth* this, GlobalContext* globalCtx) {
+void EnSth_SetupAnimation(EnSth* this, GlobalContext* globalCtx) {
     s32 pad;
     s16* params;
 
-    func_80B076B0(this, globalCtx);
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_2A4].segment);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, D_80B0B43C[this->actor.params], NULL, this->jointTable,
+    EnSth_SetupCollider(this, globalCtx);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectBankIdx].segment);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable,
                        this->morphTable, 16);
-    Animation_PlayLoop(&this->skelAnime, D_80B0B454[this->actor.params]);
+    Animation_PlayLoop(&this->skelAnime, sAnimations[this->actor.params]);
 
-    this->unk_29C = D_80B0B484[this->actor.params];
+    this->eventFlag = sEventFlags[this->actor.params];
     params = &this->actor.params;
-    if ((gSaveContext.eventChkInf[13] & this->unk_29C)) {
-        func_80B07540(this, D_80B0B46C[*params]);
+    if (gSaveContext.eventChkInf[13] & this->eventFlag) {
+        EnSth_SetupAction(this, sRewardObtainedWaitActions[*params]);
     } else {
-        func_80B07540(this, func_80B07D7C);
+        EnSth_SetupAction(this, EnSth_RewardUnobtainedWait);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/EnSth_Destroy.s")
 void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnSth* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07878.s")
-void func_80B07878(EnSth* this, GlobalContext* globalCtx) {
-    if (Object_IsLoaded(&globalCtx->objectCtx, this->unk_2A4)) {
-        this->actor.objBankIndex = this->unk_2A4;
-        this->actionFunc = func_80B07734;
+void EnSth_WaitForObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
+    if (Object_IsLoaded(&globalCtx->objectCtx, this->objectBankIdx)) {
+        this->actor.objBankIndex = this->objectBankIdx;
+        this->actionFunc = EnSth_SetupAnimation;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B078C8.s")
-void func_80B078C8(EnSth* this, GlobalContext* globalCtx) {
+void EnSth_FacePlayer(EnSth* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 diffRot;
 
@@ -171,61 +180,57 @@ void func_80B078C8(EnSth* this, GlobalContext* globalCtx) {
     if (ABS(diffRot) < 0x4001) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
-        func_80038290(globalCtx, &this->actor, &this->unk_2A6, &this->unk_2AC, this->actor.focus.pos);
+        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2AC, this->actor.focus.pos);
     } else {
         if (diffRot < 0) {
-            Math_SmoothStepToS(&this->unk_2A6.y, -0x2000, 6, 0x1838, 0x100);
+            Math_SmoothStepToS(&this->headRot.y, -0x2000, 6, 0x1838, 0x100);
         } else {
-            Math_SmoothStepToS(&this->unk_2A6.y, 0x2000, 6, 0x1838, 0x100);
+            Math_SmoothStepToS(&this->headRot.y, 0x2000, 6, 0x1838, 0x100);
         }
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xC, 0x3E8, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B079E0.s")
-void func_80B079E0(EnSth* this, GlobalContext* globalCtx) {
+void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
     s16 diffRot;
 
     diffRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if ((ABS(diffRot) < 0x4301) && (this->actor.xzDistToPlayer < 100.0f)) {
-        func_80038290(globalCtx, &this->actor, &this->unk_2A6, &this->unk_2AC, this->actor.focus.pos);
+        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2AC, this->actor.focus.pos);
     } else {
-        Math_SmoothStepToS(&this->unk_2A6.x, 0, 6, 0x1838, 0x64);
-        Math_SmoothStepToS(&this->unk_2A6.y, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->headRot.x, 0, 6, 0x1838, 0x64);
+        Math_SmoothStepToS(&this->headRot.y, 0, 6, 0x1838, 0x64);
         Math_SmoothStepToS(&this->unk_2AC.x, 0, 6, 0x1838, 0x64);
         Math_SmoothStepToS(&this->unk_2AC.y, 0, 6, 0x1838, 0x64);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07AF4.s")
-void func_80B07AF4(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F334(&this->actor, globalCtx) != 0) {
+void EnSth_RewardObtainedTalk(EnSth* this, GlobalContext* globalCtx) {
+    if (func_8002F334(&this->actor, globalCtx)) {
         if (this->actor.params == 0) {
-            func_80B07540(this, func_80B07B68);
+            EnSth_SetupAction(this, EnSth_ParentRewardObtainedWait);
         } else {
-            func_80B07540(this, func_80B07E18);
+            EnSth_SetupAction(this, EnSth_ChildRewardObtainedWait);
         }
     }
-    func_80B078C8(this, globalCtx);
+    EnSth_FacePlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07B68.s")
-void func_80B07B68(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        func_80B07540(this, func_80B07AF4);
+void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
+    if (func_8002F194(&this->actor, globalCtx)) {
+        EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
-        this->actor.textId = 0x23;
+        this->actor.textId = 0x23; // "We'll be careful not to get cursed again!"
         if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
     }
-    func_80B079E0(this, globalCtx);
+    EnSth_LookAtPlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07BEC.s")
-void func_80B07BEC(EnSth* this, GlobalContext* globalCtx) {
-    u16 getItemId = D_80B0B490[this->actor.params];
+void EnSth_GivePlayerItem(EnSth* this, GlobalContext* globalCtx) {
+    u16 getItemId = sGetItemIds[this->actor.params];
 
     switch (this->actor.params) {
         case 1:
@@ -245,71 +250,65 @@ void func_80B07BEC(EnSth* this, GlobalContext* globalCtx) {
     func_8002F434(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07C88.s")
-void func_80B07C88(EnSth* this, GlobalContext* globalCtx) {
-    if (Actor_HasParent(&this->actor, globalCtx) != 0) {
+void EnSth_GiveReward(EnSth* this, GlobalContext* globalCtx) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
-        func_80B07540(this, func_80B07AF4);
-        gSaveContext.eventChkInf[13] |= this->unk_29C;
+        EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
+        gSaveContext.eventChkInf[13] |= this->eventFlag;
     } else {
-        func_80B07BEC(this, globalCtx);
+        EnSth_GivePlayerItem(this, globalCtx);
     }
-    func_80B078C8(this, globalCtx);
+    EnSth_FacePlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07D00.s")
-void func_80B07D00(EnSth* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+void EnSth_RewardUnobtainedTalk(EnSth* this, GlobalContext* globalCtx) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
-        func_80B07540(this, func_80B07C88);
-        func_80B07BEC(this, globalCtx);
+        EnSth_SetupAction(this, EnSth_GiveReward);
+        EnSth_GivePlayerItem(this, globalCtx);
     }
-    func_80B078C8(this, globalCtx);
+    EnSth_FacePlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07D7C.s")
-void func_80B07D7C(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        func_80B07540(this, func_80B07D00);
+void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
+    if (func_8002F194(&this->actor, globalCtx)) {
+        EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
-            this->actor.textId = 0x28;
+            this->actor.textId = 0x28; // "Since you've destroyed [gsTokens] Spiders ..."
         } else {
-            this->actor.textId = 0x21;
+            this->actor.textId = 0x21; // "The curse has been broken! ..."
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
     }
-    func_80B079E0(this, globalCtx);
+    EnSth_LookAtPlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07E18.s")
-void func_80B07E18(EnSth* this, GlobalContext* globalCtx) {
-    if (func_8002F194(&this->actor, globalCtx) != 0) {
-        func_80B07540(this, func_80B07AF4);
+void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
+    if (func_8002F194(&this->actor, globalCtx)) {
+        EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.inventory.gsTokens < 50) {
-            this->actor.textId = 0x20;
+            this->actor.textId = 0x20; // "Please save my other brothers too! ..."
         } else {
-            this->actor.textId = 0x1F;
+            this->actor.textId = 0x1F; // "I'm so happy everyone is back to normal!"
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
     }
-    func_80B079E0(this, globalCtx);
+    EnSth_LookAtPlayer(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/EnSth_Update.s")
 void EnSth_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSth* this = THIS;
 
     this->actionFunc(this, globalCtx);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07EE0.s")
-void func_80B07EE0(Actor* thisx, GlobalContext* globalCtx) {
+void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
     EnSth* this = THIS;
     s32 pad;
 
@@ -331,15 +330,14 @@ void func_80B07EE0(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B07FE0.s")
-s32 func_80B07FE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnSth_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnSth* this = THIS;
 
     s32 temp_v1;
 
     if (limbIndex == 15) {
-        rot->x += this->unk_2A6.y;
-        rot->z += this->unk_2A6.x;
+        rot->x += this->headRot.y;
+        rot->z += this->headRot.x;
         *dList = D_80B0A050;
     }
 
@@ -356,8 +354,7 @@ s32 func_80B07FE0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B0813C.s")
-void func_80B0813C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnSth_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSth* this = THIS;
 
     if (limbIndex == 15) {
@@ -372,8 +369,7 @@ void func_80B0813C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B081EC.s")
-Gfx* func_80B081EC(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB, u8 envA) {
+Gfx* EnSth_AllocColorDList(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB, u8 envA) {
     Gfx* dList;
 
     dList = Graph_Alloc(globalCtx, 2 * sizeof(Gfx));
@@ -383,27 +379,26 @@ Gfx* func_80B081EC(GraphicsContext* globalCtx, u8 envR, u8 envG, u8 envB, u8 env
     return dList;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sth/func_80B08258.s")
-void func_80B08258(Actor* thisx, GlobalContext* globalCtx) {
+void EnSth_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSth* this = THIS;
     Color_RGB8* envColor1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2133);
 
-    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->unk_2A4].segment);
+    gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectBankIdx].segment);
     func_800943C8(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               func_80B081EC(globalCtx->state.gfxCtx, D_80B0B4A8[this->actor.params].r,
-                             D_80B0B4A8[this->actor.params].g, D_80B0B4A8[this->actor.params].b, 255));
+               EnSth_AllocColorDList(globalCtx->state.gfxCtx, sTunicColors[this->actor.params].r,
+                                     sTunicColors[this->actor.params].g, sTunicColors[this->actor.params].b, 255));
 
-    if (thisx->params == 0) {
-        gSPSegment(POLY_OPA_DISP++, 0x09, func_80B081EC(globalCtx->state.gfxCtx, 190, 110, 0, 255));
+    if (this->actor.params == 0) {
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnSth_AllocColorDList(globalCtx->state.gfxCtx, 190, 110, 0, 255));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x09, func_80B081EC(globalCtx->state.gfxCtx, 90, 110, 130, 255));
+        gSPSegment(POLY_OPA_DISP++, 0x09, EnSth_AllocColorDList(globalCtx->state.gfxCtx, 90, 110, 130, 255));
     }
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80B07FE0, func_80B0813C, &this->actor);
+                          EnSth_OverrideLimbDraw, EnSth_PostLimbDraw, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_sth.c", 2176);
 }
