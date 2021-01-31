@@ -232,8 +232,8 @@ s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     switch (limbIndex) {
         // Hide swords and veil from object_geldb
         case GELDB_LIMB_VEIL:
-        case GELDB_LIMB_SWORD_R:
-        case GELDB_LIMB_SWORD_L:
+        case GELDB_LIMB_R_SWORD:
+        case GELDB_LIMB_L_SWORD:
             *dList = NULL;
             return false;
         // Turn head
@@ -250,8 +250,8 @@ s32 EnGe3_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
                     break;
-                case GELDB_LIMB_SWORD_R:
-                case GELDB_LIMB_SWORD_L:
+                case GELDB_LIMB_R_SWORD:
+                case GELDB_LIMB_L_SWORD:
                     gDPPipeSync(POLY_OPA_DISP++);
                     gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
                     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);

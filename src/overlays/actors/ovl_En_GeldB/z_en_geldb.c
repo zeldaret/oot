@@ -229,7 +229,7 @@ void EnGeldB_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->blinkState = 0;
     this->unkFloat = 10.0f;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoRedSkel, &gGerudoRedNeutralAnim, this->jointTable,
-                       this->morphTable, 24);
+                       this->morphTable, GELDB_LIMB_MAX);
     Collider_InitCylinder(globalCtx, &this->bodyCollider);
     Collider_SetCylinder(globalCtx, &this->bodyCollider, thisx, &sBodyCylInit);
     Collider_InitTris(globalCtx, &this->blockCollider);
@@ -366,8 +366,8 @@ void EnGeldB_Wait(EnGeldB* this, GlobalContext* globalCtx) {
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.bgCheckFlags &= ~2;
         this->actor.velocity.y = 0.0f;
-        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
         func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         EnGeldB_SetupReady(this);
@@ -391,8 +391,8 @@ void EnGeldB_Flee(EnGeldB* this, GlobalContext* globalCtx) {
     }
     if (this->skelAnime.curFrame == 2.0f) {
         this->actor.gravity = 0.0f;
-        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
         func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
     }
     if (SkelAnime_Update(&this->skelAnime)) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.floorHeight + 300.0f, 1.0f, 20.5f, 0.0f);
@@ -923,8 +923,8 @@ void EnGeldB_SpinAttack(EnGeldB* this, GlobalContext* globalCtx) {
     if ((s32)this->skelAnime.curFrame < 9) {
         this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     } else if ((s32)this->skelAnime.curFrame == 13) {
-        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
         func_80033260(globalCtx, &this->actor, &this->leftFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
+        func_80033260(globalCtx, &this->actor, &this->rightFootPos, 3.0f, 2, 2.0f, 0, 0, 0);
         this->swordState = 1;
         this->actor.speedXZ = 10.0f;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GERUDOFT_ATTACK);
@@ -1089,8 +1089,8 @@ void EnGeldB_SetupJump(EnGeldB* this) {
 void EnGeldB_Jump(EnGeldB* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
     if (this->actor.velocity.y >= 5.0f) {
-        func_800355B8(globalCtx, &this->rightFootPos);
         func_800355B8(globalCtx, &this->leftFootPos);
+        func_800355B8(globalCtx, &this->rightFootPos);
     }
     if (SkelAnime_Update(&this->skelAnime) && (this->actor.bgCheckFlags & 3)) {
         this->actor.world.rot.y = this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
@@ -1428,14 +1428,14 @@ s32 EnGeldB_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     EnGeldB* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_geldB.c", 2507);
-    if (limbIndex == 3) {
+    if (limbIndex == GELDB_LIMB_NECK) {
         rot->z += this->headRot.x;
         rot->x += this->headRot.y;
         rot->y += this->headRot.z;
-    } else if (limbIndex == 6) {
+    } else if (limbIndex == GELDB_LIMB_HEAD) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 80, 60, 10, 255);
-    } else if ((limbIndex == 11) || (limbIndex == 16)) {
+    } else if ((limbIndex == GELDB_LIMB_R_SWORD) || (limbIndex == GELDB_LIMB_L_SWORD)) {
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, 140, 170, 230, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
@@ -1461,7 +1461,7 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnGeldB* this = THIS;
     s32 bodyPart = -1;
 
-    if (limbIndex == 11) {
+    if (limbIndex == GELDB_LIMB_R_SWORD) {
         Matrix_MultVec3f(&swordQuadOffset1, &this->swordCollider.dim.quad[1]);
         Matrix_MultVec3f(&swordQuadOffset0, &this->swordCollider.dim.quad[0]);
         Matrix_MultVec3f(&swordQuadOffset3, &this->swordCollider.dim.quad[3]);
@@ -1479,45 +1479,48 @@ void EnGeldB_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
             EffectBlure_AddVertex(Effect_GetByIndex(this->blureIndex), &swordTip, &swordHilt);
         }
     } else {
-        Actor_SetFeetPos(&this->actor, limbIndex, 19, &footOffset, 22, &footOffset);
+        Actor_SetFeetPos(&this->actor, limbIndex, GELDB_LIMB_L_FOOT, &footOffset, GELDB_LIMB_R_FOOT, &footOffset);
     }
-    if (limbIndex == 19) {
-        Matrix_MultVec3f(&footOffset, &this->rightFootPos);
-    } else if (limbIndex == 22) {
+
+    if (limbIndex == GELDB_LIMB_L_FOOT) {
         Matrix_MultVec3f(&footOffset, &this->leftFootPos);
+    } else if (limbIndex == GELDB_LIMB_R_FOOT) {
+        Matrix_MultVec3f(&footOffset, &this->rightFootPos);
     }
+
     if (this->iceTimer != 0) {
         switch (limbIndex) {
-            case 3:
+            case GELDB_LIMB_NECK:
                 bodyPart = 0;
                 break;
-            case 16:
+            case GELDB_LIMB_L_SWORD:
                 bodyPart = 1;
                 break;
-            case 11:
+            case GELDB_LIMB_R_SWORD:
                 bodyPart = 2;
                 break;
-            case 12:
+            case GELDB_LIMB_L_UPPER_ARM:
                 bodyPart = 3;
                 break;
-            case 7:
+            case GELDB_LIMB_R_UPPER_ARM:
                 bodyPart = 4;
                 break;
-            case 2:
+            case GELDB_LIMB_TORSO:
                 bodyPart = 5;
                 break;
-            case 23:
+            case GELDB_LIMB_WAIST:
                 bodyPart = 6;
                 break;
-            case 19:
+            case GELDB_LIMB_L_FOOT:
                 bodyPart = 7;
                 break;
-            case 22:
+            case GELDB_LIMB_R_FOOT:
                 bodyPart = 8;
                 break;
             default:
                 break;
         }
+
         if (bodyPart >= 0) {
             Vec3f limbPos;
 
