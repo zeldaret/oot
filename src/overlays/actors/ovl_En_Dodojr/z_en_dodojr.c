@@ -137,7 +137,7 @@ s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
         return 0;
     }
 
-    if ((this->actor.bgCheckFlags & 1) != 0) {
+    if (this->actor.bgCheckFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_GND);
         this->dustPos = this->actor.posRot.pos;
         func_809F6510(this, globalCtx, 10);
