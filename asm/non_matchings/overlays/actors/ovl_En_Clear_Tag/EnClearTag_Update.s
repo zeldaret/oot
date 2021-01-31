@@ -573,7 +573,7 @@ glabel EnClearTag_Update
 /* 00E0C 809D43BC 0C00B5FB */  jal     func_8002D7EC              
 /* 00E10 809D43C0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E14 809D43C4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 00E18 809D43C8 0C00B56E */  jal     Actor_SetHeight
+/* 00E18 809D43C8 0C00B56E */  jal     Actor_SetFocus
               
 /* 00E1C 809D43CC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00E20 809D43D0 240F0014 */  addiu   $t7, $zero, 0x0014         ## $t7 = 00000014
@@ -584,7 +584,7 @@ glabel EnClearTag_Update
 /* 00E34 809D43E4 A63801D6 */  sh      $t8, 0x01D6($s1)           ## 000001D6
 /* 00E38 809D43E8 A63901D8 */  sh      $t9, 0x01D8($s1)           ## 000001D8
 /* 00E3C 809D43EC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000194
-/* 00E40 809D43F0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00E40 809D43F0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00E44 809D43F4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00E48 809D43F8 8FA400CC */  lw      $a0, 0x00CC($sp)           
@@ -610,7 +610,7 @@ glabel EnClearTag_Update
 /* 00E90 809D4440 240A0005 */  addiu   $t2, $zero, 0x0005         ## $t2 = 00000005
 /* 00E94 809D4444 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 00E98 809D4448 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
-/* 00E9C 809D444C 0C00B92D */  jal     func_8002E4B4              
+/* 00E9C 809D444C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00EA0 809D4450 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 00EA4 809D4454 0C274EE0 */  jal     func_809D3B80              
 /* 00EA8 809D4458 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -680,7 +680,7 @@ glabel EnClearTag_Update
 /* 00F8C 809D453C A63801D6 */  sh      $t8, 0x01D6($s1)           ## 000001D6
 /* 00F90 809D4540 A63901D8 */  sh      $t9, 0x01D8($s1)           ## 000001D8
 /* 00F94 809D4544 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000194
-/* 00F98 809D4548 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00F98 809D4548 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00F9C 809D454C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00FA0 809D4550 8FA400CC */  lw      $a0, 0x00CC($sp)           
@@ -698,7 +698,7 @@ glabel EnClearTag_Update
 /* 00FCC 809D457C 02202825 */  or      $a1, $s1, $zero            ## $a1 = 00000000
 /* 00FD0 809D4580 3C064248 */  lui     $a2, 0x4248                ## $a2 = 42480000
 /* 00FD4 809D4584 3C0742A0 */  lui     $a3, 0x42A0                ## $a3 = 42A00000
-/* 00FD8 809D4588 0C00B92D */  jal     func_8002E4B4              
+/* 00FD8 809D4588 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00FDC 809D458C E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 00FE0 809D4590 962A0088 */  lhu     $t2, 0x0088($s1)           ## 00000088
 /* 00FE4 809D4594 93AC00C7 */  lbu     $t4, 0x00C7($sp)           

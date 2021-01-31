@@ -21,7 +21,7 @@ void func_808B4A04(BgSpot15Saku* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot15_Saku_InitVars = {
     ACTOR_BG_SPOT15_SAKU,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_SPOT15_OBJ,
     sizeof(BgSpot15Saku),
@@ -45,11 +45,11 @@ void BgSpot15Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->scale.x = 0.1f;
     thisx->scale.y = 0.1f;
     thisx->scale.z = 0.1f;
-    this->unk_170 = thisx->posRot.pos.x;
-    this->unk_174 = thisx->posRot.pos.y;
-    this->unk_178 = thisx->posRot.pos.z;
+    this->unk_170 = thisx->world.pos.x;
+    this->unk_174 = thisx->world.pos.y;
+    this->unk_178 = thisx->world.pos.z;
     if ((gSaveContext.infTable[7] & 2) != 0) {
-        thisx->posRot.pos.z = 2659.0f;
+        thisx->world.pos.z = 2659.0f;
     }
     this->actionFunc = func_808B4930;
 }
@@ -71,8 +71,8 @@ void func_808B4978(BgSpot15Saku* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     if (!this->unk_17C) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
-        thisx->posRot.pos.z -= 2.0f;
-        if (thisx->posRot.pos.z < 2660.0f) {
+        thisx->world.pos.z -= 2.0f;
+        if (thisx->world.pos.z < 2660.0f) {
             Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
             this->unk_17C = 0x1E;
             this->actionFunc = func_808B4A04;

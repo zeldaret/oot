@@ -14,8 +14,8 @@ glabel EnGe1_Init
 /* 00008 80A30978 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0000C 80A3097C AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00010 80A30980 AFA50044 */  sw      $a1, 0x0044($sp)
-/* 00014 80A30984 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00018 80A30988 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00014 80A30984 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00018 80A30988 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0001C 80A3098C 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00020 80A30990 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00024 80A30994 0C00AC78 */  jal     ActorShape_Init

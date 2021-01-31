@@ -151,12 +151,12 @@ glabel ObjBean_Init
 /* 01180 80B8FC00 0C2E3AA0 */  jal     func_80B8EA80              
 /* 01184 80B8FC04 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 01188 80B8FC08 920D01F7 */  lbu     $t5, 0x01F7($s0)           ## 000001F7
-/* 0118C 80B8FC0C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
+/* 0118C 80B8FC0C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
 /* 01190 80B8FC10 3C07410C */  lui     $a3, 0x410C                ## $a3 = 410C0000
 /* 01194 80B8FC14 35AE0010 */  ori     $t6, $t5, 0x0010           ## $t6 = 00000010
 /* 01198 80B8FC18 A20E01F7 */  sb      $t6, 0x01F7($s0)           ## 000001F7
 /* 0119C 80B8FC1C 34E7CCCD */  ori     $a3, $a3, 0xCCCD           ## $a3 = 410CCCCD
-/* 011A0 80B8FC20 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 011A0 80B8FC20 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 011A4 80B8FC24 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 011A8 80B8FC28 0C00AC78 */  jal     ActorShape_Init
               

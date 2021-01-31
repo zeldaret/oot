@@ -18,7 +18,7 @@ void func_80AF6B20(EnSa* this, GlobalContext* globalCtx);
 
 const ActorInit En_Sa_InitVars = {
     ACTOR_EN_SA,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_SA,
     sizeof(EnSa),
@@ -29,13 +29,27 @@ const ActorInit En_Sa_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
 static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
+    0, 0, 0, 0, MASS_IMMOVABLE,
 };
 
 static struct_D_80AA1678 sAnimationInfo[] = {
@@ -157,7 +171,7 @@ s16 func_80AF56F4(GlobalContext* globalCtx, Actor* thisx) {
 
 void func_80AF57D8(EnSa* this, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_SPOT05 ||
-        ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) < 0x1555 || this->unk_1E0.unk_00 != 0) {
+        ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) < 0x1555 || this->unk_1E0.unk_00 != 0) {
         func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, this->collider.dim.radius + 30.0f, func_80AF55E0,
                       func_80AF56F4);
     }
@@ -354,7 +368,7 @@ void func_80AF5F34(EnSa* this, GlobalContext* globalCtx) {
         this->skelAnime.animation == &D_06001D50) {
         phi_a3 = 1;
     }
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     this->unk_1E0.unk_14 = 4.0f;
     func_80034A14(&this->actor, &this->unk_1E0, 2, phi_a3);
 }
@@ -412,11 +426,11 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSa* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 12.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 12.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B1A0, NULL, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     switch (func_80AF5DFC(this, globalCtx)) {
         case 2:
@@ -453,13 +467,13 @@ void EnSa_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_SetScale(&this->actor, 0.01f);
 
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
     this->alpha = 255;
     this->unk_21A = this->actor.shape.rot;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_KOKIRI);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
+                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
 }
 
 void EnSa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -552,7 +566,7 @@ void func_80AF67D0(EnSa* this, GlobalContext* globalCtx) {
 void func_80AF683C(EnSa* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (!(player->actor.posRot.pos.z >= -2220.0f) && !Gameplay_InCsMode(globalCtx)) {
+    if (!(player->actor.world.pos.z >= -2220.0f) && !Gameplay_InCsMode(globalCtx)) {
         globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02005730);
         gSaveContext.cutsceneTrigger = 1;
         this->actionFunc = func_80AF68E4;
@@ -578,7 +592,7 @@ void func_80AF68E4(EnSa* this, GlobalContext* globalCtx) {
         func_80AF6170(csAction, &endPos);
 
         if (this->unk_210 == 0) {
-            this->actor.posRot.pos = startPos;
+            this->actor.world.pos = startPos;
         }
         if (this->unk_210 != csAction->action) {
             switch (csAction->action) {
@@ -635,13 +649,15 @@ void func_80AF6B20(EnSa* this, GlobalContext* globalCtx) {
         Item_Give(globalCtx, ITEM_SONG_SARIA);
         func_80AF5D8C(this, 6);
     }
+
     if (globalCtx->sceneNum == SCENE_SPOT04) {
         func_80AF5D8C(this, 4);
-        this->actor.posRot.pos = this->actor.initPosRot.pos;
-        this->actor.posRot.rot = this->unk_21A;
+        this->actor.world.pos = this->actor.home.pos;
+        this->actor.world.rot = this->unk_21A;
         this->unk_216 = 0;
         gSaveContext.infTable[0] |= 1;
     }
+
     this->actionFunc = func_80AF6448;
 }
 
@@ -649,28 +665,34 @@ void EnSa_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSa* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
+
     if (this->skelAnime.animation == &D_06001D50 && this->skelAnime.curFrame >= Animation_GetLastFrame(&D_06001D50)) {
         func_80AF5D8C(this, 6);
     }
+
     if (this->actionFunc != func_80AF68E4) {
         this->alpha = func_80034DD4(&this->actor, globalCtx, this->alpha, 400.0f);
     } else {
         this->alpha = 255;
     }
-    this->actor.shape.unk_14 = this->alpha;
+
+    this->actor.shape.shadowAlpha = this->alpha;
+
     if (this->actionFunc == func_80AF68E4) {
-        this->actor.posRot.pos.x += this->actor.velocity.x;
-        this->actor.posRot.pos.y += this->actor.velocity.y;
-        this->actor.posRot.pos.z += this->actor.velocity.z;
+        this->actor.world.pos.x += this->actor.velocity.x;
+        this->actor.world.pos.y += this->actor.velocity.y;
+        this->actor.world.pos.z += this->actor.velocity.z;
     } else {
         func_8002D7EC(&this->actor);
     }
+
     if (globalCtx->sceneNum != SCENE_SPOT05) {
-        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     }
+
     func_80AF609C(this);
     this->actionFunc(this, globalCtx);
     func_80AF57D8(this, globalCtx);
@@ -690,14 +712,17 @@ s32 EnSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         Matrix_RotateZ(BINANG_TO_RAD(sp18.x), MTXMODE_APPLY);
         Matrix_Translate(-900.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     }
+
     if (limbIndex == 9) {
         sp18 = this->unk_1E0.unk_0E;
         Matrix_RotateY(BINANG_TO_RAD(sp18.y), MTXMODE_APPLY);
         Matrix_RotateX(BINANG_TO_RAD(sp18.x), MTXMODE_APPLY);
     }
+
     if (globalCtx->sceneNum == SCENE_SPOT05 && limbIndex == 15) {
         *dList = D_06007B80;
     }
+
     return 0;
 }
 
@@ -706,7 +731,7 @@ void EnSa_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     Vec3f D_80AF7454 = { 400.0, 0.0f, 0.0f };
 
     if (limbIndex == 16) {
-        Matrix_MultVec3f(&D_80AF7454, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80AF7454, &this->actor.focus.pos);
     }
 }
 

@@ -19,7 +19,7 @@ extern UNK_TYPE D_060133EC;
 /*
 const ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT02_OBJECTS,
     sizeof(BgSpot02Objects),

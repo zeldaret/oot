@@ -49,10 +49,10 @@ glabel EnWeiyer_Update
 /* 01584 80B33814 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 01588 80B33818 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 0158C 80B3381C 3C0741F0 */  lui     $a3, 0x41F0                ## $a3 = 41F00000
-/* 01590 80B33820 0C00B92D */  jal     func_8002E4B4              
+/* 01590 80B33820 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01594 80B33824 E7B20010 */  swc1    $f18, 0x0010($sp)          
 /* 01598 80B33828 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0159C 80B3382C 0C00B56E */  jal     Actor_SetHeight
+/* 0159C 80B3382C 0C00B56E */  jal     Actor_SetFocus
               
 /* 015A0 80B33830 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 015A4 80B33834 92020294 */  lbu     $v0, 0x0294($s0)           ## 00000294
@@ -67,7 +67,7 @@ glabel EnWeiyer_Update
 .L80B33854:
 /* 015C4 80B33854 26050284 */  addiu   $a1, $s0, 0x0284           ## $a1 = 00000284
 /* 015C8 80B33858 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 015CC 80B3385C 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 015CC 80B3385C 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 015D0 80B33860 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 015D4 80B33864 92190294 */  lbu     $t9, 0x0294($s0)           ## 00000294
@@ -96,7 +96,7 @@ glabel EnWeiyer_Update
 .L80B338B4:
 /* 01624 80B338B4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01628 80B338B8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0162C 80B338BC 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01630 80B338C0 8FBF0024 */  lw      $ra, 0x0024($sp)           
 /* 01634 80B338C4 8FB0001C */  lw      $s0, 0x001C($sp)           

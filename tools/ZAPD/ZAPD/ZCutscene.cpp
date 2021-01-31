@@ -126,6 +126,21 @@ int ZCutscene::GetRawDataSize()
 	return size;
 }
 
+ZCutscene* ZCutscene::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath)
+{
+	ZCutscene* cs = new ZCutscene(nRawData, rawDataIndex, 9999);
+	cs->rawData = nRawData;
+	cs->rawDataIndex = rawDataIndex;
+	cs->ParseXML(reader);
+	cs->ParseRawData();
+
+	return cs;
+}
+
+void ZCutscene::ParseRawData()
+{
+}
+
 CutsceneCommands ZCutscene::GetCommandFromID(int id)
 {
 	switch (id)
@@ -164,6 +179,11 @@ CutsceneCommands ZCutscene::GetCommandFromID(int id)
 	printf("WARNING: Could not identify cutscene command ID 0x%04X\n", id);
 
 	return CutsceneCommands::Error;
+}
+
+ZResourceType ZCutscene::GetResourceType()
+{
+	return ZResourceType::Cutscene;
 }
 
 CutsceneCommand::CutsceneCommand(const vector<uint8_t>& rawData, int rawDataIndex)
