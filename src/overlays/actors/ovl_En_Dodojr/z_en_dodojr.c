@@ -571,7 +571,7 @@ void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx) {
         }
     } else {
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
-                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 0);
+                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, BOMB_BODY);
 
         if (bomb != NULL) {
             bomb->timer = 0;
