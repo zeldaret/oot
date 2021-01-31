@@ -1,3 +1,10 @@
+/*
+ * File: z_en_sth.c
+ * Overlay: ovl_En_Sth
+ * Description: Uncursed House of Skulltula People
+ */
+
+#include "vt.h"
 #include "z_en_sth.h"
 
 #define FLAGS 0x00000019
@@ -93,7 +100,7 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 params2;
 
     // Translation: Gold Skulltula Shop
-    osSyncPrintf("\x1b[34m金スタル屋 no = %d\n\x1b[m", params);
+    osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params);
     params2 = this->actor.params;
     if (params2 == 0) {
         if (gSaveContext.inventory.gsTokens < 100) {
@@ -105,7 +112,7 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (gSaveContext.inventory.gsTokens < (params2 * 10)) {
         Actor_Kill(&this->actor);
         // Translation: Gold Skulltula Shop I still can't be a human
-        osSyncPrintf("\x1b[34m金スタル屋 まだ 人間に戻れない \n\x1b[m");
+        osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
         return;
     }
 
