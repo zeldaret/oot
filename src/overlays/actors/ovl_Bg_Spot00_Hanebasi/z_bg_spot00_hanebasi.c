@@ -58,7 +58,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f chainPos;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->dyna.actor, &sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna.actor, 1);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
