@@ -214,14 +214,14 @@ void func_8098394C(DemoIk* this, GlobalContext* globalCtx) {
     DemoIk_MoveToStartPos(this, globalCtx, DemoIk_GetIndexFromParams(this->actor.params));
     this->actionMode = 1;
     this->drawMode = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->skelAnime.curFrame = 0.0f;
 }
 
 void func_809839AC(DemoIk* this) {
     this->actionMode = 2;
     this->drawMode = 1;
-    this->actor.shape.shadowAlpha = 0xFF;
+    this->actor.shape.shadowAlpha = 255;
     this->skelAnime.curFrame = 0.0f;
 }
 
@@ -284,11 +284,13 @@ void DemoIk_Type1PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     if (limbIndex == 1) {
         switch (this->actor.params) {
             case 0:
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 390), 2);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 390),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
                 break;
             case 2:
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 396), 2);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inArmer.c", 396),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016F88);
                 break;
         }
@@ -440,19 +442,23 @@ void DemoIk_Type2PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     if (limbIndex == 1 && (frame >= 30.0f)) {
         switch (this->actor.params) {
             case 3:
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 274), 2);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 274),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06017028);
                 break;
             case 4:
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 280), 2);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 280),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06017170);
                 break;
             case 5:
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 286), 2);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 286),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016BE0);
                 break;
             default:
-                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 292), 2);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_ik_inFace.c", 292),
+                          G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList(POLY_XLU_DISP++, D_06016CD8);
                 break;
         }
@@ -477,18 +483,19 @@ void DemoIk_Type2Draw(DemoIk* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_demo_ik_inFace.c", 341);
 }
 
+static DemoIkActionFunc sActionFuncs[] = {
+    DemoIk_Type1Action0, DemoIk_Type1Action1, DemoIk_Type1Action2,
+    DemoIk_Type2Action0, DemoIk_Type2Action1, DemoIk_Type2Action2,
+};
+
 void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx) {
-    static DemoIkActionFunc sActionFuncs[] = {
-        DemoIk_Type1Action0, DemoIk_Type1Action1, DemoIk_Type1Action2,
-        DemoIk_Type2Action0, DemoIk_Type2Action1, DemoIk_Type2Action2,
-    };
     s32 pad;
     DemoIk* this = THIS;
 
     if (this->actionMode < 0 || this->actionMode >= ARRAY_COUNT(sActionFuncs) ||
         sActionFuncs[this->actionMode] == NULL) {
         // The main mode is strange
-        osSyncPrintf(VT_FGCOL(RED)"メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n"VT_RST);
+        osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sActionFuncs[this->actionMode](this, globalCtx);
@@ -497,14 +504,19 @@ void DemoIk_Update(Actor* thisx, GlobalContext* globalCtx) {
 void DemoIk_DrawNothing(DemoIk* this, GlobalContext* globalCtx) {
 }
 
+static DemoIkDrawFunc sDrawFuncs[] = {
+    DemoIk_DrawNothing,
+    DemoIk_Type1Draw,
+    DemoIk_Type2Draw,
+};
+
 void DemoIk_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static DemoIkDrawFunc sDrawFuncs[] = { DemoIk_DrawNothing, DemoIk_Type1Draw, DemoIk_Type2Draw };
     s32 pad;
     DemoIk* this = THIS;
 
     if (this->drawMode < 0 || this->drawMode >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawMode] == NULL) {
         // The draw mode is strange
-        osSyncPrintf(VT_FGCOL(RED)"描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n"VT_RST);
+        osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
     sDrawFuncs[this->drawMode](this, globalCtx);
