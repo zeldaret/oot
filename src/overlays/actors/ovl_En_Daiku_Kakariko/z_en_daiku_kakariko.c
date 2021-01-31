@@ -122,12 +122,12 @@ void EnDaikuKakariko_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInit);
 
     Animation_Change(&this->skelAnime, sAnimations->animation, 1.0f, 0.0f,
                      Animation_GetLastFrame(sAnimations->animation), sAnimations->mode, sAnimations->transitionRate);
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     this->actor.gravity = 0.0f;
     this->runSpeed = 3.0f;
@@ -391,12 +391,12 @@ void EnDaikuKakariko_Run(EnDaikuKakariko* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (this->flags & 0x40) {
-        func_8002E4B4(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
     } else if (this->flags & 0x80) {
         this->runFlag |= 1;
         this->flags &= ~0x0080;
     } else if (this->runFlag & 1) {
-        func_8002E4B4(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
         this->runFlag &= ~1;
     }
 
@@ -422,7 +422,7 @@ void EnDaikuKakariko_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 
     if (this->flags & 4) {
         this->collider.dim.pos.x -= 27;
@@ -464,7 +464,7 @@ s32 EnDaikuKakariko_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gf
             break;
         case 15:
             Matrix_Translate(1400.0f, 0.0f, 0.0f, MTXMODE_APPLY);
-            angle = this->npcInfo.mode;
+            angle = this->npcInfo.unk_08;
 
             if (this->flags & 0x1000) {
                 osSyncPrintf("<%d>\n", this->neckAngle.x);
