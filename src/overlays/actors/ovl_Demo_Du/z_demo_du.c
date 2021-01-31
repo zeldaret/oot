@@ -19,7 +19,7 @@ extern UNK_TYPE D_06005458;
 extern UNK_TYPE D_06006104;
 extern AnimationHeader D_060067CC;
 extern AnimationHeader D_06006EB0;
-extern UNK_TYPE D_06007FC0;
+extern Gfx D_06007FC0;
 extern FlexSkeletonHeader D_06011CA8;
 extern AnimationHeader D_06012014;
 
@@ -235,9 +235,9 @@ static DemoDuActionFunc D_8096CF30[] = {
 
 typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);
 
-void func_8096BF54(Actor* thisx, GlobalContext* globalCtx);
-void func_8096BF60(Actor* thisx, GlobalContext* globalCtx);
-void func_8096B840(Actor* thisx, GlobalContext* globalCtx);
+void func_8096BF54(Actor* thisx, GlobalContext* globalCtx2);
+void func_8096BF60(Actor* thisx, GlobalContext* globalCtx2);
+void func_8096B840(Actor* thisx, GlobalContext* globalCtx2);
 /*
 glabel D_8096CFA4
 .word func_8096BF54
@@ -580,7 +580,7 @@ void func_8096B840(Actor* thisx, GlobalContext *globalCtx2) {
 
     gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0x00, this->unk_1A8);
 
-    gSPSegment(POLY_XLU_DISP++, 0x0C, D_80116280);
+    gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
     POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, (s32) skelAnime->dListCount, 0, 0, 0, POLY_XLU_DISP);
 
@@ -656,7 +656,32 @@ void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BF54.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BF60.s")
+void func_8096BF60(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext *globalCtx = globalCtx2;
+    DemoDu* this = THIS;
+    s16 unk_190 = this->unk_190;
+    Gfx* sp68 = D_8096CE74[unk_190];
+    s32 pad;
+    s16 unk_194 = this->unk_194;
+    Gfx* sp5C = D_8096CE84[unk_194];
+    SkelAnime* skelAnime = &this->skelAnime;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 615);
+
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp68));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp5C));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06007FC0));
+
+    gDPSetEnvColor(POLY_OPA_DISP++, 0x00, 0x00, 0x00, 0xFF);
+
+    gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
+
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL, this);
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 638);
+}
 
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
