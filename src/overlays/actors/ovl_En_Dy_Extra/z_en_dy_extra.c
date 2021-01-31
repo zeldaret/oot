@@ -21,7 +21,7 @@ void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_DY_OBJ,
     sizeof(EnDyExtra),
@@ -47,7 +47,7 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->scale.x = 0.025f;
     this->scale.y = 0.039f;
     this->scale.z = 0.025f;
-    this->unk_168 = this->actor.posRot.pos;
+    this->unk_168 = this->actor.world.pos;
     this->actor.gravity = -0.2f;
     this->unk_158 = 1.0f;
     this->timer = 60;
@@ -56,7 +56,7 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDyExtra_WaitForTrigger(EnDyExtra* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
-    if (this->actor.posRot.pos.y < -55.0f) {
+    if (this->actor.world.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
     if (this->timer == 0 && this->trigger != 0) {
@@ -72,7 +72,7 @@ void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx) {
         return;
     }
     Math_ApproachZeroF(&this->unk_158, 0.03f, 0.05f);
-    if (this->actor.posRot.pos.y < -55.0f) {
+    if (this->actor.world.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
 }

@@ -25,7 +25,7 @@ extern UNK_TYPE D_06005298;
 /*
 const ActorInit En_Sw_InitVars = {
     ACTOR_EN_SW,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ST,
     sizeof(EnSw),
@@ -33,6 +33,33 @@ const ActorInit En_Sw_InitVars = {
     (ActorFunc)EnSw_Destroy,
     (ActorFunc)EnSw_Update,
     (ActorFunc)EnSw_Draw,
+};
+
+static ColliderJntSphElementInit D_80B0F040[1] = {
+    {
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x08 },
+            { 0xFFC3FFFE, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
+        { 2, { { 0, -300, 0 }, 21 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_80B0F064 = {
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    1,
+    D_80B0F040,
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Sw/func_80B0BDB0.s")

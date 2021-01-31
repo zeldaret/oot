@@ -22,7 +22,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx);
 
 const ActorInit En_Okuta_InitVars = {
     ACTOR_EN_OKUTA,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_OKUTA,
     sizeof(EnOkuta),
@@ -42,27 +42,85 @@ extern AnimationHeader D_06003910;
 extern AnimationHeader D_06003C64;
 
 static ColliderCylinderInit sProjectileColliderInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x09, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 13, 20, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sOctorockColliderInit = {
-    { COLTYPE_UNK0, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x01, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 40, -30, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 1, 0xF, 0x3C, 0x64 };
+static CollisionCheckInfoInit sColChkInfoInit = { 1, 15, 60, 100 };
 
 static DamageTable sDamageTable = {
-    0x00, 0x02, 0x01, 0x02, 0x01, 0x02, 0x02, 0x02, 0x01, 0x02, 0x04, 0x02, 0x34, 0x02, 0x02, 0x02,
-    0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x04, 0x02, 0x02, 0x08, 0x04, 0x00, 0x00, 0x04, 0x00,
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(2, 0x0),
+    /* Slingshot     */ DMG_ENTRY(1, 0x0),
+    /* Explosive     */ DMG_ENTRY(2, 0x0),
+    /* Boomerang     */ DMG_ENTRY(1, 0x0),
+    /* Normal arrow  */ DMG_ENTRY(2, 0x0),
+    /* Hammer swing  */ DMG_ENTRY(2, 0x0),
+    /* Hookshot      */ DMG_ENTRY(2, 0x0),
+    /* Kokiri sword  */ DMG_ENTRY(1, 0x0),
+    /* Master sword  */ DMG_ENTRY(2, 0x0),
+    /* Giant's Knife */ DMG_ENTRY(4, 0x0),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x0),
+    /* Ice arrow     */ DMG_ENTRY(4, 0x3),
+    /* Light arrow   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 1   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 2   */ DMG_ENTRY(2, 0x0),
+    /* Unk arrow 3   */ DMG_ENTRY(2, 0x0),
+    /* Fire magic    */ DMG_ENTRY(0, 0x0),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(1, 0x0),
+    /* Giant spin    */ DMG_ENTRY(4, 0x0),
+    /* Master spin   */ DMG_ENTRY(2, 0x0),
+    /* Kokiri jump   */ DMG_ENTRY(2, 0x0),
+    /* Giant jump    */ DMG_ENTRY(8, 0x0),
+    /* Master jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(4, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 66, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 6500, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 6500, ICHAIN_STOP),
 };
 
 void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -79,28 +137,28 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->jointTable, this->morphTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sOctorockColliderInit);
-        func_80061ED4(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
+        CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
         if ((this->numShots == 0xFF) || (this->numShots == 0)) {
             this->numShots = 1;
         }
-        thisx->groundY =
-            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->posRot.pos);
+        thisx->floorHeight =
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &thisx->floorPoly, &sp30, thisx, &thisx->world.pos);
         //! @bug calls WaterBox_GetSurfaceImpl directly
-        if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, thisx->posRot.pos.x, thisx->posRot.pos.z, &ySurface,
+        if (!WaterBox_GetSurfaceImpl(globalCtx, &globalCtx->colCtx, thisx->world.pos.x, thisx->world.pos.z, &ySurface,
                                      &outWaterBox) ||
-            (ySurface <= thisx->groundY)) {
+            (ySurface <= thisx->floorHeight)) {
             Actor_Kill(thisx);
         } else {
-            thisx->initPosRot.pos.y = ySurface;
+            thisx->home.pos.y = ySurface;
         }
         EnOkuta_SetupWaitToAppear(this);
     } else {
-        ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawFunc_Circle, 18.0f);
+        ActorShape_Init(&thisx->shape, 1100.0f, ActorShadow_DrawCircle, 18.0f);
         thisx->flags &= ~1;
         thisx->flags |= 0x10;
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sProjectileColliderInit);
-        Actor_ChangeType(globalCtx, &globalCtx->actorCtx, thisx, ACTORTYPE_PROP);
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
         this->timer = 30;
         thisx->shape.rot.y = 0;
         this->actionFunc = EnOkuta_ProjectileFly;
@@ -118,7 +176,7 @@ void EnOkuta_SpawnBubbles(EnOkuta* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 10; i++) {
-        EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, -10.0f, 10.0f, 30.0f, 0.25f);
+        EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, -10.0f, 10.0f, 30.0f, 0.25f);
     }
 }
 
@@ -131,17 +189,17 @@ void EnOkuta_SpawnDust(Vec3f* pos, Vec3f* velocity, s16 scaleStep, GlobalContext
 }
 
 void EnOkuta_SpawnSplash(EnOkuta* this, GlobalContext* globalCtx) {
-    EffectSsGSplash_Spawn(globalCtx, &this->actor.initPosRot.pos, NULL, NULL, 0, 1300);
+    EffectSsGSplash_Spawn(globalCtx, &this->actor.home.pos, NULL, NULL, 0, 1300);
 }
 
 void EnOkuta_SpawnRipple(EnOkuta* this, GlobalContext* globalCtx) {
     Vec3f pos;
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.initPosRot.pos.y;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.home.pos.y;
+    pos.z = this->actor.world.pos.z;
     if ((globalCtx->gameplayFrames % 7) == 0 &&
-        ((this->actionFunc != EnOkuta_Shoot) || ((this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) < 50.0f))) {
+        ((this->actionFunc != EnOkuta_Shoot) || ((this->actor.world.pos.y - this->actor.home.pos.y) < 50.0f))) {
         EffectSsGRipple_Spawn(globalCtx, &pos, 250, 650, 0);
     }
 }
@@ -150,12 +208,12 @@ void EnOkuta_SetupWaitToAppear(EnOkuta* this) {
     this->actor.draw = NULL;
     this->actor.flags &= ~1;
     this->actionFunc = EnOkuta_WaitToAppear;
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
+    this->actor.world.pos.y = this->actor.home.pos.y;
 }
 
 void EnOkuta_SetupAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.draw = EnOkuta_Draw;
-    this->actor.shape.rot.y = this->actor.yawTowardsLink;
+    this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->actor.flags |= 1;
     Animation_PlayOnce(&this->skelAnime, &D_06003C64);
     EnOkuta_SpawnBubbles(this, globalCtx);
@@ -178,7 +236,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->numShots;
     }
-    this->jumpHeight = this->actor.yDistToLink + 20.0f;
+    this->jumpHeight = this->actor.yDistToPlayer + 20.0f;
     this->jumpHeight = CLAMP_MIN(this->jumpHeight, 10.0f);
     if (this->jumpHeight > 50.0f) {
         EnOkuta_SpawnSplash(this, globalCtx);
@@ -192,7 +250,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
 void EnOkuta_SetupWaitToDie(EnOkuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06003910, -5.0f);
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xB);
-    this->collider.base.acFlags &= ~2;
+    this->collider.base.acFlags &= ~AC_HIT;
     Actor_SetScale(&this->actor, 0.01f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD1);
     this->actionFunc = EnOkuta_WaitToDie;
@@ -216,14 +274,14 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
     f32 sin = Math_SinS(this->actor.shape.rot.y);
     f32 cos = Math_CosS(this->actor.shape.rot.y);
 
-    pos.x = this->actor.posRot.pos.x + (25.0f * sin);
-    pos.y = this->actor.posRot.pos.y - 6.0f;
-    pos.z = this->actor.posRot.pos.z + (25.0f * cos);
+    pos.x = this->actor.world.pos.x + (25.0f * sin);
+    pos.y = this->actor.world.pos.y - 6.0f;
+    pos.z = this->actor.world.pos.z + (25.0f * cos);
     if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_OKUTA, pos.x, pos.y, pos.z, this->actor.shape.rot.x,
                     this->actor.shape.rot.y, this->actor.shape.rot.z, 0x10) != NULL) {
-        pos.x = this->actor.posRot.pos.x + (40.0f * sin);
-        pos.z = this->actor.posRot.pos.z + (40.0f * cos);
-        pos.y = this->actor.posRot.pos.y;
+        pos.x = this->actor.world.pos.x + (40.0f * sin);
+        pos.z = this->actor.world.pos.z + (40.0f * cos);
+        pos.y = this->actor.world.pos.y;
         velocity.x = 1.5f * sin;
         velocity.y = 0.0f;
         velocity.z = 1.5f * cos;
@@ -233,8 +291,8 @@ void EnOkuta_SpawnProjectile(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_WaitToAppear(EnOkuta* this, GlobalContext* globalCtx) {
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
-    if ((this->actor.xzDistToLink < 480.0f) && (this->actor.xzDistToLink > 200.0f)) {
+    this->actor.world.pos.y = this->actor.home.pos.y;
+    if ((this->actor.xzDistToPlayer < 480.0f) && (this->actor.xzDistToPlayer > 200.0f)) {
         EnOkuta_SetupAppear(this, globalCtx);
     }
 }
@@ -243,7 +301,7 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (this->actor.xzDistToLink < 160.0f) {
+        if (this->actor.xzDistToPlayer < 160.0f) {
             EnOkuta_SetupHide(this);
         } else {
             EnOkuta_SetupWaitToShoot(this);
@@ -267,7 +325,7 @@ void EnOkuta_Appear(EnOkuta* this, GlobalContext* globalCtx) {
 void EnOkuta_Hide(EnOkuta* this, GlobalContext* globalCtx) {
     s32 pad;
 
-    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 30.0f);
+    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 30.0f);
     if (SkelAnime_Update(&this->skelAnime)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_BUBLE);
         EnOkuta_SpawnBubbles(this, globalCtx);
@@ -287,7 +345,7 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
     s16 temp_v0_2;
     s32 phi_v1;
 
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y;
+    this->actor.world.pos.y = this->actor.home.pos.y;
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, 0.0f)) {
         if (this->timer != 0) {
@@ -297,19 +355,19 @@ void EnOkuta_WaitToShoot(EnOkuta* this, GlobalContext* globalCtx) {
     if (Animation_OnFrame(&this->skelAnime, 0.5f)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_FLOAT);
     }
-    if (this->actor.xzDistToLink < 160.0f || this->actor.xzDistToLink > 560.0f) {
+    if (this->actor.xzDistToPlayer < 160.0f || this->actor.xzDistToPlayer > 560.0f) {
         EnOkuta_SetupHide(this);
     } else {
-        temp_v0_2 = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C, 0x38E);
+        temp_v0_2 = Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x71C, 0x38E);
         phi_v1 = ABS(temp_v0_2);
-        if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistToLink < 200.0f)) {
+        if ((phi_v1 < 0x38E) && (this->timer == 0) && (this->actor.yDistToPlayer < 200.0f)) {
             EnOkuta_SetupShoot(this, globalCtx);
         }
     }
 }
 
 void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
-    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, 0x71C);
+    Math_ApproachS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, 0x71C);
     if (SkelAnime_Update(&this->skelAnime)) {
         if (this->timer != 0) {
             this->timer--;
@@ -323,8 +381,7 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
         f32 curFrame = this->skelAnime.curFrame;
 
         if (curFrame < 13.0f) {
-            this->actor.posRot.pos.y =
-                (sinf((0.08333f * M_PI) * curFrame) * this->jumpHeight) + this->actor.initPosRot.pos.y;
+            this->actor.world.pos.y = (sinf((0.08333f * M_PI) * curFrame) * this->jumpHeight) + this->actor.home.pos.y;
         }
         if (Animation_OnFrame(&this->skelAnime, 6.0f)) {
             EnOkuta_SpawnProjectile(this, globalCtx);
@@ -336,7 +393,7 @@ void EnOkuta_Shoot(EnOkuta* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_LAND);
         }
     }
-    if (this->actor.xzDistToLink < 160.0f) {
+    if (this->actor.xzDistToPlayer < 160.0f) {
         EnOkuta_SetupHide(this);
     }
 }
@@ -345,7 +402,7 @@ void EnOkuta_WaitToDie(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         EnOkuta_SetupDie(this);
     }
-    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 5.0f);
 }
 
 void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
@@ -359,11 +416,11 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->timer++;
     }
-    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 5.0f);
     if (this->timer == 5) {
-        pos.x = this->actor.posRot.pos.x;
-        pos.y = this->actor.posRot.pos.y + 40.0f;
-        pos.z = this->actor.posRot.pos.z;
+        pos.x = this->actor.world.pos.x;
+        pos.y = this->actor.world.pos.y + 40.0f;
+        pos.z = this->actor.world.pos.z;
         velocity.x = 0.0f;
         velocity.y = -0.5f;
         velocity.z = 0.0f;
@@ -382,13 +439,13 @@ void EnOkuta_Die(EnOkuta* this, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, (((this->timer - 5) * 0.04f) + 0.8f) * 0.01f);
     } else {
         if (Math_StepToF(&this->actor.scale.x, 0.0f, 0.0005f)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
-            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0x70);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 30, NA_SE_EN_OCTAROCK_BUBLE);
+            Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x70);
             for (i = 0; i < 20; i++) {
                 velocity.x = (Rand_ZeroOne() - 0.5f) * 7.0f;
                 velocity.y = Rand_ZeroOne() * 7.0f;
                 velocity.z = (Rand_ZeroOne() - 0.5f) * 7.0f;
-                EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.posRot.pos, &velocity, &accel, &primColor,
+                EffectSsDtBubble_SpawnCustomColor(globalCtx, &this->actor.world.pos, &velocity, &accel, &primColor,
                                                   &envColor, Rand_S16Offset(100, 50), 25, 0);
             }
             Actor_Kill(&this->actor);
@@ -409,13 +466,13 @@ void EnOkuta_Freeze(EnOkuta* this, GlobalContext* globalCtx) {
     }
     if ((this->timer >= 64) && (this->timer & 1)) {
         temp_v1 = (this->timer - 64) >> 1;
-        pos.y = (this->actor.posRot.pos.y - 32.0f) + (8.0f * (8 - temp_v1));
-        pos.x = this->actor.posRot.pos.x + ((temp_v1 & 2) ? 10.0f : -10.0f);
-        pos.z = this->actor.posRot.pos.z + ((temp_v1 & 1) ? 10.0f : -10.0f);
+        pos.y = (this->actor.world.pos.y - 32.0f) + (8.0f * (8 - temp_v1));
+        pos.x = this->actor.world.pos.x + ((temp_v1 & 2) ? 10.0f : -10.0f);
+        pos.z = this->actor.world.pos.z + ((temp_v1 & 1) ? 10.0f : -10.0f);
         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &pos, 150, 150, 150, 250, 235, 245, 255,
                                        (Rand_ZeroOne() * 0.2f) + 1.9f);
     }
-    Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.5f, 5.0f);
+    Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.5f, 5.0f);
 }
 
 void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
@@ -427,29 +484,31 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         this->actor.gravity = -1.0f;
     }
-    this->actor.initPosRot.rot.z += 0x1554;
+    this->actor.home.rot.z += 0x1554;
     if (this->actor.bgCheckFlags & 0x20) {
         this->actor.gravity = -1.0f;
         this->actor.speedXZ -= 0.1f;
         this->actor.speedXZ = CLAMP_MIN(this->actor.speedXZ, 1.0f);
     }
-    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & 2) ||
-        this->collider.base.acFlags & 2 || this->collider.base.maskA & 2 || this->actor.groundY == BGCHECK_Y_MIN) {
+    if ((this->actor.bgCheckFlags & 8) || (this->actor.bgCheckFlags & 1) || (this->collider.base.atFlags & AT_HIT) ||
+        this->collider.base.acFlags & AC_HIT || this->collider.base.ocFlags1 & OC1_HIT ||
+        this->actor.floorHeight == BGCHECK_Y_MIN) {
         if ((player->currentShield == PLAYER_SHIELD_DEKU ||
              (player->currentShield == PLAYER_SHIELD_HYLIAN && LINK_IS_ADULT)) &&
-            this->collider.base.atFlags & 2 && this->collider.base.atFlags & 0x10 && this->collider.base.atFlags & 4) {
-            this->collider.base.atFlags &= ~0x16;
-            this->collider.base.atFlags |= 8;
-            this->collider.body.toucher.flags = 2;
+            this->collider.base.atFlags & AT_HIT && this->collider.base.atFlags & AT_TYPE_ENEMY &&
+            this->collider.base.atFlags & AT_BOUNCED) {
+            this->collider.base.atFlags &= ~(AT_HIT | AT_BOUNCED | AT_TYPE_ENEMY);
+            this->collider.base.atFlags |= AT_TYPE_PLAYER;
+            this->collider.info.toucher.dmgFlags = 2;
             func_800D20CC(&player->shieldMf, &sp40, 0);
-            this->actor.posRot.rot.y = sp40.y + 0x8000;
+            this->actor.world.rot.y = sp40.y + 0x8000;
             this->timer = 30;
         } else {
-            pos.x = this->actor.posRot.pos.x;
-            pos.y = this->actor.posRot.pos.y + 11.0f;
-            pos.z = this->actor.posRot.pos.z;
+            pos.x = this->actor.world.pos.x;
+            pos.y = this->actor.world.pos.y + 11.0f;
+            pos.z = this->actor.world.pos.z;
             EffectSsHahen_SpawnBurst(globalCtx, &pos, 6.0f, 0, 1, 2, 15, 7, 10, D_06003380);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
             Actor_Kill(&this->actor);
         }
     } else if (this->timer == -300) {
@@ -503,9 +562,9 @@ void EnOkuta_UpdateHeadScale(EnOkuta* this) {
 }
 
 void EnOkuta_ColliderCheck(EnOkuta* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
-        func_80035650(&this->actor, &this->collider.body, 1);
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        func_80035650(&this->actor, &this->collider.info, 1);
         if ((this->actor.colChkInfo.damageEffect != 0) || (this->actor.colChkInfo.damage != 0)) {
             func_80032C7C(globalCtx, &this->actor);
             this->actor.colChkInfo.health = 0;
@@ -531,15 +590,15 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (!(player->stateFlags1 & 0x300000C0)) {
         if (this->actor.params == 0) {
             EnOkuta_ColliderCheck(this, globalCtx2);
-            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.posRot.pos.x,
-                                         this->actor.posRot.pos.z, &ySurface, &outWaterBox) ||
-                (ySurface < this->actor.groundY)) {
+            if (!WaterBox_GetSurfaceImpl(globalCtx2, &globalCtx2->colCtx, this->actor.world.pos.x,
+                                         this->actor.world.pos.z, &ySurface, &outWaterBox) ||
+                (ySurface < this->actor.floorHeight)) {
                 if (this->actor.colChkInfo.health != 0) {
                     Actor_Kill(&this->actor);
                     return;
                 }
             } else {
-                this->actor.initPosRot.pos.y = ySurface;
+                this->actor.home.pos.y = ySurface;
             }
         }
         this->actionFunc(this, globalCtx2);
@@ -551,27 +610,25 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             sp34 = false;
             Actor_MoveForward(&this->actor);
-            Math_Vec3f_Copy(&sp38, &this->actor.posRot.pos);
-            func_8002E4B4(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
+            Math_Vec3f_Copy(&sp38, &this->actor.world.pos);
+            Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 10.0f, 15.0f, 30.0f, 5);
             if ((this->actor.bgCheckFlags & 8) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly,
-                                                   this->actor.wallPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.wallPoly, this->actor.wallBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~8;
             }
             if ((this->actor.bgCheckFlags & 1) &&
-                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly,
-                                                   this->actor.floorPolySource)) {
+                SurfaceType_IsIgnoredByProjectiles(&globalCtx2->colCtx, this->actor.floorPoly, this->actor.floorBgId)) {
                 sp34 = true;
                 this->actor.bgCheckFlags &= ~1;
             }
             if (sp34 && !(this->actor.bgCheckFlags & 9)) {
-                Math_Vec3f_Copy(&this->actor.posRot.pos, &sp38);
+                Math_Vec3f_Copy(&this->actor.world.pos, &sp38);
             }
         }
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         if ((this->actionFunc == EnOkuta_Appear) || (this->actionFunc == EnOkuta_Hide)) {
-            this->collider.dim.pos.y = this->actor.posRot.pos.y + (this->skelAnime.jointTable->y * this->actor.scale.y);
+            this->collider.dim.pos.y = this->actor.world.pos.y + (this->skelAnime.jointTable->y * this->actor.scale.y);
             this->collider.dim.radius = sOctorockColliderInit.dim.radius * this->actor.scale.x * 100.0f;
         }
         if (this->actor.params == 0x10) {
@@ -585,7 +642,7 @@ void EnOkuta_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
             CollisionCheck_SetOC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
         }
-        Actor_SetHeight(&this->actor, 15.0f);
+        Actor_SetFocus(&this->actor, 15.0f);
         if ((this->actor.params == 0) && (this->actor.draw != NULL)) {
             EnOkuta_SpawnRipple(this, globalCtx2);
         }
@@ -665,7 +722,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1653);
 
         Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
-        Matrix_RotateZ(this->actor.initPosRot.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateZ(this->actor.home.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1657),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, D_06003380);
