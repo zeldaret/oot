@@ -17,7 +17,7 @@ extern UNK_TYPE D_06001904;
 /*
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT08_OBJ,
     sizeof(BgSpot08Iceblock),

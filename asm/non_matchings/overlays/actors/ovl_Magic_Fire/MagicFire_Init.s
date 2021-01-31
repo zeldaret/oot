@@ -31,7 +31,7 @@ glabel MagicFire_Init
               
 /* 00068 80B88DD8 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0006C 80B88DDC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00070 80B88DE0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00070 80B88DE0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00074 80B88DE4 8FA50020 */  lw      $a1, 0x0020($sp)           
 /* 00078 80B88DE8 3C0E80B9 */  lui     $t6, %hi(func_80B88E3C)    ## $t6 = 80B90000

@@ -20,7 +20,7 @@ extern Gfx D_0602AF70[];              // Spooky Mask in Child Link's object
 
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_CS,
     sizeof(EnCs),
@@ -31,8 +31,22 @@ const ActorInit En_Cs_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 63, 0, { 0, 0, 0 } },
 };
 
@@ -41,29 +55,29 @@ static CollisionCheckInfoInit2 sColChkInfoInit2 = { 0, 0, 0, 0, 0xFF };
 static DamageTable sDamageTable = { 0 };
 
 static struct_D_80AA1678 sAnimations[] = {
-    { 0x06000700, 1.0f, 2, -10.0f },
-    { 0x06000E10, 1.0f, 2, -10.0f },
-    { 0x06001588, 1.0f, 2, -10.0f },
-    { 0x0600195C, 1.0f, 2, -10.0f },
+    { 0x06000700, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { 0x06000E10, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { 0x06001588, 1.0f, ANIMMODE_ONCE, -10.0f },
+    { 0x0600195C, 1.0f, ANIMMODE_ONCE, -10.0f },
 };
 
 void EnCs_SetAnimFromIndex(EnCs* this, s32 animIndex, s32* currentAnimIndex) {
-    f32 transitionRate;
+    f32 morphFrames;
 
     if ((*currentAnimIndex < 0) || (animIndex == *currentAnimIndex)) {
-        transitionRate = 0.0f;
+        morphFrames = 0.0f;
     } else {
-        transitionRate = sAnimations[animIndex].transitionRate;
+        morphFrames = sAnimations[animIndex].transitionRate;
     }
 
     if (sAnimations[animIndex].frameCount >= 0.0f) {
         Animation_Change(&this->skelAnime, sAnimations[animIndex].animation, sAnimations[animIndex].frameCount, 0.0f,
-                         Animation_GetLastFrame(sAnimations[animIndex].animation), sAnimations[animIndex].unk_08,
-                         transitionRate);
+                         Animation_GetLastFrame(sAnimations[animIndex].animation), sAnimations[animIndex].mode,
+                         morphFrames);
     } else {
         Animation_Change(&this->skelAnime, sAnimations[animIndex].animation, sAnimations[animIndex].frameCount,
-                         Animation_GetLastFrame(sAnimations[animIndex].animation), 0.0f, sAnimations[animIndex].unk_08,
-                         transitionRate);
+                         Animation_GetLastFrame(sAnimations[animIndex].animation), 0.0f, sAnimations[animIndex].mode,
+                         morphFrames);
     }
 
     *currentAnimIndex = animIndex;
@@ -78,21 +92,21 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 19.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 19.0f);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008540, NULL, this->jointTable, this->morphTable, 16);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 
-    func_80061EFC(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit2);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     Animation_Change(&this->skelAnime, sAnimations[0].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations[0].animation), sAnimations[0].unk_08,
+                     Animation_GetLastFrame(sAnimations[0].animation), sAnimations[0].mode,
                      sAnimations[0].transitionRate);
 
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->path = this->actor.params & 0xFF;
     this->unk_1EC = 0; // This variable is unused anywhere else
     this->talkState = 0;
@@ -236,8 +250,8 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
     s16 walkAngle2;
 
     EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
-    xDiff = pathPos.x - this->actor.posRot.pos.x;
-    zDiff = pathPos.z - this->actor.posRot.pos.z;
+    xDiff = pathPos.x - this->actor.world.pos.x;
+    zDiff = pathPos.z - this->actor.world.pos.z;
     walkAngle1 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
     this->walkAngle = walkAngle1;
     this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
@@ -251,18 +265,18 @@ s32 EnCs_HandleWalking(EnCs* this, GlobalContext* globalCtx) {
         }
 
         EnCs_GetPathPoint(globalCtx->setupPathList, &pathPos, this->path, this->waypoint);
-        xDiff = pathPos.x - this->actor.posRot.pos.x;
-        zDiff = pathPos.z - this->actor.posRot.pos.z;
+        xDiff = pathPos.x - this->actor.world.pos.x;
+        zDiff = pathPos.z - this->actor.world.pos.z;
         walkAngle2 = Math_FAtan2F(xDiff, zDiff) * (32768.0f / M_PI);
         this->walkAngle = walkAngle2;
         this->walkDist = sqrtf((xDiff * xDiff) + (zDiff * zDiff));
     }
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->walkAngle, 1, 2500, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     this->actor.speedXZ = this->walkSpeed;
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
     return 0;
 }
@@ -351,9 +365,9 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
     }
 
     this->flag |= 1;
-    this->npcInfo.unk_18.x = player->actor.posRot2.pos.x;
-    this->npcInfo.unk_18.y = player->actor.posRot2.pos.y;
-    this->npcInfo.unk_18.z = player->actor.posRot2.pos.z;
+    this->npcInfo.unk_18.x = player->actor.focus.pos.x;
+    this->npcInfo.unk_18.y = player->actor.focus.pos.y;
+    this->npcInfo.unk_18.z = player->actor.focus.pos.z;
     func_80034A14(&this->actor, &this->npcInfo, 0, 4);
 
     if (this->talkState == 0) {
@@ -380,7 +394,7 @@ void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
     }
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     this->actionFunc(this, globalCtx);
@@ -456,7 +470,7 @@ void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     EnCs* this = THIS;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&D_809E2970, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_809E2970, &this->actor.focus.pos);
         Matrix_Translate(0.0f, -200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
         Matrix_RotateX(0.0f, MTXMODE_APPLY);

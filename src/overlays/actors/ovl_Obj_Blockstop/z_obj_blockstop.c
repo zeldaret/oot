@@ -17,7 +17,7 @@ void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Obj_Blockstop_InitVars = {
     ACTOR_OBJ_BLOCKSTOP,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjBlockstop),
@@ -33,7 +33,7 @@ void ObjBlockstop_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         Actor_Kill(&this->actor);
     } else {
-        this->actor.posRot.pos.y += 1;
+        this->actor.world.pos.y += 1;
     }
 }
 
@@ -47,7 +47,7 @@ void ObjBlockstop_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 bgId;
     s32 pad;
 
-    if (BgCheck_EntityLineTest2(&globalCtx->colCtx, &this->actor.initPosRot.pos, &this->actor.posRot.pos, &sp4C,
+    if (BgCheck_EntityLineTest2(&globalCtx->colCtx, &this->actor.home.pos, &this->actor.world.pos, &sp4C,
                                 &this->actor.floorPoly, 0, 0, 1, 1, &bgId, &this->actor)) {
         dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 

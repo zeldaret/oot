@@ -238,10 +238,10 @@ glabel EnArrow_Draw
 /* 0137C 809B4C9C AFA20040 */  sw      $v0, 0x0040($sp)
 /* 01380 809B4CA0 8FA30040 */  lw      $v1, 0x0040($sp)
 /* 01384 809B4CA4 8FA80064 */  lw      $t0, 0x0064($sp)
-/* 01388 809B4CA8 3C0C0403 */  lui     $t4, %hi(D_04037880)                ## $t4 = 04030000
+/* 01388 809B4CA8 3C0C0403 */  lui     $t4, %hi(gEffFairySparklesDL)                ## $t4 = 04030000
 /* 0138C 809B4CAC AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 01390 809B4CB0 8D0202D0 */  lw      $v0, 0x02D0($t0)           ## 000002D0
-/* 01394 809B4CB4 258C7880 */  addiu   $t4, $t4, %lo(D_04037880)           ## $t4 = 04037880
+/* 01394 809B4CB4 258C7880 */  addiu   $t4, $t4, %lo(gEffFairySparklesDL)           ## $t4 = 04037880
 /* 01398 809B4CB8 3C0BDE00 */  lui     $t3, 0xDE00                ## $t3 = DE000000
 /* 0139C 809B4CBC 244A0008 */  addiu   $t2, $v0, 0x0008           ## $t2 = 00000008
 /* 013A0 809B4CC0 AD0A02D0 */  sw      $t2, 0x02D0($t0)           ## 000002D0

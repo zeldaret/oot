@@ -157,10 +157,10 @@ glabel func_809E86B8
 /* 030EC 809E88BC AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 /* 030F0 809E88C0 8EB80000 */  lw      $t8, 0x0000($s5)           ## 809E902C
 /* 030F4 809E88C4 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 00000238
-/* 030F8 809E88C8 0C018A29 */  jal     func_800628A4
+/* 030F8 809E88C8 0C018A29 */  jal     Collider_UpdateSpheres
 /* 030FC 809E88CC AC580004 */  sw      $t8, 0x0004($v0)           ## 00000004
 /* 03100 809E88D0 02E02025 */  or      $a0, $s7, $zero            ## $a0 = 00000034
-/* 03104 809E88D4 0C018A29 */  jal     func_800628A4
+/* 03104 809E88D4 0C018A29 */  jal     Collider_UpdateSpheres
 /* 03108 809E88D8 03C02825 */  or      $a1, $s8, $zero            ## $a1 = 00000238
 /* 0310C 809E88DC 16400015 */  bne     $s2, $zero, .L809E8934
 /* 03110 809E88E0 2A410002 */  slti    $at, $s2, 0x0002

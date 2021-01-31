@@ -11,7 +11,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     ACTOR_BG_HIDAN_RSEKIZOU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanRsekizou),
@@ -21,37 +21,86 @@ const ActorInit Bg_Hidan_Rsekizou_InitVars = {
     (ActorFunc)BgHidanRsekizou_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[6] = {
+static ColliderJntSphElementInit sJntSphElementsInit[6] = {
     {
-        { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 1, { { 0, 30, 40 }, 25 }, 100 },
     },
     {
-        { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 1, { { -35, 32, 77 }, 32 }, 100 },
     },
     {
-        { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 1, { { -80, 35, 130 }, 42 }, 100 },
     },
     {
-        { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 1, { { 0, 30, -40 }, 25 }, 100 },
     },
     {
-        { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 1, { { 35, 32, -77 }, 32 }, 100 },
     },
     {
-        { 0x00, { 0x20000000, 0x01, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x20000000, 0x01, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 1, { { 80, 35, -130 }, 42 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x11, 0x00, 0x00, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     6,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -81,7 +130,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
-        this->collider.list[i].dim.worldSphere.radius = this->collider.list[i].dim.modelSphere.radius;
+        this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
     }
     this->burnFrame = 0;
     this->bendFrame = 0;
@@ -97,7 +146,7 @@ void BgHidanRsekizou_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;
     s32 i;
-    ColliderJntSphItem* sphere;
+    ColliderJntSphElement* sphere;
     s32 pad;
     f32 yawSine;
     f32 yawCosine;
@@ -117,14 +166,12 @@ void BgHidanRsekizou_Update(Actor* thisx, GlobalContext* globalCtx) {
     yawCosine = Math_CosS(this->dyna.actor.shape.rot.y);
 
     for (i = 0; i < ARRAY_COUNT(this->colliderItems); i++) {
-        sphere = &this->collider.list[i];
-        sphere->dim.worldSphere.center.x = this->dyna.actor.initPosRot.pos.x +
-                                           yawCosine * sphere->dim.modelSphere.center.x +
+        sphere = &this->collider.elements[i];
+        sphere->dim.worldSphere.center.x = this->dyna.actor.home.pos.x + yawCosine * sphere->dim.modelSphere.center.x +
                                            yawSine * sphere->dim.modelSphere.center.z;
-        sphere->dim.worldSphere.center.y = (s16)this->dyna.actor.initPosRot.pos.y + sphere->dim.modelSphere.center.y;
-        sphere->dim.worldSphere.center.z =
-            (this->dyna.actor.initPosRot.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
-            yawCosine * sphere->dim.modelSphere.center.z;
+        sphere->dim.worldSphere.center.y = (s16)this->dyna.actor.home.pos.y + sphere->dim.modelSphere.center.y;
+        sphere->dim.worldSphere.center.z = (this->dyna.actor.home.pos.z - yawSine * sphere->dim.modelSphere.center.x) +
+                                           yawCosine * sphere->dim.modelSphere.center.z;
     }
 
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -159,9 +206,9 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     mf->xx = mf->yy = mf->zz = (0.7f * fVar6) + 0.5f;
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
-    mf->wx = (tmpf7 * sins) + this->dyna.actor.posRot.pos.x;
-    mf->wy = (this->dyna.actor.posRot.pos.y + 30.0f) + (0.699999988079f * fVar6);
-    mf->wz = (tmpf7 * coss) + this->dyna.actor.posRot.pos.z;
+    mf->wx = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
+    mf->wy = (this->dyna.actor.world.pos.y + 30.0f) + (0.699999988079f * fVar6);
+    mf->wz = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
 
     gSPMatrix(displayList++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
