@@ -20,7 +20,7 @@ glabel func_80B3487C
 /* 00BEC 80B3489C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00BF0 80B348A0 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00BF4 80B348A4 AFA60064 */  sw      $a2, 0x0064($sp)           
-/* 00BF8 80B348A8 0C2CDE0C */  jal     func_80B37830              
+/* 00BF8 80B348A8 0C2CDE0C */  jal     EnWf_DodgeRanged              
 /* 00BFC 80B348AC AFAE0048 */  sw      $t6, 0x0048($sp)           
 /* 00C00 80B348B0 1440010D */  bne     $v0, $zero, .L80B34CE8     
 /* 00C04 80B348B4 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6

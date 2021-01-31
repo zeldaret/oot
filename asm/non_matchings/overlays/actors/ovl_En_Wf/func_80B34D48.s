@@ -10,7 +10,7 @@ glabel func_80B34D48
 /* 010A4 80B34D54 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 010A8 80B34D58 AFA50024 */  sw      $a1, 0x0024($sp)           
 /* 010AC 80B34D5C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
-/* 010B0 80B34D60 0C2CDE0C */  jal     func_80B37830              
+/* 010B0 80B34D60 0C2CDE0C */  jal     EnWf_DodgeRanged              
 /* 010B4 80B34D64 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 010B8 80B34D68 1440006A */  bne     $v0, $zero, .L80B34F14     
 /* 010BC 80B34D6C 8FA40024 */  lw      $a0, 0x0024($sp)           

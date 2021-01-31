@@ -481,7 +481,7 @@ void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx) {
                 }
             }
 
-            if (func_80B37830(globalCtx, this) == 0) {
+            if (EnWf_DodgeRanged(globalCtx, this) == 0) {
                 if ((this->actor.xzDistToPlayer <= 80.0f) && (!(func_80033AB8(globalCtx, this))) &&
                     (globalCtx->gameplayFrames & 7)) {
                     func_80B35540(this);
@@ -880,43 +880,31 @@ void EnWf_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wf.c", 2190);
 }
 
-// EnWf_?????? (related to dodging like in GeldB?)
-s32 func_80B37830(GlobalContext* globalCtx, EnWf* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B37830.s")
-
-// Similiar looking function, likely useful
-/*
-s32 EnGeldB_DodgeRanged(GlobalContext* globalCtx, EnGeldB* this) {
-    Actor* actor = func_80033780(globalCtx, &this->actor, 800.0f);
+s32 EnWf_DodgeRanged(GlobalContext* globalCtx, EnWf* this) {
+    Actor* actor = func_80033780(globalCtx, &this->actor, 600.0f);
 
     if (actor != NULL) {
         s16 angleToFacing;
-        s16 pad18;
+        s16 pad;
         f32 dist;
 
-        angleToFacing = func_8002DA78(&this->actor, actor) - this->actor.shape.rot.y;
+        angleToFacing = Actor_WorldYawTowardActor(&this->actor, actor) - this->actor.shape.rot.y;
         this->actor.world.rot.y = (u16)this->actor.shape.rot.y & 0xFFFF;
-        dist = func_8002DB6C(&this->actor, &actor->world.pos);
-        //! @bug
-        // func_8002DB6C already sqrtfs the distance, so this actually checks for a
-        // distance of 360000. Also it's a double calculation because no f on sqrt.
-        if ((ABS(angleToFacing) < 0x2EE0) && (sqrt(dist) < 600.0)) {
-            if (actor->id == ACTOR_ARMS_HOOK) {
-                EnGeldB_SetupJump(this);
-            } else {
-                EnGeldB_SetupBlock(this);
-            }
+        dist = Actor_WorldDistXYZToPoint(&this->actor, &actor->world.pos);
+
+        if ((ABS(angleToFacing) < 0x2EE0) && (sqrt(dist) < 400.0)) {
+            EnWf_SetupReactToPlayer(this);
         } else {
             this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
             if ((ABS(angleToFacing) < 0x2000) || (ABS(angleToFacing) > 0x5FFF)) {
-                EnGeldB_SetupSidestep(this, globalCtx);
-                this->actor.speedXZ *= 3.0f;
+                EnWf_SetupSideStep(this, globalCtx);
+                this->actor.speedXZ *= 2.0f;
             } else if (ABS(angleToFacing) < 0x5FFF) {
-                EnGeldB_SetupRollBack(this);
+                EnWf_SetupBackFlip(this);
             }
         }
         return true;
     }
+
     return false;
 }
-*/

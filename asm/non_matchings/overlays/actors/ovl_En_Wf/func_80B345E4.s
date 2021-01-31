@@ -51,7 +51,7 @@ glabel func_80B345E4
 /* 009D4 80B34684 00031C00 */  sll     $v1, $v1, 16               
 /* 009D8 80B34688 00031C03 */  sra     $v1, $v1, 16               
 .L80B3468C:
-/* 009DC 80B3468C 0C2CDE0C */  jal     func_80B37830              
+/* 009DC 80B3468C 0C2CDE0C */  jal     EnWf_DodgeRanged              
 /* 009E0 80B34690 A7A30026 */  sh      $v1, 0x0026($sp)           
 /* 009E4 80B34694 14400054 */  bne     $v0, $zero, .L80B347E8     
 /* 009E8 80B34698 87A30026 */  lh      $v1, 0x0026($sp)           
