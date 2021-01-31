@@ -2599,6 +2599,7 @@ void func_8010B720(GlobalContext* globalCtx, u16 textId);
 // ? func_8010B820(?);
 // ? func_8010BD58(?);
 void func_8010BD58(GlobalContext* globalCtx, u16 arg1);
+void func_8010BD88(GlobalContext* globalCtx, u16 arg1);
 u8 func_8010BDBC(MessageContext* msgCtx);
 // ? func_8010BED8(?);
 // ? func_8010C358(?);
