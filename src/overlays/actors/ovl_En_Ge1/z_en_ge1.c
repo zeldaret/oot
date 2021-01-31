@@ -117,7 +117,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe1* this = THIS;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000330, &D_06000228, this->jointTable, this->morphTable, 16);
     Animation_PlayOnce(&this->skelAnime, &D_06000228);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -125,15 +125,11 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFF;
     this->animation = &D_06000228;
     this->animFunc = EnGe1_CueUpAnimation;
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
 
     // In Gerudo Valley
-    if (globalCtx->sceneNum == SCENE_SPOT09) {
-        this->actor.uncullZoneForward = 1000.0f;
-    } else {
-        this->actor.uncullZoneForward = 1200.0f;
-    }
+    this->actor.uncullZoneForward = ((globalCtx->sceneNum == SCENE_SPOT09) ? 1000.0f : 1200.0f );
 
     switch (this->actor.params & 0xFF) {
 
@@ -176,7 +172,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
                 return;
             }
-            this->actor.unk_1F = 3;
+            this->actor.targetMode = 3;
             this->hairstyle = GE1_HAIR_BOB;
             // Horsback archery Gerudo EVENT_INF(0) =
             osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
@@ -221,7 +217,7 @@ s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 a
     }
     this->actor.textId = textId;
 
-    if (this->actor.xzDistToLink < arg3) {
+    if (this->actor.xzDistToPlayer < arg3) {
         func_8002F2CC(&this->actor, globalCtx, arg3);
     }
     return false;
@@ -278,13 +274,13 @@ void EnGe1_SpotPlayer(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
     s16 angleDiff;
 
-    angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToLink < 100.0f)) {
+    if ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
         EnGe1_SpotPlayer(this, globalCtx);
     }
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         EnGe1_SpotPlayer(this, globalCtx);
     }
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -317,13 +313,13 @@ void EnGe1_SetNormalText(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_WatchForAndSensePlayer(EnGe1* this, GlobalContext* globalCtx) {
-    s16 angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((this->actor.xzDistToLink < 50.0f) || ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToLink < 400.0f))) {
+    if ((this->actor.xzDistToPlayer < 50.0f) || ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 400.0f))) {
         EnGe1_SpotPlayer(this, globalCtx);
     }
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         EnGe1_SpotPlayer(this, globalCtx);
     }
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -364,7 +360,7 @@ void EnGe1_Open_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         this->actionFunc = EnGe1_Open_GTGGuard;
         Animation_Change(&this->skelAnime, &D_0600A048, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A048), ANIMMODE_ONCE,
                          -3.0f);
@@ -383,7 +379,7 @@ void EnGe1_RefuseEntryTooPoor_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_OfferOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
 
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -427,7 +423,7 @@ void EnGe1_CheckForCard_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_WaitGateOpen_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnGe1_CheckGate_GateOp;
         EnGe1_SetAnimationIdle(this);
@@ -458,7 +454,7 @@ void EnGe1_OpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
     this->stateFlags |= GE1_STATE_TALKING;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         this->actionFunc = EnGe1_OpenGate_GateOp;
         Animation_Change(&this->skelAnime, &D_0600A048, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A048), ANIMMODE_ONCE,
                          -3.0f);
@@ -553,7 +549,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
         switch (CUR_UPG_VALUE(UPG_QUIVER)) {
             //! @bug Asschest: the compiler inserts a default assigning *(sp+0x24) to getItemId, which is junk data left
             //! over from the previous function run in EnGe1_Update, namely EnGe1_CueUpAnimation. The top stack variable
-            //! in that function is &this->skelAnima = thisx + 198, and depending on where this loads in memory, the
+            //! in that function is &this->skelAnime = thisx + 198, and depending on where this loads in memory, the
             //! getItemId changes.
             case 1:
                 getItemId = GI_QUIVER_40;
@@ -578,7 +574,7 @@ void EnGe1_TalkWinPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkTooPoor_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnGe1_Wait_Archery;
         EnGe1_SetAnimationIdle(this);
@@ -592,7 +588,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Actor* horse;
 
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && func_80106BC8(globalCtx)) {
         this->actor.flags &= ~0x10000;
 
         switch (globalCtx->msgCtx.choiceIndex) {
@@ -612,7 +608,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                     if (!(player->stateFlags1 & 0x800000)) {
                         func_8002DF54(globalCtx, &this->actor, 1);
                     } else {
-                        horse = Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_HORSE, ACTORTYPE_BG, 1200.0f);
+                        horse = Actor_FindNearby(globalCtx, &player->actor, ACTOR_EN_HORSE, ACTORCAT_BG, 1200.0f);
                         player->actor.freezeTimer = 1200;
 
                         if (horse != NULL) {
@@ -631,7 +627,7 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
 }
 
 void EnGe1_TalkOfferPlay_Archery(EnGe1* this, GlobalContext* globalCtx) {
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
+    if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_8010B720(globalCtx, 0x6041);
         this->actionFunc = EnGe1_BeginGame_Archery;
     }
@@ -707,12 +703,12 @@ void EnGe1_Wait_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
 void EnGe1_TurnToFacePlayer(EnGe1* this, GlobalContext* globalCtx) {
     s32 pad;
-    s16 angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(angleDiff) <= 0x4000) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 6, 4000, 100);
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2A2, this->actor.posRot2.pos);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 4000, 100);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
+        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2A2, this->actor.focus.pos);
     } else {
         if (angleDiff < 0) {
             Math_SmoothStepToS(&this->headRot.y, -0x2000, 6, 6200, 0x100);
@@ -720,16 +716,16 @@ void EnGe1_TurnToFacePlayer(EnGe1* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->headRot.y, 0x2000, 6, 6200, 0x100);
         }
 
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 12, 1000, 100);
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 12, 1000, 100);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
     }
 }
 
 void EnGe1_LookAtPlayer(EnGe1* this, GlobalContext* globalCtx) {
-    s16 angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    if ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToLink < 100.0f)) {
-        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2A2, this->actor.posRot2.pos);
+    if ((ABS(angleDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
+        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2A2, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);
@@ -740,10 +736,10 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe1* this = THIS;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
     this->animFunc(this);
     this->actionFunc(this, globalCtx);
 
@@ -812,7 +808,7 @@ void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
     if (limbIndex == GE1_LIMB_HEAD) {
         gSPDisplayList(POLY_OPA_DISP++, sHairstyleDLists[this->hairstyle]);
-        Matrix_MultVec3f(&D_80A327A8, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80A327A8, &this->actor.focus.pos);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1427);
 }
