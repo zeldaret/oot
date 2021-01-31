@@ -96,9 +96,9 @@ void BgDyYoseizo_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->fountainType = 0;
     }
 
-    this->vanishHeight = this->actor.posRot.pos.y;
+    this->vanishHeight = this->actor.world.pos.y;
     this->grownHeight = this->vanishHeight + 40.0f;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.focus.pos = this->actor.world.pos;
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         // Great Fairy Fountain
@@ -149,24 +149,24 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
                 particleType = 0;
                 particleScale = 0.4f;
                 particleLife = 90;
-                particleInitPos.x = this->actor.posRot.pos.x;
-                particleInitPos.y = this->actor.posRot.pos.y + spawnPosVariation +
+                particleInitPos.x = this->actor.world.pos.x;
+                particleInitPos.y = this->actor.world.pos.y + spawnPosVariation +
                                     ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.5f));
-                particleInitPos.z = this->actor.posRot.pos.z + 30.0f;
+                particleInitPos.z = this->actor.world.pos.z + 30.0f;
             } else {
                 particleLife = 50;
                 particleType = type;
                 particleScale = 0.2f;
-                particleInitPos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(10.0f);
+                particleInitPos.x = this->actor.world.pos.x + Rand_CenteredFloat(10.0f);
 
                 if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-                    particleInitPos.y = this->actor.posRot.pos.y + spawnPosVariation + 50.0f +
+                    particleInitPos.y = this->actor.world.pos.y + spawnPosVariation + 50.0f +
                                         ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
-                    particleInitPos.z = this->actor.posRot.pos.z + 30.0f;
+                    particleInitPos.z = this->actor.world.pos.z + 30.0f;
                 } else {
-                    particleInitPos.y = this->actor.posRot.pos.y + spawnPosVariation - 30.0f +
+                    particleInitPos.y = this->actor.world.pos.y + spawnPosVariation - 30.0f +
                                         ((Rand_ZeroOne() - 0.5f) * (spawnPosVariation * 0.1f));
-                    particleInitPos.z = this->actor.posRot.pos.z + 60.0f;
+                    particleInitPos.z = this->actor.world.pos.z + 60.0f;
                 }
 
                 if (LINK_IS_ADULT) {
@@ -188,7 +188,7 @@ void BgDyYoseizo_SpawnParticles(BgDyYoseizo* this, GlobalContext* globalCtx, s16
 
 void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
     this->targetHeight = this->grownHeight + this->bobOffset;
-    Math_ApproachF(&this->actor.posRot.pos.y, this->targetHeight, 0.1f, 10.0f);
+    Math_ApproachF(&this->actor.world.pos.y, this->targetHeight, 0.1f, 10.0f);
     Math_ApproachF(&this->bobOffset, 10.0f, 0.1f, 0.5f);
 
     if (globalCtx->csCtx.state == 0) {
@@ -340,7 +340,7 @@ void BgDyYoseizo_SetupSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* global
 
 void BgDyYoseizo_SpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     func_8002DF54(globalCtx, &this->actor, 1);
-    Math_ApproachF(&this->actor.posRot.pos.y, this->grownHeight, this->heightFraction, 100.0f);
+    Math_ApproachF(&this->actor.world.pos.y, this->grownHeight, this->heightFraction, 100.0f);
     Math_ApproachF(&this->scale, 0.035f, this->scaleFraction, 0.005f);
     Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
     Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
@@ -455,9 +455,9 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
         this->healingTimer = 150;
         this->animationChanged = true;
         if (!(this->givingSpell)) {
-            beamPos.x = player->actor.posRot.pos.x;
-            beamPos.y = player->actor.posRot.pos.y + 200.0f;
-            beamPos.z = player->actor.posRot.pos.z;
+            beamPos.x = player->actor.world.pos.x;
+            beamPos.y = player->actor.world.pos.y + 200.0f;
+            beamPos.z = player->actor.world.pos.z;
 
             beamParams = ((globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) ? 0 : 1);
 
@@ -544,14 +544,14 @@ void BgDyYoseizo_SpinShrink(BgDyYoseizo* this, GlobalContext* globalCtx) {
         if (this->scale < 0.003f) {
             this->vanishTimer = 30;
             this->actionFunc = BgDyYoseizo_Vanish;
-            return;
+        } else {
+            Math_ApproachF(&this->actor.world.pos.y, this->vanishHeight, this->heightFraction, 100.0f);
+            Math_ApproachZeroF(&this->scale, this->scaleFraction, 0.005f);
+            Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
+            Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
+            this->actor.shape.rot.y += 3000;
+            BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
         }
-        Math_ApproachF(&this->actor.posRot.pos.y, this->vanishHeight, this->heightFraction, 100.0f);
-        Math_ApproachZeroF(&this->scale, this->scaleFraction, 0.005f);
-        Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
-        Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
-        this->actor.shape.rot.y += 3000;
-        BgDyYoseizo_SpawnParticles(this, globalCtx, 0);
     }
 }
 
@@ -561,7 +561,7 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if (this->vanishTimer == 0) {
         func_8002DF54(globalCtx, &this->actor, 7);
         globalCtx->envCtx.unk_BF = 0;
-        findOcarinaSpot = globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+        findOcarinaSpot = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
 
         while (findOcarinaSpot != NULL) {
             if (findOcarinaSpot->id != ACTOR_EN_OKARINA_TAG) {
@@ -602,7 +602,7 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
     f32 curFrame = this->skelAnime.curFrame;
 
     if (!(this->finishedSpinGrow)) {
-        Math_ApproachF(&this->actor.posRot.pos.y, this->grownHeight, this->heightFraction, 100.0f);
+        Math_ApproachF(&this->actor.world.pos.y, this->grownHeight, this->heightFraction, 100.0f);
         Math_ApproachF(&this->scale, 0.035f, this->scaleFraction, 0.005f);
         Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
         Math_ApproachF(&this->scaleFraction, 0.2f, 0.03f, 0.05f);
@@ -699,8 +699,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
 
         } else if (!(this->lightBallSpawned)) {
             demoEffectParams = ((s16)(sDemoEffectLightColors[actionIndex] << 0xC) | DEMO_EFFECT_LIGHT);
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.posRot.pos.x,
-                        this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, (s32)demoEffectParams);
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
+                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, (s32)demoEffectParams);
             this->lightBallSpawned = true;
         }
     } else {
@@ -746,9 +746,9 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         actionIndex = globalCtx->csCtx.npcActions[0]->action - 14;
 
         if (!(this->itemSpawned)) {
-            itemPos.x = player->actor.posRot.pos.x;
-            itemPos.y = ((LINK_IS_ADULT) ? player->actor.posRot.pos.y + 73.0f : player->actor.posRot.pos.y + 53.0f);
-            itemPos.z = player->actor.posRot.pos.z;
+            itemPos.x = player->actor.world.pos.x;
+            itemPos.y = ((LINK_IS_ADULT) ? player->actor.world.pos.y + 73.0f : player->actor.world.pos.y + 53.0f);
+            itemPos.z = player->actor.world.pos.z;
 
             this->item =
                 (EnExItem*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
@@ -768,10 +768,10 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 Item_Give(globalCtx, sItemIds[actionIndex]);
             }
         } else {
-            this->item->actor.posRot.pos.x = player->actor.posRot.pos.x;
-            this->item->actor.posRot.pos.y =
-                ((LINK_IS_ADULT) ? player->actor.posRot.pos.y + 73.0f : player->actor.posRot.pos.y + 53.0f);
-            this->item->actor.posRot.pos.z = player->actor.posRot.pos.z;
+            this->item->actor.world.pos.x = player->actor.world.pos.x;
+            this->item->actor.world.pos.y =
+                ((LINK_IS_ADULT) ? player->actor.world.pos.y + 73.0f : player->actor.world.pos.y + 53.0f);
+            this->item->actor.world.pos.z = player->actor.world.pos.z;
             this->item->scale = 0.3f;
         }
     }
@@ -795,8 +795,8 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     if ((globalCtx->csCtx.npcActions[0]->action >= 19) && (globalCtx->csCtx.npcActions[0]->action < 22) &&
         !(this->warpEffectSpawned)) {
         actionIndex = globalCtx->csCtx.npcActions[0]->action - 11;
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, player->actor.posRot.pos.x,
-                    player->actor.posRot.pos.y, player->actor.posRot.pos.z, 0, 0, 0, actionIndex);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, player->actor.world.pos.x,
+                    player->actor.world.pos.y, player->actor.world.pos.z, 0, 0, 0, actionIndex);
         this->warpEffectSpawned = true;
     }
     BgDyYoseizo_Bob(this, globalCtx);
@@ -860,9 +860,9 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     Actor_MoveForward(&this->actor);
     this->heightOffset = this->scale * 7500.0f;
-    Actor_SetHeight(&this->actor, this->heightOffset);
-    this->actor.posRot2.pos.y = this->heightOffset;
-    func_80038290(globalCtx, &this->actor, &this->headRot, &this->torsoRot, this->actor.posRot2.pos);
+    Actor_SetFocus(&this->actor, this->heightOffset);
+    this->actor.focus.pos.y = this->heightOffset;
+    func_80038290(globalCtx, &this->actor, &this->headRot, &this->torsoRot, this->actor.focus.pos);
     BgDyYoseizo_ParticleUpdate(this, globalCtx);
     Actor_SetScale(&this->actor, this->scale);
 }
@@ -964,9 +964,9 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HEALING - SFX_FLAG);
 
-                sp94 = player->actor.posRot.pos;
-                sp94.y = player->actor.posRot.pos.y - 150.0f;
-                sp94.z = player->actor.posRot.pos.z - 50.0f;
+                sp94 = player->actor.world.pos;
+                sp94.y = player->actor.world.pos.y - 150.0f;
+                sp94.z = player->actor.world.pos.z - 50.0f;
 
                 goalPitch = Math_Vec3f_Pitch(&particle->pos, &sp94);
                 goalYaw = Math_Vec3f_Yaw(&particle->pos, &sp94);
