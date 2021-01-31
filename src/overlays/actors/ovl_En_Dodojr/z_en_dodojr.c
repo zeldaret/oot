@@ -170,7 +170,7 @@ s32 func_809F68B0(EnDodojr* this, GlobalContext* globalCtx) {
 void func_809F6994(EnDodojr* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_06000860);
 
-    Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, 1, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -10.0f);
     this->actor.velocity.y = 0.0f;
     this->actor.speedXZ = 2.6f;
     this->actor.gravity = -0.8f;
@@ -179,7 +179,7 @@ void func_809F6994(EnDodojr* this) {
 void func_809F6A20(EnDodojr* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_060004A0);
 
-    Animation_Change(&this->skelAnime, &D_060004A0, 1.0f, 0.0f, lastFrame, 2, -10.0f);
+    Animation_Change(&this->skelAnime, &D_060004A0, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -10.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
@@ -194,7 +194,7 @@ void func_809F6A20(EnDodojr* this) {
 void func_809F6AC4(EnDodojr* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_060005F0);
 
-    Animation_Change(&this->skelAnime, &D_060005F0, 1.0f, 0.0f, lastFrame, 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060005F0, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -0.8f;
 }
@@ -202,7 +202,7 @@ void func_809F6AC4(EnDodojr* this) {
 void func_809F6B38(EnDodojr* this) {
     f32 lastFrame = Animation_GetLastFrame(&D_06000724);
 
-    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 0.0f, lastFrame, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -10.0f);
     this->actor.gravity = -0.8f;
     this->unk_1FC = 3;
     this->actor.velocity.y = 10.0f;
@@ -219,7 +219,7 @@ void func_809F6BBC(EnDodojr* this) {
 }
 
 void func_809F6C24(EnDodojr* this) {
-    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 8.0f, 12.0f, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 8.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
     Audio_PlayActorSound2(this, NA_SE_EN_DODO_M_EAT);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.x = 0.0f;
@@ -403,7 +403,7 @@ void func_809F73AC(EnDodojr* this, GlobalContext* globalCtx) {
         dist = this->actor.world.pos.y - player->actor.world.pos.y;
 
         if (!(dist >= 40.0f)) {
-            Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, 1, -10.0f);
+            Animation_Change(&this->skelAnime, &D_06000860, 1.8f, 0.0f, lastFrame, ANIMMODE_LOOP_INTERP, -10.0f);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_UP);
             this->actor.world.pos.y -= 60.0f;
             this->actor.flags |= 1;
