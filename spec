@@ -1468,7 +1468,6 @@ endseg
 beginseg
     name "ovl_Demo_Du"
     include "build/src/overlays/actors/ovl_Demo_Du/z_demo_du.o"
-    include "build/data/overlays/actors/z_demo_du.data.o"
     include "build/data/overlays/actors/z_demo_du.reloc.o"
 endseg
 

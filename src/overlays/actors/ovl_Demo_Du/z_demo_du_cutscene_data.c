@@ -1,4 +1,4 @@
-#include "z_en_nb.h"
+#include "z_demo_du.h"
 #include "z64cutscene_commands.h"
 
 // clang-format off
