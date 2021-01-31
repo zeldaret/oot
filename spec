@@ -2735,8 +2735,7 @@ endseg
 beginseg
     name "ovl_En_Ny"
     include "build/src/overlays/actors/ovl_En_Ny/z_en_ny.o"
-    include "build/data/overlays/actors/z_en_ny.data.o"
-    include "build/data/overlays/actors/z_en_ny.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ny/ovl_En_Ny_reloc.o"
 endseg
 
 beginseg
@@ -4776,7 +4775,8 @@ endseg
 beginseg
     name "object_ny"
     romalign 0x1000
-    include "build/baserom/object_ny.o"
+    include "build/assets/objects/object_ny/object_ny.o"
+    number 6
 endseg
 
 beginseg
