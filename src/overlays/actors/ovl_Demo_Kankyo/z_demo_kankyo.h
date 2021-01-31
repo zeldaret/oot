@@ -27,7 +27,7 @@ typedef enum {
     /* 0x0F */ DEMOKANKYO_WARP_OUT,
     /* 0x10 */ DEMOKANKYO_WARP_IN,
     /* 0x11 */ DEMOKANKYO_SPARKLES
-} DemoKankyo_Type;
+} DemoKankyoType;
 
 typedef struct {
     Vec3f unk_0;
@@ -38,7 +38,7 @@ typedef struct {
     u8 unk_22;      // mode ?
     u8 unk_23;
     s16 unk_24;
-} DemoKankyo_Unk_150; // 0x28
+} DemoKankyoUnk150; // size = 0x28
 
 typedef struct DemoKankyo {
     /* 0x0000 */ Actor actor;

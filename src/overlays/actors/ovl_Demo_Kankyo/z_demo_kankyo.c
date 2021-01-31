@@ -693,7 +693,7 @@ void DemoKankyo_DrawClouds(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_XLU_DISP++, D_04010050);
     }
 
-    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 0x5C2);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1474);
 }
 
 void DemoKankyo_DrawDoorOfTime(Actor* thisx, GlobalContext* globalCtx) {
@@ -782,7 +782,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
     PosRot posRot;
     u8 linkAge = gSaveContext.linkAge;
 
-    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1824); // spA0
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1824);
 
     if (this->sparkleCounter < 30) {
         this->sparkleCounter += 2;
