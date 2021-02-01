@@ -15,9 +15,11 @@ typedef struct DemoDu {
     /* 0x0196 */ char unk_196[0x02];
     /* 0x0198 */ s32 updateIndex;
     /* 0x019C */ s32 drawIndex;
-    /* 0x01A0 */ char unk_1A0[0x08];
+    /* 0x01A0 */ char unk_1A0[0x04];
+    /* 0x01A4 */ f32 unk_1A4;
     /* 0x01A8 */ s32 unk_1A8;
-    /* 0x01AC */ char unk_1AC[0x08];
+    /* 0x01AC */ s32 unk_1AC;
+    /* 0x01B0 */ char unk_1B0[0x04];
 } DemoDu; // size = 0x01B4
 
 extern const ActorInit Demo_Du_InitVars;
