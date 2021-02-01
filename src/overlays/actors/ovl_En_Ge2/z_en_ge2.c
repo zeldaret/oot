@@ -6,10 +6,10 @@
 
 #define THIS ((EnGe2*)thisx)
 
-#define GE2_STATE_ANIMCOMPLETE 1 << 1
-#define GE2_STATE_KO 1 << 2
-#define GE2_STATE_CAPTURING 1 << 3
-#define GE2_STATE_TALKED 1 << 4
+#define GE2_STATE_ANIMCOMPLETE (1 << 1)
+#define GE2_STATE_KO (1 << 2)
+#define GE2_STATE_CAPTURING (1 << 3)
+#define GE2_STATE_TALKED (1 << 4)
 
 typedef enum {
     /* 0 */ GE2_TYPE_PATROLLING,
@@ -99,8 +99,10 @@ static AnimationHeader* sAnimations[] = {
     0x060098AC, 0x060098AC, 0x060098AC,
 };
 
-static u8 sAnimModes[] = { ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP,
-                           ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_ONCE };
+static u8 sAnimModes[] = {
+    ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP,
+    ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_ONCE,
+};
 
 extern FlexSkeletonHeader D_06008968;
 extern AnimationHeader D_06009ED4;
@@ -109,7 +111,7 @@ void EnGe2_ChangeAction(EnGe2* this, s32 i) {
     this->actionFunc = sActionFuncs[i];
     Animation_Change(&this->skelAnime, sAnimations[i], 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[i]),
                      sAnimModes[i], -8.0f);
-    this->stateFlags &= ~(GE2_STATE_ANIMCOMPLETE);
+    this->stateFlags &= ~GE2_STATE_ANIMCOMPLETE;
 }
 
 void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -312,7 +314,7 @@ void EnGe2_TurnPlayerSpotted(EnGe2* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 0.0f;
 
     if (this->stateFlags & GE2_STATE_TALKED) {
-        this->stateFlags &= ~(GE2_STATE_TALKED);
+        this->stateFlags &= ~GE2_STATE_TALKED;
     } else {
         playerSpotted = Ge2_DetectPlayerInAction(globalCtx, this);
 
@@ -491,7 +493,7 @@ void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
 
-    if ((!(this->stateFlags & GE2_STATE_ANIMCOMPLETE)) && SkelAnime_Update(&this->skelAnime)) {
+    if (!(this->stateFlags & GE2_STATE_ANIMCOMPLETE) && SkelAnime_Update(&this->skelAnime)) {
         this->stateFlags |= GE2_STATE_ANIMCOMPLETE;
     }
 }
