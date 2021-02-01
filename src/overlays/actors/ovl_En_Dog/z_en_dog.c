@@ -57,10 +57,14 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, 50 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x06001368, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
-    { 0x06000D78, 1.0f, 0.0f, -1.0f, 0x00, -6.0f }, { 0x06000278, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
-    { 0x06001150, 1.0f, 0.0f, 4.0f, 0x02, -6.0f },  { 0x06001150, 1.0f, 5.0f, 25.0f, 0x04, -6.0f },
-    { 0x06000928, 1.0f, 0.0f, 6.0f, 0x02, -6.0f },  { 0x06000C28, 1.0f, 0.0f, -1.0f, 0x00, -6.0f },
+    { 0x06001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x06001368, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { 0x06000D78, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { 0x06000278, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
+    { 0x06001150, 1.0f, 0.0f, 4.0f, ANIMMODE_ONCE, -6.0f },
+    { 0x06001150, 1.0f, 5.0f, 25.0f, ANIMMODE_LOOP_PARTIAL, -6.0f },
+    { 0x06000928, 1.0f, 0.0f, 6.0f, ANIMMODE_ONCE, -6.0f },
+    { 0x06000C28, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -6.0f },
 };
 
 typedef enum {
