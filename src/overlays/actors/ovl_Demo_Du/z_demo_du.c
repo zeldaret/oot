@@ -614,8 +614,34 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx2) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A6E0.s")
 
-void func_8096A970(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A970.s")
+void func_8096A970(DemoDu *this, GlobalContext *globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    CutsceneContext* csCtx = &globalCtx->csCtx;
+    CsCmdActorAction* npcAction;
+    Vec3f startPos;
+    Vec3f endPos;
+    Vec3f* pos = &this->actor.world.pos;
+    f32 temp_f0;
+
+    if (csCtx->state != 0) {
+        npcAction = csCtx->npcActions[2];
+        if (npcAction != NULL) {
+            temp_f0 = func_8006F93C(npcAction->endFrame, npcAction->startFrame, csCtx->frames);
+
+            startPos.x = npcAction->startPos.x;
+            startPos.y = npcAction->startPos.y;
+            startPos.z = npcAction->startPos.z;
+
+            endPos.x = npcAction->endPos.x;
+            endPos.y = npcAction->endPos.y;
+            endPos.z = npcAction->endPos.z;
+
+            pos->x = ((endPos.x - startPos.x) * temp_f0) + startPos.x;
+            pos->y = ((endPos.y - startPos.y) * temp_f0) + startPos.y;
+            pos->z = ((endPos.z - startPos.z) * temp_f0) + startPos.z;
+        }
+    }
+}
 
 void func_8096AA4C(DemoDu *this, GlobalContext *globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AA4C.s")
