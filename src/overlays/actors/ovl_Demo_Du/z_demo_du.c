@@ -286,9 +286,17 @@ s32 func_80969CC4(DemoDu* this, GlobalContext* globalCtx, u16 actionId, s32 arg3
     return 0;
 }
 
-s32 func_80969D10(DemoDu* this, GlobalContext* globalCtx, s32 arg2, s32 arg3);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969D10.s")
+s32 func_80969D10(DemoDu *this, GlobalContext *globalCtx, u16 arg2, s32 arg3) {
+    CsCmdActorAction *npcAction;
 
+    npcAction = func_80969CA0(globalCtx, arg3);
+    if ((npcAction != NULL) && (npcAction->action != arg2)) {
+        return 1;
+    }
+    return 0;
+}
+
+void func_80969D5C(DemoDu *this, GlobalContext *globalCtx, s32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969D5C.s")
 
 void func_80969DDC(DemoDu *this, AnimationHeader *animation, u8 mode, f32 morphFrames, s32 arg4) {
@@ -317,11 +325,23 @@ void func_80969E6C(DemoDu* this, GlobalContext* globalCtx) {
     func_80969B8C(this, 3);
 }
 
-void func_80969EDC();
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969EDC.s")
+void func_80969EDC(DemoDu* this, GlobalContext* globalCtx) {
+    f32 posX = this->actor.world.pos.x;
+    f32 posY = this->actor.world.pos.y;
+    f32 posZ = this->actor.world.pos.z;
 
-void func_80969F38();
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969F38.s")
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x5D, posX, posY, posZ, 0, 0, 0, 2);
+}
+
+void func_80969F38(DemoDu *this, GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    f32 posX = player->actor.world.pos.x;
+    f32 posY = player->actor.world.pos.y + 80.0f;
+    f32 posZ = player->actor.world.pos.z;
+
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x8B, posX, posY, posZ, 0, 0, 0, 9);
+    Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
+}
 
 void func_80969FB4(DemoDu* this, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = this->actor.shape.yOffset + (250.0f/3.0f);
@@ -355,7 +375,7 @@ void func_8096A05C(DemoDu *this, GlobalContext *globalCtx) {
         if ((npcAction != NULL) && (npcAction->action != 1)) {
             this->updateIndex = 2;
             this->drawIndex = 1;
-            func_80969EDC();
+            func_80969EDC(this, globalCtx);
         }
     }
 }
@@ -387,13 +407,13 @@ void func_8096A16C(DemoDu *this, s32 arg1) {
 }
 
 void func_8096A1D8(DemoDu *this, GlobalContext *globalCtx) {
-    CsCmdActorAction *temp_v0;
+    CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
-        temp_v0 = globalCtx->csCtx.npcActions[6];
-        if ((temp_v0 != 0) && (temp_v0->action == 2)) {
+        npcAction = globalCtx->csCtx.npcActions[6];
+        if ((npcAction != NULL) && (npcAction->action == 2)) {
             this->updateIndex = 6;
-            func_80969F38();
+            func_80969F38(this, globalCtx);
         }
     }
 }
@@ -442,16 +462,23 @@ void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
     this->updateIndex = 7;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A3B4.s")
+void func_8096A3B4(DemoDu* this) {
+    func_80078914(&this->actor.projectedPos, NA_SE_EN_GOLON_LAND_BIG);
+}
 
-void func_8096A3D8(GlobalContext *globalCtx);
 void func_8096A3D8(GlobalContext *globalCtx) {
     if (globalCtx->csCtx.frames == 160) {
         func_800788CC(NA_SE_EV_OBJECT_FALL);
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A408.s")
+void func_8096A408(GlobalContext *globalCtx) {
+    Player* player = PLAYER;
+    Vec3f* projectedPos = &player->actor.projectedPos;
+
+    func_80078914(projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
+    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
 
 void func_8096A45C(DemoDu *this) {
     func_80078914(&this->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_BREAST - SFX_FLAG);
@@ -460,7 +487,7 @@ void func_8096A45C(DemoDu *this) {
 void func_8096A480(GlobalContext *globalCtx) {
     Player* player;
 
-    if (globalCtx->csCtx.frames == 0x578) {
+    if (globalCtx->csCtx.frames == 1400) {
         player = PLAYER;
         Audio_PlaySoundGeneral(NA_SE_VO_LI_FALL_L_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
@@ -469,7 +496,7 @@ void func_8096A480(GlobalContext *globalCtx) {
 void func_8096A4D4(GlobalContext *globalCtx) {
     Player* player;
 
-    if (globalCtx->csCtx.frames == 0xAE) {
+    if (globalCtx->csCtx.frames == 174) {
         player = PLAYER;
         Audio_PlaySoundGeneral(NA_SE_VO_LI_SURPRISE_KID, &player->actor.projectedPos, 4U, &D_801333E0, &D_801333E0, &D_801333E8);
     }
@@ -502,8 +529,14 @@ void func_8096A528(DemoDu *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A528.s")
 #endif
 
-void func_8096A630();
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A630.s")
+void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f pos = this->actor.world.pos;
+
+    pos.y += gGameInfo->data[2597];
+    func_80033480(globalCtx, &pos, gGameInfo->data[2593] + 100.0f, gGameInfo->data[2594] + 0xA, gGameInfo->data[2595] + 0x12C, gGameInfo->data[2596], 0);
+    func_8096A3B4(this);
+}
 
 void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx);
 // maybe when i import the data this will be fixed, hopefully...
@@ -640,7 +673,7 @@ void func_8096AB00(DemoDu *this, GlobalContext *globalCtx) {
         npcAction = csCtx->npcActions[2];
         if ((npcAction != NULL) && (csCtx->frames >= npcAction->endFrame)) {
             this->updateIndex = 0xA;
-            func_8096A630();
+            func_8096A630(this, globalCtx);
         }
     }
 }
@@ -702,7 +735,7 @@ void func_8096AD90(DemoDu *this, s32 arg1) {
 }
 
 void func_8096AE00(DemoDu *this, s32 arg1) {
-    if (arg1 != 0) {
+    if (arg1) {
         Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
         this->updateIndex = 17;
     }
@@ -864,8 +897,9 @@ void func_8096B488() {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 
-void func_8096B4A8(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B4A8.s")
+void func_8096B4A8(DemoDu *this, GlobalContext *globalCtx) {
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0xF5, this->actor.world.pos.x, (f32) gGameInfo->data[2608] + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
+}
 
 void func_8096B528(DemoDu *this, GlobalContext *globalCtx) {
     if (func_80969CC4(this, globalCtx, 4, 2)) {
@@ -879,6 +913,47 @@ void func_8096B528(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void func_8096B57C(DemoDu *this, GlobalContext *globalCtx);
+/*
+void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
+    f32 *temp_v0;
+    f32 *temp_v0_2;
+    f32 temp_f0;
+    f32 temp_f0_2;
+    s32 temp_f4;
+    f32 phi_f0;
+
+    if (func_80969CC4(this, globalCtx, (u16)4U, 2) != 0) {
+        temp_v0 = &this->unk_1A4;
+        *temp_v0 = (f32) (*temp_v0 + 1.0f);
+        temp_f0 = *temp_v0;
+        phi_f0 = temp_f0;
+        if (((f32) gGameInfo->data[2597] + 10.0f) <= temp_f0) {
+            this->updateIndex = 0x17;
+            this->drawIndex = 1;
+            *temp_v0 = (f32) ((f32) gGameInfo->data[2597] + 10.0f);
+            this->unk_1A8 = 0xFF;
+            this->actor.shape.shadowAlpha = (u8) 0xFF;
+            return;
+        }
+    } else {
+        temp_v0_2 = &this->unk_1A4;
+        *temp_v0_2 = (f32) (*temp_v0_2 - 1.0f);
+        temp_f0_2 = *temp_v0_2;
+        phi_f0 = temp_f0_2;
+        if (temp_f0_2 <= 0.0f) {
+            this->updateIndex = 0x15;
+            this->drawIndex = 0;
+            *temp_v0_2 = 0.0f;
+            this->unk_1A8 = 0;
+            this->actor.shape.shadowAlpha = 0;
+            return;
+        }
+    }
+    temp_f4 = (s32) ((phi_f0 / ((f32) gGameInfo->data[2597] + 10.0f)) * 255.0f);
+    this->unk_1A8 = temp_f4;
+    this->actor.shape.shadowAlpha = (u8) temp_f4;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B57C.s")
 
 void func_8096B6D0(DemoDu *this, GlobalContext *globalCtx) {
@@ -971,6 +1046,14 @@ void func_8096BA98(DemoDu *this) {
     }
 }
 
+/*
+void func_8096BB24(DemoDu *this, GlobalContext *globalCtx);
+void func_8096BB24(DemoDu *this, GlobalContext *globalCtx) {
+    func_80969D5C(this, globalCtx);
+    this->updateIndex = 0x19;
+    this->drawIndex = 2;
+}
+*/
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BB24.s")
 
 void func_8096BB5C(DemoDu *this) {
