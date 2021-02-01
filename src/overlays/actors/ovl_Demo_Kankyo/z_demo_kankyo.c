@@ -242,8 +242,8 @@ void DemoKankyo_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_150[0].unk_18 = 0.0f;
             if (!(gSaveContext.eventChkInf[4] & 0x800)) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_TOKI,
-                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
-                                   0, 0x0000);
+                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
+                                   0x0000);
             } else {
                 globalCtx->unk_11D30[1] = 0xFF;
                 Actor_Kill(&this->actor);

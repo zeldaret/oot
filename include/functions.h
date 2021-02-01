@@ -908,7 +908,7 @@ s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
 void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
                     OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
 // ? func_8006CFC0(?);
-// ? func_8006D074(?);
+void func_8006D074(GlobalContext* globalCtx);
 // ? func_8006D0AC(?);
 // ? func_8006D0EC(?);
 // ? func_8006D684(?);
