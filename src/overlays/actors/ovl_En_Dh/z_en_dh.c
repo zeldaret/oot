@@ -157,7 +157,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = MASS_HEAVY;
-    this->actor.colChkInfo.health = (gSaveContext.linkAge == 0) ? 14 : 20;
+    this->actor.colChkInfo.health = LINK_IS_ADULT ? 14 : 20;
     this->alpha = this->unk_258 = 255;
     this->actor.flags &= ~1;
     Collider_InitCylinder(globalCtx, &this->collider1);

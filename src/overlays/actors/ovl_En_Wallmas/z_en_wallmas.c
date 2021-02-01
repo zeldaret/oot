@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wallmas.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000015
 
@@ -613,7 +614,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &D_04049210);
+    gSPDisplayList(POLY_XLU_DISP++, &gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }

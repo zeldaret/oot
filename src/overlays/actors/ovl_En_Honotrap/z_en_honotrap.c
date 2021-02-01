@@ -5,6 +5,7 @@
  */
 
 #include "z_en_honotrap.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -47,7 +48,6 @@ void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_SetupFlameVanish(EnHonotrap* this);
 void EnHonotrap_FlameVanish(EnHonotrap* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];
 extern Gfx D_05006810[];
 
 const ActorInit En_Honotrap_InitVars = {
@@ -519,7 +519,7 @@ void EnHonotrap_DrawFlame(Actor* thisx, GlobalContext* globalCtx) {
                    MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1024),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1028);
 }

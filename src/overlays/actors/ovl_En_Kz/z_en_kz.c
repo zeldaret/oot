@@ -58,9 +58,9 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x0600075C, 1.0f, 0.0f, -1.0f, 0x00, 0.0f },
-    { 0x0600075C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    { 0x0600046C, 1.0f, 0.0f, -1.0f, 0x00, -10.0f },
+    { 0x0600075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x0600075C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x0600046C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 extern FlexSkeletonHeader D_060086D0;
@@ -419,7 +419,7 @@ void EnKz_Wait(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
-    s32 getItemID;
+    s32 getItemId;
     f32 xzRange;
     f32 yRange;
 
@@ -428,10 +428,10 @@ void EnKz_SetupGetItem(EnKz* this, GlobalContext* globalCtx) {
         this->unk_1E0.unk_00 = 1;
         this->actionFunc = EnKz_StartTimer;
     } else {
-        getItemID = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
+        getItemId = this->isTrading == true ? GI_FROG : GI_TUNIC_ZORA;
         yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
         xzRange = this->actor.xzDistToPlayer + 1.0f;
-        func_8002F434(&this->actor, globalCtx, getItemID, xzRange, yRange);
+        func_8002F434(&this->actor, globalCtx, getItemId, xzRange, yRange);
     }
 }
 

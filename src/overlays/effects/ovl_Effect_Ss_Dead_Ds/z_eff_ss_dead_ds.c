@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dead_ds.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rTimer regs[1]
@@ -24,8 +25,6 @@ EffectSsInit Effect_Ss_Dead_Ds_InitVars = {
     EFFECT_SS_DEAD_DS,
     EffectSsDeadDs_Init,
 };
-
-extern Gfx D_04037730[];
 
 u32 EffectSsDeadDs_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDeadDsInitParams* initParams = (EffectSsDeadDsInitParams*)initParamsx;
@@ -104,7 +103,7 @@ void EffectSsDeadDs_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetCombineLERP(POLY_XLU_DISP++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0,
                       PRIMITIVE, 0);
-    gSPDisplayList(POLY_XLU_DISP++, D_04037730);
+    gSPDisplayList(POLY_XLU_DISP++, gEffBurnMark1DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead_ds.c", 255);
 }
