@@ -359,88 +359,55 @@ s16 func_80B446A8(Vec3f* pos, s16 arg1) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44870.s")
-// s16 func_80B44870(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx);
 s16 func_80B44870(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
-    // PosRot *sp64;
-    // PosRot *temp_a0;
-    // Vec3f *temp_s0_2;
-    // f32 temp_f0;
-    // s16 temp_fp;
-    // s16 temp_s0;
-    // s16 temp_s0_3;
-    // s16 temp_s3;
-    // s16 temp_v1;
-    // s32 phi_s0;
-    // s32 phi_s7;
-    // s16 phi_s0;
-    // f32 phi_f26;
-    // f32 phi_f24;
-    // f32 phi_f20;
-    // f32 phi_f22;
-    // s32 phi_s5;
-    // s32 phi_s4;
-    // s32 phi_v0;
-    // s32 phi_s5_2;
-    // s16 phi_s5_3;
-    // s32 phi_s5_4;
-    // s32 phi_s4;
-    // s16 phi_s5;
-
-        f32 temp_f0;
+    f32 temp_f0;
     f32 phi_f24 = 585.0f;
     Player* player = PLAYER;
     s16 temp_fp = arg1;
     f32 phi_f26 = 400.0f;
-    f32 phi_f20 = 99998.0f;
-    s16 phi_s0 = 5;
-    s16 phi_s7 = 0;
-    f32 phi_f22 = 99999.0f;
+    f32 smallMaxRange = 99998.0f;
+    s16 loopIndex = 5;
+    s16 minIndex = 0;
+    f32 largeMaxRange = 99999.0f;
     s16 phi_s4 = -1;
     s16 phi_s5 = -1;
     s16 temp_s3 = func_80B446A8(&player->actor.world.pos, temp_fp);
 
-    // temp_a0 = &globalCtx->actorCtx.actorLists[2].head->world;
-    // sp64 = temp_a0;
-
     // Upstairs
     if (pos->y > 420.0f) {
-        phi_s7 = 8;
+        minIndex = 8;
         phi_f26 = 50.0f;
-        if (temp_fp >= 0xF) {
-            phi_s0 = 0x17;
+
+        if (temp_fp > 14) {
+            loopIndex = 23;
             phi_f24 = 400.0f;
         } else {
-            phi_s0 = 0xE;
+            loopIndex = 14;
             phi_f24 = 380.0f;
         }
     }
 
-    for (; phi_s0 >= phi_s7; phi_s0--) {
-
-        if ((phi_s0 == temp_fp) || (phi_s0 == temp_s3)) {
+    for (; loopIndex >= minIndex; loopIndex--) {
+        if ((loopIndex == temp_fp) || (loopIndex == temp_s3)) {
             continue;
         }
-        if (((temp_s3 == -1) && (Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[phi_s0]) < phi_f26))) {
+        if (((temp_s3 == -1) && (Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[loopIndex]) < phi_f26))) {
             continue;
         }
-        // if ((phi_s0 != temp_fp) && (phi_s0 != temp_s3)) {
-        //     if ((temp_s3 != -1) || !(Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[phi_s0]) < phi_f26)) {
-        
-            temp_f0 = Math_Vec3f_DistXYZ(pos, &D_80B4A090[phi_s0]);
+        temp_f0 = Math_Vec3f_DistXYZ(pos, &D_80B4A090[loopIndex]);
 
-            if ((phi_f24 < temp_f0)) {
-                continue;
-            }
-            if (temp_f0 < phi_f20) {
-                phi_f22 = phi_f20;
-                phi_s4 = phi_s5;
-                phi_f20 = temp_f0;
-                phi_s5 = phi_s0;
-            } else if (temp_f0 < phi_f22) {
-                phi_f22 = temp_f0;
-                phi_s4 = phi_s0;
-            }
-        
+        if ((phi_f24 < temp_f0)) {
+            continue;
+        }
+        if (temp_f0 < smallMaxRange) {
+            largeMaxRange = smallMaxRange;
+            phi_s4 = phi_s5;
+            smallMaxRange = temp_f0;
+            phi_s5 = loopIndex;
+        } else if (temp_f0 < largeMaxRange) {
+            largeMaxRange = temp_f0;
+            phi_s4 = loopIndex;
+        }
     }
 
     Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[phi_s5]);
