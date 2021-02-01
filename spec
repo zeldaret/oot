@@ -5772,7 +5772,8 @@ endseg
 beginseg
     name "object_crow"
     romalign 0x1000
-    include "build/baserom/object_crow.o"
+    include "build/assets/objects/object_crow/object_crow.o"
+    number 6
 endseg
 
 beginseg
