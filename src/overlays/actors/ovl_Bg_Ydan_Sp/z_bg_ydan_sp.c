@@ -9,10 +9,10 @@ void BgYdanSp_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgYdanSp_BurnFloorWeb(BgYdanSp* thisx, GlobalContext* globalCtx);
-void BgYdanSp_FloorWebIdle(BgYdanSp* thisx, GlobalContext* globalCtx);
-void BgYdanSp_BurnWallWeb(BgYdanSp* thisx, GlobalContext* globalCtx);
-void BgYdanSp_WallWebIdle(BgYdanSp* thisx, GlobalContext* globalCtx);
+void BgYdanSp_BurnFloorWeb(BgYdanSp* this, GlobalContext* globalCtx);
+void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
+void BgYdanSp_BurnWallWeb(BgYdanSp* this, GlobalContext* globalCtx);
+void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
 
 extern Gfx D_060061B0[];
 extern Gfx D_06003850[];
@@ -22,8 +22,8 @@ extern CollisionHeader D_06006050;
 extern CollisionHeader D_06006460;
 
 typedef enum {
-    WEB_FLOOR,
-    WEB_WALL,
+    /* 0 */ WEB_FLOOR,
+    /* 1 */ WEB_WALL
 } BgYdanSpType;
 
 const ActorInit Bg_Ydan_Sp_InitVars = {
@@ -85,29 +85,28 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
     ColliderTrisElementInit* ti0 = &sTrisItemsInit[0];
     Vec3f tri[3];
     s32 i;
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = NULL;
     ColliderTrisElementInit* ti1 = &sTrisItemsInit[1];
     f32 cossY;
     f32 sinsY;
     f32 cossX;
     f32 nSinsX;
 
-    colHeader = NULL;
-    Actor_ProcessInitChain(thisx, sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     this->isDestroyedSwitchFlag = thisx->params & 0x3F;
     this->burnSwitchFlag = (thisx->params >> 6) & 0x3F;
-    thisx->params = (thisx->params >> 0xC) & 0xF;
-    DynaPolyActor_Init((DynaPolyActor*)thisx, DPM_PLAYER);
+    this->dyna.actor.params = (thisx->params >> 0xC) & 0xF;
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     Collider_InitTris(globalCtx, &this->trisCollider);
-    Collider_SetTris(globalCtx, &this->trisCollider, thisx, &sTrisInit, this->trisColliderItems);
-    if (thisx->params == WEB_FLOOR) {
+    Collider_SetTris(globalCtx, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);
+    if (this->dyna.actor.params == WEB_FLOOR) {
         CollisionHeader_GetVirtual(&D_06006460, &colHeader);
-        this->actionFunc = &BgYdanSp_FloorWebIdle;
+        this->actionFunc = BgYdanSp_FloorWebIdle;
 
         for (i = 0; i < 3; i++) {
-            tri[i].x = ti0->dim.vtx[i].x + thisx->world.pos.x;
-            tri[i].y = ti0->dim.vtx[i].y + thisx->world.pos.y;
-            tri[i].z = ti0->dim.vtx[i].z + thisx->world.pos.z;
+            tri[i].x = ti0->dim.vtx[i].x + this->dyna.actor.world.pos.x;
+            tri[i].y = ti0->dim.vtx[i].y + this->dyna.actor.world.pos.y;
+            tri[i].z = ti0->dim.vtx[i].z + this->dyna.actor.world.pos.z;
         }
 
         Collider_SetTrisVertices(&this->trisCollider, 0, &tri[0], &tri[1], &tri[2]);
@@ -117,27 +116,29 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk16C = 0.0f;
     } else {
         CollisionHeader_GetVirtual(&D_06006050, &colHeader);
-        this->actionFunc = &BgYdanSp_WallWebIdle;
-        Actor_SetFocus(thisx, 30.0f);
-        sinsY = Math_SinS(thisx->shape.rot.y);
-        cossY = Math_CosS(thisx->shape.rot.y);
-        nSinsX = -Math_SinS(thisx->shape.rot.x);
-        cossX = Math_CosS(thisx->shape.rot.x);
+        this->actionFunc = BgYdanSp_WallWebIdle;
+        Actor_SetFocus(&this->dyna.actor, 30.0f);
+        sinsY = Math_SinS(this->dyna.actor.shape.rot.y);
+        cossY = Math_CosS(this->dyna.actor.shape.rot.y);
+        nSinsX = -Math_SinS(this->dyna.actor.shape.rot.x);
+        cossX = Math_CosS(this->dyna.actor.shape.rot.x);
 
         for (i = 0; i < 3; i++) {
-            tri[i].x = thisx->world.pos.x + (cossY * ti1->dim.vtx[i].x) - (sinsY * ti1->dim.vtx[i].y * nSinsX);
-            tri[i].y = thisx->world.pos.y + (ti1->dim.vtx[i].y * cossX);
-            tri[i].z = thisx->world.pos.z - (sinsY * ti1->dim.vtx[i].x) + (ti1->dim.vtx[i].y * cossY * nSinsX);
+            tri[i].x =
+                this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[i].x) - (sinsY * ti1->dim.vtx[i].y * nSinsX);
+            tri[i].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[i].y * cossX);
+            tri[i].z =
+                this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[i].x) + (ti1->dim.vtx[i].y * cossY * nSinsX);
         }
 
         Collider_SetTrisVertices(&this->trisCollider, 0, &tri[0], &tri[1], &tri[2]);
 
-        tri[1].x = thisx->world.pos.x + (cossY * ti1->dim.vtx[0].x) - (ti1->dim.vtx[2].y * sinsY * nSinsX);
-        tri[1].y = thisx->world.pos.y + (ti1->dim.vtx[2].y * cossX);
-        tri[1].z = thisx->world.pos.z - (sinsY * ti1->dim.vtx[0].x) + (ti1->dim.vtx[2].y * cossY * nSinsX);
+        tri[1].x = this->dyna.actor.world.pos.x + (cossY * ti1->dim.vtx[0].x) - (ti1->dim.vtx[2].y * sinsY * nSinsX);
+        tri[1].y = this->dyna.actor.world.pos.y + (ti1->dim.vtx[2].y * cossX);
+        tri[1].z = this->dyna.actor.world.pos.z - (sinsY * ti1->dim.vtx[0].x) + (ti1->dim.vtx[2].y * cossY * nSinsX);
         Collider_SetTrisVertices(&this->trisCollider, 1, &tri[0], &tri[2], &tri[1]);
     }
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->timer = 0;
     if (Flags_GetSwitch(globalCtx, this->isDestroyedSwitchFlag)) {
         Actor_Kill(&this->dyna.actor);
@@ -154,9 +155,9 @@ void* BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
     s16 newY;
     CollisionHeader* colHeader;
 
-    colHeader = (CollisionHeader*)SEGMENTED_TO_VIRTUAL(&D_06006460);
-    colHeader->vtxList = (Vec3s*)SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
-    newY = (s16)((this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y) * 10.0f);
+    colHeader = SEGMENTED_TO_VIRTUAL(&D_06006460);
+    colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
+    newY = (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y) * 10;
     colHeader->vtxList[14].y = newY;
     colHeader->vtxList[12].y = newY;
     colHeader->vtxList[10].y = newY;
@@ -173,10 +174,10 @@ void BgYdanSp_BurnWeb(BgYdanSp* this, GlobalContext* globalCtx) {
     func_80078884(NA_SE_SY_CORRECT_CHIME);
     Flags_SetSwitch(globalCtx, this->isDestroyedSwitchFlag);
     if (this->dyna.actor.params == WEB_FLOOR) {
-        this->actionFunc = &BgYdanSp_BurnFloorWeb;
-        return;
+        this->actionFunc = BgYdanSp_BurnFloorWeb;
+    } else {
+        this->actionFunc = BgYdanSp_BurnWallWeb;
     }
-    this->actionFunc = &BgYdanSp_BurnWallWeb;
 }
 
 void BgYdanSp_BurnFloorWeb(BgYdanSp* this, GlobalContext* globalCtx) {
@@ -190,27 +191,29 @@ void BgYdanSp_BurnFloorWeb(BgYdanSp* this, GlobalContext* globalCtx) {
     s16 rot2;
     s32 i;
 
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
 
     if (this->timer == 0) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
     if ((this->timer % 3) == 0) {
-        rot2 = (s16)(Rand_ZeroOne() * 0x2AAA);
+        rot2 = Rand_ZeroOne() * 0x2AAA;
         velocity.y = 0.0f;
         pos2.y = this->dyna.actor.world.pos.y;
 
         for (i = 0; i < 6; i++) {
-            rot = (s16)(Rand_CenteredFloat(0x2800) + rot2);
+            rot = Rand_CenteredFloat(0x2800) + rot2;
             sins = Math_SinS(rot);
             coss = Math_CosS(rot);
             pos2.x = this->dyna.actor.world.pos.x + (120.0f * sins);
             pos2.z = this->dyna.actor.world.pos.z + (120.0f * coss);
             distXZ = Math_Vec3f_DistXZ(&this->dyna.actor.home.pos, &pos2) * (1.0f / 120.0f);
             if (distXZ < 0.7f) {
-                sins = Math_SinS((s16)(rot + 0x8000));
-                coss = Math_CosS((s16)(rot + 0x8000));
+                sins = Math_SinS(rot + 0x8000);
+                coss = Math_CosS(rot + 0x8000);
                 pos2.x = this->dyna.actor.world.pos.x + (120.0f * sins);
                 pos2.z = this->dyna.actor.world.pos.z + (120.0f * coss);
                 distXZ = Math_Vec3f_DistXZ(&this->dyna.actor.home.pos, &pos2) * (1.0f / 120.0f);
@@ -218,15 +221,17 @@ void BgYdanSp_BurnFloorWeb(BgYdanSp* this, GlobalContext* globalCtx) {
             velocity.x = (7.0f * sins) * distXZ;
             velocity.y = 0.0f;
             velocity.z = (7.0f * coss) * distXZ;
-            EffectSsDeadDb_Spawn(globalCtx, &this->dyna.actor.home.pos, &velocity, &accel, 60, 6, 255, 255, 150,
-                                 170, 255, 0, 0, 1, 0xE, 1);
+            EffectSsDeadDb_Spawn(globalCtx, &this->dyna.actor.home.pos, &velocity, &accel, 60, 6, 255, 255, 150, 170,
+                                 255, 0, 0, 1, 0xE, 1);
             rot2 += 0x2AAA;
         }
     }
 }
 
 void BgYdanSp_FloorWebBroken(BgYdanSp* this, GlobalContext* globalCtx) {
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
 
     if (this->timer == 0) {
         Actor_Kill(&this->dyna.actor);
@@ -241,15 +246,17 @@ void BgYdanSp_FloorWebBreaking(BgYdanSp* this, GlobalContext* globalCtx) {
     Vec3f pos;
     s16 rot;
 
-    DECR(this->timer);
-    this->dyna.actor.world.pos.y =
-        (sinf((f32)this->timer * (M_PI / 20.0f)) * this->unk16C) + this->dyna.actor.home.pos.y;
+    if (this->timer != 0) {
+        this->timer--;
+    }
+
+    this->dyna.actor.world.pos.y = (sinf((f32)this->timer * (M_PI / 20)) * this->unk16C) + this->dyna.actor.home.pos.y;
     if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 190.0f) {
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         this->timer = 40;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         Flags_SetSwitch(globalCtx, this->isDestroyedSwitchFlag);
-        this->actionFunc = &BgYdanSp_FloorWebBroken;
+        this->actionFunc = BgYdanSp_FloorWebBroken;
         pos.y = this->dyna.actor.world.pos.y - 60.0f;
         rot = 0;
         for (i = 0; i < 6; i++) {
@@ -283,7 +290,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         BgYdanSp_BurnWeb(this, globalCtx);
         return;
     }
-    if (func_8004356C((DynaPolyActor*)this)) {
+    if (func_8004356C(&this->dyna)) {
         sqrtFallDistance = sqrtf(CLAMP_MIN(player->fallDistance, 0.0f));
         if (player->fallDistance > 750.0f) {
             if (this->dyna.actor.xzDistToPlayer < 80.0f) {
@@ -291,7 +298,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
                 this->dyna.actor.room = -1;
                 this->dyna.actor.flags |= 0x10;
                 this->timer = 40;
-                Audio_PlayActorSound2((Actor*)this, NA_SE_EV_WEB_BROKEN);
+                Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_BROKEN);
                 this->actionFunc = BgYdanSp_FloorWebBreaking;
                 return;
             }
@@ -314,17 +321,17 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
             }
         }
     }
-
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
     if (this->timer == 0) {
         this->timer = 14;
     }
-    this->dyna.actor.world.pos.y =
-        (f32)((sinf((f32)this->timer * (M_PI / 7.0f)) * this->unk16C) + this->dyna.actor.home.pos.y);
+    this->dyna.actor.world.pos.y = sinf((f32)this->timer * (M_PI / 7)) * this->unk16C + this->dyna.actor.home.pos.y;
     Math_ApproachZeroF(&this->unk16C, 1.0f, 0.8f);
     if (this->timer == 13) {
         if (this->unk16C > 3.0f) {
-            Audio_PlayActorSound2((Actor*)this, NA_SE_EV_WEB_VIBRATION);
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WEB_VIBRATION);
         } else {
             func_800F8D04(NA_SE_EV_WEB_VIBRATION);
         }
@@ -345,16 +352,18 @@ void BgYdanSp_BurnWallWeb(BgYdanSp* this, GlobalContext* globalCtx) {
     s16 rot2;
     s32 i;
 
-    DECR(this->timer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
     if (this->timer == 0) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
     if ((this->timer % 3) == 0) {
-        rot2 = (s16)(Rand_ZeroOne() * 0x2AAA);
+        rot2 = Rand_ZeroOne() * 0x2AAA;
 
         for (i = 0; i < 6; i++) {
-            rot = (s16)(Rand_CenteredFloat(0x2800) + rot2);
+            rot = Rand_CenteredFloat(0x2800) + rot2;
             sins = Math_SinS(rot);
             coss = Math_CosS(rot);
             coss2 = Math_CosS(this->dyna.actor.shape.rot.y) * sins;
@@ -365,8 +374,8 @@ void BgYdanSp_BurnWallWeb(BgYdanSp* this, GlobalContext* globalCtx) {
             spC8.z = this->dyna.actor.world.pos.z - (140.0f * sins);
             distXYZ = Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &spC8) * (1.0f / 140.0f);
             if (distXYZ < 0.65f) {
-                sins = Math_SinS((s16)(rot + 0x8000));
-                coss = Math_CosS((s16)(rot + 0x8000));
+                sins = Math_SinS(rot + 0x8000);
+                coss = Math_CosS(rot + 0x8000);
                 coss2 = Math_CosS(this->dyna.actor.shape.rot.y) * sins;
                 sins *= Math_SinS(this->dyna.actor.shape.rot.y);
                 spC8.x = this->dyna.actor.world.pos.x + (140.0f * coss2);
@@ -374,11 +383,11 @@ void BgYdanSp_BurnWallWeb(BgYdanSp* this, GlobalContext* globalCtx) {
                 spC8.z = this->dyna.actor.world.pos.z - (140.0f * sins);
                 distXYZ = Math_Vec3f_DistXYZ(&this->dyna.actor.home.pos, &spC8) * (1.0f / 140.0f);
             }
-            velocity.x = (6.5f * coss2) * distXYZ;
-            velocity.y = (6.5f * coss) * distXYZ;
-            velocity.z = (-6.5f * sins) * distXYZ;
-            EffectSsDeadDb_Spawn(globalCtx, &this->dyna.actor.home.pos, &velocity, &accel, 80, 6, 255, 255, 150,
-                                 170, 255, 0, 0, 1, 0xE, 1);
+            velocity.x = 6.5f * coss2 * distXYZ;
+            velocity.y = 6.5f * coss * distXYZ;
+            velocity.z = -6.5f * sins * distXYZ;
+            EffectSsDeadDb_Spawn(globalCtx, &this->dyna.actor.home.pos, &velocity, &accel, 80, 6, 255, 255, 150, 170,
+                                 255, 0, 0, 1, 0xE, 1);
             rot2 += 0x2AAA;
         }
     }
@@ -393,7 +402,7 @@ void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx) {
         this->dyna.actor.home.pos.y = this->dyna.actor.world.pos.y + 80.0f;
         BgYdanSp_BurnWeb(this, globalCtx);
     } else if (player->heldItemActionParam == PLAYER_AP_STICK && player->unk_860 != 0) {
-        func_8002DBD0((Actor*)this, &sp30, &player->swordInfo[0].tip);
+        func_8002DBD0(&this->dyna.actor, &sp30, &player->swordInfo[0].tip);
         if (fabsf(sp30.x) < 100.0f && sp30.z < 1.0f && sp30.y < 200.0f) {
             func_800800F8(globalCtx, 0xBCC, 0x28, &this->dyna.actor, 0);
             Math_Vec3f_Copy(&this->dyna.actor.home.pos, &player->swordInfo[0].tip);
@@ -419,7 +428,7 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 787),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_06005F40);
-    } else if (this->actionFunc == &BgYdanSp_FloorWebBroken) {
+    } else if (this->actionFunc == BgYdanSp_FloorWebBroken) {
         Matrix_Get(&mtxF);
         if (this->timer == 40) {
             Matrix_Translate(0.0f, (thisx->home.pos.y - thisx->world.pos.y) * 10.0f, 0.0f, MTXMODE_APPLY);
