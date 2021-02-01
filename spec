@@ -3565,7 +3565,8 @@ endseg
 beginseg
     name "object_okuta"
     romalign 0x1000
-    include "build/baserom/object_okuta.o"
+    include "build/assets/objects/object_okuta/object_okuta.o"
+    number 6
 endseg
 
 beginseg
