@@ -10,10 +10,10 @@
 #define FLAGS 0x00000010
 
 #define THIS ((EnHorseGameCheckBase*)thisx)
-#define AT_FINISH_LINE(actor)                                                                                      \
+#define AT_FINISH_LINE(actor)                                                                                     \
     (Math3D_PointInSquare2D(sFinishLine[0], sFinishLine[1], sFinishLine[2], sFinishLine[3], (actor)->world.pos.x, \
                             (actor)->world.pos.z))
-#define AT_RANCH_EXIT(actor)                                                                                   \
+#define AT_RANCH_EXIT(actor)                                                                                  \
     (Math3D_PointInSquare2D(sRanchExit[0], sRanchExit[1], sRanchExit[2], sRanchExit[3], (actor)->world.pos.x, \
                             (actor)->world.pos.z))
 
@@ -321,7 +321,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
 
     if (!(this->raceFlags & MALONRACE_PLAYER_ON_MARK) && AT_FINISH_LINE(player->rideActor)) {
         this->raceFlags |= MALONRACE_PLAYER_ON_MARK;
-    } else if ((this->raceFlags & MALONRACE_PLAYER_ON_MARK) && !(this->raceFlags & MALONRACE_PLAYER_START) && !AT_FINISH_LINE(player->rideActor)) {
+    } else if ((this->raceFlags & MALONRACE_PLAYER_ON_MARK) && !(this->raceFlags & MALONRACE_PLAYER_START) &&
+               !AT_FINISH_LINE(player->rideActor)) {
         this->raceFlags |= MALONRACE_PLAYER_START;
     }
     if ((this->startTimer > 50) && !(this->raceFlags & MALONRACE_SET_TIMER)) {
@@ -366,7 +367,8 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
                 }
             }
         }
-        if ((player2->rideActor != NULL) && (this->raceFlags & MALONRACE_PLAYER_START) && AT_FINISH_LINE(player2->rideActor)) {
+        if ((player2->rideActor != NULL) && (this->raceFlags & MALONRACE_PLAYER_START) &&
+            AT_FINISH_LINE(player2->rideActor)) {
             if ((this->lapCount == 1) && (this->fenceCheck[15] == 0) && (player2->rideActor->prevPos.x < -200.0f)) {
                 this->raceFlags |= MALONRACE_BROKE_RULE;
                 func_8010B680(globalCtx, 0x208C, NULL);
