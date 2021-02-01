@@ -907,11 +907,11 @@ void SkelCurve_SetAnim(SkelAnimeCurve* skelCurve, TransformUpdateIndex* transUpd
 s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve);
 void SkelCurve_Draw(Actor* actor, GlobalContext* globalCtx, SkelAnimeCurve* skelCurve,
                     OverrideCurveLimbDraw overrideLimbDraw, PostCurveLimbDraw postLimbDraw, s32 lod, void* data);
-// ? func_8006CFC0(?);
+s32 func_8006CFC0(s32 scene);
 void func_8006D074(GlobalContext* globalCtx);
-// ? func_8006D0AC(?);
-// ? func_8006D0EC(?);
-// ? func_8006D684(?);
+void func_8006D0AC(GlobalContext* globalCtx);
+void func_8006D0EC(GlobalContext* globalCtx, Player* player);
+void func_8006D684(GlobalContext* globalCtx, Player* player);
 void func_8006DC68(GlobalContext* globalCtx, Player* player);
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 u32 Jpeg_SendTask(JpegContext* ctx);
