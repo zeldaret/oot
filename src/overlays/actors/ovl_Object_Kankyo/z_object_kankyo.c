@@ -18,7 +18,6 @@ void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_01000000;
-extern Gfx gDemoKekkaiDL_005FF0[];
 extern UNK_TYPE D_06009620;
 
 /*

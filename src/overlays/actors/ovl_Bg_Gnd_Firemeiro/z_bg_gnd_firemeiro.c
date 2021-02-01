@@ -5,7 +5,7 @@
  */
 
 #include "z_bg_gnd_firemeiro.h"
-// #include "objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
 #define FLAGS 0x00000030
 
@@ -20,8 +20,8 @@ void func_808795AC(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void func_80879668(BgGndFiremeiro* this, GlobalContext* globalCtx);
 void func_80879808(BgGndFiremeiro* this, GlobalContext* globalCtx);
 
-extern Gfx gFireTrialPlatformDL[];
-extern CollisionHeader gFireTrialPlatformCol;
+// extern Gfx gFireTrialPlatformDL[];
+// extern CollisionHeader gFireTrialPlatformCol;
 
 /*
 const ActorInit Bg_Gnd_Firemeiro_InitVars = {
