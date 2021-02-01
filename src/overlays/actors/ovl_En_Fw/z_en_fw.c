@@ -61,9 +61,9 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry D_80A1FBA0[] = {
-    { 0x06006CF8, 0.0f, 0.0f, -1.0f, 0x03, 0.0f },
-    { 0x06007CD0, 1.0f, 0.0f, -1.0f, 0x03, -8.0f },
-    { 0x06007DC8, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
+    { 0x06006CF8, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
+    { 0x06007CD0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { 0x06007DC8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
 };
 
 extern FlexSkeletonHeader D_06007C30;

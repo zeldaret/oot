@@ -163,7 +163,7 @@ void EnKarebaba_SetupUpright(EnKarebaba* this) {
         Actor_SetScale(&this->actor, 0.01f);
         this->bodyCollider.base.colType = COLTYPE_HIT6;
         this->bodyCollider.base.acFlags &= ~AC_HARD;
-        this->bodyCollider.info.bumper.dmgFlags = gSaveContext.linkAge != 0 ? 0x07C00710 : 0x0FC00710;
+        this->bodyCollider.info.bumper.dmgFlags = LINK_IS_CHILD ? 0x07C00710 : 0x0FC00710;
         this->bodyCollider.dim.radius = 15;
         this->bodyCollider.dim.height = 80;
         this->headCollider.dim.height = 80;
