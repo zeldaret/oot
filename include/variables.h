@@ -24,7 +24,6 @@ extern u8 D_020035C0[][0x40];
 extern u8 D_020038C0[];
 extern u8 D_02003940[];
 extern u8 D_02003AC0[];
-extern u32 D_0201DA50;
 extern u32 D_0300AA48;
 extern u32 D_03012B20;
 //extern ? D_0500CA70;
