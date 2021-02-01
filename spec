@@ -974,7 +974,6 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Ironobj"
     include "build/src/overlays/actors/ovl_Bg_Jya_Ironobj/z_bg_jya_ironobj.o"
-    include "build/data/overlays/actors/z_bg_jya_ironobj.data.o"
     include "build/data/overlays/actors/z_bg_jya_ironobj.reloc.o"
 endseg
 
