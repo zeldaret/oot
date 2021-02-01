@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_g_fire.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx);
 void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this);
@@ -15,8 +16,6 @@ EffectSsInit Effect_Ss_G_Fire_InitVars = {
     EffectSsGFire_Init,
 };
 
-extern Gfx D_0401C220[];
-
 u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsGFireInitParams* initParams = (EffectSsGFireInitParams*)initParamsx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -25,7 +24,7 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->pos = initParams->pos;
     this->draw = EffectSsGFire_Draw;
     this->update = EffectSsGFire_Update;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_0401C220);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffFireFootprintDL);
     this->life = 8;
     this->flags = 0;
     this->rgScale = 200;
@@ -44,8 +43,9 @@ u32 EffectSsGFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
 }
 
 void EffectSsGFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    void* textures[] = {
-        0x0401A220, 0x0401A620, 0x0401AA20, 0x0401AE20, 0x0401B220, 0x0401B620, 0x0401BA20, 0x0401BE20,
+    UNK_PTR textures[] = {
+        gEffFireFootprint1Tex, gEffFireFootprint2Tex, gEffFireFootprint3Tex, gEffFireFootprint4Tex,
+        gEffFireFootprint5Tex, gEffFireFootprint6Tex, gEffFireFootprint7Tex, gEffFireFootprint8Tex,
     };
     s16 texIdx = (this->rgTexIdx / 100) % 7;
 

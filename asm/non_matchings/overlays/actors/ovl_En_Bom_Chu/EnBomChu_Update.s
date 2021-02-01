@@ -106,11 +106,11 @@ glabel EnBomChu_Update
 /* 00F30 809C6760 13380003 */  beq     $t9, $t8, .L809C6770       
 /* 00F34 809C6764 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00F38 809C6768 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00F3C 809C676C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L809C6770:
 /* 00F40 809C6770 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00F44 809C6774 0C00B56E */  jal     Actor_SetHeight
+/* 00F44 809C6774 0C00B56E */  jal     Actor_SetFocus
               
 /* 00F48 809C6778 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00F4C 809C677C 8E09014C */  lw      $t1, 0x014C($s0)           ## 0000014C
@@ -186,7 +186,7 @@ glabel EnBomChu_Update
 /* 01058 809C6888 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 0105C 809C688C AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 01060 809C6890 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01064 809C6894 0C01084F */  jal     func_8004213C              
+/* 01064 809C6894 0C01084F */  jal     WaterBox_GetSurface1              
 /* 01068 809C6898 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 0106C 809C689C 10400032 */  beq     $v0, $zero, .L809C6968     
 /* 01070 809C68A0 C7A40040 */  lwc1    $f4, 0x0040($sp)           

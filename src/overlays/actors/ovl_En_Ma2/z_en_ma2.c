@@ -23,7 +23,7 @@ void func_80AA21C8(EnMa2* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ma2_InitVars = {
     ACTOR_EN_MA2,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_MA2,
     sizeof(EnMa2),
@@ -34,18 +34,31 @@ const ActorInit En_Ma2_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 18, 46, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_D_80AA1678 D_80AA2858[] = {
-    { 0x060007D4, 1.0f, 0x00, 0.0f }, { 0x060007D4, 1.0f, 0x00, -10.0f }, { 0x060093BC, 1.0f, 0x00, 0.0f },
-    { 0x06009EE0, 1.0f, 0x00, 0.0f }, { 0x06009EE0, 1.0f, 0x00, -10.0f },
+    { 0x060007D4, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x060007D4, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x060093BC, 1.0f, ANIMMODE_LOOP, 0.0f },   { 0x06009EE0, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x06009EE0, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 static Vec3f D_80AA28A8 = { 900.0f, 0.0f, 0.0f };
@@ -129,7 +142,7 @@ void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
         phi_a3 = 0;
     }
 
-    this->unk_1E0.unk_18 = player->actor.posRot.pos;
+    this->unk_1E0.unk_18 = player->actor.world.pos;
     this->unk_1E0.unk_14 = 0.0f;
 
     func_80034A14(&this->actor, &this->unk_1E0, 0, phi_a3);
@@ -187,7 +200,7 @@ void func_80AA1CC0(EnMa2* this) {
 void func_80AA1D44(EnMa2* this, s32 idx) {
     f32 frameCount = Animation_GetLastFrame(D_80AA2858[idx].animation);
 
-    Animation_Change(&this->skelAnime, D_80AA2858[idx].animation, 1.0f, 0.0f, frameCount, D_80AA2858[idx].unk_08,
+    Animation_Change(&this->skelAnime, D_80AA2858[idx].animation, 1.0f, 0.0f, frameCount, D_80AA2858[idx].mode,
                      D_80AA2858[idx].transitionRate);
 }
 
@@ -211,11 +224,11 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMa2* this = THIS;
     s32 pad;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 18.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 18.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008D90, NULL, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(22), &sColChkInfoInit);
 
     switch (func_80AA1B58(this, globalCtx)) {
         case 1:
@@ -239,9 +252,9 @@ void EnMa2_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
     }
 
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Actor_SetScale(&this->actor, 0.01f);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     this->unk_1E0.unk_00 = 0;
 }
 
@@ -267,7 +280,7 @@ void func_80AA204C(EnMa2* this, GlobalContext* globalCtx) {
         player->stateFlags2 |= 0x2000000;
         func_8010BD58(globalCtx, 0x23);
         this->actionFunc = func_80AA20E4;
-    } else if (this->actor.xzDistToLink < 30.0f + (f32)this->collider.dim.radius) {
+    } else if (this->actor.xzDistToPlayer < 30.0f + (f32)this->collider.dim.radius) {
         player->stateFlags2 |= 0x800000;
     }
 }
@@ -309,7 +322,7 @@ void EnMa2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnMa2* this = THIS;
     s32 pad;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
     func_80AA1CC0(this);
@@ -355,7 +368,7 @@ void EnMa2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 904);
 
     if (limbIndex == 18) {
-        Matrix_MultVec3f(&vec, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&vec, &this->actor.focus.pos);
     }
     if ((limbIndex == 14) && (this->skelAnime.animation == &D_060093BC)) {
         gSPDisplayList(POLY_OPA_DISP++, D_06005420);
@@ -373,7 +386,7 @@ void EnMa2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ma2.c", 955);
 
     camera = ACTIVE_CAM;
-    someFloat = Math_Vec3f_DistXZ(&this->actor.posRot.pos, &camera->eye);
+    someFloat = Math_Vec3f_DistXZ(&this->actor.world.pos, &camera->eye);
     func_800F6268(someFloat, 0x2F);
     func_80093D18(globalCtx->state.gfxCtx);
 

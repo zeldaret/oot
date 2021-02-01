@@ -26,7 +26,7 @@ void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ItemEtcetera),
@@ -89,7 +89,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->futureActionFunc = ItemEtcetera_UpdateFireArrow;
             Actor_SetScale(&this->actor, 0.5f);
             this->actor.draw = NULL;
-            this->actor.shape.unk_08 = 50.0f;
+            this->actor.shape.yOffset = 50.0f;
             break;
         case ITEM_ETC_RUPEE_GREEN_CHEST_GAME:
         case ITEM_ETC_RUPEE_BLUE_CHEST_GAME:
@@ -100,7 +100,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B85B28;
             this->drawFunc = ItemEtcetera_DrawThroughLens;
-            this->actor.posRot.pos.y += 15.0f;
+            this->actor.world.pos.y += 15.0f;
             break;
     }
 }
@@ -139,7 +139,7 @@ void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
         if (0) {} // Necessary to match
         func_8002F434(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
         if ((globalCtx->gameplayFrames & 0xD) == 0) {
-            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
     }
 }
@@ -155,14 +155,14 @@ void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
     velocity.z = Rand_CenteredFloat(3.0f);
     velocity.y = -0.05f;
     accel.y = -0.025f;
-    pos.x = Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
-    pos.y = (Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
-    pos.z = Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
+    pos.x = Rand_CenteredFloat(12.0f) + this->actor.world.pos.x;
+    pos.y = (Rand_ZeroOne() * 6.0f) + this->actor.world.pos.y;
+    pos.z = Rand_CenteredFloat(12.0f) + this->actor.world.pos.z;
     EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 5000, 16);
 }
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     if (!(this->actor.bgCheckFlags & 1)) {
         ItemEtcetera_SpawnSparkles(this, globalCtx);

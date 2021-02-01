@@ -18,7 +18,11 @@ typedef struct EnHorse {
     /* 0x0214 */ f32 unk_214;
     /* 0x0218 */ char unk_218[0x040];
     /* 0x0258 */ Vec3f unk_258;
-    /* 0x0264 */ char unk_264[0x198];
+    /* 0x0264 */ char unk_264[0x124];
+    /* 0x0388 */ s32 unk_388;
+    /* 0x038C */ char unk_38C[0x14];
+    /* 0x03A0 */ s32 unk_3A0;
+    /* 0x03A4 */ char unk_3A4[0x58];
 } EnHorse; // size = 0x03FC
 
 #define EN_HORSE_CHECK_1(horseActor) \

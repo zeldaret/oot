@@ -53,7 +53,7 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Ge2_InitVars = {
     ACTOR_EN_GE2,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GLA,
     sizeof(EnGe2),
@@ -63,16 +63,30 @@ const ActorInit En_Ge2_InitVars = {
     (ActorFunc)EnGe2_Draw,
 };
 
-// extern ColliderCylinderInit D_80A34310;
-ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x000007A2, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+static ColliderCylinderInit sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x000007A2, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 20, 60, 0, { 0, 0, 0 } },
 };
 
 static EnGe2ActionFunc sActionFuncs[] = {
-    EnGe2_Walk, EnGe2_AboutTurn, EnGe2_TurnPlayerSpotted, EnGe2_KnockedOut, EnGe2_CaptureTurn,
-    EnGe2_CaptureCharge, EnGe2_CaptureClose, EnGe2_Stand, EnGe2_WaitLookAtPlayer,
+    EnGe2_Walk,         EnGe2_AboutTurn,   EnGe2_TurnPlayerSpotted,
+    EnGe2_KnockedOut,   EnGe2_CaptureTurn, EnGe2_CaptureCharge,
+    EnGe2_CaptureClose, EnGe2_Stand,       EnGe2_WaitLookAtPlayer,
 };
 
 static AnimationHeader* sAnimations[] = {
@@ -91,7 +105,6 @@ static u8 sAnimModes[] = { ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE
 extern FlexSkeletonHeader D_06008968;
 extern AnimationHeader D_06009ED4;
 
-// Same as EnGe3_ChangeAction
 void EnGe2_ChangeAction(EnGe2* this, s32 i) {
     this->actionFunc = sActionFuncs[i];
     Animation_Change(&this->skelAnime, sAnimations[i], 1.0f, 0.0f, Animation_GetLastFrame(sAnimations[i]),
@@ -103,12 +116,12 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe2* this = THIS;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008968, NULL, this->jointTable, this->morphTable, 22);
     Animation_PlayLoop(&this->skelAnime, &D_06009ED4);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     Actor_SetScale(&this->actor, 0.01f);
 
     if (globalCtx->sceneNum == SCENE_SPOT09) {
@@ -117,8 +130,8 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneForward = 1200.0f;
     }
 
-    this->yDetectRange = (this->actor.posRot.rot.z + 1) * 40.0f;
-    this->actor.posRot.rot.z = 0;
+    this->yDetectRange = (this->actor.world.rot.z + 1) * 40.0f;
+    this->actor.world.rot.z = 0;
     this->actor.shape.rot.z = 0;
 
     switch (this->actor.params & 0xFF) {
@@ -126,21 +139,21 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnGe2_ChangeAction(this, GE2_ACTION_WALK);
             if (EnGe2_CheckCarpentersFreed()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.unk_1F = 6;
+                this->actor.targetMode = 6;
             }
             break;
         case GE2_TYPE_STATIONARY:
             EnGe2_ChangeAction(this, GE2_ACTION_STAND);
             if (EnGe2_CheckCarpentersFreed()) {
                 this->actor.update = EnGe2_UpdateFriendly;
-                this->actor.unk_1F = 6;
+                this->actor.targetMode = 6;
             }
             break;
         case GE2_TYPE_GERUDO_CARD_GIVER:
             EnGe2_ChangeAction(this, GE2_ACTION_WAITLOOKATPLAYER);
             this->actor.update = EnGe2_UpdateAfterTalk;
             this->actionFunc = EnGe2_ForceTalk;
-            this->actor.unk_1F = 6;
+            this->actor.targetMode = 6;
             break;
         default:
             __assert("0", "../z_en_ge2.c", 418);
@@ -152,7 +165,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->playerSpottedParam = 0;
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
-    this->walkDirection = this->actor.posRot.rot.y;
+    this->walkDirection = this->actor.world.rot.y;
     this->walkDuration = ((this->actor.params & 0xFF00) >> 8) * 0xA;
 }
 
@@ -169,11 +182,11 @@ s32 Ge2_DetectPlayerInAction(GlobalContext* globalCtx, EnGe2* this) {
 
     visionScale = ((gSaveContext.nightFlag != 0) ? 0.75f : 1.5f);
 
-    if ((250.0f * visionScale) < this->actor.xzDistToLink) {
+    if ((250.0f * visionScale) < this->actor.xzDistToPlayer) {
         return 0;
     }
 
-    if (this->actor.xzDistToLink < 50.0f) {
+    if (this->actor.xzDistToPlayer < 50.0f) {
         return 2;
     }
 
@@ -191,27 +204,25 @@ s32 Ge2_DetectPlayerInUpdate(GlobalContext* globalCtx, EnGe2* this, Vec3f* pos, 
 
     visionScale = ((gSaveContext.nightFlag != 0) ? 0.75f : 1.5f);
 
-    if ((250.0f * visionScale) < this->actor.xzDistToLink) {
+    if ((250.0f * visionScale) < this->actor.xzDistToPlayer) {
         return 0;
     }
 
-    if (yDetectRange < ABS(this->actor.yDistToLink)) {
+    if (yDetectRange < ABS(this->actor.yDistToPlayer)) {
         return 0;
     }
 
-    if (ABS((s16)(this->actor.yawTowardsLink - yRot)) > 0x2000) {
+    if (ABS((s16)(this->actor.yawTowardsPlayer - yRot)) > 0x2000) {
         return 0;
     }
 
-    if (func_8003E0B8(&globalCtx->colCtx, pos, &player->bodyPartsPos[7], &posResult, &outPoly, 0)) {
+    if (BgCheck_AnyLineTest1(&globalCtx->colCtx, pos, &player->bodyPartsPos[7], &posResult, &outPoly, 0)) {
         return 0;
     }
     return 1;
 }
 
-// Much simpler than the corresponding Ge1 function EnGe1_CheckCarpentersFreed
 s32 EnGe2_CheckCarpentersFreed(void) {
-    // Some sort of cast is required, either u8 or u16
     if ((u8)(gSaveContext.eventChkInf[9] & 0xF) == 0xF) {
         return 1;
     }
@@ -240,9 +251,9 @@ void EnGe2_CaptureClose(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 2, 0x400, 0x100);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
-    if (this->actor.xzDistToLink < 50.0f) {
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x400, 0x100);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
+    if (this->actor.xzDistToPlayer < 50.0f) {
         EnGe2_ChangeAction(this, GE2_ACTION_CAPTURECLOSE);
         this->actor.speedXZ = 0.0f;
     }
@@ -266,10 +277,10 @@ void EnGe2_CaptureCharge(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_CaptureTurn(EnGe2* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 2, 0x400, 0x100);
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 2, 0x400, 0x100);
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (this->actor.posRot.rot.y == this->actor.yawTowardsLink) {
+    if (this->actor.world.rot.y == this->actor.yawTowardsPlayer) {
         EnGe2_ChangeAction(this, GE2_ACTION_CAPTURECHARGE);
         this->timer = 50;
         this->actor.speedXZ = 4.0f;
@@ -287,9 +298,9 @@ void EnGe2_KnockedOut(EnGe2* this, GlobalContext* globalCtx) {
     this->actor.flags &= ~1;
     if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
         effectAngle = (globalCtx->state.frames) * 0x2800;
-        effectPos.x = this->actor.posRot2.pos.x + (Math_CosS(effectAngle) * 5.0f);
-        effectPos.y = this->actor.posRot2.pos.y + 10.0f;
-        effectPos.z = this->actor.posRot2.pos.z + (Math_SinS(effectAngle) * 5.0f);
+        effectPos.x = this->actor.focus.pos.x + (Math_CosS(effectAngle) * 5.0f);
+        effectPos.y = this->actor.focus.pos.y + 10.0f;
+        effectPos.z = this->actor.focus.pos.z + (Math_SinS(effectAngle) * 5.0f);
         EffectSsKiraKira_SpawnDispersed(globalCtx, &effectPos, &effectVelocity, &effectAccel, &effectPrimColor,
                                         &effectEnvColor, 1000, 16);
     }
@@ -307,12 +318,12 @@ void EnGe2_TurnPlayerSpotted(EnGe2* this, GlobalContext* globalCtx) {
 
         if (playerSpotted != 0) {
             this->timer = 100;
-            this->yawTowardsLink = this->actor.yawTowardsLink;
+            this->yawTowardsPlayer = this->actor.yawTowardsPlayer;
 
             if (this->playerSpottedParam < playerSpotted) {
                 this->playerSpottedParam = playerSpotted;
             }
-        } else if (this->actor.posRot.rot.y == this->yawTowardsLink) {
+        } else if (this->actor.world.rot.y == this->yawTowardsPlayer) {
             this->playerSpottedParam = 0;
             EnGe2_ChangeAction(this, GE2_ACTION_ABOUTTURN);
             return;
@@ -321,14 +332,14 @@ void EnGe2_TurnPlayerSpotted(EnGe2* this, GlobalContext* globalCtx) {
 
     switch (this->playerSpottedParam) {
         case 1:
-            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->yawTowardsLink, 2, 0x200, 0x100);
+            Math_SmoothStepToS(&this->actor.world.rot.y, this->yawTowardsPlayer, 2, 0x200, 0x100);
             break;
         case 2:
-            Math_SmoothStepToS(&this->actor.posRot.rot.y, this->yawTowardsLink, 2, 0x600, 0x180);
+            Math_SmoothStepToS(&this->actor.world.rot.y, this->yawTowardsPlayer, 2, 0x600, 0x180);
             break;
     }
 
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void EnGe2_AboutTurn(EnGe2* this, GlobalContext* globalCtx) {
@@ -341,10 +352,10 @@ void EnGe2_AboutTurn(EnGe2* this, GlobalContext* globalCtx) {
         EnGe2_ChangeAction(this, GE2_ACTION_TURNPLAYERSPOTTED);
         this->timer = 100;
         this->playerSpottedParam = playerSpotted;
-        this->yawTowardsLink = this->actor.yawTowardsLink;
+        this->yawTowardsPlayer = this->actor.yawTowardsPlayer;
     } else if (this->stateFlags & GE2_STATE_ANIMCOMPLETE) {
-        Math_SmoothStepToS(&this->actor.posRot.rot.y, this->walkDirection, 2, 0x400, 0x200);
-        this->actor.shape.rot.y = this->actor.posRot.rot.y;
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->walkDirection, 2, 0x400, 0x200);
+        this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
     if (this->actor.shape.rot.y == this->walkDirection) {
@@ -361,7 +372,7 @@ void EnGe2_Walk(EnGe2* this, GlobalContext* globalCtx) {
         EnGe2_ChangeAction(this, GE2_ACTION_TURNPLAYERSPOTTED);
         this->timer = 100;
         this->playerSpottedParam = playerSpotted;
-        this->yawTowardsLink = this->actor.yawTowardsLink;
+        this->yawTowardsPlayer = this->actor.yawTowardsPlayer;
     } else if (this->walkTimer >= this->walkDuration) {
         this->walkTimer = 0;
         this->walkDirection += 0x8000;
@@ -374,20 +385,17 @@ void EnGe2_Walk(EnGe2* this, GlobalContext* globalCtx) {
 }
 
 void EnGe2_Stand(EnGe2* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.posRot.rot.y, this->walkDirection, 2, 0x400, 0x200);
+    Math_SmoothStepToS(&this->actor.world.rot.y, this->walkDirection, 2, 0x400, 0x200);
 }
 
-// Functions that also exist, in whole or in part, in EnGe3
-
-// Same as EnGe3_TurnToFacePlayer
 void EnGe2_TurnToFacePlayer(EnGe2* this, GlobalContext* globalCtx) {
     s32 pad;
-    s16 angleDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    s16 angleDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (ABS(angleDiff) <= 0x4000) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 6, 4000, 100);
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
-        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2EE, this->actor.posRot2.pos);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 4000, 100);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
+        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2EE, this->actor.focus.pos);
     } else {
         if (angleDiff < 0) {
             Math_SmoothStepToS(&this->headRot.y, -0x2000, 6, 6200, 0x100);
@@ -395,16 +403,15 @@ void EnGe2_TurnToFacePlayer(EnGe2* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->headRot.y, 0x2000, 6, 6200, 0x100);
         }
 
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 12, 1000, 100);
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 12, 1000, 100);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
     }
 }
 
-// Same as EnGe3_LookAtPlayer
 void EnGe2_LookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
-    if ((ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y)) <= 0x4300) &&
-        (this->actor.xzDistToLink < 200.0f)) {
-        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2EE, this->actor.posRot2.pos);
+    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) &&
+        (this->actor.xzDistToPlayer < 200.0f)) {
+        func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2EE, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 6200, 100);
         Math_SmoothStepToS(&this->headRot.y, 0, 6, 6200, 100);
@@ -433,12 +440,10 @@ void EnGe2_SetActionAfterTalk(EnGe2* this, GlobalContext* globalCtx) {
     EnGe2_TurnToFacePlayer(this, globalCtx);
 }
 
-// Same as EnGe3_WaitLookAtPlayer
 void EnGe2_WaitLookAtPlayer(EnGe2* this, GlobalContext* globalCtx) {
     EnGe2_LookAtPlayer(this, globalCtx);
 }
 
-// Same as EnGe3_WaitTillCardGiven
 void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actor.parent = NULL;
@@ -448,7 +453,6 @@ void EnGe2_WaitTillCardGiven(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// Same as EnGe3_GiveCard
 void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
@@ -458,7 +462,6 @@ void EnGe2_GiveCard(EnGe2* this, GlobalContext* globalCtx) {
     }
 }
 
-// Similar, but not identical, to EnGe3_ForceTalk
 void EnGe2_ForceTalk(EnGe2* this, GlobalContext* globalCtx) {
 
     if (func_8002F194(&this->actor, globalCtx)) {
@@ -480,23 +483,20 @@ void EnGe2_SetupCapturePlayer(EnGe2* this, GlobalContext* globalCtx) {
     func_8010B680(globalCtx, 0x6000, &this->actor);
 }
 
-// Same as EnGe3_MaintainCollider
 void EnGe2_MaintainColliderAndSetAnimState(EnGe2* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
 
     if ((!(this->stateFlags & GE2_STATE_ANIMCOMPLETE)) && SkelAnime_Update(&this->skelAnime)) {
         this->stateFlags |= GE2_STATE_ANIMCOMPLETE;
     }
 }
 
-// Same as EnGe3_MoveAndBlink
-void EnGe3_MoveAndBlink(EnGe2* this, GlobalContext* globalCtx) {
-
+void EnGe2_MoveAndBlink(EnGe2* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (DECR(this->blinkTimer) == 0) {
@@ -527,11 +527,11 @@ void EnGe2_UpdateFriendly(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->actor.textId = 0x6005;
 
-        if (this->actor.xzDistToLink < 100.0f) {
+        if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
     }
-    EnGe3_MoveAndBlink(this, globalCtx);
+    EnGe2_MoveAndBlink(this, globalCtx);
 }
 
 void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
@@ -540,7 +540,7 @@ void EnGe2_UpdateAfterTalk(Actor* thisx, GlobalContext* globalCtx) {
     this->stateFlags |= GE2_STATE_TALKED;
     EnGe2_MaintainColliderAndSetAnimState(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    EnGe3_MoveAndBlink(this, globalCtx);
+    EnGe2_MoveAndBlink(this, globalCtx);
 }
 
 void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -552,7 +552,7 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->stateFlags & GE2_STATE_KO) || (this->stateFlags & GE2_STATE_CAPTURING)) {
         this->actionFunc(this, globalCtx);
     } else if (this->collider.base.acFlags & 2) {
-        if ((this->collider.body.acHitItem != NULL) && (this->collider.body.acHitItem->toucher.flags & 0x80)) {
+        if ((this->collider.info.acHitInfo != NULL) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x80)) {
             func_8003426C(&this->actor, 0, 120, 0, 400);
             this->actor.update = EnGe2_UpdateStunned;
             return;
@@ -566,13 +566,14 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->actionFunc(this, globalCtx);
 
-        if (Ge2_DetectPlayerInUpdate(globalCtx, this, &this->actor.posRot2.pos, this->actor.shape.rot.y, this->yDetectRange)) {
+        if (Ge2_DetectPlayerInUpdate(globalCtx, this, &this->actor.focus.pos, this->actor.shape.rot.y,
+                                     this->yDetectRange)) {
             // Discovered!
             osSyncPrintf(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
             EnGe2_SetupCapturePlayer(this, globalCtx);
         }
 
-        if (((this->actor.params & 0xFF) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToLink < 100.0f)) {
+        if (((this->actor.params & 0xFF) == GE2_TYPE_STATIONARY) && (this->actor.xzDistToPlayer < 100.0f)) {
             // Discovered!
             osSyncPrintf(VT_FGCOL(GREEN) "発見!!!!!!!!!!!!\n" VT_RST);
             EnGe2_SetupCapturePlayer(this, globalCtx);
@@ -585,11 +586,11 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }
-    EnGe3_MoveAndBlink(this, globalCtx);
+    EnGe2_MoveAndBlink(this, globalCtx);
 
     if (EnGe2_CheckCarpentersFreed() && !(this->stateFlags & GE2_STATE_KO)) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.unk_1F = 6;
+        this->actor.targetMode = 6;
     }
 }
 
@@ -597,13 +598,13 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnGe2* this = THIS;
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    func_8002E4B4(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 40.0f, 25.0f, 40.0f, 5);
 
     if ((this->collider.base.acFlags & 2) &&
-        ((this->collider.body.acHitItem == NULL) || !(this->collider.body.acHitItem->toucher.flags & 0x80))) {
-        this->actor.dmgEffectTimer = 0;
+        ((this->collider.info.acHitInfo == NULL) || !(this->collider.info.acHitInfo->toucher.dmgFlags & 0x80))) {
+        this->actor.colorFilterTimer = 0;
         EnGe2_ChangeAction(this, GE2_ACTION_KNOCKEDOUT);
         this->timer = 100;
         this->stateFlags |= GE2_STATE_KO;
@@ -614,9 +615,9 @@ void EnGe2_UpdateStunned(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (EnGe2_CheckCarpentersFreed()) {
         this->actor.update = EnGe2_UpdateFriendly;
-        this->actor.unk_1F = 6;
-        this->actor.dmgEffectTimer = 0;
-    } else if (this->actor.dmgEffectTimer == 0) {
+        this->actor.targetMode = 6;
+        this->actor.colorFilterTimer = 0;
+    } else if (this->actor.colorFilterTimer == 0) {
         this->actor.update = EnGe2_Update;
     }
 }
@@ -636,24 +637,27 @@ void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnGe2* this = THIS;
 
     if (limbIndex == 6) {
-        Matrix_MultVec3f(&D_80A343B0, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&D_80A343B0, &this->actor.focus.pos);
     }
 }
 
+static u64* sEyeTextures[] = {
+    0x06004F78, // Half-open
+    0x06005578, // Quarter-open
+    0x06005BF8, // Closed
+};
+
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* sEyeTextures[] = {
-        0x06004F78, // Half-open
-        0x06005578, // Quarter-open
-        0x06005BF8, // Closed
-    };
     s32 pad;
     EnGe2* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge2.c", 1274);
+
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
     func_8002EBCC(&this->actor, globalCtx, 0);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe2_OverrideLimbDraw, EnGe2_PostLimbDraw, this);
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ge2.c", 1291);
 }

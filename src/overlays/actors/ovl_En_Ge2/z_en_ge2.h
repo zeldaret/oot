@@ -20,7 +20,7 @@ typedef struct EnGe2 {
     /* 0x02EE */ Vec3s unk_2EE;
     /* 0x02F4 */ u16 stateFlags;
     /* 0x02F6 */ s16 walkDirection;
-    /* 0x02F8 */ s16 yawTowardsLink;
+    /* 0x02F8 */ s16 yawTowardsPlayer;
     /* 0x02FC */ f32 yDetectRange;
     /* 0x0300 */ u16 walkDuration;
     /* 0x0302 */ u16 walkTimer;

@@ -6,6 +6,11 @@
 #include "ZAnimation.h"
 #include "ZSkeleton.h"
 #include "ZCollision.h"
+#include "ZScalar.h"
+#include "ZVector.h"
+#include "ZVtx.h"
+#include "ZCutscene.h"
+#include "ZArray.h"
 #include "Path.h"
 #include "File.h"
 #include "Directory.h"
@@ -35,7 +40,7 @@ ZFile::ZFile(string nOutPath, string nName) : ZFile()
 	name = nName;
 }
 
-ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPath, bool placeholderMode) : ZFile()
+ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPath, std::string filename, bool placeholderMode) : ZFile()
 {
 	if (nBasePath == "")
 		basePath = Directory::GetCurrentDirectory();
@@ -47,13 +52,41 @@ ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPa
 	else
 		outputPath = nOutPath;
 
-	ParseXML(mode, reader, placeholderMode);
+	ParseXML(mode, reader, filename, placeholderMode);
 }
 
-void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
+ZFile::~ZFile()
 {
-	name = reader->Attribute("Name");
+	for (ZResource* res : resources)
+		delete res;
+}
+
+void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, std::string filename, bool placeholderMode)
+{
+	if (filename == "")
+		name = reader->Attribute("Name");
+	else
+		name = filename;
+
 	int segment = -1;
+
+	// TODO: This should be a variable on the ZFile, but it is a large change in order to force all ZResource types to have a parent ZFile.
+	const char* gameStr = reader->Attribute("Game");
+	if (reader->Attribute("Game") != nullptr)
+	{
+		if (string(gameStr) == "MM")
+		{
+			Globals::Instance->game = ZGame::MM_RETAIL;
+		}
+		else if (string(gameStr) == "SW97" || string(gameStr) == "OOTSW97")
+		{
+			Globals::Instance->game = ZGame::OOT_SW97;
+		}
+		else
+		{
+			// TODO: Error here.
+		}
+	}
 
 	if (reader->Attribute("BaseAddress") != NULL)
 		baseAddress = (uint32_t)strtoul(StringHelper::Split(reader->Attribute("BaseAddress"), "0x")[1].c_str(), NULL, 16);
@@ -90,7 +123,8 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 		if (child->Attribute("Offset") != NULL)
 			rawDataIndex = strtol(StringHelper::Split(child->Attribute("Offset"), "0x")[1].c_str(), NULL, 16);
 
-		printf("%s: 0x%06X\n", child->Attribute("Name"), rawDataIndex);
+		if (Globals::Instance->verbosity >= VERBOSITY_INFO)
+			printf("%s: 0x%06X\n", child->Attribute("Name"), rawDataIndex);
 
 		if (string(child->Name()) == "Texture")
 		{
@@ -128,7 +162,7 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 			ZResource* dList = nullptr;
 
 			if (mode == ZFileMode::Extract)
-				dList = ZDisplayList::ExtractFromXML(child, rawData, rawDataIndex, ZDisplayList::GetDListLength(rawData, rawDataIndex), folderName);
+				dList = ZDisplayList::ExtractFromXML(child, rawData, rawDataIndex, ZDisplayList::GetDListLength(rawData, rawDataIndex, Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX), folderName);
 			//else
 				//dList = ZDisplayList::BuildFromXML(child, folderName, mode == ZFileMode::Build);
 			else
@@ -239,25 +273,98 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 
 			resources.push_back(res);
 		}
-		else if (string(child->Name()) == "Vec3s")
+		else if (string(child->Name()) == "Scalar")
 		{
-			
-		}
-		else if (string(child->Name()) == "Vec3f")
-		{
+			ZScalar* scalar = nullptr;
 
-		}
-		else if (string(child->Name()) == "Vec3i")
-		{
+			if (mode == ZFileMode::Extract)
+				scalar = ZScalar::ExtractFromXML(child, rawData, rawDataIndex, folderName);
 
-		}
-		else if (string(child->Name()) == "String")
-		{
+			if (scalar != nullptr)
+			{
+				scalar->parent = this;
+				resources.push_back(scalar);
 
+				rawDataIndex += scalar->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZScalar created!!");
+			}
+		}
+		else if (string(child->Name()) == "Vector")
+		{
+			ZVector* vector = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				vector = ZVector::ExtractFromXML(child, rawData, rawDataIndex, folderName);
+
+			if (vector != nullptr)
+			{
+				vector->parent = this;
+				resources.push_back(vector);
+
+				rawDataIndex += vector->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZVector created!!");
+			}
+		}
+		else if (string(child->Name()) == "Vtx")
+		{
+			ZVtx* vtx = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				vtx = ZVtx::ExtractFromXML(child, rawData, rawDataIndex, folderName);
+
+			if (vtx != nullptr)
+			{
+				vtx->parent = this;
+				resources.push_back(vtx);
+
+				rawDataIndex += vtx->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZVtx created!!");
+			}
+		}
+		else if (string(child->Name()) == "Cutscene")
+		{
+			ZCutscene* cs = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				cs = ZCutscene::ExtractFromXML(child, rawData, rawDataIndex, folderName);
+
+			if (cs != nullptr)
+			{
+				cs->parent = this;
+				resources.push_back(cs);
+				rawDataIndex += cs->GetRawDataSize();
+			}
+		}
+		else if (string(child->Name()) == "Array")
+		{
+			ZArray* array = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				array = ZArray::ExtractFromXML(child, rawData, rawDataIndex, folderName, this);
+
+			if (array != nullptr)
+			{
+				resources.push_back(array);
+				rawDataIndex += array->GetRawDataSize();
+			}
 		}
 		else
 		{
-			
+			std::cerr << "ERROR bad type\n";
+			printf("Encountered unknown resource type: %s on line: %d\n", child->Name(), child->GetLineNum());
+			std::exit(EXIT_FAILURE);
 		}
 	}
 }
@@ -310,6 +417,11 @@ std::string ZFile::GetVarName(int address)
 	return "";
 }
 
+std::string ZFile::GetName()
+{
+	return name;
+}
+
 void ZFile::ExtractResources(string outputDir)
 {
 	string folderName = Path::GetFileNameWithoutExtension(outputPath);
@@ -328,7 +440,9 @@ void ZFile::ExtractResources(string outputDir)
 
 	for (ZResource* res : resources)
 	{
-		printf("Saving resource %s\n", res->GetName().c_str());
+		if (Globals::Instance->verbosity >= VERBOSITY_INFO)
+			printf("Saving resource %s\n", res->GetName().c_str());
+		
 		res->CalcHash(); // TEST
 		res->Save(outputPath);
 	}
@@ -358,7 +472,7 @@ Declaration* ZFile::AddDeclaration(uint32_t address, DeclarationAlignment alignm
 	return decl;
 }
 
-void ZFile::AddDeclaration(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, string varType, string varName, std::string body)
+Declaration* ZFile::AddDeclaration(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, string varType, string varName, std::string body)
 {
 #if _DEBUG
 	if (declarations.find(address) != declarations.end())
@@ -370,9 +484,10 @@ void ZFile::AddDeclaration(uint32_t address, DeclarationAlignment alignment, Dec
 	AddDeclarationDebugChecks(address);
 
 	declarations[address] = new Declaration(alignment, padding, size, varType, varName, false, body);
+	return declarations[address];
 }
 
-void ZFile::AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, uint32_t size, std::string varType, std::string varName, int arrayItemCnt, std::string body)
+Declaration* ZFile::AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, uint32_t size, std::string varType, std::string varName, int arrayItemCnt, std::string body)
 {
 #if _DEBUG
 	if (declarations.find(address) != declarations.end())
@@ -384,10 +499,11 @@ void ZFile::AddDeclarationArray(uint32_t address, DeclarationAlignment alignment
 	AddDeclarationDebugChecks(address);
 
 	declarations[address] = new Declaration(alignment, size, varType, varName, true, arrayItemCnt, body);
+	return declarations[address];
 }
 
 
-void ZFile::AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, string varType, string varName, int arrayItemCnt, std::string body)
+Declaration* ZFile::AddDeclarationArray(uint32_t address, DeclarationAlignment alignment, DeclarationPadding padding, uint32_t size, string varType, string varName, int arrayItemCnt, std::string body)
 {
 #if _DEBUG
 	if (declarations.find(address) != declarations.end())
@@ -399,34 +515,41 @@ void ZFile::AddDeclarationArray(uint32_t address, DeclarationAlignment alignment
 	AddDeclarationDebugChecks(address);
 
 	declarations[address] = new Declaration(alignment, padding, size, varType, varName, true, arrayItemCnt, body);
+	return declarations[address];
 }
 
 
-void ZFile::AddDeclarationPlaceholder(uint32_t address)
+Declaration* ZFile::AddDeclarationPlaceholder(uint32_t address)
 {
 	AddDeclarationDebugChecks(address);
 
 	if (declarations.find(address) == declarations.end())
 		declarations[address] = new Declaration(DeclarationAlignment::None, 0, "", "", false, "");
+
+	return declarations[address];
 }
 
-void ZFile::AddDeclarationPlaceholder(uint32_t address, string varName)
+Declaration* ZFile::AddDeclarationPlaceholder(uint32_t address, string varName)
 {
 	AddDeclarationDebugChecks(address);
 
 	if (declarations.find(address) == declarations.end())
 		declarations[address] = new Declaration(DeclarationAlignment::None, 0, "", varName, false, "");
+
+	return declarations[address];
 }
 
-void ZFile::AddDeclarationInclude(uint32_t address, string includePath, uint32_t size, string varType, string varName)
+Declaration* ZFile::AddDeclarationInclude(uint32_t address, string includePath, uint32_t size, string varType, string varName)
 {
 	AddDeclarationDebugChecks(address);
 
 	if (declarations.find(address) == declarations.end())
 		declarations[address] = new Declaration(includePath, size, varType, varName);
+
+	return declarations[address];
 }
 
-void ZFile::AddDeclarationIncludeArray(uint32_t address, std::string includePath, uint32_t size, std::string varType, std::string varName, int arrayItemCnt)
+Declaration* ZFile::AddDeclarationIncludeArray(uint32_t address, std::string includePath, uint32_t size, std::string varType, std::string varName, int arrayItemCnt)
 {
 #if _DEBUG
 	if (declarations.find(address) != declarations.end())
@@ -443,12 +566,13 @@ void ZFile::AddDeclarationIncludeArray(uint32_t address, std::string includePath
 	decl->arrayItemCnt = arrayItemCnt;
 
 	declarations[address] = decl;
+	return declarations[address];
 }
 
 void ZFile::AddDeclarationDebugChecks(uint32_t address)
 {
 #ifdef _DEBUG
-	if (address == 0xB888E0)
+	if (address == 0x5600)
 	{
 		int bp = 0;
 	}
@@ -480,13 +604,22 @@ Declaration* ZFile::GetDeclarationRanged(uint32_t address)
 {
 	for (const auto decl : declarations)
 	{
-		if (address >= decl.first && address <= decl.first + decl.second->size)
-		{
+		if (address >= decl.first && address < decl.first + decl.second->size)
 			return decl.second;
-		}
 	}
 
 	return nullptr;
+}
+
+uint32_t ZFile::GetDeclarationRangedAddress(uint32_t address)
+{
+	for (const auto decl : declarations)
+	{
+		if (address >= decl.first && address < decl.first + decl.second->size)
+			return decl.first;
+	}
+
+	return 0xFFFFFFFF;
 }
 
 bool ZFile::HasDeclaration(uint32_t address)
@@ -621,8 +754,44 @@ string ZFile::ProcessDeclarations()
 
 	// Account for padding/alignment
 	int lastAddr = 0;
+	int lastSize = 0;
 
 	//printf("RANGE START: 0x%06X - RANGE END: 0x%06X\n", rangeStart, rangeEnd);
+
+	// Optimization: See if there are any arrays side by side that can be merged...
+	//pair<int32_t, Declaration*> lastItem = declarationKeysSorted[0];
+
+	//for (int i = 1; i < declarationKeysSorted.size(); i++)
+	//{
+	//	pair<int32_t, Declaration*> curItem = declarationKeysSorted[i];
+
+	//	if (curItem.second->isArray && lastItem.second->isArray)
+	//	{
+	//		if (curItem.second->varType == lastItem.second->varType)
+	//		{
+	//			// TEST: For now just do Vtx declarations...
+	//			if (lastItem.second->varType == "static Vtx")
+	//			{
+	//				lastItem.second->size += curItem.second->size;
+	//				lastItem.second->arrayItemCnt += curItem.second->arrayItemCnt;
+	//				lastItem.second->text += "\n" + curItem.second->text;
+	//				declarations.erase(curItem.first);
+	//				declarationKeysSorted.erase(declarationKeysSorted.begin() + i);
+	//				i--;
+	//				continue;
+
+	//				int bp = 0;
+	//			}
+	//		}
+	//	}
+
+	//	lastItem = curItem;
+	//}
+
+	for (pair<int32_t, Declaration*> item : declarations)
+	{
+		ProcessDeclarationText(item.second);
+	}
 
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
@@ -707,45 +876,47 @@ string ZFile::ProcessDeclarations()
 
 	// Handle unaccounted data
 	lastAddr = 0;
+	lastSize = 0;
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
-		if (lastAddr != 0 && item.first >= rangeStart && item.first < rangeEnd)
+		if (item.first >= rangeStart && item.first < rangeEnd)
 		{
-			if (lastAddr + declarations[lastAddr]->size > item.first)
+			if (lastAddr != 0 && declarations.find(lastAddr) != declarations.end() && lastAddr + declarations[lastAddr]->size > item.first)
 			{
-				// UH OH!
-				int bp = 0;
+				printf("WARNING: Intersection detected from 0x%06X:0x%06X, conflicts with 0x%06X\n", lastAddr, lastAddr + declarations[lastAddr]->size, item.first);
 			}
 
 			uint8_t* rawDataArr = rawData.data();
 
-			if (lastAddr + declarations[lastAddr]->size != item.first)
+			if (lastAddr + lastSize != item.first && lastAddr >= rangeStart && lastAddr + lastSize < rangeEnd)
 			{
-				int diff = item.first - (lastAddr + declarations[lastAddr]->size);
+				//int diff = item.first - (lastAddr + declarations[lastAddr]->size);
+				int diff = item.first - (lastAddr + lastSize);
 
 				string src = "    ";
 
-
 				for (int i = 0; i < diff; i++)
 				{
-					src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + declarations[lastAddr]->size + i]);
+					//src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + declarations[lastAddr]->size + i]);
+					src += StringHelper::Sprintf("0x%02X, ", rawDataArr[lastAddr + lastSize + i]);
 
 					if ((i % 16 == 15) && (i != (diff - 1)))
 						src += "\n    ";
 				}
 
-				if (declarations.find(lastAddr + declarations[lastAddr]->size) == declarations.end())
+				if (declarations.find(lastAddr + lastSize) == declarations.end())
 				{
 					if (diff > 0)
 					{
-						AddDeclarationArray(lastAddr + declarations[lastAddr]->size, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + declarations[lastAddr]->size),
-							diff, src);
+						//AddDeclarationArray(lastAddr + declarations[lastAddr]->size, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + declarations[lastAddr]->size), diff, src);
+						AddDeclarationArray(lastAddr + lastSize, DeclarationAlignment::None, diff, "static u8", StringHelper::Sprintf("unaccounted_%06X", lastAddr + lastSize), diff, src);
 					}
 				}
 			}
 		}
 
 		lastAddr = item.first;
+		lastSize = item.second->size;
 	}
 
 	// TODO: THIS CONTAINS REDUNDANCIES. CLEAN THIS UP!
@@ -780,6 +951,30 @@ string ZFile::ProcessDeclarations()
 		return lhs.first < rhs.first;
 	});
 
+	// First, handle the prototypes (static only for now)
+	int protoCnt = 0;
+	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
+	{
+		if (item.second->includePath == "" && StringHelper::StartsWith(item.second->varType, "static ") && !StringHelper::StartsWith(item.second->varName, "unaccounted_"))
+		{
+			if (item.second->isArray)
+			{
+				if (item.second->arrayItemCnt == 0)
+					output += StringHelper::Sprintf("%s %s[];\n", item.second->varType.c_str(), item.second->varName.c_str());
+				else
+					output += StringHelper::Sprintf("%s %s[%i];\n", item.second->varType.c_str(), item.second->varName.c_str(), item.second->arrayItemCnt);
+			}
+			else
+				output += StringHelper::Sprintf("%s %s;\n", item.second->varType.c_str(), item.second->varName.c_str());
+
+			protoCnt++;
+		}
+	}
+
+	if (protoCnt > 0)
+		output += "\n";
+
+	// Next, output the actual declarations
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
 		if (item.second->includePath != "")
@@ -824,6 +1019,54 @@ string ZFile::ProcessDeclarations()
 	return output;
 }
 
+void ZFile::ProcessDeclarationText(Declaration* decl)
+{
+	int refIndex = 0;
+
+	if (decl->references.size() > 0)
+	{
+		for (int i = 0; i < decl->text.size() - 1; i++)
+		{
+			char c = decl->text[i];
+			char c2 = decl->text[i + 1];
+
+			if (c == '@' && c2 == 'r')
+			{
+				if (refIndex >= decl->references.size())
+					break;
+
+				Declaration* refDecl = GetDeclarationRanged(decl->references[refIndex]);
+				uint32_t refDeclAddr = GetDeclarationRangedAddress(decl->references[refIndex]);
+
+				if (refDecl != nullptr)
+				{
+					if (refDecl->isArray)
+					{
+						if (refDecl->arrayItemCnt != 0)
+						{
+							int itemSize = refDecl->size / refDecl->arrayItemCnt;
+							int itemIndex = (decl->references[refIndex] - refDeclAddr) / itemSize;
+
+							decl->text.replace(i, 2, StringHelper::Sprintf("&%s[%i]", refDecl->varName.c_str(), itemIndex));
+						}
+						else
+						{
+							decl->text.replace(i, 2, StringHelper::Sprintf("ERROR ARRAYITEMCNT = 0"));
+						}
+					}
+					else
+					{
+						decl->text.replace(i, 2, refDecl->varName);
+					}
+				}
+				else
+					decl->text.replace(i, 2, "ERROR");
+
+				refIndex++;
+			}
+		}
+	}
+}
 
 string ZFile::ProcessExterns()
 {

@@ -1,6 +1,5 @@
 #include "z_oceff_wipe4.h"
-
-extern u8 D_04032C90[];
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 static u32 tex0[] = {
     0x00061507, 0x00000000, 0x295a2b08, 0x10030f03, 0x0d070006, 0x00031625, 0x3f230012, 0x79590000, 0x00102c2a,
@@ -76,29 +75,29 @@ static Vtx vertices[] = {
     VTX(143, -46, 0, 410, 1024, 0xFF, 0xFF, 0xFF, 0x00),   VTX(243, -176, 1000, 307, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-static Gfx sTextureDL0[] = {
+static Gfx sTexture0DL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(D_04032C90, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadMultiBlock(gEffUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                        G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 15),
     gsDPSetPrimColor(0x00, 0x00, 170, 255, 255, 255),
     gsDPSetEnvColor(0, 150, 0, 128),
     gsSPEndDisplayList(),
 };
 
-static Gfx sTextureDL1[] = {
+static Gfx sTexture1DL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(D_04032C90, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadMultiBlock(gEffUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                        G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 0),
     gsDPSetPrimColor(0x00, 0x00, 255, 170, 255, 255),
     gsDPSetEnvColor(120, 0, 100, 128),
     gsSPEndDisplayList(),
 };
 
-static Gfx sTextureDL2[] = {
+static Gfx sTexture2DL[] = {
     gsDPPipeSync(),
     gsDPLoadTextureBlock(tex0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                          G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 6, 14, 1),

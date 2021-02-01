@@ -11,7 +11,7 @@ glabel func_80A1AF6C
 /* 005F0 80A1AF90 27B8002C */  addiu   $t8, $sp, 0x002C           ## $t8 = FFFFFFFC
 /* 005F4 80A1AF94 AFB80014 */  sw      $t8, 0x0014($sp)           
 /* 005F8 80A1AF98 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 005FC 80A1AF9C 0C010891 */  jal     func_80042244              
+/* 005FC 80A1AF9C 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 00600 80A1AFA0 24A507C0 */  addiu   $a1, $a1, 0x07C0           ## $a1 = 000007C0
 /* 00604 80A1AFA4 5040000E */  beql    $v0, $zero, .L80A1AFE0     
 /* 00608 80A1AFA8 8FBF0024 */  lw      $ra, 0x0024($sp)           

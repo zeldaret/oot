@@ -10,7 +10,7 @@ glabel func_808ACAFC
 /* 004B8 808ACB18 91C5016B */  lbu     $a1, 0x016B($t6)           ## 0000016B
 /* 004BC 808ACB1C 1040000A */  beq     $v0, $zero, .L808ACB48     
 /* 004C0 808ACB20 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 004C4 808ACB24 0C00B56E */  jal     Actor_SetHeight
+/* 004C4 808ACB24 0C00B56E */  jal     Actor_SetFocus
               
 /* 004C8 808ACB28 3C054270 */  lui     $a1, 0x4270                ## $a1 = 42700000
 /* 004CC 808ACB2C 8FA4001C */  lw      $a0, 0x001C($sp)           

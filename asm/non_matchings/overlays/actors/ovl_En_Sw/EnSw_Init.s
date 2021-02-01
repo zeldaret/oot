@@ -115,7 +115,7 @@ glabel EnSw_Init
 /* 008E4 80B0C694 3C0680B1 */  lui     $a2, %hi(D_80B0F074)       ## $a2 = 80B10000
 /* 008E8 80B0C698 24C6F074 */  addiu   $a2, $a2, %lo(D_80B0F074)  ## $a2 = 80B0F074
 /* 008EC 80B0C69C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 008F0 80B0C6A0 0C0187BF */  jal     func_80061EFC              
+/* 008F0 80B0C6A0 0C0187BF */  jal     CollisionCheck_SetInfo2              
 /* 008F4 80B0C6A4 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 008F8 80B0C6A8 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C
 /* 008FC 80B0C6AC 3C0180B1 */  lui     $at, %hi(D_80B0F208)       ## $at = 80B10000
@@ -277,7 +277,7 @@ glabel EnSw_Init
 .L80B0C8E8:
 /* 00B38 80B0C8E8 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 00B3C 80B0C8EC 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00B40 80B0C8F0 0C00CDD2 */  jal     Actor_ChangeType
+/* 00B40 80B0C8F0 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00B44 80B0C8F4 24070005 */  addiu   $a3, $zero, 0x0005         ## $a3 = 00000005
 /* 00B48 80B0C8F8 240F001F */  addiu   $t7, $zero, 0x001F         ## $t7 = 0000001F
