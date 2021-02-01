@@ -239,8 +239,8 @@ void BgYdanSp_FloorWebBroken(BgYdanSp* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanSp_FloorWebBreaking(BgYdanSp* this, GlobalContext* globalCtx) {
-    static Color_RGBA8 primColor = { 250, 250, 250, 255 }; // prim color
-    static Color_RGBA8 envColor = { 180, 180, 180, 255 };  // env color
+    static Color_RGBA8 primColor = { 250, 250, 250, 255 };
+    static Color_RGBA8 envColor = { 180, 180, 180, 255 };
     static Vec3f zeroVec = { 0 };
     s32 i;
     Vec3f pos;
