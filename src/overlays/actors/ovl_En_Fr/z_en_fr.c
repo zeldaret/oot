@@ -27,7 +27,7 @@ void EnFr_Activate(EnFr* this, GlobalContext* globalCtx);
 void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx);
 
 // Listening for Child Songs
-void EnFr_SetupAnimation(EnFr* this, GlobalContext* globalCtx);
+void func_80A1BE98(EnFr* this, GlobalContext* globalCtx);
 void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx);
 void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx);
 void EnFr_ChildSongFirstTime(EnFr* this, GlobalContext* globalCtx);
@@ -655,12 +655,12 @@ void EnFr_ActivateCheckFrogSong(EnFr* this, GlobalContext* globalCtx) {
             func_8010B680(globalCtx, 0x40AB, &this->actor);
         } else {
             this->songIndex = FROG_ZL;
-            this->actionFunc = EnFr_SetupAnimation;
+            this->actionFunc = func_80A1BE98;
         }
     }
 }
 
-void EnFr_SetupAnimation(EnFr* this, GlobalContext* globalCtx) {
+void func_80A1BE98(EnFr* this, GlobalContext* globalCtx) {
     EnFr* frog;
     s32 frogIndex;
 
@@ -732,7 +732,6 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
 
     if (this->jumpCounter < 48) {
         if (this->jumpCounter % 4 == 0) {
-            // 1, 2, 3, 4, 5, 6, 7, 0, 1, 2, 3 (11 celebratory jumps)
             EnFr_SetupJumpingUp(this, sJumpOrder[(this->jumpCounter >> 2) & 7]);
         }
     } else {
@@ -740,7 +739,7 @@ void EnFr_ChildSong(EnFr* this, GlobalContext* globalCtx) {
         if (songIndex == FROG_STORMS) {
             this->actor.textId = 0x40AA;
             EnFr_SetupReward(this, globalCtx, false);
-        } else if ((gSaveContext.eventChkInf[13] & sSongIndex[songIndex]) == 0) {
+        } else if (!(gSaveContext.eventChkInf[13] & sSongIndex[songIndex])) {
             frog = sEnFrPointers.frogs[sSongToFrog[songIndex]];
             func_80078884(NA_SE_SY_CORRECT_CHIME);
             if (frog->actionFunc == EnFr_ChooseJumpFromLogSpot) {
@@ -813,7 +812,7 @@ void EnFr_DeactivateButterfly() {
 }
 
 u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
-    if ((gSaveContext.eventChkInf[13] & 1) == 0) {
+    if (!(gSaveContext.eventChkInf[13] & 1)) {
         return gFrogsSongPtr[ocarinaNoteIndex];
     } else {
         return sOcarinaNotes[(s32)Rand_ZeroFloat(60.0f) % 5];
