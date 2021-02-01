@@ -461,38 +461,38 @@ temp_f0)) { if (temp_f0 < phi_f20) { phi_f20 = temp_f0; phi_f22 = phi_f20; phi_s
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44B14.s")
 s16 func_80B44B14(Vec3f* pos, s16 arg1, s16 arg2, GlobalContext* globalCtx) {
-    s16 curIndex = 7;
+    s16 loopIndex = 7;
     s16 minIndex = 0;
     Player* player = PLAYER;
     s16 temp_fp = func_80B446A8(&player->actor.world.pos, -1);
-    f32 phi_f24 = 500.0f;
-    f32 phi_f20 = 99998.0f;
-    f32 phi_f22 = 99999.0f;
+    f32 minRange = 500.0f;
+    f32 smallMaxRange = 99998.0f;
+    f32 largeMaxRange = 99999.0f;
     s16 phi_s2 = arg1;
     s16 phi_s3 = arg2;
 
     // Upstairs
     if (pos->y > 200.0f) {
-        curIndex = 23;
+        loopIndex = 23;
         minIndex = 8;
-        phi_f24 = 290.0f;
+        minRange = 290.0f;
     }
 
-    for (; curIndex >= minIndex; curIndex--) {
-        if (phi_f24 < Math_Vec3f_DistXYZ(pos, &D_80B4A090[curIndex])) {
+    for (; loopIndex >= minIndex; loopIndex--) {
+        if (minRange < Math_Vec3f_DistXYZ(pos, &D_80B4A090[loopIndex])) {
             continue;
         }
-        if (curIndex != temp_fp) {
-            f32 curPlatformDistToPlayer = Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[curIndex]);
+        if (loopIndex != temp_fp) {
+            f32 curPlatformDistToPlayer = Math_Vec3f_DistXYZ(&player->actor.world.pos, &D_80B4A090[loopIndex]);
 
-            if (curPlatformDistToPlayer < phi_f20) {
-                phi_f22 = phi_f20;
+            if (curPlatformDistToPlayer < smallMaxRange) {
+                largeMaxRange = smallMaxRange;
                 phi_s3 = phi_s2;
-                phi_f20 = curPlatformDistToPlayer;
-                phi_s2 = curIndex;
-            } else if (curPlatformDistToPlayer < phi_f22) {
-                phi_f22 = curPlatformDistToPlayer;
-                phi_s3 = curIndex;
+                smallMaxRange = curPlatformDistToPlayer;
+                phi_s2 = loopIndex;
+            } else if (curPlatformDistToPlayer < largeMaxRange) {
+                largeMaxRange = curPlatformDistToPlayer;
+                phi_s3 = loopIndex;
             }
         } else {
             phi_s2 = temp_fp;
