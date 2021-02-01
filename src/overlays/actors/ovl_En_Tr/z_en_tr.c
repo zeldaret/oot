@@ -169,8 +169,8 @@ void EnTr_ChooseAction2(EnTr* this, GlobalContext* globalCtx) {
                     this->animation = D_80B24378[this->actor.params];
                     this->timer = 39;
                     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K,
-                                       this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0,
-                                       0, 0, this->actor.params + 9);
+                                       this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0,
+                                       0, this->actor.params + 9);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC1);
                     break;
 

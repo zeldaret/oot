@@ -13,7 +13,7 @@ typedef void (*EnDnsSetRupeesAndFlags)(struct EnDns*);
 typedef struct {
     /* 0x00 */ s16 itemPrice;
     /* 0x02 */ u16 itemAmount;
-    /* 0x04 */ s32 getItemID;
+    /* 0x04 */ s32 getItemId;
     /* 0x08 */ EnDnsPurchaseableCheck purchaseableCheck;
     /* 0x0C */ EnDnsSetRupeesAndFlags setRupeesAndFlags;
 } DnsItemEntry; // size = 0x10
