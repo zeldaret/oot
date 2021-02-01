@@ -1,6 +1,22 @@
 <Root>
     <File Name="ganontika_scene">
-        <Scene Name="ganontika_scene"/>
+        <Scene Name="ganontika_scene">
+            <CutsceneHint Name="gForestTrialSageCs" Offset="0x19EE0"/>
+            <CutsceneHint Name="gWaterTrialSageCs" Offset="0x1A8E0"/>
+            <CutsceneHint Name="gShadowTrialSageCs" Offset="0x1B2B0"/>
+            <CutsceneHint Name="gFireTrialSageCs" Offset="0x1BC80"/>
+            <CutsceneHint Name="gLightTrialSageCs" Offset="0x1C6B0"/>
+            <CutsceneHint Name="gSpiritTrialSageCs" Offset="0x1D080"/>
+            
+            <CutsceneHint Name="gTowerBarrierCs" Offset="0x1DA50"/>
+
+            <CutsceneHint Name="gLightBarrierCs" Offset="0x1DF90"/>
+            <CutsceneHint Name="gFireBarrierCs" Offset="0x1E3E0"/>
+            <CutsceneHint Name="gForestBarrierCs" Offset="0x1E790"/>
+            <CutsceneHint Name="gSpiritBarrierCs" Offset="0x1EB40"/>
+            <CutsceneHint Name="gWaterBarrierCs" Offset="0x1EF70"/>
+            <CutsceneHint Name="gShadowBarrierCs" Offset="0x21380"/>
+        </Scene>
     </File>
     <File Name="ganontika_room_0">
         <Room Name="ganontika_room_0"/>
