@@ -1,4 +1,5 @@
 #include "z_en_ossan.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000019
 
@@ -8,9 +9,6 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Update(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0400CDC0;
-extern UNK_TYPE D_0400CE40;
-extern UNK_TYPE D_0400CF40;
 extern UNK_TYPE D_060000F0;
 extern UNK_TYPE D_060000FC;
 extern UNK_TYPE D_060002E4;

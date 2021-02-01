@@ -1,4 +1,5 @@
 #include "global.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 typedef struct {
     /* 0x00 */ s16 drawType; // indicates which draw function to use when displaying the object
@@ -16,12 +17,8 @@ static DebugDispObject_DrawFunc sDebugObjectDrawFuncTable[] = {
 };
 
 static DebugDispObjectInfo sDebugObjectInfoTable[] = {
-    { 0, 0x040035F0 }, // Circle
-    { 0, 0x040038F0 }, // Cross
-    { 0, 0x040036F0 }, // Ball
-    { 0, 0x040037F0 }, // Cursor
-    { 1, 0x040039F0 }, // Arrow
-    { 1, 0x04003C90 }, // Camera
+    { 0, gDebugCircleTex }, { 0, gDebugCrossTex }, { 0, gDebugBallTex },
+    { 0, gDebugCursorTex }, { 1, gDebugArrowDL },  { 1, gDebugCameraDL },
 };
 
 static Lights1 sDebugObjectLights = gdSPDefLights1(0x80, 0x80, 0x80, 0xFF, 0xFF, 0xFF, 0x49, 0x49, 0x49);
@@ -86,7 +83,7 @@ void DebugDisplay_DrawSpriteI8(DebugDispObject* dispObj, u32 texture, GlobalCont
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_debug_display.c", 189),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &D_04004298);
+    gSPDisplayList(POLY_XLU_DISP++, &gDebugSpriteDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_debug_display.c", 192);
 }

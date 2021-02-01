@@ -1,4 +1,5 @@
 #include "global.h"
+#include "textures/parameter_static/parameter_static.h"
 
 /*
  * These are the colors for the hearts in the interface. The prim color is the red color of the heart
@@ -256,15 +257,23 @@ s32 func_80078E84(GlobalContext* globalCtx) {
     return 0;
 }
 
+u64* sHeartTextures[] = {
+    gHUDHeartFullTex,         gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartQuarterTex,
+    gHUDHeartQuarterTex,      gHUDHeartQuarterTex,      gHUDHeartHalfTex,         gHUDHeartHalfTex,
+    gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartHalfTex,         gHUDHeartThreeQuarterTex,
+    gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex, gHUDHeartThreeQuarterTex,
+};
+
+u64* sDDHeartTextures[] = {
+    gHUDDefenseHeartFullTex,         gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
+    gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,      gHUDDefenseHeartQuarterTex,
+    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,
+    gHUDDefenseHeartHalfTex,         gHUDDefenseHeartHalfTex,         gHUDDefenseHeartThreeQuarterTex,
+    gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex, gHUDDefenseHeartThreeQuarterTex,
+    gHUDDefenseHeartThreeQuarterTex,
+};
+
 void HealthMeter_Draw(GlobalContext* globalCtx) {
-    static UNK_PTR sHeartTextures[] = {
-        0x02000400, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000100, 0x02000200, 0x02000200,
-        0x02000200, 0x02000200, 0x02000200, 0x02000300, 0x02000300, 0x02000300, 0x02000300, 0x02000300,
-    };
-    static UNK_PTR sDDHeartTextures[] = {
-        0x02000900, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000600, 0x02000700, 0x02000700,
-        0x02000700, 0x02000700, 0x02000700, 0x02000800, 0x02000800, 0x02000800, 0x02000800, 0x02000800,
-    };
     s32 pad[5];
     UNK_PTR heartBgImg;
     u32 curColorSet;

@@ -413,7 +413,8 @@ typedef enum {
     /* 0x6A */ SCENE_SUTARU,
     /* 0x6B */ SCENE_HAIRAL_NIWA2,
     /* 0x6C */ SCENE_SASATEST,
-    /* 0x6D */ SCENE_TESTROOM
+    /* 0x6D */ SCENE_TESTROOM,
+    /* 0x6E */ SCENE_ID_MAX
 } SceneID;
 
 #endif

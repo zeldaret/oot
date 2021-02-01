@@ -5,6 +5,7 @@
  */
 
 #include "z_en_arrow.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -56,11 +57,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(minVelocityY, 65386, ICHAIN_STOP),
 };
 
-extern SkeletonHeader D_04006010;
-extern AnimationHeader D_0400436C;
-extern AnimationHeader D_04004310;
-extern Gfx D_04037880[];
-
 void EnArrow_SetupAction(EnArrow* this, EnArrowActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -98,7 +94,7 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.params <= ARROW_SEED) {
 
         if (this->actor.params <= ARROW_0E) {
-            SkelAnime_Init(globalCtx, &this->skelAnime, &D_04006010, &D_0400436C, NULL, NULL, 0);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &gArrowSkel, &gArrow2Anim, NULL, NULL, 0);
         }
 
         if (this->actor.params <= ARROW_NORMAL) {
@@ -201,7 +197,7 @@ void EnArrow_Shoot(EnArrow* this, GlobalContext* globalCtx) {
 
 void func_809B3CEC(GlobalContext* globalCtx, EnArrow* this) {
     EnArrow_SetupAction(this, func_809B4640);
-    Animation_PlayOnce(&this->skelAnime, &D_04004310);
+    Animation_PlayOnce(&this->skelAnime, &gArrow1Anim);
     this->actor.world.rot.y += (s32)(24576.0f * (Rand_ZeroOne() - 0.5f)) + 0x8000;
     this->actor.velocity.y += (this->actor.speedXZ * (0.4f + (0.4f * Rand_ZeroOne())));
     this->actor.speedXZ *= (0.04f + 0.3f * Rand_ZeroOne());
@@ -317,7 +313,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
                 }
             } else if (this->touchedPoly) {
                 EnArrow_SetupAction(this, func_809B45E0);
-                Animation_PlayOnce(&this->skelAnime, &D_0400436C);
+                Animation_PlayOnce(&this->skelAnime, &gArrow2Anim);
  
                 if (this->actor.params >= ARROW_NORMAL_LIT) {
                     this->timer = 60;
@@ -491,7 +487,7 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1374),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_04037880);
+        gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
         Matrix_Pull();
         Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768), MTXMODE_APPLY);
 
