@@ -3578,7 +3578,8 @@ endseg
 beginseg
     name "object_wallmaster"
     romalign 0x1000
-    include "build/baserom/object_wallmaster.o"
+    include "build/assets/objects/object_wallmaster/object_wallmaster.o"
+    number 6
 endseg
 
 beginseg
