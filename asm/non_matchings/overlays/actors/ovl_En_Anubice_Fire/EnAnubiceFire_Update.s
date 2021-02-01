@@ -62,7 +62,7 @@ glabel EnAnubiceFire_Update
 /* 00820 809B2DC0 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 00824 809B2DC4 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00828 809B2DC8 AFAC0014 */  sw      $t4, 0x0014($sp)           
-/* 0082C 809B2DCC 0C00B92D */  jal     func_8002E4B4              
+/* 0082C 809B2DCC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00830 809B2DD0 AFA8002C */  sw      $t0, 0x002C($sp)           
 /* 00834 809B2DD4 3C01809B */  lui     $at, %hi(D_809B32E8)       ## $at = 809B0000
 /* 00838 809B2DD8 C42632E8 */  lwc1    $f6, %lo(D_809B32E8)($at)  
@@ -100,7 +100,7 @@ glabel EnAnubiceFire_Update
 /* 008B8 809B2E58 44189000 */  mfc1    $t8, $f18                  
 /* 008BC 809B2E5C 1120000E */  beq     $t1, $zero, .L809B2E98     
 /* 008C0 809B2E60 A61801EC */  sh      $t8, 0x01EC($s0)           ## 000001EC
-/* 008C4 809B2E64 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 008C4 809B2E64 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 008C8 809B2E68 AFA50028 */  sw      $a1, 0x0028($sp)           
 /* 008CC 809B2E6C 8FA4004C */  lw      $a0, 0x004C($sp)           
@@ -120,7 +120,7 @@ glabel EnAnubiceFire_Update
 /* 008F8 809B2E98 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 008FC 809B2E9C 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 00900 809B2EA0 3C0641F0 */  lui     $a2, 0x41F0                ## $a2 = 41F00000
-/* 00904 809B2EA4 0C00F8C3 */  jal     func_8003E30C              
+/* 00904 809B2EA4 0C00F8C3 */  jal     BgCheck_SphVsFirstPoly              
 /* 00908 809B2EA8 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 0090C 809B2EAC 5040000B */  beql    $v0, $zero, .L809B2EDC     
 /* 00910 809B2EB0 8FBF0024 */  lw      $ra, 0x0024($sp)           

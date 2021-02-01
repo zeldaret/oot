@@ -6,6 +6,7 @@
 
 #include "z_en_kusa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x00800010
@@ -41,7 +42,7 @@ s16 D_80A9C1DC = 0;
 
 const ActorInit En_Kusa_InitVars = {
     ACTOR_EN_KUSA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnKusa),
@@ -54,12 +55,26 @@ const ActorInit En_Kusa_InitVars = {
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_FIELD_KEEP, OBJECT_KUSA, OBJECT_KUSA };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x29, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4FC00758, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER | OC1_TYPE_2,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x4FC00758, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 12, 44, 0, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, 0xFF };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 30, MASS_IMMOVABLE };
 
 static Vec3f D_80A9C23C[] = {
     { 0.0f, 0.7071f, 0.7071f },
@@ -77,8 +92,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_060002E0[];
-extern Gfx D_040355E0[]; // bush fragments 1
-extern Gfx D_040356A0[]; // bush fragments 2
 
 void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
     this->timer = 0;
@@ -87,20 +100,20 @@ void EnKusa_SetupAction(EnKusa* this, EnKusaActionFunc actionFunc) {
 
 s32 EnKusa_SnapToFloor(EnKusa* this, GlobalContext* globalCtx, f32 yOffset) {
     s32 pad;
-    CollisionPoly* sp28;
+    CollisionPoly* poly;
     Vec3f pos;
-    UNK_TYPE sp24;
+    s32 bgId;
     f32 floorY;
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y + 30.0f;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y + 30.0f;
+    pos.z = this->actor.world.pos.z;
 
-    floorY = func_8003C9A4(&globalCtx->colCtx, &sp28, &sp24, &this->actor, &pos);
+    floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &poly, &bgId, &this->actor, &pos);
 
-    if (floorY > -32000.0f) {
-        this->actor.posRot.pos.y = floorY + yOffset;
-        Math_Vec3f_Copy(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+    if (floorY > BGCHECK_Y_MIN) {
+        this->actor.world.pos.y = floorY + yOffset;
+        Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
         return true;
     } else {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
@@ -122,13 +135,13 @@ void EnKusa_DropCollectible(EnKusa* this, GlobalContext* globalCtx) {
             if (dropParams >= 0xD) {
                 dropParams = 0;
             }
-            Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.posRot.pos, dropParams << 4);
+            Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, dropParams << 4);
             break;
         case 1:
             if (Rand_ZeroOne() < 0.5f) {
-                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ITEM00_SEEDS);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_SEEDS);
             } else {
-                Item_DropCollectible(globalCtx, &this->actor.posRot.pos, ITEM00_HEART);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos, ITEM00_HEART);
             }
             break;
     }
@@ -166,9 +179,9 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(D_80A9C23C); i++) {
         scale = &D_80A9C23C[i];
 
-        pos.x = this->actor.posRot.pos.x + (scale->x * this->actor.scale.x * 20.0f);
-        pos.y = this->actor.posRot.pos.y + (scale->y * this->actor.scale.y * 20.0f) + 10.0f;
-        pos.z = this->actor.posRot.pos.z + (scale->z * this->actor.scale.z * 20.0f);
+        pos.x = this->actor.world.pos.x + (scale->x * this->actor.scale.x * 20.0f);
+        pos.y = this->actor.world.pos.y + (scale->y * this->actor.scale.y * 20.0f) + 10.0f;
+        pos.z = this->actor.world.pos.z + (scale->z * this->actor.scale.z * 20.0f);
 
         velocity.x = (Rand_ZeroOne() - 0.5f) * 8.0f;
         velocity.y = Rand_ZeroOne() * 10.0f;
@@ -177,11 +190,11 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         index = (s32)(Rand_ZeroOne() * 111.1f) & 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040355E0);
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubStalkDL);
 
-        pos.x = this->actor.posRot.pos.x + (scale->x * this->actor.scale.x * 40.0f);
-        pos.y = this->actor.posRot.pos.y + (scale->y * this->actor.scale.y * 40.0f) + 10.0f;
-        pos.z = this->actor.posRot.pos.z + (scale->z * this->actor.scale.z * 40.0f);
+        pos.x = this->actor.world.pos.x + (scale->x * this->actor.scale.x * 40.0f);
+        pos.y = this->actor.world.pos.y + (scale->y * this->actor.scale.y * 40.0f) + 10.0f;
+        pos.z = this->actor.world.pos.z + (scale->z * this->actor.scale.z * 40.0f);
 
         velocity.x = (Rand_ZeroOne() - 0.5f) * 6.0f;
         velocity.y = Rand_ZeroOne() * 10.0f;
@@ -190,7 +203,7 @@ void EnKusa_SpawnFragments(EnKusa* this, GlobalContext* globalCtx) {
         index = (s32)(Rand_ZeroOne() * 111.1f) % 7;
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -100, 64, 40, 3, 0, D_80A9C26C[index], 0, 0, 80,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, D_040356A0);
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_KEEP, gCuttableShrubTipDL);
     }
 }
 
@@ -198,8 +211,8 @@ void EnKusa_SpawnBugs(EnKusa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        Actor* bug = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.posRot.pos.x,
-                                 this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, Rand_ZeroOne() * 0xFFFF, 0, 1);
+        Actor* bug = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_INSECT, this->actor.world.pos.x,
+                                 this->actor.world.pos.y, this->actor.world.pos.z, 0, Rand_ZeroOne() * 0xFFFF, 0, 1);
 
         if (bug == NULL) {
             break;
@@ -212,7 +225,7 @@ void EnKusa_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
 void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -225,13 +238,13 @@ void EnKusa_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     EnKusa_InitCollider(thisx, globalCtx);
-    func_80061ED4(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
 
     if (this->actor.shape.rot.y == 0) {
         s16 rand = Rand_ZeroFloat(0x10000);
 
-        this->actor.posRot.rot.y = rand;
-        this->actor.initPosRot.rot.y = rand;
+        this->actor.world.rot.y = rand;
+        this->actor.home.rot.y = rand;
         this->actor.shape.rot.y = rand;
     }
 
@@ -287,12 +300,12 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         EnKusa_SetupLiftedUp(this);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_PL_PULL_UP_PLANT);
-    } else if (this->collider.base.acFlags & 2) {
-        this->collider.base.acFlags &= ~2;
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_PL_PULL_UP_PLANT);
+    } else if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
-        Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
 
         if ((this->actor.params >> 4) & 1) {
             EnKusa_SpawnBugs(this, globalCtx);
@@ -306,17 +319,17 @@ void func_80A9B8D8(EnKusa* this, GlobalContext* globalCtx) {
         func_80A9BEAC(this);
         this->actor.flags |= 0x800;
     } else {
-        if (!(this->collider.base.maskA & 8) && (this->actor.xzDistFromLink > 12.0f)) {
-            this->collider.base.maskA |= 8;
+        if (!(this->collider.base.ocFlags1 & OC1_TYPE_PLAYER) && (this->actor.xzDistToPlayer > 12.0f)) {
+            this->collider.base.ocFlags1 |= OC1_TYPE_PLAYER;
         }
 
-        if (this->actor.xzDistFromLink < 600.0f) {
-            Collider_CylinderUpdate(&this->actor, &this->collider);
+        if (this->actor.xzDistToPlayer < 600.0f) {
+            Collider_UpdateCylinder(&this->actor, &this->collider);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-            if (this->actor.xzDistFromLink < 400.0f) {
+            if (this->actor.xzDistToPlayer < 400.0f) {
                 CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-                if (this->actor.xzDistFromLink < 100.0f) {
+                if (this->actor.xzDistToPlayer < 100.0f) {
                     func_8002F580(&this->actor, globalCtx);
                 }
             }
@@ -334,14 +347,14 @@ void EnKusa_LiftedUp(EnKusa* this, GlobalContext* globalCtx) {
     if (Actor_HasNoParent(&this->actor, globalCtx)) {
         this->actor.room = globalCtx->roomCtx.curRoom.num;
         func_80A9BBB0(this);
-        this->actor.velocity.x = this->actor.speedXZ * Math_SinS(this->actor.posRot.rot.y);
-        this->actor.velocity.z = this->actor.speedXZ * Math_CosS(this->actor.posRot.rot.y);
+        this->actor.velocity.x = this->actor.speedXZ * Math_SinS(this->actor.world.rot.y);
+        this->actor.velocity.z = this->actor.speedXZ * Math_CosS(this->actor.world.rot.y);
         this->actor.colChkInfo.mass = 240;
         this->actor.gravity = -0.1f;
         EnKusa_Fall(this);
         func_80A9B174(&this->actor.velocity, 0.005f);
         func_8002D7EC(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
         this->actor.gravity = -3.2f;
     }
 }
@@ -360,7 +373,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 11) {
         if (!(this->actor.bgCheckFlags & 32)) {
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 20, NA_SE_EV_PLANT_BROKEN);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_PLANT_BROKEN);
         }
         EnKusa_SpawnFragments(this, globalCtx);
         EnKusa_DropCollectible(this, globalCtx);
@@ -376,9 +389,9 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
         }
     } else {
         if (this->actor.bgCheckFlags & 0x40) {
-            contactPos.x = this->actor.posRot.pos.x;
-            contactPos.y = this->actor.posRot.pos.y + this->actor.waterY;
-            contactPos.z = this->actor.posRot.pos.z;
+            contactPos.x = this->actor.world.pos.x;
+            contactPos.y = this->actor.world.pos.y + this->actor.yDistToWater;
+            contactPos.z = this->actor.world.pos.z;
             EffectSsGSplash_Spawn(globalCtx, &contactPos, NULL, NULL, 0, 400);
             EffectSsGRipple_Spawn(globalCtx, &contactPos, 150, 650, 0);
             EffectSsGRipple_Spawn(globalCtx, &contactPos, 400, 800, 4);
@@ -389,7 +402,7 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
             D_80A9C1DC >>= 1;
             D_80A9C1D8 >>= 1;
             this->actor.bgCheckFlags &= ~0x40;
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_DIVE_INTO_WATER_L);
         }
         EnKusa_Fall(this);
         Math_StepToS(&D_80A9C1D4, D_80A9C1D0, 0x1F4);
@@ -398,8 +411,8 @@ void func_80A9BC1C(EnKusa* this, GlobalContext* globalCtx) {
         this->actor.shape.rot.y += D_80A9C1DC;
         func_80A9B174(&this->actor.velocity, 0.05f);
         func_8002D7EC(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
-        Collider_CylinderUpdate(&this->actor, &this->collider);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 7.5f, 35.0f, 0.0f, 0xC5);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
@@ -425,17 +438,17 @@ void func_80A9BF30(EnKusa* this, GlobalContext* globalCtx) {
 }
 
 void func_80A9BF3C(EnKusa* this) {
-    this->actor.posRot.pos.x = this->actor.initPosRot.pos.x;
-    this->actor.posRot.pos.y = this->actor.initPosRot.pos.y - 9.0f;
-    this->actor.posRot.pos.z = this->actor.initPosRot.pos.z;
+    this->actor.world.pos.x = this->actor.home.pos.x;
+    this->actor.world.pos.y = this->actor.home.pos.y - 9.0f;
+    this->actor.world.pos.z = this->actor.home.pos.z;
     EnKusa_SetScale(this);
-    this->actor.shape.rot = this->actor.initPosRot.rot;
+    this->actor.shape.rot = this->actor.home.rot;
     EnKusa_SetupAction(this, func_80A9BFA8);
 }
 
 void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
     if (this->timer > 120) {
-        if ((Math_StepToF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.6f)) && (this->timer >= 170)) {
+        if ((Math_StepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.6f)) && (this->timer >= 170)) {
             func_80A9C00C(this);
         }
     }
@@ -444,7 +457,7 @@ void func_80A9BFA8(EnKusa* this, GlobalContext* globalCtx) {
 void func_80A9C00C(EnKusa* this) {
     EnKusa_SetupAction(this, func_80A9C068);
     EnKusa_SetScale(this);
-    this->actor.shape.rot = this->actor.initPosRot.rot;
+    this->actor.shape.rot = this->actor.home.rot;
     this->actor.flags &= ~0x800;
 }
 
@@ -458,7 +471,7 @@ void func_80A9C068(EnKusa* this, GlobalContext* globalCtx) {
     if (sp24) {
         Actor_SetScale(&this->actor, 0.4f);
         func_80A9B89C(this);
-        this->collider.base.maskA &= ~8;
+        this->collider.base.ocFlags1 &= ~OC1_TYPE_PLAYER;
     }
 }
 
@@ -470,9 +483,9 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     if (this->actor.flags & 0x800) {
-        this->actor.shape.unk_08 = -6.25f;
+        this->actor.shape.yOffset = -6.25f;
     } else {
-        this->actor.shape.unk_08 = 0.0f;
+        this->actor.shape.yOffset = 0.0f;
     }
 }
 

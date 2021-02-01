@@ -11,8 +11,8 @@ typedef void (*EnBbActionFunc)(struct EnBb*, GlobalContext*);
 typedef struct EnBb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTbl[16];
-    /* 0x01F0 */ Vec3s transitionDrawTbl[16];
+    /* 0x0190 */ Vec3s jointTable[16];
+    /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ s32 action;
     /* 0x0254 */ s32 unk_254; // unused
     /* 0x0258 */ EnBbActionFunc actionFunc;
@@ -41,7 +41,7 @@ typedef struct EnBb {
     /* 0x02A8 */ s16 fireIceTimer;
     /* 0x02AA */ u8 dmgEffect;  
     /* 0x02AC */ ColliderJntSph collider;
-    /* 0x02CC */ ColliderJntSphItem elements[1];
+    /* 0x02CC */ ColliderJntSphElement elements[1];
     /* 0x030C */ struct_80032E24 enPartInfo;
     /* 0x0324 */ Actor* targetActor;
 } EnBb; // size = 0x0328

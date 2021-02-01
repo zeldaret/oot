@@ -65,7 +65,7 @@ glabel EnTp_Update
 /* 01750 80B22530 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 01754 80B22534 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 01758 80B22538 3C074170 */  lui     $a3, 0x4170                ## $a3 = 41700000
-/* 0175C 80B2253C 0C00B92D */  jal     func_8002E4B4              
+/* 0175C 80B2253C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01760 80B22540 E7A40010 */  swc1    $f4, 0x0010($sp)           
 .L80B22544:
 /* 01764 80B22544 44803000 */  mtc1    $zero, $f6                 ## $f6 = 0.00

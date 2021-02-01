@@ -45,7 +45,7 @@ glabel func_80B0DFFC
 /* 022E0 80B0E090 26060454 */  addiu   $a2, $s0, 0x0454           ## $a2 = 00000454
 /* 022E4 80B0E094 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE8
 /* 022E8 80B0E098 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 022EC 80B0E09C 0C00F7A1 */  jal     func_8003DE84              
+/* 022EC 80B0E09C 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 022F0 80B0E0A0 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 022F4 80B0E0A4 54400004 */  bnel    $v0, $zero, .L80B0E0B8     
 /* 022F8 80B0E0A8 8FB8006C */  lw      $t8, 0x006C($sp)           
@@ -73,7 +73,7 @@ glabel func_80B0DFFC
 /* 02348 80B0E0F8 26060460 */  addiu   $a2, $s0, 0x0460           ## $a2 = 00000460
 /* 0234C 80B0E0FC 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE8
 /* 02350 80B0E100 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 02354 80B0E104 0C00F7A1 */  jal     func_8003DE84              
+/* 02354 80B0E104 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02358 80B0E108 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 0235C 80B0E10C 50400004 */  beql    $v0, $zero, .L80B0E120     
 /* 02360 80B0E110 8FAD006C */  lw      $t5, 0x006C($sp)           
@@ -99,7 +99,7 @@ glabel func_80B0DFFC
 /* 023A8 80B0E158 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 023AC 80B0E15C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 023B0 80B0E160 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 023B4 80B0E164 0C00F7A1 */  jal     func_8003DE84              
+/* 023B4 80B0E164 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 023B8 80B0E168 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 023BC 80B0E16C 54400004 */  bnel    $v0, $zero, .L80B0E180     
 /* 023C0 80B0E170 8FAB006C */  lw      $t3, 0x006C($sp)           
@@ -125,7 +125,7 @@ glabel func_80B0DFFC
 /* 02408 80B0E1B8 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 0240C 80B0E1BC AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 02410 80B0E1C0 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 02414 80B0E1C4 0C00F7A1 */  jal     func_8003DE84              
+/* 02414 80B0E1C4 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02418 80B0E1C8 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 0241C 80B0E1CC 50400003 */  beql    $v0, $zero, .L80B0E1DC     
 /* 02420 80B0E1D0 26190430 */  addiu   $t9, $s0, 0x0430           ## $t9 = 00000430
@@ -145,7 +145,7 @@ glabel func_80B0DFFC
 /* 02450 80B0E200 26060484 */  addiu   $a2, $s0, 0x0484           ## $a2 = 00000484
 /* 02454 80B0E204 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE8
 /* 02458 80B0E208 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 0245C 80B0E20C 0C00F7A1 */  jal     func_8003DE84              
+/* 0245C 80B0E20C 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02460 80B0E210 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 02464 80B0E214 50400039 */  beql    $v0, $zero, .L80B0E2FC     
 /* 02468 80B0E218 8FBF003C */  lw      $ra, 0x003C($sp)           

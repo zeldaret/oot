@@ -869,7 +869,7 @@ glabel L80B6F0C4
 /* 05A98 80B6F438 E7AC00C8 */  swc1    $f12, 0x00C8($sp)          
 /* 05A9C 80B6F43C AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 05AA0 80B6F440 8FA400EC */  lw      $a0, 0x00EC($sp)           
-/* 05AA4 80B6F444 0C00B92D */  jal     func_8002E4B4              
+/* 05AA4 80B6F444 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 05AA8 80B6F448 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 05AAC 80B6F44C 27AF0080 */  addiu   $t7, $sp, 0x0080           ## $t7 = FFFFFF98
 /* 05AB0 80B6F450 8DF80000 */  lw      $t8, 0x0000($t7)           ## FFFFFF98
@@ -1897,7 +1897,7 @@ glabel L80B6FA3C
 /* 069B8 80B70358 ACB80108 */  sw      $t8, 0x0108($a1)           ## 00000108
 /* 069BC 80B7035C AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 069C0 80B70360 8FA400EC */  lw      $a0, 0x00EC($sp)           
-/* 069C4 80B70364 0C00B92D */  jal     func_8002E4B4              
+/* 069C4 80B70364 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 069C8 80B70368 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 069CC 80B7036C 27AF0058 */  addiu   $t7, $sp, 0x0058           ## $t7 = FFFFFF70
 /* 069D0 80B70370 8DF80000 */  lw      $t8, 0x0000($t7)           ## FFFFFF70

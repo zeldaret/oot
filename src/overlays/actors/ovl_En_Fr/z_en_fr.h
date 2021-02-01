@@ -25,7 +25,7 @@ typedef enum {
     /* 04 */ FROG_SOT,
     /* 05 */ FROG_STORMS,
     /* 06 */ FROG_CHOIR_SONG,
-    /* 07 */ FROG_NO_SONG,
+    /* 07 */ FROG_NO_SONG
 } FrogSongType;
 
 typedef enum {
@@ -33,7 +33,7 @@ typedef enum {
     /* 01 */ FROG_BTN_C_DOWN,
     /* 02 */ FROG_BTN_C_RIGHT,
     /* 03 */ FROG_BTN_C_LEFT,
-    /* 04 */ FROG_BTN_C_UP,
+    /* 04 */ FROG_BTN_C_UP
 } FrogNotes;
 
 typedef struct EnFr {

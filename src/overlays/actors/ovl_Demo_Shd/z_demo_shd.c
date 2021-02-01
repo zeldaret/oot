@@ -19,7 +19,7 @@ void func_80991298(DemoShd* this, GlobalContext* globalCtx);
 
 const ActorInit Demo_Shd_InitVars = {
     ACTOR_DEMO_SHD,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(DemoShd),
@@ -41,8 +41,8 @@ void DemoShd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_14C = 0;
     DemoShd_SetupAction(this, func_80991298);
     Actor_SetScale(&this->actor, 0.4f);
-    this->actor.posRot.pos.y = 0.0f;
-    this->actor.posRot.pos.x = 0.0f;
+    this->actor.world.pos.y = 0.0f;
+    this->actor.world.pos.x = 0.0f;
 }
 
 void DemoShd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
