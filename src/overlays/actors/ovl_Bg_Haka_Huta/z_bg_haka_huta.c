@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_haka_huta.c
+ * Overlay: ovl_Bg_Haka_Huta
+ * Description: Coffin Lid
+ */
+
 #include "z_bg_haka_huta.h"
 
 #define FLAGS 0x00000010
@@ -9,16 +15,16 @@ void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHakaHuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_8087D0AC(BgHakaHuta* this, GlobalContext* globalCtx);
-void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 arg2);
-void func_8087D2F0(BgHakaHuta* this, GlobalContext* globalCtx);
-void func_8087D5B8(BgHakaHuta* this, GlobalContext* globalCtx);
-void func_8087D66C(BgHakaHuta* this, GlobalContext* globalCtx);
+void BgHakaHuta_SpawnDust(BgHakaHuta* this, GlobalContext* globalCtx);
+void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 sfx);
+void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx);
+void BgHakaHuta_Open(BgHakaHuta* this, GlobalContext* globalCtx);
+void BgHakaHuta_SlideOpen(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx);
 void func_8087D8C0(BgHakaHuta* this, GlobalContext* globalCtx);
 
 extern Gfx D_060006B0[];
-extern UNK_TYPE D_06000870;
+extern CollisionHeader D_06000870;
 
 const ActorInit Bg_Haka_Huta_InitVars = {
     ACTOR_BG_HAKA_HUTA,
@@ -32,61 +38,47 @@ const ActorInit Bg_Haka_Huta_InitVars = {
     (ActorFunc)BgHakaHuta_Draw,
 };
 
-// s32 D_8087D940[] = { 0x48500064 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-// Vec3f D_8087D944[] = { 0.0f, 0.0f, 0.0f };
-Vec3f sEffectAccel[] = { 0.0f, 0.0f, 0.0f };
-
-// s32 D_8087D950[] = { 0x1E1432FF };
-Color_RGBA8 primColor = { 30, 20, 50, 255 };
-
-// s32 D_8087D954[] = { 0x000000FF };
-Color_RGBA8 envColor = { 0, 0, 0, 255 };
-
-// s32 D_8087D958[] = {0x41F00000, 0x00000000, 0x00000000};
-
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/BgHakaHuta_Init.s")
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaHuta* this = THIS;
     DynaPolyActor* new_var;
-    CollisionHeader* sp24;
+    CollisionHeader* colHeader;
 
+    // Likely fake, but only way to make a match
     new_var = &this->dyna;
-    sp24 = 0;
+    colHeader = 0;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 1);
-    CollisionHeader_GetVirtual(&D_06000870, &sp24);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, sp24);
+    CollisionHeader_GetVirtual(&D_06000870, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->unk_16A = ((*new_var).actor.params >> 8) & 0xFF;
     this->dyna.actor.params &= 0xFF;
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) != 0) {
         this->counter = -1;
         this->actionFunc = func_8087D720;
     } else {
-        this->actionFunc = func_8087D2F0;
+        this->actionFunc = BgHakaHuta_SpawnEnemies;
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/BgHakaHuta_Destroy.s")
 void BgHakaHuta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaHuta* this = THIS;
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/func_8087D0AC.s")
-void func_8087D0AC(BgHakaHuta* this, GlobalContext* globalCtx) {
-    f32 test;
+void BgHakaHuta_SpawnDust(BgHakaHuta* this, GlobalContext* globalCtx) {
+    static Vec3f sEffectAccel[] = { 0.0f, 0.0f, 0.0f };
+    static Color_RGBA8 primColor = { 30, 20, 50, 255 };
+    static Color_RGBA8 envColor = { 0, 0, 0, 255 };
+    f32 scale;
     f32 phi_f20;
     Vec3f effectPos;
     Vec3f effectVel;
     s32 i;
-    f32 new_var;
+    f32 new_Xpos;
     f32 xPosOffset;
 
     phi_f20 = (this->dyna.actor.world.rot.y == 0) ? 1.0f : -1.0f;
@@ -95,23 +87,20 @@ void func_8087D0AC(BgHakaHuta* this, GlobalContext* globalCtx) {
     effectVel.x = -0.5f * phi_f20;
     effectPos.y = this->dyna.actor.world.pos.y;
     effectPos.z = this->dyna.actor.world.pos.z;
-    new_var = 50 - ((this->dyna.actor.world.pos.x - this->dyna.actor.home.pos.x) * phi_f20);
-    xPosOffset = new_var * phi_f20;
+    new_Xpos = 50 - ((this->dyna.actor.world.pos.x - this->dyna.actor.home.pos.x) * phi_f20);
+    xPosOffset = new_Xpos * phi_f20;
 
-    // Loop through all the coffins
     for (i = 0; i < 4; i++) {
         if (i == 2) {
             effectPos.z += (120.0f * phi_f20);
         }
         effectPos.x = this->dyna.actor.home.pos.x - (Rand_ZeroOne() * xPosOffset);
-        test = ((Rand_ZeroOne() * 10.0f) + 50.0f);
-        func_8002829C(globalCtx, &effectPos, &effectVel, sEffectAccel, &primColor, &envColor, test, 0xA);
+        scale = ((Rand_ZeroOne() * 10.0f) + 50.0f);
+        func_8002829C(globalCtx, &effectPos, &effectVel, sEffectAccel, &primColor, &envColor, scale, 0xA);
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/func_8087D268.s")
-void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 arg2) {
+void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 sfx) {
     Vec3f pos;
     if (this->dyna.actor.shape.rot.y == 0) {
         pos.z = this->dyna.actor.world.pos.z + 120.0f;
@@ -120,15 +109,44 @@ void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 arg2) {
     }
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y;
-    Audio_PlaySoundAtPosition(globalCtx, &pos, 30, arg2);
+    Audio_PlaySoundAtPosition(globalCtx, &pos, 30, sfx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/func_8087D2F0.s")
+void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {
+    if ((Flags_GetSwitch(globalCtx, this->dyna.actor.params) != 0) && (Player_InCsMode(globalCtx) == 0)) {
+        this->counter = 25;
+        this->actionFunc = BgHakaHuta_Open;
+        func_800800F8(globalCtx, 0x1771, 0x3E7, &this->dyna.actor, 0);
+        if (this->unk_16A == 2) {
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY,
+                        (this->dyna.actor.world.pos.x + (-25.0f) * Math_CosS(this->dyna.actor.shape.rot.y) +
+                         40.0f * Math_SinS(this->dyna.actor.shape.rot.y)),
+                        this->dyna.actor.world.pos.y - 10.0f,
+                        (this->dyna.actor.world.pos.z - (-25.0f) * Math_SinS(this->dyna.actor.shape.rot.y) +
+                         Math_CosS(this->dyna.actor.shape.rot.y) * 40.0f),
+                        0, this->dyna.actor.shape.rot.y + 0x8000, 0, 2);
 
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIREFLY,
+                        (this->dyna.actor.world.pos.x + (-25.0f) * (Math_CosS(this->dyna.actor.shape.rot.y)) +
+                         Math_SinS(this->dyna.actor.shape.rot.y) * 80.0f),
+                        this->dyna.actor.world.pos.y - 10.0f,
+                        (this->dyna.actor.world.pos.z - (-25.0f) * (Math_SinS(this->dyna.actor.shape.rot.y)) +
+                         Math_CosS(this->dyna.actor.shape.rot.y) * 80.0f),
+                        0, this->dyna.actor.shape.rot.y, 0, 2);
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/func_8087D5B8.s")
-void func_8087D5B8(BgHakaHuta* this, GlobalContext* globalCtx) {
+        } else if (this->unk_16A == 1) {
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_RD,
+                        (this->dyna.actor.home.pos.x + (-25.0f) * (Math_CosS(this->dyna.actor.shape.rot.y)) +
+                         Math_SinS(this->dyna.actor.shape.rot.y) * 100.0f),
+                        this->dyna.actor.home.pos.y - 40.0f,
+                        (this->dyna.actor.home.pos.z - (-25.0f) * (Math_SinS(this->dyna.actor.shape.rot.y)) +
+                         Math_CosS(this->dyna.actor.shape.rot.y) * 100.0f),
+                        0, this->dyna.actor.shape.rot.y, 0, 0xFD);
+        }
+    }
+}
+
+void BgHakaHuta_Open(BgHakaHuta* this, GlobalContext* globalCtx) {
     f32 posOffset;
 
     if (this->counter != 0) {
@@ -143,13 +161,11 @@ void func_8087D5B8(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (this->counter == 0) {
         this->counter = 37;
         func_8087D268(this, globalCtx, NA_SE_EV_COFFIN_CAP_OPEN);
-        this->actionFunc = func_8087D66C;
+        this->actionFunc = BgHakaHuta_SlideOpen;
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/func_8087D66C.s")
-void func_8087D66C(BgHakaHuta* this, GlobalContext* globalCtx) {
+void BgHakaHuta_SlideOpen(BgHakaHuta* this, GlobalContext* globalCtx) {
     f32 posOffset;
 
     if (this->counter != 0) {
@@ -161,7 +177,7 @@ void func_8087D66C(BgHakaHuta* this, GlobalContext* globalCtx) {
         posOffset = -24.0f;
     }
     if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + posOffset, 0.5f)) {
-        func_8087D0AC(this, globalCtx);
+        BgHakaHuta_SpawnDust(this, globalCtx);
     }
     if (this->counter == 0) {
         func_8087D268(this, globalCtx, NA_SE_EV_COFFIN_CAP_BOUND);
@@ -169,8 +185,6 @@ void func_8087D66C(BgHakaHuta* this, GlobalContext* globalCtx) {
     }
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/func_8087D720.s")
 void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     static Vec3f D_8087D958 = { 30.0f, 0.0f, 0.0f };
     static Vec3f D_8087D964 = { 0.032579999f, 0.325800001f, -0.944899976f };
@@ -204,20 +218,14 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     func_800D20CC(&mtx, &this->dyna.actor.shape.rot, 0);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/func_8087D8C0.s")
 void func_8087D8C0(BgHakaHuta* this, GlobalContext* globalCtx) {
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/BgHakaHuta_Update.s")
 void BgHakaHuta_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaHuta* this = THIS;
     this->actionFunc(this, globalCtx);
 }
 
-// matches
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Haka_Huta/BgHakaHuta_Draw.s")
 void BgHakaHuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Gfx_DrawDListOpa(globalCtx, D_060006B0);
 }
