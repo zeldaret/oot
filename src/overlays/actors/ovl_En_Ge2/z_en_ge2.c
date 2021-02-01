@@ -166,7 +166,7 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     this->walkDirection = this->actor.world.rot.y;
-    this->walkDuration = ((this->actor.params & 0xFF00) >> 8) * 0xA;
+    this->walkDuration = ((this->actor.params & 0xFF00) >> 8) * 10;
 }
 
 void EnGe2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
