@@ -5,10 +5,10 @@
 
 #define THIS ((EnGe1*)thisx)
 
-#define GE1_STATE_TALKING 1 << 0
-#define GE1_STATE_GIVE_QUIVER 1 << 1
-#define GE1_STATE_IDLE_ANIM 1 << 2
-#define GE1_STATE_STOP_FIDGET 1 << 3
+#define GE1_STATE_TALKING (1 << 0)
+#define GE1_STATE_GIVE_QUIVER (1 << 1)
+#define GE1_STATE_IDLE_ANIM (1 << 2)
+#define GE1_STATE_STOP_FIDGET (1 << 3)
 
 typedef enum {
     /* 00 */ GE1_HAIR_BOB,
@@ -150,7 +150,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             // Horsback archery Gerudo EVENT_INF(0) =
             osSyncPrintf(VT_FGCOL(CYAN) "やぶさめ ゲルド EVENT_INF(0) = %x\n" VT_RST, gSaveContext.eventInf[0]);
 
-            if ((gSaveContext.eventInf[0] & 0x100)) {
+            if (gSaveContext.eventInf[0] & 0x100) {
                 this->actionFunc = EnGe1_TalkAfterGame_Archery;
             } else if (EnGe1_CheckCarpentersFreed()) {
                 this->actionFunc = EnGe1_Wait_Archery;
@@ -182,7 +182,7 @@ s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 a
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
-        this->stateFlags &= ~(GE1_STATE_IDLE_ANIM);
+        this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
         this->animation = &D_06000228;
         Animation_Change(&this->skelAnime, &D_06000228, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000228), ANIMMODE_ONCE,
                          -8.0f);
@@ -337,7 +337,7 @@ void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
                          -3.0f);
         this->animation = &D_0600A048;
         this->animFunc = EnGe1_StopFidget;
-        this->stateFlags &= ~(GE1_STATE_IDLE_ANIM);
+        this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
     }
 }
 
@@ -432,7 +432,7 @@ void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
                          -3.0f);
         this->animation = &D_0600A048;
         this->animFunc = EnGe1_StopFidget;
-        this->stateFlags &= ~(GE1_STATE_IDLE_ANIM);
+        this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
     }
 }
 
@@ -486,7 +486,7 @@ void EnGe1_WaitTillItemGiven_Archery(EnGe1* this, GlobalContext* globalCtx) {
 
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnGe1_SetupWait_Archery;
-        if ((this->stateFlags & GE1_STATE_GIVE_QUIVER)) {
+        if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
             gSaveContext.itemGetInf[0] |= 0x8000;
         } else {
             gSaveContext.infTable[25] |= 1;
@@ -513,7 +513,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     s32 getItemId;
 
     if (func_8002F334(&this->actor, globalCtx)) {
-        this->actor.flags = this->actor.flags & ~0x10000;
+        this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
     if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
@@ -628,7 +628,7 @@ void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     } else if (!(gSaveContext.infTable[25] & 1)) {
         this->actor.textId = 0x6046;
         this->actionFunc = EnGe1_TalkWinPrize_Archery;
-        this->stateFlags &= ~(GE1_STATE_GIVE_QUIVER);
+        this->stateFlags &= ~GE1_STATE_GIVE_QUIVER;
     } else if (gSaveContext.minigameScore < 1500) {
         this->actor.textId = 0x6047;
         this->actionFunc = EnGe1_TalkNoPrize_Archery;
@@ -716,7 +716,7 @@ void EnGe1_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     if (this->stateFlags & GE1_STATE_TALKING) {
         EnGe1_TurnToFacePlayer(this, globalCtx);
-        this->stateFlags &= ~(GE1_STATE_TALKING);
+        this->stateFlags &= ~GE1_STATE_TALKING;
     } else {
         EnGe1_LookAtPlayer(this, globalCtx);
     }
@@ -759,7 +759,7 @@ s32 EnGe1_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     }
 
     if (this->stateFlags & GE1_STATE_STOP_FIDGET) {
-        this->stateFlags &= ~(GE1_STATE_STOP_FIDGET);
+        this->stateFlags &= ~GE1_STATE_STOP_FIDGET;
         return 0;
     }
 
