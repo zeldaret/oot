@@ -12,9 +12,9 @@ void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000800;
 extern AnimationHeader D_06000D00;
-extern UNK_TYPE D_06001D70;
-extern UNK_TYPE D_06002374;
-extern UNK_TYPE D_0600288C;
+extern AnimationHeader D_06001D70;
+extern AnimationHeader D_06002374;
+extern AnimationHeader D_0600288C;
 extern UNK_TYPE D_06005458;
 extern UNK_TYPE D_06006104;
 extern AnimationHeader D_060067CC;
@@ -532,6 +532,7 @@ void func_8096A528(DemoDu *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A528.s")
 #endif
 
+void func_8096A630();
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A630.s")
 
 void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx);
@@ -643,44 +644,130 @@ void func_8096A970(DemoDu *this, GlobalContext *globalCtx2) {
     }
 }
 
-void func_8096AA4C(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AA4C.s")
+void func_8096AA4C(DemoDu *this, GlobalContext *globalCtx) {
+    this->updateIndex = 8;
+}
 
-void func_8096AA5C(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AA5C.s")
+void func_8096AA5C(DemoDu *this, GlobalContext *globalCtx) {
+    CsCmdActorAction *npcAction;
 
-void func_8096AB00(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AB00.s")
+    if (globalCtx->csCtx.state != 0) {
+        npcAction = globalCtx->csCtx.npcActions[2];
+        if ((npcAction != NULL) && (npcAction->action != 1)) {
+            Animation_Change(&this->skelAnime, &D_0600288C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600288C), 2, 0.0f);
+            this->updateIndex = 9;
+            this->drawIndex = 1;
+            func_8096A970(this, globalCtx);
+        }
+    }
+}
 
-void func_8096AB54(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AB54.s")
+void func_8096AB00(DemoDu *this, GlobalContext *globalCtx) {
+    CsCmdActorAction *npcAction;
+    CutsceneContext *csCtx = &globalCtx->csCtx;
 
-void func_8096AB8C(DemoDu *this, s32 arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AB8C.s")
+    if (csCtx->state != 0) {
+        npcAction = csCtx->npcActions[2];
+        if ((npcAction != NULL) && (csCtx->frames >= npcAction->endFrame)) {
+            this->updateIndex = 0xA;
+            func_8096A630();
+        }
+    }
+}
 
-void func_8096ABF8(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096ABF8.s")
+void func_8096AB54(DemoDu *this, GlobalContext *globalCtx) {
+    CsCmdActorAction *npcAction;
 
-void func_8096AC90(DemoDu *this, s32 arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AC90.s")
+    if (globalCtx->csCtx.state != 0) {
+        npcAction = globalCtx->csCtx.npcActions[2];
+        if ((npcAction != NULL) && (npcAction->action != 2)) {
+            this->updateIndex = 11;
+        }
+    }
+}
 
-void func_8096ACFC(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096ACFC.s")
+void func_8096AB8C(DemoDu *this, s32 arg1) {
+    if (arg1) {
+        Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
+        this->updateIndex = 12;
+    }
+}
 
-void func_8096AD90(DemoDu *this, s32 arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AD90.s")
+void func_8096ABF8(DemoDu *this, GlobalContext *globalCtx) {
+    CsCmdActorAction *npcAction;
 
-void func_8096AE00(DemoDu *this, s32 arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AE00.s")
+    if (globalCtx->csCtx.state != 0) {
+        npcAction = globalCtx->csCtx.npcActions[2];
+        if ((npcAction != NULL) && (npcAction->action != 3)) {
+            Animation_Change(&this->skelAnime, &D_06002374, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002374), 2, -4.0f);
+            this->updateIndex = 13;
+        }
+    }
+}
 
-void func_8096AE6C(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AE6C.s")
+void func_8096AC90(DemoDu *this, s32 arg1) {
+    if (arg1) {
+        Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
+        this->updateIndex = 14;
+    }
+}
 
-void func_8096AF00(DemoDu *this, s32 arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AF00.s")
+void func_8096ACFC(DemoDu *this, GlobalContext *globalCtx) {
+    CsCmdActorAction *npcAction;
 
-void func_8096AF6C(DemoDu *this, GlobalContext *globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096AF6C.s")
+    if (globalCtx->csCtx.state != 0) {
+        npcAction = globalCtx->csCtx.npcActions[2];
+        if ((npcAction != NULL) && (npcAction->action != 4)) {
+            Animation_Change(&this->skelAnime, &D_06001D70, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001D70), 2, 0.0f);
+            this->updateIndex = 15;
+        }
+    }
+}
+
+void func_8096AD90(DemoDu *this, s32 arg1) {
+    if (arg1) {
+        Animation_Change(&this->skelAnime, &D_06002374, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002374), 2, 0.0f);
+        this->updateIndex = 16;
+    }
+}
+
+void func_8096AE00(DemoDu *this, s32 arg1) {
+    if (arg1 != 0) {
+        Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
+        this->updateIndex = 17;
+    }
+}
+
+void func_8096AE6C(DemoDu *this, GlobalContext *globalCtx) {
+    CsCmdActorAction *npcAction;
+
+    if (globalCtx->csCtx.state != 0) {
+        npcAction = globalCtx->csCtx.npcActions[2];
+        if ((npcAction != NULL) && (npcAction->action != 5)) {
+            Animation_Change(&this->skelAnime, &D_06000800, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000800), 2, 0.0f);
+            this->updateIndex = 18;
+        }
+    }
+}
+
+void func_8096AF00(DemoDu *this, s32 arg1) {
+    if (arg1) {
+        Animation_Change(&this->skelAnime, &D_06000D00, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000D00), 0, 0.0f);
+        this->updateIndex = 19;
+    }
+}
+
+void func_8096AF6C(DemoDu *this, GlobalContext *globalCtx) {
+    CsCmdActorAction *npcAction;
+
+    if (globalCtx->csCtx.state != 0) {
+        npcAction = globalCtx->csCtx.npcActions[2];
+        if ((npcAction != NULL) && (npcAction->action != 6)) {
+            Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
+            this->updateIndex = 20;
+        }
+    }
+}
 
 void func_8096AFFC(DemoDu *this, GlobalContext *globalCtx) {
     func_8096A3D8(globalCtx);
