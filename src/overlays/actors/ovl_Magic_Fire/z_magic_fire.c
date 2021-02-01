@@ -330,8 +330,8 @@ void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.0f);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    Collider_UpdateCylinder(thisx, &this->collider);
-    this->actor.update = &MagicFire_UpdateBeforeCast;
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    this->actor.update = MagicFire_UpdateBeforeCast;
     this->actionTimer = 20;
     this->actor.room = -1;
 }
@@ -361,8 +361,8 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     MagicFire* this = THIS;
     Player* player = PLAYER;
     s32 pad;
-    if (1) {}
 
+    if (1) {}
     this->actor.world.pos = player->actor.world.pos;
     if ((globalCtx->msgCtx.msgMode == 0xD) || (globalCtx->msgCtx.msgMode == 0x11)) {
         Actor_Kill(&this->actor);
