@@ -3859,19 +3859,19 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     return arg2;
 }
 
-void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2) {
+void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* animations, s32 index) {
     f32 frameCount;
 
-    arg1 += arg2;
+    animations += index;
 
-    if (arg1->frameCount > 0.0f) {
-        frameCount = arg1->frameCount;
+    if (animations->frameCount > 0.0f) {
+        frameCount = animations->frameCount;
     } else {
-        frameCount = Animation_GetLastFrame(arg1->animation);
+        frameCount = Animation_GetLastFrame(animations->animation);
     }
 
-    Animation_Change(skelAnime, arg1->animation, arg1->playbackSpeed, arg1->unk_08, frameCount, arg1->unk_10,
-                     arg1->transitionRate);
+    Animation_Change(skelAnime, animations->animation, animations->playbackSpeed, animations->startFrame, frameCount,
+                     animations->mode, animations->transitionRate);
 }
 
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3) {
