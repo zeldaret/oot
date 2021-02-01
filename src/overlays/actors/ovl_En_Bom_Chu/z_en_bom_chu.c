@@ -1,5 +1,6 @@
 #include "z_en_bom_chu.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -13,8 +14,6 @@ void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnBomChu_WaitForRelease(EnBomChu* this, GlobalContext* globalCtx);
 void EnBomChu_Move(EnBomChu* this, GlobalContext* globalCtx);
 void EnBomChu_WaitForKill(EnBomChu* this, GlobalContext* globalCtx);
-
-extern Gfx D_04007E10[];
 
 const ActorInit En_Bom_Chu_InitVars = {
     ACTOR_EN_BOM_CHU,
@@ -485,7 +484,7 @@ void EnBomChu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(this->unk_178 * 100.0f, 0.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 956),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_04007E10);
+    gSPDisplayList(POLY_OPA_DISP++, gBombchuDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_chu.c", 961);
 }

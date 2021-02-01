@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_ice_poly.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -17,8 +18,6 @@ void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx);
 void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx);
-
-extern Gfx* D_04033EE0[];
 
 const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
@@ -206,7 +205,7 @@ void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->gameplayFrames % 0x100, 0x20, 0x10, 1, 0,
                                 (globalCtx->gameplayFrames * 2) % 0x100, 0x40, 0x20));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->alpha);
-    gSPDisplayList(POLY_XLU_DISP++, D_04033EE0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffIceFragment3DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 444);
 }
