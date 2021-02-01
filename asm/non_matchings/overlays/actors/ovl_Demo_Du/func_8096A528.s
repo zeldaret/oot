@@ -30,7 +30,7 @@ glabel func_8096A528
 .L8096A594:
 /* 00AC4 8096A594 10200008 */  beq     $at, $zero, .L8096A5B8     
 /* 00AC8 8096A598 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00ACC 8096A59C 0C25A6DE */  jal     func_80969B78              
+/* 00ACC 8096A59C 0C25A6DE */  jal     DemoDu_SetEyeTexIndex              
 /* 00AD0 8096A5A0 24050003 */  addiu   $a1, $zero, 0x0003         ## $a1 = 00000003
 /* 00AD4 8096A5A4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00AD8 8096A5A8 0C25A6E3 */  jal     func_80969B8C              
@@ -41,7 +41,7 @@ glabel func_8096A528
 /* 00AE8 8096A5B8 2841018B */  slti    $at, $v0, 0x018B           
 /* 00AEC 8096A5BC 10200008 */  beq     $at, $zero, .L8096A5E0     
 /* 00AF0 8096A5C0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00AF4 8096A5C4 0C25A6DE */  jal     func_80969B78              
+/* 00AF4 8096A5C4 0C25A6DE */  jal     DemoDu_SetEyeTexIndex              
 /* 00AF8 8096A5C8 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00AFC 8096A5CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B00 8096A5D0 0C25A6E3 */  jal     func_80969B8C              
