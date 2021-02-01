@@ -1364,8 +1364,7 @@ endseg
 beginseg
     name "ovl_Bg_Ydan_Sp"
     include "build/src/overlays/actors/ovl_Bg_Ydan_Sp/z_bg_ydan_sp.o"
-    include "build/data/overlays/actors/z_bg_ydan_sp.data.o"
-    include "build/data/overlays/actors/z_bg_ydan_sp.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ydan_Sp/ovl_Bg_Ydan_Sp_reloc.o"
 endseg
 
 beginseg
