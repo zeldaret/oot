@@ -1,4 +1,5 @@
 #include "z_en_m_thunder.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -50,12 +51,6 @@ static u32 D_80AA0458[] = { 0x08000000, 0x02000000, 0x04000000 };
 
 static u16 sSfxIds[] = { NA_SE_IT_ROLLING_CUT_LV2, NA_SE_IT_ROLLING_CUT_LV1, NA_SE_IT_ROLLING_CUT_LV2,
                          NA_SE_IT_ROLLING_CUT_LV1 };
-
-extern Gfx D_04012570[];
-extern Gfx D_04012690[];
-extern Gfx D_04012AF0[];
-extern Gfx D_04012C10[];
-extern Gfx D_04013610[];
 
 // Setup action
 void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
@@ -345,13 +340,13 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     switch (this->unk_1C6) {
         case 0:
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 170, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
-            gSPDisplayList(POLY_XLU_DISP++, D_04012AF0);
-            gSPDisplayList(POLY_XLU_DISP++, D_04012C10);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack3DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack4DL);
             break;
         case 1:
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 170, 255, 255, (u8)((u32)(this->unk_1B0 * 255) & 0xFF));
-            gSPDisplayList(POLY_XLU_DISP++, D_04012570);
-            gSPDisplayList(POLY_XLU_DISP++, D_04012690);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack1DL);
+            gSPDisplayList(POLY_XLU_DISP++, gSpinAttack2DL);
             break;
     }
 
@@ -404,7 +399,7 @@ void EnMThunder_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                                 (globalCtx->gameplayFrames * 0x14) & 0xFF,
                                 (u8)(globalCtx->gameplayFrames * phi_t1) & 0xFF, 8, 8));
 
-    gSPDisplayList(POLY_XLU_DISP++, D_04013610);
+    gSPDisplayList(POLY_XLU_DISP++, gSpinAttackChargingDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_m_thunder.c", 1031);
 }
