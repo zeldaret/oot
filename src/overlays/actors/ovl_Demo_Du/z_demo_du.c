@@ -33,72 +33,16 @@ static Gfx* sEyeTextures[] = {0x06008080, 0x06008480, 0x06008880, 0x0600A540};
 
 static Gfx* D_8096CE84[] = {0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180};
 
-/*
-glabel D_8096CE94
- .word 0x00000000
-*/
-//extern UNK_TYPE D_8096CE94;
-//extern s32 D_8096CE94;
 static s32 D_8096CE94 = 0;
 
-/*
-glabel D_8096CE98
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-//extern UNK_TYPE D_8096CE98[];
-//extern Vec3f D_8096CE98;
 static Vec3f D_8096CE98 = {0.0f, 0.0f, 0.0f};
 
-/*
-glabel D_8096CEA4
- .word 0x00000000, 0x3E99999A, 0x00000000
-*/
-//extern UNK_TYPE D_8096CEA4[];
-//extern Vec3f D_8096CEA4;
 static Vec3f D_8096CEA4 = {0.0f, 0.3f, 0.0f};
 
-/*
-glabel D_8096CEB0
- .word 0xBE966EFF
-*/
-//extern UNK_TYPE D_8096CEB0;
-/*
-glabel D_8096CEB0
- 190, 150, 110, 255
-*/
-//extern Color_RGBA8 D_8096CEB0;
 static Color_RGBA8 D_8096CEB0 = {190, 150, 110, 255};
 
-/*
-glabel D_8096CEB4
- .word 0x785028FF
-*/
-//extern UNK_TYPE D_8096CEB4;
-/*
-glabel D_8096CEB4
- 120, 80, 40, 255
-*/
-//extern Color_RGBA8 D_8096CEB4;
 static Color_RGBA8 D_8096CEB4 = {120, 80, 40, 255};
 
-/*
-glabel D_8096CEB8
- .word 
- 0x41300000, 0xC1300000, 0xC0C00000, 
- 0x00000000, 0x41600000, 0xC1500000, 
- 0x41600000, 0xC0000000, 0xC1200000, 
- 0x41200000, 0xC0C00000, 0xC1000000
-*/
-//extern UNK_TYPE D_8096CEB8[];
-/*
-glabel D_8096CEB8
- .word 
- 11.0f, -11.0f, -6.0f, 
- 0.0f, 14.0f, -13.0f, 
- 14.0f, -2.0f, -10.0f, 
- 10.0f, -6.0f, -8.0f
-*/
-//extern f32 D_8096CEB8[];
 static Vec3f D_8096CEB8[] = {
  { 11.0f, -11.0f,  -6.0f },
  {  0.0f,  14.0f, -13.0f },
@@ -106,29 +50,6 @@ static Vec3f D_8096CEB8[] = {
  { 10.0f,  -6.0f,  -8.0f }
 };
 
-/*
-glabel D_8096CEE8
- .word 
- 0x41000000, 0x40C00000, 0x41000000,
- 0x41500000, 0x41000000, 0xC1200000, 
- 0xC1600000, 0x3F800000, 0xC1600000, 
- 0x40A00000, 0x41400000, 0xC1100000, 
- 0x41300000, 0x40C00000, 0xC0E00000, 
- 0x41600000, 0x41600000, 0xC1600000
-*/
-//extern UNK_TYPE D_8096CEE8[];
-/*
-glabel D_8096CEE8
- .word 
- 8.0f, 6.0f, 8.0f,
- 13.0f, 8.0f, -10.0f, 
- -14.0f, 1.0f, -14.0f, 
- 5.0f, 12.0f, -9.0f, 
- 11.0f, 6.0f, -7.0f, 
- 14.0f, 14.0f, -14.0f
-*/
-//extern Vec3f D_8096CEE8[6];
-//extern f32 D_8096CEE8[];
 static Vec3f D_8096CEE8[] = {
  {   8.0f,  6.0f,   8.0f },
  {  13.0f,  8.0f, -10.0f },
@@ -552,53 +473,56 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx);
-// maybe when i import the data this will be fixed, hopefully...
 /*
-void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx2) {
-    SkelAnime* skelAnime = &this->skelAnime;
-    GlobalContext* globalCtx = globalCtx2;
-    Vec3f spA4;
-    //s32 pad2[2];
-    //s32 pad3;
-    //s32 pad2[1];
+void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
     //s32 pad;
-    Vec3f* temp_s1;// = &player->bodyPartsPos[0x0B];
-    //s32 pad;
-    
+    Player* player;
+    f32 x;
+    //s32 pad2;
+    f32 y;
+    //s16 scale;
+    f32 z;
     s32 temp_v0;
-    Color_RGBA8 sp98;
-    Color_RGBA8 sp9C;
-    f32* phi_s0;
-    Vec3f sp88;
-    //Player* player;// = PLAYER;
     Vec3f spB0;
+    Vec3f spA4;
+    Vec3f *phi_s0;
+    Color_RGBA8 sp9C;
+    Color_RGBA8 sp98;
+    Vec3f *headPos;
+    Vec3f sp88;
+    SkelAnime *skelAnime;
 
-    if ((Animation_OnFrame(skelAnime, 31.0f)) || (Animation_OnFrame(skelAnime, 41.0f))) {
-        temp_s1 = &PLAYER->bodyPartsPos[0x0B];
+    skelAnime = &this->skelAnime;
+
+    if (Animation_OnFrame(skelAnime, 31.0f) || Animation_OnFrame(skelAnime, 41.0f)) {
+        player = PLAYER;
+        headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
 
         spB0 = D_8096CE98;
         spA4 = D_8096CEA4;
-            phi_s0 = D_8096CEE8;
+        phi_s0 = D_8096CEE8;
 
-        do {
-        //for (; phi_s0 >= (f32*) &D_8096CEB8; phi_s0 -= 3) {
-        loop_3: 
+        do{
             sp9C = D_8096CEB0;
-                *(s32*)0 = 0;
-            sp98 = D_8096CEB4; 
-
+            sp98 = D_8096CEB4;
 
             if (Animation_OnFrame(skelAnime, 31.0f)) {
-                sp88.x = phi_s0[5*3] + temp_s1->x;
-                sp88.y = phi_s0[5*3+1] + temp_s1->y;
-                sp88.z = phi_s0[5*3+2] + temp_s1->z;
+                x = phi_s0[5].x;
+                y = phi_s0[5].y;
+                z = phi_s0[5].z;
+                sp88.x = x + headPos->x;
+                sp88.y = y + headPos->y;
+                sp88.z = z + headPos->z;
             } else {
-                sp88.x = phi_s0[0] + temp_s1->x;
-                sp88.y = phi_s0[0+1] + temp_s1->y;
-                sp88.z = phi_s0[0+2] + temp_s1->z;
+                x = phi_s0[0].x;
+                y = phi_s0[0].y;
+                z = phi_s0[0].z;
+                sp88.x = x + headPos->x;
+                sp88.y = y + headPos->y;
+                sp88.z = z + headPos->z;
             }
 
-            temp_v0 = (s32) ((Rand_ZeroOne() * 20.0f) - 10.0f);
+            temp_v0 = Rand_ZeroOne() * 20.0f - 10.0f;
 
             sp9C.r += temp_v0;
             sp9C.g += temp_v0;
@@ -606,7 +530,9 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx2) {
             sp98.r += temp_v0;
             sp98.g += temp_v0;
             sp98.b += temp_v0;
-            
+
+            //scale = Rand_ZeroOne() * 40.0f + 200.0f;
+
             func_8002829C(
                 globalCtx, 
                 &sp88, 
@@ -614,17 +540,14 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx2) {
                 &spA4, 
                 &sp9C, 
                 &sp98, 
-                (s32) ((Rand_ZeroOne() * 40.0f) + 200.0f), 
+                //scale,
+                Rand_ZeroOne() * 40.0f + 200.0f,
                 0
                 );
-                
 
-            //D_8096CEE8--;
-            phi_s0 -= 3;
-
-
+            phi_s0 -= 1;
         } while (phi_s0 >= D_8096CEB8);
-
+        
         func_8096A408(globalCtx);
     }
 }
