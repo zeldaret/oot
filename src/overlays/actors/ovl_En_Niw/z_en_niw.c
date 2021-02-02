@@ -350,26 +350,24 @@ void EnNiw_SpawnAttackCucco(EnNiw* this, GlobalContext* globalCtx) {
     f32 viewY;
     f32 viewZ;
     Vec3f attackCuccoPos;
-    EnAttackNiw* attackCucco;
+    Actor* attackCucco;
 
-    if (this->timer5 == 0) {
-        if (this->unk_296 < 7) {
-            viewX = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
-            viewY = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
-            viewZ = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
-            attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + globalCtx->view.eye.x;
-            attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((globalCtx->view.eye.y + 50.0f) + (viewY * 0.5f));
-            attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + globalCtx->view.eye.z;
-            attackCucco = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ATTACK_NIW,
-                                             attackCuccoPos.x, attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
+    if ((this->timer5 == 0) && (this->unk_296 < 7)) {
+        viewX = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
+        viewY = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
+        viewZ = globalCtx->view.lookAt.z - globalCtx->view.eye.z;
+        attackCuccoPos.x = ((Rand_ZeroOne() - 0.5f) * viewX) + globalCtx->view.eye.x;
+        attackCuccoPos.y = Rand_CenteredFloat(0.3f) + ((globalCtx->view.eye.y + 50.0f) + (viewY * 0.5f));
+        attackCuccoPos.z = ((Rand_ZeroOne() - 0.5f) * viewZ) + globalCtx->view.eye.z;
+        attackCucco = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ATTACK_NIW,
+                                         attackCuccoPos.x, attackCuccoPos.y, attackCuccoPos.z, 0, 0, 0, 0);
 
-            if (attackCucco != NULL) {
-                this->unk_296++;
-                this->timer5 = 10;
-            } else {
-                osSyncPrintf("\n\n");
-                osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n" VT_RST);
-            }
+        if (attackCucco != NULL) {
+            this->unk_296++;
+            this->timer5 = 10;
+        } else {
+            osSyncPrintf("\n\n");
+            osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 発生できず  ☆☆☆☆☆ \n" VT_RST);
         }
     }
 }
@@ -438,9 +436,9 @@ void func_80AB6324(EnNiw* this, GlobalContext* globalCtx) {
 
 void func_80AB63A8(EnNiw* this, GlobalContext* globalCtx) {
     if (this->actor.bgCheckFlags & 1 && this->actor.velocity.y < 0.0f) {
-        this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-        this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-        this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+        this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+        this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+        this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
 
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speedXZ =
@@ -553,8 +551,8 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
                     posZ += 20.0f;
                 }
             }
-            this->unk_2B8 = this->unk_2AC + posY;
-            this->unk_2C0 = this->unk_2B4 + posZ;
+            this->unk_2B8.x = this->unk_2AC.x + posY;
+            this->unk_2B8.z = this->unk_2AC.z + posZ;
         } else {
             this->timer4 = 4;
             if (this->actor.bgCheckFlags & 1) {
@@ -567,11 +565,11 @@ void func_80AB6570(EnNiw* this, GlobalContext* globalCtx) {
     if (this->timer4 != 0) {
         Math_ApproachZeroF(&this->unk_26C[9], 0.5f, 4000.0f);
         tmp = 1;
-        Math_ApproachF(&this->actor.world.pos.x, this->unk_2B8, 1.0f, this->unk_2FC);
-        Math_ApproachF(&this->actor.world.pos.z, this->unk_2C0, 1.0f, this->unk_2FC);
+        Math_ApproachF(&this->actor.world.pos.x, this->unk_2B8.x, 1.0f, this->unk_2FC);
+        Math_ApproachF(&this->actor.world.pos.z, this->unk_2B8.z, 1.0f, this->unk_2FC);
         Math_ApproachF(&this->unk_2FC, 3.0f, 1.0f, 0.3f);
-        posY = this->unk_2B8 - this->actor.world.pos.x;
-        posZ = this->unk_2C0 - this->actor.world.pos.z;
+        posY = this->unk_2B8.x - this->actor.world.pos.x;
+        posZ = this->unk_2B8.z - this->actor.world.pos.z;
 
         if (fabsf(posY) < 10.0f) {
             posY = 0.0;
@@ -599,9 +597,9 @@ void func_80AB6A38(EnNiw* this, GlobalContext* globalCtx) {
     s16 pathIndex = this->path - 1;
 
     if (this->path == 0) {
-        this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-        this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-        this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+        this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+        this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+        this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speedXZ =
             this->unk_2FC = this->unk_300 = 0.0f;
@@ -659,9 +657,9 @@ void func_80AB6D08(EnNiw* this, GlobalContext* globalCtx) {
             return;
         }
         if (this->actor.params == 0xE) {
-            this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-            this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-            this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+            this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+            this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+            this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
             this->timer5 = this->timer4 = this->unk_29E = 0;
 
             this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speedXZ =
@@ -806,7 +804,7 @@ void func_80AB714C(EnNiw* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AB7204;
     }
 
-    func_80AB5BF8(&this->actor, globalCtx, this->unk_2A2);
+    func_80AB5BF8(this, globalCtx, this->unk_2A2);
 }
 
 void func_80AB7204(EnNiw* this, GlobalContext* globalCtx) {
@@ -835,9 +833,9 @@ void func_80AB7328(EnNiw* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->timer6 == 0) {
-        this->unk_2AC = this->unk_2B8 = this->actor.world.pos.x;
-        this->unk_2B0 = this->unk_2BC = this->actor.world.pos.y;
-        this->unk_2B4 = this->unk_2C0 = this->actor.world.pos.z;
+        this->unk_2AC.x = this->unk_2B8.x = this->actor.world.pos.x;
+        this->unk_2AC.y = this->unk_2B8.y = this->actor.world.pos.y;
+        this->unk_2AC.z = this->unk_2B8.z = this->actor.world.pos.z;
         this->timer5 = this->timer4 = this->unk_29E = 0;
         this->unk_26C[7] = this->unk_26C[5] = this->unk_26C[6] = this->unk_26C[8] = this->actor.speedXZ =
             this->unk_2FC = this->unk_300 = 0.0f;
@@ -936,7 +934,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_2A6 = 0;
     }
 
-    EnNiw_FeatherUpdate(&this->actor, globalCtx);
+    EnNiw_FeatherUpdate(this, globalCtx);
     if (this->timer1 != 0) {
         this->timer1--;
     }
@@ -1011,8 +1009,8 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("\n\n");
         thisx->speedXZ = 0.0f;
         thisx->gravity = -2.0f;
-        Math_Vec3f_Copy(&this->unk_2AC, &thisx->home);
-        Math_Vec3f_Copy(&this->unk_2B8, &thisx->home);
+        Math_Vec3f_Copy(&this->unk_2AC, &thisx->home.pos);
+        Math_Vec3f_Copy(&this->unk_2B8, &thisx->home.pos);
         this->unk_300 = 0.0f;
         this->unk_2FC = 0.0f;
         this->unk_2F0.z = 0.0f;
@@ -1042,7 +1040,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         thisx->params != 0xD && thisx->params != 0xE && thisx->params != 0xA) {
         thisx->velocity.y = 0.0f;
         thisx->gravity = 0.0f;
-        Math_Vec3f_Copy(&pos, &thisx->world);
+        Math_Vec3f_Copy(&pos, &thisx->world.pos);
         pos.y += thisx->yDistToWater;
         this->timer4 = 30;
         EffectSsGSplash_Spawn(globalCtx, &pos, 0, 0, 0, 400);
@@ -1069,9 +1067,9 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_26C[8] = 0.0f;
             this->sfxTimer1 = 10000;
             this->unk_2A8 = 1;
-            this->unk_2AC = this->unk_2B8 = thisx->world.pos.x;
-            this->unk_2B0 = this->unk_2BC = thisx->world.pos.y;
-            this->unk_2B4 = this->unk_2C0 = thisx->world.pos.z;
+            this->unk_2AC.x = this->unk_2B8.x = thisx->world.pos.x;
+            this->unk_2AC.y = this->unk_2B8.y = thisx->world.pos.y;
+            this->unk_2AC.z = this->unk_2B8.z = thisx->world.pos.z;
             this->actionFunc = func_80AB70A0;
             return;
         }
@@ -1083,7 +1081,7 @@ void EnNiw_Update(Actor* thisx, GlobalContext* globalCtx) {
         func_8002F6D4(globalCtx, &this->actor, 2.0f, thisx->world.rot.y, 0.0f, 0x10);
     }
 
-    func_80AB747C(&this->actor, globalCtx);
+    func_80AB747C(this, globalCtx);
 
     if (this->sfxTimer2 == 0 && this->actionFunc == func_80AB6BF8) {
         this->sfxTimer2 = 7;
