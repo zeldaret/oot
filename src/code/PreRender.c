@@ -1,5 +1,15 @@
 #include "global.h"
 
+// This is some low-level logging that is #ifdef'd out in release builds
+// It leaves behind it's "do while(0) {}" code, which influences the compiled code.
+#define PRERENDER_DEBUG_LOG(msg)
+
+#define PRERENDER_LOG_MSG(msg)                                          \
+    _DW({                                                               \
+            PRERENDER_DEBUG_LOG(fmt);                                   \
+        })
+
+
 void PreRender_SetValuesSave(PreRenderContext* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;
     this->heightSave = height;
@@ -308,14 +318,13 @@ void func_800C2118(PreRenderContext* this, Gfx** gfxp) {
     func_800C0F28(this, gfxp, this->zbufSave, this->zbuf);
 }
 
-#ifdef NON_MATCHING
-// regalloc differences in gDPLoadMultiTile
 void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
     Gfx* gfx;
     s32 y;
     s32 y2;
     s32 add;
     s32 uls;
+    s32 yinc;  // vertical increment amount
     s32 ult;
     s32 lrx;
     s32 lry;
@@ -350,20 +359,23 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
         }
 
         uls = 0;
+        yinc = 1;
         ult = y2;
-        lry = (y2 + add - 1);
+        lry = (y2 + add - yinc);
 
         gDPLoadMultiTile(gfx++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
                          this->height, uls, ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, 1, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls, ult,
+
+        PRERENDER_LOG_MSG("Loading cvgSave...");
+        gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, yinc, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls, ult,
                          lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                          G_TX_NOLOD, G_TX_NOLOD);
 
-        gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrx + 1) << 2, (lry + 1) << 2, G_TX_RENDERTILE, uls << 5,
+        PRERENDER_LOG_MSG("Rendering Rectangle Texture");
+        gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrx + yinc) << 2, (lry + yinc) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
-        if (1) {}
         y -= add;
         y2 += add;
     }
@@ -371,9 +383,6 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
     gDPPipeSync(gfx++);
     *gfxp = gfx;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/PreRender/func_800C213C.s")
-#endif
 
 void func_800C24BC(PreRenderContext* this, Gfx** gfxp) {
     func_800C0F28(this, gfxp, this->fbufSave, this->fbuf);
