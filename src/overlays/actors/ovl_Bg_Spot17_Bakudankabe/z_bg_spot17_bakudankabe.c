@@ -6,6 +6,7 @@
 
 #include "z_bg_spot17_bakudankabe.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/object_spot17_obj/object_spot17_obj.h"
 
 #define FLAGS 0x00000000
 
@@ -35,9 +36,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_06000A38;
-extern Gfx D_060008A0[];
-extern Gfx D_06000960[];
 extern Gfx D_0500A880[];
 
 void func_808B6BC0(BgSpot17Bakudankabe* this, GlobalContext* globalCtx) {
@@ -105,7 +103,8 @@ void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    CollisionHeader_GetVirtual(&D_06000A38, &colHeader);
+
+    CollisionHeader_GetVirtual(&gCraterBombableWallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
@@ -143,7 +142,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gDPSetEnvColor(POLY_OPA_DISP++, r, g, 255, 128);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_060008A0);
+    gSPDisplayList(POLY_OPA_DISP++, gCraterBombableWallDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 283);
 
@@ -153,7 +152,7 @@ void BgSpot17Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 290),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000960);
+    gSPDisplayList(POLY_XLU_DISP++, gCraterBombableWallCracksDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot17_bakudankabe.c", 295);
 }

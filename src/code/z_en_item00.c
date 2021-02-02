@@ -1,6 +1,7 @@
 #include "global.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -753,7 +754,7 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80115530[iconNb]));
 
-    gSPDisplayList(POLY_OPA_DISP++, &D_04042440);
+    gSPDisplayList(POLY_OPA_DISP++, &gRupeeDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1568);
 }
@@ -782,7 +783,7 @@ void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1607),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, D_0403F070);
+    gSPDisplayList(POLY_OPA_DISP++, gItemDropDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1611);
 }
@@ -799,13 +800,13 @@ void func_8001F1F4(EnItem00* this, GlobalContext* globalCtx) {
     func_8002EBCC(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1634),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &D_0403BBA0);
+    gSPDisplayList(POLY_OPA_DISP++, &gHeartPieceExteriorDL);
 
     func_80093D84(globalCtx->state.gfxCtx);
     func_8002ED80(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1644),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &D_0403BCD8);
+    gSPDisplayList(POLY_XLU_DISP++, &gHeartContainerInteriorDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1647);
 }
@@ -822,7 +823,7 @@ void func_8001F334(EnItem00* this, GlobalContext* globalCtx) {
     func_8002ED80(&this->actor, globalCtx, 0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1670),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &D_0403B030);
+    gSPDisplayList(POLY_XLU_DISP++, &gHeartPieceInteriorDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1673);
 }

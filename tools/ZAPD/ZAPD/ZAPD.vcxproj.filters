@@ -199,7 +199,7 @@
       <Filter>Source Files\Z64</Filter>
     </ClCompile>
     <ClCompile Include="ZVtx.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Z64</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

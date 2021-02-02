@@ -57,13 +57,13 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    { 0x0600917C, 1.0f, 0.0f, -1.0f, 0x02, -1.0f }, { 0x06009E68, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
-    { 0x06009B1C, 1.0f, 0.0f, -1.0f, 0x02, -1.0f }, { 0x06008E84, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
-    { 0x060097F0, 1.0f, 0.0f, -1.0f, 0x00, -1.0f }, { 0x060092B0, 1.0f, 0.0f, -1.0f, 0x02, -1.0f },
-    { 0x0600A138, 1.0f, 0.0f, -1.0f, 0x00, -1.0f }, { 0x06008FC0, 1.0f, 0.0f, -1.0f, 0x02, -1.0f },
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, -8.0f }, { 0x06008510, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
-    { 0x060095BC, 1.0f, 0.0f, -1.0f, 0x02, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
+    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x0600917C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06009E68, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { 0x06009B1C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008E84, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { 0x060097F0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x060092B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { 0x0600A138, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x06008FC0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { 0x06008510, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { 0x060095BC, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
 
 extern AnimationHeader D_060002C8;
