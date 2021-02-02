@@ -138,7 +138,7 @@ glabel L808D41FC
 /* 01BF0 808D4260 14410005 */  bne     $v0, $at, .L808D4278
 /* 01BF4 808D4264 A60D01A4 */  sh      $t5, 0x01A4($s0)           ## 000001A4
 /* 01BF8 808D4268 240438D9 */  addiu   $a0, $zero, 0x38D9         ## $a0 = 000038D9
-/* 01BFC 808D426C 0C03E341 */  jal     func_800F8D04
+/* 01BFC 808D426C 0C03E341 */  jal     Audio_StopSfx
 /* 01C00 808D4270 E7A0007C */  swc1    $f0, 0x007C($sp)
 /* 01C04 808D4274 C7A0007C */  lwc1    $f0, 0x007C($sp)
 .L808D4278:

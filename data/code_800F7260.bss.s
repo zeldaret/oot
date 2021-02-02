@@ -69,7 +69,7 @@ glabel D_8016E320
 glabel D_8016E348
     .space 0x8
 
-glabel D_8016E350
+glabel sAudioSeqCmds
     .space 0x400
 
 glabel D_8016E750

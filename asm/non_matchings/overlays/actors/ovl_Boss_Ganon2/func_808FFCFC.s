@@ -23,7 +23,7 @@ glabel func_808FFCFC
 /* 02E0C 808FFD4C 94980088 */  lhu     $t8, 0x0088($a0)           ## 00000088
 /* 02E10 808FFD50 0C240160 */  jal     func_80900580              
 /* 02E14 808FFD54 A0800311 */  sb      $zero, 0x0311($a0)         ## 00000311
-/* 02E18 808FFD58 0C03E341 */  jal     func_800F8D04              
+/* 02E18 808FFD58 0C03E341 */  jal     Audio_StopSfx              
 /* 02E1C 808FFD5C 240439D9 */  addiu   $a0, $zero, 0x39D9         ## $a0 = 000039D9
 /* 02E20 808FFD60 10000010 */  beq     $zero, $zero, .L808FFDA4   
 /* 02E24 808FFD64 8FBF0014 */  lw      $ra, 0x0014($sp)           
@@ -40,7 +40,7 @@ glabel func_808FFCFC
 /* 02E4C 808FFD8C 8FA5001C */  lw      $a1, 0x001C($sp)           
 /* 02E50 808FFD90 0C240160 */  jal     func_80900580              
 /* 02E54 808FFD94 A0800311 */  sb      $zero, 0x0311($a0)         ## 00000311
-/* 02E58 808FFD98 0C03E341 */  jal     func_800F8D04              
+/* 02E58 808FFD98 0C03E341 */  jal     Audio_StopSfx              
 /* 02E5C 808FFD9C 240439D9 */  addiu   $a0, $zero, 0x39D9         ## $a0 = 000039D9
 .L808FFDA0:
 /* 02E60 808FFDA0 8FBF0014 */  lw      $ra, 0x0014($sp)           

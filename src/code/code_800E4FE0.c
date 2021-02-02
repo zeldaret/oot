@@ -251,9 +251,9 @@ void func_800E5584(AudioCmd* cmd) {
             func_800E2124(cmd->arg0, cmd->arg1, cmd->data);
             return;
         case 0x83:
-            if (gAudioContext.gSequencePlayers[cmd->arg0].enabled) {
+            if (gAudioContext.seqPlayers[cmd->arg0].enabled) {
                 if (cmd->asInt == 0) {
-                    Audio_SequencePlayerDisableAsFinished(&gAudioContext.gSequencePlayers[cmd->arg0]);
+                    Audio_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[cmd->arg0]);
                 } else {
                     func_800E5958(cmd->arg0, cmd->asInt);
                 }
@@ -264,7 +264,7 @@ void func_800E5584(AudioCmd* cmd) {
             return;
         case 0xF1:
             for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-                SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[i];
+                SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
                 seqPlayer->muted = 1;
                 seqPlayer->recalculateVolume = 1;
             }
@@ -283,7 +283,7 @@ void func_800E5584(AudioCmd* cmd) {
             }
 
             for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-                SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[i];
+                SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
                 seqPlayer->muted = 0;
                 seqPlayer->recalculateVolume = 1;
             }
@@ -323,7 +323,7 @@ void func_800E5584(AudioCmd* cmd) {
             temp_t7 = cmd->asUInt;
             if (temp_t7 == 1) {
                 for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-                    SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[i];
+                    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[i];
                     if (seqPlayer->enabled) {
                         Audio_SequencePlayerDisableAsFinished(seqPlayer);
                     }
@@ -341,7 +341,7 @@ void func_800E5584(AudioCmd* cmd) {
 
 // SetFadeOutTimer
 void func_800E5958(s32 playerIdx, s32 fadeTimer) {
-    SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
 
     if (fadeTimer == 0) {
         fadeTimer = 1;
@@ -356,7 +356,7 @@ void func_800E5958(s32 playerIdx, s32 fadeTimer) {
 void func_800E59AC(s32 playerIdx, s32 fadeTimer) {
     SequencePlayer* seqPlayer;
     if (fadeTimer != 0) {
-        seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
+        seqPlayer = &gAudioContext.seqPlayers[playerIdx];
         seqPlayer->state = 1;
         seqPlayer->fadeTimerUnkEu = fadeTimer;
         seqPlayer->fadeTimer = fadeTimer;
@@ -447,7 +447,7 @@ void Audio_ProcessCmd(AudioCmd* cmd) {
     }
 
     if (cmd->arg0 < gAudioContext.gAudioBufferParameters.numSequencePlayers) {
-        seqPlayer = &gAudioContext.gSequencePlayers[cmd->arg0];
+        seqPlayer = &gAudioContext.seqPlayers[cmd->arg0];
         if (cmd->op & 0x80) {
             func_800E5584(cmd);
             return;
@@ -572,7 +572,7 @@ void Audio_PreNMIInternal(void) {
 }
 
 s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
-    SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     SequenceChannel* channel;
     if (seqPlayer->enabled) {
         channel = seqPlayer->channels[channelIdx];
@@ -583,7 +583,7 @@ s8 func_800E6070(s32 playerIdx, s32 channelIdx, s32 scriptIdx) {
 }
 
 s8 func_800E60C4(s32 arg0, s32 arg1) {
-    return gAudioContext.gSequencePlayers[arg0].unk_158[arg1];
+    return gAudioContext.seqPlayers[arg0].unk_158[arg1];
 }
 
 void func_800E60EC(void* memAddr, u32 size) {
@@ -752,7 +752,7 @@ s32 func_800E6590(s32 arg0, s32 arg1, s32 arg2) {
     SequenceChannel* temp_v1;
     SequencePlayer* seqPlayer;
 
-    seqPlayer = &gAudioContext.gSequencePlayers[arg0];
+    seqPlayer = &gAudioContext.seqPlayers[arg0];
     if (seqPlayer->enabled && seqPlayer->channels[arg1]->enabled) {
         temp_v0 = seqPlayer->channels[arg1]->layers[arg2];
         if (temp_v0 == NULL) {

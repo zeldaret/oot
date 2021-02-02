@@ -9,10 +9,10 @@
 
 .balign 16
 
-glabel D_80133400
+glabel sSeqCmdWrPos
     .incbin "baserom.z64", 0xBAA5A0, 0x4
 
-glabel D_80133404
+glabel sSeqCmdRdPos
     .incbin "baserom.z64", 0xBAA5A4, 0x4
 
 glabel D_80133408

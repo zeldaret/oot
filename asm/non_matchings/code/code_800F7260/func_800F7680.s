@@ -162,7 +162,7 @@ glabel func_800F7680
 /* B6EA7C 800F78DC AFAA0050 */  sw    $t2, 0x50($sp)
 /* B6EA80 800F78E0 AFA8003C */  sw    $t0, 0x3c($sp)
 /* B6EA84 800F78E4 AFA30048 */  sw    $v1, 0x48($sp)
-/* B6EA88 800F78E8 0C03DCC7 */  jal   func_800F731C
+/* B6EA88 800F78E8 0C03DCC7 */  jal   Audio_ClearBGMMute
 /* B6EA8C 800F78EC AFA20030 */   sw    $v0, 0x30($sp)
 /* B6EA90 800F78F0 8FA8003C */  lw    $t0, 0x3c($sp)
 /* B6EA94 800F78F4 8FA20030 */  lw    $v0, 0x30($sp)

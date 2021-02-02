@@ -80,7 +80,7 @@ glabel func_80A43D78
 /* 01168 80A43E98 24013035 */  addiu   $at, $zero, 0x3035         ## $at = 00003035
 /* 0116C 80A43E9C 54A10018 */  bnel    $a1, $at, .L80A43F00       
 /* 01170 80A43EA0 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 01174 80A43EA4 0C03E341 */  jal     func_800F8D04              
+/* 01174 80A43EA4 0C03E341 */  jal     Audio_StopSfx              
 /* 01178 80A43EA8 AFA7001C */  sw      $a3, 0x001C($sp)           
 /* 0117C 80A43EAC 8FA7001C */  lw      $a3, 0x001C($sp)           
 /* 01180 80A43EB0 10000012 */  beq     $zero, $zero, .L80A43EFC   
@@ -101,7 +101,7 @@ glabel func_80A43D78
 /* 011B0 80A43EE0 24013036 */  addiu   $at, $zero, 0x3036         ## $at = 00003036
 /* 011B4 80A43EE4 54A10006 */  bnel    $a1, $at, .L80A43F00       
 /* 011B8 80A43EE8 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 011BC 80A43EEC 0C03E341 */  jal     func_800F8D04              
+/* 011BC 80A43EEC 0C03E341 */  jal     Audio_StopSfx              
 /* 011C0 80A43EF0 AFA7001C */  sw      $a3, 0x001C($sp)           
 /* 011C4 80A43EF4 8FA7001C */  lw      $a3, 0x001C($sp)           
 /* 011C8 80A43EF8 94E5010E */  lhu     $a1, 0x010E($a3)           ## 0000010E

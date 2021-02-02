@@ -90,8 +90,8 @@ void Audio_DiscardSequence(s32 seqId) {
     s32 i;
 
     for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-        if (gAudioContext.gSequencePlayers[i].enabled && gAudioContext.gSequencePlayers[i].seqId == seqId) {
-            Audio_SequencePlayerDisable(&gAudioContext.gSequencePlayers[i]);
+        if (gAudioContext.seqPlayers[i].enabled && gAudioContext.seqPlayers[i].seqId == seqId) {
+            Audio_SequencePlayerDisable(&gAudioContext.seqPlayers[i]);
         }
     }
 }
@@ -372,8 +372,8 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
             if (poolIdx == 0) {
                 if (firstVal == 2) {
                     for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-                        if (gAudioContext.gSequencePlayers[i].enabled != 0 &&
-                            gAudioContext.gSequencePlayers[i].seqId == tp->entries[0].id) {
+                        if (gAudioContext.seqPlayers[i].enabled != 0 &&
+                            gAudioContext.seqPlayers[i].seqId == tp->entries[0].id) {
                             break;
                         }
                     }
@@ -386,8 +386,8 @@ void* Audio_AllocBankOrSeq(s32 poolIdx, s32 size, s32 arg2, s32 id) {
 
                 if (secondVal == 2) {
                     for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-                        if (gAudioContext.gSequencePlayers[i].enabled != 0 &&
-                            gAudioContext.gSequencePlayers[i].seqId == tp->entries[1].id) {
+                        if (gAudioContext.seqPlayers[i].enabled != 0 &&
+                            gAudioContext.seqPlayers[i].seqId == tp->entries[1].id) {
                             break;
                         }
                     }
@@ -712,7 +712,7 @@ s32 Audio_ResetStep(void) {
     switch (gAudioContext.resetStatus) {
         case 5:
             for (i = 0; i < gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-                Audio_SequencePlayerDisableAsFinished(&gAudioContext.gSequencePlayers[i]);
+                Audio_SequencePlayerDisableAsFinished(&gAudioContext.seqPlayers[i]);
             }
             gAudioContext.gAudioResetFadeOutFramesLeft = 2 / sp24;
             gAudioContext.resetStatus--;
@@ -962,7 +962,7 @@ void Audio_InitHeap(void) {
     Audio_InitSequencePlayers();
     for (j = 0; j < gAudioContext.gAudioBufferParameters.numSequencePlayers; j++) {
         func_800EC734(j);
-        Audio_ResetSequencePlayer(&gAudioContext.gSequencePlayers[j]);
+        Audio_ResetSequencePlayer(&gAudioContext.seqPlayers[j]);
     }
 
     func_800E0634(preset->unk_30, preset->unk_34);

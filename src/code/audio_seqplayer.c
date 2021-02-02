@@ -972,7 +972,7 @@ void Audio_ProcessSequences(s32 arg0) {
     gAudioContext.gNoteSubEuOffset =
         (gAudioContext.gAudioBufferParameters.updatesPerFrame - arg0 - 1) * gAudioContext.gMaxSimultaneousNotes;
     for (i = 0; i < (u32)gAudioContext.gAudioBufferParameters.numSequencePlayers; i++) {
-        seqPlayer = &gAudioContext.gSequencePlayers[i];
+        seqPlayer = &gAudioContext.seqPlayers[i];
         if (seqPlayer->enabled == 1) {
             Audio_SequencePlayerProcessSequence(seqPlayer);
             Audio_SequencePlayerProcessSound(seqPlayer);
@@ -1021,7 +1021,7 @@ void func_800EC734(s32 seqPlayerIdx) {
     SequencePlayer* seqPlayer;
     s32 i, j;
 
-    seqPlayer = &gAudioContext.gSequencePlayers[seqPlayerIdx];
+    seqPlayer = &gAudioContext.seqPlayers[seqPlayerIdx];
     for (i = 0; i < 0x10; i++) {
         seqPlayer->channels[i] = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {
@@ -1071,6 +1071,6 @@ void Audio_InitSequencePlayers(void) {
     }
 
     for (i = 0; i < 4; i++) {
-        Audio_InitSequencePlayer(&gAudioContext.gSequencePlayers[i]);
+        Audio_InitSequencePlayer(&gAudioContext.seqPlayers[i]);
     }
 }

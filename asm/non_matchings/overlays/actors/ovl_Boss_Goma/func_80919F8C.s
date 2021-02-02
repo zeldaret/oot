@@ -99,7 +99,7 @@ glabel func_80919F8C
 /* 046E0 8091A0F0 0C00BE0A */  jal     Audio_PlayActorSound2
               
 /* 046E4 8091A0F4 24053811 */  addiu   $a1, $zero, 0x3811         ## $a1 = 00003811
-/* 046E8 8091A0F8 0C03E341 */  jal     func_800F8D04              
+/* 046E8 8091A0F8 0C03E341 */  jal     Audio_StopSfx              
 /* 046EC 8091A0FC 2404380E */  addiu   $a0, $zero, 0x380E         ## $a0 = 0000380E
 /* 046F0 8091A100 240E000A */  addiu   $t6, $zero, 0x000A         ## $t6 = 0000000A
 /* 046F4 8091A104 A60E01BA */  sh      $t6, 0x01BA($s0)           ## 000001BA

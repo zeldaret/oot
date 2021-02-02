@@ -130,7 +130,7 @@ glabel func_809F36CC
 /* 005D4 809F3894 AFA90010 */  sw      $t1, 0x0010($sp)           
 /* 005D8 809F3898 0C00A97D */  jal     EffectSsExtra_Spawn              
 /* 005DC 809F389C E7AA0074 */  swc1    $f10, 0x0074($sp)          
-/* 005E0 809F38A0 0C03E341 */  jal     func_800F8D04              
+/* 005E0 809F38A0 0C03E341 */  jal     Audio_StopSfx              
 /* 005E4 809F38A4 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807
 /* 005E8 809F38A8 0C01E221 */  jal     func_80078884              
 /* 005EC 809F38AC 24044807 */  addiu   $a0, $zero, 0x4807         ## $a0 = 00004807

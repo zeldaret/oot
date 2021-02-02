@@ -16,7 +16,7 @@ glabel func_800F491C
 /* B6BAF4 800F4954 00002025 */  move  $a0, $zero
 /* B6BAF8 800F4958 00002825 */  move  $a1, $zero
 /* B6BAFC 800F495C 24070002 */  li    $a3, 2
-/* B6BB00 800F4960 0C03E890 */  jal   func_800FA240
+/* B6BB00 800F4960 0C03E890 */  jal   Audio_SetVolScale
 /* B6BB04 800F4964 A3A60033 */   sb    $a2, 0x33($sp)
 /* B6BB08 800F4968 2AA10040 */  slti  $at, $s5, 0x40
 /* B6BB0C 800F496C 10200003 */  beqz  $at, .L800F497C

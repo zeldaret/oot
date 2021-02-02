@@ -192,7 +192,7 @@ glabel func_808BFE50
 /* 00CD8 808C00E8 10000003 */  beq     $zero, $zero, .L808C00F8   
 /* 00CDC 808C00EC 00000000 */  nop
 .L808C00F0:
-/* 00CE0 808C00F0 0C03E341 */  jal     func_800F8D04              
+/* 00CE0 808C00F0 0C03E341 */  jal     Audio_StopSfx              
 /* 00CE4 808C00F4 24042861 */  addiu   $a0, $zero, 0x2861         ## $a0 = 00002861
 .L808C00F8:
 /* 00CE8 808C00F8 0C22FE0F */  jal     func_808BF83C              

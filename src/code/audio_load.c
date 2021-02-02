@@ -395,7 +395,7 @@ s32 func_800E20D4(s32 playerIdx, s32 seqId, s32 arg2) {
     if (gAudioContext.resetTimer != 0) {
         return 0;
     } else {
-        gAudioContext.gSequencePlayers[playerIdx].unk_DC = 0;
+        gAudioContext.seqPlayers[playerIdx].unk_DC = 0;
         return func_800E217C(playerIdx, seqId, arg2);
     }
 }
@@ -405,13 +405,13 @@ s32 func_800E2124(s32 playerIdx, s32 seqId, s32 arg2) {
         return 0;
     }
 
-    gAudioContext.gSequencePlayers[playerIdx].unk_DC = arg2;
+    gAudioContext.seqPlayers[playerIdx].unk_DC = arg2;
     return func_800E217C(playerIdx, seqId, 0);
 }
 
 // InitSeqPlayer
 s32 func_800E217C(s32 playerIdx, s32 seqId, s32 arg2) {
-    SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[playerIdx];
+    SequencePlayer* seqPlayer = &gAudioContext.seqPlayers[playerIdx];
     u8* seqData;
     s32 phi_s0;
     s32 phi_s1;
