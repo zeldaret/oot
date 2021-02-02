@@ -3,6 +3,7 @@
  * Overlay: ovl_Bg_Jya_Bombiwa
  * Description: Spirit Temple top room bombable wall
  */
+
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "vt.h"

@@ -62,8 +62,8 @@ static u64* D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
 static u64* D_80B4E62C[] = { 0x06007608 };
 
 extern AnimationHeader D_06000438;
-extern u64* D_06008848;
-extern u64* D_06008C48;
+extern u64 D_06008848[];
+extern u64 D_06008C48[];
 extern FlexSkeletonHeader D_0600F5D8;
 extern AnimationHeader D_06010B38;
 extern AnimationHeader D_06011348;

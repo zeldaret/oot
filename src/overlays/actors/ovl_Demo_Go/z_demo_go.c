@@ -52,7 +52,7 @@ const ActorInit Demo_Go_InitVars = {
 
 extern AnimationHeader D_060029A8;
 extern AnimationHeader D_06004930;
-extern u64* D_0600E680;
+extern u64 D_0600E680[];
 extern FlexSkeletonHeader D_0600FEF0;
 
 s32 func_8097C870(DemoGo* this) {

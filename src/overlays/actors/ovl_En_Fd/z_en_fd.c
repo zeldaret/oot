@@ -3,6 +3,7 @@
  * Overlay: ovl_En_Fd
  * Description: Flare Dancer (enflamed form)
  */
+
 #include "z_en_fd.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 

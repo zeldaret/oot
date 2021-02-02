@@ -201,7 +201,6 @@ void func_8088A67C(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
     Vec3f velocity;
     Vec3f pos;
     s16 arg5;
-    // thisx is not required for matching in this function, but is in BgHidanKowarerukabe_FloorBreak, so done for consistency
     Actor* thisx = &this->dyna.actor;
     f32 sin = Math_SinS(thisx->shape.rot.y);
     f32 cos = Math_CosS(thisx->shape.rot.y);
@@ -243,7 +242,6 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
     Vec3f velocity;
     Vec3f pos;
     s16 arg5;
-    // thisx is not required for matching in this function, but is in BgHidanKowarerukabe_FloorBreak, so done for consistency
     Actor* thisx = &this->dyna.actor; 
     f32 sin = Math_SinS(thisx->shape.rot.y);
     f32 cos = Math_CosS(thisx->shape.rot.y);

@@ -3,6 +3,7 @@
  * Overlay: ovl_En_Fw
  * Description: Flare Dancer Core
  */
+
 #include "z_en_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
