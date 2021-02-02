@@ -151,7 +151,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
     Vec3f newPos;
     f32 bodyDistDiff;
     f32 phi_f16;
-    Actor* actor;
+    DynaPolyActor* dynaPolyActor;
     f32 sp94;
     f32 sp90;
     s32 pad;
@@ -282,9 +282,9 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 this->timer = 0;
                 if (SurfaceType_IsHookshotSurface(&globalCtx->colCtx, poly, bgId) != 0) {
                     if (bgId != BGCHECK_SCENE) {
-                        actor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
-                        if (actor != NULL) {
-                            ArmsHook_AttachHookToActor(this, actor);
+                        dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
+                        if (dynaPolyActor != NULL) {
+                            ArmsHook_AttachHookToActor(this, &dynaPolyActor->actor);
                         }
                     }
                     func_80865044(this);

@@ -1335,15 +1335,15 @@ void func_80AED8DC(EnRu1* this) {
 }
 
 void func_80AEDAE0(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorBgId);
+    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorBgId);
 
-    if (dyna == NULL || dyna->id == ACTOR_EN_BOX) {
+    if (dynaPolyActor == NULL || dynaPolyActor->actor.id == ACTOR_EN_BOX) {
         this->actor.bgCheckFlags &= ~0x19;
     }
 }
 
 void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* temp_dyna;
+    DynaPolyActor* dynaPolyActor;
     f32* velocityY;
     f32* speedXZ;
     f32* gravity;
@@ -1355,11 +1355,11 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
     if (this->actor.bgCheckFlags & 1) {
         velocityY = &this->actor.velocity.y;
-        temp_dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorBgId);
+        dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorBgId);
         if (*velocityY <= 0.0f) {
             speedXZ = &this->actor.speedXZ;
-            if (temp_dyna != NULL) {
-                if (temp_dyna->id != ACTOR_EN_BOX) {
+            if (dynaPolyActor != NULL) {
+                if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
                     *speedXZ = 0.0f;
                 }
             } else {
@@ -1370,8 +1370,8 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
                 }
             }
             gravity = &this->actor.gravity;
-            if (temp_dyna != NULL) {
-                if (temp_dyna->id != ACTOR_EN_BOX) {
+            if (dynaPolyActor != NULL) {
+                if (dynaPolyActor->actor.id != ACTOR_EN_BOX) {
                     *velocityY = 0.0f;
                     this->actor.minVelocityY = 0.0f;
                     *gravity = 0.0f;
@@ -1430,9 +1430,9 @@ void func_80AEDB30(EnRu1* this, GlobalContext* globalCtx) {
 
 void func_80AEDEF4(EnRu1* this, GlobalContext* globalCtx) {
     f32* speedXZ = &this->actor.speedXZ;
-    Actor* dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorBgId);
+    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.floorBgId);
 
-    if (dyna != NULL && dyna->id == ACTOR_EN_BOX) {
+    if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_EN_BOX) {
         if (*speedXZ != 0.0f) {
             *speedXZ *= 1.1f;
         } else {
@@ -1533,13 +1533,13 @@ s32 func_80AEE264(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
-    Actor* dyna;
+    DynaPolyActor* dynaPolyActor;
     s32 floorBgId;
     if ((this->actor.bgCheckFlags & 1) && (this->actor.floorBgId != BGCHECK_SCENE)) {
         floorBgId = this->actor.floorBgId;
-        dyna = DynaPoly_GetActor(&globalCtx->colCtx, floorBgId);
-        if ((dyna != NULL) && (dyna->id == ACTOR_BG_BDAN_SWITCH)) {
-            if (((dyna->params >> 8) & 0x3F) == 0x38) {
+        dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, floorBgId);
+        if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_BG_BDAN_SWITCH)) {
+            if (((dynaPolyActor->actor.params >> 8) & 0x3F) == 0x38) {
                 gSaveContext.infTable[20] |= 1;
                 return;
             }
@@ -1551,21 +1551,21 @@ void func_80AEE2F8(EnRu1* this, GlobalContext* globalCtx) {
 s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
     s32 pad[2];
     CollisionContext* colCtx;
-    Actor* dynaActor;
+    DynaPolyActor* dynaPolyActor;
     s32 floorBgId;
 
     if ((this->actor.bgCheckFlags & 1) && this->actor.floorBgId != BGCHECK_SCENE) {
         colCtx = &globalCtx->colCtx;
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
-        dynaActor = DynaPoly_GetActor(colCtx, floorBgId);
-        if (dynaActor != NULL && dynaActor->id == ACTOR_BG_BDAN_OBJECTS && dynaActor->params == 0 &&
+        dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
+        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS && dynaPolyActor->actor.params == 0 &&
             !Player_InCsMode(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
             this->action = 36;
             this->drawConfig = 0;
-            this->unk_28C = (BgBdanObjects*)dynaActor;
+            this->unk_28C = (BgBdanObjects*)dynaPolyActor;
             this->actor.shape.shadowAlpha = 0;
             return 1;
         }

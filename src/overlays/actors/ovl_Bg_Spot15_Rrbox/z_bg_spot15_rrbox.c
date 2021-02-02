@@ -85,9 +85,9 @@ void func_808B3A34(BgSpot15Rrbox* this) {
 }
 
 s32 func_808B3A40(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
-    Actor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->bgId);
+    DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->bgId);
 
-    if ((dynaPolyActor != NULL) && Math3D_Dist2DSq(dynaPolyActor->world.pos.x, dynaPolyActor->world.pos.z,
+    if ((dynaPolyActor != NULL) && Math3D_Dist2DSq(dynaPolyActor->actor.world.pos.x, dynaPolyActor->actor.world.pos.z,
                                                  this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.z) < 0.01f) {
         return true;
     }

@@ -33,6 +33,8 @@ typedef struct {
 #define CHEST_ANIM_SHORT 0
 #define CHEST_ANIM_LONG 1
 
+#define GET_ITEM_NONE { ITEM_NONE, 0, 0, 0, 0 }
+
 typedef struct {
     /* 0x00 */ u8 itemId;
     /* 0x02 */ s16 actorId;
@@ -607,10 +609,8 @@ GetItemEntry sGetItemTable[] = {
     GET_ITEM(ITEM_NUT_UPGRADE_30, OBJECT_GI_NUTS, 0x11, 0xA7, 0x80, CHEST_ANIM_SHORT),
     GET_ITEM(ITEM_NUT_UPGRADE_40, OBJECT_GI_NUTS, 0x11, 0xA8, 0x80, CHEST_ANIM_SHORT),
     GET_ITEM(ITEM_BULLET_BAG_50, OBJECT_GI_DEKUPOUCH, 0x72, 0x6C, 0x80, CHEST_ANIM_LONG),
-    GET_ITEM(ITEM_NONE, OBJECT_UNSET_0, -1, 0x00, 0x00, CHEST_ANIM_SHORT),
-    GET_ITEM(ITEM_NONE, OBJECT_UNSET_0, -1, 0x00, 0x00, CHEST_ANIM_SHORT),
-    // { ITEM_NONE, 0, 0, 0, 0 },
-    // { ITEM_NONE, 0, 0, 0, 0 },
+    GET_ITEM_NONE,
+    GET_ITEM_NONE,
 };
 
 LinkAnimationHeader* D_80853914[] = {
@@ -6221,7 +6221,7 @@ void func_8083F72C(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
 }
 
 s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
-    Actor* wallPolyActor;
+    DynaPolyActor* wallPolyActor;
 
     if (!(this->stateFlags1 & 0x800) && (this->actor.bgCheckFlags & 0x200) && (D_80853608 < 0x3000)) {
 
@@ -6240,14 +6240,14 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
                 if ((this->actor.wallBgId != BGCHECK_SCENE) &&
                     ((wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId)) != NULL)) {
 
-                    if (wallPolyActor->id == ACTOR_BG_HEAVY_BLOCK) {
+                    if (wallPolyActor->actor.id == ACTOR_BG_HEAVY_BLOCK) {
                         if (Player_GetStrength() < PLAYER_STR_GOLD_G) {
                             return 0;
                         }
 
                         func_80836898(globalCtx, this, func_8083A0F4);
                         this->stateFlags1 |= 0x800;
-                        this->interactRangeActor = wallPolyActor;
+                        this->interactRangeActor = &wallPolyActor->actor;
                         this->getItemId = GI_NONE;
                         this->currentYaw = this->actor.wallYaw + 0x8000;
                         func_80832224(this);
@@ -6255,7 +6255,7 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
                         return 1;
                     }
 
-                    this->unk_3C4 = wallPolyActor;
+                    this->unk_3C4 = &wallPolyActor->actor;
                 } else {
                     this->unk_3C4 = NULL;
                 }
@@ -6273,13 +6273,13 @@ s32 func_8083F7BC(Player* this, GlobalContext* globalCtx) {
 s32 func_8083F9D0(GlobalContext* globalCtx, Player* this) {
     if ((this->actor.bgCheckFlags & 0x200) &&
         ((this->stateFlags2 & 0x10) || CHECK_BTN_ALL(sControlInput->cur.button, BTN_A))) {
-        Actor* wallPolyActor = NULL;
+        DynaPolyActor* wallPolyActor = NULL;
 
         if (this->actor.wallBgId != BGCHECK_SCENE) {
             wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
         }
 
-        if (wallPolyActor == this->unk_3C4) {
+        if (&wallPolyActor->actor == this->unk_3C4) {
             if (this->stateFlags2 & 0x10) {
                 return 1;
             } else {
@@ -8016,7 +8016,7 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
     Actor* cylinderOc;
     s32 temp;
     s32 sp44;
-    Actor* wallPolyActor;
+    DynaPolyActor* wallPolyActor;
     s32 pad;
     f32 sp38;
     s16 sp36;
@@ -8050,8 +8050,8 @@ void func_80844708(Player* this, GlobalContext* globalCtx) {
                         cylinderOc->home.rot.y = 1;
                     } else if (this->actor.wallBgId != BGCHECK_SCENE) {
                         wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
-                        if ((wallPolyActor != NULL) && (wallPolyActor->id == ACTOR_OBJ_KIBAKO2)) {
-                            wallPolyActor->home.rot.z = 1;
+                        if ((wallPolyActor != NULL) && (wallPolyActor->actor.id == ACTOR_OBJ_KIBAKO2)) {
+                            wallPolyActor->actor.home.rot.z = 1;
                         }
                     }
 
@@ -10694,10 +10694,10 @@ void func_8084B78C(Player* this, GlobalContext* globalCtx) {
 
 void func_8084B840(GlobalContext* globalCtx, Player* this, f32 arg2) {
     if (this->actor.wallBgId != BGCHECK_SCENE) {
-        DynaPolyActor* dynaActor = (DynaPolyActor*)DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
+        DynaPolyActor* dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
 
-        if (dynaActor != NULL) {
-            func_8002DFA4(dynaActor, arg2, this->actor.world.rot.y);
+        if (dynaPolyActor != NULL) {
+            func_8002DFA4(dynaPolyActor, arg2, this->actor.world.rot.y);
         }
     }
 }
@@ -10927,9 +10927,9 @@ void func_8084BF1C(Player* this, GlobalContext* globalCtx) {
 
     if (this->unk_850 >= 0) {
         if ((this->actor.wallPoly != NULL) && (this->actor.wallBgId != BGCHECK_SCENE)) {
-            Actor* wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
+            DynaPolyActor* wallPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->actor.wallBgId);
             if (wallPolyActor != NULL) {
-                Math_Vec3f_Diff(&wallPolyActor->world.pos, &wallPolyActor->prevPos, &sp6C);
+                Math_Vec3f_Diff(&wallPolyActor->actor.world.pos, &wallPolyActor->actor.prevPos, &sp6C);
                 Math_Vec3f_Sum(&this->actor.world.pos, &sp6C, &this->actor.world.pos);
             }
         }

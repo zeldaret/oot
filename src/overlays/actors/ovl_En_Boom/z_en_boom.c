@@ -117,7 +117,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     s32 pad1;
     f32 distXYZScale;
     f32 distFromLink;
-    Actor* hitActor;
+    DynaPolyActor* hitActor;
     s32 hitDynaID;
     Vec3f hitPoint;
     s32 pad2;
@@ -138,7 +138,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             distXYZScale = 0.12f;
         }
 
-        if ((target != (Actor*)player) && ((target->update == NULL) || (ABS(yawDiff) > 0x4000))) {
+        if ((target != &player->actor) && ((target->update == NULL) || (ABS(yawDiff) > 0x4000))) {
             //! @bug  This condition is why the boomerang will randomly fly off in a the down left direction sometimes.
             //      If the actor targetted is not Link and the difference between the 2 y angles is greater than 0x4000,
             //      the moveTo pointer is nulled and it flies off in a seemingly random direction.
@@ -208,7 +208,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 if (func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
                     (hitDynaID != BGCHECK_SCENE &&
                      ((hitActor = DynaPoly_GetActor(&globalCtx->colCtx, hitDynaID)) != NULL) &&
-                     hitActor->id == ACTOR_BG_BDAN_OBJECTS && hitActor->params == 0)) {
+                     hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS && hitActor->actor.params == 0)) {
                     collided = false;
                 } else {
                     CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &hitPoint);
