@@ -6,7 +6,7 @@
 
 struct EnFr;
 
-typedef void (*EnFrActionFunc)(struct EnFr*, struct GlobalContext*);
+typedef void (*EnFrActionFunc)(struct EnFr*, GlobalContext*);
 typedef void (*EnFrBlinkFunc)(struct EnFr*);
 
 typedef enum {
@@ -27,14 +27,6 @@ typedef enum {
     /* 06 */ FROG_CHOIR_SONG,
     /* 07 */ FROG_NO_SONG
 } FrogSongType;
-
-typedef enum {
-    /* 00 */ FROG_BTN_A,
-    /* 01 */ FROG_BTN_C_DOWN,
-    /* 02 */ FROG_BTN_C_RIGHT,
-    /* 03 */ FROG_BTN_C_LEFT,
-    /* 04 */ FROG_BTN_C_UP
-} FrogNotes;
 
 typedef struct EnFr {
     /* 0x0000 */ Actor actor;
@@ -63,7 +55,7 @@ typedef struct EnFr {
     /* 0x0381 */ u8 ocarinaNote; // Ocarina Note to Play for Frogs 2. Related to globalCtx->msgCtx.unk_E410
     /* 0x0382 */ u8 songIndex; // Song index 1-7 (6 songs + custom HP Song): 5 = sos, 6 = all songs
     /* 0x0383 */ u8 isJumpingToFrogSong; // Conditional: 
-    /* 0x0384 */ u16 padding; // Unused padding 
+    /* 0x0384 */ char unk_384[0x02];
     /* 0x0386 */ s16 frogSongTimer; // timer #2 for frogs 2 HP
     /* 0x0388 */ s32 reward; // Prize for completing a song
     /* 0x038C */ Vec3f posLogSpot; // Where the frog goes when activated

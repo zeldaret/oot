@@ -202,19 +202,18 @@ static u8 sJumpOrder[] = {
     FROG_BLUE, FROG_YELLOW, FROG_RED, FROG_PURPLE, FROG_WHITE, FROG_BLUE, FROG_YELLOW, FROG_RED,
 };
 
+// probably can be replaced with a message context enum at a later time
+// A, CDOWN, CRIGHT, CLEFT, CUP
 static u8 sOcarinaNotes[] = {
-    FROG_BTN_A, FROG_BTN_C_DOWN, FROG_BTN_C_RIGHT, FROG_BTN_C_LEFT, FROG_BTN_C_UP,
+    0, 1, 2, 3, 4,
 };
 
 void EnFr_OrientUnderwater(EnFr* this) {
     Vec3f vec1;
     Vec3f vec2;
-    f32 xzDist;
 
     vec1.x = vec1.y = 0.0f;
-    xzDist = sLogSpotToFromWater[this->actor.params].xzDist;
-    this->xzDistToLogSpot = xzDist;
-    vec1.z = xzDist;
+    vec1.z = this->xzDistToLogSpot = sLogSpotToFromWater[this->actor.params].xzDist;
     Matrix_RotateY(sLogSpotToFromWater[this->actor.params].yaw, MTXMODE_NEW);
     Matrix_MultVec3f(&vec1, &vec2);
     this->actor.world.pos.x = this->posLogSpot.x + vec2.x;
@@ -388,7 +387,7 @@ s32 EnFr_IsAboveAndWithin30DistXZ(Player* player, EnFr* this) {
 }
 
 void EnFr_DecrementBlinkTimer(EnFr* this) {
-    if (this->blinkTimer) {
+    if (this->blinkTimer != 0) {
         this->blinkTimer--;
     } else {
         this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
@@ -455,7 +454,7 @@ void EnFr_OrientOnLogSpot(EnFr* this, GlobalContext* globalCtx) {
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (!rotYRemaining && this->skelAnime.curFrame == this->skelAnime.endFrame) {
+    if ((rotYRemaining == 0) && (this->skelAnime.curFrame == this->skelAnime.endFrame)) {
         sEnFrPointers.flags++;
         this->actionFunc = EnFr_ChooseJumpFromLogSpot;
         Animation_Change(&this->skelAnime, &D_06001534, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001534), 0, 0.0f);
@@ -703,19 +702,19 @@ void EnFr_ListeningToOcarinaNotes(EnFr* this, GlobalContext* globalCtx) {
             break;
         case 1:                                   // Ocarina note played, but no song played
             switch (globalCtx->msgCtx.unk_E410) { // Jumping frogs in open ocarina based on ocarina note played
-                case FROG_BTN_A:
+                case 0:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
                     break;
-                case FROG_BTN_C_DOWN:
+                case 1:
                     EnFr_SetupJumpingUp(this, FROG_YELLOW);
                     break;
-                case FROG_BTN_C_RIGHT:
+                case 2:
                     EnFr_SetupJumpingUp(this, FROG_RED);
                     break;
-                case FROG_BTN_C_LEFT:
+                case 3:
                     EnFr_SetupJumpingUp(this, FROG_PURPLE);
                     break;
-                case FROG_BTN_C_UP:
+                case 4:
                     EnFr_SetupJumpingUp(this, FROG_WHITE);
                     break;
             }
@@ -779,19 +778,19 @@ void EnFr_CheckOcarinaInputFrogSong(u8 ocarinaNote) {
     s32 frogIndex;
 
     switch (ocarinaNote) {
-        case FROG_BTN_A:
+        case 0:
             frogIndexButterfly = FROG_BLUE;
             break;
-        case FROG_BTN_C_DOWN:
+        case 1:
             frogIndexButterfly = FROG_YELLOW;
             break;
-        case FROG_BTN_C_RIGHT:
+        case 2:
             frogIndexButterfly = FROG_RED;
             break;
-        case FROG_BTN_C_LEFT:
+        case 3:
             frogIndexButterfly = FROG_PURPLE;
             break;
-        case FROG_BTN_C_UP:
+        case 4:
             frogIndexButterfly = FROG_WHITE;
     }
     // Turn on or off butterfly above frog
@@ -820,7 +819,7 @@ u8 EnFr_GetNextNoteFrogSong(u8 ocarinaNoteIndex) {
 }
 
 void EnFr_SetupFrogSong(EnFr* this, GlobalContext* globalCtx) {
-    if (this->frogSongTimer) {
+    if (this->frogSongTimer != 0) {
         this->frogSongTimer--;
     } else {
         this->frogSongTimer = 40;
@@ -894,19 +893,19 @@ void EnFr_ContinueFrogSong(EnFr* this, GlobalContext* globalCtx) {
         if (globalCtx->msgCtx.msgMode == 0x33) {
             globalCtx->msgCtx.msgMode = 0x31;
             switch (globalCtx->msgCtx.unk_E410) {
-                case FROG_BTN_A:
+                case 0:
                     EnFr_SetupJumpingUp(this, FROG_BLUE);
                     break;
-                case FROG_BTN_C_DOWN:
+                case 1:
                     EnFr_SetupJumpingUp(this, FROG_YELLOW);
                     break;
-                case FROG_BTN_C_RIGHT:
+                case 2:
                     EnFr_SetupJumpingUp(this, FROG_RED);
                     break;
-                case FROG_BTN_C_LEFT:
+                case 3:
                     EnFr_SetupJumpingUp(this, FROG_PURPLE);
                     break;
-                case FROG_BTN_C_UP:
+                case 4:
                     EnFr_SetupJumpingUp(this, FROG_WHITE);
             }
             if (EnFr_IsFrogSongComplete(this, globalCtx)) {
@@ -977,12 +976,12 @@ void EnFr_SetReward(EnFr* this, GlobalContext* globalCtx) {
 void EnFr_Deactivate(EnFr* this, GlobalContext* globalCtx) {
     EnFr* frogLoop1;
     EnFr* frogLoop2;
-    int frogIndex;
+    s32 frogIndex;
 
     // Originally was going to have separate butterfly actor
     // Changed to include butterfly as part of frog actor
     // This unused code would have frozen the butterfly actor above frog
-    if (this->unusedButterflyActor) {
+    if (this->unusedButterflyActor != NULL) {
         this->unusedButterflyActor->freezeTimer = 10;
     }
 
