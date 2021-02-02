@@ -389,7 +389,7 @@ typedef struct {
     /* 0xE404 */ s16    unk_E404;
     /* 0xE406 */ s16    unk_E406;
     /* 0xE408 */ Actor* unk_E408;
-    /* 0xE40C */ u16    unk_E40C;
+    /* 0xE40C */ s16    unk_E40C;
     /* 0xE40E */ s16    unk_E40E;
     /* 0xE410 */ u8     unk_E410;
     /* 0xE411 */ char   unk_E412[0x07];

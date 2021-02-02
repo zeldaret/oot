@@ -625,24 +625,19 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
     if (D_8014B308 == 0) {
         temp_a0 = &D_801539C8[D_801539F0];
 
-        temp_a3 = D_801539E0 - temp_a0->x;
-        temp_t5 = ((temp_a3 >= 0) ? temp_a3 : -temp_a3) / D_801539EC;
-
-        temp_a3_2 = D_801539E4 - temp_a0->y;
-        sp60 = ((temp_a3_2 >= 0) ? temp_a3_2 : -temp_a3_2) / D_801539EC;
-
-        temp_t6 = D_801539E8 - temp_a0->z;
-        phi_v1_3 = (temp_t6 >= 0) ? temp_t6 : -temp_t6;
+        temp_t5 = ABS(D_801539E0 - temp_a0->x) / D_801539EC;
+        sp60 = ABS(D_801539E4 - temp_a0->y) / D_801539EC;
+        phi_v1_3 = ABS(D_801539E8 - temp_a0->z);
 
         if (D_801539E0 >= temp_a0->x) {
-            temp_t2_2 = (D_801539E0 - temp_t5);
+            temp_t2_2 = D_801539E0 - temp_t5;
         } else {
-            temp_t2_2 = (D_801539E0 + temp_t5);
+            temp_t2_2 = D_801539E0 + temp_t5;
         }
         if (D_801539E4 >= temp_a0->y) {
-            temp_t1_2 = (D_801539E4 - sp60);
+            temp_t1_2 = D_801539E4 - sp60;
         } else {
-            temp_t1_2 = (D_801539E4 + sp60);
+            temp_t1_2 = D_801539E4 + sp60;
         }
         if (D_801539E8 >= temp_a0->z) {
             phi_a3 = D_801539E8 - (phi_v1_3 / D_801539EC);
@@ -653,37 +648,35 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
         temp_a1_2 = &D_801539D4[D_801539F0];
 
         D_801539E0 = temp_t2_2;
+        D_801539E4 = temp_t1_2;
+        D_801539E8 = phi_a3;
+
         spC = temp_a0->x;
 
-        temp_a0_2 = D_801539F4 - temp_a1_2->x;
-        temp_a2_3 = ((temp_a0_2 >= 0) ? temp_a0_2 : -temp_a0_2) / D_801539EC;
+        temp_a2_3 = ABS(D_801539F4 - temp_a1_2->x) / D_801539EC;
 
-        D_801539E4 = temp_t1_2;
         sp8 = temp_a0->y;
 
-        temp_a0_3 = D_801539F8 - temp_a1_2->y;
-        temp_a3_4 = ((temp_a0_3 >= 0) ? temp_a0_3 : -temp_a0_3) / D_801539EC;
+        temp_a3_4 = ABS(D_801539F8 - temp_a1_2->y) / D_801539EC;
 
-        D_801539E8 = phi_a3;
         sp4 = temp_a0->z;
 
-        temp_a0_4 = D_801539FC - temp_a1_2->z;
-        phi_v1_6 = (temp_a0_4 >= 0) ? temp_a0_4 : -temp_a0_4;
+        phi_v1_6 = ABS(D_801539FC - temp_a1_2->z);
 
         if (D_801539F4 >= temp_a1_2->x) {
-            phi_t5 = (D_801539F4 - temp_a2_3);
+            phi_t5 = D_801539F4 - temp_a2_3;
         } else {
-            phi_t5 = (D_801539F4 + temp_a2_3);
+            phi_t5 = D_801539F4 + temp_a2_3;
         }
         if (D_801539F8 >= temp_a1_2->y) {
-            phi_t1_2 = (D_801539F8 - temp_a3_4);
+            phi_t1_2 = D_801539F8 - temp_a3_4;
         } else {
-            phi_t1_2 = (D_801539F8 + temp_a3_4);
+            phi_t1_2 = D_801539F8 + temp_a3_4;
         }
         if (D_801539FC >= temp_a1_2->z) {
-            phi_t2_2 = D_801539FC - (s16)(phi_v1_6 / D_801539EC);
+            phi_t2_2 = D_801539FC - (phi_v1_6 / D_801539EC);
         } else {
-            phi_t2_2 = D_801539FC + (s16)(phi_v1_6 / D_801539EC);
+            phi_t2_2 = D_801539FC + (phi_v1_6 / D_801539EC);
         }
 
         D_801539EC--;
@@ -722,8 +715,8 @@ void func_80107980(GlobalContext *globalCtx, Gfx **p, s16 arg2, s16 arg3);
         D_801759A4 = 1024.0f / (XREG(57) / 100.0f);
 
         gSPTextureRectangle(temp_v0++, 
-                        arg2 * 4, arg3 * 4, 
-                        (arg2 + D_801759A0) * 4, (arg3 + D_801759A0) * 4, G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
+                        arg2 << 2, arg3 << 2, 
+                        (arg2 + D_801759A0) << 2, (arg3 + D_801759A0) << 2, G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
 
         globalCtx->msgCtx.unk_E3E7++;
         *p = temp_v0;
@@ -2087,7 +2080,7 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
     u8 temp_v1_27;
     u8 temp_v1_28;
     u8 temp_a0_9;
-    s32 phi_a2;
+    u16 phi_a2;
     u16 phi_a3;
     s8 phi_t8;
     u8 phi_a0;
@@ -2121,11 +2114,11 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
     s32 phi_v0_14;
     s32 phi_v0_15;
 
-    sp140 = *p;
     sp148 = PLAYER;
-    temp_s1 = &globalCtx->msgCtx;
+    sp140 = *p;
 
     gSPSegment(sp140++, 0x02, globalCtx->interfaceCtx.parameterSegment);
+    temp_s1 = &globalCtx->msgCtx;
     gSPSegment(sp140++, 0x07, temp_s1->textboxSegment);
 
     if (temp_s1->unk_E300 != 0) {
@@ -2147,8 +2140,8 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
                 break;
             case 5:
                 if (temp_s1->unk_E3E7 == 1) {
-                    for (phi_a3 = 0; phi_a3 < 0x30; phi_a3++) {
-                        func_8006EE50(&globalCtx->msgCtx.font, 0x8140, phi_a2 * 0x80);
+                    for (phi_a3 = 0, phi_a2 = 0; phi_a3 < 0x30; phi_a3++, phi_a2 += 0x80) {
+                        func_8006EE50(&globalCtx->msgCtx.font, 0x8140, phi_a2);
                     }
                     func_801086B0(globalCtx, &sp140);
                 }
@@ -2185,16 +2178,13 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
                         func_800ECC04((1 << temp_s1->unk_E3F0) + 0x8000);
                     }
                     temp_s1->msgMode = 0xC;
+                } else if (temp_s1->msgMode == 0xA) {
+                    temp_s1->unk_E3E7 = 0x14;
+                    temp_s1->msgMode = 0x18;
                 } else {
-                    if (temp_s1->msgMode == 0xA) {
-                        temp_s1->unk_E3E7 = 0x14;
-                        phi_t8 = 0x18;
-                    } else {
-                        func_800ECC04((1 << (temp_s1->unk_E3F0 + 0x11)) + 0x8000);
-                        osSyncPrintf("演奏チェック=%d\n", temp_s1->unk_E3F0 - 0xF);
-                        phi_t8 = 0x1B;
-                    }
-                    temp_s1->unk_E305 = phi_t8;
+                    func_800ECC04((1 << (temp_s1->unk_E3F0 + 0x11)) + 0x8000);
+                    osSyncPrintf("演奏チェック=%d\n", temp_s1->unk_E3F0 - 0xF);
+                    temp_s1->msgMode = 0x1B;
                 }
                 if ((temp_s1->unk_E3F0 != 1) && (temp_s1->unk_E3F0 != 0x30)) {
                     func_801086B0(globalCtx, &sp140);
@@ -2203,13 +2193,14 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
             case 12:
                 temp_s1->unk_E2B8 = func_800EE3D4();
                 if (temp_s1->unk_E2B8->pos != 0) {
-                    osSyncPrintf("locate=%d  onpu_pt=%d\n", temp_s1->unk_E2B8->pos, D_8014B2F8, temp_s1->unk_E2B8);
+                    osSyncPrintf("locate=%d  onpu_pt=%d\n", temp_s1->unk_E2B8->pos, D_8014B2F8);
                     if (temp_s1->unk_E2B8->pos == 1) {
                         if (D_8014B2F8 == 8) {
                             D_8014B2F8 = 0;
                         }
                     }
-                    if (temp_s1->unk_E2B8->pos == (D_8014B2F8 + 1)) {
+                    if ((D_8014B2F8 + 1) == temp_s1->unk_E2B8->pos) {
+                        // trouble here
                         D_8015394C[temp_s1->unk_E2B8->pos - 1] = temp_s1->unk_E2B8->noteIdx;
                         temp_s1->unk_E410 = temp_s1->unk_E2B8->noteIdx;
                         D_8015394C[temp_s1->unk_E2B8->pos] = 0xFF;
@@ -2218,8 +2209,7 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
                 }
                 if (temp_s1->unk_E2B8->state < 0xD) {
                     if ((temp_s1->unk_E2B8->state == 0xC) || (((&gBitFlags[6])[D_8015396C[temp_s1->unk_E2B8->state]] & gSaveContext.inventory.questItems) != 0)) {
-                        temp_s1->unk_E3F2 = temp_s1->unk_E2B8->state;
-                        D_8014B310 = temp_s1->unk_E2B8->state;
+                        D_8014B310 = temp_s1->unk_E3F2 = temp_s1->unk_E3EC = temp_s1->unk_E2B8->state;
                         temp_s1->msgMode = 0xD;
                         temp_s1->unk_E3E7 = 0x14;
                         if (temp_s1->unk_E3F0 == 0x30) {
@@ -2294,11 +2284,13 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
                 } else {
                     phi_v0 = -temp_v1_2;
                 }
+                temp_t0_2 = phi_v0 / D_80153CD8;
+
                 temp_t2 = D_80153CD8;
                 temp_a3_3 = D_801759AC;
+
                 temp_t9_4 = temp_a1->y;
                 temp_v1_3 = temp_a3_3 - temp_t9_4;
-                temp_t0_2 = phi_v0 / temp_t2;
                 sp78 = temp_t9_4;
                 if (temp_v1_3 >= 0) {
                     phi_v0_2 = temp_v1_3;
