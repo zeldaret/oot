@@ -202,12 +202,12 @@ void BgDyYoseizo_CheckMagicAcquired(BgDyYoseizo* this, GlobalContext* globalCtx)
     if (Flags_GetSwitch(globalCtx, 0x38)) {
         globalCtx->msgCtx.unk_E3EE = 4;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-            if (!(gSaveContext.magicAcquired) && (this->fountainType != FAIRY_UPGRADE_SPIN_ATTACK)) {
+            if (!gSaveContext.magicAcquired && (this->fountainType != FAIRY_UPGRADE_SPIN_ATTACK)) {
                 Actor_Kill(&this->actor);
                 return;
             }
         } else {
-            if (!(gSaveContext.magicAcquired)) {
+            if (!gSaveContext.magicAcquired) {
                 Actor_Kill(&this->actor);
                 return;
             }
@@ -246,7 +246,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     } else {
         switch (this->fountainType) {
             case FAIRY_UPGRADE_SPIN_ATTACK:
-                if (!(gSaveContext.magicAcquired) || BREG(2)) {
+                if (!gSaveContext.magicAcquired || BREG(2)) {
                     // Spin Attack speed UP
                     osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 回転切り速度ＵＰ ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
                     this->givingSpell = true;
@@ -254,7 +254,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 }
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
-                if (!(gSaveContext.doubleMagic)) {
+                if (!gSaveContext.doubleMagic) {
                     // Magic Meter doubled
                     osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 魔法ゲージメーター倍増 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
                     this->givingSpell = true;
@@ -262,7 +262,7 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 }
                 break;
             case FAIRY_UPGRADE_HALF_DAMAGE:
-                if (!(gSaveContext.doubleDefense)) {
+                if (!gSaveContext.doubleDefense) {
                     // Damage halved
                     osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ ダメージ半減 ☆☆☆☆☆ \n" VT_RST, &gSaveContext);
                     this->givingSpell = true;
@@ -373,13 +373,13 @@ void BgDyYoseizo_CompleteSpinGrow_NoReward(BgDyYoseizo* this, GlobalContext* glo
 
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->frameCount <= curFrame) && !(this->animationChanged)) {
+    if ((this->frameCount <= curFrame) && !this->animationChanged) {
         this->actionFunc = BgDyYoseizo_SetupGreetPlayer_NoReward;
     }
 }
 
 void BgDyYoseizo_SetupGreetPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    func_8002DF54(globalCtx, &this->actor, (u8)1U);
+    func_8002DF54(globalCtx, &this->actor, 1);
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
         this->frameCount = Animation_GetLastFrame(&D_0601D514);
@@ -454,7 +454,7 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
         }
         this->healingTimer = 150;
         this->animationChanged = true;
-        if (!(this->givingSpell)) {
+        if (!this->givingSpell) {
             beamPos.x = player->actor.world.pos.x;
             beamPos.y = player->actor.world.pos.y + 200.0f;
             beamPos.z = player->actor.world.pos.z;
@@ -484,7 +484,7 @@ void BgDyYoseizo_HealPlayer_NoReward(BgDyYoseizo* this, GlobalContext* globalCtx
         (this->refillTimer == 1)) {
         this->healingTimer--;
         if (this->healingTimer == 90) {
-            if (!(this->givingSpell)) {
+            if (!this->givingSpell) {
                 this->beam->trigger = 1;
             }
             this->givingSpell = false;
@@ -601,7 +601,7 @@ void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCt
 void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     f32 curFrame = this->skelAnime.curFrame;
 
-    if (!(this->finishedSpinGrow)) {
+    if (!this->finishedSpinGrow) {
         Math_ApproachF(&this->actor.world.pos.y, this->grownHeight, this->heightFraction, 100.0f);
         Math_ApproachF(&this->scale, 0.035f, this->scaleFraction, 0.005f);
         Math_ApproachF(&this->heightFraction, 0.8f, 0.1f, 0.02f);
@@ -624,7 +624,7 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
     } else {
         SkelAnime_Update(&this->skelAnime);
 
-        if ((this->frameCount <= curFrame) && !(this->animationChanged)) {
+        if ((this->frameCount <= curFrame) && !this->animationChanged) {
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
                 this->frameCount = Animation_GetLastFrame(&D_0601D514);
                 Animation_Change(&this->skelAnime, &D_0601D514, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -675,7 +675,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
     SkelAnime_Update(&this->skelAnime);
 
-    if ((this->frameCount <= curFrame) && !(this->animationChanged)) {
+    if ((this->frameCount <= curFrame) && !this->animationChanged) {
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             this->frameCount = Animation_GetLastFrame(&D_06007CA8);
             Animation_Change(&this->skelAnime, &D_06007CA8, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
@@ -697,7 +697,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
             actionIndex++;
             BgDyYoseizo_SpawnParticles(this, globalCtx, actionIndex);
 
-        } else if (!(this->lightBallSpawned)) {
+        } else if (!this->lightBallSpawned) {
             demoEffectParams = ((s16)(sDemoEffectLightColors[actionIndex] << 0xC) | DEMO_EFFECT_LIGHT);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->actor.world.pos.x,
                         this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, (s32)demoEffectParams);
@@ -718,7 +718,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 Interface_ChangeAlpha(9);
                 break;
             case FAIRY_UPGRADE_DOUBLE_MAGIC:
-                if (!(gSaveContext.magicAcquired)) {
+                if (!gSaveContext.magicAcquired) {
                     gSaveContext.magicAcquired = true;
                 }
                 gSaveContext.doubleMagic = true;
@@ -732,7 +732,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        if (!(this->healing)) {
+        if (!this->healing) {
             gSaveContext.healthAccumulator = 0x140;
             this->healing = true;
             if (actionIndex == 2) {
@@ -745,9 +745,9 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         (globalCtx->csCtx.npcActions[0]->action < 17)) {
         actionIndex = globalCtx->csCtx.npcActions[0]->action - 14;
 
-        if (!(this->itemSpawned)) {
+        if (!this->itemSpawned) {
             itemPos.x = player->actor.world.pos.x;
-            itemPos.y = ((LINK_IS_ADULT) ? player->actor.world.pos.y + 73.0f : player->actor.world.pos.y + 53.0f);
+            itemPos.y = (LINK_IS_ADULT ? player->actor.world.pos.y + 73.0f : player->actor.world.pos.y + 53.0f);
             itemPos.z = player->actor.world.pos.z;
 
             this->item =
@@ -770,7 +770,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
         } else {
             this->item->actor.world.pos.x = player->actor.world.pos.x;
             this->item->actor.world.pos.y =
-                ((LINK_IS_ADULT) ? player->actor.world.pos.y + 73.0f : player->actor.world.pos.y + 53.0f);
+                (LINK_IS_ADULT ? player->actor.world.pos.y + 73.0f : player->actor.world.pos.y + 53.0f);
             this->item->actor.world.pos.z = player->actor.world.pos.z;
             this->item->scale = 0.3f;
         }
@@ -793,7 +793,7 @@ void BgDyYoseizo_Give_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
     }
 
     if ((globalCtx->csCtx.npcActions[0]->action >= 19) && (globalCtx->csCtx.npcActions[0]->action < 22) &&
-        !(this->warpEffectSpawned)) {
+        !this->warpEffectSpawned) {
         actionIndex = globalCtx->csCtx.npcActions[0]->action - 11;
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, player->actor.world.pos.x,
                     player->actor.world.pos.y, player->actor.world.pos.z, 0, 0, 0, actionIndex);
@@ -874,7 +874,7 @@ s32 BgDyYoseizo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
     if (limbIndex == 8) { // Torso
         rot->x += this->torsoRot.y;
     }
-    if (limbIndex == 0xF) { // Head
+    if (limbIndex == 15) { // Head
         rot->x += this->headRot.y;
         rot->z += this->headRot.z;
     }
