@@ -29,11 +29,9 @@ typedef struct EnZf {
     /* 0x0400 */ s16 unk_400;
     /* 0x0402 */ s16 unk_402;
     /* 0x0404 */ u8 unk_404;
-    /* 0x0405 */ char unk_405[0x3];
     /* 0x0408 */ f32 unk_408;
     /* 0x040C */ f32 unk_40C;
     /* 0x0410 */ u8 unk_410;
-    /* 0x0411 */ char unk_411[0x3];
     /* 0x0414 */ s32 blureIndex;
     /* 0x0418 */ ColliderCylinder bodyCollider;
     /* 0x0464 */ ColliderQuad swordCollider;

@@ -723,7 +723,7 @@ void func_80B456B4(EnZf* this, GlobalContext* globalCtx) {
     EnZf_SetupAction(this, func_80B45748);
 }
 
-// #ifdef NON_MATCHING
+#ifdef NON_MATCHING
 // 2 words of stack
 void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
     s32 sp54;
@@ -876,9 +876,9 @@ void func_80B45748(EnZf* this, GlobalContext* globalCtx) {
         }
     }
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
-// #endif
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45748.s")
+#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B45E30.s")
 void func_80B45E30(EnZf* this) {
