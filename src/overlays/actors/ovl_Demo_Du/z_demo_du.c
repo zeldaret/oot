@@ -436,32 +436,33 @@ void func_8096A4D4(GlobalContext *globalCtx) {
     }
 }
 
-void func_8096A528(DemoDu *this, GlobalContext *globalCtx);
-#ifdef NON_MATCHING
 void func_8096A528(DemoDu *this, GlobalContext *globalCtx) {
-    if (globalCtx->csCtx.frames < 0x104) {
+    u16* frames = &globalCtx->csCtx.frames;
+
+    if (*frames < 0x104) {
         DemoDu_UpdateEyes(this);
         func_80969B8C(this, 0);
-    } else if (globalCtx->csCtx.frames < 0x14F) {
+    } else if (*frames < 0x14F) {
         DemoDu_UpdateEyes(this);
         func_80969B8C(this, 3);
-    } else if (globalCtx->csCtx.frames < 0x16D) {
+        return;
+    } else if (*frames < 0x16D) {
         DemoDu_SetEyeTexIndex(this, 3);
         func_80969B8C(this, 1);
-    } else if (globalCtx->csCtx.frames < 0x18B) {
+        return;
+    } else if (*frames < 0x18B) {
         DemoDu_SetEyeTexIndex(this, 0);
         func_80969B8C(this, 3);
-    } else if (globalCtx->csCtx.frames < 0x19A) {
+        return;
+    } else if (*frames < 0x19A) {
         DemoDu_UpdateEyes(this);
         func_80969B8C(this, 0);
+        return;
     } else {
         DemoDu_UpdateEyes(this);
         func_80969B8C(this, 3);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A528.s")
-#endif
 
 void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
     s32 pad;
