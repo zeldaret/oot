@@ -44,16 +44,15 @@ void BgSpot08Iceblock_SetupAction(BgSpot08Iceblock* this, BgSpot08IceblockAction
     this->actionFunc = actionFunc;
 }
 
-void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHeader* colHeader,
+void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* globalCtx, CollisionHeader* collision,
                                    DynaPolyMoveFlag flags) {
     s32 pad;
-    CollisionHeader* dest;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    dest = NULL;
     DynaPolyActor_Init(&this->dyna, flags);
-    CollisionHeader_GetVirtual(colHeader, &dest);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, dest);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning: move BG registration failed
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot08_iceblock.c", 0xD9,
@@ -61,7 +60,7 @@ void BgSpot08Iceblock_InitDynaPoly(BgSpot08Iceblock* this, GlobalContext* global
     }
 }
 
-// Sets params to 0x10 if not in the cases listed.
+// Sets params to 0x10 (medium, nonrotating) if not in the cases listed.
 void BgSpot08Iceblock_CheckParams(BgSpot08Iceblock* this) {
     switch (this->dyna.actor.params & 0xFF) {
         case 0xFF:
@@ -122,17 +121,14 @@ void BgSpot08Iceblock_MultVectorScalar(Vec3f* dest, Vec3f* v, f32 scale) {
     dest->z = v->z * scale;
 }
 
-// Cross product
 void BgSpot08Iceblock_CrossProduct(Vec3f* dest, Vec3f* v1, Vec3f* v2) {
     dest->x = (v1->y * v2->z) - (v1->z * v2->y);
     dest->y = (v1->z * v2->x) - (v1->x * v2->z);
     dest->z = (v1->x * v2->y) - (v1->y * v2->x);
 }
 
-// Normalise
 s32 BgSpot08Iceblock_NormalizeVector(Vec3f* dest, Vec3f* v) {
     f32 magnitude;
-    // f32 stabilityCorrection;
 
     magnitude = Math3D_Vec3fMagnitude(v);
     if (magnitude < 0.001f) {
@@ -140,7 +136,6 @@ s32 BgSpot08Iceblock_NormalizeVector(Vec3f* dest, Vec3f* v) {
         dest->z = 1.0f;
         return false;
     } else {
-        // stabilityCorrection = 1.0f / magnitude;
         dest->x = v->x * (1.0f / magnitude);
         dest->y = v->y * (1.0f / magnitude);
         dest->z = v->z * (1.0f / magnitude);
@@ -166,7 +161,8 @@ static f32 sRollCoss[] = {
 };
 
 /**
- *  Handles all the factors that influence rolling: inertia, random oscillations, and most significantly, player weight, and combines them to produce a matrix that rotates the actor to match the surface normal
+ *  Handles all the factors that influence rolling: inertia, random oscillations, and most significantly, player weight,
+ * and combines them to produce a matrix that rotates the actor to match the surface normal
  */
 void BgSpot08Iceblock_Roll(BgSpot08Iceblock* this, GlobalContext* globalCtx) {
     f32 deviationFromVertSq;
@@ -270,9 +266,9 @@ void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, GlobalContext* globa
 
     if (!(this->dyna.actor.params & 0x100)) {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT08_ICEBLOCK,
-                           this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
-                           this->dyna.actor.home.pos.z, this->dyna.actor.home.rot.x,
-                           this->dyna.actor.home.rot.y, this->dyna.actor.home.rot.z, 0x123);
+                           this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z,
+                           this->dyna.actor.home.rot.x, this->dyna.actor.home.rot.y, this->dyna.actor.home.rot.z,
+                           0x123);
 
         this->dyna.actor.world.pos.x += sin;
         this->dyna.actor.world.pos.z += cos;
@@ -283,12 +279,13 @@ void BgSpot08Iceblock_SpawnTwinFloe(BgSpot08Iceblock* this, GlobalContext* globa
     BgSpot08Iceblock_SetupFloatOrbitingTwins(this);
 }
 
+static InitChainEntry sInitChain[] = {
+    ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 2200, ICHAIN_STOP),
+};
+
 void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static InitChainEntry sInitChain[] = {
-        ICHAIN_F32(uncullZoneForward, 3000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
-        ICHAIN_F32(uncullZoneDownward, 2200, ICHAIN_STOP),
-    };
     BgSpot08Iceblock* this = THIS;
     CollisionHeader* colHeader;
 
@@ -319,6 +316,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
+    
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     switch (this->dyna.actor.params & 0xF0) {
