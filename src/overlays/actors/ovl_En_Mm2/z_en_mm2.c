@@ -54,11 +54,12 @@ typedef struct {
     /* 0x04 */ f32 playSpeed;
     /* 0x08 */ u8 mode;
     /* 0x0C */ f32 morphFrames;
-} unknownStruct; // size = 0x10
+} Mm2AnimationEntry; // size = 0x10
 
-static unknownStruct sAnimations[] = {
-    0x06000718, 1.0f, 0, -7.0f, 0x06006940, -1.0f, 2, -7.0f,  0x06006C50, 1.0f, 0, -7.0f,  0x06006940, 1.0f, 2, -7.0f,
-    0x06000468, 1.0f, 0, -7.0f, 0x060073A0, 1.0f,  0, -12.0f, 0x06008060, 1.0f, 0, -12.0f,
+static Mm2AnimationEntry sAnimations[] = {
+    { 0x06000718, 1.0f, 0, -7.0f },  { 0x06006940, -1.0f, 2, -7.0f }, { 0x06006C50, 1.0f, 0, -7.0f },
+    { 0x06006940, 1.0f, 2, -7.0f },  { 0x06000468, 1.0f, 0, -7.0f },  { 0x060073A0, 1.0f, 0, -12.0f },
+    { 0x06008060, 1.0f, 0, -12.0f },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -89,31 +90,23 @@ void EnMm2_ChangeAnimation(EnMm2* this, s32 animationIndex, s32* previousAnimati
 void func_80AAEF70(EnMm2* this, GlobalContext* globalCtx) {
     if ((gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
         this->actor.textId = 0x6086;
-        return;
-    }
-    if (gSaveContext.infTable[23] & 0x8000) {
+    } else if (gSaveContext.infTable[23] & 0x8000) {
         if (gSaveContext.eventInf[1] & 1) {
             this->actor.textId = 0x6082;
-            return;
-        }
-        if (gSaveContext.timer2State) {
+        } else if (gSaveContext.timer2State != 0) {
             this->actor.textId = 0x6076;
-            return;
-        }
-        if (HIGH_SCORE(HS_MARATHON) == 158) {
+        } else if (HIGH_SCORE(HS_MARATHON) == 158) {
             this->actor.textId = 0x607E;
-            return;
+        } else {
+            this->actor.textId = 0x6081;
         }
-        this->actor.textId = 0x6081;
-        return;
-    }
-    if (gSaveContext.timer2State) {
+    } else if (gSaveContext.timer2State) {
         this->actor.textId = 0x6076;
-        return;
+    } else {
+        this->actor.textId = 0x607D;
+        gSaveContext.eventInf[1] &= ~1;
+        HIGH_SCORE(HS_MARATHON) = 158;
     }
-    this->actor.textId = 0x607D;
-    gSaveContext.eventInf[1] &= ~1;
-    HIGH_SCORE(HS_MARATHON) = 158;
 }
 
 void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
@@ -128,7 +121,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->previousAnimation = 2;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->unk_1E0 = 0;
     this->actor.targetMode = 6;
     this->unk_1F4 |= 1;
@@ -143,7 +136,7 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_Kill(&this->actor);
     }
     if (this->actor.params == 1) {
-        if (((gSaveContext.infTable[23] & 0x8000) == 0) || ((gSaveContext.eventInf[1] & 1) == 0)) {
+        if (!(gSaveContext.infTable[23] & 0x8000) || !(gSaveContext.eventInf[1] & 1)) {
             osSyncPrintf(VT_FGCOL(CYAN) " マラソン 開始されていない \n" VT_RST "\n");
             Actor_Kill(&this->actor);
         }
