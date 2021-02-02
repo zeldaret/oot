@@ -27,14 +27,14 @@ void func_809B0994(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx);
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx);
 
-extern SkeletonHeader D_060000F0;
+extern FlexSkeletonHeader D_060000F0;
 extern AnimationHeader D_060067B8;
 extern AnimationHeader D_060070F0;
 extern AnimationHeader D_060076EC;
 
 const ActorInit En_Ani_InitVars = {
     ACTOR_EN_ANI,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ANI,
     sizeof(EnAni),
@@ -45,8 +45,22 @@ const ActorInit En_Ani_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x11, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_ENEMY,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 40, 0, { 0 } },
 };
 
@@ -57,7 +71,7 @@ static InitChainEntry sInitChain[] = {
 
 static Vec3f sMultVec = { 800.0f, 500.0f, 0.0f };
 
-UNK_PTR D_809B0F80[] = {
+static UNK_PTR D_809B0F80[] = {
     0x06000408,
     0x06001518,
     0x06001D18,
@@ -72,13 +86,12 @@ void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->limbDrawTable,
-                     this->transitionDrawTable, 0x10);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_060076EC);
+    ActorShape_Init(&this->actor.shape, -2800.0f, ActorShadow_DrawCircle, 36.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, &D_060076EC, this->jointTable, this->morphTable, 0x10);
+    Animation_PlayOnce(&this->skelAnime, &D_060076EC);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     if (LINK_IS_CHILD) {
         EnAni_SetupAction(this, func_809B064C);
     } else {
@@ -151,7 +164,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
                                                            // "...all I can do is look at Death Mountain."
     }
 
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B04F0);
@@ -160,14 +173,14 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B04F0);
         }
-    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistFromLink < 150.0f &&
-               -80.0f < this->actor.yDistFromLink) {
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
+               -80.0f < this->actor.yDistToPlayer) {
         if (gSaveContext.itemGetInf[1] & 0x20) {
             EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
         } else {
             EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
         }
-    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistFromLink < 350.0f) {
+    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
         EnAni_SetText(this, globalCtx, textId);
     }
 }
@@ -177,7 +190,7 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     u16 textId;
 
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     if (func_8002F194(&this->actor, globalCtx) != 0) {
         if (this->actor.textId == 0x5056) { // "To get a good view..."
             EnAni_SetupAction(this, func_809B0524);
@@ -186,14 +199,14 @@ void func_809B07F8(EnAni* this, GlobalContext* globalCtx) {
         } else {
             EnAni_SetupAction(this, func_809B0524);
         }
-    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistFromLink < 150.0f &&
-               -80.0f < this->actor.yDistFromLink) {
+    } else if (yawDiff >= -0x36AF && yawDiff < 0 && this->actor.xzDistToPlayer < 150.0f &&
+               -80.0f < this->actor.yDistToPlayer) {
         if ((gSaveContext.itemGetInf[1] & 0x20) != 0) {
             EnAni_SetText(this, globalCtx, 0x5056); // "To get a good view..."
         } else {
             EnAni_SetText(this, globalCtx, 0x5055); // "...I'll give you this as a memento."
         }
-    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistFromLink < 350.0f) {
+    } else if (yawDiff >= -0x3E7 && yawDiff < 0x36B0 && this->actor.xzDistToPlayer < 350.0f) {
         if ((gSaveContext.eventChkInf[2] & 0x8000) == 0) {
             textId = 0x5052; // "...Something is happening on Death Mountain!"
         } else {
@@ -208,31 +221,28 @@ void func_809B0988(EnAni* this, GlobalContext* globalCtx) {
 }
 
 void func_809B0994(EnAni* this, GlobalContext* globalCtx) {
-    GenericAnimationHeader* objSegFrameCount = &D_060070F0.genericHeader;
-    AnimationHeader* objSegChangeAnime = &D_060070F0;
-
     if (globalCtx->csCtx.npcActions[0]->action == 4) {
-        SkelAnime_ChangeAnim(&this->skelAnime, objSegChangeAnime, 1.0f, 0.0f, SkelAnime_GetFrameCount(objSegFrameCount),
-                             2, -4.0f);
-        this->unk_2AA += 1;
-        this->actor.shape.shadowDrawFunc = ActorShadow_DrawFunc_Circle;
+        Animation_Change(&this->skelAnime, &D_060070F0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060070F0), ANIMMODE_ONCE,
+                         -4.0f);
+        this->unk_2AA++;
+        this->actor.shape.shadowDraw = ActorShadow_DrawCircle;
     }
 }
 
 void func_809B0A28(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->unk_2AA += 1;
+    if (SkelAnime_Update(&this->skelAnime)) {
+        this->unk_2AA++;
     }
 }
 
 void func_809B0A6C(EnAni* this, GlobalContext* globalCtx) {
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->skelAnime.animCurrentFrame = 0.0f;
+    if (SkelAnime_Update(&this->skelAnime)) {
+        this->skelAnime.curFrame = 0.0f;
     }
     if (globalCtx->csCtx.npcActions[0]->action == 2) {
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060067B8, 1.0f, 0.0f,
-                             SkelAnime_GetFrameCount(&D_060067B8.genericHeader), 2, 0.0f);
-        this->actor.shape.shadowDrawFunc = NULL;
+        Animation_Change(&this->skelAnime, &D_060067B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060067B8), ANIMMODE_ONCE,
+                         0.0f);
+        this->actor.shape.shadowDraw = NULL;
         this->unk_2AA++;
     }
 }
@@ -241,10 +251,10 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnAni* this = THIS;
     s32 pad[2];
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL)) {
         switch (this->unk_2AA) {
             case 0:
@@ -268,26 +278,26 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_800788CC(NA_SE_IT_EARTHQUAKE);
         }
     } else {
-        if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-            this->skelAnime.animCurrentFrame = 0.0f;
+        if (SkelAnime_Update(&this->skelAnime) != 0) {
+            this->skelAnime.curFrame = 0.0f;
         }
         this->actionFunc(this, globalCtx);
     }
 
     if (this->unk_2A8 & 1) {
-        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_29C, &this->unk_2A2, this->actor.focus.pos);
         this->unk_2A2.z = 0;
         this->unk_2A2.y = this->unk_2A2.z;
         this->unk_2A2.x = this->unk_2A2.z;
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_29C.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_29C.y, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.x, 0, 6, 6200, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_2A2.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_29C.y, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.x, 0, 6, 6200, 100);
+        Math_SmoothStepToS(&this->unk_2A2.y, 0, 6, 6200, 100);
     }
 
     if (DECR(this->unk_2AE) == 0) {
-        this->unk_2AE = Math_Rand_S16Offset(60, 60);
+        this->unk_2AE = Rand_S16Offset(60, 60);
     }
     this->unk_2AC = this->unk_2AE;
     if (this->unk_2AC >= 3) {
@@ -295,19 +305,21 @@ void EnAni_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnAni_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnAni* this = THIS;
 
     if (limbIndex == 15) {
         rot->x += this->unk_29C.y;
         rot->z += this->unk_29C.x;
     }
-    return 0;
+    return false;
 }
 
-void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnAni_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    EnAni* this = THIS;
+
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
     }
 }
 
@@ -319,10 +331,10 @@ void EnAni_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_800943C8(globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B0F80[this->unk_2AC]));
 
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnAni_OverrideLimbDraw, EnAni_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ani.c", 736);
 }

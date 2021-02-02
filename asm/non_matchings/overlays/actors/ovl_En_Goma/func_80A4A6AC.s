@@ -99,7 +99,7 @@ glabel func_80A4A6AC
 /* 01948 80A4A808 1000002D */  beq     $zero, $zero, .L80A4A8C0   
 /* 0194C 80A4A80C A60B02C2 */  sh      $t3, 0x02C2($s0)           ## 000002C2
 .L80A4A810:
-/* 01950 80A4A810 0C018D74 */  jal     func_800635D0              
+/* 01950 80A4A810 0C018D74 */  jal     CollisionCheck_GetSwordDamage              
 /* 01954 80A4A814 AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 01958 80A4A818 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 0195C 80A4A81C 10400009 */  beq     $v0, $zero, .L80A4A844     
@@ -107,7 +107,7 @@ glabel func_80A4A6AC
 /* 01964 80A4A824 00C02025 */  or      $a0, $a2, $zero            ## $a0 = 00000000
 /* 01968 80A4A828 26050038 */  addiu   $a1, $s0, 0x0038           ## $a1 = 00000038
 /* 0196C 80A4A82C A3A3002F */  sb      $v1, 0x002F($sp)           
-/* 01970 80A4A830 0C00A66B */  jal     func_800299AC              
+/* 01970 80A4A830 0C00A66B */  jal     EffectSsSibuki_SpawnBurst              
 /* 01974 80A4A834 AFA6003C */  sw      $a2, 0x003C($sp)           
 /* 01978 80A4A838 93A3002F */  lbu     $v1, 0x002F($sp)           
 /* 0197C 80A4A83C 10000002 */  beq     $zero, $zero, .L80A4A848   

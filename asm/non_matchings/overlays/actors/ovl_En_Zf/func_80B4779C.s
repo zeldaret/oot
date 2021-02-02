@@ -7,7 +7,7 @@ glabel func_80B4779C
 /* 03760 80B477B0 AC8003E4 */  sw      $zero, 0x03E4($a0)         ## 000003E4
 /* 03764 80B477B4 3C0580B5 */  lui     $a1, %hi(D_80B4A280)       ## $a1 = 80B50000
 /* 03768 80B477B8 8CA5A280 */  lw      $a1, %lo(D_80B4A280)($a1)
-/* 0376C 80B477BC 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 0376C 80B477BC 0C02947A */  jal     Animation_PlayOnce
 /* 03770 80B477C0 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 03774 80B477C4 240E0013 */  addiu   $t6, $zero, 0x0013         ## $t6 = 00000013
 /* 03778 80B477C8 AE0E03DC */  sw      $t6, 0x03DC($s0)           ## 000003DC

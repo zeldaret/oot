@@ -59,14 +59,14 @@ glabel func_80BA1958
 /* 00CC0 80BA1A20 3C0580BA */  lui     $a1, %hi(D_80BA1B50)       ## $a1 = 80BA0000
 /* 00CC4 80BA1A24 84A51B50 */  lh      $a1, %lo(D_80BA1B50)($a1)  
 /* 00CC8 80BA1A28 24841B54 */  addiu   $a0, $a0, %lo(D_80BA1B54)  ## $a0 = 80BA1B54
-/* 00CCC 80BA1A2C 0C01DE5F */  jal     Math_ApproxS
+/* 00CCC 80BA1A2C 0C01DE5F */  jal     Math_StepToS
               
 /* 00CD0 80BA1A30 24060064 */  addiu   $a2, $zero, 0x0064         ## $a2 = 00000064
 /* 00CD4 80BA1A34 3C0480BA */  lui     $a0, %hi(D_80BA1B5C)       ## $a0 = 80BA0000
 /* 00CD8 80BA1A38 3C0580BA */  lui     $a1, %hi(D_80BA1B58)       ## $a1 = 80BA0000
 /* 00CDC 80BA1A3C 84A51B58 */  lh      $a1, %lo(D_80BA1B58)($a1)  
 /* 00CE0 80BA1A40 24841B5C */  addiu   $a0, $a0, %lo(D_80BA1B5C)  ## $a0 = 80BA1B5C
-/* 00CE4 80BA1A44 0C01DE5F */  jal     Math_ApproxS
+/* 00CE4 80BA1A44 0C01DE5F */  jal     Math_StepToS
               
 /* 00CE8 80BA1A48 24060064 */  addiu   $a2, $zero, 0x0064         ## $a2 = 00000064
 /* 00CEC 80BA1A4C 3C0980BA */  lui     $t1, %hi(D_80BA1B54)       ## $t1 = 80BA0000
@@ -86,11 +86,11 @@ glabel func_80BA1958
 /* 00D24 80BA1A84 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00D28 80BA1A88 3C0640A0 */  lui     $a2, 0x40A0                ## $a2 = 40A00000
 /* 00D2C 80BA1A8C 3C074170 */  lui     $a3, 0x4170                ## $a3 = 41700000
-/* 00D30 80BA1A90 0C00B92D */  jal     func_8002E4B4              
+/* 00D30 80BA1A90 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00D34 80BA1A94 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 00D38 80BA1A98 26050150 */  addiu   $a1, $s0, 0x0150           ## $a1 = 00000150
 /* 00D3C 80BA1A9C AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 00D40 80BA1AA0 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00D40 80BA1AA0 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00D44 80BA1AA4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00D48 80BA1AA8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -99,7 +99,7 @@ glabel func_80BA1958
 /* 00D54 80BA1AB4 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 00D58 80BA1AB8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D5C 80BA1ABC 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00D60 80BA1AC0 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00D64 80BA1AC4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00D68 80BA1AC8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000

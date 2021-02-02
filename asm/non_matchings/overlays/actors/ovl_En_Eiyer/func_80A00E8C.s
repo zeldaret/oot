@@ -6,7 +6,7 @@ glabel func_80A00E8C
 /* 00EFC 80A00E9C 8CA31C44 */  lw      $v1, 0x1C44($a1)           ## 00001C44
 /* 00F00 80A00EA0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00F04 80A00EA4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 00F08 80A00EA8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00F08 80A00EA8 0C02927F */  jal     SkelAnime_Update
               
 /* 00F0C 80A00EAC AFA30034 */  sw      $v1, 0x0034($sp)           
 /* 00F10 80A00EB0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
@@ -26,12 +26,12 @@ glabel func_80A00E8C
 /* 00F48 80A00EE8 46083280 */  add.s   $f10, $f6, $f8             
 /* 00F4C 80A00EEC E7AA002C */  swc1    $f10, 0x002C($sp)          
 /* 00F50 80A00EF0 C470002C */  lwc1    $f16, 0x002C($v1)          ## 0000002C
-/* 00F54 80A00EF4 0C00B6CA */  jal     func_8002DB28              
+/* 00F54 80A00EF4 0C00B6CA */  jal     Actor_WorldPitchTowardPoint              
 /* 00F58 80A00EF8 E7B00030 */  swc1    $f16, 0x0030($sp)          
 /* 00F5C 80A00EFC 00022C00 */  sll     $a1, $v0, 16               
 /* 00F60 80A00F00 00052C03 */  sra     $a1, $a1, 16               
 /* 00F64 80A00F04 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
-/* 00F68 80A00F08 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00F68 80A00F08 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00F6C 80A00F0C 24061000 */  addiu   $a2, $zero, 0x1000         ## $a2 = 00001000
 /* 00F70 80A00F10 10400007 */  beq     $v0, $zero, .L80A00F30     
@@ -52,13 +52,13 @@ glabel func_80A00E8C
 /* 00F9C 80A00F3C 0018C823 */  subu    $t9, $zero, $t8            
 /* 00FA0 80A00F40 A6190030 */  sh      $t9, 0x0030($s0)           ## 00000030
 /* 00FA4 80A00F44 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
-/* 00FA8 80A00F48 0C01DE80 */  jal     Math_ApproxF
+/* 00FA8 80A00F48 0C01DE80 */  jal     Math_StepToF
               
 /* 00FAC 80A00F4C 3C0540A0 */  lui     $a1, 0x40A0                ## $a1 = 40A00000
 /* 00FB0 80A00F50 26040032 */  addiu   $a0, $s0, 0x0032           ## $a0 = 00000032
 /* 00FB4 80A00F54 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00FB8 80A00F58 24060002 */  addiu   $a2, $zero, 0x0002         ## $a2 = 00000002
-/* 00FBC 80A00F5C 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 00FBC 80A00F5C 0C01E1EF */  jal     Math_ApproachS
               
 /* 00FC0 80A00F60 2407071C */  addiu   $a3, $zero, 0x071C         ## $a3 = 0000071C
 /* 00FC4 80A00F64 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

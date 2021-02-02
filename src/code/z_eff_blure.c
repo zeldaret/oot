@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 void EffectBlure_AddVertex(EffectBlure* this, Vec3f* p1, Vec3f* p2) {
     EffectBlureElement* elem;
@@ -309,6 +309,7 @@ void EffectBlure_UpdateFlags(EffectBlureElement* elem) {
 void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3s* vec1, Vec3s* vec2,
                                    Color_RGBA8* color1, Color_RGBA8* color2) {
     Vec3s sp30;
+    s32 pad;
     EffectBlureElement* elem;
     f32 mode4Param;
 
@@ -334,14 +335,14 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             break;
 
         case 3:
-            ratio = ratio * 0.5f;
+            ratio /= 2.0f;
             vec1->x = func_80027E34(elem->p1.x, elem->p2.x, ratio);
             vec1->y = func_80027E34(elem->p1.y, elem->p2.y, ratio);
             vec1->z = func_80027E34(elem->p1.z, elem->p2.z, ratio);
             vec2->x = func_80027E34(elem->p2.x, elem->p1.x, ratio);
             vec2->y = func_80027E34(elem->p2.y, elem->p1.y, ratio);
             vec2->z = func_80027E34(elem->p2.z, elem->p1.z, ratio);
-            ratio = ratio + ratio;
+            ratio *= 2.0f;
             break;
 
         case 4:
@@ -353,9 +354,9 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             vec1->x = (sp30.x * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.x;
             vec1->y = (sp30.y * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.y;
             vec1->z = (sp30.z * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p1.z;
-            vec2->x = -(sp30.x * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p2.x;
-            vec2->y = -(sp30.y * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p2.y;
-            vec2->z = -(sp30.z * 0.5f * (mode4Param - 1.0f) * ratio) + elem->p2.z;
+            vec2->x = elem->p2.x - (sp30.x * 0.5f * (mode4Param - 1.0f) * ratio);
+            vec2->y = elem->p2.y - (sp30.y * 0.5f * (mode4Param - 1.0f) * ratio);
+            vec2->z = elem->p2.z - (sp30.z * 0.5f * (mode4Param - 1.0f) * ratio);
             break;
 
         case 0:
@@ -368,18 +369,10 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             vec2->z = elem->p2.z;
             break;
     }
-
     sp30 = sp30; // Optimized out but seems necessary to match stack usage
 
     if (this->flags & 0x10) {
-        color1->a = 255;
-        color1->b = 255;
-        color1->g = 255;
-        color1->r = 255;
-        color2->r = 255;
-        color2->g = 255;
-        color2->b = 255;
-        color2->a = 255;
+        color1->r = color1->g = color1->b = color1->a = color2->r = color2->g = color2->b = color2->a = 255;
     } else {
         color1->r = func_80027E84(this->p1StartColor.r, this->p1EndColor.r, ratio);
         color1->g = func_80027E84(this->p1StartColor.g, this->p1EndColor.g, ratio);
@@ -400,7 +393,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
 void EffectBlure_SetupSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 809);
 
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 813);
 }
@@ -495,8 +488,8 @@ void EffectBlure_DrawElemNoInterpolation(EffectBlure* this, EffectBlureElement* 
         vtx[3].v.cn[2] = sp78.b;
         vtx[3].v.cn[3] = sp78.a;
 
-        gSPVertex(oGfxCtx->polyXlu.p++, vtx, 4, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 2, 0, 0, 2, 3, 0);
+        gSPVertex(POLY_XLU_DISP++, vtx, 4, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 0, 1, 2, 0, 0, 2, 3, 0);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 932);
@@ -610,16 +603,16 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         vtx[0].v = baseVtx;
         vtx[1].v = baseVtx;
 
-        vtx[0].v.ob[0] = Math_nearbyintf(sp158.x);
-        vtx[0].v.ob[1] = Math_nearbyintf(sp158.y);
-        vtx[0].v.ob[2] = Math_nearbyintf(sp158.z);
+        vtx[0].v.ob[0] = Math_FNearbyIntF(sp158.x);
+        vtx[0].v.ob[1] = Math_FNearbyIntF(sp158.y);
+        vtx[0].v.ob[2] = Math_FNearbyIntF(sp158.z);
         vtx[0].v.cn[0] = sp148.r;
         vtx[0].v.cn[1] = sp148.g;
         vtx[0].v.cn[2] = sp148.b;
         vtx[0].v.cn[3] = sp148.a;
-        vtx[1].v.ob[0] = Math_nearbyintf(sp14C.x);
-        vtx[1].v.ob[1] = Math_nearbyintf(sp14C.y);
-        vtx[1].v.ob[2] = Math_nearbyintf(sp14C.z);
+        vtx[1].v.ob[0] = Math_FNearbyIntF(sp14C.x);
+        vtx[1].v.ob[1] = Math_FNearbyIntF(sp14C.y);
+        vtx[1].v.ob[2] = Math_FNearbyIntF(sp14C.z);
         vtx[1].v.cn[0] = sp144.r;
         vtx[1].v.cn[1] = sp144.g;
         vtx[1].v.cn[2] = sp144.b;
@@ -652,31 +645,31 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             vtx[j1].v = baseVtx;
             vtx[j2].v = baseVtx;
 
-            vtx[j1].v.ob[0] = Math_nearbyintf(sp158.x);
-            vtx[j1].v.ob[1] = Math_nearbyintf(sp158.y);
-            vtx[j1].v.ob[2] = Math_nearbyintf(sp158.z);
+            vtx[j1].v.ob[0] = Math_FNearbyIntF(sp158.x);
+            vtx[j1].v.ob[1] = Math_FNearbyIntF(sp158.y);
+            vtx[j1].v.ob[2] = Math_FNearbyIntF(sp158.z);
             vtx[j1].v.cn[0] = func_80027E84(sp1A4.r, sp19C.r, temp_f28);
             vtx[j1].v.cn[1] = func_80027E84(sp1A4.g, sp19C.g, temp_f28);
             vtx[j1].v.cn[2] = func_80027E84(sp1A4.b, sp19C.b, temp_f28);
             vtx[j1].v.cn[3] = func_80027E84(sp1A4.a, sp19C.a, temp_f28);
 
-            vtx[j2].v.ob[0] = Math_nearbyintf(sp14C.x);
-            vtx[j2].v.ob[1] = Math_nearbyintf(sp14C.y);
-            vtx[j2].v.ob[2] = Math_nearbyintf(sp14C.z);
+            vtx[j2].v.ob[0] = Math_FNearbyIntF(sp14C.x);
+            vtx[j2].v.ob[1] = Math_FNearbyIntF(sp14C.y);
+            vtx[j2].v.ob[2] = Math_FNearbyIntF(sp14C.z);
             vtx[j2].v.cn[0] = func_80027E84(sp1A0.r, sp198.r, temp_f28);
             vtx[j2].v.cn[1] = func_80027E84(sp1A0.g, sp198.g, temp_f28);
             vtx[j2].v.cn[2] = func_80027E84(sp1A0.b, sp198.b, temp_f28);
             vtx[j2].v.cn[3] = func_80027E84(sp1A0.a, sp198.a, temp_f28);
         }
 
-        gSPVertex(oGfxCtx->polyXlu.p++, vtx, 16, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 3, 0, 0, 3, 2, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 2, 3, 5, 0, 2, 5, 4, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 4, 5, 7, 0, 4, 7, 6, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 6, 7, 9, 0, 6, 9, 8, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 8, 9, 11, 0, 8, 11, 10, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 10, 11, 13, 0, 10, 13, 12, 0);
-        gSP2Triangles(oGfxCtx->polyXlu.p++, 12, 13, 15, 0, 12, 15, 14, 0);
+        gSPVertex(POLY_XLU_DISP++, vtx, 16, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 2, 3, 5, 0, 2, 5, 4, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 4, 5, 7, 0, 4, 7, 6, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 6, 7, 9, 0, 6, 9, 8, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 8, 9, 11, 0, 8, 11, 10, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 10, 11, 13, 0, 10, 13, 12, 0);
+        gSP2Triangles(POLY_XLU_DISP++, 12, 13, 15, 0, 12, 15, 14, 0);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1184);
@@ -722,7 +715,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
         return;
     }
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     for (i = 0, elem = &this->elements[0]; elem < &this->elements[this->numElements - 1]; elem++, i++) {
         if ((elem->state == 0) || ((elem + 1)->state == 0)) {
@@ -748,7 +741,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this, GraphicsContext* gfxCtx) {
 void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1280);
 
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1285);
 }
@@ -756,25 +749,24 @@ void EffectBlure_SetupSimple(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vt
 void EffectBlure_SetupSimpleAlt(GraphicsContext* gfxCtx, EffectBlure* this, Vtx* vtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1294);
 
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
-    oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+    gDPPipeSync(POLY_XLU_DISP++);
+    POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
 
-    gDPSetCycleType(oGfxCtx->polyXlu.p++, G_CYC_2CYCLE);
-    gDPSetTextureLUT(oGfxCtx->polyXlu.p++, G_TT_NONE);
-    gSPTexture(oGfxCtx->polyXlu.p++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+    gDPSetCycleType(POLY_XLU_DISP++, G_CYC_2CYCLE);
+    gDPSetTextureLUT(POLY_XLU_DISP++, G_TT_NONE);
+    gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
 
-    gDPLoadTextureBlock(oGfxCtx->polyXlu.p++, D_04006020, G_IM_FMT_I, G_IM_SIZ_8b, 64, 32, 0,
+    gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownEffBlureTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 32, 0,
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_WRAP, 6, 5, G_TX_NOLOD, G_TX_NOLOD);
 
-    gDPSetCombineLERP(oGfxCtx->polyXlu.p++, TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL0, 0, PRIMITIVE, 0,
-                      PRIMITIVE, ENVIRONMENT, COMBINED, ENVIRONMENT, 0, 0, 0, COMBINED);
-    gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-    gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
-    gSPSetGeometryMode(oGfxCtx->polyXlu.p++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPSetCombineLERP(POLY_XLU_DISP++, TEXEL0, PRIMITIVE, PRIM_LOD_FRAC, TEXEL0, TEXEL0, 0, PRIMITIVE, 0, PRIMITIVE,
+                      ENVIRONMENT, COMBINED, ENVIRONMENT, 0, 0, 0, COMBINED);
+    gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
+    gSPClearGeometryMode(POLY_XLU_DISP++, G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
+    gSPSetGeometryMode(POLY_XLU_DISP++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
+    gDPPipeSync(POLY_XLU_DISP++);
 
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->altEnvColor.r, this->altEnvColor.g, this->altEnvColor.b,
-                   this->altEnvColor.a);
+    gDPSetEnvColor(POLY_XLU_DISP++, this->altEnvColor.r, this->altEnvColor.g, this->altEnvColor.b, this->altEnvColor.a);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1329);
 }
@@ -793,7 +785,7 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1356);
 
     sSetupHandlers[this->drawMode](gfxCtx, this, vtx);
-    gDPPipeSync(oGfxCtx->polyXlu.p++);
+    gDPPipeSync(POLY_XLU_DISP++);
 
     {
         Vec3f sp1B0;
@@ -813,15 +805,15 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
         for (i = 0; i < this->numElements - 1; i++) {
             if (this->drawMode == 1) {
                 alphaRatio = (f32)this->elements[i].timer / (f32)this->elemDuration;
-                gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x00, 0x80, this->altPrimColor.r, this->altPrimColor.g,
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, this->altPrimColor.r, this->altPrimColor.g,
                                 this->altPrimColor.b, this->altPrimColor.a * (1.0f - alphaRatio));
-                gDPPipeSync(oGfxCtx->polyXlu.p++);
+                gDPPipeSync(POLY_XLU_DISP++);
             }
 
             if (1) {} // Necessary to match
 
-            gSPVertex(oGfxCtx->polyXlu.p++, &vtx[j], 4, 0);
-            gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 3, 0, 0, 3, 2, 0);
+            gSPVertex(POLY_XLU_DISP++, &vtx[j], 4, 0);
+            gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
 
             if (this->flags & 4) {
                 sp1B0.x = ((f32)vtx[4 * i + 0].v.ob[0] + (f32)vtx[4 * i + 1].v.ob[0]) * 0.5f;
@@ -851,10 +843,10 @@ void EffectBlure_DrawSimpleVertices(GraphicsContext* gfxCtx, EffectBlure* this, 
                         break;
                     }
 
-                    gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-                    gSPVertex(oGfxCtx->polyXlu.p++, &vtx[j], 4, 0);
-                    gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 3, 0, 0, 3, 2, 0);
-                    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                    gSPVertex(POLY_XLU_DISP++, &vtx[j], 4, 0);
+                    gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
+                    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 }
             }
 
@@ -994,12 +986,12 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_eff_blure.c", 1596);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->numElements != 0) {
         if (this->flags == 0) {
             func_800942F0(gfxCtx);
-            gDPPipeSync(oGfxCtx->polyXlu.p++);
+            gDPPipeSync(POLY_XLU_DISP++);
 
             vtx = Graph_Alloc(gfxCtx, sizeof(Vtx[32]));
             if (vtx == NULL) {
@@ -1073,7 +1065,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
 
                 j = 0;
 
-                gSPVertex(oGfxCtx->polyXlu.p++, vtx, 32, 0);
+                gSPVertex(POLY_XLU_DISP++, vtx, 32, 0);
 
                 phi_t2 = 0;
                 for (i = 0; i < this->numElements; i++) {
@@ -1085,7 +1077,7 @@ void EffectBlure_Draw(void* thisx, GraphicsContext* gfxCtx) {
                         if (phi_t2 == 0) {
                             phi_t2 = 1;
                         } else {
-                            gSP1Quadrangle(oGfxCtx->polyXlu.p++, j - 2, j - 1, j + 1, j, 0);
+                            gSP1Quadrangle(POLY_XLU_DISP++, j - 2, j - 1, j + 1, j, 0);
 
                             if (1) {} // Necessary to match
 

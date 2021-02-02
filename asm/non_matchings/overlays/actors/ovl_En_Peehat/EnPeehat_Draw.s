@@ -14,7 +14,7 @@ glabel EnPeehat_Draw
 /* 031B8 80AD2658 24E72224 */  addiu   $a3, $a3, %lo(func_80AD2224) ## $a3 = 80AD2224
 /* 031BC 80AD265C AFB00014 */  sw      $s0, 0x0014($sp)           
 /* 031C0 80AD2660 AFAF0010 */  sw      $t7, 0x0010($sp)           
-/* 031C4 80AD2664 0C028572 */  jal     SkelAnime_Draw
+/* 031C4 80AD2664 0C028572 */  jal     SkelAnime_DrawOpa
               
 /* 031C8 80AD2668 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 031CC 80AD266C 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
@@ -54,7 +54,7 @@ glabel EnPeehat_Draw
 /* 03250 80AD26F0 260403AC */  addiu   $a0, $s0, 0x03AC           ## $a0 = 000003AC
 /* 03254 80AD26F4 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 03258 80AD26F8 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 0325C 80AD26FC 0C0189CD */  jal     func_80062734              
+/* 0325C 80AD26FC 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 03260 80AD2700 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 03264 80AD2704 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80AD2708:

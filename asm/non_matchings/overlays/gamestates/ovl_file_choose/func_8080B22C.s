@@ -18,9 +18,9 @@ glabel func_8080B22C
 /* 0752C 8080B26C A4794A6E */  sh      $t9, 0x4A6E($v1)           ## 00004A6E
 /* 07530 8080B270 8D4E0000 */  lw      $t6, 0x0000($t2)           ## 8015FA90
 /* 07534 8080B274 00240821 */  addu    $at, $at, $a0              
-/* 07538 8080B278 3C0C8013 */  lui     $t4, %hi(D_8012A4E0)
+/* 07538 8080B278 3C0C8013 */  lui     $t4, %hi(gSramSlotOffsets)
 /* 0753C 8080B27C 85D80F18 */  lh      $t8, 0x0F18($t6)           ## 00000F18
-/* 07540 8080B280 258CA4E0 */  addiu   $t4, %lo(D_8012A4E0)
+/* 07540 8080B280 258CA4E0 */  addiu   $t4, %lo(gSramSlotOffsets)
 /* 07544 8080B284 2410004C */  addiu   $s0, $zero, 0x004C         ## $s0 = 0000004C
 /* 07548 8080B288 01F8C821 */  addu    $t9, $t7, $t8              
 /* 0754C 8080B28C A439CA72 */  sh      $t9, -0x358E($at)          ## 0001CA72

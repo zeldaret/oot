@@ -51,7 +51,7 @@ glabel EnArrow_Draw
 /* 010B8 809B49D8 8E06016C */  lw      $a2, 0x016C($s0)           ## 0000016C
 /* 010BC 809B49DC AFA20018 */  sw      $v0, 0x0018($sp)
 /* 010C0 809B49E0 AFB00014 */  sw      $s0, 0x0014($sp)
-/* 010C4 809B49E4 0C0282D0 */  jal     SkelAnime_LodDraw
+/* 010C4 809B49E4 0C0282D0 */  jal     SkelAnime_DrawLod
 /* 010C8 809B49E8 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 010CC 809B49EC 100000C9 */  beq     $zero, $zero, .L809B4D14
 /* 010D0 809B49F0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -72,7 +72,7 @@ glabel EnArrow_Draw
 /* 01108 809B4A28 00812021 */  addu    $a0, $a0, $at
 /* 0110C 809B4A2C 000420C0 */  sll     $a0, $a0,  3
 /* 01110 809B4A30 00042400 */  sll     $a0, $a0, 16
-/* 01114 809B4A34 0C01DE0D */  jal     Math_Coss
+/* 01114 809B4A34 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 01118 809B4A38 00042403 */  sra     $a0, $a0, 16
 /* 0111C 809B4A3C 3C0142FF */  lui     $at, 0x42FF                ## $at = 42FF0000
@@ -238,10 +238,10 @@ glabel EnArrow_Draw
 /* 0137C 809B4C9C AFA20040 */  sw      $v0, 0x0040($sp)
 /* 01380 809B4CA0 8FA30040 */  lw      $v1, 0x0040($sp)
 /* 01384 809B4CA4 8FA80064 */  lw      $t0, 0x0064($sp)
-/* 01388 809B4CA8 3C0C0403 */  lui     $t4, 0x0403                ## $t4 = 04030000
+/* 01388 809B4CA8 3C0C0403 */  lui     $t4, %hi(gEffFairySparklesDL)                ## $t4 = 04030000
 /* 0138C 809B4CAC AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 01390 809B4CB0 8D0202D0 */  lw      $v0, 0x02D0($t0)           ## 000002D0
-/* 01394 809B4CB4 258C7880 */  addiu   $t4, $t4, 0x7880           ## $t4 = 04037880
+/* 01394 809B4CB4 258C7880 */  addiu   $t4, $t4, %lo(gEffFairySparklesDL)           ## $t4 = 04037880
 /* 01398 809B4CB8 3C0BDE00 */  lui     $t3, 0xDE00                ## $t3 = DE000000
 /* 0139C 809B4CBC 244A0008 */  addiu   $t2, $v0, 0x0008           ## $t2 = 00000008
 /* 013A0 809B4CC0 AD0A02D0 */  sw      $t2, 0x02D0($t0)           ## 000002D0

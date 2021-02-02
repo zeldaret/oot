@@ -1,0 +1,55 @@
+<Root>
+    <File Name="object_sk2" Segment="6">
+        <DList Name="gStalfosHeadDL" Offset="0x53D0"/>
+        <DList Name="gStalfosThirdVertebDL" Offset="0x5720"/>
+        <DList Name="gStalfosRightShoulderBoneDL" Offset="0x57B8"/>
+        <DList Name="gStalfosFourthVertebDL" Offset="0x5890"/>
+        <DList Name="gStalfosRightThighDL" Offset="0x5970"/>
+        <DList Name="gStalfosRightFistDL" Offset="0x5A18"/>
+        <DList Name="gStalfosTorsoDL" Offset="0x5AD8"/>
+        <DList Name="gStalfosJawDL" Offset="0x5B90"/>
+        <DList Name="gStalfosFirstVertebraeDL" Offset="0x5C78"/>
+        <DList Name="gStalfosSecondVertebraeDL" Offset="0x5D08"/>
+        <DList Name="gStalfosShieldDL" Offset="0x5DA0"/>
+        <DList Name="gStalfosWaistDL" Offset="0x5EA0"/>
+        <DList Name="gStalfosRightShinDL" Offset="0x5FA8"/>
+        <DList Name="gStalfosRightForearmDL" Offset="0x6110"/>
+        <DList Name="gStalfosRightFootDL" Offset="0x6208"/>
+        <DList Name="gStalfosRightShoulderArmorDL" Offset="0x6308"/>
+        <DList Name="gStalfosLeftShoulderBoneDL" Offset="0x63D8"/>
+        <DList Name="gStalfosLeftShoulderArmorDL" Offset="0x64B0"/>
+        <DList Name="gStalfosLeftFootDL" Offset="0x6580"/>
+        <DList Name="gStalfosLeftForearmDL" Offset="0x6680"/>
+        <DList Name="gStalfosLeftShinDL" Offset="0x6778"/>
+        <DList Name="gStalfosLeftThighDL" Offset="0x68E0"/>
+        <DList Name="gStalfosLeftFistDL" Offset="0x6988"/>
+        <DList Name="gStalfosSwordDL" Offset="0x6A48"/>
+        <Limb Name="gStalfosLimb0" Type="Standard" Offset="0x7868"/>
+        <Limb Name="gStalfosLimb1" Type="Standard" Offset="0x7874"/>
+        <Limb Name="gStalfosJawLimb" Type="Standard" Offset="0x78D4"/>
+        <Limb Name="gStalfosHeadLimb" Type="Standard" Offset="0x78E0"/>
+        <Limb Name="gStalfosEntryFirstVertebLimb" Type="Standard" Offset="0x78EC"/>
+        <Skeleton Name="gStalfosSkel" Type="Normal" LimbType="Standard" Offset="0x7C28"/>
+        <Animation Name="gStalfosBackDamageAnim" Offset="0x444"/>
+        <Animation Name="gStalfosBackDownAnim" Offset="0x1420"/>
+        <Animation Name="gStalfosBackJumpAnim" Offset="0x1978"/>
+        <Animation Name="gStalfosDefendAnim" Offset="0x1C20"/>
+        <Animation Name="gStalfosStandUprightAnim" Offset="0x2188"/>
+        <Animation Name="gStalfosFightingRunAnim" Offset="0x26D4"/>
+        <Animation Name="gStalfosFightingWaitAnim" Offset="0x316C"/>
+        <Animation Name="gStalfosFightingWalkAnim" Offset="0x81B4"/>
+        <Animation Name="gStalfosFrontDamageAnim" Offset="0x8604"/>
+        <Animation Name="gStalfosFrontDownAnim" Offset="0x9A90"/>
+        <Animation Name="gStalfosJumpAnim" Offset="0x9E50"/>
+        <Animation Name="gStalfosJumpKiruAnim" Offset="0xA324"/>
+        <Animation Name="gStalfosJumpKiruEndAnim" Offset="0xA99C"/>
+        <Animation Name="gStalfosKiruAnim" Offset="0xB00C"/>
+        <Animation Name="gStalfosKiruEndAnim" Offset="0xB4E4"/>
+        <Animation Name="gStalfosKiruFinshAnim" Offset="0xBE4C"/>
+        <Animation Name="gStalfosLandingAnim" Offset="0xC438"/>
+        <Animation Name="gStalfosLaughAnim" Offset="0xC8A0"/>
+        <Animation Name="gStalfosFightWait2WaitAnim" Offset="0xDCF0"/>
+        <Animation Name="gStalfosSideWalkAnim" Offset="0xE2B0"/>
+        <Animation Name="gStalfosStanding2FightingAnim" Offset="0xE7E4"/>
+    </File>
+</Root>

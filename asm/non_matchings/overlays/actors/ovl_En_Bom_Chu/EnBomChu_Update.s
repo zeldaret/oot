@@ -23,13 +23,13 @@ glabel EnBomChu_Update
 /* 00DF4 809C6624 00073C03 */  sra     $a3, $a3, 16               
 /* 00DF8 809C6628 00072400 */  sll     $a0, $a3, 16               
 /* 00DFC 809C662C 00042403 */  sra     $a0, $a0, 16               
-/* 00E00 809C6630 0C01DE1C */  jal     Math_Sins
+/* 00E00 809C6630 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00E04 809C6634 A7A7006E */  sh      $a3, 0x006E($sp)           
 /* 00E08 809C6638 87A7006E */  lh      $a3, 0x006E($sp)           
 /* 00E0C 809C663C E7A00068 */  swc1    $f0, 0x0068($sp)           
 /* 00E10 809C6640 00072400 */  sll     $a0, $a3, 16               
-/* 00E14 809C6644 0C01DE0D */  jal     Math_Coss
+/* 00E14 809C6644 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00E18 809C6648 00042403 */  sra     $a0, $a0, 16               
 /* 00E1C 809C664C C7AC0068 */  lwc1    $f12, 0x0068($sp)          
@@ -106,11 +106,11 @@ glabel EnBomChu_Update
 /* 00F30 809C6760 13380003 */  beq     $t9, $t8, .L809C6770       
 /* 00F34 809C6764 8FA6002C */  lw      $a2, 0x002C($sp)           
 /* 00F38 809C6768 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00F3C 809C676C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 .L809C6770:
 /* 00F40 809C6770 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00F44 809C6774 0C00B56E */  jal     Actor_SetHeight
+/* 00F44 809C6774 0C00B56E */  jal     Actor_SetFocus
               
 /* 00F48 809C6778 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00F4C 809C677C 8E09014C */  lw      $t1, 0x014C($s0)           ## 0000014C
@@ -118,10 +118,10 @@ glabel EnBomChu_Update
 /* 00F54 809C6784 25085F48 */  addiu   $t0, $t0, %lo(func_809C5F48) ## $t0 = 809C5F48
 /* 00F58 809C6788 1509007D */  bne     $t0, $t1, .L809C6980       
 /* 00F5C 809C678C 262A07C0 */  addiu   $t2, $s1, 0x07C0           ## $t2 = 000007C0
-/* 00F60 809C6790 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F60 809C6790 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F64 809C6794 AFAA0030 */  sw      $t2, 0x0030($sp)           
-/* 00F68 809C6798 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00F68 809C6798 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00F6C 809C679C E7A00038 */  swc1    $f0, 0x0038($sp)           
 /* 00F70 809C67A0 3C014400 */  lui     $at, 0x4400                ## $at = 44000000
@@ -138,7 +138,7 @@ glabel EnBomChu_Update
 /* 00F9C 809C67CC 44043000 */  mfc1    $a0, $f6                   
 /* 00FA0 809C67D0 00000000 */  nop
 /* 00FA4 809C67D4 00042400 */  sll     $a0, $a0, 16               
-/* 00FA8 809C67D8 0C01DE1C */  jal     Math_Sins
+/* 00FA8 809C67D8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00FAC 809C67DC 00042403 */  sra     $a0, $a0, 16               
 /* 00FB0 809C67E0 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
@@ -186,7 +186,7 @@ glabel EnBomChu_Update
 /* 01058 809C6888 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 0105C 809C688C AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 01060 809C6890 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 01064 809C6894 0C01084F */  jal     func_8004213C              
+/* 01064 809C6894 0C01084F */  jal     WaterBox_GetSurface1              
 /* 01068 809C6898 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 0106C 809C689C 10400032 */  beq     $v0, $zero, .L809C6968     
 /* 01070 809C68A0 C7A40040 */  lwc1    $f4, 0x0040($sp)           
@@ -237,7 +237,7 @@ glabel EnBomChu_Update
 /* 01114 809C6944 44812000 */  mtc1    $at, $f4                   ## $f4 = 0.25
 /* 01118 809C6948 44060000 */  mfc1    $a2, $f0                   
 /* 0111C 809C694C E7A80010 */  swc1    $f8, 0x0010($sp)           
-/* 01120 809C6950 0C00A4F9 */  jal     func_800293E4              
+/* 01120 809C6950 0C00A4F9 */  jal     EffectSsBubble_Spawn              
 /* 01124 809C6954 E7A40014 */  swc1    $f4, 0x0014($sp)           
 /* 01128 809C6958 960A0088 */  lhu     $t2, 0x0088($s0)           ## 00000088
 .L809C695C:

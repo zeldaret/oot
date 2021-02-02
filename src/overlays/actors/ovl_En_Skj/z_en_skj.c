@@ -8,10 +8,18 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx);
+extern UNK_TYPE D_060007A4;
+extern UNK_TYPE D_06000E10;
+extern UNK_TYPE D_060014C8;
+extern UNK_TYPE D_06005F40;
+extern UNK_TYPE D_06006A98;
+extern UNK_TYPE D_06006D84;
+extern UNK_TYPE D_06007128;
+
 /*
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_SKJ,
     sizeof(EnSkj),
@@ -19,6 +27,25 @@ const ActorInit En_Skj_InitVars = {
     (ActorFunc)EnSkj_Destroy,
     (ActorFunc)EnSkj_Update,
     (ActorFunc)EnSkj_Draw,
+};
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 8, 48, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/func_80AFE2B0.s")

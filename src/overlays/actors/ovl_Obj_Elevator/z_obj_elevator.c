@@ -22,7 +22,7 @@ void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Elevator_InitVars = {
     ACTOR_OBJ_ELEVATOR,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_D_ELEVATOR,
     sizeof(ObjElevator),
@@ -41,22 +41,22 @@ static InitChainEntry sInitChain[] = {
 static f32 sScales[] = { 0.1f, 0.05f };
 
 extern Gfx D_06000180[];
-extern UNK_TYPE D_06000360;
+extern CollisionHeader D_06000360;
 
 void ObjElevator_SetupAction(ObjElevator* this, ObjElevatorActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, u32 collision, DynaPolyMoveFlag flag) {
+void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
     s16 pad1;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
     s16 pad2;
     Actor* thisx = &this->dyna.actor;
 
-    DynaPolyInfo_SetActorMove(thisx, flag);
-    DynaPolyInfo_Alloc(collision, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, thisx, local_c);
-    if (this->dyna.dynaPolyId == 0x32) {
+    DynaPolyActor_Init(thisx, flag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_obj_elevator.c", 136,
                      thisx->id, thisx->params);
     }
@@ -66,7 +66,7 @@ void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjElevator* this = THIS;
     f32 temp_f0;
 
-    func_80B92B08(this, globalCtx, &D_06000360, 1);
+    func_80B92B08(this, globalCtx, &D_06000360, DPM_PLAYER);
     Actor_SetScale(thisx, sScales[thisx->params & 1]);
     Actor_ProcessInitChain(thisx, sInitChain);
     temp_f0 = (thisx->params >> 8) & 0xF;
@@ -78,7 +78,7 @@ void ObjElevator_Init(Actor* thisx, GlobalContext* globalCtx) {
 void ObjElevator_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjElevator* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_80B92C5C(ObjElevator* this) {
@@ -90,11 +90,11 @@ void func_80B92C80(ObjElevator* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
     if ((this->dyna.unk_160 & 2) && !(this->unk_170 & 2)) {
-        sub = thisx->posRot.pos.y - thisx->initPosRot.pos.y;
+        sub = thisx->world.pos.y - thisx->home.pos.y;
         if (fabsf(sub) < 0.1f) {
-            this->unk_168 = thisx->initPosRot.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
+            this->unk_168 = thisx->home.pos.y + ((thisx->params >> 0xC) & 0xF) * 80.0f;
         } else {
-            this->unk_168 = thisx->initPosRot.pos.y;
+            this->unk_168 = thisx->home.pos.y;
         }
         func_80B92D20(this);
     }
@@ -107,7 +107,7 @@ void func_80B92D20(ObjElevator* this) {
 void func_80B92D44(ObjElevator* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
-    if (fabsf(Math_SmoothScaleMaxMinF(&thisx->posRot.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
+    if (fabsf(Math_SmoothStepToF(&thisx->world.pos.y, this->unk_168, 1.0f, this->unk_16C, 0.0f)) < 0.001f) {
         Audio_PlayActorSound2(thisx, NA_SE_EV_FOOT_SWITCH);
         func_80B92C5C(this);
     } else {

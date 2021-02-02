@@ -71,7 +71,7 @@ glabel func_80AD2438
 /* 03040 80AD24E0 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 03044 80AD24E4 8FA50050 */  lw      $a1, 0x0050($sp)           
 /* 03048 80AD24E8 00002025 */  or      $a0, $zero, $zero          ## $a0 = 00000000
-/* 0304C 80AD24EC 0C018A29 */  jal     func_800628A4              
+/* 0304C 80AD24EC 0C018A29 */  jal     Collider_UpdateSpheres              
 /* 03050 80AD24F0 24A5034C */  addiu   $a1, $a1, 0x034C           ## $a1 = 0000034C
 /* 03054 80AD24F4 3C0143FA */  lui     $at, 0x43FA                ## $at = 43FA0000
 /* 03058 80AD24F8 44816000 */  mtc1    $at, $f12                  ## $f12 = 500.00
@@ -94,7 +94,7 @@ glabel func_80AD2438
 /* 0309C 80AD253C 00822021 */  addu    $a0, $a0, $v0              
 /* 030A0 80AD2540 00042140 */  sll     $a0, $a0,  5               
 /* 030A4 80AD2544 00042400 */  sll     $a0, $a0, 16               
-/* 030A8 80AD2548 0C01DE1C */  jal     Math_Sins
+/* 030A8 80AD2548 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 030AC 80AD254C 00042403 */  sra     $a0, $a0, 16               
 /* 030B0 80AD2550 3C0180AD */  lui     $at, %hi(D_80AD2974)       ## $at = 80AD0000

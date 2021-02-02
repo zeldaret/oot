@@ -15,10 +15,15 @@ void EnWeiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnWeiyer_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnWeiyer_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000288;
+extern UNK_TYPE D_06000FC0;
+extern UNK_TYPE D_060012AC;
+extern UNK_TYPE D_06003410;
+
 /*
 const ActorInit En_Weiyer_InitVars = {
     ACTOR_EN_WEIYER,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_EI,
     sizeof(EnWeiyer),
@@ -26,6 +31,26 @@ const ActorInit En_Weiyer_InitVars = {
     (ActorFunc)EnWeiyer_Destroy,
     (ActorFunc)EnWeiyer_Update,
     (ActorFunc)EnWeiyer_Draw,
+};
+
+static ColliderCylinderInit D_80B33A90 = {
+    {
+        COLTYPE_HIT0,
+        AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 16, 10, -6, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Weiyer/EnWeiyer_Init.s")

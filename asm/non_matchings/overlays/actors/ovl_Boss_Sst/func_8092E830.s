@@ -4,31 +4,31 @@ glabel func_8092E830
 /* 02268 8092E838 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0226C 8092E83C AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 02270 8092E840 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 02274 8092E844 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02274 8092E844 0C02927F */  jal     SkelAnime_Update
               
 /* 02278 8092E848 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0227C 8092E84C 3C048094 */  lui     $a0, %hi(D_80938CB0)       ## $a0 = 80940000
 /* 02280 8092E850 24848CB0 */  addiu   $a0, $a0, %lo(D_80938CB0)  ## $a0 = 80938CB0
 /* 02284 8092E854 3C054416 */  lui     $a1, 0x4416                ## $a1 = 44160000
-/* 02288 8092E858 0C01DE80 */  jal     Math_ApproxF
+/* 02288 8092E858 0C01DE80 */  jal     Math_StepToF
               
 /* 0228C 8092E85C 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 02290 8092E860 3C048094 */  lui     $a0, %hi(D_80938CBC)       ## $a0 = 80940000
 /* 02294 8092E864 24848CBC */  addiu   $a0, $a0, %lo(D_80938CBC)  ## $a0 = 80938CBC
 /* 02298 8092E868 3C054416 */  lui     $a1, 0x4416                ## $a1 = 44160000
-/* 0229C 8092E86C 0C01DE80 */  jal     Math_ApproxF
+/* 0229C 8092E86C 0C01DE80 */  jal     Math_StepToF
               
 /* 022A0 8092E870 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 022A4 8092E874 3C048094 */  lui     $a0, %hi(D_80938CA8)       ## $a0 = 80940000
 /* 022A8 8092E878 24848CA8 */  addiu   $a0, $a0, %lo(D_80938CA8)  ## $a0 = 80938CA8
 /* 022AC 8092E87C 3C054348 */  lui     $a1, 0x4348                ## $a1 = 43480000
-/* 022B0 8092E880 0C01DE80 */  jal     Math_ApproxF
+/* 022B0 8092E880 0C01DE80 */  jal     Math_StepToF
               
 /* 022B4 8092E884 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 022B8 8092E888 3C048094 */  lui     $a0, %hi(D_80938CB4)       ## $a0 = 80940000
 /* 022BC 8092E88C 24848CB4 */  addiu   $a0, $a0, %lo(D_80938CB4)  ## $a0 = 80938CB4
 /* 022C0 8092E890 3C05C348 */  lui     $a1, 0xC348                ## $a1 = C3480000
-/* 022C4 8092E894 0C01DE80 */  jal     Math_ApproxF
+/* 022C4 8092E894 0C01DE80 */  jal     Math_StepToF
               
 /* 022C8 8092E898 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 022CC 8092E89C 8E0E0004 */  lw      $t6, 0x0004($s0)           ## 00000004

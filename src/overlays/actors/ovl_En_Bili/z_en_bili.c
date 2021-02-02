@@ -9,10 +9,15 @@ void EnBili_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBili_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000024;
+extern UNK_TYPE D_06000064;
+extern UNK_TYPE D_060000A4;
+extern UNK_TYPE D_06005848;
+
 /*
 const ActorInit En_Bili_InitVars = {
     ACTOR_EN_BILI,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_BL,
     sizeof(EnBili),
@@ -20,6 +25,26 @@ const ActorInit En_Bili_InitVars = {
     (ActorFunc)EnBili_Destroy,
     (ActorFunc)EnBili_Update,
     (ActorFunc)EnBili_Draw,
+};
+
+static ColliderCylinderInit D_809C1640 = {
+    {
+        COLTYPE_HIT8,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x03, 0x08 },
+        { 0xFFCFFFFF, 0x01, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 9, 28, -20, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bili/EnBili_Init.s")

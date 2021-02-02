@@ -117,7 +117,7 @@ glabel BgDyYoseizo_Update
 /* 0229C 80874ACC 860902F4 */  lh      $t1, 0x02F4($s0)           ## 000002F4
 /* 022A0 80874AD0 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 022A4 80874AD4 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 022A8 80874AD8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 022A8 80874AD8 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 022AC 80874ADC A60902F2 */  sh      $t1, 0x02F2($s0)           ## 000002F2
 /* 022B0 80874AE0 4600010D */  trunc.w.s $f4, $f0                   
@@ -135,7 +135,7 @@ glabel BgDyYoseizo_Update
 /* 022D8 80874B08 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 022DC 80874B0C 46083002 */  mul.s   $f0, $f6, $f8              
 /* 022E0 80874B10 44050000 */  mfc1    $a1, $f0                   
-/* 022E4 80874B14 0C00B56E */  jal     Actor_SetHeight
+/* 022E4 80874B14 0C00B56E */  jal     Actor_SetFocus
               
 /* 022E8 80874B18 E6000328 */  swc1    $f0, 0x0328($s0)           ## 00000328
 /* 022EC 80874B1C C60A0328 */  lwc1    $f10, 0x0328($s0)          ## 00000328

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 #define FLAGS 0x06000035
 
@@ -19,7 +19,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Player_InitVars = {
     ACTOR_PLAYER,
-    ACTORTYPE_PLAYER,
+    ACTORCAT_PLAYER,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(Player),

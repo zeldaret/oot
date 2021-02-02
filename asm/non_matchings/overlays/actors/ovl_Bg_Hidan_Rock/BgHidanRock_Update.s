@@ -22,17 +22,17 @@ glabel BgHidanRock_Update
 /* 00B44 8088BBC4 44070000 */  mfc1    $a3, $f0                   
 /* 00B48 8088BBC8 8FA4002C */  lw      $a0, 0x002C($sp)           
 /* 00B4C 8088BBCC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00B50 8088BBD0 0C00B92D */  jal     func_8002E4B4              
+/* 00B50 8088BBD0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00B54 8088BBD4 E7A00010 */  swc1    $f0, 0x0010($sp)           
 /* 00B58 8088BBD8 C600016C */  lwc1    $f0, 0x016C($s0)           ## 0000016C
 .L8088BBDC:
 /* 00B5C 8088BBDC 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
-/* 00B60 8088BBE0 3C088089 */  lui     $t0, %hi(D_8088BFAE)       ## $t0 = 80890000
+/* 00B60 8088BBE0 3C088089 */  lui     $t0, %hi(D_8088BF8C+0x22)       ## $t0 = 80890000
 /* 00B64 8088BBE4 4600203C */  c.lt.s  $f4, $f0                   
 /* 00B68 8088BBE8 00000000 */  nop
 /* 00B6C 8088BBEC 45020010 */  bc1fl   .L8088BC30                 
 /* 00B70 8088BBF0 8FBF0024 */  lw      $ra, 0x0024($sp)           
-/* 00B74 8088BBF4 8508BFAE */  lh      $t0, %lo(D_8088BFAE)($t0)  
+/* 00B74 8088BBF4 8508BFAE */  lh      $t0, %lo(D_8088BF8C+0x22)($t0)  
 /* 00B78 8088BBF8 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 00B7C 8088BBFC 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 00B80 8088BC00 44883000 */  mtc1    $t0, $f6                   ## $f6 = -0.00

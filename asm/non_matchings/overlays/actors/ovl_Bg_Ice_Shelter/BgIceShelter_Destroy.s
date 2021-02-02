@@ -27,8 +27,8 @@ glabel L80890B40
 /* 00400 80890B40 8FA4001C */  lw      $a0, 0x001C($sp)           
 /* 00404 80890B44 8FA90018 */  lw      $t1, 0x0018($sp)           
 /* 00408 80890B48 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
-/* 0040C 80890B4C 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 0040C 80890B4C 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00410 80890B50 8D26014C */  lw      $a2, 0x014C($t1)           ## 0000014C
 /* 00414 80890B54 10000006 */  beq     $zero, $zero, .L80890B70   
 /* 00418 80890B58 8FA50018 */  lw      $a1, 0x0018($sp)           

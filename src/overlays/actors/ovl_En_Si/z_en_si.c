@@ -1,7 +1,7 @@
 /*
  * File: z_en_si.c
  * Overlay: En_Si
- * Description:
+ * Description: Gold Skulltula token
  */
 
 #include "z_en_si.h"
@@ -21,18 +21,30 @@ void func_80AFB89C(EnSi* this, GlobalContext* globalCtx);
 void func_80AFB950(EnSi* this, GlobalContext* globalCtx);
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x3D, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000090, 0x00, 0x00 }, 0x00, 0x05, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_NO_PUSH | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000090, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
     { 20, 18, 2, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 D_80AFBADC = {
-    0x00, 0x0000, 0x0000, 0x0000, 0xFF,
-};
+static CollisionCheckInfoInit2 D_80AFBADC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 const ActorInit En_Si_InitVars = {
     ACTOR_EN_SI,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_ST,
     sizeof(EnSi),
@@ -47,11 +59,11 @@ void EnSi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    func_80061EFC(&this->actor.colChkInfo, NULL, &D_80AFBADC);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AFBADC);
     Actor_SetScale(&this->actor, 0.025f);
     this->unk_19C = 0;
     this->actionFunc = func_80AFB768;
-    this->actor.shape.unk_08 = 42.0f;
+    this->actor.shape.yOffset = 42.0f;
 }
 
 void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -61,8 +73,8 @@ void EnSi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 func_80AFB748(EnSi* this, GlobalContext* globalCtx) {
-    if (this->collider.base.acFlags & 0x2) {
-        this->collider.base.acFlags &= ~0x2;
+    if (this->collider.base.acFlags & AC_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
     }
     return 0;
 }
@@ -73,24 +85,24 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
     if ((this->actor.flags & 0x2000) == 0x2000) {
         this->actionFunc = func_80AFB89C;
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         this->actor.shape.rot.y += 0x400;
 
         if (!Player_InCsMode(globalCtx)) {
             func_80AFB748(this, globalCtx);
 
-            if (this->collider.base.maskB & 0x1) {
-                this->collider.base.maskB &= ~0x1;
+            if (this->collider.base.ocFlags2 & OC2_HIT_PLAYER) {
+                this->collider.base.ocFlags2 &= ~OC2_HIT_PLAYER;
                 Item_Give(globalCtx, ITEM_SKULL_TOKEN);
                 player->actor.freezeTimer = 10;
                 func_8010B680(globalCtx, 0xB4, 0);
                 func_800F5C64(0x39);
                 this->actionFunc = func_80AFB950;
             } else {
-                Collider_CylinderUpdate(&this->actor, &this->collider);
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+                Collider_UpdateCylinder(&this->actor, &this->collider);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+                CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
             }
         }
     }
@@ -99,7 +111,7 @@ void func_80AFB768(EnSi* this, GlobalContext* globalCtx) {
 void func_80AFB89C(EnSi* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.scale.x, 0.25f, 0.4f, 1.0f, 0.0f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
     this->actor.shape.rot.y += 0x400;
 
@@ -132,9 +144,9 @@ void EnSi_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnSi* this = THIS;
 
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, 16.0f);
+    Actor_SetFocus(&this->actor, 16.0f);
 }
 
 void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx) {

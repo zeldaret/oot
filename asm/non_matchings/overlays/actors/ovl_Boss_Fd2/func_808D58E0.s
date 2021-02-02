@@ -68,7 +68,7 @@ glabel func_808D58E0
 /* 0332C 808D599C 44049000 */  mfc1    $a0, $f18                  
 /* 03330 808D59A0 00000000 */  nop
 /* 03334 808D59A4 00042400 */  sll     $a0, $a0, 16               
-/* 03338 808D59A8 0C01DE1C */  jal     Math_Sins
+/* 03338 808D59A8 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0333C 808D59AC 00042403 */  sra     $a0, $a0, 16               
 /* 03340 808D59B0 46160102 */  mul.s   $f4, $f0, $f22             
@@ -86,7 +86,7 @@ glabel func_808D58E0
 /* 03370 808D59E0 44042000 */  mfc1    $a0, $f4                   
 /* 03374 808D59E4 00000000 */  nop
 /* 03378 808D59E8 00042400 */  sll     $a0, $a0, 16               
-/* 0337C 808D59EC 0C01DE1C */  jal     Math_Sins
+/* 0337C 808D59EC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 03380 808D59F0 00042403 */  sra     $a0, $a0, 16               
 /* 03384 808D59F4 46160182 */  mul.s   $f6, $f0, $f22             
@@ -102,7 +102,7 @@ glabel func_808D58E0
 /* 033AC 808D5A1C 44043000 */  mfc1    $a0, $f6                   
 /* 033B0 808D5A20 00000000 */  nop
 /* 033B4 808D5A24 00042400 */  sll     $a0, $a0, 16               
-/* 033B8 808D5A28 0C01DE0D */  jal     Math_Coss
+/* 033B8 808D5A28 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 033BC 808D5A2C 00042403 */  sra     $a0, $a0, 16               
 /* 033C0 808D5A30 46160202 */  mul.s   $f8, $f0, $f22             

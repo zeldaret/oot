@@ -9,8 +9,8 @@ glabel BossGoma_Init
 /* 00250 80915C60 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 00254 80915C64 24A5B2A8 */  addiu   $a1, $a1, %lo(D_8091B2A8)  ## $a1 = 8091B2A8
-/* 00258 80915C68 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0025C 80915C6C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00258 80915C68 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0025C 80915C6C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00260 80915C70 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00264 80915C74 3C05457A */  lui     $a1, 0x457A                ## $a1 = 457A0000
 /* 00268 80915C78 0C00AC78 */  jal     ActorShape_Init
@@ -30,7 +30,7 @@ glabel BossGoma_Init
 /* 00298 80915CA8 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 0029C 80915CAC 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
 /* 002A0 80915CB0 24A52678 */  addiu   $a1, $a1, 0x2678           ## $a1 = 06012678
-/* 002A4 80915CB4 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 002A4 80915CB4 0C0294BE */  jal     Animation_PlayLoop
 /* 002A8 80915CB8 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 002AC 80915CBC 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 002B0 80915CC0 44810000 */  mtc1    $at, $f0                   ## $f0 = 1.00

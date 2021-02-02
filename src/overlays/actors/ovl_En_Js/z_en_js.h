@@ -1,8 +1,8 @@
 #ifndef _Z_EN_JS_H_
 #define _Z_EN_JS_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnJs;
 
@@ -12,8 +12,8 @@ typedef struct EnJs {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ SkelAnime skelAnime;
-    /* 0x01DC */ Vec3s limbDrawTable[13];
-    /* 0x022A */ Vec3s transitionDrawTable[13];
+    /* 0x01DC */ Vec3s jointTable[13];
+    /* 0x022A */ Vec3s morphTable[13];
     /* 0x0278 */ Vec3s unk_278;
     /* 0x027E */ Vec3s unk_27E;
     /* 0x0284 */ u16 unk_284;

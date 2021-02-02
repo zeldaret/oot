@@ -9,10 +9,28 @@ void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000DC0;
+extern UNK_TYPE D_06000EA0;
+extern UNK_TYPE D_06001B70;
+extern UNK_TYPE D_06001D20;
+extern UNK_TYPE D_06001F70;
+extern UNK_TYPE D_06002160;
+extern UNK_TYPE D_06002448;
+extern UNK_TYPE D_06002600;
+extern UNK_TYPE D_06002850;
+extern UNK_TYPE D_06002A40;
+extern UNK_TYPE D_06002D28;
+extern UNK_TYPE D_06002E80;
+extern UNK_TYPE D_06002FE4;
+extern UNK_TYPE D_06003190;
+extern UNK_TYPE D_060033E0;
+extern UNK_TYPE D_06003710;
+extern UNK_TYPE D_06003AF0;
+
 /*
 const ActorInit Demo_Gj_InitVars = {
     ACTOR_DEMO_GJ,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GJ,
     sizeof(DemoGj),
@@ -20,6 +38,63 @@ const ActorInit Demo_Gj_InitVars = {
     (ActorFunc)DemoGj_Destroy,
     (ActorFunc)DemoGj_Update,
     (ActorFunc)DemoGj_Draw,
+};
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 30, 100, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 25, 110, 0, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000008, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { 25, 200, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Gj/func_80978930.s")

@@ -77,8 +77,8 @@ glabel EnBdfire_Init
 /* 000F8 809BC128 0C26F00C */  jal     func_809BC030              
 /* 000FC 809BC12C 24A5C598 */  addiu   $a1, $a1, %lo(func_809BC598) ## $a1 = FFFFC598
 /* 00100 809BC130 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00104 809BC134 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00108 809BC138 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00104 809BC134 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00108 809BC138 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0010C 809BC13C 44050000 */  mfc1    $a1, $f0                   
 /* 00110 809BC140 44070000 */  mfc1    $a3, $f0                   
 /* 00114 809BC144 0C00AC78 */  jal     ActorShape_Init
@@ -144,7 +144,7 @@ glabel EnBdfire_Init
 /* 001F8 809BC228 00000000 */  nop
 /* 001FC 809BC22C E60C018C */  swc1    $f12, 0x018C($s0)          ## 0000018C
 .L809BC230:
-/* 00200 809BC230 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00200 809BC230 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00204 809BC234 00000000 */  nop
 /* 00208 809BC238 3C014100 */  lui     $at, 0x4100                ## $at = 41000000

@@ -9,10 +9,14 @@ void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0600219C;
+extern UNK_TYPE D_06002FE8;
+extern UNK_TYPE D_0600BFA8;
+
 /*
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ZO,
     sizeof(EnDivingGame),
@@ -20,6 +24,26 @@ const ActorInit En_Diving_Game_InitVars = {
     (ActorFunc)EnDivingGame_Destroy,
     (ActorFunc)EnDivingGame_Update,
     (ActorFunc)EnDivingGame_Draw,
+};
+
+static ColliderCylinderInit D_809EF0B4 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 10, 10, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Diving_Game/EnDivingGame_Init.s")

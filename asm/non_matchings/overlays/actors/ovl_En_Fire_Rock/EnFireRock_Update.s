@@ -104,7 +104,7 @@ glabel EnFireRock_Update
 /* 00D48 80A12968 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 00D4C 80A1296C 8FA4004C */  lw      $a0, 0x004C($sp)           
 /* 00D50 80A12970 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00D54 80A12974 0C00B92D */  jal     func_8002E4B4              
+/* 00D54 80A12974 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00D58 80A12978 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 00D5C 80A1297C 8603018C */  lh      $v1, 0x018C($s0)           ## 0000018C
 /* 00D60 80A12980 8E090168 */  lw      $t1, 0x0168($s0)           ## 00000168
@@ -182,7 +182,7 @@ glabel EnFireRock_Update
 /* 00E5C 80A12A7C 1040000F */  beq     $v0, $zero, .L80A12ABC     
 /* 00E60 80A12A80 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00E64 80A12A84 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
-/* 00E68 80A12A88 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00E68 80A12A88 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00E6C 80A12A8C AFA5002C */  sw      $a1, 0x002C($sp)           
 /* 00E70 80A12A90 8FA4004C */  lw      $a0, 0x004C($sp)           

@@ -9,10 +9,15 @@ void BgSpot08Iceblock_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgSpot08Iceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000DE0;
+extern UNK_TYPE D_06002BD0;
+extern UNK_TYPE D_06002FD8;
+extern UNK_TYPE D_06001904;
+
 /*
 const ActorInit Bg_Spot08_Iceblock_InitVars = {
     ACTOR_BG_SPOT08_ICEBLOCK,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT08_OBJ,
     sizeof(BgSpot08Iceblock),

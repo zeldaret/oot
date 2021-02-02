@@ -27,7 +27,7 @@ extern CutsceneData D_808BBD90[];
 
 const ActorInit Bg_Toki_Swd_InitVars = {
     ACTOR_BG_TOKI_SWD,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_TOKI_OBJECTS,
     sizeof(BgTokiSwd),
@@ -37,18 +37,25 @@ const ActorInit Bg_Toki_Swd_InitVars = {
     (ActorFunc)BgTokiSwd_Draw,
 };
 
-static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x12, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x00 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
-    { 10, 70, 0, { 0 } }
-};
+static ColliderCylinderInit sCylinderInit = { {
+                                                  COLTYPE_NONE,
+                                                  AT_NONE,
+                                                  AC_NONE,
+                                                  OC1_ON | OC1_TYPE_ALL,
+                                                  OC2_TYPE_1 | OC2_UNK1,
+                                                  COLSHAPE_CYLINDER,
+                                              },
+                                              {
+                                                  ELEMTYPE_UNK0,
+                                                  { 0xFFCFFFFF, 0x00, 0x00 },
+                                                  { 0xFFCFFFFF, 0x00, 0x00 },
+                                                  TOUCH_NONE,
+                                                  BUMP_NONE,
+                                                  OCELEM_ON,
+                                              },
+                                              { 10, 70, 0, { 0 } } };
 
-static CollisionCheckInfoInit sColChkInfoInit = {
-    0x0A,
-    0x0023,
-    0x0064,
-    0xFF,
-};
+static CollisionCheckInfoInit sColChkInfoInit = { 10, 35, 100, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 0x19, ICHAIN_STOP),
@@ -63,7 +70,7 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->actor.shape.unk_08 = 800.0f;
+    this->actor.shape.yOffset = 800.0f;
     BgTokiSwd_SetupAction(thisx, func_808BAF40);
 
     if (LINK_IS_ADULT) {
@@ -76,8 +83,8 @@ void BgTokiSwd_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
-    Collider_CylinderUpdate(thisx, &this->collider);
-    func_80061ED4(&thisx->colChkInfo, 0, &sColChkInfoInit);
+    Collider_UpdateCylinder(thisx, &this->collider);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
 }
 
 void BgTokiSwd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -149,7 +156,7 @@ void BgTokiSwd_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgTokiSwd* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -163,11 +170,11 @@ void BgTokiSwd_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002EBCC(&this->actor, globalCtx2, 0);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08,
+    gSPSegment(POLY_OPA_DISP++, 0x08,
                Gfx_TexScroll(globalCtx2->state.gfxCtx, 0, -(globalCtx2->gameplayFrames % 0x80), 32, 32));
-    gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 742),
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 742),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyOpa.p++, D_06001BD0);
+    gSPDisplayList(POLY_OPA_DISP++, D_06001BD0);
 
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_bg_toki_swd.c", 776);
 }

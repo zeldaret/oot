@@ -7,7 +7,7 @@ glabel func_809F4824
 /* 01578 809F4838 00802825 */  or      $a1, $a0, $zero            ## $a1 = 00000000
 /* 0157C 809F483C AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 01580 809F4840 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 01584 809F4844 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01584 809F4844 0C02927F */  jal     SkelAnime_Update
               
 /* 01588 809F4848 E7A4001C */  swc1    $f4, 0x001C($sp)           
 /* 0158C 809F484C 8FA50020 */  lw      $a1, 0x0020($sp)           
@@ -27,7 +27,7 @@ glabel func_809F4824
 /* 015C4 809F4884 3C08809F */  lui     $t0, %hi(func_809F4BA4)    ## $t0 = 809F0000
 /* 015C8 809F4888 3C014000 */  lui     $at, 0x4000                ## $at = 40000000
 /* 015CC 809F488C 44816000 */  mtc1    $at, $f12                  ## $f12 = 2.00
-/* 015D0 809F4890 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 015D0 809F4890 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 015D4 809F4894 AFA50020 */  sw      $a1, 0x0020($sp)           
 /* 015D8 809F4898 8FA50020 */  lw      $a1, 0x0020($sp)           

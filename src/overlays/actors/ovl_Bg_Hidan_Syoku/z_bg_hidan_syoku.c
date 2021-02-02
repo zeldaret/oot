@@ -21,7 +21,7 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSyoku),
@@ -36,25 +36,25 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_0600A7E0[];
-extern UNK_TYPE D_0600E568;
+extern CollisionHeader* D_0600E568;
 
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSyoku* this = THIS;
     s32 pad;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 1);
-    DynaPolyInfo_Alloc(&D_0600E568, &local_c);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, local_c);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    CollisionHeader_GetVirtual(&D_0600E568, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
-    this->dyna.actor.initPosRot.pos.y += 540.0f;
+    this->dyna.actor.home.pos.y += 540.0f;
 }
 
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSyoku* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void func_8088F47C(BgHidanSyoku* this) {
@@ -74,7 +74,7 @@ void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
-    this->dyna.actor.posRot.pos.y = (cosf(this->unk_16A * (M_PI / 140)) * 540.0f) + this->dyna.actor.initPosRot.pos.y;
+    this->dyna.actor.world.pos.y = (cosf(this->unk_16A * (M_PI / 140)) * 540.0f) + this->dyna.actor.home.pos.y;
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
@@ -86,7 +86,7 @@ void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
     if (this->unk_16A != 0) {
         this->unk_16A -= 1;
     }
-    this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - (cosf(this->unk_16A * (M_PI / 140)) * 540.0f);
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->unk_16A * (M_PI / 140)) * 540.0f);
     if (this->unk_16A == 0) {
         func_8088F47C(this);
     } else {
@@ -100,7 +100,7 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
     }
     if (this->unk_16A == 0) {
         this->unk_16A = 0x8c;
-        if (this->dyna.actor.posRot.pos.y < this->dyna.actor.initPosRot.pos.y) {
+        if (this->dyna.actor.world.pos.y < this->dyna.actor.home.pos.y) {
             this->actionFunc = func_8088F514;
         } else {
             this->actionFunc = func_8088F5A0;
@@ -116,10 +116,10 @@ void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
-        func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
     } else if (!func_8004356C(&this->dyna.actor)) {
         if (this->unk_168 != 0) {
-            func_8005A77C(globalCtx->cameraPtrs[0], 3);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
         }
         this->unk_168 = 0;
     }

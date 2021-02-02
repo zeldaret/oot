@@ -28,7 +28,7 @@ glabel func_809AEF00
 /* 01044 809AEF64 00000000 */  nop
 /* 01048 809AEF68 E6020068 */  swc1    $f2, 0x0068($s0)           ## 00000068
 .L809AEF6C:
-/* 0104C 809AEF6C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0104C 809AEF6C 0C02927F */  jal     SkelAnime_Update
               
 /* 01050 809AEF70 26040164 */  addiu   $a0, $s0, 0x0164           ## $a0 = 00000164
 /* 01054 809AEF74 50400007 */  beql    $v0, $zero, .L809AEF94     
