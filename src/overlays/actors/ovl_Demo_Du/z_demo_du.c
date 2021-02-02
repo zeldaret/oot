@@ -5,6 +5,9 @@
 
 #define THIS ((DemoDu*)thisx)
 
+typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
+typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);
+
 void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -24,106 +27,12 @@ extern FlexSkeletonHeader D_06011CA8;
 extern AnimationHeader D_06012014;
 
 
-
 static s32 sUnused = 0;
 
 #include "z_demo_du_cutscene_data.c" EARLY
 
 static Gfx* sEyeTextures[] = {0x06008080, 0x06008480, 0x06008880, 0x0600A540};
-
 static Gfx* D_8096CE84[] = {0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180};
-
-static s32 D_8096CE94 = 0;
-
-static Vec3f D_8096CE98 = {0.0f, 0.0f, 0.0f};
-
-static Vec3f D_8096CEA4 = {0.0f, 0.3f, 0.0f};
-
-static Color_RGBA8 D_8096CEB0 = {190, 150, 110, 255};
-
-static Color_RGBA8 D_8096CEB4 = {120, 80, 40, 255};
-
-static Vec3f D_8096CEB8[] = {
- { 11.0f, -11.0f,  -6.0f },
- {  0.0f,  14.0f, -13.0f },
- { 14.0f,  -2.0f, -10.0f },
- { 10.0f,  -6.0f,  -8.0f }
-};
-
-static Vec3f D_8096CEE8[] = {
- {   8.0f,  6.0f,   8.0f },
- {  13.0f,  8.0f, -10.0f },
- { -14.0f,  1.0f, -14.0f },
- {   5.0f, 12.0f,  -9.0f },
- {  11.0f,  6.0f,  -7.0f },
- {  14.0f, 14.0f, -14.0f },
-};
-
-
-typedef void (*DemoDuActionFunc)(DemoDu*, GlobalContext*);
-
-void func_8096A224(DemoDu* this, GlobalContext* globalCtx);
-void func_8096A244(DemoDu* this, GlobalContext* globalCtx);
-void func_8096A264(DemoDu* this, GlobalContext* globalCtx);
-void func_8096A294(DemoDu* this, GlobalContext* globalCtx);
-void func_8096A2CC(DemoDu* this, GlobalContext* globalCtx);
-void func_8096A300(DemoDu* this, GlobalContext* globalCtx);
-void func_8096A338(DemoDu* this, GlobalContext* globalCtx);
-void func_8096AFFC(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B030(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B06C(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B0C0(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B0F8(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B140(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B184(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B1DC(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B220(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B27C(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B2D4(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B318(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B360(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B3A4(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B768(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B798(DemoDu* this, GlobalContext* globalCtx);
-void func_8096B7EC(DemoDu* this, GlobalContext* globalCtx);
-void func_8096BD2C(DemoDu* this, GlobalContext* globalCtx);
-void func_8096BD4C(DemoDu* this, GlobalContext* globalCtx);
-void func_8096BD94(DemoDu* this, GlobalContext* globalCtx);
-void func_8096BDD4(DemoDu* this, GlobalContext* globalCtx);
-void func_8096BE14(DemoDu* this, GlobalContext* globalCtx);
-
-static DemoDuActionFunc sUpdateFuncs[] = {
-    func_8096A224, func_8096A244, func_8096A264, func_8096A294, func_8096A2CC, 
-    func_8096A300, func_8096A338, func_8096AFFC, func_8096B030, func_8096B06C, 
-    func_8096B0C0, func_8096B0F8, func_8096B140, func_8096B184, func_8096B1DC, 
-    func_8096B220, func_8096B27C, func_8096B2D4, func_8096B318, func_8096B360, 
-    func_8096B3A4, func_8096B768, func_8096B798, func_8096B7EC, func_8096BD2C, 
-    func_8096BD4C, func_8096BD94, func_8096BDD4, func_8096BE14
-};
-
-
-typedef void (*DemoDuDrawFunc)(Actor*, GlobalContext*);
-
-void func_8096BF54(Actor* thisx, GlobalContext* globalCtx2);
-void func_8096BF60(Actor* thisx, GlobalContext* globalCtx2);
-void func_8096B840(Actor* thisx, GlobalContext* globalCtx2);
-
-static DemoDuDrawFunc sDrawFuncs[] = {
-    func_8096BF54, func_8096BF60, func_8096B840
-};
-
-
-const ActorInit Demo_Du_InitVars = {
-    ACTOR_DEMO_DU,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_DU,
-    sizeof(DemoDu),
-    (ActorFunc)DemoDu_Init,
-    (ActorFunc)DemoDu_Destroy,
-    (ActorFunc)DemoDu_Update,
-    (ActorFunc)DemoDu_Draw,
-};
 
 
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -164,9 +73,9 @@ void func_80969BA0(DemoDu* this) {
     this->unk_1A4 = 0.0f;
 }
 
-void func_80969BC4(DemoDu* this, GlobalContext* globalCtx);
-/*
 void func_80969BC4(DemoDu* this, GlobalContext* globalCtx) {
+    static s32 D_8096CE94 = 0;
+
     if (globalCtx->csCtx.state == 0) {
         if (D_8096CE94 != 0) {
             if (this->actor.params == 2) {
@@ -179,8 +88,6 @@ void func_80969BC4(DemoDu* this, GlobalContext* globalCtx) {
         D_8096CE94 = 1;
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969BC4.s")
 
 s32 func_80969C38(DemoDu* this) {
     return SkelAnime_Update(&this->skelAnime);
@@ -472,6 +379,31 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &pos, gGameInfo->data[2593] + 100.0f, gGameInfo->data[2594] + 0xA, gGameInfo->data[2595] + 0x12C, gGameInfo->data[2596], 0);
     func_8096A3B4(this);
 }
+
+
+static Vec3f D_8096CE98 = {0.0f, 0.0f, 0.0f};
+
+static Vec3f D_8096CEA4 = {0.0f, 0.3f, 0.0f};
+
+static Color_RGBA8 D_8096CEB0 = {190, 150, 110, 255};
+
+static Color_RGBA8 D_8096CEB4 = {120, 80, 40, 255};
+
+static Vec3f D_8096CEB8[] = {
+ { 11.0f, -11.0f,  -6.0f },
+ {  0.0f,  14.0f, -13.0f },
+ { 14.0f,  -2.0f, -10.0f },
+ { 10.0f,  -6.0f,  -8.0f }
+};
+
+static Vec3f D_8096CEE8[] = {
+ {   8.0f,  6.0f,   8.0f },
+ {  13.0f,  8.0f, -10.0f },
+ { -14.0f,  1.0f, -14.0f },
+ {   5.0f, 12.0f,  -9.0f },
+ {  11.0f,  6.0f,  -7.0f },
+ {  14.0f, 14.0f, -14.0f },
+};
 
 void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx);
 /*
@@ -1063,6 +995,16 @@ void func_8096BE14(DemoDu *this, GlobalContext *globalCtx) {
     func_8096BC28(this, aux);
 }
 
+
+static DemoDuActionFunc sUpdateFuncs[] = {
+    func_8096A224, func_8096A244, func_8096A264, func_8096A294, func_8096A2CC, 
+    func_8096A300, func_8096A338, func_8096AFFC, func_8096B030, func_8096B06C, 
+    func_8096B0C0, func_8096B0F8, func_8096B140, func_8096B184, func_8096B1DC, 
+    func_8096B220, func_8096B27C, func_8096B2D4, func_8096B318, func_8096B360, 
+    func_8096B3A4, func_8096B768, func_8096B798, func_8096B7EC, func_8096BD2C, 
+    func_8096BD4C, func_8096BD94, func_8096BDD4, func_8096BE14
+};
+
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
 
@@ -1127,6 +1069,11 @@ void func_8096BF60(Actor* thisx, GlobalContext* globalCtx2) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 638);
 }
 
+
+static DemoDuDrawFunc sDrawFuncs[] = {
+    func_8096BF54, func_8096BF60, func_8096B840
+};
+
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
 
@@ -1137,3 +1084,15 @@ void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     sDrawFuncs[this->drawIndex](thisx, globalCtx);
 }
+
+const ActorInit Demo_Du_InitVars = {
+    ACTOR_DEMO_DU,
+    ACTORCAT_NPC,
+    FLAGS,
+    OBJECT_DU,
+    sizeof(DemoDu),
+    (ActorFunc)DemoDu_Init,
+    (ActorFunc)DemoDu_Destroy,
+    (ActorFunc)DemoDu_Update,
+    (ActorFunc)DemoDu_Draw,
+};
