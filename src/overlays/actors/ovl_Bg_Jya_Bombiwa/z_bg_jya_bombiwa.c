@@ -97,7 +97,7 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
         // Warning: Switch Number changed (%s %d)(SW %d
         osSyncPrintf("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
                      this->dyna.actor.params & 0x3F);
-        osSyncPrintf(VT_SGR(""));
+        osSyncPrintf(VT_RST);
     }
     BgJyaBombiwa_SetupDynaPoly(this, globalCtx, &D_0600E710, DPM_UNK);
     BgJyaBombiwa_InitCollider(this, globalCtx);
