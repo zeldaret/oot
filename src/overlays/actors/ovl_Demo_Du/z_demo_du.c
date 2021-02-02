@@ -15,8 +15,8 @@ extern AnimationHeader D_06000D00;
 extern AnimationHeader D_06001D70;
 extern AnimationHeader D_06002374;
 extern AnimationHeader D_0600288C;
-extern UNK_TYPE D_06005458;
-extern UNK_TYPE D_06006104;
+extern AnimationHeader D_06005458;
+extern AnimationHeader D_06006104;
 extern AnimationHeader D_060067CC;
 extern AnimationHeader D_06006EB0;
 extern Gfx D_06007FC0;
@@ -269,35 +269,48 @@ void func_80969C58(DemoDu* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
-CsCmdActorAction* func_80969CA0(GlobalContext* globalCtx, s32 arg1) {
+CsCmdActorAction* DemoDu_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
     if (globalCtx->csCtx.state != 0) {
-        return globalCtx->csCtx.npcActions[arg1];
+        return globalCtx->csCtx.npcActions[idx];
     }
     return NULL;
 }
 
-s32 func_80969CC4(DemoDu* this, GlobalContext* globalCtx, u16 actionId, s32 arg3) {
+s32 DemoDu_IsNpcDoingThisAction(DemoDu* this, GlobalContext* globalCtx, u16 action, s32 idx) {
     CsCmdActorAction *npcAction;
 
-    npcAction = func_80969CA0(globalCtx, arg3);
-    if ((npcAction != NULL) && (npcAction->action == actionId)) {
-        return 1;
+    npcAction = DemoDu_GetNpcAction(globalCtx, idx);
+    if ((npcAction != NULL) && (npcAction->action == action)) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
-s32 func_80969D10(DemoDu *this, GlobalContext *globalCtx, u16 arg2, s32 arg3) {
+s32 DemoDu_IsNpcNotDoingThisAction(DemoDu *this, GlobalContext *globalCtx, u16 action, s32 idx) {
     CsCmdActorAction *npcAction;
 
-    npcAction = func_80969CA0(globalCtx, arg3);
-    if ((npcAction != NULL) && (npcAction->action != arg2)) {
-        return 1;
+    npcAction = DemoDu_GetNpcAction(globalCtx, idx);
+    if ((npcAction != NULL) && (npcAction->action != action)) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
-void func_80969D5C(DemoDu *this, GlobalContext *globalCtx, s32 arg2);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_80969D5C.s")
+void func_80969D5C(DemoDu *this, GlobalContext *globalCtx, s32 idx) {
+    CsCmdActorAction *npcAction;
+    s16 rotY;
+
+    npcAction = DemoDu_GetNpcAction(globalCtx, idx);
+    if (npcAction != NULL) {
+        this->actor.world.pos.x = npcAction->startPos.x;
+        this->actor.world.pos.y = npcAction->startPos.y;
+        this->actor.world.pos.z = npcAction->startPos.z;
+
+        rotY = npcAction->rot.y;
+        this->actor.shape.rot.y = rotY;
+        this->actor.world.rot.y = rotY;
+    }
+}
 
 void func_80969DDC(DemoDu *this, AnimationHeader *animation, u8 mode, f32 morphFrames, s32 arg4) {
     f32 startFrame;
@@ -902,7 +915,7 @@ void func_8096B4A8(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void func_8096B528(DemoDu *this, GlobalContext *globalCtx) {
-    if (func_80969CC4(this, globalCtx, 4, 2)) {
+    if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
         this->updateIndex = 22;
         this->drawIndex = 2;
         this->unk_1A8 = 0;
@@ -922,7 +935,7 @@ void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
     s32 temp_f4;
     f32 phi_f0;
 
-    if (func_80969CC4(this, globalCtx, (u16)4U, 2) != 0) {
+    if (DemoDu_IsNpcDoingThisAction(this, globalCtx, (u16)4U, 2) != 0) {
         temp_v0 = &this->unk_1A4;
         *temp_v0 = (f32) (*temp_v0 + 1.0f);
         temp_f0 = *temp_v0;
@@ -957,7 +970,7 @@ void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B57C.s")
 
 void func_8096B6D0(DemoDu *this, GlobalContext *globalCtx) {
-    if (func_80969D10(this, globalCtx, 4, 2) != 0) {
+    if (DemoDu_IsNpcNotDoingThisAction(this, globalCtx, 4, 2) != 0) {
         this->updateIndex = 22;
         this->drawIndex = 2;
         this->unk_1A4 = gGameInfo->data[2597] + 10.0f;
@@ -1046,15 +1059,11 @@ void func_8096BA98(DemoDu *this) {
     }
 }
 
-/*
-void func_8096BB24(DemoDu *this, GlobalContext *globalCtx);
 void func_8096BB24(DemoDu *this, GlobalContext *globalCtx) {
-    func_80969D5C(this, globalCtx);
-    this->updateIndex = 0x19;
+    func_80969D5C(this, globalCtx, 2);
+    this->updateIndex = 25;
     this->drawIndex = 2;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BB24.s")
 
 void func_8096BB5C(DemoDu *this) {
     if (gGameInfo->data[2609] + 10.0f <= this->unk_1A4) {
@@ -1063,51 +1072,51 @@ void func_8096BB5C(DemoDu *this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BBA8.s")
+void func_8096BBA8(DemoDu *this) {
+    func_80969DDC(this, &D_06005458, ANIMMODE_ONCE, -8.0f, 0);
+    this->updateIndex = 27;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BBE8.s")
+void func_8096BBE8(DemoDu *this) {
+    func_80969DDC(this, &D_06006104, ANIMMODE_ONCE, 0.0f, 0);
+    this->updateIndex = 28;
+}
 
 void func_8096BC28(DemoDu *this, s32 arg1) {
     if (arg1) {
-        func_80969DDC(this, &D_060067CC, 0, 0.0f, 0);
+        func_80969DDC(this, &D_060067CC, ANIMMODE_LOOP, 0.0f, 0);
         this->updateIndex = 26;
     }
 }
 
-void func_8096BC6C(DemoDu *this, GlobalContext *globalCtx);
-/*
 void func_8096BC6C(DemoDu *this, GlobalContext *globalCtx) {
-    char *sp20;
-    CsCmdActorAction *temp_v0;
-    u16 temp_a2;
+    s32 unk_1B0;
+    s32 action;
+    CsCmdActorAction *npcAction = DemoDu_GetNpcAction(globalCtx, 2);
 
-    temp_v0 = func_80969CA0(globalCtx, 2);
-    if (temp_v0 != 0) {
-        temp_a2 = temp_v0->action;
-        if (temp_a2 != this->unk_1B0) {
-            if (temp_a2 != 9) {
-                if (temp_a2 != 0xA) {
-                    if (temp_a2 != 0xB) {
-                        sp20 = (char *) temp_a2;
-                        osSyncPrintf((const char *) "Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
-                    } else {
-                        sp20 = (char *) temp_a2;
-                        func_8096BBE8(this);
-                    }
-                } else {
-                    sp20 = (char *) temp_a2;
-                    func_8096BBA8(this);
-                }
-            } else {
-                sp20 = (char *) temp_a2;
-                func_8096BB24(this, globalCtx, temp_a2);
+    if (npcAction != NULL) {
+        action = npcAction->action;
+        unk_1B0 = this->unk_1B0;
+        if (action != unk_1B0) {
+            switch (action) {
+            case 9:
+                func_8096BB24(this, globalCtx);
+                break;
+            case 10:
+                func_8096BBA8(this);
+                break;
+            case 11:
+                func_8096BBE8(this);
+                break;
+            default:
+                // Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!
+                osSyncPrintf("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                break;
             }
-            this->unk_1B0 = sp20;
+            this->unk_1B0 = action;
         }
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096BC6C.s")
 
 void func_8096BD2C(DemoDu *this, GlobalContext *globalCtx) {
     func_8096BC6C(this, globalCtx);

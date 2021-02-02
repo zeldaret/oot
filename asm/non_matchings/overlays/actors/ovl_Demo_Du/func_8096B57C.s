@@ -3,7 +3,7 @@ glabel func_8096B57C
 /* 01AB0 8096B580 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 01AB4 8096B584 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 01AB8 8096B588 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 01ABC 8096B58C 0C25A731 */  jal     func_80969CC4              
+/* 01ABC 8096B58C 0C25A731 */  jal     DemoDu_IsNpcDoingThisAction              
 /* 01AC0 8096B590 24070002 */  addiu   $a3, $zero, 0x0002         ## $a3 = 00000002
 /* 01AC4 8096B594 10400025 */  beq     $v0, $zero, .L8096B62C     
 /* 01AC8 8096B598 8FA40018 */  lw      $a0, 0x0018($sp)           
