@@ -8,7 +8,9 @@
 #include "ZCollision.h"
 #include "ZScalar.h"
 #include "ZVector.h"
+#include "ZVtx.h"
 #include "ZCutscene.h"
+#include "ZArray.h"
 #include "Path.h"
 #include "File.h"
 #include "Directory.h"
@@ -38,7 +40,7 @@ ZFile::ZFile(string nOutPath, string nName) : ZFile()
 	name = nName;
 }
 
-ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPath, bool placeholderMode) : ZFile()
+ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPath, std::string filename, bool placeholderMode) : ZFile()
 {
 	if (nBasePath == "")
 		basePath = Directory::GetCurrentDirectory();
@@ -50,7 +52,7 @@ ZFile::ZFile(ZFileMode mode, XMLElement* reader, string nBasePath, string nOutPa
 	else
 		outputPath = nOutPath;
 
-	ParseXML(mode, reader, placeholderMode);
+	ParseXML(mode, reader, filename, placeholderMode);
 }
 
 ZFile::~ZFile()
@@ -59,10 +61,32 @@ ZFile::~ZFile()
 		delete res;
 }
 
-void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
+void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, std::string filename, bool placeholderMode)
 {
-	name = reader->Attribute("Name");
+	if (filename == "")
+		name = reader->Attribute("Name");
+	else
+		name = filename;
+
 	int segment = -1;
+
+	// TODO: This should be a variable on the ZFile, but it is a large change in order to force all ZResource types to have a parent ZFile.
+	const char* gameStr = reader->Attribute("Game");
+	if (reader->Attribute("Game") != nullptr)
+	{
+		if (string(gameStr) == "MM")
+		{
+			Globals::Instance->game = ZGame::MM_RETAIL;
+		}
+		else if (string(gameStr) == "SW97" || string(gameStr) == "OOTSW97")
+		{
+			Globals::Instance->game = ZGame::OOT_SW97;
+		}
+		else
+		{
+			// TODO: Error here.
+		}
+	}
 
 	if (reader->Attribute("BaseAddress") != NULL)
 		baseAddress = (uint32_t)strtoul(StringHelper::Split(reader->Attribute("BaseAddress"), "0x")[1].c_str(), NULL, 16);
@@ -138,7 +162,7 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 			ZResource* dList = nullptr;
 
 			if (mode == ZFileMode::Extract)
-				dList = ZDisplayList::ExtractFromXML(child, rawData, rawDataIndex, ZDisplayList::GetDListLength(rawData, rawDataIndex), folderName);
+				dList = ZDisplayList::ExtractFromXML(child, rawData, rawDataIndex, ZDisplayList::GetDListLength(rawData, rawDataIndex, Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX), folderName);
 			//else
 				//dList = ZDisplayList::BuildFromXML(child, folderName, mode == ZFileMode::Build);
 			else
@@ -289,6 +313,26 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 					printf("No ZVector created!!");
 			}
 		}
+		else if (string(child->Name()) == "Vtx")
+		{
+			ZVtx* vtx = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				vtx = ZVtx::ExtractFromXML(child, rawData, rawDataIndex, folderName);
+
+			if (vtx != nullptr)
+			{
+				vtx->parent = this;
+				resources.push_back(vtx);
+
+				rawDataIndex += vtx->GetRawDataSize();
+			}
+			else
+			{
+				if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
+					printf("No ZVtx created!!");
+			}
+		}
 		else if (string(child->Name()) == "Cutscene")
 		{
 			ZCutscene* cs = nullptr;
@@ -303,10 +347,24 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, bool placeholderMode)
 				rawDataIndex += cs->GetRawDataSize();
 			}
 		}
+		else if (string(child->Name()) == "Array")
+		{
+			ZArray* array = nullptr;
+
+			if (mode == ZFileMode::Extract)
+				array = ZArray::ExtractFromXML(child, rawData, rawDataIndex, folderName, this);
+
+			if (array != nullptr)
+			{
+				resources.push_back(array);
+				rawDataIndex += array->GetRawDataSize();
+			}
+		}
 		else
 		{
-			if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
-				printf("Encountered unknown resource type: %s\n", string(child->Name()).c_str());
+			std::cerr << "ERROR bad type\n";
+			printf("Encountered unknown resource type: %s on line: %d\n", child->Name(), child->GetLineNum());
+			std::exit(EXIT_FAILURE);
 		}
 	}
 }
@@ -357,6 +415,11 @@ std::string ZFile::GetVarName(int address)
 	}
 
 	return "";
+}
+
+std::string ZFile::GetName()
+{
+	return name;
 }
 
 void ZFile::ExtractResources(string outputDir)
@@ -969,6 +1032,9 @@ void ZFile::ProcessDeclarationText(Declaration* decl)
 
 			if (c == '@' && c2 == 'r')
 			{
+				if (refIndex >= decl->references.size())
+					break;
+
 				Declaration* refDecl = GetDeclarationRanged(decl->references[refIndex]);
 				uint32_t refDeclAddr = GetDeclarationRangedAddress(decl->references[refIndex]);
 
@@ -976,10 +1042,17 @@ void ZFile::ProcessDeclarationText(Declaration* decl)
 				{
 					if (refDecl->isArray)
 					{
-						int itemSize = refDecl->size / refDecl->arrayItemCnt;
-						int itemIndex = (decl->references[refIndex] - refDeclAddr) / itemSize;
+						if (refDecl->arrayItemCnt != 0)
+						{
+							int itemSize = refDecl->size / refDecl->arrayItemCnt;
+							int itemIndex = (decl->references[refIndex] - refDeclAddr) / itemSize;
 
-						decl->text.replace(i, 2, StringHelper::Sprintf("&%s[%i]", refDecl->varName.c_str(), itemIndex));
+							decl->text.replace(i, 2, StringHelper::Sprintf("&%s[%i]", refDecl->varName.c_str(), itemIndex));
+						}
+						else
+						{
+							decl->text.replace(i, 2, StringHelper::Sprintf("ERROR ARRAYITEMCNT = 0"));
+						}
 					}
 					else
 					{

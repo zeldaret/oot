@@ -7,6 +7,7 @@
  * ((params >> 8) & 0x3F) == 0x3F means no switch flags are checked / set
  */
 #include "z_door_killer.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 

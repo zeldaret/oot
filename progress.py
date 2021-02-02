@@ -98,7 +98,7 @@ boot -= nonMatchingASMBoot
 ovl -= nonMatchingASMOvl
 asm += nonMatchingASM
 
-bootSize = 30704 # decompilable code only
+bootSize = 31408 # decompilable code only
 codeSize = 1004128 # .text section except rsp bins (1.00mb)
 ovlSize = 2812000 # .text sections
 handwritten = 5840 # boot only

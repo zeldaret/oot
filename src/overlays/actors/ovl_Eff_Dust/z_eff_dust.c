@@ -1,4 +1,5 @@
 #include "z_eff_dust.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -8,8 +9,6 @@ void EffDust_Init(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx);
 void EffDust_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_04037880;
 
 /*
 const ActorInit Eff_Dust_InitVars = {
