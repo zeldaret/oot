@@ -395,7 +395,7 @@ void EnFr_DecrementBlinkTimer(EnFr* this) {
 }
 
 void EnFr_DecrementBlinkTimerUpdate(EnFr* this) {
-    if (this->blinkTimer) {
+    if (this->blinkTimer != 0) {
         this->blinkTimer--;
     } else if (this->eyeTexIndex) {
         this->eyeTexIndex = 0;
