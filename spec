@@ -1213,8 +1213,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot08_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/z_bg_spot08_iceblock.o"
-    include "build/data/overlays/actors/z_bg_spot08_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_spot08_iceblock.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/ovl_Bg_Spot08_Iceblock_reloc.o"
 endseg
 
 beginseg
