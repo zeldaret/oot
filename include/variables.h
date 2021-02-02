@@ -3468,7 +3468,7 @@ extern SoundBankEntry D_8016C8B0[5];
 extern u8 D_8016E1A0[7];
 extern u8 D_8016E1A8[7];
 extern u8 D_8016E1B0[7];
-//extern ? D_8016E1B8;
+extern Struct_800F7CEC D_8016E1B8[7][3]; // total size = 0xA8
 extern u8 D_8016E260;
 extern u8 D_8016E264[];
 //extern ? D_8016E270;

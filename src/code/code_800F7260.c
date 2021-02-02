@@ -19,11 +19,6 @@ typedef struct {
 } Struct_800F8EA0; // size = 0x10
 
 typedef struct {
-    u32 unk_0;
-    u8 unk_4;
-} Struct_800F7CEC;
-
-typedef struct {
     u8 unk_0;
     u16 unk_2;
 } Struct_8013331C;
@@ -94,7 +89,6 @@ u8 D_801333F4 = 0;
 u8 D_801333F8 = 0;
 
 extern Struct_800F738C D_8016C9A0[];
-extern Struct_800F7CEC D_8016E1B8[7][3]; // total size = 0xA8
 extern Struct_800F8EA0 D_8016E270[];
 extern Struct_8013331C* D_8013331C[9];
 

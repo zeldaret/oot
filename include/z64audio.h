@@ -1102,6 +1102,11 @@ typedef struct {
 #define SFX_BANK(sfxId)     SFX_BANK_SHIFT(SFX_BANK_MASK(sfxId))
 
 typedef struct {
+    u32 unk_0;
+    u8 unk_4;
+} Struct_800F7CEC;
+
+typedef struct {
     /* 0x0000 */ u8 noteIdx;
     /* 0x0001 */ u8 unk_01;
     /* 0x0002 */ u16 unk_02;

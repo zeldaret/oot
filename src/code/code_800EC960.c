@@ -35,6 +35,7 @@ void func_800F5E18(u8 arg0, u16 arg1, u8 arg2, s8 arg3, s8 arg4);
 void func_800F4784(unk_s2* arg0);
 void func_800F56A8(void);
 void func_800F6FB4(u8);
+s32 func_800F491C(u8 arg0);
 
 // stick float vals
 extern f32 D_8012F6B4[];
@@ -609,8 +610,131 @@ void Audio_OcaPlayback(void) {
     }
 }
 
+#ifdef NON_MATCHING
 void func_800EDD68(u8 arg0);
+void func_800EDD68(u8 arg0) {
+    u16 sp1E;
+    OcarinaNote *temp_v0;
+    s32 temp_a0;
+    s32 temp_t0;
+    s32 temp_t1;
+    s32 temp_t1_2;
+    s32 temp_t1_3;
+    s32 temp_t1_4;
+    s32 temp_t1_5;
+    s32 temp_t2;
+    s32 temp_v1;
+    u8 temp_a2;
+    u8 temp_a2_2;
+    u8 temp_a3;
+    u8 temp_t6;
+    void *temp_t6_2;
+    void *temp_t9;
+    OcarinaSong *phi_a0;
+    s32 phi_t1;
+    s32 phi_v0;
+    u8 phi_a3;
+    s32 phi_v0_2;
+    s32 phi_t1_2;
+    s32 phi_t1_3;
+    s32 phi_t0;
+    s32 phi_v1;
+    s32 phi_v1_2;
+    s32 phi_t1_4;
+    s32 phi_t1_5;
+    s32 phi_t1_6;
+    u16 i;
+    u8 j;
+    u8 k;
+
+    if (D_80131858 == 1) {
+        phi_a0 = gScarecrowCustomSongPtr;
+    } else {
+        phi_a0 = D_80131BEC;
+    }
+    phi_a0->notes[sRecordSongPos].noteIdx = D_80131864;
+    phi_a0->notes[sRecordSongPos].unk_02 = D_8016BA04 - D_80131860;
+    phi_a0->notes[sRecordSongPos].volume = D_80131868;
+    phi_a0->notes[sRecordSongPos].vibrato = D_8013186C;
+    phi_a0->notes[sRecordSongPos].tone = D_80131870;
+    phi_a0->notes[sRecordSongPos].semitone = D_80131874 & 0xC0;
+    D_80131864 = sCurOcarinaBtnVal;
+    D_80131868 = D_80130F30;
+    D_8013186C = D_80130F34;
+    D_80131870 = D_80130F2C;
+    D_80131874 = sCurOcarinaBtnIdx;
+    sRecordSongPos++;
+    if ((sRecordSongPos == 0x6B) || (arg0 != 0)) {
+        i = sRecordSongPos;
+        if (i != 0) {
+loop_7:
+            if (--i != 0 && phi_a0->notes[i].noteIdx == 0xFF) {
+                goto loop_7;
+            }
+        }
+
+
+        if (sRecordSongPos != (i + 1)) {
+            sRecordSongPos = i + 2;
+            phi_a0->notes[sRecordSongPos - 1].unk_02 = 0;
+        }
+        phi_a0->notes[sRecordSongPos].unk_02 = 0;
+
+        if (D_80131858 == 2) {
+            if ((s32) D_8016BA2E >= 8) {
+                for(i = 0; i < sRecordSongPos; i++) {
+                    phi_a0->notes[i] = phi_a0->notes[i + 1];
+                }
+
+                sp1E = 0;
+                func_800ECB7C(0xD);
+
+                for(i = 0; i < 0xC; i++) {
+                    for(j = 0; j < 9 - sOcarinaSongNotes[i].len; j++) {
+                        if (sOcarinaSongNotes[i].len > 0) {
+                            if (j < 8) {
+                                k = 0;
+                                while(sOcarinaSongNotes[i].notesIdx[k] == sOcarinaSongNotes[0xC].notesIdx[j + k] && j + k < 8) {
+                                    k++;
+                                }
+                            }
+                        }
+
+                        if (k == sOcarinaSongNotes[i].len) {
+                            D_80131858 = 0xFF;
+                            sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+                            return;
+                        }
+                    }
+                }
+
+                for(i = 1; i < 8; i++) {
+                    if (sOcarinaSongNotes[0xC].notesIdx[0] != sOcarinaSongNotes[0xC].notesIdx[i]) {
+                        i = 9;
+                    }
+                }
+
+                if (i == 8) {
+                    D_80131858 = 0xFF;
+                    sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+                    return;
+                }
+
+                for(i = 0; i< sRecordSongPos; i++) {
+                    sOcarinaSongs[0xC].notes[i] = sOcarinaSongs[0xD].notes[i];
+                }
+
+                sOcarinaInpEnabled = 0;
+            } else {
+                sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+            }
+        }
+        D_80131858 = 0;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EDD68.s")
+#endif
 
 // start custom song?
 /**
@@ -1243,7 +1367,125 @@ void func_800F28B4(void) {
 void func_800F29FC(void) {
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F2A04.s")
+extern u8 D_80131F18;
+extern u16 D_80131F20[];
+extern s8 *D_8013331C[];
+
+void func_800F2A04(void) {
+    u16 *temp_v0;
+    u16 *temp_v0_2;
+    u16 *temp_v0_4;
+    u16 temp_a0;
+    u16 temp_a0_2;
+    u16 temp_t4;
+    u16 temp_t7;
+    u32 temp_a1;
+    u8 temp_v1;
+    u8 temp_v1_2;
+    u8 temp_v1_3;
+    u8 temp_v1_4;
+    u8 temp_v1_5;
+    void *temp_v0_3;
+    void *temp_v0_5;
+    void *temp_v0_6;
+    s32 phi_a2;
+    u32 phi_a1;
+    u32 phi_a1_2;
+    u32 phi_a1_3;
+    u32 phi_a1_4;
+    u8 *phi_t1;
+    u16 *phi_t0;
+    void *phi_t2;
+    u32 phi_a1_5;
+
+    if ((D_8016BAB0 & 2) != 0) {
+        phi_a2 = 8;
+    } else {
+        phi_a2 = 1;
+    }
+    if ((sDebugPadPress & 0x800) != 0) {
+        if (D_80131F18 > 0) {
+            D_80131F18--;
+        } else {
+            D_80131F18 = 3;
+        }
+    }
+    if ((sDebugPadPress & 0x400) != 0) {
+        if (D_80131F18 < 3) {
+            D_80131F18++;
+        } else {
+            D_80131F18 = 0;
+        }
+    }
+    if ((sDebugPadPress & 0x200) != 0) {
+        if (D_80131F18 < 2) {
+            if (D_80131F18 == 0) {
+                temp_v0 = &D_80131F20[D_80131F18];
+                temp_a0 = *temp_v0;
+                if (D_80131F20[D_80131F18] > 0) {
+                    D_80131F20[D_80131F18];
+                } else {
+                    D_80131F20[D_80131F18] = D_80131E24 - 1;
+                }
+            } else {
+                D_80131F20[D_80131F18] -= phi_a2;
+                D_80131F20[D_80131F18] &= 0x1FF;
+            }
+        } else if (D_80131F18 == 3) {
+            temp_v0_3 = D_8013331C[D_80131F20[0]] + (D_80131F20[1] * 4);
+            *temp_v0_3 = (u8) (*temp_v0_3 - phi_a2);
+        } else {
+            D_80131F1C = (u8) ((D_80131F1C - 1) & 0xF);
+        }
+    }
+    
+    if ((sDebugPadPress & 0x100) != 0) {
+        if (D_80131F18 < 2) {
+            temp_v0_4 = &D_80131F20[D_80131F18];
+            if (D_80131F18 == 0) {
+                temp_a0_2 = *temp_v0_4;
+                if ((s32) temp_a0_2 < (D_80131E24 - 1)) {
+                    *temp_v0_4 = (u16) (temp_a0_2 + 1);
+                } else {
+                    *temp_v0_4 = (u16)0U;
+                }
+            } else {
+                temp_t4 = *temp_v0_4 + phi_a2;
+                *temp_v0_4 = temp_t4;
+                *temp_v0_4 = (u16) (temp_t4 & 0x1FF);
+            }
+        } else if (D_80131F18 == 3) {
+            temp_v0_5 = D_8013331C[D_80131F20->unk0] + (D_80131F20[1] * 4);
+            *temp_v0_5 = (u8) (*temp_v0_5 + phi_a2);
+        } else {
+            D_80131F1C = (u8) ((D_80131F1C + 1) & 0xF);
+        }
+    }
+    if ((sDebugPadPress & 0x8000) != 0) {
+        Audio_PlaySoundGeneral((D_80131F20[1] + (D_80131F20->unk0 << 0xC) + 0x800) & 0xFFFF, &D_801333D4, (u8)4U, &D_801333E0, &D_801333E0, &D_801333E8);
+    }
+    phi_t0 = D_80131F20;
+    if ((sDebugPadPress & 0x4000) != 0) {
+        func_800F87A0(D_80131F20->unk1);
+        phi_t1 = &D_80131F18;
+        phi_t0 = D_80131F20;
+        phi_t2 = &D_80131F1C;
+    }
+
+    if ((sDebugPadPress & 4) != 0) {
+        if (*phi_t1 == 2) {
+            temp_v0_6 = D_8013331C[phi_t0->unk0] + (phi_t0->unk2 * 4);
+            temp_v0_6->unk2 = (u16) (temp_v0_6->unk2 ^ (1 << (0xF - *phi_t2)));
+        }
+    }
+    if ((sDebugPadPress & 8) != 0) {
+        temp_v1_5 = *phi_t1;
+        if ((s32) temp_v1_5 < 2) {
+            *(phi_t0 + (temp_v1_5 * 2)) = (u16)0;
+        }
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F2A04.s")
 
 void func_800F2D6C(s8* arg0, u16 arg1) {
     u8 i = 0;
@@ -1953,8 +2195,6 @@ void func_800F483C(u8 arg0, u8 arg1) {
     Audio_SetVolScale(0, 0, arg0, arg1);
 }
 
-s32 func_800F491C(u8 arg0);
-
 void func_800F4870(u8 arg0) {
     s8 phi_s1;
     u8 i;
@@ -1964,11 +2204,9 @@ void func_800F4870(u8 arg0) {
         phi_s1 = 0x7F;
     }
 
-    i = 0;
-    do {
+    for(i = 0; i < 16; i++) {
         Audio_QueueCmdS8(_SHIFTL(0x07, 24, 8) | _SHIFTL(0x00, 16, 8) | _SHIFTL(i, 8, 8) | _SHIFTL(0, 0, 8), phi_s1);
-        i++;
-    } while (i < 16);
+    }
 
     if (arg0 == 7) {
         D_80130600 = 2;
@@ -1977,13 +2215,9 @@ void func_800F4870(u8 arg0) {
     }
 }
 
-#ifdef NON_MATCHING
 s32 func_800F491C(u8 arg0) {
-    SequenceChannel *temp_v0;
     u8 phi_v0;
-    s32 phi_s0;
-    s32 phi_v0_2;
-    s8 temp_v1;
+    u16 phi_v0_2;
 
     SequenceChannel *none = &gAudioContext.gSequenceChannelNone;
     u8 i;
@@ -1996,18 +2230,16 @@ s32 func_800F491C(u8 arg0) {
             phi_v0 = ((((arg0 - 0x40) >> 2) + 1) << 4);
         }
 
-        Audio_QueueSeqCmd(phi_v0 | 0x80040F00);
+        Audio_SeqCmd8(0, 4, 15, phi_v0);
         for(i = 0; i < 0x10; i++) {
-            temp_v0 = gAudioContext.seqPlayers[0].channels[i];
-            if (none != temp_v0) {
-                temp_v1 = temp_v0->soundScriptIO[5];
-                if ((temp_v1 & 0xFF) != 0xFF) {
-                    phi_v0_2 = (temp_v1 - arg0) + 0x7F;
-                    phi_v0_2 &= 0xFFFF;
+            if (none != gAudioContext.seqPlayers[0].channels[i]) {
+                if ((u8)gAudioContext.seqPlayers[0].channels[i]->soundScriptIO[5] != 0xFF) {
+                    // this looks like some kind of macro? 
+                    phi_v0_2 = ((u16)gAudioContext.seqPlayers[0].channels[i]->soundScriptIO[5] - arg0) + 0x7F;
                     if(phi_v0_2 >= 0x80) {
                         phi_v0_2 = 0x7F;
                     }
-                    Audio_QueueCmdS8((((u32)i & 0xFF) << 8) | 0x5000000, (u8)phi_v0_2);
+                    Audio_QueueCmdS8(_SHIFTL(5, 24, 8) | _SHIFTL(0, 16, 8) | _SHIFTL(i, 8, 8) | _SHIFTL(0, 0, 8), (u8)phi_v0_2);
                 }
             }
         }
@@ -2015,9 +2247,6 @@ s32 func_800F491C(u8 arg0) {
     }
     return -1;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F491C.s")
-#endif
 
 void func_800F4A54(u8 arg0) {
     D_8016B8B0 = arg0;
@@ -2062,7 +2291,24 @@ void func_800F4BF4(Vec3f* arg0, u16 arg1, s8 arg2) {
     Audio_PlaySoundGeneral(arg1, arg0, 4, &gNoteFrequencies[arg2 + 39], &D_801333E0, &D_801333E8);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F4C58.s")
+void func_800F4C58(Vec3f *arg0, u16 sfxId, u8 arg2) {
+    u8 phi_s1 = 0;
+    u8 i;
+    u8 bank;
+
+    bank = SFX_BANK_SHIFT(sfxId);
+    for(i = 0; i < bank; i++) {
+        phi_s1 += D_80130578[D_801333CC][i];
+    }
+
+    for(i = 0; i < D_80130578[D_801333CC][bank]; i++) {
+        if ((D_8016E1B8[bank][i].unk_4 != 0xFF) && (sfxId == gSoundBanks[bank][D_8016E1B8[bank][i].unk_4].unk_28)) {
+            Audio_QueueCmdS8(_SHIFTL(6, 24, 8) | _SHIFTL(2, 16, 8) | _SHIFTL(phi_s1, 8, 8) | _SHIFTL(6, 0, 8), arg2);
+        }
+        phi_s1++;
+    }
+    Audio_PlaySoundGeneral(sfxId, arg0, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+}
 
 void func_800F4E30(Vec3f *arg0, f32 arg1) {
     Vec3f *temp_v0;
