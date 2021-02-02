@@ -158,7 +158,7 @@ void func_80969B8C(DemoDu* this, s16 unk_194) {
 void func_80969BA0(DemoDu* this) {
     this->updateIndex = 21;
     this->drawIndex = 0;
-    this->unk_1A8 = 0;
+    this->shadowAlpha = 0;
     this->unk_1AC = 0;
     this->actor.shape.shadowAlpha = 0;
     this->unk_1A4 = 0.0f;
@@ -264,7 +264,7 @@ void func_80969EDC(DemoDu* this, GlobalContext* globalCtx) {
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x5D, posX, posY, posZ, 0, 0, 0, 2);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void func_80969F38(DemoDu *this, GlobalContext *globalCtx) {
@@ -273,7 +273,7 @@ void func_80969F38(DemoDu *this, GlobalContext *globalCtx) {
     f32 posY = player->actor.world.pos.y + 80.0f;
     f32 posZ = player->actor.world.pos.z;
 
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0x8B, posX, posY, posZ, 0, 0, 0, 9);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, posX, posY, posZ, 0, 0, 0, 9);
     Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
 }
 
@@ -834,70 +834,56 @@ void func_8096B488() {
 }
 
 void func_8096B4A8(DemoDu *this, GlobalContext *globalCtx) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, 0xF5, this->actor.world.pos.x, (f32) gGameInfo->data[2608] + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x, (f32) gGameInfo->data[2608] + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
 }
 
 void func_8096B528(DemoDu *this, GlobalContext *globalCtx) {
     if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
         this->updateIndex = 22;
         this->drawIndex = 2;
-        this->unk_1A8 = 0;
+        this->shadowAlpha = 0;
         this->actor.shape.shadowAlpha = 0;
         this->unk_1A4 = 0.0f;
         func_8096B488();
     }
 }
 
-void func_8096B57C(DemoDu *this, GlobalContext *globalCtx);
-/*
 void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
-    f32 *temp_v0;
-    f32 *temp_v0_2;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    s32 temp_f4;
-    f32 phi_f0;
+    f32 *unk_1A4 = &this->unk_1A4;
+    s32 shadowAlpha = 0xFF;
 
-    if (DemoDu_IsNpcDoingThisAction(this, globalCtx, (u16)4U, 2) != 0) {
-        temp_v0 = &this->unk_1A4;
-        *temp_v0 = (f32) (*temp_v0 + 1.0f);
-        temp_f0 = *temp_v0;
-        phi_f0 = temp_f0;
-        if (((f32) gGameInfo->data[2597] + 10.0f) <= temp_f0) {
-            this->updateIndex = 0x17;
+    if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
+        *unk_1A4 += 1.0f;
+        if (*unk_1A4 >= gGameInfo->data[2597] + 10.0f) {
+            this->updateIndex = 23;
             this->drawIndex = 1;
-            *temp_v0 = (f32) ((f32) gGameInfo->data[2597] + 10.0f);
-            this->unk_1A8 = 0xFF;
-            this->actor.shape.shadowAlpha = (u8) 0xFF;
+            *unk_1A4 = gGameInfo->data[2597] + 10.0f;
+            this->shadowAlpha = shadowAlpha;
+            this->actor.shape.shadowAlpha = shadowAlpha;
             return;
         }
     } else {
-        temp_v0_2 = &this->unk_1A4;
-        *temp_v0_2 = (f32) (*temp_v0_2 - 1.0f);
-        temp_f0_2 = *temp_v0_2;
-        phi_f0 = temp_f0_2;
-        if (temp_f0_2 <= 0.0f) {
-            this->updateIndex = 0x15;
+        *unk_1A4 -= 1.0f;
+        if (*unk_1A4 <= 0.0f) {
+            this->updateIndex = 21;
             this->drawIndex = 0;
-            *temp_v0_2 = 0.0f;
-            this->unk_1A8 = 0;
+            *unk_1A4 = 0.0f;
+            this->shadowAlpha = 0;
             this->actor.shape.shadowAlpha = 0;
             return;
         }
     }
-    temp_f4 = (s32) ((phi_f0 / ((f32) gGameInfo->data[2597] + 10.0f)) * 255.0f);
-    this->unk_1A8 = temp_f4;
-    this->actor.shape.shadowAlpha = (u8) temp_f4;
+    shadowAlpha = (*unk_1A4 / (gGameInfo->data[2597] + 10.0f)) * 255.0f;
+    this->shadowAlpha = shadowAlpha;
+    this->actor.shape.shadowAlpha = shadowAlpha;
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096B57C.s")
 
 void func_8096B6D0(DemoDu *this, GlobalContext *globalCtx) {
-    if (DemoDu_IsNpcNotDoingThisAction(this, globalCtx, 4, 2) != 0) {
+    if (DemoDu_IsNpcNotDoingThisAction(this, globalCtx, 4, 2)) {
         this->updateIndex = 22;
         this->drawIndex = 2;
         this->unk_1A4 = gGameInfo->data[2597] + 10.0f;
-        this->unk_1A8 = 0xFF;
+        this->shadowAlpha = 0xFF;
         if (this->unk_1AC == 0) {
             func_8096B4A8(this, globalCtx);
             this->unk_1AC = 1;
@@ -931,7 +917,7 @@ void func_8096B840(Actor* thisx, GlobalContext *globalCtx2) {
     GlobalContext *globalCtx = globalCtx2;
     DemoDu* this = THIS;
     s16 eyeTexIndex = this->eyeTexIndex;
-    Gfx* sp70 = sEyeTextures[eyeTexIndex];
+    Gfx* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 unk_194 = this->unk_194;
     Gfx* sp64 = D_8096CE84[unk_194];
@@ -941,16 +927,16 @@ void func_8096B840(Actor* thisx, GlobalContext *globalCtx2) {
 
     func_80093D84(globalCtx->state.gfxCtx);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sp70));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp64));
 
     gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06007FC0));
 
-    gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0x00, this->unk_1A8);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0x00, this->shadowAlpha);
 
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
-    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, (s32) skelAnime->dListCount, 0, 0, 0, POLY_XLU_DISP);
+    POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, 0, 0, 0, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 304);
 }
@@ -964,7 +950,7 @@ void func_8096BA2C(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 void func_8096BA98(DemoDu *this) {
-    s32 temp_f18 = 0xFF;
+    s32 shadowAlpha = 0xFF;
     f32 temp_f0;
     f32 *unk_1A4;
 
@@ -973,12 +959,12 @@ void func_8096BA98(DemoDu *this) {
     unk_1A4 = &this->unk_1A4;
 
     if (temp_f0 <= *unk_1A4) {
-        this->unk_1A8 = temp_f18;
-        this->actor.shape.shadowAlpha = temp_f18;
+        this->shadowAlpha = shadowAlpha;
+        this->actor.shape.shadowAlpha = shadowAlpha;
     } else {
-        temp_f18 = *unk_1A4 / temp_f0 * 255.0f;
-        this->unk_1A8 = temp_f18;
-        this->actor.shape.shadowAlpha = temp_f18;
+        shadowAlpha = *unk_1A4 / temp_f0 * 255.0f;
+        this->shadowAlpha = shadowAlpha;
+        this->actor.shape.shadowAlpha = shadowAlpha;
     }
 }
 
@@ -1078,7 +1064,6 @@ void func_8096BE14(DemoDu *this, GlobalContext *globalCtx) {
 
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
-    DemoDuActionFunc temp_v1;
 
     if (this->updateIndex < 0 || this->updateIndex >= 29 || sUpdateFuncs[this->updateIndex] == NULL) {
         // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
