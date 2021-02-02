@@ -70,6 +70,24 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, std::string filename, b
 
 	int segment = -1;
 
+	// TODO: This should be a variable on the ZFile, but it is a large change in order to force all ZResource types to have a parent ZFile.
+	const char* gameStr = reader->Attribute("Game");
+	if (reader->Attribute("Game") != nullptr)
+	{
+		if (string(gameStr) == "MM")
+		{
+			Globals::Instance->game = ZGame::MM_RETAIL;
+		}
+		else if (string(gameStr) == "SW97" || string(gameStr) == "OOTSW97")
+		{
+			Globals::Instance->game = ZGame::OOT_SW97;
+		}
+		else
+		{
+			// TODO: Error here.
+		}
+	}
+
 	if (reader->Attribute("BaseAddress") != NULL)
 		baseAddress = (uint32_t)strtoul(StringHelper::Split(reader->Attribute("BaseAddress"), "0x")[1].c_str(), NULL, 16);
 
@@ -144,7 +162,7 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, std::string filename, b
 			ZResource* dList = nullptr;
 
 			if (mode == ZFileMode::Extract)
-				dList = ZDisplayList::ExtractFromXML(child, rawData, rawDataIndex, ZDisplayList::GetDListLength(rawData, rawDataIndex), folderName);
+				dList = ZDisplayList::ExtractFromXML(child, rawData, rawDataIndex, ZDisplayList::GetDListLength(rawData, rawDataIndex, Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX), folderName);
 			//else
 				//dList = ZDisplayList::BuildFromXML(child, folderName, mode == ZFileMode::Build);
 			else
@@ -1014,6 +1032,9 @@ void ZFile::ProcessDeclarationText(Declaration* decl)
 
 			if (c == '@' && c2 == 'r')
 			{
+				if (refIndex >= decl->references.size())
+					break;
+
 				Declaration* refDecl = GetDeclarationRanged(decl->references[refIndex]);
 				uint32_t refDeclAddr = GetDeclarationRangedAddress(decl->references[refIndex]);
 
@@ -1021,10 +1042,17 @@ void ZFile::ProcessDeclarationText(Declaration* decl)
 				{
 					if (refDecl->isArray)
 					{
-						int itemSize = refDecl->size / refDecl->arrayItemCnt;
-						int itemIndex = (decl->references[refIndex] - refDeclAddr) / itemSize;
+						if (refDecl->arrayItemCnt != 0)
+						{
+							int itemSize = refDecl->size / refDecl->arrayItemCnt;
+							int itemIndex = (decl->references[refIndex] - refDeclAddr) / itemSize;
 
-						decl->text.replace(i, 2, StringHelper::Sprintf("&%s[%i]", refDecl->varName.c_str(), itemIndex));
+							decl->text.replace(i, 2, StringHelper::Sprintf("&%s[%i]", refDecl->varName.c_str(), itemIndex));
+						}
+						else
+						{
+							decl->text.replace(i, 2, StringHelper::Sprintf("ERROR ARRAYITEMCNT = 0"));
+						}
 					}
 					else
 					{

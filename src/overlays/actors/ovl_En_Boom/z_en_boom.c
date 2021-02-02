@@ -5,6 +5,7 @@
  */
 
 #include "z_en_boom.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -53,8 +54,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_S8(targetMode, 5, ICHAIN_CONTINUE),
     ICHAIN_VEC3S(shape.rot, 0, ICHAIN_STOP),
 };
-
-extern Gfx D_0400C808[];
 
 void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -274,7 +273,7 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_0400C808);
+    gSPDisplayList(POLY_OPA_DISP++, gBoomerangRefDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
 }

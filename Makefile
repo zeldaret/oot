@@ -143,6 +143,7 @@ build/src/libultra_code_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_code_O2/%.o: OPTFLAGS := -O2
 build/src/libultra_code_O2_g3/%.o: OPTFLAGS := -O2 -g3
 
+build/src/libultra_boot_O1/ll.o: MIPS_VERSION := -mips3 -32
 build/src/libultra_code_O1/llcvt.o: MIPS_VERSION := -mips3 -32
 
 build/src/code/fault.o: CFLAGS += -trapuv
@@ -230,6 +231,12 @@ build/src/overlays/%.o: src/overlays/%.c
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
+	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
+build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+	$(CC_CHECK) $^
+	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c

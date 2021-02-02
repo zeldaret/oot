@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_en_ice.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rLifespan regs[0]
 #define rYaw regs[1]
@@ -29,8 +30,6 @@ EffectSsInit Effect_Ss_En_Ice_InitVars = {
     EFFECT_SS_EN_ICE,
     EffectSsEnIce_Init,
 };
-
-extern Gfx D_04033818[];
 
 u32 EffectSsEnIce_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsEnIceInitParams* initParams = (EffectSsEnIceInitParams*)initParamsx;
@@ -129,7 +128,7 @@ void EffectSsEnIce_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                     this->rPrimColorA);
     gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, (u32)alpha);
-    gSPDisplayList(POLY_XLU_DISP++, D_04033818);
+    gSPDisplayList(POLY_XLU_DISP++, gEffIceFragment2DL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_ice.c", 294);
 }
