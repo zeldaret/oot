@@ -141,6 +141,7 @@ void Audio_SetVolScale(u8 seqIdx, u8 scaleIdx, u8 targetVol, u8 volFadeTimer) {
     }
 }
 
+#ifdef NON_MATCHING
 void func_800FA3DC(void) {
     u32 sp70;
     f32 temp_f0;
@@ -401,7 +402,10 @@ void func_800FA3DC(void) {
         }
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800FA3DC.s")
+#else
+void func_800FA3DC(void);
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800F9280/func_800FA3DC.s")
+#endif
 
 extern u8 D_80133418;
 extern u8 D_801333CC;
