@@ -12,7 +12,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnCs_Walk(EnCs* this, GlobalContext* globalCtx);
 void EnCs_Talk(EnCs* this, GlobalContext* globalCtx);
 void EnCs_Wait(EnCs* this, GlobalContext* globalCtx);
-s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx);
+s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 extern FlexSkeletonHeader D_06008540; // Graveyard boy skeleton
@@ -215,7 +215,7 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
     } else {
         func_8002F374(globalCtx, &this->actor, &sp2A, &sp28);
 
-        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) && (func_8002F2CC(this, globalCtx, 100.0f))) {
+        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) && (func_8002F2CC(&this->actor, globalCtx, 100.0f))) {
             this->actor.textId = EnCs_GetTextID(this, globalCtx);
         }
     }
@@ -446,7 +446,7 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_cs.c", 1015);
 }
 
-s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
+s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCs* this = THIS;
 
     if (this->flag & 1) {
