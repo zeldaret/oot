@@ -1,6 +1,6 @@
 /*
  * File: z_bg_spot12_saku.c
- * Overlay: Bg_Spot12_Saku
+ * Overlay: ovl_Bg_Spot12_Saku
  * Description:
  */
 
@@ -45,16 +45,16 @@ extern Gfx D_06002260[];
 extern CollisionHeader D_0600238C;
 
 void func_808B3420(BgSpot12Saku* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
-    Actor* thisx = &this->dyna.actor;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad[2];
+    s32 pad2;
 
-    DynaPolyActor_Init(thisx, flags);
+    DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_saku.c", 140,
-                     thisx->id, thisx->params);
+                     this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
@@ -62,8 +62,8 @@ void BgSpot12Saku_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Saku* this = THIS;
 
     func_808B3420(this, globalCtx, &D_0600238C, DPM_UNK);
-    Actor_ProcessInitChain(thisx, sInitChain);
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B3714(this);
     } else {
         func_808B3550(this);
@@ -77,26 +77,22 @@ void BgSpot12Saku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808B3550(BgSpot12Saku* this) {
-    Actor* thisx = &this->dyna.actor;
-
     this->actionFunc = func_808B357C;
-    thisx->scale.x = 0.1f;
-    thisx->world.pos.x = thisx->home.pos.x;
-    thisx->world.pos.z = thisx->home.pos.z;
+    this->dyna.actor.scale.x = 0.1f;
+    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
 }
 
 void func_808B357C(BgSpot12Saku* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B35E4(this);
-        this->unk_168 = 0x14;
-        func_800800F8(globalCtx, 0x104A, -0x63, thisx, 0);
+        this->timer = 20;
+        func_800800F8(globalCtx, 0x104A, -0x63, &this->dyna.actor, 0);
     }
 }
 
 void func_808B35E4(BgSpot12Saku* this) {
-    if (this->unk_168 == 0) {
+    if (this->timer == 0) {
         this->actionFunc = func_808B3604;
     }
 }
@@ -118,12 +114,10 @@ void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx) {
 }
 
 void func_808B3714(BgSpot12Saku* this) {
-    Actor* thisx = &this->dyna.actor;
-
     this->actionFunc = func_808B37AC;
-    thisx->scale.x = 0.001f / 0.14f;
-    thisx->world.pos.x = thisx->home.pos.x - (Math_SinS(thisx->shape.rot.y + 0x4000) * 78.0f);
-    thisx->world.pos.z = thisx->home.pos.z - (Math_CosS(thisx->shape.rot.y + 0x4000) * 78.0f);
+    this->dyna.actor.scale.x = 0.001f / 0.14f;
+    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
+    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
 }
 
 void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx) {
@@ -132,8 +126,8 @@ void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx) {
 void BgSpot12Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Saku* this = THIS;
 
-    if (this->unk_168 > 0) {
-        this->unk_168 -= 1;
+    if (this->timer > 0) {
+        this->timer--;
     }
     this->actionFunc(this, globalCtx);
 }

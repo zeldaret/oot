@@ -326,10 +326,10 @@ const ActorInit En_Zo_InitVars = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { &D_06002F10, 0.0f, 1.0f, 1.0f, 2, 0.0f },   { &D_06002F10, 1.0f, 1.0f, -1.0f, 0, -8.0f },
-    { &D_06002F10, 1.0f, 8.0f, -1.0f, 0, -8.0f }, { &D_0600219C, 1.0f, 0.0f, -1.0f, 0, -8.0f },
-    { &D_06000598, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06000D48, 1.0f, 0.0f, -1.0f, 0, -8.0f },
+    { &D_06002FE8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_06002FE8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &D_06002F10, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },   { &D_06002F10, 1.0f, 1.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &D_06002F10, 1.0f, 8.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_0600219C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &D_06000598, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_06000D48, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 void EnZo_SpawnSplashes(EnZo* this) {

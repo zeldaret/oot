@@ -285,24 +285,23 @@ void func_80A535BC(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
-    Actor* thisx;
-    f32 frameCount;
-    BgSpot15Saku* actor;
+    s32 pad;
+    f32 frameCount = this->skelAnime.curFrame;
 
-    frameCount = this->skelAnime.curFrame;
-    thisx = &this->actor;
-    actor = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
+
+    BgSpot15Saku* actor = (BgSpot15Saku*)globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
+
     SkelAnime_Update(&this->skelAnime);
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
     if (this->unk_2EC <= frameCount) {
         while (actor != NULL) {
-            if (ACTOR_BG_SPOT15_SAKU != actor->dyna.actor.id) {
+            if (actor->dyna.actor.id != ACTOR_BG_SPOT15_SAKU) {
                 actor = (BgSpot15Saku*)(actor->dyna.actor.next);
             } else {
-                this->gate = actor;
+                this->gate = &actor->dyna.actor;
                 actor->unk_168 = 1;
                 break;
             }
@@ -469,7 +468,7 @@ void func_80A53D0C(EnHeishi2* this, GlobalContext* globalCtx) {
             if (gate->dyna.actor.id != ACTOR_BG_GATE_SHUTTER) {
                 gate = (BgGateShutter*)gate->dyna.actor.next;
             } else {
-                this->gate = gate;
+                this->gate = &gate->dyna.actor;
                 gate->openingState = 1;
                 break;
             }
@@ -615,24 +614,22 @@ void func_80A54320(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
-    Actor* thisx;
-    f32 frameCount;
-    BgGateShutter* gate;
-
-    frameCount = this->skelAnime.curFrame;
-    thisx = &this->actor;
-    gate = (BgGateShutter*)(globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head);
+    s32 pad;
+    f32 frameCount = this->skelAnime.curFrame;
+    BgGateShutter* gate = (BgGateShutter*)(globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head);
     SkelAnime_Update(&this->skelAnime);
+
     if ((frameCount >= 12.0f) && (!this->audioFlag)) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_SPEAR_HIT);
+        Audio_PlayActorSound2(&this->actor, NA_SE_EV_SPEAR_HIT);
         this->audioFlag = 1;
     }
+
     if (this->unk_2EC <= frameCount) {
         while (gate != NULL) {
             if (ACTOR_BG_GATE_SHUTTER != gate->dyna.actor.id) {
                 gate = (BgGateShutter*)(gate->dyna.actor.next);
             } else {
-                this->gate = gate;
+                this->gate = &gate->dyna.actor;
                 if (this->unk_30A != 2) {
                     gate->openingState = -1;
                     break;
@@ -648,6 +645,7 @@ void func_80A543A0(EnHeishi2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A53DF8;
     }
 }
+
 void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.z, -6100, 5, this->unk_2E4, 0);
     Math_ApproachF(&this->unk_2E4, 3000.0f, 1.0f, 500.0f);
@@ -661,7 +659,7 @@ void func_80A544AC(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->actor;
+    s32 pad;
     Vec3f pos;
     f32 rotY;
     EnBom* bomb;
@@ -673,7 +671,7 @@ void func_80A5455C(EnHeishi2* this, GlobalContext* globalCtx) {
         pos.x = Rand_CenteredFloat(20.0f) + this->unk_274.x;
         pos.y = Rand_CenteredFloat(20.0f) + (this->unk_274.y - 40.0f);
         pos.z = Rand_CenteredFloat(20.0f) + (this->unk_274.z - 20.0f);
-        rotY = Rand_CenteredFloat(7000.0f) + thisx->yawTowardsPlayer;
+        rotY = Rand_CenteredFloat(7000.0f) + this->actor.yawTowardsPlayer;
         bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, pos.x, pos.y, pos.z, 0, rotY, 0, 0);
         if (bomb != NULL) {
             bomb->actor.speedXZ = Rand_CenteredFloat(5.0f) + 10.0f;
@@ -837,6 +835,7 @@ s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 
 void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnHeishi2* this = THIS;
+
     if (limbIndex == 16) {
         Matrix_Get(&this->mtxf_330);
     }
