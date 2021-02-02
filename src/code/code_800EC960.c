@@ -484,7 +484,7 @@ void func_800ED858(u8 arg0) {
         sCurOcarinaBtnPress = 0;
         Audio_GetOcaInput();
         D_8016BA10 = sCurOcarinaBtnPress;
-        Audio_SetBGMMute(0xD);
+        Audio_QueueSeqCmdMute(0xD);
     }
 }
 

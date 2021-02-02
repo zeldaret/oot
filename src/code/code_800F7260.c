@@ -111,7 +111,7 @@ void func_800F7260(u16 arg0) {
     }
 }
 
-void Audio_SetBGMMute(u8 arg0) {
+void Audio_QueueSeqCmdMute(u8 arg0) {
     D_801333D0 |= (1 << arg0);
     Audio_SetVolScale(0, 2, 0x40, 0xF);
     Audio_SetVolScale(3, 2, 0x40, 0xF);
@@ -358,7 +358,7 @@ void func_800F8480(u8 bankId) {
             if (entry->unk_2A == 2) {
                 entry->unk_2E = D_8016E260;
                 if (entry->unk_26 & 8) {
-                    Audio_SetBGMMute(D_8016E260);
+                    Audio_QueueSeqCmdMute(D_8016E260);
                 }
                 if (entry->unk_26 & 0xC0) {
                     switch (entry->unk_26 & 0xC0) {
