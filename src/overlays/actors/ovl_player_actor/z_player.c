@@ -34,11 +34,11 @@ typedef struct {
 #define CHEST_ANIM_LONG 1
 
 typedef enum {
-    /* 0x00 */ HANDLE_ON_LEFT_ADULT,
-    /* 0x01 */ HANDLE_ON_LEFT_CHILD,
-    /* 0x02 */ HANDLE_ON_RIGHT_ADULT,
-    /* 0x03 */ HANDLE_ON_RIGHT_CHILD
-} DoorAnimStyle;
+    /* 0x00 */ KNOB_ANIM_ADULT_L,
+    /* 0x01 */ KNOB_ANIM_CHILD_L,
+    /* 0x02 */ KNOB_ANIM_ADULT_R,
+    /* 0x03 */ KNOB_ANIM_CHILD_R
+} KnobDoorAnim;
 
 typedef struct {
     /* 0x00 */ u8 itemId;
@@ -4113,14 +4113,14 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 door = (EnDoor*)doorActor;
 
                 door->animStyle = (doorDirection < 0.0f)
-                                      ? ((LINK_IS_ADULT) ? HANDLE_ON_LEFT_ADULT : HANDLE_ON_LEFT_CHILD)
-                                      : ((LINK_IS_ADULT) ? HANDLE_ON_RIGHT_ADULT : HANDLE_ON_RIGHT_CHILD);
+                                      ? ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
+                                      : ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
 
-                if (door->animStyle == HANDLE_ON_LEFT_ADULT) {
+                if (door->animStyle == KNOB_ANIM_ADULT_L) {
                     sp5C = D_808539EC[this->modelAnimType];
-                } else if (door->animStyle == HANDLE_ON_LEFT_CHILD) {
+                } else if (door->animStyle == KNOB_ANIM_CHILD_L) {
                     sp5C = D_80853A04[this->modelAnimType];
-                } else if (door->animStyle == HANDLE_ON_RIGHT_ADULT) {
+                } else if (door->animStyle == KNOB_ANIM_ADULT_R) {
                     sp5C = D_80853A1C[this->modelAnimType];
                 } else {
                     sp5C = D_80853A34[this->modelAnimType];

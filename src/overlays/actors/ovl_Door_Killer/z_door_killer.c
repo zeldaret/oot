@@ -2,9 +2,6 @@
  * File: z_door_killer.c
  * Overlay: ovl_Door_Killer
  * Description: Fake doors which attack player
- *
- * Associated switch flags: (params >> 8) & 0x3F
- * ((params >> 8) & 0x3F) == 0x3F means no switch flags are checked / set
  */
 #include "z_door_killer.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
@@ -230,9 +227,9 @@ void DoorKiller_FallAsRubble(DoorKiller* this, GlobalContext* globalCtx) {
 s32 DoorKiller_IsHit(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = THIS;
     if ((this->colliderCylinder.base.acFlags & 2) && (this->colliderCylinder.info.acHitInfo != NULL)) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void DoorKiller_SetAC(DoorKiller* this, GlobalContext* globalCtx) {
@@ -242,11 +239,11 @@ void DoorKiller_SetAC(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_Die(DoorKiller* this, GlobalContext* globalCtx) {
-    s32 switchFlags = (this->actor.params >> 8) & 0x3F;
+    s32 switchFlag = (this->actor.params >> 8) & 0x3F;
 
     // Can set a switch flag on death based on params
-    if (switchFlags != 0x3F) {
-        Flags_SetSwitch(globalCtx, switchFlags);
+    if (switchFlag != 0x3F) {
+        Flags_SetSwitch(globalCtx, switchFlag);
     }
     Actor_Kill(&this->actor);
 }
@@ -415,7 +412,7 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
 
     player = PLAYER;
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
-    // playerIsOpening is set from the player overlay when the player opens the door
+    // playerIsOpening is set by player
     if (this->playerIsOpening != 0) {
         this->actionFunc = DoorKiller_WaitBeforeWobble;
         this->timer = 10;

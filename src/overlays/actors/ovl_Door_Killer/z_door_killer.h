@@ -4,6 +4,11 @@
 #include "ultra64.h"
 #include "global.h"
 
+/*
+ * Associated switch flag: (params >> 8) & 0x3F
+ * ((params >> 8) & 0x3F) == 0x3F means no switch flag is checked / set
+*/
+
 typedef struct{
     /* 0x00 */ s16 objectId;
     /* 0x04 */ Gfx* texture;
