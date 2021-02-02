@@ -12,7 +12,7 @@ void EnMm2_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx);
 void func_80AAF57C(EnMm2* this, GlobalContext* globalCtx);
 void func_80AAF668(EnMm2* this, GlobalContext* globalCtx);
-s32 EnMm2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx);
+s32 EnMm2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 extern FlexSkeletonHeader D_06005E18;
@@ -303,7 +303,7 @@ void EnMm2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_mm2.c", 654);
 }
 
-s32 EnMm2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
+s32 EnMm2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMm2* this = THIS;
 
     switch (limbIndex) {
