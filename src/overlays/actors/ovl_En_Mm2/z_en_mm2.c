@@ -168,7 +168,7 @@ void func_80AAF2BC(EnMm2* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     }
     SkelAnime_Update(&this->skelAnime);
-    this->unk_1F6 += 1;
+    this->unk_1F6++;
     Math_SmoothStepToF(&this->actor.speedXZ, 10.0f, 0.6f, 2.0f, 0.0f);
 }
 
@@ -177,7 +177,7 @@ void func_80AAF330(EnMm2* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80AAF2BC;
         EnMm2_ChangeAnimation(this, 0, &this->previousAnimation);
         this->unk_1E0 = 1;
-        if ((this->unk_1F4 & 2) == 0) {
+        if (!(this->unk_1F4 & 2)) {
             func_80106CCC(globalCtx);
         }
         gSaveContext.timer2State = 0;
@@ -189,18 +189,18 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     switch (this->actor.textId) {
         case 0x607D:
-        case 0x607E: {
+        case 0x607E:
             if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80106BC8(globalCtx))) {
                 switch (globalCtx->msgCtx.choiceIndex) {
-                    case 0: {
+                    case 0:
                         func_8010B720(globalCtx, 0x607F);
                         this->actor.textId = 0x607F;
                         gSaveContext.eventInf[1] |= 1;
-                    } break;
-                    case 1: {
+                        break;
+                    case 1:
                         func_8010B720(globalCtx, 0x6080);
                         this->actor.textId = 0x6080;
-                    } break;
+                        break;
                 };
                 if (this->unk_1F4 & 4) {
                     if (1) {}
@@ -209,8 +209,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
                 }
             }
             return;
-        }
-        case 0x6081: {
+        case 0x6081:
             if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && (func_80106BC8(globalCtx))) {
                 this->unk_1F4 |= 4;
                 HIGH_SCORE(HS_MARATHON) -= 1;
@@ -218,7 +217,6 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
                 this->actor.textId = 0x607E;
             }
             return;
-        }
     }
     if (func_8002F334(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x607F) {
@@ -253,20 +251,19 @@ void func_80AAF668(EnMm2* this, GlobalContext* globalCtx) {
     this->actor.world.rot.y = -0x3E80;
     this->actor.shape.rot.y = this->actor.world.rot.y;
     SkelAnime_Update(&this->skelAnime);
-    if (SAVE_TIMER_2 < HIGH_SCORE(HS_MARATHON)) {
+    if (((void)0, gSaveContext.timer2Value) < HIGH_SCORE(HS_MARATHON)) {
         this->actor.textId = 0x6085;
     } else {
         this->actor.textId = 0x6084;
     }
     if (func_80AAF224(this, globalCtx, func_80AAF5EC)) {
         this->unk_1F6 = 0;
-        if (SAVE_TIMER_2 < HIGH_SCORE(HS_MARATHON)) {
-            HIGH_SCORE(HS_MARATHON) = SAVE_TIMER_2;
+        if (((void)0, gSaveContext.timer2Value) < HIGH_SCORE(HS_MARATHON)) {
+            HIGH_SCORE(HS_MARATHON) = gSaveContext.timer2Value;
         }
     } else {
-        LogUtils_LogThreadId("../z_en_mm2.c", 0x21D);
-        osSyncPrintf("((z_common_data.event_inf[1]) & (0x0001)) = %x\n", gSaveContext.eventInf[1] & 1);
-        if ((gSaveContext.eventInf[1] & 1) == 0) {
+        LOG_HEX("((z_common_data.event_inf[1]) & (0x0001))", gSaveContext.eventInf[1] & 1, "../z_en_mm2.c", 541);
+        if (!(gSaveContext.eventInf[1] & 1)) {
             this->unk_1F4 |= 2;
             this->unk_1F4 &= ~1;
             EnMm2_ChangeAnimation(this, 3, &this->previousAnimation);
@@ -311,12 +308,12 @@ s32 EnMm2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 
     switch (limbIndex) {
         case 8:
-            rot->x = rot->x + this->unk_1EE.y;
-            rot->y = rot->y - this->unk_1EE.x;
+            rot->x += this->unk_1EE.y;
+            rot->y -= this->unk_1EE.x;
             break;
         case 15:
-            rot->x = rot->x + this->unk_1E8.y;
-            rot->z = rot->z + this->unk_1E8.x + 0xFA0;
+            rot->x += this->unk_1E8.y;
+            rot->z += this->unk_1E8.x + 0xFA0;
             break;
     }
     return 0;

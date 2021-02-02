@@ -6,8 +6,6 @@
 
 struct EnMm2;
 
-#define SAVE_TIMER_2 ((void)0, gSaveContext.timer2Value)
-
 typedef void (*EnMm2ActionFunc)(struct EnMm2*, GlobalContext*);
 
 typedef struct EnMm2 {
