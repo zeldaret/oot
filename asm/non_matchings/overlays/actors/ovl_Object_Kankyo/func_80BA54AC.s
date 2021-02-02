@@ -135,8 +135,8 @@ glabel func_80BA54AC
 .L80BA5660:
 /* 02BC0 80BA5660 02770019 */  multu   $s3, $s7                   
 /* 02BC4 80BA5664 00138080 */  sll     $s0, $s3,  2               
-/* 02BC8 80BA5668 3C150600 */  lui     $s5, %hi(D_06005FF0)                ## $s5 = 06000000
-/* 02BCC 80BA566C 26B55FF0 */  addiu   $s5, $s5, %lo(D_06005FF0)           ## $s5 = 06005FF0
+/* 02BC8 80BA5668 3C150600 */  lui     $s5, %hi(gDemoKekkaiDL_005FF0)                ## $s5 = 06000000
+/* 02BCC 80BA566C 26B55FF0 */  addiu   $s5, $s5, %lo(gDemoKekkaiDL_005FF0)           ## $s5 = 06005FF0
 /* 02BD0 80BA5670 03B0C021 */  addu    $t8, $sp, $s0              
 /* 02BD4 80BA5674 03B0C821 */  addu    $t9, $sp, $s0              
 /* 02BD8 80BA5678 03B04021 */  addu    $t0, $sp, $s0              
