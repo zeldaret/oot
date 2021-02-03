@@ -3597,7 +3597,8 @@ endseg
 beginseg
     name "object_dodongo"
     romalign 0x1000
-    include "build/baserom/object_dodongo.o"
+    include "build/assets/objects/object_dodongo/object_dodongo.o"
+    number 6
 endseg
 
 beginseg
