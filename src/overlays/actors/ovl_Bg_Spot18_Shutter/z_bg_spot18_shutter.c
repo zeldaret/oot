@@ -91,7 +91,7 @@ void func_808B95AC(BgSpot18Shutter* this, GlobalContext* globalCtx) {
 void func_808B95B8(BgSpot18Shutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         Actor_SetFocus(&this->dyna.actor, 70.0f);
-        func_80080480(globalCtx, this);
+        func_80080480(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808B9698;
     }
 }

@@ -98,7 +98,7 @@ void BgSpot17Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna.actor, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
         Actor_Kill(&this->dyna.actor);
         return;
