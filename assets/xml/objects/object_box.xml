@@ -1,0 +1,13 @@
+<Root>
+    <File Name="object_box" Segment="6">
+        <Animation Name="gEnBoxAnim_000128" Offset="0x128"/>
+        <Animation Name="gEnBoxAnim_00024C" Offset="0x24C"/>
+        <Animation Name="gEnBoxAnim_00043C" Offset="0x43C"/>
+        <DList Name="gEnBoxChestBaseDlist" Offset="0x6F0"/>
+        <DList Name="gEnBoxBossKeyChestBaseDlist" Offset="0xAE8"/>
+        <DList Name="gEnBoxChestLidDlist" Offset="0x10C0"/>
+        <DList Name="gEnBoxBossKeyChestLidDlist" Offset="0x1678"/>
+        <Skeleton Name="gEnBoxSkel" Type="Standard" LimbType="Standard" Offset="0x47D8"/>
+        <Collision Name="gEnBoxCol" Offset="0x5FC8"/>
+    </File>
+</Root>

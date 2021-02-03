@@ -3560,7 +3560,9 @@ endseg
 beginseg
     name "object_box"
     romalign 0x1000
-    include "build/baserom/object_box.o"
+    //include "build/baserom/object_box.o"
+    include "build/assets/objects/object_box/object_box.o"
+    number 6
 endseg
 
 beginseg
