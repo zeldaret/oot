@@ -1,6 +1,6 @@
 /*
  * File: z_bg_hidan_fslift.c
- * Overlay: Bg_Hidan_Fslift
+ * Overlay: ovl_Bg_Hidan_Fslift
  * Description: Hookshot Elevator
  */
 
@@ -42,33 +42,32 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanFslift* this = THIS;
     s32 pad1;
+    BgHidanFslift* this = THIS;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
-    DynaPolyActor_Init(thisx, DPM_PLAYER);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&D_0600E1E8, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-    if (Actor_SpawnAsChild(&globalCtx->actorCtx, thisx, globalCtx, ACTOR_OBJ_HSBLOCK, thisx->world.pos.x,
-                           thisx->world.pos.y + 40.0f, thisx->world.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
-        Actor_Kill(thisx);
+    if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_OBJ_HSBLOCK,
+                           this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y + 40.0f,
+                           this->dyna.actor.world.pos.z + -28.0f, 0, 0, 0, 2) == NULL) {
+        Actor_Kill(&this->dyna.actor);
         return;
     }
     this->actionFunc = func_80886FCC;
 }
 
 void func_80886F24(BgHidanFslift* this) {
-    Actor* thisx = &this->dyna.actor;
-
-    if (thisx->child != NULL && thisx->child->update != NULL) {
-        thisx->child->world.pos.x = thisx->world.pos.x;
-        thisx->child->world.pos.y = thisx->world.pos.y + 40.0f;
-        thisx->child->world.pos.z = thisx->world.pos.z + -28.0f;
-        return;
+    if (this->dyna.actor.child != NULL && this->dyna.actor.child->update != NULL) {
+        this->dyna.actor.child->world.pos.x = this->dyna.actor.world.pos.x;
+        this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 40.0f;
+        this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + -28.0f;
+    } else {
+    this->dyna.actor.child = NULL;
     }
-    thisx->child = NULL;
 }
 
 void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -78,54 +77,47 @@ void BgHidanFslift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80886FB4(BgHidanFslift* this) {
-    this->unk_168 = 0x28;
+    this->timer = 40;
     this->actionFunc = func_80886FCC;
 }
 
 void func_80886FCC(BgHidanFslift* this, GlobalContext* globalCtx) {
     s32 heightBool;
-    Actor* thisx = &this->dyna.actor;
 
-    DECR(this->unk_168);
+    if (this->timer) {
+        this->timer--;
+    }
 
-    if (this->unk_168 == 0) {
+    if (this->timer == 0) {
         heightBool = false;
-        if ((thisx->world.pos.y - thisx->home.pos.y) < 0.5f) {
+        if ((this->dyna.actor.world.pos.y - this->dyna.actor.home.pos.y) < 0.5f) {
             heightBool = true;
         }
-        if (func_80043590(thisx)) {
-            if (heightBool) {
-                this->actionFunc = func_808870D8;
-                return;
-            }
-        }
-        if (!heightBool) {
+        if (func_80043590(&this->dyna) && (heightBool)) {
+            this->actionFunc = func_808870D8;
+        } else if (!heightBool) {
             this->actionFunc = func_8088706C;
         }
     }
 }
 
 void func_8088706C(BgHidanFslift* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
-    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y, 4.0f)) {
-        Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 4.0f)) {
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         func_80886FB4(this);
     } else {
-        func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
     }
     func_80886F24(this);
 }
 
 void func_808870D8(BgHidanFslift* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
-    if (func_80043590(thisx)) {
-        if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 790.0f, 4.0f)) {
-            Audio_PlayActorSound2(thisx, NA_SE_EV_BLOCK_BOUND);
+    if (func_80043590(&this->dyna)) {
+        if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 790.0f, 4.0f)) {
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
             func_80886FB4(this);
         } else {
-            func_8002F974(thisx, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
+            func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
         }
     } else {
         func_80886FB4(this);
@@ -137,12 +129,12 @@ void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanFslift* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    if (func_8004356C(thisx)) {
+    if (func_8004356C(&this->dyna)) {
         if (this->unk_16A == 0) {
             this->unk_16A = 3;
         }
         Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
-    } else if (func_8004356C(thisx) == 0) {
+    } else if (!func_8004356C(&this->dyna)) {
         if (this->unk_16A != 0) {
             Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
         }

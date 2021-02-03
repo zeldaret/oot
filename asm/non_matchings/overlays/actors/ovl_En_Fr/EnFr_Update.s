@@ -26,10 +26,10 @@ glabel EnFr_Update
 /* 002E4 80A1AC84 01C17824 */  and     $t7, $t6, $at
 /* 002E8 80A1AC88 2442FFFF */  addiu   $v0, $v0, 0xFFFF           ## $v0 = FFFFFFFF
 /* 002EC 80A1AC8C 0002C080 */  sll     $t8, $v0,  2
-/* 002F0 80A1AC90 3C0180A2 */  lui     $at, %hi(D_80A1CFF4)       ## $at = 80A20000
+/* 002F0 80A1AC90 3C0180A2 */  lui     $at, %hi(sEnFrPointers + 0x4)       ## $at = 80A20000
 /* 002F4 80A1AC94 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 /* 002F8 80A1AC98 00380821 */  addu    $at, $at, $t8
-/* 002FC 80A1AC9C AC30CFF4 */  sw      $s0, %lo(D_80A1CFF4)($at)
+/* 002FC 80A1AC9C AC30CFF4 */  sw      $s0, %lo(sEnFrPointers + 0x4)($at)
 /* 00300 80A1ACA0 AFA2003C */  sw      $v0, 0x003C($sp)
 /* 00304 80A1ACA4 24A5D0BC */  addiu   $a1, $a1, %lo(D_80A1D0BC)  ## $a1 = 80A1D0BC
 /* 00308 80A1ACA8 0C01E037 */  jal     Actor_ProcessInitChain
@@ -96,15 +96,15 @@ glabel EnFr_Update
 
 /* 003F0 80A1AD90 8FA40030 */  lw      $a0, 0x0030($sp)
 /* 003F4 80A1AD94 8FAA003C */  lw      $t2, 0x003C($sp)
-/* 003F8 80A1AD98 3C0B80A2 */  lui     $t3, %hi(D_80A1D018)       ## $t3 = 80A20000
-/* 003FC 80A1AD9C 3C0D80A2 */  lui     $t5, %hi(D_80A1D008)       ## $t5 = 80A20000
+/* 003F8 80A1AD98 3C0B80A2 */  lui     $t3, %hi(sFrogToSongIndex)       ## $t3 = 80A20000
+/* 003FC 80A1AD9C 3C0D80A2 */  lui     $t5, %hi(sSongIndex)       ## $t5 = 80A20000
 /* 00400 80A1ADA0 016A5821 */  addu    $t3, $t3, $t2
-/* 00404 80A1ADA4 916BD018 */  lbu     $t3, %lo(D_80A1D018)($t3)
+/* 00404 80A1ADA4 916BD018 */  lbu     $t3, %lo(sFrogToSongIndex)($t3)
 /* 00408 80A1ADA8 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xeee)
 /* 0040C 80A1ADAC 95CEF54E */  lhu     $t6, %lo(gSaveContext+0xeee)($t6)
 /* 00410 80A1ADB0 000B6040 */  sll     $t4, $t3,  1
 /* 00414 80A1ADB4 01AC6821 */  addu    $t5, $t5, $t4
-/* 00418 80A1ADB8 95ADD008 */  lhu     $t5, %lo(D_80A1D008)($t5)
+/* 00418 80A1ADB8 95ADD008 */  lhu     $t5, %lo(sSongIndex)($t5)
 /* 0041C 80A1ADBC 3C014316 */  lui     $at, 0x4316                ## $at = 43160000
 /* 00420 80A1ADC0 01AE7824 */  and     $t7, $t5, $t6
 /* 00424 80A1ADC4 51E00006 */  beql    $t7, $zero, .L80A1ADE0
@@ -147,11 +147,11 @@ glabel EnFr_Update
 /* 004A4 80A1AE44 46040180 */  add.s   $f6, $f0, $f4
 /* 004A8 80A1AE48 AE0E038C */  sw      $t6, 0x038C($s0)           ## 0000038C
 /* 004AC 80A1AE4C 8E0E002C */  lw      $t6, 0x002C($s0)           ## 0000002C
-/* 004B0 80A1AE50 3C0B80A2 */  lui     $t3, %hi(func_80A1B19C)    ## $t3 = 80A20000
+/* 004B0 80A1AE50 3C0B80A2 */  lui     $t3, %hi(EnFr_DecrementBlinkTimerUpdate)    ## $t3 = 80A20000
 /* 004B4 80A1AE54 4600320D */  trunc.w.s $f8, $f6
-/* 004B8 80A1AE58 3C0F80A2 */  lui     $t7, %hi(func_80A1B22C)    ## $t7 = 80A20000
-/* 004BC 80A1AE5C 256BB19C */  addiu   $t3, $t3, %lo(func_80A1B19C) ## $t3 = 80A1B19C
-/* 004C0 80A1AE60 25EFB22C */  addiu   $t7, $t7, %lo(func_80A1B22C) ## $t7 = 80A1B22C
+/* 004B8 80A1AE58 3C0F80A2 */  lui     $t7, %hi(EnFr_SetupJumpingOutOfWater)    ## $t7 = 80A20000
+/* 004BC 80A1AE5C 256BB19C */  addiu   $t3, $t3, %lo(EnFr_DecrementBlinkTimerUpdate) ## $t3 = 80A1B19C
+/* 004C0 80A1AE60 25EFB22C */  addiu   $t7, $t7, %lo(EnFr_SetupJumpingOutOfWater) ## $t7 = 80A1B22C
 /* 004C4 80A1AE64 44084000 */  mfc1    $t0, $f8
 /* 004C8 80A1AE68 24180007 */  addiu   $t8, $zero, 0x0007         ## $t8 = 00000007
 /* 004CC 80A1AE6C AE0B0374 */  sw      $t3, 0x0374($s0)           ## 00000374
@@ -170,13 +170,13 @@ glabel EnFr_Update
 /* 00500 80A1AEA0 AE0003A4 */  sw      $zero, 0x03A4($s0)         ## 000003A4
 /* 00504 80A1AEA4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00508 80A1AEA8 AE0D0390 */  sw      $t5, 0x0390($s0)           ## 00000390
-/* 0050C 80A1AEAC 0C286A68 */  jal     func_80A1A9A0
+/* 0050C 80A1AEAC 0C286A68 */  jal     EnFr_OrientUnderwater
 /* 00510 80A1AEB0 AE0E0394 */  sw      $t6, 0x0394($s0)           ## 00000394
-/* 00514 80A1AEB4 0C286B03 */  jal     func_80A1AC0C
+/* 00514 80A1AEB4 0C286B03 */  jal     EnFr_DrawIdle
 /* 00518 80A1AEB8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0051C 80A1AEBC 3C1980A2 */  lui     $t9, %hi(func_80A1BB34)    ## $t9 = 80A20000
+/* 0051C 80A1AEBC 3C1980A2 */  lui     $t9, %hi(EnFr_UpdateActive)    ## $t9 = 80A20000
 /* 00520 80A1AEC0 3C01437F */  lui     $at, 0x437F                ## $at = 437F0000
-/* 00524 80A1AEC4 2739BB34 */  addiu   $t9, $t9, %lo(func_80A1BB34) ## $t9 = 80A1BB34
+/* 00524 80A1AEC4 2739BB34 */  addiu   $t9, $t9, %lo(EnFr_UpdateActive) ## $t9 = 80A1BB34
 /* 00528 80A1AEC8 44816000 */  mtc1    $at, $f12                  ## $f12 = 255.00
 /* 0052C 80A1AECC AE190130 */  sw      $t9, 0x0130($s0)           ## 00000130
 /* 00530 80A1AED0 0C00CFBE */  jal     Rand_ZeroFloat

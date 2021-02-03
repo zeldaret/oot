@@ -1,5 +1,5 @@
-#ifndef _Z64CUTSCENE_CMMANDS_H_
-#define _Z64CUTSCENE_CMMANDS_H_
+#ifndef _Z64CUTSCENE_COMMANDS_H_
+#define _Z64CUTSCENE_COMMANDS_H_
 
 #include "command_macros_base.h"
 #include "z64cutscene.h"
