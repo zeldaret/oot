@@ -112,7 +112,6 @@ extern CollisionHeader D_06009CD0;
 
 void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
     static UNK_TYPE D_80881014 = 0;
-
     BgHakaTrap* this = THIS;
     s32 pad;
     CollisionHeader* colHeader = NULL;
@@ -167,7 +166,7 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
                 Collider_InitTris(globalCtx, &this->colliderSpikes);
-                Collider_SetTris(globalCtx, &this->colliderSpikes, thisx, &sTrisInit, &this->colliderSpikesItem);
+                Collider_SetTris(globalCtx, &this->colliderSpikes, thisx, &sTrisInit, this->colliderSpikesItem);
 
                 this->colliderCylinder.dim.radius = 18;
                 this->colliderCylinder.dim.height = 115;
@@ -192,10 +191,10 @@ void BgHakaTrap_Init(Actor* thisx, GlobalContext* globalCtx) {
 void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaTrap* this = THIS;
 
-    if (thisx->params != HAKA_TRAP_PROPELLER) {
-        if (thisx->params != HAKA_TRAP_GUILLOTINE_SLOW) {
+    if (this->dyna.actor.params != HAKA_TRAP_PROPELLER) {
+        if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
             DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-            if ((thisx->params == HAKA_TRAP_SPIKED_WALL) || (thisx->params == HAKA_TRAP_SPIKED_WALL_2)) {
+            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) || (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
                 Collider_DestroyTris(globalCtx, &this->colliderSpikes);
             }
         }
@@ -485,11 +484,11 @@ void func_80880C0C(BgHakaTrap* this, GlobalContext* globalCtx) {
 
 void BgHakaTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaTrap* this = THIS;
-    Vec3f* actorPos = &thisx->world.pos;
+    Vec3f* actorPos = &this->dyna.actor.world.pos;
 
     this->actionFunc(this, globalCtx);
 
-    if ((thisx->params != HAKA_TRAP_PROPELLER) && (thisx->params != HAKA_TRAP_SPIKED_BOX)) {
+    if ((this->dyna.actor.params != HAKA_TRAP_PROPELLER) && (thisx->params != HAKA_TRAP_SPIKED_BOX)) {
         this->colliderCylinder.dim.pos.y = actorPos->y;
 
         if ((thisx->params == HAKA_TRAP_GUILLOTINE_SLOW) || (thisx->params == HAKA_TRAP_GUILLOTINE_FAST)) {
@@ -532,7 +531,7 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80026230(globalCtx, &D_8088103C, this->timer + 20, 0x28);
     }
 
-    Gfx_DrawDListOpa(globalCtx, sDLists[thisx->params]);
+    Gfx_DrawDListOpa(globalCtx, sDLists[this->dyna.actor.params]);
 
     if (this->actionFunc == func_808801B8) {
         func_80880D68(this);
@@ -543,9 +542,9 @@ void BgHakaTrap_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->actionFunc == func_808808F4) && !this->unk_169) {
-        sp2C.x = thisx->world.pos.x;
-        sp2C.z = thisx->world.pos.z;
-        sp2C.y = thisx->world.pos.y + 110.0f;
+        sp2C.x = this->dyna.actor.world.pos.x;
+        sp2C.z = this->dyna.actor.world.pos.z;
+        sp2C.y = this->dyna.actor.world.pos.y + 110.0f;
 
         SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &sp2C, &this->unk_16C);
         func_80078914(&this->unk_16C, NA_SE_EV_BRIDGE_CLOSE - SFX_FLAG);

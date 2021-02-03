@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fw.c
+ * Overlay: ovl_En_Fw
+ * Description: Flare Dancer Core
+ */
+
 #include "z_en_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
@@ -97,7 +103,7 @@ s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
 s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f collisionPos;
 
     if (this->actor.xzDistToPlayer > 300.0f) {

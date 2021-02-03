@@ -91,7 +91,7 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, &this->elements);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->elements);
 
     this->unk_168 = thisx->params & 0xFFFF;
     thisx->params = (thisx->params >> 8) & 0xFF;
@@ -135,7 +135,7 @@ void BgYdanMaruta_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanMaruta* this = THIS;
 
     Collider_DestroyTris(globalCtx, &this->collider);
-    if (thisx->params == 1) {
+    if (this->dyna.actor.params == 1) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
@@ -204,7 +204,9 @@ void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    if (thisx->params == 0) {
+    BgYdanMaruta* this = THIS;
+
+    if (this->dyna.actor.params == 0) {
         Gfx_DrawDListOpa(globalCtx, D_06008D88);
     } else {
         Gfx_DrawDListOpa(globalCtx, D_06006570);

@@ -83,7 +83,7 @@ void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DC0, &D_060005EC, this->jointTable, this->morphTable, 9);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinderType1(globalCtx, &this->collider, this, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->actor, 0.015f);
 
@@ -92,7 +92,7 @@ void EnMs_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.velocity.y = 0.0f;
     this->actor.gravity = -1.0f;
 
-    EnMs_SetOfferText(&this->actor, globalCtx);
+    EnMs_SetOfferText(this, globalCtx);
 
     this->actionFunc = EnMs_Wait;
 }
@@ -107,13 +107,11 @@ void EnMs_Wait(EnMs* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    EnMs_SetOfferText(&this->actor, globalCtx);
-    if (func_8002F194(&this->actor, globalCtx) != 0) { // if talk is initiated
-        this->actionFunc = EnMs_Talk;
-        return;
-    }
+    EnMs_SetOfferText(this, globalCtx);
 
-    if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
+    if (func_8002F194(&this->actor, globalCtx)) { // if talk is initiated
+        this->actionFunc = EnMs_Talk;
+    } else if ((this->actor.xzDistToPlayer < 90.0f) && (ABS(yawDiff) < 0x2000)) { // talk range
         func_8002F2CC(&this->actor, globalCtx, 90.0f);
     }
 }
@@ -126,22 +124,20 @@ void EnMs_Talk(EnMs* this, GlobalContext* globalCtx) {
         if ((dialogState == 6) && (func_80106BC8(globalCtx) != 0)) { // advanced final textbox
             this->actionFunc = EnMs_Wait;
         }
-    } else {
-        if (func_80106BC8(globalCtx) != 0) {
-            switch (globalCtx->msgCtx.choiceIndex) {
-                case 0: // yes
-                    if (gSaveContext.rupees < sPrices[BEANS_BOUGHT]) {
-                        func_8010B720(globalCtx, 0x4069); // not enough rupees text
-                        return;
-                    }
-                    func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
-                    this->actionFunc = EnMs_Sell;
+    } else if (func_80106BC8(globalCtx) != 0) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0: // yes
+                if (gSaveContext.rupees < sPrices[BEANS_BOUGHT]) {
+                    func_8010B720(globalCtx, 0x4069); // not enough rupees text
                     return;
-                case 1: // no
-                    func_8010B720(globalCtx, 0x4068);
-                default:
-                    return;
-            }
+                }
+                func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
+                this->actionFunc = EnMs_Sell;
+                return;
+            case 1: // no
+                func_8010B720(globalCtx, 0x4068);
+            default:
+                return;
         }
     }
 }
@@ -151,9 +147,9 @@ void EnMs_Sell(EnMs* this, GlobalContext* globalCtx) {
         Rupees_ChangeBy(-sPrices[BEANS_BOUGHT]);
         this->actor.parent = NULL;
         this->actionFunc = EnMs_TalkAfterPurchase;
-        return;
+    } else {
+        func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
     }
-    func_8002F434(&this->actor, globalCtx, GI_BEAN, 90.0f, 10.0f);
 }
 
 void EnMs_TalkAfterPurchase(EnMs* this, GlobalContext* globalCtx) {
