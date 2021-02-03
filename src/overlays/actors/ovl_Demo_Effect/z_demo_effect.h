@@ -6,7 +6,7 @@
 
 struct DemoEffect;
 
-typedef void (*DemoEffectFunc)(struct DemoEffect* this, GlobalContext* globalCtx);
+typedef void (*DemoEffectFunc)(struct DemoEffect*, GlobalContext*);
 
 typedef struct {
     /* 0x00 */ u8 timer;
@@ -76,7 +76,7 @@ typedef struct {
     /* 0x00 */ u8 timer;
 } DemoEffectDust;
 
-typedef struct {
+typedef struct DemoEffect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnimeCurve skelCurve;
     /* 0x016C */ u8 initObjectBankIndex;

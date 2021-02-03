@@ -83,7 +83,7 @@ void func_808B7710(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitJntSph(globalCtx, &this->colliderJntSph);
     Collider_SetJntSph(globalCtx, &this->colliderJntSph, &this->dyna.actor, &sJntSphInit,
-                       &this->ColliderJntSphElements);
+                       this->ColliderJntSphElements);
     this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
@@ -134,36 +134,36 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot18Basket_Init(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BgSpot18Basket* this = THIS;
-    Actor* actor = &this->dyna.actor;
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK3);
-    func_808B7710(this, globalCtx);
+    func_808B7710(&this->dyna.actor, globalCtx);
     CollisionHeader_GetVirtual(&D_06002154, &colHeader);
 
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    Actor_ProcessInitChain(actor, sInitChain);
-    ActorShape_Init(&actor->shape, 0.0f, ActorShadow_DrawCircle, 15.0f);
-    actor->home.pos.y += 0.01f;
-    actor->world.pos.y = actor->home.pos.y;
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 15.0f);
+    this->dyna.actor.home.pos.y += 0.01f;
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
 
-    if (Flags_GetSwitch(globalCtx, (actor->params >> 8) & 0x3F)) {
+    if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         func_808B7BB0(this);
         return;
     }
 
     func_808B7AEC(this);
-    Actor_SpawnAsChild(&globalCtx->actorCtx, actor, globalCtx, ACTOR_BG_SPOT18_FUTA, actor->world.pos.x,
-                       actor->world.pos.y, actor->world.pos.z, actor->shape.rot.x, actor->shape.rot.y + 0x1555,
-                       actor->shape.rot.z, -1);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_SPOT18_FUTA, this->dyna.actor.world.pos.x,
+                       this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.shape.rot.x, this->dyna.actor.shape.rot.y + 0x1555,
+                       this->dyna.actor.shape.rot.z, -1);
 
-    if (actor->child == NULL) {
+    if (this->dyna.actor.child == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
         osSyncPrintf("Ｅｒｒｏｒ : 変化壷蓋発生失敗(%s %d)\n", "../z_bg_spot18_basket.c", 351);
         osSyncPrintf(VT_RST);
-        Actor_Kill(actor);
+        Actor_Kill(&this->dyna.actor);
     }
 }
 
@@ -180,7 +180,7 @@ void func_808B7AEC(BgSpot18Basket* this) {
 
 void func_808B7AFC(BgSpot18Basket* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
-        func_800800F8(globalCtx, 4220, 80, this, 0);
+        func_800800F8(globalCtx, 4220, 80, &this->dyna.actor, 0);
         func_808B7B58(this);
     }
 }
@@ -228,14 +228,14 @@ void func_808B7BCC(BgSpot18Basket* this, GlobalContext* globalCtx) {
             if (positionDiff > 120.0f && positionDiff < 200.0f) {
                 if (Math3D_Dist2DSq(colliderBaseAc->world.pos.z, this->colliderJntSph.base.ac->world.pos.x,
                                     this->dyna.actor.world.pos.z, this->dyna.actor.world.pos.x) < SQ(32.0f)) {
-                    func_800800F8(globalCtx, 4210, 240, this, 0);
+                    func_800800F8(globalCtx, 4210, 240, &this->dyna.actor, 0);
                     func_808B7D38(this);
                     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
                 }
             }
         }
     }
-    func_8002F974(this, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 }
 
 void func_808B7D38(BgSpot18Basket* this) {
@@ -430,18 +430,19 @@ void func_808B81A0(BgSpot18Basket* this, GlobalContext* globalCtx) {
 }
 
 void BgSpot18Basket_Update(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad;
     BgSpot18Basket* this = THIS;
-    Vec3s temp;
+    s32 bgId;
 
     this->unk_216++;
     this->actionFunc(this, globalCtx);
-    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &temp,
-                                                               &this->dyna.actor, &this->dyna.actor.world);
+    this->dyna.actor.floorHeight = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->dyna.actor.floorPoly, &bgId,
+                                                               &this->dyna.actor, &this->dyna.actor.world.pos);
     if (this->actionFunc != func_808B7AFC) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
         if (this->actionFunc != func_808B7B6C) {
             this->colliderJntSph.base.acFlags &= ~AC_HIT;
-            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliderJntSph.base);
         }
     }
 }

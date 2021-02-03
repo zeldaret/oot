@@ -226,7 +226,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         sp60 = ABS(sp58) * 85.0f;
         this->color1.g = sp60;
     }
-    if ((((globalCtx->gameplayFrames % 4) == this->actor.params) && (this->actor.speedXZ != 0.0f) &&
+    if ((((globalCtx->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speedXZ != 0.0f) &&
          (sp64 = BgCheck_AnyLineTest2(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0,
                                       1))) ||
         (this->unk_222 == 0)) {
@@ -865,7 +865,7 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
     }
 
-    if (((globalCtx->gameplayFrames + 1) % 4) == thisx->params) {
+    if (((globalCtx->gameplayFrames + 1) % 4) == (u32)thisx->params) {
         spAC.z = thisx->scale.z * 375000.0f;
         Matrix_MultVec3f(&spAC, &this->unk_264);
         spAC.z = thisx->scale.z * 150000.0f;
