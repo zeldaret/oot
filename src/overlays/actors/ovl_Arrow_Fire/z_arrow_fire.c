@@ -166,7 +166,7 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
     }
     func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
 
-    if (arrow->hitWall & 1) {
+    if (arrow->hitFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
@@ -203,7 +203,7 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
-        tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
+        tranform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
 

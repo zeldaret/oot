@@ -846,8 +846,8 @@
         <Texture Name="gBurnMark2Tex" OutName="burn_mark_2" Format="i4" Width="64" Height="64" Offset="0x36F30"/>
         <DList Name="gEffBurnMark1DL" Offset="0x37730"/>
         <DList Name="gEffBurnMark2DL" Offset="0x37798"/>
-        <DList Name="gEffFairySparklesDL" Offset="0x37880"/>
-        <Texture Name="gEffFairySparklesTex" OutName="eff_fairy_sparkles" Format="i4" Width="16" Height="16" Offset="0x378E0"/>
+        <DList Name="gEffSparklesDL" Offset="0x37880"/>
+        <Texture Name="gEffSparklesTex" OutName="eff_sparkles" Format="i4" Width="16" Height="16" Offset="0x378E0"/>
         <Texture Name="gEffUnknown13Tex" OutName="eff_unknown_tex_13" Format="i8" Width="16" Height="32" Offset="0x37960"/>
         <Texture Name="gEffUnknown14Tex" OutName="eff_unknown_tex_14" Format="i8" Width="16" Height="32" Offset="0x37B60"/>
         <DList Name="gHoverBootsCircleDL" Offset="0x37E30"/>
