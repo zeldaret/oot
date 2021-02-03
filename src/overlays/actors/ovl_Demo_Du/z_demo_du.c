@@ -174,6 +174,8 @@ void func_80969EDC(DemoDu* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
+// This function will be triggered even if the cutscene is skipped (by pressing Start).
+// In normal gameplay, this function and func_80969FD0 will be triggered.
 void func_80969F38(DemoDu *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     f32 posX = player->actor.world.pos.x;
@@ -188,6 +190,8 @@ void func_80969FB4(DemoDu* this, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = this->actor.shape.yOffset + (250.0f/3.0f);
 }
 
+// This function may not be triggered if the cutscene is skipped (by pressing Start).
+// In normal gameplay, this function and func_80969F38 will be triggered.
 void func_80969FD0(DemoDu* this, GlobalContext* globalCtx2) {
     s32 pad;
     GlobalContext* globalCtx = globalCtx2;
