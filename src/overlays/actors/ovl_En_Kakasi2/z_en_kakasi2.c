@@ -127,7 +127,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
-        func_80080480(globalCtx, this);
+        func_80080480(globalCtx, &this->actor);
         this->actor.flags |= 0x8000001;
 
         func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -152,7 +152,7 @@ void func_80A90264(EnKakasi2* this, GlobalContext* globalCtx) {
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060065B0, &D_06000214, NULL, NULL, 0);
-            func_80080480(globalCtx, this);
+            func_80080480(globalCtx, &this->actor);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
 
             this->actor.flags |= 0x8000001;
