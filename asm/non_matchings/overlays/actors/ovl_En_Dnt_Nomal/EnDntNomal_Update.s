@@ -84,7 +84,7 @@ glabel L809F5714
 /* 02454 809F5714 3C014040 */  lui     $at, 0x4040                ## $at = 40400000
 /* 02458 809F5718 44816000 */  mtc1    $at, $f12                  ## $f12 = 3.00
 /* 0245C 809F571C A6000274 */  sh      $zero, 0x0274($s0)         ## 00000274
-/* 02460 809F5720 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 02460 809F5720 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02464 809F5724 A20000AE */  sb      $zero, 0x00AE($s0)         ## 000000AE
 /* 02468 809F5728 860B026A */  lh      $t3, 0x026A($s0)           ## 0000026A
@@ -143,7 +143,7 @@ glabel L809F57B0
 /* 02520 809F57E0 14200009 */  bne     $at, $zero, .L809F5808     
 /* 02524 809F57E4 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
 /* 02528 809F57E8 44816000 */  mtc1    $at, $f12                  ## $f12 = 60.00
-/* 0252C 809F57EC 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 0252C 809F57EC 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 02530 809F57F0 A6000268 */  sh      $zero, 0x0268($s0)         ## 00000268
 /* 02534 809F57F4 4600010D */  trunc.w.s $f4, $f0                   
@@ -171,7 +171,7 @@ glabel L809F57B0
 /* 02580 809F5840 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 02584 809F5844 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 02588 809F5848 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 0258C 809F584C 0C00B92D */  jal     func_8002E4B4              
+/* 0258C 809F584C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 02590 809F5850 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 02594 809F5854 8609026A */  lh      $t1, 0x026A($s0)           ## 0000026A
 /* 02598 809F5858 26060314 */  addiu   $a2, $s0, 0x0314           ## $a2 = 00000314
@@ -184,7 +184,7 @@ glabel L809F57B0
 /* 025B4 809F5874 AFA4002C */  sw      $a0, 0x002C($sp)           
 /* 025B8 809F5878 26050228 */  addiu   $a1, $s0, 0x0228           ## $a1 = 00000228
 /* 025BC 809F587C 26060234 */  addiu   $a2, $s0, 0x0234           ## $a2 = 00000234
-/* 025C0 809F5880 0C0189CD */  jal     func_80062734              
+/* 025C0 809F5880 0C0189CD */  jal     Collider_SetQuadVertices              
 /* 025C4 809F5884 26070240 */  addiu   $a3, $s0, 0x0240           ## $a3 = 00000240
 /* 025C8 809F5888 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 025CC 809F588C 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -196,7 +196,7 @@ glabel L809F57B0
 /* 025E0 809F58A0 1000000C */  beq     $zero, $zero, .L809F58D4   
 /* 025E4 809F58A4 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L809F58A8:
-/* 025E8 809F58A8 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 025E8 809F58A8 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 025EC 809F58AC AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 025F0 809F58B0 920B0218 */  lbu     $t3, 0x0218($s0)           ## 00000218
@@ -206,7 +206,7 @@ glabel L809F57B0
 /* 02600 809F58C0 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02604 809F58C4 34211E60 */  ori     $at, $at, 0x1E60           ## $at = 00011E60
 /* 02608 809F58C8 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0260C 809F58CC 00812821 */  addu    $a1, $a0, $at              
 .L809F58D0:
 /* 02610 809F58D0 8FBF0024 */  lw      $ra, 0x0024($sp)           

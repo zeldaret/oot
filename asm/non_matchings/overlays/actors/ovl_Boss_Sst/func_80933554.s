@@ -15,7 +15,7 @@ glabel func_80933554
 /* 06FB8 80933588 00194080 */  sll     $t0, $t9,  2
 /* 06FBC 8093358C 00A82821 */  addu    $a1, $a1, $t0
 /* 06FC0 80933590 8CA57864 */  lw      $a1, %lo(D_80937864)($a1)
-/* 06FC4 80933594 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 06FC4 80933594 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 06FC8 80933598 3C0640A0 */  lui     $a2, 0x40A0                ## $a2 = 40A00000
 /* 06FCC 8093359C 92090196 */  lbu     $t1, 0x0196($s0)           ## 00000196
 /* 06FD0 809335A0 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
@@ -26,12 +26,12 @@ glabel func_80933554
 .L809335B4:
 /* 06FE4 809335B4 8E05011C */  lw      $a1, 0x011C($s0)           ## 0000011C
 /* 06FE8 809335B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 06FEC 809335BC 0C00B6EC */  jal     func_8002DBB0
+/* 06FEC 809335BC 0C00B6EC */  jal     Actor_WorldDistXZToPoint
 /* 06FF0 809335C0 24A503C8 */  addiu   $a1, $a1, 0x03C8           ## $a1 = 000003C8
 /* 06FF4 809335C4 8E05011C */  lw      $a1, 0x011C($s0)           ## 0000011C
 /* 06FF8 809335C8 E60003C4 */  swc1    $f0, 0x03C4($s0)           ## 000003C4
 /* 06FFC 809335CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 07000 809335D0 0C00B6B0 */  jal     func_8002DAC0
+/* 07000 809335D0 0C00B6B0 */  jal     Actor_WorldYawTowardPoint
 /* 07004 809335D4 24A503C8 */  addiu   $a1, $a1, 0x03C8           ## $a1 = 000003C8
 /* 07008 809335D8 A60201A4 */  sh      $v0, 0x01A4($s0)           ## 000001A4
 /* 0700C 809335DC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

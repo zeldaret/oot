@@ -1450,7 +1450,7 @@ glabel L800BE148
 /* B3541C 800BE27C 34210B20 */  ori   $at, (0x00010B20 & 0xFFFF) # ori $at, $at, 0xb20
 /* B35420 800BE280 02012021 */  addu  $a0, $s0, $at
 /* B35424 800BE284 AFA40034 */  sw    $a0, 0x34($sp)
-/* B35428 800BE288 0C028CBB */  jal   SkelAnime_AnimationCtxReset
+/* B35428 800BE288 0C028CBB */  jal   AnimationContext_Reset
 /* B3542C 800BE28C AFA30050 */   sw    $v1, 0x50($sp)
 /* B35430 800BE290 3C0F8016 */  lui   $t7, %hi(gGameInfo) # $t7, 0x8016
 /* B35434 800BE294 8DEFFA90 */  lw    $t7, %lo(gGameInfo)($t7)
@@ -1588,7 +1588,7 @@ glabel L800BE148
 /* B35624 800BE484 34211E60 */  ori   $at, (0x00011E60 & 0xFFFF) # ori $at, $at, 0x1e60
 /* B35628 800BE488 02012821 */  addu  $a1, $s0, $at
 /* B3562C 800BE48C AFA50038 */  sw    $a1, 0x38($sp)
-/* B35630 800BE490 0C0184E7 */  jal   func_8006139C
+/* B35630 800BE490 0C0184E7 */  jal   CollisionCheck_AT
 /* B35634 800BE494 02002025 */   move  $a0, $s0
 /* B35638 800BE498 3C188016 */  lui   $t8, %hi(gGameInfo) # $t8, 0x8016
 /* B3563C 800BE49C 8F18FA90 */  lw    $t8, %lo(gGameInfo)($t8)
@@ -1620,7 +1620,7 @@ glabel L800BE148
 /* B356A0 800BE500 24050001 */   li    $a1, 1
 .L800BE504:
 /* B356A4 800BE504 02002025 */  move  $a0, $s0
-/* B356A8 800BE508 0C0188B9 */  jal   func_800622E4
+/* B356A8 800BE508 0C0188B9 */  jal   CollisionCheck_Damage
 /* B356AC 800BE50C 8FA50038 */   lw    $a1, 0x38($sp)
 /* B356B0 800BE510 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* B356B4 800BE514 8D6BFA90 */  lw    $t3, %lo(gGameInfo)($t3)
@@ -1636,7 +1636,7 @@ glabel L800BE148
 /* B356DC 800BE53C 24050001 */   li    $a1, 1
 .L800BE540:
 /* B356E0 800BE540 02002025 */  move  $a0, $s0
-/* B356E4 800BE544 0C017503 */  jal   CollisionCheck_InitContext
+/* B356E4 800BE544 0C017503 */  jal   CollisionCheck_ClearContext
 /* B356E8 800BE548 8FA50038 */   lw    $a1, 0x38($sp)
 /* B356EC 800BE54C 3C0D8016 */  lui   $t5, %hi(gGameInfo) # $t5, 0x8016
 /* B356F0 800BE550 8DADFA90 */  lw    $t5, %lo(gGameInfo)($t5)
@@ -1990,7 +1990,7 @@ glabel L800BE148
 /* B35BF0 800BEA50 24050001 */   li    $a1, 1
 /* B35BF4 800BEA54 02002025 */  move  $a0, $s0
 .L800BEA58:
-/* B35BF8 800BEA58 0C028E43 */  jal   func_800A390C
+/* B35BF8 800BEA58 0C028E43 */  jal   AnimationContext_Update
 /* B35BFC 800BEA5C 8FA50034 */   lw    $a1, 0x34($sp)
 /* B35C00 800BEA60 3C0E8016 */  lui   $t6, %hi(gGameInfo) # $t6, 0x8016
 /* B35C04 800BEA64 8DCEFA90 */  lw    $t6, %lo(gGameInfo)($t6)
@@ -2077,8 +2077,8 @@ glabel L800BE148
 .L800BEB94:
 /* B35D34 800BEB94 8FAB0080 */  lw    $t3, 0x80($sp)
 /* B35D38 800BEB98 11600004 */  beqz  $t3, .L800BEBAC
-/* B35D3C 800BEB9C 3C0C8012 */   lui   $t4, %hi(D_8011D394) # $t4, 0x8012
-/* B35D40 800BEBA0 8D8CD394 */  lw    $t4, %lo(D_8011D394)($t4)
+/* B35D3C 800BEB9C 3C0C8012 */   lui   $t4, %hi(gDbgCamEnabled) # $t4, 0x8012
+/* B35D40 800BEBA0 8D8CD394 */  lw    $t4, %lo(gDbgCamEnabled)($t4)
 /* B35D44 800BEBA4 11800044 */  beqz  $t4, .L800BECB8
 /* B35D48 800BEBA8 00000000 */   nop
 .L800BEBAC:
@@ -2126,7 +2126,7 @@ glabel L800BE148
 /* B35DE8 800BEC48 8C450790 */  lw    $a1, 0x790($v0)
 .L800BEC4C:
 /* B35DEC 800BEC4C 27A40048 */  addiu $a0, $sp, 0x48
-/* B35DF0 800BEC50 0C01647B */  jal   func_800591EC
+/* B35DF0 800BEC50 0C01647B */  jal   Camera_Update
 /* B35DF4 800BEC54 AFA30054 */   sw    $v1, 0x54($sp)
 /* B35DF8 800BEC58 8FA30054 */  lw    $v1, 0x54($sp)
 /* B35DFC 800BEC5C 860607A2 */  lh    $a2, 0x7a2($s0)
@@ -2139,7 +2139,7 @@ glabel L800BE148
 /* B35E10 800BEC70 0006C880 */  sll   $t9, $a2, 2
 /* B35E14 800BEC74 02195021 */  addu  $t2, $s0, $t9
 /* B35E18 800BEC78 8D450790 */  lw    $a1, 0x790($t2)
-/* B35E1C 800BEC7C 0C01647B */  jal   func_800591EC
+/* B35E1C 800BEC7C 0C01647B */  jal   Camera_Update
 /* B35E20 800BEC80 27A40048 */   addiu $a0, $sp, 0x48
 /* B35E24 800BEC84 3C0B8016 */  lui   $t3, %hi(gGameInfo) # $t3, 0x8016
 /* B35E28 800BEC88 8D6BFA90 */  lw    $t3, %lo(gGameInfo)($t3)

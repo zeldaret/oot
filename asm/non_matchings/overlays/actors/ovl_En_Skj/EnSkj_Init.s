@@ -41,7 +41,7 @@ glabel EnSkj_Init
 /* 00290 80AFE540 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 00294 80AFE544 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00298 80AFE548 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 0029C 80AFE54C 0C00CDD2 */  jal     Actor_ChangeType
+/* 0029C 80AFE54C 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 002A0 80AFE550 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 002A4 80AFE554 100000D7 */  beq     $zero, $zero, .L80AFE8B4
@@ -64,7 +64,7 @@ glabel EnSkj_Init
 /* 002E4 80AFE594 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 002E8 80AFE598 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 002EC 80AFE59C 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
-/* 002F0 80AFE5A0 0C00CDD2 */  jal     Actor_ChangeType
+/* 002F0 80AFE5A0 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 002F4 80AFE5A4 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
 /* 002F8 80AFE5A8 3C0180B0 */  lui     $at, %hi(D_80B018F8)       ## $at = 80B00000
@@ -105,18 +105,18 @@ glabel EnSkj_Init
 .L80AFE62C:
 /* 0037C 80AFE62C 0C2BF90A */  jal     func_80AFE428
 /* 00380 80AFE630 A7A3004E */  sh      $v1, 0x004E($sp)
-/* 00384 80AFE634 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 00388 80AFE638 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 00384 80AFE634 3C060600 */  lui     $a2, %hi(D_06005F40)                ## $a2 = 06000000
+/* 00388 80AFE638 3C070600 */  lui     $a3, %hi(D_06000E10)                ## $a3 = 06000000
 /* 0038C 80AFE63C 26090190 */  addiu   $t1, $s0, 0x0190           ## $t1 = 00000190
 /* 00390 80AFE640 260A0202 */  addiu   $t2, $s0, 0x0202           ## $t2 = 00000202
 /* 00394 80AFE644 240B0013 */  addiu   $t3, $zero, 0x0013         ## $t3 = 00000013
 /* 00398 80AFE648 AFAB0018 */  sw      $t3, 0x0018($sp)
 /* 0039C 80AFE64C AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 003A0 80AFE650 AFA90010 */  sw      $t1, 0x0010($sp)
-/* 003A4 80AFE654 24E70E10 */  addiu   $a3, $a3, 0x0E10           ## $a3 = 06000E10
-/* 003A8 80AFE658 24C65F40 */  addiu   $a2, $a2, 0x5F40           ## $a2 = 06005F40
+/* 003A4 80AFE654 24E70E10 */  addiu   $a3, $a3, %lo(D_06000E10)           ## $a3 = 06000E10
+/* 003A8 80AFE658 24C65F40 */  addiu   $a2, $a2, %lo(D_06005F40)           ## $a2 = 06005F40
 /* 003AC 80AFE65C 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 003B0 80AFE660 0C0291BE */  jal     SkelAnime_InitSV
+/* 003B0 80AFE660 0C0291BE */  jal     SkelAnime_InitFlex
 /* 003B4 80AFE664 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 003B8 80AFE668 87A3004E */  lh      $v1, 0x004E($sp)
 /* 003BC 80AFE66C 0460000F */  bltz    $v1, .L80AFE6AC
@@ -132,7 +132,7 @@ glabel EnSkj_Init
 /* 003E4 80AFE694 AE0F0004 */  sw      $t7, 0x0004($s0)           ## 00000004
 /* 003E8 80AFE698 A7A3004E */  sh      $v1, 0x004E($sp)
 /* 003EC 80AFE69C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 003F0 80AFE6A0 0C00CDD2 */  jal     Actor_ChangeType
+/* 003F0 80AFE6A0 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 003F4 80AFE6A4 24070004 */  addiu   $a3, $zero, 0x0004         ## $a3 = 00000004
 /* 003F8 80AFE6A8 87A3004E */  lh      $v1, 0x004E($sp)
@@ -192,10 +192,10 @@ glabel EnSkj_Init
 /* 004B8 80AFE768 8FA50034 */  lw      $a1, 0x0034($sp)
 /* 004BC 80AFE76C 24E71678 */  addiu   $a3, $a3, %lo(D_80B01678)  ## $a3 = 80B01678
 /* 004C0 80AFE770 8FA40054 */  lw      $a0, 0x0054($sp)
-/* 004C4 80AFE774 0C017114 */  jal     Collider_SetCylinder_Set3
+/* 004C4 80AFE774 0C017114 */  jal     Collider_SetCylinderType1
 /* 004C8 80AFE778 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 004CC 80AFE77C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 004D0 80AFE780 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 004CC 80AFE77C 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 004D0 80AFE780 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 004D4 80AFE784 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 004D8 80AFE788 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 004DC 80AFE78C 0C00AC78 */  jal     ActorShape_Init

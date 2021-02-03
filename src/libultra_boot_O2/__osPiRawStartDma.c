@@ -1,16 +1,15 @@
-#include <global.h>
-#include <ultra64/hardware.h>
+#include "global.h"
 
-s32 __osPiRawStartDma(s32 dir, u32 cart_addr, void* dram_addr, size_t size) {
-    register int status;
+s32 __osPiRawStartDma(s32 dir, u32 cartAddr, void* dramAddr, size_t size) {
+    register s32 status;
     status = HW_REG(PI_STATUS_REG, u32);
     while (status & (PI_STATUS_BUSY | PI_STATUS_IOBUSY | PI_STATUS_ERROR)) {
         status = HW_REG(PI_STATUS_REG, u32);
     }
 
-    HW_REG(PI_DRAM_ADDR_REG, void*) = (void*)osVirtualToPhysical(dram_addr);
+    HW_REG(PI_DRAM_ADDR_REG, void*) = (void*)osVirtualToPhysical(dramAddr);
 
-    HW_REG(PI_CART_ADDR_REG, void*) = (void*)((osRomBase | cart_addr) & 0x1fffffff);
+    HW_REG(PI_CART_ADDR_REG, void*) = (void*)((osRomBase | cartAddr) & 0x1fffffff);
 
     switch (dir) {
         case OS_READ:

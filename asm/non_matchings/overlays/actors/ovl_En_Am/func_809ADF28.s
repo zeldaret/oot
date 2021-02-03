@@ -17,13 +17,13 @@ glabel func_809ADF28
 /* 00044 809ADF64 94990088 */  lhu     $t9, 0x0088($a0)           ## 00000088
 /* 00048 809ADF68 AFA2002C */  sw      $v0, 0x002C($sp)           
 /* 0004C 809ADF6C 87A40056 */  lh      $a0, 0x0056($sp)           
-/* 00050 809ADF70 0C01DE1C */  jal     Math_Sins
+/* 00050 809ADF70 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00054 809ADF74 A7B90044 */  sh      $t9, 0x0044($sp)           
 /* 00058 809ADF78 C7A40050 */  lwc1    $f4, 0x0050($sp)           
 /* 0005C 809ADF7C 87A40056 */  lh      $a0, 0x0056($sp)           
 /* 00060 809ADF80 46040182 */  mul.s   $f6, $f0, $f4              
-/* 00064 809ADF84 0C01DE0D */  jal     Math_Coss
+/* 00064 809ADF84 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00068 809ADF88 E7A60040 */  swc1    $f6, 0x0040($sp)           
 /* 0006C 809ADF8C C6080024 */  lwc1    $f8, 0x0024($s0)           ## 00000024
@@ -42,7 +42,7 @@ glabel func_809ADF28
 /* 000A0 809ADFC0 E608002C */  swc1    $f8, 0x002C($s0)           ## 0000002C
 /* 000A4 809ADFC4 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 000A8 809ADFC8 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 000AC 809ADFCC 0C00B92D */  jal     func_8002E4B4              
+/* 000AC 809ADFCC 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 000B0 809ADFD0 E7A20010 */  swc1    $f2, 0x0010($sp)           
 /* 000B4 809ADFD4 27AA0030 */  addiu   $t2, $sp, 0x0030           ## $t2 = FFFFFFE8
 /* 000B8 809ADFD8 8D4C0000 */  lw      $t4, 0x0000($t2)           ## FFFFFFE8

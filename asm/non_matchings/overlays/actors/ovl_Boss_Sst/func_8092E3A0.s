@@ -5,7 +5,7 @@ glabel func_8092E3A0
 /* 01DDC 8092E3AC AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 01DE0 8092E3B0 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 01DE4 8092E3B4 AFA50018 */  sw      $a1, 0x0018($sp)           
-/* 01DE8 8092E3B8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01DE8 8092E3B8 0C02927F */  jal     SkelAnime_Update
               
 /* 01DEC 8092E3BC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01DF0 8092E3C0 8FA50018 */  lw      $a1, 0x0018($sp)           

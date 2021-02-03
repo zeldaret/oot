@@ -50,7 +50,7 @@ glabel func_80B86BC8
 /* 0034C 80B86C6C 10000009 */  beq     $zero, $zero, .L80B86C94   
 /* 00350 80B86C70 E6100068 */  swc1    $f16, 0x0068($s0)          ## 00000068
 .L80B86C74:
-/* 00354 80B86C74 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 00354 80B86C74 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 00358 80B86C78 AFA6002C */  sw      $a2, 0x002C($sp)           
 /* 0035C 80B86C7C 8FA40034 */  lw      $a0, 0x0034($sp)           

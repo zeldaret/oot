@@ -46,7 +46,7 @@ glabel BgHidanSekizou_Update
 /* 00A98 8088D958 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00A9C 8088D95C 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00AA0 8088D960 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00AA4 8088D964 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00AA8 8088D968 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00AAC 8088D96C 0C00BE5D */  jal     func_8002F974              
@@ -78,7 +78,7 @@ glabel BgHidanSekizou_Update
 /* 00B04 8088D9C4 8FA50024 */  lw      $a1, 0x0024($sp)           
 /* 00B08 8088D9C8 8FA60020 */  lw      $a2, 0x0020($sp)           
 /* 00B0C 8088D9CC 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 00B10 8088D9D0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00B14 8088D9D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B18 8088D9D8 0C00BE5D */  jal     func_8002F974              

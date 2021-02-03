@@ -301,8 +301,8 @@ glabel func_808BA2CC
 /* 007D8 808BA6D8 0C0253D0 */  jal     Gfx_TwoTexScroll              
 /* 007DC 808BA6DC AFA20078 */  sw      $v0, 0x0078($sp)           
 /* 007E0 808BA6E0 8FA80078 */  lw      $t0, 0x0078($sp)           
-/* 007E4 808BA6E4 3C0D0600 */  lui     $t5, 0x0600                ## $t5 = 06000000
-/* 007E8 808BA6E8 25AD0880 */  addiu   $t5, $t5, 0x0880           ## $t5 = 06000880
+/* 007E4 808BA6E4 3C0D0600 */  lui     $t5, %hi(D_06000880)                ## $t5 = 06000000
+/* 007E8 808BA6E8 25AD0880 */  addiu   $t5, $t5, %lo(D_06000880)           ## $t5 = 06000880
 /* 007EC 808BA6EC AD020004 */  sw      $v0, 0x0004($t0)           ## 00000004
 /* 007F0 808BA6F0 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 007F4 808BA6F4 3C19DE00 */  lui     $t9, 0xDE00                ## $t9 = DE000000
@@ -471,8 +471,8 @@ glabel func_808BA2CC
 /* 00A5C 808BA95C 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00A60 808BA960 AFA20064 */  sw      $v0, 0x0064($sp)           
 /* 00A64 808BA964 8FA30064 */  lw      $v1, 0x0064($sp)           
-/* 00A68 808BA968 3C0F0600 */  lui     $t7, 0x0600                ## $t7 = 06000000
-/* 00A6C 808BA96C 25EF09C0 */  addiu   $t7, $t7, 0x09C0           ## $t7 = 060009C0
+/* 00A68 808BA968 3C0F0600 */  lui     $t7, %hi(D_060009C0)                ## $t7 = 06000000
+/* 00A6C 808BA96C 25EF09C0 */  addiu   $t7, $t7, %lo(D_060009C0)           ## $t7 = 060009C0
 /* 00A70 808BA970 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00A74 808BA974 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00A78 808BA978 3C0BDE00 */  lui     $t3, 0xDE00                ## $t3 = DE000000
@@ -644,8 +644,8 @@ glabel func_808BA2CC
 /* 00CEC 808BABEC 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00CF0 808BABF0 AFA20050 */  sw      $v0, 0x0050($sp)           
 /* 00CF4 808BABF4 8FA30050 */  lw      $v1, 0x0050($sp)           
-/* 00CF8 808BABF8 3C190600 */  lui     $t9, 0x0600                ## $t9 = 06000000
-/* 00CFC 808BABFC 27390A10 */  addiu   $t9, $t9, 0x0A10           ## $t9 = 06000A10
+/* 00CF8 808BABF8 3C190600 */  lui     $t9, %hi(D_06000A10)                ## $t9 = 06000000
+/* 00CFC 808BABFC 27390A10 */  addiu   $t9, $t9, %lo(D_06000A10)           ## $t9 = 06000A10
 /* 00D00 808BAC00 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00D04 808BAC04 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00D08 808BAC08 3C0ADE00 */  lui     $t2, 0xDE00                ## $t2 = DE000000

@@ -31,7 +31,25 @@ For Windows 10, install WSL and a distribution by following this
 [Windows Subsystem for Linux Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 We recommend using Debian or Ubuntu 18.04 Linux distributions.
 
-For older versions of Windows, install a Linux VM or refer to [Docker](#Docker) instructions.
+For older versions of Windows, install a Linux VM or refer to either [Docker](#Docker) or [Cygwin](#Cygwin) instructions.
+
+### Cygwin
+
+If you want to use Cygwin, you will need to:
+- Download and install [Git Bash](https://git-scm.com/download/win).
+- Download and install [Cygwin](https://cygwin.com).
+- [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
+
+Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
+- python3
+- libiconv
+- dos2unix
+
+Now before you try to build anything, if you cloned the repository in windows you will need fix the file line endings:
+```bash
+dos2unix fixle.sh
+./fixle.sh
+```
 
 ### macOS
 
@@ -41,7 +59,7 @@ For macOS, use homebrew to install the following dependencies:
 * python3
 ```bash
 brew update
-brew install coreutils make python3
+brew install coreutils make python3 md5sha1sum
 ```
 
 You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTILS_MACOS.md).
@@ -94,7 +112,7 @@ git clone https://github.com/zeldaret/oot.git
 #### 4. Prepare a base ROM
 
 Copy over your copy of the Master Quest (Debug) ROM inside the root of this new project directory.
-Rename the file to "baserom_original.z64" or "baserom_original.n64", depending on the original extension.
+Rename the file to "baserom_original.z64", "baserom_original.n64" or "baserom_original.v64", depending on the original extension.
 
 #### 5. Setup the ROM and build process
 

@@ -76,7 +76,7 @@ glabel func_80A6255C
 /* 07380 80A62670 00063403 */  sra     $a2, $a2, 16               
 /* 07384 80A62674 A486FF0A */  sh      $a2, -0x00F6($a0)          ## 000000B6
 /* 07388 80A62678 A486FE86 */  sh      $a2, -0x017A($a0)          ## 00000032
-/* 0738C 80A6267C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0738C 80A6267C 0C02927F */  jal     SkelAnime_Update
               
 /* 07390 80A62680 AFA50018 */  sw      $a1, 0x0018($sp)           
 /* 07394 80A62684 8FA50018 */  lw      $a1, 0x0018($sp)           

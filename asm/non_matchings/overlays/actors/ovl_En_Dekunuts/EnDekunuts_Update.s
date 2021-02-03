@@ -30,11 +30,11 @@ glabel EnDekunuts_Update
 /* 01338 809EA898 3C0641A0 */  lui     $a2, 0x41A0                ## $a2 = 41A00000
 /* 0133C 809EA89C 46803220 */  cvt.s.w $f8, $f6                   
 /* 01340 809EA8A0 44072000 */  mfc1    $a3, $f4                   
-/* 01344 809EA8A4 0C00B92D */  jal     func_8002E4B4              
+/* 01344 809EA8A4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01348 809EA8A8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 0134C 809EA8AC 260502C8 */  addiu   $a1, $s0, 0x02C8           ## $a1 = 000002C8
 /* 01350 809EA8B0 AFA50028 */  sw      $a1, 0x0028($sp)           
-/* 01354 809EA8B4 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 01354 809EA8B4 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 01358 809EA8B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0135C 809EA8BC 920902D9 */  lbu     $t1, 0x02D9($s0)           ## 000002D9
@@ -53,7 +53,7 @@ glabel EnDekunuts_Update
 /* 01388 809EA8E8 02212821 */  addu    $a1, $s1, $at              
 /* 0138C 809EA8EC 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 01390 809EA8F0 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 01394 809EA8F4 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 01398 809EA8F8 8E030190 */  lw      $v1, 0x0190($s0)           ## 00000190
 /* 0139C 809EA8FC 3C0B809F */  lui     $t3, %hi(func_809E9B98)    ## $t3 = 809F0000
@@ -61,7 +61,7 @@ glabel EnDekunuts_Update
 /* 013A4 809EA904 15630006 */  bne     $t3, $v1, .L809EA920       
 /* 013A8 809EA908 3C0C809F */  lui     $t4, %hi(func_809EA0C4)    ## $t4 = 809F0000
 /* 013AC 809EA90C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 013B0 809EA910 0C00B56E */  jal     Actor_SetHeight
+/* 013B0 809EA910 0C00B56E */  jal     Actor_SetFocus
               
 /* 013B4 809EA914 8E050164 */  lw      $a1, 0x0164($s0)           ## 00000164
 /* 013B8 809EA918 10000018 */  beq     $zero, $zero, .L809EA97C   
@@ -70,10 +70,10 @@ glabel EnDekunuts_Update
 /* 013C0 809EA920 258CA0C4 */  addiu   $t4, $t4, %lo(func_809EA0C4) ## $t4 = FFFFA0C4
 /* 013C4 809EA924 15830012 */  bne     $t4, $v1, .L809EA970       
 /* 013C8 809EA928 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 013CC 809EA92C 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 013D0 809EA930 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 013CC 809EA92C 3C040600 */  lui     $a0, %hi(D_060004D8)                ## $a0 = 06000000
+/* 013D0 809EA930 0C028800 */  jal     Animation_GetLastFrame
               
-/* 013D4 809EA934 248404D8 */  addiu   $a0, $a0, 0x04D8           ## $a0 = 060004D8
+/* 013D4 809EA934 248404D8 */  addiu   $a0, $a0, %lo(D_060004D8)           ## $a0 = 060004D8
 /* 013D8 809EA938 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 013DC 809EA93C 44810000 */  mtc1    $at, $f0                   ## $f0 = 20.00
 /* 013E0 809EA940 C60A0164 */  lwc1    $f10, 0x0164($s0)          ## 00000164
@@ -84,13 +84,13 @@ glabel EnDekunuts_Update
 /* 013F4 809EA954 46048183 */  div.s   $f6, $f16, $f4             
 /* 013F8 809EA958 46060201 */  sub.s   $f8, $f0, $f6              
 /* 013FC 809EA95C 44054000 */  mfc1    $a1, $f8                   
-/* 01400 809EA960 0C00B56E */  jal     Actor_SetHeight
+/* 01400 809EA960 0C00B56E */  jal     Actor_SetFocus
               
 /* 01404 809EA964 00000000 */  nop
 /* 01408 809EA968 10000004 */  beq     $zero, $zero, .L809EA97C   
 /* 0140C 809EA96C 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L809EA970:
-/* 01410 809EA970 0C00B56E */  jal     Actor_SetHeight
+/* 01410 809EA970 0C00B56E */  jal     Actor_SetFocus
               
 /* 01414 809EA974 3C0541A0 */  lui     $a1, 0x41A0                ## $a1 = 41A00000
 .L809EA978:

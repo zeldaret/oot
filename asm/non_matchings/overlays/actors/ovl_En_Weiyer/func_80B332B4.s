@@ -4,13 +4,13 @@ glabel func_80B332B4
 /* 0102C 80B332BC 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
 /* 01030 80B332C0 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 01034 80B332C4 AFA70018 */  sw      $a3, 0x0018($sp)           
-/* 01038 80B332C8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01038 80B332C8 0C02927F */  jal     SkelAnime_Update
               
 /* 0103C 80B332CC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01040 80B332D0 8FA70018 */  lw      $a3, 0x0018($sp)           
 /* 01044 80B332D4 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
 /* 01048 80B332D8 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
-/* 0104C 80B332DC 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 0104C 80B332DC 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 01050 80B332E0 24E400B4 */  addiu   $a0, $a3, 0x00B4           ## $a0 = 000000B4
 /* 01054 80B332E4 8FA70018 */  lw      $a3, 0x0018($sp)           

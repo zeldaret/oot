@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u32 osVirtualToPhysical(void* vaddr) {
     if ((u32)vaddr >= 0x80000000 && (u32)vaddr < 0xA0000000) {

@@ -1,13 +1,20 @@
 #ifndef _Z_EFF_SS_HITMARK_H_
 #define _Z_EFF_SS_HITMARK_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 typedef struct {
-    /* 0x00 */ Vec3f pos;
-    /* 0x0C */ Vec3f velocity;
-    /* 0x18 */ Vec3f accel;
-} EffectSsHitMarkInitParams; // size = 0x
+    /* 0x00 */ s32 type;
+    /* 0x04 */ s16 scale;
+    /* 0x08 */ Vec3f pos;
+} EffectSsHitMarkInitParams; // size = 0x14
+
+typedef enum {
+    EFFECT_HITMARK_WHITE,
+    EFFECT_HITMARK_DUST,
+    EFFECT_HITMARK_RED,
+    EFFECT_HITMARK_METAL
+} EffectSsHitmarkType;
 
 #endif

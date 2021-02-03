@@ -8,26 +8,26 @@ glabel func_80B34F28
 /* 0127C 80B34F2C AFB00028 */  sw      $s0, 0x0028($sp)
 /* 01280 80B34F30 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01284 80B34F34 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 01288 80B34F38 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
-/* 0128C 80B34F3C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01288 80B34F38 3C040600 */  lui     $a0, %hi(D_060057A0)                ## $a0 = 06000000
+/* 0128C 80B34F3C 0C028800 */  jal     Animation_GetLastFrame
 
-/* 01290 80B34F40 248457A0 */  addiu   $a0, $a0, 0x57A0           ## $a0 = 060057A0
+/* 01290 80B34F40 248457A0 */  addiu   $a0, $a0, %lo(D_060057A0)           ## $a0 = 060057A0
 /* 01294 80B34F44 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 01298 80B34F48 3C01C080 */  lui     $at, 0xC080                ## $at = C0800000
 /* 0129C 80B34F4C 44814000 */  mtc1    $at, $f8                   ## $f8 = -4.00
 /* 012A0 80B34F50 468021A0 */  cvt.s.w $f6, $f4
-/* 012A4 80B34F54 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
+/* 012A4 80B34F54 3C050600 */  lui     $a1, %hi(D_060057A0)                ## $a1 = 06000000
 /* 012A8 80B34F58 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 012AC 80B34F5C AFAE0014 */  sw      $t6, 0x0014($sp)
-/* 012B0 80B34F60 24A557A0 */  addiu   $a1, $a1, 0x57A0           ## $a1 = 060057A0
+/* 012B0 80B34F60 24A557A0 */  addiu   $a1, $a1, %lo(D_060057A0)           ## $a1 = 060057A0
 /* 012B4 80B34F64 26040188 */  addiu   $a0, $s0, 0x0188           ## $a0 = 00000188
 /* 012B8 80B34F68 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 012BC 80B34F6C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 012C0 80B34F70 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 012C4 80B34F74 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 012C4 80B34F74 0C029468 */  jal     Animation_Change
 
 /* 012C8 80B34F78 E7A80018 */  swc1    $f8, 0x0018($sp)
-/* 012CC 80B34F7C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 012CC 80B34F7C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 012D0 80B34F80 00000000 */  nop
 /* 012D4 80B34F84 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -49,7 +49,7 @@ glabel func_80B34F28
 /* 01310 80B34FC0 861900B6 */  lh      $t9, 0x00B6($s0)           ## 000000B6
 /* 01314 80B34FC4 46100482 */  mul.s   $f18, $f0, $f16
 /* 01318 80B34FC8 A6190032 */  sh      $t9, 0x0032($s0)           ## 00000032
-/* 0131C 80B34FCC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0131C 80B34FCC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01320 80B34FD0 E61201A4 */  swc1    $f18, 0x01A4($s0)          ## 000001A4
 /* 01324 80B34FD4 3C0141F0 */  lui     $at, 0x41F0                ## $at = 41F00000

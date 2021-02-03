@@ -10,23 +10,23 @@ glabel EnAm_Init
 /* 00150 809AE070 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 00154 809AE074 24A50048 */  addiu   $a1, $a1, %lo(D_809B0048)  ## $a1 = 809B0048
-/* 00158 809AE078 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0015C 809AE07C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00158 809AE078 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0015C 809AE07C 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00160 809AE080 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00164 809AE084 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00168 809AE088 0C00AC78 */  jal     ActorShape_Init
               
 /* 0016C 809AE08C 3C074240 */  lui     $a3, 0x4240                ## $a3 = 42400000
-/* 00170 809AE090 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 00174 809AE094 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 00170 809AE090 3C060600 */  lui     $a2, %hi(D_06005948)                ## $a2 = 06000000
+/* 00174 809AE094 3C070600 */  lui     $a3, %hi(D_0600033C)                ## $a3 = 06000000
 /* 00178 809AE098 260E01AC */  addiu   $t6, $s0, 0x01AC           ## $t6 = 000001AC
 /* 0017C 809AE09C 260F0200 */  addiu   $t7, $s0, 0x0200           ## $t7 = 00000200
 /* 00180 809AE0A0 2418000E */  addiu   $t8, $zero, 0x000E         ## $t8 = 0000000E
 /* 00184 809AE0A4 AFB80018 */  sw      $t8, 0x0018($sp)           
 /* 00188 809AE0A8 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 0018C 809AE0AC AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 00190 809AE0B0 24E7033C */  addiu   $a3, $a3, 0x033C           ## $a3 = 0600033C
-/* 00194 809AE0B4 24C65948 */  addiu   $a2, $a2, 0x5948           ## $a2 = 06005948
+/* 00190 809AE0B0 24E7033C */  addiu   $a3, $a3, %lo(D_0600033C)           ## $a3 = 0600033C
+/* 00194 809AE0B4 24C65948 */  addiu   $a2, $a2, %lo(D_06005948)           ## $a2 = 06005948
 /* 00198 809AE0B8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0019C 809AE0BC 0C02915F */  jal     SkelAnime_Init
               
@@ -37,7 +37,7 @@ glabel EnAm_Init
               
 /* 001B0 809AE0D0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 001B4 809AE0D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 001B8 809AE0D8 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 001B8 809AE0D8 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 001BC 809AE0DC 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 001C0 809AE0E0 26050274 */  addiu   $a1, $s0, 0x0274           ## $a1 = 00000274
@@ -73,24 +73,24 @@ glabel EnAm_Init
 /* 00228 809AE148 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0022C 809AE14C 24090035 */  addiu   $t1, $zero, 0x0035         ## $t1 = 00000035
 /* 00230 809AE150 240A000D */  addiu   $t2, $zero, 0x000D         ## $t2 = 0000000D
-/* 00234 809AE154 3C040600 */  lui     $a0, 0x0600                ## $a0 = 06000000
+/* 00234 809AE154 3C040600 */  lui     $a0, %hi(D_06000118)                ## $a0 = 06000000
 /* 00238 809AE158 A2090286 */  sb      $t1, 0x0286($s0)           ## 00000286
 /* 0023C 809AE15C A20A02D2 */  sb      $t2, 0x02D2($s0)           ## 000002D2
-/* 00240 809AE160 24840118 */  addiu   $a0, $a0, 0x0118           ## $a0 = 06000118
-/* 00244 809AE164 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00240 809AE160 24840118 */  addiu   $a0, $a0, %lo(D_06000118)           ## $a0 = 06000118
+/* 00244 809AE164 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00248 809AE168 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFFC
 /* 0024C 809AE16C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00250 809AE170 26250810 */  addiu   $a1, $s1, 0x0810           ## $a1 = 00000810
 /* 00254 809AE174 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00258 809AE178 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 00258 809AE178 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 0025C 809AE17C 8FA70044 */  lw      $a3, 0x0044($sp)           
 /* 00260 809AE180 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00264 809AE184 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00268 809AE188 26251C24 */  addiu   $a1, $s1, 0x1C24           ## $a1 = 00001C24
 /* 0026C 809AE18C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
-/* 00270 809AE190 0C00CDD2 */  jal     Actor_ChangeType
+/* 00270 809AE190 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00274 809AE194 24070001 */  addiu   $a3, $zero, 0x0001         ## $a3 = 00000001
 /* 00278 809AE198 0C26B92A */  jal     func_809AE4A8              

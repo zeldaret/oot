@@ -15,10 +15,23 @@ void EnDekunuts_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDekunuts_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDekunuts_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_060001C4;
+extern UNK_TYPE D_06000368;
+extern UNK_TYPE D_060004D8;
+extern UNK_TYPE D_060006B0;
+extern UNK_TYPE D_060008C4;
+extern UNK_TYPE D_06000AF0;
+extern UNK_TYPE D_06000D1C;
+extern UNK_TYPE D_06000E6C;
+extern UNK_TYPE D_06001024;
+extern UNK_TYPE D_06002298;
+extern UNK_TYPE D_06003268;
+extern UNK_TYPE D_06003650;
+
 /*
 const ActorInit En_Dekunuts_InitVars = {
     ACTOR_EN_DEKUNUTS,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_DEKUNUTS,
     sizeof(EnDekunuts),
@@ -26,6 +39,26 @@ const ActorInit En_Dekunuts_InitVars = {
     (ActorFunc)EnDekunuts_Destroy,
     (ActorFunc)EnDekunuts_Update,
     (ActorFunc)EnDekunuts_Draw,
+};
+
+static ColliderCylinderInit D_809EAB50 = {
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 18, 32, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Dekunuts/EnDekunuts_Init.s")

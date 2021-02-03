@@ -64,7 +64,7 @@ glabel EnfHG_Update
 /* 02410 80B64DD0 E608003C */  swc1    $f8, 0x003C($s0)           ## 0000003C
 /* 02414 80B64DD4 00042403 */  sra     $a0, $a0, 16               
 /* 02418 80B64DD8 AE0C0040 */  sw      $t4, 0x0040($s0)           ## 00000040
-/* 0241C 80B64DDC 0C01DE1C */  jal     Math_Sins
+/* 0241C 80B64DDC 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02420 80B64DE0 A60D00B6 */  sh      $t5, 0x00B6($s0)           ## 000000B6
 /* 02424 80B64DE4 860201DE */  lh      $v0, 0x01DE($s0)           ## 000001DE
@@ -82,7 +82,7 @@ glabel EnfHG_Update
 /* 02454 80B64E14 00042403 */  sra     $a0, $a0, 16               
 /* 02458 80B64E18 46128103 */  div.s   $f4, $f16, $f18            
 /* 0245C 80B64E1C 46044282 */  mul.s   $f10, $f8, $f4             
-/* 02460 80B64E20 0C01DE1C */  jal     Math_Sins
+/* 02460 80B64E20 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02464 80B64E24 E60A00BC */  swc1    $f10, 0x00BC($s0)          ## 000000BC
 /* 02468 80B64E28 860E01DE */  lh      $t6, 0x01DE($s0)           ## 000001DE

@@ -56,7 +56,7 @@ glabel EnSkj_Draw
 /* 03350 80B01600 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 03354 80B01604 AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 03358 80B01608 AFB00018 */  sw      $s0, 0x0018($sp)
-/* 0335C 80B0160C 0C0286B2 */  jal     SkelAnime_DrawSV
+/* 0335C 80B0160C 0C0286B2 */  jal     SkelAnime_DrawFlexOpa
 /* 03360 80B01610 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 03364 80B01614 3C0680B0 */  lui     $a2, %hi(D_80B01870)       ## $a2 = 80B00000
 /* 03368 80B01618 24C61870 */  addiu   $a2, $a2, %lo(D_80B01870)  ## $a2 = 80B01870

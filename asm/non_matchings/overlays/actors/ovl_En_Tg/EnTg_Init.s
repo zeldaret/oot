@@ -4,22 +4,22 @@ glabel EnTg_Init
 /* 00158 80B184B8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0015C 80B184BC AFBF002C */  sw      $ra, 0x002C($sp)
 /* 00160 80B184C0 AFA5003C */  sw      $a1, 0x003C($sp)
-/* 00164 80B184C4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00168 80B184C8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00164 80B184C4 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00168 80B184C8 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0016C 80B184CC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00170 80B184D0 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 00174 80B184D4 0C00AC78 */  jal     ActorShape_Init
 
 /* 00178 80B184D8 3C0741E0 */  lui     $a3, 0x41E0                ## $a3 = 41E00000
-/* 0017C 80B184DC 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 00180 80B184E0 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
-/* 00184 80B184E4 24E75040 */  addiu   $a3, $a3, 0x5040           ## $a3 = 06005040
-/* 00188 80B184E8 24C6AE40 */  addiu   $a2, $a2, 0xAE40           ## $a2 = 0600AE40
+/* 0017C 80B184DC 3C060601 */  lui     $a2, %hi(D_0600AE40)                ## $a2 = 06010000
+/* 00180 80B184E0 3C070600 */  lui     $a3, %hi(D_06005040)                ## $a3 = 06000000
+/* 00184 80B184E4 24E75040 */  addiu   $a3, $a3, %lo(D_06005040)           ## $a3 = 06005040
+/* 00188 80B184E8 24C6AE40 */  addiu   $a2, $a2, %lo(D_0600AE40)           ## $a2 = 0600AE40
 /* 0018C 80B184EC 8FA4003C */  lw      $a0, 0x003C($sp)
 /* 00190 80B184F0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 00194 80B184F4 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 00198 80B184F8 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 0019C 80B184FC 0C0291BE */  jal     SkelAnime_InitSV
+/* 0019C 80B184FC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 001A0 80B18500 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 001A4 80B18504 26050194 */  addiu   $a1, $s0, 0x0194           ## $a1 = 00000194
 /* 001A8 80B18508 AFA50030 */  sw      $a1, 0x0030($sp)
@@ -36,7 +36,7 @@ glabel EnTg_Init
 /* 001CC 80B1852C 3C0680B2 */  lui     $a2, %hi(D_80B1893C)       ## $a2 = 80B20000
 /* 001D0 80B18530 24C6893C */  addiu   $a2, $a2, %lo(D_80B1893C)  ## $a2 = 80B1893C
 /* 001D4 80B18534 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 001D8 80B18538 0C0187BF */  jal     func_80061EFC
+/* 001D8 80B18538 0C0187BF */  jal     CollisionCheck_SetInfo2
 /* 001DC 80B1853C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 001E0 80B18540 240E0006 */  addiu   $t6, $zero, 0x0006         ## $t6 = 00000006
 /* 001E4 80B18544 3C053C23 */  lui     $a1, 0x3C23                ## $a1 = 3C230000

@@ -9,10 +9,17 @@ void EnBigokuta_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBigokuta_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06000444;
+extern UNK_TYPE D_06000A74;
+extern UNK_TYPE D_06000D1C;
+extern UNK_TYPE D_060014B8;
+extern UNK_TYPE D_06001CA4;
+extern UNK_TYPE D_06006BC0;
+
 /*
 const ActorInit En_Bigokuta_InitVars = {
     ACTOR_EN_BIGOKUTA,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_BIGOKUTA,
     sizeof(EnBigokuta),
@@ -20,6 +27,53 @@ const ActorInit En_Bigokuta_InitVars = {
     (ActorFunc)EnBigokuta_Destroy,
     (ActorFunc)EnBigokuta_Update,
     (ActorFunc)EnBigokuta_Draw,
+};
+
+static ColliderJntSphElementInit D_809BF3D4[1] = {
+    {
+        {
+            ELEMTYPE_UNK1,
+            { 0x20000000, 0x00, 0x08 },
+            { 0xFFCFFFFF, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_HARD,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 1, { { 0, 45, -30 }, 75 }, 100 },
+    },
+};
+
+static ColliderJntSphInit D_809BF3F8 = {
+    {
+        COLTYPE_HIT0,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
+    1,
+    D_809BF3D4,
+};
+
+static ColliderCylinderInit D_809BF408 = {
+    {
+        COLTYPE_HARD,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x20000000, 0x00, 0x08 },
+        { 0xFFCFFFE7, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_HARD,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 50, 100, 0, { 30, 0, 12 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Bigokuta/EnBigokuta_Init.s")

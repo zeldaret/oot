@@ -3,13 +3,13 @@ glabel func_809E96FC
 /* 001A0 809E9700 AFB00018 */  sw      $s0, 0x0018($sp)
 /* 001A4 809E9704 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 001A8 809E9708 AFBF001C */  sw      $ra, 0x001C($sp)
-/* 001AC 809E970C 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 001B0 809E9710 24A50D1C */  addiu   $a1, $a1, 0x0D1C           ## $a1 = 06000D1C
+/* 001AC 809E970C 3C050600 */  lui     $a1, %hi(D_06000D1C)                ## $a1 = 06000000
+/* 001B0 809E9710 24A50D1C */  addiu   $a1, $a1, %lo(D_06000D1C)           ## $a1 = 06000D1C
 /* 001B4 809E9714 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 001B8 809E9718 0C0294A7 */  jal     SkelAnime_ChangeAnimPlaybackStop
+/* 001B8 809E9718 0C0294A7 */  jal     Animation_PlayOnceSetSpeed
 /* 001BC 809E971C 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 001C0 809E9720 24040064 */  addiu   $a0, $zero, 0x0064         ## $a0 = 00000064
-/* 001C4 809E9724 0C01DF64 */  jal     Math_Rand_S16Offset
+/* 001C4 809E9724 0C01DF64 */  jal     Rand_S16Offset
 
 /* 001C8 809E9728 24050032 */  addiu   $a1, $zero, 0x0032         ## $a1 = 00000032
 /* 001CC 809E972C 240E0005 */  addiu   $t6, $zero, 0x0005         ## $t6 = 00000005

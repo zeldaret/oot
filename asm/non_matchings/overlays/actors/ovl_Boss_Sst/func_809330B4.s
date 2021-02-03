@@ -3,13 +3,13 @@ glabel func_809330B4
 /* 06AE8 809330B8 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 06AEC 809330BC AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 06AF0 809330C0 AFA5001C */  sw      $a1, 0x001C($sp)           
-/* 06AF4 809330C4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 06AF4 809330C4 0C02927F */  jal     SkelAnime_Update
               
 /* 06AF8 809330C8 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 06AFC 809330CC 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 06B00 809330D0 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 06B04 809330D4 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
-/* 06B08 809330D8 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 06B08 809330D8 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 06B0C 809330DC 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 06B10 809330E0 3C028094 */  lui     $v0, %hi(D_80938C90)       ## $v0 = 80940000

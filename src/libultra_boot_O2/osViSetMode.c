@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 void osViSetMode(OSViMode* mode) {
     register u32 int_disabled = __osDisableInt();

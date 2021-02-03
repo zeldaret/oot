@@ -21,14 +21,14 @@ glabel func_80B5E108
 /* 029A0 80B5E150 8DF90000 */  lw      $t9, 0x0000($t7)           ## 80B5FB20
 /* 029A4 80B5E154 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 029A8 80B5E158 ADD90000 */  sw      $t9, 0x0000($t6)           ## FFFFFFE4
-/* 029AC 80B5E15C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 029AC 80B5E15C 0C02927F */  jal     SkelAnime_Update
               
 /* 029B0 80B5E160 AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 029B4 80B5E164 1040000A */  beq     $v0, $zero, .L80B5E190     
 /* 029B8 80B5E168 00000000 */  nop
 /* 029BC 80B5E16C 8E0A0154 */  lw      $t2, 0x0154($s0)           ## 00000154
-/* 029C0 80B5E170 3C090601 */  lui     $t1, 0x0601                ## $t1 = 06010000
-/* 029C4 80B5E174 25290DF8 */  addiu   $t1, $t1, 0x0DF8           ## $t1 = 06010DF8
+/* 029C0 80B5E170 3C090601 */  lui     $t1, %hi(D_06010DF8)                ## $t1 = 06010000
+/* 029C4 80B5E174 25290DF8 */  addiu   $t1, $t1, %lo(D_06010DF8)           ## $t1 = 06010DF8
 /* 029C8 80B5E178 152A0005 */  bne     $t1, $t2, .L80B5E190       
 /* 029CC 80B5E17C 8FA40028 */  lw      $a0, 0x0028($sp)           
 /* 029D0 80B5E180 3C0580B6 */  lui     $a1, %hi(D_80B5E7B8)       ## $a1 = 80B60000

@@ -18,23 +18,23 @@ glabel EnAnubice_Init
 /* 0018C 809B12AC 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00190 809B12B0 AFBF002C */  sw      $ra, 0x002C($sp)           
 /* 00194 809B12B4 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 00198 809B12B8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 0019C 809B12BC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00198 809B12B8 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 0019C 809B12BC 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 001A0 809B12C0 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 001A4 809B12C4 248400B4 */  addiu   $a0, $a0, 0x00B4           ## $a0 = 000000B4
 /* 001A8 809B12C8 0C00AC78 */  jal     ActorShape_Init
               
 /* 001AC 809B12CC 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 001B0 809B12D0 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 001B4 809B12D4 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 001B0 809B12D0 3C060600 */  lui     $a2, %hi(D_06003990)                ## $a2 = 06000000
+/* 001B4 809B12D4 3C070600 */  lui     $a3, %hi(D_06000F74)                ## $a3 = 06000000
 /* 001B8 809B12D8 260E0190 */  addiu   $t6, $s0, 0x0190           ## $t6 = 00000190
 /* 001BC 809B12DC 260F01F0 */  addiu   $t7, $s0, 0x01F0           ## $t7 = 000001F0
 /* 001C0 809B12E0 24180010 */  addiu   $t8, $zero, 0x0010         ## $t8 = 00000010
 /* 001C4 809B12E4 AFB80018 */  sw      $t8, 0x0018($sp)           
 /* 001C8 809B12E8 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 001CC 809B12EC AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 001D0 809B12F0 24E70F74 */  addiu   $a3, $a3, 0x0F74           ## $a3 = 06000F74
-/* 001D4 809B12F4 24C63990 */  addiu   $a2, $a2, 0x3990           ## $a2 = 06003990
+/* 001D0 809B12F0 24E70F74 */  addiu   $a3, $a3, %lo(D_06000F74)           ## $a3 = 06000F74
+/* 001D4 809B12F4 24C63990 */  addiu   $a2, $a2, %lo(D_06003990)           ## $a2 = 06003990
 /* 001D8 809B12F8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 001DC 809B12FC 0C02915F */  jal     SkelAnime_Init
               

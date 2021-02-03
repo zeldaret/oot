@@ -1,8 +1,8 @@
 #ifndef _Z_EN_SW_H_
 #define _Z_EN_SW_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnSw;
 
@@ -13,8 +13,8 @@ typedef struct EnSw {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnSwActionFunc actionFunc;
     /* 0x0194 */ ColliderJntSph collider;
-    /* 0x01B4 */ ColliderJntSphItem sphs[1];
-    /* 0x01F4 */ Color_RGBA8_n unk_1F4;
+    /* 0x01B4 */ ColliderJntSphElement sphs[1];
+    /* 0x01F4 */ Color_RGBA8 unk_1F4;
     /* 0x01F8 */ Vec3s limbDrawTbl[30];
     /* 0x02AC */ Vec3s transDrawTbl[30];
     /* 0x0360 */ u8 unk_360;
