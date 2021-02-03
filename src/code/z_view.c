@@ -52,7 +52,7 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->eye.z = -1.0f;
 
     if (D_8012ABF0) {
-        if (&D_8012ABF0) {}
+        if (D_8012ABF0 == 0) {}
         osSyncPrintf("\nview: initialize ---\n");
         D_8012ABF0 = false;
     }
