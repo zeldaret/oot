@@ -3591,7 +3591,8 @@ endseg
 beginseg
     name "object_firefly"
     romalign 0x1000
-    include "build/baserom/object_firefly.o"
+    include "build/assets/objects/object_firefly/object_firefly.o"
+    number 6
 endseg
 
 beginseg
