@@ -62,7 +62,7 @@ void EnMk_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.minVelocityY = -4.0f;
     this->actor.gravity = -1.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005DF0, &D_06000D88, &this->jointTable, &this->morphTable, 13);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005DF0, &D_06000D88, this->jointTable, this->morphTable, 13);
     Animation_PlayLoop(&this->skelAnime, &D_06000D88);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -95,7 +95,7 @@ void func_80AACA40(EnMk* this, GlobalContext* globalCtx) {
 }
 
 void func_80AACA94(EnMk* this, GlobalContext* globalCtx) {
-    if (Actor_HasParent(this, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx) != 0) {
         this->actor.parent = NULL;
         this->actionFunc = func_80AACA40;
         func_80088AA0(240);
@@ -348,7 +348,7 @@ void EnMk_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnMk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnMk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMk* this = THIS;
 
     if (limbIndex == 11) {
@@ -356,14 +356,15 @@ s32 EnMk_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         rot->z += this->headRotation.x;
     }
 
-    return 0;
+    return false;
 }
 
-void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnMk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f D_80AAD64C = { 1000.0f, -100.0f, 0.0f };
+    EnMk* this = THIS;
 
     if (limbIndex == 11) {
-        Matrix_MultVec3f(&D_80AAD64C, &thisx->focus);
+        Matrix_MultVec3f(&D_80AAD64C, &this->actor.focus.pos);
     }
 }
 
