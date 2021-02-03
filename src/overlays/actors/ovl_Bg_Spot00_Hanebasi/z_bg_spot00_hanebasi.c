@@ -59,7 +59,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna.actor, 1);
+    DynaPolyActor_Init(&this->dyna, 1);
 
     if (this->dyna.actor.params == DT_DRAWBRIDGE) {
         CollisionHeader_GetVirtual(&D_060005E0, &colHeader);
@@ -175,12 +175,12 @@ void BgSpot00Hanebasi_DrawBridgeRiseAndFall(BgSpot00Hanebasi* this, GlobalContex
     Actor* childsChild;
     s16 angle = 80;
 
-    if (Math_ScaledStepToS(&this->dyna.actor.shape, this->destAngle, 80)) {
+    if (Math_ScaledStepToS(&this->dyna.actor.shape.rot.x, this->destAngle, 80)) {
         this->actionFunc = BgSpot00Hanebasi_DrawBridgeWait;
     }
 
     if (this->dyna.actor.shape.rot.x >= -0x27D8) {
-        child = this->dyna.actor.child;
+        child = (BgSpot00Hanebasi*)this->dyna.actor.child;
         angle *= 0.4f;
         Math_ScaledStepToS(&child->dyna.actor.shape.rot.x, child->destAngle, angle);
         childsChild = child->dyna.actor.child;
@@ -229,7 +229,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
                     gSaveContext.eventChkInf[8] |= 1;
                     Flags_SetEventChkInf(0x82);
                     this->actionFunc = BgSpot00Hanebasi_DoNothing;
-                    func_8002DF54(globalCtx, player, 8);
+                    func_8002DF54(globalCtx, &player->actor, 8);
                     globalCtx->nextEntranceIndex = 0x00CD;
                     gSaveContext.nextCutsceneIndex = 0xFFF1;
                     globalCtx->sceneLoadFlag = 0x14;

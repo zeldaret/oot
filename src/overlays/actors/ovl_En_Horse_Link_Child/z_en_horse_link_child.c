@@ -599,7 +599,7 @@ void func_80A6ABF8(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->headCollider.base);
 }
 
-s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, s32 arg3) {
+s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* arg3) {
     EnHorseLinkChild* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_link_child.c", 1467);

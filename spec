@@ -667,8 +667,7 @@ endseg
 beginseg
     name "ovl_Bg_Dy_Yoseizo"
     include "build/src/overlays/actors/ovl_Bg_Dy_Yoseizo/z_bg_dy_yoseizo.o"
-    include "build/data/overlays/actors/z_bg_dy_yoseizo.data.o"
-    include "build/data/overlays/actors/z_bg_dy_yoseizo.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Dy_Yoseizo/ovl_Bg_Dy_Yoseizo_reloc.o"
 endseg
 
 beginseg
@@ -1213,8 +1212,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot08_Iceblock"
     include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/z_bg_spot08_iceblock.o"
-    include "build/data/overlays/actors/z_bg_spot08_iceblock.data.o"
-    include "build/data/overlays/actors/z_bg_spot08_iceblock.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot08_Iceblock/ovl_Bg_Spot08_Iceblock_reloc.o"
 endseg
 
 beginseg
@@ -1886,8 +1884,7 @@ endseg
 beginseg
     name "ovl_En_Arrow"
     include "build/src/overlays/actors/ovl_En_Arrow/z_en_arrow.o"
-    include "build/data/overlays/actors/z_en_arrow.data.o"
-    include "build/data/overlays/actors/z_en_arrow.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Arrow/ovl_En_Arrow_reloc.o"
 endseg
 
 beginseg
@@ -1963,8 +1960,7 @@ endseg
 beginseg
     name "ovl_En_Bom_Chu"
     include "build/src/overlays/actors/ovl_En_Bom_Chu/z_en_bom_chu.o"
-    include "build/data/overlays/actors/z_en_bom_chu.data.o"
-    include "build/data/overlays/actors/z_en_bom_chu.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bom_Chu/ovl_En_Bom_Chu_reloc.o"
 endseg
 
 beginseg
@@ -2262,8 +2258,11 @@ endseg
 beginseg
     name "ovl_En_Fr"
     include "build/src/overlays/actors/ovl_En_Fr/z_en_fr.o"
-    include "build/data/overlays/actors/z_en_fr.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Fr/ovl_En_Fr_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_fr.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2677,8 +2676,7 @@ endseg
 beginseg
     name "ovl_En_Mm2"
     include "build/src/overlays/actors/ovl_En_Mm2/z_en_mm2.o"
-    include "build/data/overlays/actors/z_en_mm2.data.o"
-    include "build/data/overlays/actors/z_en_mm2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Mm2/ovl_En_Mm2_reloc.o"
 endseg
 
 beginseg
@@ -8218,7 +8216,7 @@ beginseg
     name "syotes2_scene"
     romalign 0x1000
     include "build/assets/scenes/test_levels/syotes2/syotes2_scene.o"
-    number 2   
+    number 2
 endseg
 
 beginseg
