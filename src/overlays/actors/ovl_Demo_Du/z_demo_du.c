@@ -89,7 +89,7 @@ void func_80969BC4(DemoDu* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_80969C38(DemoDu* this) {
+s32 DemoDu_UpdateSkelAnime(DemoDu* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -108,7 +108,7 @@ s32 DemoDu_IsNpcDoingThisAction(DemoDu* this, GlobalContext* globalCtx, u16 acti
     CsCmdActorAction *npcAction;
 
     npcAction = DemoDu_GetNpcAction(globalCtx, idx);
-    if ((npcAction != NULL) && (npcAction->action == action)) {
+    if (npcAction != NULL && npcAction->action == action) {
         return true;
     }
     return false;
@@ -118,7 +118,7 @@ s32 DemoDu_IsNpcNotDoingThisAction(DemoDu *this, GlobalContext *globalCtx, u16 a
     CsCmdActorAction *npcAction;
 
     npcAction = DemoDu_GetNpcAction(globalCtx, idx);
-    if ((npcAction != NULL) && (npcAction->action != action)) {
+    if (npcAction != NULL && npcAction->action != action) {
         return true;
     }
     return false;
@@ -198,7 +198,7 @@ void func_80969FD0(DemoDu* this, GlobalContext* globalCtx2) {
         player = PLAYER;
 
         this->updateIndex = 1;
-        globalCtx->csCtx.segment = (void *) D_8096C1A4;
+        globalCtx->csCtx.segment = D_8096C1A4;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(globalCtx, ITEM_MEDALLION_FIRE);
 
@@ -213,7 +213,7 @@ void func_8096A05C(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 1)) {
+        if (npcAction != NULL && npcAction->action != 1) {
             this->updateIndex = 2;
             this->drawIndex = 1;
             func_80969EDC(this, globalCtx);
@@ -233,7 +233,7 @@ void func_8096A0D8(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 2)) {
+        if (npcAction != NULL && npcAction->action != 2) {
             Animation_Change(&this->skelAnime, &D_06000800, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000800), 2, 0.0f);
             this->updateIndex = 4;
         }
@@ -252,7 +252,7 @@ void func_8096A1D8(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[6];
-        if ((npcAction != NULL) && (npcAction->action == 2)) {
+        if (npcAction != NULL && npcAction->action == 2) {
             this->updateIndex = 6;
             func_80969F38(this, globalCtx);
         }
@@ -269,13 +269,13 @@ void func_8096A244(DemoDu *this, GlobalContext *globalCtx) {
 
 void func_8096A264(DemoDu *this, GlobalContext *globalCtx) {
     func_80969FB4(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A0AC(this);
 }
 
 void func_8096A294(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A0D8(this, globalCtx);
 }
 
@@ -283,19 +283,19 @@ void func_8096A2CC(DemoDu *this, GlobalContext *globalCtx) {
     s32 aux;
 
     func_80969C58(this, globalCtx);
-    aux = func_80969C38(this);
+    aux = DemoDu_UpdateSkelAnime(this);
     func_8096A16C(this, aux);
 }
 
 void func_8096A300(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A1D8(this, globalCtx);
 }
 
 void func_8096A338(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
 }
 
 void func_8096A360(DemoDu* this, GlobalContext* globalCtx) {
@@ -406,7 +406,7 @@ static Vec3f D_8096CEE8[] = {
 };
 
 void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx);
-/*
+#ifdef NON_MATCHING
 void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
     //s32 pad;
     Player* player;
@@ -484,8 +484,9 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
         func_8096A408(globalCtx);
     }
 }
-*/
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A6E0.s")
+#endif
 
 void func_8096A970(DemoDu *this, GlobalContext *globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -525,7 +526,7 @@ void func_8096AA5C(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 1)) {
+        if (npcAction != NULL && npcAction->action != 1) {
             Animation_Change(&this->skelAnime, &D_0600288C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600288C), 2, 0.0f);
             this->updateIndex = 9;
             this->drawIndex = 1;
@@ -540,7 +541,7 @@ void func_8096AB00(DemoDu *this, GlobalContext *globalCtx) {
 
     if (csCtx->state != 0) {
         npcAction = csCtx->npcActions[2];
-        if ((npcAction != NULL) && (csCtx->frames >= npcAction->endFrame)) {
+        if (npcAction != NULL && csCtx->frames >= npcAction->endFrame) {
             this->updateIndex = 0xA;
             func_8096A630(this, globalCtx);
         }
@@ -552,7 +553,7 @@ void func_8096AB54(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 2)) {
+        if (npcAction != NULL && npcAction->action != 2) {
             this->updateIndex = 11;
         }
     }
@@ -589,7 +590,7 @@ void func_8096ACFC(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 4)) {
+        if (npcAction != NULL && npcAction->action != 4) {
             Animation_Change(&this->skelAnime, &D_06001D70, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001D70), 2, 0.0f);
             this->updateIndex = 15;
         }
@@ -615,7 +616,7 @@ void func_8096AE6C(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 5)) {
+        if (npcAction != NULL && npcAction->action != 5) {
             Animation_Change(&this->skelAnime, &D_06000800, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000800), 2, 0.0f);
             this->updateIndex = 18;
         }
@@ -634,7 +635,7 @@ void func_8096AF6C(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 6)) {
+        if (npcAction != NULL && npcAction->action != 6) {
             Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
             this->updateIndex = 20;
         }
@@ -670,14 +671,14 @@ void func_8096B0F8(DemoDu *this, GlobalContext *globalCtx) {
     s32 aux;
 
     func_80969C58(this, globalCtx);
-    aux = func_80969C38(this);
+    aux = DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096AB8C(this, aux);
 }
 
 void func_8096B140(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096ABF8(this, globalCtx);
 }
@@ -686,7 +687,7 @@ void func_8096B184(DemoDu *this, GlobalContext *globalCtx) {
     s32 aux;
 
     func_80969C58(this, globalCtx);
-    aux = func_80969C38(this);
+    aux = DemoDu_UpdateSkelAnime(this);
     func_8096A45C(this);
     func_8096A528(this, globalCtx);
     func_8096AC90(this, aux);
@@ -694,7 +695,7 @@ void func_8096B184(DemoDu *this, GlobalContext *globalCtx) {
 
 void func_8096B1DC(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096ACFC(this, globalCtx);
 }
@@ -703,7 +704,7 @@ void func_8096B220(DemoDu *this, GlobalContext *globalCtx) {
     s32 aux;
 
     func_80969C58(this, globalCtx);
-    aux = func_80969C38(this);
+    aux = DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096A6E0(this, globalCtx);
     func_8096AD90(this, aux);
@@ -713,7 +714,7 @@ void func_8096B27C(DemoDu *this, GlobalContext *globalCtx) {
     s32 aux;
 
     func_80969C58(this, globalCtx);
-    aux = func_80969C38(this);
+    aux = DemoDu_UpdateSkelAnime(this);
     func_8096A45C(this);
     func_8096A528(this, globalCtx);
     func_8096AE00(this, aux);
@@ -721,7 +722,7 @@ void func_8096B27C(DemoDu *this, GlobalContext *globalCtx) {
 
 void func_8096B2D4(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096AE6C(this, globalCtx);
 }
@@ -730,21 +731,21 @@ void func_8096B318(DemoDu *this, GlobalContext *globalCtx) {
     s32 aux;
 
     func_80969C58(this, globalCtx);
-    aux = func_80969C38(this);
+    aux = DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096AF00(this, aux);
 }
 
 void func_8096B360(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096AF6C(this, globalCtx);
 }
 
 void func_8096B3A4(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     func_8096A528(this, globalCtx);
     func_8096A480(globalCtx);
 }
@@ -755,7 +756,7 @@ void func_8096B3E4(DemoDu* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 lastFrame;
 
-    lastFrame = (f32) Animation_GetLastFrame(&D_06012014);
+    lastFrame = Animation_GetLastFrame(&D_06012014);
     SkelAnime_InitFlex(globalCtx2, skelAnime, &D_06011CA8, NULL, NULL, NULL, 0);
     Animation_Change(skelAnime, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
     this->updateIndex = 0x15;
@@ -767,7 +768,7 @@ void func_8096B488() {
 }
 
 void func_8096B4A8(DemoDu *this, GlobalContext *globalCtx) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x, (f32) gGameInfo->data[2608] + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x, gGameInfo->data[2608] + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
 }
 
 void func_8096B528(DemoDu *this, GlobalContext *globalCtx) {
@@ -832,7 +833,7 @@ void func_8096B768(DemoDu *this, GlobalContext *globalCtx) {
 
 void func_8096B798(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     func_8096B57C(this, globalCtx);
     func_80969BC4(this, globalCtx);
@@ -840,7 +841,7 @@ void func_8096B798(DemoDu *this, GlobalContext *globalCtx) {
 
 void func_8096B7EC(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     func_8096B6D0(this, globalCtx);
     func_80969BC4(this, globalCtx);
@@ -966,7 +967,7 @@ void func_8096BD2C(DemoDu *this, GlobalContext *globalCtx) {
 
 void func_8096BD4C(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     func_8096BA98(this);
     func_8096BB5C(this);
@@ -974,14 +975,14 @@ void func_8096BD4C(DemoDu *this, GlobalContext *globalCtx) {
 
 void func_8096BD94(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     func_8096BC6C(this, globalCtx);
 }
 
 void func_8096BDD4(DemoDu *this, GlobalContext *globalCtx) {
     func_80969C58(this, globalCtx);
-    func_80969C38(this);
+    DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     func_8096BC6C(this, globalCtx);
 }
@@ -990,7 +991,7 @@ void func_8096BE14(DemoDu *this, GlobalContext *globalCtx) {
     s32 aux;
 
     func_80969C58(this, globalCtx);
-    aux = func_80969C38(this);
+    aux = DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
     func_8096BC28(this, aux);
 }
