@@ -350,10 +350,10 @@ s32 DemoGj_FindGanon(DemoGj* this, GlobalContext* globalCtx) {
     //! @bug: Missing return value when `this->ganon` is already set.
 }
 
-void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx, CollisionHeader* header) {
-    GlobalContext* globalCtx2 = globalCtx;
+void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx2, CollisionHeader* header) {
+    GlobalContext* globalCtx = globalCtx2;
     Actor* actor = &this->dyna.actor;
-    DynaCollisionContext* colCtx_dyna = &globalCtx2->colCtx.dyna;
+    DynaCollisionContext* colCtx_dyna = &globalCtx->colCtx.dyna;
     CollisionHeader* newHeader;
 
     if (header != NULL) {
@@ -361,7 +361,7 @@ void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx, CollisionHeader* 
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
         newHeader = NULL;
         CollisionHeader_GetVirtual(header, &newHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx2, colCtx_dyna, actor, newHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, colCtx_dyna, actor, newHeader);
     }
 }
 
@@ -395,8 +395,8 @@ void DemoGj_DrawCommon(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList)
     }
 }
 
-void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
-    GlobalContext* globalCtx2 = globalCtx;
+void func_8097911C(DemoGj* this, GlobalContext* globalCtx2, Gfx* displayList) {
+    GlobalContext* globalCtx = globalCtx2;
     GraphicsContext* gfxCtx;
 
     s16 x = this->rotationVec.x;
@@ -406,7 +406,7 @@ void func_8097911C(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     s32 pad; // Needed for matching.
     Mtx* matrix;
 
-    gfxCtx = globalCtx2->state.gfxCtx;
+    gfxCtx = globalCtx->state.gfxCtx;
 
     matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
@@ -1085,19 +1085,19 @@ void func_8097AEE8(DemoGj* this, GlobalContext* globalCtx) {
     cylinders_2->dim.pos.y = actorPosRot->pos.y;
 }
 
-void func_8097B080(DemoGj* this, GlobalContext* globalCtx) {
+void func_8097B080(DemoGj* this, GlobalContext* globalCtx2) {
     CollisionCheckContext* colChkCtx;
-    GlobalContext* globalCtx2 = globalCtx;
+    GlobalContext* globalCtx = globalCtx2;
     Collider* cylinders_0 = &this->cylinders[0].base;
     Collider* cylinders_1 = &this->cylinders[1].base;
     Collider* cylinders_2 = &this->cylinders[2].base;
 
     s32 pad[3];
 
-    colChkCtx = &globalCtx2->colChkCtx;
-    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_0);
-    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_1);
-    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_2);
+    colChkCtx = &globalCtx->colChkCtx;
+    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_0);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_1);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_2);
 }
 
 void func_8097B0EC(DemoGj* this, GlobalContext* globalCtx, Vec3f* arg2) {
@@ -1215,9 +1215,9 @@ void func_8097B450(DemoGj* this, GlobalContext* globalCtx) {
     cylinder2->dim.pos.y = actorPosRot->pos.y;
 }
 
-void func_8097B5A4(DemoGj* this, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
-    CollisionCheckContext* colChkCtx = &globalCtx2->colChkCtx;
+void func_8097B5A4(DemoGj* this, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
 
     Collider* cylinders_0 = &this->cylinders[0].base;
     Collider* cylinders_1 = &this->cylinders[1].base;
@@ -1225,9 +1225,9 @@ void func_8097B5A4(DemoGj* this, GlobalContext* globalCtx) {
 
     s32 pad[3];
 
-    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_0);
-    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_1);
-    CollisionCheck_SetAC(globalCtx2, colChkCtx, cylinders_2);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_0);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_1);
+    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_2);
 }
 
 // Does the same as `DemoGj_Cylinder_AnyHasExploded`
@@ -1267,8 +1267,8 @@ void func_8097B6C4(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8097B750(DemoGj* this, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void func_8097B750(DemoGj* this, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
 
     Vec3f vec1;
     Vec3f vec2;
@@ -1277,25 +1277,25 @@ void func_8097B750(DemoGj* this, GlobalContext* globalCtx) {
 
     if (func_809797E4(this, 4)) {
         Actor_Kill(actor);
-    } else if (DemoGj_Cylinder_AnyHasExploded2(this, globalCtx2)) {
+    } else if (DemoGj_Cylinder_AnyHasExploded2(this, globalCtx)) {
         vec1 = D_8097BEB8;
 
-        DemoGj_DropCollectible(this, globalCtx2);
-        func_8097B688(this, globalCtx2, &vec1);
+        DemoGj_DropCollectible(this, globalCtx);
+        func_8097B688(this, globalCtx, &vec1);
 
         Actor_Kill(actor);
     } else if (this->flag3) {
         vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
-        DemoGj_DropCollectible(this, globalCtx2);
-        func_8097B688(this, globalCtx2, &vec2);
+        DemoGj_DropCollectible(this, globalCtx);
+        func_8097B688(this, globalCtx, &vec2);
 
         Actor_Kill(actor);
     }
 
-    func_8097B450(this, globalCtx2);
-    func_8097B5A4(this, globalCtx2);
+    func_8097B450(this, globalCtx);
+    func_8097B5A4(this, globalCtx);
 }
 
 void DemoGj_Update16(DemoGj* this, GlobalContext* globalCtx) {
