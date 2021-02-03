@@ -9,13 +9,20 @@ void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_0600C338;
-extern UNK_TYPE D_0600C470;
-extern UNK_TYPE D_0600DC30;
-extern UNK_TYPE D_0600FAE8;
-extern UNK_TYPE D_060120E8;
+void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx);
+void func_8088E5D0(BgHidanSima* this, GlobalContext* globalCtx);
+void func_8088E6D0(BgHidanSima* this, GlobalContext* globalCtx);
+void func_8088E760(BgHidanSima* this, GlobalContext* globalCtx);
+void func_8088E7A8(BgHidanSima* this, GlobalContext* globalCtx);
+void func_8088E90C(BgHidanSima* this);
 
-/*
+extern Gfx D_0600C338[];
+extern Gfx D_0600C470[];
+extern Gfx D_0600DC30[];
+extern CollisionHeader D_0600FAE8;
+extern CollisionHeader D_060120E8;
+
+
 const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
     ACTORCAT_BG,
@@ -28,7 +35,7 @@ const ActorInit Bg_Hidan_Sima_InitVars = {
     (ActorFunc)BgHidanSima_Draw,
 };
 
-static ColliderJntSphElementInit D_8088F1A0[2] = {
+static ColliderJntSphElementInit sJntSphElementsInit[2] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -53,7 +60,7 @@ static ColliderJntSphElementInit D_8088F1A0[2] = {
     },
 };
 
-static ColliderJntSphInit D_8088F1E8 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -62,28 +69,259 @@ static ColliderJntSphInit D_8088F1E8 = {
         OC2_TYPE_2,
         COLSHAPE_JNTSPH,
     },
-    2,
-    D_8088F1A0,
+    ARRAY_COUNT(sJntSphElementsInit),
+    sJntSphElementsInit,
 };
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/BgHidanSima_Init.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/BgHidanSima_Destroy.s")
+static InitChainEntry sInitChain[] = { 
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088E518.s")
+Gfx* D_8088F1FC[] = {
+    0x06015D20, 0x06016120, 0x06016520, 0x06016920,
+    0x06016D20, 0x06017120, 0x06017520, 0x06017920
+};
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088E5D0.s")
+void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSima* this = THIS;
+    s32 pad;
+    CollisionHeader* colHeader = NULL;
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088E6D0.s")
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
+    if (this->dyna.actor.params == 0) {
+        CollisionHeader_GetVirtual(&D_060120E8, &colHeader);
+    }
+    else {
+        CollisionHeader_GetVirtual(&D_0600FAE8, &colHeader);
+    }
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    Collider_InitJntSph(globalCtx, &this->collider);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->elements);
+    for (i = 0; i < ARRAY_COUNT(sJntSphElementsInit); i++)
+    {
+        this->collider.elements[i].dim.worldSphere.radius = this->collider.elements[i].dim.modelSphere.radius;
+    }
+    if (this->dyna.actor.params == 0) {
+        this->actionFunc = func_8088E518;
+    }
+    else
+    {
+        this->actionFunc = func_8088E760;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088E760.s")
+void BgHidanSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSima* this = THIS;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088E7A8.s")
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
+    Collider_DestroyJntSph(globalCtx, &this->collider);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088E90C.s")
+void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/BgHidanSima_Update.s")
+    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
+    if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
+        this->unk_168 = 20;
+        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x4000;
+        if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
+            this->actionFunc = func_8088E5D0;
+        }
+        else {
+            this->actionFunc = func_8088E6D0;
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/func_8088EB54.s")
+void func_8088E5D0(BgHidanSima* this, GlobalContext* globalCtx) {
+    if (this->unk_168 != 0) {
+        this->unk_168--;
+    }
+    if (this->unk_168 != 0) {
+        this->dyna.actor.world.pos.x = (Math_SinS((s16)(this->dyna.actor.world.rot.y + (this->unk_168 * 0x4000))) * 5.0f) + this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = (Math_CosS((s16)(this->dyna.actor.world.rot.y + (this->unk_168 * 0x4000))) * 5.0f) + this->dyna.actor.home.pos.z;
+    }
+    else {
+        this->actionFunc = func_8088E6D0;
+        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
+    }
+    if (!(this->unk_168 % 4)) {
+        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Sima/BgHidanSima_Draw.s")
+void func_8088E6D0(BgHidanSima* this, GlobalContext* globalCtx) {
+    if (func_8004356C(&this->dyna)) {
+        this->unk_168 = 20;
+    }
+    else if (this->unk_168 != 0) {
+        this->unk_168--;
+    }
+    Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 100.0f, 1.7f);
+    if (this->unk_168 == 0) {
+        this->actionFunc = func_8088E518;
+    }
+}
+
+void func_8088E760(BgHidanSima* this, GlobalContext* globalCtx) {
+    if (this->unk_168 != 0) {
+        this->unk_168--;
+    }
+    if (this->unk_168 == 0) {
+        this->dyna.actor.world.rot.y += 0x8000;
+        this->unk_168 = 60;
+        this->actionFunc = func_8088E7A8;
+    }
+}
+
+void func_8088E7A8(BgHidanSima* this, GlobalContext* globalCtx) {
+    f32 sp24;
+
+    if (this->unk_168 != 0) {
+        this->unk_168--;
+    }
+    if (this->dyna.actor.world.rot.y != this->dyna.actor.home.rot.y) {
+        sp24 = (sinf(((60 - this->unk_168) * 0.01667 - 0.5) * M_PI) + 1) * 200;
+    }
+    else {
+        sp24 = (sinf((this->unk_168 * 0.01667 - 0.5) * M_PI) + 1) * -200;
+    }
+    this->dyna.actor.world.pos.x = Math_SinS(this->dyna.actor.world.rot.y) * sp24 + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z = Math_CosS(this->dyna.actor.world.rot.y) * sp24 + this->dyna.actor.home.pos.z;
+    if (this->unk_168 == 0) {
+        this->unk_168 = 20;
+        this->actionFunc = func_8088E760;
+    }
+    func_8002F974(&this->dyna.actor, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+}
+
+void func_8088E90C(BgHidanSima* this) {
+    s32 pad[2];
+    f32 cos;
+    f32 sin;
+    s32 i;
+
+    cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
+    sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
+
+
+    for (i = 0; i < 2; i++)
+    {
+        ColliderJntSphElement* elem = &this->collider.elements[i];
+
+        elem->dim.worldSphere.center.x = this->dyna.actor.world.pos.x + sin * elem->dim.modelSphere.center.z;
+        elem->dim.worldSphere.center.y = (s16)this->dyna.actor.world.pos.y + elem->dim.modelSphere.center.y;
+        elem->dim.worldSphere.center.z = this->dyna.actor.world.pos.z + cos * elem->dim.modelSphere.center.z;
+    }
+}
+
+void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSima* this = THIS;
+    s32 pad;
+
+    this->actionFunc(this, globalCtx);
+    if (this->dyna.actor.params != 0) {
+        s32 temp;
+        if (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) {
+            temp = this->unk_168;
+        }
+        else {
+            temp = this->unk_168 + 80;
+        }
+        if (this->actionFunc == func_8088E7A8) {
+            temp += 20;
+        }
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - ((1.0f - cosf((f32)temp * (M_PI / 20))) * 5.0f);
+        if (this->actionFunc == func_8088E7A8) {
+            func_8088E90C(this);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        }
+    }
+}
+
+Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* disp) {
+    MtxF mtxF;
+    s32 phi_s5;
+    s32 s3;
+    f32 temp_f2;
+    f32 cos;
+    f32 sp94;
+    f32 temp_f0_2;
+    s32 v0;
+
+    Matrix_MtxFCopy(&mtxF, &gMtxFClear);
+    cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
+    sp94 = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
+
+    phi_s5 = (60 - this->unk_168 ) >> 1;
+    if (phi_s5 >= 4) {
+        phi_s5 = 3;
+    }
+
+    v0 = 3 - (this->unk_168 >> 1);
+    if (v0 < 0) {
+        v0 = 0;
+    }
+
+    mtxF.wx = this->dyna.actor.world.pos.x + (((79 - ((this->unk_168 % 6) * 4)) + v0 * 25) * sp94);
+    mtxF.wz = this->dyna.actor.world.pos.z + (((79 - ((this->unk_168 % 6) * 4)) + v0 * 25) * cos);
+    mtxF.wy = this->dyna.actor.world.pos.y + 40.0f;
+    mtxF.zz = v0 * 0.4f + 1.0f;
+    mtxF.yy = v0 * 0.4f + 1.0f;
+    mtxF.xx = v0 * 0.4f + 1.0f;
+
+    for (s3 = v0; s3 < phi_s5; s3++) {
+        mtxF.wx += 25.0f * sp94;
+        mtxF.wz += 25.0f * cos;
+        mtxF.xx += 0.4f;
+        mtxF.yy += 0.4f;
+        mtxF.zz += 0.4f;
+
+        gSPSegment(disp++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->unk_168 + s3) % 7]));
+
+        gSPMatrix(disp++, Matrix_MtxFToMtx(
+            Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 611),
+            Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
+            G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+        gSPDisplayList(disp++, D_0600DC30);
+    }
+    mtxF.wx = this->dyna.actor.world.pos.x + ((phi_s5 * 25 + 0x50) * sp94);
+    mtxF.wz = this->dyna.actor.world.pos.z + ((phi_s5 * 25 + 0x50) * cos);
+    gSPSegment(disp++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->unk_168 + s3) % 7]));
+    gSPMatrix(disp++,
+        Matrix_MtxFToMtx(
+            Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
+            Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
+        G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    gSPDisplayList(disp++, D_0600DC30);
+    return disp;
+}
+
+void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanSima* this = THIS;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 641);
+    func_80093D18(globalCtx->state.gfxCtx);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
+        G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    if (this->dyna.actor.params == 0) {
+        gSPDisplayList(POLY_OPA_DISP++, D_0600C338);
+    }
+    else {
+        gSPDisplayList(POLY_OPA_DISP++, D_0600C470);
+        if (this->actionFunc == func_8088E7A8) {
+            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
+            POLY_XLU_DISP = func_8088EB54(globalCtx, this, POLY_XLU_DISP);
+        }
+    }
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 668);
+}
