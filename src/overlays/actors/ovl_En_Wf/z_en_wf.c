@@ -696,28 +696,20 @@ void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx) {
     EnWf_SetupAction(this, func_80B36740);
 }
 
-// EnWf_SideStep
-// void func_80B36740(EnWf* this, GlobalContext* globalCtx);
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B36740.s")
-
-/****** Looks surprisingly good for just starting out, still needs some work though, particularly near the end *********/
 void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
     s16 angleDiff1;
     Player* player = PLAYER;
     s32 animCurFrame;
     s32 animFrameSpeedDiff;
-    s32 animSpeed; // originally f32
+    s32 animSpeed;
     f32 distAdd = 0.0f;
 
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk_2FE, 1, 3000, 1);
 
     if ((this->actor.bgCheckFlags & 8) ||
         (func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0)) {
-        s16 angle = 0;
-
-        if (this->actor.bgCheckFlags & 8) {
-            angle = (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk_2FE;
-        }
+        s16 angle =
+            (this->actor.bgCheckFlags & 8) ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk_2FE : 0;
 
         if (ABS(angle) > 0x2EE0) {
             this->unk_2FE = -this->unk_2FE;
@@ -754,7 +746,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
     animCurFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
     animFrameSpeedDiff = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
-    animSpeed = ABS(this->skelAnime.playSpeed);
+    animSpeed = (f32)ABS(this->skelAnime.playSpeed);
 
     if (!(func_80B33FB0(globalCtx, this, 0))) {
         this->actionTimer--;
@@ -775,6 +767,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
 
                 this->actor.world.rot.y = this->actor.shape.rot.y;
 
+                /********TODO: Remove these gotos! *************/
                 if ((this->actor.xzDistToPlayer <= 80.0f) && (!(func_80033AB8(globalCtx, &this->actor)))) {
                     if ((globalCtx->gameplayFrames & 3) != 0) {
                         if (ABS(angleDiff2) < 0x38E0) {
@@ -793,10 +786,10 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
             }
         }
 
-        if ((animCurFrame != this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
+        if ((animCurFrame != (s32)this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
             ((animSpeed + animCurFrame) > 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
-            func_80033260(globalCtx, this, &this->actor.world, 20.0f, 3, 3.0f, 50, 50, 1);
+            func_80033260(globalCtx, this, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
         }
 
         if ((globalCtx->gameplayFrames & 0x5F) == 0) {
@@ -840,7 +833,7 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
             Flags_SetSwitch(globalCtx, this->unk_2FC);
         }
 
-        Actor_Kill(this);
+        Actor_Kill(&this->actor);
     } else {
         s32 i;
         Vec3f pos;
@@ -848,7 +841,7 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
 
         this->actionTimer--;
 
-        for (i = ((s32)this->skelAnime.animLength - this->actionTimer) >> 1; i >= 0; i++) {
+        for (i = ((s32)this->skelAnime.animLength - this->actionTimer) >> 1; i >= 0; i--) {
             pos.x = Rand_CenteredFloat(60.0f) + this->actor.world.pos.x;
             pos.z = Rand_CenteredFloat(60.0f) + this->actor.world.pos.z;
             pos.y = Rand_CenteredFloat(50.0f) + (this->actor.world.pos.y + 20.0f);
