@@ -697,157 +697,91 @@ void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx) {
 }
 
 // EnWf_SideStep
-//void func_80B36740(EnWf* this, GlobalContext* globalCtx);
+// void func_80B36740(EnWf* this, GlobalContext* globalCtx);
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B36740.s")
 
-void func_80B36740(EnWf *this, GlobalContext *globalCtx) {
+/****** Looks surprisingly good for just starting out, still needs some work though, particularly near the end *********/
+void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
+    s16 angleDiff1;
     Player* player = PLAYER;
-    s32 sp64;
-    s32 sp60;
-    f32 sp58;
-    s16 sp4E;
-    f32 sp44;
-    void *sp3C;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f0_3;
-    f32 temp_f0_4;
-    f32 temp_f12;
-    s16 temp_a2;
-    s16 temp_v0;
-    s16 temp_v1_2;
-    s32 temp_t3;
-    s32 temp_v1;
-    s32 phi_v1;
-    s32 phi_v0;
-    s32 phi_v1_2;
-    f32 phi_f14;
-    f32 phi_f12;
-    f32 phi_f12_2;
-    f32 phi_f12_3;
-    f32 phi_f12_4;
-    s32 phi_v0_2;
-    s32 phi_v1_3;
-    f32 phi_f12_5;
+    s32 animCurFrame;
+    s32 animFrameSpeedDiff;
+    s32 animSpeed; // originally f32
+    f32 distAdd = 0.0f;
 
-    sp58 = 0.0f;
     Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk_2FE, 1, 3000, 1);
 
-    if (!(this->actor.bgCheckFlags & 8)) {
-        if (func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0) {
-block_3:
-            phi_v0 = 0;
-            if (this->actor.bgCheckFlags & 8) {
-                phi_v0 = (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk_2FE;
-            }
+    if ((this->actor.bgCheckFlags & 8) ||
+        (func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0)) {
+        s16 angle = 0;
 
-            if (ABS(phi_v0) > 0x2EE0) {
-                this->unk_2FE = 0 - this->unk_2FE;
-            }
+        if (this->actor.bgCheckFlags & 8) {
+            angle = (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk_2FE;
         }
-    } else {
-        goto block_3;
+
+        if (ABS(angle) > 0x2EE0) {
+            this->unk_2FE = -this->unk_2FE;
+        }
     }
 
     this->actor.world.rot.y = this->actor.shape.rot.y;
 
-    if (func_80033AB8(globalCtx, this) != 0) {
-        sp58 = 150.0f;
+    if (func_80033AB8(globalCtx, &this->actor)) {
+        distAdd = 150.0f;
     }
 
-    if (this->actor.xzDistToPlayer <= (60.0f + sp58)) {
+    if (this->actor.xzDistToPlayer <= (60.0f + distAdd)) {
         Math_SmoothStepToF(&this->unk_2EC, -4.0f, 1.0f, 1.5f, 0.0f);
-    } else if ((80.0f + sp58) < this->actor.xzDistToPlayer) {
+    } else if ((80.0f + distAdd) < this->actor.xzDistToPlayer) {
         Math_SmoothStepToF(&this->unk_2EC, 4.0f, 1.0f, 1.5f, 0.0f);
     } else {
         Math_SmoothStepToF(&this->unk_2EC, 0.0f, 1.0f, 6.65f, 0.0f);
     }
-    
+
     if (this->unk_2EC != 0.0f) {
         this->actor.world.pos.x += (Math_SinS(this->actor.shape.rot.y) * this->unk_2EC);
         this->actor.world.pos.z += (Math_CosS(this->actor.shape.rot.y) * this->unk_2EC);
     }
 
-    if (this->unk_2EC >= 0.0f) {
-        phi_f14 = this->unk_2EC;
-    } else {
-        phi_f14 = -this->unk_2EC;
-    }
-
-    if (this->actor.speedXZ >= 0.0f) {
-        phi_f12 = this->actor.speedXZ;
-    } else {
-        phi_f12 = -this->actor.speedXZ;
-    }
-
-    if (phi_f14 < phi_f12) {
+    if (ABS(this->unk_2EC) < ABS(this->actor.speedXZ)) {
         this->skelAnime.playSpeed = this->actor.speedXZ * 0.175f;
     } else {
         this->skelAnime.playSpeed = this->unk_2EC * 0.175f;
     }
 
-    if (this->skelAnime.playSpeed < -3.0f) {
-        this->skelAnime.playSpeed = -3.0f;
-    } else {
-        if (this->skelAnime.playSpeed > 3.0f) {
-            phi_f12_2 = 3.0f;
-        } else {
-            phi_f12_2 = this->skelAnime.playSpeed;
-        }
+    this->skelAnime.playSpeed = CLAMP(this->skelAnime.playSpeed, -3.0f, 3.0f);
 
-        this->skelAnime.playSpeed = phi_f12_2;
-    }
-
-    sp64 = this->skelAnime.curFrame;
+    animCurFrame = this->skelAnime.curFrame;
     SkelAnime_Update(&this->skelAnime);
+    animFrameSpeedDiff = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+    animSpeed = ABS(this->skelAnime.playSpeed);
 
-    if (this->skelAnime.playSpeed >= 0.0f) {
-        phi_f12_3 = this->skelAnime.playSpeed;
-    } else {
-        phi_f12_3 = -this->skelAnime.playSpeed;
-    }
-
-    sp60 = this->skelAnime.curFrame - phi_f12_3;
-
-    if (this->skelAnime.playSpeed >= 0.0f) {
-        phi_f12_4 = this->skelAnime.playSpeed;
-    } else {
-        phi_f12_4 = -this->skelAnime.playSpeed;
-    }
-
-    sp44 = phi_f12_4;
-    temp_f12 = phi_f12_4;
-    if (func_80B33FB0(globalCtx, this, 0) == 0) {
+    if (!(func_80B33FB0(globalCtx, this, 0))) {
         this->actionTimer--;
-        phi_f12_5 = temp_f12;
+
         if (this->actionTimer == 0) {
-            temp_v1_2 = this->actor.yawTowardsPlayer;
-            temp_v0 = player->shape.rot.y - temp_v1_2;
-            phi_v0_2 = temp_v0;
-            if (temp_v0 < 0) {
-                phi_v0_2 = 0 - temp_v0;
+            angleDiff1 = player->actor.shape.rot.y - this->actor.yawTowardsPlayer;
+
+            if (angleDiff1 < 0) {
+                angleDiff1 = -angleDiff1;
             }
-            if (phi_v0_2 >= 0x3A98) {
-                sp44 = temp_f12;
+
+            if (angleDiff1 >= 0x3A98) {
                 EnWf_SetupWait(this);
                 this->actionTimer = (Rand_ZeroOne() * 3.0f) + 1.0f;
-                phi_f12_5 = temp_f12;
             } else {
-                temp_a2 = globalCtx->actorCtx.actorLists[2].head->shape.rot.y - temp_v1_2;
+                Player* player2 = PLAYER;
+                s16 angleDiff2 = player2->actor.shape.rot.y - this->actor.yawTowardsPlayer;
+
                 this->actor.world.rot.y = this->actor.shape.rot.y;
-                if ((this->actor.xzDistToPlayer <= 80.0f) && (sp4E = temp_a2, sp44 = temp_f12, (func_80033AB8(globalCtx, this) == 0))) {
+
+                if ((this->actor.xzDistToPlayer <= 80.0f) && (!(func_80033AB8(globalCtx, &this->actor)))) {
                     if ((globalCtx->gameplayFrames & 3) != 0) {
-                        phi_v1_3 = 0 - temp_a2;
-                        if (temp_a2 >= 0) {
-                            phi_v1_3 = temp_a2;
-                        }
-                        if (phi_v1_3 < 0x38E0) {
-block_51:
-                            sp44 = temp_f12;
+                        if (ABS(angleDiff2) < 0x38E0) {
+                        block_51:
                             func_80B35540(this);
                         } else {
-block_52:
-                            sp44 = phi_f12_4;
+                        block_52:
                             func_80B347FC(this, globalCtx);
                         }
                     } else {
@@ -856,15 +790,16 @@ block_52:
                 } else {
                     goto block_52;
                 }
-                phi_f12_5 = sp44;
             }
         }
-        sp3C = globalCtx + 0x10000;
-        if ((sp64 != this->skelAnime.curFrame) && (sp60 <= 0) && ((phi_f12_5 + sp64) > 0)) {
+
+        if ((animCurFrame != this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
+            ((animSpeed + animCurFrame) > 0)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_WALK);
             func_80033260(globalCtx, this, &this->actor.world, 20.0f, 3, 3.0f, 50, 50, 1);
         }
-        if ((sp3C->unk1DE4 & 0x5F) == 0) {
+
+        if ((globalCtx->gameplayFrames & 0x5F) == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
         }
     }
