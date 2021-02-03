@@ -194,7 +194,8 @@ void BgHakaTrap_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     if (this->dyna.actor.params != HAKA_TRAP_PROPELLER) {
         if (this->dyna.actor.params != HAKA_TRAP_GUILLOTINE_SLOW) {
             DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) || (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
+            if ((this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL) ||
+                (this->dyna.actor.params == HAKA_TRAP_SPIKED_WALL_2)) {
                 Collider_DestroyTris(globalCtx, &this->colliderSpikes);
             }
         }
