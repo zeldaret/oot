@@ -614,6 +614,7 @@ extern u8 D_80130594[4][7];
 //extern ? D_80131100;
 //extern ? D_8013170C;
 //extern ? D_80131840;
+extern u8* gFrogsSongPtr; // D_80131854: pointer to a u8 array of the notes you need to play for the frogs
 //extern ? D_80131858;
 //extern ? D_8013185C;
 //extern ? D_80131860;
