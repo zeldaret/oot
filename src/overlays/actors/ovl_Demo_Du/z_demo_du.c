@@ -375,8 +375,8 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f pos = this->actor.world.pos;
 
-    pos.y += gGameInfo->data[2597];
-    func_80033480(globalCtx, &pos, gGameInfo->data[2593] + 100.0f, gGameInfo->data[2594] + 0xA, gGameInfo->data[2595] + 0x12C, gGameInfo->data[2596], 0);
+    pos.y += kREG(5);
+    func_80033480(globalCtx, &pos, kREG(1) + 100.0f, kREG(2) + 0xA, kREG(3) + 0x12C, kREG(4), 0);
     func_8096A3B4(this);
 }
 
@@ -768,7 +768,7 @@ void func_8096B488() {
 }
 
 void func_8096B4A8(DemoDu *this, GlobalContext *globalCtx) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x, gGameInfo->data[2608] + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x, kREG(16) + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
 }
 
 void func_8096B528(DemoDu *this, GlobalContext *globalCtx) {
@@ -788,10 +788,10 @@ void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
 
     if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
         *unk_1A4 += 1.0f;
-        if (*unk_1A4 >= gGameInfo->data[2597] + 10.0f) {
+        if (*unk_1A4 >= kREG(5) + 10.0f) {
             this->updateIndex = 23;
             this->drawIndex = 1;
-            *unk_1A4 = gGameInfo->data[2597] + 10.0f;
+            *unk_1A4 = kREG(5) + 10.0f;
             this->shadowAlpha = shadowAlpha;
             this->actor.shape.shadowAlpha = shadowAlpha;
             return;
@@ -807,7 +807,7 @@ void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
             return;
         }
     }
-    shadowAlpha = (*unk_1A4 / (gGameInfo->data[2597] + 10.0f)) * 255.0f;
+    shadowAlpha = (*unk_1A4 / (kREG(5) + 10.0f)) * 255.0f;
     this->shadowAlpha = shadowAlpha;
     this->actor.shape.shadowAlpha = shadowAlpha;
 }
@@ -816,7 +816,7 @@ void func_8096B6D0(DemoDu *this, GlobalContext *globalCtx) {
     if (DemoDu_IsNpcNotDoingThisAction(this, globalCtx, 4, 2)) {
         this->updateIndex = 22;
         this->drawIndex = 2;
-        this->unk_1A4 = gGameInfo->data[2597] + 10.0f;
+        this->unk_1A4 = kREG(5) + 10.0f;
         this->shadowAlpha = 0xFF;
         if (this->unk_1AC == 0) {
             func_8096B4A8(this, globalCtx);
@@ -889,7 +889,7 @@ void func_8096BA98(DemoDu *this) {
     f32 *unk_1A4;
 
     this->unk_1A4 += 1.0f;
-    temp_f0 = gGameInfo->data[2609] + 10.0f;
+    temp_f0 = kREG(17) + 10.0f;
     unk_1A4 = &this->unk_1A4;
 
     if (temp_f0 <= *unk_1A4) {
@@ -909,7 +909,7 @@ void func_8096BB24(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void func_8096BB5C(DemoDu *this) {
-    if (gGameInfo->data[2609] + 10.0f <= this->unk_1A4) {
+    if (kREG(17) + 10.0f <= this->unk_1A4) {
         this->updateIndex = 26;
         this->drawIndex = 1;
     }
