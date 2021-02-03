@@ -24,7 +24,7 @@ void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx);
 void func_80B35024(EnWf* this, GlobalContext* globalCtx);
 void func_80B355BC(EnWf* this, GlobalContext* globalCtx);
 void func_80B359A8(EnWf* this, GlobalContext* globalCtx);
-void func_80B35C10(EnWf* this, GlobalContext* globalCtx);
+void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Stunned(EnWf* this, GlobalContext* globalCtx);
 void EnWf_Damaged(EnWf* this, GlobalContext* globalCtx);
 void func_80B361A0(EnWf* this, GlobalContext* globalCtx);
@@ -34,6 +34,7 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupDeath(EnWf* this);
 void func_80B360E8(EnWf* this);
 void func_80B34F28(EnWf* this);
+void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_06003BC0;
 extern AnimationHeader D_06004638;
@@ -362,14 +363,10 @@ void EnWf_SearchForPlayer(EnWf* this, GlobalContext* globalCtx) {
 
         if (yawDiff > 0) {
             phi_f2 = phi_v1 * 0.5f;
-            if (phi_f2 > 1.0f) {
-                phi_f2 = 1.0f;
-            }
+            phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
         } else {
             phi_f2 = phi_v1 * 0.5f;
-            if (phi_f2 < -1.0f) {
-                phi_f2 = -1.0f;
-            }
+            phi_f2 = CLAMP_MIN(phi_f2, -1.0f);
         }
 
         this->skelAnime.playSpeed = -phi_f2;
@@ -449,8 +446,45 @@ void func_80B3590C(EnWf* this) {
 }
 
 // EnWf_??????
-void func_80B359A8(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B359A8.s")
+void func_80B359A8(EnWf* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+    s16 angle1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
+    s16 angle2 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+
+    angle1 = ABS(angle1);
+    angle2 = ABS(angle2);
+
+    if (SkelAnime_Update(&this->skelAnime)) {
+        if (func_8002E084(this, 0x1554) == 0) {
+            EnWf_SetupWait(this);
+            this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
+
+            if (angle2 >= 0x32C9) {
+                this->unk_2E2 = 30;
+            }
+        } else {
+            if ((Rand_ZeroOne() > 0.7f) || (this->actor.xzDistToPlayer >= 120.0f)) {
+                EnWf_SetupWait(this);
+                this->actionTimer = (Rand_ZeroOne() * 5.0f) + 5.0f;
+            } else {
+                this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+
+                if (Rand_ZeroOne() > 0.7f) {
+                    EnWf_SetupSideStep(this, globalCtx);
+                } else if (angle1 <= 0x2710) {
+                    if (angle2 > 0x3E80) {
+                        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+                        func_80B34F28(this);
+                    } else {
+                        func_80B33FB0(globalCtx, this, 1);
+                    }
+                } else {
+                    func_80B34F28(this);
+                }
+            }
+        }
+    }
+}
 
 void EnWf_SetupBackFlip(EnWf* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06004AD0, -3.0f);
@@ -460,12 +494,24 @@ void EnWf_SetupBackFlip(EnWf* this) {
     this->unk_300 = 1;
     this->unk_2D4 = 5;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STAL_JUMP);
-    EnWf_SetupAction(this, func_80B35C10);
+    EnWf_SetupAction(this, EnWf_BackFlip);
 }
 
-// EnWf_BackFlip
-void func_80B35C10(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B35C10.s")
+void EnWf_BackFlip(EnWf* this, GlobalContext* globalCtx) {
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
+        if ((func_80033AB8(globalCtx, this) == 0) && (this->actor.xzDistToPlayer < 170.0f) &&
+            (this->actor.xzDistToPlayer > 140.0f) && (Rand_ZeroOne() < 0.2f)) {
+            func_80B347FC(this, globalCtx);
+        } else if ((globalCtx->gameplayFrames & 1) != 0) {
+            EnWf_SetupSideStep(this, globalCtx);
+        } else {
+            EnWf_SetupWait(this);
+        }
+    }
+    if ((globalCtx->state.frames & 0x5F) == 0) {
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+    }
+}
 
 void EnWf_SetupStunned(EnWf* this) {
     if (this->actor.bgCheckFlags & 1) {
@@ -753,10 +799,7 @@ void func_80B36740(EnWf* this, GlobalContext* globalCtx) {
 
         if (this->actionTimer == 0) {
             angleDiff1 = player->actor.shape.rot.y - this->actor.yawTowardsPlayer;
-
-            if (angleDiff1 < 0) {
-                angleDiff1 = -angleDiff1;
-            }
+            angleDiff1 = ABS(angleDiff1);
 
             if (angleDiff1 >= 0x3A98) {
                 EnWf_SetupWait(this);
