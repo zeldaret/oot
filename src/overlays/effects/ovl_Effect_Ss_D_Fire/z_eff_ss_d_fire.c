@@ -56,7 +56,7 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     return 0;
 }
 
-static void* sTextures[] = { gDodongoFireTex0, gDodongoFireTex1, gDodongoFireTex2, gDodongoFireTex3 };
+static void* sTextures[] = { gDodongoFire0Tex, gDodongoFire1Tex, gDodongoFire2Tex, gDodongoFire3Tex };
 
 void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;

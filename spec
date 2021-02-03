@@ -3605,7 +3605,8 @@ endseg
 beginseg
     name "object_fire"
     romalign 0x1000
-    include "build/baserom/object_fire.o"
+    include "build/assets/objects/object_fire/object_fire.o"
+    number 6
 endseg
 
 beginseg

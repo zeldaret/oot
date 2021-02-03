@@ -30,10 +30,10 @@
         <Skeleton Name="gDodongoSkel" Type="Standard" LimbType="Standard" Offset="0x8318"/>
 
         <!-- Fire Effect Textures -->
-        <Texture Name="gDodongoFireTex0" OutName="fire_0" Format="i4" Width="32" Height="32" Offset="0x90A0"/>
-        <Texture Name="gDodongoFireTex1" OutName="fire_1" Format="i4" Width="32" Height="32" Offset="0x92A0"/>
-        <Texture Name="gDodongoFireTex2" OutName="fire_2" Format="i4" Width="32" Height="32" Offset="0x94A0"/>
-        <Texture Name="gDodongoFireTex3" OutName="fire_3" Format="i4" Width="32" Height="32" Offset="0x96A0"/>
+        <Texture Name="gDodongoFire0Tex" OutName="fire_0" Format="i4" Width="32" Height="32" Offset="0x90A0"/>
+        <Texture Name="gDodongoFire1Tex" OutName="fire_1" Format="i4" Width="32" Height="32" Offset="0x92A0"/>
+        <Texture Name="gDodongoFire2Tex" OutName="fire_2" Format="i4" Width="32" Height="32" Offset="0x94A0"/>
+        <Texture Name="gDodongoFire3Tex" OutName="fire_3" Format="i4" Width="32" Height="32" Offset="0x96A0"/>
 
         <!-- Fire Effect -->
         <DList Name="gDodongoFireDL" Offset="0x98A0"/>
