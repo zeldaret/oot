@@ -17,7 +17,7 @@ def get_reg_macro(offset):
 def parse_number(string, force_hex):
     if string.lower().startswith("0x") or force_hex:
         return int(string, 16)
-    return int(string, 10)
+    return int(string, 0)
 
 def index_to_offset(index):
     return index * 2 + DATA_OFFSET
@@ -47,23 +47,14 @@ def read_file(filename):
     return parsed_contents
 
 def write_file(filename, contents):
-    dst_file = open(filename, "w")
-    dst_file.write(contents)
-    dst_file.close()
+    with open(filename, "w") as f:
+        f.write(contents)
 
 def check_valid_index(index):
-    if index < 0x0:
-        return False
-    if index > 0xADF:
-        return False
-    return True
+    return 0x0 <= index <= 0xADF
 
 def check_valid_offset(offset):
-    if offset < 0x14:
-        return False
-    if offset > 0x15D2:
-        return False
-    return True
+    return 0x14 <= index <= 0x15D2
 
 def main():
     parser = argparse.ArgumentParser(description="Converts a gGameInfo->data index to a REG macro.")
