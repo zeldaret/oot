@@ -209,7 +209,7 @@ void EnJs_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
+s32 EnJs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnJs* this = THIS;
 
     if (limbIndex == 12) {
