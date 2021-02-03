@@ -128,7 +128,7 @@ typedef enum {
     DMG_EFF_FIRE = 12,
     DMG_EFF_HOOKSHOT = 13,
     DMG_EFF_BOOMERANG = 14,
-    DMG_EFF_NUT = 15,
+    DMG_EFF_NUT = 15
 } DamageEffect;
 
 static DamageTable sDamageTable = {
@@ -179,7 +179,7 @@ typedef enum {
     PEAHAT_STATE_RETURN_HOME = 12,
     PEAHAT_STATE_STUNNED,
     PEAHAT_STATE_SEEK_PLAYER,
-    PEAHAT_STATE_15,
+    PEAHAT_STATE_15
 } PeahatState;
 
 static InitChainEntry sInitChain[] = {
@@ -884,8 +884,8 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
     } else if (this->colJntSph.base.acFlags & AC_HIT) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
         func_8003573C(&this->actor, &this->colJntSph, 1);
-        if (this->actor.colChkInfo.damageEffect == DMG_EFF_NUT
-            || this->actor.colChkInfo.damageEffect == DMG_EFF_LIGHT_ICE_ARROW) {
+        if (this->actor.colChkInfo.damageEffect == DMG_EFF_NUT ||
+            this->actor.colChkInfo.damageEffect == DMG_EFF_LIGHT_ICE_ARROW) {
             return;
         }
         if (this->actor.colChkInfo.damageEffect == DMG_EFF_HOOKSHOT) {
