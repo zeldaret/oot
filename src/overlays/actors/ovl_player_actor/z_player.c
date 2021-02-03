@@ -1966,10 +1966,10 @@ s32 func_8083442C(Player* this, GlobalContext* globalCtx) {
             func_8002F7DC(&this->actor, D_80854398[ABS(this->unk_860) - 1]);
 
             if (!Player_HoldsHookshot(this) && (func_80834380(globalCtx, this, &item, &arrowType) > 0)) {
-                magicArrowType = arrowType - 3;
+                magicArrowType = arrowType - ARROW_FIRE;
 
                 if (this->unk_860 >= 0) {
-                    if ((magicArrowType >= ARROW_NORMAL_LIT) && (magicArrowType <= ARROW_NORMAL) &&
+                    if ((magicArrowType >= ARROW_FIRE - ARROW_FIRE) && (magicArrowType <= ARROW_LIGHT - ARROW_FIRE) &&
                         !func_80087708(globalCtx, sMagicArrowCosts[magicArrowType], 0)) {
                         arrowType = ARROW_NORMAL;
                     }
