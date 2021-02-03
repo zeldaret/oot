@@ -63,7 +63,7 @@ static ColliderCylinderInit sCylinderInit = {
     },
     { 16, 10, -6, { 0, 0, 0 } },
 };
-static CollisionCheckInfoInit sColChkInfoInit = { 0x02, 0x2D, 0xF, 0x64 };
+static CollisionCheckInfoInit sColChkInfoInit = { 2, 45, 15, 100 };
 static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0x0),
@@ -142,7 +142,7 @@ void func_80B32434(EnWeiyer* this) {
 }
 
 void func_80B32494(EnWeiyer* this) {
-    Animation_Change(&this->skelAnime, &D_06000288, 2.0f, 0.0f, 0.0f, 0, -8.0f);
+    Animation_Change(&this->skelAnime, &D_06000288, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -8.0f);
     this->unk_194 = 40;
     this->collider.base.atFlags |= AT_ON;
     this->actionFunc = func_80B32D30;
@@ -166,7 +166,7 @@ void func_80B32538(EnWeiyer* this) {
 }
 
 void func_80B325A0(EnWeiyer* this) {
-    Animation_Change(&this->skelAnime, &D_06000FC0, 2.0f, 0.0f, 0.0f, 0, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06000FC0, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -3.0f);
     this->unk_194 = 40;
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
@@ -179,7 +179,7 @@ void func_80B325A0(EnWeiyer* this) {
 }
 
 void func_80B32660(EnWeiyer* this) {
-    Animation_Change(&this->skelAnime, &D_06000288, 2.0f, 0.0f, 0.0f, 0, -8.0f);
+    Animation_Change(&this->skelAnime, &D_06000288, 2.0f, 0.0f, 0.0f, ANIMMODE_LOOP, -8.0f);
     this->unk_194 = 80;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -314,7 +314,7 @@ void func_80B32C2C(EnWeiyer* this, GlobalContext* globalCtx) {
 
         if (this->actor.world.pos.y < this->actor.home.pos.y) {
             if (this->actor.shape.rot.x > 0) {
-                EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 0x190);
+                EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 400);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
             }
 
@@ -528,7 +528,7 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
             func_80B32538(this);
         } else if (this->actor.yDistToWater < 0.0f) {
             this->unk_194 = 10;
-            EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 0x190);
+            EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 400);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_JUMP);
         }
     } else {
@@ -552,7 +552,7 @@ void func_80B3349C(EnWeiyer* this, GlobalContext* globalCtx) {
         if (this->actor.bgCheckFlags & 1) {
             func_80B32434(this);
         } else if ((this->actor.bgCheckFlags & 0x20) && (this->actor.shape.rot.x > 0)) {
-            EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 0x190);
+            EffectSsGSplash_Spawn(globalCtx, &this->actor.world.pos, NULL, NULL, 1, 400);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_SINK);
             func_80B32538(this);
         } else {
