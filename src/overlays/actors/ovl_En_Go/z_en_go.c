@@ -95,14 +95,14 @@ static EnGoAnimation sAnimationEntries[] = {
     { &D_06010590, 1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
 };
 
-void EnGo_SetupAction(EnGo* this, EnGoActionFunc* actionFunc) {
+void EnGo_SetupAction(EnGo* this, EnGoActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
+u16 EnGo_GetTextID(GlobalContext* globalCtx, Actor* thisx) {
     Player* player = PLAYER;
 
-    switch (this->actor.params & 0xF0) {
+    switch (thisx->params & 0xF0) {
         case 0x90:
             if (gSaveContext.bgsFlag) {
                 return 0x305E;
@@ -146,7 +146,7 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
                 }
             }
         case 0x10:
-            if (Flags_GetSwitch(globalCtx, this->actor.params >> 8)) {
+            if (Flags_GetSwitch(globalCtx, thisx->params >> 8)) {
                 return 0x3052;
             } else {
                 return 0x3051;
@@ -206,16 +206,16 @@ u16 EnGo_GetTextID(GlobalContext* globalCtx, EnGo* this) {
     }
 }
 
-s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
+s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, Actor* thisx) {
     s16 unkState = 1;
     f32 xzRange;
-    f32 yRange = fabsf(this->actor.yDistToPlayer) + 1.0f;
+    f32 yRange = fabsf(thisx->yDistToPlayer) + 1.0f;
 
-    xzRange = this->actor.xzDistToPlayer + 1.0f;
+    xzRange = thisx->xzDistToPlayer + 1.0f;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         if (globalCtx) {}
         case 2:
-            switch (this->actor.textId) {
+            switch (thisx->textId) {
                 case 0x3008:
                     gSaveContext.infTable[14] |= 1;
                     unkState = 0;
@@ -237,7 +237,7 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
                     unkState = 0;
                     break;
                 case 0x3036:
-                    func_8002F434(&this->actor, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
+                    func_8002F434(thisx, globalCtx, GI_TUNIC_GORON, xzRange, yRange);
                     gSaveContext.infTable[16] |= 0x2000; // EnGo exclusive flag
                     unkState = 2;
                     break;
@@ -268,33 +268,33 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
             break;
         case 4:
             if (func_80106BC8(globalCtx)) {
-                switch (this->actor.textId) {
+                switch (thisx->textId) {
                     case 0x300A:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             if (CUR_UPG_VALUE(UPG_STRENGTH) || (gSaveContext.infTable[14] & 0x800)) {
-                                this->actor.textId = 0x300B;
+                                thisx->textId = 0x300B;
                             } else {
-                                this->actor.textId = 0x300C;
+                                thisx->textId = 0x300C;
                             }
                         } else {
-                            this->actor.textId = 0x300D;
+                            thisx->textId = 0x300D;
                         }
-                        func_8010B720(globalCtx, this->actor.textId);
+                        func_8010B720(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3034:
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             if (gSaveContext.infTable[16] & 0x800) {
-                                this->actor.textId = 0x3033;
+                                thisx->textId = 0x3033;
                             } else {
-                                this->actor.textId = 0x3035;
+                                thisx->textId = 0x3035;
                             }
                         } else if (gSaveContext.infTable[16] & 0x800) {
-                            this->actor.textId = 0x3036;
+                            thisx->textId = 0x3036;
                         } else {
-                            this->actor.textId = 0x3033;
+                            thisx->textId = 0x3033;
                         }
-                        func_8010B720(globalCtx, this->actor.textId);
+                        func_8010B720(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     case 0x3054:
@@ -302,8 +302,8 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
                         if (globalCtx->msgCtx.choiceIndex == 0) {
                             unkState = 2;
                         } else {
-                            this->actor.textId = 0x3056;
-                            func_8010B720(globalCtx, this->actor.textId);
+                            thisx->textId = 0x3056;
+                            func_8010B720(globalCtx, thisx->textId);
                             unkState = 1;
                         }
                         gSaveContext.infTable[11] |= 0x10;
@@ -313,13 +313,13 @@ s16 EnGo_SetFlagsGetStates(GlobalContext* globalCtx, EnGo* this) {
             break;
         case 5:
             if (func_80106BC8(globalCtx)) {
-                switch (this->actor.textId) {
+                switch (thisx->textId) {
                     case 0x3035:
                         gSaveContext.infTable[16] |= 0x800;
                     case 0x3032:
                     case 0x3033:
-                        this->actor.textId = 0x3034;
-                        func_8010B720(globalCtx, this->actor.textId);
+                        thisx->textId = 0x3034;
+                        func_8010B720(globalCtx, thisx->textId);
                         unkState = 1;
                         break;
                     default:
@@ -597,10 +597,10 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
 
         if ((this->actor.params & 0xF0) == 0x90) {
             isUnkCondition =
-                func_80A3ED24(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+                func_80A3ED24(globalCtx, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
             isUnkCondition =
-                func_800343CC(globalCtx, &this->actor, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
+                func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {

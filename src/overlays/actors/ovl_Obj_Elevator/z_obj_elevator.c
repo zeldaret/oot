@@ -53,7 +53,7 @@ void func_80B92B08(ObjElevator* this, GlobalContext* globalCtx, CollisionHeader*
     s16 pad2;
     Actor* thisx = &this->dyna.actor;
 
-    DynaPolyActor_Init(thisx, flag);
+    DynaPolyActor_Init(&this->dyna, flag);
     CollisionHeader_GetVirtual(collision, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
