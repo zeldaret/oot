@@ -35,6 +35,8 @@ void EnWf_SetupDeath(EnWf* this);
 void func_80B360E8(EnWf* this);
 void func_80B34F28(EnWf* this);
 void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupBackFlip(EnWf* this);
+void func_80B35540(EnWf* this);
 
 extern FlexSkeletonHeader D_06003BC0;
 extern AnimationHeader D_06004638;
@@ -409,8 +411,89 @@ void func_80B34F28(EnWf* this) {
 }
 
 // EnWf_????? (Related to moving in front of the player)
-void func_80B35024(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B35024.s")
+void func_80B35024(EnWf* this, GlobalContext* globalCtx) {
+    s16 angle1;
+    s16 angle2;
+    s32 pad;
+    f32 distAdd = 0.0f;
+    s32 animCurFrame;
+    s32 animFrameSpeedDiff;
+    s32 animSpeed;
+    Player* player = PLAYER;
+
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + this->unk_2FE, 1, 4000, 1);
+
+    if ((EnWf_DodgeRanged(globalCtx, this) == 0) && (func_80B33FB0(globalCtx, this, 0) == 0)) {
+        this->actor.world.rot.y = this->actor.shape.rot.y;
+        angle1 = player->actor.shape.rot.y + this->unk_2FE + 0x8000;
+
+        if ((this->actor.bgCheckFlags & 8) ||
+            (func_800339B8(this, globalCtx, this->actor.speedXZ, this->actor.shape.rot.y) == 0)) {
+            angle2 = (this->actor.bgCheckFlags & 8)
+                         ? (this->actor.wallYaw - this->actor.yawTowardsPlayer) - this->unk_2FE
+                         : 0;
+
+            if (ABS(angle2) >= 0x2EE1) {
+                this->unk_2FE = -this->unk_2FE;
+            }
+        }
+
+        if (func_80033AB8(globalCtx, this) != 0) {
+            distAdd = 150.0f;
+        }
+
+        if (this->actor.xzDistToPlayer <= (60.0f + distAdd)) {
+            Math_SmoothStepToF(&this->unk_2EC, -4.0f, 1.0f, 1.5f, 0.0f);
+        } else if ((80.0f + distAdd) < this->actor.xzDistToPlayer) {
+            Math_SmoothStepToF(&this->unk_2EC, 4.0f, 1.0f, 1.5f, 0.0f);
+        } else {
+            Math_SmoothStepToF(&this->unk_2EC, 0.0f, 1.0f, 6.65f, 0.0f);
+        }
+
+        if (this->unk_2EC != 0.0f) {
+            this->actor.world.pos.x += Math_SinS(this->actor.shape.rot.y) * this->unk_2EC;
+            this->actor.world.pos.z += Math_CosS(this->actor.shape.rot.y) * this->unk_2EC;
+        }
+
+        if (ABS(this->unk_2EC) < ABS(this->actor.speedXZ)) {
+            this->skelAnime.playSpeed = this->actor.speedXZ * 0.175f;
+        } else {
+            this->skelAnime.playSpeed = this->unk_2EC * 0.175f;
+        }
+
+        this->skelAnime.playSpeed = CLAMP(this->skelAnime.playSpeed, -3.0f, 3.0f);
+        animCurFrame = this->skelAnime.curFrame;
+        SkelAnime_Update(&this->skelAnime);
+        animFrameSpeedDiff = this->skelAnime.curFrame - ABS(this->skelAnime.playSpeed);
+        animSpeed = (f32)ABS(this->skelAnime.playSpeed);
+
+        if ((animCurFrame != (s32)this->skelAnime.curFrame) && (animFrameSpeedDiff <= 0) &&
+            (animSpeed + animCurFrame > 0)) {
+            Audio_PlayActorSound2(this, 0x385A);
+            func_80033260(globalCtx, this, &this->actor.world.pos, 20.0f, 3, 3.0f, 50, 50, 1);
+        }
+
+        if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+        }
+
+        if ((Math_CosS(angle1 - this->actor.shape.rot.y) < -0.85f) && (func_80033AB8(globalCtx, this) == 0) &&
+            (this->actor.xzDistToPlayer <= 80.0f)) {
+            func_80B35540(this);
+        } else {
+            this->actionTimer--;
+
+            if (this->actionTimer == 0) {
+                if ((func_80033AB8(globalCtx, this) != 0) && (Rand_ZeroOne() > 0.5f)) {
+                    EnWf_SetupBackFlip(this);
+                } else {
+                    EnWf_SetupWait(this);
+                    this->actionTimer = (Rand_ZeroOne() * 3.0f) + 1.0f;
+                }
+            }
+        }
+    }
+}
 
 // EnWf_Setup??????
 void func_80B35540(EnWf* this) {
