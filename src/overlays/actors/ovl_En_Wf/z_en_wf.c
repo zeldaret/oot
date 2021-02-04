@@ -37,6 +37,8 @@ void func_80B34F28(EnWf* this);
 void EnWf_SetupSideStep(EnWf* this, GlobalContext* globalCtx);
 void EnWf_SetupBackFlip(EnWf* this);
 void func_80B35540(EnWf* this);
+void func_80B347FC(EnWf* this, GlobalContext* globalCtx);
+void EnWf_SetupSearchForPlayer(EnWf* this);
 
 extern FlexSkeletonHeader D_06003BC0;
 extern AnimationHeader D_06004638;
@@ -330,8 +332,72 @@ void EnWf_SetupWait(EnWf* this) {
 }
 
 // EnWf_Wait
-void func_80B345E4(EnWf* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B345E4.s")
+// void func_80B345E4(EnWf* this, GlobalContext* globalCtx);
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Wf/func_80B345E4.s")
+
+/*******
+ *  Doesn't match yet, control flow shenanigans
+ * **********/
+
+void func_80B345E4(EnWf* this, GlobalContext* globalCtx) {
+    Player* player;
+    s16 angle;
+
+    player = globalCtx->actorCtx.actorLists[2].head;
+    SkelAnime_Update(&this->skelAnime);
+
+    if (this->unk_2E2 != 0) {
+        angle = (this->actor.yawTowardsPlayer - this->actor.shape.rot.y) - this->unk_4D4.y;
+
+        if (ABS(angle) >= 0x2001) {
+            this->unk_2E2--;
+            return;
+        }
+
+        this->unk_2E2 = 0;
+    }
+
+    angle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+    angle = ABS(angle);
+
+    if (!(EnWf_DodgeRanged(globalCtx, this))) {
+        if (this->unk_2E0 != 0) {
+            this->unk_2E0--;
+        }
+
+        if ((angle < 0x1FFE) || (!(func_80B33FB0(globalCtx, this, 0)))) {
+            this->unk_2E0 = 0;
+            // block_13:
+            angle = player->actor.shape.rot.y - this->actor.shape.rot.y;
+            angle = ABS(angle);
+
+            if ((this->actor.xzDistToPlayer < 80.0f) && (player->swordState != 0) && (angle >= 0x1F40)) {
+                this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+                this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
+                func_80B34F28(this);
+                return;
+            }
+
+            this->actionTimer--;
+
+            if (this->actionTimer == 0) {
+                if (func_8002E084(&this->actor, 0x1555)) {
+                    if (Rand_ZeroOne() > 0.3f) {
+                        func_80B347FC(this, globalCtx);
+                    } else {
+                        func_80B34F28(this);
+                    }
+                } else {
+                    EnWf_SetupSearchForPlayer(this);
+                }
+
+                if ((globalCtx->gameplayFrames & 0x5F) == 0) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_CRY);
+                }
+            }
+        }
+    }
+}
 
 // EnWf_Setup?????? (probably when it runs forward)
 void func_80B347FC(EnWf* this, GlobalContext* globalCtx) {
@@ -955,7 +1021,7 @@ void EnWf_Die(EnWf* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xD0);
 
-        if (this->unk_2FC != 0xFF) {
+        if (this->unk_2FC != -1) {
             Flags_SetSwitch(globalCtx, this->unk_2FC);
         }
 
