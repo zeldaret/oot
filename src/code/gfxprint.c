@@ -132,15 +132,13 @@ u8 sGfxPrintFontData[(16 * 256) / 2] = {
 };
 
 #define gDPSetPrimColorMod(pkt, m, l, rgba)                                                    \
-    _DW({                                                                                      \
+    {                                                                                          \
         Gfx* _g = (Gfx*)(pkt);                                                                 \
                                                                                                \
         _g->words.w0 = (_SHIFTL(G_SETPRIMCOLOR, 24, 8) | _SHIFTL(m, 8, 8) | _SHIFTL(l, 0, 8)); \
         _g->words.w1 = (rgba);                                                                 \
-    })
+    }
 
-#ifdef NON_MATCHING
-// regalloc and minor ordering differences
 void GfxPrint_InitDlist(GfxPrint* this) {
     s32 width = 16;
     s32 height = 256;
@@ -152,19 +150,8 @@ void GfxPrint_InitDlist(GfxPrint* this) {
                         G_TD_CLAMP | G_TP_NONE | G_CYC_1CYCLE | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PRIM | G_RM_XLU_SURF | G_RM_XLU_SURF2);
     gDPSetCombineMode(this->dlist++, G_CC_DECALRGBA, G_CC_DECALRGBA);
-
-    gDPSetTextureImage(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 1, sGfxPrintFontData);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b_LOAD_BLOCK, 0, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPLoadSync(this->dlist++);
-    gDPLoadBlock(this->dlist++, G_TX_LOADTILE, 0, 0, (((width) * (height) + G_IM_SIZ_4b_INCR) >> G_IM_SIZ_4b_SHIFT) - 1,
-                 CALC_DXT(width, G_IM_SIZ_4b_BYTES));
-    gDPPipeSync(this->dlist++);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_4b, 1, 0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPSetTileSize(this->dlist++, G_TX_RENDERTILE, 0, 0, ((width)-1) << G_TEXTURE_IMAGE_FRAC,
-                   ((height)-1) << G_TEXTURE_IMAGE_FRAC);
-
+    gDPLoadTextureBlock_4b(this->dlist++, sGfxPrintFontData, G_IM_FMT_CI, width, height, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                           G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
     gDPLoadTLUT(this->dlist++, 64, 256, sGfxPrintFontTLUT);
 
     for (i = 1; i < 4; i++) {
@@ -175,15 +162,8 @@ void GfxPrint_InitDlist(GfxPrint* this) {
 
     gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
 
-    gDPSetTextureImage(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_8b, 1, sGfxPrintUnkData);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_8b, 1, 0, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, 3,
-               G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 1, G_TX_NOLOD);
-    gDPLoadSync(this->dlist++);
-    gDPLoadTile(this->dlist++, G_TX_LOADTILE, 0, 0, 2, 28);
-    gDPPipeSync(this->dlist++);
-    gDPSetTile(this->dlist++, G_IM_FMT_CI, G_IM_SIZ_8b, 1, 0, 1, 4, G_TX_NOMIRROR | G_TX_WRAP, 3, G_TX_NOLOD,
-               G_TX_NOMIRROR | G_TX_WRAP, 1, G_TX_NOLOD);
-    gDPSetTileSize(this->dlist++, 1, 0, 0, 4, 28);
+    gDPLoadMultiTile_4b(this->dlist++, sGfxPrintUnkData, 0, 1, G_IM_FMT_CI, 2, 8, 0, 0, 1, 7, 4,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 1, 3, G_TX_NOLOD, G_TX_NOLOD);
 
     gDPLoadTLUT(this->dlist++, 16, 320, sGfxPrintUnkTLUT);
 
@@ -193,9 +173,6 @@ void GfxPrint_InitDlist(GfxPrint* this) {
         gDPSetTileSize(this->dlist++, i * 2 + 1, 0, 0, 4, 28);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/gfxprint/GfxPrint_InitDlist.s")
-#endif
 
 void GfxPrint_SetColor(GfxPrint* this, u32 r, u32 g, u32 b, u32 a) {
     this->color.r = r;
@@ -220,9 +197,9 @@ void GfxPrint_SetBasePosPx(GfxPrint* this, s32 x, s32 y) {
     this->baseY = y << 2;
 }
 
-#ifdef NON_MATCHING
-// regalloc and ordering differences
 void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
+    u32 tile = (c & 0xFF) * 2;
+
     if (this->flag & GFXPRINT_UPDATE_MODE) {
         this->flag &= ~GFXPRINT_UPDATE_MODE;
 
@@ -245,10 +222,10 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
 
         if (this->flag & GFXPRINT_FLAG64) {
             gSPTextureRectangle(this->dlist++, (this->posX + 4) << 1, (this->posY + 4) << 1, (this->posX + 4 + 32) << 1,
-                                (this->posY + 4 + 32) << 1, c * 2, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
+                                (this->posY + 4 + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
         } else {
             gSPTextureRectangle(this->dlist++, this->posX + 4, this->posY + 4, this->posX + 4 + 32, this->posY + 4 + 32,
-                                c * 2, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
+                                tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
         }
 
         gDPSetPrimColorMod(this->dlist++, 0, 0, this->color.rgba);
@@ -256,17 +233,14 @@ void GfxPrint_PrintCharImpl(GfxPrint* this, u8 c) {
 
     if (this->flag & GFXPRINT_FLAG64) {
         gSPTextureRectangle(this->dlist++, (this->posX) << 1, (this->posY) << 1, (this->posX + 32) << 1,
-                            (this->posY + 32) << 1, c * 2, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
+                            (this->posY + 32) << 1, tile, (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 512, 512);
     } else {
-        gSPTextureRectangle(this->dlist++, this->posX, this->posY, this->posX + 32, this->posY + 32, c * 2,
+        gSPTextureRectangle(this->dlist++, this->posX, this->posY, this->posX + 32, this->posY + 32, tile,
                             (u16)(c & 4) * 64, (u16)(c >> 3) * 256, 1024, 1024);
     }
 
     this->posX += 32;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/gfxprint/GfxPrint_PrintCharImpl.s")
-#endif
 
 void GfxPrint_PrintChar(GfxPrint* this, u8 c) {
     u8 charParam = c;

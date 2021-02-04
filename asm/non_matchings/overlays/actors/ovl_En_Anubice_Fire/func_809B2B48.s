@@ -59,15 +59,15 @@ glabel func_809B2B48
 /* 00688 809B2C28 C6260028 */  lwc1    $f6, 0x0028($s1)           ## 00000028
 /* 0068C 809B2C2C E7A60078 */  swc1    $f6, 0x0078($sp)           
 /* 00690 809B2C30 C628002C */  lwc1    $f8, 0x002C($s1)           ## 0000002C
-/* 00694 809B2C34 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 00694 809B2C34 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 00698 809B2C38 E7A8007C */  swc1    $f8, 0x007C($sp)           
 /* 0069C 809B2C3C E7A00080 */  swc1    $f0, 0x0080($sp)           
-/* 006A0 809B2C40 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 006A0 809B2C40 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 006A4 809B2C44 4600B306 */  mov.s   $f12, $f22                 
 /* 006A8 809B2C48 E7A00084 */  swc1    $f0, 0x0084($sp)           
-/* 006AC 809B2C4C 0C00CFC8 */  jal     Math_Rand_CenteredFloat
+/* 006AC 809B2C4C 0C00CFC8 */  jal     Rand_CenteredFloat
               
 /* 006B0 809B2C50 4600A306 */  mov.s   $f12, $f20                 
 /* 006B4 809B2C54 241907D0 */  addiu   $t9, $zero, 0x07D0         ## $t9 = 000007D0

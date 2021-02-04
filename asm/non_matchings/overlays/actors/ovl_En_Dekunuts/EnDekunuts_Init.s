@@ -20,21 +20,21 @@ glabel EnDekunuts_Init
 /* 00044 809E95A4 10000043 */  beq     $zero, $zero, .L809E96B4   
 /* 00048 809E95A8 AE180004 */  sw      $t8, 0x0004($s0)           ## 00000004
 .L809E95AC:
-/* 0004C 809E95AC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00050 809E95B0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 0004C 809E95AC 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00050 809E95B0 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00054 809E95B4 0C00AC78 */  jal     ActorShape_Init
               
 /* 00058 809E95B8 3C07420C */  lui     $a3, 0x420C                ## $a3 = 420C0000
-/* 0005C 809E95BC 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 00060 809E95C0 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 0005C 809E95BC 3C060600 */  lui     $a2, %hi(D_06003268)                ## $a2 = 06000000
+/* 00060 809E95C0 3C070600 */  lui     $a3, %hi(D_06000E6C)                ## $a3 = 06000000
 /* 00064 809E95C4 2619019C */  addiu   $t9, $s0, 0x019C           ## $t9 = 0000019C
 /* 00068 809E95C8 26080232 */  addiu   $t0, $s0, 0x0232           ## $t0 = 00000232
 /* 0006C 809E95CC 24090019 */  addiu   $t1, $zero, 0x0019         ## $t1 = 00000019
 /* 00070 809E95D0 AFA90018 */  sw      $t1, 0x0018($sp)           
 /* 00074 809E95D4 AFA80014 */  sw      $t0, 0x0014($sp)           
 /* 00078 809E95D8 AFB90010 */  sw      $t9, 0x0010($sp)           
-/* 0007C 809E95DC 24E70E6C */  addiu   $a3, $a3, 0x0E6C           ## $a3 = 06000E6C
-/* 00080 809E95E0 24C63268 */  addiu   $a2, $a2, 0x3268           ## $a2 = 06003268
+/* 0007C 809E95DC 24E70E6C */  addiu   $a3, $a3, %lo(D_06000E6C)           ## $a3 = 06000E6C
+/* 00080 809E95E0 24C63268 */  addiu   $a2, $a2, %lo(D_06003268)           ## $a2 = 06003268
 /* 00084 809E95E4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00088 809E95E8 0C02915F */  jal     SkelAnime_Init
               
@@ -55,7 +55,7 @@ glabel EnDekunuts_Init
 /* 000BC 809E961C 3C06809F */  lui     $a2, %hi(D_809EAB7C)       ## $a2 = 809F0000
 /* 000C0 809E9620 24C6AB7C */  addiu   $a2, $a2, %lo(D_809EAB7C)  ## $a2 = 809EAB7C
 /* 000C4 809E9624 24A5AB84 */  addiu   $a1, $a1, %lo(D_809EAB84)  ## $a1 = 809EAB84
-/* 000C8 809E9628 0C0187B5 */  jal     func_80061ED4              
+/* 000C8 809E9628 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 000CC 809E962C 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 000D0 809E9630 860A001C */  lh      $t2, 0x001C($s0)           ## 0000001C
 /* 000D4 809E9634 860D001C */  lh      $t5, 0x001C($s0)           ## 0000001C

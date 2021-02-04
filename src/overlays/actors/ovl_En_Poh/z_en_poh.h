@@ -46,8 +46,8 @@ typedef struct EnPoh {
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 visibilityTimer;
     /* 0x019C */ s16 unk_19C;
-    /* 0x019E */ Vec3s limbDrawTable[21];
-    /* 0x021C */ Vec3s transitionDrawTable[21];
+    /* 0x019E */ Vec3s jointTable[21];
+    /* 0x021C */ Vec3s morphTable[21];
     /* 0x029A */ Color_RGBA8 lightColor;
     /* 0x029E */ Color_RGBA8 envColor;
     /* 0x02A4 */ EnPohInfo* info;
@@ -55,7 +55,7 @@ typedef struct EnPoh {
     /* 0x02AC */ LightInfo lightInfo;
     /* 0x02BC */ ColliderCylinder colliderCyl;
     /* 0x0308 */ ColliderJntSph colliderSph;
-    /* 0x0328 */ ColliderJntSphItem colliderSphItem;
+    /* 0x0328 */ ColliderJntSphElement colliderSphItem;
     /* 0x0368 */ MtxF unk_368;
 } EnPoh; // size = 0x03A8
 

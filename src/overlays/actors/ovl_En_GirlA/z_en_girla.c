@@ -71,7 +71,7 @@ void func_80A3BC6C(GlobalContext* globalCtx, EnGirlA* this);
 
 const ActorInit En_GirlA_InitVars = {
     ACTOR_EN_GIRLA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGirlA),
@@ -746,7 +746,7 @@ void func_80A3BA40(GlobalContext* globalCtx, EnGirlA* this) {
 void func_80A3BB6C(GlobalContext* globalCtx, EnGirlA* this) {
     if (this->actor.params == 12) {
         if (gSaveContext.infTable[7] & 0x40) {
-            Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Math_Rand_ZeroFloat(7.9f)]));
+            Rupees_ChangeBy(-(this->unk_1C8 - D_80A3CCB4[(s32)Rand_ZeroFloat(7.9f)]));
             return;
         }
     }
@@ -963,9 +963,9 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
         osSyncPrintf("%s(%2d)\n", D_80A3C590[params], params);
         this->actor.flags &= ~1;
         Actor_SetScale(&this->actor, 0.25f);
-        this->actor.shape.unk_08 = 24.0f;
-        this->actor.shape.unk_10 = 4.0f;
-        this->actor.groundY = this->actor.initPosRot.pos.y;
+        this->actor.shape.yOffset = 24.0f;
+        this->actor.shape.shadowScale = 4.0f;
+        this->actor.floorHeight = this->actor.home.pos.y;
         this->actor.gravity = 0.0f;
         func_80A3A750(this, func_80A3BD80);
         this->unk_19C = 1;
@@ -978,17 +978,17 @@ void func_80A3BFE4(EnGirlA* this, GlobalContext* globalCtx) {
 
 void func_80A3C3BC(EnGirlA* this, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.25f);
-    this->actor.shape.unk_08 = 24.0f;
-    this->actor.shape.unk_10 = 4.0f;
+    this->actor.shape.yOffset = 24.0f;
+    this->actor.shape.shadowScale = 4.0f;
     func_80A3BF54(this, globalCtx);
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, 5.0f);
+    Actor_SetFocus(&this->actor, 5.0f);
     this->actor.shape.rot.x = 0.0f;
     if (this->actor.params != 38) {
         if (this->unk_1B4 != 0) {
             this->unk_1B8 += 0x1F4;
         } else {
-            Math_SmoothScaleMaxMinS(&this->unk_1B8, 0, 10, 0x7D0, 0);
+            Math_SmoothStepToS(&this->unk_1B8, 0, 10, 0x7D0, 0);
         }
     }
 }

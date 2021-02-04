@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_ice_piece.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rLifespan regs[0]
 #define rYaw regs[1]
@@ -21,7 +22,7 @@ EffectSsInit Effect_Ss_Ice_Piece_InitVars = {
     EffectSsIcePiece_Init,
 };
 
-extern Gfx D_04033720[];
+extern Gfx gEffIceFragment1DL[];
 
 u32 EffectSsIcePiece_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsIcePieceInitParams* initParams = (EffectSsIcePieceInitParams*)initParamsx;
@@ -35,10 +36,10 @@ u32 EffectSsIcePiece_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, v
     this->update = EffectSsIcePiece_Update;
     this->rLifespan = initParams->life;
     this->rScale = initParams->scale * 100.0f;
-    this->rYaw = atan2s(initParams->velocity.z, initParams->velocity.x);
+    this->rYaw = Math_Atan2S(initParams->velocity.z, initParams->velocity.x);
     this->rPitch = 0;
     this->rRotSpeed =
-        ((fabsf(initParams->velocity.x) + fabsf(initParams->velocity.y)) * 100.0f) * (Math_Rand_ZeroFloat(1.0f) + 0.5f);
+        ((fabsf(initParams->velocity.x) + fabsf(initParams->velocity.y)) * 100.0f) * (Rand_ZeroFloat(1.0f) + 0.5f);
 
     return 1;
 }
@@ -74,7 +75,7 @@ void EffectSsIcePiece_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, (1 * frames) % 256, 0x20, 0x10, 1, 0, (2 * frames) % 256,
                                 0x40, 0x20));
-    gSPDisplayList(POLY_XLU_DISP++, D_04033720);
+    gSPDisplayList(POLY_XLU_DISP++, gEffIceFragment1DL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ice_piece.c", 209);
 }

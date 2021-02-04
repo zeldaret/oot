@@ -19,7 +19,7 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot01_Fusya_InitVars = {
     ACTOR_BG_SPOT01_FUSYA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Fusya),
@@ -68,7 +68,7 @@ void func_808AAA50(BgSpot01Fusya* this, GlobalContext* globalCtx) {
     thisx->shape.rot.z += this->unk_154;
     temp = ((this->unk_154 - 100.0f) / 1700.0f) + 1.0f;
     func_800F436C(&thisx->projectedPos, 0x2085, temp);
-    Math_SmoothScaleMaxF(&this->unk_154, this->unk_158, this->unk_15C, 100.0f);
+    Math_ApproachF(&this->unk_154, this->unk_158, this->unk_15C, 100.0f);
 }
 
 void BgSpot01Fusya_Update(Actor* thisx, GlobalContext* globalCtx) {

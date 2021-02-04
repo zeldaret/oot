@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 static Vtx sVertices[5] = {
     VTX(-32, -32, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -37,14 +38,13 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
         this->timer = 0;
 
         for (elem = &this->elements[0]; elem < &this->elements[this->numElements]; elem++) {
-            elem->initialSpeed =
-                (Math_Rand_ZeroOne() * (this->maxInitialSpeed * 0.5f)) + (this->maxInitialSpeed * 0.5f);
+            elem->initialSpeed = (Rand_ZeroOne() * (this->maxInitialSpeed * 0.5f)) + (this->maxInitialSpeed * 0.5f);
             elem->endX = 0.0f;
             elem->startXChange = 0.0f;
             elem->startX = 0.0f;
             elem->endXChange = elem->initialSpeed;
-            elem->yaw = Math_Rand_ZeroOne() * 65534.0f;
-            elem->pitch = Math_Rand_ZeroOne() * 65534.0f;
+            elem->yaw = Rand_ZeroOne() * 65534.0f;
+            elem->pitch = Rand_ZeroOne() * 65534.0f;
         }
 
         this->lightDecay = initParams->lightDecay;
@@ -164,8 +164,8 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
 
-        gDPLoadTextureBlock(POLY_XLU_DISP++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownCircle6Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
         if (1) {} // Necessary to match
 

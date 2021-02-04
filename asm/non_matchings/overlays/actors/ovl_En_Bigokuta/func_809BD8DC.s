@@ -29,7 +29,7 @@ glabel func_809BD8DC
 /* 00CBC 809BD91C 46062200 */  add.s   $f8, $f4, $f6              
 /* 00CC0 809BD920 24840024 */  addiu   $a0, $a0, 0x0024           ## $a0 = 00000024
 /* 00CC4 809BD924 44054000 */  mfc1    $a1, $f8                   
-/* 00CC8 809BD928 0C01DE80 */  jal     Math_ApproxF
+/* 00CC8 809BD928 0C01DE80 */  jal     Math_StepToF
               
 /* 00CCC 809BD92C 00000000 */  nop
 /* 00CD0 809BD930 86020196 */  lh      $v0, 0x0196($s0)           ## 00000196

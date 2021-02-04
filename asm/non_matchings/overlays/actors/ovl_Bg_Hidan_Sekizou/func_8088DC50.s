@@ -33,12 +33,12 @@ glabel func_8088DC50
 /* 00E08 8088DCC8 24120004 */  addiu   $s2, $zero, 0x0004         ## $s2 = 00000004
 .L8088DCCC:
 /* 00E0C 8088DCCC 00102400 */  sll     $a0, $s0, 16               
-/* 00E10 8088DCD0 0C01DE1C */  jal     Math_Sins
+/* 00E10 8088DCD0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00E14 8088DCD4 00042403 */  sra     $a0, $a0, 16               
 /* 00E18 8088DCD8 00102400 */  sll     $a0, $s0, 16               
 /* 00E1C 8088DCDC 46000506 */  mov.s   $f20, $f0                  
-/* 00E20 8088DCE0 0C01DE0D */  jal     Math_Coss
+/* 00E20 8088DCE0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00E24 8088DCE4 00042403 */  sra     $a0, $a0, 16               
 /* 00E28 8088DCE8 27B30068 */  addiu   $s3, $sp, 0x0068           ## $s3 = FFFFFFA8

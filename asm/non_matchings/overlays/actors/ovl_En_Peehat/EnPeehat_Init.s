@@ -23,22 +23,22 @@ glabel EnPeehat_Init
 /* 00034 80ACF4D4 0C00B58B */  jal     Actor_SetScale
               
 /* 00038 80ACF4D8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 0003C 80ACF4DC 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 00040 80ACF4E0 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 0003C 80ACF4DC 3C060600 */  lui     $a2, %hi(D_06001C80)                ## $a2 = 06000000
+/* 00040 80ACF4E0 3C070600 */  lui     $a3, %hi(D_060009C4)                ## $a3 = 06000000
 /* 00044 80ACF4E4 260E0190 */  addiu   $t6, $s0, 0x0190           ## $t6 = 00000190
 /* 00048 80ACF4E8 260F0220 */  addiu   $t7, $s0, 0x0220           ## $t7 = 00000220
 /* 0004C 80ACF4EC 24180018 */  addiu   $t8, $zero, 0x0018         ## $t8 = 00000018
 /* 00050 80ACF4F0 AFB80018 */  sw      $t8, 0x0018($sp)           
 /* 00054 80ACF4F4 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 00058 80ACF4F8 AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 0005C 80ACF4FC 24E709C4 */  addiu   $a3, $a3, 0x09C4           ## $a3 = 060009C4
-/* 00060 80ACF500 24C61C80 */  addiu   $a2, $a2, 0x1C80           ## $a2 = 06001C80
+/* 0005C 80ACF4FC 24E709C4 */  addiu   $a3, $a3, %lo(D_060009C4)           ## $a3 = 060009C4
+/* 00060 80ACF500 24C61C80 */  addiu   $a2, $a2, %lo(D_06001C80)           ## $a2 = 06001C80
 /* 00064 80ACF504 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00068 80ACF508 0C02915F */  jal     SkelAnime_Init
               
 /* 0006C 80ACF50C 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00070 80ACF510 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00074 80ACF514 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00070 80ACF510 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00074 80ACF514 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00078 80ACF518 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0007C 80ACF51C 3C0542C8 */  lui     $a1, 0x42C8                ## $a1 = 42C80000
 /* 00080 80ACF520 0C00AC78 */  jal     ActorShape_Init

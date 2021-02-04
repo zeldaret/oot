@@ -2,14 +2,14 @@ glabel func_80860068
 /* 00A18 80860068 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00A1C 8086006C AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 00A20 80860070 00803025 */  or      $a2, $a0, $zero            ## $a2 = 00000000
-/* 00A24 80860074 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00A28 80860078 24A5316C */  addiu   $a1, $a1, 0x316C           ## $a1 = 0600316C
+/* 00A24 80860074 3C050600 */  lui     $a1, %hi(D_0600316C)                ## $a1 = 06000000
+/* 00A28 80860078 24A5316C */  addiu   $a1, $a1, %lo(D_0600316C)           ## $a1 = 0600316C
 /* 00A2C 8086007C AFA60018 */  sw      $a2, 0x0018($sp)
-/* 00A30 80860080 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 00A30 80860080 0C0294BE */  jal     Animation_PlayLoop
 /* 00A34 80860084 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 00A38 80860088 8FA60018 */  lw      $a2, 0x0018($sp)
 /* 00A3C 8086008C 240E000A */  addiu   $t6, $zero, 0x000A         ## $t6 = 0000000A
-/* 00A40 80860090 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00A40 80860090 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00A44 80860094 A0CE07C8 */  sb      $t6, 0x07C8($a2)           ## 000007C8
 /* 00A48 80860098 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

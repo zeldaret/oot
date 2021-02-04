@@ -20,8 +20,8 @@ glabel func_809BE26C
 /* 01650 809BE2B0 10000047 */  beq     $zero, $zero, .L809BE3D0
 /* 01654 809BE2B4 A61800B6 */  sh      $t8, 0x00B6($s0)           ## 000000B6
 .L809BE2B8:
-/* 01658 809BE2B8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
-
+/* 01658 809BE2B8 0C02927F */  jal     SkelAnime_Update
+              
 /* 0165C 809BE2BC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01660 809BE2C0 10400043 */  beq     $v0, $zero, .L809BE3D0
 /* 01664 809BE2C4 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
@@ -67,7 +67,7 @@ glabel func_809BE26C
 /* 016F8 809BE358 26040054 */  addiu   $a0, $s0, 0x0054           ## $a0 = 00000054
 /* 016FC 809BE35C 3C063A83 */  lui     $a2, 0x3A83                ## $a2 = 3A830000
 /* 01700 809BE360 34C6126F */  ori     $a2, $a2, 0x126F           ## $a2 = 3A83126F
-/* 01704 809BE364 0C01DE80 */  jal     Math_ApproxF
+/* 01704 809BE364 0C01DE80 */  jal     Math_StepToF
 
 /* 01708 809BE368 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 0170C 809BE36C 10400018 */  beq     $v0, $zero, .L809BE3D0

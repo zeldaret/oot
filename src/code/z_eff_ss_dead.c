@@ -8,7 +8,7 @@ void func_80026230(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 113);
 
     displayListHead = POLY_OPA_DISP;
-    cos = Math_Coss((0x8000 / arg3) * arg2);
+    cos = Math_CosS((0x8000 / arg3) * arg2);
     absCos = ABS(cos);
 
     gDPPipeSync(displayListHead++);
@@ -35,7 +35,7 @@ void func_80026400(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     if (arg3 != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 141);
 
-        cos = Math_Coss((0x4000 / arg3) * arg2);
+        cos = Math_CosS((0x4000 / arg3) * arg2);
         displayListHead = POLY_OPA_DISP;
 
         gDPPipeSync(displayListHead++);
@@ -69,7 +69,7 @@ void func_80026690(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 178);
 
     displayListHead = POLY_XLU_DISP;
-    cos = Math_Coss((0x8000 / arg3) * arg2);
+    cos = Math_CosS((0x8000 / arg3) * arg2);
     absCos = ABS(cos);
 
     gDPPipeSync(displayListHead++);
@@ -96,7 +96,7 @@ void func_80026860(GlobalContext* globalCtx, Color_RGBA8* color, s16 arg2, s16 a
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_eff_ss_dead.c", 201);
 
     displayListHead = POLY_XLU_DISP;
-    cos = Math_Coss((0x4000 / arg3) * arg2);
+    cos = Math_CosS((0x4000 / arg3) * arg2);
 
     gDPPipeSync(displayListHead++);
     gDPSetFogColor(displayListHead++, color->r, color->g, color->b, color->a);

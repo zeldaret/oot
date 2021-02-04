@@ -677,9 +677,9 @@ typedef struct {
  * & 0x00FF = atInitFlags
  * & 0xFF00 = eyeInitFlags
  * 0x1: Direct Copy of atTargetInit
- *      if initFlags & 0x6060: use posRot2 for focus point
+ *      if initFlags & 0x6060: use head for focus point
  * 0x2: Add atTargetInit to view's lookAt
- *      if initFlags & 0x6060: use posRot for focus point
+ *      if initFlags & 0x6060: use world for focus point
  * 0x3: Add atTargetInit to camera's at
  * 0x4: Don't update targets? 
  * 0x8: flag to use atTagetInit as f32 pitch, yaw, r

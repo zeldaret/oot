@@ -45,7 +45,7 @@ glabel func_80B0DFFC
 /* 022E0 80B0E090 26060454 */  addiu   $a2, $s0, 0x0454           ## $a2 = 00000454
 /* 022E4 80B0E094 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE8
 /* 022E8 80B0E098 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 022EC 80B0E09C 0C00F7A1 */  jal     func_8003DE84              
+/* 022EC 80B0E09C 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 022F0 80B0E0A0 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 022F4 80B0E0A4 54400004 */  bnel    $v0, $zero, .L80B0E0B8     
 /* 022F8 80B0E0A8 8FB8006C */  lw      $t8, 0x006C($sp)           
@@ -73,7 +73,7 @@ glabel func_80B0DFFC
 /* 02348 80B0E0F8 26060460 */  addiu   $a2, $s0, 0x0460           ## $a2 = 00000460
 /* 0234C 80B0E0FC 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE8
 /* 02350 80B0E100 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 02354 80B0E104 0C00F7A1 */  jal     func_8003DE84              
+/* 02354 80B0E104 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02358 80B0E108 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 0235C 80B0E10C 50400004 */  beql    $v0, $zero, .L80B0E120     
 /* 02360 80B0E110 8FAD006C */  lw      $t5, 0x006C($sp)           
@@ -99,7 +99,7 @@ glabel func_80B0DFFC
 /* 023A8 80B0E158 AFB90014 */  sw      $t9, 0x0014($sp)           
 /* 023AC 80B0E15C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 023B0 80B0E160 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 023B4 80B0E164 0C00F7A1 */  jal     func_8003DE84              
+/* 023B4 80B0E164 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 023B8 80B0E168 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 023BC 80B0E16C 54400004 */  bnel    $v0, $zero, .L80B0E180     
 /* 023C0 80B0E170 8FAB006C */  lw      $t3, 0x006C($sp)           
@@ -125,7 +125,7 @@ glabel func_80B0DFFC
 /* 02408 80B0E1B8 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 0240C 80B0E1BC AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 02410 80B0E1C0 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 02414 80B0E1C4 0C00F7A1 */  jal     func_8003DE84              
+/* 02414 80B0E1C4 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02418 80B0E1C8 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 0241C 80B0E1CC 50400003 */  beql    $v0, $zero, .L80B0E1DC     
 /* 02420 80B0E1D0 26190430 */  addiu   $t9, $s0, 0x0430           ## $t9 = 00000430
@@ -145,7 +145,7 @@ glabel func_80B0DFFC
 /* 02450 80B0E200 26060484 */  addiu   $a2, $s0, 0x0484           ## $a2 = 00000484
 /* 02454 80B0E204 27A70050 */  addiu   $a3, $sp, 0x0050           ## $a3 = FFFFFFE8
 /* 02458 80B0E208 AFA00018 */  sw      $zero, 0x0018($sp)         
-/* 0245C 80B0E20C 0C00F7A1 */  jal     func_8003DE84              
+/* 0245C 80B0E20C 0C00F7A1 */  jal     BgCheck_EntityLineTest1              
 /* 02460 80B0E210 AFA0001C */  sw      $zero, 0x001C($sp)         
 /* 02464 80B0E214 50400039 */  beql    $v0, $zero, .L80B0E2FC     
 /* 02468 80B0E218 8FBF003C */  lw      $ra, 0x003C($sp)           
@@ -155,7 +155,7 @@ glabel func_80B0DFFC
 /* 02478 80B0E228 44892000 */  mtc1    $t1, $f4                   ## $f4 = 0.00
 /* 0247C 80B0E22C 448C3000 */  mtc1    $t4, $f6                   ## $f6 = 0.00
 /* 02480 80B0E230 46802320 */  cvt.s.w $f12, $f4                  
-/* 02484 80B0E234 0C03F494 */  jal     Math_atan2f              
+/* 02484 80B0E234 0C03F494 */  jal     Math_FAtan2F              
 /* 02488 80B0E238 468033A0 */  cvt.s.w $f14, $f6                  
 /* 0248C 80B0E23C 3C0180B1 */  lui     $at, %hi(D_80B0F238)       ## $at = 80B10000
 /* 02490 80B0E240 C428F238 */  lwc1    $f8, %lo(D_80B0F238)($at)  
@@ -171,7 +171,7 @@ glabel func_80B0DFFC
 /* 024B8 80B0E268 AE380004 */  sw      $t8, 0x0004($s1)           ## 00000028
 /* 024BC 80B0E26C 8DF90008 */  lw      $t9, 0x0008($t7)           ## FFFFFFF0
 /* 024C0 80B0E270 AE390008 */  sw      $t9, 0x0008($s1)           ## 0000002C
-/* 024C4 80B0E274 0C01DE1C */  jal     Math_Sins
+/* 024C4 80B0E274 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 024C8 80B0E278 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 024CC 80B0E27C 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
@@ -180,7 +180,7 @@ glabel func_80B0DFFC
 /* 024D8 80B0E288 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 024DC 80B0E28C 46002182 */  mul.s   $f6, $f4, $f0              
 /* 024E0 80B0E290 46069200 */  add.s   $f8, $f18, $f6             
-/* 024E4 80B0E294 0C01DE0D */  jal     Math_Coss
+/* 024E4 80B0E294 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 024E8 80B0E298 E6080024 */  swc1    $f8, 0x0024($s0)           ## 00000024
 /* 024EC 80B0E29C 3C0140C0 */  lui     $at, 0x40C0                ## $at = 40C00000
@@ -196,13 +196,13 @@ glabel func_80B0DFFC
 /* 02514 80B0E2C4 8D0A0004 */  lw      $t2, 0x0004($t0)           ## FFFFFFEC
 /* 02518 80B0E2C8 AE0A0438 */  sw      $t2, 0x0438($s0)           ## 00000438
 /* 0251C 80B0E2CC 8D0B0008 */  lw      $t3, 0x0008($t0)           ## FFFFFFF0
-/* 02520 80B0E2D0 0C01DE1C */  jal     Math_Sins
+/* 02520 80B0E2D0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02524 80B0E2D4 AE0B043C */  sw      $t3, 0x043C($s0)           ## 0000043C
 /* 02528 80B0E2D8 C6060434 */  lwc1    $f6, 0x0434($s0)           ## 00000434
 /* 0252C 80B0E2DC 86040032 */  lh      $a0, 0x0032($s0)           ## 00000032
 /* 02530 80B0E2E0 46003200 */  add.s   $f8, $f6, $f0              
-/* 02534 80B0E2E4 0C01DE0D */  jal     Math_Coss
+/* 02534 80B0E2E4 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02538 80B0E2E8 E6080434 */  swc1    $f8, 0x0434($s0)           ## 00000434
 /* 0253C 80B0E2EC C610043C */  lwc1    $f16, 0x043C($s0)          ## 0000043C

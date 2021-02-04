@@ -1,6 +1,7 @@
 #include "z_en_ossan.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000019
 
@@ -108,7 +109,7 @@ u16 func_80AC6F2C(EnOssan* this);
 
 const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnOssan),
@@ -152,16 +153,16 @@ typedef struct {
 
 s16 D_80AC8940[][3] = {
     { OBJECT_KM1, OBJECT_MASTERKOKIRIHEAD, OBJECT_MASTERKOKIRI },
-    { OBJECT_DS2, OBJECT_MAX, OBJECT_MAX },
-    { OBJECT_RS, OBJECT_MAX, OBJECT_MAX },
-    { OBJECT_DS2, OBJECT_MAX, OBJECT_MAX },
-    { OBJECT_OSSAN, OBJECT_MAX, OBJECT_MAX },
-    { OBJECT_OSSAN, OBJECT_MAX, OBJECT_MAX },
-    { OBJECT_OSSAN, OBJECT_MAX, OBJECT_MAX },
-    { OBJECT_ZO, OBJECT_MAX, OBJECT_MASTERZOORA },
-    { OBJECT_OF1D_MAP, OBJECT_MAX, OBJECT_MASTERGOLON },
-    { OBJECT_OSSAN, OBJECT_MAX, OBJECT_MAX },
-    { OBJECT_OS, OBJECT_MAX, OBJECT_MAX },
+    { OBJECT_DS2, OBJECT_ID_MAX, OBJECT_ID_MAX },
+    { OBJECT_RS, OBJECT_ID_MAX, OBJECT_ID_MAX },
+    { OBJECT_DS2, OBJECT_ID_MAX, OBJECT_ID_MAX },
+    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
+    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
+    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
+    { OBJECT_ZO, OBJECT_ID_MAX, OBJECT_MASTERZOORA },
+    { OBJECT_OF1D_MAP, OBJECT_ID_MAX, OBJECT_MASTERGOLON },
+    { OBJECT_OSSAN, OBJECT_ID_MAX, OBJECT_ID_MAX },
+    { OBJECT_OS, OBJECT_ID_MAX, OBJECT_ID_MAX },
 };
 
 EnOssanUnkFunc1 D_80AC8984[] = {
@@ -294,8 +295,8 @@ EnOssanUnkFunc3 D_80AC8C9C[] = {
 };
 
 InitChainEntry D_80AC8D64[] = {
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 500, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
 s32 D_80AC8D6C[] = { 0x41880000, 0x42680000, 0x41F00000, 0xC1880000, 0x42680000, 0x41F00000 };
@@ -369,8 +370,8 @@ void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, ShopItem* items);
 //             } else {
 //                 shelves = this->shelves;
 //                 this->items[i] = Actor_Spawn(
-//                     &globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, shelves->actor.posRot.pos.x +
-//                     itemEntry->xOffset, shelves->actor.posRot.pos.y + itemEntry->yOffset, shelves->actor.posRot.pos.z
+//                     &globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, shelves->actor.world.pos.x +
+//                     itemEntry->xOffset, shelves->actor.world.pos.y + itemEntry->yOffset, shelves->actor.world.pos.z
 //                     + itemEntry->zOffset, shelves->actor.shape.rot.x, shelves->actor.shape.rot.y + D_80AC88F4[i],
 //                     shelves->actor.shape.rot.z, itemParams);
 //             }
@@ -404,7 +405,7 @@ void func_80AC3350(EnOssan* this, GlobalContext* globalCtx, f32 arg2) {
 }
 
 s32 func_80AC33B0(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
-    if (objectIds[1] != OBJECT_MAX) {
+    if (objectIds[1] != OBJECT_ID_MAX) {
         this->objectIndex2 = Object_GetIndex(&globalCtx->objectCtx, objectIds[1]);
         if (this->objectIndex2 < 0) {
             return 0;
@@ -413,7 +414,7 @@ s32 func_80AC33B0(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
         this->objectIndex2 = -1;
     }
 
-    if (objectIds[2] != OBJECT_MAX) {
+    if (objectIds[2] != OBJECT_ID_MAX) {
         this->objectIndex3 = Object_GetIndex(&globalCtx->objectCtx, objectIds[2]);
         if (this->objectIndex3 < 0) {
             return 0;
@@ -560,7 +561,7 @@ void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC3AE0.s")
 
 void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    this->lookAngle = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    this->lookAngle = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
     if (func_8002F194(this, globalCtx)) {
         // "Start conversation!!"
@@ -568,7 +569,7 @@ void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         player->stateFlags2 |= 0x20000000;
         func_800BC590(globalCtx);
         func_80AC3928(globalCtx, this, 0);
-    } else if (this->actor.xzDistFromLink < 100.0f) {
+    } else if (this->actor.xzDistToPlayer < 100.0f) {
         func_8002F2CC(this, globalCtx, 100);
     }
 }
@@ -754,7 +755,7 @@ void func_80AC43A0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 }
 
 void func_80AC43F0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    Math_SmoothScaleMaxF(&this->unk_2D4, 30.0f, 0.5f, 10.0f);
+    Math_ApproachF(&this->unk_2D4, 30.0f, 0.5f, 10.0f);
 
     if (this->unk_2D4 > 29.5f) {
         func_80AC3350(this, globalCtx, 30.0f);
@@ -773,7 +774,7 @@ void func_80AC43F0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 }
 
 void func_80AC44DC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    Math_SmoothScaleMaxF(&this->unk_2D4, -30.0f, 0.5f, 10.0f);
+    Math_ApproachF(&this->unk_2D4, -30.0f, 0.5f, 10.0f);
 
     if (this->unk_2D4 < -29.5f) {
         func_80AC3350(this, globalCtx, -30.0f);
@@ -907,17 +908,17 @@ void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx) {
 void func_80AC6B3C(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex3].segment);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060004A8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060004A8), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060004A8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060004A8), 0, 0.0f);
     this->actor.draw = func_80AC80B4;
     this->unk_194 = func_80AC7380;
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.posRot.pos.x,
-                       this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, FAIRY_KOKIRI);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
+                       this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
 }
 
 void func_80AC6C54(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex3].segment);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_060000FC, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060000FC), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_060000FC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000FC), 0, 0.0f);
     this->actor.draw = func_80AC8244;
     this->unk_194 = func_80AC7380;
 }
@@ -925,7 +926,7 @@ void func_80AC6C54(EnOssan* this, GlobalContext* globalCtx) {
 void func_80AC6D30(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex3].segment);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600078C, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_0600078C), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &D_0600078C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600078C), 0, 0.0f);
     this->actor.draw = func_80AC83DC;
     this->unk_194 = func_80AC7380;
 }
@@ -1027,9 +1028,9 @@ u16 func_80AC6F2C(EnOssan* this) {
 //         // "Shopkeeper (params) init"
 //         osSyncPrintf(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
 
-//         this->actor.posRot.pos.x += D_80AC8DB0[this->actor.params].x;
-//         this->actor.posRot.pos.y += D_80AC8DB0[this->actor.params].y;
-//         this->actor.posRot.pos.z += D_80AC8DB0[this->actor.params].z;
+//         this->actor.world.pos.x += D_80AC8DB0[this->actor.params].x;
+//         this->actor.world.pos.y += D_80AC8DB0[this->actor.params].y;
+//         this->actor.world.pos.z += D_80AC8DB0[this->actor.params].z;
 
 //         items = D_80AC89DC[this->actor.params];
 
@@ -1110,15 +1111,15 @@ void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx) {
     func_80AC65B8(this);
     func_80AC67C4(this);
     func_80AC66F4(this);
-    Math_ApproxS(&this->unk_1EE, this->lookAngle, 0x190);
+    Math_StepToS(&this->unk_1EE, this->lookAngle, 0x190);
 
     if (player != NULL) {
         D_80AC8E34[this->unk_1FC](this, globalCtx, player);
     }
 
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 26.0f, 10.0f, 0.0f, 5);
-    Actor_SetHeight(&this->actor, 90.0f);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 26.0f, 10.0f, 0.0f, 5);
+    Actor_SetFocus(&this->actor, 90.0f);
     Actor_SetScale(&this->actor, D_80AC89B0[this->actor.params]);
 
     // use animation object if needed
@@ -1126,7 +1127,7 @@ void func_80AC73B4(EnOssan* this, GlobalContext* globalCtx) {
         this->unk_194(this, globalCtx);
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void EnOssan_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1235,7 +1236,7 @@ void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EA0[this->unk_1F2]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           func_80AC74F4, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
@@ -1279,7 +1280,7 @@ void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x09, func_80AC8048(globalCtx->state.gfxCtx, 0x6E, 0xAA, 0x14, 0xFF));
     gSPSegment(POLY_OPA_DISP++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           func_80AC7ED0, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
@@ -1296,7 +1297,7 @@ void func_80AC8244(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EB8[this->unk_1F2]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
@@ -1325,7 +1326,7 @@ void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EC4[this->unk_1F2]));
 
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           func_80AC83A8, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
@@ -1341,7 +1342,7 @@ void func_80AC854C(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8ED0[this->unk_1F2]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
@@ -1358,7 +1359,7 @@ void func_80AC8668(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EDC[this->unk_1EC]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
@@ -1375,7 +1376,7 @@ void func_80AC8784(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EE4[this->unk_1F2]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
