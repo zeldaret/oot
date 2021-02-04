@@ -23,11 +23,11 @@ typedef struct DemoDu {
 
 extern const ActorInit Demo_Du_InitVars;
 
-typedef enum DemoDuType {
+typedef enum DemoDu_Type {
     /* 0x00 */ DEMO_DU_TYPE_00, // default
     /* 0x01 */ DEMO_DU_TYPE_CS_GORONS_RUBY,
     /* 0x02 */ DEMO_DU_TYPE_02,
     /* 0x03 */ DEMO_DU_TYPE_03
-} DemoDuType;
+} DemoDu_Type;
 
 #endif

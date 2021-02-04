@@ -150,7 +150,7 @@ glabel func_8096A6E0
 /* 00E48 8096A918 020A082B */  sltu    $at, $s0, $t2              
 /* 00E4C 8096A91C 5020FFB3 */  beql    $at, $zero, .L8096A7EC     
 /* 00E50 8096A920 8ECC0000 */  lw      $t4, 0x0000($s6)           ## 8096CEB0
-/* 00E54 8096A924 0C25A902 */  jal     func_8096A408              
+/* 00E54 8096A924 0C25A902 */  jal     DemoDu_CsPlaySfx_DaruniaHitsLink              
 /* 00E58 8096A928 8FA400D4 */  lw      $a0, 0x00D4($sp)           
 .L8096A92C:
 /* 00E5C 8096A92C 8FBF0074 */  lw      $ra, 0x0074($sp)           
