@@ -33,7 +33,7 @@ static s32 sUnused = 0;
 #include "z_demo_du_cutscene_data.c" EARLY
 
 static Gfx* sEyeTextures[] = {0x06008080, 0x06008480, 0x06008880, 0x0600A540};
-static Gfx* D_8096CE84[] = {0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180};
+static Gfx* sMouthTextures[] = {0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180};
 
 /**
  * Cs => Cutscene
@@ -77,8 +77,8 @@ void DemoDu_SetEyeTexIndex(DemoDu* this, s16 eyeTexIndex) {
     this->eyeTexIndex = eyeTexIndex;
 }
 
-void func_80969B8C(DemoDu* this, s16 unk_194) {
-    this->unk_194 = unk_194;
+void DemoDu_SetMouthTexIndex(DemoDu* this, s16 mouthTexIndex) {
+    this->mouthTexIndex = mouthTexIndex;
 }
 
 void func_80969BA0(DemoDu* this) {
@@ -106,6 +106,7 @@ void func_80969BC4(DemoDu* this, GlobalContext* globalCtx) {
     }
 }
 
+// Returns true if the animation finished
 s32 DemoDu_UpdateSkelAnime(DemoDu* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
@@ -180,7 +181,7 @@ void DemoDu_InitCs_FireMedallion(DemoDu* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011CA8, &D_06006EB0, NULL, NULL, 0);
     this->actor.shape.yOffset = -10000.0f;
     DemoDu_SetEyeTexIndex(this, 1);
-    func_80969B8C(this, 3);
+    DemoDu_SetMouthTexIndex(this, 3);
 }
 
 void func_80969EDC(DemoDu* this, GlobalContext* globalCtx) {
@@ -261,8 +262,8 @@ void func_8096A0D8(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096A16C(DemoDu *this, s32 arg1) {
-    if (arg1) {
+void func_8096A16C(DemoDu *this, s32 didAnimFinished) {
+    if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06000D00, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000D00), 0, 0.0f);
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(5);
     }
@@ -301,11 +302,11 @@ void DemoDu_UpdateCs_FM_03(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void DemoDu_UpdateCs_FM_04(DemoDu *this, GlobalContext *globalCtx) {
-    s32 aux;
+    s32 didAnimFinished;
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
-    aux = DemoDu_UpdateSkelAnime(this);
-    func_8096A16C(this, aux);
+    didAnimFinished = DemoDu_UpdateSkelAnime(this);
+    func_8096A16C(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_FM_05(DemoDu *this, GlobalContext *globalCtx) {
@@ -375,31 +376,31 @@ void DemoDu_CsPlaySfx_LinkSurprised(GlobalContext *globalCtx) {
     }
 }
 
-void func_8096A528(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_UpdateFaceTextures(DemoDu *this, GlobalContext *globalCtx) {
     u16* frames = &globalCtx->csCtx.frames;
 
     if (*frames < 260) {
         DemoDu_UpdateEyes(this);
-        func_80969B8C(this, 0);
+        DemoDu_SetMouthTexIndex(this, 0);
     } else if (*frames < 335) {
         DemoDu_UpdateEyes(this);
-        func_80969B8C(this, 3);
+        DemoDu_SetMouthTexIndex(this, 3);
         return;
     } else if (*frames < 365) {
         DemoDu_SetEyeTexIndex(this, 3);
-        func_80969B8C(this, 1);
+        DemoDu_SetMouthTexIndex(this, 1);
         return;
     } else if (*frames < 395) {
         DemoDu_SetEyeTexIndex(this, 0);
-        func_80969B8C(this, 3);
+        DemoDu_SetMouthTexIndex(this, 3);
         return;
     } else if (*frames < 410) {
         DemoDu_UpdateEyes(this);
-        func_80969B8C(this, 0);
+        DemoDu_SetMouthTexIndex(this, 0);
         return;
     } else {
         DemoDu_UpdateEyes(this);
-        func_80969B8C(this, 3);
+        DemoDu_SetMouthTexIndex(this, 3);
     }
 }
 
@@ -412,7 +413,7 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_CsPlaySfx_GoronLanding(this);
 }
 
-void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* globalCtx) {
     static Vec3f sDustVelocity = {0.0f, 0.0f, 0.0f};
     static Vec3f sDustAccel = {0.0f, 0.3f, 0.0f};
     static Color_RGBA8 sDustPrimaryColor = {190, 150, 110, 255};
@@ -558,8 +559,8 @@ void func_8096AB54(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AB8C(DemoDu *this, s32 arg1) {
-    if (arg1) {
+void func_8096AB8C(DemoDu *this, s32 didAnimFinished) {
+    if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(5);
     }
@@ -570,15 +571,15 @@ void func_8096ABF8(DemoDu *this, GlobalContext *globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[2];
-        if ((npcAction != NULL) && (npcAction->action != 3)) {
+        if (npcAction != NULL && npcAction->action != 3) {
             Animation_Change(&this->skelAnime, &D_06002374, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002374), 2, -4.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(6);
         }
     }
 }
 
-void func_8096AC90(DemoDu *this, s32 arg1) {
-    if (arg1) {
+void func_8096AC90(DemoDu *this, s32 didAnimFinished) {
+    if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(7);
     }
@@ -596,15 +597,15 @@ void func_8096ACFC(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AD90(DemoDu *this, s32 arg1) {
-    if (arg1) {
+void func_8096AD90(DemoDu *this, s32 didAnimFinished) {
+    if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06002374, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002374), 2, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(9);
     }
 }
 
-void func_8096AE00(DemoDu *this, s32 arg1) {
-    if (arg1) {
+void func_8096AE00(DemoDu *this, s32 didAnimFinished) {
+    if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(10);
     }
@@ -622,8 +623,8 @@ void func_8096AE6C(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AF00(DemoDu *this, s32 arg1) {
-    if (arg1) {
+void func_8096AF00(DemoDu *this, s32 didAnimFinished) {
+    if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06000D00, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000D00), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(12);
     }
@@ -667,85 +668,85 @@ void DemoDu_UpdateCs_GR_03(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void DemoDu_UpdateCs_GR_04(DemoDu *this, GlobalContext *globalCtx) {
-    s32 aux;
+    s32 didAnimFinished;
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
-    aux = DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
-    func_8096AB8C(this, aux);
+    didAnimFinished = DemoDu_UpdateSkelAnime(this);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
+    func_8096AB8C(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_05(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
     func_8096ABF8(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_06(DemoDu *this, GlobalContext *globalCtx) {
-    s32 aux;
+    s32 didAnimFinished;
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
-    aux = DemoDu_UpdateSkelAnime(this);
+    didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_CsPlaySfx_HitBreast(this);
-    func_8096A528(this, globalCtx);
-    func_8096AC90(this, aux);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
+    func_8096AC90(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_07(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
     func_8096ACFC(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_08(DemoDu *this, GlobalContext *globalCtx) {
-    s32 aux;
+    s32 didAnimFinished;
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
-    aux = DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
-    func_8096A6E0(this, globalCtx);
-    func_8096AD90(this, aux);
+    didAnimFinished = DemoDu_UpdateSkelAnime(this);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
+    DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(this, globalCtx);
+    func_8096AD90(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_09(DemoDu *this, GlobalContext *globalCtx) {
-    s32 aux;
+    s32 didAnimFinished;
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
-    aux = DemoDu_UpdateSkelAnime(this);
+    didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_CsPlaySfx_HitBreast(this);
-    func_8096A528(this, globalCtx);
-    func_8096AE00(this, aux);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
+    func_8096AE00(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_10(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
     func_8096AE6C(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_11(DemoDu *this, GlobalContext *globalCtx) {
-    s32 aux;
+    s32 didAnimFinished;
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
-    aux = DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
-    func_8096AF00(this, aux);
+    didAnimFinished = DemoDu_UpdateSkelAnime(this);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
+    func_8096AF00(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_12(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
     func_8096AF6C(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_13(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A528(this, globalCtx);
+    DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
     DemoDu_CsPlaySfx_LinkEscapeFromGorons(globalCtx);
 }
 
@@ -852,8 +853,8 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext *globalCtx2) {
     s16 eyeTexIndex = this->eyeTexIndex;
     Gfx* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
-    s16 unk_194 = this->unk_194;
-    Gfx* sp64 = D_8096CE84[unk_194];
+    s16 mouthTexIndex = this->mouthTexIndex;
+    Gfx* sp64 = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 275);
@@ -879,7 +880,7 @@ void DemoDu_InitCs_Credits(DemoDu* this, GlobalContext* globalCtx) {
     this->updateIndex = CS_CREDITS_SUBSCENE(0);
     this->drawIndex = 0;
     this->actor.shape.shadowAlpha = 0;
-    func_80969B8C(this, 3);
+    DemoDu_SetMouthTexIndex(this, 3);
 }
 
 void func_8096BA98(DemoDu *this) {
@@ -924,8 +925,8 @@ void func_8096BBE8(DemoDu *this) {
     this->updateIndex = CS_CREDITS_SUBSCENE(4);
 }
 
-void func_8096BC28(DemoDu *this, s32 arg1) {
-    if (arg1) {
+void func_8096BC28(DemoDu *this, s32 didAnimFinished) {
+    if (didAnimFinished) {
         func_80969DDC(this, &D_060067CC, ANIMMODE_LOOP, 0.0f, 0);
         this->updateIndex = CS_CREDITS_SUBSCENE(2);
     }
@@ -987,12 +988,12 @@ void DemoDu_UpdateCs_CR_03(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void DemoDu_UpdateCs_CR_04(DemoDu *this, GlobalContext *globalCtx) {
-    s32 aux;
+    s32 didAnimFinished;
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
-    aux = DemoDu_UpdateSkelAnime(this);
+    didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    func_8096BC28(this, aux);
+    func_8096BC28(this, didAnimFinished);
 }
 
 
@@ -1046,8 +1047,8 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     s16 eyeTexIndex = this->eyeTexIndex;
     Gfx* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
-    s16 unk_194 = this->unk_194;
-    Gfx* sp5C = D_8096CE84[unk_194];
+    s16 mouthTexIndex = this->mouthTexIndex;
+    Gfx* sp5C = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 615);

@@ -11,7 +11,7 @@ typedef struct DemoDu {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ s16 eyeTexIndex;
     /* 0x0192 */ s16 blinkTimer;
-    /* 0x0194 */ s16 unk_194; // index for D_8096CE84
+    /* 0x0194 */ s16 mouthTexIndex;
     /* 0x0198 */ s32 updateIndex;
     /* 0x019C */ s32 drawIndex;
     /* 0x01A0 */ s32 unused;
