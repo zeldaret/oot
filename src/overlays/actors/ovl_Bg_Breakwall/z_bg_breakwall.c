@@ -59,7 +59,7 @@ static ColliderQuadInit sQuadInit = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-BombableWallInfo sBombableWallInfo[] = {
+static BombableWallInfo sBombableWallInfo[] = {
     { 0x06000118, 0x06000040, 0 },
     { 0x06000118, 0x06000040, 0 },
     { 0x060264A8, 0x06025BD0, 1 },
