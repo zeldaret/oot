@@ -69,41 +69,41 @@ static InitChainEntry sInitChain[] = {
 
 void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRock* this = THIS;
-    DynaPolyActor* dyna = &this->dyna;
-    CollisionHeader* col_header = NULL;
+    s32 pad;
+    CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&dyna->actor, sInitChain);
-    DynaPolyActor_Init(dyna, DPM_PLAYER);
+    Actor_ProcessInitChain(thisx, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
-    this->params = dyna->actor.params & 0xFF;
+    this->params = thisx->params & 0xFF;
     this->unk_169 = 0;
 
-    this->dyna.actor.params = ((dyna->actor.params) >> 8) & 0xFF;
+    thisx->params = ((thisx->params) >> 8) & 0xFF;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &dyna->actor, &D_8088BF8C);
+    Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_8088BF8C);
 
     if (this->params == 0) {
-        if (Flags_GetSwitch(globalCtx, dyna->actor.params) != 0) {
-            Math_Vec3f_Copy(&this->dyna.actor.home.pos, &D_8088BF60);
-            Math_Vec3f_Copy(&this->dyna.actor.world.pos, &D_8088BF60);
-            this->unk_16A = 0x3C;
+        if (Flags_GetSwitch(globalCtx, thisx->params)) {
+            Math_Vec3f_Copy(&thisx->home.pos, &D_8088BF60);
+            Math_Vec3f_Copy(&thisx->world.pos, &D_8088BF60);
+            this->timer = 60;
             this->actionFunc = func_8088B5F4;
         } else {
             this->actionFunc = func_8088B268;
         }
-        this->dyna.actor.flags = dyna->actor.flags | 0x30;
-        CollisionHeader_GetVirtual(&D_0600CB80, &col_header);
+        thisx->flags |= 0x30;
+        CollisionHeader_GetVirtual(&D_0600CB80, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_0600DF78, &col_header);
-        this->collider.dim.pos.x = dyna->actor.home.pos.x;
-        this->collider.dim.pos.y = dyna->actor.home.pos.y;
-        this->collider.dim.pos.z = dyna->actor.home.pos.z;
+        CollisionHeader_GetVirtual(&D_0600DF78, &colHeader);
+        this->collider.dim.pos.x = thisx->home.pos.x;
+        this->collider.dim.pos.y = thisx->home.pos.y;
+        this->collider.dim.pos.z = thisx->home.pos.z;
         this->actionFunc = func_8088B634;
     }
 
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &dyna->actor, col_header);
-    this->unk_16A = 0;
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->timer = 0;
 }
 
 void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -115,7 +115,7 @@ void BgHidanRock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088B24C(BgHidanRock* this) {
-    this->dyna.actor.flags = this->dyna.actor.flags | 0x30;
+    this->dyna.actor.flags |= 0x30;
     this->actionFunc = func_8088B990;
 }
 
@@ -127,7 +127,7 @@ void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (this->dyna.unk_150 != 0.0f) {
-        if (this->unk_16A == 0) {
+        if (this->timer == 0) {
             if (D_8088BFC0 == 0.0f) {
                 if (this->dyna.unk_150 > 0.0f) {
                     D_8088BFC0 += 0.01f;
@@ -136,8 +136,8 @@ void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
                 }
             }
 
-            this->dyna.actor.speedXZ = this->dyna.actor.speedXZ + 0.05f;
-            this->dyna.actor.speedXZ = (this->dyna.actor.speedXZ > 2.0f) ? 2.0f : this->dyna.actor.speedXZ;
+            this->dyna.actor.speedXZ += 0.05f;
+            this->dyna.actor.speedXZ = CLAMP_MAX(this->dyna.actor.speedXZ, 2.0f);
 
             if (D_8088BFC0 > 0.0f) {
                 temp_v1 = Math_StepToF(&D_8088BFC0, 20.0f, this->dyna.actor.speedXZ);
@@ -148,26 +148,26 @@ void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
             this->dyna.actor.world.pos.x = (Math_SinS(this->dyna.unk_158) * D_8088BFC0) + this->dyna.actor.home.pos.x;
             this->dyna.actor.world.pos.z = (Math_CosS(this->dyna.unk_158) * D_8088BFC0) + this->dyna.actor.home.pos.z;
 
-            if (temp_v1 != 0) {
+            if (temp_v1) {
                 player->stateFlags2 &= ~0x10;
                 this->dyna.unk_150 = 0.0f;
                 this->dyna.actor.home.pos.x = this->dyna.actor.world.pos.x;
                 this->dyna.actor.home.pos.z = this->dyna.actor.world.pos.z;
                 D_8088BFC0 = 0.0f;
                 this->dyna.actor.speedXZ = 0.0f;
-                this->unk_16A = 5;
+                this->timer = 5;
             }
 
             func_8002F974(&this->dyna.actor, NA_SE_EV_ROCK_SLIDE - SFX_FLAG);
         } else {
             player->stateFlags2 &= ~0x10;
             this->dyna.unk_150 = 0.0f;
-            if (this->unk_16A != 0) {
-                this->unk_16A--;
+            if (this->timer != 0) {
+                this->timer--;
             }
         }
     } else {
-        this->unk_16A = 0;
+        this->timer = 0;
     }
 
     sp2C = this->dyna.actor.world.pos.z - D_8088BF60.z;
@@ -183,71 +183,67 @@ void func_8088B268(BgHidanRock* this, GlobalContext* globalCtx) {
     }
 
     frame = globalCtx->gameplayFrames & 0xFF;
-    if ((globalCtx->gameplayFrames & 0x100) != 0) {
+    if (globalCtx->gameplayFrames & 0x100) {
         this->unk_16C = 0.0f;
-    } else if (frame < 0x80) {
+    } else if (frame < 128) {
         this->unk_16C = sinf(frame * (4 * 0.001f * M_PI)) * 19.625f;
-    } else if (frame < 0xE6) {
+    } else if (frame < 230) {
         this->unk_16C = 19.625f;
     } else {
         this->unk_16C -= 1.0f;
-        this->unk_16C = (this->unk_16C < 0.0f) ? 0.0f : this->unk_16C;
+        this->unk_16C = CLAMP_MIN(this->unk_16C, 0.0f);
     }
 
     if (sp2C < 100.0f) {
-        this->unk_16C = (this->unk_16C > 6.125f) ? 6.125f : this->unk_16C;
+        this->unk_16C = CLAMP_MAX(this->unk_16C, 6.125f);
     }
 }
 
 void func_8088B5F4(BgHidanRock* this, GlobalContext* globalCtx) {
-    s16 unk_16A;
-
-    unk_16A = this->unk_16A;
-    if (unk_16A != 0) {
-        this->unk_16A = unk_16A - 1;
-        unk_16A = this->unk_16A;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (unk_16A == 0) {
+    if (this->timer == 0) {
         func_8088B24C(this);
     }
 }
 
 void func_8088B634(BgHidanRock* this, GlobalContext* globalCtx) {
-    if (func_8004356C(&this->dyna) != 0) {
-        this->unk_16A = 0x14;
-        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x4000;
+    if (func_8004356C(&this->dyna)) {
+        this->timer = 20;
+        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4000;
         this->actionFunc = func_8088B69C;
     }
 }
 
 void func_8088B69C(BgHidanRock* this, GlobalContext* globalCtx) {
-    if (this->unk_16A != 0) {
-        this->unk_16A--;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (this->unk_16A != 0) {
+    if (this->timer != 0) {
         this->dyna.actor.world.pos.x =
-            this->dyna.actor.home.pos.x + 5.0f * Math_SinS((this->dyna.actor.world.rot.y + (this->unk_16A << 0xE)));
+            this->dyna.actor.home.pos.x + 5.0f * Math_SinS((this->dyna.actor.world.rot.y + (this->timer << 14)));
         this->dyna.actor.world.pos.z =
-            this->dyna.actor.home.pos.z + 5.0f * Math_CosS((this->dyna.actor.world.rot.y + (this->unk_16A << 0xE)));
+            this->dyna.actor.home.pos.z + 5.0f * Math_CosS((this->dyna.actor.world.rot.y + (this->timer << 14)));
     } else {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
         func_8088B24C(this);
     }
 
-    if (!(this->unk_16A % 4)) {
+    if (!(this->timer % 4)) {
         func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 0xB4, 0x0A, 0x64);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 }
 
 void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
-    this->unk_16A--;
-    if ((this->dyna.actor.bgCheckFlags & 2) != 0) {
+    this->timer--;
+    if (this->dyna.actor.bgCheckFlags & 2) {
         if (this->params == 0) {
-            this->unk_16A = 0x3C;
+            this->timer = 60;
             this->actionFunc = func_8088B5F4;
         } else {
             this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - 15.0f;
@@ -258,20 +254,19 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         Audio_PlayActorSound2(
             &this->dyna.actor,
-            (SurfaceType_GetSfx(&globalCtx->colCtx, this->dyna.actor.floorPoly, this->dyna.actor.floorBgId) + 0x800) &
-                0xFFFF);
+            SurfaceType_GetSfx(&globalCtx->colCtx, this->dyna.actor.floorPoly, this->dyna.actor.floorBgId) + 0x800);
     }
 
     this->unk_16C -= 0.5f;
-    this->unk_16C = (this->unk_16C < 0.0f) ? (0.0f) : this->unk_16C;
+    this->unk_16C = CLAMP_MIN(this->unk_16C, 0.0f);
 
     if (this->params == 0) {
-        if (func_8004356C(&this->dyna) != 0) {
+        if (func_8004356C(&this->dyna)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
             Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x30);
-        } else if (func_8004356C(&this->dyna) == 0) {
+        } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
             }
@@ -287,15 +282,11 @@ void func_8088B90C(BgHidanRock* this, GlobalContext* globalCtx) {
 }
 
 void func_8088B954(BgHidanRock* this, GlobalContext* globalCtx) {
-    s16 unk_16A;
-
-    unk_16A = this->unk_16A;
-    if (unk_16A != 0) {
-        this->unk_16A = unk_16A - 1;
-        unk_16A = this->unk_16A;
+    if (this->timer != 0) {
+        this->timer--;
     }
 
-    if (unk_16A == 0) {
+    if (this->timer == 0) {
         this->actionFunc = func_8088B79C;
         this->dyna.actor.velocity.y = 0.0f;
     }
@@ -304,7 +295,7 @@ void func_8088B954(BgHidanRock* this, GlobalContext* globalCtx) {
 void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_16A++;
+    this->timer++;
     if (this->dyna.unk_150 != 0.0f) {
         this->dyna.actor.speedXZ = 0.0f;
         player->stateFlags2 &= ~0x10;
@@ -317,20 +308,18 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
         if (this->params == 0) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }
-        this->unk_16A = 0x14;
+        this->timer = 20;
         this->actionFunc = func_8088B954;
     }
 
-    this->unk_16C = (((this->dyna.actor.world.pos.y + 50.0f) - this->dyna.actor.home.pos.y) + 40.0f) / 80.0f;
+    this->unk_16C = (this->dyna.actor.world.pos.y + 50.0f - this->dyna.actor.home.pos.y + 40.0f) / 80.0f;
     if (this->params == 0) {
-        if (func_8004356C(&this->dyna) != 0) {
+        if (func_8004356C(&this->dyna)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
             Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x30);
-            return;
-        }
-        if (func_8004356C(&this->dyna) == 0) {
+        } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
                 Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
             }
@@ -349,21 +338,21 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_16C > 0.0f) {
-        this->collider.dim.height = (D_8088BF8C.dim.height * this->unk_16C);
+        this->collider.dim.height = D_8088BF8C.dim.height * this->unk_16C;
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
-void func_8088BC40(GlobalContext* globalCtx2, BgHidanRock* this) {
-    static const Gfx* D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0,
-                                       0x06014E20, 0x060155A0, 0x00000000, 0x00000000, 0x00000000 };
-    GlobalContext* globalCtx = globalCtx2;
+void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
+    static Gfx* D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0,
+                                       0x06014E20, 0x060155A0 };
+    s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
 
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
-    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 0xFF, 0xFF, 0x00, 0x96);
-    gDPSetEnvColor(POLY_XLU_DISP++, 0xFF, 0x00, 0x00, 0xFF);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 255, 255, 0, 150);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
 
     if (this->params == 0) {
         Matrix_Translate(D_8088BF60.x, D_8088BF60.y - 40.0f, D_8088BF60.z, MTXMODE_NEW);
@@ -372,7 +361,7 @@ void func_8088BC40(GlobalContext* globalCtx2, BgHidanRock* this) {
                          MTXMODE_NEW);
     }
 
-    Matrix_RotateRPY(0, Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x8000, 0, MTXMODE_APPLY);
+    Matrix_RotateRPY(0, Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000, 0, MTXMODE_APPLY);
     Matrix_Translate(-10.5f, 0.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 
@@ -386,7 +375,7 @@ void func_8088BC40(GlobalContext* globalCtx2, BgHidanRock* this) {
 
 void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRock* this = THIS;
-    Vec3f* unk_170;
+    s32 pad;
 
     if (this->params == 0) {
         Gfx_DrawDListOpa(globalCtx, D_0600C100);
@@ -395,15 +384,13 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_16C > 0.0f) {
-        unk_170 = &this->unk_170;
-
         if (this->params == 0) {
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &D_8088BF60, unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &D_8088BF60, &this->unk_170);
         } else {
-            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->dyna.actor.home.pos, unk_170);
+            SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->dyna.actor.home.pos, &this->unk_170);
         }
 
-        func_80078914(unk_170, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
+        func_80078914(&this->unk_170, NA_SE_EV_FIRE_PILLAR - SFX_FLAG);
         func_8088BC40(globalCtx, this);
     }
 }
