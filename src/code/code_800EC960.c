@@ -391,15 +391,17 @@ void func_800ECDBC(void) {
     }
 }
 
+#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_800ECDF8(void) {
-    s32 pad;
-    u8 inputChanged = 0;
     u16 sh;
+    u16 pad;
+    u8 inputChanged = 0;
+    u16 pad2;
     s8 sp57 = 0;
     u8 i;
-    OcarinaNote *note;
     OcarinaNote *prevNote;
+    OcarinaNote *note;
 
     func_800ECDBC();
 
@@ -2965,7 +2967,56 @@ void func_800F6114(f32 arg0) {
 }
 
 void func_800F6268(f32 arg0, u16 arg1);
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F6268.s")
+void func_800F6268(f32 arg0, u16 arg1) {
+    s8 temp_a0;
+    s8 phi_v1;
+
+    D_8016BAA8 = 1;
+    D_8016BAAC = arg0;
+    if (D_8016B9F2 == 0) {
+        temp_a0 = func_800FA0B4(0);
+        if (temp_a0 == (arg1 & 0xFF)) {
+            if ((arg1 & 0xFF) == 0x2F) {
+
+                if (arg0 > 2000.0f) {
+                    phi_v1 = 0x7F;
+                } else if (arg0 < 200.0f) {
+                    phi_v1 = 0;
+                } else {
+                    phi_v1 = ((arg0 - 200.0f) * 127.0f) / 1800.0f;
+                }
+                Audio_SeqCmd6(0,3,0, 0x7F - phi_v1);
+                Audio_SeqCmd6(0,3,1, 0x7F - phi_v1);
+                Audio_SeqCmd6(0, 3, 13, phi_v1);
+                if (D_8016B9D8[0] == 0) {
+                    D_8016B9D8[0]++;
+                }
+            }
+        } else if ((temp_a0 == 1) && ((arg1 & 0xFF) == 0x2F)) {
+            temp_a0 = func_800FA0B4(3);
+            if ((temp_a0 != (arg1 & 0xFF)) && (D_8016B9D8[0] < 0xA)) {
+                func_800F5E18(3, 0x2F, 0, 0, 0);
+                Audio_SeqCmdA(3, 0xFFFC);
+                D_8016B9D8[0] = 0xA;
+            }
+
+            if (arg0 > 2000.0f) {
+                phi_v1 = 127;
+            } else if (arg0 < 200.0f) {
+                phi_v1 = 0;
+            } else {
+                phi_v1 = ((arg0 - 200.0f) * 127.0f) / 1800.0f;
+            }
+            Audio_SeqCmd6(3, 3, 0, 127 - phi_v1);
+            Audio_SeqCmd6(3, 3, 1, 127 - phi_v1);
+        }
+
+        if (D_8016B9D8[0] < 0xA) {
+            D_8016B9D8[0]++;
+        }
+    }
+}
+//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F6268.s")
 
 void func_800F64E0(u8 arg0) {
     D_80130608 = arg0;
