@@ -18,6 +18,10 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx);
 void func_80A99560(EnKo* this, GlobalContext* globalCtx);
 Gfx* func_80A99C94(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a);
 s32 func_80A99864(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+u16 func_80A97610(GlobalContext*, Actor*);
+s16 func_80A97738(GlobalContext*, Actor*);
+f32 func_80A97BC0(EnKo* this);
+s32 func_80A98ECC(EnKo* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06006A60;
 extern UNK_TYPE D_06007830;
@@ -138,19 +142,6 @@ struct_80A9A590 D_80A9A590[] = { { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6
                                  { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f }, { 6, 30.0f, 180.0f },
                                  { 6, 30.0f, 180.0f } };
 
-s32 D_80A9A62C[] = { 0x00000000, 0x00000000, 0x00000000, 0xC1F00000, 0xC1A00000, 0x00000000, 0x00000000, 0x00000000,
-                     0xC1A00000, 0xC1200000, 0x00000000, 0x00000000, 0x00000000, 0xC1F00000, 0xC1A00000, 0xC1200000,
-                     0x41200000, 0x41200000, 0xC1200000, 0xC1F00000, 0x00000000, 0x00000000, 0x00000000, 0xC1200000,
-                     0xC1A00000, 0x00000000, 0x00000000, 0x00000000, 0xC1A00000, 0xC1A00000, 0x00000000, 0x00000000,
-                     0x00000000, 0xC1200000, 0xC1A00000, 0x41200000, 0x41200000, 0x41200000, 0xC2700000, 0xC1A00000,
-                     0xC1200000, 0xC1200000, 0xC1A00000, 0xC1F00000, 0xC1F00000, 0xC1200000, 0xC1200000, 0xC1200000,
-                     0xC2200000, 0xC2200000, 0x00000000, 0x00000000, 0x00000000, 0xC1200000, 0xC1A00000, 0xC1200000,
-                     0xC1200000, 0xC1A00000, 0xC1F00000, 0xC1F00000, 0x00000000, 0x00000000, 0x00000000, 0xC1A00000,
-                     0xC1A00000 };
-s32 D_80A9A730[] = { 0x01010100, 0x01010101, 0x01010101, 0x01000101, 0x01010001, 0x01010100,
-                     0x01000000, 0x00000101, 0x01010101, 0x01010001, 0x00000000, 0x00000000,
-                     0x00000101, 0x01010100, 0x00000000, 0x01010101, 0x01000000 };
-
 s32 func_80A96DB0(EnKo* this, GlobalContext* globalCtx) {
     u8 temp_t0;
     u8 temp_t1;
@@ -205,18 +196,128 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
     }
     return 1;
 }
-
+u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A96FD0.s")
 
+u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97338.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97610.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97610.s")
+/*s16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
+    s32 temp_v1;
+    s16 phi_a0;
+
+    /*temp_v1 = thisx->params & 0xFF;
+    if ((temp_v1 == 0) || (temp_v1 == 2) || (temp_v1 == 3) || (temp_v1 == 4) || (temp_v1 == 7) || (temp_v1 == 8) ||
+    (temp_v1 == 0xB)) { phi_a0 = Text_GetFaceReaction(globalCtx, 0x13U);
+        //phi_v1 = thisx->params & 0xFF;
+    }
+    if ((temp_v1 == 1) || (temp_v1 == 5) || (temp_v1 == 6) || (temp_v1 == 9) ||   (temp_v1 == 0xA)) {
+        phi_a0 = Text_GetFaceReaction(globalCtx, 0x14U) & 0xFFFF;
+    }
+    temp_v1 = thisx->params & 0xFF;
+    switch (temp_v1) {
+        case 0:
+        case 2:
+        case 3:
+        case 4:
+        case 7:
+        case 8:
+        case 11:
+        default:
+            phi_a0 = Text_GetFaceReaction(globalCtx, 0x13U);
+            break;
+        case 1:
+        case 5:
+        case 6:
+        case 9:
+        case 10:
+            phi_a0 = Text_GetFaceReaction(globalCtx, 0x14U);
+            break;
+    }
+    if (temp_v1 == 0xC) {
+        phi_a0 = Text_GetFaceReaction(globalCtx, 0x12U) & 0xFFFF;
+    }
+    if (phi_a0 != 0) {
+        return phi_a0;
+    }
+    if (gSaveContext.linkAge == 0) {
+        return func_80A97338(globalCtx, thisx);
+    }
+    return func_80A96FD0(globalCtx, thisx);
+}*/
+u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
+
+    u16 phi_a0;
+
+    if ((((((((thisx->params & 0xFF) == 0) || (thisx->params & 0xFF) == 2) || (thisx->params & 0xFF) == 3) ||
+           (thisx->params & 0xFF) == 4) ||
+          (thisx->params & 0xFF) == 7) ||
+         (thisx->params & 0xFF) == 8) ||
+        (thisx->params & 0xFF) == 0xB) {
+        phi_a0 = Text_GetFaceReaction(globalCtx, 0x13);
+    }
+    if ((((((thisx->params & 0xFF) == 1) || ((thisx->params & 0xFF) == 5)) || ((thisx->params & 0xFF) == 6)) ||
+         ((thisx->params & 0xFF) == 9)) ||
+        ((thisx->params & 0xFF) == 0xA)) {
+        phi_a0 = Text_GetFaceReaction(globalCtx, 0x14);
+    }
+    if ((thisx->params & 0xFF) == 0xC) {
+        phi_a0 = Text_GetFaceReaction(globalCtx, 0x12);
+    }
+    if (phi_a0 != 0) {
+        return phi_a0;
+    }
+    if (LINK_IS_ADULT) {
+        return func_80A97338(globalCtx, thisx);
+    }
+    return func_80A96FD0(globalCtx, thisx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97738.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97B38.s")
+s32 func_80A97B38(EnKo* this) {
+    s32 rv;
+    if (gSaveContext.linkAge != 0) {
+        if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            return 2;
+        }
+        if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            return 1;
+        }
+        return 0;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97BC0.s")
+    if ((*gBitFlags & gSaveContext.inventory.questItems) != 0) {
+        rv = 4;
+    } else {
+        rv = 3;
+    }
+    return rv;
+}
+
+f32 func_80A97BC0(EnKo* this) {
+    f32 D_80A9A62C[13][5] = { { 0.0f, 0.0f, 0.0f, -30.0f, -20.0f },       { 0.0f, 0.0f, 0.0f, -20.0f, -10.0f },
+                              { 0.0f, 0.0f, 0.0f, -30.0f, -20.0f },       { -10.0f, 10.0f, 10.0f, -10.0f, -30.0f },
+                              { 0.0f, 0.0f, 0.0f, -10.0f, -20.0f },       { 0.0f, 0.0f, 0.0f, -20.0f, -20.0f },
+                              { 0.0f, 0.0f, 0.0f, -10.0f, -20.0f },       { 10.0f, 10.0f, 10.0f, -60.0f, -20.0f },
+                              { -10.0f, -10.0f, -20.0f, -30.0f, -30.0f }, { -10.0f, -10.0f, -10.0f, -40.0f, -40.0f },
+                              { 0.0f, 0.0f, 0.0f, -10.0f, -20.0f },       { -10.0f, -10.0f, -20.0f, -30.0f, -30.0f },
+                              { 0.0f, 0.0f, 0.0f, -20.0f, -20.0f } };
+    s32 iVar3;
+
+    if ((gSaveContext.linkAge == 0) && ((this->actor.params & 0xFF) == 0xC)) {
+        return -20.0f;
+    }
+    // return D_80A9A62C[(this->actor.params & 0xFF) + func_80A97B38(this)] ;
+    iVar3 = func_80A97B38(this);
+
+    return D_80A9A62C[this->actor.params & 0xFF][iVar3];
+}
+
+s32 D_80A9A730[] = { 0x01010100, 0x01010101, 0x01010101, 0x01000101, 0x01010001, 0x01010100,
+                     0x01000000, 0x00000101, 0x01010101, 0x01010001, 0x00000000, 0x00000000,
+                     0x00000101, 0x01010100, 0x00000000, 0x01010101, 0x01000000 };
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97C7C.s")
 
@@ -248,7 +349,34 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98674.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A9877C.s")
+void func_80A9877C(EnKo* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+
+    if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
+        this->unk_1E8.unk_18 = globalCtx->view.eye;
+        this->unk_1E8.unk_14 = 40.0f;
+        if ((this->actor.params & 0xFF) != 0) {
+            func_80034A14((Actor*)this, &this->unk_1E8, (u16)2, (u16)2);
+        }
+    } else {
+        this->unk_1E8.unk_18 = player->actor.world.pos;
+        this->unk_1E8.unk_14 = func_80A97BC0(this);
+        if ((func_80A98ECC(this, globalCtx) == 0) && (this->unk_1E8.unk_00 == 0)) {
+            return;
+        }
+    }
+    if ((func_800343CC(globalCtx, &this->actor, &this->unk_1E8.unk_00, this->unk_21C, func_80A97610, func_80A97738) !=
+         0) &&
+        ((this->actor.params & 0xFF) == 0xC) && (globalCtx->sceneNum == 0x5B)) {
+        this->actor.textId = gSaveContext.inventory.items[gItemSlots[0x2D]] >= 0x32 ? 0x10B9 : 0x10DF;
+
+        if (func_8002F368(globalCtx) == 9) {
+            this->actor.textId = (gSaveContext.infTable[11] & 0x1000) ? 0x10B8 : 0x10B7;
+            this->unk_210 = 0;
+        }
+        player->actor.textId = this->actor.textId;
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98934.s")
 
@@ -293,7 +421,6 @@ s32 func_80A98D2C(EnKo* this) {
     return 0;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A98DB4.s")
 void func_80A98DB4(EnKo* this, GlobalContext* globalCtx) {
     f32 dist;
     f32 phi_f0;
@@ -383,10 +510,10 @@ void func_80A99048(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
-    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8 != 0) && (this->actor.textId == 0x10B9)) {
+    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8.unk_00 != 0) && (this->actor.textId == 0x10B9)) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 7);
         this->actionFunc = func_80A99438;
-    } else if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8 == 2)) {
+    } else if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8.unk_00 == 2)) {
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
@@ -394,12 +521,12 @@ void func_80A99384(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A99438(EnKo* this, GlobalContext* globalCtx) {
-    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8 == 2)) {
+    if (((this->actor.params & 0xFF) == 0xC) && (this->unk_1E8.unk_00 == 2)) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 6);
         this->actionFunc = func_80A99504;
         globalCtx->msgCtx.unk_E3E7 = 4;
         globalCtx->msgCtx.msgMode = 0x36;
-    } else if ((this->unk_1E8 == 0) || (this->actor.textId != 0x10B9)) {
+    } else if ((this->unk_1E8.unk_00 == 0) || (this->actor.textId != 0x10B9)) {
         func_80034EC0(&this->skelAnime, D_80A9A18C, 6);
         this->actionFunc = func_80A99384;
     }
@@ -415,10 +542,10 @@ void func_80A99504(EnKo* this, GlobalContext* globalCtx) {
 }
 
 void func_80A99560(EnKo* this, GlobalContext* globalCtx) {
-    if (this->unk_1E8 == 3) {
+    if (this->unk_1E8.unk_00 == 3) {
         this->actor.textId = 0x10B9;
         func_8010B720(globalCtx, this->actor.textId);
-        this->unk_1E8 = 1;
+        this->unk_1E8.unk_00 = 1;
         gSaveContext.itemGetInf[3] |= 2;
         this->actionFunc = func_80A99384;
     }
@@ -441,7 +568,7 @@ void func_80A995CC(EnKo* this, GlobalContext* globalCtx) {
     this->actor.world.pos.z += 80.0f * Math_CosS(yawToPlayer);
     this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
     // this->actor.world.pos.z +=  temp_f10;
-    if ((this->unk_1E8 == 0) || (this->actor.isTargeted == 0)) {
+    if ((this->unk_1E8.unk_00 == 0) || (this->actor.isTargeted == 0)) {
 
         temp_f2 = fabsf((f32)this->actor.yawTowardsPlayer - yawToPlayer) * 0.001f * 3.0f;
         if (temp_f2 > 1.0f) {
@@ -471,7 +598,7 @@ void EnKo_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_80A98DB4(this, globalCtx);
         }
     }
-    if (this->unk_1E8 == 0) {
+    if (this->unk_1E8.unk_00 == 0) {
         Actor_MoveForward(&this->actor);
     }
     if (func_80A97C7C(this) != 0) {
