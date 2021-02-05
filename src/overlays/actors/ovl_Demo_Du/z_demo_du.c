@@ -444,14 +444,13 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
     f32 x;
     //s32 pad2;
     f32 y;
-    //s16 scale;
     f32 z;
-    s32 temp_v0;
-    Vec3f spB0;
-    Vec3f spA4;
+    s32 colorDelta;
+    Vec3f velocity;
+    Vec3f accel;
     Vec3f *phi_s0;
-    Color_RGBA8 sp9C;
-    Color_RGBA8 sp98;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
     Vec3f *headPos;
     Vec3f sp88;
     SkelAnime *skelAnime;
@@ -462,13 +461,13 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
         player = PLAYER;
         headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
 
-        spB0 = D_8096CE98;
-        spA4 = D_8096CEA4;
+        velocity = D_8096CE98;
+        accel = D_8096CEA4;
         phi_s0 = D_8096CEE8;
 
         do{
-            sp9C = sDustPrimaryColor;
-            sp98 = sDustEnvironmentColor;
+            primColor = sDustPrimaryColor;
+            envColor = sDustEnvironmentColor;
 
             if (Animation_OnFrame(skelAnime, 31.0f)) {
                 x = phi_s0[5].x;
@@ -486,25 +485,22 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
                 sp88.z = z + headPos->z;
             }
 
-            temp_v0 = Rand_ZeroOne() * 20.0f - 10.0f;
+            colorDelta = Rand_ZeroOne() * 20.0f - 10.0f;
 
-            sp9C.r += temp_v0;
-            sp9C.g += temp_v0;
-            sp9C.b += temp_v0;
-            sp98.r += temp_v0;
-            sp98.g += temp_v0;
-            sp98.b += temp_v0;
-
-            //scale = Rand_ZeroOne() * 40.0f + 200.0f;
+            primColor.r += colorDelta;
+            primColor.g += colorDelta;
+            primColor.b += colorDelta;
+            envColor.r += colorDelta;
+            envColor.g += colorDelta;
+            envColor.b += colorDelta;
 
             func_8002829C(
                 globalCtx, 
                 &sp88, 
-                &spB0, 
-                &spA4, 
-                &sp9C, 
-                &sp98, 
-                //scale,
+                &velocity, 
+                &accel, 
+                &primColor, 
+                &envColor, 
                 Rand_ZeroOne() * 40.0f + 200.0f,
                 0
                 );
