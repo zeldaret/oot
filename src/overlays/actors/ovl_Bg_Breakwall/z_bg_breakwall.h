@@ -13,7 +13,7 @@ typedef struct BgBreakwall {
     /* 0x0164 */ Gfx* bombableWallDList;
     /* 0x0168 */ s8 colType;
     /* 0x0169 */ s8 bankIndex;
-    /* 0x016A */ s8 unk_16A;     // some counter?
+    /* 0x016A */ char unk_16A[0x2]; // unused variable
     /* 0x016C */ ColliderQuad collider;
     /* 0x01EC */ BgBreakwallActionFunc actionFunc;
 } BgBreakwall; // size = 0x01F0
