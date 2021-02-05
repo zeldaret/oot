@@ -890,7 +890,6 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Shelter"
     include "build/src/overlays/actors/ovl_Bg_Ice_Shelter/z_bg_ice_shelter.o"
-    include "build/data/overlays/actors/z_bg_ice_shelter.data.o"
     include "build/data/overlays/actors/z_bg_ice_shelter.reloc.o"
 endseg
 
