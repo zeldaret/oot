@@ -33,28 +33,28 @@ static InitChainEntry sInitChain[] = {
 };
 
 void DoorToki_Init(Actor* thisx, GlobalContext* globalCtx) {
-    DoorToki* this = THIS;
     s32 pad;
+    DoorToki* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_06007888, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void DoorToki_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void DoorToki_Update(Actor* thisx, GlobalContext* globalCtx) {
     DoorToki* this = THIS;
 
     if (gSaveContext.eventChkInf[4] & 0x800) {
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }

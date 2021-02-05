@@ -85,7 +85,7 @@ void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         BgJyaBombchuiwa_SetupWaitForExplosion(this, globalCtx);
     }
-    Actor_SetFocus(thisx, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
 }
 
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {

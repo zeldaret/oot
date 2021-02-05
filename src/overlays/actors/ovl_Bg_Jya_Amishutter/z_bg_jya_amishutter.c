@@ -62,7 +62,7 @@ void BgJyaAmishutter_InitDynaPoly(BgJyaAmishutter* this, GlobalContext* globalCt
 void BgJyaAmishutter_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaAmishutter* this = THIS;
 
-    BgJyaAmishutter_InitDynaPoly(this, globalCtx, &gAmishutterCol, 0);
+    BgJyaAmishutter_InitDynaPoly(this, globalCtx, &gAmishutterCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     BgJyaAmishutter_SetupWaitForPlayer(this);
 }

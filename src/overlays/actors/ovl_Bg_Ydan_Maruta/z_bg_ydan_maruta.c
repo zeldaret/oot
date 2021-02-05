@@ -201,7 +201,9 @@ void BgYdanMaruta_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    if (thisx->params == 0) {
+    BgYdanMaruta* this = THIS;
+
+    if (this->dyna.actor.params == 0) {
         Gfx_DrawDListOpa(globalCtx, gYdanMarutaDlist1);
     } else {
         Gfx_DrawDListOpa(globalCtx, gYdanMarutaDlist2);
