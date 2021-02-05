@@ -183,7 +183,7 @@ s8 D_8016B7DC;
 f32 D_8016B7E0;
 u16 D_8016B7E4;
 typedef struct {
-    s8 unk_00[6];
+    char unk_00[6];
     s16 unk_06;
 } unk_D_8016B7E8;
 unk_D_8016B7E8 D_8016B7E8[0x19];
@@ -762,7 +762,102 @@ void Audio_OcaPlayback(void) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EDD68.s")
+void func_800EDD68(u8 arg0) {
+    u16 i;
+    u16 i2;
+    u16 mad2;
+    u8 mad;
+    OcarinaNote *note;
+    u8 j;
+    u8 k;
+    s32 t;
+    OcarinaSong* song;
+
+    if (D_80131858 == 1) {
+        song = gScarecrowCustomSongPtr;
+    } else {
+        song = D_80131BEC;
+    }
+    song->notes[sRecordSongPos].noteIdx = D_80131864;
+    song->notes[sRecordSongPos].unk_02 = D_8016BA04 - D_80131860;
+    song->notes[sRecordSongPos].volume = D_80131868;
+    song->notes[sRecordSongPos].vibrato = D_8013186C;
+    song->notes[sRecordSongPos].tone = D_80131870;
+    song->notes[sRecordSongPos].semitone = D_80131874 & 0xC0;
+    D_80131864 = sCurOcarinaBtnVal;
+    D_80131868 = D_80130F30;
+    D_8013186C = D_80130F34;
+    D_80131870 = D_80130F2C;
+    D_80131874 = sCurOcarinaBtnIdx;
+    sRecordSongPos++;
+
+    if ((sRecordSongPos != 107) && (arg0 == 0)) {
+        return;
+    }
+
+    i = sRecordSongPos;
+    mad = 0xFF;
+    while(i != 0 && mad == 0xFF) {
+        i--;
+        mad = song->notes[i].noteIdx;
+    }
+    
+    if(1){}
+
+    if (sRecordSongPos != (i + 1)) {
+        sRecordSongPos = i + 2;
+        song->notes[sRecordSongPos - 1].unk_02 = 0;
+    }
+
+    song->notes[sRecordSongPos].unk_02 = 0;
+    
+    if (D_80131858 == 2) {
+        if (D_8016BA2E >= 8) {
+            for(i = 0; i < sRecordSongPos; i++) {
+                song->notes[i] = song->notes[i + 1];
+            }
+
+            func_800ECB7C(0xD);
+            
+            for(i = 0; i < 0xC; i++) {
+                for(j = 0; j < 9 - sOcarinaSongNotes[i].len; j++) {
+                    for(k = 0; k < sOcarinaSongNotes[i].len && k + j < 8 && sOcarinaSongNotes[i].notesIdx[k] == sOcarinaSongNotes[0xC].notesIdx[k + j]; k++);
+
+                    if (k == sOcarinaSongNotes[i].len) {
+                        D_80131858 = 0xFF;
+                        sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+                        return;
+                    }
+
+                }
+            }
+
+            i = 1;
+            while(i < 8) {
+                if(sOcarinaSongNotes[0xC].notesIdx[0] != sOcarinaSongNotes[0xC].notesIdx[i]) {
+                    i = 9;
+                } else {
+                    i++;
+                }
+            }
+
+            if (i == 8) {
+                D_80131858 = 0xFF;
+                sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+                return;
+            }
+
+            for(i = 0; i < sRecordSongPos; i++) {
+                sOcarinaSongs[0xC].notes[i] = sOcarinaSongs[0xD].notes[i];
+            }
+
+            sOcarinaInpEnabled = 0;
+        } else {
+            sOcarinaSongs[0xC].notes[1].volume = 0xFF;
+        }
+    }
+    D_80131858 = 0;
+}
 
 // start custom song?
 /**
@@ -1063,6 +1158,7 @@ extern char D_80131CAC[][0x17];
 extern char D_80131F54[][5];
 extern char D_80131E38[7][0xB];
 extern char D_80131E88[][0xA];
+extern u8 D_80131F68;
 
 // Debug Print
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800EEA50.s")
@@ -1318,84 +1414,58 @@ extern u16 D_8016E2E0[];
 extern u16 D_8016E2F8[];
 extern u8 D_801333F4;
 extern u8 D_8016E310[];
-
 #ifdef NON_MATCHING
 void func_800F2464(void) {
-    s16 sp6;
-    s32 temp_a0_3;
-    s32 temp_a1;
-    s32 temp_a2_2;
-    s32 temp_t3;
-    s32 temp_t3_2;
-    u16 temp_a3_2;
-    u16 temp_t0;
-    u32 temp_v0;
-    u32 temp_v0_2;
-    u8 temp_a0;
-    u8 temp_a0_2;
-    u8 temp_a2;
-    u8 temp_a2_3;
-    u8 temp_a2_4;
-    u8 temp_v1;
-    u8 temp_v1_2;
-    u8 temp_v1_3;
-    void* temp_a3;
-    void* temp_t0_2;
-    void* temp_v0_3;
-    u8 phi_v1;
     s16 phi_t1;
-    s16 phi_t1_2;
-    u32 phi_v0;
+    u16 new_var;
+    u8 phi_v1;
 
     if (D_80131F00 == 0) {
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_DUP)) {
+        if ((sDebugPadPress & 0x800) != 0) {
             if (D_80131F04 > 0) {
                 D_80131F04--;
             } else {
                 D_80131F04 = 9;
             }
         }
-
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_DDOWN)) {
-            temp_v1_2 = D_80131F04;
+        if ((sDebugPadPress & 0x400) != 0) {
             if (D_80131F04 < 9) {
                 D_80131F04++;
             } else {
                 D_80131F04 = 0;
             }
         }
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
+
+        phi_v1 = 9;
+        phi_t1 = phi_t1;
+        if ((sDebugPadPress & 0x8000) != 0) {
             D_80131F00 = 1;
         }
 
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_B)) {
+        if ((sDebugPadPress & 0x4000) != 0) {
             D_8016E2E0[D_80131F04] = 0;
             D_8016E2F8[D_80131F04] = 0;
         }
-
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_START)) {
+        if ((sDebugPadPress & 0x1000) != 0) {
             phi_v1 = D_80131F04;
             if (phi_v1 != 0) {
                 phi_v1--;
             } else {
                 phi_v1 = 9;
             }
-
             D_8016E2E0[D_80131F04] = D_8016E2E0[phi_v1];
+            if(!D_80131F08);
             D_8016E2F8[D_80131F04] = D_8016E2F8[phi_v1];
         }
     } else {
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_DLEFT)) {
-            temp_a0 = D_80131F08;
+        if ((sDebugPadPress & 0x200) != 0) {
             if (D_80131F08 > 0) {
                 D_80131F08--;
             } else {
                 D_80131F08 = 7;
             }
         }
-
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_DRIGHT)) {
-            temp_a0_2 = D_80131F08;
+        if ((sDebugPadPress & 0x100) != 0) {
             if (D_80131F08 < 7) {
                 D_80131F08++;
             } else {
@@ -1403,31 +1473,29 @@ void func_800F2464(void) {
             }
         }
 
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_DUP) || CHECK_BTN_ANY(sDebugPadPress, BTN_DDOWN)) {
-            if (CHECK_BTN_ANY(sDebugPadPress, BTN_DUP)) {
-                phi_t1 = D_8016BAB0 & 8 ? 8 : 1;
+        if (((sDebugPadPress & 0x800) != 0) || ((sDebugPadPress & 0x400) != 0)) {
+            if ((sDebugPadPress & 0x800) != 0) {
+                phi_t1 = (D_8016BAB0 & 8) != 0 ? 8 : 1;
             }
 
-            if (CHECK_BTN_ANY(sDebugPadPress, BTN_DDOWN)) {
-                phi_t1 = D_8016BAB0 & 8 ? -8 : -1;
+            if ((sDebugPadPress & 0x400) != 0) {
+                phi_t1 = (D_8016BAB0 & 8) != 0 ? -8 : -1;
             }
 
             if (D_80131F08 < 4) {
-                D_8016E2E0[D_80131F04] = (D_8016E2E0[D_80131F04] & ((0xF << ((-D_80131F08 * 4) + 0xC)) ^ 0xFFFF)) +
-                                         ((u16)(((D_8016E2E0[D_80131F04] >> ((-D_80131F08 * 4) + 0xC)) + phi_t1) & 0xF)
-                                          << ((-D_80131F08 * 4) + 0xC));
+                new_var = (u16) (((D_8016E2E0[D_80131F04] >> (((-D_80131F08) * 4) + 0xC)) + phi_t1) & 0xF);
+                D_8016E2E0[D_80131F04] = (u16) ((D_8016E2E0[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0xC)) ^ 0xFFFF)) + (new_var << (((-D_80131F08) * 4) + 0xC)));
             } else {
-                D_8016E2E0[D_80131F04] = (D_8016E2E0[D_80131F04] & ((0xF << ((-D_80131F08 * 4) + 0xC)) ^ 0xFFFF)) +
-                                         ((u16)(((D_8016E2E0[D_80131F04] >> ((-D_80131F08 * 4) + 0xC)) + phi_t1) & 0xF)
-                                          << ((-D_80131F08 * 4) + 0xC));
+                new_var = (u16) (((D_8016E2F8[D_80131F04] >> (((-D_80131F08) * 4) + 0x1C)) + phi_t1) & 0xF);
+                D_8016E2F8[D_80131F04] = (u16) ((D_8016E2F8[D_80131F04] & ((0xF << (((-D_80131F08) * 4) + 0x1C)) ^ 0xFFFF)) + (new_var << (((-D_80131F08) * 4) + 0x1C)));
             }
         }
 
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_A)) {
+        if ((sDebugPadPress & 0x8000) != 0) {
             D_80131F00 = 0;
         }
 
-        if (CHECK_BTN_ANY(sDebugPadPress, BTN_B)) {
+        if ((sDebugPadPress & 0x4000) != 0) {
             if (D_80131F08 < 4) {
                 D_8016E2E0[D_80131F04] = 0;
             } else {
@@ -1435,12 +1503,10 @@ void func_800F2464(void) {
             }
         }
     }
-
-    if (CHECK_BTN_ANY(sDebugPadPress, BTN_CLEFT)) {
+    if ((sDebugPadPress & 2) != 0) {
         D_801333F4 ^= 1;
     }
-
-    if (CHECK_BTN_ANY(sDebugPadPress, BTN_CDOWN)) {
+    if ((sDebugPadPress & 4) != 0) {
         D_8016E310[D_80131F04] ^= 1;
     }
 }
