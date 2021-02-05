@@ -779,15 +779,7 @@ s32 Camera_Copy(Camera* dstCamera, Camera* srcCamera);
 Vec3f* Camera_GetSkyboxOffset(Vec3f* dst, Camera* camera);
 void Camera_SetCameraData(Camera* camera, s16 setDataFlags, void* data0, void* data1, s16 data2, s16 data3,
                           UNK_TYPE arg6);
-<<<<<<< HEAD
-<<<<<<< HEAD
-s32 func_8005B198();
-=======
 s32 func_8005B198(void);
->>>>>>> upstream/master
-=======
-s32 func_8005B198(void);
->>>>>>> 011f086075db52c57edf53bd13bea0068728bddf
 s16 func_8005B1A4(Camera* camera);
 DamageTable* DamageTable_Get(s32 index);
 void DamageTable_Clear(DamageTable* table);
