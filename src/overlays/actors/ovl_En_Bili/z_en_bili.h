@@ -24,8 +24,8 @@ extern const ActorInit En_Bili_InitVars;
 
 typedef enum {
     /* -1 */ EN_BILI_TYPE_NORMAL = -1,
-    /* 0 */ EN_BILI_TYPE_VALI_SPAWNED,
-    /* 1 */ EN_BILI_TYPE_DYING
+    /*  0 */ EN_BILI_TYPE_VALI_SPAWNED,
+    /*  1 */ EN_BILI_TYPE_DYING
 } EnBiliType;
 
 typedef enum {
@@ -34,6 +34,6 @@ typedef enum {
     /* 2 */ EN_BILI_LIMB_BELL,
     /* 3 */ EN_BILI_LIMB_STOMACH,
     /* 4 */ EN_BILI_LIMB_ORALARMS
-} EnBiliLimbs;
+} EnBiliLimb;
 
 #endif
