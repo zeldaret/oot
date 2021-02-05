@@ -576,7 +576,7 @@ void func_80B35540(EnWf* this) {
 // EnWf_??????
 /****** not bad so far but needs the gotos fixed and regalloc *****/
 #ifdef NON_MATCHING
-void func_80B355BC(EnWf *this, GlobalContext *globalCtx) {
+void func_80B355BC(EnWf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s16 angle1 = player->actor.shape.rot.y - this->actor.shape.rot.y;
     s16 angle2 = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
@@ -588,7 +588,7 @@ void func_80B355BC(EnWf *this, GlobalContext *globalCtx) {
 
     if ((curFrame < 9) || (curFrame >= 13)) {
         if ((curFrame >= 17) && (curFrame < 20)) {
-block_8:
+        block_8:
             if (this->unk_2F8 == 0) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_WOLFOS_ATTACK);
             }
@@ -601,15 +601,16 @@ block_8:
         goto block_8;
     }
 
-    if ((curFrame == 15) && (!(func_80033A84(globalCtx, &this->actor)))           ) {
+    if ((curFrame == 15) && (!(func_80033A84(globalCtx, &this->actor)))) {
 
         if (func_8002E084(&this->actor, 0x2000) && (!(this->actor.xzDistToPlayer >= 100.0f))) {
-block_16:
+        block_16:
             if (SkelAnime_Update(&this->skelAnime)) {
-block_17:
+            block_17:
                 if (curFrame != 15) {
                     if (this->actionTimer != 0) {
-                        this->actor.shape.rot.y = this->actor.shape.rot.y + (3276.0f * (1.5f + ((this->actionTimer - 4) * 0.4f)));
+                        this->actor.shape.rot.y =
+                            this->actor.shape.rot.y + (3276.0f * (1.5f + ((this->actionTimer - 4) * 0.4f)));
                         func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 15.0f, 1, 2.0f, 50, 50, 1);
                         this->actionTimer--;
                     }
