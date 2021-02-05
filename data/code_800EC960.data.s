@@ -159,7 +159,7 @@ glabel sPrevOcarinaNoteVal
 glabel sCurOcarinaBtnIdx
     .incbin "baserom.z64", 0xBA80BC, 0x4
 
-glabel D_80130F20
+glabel sLearnSongLastBtn
     .incbin "baserom.z64", 0xBA80C0, 0x4
 
 glabel D_80130F24

@@ -2155,7 +2155,7 @@ void func_800EE824();
 // ? func_800EE930(?);
 // ? func_800EE97C(?);
 // ? func_800EE9D0(?);
-// ? func_800EEA50(?);
+void func_800EEA50(GfxPrint* printer);
 // ? func_800F1BDC(?);
 // ? func_800F2150(?);
 // ? func_800F227C(?);

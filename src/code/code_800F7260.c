@@ -18,11 +18,6 @@ typedef struct {
     /* 0x0C */ u16 unk_C;
 } Struct_800F8EA0; // size = 0x10
 
-typedef struct {
-    u8 unk_0;
-    u16 unk_2;
-} Struct_8013331C;
-
 u8 D_80133340[4] = {
     0x53,
     0x45,

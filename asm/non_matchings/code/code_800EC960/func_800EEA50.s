@@ -608,13 +608,13 @@ glabel func_800EEA50
 /* B65CFC 800EEB5C 8FA400B0 */   lw    $a0, 0xb0($sp)
 /* B65D00 800EEB60 3C058013 */  lui   $a1, %hi(D_80133414) # $a1, 0x8013
 /* B65D04 800EEB64 90A53414 */  lbu   $a1, %lo(D_80133414)($a1)
-/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(D_801337CD)
+/* B65D08 800EEB68 3C048013 */  lui   $a0, %hi(gAudioSessionPresets)
 /* B65D0C 800EEB6C 3C188017 */  lui   $t8, %hi(D_8016B9E0) # $t8, 0x8017
 /* B65D10 800EEB70 0005C8C0 */  sll   $t9, $a1, 3
 /* B65D14 800EEB74 0325C823 */  subu  $t9, $t9, $a1
 /* B65D18 800EEB78 0019C8C0 */  sll   $t9, $t9, 3
 /* B65D1C 800EEB7C 00992021 */  addu  $a0, $a0, $t9
-/* B65D20 800EEB80 908437CD */  lbu   $a0, %lo(D_801337CD)($a0)
+/* B65D20 800EEB80 908437CD */  lbu   $a0, %lo(gAudioSessionPresets+0x5)($a0)
 /* B65D24 800EEB84 0000B025 */  move  $s6, $zero
 /* B65D28 800EEB88 3C0E8013 */  lui   $t6, %hi(D_80131F68) # $t6, 0x8013
 /* B65D2C 800EEB8C 18800013 */  blez  $a0, .L800EEBDC
