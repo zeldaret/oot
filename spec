@@ -3541,8 +3541,8 @@ endseg
 beginseg
     name "object_link_child"
     romalign 0x1000
-    //include "build/baserom/object_link_child.o"
-    include "build/assets/objects/object_link_child/object_link_child.o"
+    include "build/baserom/object_link_child.o"
+    //include "build/assets/objects/object_link_child/object_link_child.o"
     number 6
 endseg
 
@@ -4154,7 +4154,9 @@ endseg
 beginseg
     name "object_mori_objects"
     romalign 0x1000
-    include "build/baserom/object_mori_objects.o"
+    //include "build/baserom/object_mori_objects.o"
+    include "build/assets/objects/object_mori_objects/object_mori_objects.o"
+    number 6
 endseg
 
 beginseg

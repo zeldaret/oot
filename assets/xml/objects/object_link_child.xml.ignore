@@ -1,0 +1,35 @@
+<Root>
+    <File Name="object_link_child" Segment="6">
+        <!--<Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" Offset="0x2CF6C"/>
+        <Limb Name="gChildLimbWaistFar" Type="LOD" Offset="0x1AEC8"/>
+        <Limb Name="gChildLimbLeftThighFar" Type="LOD" Offset="0x1B0F8"/>
+        <Limb Name="gChildLimbLeftShinFar" Type="LOD" Offset="0x1B2B8"/>
+        <Limb Name="gChildLimbLeftFootFar" Type="LOD" Offset="0x1B510"/>
+        <Limb Name="gChildLimbRightThighFar" Type="LOD" Offset="0x1B638"/>
+        <Limb Name="gChildLimbRightShinFar" Type="LOD" Offset="0x1B7F8"/>
+        <Limb Name="gChildLimbRightFootFar" Type="LOD" Offset="0x1BA50"/>
+        <Limb Name="gChildLimbCollarFar" Type="LOD" Offset="0x1BB78"/>
+        <Limb Name="gChildLimbTorsoFar" Type="LOD" Offset="0x1BBD8"/>
+        <Limb Name="gChildLimbHeadFar" Type="LOD" Offset="0x1BDA0"/>
+        <Limb Name="gChildLimbHatFar" Type="LOD" Offset="0x1C2A8"/>
+        <Limb Name="gChildLimbLeftShoulderFar" Type="LOD" Offset="0x1C398"/>
+        <Limb Name="gChildLimbLeftForearmFar" Type="LOD" Offset="0x1C558"/>
+        <Limb Name="gChildLimbRightShoulderFar" Type="LOD" Offset="0x1C688"/>
+
+
+        <Limb Name="gChildLimbWaistNear" Type="LOD" Offset="0x202A8"/>
+        <Limb Name="gChildLimbLeftThighNear" Type="LOD" Offset="0x204F0"/>
+        <Limb Name="gChildLimbLeftShinNear" Type="LOD" Offset="0x206E8"/>
+        <Limb Name="gChildLimbLeftFootNear" Type="LOD" Offset="0x20978"/>
+        <Limb Name="gChildLimbRightThighNear" Type="LOD" Offset="0x20AD8"/>
+        <Limb Name="gChildLimbRightShinNear" Type="LOD" Offset="0x20CD0"/>
+        <Limb Name="gChildLimbRightFootNear" Type="LOD" Offset="0x20F60"/>
+        <Limb Name="gChildLimbCollarNear" Type="LOD" Offset="0x210C0"/>
+        <Limb Name="gChildLimbTorsoNear" Type="LOD" Offset="0x21130"/>
+        <Limb Name="gChildLimbHeadNear" Type="LOD" Offset="0x21360"/>
+        <Limb Name="gChildLimbHatNear" Type="LOD" Offset="0x219B0"/>
+        <Limb Name="gChildLimbLeftShoulderNear" Type="LOD" Offset="0x21AE8"/>
+        <Limb Name="gChildLimbLeftForearmNear" Type="LOD" Offset="0x21CB8"/>
+        <Limb Name="gChildLimbRightShoulderNear" Type="LOD" Offset="0x21E18"/>-->
+    </File>
+</Root>

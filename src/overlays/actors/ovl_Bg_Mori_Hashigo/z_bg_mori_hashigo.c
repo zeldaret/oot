@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_hashigo.h"
+#include "objects/object_mori_objects/object_mori_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -25,9 +26,6 @@ void BgMoriHashigo_SetupLadderFall(BgMoriHashigo* this);
 void BgMoriHashigo_LadderFall(BgMoriHashigo* this, GlobalContext* globalCtx);
 void BgMoriHashigo_SetupLadderRest(BgMoriHashigo* this);
 
-extern CollisionHeader D_060037D8;
-extern Gfx D_060036B0[];
-extern Gfx D_06004770[];
 
 const ActorInit Bg_Mori_Hashigo_InitVars = {
     ACTOR_BG_MORI_HASHIGO,
@@ -150,7 +148,7 @@ s32 BgMoriHashigo_InitClasp(BgMoriHashigo* this, GlobalContext* globalCtx) {
 }
 
 s32 BgMoriHashigo_InitLadder(BgMoriHashigo* this, GlobalContext* globalCtx) {
-    BgMoriHashigo_InitDynapoly(this, globalCtx, &D_060037D8, DPM_UNK);
+    BgMoriHashigo_InitDynapoly(this, globalCtx, &gMoriHashigoCol, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChainLadder);
     return true;
 }
@@ -296,10 +294,10 @@ void BgMoriHashigo_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params) {
         case -1:
-            gSPDisplayList(POLY_OPA_DISP++, D_06004770);
+            gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoClaspDlist);
             break;
         case 0:
-            gSPDisplayList(POLY_OPA_DISP++, D_060036B0);
+            gSPDisplayList(POLY_OPA_DISP++, gMoriHashigoLadderDlist);
             break;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mori_hashigo.c", 531);

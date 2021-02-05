@@ -1,0 +1,20 @@
+<Root>
+    <File Name="object_mori_objects" Segment="6">
+        <Collision Name="gMoriBigstCol" Offset="0x221C"/>
+        <DList Name="gMoriBigstDlist" Offset="0x1E50"/>
+        <Collision Name="gMoriElevatorCol" Offset="0x35F8"/>
+        <DList Name="gMoriElevatorDlist" Offset="0x2AD0"/>
+        <Collision Name="gMoriHashigoCol" Offset="0x37D8"/>
+        <DList Name="gMoriHashigoLadderDlist" Offset="0x36B0"/>
+        <DList Name="gMoriHashigoClaspDlist" Offset="0x4770"/>
+        <Collision Name="gMoriHashiraCol1" Offset="0x1AF8"/>
+        <Collision Name="gMoriHashiraCol2" Offset="0x89E0"/>
+        <DList Name="gMoriHashiraPlatformsDlist" Offset="0x1300"/>
+        <DList Name="gMoriHashiraGateDlist" Offset="0x8840"/>
+        <DList Name="gMoriIdomizuWaterDlist" Offset="0x49D0"/>
+        <Collision Name="gMoriKaitenkabeCol" Offset="0x63B8"/>
+        <DList Name="gMoriKaitenkabeDlist" Offset="0x56B0"/>
+        <Collision Name="gMoriRakkatenjoCol" Offset="0x87AC"/>
+        <DList Name="gMoriRakkatenjoDlist" Offset="0x7690"/>
+    </File>
+</Root>

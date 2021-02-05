@@ -4,6 +4,11 @@
 #include "ultra64.h"
 #include "global.h"
 
+typedef enum {
+    HASHIGO_LADDER = -1,
+    HASHIGO_CLASP,
+} HASHIGO_TYPE;
+
 struct BgMoriHashigo;
 
 typedef void (*BgMoriHashigoActionFunc)(struct BgMoriHashigo*, GlobalContext*);

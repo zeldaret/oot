@@ -91,7 +91,11 @@ void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx) {
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombiwa* this = THIS;
 
+<<<<<<< HEAD
     if ((this->dyna.actor.params & 0x3F) != 0x29) {
+=======
+  if ((this->dyna.actor.params & 0x3F) != 0x29) {
+>>>>>>> 011f086075db52c57edf53bd13bea0068728bddf
         osSyncPrintf(VT_COL(YELLOW, BLACK));
 
         // Warning: Switch Number changed (%s %d)(SW %d
@@ -101,8 +105,13 @@ void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
     BgJyaBombiwa_SetupDynaPoly(this, globalCtx, &gBombiwaCol, DPM_UNK);
     BgJyaBombiwa_InitCollider(this, globalCtx);
+<<<<<<< HEAD
     if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
         Actor_Kill((&this->dyna.actor);
+=======
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
+        Actor_Kill(&this->dyna.actor);
+>>>>>>> 011f086075db52c57edf53bd13bea0068728bddf
     } else {
         Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
