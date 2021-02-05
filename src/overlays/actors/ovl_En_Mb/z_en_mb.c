@@ -1,3 +1,9 @@
+/*
+ * File: z_en_mb.c
+ * Overlay: ovl_En_Mb
+ * Description: Moblins
+ */
+
 #include "z_en_mb.h"
 #include "objects/object_mb/object_mb.h"
 
@@ -624,7 +630,7 @@ void func_80AA71AC(EnMb* this, GlobalContext* globalCtx) {
     if ((yDistAbs <= 20.0f) && func_80AA652C(this, globalCtx)) {
         yawDiff = this->actor.shape.rot.y - this->actor.yawTowardsPlayer;
         yawDiffAbs = ABS(yawDiff);
-        if ((yawDiffAbs <= 0x4000) || (func_8002DDE4(globalCtx) != 0) && (this->actor.xzDistToPlayer < 160.0f)) {
+        if ((yawDiffAbs <= 0x4000) || (func_8002DDE4(globalCtx) && (this->actor.xzDistToPlayer < 160.0f))) {
             func_80AA66A0(this, globalCtx);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             func_80AA6AC8(this);
@@ -806,7 +812,7 @@ void func_80AA7938(EnMb* this, GlobalContext* globalCtx) {
             EffectSsBlast_SpawnWhiteShockwave(globalCtx, &sp74, &sp68, &sp68);
             func_80033480(globalCtx, &sp74, 2.0f, 3, 0x12C, 0xB4, 1);
             Camera_AddQuake(&globalCtx->mainCamera, 2, 0x19, 5);
-            func_800358DC(&this->actor, &sp74, &this->actor.world.rot, &sp5C, 20, &sp54, globalCtx, -1, 0);
+            func_800358DC(&this->actor, &sp74, &this->actor.world.rot, sp5C, 20, sp54, globalCtx, -1, 0);
             func_80AA6DA4(this);
         }
     } else {
@@ -1114,7 +1120,7 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     f32 playSpeedABS;
 
     if (Math_Vec3f_DistXZ(&this->waypointPos, &this->actor.world.pos) <= 8.0f ||
-        Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.home.pos, &this->actor.world.pos) <= 4.0f) {
+        (Rand_ZeroOne() < 0.1f && Math_Vec3f_DistXZ(&this->actor.home.pos, &this->actor.world.pos) <= 4.0f)) {
         func_80AA68FC(this, globalCtx);
     } else {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.59999996f, 0.1f, 1.0f, 0.0f);
@@ -1126,7 +1132,7 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     if (yDistAbs <= 20.0f && func_80AA652C(this, globalCtx) != 0) {
         yawDiff = (this->actor.shape.rot.y - this->actor.yawTowardsPlayer);
         yawDiffAbs = ABS(yawDiff);
-        if (yawDiffAbs <= 0x4000 || func_8002DDE4(globalCtx) != 0 && this->actor.xzDistToPlayer < 160.0f) {
+        if (yawDiffAbs <= 0x4000 || (func_8002DDE4(globalCtx) && this->actor.xzDistToPlayer < 160.0f)) {
             func_80AA66A0(this, globalCtx);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_VOICE);
             func_80AA6AC8(this);
@@ -1150,7 +1156,7 @@ void func_80AA8AEC(EnMb* this, GlobalContext* globalCtx) {
     playSpeedABS = (this->skelAnime.playSpeed >= 0.0f) ? this->skelAnime.playSpeed : -this->skelAnime.playSpeed;
     if (currentFrame != (s32)this->skelAnime.curFrame) {
         if (!(temp_f6 >= 2 || (s32)playSpeedABS + currentFrame <= 0) ||
-            temp_f6 <= 20 && (s32)playSpeedABS + currentFrame >= 20) {
+            (temp_f6 <= 20 && (s32)playSpeedABS + currentFrame >= 20)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_MORIBLIN_WALK);
         }
     }

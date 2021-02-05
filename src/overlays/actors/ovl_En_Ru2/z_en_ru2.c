@@ -191,19 +191,19 @@ CsCmdActorAction* func_80AF27AC(GlobalContext* globalCtx, s32 npcActionIdx) {
 s32 func_80AF27D0(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
     CsCmdActorAction* csCmdActorAction = func_80AF27AC(globalCtx, npcActionIdx);
 
-    if (csCmdActorAction != NULL && csCmdActorAction->action == arg2) {
-        return 1;
+    if ((csCmdActorAction != NULL) && (csCmdActorAction->action == arg2)) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
 s32 func_80AF281C(EnRu2* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction = func_80AF27AC(globalCtx, npcActionIdx);
 
-    if (csCmdNPCAction != NULL && csCmdNPCAction->action != arg2) {
-        return 1;
+    if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action != arg2)) {
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80AF2868(EnRu2* this, GlobalContext* globalCtx, u32 npcActionIdx) {
@@ -273,7 +273,7 @@ void func_80AF2AB4(EnRu2* this, GlobalContext* globalCtx) {
     Player* player;
     s16 temp;
 
-    if (gSaveContext.chamberCutsceneNum == 2 && gSaveContext.sceneSetupIndex < 4) {
+    if ((gSaveContext.chamberCutsceneNum == 2) && (gSaveContext.sceneSetupIndex < 4)) {
         player = PLAYER;
         this->action = 1;
         globalCtx->csCtx.segment = &D_80AF411C;
@@ -291,7 +291,7 @@ void func_80AF2B44(EnRu2* this, GlobalContext* globalCtx) {
 
     if (csCtx->state != 0) {
         csCmdNPCAction = csCtx->npcActions[3];
-        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
+        if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
             this->action = 2;
             this->drawConfig = 1;
             func_80AF29DC(this, globalCtx);
@@ -312,7 +312,7 @@ void func_80AF2BC0(EnRu2* this, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[3];
-        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 3) {
+        if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 3)) {
             Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
                              0.0f);
             this->action = 4;
@@ -331,7 +331,7 @@ void func_80AF2C68(EnRu2* this, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state != 0) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[6];
-        if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
+        if ((csCmdNPCAction != NULL) && (csCmdNPCAction->action == 2)) {
             this->action = 6;
             func_80AF2A38(this, globalCtx);
         }
@@ -560,6 +560,7 @@ void func_80AF3564(EnRu2* this, GlobalContext* globalCtx) {
                     func_80AF34F0(this);
                     break;
                 default:
+                    // There is no such action!
                     osSyncPrintf("En_Ru2_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                     break;
             }
@@ -621,7 +622,7 @@ void func_80AF37AC() {
 void func_80AF37CC(EnRu2* this) {
     f32 funcFloat;
 
-    this->unk_2C0 += 1;
+    this->unk_2C0++;
     funcFloat = func_8006F9BC((kREG(2) + 0x96) & 0xFFFF, 0, this->unk_2C0, 8, 0);
     this->actor.world.pos.y = this->actor.home.pos.y + (300.0f * funcFloat);
 }
@@ -675,10 +676,12 @@ void func_80AF39DC(EnRu2* this, GlobalContext* globalCtx) {
 
     if (dialogState == 3) {
         if (this->unk_2C3 != 3) {
+            // I'm Komatsu! (cinema scene dev)
             osSyncPrintf("おれが小松だ！ \n");
             this->unk_2C2++;
             if (this->unk_2C2 % 6 == 3) {
                 player = PLAYER;
+                // uorya-! (screeming sound)
                 osSyncPrintf("うおりゃー！ \n");
                 func_8005B1A4(ACTIVE_CAM);
                 player->actor.world.pos.x = 820.0f;
@@ -699,13 +702,13 @@ void func_80AF3ADC(EnRu2* this, GlobalContext* globalCtx) {
     this->unk_2C4 += 1.0f;
     if (this->unk_2C4 > kREG(5) + 100.0f) {
         func_80AF28E8(this, &D_0600F8B8, 0, -12.0f, 0);
-        this->action = 0x13;
+        this->action = 19;
         func_80AF36EC(this, globalCtx);
     }
 }
 
 void func_80AF3B74(EnRu2* this, GlobalContext* globalCtx) {
-    if (this->unk_2C0 > (((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96)) & 0xFFFF)) {
+    if (this->unk_2C0 > ((((u16)(kREG(3) + 0x28)) + ((u16)(kREG(2) + 0x96))) & 0xFFFF)) {
         Actor_Kill(&this->actor);
     }
 }
@@ -761,7 +764,8 @@ void func_80AF3D60(EnRu2* this, GlobalContext* globalCtx) {
 void EnRu2_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
-    if (this->action < 0 || this->action >= 20 || sActionFuncs[this->action] == 0) {
+    if ((this->action < 0) || (this->action >= ARRAY_COUNT(sActionFuncs)) || (sActionFuncs[this->action] == NULL)) {
+        // Main Mode is improper!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
@@ -821,7 +825,8 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
 void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 3 || sDrawFuncs[this->drawConfig] == 0) {
+    if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) || (sDrawFuncs[this->drawConfig] == 0)) {
+        // Draw Mode is improper!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

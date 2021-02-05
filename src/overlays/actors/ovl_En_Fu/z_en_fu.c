@@ -83,12 +83,12 @@ extern CutsceneData D_0200E080[];
 
 typedef enum {
     /* 0x00 */ FU_FACE_CALM,
-    /* 0x01 */ FU_FACE_MAD,
+    /* 0x01 */ FU_FACE_MAD
 } EnFuFace;
 
 void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    EnFu* this = THIS;
     s32 pad;
+    EnFu* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelanime, &D_06006C90, &D_06000B04, this->jointTable, this->morphTable, 16);
@@ -111,6 +111,7 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
+    
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
@@ -146,9 +147,8 @@ void func_80A1DA04(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void EnFu_WaitChild(EnFu* this, GlobalContext* globalCtx) {
-    u16 textID;
+    u16 textID = Text_GetFaceReaction(globalCtx, 0xB);
 
-    textID = Text_GetFaceReaction(globalCtx, 0xB);
     if (textID == 0) {
         textID = (gSaveContext.eventChkInf[6] & 0x80) ? 0x5033 : 0x5032;
         // 0x5032: "Go around!..I'm so happy!..I'm trying to come up with a musical theme inspired by this windmill..."
@@ -175,7 +175,7 @@ void func_80A1DB60(EnFu* this, GlobalContext* globalCtx) {
 
 void func_80A1DBA0(EnFu* this, GlobalContext* globalCtx) {
     // if dialog state is 2 set action to WaitAdult
-    if (func_8002F334(this, globalCtx)) {
+    if (func_8002F334(&this->actor, globalCtx)) {
         this->actionFunc = EnFu_WaitAdult;
     }
 }
@@ -206,6 +206,7 @@ void func_80A1DBD4(EnFu* this, GlobalContext* globalCtx) {
 
 void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
+
     player->stateFlags2 |= 0x800000;
     // if dialog state is 7, player has played back the song
     if (func_8010BDBC(&globalCtx->msgCtx) == 7) {
@@ -216,6 +217,7 @@ void EnFu_WaitForPlayback(EnFu* this, GlobalContext* globalCtx) {
 
 void EnFu_TeachSong(EnFu* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
+
     player->stateFlags2 |= 0x800000;
     // if dialog state is 2, start song demonstration
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
@@ -250,8 +252,8 @@ void EnFu_WaitAdult(EnFu* this, GlobalContext* globalCtx) {
 }
 
 void EnFu_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnFu* this = THIS;
     s32 pad;
+    EnFu* this = THIS;
 
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

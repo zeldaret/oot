@@ -78,14 +78,14 @@ void BgJyaBombchuiwa_SetDrawFlags(BgJyaBombchuiwa* this, u8 drawFlags) {
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombchuiwa* this = THIS;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     BgJyaBombchuiwa_SetupCollider(this, globalCtx);
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
     } else {
         BgJyaBombchuiwa_SetupWaitForExplosion(this, globalCtx);
     }
-    Actor_SetFocus(thisx, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
 }
 
 void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
