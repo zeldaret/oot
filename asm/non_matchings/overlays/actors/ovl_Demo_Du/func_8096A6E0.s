@@ -55,11 +55,11 @@ glabel func_8096A6E0
 /* 00CE0 8096A7B0 4481B000 */  mtc1    $at, $f22                  ## $f22 = 10.00
 /* 00CE4 8096A7B4 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 00CE8 8096A7B8 3C108097 */  lui     $s0, %hi(D_8096CEE8)       ## $s0 = 80970000
-/* 00CEC 8096A7BC 3C178097 */  lui     $s7, %hi(D_8096CEB4)       ## $s7 = 80970000
-/* 00CF0 8096A7C0 3C168097 */  lui     $s6, %hi(D_8096CEB0)       ## $s6 = 80970000
+/* 00CEC 8096A7BC 3C178097 */  lui     $s7, %hi(sDustEnvironmentColor)       ## $s7 = 80970000
+/* 00CF0 8096A7C0 3C168097 */  lui     $s6, %hi(sDustPrimaryColor)       ## $s6 = 80970000
 /* 00CF4 8096A7C4 4481A000 */  mtc1    $at, $f20                  ## $f20 = 20.00
-/* 00CF8 8096A7C8 26D6CEB0 */  addiu   $s6, $s6, %lo(D_8096CEB0)  ## $s6 = 8096CEB0
-/* 00CFC 8096A7CC 26F7CEB4 */  addiu   $s7, $s7, %lo(D_8096CEB4)  ## $s7 = 8096CEB4
+/* 00CF8 8096A7C8 26D6CEB0 */  addiu   $s6, $s6, %lo(sDustPrimaryColor)  ## $s6 = 8096CEB0
+/* 00CFC 8096A7CC 26F7CEB4 */  addiu   $s7, $s7, %lo(sDustEnvironmentColor)  ## $s7 = 8096CEB4
 /* 00D00 8096A7D0 2610CEE8 */  addiu   $s0, $s0, %lo(D_8096CEE8)  ## $s0 = 8096CEE8
 /* 00D04 8096A7D4 27BE0088 */  addiu   $s8, $sp, 0x0088           ## $s8 = FFFFFFB8
 /* 00D08 8096A7D8 27B30098 */  addiu   $s3, $sp, 0x0098           ## $s3 = FFFFFFC8
