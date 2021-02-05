@@ -3,6 +3,7 @@
  * Overlay: ovl_En_Bili
  * Description: Biri (small jellyfish-like enemy)
  */
+
 #include "z_en_bili.h"
 
 #define FLAGS 0x00005005
