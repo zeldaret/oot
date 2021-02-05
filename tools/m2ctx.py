@@ -42,15 +42,14 @@ def import_c_file(in_file):
 
 def main():
     parser = argparse.ArgumentParser(usage="./m2ctx.py path/to/file.c or ./m2ctx.py (from an actor or gamestate's asm dir)",
-                                     description="Creates ctx.c for mips2c. "
+                                     description="Creates a ctx.c file for mips2c. "
                                      "Output will be saved as oot/ctx.c")
-
-    parser.add_argument('filepath', help="path to c file to be processed")
-
+    parser.add_argument('filepath', help="path of c file to be processed")
     args = parser.parse_args()
 
-    if args.file:
+    if args.filepath:
         c_file_path = args.filepath
+        print("Using file: {}".format(c_file_path))
     else:
         this_dir = Path.cwd()
         c_dir_path = get_c_dir(this_dir.name)
@@ -59,6 +58,7 @@ def main():
                 "Cannot find appropriate c file dir. In argumentless mode, run this script from the c file's corresponding asm dir.")
         c_file = get_c_file(c_dir_path)
         c_file_path = os.path.join(c_dir_path, c_file)
+        print("Using file: {}".format(c_file_path))
 
     output = import_c_file(c_file_path)
 
