@@ -49,7 +49,7 @@ extern FlexSkeletonHeader D_06009B38;
 
 const ActorInit En_Syateki_Man_InitVars = {
     ACTOR_EN_SYATEKI_MAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OSSAN,
     sizeof(EnSyatekiMan),
@@ -77,17 +77,16 @@ void EnSyatekiMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf("\n\n");
     // Old man appeared!! Muhohohohohohohon
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 親父登場！！むほほほほほほほーん ☆☆☆☆☆ \n" VT_RST);
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, this->limbDrawTbl,
-                       this->transitionDrawTbl, 9);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, this->jointTable, this->morphTable, 9);
     if (LINK_IS_CHILD) {
         this->headRot.z = 20;
     }
     this->blinkTimer = 20;
     this->eyeState = 0;
     this->blinkFunc = EnSyatekiMan_BlinkWait;
-    this->actor.colChkInfo.unk_10 = 100;
+    this->actor.colChkInfo.cylRadius = 100;
     this->actionFunc = EnSyatekiMan_Start;
 }
 
@@ -95,9 +94,9 @@ void EnSyatekiMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_Start(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    f32 lastFrame = SkelAnime_GetFrameCount(&D_06000338);
+    f32 lastFrame = Animation_GetLastFrame(&D_06000338);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000338, 1.0f, 0.0f, (s16)lastFrame, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000338, 1.0f, 0.0f, (s16)lastFrame, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnSyatekiMan_SetupIdle;
 }
 
@@ -112,7 +111,7 @@ void EnSyatekiMan_SetupIdle(EnSyatekiMan* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_Idle(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnSyatekiMan_Talk;
     } else {
@@ -123,7 +122,7 @@ void EnSyatekiMan_Idle(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
     s16 nextState = 0;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->cameraHold) {
         globalCtx->shootingGalleryStatus = -2;
     }
@@ -167,7 +166,7 @@ void EnSyatekiMan_Talk(EnSyatekiMan* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_StopTalk(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->cameraHold) {
         globalCtx->shootingGalleryStatus = -2;
     }
@@ -185,7 +184,7 @@ void EnSyatekiMan_StopTalk(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     EnSyatekiItm* gallery;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->cameraHold) {
         globalCtx->shootingGalleryStatus = -2;
     }
@@ -207,7 +206,7 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     EnSyatekiItm* gallery;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (1) {}
     gallery = ((EnSyatekiItm*)this->actor.parent);
     if ((gallery->actor.update != NULL) && (gallery->signal == ENSYATEKI_END)) {
@@ -240,7 +239,7 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     EnSyatekiItm* gallery;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->gameResult != SYATEKI_RESULT_FAILURE) {
             func_800803F0(globalCtx, this->onePointCam);
@@ -311,7 +310,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = EnSyatekiMan_FinishPrize;
     } else {
@@ -320,7 +319,7 @@ void EnSyatekiMan_GivePrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && func_80106BC8(globalCtx)) {
         // Successful completion
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
@@ -337,7 +336,7 @@ void EnSyatekiMan_FinishPrize(EnSyatekiMan* this, GlobalContext* globalCtx) {
 }
 
 void EnSyatekiMan_RestartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->timer == 0) {
         EnSyatekiItm* gallery = ((EnSyatekiItm*)this->actor.parent);
 
@@ -390,9 +389,9 @@ void EnSyatekiMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
     EnSyatekiMan_SetBgm();
     this->blinkFunc(this);
-    this->actor.posRot2.pos.y = 70.0f;
-    Actor_SetHeight(&this->actor, 70.0f);
-    func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.posRot2.pos);
+    this->actor.focus.pos.y = 70.0f;
+    Actor_SetFocus(&this->actor, 70.0f);
+    func_80038290(globalCtx, &this->actor, &this->headRot, &this->bodyRot, this->actor.focus.pos);
 }
 
 s32 func_80B1148C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -419,7 +418,7 @@ void EnSyatekiMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSyatekiMan* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           func_80B1148C, NULL, this);
 }
 

@@ -10,7 +10,7 @@ glabel func_8092F0BC
 /* 02AF8 8092F0C8 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 02AFC 8092F0CC AFB10018 */  sw      $s1, 0x0018($sp)           
 /* 02B00 8092F0D0 00A08825 */  or      $s1, $a1, $zero            ## $s1 = 00000000
-/* 02B04 8092F0D4 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02B04 8092F0D4 0C02927F */  jal     SkelAnime_Update
               
 /* 02B08 8092F0D8 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 02B0C 8092F0DC 86030198 */  lh      $v1, 0x0198($s0)           ## 00000198
@@ -103,7 +103,7 @@ glabel func_8092F0BC
 /* 02C44 8092F214 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 02C48 8092F218 46085180 */  add.s   $f6, $f10, $f8             
 /* 02C4C 8092F21C 46043481 */  sub.s   $f18, $f6, $f4             
-/* 02C50 8092F220 0C00B6B0 */  jal     func_8002DAC0              
+/* 02C50 8092F220 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 02C54 8092F224 E492002C */  swc1    $f18, 0x002C($a0)          ## 0000002C
 /* 02C58 8092F228 8FB90024 */  lw      $t9, 0x0024($sp)           
 /* 02C5C 8092F22C 3C058093 */  lui     $a1, %hi(D_80937358)       ## $a1 = 80930000

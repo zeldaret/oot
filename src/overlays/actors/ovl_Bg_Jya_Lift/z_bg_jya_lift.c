@@ -15,18 +15,19 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgJyaLift_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag);
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
+                            DynaPolyMoveFlag moveFlag);
 void BgJyaLift_SetFinalPosY(BgJyaLift* this);
 void BgJyaLift_SetInitPosY(BgJyaLift* this);
 void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx);
 void BgJyaLift_SetupMove(BgJyaLift* this);
 void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx);
 
-static s16 D_8089A020 = 0;
+static s16 sIsSpawned = false;
 
 const ActorInit Bg_Jya_Lift_InitVars = {
     ACTOR_BG_JYA_LIFT,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaLift),
@@ -43,23 +44,24 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2500, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_0600D7E8;
+extern CollisionHeader D_0600D7E8;
 extern Gfx D_0600CCE0[];
 
-void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, u32 arg2, DynaPolyMoveFlag moveFlag) {
+void BgJyaLift_InitDynapoly(BgJyaLift* this, GlobalContext* globalCtx, CollisionHeader* collisionHeader,
+                            DynaPolyMoveFlag moveFlag) {
     s32 pad1;
-    s32 localConst = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna, localConst);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collisionHeader, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift* this = THIS;
     this->unk_16A = 0;
 
-    if (D_8089A020) {
+    if (sIsSpawned) {
         Actor_Kill(thisx);
         return;
     }
@@ -69,12 +71,12 @@ void BgJyaLift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaLift_InitDynapoly(this, globalCtx, &D_0600D7E8, 0);
     Actor_ProcessInitChain(thisx, sInitChain);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
-        BgJyaLift_SetFinalPosY(thisx);
+        BgJyaLift_SetFinalPosY(this);
     } else {
-        BgJyaLift_SetInitPosY(thisx);
+        BgJyaLift_SetInitPosY(this);
     }
     thisx->room = -1;
-    D_8089A020 = 1;
+    sIsSpawned = true;
     this->unk_16A = 1;
 }
 
@@ -85,14 +87,14 @@ void BgJyaLift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
         // Goddess Lift DT
         osSyncPrintf("女神リフト DT\n");
-        D_8089A020 = 0;
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        sIsSpawned = false;
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
 void BgJyaLift_SetInitPosY(BgJyaLift* this) {
     this->actionFunc = BgJyaLift_DelayMove;
-    this->dyna.actor.posRot.pos.y = 1613.0f;
+    this->dyna.actor.world.pos.y = 1613.0f;
     this->moveDelay = 0;
 }
 
@@ -116,8 +118,8 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToF(&this->dyna.actor.velocity.y, 4.0f, 0.1f, 1.0f, 0.0f);
     tempVelocity = (this->dyna.actor.velocity.y < 0.2f) ? 0.2f : this->dyna.actor.velocity.y;
-    distFromBottom = Math_SmoothStepToF(&this->dyna.actor.posRot.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
-    if ((this->dyna.actor.posRot.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.pos4.y)) {
+    distFromBottom = Math_SmoothStepToF(&this->dyna.actor.world.pos.y, 973.0f, 0.1f, tempVelocity, 0.2f);
+    if ((this->dyna.actor.world.pos.y < 1440.0f) && (1440.0f <= this->dyna.actor.prevPos.y)) {
         func_8005B1A4(ACTIVE_CAM);
     }
     if (fabsf(distFromBottom) < 0.001f) {
@@ -130,7 +132,7 @@ void BgJyaLift_Move(BgJyaLift* this, GlobalContext* globalCtx) {
 
 void BgJyaLift_SetFinalPosY(BgJyaLift* this) {
     this->actionFunc = NULL;
-    this->dyna.actor.posRot.pos.y = 973.0f;
+    this->dyna.actor.world.pos.y = 973.0f;
 }
 
 void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -138,7 +140,7 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     if (this->actionFunc != NULL) {
-        this->actionFunc(this);
+        this->actionFunc(this, globalCtx);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
         Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_TEPPEN);

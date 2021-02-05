@@ -10,7 +10,7 @@ glabel func_80B4743C
 /* 0340C 80B4745C 000E7880 */  sll     $t7, $t6,  2               
 /* 03410 80B47460 01EE7823 */  subu    $t7, $t7, $t6              
 /* 03414 80B47464 000F7880 */  sll     $t7, $t7,  2               
-/* 03418 80B47468 0C00B6B0 */  jal     func_8002DAC0              
+/* 03418 80B47468 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 0341C 80B4746C 01F82821 */  addu    $a1, $t7, $t8              
 /* 03420 80B47470 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 03424 80B47474 00411821 */  addu    $v1, $v0, $at              
@@ -25,7 +25,7 @@ glabel func_80B4743C
 /* 03444 80B47494 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 03448 80B47498 86190032 */  lh      $t9, 0x0032($s0)           ## 00000032
 /* 0344C 80B4749C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 03450 80B474A0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03450 80B474A0 0C02927F */  jal     SkelAnime_Update
               
 /* 03454 80B474A4 A61900B6 */  sh      $t9, 0x00B6($s0)           ## 000000B6
 /* 03458 80B474A8 10400009 */  beq     $v0, $zero, .L80B474D0     

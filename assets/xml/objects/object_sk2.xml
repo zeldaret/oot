@@ -29,27 +29,27 @@
         <Limb Name="gStalfosJawLimb" Type="Standard" Offset="0x78D4"/>
         <Limb Name="gStalfosHeadLimb" Type="Standard" Offset="0x78E0"/>
         <Limb Name="gStalfosEntryFirstVertebLimb" Type="Standard" Offset="0x78EC"/>
-        <Hierarchy Name="gStalfosSkel" Type="Standard" Offset="0x7C28"/>
-        <Animation Name="gStalfosBackDamageAnim" Offset="0x444" DLCount="59"/>
-        <Animation Name="gStalfosBackDownAnim" Offset="0x1420" DLCount="59"/>
-        <Animation Name="gStalfosBackJumpAnim" Offset="0x1978" DLCount="59"/>
-        <Animation Name="gStalfosDefendAnim" Offset="0x1C20" DLCount="59"/>
-        <Animation Name="gStalfosStandUprightAnim" Offset="0x2188" DLCount="59"/>
-        <Animation Name="gStalfosFightingRunAnim" Offset="0x26D4" DLCount="59"/>
-        <Animation Name="gStalfosFightingWaitAnim" Offset="0x316C" DLCount="59"/>
-        <Animation Name="gStalfosFightingWalkAnim" Offset="0x81B4" DLCount="59"/>
-        <Animation Name="gStalfosFrontDamageAnim" Offset="0x8604" DLCount="59"/>
-        <Animation Name="gStalfosFrontDownAnim" Offset="0x9A90" DLCount="59"/>
-        <Animation Name="gStalfosJumpAnim" Offset="0x9E50" DLCount="59"/>
-        <Animation Name="gStalfosJumpKiruAnim" Offset="0xA324" DLCount="59"/>
-        <Animation Name="gStalfosJumpKiruEndAnim" Offset="0xA99C" DLCount="59"/>
-        <Animation Name="gStalfosKiruAnim" Offset="0xB00C" DLCount="59"/>
-        <Animation Name="gStalfosKiruEndAnim" Offset="0xB4E4" DLCount="59"/>
-        <Animation Name="gStalfosKiruFinshAnim" Offset="0xBE4C" DLCount="59"/>
-        <Animation Name="gStalfosLandingAnim" Offset="0xC438" DLCount="59"/>
-        <Animation Name="gStalfosLaughAnim" Offset="0xC8A0" DLCount="59"/>
-        <Animation Name="gStalfosFightWait2WaitAnim" Offset="0xDCF0" DLCount="59"/>
-        <Animation Name="gStalfosSideWalkAnim" Offset="0xE2B0" DLCount="59"/>
-        <Animation Name="gStalfosStanding2FightingAnim" Offset="0xE7E4" DLCount="59"/>
+        <Skeleton Name="gStalfosSkel" Type="Normal" LimbType="Standard" Offset="0x7C28"/>
+        <Animation Name="gStalfosBackDamageAnim" Offset="0x444"/>
+        <Animation Name="gStalfosBackDownAnim" Offset="0x1420"/>
+        <Animation Name="gStalfosBackJumpAnim" Offset="0x1978"/>
+        <Animation Name="gStalfosDefendAnim" Offset="0x1C20"/>
+        <Animation Name="gStalfosStandUprightAnim" Offset="0x2188"/>
+        <Animation Name="gStalfosFightingRunAnim" Offset="0x26D4"/>
+        <Animation Name="gStalfosFightingWaitAnim" Offset="0x316C"/>
+        <Animation Name="gStalfosFightingWalkAnim" Offset="0x81B4"/>
+        <Animation Name="gStalfosFrontDamageAnim" Offset="0x8604"/>
+        <Animation Name="gStalfosFrontDownAnim" Offset="0x9A90"/>
+        <Animation Name="gStalfosJumpAnim" Offset="0x9E50"/>
+        <Animation Name="gStalfosJumpKiruAnim" Offset="0xA324"/>
+        <Animation Name="gStalfosJumpKiruEndAnim" Offset="0xA99C"/>
+        <Animation Name="gStalfosKiruAnim" Offset="0xB00C"/>
+        <Animation Name="gStalfosKiruEndAnim" Offset="0xB4E4"/>
+        <Animation Name="gStalfosKiruFinshAnim" Offset="0xBE4C"/>
+        <Animation Name="gStalfosLandingAnim" Offset="0xC438"/>
+        <Animation Name="gStalfosLaughAnim" Offset="0xC8A0"/>
+        <Animation Name="gStalfosFightWait2WaitAnim" Offset="0xDCF0"/>
+        <Animation Name="gStalfosSideWalkAnim" Offset="0xE2B0"/>
+        <Animation Name="gStalfosStanding2FightingAnim" Offset="0xE7E4"/>
     </File>
 </Root>

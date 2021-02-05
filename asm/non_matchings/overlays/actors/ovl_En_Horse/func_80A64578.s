@@ -18,7 +18,7 @@ glabel func_80A64578
 /* 092C0 80A645B0 90E6007D */  lbu     $a2, 0x007D($a3)           ## 0000007D
 /* 092C4 80A645B4 AFA70028 */  sw      $a3, 0x0028($sp)           
 /* 092C8 80A645B8 8FA5001C */  lw      $a1, 0x001C($sp)           
-/* 092CC 80A645BC 0C010839 */  jal     func_800420E4              
+/* 092CC 80A645BC 0C010839 */  jal     SurfaceType_GetConveyorDirection              
 /* 092D0 80A645C0 248407C0 */  addiu   $a0, $a0, 0x07C0           ## $a0 = 000007C0
 /* 092D4 80A645C4 8FA70028 */  lw      $a3, 0x0028($sp)           
 /* 092D8 80A645C8 00025280 */  sll     $t2, $v0, 10               

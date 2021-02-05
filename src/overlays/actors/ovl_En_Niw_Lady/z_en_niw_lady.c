@@ -27,7 +27,7 @@ void func_80ABAD7C(EnNiwLady* this, GlobalContext* globalCtx);
 
 const ActorInit En_Niw_Lady_InitVars = {
     ACTOR_EN_NIW_LADY,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ANE,
     sizeof(EnNiwLady),
@@ -46,8 +46,22 @@ static s16 D_80ABB3B4[] = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
@@ -101,8 +115,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 10:
                 this->unk_275 = 1;
             case 9:
-                frames = SkelAnime_GetFrameCount(&D_060007D0);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_060007D0);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 0:
             case 1:
@@ -116,8 +130,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 22:
             case 24:
             case 29:
-                frames = SkelAnime_GetFrameCount(&D_06009F94);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_06009F94);
+                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 7:
             case 20:
@@ -126,12 +140,12 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 26:
             case 27:
             case 28:
-                frames = SkelAnime_GetFrameCount(&D_06000718);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_06000718);
+                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 100:
-                frames = SkelAnime_GetFrameCount(&D_0600A630);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, 0, -10.0f);
+                frames = Animation_GetLastFrame(&D_0600A630);
+                Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 this->unk_276 = 0;
                 break;
         }
@@ -146,26 +160,25 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectAneIndex) &&
         Object_IsLoaded(&globalCtx->objectCtx, this->objectOsAnimeIndex)) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectAneIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->limbDrawTable,
-                           this->transitionDrawTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
         Actor_SetScale(&this->actor, 0.01f);
-        ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawFunc_Circle, 20.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 20.0f);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         this->unk_272 = 0;
-        this->actor.unk_1F = 6;
+        this->actor.targetMode = 6;
         this->actor.draw = EnNiwLady_Draw;
         switch (this->unk_278) {
             case 0:
                 if (!(gSaveContext.itemGetInf[0] & 0x1000) && LINK_IS_CHILD) {
-                    frames = SkelAnime_GetFrameCount(&D_0600A630);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    frames = Animation_GetLastFrame(&D_0600A630);
+                    Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
-                    frames = SkelAnime_GetFrameCount(&D_060007D0);
-                    SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                    frames = Animation_GetLastFrame(&D_060007D0);
+                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -174,8 +187,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 }
                 return;
             case 1:
-                frames = SkelAnime_GetFrameCount(&D_060007D0);
-                SkelAnime_ChangeAnim(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, 0, 0.0f);
+                frames = Animation_GetLastFrame(&D_060007D0);
+                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
@@ -193,11 +206,11 @@ void func_80ABA244(EnNiwLady* this, GlobalContext* globalCtx) {
     s32 phi_s1;
 
     this->cuccosInPen = 0;
-    currentCucco = (EnNiw*)globalCtx->actorCtx.actorList[ACTORTYPE_PROP].first;
+    currentCucco = (EnNiw*)globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
     while (currentCucco != NULL) {
         if (currentCucco->actor.id == ACTOR_EN_NIW) {
-            if ((fabsf(currentCucco->actor.posRot.pos.x - 330.0f) < 90.0f) &&
-                (fabsf(currentCucco->actor.posRot.pos.z - 1610.0f) < 190.0f)) {
+            if ((fabsf(currentCucco->actor.world.pos.x - 330.0f) < 90.0f) &&
+                (fabsf(currentCucco->actor.world.pos.z - 1610.0f) < 190.0f)) {
                 if (this->unk_26C == 0) {
                     gSaveContext.infTable[25] |= D_80ABB3B4[currentCucco->unk_2AA];
                     if (BREG(1) != 0) {
@@ -481,10 +494,10 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnNiwLady* this = THIS;
     Player* player = PLAYER;
 
-    Actor_SetHeight(thisx, 60.0f);
-    this->unk_288.unk_18 = player->actor.posRot.pos;
+    Actor_SetFocus(thisx, 60.0f);
+    this->unk_288.unk_18 = player->actor.world.pos;
     if (LINK_IS_CHILD) {
-        this->unk_288.unk_18.y = player->actor.posRot.pos.y - 10.0f;
+        this->unk_288.unk_18.y = player->actor.world.pos.y - 10.0f;
     }
     func_80034A14(thisx, &this->unk_288, 2, 4);
     this->unk_254 = this->unk_288.unk_08;
@@ -500,7 +513,7 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
                 EnNiwLady_ChoseAnimation(this, globalCtx, this->unk_26E);
                 this->unk_26E = 0;
             }
-            SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+            SkelAnime_Update(&this->skelAnime);
         }
         this->objectAneIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_ANE);
         if (this->objectAneIndex >= 0) {
@@ -519,8 +532,8 @@ void EnNiwLady_Update(Actor* thisx, GlobalContext* globalCtx) {
                     this->unusedRandomTimer = ((s16)Rand_ZeroFloat(60.0f) + 0x14);
                 }
             }
-            func_8002E4B4(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
-            Collider_CylinderUpdate(thisx, &this->collider);
+            Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 20.0f, 60.0f, 0x1D);
+            Collider_UpdateCylinder(thisx, &this->collider);
             if (1) {}
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
@@ -553,7 +566,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             rot->z += (Math_CosS((globalCtx->state.frames * ((limbIndex * 0x32) + 0x940))) * 200.0f);
         }
     }
-    return 0;
+    return false;
 }
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -567,7 +580,7 @@ void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80ABB408[this->faceState]));
         gSPSegment(POLY_OPA_DISP++, 0x0C, func_80ABB0A0(globalCtx->state.gfxCtx));
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                               this->skelAnime.dListCount, EnNiwLady_OverrideLimbDraw, NULL, this);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_lady.c", 1370);

@@ -10,7 +10,7 @@ glabel BgHidanSima_Init
               
 /* 00020 8088E3F0 24A5F1F8 */  addiu   $a1, $a1, %lo(D_8088F1F8)  ## $a1 = 8088F1F8
 /* 00024 8088E3F4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00028 8088E3F8 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00028 8088E3F8 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 0002C 8088E3FC 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00030 8088E400 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
@@ -19,21 +19,21 @@ glabel BgHidanSima_Init
 /* 0003C 8088E40C 15C00006 */  bne     $t6, $zero, .L8088E428     
 /* 00040 8088E410 2484FAE8 */  addiu   $a0, $a0, %lo(D_0600FAE8)           ## $a0 = 0600FAE8
 /* 00044 8088E414 3C040601 */  lui     $a0, %hi(D_060120E8)                ## $a0 = 06010000
-/* 00048 8088E418 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00048 8088E418 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0004C 8088E41C 248420E8 */  addiu   $a0, $a0, %lo(D_060120E8)           ## $a0 = 060120E8
 /* 00050 8088E420 10000004 */  beq     $zero, $zero, .L8088E434   
 /* 00054 8088E424 8FA40044 */  lw      $a0, 0x0044($sp)           
 .L8088E428:
-/* 00058 8088E428 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00058 8088E428 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 0005C 8088E42C 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFF4
 /* 00060 8088E430 8FA40044 */  lw      $a0, 0x0044($sp)           
 .L8088E434:
 /* 00064 8088E434 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00068 8088E438 8FA70034 */  lw      $a3, 0x0034($sp)           
-/* 0006C 8088E43C 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 0006C 8088E43C 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 00070 8088E440 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 00074 8088E444 AE02014C */  sw      $v0, 0x014C($s0)           ## 0000014C
 /* 00078 8088E448 2605016C */  addiu   $a1, $s0, 0x016C           ## $a1 = 0000016C

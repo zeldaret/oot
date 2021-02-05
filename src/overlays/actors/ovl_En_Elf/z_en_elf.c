@@ -5,6 +5,7 @@
  */
 
 #include "z_en_elf.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x02000030
 
@@ -57,7 +58,7 @@ void EnElf_GetCutsceneNextPos(Vec3f* vec, GlobalContext* globalCtx, s32 action);
 
 const ActorInit En_Elf_InitVars = {
     ACTOR_EN_ELF,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnElf),
@@ -90,9 +91,6 @@ static FairyColorFlags sColorFlags[] = {
     { 0, 0, 1 }, { 2, 0, 1 }, { 0, 2, 1 }, { 1, 1, 0 }, { 1, 0, 1 }, { 0, 1, 1 },
 };
 
-extern SkeletonHeader D_04016A48;
-extern AnimationHeader D_04014BA4;
-
 void EnElf_SetupAction(EnElf* this, EnElfActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -108,7 +106,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 100;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 20.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 12:
             this->unk_2AE = 0x400;
@@ -117,7 +115,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 100;
             this->unk_2B4 = 1.0f;
             this->unk_2B8 = 5.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 10:
             this->unk_2AE = 0x400;
@@ -125,7 +123,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B8 = 0.0f;
             this->unk_2B4 = 5.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 9:
             this->unk_2AE = 0x1000;
@@ -133,7 +131,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 3.0f;
             this->unk_2B8 = 10.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 7:
             this->func_2C8 = func_80A02A20;
@@ -141,7 +139,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 1;
             this->unk_2B4 = 0.0f;
             this->unk_2B8 = 0.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 8:
             this->unk_2AE = 0x1000;
@@ -149,7 +147,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 0.0f;
             this->unk_2B8 = 0.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 1:
             this->unk_2AE = 0x1000;
@@ -157,7 +155,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 7.5f;
-            this->skelAnime.animPlaybackSpeed = 2.0f;
+            this->skelAnime.playSpeed = 2.0f;
             break;
         case 2:
             this->unk_2AE = 0x400;
@@ -165,28 +163,28 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02AA4;
             this->unk_2B4 = 10.0f;
             this->unk_2B8 = 20.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 3:
             this->unk_2B0 = 0x600;
             this->func_2C8 = func_80A02B38;
             this->unk_2B8 = 1.0f;
             this->unk_2B4 = 1.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
         case 4:
             this->unk_2B0 = 0x800;
             this->func_2C8 = func_80A02B38;
             this->unk_2B4 = 20.0f;
             this->unk_2B8 = 10.0;
-            this->skelAnime.animPlaybackSpeed = 2.0f;
+            this->skelAnime.playSpeed = 2.0f;
             break;
         case 5:
             this->unk_2B0 = 0x200;
             this->func_2C8 = func_80A02B38;
             this->unk_2B4 = 10.0f;
             this->unk_2B8 = 10.0f;
-            this->skelAnime.animPlaybackSpeed = 0.5f;
+            this->skelAnime.playSpeed = 0.5f;
             break;
         case 6:
             this->unk_2AE = 0x1000;
@@ -194,7 +192,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->func_2C8 = func_80A02A20;
             this->unk_2B4 = 60.0f;
             this->unk_2B8 = 20.0f;
-            this->skelAnime.animPlaybackSpeed = 2.0f;
+            this->skelAnime.playSpeed = 2.0f;
             break;
         case 11:
             this->unk_2AE = 0x400;
@@ -203,7 +201,7 @@ void func_80A01C38(EnElf* this, s32 arg1) {
             this->unk_2C0 = 42;
             this->unk_2B4 = 5.0f;
             this->unk_2B8 = 1.0f;
-            this->skelAnime.animPlaybackSpeed = 1.0f;
+            this->skelAnime.playSpeed = 1.0f;
             break;
     }
 }
@@ -215,7 +213,7 @@ s32 func_80A01F90(Vec3f* this, Vec3f* arg1, f32 arg2) {
 void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (!func_80A01F90(&this->actor.posRot.pos, &player->actor.posRot.pos, 30.0f)) {
+    if (!func_80A01F90(&this->actor.world.pos, &player->actor.world.pos, 30.0f)) {
         this->unk_2B8 = 0.5f;
     } else {
         this->unk_2B8 = 2.0f;
@@ -235,7 +233,7 @@ void func_80A01FE0(EnElf* this, GlobalContext* globalCtx) {
 void func_80A020A4(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (func_80A01F90(&this->actor.posRot.pos, &player->actor.posRot.pos, 50.0f)) {
+    if (func_80A01F90(&this->actor.world.pos, &player->actor.world.pos, 50.0f)) {
         if (this->unk_2C0 > 0) {
             this->unk_2C0--;
         } else {
@@ -249,13 +247,13 @@ void func_80A020A4(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
-    f32 xzDistFromLink;
+    f32 xzDistToPlayer;
 
     if (this->unk_2C0 > 0) {
         this->unk_2C0--;
     } else {
-        xzDistFromLink = this->actor.xzDistFromLink;
-        if (xzDistFromLink < 50.0f) {
+        xzDistToPlayer = this->actor.xzDistToPlayer;
+        if (xzDistToPlayer < 50.0f) {
             if (Rand_ZeroOne() < 0.2f) {
                 this->unk_2A8 = 2;
                 this->unk_2AC = 0x400;
@@ -267,16 +265,16 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
                 this->unk_2C0 = 10;
             }
         } else {
-            if (xzDistFromLink > 150.0f) {
-                xzDistFromLink = 150.0f;
+            if (xzDistToPlayer > 150.0f) {
+                xzDistToPlayer = 150.0f;
             }
 
-            xzDistFromLink = ((xzDistFromLink - 50.0f) * 0.95f) + 0.05f;
+            xzDistToPlayer = ((xzDistToPlayer - 50.0f) * 0.95f) + 0.05f;
 
-            if (Rand_ZeroOne() < xzDistFromLink) {
+            if (Rand_ZeroOne() < xzDistToPlayer) {
                 this->unk_2A8 = 3;
                 this->unk_2AC = 0x200;
-                this->unk_2B8 = (xzDistFromLink * 2.0f) + 1.0f;
+                this->unk_2B8 = (xzDistToPlayer * 2.0f) + 1.0f;
                 this->func_2C8 = func_80A01FE0;
                 this->unk_2C0 = (s16)Rand_ZeroFloat(16.0f) + 0x10;
             } else {
@@ -294,7 +292,7 @@ void func_80A0214C(EnElf* this, GlobalContext* globalCtx) {
 }
 
 void func_80A0232C(EnElf* this, GlobalContext* globalCtx) {
-    if (func_80A01F90(&this->unk_28C, &this->actor.posRot.pos, 100.0f)) {
+    if (func_80A01F90(&this->unk_28C, &this->actor.world.pos, 100.0f)) {
         this->unk_2A8 = 0;
         this->unk_2AC = 0x200;
         this->func_2C8 = func_80A0214C;
@@ -323,17 +321,16 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_04016A48, &D_04014BA4, this->limbDrawTable,
-                   this->transitionDrawTable, 15);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gFairySkel, &gFairyAnim, this->jointTable, this->morphTable, 15);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 15.0f);
-    thisx->shape.unk_14 = 0xFF;
+    thisx->shape.shadowAlpha = 0xFF;
 
-    Lights_PointGlowSetInfo(&this->lightInfoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z, 255,
-                            255, 255, 0);
+    Lights_PointGlowSetInfo(&this->lightInfoGlow, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, 255, 255,
+                            255, 0);
     this->lightNodeGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoGlow);
 
-    Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, thisx->posRot.pos.x, thisx->posRot.pos.y, thisx->posRot.pos.z,
-                              255, 255, 255, 0);
+    Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z, 255,
+                              255, 255, 0);
     this->lightNodeNoGlow = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
 
     this->fairyFlags = 0;
@@ -358,10 +355,10 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
         case FAIRY_REVIVE_BOTTLE:
             colorConfig = -1;
             EnElf_SetupAction(this, func_80A03610);
-            this->unk_2B8 = Math_Vec3f_DistXZ(&thisx->posRot.pos, &player->actor.posRot.pos);
+            this->unk_2B8 = Math_Vec3f_DistXZ(&thisx->world.pos, &player->actor.world.pos);
             this->unk_2AC = player->actor.shape.rot.y;
             this->unk_2B0 = -0x1000;
-            this->unk_28C.y = thisx->posRot.pos.y - player->actor.posRot.pos.y;
+            this->unk_28C.y = thisx->world.pos.y - player->actor.world.pos.y;
             this->unk_2AA = 0;
             this->unk_2B4 = 0.0f;
             break;
@@ -371,13 +368,13 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2B8 = 0.0f;
             this->unk_2AC = player->actor.shape.rot.y;
             this->unk_2B0 = 0;
-            this->unk_28C.y = thisx->posRot.pos.y - player->actor.posRot.pos.y;
+            this->unk_28C.y = thisx->world.pos.y - player->actor.world.pos.y;
             this->unk_2AA = 0;
             this->unk_2B4 = 7.0f;
             break;
         case FAIRY_HEAL_BIG:
             this->fairyFlags |= FAIRY_FLAG_BIG;
-            thisx->shape.shadowDrawFunc = ActorShadow_DrawFunc_WhiteCircle;
+            thisx->shape.shadowDraw = ActorShadow_DrawWhiteCircle;
         case FAIRY_HEAL_TIMED:
             this->fairyFlags |= FAIRY_FLAG_TIMED;
         case FAIRY_HEAL:
@@ -386,7 +383,7 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->unk_2B4 = Rand_ZeroFloat(10.0f) + 10.0f;
             this->unk_2AA = 0;
             this->unk_2AE = (s16)(Rand_ZeroFloat(1048.0f)) + 0x200;
-            this->unk_28C = thisx->posRot.pos;
+            this->unk_28C = thisx->world.pos;
             this->unk_2BC = Rand_CenteredFloat(32767.0f);
             this->func_2C8 = func_80A0214C;
             func_80A0232C(this, globalCtx);
@@ -403,8 +400,8 @@ void EnElf_Init(Actor* thisx, GlobalContext* globalCtx) {
             func_80A01C38(this, 8);
 
             for (i = 0; i < 8; i++) {
-                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, thisx->posRot.pos.x,
-                            thisx->posRot.pos.y - 30.0f, thisx->posRot.pos.z, 0, 0, 0, FAIRY_HEAL);
+                Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, thisx->world.pos.x,
+                            thisx->world.pos.y - 30.0f, thisx->world.pos.z, 0, 0, 0, FAIRY_HEAL);
             }
             break;
         default:
@@ -479,7 +476,7 @@ void func_80A02BD8(EnElf* this, Vec3f* targetPos, f32 arg2) {
     f32 yVelTarget;
     f32 yVelDirection;
 
-    yVelTarget = ((targetPos->y + this->unk_28C.y) - this->actor.posRot.pos.y) * arg2;
+    yVelTarget = ((targetPos->y + this->unk_28C.y) - this->actor.world.pos.y) * arg2;
     yVelDirection = (yVelTarget >= 0.0f) ? 1.0f : -1.0f;
     yVelTarget = fabsf(yVelTarget);
     yVelTarget = CLAMP(yVelTarget, 0.0f, 20.0f) * yVelDirection;
@@ -492,8 +489,8 @@ void func_80A02C98(EnElf* this, Vec3f* targetPos, f32 arg2) {
     f32 xVelDirection;
     f32 zVelDirection;
 
-    xVelTarget = ((targetPos->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg2;
-    zVelTarget = ((targetPos->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg2;
+    xVelTarget = ((targetPos->x + this->unk_28C.x) - this->actor.world.pos.x) * arg2;
+    zVelTarget = ((targetPos->z + this->unk_28C.z) - this->actor.world.pos.z) * arg2;
 
     xVelDirection = (xVelTarget >= 0.0f) ? 1.0f : -1.0f;
     zVelDirection = (zVelTarget >= 0.0f) ? 1.0f : -1.0f;
@@ -512,26 +509,26 @@ void func_80A02C98(EnElf* this, Vec3f* targetPos, f32 arg2) {
 
 void func_80A02E30(EnElf* this, Vec3f* targetPos) {
     func_80A02BD8(this, targetPos, 0.2f);
-    this->actor.velocity.x = (targetPos->x + this->unk_28C.x) - this->actor.posRot.pos.x;
-    this->actor.velocity.z = (targetPos->z + this->unk_28C.z) - this->actor.posRot.pos.z;
+    this->actor.velocity.x = (targetPos->x + this->unk_28C.x) - this->actor.world.pos.x;
+    this->actor.velocity.z = (targetPos->z + this->unk_28C.z) - this->actor.world.pos.z;
     func_8002D7EC(&this->actor);
-    this->actor.posRot.pos.x = targetPos->x + this->unk_28C.x;
-    this->actor.posRot.pos.z = targetPos->z + this->unk_28C.z;
+    this->actor.world.pos.x = targetPos->x + this->unk_28C.x;
+    this->actor.world.pos.z = targetPos->z + this->unk_28C.z;
 }
 
 void func_80A02EC0(EnElf* this, Vec3f* targetPos) {
     func_80A02BD8(this, targetPos, 0.2f);
     this->actor.velocity.x = this->actor.velocity.z = 0.0f;
     func_8002D7EC(&this->actor);
-    this->actor.posRot.pos.x = targetPos->x + this->unk_28C.x;
-    this->actor.posRot.pos.z = targetPos->z + this->unk_28C.z;
+    this->actor.world.pos.x = targetPos->x + this->unk_28C.x;
+    this->actor.world.pos.z = targetPos->z + this->unk_28C.z;
 }
 
 void func_80A02F2C(EnElf* this, Vec3f* targetPos) {
     f32 yVelTarget;
     f32 yVelDirection;
 
-    yVelTarget = (((Math_SinS(this->unk_2AA) * this->unk_2B4) + targetPos->y) - this->actor.posRot.pos.y) * 0.2f;
+    yVelTarget = (((Math_SinS(this->unk_2AA) * this->unk_2B4) + targetPos->y) - this->actor.world.pos.y) * 0.2f;
     yVelDirection = (yVelTarget >= 0.0f) ? 1.0f : -1.0f;
     this->unk_2AA += this->unk_2AE;
     yVelTarget = fabsf(yVelTarget);
@@ -549,17 +546,17 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
 
     switch (this->unk_2A8) {
         case 0:
-            targetYaw = Math_Atan2S(-(this->actor.posRot.pos.z - unk_28C->z), -(this->actor.posRot.pos.x - unk_28C->x));
+            targetYaw = Math_Atan2S(-(this->actor.world.pos.z - unk_28C->z), -(this->actor.world.pos.x - unk_28C->x));
             break;
 
         case 3:
-            targetYaw = Math_Atan2S(-(this->actor.posRot.pos.z - player->actor.posRot.pos.z),
-                                    -(this->actor.posRot.pos.x - player->actor.posRot.pos.x));
+            targetYaw = Math_Atan2S(-(this->actor.world.pos.z - player->actor.world.pos.z),
+                                    -(this->actor.world.pos.x - player->actor.world.pos.x));
             break;
 
         case 2:
-            targetYaw = Math_Atan2S(this->actor.posRot.pos.z - player->actor.posRot.pos.z,
-                                    this->actor.posRot.pos.x - player->actor.posRot.pos.x);
+            targetYaw = Math_Atan2S(this->actor.world.pos.z - player->actor.world.pos.z,
+                                    this->actor.world.pos.x - player->actor.world.pos.x);
             break;
 
         default:
@@ -568,7 +565,7 @@ void func_80A03018(EnElf* this, GlobalContext* globalCtx) {
     }
 
     Math_SmoothStepToS(&this->unk_2BC, targetYaw, 10, this->unk_2AC, 0x20);
-    this->actor.posRot.rot.y = this->unk_2BC;
+    this->actor.world.rot.y = this->unk_2BC;
     Actor_MoveForward(&this->actor);
 }
 
@@ -578,8 +575,8 @@ void func_80A03148(EnElf* this, Vec3f* arg1, f32 arg2, f32 arg3, f32 arg4) {
     f32 xzVelocity;
     f32 clampedXZ;
 
-    xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.posRot.pos.x) * arg4;
-    zVelTarget = ((arg1->z + this->unk_28C.z) - this->actor.posRot.pos.z) * arg4;
+    xVelTarget = ((arg1->x + this->unk_28C.x) - this->actor.world.pos.x) * arg4;
+    zVelTarget = ((arg1->z + this->unk_28C.z) - this->actor.world.pos.z) * arg4;
     arg4 += 0.3f;
     arg3 += 30.0f;
 
@@ -606,7 +603,7 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     f32 heightDiff;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (Rand_ZeroOne() < 0.05f) {
         this->unk_2B4 = Rand_ZeroFloat(10.0f) + 10.0f;
@@ -628,10 +625,10 @@ void func_80A0329C(EnElf* this, GlobalContext* globalCtx) {
     }
 
     if (!Player_InCsMode(globalCtx)) {
-        heightDiff = this->actor.posRot.pos.y - refActor->actor.posRot.pos.y;
+        heightDiff = this->actor.world.pos.y - refActor->actor.world.pos.y;
 
         if ((heightDiff > 0.0f) && (heightDiff < 60.0f)) {
-            if (!func_80A01F90(&this->actor.posRot.pos, &refActor->actor.posRot.pos, 10.0f)) {
+            if (!func_80A01F90(&this->actor.world.pos, &refActor->actor.world.pos, 10.0f)) {
                 Health_ChangeBy(globalCtx, 128);
                 if (this->fairyFlags & FAIRY_FLAG_BIG) {
                     Magic_Fill(globalCtx);
@@ -672,12 +669,12 @@ void func_80A0353C(EnElf* this, GlobalContext* globalCtx) {
     Vec3f parentPos;
     Actor* parent;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     func_80A02A20(this, globalCtx);
     parent = this->actor.parent;
 
     if ((parent != NULL) && (parent->update != NULL)) {
-        parentPos = this->actor.parent->posRot.pos;
+        parentPos = this->actor.parent->world.pos;
         parentPos.y += ((1500.0f * this->actor.scale.y) + 40.0f);
         func_80A02C98(this, &parentPos, 0.2f);
     } else {
@@ -693,7 +690,7 @@ void func_80A03604(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     Math_SmoothStepToF(&this->unk_2B8, 30.0f, 0.1f, 4.0f, 1.0f);
 
     this->unk_28C.x = Math_CosS(this->unk_2AC) * this->unk_2B8;
@@ -715,7 +712,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
 
     this->unk_28C.z = Math_SinS(this->unk_2AC) * -this->unk_2B8;
     this->unk_2AC += this->unk_2B0;
-    func_80A02C98(this, &player->actor.posRot.pos, 0.2f);
+    func_80A02C98(this, &player->actor.world.pos, 0.2f);
 
     if (this->unk_2B4 < 0.0f) {
         if ((this->unk_28C.y < 20.0f) && (this->unk_28C.y > 0.0f)) {
@@ -736,7 +733,7 @@ void func_80A03610(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->unk_28C.y > 200.0f) {
         Actor_Kill(&this->actor);
@@ -771,7 +768,7 @@ void func_80A03814(EnElf* this, GlobalContext* globalCtx) {
 void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     this->unk_28C.z = 0.0f;
     this->unk_28C.x = 0.0f;
@@ -798,7 +795,7 @@ void func_80A03AB0(EnElf* this, GlobalContext* globalCtx) {
         func_80A04414(this, globalCtx);
     }
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->func_2C8 == NULL) {
         __assert("0", "../z_en_elf.c", 1725);
@@ -819,16 +816,16 @@ void EnElf_UpdateLights(EnElf* this, GlobalContext* globalCtx) {
 
     if (this->fairyFlags & 0x20) {
         player = PLAYER;
-        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.posRot.pos.x,
-                                  (s16)(player->actor.posRot.pos.y) + 60.0f, player->actor.posRot.pos.z, 255, 255, 255,
+        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, player->actor.world.pos.x,
+                                  (s16)(player->actor.world.pos.y) + 60.0f, player->actor.world.pos.z, 255, 255, 255,
                                   200);
     } else {
-        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                  this->actor.posRot.pos.z, 255, 255, 255, -1);
+        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.world.pos.x, this->actor.world.pos.y,
+                                  this->actor.world.pos.z, 255, 255, 255, -1);
     }
 
-    Lights_PointGlowSetInfo(&this->lightInfoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                            this->actor.posRot.pos.z, 255, 255, 255, glowLightRadius);
+    Lights_PointGlowSetInfo(&this->lightInfoGlow, this->actor.world.pos.x, this->actor.world.pos.y,
+                            this->actor.world.pos.z, 255, 255, 255, glowLightRadius);
 
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
 
@@ -856,7 +853,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
             EnElf_SpawnSparkles(this, globalCtx, 16);
         }
 
-        prevPos = this->actor.posRot.pos;
+        prevPos = this->actor.world.pos;
 
         if (this->unk_2A8 == 0xA) {
             func_80A02EC0(this, &nextPos);
@@ -874,11 +871,11 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
             // play dash sound in intervals as Navi is waking up Link in the intro
             if (this->unk_2A8 == 6) {
                 if (this->fairyFlags & 0x40) {
-                    if (prevPos.y < this->actor.posRot.pos.y) {
+                    if (prevPos.y < this->actor.world.pos.y) {
                         this->fairyFlags &= ~0x40;
                     }
                 } else {
-                    if (this->actor.posRot.pos.y < prevPos.y) {
+                    if (this->actor.world.pos.y < prevPos.y) {
                         this->fairyFlags |= 0x40;
                         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FAIRY_DASH);
                     }
@@ -886,12 +883,12 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        distFromLinksHead = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos);
+        distFromLinksHead = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.world.pos);
 
         switch (this->unk_2A8) {
             case 7:
                 func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * 0.033333335f);
-                xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.posRot.pos);
+                xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.world.pos);
 
                 if (distFromLinksHead < 7.0f) {
                     this->unk_2C0 = 0;
@@ -907,7 +904,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
                 break;
             case 8:
                 func_80A02C98(this, &player->bodyPartsPos[8], 0.2f);
-                this->actor.posRot.pos = player->bodyPartsPos[8];
+                this->actor.world.pos = player->bodyPartsPos[8];
                 func_80A029A8(this, 1);
                 break;
             case 11:
@@ -1017,7 +1014,7 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
     } else {
         if (this->unk_2C6 == 0) {
             if ((arrowPointedActor == NULL) ||
-                (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &globalCtx->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
+                (Math_Vec3f_DistXYZ(&this->actor.world.pos, &globalCtx->actorCtx.targetCtx.naviRefPos) < 50.0f)) {
                 this->unk_2C6 = 1;
             }
         } else if (this->unk_29C != 0.0f) {
@@ -1040,10 +1037,11 @@ void func_80A04414(EnElf* this, GlobalContext* globalCtx) {
         }
     } else {
         if ((arrowPointedActor != NULL) && (player->unk_664 != NULL)) {
-            if (arrowPointedActor->type == ACTORTYPE_NPC) {
+            if (arrowPointedActor->category == ACTORCAT_NPC) {
                 targetSound = NA_SE_VO_NAVY_HELLO;
             } else {
-                targetSound = (arrowPointedActor->type == ACTORTYPE_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
+                targetSound =
+                    (arrowPointedActor->category == ACTORCAT_ENEMY) ? NA_SE_VO_NAVY_ENEMY : NA_SE_VO_NAVY_HEAR;
             }
 
             if (this->unk_2C7 == 0) {
@@ -1089,7 +1087,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
         if ((player->stateFlags1 & 0x400) || ((YREG(15) & 0x10) && func_800BC56C(globalCtx, 2))) {
             temp = 12;
             this->unk_2C0 = 100;
-        } else if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->type == ACTORTYPE_NPC))) {
+        } else if ((arrowPointedActor == NULL) || (temp = 1, (arrowPointedActor->category == ACTORCAT_NPC))) {
             if (arrowPointedActor != NULL) {
                 this->unk_2C0 = 100;
                 player->stateFlags2 |= 0x100000;
@@ -1171,8 +1169,8 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
         func_80A01C38(this, temp);
 
         if (temp == 11) {
-            this->unk_2B8 = Math_Vec3f_DistXZ(&player->bodyPartsPos[8], &this->actor.posRot.pos);
-            this->unk_2AC = Math_Vec3f_Yaw(&this->actor.posRot.pos, &player->bodyPartsPos[8]);
+            this->unk_2B8 = Math_Vec3f_DistXZ(&player->bodyPartsPos[8], &this->actor.world.pos);
+            this->unk_2AC = Math_Vec3f_Yaw(&this->actor.world.pos, &player->bodyPartsPos[8]);
         }
     }
 }
@@ -1188,9 +1186,9 @@ void EnElf_SpawnSparkles(EnElf* this, GlobalContext* globalCtx, s32 sparkleLife)
     Color_RGBA8 primColor;
     Color_RGBA8 envColor;
 
-    sparklePos.x = Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.x;
-    sparklePos.y = (Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
-    sparklePos.z = Rand_CenteredFloat(6.0f) + this->actor.posRot.pos.z;
+    sparklePos.x = Rand_CenteredFloat(6.0f) + this->actor.world.pos.x;
+    sparklePos.y = (Rand_ZeroOne() * 6.0f) + this->actor.world.pos.y;
+    sparklePos.z = Rand_CenteredFloat(6.0f) + this->actor.world.pos.z;
 
     primColor.r = this->innerColor.r;
     primColor.g = this->innerColor.g;
@@ -1208,14 +1206,14 @@ void func_80A04D90(EnElf* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 bgId;
 
-    this->actor.groundY = func_8003CA0C(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId, &this->actor,
-                                        &this->actor.posRot.pos);
-    this->actor.shape.unk_14 = 0x32;
+    this->actor.floorHeight = BgCheck_EntityRaycastFloor5(globalCtx, &globalCtx->colCtx, &this->actor.floorPoly, &bgId,
+                                                          &this->actor, &this->actor.world.pos);
+    this->actor.shape.shadowAlpha = 0x32;
 }
 
 // move to talk to player
 void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
-    Vec3f posRot2Copy;
+    Vec3f headCopy;
     Player* player = PLAYER;
     Vec3f naviRefPos;
 
@@ -1228,14 +1226,14 @@ void func_80A04DE4(EnElf* this, GlobalContext* globalCtx) {
             naviRefPos.z = player->bodyPartsPos[7].z + (Math_CosS(player->actor.shape.rot.y) * 20.0f);
         }
 
-        this->actor.posRot2.pos = naviRefPos;
+        this->actor.focus.pos = naviRefPos;
         this->fairyFlags &= ~0x10;
     }
 
     func_80A03AB0(this, globalCtx);
-    posRot2Copy = this->actor.posRot2.pos;
+    headCopy = this->actor.focus.pos;
 
-    func_80A03148(this, &posRot2Copy, 0, 20.0f, 0.2f);
+    func_80A03148(this, &headCopy, 0, 20.0f, 0.2f);
 
     if (this->actor.speedXZ >= 5.0f) {
         EnElf_SpawnSparkles(this, globalCtx, 16);
@@ -1390,7 +1388,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
 
     if (func_8002F194(thisx, globalCtx)) {
         func_800F4524(&D_801333D4, NA_SE_VO_SK_LAUGH, 0x20);
-        thisx->posRot2.pos = thisx->posRot.pos;
+        thisx->focus.pos = thisx->world.pos;
 
         if (thisx->textId == ElfMessage_GetCUpText(globalCtx)) {
             this->fairyFlags |= 0x80;
@@ -1490,7 +1488,7 @@ s32 EnElf_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         }
     }
 
-    return 0;
+    return false;
 }
 
 void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -1529,7 +1527,7 @@ void EnElf_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPEndDisplayList(dListHead++);
             gDPSetEnvColor(POLY_XLU_DISP++, (u8)this->outerColor.r, (u8)this->outerColor.g, (u8)this->outerColor.b,
                            (u8)(envAlpha * alphaScale));
-            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+            POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            EnElf_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_elf.c", 2793);

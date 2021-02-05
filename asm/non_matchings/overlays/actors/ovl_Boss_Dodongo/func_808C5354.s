@@ -76,7 +76,7 @@ glabel func_808C5354
 /* 042D8 808C5468 55620011 */  bnel    $t3, $v0, .L808C54B0       
 /* 042DC 808C546C 8FBF001C */  lw      $ra, 0x001C($sp)           
 .L808C5470:
-/* 042E0 808C5470 0C018D74 */  jal     func_800635D0              
+/* 042E0 808C5470 0C018D74 */  jal     CollisionCheck_GetSwordDamage              
 /* 042E4 808C5474 8CA40000 */  lw      $a0, 0x0000($a1)           ## 00000000
 /* 042E8 808C5478 1040000C */  beq     $v0, $zero, .L808C54AC     
 /* 042EC 808C547C A3A20027 */  sb      $v0, 0x0027($sp)           

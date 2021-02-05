@@ -17,7 +17,7 @@ void BgMenkuriKaiten_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Menkuri_Kaiten_InitVars = {
     ACTOR_BG_MENKURI_KAITEN,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MENKURI_OBJECTS,
     sizeof(BgMenkuriKaiten),
@@ -32,31 +32,31 @@ static InitChainEntry sInitChain[] = {
 };
 
 extern Gfx D_060038D0[];
-extern UNK_TYPE D_060042D8;
+extern CollisionHeader D_060042D8;
 
 void BgMenkuriKaiten_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
     s32 pad;
-    u32 local_c = 0;
+    CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->actor, 3);
-    DynaPolyInfo_Alloc(&D_060042D8, &local_c);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, local_c);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK3);
+    CollisionHeader_GetVirtual(&D_060042D8, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
 void BgMenkuriKaiten_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgMenkuriKaiten_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgMenkuriKaiten* this = THIS;
 
-    if (!Flags_GetSwitch(globalCtx, this->actor.params) && func_80043590(&this->actor)) {
-        func_8002F974(&this->actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
-        this->actor.shape.rot.y += 0x80;
+    if (!Flags_GetSwitch(globalCtx, this->dyna.actor.params) && func_80043590(&this->dyna)) {
+        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
+        this->dyna.actor.shape.rot.y += 0x80;
     }
 }
 

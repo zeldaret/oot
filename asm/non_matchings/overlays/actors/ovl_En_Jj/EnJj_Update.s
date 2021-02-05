@@ -32,7 +32,7 @@ glabel EnJj_Update
 .L80A87FC0:
 /* 007C0 80A87FC0 0C2A1EC7 */  jal     func_80A87B1C              
 /* 007C4 80A87FC4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 007C8 80A87FC8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 007C8 80A87FC8 0C02927F */  jal     SkelAnime_Update
               
 /* 007CC 80A87FCC 26040164 */  addiu   $a0, $s0, 0x0164           ## $a0 = 00000164
 /* 007D0 80A87FD0 3C053DB2 */  lui     $a1, 0x3DB2                ## $a1 = 3DB20000

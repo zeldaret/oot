@@ -10,7 +10,7 @@ typedef enum {
     /* 0x02 */ HAKA_TRAP_SPIKED_WALL,
     /* 0x03 */ HAKA_TRAP_SPIKED_WALL_2,
     /* 0x04 */ HAKA_TRAP_PROPELLER,
-    /* 0x05 */ HAKA_TRAP_GUILLOTINE_FAST,
+    /* 0x05 */ HAKA_TRAP_GUILLOTINE_FAST
 } HakaTrapType;
 
 struct BgHakaTrap;
@@ -26,7 +26,7 @@ typedef struct BgHakaTrap {
     /* 0x016C */ Vec3f unk_16C;
     /* 0x0178 */ ColliderCylinder colliderCylinder;
     /* 0x01C4 */ ColliderTris colliderSpikes;
-    /* 0x01E4 */ ColliderTrisItem colliderSpikesItem[2];
+    /* 0x01E4 */ ColliderTrisElement colliderSpikesItem[2];
 } BgHakaTrap; // size = 0x029C
 
 extern const ActorInit Bg_Haka_Trap_InitVars;

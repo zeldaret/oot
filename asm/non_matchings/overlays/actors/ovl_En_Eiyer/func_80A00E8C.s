@@ -6,7 +6,7 @@ glabel func_80A00E8C
 /* 00EFC 80A00E9C 8CA31C44 */  lw      $v1, 0x1C44($a1)           ## 00001C44
 /* 00F00 80A00EA0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00F04 80A00EA4 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 00F08 80A00EA8 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00F08 80A00EA8 0C02927F */  jal     SkelAnime_Update
               
 /* 00F0C 80A00EAC AFA30034 */  sw      $v1, 0x0034($sp)           
 /* 00F10 80A00EB0 860400B4 */  lh      $a0, 0x00B4($s0)           ## 000000B4
@@ -26,7 +26,7 @@ glabel func_80A00E8C
 /* 00F48 80A00EE8 46083280 */  add.s   $f10, $f6, $f8             
 /* 00F4C 80A00EEC E7AA002C */  swc1    $f10, 0x002C($sp)          
 /* 00F50 80A00EF0 C470002C */  lwc1    $f16, 0x002C($v1)          ## 0000002C
-/* 00F54 80A00EF4 0C00B6CA */  jal     func_8002DB28              
+/* 00F54 80A00EF4 0C00B6CA */  jal     Actor_WorldPitchTowardPoint              
 /* 00F58 80A00EF8 E7B00030 */  swc1    $f16, 0x0030($sp)          
 /* 00F5C 80A00EFC 00022C00 */  sll     $a1, $v0, 16               
 /* 00F60 80A00F00 00052C03 */  sra     $a1, $a1, 16               

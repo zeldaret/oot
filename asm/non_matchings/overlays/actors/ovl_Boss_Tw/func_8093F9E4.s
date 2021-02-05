@@ -29,7 +29,7 @@ glabel func_8093F9E4
 /* 06D48 8093FA18 AFAE00CC */  sw      $t6, 0x00CC($sp)
 /* 06D4C 8093FA1C 26500568 */  addiu   $s0, $s2, 0x0568           ## $s0 = 00000568
 /* 06D50 8093FA20 AFA200C8 */  sw      $v0, 0x00C8($sp)
-/* 06D54 8093FA24 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 06D54 8093FA24 0C02927F */  jal     SkelAnime_Update
 
 /* 06D58 8093FA28 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000568
 /* 06D5C 8093FA2C 864F0160 */  lh      $t7, 0x0160($s2)           ## 00000160
@@ -64,7 +64,7 @@ glabel func_8093F9E4
 /* 06DC4 8093FA94 14410005 */  bne     $v0, $at, .L8093FAAC
 /* 06DC8 8093FA98 3C050602 */  lui     $a1, %hi(D_060216DC)                ## $a1 = 06020000
 /* 06DCC 8093FA9C 24A516DC */  addiu   $a1, $a1, %lo(D_060216DC)           ## $a1 = 060216DC
-/* 06DD0 8093FAA0 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 06DD0 8093FAA0 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 06DD4 8093FAA4 3C06C040 */  lui     $a2, 0xC040                ## $a2 = C0400000
 /* 06DD8 8093FAA8 86420150 */  lh      $v0, 0x0150($s2)           ## 00000150
 .L8093FAAC:

@@ -253,7 +253,7 @@ glabel func_8095213C
 /* 031BC 8095247C 0C00B638 */  jal     Actor_MoveForward
               
 /* 031C0 80952480 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
-/* 031C4 80952484 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 031C4 80952484 0C02927F */  jal     SkelAnime_Update
               
 /* 031C8 80952488 2664014C */  addiu   $a0, $s3, 0x014C           ## $a0 = 0000014C
 /* 031CC 8095248C 10400008 */  beq     $v0, $zero, .L809524B0     
@@ -427,7 +427,7 @@ glabel func_8095213C
 /* 03434 809526F4 2670028C */  addiu   $s0, $s3, 0x028C           ## $s0 = 0000028C
 .L809526F8:
 /* 03438 809526F8 02002825 */  or      $a1, $s0, $zero            ## $a1 = 0000028C
-/* 0343C 809526FC 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 0343C 809526FC 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 03440 80952700 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 03444 80952704 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -436,7 +436,7 @@ glabel func_8095213C
 /* 03450 80952710 02202825 */  or      $a1, $s1, $zero            ## $a1 = 8095C1D0
 /* 03454 80952714 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 03458 80952718 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 0345C 8095271C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 0000028C
 /* 03460 80952720 02802025 */  or      $a0, $s4, $zero            ## $a0 = 00000000
 /* 03464 80952724 02202825 */  or      $a1, $s1, $zero            ## $a1 = 8095C1D0

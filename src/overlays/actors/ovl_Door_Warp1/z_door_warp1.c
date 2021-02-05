@@ -34,7 +34,7 @@ void func_80999508(DoorWarp1* this, GlobalContext* globalCtx);
 
 const ActorInit Door_Warp1_InitVars = {
     ACTOR_DOOR_WARP1,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_WARP1,
     sizeof(DoorWarp1),
@@ -73,11 +73,11 @@ void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     if (this->actor.params != 2 && this->actor.params != -2 && this->actor.params != 4 && this->actor.params != 6) {
         Lights_PointNoGlowSetInfo(&this->unk_1C8, 
-                this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
+                this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 
                 0, 0, 0, 0);
         this->unk_1C4 = LightContext_InsertLight(globalCtx2, &globalCtx2->lightCtx, &this->unk_1C8);
         Lights_PointNoGlowSetInfo(&this->unk_1DC, 
-            this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z, 
+            this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 
             0, 0, 0, 0);
         this->unk_1D8 = LightContext_InsertLight(globalCtx2, &globalCtx2->lightCtx, &this->unk_1DC);
     }
@@ -135,7 +135,7 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
     }
 
     this->unk_19C = 0.0f;
-    this->actor.shape.unk_08 = 1.0f;
+    this->actor.shape.yOffset = 1.0f;
     this->unk_192 = 0;
 
     switch (this->actor.params - 1) {
@@ -144,14 +144,14 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
         case 6:
         default:
             Lights_PointNoGlowSetInfo(&this->unk_1C8, 
-                    this->actor.posRot.pos.x, 
-                    this->actor.posRot.pos.y, 
-                    this->actor.posRot.pos.z, 
+                    this->actor.world.pos.x, 
+                    this->actor.world.pos.y, 
+                    this->actor.world.pos.z, 
                     200, 255, 255, 255);
             Lights_PointNoGlowSetInfo(&this->unk_1DC, 
-                    this->actor.posRot.pos.x, 
-                    this->actor.posRot.pos.y, 
-                    this->actor.posRot.pos.z, 
+                    this->actor.world.pos.x, 
+                    this->actor.world.pos.y, 
+                    this->actor.world.pos.z, 
                     200, 255, 255, 255);
         case 0:
         case 1:
@@ -176,7 +176,7 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
                 gSaveContext.sceneSetupIndex < 4) || (PLAYER->actor.params & 0xF00) != 0x200) {
                 Actor_Kill(&this->actor);
             }
-            if (func_8002DB8C(&player->actor, &this->actor) > 100.0f) {
+            if (Actor_WorldDistXZToActor(&player->actor, &this->actor) > 100.0f) {
                 Actor_Kill(&this->actor);
             }
             func_80998780(this, func_8099AEE4);
@@ -192,12 +192,12 @@ void func_8099898C(DoorWarp1* this, GlobalContext* globalCtx) {
 
 void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, 0, 0, 0);
-    SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 1.0f, 1.0f, 1.0f, 2, 40.0f, 1);
+    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 1.0f, 1.0f, 1.0f, 2, 40.0f, 1);
     this->unk_1AC = 0;
     this->unk_1AE = -0x8C;
     this->unk_1B0 = -0x50;
     D_8099CCA0 = 0xA0;
-    this->actor.shape.unk_08 = -400.0f;
+    this->actor.shape.yOffset = -400.0f;
     this->unk_192 = 0;
     this->unk_1BC = 1.0f;
     this->unk_194 = 0.3f;
@@ -207,14 +207,14 @@ void func_80998C90(DoorWarp1* this, GlobalContext* globalCtx) {
     this->alpha = 0.0f;
     this->unk_19C = 0.0f;
     Lights_PointNoGlowSetInfo(&this->unk_1C8,
-            this->actor.posRot.pos.x,
-            this->actor.posRot.pos.y,
-            this->actor.posRot.pos.z,
+            this->actor.world.pos.x,
+            this->actor.world.pos.y,
+            this->actor.world.pos.z,
             0xC8, 0xFF, 0xFF, 0xFF);
     Lights_PointNoGlowSetInfo(&this->unk_1DC,
-            this->actor.posRot.pos.x,
-            this->actor.posRot.pos.y,
-            this->actor.posRot.pos.z,
+            this->actor.world.pos.x,
+            this->actor.world.pos.y,
+            this->actor.world.pos.z,
             0xC8, 0xFF, 0xFF, 0xFF);
     func_80998780(this, func_8099A3A4);
 }
@@ -223,10 +223,10 @@ void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
     s16 i;
 
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, 0, 0, 0);
-    SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 0, 
-            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 
-            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 2, 0.0f, 1);
-    this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374.genericHeader);
+    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 0, 
+            Animation_GetLastFrame(&D_06001374), 
+            Animation_GetLastFrame(&D_06001374), 2, 0.0f, 1);
+    this->skelAnime.curFrame = Animation_GetLastFrame(&D_06001374);
     this->unk_1AC = 0xA;
     this->unk_1AE = 0x78;
     this->unk_1B0 = 0xE6;
@@ -238,7 +238,7 @@ void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
     this->alpha = 0.0f;
     this->unk_19C = 0.0f;
     this->unk_1BC = 1.0f;
-    this->actor.shape.unk_08 = 800.0f;
+    this->actor.shape.yOffset = 800.0f;
 
     for (i = 0; i < 3; i++) {
         globalCtx->envCtx.unk_8C[0][i] = globalCtx->envCtx.unk_8C[2][i] = globalCtx->envCtx.unk_8C[1][i] = -0xFF;
@@ -252,10 +252,10 @@ void func_80998E5C(DoorWarp1* this, GlobalContext* globalCtx) {
 
 void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
     SkelAnime_Init(globalCtx, &this->skelAnime, &D_06002CA8, &D_06001374, NULL, NULL, 0);
-    SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 0, 
-            SkelAnime_GetFrameCount(&D_06001374.genericHeader),
-            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 2, 0.0f, 1);
-    this->skelAnime.animCurrentFrame = SkelAnime_GetFrameCount(&D_06001374.genericHeader);
+    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 0, 
+            Animation_GetLastFrame(&D_06001374),
+            Animation_GetLastFrame(&D_06001374), 2, 0.0f, 1);
+    this->skelAnime.curFrame = Animation_GetLastFrame(&D_06001374);
     this->unk_1AE = 0x78;
     this->unk_1B0 = 0xE6;
     this->unk_192 = 0xC8;
@@ -268,7 +268,7 @@ void func_80998FF4(DoorWarp1* this, GlobalContext* globalCtx) {
     this->alpha = 0.0f;
     this->unk_19C = 0.0f;
     this->unk_1BC = 1.f;
-    this->actor.shape.unk_08 = 800.0f;
+    this->actor.shape.yOffset = 800.0f;
     if (gSaveContext.entranceIndex != 0x53) {
         this->actor.scale.x = 0.0499f;
         this->actor.scale.y = 0.077f;
@@ -284,9 +284,9 @@ void func_80999194(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     player->actor.velocity.y = 0.0f;
-    player->actor.posRot.pos.x = this->actor.posRot.pos.x;
-    player->actor.posRot.pos.y = this->actor.posRot.pos.y + 55.0f;
-    player->actor.posRot.pos.z = this->actor.posRot.pos.z;
+    player->actor.world.pos.x = this->actor.world.pos.x;
+    player->actor.world.pos.y = this->actor.world.pos.y + 55.0f;
+    player->actor.world.pos.z = this->actor.world.pos.z;
 }
 
 void func_809991C8(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -392,20 +392,20 @@ void func_80999580(DoorWarp1* this, GlobalContext* globalCtx) {
 
 void func_809995D4(DoorWarp1* this, GlobalContext* globalCtx) {
     if (this->unk_192 == 0) {
-        if (this->actor.xzDistFromLink < 100.0f) {
-            this->actor.posRot.pos.x = -98.0f;
-            this->actor.posRot.pos.y = 827.0f;
-            this->actor.posRot.pos.z = -3228.0f;
+        if (this->actor.xzDistToPlayer < 100.0f) {
+            this->actor.world.pos.x = -98.0f;
+            this->actor.world.pos.y = 827.0f;
+            this->actor.world.pos.z = -3228.0f;
         }
         Lights_PointNoGlowSetInfo(&this->unk_1C8, 
-                this->actor.posRot.pos.x, 
-                this->actor.posRot.pos.y, 
-                this->actor.posRot.pos.z, 
+                this->actor.world.pos.x, 
+                this->actor.world.pos.y, 
+                this->actor.world.pos.z, 
                 0xC8, 0xFF, 0xFF, 0xFF);
         Lights_PointNoGlowSetInfo(&this->unk_1DC, 
-                this->actor.posRot.pos.x, 
-                this->actor.posRot.pos.y, 
-                this->actor.posRot.pos.z, 
+                this->actor.world.pos.x, 
+                this->actor.world.pos.y, 
+                this->actor.world.pos.z, 
                 0xC8, 0xFF, 0xFF, 0xFF);
         func_80998780(this, func_80999724);
     }
@@ -459,9 +459,9 @@ s32 func_80999938(DoorWarp1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 ret = false;
 
-    if (fabsf(this->actor.xzDistFromLink) < 60.0f) {
-        if ((player->actor.posRot.pos.y - 20.0f) < this->actor.posRot.pos.y) {
-            if (this->actor.posRot.pos.y < (player->actor.posRot.pos.y + 20.0f)) {
+    if (fabsf(this->actor.xzDistToPlayer) < 60.0f) {
+        if ((player->actor.world.pos.y - 20.0f) < this->actor.world.pos.y) {
+            if (this->actor.world.pos.y < (player->actor.world.pos.y + 20.0f)) {
                 ret = true;
             }
         }
@@ -478,8 +478,8 @@ void func_809999A0(DoorWarp1* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(0x2826, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         func_800800F8(globalCtx, 0x25E7, 0x3E7, &this->actor, 0);
         func_8002DF54(globalCtx, &this->actor, 10);
-        player->unk_450.x = this->actor.posRot.pos.x;
-        player->unk_450.z = this->actor.posRot.pos.z;
+        player->unk_450.x = this->actor.world.pos.x;
+        player->unk_450.z = this->actor.world.pos.z;
         this->unk_1B2 = 1;
         func_80998780(this, func_80999A68);
     }
@@ -534,16 +534,16 @@ void func_80999A68(DoorWarp1* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
     Math_StepToF(&this->unk_198, 10.0f, 0.02f);
     Lights_PointNoGlowSetInfo(&this->unk_1C8, 
-            (s16)player->actor.posRot.pos.x + 10.0f, 
-            (s16)player->actor.posRot.pos.y + 10.0f, 
-            (s16)player->actor.posRot.pos.z + 10.0f, 
+            (s16)player->actor.world.pos.x + 10.0f, 
+            (s16)player->actor.world.pos.y + 10.0f, 
+            (s16)player->actor.world.pos.z + 10.0f, 
             0xEB, 0xFF, 0xFF, 0xFF);
     Lights_PointNoGlowSetInfo(&this->unk_1DC, 
-            (s16)player->actor.posRot.pos.x - 10.0f, 
-            (s16)player->actor.posRot.pos.y - 10.0f, 
-            (s16)player->actor.posRot.pos.z - 10.0f, 
+            (s16)player->actor.world.pos.x - 10.0f, 
+            (s16)player->actor.world.pos.y - 10.0f, 
+            (s16)player->actor.world.pos.z - 10.0f, 
             0xEB, 0xFF, 0xFF, 0xFF);
-    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 0.5f, 2.0f, 0.1f);
 }
 
 void func_80999E64(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -566,12 +566,12 @@ void func_80999EE0(DoorWarp1* this, GlobalContext* globalCtx) {
         Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
         D_8099CCA2 = Gameplay_CreateSubCamera(globalCtx);
         Gameplay_ChangeCameraStatus(globalCtx, D_8099CCA2, 7);
-        sp34.x = this->actor.posRot.pos.x;
+        sp34.x = this->actor.world.pos.x;
         sp34.y = 49.0f;
-        sp34.z = this->actor.posRot.pos.z;
-        sp28.x = player->actor.posRot.pos.x;
+        sp34.z = this->actor.world.pos.z;
+        sp28.x = player->actor.world.pos.x;
         sp28.y = 43.0f;
-        sp28.z = player->actor.posRot.pos.z;
+        sp28.z = player->actor.world.pos.z;
         Gameplay_CameraSetAtEye(globalCtx, D_8099CCA2, &sp34, &sp28);
         Gameplay_CameraSetFov(globalCtx, D_8099CCA2, 90.0f);
         this->unk_1EC = 4;
@@ -616,16 +616,16 @@ void func_8099A098(DoorWarp1* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->unk_194, 2.0f, 0.01f);
     Math_StepToF(&this->unk_198, 10.f, 0.02f);
     Lights_PointNoGlowSetInfo(&this->unk_1C8, 
-            (s16)player->actor.posRot.pos.x + 10.0f, 
-            (s16)player->actor.posRot.pos.y + 10.0f, 
-            (s16)player->actor.posRot.pos.z + 10.0f, 
+            (s16)player->actor.world.pos.x + 10.0f, 
+            (s16)player->actor.world.pos.y + 10.0f, 
+            (s16)player->actor.world.pos.z + 10.0f, 
             0xEB, 0xFF, 0xFF, 0xFF);
     Lights_PointNoGlowSetInfo(&this->unk_1DC, 
-            (s16)player->actor.posRot.pos.x - 10.0f, 
-            (s16)player->actor.posRot.pos.y - 10.0f, 
-            (s16)player->actor.posRot.pos.z - 10.0f, 
+            (s16)player->actor.world.pos.x - 10.0f, 
+            (s16)player->actor.world.pos.y - 10.0f, 
+            (s16)player->actor.world.pos.z - 10.0f, 
             0xEB, 0xFF, 0xFF, 0xFF);
-    Math_SmoothStepToF(&this->actor.shape.unk_08, 0.0f, 0.5f, 2.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 0.5f, 2.0f, 0.1f);
 }
 
 void func_8099A3A4(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -653,8 +653,8 @@ void func_8099A46C(DoorWarp1* this, GlobalContext* globalCtx) {
         player = PLAYER;
         func_800800F8(globalCtx, 0x25E8, 0x3E7, &this->actor, 0);
         func_8002DF54(globalCtx, &this->actor, 10);
-        player->unk_450.x = this->actor.posRot.pos.x;
-        player->unk_450.z = this->actor.posRot.pos.z;
+        player->unk_450.x = this->actor.world.pos.x;
+        player->unk_450.z = this->actor.world.pos.z;
         this->unk_1B2 = 0x14;
         func_80998780(this, func_8099A508);
     }
@@ -668,9 +668,9 @@ void func_8099A508(DoorWarp1* this, GlobalContext* globalCtx) {
         return;
     }
     Audio_PlaySoundGeneral(NA_SE_EV_LINK_WARP, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-    SkelAnime_ChangeAnimImpl(&this->skelAnime, &D_06001374, 1.0f, 
-            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 
-            SkelAnime_GetFrameCount(&D_06001374.genericHeader), 2, 40.0f, 1);
+    Animation_ChangeImpl(&this->skelAnime, &D_06001374, 1.0f, 
+            Animation_GetLastFrame(&D_06001374), 
+            Animation_GetLastFrame(&D_06001374), 2, 40.0f, 1);
     this->unk_1B2 = 0x32;
     func_80998780(this, func_8099A5EC);
 }
@@ -684,7 +684,7 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     }
     if (this->unk_1B2 < 0x1F) {
         u32 phi_v0 = (gSaveContext.linkAge == 0) ? 35 : 45;
-        if ((player->actor.posRot.pos.y - this->actor.posRot.pos.y) <= phi_v0) {
+        if ((player->actor.world.pos.y - this->actor.world.pos.y) <= phi_v0) {
             player->actor.gravity = 0.0139999995f;
         } else {
             player->actor.gravity = 0.0f;
@@ -694,11 +694,11 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
             if (this->unk_1B8 < 0xFA0) {
                 this->unk_1B8 += 0x28;
             }
-            player->actor.posRot.rot.y -= this->unk_1B8;
+            player->actor.world.rot.y -= this->unk_1B8;
             player->actor.shape.rot.y -= this->unk_1B8;
         }
-        Math_SmoothStepToF(&player->actor.posRot.pos.x, this->actor.posRot.pos.x, 0.5f, 0.1f, 0.01f);
-        Math_SmoothStepToF(&player->actor.posRot.pos.z, this->actor.posRot.pos.z, 0.5f, 0.1f, 0.01f);
+        Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x, 0.5f, 0.1f, 0.01f);
+        Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z, 0.5f, 0.1f, 0.01f);
     }
     this->unk_192++;
     if (this->unk_192 > D_8099CCA0 && gSaveContext.nextCutsceneIndex == 0xFFEF) {
@@ -793,16 +793,16 @@ void func_8099A5EC(DoorWarp1* this, GlobalContext* globalCtx) {
         osSyncPrintf("\nparcent=[%f]", phi_f0);
     }
     Lights_PointNoGlowSetInfo(&this->unk_1C8, 
-                (s16)player->actor.posRot.pos.x + 10.0f, 
-                (s16)player->actor.posRot.pos.y + 10.0f, 
-                (s16)player->actor.posRot.pos.z + 10.0f, 
+                (s16)player->actor.world.pos.x + 10.0f, 
+                (s16)player->actor.world.pos.y + 10.0f, 
+                (s16)player->actor.world.pos.z + 10.0f, 
                 0xEB, 0xFF, 0xFF, 0xFF);
     Lights_PointNoGlowSetInfo(&this->unk_1DC, 
-                (s16)player->actor.posRot.pos.x - 10.0f, 
-                (s16)player->actor.posRot.pos.y - 10.0f, 
-                (s16)player->actor.posRot.pos.z - 10.0f, 
+                (s16)player->actor.world.pos.x - 10.0f, 
+                (s16)player->actor.world.pos.y - 10.0f, 
+                (s16)player->actor.world.pos.z - 10.0f, 
                 0xEB, 0xFF, 0xFF, 0xFF);
-    Math_SmoothStepToF(&this->actor.shape.unk_08, 800.0f, 0.5f, 15.0f, 0.1f);
+    Math_SmoothStepToF(&this->actor.shape.yOffset, 800.0f, 0.5f, 15.0f, 0.1f);
     this->actor.shape.rot.y += 0x320;
     Math_SmoothStepToF(&this->unk_1BC, 1.13f, 0.2f, 0.1f, 0.01f);
     Math_StepToF(&this->unk_194, 2.0f, 0.003f);
@@ -881,11 +881,11 @@ void func_8099B140(DoorWarp1* this, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0xFF, 0xFF, 200, 255, 255, (u8)this->alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 100, 255, (u8)this->alpha);
-    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, 
                                         NULL, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2098);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
@@ -898,14 +898,14 @@ void func_8099B33C(DoorWarp1* this, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2122);
 
     func_80093D84(globalCtx->state.gfxCtx);
-    func_8002EB44(&this->actor.posRot.pos, &eye, &eye, globalCtx->state.gfxCtx);
+    func_8002EB44(&this->actor.world.pos, &eye, &eye, globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (u8)this->alpha);
     gDPSetEnvColor(POLY_XLU_DISP++, 150, 0, 100, (u8)this->alpha);
-    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, 
+    POLY_XLU_DISP = SkelAnime_Draw(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, 
                                         NULL, NULL, &this->actor, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2152);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 }
 
 #ifdef NON_MATCHING
@@ -959,7 +959,7 @@ void func_8099B5EC(DoorWarp1* this, GlobalContext* globalCtx) {
     gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
     gDPSetColorDither(POLY_XLU_DISP++, G_AD_NOTPATTERN | G_CD_MAGICSQ);
 
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 1.0f, this->actor.posRot.pos.z, MTXMODE_NEW);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + 1.0f, this->actor.world.pos.z, MTXMODE_NEW);
     gSPSegment(POLY_XLU_DISP++, 0x0A, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_door_warp1.c", 2247));
     Matrix_Push();
 

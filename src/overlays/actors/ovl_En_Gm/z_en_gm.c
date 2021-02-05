@@ -32,7 +32,7 @@ extern AnimationHeader D_060002B8;
 
 const ActorInit En_Gm_InitVars = {
     ACTOR_EN_GM,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(EnGm),
@@ -42,15 +42,28 @@ const ActorInit En_Gm_InitVars = {
     NULL,
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 100, 120, 0, { 0, 0, 0 } },
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 5, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnGm_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -95,16 +108,16 @@ s32 func_80A3D7C8(void) {
 void func_80A3D838(EnGm* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objGmBankIndex)) {
         this->actor.flags &= ~0x10;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, this->limbDrawTable,
-                           this->transitionDrawTable, 18);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, this->jointTable, this->morphTable, 18);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, SkelAnime_GetFrameCount(&D_060002B8), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &D_060002B8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060002B8), ANIMMODE_LOOP,
+                         0.0f);
         this->actor.draw = EnGm_Draw;
         Collider_InitCylinder(globalCtx, &this->collider);
-        Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
+        Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
         Actor_SetScale(&this->actor, 0.05f);
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->eyeTexIndex = 0;
         this->blinkTimer = 20;
         this->actor.textId = 0x3049;
@@ -159,16 +172,16 @@ void func_80A3DB04(EnGm* this, GlobalContext* globalCtx) {
     f32 dz;
     Player* player = PLAYER;
 
-    dx = this->talkPos.x - player->actor.posRot.pos.x;
-    dz = this->talkPos.z - player->actor.posRot.pos.z;
+    dx = this->talkPos.x - player->actor.world.pos.x;
+    dz = this->talkPos.z - player->actor.world.pos.z;
 
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         EnGm_SetTextID(this);
         this->actionFunc = func_80A3DC44;
     } else if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = func_80A3DBF4;
-    } else if ((this->collider.base.maskA & 2) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
-        this->collider.base.acFlags &= ~2;
+    } else if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
 }
@@ -187,8 +200,8 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 
     EnGm_SetTextID(this);
 
-    dx = this->talkPos.x - player->actor.posRot.pos.x;
-    dz = this->talkPos.z - player->actor.posRot.pos.z;
+    dx = this->talkPos.x - player->actor.world.pos.x;
+    dz = this->talkPos.z - player->actor.world.pos.z;
 
     if (func_8002F194(&this->actor, globalCtx)) {
         switch (func_80A3D7C8()) {
@@ -207,8 +220,8 @@ void func_80A3DC44(EnGm* this, GlobalContext* globalCtx) {
 
         this->actionFunc = EnGm_ProcessChoiceIndex;
     }
-    if ((this->collider.base.maskA & 2) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
-        this->collider.base.acFlags &= ~2;
+    if ((this->collider.base.ocFlags1 & OC1_HIT) || (SQ(dx) + SQ(dz)) < SQ(100.0f)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         func_8002F2CC(&this->actor, globalCtx, 415.0f);
     }
 }
@@ -265,11 +278,11 @@ void func_80A3DFBC(EnGm* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objGmBankIndex].segment);
     this->timer++;
     this->actionFunc(this, globalCtx);
-    this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
-    this->actor.posRot2.rot.y = this->actor.posRot.rot.y;
-    this->actor.posRot2.rot.z = this->actor.posRot.rot.z;
+    this->actor.focus.rot.x = this->actor.world.rot.x;
+    this->actor.focus.rot.y = this->actor.world.rot.y;
+    this->actor.focus.rot.z = this->actor.world.rot.z;
     EnGm_UpdateEye(this);
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
@@ -285,7 +298,7 @@ void func_80A3E090(EnGm* this) {
 
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 2600.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &vec2);
     this->collider.dim.pos.x = vec2.x;
@@ -294,15 +307,15 @@ void func_80A3E090(EnGm* this) {
     Matrix_Pull();
     Matrix_Push();
     Matrix_Translate(0.0f, 0.0f, 4300.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
     Matrix_MultVec3f(&vec1, &this->talkPos);
     Matrix_Pull();
     Matrix_Translate(0.0f, 0.0f, 3800.0f, MTXMODE_APPLY);
-    Matrix_RotateRPY(this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, MTXMODE_APPLY);
+    Matrix_RotateRPY(this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, MTXMODE_APPLY);
     vec1.x = vec1.y = vec1.z = 0.0f;
-    Matrix_MultVec3f(&vec1, &this->actor.posRot2.pos);
-    this->actor.posRot2.pos.y += 100.0f;
+    Matrix_MultVec3f(&vec1, &this->actor.focus.pos);
+    this->actor.focus.pos.y += 100.0f;
 }
 
 void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -315,7 +328,7 @@ void EnGm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTexIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_0600DE80));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, &this->actor);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gm.c", 629);

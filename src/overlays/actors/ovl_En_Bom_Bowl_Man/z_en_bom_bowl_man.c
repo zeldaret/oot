@@ -1,6 +1,7 @@
 #include "z_en_bom_bowl_man.h"
 #include "vt.h"
 #include "overlays/actors/ovl_En_Syateki_Niw/z_en_syateki_niw.h"
+#include "overlays/actors/ovl_En_Ex_Item/z_en_ex_item.h"
 
 #define FLAGS 0x08000039
 
@@ -41,7 +42,7 @@ extern AnimationHeader D_060072AC;
 
 const ActorInit En_Bom_Bowl_Man_InitVars = {
     ACTOR_EN_BOM_BOWL_MAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_BG,
     sizeof(EnBomBowlMan),
@@ -60,16 +61,15 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
     GlobalContext* globalCtx2 = globalCtx;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06006EB0, &D_06000710, this->limbDrawTable,
-                       this->transitionDrawTable, 11);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
+    SkelAnime_InitFlex(globalCtx2, &this->skelAnime, &D_06006EB0, &D_06000710, this->jointTable, this->morphTable, 11);
     // ☆ Man, my shoulders hurt~ ☆
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もー 肩こっちゃうよねぇ〜 \t\t ☆ \n" VT_RST);
     // ☆ Isn't there some sort of job that will pay better and be more relaxing? ☆ %d
     osSyncPrintf(VT_FGCOL(GREEN) "☆ もっとラクしてもうかるバイトないかしら？ ☆ %d\n" VT_RST,
                  globalCtx2->bombchuBowlingStatus);
-    this->posCopy = this->actor.posRot.pos;
-    this->actor.shape.unk_08 = -60.0f;
+    this->posCopy = this->actor.world.pos;
+    this->actor.shape.yOffset = -60.0f;
     Actor_SetScale(&this->actor, 0.013f);
 
     for (i = 0; i < 2; i++) {
@@ -83,7 +83,7 @@ void EnBomBowlMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->prizeSelect = (s16)Rand_ZeroFloat(4.99f);
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     this->actionFunc = EnBomBowMan_SetupWaitAsleep;
 }
 
@@ -91,8 +91,8 @@ void EnBomBowlMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBomBowMan_SetupWaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    this->frameCount = (f32)SkelAnime_GetFrameCount(&D_06000710);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000710, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
+    this->frameCount = (f32)Animation_GetLastFrame(&D_06000710);
+    Animation_Change(&this->skelAnime, &D_06000710, 1.0f, 0.0f, this->frameCount, ANIMMODE_LOOP, -10.0f);
     this->actor.textId = 0xC0;
     this->dialogState = 5;
     this->actionFunc = EnBomBowMan_WaitAsleep;
@@ -101,21 +101,21 @@ void EnBomBowMan_SetupWaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowMan_WaitAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowMan_TalkAsleep;
     } else {
-        yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
+        yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
-        if (!(this->actor.xzDistFromLink > 120.0f) && (yawDiff < 0x4300)) {
+        if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
             func_8002F2CC(&this->actor, globalCtx, 120.0f);
         }
     }
 }
 
 void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         globalCtx->msgCtx.msgMode = 0x37;
@@ -124,16 +124,16 @@ void EnBomBowMan_TalkAsleep(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowMan_WakeUp(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    this->frameCount = (f32)SkelAnime_GetFrameCount(&D_06000080);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000080, 1.0f, 0.0f, this->frameCount, 2, -10.0f);
+    this->frameCount = (f32)Animation_GetLastFrame(&D_06000080);
+    Animation_Change(&this->skelAnime, &D_06000080, 1.0f, 0.0f, this->frameCount, ANIMMODE_ONCE, -10.0f);
     this->eyeMode = CHU_GIRL_EYES_OPEN_SLOWLY;
     this->actionFunc = EnBomBowMan_BlinkAwake;
 }
 
 void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    f32 frameCount = this->skelAnime.animCurrentFrame;
+    f32 frameCount = this->skelAnime.curFrame;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (frameCount == 30.0f) {
         this->dialogState = 5;
         // Check for beaten Dodongo's Cavern
@@ -156,12 +156,12 @@ void EnBomBowMan_BlinkAwake(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
-        this->frameCount = (f32)SkelAnime_GetFrameCount(&D_060072AC);
-        SkelAnime_ChangeAnim(&this->skelAnime, &D_060072AC, 1.0f, 0.0f, this->frameCount, 0, -10.0f);
+        this->frameCount = (f32)Animation_GetLastFrame(&D_060072AC);
+        Animation_Change(&this->skelAnime, &D_060072AC, 1.0f, 0.0f, this->frameCount, ANIMMODE_LOOP, -10.0f);
         this->eyeMode = CHU_GIRL_EYES_AWAKE;
         this->blinkTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         // Check for beaten Dodongo's Cavern
@@ -177,7 +177,7 @@ void EnBomBowMan_CheckBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (func_8002F194(&this->actor, globalCtx)) {
         this->actionFunc = EnBomBowMan_TalkNotBeatenDC;
@@ -187,7 +187,7 @@ void EnBomBowMan_WaitNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowMan_TalkNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
@@ -196,7 +196,7 @@ void EnBomBowMan_TalkNotBeatenDC(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowMan_SetupRunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->minigamePlayStatus == 0) {
         if (!this->startedPlaying) {
@@ -215,7 +215,7 @@ void EnBomBowMan_SetupRunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
 void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (BREG(3)) {
         osSyncPrintf(VT_FGCOL(RED) "☆ game_play->bomchu_game_flag ☆ %d\n" VT_RST, globalCtx->bombchuBowlingStatus);
@@ -238,7 +238,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
             osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ 中央ＨＩＴ！！！！ ☆☆☆☆☆ \n" VT_RST);
         }
         if ((globalCtx->bombchuBowlingStatus == -1) &&
-            (globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].length == 0) && (this->bowlPit->status == 0) &&
+            (globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].length == 0) && (this->bowlPit->status == 0) &&
             (this->wallStatus[0] != 1) && (this->wallStatus[1] != 1)) {
             this->gameResult = 2; // Lost
             // Bombchu lost
@@ -250,8 +250,8 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x1A;
         this->dialogState = 4;
         this->minigamePlayStatus = 0;
-        if ((this->exItem != NULL) && (this->exItem->actor.update != 0)) {
-            this->exItem->unk_160 = 1;
+        if ((this->exItem != NULL) && (this->exItem->actor.update != NULL)) {
+            this->exItem->killItem = true;
             this->exItem = NULL;
         }
         globalCtx->bombchuBowlingStatus = 0;
@@ -269,8 +269,8 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_809C41FC;
             }
         } else {
-            yawDiff = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
-            if (!(this->actor.xzDistFromLink > 120.0f) && (yawDiff < 0x4300)) {
+            yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
+            if (!(this->actor.xzDistToPlayer > 120.0f) && (yawDiff < 0x4300)) {
                 func_8002F2CC(&this->actor, globalCtx, 120.0f);
             }
         }
@@ -278,7 +278,7 @@ void EnBomBowMan_RunGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
@@ -323,7 +323,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx)
 }
 
 void func_809C41FC(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
         if ((this->actor.textId == 0x2D) || (this->actor.textId == 0x85)) {
@@ -352,7 +352,7 @@ void EnBomBowMan_SetupChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalC
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         pos.x = 148.0f;
@@ -375,40 +375,41 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
     s16 prizeTemp;
     s32 pad;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if (this->prizeRevealTimer == 0) {
         switch (this->prizeSelect) {
             case 0:
-                prizeTemp = 0;
+                prizeTemp = EXITEM_BOMB_BAG_BOWLING;
                 if (gSaveContext.itemGetInf[1] & 2) {
-                    prizeTemp = 4;
+                    prizeTemp = EXITEM_PURPLE_RUPEE_BOWLING;
                 }
                 break;
             case 1:
-                prizeTemp = 4;
+                prizeTemp = EXITEM_PURPLE_RUPEE_BOWLING;
                 break;
             case 2:
-                prizeTemp = 2;
+                prizeTemp = EXITEM_BOMBCHUS_BOWLING;
                 break;
             case 3:
-                prizeTemp = 1;
+                prizeTemp = EXITEM_HEART_PIECE_BOWLING;
                 if (gSaveContext.itemGetInf[1] & 4) {
-                    prizeTemp = 4;
+                    prizeTemp = EXITEM_PURPLE_RUPEE_BOWLING;
                 }
                 break;
             case 4:
-                prizeTemp = 3;
+                prizeTemp = EXITEM_BOMBS_BOWLING;
                 break;
         }
         this->prizeIndex = prizeTemp;
         if (BREG(7)) {
             this->prizeIndex = BREG(7) - 1;
         }
-        this->exItem = (EnExItem*)Actor_SpawnAsChild(
-            &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
-            sPrizePosOffset[this->prizeIndex].x + 148.0f, sPrizePosOffset[this->prizeIndex].y + 40.0f,
-            sPrizePosOffset[this->prizeIndex].z + 300.0f, 0, sPrizeRot[this->prizeIndex], 0, this->prizeIndex + 5);
+        this->exItem = (EnExItem*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_ITEM,
+                                                     sPrizePosOffset[this->prizeIndex].x + 148.0f,
+                                                     sPrizePosOffset[this->prizeIndex].y + 40.0f,
+                                                     sPrizePosOffset[this->prizeIndex].z + 300.0f, 0,
+                                                     sPrizeRot[this->prizeIndex], 0, this->prizeIndex + EXITEM_COUNTER);
         if (!this->startedPlaying) {
             this->bowlPit = (EnBomBowlPit*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx,
                                                               ACTOR_EN_BOM_BOWL_PIT, 0.0f, 90.0f, -860.0f, 0, 0, 0, 0);
@@ -433,7 +434,7 @@ void EnBomBowMan_ChooseShowPrize(EnBomBowlMan* this, GlobalContext* globalCtx) {
 }
 
 void EnBomBowlMan_BeginPlayGame(EnBomBowlMan* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == this->dialogState) && (func_80106BC8(globalCtx) != 0)) {
         func_80106CCC(globalCtx);
@@ -453,8 +454,8 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnBomBowlMan* this = THIS;
 
     this->timer++;
-    this->actor.posRot2.pos.y = 60.0f;
-    Actor_SetHeight(&this->actor, 60.0f);
+    this->actor.focus.pos.y = 60.0f;
+    Actor_SetFocus(&this->actor, 60.0f);
 
     switch (this->eyeMode) {
         case CHU_GIRL_EYES_ASLEEP:
@@ -482,7 +483,7 @@ void EnBomBowlMan_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
 
-            func_80038290(globalCtx, &this->actor, &this->unk_218, &this->unk_224, this->actor.posRot2.pos);
+            func_80038290(globalCtx, &this->actor, &this->unk_218, &this->unk_224, this->actor.focus.pos);
             break;
     }
 
@@ -501,7 +502,7 @@ s32 EnBomBowlMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
         rot->z += this->unk_218.z;
     }
 
-    return 0;
+    return false;
 }
 
 void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -512,7 +513,7 @@ void EnBomBowlMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeTextureIndex]));
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnBomBowlMan_OverrideLimbDraw, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom_bowl_man.c", 923);

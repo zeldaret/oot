@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_fire_tail.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rLifespan regs[1]
@@ -28,9 +29,6 @@ EffectSsInit Effect_Ss_Fire_Tail_InitVars = {
     EFFECT_SS_FIRE_TAIL,
     EffectSsFireTail_Init,
 };
-
-extern Gfx D_0404D5A0[];
-extern Gfx D_0404D4E0[];
 
 u32 EffectSsFireTail_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsFireTailInitParams* initParams = (EffectSsFireTailInitParams*)initParamsx;
@@ -85,8 +83,8 @@ void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
         this->vec = this->actor->velocity;
 
         if (this->rBodyPart < 0) {
-            Matrix_Translate(this->pos.x + this->actor->posRot.pos.x, this->pos.y + this->actor->posRot.pos.y,
-                             this->pos.z + this->actor->posRot.pos.z, MTXMODE_NEW);
+            Matrix_Translate(this->pos.x + this->actor->world.pos.x, this->pos.y + this->actor->world.pos.y,
+                             this->pos.z + this->actor->world.pos.z, MTXMODE_NEW);
         } else {
             Player* player = PLAYER;
             s16 bodyPart = this->rBodyPart;
@@ -129,9 +127,9 @@ void EffectSsFireTail_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
                                 (globalCtx->state.frames * -0x14) & 0x1FF, 32, 128));
 
     if (this->rType != 0) {
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D5A0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire2DL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_fire_tail.c", 273);

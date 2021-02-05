@@ -5,11 +5,11 @@ glabel func_809EA240
 /* 00CEC 809EA24C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00CF0 809EA250 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00CF4 809EA254 AFA5003C */  sw      $a1, 0x003C($sp)           
-/* 00CF8 809EA258 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00CF8 809EA258 0C02927F */  jal     SkelAnime_Update
               
 /* 00CFC 809EA25C AFA40028 */  sw      $a0, 0x0028($sp)           
 /* 00D00 809EA260 8FA40028 */  lw      $a0, 0x0028($sp)           
-/* 00D04 809EA264 0C0295B2 */  jal     func_800A56C8              
+/* 00D04 809EA264 0C0295B2 */  jal     Animation_OnFrame              
 /* 00D08 809EA268 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00D0C 809EA26C 10400005 */  beq     $v0, $zero, .L809EA284     
 /* 00D10 809EA270 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
@@ -49,7 +49,7 @@ glabel func_809EA240
 /* 00D84 809EA2E4 30480020 */  andi    $t0, $v0, 0x0020           ## $t0 = 00000000
 /* 00D88 809EA2E8 11000005 */  beq     $t0, $zero, .L809EA300     
 /* 00D8C 809EA2EC 30490008 */  andi    $t1, $v0, 0x0008           ## $t1 = 00000000
-/* 00D90 809EA2F0 0C00B6B0 */  jal     func_8002DAC0              
+/* 00D90 809EA2F0 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 00D94 809EA2F4 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00D98 809EA2F8 10000035 */  beq     $zero, $zero, .L809EA3D0   
 /* 00D9C 809EA2FC A6020198 */  sh      $v0, 0x0198($s0)           ## 00000198
@@ -64,7 +64,7 @@ glabel func_809EA240
 /* 00DB8 809EA318 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00DBC 809EA31C 55600029 */  bnel    $t3, $zero, .L809EA3C4     
 /* 00DC0 809EA320 860E008A */  lh      $t6, 0x008A($s0)           ## 0000008A
-/* 00DC4 809EA324 0C00B6B0 */  jal     func_8002DAC0              
+/* 00DC4 809EA324 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 00DC8 809EA328 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00DCC 809EA32C 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
 /* 00DD0 809EA330 00451823 */  subu    $v1, $v0, $a1              
@@ -121,7 +121,7 @@ glabel func_809EA240
 /* 00E80 809EA3E0 1500001D */  bne     $t0, $zero, .L809EA458     
 /* 00E84 809EA3E4 A61900B6 */  sh      $t9, 0x00B6($s0)           ## 000000B6
 /* 00E88 809EA3E8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00E8C 809EA3EC 0C00B6EC */  jal     func_8002DBB0              
+/* 00E8C 809EA3EC 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 00E90 809EA3F0 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 00E94 809EA3F4 3C0141A0 */  lui     $at, 0x41A0                ## $at = 41A00000
 /* 00E98 809EA3F8 44815000 */  mtc1    $at, $f10                  ## $f10 = 20.00

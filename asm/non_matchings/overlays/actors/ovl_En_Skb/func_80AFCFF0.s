@@ -36,7 +36,7 @@ glabel func_80AFCFF0
 /* 006D0 80AFD070 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 006D4 80AFD074 E7A20010 */  swc1    $f2, 0x0010($sp)           
-/* 006D8 80AFD078 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 006D8 80AFD078 0C02927F */  jal     SkelAnime_Update
               
 /* 006DC 80AFD07C 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 006E0 80AFD080 50400004 */  beql    $v0, $zero, .L80AFD094     

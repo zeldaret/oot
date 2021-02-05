@@ -189,13 +189,13 @@ glabel func_808CB718
 /* 00998 808CB758 AFA501D4 */  sw      $a1, 0x01D4($sp)           
 /* 0099C 808CB75C A3A001CF */  sb      $zero, 0x01CF($sp)         
 /* 009A0 808CB760 8CB31C44 */  lw      $s3, 0x1C44($a1)           ## 00001C44
-/* 009A4 808CB764 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009A4 808CB764 0C02927F */  jal     SkelAnime_Update
               
 /* 009A8 808CB768 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 009AC 808CB76C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009AC 808CB76C 0C02927F */  jal     SkelAnime_Update
               
 /* 009B0 808CB770 26C40190 */  addiu   $a0, $s6, 0x0190           ## $a0 = 00000190
-/* 009B4 808CB774 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 009B4 808CB774 0C02927F */  jal     SkelAnime_Update
               
 /* 009B8 808CB778 26C401D4 */  addiu   $a0, $s6, 0x01D4           ## $a0 = 000001D4
 /* 009BC 808CB77C C6C402BC */  lwc1    $f4, 0x02BC($s6)           ## 000002BC
@@ -1537,7 +1537,7 @@ glabel L808CC944
 /* 01D64 808CCB24 8FA401D4 */  lw      $a0, 0x01D4($sp)           
 .L808CCB28:
 /* 01D68 808CCB28 E7BC0010 */  swc1    $f28, 0x0010($sp)          
-/* 01D6C 808CCB2C 0C00B92D */  jal     func_8002E4B4              
+/* 01D6C 808CCB2C 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01D70 808CCB30 AFAE0014 */  sw      $t6, 0x0014($sp)           
 /* 01D74 808CCB34 86CF024A */  lh      $t7, 0x024A($s6)           ## 0000024A
 /* 01D78 808CCB38 26C4027C */  addiu   $a0, $s6, 0x027C           ## $a0 = 0000027C
