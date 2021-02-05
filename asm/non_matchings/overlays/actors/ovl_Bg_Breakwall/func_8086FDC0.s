@@ -40,8 +40,8 @@ glabel func_8086FDC0
 /* 00240 8086FE20 8DF80004 */  lw      $t8, 0x0004($t7)           ## 808707F4
 /* 00244 8086FE24 ADD90000 */  sw      $t9, 0x0000($t6)           ## FFFFFFD4
 /* 00248 8086FE28 8DF90008 */  lw      $t9, 0x0008($t7)           ## 808707F8
-/* 0024C 8086FE2C 3C098087 */  lui     $t1, %hi(D_808707FC)       ## $t1 = 80870000
-/* 00250 8086FE30 252907FC */  addiu   $t1, $t1, %lo(D_808707FC)  ## $t1 = 808707FC
+/* 0024C 8086FE2C 3C098087 */  lui     $t1, %hi(actorRotList)       ## $t1 = 80870000
+/* 00250 8086FE30 252907FC */  addiu   $t1, $t1, %lo(actorRotList)  ## $t1 = 808707FC
 /* 00254 8086FE34 ADD80004 */  sw      $t8, 0x0004($t6)           ## FFFFFFD8
 /* 00258 8086FE38 ADD90008 */  sw      $t9, 0x0008($t6)           ## FFFFFFDC
 /* 0025C 8086FE3C 8D2A0004 */  lw      $t2, 0x0004($t1)           ## 80870800
@@ -51,12 +51,12 @@ glabel func_8086FDC0
 /* 0026C 8086FE4C AD0B0000 */  sw      $t3, 0x0000($t0)           ## FFFFFFBC
 /* 00270 8086FE50 8D2B0008 */  lw      $t3, 0x0008($t1)           ## 80870804
 /* 00274 8086FE54 8D2A000C */  lw      $t2, 0x000C($t1)           ## 80870808
-/* 00278 8086FE58 3C0D8087 */  lui     $t5, %hi(D_80870814)       ## $t5 = 80870000
+/* 00278 8086FE58 3C0D8087 */  lui     $t5, %hi(actorScaleList)       ## $t5 = 80870000
 /* 0027C 8086FE5C AD0B0008 */  sw      $t3, 0x0008($t0)           ## FFFFFFC4
 /* 00280 8086FE60 AD0A000C */  sw      $t2, 0x000C($t0)           ## FFFFFFC8
 /* 00284 8086FE64 8D2A0014 */  lw      $t2, 0x0014($t1)           ## 80870810
 /* 00288 8086FE68 8D2B0010 */  lw      $t3, 0x0010($t1)           ## 8087080C
-/* 0028C 8086FE6C 25AD0814 */  addiu   $t5, $t5, %lo(D_80870814)  ## $t5 = 80870814
+/* 0028C 8086FE6C 25AD0814 */  addiu   $t5, $t5, %lo(actorScaleList)  ## $t5 = 80870814
 /* 00290 8086FE70 0080B825 */  or      $s7, $a0, $zero            ## $s7 = 00000000
 /* 00294 8086FE74 25B80030 */  addiu   $t8, $t5, 0x0030           ## $t8 = 80870844
 /* 00298 8086FE78 27AC0184 */  addiu   $t4, $sp, 0x0184           ## $t4 = FFFFFF8C
@@ -72,8 +72,8 @@ glabel func_8086FDC0
 /* 002BC 8086FE9C 8DAFFFFC */  lw      $t7, -0x0004($t5)          ## 8087081C
 /* 002C0 8086FEA0 15B8FFF8 */  bne     $t5, $t8, .L8086FE84
 /* 002C4 8086FEA4 AD8FFFFC */  sw      $t7, -0x0004($t4)          ## FFFFFF94
-/* 002C8 8086FEA8 3C088087 */  lui     $t0, %hi(D_80870844)       ## $t0 = 80870000
-/* 002CC 8086FEAC 25080844 */  addiu   $t0, $t0, %lo(D_80870844)  ## $t0 = 80870844
+/* 002C8 8086FEA8 3C088087 */  lui     $t0, %hi(actorPosList)       ## $t0 = 80870000
+/* 002CC 8086FEAC 25080844 */  addiu   $t0, $t0, %lo(actorPosList)  ## $t0 = 80870844
 /* 002D0 8086FEB0 250B00C0 */  addiu   $t3, $t0, 0x00C0           ## $t3 = 80870904
 /* 002D4 8086FEB4 27B900C4 */  addiu   $t9, $sp, 0x00C4           ## $t9 = FFFFFECC
 .L8086FEB8:
