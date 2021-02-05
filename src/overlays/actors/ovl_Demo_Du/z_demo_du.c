@@ -36,6 +36,7 @@ static Gfx* sEyeTextures[] = {0x06008080, 0x06008480, 0x06008880, 0x0600A540};
 static Gfx* D_8096CE84[] = {0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180};
 
 /**
+ * Cs => Cutscene
  * 
  * FM => Fire Medallion
  * GR => Goron's Ruby
@@ -411,78 +412,54 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_CsPlaySfx_GoronLanding(this);
 }
 
-
-static Vec3f D_8096CE98 = {0.0f, 0.0f, 0.0f};
-
-static Vec3f D_8096CEA4 = {0.0f, 0.3f, 0.0f};
-
-static Color_RGBA8 sDustPrimaryColor = {190, 150, 110, 255};
-
-static Color_RGBA8 sDustEnvironmentColor = {120, 80, 40, 255};
-
-static Vec3f D_8096CEB8[] = {
- { 11.0f, -11.0f,  -6.0f },
- {  0.0f,  14.0f, -13.0f },
- { 14.0f,  -2.0f, -10.0f },
- { 10.0f,  -6.0f,  -8.0f }
-};
-
-static Vec3f D_8096CEE8[] = {
- {   8.0f,  6.0f,   8.0f },
- {  13.0f,  8.0f, -10.0f },
- { -14.0f,  1.0f, -14.0f },
- {   5.0f, 12.0f,  -9.0f },
- {  11.0f,  6.0f,  -7.0f },
- {  14.0f, 14.0f, -14.0f }
-};
-
-void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx);
-#ifdef NON_MATCHING
 void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
-    //s32 pad;
+    static Vec3f sDustVelocity = {0.0f, 0.0f, 0.0f};
+    static Vec3f sDustAccel = {0.0f, 0.3f, 0.0f};
+    static Color_RGBA8 sDustPrimaryColor = {190, 150, 110, 255};
+    static Color_RGBA8 sDustEnvironmentColor = {120, 80, 40, 255};
+    static Vec3f sDustPosOffsets[] = {
+        { 11.0f, -11.0f,  -6.0f },
+        {  0.0f,  14.0f, -13.0f },
+        { 14.0f,  -2.0f, -10.0f },
+        { 10.0f,  -6.0f,  -8.0f },
+        {   8.0f,  6.0f,   8.0f },
+        {  13.0f,  8.0f, -10.0f },
+        { -14.0f,  1.0f, -14.0f },
+        {   5.0f, 12.0f,  -9.0f },
+        {  11.0f,  6.0f,  -7.0f },
+        {  14.0f, 14.0f, -14.0f }
+    };
+
     Player* player;
-    f32 x;
-    //s32 pad2;
-    f32 y;
-    f32 z;
-    s32 colorDelta;
+    s32 i;
+    s32 pad[2];
+    Vec3f* headPos;
     Vec3f velocity;
     Vec3f accel;
-    Vec3f *phi_s0;
+    s32 colorDelta;
     Color_RGBA8 primColor;
     Color_RGBA8 envColor;
-    Vec3f *headPos;
-    Vec3f sp88;
-    SkelAnime *skelAnime;
-
-    skelAnime = &this->skelAnime;
+    SkelAnime* skelAnime = &this->skelAnime;
+    Vec3f position;
 
     if (Animation_OnFrame(skelAnime, 31.0f) || Animation_OnFrame(skelAnime, 41.0f)) {
         player = PLAYER;
         headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
+        velocity = sDustVelocity;
+        accel = sDustAccel;
 
-        velocity = D_8096CE98;
-        accel = D_8096CEA4;
-        phi_s0 = D_8096CEE8;
-
-        do{
+        for (i = 4; i >= 0; --i) {
             primColor = sDustPrimaryColor;
             envColor = sDustEnvironmentColor;
 
             if (Animation_OnFrame(skelAnime, 31.0f)) {
-                x = phi_s0[5].x;
-                y = phi_s0[5].y;
-                z = phi_s0[5].z;
-                sp88.x = x + headPos->x;
-                sp88.y = y + headPos->y;
-                sp88.z = z + headPos->z;
+                position.x = sDustPosOffsets[i+5].x + headPos->x;
+                position.y = sDustPosOffsets[i+5].y + headPos->y;
+                position.z = sDustPosOffsets[i+5].z + headPos->z;
             } else {
-                x = phi_s0[0].x;
-                y = phi_s0[0].y;
-                z = phi_s0[0].z;
-                sp88.x = x + headPos->x;
-                sp88.y = y + headPos->y;
-                sp88.z = z + headPos->z;
+                position.x = sDustPosOffsets[i+0].x + headPos->x;
+                position.y = sDustPosOffsets[i+0].y + headPos->y;
+                position.z = sDustPosOffsets[i+0].z + headPos->z;
             }
 
             colorDelta = Rand_ZeroOne() * 20.0f - 10.0f;
@@ -496,24 +473,19 @@ void func_8096A6E0(DemoDu* this, GlobalContext* globalCtx) {
 
             func_8002829C(
                 globalCtx, 
-                &sp88, 
+                &position, 
                 &velocity, 
                 &accel, 
                 &primColor, 
                 &envColor, 
-                Rand_ZeroOne() * 40.0f + 200.0f,
+                Rand_ZeroOne() * 40.0f + 200.0f, 
                 0
                 );
+        }
 
-            phi_s0 -= 1;
-        } while (phi_s0 >= D_8096CEB8);
-        
         DemoDu_CsPlaySfx_DaruniaHitsLink(globalCtx);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Demo_Du/func_8096A6E0.s")
-#endif
 
 void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu *this, GlobalContext *globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
