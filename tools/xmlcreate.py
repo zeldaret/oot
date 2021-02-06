@@ -127,7 +127,7 @@ def create_xml(src, name):
     with open(src,'r',encoding='utf-8') as srcfile:
         srcdata = srcfile.readlines()
     object = find_object(src)
-    xml = "<Root>\n    <File Name=" + object + " Segment=" + args.segment_number + ">\n"
+    xml = "<Root>\n    <File Name=" + "\"" + object +"\"" + " Segment=" + " \""+args.segment_number +"\""+">\n"
     symbols = {}
     segmentOffset1 = "0x0" + args.segment_number + '0'
     segmentOffset2 = "D_0" + args.segment_number + '0'
