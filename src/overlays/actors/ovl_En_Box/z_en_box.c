@@ -87,7 +87,7 @@ void EnBox_SetupAction(EnBox* this, EnBoxActionFunc actionFunc) {
 void EnBox_ClipToGround(EnBox* this, GlobalContext* globalCtx) {
     f32 newY;
     CollisionPoly* poly;
-    s32* bgId;
+    s32 bgId;
     Vec3f pos;
 
     pos = this->dyna.actor.world.pos;

@@ -40,7 +40,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600E2CC, D_0600E380, D_0600E430;
+extern CollisionHeader D_0600E2CC;
+extern CollisionHeader D_0600E380;
+extern CollisionHeader D_0600E430;
 
 static CollisionHeader* D_80889E70[] = {
     &D_0600E2CC,
@@ -55,7 +57,7 @@ static s16 D_80889E7C[] = {
     0x0000,
 };
 
-static Gfx (*D_80889E84[])[] = {
+static Gfx* D_80889E84[] = {
     0x0600C798,
     0x0600BFA8,
     0x0600BB58,
@@ -101,10 +103,9 @@ void func_80889ACC(BgHidanKousi* this) {
     Vec3s* rot = &this->dyna.actor.world.rot;
     f32 temp1 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_SinS(rot->y);
     f32 temp2 = D_80889E40[this->dyna.actor.params & 0xFF] * Math_CosS(rot->y);
-    Vec3f* initPos = &this->dyna.actor.home.pos;
 
-    this->dyna.actor.world.pos.x = initPos->x + temp1;
-    this->dyna.actor.world.pos.z = initPos->z + temp2;
+    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + temp1;
+    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z + temp2;
 }
 
 void func_80889B5C(BgHidanKousi* this, GlobalContext* globalCtx) {

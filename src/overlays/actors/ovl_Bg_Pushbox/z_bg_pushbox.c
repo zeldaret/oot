@@ -41,16 +41,16 @@ void BgPushbox_SetupAction(BgPushbox* this, BgPushboxActionFunc actionFunc) {
 }
 
 void BgPushbox_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgPushbox* this = THIS;
     s32 pad;
+    BgPushbox* this = THIS;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    Actor_ProcessInitChain(thisx, sInitChain);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_06000350, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
-    ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
     BgPushbox_SetupAction(this, func_808A8BAC);
 }
 
@@ -61,21 +61,19 @@ void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
-    thisx->speedXZ += this->dyna.unk_150 * 0.2f;
-    thisx->speedXZ = (thisx->speedXZ < -1.0f) ? -1.0f : ((thisx->speedXZ > 1.0f) ? 1.0f : thisx->speedXZ);
-    Math_StepToF(&thisx->speedXZ, 0.0f, 0.2f);
-    thisx->world.rot.y = this->dyna.unk_158;
-    Actor_MoveForward(thisx);
-    Actor_UpdateBgCheckInfo(globalCtx, thisx, 20.0f, 40.0f, 40.0f, 0x1D);
+    this->dyna.actor.speedXZ += this->dyna.unk_150 * 0.2f;
+    this->dyna.actor.speedXZ = (this->dyna.actor.speedXZ < -1.0f) ? -1.0f : ((this->dyna.actor.speedXZ > 1.0f) ? 1.0f : this->dyna.actor.speedXZ);
+    Math_StepToF(&this->dyna.actor.speedXZ, 0.0f, 0.2f);
+    this->dyna.actor.world.rot.y = this->dyna.unk_158;
+    Actor_MoveForward(&this->dyna.actor);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 20.0f, 40.0f, 40.0f, 0x1D);
 }
 
 void BgPushbox_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgPushbox* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    func_8002DF90(this);
+    func_8002DF90(&this->dyna);
 }
 
 void BgPushbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
