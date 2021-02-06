@@ -255,90 +255,51 @@ void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
     }
 }
 
-/*
+
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
     EnAnubiceFire* this = THIS;
-    CollisionCheckContext *sp34;
-    void *sp30;
-    PosRot *sp2C;
-    ColliderCylinder *sp28;
-    ColliderCylinder *temp_a1_2;
-    CollisionCheckContext *temp_a1_3;
-    PosRot *temp_t0;
-    Vec3s *temp_a1;
-    f32 temp_f0;
-    s16 temp_v0_2;
-    s16 temp_v0_3;
-    s32 temp_f4;
-    s32 temp_v0;
-    void *temp_a0;
-    void *temp_v1;
-    void *phi_a0;
-    void *phi_v1;
-    s32 phi_v0;
+    s32 pad[2];
+    s32 i;
 
-    Actor_SetScale((Actor *) this, (bitwise f32) (bitwise s32) this->unk_150);
+    Actor_SetScale(&this->actor, this->unk_150);
     this->unk_14C(this, globalCtx);
-    func_8002D7EC((Actor *) this);
-    temp_t0 = &this->actor.world;
-    temp_a1 = &this->actor.world.rot;
-    this->unk_160[0].x = (bitwise f32) (bitwise s32) temp_t0->pos.x;
-    this->unk_160[0].y = (bitwise f32) (bitwise s32) temp_t0->pos.y;
-    this->unk_160[0].z = (bitwise f32) (bitwise s32) temp_t0->pos.z;
-    phi_a0 = temp_a1 + 0x160;
-    phi_v1 = temp_a1 + 0x16C;
-    phi_v0 = 4;
-loop_1:
-    temp_v0 = phi_v0 - 1;
-    temp_v1 = phi_v1 - 0xC;
-    temp_v1->unkC = (s32) phi_a0->unk0;
-    temp_a0 = phi_a0 - 0xC;
-    temp_v1->unk10 = (s32) phi_a0->unk4;
-    temp_v1->unk14 = (s32) temp_a0->unk14;
-    phi_a0 = temp_a0;
-    phi_v1 = temp_v1;
-    phi_v0 = temp_v0;
-    if (temp_v0 >= 0) {
-        goto loop_1;
+    func_8002D7EC(&this->actor);
+    this->unk_160[0] = this->actor.world.pos;
+
+    for (i = 4; i >= 0; --i) {
+        this->unk_160[i+1] = this->unk_160[i];
     }
-    temp_v0_2 = this->unk_15A;
-    if (temp_v0_2 != 0) {
-        this->unk_15A = temp_v0_2 - 1;
+
+    if (this->unk_15A != 0) {
+        this->unk_15A--;
     }
-    temp_v0_3 = (s16) this->unk_15C;
-    if (temp_v0_3 != 0) {
-        this->unk_15C = temp_v0_3 - 1;
+
+    if (this->unk_15C != 0) {
+        this->unk_15C--;
     }
-    sp2C = temp_t0;
-    Actor_UpdateBgCheckInfo(globalCtx, (Actor *) this, 5.0f, 5.0f, 10.0f, 0x1D);
-    temp_f0 = this->unk_150;
-    if (!(temp_f0 < 0.6f)) {
-        sp30 = &func_809B2B48;
-        if (&func_809B2B48 != this->unk_14C) {
-            temp_a1_2 = &this->cylinder;
-            temp_f4 = (s32) ((temp_f0 * 15.0f) + 5.0f);
-            this->cylinder.dim.radius = (s16) temp_f4;
-            this->cylinder.dim.height = (s16) temp_f4;
-            this->cylinder.dim.yShift = (s16) (s32) ((temp_f0 * -0.75f) + -15.0f);
+
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1D);
+    if (!(this->unk_150 < 0.6f)) {
+        if (this->unk_14C != func_809B2B48) {
+            this->cylinder.dim.radius = this->unk_150 * 15.0f + 5.0f;
+            this->cylinder.dim.height = this->unk_150 * 15.0f + 5.0f;
+            this->cylinder.dim.yShift = this->unk_150 * -0.75f + -15.0f;
+
             if (this->unk_15A != 0) {
-                sp28 = temp_a1_2;
-                Collider_UpdateCylinder((Actor *) this, temp_a1_2);
-                temp_a1_3 = &globalCtx->colChkCtx;
-                sp34 = temp_a1_3;
-                CollisionCheck_SetAT(globalCtx, temp_a1_3, (Collider *) sp28);
-                CollisionCheck_SetAC(globalCtx, temp_a1_3, (Collider *) sp28);
+                Collider_UpdateCylinder(&this->actor, &this->cylinder);
+                CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->cylinder.base);
+                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinder.base);
             }
-            if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, (Vec3f *) sp2C, 30.0f) != 0) {
+
+            if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->actor.world.pos, 30.0f)) {
                 this->actor.velocity.z = 0.0f;
                 this->actor.velocity.y = 0.0f;
                 this->actor.velocity.x = 0.0f;
-                Audio_PlayActorSound2((Actor *) this, (u16)0x399DU);
-                this->unk_14C = sp30;
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
+                this->unk_14C = func_809B2B48;
             }
         }
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/EnAnubiceFire_Update.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/EnAnubiceFire_Draw.s")
