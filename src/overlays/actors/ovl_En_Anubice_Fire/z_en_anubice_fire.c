@@ -16,7 +16,7 @@ void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-//extern UNK_TYPE D_06003510;
+extern UNK_TYPE D_06003510;
 
 /*
 const ActorInit En_Anubice_Fire_InitVars = {
@@ -229,7 +229,7 @@ void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
     Vec3f sp74;
     Color_RGBA8 sp70;
     Color_RGBA8 sp6C;
-    s32 temp_s0;
+    s32 pad;
     s32 i;
 
     sp8C = D_809B3250;
@@ -247,6 +247,7 @@ void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
             sp80.z = Rand_CenteredFloat(8.0f);
             EffectSsKiraKira_SpawnDispersed(globalCtx, &sp74, &sp8C, &sp80, &sp70, &sp6C, 2000, 10);
         }
+
         this->unk_15C = 2;
         this->unk_15E++;
         if (this->unk_15E >= 6) {
@@ -302,4 +303,45 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
+    EnAnubiceFire* this = THIS;
+    s32 i;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 503);
+
+    func_80093D84(globalCtx->state.gfxCtx);
+
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+    gDPPipeSync(POLY_XLU_DISP++);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B3270));
+
+    Matrix_Push();
+
+    for (i = this->unk_15E; i < 6; ++i) {
+        f32 scale = CLAMP_MIN(this->actor.scale.x - (i * 0.2f), 0.0f);
+
+        if (scale >= 0.1f) {
+            Matrix_Translate(this->unk_160[i].x, this->unk_160[i].y, this->unk_160[i].z, MTXMODE_NEW);
+            Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
+            func_800D1FD4(&globalCtx->mf_11DA0);
+            Matrix_RotateZ(this->actor.world.rot.z + i * 1000.0f, MTXMODE_APPLY);
+
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 546), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+            gSPDisplayList(POLY_XLU_DISP++, &D_06003510);
+        }
+
+        if ((this->unk_150 < 0.1f)) {
+            break;
+        }
+    }
+
+    Matrix_Pull();
+
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 556);
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/EnAnubiceFire_Draw.s")
+#endif
