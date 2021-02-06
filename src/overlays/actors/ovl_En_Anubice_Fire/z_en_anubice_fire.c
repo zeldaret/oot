@@ -20,7 +20,7 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx);
 void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx);
 void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06003510;
+extern Gfx D_06003510[];
 
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
@@ -249,9 +249,9 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
 
 static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex};
 
-#ifdef NON_MATCHING
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
     EnAnubiceFire* this = THIS;
+    s32 pad[2];
     s32 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 503);
@@ -261,12 +261,16 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     gDPPipeSync(POLY_XLU_DISP++);
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B3270));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B3270[0]));
 
     Matrix_Push();
 
     for (i = this->unk_15E; i < 6; ++i) {
-        f32 scale = CLAMP_MIN(this->actor.scale.x - (i * 0.2f), 0.0f);
+        // CLAMP_MIN doesn't work.
+        f32 scale = this->actor.scale.x - (i * 0.2f);
+        if (scale < 0.0f) {
+            scale = 0.0f;
+        }
 
         if (scale >= 0.1f) {
             Matrix_Translate(this->unk_160[i].x, this->unk_160[i].y, this->unk_160[i].z, MTXMODE_NEW);
@@ -276,7 +280,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 546), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, &D_06003510);
+            gSPDisplayList(POLY_XLU_DISP++, D_06003510);
         }
 
         if ((this->unk_150 < 0.1f)) {
@@ -288,6 +292,3 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 556);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/EnAnubiceFire_Draw.s")
-#endif
