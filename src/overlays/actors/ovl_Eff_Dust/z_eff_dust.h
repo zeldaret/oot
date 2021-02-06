@@ -22,6 +22,14 @@ typedef struct EffDust {
     /* 0x0560 */ EffDustDrawFunc drawFunc;
 } EffDust; // size = 0x0568
 
+// EffDust's params.
+typedef enum EffDustType {
+    /* 0x00 */ EFF_DUST_TYPE_0,
+    /* 0x01 */ EFF_DUST_TYPE_1,
+    /* 0x02 */ EFF_DUST_TYPE_2,
+    /* 0x03 */ EFF_DUST_TYPE_3,
+    /* 0x04 */ EFF_DUST_TYPE_4
+} EffDustType;
 
 extern const ActorInit Eff_Dust_InitVars;
 
