@@ -36,7 +36,7 @@ typedef struct EnOssan {
     /* 0x0194 */ EnOssanUnkFunc1 unk_194;
     /* 0x0198 */ ColliderCylinder unk_198;
     /* 0x01E4 */ s16 timer;
-    /* 0x01E6 */ char unk_1E6[0x2];
+    /* 0x01E6 */ s16 unk_1E6;
     /* 0x01E8 */ s8 objectIndex1;
     /* 0x01E9 */ s8 objectIndex2;
     /* 0x01EA */ s8 objectIndex3;
