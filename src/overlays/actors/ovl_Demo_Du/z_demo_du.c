@@ -81,22 +81,23 @@ void DemoDu_SetMouthTexIndex(DemoDu* this, s16 mouthTexIndex) {
     this->mouthTexIndex = mouthTexIndex;
 }
 
-void func_80969BA0(DemoDu* this) {
+// Resets all the values used in the cutscene.
+void DemoDu_Cs02_Reset(DemoDu* this) {
     this->updateIndex = CS_CS02_SUBSCENE(0);
     this->drawIndex = 0;
     this->shadowAlpha = 0;
-    this->unk_1AC = 0;
+    this->demo6KSpawned = 0;
     this->actor.shape.shadowAlpha = 0;
     this->unk_1A4 = 0.0f;
 }
 
-void func_80969BC4(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_Cs02_CheckIfShouldReset(DemoDu* this, GlobalContext* globalCtx) {
     static s32 D_8096CE94 = 0;
 
     if (globalCtx->csCtx.state == 0) {
         if (D_8096CE94 != 0) {
             if (this->actor.params == DEMO_DU_TYPE_02) {
-                func_80969BA0(this);
+                DemoDu_Cs02_Reset(this);
             }
             D_8096CE94 = 0;
             return;
@@ -142,7 +143,7 @@ s32 DemoDu_IsNpcNotDoingThisAction(DemoDu *this, GlobalContext *globalCtx, u16 a
     return false;
 }
 
-void func_80969D5C(DemoDu *this, GlobalContext *globalCtx, s32 idx) {
+void DemoDu_MoveToNpcPos(DemoDu *this, GlobalContext *globalCtx, s32 idx) {
     CsCmdActorAction *npcAction;
     s16 rotY;
 
@@ -184,7 +185,8 @@ void DemoDu_InitCs_FireMedallion(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_SetMouthTexIndex(this, 3);
 }
 
-void func_80969EDC(DemoDu* this, GlobalContext* globalCtx) {
+// A.k.a Warp portal
+void DemoDu_CsFireMedallion_SpawnDoorWarp(DemoDu* this, GlobalContext* globalCtx) {
     f32 posX = this->actor.world.pos.x;
     f32 posY = this->actor.world.pos.y;
     f32 posZ = this->actor.world.pos.z;
@@ -192,8 +194,7 @@ void func_80969EDC(DemoDu* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
-// This function will be triggered even if the cutscene is skipped (by pressing Start).
-// In normal gameplay, this function and func_80969FD0 will be triggered.
+// Gives the Fire Medallion to Link.
 void func_80969F38(DemoDu *this, GlobalContext *globalCtx) {
     Player* player = PLAYER;
     f32 posX = player->actor.world.pos.x;
@@ -205,14 +206,12 @@ void func_80969F38(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void func_80969FB4(DemoDu* this, GlobalContext* globalCtx) {
-    this->actor.shape.yOffset = this->actor.shape.yOffset + (250.0f/3.0f);
+    this->actor.shape.yOffset += 250.0f/3.0f;
 }
 
-// This function may not be triggered if the cutscene is skipped (by pressing Start).
-// In normal gameplay, this function and func_80969F38 will be triggered.
-void func_80969FD0(DemoDu* this, GlobalContext* globalCtx2) {
-    s32 pad;
-    GlobalContext* globalCtx = globalCtx2;
+// Gives the Fire Medallion to Link too.
+void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) {
+    s32 pad[2];
     Player* player;
     s16 rotY;
 
@@ -230,7 +229,7 @@ void func_80969FD0(DemoDu* this, GlobalContext* globalCtx2) {
     }
 }
 
-void func_8096A05C(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsFireMedallion_AdvanceTo02(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -238,19 +237,19 @@ void func_8096A05C(DemoDu *this, GlobalContext *globalCtx) {
         if (npcAction != NULL && npcAction->action != 1) {
             this->updateIndex = CS_FIREMEDALLION_SUBSCENE(2);
             this->drawIndex = 1;
-            func_80969EDC(this, globalCtx);
+            DemoDu_CsFireMedallion_SpawnDoorWarp(this, globalCtx);
         }
     }
 }
 
-void func_8096A0AC(DemoDu *this) {
+void DemoDu_CsFireMedallion_AdvanceTo03(DemoDu *this) {
     if (this->actor.shape.yOffset >= 0.0f) {
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(3);
         this->actor.shape.yOffset = 0.0f;
     }
 }
 
-void func_8096A0D8(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsFireMedallion_AdvanceTo04(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -262,14 +261,14 @@ void func_8096A0D8(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096A16C(DemoDu *this, s32 didAnimFinished) {
+void DemoDu_CsFireMedallion_AdvanceTo05(DemoDu *this, s32 didAnimFinished) {
     if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06000D00, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000D00), 0, 0.0f);
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(5);
     }
 }
 
-void func_8096A1D8(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsFireMedallion_AdvanceTo06(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -282,23 +281,23 @@ void func_8096A1D8(DemoDu *this, GlobalContext *globalCtx) {
 }
 
 void DemoDu_UpdateCs_FM_00(DemoDu *this, GlobalContext *globalCtx) {
-    func_80969FD0(this, globalCtx);
+    DemoDu_CsFireMedallion_AdvanceTo01(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_FM_01(DemoDu *this, GlobalContext *globalCtx) {
-    func_8096A05C(this, globalCtx);
+    DemoDu_CsFireMedallion_AdvanceTo02(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_FM_02(DemoDu *this, GlobalContext *globalCtx) {
     func_80969FB4(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A0AC(this);
+    DemoDu_CsFireMedallion_AdvanceTo03(this);
 }
 
 void DemoDu_UpdateCs_FM_03(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A0D8(this, globalCtx);
+    DemoDu_CsFireMedallion_AdvanceTo04(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_FM_04(DemoDu *this, GlobalContext *globalCtx) {
@@ -306,13 +305,13 @@ void DemoDu_UpdateCs_FM_04(DemoDu *this, GlobalContext *globalCtx) {
 
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     didAnimFinished = DemoDu_UpdateSkelAnime(this);
-    func_8096A16C(this, didAnimFinished);
+    DemoDu_CsFireMedallion_AdvanceTo05(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_FM_05(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
-    func_8096A1D8(this, globalCtx);
+    DemoDu_CsFireMedallion_AdvanceTo06(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_FM_06(DemoDu *this, GlobalContext *globalCtx) {
@@ -517,11 +516,11 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu *this, GlobalContext *globalCtx2)
     }
 }
 
-void func_8096AA4C(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo01(DemoDu *this, GlobalContext *globalCtx) {
     this->updateIndex = CS_GORONSRUBY_SUBSCENE(1);
 }
 
-void func_8096AA5C(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo02(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -535,7 +534,7 @@ void func_8096AA5C(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AB00(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo03(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
     CutsceneContext *csCtx = &globalCtx->csCtx;
 
@@ -548,7 +547,7 @@ void func_8096AB00(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AB54(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo04(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -559,14 +558,14 @@ void func_8096AB54(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AB8C(DemoDu *this, s32 didAnimFinished) {
+void DemoDu_CsGoronsRuby_AdvanceTo05(DemoDu *this, s32 didAnimFinished) {
     if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(5);
     }
 }
 
-void func_8096ABF8(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -578,14 +577,14 @@ void func_8096ABF8(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AC90(DemoDu *this, s32 didAnimFinished) {
+void DemoDu_CsGoronsRuby_AdvanceTo07(DemoDu *this, s32 didAnimFinished) {
     if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(7);
     }
 }
 
-void func_8096ACFC(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo08(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -597,21 +596,21 @@ void func_8096ACFC(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AD90(DemoDu *this, s32 didAnimFinished) {
+void DemoDu_CsGoronsRuby_AdvanceTo09(DemoDu *this, s32 didAnimFinished) {
     if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06002374, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002374), 2, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(9);
     }
 }
 
-void func_8096AE00(DemoDu *this, s32 didAnimFinished) {
+void DemoDu_CsGoronsRuby_AdvanceTo10(DemoDu *this, s32 didAnimFinished) {
     if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06006EB0, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006EB0), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(10);
     }
 }
 
-void func_8096AE6C(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo11(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -623,14 +622,14 @@ void func_8096AE6C(DemoDu *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_8096AF00(DemoDu *this, s32 didAnimFinished) {
+void DemoDu_CsGoronsRuby_AdvanceTo12(DemoDu *this, s32 didAnimFinished) {
     if (didAnimFinished) {
         Animation_Change(&this->skelAnime, &D_06000D00, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000D00), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(12);
     }
 }
 
-void func_8096AF6C(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_CsGoronsRuby_AdvanceTo13(DemoDu *this, GlobalContext *globalCtx) {
     CsCmdActorAction *npcAction;
 
     if (globalCtx->csCtx.state != 0) {
@@ -644,13 +643,13 @@ void func_8096AF6C(DemoDu *this, GlobalContext *globalCtx) {
 
 void DemoDu_UpdateCs_GR_00(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_CsPlaySfx_DaruniaFalling(globalCtx);
-    func_8096AA4C(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo01(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_01(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_CsPlaySfx_DaruniaFalling(globalCtx);
     DemoDu_CsPlaySfx_LinkSurprised(globalCtx);
-    func_8096AA5C(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo02(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_02(DemoDu *this, GlobalContext *globalCtx) {
@@ -658,13 +657,13 @@ void DemoDu_UpdateCs_GR_02(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_CsPlaySfx_DaruniaFalling(globalCtx);
     DemoDu_CsPlaySfx_LinkSurprised(globalCtx);
-    func_8096AB00(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo03(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_03(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_CsPlaySfx_LinkSurprised(globalCtx);
-    func_8096AB54(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo04(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_04(DemoDu *this, GlobalContext *globalCtx) {
@@ -673,14 +672,14 @@ void DemoDu_UpdateCs_GR_04(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096AB8C(this, didAnimFinished);
+    DemoDu_CsGoronsRuby_AdvanceTo05(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_05(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096ABF8(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo06(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_06(DemoDu *this, GlobalContext *globalCtx) {
@@ -690,14 +689,14 @@ void DemoDu_UpdateCs_GR_06(DemoDu *this, GlobalContext *globalCtx) {
     didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_CsPlaySfx_HitBreast(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096AC90(this, didAnimFinished);
+    DemoDu_CsGoronsRuby_AdvanceTo07(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_07(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096ACFC(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo08(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_08(DemoDu *this, GlobalContext *globalCtx) {
@@ -707,7 +706,7 @@ void DemoDu_UpdateCs_GR_08(DemoDu *this, GlobalContext *globalCtx) {
     didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
     DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(this, globalCtx);
-    func_8096AD90(this, didAnimFinished);
+    DemoDu_CsGoronsRuby_AdvanceTo09(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_09(DemoDu *this, GlobalContext *globalCtx) {
@@ -717,14 +716,14 @@ void DemoDu_UpdateCs_GR_09(DemoDu *this, GlobalContext *globalCtx) {
     didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_CsPlaySfx_HitBreast(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096AE00(this, didAnimFinished);
+    DemoDu_CsGoronsRuby_AdvanceTo10(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_10(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096AE6C(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo11(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_11(DemoDu *this, GlobalContext *globalCtx) {
@@ -733,14 +732,14 @@ void DemoDu_UpdateCs_GR_11(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096AF00(this, didAnimFinished);
+    DemoDu_CsGoronsRuby_AdvanceTo12(this, didAnimFinished);
 }
 
 void DemoDu_UpdateCs_GR_12(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_CsGoronsRuby_UpdateFaceTextures(this, globalCtx);
-    func_8096AF6C(this, globalCtx);
+    DemoDu_CsGoronsRuby_AdvanceTo13(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_GR_13(DemoDu *this, GlobalContext *globalCtx) {
@@ -763,28 +762,28 @@ void DemoDu_InitCs_02(DemoDu* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowAlpha = 0;
 }
 
-void func_8096B488() {
+void DemoDu_CsPlaySfx_WhiteOut() {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 
-void func_8096B4A8(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_Cs02_SpawnDemo6K(DemoDu *this, GlobalContext *globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x, kREG(16) + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
 }
 
-void func_8096B528(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_Cs02_AdvanceTo01(DemoDu *this, GlobalContext *globalCtx) {
     if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
         this->updateIndex = CS_CS02_SUBSCENE(1);
         this->drawIndex = 2;
         this->shadowAlpha = 0;
         this->actor.shape.shadowAlpha = 0;
         this->unk_1A4 = 0.0f;
-        func_8096B488();
+        DemoDu_CsPlaySfx_WhiteOut();
     }
 }
 
-void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_Cs02_AdvanceTo02(DemoDu *this, GlobalContext *globalCtx) {
     f32 *unk_1A4 = &this->unk_1A4;
-    s32 shadowAlpha = 0xFF;
+    s32 shadowAlpha = 255;
 
     if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
         *unk_1A4 += 1.0f;
@@ -812,41 +811,42 @@ void func_8096B57C(DemoDu *this, GlobalContext *globalCtx) {
     this->actor.shape.shadowAlpha = shadowAlpha;
 }
 
-void func_8096B6D0(DemoDu *this, GlobalContext *globalCtx) {
+void DemoDu_Cs02_BackTo01(DemoDu *this, GlobalContext *globalCtx) {
     if (DemoDu_IsNpcNotDoingThisAction(this, globalCtx, 4, 2)) {
         this->updateIndex = CS_CS02_SUBSCENE(1);
         this->drawIndex = 2;
         this->unk_1A4 = kREG(5) + 10.0f;
-        this->shadowAlpha = 0xFF;
-        if (this->unk_1AC == 0) {
-            func_8096B4A8(this, globalCtx);
-            this->unk_1AC = 1;
+        this->shadowAlpha = 255;
+        if (!this->demo6KSpawned) {
+            DemoDu_Cs02_SpawnDemo6K(this, globalCtx);
+            this->demo6KSpawned = 1;
         }
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     }
 }
 
 void DemoDu_UpdateCs_02_00(DemoDu *this, GlobalContext *globalCtx) {
-    func_8096B528(this, globalCtx);
-    func_80969BC4(this, globalCtx);
+    DemoDu_Cs02_AdvanceTo01(this, globalCtx);
+    DemoDu_Cs02_CheckIfShouldReset(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_02_01(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    func_8096B57C(this, globalCtx);
-    func_80969BC4(this, globalCtx);
+    DemoDu_Cs02_AdvanceTo02(this, globalCtx);
+    DemoDu_Cs02_CheckIfShouldReset(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_02_02(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    func_8096B6D0(this, globalCtx);
-    func_80969BC4(this, globalCtx);
+    DemoDu_Cs02_BackTo01(this, globalCtx);
+    DemoDu_Cs02_CheckIfShouldReset(this, globalCtx);
 }
 
+// Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.
 void DemoDu_Draw_02(Actor* thisx, GlobalContext *globalCtx2) {
     GlobalContext *globalCtx = globalCtx2;
     DemoDu* this = THIS;
@@ -854,7 +854,7 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext *globalCtx2) {
     Gfx* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    Gfx* sp64 = sMouthTextures[mouthTexIndex];
+    Gfx* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 275);
@@ -862,11 +862,10 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext *globalCtx2) {
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
-    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp64));
-
+    gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
     gSPSegment(POLY_XLU_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06007FC0));
 
-    gDPSetEnvColor(POLY_XLU_DISP++, 0x00, 0x00, 0x00, this->shadowAlpha);
+    gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 0, this->shadowAlpha);
 
     gSPSegment(POLY_XLU_DISP++, 0x0C, &D_80116280[0]);
 
@@ -883,8 +882,8 @@ void DemoDu_InitCs_Credits(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_SetMouthTexIndex(this, 3);
 }
 
-void func_8096BA98(DemoDu *this) {
-    s32 shadowAlpha = 0xFF;
+void DemoDu_CsCredits_UpdateShadowAlpha(DemoDu *this) {
+    s32 shadowAlpha = 255;
     f32 temp_f0;
     f32 *unk_1A4;
 
@@ -902,89 +901,89 @@ void func_8096BA98(DemoDu *this) {
     }
 }
 
-void func_8096BB24(DemoDu *this, GlobalContext *globalCtx) {
-    func_80969D5C(this, globalCtx, 2);
+void DemoDu_CsCredits_AdvanceTo01(DemoDu *this, GlobalContext *globalCtx) {
+    DemoDu_MoveToNpcPos(this, globalCtx, 2);
     this->updateIndex = CS_CREDITS_SUBSCENE(1);
     this->drawIndex = 2;
 }
 
-void func_8096BB5C(DemoDu *this) {
+void DemoDu_CsCredits_AdvanceTo02(DemoDu *this) {
     if (kREG(17) + 10.0f <= this->unk_1A4) {
         this->updateIndex = CS_CREDITS_SUBSCENE(2);
         this->drawIndex = 1;
     }
 }
 
-void func_8096BBA8(DemoDu *this) {
+void DemoDu_CsCredits_AdvanceTo03(DemoDu *this) {
     func_80969DDC(this, &D_06005458, ANIMMODE_ONCE, -8.0f, 0);
     this->updateIndex = CS_CREDITS_SUBSCENE(3);
 }
 
-void func_8096BBE8(DemoDu *this) {
+void DemoDu_CsCredits_AdvanceTo04(DemoDu *this) {
     func_80969DDC(this, &D_06006104, ANIMMODE_ONCE, 0.0f, 0);
     this->updateIndex = CS_CREDITS_SUBSCENE(4);
 }
 
-void func_8096BC28(DemoDu *this, s32 didAnimFinished) {
+void DemoDu_CsCredits_BackTo02(DemoDu *this, s32 didAnimFinished) {
     if (didAnimFinished) {
         func_80969DDC(this, &D_060067CC, ANIMMODE_LOOP, 0.0f, 0);
         this->updateIndex = CS_CREDITS_SUBSCENE(2);
     }
 }
 
-void func_8096BC6C(DemoDu *this, GlobalContext *globalCtx) {
-    s32 unk_1B0;
+void DemoDu_CsCredits_HandleSubscenesByNpcAction(DemoDu *this, GlobalContext *globalCtx) {
+    s32 lastAction;
     s32 action;
     CsCmdActorAction *npcAction = DemoDu_GetNpcAction(globalCtx, 2);
 
     if (npcAction != NULL) {
         action = npcAction->action;
-        unk_1B0 = this->unk_1B0;
-        if (action != unk_1B0) {
+        lastAction = this->lastAction;
+        if (action != lastAction) {
             switch (action) {
             case 9:
-                func_8096BB24(this, globalCtx);
+                DemoDu_CsCredits_AdvanceTo01(this, globalCtx);
                 break;
             case 10:
-                func_8096BBA8(this);
+                DemoDu_CsCredits_AdvanceTo03(this);
                 break;
             case 11:
-                func_8096BBE8(this);
+                DemoDu_CsCredits_AdvanceTo04(this);
                 break;
             default:
                 // Demo_Du_inEnding_Check_DemoMode:There is no such operation!!!!!!!!
                 osSyncPrintf("Demo_Du_inEnding_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
                 break;
             }
-            this->unk_1B0 = action;
+            this->lastAction = action;
         }
     }
 }
 
 void DemoDu_UpdateCs_CR_00(DemoDu *this, GlobalContext *globalCtx) {
-    func_8096BC6C(this, globalCtx);
+    DemoDu_CsCredits_HandleSubscenesByNpcAction(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_CR_01(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    func_8096BA98(this);
-    func_8096BB5C(this);
+    DemoDu_CsCredits_UpdateShadowAlpha(this);
+    DemoDu_CsCredits_AdvanceTo02(this);
 }
 
 void DemoDu_UpdateCs_CR_02(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    func_8096BC6C(this, globalCtx);
+    DemoDu_CsCredits_HandleSubscenesByNpcAction(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_CR_03(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    func_8096BC6C(this, globalCtx);
+    DemoDu_CsCredits_HandleSubscenesByNpcAction(this, globalCtx);
 }
 
 void DemoDu_UpdateCs_CR_04(DemoDu *this, GlobalContext *globalCtx) {
@@ -993,7 +992,7 @@ void DemoDu_UpdateCs_CR_04(DemoDu *this, GlobalContext *globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     didAnimFinished = DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    func_8096BC28(this, didAnimFinished);
+    DemoDu_CsCredits_BackTo02(this, didAnimFinished);
 }
 
 
@@ -1041,6 +1040,7 @@ void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DemoDu_Draw_NoDraw(Actor *thisx, GlobalContext *globalCtx2) {
 }
 
+// Similar to DemoDu_Draw_02, but this uses POLY_OPA_DISP. Sets the env color to 255.
 void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext *globalCtx = globalCtx2;
     DemoDu* this = THIS;
@@ -1048,7 +1048,7 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     Gfx* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    Gfx* sp5C = sMouthTextures[mouthTexIndex];
+    Gfx* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 615);
@@ -1056,10 +1056,10 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sp5C));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(mouthTexture));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(&D_06007FC0));
 
-    gDPSetEnvColor(POLY_OPA_DISP++, 0x00, 0x00, 0x00, 0xFF);
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
