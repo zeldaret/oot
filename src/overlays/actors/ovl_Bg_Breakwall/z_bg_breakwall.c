@@ -16,14 +16,22 @@ typedef struct {
     /* 0x08 */ s8 colType;
 } BombableWallInfo;
 
+typedef enum {
+    /* 0 */ BWALL_DC_ENTRANCE,  // When exploded it will play the Dodongo's Cavern intro cutscene
+    /* 1 */ BWALL_WALL,         // Used a lot in Dodongo's Cavern and other places
+    /* 2 */ BWALL_KD_FLOOR,     // Used in the King Dodongo boss room
+    /* 3 */ BWALL_KD_LAVA_COVER // Spawned by King Dodongo to cover the floor of the boss room after the fight so the
+                                // lava does not hurt the player anymore
+} BombableWallType;
+
 void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Update(Actor* thisx, GlobalContext* globalCtx);
-
-void func_80870290(BgBreakwall* this, GlobalContext* globalCtx);
-void func_80870394(BgBreakwall* this, GlobalContext* globalCtx);
-void BgBreakwall_MovePosY(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Draw(Actor* thisx, GlobalContext* globalCtx);
+
+void BgBreakwall_SetupWait(BgBreakwall* this, GlobalContext* globalCtx);
+void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx);
+void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_02014F80;
 
@@ -104,13 +112,13 @@ void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.world.pos.y -= 40.0f;
     }
 
-    this->bankIndex = (wallType >= 2) ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_KINGDODONGO)
-                                      : Object_GetIndex(&globalCtx->objectCtx, OBJECT_BWALL);
+    this->bankIndex = (wallType >= BWALL_KD_FLOOR) ? Object_GetIndex(&globalCtx->objectCtx, OBJECT_KINGDODONGO)
+                                                   : Object_GetIndex(&globalCtx->objectCtx, OBJECT_BWALL);
 
     if (this->bankIndex < 0) {
         Actor_Kill(&this->dyna.actor);
     } else {
-        BgBreakwall_SetupAction(this, func_80870290);
+        BgBreakwall_SetupAction(this, BgBreakwall_SetupWait);
     }
 }
 
@@ -120,17 +128,20 @@ void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-#ifdef NON_MATCHING
-Actor* func_8086FDC0(GlobalContext* globalCtx, BgBreakwall* this, Vec3f* pos, f32 velocity, f32 scaleY, f32 scaleX,
-                     s32 count, f32 accel) {
+/**
+ * Spawns fragments using ACTOR_EN_A_OBJ whenever the wall or floor is exploded.
+ * Although it is not ever checked, it will also return the instance of the actor which it spawns.
+ */
+Actor* BgBreakwall_SpawnFragments(GlobalContext* globalCtx, BgBreakwall* this, Vec3f* pos, f32 velocity, f32 scaleY,
+                                  f32 scaleX, s32 count, f32 accel) {
     Actor* actor;
     Vec3f actorPos;
-    s32 i;
-    s32 j;
     s32 k;
+    s32 j;
+    s32 i;
     s16 angle1;
-    s16 angle2;
-    Vec3f D_808707F0 = { 0.0f, 0.0f, 0.0f }; // unused
+    s16 angle2 = 0;
+    Vec3f zeroVec = { 0.0f, 0.0f, 0.0f }; // unused
     Vec3s actorRotList[] = { { 0, 0, 0 }, { 0, 0, 0x4000 }, { 0, 0, -0x4000 }, { 0, 0, 0 } };
     Vec3f actorScaleList[] = {
         { 0.004f, 0.004f, 0.004f },
@@ -144,21 +155,22 @@ Actor* func_8086FDC0(GlobalContext* globalCtx, BgBreakwall* this, Vec3f* pos, f3
         { { -40.0f, 14.0f, 0.0f }, { -50.0f, 57.0f, 0.0f }, { -30.0f, 57.0f, 0.0f }, { -40.0f, 70.0f, 0.0f } },
         { { -55.0f, -15.0f, 0.0f }, { -55.0f, -32.0f, 0.0f }, { -30.0f, -32.0f, 0.0f }, { -20.0f, -10.0f, 0.0f } },
     };
+    s32 pad;
 
-    for (i = 0; i < 4; i++) {
-        if ((i == 0) || (i == 3)) {
-            actorScaleList[i].x *= scaleX;
-            actorScaleList[i].y *= scaleY;
-            actorScaleList[i].z *= scaleY;
+    for (k = 3; k >= 0; k--) {
+        if ((k == 0) || (k == 3)) {
+            actorScaleList[k].x *= scaleX;
+            actorScaleList[k].y *= scaleY;
+            actorScaleList[k].z *= scaleY;
         } else {
-            actorScaleList[i].x *= scaleY;
-            actorScaleList[i].y *= scaleX;
-            actorScaleList[i].z *= scaleX;
+            actorScaleList[k].x *= scaleY;
+            actorScaleList[k].y *= scaleX;
+            actorScaleList[k].z *= scaleX;
         }
     }
 
-    for (i = 0; i < count; i++) {
-        angle1 = ABS(this->dyna.actor.world.rot.y);
+    for (i = 0; i < count; angle2 += 0x4000, i++) {
+        angle1 = ABS(this->dyna.actor.world.rot.y) + angle2;
         Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                          MTXMODE_NEW);
         Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
@@ -168,11 +180,10 @@ Actor* func_8086FDC0(GlobalContext* globalCtx, BgBreakwall* this, Vec3f* pos, f3
         for (j = 3; j >= 0; j--) {
             for (k = 3; k >= 0; k--) {
                 Matrix_MultVec3f(&actorPosList[j][k], &actorPos);
-
                 actor =
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_A_OBJ, Rand_CenteredFloat(20.0f) + actorPos.x,
                                 Rand_CenteredFloat(20.0f) + actorPos.y, Rand_CenteredFloat(20.0f) + actorPos.z,
-                                actorRotList[k].x, actorRotList[k].y + (angle1 + angle2), actorRotList[k].z, 0x000B);
+                                actorRotList[k].x, actorRotList[k].y + angle1, actorRotList[k].z, 0x000B);
 
                 if ((j & 1) == 0) {
                     func_80033480(globalCtx, &actorPos, velocity * 200.0f, 1, 650, 150, 1);
@@ -181,43 +192,25 @@ Actor* func_8086FDC0(GlobalContext* globalCtx, BgBreakwall* this, Vec3f* pos, f3
                 if (actor != NULL) {
                     actor->speedXZ = Rand_ZeroOne() + (accel * 0.6f);
                     actor->velocity.y = Rand_ZeroOne() + (accel * 0.6f);
-                    actor->world.rot.y += ((Rand_ZeroOne() - 0.5f) * 3000.0f);
-                    actor->world.rot.x = (Rand_ZeroOne() * 3500.0f) + 2000;
-                    actor->world.rot.z = (Rand_ZeroOne() * 3500.0f) + 2000;
+                    actor->world.rot.y += (s16)((Rand_ZeroOne() - 0.5f) * 3000.0f);
+                    actor->world.rot.x = (s16)(Rand_ZeroOne() * 3500.0f) + 2000;
+                    actor->world.rot.z = (s16)(Rand_ZeroOne() * 3500.0f) + 2000;
                     actor->parent = &this->dyna.actor;
-                    actor->scale.x = Rand_CenteredFloat(0.001f) + actorScaleList[k].x;
-                    actor->scale.y = Rand_CenteredFloat(0.001f) + actorScaleList[k].y;
-                    actor->scale.z = Rand_CenteredFloat(0.001f) + actorScaleList[k].z;
+                    actor->scale.x = actorScaleList[k].x + Rand_CenteredFloat(0.001f);
+                    actor->scale.y = actorScaleList[k].y + Rand_CenteredFloat(0.001f);
+                    actor->scale.z = actorScaleList[k].z + Rand_CenteredFloat(0.001f);
                 }
             }
         }
-
-        angle2 += 0x4000;
     }
 
     return actor;
 }
-#else
-Actor* func_8086FDC0(GlobalContext* globalCtx, BgBreakwall* this, Vec3f* pos, f32 velocity, f32 scaleY, f32 scaleX,
-                     s32 count, f32 accel);
-Vec3f D_808707F0 = { 0.0f, 0.0f, 0.0f }; // unused
-Vec3s actorRotList[] = { { 0, 0, 0 }, { 0, 0, 0x4000 }, { 0, 0, -0x4000 }, { 0, 0, 0 } };
-Vec3f actorScaleList[] = {
-    { 0.004f, 0.004f, 0.004f },
-    { 0.004f, 0.004f, 0.004f },
-    { 0.004f, 0.004f, 0.004f },
-    { 0.004f, 0.004f, 0.004f },
-};
-Vec3f actorPosList[][4] = {
-    { { 40.0f, 15.0f, 0.0f }, { 30.0f, 57.0f, 0.0f }, { 50.0f, 57.0f, 0.0f }, { 40.0f, 70.0f, 0.0f } },
-    { { 55.0f, -15.0f, 0.0f }, { 30.0f, -32.0f, 0.0f }, { 50.0f, -32.0f, 0.0f }, { 20.0f, -10.0f, 0.0f } },
-    { { -40.0f, 14.0f, 0.0f }, { -50.0f, 57.0f, 0.0f }, { -30.0f, 57.0f, 0.0f }, { -40.0f, 70.0f, 0.0f } },
-    { { -55.0f, -15.0f, 0.0f }, { -55.0f, -32.0f, 0.0f }, { -30.0f, -32.0f, 0.0f }, { -20.0f, -10.0f, 0.0f } },
-};
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Breakwall/func_8086FDC0.s")
-#endif
 
-void func_80870290(BgBreakwall* this, GlobalContext* globalCtx) {
+/**
+ * Sets up the collision model as well is the object dependency and action function to use.
+ */
+void BgBreakwall_SetupWait(BgBreakwall* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->bankIndex)) {
         CollisionHeader* colHeader = NULL;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
@@ -226,19 +219,22 @@ void func_80870290(BgBreakwall* this, GlobalContext* globalCtx) {
         Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
         this->dyna.actor.flags &= ~0x10;
         this->dyna.actor.draw = BgBreakwall_Draw;
-
         CollisionHeader_GetVirtual(sBombableWallInfo[wallType].colHeader, &colHeader);
         this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-        if (wallType == 3) {
-            BgBreakwall_SetupAction(this, BgBreakwall_MovePosY);
+        if (wallType == BWALL_KD_LAVA_COVER) {
+            BgBreakwall_SetupAction(this, BgBreakwall_LavaCoverMove);
         } else {
-            BgBreakwall_SetupAction(this, func_80870394);
+            BgBreakwall_SetupAction(this, BgBreakwall_Wait);
         }
     }
 }
 
-void func_80870394(BgBreakwall* this, GlobalContext* globalCtx) {
+/**
+ * Checks for an explosion using quad collision. If the wall or floor is exploded then it will spawn fragments and
+ * despawn itself.
+ */
+void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & 2) {
         Vec3f effectPos;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
@@ -256,16 +252,16 @@ void func_80870394(BgBreakwall* this, GlobalContext* globalCtx) {
             effectPos.y = -10.0f;
         }
 
-        func_8086FDC0(globalCtx, this, &effectPos, 0.0f, 6.4f, 5.0f, 1, 2.0f);
+        BgBreakwall_SpawnFragments(globalCtx, this, &effectPos, 0.0f, 6.4f, 5.0f, 1, 2.0f);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
 
-        if (wallType == 2) {
+        if (wallType == BWALL_KD_FLOOR) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_EXPLOSION);
         } else {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         }
 
-        if (wallType == 0) {
+        if (wallType == BWALL_DC_ENTRANCE) {
             if (!(Flags_GetEventChkInf(0xB0))) {
                 Flags_SetEventChkInf(0xB0);
                 Cutscene_SetSegment(globalCtx, &D_02014F80);
@@ -283,7 +279,11 @@ void func_80870394(BgBreakwall* this, GlobalContext* globalCtx) {
     }
 }
 
-void BgBreakwall_MovePosY(BgBreakwall* this, GlobalContext* globalCtx) {
+/**
+ * Moves the actor's y position to cover the lava floor in King Dodongo's lair after he is defeated so the player is no
+ * longer hurt by the lava.
+ */
+void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->dyna.actor.world.pos.y, KREG(80) + this->dyna.actor.home.pos.y, 1.0f);
 }
 
@@ -293,6 +293,10 @@ void BgBreakwall_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
+/**
+ * These are the quads used for the wall and floor collision. These are used for the detecting when a bomb explosion has
+ * collided with a wall, and can be adjusted for different wall or floor sizes.
+ */
 static Vec3f sColQuadList[][4] = {
     { { 800.0f, 1600.0f, 100.0f }, { -800.0f, 1600.0f, 100.0f }, { 800.0f, 0.0f, 100.0f }, { -800.0f, 0.0f, 100.0f } },
     { { 10.0f, 0.0f, 10.0f }, { -10.0f, 0.0f, 10.0f }, { 10.0f, 0.0f, -10.0f }, { -10.0f, 0.0f, -10.0f } },

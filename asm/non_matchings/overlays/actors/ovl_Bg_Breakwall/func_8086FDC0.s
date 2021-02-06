@@ -12,7 +12,7 @@ glabel D_808709B8
     .float 3000.0
 
 .text
-glabel func_8086FDC0
+glabel BgBreakwall_SpawnFragments
 /* 001E0 8086FDC0 27BDFE08 */  addiu   $sp, $sp, 0xFE08           ## $sp = FFFFFE08
 /* 001E4 8086FDC4 3C0F8087 */  lui     $t7, %hi(D_808707F0)       ## $t7 = 80870000
 /* 001E8 8086FDC8 AFBF0084 */  sw      $ra, 0x0084($sp)
