@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_bombwall.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
 #define FLAGS 0x00400000
 
@@ -20,10 +21,6 @@ void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx);
 void func_8086EDFC(BgBombwall* this, GlobalContext* globalCtx);
 void func_8086EE40(BgBombwall* this, GlobalContext* globalCtx);
 void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_050041B0;
-extern Gfx D_05003FC0[];
-extern Gfx D_05004088[];
 
 static ColliderTrisElementInit sTrisElementsInit[3] = {
     {
@@ -92,7 +89,7 @@ void BgBombwall_InitDynapoly(BgBombwall* this, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_050041B0, &colHeader);
+    CollisionHeader_GetVirtual(&gBgBombwallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (this->dyna.bgId == BG_ACTOR_MAX) {
@@ -210,7 +207,7 @@ void func_8086EB5C(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086ED50(BgBombwall* this, GlobalContext* globalCtx) {
-    this->dList = D_05003FC0;
+    this->dList = gBgBombwallNormalDlist;
     this->actionFunc = func_8086ED70;
 }
 
@@ -225,7 +222,7 @@ void func_8086ED70(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086EDFC(BgBombwall* this, GlobalContext* globalCtx) {
-    this->dList = D_05003FC0;
+    this->dList = gBgBombwallNormalDlist;
     this->unk_2A0 = 1;
     func_8086EB5C(this, globalCtx);
     this->actionFunc = func_8086EE40;
@@ -244,7 +241,7 @@ void func_8086EE40(BgBombwall* this, GlobalContext* globalCtx) {
 }
 
 void func_8086EE94(BgBombwall* this, GlobalContext* globalCtx) {
-    this->dList = D_05004088;
+    this->dList = gBgBombwallBrokenDlist;
     BgBombwall_DestroyCollision(this, globalCtx);
     this->actionFunc = NULL;
 }

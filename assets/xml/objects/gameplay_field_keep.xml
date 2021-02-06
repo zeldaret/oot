@@ -1,0 +1,7 @@
+<Root>
+    <File Name="gameplay_field_keep" Segment= "5">
+        <Collision Name="gBgBombwallCol" Offset="0x41B0"/>
+        <DList Name="gBgBombwallNormalDlist" Offset="0x3FC0"/>
+        <DList Name="gBgBombwallBrokenDlist" Offset="0x4088"/>
+    </File>
+</Root>

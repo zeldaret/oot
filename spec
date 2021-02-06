@@ -3517,7 +3517,9 @@ endseg
 beginseg
     name "gameplay_field_keep"
     romalign 0x1000
-    include "build/baserom/gameplay_field_keep.o"
+    //include "build/baserom/gameplay_field_keep.o"
+    include "build/assets/objects/gameplay_field_keep/gameplay_field_keep.o"
+    number 5
 endseg
 
 beginseg
