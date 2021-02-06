@@ -121,7 +121,7 @@ void BgSpot11Bakudankabe_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     func_808B2180(this, globalCtx);
-    CollisionHeader_GetVirtual(&gBgSpot11Col, &colHeader);
+    CollisionHeader_GetVirtual(&gDesertColossusBombableWallCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Actor_SetScale(&this->dyna.actor, 1.0f);
     osSyncPrintf("(spot11 爆弾壁)(arg_data 0x%04x)\n", this->dyna.actor.params);
@@ -151,5 +151,5 @@ void BgSpot11Bakudankabe_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot11Bakudankabe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot11Bakudankabe* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, gBgSpot11DL1);
+    Gfx_DrawDListOpa(globalCtx, gDesertColossusBombableWallDL);
 }

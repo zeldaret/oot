@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bw.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000015
 
@@ -33,7 +34,6 @@ void func_809D0268(EnBw* this, GlobalContext* globalCtx);
 void func_809D03CC(EnBw* this);
 void func_809D0424(EnBw* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];
 extern AnimationHeader D_06000228;
 extern SkeletonHeader D_060020F0;
 extern AnimationHeader D_060021A0;
@@ -226,7 +226,7 @@ void func_809CEA24(EnBw* this, GlobalContext* globalCtx) {
         sp60 = ABS(sp58) * 85.0f;
         this->color1.g = sp60;
     }
-    if ((((globalCtx->gameplayFrames % 4) == this->actor.params) && (this->actor.speedXZ != 0.0f) &&
+    if ((((globalCtx->gameplayFrames % 4) == (u32)this->actor.params) && (this->actor.speedXZ != 0.0f) &&
          (sp64 = BgCheck_AnyLineTest2(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_264, &sp68, &sp74, 1, 0, 0,
                                       1))) ||
         (this->unk_222 == 0)) {
@@ -865,7 +865,7 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
                                        EnBw_OverrideLimbDraw, NULL, this, POLY_XLU_DISP);
     }
 
-    if (((globalCtx->gameplayFrames + 1) % 4) == thisx->params) {
+    if (((globalCtx->gameplayFrames + 1) % 4) == (u32)thisx->params) {
         spAC.z = thisx->scale.z * 375000.0f;
         Matrix_MultVec3f(&spAC, &this->unk_264);
         spAC.z = thisx->scale.z * 150000.0f;
@@ -889,7 +889,7 @@ void EnBw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bw.c", 1500),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
 
     if (this->iceTimer != 0) {
         thisx->colorFilterTimer++;

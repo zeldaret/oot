@@ -79,10 +79,10 @@ glabel func_809688C4
 /* 0205C 809689AC 46083302 */  mul.s   $f12, $f6, $f8             
 /* 02060 809689B0 0C034348 */  jal     Matrix_RotateY              
 /* 02064 809689B4 00000000 */  nop
-/* 02068 809689B8 3C0F0401 */  lui     $t7, %hi(gGameKeepMoteDL0)                ## $t7 = 04010000
+/* 02068 809689B8 3C0F0401 */  lui     $t7, %hi(gEffFlash1DL)                ## $t7 = 04010000
 /* 0206C 809689BC 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 02070 809689C0 34211DA0 */  ori     $at, $at, 0x1DA0           ## $at = 00011DA0
-/* 02074 809689C4 25EF0130 */  addiu   $t7, $t7, %lo(gGameKeepMoteDL0)           ## $t7 = 04010130
+/* 02074 809689C4 25EF0130 */  addiu   $t7, $t7, %lo(gEffFlash1DL)           ## $t7 = 04010130
 /* 02078 809689C8 4480A000 */  mtc1    $zero, $f20                ## $f20 = 0.00
 /* 0207C 809689CC AFAF0058 */  sw      $t7, 0x0058($sp)           
 /* 02080 809689D0 02E1F021 */  addu    $s8, $s7, $at              

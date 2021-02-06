@@ -301,7 +301,7 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     // for(;this->unk_158 < ARRAY_COUNTU(D_808B5EB0); this->unk_158++)
 
     while (true) {
-        if (this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158][0]) {
+        if ((u32)this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158][0]) {
             break;
         }
 

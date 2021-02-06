@@ -99,7 +99,7 @@ void func_80A8F320(EnKakasi* this, GlobalContext* globalCtx, s16 arg) {
     s16 phi_v0;
     s16 currentFrame;
 
-    phi_v0 = globalCtx->msgCtx.unk_E410[0];
+    phi_v0 = globalCtx->msgCtx.unk_E410;
     if (arg != 0) {
         if (this->unk_19C[3] == 0) {
             this->unk_19C[3] = (s16)Rand_ZeroFloat(10.99f) + 30;

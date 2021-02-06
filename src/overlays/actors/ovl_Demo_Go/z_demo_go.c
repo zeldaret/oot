@@ -27,7 +27,7 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D290(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
 
-static UNK_PTR D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+static u64* D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
 
 static DemoGoActionFunc D_8097D44C[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
@@ -52,10 +52,10 @@ const ActorInit Demo_Go_InitVars = {
 
 extern AnimationHeader D_060029A8;
 extern AnimationHeader D_06004930;
-extern UNK_TYPE D_0600E680;
+extern u64 D_0600E680[];
 extern FlexSkeletonHeader D_0600FEF0;
 
-UNK_TYPE func_8097C870(DemoGo* this) {
+s32 func_8097C870(DemoGo* this) {
     s32 ret;
 
     switch (this->actor.params) {
@@ -75,10 +75,9 @@ UNK_TYPE func_8097C870(DemoGo* this) {
 }
 
 void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
-    s32 pad[2];
     Actor* thisx = &this->actor;
-    Vec3f* sp20;
-    Vec3f* sp1C;
+    Vec3f sp20;
+    f32 sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->world.pos, &sp20, &sp1C);
@@ -98,7 +97,7 @@ void func_8097C930(DemoGo* this) {
     s32 pad[3];
 
     if (DECR(*something) == 0) {
-        *something = Rand_S16Offset(0x3C, 0x3C);
+        *something = Rand_S16Offset(60, 60);
     }
     *other = *something;
     if (*other >= 3) {
@@ -349,7 +348,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
 void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

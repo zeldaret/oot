@@ -1,4 +1,11 @@
+/*
+ * File: z_en_fd.c
+ * Overlay: ovl_En_Fd
+ * Description: Flare Dancer (enflamed form)
+ */
+
 #include "z_en_fd.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000215
 
@@ -193,9 +200,11 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x060010B4, 1.0f, 0.0f, -1.0f, 0x03, 0.0f },   { 0x06005C64, 1.0f, 0.0f, -1.0f, 0x03, -10.0f },
-    { 0x06006044, 0.0f, 0.0f, -1.0f, 0x03, -10.0f }, { 0x06006A18, 1.0f, 0.0f, -1.0f, 0x01, -10.0f },
-    { 0x06006B64, 0.0f, 0.0f, -1.0f, 0x03, -10.0f },
+    { 0x060010B4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
+    { 0x06005C64, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { 0x06006044, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { 0x06006A18, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { 0x06006B64, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
 };
 
 s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
@@ -309,7 +318,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
  */
 s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     CollisionPoly* colPoly;
-    u32 bgId;
+    s32 bgId;
     Vec3f colPoint;
     s16 angle;
     s32 pad;
@@ -397,7 +406,7 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
 
 s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16* runDir) {
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f colPoint;
     Vec3f pos;
 
@@ -863,8 +872,8 @@ void EnFd_UpdateDots(EnFd* this) {
 }
 
 void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
-    static Gfx* D_80A0E0F8[] = {
-        0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0,
+    static UNK_PTR D_80A0E0F8[] = {
+        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
     s32 firstDone;
     s16 i;

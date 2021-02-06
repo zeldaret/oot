@@ -66,6 +66,12 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 
 	room->scene = nScene;
 
+	if (string(reader->Name()) == "Scene")
+	{
+		room->scene = room;
+		Globals::Instance->lastScene = room;
+	}
+
 	Globals::Instance->AddSegment(SEGMENT_ROOM);
 	Globals::Instance->AddSegment(SEGMENT_SCENE);
 
@@ -93,7 +99,7 @@ ZRoom* ZRoom::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int r
 			string addressStr = child->Attribute("Offset");
 			int address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
 
-			ZDisplayList* dList = new ZDisplayList(room->rawData, address, ZDisplayList::GetDListLength(room->rawData, address));
+			ZDisplayList* dList = new ZDisplayList(room->rawData, address, ZDisplayList::GetDListLength(room->rawData, address, Globals::Instance->game == ZGame::OOT_SW97 ? DListType::F3DEX : DListType::F3DZEX));
 
 			if (child->Attribute("Name") != NULL)
 				name = string(child->Attribute("Name"));

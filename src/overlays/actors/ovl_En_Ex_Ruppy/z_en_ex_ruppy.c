@@ -1,6 +1,7 @@
 #include "z_en_ex_ruppy.h"
 #include "vt.h"
 #include "../ovl_En_Diving_Game/z_en_diving_game.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -376,7 +377,9 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
 
-UNK_PTR D_80A0B3B8[] = { 0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0 };
+UNK_PTR D_80A0B3B8[] = {
+    gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
+};
 
 void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -390,7 +393,7 @@ void EnExRuppy_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 780),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A0B3B8[this->colorIdx]));
-        gSPDisplayList(POLY_OPA_DISP++, D_04042440);
+        gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ex_ruppy.c", 784);
     }

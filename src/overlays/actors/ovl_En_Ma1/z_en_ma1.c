@@ -62,10 +62,10 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_D_80AA1678 D_80AA1678[] = {
-    { 0x06000820, 1.0f, 0x00, 0.0f },
-    { 0x06000820, 1.0f, 0x00, -10.0f },
-    { 0x06008D64, 1.0f, 0x00, 0.0f },
-    { 0x06008D64, 1.0f, 0x00, -10.0f },
+    { 0x06000820, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x06000820, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x06008D64, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x06008D64, 1.0f, ANIMMODE_LOOP, -10.0f },
 };
 
 static Vec3f D_80AA16B8 = { 800.0f, 0.0f, 0.0f };
@@ -220,7 +220,7 @@ void func_80AA0A0C(EnMa1* this) {
 void func_80AA0A84(EnMa1* this, UNK_TYPE idx) {
     f32 frameCount = Animation_GetLastFrame(D_80AA1678[idx].animation);
 
-    Animation_Change(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].unk_08,
+    Animation_Change(&this->skelAnime, D_80AA1678[idx].animation, 1.0f, 0.0f, frameCount, D_80AA1678[idx].mode,
                      D_80AA1678[idx].transitionRate);
 }
 
