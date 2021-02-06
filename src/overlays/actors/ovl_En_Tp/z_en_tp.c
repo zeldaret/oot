@@ -128,7 +128,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnTp* phi_s5;
     EnTp* temp_v0_2;
     s32 phi_s1;
-    s32 temp_s4;
+    s16 temp_s4;
     // s16 temp_s2;
 
 
@@ -139,7 +139,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->unk_150 = 0;
     this->actor.colChkInfo.health = 1;
      phi_s5 = this;
-    this->unk_15E = 0xFF;
+    this->unk_15E = 255;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80B22AB4, this->colliderItems);
 
@@ -160,8 +160,8 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         temp_s4 = 0;
         for (phi_s1 = 0; phi_s1 <= 6; phi_s1++) {
 
-            new_var = 
             temp_v0_2 = 
+            new_var = 
             (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
@@ -240,7 +240,7 @@ void func_80B210B0(EnTp* this, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B2128C.s")
 void func_80B2128C(EnTp* this) {
     this->unk_14C = 7;
-    this->unk_15A = 0xC8;
+    this->unk_15A = 200;
     func_80B20DE0(this, func_80B212C0);
 }
 
@@ -259,8 +259,8 @@ void func_80B212C0(EnTp* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->unk_160 < 0xFF) {
-        this->unk_160 += 0xF;
+    if (this->unk_160 < 255) {
+        this->unk_160 += 15;
     }
 
     if (Math_CosF(this->unk_168) == 0.0f) {
@@ -291,7 +291,7 @@ void func_80B21454(EnTp* this) {
             phi_v0->colChkInfo.health = 0;
         }
 
-        this->unk_15A = 0xD;
+        this->unk_15A = 13;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
     this->unk_14C = 1;
@@ -360,9 +360,9 @@ void func_80B217FC(EnTp* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21900.s")
 void func_80B21900(EnTp* this, GlobalContext* globalCtx) {
     func_8002D7EC(&this->actor);
-    this->unk_15E -= 0x14;
+    this->unk_15E -= 20;
 
-    if (this->unk_15E < 0x14) {
+    if (this->unk_15E < 20) {
         this->unk_15E = 0;
         Actor_Kill(&this->actor);
     }
@@ -394,7 +394,7 @@ void func_80B219A8(EnTp* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_160 != 0) {
-        this->unk_160 -= 0xF;
+        this->unk_160 -= 15;
     }
 
     if (Math_CosF(this->unk_168) == 0.0f) {
@@ -424,7 +424,7 @@ void func_80B21B90(EnTp* this) {
     this->unk_14C = 4;
     this->unk_150 = 0;
     this->actor.shape.rot.x = -0x4000;
-    this->unk_15A = 0x3C;
+    this->unk_15A = 60;
     this->unk_15C = 0;
     this->actor.speedXZ = 0.0f;
     func_80B20DE0(this, func_80B21BDC);
@@ -466,7 +466,7 @@ void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.x, -0x4000, 1, 500, 0);
 
         if (Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.3f, 1.5f, 0.3f) == 0.0f) {
-            this->unk_15A = 0x3C;
+            this->unk_15A = 60;
         } else {
             sp32 = Math_Vec3f_Yaw(&this->actor.home.pos, &player->actor.world.pos);
             this->actor.world.pos.x =
@@ -517,7 +517,7 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
             }
         } else {
             if (this->actor.shape.rot.x != -0x4000) {
-                this->unk_15A = 0x50;
+                this->unk_15A = 80;
                 this->actor.velocity.y = 0.0f;
                 this->actor.speedXZ = 0.0f;
                 this->actor.world.pos = this->actor.home.pos;
@@ -539,7 +539,7 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
         }
 
         if (this->unk_160 != 0) {
-            this->unk_160 -= 0xF;
+            this->unk_160 -= 15;
         }
 
         this->actor.speedXZ = 2.0f * Math_CosS(this->actor.shape.rot.x);
