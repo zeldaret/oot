@@ -4154,7 +4154,6 @@ endseg
 beginseg
     name "object_mori_objects"
     romalign 0x1000
-    //include "build/baserom/object_mori_objects.o"
     include "build/assets/objects/object_mori_objects/object_mori_objects.o"
     number 6
 endseg
