@@ -29,7 +29,7 @@ void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void BgBreakwall_SetupWait(BgBreakwall* this, GlobalContext* globalCtx);
+void BgBreakwall_WaitForObject(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx);
 void BgBreakwall_LavaCoverMove(BgBreakwall* this, GlobalContext* globalCtx);
 
@@ -118,7 +118,7 @@ void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->bankIndex < 0) {
         Actor_Kill(&this->dyna.actor);
     } else {
-        BgBreakwall_SetupAction(this, BgBreakwall_SetupWait);
+        BgBreakwall_SetupAction(this, BgBreakwall_WaitForObject);
     }
 }
 
@@ -210,7 +210,7 @@ Actor* BgBreakwall_SpawnFragments(GlobalContext* globalCtx, BgBreakwall* this, V
 /**
  * Sets up the collision model as well is the object dependency and action function to use.
  */
-void BgBreakwall_SetupWait(BgBreakwall* this, GlobalContext* globalCtx) {
+void BgBreakwall_WaitForObject(BgBreakwall* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->bankIndex)) {
         CollisionHeader* colHeader = NULL;
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
@@ -240,10 +240,7 @@ void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx) {
         s32 wallType = ((this->dyna.actor.params >> 13) & 3) & 0xFF;
 
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-
-        effectPos.x = 0.0f;
-        effectPos.z = 0.0f;
-        effectPos.y = 0.0f;
+        effectPos.y = effectPos.z = effectPos.x = 0.0f;
 
         if (this->dyna.actor.world.rot.x == 0) {
             effectPos.y = 55.0f;
@@ -261,13 +258,12 @@ void BgBreakwall_Wait(BgBreakwall* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_WALL_BROKEN);
         }
 
-        if ((wallType == BWALL_DC_ENTRANCE) && !Flags_GetEventChkInf(0xB0)) {
-                Flags_SetEventChkInf(0xB0);
-                Cutscene_SetSegment(globalCtx, &D_02014F80);
-                gSaveContext.cutsceneTrigger = 1;
-                Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-                func_8002DF54(globalCtx, NULL, 0x31);
-            }
+        if ((wallType == BWALL_DC_ENTRANCE) && (!(Flags_GetEventChkInf(0xB0)))) {
+            Flags_SetEventChkInf(0xB0);
+            Cutscene_SetSegment(globalCtx, &D_02014F80);
+            gSaveContext.cutsceneTrigger = 1;
+            Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+            func_8002DF54(globalCtx, NULL, 0x31);
         }
 
         if (this->dyna.actor.params < 0) {
