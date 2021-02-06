@@ -63,52 +63,52 @@ extern Vec3f D_809B320C;
 glabel D_809B3218
  .word 0x00000000, 0x00000000, 0x00000000
 */
-extern UNK_TYPE D_809B3218;
+extern Vec3f D_809B3218;
 /*
 glabel D_809B3224
  .word 0x00000000, 0x00000000, 0x00000000
 */
-extern UNK_TYPE D_809B3224;
+extern Vec3f D_809B3224;
 /*
 glabel D_809B3230
  .word 0xFFFF00FF
 */
-extern UNK_TYPE D_809B3230;
+extern Color_RGBA8 D_809B3230;
 /*
 glabel D_809B3234
  .word 0xFF0000FF
 */
-extern UNK_TYPE D_809B3234;
+extern Color_RGBA8 D_809B3234;
 /*
 glabel D_809B3238
  .word 0x00000000, 0x00000000, 0x00000000
 */
-extern UNK_TYPE D_809B3238;
+extern Vec3f D_809B3238;
 /*
 glabel D_809B3244
  .word 0x00000000, 0x00000000, 0x00000000
 */
-extern UNK_TYPE D_809B3244;
+extern Vec3f D_809B3244;
 /*
 glabel D_809B3250
  .word 0x00000000, 0x00000000, 0x00000000
 */
-extern UNK_TYPE D_809B3250;
+extern Vec3f D_809B3250;
 /*
 glabel D_809B325C
  .word 0x00000000, 0x00000000, 0x00000000
 */
-extern UNK_TYPE D_809B325C;
+extern Vec3f D_809B325C;
 /*
 glabel D_809B3268
  .word 0xFFFF00FF
 */
-extern UNK_TYPE D_809B3268;
+extern Color_RGBA8 D_809B3268;
 /*
 glabel D_809B326C
  .word 0xFF0000FF
 */
-extern UNK_TYPE D_809B326C;
+extern Color_RGBA8 D_809B326C;
 /*
 glabel D_809B3270
  .word gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex
@@ -118,6 +118,7 @@ extern UNK_TYPE D_809B3270;
 
 void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx);
 void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx);
+void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx);
 
 
 void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -159,9 +160,100 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
     this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/func_809B27D8.s")
+#ifdef NON_MATCHING
+void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx2) {
+    GlobalContext *globalCtx = globalCtx;
+    Vec3f velocity;
+    Vec3f accel;
+    Vec3f pos;
+    Color_RGBA8 primColor;
+    Color_RGBA8 envColor;
+    Vec3f sp84;
+    Vec3f sp78;
+    s32 temp_s0;
+    u8 temp_t1;
+    s32 i;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/func_809B2B48.s")
+    velocity = D_809B3218;
+    accel = D_809B3224;
+    primColor = D_809B3230;
+    envColor = D_809B3234;
+    sp84 = D_809B3238;
+    sp78 = D_809B3244;
+
+    this->actor.world.rot.z = this->actor.world.rot.z + 5000;
+    if (this->unk_15A == 0) {
+        this->unk_154 = 0.0f;
+    }
+
+    Math_ApproachF(&this->unk_150, this->unk_154, 0.2f, 0.4f);
+    if ((this->unk_15A == 0) && (this->unk_150 < 0.1f)) {
+        Actor_Kill(&this->actor);
+    } else if ((this->actor.params == 0) && ((this->cylinder.base.atFlags & 4) != 0)) {
+        if (Player_HasMirrorShieldEquipped(globalCtx)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
+            this->cylinder.base.atFlags = this->cylinder.base.atFlags & 0xFFE9 | 8;
+            this->cylinder.info.toucher.dmgFlags = 2;
+            this->unk_15A = 0x1E;
+            this->actor.params = 1;
+            this->actor.velocity.x *= -1.0f;
+            this->actor.velocity.y *= -0.5f;
+            this->actor.velocity.z *= -1.0f;
+        } else {
+            this->unk_15A = 0;
+            EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.world.pos, &sp78, &sp84, 10, 5);
+            this->actor.velocity.z = 0.0f;
+            this->actor.velocity.y = 0.0f;
+            this->actor.velocity.x = 0.0f;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
+            this->unk_14C = &func_809B2B48;
+        }
+    } else if (!(this->unk_150 < 0.4f)) {
+        for (i = 0; i < 10; i++) {
+            pos.x = this->actor.world.pos.x + ((Rand_ZeroOne() - 0.5f) * (this->unk_150 * 20.0f));
+            pos.y = this->actor.world.pos.y + ((Rand_ZeroOne() - 0.5f) * (this->unk_150 * 20.0f));
+            pos.z = this->actor.world.pos.z;
+            EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 1000.0f, 10.0f);
+        }
+        Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIRE - SFX_FLAG);
+    }
+}
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/func_809B27D8.s")
+#endif
+
+
+void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
+    Vec3f sp8C;
+    Vec3f sp80;
+    Vec3f sp74;
+    Color_RGBA8 sp70;
+    Color_RGBA8 sp6C;
+    s32 temp_s0;
+    s32 i;
+
+    sp8C = D_809B3250;
+    sp80 = D_809B325C;
+    sp70 = D_809B3268;
+    sp6C = D_809B326C;
+
+    if (this->unk_15C == 0) {
+        for (i = 0; i < 20; i++) {
+            sp74.x = this->actor.world.pos.x;
+            sp74.y = this->actor.world.pos.y;
+            sp74.z = this->actor.world.pos.z;
+            sp80.x = Rand_CenteredFloat(8.0f);
+            sp80.y = Rand_CenteredFloat(2.0f);
+            sp80.z = Rand_CenteredFloat(8.0f);
+            EffectSsKiraKira_SpawnDispersed(globalCtx, &sp74, &sp8C, &sp80, &sp70, &sp6C, 2000, 10);
+        }
+        this->unk_15C = 2;
+        this->unk_15E++;
+        if (this->unk_15E >= 6) {
+            Actor_Kill(&this->actor);
+        }
+    }
+}
 
 /*
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
