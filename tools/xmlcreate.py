@@ -96,17 +96,18 @@ def find_type(srcdata, i):
 
 def other_to_xml(srcdata, i):
     xml_data = ''
+    segmentOffset = "0x0" + args.segment_number + '0'
     line = srcdata[i]
 
-    index = line.find('0x060')
-    while(index < len(line) and '0x060' in line[index:]):
+    index = line.find(segmentOffset)
+    while(index < len(line) and segmentOffset in line[index:]):
         offset = line[index+4:index+10]
         type = find_type(srcdata, i)
         if(offset not in offsets):
             offsets.add(offset)
             xml_data += ' ' * 8 + make_xml_line(offset, type) + '\n'
             # make_replace(offset, type)
-        index += line[index+10:].find('0x060') + 10
+        index += line[index+10:].find(segmentOffset) + 10
     return xml_data
 
 def find_object(src):
@@ -126,13 +127,15 @@ def create_xml(src, name):
     with open(src,'r',encoding='utf-8') as srcfile:
         srcdata = srcfile.readlines()
     object = find_object(src)
-    xml = '<Root>\n    <File Name="' + object + '" Segment="6">\n'
+    xml = "<Root>\n    <File Name=" + object + " Segment=" + args.segment_number + ">\n"
     symbols = {}
+    segmentOffset1 = "0x0" + args.segment_number + '0'
+    segmentOffset2 = "D_0" + args.segment_number + '0'
     for i, line in enumerate(srcdata):
-        if '0x060' in line or 'D_060' in line:
+        if segmentOffset1 in line or segmentOffset2 in line:
             if 'extern' in line:
                 xml += extern_to_xml(line)
-            elif '0x060' in line:
+            elif segmentOffset1 in line:
                 xml += other_to_xml(srcdata, i)
     xml += '    </File>\n</Root>\n'
     return xml
@@ -196,6 +199,7 @@ def fix_spec(src, spec):
 parser = argparse.ArgumentParser(description="Generate an xml object file from a source file")
 parser.add_argument('file', help="overlay file to generate xml from")
 parser.add_argument('name', help='name to use for xml variables')
+parser.add_argument('segment_number', help='the segment number of the object')
 parser.add_argument('-r',action='store_true', help="replace variables in overlay with the new names")
 parser.add_argument('-s',metavar = 'spec', dest = 'spec', help="spec file to update", default=None)
 parser.add_argument('-o', metavar = 'outfile', dest = 'outfile', help = 'file to write xml to', default = None)
