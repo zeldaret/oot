@@ -45,10 +45,10 @@ static Gfx* sMouthTextures[] = { 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180 
  */
 
 // Each macro maps its argument to an index of sUpdateFuncs.
-#define CS_FIREMEDALLION_SUBSCENE(x) (0 + (x)) // DEMO_DU_CS_FIREMEDALLION
-#define CS_GORONSRUBY_SUBSCENE(x) (7 + (x))    // DEMO_DU_CS_GORONS_RUBY
-#define CS_CHAMBERAFTERGANON_SUBSCENE(x) (21 + (x))         // DEMO_DU_CS_CHAMBER_AFTER_GANON
-#define CS_CREDITS_SUBSCENE(x) (24 + (x))      // DEMO_DU_CS_CREDITS
+#define CS_FIREMEDALLION_SUBSCENE(x) (0 + (x))      // DEMO_DU_CS_FIREMEDALLION
+#define CS_GORONSRUBY_SUBSCENE(x) (7 + (x))         // DEMO_DU_CS_GORONS_RUBY
+#define CS_CHAMBERAFTERGANON_SUBSCENE(x) (21 + (x)) // DEMO_DU_CS_CHAMBER_AFTER_GANON
+#define CS_CREDITS_SUBSCENE(x) (24 + (x))           // DEMO_DU_CS_CREDITS
 
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
@@ -393,37 +393,27 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_CsPlaySfx_GoronLanding(this);
 }
 
-static Vec3f sDustVelocity = { 0.0f, 0.0f, 0.0f };
-static Vec3f sDustAccel = { 0.0f, 0.3f, 0.0f };
-static Color_RGBA8 sDustPrimaryColor = { 190, 150, 110, 255 };
-static Color_RGBA8 sDustEnvironmentColor = { 120, 80, 40, 255 };
-static Vec3f sDustPosOffsets[] = { { 11.0f, -11.0f, -6.0f }, { 0.0f, 14.0f, -13.0f }, { 14.0f, -2.0f, -10.0f },
-                                   { 10.0f, -6.0f, -8.0f },  { 8.0f, 6.0f, 8.0f },    { 13.0f, 8.0f, -10.0f },
-                                   { -14.0f, 1.0f, -14.0f }, { 5.0f, 12.0f, -9.0f },  { 11.0f, 6.0f, -7.0f },
-                                   { 14.0f, 14.0f, -14.0f } };
-
 void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* globalCtx) {
-    Player* player;
-    s32 i;
-    s32 pad[2];
-    Vec3f* headPos;
-    Vec3f velocity;
-    Vec3f accel;
-    s32 colorDelta;
-    Color_RGBA8 primColor;
-    Color_RGBA8 envColor;
+    static Vec3f sDustPosOffsets[] = { { 11.0f, -11.0f, -6.0f }, { 0.0f, 14.0f, -13.0f }, { 14.0f, -2.0f, -10.0f },
+                                       { 10.0f, -6.0f, -8.0f },  { 8.0f, 6.0f, 8.0f },    { 13.0f, 8.0f, -10.0f },
+                                       { -14.0f, 1.0f, -14.0f }, { 5.0f, 12.0f, -9.0f },  { 11.0f, 6.0f, -7.0f },
+                                       { 14.0f, 14.0f, -14.0f } };
     SkelAnime* skelAnime = &this->skelAnime;
-    Vec3f position;
 
     if (Animation_OnFrame(skelAnime, 31.0f) || Animation_OnFrame(skelAnime, 41.0f)) {
-        player = PLAYER;
-        headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
-        velocity = sDustVelocity;
-        accel = sDustAccel;
+        s32 pad;
+        s32 i;
+        Player* player = PLAYER;
+        Vec3f* headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
+        Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+        Vec3f accel = { 0.0f, 0.3f, 0.0f };
+        s32 pad2;
 
         for (i = 4; i >= 0; --i) {
-            primColor = sDustPrimaryColor;
-            envColor = sDustEnvironmentColor;
+            Color_RGBA8 primColor = { 190, 150, 110, 255 };
+            Color_RGBA8 envColor = { 120, 80, 40, 255 };
+            s32 colorDelta;
+            Vec3f position;
 
             if (Animation_OnFrame(skelAnime, 31.0f)) {
                 position.x = sDustPosOffsets[i + 5].x + headPos->x;
@@ -712,7 +702,7 @@ void DemoDu_InitCs_AfterGanon(DemoDu* this, GlobalContext* globalCtx) {
     SkelAnime* skelAnime = &this->skelAnime;
     s32 pad2;
     f32 lastFrame = Animation_GetLastFrame(&D_06012014);
-    
+
     SkelAnime_InitFlex(globalCtx, skelAnime, &D_06011CA8, NULL, NULL, NULL, 0);
     Animation_Change(skelAnime, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
