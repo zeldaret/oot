@@ -39,16 +39,16 @@ static Gfx* sMouthTextures[] = { 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180 
  *
  * FM => Fire Medallion
  * GR => Goron's Ruby
- * 02 => Whichever that cutscene is.
+ * AG => In the chamber of sages, just After the final blow on Ganon.
  * CR => Credits
  *
  */
 
 // Each macro maps its argument to an index of sUpdateFuncs.
-#define CS_FIREMEDALLION_SUBSCENE(x) (0 + (x)) // DEMO_DU_TYPE_CS_FIREMEDALLION
-#define CS_GORONSRUBY_SUBSCENE(x) (7 + (x))    // DEMO_DU_TYPE_CS_GORONS_RUBY
-#define CS_CS02_SUBSCENE(x) (21 + (x))         // DEMO_DU_TYPE_02
-#define CS_CREDITS_SUBSCENE(x) (24 + (x))      // DEMO_DU_TYPE_CS_CREDITS
+#define CS_FIREMEDALLION_SUBSCENE(x) (0 + (x)) // DEMO_DU_CS_FIREMEDALLION
+#define CS_GORONSRUBY_SUBSCENE(x) (7 + (x))    // DEMO_DU_CS_GORONS_RUBY
+#define CS_CHAMBERAFTERGANON_SUBSCENE(x) (21 + (x))         // DEMO_DU_CS_CHAMBER_AFTER_GANON
+#define CS_CREDITS_SUBSCENE(x) (24 + (x))      // DEMO_DU_CS_CREDITS
 
 void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
@@ -79,9 +79,9 @@ void DemoDu_SetMouthTexIndex(DemoDu* this, s16 mouthTexIndex) {
     this->mouthTexIndex = mouthTexIndex;
 }
 
-// Resets all the values used in the cutscene.
-void DemoDu_Cs02_Reset(DemoDu* this) {
-    this->updateIndex = CS_CS02_SUBSCENE(0);
+// Resets all the values used in this cutscene.
+void DemoDu_CsAfterGanon_Reset(DemoDu* this) {
+    this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
     this->drawIndex = 0;
     this->shadowAlpha = 0;
     this->demo6KSpawned = 0;
@@ -89,13 +89,13 @@ void DemoDu_Cs02_Reset(DemoDu* this) {
     this->unk_1A4 = 0.0f;
 }
 
-void DemoDu_Cs02_CheckIfShouldReset(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_CsAfterGanon_CheckIfShouldReset(DemoDu* this, GlobalContext* globalCtx) {
     static s32 D_8096CE94 = 0;
 
     if (globalCtx->csCtx.state == 0) {
         if (D_8096CE94 != 0) {
-            if (this->actor.params == DEMO_DU_TYPE_02) {
-                DemoDu_Cs02_Reset(this);
+            if (this->actor.params == DEMO_DU_CS_CHAMBER_AFTER_GANON) {
+                DemoDu_CsAfterGanon_Reset(this);
             }
             D_8096CE94 = 0;
             return;
@@ -734,7 +734,7 @@ void DemoDu_UpdateCs_GR_13(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_CsPlaySfx_LinkEscapeFromGorons(globalCtx);
 }
 
-void DemoDu_InitCs_02(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_InitCs_AfterGanon(DemoDu* this, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     SkelAnime* skelAnime = &this->skelAnime;
     s32 pad;
@@ -743,7 +743,7 @@ void DemoDu_InitCs_02(DemoDu* this, GlobalContext* globalCtx) {
     lastFrame = Animation_GetLastFrame(&D_06012014);
     SkelAnime_InitFlex(globalCtx2, skelAnime, &D_06011CA8, NULL, NULL, NULL, 0);
     Animation_Change(skelAnime, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
-    this->updateIndex = CS_CS02_SUBSCENE(0);
+    this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
     this->actor.shape.shadowAlpha = 0;
 }
 
@@ -751,14 +751,14 @@ void DemoDu_CsPlaySfx_WhiteOut() {
     func_800788CC(NA_SE_SY_WHITE_OUT_T);
 }
 
-void DemoDu_Cs02_SpawnDemo6K(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_CsAfterGanon_SpawnDemo6K(DemoDu* this, GlobalContext* globalCtx) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x,
                        kREG(16) + 22.0f + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
 }
 
-void DemoDu_Cs02_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_CsAfterGanon_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) {
     if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
-        this->updateIndex = CS_CS02_SUBSCENE(1);
+        this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(1);
         this->drawIndex = 2;
         this->shadowAlpha = 0;
         this->actor.shape.shadowAlpha = 0;
@@ -767,14 +767,14 @@ void DemoDu_Cs02_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) {
     }
 }
 
-void DemoDu_Cs02_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_CsAfterGanon_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
     f32* unk_1A4 = &this->unk_1A4;
     s32 shadowAlpha = 255;
 
     if (DemoDu_IsNpcDoingThisAction(this, globalCtx, 4, 2)) {
         *unk_1A4 += 1.0f;
         if (*unk_1A4 >= kREG(5) + 10.0f) {
-            this->updateIndex = CS_CS02_SUBSCENE(2);
+            this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(2);
             this->drawIndex = 1;
             *unk_1A4 = kREG(5) + 10.0f;
             this->shadowAlpha = shadowAlpha;
@@ -784,7 +784,7 @@ void DemoDu_Cs02_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
     } else {
         *unk_1A4 -= 1.0f;
         if (*unk_1A4 <= 0.0f) {
-            this->updateIndex = CS_CS02_SUBSCENE(0);
+            this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
             this->drawIndex = 0;
             *unk_1A4 = 0.0f;
             this->shadowAlpha = 0;
@@ -797,39 +797,39 @@ void DemoDu_Cs02_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
     this->actor.shape.shadowAlpha = shadowAlpha;
 }
 
-void DemoDu_Cs02_BackTo01(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_CsAfterGanon_BackTo01(DemoDu* this, GlobalContext* globalCtx) {
     if (DemoDu_IsNpcNotDoingThisAction(this, globalCtx, 4, 2)) {
-        this->updateIndex = CS_CS02_SUBSCENE(1);
+        this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(1);
         this->drawIndex = 2;
         this->unk_1A4 = kREG(5) + 10.0f;
         this->shadowAlpha = 255;
         if (!this->demo6KSpawned) {
-            DemoDu_Cs02_SpawnDemo6K(this, globalCtx);
+            DemoDu_CsAfterGanon_SpawnDemo6K(this, globalCtx);
             this->demo6KSpawned = 1;
         }
         this->actor.shape.shadowAlpha = 255;
     }
 }
 
-void DemoDu_UpdateCs_02_00(DemoDu* this, GlobalContext* globalCtx) {
-    DemoDu_Cs02_AdvanceTo01(this, globalCtx);
-    DemoDu_Cs02_CheckIfShouldReset(this, globalCtx);
+void DemoDu_UpdateCs_AG_00(DemoDu* this, GlobalContext* globalCtx) {
+    DemoDu_CsAfterGanon_AdvanceTo01(this, globalCtx);
+    DemoDu_CsAfterGanon_CheckIfShouldReset(this, globalCtx);
 }
 
-void DemoDu_UpdateCs_02_01(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_UpdateCs_AG_01(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    DemoDu_Cs02_AdvanceTo02(this, globalCtx);
-    DemoDu_Cs02_CheckIfShouldReset(this, globalCtx);
+    DemoDu_CsAfterGanon_AdvanceTo02(this, globalCtx);
+    DemoDu_CsAfterGanon_CheckIfShouldReset(this, globalCtx);
 }
 
-void DemoDu_UpdateCs_02_02(DemoDu* this, GlobalContext* globalCtx) {
+void DemoDu_UpdateCs_AG_02(DemoDu* this, GlobalContext* globalCtx) {
     DemoDu_UpdateBgCheckInfo(this, globalCtx);
     DemoDu_UpdateSkelAnime(this);
     DemoDu_UpdateEyes(this);
-    DemoDu_Cs02_BackTo01(this, globalCtx);
-    DemoDu_Cs02_CheckIfShouldReset(this, globalCtx);
+    DemoDu_CsAfterGanon_BackTo01(this, globalCtx);
+    DemoDu_CsAfterGanon_CheckIfShouldReset(this, globalCtx);
 }
 
 // Similar to DemoDu_Draw_01, but this uses POLY_XLU_DISP. Also uses this->shadowAlpha for setting the env color.
@@ -987,7 +987,7 @@ static DemoDuActionFunc sUpdateFuncs[] = {
     DemoDu_UpdateCs_FM_05, DemoDu_UpdateCs_FM_06, DemoDu_UpdateCs_GR_00, DemoDu_UpdateCs_GR_01, DemoDu_UpdateCs_GR_02,
     DemoDu_UpdateCs_GR_03, DemoDu_UpdateCs_GR_04, DemoDu_UpdateCs_GR_05, DemoDu_UpdateCs_GR_06, DemoDu_UpdateCs_GR_07,
     DemoDu_UpdateCs_GR_08, DemoDu_UpdateCs_GR_09, DemoDu_UpdateCs_GR_10, DemoDu_UpdateCs_GR_11, DemoDu_UpdateCs_GR_12,
-    DemoDu_UpdateCs_GR_13, DemoDu_UpdateCs_02_00, DemoDu_UpdateCs_02_01, DemoDu_UpdateCs_02_02, DemoDu_UpdateCs_CR_00,
+    DemoDu_UpdateCs_GR_13, DemoDu_UpdateCs_AG_00, DemoDu_UpdateCs_AG_01, DemoDu_UpdateCs_AG_02, DemoDu_UpdateCs_CR_00,
     DemoDu_UpdateCs_CR_01, DemoDu_UpdateCs_CR_02, DemoDu_UpdateCs_CR_03, DemoDu_UpdateCs_CR_04
 };
 
@@ -1007,15 +1007,15 @@ void DemoDu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     switch (this->actor.params) {
-        case DEMO_DU_TYPE_CS_GORONS_RUBY:
+        case DEMO_DU_CS_GORONS_RUBY:
             DemoDu_InitCs_GoronsRuby(this, globalCtx);
             return;
 
-        case DEMO_DU_TYPE_02:
-            DemoDu_InitCs_02(this, globalCtx);
+        case DEMO_DU_CS_CHAMBER_AFTER_GANON:
+            DemoDu_InitCs_AfterGanon(this, globalCtx);
             return;
 
-        case DEMO_DU_TYPE_CS_CREDITS:
+        case DEMO_DU_CS_CREDITS:
             DemoDu_InitCs_Credits(this, globalCtx);
             return;
 

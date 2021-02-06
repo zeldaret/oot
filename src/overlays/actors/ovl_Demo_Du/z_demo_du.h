@@ -23,19 +23,20 @@ typedef struct DemoDu {
 
 extern const ActorInit Demo_Du_InitVars;
 
-typedef enum DemoDu_Type {
-    /* 0x00 */ DEMO_DU_TYPE_CS_FIREMEDALLION, // default
-    /* 0x01 */ DEMO_DU_TYPE_CS_GORONS_RUBY,
-    /* 0x02 */ DEMO_DU_TYPE_02, // Unknown
-    /* 0x03 */ DEMO_DU_TYPE_CS_CREDITS
-} DemoDu_Type;
+// This is the parameter of this actor,
+typedef enum DemoDu_Cutscene {
+    /* 0x00 */ DEMO_DU_CS_FIREMEDALLION, // default
+    /* 0x01 */ DEMO_DU_CS_GORONS_RUBY,
+    /* 0x02 */ DEMO_DU_CS_CHAMBER_AFTER_GANON,
+    /* 0x03 */ DEMO_DU_CS_CREDITS
+} DemoDu_Cutscene;
 
 /**
  * To see each one of the cutscenes on the debug rom:
- * DEMO_DU_TYPE_CS_FIREMEDALLION: I couldn't find how to trigger this one from the map selector, but you can go to Map 78 and beat Volvagia (or use the gameshark 8015E98B 0002 so the game thinks you already has beaten it).
- * DEMO_DU_TYPE_CS_GORONS_RUBY: Map selector -> Map 16 (SPOT16) -> Stage 01
- * DEMO_DU_TYPE_02: TODO
- * DEMO_DU_TYPE_CS_CREDITS: Map selector -> Map 16 (SPOT16) -> Stage 04
+ * DEMO_DU_CS_FIREMEDALLION: I couldn't find how to trigger this one from the map selector, but you can go to Map 78 and beat Volvagia (or use the gameshark 8015E98B 0002 so the game thinks you already has beaten it).
+ * DEMO_DU_CS_GORONS_RUBY: Map selector -> Map 16 (SPOT16) -> Stage 01
+ * DEMO_DU_CS_CHAMBER_AFTER_GANON: Map selector -> Map 21 -> Stage 02
+ * DEMO_DU_CS_CREDITS: Map selector -> Map 16 (SPOT16) -> Stage 04
  * 
  */
 
