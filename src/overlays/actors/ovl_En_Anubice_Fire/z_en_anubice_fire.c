@@ -18,7 +18,6 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 extern UNK_TYPE D_06003510;
 
-/*
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
     ACTORCAT_ENEMY,
@@ -50,70 +49,30 @@ static ColliderCylinderInit D_809B31E0 = {
     },
     { 0, 0, 0, { 0, 0, 0 } },
 };
-*/
 
-extern ColliderCylinderInit D_809B31E0;
+static Vec3f D_809B320C = { 0.0f, 0.0f, 0.0f };
 
-/*
-glabel D_809B320C
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-extern Vec3f D_809B320C;
-/*
-glabel D_809B3218
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-extern Vec3f D_809B3218;
-/*
-glabel D_809B3224
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-extern Vec3f D_809B3224;
-/*
-glabel D_809B3230
- .word 0xFFFF00FF
-*/
-extern Color_RGBA8 D_809B3230;
-/*
-glabel D_809B3234
- .word 0xFF0000FF
-*/
-extern Color_RGBA8 D_809B3234;
-/*
-glabel D_809B3238
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-extern Vec3f D_809B3238;
-/*
-glabel D_809B3244
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-extern Vec3f D_809B3244;
-/*
-glabel D_809B3250
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-extern Vec3f D_809B3250;
-/*
-glabel D_809B325C
- .word 0x00000000, 0x00000000, 0x00000000
-*/
-extern Vec3f D_809B325C;
-/*
-glabel D_809B3268
- .word 0xFFFF00FF
-*/
-extern Color_RGBA8 D_809B3268;
-/*
-glabel D_809B326C
- .word 0xFF0000FF
-*/
-extern Color_RGBA8 D_809B326C;
-/*
-glabel D_809B3270
- .word gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex
-*/
-extern UNK_TYPE D_809B3270;
+static Vec3f D_809B3218 = { 0.0f, 0.0f, 0.0f };
+
+static Vec3f D_809B3224 = { 0.0f, 0.0f, 0.0f };
+
+static Color_RGBA8 D_809B3230 = { 255, 255, 0, 255 };
+
+static Color_RGBA8 D_809B3234 = { 255, 0, 0, 255 };
+
+static Vec3f D_809B3238 = { 0.0f, 0.0f, 0.0f };
+
+static Vec3f D_809B3244 = { 0.0f, 0.0f, 0.0f };
+
+static Vec3f D_809B3250 = { 0.0f, 0.0f, 0.0f };
+
+static Vec3f D_809B325C = { 0.0f, 0.0f, 0.0f };
+
+static Color_RGBA8 D_809B3268 = { 255, 255, 0, 255 };
+
+static Color_RGBA8 D_809B326C = { 255, 0, 0, 255 };
+
+static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex};
 
 
 void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx);
@@ -192,7 +151,7 @@ void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx2) {
     } else if ((this->actor.params == 0) && ((this->cylinder.base.atFlags & 4) != 0)) {
         if (Player_HasMirrorShieldEquipped(globalCtx)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
-            this->cylinder.base.atFlags = this->cylinder.base.atFlags & 0xFFE9 | 8;
+            this->cylinder.base.atFlags = (this->cylinder.base.atFlags & 0xFFE9) | 8;
             this->cylinder.info.toucher.dmgFlags = 2;
             this->unk_15A = 0x1E;
             this->actor.params = 1;
