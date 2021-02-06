@@ -3,5 +3,7 @@
         <Collision Name="gBgBombwallCol" Offset="0x41B0"/>
         <DList Name="gBgBombwallNormalDlist" Offset="0x3FC0"/>
         <DList Name="gBgBombwallBrokenDlist" Offset="0x4088"/>
+        <DList Name="gFieldKakeraDlist" Offset="0xA880"/>
+        <DList Name="gGrottoDlist" Offset="0x1390"/>
     </File>
 </Root>

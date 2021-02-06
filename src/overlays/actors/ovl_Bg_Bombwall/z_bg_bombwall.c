@@ -173,7 +173,7 @@ void BgBombwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgBombwall_DestroyCollision(this, globalCtx);
 }
 
-Vec3s D_8086F010[] = {
+static Vec3s D_8086F010[] = {
     { 40, 85, 21 }, { -43, 107, 14 }, { -1, 142, 14 }, { -27, 44, 27 }, { 28, 24, 20 }, { -39, 54, 21 }, { 49, 50, 20 },
 };
 

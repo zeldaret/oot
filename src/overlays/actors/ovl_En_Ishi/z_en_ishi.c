@@ -6,6 +6,8 @@
 
 #include "z_en_ishi.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+
 
 #include "vt.h"
 
@@ -31,7 +33,7 @@ void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx);
 
 extern Gfx D_0500A3B8[]; // Large gray rock
 extern Gfx D_0500A5E8[]; // Large gray rock fragments
-extern Gfx D_0500A880[]; // Small gray rock
+extern Gfx gFieldKakeraDlist[]; // Small gray rock
 
 typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, GlobalContext*);
 typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
@@ -164,7 +166,7 @@ void EnIshi_SpawnFragmentsSmall(EnIshi* this, GlobalContext* globalCtx) {
             phi_v0 = 33;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -420, phi_v0, 30, 5, 0, scales[i], 3, 10, 40,
-                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A880);
+                             KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, gFieldKakeraDlist);
     }
 }
 
@@ -475,7 +477,7 @@ void EnIshi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnIshi_DrawSmall(EnIshi* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0500A880);
+    Gfx_DrawDListOpa(globalCtx, gFieldKakeraDlist);
 }
 
 void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {

@@ -6,6 +6,8 @@
 
 #include "z_en_door.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_field_keep/gameplay_field_keep.h"
+
 
 #define FLAGS 0x00000010
 
@@ -68,7 +70,7 @@ static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
 
 static Gfx* D_809FCEE4[5][2] = {
     { gDoorLeftDL, gDoorRightDL }, { 0x0600F998, 0x0600F938 }, { 0x06004958, 0x06004A10 },
-    { 0x060013B8, 0x06001420 },    { 0x050047A0, 0x05004978 },
+    { 0x060013B8, 0x06001420 },    { gFieldDoorDlist1, gFieldDoorDlist2 },
 };
 
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
