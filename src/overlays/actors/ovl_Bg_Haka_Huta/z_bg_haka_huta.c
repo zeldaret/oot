@@ -44,19 +44,17 @@ static InitChainEntry sInitChain[] = {
 
 void BgHakaHuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaHuta* this = THIS;
-    DynaPolyActor* new_var;
+    s16 pad;
     CollisionHeader* colHeader;
 
-    // Likely fake, but only way to make a match
-    new_var = &this->dyna;
-    colHeader = 0;
+    colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 1);
     CollisionHeader_GetVirtual(&D_06000870, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-    this->unk_16A = ((*new_var).actor.params >> 8) & 0xFF;
+    this->unk_16A = (thisx->params >> 8) & 0xFF;
     this->dyna.actor.params &= 0xFF;
-    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) != 0) {
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params)) {
         this->counter = -1;
         this->actionFunc = func_8087D720;
     } else {
@@ -92,7 +90,7 @@ void BgHakaHuta_SpawnDust(BgHakaHuta* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 4; i++) {
         if (i == 2) {
-            effectPos.z += (120.0f * phi_f20);
+            effectPos.z += 120.0f * phi_f20;
         }
         effectPos.x = this->dyna.actor.home.pos.x - (Rand_ZeroOne() * xPosOffset);
         scale = ((Rand_ZeroOne() * 10.0f) + 50.0f);
@@ -102,18 +100,16 @@ void BgHakaHuta_SpawnDust(BgHakaHuta* this, GlobalContext* globalCtx) {
 
 void func_8087D268(BgHakaHuta* this, GlobalContext* globalCtx, u16 sfx) {
     Vec3f pos;
-    if (this->dyna.actor.shape.rot.y == 0) {
-        pos.z = this->dyna.actor.world.pos.z + 120.0f;
-    } else {
-        pos.z = this->dyna.actor.world.pos.z - 120.0f;
-    }
+
+    pos.z = (this->dyna.actor.shape.rot.y == 0) ? this->dyna.actor.world.pos.z + 120.0f
+                                                : this->dyna.actor.world.pos.z - 120.0f;
     pos.x = this->dyna.actor.world.pos.x;
     pos.y = this->dyna.actor.world.pos.y;
     Audio_PlaySoundAtPosition(globalCtx, &pos, 30, sfx);
 }
 
 void BgHakaHuta_SpawnEnemies(BgHakaHuta* this, GlobalContext* globalCtx) {
-    if ((Flags_GetSwitch(globalCtx, this->dyna.actor.params) != 0) && (Player_InCsMode(globalCtx) == 0)) {
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params) && !Player_InCsMode(globalCtx)) {
         this->counter = 25;
         this->actionFunc = BgHakaHuta_Open;
         func_800800F8(globalCtx, 0x1771, 0x3E7, &this->dyna.actor, 0);
@@ -152,11 +148,7 @@ void BgHakaHuta_Open(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (this->counter != 0) {
         this->counter--;
     }
-    if (this->dyna.actor.world.rot.y == 0) {
-        posOffset = 4.0f;
-    } else {
-        posOffset = -4.0f;
-    }
+    posOffset = (this->dyna.actor.world.rot.y == 0) ? 4.0f : -4.0f;
     Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + posOffset, 2.0f);
     if (this->counter == 0) {
         this->counter = 37;
@@ -171,11 +163,7 @@ void BgHakaHuta_SlideOpen(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (this->counter != 0) {
         this->counter--;
     }
-    if (this->dyna.actor.world.rot.y == 0) {
-        posOffset = 24.0f;
-    } else {
-        posOffset = -24.0f;
-    }
+    posOffset = (this->dyna.actor.world.rot.y == 0) ? 24.0f : -24.0f;
     if (!Math_StepToF(&this->dyna.actor.world.pos.x, this->dyna.actor.home.pos.x + posOffset, 0.5f)) {
         BgHakaHuta_SpawnDust(this, globalCtx);
     }
@@ -208,7 +196,7 @@ void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     if (D_8087D958.x > 30.0f) {
         D_8087D958.x = 30.0f;
     }
-    Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 32768), 0);
+    Matrix_RotateY(this->dyna.actor.world.rot.y * (M_PI / 0x8000), 0);
     func_800D23FC(this->counter * (191 * M_PI / 3750), &D_8087D964, 1);
     Matrix_MultVec3f(&D_8087D958, &vec);
     this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x + vec.x;
