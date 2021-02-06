@@ -75,7 +75,7 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
-    this->params = thisx->params & 0xFF;
+    this->type = thisx->params & 0xFF;
     this->unk_169 = 0;
 
     thisx->params = ((thisx->params) >> 8) & 0xFF;
@@ -83,7 +83,7 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_8088BF8C);
 
-    if (this->params == 0) {
+    if (this->type == 0) {
         if (Flags_GetSwitch(globalCtx, thisx->params)) {
             Math_Vec3f_Copy(&thisx->home.pos, &D_8088BF60);
             Math_Vec3f_Copy(&thisx->world.pos, &D_8088BF60);
@@ -224,9 +224,9 @@ void func_8088B69C(BgHidanRock* this, GlobalContext* globalCtx) {
 
     if (this->timer != 0) {
         this->dyna.actor.world.pos.x =
-            this->dyna.actor.home.pos.x + 5.0f * Math_SinS((this->dyna.actor.world.rot.y + (this->timer << 14)));
+            this->dyna.actor.home.pos.x + 5.0f * Math_SinS(this->dyna.actor.world.rot.y + this->timer * 0x4000);
         this->dyna.actor.world.pos.z =
-            this->dyna.actor.home.pos.z + 5.0f * Math_CosS((this->dyna.actor.world.rot.y + (this->timer << 14)));
+            this->dyna.actor.home.pos.z + 5.0f * Math_CosS(this->dyna.actor.world.rot.y + this->timer * 0x4000);
     } else {
         this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
         this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
@@ -242,7 +242,7 @@ void func_8088B69C(BgHidanRock* this, GlobalContext* globalCtx) {
 void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
     this->timer--;
     if (this->dyna.actor.bgCheckFlags & 2) {
-        if (this->params == 0) {
+        if (this->type == 0) {
             this->timer = 60;
             this->actionFunc = func_8088B5F4;
         } else {
@@ -260,7 +260,7 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
     this->unk_16C -= 0.5f;
     this->unk_16C = CLAMP_MIN(this->unk_16C, 0.0f);
 
-    if (this->params == 0) {
+    if (this->type == 0) {
         if (func_8004356C(&this->dyna)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
@@ -301,11 +301,11 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
     }
 
-    if ((this->params == 0 && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 1820.0f,
-                                                  0.25f, 20.0f, 0.5f) < 0.1f)) ||
-        ((this->params != 0) && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 480.0,
-                                                    0.25f, 20.0f, 0.5f) < 0.1f))) {
-        if (this->params == 0) {
+    if ((this->type == 0 && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 1820.0f,
+                                                0.25f, 20.0f, 0.5f) < 0.1f)) ||
+        ((this->type != 0) && (Math_SmoothStepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 480.0,
+                                                  0.25f, 20.0f, 0.5f) < 0.1f))) {
+        if (this->type == 0) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
         }
         this->timer = 20;
@@ -313,7 +313,7 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
     }
 
     this->unk_16C = (this->dyna.actor.world.pos.y + 50.0f - this->dyna.actor.home.pos.y + 40.0f) / 80.0f;
-    if (this->params == 0) {
+    if (this->type == 0) {
         if (func_8004356C(&this->dyna)) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
@@ -344,8 +344,8 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
-    static Gfx* D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0, 0x06013F20, 0x060146A0,
-                                       0x06014E20, 0x060155A0 };
+    static Gfx* D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0,
+                                 0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0 };
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
@@ -354,7 +354,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x01, 255, 255, 0, 150);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
 
-    if (this->params == 0) {
+    if (this->type == 0) {
         Matrix_Translate(D_8088BF60.x, D_8088BF60.y - 40.0f, D_8088BF60.z, MTXMODE_NEW);
     } else {
         Matrix_Translate(this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y - 40.0f, this->dyna.actor.home.pos.z,
@@ -377,14 +377,14 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRock* this = THIS;
     s32 pad;
 
-    if (this->params == 0) {
+    if (this->type == 0) {
         Gfx_DrawDListOpa(globalCtx, D_0600C100);
     } else {
         Gfx_DrawDListOpa(globalCtx, D_0600C1F0);
     }
 
     if (this->unk_16C > 0.0f) {
-        if (this->params == 0) {
+        if (this->type == 0) {
             SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &D_8088BF60, &this->unk_170);
         } else {
             SkinMatrix_Vec3fMtxFMultXYZ(&globalCtx->mf_11D60, &this->dyna.actor.home.pos, &this->unk_170);
