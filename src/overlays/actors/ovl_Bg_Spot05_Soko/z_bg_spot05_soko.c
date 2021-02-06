@@ -43,16 +43,15 @@ static Gfx* sDLists[] = {
 };
 
 void BgSpot05Soko_Init(Actor* thisx, GlobalContext* globalCtx) {
+    s32 pad1;
     BgSpot05Soko* this = THIS;
-    u32 pad1;
-    CollisionHeader* colHeader;
-    u32 pad2;
+    CollisionHeader* colHeader = NULL;
+    s32 pad2;
 
-    colHeader = NULL;
     Actor_ProcessInitChain(thisx, sInitChain);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
-    DynaPolyActor_Init(thisx, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (thisx->params == 0) {
         CollisionHeader_GetVirtual(&D_06000918, &colHeader);
         if (LINK_IS_ADULT) {
@@ -82,23 +81,19 @@ void func_808AE5A8(BgSpot05Soko* this, GlobalContext* globalCtx) {
 }
 
 void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        Audio_PlaySoundAtPosition(globalCtx, &thisx->world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
-        Actor_SetFocus(thisx, 50.0f);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 30, NA_SE_EV_METALDOOR_CLOSE);
+        Actor_SetFocus(&this->dyna.actor, 50.0f);
         func_80080480(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808AE630;
-        thisx->speedXZ = 0.5f;
+        this->dyna.actor.speedXZ = 0.5f;
     }
 }
 
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
-    thisx->speedXZ *= 1.5f;
-    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y - 120.0f, thisx->speedXZ) != 0) {
-        Actor_Kill(thisx);
+    this->dyna.actor.speedXZ *= 1.5f;
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) != 0) {
+        Actor_Kill(&this->dyna.actor);
     }
 }
 

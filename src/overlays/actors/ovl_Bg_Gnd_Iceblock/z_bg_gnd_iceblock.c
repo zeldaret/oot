@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_gnd_iceblock.h"
+#include "objects/object_demo_kekkai/object_demo_kekkai.h"
 
 #define FLAGS 0x00000030
 
@@ -23,9 +24,6 @@ void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BgGndIceblock_Idle(BgGndIceblock* this, GlobalContext* globalCtx);
 void BgGndIceblock_Slide(BgGndIceblock* this, GlobalContext* globalCtx);
-
-extern Gfx D_06004420[];
-extern CollisionHeader D_06004618;
 
 const ActorInit Bg_Gnd_Iceblock_InitVars = {
     ACTOR_BG_GND_ICEBLOCK,
@@ -55,7 +53,7 @@ void BgGndIceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_06004618, &colHeader);
+    CollisionHeader_GetVirtual(&gWaterTrialIceBlockCol, &colHeader);
     this->targetPos = this->dyna.actor.home.pos;
     this->actionFunc = BgGndIceblock_Idle;
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -358,5 +356,5 @@ void BgGndIceblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgGndIceblock* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, D_06004420);
+    Gfx_DrawDListOpa(globalCtx, gWaterTrialIceBlockDL);
 }
