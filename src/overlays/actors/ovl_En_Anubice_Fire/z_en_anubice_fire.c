@@ -16,6 +16,10 @@ void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx);
+void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx);
+void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx);
+
 extern UNK_TYPE D_06003510;
 
 const ActorInit En_Anubice_Fire_InitVars = {
@@ -50,35 +54,6 @@ static ColliderCylinderInit D_809B31E0 = {
     { 0, 0, 0, { 0, 0, 0 } },
 };
 
-static Vec3f D_809B320C = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_809B3218 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_809B3224 = { 0.0f, 0.0f, 0.0f };
-
-static Color_RGBA8 D_809B3230 = { 255, 255, 0, 255 };
-
-static Color_RGBA8 D_809B3234 = { 255, 0, 0, 255 };
-
-static Vec3f D_809B3238 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_809B3244 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_809B3250 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_809B325C = { 0.0f, 0.0f, 0.0f };
-
-static Color_RGBA8 D_809B3268 = { 255, 255, 0, 255 };
-
-static Color_RGBA8 D_809B326C = { 255, 0, 0, 255 };
-
-static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex};
-
-
-void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx);
-void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx);
-void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx);
-
 
 void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceFire* this = THIS;
@@ -106,7 +81,7 @@ void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext *globalCtx) {
 }
 
 void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
-    Vec3f sp24 = D_809B320C;
+    Vec3f sp24 = { 0.0f, 0.0f, 0.0f };
 
     Matrix_Push();
     Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
@@ -118,6 +93,20 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
     this->unk_14C = func_809B27D8;
     this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
 }
+
+
+static Vec3f D_809B3218 = { 0.0f, 0.0f, 0.0f };
+
+static Vec3f D_809B3224 = { 0.0f, 0.0f, 0.0f };
+
+static Color_RGBA8 D_809B3230 = { 255, 255, 0, 255 };
+
+static Color_RGBA8 D_809B3234 = { 255, 0, 0, 255 };
+
+static Vec3f D_809B3238 = { 0.0f, 0.0f, 0.0f };
+
+static Vec3f D_809B3244 = { 0.0f, 0.0f, 0.0f };
+
 
 #ifdef NON_MATCHING
 void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx2) {
@@ -183,28 +172,23 @@ void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx2) {
 
 
 void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
-    Vec3f sp8C;
-    Vec3f sp80;
-    Vec3f sp74;
-    Color_RGBA8 sp70;
-    Color_RGBA8 sp6C;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    Vec3f pos;
+    Color_RGBA8 primColor = { 255, 255, 0, 255 };
+    Color_RGBA8 envColor = { 255, 0, 0, 255 };
     s32 pad;
     s32 i;
 
-    sp8C = D_809B3250;
-    sp80 = D_809B325C;
-    sp70 = D_809B3268;
-    sp6C = D_809B326C;
-
     if (this->unk_15C == 0) {
         for (i = 0; i < 20; i++) {
-            sp74.x = this->actor.world.pos.x;
-            sp74.y = this->actor.world.pos.y;
-            sp74.z = this->actor.world.pos.z;
-            sp80.x = Rand_CenteredFloat(8.0f);
-            sp80.y = Rand_CenteredFloat(2.0f);
-            sp80.z = Rand_CenteredFloat(8.0f);
-            EffectSsKiraKira_SpawnDispersed(globalCtx, &sp74, &sp8C, &sp80, &sp70, &sp6C, 2000, 10);
+            pos.x = this->actor.world.pos.x;
+            pos.y = this->actor.world.pos.y;
+            pos.z = this->actor.world.pos.z;
+            accel.x = Rand_CenteredFloat(8.0f);
+            accel.y = Rand_CenteredFloat(2.0f);
+            accel.z = Rand_CenteredFloat(8.0f);
+            EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 2000, 10);
         }
 
         this->unk_15C = 2;
@@ -261,6 +245,9 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
         }
     }
 }
+
+
+static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex};
 
 #ifdef NON_MATCHING
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
