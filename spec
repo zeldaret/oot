@@ -642,7 +642,11 @@ endseg
 beginseg
     name "ovl_Bg_Breakwall"
     include "build/src/overlays/actors/ovl_Bg_Breakwall/z_bg_breakwall.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Bg_Breakwall/ovl_Bg_Breakwall_reloc.o"
+#else
     include "build/data/overlays/actors/z_bg_breakwall.reloc.o"
+#endif
 endseg
 
 beginseg

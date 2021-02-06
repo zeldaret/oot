@@ -569,7 +569,7 @@ void func_80AEBA2C(EnRu1* this, GlobalContext* globalCtx) {
     f32 temp_ret_2;
     CsCmdActorAction* csCmdNPCAction = func_80AEB438(globalCtx);
     s32 pad2;
-    
+
     if (csCmdNPCAction != NULL) {
         temp_ret_2 = func_80AEB7E0(csCmdNPCAction, globalCtx);
         thisPos = &this->actor.world.pos;
@@ -1020,8 +1020,8 @@ void func_80AECCB0(EnRu1* this, GlobalContext* globalCtx) {
     spawnX = ((kREG(1) + 12.0f) * Math_SinS(yawTowardsPlayer)) + pos->x;
     spawnY = pos->y;
     spawnZ = ((kREG(1) + 12.0f) * Math_CosS(yawTowardsPlayer)) + pos->z;
-    this->unk_278 = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, spawnX,
-                                                   spawnY, spawnZ, 0, yawTowardsPlayer, 0, 5);
+    this->unk_278 = (DoorWarp1*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1,
+                                                   spawnX, spawnY, spawnZ, 0, yawTowardsPlayer, 0, 5);
 }
 
 void func_80AECDA0(EnRu1* this, GlobalContext* globalCtx) {
@@ -1558,8 +1558,8 @@ s32 func_80AEE394(EnRu1* this, GlobalContext* globalCtx) {
         colCtx = &globalCtx->colCtx;
         floorBgId = this->actor.floorBgId; // necessary match, can't move this out of this block unfortunately
         dynaPolyActor = DynaPoly_GetActor(colCtx, floorBgId);
-        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS && dynaPolyActor->actor.params == 0 &&
-            !Player_InCsMode(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {
+        if (dynaPolyActor != NULL && dynaPolyActor->actor.id == ACTOR_BG_BDAN_OBJECTS &&
+            dynaPolyActor->actor.params == 0 && !Player_InCsMode(globalCtx) && globalCtx->msgCtx.unk_E300 == 0) {
             func_80AEE02C(this);
             globalCtx->csCtx.segment = &D_80AF10A4;
             gSaveContext.cutsceneTrigger = 1;
