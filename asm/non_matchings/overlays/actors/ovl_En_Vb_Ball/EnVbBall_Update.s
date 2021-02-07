@@ -83,7 +83,7 @@ glabel EnVbBall_Update
 /* 00728 80B296C8 46144281 */  sub.s   $f10, $f8, $f20            
 /* 0072C 80B296CC E62A0028 */  swc1    $f10, 0x0028($s1)          ## 00000028
 /* 00730 80B296D0 AFA80014 */  sw      $t0, 0x0014($sp)           
-/* 00734 80B296D4 0C00B92D */  jal     func_8002E4B4              
+/* 00734 80B296D4 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00738 80B296D8 E7B00010 */  swc1    $f16, 0x0010($sp)          
 /* 0073C 80B296DC C6320028 */  lwc1    $f18, 0x0028($s1)          ## 00000028
 /* 00740 80B296E0 962C0088 */  lhu     $t4, 0x0088($s1)           ## 00000088

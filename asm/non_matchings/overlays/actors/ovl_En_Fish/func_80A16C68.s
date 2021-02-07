@@ -51,7 +51,7 @@ glabel func_80A16C68
 /* 01A84 80A16D04 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 01A88 80A16D08 3C074080 */  lui     $a3, 0x4080                ## $a3 = 40800000
 /* 01A8C 80A16D0C AFA20014 */  sw      $v0, 0x0014($sp)           
-/* 01A90 80A16D10 0C00B92D */  jal     func_8002E4B4              
+/* 01A90 80A16D10 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 01A94 80A16D14 E7A40010 */  swc1    $f4, 0x0010($sp)           
 .L80A16D18:
 /* 01A98 80A16D18 3C01428C */  lui     $at, 0x428C                ## $at = 428C0000
@@ -74,7 +74,7 @@ glabel func_80A16C68
 /* 01AD4 80A16D54 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01AD8 80A16D58 46105482 */  mul.s   $f18, $f10, $f16           
 /* 01ADC 80A16D5C 44059000 */  mfc1    $a1, $f18                  
-/* 01AE0 80A16D60 0C00B56E */  jal     Actor_SetHeight
+/* 01AE0 80A16D60 0C00B56E */  jal     Actor_SetFocus
               
 /* 01AE4 80A16D64 00000000 */  nop
 /* 01AE8 80A16D68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

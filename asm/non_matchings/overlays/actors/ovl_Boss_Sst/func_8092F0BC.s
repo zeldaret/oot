@@ -103,7 +103,7 @@ glabel func_8092F0BC
 /* 02C44 8092F214 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 02C48 8092F218 46085180 */  add.s   $f6, $f10, $f8             
 /* 02C4C 8092F21C 46043481 */  sub.s   $f18, $f6, $f4             
-/* 02C50 8092F220 0C00B6B0 */  jal     func_8002DAC0              
+/* 02C50 8092F220 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 02C54 8092F224 E492002C */  swc1    $f18, 0x002C($a0)          ## 0000002C
 /* 02C58 8092F228 8FB90024 */  lw      $t9, 0x0024($sp)           
 /* 02C5C 8092F22C 3C058093 */  lui     $a1, %hi(D_80937358)       ## $a1 = 80930000

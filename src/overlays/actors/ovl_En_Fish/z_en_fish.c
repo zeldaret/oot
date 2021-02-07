@@ -1,4 +1,5 @@
 #include "z_en_fish.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -9,14 +10,10 @@ void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnFish_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_040185FC;
-extern UNK_TYPE D_04018FE0;
-extern UNK_TYPE D_0401909C;
-
 /*
 const ActorInit En_Fish_InitVars = {
     ACTOR_EN_FISH,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnFish),

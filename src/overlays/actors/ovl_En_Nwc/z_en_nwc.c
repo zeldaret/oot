@@ -26,7 +26,10 @@ void EnNwc_Idle(EnNwc* this, GlobalContext* globalCtx);
 #define CHICK_BG_FLOOR (1 << 0)
 #define CHICK_BG_WALL (1 << 1)
 
-typedef enum { CHICK_NONE, CHICK_NORMAL } ChickTypes;
+typedef enum {
+    /* 0 */ CHICK_NONE,
+    /* 1 */ CHICK_NORMAL
+} ChickTypes;
 
 extern Gfx D_06000840[];
 extern Gfx D_060008B0[];
@@ -39,7 +42,7 @@ extern Gfx D_06000D50[];
 
 const ActorInit En_Nwc_InitVars = {
     ACTOR_EN_NWC,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_NWC,
     sizeof(EnNwc),
@@ -227,9 +230,9 @@ void EnNwc_Init(Actor* thisx, GlobalContext* globalCtx) {
     chick = this->chicks;
     for (i = 0; i < this->count; i++, chick++) {
         chick->type = CHICK_NORMAL;
-        chick->pos.x = thisx->posRot.pos.x + ((Rand_ZeroOne() * 100.0f) - 50.0f);
-        chick->pos.y = thisx->posRot.pos.y + 20.0f;
-        chick->pos.z = thisx->posRot.pos.z + ((Rand_ZeroOne() * 100.0f) - 50.0f);
+        chick->pos.x = thisx->world.pos.x + ((Rand_ZeroOne() * 100.0f) - 50.0f);
+        chick->pos.y = thisx->world.pos.y + 20.0f;
+        chick->pos.z = thisx->world.pos.z + ((Rand_ZeroOne() * 100.0f) - 50.0f);
         chick->height = 5;
     }
     EnNwc_SetUpdate(this, EnNwc_Idle);

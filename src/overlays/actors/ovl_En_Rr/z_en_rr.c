@@ -69,7 +69,7 @@ extern Gfx D_06000470[];
 
 const ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_RR,
     sizeof(EnRr),
@@ -159,8 +159,8 @@ static DamageTable sDamageTable = {
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 55, ICHAIN_CONTINUE),
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 30, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
 void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
@@ -175,7 +175,7 @@ void EnRr_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_SetCylinderType1(globalCtx, &this->collider1, &this->actor, &sCylinderInit1);
     Collider_InitCylinder(globalCtx, &this->collider2);
     Collider_SetCylinderType1(globalCtx, &this->collider2, &this->actor, &sCylinderInit2);
-    Actor_SetHeight(&this->actor, 30.0f);
+    Actor_SetFocus(&this->actor, 30.0f);
     this->actor.scale.y = 0.013f;
     this->actor.scale.x = this->actor.scale.z = 0.014f;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -326,7 +326,7 @@ void EnRr_SetupReleasePlayer(EnRr* this, GlobalContext* globalCtx) {
     }
     osSyncPrintf(VT_FGCOL(YELLOW) "%s[%d] : Rr_Catch_Cancel" VT_RST "\n", "../z_en_rr.c", 650);
     func_8002F6D4(globalCtx, &this->actor, 4.0f, this->actor.shape.rot.y, 12.0f, 8);
-    if (this->actor.dmgEffectTimer == 0) {
+    if (this->actor.colorFilterTimer == 0) {
         this->actionFunc = EnRr_Approach;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_THROW);
     } else if (this->actor.colChkInfo.health != 0) {
@@ -476,7 +476,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
-                    if (this->actor.dmgEffectTimer == 0) {
+                    if (this->actor.colorFilterTimer == 0) {
                         this->effectTimer = 20;
                         func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     }
@@ -497,7 +497,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     return;
             }
         }
-        if ((this->ocTimer == 0) && (this->actor.dmgEffectTimer == 0) && (player->invincibilityTimer == 0) &&
+        if ((this->ocTimer == 0) && (this->actor.colorFilterTimer == 0) && (player->invincibilityTimer == 0) &&
             !(player->stateFlags2 & 0x80) &&
             ((this->collider1.base.ocFlags1 & OC1_HIT) || (this->collider2.base.ocFlags1 & OC1_HIT))) {
             this->collider1.base.ocFlags1 &= ~OC1_HIT;
@@ -571,18 +571,18 @@ void EnRr_UpdateBodySegments(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_Approach(EnRr* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
-    if ((this->actionTimer == 0) && (this->actor.xzDistToLink < 160.0f)) {
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xA, 0x1F4, 0);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
+    if ((this->actionTimer == 0) && (this->actor.xzDistToPlayer < 160.0f)) {
         EnRr_SetupReach(this);
-    } else if ((this->actor.xzDistToLink < 400.0f) && (this->actor.speedXZ == 0.0f)) {
+    } else if ((this->actor.xzDistToPlayer < 400.0f) && (this->actor.speedXZ == 0.0f)) {
         EnRr_SetSpeed(this, 2.0f);
     }
 }
 
 void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 0xA, 0x1F4, 0);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 0xA, 0x1F4, 0);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
     switch (this->reachState) {
         case REACH_EXTEND:
             if (this->actionTimer == 0) {
@@ -621,7 +621,7 @@ void EnRr_Reach(EnRr* this, GlobalContext* globalCtx) {
 void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    func_800AA000(this->actor.xyzDistToLinkSq, 120, 2, 120);
+    func_800AA000(this->actor.xyzDistToPlayerSq, 120, 2, 120);
     if ((this->frameCount % 8) == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIKE_EAT);
     }
@@ -629,9 +629,9 @@ void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
     if ((this->grabTimer == 0) || !(player->stateFlags2 & 0x80)) {
         EnRr_SetupReleasePlayer(this, globalCtx);
     } else {
-        Math_ApproachF(&player->actor.posRot.pos.x, this->mouthPos.x, 1.0f, 30.0f);
-        Math_ApproachF(&player->actor.posRot.pos.y, this->mouthPos.y + this->swallowOffset, 1.0f, 30.0f);
-        Math_ApproachF(&player->actor.posRot.pos.z, this->mouthPos.z, 1.0f, 30.0f);
+        Math_ApproachF(&player->actor.world.pos.x, this->mouthPos.x, 1.0f, 30.0f);
+        Math_ApproachF(&player->actor.world.pos.y, this->mouthPos.y + this->swallowOffset, 1.0f, 30.0f);
+        Math_ApproachF(&player->actor.world.pos.z, this->mouthPos.z, 1.0f, 30.0f);
         Math_ApproachF(&this->swallowOffset, -55.0f, 1.0f, 5.0f);
     }
 }
@@ -639,9 +639,9 @@ void EnRr_GrabPlayer(EnRr* this, GlobalContext* globalCtx) {
 void EnRr_Damage(EnRr* this, GlobalContext* globalCtx) {
     s32 i;
 
-    if (this->actor.dmgEffectTimer == 0) {
+    if (this->actor.colorFilterTimer == 0) {
         EnRr_SetupApproach(this);
-    } else if ((this->actor.dmgEffectTimer & 8) != 0) {
+    } else if ((this->actor.colorFilterTimer & 8) != 0) {
         for (i = 1; i < 5; i++) {
             this->bodySegs[i].rotTarget.z = 5000.0f;
         }
@@ -665,9 +665,9 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
     } else if (this->frameCount >= 95) {
         Vec3f dropPos;
 
-        dropPos.x = this->actor.posRot.pos.x;
-        dropPos.y = this->actor.posRot.pos.y;
-        dropPos.z = this->actor.posRot.pos.z;
+        dropPos.x = this->actor.world.pos.x;
+        dropPos.y = this->actor.world.pos.y;
+        dropPos.z = this->actor.world.pos.z;
         switch (this->eatenShield) {
             case PLAYER_SHIELD_DEKU:
                 Item_DropCollectible(globalCtx, &dropPos, ITEM00_SHIELD_DEKU);
@@ -713,9 +713,9 @@ void EnRr_Death(EnRr* this, GlobalContext* globalCtx) {
         Vec3f vel;
         Vec3f accel;
 
-        pos.x = this->actor.posRot.pos.x;
-        pos.y = this->actor.posRot.pos.y + 20.0f;
-        pos.z = this->actor.posRot.pos.z;
+        pos.x = this->actor.world.pos.x;
+        pos.y = this->actor.world.pos.y + 20.0f;
+        pos.z = this->actor.world.pos.z;
         vel.x = 0.0f;
         vel.y = 0.0f;
         vel.z = 0.0f;
@@ -736,8 +736,8 @@ void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx) {
         this->retreat = false;
         this->actionFunc = EnRr_Approach;
     } else {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink + 0x8000, 0xA, 0x3E8, 0);
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer + 0x8000, 0xA, 0x3E8, 0);
+        this->actor.world.rot.y = this->actor.shape.rot.y;
         if (this->actor.speedXZ == 0.0f) {
             EnRr_SetSpeed(this, 2.0f);
         }
@@ -745,7 +745,7 @@ void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx) {
 }
 
 void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx) {
-    if (this->actor.dmgEffectTimer == 0) {
+    if (this->actor.colorFilterTimer == 0) {
         this->stopScroll = false;
         if (this->hasPlayer) {
             EnRr_SetupReleasePlayer(this, globalCtx);
@@ -782,9 +782,9 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->effectTimer--;
     }
 
-    Actor_SetHeight(&this->actor, 30.0f);
+    Actor_SetFocus(&this->actor, 30.0f);
     EnRr_UpdateBodySegments(this, globalCtx);
-    if (!this->isDead && ((this->actor.dmgEffectTimer == 0) || !(this->actor.dmgEffectParams & 0x4000))) {
+    if (!this->isDead && ((this->actor.colorFilterTimer == 0) || !(this->actor.colorFilterParams & 0x4000))) {
         EnRr_CollisionCheck(this, globalCtx);
     }
 
@@ -812,7 +812,7 @@ void EnRr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->collider1.base.ocFlags1 &= ~OC1_HIT;
         this->collider1.base.acFlags &= ~AC_HIT;
     }
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 30.0f, 20.0f, 7);
     if (!this->stopScroll) {
         Math_ApproachF(&this->segPhaseVel, this->segPhaseVelTarget, 1.0f, 50.0f);
         Math_ApproachF(&this->segPulsePhaseDiff, 4.0f, 1.0f, 5.0f);
@@ -879,7 +879,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }
-    this->effectPos[0] = this->actor.posRot.pos;
+    this->effectPos[0] = this->actor.world.pos;
     Matrix_MultVec3f(&zeroVec, &this->mouthPos);
     gSPDisplayList(POLY_XLU_DISP++, D_06000470);
 
@@ -888,7 +888,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f effectPos;
         s16 effectTimer = this->effectTimer - 1;
 
-        this->actor.dmgEffectTimer++;
+        this->actor.colorFilterTimer++;
         if ((effectTimer & 1) == 0) {
             s32 segIndex = 4 - (effectTimer >> 2);
             s32 offIndex = (effectTimer >> 1) & 3;
@@ -896,7 +896,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
             effectPos.x = this->effectPos[segIndex].x + sEffectOffsets[offIndex].x + Rand_CenteredFloat(10.0f);
             effectPos.y = this->effectPos[segIndex].y + sEffectOffsets[offIndex].y + Rand_CenteredFloat(10.0f);
             effectPos.z = this->effectPos[segIndex].z + sEffectOffsets[offIndex].z + Rand_CenteredFloat(10.0f);
-            if (this->actor.dmgEffectParams & 0x4000) {
+            if (this->actor.colorFilterParams & 0x4000) {
                 EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &effectPos, 100, 0, 0, -1);
             } else {
                 EffectSsEnIce_SpawnFlyingVec3f(globalCtx, &this->actor, &effectPos, 150, 150, 150, 250, 235, 245, 255,

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_anubice_fire.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -20,7 +21,7 @@ extern UNK_TYPE D_06003510;
 /*
 const ActorInit En_Anubice_Fire_InitVars = {
     ACTOR_EN_ANUBICE_FIRE,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_ANUBICE,
     sizeof(EnAnubiceFire),

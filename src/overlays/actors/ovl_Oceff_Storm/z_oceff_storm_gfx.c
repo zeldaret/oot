@@ -1,7 +1,5 @@
 #include "z_oceff_storm.h"
-
-extern u32 D_04032490[];
-extern u32 D_04032890[];
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 static u32 tex0[] = {
     0x2F6E6F59, 0x6197B3CC, 0xC8AD8E6C, 0x5333170A, 0x17366173, 0x86ABC7C6, 0xA9928C7E, 0x55496341, 0x40705B59,
@@ -157,9 +155,9 @@ static Gfx sCylinderTexDl[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(D_04032490, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadTextureBlock(gEffUnknown10Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                          G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 2, 13),
-    gsDPLoadMultiBlock(D_04032890, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
+    gsDPLoadMultiBlock(gEffUnknown11Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
                        G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 12),
     gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, TEXEL1, TEXEL0, ENVIRONMENT, TEXEL0, PRIMITIVE, ENVIRONMENT,
                        COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),

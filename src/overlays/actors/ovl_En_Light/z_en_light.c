@@ -5,6 +5,7 @@
  */
 
 #include "z_en_light.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -18,7 +19,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnLight),
@@ -45,7 +46,6 @@ static FlameParams D_80A9E840[] = {
     { { 170, 255, 255, 255 }, { 0, 0, 255 }, 75 },   { { 170, 255, 255, 255 }, { 0, 150, 255 }, 75 },
 };
 
-extern Gfx D_0404D4E0[];
 extern Gfx D_05000440[];
 
 void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -55,12 +55,12 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.gameMode == 3) {
         // special case for the credits
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, yOffset + (s16)this->actor.posRot.pos.y,
-                                  this->actor.posRot.pos.z, 255, 255, 180, -1);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, yOffset + (s16)this->actor.world.pos.y,
+                                  this->actor.world.pos.z, 255, 255, 180, -1);
     } else {
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, yOffset + (s16)this->actor.posRot.pos.y,
-                                this->actor.posRot.pos.z, 255, 255, 180, -1);
+        Lights_PointGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, yOffset + (s16)this->actor.world.pos.y,
+                                this->actor.world.pos.z, 255, 255, 180, -1);
     }
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
@@ -83,8 +83,8 @@ void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
 
     if (this->actor.parent != NULL) {
-        Math_Vec3f_Copy(&this->actor.posRot.pos, &(this->actor.parent)->posRot.pos);
-        this->actor.posRot.pos.y += 17.0f;
+        Math_Vec3f_Copy(&this->actor.world.pos, &(this->actor.parent)->world.pos);
+        this->actor.world.pos.y += 17.0f;
     }
 
     this->timer++;
@@ -171,7 +171,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
             POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
 
-        dList = D_0404D4E0;
+        dList = gEffFire1DL;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
                         flameParams->primColor.b, flameParams->primColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b, 0);

@@ -6,6 +6,7 @@
 
 #include "z_en_vm.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000011
 
@@ -25,7 +26,7 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx);
 
 const ActorInit En_Vm_InitVars = {
     ACTOR_EN_VM,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_VM,
     sizeof(EnVm),
@@ -121,12 +122,14 @@ static Vec3f D_80B2EB70 = { -500.0f, 0.0f, 0.0f };
 
 static Vec3f D_80B2EB7C = { 0.4f, 0.4f, 0.4f };
 
-static UNK_PTR D_80B2EB88[] = { 0x0402CFE0, 0x0402D7E0, 0x0402DFE0, 0x0402E7E0, 0x0402EFE0,
-                                0x0402F7E0, 0x0402FFE0, 0x040307E0, 0x04030FE0, 0x040317E0 };
+static UNK_PTR D_80B2EB88[] = {
+    gEffEnemyDeathFlame1Tex, gEffEnemyDeathFlame2Tex,  gEffEnemyDeathFlame3Tex, gEffEnemyDeathFlame4Tex,
+    gEffEnemyDeathFlame5Tex, gEffEnemyDeathFlame6Tex,  gEffEnemyDeathFlame7Tex, gEffEnemyDeathFlame8Tex,
+    gEffEnemyDeathFlame9Tex, gEffEnemyDeathFlame10Tex,
+};
 
 extern SkeletonHeader D_06003F60;
 extern AnimationHeader D_06000068;
-extern Gfx D_04031FE0[];
 extern Gfx D_06002728[];
 
 void EnVm_SetupAction(EnVm* this, EnVmActionFunc actionFunc) {
@@ -185,19 +188,19 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
     switch (this->unk_25E) {
         case 0:
             Math_SmoothStepToS(&this->beamRot.x, 0, 10, 1500, 0);
-            headRot = this->actor.yawTowardsLink - this->headRotY - this->actor.shape.rot.y;
-            pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
+            headRot = this->actor.yawTowardsPlayer - this->headRotY - this->actor.shape.rot.y;
+            pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.world.pos);
 
             if (pitch > 0x1B91) {
                 pitch = 0x1B91;
             }
 
-            dist = this->beamSightRange - this->actor.xzDistToLink;
+            dist = this->beamSightRange - this->actor.xzDistToPlayer;
 
-            if (this->actor.xzDistToLink <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38 &&
-                this->actor.yDistToLink <= 80.0f && this->actor.yDistToLink >= -160.0f) {
+            if (this->actor.xzDistToPlayer <= this->beamSightRange && ABS(headRot) <= 0x2710 && pitch >= 0xE38 &&
+                this->actor.yDistToPlayer <= 80.0f && this->actor.yDistToPlayer >= -160.0f) {
                 Math_SmoothStepToS(&this->beamRot.x, pitch, 10, 0xFA0, 0);
-                if (Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1,
+                if (Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1,
                                        (ABS((s16)(dist * 180.0f)) / 3) + 0xFA0, 0) <= 5460) {
                     this->timer--;
                     if (this->timer == 0) {
@@ -220,7 +223,7 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
             return;
     }
 
-    Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsLink - this->actor.shape.rot.y, 1, 0x1F40, 0);
+    Math_SmoothStepToS(&this->headRotY, this->actor.yawTowardsPlayer - this->actor.shape.rot.y, 1, 0x1F40, 0);
 
     if (SkelAnime_Update(&this->skelAnime)) {
         this->unk_260++;
@@ -228,8 +231,8 @@ void EnVm_Wait(EnVm* this, GlobalContext* globalCtx) {
     }
 
     if (this->unk_260 == 2) {
-        this->beamRot.y = this->actor.yawTowardsLink;
-        this->beamRot.x = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
+        this->beamRot.y = this->actor.yawTowardsPlayer;
+        this->beamRot.x = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.world.pos);
 
         if (this->beamRot.x > 0x1B91) {
             this->beamRot.x = 0x1B91;
@@ -261,7 +264,7 @@ void EnVm_SetupAttack(EnVm* this) {
 
 void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s16 pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.posRot.pos);
+    s16 pitch = Math_Vec3f_Pitch(&this->beamPos1, &player->actor.world.pos);
     f32 dist;
     Vec3f playerPos;
 
@@ -291,13 +294,13 @@ void EnVm_Attack(EnVm* this, GlobalContext* globalCtx) {
             return;
         }
 
-        Math_SmoothStepToS(&this->headRotY, -this->actor.shape.rot.y + this->actor.yawTowardsLink, 10, 0xDAC, 0);
-        Math_SmoothStepToS(&this->beamRot.y, this->actor.yawTowardsLink, 10, 0xDAC, 0);
+        Math_SmoothStepToS(&this->headRotY, -this->actor.shape.rot.y + this->actor.yawTowardsPlayer, 10, 0xDAC, 0);
+        Math_SmoothStepToS(&this->beamRot.y, this->actor.yawTowardsPlayer, 10, 0xDAC, 0);
         Math_SmoothStepToS(&this->beamRot.x, pitch, 10, 0xDAC, 0);
-        playerPos = player->actor.posRot.pos;
+        playerPos = player->actor.world.pos;
 
-        if (player->actor.groundY > BGCHECK_Y_MIN) {
-            playerPos.y = player->actor.groundY;
+        if (player->actor.floorHeight > BGCHECK_Y_MIN) {
+            playerPos.y = player->actor.floorHeight;
         }
 
         dist = Math_Vec3f_DistXYZ(&this->beamPos1, &playerPos);
@@ -360,12 +363,12 @@ void EnVm_SetupDie(EnVm* this) {
     this->unk_21C = 3;
     this->beamScale.z = 0.0f;
     this->beamScale.y = 0.0f;
-    this->actor.shape.unk_08 = -5000.0f;
-    this->actor.posRot.pos.y += 5000.0f * this->actor.scale.y;
+    this->actor.shape.yOffset = -5000.0f;
+    this->actor.world.pos.y += 5000.0f * this->actor.scale.y;
     this->actor.velocity.y = 8.0f;
     this->actor.gravity = -0.5f;
     this->actor.speedXZ = Rand_ZeroOne() + 1.0f;
-    this->actor.posRot.rot.y = Rand_CenteredFloat(65535.0f);
+    this->actor.world.rot.y = Rand_CenteredFloat(65535.0f);
     EnVm_SetupAction(this, EnVm_Die);
 }
 
@@ -377,14 +380,14 @@ void EnVm_Die(EnVm* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
 
     if (--this->timer == 0) {
-        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
-                                   this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0x6FF, BOMB_BODY);
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                   this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0x6FF, BOMB_BODY);
 
         if (bomb != NULL) {
             bomb->timer = 0;
         }
 
-        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.posRot.pos, 0xA0);
+        Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0xA0);
         Actor_Kill(&this->actor);
     }
 }
@@ -406,8 +409,8 @@ void EnVm_CheckHealth(EnVm* this, GlobalContext* globalCtx) {
         func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
         EnVm_SetupStun(this);
     } else {
-        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.posRot.pos.x,
-                                   this->actor.posRot.pos.y + 20.0f, this->actor.posRot.pos.z, 0, 0, 0x601, BOMB_BODY);
+        bomb = (EnBom*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_BOM, this->actor.world.pos.x,
+                                   this->actor.world.pos.y + 20.0f, this->actor.world.pos.z, 0, 0, 0x601, BOMB_BODY);
 
         if (bomb != NULL) {
             bomb->timer = 0;
@@ -441,13 +444,13 @@ void EnVm_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->colliderCylinder);
     CollisionCheck_SetOC(globalCtx, colChkCtx, &this->colliderCylinder.base);
 
-    if (this->actor.dmgEffectTimer == 0 && this->actor.colChkInfo.health != 0) {
+    if (this->actor.colorFilterTimer == 0 && this->actor.colChkInfo.health != 0) {
         CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderCylinder.base);
     }
 
     CollisionCheck_SetAC(globalCtx, colChkCtx, &this->colliderQuad2.base);
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += (6500.0f + this->actor.shape.unk_08) * this->actor.scale.y;
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += (6500.0f + this->actor.shape.yOffset) * this->actor.scale.y;
 }
 
 s32 EnVm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -527,7 +530,7 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D84(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnVm_OverrideLimbDraw,
                       EnVm_PostLimbDraw, this);
-    actorPos = this->actor.posRot.pos;
+    actorPos = this->actor.world.pos;
     func_80033C30(&actorPos, &D_80B2EB7C, 255, globalCtx);
 
     if (this->unk_260 >= 3) {
@@ -539,12 +542,12 @@ void EnVm_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80094BC4(globalCtx->state.gfxCtx);
         gDPSetEnvColor(POLY_XLU_DISP++, 0, 0, 255, 0);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[globalCtx2->gameplayFrames % 8]));
-        gSPDisplayList(POLY_XLU_DISP++, D_04031FE0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
         Matrix_RotateY(32767.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vm.c", 1044),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80B2EB88[(globalCtx2->gameplayFrames + 4) % 8]));
-        gSPDisplayList(POLY_XLU_DISP++, D_04031FE0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffEnemyDeathFlameDL);
     }
     gSPSegment(POLY_OPA_DISP++, 0x08, func_80094E78(globalCtx->state.gfxCtx, 0, this->beamTexScroll));
     Matrix_Translate(this->beamPos1.x, this->beamPos1.y, this->beamPos1.z, MTXMODE_NEW);

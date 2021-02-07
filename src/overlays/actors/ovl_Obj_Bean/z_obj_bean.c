@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_bean.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00400000
 
@@ -24,7 +25,7 @@ extern UNK_TYPE D_06000650;
 /*
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MAMENOKI,
     sizeof(ObjBean),

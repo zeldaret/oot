@@ -24,7 +24,7 @@ extern UNK_TYPE D_06003D78;
 /*
 const ActorInit En_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_GOL,
     sizeof(EnGoma),

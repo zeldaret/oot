@@ -1,4 +1,5 @@
 #include "z_en_dekubaba.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000005
 
@@ -20,7 +21,7 @@ extern UNK_TYPE D_06003070;
 /*
 const ActorInit En_Dekubaba_InitVars = {
     ACTOR_EN_DEKUBABA,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_DEKUBABA,
     sizeof(EnDekubaba),

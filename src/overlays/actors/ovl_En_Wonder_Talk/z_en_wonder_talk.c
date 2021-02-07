@@ -21,7 +21,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx);
 
 const ActorInit En_Wonder_Talk_InitVars = {
     ACTOR_EN_WONDER_TALK,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnWonderTalk),
@@ -47,7 +47,7 @@ void EnWonderTalk_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->switchFlag == 0x3F) {
         this->switchFlag = -1;
     }
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     if (this->switchFlag >= 0) {
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
@@ -150,8 +150,8 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
                 }
                 this->actionFunc = func_80B391CC;
             }
-        } else if (!(this->unk_15C < this->actor.xzDistToLink)) {
-            yawDiffTemp = (this->actor.yawTowardsLink - this->actor.posRot.rot.y);
+        } else if (!(this->unk_15C < this->actor.xzDistToPlayer)) {
+            yawDiffTemp = (this->actor.yawTowardsPlayer - this->actor.world.rot.y);
             yawDiff = ABS(yawDiffTemp);
 
             if (yawDiff < 0x4000) {
@@ -164,7 +164,7 @@ void func_80B3943C(EnWonderTalk* this, GlobalContext* globalCtx) {
                     // Actual message type
                     osSyncPrintf(VT_FGCOL(CYAN) "☆☆☆☆☆ 実質メッセージ種類     %x\n" VT_RST, this->actor.textId);
                     // Specified range
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.posRot.rot.z);
+                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 指定範囲               %d\n" VT_RST, this->actor.world.rot.z);
                     osSyncPrintf("\n\n");
                 }
                 this->unk_15A = 0;
@@ -213,8 +213,8 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
                 case 3:
                     func_80106CCC(globalCtx);
                     if (this->unk_164 == 0) {
-                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.posRot.pos.x,
-                                    this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 2);
+                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.world.pos.x,
+                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 2);
                         this->unk_164 = 1;
                     }
 
@@ -223,8 +223,8 @@ void func_80B395F0(EnWonderTalk* this, GlobalContext* globalCtx) {
                 case 5:
                     func_80106CCC(globalCtx);
                     if (this->unk_164 == 0) {
-                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.posRot.pos.x,
-                                    this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 3);
+                        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->actor.world.pos.x,
+                                    this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 3);
                         this->unk_164 = 1;
                     }
                     this->actionFunc = func_80B391CC;
@@ -241,18 +241,18 @@ void EnWonderTalk_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_158--;
     }
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, this->height);
+    Actor_SetFocus(&this->actor, this->height);
 
     if (BREG(0) != 0) {
         if (this->unk_15A != 0) {
             if ((this->unk_15A & 1) == 0) {
-                DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                       this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z,
-                                       1.0f, 1.0f, 1.0f, 10, 10, 10, 255, 4, globalCtx->state.gfxCtx);
+                DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                       this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
+                                       1.0f, 1.0f, 10, 10, 10, 255, 4, globalCtx->state.gfxCtx);
             }
         } else {
-            DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                                   this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f,
+            DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                   this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f,
                                    1.0f, 1.0f, 0, 255, 0, 255, 4, globalCtx->state.gfxCtx);
         }
     }

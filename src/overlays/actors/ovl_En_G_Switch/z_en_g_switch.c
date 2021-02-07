@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_En_Syateki_Itm/z_en_syateki_itm.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "overlays/effects/ovl_Effect_Ss_HitMark/z_eff_ss_hitmark.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -69,7 +70,7 @@ static s16 sRupeeTypes[] = {
 
 const ActorInit En_G_Switch_InitVars = {
     ACTOR_EN_G_SWITCH,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGSwitch),
@@ -118,7 +119,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
             this->actor.draw = EnGSwitch_DrawRupee;
-            this->actor.shape.unk_08 = 700.0f;
+            this->actor.shape.yOffset = 700.0f;
             if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
                 osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ Ｙｏｕ ａｒｅ Ｓｈｏｃｋ！  ☆☆☆☆☆ %d\n" VT_RST, this->switchFlag);
                 Actor_Kill(&this->actor);
@@ -154,7 +155,7 @@ void EnGSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = EnGSwitch_WaitForObject;
             break;
         case ENGSWITCH_TARGET_RUPEE:
-            this->actor.shape.unk_08 = 700.0f;
+            this->actor.shape.yOffset = 700.0f;
             Actor_SetScale(&this->actor, 0.05f);
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -181,9 +182,9 @@ void EnGSwitch_Break(EnGSwitch* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     s32 i;
 
-    randPos.x = this->actor.posRot.pos.x + Rand_CenteredFloat(40.0f);
-    randPos.y = this->actor.posRot.pos.y + 30.0f + Rand_CenteredFloat(35.0f);
-    randPos.z = this->actor.posRot.pos.z + Rand_CenteredFloat(40.0f);
+    randPos.x = this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
+    randPos.y = this->actor.world.pos.y + 30.0f + Rand_CenteredFloat(35.0f);
+    randPos.z = this->actor.world.pos.z + Rand_CenteredFloat(40.0f);
     hitPos.x = this->collider.info.bumper.hitPos.x;
     hitPos.y = this->collider.info.bumper.hitPos.y;
     hitPos.z = this->collider.info.bumper.hitPos.z;
@@ -240,14 +241,14 @@ void EnGSwitch_SilverRupeeIdle(EnGSwitch* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     this->actor.shape.rot.y += 0x800;
-    if (this->actor.xyzDistToLinkSq < 900.0f) {
+    if (this->actor.xyzDistToPlayerSq < 900.0f) {
         Rupees_ChangeBy(5);
         sCollectedCount++;
         func_80078884(NA_SE_SY_GET_RUPY);
-        this->actor.posRot.pos = player->actor.posRot.pos;
-        this->actor.posRot.pos.y += 40.0f;
+        this->actor.world.pos = player->actor.world.pos;
+        this->actor.world.pos.y += 40.0f;
         if (LINK_IS_ADULT) {
-            this->actor.posRot.pos.y += 20.0f;
+            this->actor.world.pos.y += 20.0f;
         }
         this->actor.gravity = 0.0f;
         this->killTimer = 15;
@@ -263,11 +264,11 @@ void EnGSwitch_SilverRupeeCollected(EnGSwitch* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    this->actor.posRot.pos = player->actor.posRot.pos;
-    this->actor.posRot.pos.y =
-        player->actor.posRot.pos.y + 40.0f + (this->killTimer * 0.3f) * Math_SinS(this->killTimer * 0x3A98);
+    this->actor.world.pos = player->actor.world.pos;
+    this->actor.world.pos.y =
+        player->actor.world.pos.y + 40.0f + (this->killTimer * 0.3f) * Math_SinS(this->killTimer * 0x3A98);
     if (LINK_IS_ADULT) {
-        this->actor.posRot.pos.y += 20.0f;
+        this->actor.world.pos.y += 20.0f;
     }
 }
 
@@ -279,8 +280,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
         switch (this->moveMode) {
             case GSWITCH_THROW:
                 Actor_MoveForward(&this->actor);
-                if ((this->actor.velocity.y < 0.0f) &&
-                    (this->actor.posRot.pos.y < (this->actor.initPosRot.pos.y - 50.0f))) {
+                if ((this->actor.velocity.y < 0.0f) && (this->actor.world.pos.y < (this->actor.home.pos.y - 50.0f))) {
                     gallery = ((EnSyatekiItm*)this->actor.parent);
                     this->actor.velocity.y = 0.0f;
                     this->actor.gravity = 0.0f;
@@ -292,7 +292,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 break;
             case GSWITCH_LEFT:
                 func_8002D7EC(&this->actor);
-                if ((this->actor.velocity.x < 0.0f) && (this->actor.posRot.pos.x < this->targetPos.x)) {
+                if ((this->actor.velocity.x < 0.0f) && (this->actor.world.pos.x < this->targetPos.x)) {
                     gallery = ((EnSyatekiItm*)this->actor.parent);
                     if (gallery->actor.update != NULL) {
                         gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
@@ -302,7 +302,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                 break;
             case GSWITCH_RIGHT:
                 func_8002D7EC(&this->actor);
-                if (this->actor.posRot.pos.x > this->targetPos.x) {
+                if (this->actor.world.pos.x > this->targetPos.x) {
                     gallery = ((EnSyatekiItm*)this->actor.parent);
                     if (gallery->actor.update != NULL) {
                         gallery->targetState[this->index] = ENSYATEKIHIT_MISS;
@@ -313,10 +313,10 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
             default:
                 switch (this->moveState) {
                     case MOVE_TARGET:
-                        if ((fabsf(this->actor.posRot.pos.x - this->targetPos.x) > 5.0f) ||
-                            (fabsf(this->actor.posRot.pos.y - this->targetPos.y) > 5.0f)) {
-                            Math_ApproachF(&this->actor.posRot.pos.x, this->targetPos.x, 0.3f, 30.0f);
-                            Math_ApproachF(&this->actor.posRot.pos.y, this->targetPos.y, 0.3f, 30.0f);
+                        if ((fabsf(this->actor.world.pos.x - this->targetPos.x) > 5.0f) ||
+                            (fabsf(this->actor.world.pos.y - this->targetPos.y) > 5.0f)) {
+                            Math_ApproachF(&this->actor.world.pos.x, this->targetPos.x, 0.3f, 30.0f);
+                            Math_ApproachF(&this->actor.world.pos.y, this->targetPos.y, 0.3f, 30.0f);
                         } else {
                             this->moveState = MOVE_HOME;
                             this->waitTimer = 60;
@@ -324,10 +324,10 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
                         break;
                     case MOVE_HOME:
                         if (this->waitTimer == 0) {
-                            if ((fabsf(this->actor.posRot.pos.x - this->actor.initPosRot.pos.x) > 5.0f) ||
-                                (fabsf(this->actor.posRot.pos.y - this->actor.initPosRot.pos.y) > 5.0f)) {
-                                Math_ApproachF(&this->actor.posRot.pos.x, this->actor.initPosRot.pos.x, 0.3f, 30.0f);
-                                Math_ApproachF(&this->actor.posRot.pos.y, this->actor.initPosRot.pos.y, 0.3f, 30.0f);
+                            if ((fabsf(this->actor.world.pos.x - this->actor.home.pos.x) > 5.0f) ||
+                                (fabsf(this->actor.world.pos.y - this->actor.home.pos.y) > 5.0f)) {
+                                Math_ApproachF(&this->actor.world.pos.x, this->actor.home.pos.x, 0.3f, 30.0f);
+                                Math_ApproachF(&this->actor.world.pos.y, this->actor.home.pos.y, 0.3f, 30.0f);
                             } else {
                                 gallery = ((EnSyatekiItm*)this->actor.parent);
                                 if (gallery->actor.update != NULL) {
@@ -362,7 +362,7 @@ void EnGSwitch_GalleryRupee(EnGSwitch* this, GlobalContext* globalCtx) {
 void EnGSwitch_ArcheryPot(EnGSwitch* this, GlobalContext* globalCtx) {
     s32 i;
     s16 angle;
-    Vec3f* thisPos = &this->actor.posRot.pos;
+    Vec3f* thisPos = &this->actor.world.pos;
 
     this->actor.shape.rot.y += 0x3C0;
     if (this->collider.base.acFlags & AC_HIT) {
@@ -435,7 +435,7 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->type != ENGSWITCH_SILVER_TRACKER) && (this->type != ENGSWITCH_SILVER_RUPEE) &&
         (this->type != ENGSWITCH_TARGET_RUPEE)) {
         Actor_MoveForward(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 50.0f, 50.0f, 100.0f, 0x1C);
     }
     if (this->actor.draw != NULL) {
         if (this->type == ENGSWITCH_TARGET_RUPEE) {
@@ -447,8 +447,8 @@ void EnGSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     if (BREG(0) && (this->type == ENGSWITCH_SILVER_TRACKER)) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y, this->actor.posRot.pos.z,
-                               this->actor.posRot.rot.x, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                               this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
     }
 }
@@ -467,7 +467,8 @@ void EnGSwitch_DrawPot(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u8* sRupeeTex[] = { 0x04042140, 0x04042160, 0x04042180, 0x040421C0, 0x040421A0, 0x040421E0 };
+static UNK_PTR sRupeeTex[] = { gRupeeGreenTex, gRupeeBlueTex,   gRupeeRedTex,
+                               gRupeePinkTex,  gRupeeOrangeTex, gRupeeSilverTex };
 
 void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
@@ -481,7 +482,7 @@ void EnGSwitch_DrawRupee(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 957),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[this->colorIdx]));
-        gSPDisplayList(POLY_OPA_DISP++, D_04042440);
+        gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 961);
     }
     if (this->type == ENGSWITCH_TARGET_RUPEE) {
@@ -565,7 +566,7 @@ void EnGSwitch_DrawEffects(EnGSwitch* this, GlobalContext* globalCtx) {
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_g_switch.c", 1088),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sRupeeTex[effect->colorIdx]));
-            gSPDisplayList(POLY_OPA_DISP++, D_04042440);
+            gSPDisplayList(POLY_OPA_DISP++, gRupeeDL);
         }
     }
     CLOSE_DISPS(gfxCtx, "../z_en_g_switch.c", 1095);

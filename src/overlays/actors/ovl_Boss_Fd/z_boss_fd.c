@@ -1,4 +1,5 @@
 #include "z_boss_fd.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000035
 
@@ -12,7 +13,7 @@ void BossFd_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Boss_Fd_InitVars = {
     ACTOR_BOSS_FD,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_FD,
     sizeof(BossFd),

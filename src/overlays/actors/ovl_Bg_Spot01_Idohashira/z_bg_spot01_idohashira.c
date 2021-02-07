@@ -40,7 +40,7 @@ static BgSpot01IdohashiraDrawFunc sDrawFuncs[] = {
 
 const ActorInit Bg_Spot01_Idohashira_InitVars = {
     ACTOR_BG_SPOT01_IDOHASHIRA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SPOT01_OBJECTS,
     sizeof(BgSpot01Idohashira),
@@ -58,7 +58,7 @@ void BgSpot01Idohashira_PlayBreakSfx1(BgSpot01Idohashira* this) {
 }
 
 void BgSpot01Idohashira_PlayBreakSfx2(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
-    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.posRot.pos, 60, NA_SE_EV_WOODBOX_BREAK);
+    Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 60, NA_SE_EV_WOODBOX_BREAK);
 }
 
 void func_808AAD3C(GlobalContext* globalCtx, Vec3f* vec, u32 arg2) {
@@ -112,7 +112,7 @@ void func_808AAD3C(GlobalContext* globalCtx, Vec3f* vec, u32 arg2) {
 
 void func_808AAE6C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     s32 pad;
-    Vec3f sp30 = this->dyna.actor.posRot.pos;
+    Vec3f sp30 = this->dyna.actor.world.pos;
 
     sp30.y += kREG(15);
     func_80033480(globalCtx, &sp30, kREG(11) + 350.0f, kREG(12) + 5, kREG(13) + 0x7D0, kREG(14) + 0x320, 0);
@@ -203,11 +203,11 @@ s32 func_808AB29C(BgSpot01Idohashira* this, GlobalContext* globalCtx) {
     npcAction = BgSpot01Idohashira_GetNpcAction(globalCtx, 2);
     if (npcAction != NULL) {
         temp_f0 = func_8006F93C(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames);
-        initPos = this->dyna.actor.initPosRot.pos;
+        initPos = this->dyna.actor.home.pos;
         endX = npcAction->endPos.x;
         tempY = ((kREG(10) + 1100.0f) / 10.0f) + npcAction->endPos.y;
         endZ = npcAction->endPos.z;
-        thisPos = &this->dyna.actor.posRot.pos;
+        thisPos = &this->dyna.actor.world.pos;
         thisPos->x = ((endX - initPos.x) * temp_f0) + initPos.x;
         thisPos->y =
             func_808AB1DC(initPos.y, tempY, npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames) +
@@ -314,7 +314,7 @@ void BgSpot01Idohashira_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else if (gSaveContext.sceneSetupIndex == 4) {
         this->action = 1;
-        this->dyna.actor.shape.unk_08 = -(kREG(10) + 1100.0f);
+        this->dyna.actor.shape.yOffset = -(kREG(10) + 1100.0f);
     } else if (gSaveContext.sceneSetupIndex == 6) {
         this->action = 0;
     } else {

@@ -24,7 +24,7 @@ extern UNK_TYPE D_0600D188;
 
 const ActorInit Bg_Hidan_Hrock_InitVars = {
     ACTOR_BG_HIDAN_HROCK,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanHrock),

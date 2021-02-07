@@ -26,7 +26,7 @@ void func_80A68DB0(EnHorseGanon* this, GlobalContext* globalCtx);
 
 const ActorInit En_Horse_Ganon_InitVars = {
     ACTOR_EN_HORSE_GANON,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HORSE_GANON,
     sizeof(EnHorseGanon),
@@ -120,7 +120,7 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
     s16 y;
 
     func_80A68660(D_80A69248, this->unk_1EC, &vec);
-    if (Math3D_Vec3f_DistXYZ(&vec, &this->actor.posRot.pos) <= 400.0f) {
+    if (Math3D_Vec3f_DistXYZ(&vec, &this->actor.world.pos) <= 400.0f) {
         this->unk_1EC += 1;
         if (this->unk_1EC >= 14) {
             this->unk_1EC = 0;
@@ -128,18 +128,18 @@ void func_80A686A8(EnHorseGanon* this, GlobalContext* globalCtx) {
         }
     }
 
-    tempPos = &this->actor.posRot.pos;
-    y = Math_Vec3f_Yaw(tempPos, &vec) - this->actor.posRot.rot.y;
+    tempPos = &this->actor.world.pos;
+    y = Math_Vec3f_Yaw(tempPos, &vec) - this->actor.world.rot.y;
     if (y >= 301) {
-        this->actor.posRot.rot.y += 300;
+        this->actor.world.rot.y += 300;
     } else if (y < -300) {
-        this->actor.posRot.rot.y -= 300;
+        this->actor.world.rot.y -= 300;
     } else {
-        this->actor.posRot.rot.y += y;
+        this->actor.world.rot.y += y;
     }
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 
-    if (func_8002DB8C(&this->actor, &PLAYER->actor) <= 300.0f) {
+    if (Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor) <= 300.0f) {
         if (this->actor.speedXZ < 12.0f) {
             this->actor.speedXZ += 1.0f;
         } else {
@@ -173,11 +173,11 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.gravity = -3.5f;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Squiggly, 20.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawHorse, 20.0f);
     this->actor.speedXZ = 0.0f;
-    this->actor.posRot2.pos = this->actor.posRot.pos;
+    this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
-    this->actor.posRot2.pos.y += 70.0f;
+    this->actor.focus.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &D_06008668, &D_06004AA4);
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, D_80A691B0[0]);
@@ -274,14 +274,14 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     Vec3f v;
     s32 temp1;
 
-    v.x = Math_SinS(this->actor.shape.rot.y) * 30.0f + this->actor.posRot.pos.x;
-    v.y = this->actor.posRot.pos.y + 60.0f;
-    v.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.posRot.pos.z;
+    v.x = Math_SinS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.x;
+    v.y = this->actor.world.pos.y + 60.0f;
+    v.z = Math_CosS(this->actor.shape.rot.y) * 30.0f + this->actor.world.pos.z;
 
     temp_ret = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &col, &temp1, &v);
 
     this->unk_1F4 = temp_ret;
-    this->actor.shape.rot.x = 10430.3779f * Math_FAtan2F(this->actor.posRot.pos.y - temp_ret, 30.0f);
+    this->actor.shape.rot.x = 10430.3779f * Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f);
 }
 
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -290,9 +290,9 @@ void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     sActionFuncs[this->action](this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
-    this->actor.posRot2.pos = this->actor.posRot.pos;
-    this->actor.posRot2.pos.y += 70.0f;
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 55.0f, 100.0f, 29);
+    this->actor.focus.pos = this->actor.world.pos;
+    this->actor.focus.pos.y += 70.0f;
     Collider_UpdateCylinder(&this->actor, &this->colliderBody);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderBody.base);
 }

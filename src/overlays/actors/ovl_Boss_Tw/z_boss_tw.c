@@ -1,4 +1,5 @@
 #include "z_boss_tw.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000035
 
@@ -86,7 +87,7 @@ extern UNK_TYPE D_0603A2D0;
 /*
 const ActorInit Boss_Tw_InitVars = {
     ACTOR_BOSS_TW,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_TW,
     sizeof(BossTw),

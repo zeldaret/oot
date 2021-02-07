@@ -19,7 +19,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Dekujr_InitVars = {
     ACTOR_OBJ_DEKUJR,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DEKUJR,
     sizeof(ObjDekujr),
@@ -50,7 +50,7 @@ void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (gSaveContext.cutsceneIndex < 0xFFF0) {
         if (!LINK_IS_ADULT) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(thisx);
             return;
         }
         this->unk_19C = 2;
@@ -60,15 +60,15 @@ void ObjDekujr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_19B = 1;
     }
     if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST)) {
-        Actor_Kill(&this->actor);
+        Actor_Kill(thisx);
     } else {
-        ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
+        ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
         Collider_InitCylinder(globalCtx, &this->collider);
-        sCylinderInit.base.actor = thisx; // thisx required to match here
+        sCylinderInit.base.actor = thisx;
         Collider_SetCylinderToActor(globalCtx, &this->collider, &sCylinderInit);
-        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-        this->actor.textId = func_80037C30(globalCtx, 0xF);
-        Actor_SetScale(&this->actor, 0.4f);
+        thisx->colChkInfo.mass = MASS_IMMOVABLE;
+        thisx->textId = func_80037C30(globalCtx, 0xF);
+        Actor_SetScale(thisx, 0.4f);
     }
 }
 
@@ -107,7 +107,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx) {
             ObjDekujr_SetInitialPos(csCmdNPCAction, &initPos);
             ObjDekujr_SetFinalPos(csCmdNPCAction, &finalPos);
             if (this->unk_19C == 0) {
-                this->actor.posRot.pos = initPos;
+                this->actor.world.pos = initPos;
                 this->unk_19C = 1;
             }
             this->actor.shape.rot.x = csCmdNPCAction->urot.x;
@@ -141,12 +141,12 @@ void ObjDekujr_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->unk_19B == 1) {
         ObjDekujr_ComeUp(this, globalCtx);
-        this->actor.posRot.pos.x += this->actor.velocity.x;
-        this->actor.posRot.pos.y += this->actor.velocity.y;
-        this->actor.posRot.pos.z += this->actor.velocity.z;
+        this->actor.world.pos.x += this->actor.velocity.x;
+        this->actor.world.pos.y += this->actor.velocity.y;
+        this->actor.world.pos.z += this->actor.velocity.z;
     } else {
         func_80037D98(globalCtx, &this->actor, 0xF, &this->unk_1A0);
-        Actor_SetHeight(&this->actor, 40.0f);
+        Actor_SetFocus(&this->actor, 40.0f);
     }
 }
 

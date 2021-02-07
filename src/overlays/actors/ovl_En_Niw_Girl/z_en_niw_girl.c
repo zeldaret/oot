@@ -22,7 +22,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx);
 
 const ActorInit En_Niw_Girl_InitVars = {
     ACTOR_EN_NIW_GIRL,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_GR,
     sizeof(EnNiwGirl),
@@ -70,7 +70,7 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009948, &D_06000378, this->jointTable, this->morphTable, 17);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    this->actor.unk_1F = 6;
+    this->actor.targetMode = 6;
     if (this->actor.params < 0) {
         this->actor.params = 0;
     }
@@ -82,8 +82,8 @@ void EnNiwGirl_Init(Actor* thisx, GlobalContext* globalCtx) {
     vec1.z = 50.0;
     Matrix_MultVec3f(&vec1, &vec2);
     this->chasedEnNiw = (EnNiw*)Actor_SpawnAsChild(
-        &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_NIW, this->actor.posRot.pos.x + vec2.x,
-        this->actor.posRot.pos.y + vec2.y, this->actor.posRot.pos.z + vec2.z, 0, this->actor.posRot.rot.y, 0, 0xA);
+        &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_NIW, this->actor.world.pos.x + vec2.x,
+        this->actor.world.pos.y + vec2.y, this->actor.world.pos.z + vec2.z, 0, this->actor.world.rot.y, 0, 0xA);
     if (this->chasedEnNiw != NULL) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ シツレイしちゃうわね！プンプン ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
         osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ きゃははははは、まてー ☆☆☆☆☆ %d\n" VT_RST, this->path);
@@ -118,8 +118,8 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.speedXZ, 3.0f, 0.2f, 0.4f);
 
     // Find the X and Z distance between the girl and the cuckoo she is chasing
-    xDistBetween = this->chasedEnNiw->actor.posRot.pos.x - this->actor.posRot.pos.x;
-    zDistBetween = this->chasedEnNiw->actor.posRot.pos.z - this->actor.posRot.pos.z;
+    xDistBetween = this->chasedEnNiw->actor.world.pos.x - this->actor.world.pos.x;
+    zDistBetween = this->chasedEnNiw->actor.world.pos.z - this->actor.world.pos.z;
     if (func_8010BDBC(&globalCtx->msgCtx) != 0) {
         this->chasedEnNiw->path = 0;
     }
@@ -134,7 +134,7 @@ void func_80AB9210(EnNiwGirl* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(xDistBetween, zDistBetween) * 10430.378f, 3,
                        this->unk_27C, 0);
     Math_ApproachF(&this->unk_27C, 5000.0f, 30.0f, 150.0f);
-    this->actor.posRot.rot.y = this->actor.shape.rot.y;
+    this->actor.world.rot.y = this->actor.shape.rot.y;
 
     // Only allow Link to talk to her when she is playing the jumping animation
     if ((this->jumpTimer == 0) || (Player_GetMask(globalCtx) != PLAYER_MASK_NONE)) {
@@ -209,11 +209,11 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
     this->unk_280 = 30.0f;
-    Actor_SetHeight(&this->actor, 30.0f);
+    Actor_SetFocus(&this->actor, 30.0f);
     if (tempActionFunc == this->actionFunc) {
-        this->unk_2D4.unk_18 = player->actor.posRot.pos;
+        this->unk_2D4.unk_18 = player->actor.world.pos;
         if (LINK_IS_CHILD) {
-            this->unk_2D4.unk_18.y = player->actor.posRot.pos.y - 10.0f;
+            this->unk_2D4.unk_18.y = player->actor.world.pos.y - 10.0f;
         }
         func_80034A14(&this->actor, &this->unk_2D4, 2, 4);
         this->unk_260 = this->unk_2D4.unk_08;
@@ -231,7 +231,7 @@ void EnNiwGirl_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 100.0f, 100.0f, 200.0f, 0x1C);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 100.0f, 100.0f, 200.0f, 0x1C);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
@@ -261,7 +261,7 @@ void EnNiwGirl_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AB99D8[this->unk_272]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnNiwGirlOverrideLimbDraw, 0, this);
-    func_80033C30(&this->actor.posRot.pos, &sp4C, 255, globalCtx);
+    func_80033C30(&this->actor.world.pos, &sp4C, 255, globalCtx);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_niw_girl.c", 592);
 }

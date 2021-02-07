@@ -252,7 +252,7 @@ glabel D_80131840
 glabel D_80131844
     .incbin "baserom.z64", 0xBA89E4, 0x10
 
-glabel D_80131854
+glabel gFrogsSongPtr
     .word D_80131844
 
 glabel D_80131858

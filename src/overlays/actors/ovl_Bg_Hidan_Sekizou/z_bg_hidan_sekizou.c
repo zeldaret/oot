@@ -17,7 +17,7 @@ extern UNK_TYPE D_0600DC30;
 /*
 const ActorInit Bg_Hidan_Sekizou_InitVars = {
     ACTOR_BG_HIDAN_SEKIZOU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSekizou),
