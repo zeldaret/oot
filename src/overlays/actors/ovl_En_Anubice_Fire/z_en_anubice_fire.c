@@ -34,7 +34,7 @@ const ActorInit En_Anubice_Fire_InitVars = {
     (ActorFunc)EnAnubiceFire_Draw,
 };
 
-static ColliderCylinderInit D_809B31E0 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -60,18 +60,18 @@ void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
 
     Collider_InitCylinder(globalCtx, &this->cylinder);
-    Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &D_809B31E0);
+    Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &sCylinderInit);
 
     this->unk_15A = 0x1E;
     this->unk_154 = 2.0f;
-    this->unk_150 = 0.0f;
+    this->scale = 0.0f;
 
     for (i = 0; i < 6; i++) {
         this->unk_160[i] = this->actor.world.pos;
     }
 
     this->unk_15E = 0;
-    this->unk_14C = &func_809B26EC;
+    this->actionFunc = &func_809B26EC;
 }
 
 void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext *globalCtx) {
@@ -90,57 +90,33 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
     Matrix_MultVec3f(&sp24, &this->actor.velocity);
     Matrix_Pull();
 
-    this->unk_14C = func_809B27D8;
+    this->actionFunc = func_809B27D8;
     this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
 }
 
-
-static Vec3f D_809B3218 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_809B3224 = { 0.0f, 0.0f, 0.0f };
-
-static Color_RGBA8 D_809B3230 = { 255, 255, 0, 255 };
-
-static Color_RGBA8 D_809B3234 = { 255, 0, 0, 255 };
-
-static Vec3f D_809B3238 = { 0.0f, 0.0f, 0.0f };
-
-static Vec3f D_809B3244 = { 0.0f, 0.0f, 0.0f };
-
-
-#ifdef NON_MATCHING
-void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx2) {
-    GlobalContext *globalCtx = globalCtx;
-    Vec3f velocity;
-    Vec3f accel;
+void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx) {
+    s32 pad;
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
+    Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
-    Color_RGBA8 primColor;
-    Color_RGBA8 envColor;
-    Vec3f sp84;
-    Vec3f sp78;
-    s32 temp_s0;
-    u8 temp_t1;
-    s32 i;
+    Color_RGBA8 primColor = { 255, 255, 0, 255 };
+    Color_RGBA8 envColor = { 255, 0, 0, 255 };
+    Vec3f sp84 = { 0.0f, 0.0f, 0.0f };
+    Vec3f sp78 = { 0.0f, 0.0f, 0.0f };
 
-    velocity = D_809B3218;
-    accel = D_809B3224;
-    primColor = D_809B3230;
-    envColor = D_809B3234;
-    sp84 = D_809B3238;
-    sp78 = D_809B3244;
-
-    this->actor.world.rot.z = this->actor.world.rot.z + 5000;
+    this->actor.world.rot.z += 5000;
     if (this->unk_15A == 0) {
         this->unk_154 = 0.0f;
     }
 
-    Math_ApproachF(&this->unk_150, this->unk_154, 0.2f, 0.4f);
-    if ((this->unk_15A == 0) && (this->unk_150 < 0.1f)) {
+    Math_ApproachF(&this->scale, this->unk_154, 0.2f, 0.4f);
+    if ((this->unk_15A == 0) && (this->scale < 0.1f)) {
         Actor_Kill(&this->actor);
-    } else if ((this->actor.params == 0) && ((this->cylinder.base.atFlags & 4) != 0)) {
+    } else if ((this->actor.params == 0) && (this->cylinder.base.atFlags & 4)) {
         if (Player_HasMirrorShieldEquipped(globalCtx)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_IT_SHIELD_REFLECT_SW);
-            this->cylinder.base.atFlags = (this->cylinder.base.atFlags & 0xFFE9) | 8;
+            this->cylinder.base.atFlags &= 0xFFE9;
+            this->cylinder.base.atFlags |= 8;
             this->cylinder.info.toucher.dmgFlags = 2;
             this->unk_15A = 0x1E;
             this->actor.params = 1;
@@ -154,22 +130,22 @@ void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx2) {
             this->actor.velocity.y = 0.0f;
             this->actor.velocity.x = 0.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
-            this->unk_14C = &func_809B2B48;
+            this->actionFunc = &func_809B2B48;
         }
-    } else if (!(this->unk_150 < 0.4f)) {
+    } else if (!(this->scale < .4f)) {
+        f32 scale = 1000.0f;
+        f32 life = 10.0f;
+
+        s32 i;
         for (i = 0; i < 10; i++) {
-            pos.x = this->actor.world.pos.x + ((Rand_ZeroOne() - 0.5f) * (this->unk_150 * 20.0f));
-            pos.y = this->actor.world.pos.y + ((Rand_ZeroOne() - 0.5f) * (this->unk_150 * 20.0f));
+            pos.x = this->actor.world.pos.x + (Rand_ZeroOne() - 0.5f) * (this->scale * 20.0f);
+            pos.y = this->actor.world.pos.y + (Rand_ZeroOne() - 0.5f) * (this->scale * 20.0f);
             pos.z = this->actor.world.pos.z;
-            EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 1000.0f, 10.0f);
+            EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, scale, life);
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIRE - SFX_FLAG);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice_Fire/func_809B27D8.s")
-#endif
-
 
 void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
@@ -205,8 +181,8 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
     s32 pad[2];
     s32 i;
 
-    Actor_SetScale(&this->actor, this->unk_150);
-    this->unk_14C(this, globalCtx);
+    Actor_SetScale(&this->actor, this->scale);
+    this->actionFunc(this, globalCtx);
     func_8002D7EC(&this->actor);
     this->unk_160[0] = this->actor.world.pos;
 
@@ -223,11 +199,11 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
     }
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1D);
-    if (!(this->unk_150 < 0.6f)) {
-        if (this->unk_14C != func_809B2B48) {
-            this->cylinder.dim.radius = this->unk_150 * 15.0f + 5.0f;
-            this->cylinder.dim.height = this->unk_150 * 15.0f + 5.0f;
-            this->cylinder.dim.yShift = this->unk_150 * -0.75f + -15.0f;
+    if (!(this->scale < 0.6f)) {
+        if (this->actionFunc != func_809B2B48) {
+            this->cylinder.dim.radius = this->scale * 15.0f + 5.0f;
+            this->cylinder.dim.height = this->scale * 15.0f + 5.0f;
+            this->cylinder.dim.yShift = this->scale * -0.75f + -15.0f;
 
             if (this->unk_15A != 0) {
                 Collider_UpdateCylinder(&this->actor, &this->cylinder);
@@ -240,7 +216,7 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
                 this->actor.velocity.y = 0.0f;
                 this->actor.velocity.x = 0.0f;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
-                this->unk_14C = func_809B2B48;
+                this->actionFunc = func_809B2B48;
             }
         }
     }
@@ -283,7 +259,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
             gSPDisplayList(POLY_XLU_DISP++, D_06003510);
         }
 
-        if ((this->unk_150 < 0.1f)) {
+        if ((this->scale < 0.1f)) {
             break;
         }
     }

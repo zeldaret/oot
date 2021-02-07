@@ -10,8 +10,8 @@ typedef void (*EnAnubiceFireActionFunc)(struct EnAnubiceFire*, GlobalContext*);
 
 typedef struct EnAnubiceFire {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ EnAnubiceFireActionFunc unk_14C;
-    /* 0x0150 */ f32 unk_150;
+    /* 0x014C */ EnAnubiceFireActionFunc actionFunc;
+    /* 0x0150 */ f32 scale;
     /* 0x0154 */ f32 unk_154;
     /* 0x0158 */ char unk_158[0x02];
     /* 0x015A */ s16 unk_15A;
