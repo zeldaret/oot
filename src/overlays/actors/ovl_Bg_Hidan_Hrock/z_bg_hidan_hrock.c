@@ -112,9 +112,9 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
         for (j = 0; i < 3; j++) {
             Vec3f* vtx = &colliderElementInit->dim.vtx[j];
 
-            vertices[j].x = (vtx->x * sinRotY) + (this->dyna.actor.initPosRot.pos.x + (vtx->x * cosRotY));
-            vertices[j].y = vtx->y + this->dyna.actor.initPosRot.pos.y;
-            vertices[j].z = (vtx->z * cosRotY) + (this->dyna.actor.initPosRot.pos.z - (vtx->z * sinRotY));
+            vertices[j].x = (vtx->x * sinRotY) + (this->dyna.actor.home.pos.x + (vtx->x * cosRotY));
+            vertices[j].y = vtx->y + this->dyna.actor.home.pos.y;
+            vertices[j].z = (vtx->z * cosRotY) + (this->dyna.actor.home.pos.z - (vtx->z * sinRotY));
         }
 
         Collider_SetTrisVertices(&this->collider, i, &vertices[0], &vertices[1], &vertices[2]);
@@ -123,12 +123,12 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->unk_16A)) {
         this->actionFunc = func_808894A4;
         if (this->dyna.actor.params == 0) {
-            this->dyna.actor.posRot.pos.y -= 2800.0f;
+            this->dyna.actor.world.pos.y -= 2800.0f;
             this->dyna.actor.uncullZoneForward = 3000.0f;
         } else if (this->dyna.actor.params == 1) {
-            this->dyna.actor.posRot.pos.y -= 800.0f;
+            this->dyna.actor.world.pos.y -= 800.0f;
         } else if (this->dyna.actor.params == 2) {
-            this->dyna.actor.posRot.pos.y -= 240.0f;
+            this->dyna.actor.world.pos.y -= 240.0f;
         }
     } else {
         if (this->dyna.actor.params == 0) {
@@ -162,37 +162,37 @@ void func_808894B0(BgHidanHrock* this, GlobalContext* globalCtx) {
         this->unk_168--;
     }
 
-    this->dyna.actor.posRot.pos.x =
-        (Math_SinS(this->dyna.actor.posRot.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.initPosRot.pos.x;
-    this->dyna.actor.posRot.pos.z =
-        (Math_CosS(this->dyna.actor.posRot.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.initPosRot.pos.z;
+    this->dyna.actor.world.pos.x =
+        (Math_SinS(this->dyna.actor.world.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.home.pos.x;
+    this->dyna.actor.world.pos.z =
+        (Math_CosS(this->dyna.actor.world.rot.y + (this->unk_168 << 0xE)) * 5.0f) + this->dyna.actor.home.pos.z;
 
     if (this->unk_168 % 4) {
 
     } else {
-        func_800AA000(this->dyna.actor.xyzDistToLinkSq, 180, 10, 100);
+        func_800AA000(this->dyna.actor.xyzDistToPlayerSq, 180, 10, 100);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_SHAKE);
     }
 
     if (this->unk_168 == 0) {
         if (this->dyna.actor.params == 0) {
-            this->dyna.actor.initPosRot.pos.y -= 2800.0f;
+            this->dyna.actor.home.pos.y -= 2800.0f;
         } else if (this->dyna.actor.params == 1) {
-            this->dyna.actor.initPosRot.pos.y -= 800.0f;
+            this->dyna.actor.home.pos.y -= 800.0f;
         } else {
-            this->dyna.actor.initPosRot.pos.y -= 240.0f;
+            this->dyna.actor.home.pos.y -= 240.0f;
         }
 
         this->actionFunc = func_8088960C;
-        this->dyna.actor.posRot.pos.x = this->dyna.actor.initPosRot.pos.x;
-        this->dyna.actor.posRot.pos.z = this->dyna.actor.initPosRot.pos.z;
+        this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x;
+        this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z;
     }
 }
 
 void func_8088960C(BgHidanHrock* this, GlobalContext* globalCtx) {
     this->dyna.actor.velocity.y++;
 
-    if (Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, this->dyna.actor.velocity.y)) {
         this->dyna.actor.flags &= ~0x30;
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
 
@@ -225,9 +225,9 @@ void func_808896B8(BgHidanHrock* this, GlobalContext* globalCtx) {
     }
 
     if (func_8004356C(&this->dyna)) {
-        Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y - 5.0f, 1.0f);
+        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 5.0f, 1.0f);
     } else {
-        Math_StepToF(&this->dyna.actor.posRot.pos.y, this->dyna.actor.initPosRot.pos.y, 1.0f);
+        Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f);
     }
 }
 
