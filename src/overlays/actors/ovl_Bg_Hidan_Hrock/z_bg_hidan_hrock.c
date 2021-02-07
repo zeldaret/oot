@@ -34,7 +34,7 @@ const ActorInit Bg_Hidan_Hrock_InitVars = {
     (ActorFunc)BgHidanHrock_Draw,
 };
 
-//static
+//static sTrisElementsInit
 ColliderTrisElementInit D_80889820[2] = {
     {
         {
@@ -60,7 +60,7 @@ ColliderTrisElementInit D_80889820[2] = {
     },
 };
  
- //static
+ //static sTrisInit
 ColliderTrisInit D_80889898 = {
     {
         COLTYPE_NONE,
@@ -74,6 +74,7 @@ ColliderTrisInit D_80889898 = {
     D_80889820,
 };
 
+// static sInitChain
 InitChainEntry D_808898A8[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_STOP),
