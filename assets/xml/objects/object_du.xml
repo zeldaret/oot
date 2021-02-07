@@ -17,7 +17,7 @@
         <Animation Name="gDaruniaAnim_0067CC" Offset="0x67CC"/>
         <Animation Name="gDaruniaAnim_006EB0" Offset="0x6EB0"/>
         <Texture Name="gDaruniaSkelTlut_6EC0" OutName="6EC0" Format="rgb5a1" Width="16" Height="16" Offset="0x6EC0"/>
-        <Texture Name="gDaruniaTex_70C0" OutName="70C0" Format="ci8" Width="32" Height="16" Offset="0x70C0"/>
+        <Texture Name="gDaruniaSkelTex_70C0" OutName="70C0" Format="ci8" Width="32" Height="16" Offset="0x70C0"/>
         <Texture Name="gDaruniaSkelTex_72C0" OutName="72C0" Format="ci8" Width="16" Height="16" Offset="0x72C0"/>
         <Texture Name="gDaruniaSkelTex_73C0" OutName="73C0" Format="ci8" Width="8" Height="16" Offset="0x73C0"/>
         <Texture Name="gDaruniaSkelTex_7440" OutName="7440" Format="ci8" Width="8" Height="8" Offset="0x7440"/>
@@ -26,7 +26,7 @@
         <Texture Name="gDaruniaSkelTlut_7980" OutName="7980" Format="rgb5a1" Width="16" Height="16" Offset="0x7980"/>
         <Texture Name="gDaruniaSkelTex_7EC0" OutName="7EC0" Format="ci8" Width="8" Height="16" Offset="0x7EC0"/>
         <Texture Name="gDaruniaSkelTex_7F40" OutName="7F40" Format="ci8" Width="8" Height="16" Offset="0x7F40"/>
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_007FC0" Offset="0x7FC0"/> -->
+        <Texture Name="gDaruniaSkelTex_7FC0" OutName="7FC0" Format="ci8" Width="8" Height="8" Offset="0x7FC0"/>
         <Texture Name="gDaruniaSkelTex_8000" OutName="8000" Format="ci8" Width="8" Height="16" Offset="0x8000"/>
         <!-- <UNK_TYPE Name="gDaruniaUnknown_008080" Offset="0x8080"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_008480" Offset="0x8480"/> -->
