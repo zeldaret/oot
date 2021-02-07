@@ -148,7 +148,7 @@ void func_809781FC(DemoGeff* this, GlobalContext* globalCtx) {
                 this->deltaPosX = this->actor.world.pos.x - propIt->world.pos.x;
                 this->deltaPosY = this->actor.world.pos.y - propIt->world.pos.y;
                 this->deltaPosZ = this->actor.world.pos.z - propIt->world.pos.z;
-                this->demoGt = propIt;
+                this->demoGt = (DemoGt*)propIt;
             }
             propIt = propIt->next;
         }

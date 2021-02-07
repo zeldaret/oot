@@ -131,7 +131,7 @@ void EnHs2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* thisx) {
+s32 EnHs2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnHs2* this = THIS;
 
     switch (limbIndex) {

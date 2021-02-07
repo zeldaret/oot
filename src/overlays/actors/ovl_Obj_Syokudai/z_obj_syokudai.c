@@ -197,7 +197,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
-                        arrow->unk_1A8 = 0x800;
+                        arrow->collider.info.toucher.dmgFlags = 0x800;
                     }
                 }
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
