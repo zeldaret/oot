@@ -68,14 +68,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 900, ICHAIN_STOP),
 };
 
-extern Gfx D_050095B0[];
-extern Gfx D_05009940[];
-
 void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f pos;
     Vec3f velocity;
-    Gfx* dlist = D_05009940;
+    Gfx* dlist = &gFieldBeehiveFragmentDlist;
     s16 scale;
     s16 angle = 0;
     s16 gravity;
@@ -224,7 +221,7 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_comb.c", 394),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_050095B0);
+    gSPDisplayList(POLY_OPA_DISP++, gFieldBeehiveDlist);
 
     Collider_UpdateSpheres(0, &this->collider);
 

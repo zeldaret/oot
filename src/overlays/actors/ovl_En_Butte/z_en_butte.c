@@ -9,7 +9,6 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-
 #define FLAGS 0x00000000
 
 #define THIS ((EnButte*)thisx)
@@ -28,15 +27,17 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx);
 void EnButte_SetupWaitToDie(EnButte* this);
 void EnButte_WaitToDie(EnButte* this, GlobalContext* globalCtx);
 
-static ColliderJntSphElementInit sJntSphElementsInit[] = { { {
-                                                                 ELEMTYPE_UNK0,
-                                                                 { 0x00000000, 0x00, 0x00 },
-                                                                 { 0xFFCFFFFF, 0x000, 0x00 },
-                                                                 TOUCH_NONE,
-                                                                 BUMP_NONE,
-                                                                 OCELEM_ON,
-                                                             },
-                                                             { 0, { { 0, 0, 0 }, 5 }, 100 } } };
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
+    { {
+          ELEMTYPE_UNK0,
+          { 0x00000000, 0x00, 0x00 },
+          { 0xFFCFFFFF, 0x000, 0x00 },
+          TOUCH_NONE,
+          BUMP_NONE,
+          OCELEM_ON,
+      },
+      { 0, { { 0, 0, 0 }, 5 }, 100 } },
+};
 static ColliderJntSphInit sColliderInit = {
     {
         COLTYPE_NONE,
@@ -159,14 +160,14 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneScale = 200.0f;
     }
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gButteAnim, &gButteAnim, this->jointTable, this->morphTable, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable, 8);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, this->colliderItems);
     this->actor.colChkInfo.mass = 0;
     this->unk_25C = Rand_ZeroOne() * 0xFFFF;
     this->unk_25E = Rand_ZeroOne() * 0xFFFF;
     this->unk_260 = Rand_ZeroOne() * 0xFFFF;
-    Animation_Change(&this->skelAnime, &gButteAnim, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f);
+    Animation_Change(&this->skelAnime, &gButterflyAnim, 1.0f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, 0.0f);
     EnButte_SetupFlyAround(this);
     this->actor.shape.rot.x -= 0x2320;
     this->drawSkelAnime = true;

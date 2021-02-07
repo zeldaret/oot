@@ -52,8 +52,6 @@ void EnFr_SetIdle(EnFr* this, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_0600B498; // Frog
 extern AnimationHeader D_06001534;    // Frog
-extern SkeletonHeader D_050036F0;     // Butterfly
-extern AnimationHeader D_05002470;    // Butterfly
 extern AnimationHeader D_060007BC;    // Frog Jumping
 extern AnimationHeader D_060011C0;    // Frog Landing
 
@@ -162,7 +160,7 @@ static s16 sTimerFrogSong[] = {
     40, 20, 15, 12, 12,
 };
 
-// static InitChainEntry sInitChain[]
+// static InitChainEntry D_80A1D0BC[]
 InitChainEntry D_80A1D0BC[] = {
     ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
@@ -285,7 +283,7 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, this->jointTable, this->morphTable,
                            24);
         // butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, this->jointTableButterfly,
+        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim, this->jointTableButterfly,
                        this->morphTableButterfly, 8);
         // When playing the frogs song for the HP,
         // the frog with the next note and the butterfly

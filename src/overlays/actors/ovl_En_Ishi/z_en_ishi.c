@@ -31,13 +31,6 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnDustSmall(EnIshi* this, GlobalContext* globalCtx);
 void EnIshi_SpawnDustLarge(EnIshi* this, GlobalContext* globalCtx);
 
-extern Gfx D_0500A3B8[]; // Large gray rock
-extern Gfx D_0500A5E8[]; // Large gray rock fragments
-extern Gfx gFieldKakeraDlist[]; // Small gray rock
-
-typedef void (*EnIshiEffectSpawnFunc)(struct EnIshi*, GlobalContext*);
-typedef void (*EnIshiDrawFunc)(struct EnIshi*, GlobalContext*);
-
 static s16 sRotSpeedX = 0;
 static s16 sRotSpeedY = 0;
 
@@ -212,7 +205,7 @@ void EnIshi_SpawnFragmentsLarge(EnIshi* this, GlobalContext* globalCtx) {
             phi_v1 = -320;
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, phi_v1, phi_v0, 30, 5, 0, scales[i], 5,
-                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, D_0500A5E8);
+                             2, 70, KAKERA_COLOR_WHITE, OBJECT_GAMEPLAY_FIELD_KEEP, gSilverRockFragmentsDlist);
     }
 }
 
@@ -487,7 +480,7 @@ void EnIshi_DrawLarge(EnIshi* this, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1055),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
-    gSPDisplayList(POLY_OPA_DISP++, D_0500A3B8);
+    gSPDisplayList(POLY_OPA_DISP++, gSilverRockDlist);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ishi.c", 1062);
 }

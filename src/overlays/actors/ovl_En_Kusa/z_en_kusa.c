@@ -491,7 +491,7 @@ void EnKusa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnKusa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dLists[] = { 0x0500B9D0, 0x06000140, 0x06000140 };
+    static Gfx* dLists[] = { gFieldBushDlist, 0x06000140, 0x06000140 };
     EnKusa* this = THIS;
 
     if (this->actor.flags & 0x800) {

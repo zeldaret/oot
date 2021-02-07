@@ -1160,7 +1160,7 @@ D_060205C0 = 0x060205C0;
 
 // z_en_ishi
 D_0500A3B8 = 0x0500A3B8;
-D_0500A5E8 = 0x0500A5E8;
+gSilverRockDlist2 = 0x0500A5E8;
 D_0500A880 = 0x0500A880;
 
 // z_obj_dekujr
@@ -2594,7 +2594,7 @@ D_06000650 = 0x06000650;
 
 // z_obj_hamishi
 D_0500A3B8 = 0x0500A3B8;
-D_0500A5E8 = 0x0500A5E8;
+gSilverRockDlist2 = 0x0500A5E8;
 
 // z_obj_kibako2
 D_06000960 = 0x06000960;

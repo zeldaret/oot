@@ -48,16 +48,16 @@ glabel EnFr_Update
 /* 00338 80A1ACD8 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 0033C 80A1ACDC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00340 80A1ACE0 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
-/* 00344 80A1ACE4 3C060500 */  lui     $a2, %hi(D_050036F0)                ## $a2 = 05000000
-/* 00348 80A1ACE8 3C070500 */  lui     $a3, %hi(D_05002470)                ## $a3 = 05000000
+/* 00344 80A1ACE4 3C060500 */  lui     $a2, %hi(gButterflySkel)                ## $a2 = 05000000
+/* 00348 80A1ACE8 3C070500 */  lui     $a3, %hi(gButterflyAnim)                ## $a3 = 05000000
 /* 0034C 80A1ACEC 260A02F4 */  addiu   $t2, $s0, 0x02F4           ## $t2 = 000002F4
 /* 00350 80A1ACF0 260B0324 */  addiu   $t3, $s0, 0x0324           ## $t3 = 00000324
 /* 00354 80A1ACF4 240C0008 */  addiu   $t4, $zero, 0x0008         ## $t4 = 00000008
 /* 00358 80A1ACF8 AFAC0018 */  sw      $t4, 0x0018($sp)
 /* 0035C 80A1ACFC AFAB0014 */  sw      $t3, 0x0014($sp)
 /* 00360 80A1AD00 AFAA0010 */  sw      $t2, 0x0010($sp)
-/* 00364 80A1AD04 24E72470 */  addiu   $a3, $a3, %lo(D_05002470)           ## $a3 = 05002470
-/* 00368 80A1AD08 24C636F0 */  addiu   $a2, $a2, %lo(D_050036F0)           ## $a2 = 050036F0
+/* 00364 80A1AD04 24E72470 */  addiu   $a3, $a3, %lo(gButterflyAnim)           ## $a3 = 05002470
+/* 00368 80A1AD08 24C636F0 */  addiu   $a2, $a2, %lo(gButterflySkel)           ## $a2 = 050036F0
 /* 0036C 80A1AD0C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00370 80A1AD10 0C02915F */  jal     SkelAnime_Init
 
