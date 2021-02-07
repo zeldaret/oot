@@ -1,33 +1,32 @@
 <Root>
     <File Name="object_du" Segment="6">
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_000800" Offset="0x800"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_000D00" Offset="0xD00"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_001D70" Offset="0x1D70"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_002374" Offset="0x2374"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_00288C" Offset="0x288C"/> -->
-        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_002D94" Offset="0x2D94"/> -->
-        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_003D48" Offset="0x3D48"/> -->
-        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_004C04" Offset="0x4C04"/> -->
-        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_003A30" Offset="0x3A30"/> -->
-        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_0046F4" Offset="0x46F4"/> -->
-        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_004ED8" Offset="0x4ED8"/> -->
-        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_0041F4" Offset="0x41F4"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_005458" Offset="0x5458"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_006104" Offset="0x6104"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_0067CC" Offset="0x67CC"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_006EB0" Offset="0x6EB0"/> -->
+        <Animation Name="gDaruniaAnim_000800" Offset="0x800"/>
+        <Animation Name="gDaruniaAnim_000D00" Offset="0xD00"/>
+        <Animation Name="gDaruniaAnim_001D70" Offset="0x1D70"/>
+        <Animation Name="gDaruniaAnim_002374" Offset="0x2374"/>
+        <Animation Name="gDaruniaAnim_00288C" Offset="0x288C"/>
+        <Animation Name="gDaruniaAnim_002D94" Offset="0x2D94"/>
+        <Animation Name="gDaruniaAnim_003A30" Offset="0x3A30"/>
+        <Animation Name="gDaruniaAnim_003D48" Offset="0x3D48"/>
+        <Animation Name="gDaruniaAnim_0041F4" Offset="0x41F4"/>
+        <Animation Name="gDaruniaAnim_0046F4" Offset="0x46F4"/>
+        <Animation Name="gDaruniaAnim_004C04" Offset="0x4C04"/>
+        <Animation Name="gDaruniaAnim_004ED8" Offset="0x4ED8"/>
+        <Animation Name="gDaruniaAnim_005458" Offset="0x5458"/>
+        <Animation Name="gDaruniaAnim_006104" Offset="0x6104"/>
+        <Animation Name="gDaruniaAnim_0067CC" Offset="0x67CC"/>
+        <Animation Name="gDaruniaAnim_006EB0" Offset="0x6EB0"/>
         <!-- <UNK_TYPE Name="gDaruniaUnknown_007FC0" Offset="0x7FC0"/> -->
-        <Skeleton Name="gDaruniaSkel_011CA8" Type="Flex" LimbType="Standard" Offset="0x11CA8"/>
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_012014" Offset="0x12014"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_008080" Offset="0x8080"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_008480" Offset="0x8480"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_008880" Offset="0x8880"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_00A540" Offset="0xA540"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_008C80" Offset="0x8C80"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_009D40" Offset="0x9D40"/> -->
+        <!-- <UNK_TYPE Name="gDaruniaUnknown_00A540" Offset="0xA540"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_00A940" Offset="0xA940"/> -->
         <!-- <UNK_TYPE Name="gDaruniaUnknown_00B180" Offset="0xB180"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_007FC0" Offset="0x7FC0"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_00B140" Offset="0xB140"/> -->
+        <Texture Name="gDaruniaSkelTex_B140" OutName="B140" Format="ci8" Width="8" Height="8" Offset="0xB140"/>
+        <Skeleton Name="gDaruniaSkel_011CA8" Type="Flex" LimbType="Standard" Offset="0x11CA8"/>
+        <Animation Name="gDaruniaAnim_012014" Offset="0x12014"/>
     </File>
 </Root>
