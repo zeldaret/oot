@@ -54,7 +54,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 0, 0, 0, { 0, 0, 0 } },
 };
 
-
 void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceFire* this = THIS;
     s32 i;
@@ -62,7 +61,7 @@ void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->cylinder);
     Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &sCylinderInit);
 
-    this->unk_15A = 0x1E;
+    this->unk_15A = 30;
     this->unk_154 = 2.0f;
     this->scale = 0.0f;
 
@@ -74,7 +73,7 @@ void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc = &func_809B26EC;
 }
 
-void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceFire* this = THIS;
 
     Collider_DestroyCylinder(globalCtx, &this->cylinder);
@@ -118,7 +117,7 @@ void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx) {
             this->cylinder.base.atFlags &= 0xFFE9;
             this->cylinder.base.atFlags |= 8;
             this->cylinder.info.toucher.dmgFlags = 2;
-            this->unk_15A = 0x1E;
+            this->unk_15A = 30;
             this->actor.params = 1;
             this->actor.velocity.x *= -1.0f;
             this->actor.velocity.y *= -0.5f;
@@ -147,7 +146,7 @@ void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
+void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
@@ -175,8 +174,7 @@ void func_809B2B48(EnAnubiceFire *this, GlobalContext *globalCtx) {
     }
 }
 
-
-void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
+void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceFire* this = THIS;
     s32 pad[2];
     s32 i;
@@ -187,7 +185,7 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
     this->unk_160[0] = this->actor.world.pos;
 
     for (i = 4; i >= 0; --i) {
-        this->unk_160[i+1] = this->unk_160[i];
+        this->unk_160[i + 1] = this->unk_160[i];
     }
 
     if (this->unk_15A != 0) {
@@ -222,16 +220,14 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext *globalCtx) {
     }
 }
 
+static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex };
 
-static u64* D_809B3270[] = { gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex};
-
-void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceFire* this = THIS;
     s32 pad[2];
     s32 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 503);
-
     func_80093D84(globalCtx->state.gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, 255);
@@ -240,7 +236,6 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809B3270[0]));
 
     Matrix_Push();
-
     for (i = this->unk_15E; i < 6; ++i) {
         // CLAMP_MIN doesn't work.
         f32 scale = this->actor.scale.x - (i * 0.2f);
@@ -254,7 +249,8 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_RotateZ(this->actor.world.rot.z + i * 1000.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 546), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 546),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
             gSPDisplayList(POLY_XLU_DISP++, D_06003510);
         }
@@ -263,7 +259,6 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext *globalCtx) {
             break;
         }
     }
-
     Matrix_Pull();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 556);

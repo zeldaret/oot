@@ -13,7 +13,7 @@ typedef struct EnAnubiceFire {
     /* 0x014C */ EnAnubiceFireActionFunc actionFunc;
     /* 0x0150 */ f32 scale;
     /* 0x0154 */ f32 unk_154;
-    /* 0x0158 */ char unk_158[0x02];
+    /* 0x0158 */ s16 unused;
     /* 0x015A */ s16 unk_15A;
     /* 0x015C */ s16 unk_15C;
     /* 0x015E */ s16 unk_15E;
