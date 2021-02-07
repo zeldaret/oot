@@ -25,7 +25,7 @@ typedef struct EnDh {
     /* 0x025E */ s16 dirtWavePhase;
     /* 0x0260 */ ColliderCylinder collider1;
     /* 0x02AC */ ColliderJntSph collider2;
-    /* 0x02CC */ ColliderJntSphItem elements[1];
+    /* 0x02CC */ ColliderJntSphElement elements[1];
     /* 0x030C */ Vec3f headPos;
     /* 0x0318 */ f32 dirtWaveSpread;
     /* 0x031C */ f32 dirtWaveHeight;

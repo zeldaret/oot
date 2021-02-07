@@ -1,6 +1,6 @@
 /*
  * File: z_bg_hidan_syoku.c
- * Overlay: Bg_Hidan_Syoku
+ * Overlay: ovl_Bg_Hidan_Syoku
  * Description: Stone Elevator in the Fire Temple
  */
 
@@ -21,7 +21,7 @@ void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Hidan_Syoku_InitVars = {
     ACTOR_BG_HIDAN_SYOKU,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_HIDAN_OBJECTS,
     sizeof(BgHidanSyoku),
@@ -39,8 +39,8 @@ extern Gfx D_0600A7E0[];
 extern CollisionHeader* D_0600E568;
 
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgHidanSyoku* this = THIS;
     s32 pad;
+    BgHidanSyoku* this = THIS;
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -48,7 +48,7 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader_GetVirtual(&D_0600E568, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
-    this->dyna.actor.initPosRot.pos.y += 540.0f;
+    this->dyna.actor.home.pos.y += 540.0f;
 }
 
 void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -58,24 +58,24 @@ void BgHidanSyoku_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088F47C(BgHidanSyoku* this) {
-    this->unk_16A = 0x3C;
+    this->timer = 60;
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     this->actionFunc = func_8088F62C;
 }
 
 void func_8088F4B8(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    if (Flags_GetClear(globalCtx, this->dyna.actor.room) && func_8004356C(&this->dyna.actor)) {
-        this->unk_16A = 0x8C;
+    if (Flags_GetClear(globalCtx, this->dyna.actor.room) && func_8004356C(&this->dyna)) {
+        this->timer = 140;
         this->actionFunc = func_8088F514;
     }
 }
 
 void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    if (this->unk_16A != 0) {
-        this->unk_16A -= 1;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    this->dyna.actor.posRot.pos.y = (cosf(this->unk_16A * (M_PI / 140)) * 540.0f) + this->dyna.actor.initPosRot.pos.y;
-    if (this->unk_16A == 0) {
+    this->dyna.actor.world.pos.y = (cosf(this->timer * (M_PI / 140)) * 540.0f) + this->dyna.actor.home.pos.y;
+    if (this->timer == 0) {
         func_8088F47C(this);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
@@ -83,11 +83,11 @@ void func_8088F514(BgHidanSyoku* this, GlobalContext* globalCtx) {
 }
 
 void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    if (this->unk_16A != 0) {
-        this->unk_16A -= 1;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    this->dyna.actor.posRot.pos.y = this->dyna.actor.initPosRot.pos.y - (cosf(this->unk_16A * (M_PI / 140)) * 540.0f);
-    if (this->unk_16A == 0) {
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - (cosf(this->timer * (M_PI / 140)) * 540.0f);
+    if (this->timer == 0) {
         func_8088F47C(this);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE3 - SFX_FLAG);
@@ -95,12 +95,12 @@ void func_8088F5A0(BgHidanSyoku* this, GlobalContext* globalCtx) {
 }
 
 void func_8088F62C(BgHidanSyoku* this, GlobalContext* globalCtx) {
-    if (this->unk_16A != 0) {
-        this->unk_16A -= 1;
+    if (this->timer != 0) {
+        this->timer--;
     }
-    if (this->unk_16A == 0) {
-        this->unk_16A = 0x8c;
-        if (this->dyna.actor.posRot.pos.y < this->dyna.actor.initPosRot.pos.y) {
+    if (this->timer == 0) {
+        this->timer = 140;
+        if (this->dyna.actor.world.pos.y < this->dyna.actor.home.pos.y) {
             this->actionFunc = func_8088F514;
         } else {
             this->actionFunc = func_8088F5A0;
@@ -112,12 +112,12 @@ void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSyoku* this = THIS;
 
     this->actionFunc(this, globalCtx);
-    if (func_8004356C(&this->dyna.actor)) {
+    if (func_8004356C(&this->dyna)) {
         if (this->unk_168 == 0) {
             this->unk_168 = 3;
         }
         Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
-    } else if (!func_8004356C(&this->dyna.actor)) {
+    } else if (!func_8004356C(&this->dyna)) {
         if (this->unk_168 != 0) {
             Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
         }
