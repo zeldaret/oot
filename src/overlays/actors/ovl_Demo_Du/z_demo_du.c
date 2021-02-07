@@ -23,7 +23,7 @@ extern AnimationHeader D_06005458;
 extern AnimationHeader D_06006104;
 extern AnimationHeader D_060067CC;
 extern AnimationHeader D_06006EB0;
-extern Gfx D_06007FC0;
+extern UNK_TYPE D_06007FC0;
 extern FlexSkeletonHeader D_06011CA8;
 extern AnimationHeader D_06012014;
 
