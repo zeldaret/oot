@@ -3120,8 +3120,7 @@ endseg
 beginseg
     name "ovl_En_Weiyer"
     include "build/src/overlays/actors/ovl_En_Weiyer/z_en_weiyer.o"
-    include "build/data/overlays/actors/z_en_weiyer.data.o"
-    include "build/data/overlays/actors/z_en_weiyer.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Weiyer/ovl_En_Weiyer_reloc.o"
 endseg
 
 beginseg
