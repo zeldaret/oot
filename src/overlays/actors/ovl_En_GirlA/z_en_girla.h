@@ -9,6 +9,7 @@ struct EnGirlA;
 typedef void (*EnGirlAActionFunc)(struct EnGirlA*, GlobalContext*);
 typedef void (*EnGirlA2Func)(GlobalContext*, struct EnGirlA*);
 typedef void (*EnGirlA3Func)(Actor*, GlobalContext*, s32);
+typedef s32 (*EnGirlA4Func)(GlobalContext*, struct EnGirlA*);
 
 typedef struct EnGirlA {
     /* 0x0000 */ Actor actor;
@@ -21,7 +22,7 @@ typedef struct EnGirlA {
     /* 0x019C */ s32 unk_19C;
     /* 0x01A0 */ s16 unk_1A0;
     /* 0x01A2 */ s16 unk_1A2;
-    /* 0x01A4 */ s32 unk_1A4;
+    /* 0x01A4 */ s32 unk_1A4; //getItemId
     /* 0x01A8 */ s16 unk_1A8;
     /* 0x01AA */ s16 unk_1AA;
     /* 0x01AC */ EnGirlA2Func unk_1AC;
@@ -30,9 +31,9 @@ typedef struct EnGirlA {
     /* 0x01B6 */ s16 unk_1B6;
     /* 0x01B8 */ s16 unk_1B8;
     /* 0x01BA */ s16 unk_1BA;
-    /* 0x01BC */ void* unk_1BC;
-    /* 0x01C0 */ void* unk_1C0;
-    /* 0x01C4 */ void* unk_1C4;
+    /* 0x01BC */ EnGirlA4Func unk_1BC;
+    /* 0x01C0 */ EnGirlA2Func unk_1C0;
+    /* 0x01C4 */ EnGirlA2Func unk_1C4;
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ s16 unk_1CA;
     /* 0x01CC */ s16 unk_1CC;
