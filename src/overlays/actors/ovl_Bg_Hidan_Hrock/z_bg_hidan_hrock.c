@@ -87,7 +87,6 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
     f32 cosRotY;
     f32 sinRotY;
     ColliderTrisElementInit *colliderElementInit;
-    Vec3f* vtxTemp;
     s32 i;
     s32 j;
 
@@ -111,10 +110,11 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
         colliderElementInit = &D_80889898.elements[i];
         
         for (j = 0; i < 3; j++) {
-            vtxTemp = &vertices[j];
-            vtxTemp->x = (colliderElementInit->dim.vtx[j].x * cosRotY) + (this->dyna.actor.initPosRot.pos.x);
-            vtxTemp->y = colliderElementInit->dim.vtx[j].y + this->dyna.actor.initPosRot.pos.y;
-            vtxTemp->z = (colliderElementInit->dim.vtx[j].z * sinRotY) - (this->dyna.actor.initPosRot.pos.z);
+            Vec3f* vtx = &colliderElementInit->dim.vtx[j];
+
+            vertices[j].x = (vtx->x * sinRotY) + (this->dyna.actor.initPosRot.pos.x + (vtx->x * cosRotY));
+            vertices[j].y = vtx->y + this->dyna.actor.initPosRot.pos.y;
+            vertices[j].z = (vtx->z * cosRotY) + (this->dyna.actor.initPosRot.pos.z - (vtx->z * sinRotY));
         }
 
         Collider_SetTrisVertices(&this->collider, i, &vertices[0], &vertices[1], &vertices[2]);
