@@ -97,19 +97,17 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 objectId;
     s32 params = this->actor.params;
     s32 objectBankIdx;
-    s32 params2;
 
     // Translation: Gold Skulltula Shop
     osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 no = %d\n" VT_RST, params);
-    params2 = this->actor.params;
-    if (params2 == 0) {
+    if (this->actor.params == 0) {
         if (gSaveContext.inventory.gsTokens < 100) {
             Actor_Kill(&this->actor);
             // Translation: Gold Skulltula Shop I still can't be a human
             osSyncPrintf("金スタル屋 まだ 人間に戻れない \n");
             return;
         }
-    } else if (gSaveContext.inventory.gsTokens < (params2 * 10)) {
+    } else if (gSaveContext.inventory.gsTokens < (this->actor.params * 10)) {
         Actor_Kill(&this->actor);
         // Translation: Gold Skulltula Shop I still can't be a human
         osSyncPrintf(VT_FGCOL(BLUE) "金スタル屋 まだ 人間に戻れない \n" VT_RST);
@@ -136,7 +134,7 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 6;
 }
 
-void EnSth_SetupCollider(EnSth* this, GlobalContext* globalCtx) {
+void EnSth_SetupShapeColliderUpdate2AndDraw(EnSth* this, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
@@ -147,11 +145,11 @@ void EnSth_SetupCollider(EnSth* this, GlobalContext* globalCtx) {
     this->actor.draw = this->drawFunc;
 }
 
-void EnSth_SetupAnimation(EnSth* this, GlobalContext* globalCtx) {
+void EnSth_SetupAfterObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
     s32 pad;
     s16* params;
 
-    EnSth_SetupCollider(this, globalCtx);
+    EnSth_SetupShapeColliderUpdate2AndDraw(this, globalCtx);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectBankIdx].segment);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, sSkeletons[this->actor.params], NULL, this->jointTable,
                        this->morphTable, 16);
@@ -175,16 +173,15 @@ void EnSth_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnSth_WaitForObjectLoaded(EnSth* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectBankIdx)) {
         this->actor.objBankIndex = this->objectBankIdx;
-        this->actionFunc = EnSth_SetupAnimation;
+        this->actionFunc = EnSth_SetupAfterObjectLoaded;
     }
 }
 
 void EnSth_FacePlayer(EnSth* this, GlobalContext* globalCtx) {
     s32 pad;
-    s16 diffRot;
+    s16 diffRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    diffRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if (ABS(diffRot) < 0x4001) {
+    if (ABS(diffRot) <= 0x4000) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 6, 0xFA0, 0x64);
         this->actor.world.rot.y = this->actor.shape.rot.y;
         func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2AC, this->actor.focus.pos);
@@ -200,10 +197,9 @@ void EnSth_FacePlayer(EnSth* this, GlobalContext* globalCtx) {
 }
 
 void EnSth_LookAtPlayer(EnSth* this, GlobalContext* globalCtx) {
-    s16 diffRot;
+    s16 diffRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
 
-    diffRot = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if ((ABS(diffRot) < 0x4301) && (this->actor.xzDistToPlayer < 100.0f)) {
+    if ((ABS(diffRot) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
         func_80038290(globalCtx, &this->actor, &this->headRot, &this->unk_2AC, this->actor.focus.pos);
     } else {
         Math_SmoothStepToS(&this->headRot.x, 0, 6, 0x1838, 0x64);
@@ -323,7 +319,7 @@ void EnSth_Update2(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     Actor_MoveForward(&this->actor);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         this->skelAnime.curFrame = 0.0f;
     }
     this->actionFunc(this, globalCtx);
@@ -348,7 +344,7 @@ s32 EnSth_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         *dList = D_80B0A050;
     }
 
-    if ((this->unk_2B2 & 2) != 0) {
+    if (this->unk_2B2 & 2) {
         this->unk_2B2 &= ~2;
         return 0;
     }
