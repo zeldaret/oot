@@ -79,7 +79,7 @@ InitChainEntry D_808898A8[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_STOP),
 };
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hrock/BgHidanHrock_Init.s")
+#ifdef NON_MATCHING
 void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
     BgHidanHrock* this = THIS;
     Vec3f vertices[3];
@@ -146,6 +146,9 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, collisionHeader);
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hrock/BgHidanHrock_Init.s")
+#endif
 
 void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHrock* this = THIS;
