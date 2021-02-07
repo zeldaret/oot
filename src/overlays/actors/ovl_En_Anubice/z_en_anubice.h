@@ -15,22 +15,21 @@ typedef struct EnAnubice {
     /* 0x0190 */ Vec3s jointTable[16];
     /* 0x01F0 */ Vec3s morphTable[16];
     /* 0x0250 */ EnAnubiceActionFunc actionFunc;
-    /* 0x0254 */ s16 lifetime;
+    /* 0x0254 */ s16 timeAlive;
     /* 0x0256 */ s16 unk_256;
-    /* 0x0258 */ s16 finalRotY;
+    /* 0x0258 */ s16 unk_258;
     /* 0x025A */ s16 deathTimer;
     /* 0x025C */ s16 knockbackTimer;
     /* 0x025E */ s16 isMirroringLink;
     /* 0x0260 */ s16 isLinkOutOfRange;
     /* 0x0262 */ s16 isKnockedback;
     /* 0x0264 */ s16 hasSearchedForCurtains;
-    /* 0x0266 */ char unk_266[0x2];
     /* 0x0268 */ f32 hoverVelocityTimer;
     /* 0x026C */ f32 animLastFrame;
     /* 0x0270 */ f32 targetHeight;
-    /* 0x0274 */ f32 playerHeightOffset; // is used to make the anubis rise from the ground when spawned
+    /* 0x0274 */ f32 playerHeightOffset; // How high above the player to hover at
     /* 0x0278 */ f32 unk_278;
-    /* 0x027C */ f32 height;
+    /* 0x027C */ f32 focusHeightOffset;
     /* 0x0280 */ Vec3f fireballPos;
     /* 0x028C */ Vec3f fireballRot;
     /* 0x0298 */ Vec3f initialPos;

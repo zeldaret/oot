@@ -119,7 +119,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.damageTable = sDamageTable;
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.shape.yOffset = -4230.0f;
-    this->height = 0.0f;
+    this->focusHeightOffset = 0.0f;
     this->actor.flags &= ~1;
     this->initialPos = this->actor.world.pos;
     this->actor.targetMode = 3;
@@ -187,7 +187,7 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.yOffset, 0.5f, 300.0f);
-    Math_ApproachF(&this->height, 70.0f, 0.5f, 5.0f);
+    Math_ApproachF(&this->focusHeightOffset, 70.0f, 0.5f, 5.0f);
 
     if (!this->isKnockedback) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
@@ -221,7 +221,7 @@ void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachF(&this->actor.shape.yOffset, -4230.0f, 0.5f, 300.0f);
-    Math_ApproachZeroF(&this->height, 0.5f, 5.0f);
+    Math_ApproachZeroF(&this->focusHeightOffset, 0.5f, 5.0f);
 
     if (!this->isKnockedback) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
@@ -299,7 +299,7 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelAnime, &D_06000348, 1.0f, 0.0f, lastFrame, 2, -20.0f);
 
     this->unk_256 = 0;
-    this->finalRotY = 0;
+    this->unk_258 = 0;
     this->deathTimer = 20;
     this->actor.velocity.z = 0.0f;
     this->actor.velocity.x = 0.0f;
@@ -307,7 +307,7 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
 
     if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->fireballPos, 70.0f)) {
         this->unk_256 = 1;
-        this->finalRotY = this->actor.shape.rot.x - 0x7F00;
+        this->unk_258 = this->actor.shape.rot.x - 0x7F00;
     }
 
     this->actionFunc = &EnAnubice_Die;
@@ -327,8 +327,8 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 0.4f, 0.25f);
 
     if (this->unk_256) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->finalRotY, 1, 10000, 0);
-        if (fabsf(this->actor.shape.rot.y - this->finalRotY) < 100.0f) {
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_258, 1, 10000, 0);
+        if (fabsf(this->actor.shape.rot.y - this->unk_258) < 100.0f) {
             this->unk_256 = 0;
         }
     }
@@ -434,7 +434,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    this->lifetime++;
+    this->timeAlive++;
 
     if (this->knockbackTimer != 0) {
         this->knockbackTimer--;
@@ -456,7 +456,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != EnAnubice_SetupDie && this->actionFunc != EnAnubice_Die) {
-        Actor_SetFocus(&this->actor, this->height);
+        Actor_SetFocus(&this->actor, this->focusHeightOffset);
         Collider_UpdateCylinder(&this->actor, &this->col);
         CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->col.base);
 
