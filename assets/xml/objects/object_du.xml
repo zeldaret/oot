@@ -1,0 +1,33 @@
+<Root>
+    <File Name="object_du" Segment="6">
+        <Animation Name="gDaruniaAnim_000800" Offset="0x800"/>
+        <Animation Name="gDaruniaAnim_000D00" Offset="0xD00"/>
+        <Animation Name="gDaruniaAnim_001D70" Offset="0x1D70"/>
+        <Animation Name="gDaruniaAnim_002374" Offset="0x2374"/>
+        <Animation Name="gDaruniaAnim_00288C" Offset="0x288C"/>
+        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_002D94" Offset="0x2D94"/> -->
+        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_003D48" Offset="0x3D48"/> -->
+        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_004C04" Offset="0x4C04"/> -->
+        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_003A30" Offset="0x3A30"/> -->
+        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_0046F4" Offset="0x46F4"/> -->
+        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_004ED8" Offset="0x4ED8"/> -->
+        <!-- <struct_80034EC0_Entry Name="gDaruniaUnknown_0041F4" Offset="0x41F4"/> -->
+        <Animation Name="gDaruniaAnim_005458" Offset="0x5458"/>
+        <Animation Name="gDaruniaAnim_006104" Offset="0x6104"/>
+        <Animation Name="gDaruniaAnim_0067CC" Offset="0x67CC"/>
+        <Animation Name="gDaruniaAnim_006EB0" Offset="0x6EB0"/>
+        <DList Name="gDaruniaDL_007FC0" Offset="0x7FC0"/>
+        <Skeleton Name="gDaruniaSkel_011CA8" Type="Flex" LimbType="Standard" Offset="0x11CA8"/>
+        <Animation Name="gDaruniaAnim_012014" Offset="0x12014"/>
+        <DList Name="gDaruniaDL_008080" Offset="0x8080"/>
+        <DList Name="gDaruniaDL_008480" Offset="0x8480"/>
+        <DList Name="gDaruniaDL_008880" Offset="0x8880"/>
+        <DList Name="gDaruniaDL_00A540" Offset="0xA540"/>
+        <DList Name="gDaruniaDL_008C80" Offset="0x8C80"/>
+        <DList Name="gDaruniaDL_009D40" Offset="0x9D40"/>
+        <DList Name="gDaruniaDL_00A940" Offset="0xA940"/>
+        <DList Name="gDaruniaDL_00B180" Offset="0xB180"/>
+        <!-- <UNK_TYPE Name="gDaruniaUnknown_007FC0" Offset="0x7FC0"/> -->
+        <!-- <UNK_TYPE Name="gDaruniaUnknown_00B140" Offset="0xB140"/> -->
+    </File>
+</Root>
