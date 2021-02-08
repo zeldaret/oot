@@ -8,8 +8,79 @@ struct EnClearTag;
 
 typedef struct EnClearTag {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0xB8];
+    /* 0x014C */ u8 shouldExplode;
+    /* 0x014D */ u8 drawMode;
+    /* 0x014E */ u8 state;
+    /* 0x0150 */ s16 work[3];
+    /* 0x0158 */ Vec3f targetPosition;
+    /* 0x0164 */ Vec3f targetDirection;
+    /* 0x0170 */ Vec3f acceleration;
+    /* 0x017C */ u8 timer;
+    /* 0x017D */ u8 shouldShootLaser;
+    /* 0x0180 */ f32 roll;
+    /* 0x0184 */ s16 crashingTimer;
+    /* 0x0186 */ s16 deathTimer;
+    /* 0x0188 */ Vec3f floorTangent;
+    /* 0x0194 */ ColliderCylinder collider;
+    /* 0x01E0 */ u8 demoMode;
+    /* 0x01E2 */ s16 cameraNumber;
+    /* 0x01E4 */ Vec3f demoCameraAt;
+    /* 0x01F0 */ Vec3f demoCameraEye;
+    /* 0x01FC */ s16 cutsceneTimer;
+    /* 0x01FE */ UNK_TYPE1 unk_1FE[0x06];
 } EnClearTag; // size = 0x0204
+
+typedef struct EnClearTagEffect {
+    /* 0x0000 */ u8 type;
+    /* 0x0001 */ u8 seed;
+    /* 0x0004 */ Vec3f position;
+    /* 0x0010 */ Vec3f velocity;
+    /* 0x001C */ Vec3f acceleration;
+    /* 0x0028 */ Color_RGBAf primColor;
+    /* 0x0038 */ Color_RGBAf envColor;
+    /* 0x0048 */ s16 bounces;
+    /* 0x004A */ s16 timer;
+    /* 0x004C */ f32 scale;
+    /* 0x0050 */ f32 maxScale;
+    /* 0x0054 */ f32 rotationX;
+    /* 0x0058 */ f32 rotationY;
+    /* 0x005C */ f32 floorHeight;
+    /* 0x0060 */ Vec3f floorTangent;
+} EnClearTagEffect; // size = 0x6C
+
+typedef enum {
+    /* 0x00 */ CLEAR_TAG_CUTSCENE_ARWING = 0,
+    /* 0x01 */ CLEAR_TAG_ARWING = 1,
+    /* 0x64 */ CLEAR_TAG_LASER = 100
+} ClearTagType;
+
+typedef enum {
+    /* 0x00 */ CLEAR_TAG_STATE_FLYING = 0,
+    /* 0x01 */ CLEAR_TAG_STATE_TARGET_LOCKED = 1,
+    /* 0x02 */ CLEAR_TAG_STATE_DEMO = 2,
+    /* 0x0A */ CLEAR_TAG_STATE_CRASHING = 10,
+    /* 0x64 */ CLEAR_TAG_STATE_LASER = 100
+} ClearTagState;
+
+typedef enum {
+    /* 0x00 */ CLEAR_TAG_DEMOMODE_NONE,
+    /* 0x01 */ CLEAR_TAG_DEMOMODE_SETUP,
+    /* 0x02 */ CLEAR_TAG_DEMOMODE_PLAY
+} ClearTagDemoMode;
+
+typedef enum {
+    /* 0x00 */ CLEAR_TAG_DRAWMODE_MODEL,
+    /* 0x01 */ CLEAR_TAG_DRAWMODE_ALL,
+    /* 0x02 */ CLEAR_TAG_DRAWMODE_PARTICLE
+} ClearTagDrawMode;
+
+typedef enum {
+    /* 0x00 */ CLEAR_TAG_PARTICLE_AVAILABLE,
+    /* 0x01 */ CLEAR_TAG_PARTICLE_DEBRIS,
+    /* 0x02 */ CLEAR_TAG_PARTICLE_FIRE,
+    /* 0x03 */ CLEAR_TAG_PARTICLE_SMOKE,
+    /* 0x04 */ CLEAR_TAG_PARTICLE_FLASH
+} ClearTagParticleType;
 
 extern const ActorInit En_Clear_Tag_InitVars;
 
