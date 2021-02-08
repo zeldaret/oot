@@ -28,18 +28,18 @@
         <Texture Name="gDaruniaSkelTex_7F40" OutName="7F40" Format="ci8" Width="8" Height="16" Offset="0x7F40"/>
         <Texture Name="gDaruniaSkelTex_7FC0" OutName="7FC0" Format="ci8" Width="8" Height="8" Offset="0x7FC0"/>
         <Texture Name="gDaruniaSkelTex_8000" OutName="8000" Format="ci8" Width="8" Height="16" Offset="0x8000"/>
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_008080" Offset="0x8080"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_008480" Offset="0x8480"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_008880" Offset="0x8880"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_008C80" Offset="0x8C80"/> -->
+        <Texture Name="gDaruniaEyeOpenTex" OutName="darunia_eye_open" Format="ci8" Width="32" Height="32" Offset="0x8080"/>
+        <Texture Name="gDaruniaEyeHalf1Tex" OutName="darunia_eye_half1" Format="ci8" Width="32" Height="32" Offset="0x8480"/>
+        <Texture Name="gDaruniaEyeShutTex" OutName="darunia_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x8880"/>
+        <Texture Name="gDaruniaMouthTex_8C80" OutName="mouth_8C80" Format="ci8" Width="64" Height="32" Offset="0x8C80"/>
         <Texture Name="gDaruniaTex_9480" OutName="9480" Format="ci8" Width="8" Height="16" Offset="0x9480"/>
         <Texture Name="gDaruniaTex_9500" OutName="9500" Format="ci8" Width="32" Height="64" Offset="0x9500"/>
         <Texture Name="gDaruniaSkelTex_9D00" OutName="9D00" Format="ci8" Width="8" Height="8" Offset="0x9D00"/>
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_009D40" Offset="0x9D40"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_00A540" Offset="0xA540"/> -->
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_00A940" Offset="0xA940"/> -->
+        <Texture Name="gDaruniaMouthTex_9D40" OutName="mouth_9D40" Format="ci8" Width="64" Height="32" Offset="0x9D40"/>
+        <Texture Name="gDaruniaEyeHalf2Tex" OutName="darunia_eye_half2" Format="ci8" Width="32" Height="32" Offset="0xA540"/>
+        <Texture Name="gDaruniaMouthTex_A940" OutName="mouth_A940" Format="ci8" Width="64" Height="32" Offset="0xA940"/>
         <Texture Name="gDaruniaSkelTex_B140" OutName="B140" Format="ci8" Width="8" Height="8" Offset="0xB140"/>
-        <!-- <UNK_TYPE Name="gDaruniaUnknown_00B180" Offset="0xB180"/> -->
+        <Texture Name="gDaruniaMouthTex_B180" OutName="mouth_B180" Format="ci8" Width="64" Height="32" Offset="0xB180"/>
         <Skeleton Name="gDaruniaSkel_011CA8" Type="Flex" LimbType="Standard" Offset="0x11CA8"/>
         <Animation Name="gDaruniaAnim_012014" Offset="0x12014"/>
     </File>
