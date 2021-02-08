@@ -657,7 +657,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
         crashParticleLocation.z = this->actor.world.pos.z;
         EnClearTag_CreateFlashParticle(globalCtx2, &crashParticleLocation, 6.0f, this->actor.floorHeight,
                                        &this->floorTangent);
-        
+
         // Spawn smoke particle.
         crashParticleLocation.y = (this->actor.world.pos.y + 30.0f) - 50.0f;
         EnClearTag_CreateSmokeParticle(globalCtx2, &crashParticleLocation, 3.0f);
@@ -835,6 +835,7 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
                             effect->velocity.y *= -0.5f;
                             effect->timer = ((s16)Rand_ZeroFloat(20)) + 25;
                         } else {
+                            // The Debris particle is done bounding. Set it's velocity and acceleration to 0.
                             effect->velocity.y = 0.0f;
                             effect->acceleration.y = 0.0f;
                             effect->velocity.z = 0.0f;
@@ -876,11 +877,11 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
 
                 // Smooth scale the smoke particles.
                 Math_ApproachF(&effect->scale, effect->maxScale, 0.05f, 0.1f);
-                
+
                 if (effect->primColor.r == 0.0f) {
                     // Fade the smoke particles.
                     Math_ApproachZeroF(&effect->primColor.a, 1.0f, 3.0f);
-                    
+
                     // If the Smoke particle has fully faded, unload it.
                     if (effect->primColor.a <= 0.0f) {
                         effect->type = CLEAR_TAG_PARTICLE_AVAILABLE;
