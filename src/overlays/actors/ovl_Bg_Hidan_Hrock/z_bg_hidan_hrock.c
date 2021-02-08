@@ -80,6 +80,77 @@ InitChainEntry D_808898A8[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_STOP),
 };
 
+
+void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
+    BgHidanHrock* this = THIS;
+    ColliderTrisElementInit* colliderElementInit;
+    Vec3f vertices[3];
+    f32 cosRotY;
+    f32 sinRotY;
+    s32 i;
+    s32 j;
+    CollisionHeader* collisionHeader = NULL;
+
+    Actor_ProcessInitChain(thisx, D_808898A8);
+
+    this->unk_16A = thisx->params & 0x3F;
+    thisx->params = (thisx->params >> 8) & 0xFF;
+
+    Collider_InitTris(globalCtx, &this->collider);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &D_80889898, this->colliderItems);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+
+    sinRotY = Math_SinS(thisx->shape.rot.y);
+    cosRotY = Math_CosS(thisx->shape.rot.y);
+
+    if (thisx->params == 0) {
+        sinRotY *= 1.5f;
+        cosRotY *= 1.5f;
+    }
+
+    for (i = 0; i < 2; ++i) {
+        colliderElementInit = &D_80889898.elements[i];
+        if (1) {
+            for (j = 0; j < 3; j++) {
+                Vec3f* vtx = &colliderElementInit->dim.vtx[j];
+
+                vertices[j].x = vtx->x * sinRotY + (thisx->home.pos.x + vtx->z * cosRotY);
+                vertices[j].y = vtx->y + thisx->home.pos.y;
+                vertices[j].z = vtx->z * cosRotY + (thisx->home.pos.z - vtx->x * sinRotY);
+            }
+        }
+        Collider_SetTrisVertices(&this->collider, i, &vertices[0], &vertices[1], &vertices[2]);
+    }
+
+    if (Flags_GetSwitch(globalCtx, this->unk_16A)) {
+        this->actionFunc = func_808894A4;
+        if (thisx->params == 0) {
+            thisx->world.pos.y -= 2800.0f;
+            thisx->uncullZoneForward = 3000.0f;
+        } else if (thisx->params == 1) {
+            thisx->world.pos.y -= 800.0f;
+        } else if (thisx->params == 2) {
+            thisx->world.pos.y -= 240.0f;
+        }
+    } else {
+        if (thisx->params == 0) {
+            thisx->flags |= 0x30;
+            thisx->uncullZoneForward = 3000.0f;
+        }
+        this->actionFunc = func_808896B8;
+    }
+
+    if (thisx->params == 0) {
+        CollisionHeader_GetVirtual(&D_0600D054, &collisionHeader);
+    } else {
+        CollisionHeader_GetVirtual(&D_0600D188, &collisionHeader);
+    }
+
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, collisionHeader);
+}
+
+
+/*
 #ifdef NON_MATCHING
 void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
     BgHidanHrock* this = THIS;
@@ -101,7 +172,7 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
 
     sinRotY = Math_SinS(this->dyna.actor.shape.rot.y);
     cosRotY = Math_CosS(this->dyna.actor.shape.rot.y);
-    
+
     if (this->dyna.actor.params == 0) {
         sinRotY *= 1.5f;
         cosRotY *= 1.5f;
@@ -150,6 +221,7 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Hidan_Hrock/BgHidanHrock_Init.s")
 #endif
+*/
 
 void BgHidanHrock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHrock* this = THIS;
