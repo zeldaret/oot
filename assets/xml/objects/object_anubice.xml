@@ -1,0 +1,10 @@
+<Root>
+    <File Name="object_anubice" Segment="6">
+        <!-- <UNK_TYPE Name="gAnubiceUnknown_000348" Offset="0x348"/> -->
+        <!-- <UNK_TYPE Name="gAnubiceUnknown_00078C" Offset="0x78C"/> -->
+        <!-- <UNK_TYPE Name="gAnubiceUnknown_000F74" Offset="0xF74"/> -->
+        <!-- <UNK_TYPE Name="gAnubiceUnknown_003468" Offset="0x3468"/> -->
+        <DList Name="gAnubiceDL_003510" Offset="0x3510"/>
+        <!-- <UNK_TYPE Name="gAnubiceUnknown_003990" Offset="0x3990"/> -->
+    </File>
+</Root>
