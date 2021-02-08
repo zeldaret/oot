@@ -373,11 +373,17 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->timer++;
 
     if (this->drawMode != CLEAR_TAG_DRAWMODE_PARTICLE) {
+        // Decrement the "work" timers.
         for (i = 0; i < 3; i++) {
-            DECR(this->work[i]);
+            if (this->work[i] != 0) {
+                this->work[i]--;
+            }
         }
 
-        DECR(this->cutsceneTimer);
+        // Decrement the cutscene timer.
+        if (this->cutsceneTimer != 0) {
+            this->cutsceneTimer--;
+        }
 
         switch (this->state) {
             case CLEAR_TAG_STATE_DEMO:
@@ -527,7 +533,10 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
             case CLEAR_TAG_STATE_CRASHING:
-                DECR(this->crashingTimer);
+                // Decrement the crashing timer.
+                if (this->crashingTimer != 0) {
+                    this->crashingTimer--;
+                }
 
                 // Update Arwing collider to better match a ground collision.
                 func_8002D7EC(&this->actor);
@@ -818,7 +827,10 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
             effect->velocity.z += effect->acceleration.z;
 
             if (effect->type == CLEAR_TAG_PARTICLE_DEBRIS) {
-                CLAMP_MIN(effect->velocity.y, -5.0f);
+                // Clamp the velocity to -5.0
+                if (effect->velocity.y < -5.0f) {
+                    effect->velocity.y = -5.0f;
+                }
 
                 // While the particle is falling check if it has hit the ground.
                 if (effect->velocity.y < 0.0f) {
