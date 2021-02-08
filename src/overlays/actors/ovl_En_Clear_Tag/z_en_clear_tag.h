@@ -42,8 +42,8 @@ typedef struct EnClearTagEffect {
     /* 0x004A */ s16 timer;
     /* 0x004C */ f32 scale;
     /* 0x0050 */ f32 maxScale;
-    /* 0x0054 */ f32 rotationX;
-    /* 0x0058 */ f32 rotationY;
+    /* 0x0054 */ f32 rotationY;
+    /* 0x0058 */ f32 rotationX;
     /* 0x005C */ f32 floorHeight;
     /* 0x0060 */ Vec3f floorTangent;
 } EnClearTagEffect; // size = 0x6C
