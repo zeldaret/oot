@@ -78,7 +78,7 @@ static ColliderCylinderInit laserCollider = {
 };
 u32 D_809D5C98 = 0; // unused
 u32 D_809D5C9C = 0; // unused
-EnClearTagEffect clearTagParticlesBuffer[100];
+EnClearTagEffect clearTagParticlesBuffer[CLEAR_TAG_PARTICLE_MAX_COUNT];
 
 #include "../../../../assets/overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
 
@@ -96,7 +96,7 @@ void EnClearTag_CreateDebrisParticle(GlobalContext* globalCtx, Vec3f* position, 
     globalCtx2 = globalCtx;
     effect = (EnClearTagEffect*)globalCtx2->bossEffects;
 
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
             effect->type = CLEAR_TAG_PARTICLE_DEBRIS;
 
@@ -132,7 +132,7 @@ void EnClearTag_CreateFireParticle(GlobalContext* globalCtx, Vec3f* pos, f32 sca
     globalCtx2 = globalCtx;
     effect = (EnClearTagEffect*)globalCtx2->bossEffects;
 
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
             seed = (s32)Rand_ZeroFloat(100.0f);
             effect->seed = seed;
@@ -165,7 +165,7 @@ void EnClearTag_CreateSmokeParticle(GlobalContext* globalCtx, Vec3f* position, f
     globalCtx2 = globalCtx;
     effect = (EnClearTagEffect*)globalCtx2->bossEffects;
 
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
             seed = (s32)Rand_ZeroFloat(100.0f);
             effect->seed = seed;
@@ -205,7 +205,7 @@ void EnClearTag_CreateFlashParticle(GlobalContext* globalCtx, Vec3f* position, f
     globalCtx2 = globalCtx;
     effect = (EnClearTagEffect*)globalCtx2->bossEffects;
 
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
             effect->type = CLEAR_TAG_PARTICLE_FLASH;
 
@@ -284,7 +284,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (!isParticlesInitialized) {
         isParticlesInitialized = 1;
         globalCtx->bossEffects = &clearTagParticlesBuffer[0];
-        for (i = 0; i < 100; i++) {
+        for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++) {
             clearTagParticlesBuffer[i].type = CLEAR_TAG_PARTICLE_AVAILABLE;
         }
         this->drawMode = CLEAR_TAG_DRAWMODE_ALL;
@@ -760,7 +760,7 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
     globalCtx2 = globalCtx;
     effect = (EnClearTagEffect*)globalCtx2->bossEffects;
 
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type != CLEAR_TAG_PARTICLE_AVAILABLE) {
             effect->seed++;
 
@@ -863,7 +863,7 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
     func_80093D18(globalCtx2->state.gfxCtx);
     func_80093D84(globalCtx2->state.gfxCtx);
 
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_DEBRIS) {
             if (!isMaterialApplied) {
                 isMaterialApplied++;
@@ -882,7 +882,7 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
 
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_FLASH) {
             if (!isMaterialApplied) {
                 gDPPipeSync(POLY_XLU_DISP++);
@@ -903,7 +903,7 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
 
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_SMOKE) {
             if (!isMaterialApplied) {
                 gSPDisplayList(POLY_XLU_DISP++, particleFireMaterialDl);
@@ -929,7 +929,7 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
 
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_FIRE) {
             if (!isMaterialApplied) {
                 gSPDisplayList(POLY_XLU_DISP++, particleFireMaterialDl);
@@ -952,7 +952,7 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
 
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < 100; i++, effect++) {
+    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_PARTICLE_FLASH) {
             if (!isMaterialApplied) {
                 gDPPipeSync(POLY_XLU_DISP++);

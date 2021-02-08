@@ -82,6 +82,8 @@ typedef enum {
     /* 0x04 */ CLEAR_TAG_PARTICLE_FLASH
 } ClearTagParticleType;
 
+#define CLEAR_TAG_PARTICLE_MAX_COUNT 100
+
 extern const ActorInit En_Clear_Tag_InitVars;
 
 #endif
