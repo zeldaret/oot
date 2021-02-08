@@ -34,8 +34,7 @@ const ActorInit Bg_Hidan_Hrock_InitVars = {
     (ActorFunc)BgHidanHrock_Draw,
 };
 
-//static sTrisElementsInit
-ColliderTrisElementInit D_80889820[2] = {
+static ColliderTrisElementInit sTrisElementsInit[2] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -60,8 +59,7 @@ ColliderTrisElementInit D_80889820[2] = {
     },
 };
 
- //static sTrisInit
-ColliderTrisInit D_80889898 = {
+static ColliderTrisInit sTrisInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -71,11 +69,10 @@ ColliderTrisInit D_80889898 = {
         COLSHAPE_TRIS,
     },
     2,
-    D_80889820,
+    sTrisElementsInit,
 };
 
-// static sInitChain
-InitChainEntry D_808898A8[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(gravity, -1, ICHAIN_STOP),
 };
@@ -91,11 +88,11 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
     CollisionHeader* collisionHeader;
 
     collisionHeader = NULL;
-    Actor_ProcessInitChain(thisx, D_808898A8);
+    Actor_ProcessInitChain(thisx, sInitChain);
     this->unk_16A = thisx->params & 0x3F;
     thisx->params = (thisx->params >> 8) & 0xFF;
     Collider_InitTris(globalCtx, &this->collider);
-    Collider_SetTris(globalCtx, &this->collider, thisx, &D_80889898, this->colliderItems);
+    Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->colliderItems);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
     sinRotY = Math_SinS(thisx->shape.rot.y);
@@ -107,7 +104,7 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
     }
 
     for (i = 0; i < 2; i++) {
-        colliderElementInit = &D_80889898.elements[i];
+        colliderElementInit = &sTrisInit.elements[i];
 
         if (1) {
             for (j = 0; j < 3; j++) {
