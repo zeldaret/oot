@@ -77,7 +77,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(gravity, -1, ICHAIN_STOP),
 };
 
-void BgHidanHrock_Init(Actor* thisx, GlobalContext *globalCtx) {
+void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanHrock* this = THIS;
     ColliderTrisElementInit* colliderElementInit;
     Vec3f vertices[3];
