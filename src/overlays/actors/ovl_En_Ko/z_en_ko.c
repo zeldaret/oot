@@ -196,77 +196,128 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
     }
     return 1;
 }
-u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A96FD0.s")
+
+u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
+    switch (thisx->params & 0xFF) {
+        case 12:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x10DA;
+            }
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x10D9;
+            }
+            return ((gSaveContext.infTable[11] & 0x80) != 0) ? 0x10D8 : 0x10D7;
+        case 0:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x1025;
+            }
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x1042;
+            }
+            return 0x1004;
+        case 1:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x1023;
+            }
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x1043;
+            }
+            if ((gSaveContext.infTable[1] & 0x4000) != 0) {
+                return 0x1006;
+            }
+            return 0x1005;
+        case 2:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x1022;
+            }
+            return 0x1007;
+        case 3:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x1021;
+            }
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x1044;
+            }
+            if ((gSaveContext.infTable[2] & 4) != 0) {
+                return 0x1009;
+            }
+            return 0x1008;
+        case 4:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x1097;
+            }
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x1042;
+            }
+            if ((gSaveContext.infTable[2] & 0x10) != 0) {
+                return 0x100B;
+            }
+            return 0x100A;
+        case 5:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x10B0;
+            }
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x1043;
+            }
+            if ((gSaveContext.infTable[2] & 0x40) != 0) {
+                return 0x100D;
+            }
+            return 0x100C;
+        case 6:
+            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+                return 0x10B5;
+            }
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x1043;
+            }
+            if ((gSaveContext.infTable[2] & 0x100) != 0) {
+                return 0x1019;
+            }
+            return 0x100E;
+        case 7:
+            return 0x1035;
+        case 8:
+            return 0x1038;
+        case 9:
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x104B;
+            }
+            return 0x103C;
+        case 10:
+            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+                return 0x104C;
+            }
+            return 0x103D;
+        case 11:
+            return 0x103E;
+    }
+    return 0;
+}
 
 u16 func_80A97338(GlobalContext* globalCtx, Actor* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97338.s")
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97610.s")
-/*s16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
-    s32 temp_v1;
-    s16 phi_a0;
-
-    /*temp_v1 = thisx->params & 0xFF;
-    if ((temp_v1 == 0) || (temp_v1 == 2) || (temp_v1 == 3) || (temp_v1 == 4) || (temp_v1 == 7) || (temp_v1 == 8) ||
-    (temp_v1 == 0xB)) { phi_a0 = Text_GetFaceReaction(globalCtx, 0x13U);
-        //phi_v1 = thisx->params & 0xFF;
-    }
-    if ((temp_v1 == 1) || (temp_v1 == 5) || (temp_v1 == 6) || (temp_v1 == 9) ||   (temp_v1 == 0xA)) {
-        phi_a0 = Text_GetFaceReaction(globalCtx, 0x14U) & 0xFFFF;
-    }
-    temp_v1 = thisx->params & 0xFF;
-    switch (temp_v1) {
-        case 0:
-        case 2:
-        case 3:
-        case 4:
-        case 7:
-        case 8:
-        case 11:
-        default:
-            phi_a0 = Text_GetFaceReaction(globalCtx, 0x13U);
-            break;
-        case 1:
-        case 5:
-        case 6:
-        case 9:
-        case 10:
-            phi_a0 = Text_GetFaceReaction(globalCtx, 0x14U);
-            break;
-    }
-    if (temp_v1 == 0xC) {
-        phi_a0 = Text_GetFaceReaction(globalCtx, 0x12U) & 0xFFFF;
-    }
-    if (phi_a0 != 0) {
-        return phi_a0;
-    }
-    if (gSaveContext.linkAge == 0) {
-        return func_80A97338(globalCtx, thisx);
-    }
-    return func_80A96FD0(globalCtx, thisx);
-}*/
 u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
-
-    u16 phi_a0;
+    u16 faceReaction;
 
     if ((((((((thisx->params & 0xFF) == 0) || (thisx->params & 0xFF) == 2) || (thisx->params & 0xFF) == 3) ||
            (thisx->params & 0xFF) == 4) ||
           (thisx->params & 0xFF) == 7) ||
          (thisx->params & 0xFF) == 8) ||
         (thisx->params & 0xFF) == 0xB) {
-        phi_a0 = Text_GetFaceReaction(globalCtx, 0x13);
+        faceReaction = Text_GetFaceReaction(globalCtx, 0x13);
     }
     if ((((((thisx->params & 0xFF) == 1) || ((thisx->params & 0xFF) == 5)) || ((thisx->params & 0xFF) == 6)) ||
          ((thisx->params & 0xFF) == 9)) ||
         ((thisx->params & 0xFF) == 0xA)) {
-        phi_a0 = Text_GetFaceReaction(globalCtx, 0x14);
+        faceReaction = Text_GetFaceReaction(globalCtx, 0x14);
     }
     if ((thisx->params & 0xFF) == 0xC) {
-        phi_a0 = Text_GetFaceReaction(globalCtx, 0x12);
+        faceReaction = Text_GetFaceReaction(globalCtx, 0x12);
     }
-    if (phi_a0 != 0) {
-        return phi_a0;
+    if (faceReaction != 0) {
+        return faceReaction;
     }
     if (LINK_IS_ADULT) {
         return func_80A97338(globalCtx, thisx);
