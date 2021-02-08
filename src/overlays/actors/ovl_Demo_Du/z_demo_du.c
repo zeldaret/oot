@@ -1,4 +1,5 @@
 #include "z_demo_du.h"
+#include "objects/object_du/object_du.h"
 
 #define FLAGS 0x00000010
 
@@ -9,20 +10,8 @@ void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-//extern AnimationHeader D_06000800;
-//extern AnimationHeader D_06000D00;
-//extern AnimationHeader D_06001D70;
-//extern AnimationHeader D_06002374;
-//extern AnimationHeader D_0600288C;
-//extern AnimationHeader D_06005458;
-//extern AnimationHeader D_06006104;
-//extern AnimationHeader D_060067CC;
-//extern AnimationHeader D_06006EB0;
-//extern UNK_TYPE D_06007FC0;
-
 // gDaruniaSkel_011CA8
 extern FlexSkeletonHeader D_06011CA8;
-//extern AnimationHeader D_06012014;
 
 /*
 const ActorInit Demo_Du_InitVars = {
