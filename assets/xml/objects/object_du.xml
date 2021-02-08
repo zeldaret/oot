@@ -24,6 +24,12 @@
         <Texture Name="gDaruniaSkelTex_7480" OutName="7480" Format="ci8" Width="16" Height="16" Offset="0x7480"/>
         <Texture Name="gDaruniaSkelTex_7580" OutName="7580" Format="ci8" Width="32" Height="32" Offset="0x7580"/>
         <Texture Name="gDaruniaSkelTlut_7980" OutName="7980" Format="rgb5a1" Width="16" Height="16" Offset="0x7980"/>
+
+        <!-- Error in Dlist 0x0600D810 : Overlapping data (type=Texture, off=0x7AF8, size=0x200) -->
+        <!--Texture Name="gDaruniaSkelTlut_7AF8" OutName="7AF8" Format="rgb5a1" Width="16" Height="16" Offset="0x7AF8"/-->
+        <!-- Error in Dlist 0x0600D810 : Overlapping data (type=Texture, off=0x7CC8, size=0x200) -->
+        <!--Texture Name="gDaruniaSkelTlut_7CC8" OutName="7CC8" Format="rgb5a1" Width="16" Height="16" Offset="0x7CC8"/-->
+
         <Texture Name="gDaruniaSkelTex_7EC0" OutName="7EC0" Format="ci8" Width="8" Height="16" Offset="0x7EC0"/>
         <Texture Name="gDaruniaSkelTex_7F40" OutName="7F40" Format="ci8" Width="8" Height="16" Offset="0x7F40"/>
         <Texture Name="gDaruniaSkelTex_7FC0" OutName="7FC0" Format="ci8" Width="8" Height="8" Offset="0x7FC0"/>
@@ -40,7 +46,10 @@
         <Texture Name="gDaruniaMouthTex_A940" OutName="mouth_A940" Format="ci8" Width="64" Height="32" Offset="0xA940"/>
         <Texture Name="gDaruniaSkelTex_B140" OutName="B140" Format="ci8" Width="8" Height="8" Offset="0xB140"/>
         <Texture Name="gDaruniaMouthTex_B180" OutName="mouth_B180" Format="ci8" Width="64" Height="32" Offset="0xB180"/>
-        <Skeleton Name="gDaruniaSkel_011CA8" Type="Flex" LimbType="Standard" Offset="0x11CA8"/>
+
+        <!-- Triggers the "Overlapping data" problem -->
+        <!--Skeleton Name="gDaruniaSkel_011CA8" Type="Flex" LimbType="Standard" Offset="0x11CA8"/-->
+
         <Animation Name="gDaruniaAnim_012014" Offset="0x12014"/>
     </File>
 </Root>

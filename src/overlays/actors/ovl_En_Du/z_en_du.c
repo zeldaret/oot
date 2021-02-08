@@ -1,4 +1,5 @@
 #include "z_en_du.h"
+#include "objects/object_du/object_du.h"
 
 #define FLAGS 0x02000009
 
@@ -583,7 +584,7 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_TYPE D_809FF418[] = { 0x06008080, 0x06008480, 0x06008880, 0x0600A540 };
+    static u64* D_809FF418[] = { gDaruniaEyeOpenTex, gDaruniaEyeHalf1Tex, gDaruniaEyeShutTex, gDaruniaEyeHalf2Tex };
     static UNK_TYPE D_809FF428[] = { 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180 };
     static UNK_TYPE D_809FF438[] = { 0x06007FC0, 0x0600B140 };
 
