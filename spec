@@ -1923,8 +1923,7 @@ endseg
 beginseg
     name "ovl_En_Bili"
     include "build/src/overlays/actors/ovl_En_Bili/z_en_bili.o"
-    include "build/data/overlays/actors/z_en_bili.data.o"
-    include "build/data/overlays/actors/z_en_bili.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bili/ovl_En_Bili_reloc.o"
 endseg
 
 beginseg
