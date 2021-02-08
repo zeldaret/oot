@@ -32,12 +32,15 @@ const ActorInit En_Clear_Tag_InitVars = {
     (ActorFunc)EnClearTag_Update,
     (ActorFunc)EnClearTag_Draw,
 };
-u8 isParticlesInitialized = 0;
-Vec3f zeroVector = {
+
+static u8 isParticlesInitialized = 0;
+
+static Vec3f zeroVector = {
     0.0f,
     0.0f,
     0.0f,
 };
+
 static ColliderCylinderInit arwingCollider = {
     {
         COLTYPE_HIT3,
@@ -57,6 +60,7 @@ static ColliderCylinderInit arwingCollider = {
     },
     { 15, 30, 10, { 0, 0, 0 } },
 };
+
 static ColliderCylinderInit laserCollider = {
     {
         COLTYPE_METAL,
@@ -76,9 +80,11 @@ static ColliderCylinderInit laserCollider = {
     },
     { 15, 30, 10, { 0, 0, 0 } },
 };
-u32 D_809D5C98 = 0; // unused
-u32 D_809D5C9C = 0; // unused
-EnClearTagEffect clearTagParticlesBuffer[CLEAR_TAG_PARTICLE_MAX_COUNT];
+
+static u32 D_809D5C98 = 0; // unused
+static u32 D_809D5C9C = 0; // unused
+
+static EnClearTagEffect clearTagParticlesBuffer[CLEAR_TAG_PARTICLE_MAX_COUNT];
 
 #include "../../../../assets/overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
 
