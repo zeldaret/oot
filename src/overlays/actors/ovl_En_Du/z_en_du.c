@@ -60,21 +60,21 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x06006EB0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { 0x06006EB0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06000800, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { 0x06000D00, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x06001D70, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { 0x06002374, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x0600288C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { 0x06002D94, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -10.0f },
-    { 0x06002D94, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { 0x06003D48, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x06004C04, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { 0x06003A30, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x060046F4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { 0x06004ED8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
-    { 0x060041F4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -6.0f },
+    { &gDaruniaAnim_006EB0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { &gDaruniaAnim_006EB0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gDaruniaAnim_000800, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaAnim_000D00, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gDaruniaAnim_001D70, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaAnim_002374, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gDaruniaAnim_00288C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaAnim_002D94, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gDaruniaAnim_002D94, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { &gDaruniaAnim_003D48, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gDaruniaAnim_004C04, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { &gDaruniaAnim_003A30, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gDaruniaAnim_0046F4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { &gDaruniaAnim_004ED8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gDaruniaAnim_0041F4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -6.0f },
 };
 
 extern CutsceneData D_020059E0[];
 extern CutsceneData D_02006930[];
 extern CutsceneData D_02007DE0[];
 
-extern AnimationHeader D_060041F4;
+// gDaruniaSkel_011CA8
 extern FlexSkeletonHeader D_06011CA8;
 
 void EnDu_SetupAction(EnDu* this, EnDuActionFunc actionFunc) {
@@ -167,7 +167,7 @@ void func_809FDE9C(EnDu* this) {
         this->unk_1F2 = 0;
     }
     if (this->unk_1F2 < 3) {
-        this->unk_1EF = this->unk_1F2;
+        this->eyeTexIndex = this->unk_1F2;
     }
 
     switch (this->unk_1EC) {
@@ -178,33 +178,33 @@ void func_809FDE9C(EnDu* this) {
             break;
         case 1:
             if (this->unk_1F2 == 0) {
-                this->unk_1EF = 2;
+                this->eyeTexIndex = 2;
             }
             break;
         case 2:
             if (this->unk_1F2 == 0) {
-                this->unk_1EF = 2;
+                this->eyeTexIndex = 2;
             }
             break;
         case 3:
             if (this->unk_1F2 == 0) {
-                this->unk_1EF = 0;
+                this->eyeTexIndex = 0;
             }
             break;
     }
 
     switch (this->unk_1ED) {
         case 1:
-            this->unk_1F0 = 1;
+            this->mouthTexIndex = 1;
             break;
         case 2:
-            this->unk_1F0 = 2;
+            this->mouthTexIndex = 2;
             break;
         case 3:
-            this->unk_1F0 = 3;
+            this->mouthTexIndex = 3;
             break;
         default:
-            this->unk_1F0 = 0;
+            this->mouthTexIndex = 0;
             break;
     }
     if (this->unk_1EE == 1) {
@@ -529,7 +529,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-    if (this->skelAnime.animation == &D_060041F4 && Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
+    if (this->skelAnime.animation == &gDaruniaAnim_0041F4 && Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         func_80034EC0(&this->skelAnime, sAnimations, 1);
     }
 
@@ -584,16 +584,16 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* D_809FF418[] = { gDaruniaEyeOpenTex, gDaruniaEyeHalf1Tex, gDaruniaEyeShutTex, gDaruniaEyeHalf2Tex };
-    static UNK_TYPE D_809FF428[] = { 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180 };
-    static UNK_TYPE D_809FF438[] = { 0x06007FC0, 0x0600B140 };
+    static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeHalf1Tex, gDaruniaEyeShutTex, gDaruniaEyeHalf2Tex };
+    static u64* sMouthTextures[] = { gDaruniaMouthTex_8C80, gDaruniaMouthTex_9D40, gDaruniaMouthTex_A940, gDaruniaMouthTex_B180 };
+    static u64* D_809FF438[] = { gDaruniaTex_7FC0, gDaruniaTex_B140 };
 
     EnDu* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_du.c", 1470);
 
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_809FF418[this->unk_1EF]));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(D_809FF428[this->unk_1F0]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthTexIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_809FF438[this->unk_1F1]));
 
     func_80034BA0(globalCtx, &this->skelAnime, EnDu_OverrideLimbDraw, EnDu_PostLimbDraw, &this->actor, 255);
