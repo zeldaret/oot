@@ -1,10 +1,16 @@
 <Root>
     <File Name="object_anubice" Segment="6">
-        <!-- <UNK_TYPE Name="gAnubiceUnknown_000348" Offset="0x348"/> -->
-        <!-- <UNK_TYPE Name="gAnubiceUnknown_00078C" Offset="0x78C"/> -->
-        <!-- <UNK_TYPE Name="gAnubiceUnknown_000F74" Offset="0xF74"/> -->
-        <!-- <UNK_TYPE Name="gAnubiceUnknown_003468" Offset="0x3468"/> -->
+        <Animation Name="gAnubiceAnim_000144" Offset="0x144"/>
+        <Animation Name="gAnubiceAnim_000348" Offset="0x348"/>
+        <Animation Name="gAnubiceAnim_00078C" Offset="0x78C"/>
+        <Animation Name="gAnubiceAnim_000930" Offset="0x930"/>
+        <Animation Name="gAnubiceAnim_000A48" Offset="0xA48"/>
+        <Animation Name="gAnubiceAnim_000BAC" Offset="0xBAC"/>
+        <Animation Name="gAnubiceAnim_000F74" Offset="0xF74"/>
+        <DList Name="gAnubiceDL_003468" Offset="0x3468"/>
         <DList Name="gAnubiceDL_003510" Offset="0x3510"/>
-        <!-- <UNK_TYPE Name="gAnubiceUnknown_003990" Offset="0x3990"/> -->
+        <DList Name="gAnubiceDL_003610" Offset="0x3610"/>
+        <DList Name="gAnubiceDL_003688" Offset="0x3688"/>
+        <Skeleton Name="gAnubiceSkel" Type="Normal" LimbType="Standard" Offset="0x3990"/>
     </File>
 </Root>
