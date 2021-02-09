@@ -6,6 +6,7 @@
 
 #include "z_en_anubice_fire.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_anubice/object_anubice.h"
 
 #define FLAGS 0x00000010
 
@@ -15,8 +16,6 @@ void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_06003510;
 
 /*
 const ActorInit En_Anubice_Fire_InitVars = {
