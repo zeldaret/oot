@@ -1023,13 +1023,96 @@ void func_80AC44DC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     }
 }
 
-void func_80AC45C8(EnOssan* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC45C8.s")
+void func_80AC45C8(EnOssan* this) {
+    u8 v0;
+    u8 v1;
+
+    v0 = this->unk_252;
+    if (this->stickY < 0) {
+        v0 &= 0xFE;
+        if (this->items[v0] != NULL) {
+            this->unk_252 = v0;
+            return;
+        }
+        if (v0 < 4) {
+            v1 = v0 + 2;
+            if (v1 >= 4) {
+                v1 = 0;
+            }
+            while (v1 != v0) {
+                if (this->items[v1] != NULL) {
+                    this->unk_252 = v1;
+                    return;
+                }
+                v1 += 2;
+                if (v1 >= 4) {
+                    v1 = 0;
+                }
+            }
+        }
+        else {
+            v1 = v0 + 2;
+            if (v1 >= 8) {
+                v1 = 4;
+            }
+            while (v1 != v0) {
+                if (this->items[v1] != NULL) {
+                    this->unk_252 = v1;
+                    return;
+                }
+                v1 += 2;
+                if (v1 >= 8) {
+                    v1 = 4;
+                }
+            }
+        }
+    }
+    else if (this->stickY > 0) {
+        v0 |= 1;
+        if (this->items[v0] != 0) {
+            this->unk_252 = v0;
+            return;
+        }
+        if (v0 < 4) {
+            v1 = v0 + 2;
+            if (v1 >= 4) {
+                v1 = 1;
+            }
+            while (v1 != v0) {
+                if (this->items[v1] != NULL) {
+                    this->unk_252 = v1;
+                    return;
+                }
+                v1 += 2;
+                if (v1 >= 4) {
+                    v1 = 1;
+                }
+            }
+        }
+        else {
+            v1 = v0 + 2;
+            if (v1 >= 8) {
+                v1 = 5;
+            }
+            while (v1 != v0) {
+                if (this->items[v1] != 0) {
+                    this->unk_252 = v1;
+                    return;
+                }
+                v1 += 2;
+                if (v1 >= 8) {
+                    v1 = 5;
+                }
+            }
+        }
+    }
+}
+
 
 s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* input) {
     EnGirlA* sp24 = this->items[this->unk_252];
 
-    if (EnOssan_Exit(this, globalCtx, input) != 0) {
+    if (EnOssan_Exit(this, globalCtx, input)) {
         return true;
     }
 
@@ -1234,7 +1317,21 @@ void func_80AC4D20(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC4DDC.s")
+void func_80AC4DDC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    if (!func_80AC652C(this)) {
+        osSyncPrintf("%s[%d]:\x1b[32mズーム中！！\x1b[m\n", "../z_en_oB1.c", 2355);
+        return;
+    }
+    Math_ApproachF(&this->unk_2D4, 0.0f, 0.5f, 10.0f);
+    if (this->unk_2D4 < 0.5f && this->unk_2D4 > -0.5f) {
+        func_80AC3350(this, globalCtx, 0.0f);
+    }
+    func_80AC3350(this, globalCtx, this->unk_2D4);
+    if (this->unk_2D4 == 0.0f) {
+        func_8010B720(globalCtx, 0x3010);
+        this->unk_1FC = 0x14;
+    }
+}
 
 void func_80AC4EC8(GlobalContext* globalCtx, EnOssan* this) {
     Player* player = PLAYER;
@@ -1307,6 +1404,7 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
     }
 }
 
+// Lon Lon Milk
 void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
     switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
@@ -1330,7 +1428,34 @@ void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC52C0.s")
+// Weird Egg
+void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
+    EnGirlA* temp_s0 = this->items[this->unk_252];
+
+    switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
+    case 0:
+        func_80AC4EC8(globalCtx, this);
+        this->unk_251 = 0;
+        this->unk_2D0 = 0.0f;
+        temp_s0->unk_1AC(globalCtx, temp_s0);
+        return;
+    case 1:
+        temp_s0->unk_1C0(globalCtx, temp_s0);
+        func_80AC4FE0(globalCtx, this, 0x9A);
+        this->unk_251 = 0;
+        this->unk_2D0 = 0.0f;
+        temp_s0->unk_1AC(globalCtx, temp_s0);
+        return;
+    case 2:
+        func_80078884(NA_SE_SY_ERROR);
+        func_80AC4FAC(globalCtx, this, 0x9D);
+        return;
+    case 4:
+        func_80078884(NA_SE_SY_ERROR);
+        func_80AC4FAC(globalCtx, this, 0x85);
+    }
+}
+
 
 void func_80AC53F4(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
@@ -1345,11 +1470,11 @@ void func_80AC53F4(GlobalContext* globalCtx, EnOssan* this) {
         temp_s0->unk_1AC(globalCtx, temp_s0);
         return;
     case 2:
-        func_80078884(0x4806);
+        func_80078884(NA_SE_SY_ERROR);
         func_80AC4FAC(globalCtx, this, 0x86);
         return;
     case 4:
-        func_80078884(0x4806);
+        func_80078884(NA_SE_SY_ERROR);
         func_80AC4FAC(globalCtx, this, 0x85);
     }
 }
@@ -1419,9 +1544,36 @@ void func_80AC5680(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC576C.s")
+void func_80AC576C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    GlobalContext* globalCtx2 = globalCtx; //Needed for OK
+    if (!func_80AC6490(this)) {
+        osSyncPrintf("%s[%d]:\x1b[32mズーム中！！\x1b[m\n", "../z_en_oB1.c", 2732);
+        return;
+    }
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && !func_80AC38C8(this, globalCtx, globalCtx->state.input) && (func_80106BC8(globalCtx) != 0)) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+        case 0:
+            func_80AC52C0(globalCtx, this);
+            break;
+        case 1:
+            this->unk_1FC = this->unk_1FE;
+            func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
+        }
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC5858.s")
+void func_80AC5858(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    if (!func_80AC6490(this)) {
+        osSyncPrintf("%s[%d]:\x1b[32mズーム中！！\x1b[m\n", "../z_en_oB1.c", 2771);
+        return;
+    }
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5) {
+        if (func_80106BC8(globalCtx) != 0) {
+            this->unk_1FC = this->unk_1FE;
+            func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
+        }
+    }
+}
 
 void func_80AC5900(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     if (!func_80AC6490(this)) {
@@ -1559,17 +1711,83 @@ void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC5EF0.s")
+void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    EnGirlA* temp_a1;
+    u8 temp_v0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC60E4.s")
+    temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
+    if (temp_v0 == 4) {
+        if (func_80106BC8(globalCtx) != 0) {
+            func_80AC646C(this);
+            temp_a1 = this->items[this->unk_252];
+            temp_a1->unk_1B0(globalCtx, temp_a1);
+            if (!EnOssan_Exit(this, globalCtx, globalCtx->state.input)) {
+                switch (globalCtx->msgCtx.choiceIndex) {
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC6148.s")
+                case 0:
+                    osSyncPrintf("\x1b[33m★★★ 続けるよ！！ ★★★\x1b[m\n");
+                    player->actor.shape.rot.y += 0x8000;
+                    player->stateFlags2 |= 0x20000000;
+                    func_800BC490(globalCtx, 2);
+                    func_8010B680(globalCtx, this->actor.textId, this);
+                    func_80AC3928(globalCtx, this, 1);
+                    func_8002F298(this, globalCtx, 100.0f, -1);
+                    break;
+                case 1:
+                default:
+                    osSyncPrintf("\x1b[33m★★★ やめるよ！！ ★★★\x1b[m\n");
+                    EnOssan_EndInteraction(globalCtx, this);
+                }
+            }
+        }
+    }
+    else if (temp_v0 == 5 && func_80106BC8(globalCtx) != 0) {
+        func_80AC646C(this);
+        temp_a1 = this->items[this->unk_252];
+        temp_a1->unk_1B0(globalCtx, temp_a1);
+        player->actor.shape.rot.y = player->actor.shape.rot.y + 0x8000;
+        player->stateFlags2 = player->stateFlags2 | 0x20000000;
+        func_800BC490(globalCtx, 2);
+        func_8010B680(globalCtx, this->actor.textId, this);
+        func_80AC3928(globalCtx, this, 1);
+        func_8002F298(this, globalCtx, 100.0f, -1);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC61B8.s")
+void func_80AC60E4(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0) {
+        gSaveContext.infTable[15] |= 0x1000;
+        func_80AC39AC(globalCtx, this);
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC6208.s")
+void func_80AC6148(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 1 && func_80106BC8(globalCtx) != 0) {
+        this->unk_1FC = 0x16;
+        func_8010B720(globalCtx, 0x3012);
+        gSaveContext.infTable[15] |= 0x1000;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC6258.s")
+void func_80AC61B8(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0) {
+        func_80AC39AC(globalCtx, this);
+    }
+}
+
+void func_80AC6208(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0) {
+        func_80AC4EC8(globalCtx, this);
+    }
+}
+
+void func_80AC6258(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 5 && func_80106BC8(globalCtx) != 0) {
+        gSaveContext.itemGetInf[2] |= 0x400;
+        this->unk_252 = 2;
+        func_80AC4EC8(globalCtx, this);
+    }
+}
 
 // Hylian Shield discount dialog
 void func_80AC62C4(GlobalContext* globalCtx, EnOssan* this) {
@@ -1577,7 +1795,18 @@ void func_80AC62C4(GlobalContext* globalCtx, EnOssan* this) {
     this->unk_1FC = 0x1A;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC62F4.s")
+void func_80AC62F4(EnOssan* this, GlobalContext* globalCtx, Player* player) {
+    EnGirlA* sp24;
+
+    if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx) != 0) {
+        sp24 = this->items[this->unk_252];
+        func_80AC4EC8(globalCtx, this);
+        this->unk_251 = 0;
+        this->unk_2D0 = 0.0f;
+        sp24->unk_1AC(globalCtx, sp24);
+    }
+}
+
 
 void func_80AC6384(EnOssan* this) {
     EnGirlA* item;
@@ -1769,17 +1998,17 @@ void func_80AC6970(EnOssan* this) {
 s32 func_80AC6A44(EnOssan* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex1)) {
         if ((this->objectIndex2 >= 0) && !Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex2)) {
-            return 0;
+            return false;
         }
 
         if ((this->objectIndex3 >= 0) && !Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex3)) {
-            return 0;
+            return false;
         }
 
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx) {
@@ -2107,10 +2336,72 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, 
 //     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC77CC.s")
+void func_80AC77CC(GlobalContext* globalCtx, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 arg10, f32 arg11) {
+    f32 unk;
+    s32 xl, yl, xh, yh;
+    f32 w, h;
+    s32 dsdx, dtdy;
 
-void func_80AC79C8(GlobalContext* globalCtx, EnOssan* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC79C8.s")
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4228);
+    gDPPipeSync(OVERLAY_DISP++);
+    gDPSetPrimColor(OVERLAY_DISP++, 0, 0, r, g, b, a);
+
+    w = 8.0f * z;
+    h = 12.0f * z;
+    unk = (1.0f / z) * 1024;
+    dsdx = (unk * arg10);
+    dtdy = (arg11 * unk);
+
+    xl = ((x - w) * 4.0f);
+    yl = ((y - h) * 4.0f);
+    xh = ((x + w) * 4.0f);
+    yh = ((y + h) * 4.0f);
+    gSPTextureRectangle(OVERLAY_DISP++,
+        xl, yl,
+        xh, yh,
+        G_TX_RENDERTILE, s, t, 
+        dsdx, dtdy);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4242);
+}
+
+void func_80AC79C8(GlobalContext* globalCtx, EnOssan* this) {
+    s32 sp9C = this->unk_288;
+    s32 sp98 = this->unk_2C0;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4252);
+    if ((sp9C != 0) || (sp98 != 0)) {
+        func_80094520(globalCtx->state.gfxCtx);
+        gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
+        gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, &gArrowCursorTex);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPLoadSync(OVERLAY_DISP++);
+        gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 191, 1024);
+        gDPPipeSync(OVERLAY_DISP++);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 15 * 4, 23 * 4);
+        if (sp9C != 0) {
+            func_80AC77CC(globalCtx, this->unk_26C.r, this->unk_26C.g, this->unk_26C.b, this->unk_26C.a, this->unk_27C, this->unk_280, this->unk_284, 0, 0, -1.0f, 1.0f);
+        }
+        if (sp98 != 0) {
+            func_80AC77CC(globalCtx, this->unk_2A4.r, this->unk_2A4.g, this->unk_2A4.b, this->unk_2A4.a, this->unk_2B4, this->unk_2B8, this->unk_2BC, 0, 0, 1.0f, 1.0f);
+        }
+        gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, &gControlStickTex);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPLoadSync(OVERLAY_DISP++);
+        gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 127, 1024);
+        gDPPipeSync(OVERLAY_DISP++);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 15 * 4, 15 * 4);
+        if (sp9C != 0) {
+            func_80AC77CC(globalCtx, this->unk_254, this->unk_258, this->unk_25C, this->unk_260, this->unk_264, this->unk_268, this->unk_284, 0, 0, -1.0f, 1.0f);
+        }
+        if (sp98 != 0) {
+            func_80AC77CC(globalCtx, this->unk_28C, this->unk_290, this->unk_294, this->unk_298, this->unk_29C, this->unk_2A0, this->unk_2BC, 0, 0, 1.0f, 1.0f);
+        }
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4300);
+}
+
 
 void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
