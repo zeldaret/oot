@@ -200,78 +200,78 @@ s32 func_80A96F94(EnKo* this, GlobalContext* globalCtx) {
 u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
     switch (thisx->params & 0xFF) {
         case 12:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10DA;
             }
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x10D9;
             }
             return ((gSaveContext.infTable[11] & 0x80) != 0) ? 0x10D8 : 0x10D7;
         case 0:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1025;
             }
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x1042;
             }
             return 0x1004;
         case 1:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1023;
             }
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x1043;
             }
-            if ((gSaveContext.infTable[1] & 0x4000) != 0) {
+            if (gSaveContext.infTable[1] & 0x4000) {
                 return 0x1006;
             }
             return 0x1005;
         case 2:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1022;
             }
             return 0x1007;
         case 3:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1021;
             }
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x1044;
             }
-            if ((gSaveContext.infTable[2] & 4) != 0) {
+            if (gSaveContext.infTable[2] & 4) {
                 return 0x1009;
             }
             return 0x1008;
         case 4:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x1097;
             }
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x1042;
             }
-            if ((gSaveContext.infTable[2] & 0x10) != 0) {
+            if (gSaveContext.infTable[2] & 0x10) {
                 return 0x100B;
             }
             return 0x100A;
         case 5:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10B0;
             }
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x1043;
             }
-            if ((gSaveContext.infTable[2] & 0x40) != 0) {
+            if (gSaveContext.infTable[2] & 0x40) {
                 return 0x100D;
             }
             return 0x100C;
         case 6:
-            if ((gSaveContext.eventChkInf[4] & 1) != 0) {
+            if (gSaveContext.eventChkInf[4] & 1) {
                 return 0x10B5;
             }
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x1043;
             }
-            if ((gSaveContext.infTable[2] & 0x100) != 0) {
+            if (gSaveContext.infTable[2] & 0x100) {
                 return 0x1019;
             }
             return 0x100E;
@@ -280,12 +280,12 @@ u16 func_80A96FD0(GlobalContext* globalCtx, Actor* thisx) {
         case 8:
             return 0x1038;
         case 9:
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x104B;
             }
             return 0x103C;
         case 10:
-            if (((gBitFlags[18]) & gSaveContext.inventory.questItems) != 0) {
+            if ((gBitFlags[18]) & gSaveContext.inventory.questItems) {
                 return 0x104C;
             }
             return 0x103D;
@@ -325,7 +325,98 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     return func_80A96FD0(globalCtx, thisx);
 }
 
+#ifdef NON_EQUIVALENT //Is it actually non-equivalent? I havn't the slight idea
+s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
+    u16 phi_v1;
+    
+    // temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
+    switch (func_8010BDBC(&globalCtx->msgCtx)) {
+        case 2:
+            // TODO the big one
+            switch (thisx->textId) {
+                case 0x1005:
+                    gSaveContext.infTable[1] |= 0x4000;
+                default:
+                    return 0;
+                case 0x1008:
+                    gSaveContext.infTable[2] |= 0x4;
+                    return 0;
+                case 0x100A:
+                    gSaveContext.infTable[2] |= 0x10;
+                    return 0;
+                case 0x100C:
+                    gSaveContext.infTable[2] |= 0x40;
+                    return 0;
+                case 0x100E:
+                    gSaveContext.infTable[2] |= 0x100;
+                    return 0;
+                case 0x104F:
+                    gSaveContext.infTable[5] |= 0x200;
+                    return 0;
+                case 0x1053:
+                    gSaveContext.infTable[6] |= 2;
+                    return 0;
+                case 0x1055:
+                    gSaveContext.infTable[4] |= 2;
+                    return 0;
+                case 0x1058:
+                    gSaveContext.infTable[5] |= 2;
+                    return 0;
+                case 0x105D:
+                    gSaveContext.infTable[4] |= 0x80;
+                    return 0;
+                case 0x10BA:
+                    return 0;
+                case 0x10D7:
+                    gSaveContext.infTable[11] |= 0x80;
+                    return 0;
+            }
+            return 1;
+        case 3:
+            if ((thisx->textId == 0x10B7) || (thisx->textId == 0x10B8)) {
+                if (THIS->unk_210 == 0) {
+                    Audio_PlaySoundGeneral((u16)0x4807U, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+                    THIS->unk_210 = 1;
+                }
+            }
+            break;
+        case 4:
+            if (func_80106BC8(globalCtx)) {
+                switch (thisx->textId) {
+                    case 0x1035:
+                        thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x1036 : 0x1037;
+                        func_8010B720(globalCtx, thisx->textId);
+                        break;
+                    case 0x1038:
+                        thisx->textId = (globalCtx->msgCtx.choiceIndex != 0) ? ((globalCtx->msgCtx.choiceIndex == 1) ? 0x0103A : 0x103B) : 0x1039;
+                        func_8010B720(globalCtx, thisx->textId);
+                        break;
+                    case 0x103E:
+                        thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x103F : 0x1040;
+                        func_8010B720(globalCtx, thisx->textId);
+                        break;
+                    case 0x10B7:
+                        gSaveContext.infTable[11] |= 0x1000;
+                    case 0x10B8:
+                        thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
+                        //if (globalCtx->msgCtx.choiceIndex != 0) {
+                        //    return 1;
+                        //}
+                        //return 2;
+                        return (globalCtx->msgCtx.choiceIndex != 0) ? 2 :1;
+                }
+                break;
+            }
+        case 6:
+            if (func_80106BC8(globalCtx) != 0) {
+                return 3;
+            }
+    }
+    return 1;
+}
+#else 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97738.s")
+#endif
 
 s32 func_80A97B38(EnKo* this) {
     s32 rv;
