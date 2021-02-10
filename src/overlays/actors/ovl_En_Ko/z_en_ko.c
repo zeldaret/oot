@@ -116,20 +116,21 @@ typedef struct {
     u8 unk_6;
     Color_RGBA8 color2;
 } struct_80A9A500;
-struct_80A9A500 D_80A9A500[] = { { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-                                 { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-                                 { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
-                                 { 0x02, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
-                                 /*0x00*/ };
+struct_80A9A500 D_80A9A500[] = {
+    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+    { 0x01, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+    { 0x00, 0x00, { 0, 130, 70, 255 }, 0x00, { 110, 170, 20, 255 } },
+    { 0x02, 0x01, { 70, 190, 60, 255 }, 0x01, { 100, 30, 0, 255 } },
+};
 
 typedef struct {
     s8 unk_0;
@@ -325,10 +326,10 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     return func_80A96FD0(globalCtx, thisx);
 }
 
-#ifdef NON_EQUIVALENT //Is it actually non-equivalent? I havn't the slight idea
+#ifdef NON_EQUIVALENT // Is it actually non-equivalent? I havn't the slight idea
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     u16 phi_v1;
-    
+
     // temp_v0 = func_8010BDBC(&globalCtx->msgCtx);
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 2:
@@ -388,7 +389,9 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                         func_8010B720(globalCtx, thisx->textId);
                         break;
                     case 0x1038:
-                        thisx->textId = (globalCtx->msgCtx.choiceIndex != 0) ? ((globalCtx->msgCtx.choiceIndex == 1) ? 0x0103A : 0x103B) : 0x1039;
+                        thisx->textId = (globalCtx->msgCtx.choiceIndex != 0)
+                                            ? ((globalCtx->msgCtx.choiceIndex == 1) ? 0x0103A : 0x103B)
+                                            : 0x1039;
                         func_8010B720(globalCtx, thisx->textId);
                         break;
                     case 0x103E:
@@ -399,11 +402,11 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                         gSaveContext.infTable[11] |= 0x1000;
                     case 0x10B8:
                         thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
-                        //if (globalCtx->msgCtx.choiceIndex != 0) {
+                        // if (globalCtx->msgCtx.choiceIndex != 0) {
                         //    return 1;
                         //}
-                        //return 2;
-                        return (globalCtx->msgCtx.choiceIndex != 0) ? 2 :1;
+                        // return 2;
+                        return (globalCtx->msgCtx.choiceIndex != 0) ? 2 : 1;
                 }
                 break;
             }
@@ -414,7 +417,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     }
     return 1;
 }
-#else 
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ko/func_80A97738.s")
 #endif
 
