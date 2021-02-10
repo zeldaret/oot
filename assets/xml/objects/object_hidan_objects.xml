@@ -1,32 +1,15 @@
 <Root>
     <File Name="object_hidan_objects" Segment="6">
 
-
         <DList Name="gHidanObjectsDL_00BBF0" Offset="0xBBF0"/>
         <DList Name="gHidanObjectsDL_00BDF0" Offset="0xBDF0"/>
         <DList Name="gHidanObjectsDL_00C100" Offset="0xC100"/>
         <DList Name="gHidanObjectsDL_00C1F0" Offset="0xC1F0"/>
         <DList Name="gHidanObjectsDL_00CA10" Offset="0xCA10"/>
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00CB80" Offset="0xCB80"/> -->
-<!--
+
         <Collision Name="gHidanObjectsCol_00CB80" Offset="0xCB80"/>
         <Collision Name="gHidanObjectsCol_00DA10" Offset="0xDA10"/>
--->
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00DF78" Offset="0xDF78"/> -->
-<!--
         <Collision Name="gHidanObjectsCol_00DF78" Offset="0xDF78"/>
--->
-<!--
-        <DList Name="gHidanObjectsDL_012120" Offset="0x12120"/>
-        <DList Name="gHidanObjectsDL_0128A0" Offset="0x128A0"/>
-        <DList Name="gHidanObjectsDL_013020" Offset="0x13020"/>
-        <DList Name="gHidanObjectsDL_0137A0" Offset="0x137A0"/>
-        <DList Name="gHidanObjectsDL_013F20" Offset="0x13F20"/>
-        <DList Name="gHidanObjectsDL_0146A0" Offset="0x146A0"/>
-        <DList Name="gHidanObjectsDL_014E20" Offset="0x14E20"/>
-        <DList Name="gHidanObjectsDL_0155A0" Offset="0x155A0"/>
--->
-
 
         <DList Name="gHidanObjectsDL_00DA80" Offset="0xDA80"/>
 
@@ -40,8 +23,8 @@
         <Collision Name="gHidanObjectsCol_00DE44" Offset="0xDE44"/>
         <Collision Name="gHidanObjectsCol_00DD1C" Offset="0xDD1C"/>
 
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00D054" Offset="0xD054"/> -->
-
+        <Collision Name="gHidanObjectsCol_00D054" Offset="0xD054"/>
+        <Collision Name="gHidanObjectsCol_00D188" Offset="0xD188"/>
 
 
         <Collision Name="gHidanObjectsCol_00E2CC" Offset="0xE2CC"/>
@@ -60,6 +43,16 @@
         <Collision Name="gHidanObjectsCol_00D8F8" Offset="0xD8F8"/>
 
 
+<!--
+        <DList Name="gHidanObjectsDL_012120" Offset="0x12120"/>
+        <DList Name="gHidanObjectsDL_0128A0" Offset="0x128A0"/>
+        <DList Name="gHidanObjectsDL_013020" Offset="0x13020"/>
+        <DList Name="gHidanObjectsDL_0137A0" Offset="0x137A0"/>
+        <DList Name="gHidanObjectsDL_013F20" Offset="0x13F20"/>
+        <DList Name="gHidanObjectsDL_0146A0" Offset="0x146A0"/>
+        <DList Name="gHidanObjectsDL_014E20" Offset="0x14E20"/>
+        <DList Name="gHidanObjectsDL_0155A0" Offset="0x155A0"/>
+-->
         <!-- <UNK_PTR Name="gHidanObjectsUnknown_015D20" Offset="0x15D20"/> -->
         <!-- <UNK_PTR Name="gHidanObjectsUnknown_016120" Offset="0x16120"/> -->
         <!-- <UNK_PTR Name="gHidanObjectsUnknown_016520" Offset="0x16520"/> -->
@@ -75,16 +68,18 @@
 
         <DList Name="gHidanObjectsDL_00ABC8" Offset="0xABC8"/>
         <DList Name="gHidanObjectsDL_00B0F8" Offset="0xB0F8"/>
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00CC90" Offset="0xCC90"/> -->
+        <Collision Name="gHidanObjectsCol_00CC90" Offset="0xCC90"/>
 
 
         <DList Name="gHidanObjectsDL_00C338" Offset="0xC338"/>
         <DList Name="gHidanObjectsDL_00C470" Offset="0xC470"/>
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00FAE8" Offset="0xFAE8"/> -->
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_0120E8" Offset="0x120E8"/> -->
-
+        <Collision Name="gHidanObjectsCol_00FAE8" Offset="0xFAE8"/>
+        <Collision Name="gHidanObjectsCol_0120E8" Offset="0x120E8"/>
 
         <DList Name="gHidanObjectsDL_00A7E0" Offset="0xA7E0"/>
         <Collision Name="gHidanObjectsCol_00E568" Offset="0xE568"/>
+
+        <DList Name="gHidanObjectsDL_00A240" Offset="0xA240"/>
+        <DList Name="gHidanObjectsDL_00C838" Offset="0xC838"/>
     </File>
 </Root>
