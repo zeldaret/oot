@@ -53,14 +53,14 @@
         <DList Name="gHidanObjectsDL_014E20" Offset="0x14E20"/>
         <DList Name="gHidanObjectsDL_0155A0" Offset="0x155A0"/>
 -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_015D20" Offset="0x15D20"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016120" Offset="0x16120"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016520" Offset="0x16520"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016920" Offset="0x16920"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016D20" Offset="0x16D20"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_017120" Offset="0x17120"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_017520" Offset="0x17520"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_017920" Offset="0x17920"/> -->
+        <Texture Name="gHidanObjectsFireball0Tex" OutName="fireball_0" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
+        <Texture Name="gHidanObjectsFireball1Tex" OutName="fireball_1" Format="ia8" Width="32" Height="32" Offset="0x16120"/>
+        <Texture Name="gHidanObjectsFireball2Tex" OutName="fireball_2" Format="ia8" Width="32" Height="32" Offset="0x16520"/>
+        <Texture Name="gHidanObjectsFireball3Tex" OutName="fireball_3" Format="ia8" Width="32" Height="32" Offset="0x16920"/>
+        <Texture Name="gHidanObjectsFireball4Tex" OutName="fireball_4" Format="ia8" Width="32" Height="32" Offset="0x16D20"/>
+        <Texture Name="gHidanObjectsFireball5Tex" OutName="fireball_5" Format="ia8" Width="32" Height="32" Offset="0x17120"/>
+        <Texture Name="gHidanObjectsFireball6Tex" OutName="fireball_6" Format="ia8" Width="32" Height="32" Offset="0x17520"/>
+        <Texture Name="gHidanObjectsFireball7Tex" OutName="fireball_7" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
 
         <Collision Name="gHidanObjectsCol_00D5C0" Offset="0xD5C0"/>
         <DList Name="gHidanObjectsDL_00AD00" Offset="0xAD00"/>
