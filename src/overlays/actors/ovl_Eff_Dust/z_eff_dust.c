@@ -1,3 +1,10 @@
+/**
+ * @file z_eff_dust.c
+ * 
+ * Overlay: ovl_Eff_Dust
+ * Description: Dust effects
+ */
+
 #include "z_eff_dust.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -42,7 +49,6 @@ void EffDust_SetupDraw(EffDust* this, EffDustDrawFunc drawFunc) {
     this->drawFunc = drawFunc;
 }
 
-// Members initializer (?)
 void EffDust_InitPosAndDistance(EffDust* this) {
     s32 i;
 
