@@ -27,14 +27,6 @@
 
 
         <DList Name="gHidanObjectsDL_00DA80" Offset="0xDA80"/>
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_015D20" Offset="0x15D20"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016120" Offset="0x16120"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016520" Offset="0x16520"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016920" Offset="0x16920"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_016D20" Offset="0x16D20"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_017120" Offset="0x17120"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_017520" Offset="0x17520"/> -->
-        <!-- <UNK_PTR Name="gHidanObjectsUnknown_017920" Offset="0x17920"/> -->
 
         <DList Name="gHidanObjectsDL_00B630" Offset="0xB630"/>
         <Collision Name="gHidanObjectsCol_00E1E8" Offset="0xE1E8"/>
@@ -82,12 +74,10 @@
         <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00ABC8" Offset="0xABC8"/> -->
         <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00B0F8" Offset="0xB0F8"/> -->
         <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00CC90" Offset="0xCC90"/> -->
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00DC30" Offset="0xDC30"/> -->
 
 
         <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00C338" Offset="0xC338"/> -->
         <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00C470" Offset="0xC470"/> -->
-        <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00DC30" Offset="0xDC30"/> -->
         <!-- <UNK_TYPE Name="gHidanObjectsUnknown_00FAE8" Offset="0xFAE8"/> -->
         <!-- <UNK_TYPE Name="gHidanObjectsUnknown_0120E8" Offset="0x120E8"/> -->
 
