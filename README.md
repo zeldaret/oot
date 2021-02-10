@@ -19,7 +19,8 @@
 
 This repository is a work in progress, and while it can be used to make certain changes, it's still
 constantly evolving. If you use it for modding purposes in its current state, please be aware that
-the codebase can drastically change at any time.
+the codebase can drastically change at any time. Also note that some parts of the ROM may not be
+'shiftable' yet, so modifying them could be difficult at this point.
 ```
 
 This is a WIP decompilation of The Legend of Zelda: Ocarina of Time.
