@@ -81,5 +81,13 @@
 
         <DList Name="gHidanObjectsDL_00A240" Offset="0xA240"/>
         <DList Name="gHidanObjectsDL_00C838" Offset="0xC838"/>
+
+        <!-- Unused -->
+        <!-- TODO: Check if they really are unused -->
+        <DList Name="gHidanObjectsUnused0DL" Offset="0xF890"/>
+        <DList Name="gHidanObjectsUnused1DL" Offset="0xF938"/>
+        <DList Name="gHidanObjectsUnused2DL" Offset="0xF998"/>
+        <DList Name="gHidanObjectsUnused3DL" Offset="0x10CB0"/>
+        <DList Name="gHidanObjectsUnused4DL" Offset="0x11F20"/>
     </File>
 </Root>
