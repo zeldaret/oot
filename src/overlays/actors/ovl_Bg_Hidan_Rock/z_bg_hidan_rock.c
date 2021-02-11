@@ -22,9 +22,9 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx);
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this);
 
-extern Gfx D_0600C100[];
-extern Gfx D_0600C1F0[];
-extern Gfx D_0600CA10[];
+extern Gfx* D_0600C100;
+extern Gfx* D_0600C1F0;
+extern Gfx* D_0600CA10;
 extern CollisionHeader* D_0600CB80;
 extern CollisionHeader* D_0600DF78;
 
@@ -344,8 +344,8 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
-    static Gfx* D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0,
-                                 0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0 };
+    static UNK_PTR D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0,
+                                    0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0 };
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
