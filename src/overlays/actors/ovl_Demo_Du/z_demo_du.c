@@ -10,9 +10,6 @@ void DemoDu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-// gDaruniaSkel_011CA8
-extern FlexSkeletonHeader D_06011CA8;
-
 /*
 const ActorInit Demo_Du_InitVars = {
     ACTOR_DEMO_DU,
