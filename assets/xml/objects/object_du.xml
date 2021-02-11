@@ -1,27 +1,8 @@
 <Root>
     <File Name="object_du" Segment="6">
-        <!-- Darunia's eyes textures -->
-        <!-- TODO: Rename darunia_eye_half1 and darunia_eye_half2 to something more clear -->
-        <Texture Name="gDaruniaEyeOpenTex" OutName="darunia_eye_open" Format="ci8" Width="32" Height="32" Offset="0x8080"/>
-        <Texture Name="gDaruniaEyeHalf1Tex" OutName="darunia_eye_half1" Format="ci8" Width="32" Height="32" Offset="0x8480"/>
-        <Texture Name="gDaruniaEyeShutTex" OutName="darunia_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x8880"/>
-        <Texture Name="gDaruniaEyeHalf2Tex" OutName="darunia_eye_half2" Format="ci8" Width="32" Height="32" Offset="0xA540"/>
+        <!-- Darunia's skeleton -->
+        <Skeleton Name="gDaruniaSkel" Type="Flex" LimbType="Standard" Offset="0x11CA8"/>
 
-        <!-- Darunia's mouth textures -->
-        <!-- TODO: Rename -->
-        <Texture Name="gDaruniaMouthTex_8C80" OutName="mouth_8C80" Format="ci8" Width="64" Height="32" Offset="0x8C80"/>
-        <Texture Name="gDaruniaMouthTex_9D40" OutName="mouth_9D40" Format="ci8" Width="64" Height="32" Offset="0x9D40"/>
-        <Texture Name="gDaruniaMouthTex_A940" OutName="mouth_A940" Format="ci8" Width="64" Height="32" Offset="0xA940"/>
-        <Texture Name="gDaruniaMouthTex_B180" OutName="mouth_B180" Format="ci8" Width="64" Height="32" Offset="0xB180"/>
-
-        <!-- Darunia's ?? textures -->
-        <!-- TODO: What is this? -->
-        <!-- Used in ovl_en_du -->
-        <Texture Name="gDaruniaTex_7FC0" OutName="7FC0" Format="ci8" Width="8" Height="8" Offset="0x7FC0"/>
-        <Texture Name="gDaruniaTex_B140" OutName="B140" Format="ci8" Width="8" Height="8" Offset="0xB140"/>
-
-
-        <!-- Possibly the Saria's Song dance -->
         <!-- Used in ovl_en_du and ovl_demo_du -->
         <Animation Name="gDaruniaAnim_006EB0" Offset="0x6EB0"/>
         <Animation Name="gDaruniaAnim_000800" Offset="0x800"/>
@@ -45,30 +26,44 @@
         <!-- Used in ovl_demo_du -->
         <Animation Name="gDaruniaAnim_012014" Offset="0x12014"/>
 
+        <!-- Darunia's eyes textures -->
+        <!-- TODO: Rename darunia_eye_half1 and darunia_eye_half2 to something more clear -->
+        <Texture Name="gDaruniaEyeOpenTex" OutName="darunia_eye_open" Format="ci8" Width="32" Height="32" Offset="0x8080"/>
+        <Texture Name="gDaruniaEyeHalf1Tex" OutName="darunia_eye_half1" Format="ci8" Width="32" Height="32" Offset="0x8480"/>
+        <Texture Name="gDaruniaEyeShutTex" OutName="darunia_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x8880"/>
+        <Texture Name="gDaruniaEyeHalf2Tex" OutName="darunia_eye_half2" Format="ci8" Width="32" Height="32" Offset="0xA540"/>
 
-        <Texture Name="gDaruniaSkelTlut_6EC0" OutName="6EC0" Format="rgb5a1" Width="16" Height="16" Offset="0x6EC0"/>
-        <Texture Name="gDaruniaSkelTex_70C0" OutName="70C0" Format="ci8" Width="32" Height="16" Offset="0x70C0"/>
-        <Texture Name="gDaruniaSkelTex_72C0" OutName="72C0" Format="ci8" Width="16" Height="16" Offset="0x72C0"/>
-        <Texture Name="gDaruniaSkelTex_73C0" OutName="73C0" Format="ci8" Width="8" Height="16" Offset="0x73C0"/>
-        <Texture Name="gDaruniaSkelTex_7440" OutName="7440" Format="ci8" Width="8" Height="8" Offset="0x7440"/>
-        <Texture Name="gDaruniaSkelTex_7480" OutName="7480" Format="ci8" Width="16" Height="16" Offset="0x7480"/>
-        <Texture Name="gDaruniaSkelTex_7580" OutName="7580" Format="ci8" Width="32" Height="32" Offset="0x7580"/>
-        <Texture Name="gDaruniaSkelTlut_7980" OutName="7980" Format="rgb5a1" Width="47" Height="4" Offset="0x7980"/>
-        <Texture Name="gDaruniaSkelTex_7EC0" OutName="7EC0" Format="ci8" Width="8" Height="16" Offset="0x7EC0"/>
-        <Texture Name="gDaruniaSkelTex_7F40" OutName="7F40" Format="ci8" Width="8" Height="16" Offset="0x7F40"/>
-        <Texture Name="gDaruniaSkelTex_8000" OutName="8000" Format="ci8" Width="8" Height="16" Offset="0x8000"/>
-        <Texture Name="gDaruniaTex_9480" OutName="9480" Format="ci8" Width="8" Height="16" Offset="0x9480"/>
-        <Texture Name="gDaruniaTex_9500" OutName="9500" Format="ci8" Width="32" Height="64" Offset="0x9500"/>
-        <Texture Name="gDaruniaSkelTex_9D00" OutName="9D00" Format="ci8" Width="8" Height="8" Offset="0x9D00"/>
+        <!-- Darunia's mouth textures -->
+        <Texture Name="gDaruniaMouthSeriousTex" OutName="darunia_mouth_serious" Format="ci8" Width="64" Height="32" Offset="0x8C80"/>
+        <Texture Name="gDaruniaMouthTeethsTex" OutName="darunia_mouth_teeths" Format="ci8" Width="64" Height="32" Offset="0x9D40"/>
+        <Texture Name="gDaruniaMouthOpenTex" OutName="darunia_mouth_open" Format="ci8" Width="64" Height="32" Offset="0xA940"/>
+        <Texture Name="gDaruniaMouthHappyTex" OutName="darunia_mouth_happy" Format="ci8" Width="64" Height="32" Offset="0xB180"/>
+
+        <!-- Darunia's nose textures -->
+        <Texture Name="gDaruniaNoseSeriousTex" OutName="darunia_nose_serious" Format="ci8" Width="8" Height="8" Offset="0x7FC0"/>
+        <Texture Name="gDaruniaNoseHappyTex" OutName="darunia_nose_happy" Format="ci8" Width="8" Height="8" Offset="0xB140"/>
 
 
-        <!-- Triggers the "Overlapping data" problem -->
-        <Skeleton Name="gDaruniaSkel_011CA8" Type="Flex" LimbType="Standard" Offset="0x11CA8"/>
+        <!-- Texture look up tables -->
+        <Texture Name="gDaruniaTlut_6EC0" OutName="tlut_6EC0" Format="rgb5a1" Width="16" Height="16" Offset="0x6EC0"/>
+        <Texture Name="gDaruniaTlut_7AF8" OutName="tlut_7AF8" Format="rgb5a1" Width="29" Height="8" Offset="0x7AF8"/>
+        <Texture Name="gDaruniaTlut_7CC8" OutName="tlut_7CC8" Format="rgb5a1" Width="21" Height="12" Offset="0x7CC8"/>
+        <Texture Name="gDaruniaTlut_7980" OutName="tlut_7980" Format="rgb5a1" Width="47" Height="4" Offset="0x7980"/>
 
-        <!-- Error in Dlist 0x0600D810 : Overlapping data (type=Texture, off=0x7AF8, size=0x200) -->
-        <Texture Name="gDaruniaSkelTlut_7AF8" OutName="7AF8" Format="rgb5a1" Width="29" Height="8" Offset="0x7AF8"/>
-        <!-- Error in Dlist 0x0600D810 : Overlapping data (type=Texture, off=0x7CC8, size=0x200) -->
-        <Texture Name="gDaruniaSkelTlut_7CC8" OutName="7CC8" Format="rgb5a1" Width="21" Height="12" Offset="0x7CC8"/>
+        <!-- Tlut: gDaruniaTlut_6EC0 -->
+        <Texture Name="gDaruniaSkelTex_70C0" OutName="tex_70C0" Format="ci8" Width="32" Height="16" Offset="0x70C0"/>
+        <Texture Name="gDaruniaSkelTex_72C0" OutName="tex_72C0" Format="ci8" Width="16" Height="16" Offset="0x72C0"/>
+        <Texture Name="gDaruniaSkelTex_73C0" OutName="tex_73C0" Format="ci8" Width="8" Height="16" Offset="0x73C0"/>
+        <Texture Name="gDaruniaSkelTex_7440" OutName="tex_7440" Format="ci8" Width="8" Height="8" Offset="0x7440"/>
+        <Texture Name="gDaruniaSkelTex_7480" OutName="tex_7480" Format="ci8" Width="16" Height="16" Offset="0x7480"/>
+        <Texture Name="gDaruniaSkelTex_7580" OutName="tex_7580" Format="ci8" Width="32" Height="32" Offset="0x7580"/>
 
+        <!-- Tlut: gDaruniaTlut_7980 -->
+        <Texture Name="gDaruniaSkelTex_7EC0" OutName="tex_7EC0" Format="ci8" Width="8" Height="16" Offset="0x7EC0"/>
+        <Texture Name="gDaruniaSkelTex_7F40" OutName="tex_7F40" Format="ci8" Width="8" Height="16" Offset="0x7F40"/>
+        <Texture Name="gDaruniaSkelTex_8000" OutName="tex_8000" Format="ci8" Width="8" Height="16" Offset="0x8000"/>
+        <Texture Name="gDaruniaSkelTex_9480" OutName="tex_9480" Format="ci8" Width="8" Height="16" Offset="0x9480"/>
+        <Texture Name="gDaruniaSkelTex_9500" OutName="tex_9500" Format="ci8" Width="32" Height="64" Offset="0x9500"/>
+        <Texture Name="gDaruniaSkelTex_9D00" OutName="tex_9D00" Format="ci8" Width="8" Height="8" Offset="0x9D00"/>
     </File>
 </Root>

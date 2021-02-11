@@ -202,9 +202,9 @@ void func_809FDE9C(EnDu* this) {
             break;
     }
     if (this->unk_1EE == 1) {
-        this->unk_1F1 = 1;
+        this->noseTexIndex = 1;
     } else {
-        this->unk_1F1 = 0;
+        this->noseTexIndex = 0;
     }
 }
 
@@ -250,7 +250,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDaruniaSkel_011CA8, NULL, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gDaruniaSkel, NULL, 0, 0, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0x16), &sColChkInfoInit);
@@ -579,8 +579,8 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeHalf1Tex, gDaruniaEyeShutTex, gDaruniaEyeHalf2Tex };
-    static u64* sMouthTextures[] = { gDaruniaMouthTex_8C80, gDaruniaMouthTex_9D40, gDaruniaMouthTex_A940, gDaruniaMouthTex_B180 };
-    static u64* D_809FF438[] = { gDaruniaTex_7FC0, gDaruniaTex_B140 };
+    static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthTeethsTex, gDaruniaMouthOpenTex, gDaruniaMouthHappyTex };
+    static u64* sNoseTextures[] = { gDaruniaNoseSeriousTex, gDaruniaNoseHappyTex };
 
     EnDu* this = THIS;
 
@@ -588,7 +588,7 @@ void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[this->mouthTexIndex]));
-    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_809FF438[this->unk_1F1]));
+    gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sNoseTextures[this->noseTexIndex]));
 
     func_80034BA0(globalCtx, &this->skelAnime, EnDu_OverrideLimbDraw, EnDu_PostLimbDraw, &this->actor, 255);
 
