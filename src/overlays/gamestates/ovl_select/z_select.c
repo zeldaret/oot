@@ -44,33 +44,33 @@ void Select_LoadGame(SelectContext* this, s32 entranceIndex) {
 }
 
 static SceneSelectEntry sScenes[] = {
-    { " 1:SPOT00", Select_LoadGame, 0x00CD },
-    { " 2:SPOT01", Select_LoadGame, 0x00DB },
-    { " 3:SPOT02", Select_LoadGame, 0x00E4 },
-    { " 4:SPOT03", Select_LoadGame, 0x00EA },
-    { " 5:SPOT04", Select_LoadGame, 0x00EE },
-    { " 6:SPOT05", Select_LoadGame, 0x00FC },
-    { " 7:SPOT06", Select_LoadGame, 0x0102 },
-    { " 8:SPOT07", Select_LoadGame, 0x0108 },
-    { " 9:SPOT08", Select_LoadGame, 0x010E },
-    { "10:SPOT09", Select_LoadGame, 0x0117 },
-    { "11:SPOT10", Select_LoadGame, 0x011E },
-    { "12:SPOT11", Select_LoadGame, 0x0123 },
-    { "13:SPOT12", Select_LoadGame, 0x0129 },
-    { "14:SPOT13", Select_LoadGame, 0x0130 },
-    { "15:SPOT15", Select_LoadGame, 0x0138 },
-    { "16:SPOT16", Select_LoadGame, 0x013D },
-    { "17:SPOT17", Select_LoadGame, 0x0147 },
-    { "18:SPOT18", Select_LoadGame, 0x014D },
-    { "19:SPOT20", Select_LoadGame, 0x0157 },
-    { "20:\x8Dﾄｷﾉﾏ", Select_LoadGame, 0x0053 },
-    { "21:\x8Dｹﾝｼﾞｬﾉﾏ", Select_LoadGame, 0x006B },
-    { "22:\x8Dｼｬﾃｷｼﾞｮｳ", Select_LoadGame, 0x003B },
-    { "23:\x8Cﾊｲﾗﾙ\x8Dﾆﾜ\x8Cｹﾞｰﾑ", Select_LoadGame, 0x007A },
-    { "24:\x8Dﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ", Select_LoadGame, 0x031C },
-    { "25:\x8Dﾊｶｼﾀﾄﾋﾞｺﾐｱﾅ 2", Select_LoadGame, 0x004B },
-    { "26:\x8Dｵｳｹ ﾉ ﾊｶｱﾅ", Select_LoadGame, 0x002D },
-    { "27:\x8Dﾀﾞｲﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x0315 },
+    { " 1:Hyrule Field", Select_LoadGame, 0x00CD },
+    { " 2:Kakariko Village", Select_LoadGame, 0x00DB },
+    { " 3:Graveyard", Select_LoadGame, 0x00E4 },
+    { " 4:Zora River", Select_LoadGame, 0x00EA },
+    { " 5:Kokiri Forest", Select_LoadGame, 0x00EE },
+    { " 6:Sacred Meadows", Select_LoadGame, 0x00FC },
+    { " 7:Lake Hylia", Select_LoadGame, 0x0102 },
+    { " 8:Zora's Domain", Select_LoadGame, 0x0108 },
+    { " 9:Zora's Fountain", Select_LoadGame, 0x010E },
+    { "10:Gerudo Vally", Select_LoadGame, 0x0117 },
+    { "11:Lost Woods", Select_LoadGame, 0x011E },
+    { "12:Desert Colossus", Select_LoadGame, 0x0123 },
+    { "13:Gerudo Fortress", Select_LoadGame, 0x0129 },
+    { "14:Haunted Wasteland", Select_LoadGame, 0x0130 },
+    { "15:Hyrule Castle", Select_LoadGame, 0x0138 },
+    { "16:Death Mountain Trail", Select_LoadGame, 0x013D },
+    { "17:Death Mountain Crator", Select_LoadGame, 0x0147 },
+    { "18:Goron City", Select_LoadGame, 0x014D },
+    { "19:Lon Lon Ranch", Select_LoadGame, 0x0157 },
+    { "20:\x8DTemple Of Time", Select_LoadGame, 0x0053 },
+    { "21:\x8DChamber Of Sages", Select_LoadGame, 0x006B },
+    { "22:\x8DShooting Gallery", Select_LoadGame, 0x003B },
+    { "23:\x8CCastle Courtyard\x8Dﾆﾜ\x8Cｹﾞｰﾑ", Select_LoadGame, 0x007A },
+    { "24:\x8DTombv(re-dead)", Select_LoadGame, 0x031C },
+    { "25:\x8DTomb (5 rupies)", Select_LoadGame, 0x004B },
+    { "26:\x8DRoyal Family's Tomb", Select_LoadGame, 0x002D },
+    { "27:\x8DGreat Fairy (Heals)", Select_LoadGame, 0x0315 },
     { "28:\x8Dﾄﾋﾞｺﾐ ﾖｳｾｲ ｱﾅ", Select_LoadGame, 0x036D },
     { "29:\x8Dﾏﾎｳｾｷ ﾖｳｾｲﾉｲｽﾞﾐ", Select_LoadGame, 0x0371 },
     { "30:\x8Cｶﾞﾉﾝ\x8Dｻｲｼｭｳｾﾝ", Select_LoadGame, 0x043F },
@@ -167,7 +167,7 @@ static SceneSelectEntry sScenes[] = {
     { "121:\x8Cﾎﾞｽｽﾀﾛﾌｫｽ\x8Dﾍﾞﾔ", Select_LoadGame, 0x0020 },
     { "122:Sutaru", Select_LoadGame, 0x0047 },
     { "123:jikkenjyou", Select_LoadGame, 0x02EA },
-    { "124:depth\x8Cﾃｽﾄ", Select_LoadGame, 0x00B6 },
+    { "124:Lake", Select_LoadGame, 0x00B6 },
     { "125:\x8Cﾊｲﾗﾙ\x8Dﾆﾜ\x8Cｹﾞｰﾑ2", Select_LoadGame, 0x0076 },
     { "title", Select_LoadTitle, 0x0000 },
 };
@@ -410,18 +410,18 @@ void Select_PrintMenu(SelectContext* this, GfxPrint* printer) {
 }
 
 static char* sLoadingMessages[] = {
-    "\x8Dｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                   // "Please wait a minute"
-    "\x8Dﾁｮｯﾄ ﾏｯﾃﾈ",                       // "Hold on a sec"
-    "\x8Cｳｪｲﾄ ｱ ﾓｰﾒﾝﾄ",                    // "Wait a moment"
-    "\x8Cﾛｰﾄﾞ\x8Dﾁｭｳ",                     // "Loading"
-    "\x8Dﾅｳ ﾜｰｷﾝｸﾞ",                       // "Now working"
-    "\x8Dｲﾏ ﾂｸｯﾃﾏｽ",                       // "Now creating"
-    "\x8Dｺｼｮｳｼﾞｬﾅｲﾖ",                      // "It's not broken"
-    "\x8Cｺｰﾋｰ ﾌﾞﾚｲｸ",                      // "Coffee Break"
-    "\x8C\Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                 // "Please set B side"
-    "\x8Dｼﾞｯﾄ\x8Cｶﾞﾏﾝ\x8Dﾉ\x8Cｺ\x8Dﾃﾞｱｯﾀ", // "Be patient, now"
-    "\x8Dｲﾏｼﾊﾞﾗｸｵﾏﾁｸﾀﾞｻｲ",                 // "Please wait just a minute"
-    "\x8Dｱﾜﾃﾅｲｱﾜﾃﾅｲ｡ﾋﾄﾔｽﾐﾋﾄﾔｽﾐ｡",          // "Don't worry, don't worry. Take a break, take a break"
+    "\x8DPlease Wait...",                   // "Please wait a minute"
+    "\x8DHold on a sec...",                       // "Hold on a sec"
+    "\x8CWait a moment",                    // "Wait a moment"
+    "\x8Cloading \x8Dﾁｭｳ",                     // "Loading"
+    "\x8DNow working",                       // "Now working"
+    "\x8DNow creating",                       // "Now creating"
+    "\x8DIt's not broken :)",                      // "It's not broken"
+    "\x8CAnybody want coffee?",                      // "Coffee Break"
+    "\x8C\BPlease select b side",                 // "Please set B side"
+    "\x8DBe patient", // "Be patient, now"
+    "\x8DJust a minute",                 // "Please wait just a minute"
+    "\x8DDon't worry! Take a break!",          // "Don't worry, don't worry. Take a break, take a break"
 };
 
 void Select_PrintLoadingMessage(SelectContext* this, GfxPrint* printer) {
@@ -435,9 +435,9 @@ void Select_PrintLoadingMessage(SelectContext* this, GfxPrint* printer) {
 
 static char* sAgeLabels[] = {
     "\x8D"
-    "17(ﾜｶﾓﾉ)", // "17(young)"
+    "17(Adult)", // "17(young)"
     "\x8D"
-    "5(ﾜｶｽｷﾞ)", // "5(very young)"
+    "5(Young)", // "5(very young)"
 };
 
 void Select_PrintAgeSetting(SelectContext* this, GfxPrint* printer, s32 age) {

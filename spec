@@ -8225,17 +8225,24 @@ beginseg
 endseg
 
 beginseg
-    name "depth_test_scene"
-    romalign 0x1000
-    include "build/assets/scenes/test_levels/depth_test/depth_test_scene.o"
-    number 2
+	name "depth_test_scene"
+	romalign 0x1000
+	include "build/assets/scenes/test_levels/depth_test/depth_test_scene.o"
+	number 2
 endseg
 
 beginseg
-    name "depth_test_room_0"
-    romalign 0x1000
-    include "build/assets/scenes/test_levels/depth_test/depth_test_room_0.o"
-    number 3
+	name "depth_test_room_0"
+	romalign 0x1000
+	include "build/assets/scenes/test_levels/depth_test/depth_test_room_0.o"
+	number 3
+endseg
+
+beginseg
+	name "depth_test_room_1"
+	romalign 0x1000
+	include "build/assets/scenes/test_levels/depth_test/depth_test_room_1.o"
+	number 3
 endseg
 
 beginseg
@@ -10232,3 +10239,4 @@ beginseg
     romalign 0x1000
     include "build/baserom/softsprite_matrix_static.o"
 endseg
+

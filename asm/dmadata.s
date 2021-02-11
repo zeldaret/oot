@@ -1021,6 +1021,7 @@ DMA_TABLE_ENTRY syotes2_scene
 DMA_TABLE_ENTRY syotes2_room_0
 DMA_TABLE_ENTRY depth_test_scene
 DMA_TABLE_ENTRY depth_test_room_0
+DMA_TABLE_ENTRY depth_test_room_1
 DMA_TABLE_ENTRY spot00_scene
 DMA_TABLE_ENTRY spot00_room_0
 DMA_TABLE_ENTRY spot01_scene
@@ -1540,6 +1541,4 @@ DMA_TABLE_ENTRY anime_texture_4_static
 DMA_TABLE_ENTRY anime_texture_5_static
 DMA_TABLE_ENTRY anime_texture_6_static
 DMA_TABLE_ENTRY softsprite_matrix_static
-
-# Why the empty space?
 .space 0x100

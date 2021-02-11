@@ -611,9 +611,9 @@ u8* sMouthTextures[] = {
 };
 
 Color_RGB8 sTunicColors[] = {
-    { 30, 105, 27 },
-    { 100, 20, 0 },
-    { 0, 60, 100 },
+    { 0, 200, 0 },
+    { 200, 0, 0 },
+    { 0, 200, 200 },
 };
 
 Color_RGB8 sGauntletColors[] = {
