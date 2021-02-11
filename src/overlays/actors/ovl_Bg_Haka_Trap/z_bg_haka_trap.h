@@ -10,7 +10,7 @@ typedef enum {
     /* 0x02 */ HAKA_TRAP_SPIKED_WALL,
     /* 0x03 */ HAKA_TRAP_SPIKED_WALL_2,
     /* 0x04 */ HAKA_TRAP_PROPELLER,
-    /* 0x05 */ HAKA_TRAP_GUILLOTINE_FAST,
+    /* 0x05 */ HAKA_TRAP_GUILLOTINE_FAST
 } HakaTrapType;
 
 struct BgHakaTrap;

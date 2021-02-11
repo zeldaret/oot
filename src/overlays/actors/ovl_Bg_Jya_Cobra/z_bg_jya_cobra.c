@@ -189,13 +189,13 @@ void func_80895A70(BgJyaCobra* this) {
             }
             break;
         case 1:
-            phi_v0 = temp_v1->lightBeams[1];
+            phi_v0 = (MirRay*)temp_v1->lightBeams[1];
             if (phi_v0 == NULL) {
                 return;
             }
             break;
         case 2:
-            phi_v0 = temp_v1->lightBeams[2];
+            phi_v0 = (MirRay*)temp_v1->lightBeams[2];
             if (phi_v0 == NULL) {
                 return;
             }

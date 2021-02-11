@@ -147,8 +147,8 @@ void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
 void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
     static Vec3f velocity = { 0.0f, 0.2f, 0.0f };
     static Vec3f accel = { 0.0f, 0.05f, 0.0f };
-    static Color_RGB8 primColor = { 255, 255, 255 };
-    static Color_RGB8 envColor = { 255, 50, 50 };
+    static Color_RGBA8 primColor = { 255, 255, 255, 0 };
+    static Color_RGBA8 envColor = { 255, 50, 50, 0 };
     Vec3f pos;
 
     velocity.x = Rand_CenteredFloat(3.0f);

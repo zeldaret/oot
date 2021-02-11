@@ -1,6 +1,6 @@
 /*
  * File: z_bg_spot12_gate.c
- * Overlay: Bg_Spot12_Gate
+ * Overlay: ovl_Bg_Spot12_Gate
  * Description: Haunted Wasteland Gate
  */
 
@@ -46,27 +46,27 @@ static InitChainEntry sInitChain[] = {
 extern Gfx D_06001080[];
 extern CollisionHeader D_060011EC;
 
-void func_808B2F90(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
-    Actor* thisx = &this->dyna.actor;
+void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
+    s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad[2];
+    s32 pad2;
 
-    DynaPolyActor_Init(thisx, flags);
+    DynaPolyActor_Init(&this->dyna, flags);
     CollisionHeader_GetVirtual(collision, &colHeader);
-    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if (this->dyna.bgId == BG_ACTOR_MAX) {
         osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_spot12_gate.c", 145,
-                     thisx->id, thisx->params);
+                     this->dyna.actor.id, this->dyna.actor.params);
     }
 }
 
 void BgSpot12Gate_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Gate* this = THIS;
 
-    func_808B2F90(this, globalCtx, &D_060011EC, DPM_UNK);
-    Actor_ProcessInitChain(thisx, sInitChain);
+    BgSpot12Gate_InitDynaPoly(this, globalCtx, &D_060011EC, DPM_UNK);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B3274(this);
     } else {
         func_808B30C0(this);
@@ -80,24 +80,20 @@ void BgSpot12Gate_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_808B30C0(BgSpot12Gate* this) {
-    Actor* thisx = &this->dyna.actor;
-
     this->actionFunc = func_808B30D8;
-    thisx->world.pos.y = thisx->home.pos.y;
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
 }
 
 void func_808B30D8(BgSpot12Gate* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
         func_808B3134(this);
-        func_800800F8(globalCtx, 0x1040, -0x63, thisx, 0);
+        func_800800F8(globalCtx, 0x1040, -0x63, &this->dyna.actor, 0);
     }
 }
 
 void func_808B3134(BgSpot12Gate* this) {
     this->actionFunc = func_808B314C;
-    this->unk_168 = 0x28;
+    this->unk_168 = 40;
 }
 
 void func_808B314C(BgSpot12Gate* this, GlobalContext* globalCtx) {
@@ -111,27 +107,25 @@ void func_808B317C(BgSpot12Gate* this) {
 }
 
 void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+    s32 pad;
     s32 var;
 
-    Math_StepToF(&thisx->velocity.y, 1.6f, 0.03f);
-    if (Math_StepToF(&thisx->world.pos.y, thisx->home.pos.y + 200.0f, thisx->velocity.y)) {
+    Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f, this->dyna.actor.velocity.y)) {
         func_808B3274(this);
         var = Quake_Add(ACTIVE_CAM, 3);
         Quake_SetSpeed(var, -0x3CB0);
         Quake_SetQuakeValues(var, 3, 0, 0, 0);
         Quake_SetCountdown(var, 0xC);
-        Audio_PlayActorSound2(thisx, NA_SE_EV_BRIDGE_OPEN_STOP);
+        Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BRIDGE_OPEN_STOP);
     } else {
-        func_8002F974(thisx, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
+        func_8002F974(&this->dyna.actor, NA_SE_EV_METALGATE_OPEN - SFX_FLAG);
     }
 }
 
 void func_808B3274(BgSpot12Gate* this) {
-    Actor* thisx = &this->dyna.actor;
-
     this->actionFunc = func_808B3298;
-    thisx->world.pos.y = thisx->home.pos.y + 200.0f;
+    this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y + 200.0f;
 }
 
 void func_808B3298(BgSpot12Gate* this, GlobalContext* globalCtx) {
@@ -141,7 +135,7 @@ void BgSpot12Gate_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot12Gate* this = THIS;
 
     if (this->unk_168 > 0) {
-        this->unk_168 -= 1;
+        this->unk_168--;
     }
     this->actionFunc(this, globalCtx);
 }
