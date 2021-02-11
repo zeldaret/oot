@@ -93,10 +93,6 @@ void func_80AB0428(EnMu* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[2] |= textPresentedBitFlags;
 }
 
-s32 D_80AB0C38[] = { 0x6482EB00, 0xA0FA3C00, 0x5A3C1400, 0x1EF0C800, 0x8C461400,
-                     0x8C461400, 0x1EF0C800, 0x5A3C1400, 0xA0FA3C00, 0x6482EB00 };
-s32 D_80AB0C60[] = { 0x08090A0B, 0x0C000000, 0x00000000, 0x00000000 };
-
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mu/func_80AB0584.s")
 u16 func_80AB0584(GlobalContext* globalCtx, EnMu* this) {
     u16 faceReaction = Text_GetFaceReaction(globalCtx, this->actor.params + 0x3A);
@@ -208,4 +204,30 @@ Gfx* func_80AB09A8(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     return dlist;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mu/EnMu_Draw.s")
+/*s32 D_80AB0C38[] = { 0x6482EB00, 0xA0FA3C00, 0x5A3C1400, 0x1EF0C800, 0x8C461400,
+                     0x8C461400, 0x1EF0C800, 0x5A3C1400, 0xA0FA3C00, 0x6482EB00 };*/
+// s32 D_80AB0C60[] = { 0x08090A0B, 0x0C000000, 0x00000000, 0x00000000 };
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mu/EnMu_Draw.s")
+void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnMu* this = THIS;
+
+    s32 D_80AB0C38[] = { 0x6482EB00, 0xA0FA3C00, 0x5A3C1400, 0x1EF0C800, 0x8C461400,
+                         0x8C461400, 0x1EF0C800, 0x5A3C1400, 0xA0FA3C00, 0x6482EB00 }; //?
+    u8 D_80AB0C60[] = { 0x08, 0x09, 0x0A, 0x0B, 0x0C };                               //?
+    Color_RGBA8* temp_v0;
+    u32 phi_s0;
+    u8* phi_s1;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_mu.c", 514);
+    Matrix_Translate(-1200.0f, 0.0f, -1400.0f, 1);
+    phi_s1 = &D_80AB0C60;
+    for (phi_s0 = 0; phi_s0 != 0x14; phi_s0 += 4) {
+        temp_v0 = &D_80AB0C38 + (this->actor.params * 0x14) + phi_s0;
+        gSPSegment(POLY_OPA_DISP++, 0x00,
+                   func_80AB09A8(globalCtx->state.gfxCtx, temp_v0->r, temp_v0->g, temp_v0->b, temp_v0->a));
+        phi_s1++;
+    }
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                          (s32)this->skelAnime.dListCount, func_80AB08A4, func_80AB0994, this);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_mu.c", 534);
+}
