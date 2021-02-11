@@ -1,5 +1,6 @@
 #include "z_en_du.h"
 #include "objects/object_du/object_du.h"
+#include "scenes/overworld/spot18/spot18_scene.h"
 
 #define FLAGS 0x02000009
 
@@ -69,10 +70,6 @@ static struct_80034EC0_Entry sAnimations[] = {
     { &gDaruniaAnim_0046F4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { &gDaruniaAnim_004ED8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
     { &gDaruniaAnim_0041F4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -6.0f },
 };
-
-extern CutsceneData D_020059E0[];
-extern CutsceneData D_02006930[];
-extern CutsceneData D_02007DE0[];
 
 void EnDu_SetupAction(EnDu* this, EnDuActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -267,7 +264,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1F4.unk_00 = 0;
 
     if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02006930);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot18_sceneCutsceneData0x006930);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);
     } else if (globalCtx->sceneNum == 4) {
@@ -315,14 +312,14 @@ void func_809FE4A4(EnDu* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.unk_E3EE = 0;
         EnDu_SetupAction(this, func_809FE3C0);
     } else if (globalCtx->msgCtx.unk_E3EE >= 6) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02007DE0);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaWrongCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 1;
         EnDu_SetupAction(this, func_809FE890);
         globalCtx->msgCtx.unk_E3EE = 4;
     } else if (globalCtx->msgCtx.unk_E3EE == 3) {
         Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_020059E0);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDaruniaCorrectCs);
         gSaveContext.cutsceneTrigger = 1;
         this->unk_1E8 = 0;
         EnDu_SetupAction(this, func_809FE890);
