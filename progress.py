@@ -126,7 +126,7 @@ elif args.format == 'shield-json':
     print(json.dumps({
         "schemaVersion": 1,
         "label": "progress",
-        "message": f"{srcPct:.2f}%",
+        "message": f"{srcPct:.3g}%",
         "color": 'yellow',
     }))
 elif args.format == 'text':
