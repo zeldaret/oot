@@ -5,7 +5,7 @@
  */
 
 #include "z_demo_im.h"
-
+#include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "vt.h"
 
 #define FLAGS 0x00000011
@@ -59,8 +59,14 @@ static UNK_PTR D_80987830[] = {
 
 static u32 D_8098783C = 0;
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x00, 0x09, COLSHAPE_CYLINDER },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        COLSHAPE_CYLINDER,
+    },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 25, 80, 0, { 0, 0, 0 } },
 };
@@ -85,7 +91,7 @@ static DemoImDrawFunc sDrawFuncs[] = {
 
 const ActorInit Demo_Im_InitVars = {
     ACTOR_DEMO_IM,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_IM,
     sizeof(DemoIm),
@@ -129,7 +135,7 @@ void func_80984C68(DemoIm* this) {
     this->drawConfig = 0;
     this->unk_26C = 0;
     this->unk_270 = 0;
-    this->actor.shape.unk_14 = 0;
+    this->actor.shape.shadowAlpha = 0;
     this->unk_268 = 0.0f;
 }
 
@@ -154,7 +160,7 @@ void func_80984D00(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &sCylinderInit);
 }
 
 void func_80984D4C(Actor* thisx, GlobalContext* globalCtx) {
@@ -166,7 +172,7 @@ void func_80984D4C(Actor* thisx, GlobalContext* globalCtx) {
 void func_80984D74(DemoIm* this, GlobalContext* globalCtx) {
     s32 pad[5];
 
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
@@ -187,10 +193,10 @@ void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     s16 phi_a3;
 
-    this->unk_2D4.unk_18 = player->actor.posRot.pos;
+    this->unk_2D4.unk_18 = player->actor.world.pos;
     this->unk_2D4.unk_14 = kREG(16) + 4.0f;
 
-    yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+    yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
     phi_a3 = (ABS(yawDiff) < 0x18E3) ? 2 : 1;
     func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, phi_a3);
 }
@@ -198,7 +204,7 @@ void func_80984E58(DemoIm* this, GlobalContext* globalCtx) {
 void func_80984F10(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_2D4.unk_18 = player->actor.posRot.pos;
+    this->unk_2D4.unk_18 = player->actor.world.pos;
     this->unk_2D4.unk_14 = kREG(16) + 12.0f;
 
     func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 2);
@@ -207,13 +213,13 @@ void func_80984F10(DemoIm* this, GlobalContext* globalCtx) {
 void func_80984F94(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    this->unk_2D4.unk_18 = player->actor.posRot.pos;
+    this->unk_2D4.unk_18 = player->actor.world.pos;
     this->unk_2D4.unk_14 = kREG(16) + 4.0f;
     func_80034A14(&this->actor, &this->unk_2D4, kREG(17) + 0xC, 4);
 }
 
 void func_80985018(DemoIm* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 s32 func_80985060(DemoIm* this) {
@@ -263,10 +269,10 @@ void func_80985180(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     CsCmdActorAction* npcAction = func_809850A0(globalCtx, actionIdx);
 
     if (npcAction != NULL) {
-        this->actor.posRot.pos.x = npcAction->startPos.x;
-        this->actor.posRot.pos.y = npcAction->startPos.y;
-        this->actor.posRot.pos.z = npcAction->startPos.z;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+        this->actor.world.pos.x = npcAction->startPos.x;
+        this->actor.world.pos.y = npcAction->startPos.y;
+        this->actor.world.pos.z = npcAction->startPos.z;
+        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
     }
 }
 
@@ -274,10 +280,10 @@ void func_80985200(DemoIm* this, GlobalContext* globalCtx, s32 actionIdx) {
     CsCmdActorAction* npcAction = func_809850A0(globalCtx, actionIdx);
 
     if (npcAction != NULL) {
-        this->actor.posRot.pos.x = npcAction->startPos.x;
-        this->actor.posRot.pos.y = npcAction->startPos.y;
-        this->actor.posRot.pos.z = npcAction->startPos.z;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
+        this->actor.world.pos.x = npcAction->startPos.x;
+        this->actor.world.pos.y = npcAction->startPos.y;
+        this->actor.world.pos.z = npcAction->startPos.z;
+        this->actor.world.rot.y = this->actor.shape.rot.y = npcAction->rot.y;
     }
 }
 
@@ -302,22 +308,22 @@ void func_80985280(DemoIm* this, AnimationHeader* animHeaderSeg, u8 arg2, f32 tr
 
 void func_80985310(DemoIm* this, GlobalContext* globalCtx) {
     func_80985280(this, &D_06001868, 0, 0.0f, 0);
-    this->actor.shape.unk_08 = -10000.0f;
+    this->actor.shape.yOffset = -10000.0f;
 }
 
 void func_80985358(DemoIm* this, GlobalContext* globalCtx) {
-    f32 posX = this->actor.posRot.pos.x;
-    f32 posY = this->actor.posRot.pos.y;
-    f32 posZ = this->actor.posRot.pos.z;
+    f32 posX = this->actor.world.pos.x;
+    f32 posY = this->actor.world.pos.y;
+    f32 posZ = this->actor.world.pos.z;
 
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, posX, posY, posZ, 0, 0, 0, 2);
 }
 
 void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 playerX = player->actor.posRot.pos.x;
-    f32 playerY = player->actor.posRot.pos.y + 80.0f;
-    f32 playerZ = player->actor.posRot.pos.z;
+    f32 playerX = player->actor.world.pos.x;
+    f32 playerY = player->actor.world.pos.y + 80.0f;
+    f32 playerZ = player->actor.world.pos.z;
 
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_EFFECT, playerX, playerY, playerZ, 0,
                        0, 0, 0xD);
@@ -325,7 +331,7 @@ void func_809853B4(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_80985430(DemoIm* this, GlobalContext* globalCtx) {
-    this->actor.shape.unk_08 += 250.0f / 3.0f;
+    this->actor.shape.yOffset += 250.0f / 3.0f;
 }
 
 void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
@@ -338,7 +344,7 @@ void func_8098544C(DemoIm* this, GlobalContext* globalCtx) {
         globalCtx->csCtx.segment = D_8098786C;
         gSaveContext.cutsceneTrigger = 2;
         Item_Give(globalCtx, ITEM_MEDALLION_SHADOW);
-        player->actor.posRot.rot.y = player->actor.shape.rot.y = this->actor.posRot.rot.y + 0x8000;
+        player->actor.world.rot.y = player->actor.shape.rot.y = this->actor.world.rot.y + 0x8000;
     }
 }
 
@@ -354,9 +360,9 @@ void func_809854DC(DemoIm* this, GlobalContext* globalCtx) {
 }
 
 void func_8098557C(DemoIm* this) {
-    if (this->actor.shape.unk_08 >= 0.0f) {
+    if (this->actor.shape.yOffset >= 0.0f) {
         this->action = 3;
-        this->actor.shape.unk_08 = 0.0f;
+        this->actor.shape.yOffset = 0.0f;
     }
 }
 
@@ -432,7 +438,7 @@ void func_80985830(DemoIm* this, GlobalContext* globalCtx) {
 void func_80985860(DemoIm* this, GlobalContext* globalCtx) {
     func_80985280(this, &D_06001868, 0, 0.0f, 0);
     this->action = 7;
-    this->actor.shape.unk_14 = 0;
+    this->actor.shape.shadowAlpha = 0;
 }
 
 void func_809858A8(void) {
@@ -440,8 +446,8 @@ void func_809858A8(void) {
 }
 
 void func_809858C8(DemoIm* this, GlobalContext* globalCtx) {
-    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.posRot.pos.x,
-                       (kREG(17) + 24.0f) + this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, 0, 0, 6);
+    Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DEMO_6K, this->actor.world.pos.x,
+                       (kREG(17) + 24.0f) + this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 6);
 }
 
 void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
@@ -451,7 +457,7 @@ void func_80985948(DemoIm* this, GlobalContext* globalCtx) {
         this->action = 8;
         this->drawConfig = 2;
         this->unk_26C = 0;
-        this->actor.shape.unk_14 = 0;
+        this->actor.shape.shadowAlpha = 0;
         this->unk_268 = 0.0f;
         func_809858A8();
     }
@@ -467,7 +473,7 @@ void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
             this->action = 9;
             this->drawConfig = 1;
             *unk_268 = kREG(5) + 10.0f;
-            this->unk_26C = this->actor.shape.unk_14 = alpha;
+            this->unk_26C = this->actor.shape.shadowAlpha = alpha;
             return;
         }
     } else {
@@ -477,11 +483,11 @@ void func_809859E0(DemoIm* this, GlobalContext* globalCtx) {
             this->drawConfig = 0;
             *unk_268 = 0.0f;
             this->unk_26C = 0;
-            this->actor.shape.unk_14 = 0;
+            this->actor.shape.shadowAlpha = 0;
             return;
         }
     }
-    this->actor.shape.unk_14 = this->unk_26C = (*unk_268 / (kREG(5) + 10.0f)) * 255.0f;
+    this->actor.shape.shadowAlpha = this->unk_26C = (*unk_268 / (kREG(5) + 10.0f)) * 255.0f;
 }
 
 void func_80985B34(DemoIm* this, GlobalContext* globalCtx) {
@@ -496,7 +502,7 @@ void func_80985B34(DemoIm* this, GlobalContext* globalCtx) {
             func_809858C8(this, globalCtx);
             this->unk_270 = 1;
         }
-        this->actor.shape.unk_14 = 0xFF;
+        this->actor.shape.shadowAlpha = 0xFF;
     }
 }
 
@@ -724,7 +730,7 @@ void func_80986570(DemoIm* this, GlobalContext* globalCtx) {
     if ((Animation_OnFrame(&this->skelAnime, 7.0f)) && (this->actor.bgCheckFlags & 1)) {
         u32 sfxId = SFX_FLAG;
 
-        sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorPolySource);
+        sfxId += SurfaceType_GetSfx(&globalCtx->colCtx, this->actor.floorPoly, this->actor.floorBgId);
         Audio_PlaySoundGeneral(sfxId, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
     }
 }
@@ -737,14 +743,14 @@ void func_809865F8(DemoIm* this, GlobalContext* globalCtx, s32 arg2) {
 
         if (*unk_278 >= 0.0f) {
             if (this->unk_27C == 0) {
-                Vec3f* thisPos = &this->actor.posRot.pos;
+                Vec3f* thisPos = &this->actor.world.pos;
                 s16 shapeRotY = this->actor.shape.rot.y;
                 f32 spawnPosX = thisPos->x + (Math_SinS(shapeRotY) * 30.0f);
                 f32 spawnPosY = thisPos->y;
                 f32 spawnPosZ = thisPos->z + (Math_CosS(shapeRotY) * 30.0f);
 
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ARROW, spawnPosX, spawnPosY, spawnPosZ, 0xFA0,
-                            this->actor.shape.rot.y, 0, 0xFFF6);
+                            this->actor.shape.rot.y, 0, ARROW_CS_NUT);
                 this->unk_27C = 1;
             }
         } else {
@@ -827,13 +833,13 @@ void func_80986948(DemoIm* this, GlobalContext* globalCtx) {
 void func_809869B0(DemoIm* this, GlobalContext* globalCtx) {
     func_80985280(this, &D_06001868, 0, 0.0f, 0);
     this->action = 18;
-    this->actor.shape.unk_14 = 0;
+    this->actor.shape.shadowAlpha = 0;
 }
 
 s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 playerPosX = player->actor.posRot.pos.x;
-    f32 thisPosX = this->actor.posRot.pos.x;
+    f32 playerPosX = player->actor.world.pos.x;
+    f32 thisPosX = this->actor.world.pos.x;
 
     if ((thisPosX - (kREG(16) + 30.0f) > playerPosX) && (!(this->actor.flags & 0x40))) {
         return 1;
@@ -843,8 +849,8 @@ s32 func_809869F8(DemoIm* this, GlobalContext* globalCtx) {
 
 s32 func_80986A5C(DemoIm* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    f32 playerPosX = player->actor.posRot.pos.x;
-    f32 thisPosX = this->actor.posRot.pos.x;
+    f32 playerPosX = player->actor.world.pos.x;
+    f32 thisPosX = this->actor.world.pos.x;
 
     if ((thisPosX - (kREG(17) + 130.0f) < playerPosX) && (!Gameplay_InCsMode(globalCtx))) {
         return 1;
@@ -879,7 +885,7 @@ void func_80986BA0(DemoIm* this, GlobalContext* globalCtx) {
         this->action = 21;
         this->drawConfig = 1;
         this->unk_280 = 1;
-        this->actor.shape.unk_14 = 0xFF;
+        this->actor.shape.shadowAlpha = 0xFF;
     }
 }
 
@@ -894,7 +900,7 @@ void func_80986BF8(DemoIm* this, GlobalContext* globalCtx) {
         this->action = 24;
         this->drawConfig = 1;
         this->unk_280 = 1;
-        this->actor.shape.unk_14 = 0xFF;
+        this->actor.shape.shadowAlpha = 0xFF;
     }
 }
 
@@ -913,7 +919,7 @@ void func_80986CC8(DemoIm* this) {
         this->action = 26;
         this->drawConfig = 1;
         this->unk_280 = 1;
-        this->actor.shape.unk_14 = 0xFF;
+        this->actor.shape.shadowAlpha = 0xFF;
     }
 }
 
@@ -998,7 +1004,7 @@ void func_80987018(DemoIm* this, GlobalContext* globalCtx) {
     func_80985280(this, &D_06001868, 0, 0.0f, 0);
     this->action = 27;
     this->drawConfig = 0;
-    this->actor.shape.unk_14 = 0;
+    this->actor.shape.shadowAlpha = 0;
 }
 
 void func_80987064(DemoIm* this) {
@@ -1010,9 +1016,9 @@ void func_80987064(DemoIm* this) {
     temp = kREG(17) + 10.0f;
 
     if (*unk_268 >= temp) {
-        this->actor.shape.unk_14 = this->unk_26C = alpha;
+        this->actor.shape.shadowAlpha = this->unk_26C = alpha;
     } else {
-        this->actor.shape.unk_14 = this->unk_26C = (*unk_268 / temp) * 255.0f;
+        this->actor.shape.shadowAlpha = this->unk_26C = (*unk_268 / temp) * 255.0f;
     }
 }
 
@@ -1104,7 +1110,7 @@ void DemoIm_Update(Actor* thisx, GlobalContext* globalCtx) {
 void DemoIm_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoIm* this = THIS;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     func_80984D00(thisx, globalCtx);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F788, NULL, this->jointTable, this->morphTable, 17);
     thisx->flags &= ~1;
@@ -1134,7 +1140,7 @@ void DemoIm_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_80984D4C(thisx, globalCtx);
 }
 
-s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     DemoIm* this = THIS;
     s32* unk_2D0 = &this->unk_2D0;
 
@@ -1154,28 +1160,27 @@ s32 func_80987514(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
     }
 
-    if (*unk_2D0 != 0) {
-        if (limbIndex == 15) {
-            *dList = &D_0600EDE8;
-        }
+    if ((*unk_2D0 != 0) && (limbIndex == 15)) {
+        *dList = D_0600EDE8;
     }
-    return 0;
+    
+    return false;
 }
 
-void func_809875C0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void DemoIm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     DemoIm* this = THIS;
 
-    if (limbIndex == 0x10) {
+    if (limbIndex == 16) {
         Vec3f sp28 = D_809887D8;
         Vec3f dest;
 
         Matrix_MultVec3f(&sp28, &dest);
-        this->actor.posRot2.pos.x = dest.x;
-        this->actor.posRot2.pos.y = dest.y;
-        this->actor.posRot2.pos.z = dest.z;
-        this->actor.posRot2.rot.x = this->actor.posRot.rot.x;
-        this->actor.posRot2.rot.y = this->actor.posRot.rot.y;
-        this->actor.posRot2.rot.z = this->actor.posRot.rot.z;
+        this->actor.focus.pos.x = dest.x;
+        this->actor.focus.pos.y = dest.y;
+        this->actor.focus.pos.z = dest.z;
+        this->actor.focus.rot.x = this->actor.world.rot.x;
+        this->actor.focus.rot.y = this->actor.world.rot.y;
+        this->actor.focus.rot.z = this->actor.world.rot.z;
     }
 }
 
@@ -1197,8 +1202,8 @@ void func_80987658(DemoIm* this, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, &D_80116280[2]);
 
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, func_80987514,
-                          func_809875C0, this);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, DemoIm_OverrideLimbDraw,
+                          DemoIm_PostLimbDraw, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_im.c", 925);
 }

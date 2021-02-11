@@ -27,7 +27,7 @@ void func_8097D130(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D290(DemoGo* this, GlobalContext* globalCtx);
 void func_8097D29C(DemoGo* this, GlobalContext* globalCtx);
 
-static UNK_PTR D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+static u64* D_8097D440[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
 
 static DemoGoActionFunc D_8097D44C[] = {
     func_8097CFDC, func_8097CFFC, func_8097D01C, func_8097D058, func_8097D088, func_8097D0D0, func_8097D130,
@@ -40,7 +40,7 @@ static DemoGoDrawFunc D_8097D468[] = {
 
 const ActorInit Demo_Go_InitVars = {
     ACTOR_DEMO_GO,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_OF1D_MAP,
     sizeof(DemoGo),
@@ -52,10 +52,10 @@ const ActorInit Demo_Go_InitVars = {
 
 extern AnimationHeader D_060029A8;
 extern AnimationHeader D_06004930;
-extern UNK_TYPE D_0600E680;
+extern u64 D_0600E680[];
 extern FlexSkeletonHeader D_0600FEF0;
 
-UNK_TYPE func_8097C870(DemoGo* this) {
+s32 func_8097C870(DemoGo* this) {
     s32 ret;
 
     switch (this->actor.params) {
@@ -75,13 +75,12 @@ UNK_TYPE func_8097C870(DemoGo* this) {
 }
 
 void func_8097C8A8(DemoGo* this, GlobalContext* globalCtx) {
-    s32 pad[2];
     Actor* thisx = &this->actor;
-    Vec3f* sp20;
-    Vec3f* sp1C;
+    Vec3f sp20;
+    f32 sp1C;
 
     if ((thisx->params == 0) || (thisx->params == 1)) {
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->posRot.pos, &sp20, &sp1C);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &thisx->world.pos, &sp20, &sp1C);
         Audio_PlaySoundAtPosition(globalCtx, &sp20, 20, NA_SE_EV_OBJECT_FALL);
     }
 }
@@ -98,7 +97,7 @@ void func_8097C930(DemoGo* this) {
     s32 pad[3];
 
     if (DECR(*something) == 0) {
-        *something = Rand_S16Offset(0x3C, 0x3C);
+        *something = Rand_S16Offset(60, 60);
     }
     *other = *something;
     if (*other >= 3) {
@@ -118,19 +117,19 @@ void func_8097C9DC(DemoGo* this) {
 }
 
 void func_8097CA30(DemoGo* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 5);
 }
 
 void func_8097CA78(DemoGo* this, GlobalContext* globalCtx) {
     s16 pad;
-    Vec3f vec = this->actor.posRot.pos;
+    Vec3f vec = this->actor.world.pos;
     func_80033480(globalCtx, &vec, kREG(11) + 100.0f, kREG(12) + 0xA, kREG(13) + 0x12C, kREG(14), 0);
     func_8097C9B8(this);
 }
 
 void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->actor;
-    PosRot* posRot = &thisx->posRot;
+    PosRot* world = &thisx->world;
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* npcAction;
     f32 temp_ret;
@@ -148,10 +147,10 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
             endPos.x = npcAction->endPos.x;
             endPos.y = npcAction->endPos.y;
             endPos.z = npcAction->endPos.z;
-            posRot->pos.x = (((endPos.x - startPos.x) * temp_ret) + startPos.x);
-            posRot->pos.y = (((endPos.y - startPos.y) * temp_ret) + startPos.y);
-            posRot->pos.z = (((endPos.z - startPos.z) * temp_ret) + startPos.z);
-            posRot->rot.y = thisx->shape.rot.y = npcAction->rot.y;
+            world->pos.x = (((endPos.x - startPos.x) * temp_ret) + startPos.x);
+            world->pos.y = (((endPos.y - startPos.y) * temp_ret) + startPos.y);
+            world->pos.z = (((endPos.z - startPos.z) * temp_ret) + startPos.z);
+            world->rot.y = thisx->shape.rot.y = npcAction->rot.y;
         }
     }
 }
@@ -180,7 +179,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         npcAction = globalCtx->csCtx.npcActions[func_8097C870(this)];
         if (npcAction != NULL) {
-            thisRotY = thisx->posRot.rot.y;
+            thisRotY = thisx->world.rot.y;
             rotYDelta = npcAction->rot.y - thisRotY;
             if ((rotYDelta > -(kREG(16) + 0x96)) && (rotYDelta < kREG(16) + 0x96)) {
                 newRotY = npcAction->rot.y;
@@ -190,7 +189,7 @@ void func_8097CCE0(DemoGo* this, GlobalContext* globalCtx) {
                 newRotY = (thisRotY - kREG(16)) - 0x96;
             }
             thisx->shape.rot.y = newRotY;
-            thisx->posRot.rot.y = newRotY;
+            thisx->world.rot.y = newRotY;
         }
     }
 }
@@ -318,7 +317,7 @@ void DemoGo_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
     AnimationHeader* animation = &D_06004930;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
     Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE, 0.0f);
     this->action = 0;
@@ -349,7 +348,7 @@ void func_8097D29C(DemoGo* this, GlobalContext* globalCtx) {
 void DemoGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGo* this = THIS;
 
-    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == 0) {
+    if (this->drawConfig < 0 || this->drawConfig >= 2 || D_8097D468[this->drawConfig] == NULL) {
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }

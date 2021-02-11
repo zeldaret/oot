@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_bean.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00400000
 
@@ -24,7 +25,7 @@ extern UNK_TYPE D_06000650;
 /*
 const ActorInit Obj_Bean_InitVars = {
     ACTOR_OBJ_BEAN,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MAMENOKI,
     sizeof(ObjBean),
@@ -32,6 +33,26 @@ const ActorInit Obj_Bean_InitVars = {
     (ActorFunc)ObjBean_Destroy,
     (ActorFunc)ObjBean_Update,
     (ActorFunc)ObjBean_Draw,
+};
+
+static ColliderCylinderInit D_80B90E54 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
+    { 64, 30, -31, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Bean/func_80B8EA80.s")

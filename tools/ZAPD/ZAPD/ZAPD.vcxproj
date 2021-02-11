@@ -142,6 +142,7 @@
     <ClCompile Include="HighLevel\HLTexture.cpp" />
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="Overlays\ZOverlay.cpp" />
+    <ClCompile Include="ZArray.cpp" />
     <ClCompile Include="ZScalar.cpp" />
     <ClCompile Include="ZAnimation.cpp" />
     <ClCompile Include="ZBlob.cpp" />
@@ -181,6 +182,7 @@
     <ClCompile Include="ZRoom\ZRoomCommand.cpp" />
     <ClCompile Include="ZTexture.cpp" />
     <ClCompile Include="ZVector.cpp" />
+    <ClCompile Include="ZVtx.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\lib\elfio\elfio\elfio.hpp" />
@@ -214,6 +216,7 @@
     <ClInclude Include="StringHelper.h" />
     <ClInclude Include="Vec3s.h" />
     <ClInclude Include="ZAnimation.h" />
+    <ClInclude Include="ZArray.h" />
     <ClInclude Include="ZBlob.h" />
     <ClInclude Include="ZCollision.h" />
     <ClInclude Include="ZCutscene.h" />
@@ -254,6 +257,7 @@
     <ClInclude Include="ZRoom\ZRoomCommand.h" />
     <ClInclude Include="ZTexture.h" />
     <ClInclude Include="ZVector.h" />
+    <ClInclude Include="ZVtx.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="..\SymbolMap_OoTMqDbg.txt">

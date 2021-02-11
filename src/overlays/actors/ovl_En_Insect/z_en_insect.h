@@ -12,7 +12,7 @@ typedef void (*EnInsectActionFunc)(struct EnInsect*, GlobalContext*);
 typedef struct EnInsect {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderJntSph collider;
-    /* 0x016C */ ColliderJntSphItem colliderItem;
+    /* 0x016C */ ColliderJntSphElement colliderItem;
     /* 0x01AC */ SkelAnime skelAnime;
     /* 0x01F0 */ Vec3s jointTable[24];
     /* 0x0280 */ Vec3s morphTable[24];

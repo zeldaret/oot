@@ -23,7 +23,7 @@ void EnGb_UpdateCagedSouls(EnGb* this, GlobalContext* globalCtx);
 
 const ActorInit En_Gb_InitVars = {
     ACTOR_EN_GB,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_PS,
     sizeof(EnGb),
@@ -39,33 +39,85 @@ static EnGbCagedSoulInfo sCagedSoulInfo[] = {
     { { 255, 170, 255, 255 }, { 100, 0, 150, 255 }, 0x0600B870, -8 },
 };
 
-static ColliderCylinderInit_Set3 sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInitType1 sCylinderInit = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 40, 75, 0, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit_Set3 sBottlesCylindersInit[] = {
+static ColliderCylinderInitType1 sBottlesCylindersInit[] = {
     {
-        { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        {
+            COLTYPE_NONE,
+            AT_NONE,
+            AC_NONE,
+            OC1_ON | OC1_TYPE_ALL,
+            COLSHAPE_CYLINDER,
+        },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 4, 20, 0, { 0, 0, 0 } },
     },
     {
-        { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        {
+            COLTYPE_NONE,
+            AT_NONE,
+            AC_NONE,
+            OC1_ON | OC1_TYPE_ALL,
+            COLSHAPE_CYLINDER,
+        },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 4, 20, 0, { 0, 0, 0 } },
     },
     {
-        { COLTYPE_UNK10, 0x00, 0x00, 0x39, COLSHAPE_CYLINDER },
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+        {
+            COLTYPE_NONE,
+            AT_NONE,
+            AC_NONE,
+            OC1_ON | OC1_TYPE_ALL,
+            COLSHAPE_CYLINDER,
+        },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 10, 20, 0, { 0, 0, 0 } },
     },
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 6, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 2200, ICHAIN_STOP),
+    ICHAIN_U8(targetMode, 6, ICHAIN_CONTINUE),
+    ICHAIN_F32(targetArrowOffset, 2200, ICHAIN_STOP),
 };
 
 // relative positions of poe souls
@@ -111,18 +163,18 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C220, &D_0600049C, this->jointTable, this->morphTable, 12);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder_Set3(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
+    Collider_SetCylinderType1(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
 
     for (i = 0; i < ARRAY_COUNT(sBottlesCylindersInit); i++) {
         Collider_InitCylinder(globalCtx, &this->bottlesColliders[i]);
-        Collider_SetCylinder_Set3(globalCtx, &this->bottlesColliders[i], &this->dyna.actor, &sBottlesCylindersInit[i]);
+        Collider_SetCylinderType1(globalCtx, &this->bottlesColliders[i], &this->dyna.actor, &sBottlesCylindersInit[i]);
     }
 
     this->light = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->dyna.actor.initPosRot.pos.x, this->dyna.actor.initPosRot.pos.y,
-                              this->dyna.actor.initPosRot.pos.z, 255, 255, 255, 200);
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->dyna.actor.home.pos.x, this->dyna.actor.home.pos.y,
+                              this->dyna.actor.home.pos.z, 255, 255, 255, 200);
 
-    ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 35.0f);
+    ActorShape_Init(&this->dyna.actor.shape, 0.0f, ActorShadow_DrawCircle, 35.0f);
     Actor_SetScale(&this->dyna.actor, 0.01f);
     this->dyna.actor.colChkInfo.mass = 0xFF;
     this->dyna.actor.speedXZ = 0.0f;
@@ -132,9 +184,12 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(sCagedSoulPositions); i++) {
         this->cagedSouls[i].unk_0 = (s32)Rand_ZeroFloat(30.0f) % 3;
-        this->cagedSouls[i].unk_14.x = this->cagedSouls[i].translation.x = sCagedSoulPositions[i].x + this->dyna.actor.posRot.pos.x;
-        this->cagedSouls[i].unk_14.y = this->cagedSouls[i].translation.y = sCagedSoulPositions[i].y + this->dyna.actor.posRot.pos.y;
-        this->cagedSouls[i].unk_14.z = this->cagedSouls[i].translation.z = sCagedSoulPositions[i].z + this->dyna.actor.posRot.pos.z;
+        this->cagedSouls[i].unk_14.x = this->cagedSouls[i].translation.x =
+            sCagedSoulPositions[i].x + this->dyna.actor.world.pos.x;
+        this->cagedSouls[i].unk_14.y = this->cagedSouls[i].translation.y =
+            sCagedSoulPositions[i].y + this->dyna.actor.world.pos.y;
+        this->cagedSouls[i].unk_14.z = this->cagedSouls[i].translation.z =
+            sCagedSoulPositions[i].z + this->dyna.actor.world.pos.z;
         this->cagedSouls[i].unk_1 = 1;
         this->cagedSouls[i].unk_3 = this->cagedSouls[i].unk_2 = 0;
         this->cagedSouls[i].unk_20 = this->cagedSouls[i].unk_24 = 0.0f;
@@ -148,14 +203,14 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->lightColor.g = (s8)(rand * 100.0f) + 155;
     this->lightColor.b = (s8)(rand * 160.0f) + 95;
     this->lightColor.a = 200;
-    Matrix_Translate(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z,
+    Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->dyna.actor.posRot.rot.x, this->dyna.actor.posRot.rot.y, this->dyna.actor.posRot.rot.z,
+    Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                      MTXMODE_APPLY);
     focusOffset.x = focusOffset.y = 0.0f;
     focusOffset.z = 44.0f;
-    Matrix_MultVec3f(&focusOffset, &this->dyna.actor.posRot2.pos);
-    this->dyna.actor.posRot2.pos.y += 62.5f;
+    Matrix_MultVec3f(&focusOffset, &this->dyna.actor.focus.pos);
+    this->dyna.actor.focus.pos.y += 62.5f;
     func_80A2F180(this);
     this->actionFunc = func_80A2F83C;
 }
@@ -173,9 +228,9 @@ void func_80A2F608(EnGb* this) {
     Vec3f sp48;
     Vec3f sp3C;
 
-    Matrix_Translate(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z,
+    Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                      MTXMODE_NEW);
-    Matrix_RotateRPY(this->dyna.actor.posRot.rot.x, this->dyna.actor.posRot.rot.y, this->dyna.actor.posRot.rot.z,
+    Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                      MTXMODE_APPLY);
     sp48.x = sp48.y = 0.0f;
     sp48.z = 25.0f;
@@ -185,9 +240,9 @@ void func_80A2F608(EnGb* this) {
     this->collider.dim.pos.z = sp3C.z;
 
     for (i = 0; i < ARRAY_COUNT(sBottlesPositions); i++) {
-        Matrix_Translate(this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z,
+        Matrix_Translate(this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
                          MTXMODE_NEW);
-        Matrix_RotateRPY(this->dyna.actor.posRot.rot.x, this->dyna.actor.posRot.rot.y, this->dyna.actor.posRot.rot.z,
+        Matrix_RotateRPY(this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z,
                          MTXMODE_APPLY);
         Matrix_MultVec3f(&sBottlesPositions[i], &sp3C);
         this->bottlesColliders[i].dim.pos.x = sp3C.x;
@@ -241,7 +296,7 @@ void func_80A2F83C(EnGb* this, GlobalContext* globalCtx) {
         }
         return;
     }
-    if (this->dyna.actor.xzDistToLink < 100.0f) {
+    if (this->dyna.actor.xzDistToPlayer < 100.0f) {
         func_8002F298(&this->dyna.actor, globalCtx, 100.0f, EXCH_ITEM_POE);
     }
 }
@@ -373,8 +428,8 @@ void EnGb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetEnvColor(POLY_OPA_DISP++, this->lightColor.r, this->lightColor.g, this->lightColor.b, 255);
 
-    Lights_PointNoGlowSetInfo(&this->lightInfo, this->dyna.actor.posRot.pos.x, this->dyna.actor.posRot.pos.y,
-                              this->dyna.actor.posRot.pos.z, this->lightColor.r, this->lightColor.g, this->lightColor.b,
+    Lights_PointNoGlowSetInfo(&this->lightInfo, this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y,
+                              this->dyna.actor.world.pos.z, this->lightColor.r, this->lightColor.g, this->lightColor.b,
                               this->lightColor.a);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, &this->dyna.actor);
@@ -443,12 +498,12 @@ void EnGb_UpdateCagedSouls(EnGb* this, GlobalContext* globalCtx) {
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y + temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z;
         } else if (i == 1) {
-            rot = this->dyna.actor.posRot.rot.y - 0x4000;
+            rot = this->dyna.actor.world.rot.y - 0x4000;
             this->cagedSouls[i].translation.x = this->cagedSouls[i].unk_14.x + Math_SinS(rot) * temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z + Math_CosS(rot) * temp_f20;
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y;
         } else {
-            rot = this->dyna.actor.posRot.rot.y + 0x4000;
+            rot = this->dyna.actor.world.rot.y + 0x4000;
             this->cagedSouls[i].translation.x = this->cagedSouls[i].unk_14.x + Math_SinS(rot) * temp_f20;
             this->cagedSouls[i].translation.z = this->cagedSouls[i].unk_14.z + Math_CosS(rot) * temp_f20;
             this->cagedSouls[i].translation.y = this->cagedSouls[i].unk_14.y;
@@ -477,7 +532,8 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
                        sCagedSoulInfo[idx].env.a);
 
         Matrix_Push();
-        Matrix_Translate(this->cagedSouls[i].translation.x, this->cagedSouls[i].translation.y, this->cagedSouls[i].translation.z, MTXMODE_NEW);
+        Matrix_Translate(this->cagedSouls[i].translation.x, this->cagedSouls[i].translation.y,
+                         this->cagedSouls[i].translation.z, MTXMODE_NEW);
         func_800D1FD4(&globalCtx->mf_11DA0);
 
         if (this->cagedSouls[i].rotate180) {
