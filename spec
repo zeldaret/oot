@@ -2100,22 +2100,19 @@ endseg
 beginseg
     name "ovl_En_Dnt_Demo"
     include "build/src/overlays/actors/ovl_En_Dnt_Demo/z_en_dnt_demo.o"
-    include "build/data/overlays/actors/z_en_dnt_demo.data.o"
-    include "build/data/overlays/actors/z_en_dnt_demo.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dnt_Demo/ovl_En_Dnt_Demo_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Dnt_Jiji"
     include "build/src/overlays/actors/ovl_En_Dnt_Jiji/z_en_dnt_jiji.o"
-    include "build/data/overlays/actors/z_en_dnt_jiji.data.o"
-    include "build/data/overlays/actors/z_en_dnt_jiji.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dnt_Jiji/ovl_En_Dnt_Jiji_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Dnt_Nomal"
     include "build/src/overlays/actors/ovl_En_Dnt_Nomal/z_en_dnt_nomal.o"
-    include "build/data/overlays/actors/z_en_dnt_nomal.data.o"
-    include "build/data/overlays/actors/z_en_dnt_nomal.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dnt_Nomal/ovl_En_Dnt_Nomal_reloc.o"
 endseg
 
 beginseg
@@ -5583,7 +5580,8 @@ endseg
 beginseg
     name "object_hintnuts"
     romalign 0x1000
-    include "build/baserom/object_hintnuts.o"
+    include "build/assets/objects/object_hintnuts/object_hintnuts.o"
+    number 6
 endseg
 
 beginseg
@@ -5663,13 +5661,15 @@ endseg
 beginseg
     name "object_dns"
     romalign 0x1000
-    include "build/baserom/object_dns.o"
+    include "build/assets/objects/object_dns/object_dns.o"
+    number 6
 endseg
 
 beginseg
     name "object_dnk"
     romalign 0x1000
-    include "build/baserom/object_dnk.o"
+    include "build/assets/objects/object_dnk/object_dnk.o"
+    number 6
 endseg
 
 beginseg
