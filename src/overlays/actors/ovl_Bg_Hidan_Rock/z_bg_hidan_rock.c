@@ -22,9 +22,9 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx);
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this);
 
-extern Gfx* D_0600C100;
-extern Gfx* D_0600C1F0;
-extern Gfx* D_0600CA10;
+extern Gfx D_0600C100[];
+extern Gfx D_0600C1F0[];
+extern Gfx D_0600CA10[];
 extern CollisionHeader* D_0600CB80;
 extern CollisionHeader* D_0600DF78;
 
