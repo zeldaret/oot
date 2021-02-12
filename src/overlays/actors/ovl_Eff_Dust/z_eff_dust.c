@@ -42,7 +42,7 @@ static Gfx D_8099EB60[] = {
 };
 
 void EffDust_SetupAction(EffDust* this, EffDustActionFunc actionFunc) {
-    this->updateFunc = actionFunc;
+    this->actionFunc = actionFunc;
 }
 
 void EffDust_SetupDraw(EffDust* this, EffDustDrawFunc drawFunc) {
@@ -109,7 +109,7 @@ void EffDust_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    this->life = 0xA;
+    this->life = 10;
 }
 
 void EffDust_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -259,7 +259,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
 void EffDust_Update(Actor* thisx, GlobalContext* globalCtx) {
     EffDust* this = THIS;
 
-    this->updateFunc(this, globalCtx);
+    this->actionFunc(this, globalCtx);
 }
 
 void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
@@ -286,9 +286,6 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
 
     for (i = 0; i < 0x40; i++) {
         if (*distanceTraveled < 1.0f) {
-            // Needed to match.
-            if (!this) {}
-
             aux = 1.0f - (*distanceTraveled * *distanceTraveled);
             Matrix_Translate(this->actor.world.pos.x + (initialPositions->x * ((this->dx * aux) + (1.0f - this->dx))),
                              this->actor.world.pos.y + (initialPositions->y * ((this->dy * aux) + (1.0f - this->dy))),
@@ -306,11 +303,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
         initialPositions++;
         distanceTraveled++;
         // Needed for matching.
-        if (1) {}
-        {}
-        if (1) {}
-        if (1) {}
-        if (1 != 0) {}
+        if (0) {}
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_dust.c", 458);

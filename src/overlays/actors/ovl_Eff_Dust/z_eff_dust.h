@@ -5,6 +5,7 @@
 #include "global.h"
 
 struct EffDust;
+
 typedef void (*EffDustActionFunc)(struct EffDust *, GlobalContext *);
 typedef void (*EffDustDrawFunc)(Actor *, GlobalContext *);
 
@@ -18,12 +19,11 @@ typedef struct EffDust {
     /* 0x0554 */ f32 dy; //!< Normalized. 0.0f to 1.0f
     /* 0x0558 */ f32 dz; //!< Normalized. 0.0f to 1.0f
     /* 0x055C */ f32 scalingFactor;
-    /* 0x0560 */ EffDustActionFunc updateFunc;
-    /* 0x0560 */ EffDustDrawFunc drawFunc;
+    /* 0x0560 */ EffDustActionFunc actionFunc;
+    /* 0x0564 */ EffDustDrawFunc drawFunc;
 } EffDust; // size = 0x0568
 
-// EffDust's params.
-typedef enum EffDustType {
+typedef enum {
     /* 0x00 */ EFF_DUST_TYPE_0,
     /* 0x01 */ EFF_DUST_TYPE_1,
     /* 0x02 */ EFF_DUST_TYPE_2,
