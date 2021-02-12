@@ -288,7 +288,6 @@ void func_80A53638(EnHeishi2* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 frameCount = this->skelAnime.curFrame;
 
-
     BgSpot15Saku* actor = (BgSpot15Saku*)globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
 
     SkelAnime_Update(&this->skelAnime);
