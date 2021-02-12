@@ -37,7 +37,6 @@ static InitChainEntry sInitChain[] = {
 
 extern CollisionHeader D_060074EC;
 
-
 void BgMizuUzu_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMizuUzu* this = THIS;

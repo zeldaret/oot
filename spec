@@ -3513,7 +3513,8 @@ endseg
 beginseg
     name "gameplay_dangeon_keep"
     romalign 0x1000
-    include "build/baserom/gameplay_dangeon_keep.o"
+    include "build/assets/objects/gameplay_dangeon_keep/gameplay_dangeon_keep.o"
+    number 5
 endseg
 
 beginseg

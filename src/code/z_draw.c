@@ -334,25 +334,30 @@ DrawItemTableEntry sDrawItemTable[] = {
     // butterfly, OBJECT_GI_BUTTERFLY
     { GetItem_DrawOpa0Xlu1, { gGiButterflyContainerDL, gGiButterflyGlassDL } },
     // poe, OBJECT_GI_GHOST
-    { GetItem_DrawPoes, { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiPoeColorDL } },
+    { GetItem_DrawPoes,
+      { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiPoeColorDL } },
     // fairy, OBJECT_GI_SOUL
     { GetItem_DrawFairy, { gGiFairyContainerBaseCapDL, gGiFairyContainerGlassDL, gGiFairyContainerContentsDL } },
     // bullet bag 40, OBJECT_GI_DEKUPOUCH
     { GetItem_DrawBulletBag,
       { gGiBulletBagDL, gGiBulletBagColorDL, gGiBulletBagStringDL, gGiBulletBagStringColorDL, gGiBulletBagWritingDL } },
     // green rupee, OBJECT_GI_RUPY
-    { GetItem_DrawSmallRupee, { gGiRupeeInnerDL, gGiGreenRupeeInnerColorDL, gGiRupeeOuterDL, gGiGreenRupeeOuterColorDL } },
+    { GetItem_DrawSmallRupee,
+      { gGiRupeeInnerDL, gGiGreenRupeeInnerColorDL, gGiRupeeOuterDL, gGiGreenRupeeOuterColorDL } },
     // blue rupee, OBJECT_GI_RUPY
-    { GetItem_DrawSmallRupee, { gGiRupeeInnerDL, gGiBlueRupeeInnerColorDL, gGiRupeeOuterDL, gGiBlueRupeeOuterColorDL } },
+    { GetItem_DrawSmallRupee,
+      { gGiRupeeInnerDL, gGiBlueRupeeInnerColorDL, gGiRupeeOuterDL, gGiBlueRupeeOuterColorDL } },
     // red rupee, OBJECT_GI_RUPY
     { GetItem_DrawSmallRupee, { gGiRupeeInnerDL, gGiRedRupeeInnerColorDL, gGiRupeeOuterDL, gGiRedRupeeOuterColorDL } },
     // big poe, OBJECT_GI_GHOST
     { GetItem_DrawPoes,
       { gGiGhostContainerLidDL, gGiGhostContainerGlassDL, gGiGhostContainerContentsDL, gGiBigPoeColorDL } },
     // purple rupee, OBJECT_GI_RUPY
-    { GetItem_DrawOpa10Xlu32, { gGiRupeeInnerDL, gGiPurpleRupeeInnerColorDL, gGiRupeeOuterDL, gGiPurpleRupeeOuterColorDL } },
+    { GetItem_DrawOpa10Xlu32,
+      { gGiRupeeInnerDL, gGiPurpleRupeeInnerColorDL, gGiRupeeOuterDL, gGiPurpleRupeeOuterColorDL } },
     // gold rupee, OBJECT_GI_RUPY
-    { GetItem_DrawOpa10Xlu32, { gGiRupeeInnerDL, gGiGoldRupeeInnerColorDL, gGiRupeeOuterDL, gGiGoldRupeeOuterColorDL } },
+    { GetItem_DrawOpa10Xlu32,
+      { gGiRupeeInnerDL, gGiGoldRupeeInnerColorDL, gGiRupeeOuterDL, gGiGoldRupeeOuterColorDL } },
     // bullet bag 50, OBJECT_GI_DEKUPOUCH
     { GetItem_DrawBulletBag,
       { gGiBulletBagDL, gGiBulletBag50ColorDL, gGiBulletBagStringDL, gGiBulletBag50StringColorDL,
