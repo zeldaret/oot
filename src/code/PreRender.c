@@ -314,7 +314,7 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
     s32 y2;
     s32 add;
     s32 uls;
-    s32 yinc;  // vertical increment amount
+    s32 yinc; // vertical increment amount
     s32 ult;
     s32 lrx;
     s32 lry;
@@ -357,12 +357,14 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
                          this->height, uls, ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                          G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        do {} while(0);  // force register allocation behavior
-        gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, yinc, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls, ult,
-                         lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
-                         G_TX_NOLOD, G_TX_NOLOD);
+        do {
+        } while (0); // force register allocation behavior
+        gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, yinc, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls,
+                         ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
-        do {} while(0);  // force register allocation behavior
+        do {
+        } while (0); // force register allocation behavior
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrx + yinc) << 2, (lry + yinc) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 

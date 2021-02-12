@@ -224,7 +224,7 @@ void EnSth_ParentRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
-        this->actor.textId = 0x23; // "We'll be careful not to get cursed again!"
+        this->actor.textId = 0x23;
         if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
         }
@@ -278,9 +278,9 @@ void EnSth_RewardUnobtainedWait(EnSth* this, GlobalContext* globalCtx) {
         EnSth_SetupAction(this, EnSth_RewardUnobtainedTalk);
     } else {
         if (this->actor.params == 0) {
-            this->actor.textId = 0x28; // "Since you've destroyed [gsTokens] Spiders ..."
+            this->actor.textId = 0x28;
         } else {
-            this->actor.textId = 0x21; // "The curse has been broken! ..."
+            this->actor.textId = 0x21;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);
@@ -294,9 +294,9 @@ void EnSth_ChildRewardObtainedWait(EnSth* this, GlobalContext* globalCtx) {
         EnSth_SetupAction(this, EnSth_RewardObtainedTalk);
     } else {
         if (gSaveContext.inventory.gsTokens < 50) {
-            this->actor.textId = 0x20; // "Please save my other brothers too! ..."
+            this->actor.textId = 0x20;
         } else {
-            this->actor.textId = 0x1F; // "I'm so happy everyone is back to normal!"
+            this->actor.textId = 0x1F;
         }
         if (this->actor.xzDistToPlayer < 100.0f) {
             func_8002F2CC(&this->actor, globalCtx, 100.0f);

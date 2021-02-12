@@ -151,8 +151,8 @@ void func_8087AF38(BgGndSoulmeiro* this, GlobalContext* globalCtx) {
             vecA.x = 4.0f * temp_3 * distXZ;
             vecA.y = 0.0f;
             vecA.z = 4.0f * temp_4 * distXZ;
-            EffectSsDeadDb_Spawn(globalCtx, &thisx->home.pos, &vecA, &zeroVec, 60, 6, 255, 255, 150, 170, 255, 0,
-                                 0, 1, 14, true);
+            EffectSsDeadDb_Spawn(globalCtx, &thisx->home.pos, &vecA, &zeroVec, 60, 6, 255, 255, 150, 170, 255, 0, 0, 1,
+                                 14, true);
             temp_2 += 0x2AAA;
         }
     }
