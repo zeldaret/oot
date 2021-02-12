@@ -11,7 +11,7 @@ struct DynaPolyActor;
 #define COLPOLY_VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
 #define COLPOLY_VTX_INDEX(vI) ((vI)&0x1FFF)
 
-#define DYNAPOLY_INVALIDATE_LOOKUP 1 << 0
+#define DYNAPOLY_INVALIDATE_LOOKUP (1 << 0)
 
 #define BGACTOR_NEG_ONE -1
 #define BG_ACTOR_MAX 50
