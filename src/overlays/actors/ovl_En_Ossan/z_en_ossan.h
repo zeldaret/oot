@@ -17,10 +17,10 @@ typedef void (*EnOssanUnkFunc4)(struct EnOssan*, GlobalContext*, Player*);
 
 typedef struct
 {
-    s32 r;
-    s32 g;
-    s32 b;
-    s32 a;
+    u32 r;
+    u32 g;
+    u32 b;
+    u32 a;
 } EnvColorTest;
 
 #define ColChanMix(c1, c2, m) (c1 - (s32)(c2 * m)) & 0xFF
@@ -71,6 +71,7 @@ typedef struct EnOssan {
     /* 0x0250 */ u8 unk_250;
     /* 0x0251 */ u8 unk_251;
     /* 0x0252 */ u8 unk_252;
+
     /* 0x0254 */ EnvColorTest unk_254;//s32 unk_254;
     /* 0x0258 */ //s32 unk_258;
     /* 0x025C */ //s32 unk_25C;
@@ -85,7 +86,8 @@ typedef struct EnOssan {
     /* 0x027C */ f32 unk_27C;
     /* 0x0280 */ f32 unk_280;
     /* 0x0284 */ f32 unk_284;
-    /* 0x0288 */ s32 unk_288;
+    /* 0x0288 */ s32 unk_288; //is?
+
     /* 0x028C */ EnvColorTest unk_28C;
     ///* 0x0290 */ s32 unk_290;
     ///* 0x0294 */ s32 unk_294;
@@ -99,8 +101,9 @@ typedef struct EnOssan {
     ///* 0x02B0 */ s32 unk_2B0;
     /* 0x02B4 */ f32 unk_2B4;
     /* 0x02B8 */ f32 unk_2B8;
-    /* 0x02B8 */ f32 unk_2BC;
-    /* 0x02C0 */ s32 unk_2C0;
+    /* 0x02BC */ f32 unk_2BC;
+    /* 0x02C0 */ s32 unk_2C0; //is?
+
     /* 0x02C4 */ f32 unk_2C4;
     /* 0x02C4 */ f32 unk_2C8;
     /* 0x02CC */ u8 unk_2CC;
