@@ -1,4 +1,5 @@
 #include "z_demo_gj.h"
+#include "objects/object_gj/object_gj.h"
 
 #define FLAGS 0x00000030
 
