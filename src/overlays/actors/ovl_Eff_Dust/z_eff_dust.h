@@ -6,8 +6,8 @@
 
 struct EffDust;
 
-typedef void (*EffDustActionFunc)(struct EffDust *, GlobalContext *);
-typedef void (*EffDustDrawFunc)(Actor *, GlobalContext *);
+typedef void (*EffDustActionFunc)(struct EffDust*, GlobalContext*);
+typedef void (*EffDustDrawFunc)(Actor*, GlobalContext*);
 
 typedef struct EffDust {
     /* 0x0000 */ Actor actor;
