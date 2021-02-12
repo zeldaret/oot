@@ -297,7 +297,7 @@ void EnDntJiji_GivePrize(EnDntJiji* this, GlobalContext* globalCtx) {
             gSaveContext.itemGetInf[1] |= 0x4000;
         }
         this->actor.textId = 0;
-        if ((this->stage != 0) && (this->stage->actor.update != 0)) {
+        if ((this->stage != NULL) && (this->stage->actor.update != NULL)) {
             this->stage->action = DNT_ACTION_NONE;
             if (!this->unburrow) {
                 this->stage->leaderSignal = DNT_SIGNAL_HIDE;
