@@ -51,7 +51,7 @@ void EffDust_SetupDraw(EffDust* this, EffDustDrawFunc drawFunc) {
 void EffDust_InitPosAndDistance(EffDust* this) {
     s32 i;
 
-    for (i = 0; i < 0x40; i++) {
+    for (i = 0; i < 64; i++) {
         this->initialPositions[i].z = 0.0f;
         this->initialPositions[i].y = 0.0f;
         this->initialPositions[i].x = 0.0f;
@@ -121,7 +121,7 @@ void EffDust_UpdateFunc_8099DB28(EffDust* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
 
-    for (i = 0; i < 0x40; i++) {
+    for (i = 0; i < 64; i++) {
         if ((*distanceTraveled) < 1.0f) {
             *distanceTraveled += 0.05f;
         }
@@ -150,7 +150,7 @@ void EffDust_UpdateFunc_8099DD74(EffDust* this, GlobalContext* globalCtx) {
     s32 i;
     s32 j;
 
-    for (i = 0; i < 0x40; i++) {
+    for (i = 0; i < 64; i++) {
         if ((*distanceTraveled) < 1.0f) {
             *distanceTraveled += 0.03f;
         }
@@ -187,7 +187,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         }
 
-        for (i = 0; i < 0x40; i++) {
+        for (i = 0; i < 64; i++) {
             if ((*distanceTraveled) < 1.0f) {
                 *distanceTraveled += 0.2f;
             }
@@ -197,7 +197,7 @@ void EffDust_UpdateFunc_8099DFC0(EffDust* this, GlobalContext* globalCtx) {
         return;
     }
 
-    for (i = 0; i < 0x40; i++) {
+    for (i = 0; i < 64; i++) {
         if ((*distanceTraveled) < 1.0f) {
             *distanceTraveled += 0.1f;
         }
@@ -283,7 +283,7 @@ void EffDust_DrawFunc_8099E4F4(Actor* thisx, GlobalContext* globalCtx2) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
 
-    for (i = 0; i < 0x40; i++) {
+    for (i = 0; i < 64; i++) {
         if (*distanceTraveled < 1.0f) {
             aux = 1.0f - (*distanceTraveled * *distanceTraveled);
             Matrix_Translate(this->actor.world.pos.x + (initialPositions->x * ((this->dx * aux) + (1.0f - this->dx))),
@@ -337,7 +337,7 @@ void EffDust_DrawFunc_8099E784(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPSegment(POLY_XLU_DISP++, 0x08, D_8099EB60);
 
-    for (i = 0; i < 0x40; i++) {
+    for (i = 0; i < 64; i++) {
         if (*distanceTraveled < 1.0f) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, *distanceTraveled * 255);
 
