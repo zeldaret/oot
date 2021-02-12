@@ -1365,7 +1365,7 @@ void func_800A6460(GlobalContext* globalCtx, PSkinAwb* skin, s32 arg2);
 void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* skeletonHeader,
                    AnimationHeader* animationHeader);
 void func_800A6888(GlobalContext* globalCtx, PSkinAwb* skin);
-s32 func_800A698C(PSkinAwb* skin, SkinLimb** limbs, Mtx* arg2, u8 arg3, u8 arg4);
+s32 func_800A698C(PSkinAwb* skin, SkinLimb** limbs, MtxF* arg2, u8 arg3, u8 arg4);
 s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3);
 void SkinMatrix_Vec3fMtxFMultXYZW(MtxF* mf, Vec3f* src, Vec3f* xyzDest, f32* wDest);
 void SkinMatrix_Vec3fMtxFMultXYZ(MtxF* mf, Vec3f* src, Vec3f* dest);
