@@ -2069,8 +2069,7 @@ endseg
 beginseg
     name "ovl_En_Dekunuts"
     include "build/src/overlays/actors/ovl_En_Dekunuts/z_en_dekunuts.o"
-    include "build/data/overlays/actors/z_en_dekunuts.data.o"
-    include "build/data/overlays/actors/z_en_dekunuts.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Dekunuts/ovl_En_Dekunuts_reloc.o"
 endseg
 
 beginseg
@@ -3918,7 +3917,8 @@ endseg
 beginseg
     name "object_dekunuts"
     romalign 0x1000
-    include "build/baserom/object_dekunuts.o"
+    include "build/assets/objects/object_dekunuts/object_dekunuts.o"
+    number 6
 endseg
 
 beginseg
