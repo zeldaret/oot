@@ -3203,8 +3203,7 @@ endseg
 beginseg
     name "ovl_En_Zl4"
     include "build/src/overlays/actors/ovl_En_Zl4/z_en_zl4.o"
-    include "build/data/overlays/actors/z_en_zl4.data.o"
-    include "build/data/overlays/actors/z_en_zl4.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Zl4/ovl_En_Zl4_reloc.o"
 endseg
 
 beginseg
@@ -5883,7 +5882,8 @@ endseg
 beginseg
     name "object_zl4"
     romalign 0x1000
-    include "build/baserom/object_zl4.o"
+    include "build/assets/objects/object_zl4/object_zl4.o"
+    number 6
 endseg
 
 beginseg
