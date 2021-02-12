@@ -893,7 +893,7 @@ void Cutscene_HandleEntranceTriggers(GlobalContext* globalCtx);
 void Cutscene_HandleConditionalTriggers(GlobalContext* globalCtx);
 void Cutscene_SetSegment(GlobalContext* globalCtx, u32 segment);
 void* MemCopy(void* dest, void* src, s32 size);
-void func_800694A0(GlobalContext* globalCtx, s16 drawId);
+void GetItem_Draw(GlobalContext* globalCtx, s16 drawId);
 void func_8006BA00(GlobalContext* globalCtx);
 void func_8006BA30(GlobalContext* globalCtx);
 void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId);
