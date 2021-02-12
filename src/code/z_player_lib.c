@@ -1039,7 +1039,7 @@ void Player_DrawGetItemImpl(GlobalContext* globalCtx, Player* this, Vec3f* refPo
     Matrix_RotateRPY(0, globalCtx->gameplayFrames * 1000, 0, MTXMODE_APPLY);
     Matrix_Scale(0.2f, 0.2f, 0.2f, MTXMODE_APPLY);
 
-    func_800694A0(globalCtx, drawIdPlusOne - 1);
+    GetItem_Draw(globalCtx, drawIdPlusOne - 1);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2421);
 }
