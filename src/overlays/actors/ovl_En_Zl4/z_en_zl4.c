@@ -418,7 +418,7 @@ s32 EnZl4_CsWaitForPlayer(EnZl4* this, GlobalContext* globalCtx) {
 
     if (!func_8002F194(&this->actor, globalCtx)) {
         yawDiff = (f32)this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-        absYawDiff = (yawDiff >= 0) ? yawDiff : -yawDiff;
+        absYawDiff = ABS(yawDiff);
         if ((playerx->world.pos.y != this->actor.world.pos.y) || (absYawDiff >= 0x3FFC)) {
             return false;
         } else {
