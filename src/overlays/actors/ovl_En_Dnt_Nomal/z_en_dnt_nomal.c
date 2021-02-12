@@ -431,8 +431,7 @@ void EnDntNomal_SetupStageUp(EnDntNomal* this, GlobalContext* globalCtx) {
         if (this->action != DNT_ACTION_ATTACK) {
             this->rotDirection = -1;
         }
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10,
-                                 NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         this->isSolid = true;
         this->actionFunc = EnDntNomal_StageUp;
@@ -487,8 +486,7 @@ void EnDntNomal_SetupStageUnburrow(EnDntNomal* this, GlobalContext* globalCtx) {
         this->endFrame = (f32)Animation_GetLastFrame(&gDntStageUnburrowAnim);
         Animation_Change(&this->skelAnime, &gDntStageUnburrowAnim, 1.0f, 0.0f, this->endFrame, ANIMMODE_ONCE, -10.0f);
         this->isSolid = false;
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10,
-                                 NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         this->actionFunc = EnDntNomal_StageUnburrow;
     }
@@ -608,8 +606,7 @@ void EnDntNomal_StageHide(EnDntNomal* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     if (frame >= this->endFrame) {
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10,
-                                 NULL);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 4.0f, 0, 10, 3, 15, HAHEN_OBJECT_DEFAULT, 10, NULL);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_UP);
         switch (this->action) {
             case DNT_ACTION_NONE:
@@ -620,9 +617,9 @@ void EnDntNomal_StageHide(EnDntNomal* this, GlobalContext* globalCtx) {
                 break;
             case DNT_ACTION_LOW_RUPEES:
             case DNT_ACTION_HIGH_RUPEES:
-                rupee = (EnExRuppy*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_RUPPY,
-                                                this->actor.world.pos.x, this->actor.world.pos.y + 20.0f,
-                                                this->actor.world.pos.z, 0, 0, 0, 3);
+                rupee =
+                    (EnExRuppy*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_EX_RUPPY, this->actor.world.pos.x,
+                                            this->actor.world.pos.y + 20.0f, this->actor.world.pos.z, 0, 0, 0, 3);
                 if (rupee != NULL) {
                     rupeeColor = this->action - DNT_ACTION_LOW_RUPEES;
                     rupee->colorIdx = rupeeColor;
@@ -814,7 +811,7 @@ void EnDntNomal_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
     if (this->type == ENDNTNOMAL_TARGET) {
         Collider_SetQuadVertices(&this->targetQuad, &this->targetVtx[0], &this->targetVtx[1], &this->targetVtx[2],
-                      &this->targetVtx[3]);
+                                 &this->targetVtx[3]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->targetQuad.base);
     } else {
         Collider_UpdateCylinder(&this->actor, &this->bodyCyl);

@@ -496,8 +496,8 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actionFunc == EnHintnuts_Wait) {
             Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
-            Actor_SetFocus(&this->actor, 20.0f - ((this->skelAnime.curFrame * 20.0f) /
-                                                   Animation_GetLastFrame(&gHintNutsBurrowAnim)));
+            Actor_SetFocus(&this->actor,
+                           20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&gHintNutsBurrowAnim)));
         } else {
             Actor_SetFocus(&this->actor, 20.0f);
         }
