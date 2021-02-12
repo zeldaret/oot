@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_zl2" Segment="6">
-        <!-- <UNK_TYPE Name="gEnZl2Unknown_0030C8" Offset="0x30C8"/> -->
+        <!-- <Texture Name="gEnZl2Unknown_0030C8" Offset="0x30C8"/> -->
         <!-- <UNK_TYPE Name="gEnZl2Unknown_003508" Offset="0x3508"/> -->
         <!-- <UNK_TYPE Name="gEnZl2Unknown_003C48" Offset="0x3C48"/> -->
         <!-- <UNK_TYPE Name="gEnZl2Unknown_004048" Offset="0x4048"/> -->
