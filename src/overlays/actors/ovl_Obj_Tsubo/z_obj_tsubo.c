@@ -69,7 +69,8 @@ const ActorInit Obj_Tsubo_InitVars = {
 //     { 9, 26, 0, { 0, 0, 0 } },
 // };
 
-s32 D_80BA1B80[] = { 0x0003012C };
+// s32 D_80BA1B80[] = { 0x0003012C };
+s16 D_80BA1B80[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 
 s32 D_80BA1B84[] = { 0x05017870, 0x060017C0 };
 
@@ -78,10 +79,10 @@ s32 D_80BA1B8C[] = { 0x05017A60, 0x06001960 };
 s32 D_80BA1B94[] = { 0x0C090939, 0x20010000, 0x00000000, 0x00000002, 0x00010000, 0x4FC1FFFE,
                      0x00000000, 0x01010100, 0x0009001A, 0x00000000, 0x00000000 };
 
-CollisionCheckInfoInit D_80BA1BC0[] = { 0, 12, 30, 0xFF };
+s32 D_80BA1BC0[] = { 0x0000000C, 0x003CFF00 };
 
 // s32 D_80BA1BC8[] = { 0xB86CFB50, 0xB870B1E0, 0xC8500096, 0xB0F40384, 0xB0F80064, 0x30FC0320 };
-static InitChainEntry D_80BA1BC8[] = {
+InitChainEntry D_80BA1BC8[] = {
     ICHAIN_F32_DIV1000(gravity, -1200, ICHAIN_CONTINUE), ICHAIN_F32_DIV1000(minVelocityY, -20000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 150, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneForward, 900, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 100, ICHAIN_CONTINUE),   ICHAIN_F32(uncullZoneDownward, 800, ICHAIN_STOP),
@@ -117,26 +118,26 @@ void func_80BA0E98(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/ObjTsubo_Init.s")
-// void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
-//     ObjTsubo* this = THIS;
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/ObjTsubo_Init.s")
+void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
+    ObjTsubo* this = THIS;
 
-//     Actor_ProcessInitChain(&this->actor, D_80BA1BC8);
-//     func_80BA0E98(&this->actor, globalCtx);
-//     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, D_80BA1BC0);
-//     if (func_80BA0DF4(this, globalCtx) == 0) {
-//         Actor_Kill(&this->actor);
-//         return;
-//     }
-//     this->objTsuboBankIndex = Object_GetIndex(&globalCtx->objectCtx, *(D_80BA1B80 + (((this->actor.params >> 8) & 1))));
-//     if (this->objTsuboBankIndex < 0) {
-//         osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 0x19A);
-//         Actor_Kill(&this->actor);
-//     } else {
-//         func_80BA152C(this);
-//         osSyncPrintf("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
-//     }
-// }
+    Actor_ProcessInitChain(&this->actor, D_80BA1BC8);
+    func_80BA0E98(&this->actor, globalCtx);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, D_80BA1BC0);
+    if (func_80BA0DF4(this, globalCtx) == 0) {
+        Actor_Kill(&this->actor);
+        return;
+    }
+    this->objTsuboBankIndex = Object_GetIndex(&globalCtx->objectCtx, *(D_80BA1B80 + (((this->actor.params >> 8) & 1))));
+    if (this->objTsuboBankIndex < 0) {
+        osSyncPrintf("Error : バンク危険！ (arg_data 0x%04x)(%s %d)\n", this->actor.params, "../z_obj_tsubo.c", 0x19A);
+        Actor_Kill(&this->actor);
+    } else {
+        func_80BA152C(this);
+        osSyncPrintf("(dungeon keep 壷)(arg_data 0x%04x)\n", this->actor.params);
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/ObjTsubo_Destroy.s")
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
