@@ -57,7 +57,6 @@ typedef struct EnOssan {
     /* 0x0228 */ s32 stickY;
     /* 0x022C */ u8 moveHorizontal;
     /* 0x022D */ u8 moveVertical;
-    /* 0x022E */ char unk_22E[0x2];
     /* 0x0230 */ f32 unk_230;
     /* 0x0234 */ f32 unk_234;
     /* 0x0238 */ f32 unk_238;
@@ -72,10 +71,10 @@ typedef struct EnOssan {
     /* 0x0250 */ u8 unk_250;
     /* 0x0251 */ u8 unk_251;
     /* 0x0252 */ u8 unk_252;
-    /* 0x0254 */ s32 unk_254;
-    /* 0x0258 */ s32 unk_258;
-    /* 0x025C */ s32 unk_25C;
-    /* 0x0260 */ s32 unk_260;
+    /* 0x0254 */ EnvColorTest unk_254;//s32 unk_254;
+    /* 0x0258 */ //s32 unk_258;
+    /* 0x025C */ //s32 unk_25C;
+    /* 0x0260 */ //s32 unk_260;
     /* 0x0264 */ f32 unk_264;
     /* 0x0268 */ f32 unk_268;
     /* 0x026C */ EnvColorTest unk_26C;
@@ -87,10 +86,10 @@ typedef struct EnOssan {
     /* 0x0280 */ f32 unk_280;
     /* 0x0284 */ f32 unk_284;
     /* 0x0288 */ s32 unk_288;
-    /* 0x028C */ s32 unk_28C;
-    /* 0x0290 */ s32 unk_290;
-    /* 0x0294 */ s32 unk_294;
-    /* 0x0294 */ s32 unk_298;
+    /* 0x028C */ EnvColorTest unk_28C;
+    ///* 0x0290 */ s32 unk_290;
+    ///* 0x0294 */ s32 unk_294;
+    ///* 0x0294 */ s32 unk_298;
     /* 0x029C */ f32 unk_29C;
     /* 0x02A0 */ f32 unk_2A0;
     /* 0x02A4 */ EnvColorTest unk_2A4;

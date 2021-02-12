@@ -389,36 +389,34 @@ s16 func_80AC2DA8(s16 v) {
 }
 
 // spawn items on the shelves
-void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, ShopItem* items);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC2DD8.s")
-// void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, ShopItem* items) {
-//     ShopItem* itemEntry = items;
-//     EnTana* shelves;
-//     s16 itemParams;
-//     s16 temp;
-//     s32 i;
-//     //itemEntry = &items[0];
+ void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, ShopItem* shopItems) {
+     EnTana* shelves;
+     s16 itemParams;
+     s32 i;
 
-//     for (i = 0; i < 8; i++, itemEntry++) {
-//         temp = itemEntry->unk_00;
-//         if (temp < 0) {
-//             this->items[i] = NULL;
-//         } else {
-//             itemParams = D_80AC8C9C[temp](temp);
+     for (i = 0; i < 8; i++, shopItems++) {
+         if (shopItems->unk_00 < 0) {
+             this->items[i] = NULL;
+         } else {
+             itemParams = D_80AC8C9C[shopItems->unk_00](shopItems->unk_00);
 
-//             if (itemParams < 0) {
-//                 this->items[i] = NULL;
-//             } else {
-//                 shelves = this->shelves;
-//                 this->items[i] = Actor_Spawn(
-//                     &globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, shelves->actor.world.pos.x +
-//                     itemEntry->xOffset, shelves->actor.world.pos.y + itemEntry->yOffset, shelves->actor.world.pos.z
-//                     + itemEntry->zOffset, shelves->actor.shape.rot.x, shelves->actor.shape.rot.y + D_80AC88F4[i],
-//                     shelves->actor.shape.rot.z, itemParams);
-//             }
-//         }
-//     }
-// }
+             if (itemParams < 0) {
+                 this->items[i] = NULL;
+             } else {
+                 shelves = this->shelves;
+                 this->items[i] = Actor_Spawn(
+                     &globalCtx->actorCtx,
+                     globalCtx,
+                     ACTOR_EN_GIRLA,
+                     shelves->actor.world.pos.x + shopItems->xOffset,
+                     shelves->actor.world.pos.y + shopItems->yOffset,
+                     shelves->actor.world.pos.z + shopItems->zOffset,
+                     shelves->actor.shape.rot.x, shelves->actor.shape.rot.y + D_80AC88F4[i],
+                     shelves->actor.shape.rot.z, itemParams);
+             }
+         }
+     }
+ }
 
 void func_80AC2F2C(EnOssan* this, GlobalContext* globalCtx) {
     s32 i; 
@@ -437,7 +435,7 @@ void func_80AC2F2C(EnOssan* this, GlobalContext* globalCtx) {
                     this->items[i] = Actor_Spawn(
                         &globalCtx->actorCtx,
                         globalCtx,
-                        4,
+                        ACTOR_EN_GIRLA,
                         this->shelves->actor.world.pos.x + v1->xOffset,
                         this->shelves->actor.world.pos.y + v1->yOffset,
                         this->shelves->actor.world.pos.z + v1->zOffset,
@@ -739,56 +737,53 @@ void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     }
 }
 
-void func_80AC3BCC(GlobalContext* globalCtx, EnOssan* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC3BCC.s")
-// void func_80AC3BCC(GlobalContext* globalCtx, EnOssan* this) {
-//     Input* controller1 = &globalCtx->state.input[0];
-//     s8 stickX = controller1->rel.stick_x;
-//     s8 stickY = controller1->rel.stick_y;
+ void func_80AC3BCC(GlobalContext* globalCtx, EnOssan* this) {
+     Input* controller1 = &globalCtx->state.input[0];
+     s8 stickX = controller1->rel.stick_x;
+     s8 stickY = controller1->rel.stick_y;
+     
+     this->moveHorizontal = this->moveVertical = false;
 
-//     this->moveHorizontal = false;
-//     this->moveVertical = false;
+     if (this->stickX == 0) {
+         if (stickX > 30 || stickX < -30) {
+             this->stickX = stickX;
+             this->moveHorizontal = true;
+         }
+     } else if (stickX <= 30 && stickX >= -30) {
+         this->stickX = 0;
+     } else if (this->stickX * stickX < 0) {
+         this->stickX = stickX;
+         this->moveHorizontal = true;
+     } else {
+         this->stickX += stickX;
 
-//     if (this->stickX == 0) {
-//         if ((stickX > 30) || (stickX < -30)) {
-//             this->stickX = stickX;
-//             this->moveHorizontal = true;
-//         }
-//     } else if ((stickX <= 30) && (stickX >= -30)) {
-//         this->stickX = 0;
-//     } else if ((this->stickX * stickX) < 0) {
-//         this->stickX = stickX;
-//         this->moveHorizontal = true;
-//     } else {
-//         this->stickX += stickX;
+         if (this->stickX > 2000) {
+             this->stickX = 2000;
+         } else if (this->stickX < -2000) {
+             this->stickX = -2000;
+         }
+     }
 
-//         if (this->stickX > 2000) {
-//             this->stickX = 2000;
-//         } else if (this->stickX < -2000) {
-//             this->stickX = -2000;
-//         }
-//     }
+     if (this->stickY == 0) {
+         if (stickY > 30 || stickY < -30) {
+             this->stickY = stickY;
+             this->moveVertical = true;
+         }
+     } else if (stickY <= 30 && stickY >= -30) {
+         this->stickY = 0;
+     } else if (this->stickY * stickY < 0) {
+         this->stickY = stickY;
+         this->moveVertical = true;
+     } else {
+         this->stickY += stickY;
 
-//     if (this->stickY == 0) {
-//         if ((stickY > 30) || (stickY < -30)) {
-//             this->stickY = stickY;
-//             this->moveVertical = true;
-//         }
-//     } else if ((stickY <= 30) && (stickY >= -30)) {
-//         this->stickY = 0;
-//     } else if ((this->stickY * stickY) < 0) {
-//         this->stickY = stickY;
-//         this->moveVertical = true;
-//     } else {
-//         this->stickY += stickY;
-
-//         if (this->stickY > 2000) {
-//             this->stickY = 2000;
-//         } else if (this->stickY < -2000) {
-//             this->stickY = -2000;
-//         }
-//     }
-// }
+         if (this->stickY > 2000) {
+             this->stickY = 2000;
+         } else if (this->stickY < -2000) {
+             this->stickY = -2000;
+         }
+     }
+ }
 
 u8 func_80AC3D18(EnOssan* this, u8 arg1) {
     u8 i;
@@ -1863,35 +1858,37 @@ s32 func_80AC652C(EnOssan* this) {
     }
 }
 
-void func_80AC65B8(EnOssan* this);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC65B8.s")
-//void func_80AC65B8(EnOssan* this) {
-//    s32 temp_v1;
-//    EnGirlA* temp_a1;
-//    EnGirlA** phi_v0;
-//    s32 phi_v1;
-//
-//    for (phi_v1 = 0; phi_v1 < 8; phi_v1++) {
-//        temp_a1 = &this->items[phi_v1];
-//        //temp_a1 = phi_v0[phi_v1];
-//        if (temp_a1 != NULL) {
-//            //temp_a2 = this->unk_1FC;
-//            if ((this->unk_1FC == 9
-//                || this->unk_1FC == 0xA
-//                || this->unk_1FC == 0xB
-//                || this->unk_1FC == 0xC
-//                || this->unk_1FC == 0xD
-//                || this->unk_1FC == 0x18
-//                || this->unk_1FC == 0xE
-//                || this->unk_251 != 0) && phi_v1 == this->unk_252) {
-//                temp_a1->unk_1B4 = 1;
-//            }
-//            else {
-//                temp_a1->unk_1B4 = 0;
-//            }
-//        }
-//    }
-//}
+void func_80AC65B8(EnOssan* this) {
+    EnGirlA** temp_a1 = this->items;
+    s32 i;
+
+    for (i = 0; i < 8; i++) {
+        if (temp_a1[0] != NULL) {
+            if (this->unk_1FC != 9
+                && this->unk_1FC != 0xA
+                && this->unk_1FC != 0xB
+                && this->unk_1FC != 0xC
+                && this->unk_1FC != 0xD
+                && this->unk_1FC != 0x18
+                && this->unk_1FC != 0xE
+                && this->unk_251 == 0) {
+                temp_a1[0]->unk_1B4 = 0;
+            }
+            else
+            {
+                if (this->unk_252 == i)
+                {
+                    temp_a1[0]->unk_1B4 = 1;
+                }
+                else
+                {
+                    temp_a1[0]->unk_1B4 = 0;
+                }
+            }
+        }
+        temp_a1++;
+    }
+}
 
 void func_80AC66F4(EnOssan* this) {
     f32 t;
@@ -1918,70 +1915,73 @@ void func_80AC66F4(EnOssan* this) {
     this->unk_24C = t;
 }
 
+#ifdef NON_MATCHING
+void func_80AC67C4(EnOssan* this) {
+    s32 temp_f18;
+    f32 phi_f2;
+    f32 phi_f0;
+    s32 r, v1, a1, a2;
+
+
+    phi_f2 = this->unk_2C4;
+    phi_f0 = this->unk_2C8;
+    if (this->unk_2CC == 0) {
+        phi_f2 += 0.05f;
+        if (phi_f2 > 1.0f) {
+            phi_f2 = 1.0f;
+            this->unk_2CC = 1;
+        }
+    }
+    else {
+        phi_f2 -= 0.05f;
+        if (phi_f2 < 0.0f) {
+            phi_f2 = 0.0f;
+            this->unk_2CC = 0;
+        }
+    }
+    this->unk_2C4 = phi_f2;
+    if (this->unk_2CD == 0) {
+        phi_f0 += 0.1f;
+        if (phi_f0 > 1.0f) {
+            phi_f0 = 1.0f;
+            this->unk_2CD = 1;
+        }
+    }
+    else {
+        phi_f0 = 0.0f;
+        this->unk_2CD = 0;
+    }
+
+    this->unk_2C8 = phi_f0;
+    r = ColChanMix(255, 155, phi_f2); v1 = ColChanMix(255, 155, phi_f2); a1 = ColChanMix(0, -100, phi_f2); a2 = ColChanMix(200, 50, phi_f2);;
+
+    do {
+        this->unk_26C.r = r; //(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
+        this->unk_26C.g = v1; //(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
+        this->unk_26C.b = a1; //(0 - ((s32)((-100) * phi_f2))) & 0xFF;
+        this->unk_26C.a = a2;  //(0xC8 - ((s32)(50 * phi_f2))) & 0xFF;
+    } while (0);
+    this->unk_2B4 = 290.0f;
+    do {
+        this->unk_2A4.r = this->unk_26C.r;//(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
+        this->unk_2A4.g = this->unk_26C.g; //(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
+        this->unk_2A4.b = this->unk_26C.b; //(0 - ((s32)((-100) * phi_f2))) & 0xFF;
+        this->unk_2A4.a = this->unk_26C.a;//(0xC8 - ((s32)(50 * phi_f2))) & 0xFF;
+    } while (0);
+
+    this->unk_2B8 = 91.0f;
+    this->unk_280 = 91.0f;
+    this->unk_2A0 = 95.0f;
+    this->unk_268 = 95.0f;
+    this->unk_27C = 33.0f;
+    this->unk_29C = (8 * phi_f0) + 274;
+    this->unk_264 = -(8 * phi_f0) + 49.0f;
+}
+
+#else
 void func_80AC67C4(EnOssan* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC67C4.s")
-//void func_80AC67C4(EnOssan* this) {
-//    s32 temp_f18;
-//    f32 phi_f2;
-//    f32 phi_f0;
-//    s32 r, v1, a1, a2;
-//
-//
-//    phi_f2 = this->unk_2C4;
-//    phi_f0 = this->unk_2C8;
-//    if (this->unk_2CC == 0) {
-//        phi_f2 += 0.05f;
-//        if (phi_f2 > 1.0f) {
-//            phi_f2 = 1.0f;
-//            this->unk_2CC = 1;
-//        }
-//    }
-//    else {
-//        phi_f2 -= 0.05f;
-//        if (phi_f2 < 0.0f) {
-//            phi_f2 = 0.0f;
-//            this->unk_2CC = 0;
-//        }
-//    }
-//    this->unk_2C4 = phi_f2;
-//    if (this->unk_2CD == 0) {
-//        phi_f0 += 0.1f;
-//        if (phi_f0 > 1.0f) {
-//            phi_f0 = 1.0f;
-//            this->unk_2CD = 1;
-//        }
-//    }
-//    else {
-//        phi_f0 = 0.0f;
-//        this->unk_2CD = 0;
-//    }
-//
-//    this->unk_2C8 = phi_f0;
-//    r = ColChanMix(255, 155, phi_f2); v1 = ColChanMix(255, 155, phi_f2); a1 = ColChanMix(0, -100, phi_f2); a2 = ColChanMix(200, 50, phi_f2);;
-//
-//    do {
-//        this->unk_26C.r = r; //(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
-//        this->unk_26C.g = v1; //(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
-//        this->unk_26C.b = a1; //(0 - ((s32)((-100) * phi_f2))) & 0xFF;
-//        this->unk_26C.a = a2;  //(0xC8 - ((s32)(50 * phi_f2))) & 0xFF;
-//    } while (0);
-//    this->unk_2B4 = 290.0f;
-//    do {
-//        this->unk_2A4.r = this->unk_26C.r;//(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
-//        this->unk_2A4.g = this->unk_26C.g; //(0xFF - ((s32)(155 * phi_f2))) & 0xFF;
-//        this->unk_2A4.b = this->unk_26C.b; //(0 - ((s32)((-100) * phi_f2))) & 0xFF;
-//        this->unk_2A4.a = this->unk_26C.a;//(0xC8 - ((s32)(50 * phi_f2))) & 0xFF;
-//    } while (0);
-//
-//    this->unk_2B8 = 91.0f;
-//    this->unk_280 = 91.0f;
-//    this->unk_2A0 = 95.0f;
-//    this->unk_268 = 95.0f;
-//    this->unk_27C = 33.0f;
-//    this->unk_29C = (8 * phi_f0) + 274;
-//    this->unk_264 = -(8 * phi_f0) + 49.0f;
-//}
-
+#endif
 
 void func_80AC6970(EnOssan* this) {
     s16 decr = this->unk_1F4 - 1;
@@ -1993,7 +1993,27 @@ void func_80AC6970(EnOssan* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC69A4.s")
+void func_80AC69A4(EnOssan* this) {
+    f32 temp_f6;
+    s16 temp_v0;
+    s16 temp_v0_2;
+
+    temp_v0 = this->unk_1F4 - 1;
+    if (temp_v0 != 0) {
+        this->unk_1F4 = temp_v0;
+        return;
+    }
+    temp_v0_2 = this->unk_1F2 + 1;
+    if (temp_v0_2 > 2) {
+        this->unk_1F2 = 0;
+        temp_f6 = Rand_ZeroOne() * 60.0f;
+        this->unk_1F4 = (s32)temp_f6 + 20;
+        this->unk_1F8 = func_80AC6970;
+        return;
+    }
+    this->unk_1F2 = temp_v0_2;
+    this->unk_1F4 = 1;
+}
 
 s32 func_80AC6A44(EnOssan* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex1)) {
@@ -2119,98 +2139,105 @@ u16 func_80AC6F2C(EnOssan* this) {
     return 0x9E;
 }
 
+#ifdef NON_MATCHING
+ void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
+     ShopItem* items;
+
+     if (func_80AC6A44(this, globalCtx)) {
+         this->actor.flags &= ~0x10;
+         this->actor.objBankIndex = this->objectIndex1;
+         Actor_SetObjectDependency(globalCtx, this);
+
+         this->shelves = Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TANA, 6);
+
+         if (this->shelves == NULL) {
+             osSyncPrintf(VT_COL(RED, WHITE));
+             // "Warning!! There are no shelves!!"
+             osSyncPrintf("★★★ 警告！！ 棚がないよ！！ ★★★\n");
+             osSyncPrintf(VT_RST);
+             return;
+         }
+
+         // "Shopkeeper (params) init"
+         osSyncPrintf(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
+
+         this->actor.world.pos.x += D_80AC8DB0[this->actor.params].x;
+         this->actor.world.pos.y += D_80AC8DB0[this->actor.params].y;
+         this->actor.world.pos.z += D_80AC8DB0[this->actor.params].z;
+
+         items = D_80AC89DC[this->actor.params];
+
+         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
+         D_80AC8D84[this->actor.params](this, globalCtx);
+         this->actor.textId = func_80AC6F2C(this);
+         this->unk_234 = this->unk_230 = 100.0f;
+         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
+         this->actor.colChkInfo.cylRadius = 50;
+         this->unk_1FC = 0;
+         this->stickX = this->stickY = 0;
+
+         this->unk_252 = 0;
+         this->unk_23C.r = 0;
+         this->unk_23C.g = 255;
+         this->unk_23C.b = 80;
+         this->unk_23C.a = 255;
+         this->unk_250 = 0;
+         this->unk_251 = 0;
+         this->unk_1EC = 0;
+         this->unk_254.r = 200;
+         this->unk_254.g = 200;
+         this->unk_254.b = 200;
+         this->unk_254.a = 180;
+
+         this->unk_26C.r = 255;
+         this->unk_26C.g = 255;
+         this->unk_26C.b = 0;
+         this->unk_26C.a = 200;
+
+         this->unk_288 = 0;
+         this->unk_28C.r = 200;
+         this->unk_28C.g = 200;
+         this->unk_28C.b = 200;
+         this->unk_28C.a = 180;
+
+         this->unk_2A4.r = 255;
+         this->unk_2A4.g = 255;
+         this->unk_2A4.b = 0;
+         this->unk_2A4.a = 200;
+
+         this->unk_2C0 = 0;
+         this->unk_2CC = 0;
+         this->unk_2CD = 0;
+         this->unk_238 = 1.5f;
+         
+         this->unk_2A0 = this->unk_268 = 95;
+         
+         this->unk_2B8 = this->unk_280 = 91;
+         
+         this->unk_2BC = this->unk_284 = 1;
+         this->unk_264 = 49;
+         this->unk_27C = 33;
+         this->unk_24C = 0;
+         this->unk_2C4 = 0;
+         this->unk_2C8 = 0;
+         this->unk_2D0 = 0;
+         this->unk_29C = 274;
+         this->unk_2B4 = 290;
+         Actor_SetScale(this, D_80AC89B0[this->actor.params]);
+         func_80AC2DD8(this, globalCtx, items);
+         this->lookAngle = 0;
+         this->unk_1F4 = 20;
+         this->unk_1F2 = 0;
+         this->unk_1F8 = func_80AC6970;
+         this->actor.flags &= ~1;
+         this->unk_1EE = this->lookAngle;
+         EnOssan_SetupAction(this, func_80AC73B4);
+     }
+ }
+#else
+void func_80AC7094(EnOssan* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7094.s")
-// void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
-//     ShopItem* items;
-
-//     if (func_80AC6A44(this, globalCtx)) {
-//         this->actor.flags &= ~0x10;
-//         this->actor.objBankIndex = this->objectIndex1;
-//         Actor_SetObjectDependency(globalCtx, this);
-
-//         this->shelves = Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TANA, 6);
-
-//         if (this->shelves == NULL) {
-//             osSyncPrintf(VT_COL(RED, WHITE));
-//             // "Warning!! There are no shelves!!"
-//             osSyncPrintf("★★★ 警告！！ 棚がないよ！！ ★★★\n");
-//             osSyncPrintf(VT_RST);
-//             return;
-//         }
-
-//         // "Shopkeeper (params) init"
-//         osSyncPrintf(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
-
-//         this->actor.world.pos.x += D_80AC8DB0[this->actor.params].x;
-//         this->actor.world.pos.y += D_80AC8DB0[this->actor.params].y;
-//         this->actor.world.pos.z += D_80AC8DB0[this->actor.params].z;
-
-//         items = D_80AC89DC[this->actor.params];
-
-//         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 20.0f);
-//         D_80AC8D84[this->actor.params](this, globalCtx);
-//         this->actor.textId = func_80AC6F2C(this);
-//         this->unk_230 = 100.0f;
-//         this->unk_234 = 100.0f;
-//         this->actor.colChkInfo.mass = 0xFF;
-//         this->actor.colChkInfo.unk_10 = 0x32;
-//         this->unk_1FC = 0;
-//         this->stickY = 0;
-//         this->stickX = 0;
-//         this->unk_252 = 0;
-//         this->unk_23C = 0;
-//         this->unk_240 = 0xFF;
-//         this->unk_244 = 0x50;
-//         this->unk_248 = 0xFF;
-//         this->unk_250 = 0;
-//         this->unk_251 = 0;
-//         this->unk_1EC = 0;
-//         this->unk_254 = 0xC8;
-//         this->unk_258 = 0xC8;
-//         this->unk_25C = 0xC8;
-//         this->unk_260 = 0xB4;
-//         this->unk_26C = 0xFF;
-//         this->unk_270 = 0xFF;
-//         this->unk_274 = 0;
-//         this->unk_278 = 0xC8;
-//         this->unk_288 = 0;
-//         this->unk_28C = 0xC8;
-//         this->unk_290 = 0xC8;
-//         this->unk_294 = 0xC8;
-//         this->unk_298 = 0xB4;
-//         this->unk_2A4 = 0xFF;
-//         this->unk_2A8 = 0xFF;
-//         this->unk_2AC = 0;
-//         this->unk_2B0 = 0xC8;
-//         this->unk_2C0 = 0;
-//         this->unk_2CC = 0;
-//         this->unk_2CD = 0;
-//         this->unk_238 = 1.5f;
-//         this->unk_268 = 95.0f;
-//         this->unk_2A0 = 95.0f;
-//         this->unk_280 = 91.0f;
-//         this->unk_2B8 = 91.0f;
-//         this->unk_284 = 1.0f;
-//         this->unk_2BC = 1.0f;
-//         this->unk_264 = 49.0f;
-//         this->unk_27C = 33.0f;
-//         this->unk_24C = 0.0f;
-//         this->unk_2C4 = 0.0f;
-//         this->unk_2C8 = 0.0f;
-//         this->unk_2D0 = 0.0f;
-//         this->unk_29C = 274.0f;
-//         this->unk_2B4 = 290.0f;
-//         Actor_SetScale(this, D_80AC89B0[this->actor.params]);
-//         func_80AC2DD8(this, globalCtx, items);
-//         this->lookAngle = 0;
-//         this->unk_1F4 = 20;
-//         this->unk_1F2 = 0;
-//         this->unk_1F8 = func_80AC6970;
-//         this->actor.flags &= ~1;
-//         this->unk_1EE = this->lookAngle;
-//         EnOssan_SetupAction(this, func_80AC73B4);
-//     }
-// }
+#endif
 
 void func_80AC7380(EnOssan* this, GlobalContext* globalCtx) {
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectIndex3].segment);
@@ -2261,84 +2288,35 @@ s32 func_80AC74F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // draw cursor
-void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 arg2, f32 arg3, f32 arg4, u8 arg5);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Ossan/func_80AC7528.s")
-// void func_80AC7528(GlobalContext *globalCtx, EnOssan *this, f32 arg2, f32 arg3, f32 arg4, u8 arg5) {
-//     GraphicsContext *sp5C;
-//     Gfx *sp4C;
-//     Gfx *temp_v0;
-//     Gfx *temp_v0_10;
-//     Gfx *temp_v0_11;
-//     Gfx *temp_v0_2;
-//     Gfx *temp_v0_3;
-//     Gfx *temp_v0_4;
-//     Gfx *temp_v0_5;
-//     Gfx *temp_v0_6;
-//     Gfx *temp_v0_7;
-//     Gfx *temp_v0_8;
-//     Gfx *temp_v0_9;
-//     GraphicsContext *temp_a1;
-//     f32 temp_f0;
-//     s32 temp_a0;
+void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 x, f32 y, f32 z, u8 arg5) {
+    s32 ulx, uly, lrx, lry;
+    f32 w;
+    s32 dsdx;
 
-//     temp_a1 = globalCtx->state.gfxCtx;
-//     sp5C = temp_a1;
-//     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4192);
-//     if (arg5 != 0) {
-//         sp5C = sp5C;
-//         func_80094520(globalCtx->state.gfxCtx);
-//         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, this->unk_23C, this->unk_240, this->unk_244, this->unk_248);
-
-//         gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, &D_0400CDC0);
-//         temp_v0_2 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_2 + 8;
-//         temp_v0_2->words.w0 = 0xFD700000;
-//         temp_v0_2->words.w1 = 0x0400CDC0;
-//         temp_v0_3 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_3 + 8;
-//         temp_v0_3->words.w0 = 0xF5700000;
-//         temp_v0_3->words.w1 = 0x7050140;
-//         temp_v0_4 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_4 + 8;
-//         temp_v0_4->words.w1 = 0;
-//         temp_v0_4->words.w0 = 0xE6000000;
-//         temp_v0_5 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_5 + 8;
-//         temp_v0_5->words.w1 = 0x703F800;
-//         temp_v0_5->words.w0 = 0xF3000000;
-//         temp_v0_6 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_6 + 8;
-//         temp_v0_6->words.w1 = 0;
-//         temp_v0_6->words.w0 = 0xE7000000;
-//         temp_v0_7 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_7 + 8;
-//         temp_v0_7->words.w1 = 0x50140;
-//         temp_v0_7->words.w0 = 0xF5600200;
-//         temp_v0_8 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_8 + 8;
-//         temp_v0_8->words.w0 = 0xF2000000;
-//         temp_v0_8->words.w1 = 0x3C03C;
-//         temp_f0 = 16.0f * arg4;
-//         temp_v0_9 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_9 + 8;
-//         temp_v0_9->words.w0 = ((((arg2 + temp_f0) * 4.0f) & 0xFFF) << 0xC) | 0xE4000000 | (((arg3 + temp_f0) * 4.0f) & 0xFFF);
-//         temp_v0_9->words.w1 = ((((arg2 - temp_f0) * 4.0f) & 0xFFF) << 0xC) | (((arg3 - temp_f0) * 4.0f) & 0xFFF);
-//         temp_v0_10 = sp5C->overlay.p;
-//         sp5C->overlay.p = temp_v0_10 + 8;
-//         temp_v0_10->words.w1 = 0;
-//         temp_v0_10->words.w0 = 0xE1000000;
-//         temp_v0_11 = sp5C->overlay.p;
-//         temp_a0 = ((1.0f / arg4) * 1024.0f) & 0xFFFF;
-//         sp5C->overlay.p = temp_v0_11 + 8;
-//         temp_v0_11->words.w1 = (temp_a0 << 0x10) | temp_a0;
-//         temp_v0_11->words.w0 = 0xF1000000;
-//     }
-//     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
-// }
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4192);
+    if (arg5 != 0) {
+        func_80094520(globalCtx->state.gfxCtx);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, this->unk_23C.r, this->unk_23C.g, this->unk_23C.b, this->unk_23C.a);
+        do {
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, &gSelectionCursorTex, G_IM_FMT_IA, 16, 16, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
+        } while (0);
+        w = 16.0f * z;
+        ulx = (x - w) * 4.0f;
+        uly = (y - w) * 4.0f;
+        lrx = (x + w) * 4.0f;
+        lry = (y + w) * 4.0f;
+        dsdx = (1.0f / z) * 1024.0f;
+        gSPTextureRectangle(OVERLAY_DISP++,
+            ulx, uly,
+            lrx, lry, G_TX_RENDERTILE,
+            0, 0, dsdx, dsdx);
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
+}
 
 void func_80AC77CC(GlobalContext* globalCtx, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 arg10, f32 arg11) {
     f32 unk;
-    s32 xl, yl, xh, yh;
+    s32 ulx, uly, lrx, lry;
     f32 w, h;
     s32 dsdx, dtdy;
 
@@ -2352,13 +2330,13 @@ void func_80AC77CC(GlobalContext* globalCtx, s32 r, s32 g, s32 b, s32 a, f32 x, 
     dsdx = (unk * arg10);
     dtdy = (arg11 * unk);
 
-    xl = ((x - w) * 4.0f);
-    yl = ((y - h) * 4.0f);
-    xh = ((x + w) * 4.0f);
-    yh = ((y + h) * 4.0f);
+    ulx = ((x - w) * 4.0f);
+    uly = ((y - h) * 4.0f);
+    lrx = ((x + w) * 4.0f);
+    lry = ((y + h) * 4.0f);
     gSPTextureRectangle(OVERLAY_DISP++,
-        xl, yl,
-        xh, yh,
+        ulx, uly,
+        lrx, lry,
         G_TX_RENDERTILE, s, t, 
         dsdx, dtdy);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4242);
@@ -2393,10 +2371,10 @@ void func_80AC79C8(GlobalContext* globalCtx, EnOssan* this) {
         gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
         gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 15 * 4, 15 * 4);
         if (sp9C != 0) {
-            func_80AC77CC(globalCtx, this->unk_254, this->unk_258, this->unk_25C, this->unk_260, this->unk_264, this->unk_268, this->unk_284, 0, 0, -1.0f, 1.0f);
+            func_80AC77CC(globalCtx, this->unk_254.r, this->unk_254.g, this->unk_254.b, this->unk_254.a, this->unk_264, this->unk_268, this->unk_284, 0, 0, -1.0f, 1.0f);
         }
         if (sp98 != 0) {
-            func_80AC77CC(globalCtx, this->unk_28C, this->unk_290, this->unk_294, this->unk_298, this->unk_29C, this->unk_2A0, this->unk_2BC, 0, 0, 1.0f, 1.0f);
+            func_80AC77CC(globalCtx, this->unk_28C.r, this->unk_28C.g, this->unk_28C.b, this->unk_28C.a, this->unk_29C, this->unk_2A0, this->unk_2BC, 0, 0, 1.0f, 1.0f);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4300);
