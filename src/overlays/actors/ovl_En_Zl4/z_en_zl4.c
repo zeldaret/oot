@@ -48,7 +48,7 @@ typedef enum {
     /* 3 */ ZL4_EYE_WIDE,
     /* 4 */ ZL4_EYE_SQUINT,
     /* 5 */ ZL4_EYE_LOOK_OUT,
-    /* 6 */ ZL4_EYE_LOOK_IN,
+    /* 6 */ ZL4_EYE_LOOK_IN
 } EnZl4EyeState;
 
 void EnZl4_Init(Actor* thisx, GlobalContext* globalCtx);
