@@ -1,0 +1,79 @@
+<Root>
+    <File Name="object_zl2" Segment="6">
+        <Animation Name="gEnZl2Anim_0001D8" Offset="0x1D8"/>
+        <Animation Name="gEnZl2Anim_0003BC" Offset="0x3BC"/>
+        <Animation Name="gEnZl2Anim_0004F4" Offset="0x4F4"/>
+        <Animation Name="gEnZl2Anim_000A50" Offset="0xA50"/>
+        <Animation Name="gEnZl2Anim_000EB0" Offset="0xEB0"/>
+        <Animation Name="gEnZl2Anim_001010" Offset="0x1010"/>
+        <Animation Name="gEnZl2Anim_001110" Offset="0x1110"/>
+        <Animation Name="gEnZl2Anim_0013A0" Offset="0x13A0"/>
+        <Animation Name="gEnZl2Anim_0014DC" Offset="0x14DC"/>
+        <Animation Name="gEnZl2Anim_001670" Offset="0x1670"/>
+        <Animation Name="gEnZl2Anim_001B48" Offset="0x1B48"/>
+        <Animation Name="gEnZl2Anim_001D8C" Offset="0x1D8C"/>
+        <Animation Name="gEnZl2Anim_00210C" Offset="0x210C"/>
+        <Animation Name="gEnZl2Anim_0022D0" Offset="0x22D0"/>
+        <Animation Name="gEnZl2Anim_002348" Offset="0x2348"/>
+        <Animation Name="gEnZl2Anim_002710" Offset="0x2710"/>
+        <Animation Name="gEnZl2Anim_002750" Offset="0x2750"/>
+        <Animation Name="gEnZl2Anim_002B14" Offset="0x2B14"/>
+        <Animation Name="gEnZl2Anim_002E54" Offset="0x2E54"/>
+        <Animation Name="gEnZl2Anim_002F30" Offset="0x2F30"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_0030C8" Offset="0x30C8"/> -->
+        <Animation Name="gEnZl2Anim_00325C" Offset="0x325C"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_003508" Offset="0x3508"/> -->
+        <Animation Name="gEnZl2Anim_003538" Offset="0x3538"/>
+        <Animation Name="gEnZl2Anim_0038C0" Offset="0x38C0"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_003C48" Offset="0x3C48"/> -->
+        <Animation Name="gEnZl2Anim_003D20" Offset="0x3D20"/>
+        <Animation Name="gEnZl2Anim_003FF8" Offset="0x3FF8"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_004048" Offset="0x4048"/> -->
+        <Animation Name="gEnZl2Anim_004408" Offset="0x4408"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_004548" Offset="0x4548"/> -->
+        <Animation Name="gEnZl2Anim_004900" Offset="0x4900"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_004948" Offset="0x4948"/> -->
+        <Animation Name="gEnZl2Anim_00499C" Offset="0x499C"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_004D48" Offset="0x4D48"/> -->
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_005148" Offset="0x5148"/> -->
+        <Animation Name="gEnZl2Anim_005248" Offset="0x5248"/>
+        <Animation Name="gEnZl2Anim_0054E0" Offset="0x54E0"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_005548" Offset="0x5548"/> -->
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_005948" Offset="0x5948"/> -->
+        <Animation Name="gEnZl2Anim_005A0C" Offset="0x5A0C"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_005D48" Offset="0x5D48"/> -->
+        <Animation Name="gEnZl2Anim_005F40" Offset="0x5F40"/>
+        <!-- <UNK_TYPE Name="gEnZl2Unknown_006148" Offset="0x6148"/> -->
+        <Animation Name="gEnZl2Anim_0061C4" Offset="0x61C4"/>
+        <Animation Name="gEnZl2Anim_006508" Offset="0x6508"/>
+        <Animation Name="gEnZl2Anim_006778" Offset="0x6778"/>
+        <Animation Name="gEnZl2Anim_006AB0" Offset="0x6AB0"/>
+        <Animation Name="gEnZl2Anim_006F04" Offset="0x6F04"/>
+        <Animation Name="gEnZl2Anim_007664" Offset="0x7664"/>
+        <Animation Name="gEnZl2Anim_007A78" Offset="0x7A78"/>
+        <Animation Name="gEnZl2Anim_007C84" Offset="0x7C84"/>
+        <Animation Name="gEnZl2Anim_007D0C" Offset="0x7D0C"/>
+        <Animation Name="gEnZl2Anim_008050" Offset="0x8050"/>
+        <Animation Name="gEnZl2Anim_0082F8" Offset="0x82F8"/>
+        <Animation Name="gEnZl2Anim_008684" Offset="0x8684"/>
+        <Animation Name="gEnZl2Anim_0087B8" Offset="0x87B8"/>
+        <Animation Name="gEnZl2Anim_008AD0" Offset="0x8AD0"/>
+        <Animation Name="gEnZl2Anim_0090D8" Offset="0x90D8"/>
+        <Animation Name="gEnZl2Anim_0091D8" Offset="0x91D8"/>
+        <Animation Name="gEnZl2Anim_0099A0" Offset="0x99A0"/>
+        <Animation Name="gEnZl2Anim_009AD4" Offset="0x9AD4"/>
+        <Animation Name="gEnZl2Anim_009BE4" Offset="0x9BE4"/>
+        <Animation Name="gEnZl2Anim_009FBC" Offset="0x9FBC"/>
+        <Animation Name="gEnZl2Anim_00A15C" Offset="0xA15C"/>
+        <Animation Name="gEnZl2Anim_00A334" Offset="0xA334"/>
+        <Animation Name="gEnZl2Anim_00A598" Offset="0xA598"/>
+        <Animation Name="gEnZl2Anim_00A79C" Offset="0xA79C"/>
+        <Animation Name="gEnZl2Anim_00AACC" Offset="0xAACC"/>
+        <Animation Name="gEnZl2Anim_00AAD4" Offset="0xAAD4"/>
+        <Animation Name="gEnZl2Anim_00AFE0" Offset="0xAFE0"/>
+        <Animation Name="gEnZl2Anim_00B224" Offset="0xB224"/>
+        <Animation Name="gEnZl2Anim_00B5FC" Offset="0xB5FC"/>
+        <DList Name="gEnZl2DL_00BAE8" Offset="0xBAE8"/>
+        <Skeleton Name="gEnZl2Skel_010D70" Type="Flex" LimbType="Standard" Offset="0x10D70"/>
+    </File>
+</Root>
