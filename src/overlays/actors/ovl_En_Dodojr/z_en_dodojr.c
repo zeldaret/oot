@@ -76,8 +76,8 @@ static CollisionCheckInfoInit2 sColChkInit = { 1, 2, 25, 25, 0xFF };
 void EnDodojr_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDodojr* this = THIS;
 
-    ActorShape_Init(&this->actor.shape.rot.x, 0.0f, NULL, 18.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020E0, &D_060009D4, &this->jointTable, &this->morphTable, 15);
+    ActorShape_Init(&this->actor.shape, 0.0f, NULL, 18.0f);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060020E0, &D_060009D4, this->jointTable, this->morphTable, 15);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(4), &sColChkInit);
@@ -220,7 +220,7 @@ void func_809F6BBC(EnDodojr* this) {
 
 void func_809F6C24(EnDodojr* this) {
     Animation_Change(&this->skelAnime, &D_06000724, 1.0f, 8.0f, 12.0f, ANIMMODE_ONCE, 0.0f);
-    Audio_PlayActorSound2(this, NA_SE_EN_DODO_M_EAT);
+    Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_M_EAT);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.x = 0.0f;
     this->actor.velocity.z = 0.0f;
@@ -276,7 +276,7 @@ s32 func_809F6DD0(EnDodojr* this) {
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->bomb->world.pos) > 30.0f) {
         return 0;
     } else {
-        this->bomb->parent = this;
+        this->bomb->parent = &this->actor;
         return 1;
     }
 }
@@ -419,7 +419,7 @@ void func_809F73AC(EnDodojr* this, GlobalContext* globalCtx) {
 void func_809F74C4(EnDodojr* this, GlobalContext* globalCtx) {
     f32 sp2C;
 
-    Math_SmoothStepToS(&this->actor.shape, 0, 4, 0x3E8, 0x64);
+    Math_SmoothStepToS(&this->actor.shape.rot.x, 0, 4, 0x3E8, 0x64);
     sp2C = this->actor.shape.rot.x;
     sp2C /= 16384.0f;
     this->actor.world.pos.y = this->actor.home.pos.y + (60.0f * sp2C);
@@ -563,7 +563,7 @@ void func_809F7A00(EnDodojr* this, GlobalContext* globalCtx) {
 }
 
 void func_809F7AB8(EnDodojr* this, GlobalContext* globalCtx) {
-    func_8002D868(this);
+    func_8002D868(&this->actor);
     Math_SmoothStepToS(&this->actor.shape.rot.y, 0, 4, 1000, 10);
     this->actor.world.rot.x = this->actor.shape.rot.x;
 
@@ -625,7 +625,7 @@ void EnDodojr_Update(Actor* thisx, GlobalContext* globalCtx) {
     func_809F72A4(this, globalCtx);
 }
 
-s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDodojr* this = THIS;
     Vec3f D_809F7F64 = { 480.0f, 620.0f, 0.0f };
 
@@ -637,10 +637,10 @@ s32 func_809F7D50(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_MultVec3f(&D_809F7F64, &this->headPos);
     }
 
-    return 0;
+    return false;
 }
 
-void func_809F7DFC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void func_809F7DFC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
 }
 
 void EnDodojr_Draw(Actor* thisx, GlobalContext* globalCtx) {

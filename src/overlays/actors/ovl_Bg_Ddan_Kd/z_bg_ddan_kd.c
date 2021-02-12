@@ -58,10 +58,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 32767, ICHAIN_STOP),
 };
 
-static f32 D_808718FC[] = { 0.0f, 5.0f };
-static f32 D_80871904[] = { 0.0f };
-static f32 D_80871908[] = { 0.0f, -0.45f, 0.0f, 0.0f, 0.0f, 0.0f };
-
 extern CollisionHeader D_06004F30;
 extern Gfx D_060048A8[];
 
@@ -77,7 +73,7 @@ void BgDdanKd_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->prevExplosive = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
     CollisionHeader_GetVirtual(&D_06004F30, &colHeader);
@@ -102,7 +98,7 @@ void BgDdanKd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
     Actor* explosive;
 
-    explosive = Actor_GetCollidedExplosive(globalCtx, &this->collider);
+    explosive = Actor_GetCollidedExplosive(globalCtx, &this->collider.base);
     if (explosive != NULL) {
         osSyncPrintf("dam    %d\n", this->dyna.actor.colChkInfo.damage);
         explosive->params = 2;
@@ -110,7 +106,7 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
     if ((explosive != NULL) && (this->prevExplosive != NULL) && (explosive != this->prevExplosive) &&
         (Math_Vec3f_DistXZ(&this->prevExplosivePos, &explosive->world.pos) > 80.0f)) {
         BgDdanKd_SetupAction(this, BgDdanKd_LowerStairs);
-        func_800800F8(globalCtx, 0xBEA, 0x3E7, this, 0);
+        func_800800F8(globalCtx, 0xBEA, 0x3E7, &this->dyna.actor, 0);
     } else {
         if (this->timer != 0) {
             this->timer -= 1;
@@ -127,6 +123,8 @@ void BgDdanKd_CheckForExplosions(BgDdanKd* this, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
+    static Vec3f D_808718FC = { 0.0f, 5.0f, 0.0f };
+    static Vec3f D_80871908 = { 0.0f, -0.45f, 0.0f };
     Vec3f sp5C;
     Vec3f sp50;
     f32 sp4C;
@@ -159,8 +157,8 @@ void BgDdanKd_LowerStairs(BgDdanKd* this, GlobalContext* globalCtx) {
             func_80033480(globalCtx, &sp5C, 20.0f, 1, sp4C * 135.0f, 60, 1);
             func_80033480(globalCtx, &sp50, 20.0f, 1, sp4C * 135.0f, 60, 1);
 
-            D_808718FC[0] = Rand_CenteredFloat(3.0f);
-            D_80871904[0] = Rand_CenteredFloat(3.0f);
+            D_808718FC.x = Rand_CenteredFloat(3.0f);
+            D_808718FC.z = Rand_CenteredFloat(3.0f);
 
             func_8003555C(globalCtx, &sp5C, &D_808718FC, &D_80871908);
             func_8003555C(globalCtx, &sp50, &D_808718FC, &D_80871908);
@@ -189,5 +187,5 @@ void BgDdanKd_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgDdanKd_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, &D_060048A8);
+    Gfx_DrawDListOpa(globalCtx, D_060048A8);
 }

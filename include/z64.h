@@ -47,6 +47,11 @@
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
+typedef struct{
+    /* 0x00 */ char unk[0x4];
+    /* 0x04 */ MtxF mf;
+} HorseStruct;
+
 // Game Info aka. Static Context (dbg ram start: 80210A10)
 // Data normally accessed through REG macros (see regs.h)
 typedef struct {
@@ -336,7 +341,8 @@ typedef struct {
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
     /* 0xE40E */ s16    unk_E40E;
-    /* 0xE410 */ char   unk_E410[0x08];
+    /* 0xE410 */ u8     unk_E410;
+    /* 0xE411 */ char   unk_E411[0x07];
 } MessageContext; // size = 0xE418
 
 typedef struct {
