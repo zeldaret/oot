@@ -45,8 +45,9 @@ void func_800BC590(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
+#ifdef NON_EQUIVALENT
 // single minor ordering difference
+// Crashes during intro cutscene between Zelda leaving the castle and the deku tree
 void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
     TransitionContext* transitionCtx = &globalCtx->transitionCtx;
 
