@@ -42,17 +42,15 @@
         <Collision Name="gHidanObjectsCol_00D878" Offset="0xD878"/>
         <Collision Name="gHidanObjectsCol_00D8F8" Offset="0xD8F8"/>
 
+        <Texture Name="gHidanObjectsTex_012120" OutName="tex_012120" Format="ia8" Width="32" Height="60" Offset="0x12120"/>
+        <Texture Name="gHidanObjectsTex_0128A0" OutName="tex_0128A0" Format="ia8" Width="32" Height="60" Offset="0x128A0"/>
+        <Texture Name="gHidanObjectsTex_013020" OutName="tex_013020" Format="ia8" Width="32" Height="60" Offset="0x13020"/>
+        <Texture Name="gHidanObjectsTex_0137A0" OutName="tex_0137A0" Format="ia8" Width="32" Height="60" Offset="0x137A0"/>
+        <Texture Name="gHidanObjectsTex_013F20" OutName="tex_013F20" Format="ia8" Width="32" Height="60" Offset="0x13F20"/>
+        <Texture Name="gHidanObjectsTex_0146A0" OutName="tex_0146A0" Format="ia8" Width="32" Height="60" Offset="0x146A0"/>
+        <Texture Name="gHidanObjectsTex_014E20" OutName="tex_014E20" Format="ia8" Width="32" Height="60" Offset="0x14E20"/>
+        <Texture Name="gHidanObjectsTex_0155A0" OutName="tex_0155A0" Format="ia8" Width="32" Height="60" Offset="0x155A0"/>
 
-<!--
-        <DList Name="gHidanObjectsDL_012120" Offset="0x12120"/>
-        <DList Name="gHidanObjectsDL_0128A0" Offset="0x128A0"/>
-        <DList Name="gHidanObjectsDL_013020" Offset="0x13020"/>
-        <DList Name="gHidanObjectsDL_0137A0" Offset="0x137A0"/>
-        <DList Name="gHidanObjectsDL_013F20" Offset="0x13F20"/>
-        <DList Name="gHidanObjectsDL_0146A0" Offset="0x146A0"/>
-        <DList Name="gHidanObjectsDL_014E20" Offset="0x14E20"/>
-        <DList Name="gHidanObjectsDL_0155A0" Offset="0x155A0"/>
--->
         <Texture Name="gHidanObjectsFireball0Tex" OutName="fireball_0" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
         <Texture Name="gHidanObjectsFireball1Tex" OutName="fireball_1" Format="ia8" Width="32" Height="32" Offset="0x16120"/>
         <Texture Name="gHidanObjectsFireball2Tex" OutName="fireball_2" Format="ia8" Width="32" Height="32" Offset="0x16520"/>
@@ -82,12 +80,10 @@
         <DList Name="gHidanObjectsDL_00A240" Offset="0xA240"/>
         <DList Name="gHidanObjectsDL_00C838" Offset="0xC838"/>
 
-        <!-- Unused -->
-        <!-- TODO: Check if they really are unused -->
-        <DList Name="gHidanObjectsUnused0DL" Offset="0xF890"/>
-        <DList Name="gHidanObjectsUnused1DL" Offset="0xF938"/>
-        <DList Name="gHidanObjectsUnused2DL" Offset="0xF998"/>
-        <DList Name="gHidanObjectsUnused3DL" Offset="0x10CB0"/>
-        <DList Name="gHidanObjectsUnused4DL" Offset="0x11F20"/>
+        <DList Name="gHidanObjectsDL_00F890" Offset="0xF890"/>
+        <DList Name="gHidanObjectsDL_00F938" Offset="0xF938"/>
+        <DList Name="gHidanObjectsDL_00F998" Offset="0xF998"/>
+        <DList Name="gHidanObjectsDL_010CB0" Offset="0x10CB0"/>
+        <DList Name="gHidanObjectsDL_011F20" Offset="0x11F20"/>
     </File>
 </Root>

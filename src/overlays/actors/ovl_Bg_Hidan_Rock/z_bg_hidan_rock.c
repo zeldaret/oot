@@ -1,4 +1,5 @@
 #include "z_bg_hidan_rock.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -21,12 +22,6 @@ void func_8088B954(BgHidanRock* this, GlobalContext* globalCtx);
 void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx);
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this);
-
-extern Gfx D_0600C100[];
-extern Gfx D_0600C1F0[];
-extern Gfx D_0600CA10[];
-extern CollisionHeader* D_0600CB80;
-extern CollisionHeader* D_0600DF78;
 
 static Vec3f D_8088BF60 = { 3310.0f, 120.0f, 0.0f };
 
@@ -93,9 +88,9 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8088B268;
         }
         thisx->flags |= 0x30;
-        CollisionHeader_GetVirtual(&D_0600CB80, &colHeader);
+        CollisionHeader_GetVirtual(&gHidanObjectsCol_00CB80, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_0600DF78, &colHeader);
+        CollisionHeader_GetVirtual(&gHidanObjectsCol_00DF78, &colHeader);
         this->collider.dim.pos.x = thisx->home.pos.x;
         this->collider.dim.pos.y = thisx->home.pos.y;
         this->collider.dim.pos.z = thisx->home.pos.z;
@@ -344,8 +339,9 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
-    static UNK_PTR D_8088BFC4[] = { 0x06012120, 0x060128A0, 0x06013020, 0x060137A0,
-                                    0x06013F20, 0x060146A0, 0x06014E20, 0x060155A0 };
+    static u64* D_8088BFC4[] = { gHidanObjectsTex_012120, gHidanObjectsTex_0128A0, gHidanObjectsTex_013020,
+                                 gHidanObjectsTex_0137A0, gHidanObjectsTex_013F20, gHidanObjectsTex_0146A0,
+                                 gHidanObjectsTex_014E20, gHidanObjectsTex_0155A0 };
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
@@ -368,7 +364,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8088BFC4[globalCtx->gameplayFrames & 7]));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0600CA10);
+    gSPDisplayList(POLY_XLU_DISP++, gHidanObjectsDL_00CA10);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 857);
 }
@@ -378,9 +374,9 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->type == 0) {
-        Gfx_DrawDListOpa(globalCtx, D_0600C100);
+        Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00C100);
     } else {
-        Gfx_DrawDListOpa(globalCtx, D_0600C1F0);
+        Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00C1F0);
     }
 
     if (this->unk_16C > 0.0f) {

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_firewall.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -21,8 +22,6 @@ void BgHidanFirewall_Countdown(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Erupt(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_Collide(BgHidanFirewall* this, GlobalContext* globalCtx);
 void BgHidanFirewall_ColliderFollowPlayer(BgHidanFirewall* this, GlobalContext* globalCtx);
-
-extern Gfx D_0600DA80[];
 
 const ActorInit Bg_Hidan_Firewall_InitVars = {
     ACTOR_BG_HIDAN_FIREWALL,
@@ -58,9 +57,9 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 
-static UNK_PTR D_80886D04[] = {
-    0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920,
-};
+static u64* D_80886D04[] = { gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex,
+                             gHidanObjectsFireball3Tex, gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex,
+                             gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex };
 
 void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanFirewall* this = THIS;
@@ -211,7 +210,7 @@ void BgHidanFirewall_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 255);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 458),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_0600DA80);
+    gSPDisplayList(POLY_XLU_DISP++, gHidanObjectsDL_00DA80);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_firewall.c", 463);
 }

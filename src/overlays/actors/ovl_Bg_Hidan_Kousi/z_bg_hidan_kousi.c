@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_kousi.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -40,14 +41,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600E2CC;
-extern CollisionHeader D_0600E380;
-extern CollisionHeader D_0600E430;
-
 static CollisionHeader* D_80889E70[] = {
-    &D_0600E2CC,
-    &D_0600E380,
-    &D_0600E430,
+    &gHidanObjectsCol_00E2CC,
+    &gHidanObjectsCol_00E380,
+    &gHidanObjectsCol_00E430,
 };
 
 static s16 D_80889E7C[] = {
@@ -58,9 +55,9 @@ static s16 D_80889E7C[] = {
 };
 
 static Gfx* D_80889E84[] = {
-    0x0600C798,
-    0x0600BFA8,
-    0x0600BB58,
+    gHidanObjectsDL_00C798,
+    gHidanObjectsDL_00BFA8,
+    gHidanObjectsDL_00BB58,
 };
 
 void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionFunc) {

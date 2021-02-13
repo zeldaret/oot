@@ -1,4 +1,5 @@
 #include "z_bg_hidan_rsekizou.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -109,12 +110,9 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-static UNK_PTR D_8088CD74[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920,
-                                0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
-
-extern CollisionHeader D_0600D5C0;
-extern Gfx D_0600AD00[]; // Display List
-extern Gfx D_0600DC30[]; // Display List
+static u64* D_8088CD74[] = { gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex,
+                             gHidanObjectsFireball3Tex, gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex,
+                             gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex };
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;
@@ -125,7 +123,7 @@ void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_0600D5C0, &colHeader);
+    CollisionHeader_GetVirtual(&gHidanObjectsCol_00D5C0, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
@@ -214,7 +212,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
                                Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(displayList++, D_0600DC30);
+    gSPDisplayList(displayList++, gHidanObjectsDL_00DC30);
 
     return displayList;
 }
@@ -231,7 +229,7 @@ void BgHidanRsekizou_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rsekizou.c", 568),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_0600AD00);
+    gSPDisplayList(POLY_OPA_DISP++, gHidanObjectsDL_00AD00);
     Matrix_MtxFCopy(&mf, &gMtxFClear);
 
     POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
