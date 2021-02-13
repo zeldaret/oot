@@ -16,14 +16,6 @@ typedef struct {
     /* 0x08 */ s8 colType;
 } BombableWallInfo;
 
-typedef enum {
-    /* 0 */ BWALL_DC_ENTRANCE,  // When exploded it will play the Dodongo's Cavern intro cutscene
-    /* 1 */ BWALL_WALL,         // Used a lot in Dodongo's Cavern and other places
-    /* 2 */ BWALL_KD_FLOOR,     // Used in the King Dodongo boss room
-    /* 3 */ BWALL_KD_LAVA_COVER // Spawned by King Dodongo to cover the floor of the boss room after the fight so the
-                                // lava does not hurt the player anymore
-} BombableWallType;
-
 void BgBreakwall_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgBreakwall_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -130,7 +122,7 @@ void BgBreakwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 /**
  * Spawns fragments using ACTOR_EN_A_OBJ whenever the wall or floor is exploded.
- * Although it is not ever checked, it will also return the instance of the actor which it spawns.
+ * Returns the last spawned actor
  */
 Actor* BgBreakwall_SpawnFragments(GlobalContext* globalCtx, BgBreakwall* this, Vec3f* pos, f32 velocity, f32 scaleY,
                                   f32 scaleX, s32 count, f32 accel) {
