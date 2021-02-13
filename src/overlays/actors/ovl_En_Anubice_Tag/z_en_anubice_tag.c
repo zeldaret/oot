@@ -51,9 +51,9 @@ void EnAnubiceTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnAnubiceTag_SpawnAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
-    this->anubis =
-        (EnAnubice*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ANUBICE, this->actor.world.pos.x,
-                           this->actor.world.pos.y, this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 0);
+    this->anubis = (EnAnubice*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ANUBICE,
+                                                  this->actor.world.pos.x, this->actor.world.pos.y,
+                                                  this->actor.world.pos.z, 0, this->actor.yawTowardsPlayer, 0, 0);
 
     if (this->anubis != NULL) {
         this->actionFunc = EnAnubiceTag_ManageAnubis;

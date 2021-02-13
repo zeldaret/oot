@@ -37,8 +37,9 @@ pipeline {
                 branch 'master'
             }
             steps {
-                sh 'python3 progress.py -c >> /var/www/html/reports/progress.csv'
-                sh 'python3 progress.py -mc >> /var/www/html/reports/progress_matching.csv'
+                sh 'python3 progress.py csv >> /var/www/html/reports/progress.csv'
+                sh 'python3 progress.py csv -m >> /var/www/html/reports/progress_matching.csv'
+                sh 'python3 progress.py shield-json > /var/www/html/reports/progress_shield.json'
             }
         }
     }

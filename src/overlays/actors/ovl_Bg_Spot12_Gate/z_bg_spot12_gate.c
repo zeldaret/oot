@@ -46,7 +46,8 @@ static InitChainEntry sInitChain[] = {
 extern Gfx D_06001080[];
 extern CollisionHeader D_060011EC;
 
-void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flags) {
+void BgSpot12Gate_InitDynaPoly(BgSpot12Gate* this, GlobalContext* globalCtx, CollisionHeader* collision,
+                               DynaPolyMoveFlag flags) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;
@@ -111,7 +112,8 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     s32 var;
 
     Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f, this->dyna.actor.velocity.y)) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
+                     this->dyna.actor.velocity.y)) {
         func_808B3274(this);
         var = Quake_Add(ACTIVE_CAM, 3);
         Quake_SetSpeed(var, -0x3CB0);
