@@ -76,7 +76,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-Gfx* D_8088F1FC[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
+u64* D_8088F1FC[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSima* this = THIS;
@@ -190,17 +190,13 @@ void func_8088E7A8(BgHidanSima* this, GlobalContext* globalCtx) {
 }
 
 void func_8088E90C(BgHidanSima* this) {
-    s32 pad[2];
-    f32 cos;
-    f32 sin;
+    ColliderJntSphElement* elem;
     s32 i;
-
-    cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
-    sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
+    f32 cos = Math_CosS(this->dyna.actor.world.rot.y + 0x8000);
+    f32 sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
 
     for (i = 0; i < 2; i++) {
-        ColliderJntSphElement* elem = &this->collider.elements[i];
-
+        elem = &this->collider.elements[i];
         elem->dim.worldSphere.center.x = this->dyna.actor.world.pos.x + sin * elem->dim.modelSphere.center.z;
         elem->dim.worldSphere.center.y = (s16)this->dyna.actor.world.pos.y + elem->dim.modelSphere.center.y;
         elem->dim.worldSphere.center.z = this->dyna.actor.world.pos.z + cos * elem->dim.modelSphere.center.z;
@@ -213,16 +209,11 @@ void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     if (this->dyna.actor.params != 0) {
-        s32 temp;
-        if (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) {
-            temp = this->timer;
-        } else {
-            temp = this->timer + 80;
-        }
+        s32 temp = (this->dyna.actor.world.rot.y == this->dyna.actor.shape.rot.y) ? this->timer : (this->timer + 80);
         if (this->actionFunc == func_8088E7A8) {
             temp += 20;
         }
-        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - ((1.0f - cosf((f32)temp * (M_PI / 20))) * 5.0f);
+        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y - ((1.0f - cosf(temp * (M_PI / 20))) * 5.0f);
         if (this->actionFunc == func_8088E7A8) {
             func_8088E90C(this);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -230,7 +221,7 @@ void BgHidanSima_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* disp) {
+Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
     MtxF mtxF;
     s32 phi_s5;
     s32 s3;
@@ -244,17 +235,13 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* disp) {
     sin = Math_SinS(this->dyna.actor.world.rot.y + 0x8000);
 
     phi_s5 = (60 - this->timer) >> 1;
-    if (phi_s5 >= 4) {
-        phi_s5 = 3;
-    }
+    phi_s5 = CLAMP_MAX(phi_s5, 3);
 
     v0 = 3 - (this->timer >> 1);
-    if (v0 < 0) {
-        v0 = 0;
-    }
+    v0 = CLAMP_MIN(v0, 0);
 
-    mtxF.wx = this->dyna.actor.world.pos.x + (((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin);
-    mtxF.wz = this->dyna.actor.world.pos.z + (((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos);
+    mtxF.wx = this->dyna.actor.world.pos.x + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * sin;
+    mtxF.wz = this->dyna.actor.world.pos.z + ((79 - ((this->timer % 6) * 4)) + v0 * 25) * cos;
     mtxF.wy = this->dyna.actor.world.pos.y + 40.0f;
     mtxF.zz = v0 * 0.4f + 1.0f;
     mtxF.yy = v0 * 0.4f + 1.0f;
@@ -267,25 +254,22 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* disp) {
         mtxF.yy += 0.4f;
         mtxF.zz += 0.4f;
 
-        gSPSegment(disp++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->timer + s3) % 7]));
-
-        gSPMatrix(disp++,
+        gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->timer + s3) % 7]));
+        gSPMatrix(gfx++,
                   Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 611),
                                    Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-        gSPDisplayList(disp++, D_0600DC30);
+        gSPDisplayList(gfx++, D_0600DC30);
     }
-    mtxF.wx = this->dyna.actor.world.pos.x + ((phi_s5 * 25 + 80) * sin);
-    mtxF.wz = this->dyna.actor.world.pos.z + ((phi_s5 * 25 + 80) * cos);
-    gSPSegment(disp++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->timer + s3) % 7]));
-    gSPMatrix(disp++,
+    mtxF.wx = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
+    mtxF.wz = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
+    gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->timer + s3) % 7]));
+    gSPMatrix(gfx++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
                                Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-    gSPDisplayList(disp++, D_0600DC30);
-    return disp;
+    gSPDisplayList(gfx++, D_0600DC30);
+    return gfx;
 }
 
 void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
