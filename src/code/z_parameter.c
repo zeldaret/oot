@@ -1301,9 +1301,10 @@ s16 sAmmoRefillCounts[] = { 5, 10, 20, 30, 5, 10, 30, 0, 5, 20, 1, 5, 20, 50, 20
 
 u8 Item_Give(GlobalContext* globalCtx, u8 item) {
     s16 i;
-    s16 slot = SLOT(item);
+    s16 slot;
     s16 temp;
 
+    slot = SLOT(item);
     if (item >= ITEM_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
     }
