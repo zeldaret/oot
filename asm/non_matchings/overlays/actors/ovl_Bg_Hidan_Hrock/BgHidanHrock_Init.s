@@ -194,15 +194,15 @@ glabel BgHidanHrock_Init
 .L808893E0:
 /* 002B0 808893E0 14400007 */  bne     $v0, $zero, .L80889400     
 /* 002B4 808893E4 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 002B8 808893E8 3C040601 */  lui     $a0, %hi(D_0600D054)                ## $a0 = 06010000
-/* 002BC 808893EC 2484D054 */  addiu   $a0, $a0, %lo(D_0600D054)           ## $a0 = 0600D054
+/* 002B8 808893E8 3C040601 */  lui     $a0, %hi(gHidanObjectsCol_00D054)                ## $a0 = 06010000
+/* 002BC 808893EC 2484D054 */  addiu   $a0, $a0, %lo(gHidanObjectsCol_00D054)           ## $a0 = 0600D054
 /* 002C0 808893F0 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 002C4 808893F4 27A50070 */  addiu   $a1, $sp, 0x0070           ## $a1 = FFFFFFC0
 /* 002C8 808893F8 10000005 */  beq     $zero, $zero, .L80889410   
 /* 002CC 808893FC 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 .L80889400:
-/* 002D0 80889400 2484D188 */  addiu   $a0, $a0, 0xD188           ## $a0 = FFFFD188
+/* 002D0 80889400 2484D188 */  addiu   $a0, $a0, %lo(gHidanObjectsCol_00D188)           ## $a0 = FFFFD188
 /* 002D4 80889404 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 002D8 80889408 27A50070 */  addiu   $a1, $sp, 0x0070           ## $a1 = FFFFFFC0

@@ -8,6 +8,7 @@
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
