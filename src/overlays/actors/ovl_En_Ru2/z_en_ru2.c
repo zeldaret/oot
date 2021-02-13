@@ -825,7 +825,8 @@ void func_80AF3F20(EnRu2* this, GlobalContext* globalCtx) {
 void EnRu2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnRu2* this = THIS;
 
-    if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) || (sDrawFuncs[this->drawConfig] == 0)) {
+    if ((this->drawConfig < 0) || (this->drawConfig >= ARRAY_COUNT(sDrawFuncs)) ||
+        (sDrawFuncs[this->drawConfig] == 0)) {
         // Draw Mode is improper!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;

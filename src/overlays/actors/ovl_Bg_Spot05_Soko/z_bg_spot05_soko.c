@@ -92,7 +92,8 @@ void func_808AE5B4(BgSpot05Soko* this, GlobalContext* globalCtx) {
 
 void func_808AE630(BgSpot05Soko* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ *= 1.5f;
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) != 0) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y - 120.0f, this->dyna.actor.speedXZ) !=
+        0) {
         Actor_Kill(&this->dyna.actor);
     }
 }
