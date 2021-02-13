@@ -863,7 +863,7 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x001E0 */ Camera subCameras[3];
+    /* 0x0034C */ Camera subCameras[3];
     /* 0x00790 */ Camera* cameraPtrs[4];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
