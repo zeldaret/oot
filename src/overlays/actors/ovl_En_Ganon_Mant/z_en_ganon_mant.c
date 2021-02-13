@@ -23,7 +23,7 @@ typedef struct {
 
 const ActorInit En_Ganon_Mant_InitVars = {
     ACTOR_EN_GANON_MANT,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnGanonMant),
@@ -233,13 +233,13 @@ void func_80A23FE0(GlobalContext *globalCtx, EnGanonMant *this, Vec3f *arg2, Vec
             arg3->y = (arg3 - 1)->y + sp94.y;
             arg3->z = (arg3 - 1)->z + sp94.z;
 
-            if (sqrtf(SQ(arg3->x - this->actor.posRot.pos.x) + SQ(arg3->z - this->actor.posRot.pos.z)) < (D_80A24E18[phi_s4] * this->unk_16D0)) {
-                temp_f12 = Math_Atan2F(arg3->z - this->actor.posRot.pos.z, arg3->x - this->actor.posRot.pos.x);
+            if (sqrtf(SQ(arg3->x - this->actor.world.pos.x) + SQ(arg3->z - this->actor.world.pos.z)) < (D_80A24E18[phi_s4] * this->unk_16D0)) {
+                temp_f12 = Math_Atan2F(arg3->z - this->actor.world.pos.z, arg3->x - this->actor.world.pos.x);
                 spA0.z = this->unk_16D0 * D_80A24E18[phi_s4];
                 Matrix_RotateY(temp_f12, MTXMODE_NEW);
                 Matrix_MultVec3f(&spA0, &sp94);
-                arg3->x = this->actor.posRot.pos.x + sp94.x;
-                arg3->z = this->actor.posRot.pos.z + sp94.z;
+                arg3->x = this->actor.world.pos.x + sp94.x;
+                arg3->z = this->actor.world.pos.z + sp94.z;
             }
 
             if (arg3->y < this->unk_16AC) {

@@ -5040,7 +5040,7 @@ glabel L80B75278
 /* 0BEC8 80B75868 E6040104 */  swc1    $f4, 0x0104($s0)           ## 00000104
 /* 0BECC 80B7586C E7A000D8 */  swc1    $f0, 0x00D8($sp)
 /* 0BED0 80B75870 AFB90014 */  sw      $t9, 0x0014($sp)
-/* 0BED4 80B75874 0C00B92D */  jal     func_8002E4B4
+/* 0BED4 80B75874 0C00B92D */  jal     Actor_UpdateBgCheckInfo
 /* 0BED8 80B75878 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 0BEDC 80B7587C C7A000D8 */  lwc1    $f0, 0x00D8($sp)
 /* 0BEE0 80B75880 C6080028 */  lwc1    $f8, 0x0028($s0)           ## 00000028

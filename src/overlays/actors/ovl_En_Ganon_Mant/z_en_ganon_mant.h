@@ -7,11 +7,11 @@
 struct EnGanonMant;
 
 typedef struct {
-    /* 0x000 */ Vec3f unk_0;
-    /* 0x00C */ Vec3f unk_C[12];
-    /* 0x090 */ Vec3f unk_90[12];
-    /* 0x120 */ Vec3f unk_120[12];
-    /* 0x1B0 */ u8 unk_1B0[12];
+    /* 0x000 */ Vec3f unk_0;        // 14C
+    /* 0x00C */ Vec3f unk_C[12];    // 158
+    /* 0x090 */ Vec3f unk_90[12];   // 1E8
+    /* 0x120 */ Vec3f unk_120[12];  // 278
+    /* 0x1B0 */ u8 unk_1B0[12];     // 308
 } MantSub14C; // size = 0x1C8
 
 typedef struct EnGanonMant {

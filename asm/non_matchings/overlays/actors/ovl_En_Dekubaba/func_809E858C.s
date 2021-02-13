@@ -78,7 +78,7 @@ glabel func_809E858C
 /* 02EA4 809E8674 AE2802C0 */  sw      $t0, 0x02C0($s1)           ## 000002C0
 /* 02EA8 809E8678 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02EAC 809E867C AC4A0004 */  sw      $t2, 0x0004($v0)           ## 00000004
-/* 02EB0 809E8680 0C00B56E */  jal     Actor_SetHeight
+/* 02EB0 809E8680 0C00B56E */  jal     Actor_SetFocus
 
 /* 02EB4 809E8684 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
 /* 02EB8 809E8688 8FAB004C */  lw      $t3, 0x004C($sp)

@@ -21,7 +21,7 @@ typedef struct BgBdanSwitch {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgBdanSwitchActionFunc actionFunc;
     /* 0x0168 */ ColliderJntSph collider;
-    /* 0x0188 */ ColliderJntSphItem colliderItems[1];
+    /* 0x0188 */ ColliderJntSphElement colliderItems[1];
     /* 0x01C8 */ f32 unk_1C8;
     /* 0x01CC */ s16 unk_1CC;
     /* 0x01CE */ char unk_1CE[0x2];

@@ -24,7 +24,7 @@ extern UNK_TYPE D_0600BA8C;
 /*
 const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_JJ,
     sizeof(EnJj),
@@ -32,6 +32,26 @@ const ActorInit En_Jj_InitVars = {
     (ActorFunc)EnJj_Destroy,
     (ActorFunc)EnJj_Update,
     (ActorFunc)EnJj_Draw,
+};
+
+static ColliderCylinderInit D_80A88CB4 = {
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000004, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 170, 150, 0, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func_80A87800.s")

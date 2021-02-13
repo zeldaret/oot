@@ -34,7 +34,7 @@ static s32 sPlayerIsCaught = false;
 
 const ActorInit En_Heishi1_InitVars = {
     0,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_SD,
     sizeof(EnHeishi1),
@@ -141,7 +141,8 @@ void EnHeishi1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnHeishi1_SetupWalk(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005880);
 
-    Animation_Change(&this->skelAnime, &D_06005880, this->animSpeed, 0.0f, (s16)frameCount, 0, this->transitionRate);
+    Animation_Change(&this->skelAnime, &D_06005880, this->animSpeed, 0.0f, (s16)frameCount, ANIMMODE_LOOP,
+                     this->transitionRate);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
     this->headDirection = Rand_ZeroFloat(1.99f);
@@ -166,13 +167,13 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
         pointPos = SEGMENTED_TO_VIRTUAL(path->points);
         pointPos += this->waypoint;
 
-        Math_ApproachF(&this->actor.posRot.pos.x, pointPos->x, 1.0f, this->moveSpeed);
-        Math_ApproachF(&this->actor.posRot.pos.z, pointPos->z, 1.0f, this->moveSpeed);
+        Math_ApproachF(&this->actor.world.pos.x, pointPos->x, 1.0f, this->moveSpeed);
+        Math_ApproachF(&this->actor.world.pos.z, pointPos->z, 1.0f, this->moveSpeed);
 
         Math_ApproachF(&this->moveSpeed, this->moveSpeedTarget, 1.0f, this->moveSpeedMax);
 
-        pathDiffX = pointPos->x - this->actor.posRot.pos.x;
-        pathDiffZ = pointPos->z - this->actor.posRot.pos.z;
+        pathDiffX = pointPos->x - this->actor.world.pos.x;
+        pathDiffZ = pointPos->z - this->actor.world.pos.z;
         Math_SmoothStepToS(&this->actor.shape.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.378f), 3,
                            this->bodyTurnSpeed, 0);
 
@@ -224,7 +225,7 @@ void EnHeishi1_Walk(EnHeishi1* this, GlobalContext* globalCtx) {
 void EnHeishi1_SetupMoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005880);
 
-    Animation_Change(&this->skelAnime, &D_06005880, 3.0f, 0.0f, (s16)frameCount, 0, -3.0f);
+    Animation_Change(&this->skelAnime, &D_06005880, 3.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -3.0f);
     this->bodyTurnSpeed = 0.0f;
     this->moveSpeed = 0.0f;
     func_8010B680(globalCtx, 0x702D, &this->actor);
@@ -236,14 +237,14 @@ void EnHeishi1_MoveToLink(EnHeishi1* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     SkelAnime_Update(&this->skelAnime);
-    Math_ApproachF(&this->actor.posRot.pos.x, player->actor.posRot.pos.x, 1.0f, this->moveSpeed);
-    Math_ApproachF(&this->actor.posRot.pos.z, player->actor.posRot.pos.z, 1.0f, this->moveSpeed);
+    Math_ApproachF(&this->actor.world.pos.x, player->actor.world.pos.x, 1.0f, this->moveSpeed);
+    Math_ApproachF(&this->actor.world.pos.z, player->actor.world.pos.z, 1.0f, this->moveSpeed);
     Math_ApproachF(&this->moveSpeed, 6.0f, 1.0f, 0.4f);
-    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, this->bodyTurnSpeed, 0);
     Math_ApproachF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
     Math_ApproachZeroF(&this->headAngle, 0.5f, 2000.0f);
 
-    if (this->actor.xzDistToLink < 70.0f) {
+    if (this->actor.xzDistToPlayer < 70.0f) {
         this->actionFunc = EnHeishi1_SetupTurnTowardLink;
     }
 }
@@ -252,7 +253,8 @@ void EnHeishi1_SetupWait(EnHeishi1* this, GlobalContext* globalCtx) {
     s16 rand;
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, (s16)frameCount, 0, this->transitionRate);
+    Animation_Change(&this->skelAnime, &D_06005C30, this->animSpeed, 0.0f, (s16)frameCount, ANIMMODE_LOOP,
+                     this->transitionRate);
     this->headBehaviorDecided = false;
     this->headDirection = Rand_ZeroFloat(1.99f);
     rand = Rand_ZeroFloat(50.0f);
@@ -321,7 +323,7 @@ void EnHeishi1_Wait(EnHeishi1* this, GlobalContext* globalCtx) {
 void EnHeishi1_SetupTurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->kickTimer = 30;
     this->actionFunc = EnHeishi1_TurnTowardLink;
 }
@@ -330,7 +332,7 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
     if (this->type != 5) {
-        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsLink, 3, this->bodyTurnSpeed, 0);
+        Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 3, this->bodyTurnSpeed, 0);
         Math_ApproachF(&this->bodyTurnSpeed, 3000.0f, 1.0f, 300.0f);
         Math_ApproachZeroF(&this->headAngle, 0.5f, 2000.0f);
     }
@@ -343,7 +345,7 @@ void EnHeishi1_TurnTowardLink(EnHeishi1* this, GlobalContext* globalCtx) {
 void EnHeishi1_SetupKick(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnHeishi1_Kick;
 }
 
@@ -369,14 +371,14 @@ void EnHeishi1_Kick(EnHeishi1* this, GlobalContext* globalCtx) {
 void EnHeishi1_SetupWaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06005C30);
 
-    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06005C30, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     this->actionFunc = EnHeishi1_WaitNight;
 }
 
 void EnHeishi1_WaitNight(EnHeishi1* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 
-    if (this->actor.xzDistToLink < 100.0f) {
+    if (this->actor.xzDistToPlayer < 100.0f) {
         func_8010B680(globalCtx, 0x702D, &this->actor);
         func_80078884(NA_SE_SY_FOUND);
         // "Discovered!"
@@ -427,9 +429,9 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         Vec3f searchBallMult = { 0.0f, 0.0f, 20.0f };
                         Vec3f searchBallPos;
 
-                        searchBallPos.x = this->actor.posRot.pos.x;
-                        searchBallPos.y = this->actor.posRot.pos.y + 60.0f;
-                        searchBallPos.z = this->actor.posRot.pos.z;
+                        searchBallPos.x = this->actor.world.pos.x;
+                        searchBallPos.y = this->actor.world.pos.y + 60.0f;
+                        searchBallPos.z = this->actor.world.pos.z;
 
                         Matrix_Push();
                         Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
@@ -440,9 +442,9 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
                                                      &this->linkDetected);
 
-                        if (this->actor.xzDistToLink < 60.0f) {
+                        if (this->actor.xzDistToPlayer < 60.0f) {
                             this->linkDetected = true;
-                        } else if (this->actor.xzDistToLink < 70.0f) {
+                        } else if (this->actor.xzDistToPlayer < 70.0f) {
                             // this case probably exists to detect link making a jump sound
                             // from slightly further away than the previous 60 unit check
                             if (player->actor.velocity.y > -4.0f) {
@@ -461,7 +463,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                             if (!(player->actor.velocity.y > -3.9f)) {
                                 this->linkDetected = false;
                                 // this 60 unit height check is so the player doesnt get caught when on the upper path
-                                if (fabsf(player->actor.posRot.pos.y - this->actor.posRot.pos.y) < 60.0f) {
+                                if (fabsf(player->actor.world.pos.y - this->actor.world.pos.y) < 60.0f) {
                                     func_80078884(NA_SE_SY_FOUND);
                                     // "Discovered!"
                                     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 発見！ ☆☆☆☆☆ \n" VT_RST);
@@ -498,11 +500,11 @@ void EnHeishi1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi1_OverrideLimbDraw, NULL,
                       this);
-    func_80033C30(&this->actor.posRot.pos, &matrixScale, 0xFF, globalCtx);
+    func_80033C30(&this->actor.world.pos, &matrixScale, 0xFF, globalCtx);
 
     if ((this->path == BREG(1)) && (BREG(0) != 0)) {
-        DebugDisplay_AddObject(this->actor.posRot.pos.x, this->actor.posRot.pos.y + 100.0f, this->actor.posRot.pos.z,
-                               17000, this->actor.posRot.rot.y, this->actor.posRot.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
+        DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y + 100.0f, this->actor.world.pos.z,
+                               17000, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f, 1.0f, 255, 0, 0,
                                255, 4, globalCtx->state.gfxCtx);
     }
 }

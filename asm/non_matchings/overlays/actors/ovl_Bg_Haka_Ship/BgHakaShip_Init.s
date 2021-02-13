@@ -10,7 +10,7 @@ glabel BgHakaShip_Init
               
 /* 00020 8087F120 24A5FAC0 */  addiu   $a1, $a1, %lo(D_8087FAC0)  ## $a1 = 8087FAC0
 /* 00024 8087F124 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00028 8087F128 0C010D20 */  jal     DynaPolyInfo_SetActorMove
+/* 00028 8087F128 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 0002C 8087F12C 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
 /* 00030 8087F130 8619001C */  lh      $t9, 0x001C($s0)           ## 0000001C
@@ -25,7 +25,7 @@ glabel BgHakaShip_Init
 /* 00054 8087F154 2484ED7C */  addiu   $a0, $a0, %lo(D_0600ED7C)           ## $a0 = 0600ED7C
 /* 00058 8087F158 3C040601 */  lui     $a0, %hi(D_0600E408)                ## $a0 = 06010000
 /* 0005C 8087F15C 2484E408 */  addiu   $a0, $a0, %lo(D_0600E408)           ## $a0 = 0600E408
-/* 00060 8087F160 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00060 8087F160 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00064 8087F164 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFF4
 /* 00068 8087F168 3C0B8088 */  lui     $t3, %hi(func_8087F2D8)    ## $t3 = 80880000
@@ -35,7 +35,7 @@ glabel BgHakaShip_Init
 /* 00078 8087F178 10000006 */  beq     $zero, $zero, .L8087F194   
 /* 0007C 8087F17C AE0B0164 */  sw      $t3, 0x0164($s0)           ## 00000164
 .L8087F180:
-/* 00080 8087F180 0C010620 */  jal     DynaPolyInfo_Alloc
+/* 00080 8087F180 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00084 8087F184 27A50044 */  addiu   $a1, $sp, 0x0044           ## $a1 = FFFFFFF4
 /* 00088 8087F188 3C0C8088 */  lui     $t4, %hi(func_8087F27C)    ## $t4 = 80880000
@@ -45,8 +45,8 @@ glabel BgHakaShip_Init
 /* 00094 8087F194 8FA40054 */  lw      $a0, 0x0054($sp)           
 /* 00098 8087F198 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 0009C 8087F19C 8FA70044 */  lw      $a3, 0x0044($sp)           
-/* 000A0 8087F1A0 0C00FA9D */  jal     DynaPolyInfo_RegisterActor
-              ## DynaPolyInfo_setActor
+/* 000A0 8087F1A0 0C00FA9D */  jal     DynaPoly_SetBgActor
+              ## DynaPoly_SetBgActor
 /* 000A4 8087F1A4 24850810 */  addiu   $a1, $a0, 0x0810           ## $a1 = 00000810
 /* 000A8 8087F1A8 860D00B6 */  lh      $t5, 0x00B6($s0)           ## 000000B6
 /* 000AC 8087F1AC 860F001C */  lh      $t7, 0x001C($s0)           ## 0000001C
