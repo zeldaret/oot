@@ -81,7 +81,7 @@ void ObjWarp2block_Spawn(ObjWarp2block *this, GlobalContext *globalCtx) {
 }
 
 s32 func_80BA1ECC(ObjWarp2block *this, GlobalContext *globalCtx) {
-    f32 temp_f0;
+    s32 pad;
     Actor* temp_a3;
     Player* player;
     Vec3f sp20;
