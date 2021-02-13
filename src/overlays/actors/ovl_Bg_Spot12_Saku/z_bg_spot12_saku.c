@@ -116,8 +116,10 @@ void func_808B3604(BgSpot12Saku* this, GlobalContext* globalCtx) {
 void func_808B3714(BgSpot12Saku* this) {
     this->actionFunc = func_808B37AC;
     this->dyna.actor.scale.x = 0.001f / 0.14f;
-    this->dyna.actor.world.pos.x = this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
-    this->dyna.actor.world.pos.z = this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
+    this->dyna.actor.world.pos.x =
+        this->dyna.actor.home.pos.x - (Math_SinS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
+    this->dyna.actor.world.pos.z =
+        this->dyna.actor.home.pos.z - (Math_CosS(this->dyna.actor.shape.rot.y + 0x4000) * 78.0f);
 }
 
 void func_808B37AC(BgSpot12Saku* this, GlobalContext* globalCtx) {

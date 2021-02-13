@@ -62,7 +62,9 @@ void BgPushbox_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_808A8BAC(BgPushbox* this, GlobalContext* globalCtx) {
     this->dyna.actor.speedXZ += this->dyna.unk_150 * 0.2f;
-    this->dyna.actor.speedXZ = (this->dyna.actor.speedXZ < -1.0f) ? -1.0f : ((this->dyna.actor.speedXZ > 1.0f) ? 1.0f : this->dyna.actor.speedXZ);
+    this->dyna.actor.speedXZ = (this->dyna.actor.speedXZ < -1.0f)
+                                   ? -1.0f
+                                   : ((this->dyna.actor.speedXZ > 1.0f) ? 1.0f : this->dyna.actor.speedXZ);
     Math_StepToF(&this->dyna.actor.speedXZ, 0.0f, 0.2f);
     this->dyna.actor.world.rot.y = this->dyna.unk_158;
     Actor_MoveForward(&this->dyna.actor);
