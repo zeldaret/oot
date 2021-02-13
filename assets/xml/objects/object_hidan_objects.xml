@@ -1,6 +1,5 @@
 <Root>
     <File Name="object_hidan_objects" Segment="6">
-
         <DList Name="gHidanObjectsDL_00BBF0" Offset="0xBBF0"/>
         <DList Name="gHidanObjectsDL_00BDF0" Offset="0xBDF0"/>
         <DList Name="gHidanObjectsDL_00C100" Offset="0xC100"/>
@@ -26,14 +25,12 @@
         <Collision Name="gHidanObjectsCol_00D054" Offset="0xD054"/>
         <Collision Name="gHidanObjectsCol_00D188" Offset="0xD188"/>
 
-
         <Collision Name="gHidanObjectsCol_00E2CC" Offset="0xE2CC"/>
         <Collision Name="gHidanObjectsCol_00E380" Offset="0xE380"/>
         <Collision Name="gHidanObjectsCol_00E430" Offset="0xE430"/>
         <DList Name="gHidanObjectsDL_00C798" Offset="0xC798"/>
         <DList Name="gHidanObjectsDL_00BFA8" Offset="0xBFA8"/>
         <DList Name="gHidanObjectsDL_00BB58" Offset="0xBB58"/>
-
 
         <DList Name="gHidanObjectsDL_00B9C0" Offset="0xB9C0"/>
         <DList Name="gHidanObjectsDL_00C038" Offset="0xC038"/>
@@ -68,7 +65,6 @@
         <DList Name="gHidanObjectsDL_00B0F8" Offset="0xB0F8"/>
         <Collision Name="gHidanObjectsCol_00CC90" Offset="0xCC90"/>
 
-
         <DList Name="gHidanObjectsDL_00C338" Offset="0xC338"/>
         <DList Name="gHidanObjectsDL_00C470" Offset="0xC470"/>
         <Collision Name="gHidanObjectsCol_00FAE8" Offset="0xFAE8"/>
@@ -85,5 +81,8 @@
         <DList Name="gHidanObjectsDL_00F998" Offset="0xF998"/>
         <DList Name="gHidanObjectsDL_010CB0" Offset="0x10CB0"/>
         <DList Name="gHidanObjectsDL_011F20" Offset="0x11F20"/>
+
+        <!-- I don't know what could this be -->
+        <Blob Name="gHidanObjectsBlob_00CCC0" Size="0x10E" Offset="0xCCC0"/>
     </File>
 </Root>
