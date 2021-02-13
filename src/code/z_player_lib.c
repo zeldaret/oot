@@ -1370,7 +1370,7 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
 
 u8 D_801261F8[] = { 2, 2, 5 };
 
-s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* arg) {
+s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
     u8* ptr = arg;
     u8 modelGroup = D_801261F8[ptr[0] - 1];
     s32 type;
@@ -1502,7 +1502,7 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime
     gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
     func_8008F470(globalCtx, arg3->skeleton, arg3->jointTable, arg3->dListCount, 0, tunic, boots, 0,
-                  (OverrideLimbDrawOpa)func_80091880, NULL, &sp12C);
+                  func_80091880, NULL, &sp12C);
 
     gSPEndDisplayList(POLY_OPA_DISP++);
     gSPEndDisplayList(POLY_XLU_DISP++);

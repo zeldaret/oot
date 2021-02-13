@@ -161,7 +161,11 @@ Gfx sWipeSyncDList[] = {
     gsSPEndDisplayList(),
 };
 
-void TransitionWipe_Start(TransitionWipe* this) {
+#define THIS ((TransitionWipe*)thisx)
+
+void TransitionWipe_Start(void* thisx) {
+    TransitionWipe* this = THIS;
+
     this->isDone = 0;
 
     if (this->direction) {
@@ -174,15 +178,18 @@ void TransitionWipe_Start(TransitionWipe* this) {
     guLookAt(&this->lookAt, 0.0f, 0.0f, 400.0f, 0.0f, 0.0f, 0.0f, 0.0f, 1.0f, 0.0f);
 }
 
-TransitionWipe* TransitionWipe_Init(TransitionWipe* this) {
+void* TransitionWipe_Init(void* thisx) {
+    TransitionWipe* this = THIS;
+
     bzero(this, sizeof(*this));
     return this;
 }
 
-void TransitionWipe_Destroy(TransitionWipe* this) {
+void TransitionWipe_Destroy(void* thisx) {
 }
 
-void TransitionWipe_Update(TransitionWipe* this, s32 updateRate) {
+void TransitionWipe_Update(void* thisx, s32 updateRate) {
+    TransitionWipe* this = THIS;
     u8 unk1419;
 
     if (this->direction != 0) {
@@ -202,11 +209,14 @@ void TransitionWipe_Update(TransitionWipe* this, s32 updateRate) {
     }
 }
 
-void TransitionWipe_Draw(TransitionWipe* this, Gfx** gfxP) {
+void TransitionWipe_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
-    Mtx* modelView = this->modelView[this->frame];
-    s32 pad[5];
+    Mtx* modelView;
+    TransitionWipe* this = THIS;
+    s32 pad[4];
     Gfx* tex;
+
+    modelView = this->modelView[this->frame];
 
     this->frame ^= 1;
     guScale(&modelView[0], 0.56f, 0.56f, 1.0f);
@@ -227,11 +237,15 @@ void TransitionWipe_Draw(TransitionWipe* this, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-s32 TransitionWipe_IsDone(TransitionWipe* this) {
+s32 TransitionWipe_IsDone(void* thisx) {
+    TransitionWipe* this = THIS;
+
     return this->isDone;
 }
 
-void TransitionWipe_SetType(TransitionWipe* this, s32 type) {
+void TransitionWipe_SetType(void* thisx, s32 type) {
+    TransitionWipe* this = THIS;
+
     if (type == 1) {
         this->direction = 1;
     } else {
@@ -245,10 +259,14 @@ void TransitionWipe_SetType(TransitionWipe* this, s32 type) {
     }
 }
 
-void TransitionWipe_SetColor(TransitionWipe* this, u32 color) {
+void TransitionWipe_SetColor(void* thisx, u32 color) {
+    TransitionWipe* this = THIS;
+
     this->color.rgba = color;
 }
 
-void TransitionWipe_SetEnvColor(TransitionWipe* this, u32 color) {
+void TransitionWipe_SetEnvColor(void* thisx, u32 color) {
+    TransitionWipe* this = THIS;
+
     this->envColor.rgba = color;
 }

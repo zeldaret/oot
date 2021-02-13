@@ -162,6 +162,7 @@ TransitionUnk* TransitionUnk_Init(TransitionUnk* this, s32 row, s32 col) {
     TransitionUnk_InitGraphics(this);
     TransitionUnk_InitData(this);
     this->frame = 0;
+
     return this;
 }
 

@@ -53,38 +53,38 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
     transitionCtx->transitionType = transitionType;
 
     if ((transitionCtx->transitionType >> 5) == 1) {
-        transitionCtx->init = (TransitionInit)TransitionCircle_Init;
-        transitionCtx->destroy = (TransitionDestroy)TransitionCircle_Destroy;
-        transitionCtx->start = (TransitionStart)TransitionCircle_Start;
-        transitionCtx->isDone = (TransitionIsDone)TransitionCircle_IsDone;
-        transitionCtx->draw = (TransitionDraw)TransitionCircle_Draw;
-        transitionCtx->update = (TransitionUpdate)TransitionCircle_Update;
-        transitionCtx->setType = (TransitionSetType)TransitionCircle_SetType;
-        transitionCtx->setColor = (TransitionSetColor)TransitionCircle_SetColor;
-        transitionCtx->setEnvColor = (TransitionSetEnvColor)TransitionCircle_SetEnvColor;
+        transitionCtx->init = TransitionCircle_Init;
+        transitionCtx->destroy = TransitionCircle_Destroy;
+        transitionCtx->start = TransitionCircle_Start;
+        transitionCtx->isDone = TransitionCircle_IsDone;
+        transitionCtx->draw = TransitionCircle_Draw;
+        transitionCtx->update = TransitionCircle_Update;
+        transitionCtx->setType = TransitionCircle_SetType;
+        transitionCtx->setColor = TransitionCircle_SetColor;
+        transitionCtx->setEnvColor = TransitionCircle_SetEnvColor;
     } else {
         switch (transitionCtx->transitionType) {
             case 1:
-                transitionCtx->init = (TransitionInit)TransitionTriforce_Init;
-                transitionCtx->destroy = (TransitionDestroy)TransitionTriforce_Destroy;
-                transitionCtx->start = (TransitionStart)TransitionTriforce_Start;
-                transitionCtx->isDone = (TransitionIsDone)TransitionTriforce_IsDone;
-                transitionCtx->draw = (TransitionDraw)TransitionTriforce_Draw;
-                transitionCtx->update = (TransitionUpdate)TransitionTriforce_Update;
-                transitionCtx->setType = (TransitionSetType)TransitionTriforce_SetType;
-                transitionCtx->setColor = (TransitionSetColor)TransitionTriforce_SetColor;
+                transitionCtx->init = TransitionTriforce_Init;
+                transitionCtx->destroy = TransitionTriforce_Destroy;
+                transitionCtx->start = TransitionTriforce_Start;
+                transitionCtx->isDone = TransitionTriforce_IsDone;
+                transitionCtx->draw = TransitionTriforce_Draw;
+                transitionCtx->update = TransitionTriforce_Update;
+                transitionCtx->setType = TransitionTriforce_SetType;
+                transitionCtx->setColor = TransitionTriforce_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
             case 0:
             case 8:
-                transitionCtx->init = (TransitionInit)TransitionWipe_Init;
-                transitionCtx->destroy = (TransitionDestroy)TransitionWipe_Destroy;
-                transitionCtx->start = (TransitionStart)TransitionWipe_Start;
-                transitionCtx->isDone = (TransitionIsDone)TransitionWipe_IsDone;
-                transitionCtx->draw = (TransitionDraw)TransitionWipe_Draw;
-                transitionCtx->update = (TransitionUpdate)TransitionWipe_Update;
-                transitionCtx->setType = (TransitionSetType)TransitionWipe_SetType;
-                transitionCtx->setColor = (TransitionSetColor)TransitionWipe_SetColor;
+                transitionCtx->init = TransitionWipe_Init;
+                transitionCtx->destroy = TransitionWipe_Destroy;
+                transitionCtx->start = TransitionWipe_Start;
+                transitionCtx->isDone = TransitionWipe_IsDone;
+                transitionCtx->draw = TransitionWipe_Draw;
+                transitionCtx->update = TransitionWipe_Update;
+                transitionCtx->setType = TransitionWipe_SetType;
+                transitionCtx->setColor = TransitionWipe_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
             case 2:
@@ -97,14 +97,14 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
             case 17:
             case 18:
             case 19:
-                transitionCtx->init = (TransitionInit)TransitionFade_Init;
-                transitionCtx->destroy = (TransitionDestroy)TransitionFade_Destroy;
-                transitionCtx->start = (TransitionStart)TransitionFade_Start;
-                transitionCtx->isDone = (TransitionIsDone)TransitionFade_IsDone;
-                transitionCtx->draw = (TransitionDraw)TransitionFade_Draw;
-                transitionCtx->update = (TransitionUpdate)TransitionFade_Update;
-                transitionCtx->setType = (TransitionSetType)TransitionFade_SetType;
-                transitionCtx->setColor = (TransitionSetColor)TransitionFade_SetColor;
+                transitionCtx->init = TransitionFade_Init;
+                transitionCtx->destroy = TransitionFade_Destroy;
+                transitionCtx->start = TransitionFade_Start;
+                transitionCtx->isDone = TransitionFade_IsDone;
+                transitionCtx->draw = TransitionFade_Draw;
+                transitionCtx->update = TransitionFade_Update;
+                transitionCtx->setType = TransitionFade_SetType;
+                transitionCtx->setColor = TransitionFade_SetColor;
                 transitionCtx->setEnvColor = NULL;
                 break;
             case 9:

@@ -12,7 +12,11 @@ static Gfx sRCPSetupFade[] = {
     gsSPEndDisplayList(),
 };
 
-void TransitionFade_Start(TransitionFade* this) {
+#define THIS ((TransitionFade*)thisx)
+
+void TransitionFade_Start(void* thisx) {
+    TransitionFade* this = THIS;
+
     switch (this->fadeType) {
         case 0:
             break;
@@ -27,17 +31,20 @@ void TransitionFade_Start(TransitionFade* this) {
     this->isDone = 0;
 }
 
-TransitionFade* TransitionFade_Init(TransitionFade* this) {
+void* TransitionFade_Init(void* thisx) {
+    TransitionFade* this = THIS;
+
     bzero(this, sizeof(*this));
     return this;
 }
 
-void TransitionFade_Destroy(TransitionFade* this) {
+void TransitionFade_Destroy(void* thisx) {
 }
 
-void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
+void TransitionFade_Update(void* thisx, s32 updateRate) {
     s32 alpha;
     s16 newAlpha;
+    TransitionFade* this = THIS;
 
     switch (this->fadeType) {
         case 0:
@@ -76,12 +83,12 @@ void TransitionFade_Update(TransitionFade* this, s32 updateRate) {
     }
 }
 
-void TransitionFade_Draw(TransitionFade* this, Gfx** gfxP) {
+void TransitionFade_Draw(void* thisx, Gfx** gfxP) {
+    TransitionFade* this = THIS;
     Gfx* gfx;
-    Color_RGBA8_u32* color;
+    Color_RGBA8_u32* color = &this->fadeColor;
 
-    if (this->fadeColor.a > 0) {
-        color = &this->fadeColor;
+    if (color->a > 0) {
         gfx = *gfxP;
         gSPDisplayList(gfx++, sRCPSetupFade);
         gDPSetPrimColor(gfx++, 0, 0, color->r, color->g, color->b, color->a);
@@ -91,15 +98,21 @@ void TransitionFade_Draw(TransitionFade* this, Gfx** gfxP) {
     }
 }
 
-s32 TransitionFade_IsDone(TransitionFade* this) {
+s32 TransitionFade_IsDone(void* thisx) {
+    TransitionFade* this = THIS;
+
     return this->isDone;
 }
 
-void TransitionFade_SetColor(TransitionFade* this, u32 color) {
+void TransitionFade_SetColor(void* thisx, u32 color) {
+    TransitionFade* this = THIS;
+
     this->fadeColor.rgba = color;
 }
 
-void TransitionFade_SetType(TransitionFade* this, s32 type) {
+void TransitionFade_SetType(void* thisx, s32 type) {
+    TransitionFade* this = THIS;
+
     if (type == 1) {
         this->fadeType = 1;
         this->fadeDirection = 1;
