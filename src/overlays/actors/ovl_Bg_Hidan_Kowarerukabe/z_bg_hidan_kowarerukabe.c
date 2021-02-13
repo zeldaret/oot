@@ -241,7 +241,7 @@ void BgHidanKowarerukabe_LargeWallBreak(BgHidanKowarerukabe* this, GlobalContext
     Vec3f velocity;
     Vec3f pos;
     s16 arg5;
-    Actor* thisx = &this->dyna.actor; 
+    Actor* thisx = &this->dyna.actor;
     f32 sin = Math_SinS(thisx->shape.rot.y);
     f32 cos = Math_CosS(thisx->shape.rot.y);
     f32 tmp1;

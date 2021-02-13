@@ -36,7 +36,7 @@ typedef struct {
 
 #define GET_ITEM_NONE \
     { ITEM_NONE, 0, 0, 0, 0 }
-    
+
 typedef enum {
     /* 0x00 */ KNOB_ANIM_ADULT_L,
     /* 0x01 */ KNOB_ANIM_CHILD_L,
@@ -4116,9 +4116,8 @@ s32 func_80839800(Player* this, GlobalContext* globalCtx) {
                 // are common across the two actors' structs however most other variables are not!
                 door = (EnDoor*)doorActor;
 
-                door->animStyle = (doorDirection < 0.0f)
-                                      ? ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
-                                      : ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
+                door->animStyle = (doorDirection < 0.0f) ? ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_L : KNOB_ANIM_CHILD_L)
+                                                         : ((LINK_IS_ADULT) ? KNOB_ANIM_ADULT_R : KNOB_ANIM_CHILD_R);
 
                 if (door->animStyle == KNOB_ANIM_ADULT_L) {
                     sp5C = D_808539EC[this->modelAnimType];
