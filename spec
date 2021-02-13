@@ -2945,9 +2945,7 @@ endseg
 beginseg
     name "ovl_En_Sw"
     include "build/src/overlays/actors/ovl_En_Sw/z_en_sw.o"
-    include "build/data/overlays/actors/z_en_sw.data.o"
-    include "build/data/overlays/actors/z_en_sw.bss.o"
-    include "build/data/overlays/actors/z_en_sw.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Sw/ovl_En_Sw_reloc.o"
 endseg
 
 beginseg
