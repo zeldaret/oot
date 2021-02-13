@@ -23,6 +23,20 @@
         <Texture Name="gZelda2MouthHappyTex" OutName="zelda_2_mouth_happy" Format="ci8" Width="32" Height="32"  Offset="0x5548"/>
         <Texture Name="gZelda2MouthOpenTex" OutName="zelda_2_mouth_open" Format="ci8" Width="32" Height="32"  Offset="0x5948"/>
 
+        <!-- Ocarina of time -->
         <DList Name="gZelda2OcarinaDL" Offset="0xBAE8"/>
+        <Texture Name="gZelda2OcarinaTex" OutName="zelda_2_ocarina" Format="rgb5a1" Width="32" Height="16" Offset="0xB598"/>
+
+        <!-- Palletes -->
+        <Texture Name="gZelda2Palette0" OutName="zelda_2_palette_0" Format="rgb5a1" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gZelda2Palette1" OutName="zelda_2_palette_1" Format="rgb5a1" Width="16" Height="16" Offset="0x200"/>
+        <Texture Name="gZelda2Palette2" OutName="zelda_2_palette_2" Format="rgb5a1" Width="16" Height="16" Offset="0x400"/>
+        <Texture Name="gZelda2Palette3" OutName="zelda_2_palette_3" Format="rgb5a1" Width="9" Height="8" Offset="0x2D00"/>
+        <Texture Name="gZelda2Palette4" OutName="zelda_2_palette_4" Format="rgb5a1" Width="47" Height="4" Offset="0x2F50"/>
+        <Texture Name="gZelda2Palette5" OutName="zelda_2_palette_5" Format="rgb5a1" Width="17" Height="8" Offset="0x9490"/>
+        <Texture Name="gZelda2Palette6" OutName="zelda_2_palette_6" Format="rgb5a1" Width="15" Height="12" Offset="0x95A0"/>
+        <Texture Name="gZelda2Palette7" OutName="zelda_2_palette_7" Format="rgb5a1" Width="6" Height="4" Offset="0x9708"/>
+
+        <Texture Name="gZelda2TriforceTex" OutName="zelda_2_triforce" Format="rgb5a1" Width="16" Height="16" Offset="0x2900"/>
     </File>
 </Root>
