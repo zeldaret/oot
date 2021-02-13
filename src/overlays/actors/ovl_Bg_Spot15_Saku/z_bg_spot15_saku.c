@@ -93,7 +93,6 @@ void BgSpot15Saku_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->timer != 0) {
         this->timer--;
     }
-    
     this->actionFunc(this, globalCtx);
 }
 

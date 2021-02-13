@@ -775,7 +775,11 @@ u16 EnGo2_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 EnGo2_GetState(GlobalContext* globalCtx, Actor* thisx) {
     EnGo2* this = THIS;
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> master
     switch (this->actor.params & 0x1F) {
         case GORON_CITY_ROLLING_BIG:
             return EnGo2_GetStateGoronCityRollingBig(globalCtx, this);

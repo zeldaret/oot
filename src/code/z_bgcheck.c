@@ -18,7 +18,7 @@
 #define BGCHECK_IGNORE_WALL (1 << 1)
 #define BGCHECK_IGNORE_FLOOR (1 << 2)
 
-// xpFlags
+// poly exclusion flags (xpFlags)
 #define COLPOLY_IGNORE_NONE 0
 #define COLPOLY_IGNORE_CAMERA (1 << 0)
 #define COLPOLY_IGNORE_ENTITY (1 << 1)
@@ -2514,9 +2514,9 @@ void BgActor_SetActor(BgActor* bgActor, Actor* actor, CollisionHeader* colHeader
 }
 
 /**
- * Test if the BgActor transform changed
+ * Test if the BgActor transform is the same
  */
-s32 BgActor_HasTransformChanged(BgActor* bgActor) {
+s32 BgActor_IsTransformUnchanged(BgActor* bgActor) {
     return ScaleRotPos_Equals(&bgActor->prevTransform, &bgActor->curTransform);
 }
 
@@ -2571,7 +2571,7 @@ s32 DynaPoly_IsBgIdBgActor(s32 bgId) {
  * Init DynaCollisionContext
  */
 void DynaPoly_Init(GlobalContext* globalCtx, DynaCollisionContext* dyna) {
-    dyna->bitFlag = 1;
+    dyna->bitFlag = DYNAPOLY_INVALIDATE_LOOKUP;
     DynaPoly_NullPolyList(&dyna->polyList);
     DynaPoly_NullVtxList(&dyna->vtxList);
     DynaSSNodeList_Initialize(globalCtx, &dyna->polyNodes);
@@ -2623,7 +2623,7 @@ s32 DynaPoly_SetBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, Ac
     }
 
     BgActor_SetActor(&dyna->bgActors[bgId], actor, colHeader);
-    dyna->bitFlag |= 1;
+    dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
 
     dyna->bgActorFlags[bgId] &= ~2;
     osSyncPrintf(VT_FGCOL(GREEN));
@@ -2647,28 +2647,28 @@ Actor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId) {
 void func_8003EBF8(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         dyna->bgActorFlags[bgId] |= 4;
-        dyna->bitFlag |= 1;
+        dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
 void func_8003EC50(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         dyna->bgActorFlags[bgId] &= ~4;
-        dyna->bitFlag |= 1;
+        dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
 void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         dyna->bgActorFlags[bgId] |= 8;
-        dyna->bitFlag |= 1;
+        dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
 void func_8003ED00(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId) {
     if (DynaPoly_IsBgIdBgActor(bgId)) {
         dyna->bgActorFlags[bgId] &= ~8;
-        dyna->bitFlag |= 1;
+        dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
     }
 }
 
@@ -2710,7 +2710,7 @@ void DynaPoly_DeleteBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna
 }
 
 void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dyna) {
-    dyna->bitFlag |= 1;
+    dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
 }
 
 /**
@@ -2772,7 +2772,8 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
         ? (void)0
         : __assert("pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num", "../z_bgcheck.c", 6688);
 
-    if (!(dyna->bitFlag & 1) && (BgActor_HasTransformChanged(&dyna->bgActors[bgId]) == true)) {
+    if (!(dyna->bitFlag & DYNAPOLY_INVALIDATE_LOOKUP) &&
+        (BgActor_IsTransformUnchanged(&dyna->bgActors[bgId]) == true)) {
         s32 pi;
         for (pi = *polyStartIndex; pi < *polyStartIndex + pbgdata->nbPolygons; pi++) {
             CollisionPoly* poly = &dyna->polyList[pi];
@@ -2935,7 +2936,7 @@ void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna) {
 
             dyna->bgActorFlags[i] = 0;
             BgActor_Initialize(globalCtx, &dyna->bgActors[i]);
-            dyna->bitFlag |= 1;
+            dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
         }
         if (dyna->bgActors[i].actor != NULL && dyna->bgActors[i].actor->update == NULL) {
             // Delete BgActor
@@ -2950,7 +2951,7 @@ void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna) {
             dyna->bgActorFlags[i] = 0;
 
             BgActor_Initialize(globalCtx, &dyna->bgActors[i]);
-            dyna->bitFlag |= 1;
+            dyna->bitFlag |= DYNAPOLY_INVALIDATE_LOOKUP;
         }
     }
     vtxStartIndex = 0;
@@ -2960,7 +2961,7 @@ void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna) {
             DynaPoly_ExpandSRT(globalCtx, dyna, i, &vtxStartIndex, &polyStartIndex);
         }
     }
-    dyna->bitFlag &= ~1;
+    dyna->bitFlag &= ~DYNAPOLY_INVALIDATE_LOOKUP;
 }
 
 /**
