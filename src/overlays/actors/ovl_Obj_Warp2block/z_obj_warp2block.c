@@ -17,7 +17,7 @@ void ObjWarp2block_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjWarp2block_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjWarp2block_Spawn(ObjWarp2block* this, GlobalContext* globalCtx);
-s32 func_80BA1ECC(ObjWarp2block *this, GlobalContext *globalCtx);
+s32 func_80BA1ECC(ObjWarp2block* this, GlobalContext* globalCtx);
 void ObjWarp2block_SwapWithChild(ObjWarp2block* this, GlobalContext* globalCtx);
 s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx);
 s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx);
@@ -45,17 +45,17 @@ const ActorInit Obj_Warp2block_InitVars = {
 };
 
 typedef struct {
-  f32 scale;
-  f32 focus;
-  s16 params;
-} Warp2BlockSpawnData;
+    /* 0x0000 */ f32 scale;
+    /* 0x0004 */ f32 focus;
+    /* 0x0008 */ s16 params;
+} Warp2BlockSpawnData; // size = 0x000A
 
- Warp2BlockSpawnData sSpawnData[2] = {
+Warp2BlockSpawnData sSpawnData[] = {
     { 1.0f, 60.0f, 0x0018 },
     { 0.6f, 40.0f, 0x0019 },
 };
 
-f32 sDistances[] = {60.0f, 100.0f, 140.0f, 180.0f, 220.0f, 260.0f, 300.0f, 300.0f};
+f32 sDistances[] = { 60.0f, 100.0f, 140.0f, 180.0f, 220.0f, 260.0f, 300.0f, 300.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
@@ -64,23 +64,21 @@ static InitChainEntry sInitChain[] = {
 };
 
 Color_RGB8 sColors[] = {
-    {100, 120, 140}, { 80, 140, 200}, {100, 150, 200}, {100, 200, 240},
-    { 80, 110, 140}, { 70, 160, 225}, { 80, 100, 130}, {100, 110, 190},
+    { 100, 120, 140 }, { 80, 140, 200 }, { 100, 150, 200 }, { 100, 200, 240 },
+    { 80, 110, 140 },  { 70, 160, 225 }, { 80, 100, 130 },  { 100, 110, 190 },
 };
 
-void ObjWarp2block_Spawn(ObjWarp2block *this, GlobalContext *globalCtx) {
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT,
-        this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 
-        0, 0, 0, 
-        sSpawnData[(this->dyna.actor.params >> 8) & 1].params);
+void ObjWarp2block_Spawn(ObjWarp2block* this, GlobalContext* globalCtx) {
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
+                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0,
+                sSpawnData[(this->dyna.actor.params >> 8) & 1].params);
 
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT,
-        this->dyna.actor.child->world.pos.x, this->dyna.actor.child->world.pos.y, this->dyna.actor.child->world.pos.z, 
-        0, 0, 0, 
-        sSpawnData[(this->dyna.actor.child->params >> 8) & 1].params);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.child->world.pos.x,
+                this->dyna.actor.child->world.pos.y, this->dyna.actor.child->world.pos.z, 0, 0, 0,
+                sSpawnData[(this->dyna.actor.child->params >> 8) & 1].params);
 }
 
-s32 func_80BA1ECC(ObjWarp2block *this, GlobalContext *globalCtx) {
+s32 func_80BA1ECC(ObjWarp2block* this, GlobalContext* globalCtx) {
     s32 pad;
     Actor* temp_a3;
     Player* player;
@@ -93,7 +91,7 @@ s32 func_80BA1ECC(ObjWarp2block *this, GlobalContext *globalCtx) {
 
     temp_a3 = this->dyna.actor.child;
     player = PLAYER;
-    if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) || 
+    if ((this->dyna.actor.xzDistToPlayer <= sDistances[(((this->dyna.actor.params >> 0xB) & 7))]) ||
         (temp_a3->xzDistToPlayer <= sDistances[(((temp_a3->params >> 0xB) & 7))])) {
 
         func_8002DBD0(&this->dyna.actor, &sp20, &player->actor.world.pos);
@@ -116,7 +114,7 @@ s32 func_80BA1ECC(ObjWarp2block *this, GlobalContext *globalCtx) {
     return 1;
 }
 
-void ObjWarp2block_SwapWithChild(ObjWarp2block *this, GlobalContext *globalCtx) {
+void ObjWarp2block_SwapWithChild(ObjWarp2block* this, GlobalContext* globalCtx) {
     Vec3f tempVec;
     Vec3s tempRot;
     s32 temp;
@@ -151,7 +149,7 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block *this, GlobalContext *globalCtx) 
 
     temp = this->dyna.actor.params & 0x7FFF;
     this->dyna.actor.params = (this->dyna.actor.params & 0x8000) | (this->dyna.actor.child->params & 0x7FFF);
-    this->dyna.actor.child->params = (this->dyna.actor.child->params & 0x8000) | (temp  & 0x7FFF);
+    this->dyna.actor.child->params = (this->dyna.actor.child->params & 0x8000) | (temp & 0x7FFF);
 
     if (Math3D_Vec3fDistSq(&this->dyna.actor.world.pos, &this->dyna.actor.home.pos) < 0.01f) {
         Flags_UnsetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
@@ -160,7 +158,7 @@ void ObjWarp2block_SwapWithChild(ObjWarp2block *this, GlobalContext *globalCtx) 
     }
 }
 
-s32 func_80BA2218(ObjWarp2block *this, GlobalContext *globalCtx) {
+s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (func_80BA1ECC(this, globalCtx)) {
@@ -175,8 +173,7 @@ s32 func_80BA2218(ObjWarp2block *this, GlobalContext *globalCtx) {
     return 0;
 }
 
-
-s32 func_80BA228C(ObjWarp2block *this, GlobalContext *globalCtx) {
+s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE == 4) {
         this->actionFunc_168 = func_80BA2218;
     }
@@ -194,16 +191,14 @@ s32 func_80BA228C(ObjWarp2block *this, GlobalContext *globalCtx) {
     return 0;
 }
 
-
-s32 func_80BA2304(ObjWarp2block *this, GlobalContext *globalCtx) {
+s32 func_80BA2304(ObjWarp2block* this, GlobalContext* globalCtx) {
     s32 ret = this->actionFunc_168(this, globalCtx);
     this->unk_172 = globalCtx->msgCtx.unk_E3EC;
 
     return ret;
 }
 
-
-void ObjWarp2block_Init(Actor* thisx, GlobalContext *globalCtx2) {
+void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     ObjWarp2block* this = THIS;
     CollisionHeader* collisionHeader;
@@ -228,35 +223,35 @@ void ObjWarp2block_Init(Actor* thisx, GlobalContext *globalCtx2) {
         ObjWarp2block_SetInactive(this);
     }
 
-    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n",
-        this->dyna.actor.params & 0xFFFF,
-        this->dyna.actor.home.rot.z & 7,
-        (this->dyna.actor.params >> 0xB) & 7);
+    osSyncPrintf("時のブロック(ワープ２) (<arg> %04xH <type> color:%d range:%d)\n", this->dyna.actor.params & 0xFFFF,
+                 this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 0xB) & 7);
 }
 
-void ObjWarp2block_Destroy(Actor* thisx, GlobalContext *globalCtx) {
+void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     ObjWarp2block* this = THIS;
     if ((this->dyna.actor.params >> 0xF) & 1) {
         DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
-void ObjWarp2block_SetInactive(ObjWarp2block *this) {
+void ObjWarp2block_SetInactive(ObjWarp2block* this) {
     this->actionFunc_164 = ObjWarp2block_DoNothing;
     this->dyna.actor.draw = NULL;
 }
 
-void ObjWarp2block_DoNothing(ObjWarp2block *this, GlobalContext *globalCtx) {}
+void ObjWarp2block_DoNothing(ObjWarp2block* this, GlobalContext* globalCtx) {
+}
 
-void func_80BA24E8(ObjWarp2block *this) {
+void func_80BA24E8(ObjWarp2block* this) {
     this->actionFunc_164 = func_80BA24F8;
 }
 
-void func_80BA24F8(ObjWarp2block *this, GlobalContext *globalCtx) {
+void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx) {
     Actor* current = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
 
     while (current != NULL) {
-        if (current->id == 0x1D6 && !((current->params >> 0xF) & 1) && ((this->dyna.actor.params & 0x3F) == (current->params & 0x3F))) {
+        if (current->id == 0x1D6 && !((current->params >> 0xF) & 1) &&
+            ((this->dyna.actor.params & 0x3F) == (current->params & 0x3F))) {
             this->dyna.actor.child = current;
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
                 ObjWarp2block_SwapWithChild(this, globalCtx);
@@ -278,16 +273,15 @@ void func_80BA24F8(ObjWarp2block *this, GlobalContext *globalCtx) {
     }
 }
 
-
-void func_80BA2600(ObjWarp2block *this) {
+void func_80BA2600(ObjWarp2block* this) {
     this->actionFunc_164 = func_80BA2610;
 }
 
-void func_80BA2610(ObjWarp2block *this, GlobalContext *globalCtx) {
-    if ((func_80BA2304(this, globalCtx) != 0) && ((s32) this->unk_16C <= 0)) {
+void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx) {
+    if ((func_80BA2304(this, globalCtx) != 0) && ((s32)this->unk_16C <= 0)) {
         ObjWarp2block_Spawn(this, globalCtx);
         this->unk_16C = 0xA0;
-        func_80080480(globalCtx, (Actor *) this);
+        func_80080480(globalCtx, (Actor*)this);
         this->unk_170 = 0xC;
     }
 
@@ -302,17 +296,16 @@ void func_80BA2610(ObjWarp2block *this, GlobalContext *globalCtx) {
     }
 }
 
-
-void ObjWarp2block_Update(Actor* thisx, GlobalContext *globalCtx) {
+void ObjWarp2block_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjWarp2block* this = THIS;
-    
+
     this->actionFunc_164(this, globalCtx);
     if (this->unk_16C > 0) {
         this->unk_16C--;
     }
 }
 
-void ObjWarp2block_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void ObjWarp2block_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGB8* sp44;
 
     sp44 = &sColors[thisx->home.rot.z & 7];
@@ -320,7 +313,8 @@ void ObjWarp2block_Draw(Actor* thisx, GlobalContext *globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 584);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 588), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_warp2block.c", 588),
+              G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, sp44->r, sp44->g, sp44->b, 255);
     gSPDisplayList(POLY_OPA_DISP++, D_06000980);
 
