@@ -15,10 +15,9 @@ typedef struct EnSw {
     /* 0x0194 */ ColliderJntSph collider;
     /* 0x01B4 */ ColliderJntSphElement sphs[1];
     /* 0x01F4 */ Color_RGBA8 unk_1F4;
-    /* 0x01F8 */ Vec3s limbDrawTbl[30];
-    /* 0x02AC */ Vec3s transDrawTbl[30];
+    /* 0x01F8 */ Vec3s jointTable[30];
+    /* 0x02AC */ Vec3s morphTable[30];
     /* 0x0360 */ u8 unk_360;
-    /* 0x0361 */ char unk_361[0x3];
     /* 0x0364 */ Vec3f unk_364;
     /* 0x0370 */ Vec3f unk_370;
     /* 0x037C */ Vec3f unk_37C;

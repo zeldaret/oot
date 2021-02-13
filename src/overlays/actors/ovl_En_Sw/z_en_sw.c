@@ -245,7 +245,7 @@ void EnSw_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->limbDrawTbl, this->transDrawTbl, 30);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_06005298, NULL, this->jointTable, this->morphTable, 30);
     func_80034EC0(&this->skelAnime, D_80B0F080, 0);
     ActorShape_Init(&thisx->shape, 0.0f, NULL, 0.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -341,7 +341,7 @@ s32 func_80B0C9F0(EnSw* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
                 return true;
             }
-            func_80032C7C(globalCtx, (Actor*)this);
+            func_80032C7C(globalCtx, &this->actor);
             if (((this->actor.params & 0xE000) >> 0xD) != 0) {
                 this->skelAnime.playSpeed = 8.0f;
                 if ((globalCtx->state.frames & 1) == 0) {
@@ -454,7 +454,7 @@ void func_80B0CF44(EnSw* this, GlobalContext* globalCtx, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-    Vec3f accel = { 0.0f, 0.300000011921f, 0.0f };
+    Vec3f accel = { 0.0f, 0.3f, 0.0f };
     Vec3f pos;
     s16 angle = (Rand_ZeroOne() - 0.5f) * 65536.0f;
     s32 i;
@@ -473,7 +473,7 @@ void func_80B0D14C(EnSw* this, GlobalContext* globalCtx, s32 cnt) {
     Color_RGBA8 primColor = { 80, 80, 50, 255 };
     Color_RGBA8 envColor = { 100, 100, 80, 0 };
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
-    Vec3f accel = { 0.0f, 0.300000011921f, 0.0f };
+    Vec3f accel = { 0.0f, 0.3f, 0.0f };
     Vec3f pos;
     s16 angle = (Rand_ZeroOne() - 0.5f) * 65536.0f;
     s32 i;
@@ -656,7 +656,7 @@ void func_80B0DB00(EnSw* this, GlobalContext* globalCtx) {
         }
 
         this->actor.bgCheckFlags &= ~1;
-        
+
         if (this->unk_38A == 0) {
             this->actionFunc = func_80B0DC7C;
             this->unk_394 = 10;
