@@ -70,7 +70,7 @@ void EnAnubiceFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     this->unk_15E = 0;
-    this->actionFunc = &func_809B26EC;
+    this->actionFunc = func_809B26EC;
 }
 
 void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -80,13 +80,13 @@ void EnAnubiceFire_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
-    Vec3f sp24 = { 0.0f, 0.0f, 0.0f };
+    Vec3f velocity = { 0.0f, 0.0f, 0.0f };
 
     Matrix_Push();
     Matrix_RotateY(BINANG_TO_RAD(this->actor.world.rot.y), MTXMODE_NEW);
     Matrix_RotateX(BINANG_TO_RAD(this->actor.world.rot.x), MTXMODE_APPLY);
-    sp24.z = 15.0f;
-    Matrix_MultVec3f(&sp24, &this->actor.velocity);
+    velocity.z = 15.0f;
+    Matrix_MultVec3f(&velocity, &this->actor.velocity);
     Matrix_Pull();
 
     this->actionFunc = func_809B27D8;
@@ -134,8 +134,8 @@ void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx) {
     } else if (!(this->scale < .4f)) {
         f32 scale = 1000.0f;
         f32 life = 10.0f;
-
         s32 i;
+
         for (i = 0; i < 10; i++) {
             pos.x = this->actor.world.pos.x + (Rand_ZeroOne() - 0.5f) * (this->scale * 20.0f);
             pos.y = this->actor.world.pos.y + (Rand_ZeroOne() - 0.5f) * (this->scale * 20.0f);
@@ -176,7 +176,7 @@ void func_809B2B48(EnAnubiceFire* this, GlobalContext* globalCtx) {
 
 void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubiceFire* this = THIS;
-    s32 pad[2];
+    s32 pad;
     s32 i;
 
     Actor_SetScale(&this->actor, this->scale);
@@ -197,25 +197,21 @@ void EnAnubiceFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 5.0f, 10.0f, 0x1D);
-    if (!(this->scale < 0.6f)) {
-        if (this->actionFunc != func_809B2B48) {
-            this->cylinder.dim.radius = this->scale * 15.0f + 5.0f;
-            this->cylinder.dim.height = this->scale * 15.0f + 5.0f;
-            this->cylinder.dim.yShift = this->scale * -0.75f + -15.0f;
+    if (!(this->scale < 0.6f || this->actionFunc == func_809B2B48)) {
+        this->cylinder.dim.radius = this->scale * 15.0f + 5.0f;
+        this->cylinder.dim.height = this->scale * 15.0f + 5.0f;
+        this->cylinder.dim.yShift = this->scale * -0.75f + -15.0f;
 
-            if (this->unk_15A != 0) {
-                Collider_UpdateCylinder(&this->actor, &this->cylinder);
-                CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->cylinder.base);
-                CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinder.base);
-            }
+        if (this->unk_15A != 0) {
+            Collider_UpdateCylinder(&this->actor, &this->cylinder);
+            CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->cylinder.base);
+            CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->cylinder.base);
+        }
 
-            if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->actor.world.pos, 30.0f)) {
-                this->actor.velocity.z = 0.0f;
-                this->actor.velocity.y = 0.0f;
-                this->actor.velocity.x = 0.0f;
-                Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
-                this->actionFunc = func_809B2B48;
-            }
+        if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->actor.world.pos, 30.0f)) {
+            this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
+            this->actionFunc = func_809B2B48;
         }
     }
 }
@@ -255,7 +251,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPDisplayList(POLY_XLU_DISP++, D_06003510);
         }
 
-        if ((this->scale < 0.1f)) {
+        if (this->scale < 0.1f) {
             break;
         }
     }
