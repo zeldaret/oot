@@ -1,7 +1,6 @@
 <Root>
     <File Name="object_gj" Segment="6">
         <DList Name="gGjDL_000DC0" Offset="0xDC0"/>
-        <!--DList Name="gGjDL_000EA0" Offset="0xEA0"/-->
         <Collision Name="gGjCol_001B70" Offset="0x1B70"/>
         <DList Name="gGjDL_001D20" Offset="0x1D20"/>
         <Collision Name="gGjCol_001F70" Offset="0x1F70"/>
