@@ -64,9 +64,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0 } },
 };
 
-<<<<<<< HEAD
-
-
 void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -76,17 +73,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
 };
 
-=======
-void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
-    this->actionFunc = actionFunc;
-}
-
-static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 10, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 850, ICHAIN_STOP),
-};
-
->>>>>>> master
 void EnAni_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnAni* this = THIS;

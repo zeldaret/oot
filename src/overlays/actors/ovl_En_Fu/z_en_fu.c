@@ -111,11 +111,6 @@ void EnFu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnFu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFu* this = THIS;
-<<<<<<< HEAD
-    
-=======
-
->>>>>>> master
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 

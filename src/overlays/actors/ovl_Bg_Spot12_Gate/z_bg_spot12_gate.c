@@ -112,12 +112,8 @@ void func_808B318C(BgSpot12Gate* this, GlobalContext* globalCtx) {
     s32 var;
 
     Math_StepToF(&this->dyna.actor.velocity.y, 1.6f, 0.03f);
-<<<<<<< HEAD
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f, this->dyna.actor.velocity.y)) {
-=======
     if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 200.0f,
                      this->dyna.actor.velocity.y)) {
->>>>>>> master
         func_808B3274(this);
         var = Quake_Add(ACTIVE_CAM, 3);
         Quake_SetSpeed(var, -0x3CB0);

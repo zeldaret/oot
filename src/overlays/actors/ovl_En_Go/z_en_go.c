@@ -599,13 +599,8 @@ void func_80A3F908(EnGo* this, GlobalContext* globalCtx) {
             isUnkCondition =
                 func_80A3ED24(globalCtx, this, &this->unk_1E0, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
         } else {
-<<<<<<< HEAD
-            isUnkCondition =
-                func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, float1, EnGo_GetTextID, EnGo_SetFlagsGetStates);
-=======
             isUnkCondition = func_800343CC(globalCtx, &this->actor, &this->unk_1E0.unk_00, float1, EnGo_GetTextID,
                                            EnGo_SetFlagsGetStates);
->>>>>>> master
         }
 
         if (((this->actor.params & 0xF0) == 0x90) && (isUnkCondition == true)) {

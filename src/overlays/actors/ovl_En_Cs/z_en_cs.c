@@ -215,12 +215,8 @@ void EnCs_HandleTalking(EnCs* this, GlobalContext* globalCtx) {
     } else {
         func_8002F374(globalCtx, &this->actor, &sp2A, &sp28);
 
-<<<<<<< HEAD
-        if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) && (func_8002F2CC(&this->actor, globalCtx, 100.0f))) {
-=======
         if ((sp2A >= 0) && (sp2A <= 320) && (sp28 >= 0) && (sp28 <= 240) &&
             (func_8002F2CC(&this->actor, globalCtx, 100.0f))) {
->>>>>>> master
             this->actor.textId = EnCs_GetTextID(this, globalCtx);
         }
     }
