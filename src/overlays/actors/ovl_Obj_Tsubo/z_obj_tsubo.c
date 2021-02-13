@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_tsubo.h"
+#include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x00800010
 
@@ -16,8 +17,9 @@ void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80BA0D60(ObjTsubo* this, GlobalContext* globalCtx);
 void func_80BA0DC0(ObjTsubo* this);
-
+s32 func_80BA0DF4(ObjTsubo* this, GlobalContext* globalCtx);
 void func_80BA0E98(Actor* thisx, GlobalContext* globalCtx);
+void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx);
 void func_80BA152C(ObjTsubo* this);
 void func_80BA153C(ObjTsubo* this, GlobalContext* globalCtx);
 
@@ -107,7 +109,27 @@ void func_80BA0DC0(ObjTsubo* this) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA0DF4.s")
+// matches
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA0DF4.s")
+s32 func_80BA0DF4(ObjTsubo* this, GlobalContext* globalCtx) {
+    CollisionPoly* floorPoly;
+    Vec3f pos;
+    s32 bgID;
+    f32 floorY;
+
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y + 20.0f;
+    pos.z = this->actor.world.pos.z;
+    floorY = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &floorPoly, &bgID, &this->actor, &pos);
+    if (floorY > BGCHECK_Y_MIN) {
+        this->actor.world.pos.y = floorY;
+        Math_Vec3f_Copy(&this->actor.home.pos, &this->actor.world.pos);
+        return true;
+    } else {
+        osSyncPrintf("地面に付着失敗\n");
+        return false;
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA0E98.s")
 void func_80BA0E98(Actor* thisx, GlobalContext* globalCtx) {
@@ -146,9 +168,85 @@ void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA100C.s")
+// matches
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA100C.s")
+void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
+    s32 pad;
+    f32 rand;
+    s16 angle;
+    Vec3f vec1;
+    Vec3f vec2;
+    f32 sins;
+    f32 coss;
+    s32 arg5;
+    s32 i;
+
+    for (i = 0, angle = 0; i < 15; i++, angle += 0x4E20) {
+        sins = Math_SinS(angle);
+        coss = Math_CosS(angle);
+
+        vec1.x = sins * 8.0f;
+        vec1.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        vec1.z = coss * 8.0f;
+
+        vec2.x = vec1.x * 0.23f;
+        vec2.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        vec2.z = vec1.z * 0.23f;
+
+        Math_Vec3f_Sum(&vec1, &this->actor.world.pos, &vec1);
+
+        rand = Rand_ZeroOne();
+        if (rand < 0.2f) {
+            arg5 = 96;
+        } else if (rand < 0.6f) {
+            arg5 = 64;
+        } else {
+            arg5 = 32;
+        }
+        EffectSsKakera_Spawn(globalCtx, &vec1, &vec2, &this->actor.world.pos, -0xF0, arg5, 0xA, 0xA, 0,
+                             ((Rand_ZeroOne() * 95.0f) + 15.0f), 0, 0x20, 0x3C, KAKERA_COLOR_NONE,
+                             D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+    }
+
+    func_80033480(globalCtx, &this->actor.world.pos, 30.0f, 4, 0x14, 0x32, 1);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA1294.s")
+// void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx) {
+//     f32 sins;
+//     f32 coss;
+//     f32 temp_rand;
+//     Vec3f pos;
+//     Vec3f velocity;
+//     Vec3f* breakPos = &this->actor.world.pos;
+//     s16 angle;
+//     s32 phi_s0;
+//     s32 i;
+
+//     pos = *breakPos;
+//     pos.y += this->actor.yDistToWater;
+//     EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 400);
+
+//     for (i = 0, angle = 0; i < 15; i++, angle += 0x4E20) {
+//         sins = Math_SinS(angle);
+//         coss = Math_CosS(angle);
+
+//         pos.x = sins * 8.0f;
+//         pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+//         pos.z = coss * 8.0f;
+
+//         velocity.x = pos.x * 0.2f;
+//         velocity.y = (Rand_ZeroOne() * 4.0f) + 2.0f;
+//         velocity.z = coss * 8.0f * 0.2f;
+
+//         Math_Vec3f_Sum(&pos, &this->actor.world.pos, &pos);
+//         temp_rand = Rand_ZeroOne();
+//         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
+//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -0xB4, phi_s0, 0x1E, 0x1E, 0,
+//                              ((Rand_ZeroOne() * 95.0f) + 15.0f), 0, 0x20, 0x46, KAKERA_COLOR_NONE,
+//                              D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+//     }
+// }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA152C.s")
 void func_80BA152C(ObjTsubo* this) {
