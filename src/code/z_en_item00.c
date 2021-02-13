@@ -692,7 +692,7 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
                     } else {
                         unkFloat = 16.0f;
                         Matrix_Scale(unkFloat, unkFloat, unkFloat, MTXMODE_APPLY);
-                        func_800694A0(globalCtx, 0x08);
+                        GetItem_Draw(globalCtx, GID_HEART);
                     }
                     break;
                 }
@@ -712,16 +712,16 @@ void EnItem00_Draw(Actor* thisx, GlobalContext* globalCtx) {
                 func_8001F080(this, globalCtx);
                 break;
             case ITEM00_SHIELD_DEKU:
-                func_800694A0(globalCtx, 0x1C);
+                GetItem_Draw(globalCtx, GID_SHIELD_DEKU);
                 break;
             case ITEM00_SHIELD_HYLIAN:
-                func_800694A0(globalCtx, 0x2B);
+                GetItem_Draw(globalCtx, GID_SHIELD_HYLIAN);
                 break;
             case ITEM00_TUNIC_ZORA:
-                func_800694A0(globalCtx, 0x3C);
+                GetItem_Draw(globalCtx, GID_TUNIC_ZORA);
                 break;
             case ITEM00_TUNIC_GORON:
-                func_800694A0(globalCtx, 0x3B);
+                GetItem_Draw(globalCtx, GID_TUNIC_GORON);
                 break;
             case ITEM00_FLEXIBLE:
                 break;
