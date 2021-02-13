@@ -316,7 +316,7 @@ void BgSpot08Iceblock_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->dyna.actor);
         return;
     }
-    
+
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     switch (this->dyna.actor.params & 0xF0) {
