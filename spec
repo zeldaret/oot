@@ -642,8 +642,7 @@ endseg
 beginseg
     name "ovl_Bg_Breakwall"
     include "build/src/overlays/actors/ovl_Bg_Breakwall/z_bg_breakwall.o"
-    include "build/data/overlays/actors/z_bg_breakwall.data.o"
-    include "build/data/overlays/actors/z_bg_breakwall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Breakwall/ovl_Bg_Breakwall_reloc.o"
 endseg
 
 beginseg
