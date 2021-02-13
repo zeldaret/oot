@@ -5,6 +5,7 @@
  */
 
 #include "z_en_hintnuts.h"
+#include "objects/object_hintnuts/object_hintnuts.h"
 
 #define FLAGS 0x00000005
 
@@ -27,18 +28,6 @@ void EnHintnuts_Run(EnHintnuts* this, GlobalContext* globalCtx);
 void EnHintnuts_Talk(EnHintnuts* this, GlobalContext* globalCtx);
 void EnHintnuts_Leave(EnHintnuts* this, GlobalContext* globalCtx);
 void EnHintnuts_Freeze(EnHintnuts* this, GlobalContext* globalCtx);
-
-extern AnimationHeader D_06000168;
-extern Gfx D_060014E0[];
-extern SkeletonHeader D_060023B8;
-extern AnimationHeader D_060024CC;
-extern AnimationHeader D_060026C4;
-extern AnimationHeader D_06002B90;
-extern AnimationHeader D_06002894;
-extern AnimationHeader D_060029BC;
-extern AnimationHeader D_06002E84;
-extern AnimationHeader D_06002F7C;
-extern AnimationHeader D_06003128;
 
 const ActorInit En_Hintnuts_InitVars = {
     ACTOR_EN_HINTNUTS,
@@ -91,7 +80,8 @@ void EnHintnuts_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~5;
     } else {
         ActorShape_Init(&this->actor.shape, 0x0, ActorShadow_DrawCircle, 35.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_060023B8, &D_06002F7C, this->jointTable, this->morphTable, 10);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gHintNutsSkel, &gHintNutsStandAnim, this->jointTable,
+                       this->morphTable, 10);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
         CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
@@ -128,7 +118,7 @@ void EnHintnuts_HitByScrubProjectile1(EnHintnuts* this, GlobalContext* globalCtx
 }
 
 void EnHintnuts_SetupWait(EnHintnuts* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_06002B90, 0.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gHintNutsUpAnim, 0.0f);
     this->animFlagAndTimer = Rand_S16Offset(100, 50);
     this->collider.dim.height = 5;
     this->actor.world.pos = this->actor.home.pos;
@@ -137,18 +127,18 @@ void EnHintnuts_SetupWait(EnHintnuts* this) {
 }
 
 void EnHintnuts_SetupLookAround(EnHintnuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06002894);
+    Animation_PlayLoop(&this->skelAnime, &gHintNutsLookAroundAnim);
     this->animFlagAndTimer = 2;
     this->actionFunc = EnHintnuts_LookAround;
 }
 
 void EnHintnuts_SetupThrowScrubProjectile(EnHintnuts* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000168);
+    Animation_PlayOnce(&this->skelAnime, &gHintNutsSpitAnim);
     this->actionFunc = EnHintnuts_ThrowNut;
 }
 
 void EnHintnuts_SetupStand(EnHintnuts* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06002F7C, -3.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gHintNutsStandAnim, -3.0f);
     if (this->actionFunc == EnHintnuts_ThrowNut) {
         this->animFlagAndTimer = 2 | 0x1000; // sets timer and flag
     } else {
@@ -158,13 +148,13 @@ void EnHintnuts_SetupStand(EnHintnuts* this) {
 }
 
 void EnHintnuts_SetupBurrow(EnHintnuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060024CC, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsBurrowAnim, -5.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DOWN);
     this->actionFunc = EnHintnuts_Burrow;
 }
 
 void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060026C4, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gHintNutsUnburrowAnim, -3.0f);
     this->collider.dim.height = 0x25;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;
@@ -189,19 +179,19 @@ void EnHintnuts_HitByScrubProjectile2(EnHintnuts* this) {
 }
 
 void EnHintnuts_SetupRun(EnHintnuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06003128);
+    Animation_PlayLoop(&this->skelAnime, &gHintNutsRunAnim);
     this->animFlagAndTimer = 5;
     this->actionFunc = EnHintnuts_Run;
 }
 
 void EnHintnuts_SetupTalk(EnHintnuts* this) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06002E84, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gHintNutsTalkAnim, -5.0f);
     this->actionFunc = EnHintnuts_Talk;
     this->actor.speedXZ = 0.0f;
 }
 
 void EnHintnuts_SetupLeave(EnHintnuts* this, GlobalContext* globalCtx) {
-    Animation_MorphToLoop(&this->skelAnime, &D_06003128, -5.0f);
+    Animation_MorphToLoop(&this->skelAnime, &gHintNutsRunAnim, -5.0f);
     this->actor.speedXZ = 3.0f;
     this->animFlagAndTimer = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -214,7 +204,7 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, GlobalContext* globalCtx) {
 }
 
 void EnHintnuts_SetupFreeze(EnHintnuts* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_060029BC);
+    Animation_PlayLoop(&this->skelAnime, &gHintNutsFreezeAnim);
     this->actor.flags &= ~1;
     func_8003426C(&this->actor, 0, 0xFF, 0, 100);
     this->actor.colorFilterTimer = 1;
@@ -507,7 +497,7 @@ void EnHintnuts_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetFocus(&this->actor, this->skelAnime.curFrame);
         } else if (this->actionFunc == EnHintnuts_Burrow) {
             Actor_SetFocus(&this->actor,
-                           20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&D_060024CC)));
+                           20.0f - ((this->skelAnime.curFrame * 20.0f) / Animation_GetLastFrame(&gHintNutsBurrowAnim)));
         } else {
             Actor_SetFocus(&this->actor, 20.0f);
         }
@@ -547,7 +537,7 @@ void EnHintnuts_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnHintnuts* this = THIS;
 
     if (this->actor.params == 0xA) {
-        Gfx_DrawDListOpa(globalCtx, D_060014E0);
+        Gfx_DrawDListOpa(globalCtx, gHintNutsFlowerDL);
     } else {
         SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHintnuts_OverrideLimbDraw,
                           NULL, this);
