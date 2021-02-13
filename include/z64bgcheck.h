@@ -11,6 +11,8 @@ struct DynaPolyActor;
 #define COLPOLY_VIA_FLAG_TEST(vIA, flags) ((vIA) & (((flags)&7) << 13))
 #define COLPOLY_VTX_INDEX(vI) ((vI)&0x1FFF)
 
+#define DYNAPOLY_INVALIDATE_LOOKUP (1 << 0)
+
 #define BGACTOR_NEG_ONE -1
 #define BG_ACTOR_MAX 50
 #define BGCHECK_SCENE BG_ACTOR_MAX
@@ -37,8 +39,9 @@ typedef struct {
     union {
         u16 vtxData[3];
         struct {
-            /* 0x02 */ u16 flags_vIA; // 0xE000 is poly exclusion flags, 0x1FFF is vtxId
-            /* 0x04 */ u16 flags_vIB; // 0xE000 is ? flags, 0x1FFF is vtxId
+            /* 0x02 */ u16 flags_vIA; // 0xE000 is poly exclusion flags (xpFlags), 0x1FFF is vtxId
+            /* 0x04 */ u16 flags_vIB; // 0xE000 is flags, 0x1FFF is vtxId
+                                      // 0x2000 = poly IsConveyor surface
             /* 0x06 */ u16 vIC;
         };
     };

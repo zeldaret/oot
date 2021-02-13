@@ -45,8 +45,6 @@ void func_800BC590(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// single minor ordering difference
 void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
     TransitionContext* transitionCtx = &globalCtx->transitionCtx;
 
@@ -95,6 +93,7 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
             case 5:
             case 6:
             case 7:
+            case 13:
             case 17:
             case 18:
             case 19:
@@ -133,9 +132,6 @@ void func_800BC5E0(GlobalContext* globalCtx, s32 transitionType) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_play/func_800BC5E0.s")
-#endif
 
 void func_800BC88C(GlobalContext* globalCtx) {
     globalCtx->transitionCtx.transitionType = -1;
