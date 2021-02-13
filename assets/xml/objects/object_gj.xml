@@ -17,6 +17,7 @@
         <DList Name="gGjDL_003710" Offset="0x3710"/>
         <Collision Name="gGjCol_003AF0" Offset="0x3AF0"/>
 
-        <!-- There's a big blob of unknown data at Offset="0x8B20", of Size="0x1C00"/ -->
+        <!-- I don't know what is this -->
+        <Blob Name="gGjBlob_008B20" Size="0x1C00" Offset="0x8B20"/>
     </File>
 </Root>
