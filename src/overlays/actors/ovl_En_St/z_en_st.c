@@ -1,3 +1,9 @@
+/*
+ * File: z_en_st.c
+ * Overlay: ovl_En_St
+ * Description: Skulltula (normal, big, invisible)
+ */
+
 #include "z_en_st.h"
 
 #define FLAGS 0x00000035
@@ -123,11 +129,15 @@ extern AnimationHeader D_06005B98;
 extern AnimationHeader D_060055A8;
 extern AnimationHeader D_060055A8;
 
-struct_80034EC0_Entry sAnimations[] = {
-    { &D_06000304, 1.0f, 0.0f, -1.0f, 0x01, 0.0f },  { &D_06005B98, 1.0f, 0.0f, -1.0f, 0x03, -8.0f },
-    { &D_06000304, 4.0f, 0.0f, -1.0f, 0x03, -8.0f }, { &D_06000304, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
-    { &D_060055A8, 1.0f, 0.0f, -1.0f, 0x03, -8.0f }, { &D_06000304, 8.0f, 0.0f, -1.0f, 0x01, -8.0f },
-    { &D_06000304, 6.0f, 0.0f, -1.0f, 0x01, -8.0f }, { &D_06005B98, 2.0f, 0.0f, -1.0f, 0x01, -8.0f },
+static struct_80034EC0_Entry sAnimations[] = {
+    { &D_06000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, 0.0f },
+    { &D_06005B98, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &D_06000304, 4.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &D_06000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &D_060055A8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &D_06000304, 8.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &D_06000304, 6.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &D_06005B98, 2.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
 };
 
 void EnSt_SetupAction(EnSt* this, EnStActionFunc actionFunc) {
@@ -494,7 +504,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
+    if (EnSt_CheckHitBackside(this, globalCtx)) {
         // player has hit the backside of the skulltulla
         return true;
     }

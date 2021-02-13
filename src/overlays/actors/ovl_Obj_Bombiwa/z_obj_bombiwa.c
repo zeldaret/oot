@@ -101,7 +101,7 @@ void ObjBombiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
 void ObjBombiwa_Break(ObjBombiwa* this, GlobalContext* globalCtx) {
     Vec3f pos;
     Vec3f velocity;
-    Gfx** dlist;
+    Gfx* dlist;
     s16 arg5;
     s16 scale;
     s32 i;

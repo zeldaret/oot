@@ -18,8 +18,8 @@ typedef struct EnAni {
     /* 0x02A2 */ Vec3s unk_2A2;
     /* 0x02A8 */ u16 unk_2A8;
     /* 0x02AA */ u16 unk_2AA;
-    /* 0x02AC */ s16 unk_2AC;
-    /* 0x02AE */ s16 unk_2AE;
+    /* 0x02AC */ s16 eyeIndex;
+    /* 0x02AE */ s16 blinkTimer;
     /* 0x02B0 */ EnAniActionFunc actionFunc;
 } EnAni; // size = 0x02B4
 
