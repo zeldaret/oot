@@ -1,9 +1,8 @@
 #include "global.h"
 
 void func_800C3C80(AudioMgr* audioMgr) {
-    Sub_AudioMgr_18* sub;
+    Sub_AudioMgr_18* sub = audioMgr->unk_70;
 
-    sub = audioMgr->unk_70;
     if (audioMgr->unk_70->unk_40 != NULL) {
         osSendMesg(sub->unk_40, NULL, OS_MESG_BLOCK);
     }
@@ -51,12 +50,10 @@ void AudioMgr_HandlePRENMI(AudioMgr* audioMgr) {
 }
 
 void AudioMgr_ThreadEntry(void* arg0) {
-    AudioMgr* audioMgr;
+    AudioMgr* audioMgr = (AudioMgr*)arg0;
     IrqMgrClient irqClient;
-    s16* msg;
+    s16* msg = NULL;
 
-    audioMgr = (AudioMgr*)arg0;
-    msg = NULL;
     // Start running audio manager thread
     osSyncPrintf("オーディオマネージャスレッド実行開始\n");
     func_800F70F8();

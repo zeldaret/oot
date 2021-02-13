@@ -86,11 +86,11 @@ s32 Mempak_Write(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size)
 s32 Mempak_Read(s32 controllerNb, char idx, void* buffer, s32 offset, s32 size) {
     OSMesgQueue* mq;
     s32 error;
-    s32 ret;
+    s32 ret = false;
     s32 pad;
 
-    ret = false;
     mq = PadMgr_LockSerialMesgQueue(&gPadMgr);
+
     if (size < sMempakFreeBytes) {
         error = osPfsReadWriteFile(&sMempakPfsHandle, sMempakFiles[idx - 'A'], 0, offset, size, buffer);
         if (error == 0) {

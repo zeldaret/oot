@@ -50,14 +50,12 @@ void PadMgr_UnlockPadData(PadMgr* padMgr) {
 void PadMgr_RumbleControl(PadMgr* padMgr) {
     static u32 errcnt = 0;
     static u32 frame;
-    s32 temp;
+    s32 temp = 1;
     s32 triedRumbleComm;
-    OSMesgQueue* ctrlrQ;
+    OSMesgQueue* ctrlrQ = PadMgr_LockSerialMesgQueue(padMgr);
     s32 var4;
     s32 i;
 
-    temp = 1;
-    ctrlrQ = PadMgr_LockSerialMesgQueue(padMgr);
     triedRumbleComm = 0;
 
     for (i = 0; i < 4; i++) {
@@ -163,9 +161,7 @@ void PadMgr_RumbleControl(PadMgr* padMgr) {
 
 void PadMgr_RumbleStop(PadMgr* padMgr) {
     s32 i;
-    OSMesgQueue* ctrlrQ;
-
-    ctrlrQ = PadMgr_LockSerialMesgQueue(padMgr);
+    OSMesgQueue* ctrlrQ = PadMgr_LockSerialMesgQueue(padMgr);
 
     for (i = 0; i < 4; i++) {
         if (osProbeRumblePak(ctrlrQ, &padMgr->pfs[i], i) == 0) {
@@ -266,10 +262,9 @@ void PadMgr_ProcessInputs(PadMgr* padMgr) {
 
 void PadMgr_HandleRetraceMsg(PadMgr* padMgr) {
     s32 i;
-    OSMesgQueue* queue;
+    OSMesgQueue* queue = PadMgr_LockSerialMesgQueue(padMgr);
     u32 mask;
 
-    queue = PadMgr_LockSerialMesgQueue(padMgr);
     osContStartReadData(queue);
     if (padMgr->retraceCallback) {
         padMgr->retraceCallback(padMgr, padMgr->retraceCallbackValue);

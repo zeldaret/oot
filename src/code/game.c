@@ -25,6 +25,7 @@ void GameState_FaultPrint(void) {
 void GameState_SetFBFilter(Gfx** gfx) {
     Gfx* gfxP;
     gfxP = *gfx;
+
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
         D_801664F0.type = R_FB_FILTER_TYPE;
         D_801664F0.color.r = R_FB_FILTER_PRIM_COLOR(0);
@@ -341,9 +342,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     u32 systemMaxFree;
     u32 systemFree;
     u32 systemAlloc;
-    void* thaBufp;
+    void* thaBufp = gameState->tha.bufp;
 
-    thaBufp = gameState->tha.bufp;
     THA_Dt(&gameState->tha);
     GameAlloc_Free(alloc, thaBufp);
     // Hyrule temporarily released !!

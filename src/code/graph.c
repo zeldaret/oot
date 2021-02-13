@@ -25,11 +25,8 @@ UCodeInfo D_8012D248[3] = {
 // clang-format on
 
 void Graph_FaultClient() {
-    void* nextFb;
-    void* newFb;
-
-    nextFb = osViGetNextFramebuffer();
-    newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
+    void* nextFb = osViGetNextFramebuffer();
+    void* newFb = ((u32)SysCfb_GetFbPtr(0) != (u32)nextFb) ? SysCfb_GetFbPtr(0) : SysCfb_GetFbPtr(1);
 
     osViSwapBuffer(newFb);
     Fault_WaitForInput();
@@ -83,9 +80,7 @@ void Graph_UCodeFaultClient(Gfx* workBuf) {
 }
 
 void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
-    GfxPool* pool;
-
-    pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
+    GfxPool* pool = &gGfxPools[gfxCtx->gfxPoolIdx & 1];
 
     pool->headMagic = GFXPOOL_HEAD_MAGIC;
     pool->tailMagic = GFXPOOL_TAIL_MAGIC;
@@ -104,9 +99,8 @@ void* Graph_InitTHGA(GraphicsContext* gfxCtx) {
 }
 
 GameStateOverlay* Graph_GetNextGameState(GameState* gameState) {
-    void* gameStateInitFunc;
+    void* gameStateInitFunc = GameState_GetInit(gameState);
 
-    gameStateInitFunc = GameState_GetInit(gameState);
     if (gameStateInitFunc == TitleSetup_Init) {
         return &gGameStateOverlayTable[0];
     }
@@ -155,13 +149,10 @@ void Graph_TaskSet00(GraphicsContext* gfxCtx) {
     OSTime time;
     OSTimer timer;
     OSMesg msg;
-    OSTask_t* task;
-    OSScTask* scTask;
+    OSTask_t* task = &gfxCtx->task.list.t;
+    OSScTask* scTask = &gfxCtx->task;
     CfbInfo* cfb;
     s32 pad1;
-
-    task = &gfxCtx->task.list.t;
-    scTask = &gfxCtx->task;
 
     D_8016A528 = osGetTime() - sGraphSetTaskTime - D_8016A558;
 

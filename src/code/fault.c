@@ -1054,13 +1054,15 @@ void Fault_HangupFaultClient(const char* arg0, const char* arg1) {
 
 void Fault_AddHungupAndCrashImpl(const char* arg0, const char* arg1) {
     FaultClient client;
-    char padd[4];
+    s32 pad;
+
     Fault_AddClient(&client, &Fault_HangupFaultClient, (void*)arg0, (void*)arg1);
     *(u32*)0x11111111 = 0; // trigger an exception
 }
 
 void Fault_AddHungupAndCrash(const char* filename, u32 line) {
     char msg[256];
+
     sprintf(msg, "HungUp %s:%d", filename, line);
     Fault_AddHungupAndCrashImpl(msg, NULL);
 }

@@ -711,16 +711,6 @@ typedef struct {
     /* 0x4C */ u32 unk_4C;
 } PreRenderContext; // size = 0x50
 
-typedef void* (*TransitionInit)(void* transition);
-typedef void (*TransitionDestroy)(void* transition);
-typedef void (*TransitionUpdate)(void* transition, s32 updateRate);
-typedef void (*TransitionDraw)(void* transition, Gfx** gfxP);
-typedef void (*TransitionStart)(void* transition);
-typedef void (*TransitionSetType)(void* transition, s32 type);
-typedef void (*TransitionSetColor)(void* transition, u32 color);
-typedef void (*TransitionSetEnvColor)(void* transition, u32 color);
-typedef s32 (*TransitionIsDone)(void* transition);
-
 typedef struct {
     union {
         TransitionFade fade;
@@ -729,16 +719,16 @@ typedef struct {
         TransitionWipe wipe;
         char data[0x228];
     };
-    /* 0x228 */ s32    transitionType;
-    /* 0x22C */ TransitionInit init;
-    /* 0x230 */ TransitionDestroy destroy;
-    /* 0x234 */ TransitionUpdate update;
-    /* 0x238 */ TransitionDraw draw;
-    /* 0x23C */ TransitionStart start;
-    /* 0x240 */ TransitionSetType setType;
-    /* 0x244 */ TransitionSetColor setColor;
-    /* 0x248 */ TransitionSetEnvColor setEnvColor;
-    /* 0x24C */ TransitionIsDone isDone;
+    /* 0x228 */ s32   transitionType;
+    /* 0x22C */ void* (*init)(void* transition);
+    /* 0x230 */ void  (*destroy)(void* transition);
+    /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
+    /* 0x238 */ void  (*draw)(void* transition, Gfx** gfxP);
+    /* 0x23C */ void  (*start)(void* transition);
+    /* 0x240 */ void  (*setType)(void* transition, s32 type);
+    /* 0x244 */ void  (*setColor)(void* transition, u32 color);
+    /* 0x248 */ void  (*setEnvColor)(void* transition, u32 color);
+    /* 0x24C */ s32   (*isDone)(void* transition);
 } TransitionContext; // size = 0x250
 
 typedef struct {
