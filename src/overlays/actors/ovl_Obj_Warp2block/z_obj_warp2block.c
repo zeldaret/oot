@@ -48,14 +48,14 @@ typedef struct {
     /* 0x00 */ f32 scale;
     /* 0x04 */ f32 focus;
     /* 0x08 */ s16 params;
-} Warp2BlockSpawnData; // size = 0x0A
+} Warp2BlockSpawnData; // size = 0x0C
 
-Warp2BlockSpawnData sSpawnData[] = {
+static Warp2BlockSpawnData sSpawnData[] = {
     { 1.0f, 60.0f, 0x0018 },
     { 0.6f, 40.0f, 0x0019 },
 };
 
-f32 sDistances[] = { 60.0f, 100.0f, 140.0f, 180.0f, 220.0f, 260.0f, 300.0f, 300.0f };
+static f32 sDistances[] = { 60.0f, 100.0f, 140.0f, 180.0f, 220.0f, 260.0f, 300.0f, 300.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
@@ -63,7 +63,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-Color_RGB8 sColors[] = {
+static Color_RGB8 sColors[] = {
     { 100, 120, 140 }, { 80, 140, 200 }, { 100, 150, 200 }, { 100, 200, 240 },
     { 80, 110, 140 },  { 70, 160, 225 }, { 80, 100, 130 },  { 100, 110, 190 },
 };
@@ -164,7 +164,7 @@ s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
     if (func_80BA1ECC(this, globalCtx)) {
         if (player->stateFlags2 & 0x1000000) {
             func_8010BD58(globalCtx, 1);
-            this->actionFunc_168 = func_80BA228C;
+            this->func_168 = func_80BA228C;
         } else {
             player->stateFlags2 |= 0x800000;
         }
@@ -175,7 +175,7 @@ s32 func_80BA2218(ObjWarp2block* this, GlobalContext* globalCtx) {
 
 s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
     if (globalCtx->msgCtx.unk_E3EE == 4) {
-        this->actionFunc_168 = func_80BA2218;
+        this->func_168 = func_80BA2218;
     }
 
     if (globalCtx->msgCtx.unk_E3EC == 0xA) {
@@ -192,7 +192,7 @@ s32 func_80BA228C(ObjWarp2block* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80BA2304(ObjWarp2block* this, GlobalContext* globalCtx) {
-    s32 ret = this->actionFunc_168(this, globalCtx);
+    s32 ret = this->func_168(this, globalCtx);
     this->unk_172 = globalCtx->msgCtx.unk_E3EC;
 
     return ret;
@@ -208,7 +208,7 @@ void ObjWarp2block_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
     Actor_SetScale(&this->dyna.actor, sSpawnData[(this->dyna.actor.params >> 8) & 1].scale);
-    this->actionFunc_168 = func_80BA2218;
+    this->func_168 = func_80BA2218;
     Actor_SetFocus(&this->dyna.actor, sSpawnData[(this->dyna.actor.params >> 8) & 1].focus);
 
     if ((this->dyna.actor.params >> 0xF) & 1) {
@@ -235,7 +235,7 @@ void ObjWarp2block_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjWarp2block_SetInactive(ObjWarp2block* this) {
-    this->actionFunc_164 = ObjWarp2block_DoNothing;
+    this->actionFunc = ObjWarp2block_DoNothing;
     this->dyna.actor.draw = NULL;
 }
 
@@ -243,14 +243,14 @@ void ObjWarp2block_DoNothing(ObjWarp2block* this, GlobalContext* globalCtx) {
 }
 
 void func_80BA24E8(ObjWarp2block* this) {
-    this->actionFunc_164 = func_80BA24F8;
+    this->actionFunc = func_80BA24F8;
 }
 
 void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx) {
     Actor* current = globalCtx->actorCtx.actorLists[ACTORCAT_ITEMACTION].head;
 
     while (current != NULL) {
-        if (current->id == 0x1D6 && !((current->params >> 0xF) & 1) &&
+        if (current->id == ACTOR_OBJ_WARP2BLOCK && !((current->params >> 0xF) & 1) &&
             ((this->dyna.actor.params & 0x3F) == (current->params & 0x3F))) {
             this->dyna.actor.child = current;
             if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
@@ -274,14 +274,14 @@ void func_80BA24F8(ObjWarp2block* this, GlobalContext* globalCtx) {
 }
 
 void func_80BA2600(ObjWarp2block* this) {
-    this->actionFunc_164 = func_80BA2610;
+    this->actionFunc = func_80BA2610;
 }
 
 void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx) {
-    if ((func_80BA2304(this, globalCtx) != 0) && ((s32)this->unk_16C <= 0)) {
+    if ((func_80BA2304(this, globalCtx) != 0) && (this->unk_16C <= 0)) {
         ObjWarp2block_Spawn(this, globalCtx);
         this->unk_16C = 0xA0;
-        func_80080480(globalCtx, (Actor*)this);
+        func_80080480(globalCtx, &this->dyna.actor);
         this->unk_170 = 0xC;
     }
 
@@ -299,7 +299,7 @@ void func_80BA2610(ObjWarp2block* this, GlobalContext* globalCtx) {
 void ObjWarp2block_Update(Actor* thisx, GlobalContext* globalCtx) {
     ObjWarp2block* this = THIS;
 
-    this->actionFunc_164(this, globalCtx);
+    this->actionFunc(this, globalCtx);
     if (this->unk_16C > 0) {
         this->unk_16C--;
     }
