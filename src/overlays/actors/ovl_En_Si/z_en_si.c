@@ -155,6 +155,6 @@ void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80AFB950) {
         func_8002ED80(&this->actor, globalCtx, 0);
         func_8002EBCC(&this->actor, globalCtx, 0);
-        func_800694A0(globalCtx, 0x74);
+        GetItem_Draw(globalCtx, GID_SKULL_TOKEN_2);
     }
 }
