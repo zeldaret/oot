@@ -45,10 +45,10 @@ const ActorInit Obj_Warp2block_InitVars = {
 };
 
 typedef struct {
-    /* 0x0000 */ f32 scale;
-    /* 0x0004 */ f32 focus;
-    /* 0x0008 */ s16 params;
-} Warp2BlockSpawnData; // size = 0x000A
+    /* 0x00 */ f32 scale;
+    /* 0x04 */ f32 focus;
+    /* 0x08 */ s16 params;
+} Warp2BlockSpawnData; // size = 0x0A
 
 Warp2BlockSpawnData sSpawnData[] = {
     { 1.0f, 60.0f, 0x0018 },
