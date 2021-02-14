@@ -485,7 +485,7 @@ void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx**
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice.c", 856),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, &D_06003468);
+        gSPDisplayList(POLY_XLU_DISP++, D_06003468);
         Matrix_MultVec3f(&sp38, &this->fireballPos);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 868);
