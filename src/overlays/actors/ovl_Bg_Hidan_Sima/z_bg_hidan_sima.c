@@ -71,7 +71,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static u64* sFireballsTexs[] = { gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex, gHidanObjectsFireball3Tex, gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex, gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex };
+static u64* sFireballsTexs[] = {
+    gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex, gHidanObjectsFireball3Tex,
+    gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex, gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex,
+};
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSima* this = THIS;

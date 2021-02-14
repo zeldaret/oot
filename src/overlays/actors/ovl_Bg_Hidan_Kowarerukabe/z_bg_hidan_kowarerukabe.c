@@ -66,8 +66,11 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
-    static CollisionHeader* collisionHeaders[] = { &gHidanObjectsCol_00D800, &gHidanObjectsCol_00D878,
-                                                   &gHidanObjectsCol_00D8F8 };
+    static CollisionHeader* collisionHeaders[] = {
+        &gHidanObjectsCol_00D800,
+        &gHidanObjectsCol_00D878,
+        &gHidanObjectsCol_00D8F8,
+    };
     s32 pad;
     CollisionHeader* colHeader = NULL;
     s32 pad2;

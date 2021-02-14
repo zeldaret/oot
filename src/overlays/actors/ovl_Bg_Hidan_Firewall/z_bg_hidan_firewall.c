@@ -57,9 +57,10 @@ static ColliderCylinderInit sCylinderInit = {
 
 static CollisionCheckInfoInit sColChkInfoInit = { 1, 80, 100, MASS_IMMOVABLE };
 
-static u64* D_80886D04[] = { gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex,
-                             gHidanObjectsFireball3Tex, gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex,
-                             gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex };
+static u64* D_80886D04[] = {
+    gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex, gHidanObjectsFireball3Tex,
+    gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex, gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex,
+};
 
 void BgHidanFirewall_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanFirewall* this = THIS;
