@@ -26,14 +26,14 @@ glabel EnAnubice_Init
               
 /* 001AC 809B12CC 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
 /* 001B0 809B12D0 3C060600 */  lui     $a2, %hi(gAnubiceSkel)                ## $a2 = 06000000
-/* 001B4 809B12D4 3C070600 */  lui     $a3, %hi(gAnubiceAnim_000F74)                ## $a3 = 06000000
+/* 001B4 809B12D4 3C070600 */  lui     $a3, %hi(gAnubiceIdleAnim)                ## $a3 = 06000000
 /* 001B8 809B12D8 260E0190 */  addiu   $t6, $s0, 0x0190           ## $t6 = 00000190
 /* 001BC 809B12DC 260F01F0 */  addiu   $t7, $s0, 0x01F0           ## $t7 = 000001F0
 /* 001C0 809B12E0 24180010 */  addiu   $t8, $zero, 0x0010         ## $t8 = 00000010
 /* 001C4 809B12E4 AFB80018 */  sw      $t8, 0x0018($sp)           
 /* 001C8 809B12E8 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 001CC 809B12EC AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 001D0 809B12F0 24E70F74 */  addiu   $a3, $a3, %lo(gAnubiceAnim_000F74)           ## $a3 = 06000F74
+/* 001D0 809B12F0 24E70F74 */  addiu   $a3, $a3, %lo(gAnubiceIdleAnim)           ## $a3 = 06000F74
 /* 001D4 809B12F4 24C63990 */  addiu   $a2, $a2, %lo(gAnubiceSkel)           ## $a2 = 06003990
 /* 001D8 809B12F8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 001DC 809B12FC 0C02915F */  jal     SkelAnime_Init
