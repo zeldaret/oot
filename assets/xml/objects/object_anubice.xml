@@ -6,15 +6,15 @@
         <Animation Name="gAnubiceAttackingAnim" Offset="0x78C"/>
         <Animation Name="gAnubiceIdleAnim" Offset="0xF74"/>
         <DList Name="gAnubiceEyesDL" Offset="0x3468"/>
-        <DList Name="gAnubiceDL_003510" Offset="0x3510"/>
+        <DList Name="gAnubiceFireAttackDL" Offset="0x3510"/>
 
         <!-- The following are unused -->
         <Animation Name="gAnubiceLaughingAnim" Offset="0x144"/>
         <Animation Name="gAnubiceStandUpAnim" Offset="0x930"/>
+        <DList Name="gAnubiceDL_003610" Offset="0x3610"/>
+        <DList Name="gAnubiceDL_003688" Offset="0x3688"/>
         <!-- I think those might be for taking damage or something -->
         <Animation Name="gAnubiceAnim_000A48" Offset="0xA48"/>
         <Animation Name="gAnubiceAnim_000BAC" Offset="0xBAC"/>
-        <DList Name="gAnubiceDL_003610" Offset="0x3610"/>
-        <DList Name="gAnubiceDL_003688" Offset="0x3688"/>
     </File>
 </Root>

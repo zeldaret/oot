@@ -244,7 +244,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 546),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, gAnubiceDL_003510);
+            gSPDisplayList(POLY_XLU_DISP++, gAnubiceFireAttackDL);
         }
 
         if (this->scale < 0.1f) {
