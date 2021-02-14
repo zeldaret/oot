@@ -15,10 +15,10 @@ s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern) {
     do {
         __osPfsRequestData(CONT_CMD_REQUEST_STATUS);
 
-        ret = __osSiRawStartDma(OS_WRITE, &pifMempakBuf);
+        ret = __osSiRawStartDma(OS_WRITE, &gPifMempakBuf);
         osRecvMesg(mq, &msg, OS_MESG_BLOCK);
 
-        ret = __osSiRawStartDma(OS_READ, &pifMempakBuf);
+        ret = __osSiRawStartDma(OS_READ, &gPifMempakBuf);
         osRecvMesg(mq, &msg, OS_MESG_BLOCK);
 
         __osPfsGetInitData(&bitpattern, &contData[0]);
@@ -45,13 +45,13 @@ s32 osPfsIsPlug(OSMesgQueue* mq, u8* pattern) {
 }
 
 void __osPfsRequestData(u8 poll) {
-    u8* bufPtr = &pifMempakBuf;
+    u8* bufPtr = (u8*)&gPifMempakBuf;
     __OSContRequestHeader req;
     s32 i;
 
     __osContLastPoll = poll;
 
-    pifMempakBuf.status = 1;
+    gPifMempakBuf.status = 1;
 
     req.align = 0xFF;
     req.txsize = 1;
@@ -75,7 +75,7 @@ void __osPfsGetInitData(u8* pattern, OSContStatus* contData) {
     s32 i;
     u8 bits = 0;
 
-    bufptr = &pifMempakBuf;
+    bufptr = (u8*)&gPifMempakBuf;
 
     for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(req), contData++) {
         req = *((__OSContRequestHeader*)bufptr);

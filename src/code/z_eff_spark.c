@@ -132,7 +132,7 @@ s32 EffectSpark_Update(void* thisx) {
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     Vtx* vertices;
     EffectSpark* this = (EffectSpark*)thisx;
-    GlobalContext* globalCtx;
+    GlobalContext* globalCtx = Effect_GetGlobalCtx();
     s32 i;
     s32 j;
     u8 sp1D3;
@@ -152,8 +152,6 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     u8 sp1C5;
     u8 sp1C4;
     f32 ratio;
-
-    globalCtx = Effect_GetGlobalCtx();
 
     if (1) {}
 
@@ -208,11 +206,9 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             MtxF spEC;
             MtxF spAC;
             MtxF sp6C;
-            EffectSparkElement* elem;
+            EffectSparkElement* elem = &this->elements[i];
             Mtx* mtx;
             f32 temp;
-
-            elem = &this->elements[i];
 
             SkinMatrix_SetTranslate(&spEC, elem->position.x, elem->position.y, elem->position.z);
             temp = ((Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;

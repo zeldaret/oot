@@ -134,7 +134,7 @@ void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     } else {
         params = this->actor.params;
         temp = (params & 0x1F00) >> 8;
-        gSaveContext.gsFlags[temp >> 2] |= (params & 0xFF) << D_8012724C[temp & 3];
+        gSaveContext.gsFlags[temp >> 2] |= (params & 0xFF) << gGoldSkullFlgShift[temp & 3];
 
         Actor_Kill(&this->actor);
     }

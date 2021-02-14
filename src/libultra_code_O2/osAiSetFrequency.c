@@ -1,12 +1,9 @@
 #include "global.h"
 
 s32 osAiSetFrequency(u32 frequency) {
-    u32 dacRate;
     u8 bitrate;
-    f32 dacRateF;
-
-    dacRateF = ((f32)osViClock / frequency) + 0.5f;
-    dacRate = dacRateF;
+    f32 dacRateF = ((f32)osViClock / frequency) + 0.5f;
+    u32 dacRate = dacRateF;
 
     if (dacRate < 132) {
         return -1;
