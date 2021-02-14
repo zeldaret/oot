@@ -1,8 +1,13 @@
 <Root>
     <File Name="nakaniwa_scene">
-        <Scene Name="nakaniwa_scene"/>
+        <Scene Name="nakaniwa_scene">
+            <CutsceneHint Name="gZeldasCourtyardGanonCs" Offset="0x104"/>
+            <CutsceneHint Name="gZeldasCourtyardWindowCs" Offset="0x444"/>
+            <CutsceneHint Name="gZeldasCourtyardMeetCs" Offset="0x3994"/>
+        </Scene>
     </File>
     <File Name="nakaniwa_room_0">
-        <Room Name="nakaniwa_room_0"/>
+        <Room Name="nakaniwa_room_0">
+        </Room>
     </File>
 </Root>

@@ -29,8 +29,8 @@ glabel BgGndFiremeiro_Init
 /* 00064 80879524 0C010D20 */  jal     DynaPolyActor_Init
               
 /* 00068 80879528 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
-/* 0006C 8087952C 3C040601 */  lui     $a0, %hi(D_0600ECD8)                ## $a0 = 06010000
-/* 00070 80879530 2484ECD8 */  addiu   $a0, $a0, %lo(D_0600ECD8)           ## $a0 = 0600ECD8
+/* 0006C 8087952C 3C040601 */  lui     $a0, %hi(gFireTrialPlatformCol)                ## $a0 = 06010000
+/* 00070 80879530 2484ECD8 */  addiu   $a0, $a0, %lo(gFireTrialPlatformCol)           ## $a0 = 0600ECD8
 /* 00074 80879534 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 00078 80879538 27A50024 */  addiu   $a1, $sp, 0x0024           ## $a1 = FFFFFFF4
