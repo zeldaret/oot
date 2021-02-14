@@ -103,6 +103,7 @@ extern GraphicsContext* __gfxCtx;
         GraphicsContext* __gfxCtx;     \
         Gfx* dispRefs[4];              \
         __gfxCtx = gfxCtx;             \
+        (void)__gfxCtx;                \
         Graph_OpenDisps(dispRefs, gfxCtx, file, line)
 
 #define CLOSE_DISPS(gfxCtx, file, line)                 \

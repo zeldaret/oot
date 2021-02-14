@@ -13,7 +13,6 @@ s32 osPfsFreeBlocks(OSPfs* pfs, s32* leftoverBytes) {
     if (!(pfs->status & PFS_INITIALIZED)) {
         return (PFS_ERR_INVALID);
     }
-
     if ((ret = __osCheckId(pfs)) != 0) {
         return ret;
     }

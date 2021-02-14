@@ -204,7 +204,7 @@ void Gameplay_Init(GameState* thisx) {
     }
 
     SystemArena_Display();
-    GameState_Realloc(globalCtx, 0x1D4790);
+    GameState_Realloc(&globalCtx->state, 0x1D4790);
     KaleidoManager_Init(globalCtx);
     View_Init(&globalCtx->view, gfxCtx);
     func_800F6828(0);
@@ -456,7 +456,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         osSyncPrintf("fbdemo_init呼出し失敗！\n"); // "fbdemo_init call failed!"
                         gTrnsnUnkState = 0;
                     } else {
-                        sTrnsnUnk.zBuffer = gZBuffer;
+                        sTrnsnUnk.zBuffer = (u16*)gZBuffer;
                         gTrnsnUnkState = 3;
                         R_UPDATE_RATE = 1;
                     }
@@ -1276,10 +1276,10 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = gfxCtx->overlay.p;
                     globalCtx->preRenderCtx.fbuf = gfxCtx->curFrameBuffer;
-                    globalCtx->preRenderCtx.fbufSave = gZBuffer;
+                    globalCtx->preRenderCtx.fbufSave = (u16*)gZBuffer;
                     func_800C1F20(&globalCtx->preRenderCtx, &sp70);
                     if (R_PAUSE_MENU_MODE == 1) {
-                        globalCtx->preRenderCtx.cvgSave = gfxCtx->curFrameBuffer;
+                        globalCtx->preRenderCtx.cvgSave = (u8*)gfxCtx->curFrameBuffer;
                         func_800C20B4(&globalCtx->preRenderCtx, &sp70);
                         R_PAUSE_MENU_MODE = 2;
                     } else {
