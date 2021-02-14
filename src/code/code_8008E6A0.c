@@ -14,11 +14,9 @@ u32 func_8008E6AC(SubGlobalContext7B8* this, Input* input) {
     }
 
     if (CHECK_BTN_ALL(input->cur.button, BTN_Z)) {
-
         if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
             goto ret_true;
         }
-
         if (CHECK_BTN_ALL(input->cur.button, BTN_R)) {
             this->counter++;
             if (this->counter >= 9) {

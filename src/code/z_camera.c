@@ -403,7 +403,7 @@ f32 Camera_GetFloorY(Camera* camera, Vec3f* pos) {
  * Gets the position of the floor from `pos`, and if the floor is considered not solid,
  * it checks the next floor below that up to 3 times.  Returns the normal of the floor into `norm`
  */
-f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, u32* bgId) {
+f32 Camera_GetFloorYLayer(Camera* camera, Vec3f* norm, Vec3f* pos, s32* bgId) {
     CollisionPoly* floorPoly;
     CollisionContext* colCtx = &camera->globalCtx->colCtx;
     f32 floorY;
@@ -454,7 +454,7 @@ Vec3s* Camera_GetCamBGData(Camera* camera) {
  * Gets the scene's camera index for the poly `poly`, returns -1 if
  * there is no camera data for that poly.
  */
-s32 Camera_GetDataIdxForPoly(Camera* camera, u32* bgId, CollisionPoly* poly) {
+s32 Camera_GetDataIdxForPoly(Camera* camera, s32* bgId, CollisionPoly* poly) {
     s32 camDataIdx;
     PosRot playerPosRot;
     s32 ret;
@@ -577,7 +577,7 @@ s16 func_80044ADC(Camera* camera, s16 yaw, s16 arg2) {
     f32 phi_f18;
     f32 sinYaw;
     f32 cosYaw;
-    u32 bgId;
+    s32 bgId;
     f32 sp30;
     f32 sp2C;
     f32 phi_f16;
@@ -2576,8 +2576,8 @@ s32 Camera_Jump3(Camera* camera) {
             break;
     }
 
-    // unused
-    spB0 = *eye;
+    spB0 = *eye; // unused
+    (void)spB0;  // suppresses set but unused warning
 
     spC4 = PCT(OREG(25)) * camera->speedRatio;
     spC0 = camera->speedRatio * PCT(OREG(26));
@@ -3332,7 +3332,7 @@ s32 Camera_KeepOn3(Camera* camera) {
     sCameraInterfaceFlags = keep3->flags;
     if (camera->animState == 0 || camera->animState == 0xA || camera->animState == 0x14) {
         colChkActors[0] = camera->target;
-        colChkActors[1] = camera->player;
+        colChkActors[1] = &camera->player->actor;
         camera->animState++;
         anim->target = camera->target;
         temp_f0 = (keep3->maxDist < targetToPlayerDir.r ? 1.0f : targetToPlayerDir.r / keep3->maxDist);
@@ -3383,7 +3383,7 @@ s32 Camera_KeepOn3(Camera* camera) {
         if (!(keep3->flags & 0x80)) {
             while (i < angleCnt) {
                 if (!CollisionCheck_LineOCCheck(camera->globalCtx, &camera->globalCtx->colChkCtx, &anim->atTarget,
-                                                &lineChkPointB, &colChkActors, 2) &&
+                                                &lineChkPointB, colChkActors, 2) &&
                     !Camera_BGCheck(camera, &anim->atTarget, &lineChkPointB)) {
                     break;
                 }
@@ -3770,6 +3770,7 @@ s32 Camera_KeepOn0(Camera* camera) {
     *eye = *eyeNext;
 
     sceneCamRot = BGCAM_ROT(sceneCamData); // unused
+    (void)sceneCamRot;                     // suppresses set but unused warning
 
     fov = BGCAM_FOV(sceneCamData);
     if (fov == -1) {
@@ -4949,7 +4950,8 @@ s32 Camera_Unique7(Camera* camera) {
 
     Camera_Vec3sToVec3f(eyeNext, &BGCAM_POS(sceneCamData));
     *eye = *eyeNext;
-    sceneCamRot = BGCAM_ROT(sceneCamData);
+    sceneCamRot = BGCAM_ROT(sceneCamData); // unused
+    (void)sceneCamRot;                     // suppresses set but unused warning
 
     OLib_Vec3fDiffToVecSphGeo(&playerPosEyeOffset, eye, &playerPosRot->pos);
 
@@ -7307,7 +7309,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
     Vec3f viewUp;
     f32 viewFov;
     Vec3f spAC;
-    u32 bgCheckId;
+    s32 bgId;
     f32 playerGroundY;
     f32 playerXZSpeed;
     VecSph eyeAtAngle;
@@ -7344,14 +7346,14 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
         spAC.y += Player_GetHeight(camera->player);
 
         playerGroundY = BgCheck_EntityRaycastFloor5(camera->globalCtx, &camera->globalCtx->colCtx, &playerFloorPoly,
-                                                    &bgCheckId, &camera->player->actor, &spAC);
+                                                    &bgId, &camera->player->actor, &spAC);
         if (playerGroundY != BGCHECK_Y_MIN) {
             // player is above ground.
             sOOBTimer = 0;
             camera->floorNorm.x = COLPOLY_GET_NORMAL(playerFloorPoly->normal.x);
             camera->floorNorm.y = COLPOLY_GET_NORMAL(playerFloorPoly->normal.y);
             camera->floorNorm.z = COLPOLY_GET_NORMAL(playerFloorPoly->normal.z);
-            camera->bgCheckId = bgCheckId;
+            camera->bgCheckId = bgId;
             camera->playerGroundY = playerGroundY;
         } else {
             // player is not above ground.
@@ -7376,10 +7378,10 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
             if ((camera->unk_14C & 1) && (camera->unk_14C & 4) && (!(camera->unk_14C & 0x400)) &&
                 (!(camera->unk_14C & 0x200) || (player->currentBoots == PLAYER_BOOTS_IRON)) &&
                 (!(camera->unk_14C & (s16)0x8000)) && (playerGroundY != BGCHECK_Y_MIN)) {
-                camDataIdx = Camera_GetDataIdxForPoly(camera, &bgCheckId, playerFloorPoly);
+                camDataIdx = Camera_GetDataIdxForPoly(camera, &bgId, playerFloorPoly);
                 if (camDataIdx != -1) {
-                    camera->nextBGCheckId = bgCheckId;
-                    if (bgCheckId == BGCHECK_SCENE) {
+                    camera->nextBGCheckId = bgId;
+                    if (bgId == BGCHECK_SCENE) {
                         camera->nextCamDataIdx = camDataIdx;
                     }
                 }
@@ -7481,7 +7483,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
 
     // setting bgCheckId to the ret of Quake_Calc, and checking that
     // is required, it doesn't make too much sense though.
-    if ((bgCheckId = Quake_Calc(camera, &quake), bgCheckId != 0) && (camera->setting != CAM_SET_ITEM2)) {
+    if ((bgId = Quake_Calc(camera, &quake), bgId != 0) && (camera->setting != CAM_SET_ITEM2)) {
         viewAt.x = camera->at.x + quake.atOffset.x;
         viewAt.y = camera->at.y + quake.atOffset.y;
         viewAt.z = camera->at.z + quake.atOffset.z;

@@ -66,7 +66,7 @@ void func_80886F24(BgHidanFslift* this) {
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 40.0f;
         this->dyna.actor.child->world.pos.z = this->dyna.actor.world.pos.z + -28.0f;
     } else {
-    this->dyna.actor.child = NULL;
+        this->dyna.actor.child = NULL;
     }
 }
 
