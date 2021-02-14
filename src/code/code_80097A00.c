@@ -30,8 +30,8 @@ u16 gUpgradeCapacities[][4] = {
     { 0, 20, 30, 40 },     // Deku Nut Upgrades
 };
 
-u32 D_8012723C[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
-u32 D_8012724C[] = { 0, 8, 16, 24 };
+u32 gGoldSkullFlgMask[] = { 0x000000FF, 0x0000FF00, 0x00FF0000, 0xFF000000 };
+u32 gGoldSkullFlgShift[] = { 0, 8, 16, 24 };
 
 // TODO: use symbols for these icon textures once textures are properly in C
 u32 gItemIcons[] = {
@@ -74,9 +74,7 @@ void Inventory_ChangeEquipment(s16 equipment, u16 value) {
 u8 Inventory_DeleteEquipment(GlobalContext* globalCtx, s16 equipment) {
     Player* player = PLAYER;
     s32 pad;
-    u16 sp26;
-
-    sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
+    u16 sp26 = gSaveContext.equips.equipment & gEquipMasks[equipment];
 
     // Translates to: "Erasing equipment item = %d  zzz=%d"
     osSyncPrintf("装備アイテム抹消 = %d  zzz=%d\n", equipment, sp26);

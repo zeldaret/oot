@@ -642,8 +642,7 @@ endseg
 beginseg
     name "ovl_Bg_Breakwall"
     include "build/src/overlays/actors/ovl_Bg_Breakwall/z_bg_breakwall.o"
-    include "build/data/overlays/actors/z_bg_breakwall.data.o"
-    include "build/data/overlays/actors/z_bg_breakwall.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Breakwall/ovl_Bg_Breakwall_reloc.o"
 endseg
 
 beginseg
@@ -869,8 +868,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Sima"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Sima/z_bg_hidan_sima.o"
-    include "build/data/overlays/actors/z_bg_hidan_sima.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_sima.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Sima/ovl_Bg_Hidan_Sima_reloc.o"
 endseg
 
 beginseg
@@ -971,8 +969,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Ironobj"
     include "build/src/overlays/actors/ovl_Bg_Jya_Ironobj/z_bg_jya_ironobj.o"
-    include "build/data/overlays/actors/z_bg_jya_ironobj.data.o"
-    include "build/data/overlays/actors/z_bg_jya_ironobj.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Ironobj/ovl_Bg_Jya_Ironobj_reloc.o"
 endseg
 
 beginseg
@@ -2946,9 +2943,7 @@ endseg
 beginseg
     name "ovl_En_Sw"
     include "build/src/overlays/actors/ovl_En_Sw/z_en_sw.o"
-    include "build/data/overlays/actors/z_en_sw.data.o"
-    include "build/data/overlays/actors/z_en_sw.bss.o"
-    include "build/data/overlays/actors/z_en_sw.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Sw/ovl_En_Sw_reloc.o"
 endseg
 
 beginseg
@@ -3442,8 +3437,7 @@ endseg
 beginseg
     name "ovl_Obj_Warp2block"
     include "build/src/overlays/actors/ovl_Obj_Warp2block/z_obj_warp2block.o"
-    include "build/data/overlays/actors/z_obj_warp2block.data.o"
-    include "build/data/overlays/actors/z_obj_warp2block.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Warp2block/ovl_Obj_Warp2block_reloc.o"
 endseg
 
 beginseg
@@ -5627,7 +5621,8 @@ endseg
 beginseg
     name "object_jya_iron"
     romalign 0x1000
-    include "build/baserom/object_jya_iron.o"
+    include "build/assets/objects/object_jya_iron/object_jya_iron.o"
+    number 6
 endseg
 
 beginseg

@@ -11,6 +11,7 @@ OSMesg __osEepromTimerMsg;
 u32 gOSContInitialized = 0;
 
 #define HALF_SECOND OS_USEC_TO_CYCLES(500000)
+
 s32 osContInit(OSMesgQueue* mq, u8* ctlBitfield, OSContStatus* status) {
     OSMesg mesg;
     s32 ret = 0;
@@ -21,6 +22,7 @@ s32 osContInit(OSMesgQueue* mq, u8* ctlBitfield, OSContStatus* status) {
     if (gOSContInitialized) {
         return 0;
     }
+
     gOSContInitialized = 1;
     currentTime = osGetTime();
     if (HALF_SECOND > currentTime) {
@@ -38,6 +40,7 @@ s32 osContInit(OSMesgQueue* mq, u8* ctlBitfield, OSContStatus* status) {
     __osContLastPoll = CONT_CMD_REQUEST_STATUS;
     __osSiCreateAccessQueue();
     osCreateMesgQueue(&__osEepromTimerMsgQ, &__osEepromTimerMsg, 1);
+
     return ret;
 }
 
@@ -46,7 +49,9 @@ void __osContGetInitData(u8* ctlBitfield, OSContStatus* status) {
     __OSContRequestHeader req;
     s32 i;
     u8 bitfieldTemp = 0;
+
     bufptr = (u8*)(&__osPifInternalBuff);
+
     for (i = 0; i < __osMaxControllers; i++, bufptr += sizeof(req), status++) {
         req = *((__OSContRequestHeader*)bufptr);
         status->errno = (req.rxsize & 0xC0) >> 4;
@@ -64,12 +69,13 @@ void __osPackRequestData(u8 poll) {
     u8* bufptr;
     __OSContRequestHeader req;
     s32 i;
+
     for (i = 0; i < 0xF; i++) {
         __osPifInternalBuff.ram[i] = 0;
     }
     __osPifInternalBuff.status = 1;
 
-    bufptr = &__osPifInternalBuff;
+    bufptr = (u8*)(&__osPifInternalBuff);
 
     req.align = 0xFF;
     req.txsize = 1;

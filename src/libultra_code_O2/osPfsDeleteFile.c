@@ -2,7 +2,6 @@
 #include "global.h"
 
 s32 osPfsDeleteFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName) {
-
     s32 file_no;
     s32 ret;
     __OSInode inode;
@@ -24,6 +23,7 @@ s32 osPfsDeleteFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8*
     if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + file_no, (u8*)&dir)) != 0) {
         return ret;
     }
+
     startpage = dir.start_page.inode_t.page;
     for (bank = dir.start_page.inode_t.bank; bank < pfs->banks;) {
         if ((ret = __osPfsRWInode(pfs, &inode, PFS_READ, bank)) != 0) {
@@ -48,6 +48,7 @@ s32 osPfsDeleteFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8*
     bzero(&dir, sizeof(__OSDir));
 
     ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + file_no, (u8*)&dir, 0);
+
     return ret;
 }
 

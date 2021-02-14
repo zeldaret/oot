@@ -2,11 +2,12 @@
 
 // TODO: name magic constants
 void osViBlack(u8 active) {
-    register u32 int_disabled = __osDisableInt();
+    register u32 prevInt = __osDisableInt();
+
     if (active) {
         __osViNext->state |= 0x20;
     } else {
         __osViNext->state &= ~0x20;
     }
-    __osRestoreInt(int_disabled);
+    __osRestoreInt(prevInt);
 }

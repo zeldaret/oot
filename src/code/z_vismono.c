@@ -27,6 +27,7 @@ void VisMono_Destroy(VisMono* this) {
 
 void VisMono_UpdateTexture(VisMono* this, u16* tex) {
     s32 i;
+
     for (i = 0; i < 256; i++) {
         tex[i] = ((((i >> 3 & 0x1F) * 2 + (i << 2 & 0x1F) * 4) * 0xFF / 0xD9) << 8) |
                  (((i >> 6 & 0x1F) * 4 + (i >> 1 & 0x1F)) * 0xFF / 0xD9);
@@ -36,9 +37,7 @@ void VisMono_UpdateTexture(VisMono* this, u16* tex) {
 Gfx* VisMono_DrawTexture(VisMono* this, Gfx* gfx) {
     s32 y;
     s32 height = 3;
-    u16* tex;
-
-    tex = D_0F000000;
+    u16* tex = D_0F000000;
 
     gDPPipeSync(gfx++);
     gDPSetOtherMode(gfx++,
@@ -55,11 +54,11 @@ Gfx* VisMono_DrawTexture(VisMono* this, Gfx* gfx) {
 
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, 80, 0x0, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, G_TX_RENDERTILE, (2 << 2), 0, (SCREEN_WIDTH * 2 + 1 << 2), (2 << 2));
+        gDPSetTileSize(gfx++, G_TX_RENDERTILE, (2 << 2), 0, ((SCREEN_WIDTH * 2 + 1) << 2), (2 << 2));
 
         gDPSetTile(gfx++, G_IM_FMT_CI, G_IM_SIZ_8b, 80, 0x0, 1, 1, G_TX_NOMIRROR | G_TX_CLAMP, 0, 0,
                    G_TX_NOMIRROR | G_TX_CLAMP, 0, 0);
-        gDPSetTileSize(gfx++, 1, (1 << 2), 0, (SCREEN_WIDTH * 2 << 2), (2 << 2));
+        gDPSetTileSize(gfx++, 1, (1 << 2), 0, ((SCREEN_WIDTH * 2) << 2), (2 << 2));
 
         gSPTextureRectangle(gfx++, 0, (y) << 2, (SCREEN_WIDTH << 2), (y + height) << 2, G_TX_RENDERTILE, 2 << 5, 0,
                             (2 << 10), (1 << 10));
@@ -72,12 +71,10 @@ Gfx* VisMono_DrawTexture(VisMono* this, Gfx* gfx) {
 }
 
 void VisMono_Draw(VisMono* this, Gfx** gfxp) {
-    Gfx* gfx;
+    Gfx* gfx = *gfxp;
     u16* tlut;
     Gfx* monoDL;
     Gfx* glistpEnd;
-
-    gfx = *gfxp;
 
     if (this->tlut) {
         tlut = this->tlut;
