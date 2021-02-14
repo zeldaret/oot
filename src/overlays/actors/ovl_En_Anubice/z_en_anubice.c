@@ -18,7 +18,7 @@ void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnAnubice_FindCurtains(EnAnubice* this, GlobalContext* globalCtx);
+void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_SetupIdle(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx);
@@ -153,7 +153,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.flags &= ~1;
     this->initialPos = this->actor.world.pos;
     this->actor.targetMode = 3;
-    this->actionFunc = EnAnubice_FindCurtains;
+    this->actionFunc = EnAnubice_FindFlameCircles;
 }
 
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -172,7 +172,7 @@ void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnAnubice_FindCurtains(EnAnubice* this, GlobalContext* globalCtx) {
+void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx) {
     Actor* currentProp;
     s32 flameCirclesFound;
 
@@ -262,7 +262,7 @@ void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
     } else if (this->actor.shape.yOffset < -4220.0f) {
         this->actor.shape.yOffset = -4230.0f;
         this->isMirroringLink = this->isLinkOutOfRange = false;
-        this->actionFunc = EnAnubice_FindCurtains;
+        this->actionFunc = EnAnubice_FindFlameCircles;
         this->actor.gravity = 0.0f;
     }
 }
