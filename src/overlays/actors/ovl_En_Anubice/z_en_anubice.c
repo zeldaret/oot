@@ -250,7 +250,8 @@ void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    if (fabsf(this->initialPos.x - this->actor.world.pos.x) > 3.0f && fabsf(this->initialPos.z - this->actor.world.pos.z) > 3.0f) {
+    if (fabsf(this->initialPos.x - this->actor.world.pos.x) > 3.0f &&
+        fabsf(this->initialPos.z - this->actor.world.pos.z) > 3.0f) {
         x = this->initialPos.x - this->actor.world.pos.x;
         z = this->initialPos.z - this->actor.world.pos.z;
         xzdist = sqrtf(SQ(x) + SQ(z));
@@ -258,8 +259,7 @@ void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
         zRatio = ((z) / xzdist);
         this->actor.world.pos.x += (xRatio * 8);
         this->actor.world.pos.z += (zRatio * 8.0f);
-    }
-    else if (this->actor.shape.yOffset < -4220.0f) {
+    } else if (this->actor.shape.yOffset < -4220.0f) {
         this->actor.shape.yOffset = -4230.0f;
         this->isMirroringLink = this->isLinkOutOfRange = false;
         this->actionFunc = EnAnubice_FindCurtains;
