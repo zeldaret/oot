@@ -235,17 +235,11 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// float register allocation differences
 void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 pad;
     f32 xzdist;
     f32 xRatio;
     f32 zRatio;
-    f32 posX;
     f32 x;
-    f32 posZ;
-    f32 z2;
     f32 z;
 
     SkelAnime_Update(&this->skelAnime);
@@ -256,37 +250,22 @@ void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    posX = this->actor.world.pos.x;
-    x = this->initialPos.x - posX;
-    if (fabsf(x) > 3.0f) {
-        posZ = this->actor.world.pos.z;
-        z = this->initialPos.z - posZ;
-        if (fabsf(z) > 3.0f) {
-            z2 = z;
-            xzdist = sqrtf(SQ(x) + SQ(z2));
-            xRatio = x / xzdist;
-            if (1) {
-                if (1) {}
-                zRatio = z2 / xzdist;
-            }
-            this->actor.world.pos.x = (xRatio * 8) + posX;
-            this->actor.world.pos.z = (zRatio * 8.0f) + posZ;
-            return;
-        }
+    if (fabsf(this->initialPos.x - this->actor.world.pos.x) > 3.0f && fabsf(this->initialPos.z - this->actor.world.pos.z) > 3.0f) {
+        x = this->initialPos.x - this->actor.world.pos.x;
+        z = this->initialPos.z - this->actor.world.pos.z;
+        xzdist = sqrtf(SQ(x) + SQ(z));
+        xRatio = ((x) / xzdist);
+        zRatio = ((z) / xzdist);
+        this->actor.world.pos.x += (xRatio * 8);
+        this->actor.world.pos.z += (zRatio * 8.0f);
     }
-
-    if (&z) {}
-
-    if (this->actor.shape.yOffset < -4220.0f) {
+    else if (this->actor.shape.yOffset < -4220.0f) {
         this->actor.shape.yOffset = -4230.0f;
         this->isMirroringLink = this->isLinkOutOfRange = false;
         this->actionFunc = EnAnubice_FindCurtains;
         this->actor.gravity = 0.0f;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Anubice/EnAnubice_GoToInitPos.s")
-#endif
 
 void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&D_0600078C);
