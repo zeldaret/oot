@@ -969,8 +969,7 @@ endseg
 beginseg
     name "ovl_Bg_Jya_Ironobj"
     include "build/src/overlays/actors/ovl_Bg_Jya_Ironobj/z_bg_jya_ironobj.o"
-    include "build/data/overlays/actors/z_bg_jya_ironobj.data.o"
-    include "build/data/overlays/actors/z_bg_jya_ironobj.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Jya_Ironobj/ovl_Bg_Jya_Ironobj_reloc.o"
 endseg
 
 beginseg
@@ -5621,7 +5620,8 @@ endseg
 beginseg
     name "object_jya_iron"
     romalign 0x1000
-    include "build/baserom/object_jya_iron.o"
+    include "build/assets/objects/object_jya_iron/object_jya_iron.o"
+    number 6
 endseg
 
 beginseg
