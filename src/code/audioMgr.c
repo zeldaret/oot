@@ -1,9 +1,8 @@
 #include "global.h"
 
 void func_800C3C80(AudioMgr* audioMgr) {
-    Sub_AudioMgr_18* sub;
+    Sub_AudioMgr_18* sub = audioMgr->unk_70;
 
-    sub = audioMgr->unk_70;
     if (audioMgr->unk_70->unk_40 != NULL) {
         osSendMesg(sub->unk_40, NULL, OS_MESG_BLOCK);
     }
@@ -27,6 +26,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
         osSendMesg(&audioMgr->sched->cmdQ, &audioMgr->unk_8, OS_MESG_BLOCK);
         Sched_SendEntryMsg(audioMgr->sched);
     }
+
     D_8016A550 = osGetTime();
     if (SREG(20) >= 2) {
         sub = NULL;
@@ -35,6 +35,7 @@ void AudioMgr_HandleRetrace(AudioMgr* audioMgr) {
     }
     D_8016A558 += osGetTime() - D_8016A550;
     D_8016A550 = 0;
+
     if (audioMgr->unk_70 != NULL) {
         osRecvMesg(&audioMgr->unk_AC, NULL, OS_MESG_BLOCK);
         func_800C3C80(audioMgr);
@@ -49,12 +50,10 @@ void AudioMgr_HandlePRENMI(AudioMgr* audioMgr) {
 }
 
 void AudioMgr_ThreadEntry(void* arg0) {
-    AudioMgr* audioMgr;
+    AudioMgr* audioMgr = (AudioMgr*)arg0;
     IrqMgrClient irqClient;
-    s16* msg;
+    s16* msg = NULL;
 
-    audioMgr = (AudioMgr*)arg0;
-    msg = NULL;
     // Start running audio manager thread
     osSyncPrintf("オーディオマネージャスレッド実行開始\n");
     func_800F70F8();
