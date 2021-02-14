@@ -20,6 +20,7 @@ void func_80BA0DC0(ObjTsubo* this);
 s32 func_80BA0DF4(ObjTsubo* this, GlobalContext* globalCtx);
 void func_80BA0E98(Actor* thisx, GlobalContext* globalCtx);
 void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx);
+void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx);
 void func_80BA152C(ObjTsubo* this);
 void func_80BA153C(ObjTsubo* this, GlobalContext* globalCtx);
 
@@ -76,12 +77,15 @@ s16 D_80BA1B80[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 
 s32 D_80BA1B84[] = { 0x05017870, 0x060017C0 };
 
-s32 D_80BA1B8C[] = { 0x05017A60, 0x06001960 };
+Gfx* D_80BA1B8C[] = { 0x05017A60, 0x06001960 };
 
 s32 D_80BA1B94[] = { 0x0C090939, 0x20010000, 0x00000000, 0x00000002, 0x00010000, 0x4FC1FFFE,
                      0x00000000, 0x01010100, 0x0009001A, 0x00000000, 0x00000000 };
 
-s32 D_80BA1BC0[] = { 0x0000000C, 0x003CFF00 };
+// s32 D_80BA1BC0[] = { 0x0000000C, 0x003CFF00 };
+
+// sColChkInfoInit
+static CollisionCheckInfoInit D_80BA1BC0[] = { 0, 12, 60, 0xFF };
 
 // s32 D_80BA1BC8[] = { 0xB86CFB50, 0xB870B1E0, 0xC8500096, 0xB0F40384, 0xB0F80064, 0x30FC0320 };
 InitChainEntry D_80BA1BC8[] = {
@@ -146,7 +150,7 @@ void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, D_80BA1BC8);
     func_80BA0E98(&this->actor, globalCtx);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, D_80BA1BC0);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &D_80BA1BC0);
     if (func_80BA0DF4(this, globalCtx) == 0) {
         Actor_Kill(&this->actor);
         return;
@@ -174,8 +178,8 @@ void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 rand;
     s16 angle;
-    Vec3f vec1;
-    Vec3f vec2;
+    Vec3f pos;
+    Vec3f velocity;
     f32 sins;
     f32 coss;
     s32 arg5;
@@ -185,15 +189,15 @@ void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
         sins = Math_SinS(angle);
         coss = Math_CosS(angle);
 
-        vec1.x = sins * 8.0f;
-        vec1.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
-        vec1.z = coss * 8.0f;
+        pos.x = sins * 8.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = coss * 8.0f;
 
-        vec2.x = vec1.x * 0.23f;
-        vec2.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
-        vec2.z = vec1.z * 0.23f;
+        velocity.x = pos.x * 0.23f;
+        velocity.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        velocity.z = pos.z * 0.23f;
 
-        Math_Vec3f_Sum(&vec1, &this->actor.world.pos, &vec1);
+        Math_Vec3f_Sum(&pos, &this->actor.world.pos, &pos);
 
         rand = Rand_ZeroOne();
         if (rand < 0.2f) {
@@ -203,50 +207,47 @@ void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
         } else {
             arg5 = 32;
         }
-        EffectSsKakera_Spawn(globalCtx, &vec1, &vec2, &this->actor.world.pos, -0xF0, arg5, 0xA, 0xA, 0,
-                             ((Rand_ZeroOne() * 95.0f) + 15.0f), 0, 0x20, 0x3C, KAKERA_COLOR_NONE,
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -240, arg5, 10, 10, 0,
+                             (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 60, KAKERA_COLOR_NONE,
                              D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
     }
 
     func_80033480(globalCtx, &this->actor.world.pos, 30.0f, 4, 0x14, 0x32, 1);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA1294.s")
-// void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx) {
-//     f32 sins;
-//     f32 coss;
-//     f32 temp_rand;
-//     Vec3f pos;
-//     Vec3f velocity;
-//     Vec3f* breakPos = &this->actor.world.pos;
-//     s16 angle;
-//     s32 phi_s0;
-//     s32 i;
+// matches
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA1294.s")
+void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    s16 angle;
+    Vec3f pos = this->actor.world.pos;
+    Vec3f velocity;
+    s32 phi_s0;
+    s32 i;
 
-//     pos = *breakPos;
-//     pos.y += this->actor.yDistToWater;
-//     EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 400);
+    pos.y += this->actor.yDistToWater;
+    EffectSsGSplash_Spawn(globalCtx, &pos, NULL, NULL, 0, 400);
 
-//     for (i = 0, angle = 0; i < 15; i++, angle += 0x4E20) {
-//         sins = Math_SinS(angle);
-//         coss = Math_CosS(angle);
+    for (i = 0, angle = 0; i < 15; i++, angle += 0x4E20) {
+        f32 sins = Math_SinS(angle);
+        f32 coss = Math_CosS(angle);
 
-//         pos.x = sins * 8.0f;
-//         pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
-//         pos.z = coss * 8.0f;
+        pos.x = sins * 8.0f;
+        pos.y = (Rand_ZeroOne() * 5.0f) + 2.0f;
+        pos.z = coss * 8.0f;
 
-//         velocity.x = pos.x * 0.2f;
-//         velocity.y = (Rand_ZeroOne() * 4.0f) + 2.0f;
-//         velocity.z = coss * 8.0f * 0.2f;
+        velocity.x = pos.x * 0.2f;
+        velocity.y = (Rand_ZeroOne() * 4.0f) + 2.0f;
+        velocity.z = pos.z * 0.2f;
 
-//         Math_Vec3f_Sum(&pos, &this->actor.world.pos, &pos);
-//         temp_rand = Rand_ZeroOne();
-//         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
-//         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -0xB4, phi_s0, 0x1E, 0x1E, 0,
-//                              ((Rand_ZeroOne() * 95.0f) + 15.0f), 0, 0x20, 0x46, KAKERA_COLOR_NONE,
-//                              D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
-//     }
-// }
+        Math_Vec3f_Sum(&pos, &this->actor.world.pos, &pos);
+        phi_s0 = (Rand_ZeroOne() < .2f) ? 64 : 32;
+
+        EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &this->actor.world.pos, -180, phi_s0, 30, 30, 0,
+                             (Rand_ZeroOne() * 95.0f) + 15.0f, 0, 32, 70, KAKERA_COLOR_NONE,
+                             D_80BA1B80[(this->actor.params >> 8) & 1], D_80BA1B8C[(this->actor.params >> 8) & 1]);
+    }
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA152C.s")
 void func_80BA152C(ObjTsubo* this) {
@@ -269,6 +270,52 @@ void func_80BA15AC(ObjTsubo* this) {
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA15BC.s")
+// void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx) {
+//     s16 temp_v0;
+//     s32 phi_v1;
+
+//     if (Actor_HasParent(&this->actor, globalCtx) != 0) {
+//         func_80BA17C4(this);
+//         return;
+//     }
+//     if ((this->actor.bgCheckFlags & 0x20) != 0) {
+//         if (this->actor.yDistToWater > 15.0f) {
+//             func_80BA1294(this, globalCtx);
+//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+//             func_80BA0D60(this, globalCtx);
+//             Actor_Kill(&this->actor);
+//             return;
+//         }
+//     }
+//     if ((this->collider.base.acFlags & 2) != 0) {
+//         if ((this->collider.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC) != 0) {
+//             func_80BA100C(this, globalCtx);
+//             func_80BA0D60(this, globalCtx);
+//             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+//             Actor_Kill(&this->actor);
+//             return;
+//         }
+//     }
+//     if (this->actor.xzDistToPlayer < 600.0f) {
+//         Collider_UpdateCylinder(&this->actor, &this->collider);
+//         this->collider.base.acFlags = this->collider.base.acFlags & 0xFFFD;
+
+//         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+//         if (this->actor.xzDistToPlayer < 150.0f) {
+//             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+//         }
+//     }
+//     if (this->actor.xzDistToPlayer < 100.0f) {
+//         temp_v0 = this->actor.yawTowardsPlayer - globalCtx->actorCtx.actorLists[2].head->world.rot.y;
+//         phi_v1 = 0 - temp_v0;
+//         if (temp_v0 >= 0) {
+//             phi_v1 = temp_v0;
+//         }
+//         if (phi_v1 >= 0x5556) {
+//             func_8002F434(&this->actor, globalCtx, 0, 30.0f, 30.0f);
+//         }
+//     }
+// }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Tsubo/func_80BA17C4.s")
 void func_80BA17C4(ObjTsubo* this) {
