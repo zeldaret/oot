@@ -118,8 +118,8 @@ void func_80B20DE0(EnTp* this, EnTpActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+/* void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     // s32 pad;
     GlobalContext* globalCtx = globalCtx2;
     EnTp* this = THIS;
@@ -189,7 +189,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     } else {
         func_80B217FC(this);
     }
-}
+} */
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Destroy.s")
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -493,8 +493,8 @@ void func_80B21EE8(EnTp* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21F18.s")
 void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
     static Vec3f bubbleAccel = { 0.0f, -0.5f, 0.0f };
-    static Color_RGBA8 bubblePrimColor[] = { 255, 255, 255, 255 };
-    static Color_RGBA8 bubbleEnvColor[] = { 150, 150, 150, 0 };
+    static Color_RGBA8 bubblePrimColor = { 255, 255, 255, 255 };
+    static Color_RGBA8 bubbleEnvColor = { 150, 150, 150, 0 };
     Vec3f bubbleVelocity;
     Vec3f bubblePos;
     s32 sp44;
@@ -562,7 +562,7 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
             bubbleVelocity.y = (Rand_ZeroOne() * 3.5f) + 1.5f;
             bubbleVelocity.z = Rand_CenteredFloat(5.0f);
 
-            EffectSsDtBubble_SpawnCustomColor(globalCtx, &bubblePos, &bubbleVelocity, &bubbleAccel, bubblePrimColor, bubbleEnvColor,
+            EffectSsDtBubble_SpawnCustomColor(globalCtx, &bubblePos, &bubbleVelocity, &bubbleAccel, &bubblePrimColor, &bubbleEnvColor,
                                               Rand_S16Offset(100, 50), 20, 0);
         }
     }
