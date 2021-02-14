@@ -125,11 +125,9 @@ void func_809B27D8(EnAnubiceFire* this, GlobalContext* globalCtx) {
         } else {
             this->unk_15A = 0;
             EffectSsBomb2_SpawnLayered(globalCtx, &this->actor.world.pos, &sp78, &sp84, 10, 5);
-            this->actor.velocity.z = 0.0f;
-            this->actor.velocity.y = 0.0f;
-            this->actor.velocity.x = 0.0f;
+            this->actor.velocity.x = this->actor.velocity.y = this->actor.velocity.z = 0.0f;
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_ANUBIS_FIREBOMB);
-            this->actionFunc = &func_809B2B48;
+            this->actionFunc = func_809B2B48;
         }
     } else if (!(this->scale < .4f)) {
         f32 scale = 1000.0f;
