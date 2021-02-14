@@ -6,6 +6,7 @@
 
 #include "z_en_honotrap.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -47,8 +48,6 @@ void EnHonotrap_SetupFlameChase(EnHonotrap* this);
 void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_SetupFlameVanish(EnHonotrap* this);
 void EnHonotrap_FlameVanish(EnHonotrap* this, GlobalContext* globalCtx);
-
-extern Gfx D_05006810[];
 
 const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
@@ -488,7 +487,12 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x0500B0A0, 0x0500B8A0, 0x0500C0A0, 0x0500C0A0 };
+    static void* eyeTextures[] = {
+        gEyeSwitchSilverOpenTex,
+        gEyeSwitchSilverHalfTex,
+        gEyeSwitchSilverClosedTex,
+        gEyeSwitchSilverClosedTex,
+    };
     EnHonotrap* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 982);
@@ -497,7 +501,7 @@ void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeState]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 987),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_05006810);
+    gSPDisplayList(POLY_OPA_DISP++, gEyeSwitch2DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 991);
 }

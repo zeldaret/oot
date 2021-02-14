@@ -21,7 +21,7 @@ s32 osPfsFileState(OSPfs* pfs, s32 fileNo, OSPfsState* state) {
     if (pfs->activebank != 0 && (ret = __osPfsSelectBank(pfs, 0)) != 0) {
         return ret;
     }
-    if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + fileNo, &dir)) != 0) {
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + fileNo, (u8*)&dir)) != 0) {
         return ret;
     }
     if (dir.company_code == 0 || dir.game_code == 0) {
@@ -53,5 +53,6 @@ s32 osPfsFileState(OSPfs* pfs, s32 fileNo, OSPfsState* state) {
     state->game_code = dir.game_code;
     bcopy(&dir.game_name, state->game_name, PFS_FILE_NAME_LEN);
     bcopy(&dir.ext_name, state->ext_name, PFS_FILE_EXT_LEN);
+
     return __osPfsGetStatus(pfs->queue, pfs->channel);
 }

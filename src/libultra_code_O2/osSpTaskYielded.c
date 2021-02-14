@@ -2,9 +2,7 @@
 
 u32 osSpTaskYielded(OSTask* task) {
     u32 ret;
-    u32 status;
-
-    status = __osSpGetStatus();
+    u32 status = __osSpGetStatus();
 
     if (status & SP_STATUS_YIELDED) {
         ret = OS_TASK_YIELDED;

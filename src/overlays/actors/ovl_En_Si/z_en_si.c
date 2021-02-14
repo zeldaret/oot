@@ -134,7 +134,7 @@ void func_80AFB950(EnSi* this, GlobalContext* globalCtx) {
     } else {
         params = this->actor.params;
         temp = (params & 0x1F00) >> 8;
-        gSaveContext.gsFlags[temp >> 2] |= (params & 0xFF) << D_8012724C[temp & 3];
+        gSaveContext.gsFlags[temp >> 2] |= (params & 0xFF) << gGoldSkullFlgShift[temp & 3];
 
         Actor_Kill(&this->actor);
     }
@@ -155,6 +155,6 @@ void EnSi_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionFunc != func_80AFB950) {
         func_8002ED80(&this->actor, globalCtx, 0);
         func_8002EBCC(&this->actor, globalCtx, 0);
-        func_800694A0(globalCtx, 0x74);
+        GetItem_Draw(globalCtx, GID_SKULL_TOKEN_2);
     }
 }
