@@ -18,18 +18,18 @@ void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx);
 void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx);
 
 typedef enum {
-    /* 0x00 */ ACTION_INITIALIZE,
-    /* 0x01 */ ACTION_GROW_SLOWLY,
-    /* 0x02 */ ACTION_STOP_GROWING,
-    /* 0x03 */ ACTION_GROW_QUICKLY
+    /* 0x00 */ DF_ACTION_INITIALIZE,
+    /* 0x01 */ DF_ACTION_EXPAND_SLOWLY,
+    /* 0x02 */ DF_ACTION_STOP_EXPANDING,
+    /* 0x03 */ DF_ACTION_EXPAND_QUICKLY
 } MagicFireAction;
 
 typedef enum {
-    /* 0x00 */ SCREEN_TINT_NONE,
-    /* 0x01 */ SCREEN_TINT_FADE_IN,
-    /* 0x02 */ SCREEN_TINT_MAINTAIN,
-    /* 0x03 */ SCREEN_TINT_FADE_OUT,
-    /* 0x04 */ SCREEN_TINT_FINISHED
+    /* 0x00 */ DF_SCREEN_TINT_NONE,
+    /* 0x01 */ DF_SCREEN_TINT_FADE_IN,
+    /* 0x02 */ DF_SCREEN_TINT_MAINTAIN,
+    /* 0x03 */ DF_SCREEN_TINT_FADE_OUT,
+    /* 0x04 */ DF_SCREEN_TINT_FINISHED
 } MagicFireScreenTint;
 
 const ActorInit Magic_Fire_InitVars = {
@@ -313,10 +313,9 @@ static InitChainEntry sInitChain[] = {
 };
 
 static u8 sVertexIndices[] = {
-    0x03, 0x04, 0x05, 0x06, 0x07, 0x08, 0x09, 0x0A, 0x10, 0x11, 0x12, 0x13, 0x19, 0x1A, 0x1B, 0x20,
-    0x23, 0x24, 0x25, 0x26, 0x27, 0x2D, 0x2E, 0x2F, 0x34, 0x35, 0x36, 0x3B, 0x3C, 0x3D, 0x43, 0x44,
-    0x45, 0x46, 0x47, 0x48, 0x00, 0x01, 0x0B, 0x0C, 0x0E, 0x14, 0x15, 0x17, 0x1C, 0x1E, 0x21, 0x22,
-    0x28, 0x29, 0x2B, 0x30, 0x32, 0x37, 0x39, 0x3E, 0x40, 0x41, 0x49, 0x4A, 0x00, 0x00, 0x00, 0x00,
+    3,  4,  5,  6,  7,  8,  9,  10, 16, 17, 18, 19, 25, 26, 27, 32, 35, 36, 37, 38, 39, 45,
+    46, 47, 52, 53, 54, 59, 60, 61, 67, 68, 69, 70, 71, 72, 0,  1,  11, 12, 14, 20, 21, 23,
+    28, 30, 33, 34, 40, 41, 43, 48, 50, 55, 57, 62, 64, 65, 73, 74,
 };
 
 void MagicFire_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -368,9 +367,9 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    if (this->action == ACTION_GROW_SLOWLY) {
+    if (this->action == DF_ACTION_EXPAND_SLOWLY) {
         this->collider.info.toucher.damage = this->actionTimer + 25;
-    } else if (this->action == ACTION_STOP_GROWING) {
+    } else if (this->action == DF_ACTION_STOP_EXPANDING) {
         this->collider.info.toucher.damage = this->actionTimer;
     }
     Collider_UpdateCylinder(&this->actor, &this->collider);
@@ -380,7 +379,7 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
     switch (this->action) {
-        case ACTION_INITIALIZE:
+        case DF_ACTION_INITIALIZE:
             this->actionTimer = 30;
             this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = 0.0f;
             this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
@@ -389,7 +388,7 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
             this->scalingSpeed = 0.08f;
             this->action++;
             break;
-        case ACTION_GROW_SLOWLY: // Fire sphere slowly grows out of player for 30 frames
+        case DF_ACTION_EXPAND_SLOWLY: // Fire sphere slowly expands out of player for 30 frames
             Math_StepToF(&this->alphaMultiplier, 1.0f, 1.0f / 30.0f);
             if (this->actionTimer > 0) {
                 Math_SmoothStepToF(&this->actor.scale.x, 0.4f, this->scalingSpeed, 0.1f, 0.001f);
@@ -399,14 +398,14 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->action++;
             }
             break;
-        case ACTION_STOP_GROWING: // Sphere stops growing and maintains size for 25 frames
+        case DF_ACTION_STOP_EXPANDING: // Sphere stops expanding and maintains size for 25 frames
             if (this->actionTimer <= 0) {
                 this->actionTimer = 15;
                 this->action++;
                 this->scalingSpeed = 0.05f;
             }
             break;
-        case ACTION_GROW_QUICKLY: // Sphere beings to grow again and quickly expands out until killed
+        case DF_ACTION_EXPAND_QUICKLY: // Sphere beings to grow again and quickly expands out until killed
             this->alphaMultiplier -= 0.06722689f;
             this->actor.scale.x += this->scalingSpeed;
             this->actor.scale.y += this->scalingSpeed;
@@ -418,29 +417,29 @@ void MagicFire_Update(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
     switch (this->screenTintBehaviour) {
-        case SCREEN_TINT_NONE:
+        case DF_SCREEN_TINT_NONE:
             if (this->screenTintBehaviourTimer <= 0) {
                 this->screenTintBehaviourTimer = 20;
-                this->screenTintBehaviour = SCREEN_TINT_FADE_IN;
+                this->screenTintBehaviour = DF_SCREEN_TINT_FADE_IN;
             }
             break;
-        case SCREEN_TINT_FADE_IN:
+        case DF_SCREEN_TINT_FADE_IN:
             this->screenTintIntensity = 1.0f - (this->screenTintBehaviourTimer / 20.0f);
             if (this->screenTintBehaviourTimer <= 0) {
                 this->screenTintBehaviourTimer = 45;
-                this->screenTintBehaviour = SCREEN_TINT_MAINTAIN;
+                this->screenTintBehaviour = DF_SCREEN_TINT_MAINTAIN;
             }
             break;
-        case SCREEN_TINT_MAINTAIN:
+        case DF_SCREEN_TINT_MAINTAIN:
             if (this->screenTintBehaviourTimer <= 0) {
                 this->screenTintBehaviourTimer = 5;
-                this->screenTintBehaviour = SCREEN_TINT_FADE_OUT;
+                this->screenTintBehaviour = DF_SCREEN_TINT_FADE_OUT;
             }
             break;
-        case SCREEN_TINT_FADE_OUT:
+        case DF_SCREEN_TINT_FADE_OUT:
             this->screenTintIntensity = (this->screenTintBehaviourTimer / 5.0f);
             if (this->screenTintBehaviourTimer <= 0) {
-                this->screenTintBehaviour = SCREEN_TINT_FINISHED;
+                this->screenTintBehaviour = DF_SCREEN_TINT_FINISHED;
             }
             break;
     }
@@ -492,12 +491,12 @@ void MagicFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_fire.c", 750);
 
         alpha = (s32)(this->alphaMultiplier * 255);
-        for (i = 0; i < 0x24; i++) {
+        for (i = 0; i < 36; i++) {
             sFireSphereVertices[sVertexIndices[i]].n.a = alpha;
         }
 
         alpha = (s32)(this->alphaMultiplier * 76);
-        for (i = 0x24; i < 0x3C; i++) {
+        for (i = 36; i < 60; i++) {
             sFireSphereVertices[sVertexIndices[i]].n.a = alpha;
         }
     }
