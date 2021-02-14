@@ -359,8 +359,8 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     phi_f2 = curFrame * -3000.0f;
     phi_f2 = CLAMP_MIN(phi_f2, -11000.0f);
 
-    Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
-    Matrix_RotateX((phi_f2 / 32768.0f) * M_PI, MTXMODE_APPLY);
+    Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
+    Matrix_RotateX(BINANG_TO_RAD(phi_f2), MTXMODE_APPLY);
     sp4C.y = Rand_CenteredFloat(10.0f) + 30.0f;
     Matrix_MultVec3f(&sp4C, &fireEffectPos);
     fireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
@@ -426,7 +426,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
                 sp3C.y = 0.0f;
                 sp3C.z = 0.0f;
 
-                Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateY(BINANG_TO_RAD(this->actor.shape.rot.y), MTXMODE_NEW);
                 Matrix_MultVec3f(&sp48, &sp3C);
 
                 this->actor.velocity.x = sp3C.x;
