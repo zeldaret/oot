@@ -38,7 +38,7 @@ typedef enum {
     /* 06 */ AM_BEHAVIOR_STUNNED,
     /* 07 */ AM_BEHAVIOR_GO_HOME,
     /* 08 */ AM_BEHAVIOR_RICOCHET,
-    /* 10 */ AM_BEHAVIOR_AGRO = 10
+    /* 10 */ AM_BEHAVIOR_AGGRO = 10
 } ArmosBehavior;
 
 const ActorInit En_Am_InitVars = {
@@ -173,8 +173,7 @@ void EnAm_SetupAction(EnAm* this, EnAmActionFunc actionFunc) {
  * Returns true if the armos would land on the ground in the resulting position.
  *
  * If it won't land on the ground, it will return true anyway if the floor the armos will be on
- * is 20 units higher than the home position. This is a convoluted way of making sure
- * the Armos can move down slight slopes but not steep ones (or complete drop offs).
+ * is no more than 20 units lower than the home position. This prevents the armos from going down steep slopes.
  */
 s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     s16 ret;
@@ -197,10 +196,8 @@ s32 EnAm_CanMove(EnAm* this, GlobalContext* globalCtx, f32 distance, s16 yaw) {
     this->dyna.actor.world.pos = curPos;
     ret = this->dyna.actor.bgCheckFlags & 1;
 
-    if (!ret) {
-        if ((this->dyna.actor.home.pos.y - 20.0f) <= this->dyna.actor.floorHeight) {
-            ret = true;
-        }
+    if (!ret && (this->dyna.actor.floorHeight >= (this->dyna.actor.home.pos.y - 20.0f))) {
+        ret = true;
     }
 
     this->dyna.actor.bgCheckFlags = curBgCheckFlags;
@@ -265,9 +262,9 @@ void EnAm_SpawnEffects(EnAm* this, GlobalContext* globalCtx) {
     s32 pad;
 
     for (i = 4; i > 0; i--) {
-        pos.x = ((Rand_ZeroOne() - 0.5f) * 65.0f) + this->dyna.actor.world.pos.x;
-        pos.y = ((Rand_ZeroOne() - 0.5f) * 10.0f) + (this->dyna.actor.world.pos.y + 40.0f);
-        pos.z = ((Rand_ZeroOne() - 0.5f) * 65.0f) + this->dyna.actor.world.pos.z;
+        pos.x = this->dyna.actor.world.pos.x + ((Rand_ZeroOne() - 0.5f) * 65.0f);
+        pos.y = (this->dyna.actor.world.pos.y + 40.0f) + ((Rand_ZeroOne() - 0.5f) * 10.0f);
+        pos.z = this->dyna.actor.world.pos.z + ((Rand_ZeroOne() - 0.5f) * 65.0f);
 
         EffectSsKiraKira_SpawnSmall(globalCtx, &pos, &velocity, &accel, &primColor, &envColor);
     }
@@ -282,13 +279,7 @@ void EnAm_SetupSleep(EnAm* this) {
     Animation_Change(&this->skelAnime, &gArmosRicochetAnim, 0.0f, lastFrame, lastFrame, ANIMMODE_LOOP, 0.0f);
     this->behavior = AM_BEHAVIOR_DO_NOTHING;
     this->dyna.actor.speedXZ = 0.0f;
-
-    if (this->textureBlend == 255) {
-        this->unk_258 = 0;
-    } else {
-        this->unk_258 = 1;
-    }
-
+    this->unk_258 = (this->textureBlend == 255) ? 0 : 1;
     EnAm_SetupAction(this, EnAm_Sleep);
 }
 
@@ -305,7 +296,7 @@ void EnAm_SetupStatue(EnAm* this) {
 void EnAm_SetupLunge(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
-    this->behavior = AM_BEHAVIOR_AGRO;
+    this->behavior = AM_BEHAVIOR_AGGRO;
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Lunge);
@@ -315,7 +306,7 @@ void EnAm_SetupCooldown(EnAm* this) {
     Animation_PlayLoopSetSpeed(&this->skelAnime, &gArmosHopAnim, 4.0f);
     this->unk_258 = 3;
     this->cooldownTimer = 40;
-    this->behavior = AM_BEHAVIOR_AGRO;
+    this->behavior = AM_BEHAVIOR_AGGRO;
     this->dyna.actor.speedXZ = 0.0f;
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y;
     EnAm_SetupAction(this, EnAm_Cooldown);
@@ -575,9 +566,7 @@ void EnAm_RecoilFromDamage(EnAm* this, GlobalContext* globalCtx) {
 void EnAm_Cooldown(EnAm* this, GlobalContext* globalCtx) {
     s16 yawDiff = this->dyna.actor.yawTowardsPlayer - this->dyna.actor.world.rot.y;
 
-    if (yawDiff < 0) {
-        yawDiff = -yawDiff;
-    }
+    yawDiff = ABS(yawDiff);
 
     if (this->cooldownTimer != 0) {
         this->cooldownTimer--;
@@ -704,8 +693,7 @@ void EnAm_Statue(EnAm* this, GlobalContext* globalCtx) {
             this->unk_258 = 0;
             player->stateFlags2 &= ~0x151;
             player->actor.speedXZ = 0.0f;
-            this->dyna.unk_150 = 0.0f;
-            this->dyna.unk_154 = 0.0f;
+            this->dyna.unk_150 = this->dyna.unk_154 = 0.0f;
         }
 
         this->dyna.actor.world.rot.y = this->dyna.unk_158;
@@ -806,39 +794,35 @@ void EnAm_UpdateDamage(EnAm* this, GlobalContext* globalCtx) {
             if (this->behavior >= AM_BEHAVIOR_5) {
                 EnAm_SetupRicochet(this, globalCtx);
             }
-        } else {
-            if ((this->hurtCollider.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
-                this->hurtCollider.base.acFlags &= ~AC_HIT;
+        } else if ((this->hurtCollider.base.acFlags & AC_HIT) && (this->behavior >= AM_BEHAVIOR_5)) {
+            this->hurtCollider.base.acFlags &= ~AC_HIT;
 
-                if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
-                    this->unk_264 = 0;
-                    this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
-                    func_80035650(&this->dyna.actor, &this->hurtCollider.info, 0);
+            if (this->dyna.actor.colChkInfo.damageEffect != AM_DMGEFF_MAGIC_FIRE_LIGHT) {
+                this->unk_264 = 0;
+                this->damageEffect = this->dyna.actor.colChkInfo.damageEffect;
+                func_80035650(&this->dyna.actor, &this->hurtCollider.info, 0);
 
-                    if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
-                        (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
-                        (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_ICE)) {
-                        if (this->behavior != AM_BEHAVIOR_STUNNED) {
-                            EnAm_SetupStunned(this, globalCtx);
+                if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_NUT) ||
+                    (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) ||
+                    (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_ICE)) {
+                    if (this->behavior != AM_BEHAVIOR_STUNNED) {
+                        EnAm_SetupStunned(this, globalCtx);
 
-                            if (this->dyna.actor.colChkInfo.damage != 0) {
-                                this->dyna.actor.colChkInfo.health = 0;
-                            }
-                        } else if (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) {
-                            sparkPos = this->dyna.actor.world.pos;
-                            sparkPos.y += 50.0f;
-                            CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sparkPos);
-                        }
-                    } else {
-                        if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL) ||
-                            (this->behavior == AM_BEHAVIOR_STUNNED)) {
+                        if (this->dyna.actor.colChkInfo.damage != 0) {
                             this->dyna.actor.colChkInfo.health = 0;
-
-                            EnAm_SetupRecoilFromDamage(this, globalCtx);
-                        } else {
-                            EnAm_SetupRicochet(this, globalCtx);
                         }
+                    } else if (this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_STUN) {
+                        sparkPos = this->dyna.actor.world.pos;
+                        sparkPos.y += 50.0f;
+                        CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &sparkPos);
                     }
+                } else if ((this->dyna.actor.colChkInfo.damageEffect == AM_DMGEFF_KILL) ||
+                           (this->behavior == AM_BEHAVIOR_STUNNED)) {
+                    this->dyna.actor.colChkInfo.health = 0;
+
+                    EnAm_SetupRecoilFromDamage(this, globalCtx);
+                } else {
+                    EnAm_SetupRicochet(this, globalCtx);
                 }
             }
         }
@@ -898,7 +882,7 @@ void EnAm_Update(Actor* thisx, GlobalContext* globalCtx) {
                 return;
             }
 
-            if ((this->deathTimer & 3) == 0) {
+            if ((this->deathTimer % 4) == 0) {
                 Actor_SetColorFilter(&this->dyna.actor, 0x4000, 255, 0, 4);
             }
         }
@@ -974,7 +958,7 @@ void EnAm_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (1) {};
         this->iceTimer--;
 
-        if ((this->iceTimer & 3) == 0) {
+        if ((this->iceTimer % 4) == 0) {
             s32 index;
 
             index = this->iceTimer >> 2;

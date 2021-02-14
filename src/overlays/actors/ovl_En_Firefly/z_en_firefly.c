@@ -1,3 +1,9 @@
+/*
+ * File: z_en_firefly.c
+ * Overlay: ovl_En_Firefly
+ * Description: Keese (Normal, Fire, Ice)
+ */
+
 #include "z_en_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
@@ -198,7 +204,7 @@ void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-void EnFirefly_SetupWait(EnFirefly* this) {
+void EnFirefly_SetupFlyIdle(EnFirefly* this) {
     this->timer = Rand_S16Offset(70, 100);
     this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
     Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
@@ -515,7 +521,7 @@ void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
     if (((fabsf(this->actor.world.pos.y - this->maxAltitude) < 10.0f) &&
          (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) < 20.0f)) ||
         (this->timer == 0)) {
-        EnFirefly_SetupWait(this);
+        EnFirefly_SetupFlyIdle(this);
         return;
     }
     Math_StepToF(&this->actor.speedXZ, 3.0f, 0.3f);
@@ -548,7 +554,7 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
         } else if (this->actor.params == KEESE_ICE_FLY) {
             this->auraType = KEESE_AURA_ICE;
         }
-        EnFirefly_SetupWait(this);
+        EnFirefly_SetupFlyIdle(this);
     }
 }
 
@@ -600,7 +606,7 @@ void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        EnFirefly_SetupWait(this);
+        EnFirefly_SetupFlyIdle(this);
     }
 }
 
@@ -638,7 +644,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
                 } else if (!this->onFire) {
                     EnFirefly_Ignite(this);
                     if (this->actionFunc == EnFirefly_Perch) {
-                        EnFirefly_SetupWait(this);
+                        EnFirefly_SetupFlyIdle(this);
                     }
                 }
             } else if (damageEffect == 3) { // Ice Arrows or Ice Magic

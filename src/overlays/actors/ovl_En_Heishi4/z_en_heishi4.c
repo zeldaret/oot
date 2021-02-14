@@ -266,7 +266,7 @@ void func_80A56900(EnHeishi4* this, GlobalContext* globalCtx) {
 
 void func_80A56994(EnHeishi4* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    func_80038290(globalCtx, &this->actor, &this->unk_260.x, &this->unk_266.x, this->actor.focus.pos);
+    func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_266, this->actor.focus.pos);
     if (this->unk_282 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);

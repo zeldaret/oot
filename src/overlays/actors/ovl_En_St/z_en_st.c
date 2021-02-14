@@ -1,3 +1,9 @@
+/*
+ * File: z_en_st.c
+ * Overlay: ovl_En_St
+ * Description: Skulltula (normal, big, invisible)
+ */
+
 #include "z_en_st.h"
 
 #define FLAGS 0x00000035
@@ -498,7 +504,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
+    if (EnSt_CheckHitBackside(this, globalCtx)) {
         // player has hit the backside of the skulltulla
         return true;
     }
