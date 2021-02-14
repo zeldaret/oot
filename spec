@@ -1859,8 +1859,7 @@ endseg
 beginseg
     name "ovl_En_Anubice_Fire"
     include "build/src/overlays/actors/ovl_En_Anubice_Fire/z_en_anubice_fire.o"
-    include "build/data/overlays/actors/z_en_anubice_fire.data.o"
-    include "build/data/overlays/actors/z_en_anubice_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Anubice_Fire/ovl_En_Anubice_Fire_reloc.o"
 endseg
 
 beginseg
