@@ -54,10 +54,10 @@ static s16 D_80889E7C[] = {
     0x0000,
 };
 
-static Gfx* D_80889E84[] = {
-    gHidanObjectsDL_00C798,
-    gHidanObjectsDL_00BFA8,
-    gHidanObjectsDL_00BB58,
+static Gfx* sMetalFencesDLs[] = {
+    gHidanObjectsMetalFenceWithSlantDL,
+    gHidanObjectsMetalFenceDL,
+    gHidanObjectsMetalFence2DL,
 };
 
 void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionFunc) {
@@ -158,7 +158,7 @@ void BgHidanKousi_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_80889E84[thisx->params & 0xFF]);
+    gSPDisplayList(POLY_OPA_DISP++, sMetalFencesDLs[thisx->params & 0xFF]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);
 }
