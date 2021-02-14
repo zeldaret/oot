@@ -231,7 +231,6 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Push();
     for (i = this->unk_15E; i < 6; ++i) {
-        // CLAMP_MIN doesn't work.
         f32 scale = this->actor.scale.x - (i * 0.2f);
         if (scale < 0.0f) {
             scale = 0.0f;
