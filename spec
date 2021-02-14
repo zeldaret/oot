@@ -3259,8 +3259,7 @@ endseg
 beginseg
     name "ovl_Magic_Fire"
     include "build/src/overlays/actors/ovl_Magic_Fire/z_magic_fire.o"
-    include "build/data/overlays/actors/z_magic_fire.data.o"
-    include "build/data/overlays/actors/z_magic_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_Magic_Fire/ovl_Magic_Fire_reloc.o"
 endseg
 
 beginseg
