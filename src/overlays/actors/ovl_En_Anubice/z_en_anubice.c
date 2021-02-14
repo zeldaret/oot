@@ -29,7 +29,7 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx);
 extern AnimationHeader D_06000348;
 extern AnimationHeader D_0600078C;
 extern AnimationHeader D_06000F74;
-extern Gfx D_06003468;
+extern Gfx D_06003468[];
 extern SkeletonHeader D_06003990;
 
 const ActorInit En_Anubice_InitVars = {
@@ -64,14 +64,44 @@ static ColliderCylinderInit sCylinderInit = {
     { 29, 103, 0, { 0, 0, 0 } },
 };
 
-static DamageTable sDamageTable[] = { {
-    0x00, 0xF0, 0xF0, 0xF0, 0xF0, 0xF0, 0xF1, 0xF2, 0xF0, 0xF2, 0xF6, 0x22, 0xF0, 0xF0, 0xF0, 0xF0,
-    0xF0, 0x23, 0x00, 0x00, 0x00, 0x00, 0xF0, 0xF6, 0xF2, 0xF0, 0xFC, 0xF4, 0x00, 0x00, 0x00, 0x00,
-} };
+static DamageTable sDamageTable[] = {
+    /* Deku nut      */ DMG_ENTRY(0, 0x0),
+    /* Deku stick    */ DMG_ENTRY(0, 0xF),
+    /* Slingshot     */ DMG_ENTRY(0, 0xF),
+    /* Explosive     */ DMG_ENTRY(0, 0xF),
+    /* Boomerang     */ DMG_ENTRY(0, 0xF),
+    /* Normal arrow  */ DMG_ENTRY(0, 0xF),
+    /* Hammer swing  */ DMG_ENTRY(1, 0xF),
+    /* Hookshot      */ DMG_ENTRY(2, 0xF),
+    /* Kokiri sword  */ DMG_ENTRY(0, 0xF),
+    /* Master sword  */ DMG_ENTRY(2, 0xF),
+    /* Giant's Knife */ DMG_ENTRY(6, 0xF),
+    /* Fire arrow    */ DMG_ENTRY(2, 0x2),
+    /* Ice arrow     */ DMG_ENTRY(0, 0xF),
+    /* Light arrow   */ DMG_ENTRY(0, 0xF),
+    /* Unk arrow 1   */ DMG_ENTRY(0, 0xF),
+    /* Unk arrow 2   */ DMG_ENTRY(0, 0xF),
+    /* Unk arrow 3   */ DMG_ENTRY(0, 0xF),
+    /* Fire magic    */ DMG_ENTRY(3, 0x2),
+    /* Ice magic     */ DMG_ENTRY(0, 0x0),
+    /* Light magic   */ DMG_ENTRY(0, 0x0),
+    /* Shield        */ DMG_ENTRY(0, 0x0),
+    /* Mirror Ray    */ DMG_ENTRY(0, 0x0),
+    /* Kokiri spin   */ DMG_ENTRY(0, 0xF),
+    /* Giant spin    */ DMG_ENTRY(6, 0xF),
+    /* Master spin   */ DMG_ENTRY(2, 0xF),
+    /* Kokiri jump   */ DMG_ENTRY(0, 0xF),
+    /* Giant jump    */ DMG_ENTRY(12, 0xF),
+    /* Master jump   */ DMG_ENTRY(4, 0xF),
+    /* Unknown 1     */ DMG_ENTRY(0, 0x0),
+    /* Unblockable   */ DMG_ENTRY(0, 0x0),
+    /* Hammer jump   */ DMG_ENTRY(0, 0x0),
+    /* Unknown 2     */ DMG_ENTRY(0, 0x0),
+};
 
-Vec3f D_809B231C = { 0, 0, 0 };
-Vec3f D_809B2328 = { 0, 0, 0 };
-Vec3f D_809B2334 = { 0, 0, 0 };
+Vec3f D_809B231C = { 0.0f, 0.0f, 0.0f };
+Vec3f D_809B2328 = { 0.0f, 0.0f, 0.0f };
+Vec3f D_809B2334 = { 0.0f, 0.0f, 0.0f };
 
 void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
@@ -95,8 +125,8 @@ void EnAnubice_SetFireballRot(EnAnubice* this, GlobalContext* globalCtx) {
     z = player->actor.world.pos.z - this->fireballPos.z;
     xzdist = sqrtf(SQ(x) + SQ(z));
 
-    this->fireballRot.x = -(s16)(Math_FAtan2F(y, xzdist) * 10430.378f);
-    this->fireballRot.y = (s16)(Math_FAtan2F(x, z) * 10430.378f);
+    this->fireballRot.x = -RADF_TO_BINANG(Math_FAtan2F(y, xzdist));
+    this->fireballRot.y = RADF_TO_BINANG(Math_FAtan2F(x, z));
 }
 
 void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -117,13 +147,13 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.015f);
 
     this->actor.colChkInfo.damageTable = sDamageTable;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.shape.yOffset = -4230.0f;
     this->focusHeightOffset = 0.0f;
     this->actor.flags &= ~1;
     this->initialPos = this->actor.world.pos;
     this->actor.targetMode = 3;
-    this->actionFunc = &EnAnubice_FindCurtains;
+    this->actionFunc = EnAnubice_FindCurtains;
 }
 
 void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -144,42 +174,41 @@ void EnAnubice_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnAnubice_FindCurtains(EnAnubice* this, GlobalContext* globalCtx) {
     Actor* currentProp;
-    s32 curtainsFound;
+    s32 flameCirclesFound;
 
     if (this->isMirroringLink) {
-        if (!this->hasSearchedForCurtains) {
-            curtainsFound = 0;
+        if (!this->hasSearchedForFlameCircles) {
+            flameCirclesFound = 0;
             currentProp = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
             while (currentProp != NULL) {
                 if (currentProp->id != ACTOR_BG_HIDAN_CURTAIN) {
                     currentProp = currentProp->next;
                 } else {
-                    this->hidanCurtains[curtainsFound] = (BgHidanCurtain*)currentProp;
+                    this->flameCircles[flameCirclesFound] = (BgHidanCurtain*)currentProp;
                     // ☆☆☆☆☆ How many fires? ☆☆☆☆☆
-                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, curtainsFound);
+                    osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %d\n" VT_RST, flameCirclesFound);
                     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 火は幾つ？ ☆☆☆☆☆ %x\n" VT_RST,
-                                 this->hidanCurtains[curtainsFound]);
-                    if (curtainsFound < 4) {
-                        curtainsFound++;
+                                 this->flameCircles[flameCirclesFound]);
+                    if (flameCirclesFound < 4) {
+                        flameCirclesFound++;
                     }
                     currentProp = currentProp->next;
                 }
             }
-            this->hasSearchedForCurtains = 1;
+            this->hasSearchedForFlameCircles = true;
         }
         this->actor.flags |= 1;
-        this->actionFunc = &EnAnubice_SetupIdle;
+        this->actionFunc = EnAnubice_SetupIdle;
     }
 }
 
 void EnAnubice_SetupIdle(EnAnubice* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(&D_06000F74);
+
     Animation_Change(&this->skelAnime, &D_06000F74, 1.0f, 0.0f, (s16)lastFrame, 0, -10.0f);
 
-    this->actionFunc = &EnAnubice_Idle;
-    this->actor.gravity = 0.0f;
-    this->actor.velocity.z = 0.0f;
-    this->actor.velocity.x = 0.0f;
+    this->actionFunc = EnAnubice_Idle;
+    this->actor.velocity.x = this->actor.velocity.z = this->actor.gravity = 0.0f;
 }
 
 void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
@@ -197,11 +226,11 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
         this->actor.shape.yOffset = 0.0f;
 
         if (player->swordState != 0) {
-            this->actionFunc = &EnAnubis_SetupShootFireball;
+            this->actionFunc = EnAnubis_SetupShootFireball;
         } else if (this->isLinkOutOfRange) {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
-            this->actionFunc = &EnAnubice_GoToInitPos;
+            this->actionFunc = EnAnubice_GoToInitPos;
         }
     }
 }
@@ -250,7 +279,7 @@ void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
 
     if (this->actor.shape.yOffset < -4220.0f) {
         this->actor.shape.yOffset = -4230.0f;
-        this->isMirroringLink = this->isLinkOutOfRange = 0;
+        this->isMirroringLink = this->isLinkOutOfRange = false;
         this->actionFunc = EnAnubice_FindCurtains;
         this->actor.gravity = 0.0f;
     }
@@ -264,15 +293,12 @@ void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
 
     this->animLastFrame = lastFrame;
     Animation_Change(&this->skelAnime, &D_0600078C, 1.0f, 0.0f, lastFrame, 2, -10.0f);
-    this->actionFunc = &EnAnubis_ShootFireball;
-    this->actor.velocity.z = 0.0f;
-    this->actor.velocity.x = 0.0f;
+    this->actionFunc = EnAnubis_ShootFireball;
+    this->actor.velocity.x = this->actor.velocity.z = 0.0f;
 }
 
 void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx) {
-    f32 curFrame;
-
-    curFrame = this->skelAnime.curFrame;
+    f32 curFrame = this->skelAnime.curFrame;
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -298,30 +324,26 @@ void EnAnubice_SetupDie(EnAnubice* this, GlobalContext* globalCtx) {
     this->animLastFrame = lastFrame;
     Animation_Change(&this->skelAnime, &D_06000348, 1.0f, 0.0f, lastFrame, 2, -20.0f);
 
-    this->unk_256 = 0;
+    this->unk_256 = false;
     this->unk_258 = 0;
     this->deathTimer = 20;
-    this->actor.velocity.z = 0.0f;
-    this->actor.velocity.x = 0.0f;
+    this->actor.velocity.x = this->actor.velocity.z = 0.0f;
     this->actor.gravity = -1.0f;
 
     if (BgCheck_SphVsFirstPoly(&globalCtx->colCtx, &this->fireballPos, 70.0f)) {
-        this->unk_256 = 1;
+        this->unk_256 = true;
         this->unk_258 = this->actor.shape.rot.x - 0x7F00;
     }
 
-    this->actionFunc = &EnAnubice_Die;
+    this->actionFunc = EnAnubice_Die;
 }
 
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     f32 curFrame;
     f32 phi_f2;
-    Vec3f sp4C;
-    Vec3f fireEffectPos;
+    Vec3f sp4C = D_809B231C;
+    Vec3f fireEffectPos = D_809B2328;
     s32 pad;
-
-    sp4C = D_809B231C;
-    fireEffectPos = D_809B2328;
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachZeroF(&this->actor.shape.shadowScale, 0.4f, 0.25f);
@@ -329,13 +351,13 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     if (this->unk_256) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->unk_258, 1, 10000, 0);
         if (fabsf(this->actor.shape.rot.y - this->unk_258) < 100.0f) {
-            this->unk_256 = 0;
+            this->unk_256 = false;
         }
     }
 
     curFrame = this->skelAnime.curFrame;
     phi_f2 = curFrame * -3000.0f;
-    phi_f2 = MAX(-11000.0f, phi_f2);
+    phi_f2 = CLAMP_MIN(phi_f2, -11000.0f);
 
     Matrix_RotateY((this->actor.shape.rot.y / 32768.0f) * M_PI, MTXMODE_NEW);
     Matrix_RotateX((phi_f2 / 32768.0f) * M_PI, MTXMODE_APPLY);
@@ -358,7 +380,7 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
 
 void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 zero;
-    BgHidanCurtain* hidanCurtain;
+    BgHidanCurtain* flameCircle;
     s32 i;
     Vec3f sp48;
     Vec3f sp3C;
@@ -368,11 +390,11 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.yOffset == 0.0f) {
         EnAnubice_Hover(this, globalCtx);
         for (i = 0; i < 5; i++) {
-            hidanCurtain = this->hidanCurtains[i];
+            flameCircle = this->flameCircles[i];
 
-            if (hidanCurtain != NULL && fabsf(hidanCurtain->actor.world.pos.x - this->actor.world.pos.x) < 60.0f &&
-                fabsf(this->hidanCurtains[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f &&
-                hidanCurtain->timer != 0) {
+            if (flameCircle != NULL && fabsf(flameCircle->actor.world.pos.x - this->actor.world.pos.x) < 60.0f &&
+                fabsf(this->flameCircles[i]->actor.world.pos.z - this->actor.world.pos.z) < 60.0f &&
+                flameCircle->timer != 0) {
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
                 this->actor.flags &= ~1;
                 func_80032C7C(globalCtx, &this->actor);
@@ -395,7 +417,7 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             if (!this->isKnockedback) {
                 this->knockbackTimer = 10;
-                this->isKnockedback = 1;
+                this->isKnockedback = true;
 
                 sp48.x = 0.0f;
                 sp48.y = 0.0f;
@@ -425,11 +447,9 @@ void EnAnubice_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (zero) {}
 
             if (this->knockbackTimer == 0) {
-                this->actor.velocity.z = zero;
-                this->actor.velocity.x = zero;
-                this->knockbackRecoveryVelocity.z = 0.0f;
-                this->knockbackRecoveryVelocity.x = 0.0f;
-                this->isKnockedback = 0;
+                this->actor.velocity.x = this->actor.velocity.z = 0.0f;
+                this->knockbackRecoveryVelocity.x = this->knockbackRecoveryVelocity.z = 0.0f;
+                this->isKnockedback = false;
             }
         }
     }
@@ -474,14 +494,13 @@ s32 EnAnubis_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         rot->z += this->unk_278;
     }
 
-    return 0;
+    return false;
 }
 
 void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnAnubice* this = THIS;
-    Vec3f sp38;
+    Vec3f sp38 = D_809B2334;
 
-    sp38 = D_809B2334;
     if (limbIndex == 0xD) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 853);
 
