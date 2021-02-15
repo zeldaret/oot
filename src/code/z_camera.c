@@ -7302,7 +7302,7 @@ void func_80058E8C(Camera* camera) {
     }
 }
 
-Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
+Vec3s Camera_Update(Camera* camera) {
     static s32 sOOBTimer = 0;
     Vec3f viewAt;
     Vec3f viewEye;
@@ -7328,8 +7328,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: cut out %x\n", camera);
         }
-        *outVec = camera->inputDir;
-        return outVec;
+        return camera->inputDir;
     }
 
     sUpdateCameraDirection = false;
@@ -7402,8 +7401,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: wait out %x\n", camera);
         }
-        *outVec = camera->inputDir;
-        return outVec;
+        return camera->inputDir;
     }
 
     camera->unk_14A = 0;
@@ -7470,15 +7468,13 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
         if (R_DBG_CAM_UPDATE) {
             osSyncPrintf("camera: debug out\n");
         }
-        *outVec = D_8015BD80.unk_10C6;
-        return outVec;
+        return D_8015BD80.unk_10C6;
     }
 
     OREG(0) &= ~8;
 
     if (camera->status == 3) {
-        *outVec = camera->inputDir;
-        return outVec;
+        return camera->inputDir;
     }
 
     // setting bgCheckId to the ret of Quake_Calc, and checking that
@@ -7551,8 +7547,7 @@ Vec3s* Camera_Update(Vec3s* outVec, Camera* camera) {
         }
     }
 
-    *outVec = camera->inputDir;
-    return outVec;
+    return camera->inputDir;
 }
 
 /**
