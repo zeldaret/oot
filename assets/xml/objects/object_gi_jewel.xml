@@ -1,0 +1,10 @@
+<Root>
+    <File Name="object_gi_jewel" Segment="6">
+        <DList Name="gGiKokiriEmeraldSetting" Offset="0x10E0"/>
+        <DList Name="gGiKokiriEmeraldGem" Offset="0x1240"/>
+        <DList Name="gGiGoronRubySetting" Offset="0x1FB0"/>
+        <DList Name="gGiGoronRubyGem" Offset="0x20A0"/>
+        <DList Name="gGiZoraSapphireSetting" Offset="0x3370"/>
+        <DList Name="gGiZoraSapphireGem" Offset="0x3530"/>
+    </File>
+</Root>

@@ -137,6 +137,7 @@ void HealthMeter_Update(GlobalContext* globalCtx) {
     s16 bFactor;
 
     if (interfaceCtx) {}
+
     if (interfaceCtx->unk_200 != 0) {
         interfaceCtx->unk_1FE--;
         if (interfaceCtx->unk_1FE <= 0) {

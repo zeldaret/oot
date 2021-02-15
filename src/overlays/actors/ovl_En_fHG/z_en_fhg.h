@@ -15,7 +15,9 @@ typedef struct EnfHG {
     /* 0x01C8 */ char unk_1C8;
     /* 0x01C9 */ u8 flyMode;
     /* 0x01CA */ u8 unk_1CA;
-    /* 0x01CB */ char unk_1CB[0x35];
+    /* 0x01CB */ char unk_1CB[0x15];
+    /* 0x01E0 */ s16 turnRot;
+    /* 0x01E2 */ char unk_1E2[0x1E];
     /* 0x0200 */ Vec3f unk_200;
     /* 0x020C */ Vec3f unk_20C;
     /* 0x0218 */ char unk_218[0x7C];
