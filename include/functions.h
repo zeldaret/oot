@@ -2412,7 +2412,7 @@ void* SystemArena_Malloc(u32 size);
 void* SystemArena_MallocDebug(u32 size, const char* file, s32 line);
 void* SystemArena_MallocR(u32 size);
 void* SystemArena_MallocRDebug(u32 size, const char* file, s32 line);
-void* SystemArena_Realloc(void* ptr, u32; newSize);
+void* SystemArena_Realloc(void* ptr, u32 newSize);
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
 void SystemArena_Free(void* ptr);
 void SystemArena_FreeDebug(void* ptr, const char* file, s32 line);
