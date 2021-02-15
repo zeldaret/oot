@@ -64,7 +64,7 @@ glabel func_80B27710
 /* 01128 80B277D8 C60A002C */  lwc1    $f10, 0x002C($s0)          ## 0000002C
 .L80B277DC:
 /* 0112C 80B277DC 460A0200 */  add.s   $f8, $f0, $f10             
-/* 01130 80B277E0 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01130 80B277E0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01134 80B277E4 E7A8005C */  swc1    $f8, 0x005C($sp)           
 /* 01138 80B277E8 3C0180B3 */  lui     $at, %hi(D_80B28A64)       ## $at = 80B30000
@@ -102,7 +102,7 @@ glabel func_80B27710
 /* 011B4 80B27864 8E050080 */  lw      $a1, 0x0080($s0)           ## 00000080
 /* 011B8 80B27868 46085400 */  add.s   $f16, $f10, $f8            
 /* 011BC 80B2786C E6100060 */  swc1    $f16, 0x0060($s0)          ## 00000060
-/* 011C0 80B27870 0C01DE80 */  jal     Math_ApproxF
+/* 011C0 80B27870 0C01DE80 */  jal     Math_StepToF
               
 /* 011C4 80B27874 8E060060 */  lw      $a2, 0x0060($s0)           ## 00000060
 /* 011C8 80B27878 10400004 */  beq     $v0, $zero, .L80B2788C     

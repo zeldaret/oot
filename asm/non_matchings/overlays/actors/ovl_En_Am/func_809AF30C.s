@@ -79,7 +79,7 @@ glabel func_809AF30C
 /* 0150C 809AF42C 31CF0001 */  andi    $t7, $t6, 0x0001           ## $t7 = 00000000
 /* 01510 809AF430 51E00025 */  beql    $t7, $zero, .L809AF4C8     
 /* 01514 809AF434 8FA20034 */  lw      $v0, 0x0034($sp)           
-/* 01518 809AF438 0C01DE1C */  jal     Math_Sins
+/* 01518 809AF438 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 0151C 809AF43C A7A3002E */  sh      $v1, 0x002E($sp)           
 /* 01520 809AF440 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -130,7 +130,7 @@ glabel func_809AF30C
 /* 015C8 809AF4E8 860C0158 */  lh      $t4, 0x0158($s0)           ## 00000158
 .L809AF4EC:
 /* 015CC 809AF4EC 86040258 */  lh      $a0, 0x0258($s0)           ## 00000258
-/* 015D0 809AF4F0 0C01DE1C */  jal     Math_Sins
+/* 015D0 809AF4F0 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 015D4 809AF4F4 A60C0032 */  sh      $t4, 0x0032($s0)           ## 00000032
 /* 015D8 809AF4F8 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

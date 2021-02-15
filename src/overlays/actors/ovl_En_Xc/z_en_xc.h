@@ -12,8 +12,8 @@ typedef void (*EnXcDrawFunc)(struct EnXc*, GlobalContext*);
 typedef struct EnXc {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[17];
-    /* 0x01F6 */ Vec3s transitionDrawTable[17];
+    /* 0x0190 */ Vec3s jointTable[17];
+    /* 0x01F6 */ Vec3s morphTable[17];
     /* 0x025C */ s16 eyeIdx; // segment idx
     /* 0x025E */ s16 blinkTimer; // eye related
     /* 0x0260 */ s32 action;

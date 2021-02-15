@@ -37,7 +37,7 @@ glabel func_80861898
 /* 022CC 8086191C A0D80808 */  sb      $t8, 0x0808($a2)           ## 00000808
 /* 022D0 80861920 A0C00808 */  sb      $zero, 0x0808($a2)         ## 00000808
 .L80861924:
-/* 022D4 80861924 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 022D4 80861924 0C02927F */  jal     SkelAnime_Update
               
 /* 022D8 80861928 AFA60018 */  sw      $a2, 0x0018($sp)           
 /* 022DC 8086192C 10400003 */  beq     $v0, $zero, .L8086193C     

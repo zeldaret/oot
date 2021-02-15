@@ -6,12 +6,12 @@ glabel func_80930FE8
 /* 04A28 80930FF8 84E5008A */  lh      $a1, 0x008A($a3)           ## 0000008A
 /* 04A2C 80930FFC AFA70020 */  sw      $a3, 0x0020($sp)           
 /* 04A30 80931000 248400B6 */  addiu   $a0, $a0, 0x00B6           ## $a0 = 000000B6
-/* 04A34 80931004 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 04A34 80931004 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 04A38 80931008 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
 /* 04A3C 8093100C 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 04A40 80931010 AFA2001C */  sw      $v0, 0x001C($sp)           
-/* 04A44 80931014 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 04A44 80931014 0C02927F */  jal     SkelAnime_Update
               
 /* 04A48 80931018 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 04A4C 8093101C 10400005 */  beq     $v0, $zero, .L80931034     

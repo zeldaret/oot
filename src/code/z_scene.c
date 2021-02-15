@@ -15,7 +15,7 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
                  objectCtx->spaceEnd);
 
     if (!((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
-          (((s32)objectCtx->status[objectCtx->num].segment + size) < (s32)objectCtx->spaceEnd))) {
+          (((s32)objectCtx->status[objectCtx->num].segment + size) < (u32)objectCtx->spaceEnd))) {
         __assert("this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
                  "../z_scene.c", 142);
     }
@@ -79,11 +79,10 @@ void Object_InitBank(GlobalContext* globalCtx, ObjectContext* objectCtx) {
 
 void Object_UpdateBank(ObjectContext* objectCtx) {
     s32 i;
-    ObjectStatus* status;
+    ObjectStatus* status = &objectCtx->status[0];
     RomFile* objectFile;
     u32 size;
 
-    status = &objectCtx->status[0];
     for (i = 0; i < objectCtx->num; i++) {
         if (status->id < 0) {
             if (status->dmaRequest.vromAddr == 0) {
@@ -149,9 +148,8 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
     size = objectFile->vromEnd - objectFile->vromStart;
     osSyncPrintf("OBJECT EXCHANGE NO=%2d BANK=%3d SIZE=%8.3fK\n", bankIndex, objectId, size / 1024.0f);
 
-    if (1) { // Necessary to match
-        nextPtr = (void*)ALIGN16((s32)status->segment + size);
-    }
+    nextPtr = (void*)ALIGN16((s32)status->segment + size);
+    if (1) {} // Necessary to match
 
     if (nextPtr >= objectCtx->spaceEnd) {
         __assert("nextptr < this->endSegment", "../z_scene.c", 381);
@@ -166,7 +164,7 @@ void* func_800982FC(ObjectContext* objectCtx, s32 bankIndex, s16 objectId) {
 s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
     u32 cmdCode;
 
-    while (1) {
+    while (true) {
         cmdCode = sceneCmd->base.code;
         osSyncPrintf("*** Scene_Word = { code=%d, data1=%02x, data2=%04x } ***\n", cmdCode, sceneCmd->base.data1,
                      sceneCmd->base.data2);
@@ -183,10 +181,8 @@ s32 Scene_ExecuteCommands(GlobalContext* globalCtx, SceneCmd* sceneCmd) {
             osSyncPrintf("code の値が異常です\n");
             osSyncPrintf(VT_RST);
         }
-
         sceneCmd++;
     }
-
     return 0;
 }
 
@@ -216,17 +212,15 @@ void func_80098630(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x03: Collision Header
 void func_80098674(GlobalContext* globalCtx, SceneCmd* cmd) {
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.segment);
 
-    colHeader = SEGMENTED_TO_VIRTUAL(cmd->colHeader.segment);
-
-    colHeader->vertexArray = SEGMENTED_TO_VIRTUAL(colHeader->vertexArray);
-    colHeader->polygonArray = SEGMENTED_TO_VIRTUAL(colHeader->polygonArray);
-    colHeader->polygonTypes = SEGMENTED_TO_VIRTUAL(colHeader->polygonTypes);
-    colHeader->cameraData = SEGMENTED_TO_VIRTUAL(colHeader->cameraData);
+    colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
+    colHeader->polyList = SEGMENTED_TO_VIRTUAL(colHeader->polyList);
+    colHeader->surfaceTypeList = SEGMENTED_TO_VIRTUAL(colHeader->surfaceTypeList);
+    colHeader->cameraDataList = SEGMENTED_TO_VIRTUAL(colHeader->cameraDataList);
     colHeader->waterBoxes = SEGMENTED_TO_VIRTUAL(colHeader->waterBoxes);
 
-    func_8003C078(&globalCtx->colCtx, globalCtx, colHeader);
+    BgCheck_Allocate(&globalCtx->colCtx, globalCtx, colHeader);
 }
 
 // Scene Command 0x04: Room List
@@ -267,14 +261,15 @@ void func_80098958(GlobalContext* globalCtx, SceneCmd* cmd) {
 
 // Scene Command 0x0B: Object List
 void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
-    s32 i, j, k;
+    s32 i;
+    s32 j;
+    s32 k;
     ObjectStatus* status;
     ObjectStatus* status2;
     ObjectStatus* firstStatus;
-    s16* objectEntry;
+    s16* objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.segment);
     void* nextPtr;
 
-    objectEntry = SEGMENTED_TO_VIRTUAL(cmd->objectList.segment);
     k = 0;
     i = globalCtx->objectCtx.unk_09;
     firstStatus = &globalCtx->objectCtx.status[0];
@@ -321,9 +316,8 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
 // Scene Command 0x0C: Light List
 void func_80098B74(GlobalContext* globalCtx, SceneCmd* cmd) {
     s32 i;
-    LightInfo* lightInfo;
+    LightInfo* lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.segment);
 
-    lightInfo = SEGMENTED_TO_VIRTUAL(cmd->lightList.segment);
     for (i = 0; i < cmd->lightList.num; i++) {
         LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
         lightInfo++;
@@ -384,11 +378,11 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
     }
 
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.x = -(Math_Sins(dayTime - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.x = -(Math_SinS(dayTime - 0x8000) * 120.0f) * 25.0f;
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.y = (Math_Coss(dayTime - 0x8000) * 120.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.y = (Math_CosS(dayTime - 0x8000) * 120.0f) * 25.0f;
     dayTime = gSaveContext.dayTime;
-    globalCtx->envCtx.unk_04.z = (Math_Coss(dayTime - 0x8000) * 20.0f) * 25.0f;
+    globalCtx->envCtx.unk_04.z = (Math_CosS(dayTime - 0x8000) * 20.0f) * 25.0f;
 
     if (((globalCtx->envCtx.unk_02 == 0) && (gSaveContext.cutsceneIndex < 0xFFF0)) ||
         (gSaveContext.entranceIndex == 0x0604)) {
@@ -527,7 +521,7 @@ RomFile sNaviMsgFiles[] = {
 
 s16 gLinkObjectIds[] = { OBJECT_LINK_BOY, OBJECT_LINK_CHILD };
 
-u32 gObjectTableSize = 402;
+u32 gObjectTableSize = ARRAY_COUNT(gObjectTable);
 
 RomFile gObjectTable[] = {
     ROM_FILE_UNSET,

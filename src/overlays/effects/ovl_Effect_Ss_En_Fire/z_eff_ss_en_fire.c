@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_en_fire.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScaleMax regs[0]
 #define rScale regs[1]
@@ -26,9 +27,6 @@ EffectSsInit Effect_Ss_En_Fire_InitVars = {
     EffectSsEnFire_Init,
 };
 
-extern Gfx D_0404D5A0[];
-extern Gfx D_0404D4E0[];
-
 u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsEnFireInitParams* initParams = (EffectSsEnFireInitParams*)initParamsx;
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
@@ -38,16 +36,16 @@ u32 EffectSsEnFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     this->life = 20;
     this->rLifespan = this->life;
     this->actor = initParams->actor;
-    this->rScroll = Math_Rand_ZeroOne() * 20.0f;
+    this->rScroll = Rand_ZeroOne() * 20.0f;
     this->draw = EffectSsEnFire_Draw;
     this->update = EffectSsEnFire_Update;
     this->rUnused = -15;
 
     if (initParams->bodyPart < 0) {
-        this->rYaw = Math_Vec3f_Yaw(&initParams->actor->posRot.pos, &initParams->pos) - initParams->actor->shape.rot.y;
+        this->rYaw = Math_Vec3f_Yaw(&initParams->actor->world.pos, &initParams->pos) - initParams->actor->shape.rot.y;
         this->rPitch =
-            Math_Vec3f_Pitch(&initParams->actor->posRot.pos, &initParams->pos) - initParams->actor->shape.rot.x;
-        this->vec.z = Math_Vec3f_DistXYZ(&initParams->pos, &initParams->actor->posRot.pos);
+            Math_Vec3f_Pitch(&initParams->actor->world.pos, &initParams->pos) - initParams->actor->shape.rot.x;
+        this->vec.z = Math_Vec3f_DistXYZ(&initParams->pos, &initParams->actor->world.pos);
     }
 
     this->rScaleMax = initParams->scale;
@@ -75,10 +73,10 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     OPEN_DISPS(gfxCtx, "../z_eff_en_fire.c", 169);
 
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
-    camYaw = (func_8005A9F4(ACTIVE_CAM) + 0x8000);
+    camYaw = (Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000);
     Matrix_RotateY(camYaw * 0.0000958738f, MTXMODE_APPLY);
 
-    scale = Math_Sins(this->life * 0x333) * (this->rScale * 0.00005f);
+    scale = Math_SinS(this->life * 0x333) * (this->rScale * 0.00005f);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_eff_en_fire.c", 180),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -97,9 +95,9 @@ void EffectSsEnFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
                                 0x20, 0x80));
 
     if (((this->rFlags & 0x7FFF) != 0) || (this->life < 18)) {
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D5A0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire2DL);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_en_fire.c", 213);
@@ -120,14 +118,14 @@ void EffectSsEnFire_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     this->rScroll++;
 
     if (this->actor != NULL) {
-        if (this->actor->dmgEffectTimer >= 22) {
+        if (this->actor->colorFilterTimer >= 22) {
             this->life++;
         }
         if (this->actor->update != NULL) {
-            Math_SmoothScaleMaxMinS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
+            Math_SmoothStepToS(&this->rScale, this->rScaleMax, 1, this->rScaleMax >> 3, 0);
 
             if (this->rBodyPart < 0) {
-                Matrix_Translate(this->actor->posRot.pos.x, this->actor->posRot.pos.y, this->actor->posRot.pos.z,
+                Matrix_Translate(this->actor->world.pos.x, this->actor->world.pos.y, this->actor->world.pos.z,
                                  MTXMODE_NEW);
                 Matrix_RotateY((this->rYaw + this->actor->shape.rot.y) * 0.0000958738f, MTXMODE_APPLY);
                 Matrix_RotateX((this->rPitch + this->actor->shape.rot.x) * 0.0000958738f, MTXMODE_APPLY);

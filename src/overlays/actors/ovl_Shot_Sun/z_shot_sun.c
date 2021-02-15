@@ -25,7 +25,7 @@ extern CutsceneData D_02007020[];
 
 const ActorInit Shot_Sun_InitVars = {
     ACTOR_SHOT_SUN,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ShotSun),
@@ -36,8 +36,22 @@ const ActorInit Shot_Sun_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000020, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000020, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 30, 60, 0, { 0, 0, 0 } },
 };
 
@@ -90,19 +104,19 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
     }
 
     //! @bug fairyType may be uninitialized
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.initPosRot.pos.x,
-                this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, fairyType);
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.home.pos.x, this->actor.home.pos.y,
+                this->actor.home.pos.z, 0, 0, 0, fairyType);
 
     Actor_Kill(&this->actor);
 }
 
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
-    if ((func_8005B198() == this->actor.type) || (this->timer != 0)) {
+    if ((func_8005B198() == this->actor.category) || (this->timer != 0)) {
         this->actionFunc = ShotSun_SpawnFairy;
         this->timer = 50;
 
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.initPosRot.pos.x,
-                    this->actor.initPosRot.pos.y, this->actor.initPosRot.pos.z, 0, 0, 0, 0x11);
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_KANKYO, this->actor.home.pos.x, this->actor.home.pos.y,
+                    this->actor.home.pos.z, 0, 0, 0, 0x11);
 
         func_80078914(&this->actor.projectedPos, NA_SE_EV_TRE_BOX_APPEAR);
     }
@@ -113,7 +127,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 params = this->actor.params & 0xFF;
 
-    if (Math3D_Vec3fDistSq(&this->actor.posRot.pos, &player->actor.posRot.pos) > 22500.0f) {
+    if (Math3D_Vec3fDistSq(&this->actor.world.pos, &player->actor.world.pos) > 22500.0f) {
         this->unk_1A4 = 0;
     } else {
         if (this->unk_1A4 == 0) {
@@ -151,7 +165,7 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f spawnPos;
 
-    if (this->collider.base.acFlags & 2) {
+    if (this->collider.base.acFlags & AC_HIT) {
         func_80078884(NA_SE_SY_CORRECT_CHIME);
         osSyncPrintf(VT_FGCOL(CYAN) "SHOT_SUN HIT!!!!!!!\n" VT_RST);
         if (INV_CONTENT(SLOT_ARROW_FIRE) == ITEM_NONE) {
@@ -172,14 +186,14 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        if (!(120.0f < this->actor.xzDistFromLink) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
+        if (!(120.0f < this->actor.xzDistToPlayer) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
             cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.unk_04.x * 0.16666667f;
             cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
             cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.unk_04.z * 0.16666667f;
 
             this->hitboxPos = cylinderPos;
 
-            func_80062718(&this->collider, &cylinderPos);
+            Collider_SetCylinderPosition(&this->collider, &cylinderPos);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         }
     }

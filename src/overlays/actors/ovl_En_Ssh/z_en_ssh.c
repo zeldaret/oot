@@ -57,7 +57,7 @@ static Gfx D_80B04400[] = {
 
 const ActorInit En_Ssh_InitVars = {
     ACTOR_EN_SSH,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_SSH,
     sizeof(EnSsh),
@@ -68,30 +68,72 @@ const ActorInit En_Ssh_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
-    { COLTYPE_UNK6, 0x00, 0x09, 0x00, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x01, 0x00 },
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 32, 50, -24, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, 0xFF };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 1, 0, 0, 0, MASS_IMMOVABLE };
 
 static ColliderCylinderInit sCylinderInit2 = {
-    { COLTYPE_UNK6, 0x00, 0x00, 0x39, 0x10, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_HIT6,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 20, 60, -30, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphElementInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x00, 0x04 }, { 0x00000000, 0x00, 0x00 }, 0x01, 0x00, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x00, 0x04 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_NONE,
+            OCELEM_ON,
+        },
         { 1, { { 0, -240, 0 }, 28 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK6, 0x11, 0x00, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT6,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphElementInit,
+    sJntSphElementsInit,
 };
 
 void EnSsh_SetupAction(EnSsh* this, EnSshActionFunc actionFunc) {
@@ -102,9 +144,9 @@ void EnSsh_SpawnShockwave(EnSsh* this, GlobalContext* globalCtx) {
     Vec3f zeroVec = { 0.0f, 0.0f, 0.0f };
     Vec3f pos;
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.groundY;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.floorHeight;
+    pos.z = this->actor.world.pos.z;
     EffectSsBlast_SpawnWhiteCustomScale(globalCtx, &pos, &zeroVec, &zeroVec, 100, 220, 8);
 }
 
@@ -133,15 +175,15 @@ s32 EnSsh_CreateBlureEffect(GlobalContext* globalCtx) {
 }
 
 s32 EnSsh_CheckCeilingPos(EnSsh* this, GlobalContext* globalCtx) {
-    CollisionPoly* sp4C;
-    u32 sp48;
-    Vec3f sp3C;
+    CollisionPoly* poly;
+    s32 bgId;
+    Vec3f posB;
 
-    sp3C.x = this->actor.posRot.pos.x;
-    sp3C.y = this->actor.posRot.pos.y + 1000.0f;
-    sp3C.z = this->actor.posRot.pos.z;
-    if (!func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &sp3C, &this->ceilingPos, &sp4C, 0, 0, 1, 1,
-                       &sp48)) {
+    posB.x = this->actor.world.pos.x;
+    posB.y = this->actor.world.pos.y + 1000.0f;
+    posB.z = this->actor.world.pos.z;
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &posB, &this->ceilingPos, &poly, false,
+                                 false, true, true, &bgId)) {
         return false;
     } else {
         return true;
@@ -183,14 +225,14 @@ void EnSsh_InitColliders(EnSsh* this, GlobalContext* globalCtx) {
         Collider_SetCylinder(globalCtx, &this->colCylinder[i], &this->actor, cylinders[i]);
     }
 
-    this->colCylinder[0].body.bumper.flags = 0x0003F8E9;
-    this->colCylinder[1].body.bumper.flags = 0xFFC00716;
-    this->colCylinder[2].base.type = 9;
-    this->colCylinder[2].body.bumperFlags = 0xD;
-    this->colCylinder[2].body.flags = 2;
-    this->colCylinder[2].body.bumper.flags = 0xFFCC0716;
+    this->colCylinder[0].info.bumper.dmgFlags = 0x0003F8E9;
+    this->colCylinder[1].info.bumper.dmgFlags = 0xFFC00716;
+    this->colCylinder[2].base.colType = COLTYPE_METAL;
+    this->colCylinder[2].info.bumperFlags = BUMP_ON | BUMP_HOOKABLE | BUMP_NO_AT_INFO;
+    this->colCylinder[2].info.elemType = ELEMTYPE_UNK2;
+    this->colCylinder[2].info.bumper.dmgFlags = 0xFFCC0716;
 
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(2), &sColChkInfoInit);
 
     Collider_InitJntSph(globalCtx, &this->colSph);
     Collider_SetJntSph(globalCtx, &this->colSph, &this->actor, &sJntSphInit, this->colSphElements);
@@ -202,11 +244,11 @@ f32 EnSsh_SetAnimation(EnSsh* this, s32 animIndex) {
     };
     f32 playbackSpeed[] = { 1.0f, 4.0f, 1.0f, 1.0f, 8.0f, 6.0f, 2.0f };
     u8 mode[] = { 3, 3, 1, 3, 1, 1, 1 };
-    f32 frameCount = SkelAnime_GetFrameCount(animation[animIndex]);
+    f32 frameCount = Animation_GetLastFrame(animation[animIndex]);
     s32 pad;
 
-    SkelAnime_ChangeAnim(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount,
-                         mode[animIndex], -6.0f);
+    Animation_Change(&this->skelAnime, animation[animIndex], playbackSpeed[animIndex], 0.0f, frameCount,
+                     mode[animIndex], -6.0f);
 
     return frameCount;
 }
@@ -221,7 +263,7 @@ void EnSsh_SetReturnAnimation(EnSsh* this) {
 }
 
 void EnSsh_SetLandAnimation(EnSsh* this) {
-    this->actor.posRot.pos.y = this->groundYoffset + this->actor.groundY;
+    this->actor.world.pos.y = this->floorHeightOffset + this->actor.floorHeight;
     this->animTimer = EnSsh_SetAnimation(this, SSH_ANIM_LAND);
 }
 
@@ -236,7 +278,7 @@ void EnSsh_SetStunned(EnSsh* this) {
     if (this->stunTimer == 0) {
         this->stateFlags |= SSH_STATE_ATTACKED;
         this->stunTimer = 120;
-        this->actor.dmgEffectTimer = 0;
+        this->actor.colorFilterTimer = 0;
     }
 }
 
@@ -246,9 +288,9 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
     f32 yShift;
     s32 i;
 
-    radius = this->colSph.list[0].dim.modelSphere.radius;
+    radius = this->colSph.elements[0].dim.modelSphere.radius;
     radius *= scale;
-    this->colSph.list[0].dim.modelSphere.radius = radius;
+    this->colSph.elements[0].dim.modelSphere.radius = radius;
 
     for (i = 0; i < 6; i++) {
         yShift = this->colCylinder[i].dim.yShift;
@@ -263,7 +305,7 @@ void EnSsh_SetColliderScale(EnSsh* this, f32 scale, f32 radiusMod) {
         this->colCylinder[i].dim.height = height;
     }
     Actor_SetScale(&this->actor, 0.04f * scale);
-    this->groundYoffset = 40.0f * scale;
+    this->floorHeightOffset = 40.0f * scale;
     this->colliderScale = scale * 1.5f;
 }
 
@@ -272,7 +314,7 @@ s32 EnSsh_Damaged(EnSsh* this) {
         func_8003426C(&this->actor, 0, 0xC8, 0, this->stunTimer);
     }
     if (DECR(this->stunTimer) != 0) {
-        Math_SmoothScaleMaxMinS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
+        Math_SmoothStepToS(&this->maxTurnRate, 0x2710, 0xA, 0x3E8, 1);
         return false;
     } else {
         this->stunTimer = 0;
@@ -292,19 +334,18 @@ void EnSsh_Turn(EnSsh* this, GlobalContext* globalCtx) {
         this->hitTimer--;
     }
     if (DECR(this->spinTimer) != 0) {
-        this->actor.posRot.rot.y += 10000.0f * (this->spinTimer / 30.0f);
+        this->actor.world.rot.y += 10000.0f * (this->spinTimer / 30.0f);
     } else if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink, 4, 0x2710, 1);
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 4, 0x2710, 1);
     }
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
 void EnSsh_Stunned(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->swayTimer == 0) && (this->stunTimer == 0)) {
-        Math_SmoothScaleMaxMinS(&this->actor.posRot.rot.y, this->actor.yawTowardsLink ^ 0x8000, 4, this->maxTurnRate,
-                                1);
+        Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer ^ 0x8000, 4, this->maxTurnRate, 1);
     }
-    this->actor.shape.rot.y = this->actor.posRot.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y;
     if (this->stunTimer < 30) {
         if (this->stunTimer & 1) {
             this->actor.shape.rot.y += 0x7D0;
@@ -328,7 +369,7 @@ void EnSsh_Bob(EnSsh* this, GlobalContext* globalCtx) {
     if ((globalCtx->state.frames & 8) != 0) {
         bobVel *= -1.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->actor.velocity.y, bobVel, 0.4f, 1000.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.velocity.y, bobVel, 0.4f, 1000.0f, 0.0f);
 }
 
 s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
@@ -348,16 +389,16 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (this->actor.xzDistFromLink > 160.0f) {
+    if (this->actor.xzDistToPlayer > 160.0f) {
         return false;
     }
 
-    yDist = this->actor.posRot.pos.y - player->actor.posRot.pos.y;
+    yDist = this->actor.world.pos.y - player->actor.world.pos.y;
     if (yDist < 0.0f || yDist > 400.0f) {
         return false;
     }
 
-    if (player->actor.posRot.pos.y < this->actor.groundY) {
+    if (player->actor.world.pos.y < this->actor.floorHeight) {
         return false;
     }
     return true;
@@ -365,9 +406,9 @@ s32 EnSsh_IsCloseToLink(EnSsh* this, GlobalContext* globalCtx) {
 
 s32 EnSsh_IsCloseToHome(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
-    f32 nextY = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
+    f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
 
-    if (nextY >= this->actor.initPosRot.pos.y) {
+    if (nextY >= this->actor.home.pos.y) {
         return 1;
     }
     return 0;
@@ -375,9 +416,9 @@ s32 EnSsh_IsCloseToHome(EnSsh* this) {
 
 s32 EnSsh_IsCloseToGround(EnSsh* this) {
     f32 vel = this->actor.velocity.y;
-    f32 nextY = this->actor.posRot.pos.y + 2.0f * this->actor.velocity.y;
+    f32 nextY = this->actor.world.pos.y + 2.0f * this->actor.velocity.y;
 
-    if ((nextY - this->actor.groundY) <= this->groundYoffset) {
+    if ((nextY - this->actor.floorHeight) <= this->floorHeightOffset) {
         return 1;
     }
     return 0;
@@ -396,34 +437,34 @@ void EnSsh_Sway(EnSsh* this) {
             this->swayAngle = 0;
         }
         temp = this->swayTimer * (1.0f / 6);
-        swayAngle = temp * (0x10000 / 360.0f) * Math_Sins(this->swayAngle);
-        temp = this->actor.posRot.pos.y - this->ceilingPos.y;
-        swayVecBase.x = Math_Sins(swayAngle) * temp;
-        swayVecBase.y = Math_Coss(swayAngle) * temp;
+        swayAngle = temp * (0x10000 / 360.0f) * Math_SinS(this->swayAngle);
+        temp = this->actor.world.pos.y - this->ceilingPos.y;
+        swayVecBase.x = Math_SinS(swayAngle) * temp;
+        swayVecBase.y = Math_CosS(swayAngle) * temp;
         swayVecBase.z = 0.0f;
         Matrix_Push();
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
-        Matrix_RotateY(this->actor.posRot.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_MultVec3f(&swayVecBase, &swayVec);
         Matrix_Pull();
         this->actor.shape.rot.z = -(swayAngle * 2);
-        this->actor.posRot.pos.x = swayVec.x;
-        this->actor.posRot.pos.z = swayVec.z;
+        this->actor.world.pos.x = swayVec.x;
+        this->actor.world.pos.z = swayVec.z;
     }
 }
 
 void EnSsh_CheckBodyStickHit(EnSsh* this, GlobalContext* globalCtx) {
-    ColliderBody* body = &this->colCylinder[0].body;
+    ColliderInfo* info0 = &this->colCylinder[0].info;
     Player* player = PLAYER;
 
     if (player->unk_860 != 0) {
-        body->bumper.flags |= 2;
-        this->colCylinder[1].body.bumper.flags &= ~2;
-        this->colCylinder[2].body.bumper.flags &= ~2;
+        info0->bumper.dmgFlags |= 2;
+        this->colCylinder[1].info.bumper.dmgFlags &= ~2;
+        this->colCylinder[2].info.bumper.dmgFlags &= ~2;
     } else {
-        body->bumper.flags &= ~2;
-        this->colCylinder[1].body.bumper.flags |= 2;
-        this->colCylinder[2].body.bumper.flags |= 2;
+        info0->bumper.dmgFlags &= ~2;
+        this->colCylinder[1].info.bumper.dmgFlags |= 2;
+        this->colCylinder[2].info.bumper.dmgFlags |= 2;
     }
 }
 
@@ -435,8 +476,8 @@ s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
         return false;
     }
     for (i = 0; i < 3; i++) {
-        if (this->colCylinder[i + 3].base.maskB & 1) {
-            this->colCylinder[i + 3].base.maskB &= ~1;
+        if (this->colCylinder[i + 3].base.ocFlags2 & OC2_HIT_PLAYER) {
+            this->colCylinder[i + 3].base.ocFlags2 &= ~OC2_HIT_PLAYER;
             hit = true;
         }
     }
@@ -450,7 +491,7 @@ s32 EnSsh_CheckHitLink(EnSsh* this, GlobalContext* globalCtx) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_ROLL);
     Audio_PlayActorSound2(&this->actor, NA_SE_VO_ST_ATTACK);
     globalCtx->damagePlayer(globalCtx, -8);
-    func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsLink, 6.0f);
+    func_8002F71C(globalCtx, &this->actor, 4.0f, this->actor.yawTowardsPlayer, 6.0f);
     this->hitCount--;
     return true;
 }
@@ -461,10 +502,10 @@ s32 EnSsh_CheckHitFront(EnSsh* this) {
     if (this->colCylinder[2].base.acFlags) {} // Needed for matching
     acFlags = this->colCylinder[2].base.acFlags;
 
-    if (!!(acFlags & 2) == 0) {
+    if (!!(acFlags & AC_HIT) == 0) {
         return 0;
     } else {
-        this->colCylinder[2].base.acFlags &= ~2;
+        this->colCylinder[2].base.acFlags &= ~AC_HIT;
         this->invincibilityTimer = 8;
         if ((this->swayTimer == 0) && (this->hitTimer == 0) && (this->stunTimer == 0)) {
             this->swayTimer = 60;
@@ -477,13 +518,13 @@ s32 EnSsh_CheckHitBack(EnSsh* this, GlobalContext* globalCtx) {
     ColliderCylinder* cyl = &this->colCylinder[0];
     s32 hit = false;
 
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     cyl = &this->colCylinder[1];
-    if (cyl->base.acFlags & 2) {
-        cyl->base.acFlags &= ~2;
+    if (cyl->base.acFlags & AC_HIT) {
+        cyl->base.acFlags &= ~AC_HIT;
         hit = true;
     }
     if (!hit) {
@@ -524,18 +565,18 @@ s32 EnSsh_CollisionCheck(EnSsh* this, GlobalContext* globalCtx) {
 }
 
 void EnSsh_SetBodyCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
-    Collider_CylinderUpdate(&this->actor, &this->colCylinder[0]);
+    Collider_UpdateCylinder(&this->actor, &this->colCylinder[0]);
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[0].base);
 }
 
 void EnSsh_SetLegsCylinderAC(EnSsh* this, GlobalContext* globalCtx) {
-    s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsLink - this->actor.shape.rot.y));
+    s16 angleTowardsLink = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y));
 
     if (angleTowardsLink < 90 * (0x10000 / 360)) {
-        Collider_CylinderUpdate(&this->actor, &this->colCylinder[2]);
+        Collider_UpdateCylinder(&this->actor, &this->colCylinder[2]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[2].base);
     } else {
-        Collider_CylinderUpdate(&this->actor, &this->colCylinder[1]);
+        Collider_UpdateCylinder(&this->actor, &this->colCylinder[1]);
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder[1].base);
     }
 }
@@ -550,7 +591,7 @@ s32 EnSsh_SetCylinderOC(EnSsh* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 3; i++) {
-        cylPos = this->actor.posRot.pos;
+        cylPos = this->actor.world.pos;
         cyloffsets[i].x *= this->colliderScale;
         cyloffsets[i].y *= this->colliderScale;
         cyloffsets[i].z *= this->colliderScale;
@@ -587,7 +628,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSsh* this = THIS;
 
-    frameCount = SkelAnime_GetFrameCount(&D_06000304);
+    frameCount = Animation_GetLastFrame(&D_06000304);
     if (this->actor.params == ENSSH_FATHER) {
         if (gSaveContext.inventory.gsTokens >= 100) {
             Actor_Kill(&this->actor);
@@ -597,9 +638,9 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         return;
     }
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->limbDrawTable, this->transDrawTable, 30);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, 1, 0.0f);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060052E0, NULL, this->jointTable, this->morphTable, 30);
+    Animation_Change(&this->skelAnime, &D_06000304, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP_INTERP, 0.0f);
     this->blureIdx = EnSsh_CreateBlureEffect(globalCtx);
     EnSsh_InitColliders(this, globalCtx);
     this->stateFlags = 0;
@@ -611,7 +652,7 @@ void EnSsh_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnSsh_SetColliderScale(this, 0.75f, 1.0f);
     }
     this->actor.gravity = 0.0f;
-    this->initialYaw = this->actor.posRot.rot.y;
+    this->initialYaw = this->actor.world.rot.y;
     EnSsh_SetupAction(this, EnSsh_Start);
 }
 
@@ -708,10 +749,10 @@ void EnSsh_Land(EnSsh* this, GlobalContext* globalCtx) {
     if ((this->animTimer != 0) && (DECR(this->animTimer) == 0)) {
         EnSsh_SetAnimation(this, SSH_ANIM_WAIT);
     }
-    if ((this->actor.groundY + this->groundYoffset) <= this->actor.posRot.pos.y) {
+    if ((this->actor.floorHeight + this->floorHeightOffset) <= this->actor.world.pos.y) {
         EnSsh_SetupAction(this, EnSsh_Idle);
     } else {
-        Math_SmoothScaleMaxMinF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
+        Math_SmoothStepToF(&this->actor.velocity.y, 2.0f, 0.6f, 1000.0f, 0.0f);
     }
 }
 
@@ -733,7 +774,7 @@ void EnSsh_Drop(EnSsh* this, GlobalContext* globalCtx) {
 }
 
 void EnSsh_Return(EnSsh* this, GlobalContext* globalCtx) {
-    f32 frameRatio = this->skelAnime.animCurrentFrame / (this->skelAnime.totalFrames - 1.0f);
+    f32 frameRatio = this->skelAnime.curFrame / (this->skelAnime.animLength - 1.0f);
 
     if (frameRatio == 1.0f) {
         EnSsh_SetReturnAnimation(this);
@@ -794,21 +835,21 @@ void EnSsh_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->stunTimer != 0) {
         EnSsh_Damaged(this);
     } else {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
         func_8002D7EC(&this->actor);
-        func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
         this->actionFunc(this, globalCtx);
     }
     EnSsh_UpdateYaw(this, globalCtx);
     if (DECR(this->blinkTimer) == 0) {
-        this->blinkTimer = Math_Rand_S16Offset(60, 60);
+        this->blinkTimer = Rand_S16Offset(60, 60);
     }
     this->blinkState = this->blinkTimer;
     if (this->blinkState >= 3) {
         this->blinkState = 0;
     }
     EnSsh_SetColliders(this, globalCtx);
-    Actor_SetHeight(&this->actor, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
 }
 
 s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -840,13 +881,13 @@ s32 EnSsh_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
             }
             break;
     }
-    return 0;
+    return false;
 }
 
 void EnSsh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSsh* this = THIS;
 
-    func_800628A4(limbIndex, &this->colSph);
+    Collider_UpdateSpheres(limbIndex, &this->colSph);
 }
 
 void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -859,6 +900,6 @@ void EnSsh_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2333);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(blinkTex[this->blinkState]));
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ssh.c", 2336);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, EnSsh_OverrideLimbDraw,
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSsh_OverrideLimbDraw,
                       EnSsh_PostLimbDraw, &this->actor);
 }

@@ -30,7 +30,7 @@ glabel func_80AC4DDC
 .L80AC4E20:
 /* 02180 80AC4E20 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 02184 80AC4E24 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 02188 80AC4E28 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 02188 80AC4E28 0C01E107 */  jal     Math_ApproachF
               
 /* 0218C 80AC4E2C 3C074120 */  lui     $a3, 0x4120                ## $a3 = 41200000
 /* 02190 80AC4E30 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

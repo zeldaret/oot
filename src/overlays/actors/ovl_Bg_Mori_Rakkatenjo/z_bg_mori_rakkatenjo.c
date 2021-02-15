@@ -26,14 +26,14 @@ void BgMoriRakkatenjo_Rest(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this);
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx);
 
-extern ColHeader D_060087AC;
+extern CollisionHeader D_060087AC;
 extern Gfx D_06007690[];
 
 static s16 sCamSetting = 0;
 
 const ActorInit Bg_Mori_Rakkatenjo_InitVars = {
     ACTOR_BG_MORI_RAKKATENJO,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriRakkatenjo),
@@ -52,18 +52,18 @@ static InitChainEntry sInitChain[] = {
 void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriRakkatenjo* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     // Forest Temple obj. Falling Ceiling
-    osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.initPosRot.pos.y);
-    if ((fabsf(1991.0f - this->dyna.actor.initPosRot.pos.x) > 0.001f) ||
-        (fabsf(683.0f - this->dyna.actor.initPosRot.pos.y) > 0.001f) ||
-        (fabsf(-2520.0f - this->dyna.actor.initPosRot.pos.z) > 0.001f)) {
+    osSyncPrintf("森の神殿 obj. 落下天井 (home posY %f)\n", this->dyna.actor.home.pos.y);
+    if ((fabsf(1991.0f - this->dyna.actor.home.pos.x) > 0.001f) ||
+        (fabsf(683.0f - this->dyna.actor.home.pos.y) > 0.001f) ||
+        (fabsf(-2520.0f - this->dyna.actor.home.pos.z) > 0.001f)) {
         // The set position has been changed. Let's fix the program.
         osSyncPrintf("Warning : セット位置が変更されています。プログラムを修正しましょう。\n");
     }
-    if (this->dyna.actor.initPosRot.rot.y != 0x8000) {
+    if (this->dyna.actor.home.rot.y != 0x8000) {
         // The set Angle has changed. Let's fix the program.
         osSyncPrintf("Warning : セット Angle が変更されています。プログラムを修正しましょう。\n");
     }
@@ -75,9 +75,8 @@ void BgMoriRakkatenjo_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_Alloc(&D_060087AC, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    CollisionHeader_GetVirtual(&D_060087AC, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     BgMoriRakkatenjo_SetupWaitForMoriTex(this);
     sCamSetting = 0;
 }
@@ -86,17 +85,17 @@ void BgMoriRakkatenjo_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriRakkatenjo* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 s32 BgMoriRakkatenjo_IsLinkUnder(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Vec3f* pos = &PLAYER->actor.posRot.pos;
+    Vec3f* pos = &PLAYER->actor.world.pos;
 
     return (-3300.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
 
 s32 BgMoriRakkatenjo_IsLinkClose(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Vec3f* pos = &PLAYER->actor.posRot.pos;
+    Vec3f* pos = &PLAYER->actor.world.pos;
 
     return (-3360.0f < pos->z) && (pos->z < -1840.0f) && (1791.0f < pos->x) && (pos->x < 2191.0f);
 }
@@ -114,7 +113,7 @@ void BgMoriRakkatenjo_WaitForMoriTex(BgMoriRakkatenjo* this, GlobalContext* glob
 
 void BgMoriRakkatenjo_SetupWait(BgMoriRakkatenjo* this) {
     this->timer = (this->fallCount > 0) ? 100 : 21;
-    this->dyna.actor.posRot.pos.y = 683.0f;
+    this->dyna.actor.world.pos.y = 683.0f;
     this->actionFunc = BgMoriRakkatenjo_Wait;
 }
 
@@ -154,17 +153,17 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
     s32 quake;
 
     Actor_MoveForward(thisx);
-    if ((thisx->velocity.y < 0.0f) && (thisx->posRot.pos.y <= 403.0f)) {
+    if ((thisx->velocity.y < 0.0f) && (thisx->world.pos.y <= 403.0f)) {
         if (this->bounceCount >= ARRAY_COUNT(bounceVel)) {
             BgMoriRakkatenjo_SetupRest(this);
         } else {
             if (this->bounceCount == 0) {
                 this->fallCount++;
                 func_800788CC(NA_SE_EV_STONE_BOUND);
-                func_800AA000(SQ(thisx->yDistFromLink), 0xFF, 0x14, 0x96);
+                func_800AA000(SQ(thisx->yDistToPlayer), 0xFF, 0x14, 0x96);
             }
-            thisx->posRot.pos.y =
-                403.0f - (thisx->posRot.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
+            thisx->world.pos.y =
+                403.0f - (thisx->world.pos.y - 403.0f) * bounceVel[this->bounceCount] / fabsf(thisx->velocity.y);
             thisx->velocity.y = bounceVel[this->bounceCount];
             this->bounceCount++;
             quake = Quake_Add(ACTIVE_CAM, 3);
@@ -177,7 +176,7 @@ void BgMoriRakkatenjo_Fall(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
 
 void BgMoriRakkatenjo_SetupRest(BgMoriRakkatenjo* this) {
     this->actionFunc = BgMoriRakkatenjo_Rest;
-    this->dyna.actor.posRot.pos.y = 403.0f;
+    this->dyna.actor.world.pos.y = 403.0f;
     this->timer = 20;
 }
 
@@ -193,9 +192,9 @@ void BgMoriRakkatenjo_SetupRise(BgMoriRakkatenjo* this) {
 }
 
 void BgMoriRakkatenjo_Rise(BgMoriRakkatenjo* this, GlobalContext* globalCtx) {
-    Math_SmoothScaleMaxMinF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
-    this->dyna.actor.posRot.pos.y += this->dyna.actor.velocity.y;
-    if (this->dyna.actor.posRot.pos.y >= 683.0f) {
+    Math_SmoothStepToF(&this->dyna.actor.velocity.y, 5.0f, 0.06f, 0.1f, 0.0f);
+    this->dyna.actor.world.pos.y += this->dyna.actor.velocity.y;
+    if (this->dyna.actor.world.pos.y >= 683.0f) {
         BgMoriRakkatenjo_SetupWait(this);
     }
 }
@@ -213,11 +212,11 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
             sCamSetting = globalCtx->cameraPtrs[0]->setting;
             Camera_SetCameraData(globalCtx->cameraPtrs[0], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            func_8005A77C(globalCtx->cameraPtrs[0], 0x27);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_MORI1);
         }
     } else if (sCamSetting != 0) {
         osSyncPrintf("camera changed (previous) ... \n");
-        func_8005A77C(globalCtx->cameraPtrs[0], 4);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
         sCamSetting = 0;
     }
 }

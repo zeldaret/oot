@@ -57,7 +57,7 @@ glabel func_809AF0DC
 /* 0128C 809AF1AC E612017C */  swc1    $f18, 0x017C($s0)          ## 0000017C
 .L809AF1B0:
 /* 01290 809AF1B0 8605008A */  lh      $a1, 0x008A($s0)           ## 0000008A
-/* 01294 809AF1B4 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01294 809AF1B4 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01298 809AF1B8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0129C 809AF1BC 960A0088 */  lhu     $t2, 0x0088($s0)           ## 00000088
@@ -78,7 +78,7 @@ glabel func_809AF0DC
 /* 012D4 809AF1F4 0C26B89C */  jal     func_809AE270              
 /* 012D8 809AF1F8 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 012DC 809AF1FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 012E0 809AF200 0C00B6EC */  jal     func_8002DBB0              
+/* 012E0 809AF200 0C00B6EC */  jal     Actor_WorldDistXZToPoint              
 /* 012E4 809AF204 26050008 */  addiu   $a1, $s0, 0x0008           ## $a1 = 00000008
 /* 012E8 809AF208 3C014370 */  lui     $at, 0x4370                ## $at = 43700000
 /* 012EC 809AF20C 44815000 */  mtc1    $at, $f10                  ## $f10 = 240.00
@@ -120,7 +120,7 @@ glabel func_809AF0DC
 /* 0136C 809AF28C 316CFFF7 */  andi    $t4, $t3, 0xFFF7           ## $t4 = 00000000
 /* 01370 809AF290 A60C0088 */  sh      $t4, 0x0088($s0)           ## 00000088
 .L809AF294:
-/* 01374 809AF294 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01374 809AF294 0C02927F */  jal     SkelAnime_Update
               
 /* 01378 809AF298 26040164 */  addiu   $a0, $s0, 0x0164           ## $a0 = 00000164
 /* 0137C 809AF29C 860D0258 */  lh      $t5, 0x0258($s0)           ## 00000258

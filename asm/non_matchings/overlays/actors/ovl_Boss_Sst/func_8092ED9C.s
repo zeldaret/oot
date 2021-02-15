@@ -36,11 +36,11 @@ glabel func_8092ED9C
 /* 02854 8092EE24 E4720000 */  swc1    $f18, 0x0000($v1)          ## 80937358
 /* 02858 8092EE28 E4700004 */  swc1    $f16, 0x0004($v1)          ## 8093735C
 /* 0285C 8092EE2C E46E0008 */  swc1    $f14, 0x0008($v1)          ## 80937360
-/* 02860 8092EE30 0C01DE1C */  jal     Math_Sins
+/* 02860 8092EE30 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 02864 8092EE34 848400B6 */  lh      $a0, 0x00B6($a0)           ## 000000B6
 /* 02868 8092EE38 860400B6 */  lh      $a0, 0x00B6($s0)           ## 000000B6
-/* 0286C 8092EE3C 0C01DE0D */  jal     Math_Coss
+/* 0286C 8092EE3C 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02870 8092EE40 E7A0002C */  swc1    $f0, 0x002C($sp)           
 /* 02874 8092EE44 3C028093 */  lui     $v0, %hi(D_8093734C)       ## $v0 = 80930000
@@ -93,7 +93,7 @@ glabel func_8092ED9C
 /* 02930 8092EF00 C60A002C */  lwc1    $f10, 0x002C($s0)          ## 0000002C
 /* 02934 8092EF04 46045180 */  add.s   $f6, $f10, $f4             
 /* 02938 8092EF08 46083281 */  sub.s   $f10, $f6, $f8             
-/* 0293C 8092EF0C 0C030136 */  jal     func_800C04D8              
+/* 0293C 8092EF0C 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 02940 8092EF10 E7AA0038 */  swc1    $f10, 0x0038($sp)          
 /* 02944 8092EF14 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 02948 8092EF18 8FB00018 */  lw      $s0, 0x0018($sp)           

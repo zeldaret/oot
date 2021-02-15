@@ -32,8 +32,8 @@ glabel func_80B3D158
 /* 00FB4 80B3D194 1020003C */  beq     $at, $zero, .L80B3D288
 /* 00FB8 80B3D198 3C0F80B4 */  lui     $t7, %hi(D_80B41D90)       ## $t7 = 80B40000
 /* 00FBC 80B3D19C 8DEF1D90 */  lw      $t7, %lo(D_80B41D90)($t7)
-/* 00FC0 80B3D1A0 3C0480B4 */  lui     $a0, %hi(D_80B42DB0)       ## $a0 = 80B40000
-/* 00FC4 80B3D1A4 24842DB0 */  addiu   $a0, $a0, %lo(D_80B42DB0)  ## $a0 = 80B42DB0
+/* 00FC0 80B3D1A0 3C0480B4 */  lui     $a0, 0x80B4      ## $a0 = 80B40000
+/* 00FC4 80B3D1A4 24842DB0 */  addiu   $a0, $a0, 0x2DB0  ## $a0 = 80B42DB0
 /* 00FC8 80B3D1A8 11E0002B */  beq     $t7, $zero, .L80B3D258
 /* 00FCC 80B3D1AC 24C500E0 */  addiu   $a1, $a2, 0x00E0           ## $a1 = 000000E0
 /* 00FD0 80B3D1B0 0C032D9E */  jal     Math3D_Vec3f_DistXYZ
@@ -84,16 +84,16 @@ glabel func_80B3D158
 .L80B3D258:
 /* 01078 80B3D258 24C200E0 */  addiu   $v0, $a2, 0x00E0           ## $v0 = 000000E0
 /* 0107C 80B3D25C C4440000 */  lwc1    $f4, 0x0000($v0)           ## 000000E0
-/* 01080 80B3D260 3C0180B4 */  lui     $at, %hi(D_80B42DB0)       ## $at = 80B40000
+/* 01080 80B3D260 3C0180B4 */  lui     $at, 0x80B4      ## $at = 80B40000
 /* 01084 80B3D264 24180001 */  addiu   $t8, $zero, 0x0001         ## $t8 = 00000001
-/* 01088 80B3D268 E4242DB0 */  swc1    $f4, %lo(D_80B42DB0)($at)
+/* 01088 80B3D268 E4242DB0 */  swc1    $f4, 0x2DB0($at)
 /* 0108C 80B3D26C C4460004 */  lwc1    $f6, 0x0004($v0)           ## 000000E4
-/* 01090 80B3D270 E4262DB4 */  swc1    $f6, %lo(D_80B42DB0+4)($at)
+/* 01090 80B3D270 E4262DB4 */  swc1    $f6, 0x2DB4($at)
 /* 01094 80B3D274 C4480008 */  lwc1    $f8, 0x0008($v0)           ## 000000E8
-/* 01098 80B3D278 3C0180B4 */  lui     $at, %hi(D_80B42DB0+8)       ## $at = 80B40000
-/* 0109C 80B3D27C E4282DB8 */  swc1    $f8, %lo(D_80B42DB0+8)($at)
-/* 010A0 80B3D280 3C0180B4 */  lui     $at, %hi(D_80B41D90)       ## $at = 80B40000
-/* 010A4 80B3D284 AC381D90 */  sw      $t8, %lo(D_80B41D90)($at)
+/* 01098 80B3D278 3C0180B4 */  lui     $at, 0x80B4      ## $at = 80B40000
+/* 0109C 80B3D27C E4282DB8 */  swc1    $f8, 0x2DB8($at)
+/* 010A0 80B3D280 3C0180B4 */  lui     $at, 0x80B4     ## $at = 80B40000
+/* 010A4 80B3D284 AC381D90 */  sw      $t8, 0x1D90($at)
 .L80B3D288:
 /* 010A8 80B3D288 8FBF0014 */  lw      $ra, 0x0014($sp)
 .L80B3D28C:

@@ -9,7 +9,7 @@ glabel func_809BDAE8
 /* 00EA4 809BDB04 24060400 */  addiu   $a2, $zero, 0x0400         ## $a2 = 00000400
 /* 00EA8 809BDB08 24A54000 */  addiu   $a1, $a1, 0x4000           ## $a1 = 00004000
 /* 00EAC 809BDB0C 00052C00 */  sll     $a1, $a1, 16               
-/* 00EB0 809BDB10 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 00EB0 809BDB10 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 00EB4 809BDB14 00052C03 */  sra     $a1, $a1, 16               
 /* 00EB8 809BDB18 50400019 */  beql    $v0, $zero, .L809BDB80     
@@ -29,7 +29,7 @@ glabel func_809BDAE8
 /* 00EEC 809BDB4C 02003025 */  or      $a2, $s0, $zero            ## $a2 = 00000000
 /* 00EF0 809BDB50 24070005 */  addiu   $a3, $zero, 0x0005         ## $a3 = 00000005
 /* 00EF4 809BDB54 24851C24 */  addiu   $a1, $a0, 0x1C24           ## $a1 = 00001C24
-/* 00EF8 809BDB58 0C00CDD2 */  jal     Actor_ChangeType
+/* 00EF8 809BDB58 0C00CDD2 */  jal     Actor_ChangeCategory
               
 /* 00EFC 809BDB5C E604000C */  swc1    $f4, 0x000C($s0)           ## 0000000C
 /* 00F00 809BDB60 240F0002 */  addiu   $t7, $zero, 0x0002         ## $t7 = 00000002

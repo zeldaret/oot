@@ -12,9 +12,9 @@ typedef struct BgBdanObjects {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgBdanObjectsActionFunc actionFunc;
     /* 0x0168 */ u8 unk_168;
-    /* 0x016A */ s16 unk_16A;
+    /* 0x016A */ s16 timer;
     /* 0x016C */ ColliderCylinder collider;
-    /* 0x01B8 */ s32 unk_1B8;
+    /* 0x01B8 */ s32 cameraSetting;
 } BgBdanObjects; // size = 0x01BC
 
 extern const ActorInit Bg_Bdan_Objects_InitVars;

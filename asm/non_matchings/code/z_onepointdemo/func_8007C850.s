@@ -1017,7 +1017,7 @@ glabel func_8007C850
 /* AF4000 8007CE60 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4004 8007CE64 02402025 */  move  $a0, $s2
 /* AF4008 8007CE68 25C60050 */  addiu $a2, $t6, 0x50
-/* AF400C 8007CE6C 0C030136 */  jal   func_800C04D8
+/* AF400C 8007CE6C 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF4010 8007CE70 25C7005C */   addiu $a3, $t6, 0x5c
 /* AF4014 8007CE74 10000C50 */  b     .L8007FFB8
 /* AF4018 8007CE78 A660015A */   sh    $zero, 0x15a($s3)
@@ -1050,7 +1050,7 @@ glabel func_8007C850
 /* AF4078 8007CED8 44816000 */  mtc1  $at, $f12
 /* AF407C 8007CEDC 00000000 */  nop
 .L8007CEE0:
-/* AF4080 8007CEE0 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4080 8007CEE0 0C03F66B */  jal   Rand_ZeroOne
 /* AF4084 8007CEE4 E7AC005C */   swc1  $f12, 0x5c($sp)
 /* AF4088 8007CEE8 3C014100 */  li    $at, 0x41000000 # 0.000000
 /* AF408C 8007CEEC 44814000 */  mtc1  $at, $f8
@@ -1075,7 +1075,7 @@ glabel func_8007C850
 /* AF40D4 8007CF34 44816000 */  mtc1  $at, $f12
 /* AF40D8 8007CF38 00000000 */  nop
 .L8007CF3C:
-/* AF40DC 8007CF3C 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF40DC 8007CF3C 0C03F66B */  jal   Rand_ZeroOne
 /* AF40E0 8007CF40 E7AC005C */   swc1  $f12, 0x5c($sp)
 /* AF40E4 8007CF44 3C0140A0 */  li    $at, 0x40A00000 # 0.000000
 /* AF40E8 8007CF48 44812000 */  mtc1  $at, $f4
@@ -1109,13 +1109,13 @@ glabel func_8007C850
 /* AF4150 8007CFB0 2401008F */  li    $at, 143
 /* AF4154 8007CFB4 51A10021 */  beql  $t5, $at, .L8007D03C
 /* AF4158 8007CFB8 8FAE0084 */   lw    $t6, 0x84($sp)
-/* AF415C 8007CFBC 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF415C 8007CFBC 0C03F66B */  jal   Rand_ZeroOne
 /* AF4160 8007CFC0 00000000 */   nop
 /* AF4164 8007CFC4 3C0140A0 */  li    $at, 0x40A00000 # 0.000000
 /* AF4168 8007CFC8 44815000 */  mtc1  $at, $f10
 /* AF416C 8007CFCC 00000000 */  nop
 /* AF4170 8007CFD0 460A0402 */  mul.s $f16, $f0, $f10
-/* AF4174 8007CFD4 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4174 8007CFD4 0C03F66B */  jal   Rand_ZeroOne
 /* AF4178 8007CFD8 E6100010 */   swc1  $f16, 0x10($s0)
 /* AF417C 8007CFDC 3C0141F0 */  li    $at, 0x41F00000 # 0.000000
 /* AF4180 8007CFE0 44814000 */  mtc1  $at, $f8
@@ -1123,7 +1123,7 @@ glabel func_8007C850
 /* AF4188 8007CFE8 44812000 */  mtc1  $at, $f4
 /* AF418C 8007CFEC 46080482 */  mul.s $f18, $f0, $f8
 /* AF4190 8007CFF0 46049180 */  add.s $f6, $f18, $f4
-/* AF4194 8007CFF4 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4194 8007CFF4 0C03F66B */  jal   Rand_ZeroOne
 /* AF4198 8007CFF8 E6060018 */   swc1  $f6, 0x18($s0)
 /* AF419C 8007CFFC 3C0142C8 */  li    $at, 0x42C80000 # 0.000000
 /* AF41A0 8007D000 44815000 */  mtc1  $at, $f10
@@ -1131,7 +1131,7 @@ glabel func_8007C850
 /* AF41A8 8007D008 44814000 */  mtc1  $at, $f8
 /* AF41AC 8007D00C 460A0402 */  mul.s $f16, $f0, $f10
 /* AF41B0 8007D010 46088480 */  add.s $f18, $f16, $f8
-/* AF41B4 8007D014 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF41B4 8007D014 0C03F66B */  jal   Rand_ZeroOne
 /* AF41B8 8007D018 E612001C */   swc1  $f18, 0x1c($s0)
 /* AF41BC 8007D01C 3C0142A0 */  li    $at, 0x42A00000 # 0.000000
 /* AF41C0 8007D020 44812000 */  mtc1  $at, $f4
@@ -1163,7 +1163,7 @@ glabel func_8007C850
 /* AF4220 8007D080 44811000 */  mtc1  $at, $f2
 /* AF4224 8007D084 00000000 */  nop
 .L8007D088:
-/* AF4228 8007D088 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4228 8007D088 0C03F66B */  jal   Rand_ZeroOne
 /* AF422C 8007D08C E7A20060 */   swc1  $f2, 0x60($sp)
 /* AF4230 8007D090 C7A20060 */  lwc1  $f2, 0x60($sp)
 /* AF4234 8007D094 0015C080 */  sll   $t8, $s5, 2
@@ -1217,13 +1217,13 @@ glabel func_8007C850
 /* AF42EC 8007D14C 2401008F */  li    $at, 143
 /* AF42F0 8007D150 51E10021 */  beql  $t7, $at, .L8007D1D8
 /* AF42F4 8007D154 8FB80084 */   lw    $t8, 0x84($sp)
-/* AF42F8 8007D158 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF42F8 8007D158 0C03F66B */  jal   Rand_ZeroOne
 /* AF42FC 8007D15C 00000000 */   nop
 /* AF4300 8007D160 3C0141A0 */  li    $at, 0x41A00000 # 0.000000
 /* AF4304 8007D164 44819000 */  mtc1  $at, $f18
 /* AF4308 8007D168 00000000 */  nop
 /* AF430C 8007D16C 46120102 */  mul.s $f4, $f0, $f18
-/* AF4310 8007D170 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4310 8007D170 0C03F66B */  jal   Rand_ZeroOne
 /* AF4314 8007D174 E6040010 */   swc1  $f4, 0x10($s0)
 /* AF4318 8007D178 3C014220 */  li    $at, 0x42200000 # 0.000000
 /* AF431C 8007D17C 44813000 */  mtc1  $at, $f6
@@ -1231,7 +1231,7 @@ glabel func_8007C850
 /* AF4324 8007D184 44818000 */  mtc1  $at, $f16
 /* AF4328 8007D188 46060282 */  mul.s $f10, $f0, $f6
 /* AF432C 8007D18C 46105200 */  add.s $f8, $f10, $f16
-/* AF4330 8007D190 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4330 8007D190 0C03F66B */  jal   Rand_ZeroOne
 /* AF4334 8007D194 E6080018 */   swc1  $f8, 0x18($s0)
 /* AF4338 8007D198 3C014220 */  li    $at, 0x42200000 # 0.000000
 /* AF433C 8007D19C 44819000 */  mtc1  $at, $f18
@@ -1239,7 +1239,7 @@ glabel func_8007C850
 /* AF4344 8007D1A4 44813000 */  mtc1  $at, $f6
 /* AF4348 8007D1A8 46120102 */  mul.s $f4, $f0, $f18
 /* AF434C 8007D1AC 46062280 */  add.s $f10, $f4, $f6
-/* AF4350 8007D1B0 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4350 8007D1B0 0C03F66B */  jal   Rand_ZeroOne
 /* AF4354 8007D1B4 E60A001C */   swc1  $f10, 0x1c($s0)
 /* AF4358 8007D1B8 3C014220 */  li    $at, 0x42200000 # 0.000000
 /* AF435C 8007D1BC 44818000 */  mtc1  $at, $f16
@@ -1271,7 +1271,7 @@ glabel func_8007C850
 /* AF43BC 8007D21C 44811000 */  mtc1  $at, $f2
 /* AF43C0 8007D220 00000000 */  nop
 .L8007D224:
-/* AF43C4 8007D224 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF43C4 8007D224 0C03F66B */  jal   Rand_ZeroOne
 /* AF43C8 8007D228 E7A20060 */   swc1  $f2, 0x60($sp)
 /* AF43CC 8007D22C C7A20060 */  lwc1  $f2, 0x60($sp)
 /* AF43D0 8007D230 00156880 */  sll   $t5, $s5, 2
@@ -1547,7 +1547,7 @@ glabel func_8007C850
 /* AF47E8 8007D648 F7AA0010 */  sdc1  $f10, 0x10($sp)
 /* AF47EC 8007D64C 0C00084C */  jal   osSyncPrintf
 /* AF47F0 8007D650 F7A40020 */   sdc1  $f4, 0x20($sp)
-/* AF47F4 8007D654 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF47F4 8007D654 0C03F66B */  jal   Rand_ZeroOne
 /* AF47F8 8007D658 00000000 */   nop
 /* AF47FC 8007D65C 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AF4800 8007D660 44811000 */  mtc1  $at, $f2
@@ -1568,7 +1568,7 @@ glabel func_8007C850
 /* AF483C 8007D69C C5C6003C */  lwc1  $f6, 0x3c($t6)
 /* AF4840 8007D6A0 46123200 */  add.s $f8, $f6, $f18
 /* AF4844 8007D6A4 46044280 */  add.s $f10, $f8, $f4
-/* AF4848 8007D6A8 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4848 8007D6A8 0C03F66B */  jal   Rand_ZeroOne
 /* AF484C 8007D6AC E60A0020 */   swc1  $f10, 0x20($s0)
 /* AF4850 8007D6B0 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AF4854 8007D6B4 44818000 */  mtc1  $at, $f16
@@ -1673,7 +1673,7 @@ glabel func_8007C850
 /* AF49CC 8007D82C 27B000A0 */  addiu $s0, $sp, 0xa0
 .L8007D830:
 /* AF49D0 8007D830 02002025 */  move  $a0, $s0
-/* AF49D4 8007D834 0C00BBB9 */  jal   func_8002EEE4
+/* AF49D4 8007D834 0C00BBB9 */  jal   Actor_GetFocus
 /* AF49D8 8007D838 02202825 */   move  $a1, $s1
 /* AF49DC 8007D83C 8E190000 */  lw    $t9, ($s0)
 /* AF49E0 8007D840 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -1703,13 +1703,13 @@ glabel func_8007C850
 /* AF4A40 8007D8A0 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4A44 8007D8A4 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4A48 8007D8A8 02402025 */  move  $a0, $s2
-/* AF4A4C 8007D8AC 0C03021D */  jal   func_800C0874
+/* AF4A4C 8007D8AC 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF4A50 8007D8B0 24060022 */   li    $a2, 34
 /* AF4A54 8007D8B4 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4A58 8007D8B8 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4A5C 8007D8BC 02402025 */  move  $a0, $s2
 /* AF4A60 8007D8C0 02203025 */  move  $a2, $s1
-/* AF4A64 8007D8C4 0C030136 */  jal   func_800C04D8
+/* AF4A64 8007D8C4 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF4A68 8007D8C8 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF4A6C 8007D8CC 02402025 */  move  $a0, $s2
 /* AF4A70 8007D8D0 00002825 */  move  $a1, $zero
@@ -1741,7 +1741,7 @@ glabel func_8007C850
 /* AF4AD4 8007D934 E6000064 */  swc1  $f0, 0x64($s0)
 /* AF4AD8 8007D938 E6000070 */  swc1  $f0, 0x70($s0)
 /* AF4ADC 8007D93C E6000048 */  swc1  $f0, 0x48($s0)
-/* AF4AE0 8007D940 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4AE0 8007D940 0C03F66B */  jal   Rand_ZeroOne
 /* AF4AE4 8007D944 E6000020 */   swc1  $f0, 0x20($s0)
 /* AF4AE8 8007D948 44808000 */  mtc1  $zero, $f16
 /* AF4AEC 8007D94C 00000000 */  nop
@@ -1772,23 +1772,23 @@ glabel func_8007C850
 /* AF4B48 8007D9A8 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4B4C 8007D9AC 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4B50 8007D9B0 02402025 */  move  $a0, $s2
-/* AF4B54 8007D9B4 0C03021D */  jal   func_800C0874
+/* AF4B54 8007D9B4 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF4B58 8007D9B8 24060022 */   li    $a2, 34
 /* AF4B5C 8007D9BC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4B60 8007D9C0 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4B64 8007D9C4 02402025 */  move  $a0, $s2
 /* AF4B68 8007D9C8 26060050 */  addiu $a2, $s0, 0x50
-/* AF4B6C 8007D9CC 0C030136 */  jal   func_800C04D8
+/* AF4B6C 8007D9CC 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF4B70 8007D9D0 2607005C */   addiu $a3, $s0, 0x5c
 /* AF4B74 8007D9D4 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4B78 8007D9D8 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4B7C 8007D9DC 02402025 */  move  $a0, $s2
-/* AF4B80 8007D9E0 0C0301C1 */  jal   func_800C0704
+/* AF4B80 8007D9E0 0C0301C1 */  jal   Gameplay_CameraSetFov
 /* AF4B84 8007D9E4 8E0600FC */   lw    $a2, 0xfc($s0)
 /* AF4B88 8007D9E8 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4B8C 8007D9EC 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4B90 8007D9F0 02402025 */  move  $a0, $s2
-/* AF4B94 8007D9F4 0C0301D1 */  jal   func_800C0744
+/* AF4B94 8007D9F4 0C0301D1 */  jal   Gameplay_SetCameraRoll
 /* AF4B98 8007D9F8 8606015A */   lh    $a2, 0x15a($s0)
 /* AF4B9C 8007D9FC 1000096F */  b     .L8007FFBC
 /* AF4BA0 8007DA00 8FBF0044 */   lw    $ra, 0x44($sp)
@@ -1796,12 +1796,12 @@ glabel func_8007C850
 /* AF4BA4 8007DA04 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4BA8 8007DA08 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4BAC 8007DA0C 02402025 */  move  $a0, $s2
-/* AF4BB0 8007DA10 0C03021D */  jal   func_800C0874
+/* AF4BB0 8007DA10 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF4BB4 8007DA14 2406002A */   li    $a2, 42
 /* AF4BB8 8007DA18 8FB900DC */  lw    $t9, 0xdc($sp)
 /* AF4BBC 8007DA1C 02402025 */  move  $a0, $s2
 /* AF4BC0 8007DA20 00002825 */  move  $a1, $zero
-/* AF4BC4 8007DA24 0C03021D */  jal   func_800C0874
+/* AF4BC4 8007DA24 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF4BC8 8007DA28 87260154 */   lh    $a2, 0x154($t9)
 /* AF4BCC 8007DA2C 3C058012 */  lui   $a1, %hi(D_80120430) # $a1, 0x8012
 /* AF4BD0 8007DA30 84A50430 */  lh    $a1, %lo(D_80120430)($a1)
@@ -1823,12 +1823,12 @@ glabel func_8007C850
 .L8007DA70:
 /* AF4C10 8007DA70 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4C14 8007DA74 02402025 */  move  $a0, $s2
-/* AF4C18 8007DA78 0C03021D */  jal   func_800C0874
+/* AF4C18 8007DA78 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF4C1C 8007DA7C 2406002A */   li    $a2, 42
 /* AF4C20 8007DA80 8FAE00DC */  lw    $t6, 0xdc($sp)
 /* AF4C24 8007DA84 02402025 */  move  $a0, $s2
 /* AF4C28 8007DA88 00002825 */  move  $a1, $zero
-/* AF4C2C 8007DA8C 0C03021D */  jal   func_800C0874
+/* AF4C2C 8007DA8C 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF4C30 8007DA90 85C60154 */   lh    $a2, 0x154($t6)
 /* AF4C34 8007DA94 3C058012 */  lui   $a1, %hi(D_80120430) # $a1, 0x8012
 /* AF4C38 8007DA98 84A50430 */  lh    $a1, %lo(D_80120430)($a1)
@@ -1882,13 +1882,13 @@ glabel L8007DB08
 /* AF4CF0 8007DB50 E7A400C8 */  swc1  $f4, 0xc8($sp)
 /* AF4CF4 8007DB54 E7B000B4 */  swc1  $f16, 0xb4($sp)
 /* AF4CF8 8007DB58 E7A600B8 */  swc1  $f6, 0xb8($sp)
-/* AF4CFC 8007DB5C 0C03021D */  jal   func_800C0874
+/* AF4CFC 8007DB5C 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF4D00 8007DB60 E7A800BC */   swc1  $f8, 0xbc($sp)
 /* AF4D04 8007DB64 00152C00 */  sll   $a1, $s5, 0x10
 /* AF4D08 8007DB68 27A600C0 */  addiu $a2, $sp, 0xc0
 /* AF4D0C 8007DB6C 00052C03 */  sra   $a1, $a1, 0x10
 /* AF4D10 8007DB70 02402025 */  move  $a0, $s2
-/* AF4D14 8007DB74 0C030136 */  jal   func_800C04D8
+/* AF4D14 8007DB74 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF4D18 8007DB78 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF4D1C 8007DB7C 3C014296 */  li    $at, 0x42960000 # 0.000000
 /* AF4D20 8007DB80 44819000 */  mtc1  $at, $f18
@@ -1947,7 +1947,7 @@ glabel L8007DBF8
 /* AF4DEC 8007DC4C E6120038 */  swc1  $f18, 0x38($s0)
 /* AF4DF0 8007DC50 E6040044 */  swc1  $f4, 0x44($s0)
 .L8007DC54:
-/* AF4DF4 8007DC54 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4DF4 8007DC54 0C03F66B */  jal   Rand_ZeroOne
 /* AF4DF8 8007DC58 00000000 */   nop
 /* AF4DFC 8007DC5C 3C014170 */  li    $at, 0x41700000 # 0.000000
 /* AF4E00 8007DC60 44818000 */  mtc1  $at, $f16
@@ -2067,7 +2067,7 @@ glabel L8007DDF8
 /* AF4FB4 8007DE14 02202825 */  move  $a1, $s1
 /* AF4FB8 8007DE18 E7B000B8 */  swc1  $f16, 0xb8($sp)
 /* AF4FBC 8007DE1C E7A600BC */  swc1  $f6, 0xbc($sp)
-/* AF4FC0 8007DE20 0C00BBB9 */  jal   func_8002EEE4
+/* AF4FC0 8007DE20 0C00BBB9 */  jal   Actor_GetFocus
 /* AF4FC4 8007DE24 E7A400B4 */   swc1  $f4, 0xb4($sp)
 /* AF4FC8 8007DE28 8E0D0000 */  lw    $t5, ($s0)
 /* AF4FCC 8007DE2C 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2086,7 +2086,7 @@ glabel L8007DDF8
 /* AF5000 8007DE60 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5004 8007DE64 02402025 */  move  $a0, $s2
 /* AF5008 8007DE68 02203025 */  move  $a2, $s1
-/* AF500C 8007DE6C 0C030136 */  jal   func_800C04D8
+/* AF500C 8007DE6C 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF5010 8007DE70 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF5014 8007DE74 3C01428C */  li    $at, 0x428C0000 # 0.000000
 /* AF5018 8007DE78 44814000 */  mtc1  $at, $f8
@@ -2159,7 +2159,7 @@ glabel L8007DF78
 /* AF5118 8007DF78 00152C00 */  sll   $a1, $s5, 0x10
 /* AF511C 8007DF7C 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5120 8007DF80 02402025 */  move  $a0, $s2
-/* AF5124 8007DF84 0C03021D */  jal   func_800C0874
+/* AF5124 8007DF84 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5128 8007DF88 2406002A */   li    $a2, 42
 /* AF512C 8007DF8C 02402025 */  move  $a0, $s2
 /* AF5130 8007DF90 02802825 */  move  $a1, $s4
@@ -2389,13 +2389,13 @@ glabel L8007E2A0
 /* AF5488 8007E2E8 E7B000C8 */  swc1  $f16, 0xc8($sp)
 /* AF548C 8007E2EC E7A600B4 */  swc1  $f6, 0xb4($sp)
 /* AF5490 8007E2F0 E7A800B8 */  swc1  $f8, 0xb8($sp)
-/* AF5494 8007E2F4 0C03021D */  jal   func_800C0874
+/* AF5494 8007E2F4 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5498 8007E2F8 E7B200BC */   swc1  $f18, 0xbc($sp)
 /* AF549C 8007E2FC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF54A0 8007E300 27A600C0 */  addiu $a2, $sp, 0xc0
 /* AF54A4 8007E304 00052C03 */  sra   $a1, $a1, 0x10
 /* AF54A8 8007E308 02402025 */  move  $a0, $s2
-/* AF54AC 8007E30C 0C030136 */  jal   func_800C04D8
+/* AF54AC 8007E30C 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF54B0 8007E310 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF54B4 8007E314 3C01425C */  li    $at, 0x425C0000 # 0.000000
 /* AF54B8 8007E318 44815000 */  mtc1  $at, $f10
@@ -2412,7 +2412,7 @@ glabel L8007E340
 /* AF54E0 8007E340 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF54E4 8007E344 02002025 */  move  $a0, $s0
 /* AF54E8 8007E348 02202825 */  move  $a1, $s1
-/* AF54EC 8007E34C 0C00BBC5 */  jal   func_8002EF14
+/* AF54EC 8007E34C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF54F0 8007E350 AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF54F4 8007E354 8E0E0000 */  lw    $t6, ($s0)
 /* AF54F8 8007E358 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2432,7 +2432,7 @@ glabel L8007E340
 /* AF5530 8007E390 02002025 */  move  $a0, $s0
 /* AF5534 8007E394 E7A600C4 */  swc1  $f6, 0xc4($sp)
 /* AF5538 8007E398 02802825 */  move  $a1, $s4
-/* AF553C 8007E39C 0C00BBC5 */  jal   func_8002EF14
+/* AF553C 8007E39C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5540 8007E3A0 E7A800D0 */   swc1  $f8, 0xd0($sp)
 /* AF5544 8007E3A4 02202025 */  move  $a0, $s1
 /* AF5548 8007E3A8 0C01F1C1 */  jal   func_8007C704
@@ -2446,18 +2446,18 @@ glabel L8007E340
 /* AF5568 8007E3C8 00152C00 */  sll   $a1, $s5, 0x10
 /* AF556C 8007E3CC 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5570 8007E3D0 02402025 */  move  $a0, $s2
-/* AF5574 8007E3D4 0C03021D */  jal   func_800C0874
+/* AF5574 8007E3D4 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5578 8007E3D8 24060022 */   li    $a2, 34
 /* AF557C 8007E3DC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5580 8007E3E0 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5584 8007E3E4 02402025 */  move  $a0, $s2
 /* AF5588 8007E3E8 02203025 */  move  $a2, $s1
-/* AF558C 8007E3EC 0C030136 */  jal   func_800C04D8
+/* AF558C 8007E3EC 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF5590 8007E3F0 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF5594 8007E3F4 00153400 */  sll   $a2, $s5, 0x10
 /* AF5598 8007E3F8 00063403 */  sra   $a2, $a2, 0x10
 /* AF559C 8007E3FC 02402025 */  move  $a0, $s2
-/* AF55A0 8007E400 0C0301E3 */  jal   func_800C078C
+/* AF55A0 8007E400 0C0301E3 */  jal   Gameplay_CopyCamera
 /* AF55A4 8007E404 00002825 */   move  $a1, $zero
 /* AF55A8 8007E408 3C01425C */  li    $at, 0x425C0000 # 0.000000
 /* AF55AC 8007E40C 44819000 */  mtc1  $at, $f18
@@ -2473,7 +2473,7 @@ glabel L8007E340
 glabel L8007E434
 /* AF55D4 8007E434 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF55D8 8007E438 02002025 */  move  $a0, $s0
-/* AF55DC 8007E43C 0C00BBC5 */  jal   func_8002EF14
+/* AF55DC 8007E43C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF55E0 8007E440 02202825 */   move  $a1, $s1
 /* AF55E4 8007E444 8E0E0000 */  lw    $t6, ($s0)
 /* AF55E8 8007E448 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2495,13 +2495,13 @@ glabel L8007E434
 /* AF5628 8007E488 00152C00 */  sll   $a1, $s5, 0x10
 /* AF562C 8007E48C 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5630 8007E490 02402025 */  move  $a0, $s2
-/* AF5634 8007E494 0C03021D */  jal   func_800C0874
+/* AF5634 8007E494 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5638 8007E498 24060022 */   li    $a2, 34
 /* AF563C 8007E49C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5640 8007E4A0 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5644 8007E4A4 02402025 */  move  $a0, $s2
 /* AF5648 8007E4A8 02203025 */  move  $a2, $s1
-/* AF564C 8007E4AC 0C030136 */  jal   func_800C04D8
+/* AF564C 8007E4AC 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF5650 8007E4B0 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF5654 8007E4B4 3C01425C */  li    $at, 0x425C0000 # 0.000000
 /* AF5658 8007E4B8 44812000 */  mtc1  $at, $f4
@@ -2517,7 +2517,7 @@ glabel L8007E4DC
 /* AF567C 8007E4DC 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5680 8007E4E0 02002025 */  move  $a0, $s0
 /* AF5684 8007E4E4 02202825 */  move  $a1, $s1
-/* AF5688 8007E4E8 0C00BBD1 */  jal   func_8002EF44
+/* AF5688 8007E4E8 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF568C 8007E4EC AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF5690 8007E4F0 8E190000 */  lw    $t9, ($s0)
 /* AF5694 8007E4F4 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2545,13 +2545,13 @@ glabel L8007E4DC
 /* AF56EC 8007E54C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF56F0 8007E550 00052C03 */  sra   $a1, $a1, 0x10
 /* AF56F4 8007E554 02402025 */  move  $a0, $s2
-/* AF56F8 8007E558 0C03021D */  jal   func_800C0874
+/* AF56F8 8007E558 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF56FC 8007E55C 24060022 */   li    $a2, 34
 /* AF5700 8007E560 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5704 8007E564 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5708 8007E568 02402025 */  move  $a0, $s2
 /* AF570C 8007E56C 02203025 */  move  $a2, $s1
-/* AF5710 8007E570 0C030136 */  jal   func_800C04D8
+/* AF5710 8007E570 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF5714 8007E574 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF5718 8007E578 3C014270 */  li    $at, 0x42700000 # 0.000000
 /* AF571C 8007E57C 44815000 */  mtc1  $at, $f10
@@ -2568,10 +2568,10 @@ glabel L8007E5A0
 /* AF5744 8007E5A4 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5748 8007E5A8 02402025 */  move  $a0, $s2
 /* AF574C 8007E5AC 24060033 */  li    $a2, 51
-/* AF5750 8007E5B0 0C03021D */  jal   func_800C0874
+/* AF5750 8007E5B0 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5754 8007E5B4 AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF5758 8007E5B8 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF575C 8007E5BC 0C016911 */  jal   func_8005A444
+/* AF575C 8007E5BC 0C016911 */  jal   Camera_ChangeMode
 /* AF5760 8007E5C0 00002825 */   move  $a1, $zero
 /* AF5764 8007E5C4 02402025 */  move  $a0, $s2
 /* AF5768 8007E5C8 8FA500F4 */  lw    $a1, 0xf4($sp)
@@ -2602,14 +2602,14 @@ glabel L8007E5DC
 /* AF57C8 8007E628 E7A600C8 */  swc1  $f6, 0xc8($sp)
 /* AF57CC 8007E62C E7A800B4 */  swc1  $f8, 0xb4($sp)
 /* AF57D0 8007E630 E7B200B8 */  swc1  $f18, 0xb8($sp)
-/* AF57D4 8007E634 0C03021D */  jal   func_800C0874
+/* AF57D4 8007E634 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF57D8 8007E638 E7AA00BC */   swc1  $f10, 0xbc($sp)
 /* AF57DC 8007E63C 27B100C0 */  addiu $s1, $sp, 0xc0
 /* AF57E0 8007E640 00152C00 */  sll   $a1, $s5, 0x10
 /* AF57E4 8007E644 00052C03 */  sra   $a1, $a1, 0x10
 /* AF57E8 8007E648 02203025 */  move  $a2, $s1
 /* AF57EC 8007E64C 02402025 */  move  $a0, $s2
-/* AF57F0 8007E650 0C030136 */  jal   func_800C04D8
+/* AF57F0 8007E650 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF57F4 8007E654 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF57F8 8007E658 3C014296 */  li    $at, 0x42960000 # 0.000000
 /* AF57FC 8007E65C 44812000 */  mtc1  $at, $f4
@@ -2622,11 +2622,11 @@ glabel L8007E5DC
 /* AF5818 8007E678 E66400FC */   swc1  $f4, 0xfc($s3)
 /* AF581C 8007E67C 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5820 8007E680 02002025 */  move  $a0, $s0
-/* AF5824 8007E684 0C00BBD1 */  jal   func_8002EF44
+/* AF5824 8007E684 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF5828 8007E688 8FA500F4 */   lw    $a1, 0xf4($sp)
 /* AF582C 8007E68C 27B5008C */  addiu $s5, $sp, 0x8c
 /* AF5830 8007E690 02A02025 */  move  $a0, $s5
-/* AF5834 8007E694 0C00BBB9 */  jal   func_8002EEE4
+/* AF5834 8007E694 0C00BBB9 */  jal   Actor_GetFocus
 /* AF5838 8007E698 02802825 */   move  $a1, $s4
 /* AF583C 8007E69C 3C01428C */  li    $at, 0x428C0000 # 0.000000
 /* AF5840 8007E6A0 44814000 */  mtc1  $at, $f8
@@ -2653,7 +2653,7 @@ glabel L8007E5DC
 /* AF5894 8007E6F4 02402025 */  move  $a0, $s2
 /* AF5898 8007E6F8 00002825 */  move  $a1, $zero
 /* AF589C 8007E6FC 02203025 */  move  $a2, $s1
-/* AF58A0 8007E700 0C030136 */  jal   func_800C04D8
+/* AF58A0 8007E700 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF58A4 8007E704 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF58A8 8007E708 02602025 */  move  $a0, $s3
 /* AF58AC 8007E70C 0C024BE2 */  jal   Quake_Add
@@ -2681,7 +2681,7 @@ glabel L8007E5DC
 .L8007E764:
 /* AF5904 8007E764 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5908 8007E768 02002025 */  move  $a0, $s0
-/* AF590C 8007E76C 0C00BBC5 */  jal   func_8002EF14
+/* AF590C 8007E76C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5910 8007E770 02202825 */   move  $a1, $s1
 /* AF5914 8007E774 8E0D0000 */  lw    $t5, ($s0)
 /* AF5918 8007E778 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2709,13 +2709,13 @@ glabel L8007E5DC
 /* AF5970 8007E7D0 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5974 8007E7D4 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5978 8007E7D8 02402025 */  move  $a0, $s2
-/* AF597C 8007E7DC 0C03021D */  jal   func_800C0874
+/* AF597C 8007E7DC 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5980 8007E7E0 24060022 */   li    $a2, 34
 /* AF5984 8007E7E4 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5988 8007E7E8 00052C03 */  sra   $a1, $a1, 0x10
 /* AF598C 8007E7EC 02402025 */  move  $a0, $s2
 /* AF5990 8007E7F0 02203025 */  move  $a2, $s1
-/* AF5994 8007E7F4 0C030136 */  jal   func_800C04D8
+/* AF5994 8007E7F4 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF5998 8007E7F8 27A700B4 */   addiu $a3, $sp, 0xb4
 /* AF599C 8007E7FC 3C014234 */  li    $at, 0x42340000 # 0.000000
 /* AF59A0 8007E800 44815000 */  mtc1  $at, $f10
@@ -2730,7 +2730,7 @@ glabel L8007E5DC
 glabel L8007E824
 /* AF59C4 8007E824 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF59C8 8007E828 02002025 */  move  $a0, $s0
-/* AF59CC 8007E82C 0C00BBB9 */  jal   func_8002EEE4
+/* AF59CC 8007E82C 0C00BBB9 */  jal   Actor_GetFocus
 /* AF59D0 8007E830 02202825 */   move  $a1, $s1
 /* AF59D4 8007E834 8E190000 */  lw    $t9, ($s0)
 /* AF59D8 8007E838 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2746,7 +2746,7 @@ glabel L8007E824
 /* AF5A00 8007E860 0C030202 */  jal   func_800C0808
 /* AF5A04 8007E864 AE390008 */   sw    $t9, 8($s1)
 /* AF5A08 8007E868 02002025 */  move  $a0, $s0
-/* AF5A0C 8007E86C 0C00BBC5 */  jal   func_8002EF14
+/* AF5A0C 8007E86C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5A10 8007E870 02802825 */   move  $a1, $s4
 /* AF5A14 8007E874 27A400D0 */  addiu $a0, $sp, 0xd0
 /* AF5A18 8007E878 02202825 */  move  $a1, $s1
@@ -2771,7 +2771,7 @@ glabel L8007E824
 /* AF5A64 8007E8C4 02402025 */  move  $a0, $s2
 /* AF5A68 8007E8C8 02203025 */  move  $a2, $s1
 /* AF5A6C 8007E8CC 27A700B4 */  addiu $a3, $sp, 0xb4
-/* AF5A70 8007E8D0 0C030136 */  jal   func_800C04D8
+/* AF5A70 8007E8D0 0C030136 */  jal   Gameplay_CameraSetAtEye
 /* AF5A74 8007E8D4 E7A800B8 */   swc1  $f8, 0xb8($sp)
 /* AF5A78 8007E8D8 3C014296 */  li    $at, 0x42960000 # 0.000000
 /* AF5A7C 8007E8DC 44819000 */  mtc1  $at, $f18
@@ -2814,14 +2814,14 @@ glabel L8007E914
 /* AF5B08 8007E968 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5B0C 8007E96C 02402025 */  move  $a0, $s2
 /* AF5B10 8007E970 2406002A */  li    $a2, 42
-/* AF5B14 8007E974 0C03021D */  jal   func_800C0874
+/* AF5B14 8007E974 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5B18 8007E978 AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF5B1C 8007E97C 02402025 */  move  $a0, $s2
 /* AF5B20 8007E980 00002825 */  move  $a1, $zero
 /* AF5B24 8007E984 0C00B7D5 */  jal   func_8002DF54
 /* AF5B28 8007E988 24060008 */   li    $a2, 8
 /* AF5B2C 8007E98C 27A400A0 */  addiu $a0, $sp, 0xa0
-/* AF5B30 8007E990 0C00BBC5 */  jal   func_8002EF14
+/* AF5B30 8007E990 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5B34 8007E994 8FA500F4 */   lw    $a1, 0xf4($sp)
 /* AF5B38 8007E998 3C018014 */  lui   $at, %hi(D_8013D6CC)
 /* AF5B3C 8007E99C C42AD6CC */  lwc1  $f10, %lo(D_8013D6CC)($at)
@@ -2887,7 +2887,7 @@ glabel L8007EA80
 /* AF5C20 8007EA80 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5C24 8007EA84 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5C28 8007EA88 02402025 */  move  $a0, $s2
-/* AF5C2C 8007EA8C 0C03021D */  jal   func_800C0874
+/* AF5C2C 8007EA8C 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5C30 8007EA90 2406002A */   li    $a2, 42
 /* AF5C34 8007EA94 02402025 */  move  $a0, $s2
 /* AF5C38 8007EA98 02802825 */  move  $a1, $s4
@@ -2978,7 +2978,7 @@ glabel L8007EBE4
 /* AF5D84 8007EBE4 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5D88 8007EBE8 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5D8C 8007EBEC 02402025 */  move  $a0, $s2
-/* AF5D90 8007EBF0 0C03021D */  jal   func_800C0874
+/* AF5D90 8007EBF0 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF5D94 8007EBF4 24060031 */   li    $a2, 49
 /* AF5D98 8007EBF8 02402025 */  move  $a0, $s2
 /* AF5D9C 8007EBFC 00002825 */  move  $a1, $zero
@@ -2987,7 +2987,7 @@ glabel L8007EBE4
 /* AF5DA8 8007EC08 00152C00 */  sll   $a1, $s5, 0x10
 /* AF5DAC 8007EC0C 00052C03 */  sra   $a1, $a1, 0x10
 /* AF5DB0 8007EC10 02402025 */  move  $a0, $s2
-/* AF5DB4 8007EC14 0C0301E3 */  jal   func_800C078C
+/* AF5DB4 8007EC14 0C0301E3 */  jal   Gameplay_CopyCamera
 /* AF5DB8 8007EC18 00003025 */   move  $a2, $zero
 /* AF5DBC 8007EC1C 02602025 */  move  $a0, $s3
 /* AF5DC0 8007EC20 0C024BE2 */  jal   Quake_Add
@@ -3033,7 +3033,7 @@ glabel L8007EC78
 /* AF5E5C 8007ECBC 8E5900E8 */  lw    $t9, 0xe8($s2)
 /* AF5E60 8007ECC0 ADF90008 */  sw    $t9, 8($t7)
 /* AF5E64 8007ECC4 C65000D0 */  lwc1  $f16, 0xd0($s2)
-/* AF5E68 8007ECC8 0C00BBB9 */  jal   func_8002EEE4
+/* AF5E68 8007ECC8 0C00BBB9 */  jal   Actor_GetFocus
 /* AF5E6C 8007ECCC E4301F24 */   swc1  $f16, %lo(D_80121F24)($at)
 /* AF5E70 8007ECD0 87AD00AE */  lh    $t5, 0xae($sp)
 /* AF5E74 8007ECD4 3C0E8012 */  lui   $t6, %hi(D_80121F1C) # $t6, 0x8012
@@ -3463,7 +3463,7 @@ glabel L8007F31C
 /* AF64E0 8007F340 0C030202 */  jal   func_800C0808
 /* AF64E4 8007F344 2407003C */   li    $a3, 60
 /* AF64E8 8007F348 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF64EC 8007F34C 0C016911 */  jal   func_8005A444
+/* AF64EC 8007F34C 0C016911 */  jal   Camera_ChangeMode
 /* AF64F0 8007F350 00002825 */   move  $a1, $zero
 /* AF64F4 8007F354 10000319 */  b     .L8007FFBC
 /* AF64F8 8007F358 8FBF0044 */   lw    $ra, 0x44($sp)
@@ -3478,7 +3478,7 @@ glabel L8007F35C
 /* AF6518 8007F378 0C00B7D5 */  jal   func_8002DF54
 /* AF651C 8007F37C 24060008 */   li    $a2, 8
 /* AF6520 8007F380 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6524 8007F384 0C016911 */  jal   func_8005A444
+/* AF6524 8007F384 0C016911 */  jal   Camera_ChangeMode
 /* AF6528 8007F388 00002825 */   move  $a1, $zero
 /* AF652C 8007F38C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6530 8007F390 00052C03 */  sra   $a1, $a1, 0x10
@@ -3499,7 +3499,7 @@ glabel L8007F3AC
 /* AF6568 8007F3C8 0C00B7D5 */  jal   func_8002DF54
 /* AF656C 8007F3CC 24060008 */   li    $a2, 8
 /* AF6570 8007F3D0 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6574 8007F3D4 0C016911 */  jal   func_8005A444
+/* AF6574 8007F3D4 0C016911 */  jal   Camera_ChangeMode
 /* AF6578 8007F3D8 00002825 */   move  $a1, $zero
 /* AF657C 8007F3DC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6580 8007F3E0 00052C03 */  sra   $a1, $a1, 0x10
@@ -3520,7 +3520,7 @@ glabel L8007F3FC
 /* AF65B8 8007F418 0C00B7D5 */  jal   func_8002DF54
 /* AF65BC 8007F41C 24060008 */   li    $a2, 8
 /* AF65C0 8007F420 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF65C4 8007F424 0C016911 */  jal   func_8005A444
+/* AF65C4 8007F424 0C016911 */  jal   Camera_ChangeMode
 /* AF65C8 8007F428 00002825 */   move  $a1, $zero
 /* AF65CC 8007F42C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF65D0 8007F430 00052C03 */  sra   $a1, $a1, 0x10
@@ -3541,7 +3541,7 @@ glabel L8007F44C
 /* AF6608 8007F468 0C00B7CE */  jal   func_8002DF38
 /* AF660C 8007F46C 24060008 */   li    $a2, 8
 /* AF6610 8007F470 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6614 8007F474 0C016911 */  jal   func_8005A444
+/* AF6614 8007F474 0C016911 */  jal   Camera_ChangeMode
 /* AF6618 8007F478 00002825 */   move  $a1, $zero
 /* AF661C 8007F47C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6620 8007F480 00052C03 */  sra   $a1, $a1, 0x10
@@ -3562,7 +3562,7 @@ glabel L8007F49C
 /* AF6658 8007F4B8 0C00B7CE */  jal   func_8002DF38
 /* AF665C 8007F4BC 24060008 */   li    $a2, 8
 /* AF6660 8007F4C0 8FA400DC */  lw    $a0, 0xdc($sp)
-/* AF6664 8007F4C4 0C016911 */  jal   func_8005A444
+/* AF6664 8007F4C4 0C016911 */  jal   Camera_ChangeMode
 /* AF6668 8007F4C8 00002825 */   move  $a1, $zero
 /* AF666C 8007F4CC 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6670 8007F4D0 00052C03 */  sra   $a1, $a1, 0x10
@@ -3756,10 +3756,10 @@ glabel L8007F6E8
 /* AF693C 8007F79C 8FBF0044 */   lw    $ra, 0x44($sp)
 .L8007F7A0:
 /* AF6940 8007F7A0 27A400A0 */  addiu $a0, $sp, 0xa0
-/* AF6944 8007F7A4 0C00BBB9 */  jal   func_8002EEE4
+/* AF6944 8007F7A4 0C00BBB9 */  jal   Actor_GetFocus
 /* AF6948 8007F7A8 02202825 */   move  $a1, $s1
 /* AF694C 8007F7AC 27A4008C */  addiu $a0, $sp, 0x8c
-/* AF6950 8007F7B0 0C00BBB9 */  jal   func_8002EEE4
+/* AF6950 8007F7B0 0C00BBB9 */  jal   Actor_GetFocus
 /* AF6954 8007F7B4 02802825 */   move  $a1, $s4
 /* AF6958 8007F7B8 C7A600A4 */  lwc1  $f6, 0xa4($sp)
 /* AF695C 8007F7BC C7A80090 */  lwc1  $f8, 0x90($sp)
@@ -3868,12 +3868,12 @@ glabel L8007F6E8
 /* AF6ADC 8007F93C 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6AE0 8007F940 00052C03 */  sra   $a1, $a1, 0x10
 /* AF6AE4 8007F944 02402025 */  move  $a0, $s2
-/* AF6AE8 8007F948 0C0301E3 */  jal   func_800C078C
+/* AF6AE8 8007F948 0C0301E3 */  jal   Gameplay_CopyCamera
 /* AF6AEC 8007F94C 00003025 */   move  $a2, $zero
 /* AF6AF0 8007F950 00152C00 */  sll   $a1, $s5, 0x10
 /* AF6AF4 8007F954 00052C03 */  sra   $a1, $a1, 0x10
 /* AF6AF8 8007F958 02402025 */  move  $a0, $s2
-/* AF6AFC 8007F95C 0C03021D */  jal   func_800C0874
+/* AF6AFC 8007F95C 0C03021D */  jal   Gameplay_CameraChangeSetting
 /* AF6B00 8007F960 24060022 */   li    $a2, 34
 /* AF6B04 8007F964 10000195 */  b     .L8007FFBC
 /* AF6B08 8007F968 8FBF0044 */   lw    $ra, 0x44($sp)
@@ -3907,7 +3907,7 @@ glabel L8007F6E8
 /* AF6B6C 8007F9CC 27B000A0 */  addiu $s0, $sp, 0xa0
 .L8007F9D0:
 /* AF6B70 8007F9D0 02002025 */  move  $a0, $s0
-/* AF6B74 8007F9D4 0C00BBD1 */  jal   func_8002EF44
+/* AF6B74 8007F9D4 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF6B78 8007F9D8 02802825 */   move  $a1, $s4
 /* AF6B7C 8007F9DC 8FA600DC */  lw    $a2, 0xdc($sp)
 /* AF6B80 8007F9E0 27A400D0 */  addiu $a0, $sp, 0xd0

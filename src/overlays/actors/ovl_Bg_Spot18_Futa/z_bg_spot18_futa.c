@@ -17,7 +17,7 @@ void BgSpot18Futa_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Bg_Spot18_Futa_InitVars = {
     ACTOR_BG_SPOT18_FUTA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_SPOT18_OBJ,
     sizeof(BgSpot18Futa),
@@ -34,38 +34,38 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_06000368;
+extern CollisionHeader D_06000368;
 extern Gfx D_06000150[];
 
 void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
     s32 pad;
-    u32 sp1C = 0;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->actor, 0);
-    DynaPolyInfo_Alloc(&D_06000368, &sp1C);
-    this->dynaPolyId = DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, sp1C);
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_06000368, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
     s32 iVar1;
 
-    if (this->actor.parent == NULL) {
-        iVar1 = Math_ApproxF(&this->actor.scale.x, 0, 0.005);
+    if (this->dyna.actor.parent == NULL) {
+        iVar1 = Math_StepToF(&this->dyna.actor.scale.x, 0, 0.005);
 
         if (iVar1 != 0) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(&this->dyna.actor);
         } else {
-            this->actor.scale.z = this->actor.scale.x;
-            this->actor.scale.y = this->actor.scale.x;
+            this->dyna.actor.scale.z = this->dyna.actor.scale.x;
+            this->dyna.actor.scale.y = this->dyna.actor.scale.x;
         }
     }
 }

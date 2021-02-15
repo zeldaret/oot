@@ -23,7 +23,7 @@ void MagicWind_Grow(MagicWind* this, GlobalContext* globalCtx);
 
 const ActorInit Magic_Wind_InitVars = {
     ACTOR_MAGIC_WIND,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(MagicWind),
@@ -245,7 +245,7 @@ s32 MagicWind_OverrideLimbDraw(GlobalContext* globalCtx, SkelAnimeCurve* skelCur
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_magic_wind.c", 646);
 
-    return 1;
+    return true;
 }
 
 void MagicWind_Draw(Actor* thisx, GlobalContext* globalCtx) {

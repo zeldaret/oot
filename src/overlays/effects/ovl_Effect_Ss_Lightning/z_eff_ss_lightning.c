@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_lightning.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -28,13 +29,11 @@ EffectSsInit Effect_Ss_Lightning_InitVars = {
     EffectSsLightning_Init,
 };
 
-extern Gfx D_0402CF30[];
-
 u32 EffectSsLightning_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsLightningInitParams* initParams = (EffectSsLightningInitParams*)initParamsx;
 
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_0402CF30);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffLightningDL);
     this->life = initParams->life;
     this->draw = EffectSsLightning_Draw;
     this->update = EffectSsLightning_Update;
@@ -67,8 +66,9 @@ void EffectSsLightning_NewLightning(GlobalContext* globalCtx, Vec3f* pos, s16 ya
     EffectSs_Insert(globalCtx, &newLightning);
 }
 
-static void* sTextures[] = {
-    0x04029F30, 0x0402A530, 0x0402AB30, 0x0402B130, 0x0402B730, 0x0402BD30, 0x0402C330, 0x0402C930,
+static UNK_PTR sTextures[] = {
+    gEffLightning1Tex, gEffLightning2Tex, gEffLightning3Tex, gEffLightning4Tex,
+    gEffLightning5Tex, gEffLightning6Tex, gEffLightning7Tex, gEffLightning8Tex,
 };
 
 void EffectSsLightning_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -126,18 +126,18 @@ void EffectSsLightning_Update(GlobalContext* globalCtx, u32 index, EffectSs* thi
 
     if ((this->rNumBolts != 0) && ((this->life + 1) == this->rLifespan)) {
 
-        yaw = this->rYaw + (((Math_Rand_ZeroOne() < 0.5f) ? -1 : 1) * ((s16)((Math_Rand_ZeroOne() * 3640.0f)) + 0xE38));
+        yaw = this->rYaw + (((Rand_ZeroOne() < 0.5f) ? -1 : 1) * ((s16)((Rand_ZeroOne() * 3640.0f)) + 0xE38));
 
         scale = (this->rScale * 0.01f) * 80.0f;
-        pos.y = this->pos.y + (Math_Sins(this->rYaw - 0x4000) * scale);
+        pos.y = this->pos.y + (Math_SinS(this->rYaw - 0x4000) * scale);
 
-        scale = Math_Coss(this->rYaw - 0x4000) * scale;
-        pos.x = this->pos.x - (Math_Coss(func_8005A948(ACTIVE_CAM)) * scale);
-        pos.z = this->pos.z + (Math_Sins(func_8005A948(ACTIVE_CAM)) * scale);
+        scale = Math_CosS(this->rYaw - 0x4000) * scale;
+        pos.x = this->pos.x - (Math_CosS(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
+        pos.z = this->pos.z + (Math_SinS(Camera_GetInputDirYaw(ACTIVE_CAM)) * scale);
 
         EffectSsLightning_NewLightning(globalCtx, &pos, yaw, this);
 
-        if (Math_Rand_ZeroOne() < 0.1f) {
+        if (Rand_ZeroOne() < 0.1f) {
             EffectSsLightning_NewLightning(globalCtx, &pos, (this->rYaw * 2) - yaw, this);
         }
     }

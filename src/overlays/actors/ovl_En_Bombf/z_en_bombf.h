@@ -12,7 +12,7 @@ typedef struct EnBombf {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ ColliderCylinder bombCollider;
     /* 0x0198 */ ColliderJntSph explosionCollider;
-    /* 0x01B8 */ ColliderJntSphItem explosionColliderItems[1];
+    /* 0x01B8 */ ColliderJntSphElement explosionColliderItems[1];
     /* 0x01F8 */ s16 timer;
     /* 0x01FC */ EnBombfActionFunc actionFunc;
     /* 0x0200 */ s32 unk_200;
@@ -25,7 +25,7 @@ typedef struct EnBombf {
 typedef enum {
     /* 0xFFFF */ BOMBFLOWER_FLOWER = -1,
     /* 0x0000 */ BOMBFLOWER_BODY,
-    /* 0x0001 */ BOMBFLOWER_EXPLOSION,
+    /* 0x0001 */ BOMBFLOWER_EXPLOSION
 } EnBombfType;
 
 extern const ActorInit En_Bombf_InitVars;

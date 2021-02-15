@@ -5,10 +5,12 @@
 #include "ultra64/gs2dex.h"
 #include "z64save.h"
 #include "z64light.h"
+#include "z64bgcheck.h"
 #include "z64actor.h"
 #include "z64player.h"
 #include "z64audio.h"
 #include "z64object.h"
+#include "z64camera.h"
 #include "z64cutscene.h"
 #include "z64collision_check.h"
 #include "z64scene.h"
@@ -45,6 +47,11 @@
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
+typedef struct{
+    /* 0x00 */ char unk[0x4];
+    /* 0x04 */ MtxF mf;
+} HorseStruct;
+
 // Game Info aka. Static Context (dbg ram start: 80210A10)
 // Data normally accessed through REG macros (see regs.h)
 typedef struct {
@@ -68,9 +75,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u32    size;
-    /* 0x0004 */ u8*    bufp;
-    /* 0x0008 */ u8*    head;
-    /* 0x000C */ u8*    tail;
+    /* 0x0004 */ void*  bufp;
+    /* 0x0008 */ void*  head;
+    /* 0x000C */ void*  tail;
 } TwoHeadArena; // size = 0x10
 
 typedef struct {
@@ -172,179 +179,9 @@ typedef struct {
     /* 0x0104 */ Vec3f  unk_104;
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
-    /* 0x0120 */ u32    flags;
+    /* 0x0120 */ s32    flags;
     /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
-
-typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ f32 unk_04;
-    /* 0x0008 */ s16 unk_08;
-} Special9; // size = 0xC
-
-typedef struct {
-    /* 0x0000 */ Actor* door;
-    /* 0x0004 */ s16 unk_04;
-    /* 0x0006 */ s16 unk_06;
-    /* 0x0008 */ s16 unk_08;
-    /* 0x000A */ s16 unk_0A;
-    /* 0x000C */ Special9 spec9;
-    /* 0x0018 */ s16 unk_18;
-} DoorCamera; // size = 0x1C
-
-typedef struct {
-    f32 unk_00;
-    s16 unk_04;
-} Special0;
-
-typedef struct {
-    /* 0x0000 */ f32 unk_00;
-    /* 0x0004 */ s16 unk_04;
-} Demo1_unk_04; // size = 0x14
-
-typedef struct {
-    /* 0x0000 */ s16 unk_00;
-    /* 0x0002 */ s16 unk_02;
-    /* 0x0004 */ Demo1_unk_04 unk_04;
-} Demo1; // size = 0x18
-
-typedef struct {
-    char unk_00[0xC];
-    s32 unk_0C;
-    f32 unk_10;
-    s16 unk_14;
-    s16 unk_16;
-    s16 unk_18;
-    s16 unk_1A;
-    f32 unk_1C;
-    f32 unk_20;
-    s16 unk_24;
-    s16 unk_26;
-    s16 unk_28;
-    s16 unk_2A;
-} Normal3_Unk20;
-
-typedef struct {
-    f32 unk_00;
-    f32 unk_04; // distance
-    f32 unk_08;
-    f32 unk_0C;
-    f32 unk_10;
-    f32 unk_14; // fov
-    f32 unk_18;
-    s16 unk_1C; // theta
-    s16 unk_1E;
-    Normal3_Unk20 unk_20;
-} Normal3;
-
-typedef union {
-    char data[0x50];
-    s16 sh[2];
-    s32 w;
-    f32 f;
-    DoorCamera doorCam;
-    Special0 spec0;
-    Demo1 demo1;
-    Normal3 normal3;
-} camera_unk_00;
-
-typedef struct {
-    Vec3s unk_00;
-    Vec3s unk_06;
-    s16 unk_0C;
-    s16 unk_0E;
-} struct_80041C10_ret;
-
-typedef struct {
-    /* 0x0000 */ camera_unk_00 unk_00;
-    /* 0x0050 */ Vec3f at;
-    /* 0x005C */ Vec3f eye;
-    /* 0x0068 */ Vec3f unk_68;
-    /* 0x0074 */ Vec3f eyeNext;
-    /* 0x0080 */ Vec3f unk_80;
-    /* 0x008C */ struct GlobalContext* globalCtx;
-    /* 0x0090 */ Player* player;
-    /* 0x0094 */ PosRot playerPosRot;
-    /* 0x00A8 */ Actor* target;
-    /* 0x00AC */ PosRot targetPosRot;
-    /* 0x00C0 */ Vec3f unk_C0; // has to do with how quickly the camera rotates link.
-    /* 0x00CC */ Vec3f unk_CC; // has to do with how quickly the camera zooms
-    /* 0x00D8 */ f32 unk_D8;
-    /* 0x00DC */ f32 dist; // possibly a Vec3f
-    /* 0x00E0 */ f32 unk_E0;
-    /* 0x00E4 */ Vec3f unk_E4;
-    /* 0x00F0 */ Vec3f unk_F0;
-    /* 0x00FC */ f32 fov;
-    /* 0x0100 */ f32 unk_100; // update rate of distance from link?
-    /* 0x0104 */ f32 unk_104;
-    /* 0x0108 */ Vec3f unk_108;
-    /* 0x0114 */ char unk_114[0x4];
-    /* 0x0118 */ s32 unk_118;
-    /* 0x011C */ s32 unk_11C;
-    /* 0x0120 */ char unk_120[0x4];
-    /* 0x0124 */ CutsceneCameraPoint* atPoints;
-    /* 0x0128 */ CutsceneCameraPoint* eyePoints;
-    /* 0x012C */ s16 relativeToPlayer; // camera Cutscene points are relative to player's position
-    /* 0x012E */ s16 unk_12E;
-    /* 0x0130 */ s16 uid;    // Unique identifier of the camera.
-    /* 0x0132 */ char unk_132[0x02];
-    /* 0x0134 */ Vec3s unk_134;
-    /* 0x013A */ Vec3s unk_13A; // seems to be a copy of unk_134, but unused for anything different?
-    /* 0x0140 */ s16 status;
-    /* 0x0142 */ s16 setting; // referred to as set
-    /* 0x0144 */ s16 mode;
-    /* 0x0146 */ s16 unk_146; // unknown if used
-    /* 0x0148 */ s16 unk_148; // ID for door camera? (see func_8005AD40)
-    /* 0x014A */ s16 unk_14A; // unknown if used
-    /* 0x014C */ s16 unk_14C;
-    /* 0x014E */ s16 unk_14E;
-    /* 0x0150 */ s16 unk_150; // unknown if used
-    /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ u16 unk_154; // appears to be some clone of setting?
-    /* 0x0156 */ s16 unk_156;
-    /* 0x0158 */ s16 unk_158; // unknown if used
-    /* 0x015A */ s16 roll;
-    /* 0x015C */ s16 unk_15C; // unknown if used
-    /* 0x015E */ s16 unk_15E;
-    /* 0x0160 */ s16 unk_160;
-    /* 0x0162 */ s16 unk_162;
-    /* 0x0164 */ s16 unk_164;
-    /* 0x0166 */ s16 unk_166; // unknown if used
-    /* 0x0168 */ s16 unk_168;
-    /* 0x016A */ s16 unk_16A; // unknown if used
-} Camera; // size = 0x16C
-
-typedef struct {
-    s32 unk_00;
-    char unk_04[0x30];
-    s32 unk_34;
-    s32 unk_38;
-    s32 unk_3C;
-    s32 unk_40;
-    s32 unk_44;
-    f32 unk_48;
-    s16 unk_4C;
-    f32 unk_50;
-    char unk_54[0x18];
-    f32 unk_6C;
-    f32 unk_70;
-    f32 unk_74;
-    s16 unk_78;
-    s16 unk_7A;
-    s16 unk_7C;
-    s16 unk_7E;
-    s16 unk_80;
-    s16 unk_82;
-    s16 unk_84;
-    s16 unk_86;
-    char unk_88[0x1038];
-    s16 unk_10C0;
-    s16 unk_10C2;
-    s16 unk_10C4;
-    s16 unk_10C6;
-    s16 unk_10C8;
-    s16 unk_10CA;
-} DbgCamera; // size = 0x10CC;
 
 typedef struct {
     /* 0x00 */ u8   seqIndex;
@@ -356,42 +193,6 @@ typedef struct {
     /* 0x00 */ u32 toggle;
     /* 0x04 */ s32 counter;
 } SubGlobalContext7B8; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ char unk_00[0x2];
-    /* 0x02 */ s16  unk_02;
-    /* 0x04 */ char unk_04[0xC];
-} WaterBox; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ Vec3s     colAbsMin;
-    /* 0x06 */ Vec3s     colAbsMax;
-    /* 0x0C */ s16       nbVertices;
-    /* 0x10 */ void*     vertexArray;
-    /* 0x14 */ s16       nbPolygons;
-    /* 0x18 */ void*     polygonArray;
-    /* 0x1C */ void*     polygonTypes;
-    /* 0x20 */ void*     cameraData;
-    /* 0x24 */ u16       nbWaterBoxes;
-    /* 0x28 */ WaterBox* waterBoxes;
-} CollisionHeader;
-
-typedef struct {
-    /* 0x00 */ CollisionHeader* colHeader;
-    /* 0x04 */ char             unk_04[0x4C];
-} StaticCollisionContext; // size = 0x50
-
-typedef struct {
-    /* 0x0000 */ ActorMesh actorMeshArr[50];
-    /* 0x1388 */ char   unk_1388[0x04];
-    /* 0x138C */ u16    flags[50];
-    /* 0x13F0 */ char   unk_13F0[0x24];
-} DynaCollisionContext; // size = 0x1414
-
-typedef struct {
-    /* 0x0000 */ StaticCollisionContext stat;
-    /* 0x0050 */ DynaCollisionContext   dyna;
-} CollisionContext; // size = 0x1464
 
 typedef struct {
     /* 0x00 */ Vec3f    pos;
@@ -409,7 +210,7 @@ typedef struct {
     /* 0x40 */ f32      unk_40;
     /* 0x44 */ f32      unk_44;
     /* 0x48 */ s16      unk_48;
-    /* 0x4A */ u8       activeType;
+    /* 0x4A */ u8       activeCategory;
     /* 0x4B */ u8       unk_4B;
     /* 0x4C */ s8       unk_4C;
     /* 0x4D */ char     unk_4D[0x03];
@@ -432,8 +233,8 @@ typedef struct {
 } TitleCardContext; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ s32    length; // number of actors loaded of this type
-    /* 0x04 */ Actor* first;  // pointer to first actor of this type
+    /* 0x00 */ s32    length; // number of actors loaded of this category
+    /* 0x04 */ Actor* head; // pointer to head of the linked list of this category (most recent actor added)
 } ActorListEntry; // size = 0x08
 
 typedef struct {
@@ -444,7 +245,7 @@ typedef struct {
     /* 0x0004 */ char   unk_04[0x04];
     /* 0x0008 */ u8     total; // total number of actors loaded
     /* 0x0009 */ char   unk_09[0x03];
-    /* 0x000C */ ActorListEntry actorList[12];
+    /* 0x000C */ ActorListEntry actorLists[12];
     /* 0x006C */ TargetContext targetCtx;
     struct {
         /* 0x0104 */ u32    swch;
@@ -540,7 +341,8 @@ typedef struct {
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
     /* 0xE40E */ s16    unk_E40E;
-    /* 0xE410 */ char   unk_E410[0x08];
+    /* 0xE410 */ u8     unk_E410;
+    /* 0xE411 */ char   unk_E411[0x07];
 } MessageContext; // size = 0xE418
 
 typedef struct {
@@ -567,10 +369,14 @@ typedef struct {
     /* 0x01FC */ s16    unk_1FC;
     /* 0x01FE */ s16    unk_1FE;
     /* 0x0200 */ s16    unk_200;
-    /* 0x0202 */ s16    unk_202[3];
-    /* 0x0208 */ s16    unk_208[3];
-    /* 0x020E */ s16    unk_20E[6];
-    /* 0x021A */ s16    unk_21A[6];
+    /* 0x0202 */ s16    beatingHeartPrim[3];
+    /* 0x0208 */ s16    beatingHeartEnv[3];
+    /* 0x020E */ s16    heartsPrimR[2];
+    /* 0x0212 */ s16    heartsPrimG[2];
+    /* 0x0216 */ s16    heartsPrimB[2];
+    /* 0x021A */ s16    heartsEnvR[2];
+    /* 0x021E */ s16    heartsEnvG[2];
+    /* 0x0222 */ s16    heartsEnvB[2];
     /* 0x0226 */ s16    unk_226;
     /* 0x0228 */ s16    unk_228;
     /* 0x022A */ s16    unk_22A;
@@ -867,15 +673,15 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x000 */ s16 colAtCount;
+    /* 0x000 */ s16 colATCount;
     /* 0x002 */ u16 sacFlags;
-    /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
-    /* 0x0CC */ s32 colAcCount;
-    /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
-    /* 0x1C0 */ s32 colOcCount;
-    /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
-    /* 0x28C */ s32 colOcLineCount;
-    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+    /* 0x004 */ Collider* colAT[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colACCount;
+    /* 0x0D0 */ Collider* colAC[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOCCount;
+    /* 0x1C4 */ Collider* colOC[COLLISION_CHECK_OC_MAX];
+    /* 0x28C */ s32 colLineCount;
+    /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
 } CollisionCheckContext; // size = 0x29C
 
 typedef struct ListAlloc {
@@ -913,7 +719,7 @@ typedef struct {
         TransitionWipe wipe;
         char data[0x228];
     };
-    /* 0x228 */ s32    transitionType;
+    /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
     /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
@@ -1057,7 +863,7 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x001E0 */ Camera subCameras[3];
+    /* 0x0034C */ Camera subCameras[3];
     /* 0x00790 */ Camera* cameraPtrs[4];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
@@ -1082,7 +888,7 @@ typedef struct GlobalContext {
     /* 0x11D30 */ s16 unk_11D30[2];
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
-    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, SkeletonHeader* skelHeader);
+    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct GlobalContext* globalCtx);
@@ -1115,8 +921,8 @@ typedef struct GlobalContext {
     /* 0x11E18 */ s16 unk_11E18;
     /* 0x11E1A */ s16 nextEntranceIndex;
     /* 0x11E1C */ char unk_11E1C[0x40];
-    /* 0x11E5C */ s8 unk_11E5C;
-    /* 0x11E5D */ s8 bombchuBowlingAmmo; // "bombchu_game_flag"
+    /* 0x11E5C */ s8 shootingGalleryStatus;
+    /* 0x11E5D */ s8 bombchuBowlingStatus; // "bombchu_game_flag"
     /* 0x11E5E */ u8 fadeTransition;
     /* 0x11E60 */ CollisionCheckContext colChkCtx;
     /* 0x120FC */ u16 envFlags[20];
@@ -1238,9 +1044,9 @@ typedef enum {
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              playbackSpeed;
-    /* 0x08 */ f32              unk_08;
+    /* 0x08 */ f32              startFrame;
     /* 0x0C */ f32              frameCount;
-    /* 0x10 */ u8               unk_10;
+    /* 0x10 */ u8               mode;
     /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
 
@@ -1248,7 +1054,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              frameCount;
-    /* 0x08 */ u8               unk_08;
+    /* 0x08 */ u8               mode;
     /* 0x0C */ f32              transitionRate;
 } struct_D_80AA1678; // size = 0x10
 
@@ -1261,7 +1067,7 @@ typedef struct {
     /* 0x0E */ Vec3s unk_0E;
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ char unk_24[0x4];
+    /* 0x24 */ s16 unk_24;
 } struct_80034A14_arg1; // size = 0x28
 
 typedef struct {
@@ -1427,7 +1233,7 @@ typedef struct {
     /* 0x14 */ u16 backColor;
     /* 0x14 */ u16 cursorX;
     /* 0x16 */ u16 cursorY;
-    /* 0x18 */ u32* fontData;
+    /* 0x18 */ const u32* fontData;
     /* 0x1C */ u8 charW;
     /* 0x1D */ u8 charH;
     /* 0x1E */ s8 charWPad;
@@ -1439,7 +1245,7 @@ typedef struct {
 } FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint*(*callback)(struct GfxPrint*, const char*, size_t);
+    /* 0x00 */ struct GfxPrint *(*callback)(struct GfxPrint*, const char*, size_t);
     /* 0x04 */ Gfx* dlist;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
@@ -1529,7 +1335,7 @@ typedef struct {
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
 
-typedef struct {
+typedef struct PadMgr {
     /* 0x0000 */ OSContStatus padStatus[4];
     /* 0x0010 */ OSMesg serialMsgBuf[1];
     /* 0x0014 */ OSMesg lockMsgBuf[1];
@@ -1543,7 +1349,7 @@ typedef struct {
     /* 0x0230 */ Input inputs[4];
     /* 0x0290 */ OSContPad pads[4];
     /* 0x02A8 */ vu8 validCtrlrsMask;
-    /* 0x02A9 */ u8 ncontrollers;
+    /* 0x02A9 */ u8 nControllers;
     /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
     /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
     /* 0x02B2 */ vu8 rumbleEnable[4];
@@ -1552,7 +1358,7 @@ typedef struct {
     /* 0x045C */ vu8 rumbleOffFrames;
     /* 0x045D */ vu8 rumbleOnFrames;
     /* 0x045E */ u8 preNMIShutdown;
-    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padmgr, s32 unk464);
     /* 0x0464 */ u32 retraceCallbackValue;
 } PadMgr; // size = 0x468
 
@@ -1723,13 +1529,13 @@ typedef struct {
 } ShakeInfo; // size = 0x1E
 
 typedef struct {
-    /* 0x00 */ Vec3f vec1;
-    /* 0x0C */ Vec3f vec2;
+    /* 0x00 */ Vec3f atOffset;
+    /* 0x0C */ Vec3f eyeOffset;
     /* 0x18 */ s16 rotZ;
     /* 0x1A */ s16 unk_1A;
     /* 0x1C */ s16 zoom;
     /* 0x20 */ f32 unk_20;
-} UnkQuakeCalcStruct; // size = 0x24
+} QuakeCamCalc; // size = 0x24
 
 
 #define UCODE_NULL      0
@@ -1839,6 +1645,13 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
 } JpegDecoderState; // size = 0x14
 
+typedef struct {
+    /* 0x0000 */ OSViMode viMode;
+    /* 0x0050 */ char unk_50[0x30];
+    /* 0x0080 */ u32 viFeatures;
+    /* 0x0084 */ char unk_84[4];
+} unk_80166528;
+
 // Vis...
 typedef struct {
     /* 0x00 */ u32 type;
@@ -1881,12 +1694,6 @@ typedef struct {
 } UnkRumbleStruct; // size = 0x10E
 
 typedef struct {
-    char unk_00[0x48];
-    void* avbTbl;
-    SkelAnime skelAnime;
-} PSkinAwb; // size = 0x90
-
-typedef struct {
     /* 0x00 */ char unk_00[0x18];
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 y;
@@ -1904,7 +1711,7 @@ typedef struct {
 } SpeedMeterAllocEntry; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ OSTime* time;
+    /* 0x00 */ volatile OSTime* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;

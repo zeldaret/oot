@@ -6,6 +6,7 @@
 
 #include "z_en_bom.h"
 #include "overlays/effects/ovl_Effect_Ss_Dead_Sound/z_eff_ss_dead_sound.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -21,7 +22,7 @@ void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx);
 
 const ActorInit En_Bom_InitVars = {
     ACTOR_EN_BOM,
-    ACTORTYPE_EXPLOSIVES,
+    ACTORCAT_EXPLOSIVE,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnBom),
@@ -32,32 +33,57 @@ const ActorInit En_Bom_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK0, 0x00, 0x29, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x02, { 0x00000000, 0x00, 0x00 }, { 0x0003F828, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER | AC_TYPE_OTHER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK2,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x0003F828, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 6, 11, 14, { 0, 0, 0 } },
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000008, 0x00, 0x08 }, { 0x00000000, 0x00, 0x00 }, 0x19, 0x00, 0x00 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000008, 0x00, 0x08 },
+            { 0x00000000, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NONE,
+            BUMP_NONE,
+            OCELEM_NONE,
+        },
         { 0, { { 0, 0, 0 }, 0 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK0, 0x39, 0x00, 0x00, 0x00, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_HIT0,
+        AT_ON | AT_TYPE_ALL,
+        AC_NONE,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F(scale, 0, ICHAIN_CONTINUE),
-    ICHAIN_F32(unk_4C, 2000, ICHAIN_CONTINUE),
-    ICHAIN_F32_DIV1000(gravity, 61536, ICHAIN_STOP),
+    ICHAIN_F32(targetArrowOffset, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32_DIV1000(gravity, -4000, ICHAIN_STOP),
 };
-
-extern Gfx D_04007A50[]; // gold fuse cap
-extern Gfx D_04007860[]; // bomb
 
 void EnBom_SetupAction(EnBom* this, EnBomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -67,17 +93,17 @@ void EnBom_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnBom* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
-    ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawFunc_Circle, 16.0f);
+    ActorShape_Init(&thisx->shape, 700.0f, ActorShadow_DrawCircle, 16.0f);
     thisx->colChkInfo.mass = 200;
-    thisx->colChkInfo.unk_10 = 5;
-    thisx->colChkInfo.unk_12 = 0xA;
+    thisx->colChkInfo.cylRadius = 5;
+    thisx->colChkInfo.cylHeight = 10;
     this->timer = 70;
     this->flashSpeedScale = 7;
     Collider_InitCylinder(globalCtx, &this->bombCollider);
     Collider_InitJntSph(globalCtx, &this->explosionCollider);
     Collider_SetCylinder(globalCtx, &this->bombCollider, thisx, &sCylinderInit);
     Collider_SetJntSph(globalCtx, &this->explosionCollider, thisx, &sJntSphInit, &this->explosionColliderItems[0]);
-    this->explosionColliderItems[0].body.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
+    this->explosionColliderItems[0].info.toucher.damage += (thisx->shape.rot.z & 0xFF00) >> 8;
 
     thisx->shape.rot.z &= 0xFF;
     if (thisx->shape.rot.z & 0x80) {
@@ -108,9 +134,8 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
 
     // rebound bomb off the wall it hits
     if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
-        if (ABS((s16)(this->actor.wallPolyRot - this->actor.posRot.rot.y)) > 0x4000) {
-            this->actor.posRot.rot.y =
-                ((this->actor.wallPolyRot - this->actor.posRot.rot.y) + this->actor.wallPolyRot) - 0x8000;
+        if (ABS((s16)(this->actor.wallYaw - this->actor.world.rot.y)) > 0x4000) {
+            this->actor.world.rot.y = ((this->actor.wallYaw - this->actor.world.rot.y) + this->actor.wallYaw) - 0x8000;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_BOMB_BOUND);
         Actor_MoveForward(&this->actor);
@@ -119,9 +144,9 @@ void EnBom_Move(EnBom* this, GlobalContext* globalCtx) {
     }
 
     if (!(this->actor.bgCheckFlags & 1)) {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 0.08f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 0.08f);
     } else {
-        Math_ApproxF(&this->actor.speedXZ, 0.0f, 1.0f);
+        Math_StepToF(&this->actor.speedXZ, 0.0f, 1.0f);
         if ((this->actor.bgCheckFlags & 2) && (this->actor.velocity.y < -3.0f)) {
             func_8002F850(globalCtx, &this->actor);
             this->actor.velocity.y *= -0.3f;
@@ -145,12 +170,12 @@ void EnBom_WaitForRelease(EnBom* this, GlobalContext* globalCtx) {
 void EnBom_Explode(EnBom* this, GlobalContext* globalCtx) {
     Player* player;
 
-    if (this->explosionCollider.list->dim.modelSphere.radius == 0) {
+    if (this->explosionCollider.elements[0].dim.modelSphere.radius == 0) {
         this->actor.flags |= 0x20;
-        func_800AA000(this->actor.xzDistFromLink, 0xFF, 0x14, 0x96);
+        func_800AA000(this->actor.xzDistToPlayer, 0xFF, 0x14, 0x96);
     }
 
-    this->explosionCollider.list->dim.worldSphere.radius += this->actor.shape.rot.z + 8;
+    this->explosionCollider.elements[0].dim.worldSphere.radius += this->actor.shape.rot.z + 8;
 
     if (this->actor.params == BOMB_EXPLOSION) {
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->explosionCollider.base);
@@ -215,20 +240,20 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(thisx, 0.01f);
     }
 
-    if ((thisx->xzDistFromLink >= 20.0f) || (ABS(thisx->yDistFromLink) >= 80.0f)) {
+    if ((thisx->xzDistToPlayer >= 20.0f) || (ABS(thisx->yDistToPlayer) >= 80.0f)) {
         this->bumpOn = true;
     }
 
     this->actionFunc(this, globalCtx);
 
-    func_8002E4B4(globalCtx, thisx, 5.0f, 10.0f, 15.0f, 0x1F);
+    Actor_UpdateBgCheckInfo(globalCtx, thisx, 5.0f, 10.0f, 15.0f, 0x1F);
 
     if (thisx->params == BOMB_BODY) {
         if (this->timer < 63) {
             dustAccel.y = 0.2f;
 
             // spawn spark effect on even frames
-            effPos = thisx->posRot.pos;
+            effPos = thisx->world.pos;
             effPos.y += 17.0f;
             if ((globalCtx->gameplayFrames % 2) == 0) {
                 EffectSsGSpk_SpawnFuse(globalCtx, thisx, &effPos, &effVelocity, &effAccel);
@@ -240,20 +265,20 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             func_8002829C(globalCtx, &effPos, &effVelocity, &dustAccel, &dustColor, &dustColor, 50, 5);
         }
 
-        if ((this->bombCollider.base.acFlags & 2) ||
-            ((this->bombCollider.base.maskA & 2) && (this->bombCollider.base.oc->type == ACTORTYPE_ENEMY))) {
+        if ((this->bombCollider.base.acFlags & AC_HIT) || ((this->bombCollider.base.ocFlags1 & OC1_HIT) &&
+                                                           (this->bombCollider.base.oc->category == ACTORCAT_ENEMY))) {
             this->timer = 0;
             thisx->shape.rot.z = 0;
         } else {
             // if a lit stick touches the bomb, set timer to 100
             // these bombs never have a timer over 70, so this isnt used
-            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->posRot.pos, 30.0f, 50.0f)) {
+            if ((this->timer > 100) && Player_IsBurningStickInRange(globalCtx, &thisx->world.pos, 30.0f, 50.0f)) {
                 this->timer = 100;
             }
         }
 
         dustAccel.y = 0.2f;
-        effPos = thisx->posRot.pos;
+        effPos = thisx->world.pos;
         effPos.y += 10.0f;
 
         // double bomb flash speed and adjust red color at certain times during the countdown
@@ -263,9 +288,9 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->timer < 100) && ((this->timer & (this->flashSpeedScale + 1)) != 0)) {
-            Math_SmoothScaleMaxMinF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 140.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
         } else {
-            Math_SmoothScaleMaxMinF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
+            Math_SmoothStepToF(&this->flashIntensity, 0.0f, 1.0f, 140.0f / this->flashSpeedScale, 0.0f);
         }
 
         if (this->timer < 3) {
@@ -273,7 +298,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if (this->timer == 0) {
-            effPos = thisx->posRot.pos;
+            effPos = thisx->world.pos;
 
             effPos.y += 10.0f;
             if (Actor_HasParent(thisx, globalCtx)) {
@@ -283,8 +308,8 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             EffectSsBomb2_SpawnLayered(globalCtx, &effPos, &effVelocity, &bomb2Accel, 100,
                                        (thisx->shape.rot.z * 6) + 19);
 
-            effPos.y = thisx->groundY;
-            if (thisx->groundY > -32000.0f) {
+            effPos.y = thisx->floorHeight;
+            if (thisx->floorHeight > BGCHECK_Y_MIN) {
                 EffectSsBlast_SpawnWhiteShockwave(globalCtx, &effPos, &effVelocity, &effAccel);
             }
 
@@ -292,7 +317,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
             if (globalCtx) {};
             globalCtx->envCtx.unk_8C[1][0] = globalCtx->envCtx.unk_8C[1][1] = globalCtx->envCtx.unk_8C[1][2] = 0xFA;
             globalCtx->envCtx.unk_8C[0][0] = globalCtx->envCtx.unk_8C[0][1] = globalCtx->envCtx.unk_8C[0][2] = 0xFA;
-            func_8005AA1C(&globalCtx->mainCamera, 2, 0xB, 8);
+            Camera_AddQuake(&globalCtx->mainCamera, 2, 0xB, 8);
             thisx->params = BOMB_EXPLOSION;
             this->timer = 10;
             thisx->flags |= 0x20;
@@ -300,10 +325,10 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    Actor_SetHeight(thisx, 20.0f);
+    Actor_SetFocus(thisx, 20.0f);
 
     if (thisx->params <= BOMB_BODY) {
-        Collider_CylinderUpdate(thisx, &this->bombCollider);
+        Collider_UpdateCylinder(thisx, &this->bombCollider);
 
         // if link is not holding the bomb anymore and bump conditions are met, subscribe to OC
         if (!Actor_HasParent(thisx, globalCtx) && this->bumpOn) {
@@ -314,7 +339,7 @@ void EnBom_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((thisx->scale.x >= 0.01f) && (thisx->params != BOMB_EXPLOSION)) {
-        if (thisx->waterY >= 20.0f) {
+        if (thisx->yDistToWater >= 20.0f) {
             EffectSsDeadSound_SpawnStationary(globalCtx, &thisx->projectedPos, NA_SE_IT_BOMB_UNEXPLOSION, true,
                                               DEADSOUND_REPEAT_MODE_OFF, 10);
             Actor_Kill(thisx);
@@ -342,15 +367,15 @@ void EnBom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 928),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_04007A50);
+        gSPDisplayList(POLY_OPA_DISP++, gBombCapDL);
         Matrix_RotateRPY(0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bom.c", 934),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gDPPipeSync(POLY_OPA_DISP++);
         gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->flashIntensity, 0, 40, 255);
         gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, (s16)this->flashIntensity, 0, 40, 255);
-        gSPDisplayList(POLY_OPA_DISP++, D_04007860);
-        func_800628A4(0, &this->explosionCollider);
+        gSPDisplayList(POLY_OPA_DISP++, gBombBodyDL);
+        Collider_UpdateSpheres(0, &this->explosionCollider);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_bom.c", 951);

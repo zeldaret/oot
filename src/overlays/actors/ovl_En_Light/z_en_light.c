@@ -5,6 +5,7 @@
  */
 
 #include "z_en_light.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000000
 
@@ -18,7 +19,7 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit En_Light_InitVars = {
     ACTOR_EN_LIGHT,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(EnLight),
@@ -45,7 +46,6 @@ static FlameParams D_80A9E840[] = {
     { { 170, 255, 255, 255 }, { 0, 0, 255 }, 75 },   { { 170, 255, 255, 255 }, { 0, 150, 255 }, 75 },
 };
 
-extern Gfx D_0404D4E0[];
 extern Gfx D_05000440[];
 
 void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -55,17 +55,17 @@ void EnLight_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (gSaveContext.gameMode == 3) {
         // special case for the credits
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, yOffset + (s16)this->actor.posRot.pos.y,
-                                  this->actor.posRot.pos.z, 255, 255, 180, -1);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, yOffset + (s16)this->actor.world.pos.y,
+                                  this->actor.world.pos.z, 255, 255, 180, -1);
     } else {
         yOffset = (this->actor.params < 0) ? 1 : 40;
-        Lights_PointGlowSetInfo(&this->lightInfo, this->actor.posRot.pos.x, yOffset + (s16)this->actor.posRot.pos.y,
-                                this->actor.posRot.pos.z, 255, 255, 180, -1);
+        Lights_PointGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, yOffset + (s16)this->actor.world.pos.y,
+                                this->actor.world.pos.z, 255, 255, 180, -1);
     }
 
     this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
     Actor_SetScale(&this->actor, D_80A9E840[this->actor.params & 0xF].scale * 0.0001f);
-    this->timer = (s32)(Math_Rand_ZeroOne() * 255.0f);
+    this->timer = (s32)(Rand_ZeroOne() * 255.0f);
 
     if ((this->actor.params & 0x400) != 0) {
         this->actor.update = EnLight_UpdateSwitch;
@@ -80,11 +80,11 @@ void EnLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnLight_UpdatePosRot(EnLight* this, GlobalContext* globalCtx) {
     // update yaw for billboard effect
-    this->actor.shape.rot.y = func_8005A9F4(ACTIVE_CAM) + 0x8000;
+    this->actor.shape.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000;
 
     if (this->actor.parent != NULL) {
-        Math_Vec3f_Copy(&this->actor.posRot.pos, &(this->actor.parent)->posRot.pos);
-        this->actor.posRot.pos.y += 17.0f;
+        Math_Vec3f_Copy(&this->actor.world.pos, &(this->actor.parent)->world.pos);
+        this->actor.world.pos.y += 17.0f;
     }
 
     this->timer++;
@@ -97,7 +97,7 @@ void EnLight_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnLight* this = THIS;
 
     flameParams = &D_80A9E840[this->actor.params & 0xF];
-    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
+    intensity = (Rand_ZeroOne() * 0.5f) + 0.5f;
     radius = (this->actor.params < 0) ? 100 : 300;
     Lights_PointSetColorAndRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                   (flameParams->primColor.g * intensity), (flameParams->primColor.b * intensity),
@@ -120,13 +120,13 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.params & 0x800) != 0) {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
-            Math_ApproxF(&scale, 1.0f, 0.05f);
+            Math_StepToF(&scale, 1.0f, 0.05f);
         } else {
             if (scale < 0.1f) {
                 Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
-            Math_ApproxF(&scale, 0.0f, 0.05f);
+            Math_StepToF(&scale, 0.0f, 0.05f);
         }
     } else {
         if (Flags_GetSwitch(globalCtx, (this->actor.params & 0x3F0) >> 4)) {
@@ -134,14 +134,14 @@ void EnLight_UpdateSwitch(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_SetScale(&this->actor, 0.0f);
                 return;
             }
-            Math_ApproxF(&scale, 0.0f, 0.05f);
+            Math_StepToF(&scale, 0.0f, 0.05f);
         } else {
-            Math_ApproxF(&scale, 1.0f, 0.05f);
+            Math_StepToF(&scale, 1.0f, 0.05f);
         }
     }
 
     Actor_SetScale(&this->actor, ((f32)flameParams->scale * 0.0001) * scale);
-    intensity = (Math_Rand_ZeroOne() * 0.5f) + 0.5f;
+    intensity = (Rand_ZeroOne() * 0.5f) + 0.5f;
     Lights_PointSetColorAndRadius(&this->lightInfo, (flameParams->primColor.r * intensity),
                                   (flameParams->primColor.g * intensity), (flameParams->primColor.b * intensity),
                                   300.0f * scale);
@@ -171,7 +171,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
             POLY_XLU_DISP++, 0x08,
             Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 64, 1, 0, (this->timer * -20) & 511, 32, 128));
 
-        dList = D_0404D4E0;
+        dList = gEffFire1DL;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, flameParams->primColor.r, flameParams->primColor.g,
                         flameParams->primColor.b, flameParams->primColor.a);
         gDPSetEnvColor(POLY_XLU_DISP++, flameParams->envColor.r, flameParams->envColor.g, flameParams->envColor.b, 0);
@@ -185,7 +185,7 @@ void EnLight_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
     }
 
-    Matrix_RotateY((s16)((func_8005A9F4(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
+    Matrix_RotateY((s16)((Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y) + 0x8000) * (M_PI / 32768.0f),
                    MTXMODE_APPLY);
 
     if (this->actor.params & 1) {
