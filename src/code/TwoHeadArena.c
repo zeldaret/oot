@@ -78,6 +78,7 @@ void* THA_GetTail(TwoHeadArena* tha) {
 
 void* THA_AllocStart(TwoHeadArena* tha, u32 size) {
     void* start = tha->head;
+
     tha->head = (u32)tha->head + size;
     return start;
 }

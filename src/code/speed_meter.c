@@ -62,9 +62,9 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
         return;
     }
 
-    gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray;
+    gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
-        temp = ((f64)*gSpeedMeterTimeEntryPtr->time / gIrqMgrRetraceTime) * 64.0;
+        temp = ((f64) * (gSpeedMeterTimeEntryPtr->time) / gIrqMgrRetraceTime) * 64.0;
         gSpeedMeterTimeEntryPtr->x = temp + baseX;
         gSpeedMeterTimeEntryPtr++;
     }
@@ -88,7 +88,7 @@ void SpeedMeter_DrawTimeEntries(SpeedMeter* this, GraphicsContext* gfxCtx) {
     DrawRec(gfx++, GPACK_RGBA5551(255, 0, 0, 1), baseX + 64 * 2, uly, baseX + 64 * 3, lry);
     DrawRec(gfx++, GPACK_RGBA5551(255, 0, 255, 1), baseX + 64 * 3, uly, baseX + 64 * 4, lry);
 
-    gSpeedMeterTimeEntryPtr = sSpeedMeterTimeEntryArray;
+    gSpeedMeterTimeEntryPtr = &sSpeedMeterTimeEntryArray[0];
     for (i = 0; i < ARRAY_COUNT(sSpeedMeterTimeEntryArray); i++) {
         DrawRec(gfx++, gSpeedMeterTimeEntryPtr->color, baseX, lry + gSpeedMeterTimeEntryPtr->y,
                 gSpeedMeterTimeEntryPtr->x, lry + gSpeedMeterTimeEntryPtr->y + 1);
@@ -178,7 +178,7 @@ void SpeedMeter_DrawAllocEntries(SpeedMeter* meter, GraphicsContext* gfxCtx, Gam
     }
 
     if (SREG(0) > 1) {
-        SystemArena_GetSizes(&sysFreeMax, &sysFree, &sysAlloc);
+        SystemArena_GetSizes((u32*)&sysFreeMax, (u32*)&sysFree, (u32*)&sysAlloc);
         SpeedMeter_InitAllocEntry(&entry, sysFree + sysAlloc - state->tha.size, sysAlloc - state->tha.size,
                                   GPACK_RGBA5551(0, 0, 255, 1), GPACK_RGBA5551(255, 128, 128, 1), ulx, lrx, y, y);
         SpeedMeter_DrawAllocEntry(&entry, gfxCtx);

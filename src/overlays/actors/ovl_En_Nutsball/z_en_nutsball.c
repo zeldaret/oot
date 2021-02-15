@@ -5,6 +5,9 @@
  */
 
 #include "z_en_nutsball.h"
+#include "objects/object_dns/object_dns.h"
+#include "objects/object_hintnuts/object_hintnuts.h"
+#include "objects/object_dnk/object_dnk.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000010
@@ -53,7 +56,7 @@ static ColliderCylinderInit sCylinderInit = {
 
 static s16 sObjectIDs[] = { OBJECT_DEKUNUTS, OBJECT_HINTNUTS, OBJECT_SHOPNUTS, OBJECT_DNS, OBJECT_DNK };
 
-static Gfx* sDLists[] = { 0x06002028, 0x060012F0, 0x06004008, 0x06002410, 0x06001890 };
+static Gfx* sDLists[] = { 0x06002028, gHintNutsNutDL, 0x06004008, gDntJijiNutDL, gDntStageNutDL };
 
 void EnNutsball_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnNutsball* this = THIS;

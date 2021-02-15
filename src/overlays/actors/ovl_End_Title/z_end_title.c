@@ -62,7 +62,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Mult(mf, MTXMODE_NEW);
     Matrix_Translate(0.0f, 150.0f, 170.0f, MTXMODE_APPLY);
     Matrix_Scale(0.13f, 0.13f, 0.13f, MTXMODE_APPLY);
-    Matrix_RotateX(0.287621408700943f, MTXMODE_APPLY);
+    Matrix_RotateX(0xBB8 * M_PI / 0x8000, MTXMODE_APPLY);
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
     Matrix_RotateZ(0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_end_title.c", 412), G_MTX_LOAD);
@@ -73,13 +73,13 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 419);
 
     // Draw title cards on the screen
-    if ((frameCount >= 891) && (this->endAlpha < 200)) {
+    if ((frameCount > 890) && (this->endAlpha < 200)) {
         this->endAlpha += 7;
     }
-    if ((frameCount >= 811) && (this->tlozAlpha < 200)) {
+    if ((frameCount > 810) && (this->tlozAlpha < 200)) {
         this->tlozAlpha += 15;
     }
-    if ((frameCount >= 851) && (this->ootAlpha < 200)) {
+    if ((frameCount > 850) && (this->ootAlpha < 200)) {
         this->ootAlpha += 15;
     }
 
