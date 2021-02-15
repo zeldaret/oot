@@ -65,7 +65,7 @@ glabel func_80AFD968
 /* 010A8 80AFDA48 24060078 */  addiu   $a2, $zero, 0x0078         ## $a2 = 00000078
 /* 010AC 80AFDA4C 24090050 */  addiu   $t1, $zero, 0x0050         ## $t1 = 00000050
 /* 010B0 80AFDA50 AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 010B4 80AFDA54 0C00D09B */  jal     func_8003426C              
+/* 010B4 80AFDA54 0C00D09B */  jal     Actor_SetColorFilter              
 /* 010B8 80AFDA58 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 010BC 80AFDA5C 0C00D58A */  jal     Actor_ApplyDamage
               
@@ -137,7 +137,7 @@ glabel func_80AFD968
 /* 011AC 80AFDB4C 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 011B0 80AFDB50 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
 /* 011B4 80AFDB54 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 011B8 80AFDB58 0C00D09B */  jal     func_8003426C              
+/* 011B8 80AFDB58 0C00D09B */  jal     Actor_SetColorFilter              
 /* 011BC 80AFDB5C AFA30010 */  sw      $v1, 0x0010($sp)           
 /* 011C0 80AFDB60 0C00D58A */  jal     Actor_ApplyDamage
               
