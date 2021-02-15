@@ -333,7 +333,7 @@ void Gameplay_Init(GameState* thisx) {
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
     globalCtx->state.destroy = Gameplay_Destroy;
-    globalCtx->sceneLoadFlag = ~0x13;
+    globalCtx->sceneLoadFlag = -20;
     globalCtx->unk_11E16 = 0xFF;
     globalCtx->unk_11E18 = 0;
     globalCtx->unk_11DE9 = 0;
@@ -468,7 +468,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         if (globalCtx->transitionMode) {
             switch (globalCtx->transitionMode) {
                 case 1:
-                    if (globalCtx->sceneLoadFlag != ~0x13) {
+                    if (globalCtx->sceneLoadFlag != -20) {
                         s16 sp6E = 0;
                         Interface_ChangeAlpha(1);
 
@@ -551,7 +551,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                         }
                     }
 
-                    if (globalCtx->sceneLoadFlag == ~0x13) {
+                    if (globalCtx->sceneLoadFlag == -20) {
                         globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data, 1);
                     } else {
                         globalCtx->transitionCtx.setType(&globalCtx->transitionCtx.data, 2);
@@ -569,12 +569,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 3:
                     if (globalCtx->transitionCtx.isDone(&globalCtx->transitionCtx) != 0) {
                         if (globalCtx->transitionCtx.transitionType >= 56) {
-                            if (globalCtx->sceneLoadFlag == ~0x13) {
+                            if (globalCtx->sceneLoadFlag == -20) {
                                 globalCtx->transitionCtx.destroy(&globalCtx->transitionCtx);
                                 func_800BC88C(globalCtx);
                                 globalCtx->transitionMode = 0;
                             }
-                        } else if (globalCtx->sceneLoadFlag != ~0x13) {
+                        } else if (globalCtx->sceneLoadFlag != -20) {
                             globalCtx->state.running = 0;
                             if (gSaveContext.gameMode != 2) {
                                 SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
@@ -609,7 +609,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     globalCtx->envCtx.unk_E2[0] = 0xA0;
                     globalCtx->envCtx.unk_E2[1] = 0xA0;
                     globalCtx->envCtx.unk_E2[2] = 0xA0;
-                    if (globalCtx->sceneLoadFlag != ~0x13) {
+                    if (globalCtx->sceneLoadFlag != -20) {
                         globalCtx->envCtx.unk_E2[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
@@ -650,7 +650,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     globalCtx->envCtx.unk_E2[0] = 0xAA;
                     globalCtx->envCtx.unk_E2[1] = 0xA0;
                     globalCtx->envCtx.unk_E2[2] = 0x96;
-                    if (globalCtx->sceneLoadFlag != ~0x13) {
+                    if (globalCtx->sceneLoadFlag != -20) {
                         globalCtx->envCtx.unk_E2[3] = 0;
                         globalCtx->transitionMode = 5;
                     } else {
@@ -660,7 +660,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 10:
-                    if (globalCtx->sceneLoadFlag != ~0x13) {
+                    if (globalCtx->sceneLoadFlag != -20) {
                         globalCtx->state.running = 0;
                         SET_NEXT_GAMESTATE(&globalCtx->state, Gameplay_Init, GlobalContext);
                         gSaveContext.entranceIndex = globalCtx->nextEntranceIndex;
@@ -681,7 +681,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 12:
-                    if (globalCtx->sceneLoadFlag != ~0x13) {
+                    if (globalCtx->sceneLoadFlag != -20) {
                         globalCtx->envCtx.unk_E6 = 1;
                         globalCtx->transitionMode = 13;
                     } else {
@@ -695,7 +695,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 13:
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
-                    if (globalCtx->sceneLoadFlag == ~0x13) {
+                    if (globalCtx->sceneLoadFlag == -20) {
                         if (globalCtx->envCtx.unk_E7 < 0x6E) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
@@ -714,7 +714,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     break;
 
                 case 14:
-                    if (globalCtx->sceneLoadFlag == ~0x13) {
+                    if (globalCtx->sceneLoadFlag == -20) {
                         globalCtx->envCtx.unk_E6 = 4;
                         globalCtx->envCtx.unk_E7 = 0xFF;
                         globalCtx->envCtx.unk_E8 = 0xFF;
@@ -728,7 +728,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 case 15:
                     Audio_PlaySoundGeneral(NA_SE_EV_SAND_STORM - SFX_FLAG, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
-                    if (globalCtx->sceneLoadFlag == ~0x13) {
+                    if (globalCtx->sceneLoadFlag == -20) {
                         if (globalCtx->envCtx.unk_E7 <= 0) {
                             gTrnsnUnkState = 0;
                             R_UPDATE_RATE = 3;
