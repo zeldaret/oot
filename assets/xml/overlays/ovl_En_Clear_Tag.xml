@@ -1,14 +1,14 @@
 <Root>
     <File Name="ovl_En_Clear_Tag" BaseAddress="0x809D35B0" RangeStart="0x26F0" RangeEnd="0x89F0" Segment="128">
-        <DList Name="arwingDl" Offset="0x26F0"/>
-        <DList Name="laserDl" Offset="0x6388"/>
-        <DList Name="arwingBackfireDl" Offset="0x6688"/>
-        <DList Name="particleDebrisMaterialDl" Offset="0x6A38"/>
-        <DList Name="particleDebrisDl" Offset="0x6AB8"/>
-        <DList Name="particleFireMaterialDl" Offset="0x7100"/>
-        <DList Name="particleFireDl" Offset="0x71A8"/>
-        <DList Name="particleFlashDl" Offset="0x8208"/>
-        <DList Name="particleFlashGroundDl" Offset="0x84B8"/>
-        <DList Name="arwingShadowDl" Offset="0x8970"/>
+        <DList Name="arwingDL" Offset="0x26F0"/>
+        <DList Name="laserDL" Offset="0x6388"/>
+        <DList Name="arwingBackfireDL" Offset="0x6688"/>
+        <DList Name="effectDebrisMaterialDL" Offset="0x6A38"/>
+        <DList Name="effectDebrisDL" Offset="0x6AB8"/>
+        <DList Name="effectFireMaterialDL" Offset="0x7100"/>
+        <DList Name="effectFireDL" Offset="0x71A8"/>
+        <DList Name="effectFlashDL" Offset="0x8208"/>
+        <DList Name="effectFlashGroundDL" Offset="0x84B8"/>
+        <DList Name="arwingShadowDL" Offset="0x8970"/>
     </File>
 </Root>

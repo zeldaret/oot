@@ -9,17 +9,17 @@ void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnClearTag_UpdateParticles(GlobalContext* globalCtx);
-void EnClearTag_DrawParticles(GlobalContext* globalCtx);
+void EnClearTag_UpdateEffects(GlobalContext* globalCtx);
+void EnClearTag_DrawEffects(GlobalContext* globalCtx);
 
-void EnClearTag_CreateDebrisParticle(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
-                                     f32 scale, f32 floorHeight);
-void EnClearTag_CreateFireParticle(GlobalContext* globalCtx, Vec3f* pos, f32 scale);
-void EnClearTag_CreateSmokeParticle(GlobalContext* globalCtx, Vec3f* position, f32 scale);
-void EnClearTag_CreateFlashParticle(GlobalContext* globalCtx, Vec3f* position, f32 scale, f32 floorHeight,
-                                    Vec3f* floorTangent);
+void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
+                                   f32 scale, f32 floorHeight);
+void EnClearTag_CreateFireEffect(GlobalContext* globalCtx, Vec3f* pos, f32 scale);
+void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx, Vec3f* position, f32 scale);
+void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32 scale, f32 floorHeight,
+                                  Vec3f* floorTangent);
 
-void ClearTag_CalculateFloorTangent(EnClearTag* this);
+void EnClearTag_CalculateFloorTangent(EnClearTag* this);
 
 const ActorInit En_Clear_Tag_InitVars = {
     ACTOR_EN_CLEAR_TAG,
@@ -33,15 +33,11 @@ const ActorInit En_Clear_Tag_InitVars = {
     (ActorFunc)EnClearTag_Draw,
 };
 
-static u8 isParticlesInitialized = 0;
+static u8 sIsEffectsInitialized = 0;
 
-static Vec3f zeroVector = {
-    0.0f,
-    0.0f,
-    0.0f,
-};
+static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
 
-static ColliderCylinderInit arwingCollider = {
+static ColliderCylinderInit sArwingCylinderInit = {
     {
         COLTYPE_HIT3,
         AT_ON | AT_TYPE_ENEMY,
@@ -61,7 +57,7 @@ static ColliderCylinderInit arwingCollider = {
     { 15, 30, 10, { 0, 0, 0 } },
 };
 
-static ColliderCylinderInit laserCollider = {
+static ColliderCylinderInit sLaserCylinderInit = {
     {
         COLTYPE_METAL,
         AT_ON | AT_TYPE_ENEMY,
@@ -84,28 +80,28 @@ static ColliderCylinderInit laserCollider = {
 static u32 D_809D5C98 = 0; // unused
 static u32 D_809D5C9C = 0; // unused
 
-static EnClearTagEffect clearTagParticlesBuffer[CLEAR_TAG_PARTICLE_MAX_COUNT];
+static EnClearTagEffect sClearTagEffects[CLEAR_TAG_EFFECT_MAX_COUNT];
 
 #include "../../../../assets/overlays/ovl_En_Clear_Tag/ovl_En_Clear_Tag.c"
 
 /**
- * Creates a debris particle.
- * Debris particles are spawned when the Arwing dies. It spawns fire particles.
+ * Creates a debris effect.
+ * Debris effects are spawned when the Arwing dies. It spawns fire effects.
  */
-void EnClearTag_CreateDebrisParticle(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
-                                     f32 scale, f32 floorHeight) {
+void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx, Vec3f* position, Vec3f* velocity, Vec3f* acceleration,
+                                   f32 scale, f32 floorHeight) {
     s16 i;
     s16 seed;
     EnClearTagEffect* effect;
     GlobalContext* globalCtx2;
 
     globalCtx2 = globalCtx;
-    effect = (EnClearTagEffect*)globalCtx2->bossEffects;
+    effect = (EnClearTagEffect*)globalCtx2->specialEffects;
 
-    // Look for an available particle to allocate a Debris particle to.
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
-            effect->type = CLEAR_TAG_PARTICLE_DEBRIS;
+    // Look for an available effect to allocate a Debris effect to.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
+            effect->type = CLEAR_TAG_EFFECT_DEBRIS;
 
             effect->position = *position;
             effect->velocity = *velocity;
@@ -113,7 +109,7 @@ void EnClearTag_CreateDebrisParticle(GlobalContext* globalCtx, Vec3f* position, 
 
             effect->scale = scale;
 
-            // Set the Debris particles to spawn in a circle.
+            // Set the debris effects to spawn in a circle.
             effect->rotationY = Rand_ZeroFloat(M_PI * 2);
             effect->rotationX = Rand_ZeroFloat(M_PI * 2);
 
@@ -130,28 +126,28 @@ void EnClearTag_CreateDebrisParticle(GlobalContext* globalCtx, Vec3f* position, 
 }
 
 /**
- * Creates a fire particle.
- * Fire particles are spawned by debris particles. It spawns smoke particles
+ * Creates a fire effect.
+ * Fire effects are spawned by debris effects. Fire effects spawn smoke effects
  */
-void EnClearTag_CreateFireParticle(GlobalContext* globalCtx, Vec3f* pos, f32 scale) {
+void EnClearTag_CreateFireEffect(GlobalContext* globalCtx, Vec3f* pos, f32 scale) {
     s16 i;
     s16 seed;
     EnClearTagEffect* effect;
     GlobalContext* globalCtx2;
 
     globalCtx2 = globalCtx;
-    effect = (EnClearTagEffect*)globalCtx2->bossEffects;
+    effect = (EnClearTagEffect*)globalCtx2->specialEffects;
 
-    // Look for an available particle to allocate a Fire particle to.
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
+    // Look for an available effect to allocate a fire effect to.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             seed = (s32)Rand_ZeroFloat(100.0f);
             effect->seed = seed;
-            effect->type = CLEAR_TAG_PARTICLE_FIRE;
+            effect->type = CLEAR_TAG_EFFECT_FIRE;
 
             effect->position = *pos;
-            effect->velocity = zeroVector;
-            effect->acceleration = zeroVector;
+            effect->velocity = sZeroVector;
+            effect->acceleration = sZeroVector;
             effect->acceleration.y = 0.15f;
 
             effect->scale = scale;
@@ -164,28 +160,28 @@ void EnClearTag_CreateFireParticle(GlobalContext* globalCtx, Vec3f* pos, f32 sca
 }
 
 /**
- * Creates a fire particle.
- * Smoke particles are spawned by fire particles. Smoke particles are spawned by fire particles.
+ * Creates a smoke effect.
+ * Smoke effects are spawned by fire effects.
  */
-void EnClearTag_CreateSmokeParticle(GlobalContext* globalCtx, Vec3f* position, f32 scale) {
+void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx, Vec3f* position, f32 scale) {
     s16 i;
     s16 seed;
     EnClearTagEffect* effect;
     GlobalContext* globalCtx2;
 
     globalCtx2 = globalCtx;
-    effect = (EnClearTagEffect*)globalCtx2->bossEffects;
+    effect = (EnClearTagEffect*)globalCtx2->specialEffects;
 
-    // Look for an available particle to allocate a Smoke particle to.
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
+    // Look for an available effect to allocate a smoke effect to.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             seed = (s32)Rand_ZeroFloat(100.0f);
             effect->seed = seed;
-            effect->type = CLEAR_TAG_PARTICLE_SMOKE;
+            effect->type = CLEAR_TAG_EFFECT_SMOKE;
 
             effect->position = *position;
-            effect->velocity = zeroVector;
-            effect->acceleration = zeroVector;
+            effect->velocity = sZeroVector;
+            effect->acceleration = sZeroVector;
 
             effect->scale = scale;
             effect->maxScale = scale + scale;
@@ -204,27 +200,27 @@ void EnClearTag_CreateSmokeParticle(GlobalContext* globalCtx, Vec3f* position, f
 }
 
 /**
- * Creates a flash particle.
- * Flash particles are spawned when the Arwing dies.
- * Flash particles two components: 1) a bilboard flash, and 2) a light effect on the ground.
+ * Creates a flash effect.
+ * Flash effects are spawned when the Arwing dies.
+ * Flash effects two components: 1) a billboard flash, and 2) a light effect on the ground.
  */
-void EnClearTag_CreateFlashParticle(GlobalContext* globalCtx, Vec3f* position, f32 scale, f32 floorHeight,
-                                    Vec3f* floorTangent) {
+void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32 scale, f32 floorHeight,
+                                  Vec3f* floorTangent) {
     s16 i;
     EnClearTagEffect* effect;
     GlobalContext* globalCtx2;
 
     globalCtx2 = globalCtx;
-    effect = (EnClearTagEffect*)globalCtx2->bossEffects;
+    effect = (EnClearTagEffect*)globalCtx2->specialEffects;
 
-    // Look for an available particle to allocate a Flash particle to.
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_AVAILABLE) {
-            effect->type = CLEAR_TAG_PARTICLE_FLASH;
+    // Look for an available effect to allocate a flash effect to.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
+            effect->type = CLEAR_TAG_EFFECT_FLASH;
 
             effect->position = *position;
-            effect->velocity = zeroVector;
-            effect->acceleration = zeroVector;
+            effect->velocity = sZeroVector;
+            effect->acceleration = sZeroVector;
 
             effect->scale = 0.0f;
             effect->maxScale = scale + scale;
@@ -250,7 +246,7 @@ void EnClearTag_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 /**
  * EnClear_Tag constructor.
- * This allocates a collider, initializes particles, and sets up ClearTag instance data.
+ * This allocates a collider, initializes effects, and sets up ClearTag instance data.
  */
 void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnClearTag* this = THIS;
@@ -275,7 +271,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.shape.rot.x = -this->actor.shape.rot.x;
 
         func_8002D908(&this->actor);
-        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &laserCollider);
+        Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sLaserCylinderInit);
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_SWORD_REFLECT_MG);
         return;
     }
@@ -283,26 +279,26 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     // Initialize the Arwing.
     this->actor.flags |= 1;
     this->actor.targetMode = 5;
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &arwingCollider);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sArwingCylinderInit);
     this->actor.colChkInfo.health = 3;
 
-    // Update the Arwing to play the intro demo.
+    // Update the Arwing to play the intro cutscene.
     if (this->actor.params == CLEAR_TAG_CUTSCENE_ARWING) {
         this->work[0] = 70;
         this->work[1] = 250;
         this->state = CLEAR_TAG_STATE_DEMO;
         this->actor.world.rot.x = 0x4000;
-        this->demoMode = CLEAR_TAG_DEMOMODE_SETUP;
+        this->cutsceneMode = CLEAR_TAG_DEMOMODE_SETUP;
         this->cutsceneTimer = defaultCutsceneTimer;
         this->work[2] = 20;
     }
 
-    // Initialize all particles to available if particles have not been initialized.
-    if (!isParticlesInitialized) {
-        isParticlesInitialized = 1;
-        globalCtx->bossEffects = &clearTagParticlesBuffer[0];
-        for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++) {
-            clearTagParticlesBuffer[i].type = CLEAR_TAG_PARTICLE_AVAILABLE;
+    // Initialize all effects to available if effects have not been initialized.
+    if (!sIsEffectsInitialized) {
+        sIsEffectsInitialized = 1;
+        globalCtx->specialEffects = &sClearTagEffects[0];
+        for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++) {
+            sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
         }
         this->drawMode = CLEAR_TAG_DRAWMODE_ALL;
     }
@@ -310,9 +306,9 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 /**
  * Calculate a floor tangent.
- * This is used for the Ground Flash display lists and Arwing Shadow display lists to snap onto the floor.
+ * This is used for the ground flash display lists and Arwing shadow display lists to snap onto the floor.
  */
-void ClearTag_CalculateFloorTangent(EnClearTag* this) {
+void EnClearTag_CalculateFloorTangent(EnClearTag* this) {
     f32 x;
     f32 y;
     f32 z;
@@ -344,9 +340,9 @@ void ClearTag_CalculateFloorTangent(EnClearTag* this) {
  *
  * work[0] for Arwing in locked on mode is a timeout when the arwing reverts back to flying mode.
  * work[0] for Arwing in fly mode is a timeout for when you can enter locked on mode.
- * work[0] for lasers is a demo timer.
+ * work[0] for lasers is a cutscene timer.
  * work[1] for Arwing is a timeout for when it will enter locked on mode.
- * work[2] for Arwing is a demo timer.
+ * work[2] for Arwing is a cutscene timer.
  */
 void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     u8 hasAtHit = 0;
@@ -360,25 +356,25 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 vectorToTargetY;
     f32 vectorToTargetZ;
     s16 zWorldRotationTarget;
-    s16 demoTimer;
+    s16 cutsceneTimer;
     f32 loseTargetLockDistance;
     s32 pad;
     s16 yWorldRotationTarget;
     s16 xWorldRotationTarget;
     f32 targetCircleX;
     f32 targetCircleZ;
-    f32 demoCameraCircleX;
-    f32 demoCameraCircleZ;
+    f32 cutsceneCameraCircleX;
+    f32 cutsceneCameraCircleZ;
     s16 isArwingAlive;
-    Vec3f demoCameraAtTarget;
-    Vec3f demoCameraEyeTarget;
-    Vec3f crashParticleLocation;
-    Vec3f crashParticleVelocity;
-    Vec3f debrisParticleAcceleration;
+    Vec3f cutsceneCameraAtTarget;
+    Vec3f cutsceneCameraEyeTarget;
+    Vec3f crashEffectLocation;
+    Vec3f crashEffectVelocity;
+    Vec3f debrisEffectAcceleration;
 
     this->timer++;
 
-    if (this->drawMode != CLEAR_TAG_DRAWMODE_PARTICLE) {
+    if (this->drawMode != CLEAR_TAG_DRAWMODE_EFFECT) {
         // Decrement the "work" timers.
         for (i = 0; i < 3; i++) {
             if (this->work[i] != 0) {
@@ -451,7 +447,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         xRotationTarget = 4096;
                         loseTargetLockDistance = 150.0f;
                     } else if (this->state == CLEAR_TAG_STATE_DEMO) {
-                        // Move the Arwing for the intro demo.
+                        // Move the Arwing for the intro cutscene.
 
                         // Do a Barrel Roll!
                         this->roll += 0.5f;
@@ -557,12 +553,12 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 // Recalculate the floor tangent.
                 if (this->work[2] == 0) {
                     Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 50.0f, 30.0f, 100.0f, 5);
-                    ClearTag_CalculateFloorTangent(this);
+                    EnClearTag_CalculateFloorTangent(this);
                 }
 
                 if (this->state == CLEAR_TAG_STATE_CRASHING) {
-                    // Create fire particles while the Arwing crashes.
-                    EnClearTag_CreateFireParticle(globalCtx2, &this->actor.world.pos, 1.0f);
+                    // Create fire effects while the Arwing crashes.
+                    EnClearTag_CreateFireEffect(globalCtx2, &this->actor.world.pos, 1.0f);
 
                     // Moves the Arwing while crashing.
                     this->roll -= 0.5f;
@@ -576,7 +572,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         this->shouldExplode = 1;
 
                         if (this->drawMode != CLEAR_TAG_DRAWMODE_MODEL) {
-                            this->drawMode = CLEAR_TAG_DRAWMODE_PARTICLE;
+                            this->drawMode = CLEAR_TAG_DRAWMODE_EFFECT;
                             this->deathTimer = 70;
                             this->actor.flags &= ~1;
                         } else {
@@ -616,45 +612,46 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->state < CLEAR_TAG_STATE_LASER) {
             // Play the Arwing cutscene.
-            osSyncPrintf("DEMO_MODE %d\n", this->demoMode);
-            osSyncPrintf("CAMERA_NO %d\n", this->cameraNumber);
+            osSyncPrintf("DEMO_MODE %d\n", this->cutsceneMode);
+            osSyncPrintf("CAMERA_NO %d\n", this->cameraId);
 
-            if (this->demoMode != CLEAR_TAG_DEMOMODE_NONE) {
-                switch (this->demoMode) {
+            if (this->cutsceneMode != CLEAR_TAG_DEMOMODE_NONE) {
+                switch (this->cutsceneMode) {
                     case CLEAR_TAG_DEMOMODE_SETUP:
-                        // Initializes Arwing demo camera data.
-                        this->demoMode = CLEAR_TAG_DEMOMODE_PLAY;
+                        // Initializes Arwing cutscene camera data.
+                        this->cutsceneMode = CLEAR_TAG_DEMOMODE_PLAY;
                         func_80064520(globalCtx2, &globalCtx2->csCtx);
-                        this->cameraNumber = Gameplay_CreateSubCamera(globalCtx2);
+                        this->cameraId = Gameplay_CreateSubCamera(globalCtx2);
                         Gameplay_ChangeCameraStatus(globalCtx2, 0, 1);
-                        Gameplay_ChangeCameraStatus(globalCtx2, this->cameraNumber, 7);
+                        Gameplay_ChangeCameraStatus(globalCtx2, this->cameraId, 7);
                     case CLEAR_TAG_DEMOMODE_PLAY:
-                        // Update the Arwing demo camera to spin around in a circle.
-                        demoTimer = this->timer << 7;
-                        demoCameraCircleX = Math_SinS(demoTimer) * 200.0f;
-                        demoCameraCircleZ = Math_CosS(demoTimer) * 200.0f;
-                        demoCameraAtTarget.x = this->actor.world.pos.x + demoCameraCircleX;
-                        demoCameraAtTarget.y = 200.0f;
-                        demoCameraAtTarget.z = this->actor.world.pos.z + demoCameraCircleZ;
-                        demoCameraEyeTarget = this->actor.world.pos;
+                        // Update the Arwing cutscene camera to spin around in a circle.
+                        cutsceneTimer = this->timer << 7;
+                        cutsceneCameraCircleX = Math_SinS(cutsceneTimer) * 200.0f;
+                        cutsceneCameraCircleZ = Math_CosS(cutsceneTimer) * 200.0f;
+                        cutsceneCameraAtTarget.x = this->actor.world.pos.x + cutsceneCameraCircleX;
+                        cutsceneCameraAtTarget.y = 200.0f;
+                        cutsceneCameraAtTarget.z = this->actor.world.pos.z + cutsceneCameraCircleZ;
+                        cutsceneCameraEyeTarget = this->actor.world.pos;
                         break;
                 }
 
-                // Make the Arwing demo camera approach the target.
-                if (this->cameraNumber != 0) {
-                    Math_ApproachF(&this->demoCameraAt.x, demoCameraAtTarget.x, 0.1f, 500.0f);
-                    Math_ApproachF(&this->demoCameraAt.y, demoCameraAtTarget.y, 0.1f, 500.0f);
-                    Math_ApproachF(&this->demoCameraAt.z, demoCameraAtTarget.z, 0.1f, 500.0f);
-                    Math_ApproachF(&this->demoCameraEye.x, demoCameraEyeTarget.x, 0.2f, 500.0f);
-                    Math_ApproachF(&this->demoCameraEye.y, demoCameraEyeTarget.y, 0.2f, 500.0f);
-                    Math_ApproachF(&this->demoCameraEye.z, demoCameraEyeTarget.z, 0.2f, 500.0f);
-                    Gameplay_CameraSetAtEye(globalCtx2, this->cameraNumber, &this->demoCameraEye, &this->demoCameraAt);
+                // Make the Arwing cutscene camera approach the target.
+                if (this->cameraId != 0) {
+                    Math_ApproachF(&this->cutsceneCameraAt.x, cutsceneCameraAtTarget.x, 0.1f, 500.0f);
+                    Math_ApproachF(&this->cutsceneCameraAt.y, cutsceneCameraAtTarget.y, 0.1f, 500.0f);
+                    Math_ApproachF(&this->cutsceneCameraAt.z, cutsceneCameraAtTarget.z, 0.1f, 500.0f);
+                    Math_ApproachF(&this->cutsceneCameraEye.x, cutsceneCameraEyeTarget.x, 0.2f, 500.0f);
+                    Math_ApproachF(&this->cutsceneCameraEye.y, cutsceneCameraEyeTarget.y, 0.2f, 500.0f);
+                    Math_ApproachF(&this->cutsceneCameraEye.z, cutsceneCameraEyeTarget.z, 0.2f, 500.0f);
+                    Gameplay_CameraSetAtEye(globalCtx2, this->cameraId, &this->cutsceneCameraEye,
+                                            &this->cutsceneCameraAt);
                 }
 
                 // Cutscene has finished.
                 if (this->cutsceneTimer == 1) {
-                    func_800C08AC(globalCtx2, this->cameraNumber, 0);
-                    this->demoMode = this->cameraNumber = 0;
+                    func_800C08AC(globalCtx2, this->cameraId, 0);
+                    this->cutsceneMode = this->cameraId = 0;
                     func_80064534(globalCtx2, &globalCtx2->csCtx);
                 }
             }
@@ -666,39 +663,39 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->shouldExplode = 0;
         Audio_PlaySoundAtPosition(globalCtx2, &this->actor.world.pos, 40, NA_SE_IT_BOMB_EXPLOSION);
 
-        // Spawn flash particle.
-        crashParticleLocation.x = this->actor.world.pos.x;
-        crashParticleLocation.y = (this->actor.world.pos.y + 40.0f) - 30.0f;
-        crashParticleLocation.z = this->actor.world.pos.z;
-        EnClearTag_CreateFlashParticle(globalCtx2, &crashParticleLocation, 6.0f, this->actor.floorHeight,
-                                       &this->floorTangent);
+        // Spawn flash effect.
+        crashEffectLocation.x = this->actor.world.pos.x;
+        crashEffectLocation.y = (this->actor.world.pos.y + 40.0f) - 30.0f;
+        crashEffectLocation.z = this->actor.world.pos.z;
+        EnClearTag_CreateFlashEffect(globalCtx2, &crashEffectLocation, 6.0f, this->actor.floorHeight,
+                                     &this->floorTangent);
 
-        // Spawn smoke particle.
-        crashParticleLocation.y = (this->actor.world.pos.y + 30.0f) - 50.0f;
-        EnClearTag_CreateSmokeParticle(globalCtx2, &crashParticleLocation, 3.0f);
-        crashParticleLocation.y = this->actor.world.pos.y;
+        // Spawn smoke effect.
+        crashEffectLocation.y = (this->actor.world.pos.y + 30.0f) - 50.0f;
+        EnClearTag_CreateSmokeEffect(globalCtx2, &crashEffectLocation, 3.0f);
+        crashEffectLocation.y = this->actor.world.pos.y;
 
-        // Spawn debris particles.
+        // Spawn debris effects.
         for (i = 0; i < 15; i++) {
-            crashParticleVelocity.x = sinf(i * 1.65f) * i * 0.3f;
-            crashParticleVelocity.z = cosf(i * 1.65f) * i * 0.3f;
-            crashParticleVelocity.y = Rand_ZeroFloat(6.0f) + 5.0f;
-            crashParticleVelocity.x += Rand_CenteredFloat(0.5f);
-            crashParticleVelocity.z += Rand_CenteredFloat(0.5f);
+            crashEffectVelocity.x = sinf(i * 1.65f) * i * 0.3f;
+            crashEffectVelocity.z = cosf(i * 1.65f) * i * 0.3f;
+            crashEffectVelocity.y = Rand_ZeroFloat(6.0f) + 5.0f;
+            crashEffectVelocity.x += Rand_CenteredFloat(0.5f);
+            crashEffectVelocity.z += Rand_CenteredFloat(0.5f);
 
-            debrisParticleAcceleration.x = 0.0f;
-            debrisParticleAcceleration.z = 0.0f;
-            debrisParticleAcceleration.y = -1.0f;
+            debrisEffectAcceleration.x = 0.0f;
+            debrisEffectAcceleration.z = 0.0f;
+            debrisEffectAcceleration.y = -1.0f;
 
-            EnClearTag_CreateDebrisParticle(globalCtx2, &crashParticleLocation, &crashParticleVelocity,
-                                            &debrisParticleAcceleration, Rand_ZeroFloat(0.15f) + 0.075f,
-                                            this->actor.floorHeight);
+            EnClearTag_CreateDebrisEffect(globalCtx2, &crashEffectLocation, &crashEffectVelocity,
+                                          &debrisEffectAcceleration, Rand_ZeroFloat(0.15f) + 0.075f,
+                                          this->actor.floorHeight);
         }
     }
 
     if (this->drawMode != CLEAR_TAG_DRAWMODE_MODEL) {
         // Check if the Arwing should be removed.
-        if (this->drawMode == CLEAR_TAG_DRAWMODE_PARTICLE) {
+        if (this->drawMode == CLEAR_TAG_DRAWMODE_EFFECT) {
             if (this->deathTimer == 0) {
                 isArwingAlive = 0;
             } else {
@@ -711,19 +708,21 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        EnClearTag_UpdateParticles(globalCtx2);
+        EnClearTag_UpdateEffects(globalCtx2);
     }
 }
 
 /**
  * EnClear_Tag draw function.
+ * Laser clear tag type will draw two lasers.
+ * Arwing clear tage types will draw the Arwing, the backfire, and a shadow.
  */
 void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnClearTag* this = THIS;
     GlobalContext* globalCtx2 = globalCtx;
 
     OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 983);
-    if (this->drawMode != CLEAR_TAG_DRAWMODE_PARTICLE) {
+    if (this->drawMode != CLEAR_TAG_DRAWMODE_EFFECT) {
         func_80093D84(globalCtx2->state.gfxCtx);
 
         if (this->state >= CLEAR_TAG_STATE_LASER) {
@@ -733,12 +732,12 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(25.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1004),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, laserDl);
+            gSPDisplayList(POLY_XLU_DISP++, laserDL);
 
             Matrix_Translate(-50.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1011),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, laserDl);
+            gSPDisplayList(POLY_XLU_DISP++, laserDL);
         } else {
             // Draw the Arwing itself.
             func_80093D18(globalCtx2->state.gfxCtx);
@@ -756,7 +755,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1030),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, arwingDl);
+            gSPDisplayList(POLY_OPA_DISP++, arwingDL);
 
             // Draw the Arwing Backfire
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
@@ -770,7 +769,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 0);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1067),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, arwingBackfireDl);
+            gSPDisplayList(POLY_XLU_DISP++, arwingBackfireDL);
 
             // Draw the Arwing shadow.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 130);
@@ -794,21 +793,24 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, arwingShadowDl);
+            gSPDisplayList(POLY_XLU_DISP++, arwingShadowDL);
         }
     }
 
     if (this->drawMode != CLEAR_TAG_DRAWMODE_MODEL) {
-        EnClearTag_DrawParticles(globalCtx);
+        EnClearTag_DrawEffects(globalCtx);
     }
 
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1119);
 }
 
 /**
- * Updates the Arwing particles.
+ * Updates the Arwing effects.
+ * Performs effect physics.
+ * Moves and bounces debris effects.
+ * Fades most effects out of view. When effects are completely faded away they are removed.
  */
-void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
+void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
     GlobalContext* globalCtx2;
     s16 i;
     f32 originalYPosition;
@@ -817,13 +819,13 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
     s32 pad;
 
     globalCtx2 = globalCtx;
-    effect = (EnClearTagEffect*)globalCtx2->bossEffects;
+    effect = (EnClearTagEffect*)globalCtx2->specialEffects;
 
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type != CLEAR_TAG_PARTICLE_AVAILABLE) {
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type != CLEAR_TAG_EFFECT_AVAILABLE) {
             effect->seed++;
 
-            // Perform particle physics.
+            // Perform effect physics.
             effect->position.x += effect->velocity.x;
             originalYPosition = effect->position.y;
             effect->position.y += effect->velocity.y;
@@ -832,13 +834,13 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
             effect->velocity.y += effect->acceleration.y;
             effect->velocity.z += effect->acceleration.z;
 
-            if (effect->type == CLEAR_TAG_PARTICLE_DEBRIS) {
+            if (effect->type == CLEAR_TAG_EFFECT_DEBRIS) {
                 // Clamp the velocity to -5.0
                 if (effect->velocity.y < -5.0f) {
                     effect->velocity.y = -5.0f;
                 }
 
-                // While the particle is falling check if it has hit the ground.
+                // While the effect is falling check if it has hit the ground.
                 if (effect->velocity.y < 0.0f) {
                     sphereCenter = effect->position;
                     sphereCenter.y += 5.0f;
@@ -847,13 +849,13 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
                     if (BgCheck_SphVsFirstPoly(&globalCtx2->colCtx, &sphereCenter, 11.0f)) {
                         effect->position.y = originalYPosition;
 
-                        // Bounce the Debris particle.
+                        // Bounce the debris effect.
                         if (effect->bounces <= 0) {
                             effect->bounces++;
                             effect->velocity.y *= -0.5f;
                             effect->timer = ((s16)Rand_ZeroFloat(20)) + 25;
                         } else {
-                            // The Debris particle is done bounding. Set it's velocity and acceleration to 0.
+                            // The Debris effect is done bounding. Set it's velocity and acceleration to 0.
                             effect->velocity.y = 0.0f;
                             effect->acceleration.y = 0.0f;
                             effect->velocity.z = 0.0f;
@@ -862,62 +864,62 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
                     }
                 }
 
-                // Rotate the Debris particle.
+                // Rotate the debris effect.
                 if (effect->acceleration.y != 0.0f) {
                     effect->rotationY += 0.5f;
                     effect->rotationX += 0.35f;
                 }
 
-                // If the timer is completed, unload the Debris particle.
+                // If the timer is completed, unload the debris effect.
                 if (effect->timer == 1) {
-                    effect->type = CLEAR_TAG_PARTICLE_AVAILABLE;
+                    effect->type = CLEAR_TAG_EFFECT_AVAILABLE;
                 }
 
-                // Spawn a fire particle every 3 frames.
+                // Spawn a fire effect every 3 frames.
                 if (effect->seed >= 3) {
                     effect->seed = 0;
-                    EnClearTag_CreateFireParticle(globalCtx2, &effect->position, effect->scale * 8.0f);
+                    EnClearTag_CreateFireEffect(globalCtx2, &effect->position, effect->scale * 8.0f);
                 }
-            } else if (effect->type == CLEAR_TAG_PARTICLE_FIRE) {
-                // Fade the fire particle.
+            } else if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
+                // Fade the fire effect.
                 Math_ApproachZeroF(&effect->primColor.a, 1.0f, 15.0f);
-                // If the fire particle is fully faded, unload it.
+                // If the fire effect is fully faded, unload it.
                 if (effect->primColor.a <= 0.0f) {
-                    effect->type = CLEAR_TAG_PARTICLE_AVAILABLE;
+                    effect->type = CLEAR_TAG_EFFECT_AVAILABLE;
                 }
-            } else if (effect->type == CLEAR_TAG_PARTICLE_SMOKE) {
-                // Fade the smoke particles.
+            } else if (effect->type == CLEAR_TAG_EFFECT_SMOKE) {
+                // Fade the smoke effects.
                 Math_ApproachZeroF(&effect->primColor.r, 1.0f, 20.0f);
                 Math_ApproachZeroF(&effect->primColor.g, 1.0f, 2.0f);
                 Math_ApproachZeroF(&effect->envColor.r, 1.0f, 25.5f);
                 Math_ApproachZeroF(&effect->envColor.g, 1.0f, 21.5f);
                 Math_ApproachZeroF(&effect->envColor.b, 1.0f, 25.5f);
 
-                // Smooth scale the smoke particles.
+                // Smooth scale the smoke effects.
                 Math_ApproachF(&effect->scale, effect->maxScale, 0.05f, 0.1f);
 
                 if (effect->primColor.r == 0.0f) {
-                    // Fade the smoke particles.
+                    // Fade the smoke effects.
                     Math_ApproachZeroF(&effect->primColor.a, 1.0f, 3.0f);
 
-                    // If the Smoke particle has fully faded, unload it.
+                    // If the smoke effect has fully faded, unload it.
                     if (effect->primColor.a <= 0.0f) {
-                        effect->type = CLEAR_TAG_PARTICLE_AVAILABLE;
+                        effect->type = CLEAR_TAG_EFFECT_AVAILABLE;
                     }
                 }
-            } else if (effect->type == CLEAR_TAG_PARTICLE_FLASH) {
-                // Smooth scale the Flash particles.
+            } else if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
+                // Smooth scale the flash effects.
                 Math_ApproachF(&effect->scale, effect->maxScale, 1.0f, 3.0f);
-                // Fade the Flash particles.
+                // Fade the flash effects.
                 Math_ApproachZeroF(&effect->primColor.a, 1.0f, 10.0f);
 
-                // If the Flash particle has fully faded, unload it.
+                // If the flash effect has fully faded, unload it.
                 if (effect->primColor.a <= 0.0f) {
-                    effect->type = CLEAR_TAG_PARTICLE_AVAILABLE;
+                    effect->type = CLEAR_TAG_EFFECT_AVAILABLE;
                 }
             }
 
-            // Decrement particle timer.
+            // Decrement effect timer.
             if (effect->timer != 0) {
                 effect->timer--;
             }
@@ -926,9 +928,11 @@ void EnClearTag_UpdateParticles(GlobalContext* globalCtx) {
 }
 
 /**
- * Draws the Arwing particles.
+ * Draws the Arwing effects.
+ * Each effect type is drawn before the next. The function will apply a material that applies to all effects of that
+ * type while drawing the first effect of that type.
  */
-void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
+void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     GlobalContext* globalCtx2;
     GraphicsContext* gfxCtx;
     u8 isMaterialApplied;
@@ -939,46 +943,46 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
     globalCtx2 = globalCtx;
     gfxCtx = globalCtx2->state.gfxCtx;
 
-    firstEffect = effect = (EnClearTagEffect*)globalCtx2->bossEffects;
+    firstEffect = effect = (EnClearTagEffect*)globalCtx2->specialEffects;
     isMaterialApplied = 0;
 
     OPEN_DISPS(gfxCtx, "../z_en_clear_tag.c", 1288);
     func_80093D18(globalCtx2->state.gfxCtx);
     func_80093D84(globalCtx2->state.gfxCtx);
 
-    // Draw all Debris particles.
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_DEBRIS) {
-            // Apply the Debris particle material if it has not already been applied.
+    // Draw all Debris effects.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_DEBRIS) {
+            // Apply the debris effect material if it has not already been applied.
             if (!isMaterialApplied) {
                 isMaterialApplied++;
-                gSPDisplayList(POLY_OPA_DISP++, particleDebrisMaterialDl);
+                gSPDisplayList(POLY_OPA_DISP++, effectDebrisMaterialDL);
             }
 
-            // Draw the Debris particle.
+            // Draw the debris effect.
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             Matrix_Scale(effect->scale, effect->scale, effect->scale, MTXMODE_APPLY);
             Matrix_RotateY(effect->rotationY, MTXMODE_APPLY);
             Matrix_RotateX(effect->rotationX, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1307),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, particleDebrisDl);
+            gSPDisplayList(POLY_OPA_DISP++, effectDebrisDL);
         }
     }
 
-    // Draw all ground Flash particles.
+    // Draw all ground flash effects.
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_FLASH) {
-            // Apply the Flash ground particle material if it has not already been applied.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
+            // Apply the flash ground effect material if it has not already been applied.
             if (!isMaterialApplied) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
                 isMaterialApplied++;
             }
 
-            // Draw the ground flash particle.
+            // Draw the ground flash effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, (s8)effect->primColor.a);
             Matrix_Translate(effect->position.x, effect->floorHeight, effect->position.z, MTXMODE_NEW);
             Matrix_RotateX(effect->floorTangent.x, MTXMODE_APPLY);
@@ -986,22 +990,22 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale + effect->scale, 1.0f, effect->scale + effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1342),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, particleFlashGroundDl);
+            gSPDisplayList(POLY_XLU_DISP++, effectFlashGroundDL);
         }
     }
 
-    // Draw all Smoke particles.
+    // Draw all smoke effects.
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_SMOKE) {
-            // Apply the Smoke particle material if it has not already been applied.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_SMOKE) {
+            // Apply the smoke effect material if it has not already been applied.
             if (!isMaterialApplied) {
-                gSPDisplayList(POLY_XLU_DISP++, particleFireMaterialDl);
+                gSPDisplayList(POLY_XLU_DISP++, effectFireMaterialDL);
                 isMaterialApplied++;
             }
 
-            // Draw the Smoke particle.
+            // Draw the smoke effect.
             gDPPipeSync(POLY_XLU_DISP++);
             gDPSetEnvColor(POLY_XLU_DISP++, (s8)effect->envColor.r, (s8)effect->envColor.g, (s8)effect->envColor.b,
                            128);
@@ -1015,23 +1019,23 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
             Matrix_Translate(0.0f, 20.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1392),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, particleFireDl);
+            gSPDisplayList(POLY_XLU_DISP++, effectFireDL);
         }
     }
 
-    // Draw all fire particles.
+    // Draw all fire effects.
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_FIRE) {
-            // Apply the Fire particle material if it has not already been applied.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
+            // Apply the fire effect material if it has not already been applied.
             if (!isMaterialApplied) {
-                gSPDisplayList(POLY_XLU_DISP++, particleFireMaterialDl);
+                gSPDisplayList(POLY_XLU_DISP++, effectFireMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 215, 255, 128);
                 isMaterialApplied++;
             }
 
-            // Draw the fire particle.
+            // Draw the fire effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, (s8)effect->primColor.a);
             gSPSegment(
                 POLY_XLU_DISP++, 8,
@@ -1041,30 +1045,30 @@ void EnClearTag_DrawParticles(GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1439),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, particleFireDl);
+            gSPDisplayList(POLY_XLU_DISP++, effectFireDL);
         }
     }
 
-    // Draw all Flash bilboard particles.
+    // Draw all flash billboard effects.
     effect = firstEffect;
     isMaterialApplied = 0;
-    for (i = 0; i < CLEAR_TAG_PARTICLE_MAX_COUNT; i++, effect++) {
-        if (effect->type == CLEAR_TAG_PARTICLE_FLASH) {
-            // Apply the Flash bilboard particle material if it has not already been applied.
+    for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
+        if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
+            // Apply the flash billboard effect material if it has not already been applied.
             if (!isMaterialApplied) {
                 gDPPipeSync(POLY_XLU_DISP++);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 200, 0);
                 isMaterialApplied++;
             }
 
-            // Draw the Flash bilboard particle.
+            // Draw the flash billboard effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, (s8)effect->primColor.a);
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx2->mf_11DA0);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1470),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, particleFlashDl);
+            gSPDisplayList(POLY_XLU_DISP++, effectFlashDL);
         }
     }
 

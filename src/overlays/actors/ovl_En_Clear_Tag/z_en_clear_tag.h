@@ -22,10 +22,10 @@ typedef struct EnClearTag {
     /* 0x0186 */ s16 deathTimer;
     /* 0x0188 */ Vec3f floorTangent;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ u8 demoMode;
-    /* 0x01E2 */ s16 cameraNumber;
-    /* 0x01E4 */ Vec3f demoCameraAt;
-    /* 0x01F0 */ Vec3f demoCameraEye;
+    /* 0x01E0 */ u8 cutsceneMode;
+    /* 0x01E2 */ s16 cameraId;
+    /* 0x01E4 */ Vec3f cutsceneCameraAt;
+    /* 0x01F0 */ Vec3f cutsceneCameraEye;
     /* 0x01FC */ s16 cutsceneTimer;
     /* 0x01FE */ UNK_TYPE1 unk_1FE[0x06];
 } EnClearTag; // size = 0x0204
@@ -71,18 +71,18 @@ typedef enum {
 typedef enum {
     /* 0x00 */ CLEAR_TAG_DRAWMODE_MODEL,
     /* 0x01 */ CLEAR_TAG_DRAWMODE_ALL,
-    /* 0x02 */ CLEAR_TAG_DRAWMODE_PARTICLE
+    /* 0x02 */ CLEAR_TAG_DRAWMODE_EFFECT
 } ClearTagDrawMode;
 
 typedef enum {
-    /* 0x00 */ CLEAR_TAG_PARTICLE_AVAILABLE,
-    /* 0x01 */ CLEAR_TAG_PARTICLE_DEBRIS,
-    /* 0x02 */ CLEAR_TAG_PARTICLE_FIRE,
-    /* 0x03 */ CLEAR_TAG_PARTICLE_SMOKE,
-    /* 0x04 */ CLEAR_TAG_PARTICLE_FLASH
-} ClearTagParticleType;
+    /* 0x00 */ CLEAR_TAG_EFFECT_AVAILABLE,
+    /* 0x01 */ CLEAR_TAG_EFFECT_DEBRIS,
+    /* 0x02 */ CLEAR_TAG_EFFECT_FIRE,
+    /* 0x03 */ CLEAR_TAG_EFFECT_SMOKE,
+    /* 0x04 */ CLEAR_TAG_EFFECT_FLASH
+} ClearTagEffectType;
 
-#define CLEAR_TAG_PARTICLE_MAX_COUNT 100
+#define CLEAR_TAG_EFFECT_MAX_COUNT 100
 
 extern const ActorInit En_Clear_Tag_InitVars;
 
