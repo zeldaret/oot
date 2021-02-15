@@ -276,9 +276,7 @@ void func_800C1F20(PreRenderContext* this, Gfx** gfxp) {
 }
 
 void func_800C1FA4(PreRenderContext* this, Gfx** gfxp) {
-    Gfx* gfx;
-
-    gfx = *gfxp;
+    Gfx* gfx = *gfxp;
 
     gDPPipeSync(gfx++);
     gDPSetBlendColor(gfx++, 255, 255, 255, 8);

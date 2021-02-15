@@ -49,9 +49,7 @@ void EffectSs_DrawGEffect(GlobalContext* globalCtx, EffectSs* this, void* textur
     MtxF mfTrans11DA0;
     s32 pad1;
     Mtx* mtx;
-    void* object;
-
-    object = globalCtx->objectCtx.status[this->rgObjBankIdx].segment;
+    void* object = globalCtx->objectCtx.status[this->rgObjBankIdx].segment;
 
     OPEN_DISPS(gfxCtx, "../z_effect_soft_sprite_old_init.c", 196);
 
@@ -180,9 +178,8 @@ void func_80028858(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec3f*
 
 void func_80028894(Vec3f* srcPos, f32 randScale, Vec3f* newPos, Vec3f* velocity, Vec3f* accel) {
     s16 randAngle;
-    f32 rand;
+    f32 rand = Rand_ZeroOne() * randScale;
 
-    rand = Rand_ZeroOne() * randScale;
     randAngle = (Rand_ZeroOne() * 65536.0f);
 
     *newPos = *srcPos;
@@ -408,9 +405,7 @@ void EffectSsGSpk_SpawnRandColor(GlobalContext* globalCtx, Actor* actor, Vec3f* 
                                  s16 scale, s16 scaleStep) {
     Color_RGBA8 primColor = { 255, 255, 150, 255 };
     Color_RGBA8 envColor = { 255, 0, 0, 0 };
-    s32 randOffset;
-
-    randOffset = (Rand_ZeroOne() * 20.0f) - 10.0f;
+    s32 randOffset = (Rand_ZeroOne() * 20.0f) - 10.0f;
 
     primColor.r += randOffset;
     primColor.g += randOffset;

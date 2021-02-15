@@ -76,12 +76,10 @@ Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
 Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     Vec3f v;
     f32 sinPitch;
-    f32 cosPitch;
+    f32 cosPitch = Math_CosS(sph->pitch);
     f32 sinYaw;
-    f32 cosYaw;
+    f32 cosYaw = Math_CosS(sph->yaw);
 
-    cosPitch = Math_CosS(sph->pitch);
-    cosYaw = Math_CosS(sph->yaw);
     sinPitch = Math_SinS(sph->pitch);
     sinYaw = Math_SinS(sph->yaw);
 
@@ -113,11 +111,8 @@ Vec3f* OLib_VecSphGeoToVec3f(Vec3f* dest, VecSph* sph) {
 VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     VecSph sph;
 
-    f32 distSquared;
-    f32 dist;
-
-    distSquared = SQ(vec->x) + SQ(vec->z);
-    dist = sqrtf(distSquared);
+    f32 distSquared = SQ(vec->x) + SQ(vec->z);
+    f32 dist = sqrtf(distSquared);
 
     if ((dist == 0.0f) && (vec->y == 0.0f)) {
         sph.pitch = 0;
