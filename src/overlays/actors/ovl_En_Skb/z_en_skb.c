@@ -27,7 +27,7 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD968(EnSkb* this, GlobalContext* globalCtx);
-s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+// Attempted to remove and rename, but it wouldn't compile. this is EnSkb_PostLimbDraw though
 void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 extern SkeletonHeader D_060041F8;
@@ -220,7 +220,7 @@ void func_80AFCE5C(EnSkb* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     } else {
-        this->actor.flags = this->actor.flags | 1;
+        this->actor.flags |= 1;
     }
     Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 800.0f, 0.0f);
     Math_SmoothStepToF(&this->actor.shape.shadowScale, 25.0f, 1.0f, 2.5f, 0.0f);
@@ -236,7 +236,7 @@ void func_80AFCF48(EnSkb* this) {
     Animation_Change(&this->skelAnime, &D_06001854, -1.0f, Animation_GetLastFrame(&D_06001854), 0.0f, 2, -4.0f);
     this->unk_280 = 0;
     this->unk_281 = 0;
-    this->actor.flags = this->actor.flags & ~1;
+    this->actor.flags &= ~1;
     this->actor.speedXZ = 0.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_AKINDONUTS_HIDE);
     EnSkb_SetupAction(this, func_80AFCFF0);
@@ -302,7 +302,7 @@ void EnSkb_Advance(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD33C(EnSkb* this) {
     Animation_Change(&this->skelAnime, &D_06000460, 0.6f, 0.0f, Animation_GetLastFrame(&D_06000460), 3, 4.0f);
-    this->collider.base.atFlags = this->collider.base.atFlags & 0xFFFB;
+    this->collider.base.atFlags &= ~4;
     this->unk_280 = 3;
     this->actor.speedXZ = 0.0f;
     EnSkb_SetupAction(this, EnSkb_SetupAttack);
@@ -318,8 +318,8 @@ void EnSkb_SetupAttack(EnSkb* this, GlobalContext* globalCtx) {
     } else if (frameData == 6) {
         this->unk_281 = 0;
     }
-    if ((this->collider.base.atFlags & 4) != 0) {
-        this->collider.base.atFlags &= 0xFFF9;
+    if (this->collider.base.atFlags & 4) {
+        this->collider.base.atFlags &= ~6;
         func_80AFD47C(this);
     } else if (SkelAnime_Update(&this->skelAnime) != 0) {
         func_80AFCD60(this);
@@ -328,7 +328,7 @@ void EnSkb_SetupAttack(EnSkb* this, GlobalContext* globalCtx) {
 
 void func_80AFD47C(EnSkb* this) {
     Animation_Change(&this->skelAnime, &D_06000460, -0.4f, this->skelAnime.curFrame - 1.0f, 0.0f, 3, 0.0f);
-    this->collider.base.atFlags &= 0xFFFB;
+    this->collider.base.atFlags &= ~4;
     this->unk_280 = 5;
     this->unk_281 = 0;
     EnSkb_SetupAction(this, func_80AFD508);
@@ -351,15 +351,15 @@ void EnSkb_SetupStunned(EnSkb* this) {
 }
 
 void func_80AFD59C(EnSkb* this, GlobalContext* globalCtx) {
-    if ((this->actor.bgCheckFlags & 2) != 0) {
+    if (this->actor.bgCheckFlags & 2) {
         this->actor.speedXZ = 0.0f;
     }
-    if ((this->actor.bgCheckFlags & 1) != 0) {
+    if (this->actor.bgCheckFlags & 1) {
         if (this->actor.speedXZ < 0.0f) {
             this->actor.speedXZ += 0.05f;
         }
     }
-    if ((this->actor.colorFilterTimer == 0) && ((this->actor.bgCheckFlags & 1) != 0)) {
+    if ((this->actor.colorFilterTimer == 0) && (this->actor.bgCheckFlags & 1)) {
         if (this->actor.colChkInfo.health == 0) {
             func_80AFD7B4(this, globalCtx);
         } else {
@@ -450,14 +450,14 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
         func_80AFD7B4(this, globalCtx);
     } else if (this->unk_280 >= 3) {
         if ((this->collider.base.acFlags & 2) != 0) {
-            this->collider.base.acFlags &= 0xFFFD;
+            this->collider.base.acFlags &= ~2;
             if (this->actor.colChkInfo.damageEffect != 6) {
                 this->unk_282 = this->actor.colChkInfo.damageEffect;
                 func_80035650(&this->actor, &this->collider.elements[1].info, 1);
                 this->unk_281 = 0;
                 if (this->actor.colChkInfo.damageEffect == 1) {
                     if (this->unk_280 != 6) {
-                        func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
                         Actor_ApplyDamage(&this->actor);
                         EnSkb_SetupStunned(this);
                     }
@@ -474,7 +474,7 @@ void func_80AFD968(EnSkb* this, GlobalContext* globalCtx) {
                         }
                         phi_v1 = 25;
                     }
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, phi_v1);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, phi_v1);
                     if (!Actor_ApplyDamage(&this->actor)) {
                         func_80AFD7B4(this, globalCtx);
                         return;
@@ -527,9 +527,9 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     if (limbIndex == 11) {
         if ((this->unk_283 & 2) == 0) {
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 972);
-            color = ABS((s16)(Math_SinS((globalCtx->gameplayFrames * 0x1770)) * 95.0f)) + 0xA0;
+            color = ABS((s16)(Math_SinS((globalCtx->gameplayFrames * 0x1770)) * 95.0f)) + 160;
             gDPPipeSync(POLY_OPA_DISP++);
-            gDPSetEnvColor(POLY_OPA_DISP++, color, color, color, 0xFF);
+            gDPSetEnvColor(POLY_OPA_DISP++, color, color, color, 255);
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skb.c", 978);
         } else {
             *dList = NULL;
