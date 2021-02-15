@@ -345,7 +345,7 @@ void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx) {
     fireEffectPos.x += this->actor.world.pos.x + Rand_CenteredFloat(40.0f);
     fireEffectPos.y += this->actor.world.pos.y + Rand_CenteredFloat(40.0f);
     fireEffectPos.z += this->actor.world.pos.z + Rand_CenteredFloat(30.0f);
-    func_8003426C(&this->actor, 0x4000, 0x80, 0, 8);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0x80, 0, 8);
     EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &fireEffectPos, 100, 0, 0, -1);
 
     if (this->animLastFrame <= curFrame && (this->actor.bgCheckFlags & 1)) {
