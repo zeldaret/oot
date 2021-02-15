@@ -27,8 +27,6 @@ void func_80AFD6CC(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD7B4(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD880(EnSkb* this, GlobalContext* globalCtx);
 void func_80AFD968(EnSkb* this, GlobalContext* globalCtx);
-// Attempted to remove and rename, but it wouldn't compile. this is EnSkb_PostLimbDraw though
-void func_80AFDF24(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
 extern SkeletonHeader D_060041F8;
 extern AnimationHeader D_06001854;
@@ -556,12 +554,13 @@ void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/func_80AFDF24.s")
+void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skb/EnSkb_PostLimbDraw.s")
 #endif
 
 void EnSkb_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnSkb* this = THIS;
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnSkb_OverrideLimbDraw,
-                      func_80AFDF24, &this->actor);
+                      EnSkb_PostLimbDraw, &this->actor);
 }
