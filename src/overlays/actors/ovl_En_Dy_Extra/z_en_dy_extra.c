@@ -16,8 +16,8 @@ void EnDyExtra_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDyExtra_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx);
-void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx);
+void EnDyExtra_WaitForTrigger(EnDyExtra* this, GlobalContext* globalCtx);
+void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx);
 
 const ActorInit En_Dy_Extra_InitVars = {
     ACTOR_EN_DY_EXTRA,
@@ -44,30 +44,30 @@ void EnDyExtra_Init(Actor* thisx, GlobalContext* globalCtx) {
     // "Big fairy effect"
     osSyncPrintf(VT_FGCOL(YELLOW) "☆☆☆☆☆ 大妖精効果 ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
     this->type = this->actor.params;
-    this->unk_15C.x = 0.025f;
-    this->unk_15C.y = 0.039f;
-    this->unk_15C.z = 0.025f;
+    this->scale.x = 0.025f;
+    this->scale.y = 0.039f;
+    this->scale.z = 0.025f;
     this->unk_168 = this->actor.world.pos;
     this->actor.gravity = -0.2f;
     this->unk_158 = 1.0f;
-    this->unk_154 = 0x3C;
-    this->actionFunc = func_809FF7AC;
+    this->timer = 60;
+    this->actionFunc = EnDyExtra_WaitForTrigger;
 }
 
-void func_809FF7AC(EnDyExtra* this, GlobalContext* globalCtx) {
+void EnDyExtra_WaitForTrigger(EnDyExtra* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
     if (this->actor.world.pos.y < -55.0f) {
         this->actor.velocity.y = 0.0f;
     }
-    if (this->unk_154 == 0 && this->unk_152 != 0) {
-        this->unk_154 = 0xC8;
-        this->actionFunc = func_809FF840;
+    if (this->timer == 0 && this->trigger != 0) {
+        this->timer = 200;
+        this->actionFunc = EnDyExtra_FallAndKill;
     }
 }
 
-void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
+void EnDyExtra_FallAndKill(EnDyExtra* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.gravity, 0.0f, 0.1f, 0.005f);
-    if (this->unk_154 == 0 || this->unk_158 < 0.02f) {
+    if (this->timer == 0 || this->unk_158 < 0.02f) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -80,10 +80,12 @@ void func_809FF840(EnDyExtra* this, GlobalContext* globalCtx) {
 void EnDyExtra_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDyExtra* this = THIS;
 
-    DECR(this->unk_154);
-    this->actor.scale.x = this->unk_15C.x;
-    this->actor.scale.y = this->unk_15C.y;
-    this->actor.scale.z = this->unk_15C.z;
+    if (this->timer != 0) {
+        this->timer--;
+    }
+    this->actor.scale.x = this->scale.x;
+    this->actor.scale.y = this->scale.y;
+    this->actor.scale.z = this->scale.z;
     Audio_PlayActorSound2(&this->actor, NA_SE_PL_SPIRAL_HEAL_BEAM - SFX_FLAG);
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);

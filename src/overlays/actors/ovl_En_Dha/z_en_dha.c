@@ -251,12 +251,12 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->unk_1DC.x, playerPos.x, 1.0f, 16.0f, 0.0f);
         Math_SmoothStepToF(&this->unk_1DC.y, playerPos.y, 1.0f, 16.0f, 0.0f);
         Math_SmoothStepToF(&this->unk_1DC.z, playerPos.z, 1.0f, 16.0f, 0.0f);
-        func_80035844(&this->unk_1F4, &this->unk_1DC, &test, 0);
+        func_80035844(&this->unk_1F4, &this->unk_1DC, &test.x, 0);
         Matrix_Translate(this->unk_1DC.x, this->unk_1DC.y, this->unk_1DC.z, MTXMODE_NEW);
         Matrix_RotateRPY(test.x, test.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809ED758, &this->unk_1F4);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-        func_80035844(&this->actor.world.pos, &this->unk_1F4, &test, 0);
+        func_80035844(&this->actor.world.pos, &this->unk_1F4, &test.x, 0);
         Matrix_RotateRPY(test.x, test.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809ED74C, &this->unk_1F4);
         this->unk_1CE = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_1F4);
@@ -364,7 +364,7 @@ void EnDha_UpdateHealth(EnDha* this, GlobalContext* globalCtx) {
         if (this->actor.colChkInfo.damageEffect == 0 || this->actor.colChkInfo.damageEffect == 6) {
             return;
         } else {
-            func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDha_SetupDeath(this);
                 this->actor.colChkInfo.health = 8;

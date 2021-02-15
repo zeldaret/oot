@@ -58,7 +58,7 @@ void FlagSet_Update(GlobalContext* globalCtx) {
         GfxPrint_SetPos(&printer, 4, 15);
 
         for (bitIdx = 15; bitIdx >= 0; bitIdx--) {
-            if (bitIdx == curBit) {
+            if ((u32)bitIdx == curBit) {
                 GfxPrint_SetColor(&printer, 200, 200, 200, 255);
             } else {
                 GfxPrint_SetColor(&printer, 100, 100, 100, 255);
