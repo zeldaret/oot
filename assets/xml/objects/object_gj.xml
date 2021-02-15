@@ -1,23 +1,33 @@
 <Root>
     <File Name="object_gj" Segment="6">
-        <DList Name="gGjDL_000DC0" Offset="0xDC0"/>
-        <Collision Name="gGjCol_001B70" Offset="0x1B70"/>
-        <DList Name="gGjDL_001D20" Offset="0x1D20"/>
-        <Collision Name="gGjCol_001F70" Offset="0x1F70"/>
-        <DList Name="gGjDL_002160" Offset="0x2160"/>
-        <Collision Name="gGjCol_002448" Offset="0x2448"/>
-        <DList Name="gGjDL_002600" Offset="0x2600"/>
-        <Collision Name="gGjCol_002850" Offset="0x2850"/>
-        <DList Name="gGjDL_002A40" Offset="0x2A40"/>
-        <Collision Name="gGjCol_002D28" Offset="0x2D28"/>
-        <DList Name="gGjDL_002E80" Offset="0x2E80"/>
-        <Collision Name="gGjCol_002FE4" Offset="0x2FE4"/>
-        <DList Name="gGjDL_003190" Offset="0x3190"/>
-        <Collision Name="gGjCol_0033E0" Offset="0x33E0"/>
-        <DList Name="gGjDL_003710" Offset="0x3710"/>
-        <Collision Name="gGjCol_003AF0" Offset="0x3AF0"/>
+        <DList Name="gGanonsCastleRubble1DL" Offset="0xDC0"/>
+        <Collision Name="gGanonsCastleRubble1Col" Offset="0x1B70"/>
 
-        <!-- I don't know what is this -->
-        <Blob Name="gGjBlob_008B20" Size="0x1C00" Offset="0x8B20"/>
+        <DList Name="gGanonsCastleRubble2DL" Offset="0x1D20"/>
+        <Collision Name="gGanonsCastleRubble2Col" Offset="0x1F70"/>
+
+        <DList Name="gGanonsCastleRubble3DL" Offset="0x2160"/>
+        <Collision Name="gGanonsCastleRubble3Col" Offset="0x2448"/>
+
+        <DList Name="gGanonsCastleRubble4DL" Offset="0x2600"/>
+        <Collision Name="gGanonsCastleRubble4Col" Offset="0x2850"/>
+
+        <DList Name="gGanonsCastleRubble5DL" Offset="0x2A40"/>
+        <Collision Name="gGanonsCastleRubble5Col" Offset="0x2D28"/>
+
+        <DList Name="gGanonsCastleRubble6DL" Offset="0x2E80"/>
+        <Collision Name="gGanonsCastleRubble6Col" Offset="0x2FE4"/>
+
+        <DList Name="gGanonsCastleRubble7DL" Offset="0x3190"/>
+        <Collision Name="gGanonsCastleRubble7Col" Offset="0x33E0"/>
+
+        <DList Name="gGanonsCastleRubble8DL" Offset="0x3710"/>
+        <Collision Name="gGanonsCastleRubble8Col" Offset="0x3AF0"/>
+
+        <!-- The following are unused -->
+        <!-- This is probably an unused spike variant of the rubbles, but somebody said it looked like a laser, so I'm keeping it someone says otherwise (also, it is probably an "ia16", but in this format looks like a laser) -->
+        <Texture Name="gGanonsCastleUnusedLaserTex" OutName="ganons_castle_unused_cool_laser_beam_unused_variant" Format="rgba32" Width="32" Height="32" Offset="0x8B20"/>
+        <Texture Name="gGanonsCastleUnusedWallTex" OutName="ganons_castle_unused_wall" Format="rgb5a1" Width="32" Height="32" Offset="0x9B20"/>
+        <Texture Name="gGanonsCastleUnusedTex_00A320" OutName="ganons_castle_unused_00A320" Format="ia16" Width="16" Height="16" Offset="0xA320"/>
     </File>
 </Root>
