@@ -1,90 +1,88 @@
 <Root>
     <File Name="object_hidan_objects" Segment="6">
-        <DList Name="gHidanObjectsDL_00BBF0" Offset="0xBBF0"/>
-        <DList Name="gHidanObjectsDL_00BDF0" Offset="0xBDF0"/>
-        <DList Name="gHidanObjectsDL_00C100" Offset="0xC100"/>
-        <DList Name="gHidanObjectsDL_00C1F0" Offset="0xC1F0"/>
-        <DList Name="gHidanObjectsDL_00CA10" Offset="0xCA10"/>
+        <DList Name="gFireTempleHammerableTotemBodyDL" Offset="0xBBF0"/>
+        <DList Name="gFireTempleHammerableTotemHeadDL" Offset="0xBDF0"/>
+        <DList Name="gFireTempleDL_00C100" Offset="0xC100"/>
+        <DList Name="gFireTempleDL_00C1F0" Offset="0xC1F0"/>
+        <DList Name="gFireTempleDL_00CA10" Offset="0xCA10"/>
 
-        <Collision Name="gHidanObjectsCol_00CB80" Offset="0xCB80"/>
-        <Collision Name="gHidanObjectsCol_00DA10" Offset="0xDA10"/>
-        <Collision Name="gHidanObjectsCol_00DF78" Offset="0xDF78"/>
+        <Collision Name="gFireTempleCol_00CB80" Offset="0xCB80"/>
+        <Collision Name="gFireTempleCol_00DA10" Offset="0xDA10"/>
+        <Collision Name="gFireTempleCol_00DF78" Offset="0xDF78"/>
 
-        <DList Name="gHidanObjectsDL_00DA80" Offset="0xDA80"/>
+        <DList Name="gFireTempleDL_00DA80" Offset="0xDA80"/>
 
-        <DList Name="gHidanObjectsDL_00B630" Offset="0xB630"/>
-        <Collision Name="gHidanObjectsCol_00E1E8" Offset="0xE1E8"/>
+        <DList Name="gFireTempleHookshotElevatorDL" Offset="0xB630"/>
+        <Collision Name="gFireTempleHookshotElevatorCol" Offset="0xE1E8"/>
 
-        <DList Name="gHidanObjectsDL_00DB20" Offset="0xDB20"/>
+        <DList Name="gFireTempleDL_00DB20" Offset="0xDB20"/>
 
-        <DList Name="gHidanObjectsDL_00A548" Offset="0xA548"/>
-        <DList Name="gHidanObjectsDL_00A668" Offset="0xA668"/>
-        <Collision Name="gHidanObjectsCol_00DE44" Offset="0xDE44"/>
-        <Collision Name="gHidanObjectsCol_00DD1C" Offset="0xDD1C"/>
+        <DList Name="gFireTempleDL_00A548" Offset="0xA548"/>
+        <DList Name="gFireTempleDL_00A668" Offset="0xA668"/>
+        <Collision Name="gFireTempleCol_00DE44" Offset="0xDE44"/>
+        <Collision Name="gFireTempleCol_00DD1C" Offset="0xDD1C"/>
 
-        <Collision Name="gHidanObjectsCol_00D054" Offset="0xD054"/>
-        <Collision Name="gHidanObjectsCol_00D188" Offset="0xD188"/>
+        <Collision Name="gFireTempleCol_00D054" Offset="0xD054"/>
+        <Collision Name="gFireTempleCol_00D188" Offset="0xD188"/>
 
-        <Collision Name="gHidanObjectsCol_00E2CC" Offset="0xE2CC"/>
-        <Collision Name="gHidanObjectsCol_00E380" Offset="0xE380"/>
-        <Collision Name="gHidanObjectsCol_00E430" Offset="0xE430"/>
-        <DList Name="gHidanObjectsMetalFenceWithSlantDL" Offset="0xC798"/>
-        <DList Name="gHidanObjectsMetalFenceDL" Offset="0xBFA8"/>
-        <DList Name="gHidanObjectsMetalFence2DL" Offset="0xBB58"/>
+        <DList Name="gFireTempleMetalFenceWithSlantDL" Offset="0xC798"/>
+        <Collision Name="gFireTempleMetalFenceWithSlantCol" Offset="0xE2CC"/>
+        <DList Name="gFireTempleMetalFenceDL" Offset="0xBFA8"/>
+        <Collision Name="gFireTempleMetalFenceCol" Offset="0xE380"/>
+        <DList Name="gFireTempleMetalFence2DL" Offset="0xBB58"/>
+        <Collision Name="gFireTempleMetalFence2Col" Offset="0xE430"/>
 
-        <DList Name="gHidanObjectsDL_00B9C0" Offset="0xB9C0"/>
-        <DList Name="gHidanObjectsDL_00C038" Offset="0xC038"/>
-        <DList Name="gHidanObjectsDL_00B900" Offset="0xB900"/>
-        <Collision Name="gHidanObjectsCol_00D800" Offset="0xD800"/>
-        <Collision Name="gHidanObjectsCol_00D878" Offset="0xD878"/>
-        <Collision Name="gHidanObjectsCol_00D8F8" Offset="0xD8F8"/>
+        <DList Name="gFireTempleCrackedStoneFloorDL" Offset="0xB9C0"/>
+        <Collision Name="gFireTempleCrackedStoneFloorCol" Offset="0xD800"/>
+        <DList Name="gFireTempleBombableWallDL" Offset="0xC038"/>
+        <Collision Name="gFireTempleBombableWallCol" Offset="0xD878"/>
+        <DList Name="gFireTempleLargeBombableWallDL" Offset="0xB900"/>
+        <Collision Name="gFireTempleLargeBombableWallCol" Offset="0xD8F8"/>
 
-        <Texture Name="gHidanObjectsTex_012120" OutName="tex_012120" Format="ia8" Width="32" Height="60" Offset="0x12120"/>
-        <Texture Name="gHidanObjectsTex_0128A0" OutName="tex_0128A0" Format="ia8" Width="32" Height="60" Offset="0x128A0"/>
-        <Texture Name="gHidanObjectsTex_013020" OutName="tex_013020" Format="ia8" Width="32" Height="60" Offset="0x13020"/>
-        <Texture Name="gHidanObjectsTex_0137A0" OutName="tex_0137A0" Format="ia8" Width="32" Height="60" Offset="0x137A0"/>
-        <Texture Name="gHidanObjectsTex_013F20" OutName="tex_013F20" Format="ia8" Width="32" Height="60" Offset="0x13F20"/>
-        <Texture Name="gHidanObjectsTex_0146A0" OutName="tex_0146A0" Format="ia8" Width="32" Height="60" Offset="0x146A0"/>
-        <Texture Name="gHidanObjectsTex_014E20" OutName="tex_014E20" Format="ia8" Width="32" Height="60" Offset="0x14E20"/>
-        <Texture Name="gHidanObjectsTex_0155A0" OutName="tex_0155A0" Format="ia8" Width="32" Height="60" Offset="0x155A0"/>
+        <Texture Name="gFireTempleTex_012120" OutName="tex_012120" Format="ia8" Width="32" Height="60" Offset="0x12120"/>
+        <Texture Name="gFireTempleTex_0128A0" OutName="tex_0128A0" Format="ia8" Width="32" Height="60" Offset="0x128A0"/>
+        <Texture Name="gFireTempleTex_013020" OutName="tex_013020" Format="ia8" Width="32" Height="60" Offset="0x13020"/>
+        <Texture Name="gFireTempleTex_0137A0" OutName="tex_0137A0" Format="ia8" Width="32" Height="60" Offset="0x137A0"/>
+        <Texture Name="gFireTempleTex_013F20" OutName="tex_013F20" Format="ia8" Width="32" Height="60" Offset="0x13F20"/>
+        <Texture Name="gFireTempleTex_0146A0" OutName="tex_0146A0" Format="ia8" Width="32" Height="60" Offset="0x146A0"/>
+        <Texture Name="gFireTempleTex_014E20" OutName="tex_014E20" Format="ia8" Width="32" Height="60" Offset="0x14E20"/>
+        <Texture Name="gFireTempleTex_0155A0" OutName="tex_0155A0" Format="ia8" Width="32" Height="60" Offset="0x155A0"/>
 
-        <Texture Name="gHidanObjectsFireball0Tex" OutName="fireball_0" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
-        <Texture Name="gHidanObjectsFireball1Tex" OutName="fireball_1" Format="ia8" Width="32" Height="32" Offset="0x16120"/>
-        <Texture Name="gHidanObjectsFireball2Tex" OutName="fireball_2" Format="ia8" Width="32" Height="32" Offset="0x16520"/>
-        <Texture Name="gHidanObjectsFireball3Tex" OutName="fireball_3" Format="ia8" Width="32" Height="32" Offset="0x16920"/>
-        <Texture Name="gHidanObjectsFireball4Tex" OutName="fireball_4" Format="ia8" Width="32" Height="32" Offset="0x16D20"/>
-        <Texture Name="gHidanObjectsFireball5Tex" OutName="fireball_5" Format="ia8" Width="32" Height="32" Offset="0x17120"/>
-        <Texture Name="gHidanObjectsFireball6Tex" OutName="fireball_6" Format="ia8" Width="32" Height="32" Offset="0x17520"/>
-        <Texture Name="gHidanObjectsFireball7Tex" OutName="fireball_7" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
+        <Texture Name="gFireTempleFireball0Tex" OutName="fireball_0" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
+        <Texture Name="gFireTempleFireball1Tex" OutName="fireball_1" Format="ia8" Width="32" Height="32" Offset="0x16120"/>
+        <Texture Name="gFireTempleFireball2Tex" OutName="fireball_2" Format="ia8" Width="32" Height="32" Offset="0x16520"/>
+        <Texture Name="gFireTempleFireball3Tex" OutName="fireball_3" Format="ia8" Width="32" Height="32" Offset="0x16920"/>
+        <Texture Name="gFireTempleFireball4Tex" OutName="fireball_4" Format="ia8" Width="32" Height="32" Offset="0x16D20"/>
+        <Texture Name="gFireTempleFireball5Tex" OutName="fireball_5" Format="ia8" Width="32" Height="32" Offset="0x17120"/>
+        <Texture Name="gFireTempleFireball6Tex" OutName="fireball_6" Format="ia8" Width="32" Height="32" Offset="0x17520"/>
+        <Texture Name="gFireTempleFireball7Tex" OutName="fireball_7" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
 
-        <Collision Name="gHidanObjectsCol_00D5C0" Offset="0xD5C0"/>
-        <DList Name="gHidanObjectsDL_00AD00" Offset="0xAD00"/>
-        <DList Name="gHidanObjectsDL_00DC30" Offset="0xDC30"/>
+        <Collision Name="gFireTempleCol_00D5C0" Offset="0xD5C0"/>
+        <DList Name="gFireTempleDL_00AD00" Offset="0xAD00"/>
+        <DList Name="gFireTempleDL_00DC30" Offset="0xDC30"/>
 
-        <DList Name="gHidanObjectsDL_00ABC8" Offset="0xABC8"/>
-        <DList Name="gHidanObjectsDL_00B0F8" Offset="0xB0F8"/>
-        <Collision Name="gHidanObjectsCol_00CC90" Offset="0xCC90"/>
+        <DList Name="gFireTempleDL_00ABC8" Offset="0xABC8"/>
+        <DList Name="gFireTempleDL_00B0F8" Offset="0xB0F8"/>
+        <Collision Name="gFireTempleCol_00CC90" Offset="0xCC90"/>
 
-        <DList Name="gHidanObjectsDL_00C338" Offset="0xC338"/>
-        <DList Name="gHidanObjectsDL_00C470" Offset="0xC470"/>
-        <Collision Name="gHidanObjectsCol_00FAE8" Offset="0xFAE8"/>
-        <Collision Name="gHidanObjectsCol_0120E8" Offset="0x120E8"/>
+        <DList Name="gFireTempleDL_00C338" Offset="0xC338"/>
+        <DList Name="gFireTempleDL_00C470" Offset="0xC470"/>
+        <Collision Name="gFireTempleCol_00FAE8" Offset="0xFAE8"/>
+        <Collision Name="gFireTempleCol_0120E8" Offset="0x120E8"/>
 
-        <DList Name="gHidanObjectsDL_00A7E0" Offset="0xA7E0"/>
-        <Collision Name="gHidanObjectsCol_00E568" Offset="0xE568"/>
+        <DList Name="gFireTempleFlareDancerPlatformDL" Offset="0xA7E0"/>
+        <Collision Name="gFireTempleFlareDancerPlatformCol" Offset="0xE568"/>
 
-        <DList Name="gHidanObjectsTallestPillarAboveRoomBeforeBossDL" Offset="0xA240"/>
-        <DList Name="gHidanObjectsDL_00C838" Offset="0xC838"/>
+        <DList Name="gFireTempleTallestPillarAboveRoomBeforeBossDL" Offset="0xA240"/>
+        <DList Name="gFireTemplePillarInsertedInGroundDL" Offset="0xC838"/>
 
-        <DList Name="gHidanObjectsDL_00F890" Offset="0xF890"/>
-        <DList Name="gHidanObjectsDL_00F938" Offset="0xF938"/>
-        <DList Name="gHidanObjectsDL_00F998" Offset="0xF998"/>
-        <!-- Bombable door ? -->
-        <DList Name="gHidanObjectsDL_010CB0" Offset="0x10CB0"/>
-        <!-- Door ? -->
-        <DList Name="gHidanObjectsDL_011F20" Offset="0x11F20"/>
+        <DList Name="gFireTempleBombableDoorFrameDL" Offset="0xF890"/>
+        <DList Name="gFireTempleBombableDoorDL1" Offset="0xF938"/>
+        <DList Name="gFireTempleBombableDoorDL2" Offset="0xF998"/>
+        <DList Name="gFireTempleDoorFrontDL" Offset="0x10CB0"/>
+        <DList Name="gFireTempleDoorBackDL" Offset="0x11F20"/>
 
         <!-- I don't know what could this be -->
-        <Blob Name="gHidanObjectsBlob_00CCC0" Size="0x10E" Offset="0xCCC0"/>
+        <Blob Name="gFireTempleBlob_00CCC0" Size="0x10E" Offset="0xCCC0"/>
     </File>
 </Root>

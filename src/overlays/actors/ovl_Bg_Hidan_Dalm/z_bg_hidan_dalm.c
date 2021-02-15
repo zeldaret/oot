@@ -103,7 +103,7 @@ void BgHidanDalm_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gHidanObjectsCol_00DA10, &colHeader);
+    CollisionHeader_GetVirtual(&gFireTempleCol_00DA10, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     Collider_InitTris(globalCtx, &this->collider);
     Collider_SetTris(globalCtx, &this->collider, thisx, &sTrisInit, this->colliderItems);
@@ -213,9 +213,9 @@ void BgHidanDalm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanDalm* this = THIS;
 
     if (this->dyna.actor.params == 0) {
-        Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00BBF0);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleHammerableTotemBodyDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00BDF0);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleHammerableTotemHeadDL);
     }
 
     if (this->actionFunc == BgHidanDalm_Wait) {

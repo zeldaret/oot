@@ -42,9 +42,9 @@ static InitChainEntry sInitChain[] = {
 };
 
 static CollisionHeader* D_80889E70[] = {
-    &gHidanObjectsCol_00E2CC,
-    &gHidanObjectsCol_00E380,
-    &gHidanObjectsCol_00E430,
+    &gFireTempleMetalFenceWithSlantCol,
+    &gFireTempleMetalFenceCol,
+    &gFireTempleMetalFence2Col,
 };
 
 static s16 D_80889E7C[] = {
@@ -55,9 +55,9 @@ static s16 D_80889E7C[] = {
 };
 
 static Gfx* sMetalFencesDLs[] = {
-    gHidanObjectsMetalFenceWithSlantDL,
-    gHidanObjectsMetalFenceDL,
-    gHidanObjectsMetalFence2DL,
+    gFireTempleMetalFenceWithSlantDL,
+    gFireTempleMetalFenceDL,
+    gFireTempleMetalFence2DL,
 };
 
 void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionFunc) {

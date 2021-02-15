@@ -88,9 +88,9 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8088B268;
         }
         thisx->flags |= 0x30;
-        CollisionHeader_GetVirtual(&gHidanObjectsCol_00CB80, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleCol_00CB80, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gHidanObjectsCol_00DF78, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleCol_00DF78, &colHeader);
         this->collider.dim.pos.x = thisx->home.pos.x;
         this->collider.dim.pos.y = thisx->home.pos.y;
         this->collider.dim.pos.z = thisx->home.pos.z;
@@ -339,9 +339,9 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
-    static u64* D_8088BFC4[] = { gHidanObjectsTex_012120, gHidanObjectsTex_0128A0, gHidanObjectsTex_013020,
-                                 gHidanObjectsTex_0137A0, gHidanObjectsTex_013F20, gHidanObjectsTex_0146A0,
-                                 gHidanObjectsTex_014E20, gHidanObjectsTex_0155A0 };
+    static u64* D_8088BFC4[] = { gFireTempleTex_012120, gFireTempleTex_0128A0, gFireTempleTex_013020,
+                                 gFireTempleTex_0137A0, gFireTempleTex_013F20, gFireTempleTex_0146A0,
+                                 gFireTempleTex_014E20, gFireTempleTex_0155A0, };
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
@@ -364,7 +364,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8088BFC4[globalCtx->gameplayFrames & 7]));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gHidanObjectsDL_00CA10);
+    gSPDisplayList(POLY_XLU_DISP++, gFireTempleDL_00CA10);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 857);
 }
@@ -374,9 +374,9 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->type == 0) {
-        Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00C100);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleDL_00C100);
     } else {
-        Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00C1F0);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleDL_00C1F0);
     }
 
     if (this->unk_16C > 0.0f) {

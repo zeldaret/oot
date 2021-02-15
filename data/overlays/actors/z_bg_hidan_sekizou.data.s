@@ -25,5 +25,5 @@ glabel D_8088E268
 glabel D_8088E270
  .word 0xC8500064, 0xB0F80190, 0x30F405DC
 glabel D_8088E27C
- .word gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex, gHidanObjectsFireball3Tex, gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex, gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex, 0x00000000
+ .word gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex, gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex, 0x00000000
 

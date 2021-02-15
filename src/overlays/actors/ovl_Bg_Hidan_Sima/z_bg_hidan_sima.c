@@ -72,8 +72,8 @@ static InitChainEntry sInitChain[] = {
 };
 
 static u64* sFireballsTexs[] = {
-    gHidanObjectsFireball0Tex, gHidanObjectsFireball1Tex, gHidanObjectsFireball2Tex, gHidanObjectsFireball3Tex,
-    gHidanObjectsFireball4Tex, gHidanObjectsFireball5Tex, gHidanObjectsFireball6Tex, gHidanObjectsFireball7Tex,
+    gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
+    gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
 };
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -85,9 +85,9 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (this->dyna.actor.params == 0) {
-        CollisionHeader_GetVirtual(&gHidanObjectsCol_0120E8, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleCol_0120E8, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gHidanObjectsCol_00FAE8, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleCol_00FAE8, &colHeader);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -257,7 +257,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
                   Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 611),
                                    Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfx++, gHidanObjectsDL_00DC30);
+        gSPDisplayList(gfx++, gFireTempleDL_00DC30);
     }
     mtxF.wx = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
     mtxF.wz = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
@@ -266,7 +266,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
                                Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfx++, gHidanObjectsDL_00DC30);
+    gSPDisplayList(gfx++, gFireTempleDL_00DC30);
     return gfx;
 }
 
@@ -278,9 +278,9 @@ void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, gHidanObjectsDL_00C338);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleDL_00C338);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, gHidanObjectsDL_00C470);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleDL_00C470);
         if (this->actionFunc == func_8088E7A8) {
             POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);

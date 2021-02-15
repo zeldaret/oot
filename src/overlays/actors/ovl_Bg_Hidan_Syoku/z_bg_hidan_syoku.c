@@ -43,7 +43,7 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&gHidanObjectsCol_00E568, &colHeader);
+    CollisionHeader_GetVirtual(&gFireTempleFlareDancerPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
     this->dyna.actor.home.pos.y += 540.0f;
@@ -124,5 +124,5 @@ void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00A7E0);
+    Gfx_DrawDListOpa(globalCtx, gFireTempleFlareDancerPlatformDL);
 }

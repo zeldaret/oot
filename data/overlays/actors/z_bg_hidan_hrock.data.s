@@ -24,5 +24,5 @@ glabel D_808898A4
 glabel D_808898A8
  .word 0xC8500064, 0x306CFFFF
 glabel D_808898B0
- .word gHidanObjectsTallestPillarAboveRoomBeforeBossDL, gHidanObjectsDL_00C838, gHidanObjectsDL_00C838, 0x00000000
+ .word gFireTempleTallestPillarAboveRoomBeforeBossDL, gFireTemplePillarInsertedInGroundDL, gFireTemplePillarInsertedInGroundDL, 0x00000000
 

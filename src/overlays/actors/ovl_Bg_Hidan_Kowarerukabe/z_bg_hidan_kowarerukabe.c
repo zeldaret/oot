@@ -36,7 +36,7 @@ const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     (ActorFunc)BgHidanKowarerukabe_Draw,
 };
 
-static Gfx* sBreakableWallDLists[] = { gHidanObjectsDL_00B9C0, gHidanObjectsDL_00C038, gHidanObjectsDL_00B900 };
+static Gfx* sBreakableWallDLists[] = { gFireTempleCrackedStoneFloorDL, gFireTempleBombableWallDL, gFireTempleLargeBombableWallDL };
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
@@ -67,9 +67,9 @@ static ColliderJntSphInit sJntSphInit = {
 
 void BgHidanKowarerukabe_InitDynaPoly(BgHidanKowarerukabe* this, GlobalContext* globalCtx) {
     static CollisionHeader* collisionHeaders[] = {
-        &gHidanObjectsCol_00D800,
-        &gHidanObjectsCol_00D878,
-        &gHidanObjectsCol_00D8F8,
+        &gFireTempleCrackedStoneFloorCol,
+        &gFireTempleBombableWallCol,
+        &gFireTempleLargeBombableWallCol,
     };
     s32 pad;
     CollisionHeader* colHeader = NULL;

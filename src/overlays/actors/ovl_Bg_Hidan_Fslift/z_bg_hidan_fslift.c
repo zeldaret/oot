@@ -47,7 +47,7 @@ void BgHidanFslift_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&gHidanObjectsCol_00E1E8, &colHeader);
+    CollisionHeader_GetVirtual(&gFireTempleHookshotElevatorCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     if (Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_OBJ_HSBLOCK,
                            this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y + 40.0f,
@@ -141,5 +141,5 @@ void BgHidanFslift_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanFslift_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, gHidanObjectsDL_00B630);
+    Gfx_DrawDListOpa(globalCtx, gFireTempleHookshotElevatorDL);
 }
