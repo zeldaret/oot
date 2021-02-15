@@ -830,8 +830,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Hrock"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Hrock/z_bg_hidan_hrock.o"
-    include "build/data/overlays/actors/z_bg_hidan_hrock.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_hrock.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Hrock/ovl_Bg_Hidan_Hrock_reloc.o"
 endseg
 
 beginseg
