@@ -313,7 +313,7 @@ void EnClearTag_CalculateFloorTangent(EnClearTag* this) {
     f32 y;
     f32 z;
 
-    // If there is a floor poly below the arwing, calculate the floor tangent.
+    // If there is a floor poly below the Arwing, calculate the floor tangent.
     if (this->actor.floorPoly != NULL) {
         x = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.x);
         y = COLPOLY_GET_NORMAL(this->actor.floorPoly->normal.y);
@@ -328,17 +328,17 @@ void EnClearTag_CalculateFloorTangent(EnClearTag* this) {
  * EnClear_Tag update function.
  *
  * ClearTag has three variants:
- * CLEAR_TAG_CUTSCENE_ARWING which is the regular arwing and plays a cutscene on spawn.
- * CLEAR_TAG_ARWING which is a regular arwing.
- * CLEAR_TAG_LASER which are the lasers fired by the arwing.
+ * CLEAR_TAG_CUTSCENE_ARWING which is the regular Arwing and plays a cutscene on spawn.
+ * CLEAR_TAG_ARWING which is a regular Arwing.
+ * CLEAR_TAG_LASER which are the lasers fired by the Arwing.
  *
- * This function controls the Arwing flying. A target position is set and the arwing flies toward it based on
+ * This function controls the Arwing flying. A target position is set and the Arwing flies toward it based on
  * calculated directions from the current position.
  * This function fires Arwing lasers when the state is CLEAR_TAG_STATE_TARGET_LOCKED.
  * This function controls the cutscene that plays when the Arwing has params for
  * cutscene. The cutscene stops playing when the Arwing is a specified distance from the starting point.
  *
- * work[0] for Arwing in locked on mode is a timeout when the arwing reverts back to flying mode.
+ * work[0] for Arwing in locked on mode is a timeout when the Arwing reverts back to flying mode.
  * work[0] for Arwing in fly mode is a timeout for when you can enter locked on mode.
  * work[0] for lasers is a cutscene timer.
  * work[1] for Arwing is a timeout for when it will enter locked on mode.
@@ -482,7 +482,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         this->state = CLEAR_TAG_STATE_FLYING;
                     }
 
-                    // Calculate the direction for the Arwing to fly and the rotation for the arwing
+                    // Calculate the direction for the Arwing to fly and the rotation for the Arwing
                     // based on the Arwing's direction, and current rotation.
                     yWorldRotationTarget = (s32)(Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * 10430.378f);
                     xWorldRotationTarget = (s32)(
@@ -755,7 +755,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1030),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, arwingDL);
+            gSPDisplayList(POLY_OPA_DISP++, ArwingDL);
 
             // Draw the Arwing Backfire
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
@@ -769,7 +769,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 0);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1067),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, arwingBackfireDL);
+            gSPDisplayList(POLY_XLU_DISP++, ArwingBackfireDL);
 
             // Draw the Arwing shadow.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 130);
@@ -793,7 +793,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, arwingShadowDL);
+            gSPDisplayList(POLY_XLU_DISP++, ArwingShadowDL);
         }
     }
 
