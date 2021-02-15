@@ -4079,13 +4079,13 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     }
 }
 
-void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
+void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
     f32 dx = arg1->x - arg0->x;
     f32 dz = arg1->z - arg0->z;
     f32 dy = arg3 ? (arg1->y - arg0->y) : (arg0->y - arg1->y);
 
-    arg2[1] = Math_Atan2S(dz, dx);
-    arg2[0] = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
+    arg2->y = Math_Atan2S(dz, dx);
+    arg2->x = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
 }
 
 /**
