@@ -21,7 +21,7 @@ void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx);
 void EnAnubice_FindFlameCircles(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_SetupIdle(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx);
-void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx);
+void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubis_SetupShootFireball(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubis_ShootFireball(EnAnubice* this, GlobalContext* globalCtx);
 void EnAnubice_Die(EnAnubice* this, GlobalContext* globalCtx);
@@ -151,7 +151,7 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.shape.yOffset = -4230.0f;
     this->focusHeightOffset = 0.0f;
     this->actor.flags &= ~1;
-    this->initialPos = this->actor.world.pos;
+    this->home = this->actor.world.pos;
     this->actor.targetMode = 3;
     this->actionFunc = EnAnubice_FindFlameCircles;
 }
@@ -230,12 +230,12 @@ void EnAnubice_Idle(EnAnubice* this, GlobalContext* globalCtx) {
         } else if (this->isLinkOutOfRange) {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
-            this->actionFunc = EnAnubice_GoToInitPos;
+            this->actionFunc = EnAnubice_GoToHome;
         }
     }
 }
 
-void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
+void EnAnubice_GoToHome(EnAnubice* this, GlobalContext* globalCtx) {
     f32 xzdist;
     f32 xRatio;
     f32 zRatio;
@@ -250,10 +250,9 @@ void EnAnubice_GoToInitPos(EnAnubice* this, GlobalContext* globalCtx) {
         Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, 3000, 0);
     }
 
-    if (fabsf(this->initialPos.x - this->actor.world.pos.x) > 3.0f &&
-        fabsf(this->initialPos.z - this->actor.world.pos.z) > 3.0f) {
-        x = this->initialPos.x - this->actor.world.pos.x;
-        z = this->initialPos.z - this->actor.world.pos.z;
+    if (fabsf(this->home.x - this->actor.world.pos.x) > 3.0f && fabsf(this->home.z - this->actor.world.pos.z) > 3.0f) {
+        x = this->home.x - this->actor.world.pos.x;
+        z = this->home.z - this->actor.world.pos.z;
         xzdist = sqrtf(SQ(x) + SQ(z));
         xRatio = ((x) / xzdist);
         zRatio = ((z) / xzdist);
@@ -469,7 +468,7 @@ s32 EnAnubis_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
                               void* thisx) {
     EnAnubice* this = THIS;
 
-    if (limbIndex == 0xD) {
+    if (limbIndex == 13) {
         rot->z += this->unk_278;
     }
 
@@ -480,7 +479,7 @@ void EnAnubis_PostLimbDraw(struct GlobalContext* globalCtx, s32 limbIndex, Gfx**
     EnAnubice* this = THIS;
     Vec3f sp38 = D_809B2334;
 
-    if (limbIndex == 0xD) {
+    if (limbIndex == 13) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice.c", 853);
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_anubice.c", 856),
@@ -496,6 +495,6 @@ void EnAnubice_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubice* this = THIS;
 
     func_80093D84(globalCtx->state.gfxCtx);
-    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, &EnAnubis_OverrideLimbDraw,
-                      &EnAnubis_PostLimbDraw, this);
+    SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnAnubis_OverrideLimbDraw,
+                      EnAnubis_PostLimbDraw, this);
 }
