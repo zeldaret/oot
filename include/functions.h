@@ -524,11 +524,7 @@ u8 func_800355E4(GlobalContext* globalCtx, Collider* collider);
 u8 Actor_ApplyDamage(Actor* actor);
 void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
 void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
-<<<<<<< HEAD
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
-=======
-void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3);
->>>>>>> master
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
                       GlobalContext* globalCtx, s16 params, s32 arg8);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
@@ -2416,7 +2412,7 @@ void* SystemArena_Malloc(u32 size);
 void* SystemArena_MallocDebug(u32 size, const char* file, s32 line);
 void* SystemArena_MallocR(u32 size);
 void* SystemArena_MallocRDebug(u32 size, const char* file, s32 line);
-void* SystemArena_Realloc(void* ptr, u32 newSize);
+void* SystemArena_Realloc(void* ptr, u32; newSize);
 void* SystemArena_ReallocDebug(void* ptr, u32 newSize, const char* file, s32 line);
 void SystemArena_Free(void* ptr);
 void SystemArena_FreeDebug(void* ptr, const char* file, s32 line);
