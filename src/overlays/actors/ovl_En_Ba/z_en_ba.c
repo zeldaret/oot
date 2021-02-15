@@ -120,7 +120,7 @@ void EnBa_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_SetScale(&this->actor, 0.01f);
         EnBa_SetupIdle(this);
         this->actor.colChkInfo.health = 4;
-        this->actor.colChkInfo.mass = 0xFE;
+        this->actor.colChkInfo.mass = MASS_HEAVY;
         Collider_InitJntSph(globalCtx, &this->collider);
         Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     } else {
@@ -142,13 +142,12 @@ void EnBa_SetupIdle(EnBa* this) {
 }
 
 void EnBa_Idle(EnBa* this, GlobalContext* globalCtx) {
-    Player* player;
+    Player* player = PLAYER;
     s32 i;
     s32 pad;
     Vec3s sp5C;
-    player = PLAYER;
 
-    if ((this->actor.colChkInfo.mass == 0xFF) && (this->actor.xzDistToPlayer > 175.0f)) {
+    if ((this->actor.colChkInfo.mass == MASS_IMMOVABLE) && (this->actor.xzDistToPlayer > 175.0f)) {
         Math_SmoothStepToF(&this->actor.world.pos.y, this->actor.home.pos.y + 330.0f, 1.0f, 7.0f, 0.0f);
     } else {
         this->actor.flags |= 1;
@@ -215,7 +214,6 @@ void EnBa_FallAsBlob(EnBa* this, GlobalContext* globalCtx) {
         this->unk318--;
         if (this->unk318 == 0) {
             Actor_Kill(&this->actor);
-            return;
         }
     } else {
         Actor_MoveForward(&this->actor);
@@ -228,7 +226,7 @@ void EnBa_SetupSwingAtPlayer(EnBa* this) {
     this->unk318 = 20;
     this->unk31A = 0;
     this->unk31C = 1500;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.speedXZ = 20.0f;
     EnBa_SetupAction(this, EnBa_SwingAtPlayer);
 }
@@ -317,18 +315,18 @@ void EnBa_SwingAtPlayer(EnBa* this, GlobalContext* globalCtx) {
     }
     if ((this->actor.xzDistToPlayer > 175.0f) || (player->stateFlags1 & 0x4000000)) {
         EnBa_SetupIdle(this);
-        return;
+    } else {
+        EnBa_SetupSwingAtPlayer(this);
+        this->unk318 = 27;
+        this->unk31C = 750;
     }
-    EnBa_SetupSwingAtPlayer(this);
-    this->unk318 = 27;
-    this->unk31C = 750;
 }
 
 void func_809B7174(EnBa* this) {
     this->unk14C = 1;
     this->unk31C = 1500;
     this->unk318 = 20;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
     this->actor.speedXZ = 10.0f;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_HAND_DAMAGE);
     func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
