@@ -555,7 +555,7 @@ void EnGe2_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
     } else if (this->collider.base.acFlags & 2) {
         if ((this->collider.info.acHitInfo != NULL) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x80)) {
-            func_8003426C(&this->actor, 0, 120, 0, 400);
+            Actor_SetColorFilter(&this->actor, 0, 120, 0, 400);
             this->actor.update = EnGe2_UpdateStunned;
             return;
         }

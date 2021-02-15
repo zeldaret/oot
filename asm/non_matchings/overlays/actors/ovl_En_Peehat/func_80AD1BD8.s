@@ -65,7 +65,7 @@ glabel func_80AD1BD8
 /* 02820 80AD1CC0 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02824 80AD1CC4 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 02828 80AD1CC8 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 0282C 80AD1CCC 0C00D09B */  jal     func_8003426C              
+/* 0282C 80AD1CCC 0C00D09B */  jal     Actor_SetColorFilter              
 /* 02830 80AD1CD0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 02834 80AD1CD4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02838 80AD1CD8 0C00BE0A */  jal     Audio_PlayActorSound2
@@ -117,7 +117,7 @@ glabel func_80AD1BD8
 /* 028D8 80AD1D78 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 028DC 80AD1D7C 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 028E0 80AD1D80 240600C8 */  addiu   $a2, $zero, 0x00C8         ## $a2 = 000000C8
-/* 028E4 80AD1D84 0C00D09B */  jal     func_8003426C              
+/* 028E4 80AD1D84 0C00D09B */  jal     Actor_SetColorFilter              
 /* 028E8 80AD1D88 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 .L80AD1D8C:
 /* 028EC 80AD1D8C 922900AF */  lbu     $t1, 0x00AF($s1)           ## 000000AF
