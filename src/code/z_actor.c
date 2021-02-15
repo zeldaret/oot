@@ -3566,13 +3566,13 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(globalCtx, arg1);
 }
 
-void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
-    if ((arg1 == 0x8000) && !(arg2 & 0x8000)) {
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
+    if ((colorFlag == 0x8000) && !(colorIntensityMax & 0x8000)) {
         Audio_PlayActorSound2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
-    actor->colorFilterParams = arg1 | arg3 | ((arg2 & 0xF8) << 5) | arg4;
-    actor->colorFilterTimer = arg4;
+    actor->colorFilterParams = colorFlag | xluFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
+    actor->colorFilterTimer = duration;
 }
 
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
