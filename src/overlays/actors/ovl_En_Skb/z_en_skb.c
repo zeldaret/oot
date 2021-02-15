@@ -539,7 +539,7 @@ s32 EnSkb_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 #ifdef NON_MATCHING
-Regalloc issues
+// t1 needs to be skipped when storing the args for the second function call
 void EnSkb_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     EnSkb* this = THIS;
 
