@@ -57,8 +57,8 @@
         <Texture Name="gFireTempleFireball6Tex" OutName="fireball_6" Format="ia8" Width="32" Height="32" Offset="0x17520"/>
         <Texture Name="gFireTempleFireball7Tex" OutName="fireball_7" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
 
-        <DList Name="gFireTempleDL_00AD00" Offset="0xAD00"/>
-        <Collision Name="gFireTempleCol_00D5C0" Offset="0xD5C0"/>
+        <DList Name="gFireTempleSpinningFlamethrowerDL" Offset="0xAD00"/>
+        <Collision Name="gFireTempleSpinningFlamethrowerCol" Offset="0xD5C0"/>
 
         <DList Name="gFireTempleStationaryFlamethrowerTallDL" Offset="0xABC8"/>
         <DList Name="gFireTempleStationaryFlamethrowerShortDL" Offset="0xB0F8"/>
