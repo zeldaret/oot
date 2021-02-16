@@ -112,7 +112,7 @@ void EnNy_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.damageTable = &sDamageTable;
     this->actor.colChkInfo.health = 2;
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, &this->elements);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, this->elements);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     this->unk_1CA = 0;
     this->unk_1D0 = 0;
@@ -316,16 +316,16 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
                         sp3F = 1;
                     case 0xF:
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         break;
                     case 1:
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         break;
                     case 2:
                         this->unk_1CA = 4;
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         break;
                 }
             }

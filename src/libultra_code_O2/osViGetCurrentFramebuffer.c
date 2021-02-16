@@ -1,12 +1,10 @@
 #include "global.h"
 
-u32* osViGetCurrentFramebuffer() {
-    register u32 sMask = __osDisableInt();
-    u32* var1;
+u32* osViGetCurrentFramebuffer(void) {
+    register u32 prevInt = __osDisableInt();
+    u32* var1 = __osViCurr->buffer;
 
-    var1 = __osViCurr->buffer;
-
-    __osRestoreInt(sMask);
+    __osRestoreInt(prevInt);
 
     return var1;
 }

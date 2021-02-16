@@ -56,5 +56,5 @@ void ItemInbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002EBCC(&this->actor, globalCtx, 0);
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, this->actor.params & 0xFF);
+    GetItem_Draw(globalCtx, this->actor.params & 0xFF);
 }

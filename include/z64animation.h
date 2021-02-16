@@ -51,7 +51,7 @@ typedef struct {
     /* 0x06 */ u8 child;
     /* 0x07 */ u8 sibling;
     /* 0x08 */ s32 unk_8; // Type of data contained in segment
-    /* 0x0C */ UNK_PTR segment; // Segment address of data. Currently unclear what.
+    /* 0x0C */ void* segment; // Segment address of data. Currently unclear what.
 } SkinLimb; // size = 0x10
 
 // Model has limbs with only rigid meshes
@@ -266,11 +266,12 @@ typedef struct SkelAnime {
 
 typedef struct {
     /* 0x000 */ u16 unk_0;
-    /* 0x002 */ char unk_2[0x4];
+    /* 0x002 */ s16 unk_2;
+    /* 0x004 */ s16 unk_4;
     /* 0x006 */ s8 unk_6;
     /* 0x007 */ s8 unk_7;
     /* 0x008 */ s8 unk_8;
-    /* 0x009 */ char unk_9[0x1];
+    /* 0x009 */ u8 unk_9;
 } Struct_800A57C0; // size = 0xA
 
 typedef struct {
@@ -282,19 +283,19 @@ typedef struct {
 } Struct_800A598C_2; // size = 0xA
 
 typedef struct {
-    /* 0x000 */ char unk_0[0x2];
+    /* 0x000 */ u16 unk_0;
     /* 0x002 */ u16 unk_2;
-    /* 0x004 */ u32  unk_4;
-    /* 0x008 */ Gfx* unk_8;
-} Struct_800A5E28;
+    /* 0x004 */ u16 unk_4;
+    /* 0x008 */ Struct_800A57C0* unk_8;
+    /* 0x00C */ Struct_800A598C_2* unk_C;
+} Struct_800A598C; // size = 0x10
 
 typedef struct {
     /* 0x000 */ u16 unk_0;
     /* 0x002 */ u16 unk_2;
-    /* 0x004 */ u16 unk_4;
-    /* 0x008 */ s32 unk_8;
-    /* 0x00C */ s32 unk_C;
-} Struct_800A598C; // size = 0x10
+    /* 0x004 */ Struct_800A598C* unk_4;
+    /* 0x008 */ Gfx* unk_8;
+} Struct_800A5E28;
 
 typedef struct {
     /* 0x000 */ u8 unk_0;

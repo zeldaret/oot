@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fd.c
+ * Overlay: ovl_En_Fd
+ * Description: Flare Dancer (enflamed form)
+ */
+
 #include "z_en_fd.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -312,7 +318,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
  */
 s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     CollisionPoly* colPoly;
-    u32 bgId;
+    s32 bgId;
     Vec3f colPoint;
     s16 angle;
     s32 pad;
@@ -400,7 +406,7 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
 
 s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16* runDir) {
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f colPoint;
     Vec3f pos;
 

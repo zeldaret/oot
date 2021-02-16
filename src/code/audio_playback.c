@@ -11,8 +11,8 @@ void Audio_NoteSetVelPanReverb(Note* note, NoteSubEu* sub, Reverb* reverb) {
     u8 reverbVol;
     ReverbBitsData sp24;
     s32 stereoHeadsetEffects = note->playbackState.stereoHeadsetEffects;
-    vel = reverb->velocity;
 
+    vel = reverb->velocity;
     pan = reverb->pan;
     reverbVol = reverb->reverb;
     sp24 = reverb->reverbBits.s;
@@ -815,9 +815,10 @@ Note* Audio_AllocNoteFromDecaying(NotePool* pool, SequenceChannelLayer* seqLayer
 Note* Audio_AllocNoteFromActive(NotePool* pool, SequenceChannelLayer* seqLayer) {
     Note* rNote;
     Note* aNote;
-    s32 rPriority, aPriority;
-    rPriority = aPriority = 0x10;
+    s32 rPriority;
+    s32 aPriority;
 
+    rPriority = aPriority = 0x10;
     rNote = Audio_PopNodeWithValueLessEqual(&pool->releasing, seqLayer->seqChannel->notePriority);
 
     if (rNote != NULL) {

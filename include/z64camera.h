@@ -845,7 +845,7 @@ typedef struct {
     /* 0x000C */ Vec3f norm;
     /* 0x0018 */ CollisionPoly* poly;
     /* 0x001C */ VecSph sphNorm;
-    /* 0x0024 */ u32 bgId;
+    /* 0x0024 */ s32 bgId;
 } CamColChk; // size = 0x28
 
 typedef struct {

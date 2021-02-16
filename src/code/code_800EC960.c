@@ -391,7 +391,6 @@ void func_800ECDBC(void) {
     }
 }
 
-#define NON_MATCHING
 #ifdef NON_MATCHING
 void func_800ECDF8(void) {
     u16 sh;
@@ -2966,7 +2965,7 @@ void func_800F6114(f32 arg0) {
     D_80130620 = arg0;
 }
 
-void func_800F6268(f32 arg0, u16 arg1);
+#ifdef NON_MATCHING
 void func_800F6268(f32 arg0, u16 arg1) {
     s8 temp_a0;
     s8 phi_v1;
@@ -3016,7 +3015,10 @@ void func_800F6268(f32 arg0, u16 arg1) {
         }
     }
 }
-//#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F6268.s")
+#else
+void func_800F6268(f32 arg0, u16 arg1);
+#pragma GLOBAL_ASM("asm/non_matchings/code/code_800EC960/func_800F6268.s")
+#endif
 
 void func_800F64E0(u8 arg0) {
     D_80130608 = arg0;

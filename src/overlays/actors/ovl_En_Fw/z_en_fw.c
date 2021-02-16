@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fw.c
+ * Overlay: ovl_En_Fw
+ * Description: Flare Dancer Core
+ */
+
 #include "z_en_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
@@ -97,7 +103,7 @@ s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
 s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f collisionPos;
 
     if (this->actor.xzDistToPlayer > 300.0f) {
@@ -243,7 +249,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         if (this->actor.colorFilterTimer == 0) {
-            func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
             this->explosionTimer--;
         }
 
@@ -261,7 +267,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         }
     } else {
         if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0.0f) {
-            func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
             return;
         }
         DECR(this->damageTimer);

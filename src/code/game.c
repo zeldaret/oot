@@ -1,13 +1,6 @@
 #include "global.h"
 #include "vt.h"
 
-typedef struct {
-    /* 0x0000 */ OSViMode viMode;
-    /* 0x0050 */ char unk_50[0x30];
-    /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ char unk_84[4];
-} unk_80166528;
-
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
 struct_80166500 D_80166500;
@@ -32,6 +25,7 @@ void GameState_FaultPrint(void) {
 void GameState_SetFBFilter(Gfx** gfx) {
     Gfx* gfxP;
     gfxP = *gfx;
+
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
         D_801664F0.type = R_FB_FILTER_TYPE;
         D_801664F0.color.r = R_FB_FILTER_PRIM_COLOR(0);
@@ -75,7 +69,7 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (HREG(80) == 0xC) {
-        selectedInput = &gameState->input[HREG(81) < 4U ? HREG(81) : 0];
+        selectedInput = &gameState->input[(u32)HREG(81) < 4U ? HREG(81) : 0];
         hReg82 = HREG(82);
         HREG(83) = selectedInput->cur.button;
         HREG(84) = selectedInput->press.button;
@@ -234,8 +228,10 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
 
+void PadMgr_RequestPadData(PadMgr*, Input*, s32);
+
 void GameState_ReqPadData(GameState* gameState) {
-    PadMgr_RequestPadData(&gPadMgr, &gameState->input, 1);
+    PadMgr_RequestPadData(&gPadMgr, &gameState->input[0], 1);
 }
 
 void GameState_Update(GameState* gameState) {
@@ -346,9 +342,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     u32 systemMaxFree;
     u32 systemFree;
     u32 systemAlloc;
-    void* thaBufp;
+    void* thaBufp = gameState->tha.bufp;
 
-    thaBufp = gameState->tha.bufp;
     THA_Dt(&gameState->tha);
     GameAlloc_Free(alloc, thaBufp);
     // Hyrule temporarily released !!
@@ -482,7 +477,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     if (THA_IsCrash(&gameState->tha)) {
         osSyncPrintf("ハイラルは滅亡している\n");
         ret = NULL;
-    } else if (THA_GetSize(&gameState->tha) < size) {
+    } else if ((u32)THA_GetSize(&gameState->tha) < size) {
         // Hyral on the verge of extinction does not have% d bytes left (% d bytes until extinction)
         osSyncPrintf("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n", size,
                      THA_GetSize(&gameState->tha));

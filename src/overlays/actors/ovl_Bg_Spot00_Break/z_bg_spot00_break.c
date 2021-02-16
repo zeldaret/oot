@@ -44,26 +44,26 @@ void BgSpot00Break_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
 
-    if (this->actor.params == 1) {
+    if (this->dyna.actor.params == 1) {
         CollisionHeader_GetVirtual(&D_06000AF0, &colHeader);
     } else {
         CollisionHeader_GetVirtual(&D_06000908, &colHeader);
     }
 
-    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     if (LINK_IS_CHILD) {
-        Actor_Kill(&this->actor);
+        Actor_Kill(&this->dyna.actor);
     }
 }
 
 void BgSpot00Break_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -72,7 +72,7 @@ void BgSpot00Break_Update(Actor* thisx, GlobalContext* globalCtx) {
 void BgSpot00Break_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot00Break* this = THIS;
 
-    if (this->actor.params == 1) {
+    if (this->dyna.actor.params == 1) {
         Gfx_DrawDListOpa(globalCtx, D_06000980);
     } else {
         Gfx_DrawDListOpa(globalCtx, D_06000440);

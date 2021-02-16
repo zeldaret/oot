@@ -1278,13 +1278,13 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
     }
 }
 
-s32 D_8015BBA8[16];
+Mtx D_8015BBA8;
 
 Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx, Gfx* gfx, Hilite** hilite) {
-    Gfx* lookAt;
+    LookAt* lookAt;
     f32 correctedEyeX;
 
-    lookAt = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    lookAt = Graph_Alloc(gfxCtx, sizeof(LookAt));
 
     correctedEyeX = (eye->x == object->x) && (eye->z == object->z) ? eye->x + 0.001f : eye->x;
 
@@ -1777,8 +1777,8 @@ void func_8002FA60(GlobalContext* globalCtx) {
 
 Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
 Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-Color_RGB8 D_80116060 = { 255, 255, 255 };
-Color_RGB8 D_80116064 = { 100, 200, 0 };
+Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
 
 #ifdef NON_MATCHING
 // saved register, stack usage and minor ordering differences
@@ -2754,7 +2754,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
         osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->nbLoaded);
     }
 
-    Lib_MemSet(actor, actorInit->instanceSize, 0);
+    Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
     actor->overlayEntry = overlayEntry;
     actor->id = actorInit->id;
     actor->flags = actorInit->flags;
@@ -2982,7 +2982,7 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
         }
 
         if (D_8015BBE8 == NULL) {
-            for (i; i < ARRAY_COUNT(D_801160A0); i++) {
+            for (; i < ARRAY_COUNT(D_801160A0); i++) {
                 func_800328D4(globalCtx, actorCtx, player, *entry);
                 entry++;
             }
@@ -3062,9 +3062,9 @@ void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
             sp20 = (arg1 * sizeof(*arg0->unk_04)) + sizeof(*arg0->unk_04);
             arg0->unk_04 = ZeldaArena_MallocDebug(sp20, "../z_actor.c", 7546);
             if (arg0->unk_04 != NULL) {
-                Lib_MemSet(arg0->unk_00, sp28, 0);
-                Lib_MemSet(arg0->unk_0C, sp24, 0);
-                Lib_MemSet(arg0->unk_04, sp20, 0);
+                Lib_MemSet((u8*)arg0->unk_00, sp28, 0);
+                Lib_MemSet((u8*)arg0->unk_0C, sp24, 0);
+                Lib_MemSet((u8*)arg0->unk_04, sp20, 0);
                 arg0->unk_10 = 1;
                 return;
             }
@@ -3099,7 +3099,7 @@ void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4
             arg0->unk_08++;
         }
 
-        if (arg0->unk_08 >= arg4) {
+        if ((u32)arg0->unk_08 >= arg4) {
             arg0->unk_08 = arg0->unk_10 - 1;
             arg0->unk_10 = -1;
         }
@@ -3566,13 +3566,13 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(globalCtx, arg1);
 }
 
-void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
-    if ((arg1 == 0x8000) && !(arg2 & 0x8000)) {
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
+    if ((colorFlag == 0x8000) && !(colorIntensityMax & 0x8000)) {
         Audio_PlayActorSound2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
-    actor->colorFilterParams = arg1 | arg3 | ((arg2 & 0xF8) << 5) | arg4;
-    actor->colorFilterTimer = arg4;
+    actor->colorFilterParams = colorFlag | xluFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
+    actor->colorFilterTimer = duration;
 }
 
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
@@ -3964,8 +3964,8 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
 }
 
 void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
-    Color_RGB8 color1;
-    Color_RGB8 color2;
+    Color_RGBA8 color1;
+    Color_RGBA8 color2;
 
     color1.r = 200;
     color1.g = 160;
@@ -3975,6 +3975,7 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     color2.g = 90;
     color2.b = 50;
 
+    //! @bug color1 and color2 alpha components not set before being passed on
     EffectSsKiraKira_SpawnSmall(globalCtx, arg1, arg2, arg3, &color1, &color2);
 }
 
@@ -4078,20 +4079,20 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     }
 }
 
-void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
+void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
     f32 dx = arg1->x - arg0->x;
     f32 dz = arg1->z - arg0->z;
     f32 dy = arg3 ? (arg1->y - arg0->y) : (arg0->y - arg1->y);
 
-    arg2[1] = Math_Atan2S(dz, dx);
-    arg2[0] = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
+    arg2->y = Math_Atan2S(dz, dx);
+    arg2->x = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
 }
 
 /**
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
-EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
-                      GlobalContext* globalCtx, s16 params, s32 arg8) {
+Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
+                     GlobalContext* globalCtx, s16 params, s32 arg8) {
     EnPart* spawnedEnPart;
 
     spawnedEnPart =
@@ -4105,7 +4106,7 @@ EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3,
         spawnedEnPart->timer = timer;
         spawnedEnPart->rotZ = arg3[1];
         spawnedEnPart->rotZSpeed = arg3[2];
-        return spawnedEnPart;
+        return &spawnedEnPart->actor;
     }
 
     return NULL;
