@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_spot00_objects" Segment="6">
+        <DList Name="gBgSpot00HanebasiChainsDL" Offset="0xC0"/>
+        <Collision Name="gBgSpot00HanebasiChainsCol" Offset="0x280"/>
+        <DList Name="gBgSpot00HanebasiBridgeDL" Offset="0x430"/>
+        <Collision Name="gBgSpot00HanebasiDrawbridgeCol" Offset="0x5E0"/>
+    </File>
+</Root>
