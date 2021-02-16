@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_rsekizou.c
+ * Overlay: ovl_Bg_Hidan_Rsekizou
+ * Description: 
+ */
+
 #include "z_bg_hidan_rsekizou.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 

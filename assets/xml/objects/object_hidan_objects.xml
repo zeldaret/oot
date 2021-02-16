@@ -28,11 +28,12 @@
         <DList Name="gFireTempleLargeBombableWallDL" Offset="0xB900"/>
         <Collision Name="gFireTempleLargeBombableWallCol" Offset="0xD8F8"/>
 
-        <DList Name="gFireTempleDL_00C100" Offset="0xC100"/>
-        <Collision Name="gFireTempleCol_00CB80" Offset="0xCB80"/>
-        <DList Name="gFireTempleDL_00C1F0" Offset="0xC1F0"/>
-        <Collision Name="gFireTempleCol_00DF78" Offset="0xDF78"/>
+        <DList Name="gFireTempleStoneBlock1DL" Offset="0xC100"/>
+        <Collision Name="gFireTempleStoneBlock1Col" Offset="0xCB80"/>
+        <DList Name="gFireTempleStoneBlock2DL" Offset="0xC1F0"/>
+        <Collision Name="gFireTempleStoneBlock2Col" Offset="0xDF78"/>
 
+        <!-- This DList uses the textures below (that are also unnamed) -->
         <DList Name="gFireTempleDL_00CA10" Offset="0xCA10"/>
 
         <Texture Name="gFireTempleTex_012120" OutName="tex_012120" Format="ia8" Width="32" Height="60" Offset="0x12120"/>

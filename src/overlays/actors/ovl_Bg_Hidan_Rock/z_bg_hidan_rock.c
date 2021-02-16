@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_rock.c
+ * Overlay: ovl_Bg_Hidan_Rock
+ * Description: Stone blocks (Fire Temple)
+ */
+
 #include "z_bg_hidan_rock.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
@@ -88,9 +94,9 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actionFunc = func_8088B268;
         }
         thisx->flags |= 0x30;
-        CollisionHeader_GetVirtual(&gFireTempleCol_00CB80, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStoneBlock1Col, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gFireTempleCol_00DF78, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStoneBlock2Col, &colHeader);
         this->collider.dim.pos.x = thisx->home.pos.x;
         this->collider.dim.pos.y = thisx->home.pos.y;
         this->collider.dim.pos.z = thisx->home.pos.z;
@@ -374,9 +380,9 @@ void BgHidanRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     if (this->type == 0) {
-        Gfx_DrawDListOpa(globalCtx, gFireTempleDL_00C100);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleStoneBlock1DL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, gFireTempleDL_00C1F0);
+        Gfx_DrawDListOpa(globalCtx, gFireTempleStoneBlock2DL);
     }
 
     if (this->unk_16C > 0.0f) {
