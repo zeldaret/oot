@@ -1,4 +1,4 @@
-CC := g++
+CC := g++-10
 
 ifneq (, $(shell which ccache))
 CC := ccache $(CC)
