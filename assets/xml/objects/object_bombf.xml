@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_bombf" Segment="6">
+        <DList Name="gBombFlowerLeavesDL" Offset="0x340"/>
+        <DList Name="gBombFlowerBombAndSparkDL" Offset="0x408"/>
+        <DList Name="gBombFlowerBaseLeavesDL" Offset="0x530"/>
+    </File>
+</Root>

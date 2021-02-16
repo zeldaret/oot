@@ -3758,7 +3758,8 @@ endseg
 beginseg
     name "object_bombf"
     romalign 0x1000
-    include "build/baserom/object_bombf.o"
+    include "build/assets/objects/object_bombf/object_bombf.o"
+    number 6
 endseg
 
 beginseg
