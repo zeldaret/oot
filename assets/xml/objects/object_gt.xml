@@ -1,13 +1,13 @@
 <Root>
     <File Name="object_gt" Segment="6">
-        <Collision Name="gObjGtCol_005CB8" Offset="0x5CB8"/>
-        <Collision Name="gObjGtCol_0091E4" Offset="0x91E4"/>
-        <DList Name="gObjGtDL_002910" Offset="0x2910"/>
-        <DList Name="gObjGtDL_0041A0" Offset="0x41A0"/>
-        <DList Name="gObjGtDL_004F90" Offset="0x4F90"/>
-        <DList Name="gObjGtDL_007630" Offset="0x7630"/>
-        <DList Name="gObjGtDL_009610" Offset="0x9610"/>
-        <DList Name="gObjGtDL_009970" Offset="0x9970"/>
-        <DList Name="gObjGtDL_009B80" Offset="0x9B80"/>
+        <Collision Name="gTowerCollapseCsCollapsedStructureInnerCol" Offset="0x5CB8"/>
+        <Collision Name="gTowerCollapseCsCollapsedStructureOuterCol" Offset="0x91E4"/>
+        <DList Name="gTowerCollapseCsExteriorStructreDL" Offset="0x2910"/>
+        <DList Name="gTowerCollapseCsFlameSmokeDL" Offset="0x41A0"/>
+        <DList Name="gTowerCollapseCsCollapsedStructureInnerDL" Offset="0x4F90"/>
+        <DList Name="gTowerCollapseCsCollapsedStructureOuterDL" Offset="0x7630"/>
+        <DList Name="gTowerCollapseCsStandalonePillarDL" Offset="0x9610"/>
+        <DList Name="gTowerCollapseCsWalkwayDL" Offset="0x9970"/>
+        <DList Name="gTowerCollapseCsAlternativeWalkwayDL" Offset="0x9B80"/>
     </File>
 </Root>
