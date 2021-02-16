@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_spot04_objects" Segment="6">
+        <DList Name="gBgTreemouthDL" Offset="0x9D0"/>
+        <Collision Name="gBgTreemouthCol" Offset="0xE94"/>
+    </File>
+</Root>

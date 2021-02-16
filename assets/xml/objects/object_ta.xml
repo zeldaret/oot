@@ -1,0 +1,18 @@
+<Root>
+    <File Name="object_ta" Segment="6">
+        <Texture Name="gTalonPalette_006AC0" OutName="talon_pal_6AC0" Format="rgb5a1" Width="32" Height="16" Offset="0x6AC0"/>
+        <Texture Name="gTalonTex_006DC0" OutName="talon_6DC0" Format="ci8" Width="16" Height="16" Offset="0x6DC0"/>
+        <Texture Name="gTalonTex_006EC0" OutName="talon_6EC0" Format="ci8" Width="32" Height="32" Offset="0x6EC0"/>
+        <Texture Name="gTalonTex_0072C0" OutName="talon_72C0" Format="ci8" Width="32" Height="32" Offset="0x72C0"/>
+        <Texture Name="gTalonTex_007F80" OutName="talon_7F80" Format="ci8" Width="32" Height="32" Offset="0x7F80"/>
+        <Animation Name="gTalonAnim_0017E8" Offset="0x17E8"/>
+        <Animation Name="gTalonAnim_001C94" Offset="0x1C94"/>
+        <Skeleton Name="gTalonSkel_00B7B8" Type="Flex" LimbType="Standard" Offset="0xB7B8"/>
+        <Animation Name="gTalonAnim_00BF38" Offset="0xBF38"/>
+        <Animation Name="gTalonAnim_00C48C" Offset="0xC48C"/>
+        <Animation Name="gTalonAnim_00C858" Offset="0xC858"/>
+        <Animation Name="gTalonAnim_00CD50" Offset="0xCD50"/>
+        <Animation Name="gTalonAnim_00CF28" Offset="0xCF28"/>
+        <Animation Name="gTalonAnim_00E3D8" Offset="0xE3D8"/>
+    </File>
+</Root>
