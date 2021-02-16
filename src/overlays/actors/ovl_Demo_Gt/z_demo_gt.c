@@ -1,4 +1,5 @@
 #include "z_demo_gt.h"
+#include "objects/object_gt/object_gt.h"
 #include "vt.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
@@ -11,16 +12,16 @@ void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern CollisionHeader D_06005CB8;
-extern CollisionHeader D_060091E4;
+extern CollisionHeader gObjGtCol_005CB8;
+extern CollisionHeader gObjGtCol_0091E4;
 
-extern Gfx D_06009970[];
-extern Gfx D_06007630[];
-extern Gfx D_06004F90[];
-extern Gfx D_06009610[];
-extern Gfx D_06002910[];
-extern Gfx D_060041A0[];
-extern Gfx D_06009B08[];
+extern Gfx gObjGtDL_009970[];
+extern Gfx gObjGtDL_007630[];
+extern Gfx gObjGtDL_004F90[];
+extern Gfx gObjGtDL_009610[];
+extern Gfx gObjGtDL_002910[];
+extern Gfx gObjGtDL_0041A0[];
+extern Gfx gObjGtDL_009B80[];
 extern Gfx D_06000EA0[];
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -690,14 +691,14 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
                Gfx_TwoTexScrollEnvColor(gfxCtx, 0, 0, unk198[0], 0x20, 0x40, 1, 0, unk198[1], 0x20, 0x40, unk188[0],
                                         unk188[1], unk188[2], 0x80));
     gSPMatrix(POLY_OPA_DISP++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06002910);
+    gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_002910);
     func_80093D84(gfxCtx);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
     gSPSegment(
         POLY_XLU_DISP++, 0x09,
         Gfx_TwoTexScroll(gfxCtx, 0, 0, gameplayFrames * 0x14, 0x10, 0x200, 1, 0, gameplayFrames * 0x1E, 0x10, 0x200));
     gSPMatrix(POLY_XLU_DISP++, spB4, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_060041A0);
+    gSPDisplayList(POLY_XLU_DISP++, gObjGtDL_0041A0);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part1.c", 557);
 }
@@ -706,7 +707,7 @@ void func_8097F904_Init1(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
-    func_8097EE44(this, globalCtx, 1, 2, &D_06005CB8);
+    func_8097EE44(this, globalCtx, 1, 2, &gObjGtCol_005CB8);
 }
 
 void func_8097F960(DemoGt* this, GlobalContext* globalCtx) {
@@ -874,7 +875,7 @@ void DemoGt_Draw2(DemoGt* this, GlobalContext* globalCtx) {
                                         unk178[1], unk178[2], 128));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part2.c", 485),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06004F90);
+    gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_004F90);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part2.c", 489);
@@ -884,7 +885,7 @@ void func_80980110_Init2(DemoGt* this, GlobalContext* globalCtx) {
     this->dyna.actor.scale.x *= 10.0f;
     this->dyna.actor.scale.y *= 10.0f;
     this->dyna.actor.scale.z *= 10.0f;
-    func_8097EE44(this, globalCtx, 2, 3, &D_060091E4);
+    func_8097EE44(this, globalCtx, 2, 3, &gObjGtCol_0091E4);
 }
 
 void func_8098016C(DemoGt* this, GlobalContext* globalCtx) {
@@ -1184,7 +1185,7 @@ void DemoGt_Draw3(DemoGt* this, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_demo_gt_part3.c", 1028),
               G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06007630);
+    gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_007630);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part3.c", 1032);
@@ -1306,7 +1307,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
 
         func_80093D18(gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06009610);
+        gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_009610);
         gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
         CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_1.c", 246);
@@ -1425,7 +1426,7 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp60, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06009610);
+    gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_009610);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_2.c", 241);
@@ -1517,7 +1518,7 @@ void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp64, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06009610);
+    gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_009610);
     gSPPopMatrix(POLY_OPA_DISP++, G_MTX_MODELVIEW);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part4_3.c", 307);
@@ -1609,7 +1610,7 @@ void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06009970);
+    gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_009970);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part5.c", 160);
 }
@@ -1700,7 +1701,7 @@ void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_06009B08);
+    gSPDisplayList(POLY_OPA_DISP++, gObjGtDL_009B80);
 
     CLOSE_DISPS(gfxCtx, "../z_demo_gt_part6.c", 163);
 }

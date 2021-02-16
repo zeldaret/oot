@@ -5425,7 +5425,8 @@ endseg
 beginseg
     name "object_gt"
     romalign 0x1000
-    include "build/baserom/object_gt.o"
+    include "build/assets/objects/object_gt/object_gt.o"
+    number 6
 endseg
 
 beginseg
