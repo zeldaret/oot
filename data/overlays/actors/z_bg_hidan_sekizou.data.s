@@ -24,6 +24,6 @@ glabel D_8088E268
  .word 0x01000028, 0x00F0FF00
 glabel D_8088E270
  .word 0xC8500064, 0xB0F80190, 0x30F405DC
-glabel D_8088E27C
+glabel sFireballsTexs
  .word gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex, gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex, 0x00000000
 

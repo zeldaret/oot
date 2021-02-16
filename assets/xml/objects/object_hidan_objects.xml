@@ -45,6 +45,7 @@
         <Texture Name="gFireTempleTex_014E20" OutName="tex_014E20" Format="ia8" Width="32" Height="60" Offset="0x14E20"/>
         <Texture Name="gFireTempleTex_0155A0" OutName="tex_0155A0" Format="ia8" Width="32" Height="60" Offset="0x155A0"/>
 
+        <DList Name="gFireTempleFireballDL" Offset="0xDC30"/>
         <DList Name="gFireTempleFireballUpperHalfDL" Offset="0xDA80"/>
 
         <Texture Name="gFireTempleFireball0Tex" OutName="fireball_0" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
@@ -57,7 +58,6 @@
         <Texture Name="gFireTempleFireball7Tex" OutName="fireball_7" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
 
         <DList Name="gFireTempleDL_00AD00" Offset="0xAD00"/>
-        <DList Name="gFireTempleDL_00DC30" Offset="0xDC30"/>
         <Collision Name="gFireTempleCol_00D5C0" Offset="0xD5C0"/>
 
         <DList Name="gFireTempleDL_00ABC8" Offset="0xABC8"/>

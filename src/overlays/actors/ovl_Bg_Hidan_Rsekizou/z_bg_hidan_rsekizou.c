@@ -116,7 +116,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-static u64* D_8088CD74[] = { gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex,
+static u64* sFireballsTexs[] = { gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex,
                              gFireTempleFireball3Tex, gFireTempleFireball4Tex, gFireTempleFireball5Tex,
                              gFireTempleFireball6Tex, gFireTempleFireball7Tex, };
 
@@ -191,7 +191,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     f32 tmpf7;
 
     temp = (((this->burnFrame + frame) % 8) * 7) * (1.0f/7.0f);
-    gSPSegment(displayList++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
+    gSPSegment(displayList++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[temp]));
 
     frame++;
     fVar6 = (frame != 4) ? frame + ((3 - this->bendFrame) * (1.0f/3.0f)) : frame;
@@ -218,7 +218,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
               Matrix_MtxFToMtx(Matrix_CheckFloats(mf, "../z_bg_hidan_rsekizou.c", 543),
                                Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(displayList++, gFireTempleDL_00DC30);
+    gSPDisplayList(displayList++, gFireTempleFireballDL);
 
     return displayList;
 }

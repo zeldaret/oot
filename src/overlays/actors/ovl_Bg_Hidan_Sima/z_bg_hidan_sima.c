@@ -263,7 +263,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
                   Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 611),
                                    Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfx++, gFireTempleDL_00DC30);
+        gSPDisplayList(gfx++, gFireTempleFireballDL);
     }
     mtxF.wx = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
     mtxF.wz = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
@@ -272,7 +272,7 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
                                Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfx++, gFireTempleDL_00DC30);
+    gSPDisplayList(gfx++, gFireTempleFireballDL);
     return gfx;
 }
 
