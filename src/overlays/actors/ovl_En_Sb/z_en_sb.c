@@ -103,7 +103,7 @@ typedef enum {
     /* 0x01 */ SHELLBLADE_WAIT_CLOSED,
     /* 0x02 */ SHELLBLADE_WAIT_OPEN,
     /* 0x03 */ SHELLBLADE_LUNGE,
-    /* 0x04 */ SHELLBLADE_BOUNCE,
+    /* 0x04 */ SHELLBLADE_BOUNCE
 } ShellbladeBehavior;
 
 extern FlexSkeletonHeader D_06002BF0;
@@ -117,7 +117,7 @@ void EnSb_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnSb* this = THIS;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    this->actor.colChkInfo.damageTable = &sDamageTable;
+    this->actor.colChkInfo.damageTable = sDamageTable;
     this->actor.colChkInfo.health = 2;
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06002BF0, &D_06000194, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -396,7 +396,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         tookDamage = true;
                     }
                 }
@@ -404,7 +404,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
             case 2: // fire arrow, dins fire
                 this->fire = 4;
                 Actor_ApplyDamage(&this->actor);
-                func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                 tookDamage = true;
                 break;
             case 1:  // hookshot/longshot
@@ -414,7 +414,7 @@ s32 EnSb_UpdateDamage(EnSb* this, GlobalContext* globalCtx) {
                     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
                     if ((hitY < 30.0f) && (hitY > 10.0f) && (yawDiff >= -0x1FFF) && (yawDiff < 0x2000)) {
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         tookDamage = true;
                         EnSb_SetupCooldown(this, 0);
                     }
@@ -454,7 +454,7 @@ void EnSb_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->actor.params = 1;
         }
-        if (func_8003305C(this, &this->unk_1E0, globalCtx, this->actor.params) != 0) {
+        if (func_8003305C(&this->actor, &this->unk_1E0, globalCtx, this->actor.params) != 0) {
             if (!this->hitByWindArrow) {
                 Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x80);
             } else {
@@ -502,7 +502,7 @@ void EnSb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             flamePos.x = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.x + offset->x);
             flamePos.y = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.y + offset->y);
             flamePos.z = Rand_CenteredFloat(5.0f) + (this->actor.world.pos.z + offset->z);
-            EffectSsEnFire_SpawnVec3f(globalCtx, this, &flamePos, 100, 0, 0, -1);
+            EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &flamePos, 100, 0, 0, -1);
         }
     }
 }

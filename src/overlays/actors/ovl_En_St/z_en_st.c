@@ -1,3 +1,9 @@
+/*
+ * File: z_en_st.c
+ * Overlay: ovl_En_St
+ * Description: Skulltula (normal, big, invisible)
+ */
+
 #include "z_en_st.h"
 
 #define FLAGS 0x00000035
@@ -452,7 +458,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
         if (this->stunTimer == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
-            func_8003426C(&this->actor, 0, 0xC8, 0, this->stunTimer);
+            Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, this->stunTimer);
         }
         return false;
     }
@@ -461,7 +467,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     this->gaveDamageSpinTimer = 1;
     func_80034EC0(&this->skelAnime, sAnimations, 3);
     this->takeDamageSpinTimer = this->skelAnime.animLength;
-    func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
     if (Actor_ApplyDamage(&this->actor)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
         return false;
@@ -498,7 +504,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
+    if (EnSt_CheckHitBackside(this, globalCtx)) {
         // player has hit the backside of the skulltulla
         return true;
     }

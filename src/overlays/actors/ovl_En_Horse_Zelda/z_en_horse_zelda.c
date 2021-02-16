@@ -244,10 +244,10 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-void func_80A6DFD4(EnHorseZelda* this, GlobalContext* globalCtx, PSkinAwb* skin) {
+void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    s32 pad;
+    EnHorseZelda* this = THIS;
     s32 i;
 
     for (i = 0; i < this->colliderSphere.count; i++) {

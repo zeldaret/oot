@@ -138,7 +138,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 onCounter = true;
             case EXITEM_BOMB_BAG_BOWLING:
                 this->unk_17C = func_8002EBCC;
-                this->drawItemId = 0x18;
+                this->giDrawId = GID_BOMB_BAG_30;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
@@ -168,7 +168,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 onCounter = true;
             case EXITEM_BOMBCHUS_BOWLING:
                 this->unk_17C = func_8002EBCC;
-                this->drawItemId = 39;
+                this->giDrawId = GID_BOMBCHU;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
@@ -181,7 +181,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
             case EXITEM_BOMBS_BOWLING:
             case EXITEM_BOMBS_COUNTER:
                 this->unk_17C = func_8002EBCC;
-                this->drawItemId = 0x1F;
+                this->giDrawId = GID_BOMB;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
@@ -197,7 +197,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
             case EXITEM_PURPLE_RUPEE_COUNTER:
                 this->unk_17C = func_8002EBCC;
                 this->unk_180 = func_8002ED80;
-                this->drawItemId = 0x70;
+                this->giDrawId = GID_RUPEE_PURPLE;
                 this->timer = 65;
                 this->prizeRotateTimer = 35;
                 this->scale = 0.5f;
@@ -222,16 +222,16 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 this->actor.velocity.y = 10.0f;
                 switch (this->type) {
                     case EXITEM_GREEN_RUPEE_CHEST:
-                        this->drawItemId = 0x6C;
+                        this->giDrawId = GID_RUPEE_GREEN;
                         break;
                     case EXITEM_BLUE_RUPEE_CHEST:
-                        this->drawItemId = 0x6D;
+                        this->giDrawId = GID_RUPEE_BLUE;
                         break;
                     case EXITEM_RED_RUPEE_CHEST:
-                        this->drawItemId = 0x6E;
+                        this->giDrawId = GID_RUPEE_RED;
                         break;
                     case EXITEM_14:
-                        this->drawItemId = 0x70;
+                        this->giDrawId = GID_RUPEE_PURPLE;
                         break;
                 }
                 this->actionFunc = EnExItem_ExitChest;
@@ -244,7 +244,7 @@ void EnExItem_WaitForObject(EnExItem* this, GlobalContext* globalCtx) {
                 break;
             case EXITEM_BULLET_BAG:
                 this->unk_17C = func_8002EBCC;
-                this->drawItemId = 0x6B;
+                this->giDrawId = GID_BULLET_BAG;
                 this->scale = 0.1f;
                 this->timer = 80;
                 this->prizeRotateTimer = 35;
@@ -481,19 +481,19 @@ void EnExItem_DrawItems(EnExItem* this, GlobalContext* globalCtx) {
     }
     if (this) {}
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, this->drawItemId);
+    GetItem_Draw(globalCtx, this->giDrawId);
 }
 
 void EnExItem_DrawHeartPiece(EnExItem* this, GlobalContext* globalCtx) {
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, 0x13);
+    GetItem_Draw(globalCtx, GID_HEART_PIECE);
 }
 
 void EnExItem_DrawMagic(EnExItem* this, GlobalContext* globalCtx, s16 magicIndex) {
-    static s16 drawItemIds[] = { 0x63, 0x64, 0x65 };
+    static s16 sgiDrawIds[] = { GID_DINS_FIRE, GID_FARORES_WIND, GID_NAYRUS_LOVE };
 
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, drawItemIds[magicIndex]);
+    GetItem_Draw(globalCtx, sgiDrawIds[magicIndex]);
 }
 
 void EnExItem_DrawKey(EnExItem* this, GlobalContext* globalCtx, s32 index) {
@@ -517,5 +517,5 @@ void EnExItem_DrawRupee(EnExItem* this, GlobalContext* globalCtx) {
     if (this->unk_180 != NULL) {
         this->unk_180(&this->actor, globalCtx, 0);
     }
-    func_800694A0(globalCtx, this->drawItemId);
+    GetItem_Draw(globalCtx, this->giDrawId);
 }
