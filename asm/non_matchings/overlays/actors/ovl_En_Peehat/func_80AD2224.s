@@ -148,7 +148,7 @@ glabel func_80AD2224
 /* 02F48 80AD23E8 AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
 /* 02F4C 80AD23EC 8FAE0050 */  lw      $t6, 0x0050($sp)           
 /* 02F50 80AD23F0 8DCF0000 */  lw      $t7, 0x0000($t6)           ## 00000000
-/* 02F54 80AD23F4 0C034221 */  jal     Matrix_Pull              
+/* 02F54 80AD23F4 0C034221 */  jal     Matrix_Pop              
 /* 02F58 80AD23F8 AC4F0004 */  sw      $t7, 0x0004($v0)           ## 00000004
 /* 02F5C 80AD23FC 8FB80048 */  lw      $t8, 0x0048($sp)           
 /* 02F60 80AD2400 3C0680AD */  lui     $a2, %hi(D_80AD28B8)       ## $a2 = 80AD0000
