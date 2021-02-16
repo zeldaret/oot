@@ -134,9 +134,9 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 0) {
-        CollisionHeader_GetVirtual(&gFireTempleCol_00D054, &collisionHeader);
+        CollisionHeader_GetVirtual(&gFireTempleTallestPillarAboveRoomBeforeBossCol, &collisionHeader);
     } else {
-        CollisionHeader_GetVirtual(&gFireTempleCol_00D188, &collisionHeader);
+        CollisionHeader_GetVirtual(&gFireTemplePillarInsertedInGroundCol, &collisionHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, collisionHeader);

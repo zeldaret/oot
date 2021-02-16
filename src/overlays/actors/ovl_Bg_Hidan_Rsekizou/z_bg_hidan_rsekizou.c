@@ -112,7 +112,7 @@ static InitChainEntry sInitChain[] = {
 
 static u64* D_8088CD74[] = { gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex,
                              gFireTempleFireball3Tex, gFireTempleFireball4Tex, gFireTempleFireball5Tex,
-                             gFireTempleFireball6Tex, gFireTempleFireball7Tex };
+                             gFireTempleFireball6Tex, gFireTempleFireball7Tex, };
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;

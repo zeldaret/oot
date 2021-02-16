@@ -2,28 +2,17 @@
     <File Name="object_hidan_objects" Segment="6">
         <DList Name="gFireTempleHammerableTotemBodyDL" Offset="0xBBF0"/>
         <DList Name="gFireTempleHammerableTotemHeadDL" Offset="0xBDF0"/>
-        <DList Name="gFireTempleDL_00C100" Offset="0xC100"/>
-        <DList Name="gFireTempleDL_00C1F0" Offset="0xC1F0"/>
-        <DList Name="gFireTempleDL_00CA10" Offset="0xCA10"/>
-
-        <Collision Name="gFireTempleCol_00CB80" Offset="0xCB80"/>
-        <Collision Name="gFireTempleCol_00DA10" Offset="0xDA10"/>
-        <Collision Name="gFireTempleCol_00DF78" Offset="0xDF78"/>
-
-        <DList Name="gFireTempleDL_00DA80" Offset="0xDA80"/>
+        <Collision Name="gFireTempleHammerableTotemCol" Offset="0xDA10"/>
 
         <DList Name="gFireTempleHookshotElevatorDL" Offset="0xB630"/>
         <Collision Name="gFireTempleHookshotElevatorCol" Offset="0xE1E8"/>
 
-        <DList Name="gFireTempleDL_00DB20" Offset="0xDB20"/>
+        <DList Name="gFireTempleBigFireWallDL" Offset="0xDB20"/>
 
-        <DList Name="gFireTempleDL_00A548" Offset="0xA548"/>
-        <DList Name="gFireTempleDL_00A668" Offset="0xA668"/>
-        <Collision Name="gFireTempleCol_00DE44" Offset="0xDE44"/>
-        <Collision Name="gFireTempleCol_00DD1C" Offset="0xDD1C"/>
-
-        <Collision Name="gFireTempleCol_00D054" Offset="0xD054"/>
-        <Collision Name="gFireTempleCol_00D188" Offset="0xD188"/>
+        <DList Name="gFireTempleStoneStep1DL" Offset="0xA668"/>
+        <Collision Name="gFireTempleStoneStep1Col" Offset="0xDE44"/>
+        <DList Name="gFireTempleStoneStep2DL" Offset="0xA548"/>
+        <Collision Name="gFireTempleStoneStep2Col" Offset="0xDD1C"/>
 
         <DList Name="gFireTempleMetalFenceWithSlantDL" Offset="0xC798"/>
         <Collision Name="gFireTempleMetalFenceWithSlantCol" Offset="0xE2CC"/>
@@ -39,6 +28,13 @@
         <DList Name="gFireTempleLargeBombableWallDL" Offset="0xB900"/>
         <Collision Name="gFireTempleLargeBombableWallCol" Offset="0xD8F8"/>
 
+        <DList Name="gFireTempleDL_00C100" Offset="0xC100"/>
+        <Collision Name="gFireTempleCol_00CB80" Offset="0xCB80"/>
+        <DList Name="gFireTempleDL_00C1F0" Offset="0xC1F0"/>
+        <Collision Name="gFireTempleCol_00DF78" Offset="0xDF78"/>
+
+        <DList Name="gFireTempleDL_00CA10" Offset="0xCA10"/>
+
         <Texture Name="gFireTempleTex_012120" OutName="tex_012120" Format="ia8" Width="32" Height="60" Offset="0x12120"/>
         <Texture Name="gFireTempleTex_0128A0" OutName="tex_0128A0" Format="ia8" Width="32" Height="60" Offset="0x128A0"/>
         <Texture Name="gFireTempleTex_013020" OutName="tex_013020" Format="ia8" Width="32" Height="60" Offset="0x13020"/>
@@ -47,6 +43,8 @@
         <Texture Name="gFireTempleTex_0146A0" OutName="tex_0146A0" Format="ia8" Width="32" Height="60" Offset="0x146A0"/>
         <Texture Name="gFireTempleTex_014E20" OutName="tex_014E20" Format="ia8" Width="32" Height="60" Offset="0x14E20"/>
         <Texture Name="gFireTempleTex_0155A0" OutName="tex_0155A0" Format="ia8" Width="32" Height="60" Offset="0x155A0"/>
+
+        <DList Name="gFireTempleFireballUpperHalfDL" Offset="0xDA80"/>
 
         <Texture Name="gFireTempleFireball0Tex" OutName="fireball_0" Format="ia8" Width="32" Height="32" Offset="0x15D20"/>
         <Texture Name="gFireTempleFireball1Tex" OutName="fireball_1" Format="ia8" Width="32" Height="32" Offset="0x16120"/>
@@ -57,24 +55,26 @@
         <Texture Name="gFireTempleFireball6Tex" OutName="fireball_6" Format="ia8" Width="32" Height="32" Offset="0x17520"/>
         <Texture Name="gFireTempleFireball7Tex" OutName="fireball_7" Format="ia8" Width="32" Height="32" Offset="0x17920"/>
 
-        <Collision Name="gFireTempleCol_00D5C0" Offset="0xD5C0"/>
         <DList Name="gFireTempleDL_00AD00" Offset="0xAD00"/>
         <DList Name="gFireTempleDL_00DC30" Offset="0xDC30"/>
+        <Collision Name="gFireTempleCol_00D5C0" Offset="0xD5C0"/>
 
         <DList Name="gFireTempleDL_00ABC8" Offset="0xABC8"/>
         <DList Name="gFireTempleDL_00B0F8" Offset="0xB0F8"/>
         <Collision Name="gFireTempleCol_00CC90" Offset="0xCC90"/>
 
-        <DList Name="gFireTempleDL_00C338" Offset="0xC338"/>
-        <DList Name="gFireTempleDL_00C470" Offset="0xC470"/>
-        <Collision Name="gFireTempleCol_00FAE8" Offset="0xFAE8"/>
-        <Collision Name="gFireTempleCol_0120E8" Offset="0x120E8"/>
+        <DList Name="gFireTempleStonePlatform1DL" Offset="0xC338"/>
+        <Collision Name="gFireTempleStonePlatform1Col" Offset="0x120E8"/>
+        <DList Name="gFireTempleStonePlatform2DL" Offset="0xC470"/>
+        <Collision Name="gFireTempleStonePlatform2Col" Offset="0xFAE8"/>
 
         <DList Name="gFireTempleFlareDancerPlatformDL" Offset="0xA7E0"/>
         <Collision Name="gFireTempleFlareDancerPlatformCol" Offset="0xE568"/>
 
         <DList Name="gFireTempleTallestPillarAboveRoomBeforeBossDL" Offset="0xA240"/>
+        <Collision Name="gFireTempleTallestPillarAboveRoomBeforeBossCol" Offset="0xD054"/>
         <DList Name="gFireTemplePillarInsertedInGroundDL" Offset="0xC838"/>
+        <Collision Name="gFireTemplePillarInsertedInGroundCol" Offset="0xD188"/>
 
         <DList Name="gFireTempleBombableDoorFrameDL" Offset="0xF890"/>
         <DList Name="gFireTempleBombableDoorDL1" Offset="0xF938"/>

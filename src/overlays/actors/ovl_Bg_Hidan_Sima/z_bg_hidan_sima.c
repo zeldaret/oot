@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_sima.c
+ * Overlay: ovl_Bg_Hidan_Sima
+ * Description: Stone platform (Fire Temple)
+ */
+
 #include "z_bg_hidan_sima.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
@@ -85,9 +91,9 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (this->dyna.actor.params == 0) {
-        CollisionHeader_GetVirtual(&gFireTempleCol_0120E8, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gFireTempleCol_00FAE8, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStonePlatform2Col, &colHeader);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -278,9 +284,9 @@ void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, gFireTempleDL_00C338);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, gFireTempleDL_00C470);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform2DL);
         if (this->actionFunc == func_8088E7A8) {
             POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);

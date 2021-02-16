@@ -154,9 +154,9 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
-        CollisionHeader_GetVirtual(&gFireTempleCol_00DE44, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStoneStep1Col, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&gFireTempleCol_00DD1C, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStoneStep2Col, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -406,9 +406,9 @@ void BgHidanHamstep_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if ((thisx->params & 0xFF) == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, gFireTempleDL_00A668);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStoneStep1DL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, gFireTempleDL_00A548);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStoneStep2DL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_hamstep.c", 796);
