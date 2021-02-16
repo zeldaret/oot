@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_aob" Segment="6">
+        <Skeleton Name="gObjAobSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
+        <Texture Name="gObjAobTex_05C8" OutName="obj_aob_5C8" Format="rgb5a1" Width="32" Height="32" Offset="0x5C8"/>
+    </File>
+</Root>
