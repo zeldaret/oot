@@ -5807,7 +5807,8 @@ endseg
 beginseg
     name "object_geff"
     romalign 0x1000
-    include "build/baserom/object_geff.o"
+    include "build/assets/objects/object_geff/object_geff.o"
+    number 6
 endseg
 
 beginseg

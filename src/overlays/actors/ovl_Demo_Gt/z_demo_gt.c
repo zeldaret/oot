@@ -1,5 +1,6 @@
 #include "z_demo_gt.h"
 #include "objects/object_gt/object_gt.h"
+#include "objects/object_geff/object_geff.h"
 #include "vt.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
@@ -11,8 +12,6 @@ void DemoGt_Init(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGt_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern Gfx D_06000EA0[];
 
 void DemoGt_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGt* this = THIS;
@@ -131,7 +130,7 @@ void func_8097DAC8(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
                              (s32)(Rand_ZeroOne() * 10.0f + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, gDemoGeffDL);
         angle += 0x1555;
     }
 }
@@ -172,7 +171,7 @@ void func_8097DD28(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -247, phi_s0, 3, 0, 0,
                              (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 0x1E,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, gDemoGeffDL);
 
         angle += 0x2000;
     }
@@ -214,7 +213,7 @@ void func_8097DF70(DemoGt* this, GlobalContext* globalCtx, Vec3f* spawnerPos) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, spawnerPos, -200, phi_s0, 10, 10, 0,
                              Rand_ZeroOne() * 30.0f + 30.0f, 2, 300, (s32)(Rand_ZeroOne() * 30.0f) + 30,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, gDemoGeffDL);
         angle += 0x1555;
     }
 }
@@ -255,7 +254,7 @@ void func_8097E1D4(GlobalContext* globalCtx, Vec3f* arg1, s16 arg2) {
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg1, -247, phi_s0, 3, 0, 0,
                              (s32)((Rand_ZeroOne() * 10.0f) + 30.0f), 2, 300, (s32)(Rand_ZeroOne() * 0.0f) + 30,
-                             KAKERA_COLOR_NONE, OBJECT_GEFF, D_06000EA0);
+                             KAKERA_COLOR_NONE, OBJECT_GEFF, gDemoGeffDL);
 
         angle += 0x10000;
     }
