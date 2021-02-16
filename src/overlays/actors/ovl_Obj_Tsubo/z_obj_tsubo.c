@@ -19,12 +19,12 @@ void ObjTsubo_SpawnCollectible(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_Fall(ObjTsubo* this);
 s32 ObjTsubo_SnapToFloor(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_InitCollider(Actor* thisx, GlobalContext* globalCtx);
-void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx);
-void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx);
+void ObjTsubo_AirBreak(ObjTsubo* this, GlobalContext* globalCtx);
+void ObjTsubo_WaterBreak(ObjTsubo* this, GlobalContext* globalCtx);
 void func_80BA152C(ObjTsubo* this);
 void func_80BA153C(ObjTsubo* this, GlobalContext* globalCtx);
-void func_80BA15AC(ObjTsubo* this);
-void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx);
+void ObjTsubo_SetupIdle(ObjTsubo* this);
+void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_SetupLiftedUp(ObjTsubo* this);
 void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx);
 void func_80BA188C(ObjTsubo* this);
@@ -153,7 +153,7 @@ void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
+void ObjTsubo_AirBreak(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 rand;
     s16 angle;
@@ -194,7 +194,7 @@ void func_80BA100C(ObjTsubo* this, GlobalContext* globalCtx) {
     func_80033480(globalCtx, &this->actor.world.pos, 30.0f, 4, 0x14, 0x32, 1);
 }
 
-void func_80BA1294(ObjTsubo* this, GlobalContext* globalCtx) {
+void ObjTsubo_WaterBreak(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 angle;
     Vec3f pos = this->actor.world.pos;
@@ -234,16 +234,16 @@ void func_80BA153C(ObjTsubo* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objTsuboBankIndex)) {
         this->actor.draw = ObjTsubo_Draw;
         this->actor.objBankIndex = this->objTsuboBankIndex;
-        func_80BA15AC(this);
+        ObjTsubo_SetupIdle(this);
         this->actor.flags &= ~0x10;
     }
 }
 
-void func_80BA15AC(ObjTsubo* this) {
-    this->actionFunc = func_80BA15BC;
+void ObjTsubo_SetupIdle(ObjTsubo* this) {
+    this->actionFunc = ObjTsubo_Idle;
 }
 
-void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx) {
+void ObjTsubo_Idle(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 temp_v0;
     s32 phi_v1;
@@ -251,29 +251,24 @@ void func_80BA15BC(ObjTsubo* this, GlobalContext* globalCtx) {
     if (Actor_HasParent(&this->actor, globalCtx)) {
         ObjTsubo_SetupLiftedUp(this);
         return;
-    } 
-    if (this->actor.bgCheckFlags & 0x20) {
-        if (this->actor.yDistToWater > 15.0f) {
-            func_80BA1294(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
-            ObjTsubo_SpawnCollectible(this, globalCtx);
-            Actor_Kill(&this->actor);
-            return;
-        }
-    }  
-    if (this->collider.base.acFlags & AC_HIT) {
-        if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC) {
-            func_80BA100C(this, globalCtx);
-            ObjTsubo_SpawnCollectible(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
-            Actor_Kill(&this->actor);
-            return;
-        }
+    }
+    if ((this->actor.bgCheckFlags & 0x20) && (this->actor.yDistToWater > 15.0f)) {
+        ObjTsubo_WaterBreak(this, globalCtx);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        ObjTsubo_SpawnCollectible(this, globalCtx);
+        Actor_Kill(&this->actor);
+        return;
+    }
+    if ((this->collider.base.acFlags & AC_HIT) && (this->collider.info.acHitInfo->toucher.dmgFlags & 0x4FC1FFFC)) {
+        ObjTsubo_AirBreak(this, globalCtx);
+        ObjTsubo_SpawnCollectible(this, globalCtx);
+        Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EV_POT_BROKEN);
+        Actor_Kill(&this->actor);
+        return;
     }
     if (this->actor.xzDistToPlayer < 600.0f) {
         Collider_UpdateCylinder(&this->actor, &this->collider);
         this->collider.base.acFlags &= ~AC_HIT;
-
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
         if (this->actor.xzDistToPlayer < 150.0f) {
             CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -319,29 +314,27 @@ void func_80BA188C(ObjTsubo* this) {
 void func_80BA1958(ObjTsubo* this, GlobalContext* globalCtx) {
     s32 pad[2];
     if ((this->actor.bgCheckFlags & 0xB) != 0 || (this->collider.base.atFlags & 2) != 0) {
-        func_80BA100C(this, globalCtx);
+        ObjTsubo_AirBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 0x14, 0x2887U);
         Actor_Kill(&this->actor);
-        return;
-    }
-    if ((this->actor.bgCheckFlags & 0x40) != 0) {
-        func_80BA1294(this, globalCtx);
+    } else if ((this->actor.bgCheckFlags & 0x40) != 0) {
+        ObjTsubo_WaterBreak(this, globalCtx);
         ObjTsubo_SpawnCollectible(this, globalCtx);
         Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 0x14, 0x2887U);
         Actor_Kill(&this->actor);
-        return;
+    } else {
+        ObjTsubo_Fall(this);
+        func_8002D7EC(&this->actor);
+        Math_StepToS(&D_80BA1B54, D_80BA1B50, 0x64);
+        Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
+        this->actor.shape.rot.x += D_80BA1B54;
+        this->actor.shape.rot.y += D_80BA1B5C;
+        Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x85);
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
-    ObjTsubo_Fall(this);
-    func_8002D7EC(&this->actor);
-    Math_StepToS(&D_80BA1B54, D_80BA1B50, 0x64);
-    Math_StepToS(&D_80BA1B5C, D_80BA1B58, 0x64);
-    this->actor.shape.rot.x += D_80BA1B54;
-    this->actor.shape.rot.y += D_80BA1B5C;
-    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 5.0f, 15.0f, 0.0f, 0x85);
-    Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-    CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
 void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx) {
