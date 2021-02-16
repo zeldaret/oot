@@ -33,17 +33,16 @@
         <DList Name="gFireTempleStoneBlock2DL" Offset="0xC1F0"/>
         <Collision Name="gFireTempleStoneBlock2Col" Offset="0xDF78"/>
 
-        <!-- This DList uses the textures below (that are also unnamed) -->
-        <DList Name="gFireTempleDL_00CA10" Offset="0xCA10"/>
+        <DList Name="gFireTempleBigVerticalFlameDL" Offset="0xCA10"/>
 
-        <Texture Name="gFireTempleTex_012120" OutName="tex_012120" Format="ia8" Width="32" Height="60" Offset="0x12120"/>
-        <Texture Name="gFireTempleTex_0128A0" OutName="tex_0128A0" Format="ia8" Width="32" Height="60" Offset="0x128A0"/>
-        <Texture Name="gFireTempleTex_013020" OutName="tex_013020" Format="ia8" Width="32" Height="60" Offset="0x13020"/>
-        <Texture Name="gFireTempleTex_0137A0" OutName="tex_0137A0" Format="ia8" Width="32" Height="60" Offset="0x137A0"/>
-        <Texture Name="gFireTempleTex_013F20" OutName="tex_013F20" Format="ia8" Width="32" Height="60" Offset="0x13F20"/>
-        <Texture Name="gFireTempleTex_0146A0" OutName="tex_0146A0" Format="ia8" Width="32" Height="60" Offset="0x146A0"/>
-        <Texture Name="gFireTempleTex_014E20" OutName="tex_014E20" Format="ia8" Width="32" Height="60" Offset="0x14E20"/>
-        <Texture Name="gFireTempleTex_0155A0" OutName="tex_0155A0" Format="ia8" Width="32" Height="60" Offset="0x155A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame0Tex" OutName="big_vertical_flame_0" Format="ia8" Width="8" Height="240" Offset="0x12120"/>
+        <Texture Name="gFireTempleBigVerticalFlame1Tex" OutName="big_vertical_flame_1" Format="ia8" Width="8" Height="240" Offset="0x128A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame2Tex" OutName="big_vertical_flame_2" Format="ia8" Width="8" Height="240" Offset="0x13020"/>
+        <Texture Name="gFireTempleBigVerticalFlame3Tex" OutName="big_vertical_flame_3" Format="ia8" Width="8" Height="240" Offset="0x137A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame4Tex" OutName="big_vertical_flame_4" Format="ia8" Width="8" Height="240" Offset="0x13F20"/>
+        <Texture Name="gFireTempleBigVerticalFlame5Tex" OutName="big_vertical_flame_5" Format="ia8" Width="8" Height="240" Offset="0x146A0"/>
+        <Texture Name="gFireTempleBigVerticalFlame6Tex" OutName="big_vertical_flame_6" Format="ia8" Width="8" Height="240" Offset="0x14E20"/>
+        <Texture Name="gFireTempleBigVerticalFlame7Tex" OutName="big_vertical_flame_7" Format="ia8" Width="8" Height="240" Offset="0x155A0"/>
 
         <DList Name="gFireTempleFireballDL" Offset="0xDC30"/>
         <DList Name="gFireTempleFireballUpperHalfDL" Offset="0xDA80"/>

@@ -345,9 +345,9 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
-    static u64* D_8088BFC4[] = { gFireTempleTex_012120, gFireTempleTex_0128A0, gFireTempleTex_013020,
-                                 gFireTempleTex_0137A0, gFireTempleTex_013F20, gFireTempleTex_0146A0,
-                                 gFireTempleTex_014E20, gFireTempleTex_0155A0, };
+    static u64* D_8088BFC4[] = { gFireTempleBigVerticalFlame0Tex, gFireTempleBigVerticalFlame1Tex, gFireTempleBigVerticalFlame2Tex,
+                                 gFireTempleBigVerticalFlame3Tex, gFireTempleBigVerticalFlame4Tex, gFireTempleBigVerticalFlame5Tex,
+                                 gFireTempleBigVerticalFlame6Tex, gFireTempleBigVerticalFlame7Tex, };
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
@@ -370,7 +370,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
     gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8088BFC4[globalCtx->gameplayFrames & 7]));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, gFireTempleDL_00CA10);
+    gSPDisplayList(POLY_XLU_DISP++, gFireTempleBigVerticalFlameDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 857);
 }
