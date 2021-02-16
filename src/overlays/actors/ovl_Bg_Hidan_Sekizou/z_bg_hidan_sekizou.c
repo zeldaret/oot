@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_hidan_sekizou.c
+ * Overlay: ovl_Bg_Hidan_Sekizou
+ * Description: Stationary flame thrower statue
+ */
+
 #include "z_bg_hidan_sekizou.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 

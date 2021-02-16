@@ -1,7 +1,7 @@
 /*
  * File: z_bg_hidan_rsekizou.c
  * Overlay: ovl_Bg_Hidan_Rsekizou
- * Description: 
+ * Description: Spinning Stone flamethrower
  */
 
 #include "z_bg_hidan_rsekizou.h"

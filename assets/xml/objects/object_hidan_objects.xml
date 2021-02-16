@@ -60,9 +60,10 @@
         <DList Name="gFireTempleDL_00AD00" Offset="0xAD00"/>
         <Collision Name="gFireTempleCol_00D5C0" Offset="0xD5C0"/>
 
-        <DList Name="gFireTempleDL_00ABC8" Offset="0xABC8"/>
-        <DList Name="gFireTempleDL_00B0F8" Offset="0xB0F8"/>
-        <Collision Name="gFireTempleCol_00CC90" Offset="0xCC90"/>
+        <DList Name="gFireTempleStationaryFlamethrowerTallDL" Offset="0xABC8"/>
+        <DList Name="gFireTempleStationaryFlamethrowerShortDL" Offset="0xB0F8"/>
+        <!-- I don't know if this collision corresponds to the tall or the short one -->
+        <Collision Name="gFireTempleStationaryFlamethrowerCol" Offset="0xCC90"/>
 
         <DList Name="gFireTempleStonePlatform1DL" Offset="0xC338"/>
         <Collision Name="gFireTempleStonePlatform1Col" Offset="0x120E8"/>
