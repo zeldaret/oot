@@ -1,7 +1,8 @@
 /*
  * File: z_bg_hidan_fwbig.c
  * Overlay: ovl_Bg_Hidan_Fwbig
- * Description: Large fire walls at Fire Temple (flame wall before bombable door and the one that chases the player in the lava room)
+ * Description: Large fire walls at Fire Temple (flame wall before bombable door and the one that chases the player in
+ * the lava room)
  */
 
 #include "z_bg_hidan_fwbig.h"

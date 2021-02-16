@@ -344,9 +344,11 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-static u64* sVerticalFlamesTexs[] = { gFireTempleBigVerticalFlame0Tex, gFireTempleBigVerticalFlame1Tex, gFireTempleBigVerticalFlame2Tex,
-                                 gFireTempleBigVerticalFlame3Tex, gFireTempleBigVerticalFlame4Tex, gFireTempleBigVerticalFlame5Tex,
-                                 gFireTempleBigVerticalFlame6Tex, gFireTempleBigVerticalFlame7Tex, };
+static u64* sVerticalFlamesTexs[] = {
+    gFireTempleBigVerticalFlame0Tex, gFireTempleBigVerticalFlame1Tex, gFireTempleBigVerticalFlame2Tex,
+    gFireTempleBigVerticalFlame3Tex, gFireTempleBigVerticalFlame4Tex, gFireTempleBigVerticalFlame5Tex,
+    gFireTempleBigVerticalFlame6Tex, gFireTempleBigVerticalFlame7Tex,
+};
 
 void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
     s32 pad;

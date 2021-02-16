@@ -231,7 +231,11 @@ void BgHidanHrock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanHrock_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dlists[] = { gFireTempleTallestPillarAboveRoomBeforeBossDL, gFireTemplePillarInsertedInGroundDL, gFireTemplePillarInsertedInGroundDL, };
+    static Gfx* dlists[] = {
+        gFireTempleTallestPillarAboveRoomBeforeBossDL,
+        gFireTemplePillarInsertedInGroundDL,
+        gFireTemplePillarInsertedInGroundDL,
+    };
 
     Gfx_DrawDListOpa(globalCtx, dlists[thisx->params]);
 }

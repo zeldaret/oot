@@ -116,9 +116,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 1500, ICHAIN_STOP),
 };
 
-static u64* sFireballsTexs[] = { gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex,
-                             gFireTempleFireball3Tex, gFireTempleFireball4Tex, gFireTempleFireball5Tex,
-                             gFireTempleFireball6Tex, gFireTempleFireball7Tex, };
+static u64* sFireballsTexs[] = {
+    gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
+    gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
+};
 
 void BgHidanRsekizou_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanRsekizou* this = THIS;
@@ -190,11 +191,11 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     f32 fVar6;
     f32 tmpf7;
 
-    temp = (((this->burnFrame + frame) % 8) * 7) * (1.0f/7.0f);
+    temp = (((this->burnFrame + frame) % 8) * 7) * (1.0f / 7.0f);
     gSPSegment(displayList++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[temp]));
 
     frame++;
-    fVar6 = (frame != 4) ? frame + ((3 - this->bendFrame) * (1.0f/3.0f)) : frame;
+    fVar6 = (frame != 4) ? frame + ((3 - this->bendFrame) * (1.0f / 3.0f)) : frame;
 
     gDPSetPrimColor(displayList++, 0, 1, 255, 255, 0, 150);
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);
@@ -211,7 +212,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
     mf->wx = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
-    mf->wy = (this->dyna.actor.world.pos.y + 30.0f) + ((7.0f/10.0f) * fVar6);
+    mf->wy = (this->dyna.actor.world.pos.y + 30.0f) + ((7.0f / 10.0f) * fVar6);
     mf->wz = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
 
     gSPMatrix(displayList++,

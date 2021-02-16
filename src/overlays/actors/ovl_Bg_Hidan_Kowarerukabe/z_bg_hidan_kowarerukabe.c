@@ -36,7 +36,11 @@ const ActorInit Bg_Hidan_Kowarerukabe_InitVars = {
     (ActorFunc)BgHidanKowarerukabe_Draw,
 };
 
-static Gfx* sBreakableWallDLists[] = { gFireTempleCrackedStoneFloorDL, gFireTempleBombableWallDL, gFireTempleLargeBombableWallDL };
+static Gfx* sBreakableWallDLists[] = {
+    gFireTempleCrackedStoneFloorDL,
+    gFireTempleBombableWallDL,
+    gFireTempleLargeBombableWallDL,
+};
 
 static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
