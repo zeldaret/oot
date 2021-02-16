@@ -3557,7 +3557,8 @@ endseg
 beginseg
     name "object_dy_obj"
     romalign 0x1000
-    include "build/baserom/object_dy_obj.o"
+    include "build/assets/objects/object_dy_obj/object_dy_obj.o"
+    number 6
 endseg
 
 beginseg

@@ -1,0 +1,27 @@
+<Root>
+    <File Name="object_dy_obj" Segment="6">
+        <Animation Name="gDyObjAnim_000108" Offset="0x108"/>
+        <Animation Name="gDyObjAnim_00092C" Offset="0x92C"/>
+        <Animation Name="gDyObjAnim_001DF0" Offset="0x1DF0"/>
+        <Animation Name="gDyObjAnim_0031C0" Offset="0x31C0"/>
+        <Animation Name="gDyObjAnim_004344" Offset="0x4344"/>
+        <Animation Name="gDyObjAnim_005810" Offset="0x5810"/>
+        <DList Name="gDyObjDL_005860" Offset="0x5860"/>
+        <DList Name="gDyObjDL_0058D8" Offset="0x58D8"/>
+        <Animation Name="gDyObjAnim_005E60" Offset="0x5E60"/>
+        <Animation Name="gDyObjAnim_0069E8" Offset="0x69E8"/>
+        <Animation Name="gDyObjAnim_007CA8" Offset="0x7CA8"/>
+        <Animation Name="gDyObjAnim_008698" Offset="0x8698"/>
+        <Array Name="gDyObjVtx_001BFB0" Count="27" Offset="0x1BFB0">
+            <Vtx/>
+        </Array>
+        <DList Name="gDyObjDL_01C160" Offset="0x1C160"/>
+        <Skeleton Name="gDyObjSkel_01C450" Type="Flex" LimbType="Standard" Offset="0x1C450"/>
+        <Animation Name="gDyObjAnim_01D514" Offset="0x1D514"/>
+        <Texture Name="gGreatFairyOpenEyeTex" OutName="great_fairy_open_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x17930"/>
+        <Texture Name="gGreatFairyHalfOpenEyeTex" OutName="great_fairy_half_open_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x18130"/>
+        <Texture Name="gGreatFairyClosedEyeTex" OutName="great_fairy_closed_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x18930"/>
+        <Texture Name="gGreatFairyClosedMouthTex" OutName="great_fairy_closed_mouth" Format="rgb5a1" Width="64" Height="32" Offset="0x19130"/> -->
+        <Texture Name="gGreatFairyOpenMouthTex" OutName="great_fairy_open_mouth" Format="rgb5a1" Width="64" Height="32" Offset="0x1A130"/>
+    </File>
+</Root>
