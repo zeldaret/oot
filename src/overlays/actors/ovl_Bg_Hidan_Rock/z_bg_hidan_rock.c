@@ -43,7 +43,7 @@ const ActorInit Bg_Hidan_Rock_InitVars = {
     (ActorFunc)BgHidanRock_Draw,
 };
 
-static ColliderCylinderInit D_8088BF8C = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_ENEMY,
@@ -82,7 +82,7 @@ void BgHidanRock_Init(Actor* thisx, GlobalContext* globalCtx) {
     thisx->params = ((thisx->params) >> 8) & 0xFF;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, thisx, &D_8088BF8C);
+    Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
 
     if (this->type == 0) {
         if (Flags_GetSwitch(globalCtx, thisx->params)) {
@@ -339,15 +339,16 @@ void BgHidanRock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_16C > 0.0f) {
-        this->collider.dim.height = D_8088BF8C.dim.height * this->unk_16C;
+        this->collider.dim.height = sCylinderInit.dim.height * this->unk_16C;
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
-void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
-    static u64* D_8088BFC4[] = { gFireTempleBigVerticalFlame0Tex, gFireTempleBigVerticalFlame1Tex, gFireTempleBigVerticalFlame2Tex,
+static u64* sVerticalFlamesTexs[] = { gFireTempleBigVerticalFlame0Tex, gFireTempleBigVerticalFlame1Tex, gFireTempleBigVerticalFlame2Tex,
                                  gFireTempleBigVerticalFlame3Tex, gFireTempleBigVerticalFlame4Tex, gFireTempleBigVerticalFlame5Tex,
                                  gFireTempleBigVerticalFlame6Tex, gFireTempleBigVerticalFlame7Tex, };
+
+void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 808);
@@ -367,7 +368,7 @@ void func_8088BC40(GlobalContext* globalCtx, BgHidanRock* this) {
     Matrix_Translate(-10.5f, 0.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(6.0f, this->unk_16C, 6.0f, MTXMODE_APPLY);
 
-    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_8088BFC4[globalCtx->gameplayFrames & 7]));
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sVerticalFlamesTexs[globalCtx->gameplayFrames & 7]));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_rock.c", 853),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, gFireTempleBigVerticalFlameDL);

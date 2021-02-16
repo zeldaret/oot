@@ -41,7 +41,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-static CollisionHeader* D_80889E70[] = {
+static CollisionHeader* sMetalFencesCollisions[] = {
     &gFireTempleMetalFenceWithSlantCol,
     &gFireTempleMetalFenceCol,
     &gFireTempleMetalFence2Col,
@@ -79,7 +79,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("arg_data おかしい 【格子】\n");
     }
 
-    CollisionHeader_GetVirtual(D_80889E70[thisx->params & 0xFF], &colHeader);
+    CollisionHeader_GetVirtual(sMetalFencesCollisions[thisx->params & 0xFF], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->world.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
