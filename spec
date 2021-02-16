@@ -4968,28 +4968,28 @@ beginseg
     name "object_masterkokirihead"
     romalign 0x1000
     include "build/assets/objects/object_masterkokirihead/object_masterkokirihead.o"
-    number 06
+    number 6
 endseg
 
 beginseg
     name "object_mastergolon"
     romalign 0x1000
     include "build/assets/objects/object_mastergolon/object_mastergolon.o"
-    number 06
+    number 6
 endseg
 
 beginseg
     name "object_masterzoora"
     romalign 0x1000
     include "build/assets/objects/object_masterzoora/object_masterzoora.o"
-    number 06
+    number 6
 endseg
 
 beginseg
     name "object_aob"
     romalign 0x1000
     include "build/assets/objects/object_aob/object_aob.o"
-    number 06
+    number 6
 endseg
 
 beginseg
@@ -5413,7 +5413,8 @@ endseg
 beginseg
     name "object_mag"
     romalign 0x1000
-    include "build/baserom/object_mag.o"
+    include "build/assets/objects/object_mag/object_mag.o"
+    number 6
 endseg
 
 beginseg
