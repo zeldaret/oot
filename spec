@@ -4967,13 +4967,15 @@ endseg
 beginseg
     name "object_masterkokirihead"
     romalign 0x1000
-    include "build/baserom/object_masterkokirihead.o"
+    include "build/assets/objects/object_masterkokirihead/object_masterkokirihead.o"
+    number 06
 endseg
 
 beginseg
     name "object_mastergolon"
     romalign 0x1000
-    include "build/baserom/object_mastergolon.o"
+    include "build/assets/objects/object_mastergolon/object_mastergolon.o"
+    number 06
 endseg
 
 beginseg

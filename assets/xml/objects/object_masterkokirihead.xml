@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_masterkokirihead" Segment="6">
+        <DList Name="gMasterKokiriHeadDL" Offset="0x2820"/>
+    </File>
+</Root>
