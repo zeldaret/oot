@@ -1,4 +1,5 @@
 #include "z_en_niw_lady.h"
+#include "objects/object_ane/object_ane.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "vt.h"
 
@@ -65,7 +66,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_060000F0;
 extern AnimationHeader D_06000718;
 extern AnimationHeader D_060007D0;
 extern AnimationHeader D_06009F94;
@@ -160,7 +160,7 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectAneIndex) &&
         Object_IsLoaded(&globalCtx->objectCtx, this->objectOsAnimeIndex)) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectAneIndex].segment);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, this->jointTable, this->morphTable, 16);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjAneSkel, NULL, this->jointTable, this->morphTable, 16);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectOsAnimeIndex].segment);
         this->unk_27E = 1;
         this->actor.gravity = -3.0f;
@@ -570,7 +570,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* D_80ABB408[] = { 0x060008C8, 0x060010C8, 0x060018C8 };
+    static u64* D_80ABB408[] = { gObjAneEyeOpenTex, gObjAneEyeHalfOpenTex, gObjAneEyeClosedTex };
     EnNiwLady* this = THIS;
     s32 pad;
 
