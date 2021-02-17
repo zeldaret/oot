@@ -249,18 +249,16 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx2, CollisionHeader* header) {
-    GlobalContext* globalCtx = globalCtx2;
-    Actor* actor = &this->dyna.actor;
-    DynaCollisionContext* colCtx_dyna = &globalCtx->colCtx.dyna;
+void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx, CollisionHeader* header) {
+    s32 pad[3];
     CollisionHeader* newHeader;
 
     if (header != NULL) {
-        Actor_ProcessInitChain(actor, sInitChain);
+        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
         newHeader = NULL;
         CollisionHeader_GetVirtual(header, &newHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, colCtx_dyna, actor, newHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, newHeader);
     }
 }
 
@@ -295,19 +293,16 @@ void DemoGj_DrawCommon(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList)
     }
 }
 
-void func_8097911C(DemoGj* this, GlobalContext* globalCtx2, Gfx* displayList) {
-    GlobalContext* globalCtx = globalCtx2;
+void DemoGj_DrawRubbleDisplayList(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
+    s32 pad;
     GraphicsContext* gfxCtx;
-
     s16 x = this->rotationVec.x;
     s16 y = this->rotationVec.y;
     s16 z = this->rotationVec.z;
-
-    s32 pad; // Needed for matching.
+    s32 pad2;
     Mtx* matrix;
 
     gfxCtx = globalCtx->state.gfxCtx;
-
     matrix = Graph_Alloc(gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(gfxCtx, "../z_demo_gj.c", 1187);
@@ -427,7 +422,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
                 unk_172->z = 0;
             }
 
-            this->flag2 = 1; // this->flag2 = true; (?)
+            this->flag2 = true;
         }
     }
 }
@@ -620,8 +615,8 @@ void DemoGj_Draw2(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
-void DemoGj_Draw9(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, gGanonsCastleRubble2DL);
+void DemoGj_DrawRubble2(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
 void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
@@ -683,8 +678,8 @@ void DemoGj_Draw3(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
-void DemoGj_Draw10(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, gGanonsCastleRubble3DL);
+void DemoGj_DrawRubble3(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
 void func_8097A444(DemoGj* this, GlobalContext* globalCtx) {
@@ -729,8 +724,8 @@ void DemoGj_Draw4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble4DL);
 }
 
-void DemoGj_Draw11(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, gGanonsCastleRubble4DL);
+void DemoGj_DrawRubble4(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble4DL);
 }
 
 void func_8097A614(DemoGj* this, GlobalContext* globalCtx) {
@@ -775,8 +770,8 @@ void DemoGj_Draw5(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble5DL);
 }
 
-void DemoGj_Draw12(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, gGanonsCastleRubble5DL);
+void DemoGj_DrawRubble5(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble5DL);
 }
 
 void func_8097A7E4(DemoGj* this, GlobalContext* globalCtx) {
@@ -821,8 +816,8 @@ void DemoGj_Draw6(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble6DL);
 }
 
-void DemoGj_Draw13(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, gGanonsCastleRubble6DL);
+void DemoGj_DrawRubble6(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble6DL);
 }
 
 void func_8097A9B4(DemoGj* this, GlobalContext* globalCtx) {
@@ -867,8 +862,8 @@ void DemoGj_Draw7(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble7DL);
 }
 
-void DemoGj_Draw14(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, gGanonsCastleRubble7DL);
+void DemoGj_DrawRubble7(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble7DL);
 }
 
 void func_8097AB84(DemoGj* this, GlobalContext* globalCtx) {
@@ -930,8 +925,8 @@ void DemoGj_Draw8(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble8DL);
 }
 
-void DemoGj_Draw15(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, gGanonsCastleRubble8DL);
+void DemoGj_DrawRubble8(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble8DL);
 }
 
 void func_8097ADC0(DemoGj* this, GlobalContext* globalCtx) {
@@ -949,6 +944,7 @@ void DemoGj_Draw1(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble1DL);
 }
 
+// Inits the three cylinders with `sCylinderInit1`
 void func_8097AE5C(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_InitSetIndexes(this, globalCtx, 15, 0, NULL);
     DemoGj_InitCylinder(this, globalCtx, &this->cylinders[0], &sCylinderInit1);
@@ -959,6 +955,7 @@ void func_8097AE5C(DemoGj* this, GlobalContext* globalCtx) {
 void DemoGj_DoNothing1(DemoGj* this, GlobalContext* globalCtx) {
 }
 
+// Moves the ColliderCylinder's relative to the actor's position.
 void func_8097AEE8(DemoGj* this, GlobalContext* globalCtx) {
     ColliderCylinder* cylinder0 = &this->cylinders[0];
     ColliderCylinder* cylinder1 = &this->cylinders[1];
@@ -1030,6 +1027,8 @@ s32 DemoGj_HasCylinderAnyExploded(DemoGj* this, GlobalContext* globalCtx) {
     return false;
 }
 
+// Checks if should kill the actor and drop collectibles
+// Kills the actor if Ganon.mode==4, or was hit by an explosion or flag3==true
 void func_8097B22C(DemoGj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
@@ -1081,6 +1080,7 @@ void func_8097B3C4(DemoGj* this, GlobalContext* globalCtx) {
 void DemoGj_DoNothing2(DemoGj* this, GlobalContext* globalCtx) {
 }
 
+// Moves the ColliderCylinder's relative to the actor's position.
 void func_8097B450(DemoGj* this, GlobalContext* globalCtx) {
     ColliderCylinder* cylinder0 = &this->cylinders[0];
     ColliderCylinder* cylinder1 = &this->cylinders[1];
@@ -1153,6 +1153,8 @@ void func_8097B6C4(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
+// Checks if should kill the actor and drop collectibles
+// Kills the actor if Ganon.mode==4, or was hit by an explosion or flag3==true
 void func_8097B750(DemoGj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
@@ -1229,6 +1231,7 @@ void func_8097B9BC(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
+// Checks if should kill the actor and drop collectibles
 // Kills the actor if Ganon.mode==4, or was hit by an explosion or flag3==true
 void func_8097BA48(DemoGj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
@@ -1348,13 +1351,13 @@ void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void DemoGj_Draw0_DoNothing(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DrawNothing(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 static DemoGjDrawFunc sDrawFuncs[] = {
-    DemoGj_Draw0_DoNothing, DemoGj_Draw1,  DemoGj_Draw2,  DemoGj_Draw3,  DemoGj_Draw4,  DemoGj_Draw5,  DemoGj_Draw6,
-    DemoGj_Draw7,           DemoGj_Draw8,  DemoGj_Draw9,  DemoGj_Draw10, DemoGj_Draw11, DemoGj_Draw12, DemoGj_Draw13,
-    DemoGj_Draw14,          DemoGj_Draw15, DemoGj_Draw16, DemoGj_Draw17, DemoGj_Draw18,
+    DemoGj_DrawNothing, DemoGj_Draw1,  DemoGj_Draw2,  DemoGj_Draw3,  DemoGj_Draw4,  DemoGj_Draw5,  DemoGj_Draw6,
+    DemoGj_Draw7,           DemoGj_Draw8,  DemoGj_DrawRubble2,  DemoGj_DrawRubble3, DemoGj_DrawRubble4, DemoGj_DrawRubble5, DemoGj_DrawRubble6,
+    DemoGj_DrawRubble7,          DemoGj_DrawRubble8, DemoGj_Draw16, DemoGj_Draw17, DemoGj_Draw18,
 };
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
