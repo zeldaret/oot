@@ -2242,11 +2242,7 @@ endseg
 beginseg
     name "ovl_En_Fr"
     include "build/src/overlays/actors/ovl_En_Fr/z_en_fr.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Fr/ovl_En_Fr_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_fr.reloc.o"
-#endif
 endseg
 
 beginseg
