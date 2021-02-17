@@ -372,7 +372,7 @@ void func_80064824(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdBase* 
             }
             break;
         case 35:
-            func_800EE824(csCtx);
+            func_800EE824();
             csCtx->frames = cmd->startFrame - 1;
             break;
     }

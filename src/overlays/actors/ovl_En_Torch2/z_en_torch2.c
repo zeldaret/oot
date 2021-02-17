@@ -625,9 +625,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
             func_800F5ACC(0x38);
             if (this->actor.colChkInfo.damageEffect == 1) {
                 if (sAlpha == 255) {
-                    func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
                 } else {
-                    func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
                 }
             } else {
                 this->actor.flags &= ~1;
@@ -641,9 +641,9 @@ void EnTorch2_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 this->stateFlags3 |= 1;
                 sActionState = ENTORCH2_DAMAGE;
                 if (sAlpha == 255) {
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
                 } else {
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0xC);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0xC);
                 }
             }
         }

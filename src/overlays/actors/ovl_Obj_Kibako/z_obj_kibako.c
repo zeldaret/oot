@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_kibako.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 
 #define FLAGS 0x04000010
@@ -22,9 +23,6 @@ void ObjKibako_SetupHeld(ObjKibako* this);
 void ObjKibako_Held(ObjKibako* this, GlobalContext* globalCtx);
 void ObjKibako_SetupThrown(ObjKibako* this);
 void ObjKibako_Thrown(ObjKibako* this, GlobalContext* globalCtx);
-
-extern Gfx D_05005290[];
-extern Gfx D_05005380[];
 
 const ActorInit Obj_Kibako_InitVars = {
     ACTOR_OBJ_KIBAKO,
@@ -145,7 +143,7 @@ void ObjKibako_AirBreak(ObjKibako* this, GlobalContext* globalCtx) {
         }
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -200, phi_s0, 10, 10, 0,
                              (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 60, KAKERA_COLOR_NONE,
-                             OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, gSmallWoodenBoxFragmentDL);
     }
     func_80033480(globalCtx, &this->actor.world.pos, 40.0f, 3, 50, 140, 1);
 }
@@ -180,7 +178,7 @@ void ObjKibako_WaterBreak(ObjKibako* this, GlobalContext* globalCtx) {
         phi_s0 = (temp_rand < 0.2f) ? 0x40 : 0x20;
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, breakPos, -180, phi_s0, 30, 30, 0,
                              (Rand_ZeroOne() * 30.0f) + 10.0f, 0, 32, 70, KAKERA_COLOR_NONE,
-                             OBJECT_GAMEPLAY_DANGEON_KEEP, D_05005380);
+                             OBJECT_GAMEPLAY_DANGEON_KEEP, gSmallWoodenBoxFragmentDL);
     }
 }
 
@@ -287,5 +285,5 @@ void ObjKibako_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjKibako* this = THIS;
 
-    Gfx_DrawDListOpa(globalCtx, D_05005290);
+    Gfx_DrawDListOpa(globalCtx, gSmallWoodenBoxDL);
 }
