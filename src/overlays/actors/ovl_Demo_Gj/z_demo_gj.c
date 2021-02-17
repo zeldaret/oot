@@ -85,7 +85,8 @@ static ColliderCylinderInitType1 sCylinderInit3 = {
     { 25, 200, 0, { 0, 0, 0 } },
 };
 
-typedef void (*DemoGjActionFunc)(DemoGj*, GlobalContext*);
+typedef void (*DemoGjUpdateFunc)(DemoGj*, GlobalContext*);
+typedef void (*DemoGjDrawFunc)(DemoGj*, GlobalContext*);
 
 // bits 11-15
 s32 DemoGj_GetCollectibleType(DemoGj* this) {
@@ -108,34 +109,34 @@ s32 DemoGj_GetType(DemoGj* this) {
     return params & 0xFF;
 }
 
-void DemoGj_Cylinder_Init(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* cylinder,
+void DemoGj_InitCylinder(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* cylinder,
                           ColliderCylinderInitType1* cylinderInit) {
     Collider_InitCylinder(globalCtx, cylinder);
     Collider_SetCylinderType1(globalCtx, cylinder, &this->dyna.actor, cylinderInit);
 }
 
-s32 DemoGj_Cylinder_HasExploded(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* cylinder) {
+s32 DemoGj_HitByExplosion(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* cylinder) {
     if (Actor_GetCollidedExplosive(globalCtx, &cylinder->base) != NULL) {
-        return 1; // return true; (?)
+        return true;
     }
-    return 0; // return false; (?)
+    return false;
 }
 
-void DemoGj_Cylinder_Destroy(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DestroyCylinder(DemoGj* this, GlobalContext* globalCtx) {
     switch (DemoGj_GetType(this)) {
-        case DemoGj_Type_16:
+        case DEMOGJ_TYPE_16:
             Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[1]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[2]);
             break;
 
-        case DemoGj_Type_17:
+        case DEMOGJ_TYPE_17:
             Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[1]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[2]);
             return;
 
-        case DemoGj_Type_22:
+        case DEMOGJ_TYPE_22:
             Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
             return;
 
@@ -147,7 +148,7 @@ void DemoGj_Cylinder_Destroy(DemoGj* this, GlobalContext* globalCtx) {
 void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
 
-    DemoGj_Cylinder_Destroy(this, globalCtx);
+    DemoGj_DestroyCylinder(this, globalCtx);
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
@@ -155,28 +156,22 @@ void DemoGj_PlayExplosionSfx(DemoGj* this, GlobalContext* globalCtx) {
     Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 50, NA_SE_EV_GRAVE_EXPLOSION);
 }
 
-static Vec3f sVelocity = { 0.0f, 6.0f, 0.0f };
-static Vec3f sAccel = { 0.0f, 0.0f, 0.0f };
-static Color_RGBA8 sPrimColor = { 0, 0, 0, 0 };
-static Color_RGBA8 sEnvColor = { 0, 0, 0, 0 };
-
 void func_80978AFC(GlobalContext* globalCtx, Vec3f* pos, f32 arg2) {
+    static Vec3f velocity = { 0.0f, 6.0f, 0.0f };
+    static Vec3f accel = { 0.0f, 0.0f, 0.0f };
+    static Color_RGBA8 primColor = { 0, 0, 0, 0 };
+    static Color_RGBA8 envColor = { 0, 0, 0, 0 };
     f32 temp = arg2 * 0.2f;
-    if (1) {
-        // this function just calls EffectSsDust_Spawn() with drawflags=1 and updateMode=0
-        func_800283D4(globalCtx, pos, &sVelocity, &sAccel, &sPrimColor, &sEnvColor, temp * Rand_ZeroOne() + arg2, 0xF,
-                      0x5A);
-    }
+
+    if (1) {}
+    func_800283D4(globalCtx, pos, &velocity, &accel, &primColor, &envColor, temp * Rand_ZeroOne() + arg2, 15, 90);
 }
 
 void DemoGj_DropCollectible(DemoGj* this, GlobalContext* globalCtx) {
     Vec3f* pos = &this->dyna.actor.world.pos;
-    s16 collectible;
-    s32 amount;
+    s16 collectible = DemoGj_GetCollectibleType(this);
+    s32 amount = DemoGj_GetCollectibleAmount(this);
     s32 i;
-
-    collectible = DemoGj_GetCollectibleType(this);
-    amount = DemoGj_GetCollectibleAmount(this);
 
     for (i = 0; i < amount; i++) {
         Item_DropCollectible(globalCtx, pos, collectible);
@@ -223,11 +218,12 @@ void func_80978C20(DemoGj* this, GlobalContext* globalCtx, Vec3f* arg2, Vec3f* a
     DemoGj_PlayExplosionSfx(this, globalCtx);
 }
 
+// TODO to myself: leave unnamed
 s32 DemoGj_IsSceneInvalid(void) {
     if (gSaveContext.sceneSetupIndex < 4) {
-        return 0; // return false; (?)
+        return false;
     }
-    return 1; // return true; (?)
+    return true;
 }
 
 s32 DemoGj_FindGanon(DemoGj* this, GlobalContext* globalCtx) {
@@ -273,16 +269,16 @@ void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx2, CollisionHeader*
     }
 }
 
-s32 DemoGj_InitSetIndexes(DemoGj* this, GlobalContext* globalCtx, s32 updateIndex, s32 drawIndex,
+s32 DemoGj_InitSetIndexes(DemoGj* this, GlobalContext* globalCtx, s32 updateIndex, s32 drawConfig,
                           CollisionHeader* header) {
     if (!DemoGj_IsSceneInvalid()) {
         this->updateIndex = updateIndex;
-        this->drawIndex = drawIndex;
+        this->drawConfig = drawConfig;
         DemoGj_InitCommon(this, globalCtx, header);
-        return 1; // return true; (?)
+        return true;
     }
     Actor_Kill(&this->dyna.actor);
-    return 0; // return false; (?)
+    return false;
 }
 
 void DemoGj_DrawCommon(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
@@ -346,7 +342,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
     f32 xzPlaneFactor;
 
     switch (DemoGj_GetType(this)) {
-        case DemoGj_Type_08:
+        case DEMOGJ_TYPE_08:
             verticalTranslation = kREG(23);
             vec.x = kREG(24) * 0.01f + 1.0f;
             vec.y = kREG(25) * 0.01f + 1.0f;
@@ -355,7 +351,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(28) * 0.01f + 1.0f;
             break;
 
-        case DemoGj_Type_09:
+        case DEMOGJ_TYPE_09:
             verticalTranslation = kREG(36);
             vec.x = kREG(37) * 0.01f + 1.0f;
             vec.y = kREG(38) * 0.01f + 1.0f;
@@ -364,7 +360,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(41) * 0.01f + 1.0f;
             break;
 
-        case DemoGj_Type_10:
+        case DEMOGJ_TYPE_10:
             verticalTranslation = kREG(49);
             vec.x = kREG(50) * 0.01f + 1.0f;
             vec.y = kREG(51) * 0.01f + 1.0f;
@@ -373,7 +369,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(54) * 0.01f + 1.0f;
             break;
 
-        case DemoGj_Type_11:
+        case DEMOGJ_TYPE_11:
             verticalTranslation = kREG(62);
             vec.x = kREG(63) * 0.01f + 1.0f;
             vec.y = kREG(64) * 0.01f + 1.0f;
@@ -382,7 +378,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(67) * 0.01f + 1.0f;
             break;
 
-        case DemoGj_Type_12:
+        case DEMOGJ_TYPE_12:
             verticalTranslation = kREG(75);
             vec.x = kREG(76) * 0.01f + 1.0f;
             vec.y = kREG(77) * 0.01f + 1.0f;
@@ -391,7 +387,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(80) * 0.01f + 1.0f;
             break;
 
-        case DemoGj_Type_13:
+        case DEMOGJ_TYPE_13:
             verticalTranslation = kREG(88);
             vec.x = kREG(89) * 0.01f + 1.0f;
             vec.y = kREG(90) * 0.01f + 1.0f;
@@ -400,7 +396,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(93) * 0.01f + 1.0f;
             break;
 
-        case DemoGj_Type_14:
+        case DEMOGJ_TYPE_14:
             verticalTranslation = kREG(10) + -190.0f;
             vec.x = kREG(9) * 0.01f + 1.0f;
             vec.y = kREG(8) * 0.01f + 1.0f;
@@ -472,7 +468,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
         unk_172 = &this->unk_172;
 
         switch (DemoGj_GetType(this)) {
-            case DemoGj_Type_08:
+            case DEMOGJ_TYPE_08:
                 actor->speedXZ = kREG(16) + 10.0f;
                 actor->velocity.y = kREG(17) + 40.0f;
                 unk_172->x = kREG(18);
@@ -482,7 +478,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(22) * 0.01f + -5.0f;
                 break;
 
-            case DemoGj_Type_09:
+            case DEMOGJ_TYPE_09:
                 actor->speedXZ = kREG(29) + 10.0f;
                 actor->velocity.y = kREG(30) + 40.0f;
                 unk_172->x = kREG(31);
@@ -492,7 +488,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(35) * 0.01f + -5.0f;
                 break;
 
-            case DemoGj_Type_10:
+            case DEMOGJ_TYPE_10:
                 actor->speedXZ = kREG(42) + 10.0f;
                 actor->velocity.y = kREG(43) + 40.0f;
                 unk_172->x = kREG(44);
@@ -502,7 +498,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(48) * 0.01f + -5.0f;
                 break;
 
-            case DemoGj_Type_11:
+            case DEMOGJ_TYPE_11:
                 actor->speedXZ = kREG(55) + 10.0f;
                 actor->velocity.y = kREG(56) + 40.0f;
                 unk_172->x = kREG(57);
@@ -512,7 +508,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(61) * 0.01f + -5.0f;
                 break;
 
-            case DemoGj_Type_12:
+            case DEMOGJ_TYPE_12:
                 actor->speedXZ = kREG(68) + 10.0f;
                 actor->velocity.y = kREG(69) + 40.0f;
                 unk_172->x = kREG(70);
@@ -522,7 +518,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(74) * 0.01f + -5.0f;
                 break;
 
-            case DemoGj_Type_13:
+            case DEMOGJ_TYPE_13:
                 actor->speedXZ = kREG(81) + 10.0f;
                 actor->velocity.y = kREG(82) + 40.0f;
                 unk_172->x = kREG(83);
@@ -532,7 +528,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(87) * 0.01f + -5.0f;
                 break;
 
-            case DemoGj_Type_14:
+            case DEMOGJ_TYPE_14:
                 actor->speedXZ = kREG(94) + 10.0f;
                 actor->velocity.y = kREG(95) + 70.0f;
                 unk_172->x = kREG(15);
@@ -585,9 +581,8 @@ void func_8097A000(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_Reflect(this, globalCtx);
 }
 
-static Vec3f D_8097BE88 = { -371.0f, 1188.0f, -303.0f };
-
 void func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
+    static Vec3f pos = { -371.0f, 1188.0f, -303.0f };
     u32 gameplayFrames;
 
     if (!this->flag1) {
@@ -596,7 +591,7 @@ void func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
         if (1) {}
         if (gameplayFrames == 0) {
             if (!globalCtx->gameplayFrames) {}
-            func_80978AFC(globalCtx, &D_8097BE88, 300.0f);
+            func_80978AFC(globalCtx, &pos, 300.0f);
         }
 
         func_80979F9C(this);
@@ -607,7 +602,7 @@ void func_8097A0E4(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateIndex = 8;
-        this->drawIndex = 9;
+        this->drawConfig = 9;
     }
 }
 
@@ -649,9 +644,8 @@ void func_8097A238(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_Reflect(this, globalCtx);
 }
 
-static Vec3f D_8097BE94 = { -119.0f, 1056.0f, -147.0f };
-
 void func_8097A2B4(DemoGj* this, GlobalContext* globalCtx) {
+    static Vec3f pos = { -119.0f, 1056.0f, -147.0f };
     u32 gameplayFrames;
 
     if (!this->flag1) {
@@ -660,7 +654,7 @@ void func_8097A2B4(DemoGj* this, GlobalContext* globalCtx) {
         if (1) {}
         if (gameplayFrames == 1) {
             if (!globalCtx->gameplayFrames) {}
-            func_80978AFC(globalCtx, &D_8097BE94, 300.0f);
+            func_80978AFC(globalCtx, &pos, 300.0f);
         }
 
         func_80979F9C(this);
@@ -671,7 +665,7 @@ void func_8097A320(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateIndex = 9;
-        this->drawIndex = 10;
+        this->drawConfig = 10;
     }
 }
 
@@ -717,7 +711,7 @@ void func_8097A4F0(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateIndex = 10;
-        this->drawIndex = 11;
+        this->drawConfig = 11;
     }
 }
 
@@ -763,7 +757,7 @@ void func_8097A6C0(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateIndex = 11;
-        this->drawIndex = 12;
+        this->drawConfig = 12;
     }
 }
 
@@ -809,7 +803,7 @@ void func_8097A890(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateIndex = 12;
-        this->drawIndex = 13;
+        this->drawConfig = 13;
     }
 }
 
@@ -855,7 +849,7 @@ void func_8097AA60(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateIndex = 13;
-        this->drawIndex = 14;
+        this->drawConfig = 14;
     }
 }
 
@@ -897,9 +891,8 @@ void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_Reflect(this, globalCtx);
 }
 
-static Vec3f D_8097BEA0 = { -6.0f, 1053.0f, -473.0f };
-
 void func_8097AC30(DemoGj* this, GlobalContext* globalCtx) {
+    static Vec3f pos = { -6.0f, 1053.0f, -473.0f };
     u32 gameplayFrames;
 
     if (!this->flag1) {
@@ -908,7 +901,7 @@ void func_8097AC30(DemoGj* this, GlobalContext* globalCtx) {
         if (1) {}
         if (gameplayFrames == 2) {
             if (!globalCtx->gameplayFrames) {}
-            func_80978AFC(globalCtx, &D_8097BEA0, 300.0f);
+            func_80978AFC(globalCtx, &pos, 300.0f);
         }
 
         func_80979F9C(this);
@@ -919,7 +912,7 @@ void func_8097AC9C(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateIndex = 14;
-        this->drawIndex = 15;
+        this->drawConfig = 15;
     }
 }
 
@@ -964,49 +957,47 @@ void DemoGj_Draw1(DemoGj* this, GlobalContext* globalCtx) {
 
 void func_8097AE5C(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_InitSetIndexes(this, globalCtx, 15, 0, NULL);
-    DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[0], &sCylinderInit1);
-    DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[1], &sCylinderInit1);
-    DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[2], &sCylinderInit1);
+    DemoGj_InitCylinder(this, globalCtx, &this->cylinders[0], &sCylinderInit1);
+    DemoGj_InitCylinder(this, globalCtx, &this->cylinders[1], &sCylinderInit1);
+    DemoGj_InitCylinder(this, globalCtx, &this->cylinders[2], &sCylinderInit1);
 }
 
 void func_8097AEDC(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097AEE8(DemoGj* this, GlobalContext* globalCtx) {
-    ColliderCylinder* cylinders_0 = &this->cylinders[0];
-    ColliderCylinder* cylinders_1 = &this->cylinders[1];
-    ColliderCylinder* cylinders_2 = &this->cylinders[2];
-    PosRot* actorPosRot = &this->dyna.actor.world;
+    ColliderCylinder* cylinder0 = &this->cylinders[0];
+    ColliderCylinder* cylinder1 = &this->cylinders[1];
+    ColliderCylinder* cylinder2 = &this->cylinders[2];
+    Vec3f* actorPos = &this->dyna.actor.world.pos;
     s32 pad;
-    s16 theta = actorPosRot->rot.y;
+    s16 theta = this->dyna.actor.world.rot.y;
     f32 cos_theta = Math_CosS(theta);
     f32 sin_theta = Math_SinS(theta);
 
-    cylinders_0->dim.pos.z = actorPosRot->pos.z + (20.0f * cos_theta) - (-20.0f * sin_theta);
-    cylinders_0->dim.pos.x = actorPosRot->pos.x + (20.0f * sin_theta) + (-20.0f * cos_theta);
-    cylinders_0->dim.pos.y = actorPosRot->pos.y;
+    cylinder0->dim.pos.z = actorPos->z + (20.0f * cos_theta) - (-20.0f * sin_theta);
+    cylinder0->dim.pos.x = actorPos->x + (20.0f * sin_theta) + (-20.0f * cos_theta);
+    cylinder0->dim.pos.y = actorPos->y;
 
-    cylinders_1->dim.pos.z = actorPosRot->pos.z + (-20.0f * cos_theta) - (20.0f * sin_theta);
-    cylinders_1->dim.pos.x = actorPosRot->pos.x + (-20.0f * sin_theta) + (20.0f * cos_theta);
-    cylinders_1->dim.pos.y = actorPosRot->pos.y;
+    cylinder1->dim.pos.z = actorPos->z + (-20.0f * cos_theta) - (20.0f * sin_theta);
+    cylinder1->dim.pos.x = actorPos->x + (-20.0f * sin_theta) + (20.0f * cos_theta);
+    cylinder1->dim.pos.y = actorPos->y;
 
-    cylinders_2->dim.pos.z = actorPosRot->pos.z + (-60.0f * cos_theta) - (60.0f * sin_theta);
-    cylinders_2->dim.pos.x = actorPosRot->pos.x + (-60.0f * sin_theta) + (60.0f * cos_theta);
-    cylinders_2->dim.pos.y = actorPosRot->pos.y;
+    cylinder2->dim.pos.z = actorPos->z + (-60.0f * cos_theta) - (60.0f * sin_theta);
+    cylinder2->dim.pos.x = actorPos->x + (-60.0f * sin_theta) + (60.0f * cos_theta);
+    cylinder2->dim.pos.y = actorPos->y;
 }
 
-void func_8097B080(DemoGj* this, GlobalContext* globalCtx2) {
-    CollisionCheckContext* colChkCtx;
-    GlobalContext* globalCtx = globalCtx2;
-    Collider* cylinders_0 = &this->cylinders[0].base;
-    Collider* cylinders_1 = &this->cylinders[1].base;
-    Collider* cylinders_2 = &this->cylinders[2].base;
-    s32 pad[3];
+void func_8097B080(DemoGj* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    Collider* cylinder0 = &this->cylinders[0].base;
+    Collider* cylinder1 = &this->cylinders[1].base;
+    Collider* cylinder2 = &this->cylinders[2].base;
+    s32 pad2[3];
 
-    colChkCtx = &globalCtx->colChkCtx;
-    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_0);
-    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_1);
-    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_2);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, cylinder0);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, cylinder1);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, cylinder2);
 }
 
 void func_8097B0EC(DemoGj* this, GlobalContext* globalCtx, Vec3f* arg2) {
@@ -1025,51 +1016,46 @@ void func_8097B128(DemoGj* this, GlobalContext* globalCtx) {
     if (func_8097983C(this, globalCtx)) {
         DemoGj_InitCommon(this, globalCtx, &D_06001F70);
         this->updateIndex = 18;
-        this->drawIndex = 16;
+        this->drawConfig = 16;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
         scale->z *= 0.8f;
     }
 }
 
-s32 DemoGj_Cylinder_AnyHasExploded(DemoGj* this, GlobalContext* globalCtx) {
-    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[0])) {
-        return 1; // return true; (?)
+s32 DemoGj_HasCylinderAnyExploded(DemoGj* this, GlobalContext* globalCtx) {
+    if (DemoGj_HitByExplosion(this, globalCtx, &this->cylinders[0])) {
+        return true;
     }
-    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[1])) {
-        return 1; // return true; (?)
+    if (DemoGj_HitByExplosion(this, globalCtx, &this->cylinders[1])) {
+        return true;
     }
-    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[2])) {
-        return 1; // return true; (?)
+    if (DemoGj_HitByExplosion(this, globalCtx, &this->cylinders[2])) {
+        return true;
     }
-    return 0; // return false; (?)
+    return false;
 }
 
-static Vec3f D_8097BEAC = { 0.0f, 0.0f, 0.0f };
-
 void func_8097B22C(DemoGj* this, GlobalContext* globalCtx) {
-    s32 pad;
-    Vec3f vec1;
-    Vec3f vec2;
-    Actor* actor = &this->dyna.actor;
+    Actor* thisx = &this->dyna.actor;
 
     if (func_809797E4(this, 4)) {
-        Actor_Kill(actor);
-    } else if (DemoGj_Cylinder_AnyHasExploded(this, globalCtx)) {
-        vec1 = D_8097BEAC;
+        Actor_Kill(thisx);
+    } else if (DemoGj_HasCylinderAnyExploded(this, globalCtx)) {
+        Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
 
         DemoGj_DropCollectible(this, globalCtx);
         func_8097B0EC(this, globalCtx, &vec1);
 
-        Actor_Kill(actor);
+        Actor_Kill(thisx);
     } else if (this->flag3) {
-        vec2 = this->unk_26C;
+        Vec3f vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
         DemoGj_DropCollectible(this, globalCtx);
         func_8097B0EC(this, globalCtx, &vec2);
 
-        Actor_Kill(actor);
+        Actor_Kill(thisx);
     }
 
     func_8097AEE8(this, globalCtx);
@@ -1092,9 +1078,9 @@ void DemoGj_Draw16(DemoGj* this, GlobalContext* globalCtx) {
 
 void func_8097B3C4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_InitSetIndexes(this, globalCtx, 16, 0, NULL);
-    DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[0], &sCylinderInit2);
-    DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[1], &sCylinderInit2);
-    DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[2], &sCylinderInit2);
+    DemoGj_InitCylinder(this, globalCtx, &this->cylinders[0], &sCylinderInit2);
+    DemoGj_InitCylinder(this, globalCtx, &this->cylinders[1], &sCylinderInit2);
+    DemoGj_InitCylinder(this, globalCtx, &this->cylinders[2], &sCylinderInit2);
 }
 
 void func_8097B444(DemoGj* this, GlobalContext* globalCtx) {
@@ -1104,50 +1090,49 @@ void func_8097B450(DemoGj* this, GlobalContext* globalCtx) {
     ColliderCylinder* cylinder0 = &this->cylinders[0];
     ColliderCylinder* cylinder1 = &this->cylinders[1];
     ColliderCylinder* cylinder2 = &this->cylinders[2];
-    PosRot* actorPosRot = &this->dyna.actor.world;
+    Vec3f* actorPos = &this->dyna.actor.world.pos;
     s32 pad;
-    s16 theta = actorPosRot->rot.y;
+    s16 theta = this->dyna.actor.world.rot.y;
     f32 cos_theta = Math_CosS(theta);
     f32 sin_theta = Math_SinS(theta);
 
-    cylinder0->dim.pos.z = actorPosRot->pos.z - (35.0f * sin_theta);
-    cylinder0->dim.pos.x = actorPosRot->pos.x + (35.0f * cos_theta);
-    cylinder0->dim.pos.y = actorPosRot->pos.y;
+    cylinder0->dim.pos.z = actorPos->z - (35.0f * sin_theta);
+    cylinder0->dim.pos.x = actorPos->x + (35.0f * cos_theta);
+    cylinder0->dim.pos.y = actorPos->y;
 
-    cylinder1->dim.pos.z = actorPosRot->pos.z - (-10.0f * sin_theta);
-    cylinder1->dim.pos.x = actorPosRot->pos.x + (-10.0f * cos_theta);
-    cylinder1->dim.pos.y = actorPosRot->pos.y;
+    cylinder1->dim.pos.z = actorPos->z - (-10.0f * sin_theta);
+    cylinder1->dim.pos.x = actorPos->x + (-10.0f * cos_theta);
+    cylinder1->dim.pos.y = actorPos->y;
 
-    cylinder2->dim.pos.z = actorPosRot->pos.z - (-55.0f * sin_theta);
-    cylinder2->dim.pos.x = actorPosRot->pos.x + (-55.0f * cos_theta);
-    cylinder2->dim.pos.y = actorPosRot->pos.y;
+    cylinder2->dim.pos.z = actorPos->z - (-55.0f * sin_theta);
+    cylinder2->dim.pos.x = actorPos->x + (-55.0f * cos_theta);
+    cylinder2->dim.pos.y = actorPos->y;
 }
 
-void func_8097B5A4(DemoGj* this, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
-    CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
-    Collider* cylinders_0 = &this->cylinders[0].base;
-    Collider* cylinders_1 = &this->cylinders[1].base;
-    Collider* cylinders_2 = &this->cylinders[2].base;
-    s32 pad[3];
+void func_8097B5A4(DemoGj* this, GlobalContext* globalCtx) {
+    s32 pad[2];
+    Collider* cylinder0 = &this->cylinders[0].base;
+    Collider* cylinder1 = &this->cylinders[1].base;
+    Collider* cylinder2 = &this->cylinders[2].base;
+    s32 pad2[3];
 
-    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_0);
-    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_1);
-    CollisionCheck_SetAC(globalCtx, colChkCtx, cylinders_2);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, cylinder0);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, cylinder1);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, cylinder2);
 }
 
-// Does the same as `DemoGj_Cylinder_AnyHasExploded`
-s32 DemoGj_Cylinder_AnyHasExploded2(DemoGj* this, GlobalContext* globalCtx) {
-    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[0])) {
-        return 1; // return true; (?)
+// Does the same as `DemoGj_HasCylinderAnyExploded`
+s32 DemoGj_HasCylinderAnyExploded2(DemoGj* this, GlobalContext* globalCtx) {
+    if (DemoGj_HitByExplosion(this, globalCtx, &this->cylinders[0])) {
+        return true;
     }
-    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[1])) {
-        return 1; // return true; (?)
+    if (DemoGj_HitByExplosion(this, globalCtx, &this->cylinders[1])) {
+        return true;
     }
-    if (DemoGj_Cylinder_HasExploded(this, globalCtx, &this->cylinders[2])) {
-        return 1; // return true; (?)
+    if (DemoGj_HitByExplosion(this, globalCtx, &this->cylinders[2])) {
+        return true;
     }
-    return 0; // return false; (?)
+    return false;
 }
 
 void func_8097B688(DemoGj* this, GlobalContext* globalCtx, Vec3f* arg2) {
@@ -1166,38 +1151,33 @@ void func_8097B6C4(DemoGj* this, GlobalContext* globalCtx) {
     if (func_8097983C(this, globalCtx)) {
         DemoGj_InitCommon(this, globalCtx, &D_06002448);
         this->updateIndex = 19;
-        this->drawIndex = 17;
+        this->drawConfig = 17;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
         scale->z *= 0.8f;
     }
 }
 
-static Vec3f D_8097BEB8 = { 0.0f, 0.0f, 0.0f };
-
-void func_8097B750(DemoGj* this, GlobalContext* globalCtx2) {
-    GlobalContext* globalCtx = globalCtx2;
-    Vec3f vec1;
-    Vec3f vec2;
-    Actor* actor = &this->dyna.actor;
+void func_8097B750(DemoGj* this, GlobalContext* globalCtx) {
+    Actor* thisx = &this->dyna.actor;
 
     if (func_809797E4(this, 4)) {
-        Actor_Kill(actor);
-    } else if (DemoGj_Cylinder_AnyHasExploded2(this, globalCtx)) {
-        vec1 = D_8097BEB8;
+        Actor_Kill(thisx);
+    } else if (DemoGj_HasCylinderAnyExploded2(this, globalCtx)) {
+        Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
 
         DemoGj_DropCollectible(this, globalCtx);
         func_8097B688(this, globalCtx, &vec1);
 
-        Actor_Kill(actor);
+        Actor_Kill(thisx);
     } else if (this->flag3) {
-        vec2 = this->unk_26C;
+        Vec3f vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
         DemoGj_DropCollectible(this, globalCtx);
         func_8097B688(this, globalCtx, &vec2);
 
-        Actor_Kill(actor);
+        Actor_Kill(thisx);
     }
 
     func_8097B450(this, globalCtx);
@@ -1220,7 +1200,7 @@ void DemoGj_Draw17(DemoGj* this, GlobalContext* globalCtx) {
 
 void func_8097B8E8(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_InitSetIndexes(this, globalCtx, 17, 0, NULL);
-    DemoGj_Cylinder_Init(this, globalCtx, &this->cylinders[0], &sCylinderInit3);
+    DemoGj_InitCylinder(this, globalCtx, &this->cylinders[0], &sCylinderInit3);
 }
 
 void func_8097B930(DemoGj* this, GlobalContext* globalCtx) {
@@ -1246,44 +1226,39 @@ void func_8097B9BC(DemoGj* this, GlobalContext* globalCtx) {
     if (func_8097983C(this, globalCtx)) {
         DemoGj_InitCommon(this, globalCtx, &D_06003AF0);
         this->updateIndex = 20;
-        this->drawIndex = 18;
+        this->drawConfig = 18;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
         scale->z *= 0.8f;
     }
 }
 
-static Vec3f D_8097BEC4 = { 0.0f, 0.0f, 0.0f };
-
 void func_8097BA48(DemoGj* this, GlobalContext* globalCtx) {
-    Actor* actor = &this->dyna.actor;
+    Actor* thisx = &this->dyna.actor;
     ColliderCylinder* cylinder = &this->cylinders[0];
-    Collider* collider = &cylinder->base;
-    CollisionCheckContext* colChkCtx = &globalCtx->colChkCtx;
-    Vec3f vec1;
-    Vec3f vec2;
+    s32 pad[2];
 
     if (func_809797E4(this, 4)) {
-        Actor_Kill(actor);
-    } else if (DemoGj_Cylinder_HasExploded(this, globalCtx, cylinder)) {
-        vec1 = D_8097BEC4;
+        Actor_Kill(thisx);
+    } else if (DemoGj_HitByExplosion(this, globalCtx, cylinder)) {
+        Vec3f vec1 = { 0.0f, 0.0f, 0.0f };
 
         DemoGj_DropCollectible(this, globalCtx);
         func_8097B93C(this, globalCtx, &vec1);
 
-        Actor_Kill(actor);
+        Actor_Kill(thisx);
     } else if (this->flag3) {
-        vec2 = this->unk_26C;
+        Vec3f vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
         DemoGj_DropCollectible(this, globalCtx);
         func_8097B93C(this, globalCtx, &vec2);
 
-        Actor_Kill(actor);
+        Actor_Kill(thisx);
     }
 
-    Collider_UpdateCylinder(actor, cylinder);
-    CollisionCheck_SetAC(globalCtx, colChkCtx, collider);
+    Collider_UpdateCylinder(thisx, cylinder);
+    CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &cylinder->base);
 }
 
 void DemoGj_Update17(DemoGj* this, GlobalContext* globalCtx) {
@@ -1300,17 +1275,17 @@ void DemoGj_Draw18(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, &D_06003710);
 }
 
-static DemoGjActionFunc sUpdateFuncs[] = { DemoGj_Update0,  DemoGj_Update1,  DemoGj_Update2,  DemoGj_Update3,
+static DemoGjUpdateFunc sUpdateFuncs[] = { DemoGj_Update0,  DemoGj_Update1,  DemoGj_Update2,  DemoGj_Update3,
                                            DemoGj_Update4,  DemoGj_Update5,  DemoGj_Update6,  DemoGj_Update7,
                                            DemoGj_Update8,  DemoGj_Update9,  DemoGj_Update10, DemoGj_Update11,
                                            DemoGj_Update12, DemoGj_Update13, DemoGj_Update14, DemoGj_Update15,
                                            DemoGj_Update16, DemoGj_Update17, DemoGj_Update18, DemoGj_Update19,
-                                           DemoGj_Update20 };
+                                           DemoGj_Update20, };
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
 
-    if (this->updateIndex < 0 || this->updateIndex >= 21 || sUpdateFuncs[this->updateIndex] == NULL) {
+    if (this->updateIndex < 0 || this->updateIndex >= ARRAY_COUNT(sUpdateFuncs) || sUpdateFuncs[this->updateIndex] == NULL) {
         // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -1323,47 +1298,47 @@ void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
 
     switch (DemoGj_GetType(this)) {
-        case DemoGj_Type_04:
+        case DEMOGJ_TYPE_04:
             func_8097ADC0(this, globalCtx);
             return;
 
-        case DemoGj_Type_08:
+        case DEMOGJ_TYPE_08:
             func_80979FD0(this, globalCtx);
             return;
 
-        case DemoGj_Type_09:
+        case DEMOGJ_TYPE_09:
             func_8097A208(this, globalCtx);
             return;
 
-        case DemoGj_Type_10:
+        case DEMOGJ_TYPE_10:
             func_8097A444(this, globalCtx);
             return;
 
-        case DemoGj_Type_11:
+        case DEMOGJ_TYPE_11:
             func_8097A614(this, globalCtx);
             return;
 
-        case DemoGj_Type_12:
+        case DEMOGJ_TYPE_12:
             func_8097A7E4(this, globalCtx);
             return;
 
-        case DemoGj_Type_13:
+        case DEMOGJ_TYPE_13:
             func_8097A9B4(this, globalCtx);
             return;
 
-        case DemoGj_Type_14:
+        case DEMOGJ_TYPE_14:
             func_8097AB84(this, globalCtx);
             return;
 
-        case DemoGj_Type_16:
+        case DEMOGJ_TYPE_16:
             func_8097AE5C(this, globalCtx);
             return;
 
-        case DemoGj_Type_17:
+        case DEMOGJ_TYPE_17:
             func_8097B3C4(this, globalCtx);
             return;
 
-        case DemoGj_Type_22:
+        case DEMOGJ_TYPE_22:
             func_8097B8E8(this, globalCtx);
             return;
 
@@ -1378,22 +1353,22 @@ void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DemoGj_Draw0_DoNothing(DemoGj* this, GlobalContext* globalCtx) {
 }
 
-static DemoGjActionFunc sDrawFuncs[] = { DemoGj_Draw0_DoNothing, DemoGj_Draw1,  DemoGj_Draw2,  DemoGj_Draw3,
+static DemoGjDrawFunc sDrawFuncs[] = { DemoGj_Draw0_DoNothing, DemoGj_Draw1,  DemoGj_Draw2,  DemoGj_Draw3,
                                          DemoGj_Draw4,           DemoGj_Draw5,  DemoGj_Draw6,  DemoGj_Draw7,
                                          DemoGj_Draw8,           DemoGj_Draw9,  DemoGj_Draw10, DemoGj_Draw11,
                                          DemoGj_Draw12,          DemoGj_Draw13, DemoGj_Draw14, DemoGj_Draw15,
-                                         DemoGj_Draw16,          DemoGj_Draw17, DemoGj_Draw18 };
+                                         DemoGj_Draw16,          DemoGj_Draw17, DemoGj_Draw18, };
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
 
-    if (this->drawIndex < 0 || this->drawIndex >= 19 || sDrawFuncs[this->drawIndex] == NULL) {
+    if (this->drawConfig < 0 || this->drawConfig >= ARRAY_COUNT(sDrawFuncs) || sDrawFuncs[this->drawConfig] == NULL) {
         // The drawing mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "描画モードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    sDrawFuncs[this->drawIndex](this, globalCtx);
+    sDrawFuncs[this->drawConfig](this, globalCtx);
 }
 
 const ActorInit Demo_Gj_InitVars = {

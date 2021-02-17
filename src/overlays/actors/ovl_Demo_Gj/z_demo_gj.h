@@ -11,7 +11,7 @@ struct DemoGj;
 typedef struct DemoGj {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ s32 updateIndex;
-    /* 0x0168 */ s32 drawIndex;
+    /* 0x0168 */ s32 drawConfig;
     /* 0x016C */ Vec3s rotationVec;
     /* 0x0172 */ Vec3s unk_172; // it is assigned only
     /* 0x0178 */ BossGanon2* ganon;
@@ -24,18 +24,18 @@ typedef struct DemoGj {
 
 extern const ActorInit Demo_Gj_InitVars;
 
-typedef enum DemoGjType {
-    /* 0x04 */ DemoGj_Type_04 = 4,
-    /* 0x08 */ DemoGj_Type_08 = 8,
-    /* 0x09 */ DemoGj_Type_09 = 9,
-    /* 0x0A */ DemoGj_Type_10 = 10,
-    /* 0x0B */ DemoGj_Type_11 = 11,
-    /* 0x0C */ DemoGj_Type_12 = 12,
-    /* 0x0D */ DemoGj_Type_13 = 13,
-    /* 0x0E */ DemoGj_Type_14 = 14,
-    /* 0x10 */ DemoGj_Type_16 = 16,
-    /* 0x11 */ DemoGj_Type_17 = 17,
-    /* 0x16 */ DemoGj_Type_22 = 22
+typedef enum {
+    /* 04 */ DEMOGJ_TYPE_04 = 4,
+    /* 08 */ DEMOGJ_TYPE_08 = 8,
+    /* 09 */ DEMOGJ_TYPE_09,
+    /* 10 */ DEMOGJ_TYPE_10,
+    /* 11 */ DEMOGJ_TYPE_11,
+    /* 12 */ DEMOGJ_TYPE_12,
+    /* 13 */ DEMOGJ_TYPE_13,
+    /* 14 */ DEMOGJ_TYPE_14,
+    /* 16 */ DEMOGJ_TYPE_16 = 16,
+    /* 17 */ DEMOGJ_TYPE_17,
+    /* 22 */ DEMOGJ_TYPE_22 = 22,
 } DemoGjType;
 
 #endif
