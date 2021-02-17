@@ -15,7 +15,7 @@ typedef struct ObjMure {
     /* 0x0152 */ s16 ptn;
     /* 0x0154 */ s16 svNum;
     /* 0x0156 */ s16 type;
-    /* 0x0158 */ Actor* unk_158[15];
+    /* 0x0158 */ Actor* actorSpawnPtrList[15];
     /* 0x0194 */ u8 unk_194[15];
     /* 0x01A3 */ char unk_1A3; // unused padding?
     /* 0x01A4 */ s16 unk_1A4;
