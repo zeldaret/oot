@@ -5,6 +5,7 @@
  */
 
 #include "z_en_js.h"
+#include "objects/object_js/object_js.h"
 
 #define FLAGS 0x00000009
 
@@ -49,9 +50,9 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-extern FlexSkeletonHeader D_06005EA0;
-extern AnimationHeader D_0600045C;
-extern AnimationHeader D_0600018C;
+extern FlexSkeletonHeader gObjJsSkel;
+extern AnimationHeader gObjJsAnim0;
+extern AnimationHeader gObjJsAnim1;
 
 void En_Js_SetupAction(EnJs* this, EnJsActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -62,8 +63,8 @@ void EnJs_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005EA0, &D_0600045C, this->jointTable, this->morphTable, 13);
-    Animation_PlayOnce(&this->skelAnime, &D_0600045C);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjJsSkel, &gObjJsAnim0, this->jointTable, this->morphTable, 13);
+    Animation_PlayOnce(&this->skelAnime, &gObjJsAnim0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -100,7 +101,7 @@ u8 func_80A88F64(EnJs* this, GlobalContext* globalCtx, u16 textId) {
 
 void func_80A89008(EnJs* this) {
     En_Js_SetupAction(this, func_80A89304);
-    Animation_Change(&this->skelAnime, &D_0600045C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600045C), ANIMMODE_ONCE,
+    Animation_Change(&this->skelAnime, &gObjJsAnim0, 1.0f, 0.0f, Animation_GetLastFrame(&gObjJsAnim0), ANIMMODE_ONCE,
                      -4.0f);
 }
 
@@ -157,7 +158,7 @@ void func_80A891C4(EnJs* this, GlobalContext* globalCtx) {
 
 void func_80A89294(EnJs* this) {
     En_Js_SetupAction(this, func_80A891C4);
-    Animation_Change(&this->skelAnime, &D_0600018C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600018C), ANIMMODE_ONCE,
+    Animation_Change(&this->skelAnime, &gObjJsAnim1, 1.0f, 0.0f, Animation_GetLastFrame(&gObjJsAnim1), ANIMMODE_ONCE,
                      -4.0f);
 }
 

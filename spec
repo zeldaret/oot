@@ -5373,7 +5373,8 @@ endseg
 beginseg
     name "object_js"
     romalign 0x1000
-    include "build/baserom/object_js.o"
+    include "build/assets/objects/object_js/object_js.o"
+    number 6
 endseg
 
 beginseg

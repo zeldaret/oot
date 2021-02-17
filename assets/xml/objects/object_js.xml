@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_js" Segment="6">
+        <Skeleton Name="gObjJsSkel" Type="Flex" LimbType="Standard" Offset="0x5EA0"/>
+        <Animation Name="gObjJsAnim0" Offset="0x45C"/>
+        <Animation Name="gObjJsAnim1" Offset="0x18C"/>
+    </File>
+</Root>
