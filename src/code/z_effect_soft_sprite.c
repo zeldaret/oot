@@ -294,10 +294,9 @@ void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
 
 // original name: "EffectSoftSprite2_disp"
 void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    Lights* lights;
+    Lights* lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     s32 i;
 
-    lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     Lights_BindAll(lights, globalCtx->lightCtx.listHead, NULL);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 

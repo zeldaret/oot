@@ -151,7 +151,7 @@ void EnTrap_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) != 0) {
         icePos = thisx->world.pos;
         this->collider.base.acFlags &= ~AC_HIT;
-        func_8003426C(thisx, 0, 250, 0, 250);
+        Actor_SetColorFilter(thisx, 0, 250, 0, 250);
         icePos.y += 10.0f;
         icePos.z += 10.0f;
         EffectSsEnIce_SpawnFlyingVec3f(globalCtx, thisx, &icePos, 150, 150, 150, 250, 235, 245, 255, 1.8f);

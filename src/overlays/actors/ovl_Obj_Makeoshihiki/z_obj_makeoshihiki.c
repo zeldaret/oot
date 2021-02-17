@@ -5,8 +5,8 @@
  */
 
 #include "z_obj_makeoshihiki.h"
-#include "vt.h"
 #include "overlays/actors/ovl_Obj_Oshihiki/z_obj_oshihiki.h"
+#include "vt.h"
 
 #define FLAGS 0x00000020
 

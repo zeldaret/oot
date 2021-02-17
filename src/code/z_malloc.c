@@ -8,12 +8,11 @@ s32 gZeldaArenaLogSeverity = LOG_SEVERITY_ERROR;
 Arena sZeldaArena;
 
 void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* action) {
-    if (!ptr) {
+    if (ptr == NULL) {
         if (gZeldaArenaLogSeverity >= LOG_SEVERITY_ERROR) {
             // "%s: %u bytes %s failed\n"
             osSyncPrintf("%s: %u バイトの%sに失敗しました\n", name, size, action);
             __osDisplayArena(&sZeldaArena);
-            return;
         }
     } else if (gZeldaArenaLogSeverity >= LOG_SEVERITY_VERBOSE) {
         // "%s: %u bytes %s succeeded\n"
@@ -22,29 +21,29 @@ void ZeldaArena_CheckPointer(void* ptr, u32 size, const char* name, const char* 
 }
 
 void* ZeldaArena_Malloc(u32 size) {
-    void* ptr;
-    ptr = __osMalloc(&sZeldaArena, size);
+    void* ptr = __osMalloc(&sZeldaArena, size);
+
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc", "確保"); // Secure
     return ptr;
 }
 
 void* ZeldaArena_MallocDebug(u32 size, const char* file, s32 line) {
-    void* ptr;
-    ptr = __osMallocDebug(&sZeldaArena, size, file, line);
+    void* ptr = __osMallocDebug(&sZeldaArena, size, file, line);
+
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_DEBUG", "確保"); // Secure
     return ptr;
 }
 
 void* ZeldaArena_MallocR(u32 size) {
-    void* ptr;
-    ptr = __osMallocR(&sZeldaArena, size);
+    void* ptr = __osMallocR(&sZeldaArena, size);
+
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r", "確保"); // Secure
     return ptr;
 }
 
 void* ZeldaArena_MallocRDebug(u32 size, const char* file, s32 line) {
-    void* ptr;
-    ptr = __osMallocRDebug(&sZeldaArena, size, file, line);
+    void* ptr = __osMallocRDebug(&sZeldaArena, size, file, line);
+
     ZeldaArena_CheckPointer(ptr, size, "zelda_malloc_r_DEBUG", "確保"); // Secure
     return ptr;
 }
@@ -71,11 +70,10 @@ void ZeldaArena_FreeDebug(void* ptr, const char* file, s32 line) {
 
 void* ZeldaArena_Calloc(u32 num, u32 size) {
     void* ret;
-    u32 n;
+    u32 n = num * size;
 
-    n = num * size;
     ret = __osMalloc(&sZeldaArena, n);
-    if (ret) {
+    if (ret != NULL) {
         bzero(ret, n);
     }
 

@@ -1,5 +1,5 @@
 #include "global.h"
 
-OSThread* __osGetActiveQueue() {
+OSThread* __osGetActiveQueue(void) {
     return __osActiveQueue;
 }

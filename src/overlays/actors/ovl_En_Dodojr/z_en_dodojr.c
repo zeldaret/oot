@@ -98,7 +98,7 @@ void EnDodojr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_809F64D0(EnDodojr* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
-    func_8003426C(&this->actor, 0x4000, 200, 0, 8);
+    Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 8);
 }
 
 void func_809F6510(EnDodojr* this, GlobalContext* globalCtx, s32 count) {
@@ -366,7 +366,7 @@ s32 func_809F70E8(EnDodojr* this, GlobalContext* globalCtx) {
             (this->actionFunc != func_809F786C)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->timer1 = 120;
-            func_8003426C(&this->actor, 0, 200, 0, 120);
+            Actor_SetColorFilter(&this->actor, 0, 200, 0, 120);
             func_809F6A20(this);
             this->actionFunc = func_809F786C;
         }
@@ -580,7 +580,7 @@ void func_809F7B3C(EnDodojr* this, GlobalContext* globalCtx) {
 
     if (this->unk_1FC != 0) {
         if (this->actor.colorFilterTimer == 0) {
-            func_8003426C(&this->actor, 0x4000, 200, 0, this->unk_1FC);
+            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, this->unk_1FC);
             this->unk_1FC--;
         }
     } else {

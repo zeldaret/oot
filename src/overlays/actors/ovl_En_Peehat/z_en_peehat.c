@@ -776,7 +776,7 @@ void EnPeehat_SetStateBoomerangStunned(EnPeehat* this) {
     }
     this->bladeRotVel = 0;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
-    func_8003426C(&this->actor, 0, 200, 0, 80);
+    Actor_SetColorFilter(&this->actor, 0, 200, 0, 80);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     EnPeehat_SetupAction(this, EnPeehat_StateBoomerangStunned);
 }
@@ -793,7 +793,7 @@ void EnPeehat_Adult_SetStateDie(EnPeehat* this) {
     this->bladeRotVel = 0;
     this->isStateDieFirstUpdate = 1;
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0x4000, 255, 0, 8);
+    Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 8);
     this->state = PEAHAT_STATE_DYING;
     this->scaleShift = 0.0f;
     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -897,7 +897,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
             return;
         } else {
             Actor_ApplyDamage(&this->actor);
-            func_8003426C(&this->actor, 0x4000, 255, 0, 8);
+            Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 8);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
         }
 
@@ -910,7 +910,7 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
                 pos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
                 EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &pos, 70, 0, 0, -1);
             }
-            func_8003426C(&this->actor, 0x4000, 200, 0, 100);
+            Actor_SetColorFilter(&this->actor, 0x4000, 200, 0, 100);
         }
         if (this->actor.colChkInfo.health == 0) {
             EnPeehat_Adult_SetStateDie(this);
