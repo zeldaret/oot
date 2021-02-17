@@ -10,7 +10,7 @@ struct DemoGj;
 
 typedef struct DemoGj {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0164 */ s32 updateIndex;
+    /* 0x0164 */ s32 updateMode;
     /* 0x0168 */ s32 drawConfig;
     /* 0x016C */ Vec3s rotationVec;
     /* 0x0172 */ Vec3s unk_172; // it is assigned only

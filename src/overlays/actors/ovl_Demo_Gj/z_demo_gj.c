@@ -269,10 +269,10 @@ void DemoGj_InitCommon(DemoGj* this, GlobalContext* globalCtx2, CollisionHeader*
     }
 }
 
-s32 DemoGj_InitSetIndexes(DemoGj* this, GlobalContext* globalCtx, s32 updateIndex, s32 drawConfig,
+s32 DemoGj_InitSetIndexes(DemoGj* this, GlobalContext* globalCtx, s32 updateMode, s32 drawConfig,
                           CollisionHeader* header) {
     if (!DemoGj_IsSceneInvalid()) {
-        this->updateIndex = updateIndex;
+        this->updateMode = updateMode;
         this->drawConfig = drawConfig;
         DemoGj_InitCommon(this, globalCtx, header);
         return true;
@@ -601,7 +601,7 @@ void func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A0E4(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
-        this->updateIndex = 8;
+        this->updateMode = 8;
         this->drawConfig = 9;
     }
 }
@@ -664,7 +664,7 @@ void func_8097A2B4(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A320(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
-        this->updateIndex = 9;
+        this->updateMode = 9;
         this->drawConfig = 10;
     }
 }
@@ -710,7 +710,7 @@ void func_8097A474(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A4F0(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
-        this->updateIndex = 10;
+        this->updateMode = 10;
         this->drawConfig = 11;
     }
 }
@@ -756,7 +756,7 @@ void func_8097A644(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A6C0(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
-        this->updateIndex = 11;
+        this->updateMode = 11;
         this->drawConfig = 12;
     }
 }
@@ -802,7 +802,7 @@ void func_8097A814(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097A890(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
-        this->updateIndex = 12;
+        this->updateMode = 12;
         this->drawConfig = 13;
     }
 }
@@ -848,7 +848,7 @@ void func_8097A9E4(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097AA60(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
-        this->updateIndex = 13;
+        this->updateMode = 13;
         this->drawConfig = 14;
     }
 }
@@ -911,7 +911,7 @@ void func_8097AC30(DemoGj* this, GlobalContext* globalCtx) {
 void func_8097AC9C(DemoGj* this, GlobalContext* globalCtx) {
     if (func_80979818(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
-        this->updateIndex = 14;
+        this->updateMode = 14;
         this->drawConfig = 15;
     }
 }
@@ -1015,7 +1015,7 @@ void func_8097B128(DemoGj* this, GlobalContext* globalCtx) {
 
     if (func_8097983C(this, globalCtx)) {
         DemoGj_InitCommon(this, globalCtx, &D_06001F70);
-        this->updateIndex = 18;
+        this->updateMode = 18;
         this->drawConfig = 16;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
@@ -1150,7 +1150,7 @@ void func_8097B6C4(DemoGj* this, GlobalContext* globalCtx) {
 
     if (func_8097983C(this, globalCtx)) {
         DemoGj_InitCommon(this, globalCtx, &D_06002448);
-        this->updateIndex = 19;
+        this->updateMode = 19;
         this->drawConfig = 17;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
@@ -1225,7 +1225,7 @@ void func_8097B9BC(DemoGj* this, GlobalContext* globalCtx) {
 
     if (func_8097983C(this, globalCtx)) {
         DemoGj_InitCommon(this, globalCtx, &D_06003AF0);
-        this->updateIndex = 20;
+        this->updateMode = 20;
         this->drawConfig = 18;
         scale->x *= 0.8f;
         scale->y *= 0.8f;
@@ -1285,14 +1285,14 @@ static DemoGjUpdateFunc sUpdateFuncs[] = {
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
 
-    if (this->updateIndex < 0 || this->updateIndex >= ARRAY_COUNT(sUpdateFuncs) ||
-        sUpdateFuncs[this->updateIndex] == NULL) {
+    if (this->updateMode < 0 || this->updateMode >= ARRAY_COUNT(sUpdateFuncs) ||
+        sUpdateFuncs[this->updateMode] == NULL) {
         // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
     }
 
-    sUpdateFuncs[this->updateIndex](this, globalCtx);
+    sUpdateFuncs[this->updateMode](this, globalCtx);
 }
 
 void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
