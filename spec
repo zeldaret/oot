@@ -5168,7 +5168,8 @@ endseg
 beginseg
     name "object_nwc"
     romalign 0x1000
-    include "build/baserom/object_nwc.o"
+    include "build/assets/objects/object_nwc/object_nwc.o"
+    number 6
 endseg
 
 beginseg
