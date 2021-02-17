@@ -74,7 +74,7 @@ static Gfx sTextureDL[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx sFrustrumDL[] = {
+static Gfx sFrustumDL[] = {
     gsSPVertex(sFrustumVtx, 32, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSP2Triangles(1, 4, 5, 0, 1, 5, 2, 0),

@@ -110,7 +110,7 @@ static Gfx sTexture2DL[] = {
     //! @bug : gsSPEndDisplayList() is missing so the next dlist will execute as well
 };
 
-static Gfx sFrustrumDL[] = {
+static Gfx sFrustumDL[] = {
     gsSPVertex(sFrustumVtx, 22, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
     gsSP2Triangles(4, 5, 0, 0, 5, 1, 0, 0),

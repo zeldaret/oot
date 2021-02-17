@@ -106,7 +106,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, sTexture2DL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
                                                      scroll * (-1), scroll, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, sFrustrumDL);
+    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 344);
 }
