@@ -10,12 +10,16 @@
 
 #define THIS ((ObjMure*)thisx)
 
-// s32 func_80B98B1C(ObjMure* this, s32 arg1, s32 params);
+// not sure about signatures
+s32 func_80B98AA0(Actor* thisx, s32 globalCtx);
+s32 func_80B98B1C(Actor* thisx, s32 globalCtx);
 void ObjMure_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjMure_Update(Actor* thisx, GlobalContext* globalCtx);
-// s32 func_80B98C88(ObjMure* this);
+s32 func_80B98C88(ObjMure* this);
 void func_80B992E4(ObjMure* this, GlobalContext* globalCtx);
+void func_80B992F8(ObjMure* this, GlobalContext* globalCtx);
+void func_80B99950(ObjMure* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Mure_InitVars = {
     ACTOR_OBJ_MURE,
@@ -33,12 +37,20 @@ s32 D_80B99A50[] =
     { 0x44C80000, 0x44C80000, 0x447A0000, 0x447A0000, 0x447A0000 };
 s32 D_80B99A64[] = 
     { 0x0000000C, 0x00000009, 0x00000008, 0x00000000 };
+
+// used to set actorID and params (?) in spawn _child
 s32 D_80B99A74[] = 
     { 0x01250000, 0x00210020, 0x001E0000 };
 s32 D_80B99A80[] = 
     { 0x00000002, 0xFFFF0000, 0xFFFF0000 };
-s32 D_80B99A8C[] = 
-    { 0xB0F404B0, 0xB0F800C8, 0x30FC04B0 };
+
+// sInitChain
+InitChainEntry D_80B99A8C[] = {
+    ICHAIN_F32(uncullZoneForward, 1200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 200, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
+};
+
 s32 D_80B99A98[] = 
     { 0x00000000, 0x00000000 };
 
@@ -47,61 +59,189 @@ s32 unk_FP2 = 0x80B995A4; // &func_80B995A4;
 s32 unk_FP3 = 0x80B997CC; //&func_80B997CC;
 s32 unk_1 = 0x00000000;
 
+// almost matching
+/* s32 func_80B98AA0(Actor *thisx, s32 globalCtx) {
+    ObjMure* this = THIS;
+    s16 temp_v0;
+
+    temp_v0 = this->type;
+
+    switch (temp_v0) {
+        case 2:
+        case 3:
+        case 4:
+            Actor_ProcessInitChain(thisx, D_80B99A8C);
+            return 1;
+        default:
+            osSyncPrintf("Error : カリングの設定がされていません。(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 0xCC, thisx->params);
+            break;
+    }
+    return 0;
+} */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98AA0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98B1C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98B1C.s")
+// matching
+s32 func_80B98B1C(Actor *thisx, s32 globalCtx) {
+    if (func_80B98AA0(thisx, globalCtx) == 0) {
+        return 0;
+    }
+    return 1;
+} 
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Init.s")
-void ObjMure_Init(Actor *thisx, GlobalContext *globalCtx) {
+// needs more work...
+/* void ObjMure_Init(Actor *thisx, GlobalContext *globalCtx) {
     ObjMure* this = THIS;
 
-    s32 temp_1 = 0xED;
-    this->unk_152 = (thisx->params >> 8) & 0x07;
-    this->unk_150 = (thisx->params >> 0xC) & 0x0F;
-    this->unk_154 = (thisx->params >> 5) & 0x03;
-    this->unk_156 = thisx->params & 0x1F;
+    this->chNum = (thisx->params >> 0xC) & 0x0F;
+    this->ptn = (thisx->params >> 8) & 0x07;
+    this->svNum = (thisx->params >> 5) & 0x03;
+    this->type = thisx->params & 0x1F;
 
-    if (this->unk_152 >= 4) {
-        osSyncPrintf("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", temp_1, thisx->params);
+    if (this->ptn >= 4) {
+        osSyncPrintf("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 0xED, thisx->params);
         Actor_Kill(thisx);
         return;
     }
-    if ((s32) this->unk_156 >= 5) {
+    if (this->type >= 5) {
         osSyncPrintf("Error 群れな敵 (%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 0xF5, thisx->params);
         Actor_Kill(thisx);
         return;
     }
     
-    if (func_80B98B1C(this, 0xF5, thisx->params) == 0) {
+    if (func_80B98B1C(thisx, 0xF5) == 0) {
         Actor_Kill(thisx);
         return;
     }
     this->actionFunc = func_80B992E4;
-    osSyncPrintf("群れな敵 (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n", thisx->params, this->unk_150, this->unk_152, this->unk_154, this->unk_156);
+    osSyncPrintf("群れな敵 (arg_data 0x%04x)(chNum(%d) ptn(%d) svNum(%d) type(%d))\n", thisx->params, this->chNum, this->ptn, this->svNum, this->type);
     if (func_80B98C88(this) <= 0) {
         osSyncPrintf("Warning : 個体数が設定されていません(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 0x10C, thisx->params);
-    }   
+    }
+} */
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Init.s")
+
+
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Destroy.s")
+// matching
+void ObjMure_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Destroy.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98C88.s")
+// matching
+s32 func_80B98C88(ObjMure *this) {
+    if (this->chNum == 0) {
+        return D_80B99A64[this->ptn];
+    }
+    return (s32) this->chNum;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98C88.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98CB4.s")
+// matching
+// ObjMure_SetActorPos
+void func_80B98CB4(PosRot* this, PosRot* globalCtx, s32 ptn, s32 arg3) {
+    if (ptn >= 4) {
+        osSyncPrintf("おかしなの (%s %d)\n", "../z_obj_mure.c", 0x133);
+    }
+    this->pos = globalCtx->pos;
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98CB4.s")
+// spawn children
+// almost matching (1 instruction, stack/regalloc)
+/* void func_80B98D18(ObjMure* this, GlobalContext* globalCtx) {
+    PosRot sp74;
+    PosRot* temp_a1;
+    ActorContext* temp_s2;
+    s32 i;
+    s32 temp_v0;
 
+    temp_v0 = func_80B98C88(this);
+    for (i = 0; i < temp_v0; i++)
+    {
+        if (this->unk_158[i] != NULL) {
+            // Translation: Error: I already have a child(%s %d)(arg_data 0x%04x)
+            osSyncPrintf("Error : 既に子供がいる(%s %d)(arg_data 0x%04x)\n", "../z_obj_mure.c", 0x14D, this->actor.params);
+        }
+        temp_s2 = &globalCtx->actorCtx;
+        if (this->unk_194[i] != 1) {
+            temp_a1 = &this->actor.world;
+            if (this->unk_194[i] == 2) {
+                func_80B98CB4(&sp74, temp_a1, this->ptn, i);
+                this->unk_158[i] = Actor_Spawn(temp_s2, globalCtx, (s16) *(D_80B99A74 + this->type * 2), sp74.pos.x, sp74.pos.y, sp74.pos.z, this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, (s16) *(D_80B99A80 + this->type * 2));
+                if (this->unk_158[i] != NULL) {
+                    this->unk_158[i]->flags |= 0x800;
+                    this->unk_158[i]->room = this->actor.room;
+                } else {
+                    osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 0x167);
+                }
+            } else {
+                func_80B98CB4(&sp74, temp_a1, this->ptn, i);
+                this->unk_158[i] = Actor_Spawn(temp_s2, globalCtx, (s16) *(D_80B99A74 + this->type * 2), sp74.pos.x, sp74.pos.y, sp74.pos.z, this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, (s16) *(D_80B99A80 + this->type * 2));
+                if (this->unk_158[i] != NULL) {
+                    this->unk_158[i]->room = this->actor.room;
+                } else {
+                    osSyncPrintf("warning 発生失敗 (%s %d)\n", "../z_obj_mure.c", 0x17E);
+                }
+            }
+        }
+    }
+} */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98D18.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B98F38.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B990BC.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B9910C.s")
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B9910C.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99204.s")
+// matching -- control flow cleanup
+// ObjMure_CleanupAndDie
+void func_80B9910C(ObjMure *this, GlobalContext *globalCtx) {
+    s32 temp_v0;
+    s32 i;
+
+    temp_v0 = func_80B98C88(this);
+    for (i = 0; i < temp_v0; i++) {
+        switch (this->unk_194[i]) {
+            case 1:
+                this->unk_158[i] = NULL;
+                break;
+            case 2:
+                if (this->unk_158[i] != NULL) {
+                    Actor_Kill(this->unk_158[i]);
+                    this->unk_158[i] = NULL;
+                }
+                break;
+            default:
+                if (this->unk_158[i] != NULL) {
+                    if (Actor_HasParent(this->unk_158[i], globalCtx)) {
+                        this->unk_158[i] = NULL;
+                    }
+                    else {
+                        Actor_Kill(this->unk_158[i]);
+                        this->unk_158[i] = NULL;
+                    }
+                }
+                break;
+        }
+    }
+}
+
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99204.s")
+// might have arguments of ObjMure *this, GlobalContext *globalCtx
+void func_80B99204(ObjMure* this, GlobalContext* globalCtx) {
+    func_80B9910C(this, globalCtx);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99224.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B992E4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B992E4.s")
+// matching
+void func_80B992E4(ObjMure *this, GlobalContext *globalCtx) {
+    this->actionFunc = func_80B992F8;
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B992F8.s")
 
@@ -115,4 +255,14 @@ void ObjMure_Init(Actor *thisx, GlobalContext *globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/func_80B99950.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Update.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure/ObjMure_Update.s")
+// matching
+void ObjMure_Update(Actor *thisx, GlobalContext *globalCtx) {
+    ObjMure* this = THIS;
+
+    if (this->unk_1A4 > 0) {
+        this->unk_1A4 = this->unk_1A4 - 1;
+    }
+
+    this->actionFunc(this, globalCtx);
+}
