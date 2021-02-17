@@ -76,7 +76,7 @@ static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_HEAVY };
 // Unused
 static f32 D_80A4DEBC[] = { 10.0f, 9.2f };
 
-extern Gfx D_060006B0[];
+extern Gfx gObjGoroiwaDL[];
 
 void func_80A4BCA0(EnGoroiwa* this) {
     static f32 colliderHeightOffset[] = { 0.0f, 59.5f };
@@ -743,5 +743,5 @@ void EnGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGoroiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_060006B0);
+    Gfx_DrawDListOpa(globalCtx, gObjGoroiwaDL);
 }

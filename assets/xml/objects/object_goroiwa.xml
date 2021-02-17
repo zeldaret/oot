@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_goroiwa" Segment="6">
+        <DList Name="gObjGoroiwaDL" Offset="0x6B0"/>
+    </File>
+</Root>

@@ -5149,7 +5149,8 @@ endseg
 beginseg
     name "object_goroiwa"
     romalign 0x1000
-    include "build/baserom/object_goroiwa.o"
+    include "build/assets/objects/object_goroiwa/object_goroiwa.o"
+    number 6
 endseg
 
 beginseg
