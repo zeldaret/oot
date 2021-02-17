@@ -692,12 +692,12 @@ void func_80AE3DE4(EnRd* this) {
         this->unk_318 = 1;
         this->unk_316 = 0x258;
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
-        func_8003426C(&this->actor, -0x8000, -0x7F38, 0, 0xFF);
+        Actor_SetColorFilter(&this->actor, -0x8000, -0x7F38, 0, 0xFF);
     } else if (this->unk_31C == 1) {
-        func_8003426C(&this->actor, 0, 0xC8, 0, 0x50);
+        Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, 0x50);
     } else {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_LIGHT_ARROW_HIT);
-        func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0x50);
+        Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0x50);
     }
     EnRd_SetupAction(this, func_80AE3ECC);
 }
@@ -706,7 +706,7 @@ void func_80AE3ECC(EnRd* this, GlobalContext* globalCtx) {
     if ((this->unk_318 != 0) && (this->unk_316 != 0)) {
         this->unk_316--;
         if (this->unk_316 >= 0xFF) {
-            func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0xFF);
+            Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0xFF);
         }
         if (this->unk_316 == 0) {
             this->unk_318 = 0;
@@ -779,10 +779,10 @@ void func_80AE4114(EnRd* this, GlobalContext* globalCtx) {
                 this->unk_316 = 0;
 
                 if (this->unk_31C == 0xE) {
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x50);
                     this->unk_31A = 0x28;
                 } else {
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
                 }
 
                 Actor_ApplyDamage(&this->actor);

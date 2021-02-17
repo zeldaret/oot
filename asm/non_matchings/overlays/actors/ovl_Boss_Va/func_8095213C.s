@@ -88,7 +88,7 @@ glabel func_8095213C
 /* 02F80 80952240 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 02F84 80952244 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 02F88 80952248 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 02F8C 8095224C 0C00D09B */  jal     func_8003426C              
+/* 02F8C 8095224C 0C00D09B */  jal     Actor_SetColorFilter              
 /* 02F90 80952250 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 02F94 80952254 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 02F98 80952258 0C00BE0A */  jal     Audio_PlayActorSound2

@@ -74,15 +74,15 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (anubis->unk_25A != 0) {
+    if (anubis->deathTimer != 0) {
         Actor_Kill(&this->actor);
         return;
     }
 
     if (this->actor.xzDistToPlayer < (200.0f + this->triggerRange)) {
-        if (anubis->unk_260 == 0) {
-            if (anubis->unk_262 == 0) {
-                anubis->unk_25E = 1;
+        if (!anubis->isLinkOutOfRange) {
+            if (!anubis->isKnockedback) {
+                anubis->isMirroringLink = true;
                 offset.x = -Math_SinS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
                 offset.z = -Math_CosS(this->actor.yawTowardsPlayer) * this->actor.xzDistToPlayer;
                 Math_ApproachF(&anubis->actor.world.pos.x, (this->actor.world.pos.x + offset.x), 0.3f, 10.0f);
@@ -91,8 +91,8 @@ void EnAnubiceTag_ManageAnubis(EnAnubiceTag* this, GlobalContext* globalCtx) {
             }
         }
     } else {
-        if (anubis->unk_25E != 0) {
-            anubis->unk_260 = 1;
+        if (anubis->isMirroringLink) {
+            anubis->isLinkOutOfRange = true;
         }
     }
 }

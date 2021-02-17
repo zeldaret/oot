@@ -17,7 +17,7 @@ f32 Math_Factorial(s32 n) {
     f32 ret;
     s32 i;
 
-    if (n > 12U) {
+    if ((u32)n > 12U) {
         ret = sFactorialTbl[12];
         for (i = 13; i <= n; i++) {
             ret *= i;

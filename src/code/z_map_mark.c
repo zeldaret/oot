@@ -79,12 +79,11 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     MapMarkIconData* mapMarkIconData;
     MapMarkPoint* markPoint;
     MapMarkInfo* markInfo;
-    u16 dungeon;
+    u16 dungeon = gSaveContext.mapIndex;
     s32 i;
     s32 rectLeft;
     s32 rectTop;
 
-    dungeon = gSaveContext.mapIndex;
     interfaceCtx = &globalCtx->interfaceCtx;
 
     if (gMapData != NULL && globalCtx->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon]) {

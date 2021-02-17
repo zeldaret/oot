@@ -1,7 +1,6 @@
 #include "global.h"
 
 #ifndef __GNUC__
-#pragma intrinsic(sqrt)
 #define __builtin_sqrt sqrt
 #endif
 

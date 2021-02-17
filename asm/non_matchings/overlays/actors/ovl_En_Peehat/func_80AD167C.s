@@ -20,7 +20,7 @@ glabel func_80AD167C
 /* 02220 80AD16C0 24180050 */  addiu   $t8, $zero, 0x0050         ## $t8 = 00000050
 /* 02224 80AD16C4 A48F0032 */  sh      $t7, 0x0032($a0)           ## 00000032
 /* 02228 80AD16C8 AFA40020 */  sw      $a0, 0x0020($sp)           
-/* 0222C 80AD16CC 0C00D09B */  jal     func_8003426C              
+/* 0222C 80AD16CC 0C00D09B */  jal     Actor_SetColorFilter              
 /* 02230 80AD16D0 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 02234 80AD16D4 8FA40020 */  lw      $a0, 0x0020($sp)           
 /* 02238 80AD16D8 0C00BE0A */  jal     Audio_PlayActorSound2
