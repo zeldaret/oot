@@ -110,7 +110,7 @@ s32 DemoGj_GetType(DemoGj* this) {
 }
 
 void DemoGj_InitCylinder(DemoGj* this, GlobalContext* globalCtx, ColliderCylinder* cylinder,
-                          ColliderCylinderInitType1* cylinderInit) {
+                         ColliderCylinderInitType1* cylinderInit) {
     Collider_InitCylinder(globalCtx, cylinder);
     Collider_SetCylinderType1(globalCtx, cylinder, &this->dyna.actor, cylinderInit);
 }
@@ -1275,17 +1275,18 @@ void DemoGj_Draw18(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, &D_06003710);
 }
 
-static DemoGjUpdateFunc sUpdateFuncs[] = { DemoGj_Update0,  DemoGj_Update1,  DemoGj_Update2,  DemoGj_Update3,
-                                           DemoGj_Update4,  DemoGj_Update5,  DemoGj_Update6,  DemoGj_Update7,
-                                           DemoGj_Update8,  DemoGj_Update9,  DemoGj_Update10, DemoGj_Update11,
-                                           DemoGj_Update12, DemoGj_Update13, DemoGj_Update14, DemoGj_Update15,
-                                           DemoGj_Update16, DemoGj_Update17, DemoGj_Update18, DemoGj_Update19,
-                                           DemoGj_Update20, };
+static DemoGjUpdateFunc sUpdateFuncs[] = {
+    DemoGj_Update0,  DemoGj_Update1,  DemoGj_Update2,  DemoGj_Update3,  DemoGj_Update4,  DemoGj_Update5,
+    DemoGj_Update6,  DemoGj_Update7,  DemoGj_Update8,  DemoGj_Update9,  DemoGj_Update10, DemoGj_Update11,
+    DemoGj_Update12, DemoGj_Update13, DemoGj_Update14, DemoGj_Update15, DemoGj_Update16, DemoGj_Update17,
+    DemoGj_Update18, DemoGj_Update19, DemoGj_Update20,
+};
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
 
-    if (this->updateIndex < 0 || this->updateIndex >= ARRAY_COUNT(sUpdateFuncs) || sUpdateFuncs[this->updateIndex] == NULL) {
+    if (this->updateIndex < 0 || this->updateIndex >= ARRAY_COUNT(sUpdateFuncs) ||
+        sUpdateFuncs[this->updateIndex] == NULL) {
         // The main mode is abnormal!!!!!!!!!!!!!!!!!!!!!!!!!
         osSyncPrintf(VT_FGCOL(RED) "メインモードがおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
         return;
@@ -1353,11 +1354,11 @@ void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
 void DemoGj_Draw0_DoNothing(DemoGj* this, GlobalContext* globalCtx) {
 }
 
-static DemoGjDrawFunc sDrawFuncs[] = { DemoGj_Draw0_DoNothing, DemoGj_Draw1,  DemoGj_Draw2,  DemoGj_Draw3,
-                                         DemoGj_Draw4,           DemoGj_Draw5,  DemoGj_Draw6,  DemoGj_Draw7,
-                                         DemoGj_Draw8,           DemoGj_Draw9,  DemoGj_Draw10, DemoGj_Draw11,
-                                         DemoGj_Draw12,          DemoGj_Draw13, DemoGj_Draw14, DemoGj_Draw15,
-                                         DemoGj_Draw16,          DemoGj_Draw17, DemoGj_Draw18, };
+static DemoGjDrawFunc sDrawFuncs[] = {
+    DemoGj_Draw0_DoNothing, DemoGj_Draw1,  DemoGj_Draw2,  DemoGj_Draw3,  DemoGj_Draw4,  DemoGj_Draw5,  DemoGj_Draw6,
+    DemoGj_Draw7,           DemoGj_Draw8,  DemoGj_Draw9,  DemoGj_Draw10, DemoGj_Draw11, DemoGj_Draw12, DemoGj_Draw13,
+    DemoGj_Draw14,          DemoGj_Draw15, DemoGj_Draw16, DemoGj_Draw17, DemoGj_Draw18,
+};
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
