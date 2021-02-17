@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_gjyo_objects" Segment="6">
+        <DList Name="gRainbowBridgeDL" Offset="0x600"/>
+        <Collision Name="gRainbowBridgeCol" Offset="0xDB8"/>
+    </File>
+</Root>

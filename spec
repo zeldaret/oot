@@ -5243,7 +5243,8 @@ endseg
 beginseg
     name "object_gjyo_objects"
     romalign 0x1000
-    include "build/baserom/object_gjyo_objects.o"
+    include "build/assets/objects/object_gjyo_objects/object_gjyo_objects.o"
+    number 6
 endseg
 
 beginseg
