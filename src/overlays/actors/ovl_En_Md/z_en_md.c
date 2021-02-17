@@ -5,6 +5,7 @@
  */
 
 #include "z_en_md.h"
+#include "objects/object_md/object_md.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x02000019
@@ -57,17 +58,14 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { 0x0600917C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06009E68, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { 0x06009B1C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008E84, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { 0x060097F0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x060092B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { 0x0600A138, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x06008FC0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { 0x06008510, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
-    { 0x060095BC, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnim0, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { &gMidoAnim0, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gMidoAnim5, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAnim10, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnim9, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAnim3, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnim8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { &gMidoAnim6, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAnim11, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { &gMidoAnim4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { &gMidoAnim0, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &gMidoAnim1, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { &gMidoAnim7, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { &gMidoAnim2, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
-
-extern AnimationHeader D_060002C8;
-extern FlexSkeletonHeader D_06007FB8;
 
 void func_80AAA250(EnMd* this) {
     f32 startFrame;
@@ -319,7 +317,7 @@ void func_80AAAA24(EnMd* this) {
                 }
                 break;
         }
-    } else if (this->skelAnime.animation != &D_060002C8) {
+    } else if (this->skelAnime.animation != &gMidoAnim0) {
         func_80034EC0(&this->skelAnime, sAnimations, 10);
         func_80AAA92C(this, 0);
     }
@@ -609,7 +607,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 24.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007FB8, NULL, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gMidoSkel, NULL, this->jointTable, this->morphTable, 17);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -648,7 +646,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &D_060002C8) {
+    if (this->skelAnime.animation == &gMidoAnim0) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
@@ -658,7 +656,7 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.animation == &D_060002C8) {
+    if (this->skelAnime.animation == &gMidoAnim0) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
     func_80AAA93C(this);
@@ -710,7 +708,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if (this->skelAnime.animation == &D_060002C8) {
+    if (this->skelAnime.animation == &gMidoAnim0) {
         func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
 
@@ -824,9 +822,9 @@ void EnMd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnMd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static UNK_PTR sEyesSegments[] = {
-        0x06004FF0,
-        0x06005930,
-        0x06005D30,
+        &gMidoEyeOpen,
+        &gMidoEyeHalfOpen,
+        &gMidoEyeClosed,
     };
     EnMd* this = THIS;
 

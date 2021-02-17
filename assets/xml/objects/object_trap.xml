@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_trap" Segment="6">
+        <DList Name="gObjTrapDL" Offset="0x1400"/>
+    </File>
+</Root>

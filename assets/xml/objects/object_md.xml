@@ -1,0 +1,20 @@
+<Root>
+    <File Name="object_md" Segment="6">
+        <Animation Name="gMidoAnim0" Offset="0x2C8"/>
+        <Animation Name="gMidoAnim1" Offset="0x8510"/>
+        <Animation Name="gMidoAnim2" Offset="0x8738"/>
+        <Animation Name="gMidoAnim3" Offset="0x8E84"/>
+        <Animation Name="gMidoAnim4" Offset="0x8FC0"/>
+        <Animation Name="gMidoAnim5" Offset="0x917C"/>
+        <Animation Name="gMidoAnim6" Offset="0x92B0"/>
+        <Animation Name="gMidoAnim7" Offset="0x95BC"/>
+        <Animation Name="gMidoAnim8" Offset="0x97F0"/>
+        <Animation Name="gMidoAnim9" Offset="0x9B1C"/>
+        <Animation Name="gMidoAnim10" Offset="0x9E68"/>
+        <Animation Name="gMidoAnim11" Offset="0xA138"/>
+        <Skeleton Name="gMidoSkel" Type="Flex" LimbType="Standard" Offset="0x7FB8"/>
+        <Texture Name="gMidoEyeOpen" OutName="mido_eye_open" Format="ci8" Width="32" Height="32" Offset="0x4FF0"/>
+        <Texture Name="gMidoEyeHalfOpen" OutName="mido_eye_half_open" Format="ci8" Width="32" Height="32" Offset="0x5930"/>
+        <Texture Name="gMidoEyeClosed" OutName="mido_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x5D30"/>
+    </File>
+</Root>

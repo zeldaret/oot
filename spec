@@ -4186,7 +4186,8 @@ endseg
 beginseg
     name "object_trap"
     romalign 0x1000
-    include "build/baserom/object_trap.o"
+    include "build/assets/objects/object_trap/object_trap.o"
+    number 6
 endseg
 
 beginseg
@@ -4922,7 +4923,8 @@ endseg
 beginseg
     name "object_md"
     romalign 0x1000
-    include "build/baserom/object_md.o"
+    include "build/assets/objects/object_md/object_md.o"
+    number 6
 endseg
 
 beginseg
