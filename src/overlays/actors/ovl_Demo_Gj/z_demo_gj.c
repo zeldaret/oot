@@ -10,23 +10,22 @@ void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern Gfx D_06000DC0;
-extern Gfx D_06000EA0;
-extern CollisionHeader D_06001B70;
-extern Gfx D_06001D20;
-extern CollisionHeader D_06001F70;
-extern Gfx D_06002160;
-extern CollisionHeader D_06002448;
-extern Gfx D_06002600;
-extern CollisionHeader D_06002850;
-extern Gfx D_06002A40;
-extern CollisionHeader D_06002D28;
-extern Gfx D_06002E80;
-extern CollisionHeader D_06002FE4;
-extern Gfx D_06003190;
-extern CollisionHeader D_060033E0;
-extern Gfx D_06003710;
-extern CollisionHeader D_06003AF0;
+extern Gfx gGanonsCastleRubble1DL[];
+extern CollisionHeader gGanonsCastleRubble1Col;
+extern Gfx gGanonsCastleRubble2DL[];
+extern CollisionHeader gGanonsCastleRubble2Col;
+extern Gfx gGanonsCastleRubble3DL[];
+extern CollisionHeader gGanonsCastleRubble3Col;
+extern Gfx gGanonsCastleRubble4DL[];
+extern CollisionHeader gGanonsCastleRubble4Col;
+extern Gfx gGanonsCastleRubble5DL[];
+extern CollisionHeader gGanonsCastleRubble5Col;
+extern Gfx gGanonsCastleRubble6DL[];
+extern CollisionHeader gGanonsCastleRubble6Col;
+extern Gfx gGanonsCastleRubble7DL[];
+extern CollisionHeader gGanonsCastleRubble7Col;
+extern Gfx gGanonsCastleRubble8DL[];
+extern CollisionHeader gGanonsCastleRubble8Col;
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
@@ -210,7 +209,7 @@ void func_80978C20(DemoGj* this, GlobalContext* globalCtx, Vec3f* arg2, Vec3f* a
 
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, arg2, -0xC8, phi_s0, 0xA, 0xA, 0,
                              Rand_ZeroOne() * 20.0f + 20.0f, 0x14, 0x12C, (s32)(Rand_ZeroOne() * 30.0f) + 0x1E, -1,
-                             OBJECT_GEFF, &D_06000EA0);
+                             OBJECT_GEFF, &gGanonsCastleRubble1DL[28]);
 
         theta += 0x2AAA;
     }
@@ -568,7 +567,7 @@ void func_80979F9C(DemoGj* this) {
 }
 
 void func_80979FD0(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 1, 2, &D_06001F70);
+    DemoGj_InitSetIndexes(this, globalCtx, 1, 2, &gGanonsCastleRubble2Col);
 }
 
 void func_8097A000(DemoGj* this, GlobalContext* globalCtx) {
@@ -623,15 +622,15 @@ void DemoGj_Update8(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw2(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06001D20);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
 void DemoGj_Draw9(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, &D_06001D20);
+    func_8097911C(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
 void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 2, 3, &D_06002448);
+    DemoGj_InitSetIndexes(this, globalCtx, 2, 3, &gGanonsCastleRubble3Col);
 }
 
 void func_8097A238(DemoGj* this, GlobalContext* globalCtx) {
@@ -686,15 +685,15 @@ void DemoGj_Update9(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw3(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06002160);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
 void DemoGj_Draw10(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, &D_06002160);
+    func_8097911C(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
 void func_8097A444(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 3, 4, &D_06002850);
+    DemoGj_InitSetIndexes(this, globalCtx, 3, 4, &gGanonsCastleRubble4Col);
 }
 
 void func_8097A474(DemoGj* this, GlobalContext* globalCtx) {
@@ -732,15 +731,15 @@ void DemoGj_Update10(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw4(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06002600);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble4DL);
 }
 
 void DemoGj_Draw11(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, &D_06002600);
+    func_8097911C(this, globalCtx, gGanonsCastleRubble4DL);
 }
 
 void func_8097A614(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 4, 5, &D_06002D28);
+    DemoGj_InitSetIndexes(this, globalCtx, 4, 5, &gGanonsCastleRubble5Col);
 }
 
 void func_8097A644(DemoGj* this, GlobalContext* globalCtx) {
@@ -778,15 +777,15 @@ void DemoGj_Update11(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw5(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06002A40);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble5DL);
 }
 
 void DemoGj_Draw12(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, &D_06002A40);
+    func_8097911C(this, globalCtx, gGanonsCastleRubble5DL);
 }
 
 void func_8097A7E4(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 5, 6, &D_06002FE4);
+    DemoGj_InitSetIndexes(this, globalCtx, 5, 6, &gGanonsCastleRubble6Col);
 }
 
 void func_8097A814(DemoGj* this, GlobalContext* globalCtx) {
@@ -824,15 +823,15 @@ void DemoGj_Update12(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw6(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06002E80);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble6DL);
 }
 
 void DemoGj_Draw13(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, &D_06002E80);
+    func_8097911C(this, globalCtx, gGanonsCastleRubble6DL);
 }
 
 void func_8097A9B4(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 6, 7, &D_060033E0);
+    DemoGj_InitSetIndexes(this, globalCtx, 6, 7, &gGanonsCastleRubble7Col);
 }
 
 void func_8097A9E4(DemoGj* this, GlobalContext* globalCtx) {
@@ -870,15 +869,15 @@ void DemoGj_Update13(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw7(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06003190);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble7DL);
 }
 
 void DemoGj_Draw14(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, &D_06003190);
+    func_8097911C(this, globalCtx, gGanonsCastleRubble7DL);
 }
 
 void func_8097AB84(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 7, 8, &D_06003AF0);
+    DemoGj_InitSetIndexes(this, globalCtx, 7, 8, &gGanonsCastleRubble8Col);
 }
 
 void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
@@ -933,15 +932,15 @@ void DemoGj_Update14(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw8(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06003710);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble8DL);
 }
 
 void DemoGj_Draw15(DemoGj* this, GlobalContext* globalCtx) {
-    func_8097911C(this, globalCtx, &D_06003710);
+    func_8097911C(this, globalCtx, gGanonsCastleRubble8DL);
 }
 
 void func_8097ADC0(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 0, 1, &D_06001B70);
+    DemoGj_InitSetIndexes(this, globalCtx, 0, 1, &gGanonsCastleRubble1Col);
 }
 
 void DemoGj_Update0(DemoGj* this, GlobalContext* globalCtx) {
@@ -952,7 +951,7 @@ void DemoGj_Update0(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw1(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06000DC0);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble1DL);
 }
 
 void func_8097AE5C(DemoGj* this, GlobalContext* globalCtx) {
@@ -1011,10 +1010,10 @@ void func_8097B0EC(DemoGj* this, GlobalContext* globalCtx, Vec3f* arg2) {
 }
 
 void func_8097B128(DemoGj* this, GlobalContext* globalCtx) {
-    Vec3f* scale = &this->dyna.actor.scale;
-
     if (func_8097983C(this, globalCtx)) {
-        DemoGj_InitCommon(this, globalCtx, &D_06001F70);
+        Vec3f* scale = &this->dyna.actor.scale;
+
+        DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubble2Col);
         this->updateMode = 18;
         this->drawConfig = 16;
         scale->x *= 0.8f;
@@ -1073,7 +1072,7 @@ void DemoGj_Update18(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw16(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06001D20);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
 void func_8097B3C4(DemoGj* this, GlobalContext* globalCtx) {
@@ -1149,7 +1148,7 @@ void func_8097B6C4(DemoGj* this, GlobalContext* globalCtx) {
     Vec3f* scale = &this->dyna.actor.scale;
 
     if (func_8097983C(this, globalCtx)) {
-        DemoGj_InitCommon(this, globalCtx, &D_06002448);
+        DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubble3Col);
         this->updateMode = 19;
         this->drawConfig = 17;
         scale->x *= 0.8f;
@@ -1195,7 +1194,7 @@ void DemoGj_Update19(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw17(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06002160);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
 void func_8097B8E8(DemoGj* this, GlobalContext* globalCtx) {
@@ -1224,7 +1223,7 @@ void func_8097B9BC(DemoGj* this, GlobalContext* globalCtx) {
     Vec3f* scale = &this->dyna.actor.scale;
 
     if (func_8097983C(this, globalCtx)) {
-        DemoGj_InitCommon(this, globalCtx, &D_06003AF0);
+        DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubble8Col);
         this->updateMode = 20;
         this->drawConfig = 18;
         scale->x *= 0.8f;
@@ -1272,7 +1271,7 @@ void DemoGj_Update20(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw18(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, &D_06003710);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble8DL);
 }
 
 static DemoGjUpdateFunc sUpdateFuncs[] = {

@@ -35,7 +35,7 @@ typedef enum {
     /* 14 */ DEMOGJ_TYPE_14,
     /* 16 */ DEMOGJ_TYPE_16 = 16,
     /* 17 */ DEMOGJ_TYPE_17,
-    /* 22 */ DEMOGJ_TYPE_22 = 22,
+    /* 22 */ DEMOGJ_TYPE_22 = 22
 } DemoGjType;
 
 #endif
