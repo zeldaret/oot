@@ -3578,7 +3578,8 @@ endseg
 beginseg
     name "object_niw"
     romalign 0x1000
-    include "build/baserom/object_niw.o"
+    include "build/assets/objects/object_niw/object_niw.o"
+    number 6
 endseg
 
 beginseg

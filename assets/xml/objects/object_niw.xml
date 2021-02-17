@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_niw" Segment="6">
+        <Animation Name="gObjNiwAnim" Offset="0xE8"/>
+        <DList Name="gObjNiwDL0" Offset="0x23B0"/>
+        <DList Name="gObjNiwDL1" Offset="0x2428"/>
+        <Skeleton Name="gObjNiwSkel" Type="Flex" LimbType="Standard" Offset="0x2530"/>
+    </File>
+</Root>
