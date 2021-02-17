@@ -5824,7 +5824,8 @@ endseg
 beginseg
     name "object_gs"
     romalign 0x1000
-    include "build/baserom/object_gs.o"
+    include "build/assets/objects/object_gs/object_gs.o"
+    number 6
 endseg
 
 beginseg

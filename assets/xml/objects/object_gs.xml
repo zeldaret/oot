@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_gs" Segment="6">
+        <DList Name="gObjGsDL0" Offset="0x950"/>
+        <DList Name="gObjGsDL1" Offset="0x9D0"/>
+        <DList Name="gObjGsDL2" Offset="0xA60"/>
+    </File>
+</Root>
