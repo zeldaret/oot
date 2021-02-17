@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_door_gerudo" Segment="6">
+        <DList Name="gDoorGerudoDL" Offset="0x40"/>
+        <Collision Name="gDoorGerudoCol" Offset="0x170"/>
+    </File>
+</Root>

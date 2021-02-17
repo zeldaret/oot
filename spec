@@ -5422,7 +5422,8 @@ endseg
 beginseg
     name "object_door_gerudo"
     romalign 0x1000
-    include "build/baserom/object_door_gerudo.o"
+    include "build/assets/objects/object_door_gerudo/object_door_gerudo.o"
+    number 6
 endseg
 
 beginseg
