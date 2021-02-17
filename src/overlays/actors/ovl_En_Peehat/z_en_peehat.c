@@ -1,9 +1,13 @@
 #include "z_en_peehat.h"
-#include "../ovl_En_Bom/z_en_bom.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x01000015
 
 #define THIS ((EnPeehat*)thisx)
+
+#define GROUND_HOVER_HEIGHT 75.0f
+#define MAX_LARVA 3
 
 void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -123,63 +127,63 @@ static ColliderQuadInit sQuadInit = {
 };
 
 typedef enum {
-    DMG_EFF_ATTACK = 0,
-    DMG_EFF_LIGHT_ICE_ARROW = 6,
-    DMG_EFF_FIRE = 12,
-    DMG_EFF_HOOKSHOT = 13,
-    DMG_EFF_BOOMERANG = 14,
-    DMG_EFF_NUT = 15
+    /* 00 */ PEAHAT_DMG_EFF_ATTACK = 0,
+    /* 06 */ PEAHAT_DMG_EFF_LIGHT_ICE_ARROW = 6,
+    /* 12 */ PEAHAT_DMG_EFF_FIRE = 12,
+    /* 13 */ PEAHAT_DMG_EFF_HOOKSHOT = 13,
+    /* 14 */ PEAHAT_DMG_EFF_BOOMERANG = 14,
+    /* 15 */ PEAHAT_DMG_EFF_NUT = 15
 } DamageEffect;
 
 static DamageTable sDamageTable = {
-    /* Deku nut      */ DMG_ENTRY(0, DMG_EFF_NUT),
-    /* Deku stick    */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Slingshot     */ DMG_ENTRY(1, DMG_EFF_ATTACK),
-    /* Explosive     */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Boomerang     */ DMG_ENTRY(0, DMG_EFF_BOOMERANG),
-    /* Normal arrow  */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Hammer swing  */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Hookshot      */ DMG_ENTRY(2, DMG_EFF_HOOKSHOT),
-    /* Kokiri sword  */ DMG_ENTRY(1, DMG_EFF_ATTACK),
-    /* Master sword  */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Giant's Knife */ DMG_ENTRY(4, DMG_EFF_ATTACK),
-    /* Fire arrow    */ DMG_ENTRY(4, DMG_EFF_FIRE),
-    /* Ice arrow     */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Light arrow   */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Unk arrow 1   */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Unk arrow 2   */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Unk arrow 3   */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Fire magic    */ DMG_ENTRY(3, DMG_EFF_FIRE),
-    /* Ice magic     */ DMG_ENTRY(0, DMG_EFF_LIGHT_ICE_ARROW),
-    /* Light magic   */ DMG_ENTRY(0, DMG_EFF_LIGHT_ICE_ARROW),
-    /* Shield        */ DMG_ENTRY(0, DMG_EFF_ATTACK),
-    /* Mirror Ray    */ DMG_ENTRY(0, DMG_EFF_ATTACK),
-    /* Kokiri spin   */ DMG_ENTRY(1, DMG_EFF_ATTACK),
-    /* Giant spin    */ DMG_ENTRY(4, DMG_EFF_ATTACK),
-    /* Master spin   */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Kokiri jump   */ DMG_ENTRY(2, DMG_EFF_ATTACK),
-    /* Giant jump    */ DMG_ENTRY(8, DMG_EFF_ATTACK),
-    /* Master jump   */ DMG_ENTRY(4, DMG_EFF_ATTACK),
-    /* Unknown 1     */ DMG_ENTRY(0, DMG_EFF_ATTACK),
-    /* Unblockable   */ DMG_ENTRY(0, DMG_EFF_ATTACK),
-    /* Hammer jump   */ DMG_ENTRY(4, DMG_EFF_ATTACK),
-    /* Unknown 2     */ DMG_ENTRY(0, DMG_EFF_ATTACK),
+    /* Deku nut      */ DMG_ENTRY(0, PEAHAT_DMG_EFF_NUT),
+    /* Deku stick    */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Slingshot     */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
+    /* Explosive     */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Boomerang     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_BOOMERANG),
+    /* Normal arrow  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Hammer swing  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Hookshot      */ DMG_ENTRY(2, PEAHAT_DMG_EFF_HOOKSHOT),
+    /* Kokiri sword  */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
+    /* Master sword  */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Giant's Knife */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
+    /* Fire arrow    */ DMG_ENTRY(4, PEAHAT_DMG_EFF_FIRE),
+    /* Ice arrow     */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Light arrow   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Unk arrow 1   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Unk arrow 2   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Unk arrow 3   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Fire magic    */ DMG_ENTRY(3, PEAHAT_DMG_EFF_FIRE),
+    /* Ice magic     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_LIGHT_ICE_ARROW),
+    /* Light magic   */ DMG_ENTRY(0, PEAHAT_DMG_EFF_LIGHT_ICE_ARROW),
+    /* Shield        */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
+    /* Mirror Ray    */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
+    /* Kokiri spin   */ DMG_ENTRY(1, PEAHAT_DMG_EFF_ATTACK),
+    /* Giant spin    */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
+    /* Master spin   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Kokiri jump   */ DMG_ENTRY(2, PEAHAT_DMG_EFF_ATTACK),
+    /* Giant jump    */ DMG_ENTRY(8, PEAHAT_DMG_EFF_ATTACK),
+    /* Master jump   */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
+    /* Unknown 1     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
+    /* Unblockable   */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
+    /* Hammer jump   */ DMG_ENTRY(4, PEAHAT_DMG_EFF_ATTACK),
+    /* Unknown 2     */ DMG_ENTRY(0, PEAHAT_DMG_EFF_ATTACK),
 };
 
 typedef enum {
-    PEAHAT_STATE_DYING,
-    PEAHAT_STATE_EXPLODE,
-    PEAHAT_STATE_3 = 3,
-    PEAHAT_STATE_4,
-    PEAHAT_STATE_FLY,
-    PEAHAT_STATE_ATTACK_RECOIL = 7,
-    PEAHAT_STATE_8,
-    PEAHAT_STATE_9,
-    PEAHAT_STATE_LANDING, // State landing
-    PEAHAT_STATE_RETURN_HOME = 12,
-    PEAHAT_STATE_STUNNED,
-    PEAHAT_STATE_SEEK_PLAYER,
-    PEAHAT_STATE_15
+    /* 00 */ PEAHAT_STATE_DYING,
+    /* 01 */ PEAHAT_STATE_EXPLODE,
+    /* 03 */ PEAHAT_STATE_3 = 3,
+    /* 04 */ PEAHAT_STATE_4,
+    /* 05 */ PEAHAT_STATE_FLY,
+    /* 07 */ PEAHAT_STATE_ATTACK_RECOIL = 7,
+    /* 08 */ PEAHAT_STATE_8,
+    /* 09 */ PEAHAT_STATE_9,
+    /* 10 */ PEAHAT_STATE_LANDING,
+    /* 12 */ PEAHAT_STATE_RETURN_HOME = 12,
+    /* 13 */ PEAHAT_STATE_STUNNED,
+    /* 14 */ PEAHAT_STATE_SEEK_PLAYER,
+    /* 15 */ PEAHAT_STATE_15
 } PeahatState;
 
 static InitChainEntry sInitChain[] = {
@@ -218,17 +222,17 @@ void EnPeehat_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.uncullZoneScale = 800.0f;
     this->actor.uncullZoneDownward = 1800.0f;
     switch (this->actor.params) {
-        case TYPE_GROUNDED:
+        case PEAHAT_TYPE_GROUNDED:
             EnPeehat_Ground_SetStateGround(this);
             break;
-        case TYPE_FLYING:
+        case PEAHAT_TYPE_FLYING:
             this->actor.uncullZoneForward = 4200.0f;
             this->xzDistToRise = 2800.0f;
             this->xzDistMax = 1400.0f;
             EnPeehat_Flying_SetStateGround(this);
             this->actor.flags &= ~1;
             break;
-        case TYPE_LARVA:
+        case PEAHAT_TYPE_LARVA:
             this->actor.scale.x = this->actor.scale.z = 0.006f;
             this->actor.scale.y = 0.003f;
             this->colCylinder.dim.radius = 25;
@@ -249,7 +253,7 @@ void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->colCylinder);
     Collider_DestroyJntSph(globalCtx, &this->colJntSph);
 
-    // If larva, decrement total larva spawned
+    // If PEAHAT_TYPE_LARVA, decrement total larva spawned
     if (this->actor.params > 0) {
         parent = (EnPeehat*)this->actor.parent;
         if (parent != NULL && parent->actor.update != NULL) {
@@ -260,8 +264,8 @@ void EnPeehat_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnPeehat_SpawnDust(GlobalContext* globalCtx, EnPeehat* this, Vec3f* pos, f32 arg3, s32 arg4, f32 arg5, f32 arg6) {
     Vec3f dustPos;
-    Vec3f dustVel = { 0, 8, 0 };
-    Vec3f dustAccel = { 0, -1.5f, 0 };
+    Vec3f dustVel = { 0.0f, 8.0f, 0.0f };
+    Vec3f dustAccel = { 0.0f, -1.5f, 0.0f };
     f32 rot; // radians
     s32 pScale;
 
@@ -273,7 +277,7 @@ void EnPeehat_SpawnDust(GlobalContext* globalCtx, EnPeehat* this, Vec3f* pos, f3
     dustAccel.z = (Rand_ZeroOne() - 0.5f) * arg5;
     dustVel.y += (Rand_ZeroOne() - 0.5f) * 4.0f;
     pScale = (Rand_ZeroOne() * 5 + 12) * arg6;
-    EffectSsHahen_Spawn(globalCtx, &dustPos, &dustVel, &dustAccel, arg4, pScale, -1, 10, NULL);
+    EffectSsHahen_Spawn(globalCtx, &dustPos, &dustVel, &dustAccel, arg4, pScale, HAHEN_OBJECT_DEFAULT, 10, NULL);
 }
 
 /*
@@ -292,10 +296,11 @@ void EnPeehat_HitWhenGrounded(EnPeehat* this, GlobalContext* globalCtx) {
         s32 i;
         this->colCylinder.base.acFlags &= ~AC_HIT;
         for (i = MAX_LARVA - this->unk2FA; i > 0; i--) {
-            Actor* larva = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_PEEHAT,
-                                              Rand_CenteredFloat(25.0f) + this->actor.world.pos.x,
-                                              Rand_CenteredFloat(25.0f) + (this->actor.world.pos.y + 50.0f),
-                                              Rand_CenteredFloat(25.0f) + this->actor.world.pos.z, 0, 0, 0, TYPE_LARVA);
+            Actor* larva =
+                Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_PEEHAT,
+                                   Rand_CenteredFloat(25.0f) + this->actor.world.pos.x,
+                                   Rand_CenteredFloat(25.0f) + (this->actor.world.pos.y + 50.0f),
+                                   Rand_CenteredFloat(25.0f) + this->actor.world.pos.z, 0, 0, 0, PEAHAT_TYPE_LARVA);
             if (larva != NULL) {
                 larva->velocity.y = 6.0f;
                 larva->shape.rot.y = larva->world.rot.y = (s16)Rand_CenteredFloat(0xFFFF);
@@ -555,10 +560,8 @@ void EnPeehat_Larva_StateSeekPlayer(EnPeehat* this, GlobalContext* globalCtx) {
         this->actor.colChkInfo.health = 0;
         this->colQuad.base.acFlags = this->colQuad.base.acFlags & ~AC_BOUNCED;
         EnPeehat_SetStateAttackRecoil(this);
-        return;
-    }
-    if ((this->colQuad.base.atFlags & AT_HIT) || (this->colCylinder.base.acFlags & AC_HIT) ||
-        (this->actor.bgCheckFlags & 1)) {
+    } else if ((this->colQuad.base.atFlags & AT_HIT) || (this->colCylinder.base.acFlags & AC_HIT) ||
+               (this->actor.bgCheckFlags & 1)) {
         Player* player = PLAYER;
         this->colQuad.base.atFlags &= ~AT_HIT;
         if ((this->colCylinder.base.acFlags & AC_HIT) == 0 && &player->actor == this->colQuad.base.at) {
@@ -745,7 +748,7 @@ void EnPeehat_StateAttackRecoil(EnPeehat* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     this->actor.speedXZ += 0.5f;
     if (this->actor.speedXZ == 0.0f) {
-        // Is TYPE_LARVA
+        // Is PEAHAT_TYPE_LARVA
         if (this->actor.params > 0) {
             Vec3f zeroVec = { 0, 0, 0 };
             s32 i;
@@ -760,7 +763,7 @@ void EnPeehat_StateAttackRecoil(EnPeehat* this, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
         } else {
             EnPeehat_Ground_SetStateSeekPlayer(this);
-            // Is TYPE_GROUNDED
+            // Is PEAHAT_TYPE_GROUNDED
             if (this->actor.params < 0) {
                 this->unk2FA = (this->unk2FA != 0) ? 0 : 1;
             }
@@ -838,6 +841,7 @@ void EnPeehat_Adult_StateDie(EnPeehat* this, GlobalContext* globalCtx) {
         if (this->unk2D4 <= 0) {
             if (this->actor.colChkInfo.health == 0) {
                 EnPeehat_SetStateExplode(this);
+                // if PEAHAT_TYPE_GROUNDED
             } else if (this->actor.params < 0) {
                 EnPeehat_Ground_SetStateHover(this);
                 this->riseDelayTimer = 60;
@@ -884,13 +888,13 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
     } else if (this->colJntSph.base.acFlags & AC_HIT) {
         this->colJntSph.base.acFlags &= ~AC_HIT;
         func_8003573C(&this->actor, &this->colJntSph, 1);
-        if (this->actor.colChkInfo.damageEffect == DMG_EFF_NUT ||
-            this->actor.colChkInfo.damageEffect == DMG_EFF_LIGHT_ICE_ARROW) {
+        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_NUT ||
+            this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
             return;
         }
-        if (this->actor.colChkInfo.damageEffect == DMG_EFF_HOOKSHOT) {
+        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_HOOKSHOT) {
             this->actor.colChkInfo.health = 0;
-        } else if (this->actor.colChkInfo.damageEffect == DMG_EFF_BOOMERANG) {
+        } else if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_BOOMERANG) {
             if (this->state != PEAHAT_STATE_STUNNED) {
                 EnPeehat_SetStateBoomerangStunned(this);
             }
@@ -901,12 +905,12 @@ void EnPeehat_Adult_CollisionCheck(EnPeehat* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_PIHAT_DAMAGE);
         }
 
-        if (this->actor.colChkInfo.damageEffect == DMG_EFF_FIRE) {
+        if (this->actor.colChkInfo.damageEffect == PEAHAT_DMG_EFF_FIRE) {
             Vec3f pos;
             s32 i;
             for (i = 4; i >= 0; i--) {
                 pos.x = Rand_CenteredFloat(20.0f) + this->actor.world.pos.x;
-                pos.y = (Rand_ZeroOne() * 25.0f) + this->actor.world.pos.y;
+                pos.y = Rand_ZeroOne() * 25.0f + this->actor.world.pos.y;
                 pos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
                 EffectSsEnFire_SpawnVec3f(globalCtx, &this->actor, &pos, 70, 0, 0, -1);
             }
@@ -927,7 +931,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params <= 0) {
         EnPeehat_Adult_CollisionCheck(this, globalCtx);
     }
-    if (thisx->colChkInfo.damageEffect != DMG_EFF_LIGHT_ICE_ARROW) {
+    if (thisx->colChkInfo.damageEffect != PEAHAT_DMG_EFF_LIGHT_ICE_ARROW) {
         if (thisx->speedXZ != 0.0f || thisx->velocity.y != 0.0f) {
             Actor_MoveForward(thisx);
             Actor_UpdateBgCheckInfo(globalCtx, thisx, 25.0f, 30.0f, 30.0f, 5);
@@ -939,7 +943,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         this->jiggleRot += this->jiggleRotInc;
     }
-    // if TYPE_GROUNDED
+    // if PEAHAT_TYPE_GROUNDED
     if (thisx->params < 0) {
         // Set the Z-Target point on the Peahat's weak point
         thisx->focus.pos.x = this->colJntSph.elements[0].dim.worldSphere.center.x;
@@ -965,8 +969,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
         }
-        // If not TYPE_FLYING
-        if (thisx->params != 0 && this->colQuad.base.atFlags & AT_HIT) {
+        if (thisx->params != PEAHAT_TYPE_FLYING && this->colQuad.base.atFlags & AT_HIT) {
             this->colQuad.base.atFlags &= ~AT_HIT;
             if (&player->actor == this->colQuad.base.at) {
                 EnPeehat_SetStateAttackRecoil(this);
@@ -975,11 +978,11 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     if (this->state == PEAHAT_STATE_15 || this->state == PEAHAT_STATE_SEEK_PLAYER || this->state == PEAHAT_STATE_FLY ||
         this->state == PEAHAT_STATE_RETURN_HOME || this->state == PEAHAT_STATE_EXPLODE) {
-        // If not TYPE_FLYING
-        if (thisx->params != 0) {
+        if (thisx->params != PEAHAT_TYPE_FLYING) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colQuad.base);
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colQuad.base);
         }
+        // if PEAHAT_TYPE_GROUNDED
         if (thisx->params < 0 && (thisx->flags & 0x40)) {
             for (i = 1; i >= 0; i--) {
                 Vec3f posResult;
@@ -993,8 +996,7 @@ void EnPeehat_Update(Actor* thisx, GlobalContext* globalCtx) {
                     EnPeehat_SpawnDust(globalCtx, this, &posResult, 0.0f, 3, 1.05f, 1.5f);
                 }
             }
-            // If not TYPE_FLYING
-        } else if (thisx->params != 0) {
+        } else if (thisx->params != PEAHAT_TYPE_FLYING) {
             CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colCylinder.base);
         }
     } else {
@@ -1033,17 +1035,17 @@ s32 EnPeehat_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
 }
 
 void EnPeehat_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f D_80AD2844 = { 0, 0, 5500 };
-    static Vec3f D_80AD2850 = { 0, 0, -5500 };
+    static Vec3f peahatBladeTip[] = { { 0.0f, 0.0f, 5500.0f }, { 0.0f, 0.0f, -5500.0f } };
 
     EnPeehat* this = THIS;
     f32 damageYRot;
 
     if (limbIndex == 4) {
-        Matrix_MultVec3f(&D_80AD2844, &this->bladeTip[0]);
-        Matrix_MultVec3f(&D_80AD2850, &this->bladeTip[1]);
+        Matrix_MultVec3f(&peahatBladeTip[0], &this->bladeTip[0]);
+        Matrix_MultVec3f(&peahatBladeTip[1], &this->bladeTip[1]);
         return;
     }
+    // is Adult Peahat
     if (limbIndex == 3 && this->actor.params <= 0) {
         damageYRot = 0.0f;
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1981);
@@ -1065,20 +1067,19 @@ void EnPeehat_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 void EnPeehat_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Vec3f D_80AD285C = { 0, 0, -4500 };
-    static Vec3f D_80AD2868 = { -4500, 0, 0 };
-    static Vec3f D_80AD2874 = { 4500, 0, 0 };
-    static Vec3f D_80AD2880 = { 0, 0, 4500 };
+    static Vec3f D_80AD285C[] = {
+        { 0.0f, 0.0f, -4500.0f }, { -4500.0f, 0.0f, 0.0f }, { 4500.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 4500.0f }
+    };
     EnPeehat* this = THIS;
 
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnPeehat_OverrideLimbDraw,
-                      EnPeehat_PostLimbDraw, thisx);
+                      EnPeehat_PostLimbDraw, this);
     if (this->actor.speedXZ != 0.0f || this->actor.velocity.y != 0.0f) {
-        Matrix_MultVec3f(&D_80AD285C, &this->colQuad.dim.quad[1]);
-        Matrix_MultVec3f(&D_80AD2868, &this->colQuad.dim.quad[0]);
-        Matrix_MultVec3f(&D_80AD2874, &this->colQuad.dim.quad[3]);
-        Matrix_MultVec3f(&D_80AD2880, &this->colQuad.dim.quad[2]);
+        Matrix_MultVec3f(&D_80AD285C[0], &this->colQuad.dim.quad[1]);
+        Matrix_MultVec3f(&D_80AD285C[1], &this->colQuad.dim.quad[0]);
+        Matrix_MultVec3f(&D_80AD285C[2], &this->colQuad.dim.quad[3]);
+        Matrix_MultVec3f(&D_80AD285C[3], &this->colQuad.dim.quad[2]);
         Collider_SetQuadVertices(&this->colQuad, &this->colQuad.dim.quad[0], &this->colQuad.dim.quad[1],
                                  &this->colQuad.dim.quad[2], &this->colQuad.dim.quad[3]);
     }
