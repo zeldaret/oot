@@ -1,0 +1,11 @@
+<Root>
+    <File Name="object_ani" Segment="6">
+        <Skeleton Name="gObjAniSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
+        <Animation Name="gObjAniAnim0" Offset="0x67B8"/>
+        <Animation Name="gObjAniAnim1" Offset="0x70F0"/>
+        <Animation Name="gObjAniAnim2" Offset="0x76EC"/>
+        <Texture Name="gObjAniOpenEyeTex" OutName="ani_open_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x408"/>
+        <Texture Name="gObjAniHalfOpenEyeTex" OutName="ani_half_open_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x1518"/>
+        <Texture Name="gObjAniClosedEyeTex" OutName="ani_closed_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x1D18"/>
+    </File>
+</Root>

@@ -4832,7 +4832,8 @@ endseg
 beginseg
     name "object_ani"
     romalign 0x1000
-    include "build/baserom/object_ani.o"
+    include "build/assets/objects/object_ani/object_ani.o"
+    number 6
 endseg
 
 beginseg
