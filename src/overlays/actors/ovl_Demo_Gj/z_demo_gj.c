@@ -293,7 +293,7 @@ void DemoGj_DrawCommon(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList)
     }
 }
 
-void DemoGj_DrawRubbleDisplayList(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
+void DemoGj_DrawRotated(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList) {
     s32 pad;
     GraphicsContext* gfxCtx;
     s16 x = this->rotationVec.x;
@@ -564,8 +564,8 @@ void func_8097A000(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(18));
-    this->rotationVec.y += (s16)(kREG(19) + 0x3E8);
-    this->rotationVec.z += (s16)(kREG(20) + 0xBB8);
+    this->rotationVec.y += (s16)(kREG(19) + 1000);
+    this->rotationVec.z += (s16)(kREG(20) + 3000);
 
     DemoGj_Reflect(this, globalCtx);
 }
@@ -616,7 +616,7 @@ void DemoGj_Draw2(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_DrawRubble2(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble2DL);
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
 void func_8097A208(DemoGj* this, GlobalContext* globalCtx) {
@@ -627,8 +627,8 @@ void func_8097A238(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(31));
-    this->rotationVec.y += (s16)(kREG(32) + 0x3E8);
-    this->rotationVec.z += (s16)(kREG(33) + 0xBB8);
+    this->rotationVec.y += (s16)(kREG(32) + 1000);
+    this->rotationVec.z += (s16)(kREG(33) + 3000);
 
     DemoGj_Reflect(this, globalCtx);
 }
@@ -679,7 +679,7 @@ void DemoGj_Draw3(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_DrawRubble3(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble3DL);
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
 void func_8097A444(DemoGj* this, GlobalContext* globalCtx) {
@@ -690,8 +690,8 @@ void func_8097A474(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(44));
-    this->rotationVec.y += (s16)(kREG(45) + 0x3E8);
-    this->rotationVec.z += (s16)(kREG(46) + 0xBB8);
+    this->rotationVec.y += (s16)(kREG(45) + 1000);
+    this->rotationVec.z += (s16)(kREG(46) + 3000);
 
     DemoGj_Reflect(this, globalCtx);
 }
@@ -725,7 +725,7 @@ void DemoGj_Draw4(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_DrawRubble4(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble4DL);
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble4DL);
 }
 
 void func_8097A614(DemoGj* this, GlobalContext* globalCtx) {
@@ -736,8 +736,8 @@ void func_8097A644(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(57));
-    this->rotationVec.y += (s16)(kREG(58) + 0x3E8);
-    this->rotationVec.z += (s16)(kREG(59) + 0xBB8);
+    this->rotationVec.y += (s16)(kREG(58) + 1000);
+    this->rotationVec.z += (s16)(kREG(59) + 3000);
 
     DemoGj_Reflect(this, globalCtx);
 }
@@ -771,7 +771,7 @@ void DemoGj_Draw5(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_DrawRubble5(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble5DL);
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble5DL);
 }
 
 void func_8097A7E4(DemoGj* this, GlobalContext* globalCtx) {
@@ -782,8 +782,8 @@ void func_8097A814(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(70));
-    this->rotationVec.y += (s16)(kREG(71) + 0x3E8);
-    this->rotationVec.z += (s16)(kREG(72) + 0xBB8);
+    this->rotationVec.y += (s16)(kREG(71) + 1000);
+    this->rotationVec.z += (s16)(kREG(72) + 3000);
 
     DemoGj_Reflect(this, globalCtx);
 }
@@ -817,7 +817,7 @@ void DemoGj_Draw6(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_DrawRubble6(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble6DL);
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble6DL);
 }
 
 void func_8097A9B4(DemoGj* this, GlobalContext* globalCtx) {
@@ -828,8 +828,8 @@ void func_8097A9E4(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(83));
-    this->rotationVec.y += (s16)(kREG(84) + 0x3E8);
-    this->rotationVec.z += (s16)(kREG(85) + 0xBB8);
+    this->rotationVec.y += (s16)(kREG(84) + 1000);
+    this->rotationVec.z += (s16)(kREG(85) + 3000);
 
     DemoGj_Reflect(this, globalCtx);
 }
@@ -863,7 +863,7 @@ void DemoGj_Draw7(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_DrawRubble7(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble7DL);
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble7DL);
 }
 
 void func_8097AB84(DemoGj* this, GlobalContext* globalCtx) {
@@ -874,8 +874,8 @@ void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->dyna.actor);
 
     this->rotationVec.x += (s16)(kREG(15));
-    this->rotationVec.y += (s16)(kREG(14) + 0x3E8);
-    this->rotationVec.z += (s16)(kREG(13) + 0xBB8);
+    this->rotationVec.y += (s16)(kREG(14) + 1000);
+    this->rotationVec.z += (s16)(kREG(13) + 3000);
 
     DemoGj_Reflect(this, globalCtx);
 }
@@ -926,7 +926,7 @@ void DemoGj_Draw8(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_DrawRubble8(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRubbleDisplayList(this, globalCtx, gGanonsCastleRubble8DL);
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble8DL);
 }
 
 void func_8097ADC0(DemoGj* this, GlobalContext* globalCtx) {
