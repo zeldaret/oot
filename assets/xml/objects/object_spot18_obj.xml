@@ -1,0 +1,14 @@
+<Root>
+    <File Name="object_spot18_obj" Segment="6">
+        <DList Name="gSpot18ObjDL0" Offset="0x150"/>
+        <DList Name="gSpot18ObjDL1" Offset="0x420"/>
+        <DList Name="gSpot18ObjDL2" Offset="0x18B0"/>
+        <DList Name="gSpot18ObjDL3" Offset="0x2370"/>
+        <DList Name="gSpot18ObjDL4" Offset="0x2BC0"/>
+        <Collision Name="gSpot18ObjCol0" Offset="0x368"/>
+        <Collision Name="gSpot18ObjCol1" Offset="0x534"/>
+        <Collision Name="gSpot18ObjCol2" Offset="0x2154"/>
+        <Collision Name="gSpot18ObjCol3" Offset="0x261C"/>
+        <Collision Name="gSpot18ObjCol4" Offset="0x2FE4"/>
+    </File>
+</Root>
