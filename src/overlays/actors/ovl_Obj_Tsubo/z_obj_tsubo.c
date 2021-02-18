@@ -51,11 +51,11 @@ const ActorInit Obj_Tsubo_InitVars = {
 
 static s16 sObjectIds[] = { OBJECT_GAMEPLAY_DANGEON_KEEP, OBJECT_TSUBO };
 
-static Gfx* D_80BA1B84[] = { 0x05017870, 0x060017C0 };
+static Gfx* D_80BA1B84[] = { gPotDL, 0x060017C0 };
 
-static Gfx* D_80BA1B8C[] = { 0x05017A60, 0x06001960 };
+static Gfx* D_80BA1B8C[] = { gPotFragmentDL, 0x06001960 };
 
-static ColliderCylinderInit D_80BA1B94 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HARD,
         AT_ON | AT_TYPE_PLAYER,
@@ -123,7 +123,7 @@ void ObjTsubo_InitCollider(Actor* thisx, GlobalContext* globalCtx) {
     ObjTsubo* this = THIS;
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80BA1B94);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     Collider_UpdateCylinder(&this->actor, &this->collider);
 }
 
