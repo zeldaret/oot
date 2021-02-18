@@ -2242,11 +2242,7 @@ endseg
 beginseg
     name "ovl_En_Fr"
     include "build/src/overlays/actors/ovl_En_Fr/z_en_fr.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Fr/ovl_En_Fr_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_fr.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3787,7 +3783,8 @@ endseg
 beginseg
     name "object_ydan_objects"
     romalign 0x1000
-    include "build/baserom/object_ydan_objects.o"
+    include "build/assets/objects/object_ydan_objects/object_ydan_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4373,7 +4370,8 @@ endseg
 beginseg
     name "object_syokudai"
     romalign 0x1000
-    include "build/baserom/object_syokudai.o"
+    include "build/assets/objects/object_syokudai/object_syokudai.o"
+    number 6
 endseg
 
 beginseg
