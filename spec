@@ -4297,7 +4297,8 @@ endseg
 beginseg
     name "object_bdan_objects"
     romalign 0x1000
-    include "build/baserom/object_bdan_objects.o"
+    include "build/assets/objects/object_bdan_objects/object_bdan_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -5726,7 +5727,8 @@ endseg
 beginseg
     name "object_bowl"
     romalign 0x1000
-    include "build/baserom/object_bowl.o"
+    include "build/assets/objects/object_bowl/object_bowl.o"
+    number 6
 endseg
 
 beginseg

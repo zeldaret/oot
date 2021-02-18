@@ -1,0 +1,14 @@
+<Root>
+    <File Name="object_bdan_objects" Segment="6">
+        <DList Name="gBdanObjectsDL0" Offset="0x38E8"/>
+        <DList Name="gBdanObjectsDL1" Offset="0x4BE8"/>
+        <DList Name="gBdanObjectsDL2" Offset="0x5200"/>
+        <DList Name="gBdanObjectsDL3" Offset="0x5A20"/>
+        <DList Name="gBdanObjectsDL4" Offset="0x61A0"/>
+        <DList Name="gBdanObjectsDL5" Offset="0x8618"/>
+        <Collision Name="gBdanObjectsCol0" Offset="0x5048"/>
+        <Collision Name="gBdanObjectsCol1" Offset="0x5580"/>
+        <Collision Name="gBdanObjectsCol2" Offset="0x5CF8"/>
+        <Collision Name="gBdanObjectsCol3" Offset="0x8CE0"/>
+    </File>
+</Root>

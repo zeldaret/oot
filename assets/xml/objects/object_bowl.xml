@@ -1,0 +1,9 @@
+<Root>
+    <File Name="object_bowl" Segment="6">
+        <Collision Name="gObjBowlCol0" Offset="0xCB8"/>
+        <Collision Name="gObjBowlCol1" Offset="0x1B00"/>
+        <Collision Name="gObjBowlCol2" Offset="0x1C40"/>
+        <DList Name="gObjBowlDL0" Offset="0x610"/>
+        <DList Name="gObjBowlDL1" Offset="0x1390"/>
+    </File>
+</Root>
