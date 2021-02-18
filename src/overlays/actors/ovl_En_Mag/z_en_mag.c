@@ -384,8 +384,8 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     static u8 pressStartFontIndexes[] = {
         0x19, 0x1B, 0x0E, 0x1C, 0x1C, 0x1C, 0x1D, 0x0A, 0x1B, 0x1D,
     };
-    static u8* effectMaskTextures[] = {
-        0x06020000, 0x06020800, 0x06021000, 0x06021800, 0x06022000, 0x06022800, 0x06023000, 0x06023800, 0x06024000,
+    static u64* effectMaskTextures[] = {
+        gTitleEffectMask0, gTitleEffectMask1, gTitleEffectMask2, gTitleEffectMask3, gTitleEffectMask4, gTitleEffectMask5, gTitleEffectMask6, gTitleEffectMask7, gTitleEffectMask8,
     };
     EnMag* this = THIS;
     Font* font = &this->font;
@@ -424,7 +424,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
     gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->mainAlpha);
 
     if ((s16)this->mainAlpha != 0) {
-        EnMag_DrawImageRGBA32(&gfx, 152, 100, gZeldaTitleScreenLogoTex, 160, 160);
+        EnMag_DrawImageRGBA32(&gfx, 152, 100, (u8 *)gZeldaTitleScreenLogoTex, 160, 160);
     }
 
     func_8009457C(&gfx);
@@ -457,7 +457,7 @@ void EnMag_DrawInner(Actor* thisx, GlobalContext* globalCtx, Gfx** gfxp) {
         gDPPipeSync(gfx++);
         gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, (s16)this->subAlpha);
 
-        EnMag_DrawImageRGBA32(&gfx, 174, 145, gMasterQuestSubTitleTex, 128, 32);
+        EnMag_DrawImageRGBA32(&gfx, 174, 145, (u8 *)gMasterQuestSubTitleTex, 128, 32);
     }
 
     func_8009457C(&gfx);

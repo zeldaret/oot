@@ -4,6 +4,15 @@
         <Texture Name="gNintendoCopyright2002Tex" OutName="nintendo_copyright_2002" Format="ia8" Width="160" Height="16"/>
         <Texture Name="gNintendoCopyright2003Tex" OutName="nintendo_copyright_2003" Format="ia8" Width="160" Height="16"/>
         <Texture Name="gMasterQuestSubTitleTex" OutName="master_quest_sub_title" Format="rgba32" Width="128" Height="32"/>
+        <Texture Name="gTitleEffectMask0" OutName="title_effect_mask_0" Format="i8" Width="64" Height="32" Offset="0x20000"/>
+        <Texture Name="gTitleEffectMask1" OutName="title_effect_mask_1" Format="i8" Width="64" Height="32"/>
+        <Texture Name="gTitleEffectMask2" OutName="title_effect_mask_2" Format="i8" Width="64" Height="32"/>
+        <Texture Name="gTitleEffectMask3" OutName="title_effect_mask_3" Format="i8" Width="64" Height="32"/>
+        <Texture Name="gTitleEffectMask4" OutName="title_effect_mask_4" Format="i8" Width="64" Height="32"/>
+        <Texture Name="gTitleEffectMask5" OutName="title_effect_mask_5" Format="i8" Width="64" Height="32"/>
+        <Texture Name="gTitleEffectMask6" OutName="title_effect_mask_6" Format="i8" Width="64" Height="32"/>
+        <Texture Name="gTitleEffectMask7" OutName="title_effect_mask_7" Format="i8" Width="64" Height="32"/>
+        <Texture Name="gTitleEffectMask8" OutName="title_effect_mask_8" Format="i8" Width="64" Height="32"/>
         <Texture Name="gTitleLogoFlameEffectTex" OutName="title_logo_flame_effect" Format="i8" Width="32" Height="32"/>
         <Texture Name="gTitleLogoTheLegendOfTex" OutName="title_logo_the_legend_of" Format="i8" Width="72" Height="8"/>
         <Texture Name="gTitleLogoOcarinaOfTimeTex" OutName="title_logo_ocarina_of_time" Format="i8" Width="96" Height="8"/>

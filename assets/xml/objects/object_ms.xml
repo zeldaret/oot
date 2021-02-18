@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_ms" Segment="6">
+        <Animation Name="gBeanSalesmanAnim" Offset="0x5EC"/>
+        <Skeleton Name="gBeanSalesmanSkel" Type="Flex" LimbType="Standard" Offset="0x3DC0"/>
+    </File>
+</Root>

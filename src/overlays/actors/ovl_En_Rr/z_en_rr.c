@@ -5,6 +5,7 @@
  */
 
 #include "z_en_rr.h"
+#include "objects/object_rr/object_rr.h"
 #include "vt.h"
 
 #define FLAGS 0x00000435
@@ -64,8 +65,6 @@ void EnRr_Damage(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Death(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Retreat(EnRr* this, GlobalContext* globalCtx);
 void EnRr_Stunned(EnRr* this, GlobalContext* globalCtx);
-
-extern Gfx D_06000470[];
 
 const ActorInit En_Rr_InitVars = {
     ACTOR_EN_RR,
@@ -881,7 +880,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->effectPos[0] = this->actor.world.pos;
     Matrix_MultVec3f(&zeroVec, &this->mouthPos);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000470);
+    gSPDisplayList(POLY_XLU_DISP++, gLikeLikeDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_rr.c", 1551);
     if (this->effectTimer != 0) {

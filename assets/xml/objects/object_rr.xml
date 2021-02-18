@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_rr" Segment="6">
+        <DList Name="gLikeLikeDL" Offset="0x470"/>
+    </File>
+</Root>
