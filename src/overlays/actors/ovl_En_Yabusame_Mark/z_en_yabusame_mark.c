@@ -91,14 +91,12 @@ s32 D_80B4362C[] = {
 Vec3f D_80B4365C = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B43668 = { 0.0f, 0.0f, 0.0f };
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Yabusame_Mark/EnYabusameMark_Destroy.s")
 void EnYabusameMark_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnYabusameMark* this = THIS;
 
     Collider_DestroyQuad(globalCtx, &this->collider);
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Yabusame_Mark/EnYabusameMark_Init.s")
 void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnYabusameMark* this = THIS;
 
@@ -216,7 +214,6 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Yabusame_Mark/func_80B42F74.s")
 #endif
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Yabusame_Mark/EnYabusameMark_Update.s")
 void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnYabusameMark* this = THIS;
     Vec3f* vertexArray;
