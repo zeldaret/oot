@@ -1,0 +1,14 @@
+<Root>
+    <File Name="object_owl" Segment="6">
+        <Animation Name="gObjOwlAnim0" Offset="0x1168"/>
+        <Animation Name="gObjOwlAnim1" Offset="0x15CC"/>
+        <Animation Name="gObjOwlAnim2" Offset="0xC1C4"/>
+        <Animation Name="gObjOwlAnim3" Offset="0xC684"/>
+        <Animation Name="gObjOwlAnim4" Offset="0xC8A0"/>
+        <Skeleton Name="gObjOwlSkel0" Type="Flex" LimbType="Standard" Offset="0xC0E8"/>
+        <Skeleton Name="gObjOwlSkel1" Type="Flex" LimbType="Standard" Offset="0x100B0"/>        
+        <Texture Name="gObjOwlEyeOpenTex" OutName="owl_eye_open" Format="ci8" Width="32" Height="32" Offset="0x89A8"/>
+        <Texture Name="gObjOwlEyeHalfOpenTex" OutName="owl_eye_half_open" Format="ci8" Width="32" Height="32" Offset="0x8DA8"/>
+        <Texture Name="gObjOwlEyeClosedTex" OutName="owl_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x91A8"/>
+    </File>
+</Root>

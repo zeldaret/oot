@@ -5265,7 +5265,8 @@ endseg
 beginseg
     name "object_owl"
     romalign 0x1000
-    include "build/baserom/object_owl.o"
+    include "build/assets/objects/object_owl/object_owl.o"
+    number 6
 endseg
 
 beginseg
