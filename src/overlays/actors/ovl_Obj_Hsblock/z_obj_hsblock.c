@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_hsblock.h"
+#include "objects/object_d_hsblock/object_d_hsblock.h"
 
 #define FLAGS 0x00000000
 
@@ -43,11 +44,11 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
-CollisionHeader* D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
+CollisionHeader* D_80B940DC[] = { &gObjDHsblockCol1, &gObjDHsblockCol1, &gObjDHsblockCol0 };
 
 static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 
-static Gfx* sDLists[] = { 0x06000210, 0x06000210, 0x06000470 };
+static Gfx* sDLists[] = { gObjDHsblockDL0, gObjDHsblockDL0, gObjDHsblockDL1 };
 
 void ObjHsblock_SetupAction(ObjHsblock* this, ObjHsblockActionFunc actionFunc) {
     this->actionFunc = actionFunc;

@@ -5134,7 +5134,8 @@ endseg
 beginseg
     name "object_d_hsblock"
     romalign 0x1000
-    include "build/baserom/object_d_hsblock.o"
+    include "build/assets/objects/object_d_hsblock/object_d_hsblock.o"
+    number 6
 endseg
 
 beginseg

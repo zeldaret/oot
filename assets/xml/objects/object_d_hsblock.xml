@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_d_hsblock" Segment="6">
+        <Collision Name="gObjDHsblockCol0" Offset="0x578"/>
+        <Collision Name="gObjDHsblockCol1" Offset="0x730"/>
+        <DList Name="gObjDHsblockDL0" Offset="0x210"/>
+        <DList Name="gObjDHsblockDL1" Offset="0x470"/>
+    </File>
+</Root>
