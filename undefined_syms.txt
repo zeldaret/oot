@@ -1959,8 +1959,8 @@ D_06012014 = 0x06012014;
 D_0600FAA0 = 0x0600FAA0;
 
 // z_demo_gj
-gGanonsCastleRubble1DL = 0x06000DC0;
-gGanonsCastleRubble1Col = 0x06001B70;
+gGanonsCastleRubbleAroundArenaDL = 0x06000DC0;
+gGanonsCastleRubbleAroundArenaCol = 0x06001B70;
 gGanonsCastleRubble2DL = 0x06001D20;
 gGanonsCastleRubble2Col = 0x06001F70;
 gGanonsCastleRubble3DL = 0x06002160;

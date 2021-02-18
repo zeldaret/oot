@@ -10,8 +10,8 @@ void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern Gfx gGanonsCastleRubble1DL[];
-extern CollisionHeader gGanonsCastleRubble1Col;
+extern Gfx gGanonsCastleRubbleAroundArenaDL[];
+extern CollisionHeader gGanonsCastleRubbleAroundArenaCol;
 extern Gfx gGanonsCastleRubble2DL[];
 extern CollisionHeader gGanonsCastleRubble2Col;
 extern Gfx gGanonsCastleRubble3DL[];
@@ -206,7 +206,7 @@ void DemoGj_Explode(DemoGj* this, GlobalContext* globalCtx, Vec3f* initialPos, V
 
         EffectSsKakera_Spawn(globalCtx, &explosionPos, &velocity, initialPos, -200, phi_s0, 10, 10, 0,
                              Rand_ZeroOne() * 20.0f + 20.0f, 20, 300, (s32)(Rand_ZeroOne() * 30.0f) + 30, -1,
-                             OBJECT_GEFF, &gGanonsCastleRubble1DL[28]);
+                             OBJECT_GEFF, &gGanonsCastleRubbleAroundArenaDL[28]);
 
         theta += 0x2AAA;
     }
@@ -930,18 +930,18 @@ void DemoGj_DrawRubble8(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097ADC0(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 0, 1, &gGanonsCastleRubble1Col);
+    DemoGj_InitSetIndexes(this, globalCtx, 0, 1, &gGanonsCastleRubbleAroundArenaCol);
 }
 
-void DemoGj_Update00(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_UpdateRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A07C(this, globalCtx);
     func_8097A2B4(this, globalCtx);
     func_8097AC30(this, globalCtx);
 }
 
-void DemoGj_Draw1(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble1DL);
+void DemoGj_DrawRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubbleAroundArenaDL);
 }
 
 // Inits the three cylinders with `sCylinderInit1`
@@ -1276,7 +1276,7 @@ void DemoGj_Draw18(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 static DemoGjUpdateFunc sUpdateFuncs[] = {
-    DemoGj_Update00,  DemoGj_Update01,  DemoGj_Update02,  DemoGj_Update03,  DemoGj_Update04,  DemoGj_Update05,
+    DemoGj_UpdateRubbleAroundArena,  DemoGj_Update01,  DemoGj_Update02,  DemoGj_Update03,  DemoGj_Update04,  DemoGj_Update05,
     DemoGj_Update06,  DemoGj_Update07,  DemoGj_Update08,  DemoGj_Update09,  DemoGj_Update10, DemoGj_Update11,
     DemoGj_Update12, DemoGj_Update13, DemoGj_Update14, DemoGj_Update15, DemoGj_Update16, DemoGj_Update17,
     DemoGj_Update18, DemoGj_Update19, DemoGj_Update20,
@@ -1299,7 +1299,7 @@ void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
     DemoGj* this = THIS;
 
     switch (DemoGj_GetType(this)) {
-        case DEMOGJ_TYPE_04:
+        case DEMOGJ_TYPE_AROUNDARENA:
             func_8097ADC0(this, globalCtx);
             return;
 
@@ -1355,7 +1355,7 @@ void DemoGj_DrawNothing(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 static DemoGjDrawFunc sDrawFuncs[] = {
-    DemoGj_DrawNothing, DemoGj_Draw1,  DemoGj_Draw2,  DemoGj_Draw3,  DemoGj_Draw4,  DemoGj_Draw5,  DemoGj_Draw6,
+    DemoGj_DrawNothing, DemoGj_DrawRubbleAroundArena,  DemoGj_Draw2,  DemoGj_Draw3,  DemoGj_Draw4,  DemoGj_Draw5,  DemoGj_Draw6,
     DemoGj_Draw7,           DemoGj_Draw8,  DemoGj_DrawRubble2,  DemoGj_DrawRubble3, DemoGj_DrawRubble4, DemoGj_DrawRubble5, DemoGj_DrawRubble6,
     DemoGj_DrawRubble7,          DemoGj_DrawRubble8, DemoGj_Draw16, DemoGj_Draw17, DemoGj_Draw18,
 };

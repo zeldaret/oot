@@ -31,7 +31,7 @@ extern const ActorInit Demo_Gj_InitVars;
  * bits  0- 7: A value of the enum DemoGjType.
  */
 typedef enum {
-    /* 04 */ DEMOGJ_TYPE_04 = 4,
+    /* 04 */ DEMOGJ_TYPE_AROUNDARENA = 4, // This is the indestructible rubble around the arena. This actor keeps alive the whole fight.
     /* 08 */ DEMOGJ_TYPE_08 = 8,
     /* 09 */ DEMOGJ_TYPE_09,
     /* 10 */ DEMOGJ_TYPE_10,
