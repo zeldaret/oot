@@ -211,21 +211,31 @@ Gfx* func_80AB09A8(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMu* this = THIS;
 
-    s32 D_80AB0C38[] = { 0x6482EB00, 0xA0FA3C00, 0x5A3C1400, 0x1EF0C800, 0x8C461400,
-                         0x8C461400, 0x1EF0C800, 0x5A3C1400, 0xA0FA3C00, 0x6482EB00 }; //?
-    u8 D_80AB0C60[] = { 0x08, 0x09, 0x0A, 0x0B, 0x0C };                               //?
-    Color_RGBA8* temp_v0;
+    // colors rgba (1 for each actor in town with different colors?)
+    Color_RGBA8 D_80AB0C38[2][5] = { { 0x6482EB00, 0xA0FA3C00, 0x5A3C1400, 0x1EF0C800, 0x8C461400 },
+                                     { 0x8C461400, 0x1EF0C800, 0x5A3C1400, 0xA0FA3C00, 0x6482EB00 } }; //?
+    // below may need to be a changing graphics inst. based on the contents of D_80AB0C60 at a phi_s1 offset
+    u8 D_80AB0C60[] = { 0x08, 0x09, 0x0A, 0x0B, 0x0C }; //?
+    // Color_RGBA8 temp_v0;
     u32 phi_s0;
-    u8* phi_s1;
+    // u8* phi_s1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_mu.c", 514);
     Matrix_Translate(-1200.0f, 0.0f, -1400.0f, 1);
-    phi_s1 = &D_80AB0C60;
-    for (phi_s0 = 0; phi_s0 != 0x14; phi_s0 += 4) {
-        temp_v0 = &D_80AB0C38 + (this->actor.params * 0x14) + phi_s0;
-        gSPSegment(POLY_OPA_DISP++, 0x00,
-                   func_80AB09A8(globalCtx->state.gfxCtx, temp_v0->r, temp_v0->g, temp_v0->b, temp_v0->a));
-        phi_s1++;
+    // phi_s1 = &D_80AB0C60;
+    for (phi_s0 = 0; phi_s0 != 5; phi_s0++) {
+        // temp_s2->words.w0 = ((*phi_s1 * 4) & 0xFFFF) | 0xDB060000;
+        // missing code here?
+        // temp_v0 = &D_80AB0C38 + (this->actor.params * 0x14) + phi_s0;
+        // temp_v0 = D_80AB0C38[this->actor.params][phi_s0];
+        // gSPSegment(POLY_OPA_DISP++, D_80AB0C60[phi_s0],
+        //           func_80AB09A8(globalCtx->state.gfxCtx, temp_v0.r, temp_v0.g, temp_v0.b, temp_v0.a));
+
+        gSPSegment(POLY_OPA_DISP++, D_80AB0C60[phi_s0],
+                   func_80AB09A8(globalCtx->state.gfxCtx, D_80AB0C38[this->actor.params][phi_s0].r,
+                                 D_80AB0C38[this->actor.params][phi_s0].g, D_80AB0C38[this->actor.params][phi_s0].b,
+                                 D_80AB0C38[this->actor.params][phi_s0].a));
+        // phi_s1++;
     }
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                           (s32)this->skelAnime.dListCount, func_80AB08A4, func_80AB0994, this);
