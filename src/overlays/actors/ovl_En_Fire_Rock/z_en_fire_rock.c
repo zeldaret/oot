@@ -244,7 +244,9 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, GlobalContext* globalCtx
     if (nextRockType != FIRE_ROCK_SPAWNED_FALLING1) {
         for (i = 0; i < 2; i++) {
             spawnedFireRock = (EnFireRock*)Actor_Spawn(
-                &globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x, Rand_CenteredFloat(3.0f) + (this->actor.world.pos.y + 10.0f), Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, nextRockType);
+                &globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x,
+                Rand_CenteredFloat(3.0f) + (this->actor.world.pos.y + 10.0f),
+                Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, nextRockType);
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->actor.world.rot.y = this->actor.world.rot.y;
                 if (i == 0) {
@@ -266,7 +268,10 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, GlobalContext* globalC
     if (this->actor.xzDistToPlayer < 200.0f) {
         if ((this->playerNearby == 0) && (this->timer2 == 0)) {
             this->timer2 = 30;
-            spawnedFireRock = (EnFireRock*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x,this->actor.world.pos.y + 10.0f, Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, FIRE_ROCK_SPAWNED_FALLING2);
+            spawnedFireRock = (EnFireRock*)Actor_Spawn(
+                &globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x,
+                this->actor.world.pos.y + 10.0f, Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0,
+                FIRE_ROCK_SPAWNED_FALLING2);
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->timer = 10;
             } else {

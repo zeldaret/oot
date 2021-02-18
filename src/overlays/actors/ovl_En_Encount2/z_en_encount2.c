@@ -77,7 +77,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
         s16 scene = globalCtx->sceneNum;
         if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
              (scene == SCENE_GANONTIKA_SONOGO)) &&
-            (!this->collapseSpawnerENCOUNT2_INACTIVE)) {
+            (!this->collapseSpawnerInactive)) {
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
     }
@@ -91,10 +91,10 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
             break;
         case ENCOUNT2_ACTIVE_DEATH_MOUNTAIN:
             if ((this->deathMountainSpawnerTimer == 1) || (!this->isQuaking)) {
-                quakeIndex = Quake_Add(ENCOUNT2_ACTIVE_CAM, 1);
+                quakeIndex = Quake_Add(ACTIVE_CAM, 1);
                 Quake_SetSpeed(quakeIndex, 0x7FFF);
                 Quake_SetQuakeValues(quakeIndex, 50, 0, 0, 0);
-                Quake_SetCountdown(quakeIndex, 0x12C);
+                Quake_SetCountdown(quakeIndex, 300);
                 this->isQuaking = true;
             }
         case ENCOUNT2_ACTIVE_GANONS_TOWER:
@@ -150,7 +150,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
         s16 scene = globalCtx->sceneNum;
         if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
              (scene == SCENE_GANONTIKA_SONOGO)) &&
-            (!this->collapseSpawnerENCOUNT2_INACTIVE)) {
+            (!this->collapseSpawnerInactive)) {
             maxRocks = 1;
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
