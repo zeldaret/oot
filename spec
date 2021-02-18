@@ -4586,7 +4586,8 @@ endseg
 beginseg
     name "object_os_anime"
     romalign 0x1000
-    include "build/baserom/object_os_anime.o"
+    include "build/assets/objects/object_os_anime/object_os_anime.o"
+    number 6
 endseg
 
 beginseg

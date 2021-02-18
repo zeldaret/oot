@@ -1,5 +1,6 @@
 #include "z_en_niw_lady.h"
 #include "objects/object_ane/object_ane.h"
+#include "objects/object_os_anime/object_os_anime.h"
 #include "overlays/actors/ovl_En_Niw/z_en_niw.h"
 #include "vt.h"
 
@@ -66,9 +67,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-extern AnimationHeader D_06000718;
-extern AnimationHeader D_060007D0;
-extern AnimationHeader D_06009F94;
 extern AnimationHeader D_0600A630;
 
 void EnNiwLady_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -115,8 +113,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 10:
                 this->unk_275 = 1;
             case 9:
-                frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim4);
+                Animation_Change(&this->skelAnime, &gObjOsAnim4, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 0:
             case 1:
@@ -130,8 +128,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 22:
             case 24:
             case 29:
-                frames = Animation_GetLastFrame(&D_06009F94);
-                Animation_Change(&this->skelAnime, &D_06009F94, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim63);
+                Animation_Change(&this->skelAnime, &gObjOsAnim63, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 7:
             case 20:
@@ -140,8 +138,8 @@ void EnNiwLady_ChoseAnimation(EnNiwLady* this, GlobalContext* globalCtx, s32 arg
             case 26:
             case 27:
             case 28:
-                frames = Animation_GetLastFrame(&D_06000718);
-                Animation_Change(&this->skelAnime, &D_06000718, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim3);
+                Animation_Change(&this->skelAnime, &gObjOsAnim3, 1.0f, 0.0f, frames, ANIMMODE_LOOP, -10.0f);
                 break;
             case 100:
                 frames = Animation_GetLastFrame(&D_0600A630);
@@ -177,8 +175,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                     frames = Animation_GetLastFrame(&D_0600A630);
                     Animation_Change(&this->skelAnime, &D_0600A630, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 } else {
-                    frames = Animation_GetLastFrame(&D_060007D0);
-                    Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+                    frames = Animation_GetLastFrame(&gObjOsAnim4);
+                    Animation_Change(&this->skelAnime, &gObjOsAnim4, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 }
                 if (LINK_IS_ADULT) {
                     this->actionFunc = func_80ABA778;
@@ -187,8 +185,8 @@ void func_80AB9F24(EnNiwLady* this, GlobalContext* globalCtx) {
                 }
                 return;
             case 1:
-                frames = Animation_GetLastFrame(&D_060007D0);
-                Animation_Change(&this->skelAnime, &D_060007D0, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
+                frames = Animation_GetLastFrame(&gObjOsAnim4);
+                Animation_Change(&this->skelAnime, &gObjOsAnim4, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, 0.0f);
                 this->actionFunc = func_80ABAD38;
                 return;
         }
@@ -570,7 +568,7 @@ s32 EnNiwLady_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
 }
 
 void EnNiwLady_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* D_80ABB408[] = { gObjAneEyeOpenTex, gObjAneEyeHalfOpenTex, gObjAneEyeClosedTex };
+    static u8* D_80ABB408[] = { gObjAneEyeOpenTex, gObjAneEyeHalfOpenTex, gObjAneEyeClosedTex };
     EnNiwLady* this = THIS;
     s32 pad;
 

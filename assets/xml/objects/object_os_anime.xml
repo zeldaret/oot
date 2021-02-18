@@ -1,8 +1,69 @@
 <Root>
     <File Name="object_os_anime" Segment="6">
-        <Skeleton Name="gObjAneSkel" Type="Flex" LimbType="Standard" Offset="0xF0"/>
-        <Texture Name="gObjAneEyeOpenTex" OutName="ane_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x8C8"/>
-        <Texture Name="gObjAneEyeHalfOpenTex" OutName="ane_eye_half_open" Format="rgb5a1" Width="32" Height="32" Offset="0x10C8"/>
-        <Texture Name="gObjAneEyeClosedTex" OutName="ane_eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x18C8"/>
+        <Animation Name="gObjOsAnim0" Offset="0x0B4"/>
+        <Animation Name="gObjOsAnim1" Offset="0x170"/>
+        <Animation Name="gObjOsAnim2" Offset="0x228"/>
+        <Animation Name="gObjOsAnim3" Offset="0x718"/>
+        <Animation Name="gObjOsAnim4" Offset="0x7D0"/>
+        <Animation Name="gObjOsAnim5" Offset="0x894"/>
+        <Animation Name="gObjOsAnim6" Offset="0x92C"/>
+        <Animation Name="gObjOsAnim7" Offset="0xBFC"/>
+        <Animation Name="gObjOsAnim8" Offset="0xFE4"/>
+        <Animation Name="gObjOsAnim9" Offset="0x12E8"/>
+        <Animation Name="gObjOsAnim10" Offset="0x14A0"/>
+        <Animation Name="gObjOsAnim11" Offset="0x1650"/>
+        <Animation Name="gObjOsAnim12" Offset="0x16EC"/>
+        <Animation Name="gObjOsAnim13" Offset="0x18A0"/>
+        <Animation Name="gObjOsAnim14" Offset="0x1E7C"/>
+        <Animation Name="gObjOsAnim15" Offset="0x1F18"/>
+        <Animation Name="gObjOsAnim16" Offset="0x2160"/>
+        <Animation Name="gObjOsAnim17" Offset="0x25D0"/>
+        <Animation Name="gObjOsAnim18" Offset="0x265C"/>
+        <Animation Name="gObjOsAnim19" Offset="0x2850"/>
+        <Animation Name="gObjOsAnim20" Offset="0x28DC"/>
+        <Animation Name="gObjOsAnim21" Offset="0x2D0C"/>
+        <Animation Name="gObjOsAnim22" Offset="0x2DC0"/>
+        <Animation Name="gObjOsAnim23" Offset="0x300C"/>
+        <Animation Name="gObjOsAnim24" Offset="0x31B0"/>
+        <Animation Name="gObjOsAnim25" Offset="0x33B4"/>
+        <Animation Name="gObjOsAnim26" Offset="0x3D84"/>
+        <Animation Name="gObjOsAnim27" Offset="0x41F8"/>
+        <Animation Name="gObjOsAnim28" Offset="0x42AC"/>
+        <Animation Name="gObjOsAnim29" Offset="0x4408"/>
+        <Animation Name="gObjOsAnim30" Offset="0x4788"/>
+        <Animation Name="gObjOsAnim31" Offset="0x4C4C"/>
+        <Animation Name="gObjOsAnim32" Offset="0x4CF4"/>
+        <Animation Name="gObjOsAnim33" Offset="0x4E90"/>
+        <Animation Name="gObjOsAnim34" Offset="0x4F28"/>
+        <Animation Name="gObjOsAnim35" Offset="0x5808"/>
+        <Animation Name="gObjOsAnim36" Offset="0x62DC"/>
+        <Animation Name="gObjOsAnim37" Offset="0x6458"/>
+        <Animation Name="gObjOsAnim38" Offset="0x6518"/>
+        <Animation Name="gObjOsAnim39" Offset="0x65E0"/>
+        <Animation Name="gObjOsAnim40" Offset="0x6A60"/>
+        <Animation Name="gObjOsAnim41" Offset="0x6EE0"/>
+        <Animation Name="gObjOsAnim42" Offset="0x6F9C"/>
+        <Animation Name="gObjOsAnim43" Offset="0x7064"/>
+        <Animation Name="gObjOsAnim44" Offset="0x7120"/>
+        <Animation Name="gObjOsAnim45" Offset="0x7454"/>
+        <Animation Name="gObjOsAnim46" Offset="0x7830"/>
+        <Animation Name="gObjOsAnim47" Offset="0x7D94"/>
+        <Animation Name="gObjOsAnim48" Offset="0x7E64"/>
+        <Animation Name="gObjOsAnim49" Offset="0x7F38"/>
+        <Animation Name="gObjOsAnim50" Offset="0x7FFC"/>
+        <Animation Name="gObjOsAnim51" Offset="0x80B4"/>
+        <Animation Name="gObjOsAnim52" Offset="0x8178"/>
+        <Animation Name="gObjOsAnim53" Offset="0x879C"/>
+        <Animation Name="gObjOsAnim54" Offset="0x8F6C"/>
+        <Animation Name="gObjOsAnim55" Offset="0x9028"/>
+        <Animation Name="gObjOsAnim56" Offset="0x90EC"/>
+        <Animation Name="gObjOsAnim57" Offset="0x91AC"/>
+        <Animation Name="gObjOsAnim58" Offset="0x9274"/>
+        <Animation Name="gObjOsAnim59" Offset="0x982C"/>
+        <Animation Name="gObjOsAnim60" Offset="0x98EC"/>
+        <Animation Name="gObjOsAnim61" Offset="0x99A4"/>
+        <Animation Name="gObjOsAnim62" Offset="0x9B64"/>
+        <Animation Name="gObjOsAnim63" Offset="0x9F94"/>
+        <Animation Name="gObjOsAnim64" Offset="0xA630"/>
     </File>
 </Root>
