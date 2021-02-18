@@ -26,8 +26,8 @@ void func_808B44CC(BgSpot15Rrbox* this, GlobalContext* globalCtx);
 
 static s16 D_808B4590 = 0;
 
-extern CollisionHeader D_06000348;
-extern Gfx D_06000180[];
+extern CollisionHeader gSpot15ObjCol0;
+extern Gfx gSpot15ObjDL0[];
 
 const ActorInit Bg_Spot15_Rrbox_InitVars = {
     ACTOR_BG_SPOT15_RRBOX,
@@ -124,7 +124,7 @@ s32 func_808B3AAC(BgSpot15Rrbox* this, GlobalContext* globalCtx) {
 void BgSpot15Rrbox_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot15Rrbox* this = THIS;
 
-    func_808B3960(this, globalCtx, &D_06000348, DPM_UNK);
+    func_808B3960(this, globalCtx, &gSpot15ObjCol0, DPM_UNK);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     func_808B3A34(this);
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
@@ -366,5 +366,5 @@ void BgSpot15Rrbox_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot15Rrbox_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_06000180);
+    Gfx_DrawDListOpa(globalCtx, gSpot15ObjDL0);
 }
