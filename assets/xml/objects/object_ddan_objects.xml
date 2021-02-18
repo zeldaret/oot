@@ -1,0 +1,12 @@
+<Root>
+    <File Name="object_ddan_objects" Segment="6">
+        <DList Name="gDdanObjectsDL0" Offset="0xC0"/>
+        <DList Name="gDdanObjectsDL1" Offset="0x1F0"/>
+        <DList Name="gDdanObjectsDL2" Offset="0x1350"/>
+        <DList Name="gDdanObjectsDL3" Offset="0x37B8"/>
+        <DList Name="gDdanObjectsDL4" Offset="0x48A8"/>
+        <Collision Name="gDdanObjectsCol0" Offset="0x1DDC"/>
+        <Collision Name="gDdanObjectsCol1" Offset="0x3CE0"/>
+        <Collision Name="gDdanObjectsCol2" Offset="0x4F30"/>
+    </File>
+</Root>

@@ -3719,7 +3719,8 @@ endseg
 beginseg
     name "object_ddan_objects"
     romalign 0x1000
-    include "build/baserom/object_ddan_objects.o"
+    include "build/assets/objects/object_ddan_objects/object_ddan_objects.o"
+    number 6
 endseg
 
 beginseg
