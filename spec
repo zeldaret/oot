@@ -4620,7 +4620,8 @@ endseg
 beginseg
     name "object_ru2"
     romalign 0x1000
-    include "build/baserom/object_ru2.o"
+    include "build/assets/objects/object_ru2/object_ru2.o"
+    number 6
 endseg
 
 beginseg

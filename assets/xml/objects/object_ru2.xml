@@ -1,0 +1,15 @@
+<Root>
+    <File Name="object_ru2" Segment="6">
+        <Texture Name="gAdultRutoEyeOpenTex" OutName="adult_ruto_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0xF20"/>
+        <Texture Name="gAdultRutoEyeHalfOpenTex" OutName="adult_ruto_eye_half_open" Format="rgb5a1" Width="32" Height="32" Offset="0x22E0"/>
+        <Texture Name="gAdultRutoEyeClosedTex" OutName="adult_ruto_eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x2AE0"/>
+        <Skeleton Name="gAdultRutoSkel" Type="Flex" LimbType="Standard" Offset="0xC700"/>
+        <Animation Name="gAdultRutoAnim0" Offset="0x04CC"/>
+        <Animation Name="gAdultRutoAnim1" Offset="0xDE8"/>
+        <Animation Name="gAdultRutoAnim2" Offset="0xD3DC"/>
+        <Animation Name="gAdultRutoAnim3" Offset="0xDCAC"/>
+        <Animation Name="gAdultRutoAnim4" Offset="0xE630"/>
+        <Animation Name="gAdultRutoAnim5" Offset="0xF03C"/>
+        <Animation Name="gAdultRutoAnim6" Offset="0xF8B8"/>
+    </File>
+</Root>
