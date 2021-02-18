@@ -195,7 +195,7 @@ clean:
 	$(RM) -r $(ROM) $(ELF) build
 
 setup:
-	$(MAKE) -C tools -j
+	$(MAKE) -C tools -j2
 	python3 fixbaserom.py
 	python3 extract_baserom.py
 	python3 extract_assets.py

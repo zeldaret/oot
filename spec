@@ -4960,7 +4960,8 @@ endseg
 beginseg
     name "object_umajump"
     romalign 0x1000
-    include "build/baserom/object_umajump.o"
+    include "build/assets/objects/object_umajump/object_umajump.o"
+    number 6
 endseg
 
 beginseg

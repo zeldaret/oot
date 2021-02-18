@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_umajump" Segment="6">
+        <DList Name="gObjUmajumpDL" Offset="0x1220"/>
+        <Collision Name="gObjUmajumpCol" Offset="0x1438"/>
+    </File>
+</Root>
