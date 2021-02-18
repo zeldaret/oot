@@ -1,0 +1,10 @@
+<Root>
+    <File Name="object_cow" Segment="6">
+        <Skeleton Name="gCowSkel0" Type="Flex" LimbType="Standard" Offset="0x4010"/>
+        <Skeleton Name="gCowSkel1" Type="Flex" LimbType="Standard" Offset="0x4C30"/>
+        <Animation Name="gCowAnim0" Offset="0x01CC"/>
+        <Animation Name="gCowAnim1" Offset="0x4264"/>
+        <Animation Name="gCowAnim2" Offset="0x4348"/>
+        <Animation Name="gCowAnim3" Offset="0x4E98"/>
+    </File>
+</Root>

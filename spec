@@ -5858,7 +5858,8 @@ endseg
 beginseg
     name "object_cow"
     romalign 0x1000
-    include "build/baserom/object_cow.o"
+    include "build/assets/objects/object_cow/object_cow.o"
+    number 6
 endseg
 
 beginseg
