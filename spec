@@ -5084,7 +5084,8 @@ endseg
 beginseg
     name "object_fz"
     romalign 0x1000
-    include "build/baserom/object_fz.o"
+    include "build/assets/objects/object_fz/object_fz.o"
+    number 6
 endseg
 
 beginseg

@@ -1,0 +1,11 @@
+<Root>
+    <File Name="object_fz" Segment="6">
+        <DList Name="gFreezardDL0" Offset="0x1130"/>
+        <DList Name="gFreezardDL1" Offset="0x21A0"/>
+        <DList Name="gFreezardDL2" Offset="0x2CA0"/>
+        <DList Name="gFreezardDL3" Offset="0x30A0"/>
+        <DList Name="gFreezardDL4" Offset="0x3158"/>
+        <DList Name="gFreezardDL5" Offset="0x3260"/>
+        <DList Name="gFreezardDL6" Offset="0x33F0"/>
+    </File>
+</Root>
