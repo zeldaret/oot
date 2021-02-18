@@ -5,6 +5,7 @@
  */
 
 #include "z_item_b_heart.h"
+#include "objects/object_gi_hearts/object_gi_hearts.h"
 
 #define FLAGS 0x00000000
 
@@ -16,9 +17,6 @@ void ItemBHeart_Update(Actor* thisx, GlobalContext* globalCtx);
 void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80B85264(ItemBHeart* this, GlobalContext* globalCtx);
-
-extern Gfx D_06001290[];
-extern Gfx D_06001470[];
 
 const ActorInit Item_B_Heart_InitVars = {
     ACTOR_ITEM_B_HEART,
@@ -101,14 +99,14 @@ void ItemBHeart_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D84(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 551),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06001290);
-        gSPDisplayList(POLY_XLU_DISP++, D_06001470);
+        gSPDisplayList(POLY_XLU_DISP++, gGiHeartBorderDL);
+        gSPDisplayList(POLY_XLU_DISP++, gGiHeartContainerDL);
     } else {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 557),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001290);
-        gSPDisplayList(POLY_OPA_DISP++, D_06001470);
+        gSPDisplayList(POLY_OPA_DISP++, gGiHeartBorderDL);
+        gSPDisplayList(POLY_OPA_DISP++, gGiHeartContainerDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_item_b_heart.c", 561);
