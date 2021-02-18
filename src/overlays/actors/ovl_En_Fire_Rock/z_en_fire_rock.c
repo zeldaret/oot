@@ -102,7 +102,7 @@ void EnFireRock_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.dim.height = 37;
             this->collider.dim.yShift = -10;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
-            this->actor.colChkInfo.mass = 0xFF;
+            this->actor.colChkInfo.mass = MASS_IMMOVABLE;
             this->actionFunc = FireRock_WaitOnFloor;
             break;
         case FIRE_ROCK_SPAWNED_FALLING1: // spawned by encount2
@@ -244,9 +244,7 @@ void EnFireRock_SpawnMoreBrokenPieces(EnFireRock* this, GlobalContext* globalCtx
     if (nextRockType != FIRE_ROCK_SPAWNED_FALLING1) {
         for (i = 0; i < 2; i++) {
             spawnedFireRock = (EnFireRock*)Actor_Spawn(
-                &globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x,
-                Rand_CenteredFloat(3.0f) + (this->actor.world.pos.y + 10.0f),
-                Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, nextRockType);
+                &globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x, Rand_CenteredFloat(3.0f) + (this->actor.world.pos.y + 10.0f), Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, nextRockType);
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->actor.world.rot.y = this->actor.world.rot.y;
                 if (i == 0) {
@@ -268,10 +266,7 @@ void FireRock_WaitSpawnRocksFromCeiling(EnFireRock* this, GlobalContext* globalC
     if (this->actor.xzDistToPlayer < 200.0f) {
         if ((this->playerNearby == 0) && (this->timer2 == 0)) {
             this->timer2 = 30;
-            spawnedFireRock = (EnFireRock*)Actor_Spawn(
-                &globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x,
-                this->actor.world.pos.y + 10.0f, Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0,
-                FIRE_ROCK_SPAWNED_FALLING2);
+            spawnedFireRock = (EnFireRock*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_FIRE_ROCK, Rand_CenteredFloat(3.0f) + this->actor.world.pos.x,this->actor.world.pos.y + 10.0f, Rand_CenteredFloat(3.0f) + this->actor.world.pos.z, 0, 0, 0, FIRE_ROCK_SPAWNED_FALLING2);
             if (spawnedFireRock != NULL) {
                 spawnedFireRock->timer = 10;
             } else {
@@ -385,11 +380,11 @@ void EnFireRock_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fire_rock.c", 747);
     Matrix_Translate(thisx->world.pos.x + this->relativePos.x, thisx->world.pos.y + this->relativePos.y,
-                     thisx->world.pos.z + this->relativePos.z, 0);
-    Matrix_RotateX(DEG_TO_RAD(this->rockRotation.x), 1);
-    Matrix_RotateY(DEG_TO_RAD(this->rockRotation.y), 1);
-    Matrix_RotateZ(DEG_TO_RAD(this->rockRotation.z), 1);
-    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, 1);
+                     thisx->world.pos.z + this->relativePos.z, MTXMODE_NEW);
+    Matrix_RotateX(DEG_TO_RAD(this->rockRotation.x), MTXMODE_APPLY);
+    Matrix_RotateY(DEG_TO_RAD(this->rockRotation.y), MTXMODE_APPLY);
+    Matrix_RotateZ(DEG_TO_RAD(this->rockRotation.z), MTXMODE_APPLY);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
     func_80093D18(globalCtx->state.gfxCtx);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);

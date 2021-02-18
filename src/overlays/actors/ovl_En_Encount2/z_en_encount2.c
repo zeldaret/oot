@@ -7,10 +7,10 @@
 #define THIS ((EnEncount2*)thisx)
 
 typedef enum {
-    /* 0x0 */ INACTIVE,
-    /* 0x1 */ ACTIVE_DEATH_MOUNTAIN,
-    /* 0x2 */ ACTIVE_GANONS_TOWER
-} EnTiteAction;
+    /* 0x0 */ ENCOUNT2_INACTIVE,
+    /* 0x1 */ ENCOUNT2_ACTIVE_DEATH_MOUNTAIN,
+    /* 0x2 */ ENCOUNT2_ACTIVE_GANONS_TOWER
+} Encount2State;
 
 void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -66,38 +66,38 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
     s16 spawnerState;
     Player* player = PLAYER;
 
-    spawnerState = INACTIVE;
+    spawnerState = ENCOUNT2_INACTIVE;
     if (!this->isNotDeathMountain) {
         if ((player->actor.world.pos.y > 1500.0f) && (player->actor.world.pos.x > -700.0f) &&
             (player->actor.world.pos.x < 100.0f) && (player->actor.world.pos.z < -1290.0f) &&
             (player->actor.world.pos.z > -3600.0f)) {
-            spawnerState = ACTIVE_DEATH_MOUNTAIN;
+            spawnerState = ENCOUNT2_ACTIVE_DEATH_MOUNTAIN;
         }
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37))) {
         s16 scene = globalCtx->sceneNum;
         if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
              (scene == SCENE_GANONTIKA_SONOGO)) &&
-            (!this->collapseSpawnerInactive)) {
-            spawnerState = ACTIVE_GANONS_TOWER;
+            (!this->collapseSpawnerENCOUNT2_INACTIVE)) {
+            spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
     }
     switch (spawnerState) {
-        case INACTIVE:
+        case ENCOUNT2_INACTIVE:
             this->isQuaking = false;
             this->envEffectsTimer--;
             if (this->envEffectsTimer <= 0) {
                 this->envEffectsTimer = 0;
             }
             break;
-        case ACTIVE_DEATH_MOUNTAIN:
+        case ENCOUNT2_ACTIVE_DEATH_MOUNTAIN:
             if ((this->deathMountainSpawnerTimer == 1) || (!this->isQuaking)) {
-                quakeIndex = Quake_Add(ACTIVE_CAM, 1);
+                quakeIndex = Quake_Add(ENCOUNT2_ACTIVE_CAM, 1);
                 Quake_SetSpeed(quakeIndex, 0x7FFF);
                 Quake_SetQuakeValues(quakeIndex, 50, 0, 0, 0);
                 Quake_SetCountdown(quakeIndex, 0x12C);
                 this->isQuaking = true;
             }
-        case ACTIVE_GANONS_TOWER:
+        case ENCOUNT2_ACTIVE_GANONS_TOWER:
             this->envEffectsTimer++;
             if (this->envEffectsTimer > 60) {
                 this->envEffectsTimer = 60;
@@ -132,30 +132,30 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
     if (this->envEffectsTimer > 60) {
         this->envEffectsTimer = 60;
     }
-    spawnerState = INACTIVE;
+    spawnerState = ENCOUNT2_INACTIVE;
     if (!this->isNotDeathMountain) {
         if (this->deathMountainSpawnerTimer == 0) {
             this->deathMountainSpawnerTimer = 100;
-            this->actionFunc = &EnEncount2_Wait;
+            this->actionFunc = EnEncount2_Wait;
             return;
         }
         if ((player->actor.world.pos.y > 1500.0f) && (player->actor.world.pos.x > -700.0f) &&
             (player->actor.world.pos.x < 100.0f) && (player->actor.world.pos.z < -1290.0f) &&
             (player->actor.world.pos.z > -3860.0f)) {
             maxRocks = 2;
-            spawnerState = ACTIVE_DEATH_MOUNTAIN;
+            spawnerState = ENCOUNT2_ACTIVE_DEATH_MOUNTAIN;
         }
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37) != 0)) {
         s16 scene = globalCtx->sceneNum;
         if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
              (scene == SCENE_GANONTIKA_SONOGO)) &&
-            (!this->collapseSpawnerInactive)) {
+            (!this->collapseSpawnerENCOUNT2_INACTIVE)) {
             maxRocks = 1;
-            spawnerState = ACTIVE_GANONS_TOWER;
+            spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
     }
-    if (spawnerState != INACTIVE) {
+    if (spawnerState != ENCOUNT2_INACTIVE) {
         // Direction vector for the direction the camera is facing
         tempVec1X = globalCtx->view.lookAt.x - globalCtx->view.eye.x;
         tempVec1Y = globalCtx->view.lookAt.y - globalCtx->view.eye.y;
@@ -178,7 +178,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
         particlePos.y = Rand_CenteredFloat(50.0f) + tempVec1Y;
         particlePos.z = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.z + (tempVec2Z * 200.0f));
         particleScale = Rand_CenteredFloat(0.005f) + 0.007f;
-        if (spawnerState == 1) {
+        if (spawnerState == ENCOUNT2_ACTIVE_DEATH_MOUNTAIN) {
             EnEncount2_ParticleInit(this, &particlePos, particleScale);
         } else if (this->particleSpawnTimer == 0) {
             EnEncount2_ParticleInit(this, &particlePos, particleScale);
@@ -186,7 +186,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
         }
 
         if ((this->numSpawnedRocks < maxRocks) && (this->timerBetweenRockSpawns == 0)) {
-            if (spawnerState == ACTIVE_DEATH_MOUNTAIN) {
+            if (spawnerState == ENCOUNT2_ACTIVE_DEATH_MOUNTAIN) {
                 this->timerBetweenRockSpawns = 4;
                 spawnedRockType = FIRE_ROCK_SPAWNED_FALLING1;
                 if ((Rand_ZeroFloat(1.99f) < 1.0f) && (LINK_IS_CHILD)) {
@@ -269,6 +269,7 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 void EnEncount2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnEncount2* this = THIS;
+
     EnEncount2_ParticleDraw(&this->actor, globalCtx);
 }
 
