@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_spot01_objects" Segment="6">
+        <DList Name="gObjSpot01ObjectsDL0" Offset="0x100"/>
+        <DList Name="gObjSpot01ObjectsDL1" Offset="0x420"/>
+        <DList Name="gObjSpot01ObjectsDL2" Offset="0x7D0"/>
+        <Collision Name="gObjSpot01ObjectsCol" Offset="0x75C"/>
+    </File>
+</Root>
