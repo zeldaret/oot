@@ -1,4 +1,6 @@
-#!/usr/bin/python3
+#!/usr/bin/env python3
+
+import argparse
 import os
 from shutil import copyfile
 from multiprocessing import Pool
@@ -25,22 +27,28 @@ def ExtractFunc(fullPath):
 		Extract(fullPath, outPath)
 
 def main():
-    xmlFiles = []
+    parser = argparse.ArgumentParser(description="baserom asset extractor")
+    parser.add_argument("-s", "--single", help="asset path relative to assets/, e.g. objects/gameplay_keep")
+    args = parser.parse_args()
 
-    for currentPath, folders, files in os.walk("assets"):
-            for file in files:
-                    fullPath = os.path.join(currentPath, file)
-                    if file.endswith(".xml") and currentPath.startswith("assets/xml/"):
-                            outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
-                            xmlFiles.append(fullPath)
+    asset_path = args.single
+    if asset_path is not None:
+        if asset_path.endswith("/"):
+            asset_path = asset_path[0:-1]
+        Extract(f"assets/xml/{asset_path}.xml", f"assets/{asset_path}/")
+    else:
+        xmlFiles = []
+        for currentPath, folders, files in os.walk("assets"):
+                for file in files:
+                        fullPath = os.path.join(currentPath, file)
+                        if file.endswith(".xml") and currentPath.startswith("assets/xml/"):
+                                outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+                                xmlFiles.append(fullPath)
 
-    numCores = cpu_count()
-    print("Extracting assets with " + str(numCores) + " CPU cores.")
-    p = Pool(numCores)
-    p.map(ExtractFunc, xmlFiles)
-
-
-    #os.system("make resources")
+        numCores = cpu_count()
+        print("Extracting assets with " + str(numCores) + " CPU cores.")
+        p = Pool(numCores)
+        p.map(ExtractFunc, xmlFiles)
 
 if __name__ == "__main__":
     main()

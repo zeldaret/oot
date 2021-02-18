@@ -516,7 +516,7 @@ void EnBb_SetupDamage(EnBb* this) {
     if (this->actor.params == ENBB_RED) {
         EnBb_KillFlameTrail(this);
     }
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
     this->timer = 5;
     EnBb_SetupAction(this, EnBb_Damage);
 }
@@ -1083,13 +1083,13 @@ void EnBb_SetupStunned(EnBb* this) {
     }
     switch (this->dmgEffect) {
         case 8:
-            func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0x50);
+            Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0x50);
             break;
         case 9:
             this->fireIceTimer = 0x30;
         case 15:
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-            func_8003426C(&this->actor, 0, 0xB4, 0, 0x50);
+            Actor_SetColorFilter(&this->actor, 0, 0xB4, 0, 0x50);
             break;
     }
     this->actor.bgCheckFlags &= ~1;
@@ -1157,8 +1157,8 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
             case 5:
                 this->fireIceTimer = 0x30;
                 //! @bug
-                //! Setting fireIceTimer here without calling func_8003426C causes a crash if the bubble is killed
-                //! in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
+                //! Setting fireIceTimer here without calling Actor_SetColorFilter causes a crash if the bubble is
+                //! killed in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
@@ -1197,13 +1197,13 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                     }
                     EnBb_SetupDeath(this, globalCtx);
                     //! @bug
-                    //! Because Din's Fire kills the bubble in a single hit, func_8003426C is never called and
+                    //! Because Din's Fire kills the bubble in a single hit, Actor_SetColorFilter is never called and
                     //! colorFilterParams is never set. And because Din's Fire halts updating during its cutscene,
                     //! EnBb_Death doesn't kill the bubble on the next frame like it should. This combines with
                     //! the bug in EnBb_Draw below to crash the game.
                 } else if ((this->actor.params == ENBB_WHITE) &&
                            ((this->action == BB_WHITE) || (this->action == BB_STUNNED))) {
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
                     this->actor.speedXZ = -8.0f;
                     this->maxSpeed = 0.0f;
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;

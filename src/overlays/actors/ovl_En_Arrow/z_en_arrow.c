@@ -131,8 +131,8 @@ void EnArrow_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->collider.base.atFlags = (AT_ON | AT_TYPE_ENEMY);
         } else if (this->actor.params <= ARROW_SEED) {
             this->collider.info.toucher.dmgFlags = dmgFlags[this->actor.params];
-            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.info.toucher.dmgFlags, "../z_en_arrow.c",
-                    707);
+            LOG_HEX("this->at_info.cl_elem.at_btl_info.at_type", this->collider.info.toucher.dmgFlags,
+                    "../z_en_arrow.c", 707);
         }
     }
 
@@ -250,19 +250,19 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
     Actor* hitActor;
     Vec3f sp60;
     Vec3f sp54;
- 
+
     if (DECR(this->timer) == 0) {
         Actor_Kill(&this->actor);
         return;
     }
- 
+
     if (this->timer < 7.2000003f) {
         this->actor.gravity = -0.4f;
     }
- 
+
     atTouched = (this->actor.params != ARROW_NORMAL_LIT) && (this->actor.params <= ARROW_SEED) &&
                 (this->collider.base.atFlags & AT_HIT);
- 
+
     if (atTouched || this->touchedPoly) {
         if (this->actor.params >= ARROW_SEED) {
             if (atTouched) {
@@ -270,7 +270,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.y = (this->actor.world.pos.y + this->actor.prevPos.y) * 0.5f;
                 this->actor.world.pos.z = (this->actor.world.pos.z + this->actor.prevPos.z) * 0.5f;
             }
- 
+
             if (this->actor.params == ARROW_NUT) {
                 iREG(50) = -1;
                 Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_M_FIRE1, this->actor.world.pos.x,
@@ -279,16 +279,16 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             } else {
                 sfxId = NA_SE_IT_SLING_REFLECT;
             }
- 
+
             EffectSsStone1_Spawn(globalCtx, &this->actor.world.pos, 0);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, sfxId);
             Actor_Kill(&this->actor);
         } else {
             EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 150, &this->actor.world.pos);
- 
+
             if (atTouched && (this->collider.info.atHitInfo->elemType != ELEMTYPE_UNK4)) {
                 hitActor = this->collider.base.at;
- 
+
                 if ((hitActor->update != NULL) && (!(this->collider.base.atFlags & AT_BOUNCED)) &&
                     (hitActor->flags & 0x4000)) {
                     this->hitActor = hitActor;
@@ -301,26 +301,26 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
                 } else {
                     this->hitFlags |= 1;
                     this->hitFlags |= 2;
- 
+
                     if (this->collider.info.atHitInfo->bumperFlags & 2) {
                         this->actor.world.pos.x = this->collider.info.atHitInfo->bumper.hitPos.x;
                         this->actor.world.pos.y = this->collider.info.atHitInfo->bumper.hitPos.y;
                         this->actor.world.pos.z = this->collider.info.atHitInfo->bumper.hitPos.z;
                     }
- 
+
                     func_809B3CEC(globalCtx, this);
                     Audio_PlayActorSound2(&this->actor, NA_SE_IT_ARROW_STICK_CRE);
                 }
             } else if (this->touchedPoly) {
                 EnArrow_SetupAction(this, func_809B45E0);
                 Animation_PlayOnce(&this->skelAnime, &gArrow2Anim);
- 
+
                 if (this->actor.params >= ARROW_NORMAL_LIT) {
                     this->timer = 60;
                 } else {
                     this->timer = 20;
                 }
- 
+
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_ARROW_STICK_OBJ);
                 this->hitFlags |= 1;
             }
@@ -328,7 +328,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
     } else {
         Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
         Actor_MoveForward(&this->actor);
- 
+
         if (this->touchedPoly =
                 BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
                                            &this->actor.wallPoly, true, true, true, true, &bgId)) {
@@ -336,17 +336,17 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             Math_Vec3f_Copy(&posCopy, &this->actor.world.pos);
             Math_Vec3f_Copy(&this->actor.world.pos, &hitPoint);
         }
- 
+
         if (this->actor.params <= ARROW_0E) {
             this->actor.shape.rot.x = Math_Atan2S(this->actor.speedXZ, -this->actor.velocity.y);
         }
     }
- 
+
     if (this->hitActor != NULL) {
         if (this->hitActor->update != NULL) {
             Math_Vec3f_Sum(&this->unk_210, &this->unk_250, &sp60);
             Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &sp54);
- 
+
             if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp60, &sp54, &hitPoint, &hitPoly, true, true, true, true,
                                         &bgId)) {
                 this->hitActor->world.pos.x = hitPoint.x + ((sp54.x <= hitPoint.x) ? 1.0f : -1.0f);
@@ -358,7 +358,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
- 
+
             if (this->touchedPoly && (this->hitActor != NULL)) {
                 this->hitActor->flags &= ~0x8000;
                 this->hitActor = NULL;
@@ -402,8 +402,7 @@ void EnArrow_Update(Actor* thisx, GlobalContext* globalCtx) {
 
         if (this->actor.child == NULL) {
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, elementalActorIds[this->actor.params - 3],
-                               this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0,
-                               0);
+                               this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0);
         }
     } else if (this->actor.params == ARROW_NORMAL_LIT) {
         static Vec3f velocity = { 0.0f, 0.5f, 0.0f };
