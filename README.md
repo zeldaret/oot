@@ -1,11 +1,26 @@
 # The Legend of Zelda: Ocarina of Time
 
+[![Build Status][jenkins-badge]][jenkins] [![Decompilation Progress][progress-badge]][progress] [![Contributors][contributors-badge]][contributors] [![Discord Channel][discord-badge]][discord]
+
+[jenkins]: https://jenkins.zelda64.dev/job/OOT/job/master
+[jenkins-badge]: https://img.shields.io/jenkins/build?jobUrl=https%3A%2F%2Fjenkins.zelda64.dev%2Fjob%2FOOT%2Fjob%2Fmaster
+
+[progress]: https://zelda64.dev/progress.html
+[progress-badge]: https://img.shields.io/endpoint?url=https://zelda64.dev/reports/progress_shield.json
+
+[contributors]: https://github.com/zeldaret/oot/graphs/contributors
+[contributors-badge]: https://img.shields.io/github/contributors/zeldaret/oot
+
+[discord]: https://discord.zelda64.dev
+[discord-badge]: https://img.shields.io/discord/688807550715560050?color=%237289DA&logo=discord&logoColor=%23FFFFFF
+
 ```diff
 - WARNING! -
 
-The ROM this repository builds cannot be 'shifted', primarily due to some hardcoded pointers which have yet
-to be dumped. Thus this repository is currently in an experimental and research phase and cannot yet be used
-traditionally as a source code base for general changes.
+This repository is a work in progress, and while it can be used to make certain changes, it's still
+constantly evolving. If you use it for modding purposes in its current state, please be aware that
+the codebase can drastically change at any time. Also note that some parts of the ROM may not be
+'shiftable' yet, so modifying them could be difficult at this point.
 ```
 
 This is a WIP decompilation of The Legend of Zelda: Ocarina of Time.
@@ -16,12 +31,11 @@ It builds the following ROM:
 
 * zelda_ocarina_mq_dbg.z64 `md5: f0b7f35375f9cc8ca1b2d59d78e35405`
 
-**Note:** This repository does not include any of the assets necessary to build the ROM.
-A prior copy of the game is required to extract the needed assets.
+**Note: This repository does not include any of the assets necessary to build the ROM. A prior copy of the game is required to extract the needed assets.**
 
-Website: <https://zelda64.dev/>
+**Website:** <https://zelda64.dev>
 
-Discord: <https://discord.zelda64.dev>
+**Discord:** <https://discord.zelda64.dev>
 
 ## Installation
 
@@ -31,32 +45,19 @@ For Windows 10, install WSL and a distribution by following this
 [Windows Subsystem for Linux Installation Guide](https://docs.microsoft.com/en-us/windows/wsl/install-win10).
 We recommend using Debian or Ubuntu 18.04 Linux distributions.
 
-For older versions of Windows, install a Linux VM or refer to either [Docker](#Docker) or [Cygwin](#Cygwin) instructions.
-
-### Cygwin
-
-If you want to use Cygwin, you will need to:
-- Download and install [Git Bash](https://git-scm.com/download/win).
-- Download and install [Cygwin](https://cygwin.com).
-- [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
-
-Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
-- python3
-- libiconv
-- dos2unix
-
-Now before you try to build anything, if you cloned the repository in windows you will need fix the file line endings:
-```bash
-dos2unix fixle.sh
-./fixle.sh
-```
+For older versions of Windows, install a Linux VM or refer to either [Cygwin](#Cygwin) or [Docker](#Docker) instructions.
 
 ### macOS
 
 For macOS, use homebrew to install the following dependencies:
+
 * coreutils
 * make
 * python3
+* md5sha1sum
+
+You can install them with the following commands:
+
 ```bash
 brew update
 brew install coreutils make python3 md5sha1sum
@@ -66,7 +67,8 @@ You'll also need to [build and install mips-linux-binutils](docs/BUILDING_BINUTI
 
 Going forward in this guide, please use `gmake` whenever you encounter a `make` command.
 The `make` that comes with MacOS behaves differently than GNU make and is incompatible with this project.
-You should now be able to continue onto step 3.
+
+You should now be able to continue from step 3 of the Linux instructions.
 
 ### Linux (Native or under WSL / VM)
 
@@ -89,7 +91,7 @@ sudo apt-get install git build-essential binutils-mips-linux-gnu python3
 #### 2. Download and set up qemu-irix (optional)
 
 Note: We are currently testing a recompiled version of the compiler that does not require qemu-irix.
-This step allows you to build with qemu-irix and the original compiler by adding `ORIG_COMPILER=1` to the `make` command in step 6, for example if you experience issues with the recompiled version.
+This step is optional and allows you to build with qemu-irix and the original compiler by adding `ORIG_COMPILER=1` to the `make` command in step 6, for example if you experience issues with the recompiled version.
 
 Download qemu-irix from the Releases section in the repository. Place it at a location of your choosing.
 
@@ -149,13 +151,36 @@ md5sum: WARNING: 1 computed checksum did NOT match
 
 This means that the built ROM isn't the same as the base one, so something went wrong or some part of the code doesn't match.
 
+### Cygwin
+
+If you want to use Cygwin, you will need to:
+
+* Download and install [Git Bash](https://git-scm.com/download/win).
+* Download and install [Cygwin](https://cygwin.com).
+* [Build and install mips-linux-binutils](docs/BUILDING_BINUTILS_CYGWIN.md).
+
+Once mips-linux-binutils is installed you will need to install the following packages using Cygwin's installer:
+
+* libiconv
+* dos2unix
+* python3
+
+Then you can continue from step 3 of the Linux instructions.
+
+Note that, before building anything, you will need to run the following commands to fix line endings:
+
+```bash
+dos2unix fixle.sh
+./fixle.sh
+```
+
 ### Docker
 
 #### 1. Setup requirements
 
 To use Docker, you'll need either Docker Desktop or Docker Toolbox installed and setup based on your system.
 
-You'll also need to prepare a local version of the project with a copied base ROM (see Step 4 and 5 of the Linux instructions).
+You'll also need to prepare a local version of the project with a copied base ROM (see steps 3 and 4 of the Linux instructions).
 
 #### 2. Create the docker image
 
@@ -175,7 +200,7 @@ docker run -it --rm --mount type=bind,source="$(pwd)",destination=/oot oot /bin/
 
 #### 4. Setup and Build the ROM
 
-Once inside the container, you can follow Step 6 and 7 of the Linux instructions to setup and build the ROM, or run any other command you need.
+Once inside the container, you can follow steps 5 and 6 of the Linux instructions to setup and build the ROM, or run any other command you need.
 
 ## Contributing
 

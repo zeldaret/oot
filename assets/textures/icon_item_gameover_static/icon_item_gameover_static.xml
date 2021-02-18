@@ -1,9 +1,0 @@
-<Root>
-    <File Name="icon_item_gameover_static">
-        <Texture Name="Game_Over" Format="ia8" Width="64" Height="96"/>
-		<Texture Name="Game_Over_Mask" Format="ia8" Width="64" Height="32"/>
-		<Texture Name="Continue_Playing" Format="ia8" Width="152" Height="16"/>
-		<Texture Name="Spiel_Fortsetzen" Format="ia8" Width="152" Height="16"/>
-		<Texture Name="Continuer_La_Partie" Format="ia8" Width="152" Height="16"/>
-    </File>
-</Root>

@@ -52,7 +52,7 @@ void View_Init(View* view, GraphicsContext* gfxCtx) {
     view->eye.z = -1.0f;
 
     if (D_8012ABF0) {
-        if (&D_8012ABF0) {}
+        if (D_8012ABF0 == 0) {}
         osSyncPrintf("\nview: initialize ---\n");
         D_8012ABF0 = false;
     }
@@ -132,9 +132,7 @@ void func_800AA550(View* view) {
     s32 uly;
     s32 lrx;
     s32 lry;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     varY = ShrinkWindow_GetCurrentVal();
 
@@ -276,9 +274,7 @@ s32 func_800AAA9C(View* view) {
     Vp* vp;
     Mtx* projection;
     Mtx* viewing;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 596);
 
@@ -377,9 +373,7 @@ s32 func_800AAA9C(View* view) {
 s32 func_800AB0A8(View* view) {
     Vp* vp;
     Mtx* projection;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 726);
 
@@ -456,9 +450,7 @@ s32 func_800AB560(View* view) {
     Vp* vp;
     Mtx* projection;
     Mtx* viewing;
-    GraphicsContext* gfxCtx;
-
-    gfxCtx = view->gfxCtx;
+    GraphicsContext* gfxCtx = view->gfxCtx;
 
     OPEN_DISPS(gfxCtx, "../z_view.c", 816);
 

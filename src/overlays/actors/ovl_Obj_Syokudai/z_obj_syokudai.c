@@ -6,6 +6,8 @@
 
 #include "z_obj_syokudai.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0x00000410
 
@@ -15,8 +17,6 @@ void ObjSyokudai_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern Gfx D_0404D4E0[];
 
 const ActorInit Obj_Syokudai_InitVars = {
     ACTOR_OBJ_SYOKUDAI,
@@ -198,7 +198,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
-                        arrow->unk_1A8 = 0x800;
+                        arrow->collider.info.toucher.dmgFlags = 0x800;
                     }
                 }
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
@@ -259,7 +259,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { 0x060003A0, 0x06000B90, 0x06000870 };
+    static Gfx* displayLists[] = { gGoldenTorchDL, gTimedTorchDL, gWoodenTorchDL };
     s32 pad;
     ObjSyokudai* this = THIS;
     s32 timerMax;
@@ -302,7 +302,7 @@ void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 745),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_syokudai.c", 749);
 }
