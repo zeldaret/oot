@@ -212,8 +212,9 @@ void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMu* this = THIS;
 
     // colors rgba (1 for each actor in town with different colors?)
-    Color_RGBA8 D_80AB0C38[2][5] = { { 0x6482EB00, 0xA0FA3C00, 0x5A3C1400, 0x1EF0C800, 0x8C461400 },
-                                     { 0x8C461400, 0x1EF0C800, 0x5A3C1400, 0xA0FA3C00, 0x6482EB00 } }; //?
+    Color_RGBA8 D_80AB0C38[2][5] = { 0x64, 0x82, 0xEB, 0x00, 0xA0, 0xFA, 0x3C, 0x00, 0x5A, 0x3C, 0x14, 0x00, 0x1E, 0xF0,
+                                   0xC8, 0x00, 0x8C, 0x46, 0x14, 0x00, 0x8C, 0x46, 0x14, 0x00, 0x1E, 0xF0, 0xC8, 0x00,
+                                   0x5A, 0x3C, 0x14, 0x00, 0xA0, 0xFA, 0x3C, 0x00, 0x64, 0x82, 0xEB, 0x00 }; //?
     // below may need to be a changing graphics inst. based on the contents of D_80AB0C60 at a phi_s1 offset
     u8 D_80AB0C60[] = { 0x08, 0x09, 0x0A, 0x0B, 0x0C }; //?
     // Color_RGBA8 temp_v0;
@@ -232,8 +233,10 @@ void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx) {
         //           func_80AB09A8(globalCtx->state.gfxCtx, temp_v0.r, temp_v0.g, temp_v0.b, temp_v0.a));
 
         gSPSegment(POLY_OPA_DISP++, D_80AB0C60[phi_s0],
-                   func_80AB09A8(globalCtx->state.gfxCtx, D_80AB0C38[this->actor.params][phi_s0].r,
-                                 D_80AB0C38[this->actor.params][phi_s0].g, D_80AB0C38[this->actor.params][phi_s0].b,
+                   func_80AB09A8(globalCtx->state.gfxCtx,
+                                 D_80AB0C38[this->actor.params][phi_s0].r,
+                                 D_80AB0C38[this->actor.params][phi_s0].g,
+                                 D_80AB0C38[this->actor.params][phi_s0].b,
                                  D_80AB0C38[this->actor.params][phi_s0].a));
         // phi_s1++;
     }
