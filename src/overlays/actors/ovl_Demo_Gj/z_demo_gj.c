@@ -1,3 +1,9 @@
+/*
+ * File: z_demo_gj.c
+ * Overlay: Demo_Gj
+ * Description: Ganon battle rubble.
+ */
+
 #include "z_demo_gj.h"
 #include "vt.h"
 
@@ -321,8 +327,7 @@ void DemoGj_DrawRotated(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList
     CLOSE_DISPS(gfxCtx, "../z_demo_gj.c", 1201);
 }
 
-// TODO: find a better name
-void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_SetupRotation(DemoGj* this, GlobalContext* globalCtx) {
     f32 yPosition = this->dyna.actor.world.pos.y;
     f32* yVelocity = &this->dyna.actor.velocity.y;
     f32* speedXZ = &this->dyna.actor.speedXZ;
@@ -405,7 +410,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
 
     yPosition += verticalTranslation;
     if (yPosition <= 1086.0f && (*yVelocity < 0.0f)) {
-        if (!this->flag2) {
+        if (!this->isRotated) {
             *yVelocity *= verticalFactor;
             *speedXZ *= xzPlaneFactor;
 
@@ -422,11 +427,32 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
                 unk_172->z = 0;
             }
 
-            this->flag2 = true;
+            this->isRotated = true;
         }
     }
 }
 
+/* 
+ * Returns true if `ganon->unk_314` is equals to `arg1`.
+ * `ganon->unk_314` can have the following values:
+ *  0: Before the battle has started.
+ *  1: When is set: Ganondorf starts rising from the rubble. 
+ *     What is happening: Ganondorf is moving vertically and has vertical velocity.
+ *     Proposed name: BOSSGANON2_MODE_GANONDORF_RISING
+ *  2: When is set: Ganondorf has stopped rising in air. 
+ *     What is happening: The camera is in front of him, focusing the clouds and going down to focus him.
+ *     Proposed name: BOSSGANON2_MODE_GANONDORF_FLOATING
+ *  3: When is set: The camera has stopped moving and is focusing him. 
+ *     What is happening: Ganondorf raises his hand, shows the triforce and transforms into Ganon. The battle starts.
+ *     This value is set during the whole real fight against Ganon. Without and with Master Sword.
+ *     Proposed name: BOSSGANON2_MODE_GANON_FIGHTING
+ *  4: When is set: Link has hit Ganon's tail for last time with Master Sword. 
+ *     What is happening: Ganon falls to the floor, Zelda uses her magic and tells Link to kill him.
+ *     Proposed name: BOSSGANON2_MODE_GANON_DEFEATED
+ * 
+ * Those values should probably be defined as macros or enums in `ovl_Boss_Ganon2/z_boss_ganon2.h`.
+ * Proposed name for the function: `s32 DemoGj_CheckGanonMode(DemoGj* this, u8 mode)`
+ */
 s32 func_809797E4(DemoGj* this, u8 arg1) {
     BossGanon2* ganon = this->ganon;
 
@@ -436,15 +462,15 @@ s32 func_809797E4(DemoGj* this, u8 arg1) {
     return false;
 }
 
-s32 func_80979818(DemoGj* this, GlobalContext* globalCtx) {
+s32 DemoGj_IsGanondorfRisingFromRubble(DemoGj* this, GlobalContext* globalCtx) {
     return func_809797E4(this, 1);
 }
 
-s32 func_8097983C(DemoGj* this, GlobalContext* globalCtx) {
+// Ganondorf has stopped rising into the air and is just floating. Just before he transforms.
+s32 DemoGj_IsGanondorfFloatingInAir(DemoGj* this, GlobalContext* globalCtx) {
     return func_809797E4(this, 2);
 }
 
-// TODO: find a better name
 void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
     Actor* actor = &this->dyna.actor;
     Player* player;
@@ -550,9 +576,9 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80979F9C(DemoGj* this) {
+void DemoGj_CheckIfTransformedIntoGanon(DemoGj* this) {
     if (func_809797E4(this, 3)) {
-        this->flag1 = true;
+        this->isTransformedIntoGanon = true;
     }
 }
 
@@ -567,14 +593,14 @@ void func_8097A000(DemoGj* this, GlobalContext* globalCtx) {
     this->rotationVec.y += (s16)(kREG(19) + 1000);
     this->rotationVec.z += (s16)(kREG(20) + 3000);
 
-    DemoGj_Reflect(this, globalCtx);
+    DemoGj_SetupRotation(this, globalCtx);
 }
 
 void func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -371.0f, 1188.0f, -303.0f };
     u32 gameplayFrames;
 
-    if (!this->flag1) {
+    if (!this->isTransformedIntoGanon) {
         gameplayFrames = globalCtx->gameplayFrames % 3;
 
         if (1) {}
@@ -583,12 +609,12 @@ void func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
             DemoGj_SpawnDust(globalCtx, &pos, 300.0f);
         }
 
-        func_80979F9C(this);
+        DemoGj_CheckIfTransformedIntoGanon(this);
     }
 }
 
 void func_8097A0E4(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx)) {
+    if (DemoGj_IsGanondorfRisingFromRubble(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateMode = 8;
         this->drawConfig = 9;
@@ -596,7 +622,7 @@ void func_8097A0E4(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A130(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -630,14 +656,14 @@ void func_8097A238(DemoGj* this, GlobalContext* globalCtx) {
     this->rotationVec.y += (s16)(kREG(32) + 1000);
     this->rotationVec.z += (s16)(kREG(33) + 3000);
 
-    DemoGj_Reflect(this, globalCtx);
+    DemoGj_SetupRotation(this, globalCtx);
 }
 
 void func_8097A2B4(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -119.0f, 1056.0f, -147.0f };
     u32 gameplayFrames;
 
-    if (!this->flag1) {
+    if (!this->isTransformedIntoGanon) {
         gameplayFrames = globalCtx->gameplayFrames % 3;
 
         if (1) {}
@@ -646,12 +672,12 @@ void func_8097A2B4(DemoGj* this, GlobalContext* globalCtx) {
             DemoGj_SpawnDust(globalCtx, &pos, 300.0f);
         }
 
-        func_80979F9C(this);
+        DemoGj_CheckIfTransformedIntoGanon(this);
     }
 }
 
 void func_8097A320(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx)) {
+    if (DemoGj_IsGanondorfRisingFromRubble(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateMode = 9;
         this->drawConfig = 10;
@@ -659,7 +685,7 @@ void func_8097A320(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A36C(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -693,11 +719,11 @@ void func_8097A474(DemoGj* this, GlobalContext* globalCtx) {
     this->rotationVec.y += (s16)(kREG(45) + 1000);
     this->rotationVec.z += (s16)(kREG(46) + 3000);
 
-    DemoGj_Reflect(this, globalCtx);
+    DemoGj_SetupRotation(this, globalCtx);
 }
 
 void func_8097A4F0(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx)) {
+    if (DemoGj_IsGanondorfRisingFromRubble(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateMode = 10;
         this->drawConfig = 11;
@@ -705,7 +731,7 @@ void func_8097A4F0(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A53C(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -739,11 +765,11 @@ void func_8097A644(DemoGj* this, GlobalContext* globalCtx) {
     this->rotationVec.y += (s16)(kREG(58) + 1000);
     this->rotationVec.z += (s16)(kREG(59) + 3000);
 
-    DemoGj_Reflect(this, globalCtx);
+    DemoGj_SetupRotation(this, globalCtx);
 }
 
 void func_8097A6C0(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx)) {
+    if (DemoGj_IsGanondorfRisingFromRubble(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateMode = 11;
         this->drawConfig = 12;
@@ -751,7 +777,7 @@ void func_8097A6C0(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A70C(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -785,11 +811,11 @@ void func_8097A814(DemoGj* this, GlobalContext* globalCtx) {
     this->rotationVec.y += (s16)(kREG(71) + 1000);
     this->rotationVec.z += (s16)(kREG(72) + 3000);
 
-    DemoGj_Reflect(this, globalCtx);
+    DemoGj_SetupRotation(this, globalCtx);
 }
 
 void func_8097A890(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx)) {
+    if (DemoGj_IsGanondorfRisingFromRubble(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateMode = 12;
         this->drawConfig = 13;
@@ -797,7 +823,7 @@ void func_8097A890(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097A8DC(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -831,11 +857,11 @@ void func_8097A9E4(DemoGj* this, GlobalContext* globalCtx) {
     this->rotationVec.y += (s16)(kREG(84) + 1000);
     this->rotationVec.z += (s16)(kREG(85) + 3000);
 
-    DemoGj_Reflect(this, globalCtx);
+    DemoGj_SetupRotation(this, globalCtx);
 }
 
 void func_8097AA60(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx)) {
+    if (DemoGj_IsGanondorfRisingFromRubble(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateMode = 13;
         this->drawConfig = 14;
@@ -843,7 +869,7 @@ void func_8097AA60(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097AAAC(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -877,14 +903,14 @@ void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
     this->rotationVec.y += (s16)(kREG(14) + 1000);
     this->rotationVec.z += (s16)(kREG(13) + 3000);
 
-    DemoGj_Reflect(this, globalCtx);
+    DemoGj_SetupRotation(this, globalCtx);
 }
 
 void func_8097AC30(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -6.0f, 1053.0f, -473.0f };
     u32 gameplayFrames;
 
-    if (!this->flag1) {
+    if (!this->isTransformedIntoGanon) {
         gameplayFrames = globalCtx->gameplayFrames % 3;
 
         if (1) {}
@@ -893,12 +919,12 @@ void func_8097AC30(DemoGj* this, GlobalContext* globalCtx) {
             DemoGj_SpawnDust(globalCtx, &pos, 300.0f);
         }
 
-        func_80979F9C(this);
+        DemoGj_CheckIfTransformedIntoGanon(this);
     }
 }
 
 void func_8097AC9C(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_80979818(this, globalCtx)) {
+    if (DemoGj_IsGanondorfRisingFromRubble(this, globalCtx)) {
         DemoGj_SetupMovement(this, globalCtx);
         this->updateMode = 14;
         this->drawConfig = 15;
@@ -906,7 +932,7 @@ void func_8097AC9C(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void func_8097ACE8(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -955,7 +981,10 @@ void func_8097AE5C(DemoGj* this, GlobalContext* globalCtx) {
 void DemoGj_DoNothing1(DemoGj* this, GlobalContext* globalCtx) {
 }
 
-// Moves the ColliderCylinder's relative to the actor's position.
+/*
+ * Moves the ColliderCylinder's relative to the actor's position.
+ * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1
+ */
 void func_8097AEE8(DemoGj* this, GlobalContext* globalCtx) {
     ColliderCylinder* cylinder0 = &this->cylinders[0];
     ColliderCylinder* cylinder1 = &this->cylinders[1];
@@ -1002,7 +1031,7 @@ void DemoGj_DirectedExplosion(DemoGj* this, GlobalContext* globalCtx, Vec3f* dir
 }
 
 void func_8097B128(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Vec3f* scale = &this->dyna.actor.scale;
 
         DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubble2Col);
@@ -1027,8 +1056,11 @@ s32 DemoGj_HasCylinderAnyExploded(DemoGj* this, GlobalContext* globalCtx) {
     return false;
 }
 
-// Checks if should kill the actor and drop collectibles
-// Kills the actor if Ganon.mode==4, or was hit by an explosion or flag3==true
+/*
+ * Checks if should kill the actor and drop collectibles
+ * Kills the actor if ganon->unk_314==4 (Ganon killed), this rubble was hit by an explosion or killFlag==true
+ * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1
+ */
 void func_8097B22C(DemoGj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
@@ -1041,7 +1073,7 @@ void func_8097B22C(DemoGj* this, GlobalContext* globalCtx) {
         DemoGj_DirectedExplosion(this, globalCtx, &vec1);
 
         Actor_Kill(thisx);
-    } else if (this->flag3) {
+    } else if (this->killFlag) {
         Vec3f vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
@@ -1141,7 +1173,7 @@ void DemoGj_DirectedExplosion2(DemoGj* this, GlobalContext* globalCtx, Vec3f* di
 }
 
 void func_8097B6C4(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Vec3f* scale = &this->dyna.actor.scale;
 
         DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubble3Col);
@@ -1153,8 +1185,11 @@ void func_8097B6C4(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-// Checks if should kill the actor and drop collectibles
-// Kills the actor if Ganon.mode==4, or was hit by an explosion or flag3==true
+/*
+ * Checks if should kill the actor and drop collectibles
+ * Kills the actor if ganon->unk_314==4 (Ganon killed), this rubble was hit by an explosion or killFlag==true
+ * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2
+ */
 void func_8097B750(DemoGj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
 
@@ -1167,7 +1202,7 @@ void func_8097B750(DemoGj* this, GlobalContext* globalCtx) {
         DemoGj_DirectedExplosion2(this, globalCtx, &vec1);
 
         Actor_Kill(thisx);
-    } else if (this->flag3) {
+    } else if (this->killFlag) {
         Vec3f vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
@@ -1219,7 +1254,7 @@ void DemoGj_DirectedDoubleExplosion(DemoGj* this, GlobalContext* globalCtx, Vec3
 }
 
 void func_8097B9BC(DemoGj* this, GlobalContext* globalCtx) {
-    if (func_8097983C(this, globalCtx)) {
+    if (DemoGj_IsGanondorfFloatingInAir(this, globalCtx)) {
         Vec3f* scale = &this->dyna.actor.scale;
 
         DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubbleTallCol);
@@ -1231,8 +1266,11 @@ void func_8097B9BC(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-// Checks if should kill the actor and drop collectibles
-// Kills the actor if Ganon.mode==4, or was hit by an explosion or flag3==true
+/*
+ * Checks if should kill the actor and drop collectibles
+ * Kills the actor if ganon->unk_314==4 (Ganon killed), this rubble was hit by an explosion or killFlag==true
+ * Used by DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL
+ */
 void func_8097BA48(DemoGj* this, GlobalContext* globalCtx) {
     Actor* thisx = &this->dyna.actor;
     ColliderCylinder* cylinder = &this->cylinders[0];
@@ -1247,7 +1285,7 @@ void func_8097BA48(DemoGj* this, GlobalContext* globalCtx) {
         DemoGj_DirectedDoubleExplosion(this, globalCtx, &vec1);
 
         Actor_Kill(thisx);
-    } else if (this->flag3) {
+    } else if (this->killFlag) {
         Vec3f vec2 = this->unk_26C;
         vec2.y = 0.0f;
 
