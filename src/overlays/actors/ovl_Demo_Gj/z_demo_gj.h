@@ -18,7 +18,7 @@ typedef struct DemoGj {
     /* 0x017C */ s32 flag1;
     /* 0x0180 */ s32 flag2;
     /* 0x0184 */ ColliderCylinder cylinders[3];
-    /* 0x0268 */ s32 flag3; // This actor never sets this flag, but it reads it. If set to `true` and the actor type is DEMOGJ_TYPE_16, DEMOGJ_TYPE_17 or DEMOGJ_TYPE_22, then the actor will be killed and will drop the specified amount of collectibles.
+    /* 0x0268 */ s32 flag3; // This actor never sets this flag, but it reads it. If set to `true` and the actor type is DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1, DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2 or DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL, then the actor will be killed and will drop the specified amount of collectibles.
     /* 0x026C */ Vec3f unk_26C; // This actor never sets this. Specifies which direction will this actor explode when killed using `flag3`.
 } DemoGj; // size = 0x0278
 
@@ -32,16 +32,16 @@ extern const ActorInit Demo_Gj_InitVars;
  */
 typedef enum {
     /* 04 */ DEMOGJ_TYPE_AROUNDARENA = 4, // This is the indestructible rubble around the arena. This actor keeps alive the whole fight.
-    /* 08 */ DEMOGJ_TYPE_08 = 8,
-    /* 09 */ DEMOGJ_TYPE_09,
-    /* 10 */ DEMOGJ_TYPE_10,
-    /* 11 */ DEMOGJ_TYPE_11,
-    /* 12 */ DEMOGJ_TYPE_12,
-    /* 13 */ DEMOGJ_TYPE_13,
-    /* 14 */ DEMOGJ_TYPE_14,
-    /* 16 */ DEMOGJ_TYPE_16 = 16,
-    /* 17 */ DEMOGJ_TYPE_17,
-    /* 22 */ DEMOGJ_TYPE_22 = 22
+    /* 08 */ DEMOGJ_TYPE_RUBBLE_PILE_1 = 8, // DEMOGJ_TYPE_RUBBLE_PILE_X are the rubbles from where Ganondorf rises. Then he transform into Ganon and these are removed from the scene.
+    /* 09 */ DEMOGJ_TYPE_RUBBLE_PILE_2,
+    /* 10 */ DEMOGJ_TYPE_RUBBLE_PILE_3,
+    /* 11 */ DEMOGJ_TYPE_RUBBLE_PILE_4,
+    /* 12 */ DEMOGJ_TYPE_RUBBLE_PILE_5,
+    /* 13 */ DEMOGJ_TYPE_RUBBLE_PILE_6,
+    /* 14 */ DEMOGJ_TYPE_RUBBLE_PILE_7,
+    /* 16 */ DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1 = 16, // This three rubbles are the ones that Ganon can destroy and drop collectables.
+    /* 17 */ DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2,
+    /* 22 */ DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL = 22
 } DemoGjType;
 
 #endif

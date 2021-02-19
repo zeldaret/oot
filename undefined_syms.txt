@@ -1973,8 +1973,8 @@ gGanonsCastleRubble6DL = 0x06002E80;
 gGanonsCastleRubble6Col = 0x06002FE4;
 gGanonsCastleRubble7DL = 0x06003190;
 gGanonsCastleRubble7Col = 0x060033E0;
-gGanonsCastleRubble8DL = 0x06003710;
-gGanonsCastleRubble8Col = 0x06003AF0;
+gGanonsCastleRubbleTallDL = 0x06003710;
+gGanonsCastleRubbleTallCol = 0x06003AF0;
 
 // z_demo_ik
 D_0600035C = 0x0600035C;

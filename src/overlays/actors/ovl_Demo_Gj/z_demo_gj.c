@@ -24,8 +24,8 @@ extern Gfx gGanonsCastleRubble6DL[];
 extern CollisionHeader gGanonsCastleRubble6Col;
 extern Gfx gGanonsCastleRubble7DL[];
 extern CollisionHeader gGanonsCastleRubble7Col;
-extern Gfx gGanonsCastleRubble8DL[];
-extern CollisionHeader gGanonsCastleRubble8Col;
+extern Gfx gGanonsCastleRubbleTallDL[];
+extern CollisionHeader gGanonsCastleRubbleTallCol;
 
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
@@ -123,21 +123,21 @@ s32 DemoGj_HitByExplosion(DemoGj* this, GlobalContext* globalCtx, ColliderCylind
 
 void DemoGj_DestroyCylinder(DemoGj* this, GlobalContext* globalCtx) {
     switch (DemoGj_GetType(this)) {
-        case DEMOGJ_TYPE_16:
+        case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1:
             Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[1]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[2]);
             break;
 
-        case DEMOGJ_TYPE_17:
+        case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2:
             Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[1]);
             Collider_DestroyCylinder(globalCtx, &this->cylinders[2]);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_22:
+        case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL:
             Collider_DestroyCylinder(globalCtx, &this->cylinders[0]);
-            return;
+            break;
     }
 }
 
@@ -333,7 +333,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
     f32 xzPlaneFactor;
 
     switch (DemoGj_GetType(this)) {
-        case DEMOGJ_TYPE_08:
+        case DEMOGJ_TYPE_RUBBLE_PILE_1:
             verticalTranslation = kREG(23);
             vec.x = kREG(24) * 0.01f + 1.0f;
             vec.y = kREG(25) * 0.01f + 1.0f;
@@ -342,7 +342,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(28) * 0.01f + 1.0f;
             break;
 
-        case DEMOGJ_TYPE_09:
+        case DEMOGJ_TYPE_RUBBLE_PILE_2:
             verticalTranslation = kREG(36);
             vec.x = kREG(37) * 0.01f + 1.0f;
             vec.y = kREG(38) * 0.01f + 1.0f;
@@ -351,7 +351,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(41) * 0.01f + 1.0f;
             break;
 
-        case DEMOGJ_TYPE_10:
+        case DEMOGJ_TYPE_RUBBLE_PILE_3:
             verticalTranslation = kREG(49);
             vec.x = kREG(50) * 0.01f + 1.0f;
             vec.y = kREG(51) * 0.01f + 1.0f;
@@ -360,7 +360,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(54) * 0.01f + 1.0f;
             break;
 
-        case DEMOGJ_TYPE_11:
+        case DEMOGJ_TYPE_RUBBLE_PILE_4:
             verticalTranslation = kREG(62);
             vec.x = kREG(63) * 0.01f + 1.0f;
             vec.y = kREG(64) * 0.01f + 1.0f;
@@ -369,7 +369,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(67) * 0.01f + 1.0f;
             break;
 
-        case DEMOGJ_TYPE_12:
+        case DEMOGJ_TYPE_RUBBLE_PILE_5:
             verticalTranslation = kREG(75);
             vec.x = kREG(76) * 0.01f + 1.0f;
             vec.y = kREG(77) * 0.01f + 1.0f;
@@ -378,7 +378,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(80) * 0.01f + 1.0f;
             break;
 
-        case DEMOGJ_TYPE_13:
+        case DEMOGJ_TYPE_RUBBLE_PILE_6:
             verticalTranslation = kREG(88);
             vec.x = kREG(89) * 0.01f + 1.0f;
             vec.y = kREG(90) * 0.01f + 1.0f;
@@ -387,7 +387,7 @@ void DemoGj_Reflect(DemoGj* this, GlobalContext* globalCtx) {
             xzPlaneFactor = kREG(93) * 0.01f + 1.0f;
             break;
 
-        case DEMOGJ_TYPE_14:
+        case DEMOGJ_TYPE_RUBBLE_PILE_7:
             verticalTranslation = kREG(10) + -190.0f;
             vec.x = kREG(9) * 0.01f + 1.0f;
             vec.y = kREG(8) * 0.01f + 1.0f;
@@ -459,7 +459,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
         unk_172 = &this->unk_172;
 
         switch (DemoGj_GetType(this)) {
-            case DEMOGJ_TYPE_08:
+            case DEMOGJ_TYPE_RUBBLE_PILE_1:
                 actor->speedXZ = kREG(16) + 10.0f;
                 actor->velocity.y = kREG(17) + 40.0f;
                 unk_172->x = kREG(18);
@@ -469,7 +469,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(22) * 0.01f + -5.0f;
                 break;
 
-            case DEMOGJ_TYPE_09:
+            case DEMOGJ_TYPE_RUBBLE_PILE_2:
                 actor->speedXZ = kREG(29) + 10.0f;
                 actor->velocity.y = kREG(30) + 40.0f;
                 unk_172->x = kREG(31);
@@ -479,7 +479,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(35) * 0.01f + -5.0f;
                 break;
 
-            case DEMOGJ_TYPE_10:
+            case DEMOGJ_TYPE_RUBBLE_PILE_3:
                 actor->speedXZ = kREG(42) + 10.0f;
                 actor->velocity.y = kREG(43) + 40.0f;
                 unk_172->x = kREG(44);
@@ -489,7 +489,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(48) * 0.01f + -5.0f;
                 break;
 
-            case DEMOGJ_TYPE_11:
+            case DEMOGJ_TYPE_RUBBLE_PILE_4:
                 actor->speedXZ = kREG(55) + 10.0f;
                 actor->velocity.y = kREG(56) + 40.0f;
                 unk_172->x = kREG(57);
@@ -499,7 +499,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(61) * 0.01f + -5.0f;
                 break;
 
-            case DEMOGJ_TYPE_12:
+            case DEMOGJ_TYPE_RUBBLE_PILE_5:
                 actor->speedXZ = kREG(68) + 10.0f;
                 actor->velocity.y = kREG(69) + 40.0f;
                 unk_172->x = kREG(70);
@@ -509,7 +509,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(74) * 0.01f + -5.0f;
                 break;
 
-            case DEMOGJ_TYPE_13:
+            case DEMOGJ_TYPE_RUBBLE_PILE_6:
                 actor->speedXZ = kREG(81) + 10.0f;
                 actor->velocity.y = kREG(82) + 40.0f;
                 unk_172->x = kREG(83);
@@ -519,7 +519,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
                 actor->gravity = kREG(87) * 0.01f + -5.0f;
                 break;
 
-            case DEMOGJ_TYPE_14:
+            case DEMOGJ_TYPE_RUBBLE_PILE_7:
                 actor->speedXZ = kREG(94) + 10.0f;
                 actor->velocity.y = kREG(95) + 70.0f;
                 unk_172->x = kREG(15);
@@ -552,7 +552,7 @@ void DemoGj_SetupMovement(DemoGj* this, GlobalContext* globalCtx) {
 
 void func_80979F9C(DemoGj* this) {
     if (func_809797E4(this, 3)) {
-        this->flag1 = 1; // this->flag1 = true; (?)
+        this->flag1 = true;
     }
 }
 
@@ -615,7 +615,7 @@ void DemoGj_Draw2(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
-void DemoGj_DrawRubble2(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DrawRotatedRubble2(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble2DL);
 }
 
@@ -678,7 +678,7 @@ void DemoGj_Draw3(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
-void DemoGj_DrawRubble3(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DrawRotatedRubble3(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble3DL);
 }
 
@@ -724,7 +724,7 @@ void DemoGj_Draw4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble4DL);
 }
 
-void DemoGj_DrawRubble4(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DrawRotatedRubble4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble4DL);
 }
 
@@ -770,7 +770,7 @@ void DemoGj_Draw5(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble5DL);
 }
 
-void DemoGj_DrawRubble5(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DrawRotatedRubble5(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble5DL);
 }
 
@@ -816,7 +816,7 @@ void DemoGj_Draw6(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble6DL);
 }
 
-void DemoGj_DrawRubble6(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DrawRotatedRubble6(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble6DL);
 }
 
@@ -862,12 +862,12 @@ void DemoGj_Draw7(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble7DL);
 }
 
-void DemoGj_DrawRubble7(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_DrawRotatedRubble7(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble7DL);
 }
 
 void func_8097AB84(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_InitSetIndexes(this, globalCtx, 7, 8, &gGanonsCastleRubble8Col);
+    DemoGj_InitSetIndexes(this, globalCtx, 7, 8, &gGanonsCastleRubbleTallCol);
 }
 
 void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
@@ -921,12 +921,12 @@ void DemoGj_Update14(DemoGj* this, GlobalContext* globalCtx) {
     func_8097ACE8(this, globalCtx);
 }
 
-void DemoGj_Draw8(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble8DL);
+void DemoGj_DrawRubbleTall(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubbleTallDL);
 }
 
-void DemoGj_DrawRubble8(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubble8DL);
+void DemoGj_DrawRotatedRubbleTall(DemoGj* this, GlobalContext* globalCtx) {
+    DemoGj_DrawRotated(this, globalCtx, gGanonsCastleRubbleTallDL);
 }
 
 void func_8097ADC0(DemoGj* this, GlobalContext* globalCtx) {
@@ -1222,7 +1222,7 @@ void func_8097B9BC(DemoGj* this, GlobalContext* globalCtx) {
     if (func_8097983C(this, globalCtx)) {
         Vec3f* scale = &this->dyna.actor.scale;
 
-        DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubble8Col);
+        DemoGj_InitCommon(this, globalCtx, &gGanonsCastleRubbleTallCol);
         this->updateMode = 20;
         this->drawConfig = 18;
         scale->x *= 0.8f;
@@ -1272,7 +1272,7 @@ void DemoGj_Update20(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 void DemoGj_Draw18(DemoGj* this, GlobalContext* globalCtx) {
-    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubble8DL);
+    DemoGj_DrawCommon(this, globalCtx, gGanonsCastleRubbleTallDL);
 }
 
 static DemoGjUpdateFunc sUpdateFuncs[] = {
@@ -1301,47 +1301,47 @@ void DemoGj_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (DemoGj_GetType(this)) {
         case DEMOGJ_TYPE_AROUNDARENA:
             func_8097ADC0(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_08:
+        case DEMOGJ_TYPE_RUBBLE_PILE_1:
             func_80979FD0(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_09:
+        case DEMOGJ_TYPE_RUBBLE_PILE_2:
             func_8097A208(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_10:
+        case DEMOGJ_TYPE_RUBBLE_PILE_3:
             func_8097A444(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_11:
+        case DEMOGJ_TYPE_RUBBLE_PILE_4:
             func_8097A614(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_12:
+        case DEMOGJ_TYPE_RUBBLE_PILE_5:
             func_8097A7E4(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_13:
+        case DEMOGJ_TYPE_RUBBLE_PILE_6:
             func_8097A9B4(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_14:
+        case DEMOGJ_TYPE_RUBBLE_PILE_7:
             func_8097AB84(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_16:
+        case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_1:
             func_8097AE5C(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_17:
+        case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_2:
             func_8097B3C4(this, globalCtx);
-            return;
+            break;
 
-        case DEMOGJ_TYPE_22:
+        case DEMOGJ_TYPE_DESTRUCTABLE_RUBBLE_TALL:
             func_8097B8E8(this, globalCtx);
-            return;
+            break;
 
         default:
             // Demo_Gj_Actor_ct There is no such argument!!!!!!!!!!!!!!!!!!!!!!
@@ -1356,8 +1356,8 @@ void DemoGj_DrawNothing(DemoGj* this, GlobalContext* globalCtx) {
 
 static DemoGjDrawFunc sDrawFuncs[] = {
     DemoGj_DrawNothing, DemoGj_DrawRubbleAroundArena,  DemoGj_Draw2,  DemoGj_Draw3,  DemoGj_Draw4,  DemoGj_Draw5,  DemoGj_Draw6,
-    DemoGj_Draw7,           DemoGj_Draw8,  DemoGj_DrawRubble2,  DemoGj_DrawRubble3, DemoGj_DrawRubble4, DemoGj_DrawRubble5, DemoGj_DrawRubble6,
-    DemoGj_DrawRubble7,          DemoGj_DrawRubble8, DemoGj_Draw16, DemoGj_Draw17, DemoGj_Draw18,
+    DemoGj_Draw7,           DemoGj_DrawRubbleTall,  DemoGj_DrawRotatedRubble2,  DemoGj_DrawRotatedRubble3, DemoGj_DrawRotatedRubble4, DemoGj_DrawRotatedRubble5, DemoGj_DrawRotatedRubble6,
+    DemoGj_DrawRotatedRubble7,          DemoGj_DrawRotatedRubbleTall, DemoGj_Draw16, DemoGj_Draw17, DemoGj_Draw18,
 };
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
