@@ -48,13 +48,12 @@ const ActorInit En_Yabusame_Mark_InitVars = {
     NULL,
 };
 
-Vec3f collisionVerticies[] = {
+static Vec3f collisionVerticies[] = {
     { 70.0f, 70.0f, 0.0f },      { 70.0f, -70.0f, 0.0f },      { -70.0f, 70.0f, 0.0f },    { -70.0f, -70.0f, 0.0f },
     { 90.0f, 130.0f, -120.0f },  { -25.0f, -80.0f, -130.0f },  { 90.0f, 130.0f, 120.0f },  { -25.0f, -80.0, 130.0f },
     { 115.0f, 160.0f, -150.0f }, { -50.0f, -140.0f, -160.0f }, { 115.0f, 160.0f, 150.0f }, { -50.0f, -140.0f, 160.0f },
 };
 
-#ifdef NON_MATCHING
 Vec3f D_80B435F0[] = {
     { 3382.0f, 1734.0f, -4946.0f }, // small, furthest from entrance
     { 3360.0f, 1734.0f, 495.0f },   // small, closest to entrance
@@ -75,18 +74,6 @@ unknownStruct D_80B4362C[] = {
     { 40.0f, 80.0f, 120.0f, 777.0f },
     { 40.0f, 120.0f, 160.0f, 777.0f },
 };
-#else
-s32 D_80B435F0 = 0x45536000;
-s32 D_80B435F4 = 0x44D8C000;
-s32 D_80B435F8[] = {
-    0xC59A9000, 0x45520000, 0x44D8C000, 0x43F78000, 0x458D2800, 0x44D24000, 0xC4DE6000,
-    0x458D2800, 0x44D24000, 0xC52FD000, 0x458D5000, 0x44D7E000, 0xC50F8000,
-};
-s32 D_80B4362C[] = {
-    0x41A00000, 0x42200000, 0x42700000, 0x44424000, 0x42200000, 0x42A00000,
-    0x42F00000, 0x44424000, 0x42200000, 0x42F00000, 0x43200000, 0x44424000,
-};
-#endif
 
 Vec3f D_80B4365C = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B43668 = { 0.0f, 0.0f, 0.0f };
@@ -102,7 +89,7 @@ void EnYabusameMark_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("\n\n");
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ やぶさめまと ☆☆☆☆☆ %x\n" VT_RST, this->actor.params);
-    this->actor.flags &= -2;
+    this->actor.flags &= ~1;
     this->typeIndex = this->actor.params;
     this->actor.targetMode = 5;
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 種類インデックス \t   ☆☆☆☆☆ %d\n" VT_RST, this->typeIndex);
