@@ -1913,46 +1913,32 @@ void EnJsjutan_Destroy(Actor *thisx, GlobalContext *globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx);
-/*
 void func_80A89860(EnJsjutan *this, GlobalContext *globalCtx) {
-    Vec3f sp68;
-    Vec3f* temp_fp;
-    s16 temp_v0_2;
-    void *temp_v0;
-    void *phi_s0;
+    s32 pad;
+    Vtx *phi_s0;
+    Vtx *phi_s2;
+    Vec3f actorPos = this->dyna.actor.world.pos;
     s16 i;
-    void *phi_s2;
 
-    temp_fp = &this->dyna.actor.world;
-    sp68 = *temp_fp;
-    //phi_s0 = gSegments[(u32) ((s32) D_80A8BA98 * 0x10) >> 0x1C] + ((s32) D_80A8BA98 & 0xFFFFFF) + 0x80000000;
     phi_s0 = SEGMENTED_TO_VIRTUAL(D_80A8BA98);
-    i = (u16)0;
-    //phi_s2 = gSegments[(u32) ((s32) D_80A8C398 * 0x10) >> 0x1C] + ((s32) D_80A8C398 & 0xFFFFFF) + 0x80000000;
     phi_s2 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
-    for (i = 0; i < ARRAY_COUNT(D_80A8EE10); i++) {
-        temp_v0 = D_80A8EE10 + (i * 6);
-        temp_v0->unk0 = (s16) phi_s0->unk0;
-        temp_v0->unk4 = (s16) phi_s0->unk4;
+
+    for (i = 0; i < ARRAY_COUNT(D_80A8EE10); i++){
+        D_80A8EE10[i].x = phi_s0->v.ob[0];
+        D_80A8EE10[i].z = phi_s0->v.ob[2];
         if (this->dyna.actor.params == 1) {
-            phi_s2->unk2 = (u16)0x585;
-            phi_s0->unk2 = (s16) phi_s2->unk2;
+            phi_s0->v.ob[1] = phi_s2->v.ob[1] = 0x585;
         } else {
-            this->dyna.actor.world.pos.x = ((f32) phi_s0->unk0 * 0.02f) + sp68.x;
-            this->dyna.actor.world.pos.z = ((f32) phi_s0->unk4 * 0.02f) + sp68.z;
-            Actor_UpdateBgCheckInfo(globalCtx, (Actor *) this, 10.0f, 10.0f, 10.0f, 4);
-            temp_v0_2 = (s16) (s32) this->dyna.actor.floorHeight;
-            phi_s2->unk2 = temp_v0_2;
-            phi_s0->unk2 = temp_v0_2;
-            *temp_fp = sp68;
+            this->dyna.actor.world.pos.x = phi_s0->v.ob[0] * 0.02f + actorPos.x;
+            this->dyna.actor.world.pos.z = phi_s0->v.ob[2] * 0.02f + actorPos.z;
+            Actor_UpdateBgCheckInfo(globalCtx, &this->dyna.actor, 10.0f, 10.0f, 10.0f, 4);
+            phi_s0->v.ob[1] = phi_s2->v.ob[1] = this->dyna.actor.floorHeight;
+            this->dyna.actor.world.pos = actorPos;
         }
-        phi_s0 = phi_s0 + 0x10;
-        phi_s2 = phi_s2 + 0x10;
+        phi_s0++;
+        phi_s2++;
     }
 }
-*/
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89860.s")
 
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx);
 /*
