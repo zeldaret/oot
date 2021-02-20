@@ -150,7 +150,7 @@ void OceffStorm_Draw2(Actor* thisx, GlobalContext* globalCtx) {
 void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u32 scroll = globalCtx->state.frames & 0xFFF;
     OceffStorm* this = THIS;
-    Vtx* vtxPtr = vertices;
+    Vtx* vtxPtr = sCylinderVtx;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 486);
 
@@ -167,10 +167,10 @@ void OceffStorm_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 498),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_XLU_DISP++, sCylinderTexDl);
+    gSPDisplayList(POLY_XLU_DISP++, sCylinderTexDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 4, (0 - scroll) * 8, 32, 32,
                                                      1, scroll * 8, (0 - scroll) * 12, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, sCylinderDl);
+    gSPDisplayList(POLY_XLU_DISP++, sCylinderDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_storm.c", 512);
 
