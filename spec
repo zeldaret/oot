@@ -2522,7 +2522,6 @@ beginseg
     name "ovl_En_Jsjutan"
     include "build/src/overlays/actors/ovl_En_Jsjutan/z_en_jsjutan.o"
     include "build/data/overlays/actors/z_en_jsjutan.data.o"
-    include "build/data/overlays/actors/z_en_jsjutan.bss.o"
     include "build/data/overlays/actors/z_en_jsjutan.reloc.o"
 endseg
 
