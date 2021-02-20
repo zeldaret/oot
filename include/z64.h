@@ -318,7 +318,7 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Font   font;
-    /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
+    /* 0xE2B0 */ u8*    textboxSegment; // "fukidashiSegment"
     /* 0xE2B4 */ char   unk_E2B4[0x44];
     /* 0xE2FA */ u16    unk_E2F8;
     /* 0xE2FA */ u16    unk_E2FA;
@@ -350,10 +350,10 @@ typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   vtx_128;
     /* 0x012C */ Vtx*   vtx_12C;
-    /* 0x0130 */ void*  parameterSegment;
-    /* 0x0134 */ void*  do_actionSegment;
-    /* 0x0138 */ void*  icon_itemSegment;
-    /* 0x013C */ void*  mapSegment;
+    /* 0x0130 */ u8*    parameterSegment;
+    /* 0x0134 */ u8*    do_actionSegment;
+    /* 0x0138 */ u8*    icon_itemSegment;
+    /* 0x013C */ u8*    mapSegment;
     /* 0x0140 */ u8     unk_140[32];
     /* 0x0160 */ DmaRequest dmaRequest_160;
     /* 0x0180 */ DmaRequest dmaRequest_180;
@@ -423,16 +423,46 @@ typedef struct {
 } InterfaceContext; // size = 0x270
 
 typedef struct {
+    /* 0x00 */ void* loadedRamAddr;
+    /* 0x04 */ u32 vromStart;
+    /* 0x08 */ u32 vromEnd;
+    /* 0x0C */ void* vramStart;
+    /* 0x10 */ void* vramEnd;
+    /* 0x14 */ u32 off; // loadedRamAddr - vramStart
+    /* 0x18 */ const char* name;
+} KaleidoMgrOverlay; // size = 0x1C
+
+typedef enum {
+    /* 0x00 */ KALEIDO_OVL_KALEIDO_SCOPE,
+    /* 0x01 */ KALEIDO_OVL_PLAYER_ACTOR,
+    /* 0x02 */ KALEIDO_OVL_MAX
+} KaleidoOverlayType;
+
+typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ void*  unk_128;
-    /* 0x012C */ void*  unk_12C;
-    /* 0x0130 */ void*  unk_130;
-    /* 0x0134 */ void*  unk_134;
-    /* 0x0138 */ void*  unk_138;
-    /* 0x013C */ void*  unk_13C;
-    /* 0x0140 */ char   unk_140[0x028];
+    /* 0x0128 */ u8*    unk_128;
+    /* 0x012C */ u8*    unk_12C;
+    /* 0x0130 */ u8*    unk_130;
+    /* 0x0134 */ u8*    unk_134;
+    /* 0x0138 */ u8*    unk_138;
+    /* 0x013C */ u8*    unk_13C;
+    /* 0x0140 */ char   unk_140[0x04];
+    /* 0x0144 */ Vtx*   vtx_144;
+    /* 0x0148 */ Vtx*   vtx_148;
+    /* 0x014C */ Vtx*   vtx_14C;
+    /* 0x0150 */ Vtx*   vtx_150;
+    /* 0x0154 */ Vtx*   vtx_154;
+    /* 0x0158 */ Vtx*   vtx_158;
+    /* 0x015C */ Vtx*   vtx_15C;
+    /* 0x0160 */ char   unk_160[0x04];
+    /* 0x0164 */ Vtx*   vtx_164;
     /* 0x0168 */ Vtx*   vtx_168;
-    /* 0x016C */ char   unk_16C[0x068];
+    /* 0x016C */ Vtx*   vtx_16C;
+    /* 0x0170 */ char   unk_170[0x24];
+    /* 0x0194 */ u8*    unk_194;
+    /* 0x0198 */ char   unk_198[0x20];
+    /* 0x01B8 */ OSMesgQueue loadQueue;
+    /* 0x01D0 */ OSMesg loadMsg;
     /* 0x01D4 */ u16    state;
     /* 0x01D6 */ u16    flag;
     /* 0x01D8 */ Vec3f  eye;
@@ -441,58 +471,42 @@ typedef struct {
     /* 0x01E8 */ u16    kscpPos; // "kscp_pos"; basically the page index (0=SELECT ITEM; 1=MAP; 2=QUEST STATUS; 3=EQUIPMENT)
     /* 0x01EA */ u16    unk_1EA;
     /* 0x01EC */ u16    unk_1EC;
-    /* 0x01EE */ char   unk_1EE[0x2];
+    /* 0x01EE */ char   unk_1EE[0x02];
     /* 0x01F0 */ f32    unk_1F0;
     /* 0x01F4 */ f32    unk_1F4;
     /* 0x01F8 */ f32    unk_1F8;
     /* 0x01FC */ f32    unk_1FC;
     /* 0x0200 */ f32    unk_200;
-    /* 0x0204 */ f32    unk_204;
-    /* 0x0208 */ s16    unk_208;
-    /* 0x020A */ char   unk_20A[0xA];
-    /* 0x0214 */ s16    inputX;
-    /* 0x0216 */ s16    inputY;
-    /* 0x0218 */ s16    unk_218;
-    /* 0x021A */ s16    unk_21A;
-    /* 0x021C */ s16    unk_21C;
-    /* 0x021E */ s16    unk_21E;
-    /* 0x0220 */ s16    unk_220;
-    /* 0x0222 */ s16    unk_222;
-    /* 0x0224 */ s16    unk_224;
-    /* 0x0226 */ s16    unk_226;
-    /* 0x0228 */ s16    unk_228;
-    /* 0x022A */ s16    unk_22A;
-    /* 0x022C */ s16    unk_22C;
-    /* 0x022E */ s16    unk_22E;
-    /* 0x0230 */ s16    unk_230;
-    /* 0x0232 */ s16    unk_232;
-    /* 0x0234 */ s16    unk_234;
+    /* 0x0204 */ f32    unk_204; // "angle_s"
+    /* 0x0208 */ u16    unk_208;
+    /* 0x020A */ s16    unk_20A;
+    /* 0x020C */ char   unk_20C[0x08];
+    /* 0x0214 */ s16    stickRelX;
+    /* 0x0216 */ s16    stickRelY;
+    /* 0x0218 */ s16    unk_218[5]; // "cursor_point"
+    /* 0x0222 */ s16    unk_222[5]; // "cur_xpt"
+    /* 0x022C */ s16    unk_22C[5]; // "cur_ypt"
     /* 0x0236 */ s16    unk_236;
-    /* 0x0238 */ s16    unk_238;
+    /* 0x0238 */ s16    unk_238; // "key_angle"
     /* 0x023A */ s16    unk_23A;
-    /* 0x023C */ s16    unk_23C;
-    /* 0x023E */ u16    unk_23E;
-    /* 0x0240 */ s16    unk_240;
-    /* 0x0242 */ u16    unk_242;
-    /* 0x0244 */ s16    unk_244;
-    /* 0x0246 */ s16    unk_246;
-    /* 0x0248 */ s16    unk_248;
-    /* 0x024A */ s16    unk_24A;
-    /* 0x024C */ s16    unk_24C;
-    /* 0x024E */ s16    unk_24E;
-    /* 0x0250 */ s16    unk_250;
-    /* 0x0252 */ s16    unk_252;
+    /* 0x023C */ u16    unk_23C; // "zoom_name"
+    /* 0x023E */ u16    unk_23E[4]; // "select_name"
+    /* 0x0246 */ u16    unk_246[4];
+    /* 0x024E */ u16    unk_24E; // "sl_item_no"
+    /* 0x0250 */ u16    unk_250; // "sl_number"
+    /* 0x0252 */ u16    unk_252;
     /* 0x0254 */ s16    unk_254;
     /* 0x0256 */ s16    unk_256;
     /* 0x0258 */ s16    unk_258;
     /* 0x025A */ s16    unk_25A;
-    /* 0x025C */ s16    unk_25C;
-    /* 0x025E */ s16    unk_25E;
+    /* 0x025C */ u16    unk_25C;
+    /* 0x025E */ u16    unk_25E;
     /* 0x0260 */ s16    unk_260;
     /* 0x0262 */ s16    unk_262;
     /* 0x0264 */ s16    unk_264;
-    /* 0x0266 */ s16    unk_266;
-    /* 0x0268 */ char   unk_268[0x58];
+    /* 0x0266 */ u8     unk_266[20];
+    /* 0x027A */ u8     unk_27A;
+    /* 0x027C */ SkelAnime skelAnime;
 } PauseContext; // size = 0x2C0
 
 typedef enum {
@@ -510,7 +524,7 @@ typedef enum {
 
 typedef struct {
     /* 0x00 */ u16 state;
-} GameOverContext;
+} GameOverContext; // size = 0x02
 
 typedef struct {
     /* 0x00 */ char     unk_00[0x02];
@@ -812,7 +826,7 @@ typedef struct GameState {
 
 typedef struct {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ void* staticSegment;
+    /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
     /* 0x01D0 */ SramContext sramCtx;
     /* 0x01D4 */ u16 unk_1D4; // not used in mq dbg (some sort of timer that doesn't seem to affect anything)
@@ -857,13 +871,13 @@ typedef struct SelectContext {
     /* 0x022C */ s32 unk_22C;
     /* 0x0230 */ s32 unk_230;
     /* 0x0234 */ s32 unk_234;
-    /* 0x0238 */ void* staticSegment;
+    /* 0x0238 */ u8* staticSegment;
     /* 0x023C */ s32 unk_23C;
 } SelectContext; // size = 0x240
 
 typedef struct {
     /* 0x0000 */ GameState state;
-    /* 0x00A4 */ void* staticSegment;
+    /* 0x00A4 */ u8* staticSegment;
     /* 0x00A8 */ View view;
 } SampleContext; // size = 0x1D0
 
@@ -880,7 +894,7 @@ typedef struct GlobalContext {
     /* 0x000A4 */ s16 sceneNum;
     /* 0x000A6 */ u8 sceneConfig;
     /* 0x000A7 */ char unk_A7[0x9];
-    /* 0x000B0 */ void* sceneSegment;
+    /* 0x000B0 */ u8* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
     /* 0x0034C */ Camera subCameras[NUM_CAMS - SUBCAM_FIRST];
@@ -967,8 +981,8 @@ typedef struct {
 typedef struct {
     /* 0x00000 */ GameState state;
     /* 0x000A4 */ Vtx* allocVtx1;
-    /* 0x000A8 */ void* staticSegment;
-    /* 0x000AC */ void* parameterSegment;
+    /* 0x000A8 */ u8* staticSegment;
+    /* 0x000AC */ u8* parameterSegment;
     /* 0x000B0 */ char unk_B0[0x8];
     /* 0x000B8 */ View view;
     /* 0x001E0 */ SramContext sramCtx;
@@ -1170,6 +1184,22 @@ typedef struct {
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
 
+typedef struct {
+    /* 0x00 */ s16 chestFlag; // chest icon is only displayed if this flag is not set for the current room, -1 for no flag
+    /* 0x04 */ f32 x, y; // coordinates to place the icon (top-left corner)
+} PauseMapMarkPoint; // size = 0x0C
+
+typedef struct {
+    /* 0x00 */ s16 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
+    /* 0x02 */ char unk_02[0x06];
+    /* 0x08 */ Vtx* vtx;
+    /* 0x0C */ s32 vtxCount;
+    /* 0x10 */ s32 count; // number of icons to display
+    /* 0x14 */ PauseMapMarkPoint points[12];
+} PauseMapMarkData; // size = 0xA4
+
+typedef PauseMapMarkData PauseMapMarksData[3];
+
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
@@ -1252,7 +1282,7 @@ typedef struct {
 } FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint *(*callback)(struct GfxPrint*, const char*, size_t);
+    /* 0x00 */ struct GfxPrint* (*callback)(struct GfxPrint*, const char*, size_t);
     /* 0x04 */ Gfx* dlist;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
@@ -1483,20 +1513,6 @@ typedef struct OverlayRelocationSection {
     /* 0x10 */ u32 nRelocations;
     /* 0x14 */ u32 relocations[1];
 } OverlayRelocationSection; // size >= 0x18
-
-typedef struct {
-    /* 0x00 */ void* loadedRamAddr;
-    /* 0x04 */ u32 vromStart;
-    /* 0x08 */ u32 vromEnd;
-    /* 0x0C */ u8* vramStart;
-    /* 0x10 */ u8* vramEnd;
-    /* 0x14 */ u32 off; // loadedRamAddr - vram
-    /* 0x18 */ const char* name;
-} KaleidoManagerOvl; // size = 0x1C
-
-#define KALEIDO_OVL_KALEIDO_SCOPE   0
-#define KALEIDO_OVL_PLAYER_ACTOR    1
-#define KALEIDO_OVL_COUNT           2
 
 typedef struct {
     /* 0x00 */ u32 resetting;

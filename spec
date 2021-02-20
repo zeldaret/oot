@@ -556,21 +556,14 @@ endseg
 beginseg
     name "ovl_kaleido_scope"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o"
-    include "build/data/overlays/actors/z_kaleido_collect.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o"
-    include "build/data/overlays/actors/z_kaleido_debug.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o"
-    include "build/data/overlays/actors/z_kaleido_equipment.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o"
-    include "build/data/overlays/actors/z_kaleido_item.data.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o"
-    include "build/data/overlays/actors/z_kaleido_map_PAL.data.o"
+    include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_8081EFF0.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_scope_PAL.o"
-    include "build/data/overlays/actors/z_kaleido_scope_PAL.data.o"
-    include "build/data/overlays/actors/z_kaleido_scope_PAL.bss.o"
     include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o"
-    include "build/data/overlays/actors/z_lmap_mark.data.o"
-    include "build/data/overlays/actors/z_lmap_mark.rodata.o"
+    include "build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark_data.o"
     include "build/data/overlays/actors/z_kaleido_scope.reloc.o"
 endseg
 

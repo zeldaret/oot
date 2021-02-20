@@ -344,8 +344,6 @@ void EnMag_DrawImageRGBA32(Gfx** gfxp, s16 centerX, s16 centerY, u8* source, u32
         gSPTextureRectangle(gfx++, rectLeft << 2, rectTop << 2, (rectLeft + (s32)width) << 2,
                             (rectTop + textureHeight) << 2, G_TX_RENDERTILE, 0, 0, 1024, 1024);
 
-        if (1) {}
-
         curTexture += textureSize;
         rectTop += textureHeight;
 

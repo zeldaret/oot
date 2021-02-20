@@ -399,7 +399,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     if (CHECK_DUNGEON_ITEM(DUNGEON_COMPASS, mapIndex)) {
                         Minimap_DrawCompassIcons(globalCtx); // Draw icons for the player spawn and current position
                         func_80094520(globalCtx->state.gfxCtx);
-                        MapMark_DrawConditionally(globalCtx);
+                        MapMark_Draw(globalCtx);
                     }
                 }
 

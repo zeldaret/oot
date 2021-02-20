@@ -40,24 +40,20 @@ void Title_Calc(TitleContext* this) {
 }
 
 void Title_SetupView(TitleContext* this, f32 x, f32 y, f32 z) {
-    View* view;
-    Vec3f v1;
-    Vec3f v2;
-    Vec3f v3;
+    View* view = &this->view;
+    Vec3f eye;
+    Vec3f lookAt;
+    Vec3f up;
 
-    view = &this->view;
-    v3.z = 0;
-    v3.x = 0;
-    v2.z = 0;
-    v2.y = 0;
-    v2.x = 0;
-    v1.x = x;
-    v1.y = y;
-    v1.z = z;
-    v3.y = 1.0;
+    eye.x = x;
+    eye.y = y;
+    eye.z = z;
+    up.x = up.z = 0.0f;
+    lookAt.x = lookAt.y = lookAt.z = 0.0f;
+    up.y = 1.0f;
 
     func_800AA460(view, 30.0f, 10.0f, 12800.0f);
-    func_800AA358(view, &v1, &v2, &v3);
+    func_800AA358(view, &eye, &lookAt, &up);
     func_800AAA50(view, 0xF);
 }
 
