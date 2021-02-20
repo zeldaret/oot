@@ -179,9 +179,9 @@ void func_80B40590(EnXc* this, GlobalContext* globalCtx);
 void func_80B405A8(EnXc* this);
 void func_80B4066C(EnXc* this, GlobalContext* globalCtx);
 void func_80B406A0(EnXc* this, GlobalContext* globalCtx);
-void func_80B406F8(EnXc* this);
+void func_80B406F8(Actor* thisx);
 void func_80B4070C(EnXc* this, GlobalContext* globalCtx);
-void func_80B407A8(EnXc* this);
+void func_80B407A8(Actor* thisx);
 void func_80B40820(EnXc* this, GlobalContext* globalCtx);
 void func_80B408FC(EnXc* this, GlobalContext* globalCtx);
 void func_80B409D8(EnXc* this, GlobalContext* globalCtx);
@@ -2085,7 +2085,9 @@ void func_80B406A0(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B406F8(EnXc* this) {
+void func_80B406F8(Actor* thisx) {
+    EnXc* this = THIS;
+
     this->action = 57;
     this->drawMode = 0;
     this->actor.shape.shadowAlpha = 0;
@@ -2105,7 +2107,8 @@ void func_80B4070C(EnXc* this, GlobalContext* globalCtx) {
     actorShape->shadowAlpha = 0xFF;
 }
 
-void func_80B407A8(EnXc* this) {
+void func_80B407A8(Actor* thisx) {
+    EnXc* this = THIS;
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&D_06018B00);
 
@@ -2243,23 +2246,25 @@ void func_80B40E88(EnXc* this) {
 
 #ifdef NON_MATCHING
 s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction;
+    CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, 4);
 
-    if (npcAction = func_80B3C4D0(globalCtx, 4), (npcAction != NULL)) {
-        s32 action;
+    if (npcAction != NULL) {
+        s32 action = npcAction->action;
         EnXc* this = THIS;
-        s32 unk_26C = this->unk_26C;
+        s32 prevAction;
 
-        if (unk_26C != (action = npcAction->action, action)) {
-            switch (unk_26C) {
+       // action = (action = npcAction->action, action);
+
+        if (action != ((prevAction = this->unk_26C), prevAction)) {
+            switch (prevAction) {
                 case 1:
-                    func_80B406F8(this);
+                    func_80B406F8(thisx);
                     break;
                 case 6:
                     func_80B4070C(this, globalCtx);
                     break;
                 case 20:
-                    func_80B407A8(this);
+                    func_80B407A8(thisx);
                     break;
                 case 18:
                     func_80B40820(this, globalCtx);
@@ -2280,14 +2285,13 @@ s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
                     func_80B40BB4(this, globalCtx);
                     break;
                 case 9:
-                    Actor_Kill(&this->actor);
+                    Actor_Kill(thisx);
                     break;
                 default:
                     osSyncPrintf("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
-                    break;
             }
 
-            this->unk_26C = unk_26C;
+            this->unk_26C = action;
             return 1;
         }
     }
