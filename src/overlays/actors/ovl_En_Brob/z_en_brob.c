@@ -42,7 +42,7 @@ const ActorInit En_Brob_InitVars = {
     (ActorFunc)EnBrob_Draw,
 };
 
-static ColliderCylinderInit D_809CBA80 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_HIT0,
         AT_ON | AT_TYPE_ENEMY,
@@ -62,25 +62,22 @@ static ColliderCylinderInit D_809CBA80 = {
     { 8000, 11000, -5000, { 0, 0, 0 } },
 };
 
-static CollisionCheckInfoInit sCylinderInit = { 0, 60, 120, MASS_IMMOVABLE };
-
-static Color_RGBA8 D_809CBAB4 = { 255, 255, 255, 255 };
-static Color_RGBA8 D_809CBAB8 = { 200, 255, 255, 255 };
+static CollisionCheckInfoInit sColChkInfoInit = { 0, 60, 120, MASS_IMMOVABLE };
 
 void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBrob* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060015D8, &D_06001750, &this->jointTable, &this->morphTable, 10);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060015D8, &D_06001750, this->jointTable, this->morphTable, 10);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_06001A70, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     Collider_InitCylinder(globalCtx, &this->colliders[0]);
-    Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &D_809CBA80);
+    Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &sCylinderInit);
     Collider_InitCylinder(globalCtx, &this->colliders[1]);
-    Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &D_809CBA80);
-    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sCylinderInit);
+    Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &sCylinderInit);
+    CollisionCheck_SetInfo(&thisx->colChkInfo, NULL, &sColChkInfoInit);
     if (((thisx->params >> 8) & 0xFF) == 0) {
         Actor_SetScale(&this->dyna.actor, 0.01f);
         thisx->params &= 0xFF;
@@ -100,7 +97,7 @@ void EnBrob_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->colliders[1].dim.radius *= thisx->scale.x;
     this->colliders[1].dim.height *= thisx->scale.y;
     this->colliders[1].dim.yShift *= thisx->scale.y;
-    this->updateFunc = NULL;
+    this->actionFunc = NULL;
     thisx->flags &= ~1;
     func_809CADDC(this, globalCtx);
 }
@@ -115,27 +112,23 @@ void EnBrob_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_809CADDC(EnBrob* this, GlobalContext* globalCtx) {
     func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
-    if (this->updateFunc == func_809CB2B8) {
-        this->timer = 200;
-    } else {
-        this->timer = 0;
-    }
+    this->timer = this->actionFunc == func_809CB2B8 ? 200 : 0;
     this->unk_1AE = 0;
-    this->updateFunc = func_809CB054;
+    this->actionFunc = func_809CB054;
 }
 
 void func_809CAE44(EnBrob* this, GlobalContext* globalCtx) {
     Animation_PlayOnce(&this->skelAnime, &D_06001750);
     func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     this->unk_1AE = 1000;
-    this->updateFunc = func_809CB114;
+    this->actionFunc = func_809CB114;
 }
 
 void func_809CAEA0(EnBrob* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06001958, -5.0f);
     this->unk_1AE = 8000;
     this->timer = 1200;
-    this->updateFunc = func_809CB218;
+    this->actionFunc = func_809CB218;
 }
 
 void func_809CAEF4(EnBrob* this) {
@@ -143,19 +136,19 @@ void func_809CAEF4(EnBrob* this) {
     this->unk_1AE -= 125.0f;
     Actor_SetColorFilter(&this->dyna.actor, 0, 0xFF, 0, 0x50);
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_GOMA_JR_FREEZE);
-    this->updateFunc = func_809CB2B8;
+    this->actionFunc = func_809CB2B8;
 }
 
 void func_809CAF88(EnBrob* this) {
-    Animation_Change(&this->skelAnime, &D_06001750, -1.0f, Animation_GetLastFrame(&D_06001750), 0.0f, 2, -5.0f);
+    Animation_Change(&this->skelAnime, &D_06001750, -1.0f, Animation_GetLastFrame(&D_06001750), 0.0f, ANIMMODE_ONCE, -5.0f);
     this->unk_1AE = 8250;
-    this->updateFunc = func_809CB354;
+    this->actionFunc = func_809CB354;
 }
 
 void func_809CB008(EnBrob* this) {
     Animation_MorphToLoop(&this->skelAnime, &D_06001678, -5.0f);
     this->timer = 10;
-    this->updateFunc = func_809CB458;
+    this->actionFunc = func_809CB458;
 }
 
 void func_809CB054(EnBrob* this, GlobalContext* globalCtx) {
@@ -177,36 +170,35 @@ void func_809CB054(EnBrob* this, GlobalContext* globalCtx) {
 void func_809CB114(EnBrob* this, GlobalContext* globalCtx) {
     f32 curFrame;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         func_809CAEA0(this);
-        return;
-    }
-
-    curFrame = this->skelAnime.curFrame;
-    if (curFrame < 8.0f) {
-        this->unk_1AE += 1000.0f;
-    } else if (curFrame < 12.0f) {
-        this->unk_1AE += 250.0f;
     } else {
-        this->unk_1AE -= 250.0f;
+        curFrame = this->skelAnime.curFrame;
+        if (curFrame < 8.0f) {
+            this->unk_1AE += 1000.0f;
+        } else if (curFrame < 12.0f) {
+            this->unk_1AE += 250.0f;
+        } else {
+            this->unk_1AE -= 250.0f;
+        }
     }
 }
 
 void func_809CB218(EnBrob* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 6.0f) != 0 || Animation_OnFrame(&this->skelAnime, 15.0f) != 0) {
+    if (Animation_OnFrame(&this->skelAnime, 6.0f) || Animation_OnFrame(&this->skelAnime, 15.0f)) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_BROB_WAVE);
     }
     if (this->timer != 0) {
         this->timer--;
     }
-    if (this->timer == 0 && 500.0f < this->dyna.actor.xzDistToPlayer) {
+    if ((this->timer == 0) && (this->dyna.actor.xzDistToPlayer > 500.0f)) {
         func_809CAF88(this);
     }
 }
 
 void func_809CB2B8(EnBrob* this, GlobalContext* globalCtx) {
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         func_809CADDC(this, globalCtx);
     } else if (this->skelAnime.curFrame < 8.0f) {
         this->unk_1AE -= 1250.0f;
@@ -217,18 +209,17 @@ void func_809CB2B8(EnBrob* this, GlobalContext* globalCtx) {
 void func_809CB354(EnBrob* this, GlobalContext* globalCtx) {
     f32 curFrame;
 
-    if (SkelAnime_Update(&this->skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skelAnime)) {
         func_809CADDC(this, globalCtx);
-        return;
-    }
-
-    curFrame = this->skelAnime.curFrame;
-    if (curFrame < 8.0f) {
-        this->unk_1AE -= 1000.0f;
-    } else if (curFrame < 12.0f) {
-        this->unk_1AE -= 250.0f;
     } else {
-        this->unk_1AE += 250.0f;
+        curFrame = this->skelAnime.curFrame;
+        if (curFrame < 8.0f) {
+            this->unk_1AE -= 1000.0f;
+        } else if (curFrame < 12.0f) {
+            this->unk_1AE -= 250.0f;
+        } else {
+            this->unk_1AE += 250.0f;
+        }
     }
 }
 
@@ -239,20 +230,17 @@ void func_809CB458(EnBrob* this, GlobalContext* globalCtx) {
     s32 i;
 
     SkelAnime_Update(&this->skelAnime);
-    if (Animation_OnFrame(&this->skelAnime, 0) != 0) {
-        if (this->timer != 0) {
-            this->timer--;
-        }
+    if (Animation_OnFrame(&this->skelAnime, 0) && (this->timer != 0)) {
+        this->timer--;
     }
 
-    if (globalCtx->gameplayFrames % 2) {
-        dist1 = 0.0f;
-    } else {
-        dist1 = this->dyna.actor.scale.x * 5500.0f;
-    }
+    dist1 = globalCtx->gameplayFrames % 2 ? 0.0f : this->dyna.actor.scale.x * 5500.0f;
     dist2 = this->dyna.actor.scale.x * 5500.0f;
 
     for (i = 0; i < 4; i++) {
+        static Color_RGBA8 primColor = { 255, 255, 255, 255 };
+        static Color_RGBA8 envColor = { 200, 255, 255, 255 };
+
         if (i % 2) {
             pos.x = this->dyna.actor.world.pos.x + dist1;
             pos.z = this->dyna.actor.world.pos.z + dist2;
@@ -263,7 +251,7 @@ void func_809CB458(EnBrob* this, GlobalContext* globalCtx) {
             dist2 = -dist2;
         }
         pos.y = (((Rand_ZeroOne() * 15000.0f) + 1000.0f) * this->dyna.actor.scale.y) + this->dyna.actor.world.pos.y;
-        EffectSsLightning_Spawn(globalCtx, &pos, &D_809CBAB4, &D_809CBAB8,
+        EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor,
                                 this->dyna.actor.scale.y * 8000.0f, Rand_ZeroOne() * 65536.0f, 4, 1);
     }
 
@@ -293,9 +281,9 @@ void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx2) {
         (acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & 0x100)) ||
         (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & 0x100))) {
 
-        if (this->updateFunc == func_809CB114 && !(this->colliders[0].base.atFlags & AT_BOUNCED) && !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
+        if (this->actionFunc == func_809CB114 && !(this->colliders[0].base.atFlags & AT_BOUNCED) && !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
             func_8002F71C(globalCtx, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
-        } else if (this->updateFunc != func_809CB114) {
+        } else if (this->actionFunc != func_809CB114) {
             func_809CB008(this);
         }
 
@@ -304,12 +292,12 @@ void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx2) {
             this->colliders[i].base.acFlags &= ~AC_HIT;
         }
     }
-    this->updateFunc(this, globalCtx);
-    if (this->updateFunc != func_809CB054 && this->updateFunc != func_809CB354) {
-        if (this->updateFunc != func_809CB2B8) {
+    this->actionFunc(this, globalCtx);
+    if (this->actionFunc != func_809CB054 && this->actionFunc != func_809CB354) {
+        if (this->actionFunc != func_809CB2B8) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
-            if (this->updateFunc != func_809CB114) {
+            if (this->actionFunc != func_809CB114) {
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[0].base);
                 CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->colliders[1].base);
             }
@@ -325,13 +313,13 @@ void EnBrob_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, V
 
     Matrix_Get(&mtx);
     if (limbIndex == 3) {
-        this->colliders[0].dim.pos.x = (s16)mtx.wx;
-        this->colliders[0].dim.pos.y = (s16)mtx.wy;
-        this->colliders[0].dim.pos.z = (s16)mtx.wz;
+        this->colliders[0].dim.pos.x = mtx.wx;
+        this->colliders[0].dim.pos.y = mtx.wy;
+        this->colliders[0].dim.pos.z = mtx.wz;
     } else if (limbIndex == 8) {
-        this->colliders[1].dim.pos.x = (s16)mtx.wx;
-        this->colliders[1].dim.pos.y = (s16)(mtx.wy + 7.0f);
-        this->colliders[1].dim.pos.z = (s16)mtx.wz;
+        this->colliders[1].dim.pos.x = mtx.wx;
+        this->colliders[1].dim.pos.y = (mtx.wy + 7.0f);
+        this->colliders[1].dim.pos.z = mtx.wz;
     }
 }
 
