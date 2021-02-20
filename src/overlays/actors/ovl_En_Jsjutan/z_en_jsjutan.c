@@ -2344,84 +2344,75 @@ void EnJsjutan_Update(Actor *thisx, GlobalContext *globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/EnJsjutan_Update.s")
 #endif
 
-#ifdef NON_MATCHING
-void EnJsjutan_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     EnJsjutan* this = THIS;
-    Actor* parent = this->dyna.actor.parent;
-    GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    u16 i;
+    GlobalContext* globalCtx = globalCtx2;
+    s16 i;
+    Actor* parent = thisx->parent;
 
-    OPEN_DISPS(gfxCtx, "../z_en_jsjutan.c", 701);
-    if (this->dyna.actor.params == 1) {
-        this->dyna.actor.world.pos.x = parent->world.pos.x;
-        this->dyna.actor.world.pos.y = parent->world.pos.y;
-        this->dyna.actor.world.pos.z = parent->world.pos.z;
-        this->unk_168 = this->dyna.actor.world.pos.y;
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 701);
+
+    if (thisx->params == 1) {
+        thisx->world.pos.x = parent->world.pos.x;
+        thisx->world.pos.y = parent->world.pos.y;
+        thisx->world.pos.z = parent->world.pos.z;
+        this->unk_168 = thisx->world.pos.y;
         if (this->unk_175 == 0) {
             this->unk_175 = 1;
             func_80A89860(this, globalCtx);
         }
     } else if (this->unk_175 == 0) {
         this->unk_175 = 1;
-        this->dyna.actor.world.pos.x = (Math_SinS(parent->shape.rot.y) * 60.0f) + parent->world.pos.x;
-        this->dyna.actor.world.pos.y = (parent->world.pos.y + 5.0f) - 10.0f;
-        this->dyna.actor.world.pos.z = Math_CosS(parent->shape.rot.y) * 60.0f + parent->world.pos.z;
-        this->unk_168 = this->dyna.actor.world.pos.y;
+        thisx->world.pos.x = Math_SinS(parent->shape.rot.y) * 60.0f + parent->world.pos.x;
+        thisx->world.pos.y = (parent->world.pos.y + 5.0f) - 10.0f;
+        thisx->world.pos.z = Math_CosS(parent->shape.rot.y) * 60.0f + parent->world.pos.z;
+        this->unk_168 = thisx->world.pos.y;
         func_80A89860(this, globalCtx);
     }
+
     func_80A89A6C(this, globalCtx);
     if (this->unk_164 != 0) {
         this->unk_164 = 0;
-        for (i = 0; i < ARRAY_COUNT(D_80A8E610); i++) {
+        for (i = 0; i < ARRAY_COUNT(D_80A8AA98); i++) {
             if (D_80A8AA98[i] != 0) {
-                D_80A8E610[i] = (u8)0xFFU;
+                D_80A8E610[i] = 0xFF;
             } else {
-                D_80A8E610[i] = (u8)0U;
+                D_80A8E610[i] = 0;
             }
         }
     }
-    func_80093D18(gfxCtx);
+    func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0x00, 0x00, 0x00, ((s32)this->unk_16C & 0xFF));
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (s16)this->unk_16C);
 
-    Matrix_Translate(this->dyna.actor.world.pos.x, 3.0f, this->dyna.actor.world.pos.z, (u8)0U);
-    Matrix_Scale(this->dyna.actor.scale.x, 1.0f, this->dyna.actor.scale.z, (u8)1U);
+    Matrix_Translate(thisx->world.pos.x, 3.0f, thisx->world.pos.z, MTXMODE_NEW);
+    Matrix_Scale(thisx->scale.x, 1.0f, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_jsjutan.c", 782), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
-
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 782), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_80A8D618);
-
     gDPPipeSync(POLY_OPA_DISP++);
 
-    if ((globalCtx->gameplayFrames & 1) != 0) {
+    if (globalCtx->gameplayFrames & 1) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8BA98);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8C398);
     }
-
     gSPDisplayList(POLY_OPA_DISP++, D_80A8D688);
 
-    func_80093D18(gfxCtx);
-    Matrix_Translate(this->dyna.actor.world.pos.x, this->unk_168 + 3.0f, this->dyna.actor.world.pos.z, (u8)0U);
-    Matrix_Scale(this->dyna.actor.scale.x, this->dyna.actor.scale.y, this->dyna.actor.scale.z, (u8)1U);
+    func_80093D18(globalCtx->state.gfxCtx);
+    Matrix_Translate(thisx->world.pos.x, this->unk_168 + 3.0f, thisx->world.pos.z, MTXMODE_NEW);
+    Matrix_Scale(thisx->scale.x, thisx->scale.y, thisx->scale.z, MTXMODE_APPLY);
 
-    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_jsjutan.c", 805), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 805), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_80A8D598);
-
     gDPPipeSync(POLY_OPA_DISP++);
 
-    if ((globalCtx->gameplayFrames & 1) != 0) {
+    if (globalCtx->gameplayFrames & 1) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8CC98);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8DAB8);
     }
-
     gSPDisplayList(POLY_OPA_DISP++, D_80A8D688);
 
-    CLOSE_DISPS(gfxCtx, "../z_en_jsjutan.c", 823);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 823);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/EnJsjutan_Draw.s")
-#endif
