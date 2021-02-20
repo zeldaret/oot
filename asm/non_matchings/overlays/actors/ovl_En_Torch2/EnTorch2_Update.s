@@ -1364,7 +1364,7 @@ glabel EnTorch2_Update
 /* 017B8 80B1F138 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 017BC 80B1F13C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 017C0 80B1F140 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 017C4 80B1F144 0C00D09B */  jal     func_8003426C              
+/* 017C4 80B1F144 0C00D09B */  jal     Actor_SetColorFilter              
 /* 017C8 80B1F148 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 017CC 80B1F14C 10000039 */  beq     $zero, $zero, .L80B1F234   
 /* 017D0 80B1F150 A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
@@ -1372,7 +1372,7 @@ glabel EnTorch2_Update
 /* 017D4 80B1F154 240A0050 */  addiu   $t2, $zero, 0x0050         ## $t2 = 00000050
 /* 017D8 80B1F158 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 017DC 80B1F15C 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 017E0 80B1F160 0C00D09B */  jal     func_8003426C              
+/* 017E0 80B1F160 0C00D09B */  jal     Actor_SetColorFilter              
 /* 017E4 80B1F164 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 017E8 80B1F168 10000032 */  beq     $zero, $zero, .L80B1F234   
 /* 017EC 80B1F16C A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
@@ -1415,7 +1415,7 @@ glabel EnTorch2_Update
 /* 0187C 80B1F1FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01880 80B1F200 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 01884 80B1F204 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 01888 80B1F208 0C00D09B */  jal     func_8003426C              
+/* 01888 80B1F208 0C00D09B */  jal     Actor_SetColorFilter              
 /* 0188C 80B1F20C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01890 80B1F210 10000008 */  beq     $zero, $zero, .L80B1F234   
 /* 01894 80B1F214 A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
@@ -1424,7 +1424,7 @@ glabel EnTorch2_Update
 /* 0189C 80B1F21C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 018A0 80B1F220 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 018A4 80B1F224 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 018A8 80B1F228 0C00D09B */  jal     func_8003426C              
+/* 018A8 80B1F228 0C00D09B */  jal     Actor_SetColorFilter              
 /* 018AC 80B1F22C 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 .L80B1F230:
 /* 018B0 80B1F230 A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
