@@ -537,13 +537,12 @@ void Map_Update(GlobalContext* globalCtx) {
                     }
                 }
 
-                if (1) { // Appears to be necessary to match
-                    gSaveContext.sceneFlags[mapIndex].floors |= gBitFlags[floor];
-                    VREG(30) = floor;
-                    if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
-                        R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
-                    }
+                gSaveContext.sceneFlags[mapIndex].floors |= gBitFlags[floor];
+                VREG(30) = floor;
+                if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
+                    R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
                 }
+                if (1) {} // Appears to be necessary to match
 
                 if (interfaceCtx->mapRoomNum != sLastRoomNum) {
                     // Translates to "Current floor = %d Current room = %x Number of rooms = %d"

@@ -51,15 +51,13 @@ s32 SkelCurve_Update(GlobalContext* globalCtx, SkelAnimeCurve* skelCurve) {
     TransformUpdateIndex* transformIndex;
     u16* transformCopyValues;
     s32 i;
-    s32 ret;
+    s32 ret = 0;
     s32 k;
     TransformData* transData;
     f32 transformValue;
     s32 j;
 
-    ret = 0;
     transformIndex = SEGMENTED_TO_VIRTUAL(skelCurve->transUpdIdx);
-
     transformRefIdx = SEGMENTED_TO_VIRTUAL(transformIndex->refIndex);
     transData = SEGMENTED_TO_VIRTUAL(transformIndex->transformData);
     transformCopyValues = SEGMENTED_TO_VIRTUAL(transformIndex->copyValues);
@@ -112,9 +110,8 @@ void SkelCurve_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, SkelAnimeCurve*
         Vec3s rot;
         Vec3f pos;
         Gfx* dList;
-        Vec3s* transform;
+        Vec3s* transform = (Vec3s*)&skelCurve->transforms[limbIndex];
 
-        transform = &skelCurve->transforms[limbIndex];
         scale.x = transform->x / 1024.0f;
         scale.y = transform->y / 1024.0f;
         scale.z = transform->z / 1024.0f;

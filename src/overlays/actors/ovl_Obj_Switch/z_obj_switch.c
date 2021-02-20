@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_switch.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -49,13 +50,6 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this);
 void ObjSwitch_CrystalOn(ObjSwitch* this, GlobalContext* globalCtx);
 void ObjSwitch_CrystalTurnOffInit(ObjSwitch* this);
 void ObjSwitch_CrystalTurnOff(ObjSwitch* this, GlobalContext* globalCtx);
-
-extern Gfx D_05005AD0[]; // floor switch, rusty
-extern CollisionHeader D_05005FB8;
-
-// rgba16 32x32 textures
-extern UNK_TYPE D_050144B0[]; // red plasma/cloud
-extern UNK_TYPE D_05014CB0[]; // blue plasma/cloud
 
 const ActorInit Obj_Switch_InitVars = {
     ACTOR_OBJ_SWITCH,
@@ -295,7 +289,7 @@ void ObjSwitch_Init(Actor* thisx, GlobalContext* globalCtx) {
     type = (this->dyna.actor.params & 7);
 
     if (type == OBJSWITCH_TYPE_FLOOR || type == OBJSWITCH_TYPE_FLOOR_RUSTY) {
-        ObjSwitch_InitDynapoly(this, globalCtx, &D_05005FB8, DPM_PLAYER);
+        ObjSwitch_InitDynapoly(this, globalCtx, &gFloorSwitchCol, DPM_PLAYER);
     }
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -593,7 +587,7 @@ void ObjSwitch_CrystalOffInit(ObjSwitch* this) {
     this->crystalColor.r = 0;
     this->crystalColor.g = 0;
     this->crystalColor.b = 0;
-    this->crystalSubtype1texture = D_050144B0;
+    this->crystalSubtype1texture = gCrstalSwitchRedTex;
     this->actionFunc = ObjSwitch_CrystalOff;
 }
 
@@ -644,7 +638,7 @@ void ObjSwitch_CrystalOnInit(ObjSwitch* this) {
     this->crystalColor.r = 255;
     this->crystalColor.g = 255;
     this->crystalColor.b = 255;
-    this->crystalSubtype1texture = D_05014CB0;
+    this->crystalSubtype1texture = gCrstalSwitchBlueTex;
     this->actionFunc = ObjSwitch_CrystalOn;
 }
 
@@ -720,35 +714,32 @@ void ObjSwitch_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ObjSwitch_DrawFloor(ObjSwitch* this, GlobalContext* globalCtx) {
-    static Gfx* floorDlists[] = { 0x05005800, 0x05006170, 0x05005D50, 0x05005D50 };
+    static Gfx* floorSwitchDLists[] = { gFloorSwitch1DL, gFloorSwitch3DL, gFloorSwitch2DL, gFloorSwitch2DL };
 
-    Gfx_DrawDListOpa(globalCtx, floorDlists[(this->dyna.actor.params >> 4 & 7)]);
+    Gfx_DrawDListOpa(globalCtx, floorSwitchDLists[(this->dyna.actor.params >> 4 & 7)]);
 }
 
 void ObjSwitch_DrawFloorRusty(ObjSwitch* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_05005AD0);
+    Gfx_DrawDListOpa(globalCtx, gRustyFloorSwitchDL);
 }
 
-static UNK_PTR sEyeTextures[][4] = {
-    // rgba16 32x32 textures
-    // yellow eye
+static u64* sEyeTextures[][4] = {
     {
-        0x0500A8A0, // open
-        0x050098A0, // almost open
-        0x0500A0A0, // almost closed
-        0x050090A0, // closed
+        gEyeSwitchGoldOpenTex,
+        gEyeSwitchGoldOpeningTex,
+        gEyeSwitchGoldClosingTex,
+        gEyeSwitchGoldClosedTex,
     },
-    // silver eye
     {
-        0x0500B0A0, // open
-        0x0500B8A0, // half-closed
-        0x0500C0A0, // closed
-        0x0500C0A0, // closed
+        gEyeSwitchSilverOpenTex,
+        gEyeSwitchSilverHalfTex,
+        gEyeSwitchSilverClosedTex,
+        gEyeSwitchSilverClosedTex,
     },
 };
 
 void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx) {
-    static Gfx* eyeDlists[] = { 0x05006610, 0x05006810 };
+    static Gfx* eyeDlists[] = { gEyeSwitch1DL, gEyeSwitch2DL };
     s32 pad;
     s32 subType = (this->dyna.actor.params >> 4 & 7);
 
@@ -764,8 +755,10 @@ void ObjSwitch_DrawEye(ObjSwitch* this, GlobalContext* globalCtx) {
 }
 
 void ObjSwitch_DrawCrystal(ObjSwitch* this, GlobalContext* globalCtx) {
-    static Gfx* xluDLists[] = { 0x05006E60, 0x05007488, NULL, NULL, 0x05006E60 };
-    static Gfx* opaDLists[] = { 0x05006D10, 0x05007340, NULL, NULL, 0x05006D10 };
+    static Gfx* xluDLists[] = { gCrystalSwitchCoreXluDL, gCrystalSwitchDiamondXluDL, NULL, NULL,
+                                gCrystalSwitchCoreXluDL };
+    static Gfx* opaDLists[] = { gCrystalSwitchCoreOpaDL, gCrystalSwitchDiamondOpaDL, NULL, NULL,
+                                gCrystalSwitchCoreOpaDL };
     s32 pad1;
     s32 pad2;
     s32 subType;

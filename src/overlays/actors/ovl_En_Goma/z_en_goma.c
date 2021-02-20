@@ -1,4 +1,5 @@
 #include "z_en_goma.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000035
 
@@ -9,7 +10,6 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_05000530;
 extern UNK_TYPE D_0600017C;
 extern UNK_TYPE D_06000334;
 extern UNK_TYPE D_06000544;
