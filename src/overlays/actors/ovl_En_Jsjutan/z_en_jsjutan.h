@@ -12,7 +12,7 @@ typedef struct EnJsjutan {
     /* 0x0165 */ char unk_165[0x03];
     /* 0x0168 */ f32 unk_168;
     /* 0x016C */ f32 unk_16C;
-    /* 0x0170 */ char unk_170[0x04];
+    /* 0x0170 */ f32 unk_170;
     /* 0x0174 */ u8 unk_174;
     /* 0x0175 */ u8 unk_175;
     /* 0x0176 */ char unk_176[0x02];
