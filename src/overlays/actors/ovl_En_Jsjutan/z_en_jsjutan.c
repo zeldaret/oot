@@ -2203,16 +2203,13 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
 
-#ifdef NON_MATCHING
-void EnJsjutan_Update(Actor *thisx, GlobalContext *globalCtx) {
+void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJsjutan* this = THIS;
 
-    this->dyna.actor.shape.rot.x = Math_SinS((((((((globalCtx->gameplayFrames * 4) - globalCtx->gameplayFrames) * 0x10) - globalCtx->gameplayFrames) * 8) - globalCtx->gameplayFrames) * 8)) * 300.0f;
-    this->dyna.actor.shape.rot.z = Math_CosS((((((((((globalCtx->gameplayFrames * 8) - globalCtx->gameplayFrames) * 8) - globalCtx->gameplayFrames) * 4) - globalCtx->gameplayFrames) * 4) - globalCtx->gameplayFrames) * 4)) * 300.0f;
+    this->dyna.actor.shape.rot.x = Math_SinS(globalCtx->gameplayFrames*3000) * 300.0f;
+    this->dyna.actor.shape.rot.z = Math_CosS(globalCtx->gameplayFrames*3500) * 300.0f;
+    if (!globalCtx) {}
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/EnJsjutan_Update.s")
-#endif
 
 void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     EnJsjutan* this = THIS;
