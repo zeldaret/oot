@@ -31,7 +31,7 @@
         <Animation Name="gDaruniaWrongSongEndAnim" Offset="0x46F4"/>
 
         <!-- Cutscene in the Chamber of Sages, after killing Ganon -->
-        <Animation Name="gDaruniaLookUpwardsAnim" Offset="0x12014"/>
+        <Animation Name="gDaruniaSageFormationAnim" Offset="0x12014"/>
 
         <!-- Cutscene in credits. Saria is in Darunia's shoulders -->
         <Animation Name="gDaruniaLookingUpToSariaAnim" Offset="0x5458"/>
