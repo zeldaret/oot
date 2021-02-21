@@ -1,5 +1,5 @@
 #include "z_demo_du.h"
-#include "../ovl_Demo_Effect/z_demo_effect.h"
+#include "overlays/actors/ovl_Demo_Effect/z_demo_effect.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -31,8 +31,8 @@ static s32 sUnused = 0;
 
 #include "z_demo_du_cutscene_data.c" EARLY
 
-static Gfx* sEyeTextures[] = { 0x06008080, 0x06008480, 0x06008880, 0x0600A540 };
-static Gfx* sMouthTextures[] = { 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180 };
+static u64* sEyeTextures[] = { 0x06008080, 0x06008480, 0x06008880, 0x0600A540 };
+static u64* sMouthTextures[] = { 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180 };
 
 /**
  * Cs => Cutscene
@@ -105,7 +105,6 @@ void DemoDu_CsAfterGanon_CheckIfShouldReset(DemoDu* this, GlobalContext* globalC
     }
 }
 
-// Returns true if the animation finished
 s32 DemoDu_UpdateSkelAnime(DemoDu* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
@@ -327,10 +326,10 @@ void DemoDu_CsPlaySfx_DaruniaFalling(GlobalContext* globalCtx) {
 // Cutscene: Darunia gives Link the Goron's Ruby.
 void DemoDu_CsPlaySfx_DaruniaHitsLink(GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    Vec3f* projectedPos = &player->actor.projectedPos;
+    s32 pad;
 
-    func_80078914(projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
-    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
+    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
@@ -397,11 +396,10 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
     static Vec3f sDustPosOffsets[] = { { 11.0f, -11.0f, -6.0f }, { 0.0f, 14.0f, -13.0f }, { 14.0f, -2.0f, -10.0f },
                                        { 10.0f, -6.0f, -8.0f },  { 8.0f, 6.0f, 8.0f },    { 13.0f, 8.0f, -10.0f },
                                        { -14.0f, 1.0f, -14.0f }, { 5.0f, 12.0f, -9.0f },  { 11.0f, 6.0f, -7.0f },
-                                       { 14.0f, 14.0f, -14.0f } };
-    SkelAnime* skelAnime = &this->skelAnime;
+                                       { 14.0f, 14.0f, -14.0f }, };
 
-    if (Animation_OnFrame(skelAnime, 31.0f) || Animation_OnFrame(skelAnime, 41.0f)) {
-        s32 pad;
+    if (Animation_OnFrame(&this->skelAnime, 31.0f) || Animation_OnFrame(&this->skelAnime, 41.0f)) {
+        s32 pad[2];
         s32 i;
         Player* player = PLAYER;
         Vec3f* headPos = &player->bodyPartsPos[PLAYER_LIMB_HEAD];
@@ -415,7 +413,7 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
             s32 colorDelta;
             Vec3f position;
 
-            if (Animation_OnFrame(skelAnime, 31.0f)) {
+            if (Animation_OnFrame(&this->skelAnime, 31.0f)) {
                 position.x = sDustPosOffsets[i + 5].x + headPos->x;
                 position.y = sDustPosOffsets[i + 5].y + headPos->y;
                 position.z = sDustPosOffsets[i + 5].z + headPos->z;
@@ -698,13 +696,11 @@ void DemoDu_UpdateCs_GR_13(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 void DemoDu_InitCs_AfterGanon(DemoDu* this, GlobalContext* globalCtx) {
-    s32 pad;
-    SkelAnime* skelAnime = &this->skelAnime;
-    s32 pad2;
+    s32 pad[3];
     f32 lastFrame = Animation_GetLastFrame(&D_06012014);
 
-    SkelAnime_InitFlex(globalCtx, skelAnime, &D_06011CA8, NULL, NULL, NULL, 0);
-    Animation_Change(skelAnime, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06011CA8, NULL, NULL, NULL, 0);
+    Animation_Change(&this->skelAnime, &D_06012014, 1.0f, 0.0f, lastFrame, 2, 0.0f);
     this->updateIndex = CS_CHAMBERAFTERGANON_SUBSCENE(0);
     this->actor.shape.shadowAlpha = 0;
 }
@@ -799,10 +795,10 @@ void DemoDu_Draw_02(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     DemoDu* this = THIS;
     s16 eyeTexIndex = this->eyeTexIndex;
-    Gfx* eyeTexture = sEyeTextures[eyeTexIndex];
+    u64* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    Gfx* mouthTexture = sMouthTextures[mouthTexIndex];
+    u64* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du_inKenjyanomaDemo02.c", 275);
@@ -994,10 +990,10 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     DemoDu* this = THIS;
     s16 eyeTexIndex = this->eyeTexIndex;
-    Gfx* eyeTexture = sEyeTextures[eyeTexIndex];
+    u64* eyeTexture = sEyeTextures[eyeTexIndex];
     s32 pad;
     s16 mouthTexIndex = this->mouthTexIndex;
-    Gfx* mouthTexture = sMouthTextures[mouthTexIndex];
+    u64* mouthTexture = sMouthTextures[mouthTexIndex];
     SkelAnime* skelAnime = &this->skelAnime;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 615);
