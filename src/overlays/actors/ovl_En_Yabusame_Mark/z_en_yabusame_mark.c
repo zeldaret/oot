@@ -48,7 +48,7 @@ const ActorInit En_Yabusame_Mark_InitVars = {
     NULL,
 };
 
-static Vec3f collisionVerticies[] = {
+static Vec3f sCollisionVertices[] = {
     { 70.0f, 70.0f, 0.0f },      { 70.0f, -70.0f, 0.0f },      { -70.0f, 70.0f, 0.0f },    { -70.0f, -70.0f, 0.0f },
     { 90.0f, 130.0f, -120.0f },  { -25.0f, -80.0f, -130.0f },  { 90.0f, 130.0f, 120.0f },  { -25.0f, -80.0, 130.0f },
     { 115.0f, 160.0f, -150.0f }, { -50.0f, -140.0f, -160.0f }, { 115.0f, 160.0f, 150.0f }, { -50.0f, -140.0f, 160.0f },
@@ -208,7 +208,7 @@ void EnYabusameMark_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
     arrayIndex = this->typeIndex * 4;
-    vertexArray = &collisionVerticies[arrayIndex];
+    vertexArray = &sCollisionVertices[arrayIndex];
 
     this->vertexA.x = vertexArray[0].x + this->actor.world.pos.x;
     this->vertexA.y = vertexArray[0].y + this->actor.world.pos.y;
