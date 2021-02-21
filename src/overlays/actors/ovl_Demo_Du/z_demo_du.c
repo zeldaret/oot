@@ -23,7 +23,7 @@ extern AnimationHeader D_06005458;
 extern AnimationHeader D_06006104;
 extern AnimationHeader D_060067CC;
 extern AnimationHeader D_06006EB0;
-extern UNK_TYPE D_06007FC0;
+extern u64* D_06007FC0;
 extern FlexSkeletonHeader D_06011CA8;
 extern AnimationHeader D_06012014;
 
@@ -329,7 +329,8 @@ void DemoDu_CsPlaySfx_DaruniaHitsLink(GlobalContext* globalCtx) {
     s32 pad;
 
     func_80078914(&player->actor.projectedPos, NA_SE_EN_DARUNIA_HIT_LINK);
-    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
+    Audio_PlaySoundGeneral(NA_SE_VO_LI_DAMAGE_S_KID, &player->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
+                           &D_801333E8);
 }
 
 // Cutscene: Darunia gives Link the Goron's Ruby.
@@ -393,10 +394,11 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* globalCtx) {
-    static Vec3f sDustPosOffsets[] = { { 11.0f, -11.0f, -6.0f }, { 0.0f, 14.0f, -13.0f }, { 14.0f, -2.0f, -10.0f },
-                                       { 10.0f, -6.0f, -8.0f },  { 8.0f, 6.0f, 8.0f },    { 13.0f, 8.0f, -10.0f },
-                                       { -14.0f, 1.0f, -14.0f }, { 5.0f, 12.0f, -9.0f },  { 11.0f, 6.0f, -7.0f },
-                                       { 14.0f, 14.0f, -14.0f }, };
+    static Vec3f sDustPosOffsets[] = {
+        { 11.0f, -11.0f, -6.0f }, { 0.0f, 14.0f, -13.0f },  { 14.0f, -2.0f, -10.0f }, { 10.0f, -6.0f, -8.0f },
+        { 8.0f, 6.0f, 8.0f },     { 13.0f, 8.0f, -10.0f },  { -14.0f, 1.0f, -14.0f }, { 5.0f, 12.0f, -9.0f },
+        { 11.0f, 6.0f, -7.0f },   { 14.0f, 14.0f, -14.0f },
+    };
 
     if (Animation_OnFrame(&this->skelAnime, 31.0f) || Animation_OnFrame(&this->skelAnime, 41.0f)) {
         s32 pad[2];
@@ -945,7 +947,7 @@ static DemoDuActionFunc sUpdateFuncs[] = {
     DemoDu_UpdateCs_GR_03, DemoDu_UpdateCs_GR_04, DemoDu_UpdateCs_GR_05, DemoDu_UpdateCs_GR_06, DemoDu_UpdateCs_GR_07,
     DemoDu_UpdateCs_GR_08, DemoDu_UpdateCs_GR_09, DemoDu_UpdateCs_GR_10, DemoDu_UpdateCs_GR_11, DemoDu_UpdateCs_GR_12,
     DemoDu_UpdateCs_GR_13, DemoDu_UpdateCs_AG_00, DemoDu_UpdateCs_AG_01, DemoDu_UpdateCs_AG_02, DemoDu_UpdateCs_CR_00,
-    DemoDu_UpdateCs_CR_01, DemoDu_UpdateCs_CR_02, DemoDu_UpdateCs_CR_03, DemoDu_UpdateCs_CR_04
+    DemoDu_UpdateCs_CR_01, DemoDu_UpdateCs_CR_02, DemoDu_UpdateCs_CR_03, DemoDu_UpdateCs_CR_04,
 };
 
 void DemoDu_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1014,7 +1016,11 @@ void DemoDu_Draw_01(Actor* thisx, GlobalContext* globalCtx2) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_du.c", 638);
 }
 
-static DemoDuDrawFunc sDrawFuncs[] = { DemoDu_Draw_NoDraw, DemoDu_Draw_01, DemoDu_Draw_02 };
+static DemoDuDrawFunc sDrawFuncs[] = {
+    DemoDu_Draw_NoDraw,
+    DemoDu_Draw_01,
+    DemoDu_Draw_02,
+};
 
 void DemoDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     DemoDu* this = THIS;
