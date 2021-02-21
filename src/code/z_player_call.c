@@ -29,7 +29,7 @@ const ActorInit Player_InitVars = {
     (ActorFunc)PlayerCall_Draw,
 };
 
-void PlayerCall_InitFuncPtrs() {
+void PlayerCall_InitFuncPtrs(void) {
     sPlayerCallInitFunc = KaleidoManager_GetRamAddr(Player_Init);
     sPlayerCallDestroyFunc = KaleidoManager_GetRamAddr(Player_Destroy);
     sPlayerCallUpdateFunc = KaleidoManager_GetRamAddr(Player_Update);

@@ -13,7 +13,7 @@ s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollo
     s16 unk2;
     u32 idx;
     s32 inc;
-    s16 unkCount;
+    u16 unkCount;
 
     JpegHuffmanTable* hTable0;
     JpegHuffmanTable* hTable1;
@@ -86,7 +86,7 @@ s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollo
     return 0;
 }
 
-s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, s16* mcu, s16* unk) {
+s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk) {
     s8 i = 0;
     s8 zeroCount;
     s16 coeff;
@@ -124,7 +124,7 @@ s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1,
     return 0;
 }
 
-s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, u8* outZeroCount) {
+s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount) {
     u8 codeIdx;
     u8 sym;
     u16 codeOff = 0;

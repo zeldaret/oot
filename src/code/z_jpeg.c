@@ -48,8 +48,8 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
     sJpegTask.flags = 0;
     sJpegTask.ucode_boot = SysUcode_GetUCodeBoot();
     sJpegTask.ucode_boot_size = SysUcode_GetUCodeBootSize();
-    sJpegTask.yield_data_ptr = &workBuf->yieldData;
-    sJpegTask.data_ptr = &workBuf->taskData;
+    sJpegTask.yield_data_ptr = (u64*)&workBuf->yieldData;
+    sJpegTask.data_ptr = (u64*)&workBuf->taskData;
 
     ctx->scTask.next = NULL;
     ctx->scTask.flags = OS_SC_NEEDS_RSP;
@@ -64,10 +64,8 @@ u32 Jpeg_SendTask(JpegContext* ctx) {
 }
 
 void Jpeg_CopyToZbuffer(u16* src, u16* zbuffer, s32 x, s32 y) {
-    u16* dst;
+    u16* dst = zbuffer + (((y * SCREEN_WIDTH) + x) * 16);
     s32 i;
-
-    dst = zbuffer + (((y * SCREEN_WIDTH) + x) * 16);
 
     for (i = 0; i < 16; i++) {
         dst[0] = src[0];
@@ -101,9 +99,8 @@ u16 Jpeg_GetU16(u8* ptr) {
 }
 
 void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
-    u32 exit;
+    u32 exit = false;
 
-    exit = false;
     ctx->dqtCount = 0;
     ctx->dhtCount = 0;
 
@@ -203,9 +200,9 @@ void Jpeg_ParseMarkers(u8* ptr, JpegContext* ctx) {
     }
 }
 
+#ifdef NON_MATCHING
 // the time diff isn't correct, workBuff->unk_6C0 is kept in a temp register instead of being stored in the stack and
 // regalloc differences
-#ifdef NON_MATCHING
 s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     s32 y;
     s32 x;
@@ -273,27 +270,22 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
 
     switch (ctx.dhtCount) {
         case 1: {
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLengths, &workBuff->codes,
-                                              4)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 4)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;
         }
         case 4: {
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], &workBuff->codesLengths, &workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[0], &hTables[0], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], &workBuff->codesLengths, &workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[1], &hTables[1], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], &workBuff->codesLengths, &workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[2], &hTables[2], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
-            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], &workBuff->codesLengths, &workBuff->codes,
-                                              1)) {
+            if (JpegUtils_ProcessHuffmanTable(ctx.dhtPtr[3], &hTables[3], workBuff->codesLengths, workBuff->codes, 1)) {
                 osSyncPrintf("Error : Cant' make huffman table.\n");
             }
             break;
@@ -321,7 +313,7 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
     y = 0;
     x = 0;
     for (i = 0; i < 300; i += 4) {
-        if (JpegDecoder_Decode(&decoder, &workBuff->unk_6C0, 4, i != 0, &state)) {
+        if (JpegDecoder_Decode(&decoder, (u16*)workBuff->unk_6C0, 4, i != 0, &state)) {
             osSyncPrintf(VT_FGCOL(RED));
             osSyncPrintf("Error : Can't decode jpeg\n");
             osSyncPrintf(VT_RST);
@@ -329,9 +321,9 @@ s32 Jpeg_Decode(void* data, u16* zbuffer, JpegWork* workBuff, u32 workSize) {
             Jpeg_SendTask(&ctx);
             osInvalDCache(&workBuff->unk_6C0, sizeof(workBuff->unk_6C0[0]));
 
-            src = &workBuff->unk_6C0;
+            src = workBuff->unk_6C0;
             for (j = 0; j < ARRAY_COUNT(workBuff->unk_6C0); j++) {
-                Jpeg_CopyToZbuffer(&src[j], zbuffer, x, y);
+                Jpeg_CopyToZbuffer(src[j], zbuffer, x, y);
                 x++;
 
                 if (x >= 20) {

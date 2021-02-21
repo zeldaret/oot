@@ -506,7 +506,7 @@ void EnDodongo_SwallowBomb(EnDodongo* this, GlobalContext* globalCtx) {
                                   &this->bombSmokeEnvColor, 400, 10, 10);
                 }
                 Audio_PlayActorSound2(&this->actor, NA_SE_IT_BOMB_EXPLOSION);
-                func_8003426C(&this->actor, 0x4000, 0x78, 0, 8);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0x78, 0, 8);
             }
         }
     }
@@ -685,7 +685,7 @@ void EnDodongo_Death(EnDodongo* this, GlobalContext* globalCtx) {
             EnDodongo_SpawnBombSmoke(this, globalCtx);
         }
     } else if (this->actor.colorFilterTimer == 0) {
-        func_8003426C(&this->actor, 0x4000, 0x78, 0, 4);
+        Actor_SetColorFilter(&this->actor, 0x4000, 0x78, 0, 4);
     }
     if (SkelAnime_Update(&this->skelAnime) != 0) {
         if (this->timer == 0) {
@@ -730,12 +730,12 @@ void EnDodongo_CollisionCheck(EnDodongo* this, GlobalContext* globalCtx) {
             this->damageEffect = this->actor.colChkInfo.damageEffect;
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->actionState != DODONGO_STUNNED) {
-                    func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(&this->actor);
                     EnDodongo_SetupStunned(this);
                 }
             } else {
-                func_8003426C(&this->actor, 0x4000, 0x78, 0, 8);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0x78, 0, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     EnDodongo_SetupDeath(this, globalCtx);
                 } else {
