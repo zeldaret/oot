@@ -394,7 +394,7 @@ void func_8096A630(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* globalCtx) {
-    static Vec3f sDustPosOffsets[] = {
+    static Vec3f dustPosOffsets[] = {
         { 11.0f, -11.0f, -6.0f }, { 0.0f, 14.0f, -13.0f },  { 14.0f, -2.0f, -10.0f }, { 10.0f, -6.0f, -8.0f },
         { 8.0f, 6.0f, 8.0f },     { 13.0f, 8.0f, -10.0f },  { -14.0f, 1.0f, -14.0f }, { 5.0f, 12.0f, -9.0f },
         { 11.0f, 6.0f, -7.0f },   { 14.0f, 14.0f, -14.0f },
@@ -416,13 +416,13 @@ void DemoDu_CsGoronsRuby_SpawnDustWhenHittingLink(DemoDu* this, GlobalContext* g
             Vec3f position;
 
             if (Animation_OnFrame(&this->skelAnime, 31.0f)) {
-                position.x = sDustPosOffsets[i + 5].x + headPos->x;
-                position.y = sDustPosOffsets[i + 5].y + headPos->y;
-                position.z = sDustPosOffsets[i + 5].z + headPos->z;
+                position.x = dustPosOffsets[i + 5].x + headPos->x;
+                position.y = dustPosOffsets[i + 5].y + headPos->y;
+                position.z = dustPosOffsets[i + 5].z + headPos->z;
             } else {
-                position.x = sDustPosOffsets[i + 0].x + headPos->x;
-                position.y = sDustPosOffsets[i + 0].y + headPos->y;
-                position.z = sDustPosOffsets[i + 0].z + headPos->z;
+                position.x = dustPosOffsets[i + 0].x + headPos->x;
+                position.y = dustPosOffsets[i + 0].y + headPos->y;
+                position.z = dustPosOffsets[i + 0].z + headPos->z;
             }
 
             colorDelta = Rand_ZeroOne() * 20.0f - 10.0f;
