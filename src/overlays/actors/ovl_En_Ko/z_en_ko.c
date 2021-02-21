@@ -325,7 +325,7 @@ u16 func_80A97610(GlobalContext* globalCtx, Actor* thisx) {
     }
     return func_80A96FD0(globalCtx, thisx);
 }
-
+//#define NON_EQUIVALENT
 #ifdef NON_EQUIVALENT // Is it actually non-equivalent? I havn't the slight idea
 s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
     u16 phi_v1;
@@ -372,7 +372,7 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     gSaveContext.infTable[11] |= 0x80;
                     return 0;
             }
-            return 1;
+          
         case 3:
             if ((thisx->textId == 0x10B7) || (thisx->textId == 0x10B8)) {
                 if (THIS->unk_210 == 0) {
@@ -389,9 +389,21 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                         func_8010B720(globalCtx, thisx->textId);
                         break;
                     case 0x1038:
-                        thisx->textId = (globalCtx->msgCtx.choiceIndex != 0)
-                                            ? ((globalCtx->msgCtx.choiceIndex == 1) ? 0x0103A : 0x103B)
-                                            : 0x1039;
+                        //thisx->textId = (globalCtx->msgCtx.choiceIndex != 0)
+                        //                    ? ((globalCtx->msgCtx.choiceIndex == 1) ? 0x0103A : 0x103B)
+                        //                    : 0x1039;
+                        switch(globalCtx->msgCtx.choiceIndex){
+                            case 0:
+                                thisx->textId = 0x103A;
+                                break;
+                            case 1:
+                                thisx->textId = 0x0103B;
+                                break; 
+                            case 2:
+                                thisx->textId = 0x1039;
+                                return 1;
+                            
+                        }
                         func_8010B720(globalCtx, thisx->textId);
                         break;
                     case 0x103E:
