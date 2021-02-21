@@ -458,7 +458,7 @@ void BgPoEvent_AmyWait(BgPoEvent* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         sPuzzleState |= 0x20;
         this->timer = 5;
-        func_8003426C(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
+        Actor_SetColorFilter(&this->dyna.actor, 0x4000, 0xFF, 0, 5);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EN_PO_LAUGH2);
         this->actionFunc = BgPoEvent_AmyPuzzle;
     }

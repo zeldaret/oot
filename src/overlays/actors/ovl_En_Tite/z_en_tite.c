@@ -865,14 +865,14 @@ void EnTite_CheckDamage(Actor* thisx, GlobalContext* globalCtx) {
             // Stun if Tektite hit by nut, boomerang, hookshot, ice arrow or ice magic
             if ((thisx->colChkInfo.damageEffect == 1) || (thisx->colChkInfo.damageEffect == 0xF)) {
                 if (this->action != TEKTITE_STUNNED) {
-                    func_8003426C(thisx, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(thisx, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(thisx);
                     EnTite_SetupStunned(this);
                 }
                 // Otherwise apply damage and handle death where necessary
             } else {
                 if ((thisx->colorFilterTimer == 0) || ((thisx->colorFilterParams & 0x4000) == 0)) {
-                    func_8003426C(thisx, 0x4000, 0xFF, 0, 8);
+                    Actor_SetColorFilter(thisx, 0x4000, 0xFF, 0, 8);
                     Actor_ApplyDamage(thisx);
                 }
                 if (thisx->colChkInfo.health == 0) {

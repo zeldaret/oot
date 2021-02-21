@@ -830,8 +830,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Hrock"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Hrock/z_bg_hidan_hrock.o"
-    include "build/data/overlays/actors/z_bg_hidan_hrock.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_hrock.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Hrock/ovl_Bg_Hidan_Hrock_reloc.o"
 endseg
 
 beginseg
@@ -1839,8 +1838,7 @@ endseg
 beginseg
     name "ovl_En_Am"
     include "build/src/overlays/actors/ovl_En_Am/z_en_am.o"
-    include "build/data/overlays/actors/z_en_am.data.o"
-    include "build/data/overlays/actors/z_en_am.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Am/ovl_En_Am_reloc.o"
 endseg
 
 beginseg
@@ -1852,8 +1850,7 @@ endseg
 beginseg
     name "ovl_En_Anubice"
     include "build/src/overlays/actors/ovl_En_Anubice/z_en_anubice.o"
-    include "build/data/overlays/actors/z_en_anubice.data.o"
-    include "build/data/overlays/actors/z_en_anubice.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Anubice/ovl_En_Anubice_reloc.o"
 endseg
 
 beginseg
@@ -1889,8 +1886,7 @@ endseg
 beginseg
     name "ovl_En_Ba"
     include "build/src/overlays/actors/ovl_En_Ba/z_en_ba.o"
-    include "build/data/overlays/actors/z_en_ba.data.o"
-    include "build/data/overlays/actors/z_en_ba.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ba/ovl_En_Ba_reloc.o"
 endseg
 
 beginseg
@@ -2246,11 +2242,7 @@ endseg
 beginseg
     name "ovl_En_Fr"
     include "build/src/overlays/actors/ovl_En_Fr/z_en_fr.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Fr/ovl_En_Fr_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_fr.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2768,8 +2760,7 @@ endseg
 beginseg
     name "ovl_En_Peehat"
     include "build/src/overlays/actors/ovl_En_Peehat/z_en_peehat.o"
-    include "build/data/overlays/actors/z_en_peehat.data.o"
-    include "build/data/overlays/actors/z_en_peehat.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Peehat/ovl_En_Peehat_reloc.o"
 endseg
 
 beginseg
@@ -2896,8 +2887,11 @@ endseg
 beginseg
     name "ovl_En_Skb"
     include "build/src/overlays/actors/ovl_En_Skb/z_en_skb.o"
-    include "build/data/overlays/actors/z_en_skb.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Skb/ovl_En_Skb_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_skb.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3428,8 +3422,7 @@ endseg
 beginseg
     name "ovl_Obj_Tsubo"
     include "build/src/overlays/actors/ovl_Obj_Tsubo/z_obj_tsubo.o"
-    include "build/data/overlays/actors/z_obj_tsubo.data.o"
-    include "build/data/overlays/actors/z_obj_tsubo.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Tsubo/ovl_Obj_Tsubo_reloc.o"
 endseg
 
 beginseg
@@ -3788,7 +3781,8 @@ endseg
 beginseg
     name "object_ydan_objects"
     romalign 0x1000
-    include "build/baserom/object_ydan_objects.o"
+    include "build/assets/objects/object_ydan_objects/object_ydan_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -3800,7 +3794,8 @@ endseg
 beginseg
     name "object_am"
     romalign 0x1000
-    include "build/baserom/object_am.o"
+    include "build/assets/objects/object_am/object_am.o"
+    number 6
 endseg
 
 beginseg
@@ -4373,7 +4368,8 @@ endseg
 beginseg
     name "object_syokudai"
     romalign 0x1000
-    include "build/baserom/object_syokudai.o"
+    include "build/assets/objects/object_syokudai/object_syokudai.o"
+    number 6
 endseg
 
 beginseg

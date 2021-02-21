@@ -499,7 +499,7 @@ f32 Rand_ZeroFloat(f32 f);
 f32 Rand_CenteredFloat(f32 f);
 void Actor_DrawDoorLock(GlobalContext* globalCtx, s32 arg1, s32 arg2);
 void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1);
-void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4);
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration);
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx);
 Hilite* func_8003435C(Vec3f* object, GlobalContext* globalCtx);
 s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
@@ -524,7 +524,7 @@ u8 func_800355E4(GlobalContext* globalCtx, Collider* collider);
 u8 Actor_ApplyDamage(Actor* actor);
 void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
 void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
-void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3);
+void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
                       GlobalContext* globalCtx, s16 params, s32 arg8);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);

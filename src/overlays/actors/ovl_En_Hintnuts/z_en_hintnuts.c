@@ -206,7 +206,7 @@ void EnHintnuts_SetupLeave(EnHintnuts* this, GlobalContext* globalCtx) {
 void EnHintnuts_SetupFreeze(EnHintnuts* this) {
     Animation_PlayLoop(&this->skelAnime, &gHintNutsFreezeAnim);
     this->actor.flags &= ~1;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 100);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 100);
     this->actor.colorFilterTimer = 1;
     this->animFlagAndTimer = 0;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_FAINT);
