@@ -596,7 +596,7 @@ void func_8097A000(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_SetupRotation(this, globalCtx);
 }
 
-void func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_SpawnSmokePreBattle1(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -371.0f, 1188.0f, -303.0f };
     u32 gameplayFrames;
 
@@ -661,7 +661,7 @@ void func_8097A238(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_SetupRotation(this, globalCtx);
 }
 
-void func_8097A2B4(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_SpawnSmokePreBattle2(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -119.0f, 1056.0f, -147.0f };
     u32 gameplayFrames;
 
@@ -918,7 +918,7 @@ void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_SetupRotation(this, globalCtx);
 }
 
-void func_8097AC30(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_SpawnSmokePreBattle3(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -6.0f, 1053.0f, -473.0f };
     u32 gameplayFrames;
 
@@ -976,9 +976,9 @@ void DemoGj_InitRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
 // func_8097ADF0
 void DemoGj_UpdateRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
-    func_8097A07C(this, globalCtx);
-    func_8097A2B4(this, globalCtx);
-    func_8097AC30(this, globalCtx);
+    DemoGj_SpawnSmokePreBattle1(this, globalCtx);
+    DemoGj_SpawnSmokePreBattle2(this, globalCtx);
+    DemoGj_SpawnSmokePreBattle3(this, globalCtx);
 }
 
 void DemoGj_DrawRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
