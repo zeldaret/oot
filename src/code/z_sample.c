@@ -49,11 +49,8 @@ void Sample_Destroy(GameState* thisx) {
 }
 
 void Sample_SetupView(SampleContext* this) {
-    View* view;
-    GraphicsContext* gfxCtx;
-
-    view = &this->view;
-    gfxCtx = this->state.gfxCtx;
+    View* view = &this->view;
+    GraphicsContext* gfxCtx = this->state.gfxCtx;
 
     View_Init(view, gfxCtx);
     SET_FULLSCREEN_VIEWPORT(view);
