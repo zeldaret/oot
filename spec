@@ -3423,8 +3423,7 @@ endseg
 beginseg
     name "ovl_Obj_Tsubo"
     include "build/src/overlays/actors/ovl_Obj_Tsubo/z_obj_tsubo.o"
-    include "build/data/overlays/actors/z_obj_tsubo.data.o"
-    include "build/data/overlays/actors/z_obj_tsubo.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Tsubo/ovl_Obj_Tsubo_reloc.o"
 endseg
 
 beginseg
