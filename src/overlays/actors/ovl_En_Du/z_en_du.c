@@ -61,14 +61,14 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &gDaruniaAnim_006EB0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { &gDaruniaAnim_006EB0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gDaruniaAnim_000800, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaAnim_000D00, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gDaruniaAnim_001D70, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaAnim_002374, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
-    { &gDaruniaAnim_00288C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaAnim_002D94, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -10.0f },
-    { &gDaruniaAnim_002D94, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { &gDaruniaAnim_003D48, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
-    { &gDaruniaAnim_004C04, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { &gDaruniaAnim_003A30, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
-    { &gDaruniaAnim_0046F4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { &gDaruniaAnim_004ED8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
-    { &gDaruniaAnim_0041F4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -6.0f },
+    { &gDaruniaIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { &gDaruniaIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gDaruniaItemGiveAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaItemGiveIdleAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gDaruniaHitLinkAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaHitBreastAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { &gDaruniaStandUpAfterFallingAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f }, { &gDaruniaDancingLoop1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -10.0f },
+    { &gDaruniaDancingLoop1Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { &gDaruniaDancingLoop2Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gDaruniaDancingLoop3Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },   { &gDaruniaWrongSongAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gDaruniaWrongSongEndAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },   { &gDaruniaDancingLoop4Anim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, 0.0f },
+    { &gDaruniaDancingEndAnim, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -6.0f },
 };
 
 void EnDu_SetupAction(EnDu* this, EnDuActionFunc actionFunc) {
@@ -487,7 +487,7 @@ void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
         EnDu_SetupAction(this, func_809FE3C0);
     }
     func_8010B680(globalCtx, this->actor.textId, NULL);
-    func_80034EC0(&this->skelAnime, sAnimations, 0xE);
+    func_80034EC0(&this->skelAnime, sAnimations, 14);
     this->unk_1F4.unk_00 = 1;
 }
 
@@ -523,7 +523,7 @@ void EnDu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 
-    if (this->skelAnime.animation == &gDaruniaAnim_0041F4 && Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
+    if (this->skelAnime.animation == &gDaruniaDancingEndAnim && Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         func_80034EC0(&this->skelAnime, sAnimations, 1);
     }
 

@@ -11,8 +11,8 @@ glabel func_80969E6C
 /* 003AC 80969E7C 8FA50028 */  lw      $a1, 0x0028($sp)
 /* 003B0 80969E80 AFBF0024 */  sw      $ra, 0x0024($sp)
 /* 003B4 80969E84 3C060601 */  lui     $a2, %hi(gDaruniaSkel)                ## $a2 = 06010000
-/* 003B8 80969E88 3C070600 */  lui     $a3, %hi(gDaruniaAnim_006EB0)                ## $a3 = 06000000
-/* 003BC 80969E8C 24E76EB0 */  addiu   $a3, $a3, %lo(gDaruniaAnim_006EB0)           ## $a3 = 06006EB0
+/* 003B8 80969E88 3C070600 */  lui     $a3, %hi(gDaruniaIdleAnim)                ## $a3 = 06000000
+/* 003BC 80969E8C 24E76EB0 */  addiu   $a3, $a3, %lo(gDaruniaIdleAnim)           ## $a3 = 06006EB0
 /* 003C0 80969E90 24C61CA8 */  addiu   $a2, $a2, %lo(gDaruniaSkel)           ## $a2 = 06011CA8
 /* 003C4 80969E94 AFA00010 */  sw      $zero, 0x0010($sp)
 /* 003C8 80969E98 AFA00014 */  sw      $zero, 0x0014($sp)
