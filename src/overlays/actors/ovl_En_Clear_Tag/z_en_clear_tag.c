@@ -539,13 +539,15 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     this->crashingTimer--;
                 }
 
-                // Update Arwing collider to better match a ground collision.
                 func_8002D7EC(&this->actor);
                 Actor_SetFocus(&this->actor, 0.0f);
+
+                // Update Arwing collider to better match a ground collision.
                 this->collider.dim.radius = 20;
                 this->collider.dim.height = 15;
                 this->collider.dim.yShift = -5;
                 Collider_UpdateCylinder(&this->actor, &this->collider);
+
                 CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
                 CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
 
