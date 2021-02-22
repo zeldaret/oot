@@ -184,7 +184,7 @@ void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx, Vec3f* position, f32
             effect->acceleration = sZeroVector;
 
             effect->scale = scale;
-            effect->maxScale = scale + scale;
+            effect->maxScale = scale * 2.0f;
 
             effect->primColor.r = 200.0f;
             effect->primColor.g = 20.0f;
@@ -223,7 +223,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
             effect->acceleration = sZeroVector;
 
             effect->scale = 0.0f;
-            effect->maxScale = scale + scale;
+            effect->maxScale = scale * 2.0f;
 
             effect->floorHeight = floorHeight;
             effect->floorTangent = *floorTangent;
