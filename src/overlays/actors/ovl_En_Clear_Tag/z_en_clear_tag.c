@@ -440,7 +440,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         this->targetPosition.y = player->actor.world.pos.y + 40.0f;
                         this->targetPosition.z = player->actor.world.pos.z;
                         rotationScale = 7;
-                        xRotationTarget = 4096;
+                        xRotationTarget = 0x0800;
                         loseTargetLockDistance = 150.0f;
                     } else if (this->state == CLEAR_TAG_STATE_DEMO) {
                         // Move the Arwing for the intro cutscene.
