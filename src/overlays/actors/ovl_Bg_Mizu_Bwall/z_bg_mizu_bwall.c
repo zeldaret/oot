@@ -376,33 +376,31 @@ void BgMizuBwall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyTris(globalCtx, &this->collider);
 }
 
+#define BLEND_ASS(v1, v2, f1, f2, cv) (v1 - (s32)((f32)(cv - f1)/ (f2 - f1) * (v1 - v2)))
+
 void BgMizuBwall_SetAlpha(BgMizuBwall* this, GlobalContext* globalCtx) {
     f32 waterLevel = globalCtx->colCtx.colHeader->waterBoxes[2].ySurface;
-    s32 alphaMod;
 
     if (globalCtx->colCtx.colHeader->waterBoxes) {}
 
-    if (waterLevel < -15.0f) {
+    if (waterLevel < -15) {
         this->scrollAlpha1 = 255;
-    } else if (waterLevel < 445.0f) {
-        alphaMod = ((waterLevel - -15.0f) / (445.0f - -15.0f)) * 95.0f;
-        this->scrollAlpha1 = 255 - alphaMod;
+    } else if (waterLevel < 445) {
+        this->scrollAlpha1 = BLEND_ASS(255, 160, -15, 445, waterLevel);
     } else {
         this->scrollAlpha1 = 160;
     }
-    if (waterLevel < 445.0f) {
+    if (waterLevel < 445) {
         this->scrollAlpha2 = 255;
-    } else if (waterLevel < 765.0f) {
-        alphaMod = ((waterLevel - 445.0f) / (765.0f - 445.0f)) * 95.0f;
-        this->scrollAlpha2 = 255 - alphaMod;
+    } else if (waterLevel < 765) {
+        this->scrollAlpha2 = BLEND_ASS(255, 160, 445, 765, waterLevel);
     } else {
         this->scrollAlpha2 = 160;
     }
-    if (waterLevel < -835.0f) {
+    if (waterLevel < -835) {
         this->scrollAlpha3 = 255;
-    } else if (waterLevel < -15.0f) {
-        alphaMod = ((waterLevel - -835.0f) / (-15.0f - -835.0f)) * 95.0f;
-        this->scrollAlpha3 = 255 - alphaMod;
+    } else if (waterLevel < -15) {
+        this->scrollAlpha3 = BLEND_ASS(255, 160, -835, -15, waterLevel);
     } else {
         this->scrollAlpha3 = 160;
     }

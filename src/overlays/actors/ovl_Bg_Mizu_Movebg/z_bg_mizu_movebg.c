@@ -138,10 +138,10 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
         break;
 
     case 7:
-        this->unk_16C = 160;
-        this->unk_170 = 160;
-        this->unk_174 = 160;
-        this->unk_178 = 160;
+        this->scrollAlpha1 = 160;
+        this->scrollAlpha2 = 160;
+        this->scrollAlpha3 = 160;
+        this->scrollAlpha4 = 160;
         this->unk_184 = GetPointId(this->dyna.actor.params);
         func_8089E108(globalCtx->setupPathList, &this->dyna.actor.world.pos, GetPathId(this->dyna.actor.params), GetPointId(this->dyna.actor.params));
         this->actionFunc = func_8089E650;
@@ -204,41 +204,31 @@ s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
 #define BLEND_ASS(v1, v2, f1, f2, cv) (v1 - (s32)((f32)(cv - f1)/ (f2 - f1) * (v1 - v2)))
 
 void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
-    f32 ySurface = globalCtx->colCtx.colHeader->waterBoxes[2].ySurface;
+    f32 waterLevel = globalCtx->colCtx.colHeader->waterBoxes[2].ySurface;
 
-    if (ySurface < -15) {
-        this->unk_16C = 255;
+    if (waterLevel < -15) {
+        this->scrollAlpha1 = 255;
+    } else if (waterLevel < 445) {
+        this->scrollAlpha1 = BLEND_ASS(255, 160, -15, 445, waterLevel);
+    } else {
+        this->scrollAlpha1 = 160;
     }
-    else if (ySurface < 445) {
-        this->unk_16C = BLEND_ASS(255, 160, -15, 445, ySurface);
+    if (waterLevel < 445) {
+        this->scrollAlpha2 = 255;
+    } else if (waterLevel < 765) {
+        this->scrollAlpha2 = BLEND_ASS(255, 160, 445, 765, waterLevel);
+    } else {
+        this->scrollAlpha2 = 160;
     }
-    else {
-        this->unk_16C = 160;
+    if (waterLevel < -835) {
+        this->scrollAlpha3 = 255;
+    } else if (waterLevel < -15) {
+        this->scrollAlpha3 = BLEND_ASS(255, 160, -835, -15, waterLevel);
+    } else {
+        this->scrollAlpha3 = 160;
     }
-
-    if (ySurface < 445) {
-        this->unk_170 = 255;
-    }
-    else if (ySurface < 765) {
-        this->unk_170 = BLEND_ASS(255, 160, 445, 765, ySurface);
-    }
-    else {
-        this->unk_170 = 160;
-    }
-
-    if (ySurface < -835) {
-        this->unk_174 = 255;
-    }
-    else if (ySurface < -15) {
-        this->unk_174 = BLEND_ASS(255, 160, -835, -15, ySurface);
-    }
-    else {
-        this->unk_174 = 160;
-    }
-
-    this->unk_178 = this->unk_174;
+    this->scrollAlpha4 = this->scrollAlpha3;
 }
-
 
 #ifdef NON_MATCHING
 void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
@@ -363,4 +353,34 @@ void BgMizuMovebg_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Mizu_Movebg/BgMizuMovebg_Draw.s")
+void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
+    BgMizuMovebg* this = THIS;
+    GlobalContext* globalCtx = (GlobalContext*)globalCtx2;
+    u32 frames;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 754);
+    if (1) {}
+    frames = globalCtx->gameplayFrames;
+    func_80093D18(globalCtx->state.gfxCtx);
+
+    gSPSegment(POLY_OPA_DISP++, 0x08,
+        Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0, this->scrollAlpha1));
+
+    gSPSegment(POLY_OPA_DISP++, 0x09,
+        Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0, this->scrollAlpha2));
+
+    gSPSegment(POLY_OPA_DISP++, 0x0A,
+        Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0, this->scrollAlpha3));
+
+    gSPSegment(POLY_OPA_DISP++, 0x0B,
+        Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 3, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0, this->scrollAlpha4));
+
+    gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 788),
+        G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    if (this->unk_180 != NULL) {
+        gSPDisplayList(POLY_OPA_DISP++, this->unk_180);
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 795);
+}
+
