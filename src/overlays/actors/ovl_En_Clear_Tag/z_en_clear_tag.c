@@ -460,7 +460,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         loseTargetLockDistance = 100.0f;
                     }
 
-                    // If the Arwing is not in cutscene mode update the roll to zero.
+                    // If the Arwing is not in cutscene state, smoothly update the roll to zero.
+                    // This will reset the Arwing to be right side up after the cutscene is done.
+                    // The cutscene will set the Arwing to do a barrel roll and doesn't end on right side up.
                     if (this->state != CLEAR_TAG_STATE_DEMO) {
                         Math_ApproachZeroF(&this->roll, 0.1f, 0.2f);
                     }
