@@ -29,6 +29,25 @@ const ActorInit En_Jsjutan_InitVars = {
 
 #include "z_en_jsjutan_data.c"
 
+/*
+extern u8 D_80A8E610[0x800];
+extern Vec3s D_80A8EE10[0x90];
+
+extern u16 D_80A8AA98[0x800];
+extern Vtx D_80A8BA98[];
+extern Vtx D_80A8C398[];
+extern Vtx D_80A8CC98[];
+extern Gfx D_80A8D598[];
+extern Gfx D_80A8D618[];
+extern Gfx D_80A8D688[];
+extern Vtx D_80A8DAB8[];
+extern CamData D_80A8E3B8;
+extern SurfaceType D_80A8E3C0;
+extern CollisionPoly D_80A8E3C8[];
+extern Vec3s D_80A8E3E8[];
+extern CollisionHeader D_80A8E400;
+*/
+
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnJsjutan* this = THIS;
     s32 pad;
@@ -375,6 +394,8 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
         vtx_phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
     }
 
+    // *((s32*)0) = 0;
+
     spB8 = (player->actor.world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
     spB4 = (player->actor.world.pos.y - this->unk_168) * 50.0f;
     spB0 = (player->actor.world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
@@ -391,6 +412,8 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
     for (i = 1; i < 3; i++) {
         spE0[i] = 0;
     }
+
+    //if (1) { }
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
@@ -456,8 +479,17 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
         f32 phi_f28;
 
         if (isPlayerOnTop) {
-            f32 phi_f12 = sqrtf(((phi_s0->n.ob[0] - spB8) * (phi_s0->n.ob[0] - spB8)) + ((phi_s0->n.ob[2] - spB0) * (phi_s0->n.ob[2] - spB0)));
-            f32 phi_f2_4 = (2500.0f - phi_f12) / 2500.0f;
+            //f32 distance = sqrtf(((phi_s0->n.ob[0] - spB8) * (phi_s0->n.ob[0] - spB8)) + ((phi_s0->n.ob[2] - spB0) * (phi_s0->n.ob[2] - spB0)));
+            //f32 aux1 = (phi_s0->n.ob[0] - spB8);
+            //f32 aux2 = (phi_s0->n.ob[2] - spB0);
+            //f32 distance = sqrtf((aux1 * aux1) + (aux2 *aux2));
+            f32 distance;
+            f32 phi_f2_4;
+
+            distance = sqrtf(((phi_s0->n.ob[2] - spB0) * (phi_s0->n.ob[2] - spB0)) + ((phi_s0->n.ob[0] - spB8) * (phi_s0->n.ob[0] - spB8)));
+            phi_f2_4 = (2500.0f - distance) / 2500.0f;
+
+            //*((s32*)0) = 0;
 
             //phi_f2_4 = temp_f2;
             /*if (temp_f2 < 0.0f) {
@@ -467,14 +499,14 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
 
             phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
 
-            phi_f12 = phi_f12 - 1500.0f;
-            /*if (phi_f12 < 0.0f) {
-                phi_f12 = 0.0f;
+            distance = distance - 1500.0f;
+            /*if (distance < 0.0f) {
+                distance = 0.0f;
             }*/
-            phi_f12 = CLAMP_MIN(phi_f12, 0.0f);
+            distance = CLAMP_MIN(distance, 0.0f);
 
 
-            spA8 = 100.0f * phi_f12 * 0.01f;
+            spA8 = 100.0f * distance * 0.01f;
             /*if (spA8 > 100.0f) {
                 spA8 = 100.0f;
             }*/
@@ -503,6 +535,7 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
                 temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
                 phi_f12_2 = phi_f12_2 - 1500.0f;
+                //if (1) { }
                 phi_f12_2 = CLAMP_MIN(phi_f12_2, 0.0f);
 
                 phi_f2_3 = 100.0f * phi_f12_2 * 0.01f;
