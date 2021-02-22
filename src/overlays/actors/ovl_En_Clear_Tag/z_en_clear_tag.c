@@ -375,14 +375,12 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->timer++;
 
     if (this->drawMode != CLEAR_TAG_DRAWMODE_EFFECT) {
-        // Decrement the "work" timers.
         for (i = 0; i < 3; i++) {
             if (this->work[i] != 0) {
                 this->work[i]--;
             }
         }
 
-        // Decrement the cutscene timer.
         if (this->cutsceneTimer != 0) {
             this->cutsceneTimer--;
         }
@@ -535,7 +533,6 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
             case CLEAR_TAG_STATE_CRASHING:
-                // Decrement the crashing timer.
                 if (this->crashingTimer != 0) {
                     this->crashingTimer--;
                 }
@@ -919,7 +916,6 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
                 }
             }
 
-            // Decrement effect timer.
             if (effect->timer != 0) {
                 effect->timer--;
             }
