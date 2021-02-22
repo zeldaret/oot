@@ -501,7 +501,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         Math_ApproachF(&this->targetDirection.z, 1280.0f, 1.0f, 256.0f);
 
                         // Check if the Arwing should fire it's laser.
-                        if (!(this->timer & 3) && (Rand_ZeroOne() < 0.75f) &&
+                        if ((this->timer % 4) == 0 && (Rand_ZeroOne() < 0.75f) &&
                             (this->state == CLEAR_TAG_STATE_TARGET_LOCKED)) {
                             this->shouldShootLaser = 1;
                         }
