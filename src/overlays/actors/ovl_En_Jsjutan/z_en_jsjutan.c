@@ -453,6 +453,7 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
 
         isInCreditsScene = 0;
         i_temp = 1;
+        //*((s32*)0) = 0;
         while (actorExplosive != NULL) {
             if (i_temp < 3) {
                 spD4[i_temp] = (f32) ((actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f);
@@ -492,26 +493,25 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
 
             //*((s32*)0) = 0;
 
-            //phi_f2_4 = temp_f2;
-            /*if (temp_f2 < 0.0f) {
+            if (phi_f2_4 < 0.0f) {
                 phi_f2_4 = 0.0f;
-            }*/
-            phi_f2_4 = CLAMP_MIN(phi_f2_4, 0.0f);
+            }
+            //phi_f2_4 = CLAMP_MIN(phi_f2_4, 0.0f);
 
             phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
 
             distance = distance - 1500.0f;
-            /*if (distance < 0.0f) {
+            if (distance < 0.0f) {
                 distance = 0.0f;
-            }*/
-            distance = CLAMP_MIN(distance, 0.0f);
-
+            }
+            //distance = CLAMP_MIN(distance, 0.0f);
+            //if (1) { }
 
             spA8 = 100.0f * distance * 0.01f;
-            /*if (spA8 > 100.0f) {
+            if (spA8 > 100.0f) {
                 spA8 = 100.0f;
-            }*/
-            spA8 = CLAMP_MAX(spA8, 100.0f);
+            }
+            //spA8 = CLAMP_MAX(spA8, 100.0f);
 
         } else {
             phi_f28 = this->unk_170 - 200.0f;
@@ -531,31 +531,37 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
                 } else {
                     phi_f2_2 = (2000.0f - distance) / 2000.0f;
                 }
-                phi_f2_2 = CLAMP_MIN(phi_f2_2, 0.0f);
+                //phi_f2_2 = CLAMP_MIN(phi_f2_2, 0.0f);
+                if (phi_f2_2 < 0.0f) {
+                    phi_f2_2 = 0.0f;
+                }
 
                 temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
                 distance = distance - 1500.0f;
                 //if (1) { }
-                distance = CLAMP_MIN(distance, 0.0f);
+                //distance = CLAMP_MIN(distance, 0.0f);
+                if (distance < 0.0f) {
+                    distance = 0.0f;
+                }
 
                 phi_f2_3 = 100.0f * distance * 0.01f;
-                phi_f2_3 = CLAMP_MAX(phi_f2_3, 100.0f);
-                /*if (phi_f2_3 > 100.0f) {
+                //phi_f2_3 = CLAMP_MAX(phi_f2_3, 100.0f);
+                if (phi_f2_3 > 100.0f) {
                     phi_f2_3 = 100.0f;
-                }*/
+                }
 
-                phi_f28 = CLAMP_MAX(phi_f28, temp_f14_2);
-                /*phi_f28 = phi_f28;
+                //phi_f28 = CLAMP_MAX(phi_f28, temp_f14_2);
+                //phi_f28 = phi_f28;
                 if (phi_f28 > temp_f14_2) {
                     phi_f28 = temp_f14_2;
-                }*/
+                }
 
-                spA8 = CLAMP_MAX(spA8, phi_f2_3);
-                /*phi_f18_2 = phi_f18;
-                if (phi_f18_2 > phi_f2_3) {
-                    phi_f18_2 = phi_f2_3;
-                }*/
+                //spA8 = CLAMP_MAX(spA8, phi_f2_3);
+                //spA8 = spA8;
+                if (spA8 > phi_f2_3) {
+                    spA8 = phi_f2_3;
+                }
             }
         }
 
@@ -565,11 +571,11 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
             s16 phi_v1_4 = (phi_f28 + (temp_f0_3 * spA8));
             s16 temp_a0_3 = ((vtx_phi_s3->n.ob[1] - this->unk_168) * 50.0f);
 
-            //phi_v1_4 = (s16) phi_v1_4;
-            /*if (phi_v1_4 < temp_a0_3) {
+            //phi_v1_4 = phi_v1_4;
+            if (phi_v1_4 < temp_a0_3) {
                 phi_v1_4 = temp_a0_3;
-            }*/
-            phi_v1_4 = CLAMP_MIN(phi_v1_4, temp_a0_3);
+            }
+            //phi_v1_4 = CLAMP_MIN(phi_v1_4, temp_a0_3);
 
             phi_s0->n.ob[1] = phi_v1_4;
         } else {
