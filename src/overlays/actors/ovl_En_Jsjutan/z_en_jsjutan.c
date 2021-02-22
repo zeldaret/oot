@@ -388,7 +388,7 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
     f32 spB8;
     f32 spB4;
     f32 spB0;
-    f32 spA8;
+    f32 spA8; // wave amplitude (?)
     u8 isInCreditsScene;
     Player *player;
     Actor *parent;
@@ -468,34 +468,32 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
 
         isInCreditsScene = 1;
     } else {
-        s16 i_temp;
-
         isInCreditsScene = 0;
-        i_temp = 1;
+        i = 1;
         //*((s32*)0) = 0;
         while (actorExplosive != NULL) {
-            if (i_temp < 3) {
-                spD4[i_temp] = (f32) ((actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f);
-                spC8[i_temp] = (f32) ((actorExplosive->world.pos.y - this->unk_168) * 50.0f);
-                spBC[i_temp] = (f32) ((actorExplosive->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f);
+            if (i < 3) {
+                spD4[i] = (f32) ((actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f);
+                spC8[i] = (f32) ((actorExplosive->world.pos.y - this->unk_168) * 50.0f);
+                spBC[i] = (f32) ((actorExplosive->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f);
 
-                if (fabsf(spD4[i_temp]) < 5500.0f && (fabsf(spC8[i_temp]) < 3000.0f) && (fabsf(spBC[i_temp]) < 5500.0f)) {
+                if (fabsf(spD4[i]) < 5500.0f && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
                     if (actorExplosive->params == 1) {
-                        spE0[i_temp] = 35;
+                        spE0[i] = 35;
                     } else {
-                        spE0[i_temp] = 1;
+                        spE0[i] = 1;
                     }
                 }
-                i_temp++;
+                i++;
             }
             actorExplosive = actorExplosive->next;
             isInCreditsScene = 0;
         }
     }
 
-    phi_s0 = vtx_phi_s0_2;
+    //phi_s0 = vtx_phi_s0_2;
 
-    for (j = 0; j < 0x90; j++) {
+    for (j = 0, phi_s0 = vtx_phi_s0_2; j < 0x90; j++) {
         f32 temp_f0_3;
         f32 phi_f28;
 
@@ -506,8 +504,13 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
             //f32 distance = sqrtf((aux1 * aux1) + (aux2 *aux2));
             f32 distance;
             f32 phi_f2_4;
+            f32 aux1;
+            f32 aux2;
 
-            distance = sqrtf(((phi_s0->n.ob[2] - spB0) * (phi_s0->n.ob[2] - spB0)) + ((phi_s0->n.ob[0] - spB8) * (phi_s0->n.ob[0] - spB8)));
+            aux1 = ((f32) (phi_s0->n.ob[0] - spB8));
+            aux2 = ((f32) (phi_s0->n.ob[2] - spB0));
+
+            distance = sqrtf((aux1 * aux1) + (aux2 * aux2));
             phi_f2_4 = (2500.0f - distance) / 2500.0f;
 
             //*((s32*)0) = 0;
@@ -543,8 +546,13 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
                 f32 distance;
                 f32 phi_f2_2;
                 f32 phi_f2_3;
+                f32 aux1;
+                f32 aux2;
 
-                distance = sqrtf((((f32) phi_s0->n.ob[0] - spD4[i]) * ((f32) phi_s0->n.ob[0] - spD4[i])) + (((f32) phi_s0->n.ob[2] - spBC[i]) * ((f32) phi_s0->n.ob[2] - spBC[i])));
+                aux1 = ((f32) phi_s0->n.ob[0] - spD4[i]);
+                aux2 = ((f32) phi_s0->n.ob[2] - spBC[i]);
+
+                distance = sqrtf((aux1 * aux1) + (aux2 * aux2));
                 if ((i == 0) || isInCreditsScene) {
                     phi_f2_2 = (3000.0f - distance) / 3000.0f;
                 } else {
@@ -558,7 +566,6 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
                 temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
                 distance = distance - 1500.0f;
-                //if (1) { }
                 //distance = CLAMP_MIN(distance, 0.0f);
                 if (distance < 0.0f) {
                     distance = 0.0f;
@@ -635,30 +642,30 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
     sp108.y = 0.0f;
     sp108.z = 120.0f;
 
-    for (j = 0, phi_s0_3 = vtx_phi_s0_2; j < 0x90; j++) {
+    for (j = 0, phi_s0_3 = vtx_phi_s0_2; j < 0x90; j++, phi_s0_3++) {
         s16 index;
-        f32 x;
-        f32 y;
+        f32 phi_f22;
+        f32 temp_f24;
         f32 temp_f22_4;
         f32 temp_f20_4;
 
         if ((j % 0xC) == 0xB) {
             index = j - 1;
-            x = (f32) (phi_s0_3->n.ob[2] - vtx_phi_s0_2[index].n.ob[2]);
+            phi_f22 = (f32) (phi_s0_3->n.ob[2] - vtx_phi_s0_2[index].n.ob[2]);
         } else {
             index = j + 1;
-            x = (f32) (vtx_phi_s0_2[index].n.ob[2] - phi_s0_3->n.ob[2]);
+            phi_f22 = (f32) (vtx_phi_s0_2[index].n.ob[2] - phi_s0_3->n.ob[2]);
         }
 
-        y = (f32) (vtx_phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1]);
-        temp_f22_4 = Math_Atan2F(x, y);
+        temp_f24 = (f32) (vtx_phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1]);
+        temp_f22_4 = Math_Atan2F(phi_f22, temp_f24);
 
         if (j >= 0x84) {
-            x = (f32) (phi_s0_3->n.ob[0] - vtx_phi_s0_2[(s16) (j - 0xC)].n.ob[0]);
+            phi_f22 = (f32) (phi_s0_3->n.ob[0] - vtx_phi_s0_2[(s16) (j - 0xC)].n.ob[0]);
         } else {
-            x = (f32) (vtx_phi_s0_2[(s16)(j + 0xC)].n.ob[0] - phi_s0_3->n.ob[0]);
+            phi_f22 = (f32) (vtx_phi_s0_2[(s16)(j + 0xC)].n.ob[0] - phi_s0_3->n.ob[0]);
         }
-        temp_f20_4 = Math_Atan2F(x, y);
+        temp_f20_4 = Math_Atan2F(phi_f22, temp_f24);
 
         Matrix_RotateX(temp_f22_4, MTXMODE_NEW);
         Matrix_RotateZ(temp_f20_4, MTXMODE_APPLY);
@@ -667,7 +674,7 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
         phi_s0_3->n.n[0] = spFC.x;
         phi_s0_3->n.n[1] = spFC.y;
         phi_s0_3->n.n[2] = spFC.z;
-        phi_s0_3++;
+        //phi_s0_3++;
     }
 }
 
