@@ -383,8 +383,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 // Check if the Arwing should crash.
                 if (this->collider.base.acFlags & 2 &&
                     (this->collider.base.acFlags &= ~2, this->crashingTimer = 20,
-                     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5), this->acceleration.x = Rand_CenteredFloat(15.0f),
-                     this->acceleration.y = Rand_CenteredFloat(15.0f), this->acceleration.z = Rand_CenteredFloat(15.0f),
+                     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5),
+                     this->acceleration.x = Rand_CenteredFloat(15.0f), this->acceleration.y = Rand_CenteredFloat(15.0f),
+                     this->acceleration.z = Rand_CenteredFloat(15.0f),
                      Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND), this->actor.colChkInfo.health--,
                      (s8)this->actor.colChkInfo.health <= 0)) {
                     this->state = CLEAR_TAG_STATE_CRASHING;
@@ -473,8 +474,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     // Calculate the direction for the Arwing to fly and the rotation for the Arwing
                     // based on the Arwing's direction, and current rotation.
                     worldRotationTargetY = (s32)(Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * (0x8000 / M_PI));
-                    worldRotationTargetX = (s32)(
-                        Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) * (0x8000 / M_PI));
+                    worldRotationTargetX =
+                        (s32)(Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) *
+                              (0x8000 / M_PI));
                     if (worldRotationTargetX < 0) {
                         if (this->actor.world.pos.y < this->actor.floorHeight + 20.0f) {
                             worldRotationTargetX = 0;
@@ -1025,9 +1027,9 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
             // Draw the fire effect.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, (s8)effect->primColor.a);
-            gSPSegment(
-                POLY_XLU_DISP++, 8,
-                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0, 32, 32));
+            gSPSegment(POLY_XLU_DISP++, 8,
+                       Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0,
+                                        32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
