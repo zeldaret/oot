@@ -732,12 +732,12 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(25.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1004),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, laserDL);
+            gSPDisplayList(POLY_XLU_DISP++, gLaserDL);
 
             Matrix_Translate(-50.0f, 0.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1011),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, laserDL);
+            gSPDisplayList(POLY_XLU_DISP++, gLaserDL);
         } else {
             // Draw the Arwing itself.
             func_80093D18(globalCtx2->state.gfxCtx);
@@ -755,7 +755,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1030),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, arwingDL);
+            gSPDisplayList(POLY_OPA_DISP++, gArwingDL);
 
             // Draw the Arwing Backfire
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
@@ -769,7 +769,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 50, 0, 0);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1067),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, arwingBackfireDL);
+            gSPDisplayList(POLY_XLU_DISP++, gArwingBackfireDL);
 
             // Draw the Arwing shadow.
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, 130);
@@ -793,7 +793,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateZ(this->roll, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 1104),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, arwingShadowDL);
+            gSPDisplayList(POLY_XLU_DISP++, gArwingShadowDL);
         }
     }
 
@@ -956,7 +956,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             // Apply the debris effect material if it has not already been applied.
             if (!isMaterialApplied) {
                 isMaterialApplied++;
-                gSPDisplayList(POLY_OPA_DISP++, effectDebrisMaterialDL);
+                gSPDisplayList(POLY_OPA_DISP++, gDebrisEffectMaterialDL);
             }
 
             // Draw the debris effect.
@@ -966,7 +966,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             Matrix_RotateX(effect->rotationX, MTXMODE_APPLY);
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1307),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, effectDebrisDL);
+            gSPDisplayList(POLY_OPA_DISP++, gDebrisEffectDL);
         }
     }
 
@@ -990,7 +990,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale + effect->scale, 1.0f, effect->scale + effect->scale, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1342),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, effectFlashGroundDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFlashEffectGroundDL);
         }
     }
 
@@ -1001,7 +1001,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
         if (effect->type == CLEAR_TAG_EFFECT_SMOKE) {
             // Apply the smoke effect material if it has not already been applied.
             if (!isMaterialApplied) {
-                gSPDisplayList(POLY_XLU_DISP++, effectFireMaterialDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFireEffectMaterialDL);
                 isMaterialApplied++;
             }
 
@@ -1019,7 +1019,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             Matrix_Translate(0.0f, 20.0f, 0.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1392),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, effectFireDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFireEffectDL);
         }
     }
 
@@ -1030,7 +1030,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
         if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
             // Apply the fire effect material if it has not already been applied.
             if (!isMaterialApplied) {
-                gSPDisplayList(POLY_XLU_DISP++, effectFireMaterialDL);
+                gSPDisplayList(POLY_XLU_DISP++, gFireEffectMaterialDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 255, 215, 255, 128);
                 isMaterialApplied++;
             }
@@ -1045,7 +1045,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1439),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, effectFireDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFireEffectDL);
         }
     }
 
@@ -1068,7 +1068,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1470),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, effectFlashDL);
+            gSPDisplayList(POLY_XLU_DISP++, gFlashEffectDL);
         }
     }
 
