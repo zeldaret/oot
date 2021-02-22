@@ -353,37 +353,14 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
     f32 spA8;
     u8 isInCreditsScene;
     Player *player;
-    f32 temp_f0_3;
-    f32 temp_f10_2;
-    f32 temp_f14_2;
-    f32 temp_f20_4;
-    f32 temp_f22_4;
-    f32 temp_f24;
-    s16 temp_a0_3;
     Actor *parent;
-    u16 temp_v0_4;
     s16 i;
-    Actor *actorProfessor;
-    Actor *actorBeanGuy;
-    s16 i_temp;
     Actor *actorExplosive;
     Vtx *phi_s0;
-    f32 phi_f12;
-    f32 phi_f12_2;
-    f32 phi_f2_2;
-    f32 phi_f28;
-    f32 phi_f2_3;
     s16 j;
-    Vtx *phi_s3;
-    s16 phi_v1_4;
-    u16 phi_v0_3;
-    f32 phi_f10;
-    f32 phi_f22;
-    Vtx *phi_s0_2;
-    s16 phi_v1_5;
+    Vtx *vtx_phi_s3;
+    Vtx *vtx_phi_s0_2;
     Vtx *phi_s0_3;
-    f32 phi_f20;
-    f32 phi_f2_4;
 
     isPlayerOnTop = 0;
     player = PLAYER;
@@ -391,11 +368,11 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
     actorExplosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
     if (globalCtx->gameplayFrames & 1) {
-        phi_s0_2 = SEGMENTED_TO_VIRTUAL(D_80A8CC98);
-        phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8BA98);
+        vtx_phi_s0_2 = SEGMENTED_TO_VIRTUAL(D_80A8CC98);
+        vtx_phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8BA98);
     } else {
-        phi_s0_2 = SEGMENTED_TO_VIRTUAL(D_80A8DAB8);
-        phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
+        vtx_phi_s0_2 = SEGMENTED_TO_VIRTUAL(D_80A8DAB8);
+        vtx_phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
     }
 
     spB8 = (player->actor.world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
@@ -417,6 +394,8 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
+        Actor *actorProfessor;
+        Actor *actorBeanGuy;
 
         actorProfessor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
         while (actorProfessor != NULL) {
@@ -444,9 +423,11 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
         spBC[2] = (actorBeanGuy->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
         spE0[2] = 1;
 
-        isInCreditsScene = (u8)1U;
+        isInCreditsScene = 1;
     } else {
-        isInCreditsScene = (u8)0U;
+        s16 i_temp;
+
+        isInCreditsScene = 0;
         i_temp = 1;
         while (actorExplosive != NULL) {
             if (i_temp < 3) {
@@ -464,18 +445,20 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
                 i_temp++;
             }
             actorExplosive = actorExplosive->next;
-            isInCreditsScene = (u8)0U;
+            isInCreditsScene = 0;
         }
     }
 
-    phi_s0 = phi_s0_2;
+    phi_s0 = vtx_phi_s0_2;
 
     for (j = 0; j < 0x90; j++) {
+        f32 temp_f0_3;
+        f32 phi_f28;
 
-        if (isPlayerOnTop != 0) {
-            phi_f12 = sqrtf(((phi_s0->n.ob[0] - spB8) * (phi_s0->n.ob[0] - spB8)) + ((phi_s0->n.ob[2] - spB0) * (phi_s0->n.ob[2] - spB0)));
+        if (isPlayerOnTop) {
+            f32 phi_f12 = sqrtf(((phi_s0->n.ob[0] - spB8) * (phi_s0->n.ob[0] - spB8)) + ((phi_s0->n.ob[2] - spB0) * (phi_s0->n.ob[2] - spB0)));
+            f32 phi_f2_4 = (2500.0f - phi_f12) / 2500.0f;
 
-            phi_f2_4 = (2500.0f - phi_f12) / 2500.0f;
             //phi_f2_4 = temp_f2;
             /*if (temp_f2 < 0.0f) {
                 phi_f2_4 = 0.0f;
@@ -504,6 +487,10 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
 
         for (i = 0; i < 3; i++) {
             if (spE0[i] != 0) {
+                f32 temp_f14_2;
+                f32 phi_f12_2;
+                f32 phi_f2_2;
+                f32 phi_f2_3;
 
                 phi_f12_2 = sqrtf((((f32) phi_s0->n.ob[0] - spD4[i]) * ((f32) phi_s0->n.ob[0] - spD4[i])) + (((f32) phi_s0->n.ob[2] - spBC[i]) * ((f32) phi_s0->n.ob[2] - spBC[i])));
                 if ((i == 0) || isInCreditsScene) {
@@ -541,8 +528,8 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
         temp_f0_3 = Math_SinS(globalCtx->gameplayFrames * 4000 + j * 10000);
 
         if (this->unk_174 != 0) {
-            phi_v1_4 = (phi_f28 + (temp_f0_3 * spA8));
-            temp_a0_3 = ((phi_s3->n.ob[1] - this->unk_168) * 50.0f);
+            s16 phi_v1_4 = (phi_f28 + (temp_f0_3 * spA8));
+            s16 temp_a0_3 = ((vtx_phi_s3->n.ob[1] - this->unk_168) * 50.0f);
 
             //phi_v1_4 = (s16) phi_v1_4;
             /*if (phi_v1_4 < temp_a0_3) {
@@ -557,26 +544,26 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
             phi_s0->n.ob[0] = (s16) (D_80A8EE10[j].x + (s16)((temp_f0_3 * spA8) * 0.5f));
             phi_s0->n.ob[2] = (s16) (D_80A8EE10[j].z + (s16)((temp_f0_3 * spA8) * 0.5f));
 
-            phi_s3->n.ob[0] = (s16) (D_80A8EE10[j].x + (s16)(temp_f0_3 * spA8));
-            phi_s3->n.ob[2] = (s16) (D_80A8EE10[j].z + (s16)(temp_f0_3 * spA8));
+            vtx_phi_s3->n.ob[0] = (s16) (D_80A8EE10[j].x + (s16)(temp_f0_3 * spA8));
+            vtx_phi_s3->n.ob[2] = (s16) (D_80A8EE10[j].z + (s16)(temp_f0_3 * spA8));
         }
 
         phi_s0++;
-        phi_s3++;
- 
+        vtx_phi_s3++;
     }
 
     if (this->unk_174 == 0) {
+        u16 dayTime;
+
         this->dyna.actor.velocity.y = 0.0f;
         this->dyna.actor.world.pos.y = this->unk_168;
 
-        temp_v0_4 = gSaveContext.dayTime;
-        phi_v0_3 = temp_v0_4;
-        if (temp_v0_4 >= 0x8000) {
-            phi_v0_3 = (u16)(0xFFFF - temp_v0_4);
+        dayTime = gSaveContext.dayTime;
+        if (dayTime >= 0x8000) {
+            dayTime = (u16)(0xFFFF - dayTime);
         }
 
-        this->unk_16C = (phi_v0_3 * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
+        this->unk_16C = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
         this->unk_170 = 1000.0f;
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
@@ -589,24 +576,30 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
     sp108.y = 0.0f;
     sp108.z = 120.0f;
 
-    for (j = 0, phi_s0_3 = phi_s0_2; j < 0x90; j++) {
+    for (j = 0, phi_s0_3 = vtx_phi_s0_2; j < 0x90; j++) {
+        s16 index;
+        f32 x;
+        f32 y;
+        f32 temp_f22_4;
+        f32 temp_f20_4;
+
         if ((j % 0xC) == 0xB) {
-            phi_v1_5 = j - 1;
-            phi_f22 = (f32) (phi_s0_3->n.ob[2] - phi_s0_2[phi_v1_5].n.ob[2]);
+            index = j - 1;
+            x = (f32) (phi_s0_3->n.ob[2] - vtx_phi_s0_2[index].n.ob[2]);
         } else {
-            phi_v1_5 = j + 1;
-            phi_f22 = (f32) (phi_s0_2[phi_v1_5].n.ob[2] - phi_s0_3->n.ob[2]);
+            index = j + 1;
+            x = (f32) (vtx_phi_s0_2[index].n.ob[2] - phi_s0_3->n.ob[2]);
         }
 
-        temp_f24 = (f32) (phi_s0_2[phi_v1_5].n.ob[1] - phi_s0_3->n.ob[1]);
-        temp_f22_4 = Math_Atan2F(phi_f22, temp_f24);
+        y = (f32) (vtx_phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1]);
+        temp_f22_4 = Math_Atan2F(x, y);
 
         if (j >= 0x84) {
-            phi_f20 = (f32) (phi_s0_3->n.ob[0] - phi_s0_2[(s16) (j - 0xC)].n.ob[0]);
+            x = (f32) (phi_s0_3->n.ob[0] - vtx_phi_s0_2[(s16) (j - 0xC)].n.ob[0]);
         } else {
-            phi_f20 = (f32) (phi_s0_2[(s16)(j + 0xC)].n.ob[0] - phi_s0_3->n.ob[0]);
+            x = (f32) (vtx_phi_s0_2[(s16)(j + 0xC)].n.ob[0] - phi_s0_3->n.ob[0]);
         }
-        temp_f20_4 = Math_Atan2F(phi_f20, temp_f24);
+        temp_f20_4 = Math_Atan2F(x, y);
 
         Matrix_RotateX(temp_f22_4, MTXMODE_NEW);
         Matrix_RotateZ(temp_f20_4, MTXMODE_APPLY);
