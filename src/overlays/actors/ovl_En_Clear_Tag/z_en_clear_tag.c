@@ -208,10 +208,7 @@ void EnClearTag_CreateFlashEffect(GlobalContext* globalCtx, Vec3f* position, f32
                                   Vec3f* floorTangent) {
     s16 i;
     EnClearTagEffect* effect;
-    GlobalContext* globalCtx2;
-
-    globalCtx2 = globalCtx;
-    effect = (EnClearTagEffect*)globalCtx2->specialEffects;
+    effect = (EnClearTagEffect*)globalCtx->specialEffects;
 
     // Look for an available effect to allocate a flash effect to.
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
