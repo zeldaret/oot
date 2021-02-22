@@ -540,7 +540,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
                 func_8002D7EC(&this->actor);
-                
+
                 Actor_SetFocus(&this->actor, 0.0f);
 
                 // Update Arwing collider to better match a ground collision.
@@ -561,7 +561,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     // Create fire effects while the Arwing crashes.
                     EnClearTag_CreateFireEffect(globalCtx2, &this->actor.world.pos, 1.0f);
 
-                    // Moves the Arwing while crashing.
+                    // Causes the Arwing to roll around seemingly randomly while crashing.
                     this->roll -= 0.5f;
                     this->actor.velocity.y -= 0.2f;
                     this->actor.shape.rot.x += 16;
