@@ -428,9 +428,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                             }
                         }
 
-                        this->targetDirection.z = 0.0f;
-                        this->targetDirection.y = 0.0f;
-                        this->targetDirection.x = 0.0f;
+                        this->targetDirection.x = this->targetDirection.y = this->targetDirection.z = 0.0f;
                     }
 
                     rotationScale = 10;
