@@ -125,7 +125,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     f32 phi_f18; //
     s16 j;
     Vtx *phi_s3;
-    s32 daytime;
+    u16 daytime;
     f32 aux_f;
     Vtx *phi_s0_2;
     s16 phi_v1_5;
@@ -221,21 +221,29 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     for (j = 0; j < 0x90; j++) {
         if (sp127 != 0) {
 
-            aux2_f = sqrtf(((phi_s0->n.ob[0] - spB0.z) * (phi_s0->n.ob[0] - spB0.z)) + ((phi_s0->n.ob[2] - spB0.x) *
-(phi_s0->n.ob[2] - spB0.x)));
+            aux2_f = sqrtf(((phi_s0->n.ob[0] - spB0.z) * (phi_s0->n.ob[0] - spB0.z)) + ((phi_s0->n.ob[2] - spB0.x) * (phi_s0->n.ob[2] - spB0.x)));
 
             aux_f = (2500.0f - aux2_f) / 2500.0f;
-            aux_f = CLAMP_MIN(aux_f, 0.0f);
+            //aux_f = CLAMP_MIN(aux_f, 0.0f);
+            if (aux_f < 0.0f) {
+                aux_f = 0.0f;
+            }
 
             //*((s32*)0) = 0;
 
             phi_f28 = (spB0.y * aux_f) + ((this->unk_170 - (this->unk_170 * aux_f)) - 200.0f);
 
             aux3_f = aux2_f - 1500.0f;
-            aux3_f = CLAMP_MIN(aux3_f, 0.0f);
+            //aux3_f = CLAMP_MIN(aux3_f, 0.0f);
+            if (aux3_f < 0.0f) {
+                aux3_f = 0.0f;
+            }
 
             phi_f18 = 100.0f * aux3_f * 0.01f;
-            phi_f18 = CLAMP_MAX(phi_f18, 100.0f);
+            //phi_f18 = CLAMP_MAX(phi_f18, 100.0f);
+            if (phi_f18 > 100.0f) {
+                phi_f18 = 100.0f;
+            }
         } else {
             phi_f28 = this->unk_170 - 200.0f;
             phi_f18 = 100.0f;
@@ -251,19 +259,34 @@ spBC[i]) * (phi_s0->n.ob[2] - spBC[i])));
                 } else {
                     aux_f = (2000.0f - aux2_f) / 2000.0f;
                 }
-                aux_f = CLAMP_MIN(aux_f, 0.0f);
+                //aux_f = CLAMP_MIN(aux_f, 0.0f);
+                if (aux_f < 0.0f) {
+                    aux_f = 0.0f;
+                }
 
                 aux3_f = (spC8[i] * aux_f) + ((this->unk_170 - (this->unk_170 * aux_f)) - 200.0f);
 
                 phi_f12_2 = aux2_f - 1500.0f;
-                phi_f12_2 = CLAMP_MIN(phi_f12_2, 0.0f);
+                //phi_f12_2 = CLAMP_MIN(phi_f12_2, 0.0f);
+                if (phi_f12_2 < 0.0f) {
+                    phi_f12_2 = 0.0f;
+                }
 
                 phi_f2_3 = 100.0f * phi_f12_2 * 0.01f;
-                phi_f2_3 = CLAMP_MAX(phi_f2_3, 100.0f);
+                //phi_f2_3 = CLAMP_MAX(phi_f2_3, 100.0f);
+                if (phi_f2_3 > 100.0f) {
+                    phi_f2_3 = 100.0f;
+                }
 
-                phi_f28 = CLAMP_MAX(phi_f28, aux3_f);
+                //phi_f28 = CLAMP_MAX(phi_f28, aux3_f);
+                if (phi_f28 > aux3_f) {
+                    phi_f28 = aux3_f;
+                }
 
-                phi_f18 = CLAMP_MAX(phi_f18, phi_f2_3);
+                //phi_f18 = CLAMP_MAX(phi_f18, phi_f2_3);
+                if (phi_f18 > phi_f2_3) {
+                    phi_f18 = phi_f2_3;
+                }
             }
         }
 
@@ -271,7 +294,10 @@ spBC[i]) * (phi_s0->n.ob[2] - spBC[i])));
         if (this->unk_174 != 0) {
             aux_s16_1 = (phi_f28 + (aux3_f * phi_f18));
             aux_s16_2 = (phi_s3->n.ob[1] - this->unk_168) * 50.0f;
-            aux_s16_1 = CLAMP_MIN(aux_s16_1, aux_s16_2);
+            //aux_s16_1 = CLAMP_MIN(aux_s16_1, aux_s16_2);
+            if (aux_s16_1 < aux_s16_2) {
+                aux_s16_1 = aux_s16_2;
+            }
 
             //*((s32*)0) = 0;
 
@@ -296,18 +322,11 @@ spBC[i]) * (phi_s0->n.ob[2] - spBC[i])));
 
         daytime = gSaveContext.dayTime;
         if (gSaveContext.dayTime >= 0x8000) {
-            daytime = (u16)(0xFFFF - gSaveContext.dayTime);
-        }
-
-
-
-        aux_f = daytime;
-        if (daytime < 0) {
-            aux_f += (f32)0x100000000;
+            daytime = (0xFFFF - gSaveContext.dayTime);
         }
 
         this->unk_170 = 1000.0f;
-        this->shadowAlpha = (aux_f * 0.00275f) + 10.0f;
+        this->shadowAlpha = (daytime * 0.00275f) + 10.0f;
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
@@ -651,6 +670,7 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
         phi_s0_3++;
     }
 }
+
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
 
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx) {
