@@ -118,8 +118,8 @@ void func_80B20DE0(EnTp* this, EnTpActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-/* void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     // s32 pad;
     GlobalContext* globalCtx = globalCtx2;
     EnTp* this = THIS;
@@ -160,8 +160,8 @@ void func_80B20DE0(EnTp* this, EnTpActionFunc actionFunc) {
         temp_s4 = 0;
         for (phi_s1 = 0; phi_s1 <= 6; phi_s1++) {
 
-            temp_v0_2 = 
-            new_var = 
+            temp_v0_2 =
+            new_var =
             (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
@@ -189,7 +189,7 @@ void func_80B20DE0(EnTp* this, EnTpActionFunc actionFunc) {
     } else {
         func_80B217FC(this);
     }
-} */
+}
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Destroy.s")
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -313,13 +313,13 @@ void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
             effectPos.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             effectPos.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(globalCtx, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0, 0,
-                                 255, 1, 9, 1);
+            EffectSsDeadDb_Spawn(globalCtx, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0,
+                                 0, 255, 1, 9, 1);
             effectPos.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             effectPos.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
-            EffectSsDeadDb_Spawn(globalCtx, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0, 0,
-                                 255, 1, 9, 1);
+            EffectSsDeadDb_Spawn(globalCtx, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0,
+                                 0, 255, 1, 9, 1);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
         } else {
             for (phi_s1 = 0; phi_s1 <= 0; phi_s1++) {
@@ -497,11 +497,11 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
     static Color_RGBA8 bubbleEnvColor = { 150, 150, 150, 0 };
     Vec3f bubbleVelocity;
     Vec3f bubblePos;
-    s32 sp44;
+    s32 closeToFloor;
     EnTp* phi_v0;
     s16 temp_v0;
 
-    sp44 = 0;
+    closeToFloor = false;
     temp_v0 = this->unk_15A;
     this->unk_15C--;
 
@@ -546,7 +546,7 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
         this->actor.velocity.y = Math_SinS(this->actor.shape.rot.x) * -2.0f;
 
         if ((this->actor.world.pos.y - this->actor.floorHeight) < 20.0f) {
-            sp44 = 1;
+            closeToFloor = true;
         }
 
         if (this->actor.world.pos.y != this->actor.home.pos.y) {
@@ -554,7 +554,7 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
                                    &D_801333E8);
         }
 
-        if ((sp44 != 0) && ((globalCtx->gameplayFrames & 1) != 0)) {
+        if (closeToFloor && ((globalCtx->gameplayFrames & 1) != 0)) {
             bubblePos = this->actor.world.pos;
             bubblePos.y = this->actor.floorHeight;
 
@@ -562,8 +562,8 @@ void func_80B21F18(EnTp* this, GlobalContext* globalCtx) {
             bubbleVelocity.y = (Rand_ZeroOne() * 3.5f) + 1.5f;
             bubbleVelocity.z = Rand_CenteredFloat(5.0f);
 
-            EffectSsDtBubble_SpawnCustomColor(globalCtx, &bubblePos, &bubbleVelocity, &bubbleAccel, &bubblePrimColor, &bubbleEnvColor,
-                                              Rand_S16Offset(100, 50), 20, 0);
+            EffectSsDtBubble_SpawnCustomColor(globalCtx, &bubblePos, &bubbleVelocity, &bubbleAccel, &bubblePrimColor,
+                                              &bubbleEnvColor, Rand_S16Offset(100, 50), 20, 0);
         }
     }
 }
