@@ -3143,8 +3143,11 @@ endseg
 beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
-    include "build/data/overlays/actors/z_en_yabusame_mark.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Yabusame_Mark/ovl_En_Yabusame_Mark_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
+#endif
 endseg
 
 beginseg
