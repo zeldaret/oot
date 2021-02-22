@@ -540,6 +540,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 }
 
                 func_8002D7EC(&this->actor);
+                
                 Actor_SetFocus(&this->actor, 0.0f);
 
                 // Update Arwing collider to better match a ground collision.
@@ -551,7 +552,6 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
                 CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
 
-                // Recalculate the floor tangent.
                 if (this->work[2] == 0) {
                     Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 50.0f, 30.0f, 100.0f, 5);
                     EnClearTag_CalculateFloorTangent(this);
