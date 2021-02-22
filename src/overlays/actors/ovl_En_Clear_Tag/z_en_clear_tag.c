@@ -625,7 +625,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         Gameplay_ChangeCameraStatus(globalCtx2, this->cameraId, 7);
                     case CLEAR_TAG_DEMOMODE_PLAY:
                         // Update the Arwing cutscene camera to spin around in a circle.
-                        cutsceneTimer = this->timer << 7;
+                        cutsceneTimer = this->timer * 128;
                         cutsceneCameraCircleX = Math_SinS(cutsceneTimer) * 200.0f;
                         cutsceneCameraCircleZ = Math_CosS(cutsceneTimer) * 200.0f;
                         cutsceneCameraAtTarget.x = this->actor.world.pos.x + cutsceneCameraCircleX;
