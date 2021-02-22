@@ -59,7 +59,7 @@ void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, header);
     Actor_SetScale(thisx, 0.02f);
     this->unk_164 = 1;
-    this->unk_16C = 100.0f;
+    this->shadowAlpha = 100.0f;
 }
 
 void EnJsjutan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -307,11 +307,11 @@ spBC[i]) * (phi_s0->n.ob[2] - spBC[i])));
         }
 
         this->unk_170 = 1000.0f;
-        this->unk_16C = (aux_f * 0.00275f) + 10.0f;
+        this->shadowAlpha = (aux_f * 0.00275f) + 10.0f;
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
-        Math_ApproachF(&this->unk_16C, 0.0f, 1.0f, 3.0f);
+        Math_ApproachF(&this->shadowAlpha, 0.0f, 1.0f, 3.0f);
         Math_ApproachF(&this->unk_170, -5000.0f, 1.0f, 100.0f);
     }
 
@@ -380,6 +380,7 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
     Vtx *vtx_phi_s3;
     Vtx *vtx_phi_s0_2;
     Vtx *phi_s0_3;
+    //f32 distance;
 
     isPlayerOnTop = 0;
     player = PLAYER;
@@ -520,25 +521,25 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
         for (i = 0; i < 3; i++) {
             if (spE0[i] != 0) {
                 f32 temp_f14_2;
-                f32 phi_f12_2;
+                f32 distance;
                 f32 phi_f2_2;
                 f32 phi_f2_3;
 
-                phi_f12_2 = sqrtf((((f32) phi_s0->n.ob[0] - spD4[i]) * ((f32) phi_s0->n.ob[0] - spD4[i])) + (((f32) phi_s0->n.ob[2] - spBC[i]) * ((f32) phi_s0->n.ob[2] - spBC[i])));
+                distance = sqrtf((((f32) phi_s0->n.ob[0] - spD4[i]) * ((f32) phi_s0->n.ob[0] - spD4[i])) + (((f32) phi_s0->n.ob[2] - spBC[i]) * ((f32) phi_s0->n.ob[2] - spBC[i])));
                 if ((i == 0) || isInCreditsScene) {
-                    phi_f2_2 = (3000.0f - phi_f12_2) / 3000.0f;
+                    phi_f2_2 = (3000.0f - distance) / 3000.0f;
                 } else {
-                    phi_f2_2 = (2000.0f - phi_f12_2) / 2000.0f;
+                    phi_f2_2 = (2000.0f - distance) / 2000.0f;
                 }
                 phi_f2_2 = CLAMP_MIN(phi_f2_2, 0.0f);
 
                 temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
-                phi_f12_2 = phi_f12_2 - 1500.0f;
+                distance = distance - 1500.0f;
                 //if (1) { }
-                phi_f12_2 = CLAMP_MIN(phi_f12_2, 0.0f);
+                distance = CLAMP_MIN(distance, 0.0f);
 
-                phi_f2_3 = 100.0f * phi_f12_2 * 0.01f;
+                phi_f2_3 = 100.0f * distance * 0.01f;
                 phi_f2_3 = CLAMP_MAX(phi_f2_3, 100.0f);
                 /*if (phi_f2_3 > 100.0f) {
                     phi_f2_3 = 100.0f;
@@ -593,15 +594,15 @@ void func_80A89A6C(EnJsjutan *this, GlobalContext *globalCtx) {
 
         dayTime = gSaveContext.dayTime;
         if (dayTime >= 0x8000) {
-            dayTime = (u16)(0xFFFF - dayTime);
+            dayTime = 0xFFFF - dayTime;
         }
 
-        this->unk_16C = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
+        this->shadowAlpha = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
         this->unk_170 = 1000.0f;
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
-        Math_ApproachF(&this->unk_16C, 0.0f, 1.0f, 3.0f);
+        Math_ApproachF(&this->shadowAlpha, 0.0f, 1.0f, 3.0f);
         Math_ApproachF(&this->unk_170, -5000.0f, 1.0f, 100.0f);
     }
 
@@ -693,7 +694,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     }
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (s16)this->unk_16C);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 0, (s16)this->shadowAlpha);
 
     Matrix_Translate(thisx->world.pos.x, 3.0f, thisx->world.pos.z, MTXMODE_NEW);
     Matrix_Scale(thisx->scale.x, 1.0f, thisx->scale.z, MTXMODE_APPLY);
