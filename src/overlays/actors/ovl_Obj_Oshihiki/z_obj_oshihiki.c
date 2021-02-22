@@ -6,6 +6,7 @@
 
 #include "z_obj_oshihiki.h"
 #include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -24,12 +25,6 @@ void ObjOshihiki_SetupPush(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_05004E98;
-extern UNK_TYPE D_05003350;
-extern UNK_TYPE D_05003B50;
-extern UNK_TYPE D_05004350;
-extern Gfx D_05004CD0[];
 
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
@@ -216,7 +211,7 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, GlobalContext* globalCtx) {
         case PUSHBLOCK_MEDIUM_START_OFF:
         case PUSHBLOCK_LARGE_START_OFF:
         case PUSHBLOCK_HUGE_START_OFF:
-            ObjOshihiki_InitDynapoly(this, globalCtx, &D_05004E98, 1);
+            ObjOshihiki_InitDynapoly(this, globalCtx, &gPushBlockCol, 1);
             break;
         default:
             // Error : type cannot be determined
@@ -236,15 +231,15 @@ void ObjOshihiki_SetTexture(ObjOshihiki* this, GlobalContext* globalCtx) {
         case PUSHBLOCK_MEDIUM_START_ON:
         case PUSHBLOCK_SMALL_START_OFF:
         case PUSHBLOCK_MEDIUM_START_OFF:
-            this->texture = &D_05003350;
+            this->texture = gPushBlockSilverTex;
             break;
         case PUSHBLOCK_LARGE_START_ON:
         case PUSHBLOCK_LARGE_START_OFF:
-            this->texture = &D_05003B50;
+            this->texture = gPushBlockBaseTex;
             break;
         case PUSHBLOCK_HUGE_START_ON:
         case PUSHBLOCK_HUGE_START_OFF:
-            this->texture = &D_05004350;
+            this->texture = gPushBlockGrayTex;
             break;
     }
 }
@@ -690,6 +685,6 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    gSPDisplayList(POLY_OPA_DISP++, &D_05004CD0);
+    gSPDisplayList(POLY_OPA_DISP++, &gPushBlockDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1334);
 }

@@ -394,7 +394,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 // Check if the Arwing should crash.
                 if (this->collider.base.acFlags & 2 &&
                     (this->collider.base.acFlags &= ~2, this->crashingTimer = 20,
-                     func_8003426C(&this->actor, 0x4000, 255, 0, 5), this->acceleration.x = Rand_CenteredFloat(15.0f),
+                     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5), this->acceleration.x = Rand_CenteredFloat(15.0f),
                      this->acceleration.y = Rand_CenteredFloat(15.0f), this->acceleration.z = Rand_CenteredFloat(15.0f),
                      Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_THUNDER_GND), this->actor.colChkInfo.health--,
                      (s8)this->actor.colChkInfo.health <= 0)) {

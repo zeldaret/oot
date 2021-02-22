@@ -69,9 +69,9 @@ void func_80B93B68(ObjHsblock* this, GlobalContext* globalCtx, CollisionHeader* 
 
 void func_80B93BF0(ObjHsblock* this, GlobalContext* globalCtx) {
     if ((this->dyna.actor.params >> 5) & 1) {
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_OBJ_ICE_POLY, this->dyna.actor.world.pos.x,
-                           this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, this->dyna.actor.world.rot.x,
-                           this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 1);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_OBJ_ICE_POLY,
+                           this->dyna.actor.world.pos.x, this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z,
+                           this->dyna.actor.world.rot.x, this->dyna.actor.world.rot.y, this->dyna.actor.world.rot.z, 1);
     }
 }
 
