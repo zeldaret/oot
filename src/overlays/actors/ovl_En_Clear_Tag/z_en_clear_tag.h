@@ -32,7 +32,7 @@ typedef struct EnClearTag {
 
 typedef struct EnClearTagEffect {
     /* 0x0000 */ u8 type;
-    /* 0x0001 */ u8 seed;
+    /* 0x0001 */ u8 random;
     /* 0x0004 */ Vec3f position;
     /* 0x0010 */ Vec3f velocity;
     /* 0x001C */ Vec3f acceleration;

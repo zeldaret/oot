@@ -118,7 +118,7 @@ void EnClearTag_CreateDebrisEffect(GlobalContext* globalCtx, Vec3f* position, Ve
             effect->floorHeight = floorHeight;
 
             seed = (s32)Rand_ZeroFloat(10.0f);
-            effect->seed = seed;
+            effect->random = seed;
 
             return;
         }
@@ -142,7 +142,7 @@ void EnClearTag_CreateFireEffect(GlobalContext* globalCtx, Vec3f* pos, f32 scale
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             seed = (s32)Rand_ZeroFloat(100.0f);
-            effect->seed = seed;
+            effect->random = seed;
             effect->type = CLEAR_TAG_EFFECT_FIRE;
 
             effect->position = *pos;
@@ -176,7 +176,7 @@ void EnClearTag_CreateSmokeEffect(GlobalContext* globalCtx, Vec3f* position, f32
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_AVAILABLE) {
             seed = (s32)Rand_ZeroFloat(100.0f);
-            effect->seed = seed;
+            effect->random = seed;
             effect->type = CLEAR_TAG_EFFECT_SMOKE;
 
             effect->position = *position;
@@ -823,7 +823,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
 
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type != CLEAR_TAG_EFFECT_AVAILABLE) {
-            effect->seed++;
+            effect->random++;
 
             // Perform effect physics.
             effect->position.x += effect->velocity.x;
@@ -876,8 +876,8 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
                 }
 
                 // Spawn a fire effect every 3 frames.
-                if (effect->seed >= 3) {
-                    effect->seed = 0;
+                if (effect->random >= 3) {
+                    effect->random = 0;
                     EnClearTag_CreateFireEffect(globalCtx2, &effect->position, effect->scale * 8.0f);
                 }
             } else if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
@@ -1012,7 +1012,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s8)effect->primColor.r, (s8)effect->primColor.g,
                             (s8)effect->primColor.b, (s8)effect->primColor.a);
             gSPSegment(POLY_XLU_DISP++, 8,
-                       Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 0, effect->seed * -5, 32, 64, 1, 0, 0, 32, 32));
+                       Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 0, effect->random * -5, 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx2->mf_11DA0);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
@@ -1039,7 +1039,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 200, 20, 0, (s8)effect->primColor.a);
             gSPSegment(
                 POLY_XLU_DISP++, 8,
-                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 0, (effect->seed * -15) & 0xFF, 32, 64, 1, 0, 0, 32, 32));
+                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, 0, (effect->random * -15) & 0xFF, 32, 64, 1, 0, 0, 32, 32));
             Matrix_Translate(effect->position.x, effect->position.y, effect->position.z, MTXMODE_NEW);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(effect->scale, effect->scale, 1.0f, MTXMODE_APPLY);
