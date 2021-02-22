@@ -355,12 +355,12 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     f32 vectorToTargetX;
     f32 vectorToTargetY;
     f32 vectorToTargetZ;
-    s16 zWorldRotationTarget;
+    s16 worldRotationTargetZ;
     s16 cutsceneTimer;
     f32 loseTargetLockDistance;
     s32 pad;
-    s16 yWorldRotationTarget;
-    s16 xWorldRotationTarget;
+    s16 worldRotationTargetY;
+    s16 worldRotationTargetX;
     f32 targetCircleX;
     f32 targetCircleZ;
     f32 cutsceneCameraCircleX;
@@ -484,21 +484,21 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                     // Calculate the direction for the Arwing to fly and the rotation for the Arwing
                     // based on the Arwing's direction, and current rotation.
-                    yWorldRotationTarget = (s32)(Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * 10430.378f);
-                    xWorldRotationTarget = (s32)(
+                    worldRotationTargetY = (s32)(Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * 10430.378f);
+                    worldRotationTargetX = (s32)(
                         Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) * 10430.378f);
-                    if (xWorldRotationTarget < 0) {
+                    if (worldRotationTargetX < 0) {
                         if (this->actor.world.pos.y < this->actor.floorHeight + 20.0f) {
-                            xWorldRotationTarget = 0;
+                            worldRotationTargetX = 0;
                         }
                     }
-                    Math_ApproachS(&this->actor.world.rot.x, xWorldRotationTarget, rotationScale,
+                    Math_ApproachS(&this->actor.world.rot.x, worldRotationTargetX, rotationScale,
                                    this->targetDirection.x);
-                    zWorldRotationTarget = Math_SmoothStepToS(&thisx->world.rot.y, yWorldRotationTarget, rotationScale,
+                    worldRotationTargetZ = Math_SmoothStepToS(&thisx->world.rot.y, worldRotationTargetY, rotationScale,
                                                               this->targetDirection.y, 0);
                     Math_ApproachF(&this->targetDirection.x, xRotationTarget, 1.0f, 256.0f);
                     this->targetDirection.y = this->targetDirection.x;
-                    if (ABS(zWorldRotationTarget) < 4096) {
+                    if (ABS(worldRotationTargetZ) < 4096) {
                         Math_ApproachS(&thisx->world.rot.z, 0, 15, this->targetDirection.z);
                         Math_ApproachF(&this->targetDirection.z, 1280.0f, 1.0f, 256.0f);
 
@@ -508,8 +508,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                             this->shouldShootLaser = 1;
                         }
                     } else {
-                        zWorldRotationTarget = zWorldRotationTarget > 0 ? -9472 : 9472;
-                        Math_ApproachS(&this->actor.world.rot.z, zWorldRotationTarget, rotationScale,
+                        worldRotationTargetZ = worldRotationTargetZ > 0 ? -9472 : 9472;
+                        Math_ApproachS(&this->actor.world.rot.z, worldRotationTargetZ, rotationScale,
                                        this->targetDirection.z);
                         Math_ApproachF(&this->targetDirection.z, 4096.0f, 1.0f, 512.0f);
                     }
