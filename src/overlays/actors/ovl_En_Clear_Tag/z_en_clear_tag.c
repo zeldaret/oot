@@ -440,7 +440,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                         this->targetPosition.y = player->actor.world.pos.y + 40.0f;
                         this->targetPosition.z = player->actor.world.pos.z;
                         rotationScale = 7;
-                        xRotationTarget = 0x0800;
+                        xRotationTarget = 0x1000;
                         loseTargetLockDistance = 150.0f;
                     } else if (this->state == CLEAR_TAG_STATE_DEMO) {
                         // Move the Arwing for the intro cutscene.
@@ -482,9 +482,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
                     // Calculate the direction for the Arwing to fly and the rotation for the Arwing
                     // based on the Arwing's direction, and current rotation.
-                    worldRotationTargetY = (s32)(Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * 10430.378f);
+                    worldRotationTargetY = (s32)(Math_FAtan2F(vectorToTargetX, vectorToTargetZ) * (0x8000 / M_PI));
                     worldRotationTargetX = (s32)(
-                        Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) * 10430.378f);
+                        Math_FAtan2F(vectorToTargetY, sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetZ))) * (0x8000 / M_PI));
                     if (worldRotationTargetX < 0) {
                         if (this->actor.world.pos.y < this->actor.floorHeight + 20.0f) {
                             worldRotationTargetX = 0;
