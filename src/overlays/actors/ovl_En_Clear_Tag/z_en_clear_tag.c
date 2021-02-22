@@ -744,8 +744,8 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             if (this->crashingTimer != 0) {
                 f32 xRotation;
                 f32 yRotation;
-                f32 scaledCrashingTimer;
-                scaledCrashingTimer = this->crashingTimer * 0.05f;
+                f32 scaledCrashingTimer = this->crashingTimer * 0.05f;
+
                 xRotation = Math_SinS(this->timer * 12288) * scaledCrashingTimer;
                 yRotation = Math_SinS(this->timer * 14080) * scaledCrashingTimer;
                 Matrix_RotateX(xRotation, MTXMODE_APPLY);
