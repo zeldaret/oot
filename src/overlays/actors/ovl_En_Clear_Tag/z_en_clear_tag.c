@@ -258,7 +258,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
     // Initialize the Arwing laser.
     if (this->actor.params == CLEAR_TAG_LASER) {
         this->state = CLEAR_TAG_STATE_LASER;
-        this->work[0] = 70;
+        this->work[CLEAR_TAG_TIMER_LASER_DEATH] = 70;
         this->actor.speedXZ = 35.0f;
         func_8002D908(&this->actor);
         for (j = 0; j <= 0; j++) {
@@ -284,13 +284,13 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // Update the Arwing to play the intro cutscene.
     if (this->actor.params == CLEAR_TAG_CUTSCENE_ARWING) {
-        this->work[0] = 70;
-        this->work[1] = 250;
+        this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 70;
+        this->work[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] = 250;
         this->state = CLEAR_TAG_STATE_DEMO;
         this->actor.world.rot.x = 0x4000;
-        this->cutsceneMode = CLEAR_TAG_DEMOMODE_SETUP;
+        this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_SETUP;
         this->cutsceneTimer = defaultCutsceneTimer;
-        this->work[2] = 20;
+        this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] = 20;
     }
 
     // Initialize all effects to available if effects have not been initialized.
@@ -300,7 +300,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
         for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++) {
             sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
         }
-        this->drawMode = CLEAR_TAG_DRAWMODE_ALL;
+        this->drawMode = CLEAR_TAG_DRAW_MODE_ALL;
     }
 }
 
@@ -337,12 +337,6 @@ void EnClearTag_CalculateFloorTangent(EnClearTag* this) {
  * This function fires Arwing lasers when the state is CLEAR_TAG_STATE_TARGET_LOCKED.
  * This function controls the cutscene that plays when the Arwing has params for
  * cutscene. The cutscene stops playing when the Arwing is a specified distance from the starting point.
- *
- * work[0] for Arwing in locked on mode is a timeout when the Arwing reverts back to flying mode.
- * work[0] for Arwing in fly mode is a timeout for when you can enter locked on mode.
- * work[0] for lasers is a cutscene timer.
- * work[1] for Arwing is a timeout for when it will enter locked on mode.
- * work[2] for Arwing is a cutscene timer.
  */
 void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
     u8 hasAtHit = 0;
@@ -374,7 +368,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->timer++;
 
-    if (this->drawMode != CLEAR_TAG_DRAWMODE_EFFECT) {
+    if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
         for (i = 0; i < 3; i++) {
             if (this->work[i] != 0) {
                 this->work[i]--;
@@ -402,14 +396,13 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     Actor_SetScale(&this->actor, 0.2f);
                     this->actor.speedXZ = 7.0f;
 
-                    // Update the state based on the work timer.
-                    if (this->work[0] == 0) {
-                        if (this->work[1] == 0) {
+                    if (this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] == 0) {
+                        if (this->work[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] == 0) {
                             this->state = CLEAR_TAG_STATE_TARGET_LOCKED;
-                            this->work[0] = 300;
+                            this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 300;
                         } else {
                             this->state = CLEAR_TAG_STATE_FLYING;
-                            this->work[0] = ((s16)Rand_ZeroFloat(50.0f)) + 20;
+                            this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = ((s16)Rand_ZeroFloat(50.0f)) + 20;
 
                             if (this->actor.params == CLEAR_TAG_ARWING) {
                                 // Set the Arwing to fly in a circle around the player.
@@ -473,9 +466,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     // If the Arwing is within a certain distance to the target position, it will be updated to flymode
                     if (sqrtf(SQ(vectorToTargetX) + SQ(vectorToTargetY) + SQ(vectorToTargetZ)) <
                         loseTargetLockDistance) {
-                        this->work[0] = 0;
+                        this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_STATE] = 0;
                         if (this->state == CLEAR_TAG_STATE_TARGET_LOCKED) {
-                            this->work[1] = ((s16)Rand_ZeroFloat(100.0f)) + 100;
+                            this->work[CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON] = ((s16)Rand_ZeroFloat(100.0f)) + 100;
                         }
                         this->state = CLEAR_TAG_STATE_FLYING;
                     }
@@ -550,7 +543,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 CollisionCheck_SetAC(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
                 CollisionCheck_SetAT(globalCtx2, &globalCtx2->colChkCtx, &this->collider.base);
 
-                if (this->work[2] == 0) {
+                if (this->work[CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO] == 0) {
                     Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 50.0f, 30.0f, 100.0f, 5);
                     EnClearTag_CalculateFloorTangent(this);
                 }
@@ -570,8 +563,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                     if (this->actor.bgCheckFlags & 9) {
                         this->shouldExplode = 1;
 
-                        if (this->drawMode != CLEAR_TAG_DRAWMODE_MODEL) {
-                            this->drawMode = CLEAR_TAG_DRAWMODE_EFFECT;
+                        if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
+                            this->drawMode = CLEAR_TAG_DRAW_MODE_EFFECT;
                             this->deathTimer = 70;
                             this->actor.flags &= ~1;
                         } else {
@@ -598,11 +591,11 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_UpdateBgCheckInfo(globalCtx2, &this->actor, 50.0f, 80.0f, 100.0f, 5);
 
                 // Check if the laser has hit a target, timed out, or hit the ground.
-                if (this->actor.bgCheckFlags & 9 || hasAtHit || this->work[0] == 0) {
+                if (this->actor.bgCheckFlags & 9 || hasAtHit || this->work[CLEAR_TAG_TIMER_LASER_DEATH] == 0) {
                     // Kill the laser.
                     Actor_Kill(&this->actor);
                     // Player laser sound effect if the laser did not time out.
-                    if (this->work[0] != 0) {
+                    if (this->work[CLEAR_TAG_TIMER_LASER_DEATH] != 0) {
                         Audio_PlaySoundAtPosition(globalCtx2, &this->actor.world.pos, 20, NA_SE_EN_FANTOM_THUNDER_GND);
                     }
                 }
@@ -614,16 +607,16 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("DEMO_MODE %d\n", this->cutsceneMode);
             osSyncPrintf("CAMERA_NO %d\n", this->cameraId);
 
-            if (this->cutsceneMode != CLEAR_TAG_DEMOMODE_NONE) {
+            if (this->cutsceneMode != CLEAR_TAG_CUTSCENE_MODE_NONE) {
                 switch (this->cutsceneMode) {
-                    case CLEAR_TAG_DEMOMODE_SETUP:
+                    case CLEAR_TAG_CUTSCENE_MODE_SETUP:
                         // Initializes Arwing cutscene camera data.
-                        this->cutsceneMode = CLEAR_TAG_DEMOMODE_PLAY;
+                        this->cutsceneMode = CLEAR_TAG_CUTSCENE_MODE_PLAY;
                         func_80064520(globalCtx2, &globalCtx2->csCtx);
                         this->cameraId = Gameplay_CreateSubCamera(globalCtx2);
                         Gameplay_ChangeCameraStatus(globalCtx2, 0, 1);
                         Gameplay_ChangeCameraStatus(globalCtx2, this->cameraId, 7);
-                    case CLEAR_TAG_DEMOMODE_PLAY:
+                    case CLEAR_TAG_CUTSCENE_MODE_PLAY:
                         // Update the Arwing cutscene camera to spin around in a circle.
                         cutsceneTimer = this->timer * 128;
                         cutsceneCameraCircleX = Math_SinS(cutsceneTimer) * 200.0f;
@@ -692,9 +685,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->drawMode != CLEAR_TAG_DRAWMODE_MODEL) {
+    if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
         // Check if the Arwing should be removed.
-        if (this->drawMode == CLEAR_TAG_DRAWMODE_EFFECT) {
+        if (this->drawMode == CLEAR_TAG_DRAW_MODE_EFFECT) {
             if (this->deathTimer == 0) {
                 isArwingAlive = 0;
             } else {
@@ -721,7 +714,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
 
     OPEN_DISPS(globalCtx2->state.gfxCtx, "../z_en_clear_tag.c", 983);
-    if (this->drawMode != CLEAR_TAG_DRAWMODE_EFFECT) {
+    if (this->drawMode != CLEAR_TAG_DRAW_MODE_EFFECT) {
         func_80093D84(globalCtx2->state.gfxCtx);
 
         if (this->state >= CLEAR_TAG_STATE_LASER) {
@@ -796,7 +789,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->drawMode != CLEAR_TAG_DRAWMODE_MODEL) {
+    if (this->drawMode != CLEAR_TAG_DRAW_MODE_ARWING) {
         EnClearTag_DrawEffects(globalCtx);
     }
 

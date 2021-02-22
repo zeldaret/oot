@@ -63,15 +63,15 @@ typedef enum {
 } ClearTagState;
 
 typedef enum {
-    /* 0x00 */ CLEAR_TAG_DEMOMODE_NONE,
-    /* 0x01 */ CLEAR_TAG_DEMOMODE_SETUP,
-    /* 0x02 */ CLEAR_TAG_DEMOMODE_PLAY
+    /* 0x00 */ CLEAR_TAG_CUTSCENE_MODE_NONE,
+    /* 0x01 */ CLEAR_TAG_CUTSCENE_MODE_SETUP,
+    /* 0x02 */ CLEAR_TAG_CUTSCENE_MODE_PLAY
 } ClearTagDemoMode;
 
 typedef enum {
-    /* 0x00 */ CLEAR_TAG_DRAWMODE_MODEL,
-    /* 0x01 */ CLEAR_TAG_DRAWMODE_ALL,
-    /* 0x02 */ CLEAR_TAG_DRAWMODE_EFFECT
+    /* 0x00 */ CLEAR_TAG_DRAW_MODE_ARWING,
+    /* 0x01 */ CLEAR_TAG_DRAW_MODE_ALL,
+    /* 0x02 */ CLEAR_TAG_DRAW_MODE_EFFECT
 } ClearTagDrawMode;
 
 typedef enum {
@@ -81,6 +81,13 @@ typedef enum {
     /* 0x03 */ CLEAR_TAG_EFFECT_SMOKE,
     /* 0x04 */ CLEAR_TAG_EFFECT_FLASH
 } ClearTagEffectType;
+
+typedef enum {
+    /* 0x00 */ CLEAR_TAG_TIMER_ARWING_UPDATE_STATE = 0,
+    /* 0x00 */ CLEAR_TAG_TIMER_LASER_DEATH = 0,
+    /* 0x01 */ CLEAR_TAG_TIMER_ARWING_ENTER_LOCKED_ON = 1,
+    /* 0x02 */ CLEAR_TAG_TIMER_ARWING_UPDATE_BG_INFO = 2
+} ClearTagTimers;
 
 #define CLEAR_TAG_EFFECT_MAX_COUNT 100
 
