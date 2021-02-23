@@ -238,9 +238,7 @@ void func_8008277C(GlobalContext* globalCtx, s16 maxAlpha, s16 alpha) {
 
 void func_80082850(GlobalContext* globalCtx, s16 maxAlpha) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
-    s16 alpha;
-
-    alpha = 255 - maxAlpha;
+    s16 alpha = 255 - maxAlpha;
 
     switch (gSaveContext.unk_13E8) {
         case 1:
@@ -600,9 +598,7 @@ void func_80083108(GlobalContext* globalCtx) {
     Player* player = PLAYER;
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 i;
-    s16 sp28;
-
-    sp28 = 0;
+    s16 sp28 = 0;
 
     if ((gSaveContext.cutsceneIndex < 0xFFF0) ||
         ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.cutsceneIndex == 0xFFF0))) {
@@ -760,22 +756,21 @@ void func_80083108(GlobalContext* globalCtx) {
                         }
                     }
                 } else {
-                    do {
-                        sp28 = 1;
+                    sp28 = 1;
 
-                        if ((gSaveContext.equips.buttonItems[0] == ITEM_NONE) ||
-                            (gSaveContext.equips.buttonItems[0] == ITEM_BOW)) {
+                    if ((gSaveContext.equips.buttonItems[0] == ITEM_NONE) ||
+                        (gSaveContext.equips.buttonItems[0] == ITEM_BOW)) {
 
-                            if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
-                                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
-                                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
-                                (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
-                                gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
-                            } else {
-                                gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
-                            }
+                        if ((gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KOKIRI) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_MASTER) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_BGS) &&
+                            (gSaveContext.equips.buttonItems[0] != ITEM_SWORD_KNIFE)) {
+                            gSaveContext.equips.buttonItems[0] = gSaveContext.buttonStatus[0];
+                        } else {
+                            gSaveContext.buttonStatus[0] = gSaveContext.equips.buttonItems[0];
                         }
-                    } while (0); // Necessary to match
+                    }
+                    if (1) {} // Necessary to match
                 }
 
                 if (sp28) {
@@ -1788,10 +1783,9 @@ u8 Item_Give(GlobalContext* globalCtx, u8 item) {
 
 u8 Item_CheckObtainability(u8 item) {
     s16 i;
-    s16 slot;
+    s16 slot = SLOT(item);
     s32 temp;
 
-    slot = SLOT(item);
     if (item >= ITEM_STICKS_5) {
         slot = SLOT(sExtraItemBases[item - ITEM_STICKS_5]);
     }
@@ -2009,11 +2003,9 @@ void Inventory_UpdateBottleItem(GlobalContext* globalCtx, u8 item, u8 button) {
 }
 
 s32 Inventory_ConsumeFairy(GlobalContext* globalCtx) {
-    s32 bottleSlot;
+    s32 bottleSlot = SLOT(ITEM_FAIRY);
     s16 i;
     s16 j;
-
-    bottleSlot = SLOT(ITEM_FAIRY);
 
     for (i = 0; i < 4; i++) {
         if (gSaveContext.inventory.items[bottleSlot + i] == ITEM_FAIRY) {

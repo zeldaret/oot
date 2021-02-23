@@ -35,28 +35,28 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgUmaJump_Init(Actor* thisx, GlobalContext* globalCtx) {
-    BgUmaJump* this = THIS;
     s32 pad;
+    BgUmaJump* this = THIS;
     CollisionHeader* colHeader = NULL;
 
-    Actor_ProcessInitChain(&this->actor, sInitChain);
-    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_06001438, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->actor.params == 1) {
-        if ((!Flags_GetEventChkInf(0x18)) && (DREG(1) == 0)) {
-            Actor_Kill(&this->actor);
+    if (this->dyna.actor.params == 1) {
+        if (!Flags_GetEventChkInf(0x18) && (DREG(1) == 0)) {
+            Actor_Kill(&this->dyna.actor);
             return;
         }
-        this->actor.flags |= 0x30;
+        this->dyna.actor.flags |= 0x30;
     }
 }
 
 void BgUmaJump_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgUmaJump* this = THIS;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgUmaJump_Update(Actor* thisx, GlobalContext* globalCtx) {

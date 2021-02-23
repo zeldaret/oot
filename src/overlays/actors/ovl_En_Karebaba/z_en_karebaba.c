@@ -6,6 +6,7 @@
 
 #include "z_en_karebaba.h"
 #include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000005
 
@@ -162,7 +163,7 @@ void EnKarebaba_SetupUpright(EnKarebaba* this) {
         Actor_SetScale(&this->actor, 0.01f);
         this->bodyCollider.base.colType = COLTYPE_HIT6;
         this->bodyCollider.base.acFlags &= ~AC_HARD;
-        this->bodyCollider.info.bumper.dmgFlags = gSaveContext.linkAge != 0 ? 0x07C00710 : 0x0FC00710;
+        this->bodyCollider.info.bumper.dmgFlags = LINK_IS_CHILD ? 0x07C00710 : 0x0FC00710;
         this->bodyCollider.dim.radius = 15;
         this->bodyCollider.dim.height = 80;
         this->headCollider.dim.height = 80;
@@ -459,7 +460,7 @@ void EnKarebaba_DrawCenterShadow(EnKarebaba* this, GlobalContext* globalCtx) {
     Matrix_Scale(0.15f, 1.0f, 0.15f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1029),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_04049210);
+    gSPDisplayList(POLY_XLU_DISP++, gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_karebaba.c", 1034);
 }

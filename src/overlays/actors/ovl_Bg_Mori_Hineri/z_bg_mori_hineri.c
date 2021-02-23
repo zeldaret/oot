@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_mori_hineri.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -51,7 +52,6 @@ extern CollisionHeader D_060054B8;
 extern CollisionHeader D_06003490;
 extern CollisionHeader D_060043D0;
 extern CollisionHeader D_06006078;
-extern Gfx D_04049FE0[]; // display list for studded dungeon door
 extern Gfx D_06000AE8[];
 extern Gfx D_06001678[];
 
@@ -62,7 +62,7 @@ void BgMoriHineri_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 t6;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna.actor, DPM_PLAYER);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
 
     switchFlagParam = this->dyna.actor.params & 0x3F;
     t6 = this->dyna.actor.params & 0x4000;
@@ -252,7 +252,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Translate(0.0f, -50.0f, 0.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 652),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_04049FE0);
+        gSPDisplayList(POLY_OPA_DISP++, gDoorMetalBarsDL);
     }
     if ((this->boxObjIdx > 0) && ((this->boxObjIdx = Object_GetIndex(&globalCtx->objectCtx, OBJECT_BOX)) > 0) &&
         (Object_IsLoaded(&globalCtx->objectCtx, this->boxObjIdx))) {

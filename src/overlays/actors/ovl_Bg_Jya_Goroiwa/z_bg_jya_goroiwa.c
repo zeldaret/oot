@@ -151,7 +151,7 @@ void func_80897B48(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
         this->collider.base.atFlags &= ~AT_HIT & ~AT_ON;
 
         tmp16 = thisx->yawTowardsPlayer - thisx->world.rot.y;
-        if ((tmp16 >= -0x3FFF) && (tmp16 < 0x4000)) {
+        if ((tmp16 > -0x4000) && (tmp16 < 0x4000)) {
             thisx->world.rot.y += 0x8000;
         }
 
@@ -197,10 +197,10 @@ void func_80897DF0(BgJyaGoroiwa* this, GlobalContext* globalCtx) {
 }
 
 void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
-    Player* player = PLAYER;
     s32 pad;
     BgJyaGoroiwa* this = THIS;
-    UNK_PTR sp38;
+    Player* player = PLAYER;
+    s32 bgId;
     Vec3f pos;
 
     if (!(player->stateFlags1 & 0x300000C0)) {
@@ -210,7 +210,7 @@ void BgJyaGoroiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
         pos.y = this->actor.world.pos.y + 59.5f;
         pos.z = this->actor.world.pos.z;
         this->actor.floorHeight =
-            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &sp38, &this->actor, &pos);
+            BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &this->actor.floorPoly, &bgId, &this->actor, &pos);
         func_80897970(this);
         if (this->collider.base.atFlags & AT_ON) {
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

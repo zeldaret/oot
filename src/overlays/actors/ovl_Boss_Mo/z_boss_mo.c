@@ -6,6 +6,7 @@
 
 #include "z_boss_mo.h"
 #include "objects/object_mo/object_mo.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 #include "vt.h"
 
 #define FLAGS 0x00000035
@@ -80,9 +81,9 @@ typedef enum {
 } BossMoCsState;
 
 // particles
-extern Gfx D_0401A0B0[];
-extern Gfx D_040254B0[];
-extern u64 D_04051DB0[];
+// extern Gfx D_0401A0B0[]; //gEffShockwaveDL
+// extern Gfx D_040254B0[]; //gEffWaterRippleDL
+// extern u64 D_04051DB0[]; //gDust1Tex
 
 const ActorInit Boss_Mo_InitVars = {
     ACTOR_BOSS_MO,
@@ -2848,7 +2849,7 @@ void BossMo_DrawCore(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_mo.c", 6820),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(&D_04049210));
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gCircleShadowDL));
         }
     }
 
@@ -3118,7 +3119,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7294),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_040254B0);
+            gSPDisplayList(POLY_XLU_DISP++, gEffWaterRippleDL);
         }
     }
 
@@ -3141,7 +3142,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_mo.c", 7330),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-            gSPDisplayList(POLY_XLU_DISP++, D_0401A0B0);
+            gSPDisplayList(POLY_XLU_DISP++, gEffShockwaveDL);
         }
     }
 
@@ -3152,7 +3153,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             if (flag == 0) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
 
-                gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
+                gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
 
@@ -3179,7 +3180,7 @@ void BossMo_DrawParticles(BossMoParticle* particle, GlobalContext* globalCtx) {
             if (flag == 0) {
                 func_80094044(gfxCtx);
 
-                gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_04051DB0));
+                gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gDust1Tex));
                 gDPSetEnvColor(POLY_XLU_DISP++, 250, 250, 255, 0);
                 gSPDisplayList(POLY_XLU_DISP++, gMorphaDropletSetupDL);
 
