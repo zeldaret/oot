@@ -32,10 +32,10 @@ const ActorInit En_Item00_InitVars = {
 // TODO: Define this section of .data here and rename the symbols
 extern ColliderCylinderInit D_801154E0; // rename to sCylinderInit when data is moved
 extern InitChainEntry D_8011550C[];     // rename to sInitChain when data is moved
-extern Color_RGB8 D_80115510;
-extern Color_RGB8 D_80115514;
-extern UNK_TYPE D_80115518;
-extern UNK_TYPE D_80115524;
+extern Color_RGBA8 D_80115510;
+extern Color_RGBA8 D_80115514;
+extern Vec3f D_80115518;
+extern Vec3f D_80115524;
 extern u32 D_80115530[];
 extern u32 D_80115544[];
 extern u8 D_80115574[];
@@ -50,15 +50,11 @@ void EnItem00_SetupAction(EnItem00* this, EnItem00ActionFunc actionFunc) {
 void EnItem00_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnItem00* this = THIS;
     s32 pad2;
-    f32 sp34;
-    f32 sp30;
-    s32 getItemId;
+    f32 sp34 = 980.0f;
+    f32 sp30 = 6.0f;
+    s32 getItemId = 0;
     s16 spawnParam8000;
     s32 pad3;
-
-    sp34 = 980.0f;
-    sp30 = 6.0f;
-    getItemId = 0;
 
     spawnParam8000 = this->actor.params & 0x8000;
     this->collectibleFlag = (this->actor.params & 0x3F00) >> 8;
@@ -444,13 +440,10 @@ extern s16 D_80157D94;
 void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnItem00* this = THIS;
     s16* params;
-    s32 getItemId;
-    s16 sp3A;
+    s32 getItemId = 0;
+    s16 sp3A = 0;
     Actor* dynaActor;
     s16 i;
-
-    getItemId = 0;
-    sp3A = 0;
 
     if (this->unk_15A > 0) {
         this->unk_15A--;
@@ -469,7 +462,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actor.gravity) {
         if (this->actor.bgCheckFlags & 0x0003) {
             // Separate symbols seem to be used here for 0x80157D90 since the loads and stores are completely separate
-            if (D_80157D90 != globalCtx->gameplayFrames) {
+            if ((u32)D_80157D90 != globalCtx->gameplayFrames) {
                 D_80157D90_ = globalCtx->gameplayFrames;
                 D_80157D94 = 0;
                 for (i = 0; i < BG_ACTOR_MAX; i++) {
@@ -506,6 +499,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->actor.params == ITEM00_SHIELD_DEKU) || (this->actor.params == ITEM00_SHIELD_HYLIAN) ||
         (this->actor.params == ITEM00_TUNIC_ZORA) || (this->actor.params == ITEM00_TUNIC_GORON)) {
         f32 newUnkBC = Math_CosS(this->actor.shape.rot.x) * 37.0f;
+
         this->actor.shape.yOffset = newUnkBC;
         if (newUnkBC >= 0.0f) {
             this->actor.shape.yOffset = this->actor.shape.yOffset;
@@ -741,13 +735,12 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
 
-    if (1) { // Necessary to match
-        if (this->actor.params <= ITEM00_RUPEE_RED) {
-            iconNb = this->actor.params;
-        } else {
-            iconNb = this->actor.params - 0x10;
-        }
+    if (this->actor.params <= ITEM00_RUPEE_RED) {
+        iconNb = this->actor.params;
+    } else {
+        iconNb = this->actor.params - 0x10;
     }
+    if (1) {} // Necessary to match
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_item00.c", 1562),
               G_MTX_MODELVIEW | G_MTX_LOAD);
@@ -763,9 +756,7 @@ void func_8001EF30(EnItem00* this, GlobalContext* globalCtx) {
  * Draw Function used for most collectible types of En_Item00 (ammo, bombs, sticks, nuts, magic...).
  */
 void func_8001F080(EnItem00* this, GlobalContext* globalCtx) {
-    s32 iconNb;
-
-    iconNb = this->actor.params - 3;
+    s32 iconNb = this->actor.params - 3;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_item00.c", 1594);
 
@@ -871,7 +862,7 @@ EnItem00* Item_DropCollectible(GlobalContext* globalCtx, Vec3f* spawnPos, s16 pa
     s16 param8000 = params & 0x8000;
     s16 param3F00 = params & 0x3F00;
 
-    params = params & 0x3FFF;
+    params &= 0x3FFF;
 
     if (((params & 0x00FF) == ITEM00_FLEXIBLE) && !param4000) {
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
@@ -915,7 +906,7 @@ EnItem00* Item_DropCollectible2(GlobalContext* globalCtx, Vec3f* spawnPos, s16 p
     s16 param8000 = params & 0x8000;
     s16 param3F00 = params & 0x3F00;
 
-    params = params & 0x3FFF;
+    params &= 0x3FFF;
 
     if (((params & 0x00FF) == ITEM00_FLEXIBLE) && !param4000) {
         // TODO: Prevent the cast to EnItem00 here since this is a different actor (En_Elf)
@@ -946,12 +937,11 @@ void Item_DropCollectibleRandom(GlobalContext* globalCtx, Actor* fromActor, Vec3
     EnItem00* spawnedActor;
     s16 dropQuantity;
     s16 param8000;
-    s16 dropTableIndex;
+    s16 dropTableIndex = Rand_ZeroOne() * 16.0f;
     u8 dropId;
 
-    dropTableIndex = Rand_ZeroOne() * 16.0f;
     param8000 = params & 0x8000;
-    params = params & 0x7FFF;
+    params &= 0x7FFF;
 
     if (fromActor != NULL) {
         if (fromActor->dropFlag) {

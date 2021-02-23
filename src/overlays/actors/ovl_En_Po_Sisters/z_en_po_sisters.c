@@ -311,7 +311,7 @@ void func_80AD95D8(EnPoSisters* this) {
         this->actor.speedXZ = 10.0f;
     }
     this->unk_199 &= ~0xB;
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x10);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x10);
     this->actionFunc = func_80ADAAA4;
 }
 

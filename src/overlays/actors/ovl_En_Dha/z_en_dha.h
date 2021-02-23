@@ -18,9 +18,8 @@ typedef struct EnDha {
     /* 0x01C8 */ s16 unk_1C8;
     /* 0x01CA */ s16 unk_1CA;
     /* 0x01CC */ u8 unk_1CC;
-    /* 0x01CE */ s16 unk_1CE;
-    /* 0x01D0 */ Vec3s unk_1D0;
-    /* 0x01D6 */ Vec3s unk_1D6;
+    /* 0x01CE */ Vec3s unk_1CE;
+    /* 0x01D4 */ Vec3s unk_1D4;
     /* 0x01DC */ Vec3f unk_1DC;
     /* 0x01E8 */ Vec3f unk_1E8;
     /* 0x01F4 */ Vec3f unk_1F4;
