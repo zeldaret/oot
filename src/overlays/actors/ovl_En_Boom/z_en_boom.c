@@ -5,6 +5,7 @@
  */
 
 #include "z_en_boom.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000030
 
@@ -54,8 +55,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3S(shape.rot, 0, ICHAIN_STOP),
 };
 
-extern Gfx D_0400C808[];
-
 void EnBoom_SetupAction(EnBoom* this, EnBoomActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -95,7 +94,7 @@ void EnBoom_Init(Actor* thisx, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &trail);
 
     Collider_InitQuad(globalCtx, &this->collider);
-    Collider_SetQuad(globalCtx, &this->collider, this, &sQuadInit);
+    Collider_SetQuad(globalCtx, &this->collider, &this->actor, &sQuadInit);
 
     EnBoom_SetupAction(this, EnBoom_Fly);
 }
@@ -118,7 +117,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     s32 pad1;
     f32 distXYZScale;
     f32 distFromLink;
-    Actor* hitActor;
+    DynaPolyActor* hitActor;
     s32 hitDynaID;
     Vec3f hitPoint;
     s32 pad2;
@@ -139,7 +138,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             distXYZScale = 0.12f;
         }
 
-        if ((target != (Actor*)player) && ((target->update == NULL) || (ABS(yawDiff) > 0x4000))) {
+        if ((target != &player->actor) && ((target->update == NULL) || (ABS(yawDiff) > 0x4000))) {
             //! @bug  This condition is why the boomerang will randomly fly off in a the down left direction sometimes.
             //      If the actor targetted is not Link and the difference between the 2 y angles is greater than 0x4000,
             //      the moveTo pointer is nulled and it flies off in a seemingly random direction.
@@ -153,7 +152,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     // Set xyz speed, move forward, and play the boomerang sound
     func_8002D9A4(&this->actor, 12.0f);
     Actor_MoveForward(&this->actor);
-    func_8002F974(this, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
+    func_8002F974(&this->actor, NA_SE_IT_BOOMERANG_FLY - SFX_FLAG);
 
     // If the boomerang collides with EnItem00 or a Skulltula token, set grabbed pointer to pick it up
     collided = this->collider.base.atFlags & AT_HIT;
@@ -171,7 +170,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
     // Otherwise handle grabbing and colliding.
     if (DECR(this->returnTimer) == 0) {
         distFromLink = Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.focus.pos);
-        this->moveTo = player;
+        this->moveTo = &player->actor;
 
         // If the boomerang is less than 40 units away from Link, he can catch it.
         if (distFromLink < 40.0f) {
@@ -209,7 +208,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
                 if (func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, hitDynaID, &hitPoint) != 0 ||
                     (hitDynaID != BGCHECK_SCENE &&
                      ((hitActor = DynaPoly_GetActor(&globalCtx->colCtx, hitDynaID)) != NULL) &&
-                     hitActor->id == ACTOR_BG_BDAN_OBJECTS && hitActor->params == 0)) {
+                     hitActor->actor.id == ACTOR_BG_BDAN_OBJECTS && hitActor->actor.params == 0)) {
                     collided = false;
                 } else {
                     CollisionCheck_SpawnShieldParticlesMetal(globalCtx, &hitPoint);
@@ -222,7 +221,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
         if (collided) {
             this->actor.world.rot.x = -this->actor.world.rot.x;
             this->actor.world.rot.y += 0x8000;
-            this->moveTo = player;
+            this->moveTo = &player->actor;
             this->returnTimer = 0;
         }
     }
@@ -274,7 +273,7 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_0400C808);
+    gSPDisplayList(POLY_OPA_DISP++, gBoomerangRefDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_boom.c", 604);
 }

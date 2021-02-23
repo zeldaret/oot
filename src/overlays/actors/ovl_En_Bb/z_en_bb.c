@@ -5,6 +5,7 @@
  */
 
 #include "z_en_bb.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x01000015
 
@@ -90,7 +91,6 @@ void EnBb_Green(EnBb* this, GlobalContext* globalCtx);
 
 void EnBb_Stunned(EnBb* this, GlobalContext* globalCtx);
 
-extern Gfx D_0404D4E0[];
 extern AnimationHeader D_06000184;
 extern AnimationHeader D_06000444;
 extern SkeletonHeader D_06001A30;
@@ -516,7 +516,7 @@ void EnBb_SetupDamage(EnBb* this) {
     if (this->actor.params == ENBB_RED) {
         EnBb_KillFlameTrail(this);
     }
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
     this->timer = 5;
     EnBb_SetupAction(this, EnBb_Damage);
 }
@@ -1083,13 +1083,13 @@ void EnBb_SetupStunned(EnBb* this) {
     }
     switch (this->dmgEffect) {
         case 8:
-            func_8003426C(&this->actor, -0x8000, 0xC8, 0, 0x50);
+            Actor_SetColorFilter(&this->actor, -0x8000, 0xC8, 0, 0x50);
             break;
         case 9:
             this->fireIceTimer = 0x30;
         case 15:
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-            func_8003426C(&this->actor, 0, 0xB4, 0, 0x50);
+            Actor_SetColorFilter(&this->actor, 0, 0xB4, 0, 0x50);
             break;
     }
     this->actor.bgCheckFlags &= ~1;
@@ -1157,8 +1157,8 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
             case 5:
                 this->fireIceTimer = 0x30;
                 //! @bug
-                //! Setting fireIceTimer here without calling func_8003426C causes a crash if the bubble is killed
-                //! in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
+                //! Setting fireIceTimer here without calling Actor_SetColorFilter causes a crash if the bubble is
+                //! killed in a single hit by an attack with damage effect 5 or 7 while actor updating is halted. Using
                 //! Din's Fire on a white bubble will do just that. The mechanism is complex and described below.
                 goto block_15;
             case 6:
@@ -1197,13 +1197,13 @@ void EnBb_CollisionCheck(EnBb* this, GlobalContext* globalCtx) {
                     }
                     EnBb_SetupDeath(this, globalCtx);
                     //! @bug
-                    //! Because Din's Fire kills the bubble in a single hit, func_8003426C is never called and
+                    //! Because Din's Fire kills the bubble in a single hit, Actor_SetColorFilter is never called and
                     //! colorFilterParams is never set. And because Din's Fire halts updating during its cutscene,
                     //! EnBb_Death doesn't kill the bubble on the next frame like it should. This combines with
                     //! the bug in EnBb_Draw below to crash the game.
                 } else if ((this->actor.params == ENBB_WHITE) &&
                            ((this->action == BB_WHITE) || (this->action == BB_STUNNED))) {
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xC);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xC);
                     this->actor.speedXZ = -8.0f;
                     this->maxSpeed = 0.0f;
                     this->actor.world.rot.y = this->actor.yawTowardsPlayer;
@@ -1336,7 +1336,7 @@ void EnBb_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(this->flameScaleX * 0.01f, this->flameScaleY * 0.01f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_bb.c", 2106),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+            gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
         } else {
             Matrix_MultVec3f(&blureBase1, &blureVtx1);
             Matrix_MultVec3f(&blureBase2, &blureVtx2);

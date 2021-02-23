@@ -17,16 +17,16 @@ glabel EnFish_Init
 /* 00208 80A15488 0C01E037 */  jal     Actor_ProcessInitChain
 
 /* 0020C 80A1548C A7AE003A */  sh      $t6, 0x003A($sp)
-/* 00210 80A15490 3C060402 */  lui     $a2, %hi(D_04018FE0)                ## $a2 = 04020000
-/* 00214 80A15494 3C070402 */  lui     $a3, %hi(D_0401909C)                ## $a3 = 04020000
+/* 00210 80A15490 3C060402 */  lui     $a2, %hi(gFishSkel)                ## $a2 = 04020000
+/* 00214 80A15494 3C070402 */  lui     $a3, %hi(gFish2Anim)                ## $a3 = 04020000
 /* 00218 80A15498 260F01F0 */  addiu   $t7, $s0, 0x01F0           ## $t7 = 000001F0
 /* 0021C 80A1549C 2618021A */  addiu   $t8, $s0, 0x021A           ## $t8 = 0000021A
 /* 00220 80A154A0 24190007 */  addiu   $t9, $zero, 0x0007         ## $t9 = 00000007
 /* 00224 80A154A4 AFB90018 */  sw      $t9, 0x0018($sp)
 /* 00228 80A154A8 AFB80014 */  sw      $t8, 0x0014($sp)
 /* 0022C 80A154AC AFAF0010 */  sw      $t7, 0x0010($sp)
-/* 00230 80A154B0 24E7909C */  addiu   $a3, $a3, %lo(D_0401909C)           ## $a3 = 0401909C
-/* 00234 80A154B4 24C68FE0 */  addiu   $a2, $a2, %lo(D_04018FE0)           ## $a2 = 04018FE0
+/* 00230 80A154B0 24E7909C */  addiu   $a3, $a3, %lo(gFish2Anim)           ## $a3 = 0401909C
+/* 00234 80A154B4 24C68FE0 */  addiu   $a2, $a2, %lo(gFishSkel)           ## $a2 = 04018FE0
 /* 00238 80A154B8 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 0023C 80A154BC 0C0291BE */  jal     SkelAnime_InitFlex
 /* 00240 80A154C0 260501AC */  addiu   $a1, $s0, 0x01AC           ## $a1 = 000001AC

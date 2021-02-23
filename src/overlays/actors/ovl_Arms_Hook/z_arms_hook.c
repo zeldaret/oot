@@ -200,7 +200,7 @@ void ArmsHook_Shoot(ArmsHook* this, GlobalContext* globalCtx) {
                 this->grabbed = NULL;
             } else {
                 if (this->actor.child != NULL) {
-                    sp94 = Actor_WorldDistXYZToActor(this, grabbed);
+                    sp94 = Actor_WorldDistXYZToActor(&this->actor, grabbed);
                     sp90 =
                         sqrtf(SQ(this->grabbedDistDiff.x) + SQ(this->grabbedDistDiff.y) + SQ(this->grabbedDistDiff.z));
                     Math_Vec3f_Diff(&grabbed->world.pos, &this->grabbedDistDiff, &this->actor.world.pos);

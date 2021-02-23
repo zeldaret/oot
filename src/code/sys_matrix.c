@@ -294,7 +294,7 @@ void Matrix_RotateZ(f32 z, u8 mode) {
     }
 }
 
-/*
+/**
  * Rotates the top of the matrix stack by `z` degrees, then
  * rotates that matrix by `y` degrees, then rotates that matrix
  * by `x` degrees. (roll-pitch-yaw)
@@ -385,18 +385,15 @@ void Matrix_RotateRPY(s16 x, s16 y, s16 z, u8 mode) {
     }
 }
 
-/*
+/**
  * Roll-pitch-yaw rotation and position
  */
 void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
     MtxF* cmf = sCurrentMatrix;
-    f32 sin;
-    f32 cos;
+    f32 sin = Math_SinS(rotation->z);
+    f32 cos = Math_CosS(rotation->z);
     f32 temp1;
     f32 temp2;
-
-    sin = Math_SinS(rotation->z);
-    cos = Math_CosS(rotation->z);
 
     temp1 = cmf->xx;
     temp2 = cmf->yx;
@@ -475,13 +472,10 @@ void Matrix_JointPosition(Vec3f* position, Vec3s* rotation) {
 
 void func_800D1694(f32 x, f32 y, f32 z, Vec3s* vec) {
     MtxF* cmf = sCurrentMatrix;
-    f32 sp30;
-    f32 sp2C;
+    f32 sp30 = Math_SinS(vec->y);
+    f32 sp2C = Math_CosS(vec->y);
     f32 sp28;
     f32 sp24;
-
-    sp30 = Math_SinS(vec->y);
-    sp2C = Math_CosS(vec->y);
 
     cmf->xx = sp2C;
     cmf->xz = -sp30;

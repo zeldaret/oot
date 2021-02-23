@@ -5,6 +5,7 @@
  */
 
 #include "z_en_door.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -59,22 +60,16 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
-AnimationHeader* D_809FCECC[] = { 0x0400E758, 0x0400E5B4, 0x04010038, 0x0400E6A0 };
+AnimationHeader* D_809FCECC[] = { &gDoor3Anim, &gDoor1Anim, &gDoor4Anim, &gDoor2Anim };
 
 static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 
 static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
 
 static Gfx* D_809FCEE4[5][2] = {
-    { 0x0400ECB8, 0x0400EE00 }, { 0x0600F998, 0x0600F938 }, { 0x06004958, 0x06004A10 },
-    { 0x060013B8, 0x06001420 }, { 0x050047A0, 0x05004978 },
+    { gDoorLeftDL, gDoorRightDL }, { 0x0600F998, 0x0600F938 }, { 0x06004958, 0x06004A10 },
+    { 0x060013B8, 0x06001420 },    { 0x050047A0, 0x05004978 },
 };
-
-extern Gfx D_0400ECB8[];
-extern Gfx D_0400EE00[];
-
-extern AnimationHeader D_0400E758;
-extern SkeletonHeader D_0400FF78;
 
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -87,7 +82,7 @@ void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     objectInfo = &sDoorInfo[0];
     Actor_ProcessInitChain(&this->actor, sInitChain);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_0400FF78, &D_0400E758, this->jointTable, this->morphTable, 5);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gDoorSkel, &gDoor3Anim, this->jointTable, this->morphTable, 5);
     for (i = 0; i < ARRAY_COUNT(sDoorInfo) - 2; i++, objectInfo++) {
         if (globalCtx->sceneNum == objectInfo->sceneNum) {
             break;
@@ -335,9 +330,9 @@ void EnDoor_Draw(Actor* thisx, GlobalContext* globalCtx) {
         if (this->actor.world.rot.y != 0) {
             if (1) {}
             if (this->actor.world.rot.y > 0) {
-                gSPDisplayList(POLY_OPA_DISP++, D_0400EE00);
+                gSPDisplayList(POLY_OPA_DISP++, gDoorRightDL);
             } else {
-                gSPDisplayList(POLY_OPA_DISP++, D_0400ECB8);
+                gSPDisplayList(POLY_OPA_DISP++, gDoorLeftDL);
             }
         }
         if (this->lockTimer != 0) {

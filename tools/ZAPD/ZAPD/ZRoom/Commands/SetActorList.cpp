@@ -4,6 +4,7 @@
 #include "../ActorList.h"
 #include "../../BitConverter.h"
 #include "../../StringHelper.h"
+#include "../../Globals.h"
 
 using namespace std;
 
@@ -63,19 +64,32 @@ string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
 	int index = 0;
 	for (ActorSpawnEntry* entry : actors)
 	{
-		if (entry->actorNum < sizeof(ActorList) / sizeof(ActorList[0]))
-			declaration += StringHelper::Sprintf("\t{ %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", ActorList[entry->actorNum].c_str(), entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
-		else
-			declaration += StringHelper::Sprintf("\t{ 0x%04X, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", entry->actorNum, entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
+		uint16_t actorNum = entry->actorNum;
 
-		if (index < actors.size() - 1)
-			declaration += "\n";
+		// SW97 Actor 0x22 was removed, so we want to not output a working actor.
+		if (actorNum == 0x22 && Globals::Instance->game == ZGame::OOT_SW97)
+			declaration += StringHelper::Sprintf("\t//{ %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", StringHelper::Sprintf("SW_REMOVED_0x%04X", actorNum), entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
+		else
+		{
+			// SW97 Actor 0x23 and above are shifted up by one because 0x22 was removed between SW97 and retail.
+			// We need to shift down by one
+			if (Globals::Instance->game == ZGame::OOT_SW97 && actorNum >= 0x23)
+				actorNum--;
+
+			if (actorNum < sizeof(ActorList) / sizeof(ActorList[0]))
+				declaration += StringHelper::Sprintf("\t{ %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", ActorList[actorNum].c_str(), entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
+			else
+				declaration += StringHelper::Sprintf("\t{ 0x%04X, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", actorNum, entry->posX, entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
+
+			if (index < actors.size() - 1)
+				declaration += "\n";
+		}
 
 		index++;
 	}
 
 	zRoom->parent->AddDeclarationArray(segmentOffset, DeclarationAlignment::None, DeclarationPadding::Pad16, actors.size() * 16,
-		"ActorEntry", StringHelper::Sprintf("%sActorList0x%06X", roomName.c_str(), segmentOffset), actors.size(), declaration);
+		"ActorEntry", StringHelper::Sprintf("%sActorList0x%06X", roomName.c_str(), segmentOffset), GetActorListArraySize(), declaration);
 
 	return sourceOutput;
 }
@@ -85,9 +99,31 @@ int32_t SetActorList::GetRawDataSize()
 	return ZRoomCommand::GetRawDataSize() + ((int)actors.size() * 16);
 }
 
+int SetActorList::GetActorListArraySize()
+{
+	int actorCount = 0;
+
+	// Doing an else-if here so we only do the loop when the game is SW97.
+	// Actor 0x22 is removed from SW97, so we need to ensure that we don't increment the actor count for it.
+	if (Globals::Instance->game == ZGame::OOT_SW97)
+	{
+		actorCount = 0;
+
+		for (ActorSpawnEntry* entry : actors)
+			if (entry->actorNum != 0x22)
+				actorCount++;
+	}
+	else
+	{
+		actorCount = (int)actors.size();
+	}
+
+	return actorCount;
+}
+
 string SetActorList::GenerateExterns()
 {
-	return StringHelper::Sprintf("extern ActorEntry %sActorList0x%06X[%i];\n", zRoom->GetName().c_str(), segmentOffset, (int)actors.size());
+	return StringHelper::Sprintf("extern ActorEntry %sActorList0x%06X[%i];\n", zRoom->GetName().c_str(), segmentOffset, GetActorListArraySize());
 }
 
 string SetActorList::GetCommandCName()

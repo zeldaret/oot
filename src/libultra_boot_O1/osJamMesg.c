@@ -1,14 +1,14 @@
 #include "global.h"
 
 s32 osJamMesg(OSMesgQueue* mq, OSMesg msg, s32 flag) {
-    register s32 int_disabled;
-    int_disabled = __osDisableInt();
+    register s32 prevInt = __osDisableInt();
+
     while (mq->validCount >= mq->msgCount) {
         if (flag == OS_MESG_BLOCK) {
             __osRunningThread->state = OS_STATE_WAITING;
             __osEnqueueAndYield(&mq->fullqueue);
         } else {
-            __osRestoreInt(int_disabled);
+            __osRestoreInt(prevInt);
             return -1;
         }
     }
@@ -19,6 +19,6 @@ s32 osJamMesg(OSMesgQueue* mq, OSMesg msg, s32 flag) {
     if (mq->mtqueue->next != NULL) {
         osStartThread(__osPopThread(&mq->mtqueue));
     }
-    __osRestoreInt(int_disabled);
+    __osRestoreInt(prevInt);
     return 0;
 }

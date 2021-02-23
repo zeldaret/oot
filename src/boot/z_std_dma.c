@@ -12,6 +12,7 @@ s32 sDmaMgrCurFileLine;
 u32 D_80009460 = 0;
 u32 gDmaMgrDmaBuffSize = 0x2000;
 u32 sDmaMgrDataExistError = 0;
+
 const char* sDmaMgrFileNames[0x5FC] = {
     "makerom",
     "boot",
@@ -1573,10 +1574,9 @@ s32 DmaMgr_DMARomToRam(u32 rom, u32 ram, u32 size) {
     OSMesgQueue queue;
     OSMesg msg;
     s32 ret;
-    u32 buffSize;
+    u32 buffSize = gDmaMgrDmaBuffSize;
     s32 pad[2];
 
-    buffSize = gDmaMgrDmaBuffSize;
     if (buffSize == 0) {
         buffSize = 0x2000;
     }
@@ -1676,12 +1676,11 @@ s32 DmaMgr_DmaCallback0(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
 }
 
 void DmaMgr_DmaCallback1(u32 ram, u32 rom, u32 size) {
-    OSPiHandle* handle;
+    OSPiHandle* handle = osDriveRomInit();
     OSMesgQueue queue;
     OSMesg msg;
     OSIoMesg ioMsg;
 
-    handle = osDriveRomInit();
     osInvalICache((void*)ram, size);
     osInvalDCache((void*)ram, size);
     osCreateMesgQueue(&queue, &msg, 1);
@@ -1694,20 +1693,16 @@ void DmaMgr_DmaCallback1(u32 ram, u32 rom, u32 size) {
     handle->transferInfo.cmdType = 2;
 
     osEPiStartDma(handle, &ioMsg, 0);
-    osRecvMesg(&queue, NULL, 1);
+    osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
     return;
 }
 
 void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, const char* errorDesc) {
-    u32 vrom;
-    u32 ram;
-    u32 size;
+    u32 vrom = req->vromAddr;
+    u32 ram = (u32)req->dramAddr;
+    u32 size = req->size;
     char buff1[80];
     char buff2[80];
-
-    vrom = req->vromAddr;
-    ram = (u32)req->dramAddr;
-    size = req->size;
 
     osSyncPrintf("%c", 7);
     osSyncPrintf(VT_FGCOL(RED));
@@ -1735,11 +1730,8 @@ void DmaMgr_Error(DmaRequest* req, const char* file, const char* errorName, cons
 }
 
 const char* DmaMgr_GetFileNameImpl(u32 vrom) {
-    DmaEntry* iter;
-    const char** name;
-
-    iter = gDmaDataTable;
-    name = sDmaMgrFileNames;
+    DmaEntry* iter = gDmaDataTable;
+    const char** name = sDmaMgrFileNames;
 
     while (iter->vromEnd) {
         if (vrom >= iter->vromStart && vrom < iter->vromEnd) {
@@ -1755,7 +1747,8 @@ const char* DmaMgr_GetFileNameImpl(u32 vrom) {
 
 const char* DmaMgr_GetFileName(u32 vrom) {
     const char* ret = DmaMgr_GetFileNameImpl(vrom);
-    if (!ret) {
+
+    if (ret == NULL) {
         return "(unknown)";
     }
 
@@ -1767,24 +1760,25 @@ const char* DmaMgr_GetFileName(u32 vrom) {
 }
 
 void DmaMgr_ProcessMsg(DmaRequest* req) {
-    u32 vrom;
-    void* ram;
-    u32 size;
+    u32 vrom = req->vromAddr;
+    void* ram = req->dramAddr;
+    u32 size = req->size;
     u32 romStart;
     u32 romSize;
-    u8 found;
+    u8 found = false;
     DmaEntry* iter;
     const char* filename;
 
-    vrom = req->vromAddr;
-    ram = req->dramAddr;
-    size = req->size;
-    found = false;
+    if (0) {
+        // the string is defined in .rodata but not used, suggesting
+        // a debug print is here but optimized out in some way
+        osSyncPrintf("DMA ROM:%08X RAM:%08X SIZE:%08X %s\n");
+        // the last arg of this print looks like it may be filename, but
+        // filename above this block does not match
+    }
+
     filename = DmaMgr_GetFileName(vrom);
     iter = gDmaDataTable;
-
-    // defined in .rodata but not used
-    "DMA ROM:%08X RAM:%08X SIZE:%08X %s\n";
 
     while (iter->vromEnd) {
         if (vrom >= iter->vromStart && vrom < iter->vromEnd) {
@@ -1799,7 +1793,9 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
                 DmaMgr_DMARomToRam(iter->romStart + (vrom - iter->vromStart), (u32)ram, size);
                 found = true;
 
-                "No Press ROM:%08X RAM:%08X SIZE:%08X\n";
+                if (0) {
+                    osSyncPrintf("No Press ROM:%08X RAM:%08X SIZE:%08X\n", vrom, ram, size);
+                }
             } else {
                 romStart = iter->romStart;
                 romSize = iter->romEnd - iter->romStart;
@@ -1819,7 +1815,9 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
                 osSetThreadPri(NULL, Z_PRIORITY_DMAMGR);
                 found = true;
 
-                "   Press ROM:%X RAM:%X SIZE:%X\n";
+                if (0) {
+                    osSyncPrintf("   Press ROM:%X RAM:%X SIZE:%X\n", vrom, ram, size);
+                }
             }
             break;
         }
@@ -1834,7 +1832,9 @@ void DmaMgr_ProcessMsg(DmaRequest* req) {
 
         DmaMgr_DMARomToRam(vrom, (u32)ram, size);
 
-        "No Press ROM:%08X RAM:%08X SIZE:%08X (非公式)\n";
+        if (0) {
+            osSyncPrintf("No Press ROM:%08X RAM:%08X SIZE:%08X (非公式)\n", vrom, ram, size);
+        }
     }
 }
 
@@ -1846,17 +1846,20 @@ void DmaMgr_ThreadEntry(void* arg0) {
     while (true) {
         osRecvMesg(&sDmaMgrMsgQueue, &msg, 1);
         req = (DmaRequest*)msg;
-        if (!req) {
+        if (req == NULL) {
             break;
         }
 
-        // strings present in .rodata but not actually used in the function, probably a removed function
-        "ＤＭＡ登録受付 dmap=%08x\n";
+        if (0) {
+            osSyncPrintf("ＤＭＡ登録受付 dmap=%08x\n", req);
+        }
 
         DmaMgr_ProcessMsg(req);
         if (req->notifyQueue) {
-            osSendMesg(req->notifyQueue, req->notifyMsg, 0);
-            "osSendMesg: dmap=%08x, mq=%08x, m=%08x \n";
+            osSendMesg(req->notifyQueue, req->notifyMsg, OS_MESG_NOBLOCK);
+            if (0) {
+                osSyncPrintf("osSendMesg: dmap=%08x, mq=%08x, m=%08x \n", req, req->notifyQueue, req->notifyMsg);
+            }
         }
     }
     osSyncPrintf("ＤＭＡマネージャスレッド実行終了\n");
@@ -1889,7 +1892,7 @@ s32 DmaMgr_SendRequestImpl(DmaRequest* req, u32 ram, u32 vrom, u32 size, u32 unk
         }
     }
 
-    osSendMesg(&sDmaMgrMsgQueue, req, 1);
+    osSendMesg(&sDmaMgrMsgQueue, req, OS_MESG_BLOCK);
     return 0;
 }
 
@@ -1905,19 +1908,17 @@ s32 DmaMgr_SendRequest0(u32 ram, u32 vrom, u32 size) {
         return ret;
     }
 
-    osRecvMesg(&queue, NULL, 1);
+    osRecvMesg(&queue, NULL, OS_MESG_BLOCK);
     return 0;
 }
 
-void DmaMgr_Init() {
+void DmaMgr_Init(void) {
     const char** name;
     s32 idx;
     DmaEntry* iter;
 
-    if (_dmadataSegmentRomStart) {} // Necessary to match
-
     DmaMgr_DMARomToRam((u32)_dmadataSegmentRomStart, (u32)_dmadataSegmentStart,
-                       (u32)_dmadataSegmentRomEnd - (u32)_dmadataSegmentRomStart);
+                       (u32)(_dmadataSegmentRomEnd - _dmadataSegmentRomStart));
     osSyncPrintf("dma_rom_ad[]\n");
 
     sDmaMgrDataExistError = 0;
@@ -1949,7 +1950,7 @@ void DmaMgr_Init() {
         Fault_AddHungupAndCrash("../z_std_dma.c", 1055);
     }
 
-    osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, sizeof(sDmaMgrMsgs) / sizeof(sDmaMgrMsgs[0]));
+    osCreateMesgQueue(&sDmaMgrMsgQueue, sDmaMgrMsgs, ARRAY_COUNT(sDmaMgrMsgs));
     StackCheck_Init(&sDmaMgrStackInfo, sDmaMgrStack, sDmaMgrStack + sizeof(sDmaMgrStack), 0, 0x100, "dmamgr");
     osCreateThread(&sDmaMgrThread, 0x12, &DmaMgr_ThreadEntry, 0, sDmaMgrStack + sizeof(sDmaMgrStack),
                    Z_PRIORITY_DMAMGR);
@@ -1968,7 +1969,6 @@ s32 DmaMgr_SendRequest1(void* ram0, u32 vrom, u32 size, const char* file, s32 li
     s32 ret;
     OSMesgQueue queue;
     OSMesg msg;
-
     u32 ram = (u32)ram0;
 
     req.filename = file;
