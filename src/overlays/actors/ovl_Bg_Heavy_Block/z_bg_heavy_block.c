@@ -355,7 +355,7 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
     if (this->timer == 11) {
         func_800AA000(0.0f, 0xFF, 0x14, 0x14);
-        func_8002F7DC(player, NA_SE_PL_PULL_UP_BIGROCK);
+        func_8002F7DC(&player->actor, NA_SE_PL_PULL_UP_BIGROCK);
         LOG_STRING("NA_SE_PL_PULL_UP_BIGROCK", "../z_bg_heavy_block.c", 691);
     }
 
@@ -372,7 +372,7 @@ void BgHeavyBlock_LiftedUp(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
     this->timer++;
 
-    func_8002DF54(globalCtx, player, 8);
+    func_8002DF54(globalCtx, &player->actor, 8);
 
     // if parent is NULL, link threw it
     if (Actor_HasNoParent(&this->dyna.actor, globalCtx)) {

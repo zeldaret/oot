@@ -6,6 +6,7 @@
 
 #include "z_en_vb_ball.h"
 #include "objects/object_fd/object_fd.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Fd/z_boss_fd.h"
 
 #define FLAGS 0x00000030
@@ -207,6 +208,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     Vec3f spawnOffset;
                     EnVbBall* newActor;
                     f32 xRotVel;
+                    
                     if (this->actor.params == 100) {
                         spawnOffset.x = Rand_CenteredFloat(13.0f);
                         spawnOffset.y = Rand_ZeroFloat(5.0f) + 6.0f;
@@ -291,6 +293,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
         if (this->collider.base.atFlags & AT_HIT) {
             Player* player = PLAYER;
+
             this->collider.base.atFlags &= ~AT_HIT;
             Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
         }
@@ -320,7 +323,7 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(this->shadowSize, 1.0f, this->shadowSize, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 626),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_04049210));
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gCircleShadowDL));
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_vb_ball.c", 632);

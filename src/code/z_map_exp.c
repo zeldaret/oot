@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 MapData* gMapData;
 
@@ -339,7 +340,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 200, 255, 0, 255);
-        gSPDisplayList(OVERLAY_DISP++, D_0400C820);
+        gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);
 
         tempX = sPlayerInitialPosX;
         tempZ = sPlayerInitialPosZ;
@@ -353,7 +354,7 @@ void Minimap_DrawCompassIcons(GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0xFF, 200, 0, 0, 255);
-        gSPDisplayList(OVERLAY_DISP++, D_0400C820);
+        gSPDisplayList(OVERLAY_DISP++, gCompassArrowDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_exp.c", 607);
@@ -536,13 +537,12 @@ void Map_Update(GlobalContext* globalCtx) {
                     }
                 }
 
-                if (1) { // Appears to be necessary to match
-                    gSaveContext.sceneFlags[mapIndex].floors |= gBitFlags[floor];
-                    VREG(30) = floor;
-                    if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
-                        R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
-                    }
+                gSaveContext.sceneFlags[mapIndex].floors |= gBitFlags[floor];
+                VREG(30) = floor;
+                if (R_MAP_TEX_INDEX != (R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor))) {
+                    R_MAP_TEX_INDEX = R_MAP_TEX_INDEX_BASE + Map_GetFloorTextIndexOffset(mapIndex, floor);
                 }
+                if (1) {} // Appears to be necessary to match
 
                 if (interfaceCtx->mapRoomNum != sLastRoomNum) {
                     // Translates to "Current floor = %d Current room = %x Number of rooms = %d"

@@ -7,6 +7,7 @@
 #include "z_boss_fd.h"
 #include "objects/object_fd/object_fd.h"
 #include "../ovl_En_Vb_Ball/z_en_vb_ball.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000035
 
@@ -1529,8 +1530,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         }
     }
 
-    if ((this->actor.world.pos.y < 90.0f) || (700.0f < this->actor.world.pos.y) ||
-        (this->actionFunc == BossFd_Wait)) {
+    if ((this->actor.world.pos.y < 90.0f) || (700.0f < this->actor.world.pos.y) || (this->actionFunc == BossFd_Wait)) {
         this->actor.flags &= ~1;
     } else {
         this->actor.flags |= 1;
@@ -1613,7 +1613,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         if ((this->rockTimer % 16) == 0) {
             EnVbBall* bossFdRock = (EnVbBall*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_VB_BALL, this->actor.world.pos.x, 1000.0f,
-                this->actor.world.pos.z, 0, 0, (s16)Rand_ZeroFloat(50.0f) + 0x82, 0x64);
+                this->actor.world.pos.z, 0, 0, (s16)Rand_ZeroFloat(50.0f) + 130, 100);
             if (bossFdRock != NULL) {
                 for (i = 0; i < 10; i++) {
                     Vec3f debrisVel = { 0.0f, 0.0f, 0.0f };
@@ -1625,7 +1625,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
                     debrisPos.z = Rand_CenteredFloat(300.0f) + bossFdRock->actor.world.pos.z;
 
                     BossFd_SpawnDebris(this->particles, &debrisPos, &debrisVel, &debrisAccel,
-                                       (s16)Rand_ZeroFloat(15.0f) + 0x14);
+                                       (s16)Rand_ZeroFloat(15.0f) + 20);
                 }
             }
         }
@@ -1762,15 +1762,15 @@ void BossFd_UpdateParticles(BossFd* this, GlobalContext* globalCtx) {
 }
 
 void BossFd_DrawParticles(BossFdParticle* particle, GlobalContext* globalCtx) {
-    static UNK_TYPE particleTex[] = { 0x04051DB0, 0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0,
-                                      0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0 };
+    static u64* particleTex[] = {
+        gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
+    };
     u8 flag = 0;
     s16 i;
-    f32 pad;
+    s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    BossFdParticle* firstParticle;
+    BossFdParticle* firstParticle = particle;
 
-    firstParticle = particle;
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 4023);
 
     for (i = 0; i < 180; i++, particle++) {
