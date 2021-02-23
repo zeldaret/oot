@@ -18,7 +18,7 @@ typedef struct BgMizuMovebg {
     /* 0x0178 */ s32 scrollAlpha4;
     /* 0x017C */ u8 unk_17C;
     /* 0x0180 */ Gfx* unk_180;
-    /* 0x0184 */ s32 unk_184;
+    /* 0x0184 */ s32 waypointId;
 } BgMizuMovebg; // size = 0x0188
 
 extern const ActorInit Bg_Mizu_Movebg_InitVars;
