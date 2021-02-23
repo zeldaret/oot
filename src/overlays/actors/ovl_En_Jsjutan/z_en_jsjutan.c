@@ -680,21 +680,15 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 }
 */
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
-    u8 sp127;
+    u8 isPlayerOnTop;
     Vec3f sp108;
     Vec3f spFC;
     s8 spE2;
     s8 spE1;
     s8 spE0;
-    f32 spDC;
-    f32 spD8;
-    f32 spD4;
-    f32 spD0;
-    f32 spCC;
-    f32 spC8;
-    f32 spC4;
-    f32 spC0;
-    f32 spBC;
+    f32 spD4[3];
+    f32 spC8[3];
+    f32 spBC[3];
     f32 spB8;
     f32 spB4;
     f32 spB0;
@@ -750,7 +744,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     s32 temp_v0_2;
     s8 *temp_t2;
     struct Actor *parent;
-    u16 temp_v0_4;
+    u16 dayTime;
     Vtx *temp_s0;
     Vtx *temp_s4;
     Vec3s *temp_v0_3;
@@ -764,7 +758,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     Vtx *phi_s0;
     f32 phi_f12;
     s8 *phi_t2;
-    s16 phi_v1_3;
+    s16 i;
     u8 phi_t3;
     f32 phi_f2;
     f32 phi_f12_2;
@@ -780,7 +774,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     s16 phi_v1_4;
     s32 phi_v0_3;
     f32 phi_f10;
-    s32 phi_s1_4;
+    s32 j;
     f32 phi_f22;
     Vtx *phi_s0_2;
     s16 phi_v1_5;
@@ -789,7 +783,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     s16 phi_s2;
     f32 phi_f2_4;
 
-    sp127 = 0;
+    isPlayerOnTop = 0;
     player = PLAYER;
     parent = this->dyna.actor.parent;
     temp_a2 = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
@@ -810,26 +804,27 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     temp_f22 = (player->actor.world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
 
     if ((fabsf(temp_f18) < 5500.0f) && (fabsf(temp_f20) < 3000.0f) && (fabsf(temp_f22) < 5500.0f)) {
-        sp127 = 1;
+        isPlayerOnTop = 1;
     }
 
     temp_t2 = &spE0;
-    spD4 = (parent->world.pos.x - temp_f14) * 50.0f;
-    spC8 = ((parent->world.pos.y - 8.0f) - this->unk_168) * 50.0f;
+    spD4[0] = (parent->world.pos.x - temp_f14) * 50.0f;
+    spC8[0] = ((parent->world.pos.y - 8.0f) - this->unk_168) * 50.0f;
     spE0 = 1;
-    spBC = (parent->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+    spBC[0] = (parent->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
 
     phi_s1 = (u16)1;
 loop_8:
-    temp_s1 = phi_s1 + 1;
     temp_t2[phi_s1] = (u8)0;
-    phi_s1 = temp_s1;
-    if ((s32) temp_s1 < 3) {
+    phi_s1 = phi_s1 + 1;
+    if ((s32) phi_s1 < 3) {
         goto loop_8;
     }
 
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
         temp_a0 = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
+
+        /*
         phi_v1 = temp_a0;
         phi_v1_2 = temp_a0;
         if (temp_a0 != 0) {
@@ -844,57 +839,80 @@ loop_12:
                 }
             }
         }
+        */
+
+        phi_v1_2 = temp_a0;
+        while (phi_v1_2 != NULL) {
+            if (phi_v1_2->id == ACTOR_EN_MK) {
+                break;
+            }
+            phi_v1_2 = phi_v1_2->next;
+        }
+
+
+        /*
         phi_v0_2 = temp_a0;
         if (temp_a0 != 0) {
             phi_v0 = temp_a0;
 loop_16:
             phi_v0_2 = phi_v0;
             if (phi_v0->id != 0x13E) {
-                temp_v0 = phi_v0->next;
-                phi_v0 = temp_v0;
-                phi_v0_2 = temp_v0;
-                if (temp_v0 != 0) {
+                phi_v0_2 = phi_v0->next;
+                phi_v0 = phi_v0_2;
+                phi_v0_2 = phi_v0_2;
+                if (phi_v0_2 != 0) {
                     goto loop_16;
                 }
             }
         }
-        spD8 = (phi_v1_2->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
-        spCC = (phi_v1_2->world.pos.y - this->unk_168) * 50.0f;
+        */
+
+        phi_v0_2 = temp_a0;
+        while (phi_v0_2 != NULL) {
+            if (phi_v0_2->id == ACTOR_EN_MS) {
+                break;
+            }
+            phi_v0_2 = phi_v0_2->next;
+        }
+
+
+        spD4[1] = (phi_v1_2->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
+        spC8[1] = (phi_v1_2->world.pos.y - this->unk_168) * 50.0f;
         spE1 = 1;
-        spC0 = (phi_v1_2->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
-        spDC = (phi_v0_2->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
-        spD0 = (phi_v0_2->world.pos.y - this->unk_168) * 50.0f;
+        spBC[1] = (phi_v1_2->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+
+        spD4[2] = (phi_v0_2->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
+        spC8[2] = (phi_v0_2->world.pos.y - this->unk_168) * 50.0f;
         spE2 = 1;
-        spC4 = (phi_v0_2->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+        spBC[2] = (phi_v0_2->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+
         phi_t3 = (u8)1U;
+
     } else {
         phi_t3 = (u8)0U;
         if (temp_a2 != 0) {
             phi_s1_2 = 1;
             phi_a2 = temp_a2;
-loop_21:
-            if (phi_s1_2 < 3) {
-                temp_v1_2 = &(&spD4)[phi_s1_2];
-                temp_a0_2 = &(&spC8)[phi_s1_2];
-                temp_a1 = &(&spBC)[phi_s1_2];
-                *temp_v1_2 = (f32) ((phi_a2->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f);
-                temp_cond = fabsf(*temp_v1_2) < 5500.0f;
-                *temp_a0_2 = (f32) ((phi_a2->world.pos.y - this->unk_168) * 50.0f);
-                *temp_a1 = (f32) ((phi_a2->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f);
-                if (temp_cond && (fabsf(*temp_a0_2) < 3000.0f) && (fabsf(*temp_a1) < 5500.0f)) {
-                    if (phi_a2->params == 1) {
-                        temp_t2[phi_s1_2] = (u8)0x23;
-                    } else {
-                        temp_t2[phi_s1_2] = (u8)1;
+            while (phi_a2 != 0) {
+                if (phi_s1_2 < 3) {
+                    temp_v1_2 = &spD4[phi_s1_2];
+                    temp_a0_2 = &spC8[phi_s1_2];
+                    temp_a1 = &spBC[phi_s1_2];
+                    *temp_v1_2 = (f32) ((phi_a2->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f);
+                    temp_cond = fabsf(*temp_v1_2) < 5500.0f;
+                    *temp_a0_2 = (f32) ((phi_a2->world.pos.y - this->unk_168) * 50.0f);
+                    *temp_a1 = (f32) ((phi_a2->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f);
+                    if (temp_cond && (fabsf(*temp_a0_2) < 3000.0f) && (fabsf(*temp_a1) < 5500.0f)) {
+                        if (phi_a2->params == 1) {
+                            temp_t2[phi_s1_2] = (u8)0x23;
+                        } else {
+                            temp_t2[phi_s1_2] = (u8)1;
+                        }
                     }
+                    phi_s1_2 = (s32) (s16) (phi_s1_2 + 1);
                 }
-                phi_s1_2 = (s32) (s16) (phi_s1_2 + 1);
-            }
-            temp_a2_2 = phi_a2->next;
-            phi_a2 = temp_a2_2;
-            phi_t3 = (u8)0U;
-            if (temp_a2_2 != 0) {
-                goto loop_21;
+                phi_a2 = phi_a2->next;
+                phi_t3 = (u8)0U;
             }
         }
     }
@@ -904,8 +922,9 @@ loop_21:
     phi_s0 = phi_s0_2;
     phi_t2 = temp_t2;
     phi_s1_3 = (u16)0;
+
 loop_31:
-    if (sp127 != 0) {
+    if (isPlayerOnTop != 0) {
         temp_f20_2 = (f32) phi_s0->n.ob[0] - spB8;
         temp_f22_2 = (f32) phi_s0->n.ob[2] - spB0;
         distance_f0 = sqrtf((temp_f20_2 * temp_f20_2) + (temp_f22_2 * temp_f22_2));
@@ -922,71 +941,75 @@ loop_31:
             phi_f12 = 0.0f;
         }
         temp_f18_2 = 100.0f * phi_f12 * 0.01f;
-        phi_v1_3 = (u16)0;
+        i = (u16)0;
         phi_f16 = temp_f16;
         phi_f28 = temp_f28;
         phi_f18 = temp_f18_2;
         if (temp_f18_2 > 100.0f) {
-            phi_v1_3 = (u16)0;
+            i = (u16)0;
             phi_f16 = temp_f16;
             phi_f28 = temp_f28;
             phi_f18 = 100.0f;
         }
     } else {
         temp_f16_2 = this->unk_170;
-        phi_v1_3 = (u16)0;
+        i = (u16)0;
         phi_f16 = temp_f16_2;
         phi_f28 = temp_f16_2 - 200.0f;
         phi_f18 = 100.0f;
     }
-loop_39:
-    phi_f18_2 = phi_f18;
-    phi_f28_2 = phi_f28;
-    if (phi_t2[phi_v1_3] != 0) {
-        temp_v0_2 = phi_v1_3 * 4;
-        temp_f20_3 = (f32) phi_s0->n.ob[0] - *(&spD4 + temp_v0_2);
-        temp_f22_3 = (f32) phi_s0->n.ob[2] - *(&spBC + temp_v0_2);
-        distance_f0_2 = sqrtf((temp_f20_3 * temp_f20_3) + (temp_f22_3 * temp_f22_3));
-        if ((phi_v1_3 == 0) || (phi_t3 != 0)) {
-            phi_f2 = (3000.0f - distance_f0_2) / 3000.0f;
-        } else {
-            phi_f2 = (2000.0f - distance_f0_2) / 2000.0f;
-        }
-        phi_f2_2 = phi_f2;
-        if (phi_f2 < 0.0f) {
-            phi_f2_2 = 0.0f;
-        }
-        temp_f12_2 = distance_f0_2 - 1500.0f;
-        temp_f14_2 = (*(&spC8 + temp_v0_2) * phi_f2_2) + ((phi_f16 - (phi_f16 * phi_f2_2)) - 200.0f);
-        phi_f12_2 = temp_f12_2;
-        if (temp_f12_2 < 0.0f) {
-            phi_f12_2 = 0.0f;
-        }
-        temp_f2_2 = 100.0f * phi_f12_2 * 0.01f;
-        phi_f2_3 = temp_f2_2;
-        if (temp_f2_2 > 100.0f) {
-            phi_f2_3 = 100.0f;
-        }
-        phi_f28_2 = phi_f28;
-        if (temp_f14_2 < phi_f28) {
-            phi_f28_2 = temp_f14_2;
-        }
+
+    while (i < 3) {
         phi_f18_2 = phi_f18;
-        if (phi_f2_3 < phi_f18) {
-            phi_f18_2 = phi_f2_3;
+        phi_f28_2 = phi_f28;
+        if (phi_t2[i] != 0) {
+            temp_f20_3 = (f32) phi_s0->n.ob[0] - spD4[i];
+            temp_f22_3 = (f32) phi_s0->n.ob[2] - spBC[i];
+
+            distance_f0_2 = sqrtf((temp_f20_3 * temp_f20_3) + (temp_f22_3 * temp_f22_3));
+            if ((i == 0) || (phi_t3 != 0)) {
+                phi_f2 = (3000.0f - distance_f0_2) / 3000.0f;
+            } else {
+                phi_f2 = (2000.0f - distance_f0_2) / 2000.0f;
+            }
+            phi_f2_2 = phi_f2;
+            if (phi_f2 < 0.0f) {
+                phi_f2_2 = 0.0f;
+            }
+
+            temp_f12_2 = distance_f0_2 - 1500.0f;
+            temp_f14_2 = (spC8[i] * phi_f2_2) + ((phi_f16 - (phi_f16 * phi_f2_2)) - 200.0f);
+            phi_f12_2 = temp_f12_2;
+            if (temp_f12_2 < 0.0f) {
+                phi_f12_2 = 0.0f;
+            }
+
+            temp_f2_2 = 100.0f * phi_f12_2 * 0.01f;
+            phi_f2_3 = temp_f2_2;
+            if (temp_f2_2 > 100.0f) {
+                phi_f2_3 = 100.0f;
+            }
+
+            phi_f28_2 = phi_f28;
+            if (temp_f14_2 < phi_f28) {
+                phi_f28_2 = temp_f14_2;
+            }
+
+            phi_f18_2 = phi_f18;
+            if (phi_f2_3 < phi_f18) {
+                phi_f18_2 = phi_f2_3;
+            }
         }
+        i++;
+        phi_f28 = phi_f28_2;
+        phi_f18 = phi_f18_2;
     }
-    temp_v1_3 = phi_v1_3 + 1;
-    phi_v1_3 = temp_v1_3;
-    phi_f28 = phi_f28_2;
-    phi_f18 = phi_f18_2;
-    if ((s32) temp_v1_3 < 3) {
-        goto loop_39;
-    }
+
     spA8 = phi_f18_2;
     sp8B = phi_t3;
-    temp_f0_3 = Math_SinS((s16) ((*(sp74 + 0x1DE4/4) * 0xFA0) + (((((((phi_s1_3 * 4) + phi_s1_3) * 8) - phi_s1_3) * 0x10) + phi_s1_3) * 0x10)));
+    temp_f0_3 = Math_SinS((s16) ((*(sp74 + 0x1DE4/4) * 4000) + (phi_s1_3 * 10000)));
     temp_f18_3 = phi_f18_2;
+
     if (this->unk_174 != 0) {
         temp_f10 = (s32) (phi_f28_2 + (temp_f0_3 * temp_f18_3));
         temp_a0_3 = (s16) (s32) (((f32) phi_s3->n.ob[1] - this->unk_168) * 50.0f);
@@ -1006,6 +1029,7 @@ loop_39:
         phi_s3->n.ob[0] = (s16) (temp_v0_3->x + temp_a0_4);
         phi_s3->n.ob[2] = (s16) (temp_v0_3->z + temp_a0_4);
     }
+
     temp_s1_2 = phi_s1_3 + 1;
     phi_s0 = phi_s0 + 0x10;
     phi_t2 = &spE0;
@@ -1014,21 +1038,18 @@ loop_39:
     if ((s32) temp_s1_2 < 0x90) {
         goto loop_31;
     }
+
     if (this->unk_174 == 0) {
         this->dyna.actor.velocity.y = 0.0f;
         this->dyna.actor.world.pos.y = this->unk_168;
-        temp_v0_4 = gSaveContext.dayTime;
-        phi_v0_3 = (s32) temp_v0_4;
-        if ((s32) temp_v0_4 >= 0x8000) {
-            phi_v0_3 = (0xFFFF - temp_v0_4) & 0xFFFF;
+
+        dayTime = gSaveContext.dayTime;
+        if (dayTime >= 0x8000) {
+            dayTime = (0xFFFF - dayTime) & 0xFFFF;
         }
-        temp_f10_2 = (f32) phi_v0_3;
-        phi_f10 = temp_f10_2;
-        if (phi_v0_3 < 0) {
-            phi_f10 = temp_f10_2 + 4294967296.0f;
-        }
+
         this->unk_170 = 1000.0f;
-        this->shadowAlpha = (phi_f10 * 0.00275f) + 10.0f;
+        this->shadowAlpha = (dayTime * 0.00275f) + 10.0f;
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
@@ -1039,46 +1060,48 @@ loop_39:
     sp108.x = 0.0f;
     sp108.y = 0.0f;
     sp108.z = 120.0f;
-    phi_s1_4 = 0;
+
+    j = 0;
     phi_s0_3 = temp_s4;
 
 loop_69:
-    temp_s2 = phi_s1_4 + 1;
-    if ((phi_s1_4 % 0xC) == 0xB) {
-        temp_v0_5 = phi_s1_4 - 1;
+    temp_s2 = j + 1;
+    if ((j % 0xC) == 0xB) {
+        temp_v0_5 = j - 1;
         //phi_f22 = (f32) (phi_s0_3->unk4 - (temp_s4 + (temp_v0_5 * 0x10))->unk4);
         phi_f22 = (f32) (phi_s0_3->n.ob[2] - (temp_s4[(temp_v0_5 * 0x10)]).n.ob[2]);
         phi_v1_5 = temp_v0_5;
-        phi_s2 = phi_s1_4 + 1;
+        phi_s2 = j + 1;
     } else {
         //phi_f22 = (f32) ((temp_s4 + (temp_s2 * 0x10))->unk4 - phi_s0_3->unk4);
         phi_f22 = (f32) ((temp_s4[(temp_s2 * 0x10)]).n.ob[2] - phi_s0_3->n.ob[2]);
         phi_v1_5 = temp_s2;
         phi_s2 = temp_s2;
     }
+
     temp_f24 = (f32) ((temp_s4[(phi_v1_5 * 0x10)]).n.ob[1] - phi_s0_3->n.ob[1]);
     temp_f22_4 = Math_Atan2F(phi_f22, temp_f24);
-    if (phi_s1_4 >= 0x84) {
-        phi_f20 = (f32) (phi_s0_3->n.ob[0] - (temp_s4[((s16) (phi_s1_4 - 0xC) * 0x10)].n.ob[0]));
+    if (j >= 0x84) {
+        phi_f20 = (f32) (phi_s0_3->n.ob[0] - (temp_s4[((s16) (j - 0xC) * 0x10)].n.ob[0]));
     } else {
-        phi_f20 = (f32) ((temp_s4[((s16) (phi_s1_4 + 0xC) * 0x10)].n.ob[0]) - phi_s0_3->n.ob[0]);
+        phi_f20 = (f32) ((temp_s4[((s16) (j + 0xC) * 0x10)].n.ob[0]) - phi_s0_3->n.ob[0]);
     }
+
     temp_f20_4 = Math_Atan2F(phi_f20, temp_f24);
     Matrix_RotateX(temp_f22_4, (u8)0U);
     Matrix_RotateZ(temp_f20_4, (u8)1U);
-    Matrix_MultVec3f((Vec3f *) &sp108, &spFC);
-    temp_s1_3 = phi_s2;
-    //temp_s0 = phi_s0_3 + 0x10;
-    //temp_s0->unk-4 = (s8) (s32) spFC.x;
-    //temp_s0->unk-3 = (s8) (s32) spFC.y;
-    //temp_s0->unk-2 = (s8) (s32) spFC.z;
-    temp_s0 = phi_s0_3 + 0x10/0x10;
-    *((u8*)temp_s0 - 4) = (s8) (s32) spFC.x;
-    *((u8*)temp_s0 - 3) = (s8) (s32) spFC.y;
-    *((u8*)temp_s0 - 2) = (s8) (s32) spFC.z;
-    phi_s1_4 = (s32) temp_s1_3;
-    phi_s0_3 = temp_s0;
-    if ((s32) temp_s1_3 < 0x90) {
+    Matrix_MultVec3f(&sp108, &spFC);
+    //phi_s0_3 = phi_s0_3 + 0x10;
+    //phi_s0_3->unk-4 = (s8) (s32) spFC.x;
+    //phi_s0_3->unk-3 = (s8) (s32) spFC.y;
+    //phi_s0_3->unk-2 = (s8) (s32) spFC.z;
+    phi_s0_3 = phi_s0_3 + 0x10/0x10;
+    *((u8*)phi_s0_3 - 4) = (s8) (s32) spFC.x;
+    *((u8*)phi_s0_3 - 3) = (s8) (s32) spFC.y;
+    *((u8*)phi_s0_3 - 2) = (s8) (s32) spFC.z;
+    j = phi_s2;
+    //phi_s0_3 = phi_s0_3;
+    if (j < 0x90) {
         goto loop_69;
     }
 
