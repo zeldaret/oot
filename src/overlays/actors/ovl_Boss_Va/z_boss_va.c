@@ -383,7 +383,7 @@ static s16 sCsCamera = 0;
 
 static BossVaEffect sVaEffects[400];
 static u8 sBodyState;
-static u8 sFightProgress;
+static u8 sFightPhase;
 static s8 sCsState;
 static Vec3f sCameraEye;
 static Vec3f sCameraAt;
@@ -575,7 +575,7 @@ void BossVa_KillBari(BossVa* this, GlobalContext* globalCtx) {
         }
     }
 
-    sFightProgress++;
+    sFightPhase++;
     BossVa_SetupBariDeath(this);
 }
 
@@ -741,7 +741,7 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->unk_1D8.y = 1.0f;
             if (sCsState < BOSSVA_BATTLE) {
                 BossVa_SetupBariIntro(this, globalCtx);
-            } else if (sFightProgress >= PHASE_3) {
+            } else if (sFightPhase >= PHASE_3) {
                 BossVa_SetupBariPhase3Attack(this, globalCtx);
             } else {
                 BossVa_SetupBariPhase2Attack(this, globalCtx);
@@ -1086,7 +1086,7 @@ void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_BALINADE_DAMAGE);
     }
 
-    if (SkelAnime_Update(&this->skelAnime) && (sFightProgress >= PHASE_2)) {
+    if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_2)) {
         BossVa_SetupBodyPhase2(this, globalCtx);
     }
 
@@ -1112,7 +1112,7 @@ void BossVa_BodyPhase1(BossVa* this, GlobalContext* globalCtx) {
 void BossVa_SetupBodyPhase2(BossVa* this, GlobalContext* globalCtx) {
     s32 i;
 
-    sFightProgress++;
+    sFightPhase++;
     for (i = BOSSVA_BARI_UPPER_5; i >= BOSSVA_BARI_UPPER_1; i--) {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_VA,
                            sInitPosOffsets[i].x + this->actor.world.pos.x,
@@ -1195,7 +1195,7 @@ void BossVa_BodyPhase2(BossVa* this, GlobalContext* globalCtx) {
         this->actor.speedXZ = 0.0f;
     }
 
-    if (SkelAnime_Update(&this->skelAnime) && (sFightProgress >= PHASE_3)) {
+    if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_3)) {
         BossVa_SetupBodyPhase3(this);
     }
 
@@ -1291,18 +1291,18 @@ void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
     }
 
     Actor_MoveForward(&this->actor);
-    if (SkelAnime_Update(&this->skelAnime) && (sFightProgress >= PHASE_4)) {
+    if (SkelAnime_Update(&this->skelAnime) && (sFightPhase >= PHASE_4)) {
         BossVa_SetupBodyPhase4(this, globalCtx);
     }
 
     this->actor.shape.rot.y += this->vaBodySpinRate;
-    if (sFightProgress == PHASE_3) {
+    if (sFightPhase == PHASE_3) {
         Math_SmoothStepToF(&this->actor.shape.yOffset, -450.0f, 1.0f, 15.0f, 0.0f);
     } else {
         Math_SmoothStepToF(&this->actor.shape.yOffset, -810.0f, 1.0f, 15.0f, 0.0f);
     }
 
-    if ((this->actor.shape.yOffset >= -500.0f) && (sFightProgress == PHASE_3)) {
+    if ((this->actor.shape.yOffset >= -500.0f) && (sFightPhase == PHASE_3)) {
         for (i = BOSSVA_BARI_LOWER_5; i >= BOSSVA_BARI_LOWER_1; i--) {
             Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_VA,
@@ -1310,7 +1310,7 @@ void BossVa_BodyPhase3(BossVa* this, GlobalContext* globalCtx) {
                 sInitPosOffsets[i].z + this->actor.world.pos.z, sInitRot[i].x + this->actor.world.rot.x,
                 sInitRot[i].y + this->actor.world.rot.y, sInitRot[i].z + this->actor.world.rot.z, i);
         }
-        sFightProgress++;
+        sFightPhase++;
     }
 
     this->unk_1AC += 0xC31;
@@ -1358,7 +1358,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
     f32 tmpf1;
     EnBoom* boomerang;
 
-    this->unk_1B0 = (this->unk_1B0 + (s16)((sFightProgress - PHASE_4 + 1) * 1000.0f)) + 0xCE4;
+    this->unk_1B0 = (this->unk_1B0 + (s16)((sFightPhase - PHASE_4 + 1) * 1000.0f)) + 0xCE4;
     this->bodyGlow = (s16)(Math_SinS(this->unk_1B0) * 50.0f) + 150;
     if (this->colliderBody.base.atFlags & AT_HIT) {
         this->colliderBody.base.atFlags &= ~AT_HIT;
@@ -1385,9 +1385,9 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
                     sPhase4HP -= this->actor.colChkInfo.damage;
                     if (sPhase4HP <= 0) {
                         this->timer = 0;
-                        sFightProgress++;
+                        sFightPhase++;
                         sPhase4HP += 3;
-                        if (sFightProgress >= PHASE_DEATH) {
+                        if (sFightPhase >= PHASE_DEATH) {
                             BossVa_SetupBodyDeath(this, globalCtx);
                             func_80032C7C(globalCtx, &this->actor);
                             return;
@@ -1418,16 +1418,16 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     if (this->timer == 0) {
-        Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, ((sFightProgress - PHASE_4 + 1) * 5.0f) + 10.0f,
+        Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, ((sFightPhase - PHASE_4 + 1) * 5.0f) + 10.0f,
                            0.0f);
-        if (Math_SmoothStepToS(&this->vaBodySpinRate, (s16)((sFightProgress - PHASE_4 + 1) * 500.0f) + 0xFA0, 1, 0x12C,
+        if (Math_SmoothStepToS(&this->vaBodySpinRate, (s16)((sFightPhase - PHASE_4 + 1) * 500.0f) + 0xFA0, 1, 0x12C,
                                0) == 0) {
             if (this->actor.speedXZ == 0.0f) {
                 this->actor.colorFilterTimer = 0;
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 300;
             }
-            Math_SmoothStepToF(&this->actor.speedXZ, ((sFightProgress - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
+            Math_SmoothStepToF(&this->actor.speedXZ, ((sFightPhase - PHASE_4 + 1) * 1.5f) + 4.0f, 1.0f, 0.25f, 0.0f);
         }
         this->colliderBody.info.bumper.dmgFlags = 0x10;
     } else {
@@ -1457,7 +1457,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
                     this->timer2 = (s16)(Rand_ZeroOne() * 150.0f) + 330;
                 }
                 Math_SmoothStepToS(&this->vaBodySpinRate, 0xFA0, 1, 0x1F4, 0);
-                tmpf1 = sFightProgress - PHASE_4 + 1;
+                tmpf1 = sFightPhase - PHASE_4 + 1;
                 Math_SmoothStepToF(&this->actor.speedXZ, (tmpf1 + tmpf1) + 4.0f, 1.0f, 0.25f, 0.0f);
                 Math_SmoothStepToF(&this->actor.shape.yOffset, 0.0f, 1.0f, 20.0f, 0.0f);
             }
@@ -1478,7 +1478,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
         this->actor.world.rot.y = (s16)Rand_CenteredFloat(30 * (0x10000 / 360)) + this->actor.wallYaw;
     }
 
-    if (sFightProgress <= PHASE_4) {
+    if (sFightPhase <= PHASE_4) {
         if (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) >= 400.0f) {
             Math_SmoothStepToS(&this->actor.world.rot.y,
                                Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.home.pos), 1, 0x5DC, 0);
@@ -1486,7 +1486,7 @@ void BossVa_BodyPhase4(BossVa* this, GlobalContext* globalCtx) {
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer + 0x8000, 1, 0x12C, 0);
         } else if ((globalCtx->gameplayFrames & 0x80) == 0) {
             Math_SmoothStepToS(&this->actor.world.rot.y, this->actor.yawTowardsPlayer, 1,
-                               (s16)((sFightProgress - PHASE_4 + 1) * 100.0f) + 0x64, 0);
+                               (s16)((sFightPhase - PHASE_4 + 1) * 100.0f) + 0x64, 0);
         }
     }
 
@@ -1761,7 +1761,7 @@ void BossVa_SetupSupportCut(BossVa* this, GlobalContext* globalCtx) {
     s32 stumpParams = this->actor.params + BOSSVA_STUMP_1;
 
     sBodyState++;
-    sFightProgress++;
+    sFightPhase++;
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BOSS_VA, this->armTip.x, this->armTip.y + 20.0f, this->armTip.z,
                 0, this->actor.shape.rot.y, 0, stumpParams);
     Camera_AddQuake(&globalCtx->mainCamera, 2, 11, 8);
@@ -1985,7 +1985,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     BossVa_AttachToBody(this);
-    if (sFightProgress >= PHASE_4) {
+    if (sFightPhase >= PHASE_4) {
         BossVa_SetupZapperEnraged(this, globalCtx);
         return;
     }
@@ -1995,7 +1995,7 @@ void BossVa_ZapperAttack(BossVa* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((sFightProgress < PHASE_4) && (BODY->actor.speedXZ != 0.0f)) {
+    if ((sFightPhase < PHASE_4) && (BODY->actor.speedXZ != 0.0f)) {
         BossVa_SetupZapperHold(this, globalCtx);
         return;
     }
@@ -2139,7 +2139,7 @@ void BossVa_ZapperDamaged(BossVa* this, GlobalContext* globalCtx) {
     Math_SmoothStepToS(&this->unk_1F2, this->actor.shape.rot.y - this->actor.shape.rot.x, 1, 0x2EE, 0);
     Math_SmoothStepToS(&this->unk_1F0, this->skelAnime.jointTable[7].z, 1, 0x2EE, 0);
     if (SkelAnime_Update(&this->skelAnime)) {
-        if (sFightProgress >= PHASE_4) {
+        if (sFightPhase >= PHASE_4) {
             BossVa_SetupZapperEnraged(this, globalCtx);
         } else {
             BossVa_SetupZapperAttack(this, globalCtx);
@@ -2258,7 +2258,7 @@ void BossVa_ZapperEnraged(BossVa* this, GlobalContext* globalCtx) {
     sp54.y += 10.0f;
     SkelAnime_Update(&this->skelAnime);
     BossVa_AttachToBody(this);
-    if (sFightProgress >= PHASE_DEATH) {
+    if (sFightPhase >= PHASE_DEATH) {
         BossVa_SetupZapperDeath(this, globalCtx);
         return;
     }
@@ -2642,7 +2642,7 @@ void BossVa_BariPhase2Attack(BossVa* this, GlobalContext* globalCtx) {
         this->vaBariUnused.x = (s16)(Rand_ZeroOne() * 100.0f) + 100;
     }
 
-    sp50 = (sFightProgress * 70) - 280;
+    sp50 = (sFightPhase * 70) - 280;
     Math_SmoothStepToS(&this->vaBariUnused.z, this->vaBariUnused.x, 1, 0x1E, 0);
     this->vaBariUnused.y += this->vaBariUnused.z;
     if (sKillBari != 0) {
@@ -2915,18 +2915,18 @@ void BossVa_BodyPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_va.c", 4192);
 
     if (limbIndex == 6) {
-        if (sFightProgress < PHASE_3) {
+        if (sFightPhase < PHASE_3) {
             sp78.x = -1000.0f;
         } else {
             sp78.x = 200.0f;
         }
         Matrix_MultVec3f(&sp78, &this->unk_1D8);
     } else if ((limbIndex >= 10) && (limbIndex < 20) && (sBodyBari[limbIndex - 10] != 0)) {
-        if (((limbIndex >= 16) || (limbIndex == 10)) && (sFightProgress <= PHASE_3)) {
+        if (((limbIndex >= 16) || (limbIndex == 10)) && (sFightPhase <= PHASE_3)) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_va.c", 4208),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, &gBarinadeDL_008BB8);
-        } else if ((limbIndex >= 11) && (sFightProgress <= PHASE_2)) {
+        } else if ((limbIndex >= 11) && (sFightPhase <= PHASE_2)) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_va.c", 4212),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, &gBarinadeDL_008BB8);
@@ -3103,7 +3103,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             Matrix_Translate(this->effectPos[9].x, this->effectPos[9].y, this->effectPos[9].z, MTXMODE_NEW);
             Matrix_RotateRPY(sp3E, sp3C, 0, MTXMODE_APPLY);
             sp70.x = 0.0f;
-            if (sFightProgress >= PHASE_4) {
+            if (sFightPhase >= PHASE_4) {
                 sp70.z = ((this->timer2 - 16) & 7) * 120.0f;
             } else {
                 sp70.z = ((this->timer2 - 32) & 0xF) * 80.0f;
@@ -3111,7 +3111,7 @@ void BossVa_ZapperPostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
             sp4C.z = sp40.z = sp70.z += 40.0f;
             sp70.z += 50.0f;
             Matrix_MultVec3f(&sp70, &this->effectPos[4]);
-            if (sFightProgress >= PHASE_4) {
+            if (sFightPhase >= PHASE_4) {
                 sp70.z -= 33.0f;
                 if (sp70.z < 0.0f) {
                     sp70.z = 0.0f;
