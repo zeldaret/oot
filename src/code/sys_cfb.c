@@ -6,6 +6,7 @@ u32 sSysCfbEnd;
 void SysCfb_Init(s32 n64dd) {
     u32 screenSize;
     u32 tmpFbEnd;
+
     if (osMemSize >= 0x800000U) {
         // 8MB or more memory is installed
         osSyncPrintf("８Ｍバイト以上のメモリが搭載されています\n");

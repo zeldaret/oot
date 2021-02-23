@@ -5,6 +5,7 @@
 
 void PreNmiBuff_Init(PreNmiBuff* this) {
     this->resetting = false;
+
     if (osResetType == COLD_RESET) {
         this->resetCount = 0;
         this->duration = 0;

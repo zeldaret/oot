@@ -13,6 +13,8 @@ typedef enum VerbosityLevel {
 	VERBOSITY_DEBUG
 } VerbosityLevel;
 
+class GameConfig;
+
 class Globals
 {
 public:
@@ -27,6 +29,7 @@ public:
 	ZFileMode fileMode;
 	std::string baseRomPath, inputPath, outputPath, cfgPath;
 	TextureType texType;
+	ZGame game;
 
 	std::vector<ZFile*> files;
 	std::vector<int> segments;
@@ -41,6 +44,21 @@ public:
 	void GenSymbolMap(const std::string& symbolMapPath);
 	void AddSegment(int segment);
 	bool HasSegment(int segment);
+};
+
+class GameConfig
+{
+public:
+	std::map<int, std::string> segmentRefs;
+	std::map<int, ZFile*> segmentRefFiles;
+	std::map<uint32_t, std::string> symbolMap;
+	std::vector<std::string> actorList;
+	std::vector<std::string> objectList;
+
+	GameConfig();
+
+private:
+
 };
 
 /*
