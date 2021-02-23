@@ -900,7 +900,7 @@ loop_16:
                             spE0[phi_s1_2] = (u8)1;
                         }
                     }
-                    phi_s1_2 = (phi_s1_2 + 1);
+                    phi_s1_2++;
                 }
                 phi_a2 = phi_a2->next;
                 isInCreditsScene = (u8)0U;
@@ -920,20 +920,20 @@ loop_16:
             if (phi_f2_4 < 0.0f) {
                 phi_f2_4 = 0.0f;
             }
-            temp_f16 = this->unk_170;
+            phi_f16 = this->unk_170;
             distance_f0 = distance_f0 - 1500.0f;
-            temp_f28 = (spB4 * phi_f2_4) + ((temp_f16 - (temp_f16 * phi_f2_4)) - 200.0f);
+            temp_f28 = (spB4 * phi_f2_4) + ((phi_f16 - (phi_f16 * phi_f2_4)) - 200.0f);
 
             if (distance_f0 < 0.0f) {
                 distance_f0 = 0.0f;
             }
-            temp_f18_2 = 100.0f * distance_f0 * 0.01f;
+            phi_f18 = 100.0f * distance_f0 * 0.01f;
 
             i = (u16)0;
-            phi_f16 = temp_f16;
+            //phi_f16 = phi_f16;
             phi_f28 = temp_f28;
-            phi_f18 = temp_f18_2;
-            if (temp_f18_2 > 100.0f) {
+            phi_f18 = phi_f18;
+            if (phi_f18 > 100.0f) {
                 //i = (u16)0;
                 //phi_f16 = temp_f16;
                 //phi_f28 = temp_f28;
@@ -991,25 +991,24 @@ loop_16:
         temp_f0_3 = Math_SinS((s16) ((globalCtx->gameplayFrames * 4000) + (phi_s1_3 * 10000)));
 
         if (this->unk_174 != 0) {
-            phi_v1_4 = (s32) (phi_f28 + (temp_f0_3 * phi_f18));
-            temp_a0_3 = (s16) (s32) (((f32) phi_s3->n.ob[1] - this->unk_168) * 50.0f);
+            phi_v1_4 = (phi_f28 + (temp_f0_3 * phi_f18));
+            temp_a0_3 = (s16) ((phi_s3->n.ob[1] - this->unk_168) * 50.0f);
             if (phi_v1_4 < temp_a0_3) {
                 phi_v1_4 = temp_a0_3;
             }
             phi_s0->n.ob[1] = phi_v1_4;
         } else {
             temp_f2_3 = temp_f0_3 * phi_f18;
-            temp_v0_3 = &D_80A8EE10[phi_s1_3];
 
-            phi_s0->n.ob[1] = (s16) (s32) (phi_f28 + temp_f2_3);
+            phi_s0->n.ob[1] = (s16) (phi_f28 + temp_f2_3);
 
-            temp_v1_4 = (s16) (s32) (temp_f2_3 * 0.5f);
-            phi_s0->n.ob[0] = (s16) (temp_v0_3->x + temp_v1_4);
-            phi_s0->n.ob[2] = (s16) (temp_v0_3->z + temp_v1_4);
+            temp_v1_4 = (s16) (temp_f2_3 * 0.5f);
+            phi_s0->n.ob[0] = (s16) (D_80A8EE10[phi_s1_3].x + temp_v1_4);
+            phi_s0->n.ob[2] = (s16) (D_80A8EE10[phi_s1_3].z + temp_v1_4);
 
             temp_a0_4 = (s16) (s32) temp_f2_3;
-            phi_s3->n.ob[0] = (s16) (temp_v0_3->x + temp_a0_4);
-            phi_s3->n.ob[2] = (s16) (temp_v0_3->z + temp_a0_4);
+            phi_s3->n.ob[0] = (s16) (D_80A8EE10[phi_s1_3].x + temp_a0_4);
+            phi_s3->n.ob[2] = (s16) (D_80A8EE10[phi_s1_3].z + temp_a0_4);
         }
 
         phi_s1_3++;
@@ -1043,17 +1042,15 @@ loop_16:
     phi_s0_3 = temp_s4;
 
     while (j < 0x90) {
-        temp_s2 = j + 1;
         if ((j % 0xC) == 0xB) {
-            temp_v0_5 = j - 1;
+            phi_v1_5 = j - 1;
             //phi_f22 = (f32) (phi_s0_3->unk4 - (temp_s4 + (temp_v0_5 * 0x10))->unk4);
-            phi_f22 = (f32) (phi_s0_3->n.ob[2] - (temp_s4[(temp_v0_5)]).n.ob[2]);
-            phi_v1_5 = temp_v0_5;
+            phi_f22 = (f32) (phi_s0_3->n.ob[2] - (temp_s4[(phi_v1_5)]).n.ob[2]);
             //phi_s2 = j + 1;
         } else {
+            phi_v1_5 = j + 1;
             //phi_f22 = (f32) ((temp_s4 + (temp_s2 * 0x10))->unk4 - phi_s0_3->unk4);
-            phi_f22 = (f32) ((temp_s4[(temp_s2)]).n.ob[2] - phi_s0_3->n.ob[2]);
-            phi_v1_5 = temp_s2;
+            phi_f22 = (f32) ((temp_s4[(phi_v1_5)]).n.ob[2] - phi_s0_3->n.ob[2]);
             //phi_s2 = temp_s2;
         }
 
