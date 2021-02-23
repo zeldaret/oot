@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 static Vtx sVertices[5] = {
     VTX(-32, -32, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -112,10 +113,9 @@ s32 EffectShieldParticle_Update(void* thisx) {
 }
 
 void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8* primColor, Color_RGBA8* envColor) {
-    s32 halfDuration;
+    s32 halfDuration = this->duration * 0.5f;
     f32 ratio;
 
-    halfDuration = this->duration * 0.5f;
     if (halfDuration == 0) {
         primColor->r = this->primColorStart.r;
         primColor->g = this->primColorStart.g;
@@ -163,8 +163,8 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
 
-        gDPLoadTextureBlock(POLY_XLU_DISP++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownCircle6Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
         if (1) {} // Necessary to match
 
@@ -185,14 +185,10 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
             MtxF sp104;
             MtxF spC4;
             MtxF sp84;
-            f32 temp1;
-            f32 temp2;
-            f32 temp3;
+            f32 temp1 = (s16)((elem->endX + elem->startX) * 0.5f);
+            f32 temp2 = elem->endX - elem->startX;
+            f32 temp3 = (s16)((temp2 * (1.0f / 64.0f)) / 0.02f);
 
-            temp1 = (s16)((elem->endX + elem->startX) * 0.5f);
-
-            temp2 = elem->endX - elem->startX;
-            temp3 = (s16)((temp2 * (1.0f / 64.0f)) / 0.02f);
             if (temp3 < 1.0f) {
                 temp3 = 1.0f;
             }

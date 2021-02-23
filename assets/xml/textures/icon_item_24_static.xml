@@ -1,24 +1,24 @@
 <Root>
     <File Name="icon_item_24_static">
-        <Texture Name="Forest_Medallion" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Fire_Medallion" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Water_Medallion" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Spirit_Medallion" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Shadow_Medallion" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Light_Medallion" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Kokiri_Emerald" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Goron_Ruby" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Zora_Saphire" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Stone_of_Agony" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Gerudos_Card" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Gold_Skulltula" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Heart_Container" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Piece_of_Heart_Unused" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Boss_Key" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Compass" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Dungeon_Map" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Small_Key" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Small_Magic_Jar" Format="rgba32" Width="24" Height="24"/>
-        <Texture Name="Big_Magic_Jar" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gForestMedallionIconTex" OutName="forest_medallion_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gFireMedallionIconTex" OutName="fire_medallion_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gWaterMedallionIconTex" OutName="water_medallion_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gSpiritMedallionIconTex" OutName="spirit_medallion_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gShadowMedallionIconTex" OutName="shadow_medallion_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gLightMedallionIconTex" OutName="light_medallion_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gKokiriEmeraldIconTex" OutName="kokiri_emerald_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gGoronRubyIconTex" OutName="goron_ruby_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gZoraSapphireIconTex" OutName="zora_sapphire_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gStoneOfAgonyIconTex" OutName="stone_of_agony_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gGerudosCardIconTex" OutName="gerudos_card_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gGoldSkulltulaIconTex" OutName="gold_skulltula_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gHeartContainerIconTex" OutName="heart_container_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gUnusedPieceOfHeartIconTex" OutName="unsed_piece_of_heart_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gBossKeyIconTex" OutName="boss_key_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gCompassIconTex" OutName="compass_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gDungeonMapIconTex" OutName="dungeon_map_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gSmallKeyIconTex" OutName="small_key_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gSmallMagicJarIconTex" OutName="small_magic_jar_icon" Format="rgba32" Width="24" Height="24"/>
+        <Texture Name="gBigMagicJarIconTex" OutName="big_magic_jar_icon" Format="rgba32" Width="24" Height="24"/>
     </File>
 </Root>

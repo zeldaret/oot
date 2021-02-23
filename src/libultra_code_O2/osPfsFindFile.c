@@ -17,7 +17,7 @@ s32 osPfsFindFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* e
     }
 
     for (j = 0; j < pfs->dir_size; j++) {
-        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, &dir)) != 0) {
+        if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + j, (u8*)&dir)) != 0) {
             return ret;
         }
         if ((ret = __osPfsGetStatus(pfs->queue, pfs->channel)) != 0) {

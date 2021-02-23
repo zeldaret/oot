@@ -6,6 +6,7 @@
 
 #include "z_obj_oshihiki.h"
 #include "overlays/actors/ovl_Obj_Switch/z_obj_switch.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -24,12 +25,6 @@ void ObjOshihiki_SetupPush(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Push(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_SetupFall(ObjOshihiki* this, GlobalContext* globalCtx);
 void ObjOshihiki_Fall(ObjOshihiki* this, GlobalContext* globalCtx);
-
-extern CollisionHeader D_05004E98;
-extern UNK_TYPE D_05003350;
-extern UNK_TYPE D_05003B50;
-extern UNK_TYPE D_05004350;
-extern Gfx D_05004CD0[];
 
 const ActorInit Obj_Oshihiki_InitVars = {
     ACTOR_OBJ_OSHIHIKI,
@@ -148,13 +143,13 @@ void ObjOshihiki_ResetFloors(ObjOshihiki* this) {
 }
 
 ObjOshihiki* ObjOshihiki_GetBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) {
-    Actor* dyna;
+    DynaPolyActor* dynaPolyActor;
 
     if ((this->floorBgIds[this->highestFloor] != BGCHECK_SCENE) &&
         (fabsf(this->dyna.actor.floorHeight - this->dyna.actor.world.pos.y) < 0.001f)) {
-        dyna = DynaPoly_GetActor(&globalCtx->colCtx, this->floorBgIds[this->highestFloor]);
-        if ((dyna != NULL) && (dyna->id == ACTOR_OBJ_OSHIHIKI)) {
-            return (ObjOshihiki*)dyna;
+        dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, this->floorBgIds[this->highestFloor]);
+        if ((dynaPolyActor != NULL) && (dynaPolyActor->actor.id == ACTOR_OBJ_OSHIHIKI)) {
+            return (ObjOshihiki*)dynaPolyActor;
         }
     }
     return NULL;
@@ -216,7 +211,7 @@ void ObjOshihiki_CheckType(ObjOshihiki* this, GlobalContext* globalCtx) {
         case PUSHBLOCK_MEDIUM_START_OFF:
         case PUSHBLOCK_LARGE_START_OFF:
         case PUSHBLOCK_HUGE_START_OFF:
-            ObjOshihiki_InitDynapoly(this, globalCtx, &D_05004E98, 1);
+            ObjOshihiki_InitDynapoly(this, globalCtx, &gPushBlockCol, 1);
             break;
         default:
             // Error : type cannot be determined
@@ -236,15 +231,15 @@ void ObjOshihiki_SetTexture(ObjOshihiki* this, GlobalContext* globalCtx) {
         case PUSHBLOCK_MEDIUM_START_ON:
         case PUSHBLOCK_SMALL_START_OFF:
         case PUSHBLOCK_MEDIUM_START_OFF:
-            this->texture = &D_05003350;
+            this->texture = gPushBlockSilverTex;
             break;
         case PUSHBLOCK_LARGE_START_ON:
         case PUSHBLOCK_LARGE_START_OFF:
-            this->texture = &D_05003B50;
+            this->texture = gPushBlockBaseTex;
             break;
         case PUSHBLOCK_HUGE_START_ON:
         case PUSHBLOCK_HUGE_START_OFF:
-            this->texture = &D_05004350;
+            this->texture = gPushBlockGrayTex;
             break;
     }
 }
@@ -504,7 +499,7 @@ void ObjOshihiki_SetupOnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
 void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
     s32 bgId;
     Player* player = PLAYER;
-    DynaPolyActor* dynaActor;
+    DynaPolyActor* dynaPolyActor;
 
     this->stateFlags |= PUSHBLOCK_ON_ACTOR;
     Actor_MoveForward(&this->dyna.actor);
@@ -514,13 +509,13 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
         if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupOnScene(this, globalCtx);
         } else {
-            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
-            if (dynaActor != NULL) {
-                func_800434A8(dynaActor);
-                func_80043538(dynaActor);
+            dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
+            if (dynaPolyActor != NULL) {
+                func_800434A8(dynaPolyActor);
+                func_80043538(dynaPolyActor);
 
                 if ((this->timer <= 0) && (fabsf(this->dyna.unk_150) > 0.001f)) {
-                    if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaActor, globalCtx) &&
+                    if (ObjOshihiki_StrongEnough(this) && ObjOshihiki_NoSwitchPress(this, dynaPolyActor, globalCtx) &&
                         !ObjOshihiki_CheckWall(globalCtx, this->dyna.unk_158, this->dyna.unk_150, this)) {
 
                         this->direction = this->dyna.unk_150;
@@ -542,11 +537,11 @@ void ObjOshihiki_OnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
         if (bgId == BGCHECK_SCENE) {
             ObjOshihiki_SetupFall(this, globalCtx);
         } else {
-            dynaActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
+            dynaPolyActor = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
 
-            if ((dynaActor != NULL) && (dynaActor->unk_15C & 1)) {
-                func_800434A8(dynaActor);
-                func_80043538(dynaActor);
+            if ((dynaPolyActor != NULL) && (dynaPolyActor->unk_15C & 1)) {
+                func_800434A8(dynaPolyActor);
+                func_80043538(dynaPolyActor);
                 this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             } else {
                 ObjOshihiki_SetupFall(this, globalCtx);
@@ -690,6 +685,6 @@ void ObjOshihiki_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
     }
 
-    gSPDisplayList(POLY_OPA_DISP++, &D_05004CD0);
+    gSPDisplayList(POLY_OPA_DISP++, &gPushBlockDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_oshihiki.c", 1334);
 }

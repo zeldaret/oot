@@ -5,7 +5,7 @@
 #include "overlays/actors/ovl_En_Part/z_en_part.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc* shadowDraw, f32 shadowScale) {
+void ActorShape_Init(ActorShape* shape, f32 yOffset, ActorShadowFunc shadowDraw, f32 shadowScale) {
     shape->yOffset = yOffset;
     shape->shadowDraw = shadowDraw;
     shape->shadowScale = shadowScale;
@@ -41,7 +41,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
             func_80038A28(actor->floorPoly, actor->world.pos.x, actor->floorHeight, actor->world.pos.z, &sp60);
             Matrix_Put(&sp60);
 
-            if (dlist != D_04049210) {
+            if (dlist != gCircleShadowDL) {
                 Matrix_RotateY(actor->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
             }
 
@@ -58,17 +58,17 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
 }
 
 void ActorShadow_DrawCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    ActorShadow_Draw(actor, lights, globalCtx, D_04049210, NULL);
+    ActorShadow_Draw(actor, lights, globalCtx, gCircleShadowDL, NULL);
 }
 
 void ActorShadow_DrawWhiteCircle(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
     static Color_RGBA8 white = { 255, 255, 255, 255 };
 
-    ActorShadow_Draw(actor, lights, globalCtx, D_04049210, &white);
+    ActorShadow_Draw(actor, lights, globalCtx, gCircleShadowDL, &white);
 }
 
 void ActorShadow_DrawHorse(Actor* actor, Lights* lights, GlobalContext* globalCtx) {
-    ActorShadow_Draw(actor, lights, globalCtx, D_04049AD0, NULL);
+    ActorShadow_Draw(actor, lights, globalCtx, gHorseShadowDL, NULL);
 }
 
 void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s32 arg3, f32 arg4, f32 arg5, f32 arg6) {
@@ -90,7 +90,7 @@ void ActorShadow_DrawFoot(GlobalContext* globalCtx, Light* light, MtxF* arg2, s3
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 1687),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &D_04048180);
+    gSPDisplayList(POLY_OPA_DISP++, gFootShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 1693);
 }
@@ -386,7 +386,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                         Matrix_Translate(entry->unk_0C, entry->unk_0C, 0.0f, MTXMODE_APPLY);
                         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
-                        gSPDisplayList(OVERLAY_DISP++, D_0404D450);
+                        gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
                         Matrix_Pull();
                     }
                 }
@@ -413,7 +413,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2153),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPDisplayList(POLY_XLU_DISP++, &D_0400CB70);
+        gSPDisplayList(POLY_XLU_DISP++, &gZTargetArrowDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2158);
@@ -1278,13 +1278,13 @@ void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f
     }
 }
 
-s32 D_8015BBA8[16];
+Mtx D_8015BBA8;
 
 Gfx* func_8002E830(Vec3f* object, Vec3f* eye, Vec3f* lightDir, GraphicsContext* gfxCtx, Gfx* gfx, Hilite** hilite) {
-    Gfx* lookAt;
+    LookAt* lookAt;
     f32 correctedEyeX;
 
-    lookAt = Graph_Alloc(gfxCtx, 4 * sizeof(Gfx));
+    lookAt = Graph_Alloc(gfxCtx, sizeof(LookAt));
 
     correctedEyeX = (eye->x == object->x) && (eye->z == object->z) ? eye->x + 0.001f : eye->x;
 
@@ -1777,8 +1777,8 @@ void func_8002FA60(GlobalContext* globalCtx) {
 
 Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
 Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-Color_RGB8 D_80116060 = { 255, 255, 255 };
-Color_RGB8 D_80116064 = { 100, 200, 0 };
+Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
 
 #ifdef NON_MATCHING
 // saved register, stack usage and minor ordering differences
@@ -1919,7 +1919,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
                       G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gGameKeepMoteDL0);
+            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
 
             Matrix_Pull();
             phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
@@ -1927,7 +1927,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
                       G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gGameKeepMoteDL0);
+            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
         }
 
         lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
@@ -2245,8 +2245,8 @@ void func_80030ED8(Actor* actor) {
 void func_80030FA8(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, &D_0401E370, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_MIRROR | G_TX_CLAMP,
-                        G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
+    gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownCircle5Tex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
+                        G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
 
     gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 384, 224, 892, 732);
     gSPTextureRectangle(POLY_XLU_DISP++, 0, 0, 1280, 960, G_TX_RENDERTILE, 2240, 1600, 576, 597);
@@ -2754,7 +2754,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
         osSyncPrintf("アクタークライアントは %d 個目です\n", overlayEntry->nbLoaded);
     }
 
-    Lib_MemSet(actor, actorInit->instanceSize, 0);
+    Lib_MemSet((u8*)actor, actorInit->instanceSize, 0);
     actor->overlayEntry = overlayEntry;
     actor->id = actorInit->id;
     actor->flags = actorInit->flags;
@@ -2982,7 +2982,7 @@ Actor* func_80032AF0(GlobalContext* globalCtx, ActorContext* actorCtx, Actor** a
         }
 
         if (D_8015BBE8 == NULL) {
-            for (i; i < ARRAY_COUNT(D_801160A0); i++) {
+            for (; i < ARRAY_COUNT(D_801160A0); i++) {
                 func_800328D4(globalCtx, actorCtx, player, *entry);
                 entry++;
             }
@@ -3062,9 +3062,9 @@ void func_80032E24(struct_80032E24* arg0, s32 arg1, GlobalContext* globalCtx) {
             sp20 = (arg1 * sizeof(*arg0->unk_04)) + sizeof(*arg0->unk_04);
             arg0->unk_04 = ZeldaArena_MallocDebug(sp20, "../z_actor.c", 7546);
             if (arg0->unk_04 != NULL) {
-                Lib_MemSet(arg0->unk_00, sp28, 0);
-                Lib_MemSet(arg0->unk_0C, sp24, 0);
-                Lib_MemSet(arg0->unk_04, sp20, 0);
+                Lib_MemSet((u8*)arg0->unk_00, sp28, 0);
+                Lib_MemSet((u8*)arg0->unk_0C, sp24, 0);
+                Lib_MemSet((u8*)arg0->unk_04, sp20, 0);
                 arg0->unk_10 = 1;
                 return;
             }
@@ -3099,7 +3099,7 @@ void func_80032F54(struct_80032E24* arg0, s32 arg1, s32 arg2, s32 arg3, u32 arg4
             arg0->unk_08++;
         }
 
-        if (arg0->unk_08 >= arg4) {
+        if ((u32)arg0->unk_08 >= arg4) {
             arg0->unk_08 = arg0->unk_10 - 1;
             arg0->unk_10 = -1;
         }
@@ -3457,7 +3457,7 @@ void func_80033C30(Vec3f* arg0, Vec3f* arg1, u8 alpha, GlobalContext* globalCtx)
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 8149),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPDisplayList(POLY_OPA_DISP++, &D_04049210);
+    gSPDisplayList(POLY_OPA_DISP++, &gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 8155);
 }
@@ -3566,13 +3566,13 @@ void func_8003424C(GlobalContext* globalCtx, Vec3f* arg1) {
     CollisionCheck_SpawnShieldParticlesMetal(globalCtx, arg1);
 }
 
-void func_8003426C(Actor* actor, s16 arg1, s16 arg2, s16 arg3, s16 arg4) {
-    if ((arg1 == 0x8000) && !(arg2 & 0x8000)) {
+void Actor_SetColorFilter(Actor* actor, s16 colorFlag, s16 colorIntensityMax, s16 xluFlag, s16 duration) {
+    if ((colorFlag == 0x8000) && !(colorIntensityMax & 0x8000)) {
         Audio_PlayActorSound2(actor, NA_SE_EN_LIGHT_ARROW_HIT);
     }
 
-    actor->colorFilterParams = arg1 | arg3 | ((arg2 & 0xF8) << 5) | arg4;
-    actor->colorFilterTimer = arg4;
+    actor->colorFilterParams = colorFlag | xluFlag | ((colorIntensityMax & 0xF8) << 5) | duration;
+    actor->colorFilterTimer = duration;
 }
 
 Hilite* func_800342EC(Vec3f* object, GlobalContext* globalCtx) {
@@ -3859,19 +3859,19 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     return arg2;
 }
 
-void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* arg1, s32 arg2) {
+void func_80034EC0(SkelAnime* skelAnime, struct_80034EC0_Entry* animations, s32 index) {
     f32 frameCount;
 
-    arg1 += arg2;
+    animations += index;
 
-    if (arg1->frameCount > 0.0f) {
-        frameCount = arg1->frameCount;
+    if (animations->frameCount > 0.0f) {
+        frameCount = animations->frameCount;
     } else {
-        frameCount = Animation_GetLastFrame(arg1->animation);
+        frameCount = Animation_GetLastFrame(animations->animation);
     }
 
-    Animation_Change(skelAnime, arg1->animation, arg1->playbackSpeed, arg1->unk_08, frameCount, arg1->unk_10,
-                     arg1->transitionRate);
+    Animation_Change(skelAnime, animations->animation, animations->playbackSpeed, animations->startFrame, frameCount,
+                     animations->mode, animations->transitionRate);
 }
 
 void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3) {
@@ -3964,8 +3964,8 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
 }
 
 void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* arg3) {
-    Color_RGB8 color1;
-    Color_RGB8 color2;
+    Color_RGBA8 color1;
+    Color_RGBA8 color2;
 
     color1.r = 200;
     color1.g = 160;
@@ -3975,6 +3975,7 @@ void func_8003555C(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     color2.g = 90;
     color2.b = 50;
 
+    //! @bug color1 and color2 alpha components not set before being passed on
     EffectSsKiraKira_SpawnSmall(globalCtx, arg1, arg2, arg3, &color1, &color2);
 }
 
@@ -4078,20 +4079,20 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     }
 }
 
-void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
+void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
     f32 dx = arg1->x - arg0->x;
     f32 dz = arg1->z - arg0->z;
     f32 dy = arg3 ? (arg1->y - arg0->y) : (arg0->y - arg1->y);
 
-    arg2[1] = Math_Atan2S(dz, dx);
-    arg2[0] = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
+    arg2->y = Math_Atan2S(dz, dx);
+    arg2->x = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
 }
 
 /**
  * Spawns En_Part (Dissipating Flames) actor as a child of the given actor.
  */
-EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
-                      GlobalContext* globalCtx, s16 params, s32 arg8) {
+Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
+                     GlobalContext* globalCtx, s16 params, s32 arg8) {
     EnPart* spawnedEnPart;
 
     spawnedEnPart =
@@ -4105,7 +4106,7 @@ EnPart* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3,
         spawnedEnPart->timer = timer;
         spawnedEnPart->rotZ = arg3[1];
         spawnedEnPart->rotZSpeed = arg3[2];
-        return spawnedEnPart;
+        return &spawnedEnPart->actor;
     }
 
     return NULL;

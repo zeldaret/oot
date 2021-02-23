@@ -32,7 +32,9 @@ const ActorInit Bg_Spot09_Obj_InitVars = {
     (ActorFunc)BgSpot09Obj_Draw,
 };
 
-static CollisionHeader* D_808B1F90[] = { NULL, gBgSpot09Col1, gBgSpot09Col2, gBgSpot09Col3, gBgSpot09Col4 };
+static CollisionHeader* D_808B1F90[] = {
+    NULL, &gValleyObjects1Col, &gValleyObjects2Col, &gValleyObjects3Col, &gValleyObjects4Col,
+};
 
 static s32 (*D_808B1FA4[])(BgSpot09Obj* this, GlobalContext* globalCtx) = {
     func_808B1BEC,
@@ -52,20 +54,21 @@ static InitChainEntry sInitChain2[] = {
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
 };
 
-static Gfx* sDLists[] = { gBgSpot09DL1, gBgSpot09DL2, gBgSpot09DL3, gBgSpot09DL4, gBgSpot09DL5 };
+static Gfx* sDLists[] = {
+    gValleyBridgeSidesDL, gValleyBrokenBridgeDL, gValleyBridgeChildDL, gCarpentersTentDL, gValleyRepairedBridgeDL,
+};
 
 s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
     s32 carpentersRescued;
-    Actor* thisx = &this->dyna.actor;
 
     if (gSaveContext.sceneSetupIndex >= 4) {
-        return thisx->params == 0;
+        return this->dyna.actor.params == 0;
     }
 
     carpentersRescued = (gSaveContext.eventChkInf[9] & 0xF) == 0xF;
 
     if (LINK_AGE_IN_YEARS == YEARS_ADULT) {
-        switch (thisx->params) {
+        switch (this->dyna.actor.params) {
             case 0:
                 return 0;
             case 1:
@@ -76,34 +79,32 @@ s32 func_808B1AE0(BgSpot09Obj* this, GlobalContext* globalCtx) {
                 return 1;
         }
     } else {
-        return thisx->params == 2;
+        return this->dyna.actor.params == 2;
     }
 
     return 0;
 }
 
 s32 func_808B1BA0(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
-
-    if (thisx->params == 3) {
-        Actor_SetScale(thisx, 0.1f);
+    if (this->dyna.actor.params == 3) {
+        Actor_SetScale(&this->dyna.actor, 0.1f);
     } else {
-        Actor_SetScale(thisx, 1.0f);
+        Actor_SetScale(&this->dyna.actor, 1.0f);
     }
     return 1;
 }
 
 s32 func_808B1BEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+    s32 pad;
     CollisionHeader* colHeader = NULL;
-    s32 pad[2];
+    s32 pad2[2];
 
-    if (D_808B1F90[thisx->params] != NULL) {
-        DynaPolyActor_Init(thisx, DPM_UNK);
-        CollisionHeader_GetVirtual(D_808B1F90[thisx->params], &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+    if (D_808B1F90[this->dyna.actor.params] != NULL) {
+        DynaPolyActor_Init(&this->dyna, DPM_UNK);
+        CollisionHeader_GetVirtual(D_808B1F90[this->dyna.actor.params], &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     }
-    return 1;
+    return true;
 }
 
 s32 func_808B1C70(BgSpot09Obj* this, GlobalContext* globalCtx) {
@@ -111,20 +112,20 @@ s32 func_808B1C70(BgSpot09Obj* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < ARRAY_COUNT(D_808B1FA4); i++) {
         if (!D_808B1FA4[i](this, globalCtx)) {
-            return 0;
+            return false;
         }
     }
-    return 1;
+    return true;
 }
 
 s32 func_808B1CEC(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain1);
-    return 1;
+    return true;
 }
 
 s32 func_808B1D18(BgSpot09Obj* this, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain2);
-    return 1;
+    return true;
 }
 
 s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
@@ -138,18 +139,18 @@ s32 func_808B1D44(BgSpot09Obj* this, GlobalContext* globalCtx) {
 void BgSpot09Obj_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot09Obj* this = THIS;
 
-    osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", thisx->params,
+    osSyncPrintf("Spot09 Object [arg_data : 0x%04x](大工救出フラグ 0x%x)\n", this->dyna.actor.params,
                  gSaveContext.eventChkInf[9] & 0xF);
-    thisx->params &= 0xFF;
-    if ((thisx->params < 0) || (thisx->params >= 5)) {
+    this->dyna.actor.params &= 0xFF;
+    if ((this->dyna.actor.params < 0) || (this->dyna.actor.params >= 5)) {
         osSyncPrintf("Error : Spot 09 object の arg_data が判別出来ない(%s %d)(arg_data 0x%04x)\n",
-                     "../z_bg_spot09_obj.c", 322, thisx->params);
+                     "../z_bg_spot09_obj.c", 322, this->dyna.actor.params);
     }
 
     if (!func_808B1C70(this, globalCtx)) {
-        Actor_Kill(thisx);
+        Actor_Kill(&this->dyna.actor);
     } else if (!func_808B1D44(this, globalCtx)) {
-        Actor_Kill(thisx);
+        Actor_Kill(&this->dyna.actor);
     }
 }
 
@@ -157,7 +158,7 @@ void BgSpot09Obj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaCollisionContext* dynaColCtx = &globalCtx->colCtx.dyna;
     BgSpot09Obj* this = THIS;
 
-    if (thisx->params != 0) {
+    if (this->dyna.actor.params != 0) {
         DynaPoly_DeleteBgActor(globalCtx, dynaColCtx, this->dyna.bgId);
     }
 }
@@ -175,7 +176,7 @@ void BgSpot09Obj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 391),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, gBgSpot09DL6);
+        gSPDisplayList(POLY_XLU_DISP++, gCarpentersTentEntranceDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot09_obj.c", 396);
     }

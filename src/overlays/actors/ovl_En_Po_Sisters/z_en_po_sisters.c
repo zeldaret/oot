@@ -5,6 +5,7 @@
  */
 
 #include "z_en_po_sisters.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00005215
 
@@ -175,8 +176,6 @@ extern AnimationHeader D_06000680;
 extern Gfx D_060027B0[];
 extern Gfx D_060046E0[];
 
-extern Gfx D_0404D4E0[];
-
 void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnPoSisters* this = THIS;
     s32 pad;
@@ -312,7 +311,7 @@ void func_80AD95D8(EnPoSisters* this) {
         this->actor.speedXZ = 10.0f;
     }
     this->unk_199 &= ~0xB;
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x10);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x10);
     this->actionFunc = func_80ADAAA4;
 }
 
@@ -1414,7 +1413,7 @@ void EnPoSisters_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(phi_f20, phi_f20, phi_f20, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 3132),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_0404D4E0);
+        gSPDisplayList(POLY_XLU_DISP++, gEffFire1DL);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_po_sisters.c", 3139);
 }

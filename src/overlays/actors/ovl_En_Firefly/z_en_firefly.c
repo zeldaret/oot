@@ -1,3 +1,9 @@
+/*
+ * File: z_en_firefly.c
+ * Overlay: ovl_En_Firefly
+ * Description: Keese (Normal, Fire, Ice)
+ */
+
 #include "z_en_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
@@ -198,7 +204,7 @@ void EnFirefly_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-void EnFirefly_SetupWait(EnFirefly* this) {
+void EnFirefly_SetupFlyIdle(EnFirefly* this) {
     this->timer = Rand_S16Offset(70, 100);
     this->actor.speedXZ = (Rand_ZeroOne() * 1.5f) + 1.5f;
     Math_ScaledStepToS(&this->actor.shape.rot.y, Actor_WorldYawTowardPoint(&this->actor, &this->actor.home.pos), 0x300);
@@ -213,7 +219,7 @@ void EnFirefly_SetupFall(EnFirefly* this) {
     Animation_Change(&this->skelAnime, &D_0600017C, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 40);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 40);
     this->actionFunc = EnFirefly_Fall;
 }
 
@@ -247,7 +253,7 @@ void EnFirefly_SetupFlyAway(EnFirefly* this) {
 
 void EnFirefly_SetupStunned(EnFirefly* this) {
     this->timer = 80;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 80);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
     this->auraType = KEESE_AURA_NONE;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
@@ -262,7 +268,7 @@ void EnFirefly_SetupFrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x10;
     this->auraType = KEESE_AURA_NONE;
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 0xFF);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xFF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
 
     for (i = 0; i <= 7; i++) {
@@ -515,7 +521,7 @@ void EnFirefly_FlyAway(EnFirefly* this, GlobalContext* globalCtx) {
     if (((fabsf(this->actor.world.pos.y - this->maxAltitude) < 10.0f) &&
          (Math_Vec3f_DistXZ(&this->actor.world.pos, &this->actor.home.pos) < 20.0f)) ||
         (this->timer == 0)) {
-        EnFirefly_SetupWait(this);
+        EnFirefly_SetupFlyIdle(this);
         return;
     }
     Math_StepToF(&this->actor.speedXZ, 3.0f, 0.3f);
@@ -548,7 +554,7 @@ void EnFirefly_Stunned(EnFirefly* this, GlobalContext* globalCtx) {
         } else if (this->actor.params == KEESE_ICE_FLY) {
             this->auraType = KEESE_AURA_ICE;
         }
-        EnFirefly_SetupWait(this);
+        EnFirefly_SetupFlyIdle(this);
     }
 }
 
@@ -600,7 +606,7 @@ void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     }
 
     if (this->timer == 0) {
-        EnFirefly_SetupWait(this);
+        EnFirefly_SetupFlyIdle(this);
     }
 }
 
@@ -638,7 +644,7 @@ void EnFirefly_UpdateDamage(EnFirefly* this, GlobalContext* globalCtx) {
                 } else if (!this->onFire) {
                     EnFirefly_Ignite(this);
                     if (this->actionFunc == EnFirefly_Perch) {
-                        EnFirefly_SetupWait(this);
+                        EnFirefly_SetupFlyIdle(this);
                     }
                 }
             } else if (damageEffect == 3) { // Ice Arrows or Ice Magic

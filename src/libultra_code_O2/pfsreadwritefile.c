@@ -50,37 +50,29 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
     if (!(pfs->status & PFS_INITIALIZED)) {
         return PFS_ERR_INVALID;
     }
-
     if (__osCheckId(pfs) == PFS_ERR_NEW_PACK) {
         return PFS_ERR_NEW_PACK;
     }
-
-    if (pfs->activebank != 0) {
-        if ((ret = __osPfsSelectBank(pfs, 0)) != 0) {
-            return ret;
-        }
-    }
-    if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + fileNo, &dir)) != 0) {
+    if (pfs->activebank != 0 && (ret = __osPfsSelectBank(pfs, 0)) != 0) {
         return ret;
     }
-
+    if ((ret = __osContRamRead(pfs->queue, pfs->channel, pfs->dir_table + fileNo, (u8*)&dir)) != 0) {
+        return ret;
+    }
     if ((dir.company_code == 0) || (dir.game_code == 0)) {
         return PFS_ERR_INVALID;
     }
-
     if (!CHECK_IPAGE(dir.start_page, *pfs)) {
         if (dir.start_page.ipage == PFS_EOF) {
             return PFS_ERR_INVALID;
         }
         return PFS_ERR_INCONSISTENT;
     }
-
     if ((flag == PFS_READ) && ((dir.status & PFS_WRITTEN) == 0)) {
         return PFS_ERR_BAD_DATA;
     }
 
     bank = 255;
-
     curBlock = offset / BLOCKSIZE;
     curPage = dir.start_page;
 
@@ -101,11 +93,8 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
             }
             curBlock = 0;
         }
-
-        if (pfs->activebank != curPage.inode_t.bank) {
-            if ((ret = __osPfsSelectBank(pfs, curPage.inode_t.bank)) != 0) {
-                return ret;
-            }
+        if (pfs->activebank != curPage.inode_t.bank && (ret = __osPfsSelectBank(pfs, curPage.inode_t.bank)) != 0) {
+            return ret;
         }
 
         blockno = curPage.inode_t.page * PFS_ONE_PAGE + curBlock;
@@ -125,16 +114,13 @@ s32 osPfsReadWriteFile(OSPfs* pfs, s32 fileNo, u8 flag, s32 offset, s32 size, u8
 
     if (flag == PFS_WRITE && !(dir.status & PFS_WRITTEN)) {
         dir.status |= PFS_WRITTEN;
-        if (pfs->activebank != 0) {
-            if ((ret = __osPfsSelectBank(pfs, 0)) != 0) {
-                return ret;
-            }
+        if (pfs->activebank != 0 && (ret = __osPfsSelectBank(pfs, 0)) != 0) {
+            return ret;
         }
-        if ((ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + fileNo, &dir, 0)) != 0) {
+        if ((ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + fileNo, (u8*)&dir, 0)) != 0) {
             return ret;
         }
     }
 
-    ret = __osPfsGetStatus(pfs->queue, pfs->channel);
-    return ret;
+    return __osPfsGetStatus(pfs->queue, pfs->channel);
 }

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wallmas.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000015
 
@@ -238,7 +239,7 @@ void EnWallmas_SetupTakeDamage(EnWallmas* this) {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
 
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x14);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x14);
     this->actionFunc = EnWallmas_TakeDamage;
     this->actor.speedXZ = 5.0f;
     this->actor.velocity.y = 10.0f;
@@ -292,9 +293,9 @@ void EnWallmas_SetupStun(EnWallmas* this) {
 
     this->actor.speedXZ = 0.0f;
     if (this->actor.colChkInfo.damageEffect == 4) {
-        func_8003426C(&this->actor, -0x8000, 0xFF, 0, 0x50);
+        Actor_SetColorFilter(&this->actor, -0x8000, 0xFF, 0, 0x50);
     } else {
-        func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
 
@@ -613,7 +614,7 @@ void EnWallmas_DrawXlu(EnWallmas* this, GlobalContext* globalCtx) {
 
     Matrix_Scale(xzScale, 1.0f, xzScale, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1421), G_MTX_LOAD);
-    gSPDisplayList(POLY_XLU_DISP++, &D_04049210);
+    gSPDisplayList(POLY_XLU_DISP++, &gCircleShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1426);
 }

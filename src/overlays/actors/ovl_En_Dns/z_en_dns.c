@@ -385,7 +385,7 @@ void func_809EFDD0(EnDns* this, GlobalContext* globalCtx) {
             func_8002F434(&this->actor, globalCtx, GI_NUT_UPGRADE_40, 130.0f, 100.0f);
         }
     } else {
-        func_8002F434(&this->actor, globalCtx, this->dnsItemEntry->getItemID, 130.0f, 100.0f);
+        func_8002F434(&this->actor, globalCtx, this->dnsItemEntry->getItemId, 130.0f, 100.0f);
     }
 }
 
