@@ -203,21 +203,21 @@ beginseg
     name "do_action_static"
     romalign 0x1000
     include "build/assets/textures/do_action_static/do_action_static.o"
-    number 07
+    number 7
 endseg
 
 beginseg
     name "message_static"
     romalign 0x1000
     include "build/assets/textures/message_static/message_static.o"
-    number 07
+    number 7
 endseg
 
 beginseg
     name "message_texture_static"
     romalign 0x1000
     include "build/assets/textures/message_texture_static/message_texture_static.o"
-    number 09
+    number 9
 endseg
 
 beginseg
@@ -6234,14 +6234,14 @@ beginseg
     name "nintendo_rogo_static"
     romalign 0x1000
     include "build/assets/textures/nintendo_rogo_static/nintendo_rogo_static.o"
-    number 01
+    number 1
 endseg
 
 beginseg
     name "title_static"
     romalign 0x1000
     include "build/assets/textures/title_static/title_static.o"
-    number 01
+    number 1
 endseg
 
 beginseg
