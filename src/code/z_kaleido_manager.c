@@ -39,11 +39,10 @@ void KaleidoManager_ClearOvl(KaleidoManagerOvl* ovl) {
 }
 
 void KaleidoManager_Init(GlobalContext* globalCtx) {
-    s32 largestOvl;
+    s32 largestOvl = 0;
     s32 vramSize;
     u32 idx;
 
-    largestOvl = 0;
     for (idx = 0; idx < ARRAY_COUNT(gKaleidoMgrOverlayTable); idx++) {
         vramSize = gKaleidoMgrOverlayTable[idx].vramEnd - (u32)gKaleidoMgrOverlayTable[idx].vramStart;
         if (largestOvl < vramSize) {
@@ -60,6 +59,7 @@ void KaleidoManager_Init(GlobalContext* globalCtx) {
     osSyncPrintf(VT_RST);
     gKaleidoMgrCurOvl = 0;
 }
+
 void KaleidoManager_Destroy() {
     if (gKaleidoMgrCurOvl) {
         KaleidoManager_ClearOvl(gKaleidoMgrCurOvl);
@@ -70,13 +70,11 @@ void KaleidoManager_Destroy() {
 
 // NOTE: this function looks messed up and probably doesn't work like how the devs wanted it to work
 void* KaleidoManager_GetRamAddr(void* vram) {
-    KaleidoManagerOvl* iter;
-    KaleidoManagerOvl* ovl;
+    KaleidoManagerOvl* iter = gKaleidoMgrCurOvl;
+    KaleidoManagerOvl* ovl = iter;
     u32 idx;
 
-    iter = gKaleidoMgrCurOvl;
-    ovl = iter;
-    if (!ovl) {
+    if (ovl == NULL) {
         iter = &gKaleidoMgrOverlayTable[0];
         for (idx = 0; idx != ARRAY_COUNT(gKaleidoMgrOverlayTable); idx++) {
             if ((u32)vram >= (u32)iter->vramStart && (u32)iter->vramEnd >= (u32)vram) {
@@ -92,7 +90,7 @@ void* KaleidoManager_GetRamAddr(void* vram) {
     }
 
 KaleidoManager_GetRamAddr_end:
-    if (!ovl || (u32)vram < (u32)ovl->vramStart || (u32)vram >= (u32)ovl->vramEnd) {
+    if (ovl == NULL || (u32)vram < (u32)ovl->vramStart || (u32)vram >= (u32)ovl->vramEnd) {
         return NULL;
     }
 

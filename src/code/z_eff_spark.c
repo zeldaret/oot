@@ -1,4 +1,5 @@
 #include "global.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 // original name: "spark"
 void EffectSpark_Init(void* thisx, void* initParamsx) {
@@ -131,7 +132,7 @@ s32 EffectSpark_Update(void* thisx) {
 void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     Vtx* vertices;
     EffectSpark* this = (EffectSpark*)thisx;
-    GlobalContext* globalCtx;
+    GlobalContext* globalCtx = Effect_GetGlobalCtx();
     s32 i;
     s32 j;
     u8 sp1D3;
@@ -152,8 +153,6 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
     u8 sp1C4;
     f32 ratio;
 
-    globalCtx = Effect_GetGlobalCtx();
-
     if (1) {}
 
     OPEN_DISPS(gfxCtx, "../z_eff_spark.c", 293);
@@ -166,8 +165,8 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
 
         gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
-        gDPLoadTextureBlock(POLY_XLU_DISP++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                            G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
+        gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownCircle6Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
         gDPSetCombineMode(POLY_XLU_DISP++, G_CC_SHADEDECALA, G_CC_PASS2);
         gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
@@ -207,11 +206,9 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             MtxF spEC;
             MtxF spAC;
             MtxF sp6C;
-            EffectSparkElement* elem;
+            EffectSparkElement* elem = &this->elements[i];
             Mtx* mtx;
             f32 temp;
-
-            elem = &this->elements[i];
 
             SkinMatrix_SetTranslate(&spEC, elem->position.x, elem->position.y, elem->position.z);
             temp = ((Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;

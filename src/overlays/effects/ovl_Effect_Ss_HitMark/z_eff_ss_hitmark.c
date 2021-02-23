@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_hitmark.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rTexIdx regs[0]
 #define rType regs[1]
@@ -26,11 +27,13 @@ static Color_RGB8 sColors[] = {
     { 255, 255, 255 }, { 0, 255, 200 }, { 255, 255, 255 }, { 150, 0, 255 },
 };
 
-static void* sTextures[] = {
-    0x0401F370, 0x0401F4F0, 0x0401F670, 0x0401F7F0, 0x0401F970, 0x0401FAF0, 0x0401FC70, 0x0401FDF0,
-    0x0401FF70, 0x040200F0, 0x04020270, 0x040203F0, 0x04020570, 0x040206F0, 0x04020870, 0x040209F0,
-    0x04020B70, 0x04020CF0, 0x04020E70, 0x04020FF0, 0x04021170, 0x040212F0, 0x04021470, 0x040215F0,
-    0x0401F370, 0x0401F4F0, 0x0401F670, 0x0401F7F0, 0x0401F970, 0x0401FAF0, 0x0401FC70, 0x0401FDF0,
+static UNK_PTR sTextures[] = {
+    gEffHitMark1Tex,  gEffHitMark2Tex,  gEffHitMark3Tex,  gEffHitMark4Tex,  gEffHitMark5Tex,  gEffHitMark6Tex,
+    gEffHitMark7Tex,  gEffHitMark8Tex,  gEffHitMark9Tex,  gEffHitMark10Tex, gEffHitMark11Tex, gEffHitMark12Tex,
+    gEffHitMark13Tex, gEffHitMark14Tex, gEffHitMark15Tex, gEffHitMark16Tex, gEffHitMark17Tex, gEffHitMark18Tex,
+    gEffHitMark19Tex, gEffHitMark20Tex, gEffHitMark21Tex, gEffHitMark22Tex, gEffHitMark23Tex, gEffHitMark24Tex,
+    gEffHitMark1Tex,  gEffHitMark2Tex,  gEffHitMark3Tex,  gEffHitMark4Tex,  gEffHitMark5Tex,  gEffHitMark6Tex,
+    gEffHitMark7Tex,  gEffHitMark8Tex,
 };
 
 EffectSsInit Effect_Ss_HitMark_InitVars = {
@@ -42,7 +45,7 @@ u32 EffectSsHitMark_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, vo
     s32 colorIdx;
     EffectSsHitMarkInitParams* initParams = (EffectSsHitMarkInitParams*)initParamsx;
     this->pos = initParams->pos;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04021770);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffHitMarkDL);
 
     if (initParams->type == EFFECT_HITMARK_DUST) {
         this->life = 16;

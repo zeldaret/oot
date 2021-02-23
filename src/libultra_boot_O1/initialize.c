@@ -80,5 +80,5 @@ void __osInitialize_common(void) {
     HW_REG(AI_BITRATE_REG, u32) = 0xf;
 }
 
-void __osInitialize_autodetect() {
+void __osInitialize_autodetect(void) {
 }

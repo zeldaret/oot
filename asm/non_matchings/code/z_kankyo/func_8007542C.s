@@ -195,8 +195,8 @@ glabel func_8007542C
 /* AEC850 800756B0 C6060014 */  lwc1  $f6, 0x14($s0)
 /* AEC854 800756B4 460A4400 */  add.s $f16, $f8, $f10
 /* AEC858 800756B8 3C150100 */  lui   $s5, 0x100
-/* AEC85C 800756BC 3C160403 */  lui   $s6, %hi(D_0402CF30) # $s6, 0x403
-/* AEC860 800756C0 26D6CF30 */  addiu $s6, %lo(D_0402CF30) # addiu $s6, $s6, -0x30d0
+/* AEC85C 800756BC 3C160403 */  lui   $s6, %hi(gEffLightningDL) # $s6, 0x403
+/* AEC860 800756C0 26D6CF30 */  addiu $s6, %lo(gEffLightningDL) # addiu $s6, $s6, -0x30d0
 /* AEC864 800756C4 44068000 */  mfc1  $a2, $f16
 /* AEC868 800756C8 26B50000 */  addiu $s5, $s5, 0
 /* AEC86C 800756CC 0C034261 */  jal   Matrix_Translate

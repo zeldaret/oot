@@ -20,7 +20,7 @@ glabel func_80954168
 /* 04EDC 8095419C 1320002E */  beq     $t9, $zero, .L80954258
 /* 04EE0 809541A0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 04EE4 809541A4 2408000C */  addiu   $t0, $zero, 0x000C         ## $t0 = 0000000C
-/* 04EE8 809541A8 0C00D09B */  jal     func_8003426C
+/* 04EE8 809541A8 0C00D09B */  jal     Actor_SetColorFilter
 /* 04EEC 809541AC AFA80010 */  sw      $t0, 0x0010($sp)
 /* 04EF0 809541B0 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float

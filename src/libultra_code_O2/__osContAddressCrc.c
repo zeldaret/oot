@@ -17,10 +17,8 @@ u8 __osContAddressCrc(u16 addr) {
             } else {
                 ++ret;
             }
-        } else {
-            if (ret & 0x20) {
-                ret ^= 0x15;
-            }
+        } else if (ret & 0x20) {
+            ret ^= 0x15;
         }
     }
     for (i = 0; i < 5; ++i) {
@@ -29,15 +27,15 @@ u8 __osContAddressCrc(u16 addr) {
             ret ^= 0x15;
         }
     }
+
     return ret & 0x1f;
 }
 
 u8 __osContDataCrc(u8* data) {
-    s32 ret;
+    s32 ret = 0;
     u32 bit;
     u32 byte;
 
-    ret = 0;
     for (byte = 0x20; byte; --byte, ++data) {
         for (bit = 0x80; bit; bit >>= 1) {
             ret <<= 1;
@@ -47,10 +45,8 @@ u8 __osContDataCrc(u8* data) {
                 } else {
                     ++ret;
                 }
-            } else {
-                if (ret & 0x100) {
-                    ret ^= 0x85;
-                }
+            } else if (ret & 0x100) {
+                ret ^= 0x85;
             }
         }
     }
@@ -61,5 +57,6 @@ u8 __osContDataCrc(u8* data) {
         }
         ++byte;
     } while (byte < 8U);
+
     return ret;
 }
