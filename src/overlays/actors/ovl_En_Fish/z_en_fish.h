@@ -6,9 +6,21 @@
 
 struct EnFish;
 
+typedef void (*EnFishActionFunc)(struct EnFish*, GlobalContext*);
+
 typedef struct EnFish {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x108];
+    /* 0x014C */ ColliderJntSph collider;
+    /* 0x016C */ ColliderJntSphElement colliderItems[1];
+    /* 0x01AC */ SkelAnime skelAnime;
+    /* 0x01F0 */ Vec3s jointTable[7];
+    /* 0x021A */ Vec3s morphTable[7];
+    /* 0x0244 */ EnFishActionFunc actionFunc;
+    /* 0x0244 */ s16 unk_248;
+    /* 0x024A */ s16 unk_24A;
+    /* 0x024C */ s16 unk_24C;
+    /* 0x024E */ s16 unk_24E;
+    /* 0x0250 */ s32 unk_250;
 } EnFish; // size = 0x0254
 
 extern const ActorInit En_Fish_InitVars;
