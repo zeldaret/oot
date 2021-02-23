@@ -377,7 +377,7 @@ spBC[i]) * (phi_s0->n.ob[2] - spBC[i])));
     }
 }
 */
-/*
+
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     u8 isPlayerOnTop;
     Vec3f sp108;
@@ -505,13 +505,14 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             //f32 distance = sqrtf((aux1 * aux1) + (aux2 *aux2));
             f32 distance;
             f32 phi_f2_4;
-            f32 aux1;
-            f32 aux2;
+            f32 aux1; // temp_f20_2
+            f32 aux2; // temp_f22_2
 
             aux1 = ((f32) (phi_s0->n.ob[0] - spB8));
             aux2 = ((f32) (phi_s0->n.ob[2] - spB0));
 
-            distance = sqrtf((aux1 * aux1) + (aux2 * aux2));
+            distance = sqrtf(SQ(aux1) + SQ(aux2));
+
             phi_f2_4 = (2500.0f - distance) / 2500.0f;
 
             //*((s32*)0) = 0;
@@ -521,9 +522,12 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             }
             //phi_f2_4 = CLAMP_MIN(phi_f2_4, 0.0f);
 
+            // phi_f16 = this->unk_170;
+            
             phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
 
             distance = distance - 1500.0f;
+
             if (distance < 0.0f) {
                 distance = 0.0f;
             }
@@ -537,6 +541,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             //spA8 = CLAMP_MAX(spA8, 100.0f);
 
         } else {
+            // temp_f16_2 = this->unk_170;
             phi_f28 = this->unk_170 - 200.0f;
             spA8 = 100.0f;
         }
@@ -547,13 +552,13 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 f32 distance;
                 f32 phi_f2_2;
                 f32 phi_f2_3;
-                f32 aux1;
-                f32 aux2;
+                f32 aux1; // temp_f20_3
+                f32 aux2; // temp_f22_3
 
                 aux1 = ((f32) phi_s0->n.ob[0] - spD4[i]);
                 aux2 = ((f32) phi_s0->n.ob[2] - spBC[i]);
 
-                distance = sqrtf((aux1 * aux1) + (aux2 * aux2));
+                distance = sqrtf(SQ(aux1) + SQ(aux2));
                 if ((i == 0) || isInCreditsScene) {
                     phi_f2_2 = (3000.0f - distance) / 3000.0f;
                 } else {
@@ -564,6 +569,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                     phi_f2_2 = 0.0f;
                 }
 
+                // distance = distance - 1500.0f;
                 temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
                 distance = distance - 1500.0f;
@@ -580,13 +586,19 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
                 //phi_f28 = CLAMP_MAX(phi_f28, temp_f14_2);
                 //phi_f28 = phi_f28;
-                if (phi_f28 > temp_f14_2) {
+                /*if (phi_f28 > temp_f14_2) {
+                    phi_f28 = temp_f14_2;
+                }*/
+                if (temp_f14_2 < phi_f28) {
                     phi_f28 = temp_f14_2;
                 }
 
                 //spA8 = CLAMP_MAX(spA8, phi_f2_3);
                 //spA8 = spA8;
-                if (spA8 > phi_f2_3) {
+                /*if (spA8 > phi_f2_3) {
+                    spA8 = phi_f2_3;
+                }*/
+                if (phi_f2_3 < spA8) {
                     spA8 = phi_f2_3;
                 }
             }
@@ -606,11 +618,15 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
             phi_s0->n.ob[1] = phi_v1_4;
         } else {
+            //f32 temp_f2_3 = temp_f0_3 * spA8;
+
             phi_s0->n.ob[1] = (s16) (phi_f28 + (temp_f0_3 * spA8));
 
+            //s16 temp_v1_4 = (s16) (temp_f2_3 * 0.5f);
             phi_s0->n.ob[0] = (s16) (D_80A8EE10[j].x + (s16)((temp_f0_3 * spA8) * 0.5f));
             phi_s0->n.ob[2] = (s16) (D_80A8EE10[j].z + (s16)((temp_f0_3 * spA8) * 0.5f));
 
+            // s16 temp_a0_4 = (s16) (s32) temp_f2_3;
             vtx_phi_s3->n.ob[0] = (s16) (D_80A8EE10[j].x + (s16)(temp_f0_3 * spA8));
             vtx_phi_s3->n.ob[2] = (s16) (D_80A8EE10[j].z + (s16)(temp_f0_3 * spA8));
         }
@@ -632,6 +648,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         this->shadowAlpha = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
         this->unk_170 = 1000.0f;
+        //this->shadowAlpha = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
@@ -644,7 +661,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     sp108.z = 120.0f;
 
     for (j = 0, phi_s0_3 = vtx_phi_s0_2; j < 0x90; j++, phi_s0_3++) {
-        s16 index;
+        s16 index; // phi_v1_5
         f32 phi_f22;
         f32 temp_f24;
         f32 temp_f22_4;
@@ -678,7 +695,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         //phi_s0_3++;
     }
 }
-*/
+
+/*
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     u8 isPlayerOnTop;
     Vec3f sp108;
@@ -817,7 +835,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
         //temp_a0 = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
 
-        /*
+        #if 0
         phi_v1 = temp_a0;
         phi_v1_2 = temp_a0;
         if (temp_a0 != 0) {
@@ -832,7 +850,7 @@ loop_12:
                 }
             }
         }
-        */
+        #endif
 
         phi_v1_2 = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
 
@@ -844,7 +862,7 @@ loop_12:
         }
 
 
-        /*
+        #if 0
         phi_v0_2 = temp_a0;
         if (temp_a0 != 0) {
             phi_v0 = temp_a0;
@@ -859,7 +877,7 @@ loop_16:
                 }
             }
         }
-        */
+        #endif
 
         phi_v0_2 = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
 
@@ -915,7 +933,7 @@ loop_16:
         if (isPlayerOnTop != 0) {
             temp_f20_2 = (f32) phi_s0->n.ob[0] - spB8;
             temp_f22_2 = (f32) phi_s0->n.ob[2] - spB0;
-            distance_f0 = sqrtf((temp_f20_2 * temp_f20_2) + (temp_f22_2 * temp_f22_2));
+            distance_f0 = sqrtf(SQ(temp_f20_2) + SQ(temp_f22_2));
             phi_f2_4 = (2500.0f - distance_f0) / 2500.0f;
             if (phi_f2_4 < 0.0f) {
                 phi_f2_4 = 0.0f;
@@ -952,7 +970,7 @@ loop_16:
                 temp_f20_3 = (f32) phi_s0->n.ob[0] - spD4[i];
                 temp_f22_3 = (f32) phi_s0->n.ob[2] - spBC[i];
 
-                distance_f0_2 = sqrtf((temp_f20_3 * temp_f20_3) + (temp_f22_3 * temp_f22_3));
+                distance_f0_2 = sqrtf(SQ(temp_f20_3) + SQ(temp_f22_3));
                 if ((i == 0) || isInCreditsScene) {
                     phi_f2 = (3000.0f - distance_f0_2) / 3000.0f;
                 } else {
@@ -1080,6 +1098,7 @@ loop_16:
         phi_s0_3++;
     }
 }
+*/
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
 
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx) {
