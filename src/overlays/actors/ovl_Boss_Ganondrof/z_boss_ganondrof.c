@@ -18,7 +18,7 @@
 typedef enum {
     /* 0 */ NOT_DEAD,
     /* 1 */ DEATH_START,
-    /* 2 */ DEATH_THROE,
+    /* 2 */ DEATH_THROES,
     /* 3 */ DEATH_WARP,
     /* 4 */ DEATH_SCREAM,
     /* 5 */ DEATH_DISINTEGRATE,
@@ -209,21 +209,21 @@ static u8 sDecayMaskTotal[16 * 16] = {
 // clang-format on
 
 // These appear to be Phantom Ganon's body textures, but I don't know which is which.
-static UNK_PTR D_80915028_8x8[] = {
-    &gPhantomGanonUnknown_00A800, &gPhantomGanonUnknown_00AE80, &gPhantomGanonUnknown_00AF00,
-    &gPhantomGanonUnknown_00C180, &gPhantomGanonUnknown_00C400,
+static u64* D_80915028_8x8[] = {
+    gPhantomGanonUnknown_00A800, gPhantomGanonUnknown_00AE80, gPhantomGanonUnknown_00AF00,
+    gPhantomGanonUnknown_00C180, gPhantomGanonUnknown_00C400,
 };
-static UNK_PTR D_8091503C_16x8[] = {
-    &gPhantomGanonUnknown_00B980, &gPhantomGanonUnknown_00C480, &gPhantomGanonUnknown_00BC80,
-    &gPhantomGanonUnknown_00BD80, &gPhantomGanonUnknown_00C080,
+static u64* D_8091503C_16x8[] = {
+    gPhantomGanonUnknown_00B980, gPhantomGanonUnknown_00C480, gPhantomGanonUnknown_00BC80,
+    gPhantomGanonUnknown_00BD80, gPhantomGanonUnknown_00C080,
 };
-static UNK_PTR D_80915050_16x16[] = {
-    &gPhantomGanonUnknown_00C200, &gPhantomGanonUnknown_00A000, &gPhantomGanonUnknown_00A200,
-    &gPhantomGanonUnknown_00A400, &gPhantomGanonUnknown_00A600, &gPhantomGanonUnknown_00A880,
-    &gPhantomGanonUnknown_00B780, &gPhantomGanonUnknown_00BA80, &gPhantomGanonUnknown_00BE80,
+static u64* D_80915050_16x16[] = {
+    gPhantomGanonUnknown_00C200, gPhantomGanonUnknown_00A000, gPhantomGanonUnknown_00A200,
+    gPhantomGanonUnknown_00A400, gPhantomGanonUnknown_00A600, gPhantomGanonUnknown_00A880,
+    gPhantomGanonUnknown_00B780, gPhantomGanonUnknown_00BA80, gPhantomGanonUnknown_00BE80,
 };
-static UNK_PTR D_80915074_16x32[] = { &gPhantomGanonUnknown_00AA80, &gPhantomGanonUnknown_00AF80 };
-static UNK_PTR D_8091507C_16x16[] = { &gPhantomGanonUnknown_0040B0, &gPhantomGanonUnknown_003FB0 };
+static u64* D_80915074_16x32[] = { gPhantomGanonUnknown_00AA80, gPhantomGanonUnknown_00AF80 };
+static u64* D_8091507C_16x16[] = { gPhantomGanonUnknown_0040B0, gPhantomGanonUnknown_003FB0 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
@@ -286,8 +286,8 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
         BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(D_80915074_16x32[i]), mask, index);
     }
 
-    BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(&gPhantomGanonUnknown_00B380), mask, index);
-    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(&gPhantomGanonUnknown_003DB0), mask, index);
+    BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(gPhantomGanonUnknown_00B380), mask, index);
+    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(gPhantomGanonUnknown_003DB0), mask, index);
     for (i = 0; i < 2; i++) {
         BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_8091507C_16x16[i]), mask, index);
     }
@@ -454,7 +454,7 @@ void BossGanondrof_SetupPaintings(BossGanondrof* this) {
 }
 
 void BossGanondrof_Paintings(BossGanondrof* this, GlobalContext* globalCtx) {
-    EnfHG* horse = (EnfHG*)this->actor.child; // sp48;
+    EnfHG* horse = (EnfHG*)this->actor.child;
 
     osSyncPrintf("RUN 1\n");
     SkelAnime_Update(&this->skelAnime);
@@ -707,12 +707,11 @@ void BossGanondrof_Throw(BossGanondrof* this, GlobalContext* globalCtx) {
 }
 
 void BossGanondrof_SetupReturn(BossGanondrof* this, GlobalContext* globalCtx) {
-    static AnimationHeader* returnAnime[] = { &gPhantomGanonAnim_010FD4, &gPhantomGanonAnim_011800 };
-
+    static AnimationHeader* returnAnim[] = { &gPhantomGanonAnim_010FD4, &gPhantomGanonAnim_011800 };
     s16 rand = Rand_ZeroOne() * 1.99f;
 
-    this->endFrame = Animation_GetLastFrame(returnAnime[rand]);
-    Animation_MorphToPlayOnce(&this->skelAnime, returnAnime[rand], 0.0f);
+    this->endFrame = Animation_GetLastFrame(returnAnim[rand]);
+    Animation_MorphToPlayOnce(&this->skelAnime, returnAnim[rand], 0.0f);
     this->actionFunc = BossGanondrof_Return;
 }
 
@@ -988,7 +987,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             osSyncPrintf("7\n");
             Gameplay_ChangeCameraStatus(globalCtx, this->deathCamera, 7);
             osSyncPrintf("8\n");
-            this->deathState = DEATH_THROE;
+            this->deathState = DEATH_THROES;
             player->actor.speedXZ = 0.0f;
             this->timers[0] = 50;
             this->cameraEye = camera->eye;
@@ -1012,7 +1011,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             this->cameraAtMaxVel.x = 0.2f;
             this->cameraAtMaxVel.y = 0.2f;
             this->cameraAtMaxVel.z = 0.2f;
-        case DEATH_THROE:
+        case DEATH_THROES:
             switch (this->actionState) {
                 case DEATH_SPASM:
                     if (Animation_OnFrame(&this->skelAnime, this->endFrame)) {
@@ -1197,7 +1196,7 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
                 EffectSsKFire_Spawn(globalCtx, &sp94, &sp88, &sp7C, (s16)Rand_ZeroFloat(20.0f) + 15, bodyDecayLevel);
                 if ((Rand_ZeroOne() < 0.5f) || (bodyDecayLevel == 3)) {
                     EffectSsHahen_Spawn(globalCtx, &sp94, &sp88, &sp70, 0, (s16)Rand_ZeroFloat(4.0f) + 7,
-                                        HAHEN_OBJECT_DEFAULT, 10, 0);
+                                        HAHEN_OBJECT_DEFAULT, 10, NULL);
                 }
             }
         } else {
@@ -1332,10 +1331,16 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
-        DECR(this->timers[i]);
+        if (this->timers[i]) {
+            this->timers[i]--;
+        }
     }
-    DECR(this->unkTimer1);
-    DECR(this->unkTimer2);
+    if (this->unkTimer1) {
+        this->unkTimer1--;
+    }
+    if (this->unkTimer2) {
+        this->unkTimer2--;
+    }
 
     if (this->actionFunc != BossGanondrof_Death) {
         BossGanondrof_CollisionCheck(this, globalCtx);

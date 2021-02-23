@@ -62,9 +62,11 @@ const ActorInit En_fHG_InitVars = {
     (ActorFunc)EnfHG_Draw,
 };
 
-static EnfHGPainting sPaintings[6] = { { { 0.0f, 60.0f, -315.0f }, 0x0000 },   { { -260.0f, 60.0f, -145.0f }, 0x2AAA },
-                                       { { -260.0f, 60.0f, 165.0f }, 0x5554 }, { { 0.0f, 60.0f, 315.0f }, 0x7FFE },
-                                       { { 260.0f, 60.0f, 155.0f }, 0xAAA8 },  { { 260.0f, 60.0f, -155.0f }, 0xD552 } };
+static EnfHGPainting sPaintings[6] = {
+    { { 0.0f, 60.0f, -315.0f }, 0x0000 },   { { -260.0f, 60.0f, -145.0f }, 0x2AAA },
+    { { -260.0f, 60.0f, 165.0f }, 0x5554 }, { { 0.0f, 60.0f, 315.0f }, 0x7FFE },
+    { { 260.0f, 60.0f, 155.0f }, 0xAAA8 },  { { 260.0f, 60.0f, -155.0f }, 0xD552 },
+};
 
 static InitChainEntry sInitChain[2] = {
     ICHAIN_S8(naviEnemyId, 26, ICHAIN_CONTINUE),
@@ -104,7 +106,9 @@ void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void EnfHG_SetupIntro(EnfHG* this, GlobalContext* globalCtx) {
     Animation_PlayLoop(&this->skin.skelAnime, &gPhantomHorseAnim_00E8A0);
     this->actionFunc = EnfHG_Intro;
-    VEC_SET(this->actor.world.pos, 14.0f, -300.0f, -3315.0f);
+    this->actor.world.pos.x = 14.0f;
+    this->actor.world.pos.y = -300.0f;
+    this->actor.world.pos.z = -3315.0f;
 }
 
 void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
@@ -114,7 +118,6 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
     BossGanondrof* bossFhg = BOSSFHG;
     s32 pad58;
     s32 pad54;
-    Camera* camera;
 
     if (this->cutsceneState != INTRO_FINISH) {
         SkelAnime_Update(&this->skin.skelAnime);
@@ -163,10 +166,14 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             gSaveContext.eventChkInf[7] |= 4;
             Flags_SetSwitch(globalCtx, 0x23);
         case INTRO_FENCE:
-            VEC_SET(player->actor.world.pos, 14.0f, -26.0f, -3160.0f);
+            player->actor.world.pos.x = 14.0f;
+            player->actor.world.pos.y = -26.0f;
+            player->actor.world.pos.z = -3160.0f;
             player->actor.world.rot.y = player->actor.shape.rot.y = 0;
             player->actor.speedXZ = 0.0f;
-            VEC_SET(this->cameraEye, 14.0f, 4.0f, -3145.0f);
+            this->cameraEye.x = 14.0f;
+            this->cameraEye.y = 4.0f;
+            this->cameraEye.z = -3145.0f;
             this->cameraAt.x = this->cameraAt.y = 14.0f;
             this->cameraAt.z = -3000.0f;
             if (this->timers[0] == 25) {
@@ -223,8 +230,12 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             break;
         case INTRO_CUT:
             this->cutsceneState = INTRO_LAUGH;
-            VEC_SET(this->cameraEye, 64.0f, -16.0f, -3205.0f);
-            VEC_SET(this->cameraAt, -136.0f, 174.0f, -3470.0f);
+            this->cameraEye.x = 64.0f;
+            this->cameraEye.y = -16.0f;
+            this->cameraEye.z = -3205.0f;
+            this->cameraAt.x = -136.0f;
+            this->cameraAt.y = 174.0f;
+            this->cameraAt.z = -3470.0f;
             this->cameraEyeVel.x = fabsf(this->cameraEye.x - 34.0f);
             this->cameraEyeVel.y = fabsf(this->cameraEye.y - 69.0f);
             this->cameraEyeVel.z = fabsf(this->cameraEye.z - -3290.0f);
@@ -368,7 +379,8 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->cameraAt.y, (this->actor.world.pos.y + 70.0f) - 20.0f, 0.1f,
                            this->cameraSpeedMod * 10.0f);
             if (this->timers[1] == 0) {
-                camera = Gameplay_GetCamera(globalCtx, 0);
+                Camera* camera = Gameplay_GetCamera(globalCtx, 0);
+
                 camera->eye = this->cameraEye;
                 camera->eyeNext = this->cameraEye;
                 camera->at = this->cameraAt;
@@ -429,7 +441,7 @@ void EnfHG_SetupApproach(EnfHG* this, GlobalContext* globalCtx, s16 paintingInde
     this->warpFogUnk1 = 0.0f;
     this->warpFogUnk2 = 0.0f;
     this->turnRot = 0;
-    this->turnAround = 0;
+    this->turnTarget = 0;
     this->spawnedWarp = false;
 }
 
@@ -456,7 +468,7 @@ void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
             this->timers[0] = 140;
             this->actionFunc = EnfHG_Retreat;
             Animation_MorphToLoop(&this->skin.skelAnime, &gPhantomHorseAnim_00B4C8, 0.0f);
-            this->turnAround = -0x8000;
+            this->turnTarget = -0x8000;
         } else {
             this->actionFunc = EnfHG_Attack;
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
@@ -470,10 +482,6 @@ void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
 }
 
 void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
-    f32 sp54;
-    f32 sp50;
-    f32 sp4C;
-
     osSyncPrintf("KABE OUT !!\n");
     this->bossFhgInPainting = false;
     SkelAnime_Update(&this->skin.skelAnime);
@@ -528,13 +536,14 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
         this->bossFhgSignal = FHG_RESET;
         this->damageSpeedMod = 1.0f;
     } else {
-        sp54 = this->actor.world.pos.x - this->inPaintingPos.x;
-        sp50 = this->actor.world.pos.z - this->inPaintingPos.z;
-        sp4C = sqrtf(SQ(sp54) + SQ(sp50));
-        if (sp4C < 350.0f) {
+        f32 dx = this->actor.world.pos.x - this->inPaintingPos.x;
+        f32 dz = this->actor.world.pos.z - this->inPaintingPos.z;
+        f32 dxz = sqrtf(SQ(dx) + SQ(dz));
+
+        if (dxz < 350.0f) {
             this->bossFhgInPainting = true;
         }
-        if ((sp4C < 300.0f) && !this->spawnedWarp) {
+        if ((dxz < 300.0f) && !this->spawnedWarp) {
             this->spawnedWarp = true;
             Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->inPaintingPos.x,
                                this->actor.world.pos.y + 50.0f, this->inPaintingPos.z, 0, this->actor.shape.rot.y, 0,
@@ -543,9 +552,9 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
         }
         osSyncPrintf("SPD X %f\n", this->inPaintingVelX);
         osSyncPrintf("SPD Z %f\n", this->inPaintingVelZ);
-        osSyncPrintf("X=%f\n", sp54);
-        osSyncPrintf("Z=%f\n", sp50);
-        if (sp4C == 0.0f) {
+        osSyncPrintf("X=%f\n", dx);
+        osSyncPrintf("Z=%f\n", dz);
+        if (dxz == 0.0f) {
             this->timers[0] = 140;
             this->actionFunc = EnfHG_Retreat;
             Animation_MorphToLoop(&this->skin.skelAnime, &gPhantomHorseAnim_00B4C8, 0.0f);
@@ -601,17 +610,14 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
         } else {
             bossFhg->flyMode = FHG_FLY_NEUTRAL;
         }
-        this->turnAround = -0x8000;
+        this->turnTarget = -0x8000;
     }
 }
 
 void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
-    s16 temp_rand1;
-    s16 temp_rand2;
-
     osSyncPrintf("KABE IN !!\n");
-    if (this->turnAround != 0) {
-        Math_ApproachS(&this->turnRot, this->turnAround, 5, 2000);
+    if (this->turnTarget != 0) {
+        Math_ApproachS(&this->turnRot, this->turnTarget, 5, 2000);
     }
     if (this->actor.params == 1) {
         this->hoofSfxPos.x = this->actor.projectedPos.x / (this->actor.scale.x * 100.0f);
@@ -631,6 +637,9 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
     }
     if (this->timers[0] == 0) {
         BossGanondrof* bossFhg = BOSSFHG;
+        s16 paintingIdxReal;
+        s16 paintingIdxFake;
+
         if (this->actor.params != 1) {
             this->killActor = true;
             bossFhg->killActor = true;
@@ -638,15 +647,15 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
             this->actionFunc = EnfHG_Done;
             this->actor.draw = NULL;
         } else {
-            temp_rand1 = Rand_ZeroOne() * 5.99f;
-            EnfHG_SetupApproach(this, globalCtx, temp_rand1);
+            paintingIdxReal = Rand_ZeroOne() * 5.99f;
+            EnfHG_SetupApproach(this, globalCtx, paintingIdxReal);
             do {
-                temp_rand2 = Rand_ZeroOne() * 5.99f;
-            } while (temp_rand2 == temp_rand1);
+                paintingIdxFake = Rand_ZeroOne() * 5.99f;
+            } while (paintingIdxFake == paintingIdxReal);
             osSyncPrintf("ac1 = %x `````````````````````````````````````````````````\n",
                          Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANONDROF,
-                                            this->actor.world.pos.x, this->actor.world.pos.y,
-                                            this->actor.world.pos.z, 0, 0, 0, temp_rand2 + 10));
+                                            this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
+                                            0, 0, 0, paintingIdxFake + 10));
         }
     }
 }
@@ -672,7 +681,9 @@ void EnfHG_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actionFunc(this, globalCtx);
 
-    DECR(this->hitTimer);
+    if (this->hitTimer != 0) {
+        this->hitTimer--;
+    }
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
@@ -694,7 +705,7 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     POLY_OPA_DISP = ((bossFhg->invincibilityTimer & 4) && (bossFhg->flyMode == FHG_FLY_PAINTING))
-                        ? Gfx_SetFog(POLY_OPA_DISP, 0xFF, 50, 0, 0, 900, 1099)
+                        ? Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099)
                         : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
                                      (s32)this->warpFogUnk1 + 995, (s32)this->warpFogUnk2 + 1000);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);

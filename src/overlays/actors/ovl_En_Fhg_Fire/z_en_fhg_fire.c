@@ -6,7 +6,7 @@
 
 #include "z_en_fhg_fire.h"
 #include "objects/object_fhg/object_fhg.h"
-
+#include "objects/gameplay_keep/gameplay_keep.h"
 #include "overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.h"
 #include "overlays/actors/ovl_En_fHG/z_en_fhg.h"
 #include "overlays/effects/ovl_Effect_Ss_Fhg_Flash/z_eff_ss_fhg_flash.h"
@@ -199,8 +199,8 @@ void EnFhgFire_LightningStrike(EnFhgFire* this, GlobalContext* globalCtx) {
                 this->actor.world.pos.y -= 200.0f;
 
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE,
-                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 500, 0,
-                                   0, FHGFIRE_LIGHTNING_BURST);
+                                   this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 500, 0, 0,
+                                   FHGFIRE_LIGHTNING_BURST);
                 {
                     Vec3f sp7C;
                     Vec3f sp70 = { 0.0f, -1.0f, 0.0f };
@@ -474,7 +474,8 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
             case FHGFIRE_LIGHT_GREEN:
                 canBottleReflect1 =
                     ((player->stateFlags1 & 2) &&
-                     (ABS((s16)(player->actor.shape.rot.y - (s16)(bossFhg->actor.yawTowardsPlayer + 0x8000))) < 0x2000) &&
+                     (ABS((s16)(player->actor.shape.rot.y - (s16)(bossFhg->actor.yawTowardsPlayer + 0x8000))) <
+                      0x2000) &&
                      (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f))
                         ? true
                         : false;
@@ -684,14 +685,18 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->varianceTimer++;
 
-    DECR(this->timer);
-    DECR(this->effectsTimer);
+    if (this->timer != 0) {
+        this->timer--;
+    }
+    if (this->effectsTimer) {
+        this->effectsTimer--;
+    }
 
     this->updateFunc(this, globalCtx);
 }
 
 static s32 D_80A1181C[] = {
-    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0,
+    gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
 };
 
 void EnFhgFire_Draw(Actor* thisx, GlobalContext* globalCtx) {

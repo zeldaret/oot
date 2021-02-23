@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_fhg" Segment="6">
-        <!-- <Skeleton Name="gPhantomHorseSkel" Type="Standard" LimbType="Skin" Offset="0xB098"/> --> -->
+        <!-- <Skeleton Name="gPhantomHorseSkel" Type="Standard" LimbType="Skin" Offset="0xB098"/> -->
         <Blob Name="gPhantomHorseSkel" Size="8" Offset="0xB098"/>
 
         <Animation Name="gPhantomHorseAnim_00B4C8" Offset="0xB4C8"/>

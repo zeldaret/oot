@@ -42,7 +42,7 @@ typedef struct EnfHG {
     /* 0x01C0 */ s16 gallopTimer;
     /* 0x01C2 */ s16 curPainting;
     /* 0x01C4 */ s16 targetPainting;
-    /* 0x01C6 */ s16 turnAround;
+    /* 0x01C6 */ s16 turnTarget;
     /* 0x01C8 */ s16 spawnedWarp;
     /* 0x01CA */ s16 cutsceneState;
     /* 0x01CC */ s16 cutsceneCamera;
