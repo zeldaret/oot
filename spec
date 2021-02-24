@@ -2760,8 +2760,7 @@ endseg
 beginseg
     name "ovl_En_Peehat"
     include "build/src/overlays/actors/ovl_En_Peehat/z_en_peehat.o"
-    include "build/data/overlays/actors/z_en_peehat.data.o"
-    include "build/data/overlays/actors/z_en_peehat.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Peehat/ovl_En_Peehat_reloc.o"
 endseg
 
 beginseg
@@ -3142,8 +3141,11 @@ endseg
 beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
-    include "build/data/overlays/actors/z_en_yabusame_mark.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Yabusame_Mark/ovl_En_Yabusame_Mark_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3421,8 +3423,7 @@ endseg
 beginseg
     name "ovl_Obj_Tsubo"
     include "build/src/overlays/actors/ovl_Obj_Tsubo/z_obj_tsubo.o"
-    include "build/data/overlays/actors/z_obj_tsubo.data.o"
-    include "build/data/overlays/actors/z_obj_tsubo.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Tsubo/ovl_Obj_Tsubo_reloc.o"
 endseg
 
 beginseg
