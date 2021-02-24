@@ -264,15 +264,13 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static UNK_PTR D_80B41D6C[] = {
-    &gShiekEyeOpenTex,
-    &gShiekEyeHalfClosedTex,
-    &gShiekEyeShutTex,
+static u64* D_80B41D6C[] = {
+    gShiekEyeOpenTex,
+    gShiekEyeHalfClosedTex,
+    gShiekEyeShutTex,
 };
 
-Vec3f D_80B41D78 = { -611.0f, 728.0f, -2.0f };
 
-Vec3f D_80B41D84 = { -1069.0f, 38.0f, 0.0f };
 
 void func_80B3C1E0(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
@@ -632,11 +630,15 @@ void func_80B3CF90(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-Vec3f D_80B42D90;
+
 
 void func_80B3D014(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 sceneNum;
+
+    static Vec3f D_80B42D90;
+    static Vec3f D_80B41D78 = { -611.0f, 728.0f, -2.0f };
+    static Vec3f D_80B41D84 = { -1069.0f, 38.0f, 0.0f };
 
     if (gSaveContext.sceneSetupIndex == 4) {
         sceneNum = globalCtx->sceneNum;
@@ -672,70 +674,33 @@ void func_80B3D118(GlobalContext* globalCtx) {
     }
 }
 
-s32 D_80B41D90 = 0x00000000;
-
-Vec3f D_80B41D94 = { 0.0f, 0.0f, 0.0f };
-
-f32 D_80B41DA0 = 0.0f;
-
-s32 D_80B41DA4 = 0x00000000;
-
-void func_80B3D158(GlobalContext* globalCtx);
-#ifdef NON_EQUIVALENT
-void func_80B3D158(GlobalContext* globalCtx2) {
+void func_80B3D158(GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 4) {
-        GlobalContext* globalCtx1 = globalCtx2;
-        s16 sceneNum = globalCtx1->sceneNum;
+        s32 pad;
+        s16 sceneNum = globalCtx->sceneNum;
+        static s32 D_80B41D90 = 0;
+        static Vec3f D_80B41D94 = { 0.0f, 0.0f, 0.0f };
+        static f32 D_80B41DA0 = 0.0f;
 
         if (sceneNum == SCENE_SPOT11) {
-            CutsceneContext* csCtx = &globalCtx1->csCtx;
+            CutsceneContext* csCtx = &globalCtx->csCtx;
             u16 frameCount = csCtx->frames;
 
             if (frameCount >= 120) {
                 if (frameCount < 164) {
-                    GlobalContext* globalCtx = globalCtx2;  
+                    s32 pad;
                     Vec3f* eye = &globalCtx->view.eye;
 
                     if (D_80B41D90 != 0) {
                         f32 xyzDist = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
+
+                        D_80B41DA0 = CLAMP_MIN(D_80B41DA0, xyzDist);
+
+                        osSyncPrintf("MAX speed = %f\n", D_80B41DA0);
+
+                        xyzDist = CLAMP_MAX(xyzDist, 2.0f);
                         
-                        /*
-                            if (D_80B41DA0 < xyzDist) {
-                                floatBit = true;
-                            }
-
-                            f12 = xyzDist;
-                            if (floatBit != true) {
-                                goto 1010;
-                                f6 = (double)D_80B41DA0;
-                            }
-
-                            D_80B41DA0 = xyzDist;
-                            f6 = (double)D_80B41DA0;
-                            (0x1C + sp) = f12;
-                            a3 = f6;
-                            a2 = f7;
-                            jump to osSyncPrintf
-                                -> f14 = xyzDist;
-                            
-
-                            1010:
-
-
-                        */
-                        if (D_80B41DA0 < xyzDist) {
-                            D_80B41DA0 = xyzDist;
-                        }
-
-                        osSyncPrintf("MAX speed = %f\n", xyzDist);
-
-                        
-                        if (xyzDist > 2.0f) {
-                            xyzDist = 2.0f;
-                        }
-
-                        
-                        func_800F436C(&D_80B41D94, NA_SE_EV_FLYING_AIR - SFX_FLAG, (0.4f * xyzDist) + 0.6f);
+                        func_800F436C(&D_80B41D94, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * xyzDist));
                     }
                     D_80B42DB0.x = eye->x;
                     D_80B42DB0.y = eye->y;
@@ -746,11 +711,10 @@ void func_80B3D158(GlobalContext* globalCtx2) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3D158.s")
-#endif
 
 void func_80B3D298(EnXc* this, GlobalContext* globalCtx) {
+    static s32 D_80B41DA4 = 0;
+
     if (D_80B41DA4 == 0) {
         CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, 0);
         f32 xPos = npcAction->startPos.x;
@@ -806,46 +770,6 @@ void func_80B3D3F0(EnXc* this, GlobalContext* globalCtx) {
         }
     }
 }
-
-s32 D_80B41DAC = 0x00000001;
-
-Vec3f D_80B41DB0 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80B41DBC = { 0.0f, 0.0f, 0.0f };
-
-EnXcActionFunc D_80B41DC8[] = {
-    func_80B3E224, func_80B3E25C, func_80B3E294, func_80B3E30C, func_80B3E368, func_80B3E3C4, func_80B3E420,
-    func_80B3E464, func_80B3E4AC, func_80B3E4F8, func_80B3E53C, func_80B3E580, func_80B3E5C8, func_80B3E610,
-    func_80B3E668, func_80B3E6D0, func_80B3E738, func_80B3E7A0, func_80B3E804, func_80B3E85C, func_80B3ED48,
-    func_80B3ED68, func_80B3ED88, func_80B3EDCC, func_80B3EE28, func_80B3EE34, func_80B3EE40, func_80B3EE4C,
-    func_80B3EE58, func_80B3F124, func_80B3F144, func_80B3F16C, func_80B3F1A8, func_80B3F1D0, func_80B3F1F8,
-    func_80B3F220, func_80B3F248, func_80B3F270, func_80B3F298, func_80B3F2C0, func_80B3F2E8, func_80B3F344,
-    func_80B3F36C, func_80B3F394, func_80B3F3BC, func_80B3F7F8, func_80B3F820, func_80B3F848, func_80B3F8A0,
-    func_80B3F8C8, func_80B3F928, func_80B3F988, func_80B3F9E8, func_80B400E4, func_80B40104, func_80B4015C,
-    func_80B401CC, func_80B41000, func_80B41020, func_80B41068, func_80B410AC, func_80B41110, func_80B41174,
-    func_80B411AC, func_80B41204, func_80B41248, func_80B41284, func_80B412AC, func_80B412D4, func_80B412FC,
-    func_80B41324, func_80B4134C, func_80B41374, func_80B4139C, func_80B413C4, func_80B41414, func_80B4143C,
-    func_80B41464, func_80B4148C, func_80B417E4, func_80B41844,
-};
-
-Vec3f D_80B41F0C = { 0.0f, 10.0f, 0.0f };
-
-EnXcDrawFunc D_80B41F18[] = {
-    func_80B41B98, func_80B41BA4, func_80B3E908, func_80B3EA7C, func_80B402C4, func_80B414AC,
-};
-
-const ActorInit En_Xc_InitVars = {
-    ACTOR_EN_XC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_XC,
-    sizeof(EnXc),
-    (ActorFunc)EnXc_Init,
-    (ActorFunc)EnXc_Destroy,
-    (ActorFunc)EnXc_Update,
-    (ActorFunc)EnXc_Draw,
-};
-
 
 void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
@@ -1366,7 +1290,7 @@ void func_80B3E908(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
-    UNK_PTR eyeTexture = D_80B41D6C[eyePattern];
+    u64* eyeTexture = D_80B41D6C[eyePattern];
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s32 pad2;
@@ -1689,6 +1613,7 @@ void func_80B3F534(GlobalContext* globalCtx) {
 
 void func_80B3F59C(EnXc* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, 0);
+    static s32 D_80B41DAC = 1;
 
     if (npcAction) {
         s32 action = npcAction->action;
@@ -1708,6 +1633,44 @@ void func_80B3F59C(EnXc* this, GlobalContext* globalCtx) {
         }
     }
 }
+
+Vec3f D_80B41DB0 = { 0.0f, 0.0f, 0.0f };
+
+Vec3f D_80B41DBC = { 0.0f, 0.0f, 0.0f };
+
+static EnXcActionFunc D_80B41DC8[] = {
+    func_80B3E224, func_80B3E25C, func_80B3E294, func_80B3E30C, func_80B3E368, func_80B3E3C4, func_80B3E420,
+    func_80B3E464, func_80B3E4AC, func_80B3E4F8, func_80B3E53C, func_80B3E580, func_80B3E5C8, func_80B3E610,
+    func_80B3E668, func_80B3E6D0, func_80B3E738, func_80B3E7A0, func_80B3E804, func_80B3E85C, func_80B3ED48,
+    func_80B3ED68, func_80B3ED88, func_80B3EDCC, func_80B3EE28, func_80B3EE34, func_80B3EE40, func_80B3EE4C,
+    func_80B3EE58, func_80B3F124, func_80B3F144, func_80B3F16C, func_80B3F1A8, func_80B3F1D0, func_80B3F1F8,
+    func_80B3F220, func_80B3F248, func_80B3F270, func_80B3F298, func_80B3F2C0, func_80B3F2E8, func_80B3F344,
+    func_80B3F36C, func_80B3F394, func_80B3F3BC, func_80B3F7F8, func_80B3F820, func_80B3F848, func_80B3F8A0,
+    func_80B3F8C8, func_80B3F928, func_80B3F988, func_80B3F9E8, func_80B400E4, func_80B40104, func_80B4015C,
+    func_80B401CC, func_80B41000, func_80B41020, func_80B41068, func_80B410AC, func_80B41110, func_80B41174,
+    func_80B411AC, func_80B41204, func_80B41248, func_80B41284, func_80B412AC, func_80B412D4, func_80B412FC,
+    func_80B41324, func_80B4134C, func_80B41374, func_80B4139C, func_80B413C4, func_80B41414, func_80B4143C,
+    func_80B41464, func_80B4148C, func_80B417E4, func_80B41844,
+};
+
+Vec3f D_80B41F0C = { 0.0f, 10.0f, 0.0f };
+
+static EnXcDrawFunc D_80B41F18[] = {
+    func_80B41B98, func_80B41BA4, func_80B3E908, func_80B3EA7C, func_80B402C4, func_80B414AC,
+};
+
+const ActorInit En_Xc_InitVars = {
+    ACTOR_EN_XC,
+    ACTORCAT_NPC,
+    FLAGS,
+    OBJECT_XC,
+    sizeof(EnXc),
+    (ActorFunc)EnXc_Init,
+    (ActorFunc)EnXc_Destroy,
+    (ActorFunc)EnXc_Update,
+    (ActorFunc)EnXc_Draw,
+};
+
 
 void func_80B3F620(EnXc* this) {
     func_80B3C7BC(this, 45, 46);
