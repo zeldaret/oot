@@ -382,7 +382,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     u8 isPlayerOnTop;
     Vec3f sp108;
     Vec3f spFC;
-    s8 spE0[3];
+    u8 spE0[3];
     f32 spD4[3];
     f32 spC8[3];
     f32 spBC[3];
@@ -420,6 +420,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     spB8 = (player->actor.world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
     spB4 = (player->actor.world.pos.y - this->unk_168) * 50.0f;
     spB0 = (player->actor.world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+    //phi_s0 = vtx_phi_s0_2
 
     if ((fabsf(spB8) < 5500.0f) && (fabsf(spB4) < 3000.0f) && (fabsf(spB0) < 5500.0f)) {
         isPlayerOnTop = 1;
@@ -470,6 +471,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         isInCreditsScene = 1;
     } else {
         isInCreditsScene = 0;
+        // if (actorExplosive != NULL) { }
         i = 1;
         //*((s32*)0) = 0;
         while (actorExplosive != NULL) {
@@ -494,7 +496,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     //phi_s0 = vtx_phi_s0_2;
 
-    for (j = 0, phi_s0 = vtx_phi_s0_2; j < 0x90; j++) {
+    for (phi_s0 = vtx_phi_s0_2, j = 0; j < 0x90; j++) {
         f32 temp_f0_3;
         f32 phi_f28;
 
@@ -660,7 +662,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     sp108.y = 0.0f;
     sp108.z = 120.0f;
 
-    for (j = 0, phi_s0_3 = vtx_phi_s0_2; j < 0x90; j++, phi_s0_3++) {
+    for (phi_s0_3 = vtx_phi_s0_2, j = 0; j < 0x90; j++, phi_s0_3++) {
         s16 index; // phi_v1_5
         f32 phi_f22;
         f32 temp_f24;
