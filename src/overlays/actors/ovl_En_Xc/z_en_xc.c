@@ -270,8 +270,6 @@ static u64* D_80B41D6C[] = {
     gShiekEyeShutTex,
 };
 
-
-
 void func_80B3C1E0(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
@@ -630,8 +628,6 @@ void func_80B3CF90(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-
-
 void func_80B3D014(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 sceneNum;
@@ -699,7 +695,7 @@ void func_80B3D158(GlobalContext* globalCtx) {
                         osSyncPrintf("MAX speed = %f\n", D_80B41DA0);
 
                         xyzDist = CLAMP_MAX(xyzDist, 2.0f);
-                        
+
                         func_800F436C(&D_80B41D94, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * xyzDist));
                     }
                     D_80B42DB0.x = eye->x;
@@ -1003,7 +999,8 @@ void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx) {
         f32 curFrame = this->skelAnime.curFrame;
         f32 animFrameCount = this->skelAnime.endFrame;
         if (curFrame >= animFrameCount) {
-            Animation_Change(&this->skelAnime, &gShiekAnim12, -1.0f, Animation_GetLastFrame(&gShiekAnim12), 0.0f, 2, 0.0f);
+            Animation_Change(&this->skelAnime, &gShiekAnim12, -1.0f, Animation_GetLastFrame(&gShiekAnim12), 0.0f, 2,
+                             0.0f);
             this->action = 11;
         }
     } else if (func_80B3C53C(this, globalCtx, 8, 4)) {
@@ -1671,7 +1668,6 @@ const ActorInit En_Xc_InitVars = {
     (ActorFunc)EnXc_Draw,
 };
 
-
 void func_80B3F620(EnXc* this) {
     func_80B3C7BC(this, 45, 46);
 }
@@ -2187,19 +2183,16 @@ void func_80B40E88(EnXc* this) {
     func_80B3C7BC(this, 77, 78);
 }
 
-#ifdef NON_MATCHING
 s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, 4);
 
     if (npcAction != NULL) {
         s32 action = npcAction->action;
         EnXc* this = THIS;
-        s32 prevAction;
+        s32 prevAction = this->unk_26C;
 
-       // action = (action = npcAction->action, action);
-
-        if (action != ((prevAction = this->unk_26C), prevAction)) {
-            switch (prevAction) {
+        if (action != prevAction) {
+            switch (action) {
                 case 1:
                     func_80B406F8(thisx);
                     break;
@@ -2232,18 +2225,14 @@ s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
                     break;
                 default:
                     osSyncPrintf("En_Oa2_Stalker_Check_DemoMode:そんな動作は無い!!!!!!!!\n");
+                    break;
             }
 
             this->unk_26C = action;
             return 1;
         }
-    }
-
-    return 0;
+    } return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B40EAC.s")
-#endif
 
 void func_80B41000(EnXc* this, GlobalContext* globalCtx) {
     func_80B40EAC(&this->actor, globalCtx);
