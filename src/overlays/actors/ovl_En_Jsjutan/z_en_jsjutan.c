@@ -102,9 +102,9 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     f32 spD4[3];
     f32 spC8[3];
     f32 spBC[3];
-    f32 spB8;
-    f32 spB4;
-    f32 spB0;
+    f32 spB8; // xDiff 
+    f32 spB4; // yDiff 
+    f32 spB0; // zDiff 
     f32 spA8; // wave amplitude (?)
     u8 isInCreditsScene;
     Player *player;
@@ -228,14 +228,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             //f32 distance = sqrtf((aux1 * aux1) + (aux2 *aux2));
             f32 distance;
             f32 phi_f2_4;
-            f32 aux1; // temp_f20_2
-            f32 aux2; // temp_f22_2
-
-            aux1 = ((f32) (phi_s0->n.ob[0] - spB8));
-            aux2 = ((f32) (phi_s0->n.ob[2] - spB0));
-
-            distance = sqrtf(SQ(aux1) + SQ(aux2));
-            //distance = sqrtf(SQ(((f32) (phi_s0->n.ob[0] - spB8))) + SQ(((f32) (phi_s0->n.ob[2] - spB0))));
+            
+            distance = sqrtf(SQ(((f32) (phi_s0->n.ob[0] - spB8))) + SQ(((f32) (phi_s0->n.ob[2] - spB0))));
 
             phi_f2_4 = (2500.0f - distance) / 2500.0f;
 
@@ -279,19 +273,15 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 f32 distance;
                 f32 phi_f2_2;
                 f32 phi_f2_3;
-                f32 aux1; // temp_f20_3
-                f32 aux2; // temp_f22_3
-
-                aux1 = ((f32) phi_s0->n.ob[0] - spD4[i]);
-                aux2 = ((f32) phi_s0->n.ob[2] - spBC[i]);
-
-                distance = sqrtf(SQ(aux1) + SQ(aux2));
-                //distance = sqrtf(SQ((f32) phi_s0->n.ob[0] - spD4[i]) + SQ((f32) phi_s0->n.ob[2] - spBC[i]));
+                
+                distance = sqrtf(SQ((f32) phi_s0->n.ob[0] - spD4[i]) + SQ((f32) phi_s0->n.ob[2] - spBC[i]));
+                
                 if ((i == 0) || isInCreditsScene) {
                     phi_f2_2 = (3000.0f - distance) / 3000.0f;
                 } else {
                     phi_f2_2 = (2000.0f - distance) / 2000.0f;
                 }
+
                 //phi_f2_2 = CLAMP_MIN(phi_f2_2, 0.0f);
                 if (phi_f2_2 < 0.0f) {
                     phi_f2_2 = 0.0f;
