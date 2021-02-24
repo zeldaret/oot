@@ -4213,7 +4213,8 @@ endseg
 beginseg
     name "object_xc"
     romalign 0x1000
-    include "build/baserom/object_xc.o"
+    include "build/assets/objects/object_xc/object_xc.o"
+    number 6
 endseg
 
 beginseg

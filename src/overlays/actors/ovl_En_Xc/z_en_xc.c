@@ -5,6 +5,7 @@
  */
 
 #include "z_en_xc.h"
+#include "objects/object_xc/object_xc.h"
 #include "vt.h"
 
 #define FLAGS 0x00000010
@@ -238,27 +239,27 @@ void func_80B3E87C(Gfx** dList, EnXc* this);
 
 s32 func_80B40224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 
-extern FlexSkeletonHeader D_06012AF0;
-extern AnimationHeader D_06004828;
-extern Gfx D_06011150[];
+extern FlexSkeletonHeader gShiekSkel;
+extern AnimationHeader gShiekAnim6;
+extern Gfx gShiekDL_011150[];
 extern CutsceneCmd D_02003F80[];
 extern CutsceneCmd D_020045D0[];
 extern CutsceneCmd D_02000330[];
 extern CutsceneCmd D_02006D20[];
 extern CutsceneCmd D_020046F0[];
-extern AnimationHeader D_0601C0E8;
-extern AnimationHeader D_06013AA4;
-extern AnimationHeader D_06019598;
-extern AnimationHeader D_06012FD0;
-extern AnimationHeader D_0601B19C;
-extern AnimationHeader D_06017C54;
-extern AnimationHeader D_0601A048;
-extern AnimationHeader D_06019C30;
-extern AnimationHeader D_06019F78;
-extern AnimationHeader D_060149E4;
-extern AnimationHeader D_060169E8;
-extern AnimationHeader D_06018B00;
-extern UNK_TYPE D_060058C0[];
+extern AnimationHeader gShiekAnim18;
+extern AnimationHeader gShiekAnim8;
+extern AnimationHeader gShiekAnim14;
+extern AnimationHeader gShiekAnim7;
+extern AnimationHeader gShiekAnim17;
+extern AnimationHeader gShiekAnim12;
+extern AnimationHeader gShiekAnim19;
+extern AnimationHeader gShiekAnim15;
+extern AnimationHeader gShiekAnim16;
+extern AnimationHeader gShiekAnim9;
+extern AnimationHeader gShiekAnim10;
+extern AnimationHeader gShiekAnim13;
+extern UNK_TYPE gShiekEyeSquintingTex[];
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -280,9 +281,9 @@ static ColliderCylinderInitType1 sCylinderInit = {
 };
 
 static UNK_PTR D_80B41D6C[] = {
-    0x06004CC0,
-    0x060050C0,
-    0x060054C0,
+    &gShiekEyeOpenTex,
+    &gShiekEyeHalfClosedTex,
+    &gShiekEyeShutTex,
 };
 
 Vec3f D_80B41D78 = { -611.0f, 728.0f, -2.0f };
@@ -466,7 +467,7 @@ s32 func_80B3C800(GlobalContext* globalCtx) {
 }
 
 void func_80B3C820(EnXc* this) {
-    Animation_Change(&this->skelAnime, &D_06004828, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004828), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, 0.0f);
     this->action = 53;
 }
 
@@ -504,7 +505,7 @@ void func_80B3C9DC(EnXc* this) {
 }
 
 void func_80B3C9EC(EnXc* this) {
-    EnXc_ChangeAnimation(this, &D_06013AA4, 0, 0.0f, 0);
+    EnXc_ChangeAnimation(this, &gShiekAnim8, 0, 0.0f, 0);
     this->action = 79;
     this->drawMode = 1;
     this->unk_30C = 1;
@@ -695,47 +696,6 @@ f32 D_80B41DA0 = 0.0f;
 
 s32 D_80B41DA4 = 0x00000000;
 
-s32 D_80B41DA8 = 0x00000001;
-
-s32 D_80B41DAC = 0x00000001;
-
-Vec3f D_80B41DB0 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80B41DBC = { 0.0f, 0.0f, 0.0f };
-
-EnXcActionFunc D_80B41DC8[] = {
-    func_80B3E224, func_80B3E25C, func_80B3E294, func_80B3E30C, func_80B3E368, func_80B3E3C4, func_80B3E420,
-    func_80B3E464, func_80B3E4AC, func_80B3E4F8, func_80B3E53C, func_80B3E580, func_80B3E5C8, func_80B3E610,
-    func_80B3E668, func_80B3E6D0, func_80B3E738, func_80B3E7A0, func_80B3E804, func_80B3E85C, func_80B3ED48,
-    func_80B3ED68, func_80B3ED88, func_80B3EDCC, func_80B3EE28, func_80B3EE34, func_80B3EE40, func_80B3EE4C,
-    func_80B3EE58, func_80B3F124, func_80B3F144, func_80B3F16C, func_80B3F1A8, func_80B3F1D0, func_80B3F1F8,
-    func_80B3F220, func_80B3F248, func_80B3F270, func_80B3F298, func_80B3F2C0, func_80B3F2E8, func_80B3F344,
-    func_80B3F36C, func_80B3F394, func_80B3F3BC, func_80B3F7F8, func_80B3F820, func_80B3F848, func_80B3F8A0,
-    func_80B3F8C8, func_80B3F928, func_80B3F988, func_80B3F9E8, func_80B400E4, func_80B40104, func_80B4015C,
-    func_80B401CC, func_80B41000, func_80B41020, func_80B41068, func_80B410AC, func_80B41110, func_80B41174,
-    func_80B411AC, func_80B41204, func_80B41248, func_80B41284, func_80B412AC, func_80B412D4, func_80B412FC,
-    func_80B41324, func_80B4134C, func_80B41374, func_80B4139C, func_80B413C4, func_80B41414, func_80B4143C,
-    func_80B41464, func_80B4148C, func_80B417E4, func_80B41844,
-};
-
-Vec3f D_80B41F0C = { 0.0f, 10.0f, 0.0f };
-
-EnXcDrawFunc D_80B41F18[] = {
-    func_80B41B98, func_80B41BA4, func_80B3E908, func_80B3EA7C, func_80B402C4, func_80B414AC,
-};
-
-const ActorInit En_Xc_InitVars = {
-    ACTOR_EN_XC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_XC,
-    sizeof(EnXc),
-    (ActorFunc)EnXc_Init,
-    (ActorFunc)EnXc_Destroy,
-    (ActorFunc)EnXc_Update,
-    (ActorFunc)EnXc_Draw,
-};
-
 void func_80B3D158(GlobalContext* globalCtx);
 #ifdef NON_EQUIVALENT
 void func_80B3D158(GlobalContext* globalCtx2) {
@@ -837,11 +797,12 @@ void func_80B3D3B0(EnXc* this) {
     Actor_Kill(&this->actor);
 }
 
-#ifdef NON_MATCHING
+//#ifdef NON_MATCHING
 // not matching because of static data
 void func_80B3D3F0(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 sceneNum = globalCtx->sceneNum;
+    static s32 D_80B41DA8 = 1;
 
     if (sceneNum == SCENE_SPOT17) {
         CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, 0);
@@ -863,9 +824,46 @@ void func_80B3D3F0(EnXc* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Xc/func_80B3D3F0.s")
-#endif
+
+s32 D_80B41DAC = 0x00000001;
+
+Vec3f D_80B41DB0 = { 0.0f, 0.0f, 0.0f };
+
+Vec3f D_80B41DBC = { 0.0f, 0.0f, 0.0f };
+
+EnXcActionFunc D_80B41DC8[] = {
+    func_80B3E224, func_80B3E25C, func_80B3E294, func_80B3E30C, func_80B3E368, func_80B3E3C4, func_80B3E420,
+    func_80B3E464, func_80B3E4AC, func_80B3E4F8, func_80B3E53C, func_80B3E580, func_80B3E5C8, func_80B3E610,
+    func_80B3E668, func_80B3E6D0, func_80B3E738, func_80B3E7A0, func_80B3E804, func_80B3E85C, func_80B3ED48,
+    func_80B3ED68, func_80B3ED88, func_80B3EDCC, func_80B3EE28, func_80B3EE34, func_80B3EE40, func_80B3EE4C,
+    func_80B3EE58, func_80B3F124, func_80B3F144, func_80B3F16C, func_80B3F1A8, func_80B3F1D0, func_80B3F1F8,
+    func_80B3F220, func_80B3F248, func_80B3F270, func_80B3F298, func_80B3F2C0, func_80B3F2E8, func_80B3F344,
+    func_80B3F36C, func_80B3F394, func_80B3F3BC, func_80B3F7F8, func_80B3F820, func_80B3F848, func_80B3F8A0,
+    func_80B3F8C8, func_80B3F928, func_80B3F988, func_80B3F9E8, func_80B400E4, func_80B40104, func_80B4015C,
+    func_80B401CC, func_80B41000, func_80B41020, func_80B41068, func_80B410AC, func_80B41110, func_80B41174,
+    func_80B411AC, func_80B41204, func_80B41248, func_80B41284, func_80B412AC, func_80B412D4, func_80B412FC,
+    func_80B41324, func_80B4134C, func_80B41374, func_80B4139C, func_80B413C4, func_80B41414, func_80B4143C,
+    func_80B41464, func_80B4148C, func_80B417E4, func_80B41844,
+};
+
+Vec3f D_80B41F0C = { 0.0f, 10.0f, 0.0f };
+
+EnXcDrawFunc D_80B41F18[] = {
+    func_80B41B98, func_80B41BA4, func_80B3E908, func_80B3EA7C, func_80B402C4, func_80B414AC,
+};
+
+const ActorInit En_Xc_InitVars = {
+    ACTOR_EN_XC,
+    ACTORCAT_NPC,
+    FLAGS,
+    OBJECT_XC,
+    sizeof(EnXc),
+    (ActorFunc)EnXc_Init,
+    (ActorFunc)EnXc_Destroy,
+    (ActorFunc)EnXc_Update,
+    (ActorFunc)EnXc_Draw,
+};
+
 
 void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
@@ -883,28 +881,28 @@ void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-extern AnimationHeader D_060177F8;
-extern AnimationHeader D_060035C8;
-extern AnimationHeader D_0600289C;
-extern AnimationHeader D_06004570;
-extern AnimationHeader D_06000B6C;
+extern AnimationHeader gShiekAnim11;
+extern AnimationHeader gShiekAnim4;
+extern AnimationHeader gShiekAnim3;
+extern AnimationHeader gShiekAnim5;
+extern AnimationHeader gShiekAnim0;
 
 AnimationHeader* func_80B3D4D8(GlobalContext* globalCtx, s32 index) {
-    AnimationHeader* animation = &D_060177F8;
+    AnimationHeader* animation = &gShiekAnim11;
     CsCmdActorAction* npcAction = func_80B3C4D0(globalCtx, index);
 
     if (npcAction) {
         u16 action = npcAction->action;
         if (action == 11) {
-            animation = &D_060035C8;
+            animation = &gShiekAnim4;
         } else if (action == 12) {
-            animation = &D_0600289C;
+            animation = &gShiekAnim3;
         } else if (action == 13) {
-            animation = &D_06004570;
+            animation = &gShiekAnim5;
         } else {
-            animation = &D_060177F8;
+            animation = &gShiekAnim11;
             if (action == 23) {
-                animation = &D_06000B6C;
+                animation = &gShiekAnim0;
             }
         }
     }
@@ -972,7 +970,7 @@ void func_80B3D794(EnXc* this, GlobalContext* globalCtx) {
 
             Vec3f* pos = &this->actor.world.pos;
             SkelAnime* skelAnime = &this->skelAnime;
-            f32 frameCount = Animation_GetLastFrame(&D_0601C0E8);
+            f32 frameCount = Animation_GetLastFrame(&gShiekAnim18);
 
             this->action = 2;
             this->drawMode = 1;
@@ -983,7 +981,7 @@ void func_80B3D794(EnXc* this, GlobalContext* globalCtx) {
 
             func_80B3D48C(this, globalCtx);
             func_80B3C964(this, globalCtx);
-            Animation_Change(skelAnime, &D_0601C0E8, 1.0f, 0.0f, frameCount, 2, 0.0f);
+            Animation_Change(skelAnime, &gShiekAnim18, 1.0f, 0.0f, frameCount, 2, 0.0f);
             func_80B3D118(globalCtx);
         }
     }
@@ -992,9 +990,9 @@ void func_80B3D794(EnXc* this, GlobalContext* globalCtx) {
 void func_80B3D8A4(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
     if (animFinished) {
         SkelAnime* skelAnime = &this->skelAnime;
-        f32 frameCount = Animation_GetLastFrame(&D_06012FD0);
+        f32 frameCount = Animation_GetLastFrame(&gShiekAnim7);
 
-        Animation_Change(skelAnime, &D_06012FD0, 1.0f, 0.0f, frameCount, 0, -8.0f);
+        Animation_Change(skelAnime, &gShiekAnim7, 1.0f, 0.0f, frameCount, 0, -8.0f);
 
         this->action = 3;
         this->timer = 0.0f;
@@ -1022,9 +1020,9 @@ void func_80B3DA00(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (xzDistToPlayer <= (kREG(3) + 95.0f)) {
-        f32 frameCount = Animation_GetLastFrame(&D_06004828);
+        f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
 
-        Animation_Change(skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, -12.0f);
+        Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, 0, -12.0f);
         this->action = 5;
         this->timer = 0.0f;
     }
@@ -1047,9 +1045,9 @@ void func_80B3DAF0(EnXc* this, GlobalContext* globalCtx) {
         u16 action = npcAction->action;
         if (action == 3 || action == 11 || action == 12 || action == 13 || action == 23) {
             SkelAnime* skelAnime = &this->skelAnime;
-            f32 frameCount = Animation_GetLastFrame(&D_0601B19C);
+            f32 frameCount = Animation_GetLastFrame(&gShiekAnim17);
 
-            Animation_Change(&this->skelAnime, &D_0601B19C, 1.0f, 0.0f, frameCount, 2, -4.0f);
+            Animation_Change(&this->skelAnime, &gShiekAnim17, 1.0f, 0.0f, frameCount, 2, -4.0f);
             this->action = 7;
             this->drawMode = 2;
         }
@@ -1059,9 +1057,9 @@ void func_80B3DAF0(EnXc* this, GlobalContext* globalCtx) {
 void func_80B3DBAC(EnXc* this, s32 animFinished) {
     if (animFinished) {
         SkelAnime* skelAnime = &this->skelAnime;
-        f32 frameCount = Animation_GetLastFrame(&D_06017C54);
+        f32 frameCount = Animation_GetLastFrame(&gShiekAnim12);
 
-        Animation_Change(skelAnime, &D_06017C54, 1.0f, 0.0f, frameCount, 2, 0.0f);
+        Animation_Change(skelAnime, &gShiekAnim12, 1.0f, 0.0f, frameCount, 2, 0.0f);
         this->action = 8;
         this->drawMode = 3;
     }
@@ -1087,8 +1085,8 @@ void func_80B3DCA8(EnXc* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
         if (npcAction && npcAction->action == 8) {
-            frameCount = Animation_GetLastFrame(&D_06017C54);
-            Animation_Change(&this->skelAnime, &D_06017C54, 0.0f, frameCount, frameCount, 0, -8.0f);
+            frameCount = Animation_GetLastFrame(&gShiekAnim12);
+            Animation_Change(&this->skelAnime, &gShiekAnim12, 0.0f, frameCount, frameCount, 0, -8.0f);
             this->action = 10;
         }
     }
@@ -1099,7 +1097,7 @@ void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx) {
         f32 curFrame = this->skelAnime.curFrame;
         f32 animFrameCount = this->skelAnime.endFrame;
         if (curFrame >= animFrameCount) {
-            Animation_Change(&this->skelAnime, &D_06017C54, -1.0f, Animation_GetLastFrame(&D_06017C54), 0.0f, 2, 0.0f);
+            Animation_Change(&this->skelAnime, &gShiekAnim12, -1.0f, Animation_GetLastFrame(&gShiekAnim12), 0.0f, 2, 0.0f);
             this->action = 11;
         }
     } else if (func_80B3C53C(this, globalCtx, 8, 4)) {
@@ -1109,7 +1107,7 @@ void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B3DE00(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &D_0601B19C, -1.0f, Animation_GetLastFrame(&D_0601B19C), 0.0f, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim17, -1.0f, Animation_GetLastFrame(&gShiekAnim17), 0.0f, 2, 0.0f);
         this->action = 12;
         this->drawMode = 2;
     }
@@ -1117,7 +1115,7 @@ void func_80B3DE00(EnXc* this, s32 animFinished) {
 
 void func_80B3DE78(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &D_06004828, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004828), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, 0.0f);
         this->action = 13;
         this->drawMode = 1;
         this->timer = 0.0f;
@@ -1130,7 +1128,7 @@ void func_80B3DEF4(EnXc* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
         if (npcAction) {
             if (npcAction->action == 4) {
-                Animation_Change(&this->skelAnime, &D_06012FD0, -1.0f, Animation_GetLastFrame(&D_06012FD0), 0.0f, 0,
+                Animation_Change(&this->skelAnime, &gShiekAnim7, -1.0f, Animation_GetLastFrame(&gShiekAnim7), 0.0f, 0,
                                  -12.0f);
                 this->action = 14;
                 this->actor.world.rot.y += 0x8000;
@@ -1151,7 +1149,7 @@ void func_80B3DFA4(EnXc* this) {
 void func_80B3E014(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
     if (xzDistToPlayer >= kREG(5) + 140.0f) {
-        Animation_Change(&this->skelAnime, &D_06004828, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004828), 0, -12.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, -12.0f);
         this->action = 16;
         this->timer = 0.0f;
     }
@@ -1160,7 +1158,7 @@ void func_80B3E014(EnXc* this) {
 void func_80B3E0BC(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
-        Animation_Change(&this->skelAnime, &D_06019598, 1.0f, 0.0f, Animation_GetLastFrame(&D_06019598), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim14, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim14), 2, 0.0f);
         this->action = 17;
         this->timer = 0.0f;
         this->actor.speedXZ = 0.0f;
@@ -1359,7 +1357,7 @@ void func_80B3E87C(Gfx** dList, EnXc* this) {
     f32 currentFrame = this->skelAnime.curFrame;
 
     if (currentFrame >= 34.0f) {
-        *dList = D_06011150;
+        *dList = gShiekDL_011150;
     }
 }
 s32 func_80B3E8AC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
@@ -1376,7 +1374,7 @@ s32 func_80B3E8E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     EnXc* this = THIS;
 
     if (limbIndex == 12) {
-        *dList = D_06011150;
+        *dList = gShiekDL_011150;
     }
 
     return 0;
@@ -1565,7 +1563,7 @@ void func_80B3EFEC(EnXc* this) {
 void func_80B3F010(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
     if (kREG(5) + 140.0f <= xzDistToPlayer) {
-        Animation_Change(&this->skelAnime, &D_06004828, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004828), 0, -12.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, -12.0f);
         this->action = 41;
         this->timer = 0.0f;
     }
@@ -1739,7 +1737,7 @@ void func_80B3F644(EnXc* this) {
 
 void func_80B3F668(EnXc* this, GlobalContext* globalCtx) {
     if (func_80B3C4F0(this, globalCtx, 4, 4)) {
-        EnXc_ChangeAnimation(this, &D_06012FD0, 0, -12.0f, 1);
+        EnXc_ChangeAnimation(this, &gShiekAnim7, 0, -12.0f, 1);
         this->action = 48;
         this->actor.world.rot.y += 0x8000;
         this->timer = 0.0f;
@@ -1752,14 +1750,14 @@ void func_80B3F6DC(EnXc* this) {
 
 void func_80B3F700(EnXc* this, GlobalContext* globalCtx) {
     if (func_80B3C4F0(this, globalCtx, 0x10, 4)) {
-        EnXc_ChangeAnimation(this, &D_06019C30, 0, 0.0f, 0);
+        EnXc_ChangeAnimation(this, &gShiekAnim15, 0, 0.0f, 0);
         this->action = 50;
     }
 }
 
 void func_80B3F754(EnXc* this, GlobalContext* globalCtx) {
     if (func_80B3C4F0(this, globalCtx, 0x16, 4)) {
-        EnXc_ChangeAnimation(this, &D_0601A048, 0, 0.0f, 0);
+        EnXc_ChangeAnimation(this, &gShiekAnim19, 0, 0.0f, 0);
         this->action = 51;
         func_80B3C588(this, globalCtx, 4);
     }
@@ -1931,21 +1929,21 @@ void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-extern AnimationHeader D_06001A08;
+extern AnimationHeader gShiekAnim1;
 
 void func_80B3FFB4(EnXc* this, GlobalContext* globalCtx) {
     if (func_80B3C4F0(this, globalCtx, 10, 4)) {
-        Animation_Change(&this->skelAnime, &D_06001A08, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001A08), 2, -8.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim1, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim1), 2, -8.0f);
         this->action = 55;
         this->drawMode = 4;
     }
 }
 
-extern AnimationHeader D_06001D14;
+extern AnimationHeader gShiekAnim2;
 
 void func_80B40040(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &D_06001D14, 1.0f, 0.0f, Animation_GetLastFrame(&D_06001D14), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim2, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim2), 0, 0.0f);
         this->action = 56;
     }
 }
@@ -1986,11 +1984,11 @@ void func_80B401CC(EnXc* this, GlobalContext* globalCtx) {
     func_80B400AC(this, globalCtx);
 }
 
-extern Gfx D_06011620[];
+extern Gfx gShiekDL_011620[];
 
 s32 func_80B40224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (limbIndex == 15) {
-        *dList = D_06011620;
+        *dList = gShiekDL_011620;
     }
     return 0;
 }
@@ -2008,7 +2006,7 @@ void func_80B40248(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-extern Gfx D_06012970[];
+extern Gfx gShiekDL_012970[];
 
 // draw triforce
 void func_80B402C4(Actor* thisx, GlobalContext* globalCtx) {
@@ -2037,7 +2035,7 @@ void func_80B402C4(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, primColor[2], primColor[3]);
         gDPSetEnvColor(POLY_XLU_DISP++, 255, envColor[1], 0, 128);
         gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06012970);
+        gSPDisplayList(POLY_XLU_DISP++, gShiekDL_012970);
     }
 
     func_8002EBCC(thisx, globalCtx, 0);
@@ -2097,11 +2095,11 @@ void func_80B4070C(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     ActorShape* actorShape = &this->actor.shape;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&D_06004828);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
 
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, 0, 0.0f);
     this->action = 58;
     this->drawMode = 5;
     actorShape->shadowAlpha = 0xFF;
@@ -2110,9 +2108,9 @@ void func_80B4070C(EnXc* this, GlobalContext* globalCtx) {
 void func_80B407A8(Actor* thisx) {
     EnXc* this = THIS;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&D_06018B00);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim13);
 
-    Animation_Change(skelAnime, &D_06018B00, 1.0f, 0.0f, frameCount, 2, -8.0f);
+    Animation_Change(skelAnime, &gShiekAnim13, 1.0f, 0.0f, frameCount, 2, -8.0f);
     this->action = 59;
     this->drawMode = 1;
 }
@@ -2120,11 +2118,11 @@ void func_80B407A8(Actor* thisx) {
 void func_80B40820(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&D_06004828);
-    Animation_Change(skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
+    Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, 0, 0.0f);
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
-    Animation_Change(skelAnime, &D_060169E8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060169E8), 2, 0.0f);
+    Animation_Change(skelAnime, &gShiekAnim10, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim10), 2, 0.0f);
     this->action = 60;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -2133,11 +2131,11 @@ void func_80B40820(EnXc* this, GlobalContext* globalCtx) {
 void func_80B408FC(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&D_06004828);
-    Animation_Change(skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
+    Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, 0, 0.0f);
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
-    Animation_Change(skelAnime, &D_060149E4, 1.0f, 0.0f, Animation_GetLastFrame(&D_060149E4), 2, 0.0f);
+    Animation_Change(skelAnime, &gShiekAnim9, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim9), 2, 0.0f);
     this->action = 61;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -2145,10 +2143,10 @@ void func_80B408FC(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B409D8(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&D_06019F78);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim16);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &D_06019F78, 1.0f, 0.0f, frameCount, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekAnim16, 1.0f, 0.0f, frameCount, 2, 0.0f);
     this->action = 62;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -2156,10 +2154,10 @@ void func_80B409D8(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B40A78(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&D_06019F78);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim16);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &D_06019F78, 1.0f, 0.0f, frameCount, 2, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekAnim16, 1.0f, 0.0f, frameCount, 2, 0.0f);
     this->action = 63;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -2167,10 +2165,10 @@ void func_80B40A78(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B40B18(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&D_06019C30);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim15);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &D_06019C30, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekAnim15, 1.0f, 0.0f, frameCount, 0, 0.0f);
     this->action = 64;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -2178,10 +2176,10 @@ void func_80B40B18(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B40BB4(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&D_06004828);
+    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &D_06004828, 1.0f, 0.0f, frameCount, 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, 0, 0.0f);
     this->action = 65;
     this->drawMode = 1;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -2226,7 +2224,7 @@ void func_80B40D74(EnXc* this) {
 void func_80B40D98(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
     if (kREG(5) + 140.0f <= xzDistToPlayer) {
-        Animation_Change(&this->skelAnime, &D_06004828, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004828), 0, -12.0f);
+        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, -12.0f);
         this->action = 75;
         this->timer = 0.0f;
     }
@@ -2441,8 +2439,8 @@ void func_80B414AC(EnXc* this, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 839);
     func_80093D18(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&D_060058C0));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&D_060058C0));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&gShiekEyeSquintingTex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&gShiekEyeSquintingTex));
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
                           NULL);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 854);
@@ -2527,7 +2525,7 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06012AF0, &D_06004828, this->jointTable, this->morphTable, 17);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gShiekSkel, &gShiekAnim6, this->jointTable, this->morphTable, 17);
     func_80B3C1E0(thisx, globalCtx);
     switch (this->actor.params) {
         case 1:
