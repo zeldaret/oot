@@ -792,7 +792,7 @@ void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnZo_DrawRipples(this, globalCtx);
     EnZo_DrawBubbles(this, globalCtx);
     EnZo_DrawSplashes(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
 
     if ((s32)this->alpha != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo.c", 1008);

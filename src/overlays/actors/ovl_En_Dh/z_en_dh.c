@@ -548,7 +548,7 @@ void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Push();
         Matrix_Translate(headOffset.x, headOffset.y, headOffset.z, MTXMODE_APPLY);
         Collider_UpdateSpheres(1, &this->collider2);
-        Matrix_Pull();
+        Matrix_Pop();
     }
 }
 

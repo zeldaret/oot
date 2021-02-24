@@ -601,7 +601,7 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_OPA_DISP++, D_060009D0);
         gSPDisplayList(POLY_OPA_DISP++, D_06000A60);
 
-        Matrix_Pull();
+        Matrix_Pop();
         if (this->unk_19E & 2) {
             func_80093D84(globalCtx->state.gfxCtx);
             func_800D1FD4(&globalCtx->mf_11DA0);
