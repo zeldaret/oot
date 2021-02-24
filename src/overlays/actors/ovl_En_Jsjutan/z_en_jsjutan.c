@@ -406,12 +406,13 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     player = PLAYER;
     parent = this->dyna.actor.parent;
     actorExplosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
+    isInCreditsScene = 0;
 
     if (globalCtx->gameplayFrames & 1) {
-        vtx_phi_s0_2 = SEGMENTED_TO_VIRTUAL(D_80A8CC98);
+        phi_s0 = SEGMENTED_TO_VIRTUAL(D_80A8CC98);
         vtx_phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8BA98);
     } else {
-        vtx_phi_s0_2 = SEGMENTED_TO_VIRTUAL(D_80A8DAB8);
+        phi_s0 = SEGMENTED_TO_VIRTUAL(D_80A8DAB8);
         vtx_phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
     }
 
@@ -421,6 +422,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     spB4 = (player->actor.world.pos.y - this->unk_168) * 50.0f;
     spB0 = (player->actor.world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
     //phi_s0 = vtx_phi_s0_2
+    vtx_phi_s0_2 = phi_s0;
 
     if ((fabsf(spB8) < 5500.0f) && (fabsf(spB4) < 3000.0f) && (fabsf(spB0) < 5500.0f)) {
         isPlayerOnTop = 1;
@@ -472,7 +474,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         spBC[2] = (actorBeanGuy->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
         spE0[2] = 1;
     } else {
-        isInCreditsScene = 0;
+        //isInCreditsScene = 0;
         // if (actorExplosive != NULL) { }
 
         while (actorExplosive != NULL) {
@@ -496,7 +498,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     //phi_s0 = vtx_phi_s0_2;
 
-    for (phi_s0 = vtx_phi_s0_2, j = 0; j < 0x90; j++) {
+    for (j = 0; j < 0x90; j++) {
         f32 temp_f0_3;
         f32 phi_f28;
 
