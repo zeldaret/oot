@@ -1,4 +1,11 @@
+/*
+ * File: z_bg_ydan_sp.c
+ * Overlay: ovl_Bg_Ydan_Sp
+ * Description: Webs
+ */
+
 #include "z_bg_ydan_sp.h"
+#include "objects/object_ydan_objects/object_ydan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -14,12 +21,7 @@ void BgYdanSp_FloorWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_BurnWallWeb(BgYdanSp* this, GlobalContext* globalCtx);
 void BgYdanSp_WallWebIdle(BgYdanSp* this, GlobalContext* globalCtx);
 
-extern Gfx D_060061B0[];
-extern Gfx D_06003850[];
-extern Gfx D_06005F40[];
-
-extern CollisionHeader D_06006050;
-extern CollisionHeader D_06006460;
+extern CollisionHeader gDTWebWallCol;
 
 typedef enum {
     /* 0 */ WEB_FLOOR,
@@ -100,7 +102,7 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitTris(globalCtx, &this->trisCollider);
     Collider_SetTris(globalCtx, &this->trisCollider, &this->dyna.actor, &sTrisInit, this->trisColliderItems);
     if (this->dyna.actor.params == WEB_FLOOR) {
-        CollisionHeader_GetVirtual(&D_06006460, &colHeader);
+        CollisionHeader_GetVirtual(&gDTWebFloorCol, &colHeader);
         this->actionFunc = BgYdanSp_FloorWebIdle;
 
         for (i = 0; i < 3; i++) {
@@ -115,7 +117,7 @@ void BgYdanSp_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_SetTrisVertices(&this->trisCollider, 1, &tri[0], &tri[2], &tri[1]);
         this->unk16C = 0.0f;
     } else {
-        CollisionHeader_GetVirtual(&D_06006050, &colHeader);
+        CollisionHeader_GetVirtual(&gDTWebWallCol, &colHeader);
         this->actionFunc = BgYdanSp_WallWebIdle;
         Actor_SetFocus(&this->dyna.actor, 30.0f);
         sinsY = Math_SinS(this->dyna.actor.shape.rot.y);
@@ -155,7 +157,7 @@ void* BgYdanSp_UpdateFloorWebCollision(BgYdanSp* this) {
     s16 newY;
     CollisionHeader* colHeader;
 
-    colHeader = SEGMENTED_TO_VIRTUAL(&D_06006460);
+    colHeader = SEGMENTED_TO_VIRTUAL(&gDTWebFloorCol);
     colHeader->vtxList = SEGMENTED_TO_VIRTUAL(colHeader->vtxList);
     newY = (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y) * 10;
     colHeader->vtxList[14].y = newY;
@@ -427,7 +429,7 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params == WEB_WALL) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 787),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06005F40);
+        gSPDisplayList(POLY_XLU_DISP++, gDTWebWallDL);
     } else if (this->actionFunc == BgYdanSp_FloorWebBroken) {
         Matrix_Get(&mtxF);
         if (this->timer == 40) {
@@ -435,7 +437,7 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(1.0f, ((thisx->home.pos.y - thisx->world.pos.y) + 10.0f) * 0.1f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 808),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_060061B0);
+            gSPDisplayList(POLY_XLU_DISP++, gDTWebFloorDL);
         }
         for (i = 0; i < 8; i++) {
             Matrix_Put(&mtxF);
@@ -444,14 +446,14 @@ void BgYdanSp_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Scale(3.5f, 5.0f, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 830),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06003850);
+            gSPDisplayList(POLY_XLU_DISP++, gDTUnknownWebDL);
         }
     } else {
         Matrix_Translate(0.0f, (thisx->home.pos.y - thisx->world.pos.y) * 10.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Scale(1.0f, ((thisx->home.pos.y - thisx->world.pos.y) + 10.0f) * 0.1f, 1.0f, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 849),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_060061B0);
+        gSPDisplayList(POLY_XLU_DISP++, gDTWebFloorDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_sp.c", 856);

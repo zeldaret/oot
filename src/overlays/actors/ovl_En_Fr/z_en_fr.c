@@ -267,13 +267,11 @@ void EnFr_DrawActive(EnFr* this) {
     this->actor.draw = EnFr_Draw;
 }
 
-// Down to regalloc
-#ifdef NON_MATCHING
 void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnFr* this = THIS;
-    LightInfo* lightInfo;
+    s32 pad;
     s32 frogIndex;
-    s16 randomNumber;
+    s32 pad2;
 
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objBankIndex)) {
         this->actor.flags &= ~0x10;
@@ -286,13 +284,10 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         // butterfly
         SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &D_050036F0, &D_05002470, this->jointTableButterfly,
                        this->morphTableButterfly, 8);
-        // When playing the frogs song for the HP,
-        // the frog with the next note and the butterfly
-        // turns on its lightsource
-        lightInfo = &this->lightInfo;
-        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, lightInfo);
-        Lights_PointNoGlowSetInfo(lightInfo, this->actor.home.pos.x, this->actor.home.pos.y, this->actor.home.pos.z,
-                                  255, 255, 255, -1);
+        // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
+        this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
+        Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,
+                                  this->actor.home.pos.z, 255, 255, 255, -1);
         // Check to see if the song for a particular frog has been played.
         // If it has, the frog is larger. If not, the frog is smaller
         this->scale = gSaveContext.eventChkInf[13] & sSongIndex[sFrogToSongIndex[frogIndex]] ? 270.0f : 150.0f;
@@ -304,13 +299,10 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->eyeTexIndex = 1;
         this->blinkTimer = (s16)(Rand_ZeroFloat(60.0f) + 20.0f);
         this->blinkFunc = EnFr_DecrementBlinkTimerUpdate;
-
-        // regalloc issues here
-        this->isBelowWaterSurfaceCurrent = false;
-        this->isBelowWaterSurfacePrevious = false;
+        this->isBelowWaterSurfacePrevious = this->isBelowWaterSurfaceCurrent = false;
         this->isJumpingUp = false;
-        this->actionFunc = EnFr_SetupJumpingOutOfWater;
         this->posLogSpot = this->actor.world.pos;
+        this->actionFunc = EnFr_SetupJumpingOutOfWater;
         this->isDeactivating = false;
         this->growingScaleIndex = 0;
         this->isActive = false;
@@ -328,9 +320,6 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.flags &= ~1;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fr/EnFr_Update.s")
-#endif
 
 void EnFr_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnFr* this = THIS;
