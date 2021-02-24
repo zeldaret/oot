@@ -188,37 +188,43 @@ endseg
 beginseg
     name "item_name_static"
     romalign 0x1000
-    include "build/baserom/item_name_static.o"
+    include "build/assets/textures/item_name_static/item_name_static.o"
+    number 10
 endseg
 
 beginseg
     name "map_name_static"
     romalign 0x1000
-    include "build/baserom/map_name_static.o"
+    include "build/assets/textures/map_name_static/map_name_static.o"
+    number 11
 endseg
 
 beginseg
     name "do_action_static"
     romalign 0x1000
-    include "build/baserom/do_action_static.o"
+    include "build/assets/textures/do_action_static/do_action_static.o"
+    number 7
 endseg
 
 beginseg
     name "message_static"
     romalign 0x1000
-    include "build/baserom/message_static.o"
+    include "build/assets/textures/message_static/message_static.o"
+    number 7
 endseg
 
 beginseg
     name "message_texture_static"
     romalign 0x1000
-    include "build/baserom/message_texture_static.o"
+    include "build/assets/textures/message_texture_static/message_texture_static.o"
+    number 9
 endseg
 
 beginseg
     name "nes_font_static"
     romalign 0x1000
-    include "build/baserom/nes_font_static.o"
+    include "build/assets/textures/nes_font_static/nes_font_static.o"
+    number 10
 endseg
 
 beginseg
@@ -248,7 +254,8 @@ endseg
 beginseg
     name "map_grand_static"
     romalign 0x1000
-    include "build/baserom/map_grand_static.o"
+    include "build/assets/textures/map_grand_static/map_grand_static.o"
+    number 11
 endseg
 
 beginseg
@@ -260,7 +267,8 @@ endseg
 beginseg
     name "map_i_static"
     romalign 0x1000
-    include "build/baserom/map_i_static.o"
+    include "build/assets/textures/map_i_static/map_i_static.o"
+    number 11
 endseg
 
 beginseg
@@ -6225,13 +6233,15 @@ endseg
 beginseg
     name "nintendo_rogo_static"
     romalign 0x1000
-    include "build/baserom/nintendo_rogo_static.o"
+    include "build/assets/textures/nintendo_rogo_static/nintendo_rogo_static.o"
+    number 1
 endseg
 
 beginseg
     name "title_static"
     romalign 0x1000
-    include "build/baserom/title_static.o"
+    include "build/assets/textures/title_static/title_static.o"
+    number 1
 endseg
 
 beginseg
