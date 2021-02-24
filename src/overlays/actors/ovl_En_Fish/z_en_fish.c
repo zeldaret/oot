@@ -34,7 +34,7 @@ static f32 D_80A17014 = 0.0f;
 
 static f32 D_80A17018 = 0.0f;
 
-static ColliderJntSphElementInit D_80A1701C[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -48,7 +48,7 @@ static ColliderJntSphElementInit D_80A1701C[1] = {
     },
 };
 
-static ColliderJntSphInit D_80A17040 = {
+static ColliderJntSphInit sJntSphInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -58,7 +58,7 @@ static ColliderJntSphInit D_80A17040 = {
         COLSHAPE_JNTSPH,
     },
     1,
-    D_80A1701C,
+    sJntSphElementsInit,
 };
 
 const ActorInit En_Fish_InitVars = {
@@ -80,29 +80,29 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 700, ICHAIN_STOP),
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15280.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15280.s")
 f32 EnFish_XZDistanceSquared(Vec3f* v1, Vec3f* v2) {
     return SQ(v1->x - v2->x) + SQ(v1->z - v2->z);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A152AC.s")
-void func_80A152AC(EnFish* this) {
-    Animation_Change(&this->skelAnime, &gFish2Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish2Anim), 1, 2.0f);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A152AC.s")
+void EnFish_SetAnimation2(EnFish* this) {
+    Animation_Change(&this->skelAnime, &gFish2Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish2Anim), ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15310.s")
-void func_80A15310(EnFish* this) {
-    Animation_Change(&this->skelAnime, &gFish1Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish1Anim), 1, 2.0f);
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15310.s")
+void EnFish_SetAnimation1(EnFish* this) {
+    Animation_Change(&this->skelAnime, &gFish1Anim, 1.0f, 0.0f, Animation_GetLastFrame(&gFish1Anim), ANIMMODE_LOOP_INTERP, 2.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15374.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15374.s")
 void func_80A15374(EnFish* this) {
     this->unk_24A = 400;
     Actor_SetScale(&this->actor, 0.001f);
     this->actor.draw = NULL;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A153AC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A153AC.s")
 void func_80A153AC(EnFish* this) {
     Actor* thisx = &this->actor;
 
@@ -117,11 +117,11 @@ void func_80A153AC(EnFish* this) {
         D_80A17014 = 10.0f;
         D_80A17018 = 0.0f;
         thisx->flags |= 0x10;
-        func_80A15310(this);
+        EnFish_SetAnimation1(this);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15444.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15444.s")
 void func_80A15444(EnFish* this) {
     D_80A17010 = NULL;
     D_80A17014 = 0.0f;
@@ -131,21 +131,21 @@ void func_80A15444(EnFish* this) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/EnFish_Init.s")
 void EnFish_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFish* this = THIS;
-    s16 sp3A = this->actor.params;
+    s16 params = this->actor.params;
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFishSkel, &gFish2Anim, this->jointTable, this->morphTable, 7);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80A17040, this->colliderItems);
-    this->actor.colChkInfo.mass = 0x32;
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
+    this->actor.colChkInfo.mass = 50;
     this->unk_24C = (s32)(Rand_ZeroOne() * 65535.5f);
     this->unk_24E = (s32)(Rand_ZeroOne() * 65535.5f);
 
-    if (sp3A == 0) {
+    if (params == 0) {
         this->actor.flags |= 0x10;
         ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 8.0f);
         func_80A15F24(this);
-    } else if (sp3A == 1) {
+    } else if (params == 1) {
         func_80A16618(this);
     } else {
         func_80A157A4(this);
@@ -160,13 +160,13 @@ void EnFish_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A155D0.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A155D0.s")
 void func_80A155D0(EnFish* this) {
     this->actor.shape.yOffset += ((Math_SinS(this->unk_24C) * 10.0f) + (Math_SinS(this->unk_24E) * 5.0f));
     this->actor.shape.yOffset = CLAMP(this->actor.shape.yOffset, -200.0f, 200.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15688.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15688.s")
 s32 func_80A15688(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
@@ -178,28 +178,28 @@ s32 func_80A15688(EnFish* this, GlobalContext* globalCtx) {
         sp1C.z = (Math_CosS(this->actor.yawTowardsPlayer + 0x8000) * 16.0f) + player->actor.world.pos.z;
 
         if (EnFish_XZDistanceSquared(&sp1C, &this->actor.world.pos) <= 400.0f) {
-            return 1;
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15774.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15774.s")
 s32 func_80A15774(EnFish* this, GlobalContext* globalCtx) {
     return (this->actor.xzDistToPlayer < 60.0f);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A157A4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A157A4.s")
 void func_80A157A4(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->unk_248 = Rand_S16Offset(5, 35);
     this->unk_250 = 0;
-    func_80A152AC(this);
+    EnFish_SetAnimation2(this);
     this->actionFunc = func_80A157FC;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A157FC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A157FC.s")
 void func_80A157FC(EnFish* this, GlobalContext* globalCtx) {
     func_80A155D0(this);
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.05f, 0.3f, 0.0f);
@@ -216,17 +216,17 @@ void func_80A157FC(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A158EC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A158EC.s")
 void func_80A158EC(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->unk_248 = Rand_S16Offset(15, 45);
     this->unk_250 = 0;
-    func_80A152AC(this);
+    EnFish_SetAnimation2(this);
     this->actionFunc = func_80A15944;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15944.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15944.s")
 void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
     // Actor *temp_v0;
     // Vec3s* pos;
@@ -260,17 +260,17 @@ void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15AD4.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15AD4.s")
 void func_80A15AD4(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->unk_248 = Rand_S16Offset(10, 40);
     this->unk_250 = 0;
-    func_80A152AC(this);
+    EnFish_SetAnimation2(this);
     this->actionFunc = func_80A15B2C;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15B2C.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15B2C.s")
 void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 pad2;
@@ -288,7 +288,7 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
     } else if ((this->actor.child != NULL) && (&this->actor != this->actor.child)) {
         yaw = Math_Vec3f_Yaw(&this->actor.world.pos, &this->actor.child->world.pos);
         Math_StepToAngleS(&this->actor.world.rot.y, yaw, 2000);
-    } else if (sp34 != 0) {
+    } else if (sp34) {
         frames = globalCtx->state.frames;
         yaw = this->actor.yawTowardsPlayer + 0x8000;
 
@@ -317,17 +317,17 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15D18.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15D18.s")
 void func_80A15D18(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
-    func_80A152AC(this);
+    EnFish_SetAnimation2(this);
     this->unk_248 = Rand_S16Offset(10, 40);
     this->unk_250 = 0;
     this->actionFunc = func_80A15D68;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15D68.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15D68.s")
 void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
@@ -369,18 +369,18 @@ void func_80A15D68(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15F24.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15F24.s")
 void func_80A15F24(EnFish* this) {
     this->actor.gravity = -1.0f;
     this->actor.minVelocityY = -10.0f;
     this->actor.shape.yOffset = 0.0f;
-    func_80A15310(this);
+    EnFish_SetAnimation1(this);
     this->unk_250 = 5;
     this->actionFunc = func_80A15F84;
     this->unk_248 = 300;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A15F84.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15F84.s")
 void func_80A15F84(EnFish* this, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.1f, 0.1f, 0.0f);
     Math_StepToAngleS(&this->actor.world.rot.x, 0x4000, 100);
@@ -397,13 +397,14 @@ void func_80A15F84(EnFish* this, GlobalContext* globalCtx) {
         func_80A163DC(this);
     } else if ((this->unk_248 <= 0) && (this->actor.params == 0) && (this->actor.floorHeight < -31990.0f)) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
-        osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 0x336);
+        // BG missing? Running Actor_delete
+        osSyncPrintf("BG 抜け？ Actor_delete します(%s %d)\n", "../z_en_sakana.c", 822);
         osSyncPrintf(VT_RST);
         Actor_Kill(&this->actor);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A160BC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A160BC.s")
 void func_80A160BC(EnFish* this) {
     s32 pad;
     f32 temp_f0;
@@ -415,31 +416,31 @@ void func_80A160BC(EnFish* this) {
 
     if (temp_f0 < 0.1f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 3.0f) + 2.5f;
-        phi_v0 = 1;
+        phi_v0 = true;
     } else if (temp_f0 < 0.2f) {
         this->actor.velocity.y = (Rand_ZeroOne() * 1.2f) + 0.2f;
-        phi_v0 = 1;
+        phi_v0 = true;
     } else {
         this->actor.velocity.y = 0.0f;
 
         if (Rand_ZeroOne() < 0.2f) {
-            phi_v0 = 1;
+            phi_v0 = true;
         } else {
-            phi_v0 = 0;
+            phi_v0 = false;
         }
     }
 
     this->actor.shape.yOffset = 300.0f;
-    func_80A15310(this);
+    EnFish_SetAnimation1(this);
     this->actionFunc = func_80A16200;
     this->unk_250 = 5;
 
-    if ((phi_v0 != 0) && (this->actor.draw != NULL)) {
+    if (phi_v0 && (this->actor.draw != NULL)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_FISH_LEAP);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16200.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16200.s")
 void func_80A16200(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 temp_v0;
@@ -482,7 +483,7 @@ void func_80A16200(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A163DC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A163DC.s")
 void func_80A163DC(EnFish* this) {
     this->actor.home.pos = this->actor.world.pos;
     this->actor.flags |= 0x10;
@@ -490,12 +491,12 @@ void func_80A163DC(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->actor.shape.yOffset = 0.0f;
-    func_80A152AC(this);
+    EnFish_SetAnimation2(this);
     this->actionFunc = func_80A16450;
     this->unk_250 = 5;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16450.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16450.s")
 void func_80A16450(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
 
@@ -530,17 +531,17 @@ void func_80A16450(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16618.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16618.s")
 void func_80A16618(EnFish* this) {
     this->actor.gravity = 0.0f;
     this->actor.minVelocityY = 0.0f;
     this->unk_248 = Rand_S16Offset(5, 35);
     this->unk_250 = 0;
-    func_80A152AC(this);
+    EnFish_SetAnimation2(this);
     this->actionFunc = func_80A16670;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16670.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16670.s")
 void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
     static f32 D_80A17080[] = { 0.0f, 0.04f, 0.09f };
     static f32 D_80A1708C[] = { 0.5f, 0.1f, 0.15f };
@@ -591,7 +592,7 @@ void func_80A16670(EnFish* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16898.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16898.s")
 void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
     f32 sp24 = Math_SinS(this->unk_24C);
     f32 sp20 = Math_SinS(this->unk_24E);
@@ -615,7 +616,7 @@ void func_80A16898(EnFish* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A169C8.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A169C8.s")
 void func_80A169C8(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 sp28 = Math_SinS(this->unk_24C);
@@ -628,7 +629,7 @@ void func_80A169C8(EnFish* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16A64.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16A64.s")
 void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
@@ -642,8 +643,9 @@ void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
     sp4C = globalCtx->csCtx.npcActions[1];
 
     if (sp4C == NULL) {
-        osSyncPrintf((const char*)"Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n",
-                     "../z_en_sakana.c", 0x491, this->actor.params);
+        // Warning : DEMO ended without dousa (action) 3 termination being called
+        osSyncPrintf("Warning : dousa 3 消滅 が呼ばれずにデモが終了した(%s %d)(arg_data 0x%04x)\n",
+                     "../z_en_sakana.c", 1169, this->actor.params);
         func_80A15444(this);
         Actor_Kill(&this->actor);
         return;
@@ -661,13 +663,15 @@ void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
             func_80A169C8(this, globalCtx);
             break;
         case 3:
-            osSyncPrintf((const char*)"デモ魚消滅\n");
+            // DEMO fish termination
+            osSyncPrintf("デモ魚消滅\n");
             func_80A15444(this);
             Actor_Kill(&this->actor);
             return;
             break;
         default:
-            osSyncPrintf((const char*)"不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 0x4B0,
+            // Improper DEMO action
+            osSyncPrintf("不正なデモ動作(%s %d)(arg_data 0x%04x)\n", "../z_en_sakana.c", 1200,
                          this->actor.params);
             break;
     }
@@ -689,7 +693,7 @@ void func_80A16A64(EnFish* this, GlobalContext* globalCtx) {
                                                           &this->actor, &this->actor.world.pos);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16C68.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16C68.s")
 void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
     if (this->unk_248 > 0) {
         this->unk_248--;
@@ -698,11 +702,11 @@ void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
     this->unk_24C += 0x111;
     this->unk_24E += 0x500;
 
-    if ((this->actor.child != 0) && (this->actor.child->update == 0) && (&this->actor != this->actor.child)) {
+    if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (&this->actor != this->actor.child)) {
         this->actor.child = NULL;
     }
 
-    if ((this->actionFunc == 0) || (this->actionFunc(this, globalCtx), (this->actor.update != 0))) {
+    if ((this->actionFunc == NULL) || (this->actionFunc(this, globalCtx), (this->actor.update != NULL))) {
         Actor_MoveForward(&this->actor);
 
         if (this->unk_250 != 0) {
@@ -722,20 +726,20 @@ void func_80A16C68(EnFish* this, GlobalContext* globalCtx) {
             }
 
             func_80A15374(this);
-        } else if (func_80A15688(this, globalCtx) != 0) {
+        } else if (func_80A15688(this, globalCtx)) {
             func_8002F434(&this->actor, globalCtx, 0x7E, 80.0f, 20.0f);
         }
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func_80A16DEC.s")
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A16DEC.s")
 void func_80A16DEC(EnFish* this, GlobalContext* globalCtx) {
     if (this->actor.params == 1) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    if ((this->actor.child != NULL) && (this->actor.child->update == 0) && (&this->actor != this->actor.child)) {
+    if ((this->actor.child != NULL) && (this->actor.child->update == NULL) && (&this->actor != this->actor.child)) {
         this->actor.child = NULL;
     }
 
