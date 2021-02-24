@@ -239,27 +239,11 @@ void func_80B3E87C(Gfx** dList, EnXc* this);
 
 s32 func_80B40224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 
-extern FlexSkeletonHeader gShiekSkel;
-extern AnimationHeader gShiekAnim6;
-extern Gfx gShiekDL_011150[];
 extern CutsceneCmd D_02003F80[];
 extern CutsceneCmd D_020045D0[];
 extern CutsceneCmd D_02000330[];
 extern CutsceneCmd D_02006D20[];
 extern CutsceneCmd D_020046F0[];
-extern AnimationHeader gShiekAnim18;
-extern AnimationHeader gShiekAnim8;
-extern AnimationHeader gShiekAnim14;
-extern AnimationHeader gShiekAnim7;
-extern AnimationHeader gShiekAnim17;
-extern AnimationHeader gShiekAnim12;
-extern AnimationHeader gShiekAnim19;
-extern AnimationHeader gShiekAnim15;
-extern AnimationHeader gShiekAnim16;
-extern AnimationHeader gShiekAnim9;
-extern AnimationHeader gShiekAnim10;
-extern AnimationHeader gShiekAnim13;
-extern UNK_TYPE gShiekEyeSquintingTex[];
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -797,8 +781,6 @@ void func_80B3D3B0(EnXc* this) {
     Actor_Kill(&this->actor);
 }
 
-//#ifdef NON_MATCHING
-// not matching because of static data
 void func_80B3D3F0(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     s16 sceneNum = globalCtx->sceneNum;
