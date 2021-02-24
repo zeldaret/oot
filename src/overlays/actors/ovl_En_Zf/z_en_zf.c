@@ -1980,13 +1980,13 @@ void func_80B490B4(EnZf* this, GlobalContext* globalCtx) {
 
             if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF)) {
                 if (this->unk_3DC != 0xE) {
-                    func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 80);
                     Actor_ApplyDamage(&this->actor);
                     func_80B47050(this);
                 }
             } else {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_RIZA_CRY);
-                func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
 
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     dropParams = 0x40;
