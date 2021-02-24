@@ -388,8 +388,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     for (j = 0; j < 0x90; j++) {
         s16 index; // phi_v1_5
         f32 temp_f24;
-        f32 temp_f22_4;
-        f32 temp_f20_4;
         f32 phi_f22;
         f32 aux_f20;
 
@@ -402,7 +400,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         }
 
         temp_f24 = (f32) (phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1]);
-        temp_f22_4 = Math_Atan2F(phi_f22, temp_f24);
+        phi_f22 = Math_Atan2F(phi_f22, temp_f24);
 
         if (j >= 0x84) {
             index = j - 0xC;
@@ -412,10 +410,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             aux_f20 = (f32) (phi_s0_2[index].n.ob[0] - phi_s0_3->n.ob[0]);
         }
 
-        temp_f20_4 = Math_Atan2F(aux_f20, temp_f24);
+        aux_f20 = Math_Atan2F(aux_f20, temp_f24);
 
-        Matrix_RotateX(temp_f22_4, MTXMODE_NEW);
-        Matrix_RotateZ(temp_f20_4, MTXMODE_APPLY);
+        Matrix_RotateX(phi_f22, MTXMODE_NEW);
+        Matrix_RotateZ(aux_f20, MTXMODE_APPLY);
         Matrix_MultVec3f(&sp108, &spFC);
 
         phi_s0_3->n.n[0] = spFC.x;
