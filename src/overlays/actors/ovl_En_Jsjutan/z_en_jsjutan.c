@@ -435,12 +435,16 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         spE0[i] = 0;
     }
 
+    i = 1;
+
     //if (1) { }
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
         Actor *actorProfessor;
         Actor *actorBeanGuy;
+
+        isInCreditsScene = 1;
 
         actorProfessor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
         while (actorProfessor != NULL) {
@@ -467,13 +471,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         spC8[2] = (actorBeanGuy->world.pos.y - this->unk_168) * 50.0f;
         spBC[2] = (actorBeanGuy->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
         spE0[2] = 1;
-
-        isInCreditsScene = 1;
     } else {
         isInCreditsScene = 0;
         // if (actorExplosive != NULL) { }
-        i = 1;
-        //*((s32*)0) = 0;
+
         while (actorExplosive != NULL) {
             if (i < 3) {
                 spD4[i] = (f32) ((actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f);
@@ -490,7 +491,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 i++;
             }
             actorExplosive = actorExplosive->next;
-            isInCreditsScene = 0;
         }
     }
 
@@ -637,6 +637,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         vtx_phi_s3++;
     }
 
+    // this if-else block is matching. OK
+    // address: ac4 ~ bb8
     if (this->unk_174 == 0) {
         u16 dayTime;
 
@@ -650,7 +652,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         this->shadowAlpha = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
         this->unk_170 = 1000.0f;
-        //this->shadowAlpha = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
@@ -658,11 +659,14 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->unk_170, -5000.0f, 1.0f, 100.0f);
     }
 
+    // address: bbc
+    phi_s0_3 = vtx_phi_s0_2;
+
     sp108.x = 0.0f;
     sp108.y = 0.0f;
     sp108.z = 120.0f;
 
-    for (phi_s0_3 = vtx_phi_s0_2, j = 0; j < 0x90; j++, phi_s0_3++) {
+    for (j = 0; j < 0x90; j++, phi_s0_3++) {
         s16 index; // phi_v1_5
         f32 phi_f22;
         f32 temp_f24;
@@ -678,6 +682,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         }
 
         temp_f24 = (f32) (vtx_phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1]);
+
         temp_f22_4 = Math_Atan2F(phi_f22, temp_f24);
 
         if (j >= 0x84) {
@@ -685,6 +690,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         } else {
             phi_f22 = (f32) (vtx_phi_s0_2[(s16)(j + 0xC)].n.ob[0] - phi_s0_3->n.ob[0]);
         }
+
         temp_f20_4 = Math_Atan2F(phi_f22, temp_f24);
 
         Matrix_RotateX(temp_f22_4, MTXMODE_NEW);
