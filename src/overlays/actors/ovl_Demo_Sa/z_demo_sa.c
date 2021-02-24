@@ -780,7 +780,7 @@ s32 DemoSa_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     DemoSa* this = THIS;
 
     if ((limbIndex == 15) && (this->unk_1B0 != 0)) {
-        *dList = &D_06007B80;
+        *dList = D_06007B80;
     }
     return false;
 }

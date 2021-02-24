@@ -62,7 +62,7 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Mult(mf, MTXMODE_NEW);
     Matrix_Translate(0.0f, 150.0f, 170.0f, MTXMODE_APPLY);
     Matrix_Scale(0.13f, 0.13f, 0.13f, MTXMODE_APPLY);
-    Matrix_RotateX(0.287621408700943f, MTXMODE_APPLY);
+    Matrix_RotateX(0xBB8 * M_PI / 0x8000, MTXMODE_APPLY);
     Matrix_RotateY(0.0f, MTXMODE_APPLY);
     Matrix_RotateZ(0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_end_title.c", 412), G_MTX_LOAD);
@@ -73,13 +73,13 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_end_title.c", 419);
 
     // Draw title cards on the screen
-    if ((frameCount >= 891) && (this->endAlpha < 200)) {
+    if ((frameCount > 890) && (this->endAlpha < 200)) {
         this->endAlpha += 7;
     }
-    if ((frameCount >= 811) && (this->tlozAlpha < 200)) {
+    if ((frameCount > 810) && (this->tlozAlpha < 200)) {
         this->tlozAlpha += 15;
     }
-    if ((frameCount >= 851) && (this->ootAlpha < 200)) {
+    if ((frameCount > 850) && (this->ootAlpha < 200)) {
         this->ootAlpha += 15;
     }
 
@@ -93,19 +93,19 @@ void EndTitle_Draw(Actor* thisx, GlobalContext* globalCtx) {
                       COMBINED, 0, 0, 0, COMBINED);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->endAlpha);
     gDPLoadTextureTile(OVERLAY_DISP++, D_80B670E0, G_IM_FMT_IA, G_IM_SIZ_8b, 80, 24, 0, 0, 80, 24, 0,
-                       G_TX_NOMIRROR | G_TX_NOMIRROR, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, 0, 0);
+                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, (120 << 2), (90 << 2), (200 << 2), (113 << 2), G_TX_RENDERTILE, 0, 0, (32 << 5),
                         (32 << 5));
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->tlozAlpha);
     gDPLoadTextureTile(OVERLAY_DISP++, D_80B65EA0, G_IM_FMT_IA, G_IM_SIZ_8b, 120, 24, 0, 0, 120, 24, 0,
-                       G_TX_NOMIRROR | G_TX_NOMIRROR, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, 0, 0);
+                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, (100 << 2), (160 << 2), (220 << 2), (183 << 2), G_TX_RENDERTILE, 0, 0,
                         (32 << 5), (32 << 5));
     gDPPipeSync(OVERLAY_DISP++);
     gDPSetPrimColor(OVERLAY_DISP++, 0x00, 0x80, 0, 0, 0, this->ootAlpha);
     gDPLoadTextureTile(OVERLAY_DISP++, D_80B669E0, G_IM_FMT_IA, G_IM_SIZ_8b, 112, 16, 0, 0, 112, 16, 0,
-                       G_TX_NOMIRROR | G_TX_NOMIRROR, G_TX_NOMIRROR | G_TX_NOMIRROR, 0, 0, 0, 0);
+                       G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 0, 0, 0, 0);
     gSPTextureRectangle(OVERLAY_DISP++, (104 << 2), (177 << 2), (216 << 2), (192 << 2), G_TX_RENDERTILE, 0, 0,
                         (32 << 5), (32 << 5));
 

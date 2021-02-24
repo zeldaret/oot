@@ -42,30 +42,30 @@ void BgSpot18Futa_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->actor, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&D_06000368, &colHeader);
-    this->bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->actor, colHeader);
-    Actor_ProcessInitChain(&this->actor, sInitChain);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 }
 
 void BgSpot18Futa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
 
-    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->bgId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgSpot18Futa_Update(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot18Futa* this = THIS;
     s32 iVar1;
 
-    if (this->actor.parent == NULL) {
-        iVar1 = Math_StepToF(&this->actor.scale.x, 0, 0.005);
+    if (this->dyna.actor.parent == NULL) {
+        iVar1 = Math_StepToF(&this->dyna.actor.scale.x, 0, 0.005);
 
         if (iVar1 != 0) {
-            Actor_Kill(&this->actor);
+            Actor_Kill(&this->dyna.actor);
         } else {
-            this->actor.scale.z = this->actor.scale.x;
-            this->actor.scale.y = this->actor.scale.x;
+            this->dyna.actor.scale.z = this->dyna.actor.scale.x;
+            this->dyna.actor.scale.y = this->dyna.actor.scale.x;
         }
     }
 }

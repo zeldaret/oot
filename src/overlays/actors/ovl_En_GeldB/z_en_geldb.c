@@ -1363,12 +1363,12 @@ void EnGeldB_CollisionCheck(EnGeldB* this, GlobalContext* globalCtx) {
             if ((this->actor.colChkInfo.damageEffect == GELDB_DMG_STUN) ||
                 (this->actor.colChkInfo.damageEffect == GELDB_DMG_FREEZE)) {
                 if (this->action != GELDB_STUNNED) {
-                    func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
                     Actor_ApplyDamage(&this->actor);
                     EnGeldB_SetupStunned(this);
                 }
             } else {
-                func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
                 if (Actor_ApplyDamage(&this->actor) == 0) {
                     if (this->keyFlag != 0) {
                         key = Item_DropCollectible(globalCtx, &this->actor.world.pos, this->keyFlag | ITEM00_SMALL_KEY);
