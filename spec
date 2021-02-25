@@ -4108,7 +4108,8 @@ endseg
 beginseg
     name "object_spot06_objects"
     romalign 0x1000
-    include "build/baserom/object_spot06_objects.o"
+    include "build/assets/objects/object_spot06_objects/object_spot06_objects.o"
+    number 6
 endseg
 
 beginseg

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_spot06_objects.h"
+#include "objects/object_spot06_objects/object_spot06_objects.h"
 
 #define FLAGS 0x00000200
 
@@ -45,13 +46,13 @@ void BgSpot06Objects_LockFloat(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneWait(BgSpot06Objects* this, GlobalContext* globalCtx);
 void BgSpot06Objects_WaterPlaneCutsceneRise(BgSpot06Objects* this, GlobalContext* globalCtx);
 
-extern Gfx D_06000120[];           // Lake Hylia lowered water
-extern Gfx D_06000470[];           // Lake Hylia raised water
-extern Gfx D_06000E10[];           // Water Temple entrance gate
-extern CollisionHeader D_06000EE8; // Water Temple entrance gate collision
-extern Gfx D_06001160[];           // Zora's Domain entrance block of ice
-extern CollisionHeader D_06001238; // Zora's Domain entrance block of ice collision
-extern Gfx D_06002490[];           // Water Temple entrance lock
+extern Gfx gSpot06ObjectsDL0[];           // Lake Hylia lowered water
+extern Gfx gSpot06ObjectsDL1[];           // Lake Hylia raised water
+extern Gfx gSpot06ObjectsDL2[];           // Water Temple entrance gate
+extern CollisionHeader gSpot06ObjectsCol0; // Water Temple entrance gate collision
+extern Gfx gSpot06ObjectsDL3[];           // Zora's Domain entrance block of ice
+extern CollisionHeader gSpot06ObjectsCol1; // Zora's Domain entrance block of ice collision
+extern Gfx gSpot06ObjectsDL4[];           // Water Temple entrance lock
 
 const ActorInit Bg_Spot06_Objects_InitVars = {
     ACTOR_BG_SPOT06_OBJECTS,
@@ -114,7 +115,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
             Actor_ProcessInitChain(thisx, sInitChain);
             DynaPolyActor_Init(&this->dyna, DPM_UNK);
-            CollisionHeader_GetVirtual(&D_06000EE8, &colHeader);
+            CollisionHeader_GetVirtual(&gSpot06ObjectsCol0, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
 
             if (LINK_IS_ADULT && Flags_GetSwitch(globalCtx, this->switchFlag)) {
@@ -180,7 +181,7 @@ void BgSpot06Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
         case LHO_ICE_BLOCK:
             Actor_ProcessInitChain(thisx, sInitChain);
             DynaPolyActor_Init(&this->dyna, DPM_UNK);
-            CollisionHeader_GetVirtual(&D_06001238, &colHeader);
+            CollisionHeader_GetVirtual(&gSpot06ObjectsCol1, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
             this->actionFunc = BgSpot06Objects_DoNothing;
 
@@ -455,9 +456,9 @@ void BgSpot06Objects_DrawLakeHyliaWater(BgSpot06Objects* this, GlobalContext* gl
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
 
     if ((this->lakeHyliaWaterLevel < -680.0f) && (gSaveContext.sceneSetupIndex < 4)) {
-        gSPDisplayList(POLY_XLU_DISP++, D_06000120);
+        gSPDisplayList(POLY_XLU_DISP++, gSpot06ObjectsDL0);
     } else {
-        gSPDisplayList(POLY_XLU_DISP++, D_06000470);
+        gSPDisplayList(POLY_XLU_DISP++, gSpot06ObjectsDL1);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot06_objects.c", 879);
@@ -468,10 +469,10 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (this->dyna.actor.params) {
         case LHO_WATER_TEMPLE_ENTRACE_GATE:
-            Gfx_DrawDListOpa(globalCtx, D_06000E10);
+            Gfx_DrawDListOpa(globalCtx, gSpot06ObjectsDL2);
             break;
         case LHO_WATER_TEMPLE_ENTRANCE_LOCK:
-            Gfx_DrawDListOpa(globalCtx, D_06002490);
+            Gfx_DrawDListOpa(globalCtx, gSpot06ObjectsDL4);
 
             if (this->actionFunc == BgSpot06Objects_LockSwimToSurface) {
                 Collider_UpdateSpheres(1, &this->collider);
@@ -481,7 +482,7 @@ void BgSpot06Objects_Draw(Actor* thisx, GlobalContext* globalCtx) {
             BgSpot06Objects_DrawLakeHyliaWater(this, globalCtx);
             break;
         case LHO_ICE_BLOCK:
-            Gfx_DrawDListOpa(globalCtx, D_06001160);
+            Gfx_DrawDListOpa(globalCtx, gSpot06ObjectsDL3);
             break;
     }
 }
