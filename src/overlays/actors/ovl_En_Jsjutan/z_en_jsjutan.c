@@ -204,11 +204,11 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         while (actorExplosive != NULL) {
             if (i < 3) {
-                spD4[i] = ((actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f);
-                spC8[i] = ((actorExplosive->world.pos.y - this->unk_168) * 50.0f);
-                spBC[i] = ((actorExplosive->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f);
+                spD4[i] = (actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
+                spC8[i] = (actorExplosive->world.pos.y - this->unk_168) * 50.0f;
+                spBC[i] = (actorExplosive->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
 
-                if (fabsf(spD4[i]) < 5500.0f && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
+                if ((fabsf(spD4[i]) < 5500.0f) && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
                     if (actorExplosive->params == 1) {
                         spE0[i] = 35;
                     } else {
@@ -235,7 +235,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             //f32 distance = sqrtf((aux1 * aux1) + (aux2 *aux2));
             
             //distance = sqrtf(SQ(((f32) (phi_s0->n.ob[0] - spB8))) + SQ(((f32) (phi_s0->n.ob[2] - spB0))));
-            distance_1 = sqrtf(SQ(((f32) (phi_s0->n.ob[2] - spB0))) + SQ(((f32) (phi_s0->n.ob[0] - spB8))));
+            distance_1 = sqrtf(SQ(phi_s0->n.ob[2] - spB0) + SQ(phi_s0->n.ob[0] - spB8));
 
             phi_f2_4 = (2500.0f - distance_1) / 2500.0f;
 
@@ -279,7 +279,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             if (spE0[i] != 0) {
                 
                 //distance = sqrtf(SQ((f32) phi_s0->n.ob[0] - spD4[i]) + SQ((f32) phi_s0->n.ob[2] - spBC[i]));
-                distance_2 = sqrtf(SQ((f32) phi_s0->n.ob[2] - spBC[i]) + SQ((f32) phi_s0->n.ob[0] - spD4[i]));
+                distance_2 = sqrtf(SQ(phi_s0->n.ob[2] - spBC[i]) + SQ(phi_s0->n.ob[0] - spD4[i]));
                 
                 if ((i == 0) || isInCreditsScene) {
                     phi_f2_2 = (3000.0f - distance_2) / 3000.0f;
@@ -338,8 +338,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
             temp_f14_2 = temp_f0_3 * spA8;
 
-            phi_v1_4 = (phi_f28 + (temp_f14_2));
-            temp_a0_3 = ((phi_s3->n.ob[1] - this->unk_168) * 50.0f);
+            phi_v1_4 = phi_f28 + (temp_f14_2);
+            temp_a0_3 = (phi_s3->n.ob[1] - this->unk_168) * 50.0f;
 
             //phi_v1_4 = phi_v1_4;
             if (phi_v1_4 < temp_a0_3) {
@@ -352,15 +352,15 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             //f32 temp_f2_3 = temp_f0_3 * spA8;
             temp_f14_2 = temp_f0_3 * spA8;
 
-            phi_s0->n.ob[1] = (s16) (phi_f28 + (temp_f14_2));
+            phi_s0->n.ob[1] = phi_f28 + (temp_f14_2);
 
             //s16 temp_v1_4 = (s16) (temp_f2_3 * 0.5f);
-            phi_s0->n.ob[0] = (s16) (D_80A8EE10[j].x + (s16)((temp_f14_2) * 0.5f));
-            phi_s0->n.ob[2] = (s16) (D_80A8EE10[j].z + (s16)((temp_f14_2) * 0.5f));
+            phi_s0->n.ob[0] = D_80A8EE10[j].x + (s16)((temp_f14_2) * 0.5f);
+            phi_s0->n.ob[2] = D_80A8EE10[j].z + (s16)((temp_f14_2) * 0.5f);
 
             // s16 temp_a0_4 = (s16) (s32) temp_f2_3;
-            phi_s3->n.ob[0] = (s16) (D_80A8EE10[j].x + (s16)(temp_f14_2));
-            phi_s3->n.ob[2] = (s16) (D_80A8EE10[j].z + (s16)(temp_f14_2));
+            phi_s3->n.ob[0] = D_80A8EE10[j].x + (s16)(temp_f14_2);
+            phi_s3->n.ob[2] = D_80A8EE10[j].z + (s16)(temp_f14_2);
         }
 
         phi_s0++;
@@ -404,22 +404,22 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         if ((j % 0xC) == 0xB) {
             index = j - 1;
-            phi_f22 = (f32) (phi_s0_3->n.ob[2] - phi_s0_2[index].n.ob[2]);
+            phi_f22 = phi_s0_3->n.ob[2] - phi_s0_2[index].n.ob[2];
         } else {
             index = j + 1;
-            phi_f22 = (f32) (phi_s0_2[index].n.ob[2] - phi_s0_3->n.ob[2]);
+            phi_f22 = phi_s0_2[index].n.ob[2] - phi_s0_3->n.ob[2];
         }
 
-        temp_f0_3 = (f32) (phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1]);
+        temp_f0_3 = phi_s0_2[index].n.ob[1] - phi_s0_3->n.ob[1];
 
         phi_f22 = Math_Atan2F(phi_f22, temp_f0_3);
 
         if (j >= 0x84) {
             index = j - 0xC;
-            aux_f20 = (f32) (phi_s0_3->n.ob[0] - phi_s0_2[index].n.ob[0]);
+            aux_f20 = phi_s0_3->n.ob[0] - phi_s0_2[index].n.ob[0];
         } else {
             index = j + 0xC;
-            aux_f20 = (f32) (phi_s0_2[index].n.ob[0] - phi_s0_3->n.ob[0]);
+            aux_f20 = phi_s0_2[index].n.ob[0] - phi_s0_3->n.ob[0];
         }
 
         aux_f20 = Math_Atan2F(aux_f20, temp_f0_3);
