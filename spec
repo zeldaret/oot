@@ -5527,7 +5527,8 @@ endseg
 beginseg
     name "object_zg"
     romalign 0x1000
-    include "build/baserom/object_zg.o"
+    include "build/assets/objects/object_zg/object_zg.o"
+    number 6
 endseg
 
 beginseg
@@ -5768,7 +5769,8 @@ endseg
 beginseg
     name "object_efc_doughnut"
     romalign 0x1000
-    include "build/baserom/object_efc_doughnut.o"
+    include "build/assets/objects/object_efc_doughnut/object_efc_doughnut.o"
+    number 6
 endseg
 
 beginseg

@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_zg" Segment="6">
+        <DList Name="gZgDL" Offset="0x1080"/>
+        <Collision Name="gZgCol" Offset="0x11D4"/>
+    </File>
+</Root>

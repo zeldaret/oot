@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_efc_doughnut" Segment="6">
+        <DList Name="gEfcDoughnutDL0" Offset="0x660"/>
+        <DList Name="gEfcDoughnutDL1" Offset="0xFC0"/>
+    </File>
+</Root>
