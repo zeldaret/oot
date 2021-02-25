@@ -769,7 +769,7 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Push();
     EnFd_DrawDots(this, globalCtx);
     EnFd_DrawFlames(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
         func_80093D84(globalCtx->state.gfxCtx);
