@@ -7,6 +7,7 @@
 #include "z_obj_syokudai.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0x00000410
 
@@ -258,7 +259,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { 0x060003A0, 0x06000B90, 0x06000870 };
+    static Gfx* displayLists[] = { gGoldenTorchDL, gTimedTorchDL, gWoodenTorchDL };
     s32 pad;
     ObjSyokudai* this = THIS;
     s32 timerMax;

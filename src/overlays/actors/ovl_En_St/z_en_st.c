@@ -250,7 +250,7 @@ void EnSt_AddBlurVertex(EnSt* this) {
     Matrix_Push();
     Matrix_MultVec3f(&v1, &v1Pos);
     Matrix_MultVec3f(&v2, &v2Pos);
-    Matrix_Pull();
+    Matrix_Pop();
     EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &v1Pos, &v2Pos);
 }
 
@@ -362,7 +362,7 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
         Matrix_RotateY((this->initalYaw / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
-        Matrix_Pull();
+        Matrix_Pop();
         this->colCylinder[i + 3].dim.pos.x = cylPos.x;
         this->colCylinder[i + 3].dim.pos.y = cylPos.y;
         this->colCylinder[i + 3].dim.pos.z = cylPos.z;
@@ -781,7 +781,7 @@ void EnSt_Sway(EnSt* this) {
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
         Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768.0f), MTXMODE_APPLY);
         Matrix_MultVec3f(&amtToTranslate, &translatedPos);
-        Matrix_Pull();
+        Matrix_Pop();
         this->actor.shape.rot.z = -(rotAngle * 2);
         this->actor.world.pos.x = translatedPos.x;
         this->actor.world.pos.z = translatedPos.z;
