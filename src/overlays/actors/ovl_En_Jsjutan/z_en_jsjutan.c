@@ -263,7 +263,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             //distance = CLAMP_MIN(distance, 0.0f);
             //if (1) { }
 
-            spA8 = 100.0f * distance_1 * 0.01f;
+            spA8 = (distance_1 * 100.0f) * 0.01f;
             if (spA8 > 100.0f) {
                 spA8 = 100.0f;
             }
