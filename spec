@@ -5804,7 +5804,8 @@ endseg
 beginseg
     name "object_spot01_matoyab"
     romalign 0x1000
-    include "build/baserom/object_spot01_matoyab.o"
+    include "build/assets/objects/object_spot01_matoyab/object_spot01_matoyab.o"
+    number 6
 endseg
 
 beginseg

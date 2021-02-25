@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_spot01_matoyab" Segment="6">
+        <DList Name="gBgGateShutterDL" Offset="0x1CD0"/>
+        <Collision Name="gBgGateShutterCol" Offset="0x1DA8"/>
+    </File>
+</Root>
