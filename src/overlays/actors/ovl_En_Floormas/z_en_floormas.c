@@ -1110,7 +1110,7 @@ void EnFloormas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_floormas.c", 2299), G_MTX_LOAD);
         gSPDisplayList((*gfx)++, D_06008688);
-        Matrix_Pull();
+        Matrix_Pop();
     }
 }
 

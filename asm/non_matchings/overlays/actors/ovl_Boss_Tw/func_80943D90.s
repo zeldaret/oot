@@ -120,7 +120,7 @@ glabel L80943E54
 /* 0B1D4 80943EA4 0C0346A2 */  jal     Matrix_NewMtx              
 /* 0B1D8 80943EA8 AFA20024 */  sw      $v0, 0x0024($sp)           
 /* 0B1DC 80943EAC 8FA30024 */  lw      $v1, 0x0024($sp)           
-/* 0B1E0 80943EB0 0C034221 */  jal     Matrix_Pull              
+/* 0B1E0 80943EB0 0C034221 */  jal     Matrix_Pop              
 /* 0B1E4 80943EB4 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 0B1E8 80943EB8 8FAB0038 */  lw      $t3, 0x0038($sp)           
 /* 0B1EC 80943EBC 3C0DDE00 */  lui     $t5, 0xDE00                ## $t5 = DE000000
