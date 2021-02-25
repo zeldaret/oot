@@ -15,7 +15,7 @@ typedef struct EnExItem {
     /* 0x0150 */ s16 getItemObjId;
     /* 0x0152 */ s16 type;
     /* 0x0152 */ s16 unusedParam;
-    /* 0x0156 */ s16 drawItemId;
+    /* 0x0156 */ s16 giDrawId;
     /* 0x0158 */ s16 stopRotate;
     /* 0x015A */ s16 timer;
     /* 0x015A */ s16 chestKillTimer;

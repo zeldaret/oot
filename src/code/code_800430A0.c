@@ -85,7 +85,7 @@ s32 func_800433A4(CollisionContext* colCtx, s32 bgId, Actor* actor) {
         return false;
     }
 
-    dynaActor = (DynaPolyActor*)DynaPoly_GetActor(colCtx, bgId);
+    dynaActor = DynaPoly_GetActor(colCtx, bgId);
 
     if (dynaActor == NULL) {
         return false;

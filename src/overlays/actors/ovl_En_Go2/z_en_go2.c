@@ -775,7 +775,7 @@ u16 EnGo2_GetTextId(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 EnGo2_GetState(GlobalContext* globalCtx, Actor* thisx) {
     EnGo2* this = THIS;
-    
+
     switch (this->actor.params & 0x1F) {
         case GORON_CITY_ROLLING_BIG:
             return EnGo2_GetStateGoronCityRollingBig(globalCtx, this);
@@ -2050,7 +2050,7 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2_UpdateDust(this);
     Matrix_Push();
     EnGo2_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
 
     if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.playSpeed == 0.0f) &&
         (this->skelAnime.curFrame == 0.0f)) {

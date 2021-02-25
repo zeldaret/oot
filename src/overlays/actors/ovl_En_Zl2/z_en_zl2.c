@@ -485,7 +485,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateRPY(unk_1DC[6] + kREG(37), unk_1DC[7] + kREG(38), unk_1DC[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[2], "../z_en_zl2.c", 1120);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
@@ -508,7 +508,7 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateRPY(unk_1DC[12] + kREG(43), unk_1DC[13] + kREG(44), unk_1DC[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[4], "../z_en_zl2.c", 1164);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp34);
@@ -531,8 +531,8 @@ s32 func_80B4F45C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateRPY(unk_1DC[18] + kREG(49), unk_1DC[19] + kREG(50), unk_1DC[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp74[6], "../z_en_zl2.c", 1208);
-        Matrix_Pull();
-        Matrix_Pull();
+        Matrix_Pop();
+        Matrix_Pop();
         this->unk_24C = 1;
     }
     return false;
@@ -559,7 +559,7 @@ void EnZl2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
                           G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                 gSPDisplayList((*gfx)++, &gZelda2OcarinaDL);
             }
-            Matrix_Pull();
+            Matrix_Pop();
         }
     }
 }

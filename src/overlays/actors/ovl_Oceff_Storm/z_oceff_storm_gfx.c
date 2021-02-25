@@ -1,7 +1,7 @@
 #include "z_oceff_storm.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-static u32 tex0[] = {
+static u32 sTexture[] = {
     0x2F6E6F59, 0x6197B3CC, 0xC8AD8E6C, 0x5333170A, 0x17366173, 0x86ABC7C6, 0xA9928C7E, 0x55496341, 0x40705B59,
     0x79A5DAE8, 0xC9A5927F, 0x6F50270D, 0x17304F6C, 0x8BAAC3B9, 0x9189A0A5, 0x854A2F1F, 0x33808E74, 0x709BB7CC,
     0xC6B18E69, 0x4627100D, 0x21406880, 0x9BC2DAC1, 0x92808378, 0x514B7350, 0x386E6768, 0x80AAE1E4, 0xC6A0866D,
@@ -127,14 +127,14 @@ static Gfx sTextureDL[] = {
     gsSPClearGeometryMode(G_TEXTURE_ENABLE | G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
     gsDPSetCombineLERP(TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, TEXEL1, TEXEL0, PRIM_LOD_FRAC, TEXEL0, PRIMITIVE,
                        ENVIRONMENT, COMBINED, ENVIRONMENT, COMBINED, 0, PRIMITIVE, 0),
-    gsDPLoadTextureBlock(tex0, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                         G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 6, 3, 1),
-    gsDPLoadMultiBlock(tex0, 0x0, 1, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                       G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 6, 2, 0),
+    gsDPLoadTextureBlock(sTexture, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_NOMIRROR | G_TX_WRAP, 6, 6, 3, 1),
+    gsDPLoadMultiBlock(sTexture, 0x0, 1, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                       G_TX_NOMIRROR | G_TX_WRAP, 6, 6, 2, 0),
     gsSPEndDisplayList(),
 };
 
-static Vtx vertices[] = {
+static Vtx sCylinderVtx[] = {
     VTX(-35, 150, -35, 1792, 512, 0xFF, 0xFF, 0xFF, 0x7E), VTX(-35, 500, -35, 1792, 0, 0xFF, 0xFF, 0xFF, 0x00),
     VTX(0, 500, -50, 1536, 0, 0xFF, 0xFF, 0xFF, 0x00),     VTX(35, 0, -35, 1280, 1024, 0xFF, 0xFF, 0xFF, 0x00),
     VTX(50, 150, 0, 1024, 512, 0xFF, 0xFF, 0xFF, 0x00),    VTX(50, 0, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0x00),
@@ -151,14 +151,14 @@ static Vtx vertices[] = {
     VTX(35, 500, 35, 768, 0, 0xFF, 0xFF, 0xFF, 0x00),
 };
 
-static Gfx sCylinderTexDl[] = {
+static Gfx sCylinderTexDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(gEffUnknown10Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                         G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 2, 13),
-    gsDPLoadMultiBlock(gEffUnknown11Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                       G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 12),
+    gsDPLoadTextureBlock(gEffUnknown10Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 2, 13),
+    gsDPLoadMultiBlock(gEffUnknown11Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                       G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 1, 12),
     gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, TEXEL1, TEXEL0, ENVIRONMENT, TEXEL0, PRIMITIVE, ENVIRONMENT,
                        COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
     gsDPSetRenderMode(AA_EN | Z_CMP | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_XLU | FORCE_BL |
@@ -168,8 +168,8 @@ static Gfx sCylinderTexDl[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx sCylinderDl[] = {
-    gsSPVertex(vertices, 27, 0),
+static Gfx sCylinderDL[] = {
+    gsSPVertex(sCylinderVtx, 27, 0),
     gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
     gsSP2Triangles(6, 7, 8, 0, 6, 8, 4, 0),
     gsSP2Triangles(9, 10, 6, 0, 9, 6, 3, 0),

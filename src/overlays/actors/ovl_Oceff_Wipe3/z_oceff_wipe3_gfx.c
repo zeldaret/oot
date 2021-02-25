@@ -1,6 +1,6 @@
 #include "z_oceff_wipe3.h"
 
-static u32 tex0[] = {
+static u32 sTexture[] = {
     0x91A69C82, 0x9CAC7448, 0x4246484B, 0x4D505153, 0x53545454, 0x54545556, 0x57585859, 0x59595857, 0x56545350,
     0x4F4E4C4C, 0x4C4B4A49, 0x49474544, 0x42403E3C, 0x3D549BB3, 0xB4B4B3B3, 0xB2AD966F, 0xAEB3B2A8, 0x98B19B62,
     0x4F4B4C4F, 0x51535556, 0x56565656, 0x56565656, 0x57585859, 0x59595857, 0x56545350, 0x4F4E4D4C, 0x4C4B4B4A,
@@ -117,7 +117,7 @@ static u32 tex0[] = {
     0x4E4C4B4A, 0x49484846, 0x45444241, 0x3F3E3C3B, 0x4681AFB4, 0xAEB0B3B3, 0xB3B19A68,
 };
 
-static Vtx vertices[] = {
+static Vtx sFrustumVtx[] = {
     VTX(88, 121, 0, 1638, 2048, 0xFF, 0xFF, 0xFF, 0x00),   VTX(243, 176, 1000, 1434, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(143, 46, 0, 1229, 2048, 0xFF, 0xFF, 0xFF, 0x00),   VTX(300, 0, 1000, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(0, 150, 0, 2048, 2048, 0xFF, 0xFF, 0xFF, 0x00),    VTX(93, 285, 1000, 1843, 0, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -135,11 +135,11 @@ static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock(tex0, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                         G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 6, 14, 14),
+    gsDPLoadTextureBlock(sTexture, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_NOMIRROR | G_TX_WRAP, 6, 6, 14, 14),
     gsDPTileSync(),
-    gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0, 1, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 14,
-                G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 14),
+    gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_8b, 8, 0x0, 1, 0, G_TX_NOMIRROR | G_TX_WRAP, 6, 14, G_TX_NOMIRROR | G_TX_WRAP, 6,
+                14),
     gsDPSetTileSize(1, 0, 0, (63 << 2), (63 << 2)),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, TEXEL1, 0, ENVIRONMENT, TEXEL0, PRIMITIVE, ENVIRONMENT,
                        COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
@@ -150,8 +150,8 @@ static Gfx sTextureDL[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx sFrustrumDl[] = {
-    gsSPVertex(vertices, 22, 0),
+static Gfx sFrustumDL[] = {
+    gsSPVertex(sFrustumVtx, 22, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
     gsSP2Triangles(4, 5, 0, 0, 5, 1, 0, 0),
     gsSP2Triangles(6, 7, 4, 0, 7, 5, 4, 0),
