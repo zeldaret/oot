@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_spot00_break" Segment="6">
+        <DList Name="gSpot00BreakDL0" Offset="0x440"/>
+        <DList Name="gSpot00BreakDL1" Offset="0x980"/>
+        <Collision Name="gSpot00BreakCol1" Offset="0xAF0"/>
+        <Collision Name="gSpot00BreakCol0" Offset="0x908"/>
+    </File>
+</Root>

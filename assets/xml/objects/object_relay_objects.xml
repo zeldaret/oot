@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_relay_objects" Segment="6">
+        <DList Name="gRelayObjectsDL0" Offset="0x1A0"/>
+        <DList Name="gRelayObjectsDL1" Offset="0x1AB0"/>
+        <Collision Name="gRelayObjectsCol0" Offset="0x3C4"/>
+        <Collision Name="gRelayObjectsCol1" Offset="0x25FC"/>
+    </File>
+</Root>

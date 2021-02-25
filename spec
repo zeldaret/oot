@@ -4120,7 +4120,8 @@ endseg
 beginseg
     name "object_relay_objects"
     romalign 0x1000
-    include "build/baserom/object_relay_objects.o"
+    include "build/assets/objects/object_relay_objects/object_relay_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -5626,7 +5627,8 @@ endseg
 beginseg
     name "object_spot00_break"
     romalign 0x1000
-    include "build/baserom/object_spot00_break.o"
+    include "build/assets/objects/object_spot00_break/object_spot00_break.o"
+    number 6
 endseg
 
 beginseg
