@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_ingate.h"
+#include "objects/object_ingate/object_ingate.h"
 
 #define FLAGS 0x00000000
 
@@ -30,9 +31,6 @@ const ActorInit Bg_Ingate_InitVars = {
     (ActorFunc)BgIngate_Draw,
 };
 
-extern CollisionHeader D_060011B8;
-extern Gfx D_06001040[];
-
 void BgIngate_SetupAction(BgIngate* this, BgIngateActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
@@ -44,7 +42,7 @@ void BgIngate_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&D_060011B8, &colHeader);
+    CollisionHeader_GetVirtual(&gIngateCol, &colHeader);
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
@@ -114,7 +112,7 @@ void BgIngate_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 245),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_OPA_DISP++, D_06001040);
+    gSPDisplayList(POLY_OPA_DISP++, gIngateDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ingate.c", 250);
 }

@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_ingate" Segment="6">
+        <DList Name="gIngateDL" Offset="0x1040"/>
+        <Collision Name="gIngateCol" Offset="0x11B8"/>
+    </File>
+</Root>

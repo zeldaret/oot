@@ -1,0 +1,9 @@
+<Root>
+    <File Name="object_menkuri_objects" Segment="6">
+        <DList Name="gMenkuriObjectsDL0" Offset="0x2280"/>
+        <DList Name="gMenkuriObjectsDL1" Offset="0x2BC0"/>
+        <DList Name="gMenkuriObjectsDL2" Offset="0x2D20"/>
+        <DList Name="gMenkuriObjectsDL3" Offset="0x38D0"/>
+        <Collision Name="gMenkuriObjectsCol" Offset="0x42D8"/>
+    </File>
+</Root>

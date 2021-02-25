@@ -3933,7 +3933,8 @@ endseg
 beginseg
     name "object_menkuri_objects"
     romalign 0x1000
-    include "build/baserom/object_menkuri_objects.o"
+    include "build/assets/objects/object_menkuri_objects/object_menkuri_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -5227,7 +5228,8 @@ endseg
 beginseg
     name "object_ingate"
     romalign 0x1000
-    include "build/baserom/object_ingate.o"
+    include "build/assets/objects/object_ingate/object_ingate.o"
+    number 6
 endseg
 
 beginseg
