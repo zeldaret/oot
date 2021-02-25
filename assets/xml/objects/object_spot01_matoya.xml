@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_spot01_matoya" Segment="6">
+        <DList Name="gSpot01MatoyaDL" Offset="0x3B20"/>
+        <Collision Name="gSpot01MatoyaCol" Offset="0x3C64"/>
+    </File>
+</Root>
