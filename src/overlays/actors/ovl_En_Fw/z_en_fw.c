@@ -399,7 +399,7 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw_UpdateDust(this);
     Matrix_Push();
     EnFw_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);
