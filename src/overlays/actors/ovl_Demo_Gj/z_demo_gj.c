@@ -316,7 +316,7 @@ void DemoGj_DrawRotated(DemoGj* this, GlobalContext* globalCtx, Gfx* displayList
     Matrix_Push();
     Matrix_RotateRPY(x, y, z, MTXMODE_APPLY);
     Matrix_ToMtx(matrix, "../z_demo_gj.c", 1193);
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
 
