@@ -94,6 +94,7 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     u8 isPlayerOnTop;
     s16 i;
@@ -311,18 +312,18 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
                 //phi_f28 = CLAMP_MAX(phi_f28, temp_f14_2);
                 //phi_f28 = phi_f28;
-                /*if (phi_f28 > temp_f14_2) {
-                    phi_f28 = temp_f14_2;
-                }*/
+                //if (phi_f28 > temp_f14_2) {
+                //    phi_f28 = temp_f14_2;
+                //}
                 if (temp_f14_2 < phi_f28) {
                     phi_f28 = temp_f14_2;
                 }
 
                 //spA8 = CLAMP_MAX(spA8, phi_f2_3);
                 //spA8 = spA8;
-                /*if (spA8 > phi_f2_3) {
-                    spA8 = phi_f2_3;
-                }*/
+                //if (spA8 > phi_f2_3) {
+                //    spA8 = phi_f2_3;
+                //}
                 if (phi_f2_3 < spA8) {
                     spA8 = phi_f2_3;
                 }
@@ -433,9 +434,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         phi_s0_3++;
     }
 }
-
+#else
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx);
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
+#endif
 
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJsjutan* this = THIS;
