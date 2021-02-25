@@ -107,16 +107,15 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     f32 spB0; // zDiff 
     f32 spA8; // wave amplitude (?)
     u8 isInCreditsScene;
-    Player *player;
-    Actor *parent;
+    Player* player;
+    Actor* parent;
     s16 i;
-    Actor *actorExplosive;
-    Vtx *phi_s0;
+    Actor* actorExplosive;
+    Vtx* phi_s0;
     s16 j;
-    Vtx *phi_s3;
-    Vtx *phi_s0_2;
-    Vtx *phi_s0_3;
-    //f32 distance;
+    Vtx* phi_s3;
+    Vtx* phi_s0_2;
+    Vtx* phi_s0_3;
 
     isPlayerOnTop = 0;
     player = PLAYER;
@@ -229,7 +228,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             f32 distance;
             f32 phi_f2_4;
             
-            distance = sqrtf(SQ(((f32) (phi_s0->n.ob[0] - spB8))) + SQ(((f32) (phi_s0->n.ob[2] - spB0))));
+            //distance = sqrtf(SQ(((f32) (phi_s0->n.ob[0] - spB8))) + SQ(((f32) (phi_s0->n.ob[2] - spB0))));
+            distance = sqrtf(SQ(((f32) (phi_s0->n.ob[2] - spB0))) + SQ(((f32) (phi_s0->n.ob[0] - spB8))));
 
             phi_f2_4 = (2500.0f - distance) / 2500.0f;
 
@@ -242,10 +242,12 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
             // phi_f16 = this->unk_170;
             
-            phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
+            //phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
             //phi_f28 = ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f) + (spB4 * phi_f2_4);
             //phi_f28 = (spB4 * phi_f2_4);
             //phi_f28 = phi_f28 + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
+            spA8 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
+            phi_f28 = spA8;
 
             distance = distance - 1500.0f;
 
@@ -274,7 +276,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 f32 phi_f2_2;
                 f32 phi_f2_3;
                 
-                distance = sqrtf(SQ((f32) phi_s0->n.ob[0] - spD4[i]) + SQ((f32) phi_s0->n.ob[2] - spBC[i]));
+                //distance = sqrtf(SQ((f32) phi_s0->n.ob[0] - spD4[i]) + SQ((f32) phi_s0->n.ob[2] - spBC[i]));
+                distance = sqrtf(SQ((f32) phi_s0->n.ob[2] - spBC[i]) + SQ((f32) phi_s0->n.ob[0] - spD4[i]));
                 
                 if ((i == 0) || isInCreditsScene) {
                     phi_f2_2 = (3000.0f - distance) / 3000.0f;
