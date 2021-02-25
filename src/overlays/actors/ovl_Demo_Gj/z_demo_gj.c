@@ -432,24 +432,24 @@ void DemoGj_SetupRotation(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-/* 
+/*
  * Returns true if `ganon->unk_314` is equals to `arg1`.
  * `ganon->unk_314` can have the following values:
  *  0: Before the battle has started.
- *  1: When is set: Ganondorf starts rising from the rubble. 
+ *  1: When is set: Ganondorf starts rising from the rubble.
  *     What is happening: Ganondorf is moving vertically and has vertical velocity.
  *     Proposed name: BOSSGANON2_MODE_GANONDORF_RISING
- *  2: When is set: Ganondorf has stopped rising in air. 
+ *  2: When is set: Ganondorf has stopped rising in air.
  *     What is happening: The camera is in front of him, focusing the clouds and going down to focus him.
  *     Proposed name: BOSSGANON2_MODE_GANONDORF_FLOATING
- *  3: When is set: The camera has stopped moving and is focusing him. 
+ *  3: When is set: The camera has stopped moving and is focusing him.
  *     What is happening: Ganondorf raises his hand, shows the triforce and transforms into Ganon. The battle starts.
  *     This value is set during the whole real fight against Ganon. Without and with Master Sword.
  *     Proposed name: BOSSGANON2_MODE_GANON_FIGHTING
- *  4: When is set: Link has hit Ganon's tail for last time with Master Sword. 
+ *  4: When is set: Link has hit Ganon's tail for last time with Master Sword.
  *     What is happening: Ganon falls to the floor, Zelda uses her magic and tells Link to kill him.
  *     Proposed name: BOSSGANON2_MODE_GANON_DEFEATED
- * 
+ *
  * Those values should probably be defined as macros or enums in `ovl_Boss_Ganon2/z_boss_ganon2.h`.
  * Proposed name for the function: `s32 DemoGj_CheckGanonMode(DemoGj* this, u8 mode)`
  */
@@ -596,7 +596,7 @@ void func_8097A000(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_SetupRotation(this, globalCtx);
 }
 
-void func_8097A07C(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_SpawnSmokePreBattle1(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -371.0f, 1188.0f, -303.0f };
     u32 gameplayFrames;
 
@@ -661,7 +661,7 @@ void func_8097A238(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_SetupRotation(this, globalCtx);
 }
 
-void func_8097A2B4(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_SpawnSmokePreBattle2(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -119.0f, 1056.0f, -147.0f };
     u32 gameplayFrames;
 
@@ -692,7 +692,7 @@ void func_8097A36C(DemoGj* this, GlobalContext* globalCtx) {
     }
 }
 
-//func_8097A39C
+// func_8097A39C
 void DemoGj_Update02(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
     func_8097A320(this, globalCtx);
@@ -918,7 +918,7 @@ void func_8097ABB4(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_SetupRotation(this, globalCtx);
 }
 
-void func_8097AC30(DemoGj* this, GlobalContext* globalCtx) {
+void DemoGj_SpawnSmokePreBattle3(DemoGj* this, GlobalContext* globalCtx) {
     static Vec3f pos = { -6.0f, 1053.0f, -473.0f };
     u32 gameplayFrames;
 
@@ -976,9 +976,9 @@ void DemoGj_InitRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
 // func_8097ADF0
 void DemoGj_UpdateRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
     DemoGj_FindGanon(this, globalCtx);
-    func_8097A07C(this, globalCtx);
-    func_8097A2B4(this, globalCtx);
-    func_8097AC30(this, globalCtx);
+    DemoGj_SpawnSmokePreBattle1(this, globalCtx);
+    DemoGj_SpawnSmokePreBattle2(this, globalCtx);
+    DemoGj_SpawnSmokePreBattle3(this, globalCtx);
 }
 
 void DemoGj_DrawRubbleAroundArena(DemoGj* this, GlobalContext* globalCtx) {
@@ -1335,10 +1335,27 @@ void DemoGj_DemoGj_InitDestructableRubbleTall(DemoGj* this, GlobalContext* globa
 }
 
 static DemoGjUpdateFunc sUpdateFuncs[] = {
-    DemoGj_UpdateRubbleAroundArena,  DemoGj_Update01,  DemoGj_Update02,  DemoGj_Update03,  DemoGj_Update04,  DemoGj_Update05,
-    DemoGj_Update06,  DemoGj_Update07,  DemoGj_Update08,  DemoGj_Update09,  DemoGj_Update10, DemoGj_Update11,
-    DemoGj_Update12, DemoGj_Update13, DemoGj_Update14, DemoGj_Update15, DemoGj_Update16, DemoGj_Update17,
-    DemoGj_Update18, DemoGj_Update19, DemoGj_Update20,
+    DemoGj_UpdateRubbleAroundArena,
+    DemoGj_Update01,
+    DemoGj_Update02,
+    DemoGj_Update03,
+    DemoGj_Update04,
+    DemoGj_Update05,
+    DemoGj_Update06,
+    DemoGj_Update07,
+    DemoGj_Update08,
+    DemoGj_Update09,
+    DemoGj_Update10,
+    DemoGj_Update11,
+    DemoGj_Update12,
+    DemoGj_Update13,
+    DemoGj_Update14,
+    DemoGj_Update15,
+    DemoGj_Update16,
+    DemoGj_Update17,
+    DemoGj_Update18,
+    DemoGj_Update19,
+    DemoGj_Update20,
 };
 
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1414,9 +1431,25 @@ void DemoGj_DrawNothing(DemoGj* this, GlobalContext* globalCtx) {
 }
 
 static DemoGjDrawFunc sDrawFuncs[] = {
-    DemoGj_DrawNothing, DemoGj_DrawRubbleAroundArena,  DemoGj_DrawRubble2,  DemoGj_DrawRubble3,  DemoGj_DrawRubble4,  DemoGj_DrawRubble5,  DemoGj_DrawRubble6,
-    DemoGj_DrawRubble7,           DemoGj_DrawRubbleTall,  DemoGj_DrawRotatedRubble2,  DemoGj_DrawRotatedRubble3, DemoGj_DrawRotatedRubble4, DemoGj_DrawRotatedRubble5, DemoGj_DrawRotatedRubble6,
-    DemoGj_DrawRotatedRubble7,          DemoGj_DrawRotatedRubbleTall, DemoGj_DrawDestructableRubble1, DemoGj_DemoGj_InitDestructableRubble2, DemoGj_DemoGj_InitDestructableRubbleTall,
+    DemoGj_DrawNothing,
+    DemoGj_DrawRubbleAroundArena,
+    DemoGj_DrawRubble2,
+    DemoGj_DrawRubble3,
+    DemoGj_DrawRubble4,
+    DemoGj_DrawRubble5,
+    DemoGj_DrawRubble6,
+    DemoGj_DrawRubble7,
+    DemoGj_DrawRubbleTall,
+    DemoGj_DrawRotatedRubble2,
+    DemoGj_DrawRotatedRubble3,
+    DemoGj_DrawRotatedRubble4,
+    DemoGj_DrawRotatedRubble5,
+    DemoGj_DrawRotatedRubble6,
+    DemoGj_DrawRotatedRubble7,
+    DemoGj_DrawRotatedRubbleTall,
+    DemoGj_DrawDestructableRubble1,
+    DemoGj_DemoGj_InitDestructableRubble2,
+    DemoGj_DemoGj_InitDestructableRubbleTall,
 };
 
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx) {
