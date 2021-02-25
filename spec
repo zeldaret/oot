@@ -4375,7 +4375,8 @@ endseg
 beginseg
     name "object_haka"
     romalign 0x1000
-    include "build/baserom/object_haka.o"
+    include "build/assets/objects/object_haka/object_haka.o"
+    number 6
 endseg
 
 beginseg

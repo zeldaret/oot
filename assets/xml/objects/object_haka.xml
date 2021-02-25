@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_haka" Segment="6">
+        <DList Name="gHakaDL0" Offset="0x1B0"/>
+        <DList Name="gHakaDL1" Offset="0x2A8"/>
+        <Collision Name="gHakaCol" Offset="0x428"/>
+    </File>
+</Root>
