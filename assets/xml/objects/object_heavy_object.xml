@@ -1,0 +1,8 @@
+<Root>
+    <File Name="object_heavy_object" Segment="6">
+        <DList Name="gHeavyObjectDL0" Offset="0x13C0"/>
+        <DList Name="gHeavyObjectDL1" Offset="0x18A0"/>
+        <DList Name="gHeavyObjectDL2" Offset="0x1A30"/>
+        <Collision Name="gHeavyObjectCol" Offset="0x169C"/>
+    </File>
+</Root>

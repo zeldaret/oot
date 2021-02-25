@@ -4333,7 +4333,8 @@ endseg
 beginseg
     name "object_heavy_object"
     romalign 0x1000
-    include "build/baserom/object_heavy_object.o"
+    include "build/assets/objects/object_heavy_object/object_heavy_object.o"
+    number 6
 endseg
 
 beginseg
