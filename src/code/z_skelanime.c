@@ -56,7 +56,7 @@ void SkelAnime_DrawLimbLod(GlobalContext* globalCtx, s32 limbIndex, void** skele
         SkelAnime_DrawLimbLod(globalCtx, limb->child, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg, lod);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (limb->sibling != LIMB_DONE) {
         SkelAnime_DrawLimbLod(globalCtx, limb->sibling, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg, lod);
@@ -113,7 +113,7 @@ void SkelAnime_DrawLod(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
                               lod);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 894);
 }
@@ -168,7 +168,7 @@ void SkelAnime_DrawFlexLimbLod(GlobalContext* globalCtx, s32 limbIndex, void** s
                                   lod, mtx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (limb->sibling != LIMB_DONE) {
         SkelAnime_DrawFlexLimbLod(globalCtx, limb->sibling, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg,
@@ -189,9 +189,7 @@ void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
     Gfx* limbDList;
     Vec3f pos;
     Vec3s rot;
-    Mtx* mtx;
-
-    mtx = Graph_Alloc(globalCtx->state.gfxCtx, dListCount * sizeof(Mtx));
+    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, dListCount * sizeof(Mtx));
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
@@ -236,7 +234,7 @@ void SkelAnime_DrawFlexLod(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
                                   lod, &mtx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1053);
 }
@@ -280,7 +278,7 @@ void SkelAnime_DrawLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** skele
         SkelAnime_DrawLimbOpa(globalCtx, limb->child, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (limb->sibling != LIMB_DONE) {
         SkelAnime_DrawLimbOpa(globalCtx, limb->sibling, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg);
@@ -335,7 +333,7 @@ void SkelAnime_DrawOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTa
         SkelAnime_DrawLimbOpa(globalCtx, rootLimb->child, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1190);
 }
@@ -388,7 +386,7 @@ void SkelAnime_DrawFlexLimbOpa(GlobalContext* globalCtx, s32 limbIndex, void** s
                                   limbMatricies);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (limb->sibling != LIMB_DONE) {
         SkelAnime_DrawFlexLimbOpa(globalCtx, limb->sibling, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg,
@@ -410,9 +408,7 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
     Gfx* limbDList;
     Vec3f pos;
     Vec3s rot;
-    Mtx* mtx;
-
-    mtx = Graph_Alloc(globalCtx->state.gfxCtx, dListCount * sizeof(Mtx));
+    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, dListCount * sizeof(Mtx));
 
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
@@ -460,7 +456,7 @@ void SkelAnime_DrawFlexOpa(GlobalContext* globalCtx, void** skeleton, Vec3s* joi
                                   &mtx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_skelanime.c", 1347);
 }
 
@@ -547,7 +543,7 @@ Gfx* SkelAnime_DrawLimb(GlobalContext* globalCtx, s32 limbIndex, void** skeleton
             SkelAnime_DrawLimb(globalCtx, limb->child, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg, gfx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (limb->sibling != LIMB_DONE) {
         gfx = SkelAnime_DrawLimb(globalCtx, limb->sibling, skeleton, jointTable, overrideLimbDraw, postLimbDraw, arg,
@@ -605,7 +601,7 @@ Gfx* SkelAnime_Draw(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable
                                  gfx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     return gfx;
 }
@@ -653,7 +649,7 @@ Gfx* SkelAnime_DrawFlexLimb(GlobalContext* globalCtx, s32 limbIndex, void** skel
                                      mtx, gfx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (limb->sibling != LIMB_DONE) {
         gfx = SkelAnime_DrawFlexLimb(globalCtx, limb->sibling, skeleton, jointTable, overrideLimbDraw, postLimbDraw,
@@ -676,9 +672,8 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
     Gfx* limbDList;
     Vec3f pos;
     Vec3s rot;
-    Mtx* mtx;
+    Mtx* mtx = Graph_Alloc(globalCtx->state.gfxCtx, dListCount * sizeof(*mtx));
 
-    mtx = Graph_Alloc(globalCtx->state.gfxCtx, dListCount * sizeof(*mtx));
     if (skeleton == NULL) {
         osSyncPrintf(VT_FGCOL(RED));
         // skel is NULL. Returns NULL.
@@ -719,7 +714,7 @@ Gfx* SkelAnime_DrawFlex(GlobalContext* globalCtx, void** skeleton, Vec3s* jointT
                                      arg, &mtx, gfx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     return gfx;
 }
@@ -871,6 +866,7 @@ AnimationEntry* AnimationContext_AddEntry(AnimationContext* animationCtx, Animat
     if (index >= ANIMATION_ENTRY_MAX) {
         return NULL;
     }
+
     animationCtx->animationCount = index + 1;
     entry = &animationCtx->entries[index];
     entry->type = type;

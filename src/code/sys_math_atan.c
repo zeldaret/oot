@@ -78,10 +78,8 @@ static u16 sATan2Tbl[] = {
 };
 
 u16 Math_GetAtan2Tbl(f32 x, f32 y) {
-    s32 tblIdx;
+    s32 tblIdx = ((x / y) * 1024.0f) + 0.5f;
     u16 ret;
-
-    tblIdx = ((x / y) * 1024.0f) + 0.5f;
 
     if (y == 0.0f) {
         ret = sATan2Tbl[0];

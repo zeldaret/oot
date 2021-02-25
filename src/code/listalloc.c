@@ -7,17 +7,15 @@ ListAlloc* ListAlloc_Init(ListAlloc* this) {
 }
 
 void* ListAlloc_Alloc(ListAlloc* this, u32 size) {
-    ListAlloc* ptr;
+    ListAlloc* ptr = SystemArena_MallocDebug(size + sizeof(ListAlloc), "../listalloc.c", 40);
     ListAlloc* next;
 
-    ptr = SystemArena_MallocDebug(size + sizeof(ListAlloc), "../listalloc.c", 40);
-    if (!ptr) {
+    if (ptr == NULL) {
         return NULL;
     }
 
     next = this->next;
-
-    if (next) {
+    if (next != NULL) {
         next->next = ptr;
     }
 
@@ -25,7 +23,7 @@ void* ListAlloc_Alloc(ListAlloc* this, u32 size) {
     ptr->next = NULL;
     this->next = ptr;
 
-    if (!this->prev) {
+    if (this->prev == NULL) {
         this->prev = ptr;
     }
 
@@ -33,15 +31,13 @@ void* ListAlloc_Alloc(ListAlloc* this, u32 size) {
 }
 
 void ListAlloc_Free(ListAlloc* this, void* data) {
-    ListAlloc* ptr;
+    ListAlloc* ptr = &((ListAlloc*)data)[-1];
 
-    ptr = &((ListAlloc*)data)[-1];
-
-    if (ptr->prev) {
+    if (ptr->prev != NULL) {
         ptr->prev->next = ptr->next;
     }
 
-    if (ptr->next) {
+    if (ptr->next != NULL) {
         ptr->next->prev = ptr->prev;
     }
 
@@ -57,10 +53,9 @@ void ListAlloc_Free(ListAlloc* this, void* data) {
 }
 
 void ListAlloc_FreeAll(ListAlloc* this) {
-    ListAlloc* iter;
+    ListAlloc* iter = this->prev;
 
-    iter = this->prev;
-    while (iter) {
+    while (iter != NULL) {
         ListAlloc_Free(this, (u8*)iter + sizeof(ListAlloc));
         iter = this->prev;
     }

@@ -679,7 +679,7 @@ void DemoGt_Draw1(DemoGt* this, GlobalContext* globalCtx) {
     unk188 = this->unk_188;
     unk178 = this->unk_178;
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
 
@@ -1302,7 +1302,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
             func_80980F8C(this, globalCtx2);
         }
 
-        Matrix_Pull();
+        Matrix_Pop();
 
         func_80093D18(gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, sp60, (G_MTX_PUSH | G_MTX_LOAD) | G_MTX_MODELVIEW);
@@ -1421,7 +1421,7 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
         func_80981458(this, globalCtx);
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp60, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1513,7 +1513,7 @@ void DemoGt_Draw6(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp4C.x, sp4C.y, sp4C.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp64, "../z_demo_gt_part4_3.c", 291);
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp64, G_MTX_PUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1605,7 +1605,7 @@ void DemoGt_Draw7(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp5C, "../z_demo_gt_part5.c", 152);
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
@@ -1696,7 +1696,7 @@ void DemoGt_Draw8(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp44.x, sp44.y, sp44.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp5C, "../z_demo_gt_part6.c", 153);
 
-    Matrix_Pull();
+    Matrix_Pop();
 
     func_80093D18(gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, sp5C, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
