@@ -2050,7 +2050,7 @@ void EnGo2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo2_UpdateDust(this);
     Matrix_Push();
     EnGo2_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
 
     if ((this->actionFunc == EnGo2_CurledUp) && (this->skelAnime.playSpeed == 0.0f) &&
         (this->skelAnime.curFrame == 0.0f)) {
