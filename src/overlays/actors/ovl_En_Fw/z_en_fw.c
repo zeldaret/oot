@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fw.c
+ * Overlay: ovl_En_Fw
+ * Description: Flare Dancer Core
+ */
+
 #include "z_en_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
@@ -61,9 +67,9 @@ static ColliderJntSphInit sJntSphInit = {
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry D_80A1FBA0[] = {
-    { 0x06006CF8, 0.0f, 0.0f, -1.0f, 0x03, 0.0f },
-    { 0x06007CD0, 1.0f, 0.0f, -1.0f, 0x03, -8.0f },
-    { 0x06007DC8, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
+    { 0x06006CF8, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
+    { 0x06007CD0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { 0x06007DC8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
 };
 
 extern FlexSkeletonHeader D_06007C30;
@@ -97,7 +103,7 @@ s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
 s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f collisionPos;
 
     if (this->actor.xzDistToPlayer > 300.0f) {
@@ -243,7 +249,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.scale.x, 0.024999999f, 0.08f, 0.6f, 0.0f);
         Actor_SetScale(&this->actor, this->actor.scale.x);
         if (this->actor.colorFilterTimer == 0) {
-            func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->explosionTimer);
             this->explosionTimer--;
         }
 
@@ -261,7 +267,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
         }
     } else {
         if (!(this->actor.bgCheckFlags & 1) || this->actor.velocity.y > 0.0f) {
-            func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->damageTimer);
             return;
         }
         DECR(this->damageTimer);
@@ -393,7 +399,7 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw_UpdateDust(this);
     Matrix_Push();
     EnFw_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);

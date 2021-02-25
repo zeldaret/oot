@@ -26,7 +26,10 @@ void EnNwc_Idle(EnNwc* this, GlobalContext* globalCtx);
 #define CHICK_BG_FLOOR (1 << 0)
 #define CHICK_BG_WALL (1 << 1)
 
-typedef enum { CHICK_NONE, CHICK_NORMAL } ChickTypes;
+typedef enum {
+    /* 0 */ CHICK_NONE,
+    /* 1 */ CHICK_NORMAL
+} ChickTypes;
 
 extern Gfx D_06000840[];
 extern Gfx D_060008B0[];

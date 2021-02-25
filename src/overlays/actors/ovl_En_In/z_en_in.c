@@ -62,10 +62,11 @@ static CollisionCheckInfoInit2 sColChkInfoInit = {
 };
 
 static struct_D_80AA1678 sAnimationInfo[] = {
-    { 0x06001CC0, 1.0f, 0, 0.0f },   { 0x06001CC0, 1.0f, 0, -10.0f }, { 0x06013C6C, 1.0f, 0, 0.0f },
-    { 0x06013C6C, 1.0f, 0, -10.0f }, { 0x06000CB0, 1.0f, 0, 0.0f },   { 0x060003B4, 1.0f, 0, -10.0f },
-    { 0x06001BE0, 1.0f, 0, 0.0f },   { 0x06013D60, 1.0f, 0, 0.0f },   { 0x0601431C, 1.0f, 0, 0.0f },
-    { 0x06014CA8, 1.0f, 0, 0.0f },
+    { 0x06001CC0, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06001CC0, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x06013C6C, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06013C6C, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x06000CB0, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x060003B4, 1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x06001BE0, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06013D60, 1.0f, ANIMMODE_LOOP, 0.0f },
+    { 0x0601431C, 1.0f, ANIMMODE_LOOP, 0.0f }, { 0x06014CA8, 1.0f, ANIMMODE_LOOP, 0.0f },
 };
 
 static AnimationHeader* D_80A7B918[] = {
@@ -325,7 +326,7 @@ void func_80A79690(SkelAnime* skelAnime, EnIn* this, GlobalContext* globalCtx) {
 
 void func_80A796EC(EnIn* this, s32 arg1) {
     Animation_Change(&this->skelAnime, sAnimationInfo[arg1].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimationInfo[arg1].animation), sAnimationInfo[arg1].unk_08,
+                     Animation_GetLastFrame(sAnimationInfo[arg1].animation), sAnimationInfo[arg1].mode,
                      sAnimationInfo[arg1].transitionRate);
 }
 

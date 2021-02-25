@@ -73,7 +73,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     u8 alphaTable[3];
     s32 i;
     Vec3f eye;
-    Vtx(*vtxPtr)[2];
+    Vtx* vtxPtr;
     Vec3f vec;
 
     eye = ACTIVE_CAM->eye;
@@ -98,9 +98,9 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     for (i = 0; i < 20; i++) {
-        vtxPtr = (Vtx(*)[2])vertices;
-        vtxPtr[i][0].v.cn[3] = alphaTable[((sOceffWipeAlphaIndices[i] & 0xF0) >> 4)];
-        vtxPtr[i][1].v.cn[3] = alphaTable[sOceffWipeAlphaIndices[i] & 0xF];
+        vtxPtr = sFrustumVtx;
+        vtxPtr[i * 2 + 0].v.cn[3] = alphaTable[((sOceffWipeAlphaIndices[i] & 0xF0) >> 4)];
+        vtxPtr[i * 2 + 1].v.cn[3] = alphaTable[sOceffWipeAlphaIndices[i] & 0xF];
     }
 
     func_80093D84(globalCtx->state.gfxCtx);
@@ -124,7 +124,7 @@ void OceffWipe_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0 - scroll, scroll * (-2), 32, 32, 1,
                                                      0 - scroll, scroll * (-2), 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, sFrustrumDl);
+    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe.c", 398);
 }

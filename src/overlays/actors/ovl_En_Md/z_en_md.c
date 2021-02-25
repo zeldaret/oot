@@ -57,13 +57,13 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, -10.0f },
-    { 0x0600917C, 1.0f, 0.0f, -1.0f, 0x02, -1.0f }, { 0x06009E68, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
-    { 0x06009B1C, 1.0f, 0.0f, -1.0f, 0x02, -1.0f }, { 0x06008E84, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
-    { 0x060097F0, 1.0f, 0.0f, -1.0f, 0x00, -1.0f }, { 0x060092B0, 1.0f, 0.0f, -1.0f, 0x02, -1.0f },
-    { 0x0600A138, 1.0f, 0.0f, -1.0f, 0x00, -1.0f }, { 0x06008FC0, 1.0f, 0.0f, -1.0f, 0x02, -1.0f },
-    { 0x060002C8, 0.0f, 0.0f, -1.0f, 0x00, -8.0f }, { 0x06008510, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
-    { 0x060095BC, 1.0f, 0.0f, -1.0f, 0x02, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, 0x00, -1.0f },
+    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },  { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -10.0f },
+    { 0x0600917C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06009E68, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { 0x06009B1C, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008E84, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { 0x060097F0, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x060092B0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { 0x0600A138, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f }, { 0x06008FC0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
+    { 0x060002C8, 0.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { 0x06008510, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
+    { 0x060095BC, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f }, { 0x06008738, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
 };
 
 extern AnimationHeader D_060002C8;
@@ -402,7 +402,9 @@ u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
     return 0x1060;
 }
 
-u16 EnMd_GetText(GlobalContext* globalCtx, EnMd* this) {
+u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
+    EnMd* this = THIS;
+
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT04:
             return EnMd_GetTextKokiriForest(globalCtx, this);
@@ -415,7 +417,9 @@ u16 EnMd_GetText(GlobalContext* globalCtx, EnMd* this) {
     }
 }
 
-s16 func_80AAAF04(GlobalContext* globalCtx, EnMd* this) {
+s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
+    EnMd* this = THIS;
+
     switch (func_80AAAC78(this, globalCtx)) {
         case 0:
         case 1:
@@ -592,7 +596,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
                 (globalCtx->sceneNum == SCENE_SPOT04))
                    ? 100.0f
                    : 400.0f;
-        this->alpha = func_80034DD4(this, globalCtx, this->alpha, temp);
+        this->alpha = func_80034DD4(&this->actor, globalCtx, this->alpha, temp);
         this->actor.shape.shadowAlpha = this->alpha;
     } else {
         this->alpha = 255;
@@ -610,7 +614,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    if (!EnMd_ShouldSpawn(&this->actor, globalCtx)) {
+    if (!EnMd_ShouldSpawn(this, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -632,7 +636,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
-        EnMd_SetMovedPos(&this->actor, globalCtx);
+        EnMd_SetMovedPos(this, globalCtx);
     }
 
     this->actionFunc = func_80AAB874;
@@ -645,7 +649,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &D_060002C8) {
-        func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+        func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
     }
@@ -655,7 +659,7 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &D_060002C8) {
-        func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+        func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
     func_80AAA93C(this);
 }
@@ -707,7 +711,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if (this->skelAnime.animation == &D_060002C8) {
-        func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+        func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
 
     if ((this->unk_1E0.unk_00 == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
@@ -744,7 +748,7 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
-    func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+    func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     func_80AAA93C(this);
 
     if (!(EnMd_FollowPath(this, globalCtx)) || (this->waypoint != 0)) {

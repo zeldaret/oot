@@ -1,6 +1,6 @@
 /*
  * File: z_bg_spot18_obj.c
- * Overlay: Bg_Spot18_Obj
+ * Overlay: ovl_Bg_Spot18_Obj
  * Description:
  */
 
@@ -134,7 +134,7 @@ s32 func_808B8A98(BgSpot18Obj* this, GlobalContext* globalCtx) {
     s32 pad[2];
     CollisionHeader* colHeader = NULL;
 
-    DynaPolyActor_Init(&this->dyna.actor, DPM_UNK);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(D_808B90FC[this->dyna.actor.params & 0xF], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     return 1;

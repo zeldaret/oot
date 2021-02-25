@@ -157,7 +157,7 @@ void EnDh_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, &ActorShadow_DrawCircle, 64.0f);
     this->actor.params = ENDH_WAIT_UNDERGROUND;
     this->actor.colChkInfo.mass = MASS_HEAVY;
-    this->actor.colChkInfo.health = (gSaveContext.linkAge == 0) ? 14 : 20;
+    this->actor.colChkInfo.health = LINK_IS_ADULT ? 14 : 20;
     this->alpha = this->unk_258 = 255;
     this->actor.flags &= ~1;
     Collider_InitCylinder(globalCtx, &this->collider1);
@@ -490,7 +490,7 @@ void EnDh_CollisionCheck(EnDh* this, GlobalContext* globalCtx) {
             if (player->unk_844 != 0) {
                 this->unk_258 = player->unk_845;
             }
-            func_8003426C(&this->actor, 0x4000, 0xFF, 0, 8);
+            Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
             lastHealth = this->actor.colChkInfo.health;
             if (Actor_ApplyDamage(&this->actor) == 0) {
                 EnDh_SetupDeath(this);
@@ -548,7 +548,7 @@ void EnDh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         Matrix_Push();
         Matrix_Translate(headOffset.x, headOffset.y, headOffset.z, MTXMODE_APPLY);
         Collider_UpdateSpheres(1, &this->collider2);
-        Matrix_Pull();
+        Matrix_Pop();
     }
 }
 

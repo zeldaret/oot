@@ -23,7 +23,7 @@ glabel func_809CAEF4
 /* 00438 809CAF48 44188000 */  mfc1    $t8, $f16
 /* 0043C 809CAF4C 00000000 */  nop
 /* 00440 809CAF50 A61801AE */  sh      $t8, 0x01AE($s0)           ## 000001AE
-/* 00444 809CAF54 0C00D09B */  jal     func_8003426C
+/* 00444 809CAF54 0C00D09B */  jal     Actor_SetColorFilter
 /* 00448 809CAF58 AFB90010 */  sw      $t9, 0x0010($sp)
 /* 0044C 809CAF5C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00450 809CAF60 0C00BE0A */  jal     Audio_PlayActorSound2

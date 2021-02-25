@@ -1,7 +1,7 @@
 #include "global.h"
 
 void osStopThread(OSThread* thread) {
-    register u32 s0 = __osDisableInt();
+    register u32 prevInt = __osDisableInt();
     register u32 state;
 
     if (thread == NULL) {
@@ -22,5 +22,5 @@ void osStopThread(OSThread* thread) {
             break;
     }
 
-    __osRestoreInt(s0);
+    __osRestoreInt(prevInt);
 }

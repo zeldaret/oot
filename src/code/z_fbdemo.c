@@ -64,6 +64,7 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
             }
         }
     }
+
     gfx = this->gfx;
     for (colTex = 0, col = 0; col < this->col; colTex += 0x20, col++) {
 
@@ -83,6 +84,7 @@ void TransitionUnk_InitGraphics(TransitionUnk* this) {
             row++;
         }
     }
+
     gDPPipeSync(gfx++);
     gSPEndDisplayList(gfx++);
 
@@ -107,6 +109,7 @@ void TransitionUnk_Destroy(TransitionUnk* this) {
     osSyncPrintf("fbdemo_cleanup(%08x)\n", this);
     osSyncPrintf("msleep(100);\n");
     Sleep_Msec(100);
+
     if (this->unk_0C != NULL) {
         SystemArena_FreeDebug(this->unk_0C, "../z_fbdemo.c", 180);
         this->unk_0C = NULL;
@@ -135,6 +138,7 @@ TransitionUnk* TransitionUnk_Init(TransitionUnk* this, s32 row, s32 col) {
     this->vtxFrame1 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 196);
     this->vtxFrame2 = SystemArena_MallocDebug((row + 1) * sizeof(Vtx) * (col + 1), "../z_fbdemo.c", 197);
     this->gfx = SystemArena_MallocDebug((this->col * (1 + this->row * 9) + 2) * sizeof(Gfx), "../z_fbdemo.c", 198);
+
     if (this->unk_0C == NULL || this->vtxFrame1 == NULL || this->vtxFrame2 == NULL || this->gfx == NULL) {
         osSyncPrintf("fbdemo_init allocation error\n");
         if (this->unk_0C != NULL) {
@@ -158,6 +162,7 @@ TransitionUnk* TransitionUnk_Init(TransitionUnk* this, s32 row, s32 col) {
     TransitionUnk_InitGraphics(this);
     TransitionUnk_InitData(this);
     this->frame = 0;
+
     return this;
 }
 
