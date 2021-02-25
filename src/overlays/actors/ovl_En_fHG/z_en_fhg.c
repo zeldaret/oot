@@ -13,7 +13,6 @@
 #define FLAGS 0x00000010
 
 #define THIS ((EnfHG*)thisx)
-#define BOSSFHG ((BossGanondrof*)this->actor.parent)
 
 typedef struct EnfHGPainting {
     /* 0x00 */ Vec3f pos;
@@ -87,8 +86,8 @@ void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->actor.focus.pos.y += 70.0f;
     func_800A663C(globalCtx, &this->skin, &gPhantomHorseSkel, &gPhantomHorseAnim_00B4C8);
 
-    if (this->actor.params >= 10) {
-        EnfHG_SetupApproach(this, globalCtx, this->actor.params - 10);
+    if (this->actor.params >= FHG_FAKE_BOSS) {
+        EnfHG_SetupApproach(this, globalCtx, this->actor.params - FHG_FAKE_BOSS);
     } else {
         EnfHG_SetupIntro(this, globalCtx);
     }
@@ -115,7 +114,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
     static Vec3f audioVec = { 0.0f, 0.0f, 50.0f };
     s32 pad64;
     Player* player = PLAYER;
-    BossGanondrof* bossFhg = BOSSFHG;
+    BossGanondrof* bossFhg = (BossGanondrof*)this->actor.parent;
     s32 pad58;
     s32 pad54;
 
@@ -449,7 +448,7 @@ void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
     osSyncPrintf("STANDBY !!\n");
     osSyncPrintf("XP2  = %f\n", this->actor.world.pos.x);
     osSyncPrintf("ZP2  = %f\n", this->actor.world.pos.z);
-    if (this->actor.params == 1) {
+    if (this->actor.params == FHG_REAL_BOSS) {
         this->hoofSfxPos.x = this->actor.projectedPos.x / (this->actor.scale.x * 100.0f);
         this->hoofSfxPos.y = this->actor.projectedPos.y / (this->actor.scale.x * 100.0f);
         this->hoofSfxPos.z = this->actor.projectedPos.z / (this->actor.scale.x * 100.0f);
@@ -464,7 +463,7 @@ void EnfHG_Approach(EnfHG* this, GlobalContext* globalCtx) {
     this->actor.scale.y = this->actor.scale.x;
     if (this->timers[0] == 0) {
         osSyncPrintf("arg_data ------------------------------------>%d\n", this->actor.params);
-        if (this->actor.params != 1) {
+        if (this->actor.params != FHG_REAL_BOSS) {
             this->timers[0] = 140;
             this->actionFunc = EnfHG_Retreat;
             Animation_MorphToLoop(&this->skin.skelAnime, &gPhantomHorseAnim_00B4C8, 0.0f);
@@ -592,16 +591,15 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
     dx = this->actor.world.pos.x - this->inPaintingPos.x;
     dz = this->actor.world.pos.z - this->inPaintingPos.z;
     dxz2 = sqrtf(SQ(dx) + SQ(dz));
-    if (dxz2 < 300.0f) {
-        if (!this->spawnedWarp) {
-            this->spawnedWarp = true;
-            Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->inPaintingPos.x,
-                               this->actor.world.pos.y + 50.0f, this->inPaintingPos.z, 0,
-                               this->actor.shape.rot.y + 0x8000, 0, FHGFIRE_WARP_RETREAT);
-        }
+    if ((dxz2 < 300.0f) && (!this->spawnedWarp)) {
+        this->spawnedWarp = true;
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FHG_FIRE, this->inPaintingPos.x,
+                            this->actor.world.pos.y + 50.0f, this->inPaintingPos.z, 0,
+                            this->actor.shape.rot.y + 0x8000, 0, FHGFIRE_WARP_RETREAT);
     }
     if (dxz2 == 0.0f) {
-        BossGanondrof* bossFhg = BOSSFHG;
+        BossGanondrof* bossFhg = (BossGanondrof*)this->actor.parent;
+
         this->timers[0] = 140;
         this->actionFunc = EnfHG_Retreat;
         Animation_MorphToLoop(&this->skin.skelAnime, &gPhantomHorseAnim_00B4C8, 0.0f);
@@ -619,7 +617,7 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
     if (this->turnTarget != 0) {
         Math_ApproachS(&this->turnRot, this->turnTarget, 5, 2000);
     }
-    if (this->actor.params == 1) {
+    if (this->actor.params == FHG_REAL_BOSS) {
         this->hoofSfxPos.x = this->actor.projectedPos.x / (this->actor.scale.x * 100.0f);
         this->hoofSfxPos.y = this->actor.projectedPos.y / (this->actor.scale.x * 100.0f);
         this->hoofSfxPos.z = this->actor.projectedPos.z / (this->actor.scale.x * 100.0f);
@@ -632,15 +630,15 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.scale.x, 0.002f, 0.05f, 0.0001f);
     Math_ApproachF(&this->actor.world.pos.y, 200.0f, 0.05f, 1.0f);
     this->actor.scale.y = this->actor.scale.x;
-    if ((this->timers[0] == 80) && (this->actor.params == 1)) {
+    if ((this->timers[0] == 80) && (this->actor.params == FHG_REAL_BOSS)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
     }
     if (this->timers[0] == 0) {
-        BossGanondrof* bossFhg = BOSSFHG;
+        BossGanondrof* bossFhg = (BossGanondrof*)this->actor.parent;
         s16 paintingIdxReal;
         s16 paintingIdxFake;
 
-        if (this->actor.params != 1) {
+        if (this->actor.params != FHG_REAL_BOSS) {
             this->killActor = true;
             bossFhg->killActor = true;
         } else if (bossFhg->flyMode != FHG_FLY_PAINTING) {
@@ -655,7 +653,7 @@ void EnfHG_Retreat(EnfHG* this, GlobalContext* globalCtx) {
             osSyncPrintf("ac1 = %x `````````````````````````````````````````````````\n",
                          Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_GANONDROF,
                                             this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
-                                            0, 0, 0, paintingIdxFake + 10));
+                                            0, 0, 0, paintingIdxFake + FHG_FAKE_BOSS));
         }
     }
 }
@@ -698,7 +696,7 @@ void EnfHG_Noop(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
 
 void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnfHG* this = THIS;
-    BossGanondrof* bossFhg = BOSSFHG;
+    BossGanondrof* bossFhg = (BossGanondrof*)this->actor.parent;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2439);

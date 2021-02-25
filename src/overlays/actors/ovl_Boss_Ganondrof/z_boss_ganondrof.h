@@ -8,6 +8,9 @@ struct BossGanondrof;
 
 typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, GlobalContext*);
 
+#define FHG_REAL_BOSS 1
+#define FHG_FAKE_BOSS 10
+
 typedef enum {
     /* 0 */ FHG_FLY_PAINTING,
     /* 1 */ FHG_FLY_NEUTRAL,

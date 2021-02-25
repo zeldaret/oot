@@ -70,8 +70,6 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Stunned(BossGanondrof* this, GlobalContext* globalCtx);
 void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 
-// extern Gfx gPhantomGanonFaceDL[];
-// extern SkeletonHeader gPhantomGanonSkel_00C710;
 // extern AnimationHeader gPhantomGanonAnim_003CA4;
 // extern AnimationHeader gPhantomGanonAnim_001144;
 // extern AnimationHeader gPhantomGanonAnim_002684;
@@ -93,9 +91,6 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx);
 // extern AnimationHeader gPhantomGanonAnim_010344;
 // extern AnimationHeader gPhantomGanonAnim_0129E0;
 // extern AnimationHeader gPhantomGanonAnim_00F48C;
-
-// extern UNK_TYPE gPhantomGanonUnknown_00B380;
-// extern UNK_TYPE gPhantomGanonUnknown_003DB0;
 
 const ActorInit Boss_Ganondrof_InitVars = {
     ACTOR_BOSS_GANONDROF,
@@ -208,22 +203,24 @@ static u8 sDecayMaskTotal[16 * 16] = {
 };
 // clang-format on
 
-// These appear to be Phantom Ganon's body textures, but I don't know which is which.
-static u64* D_80915028_8x8[] = {
-    gPhantomGanonUnknown_00A800, gPhantomGanonUnknown_00AE80, gPhantomGanonUnknown_00AF00,
-    gPhantomGanonUnknown_00C180, gPhantomGanonUnknown_00C400,
+// These are Phantom Ganon's body textures, but I don't know which is which.
+static u64* sLimbTex_rgb5a1_8x8[] = {
+    gPhantomGanonLimbTex_00A800, gPhantomGanonLimbTex_00AE80, gPhantomGanonLimbTex_00AF00,
+    gPhantomGanonLimbTex_00C180, gPhantomGanonLimbTex_00C400,
 };
-static u64* D_8091503C_16x8[] = {
-    gPhantomGanonUnknown_00B980, gPhantomGanonUnknown_00C480, gPhantomGanonUnknown_00BC80,
-    gPhantomGanonUnknown_00BD80, gPhantomGanonUnknown_00C080,
+static u64* sLimbTex_rgb5a1_16x8[] = {
+    gPhantomGanonLimbTex_00B980, gPhantomGanonLimbTex_00C480, gPhantomGanonLimbTex_00BC80,
+    gPhantomGanonLimbTex_00BD80, gPhantomGanonLimbTex_00C080,
 };
-static u64* D_80915050_16x16[] = {
-    gPhantomGanonUnknown_00C200, gPhantomGanonUnknown_00A000, gPhantomGanonUnknown_00A200,
-    gPhantomGanonUnknown_00A400, gPhantomGanonUnknown_00A600, gPhantomGanonUnknown_00A880,
-    gPhantomGanonUnknown_00B780, gPhantomGanonUnknown_00BA80, gPhantomGanonUnknown_00BE80,
+static u64* sLimbTex_rgb5a1_16x16[] = {
+    gPhantomGanonLimbTex_00C200, gPhantomGanonLimbTex_00A000, gPhantomGanonLimbTex_00A200,
+    gPhantomGanonLimbTex_00A400, gPhantomGanonLimbTex_00A600, gPhantomGanonLimbTex_00A880,
+    gPhantomGanonLimbTex_00B780, gPhantomGanonLimbTex_00BA80, gPhantomGanonLimbTex_00BE80,
 };
-static u64* D_80915074_16x32[] = { gPhantomGanonUnknown_00AA80, gPhantomGanonUnknown_00AF80 };
-static u64* D_8091507C_16x16[] = { gPhantomGanonUnknown_0040B0, gPhantomGanonUnknown_003FB0 };
+static u64* sLimbTex_rgb5a1_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
+
+// These are the mouth textures for the intro
+static u64* sFaceTex_ci8_16x16[] = { gPhantomGanonFaceTex_0040B0, gPhantomGanonFaceTex_003FB0 };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
@@ -251,20 +248,18 @@ void BossGanondrof_ClearPixels16x16(s16* texture, u8* mask, s16 index) {
 }
 
 void BossGanondrof_ClearPixels32x16(s16* texture, u8* mask, s16 index) {
-    s16 tmp;
-
     if (mask[index]) {
-        tmp = (index & 0xF) + ((index & 0xF0) << 1);
+        s16 tmp = (index & 0xF) + ((index & 0xF0) << 1);
+
         texture[tmp + 0x10] = 0;
         texture[tmp] = 0;
     }
 }
 
 void BossGanondrof_ClearPixels16x32(s16* texture, u8* mask, s16 index) {
-    s16 tmp;
-
     if (mask[index]) {
-        tmp = ((index & 0xF) * 2) + ((index & 0xF0) * 2);
+        s16 tmp = ((index & 0xF) * 2) + ((index & 0xF0) * 2);
+
         texture[tmp + 1] = 0;
         texture[tmp] = 0;
     }
@@ -274,22 +269,22 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
     s16 i;
 
     for (i = 0; i < 5; i++) {
-        BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(D_80915028_8x8[i]), mask, index);
-        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(D_8091503C_16x8[i]), mask, index);
+        BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_8x8[i]), mask, index);
+        BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x8[i]), mask, index);
     }
 
     for (i = 0; i < 9; i++) {
-        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_80915050_16x16[i]), mask, index);
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x16[i]), mask, index);
     }
 
     for (i = 0; i < 2; i++) {
-        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(D_80915074_16x32[i]), mask, index);
+        BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x32[i]), mask, index);
     }
 
-    BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(gPhantomGanonUnknown_00B380), mask, index);
-    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(gPhantomGanonUnknown_003DB0), mask, index);
+    BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(gPhantomGanonLimbTex_00B380), mask, index);
+    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(gPhantomGanonFaceTex_003DB0), mask, index);
     for (i = 0; i < 2; i++) {
-        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(D_8091507C_16x16[i]), mask, index);
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sFaceTex_ci8_16x16[i]), mask, index);
     }
 }
 
@@ -306,9 +301,9 @@ void BossGanondrof_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
     Actor_SetScale(&this->actor, 0.01f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gPhantomGanonSkel_00C710, &gPhantomGanonAnim_003CA4, NULL, NULL, 0);
-    if (this->actor.params < 10) {
-        this->actor.params = 1;
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gPhantomGanonSkel, &gPhantomGanonAnim_003CA4, NULL, NULL, 0);
+    if (this->actor.params < FHG_FAKE_BOSS) {
+        this->actor.params = FHG_REAL_BOSS;
         this->actor.colChkInfo.health = 30;
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
@@ -1389,7 +1384,7 @@ void BossGanondrof_Update(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("F 2\n");
     }
 
-    if (this->actor.params == 1) {
+    if (this->actor.params == FHG_REAL_BOSS) {
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->spearTip.x, this->spearTip.y, this->spearTip.z, 255, 255, 255,
                                   200);
     }

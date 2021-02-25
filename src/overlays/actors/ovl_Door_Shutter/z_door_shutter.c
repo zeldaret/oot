@@ -156,7 +156,6 @@ static UNK_PTR D_809982D4[] = {
 };
 
 extern CollisionHeader D_0601EDD0; // gohma block collision header
-// extern CollisionHeader D_06012FD0; // phantom ganon bars collision header
 
 void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc) {
     this->actionFunc = actionFunc;
