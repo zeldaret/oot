@@ -266,7 +266,8 @@ endseg
 beginseg
     name "map_48x85_static"
     romalign 0x1000
-    include "build/baserom/map_48x85_static.o"
+    include "build/assets/textures/map_48x85_static/map_48x85_static.o"
+    number 11
 endseg
 
 beginseg
