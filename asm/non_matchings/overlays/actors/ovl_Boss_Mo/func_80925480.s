@@ -509,7 +509,7 @@ glabel func_80925480
 /* 0A0B4 80925BB4 2AA1012C */  slti    $at, $s5, 0x012C           
 /* 0A0B8 80925BB8 1420FFBE */  bne     $at, $zero, .L80925AB4     
 /* 0A0BC 80925BBC 26310040 */  addiu   $s1, $s1, 0x0040           ## $s1 = 00000140
-/* 0A0C0 80925BC0 0C034221 */  jal     Matrix_Pull              
+/* 0A0C0 80925BC0 0C034221 */  jal     Matrix_Pop              
 /* 0A0C4 80925BC4 00000000 */  nop
 /* 0A0C8 80925BC8 3C068092 */  lui     $a2, %hi(D_80926B50)       ## $a2 = 80920000
 /* 0A0CC 80925BCC 24C66B50 */  addiu   $a2, $a2, %lo(D_80926B50)  ## $a2 = 80926B50

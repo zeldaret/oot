@@ -315,7 +315,7 @@ glabel func_80B76474
 /* 0CF00 80B768A0 2A61008C */  slti    $at, $s3, 0x008C           
 /* 0CF04 80B768A4 1420FFCC */  bne     $at, $zero, .L80B767D8     
 /* 0CF08 80B768A8 2610003C */  addiu   $s0, $s0, 0x003C           ## $s0 = 80B7FF34
-/* 0CF0C 80B768AC 0C034221 */  jal     Matrix_Pull              
+/* 0CF0C 80B768AC 0C034221 */  jal     Matrix_Pop              
 /* 0CF10 80B768B0 00000000 */  nop
 /* 0CF14 80B768B4 3C0680B8 */  lui     $a2, %hi(D_80B7B250)       ## $a2 = 80B80000
 /* 0CF18 80B768B8 24C6B250 */  addiu   $a2, $a2, %lo(D_80B7B250)  ## $a2 = 80B7B250

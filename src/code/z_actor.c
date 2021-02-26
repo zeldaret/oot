@@ -387,7 +387,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
                         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 2116),
                                   G_MTX_MODELVIEW | G_MTX_LOAD);
                         gSPDisplayList(OVERLAY_DISP++, gZTargetLockOnTriangleDL);
-                        Matrix_Pull();
+                        Matrix_Pop();
                     }
                 }
 
@@ -1921,7 +1921,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                       G_MTX_MODELVIEW | G_MTX_LOAD);
             gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
 
-            Matrix_Pull();
+            Matrix_Pop();
             phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
             Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
 
@@ -4079,13 +4079,13 @@ void func_8003573C(Actor* actor, ColliderJntSph* jntSph, s32 freezeFlag) {
     }
 }
 
-void func_80035844(Vec3f* arg0, Vec3f* arg1, s16* arg2, s32 arg3) {
+void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3) {
     f32 dx = arg1->x - arg0->x;
     f32 dz = arg1->z - arg0->z;
     f32 dy = arg3 ? (arg1->y - arg0->y) : (arg0->y - arg1->y);
 
-    arg2[1] = Math_Atan2S(dz, dx);
-    arg2[0] = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
+    arg2->y = Math_Atan2S(dz, dx);
+    arg2->x = Math_Atan2S(sqrtf(SQ(dx) + SQ(dz)), dy);
 }
 
 /**
