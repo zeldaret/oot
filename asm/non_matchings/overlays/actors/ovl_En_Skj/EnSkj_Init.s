@@ -1,3 +1,33 @@
+.rdata
+glabel D_80B017D0
+    .asciz "Player_X : %f\n"
+    .balign 4
+
+glabel D_80B017E0
+    .asciz "Player_Z : %f\n"
+    .balign 4
+
+glabel D_80B017F0
+    .asciz "World_X  : %f\n"
+    .balign 4
+
+glabel D_80B01800
+    .asciz "World_Z  : %f\n"
+    .balign 4
+
+glabel D_80B01810
+    .asciz "Center_X : %f\n"
+    .balign 4
+
+glabel D_80B01820
+    .asciz "Center_Z : %f\n\n"
+    .balign 4
+
+.late_rodata
+glabel D_80B018F8
+    .float 1230.0
+    
+.text
 glabel EnSkj_Init
 /* 001FC 80AFE4AC 27BDFFB0 */  addiu   $sp, $sp, 0xFFB0           ## $sp = FFFFFFB0
 /* 00200 80AFE4B0 AFBF002C */  sw      $ra, 0x002C($sp)

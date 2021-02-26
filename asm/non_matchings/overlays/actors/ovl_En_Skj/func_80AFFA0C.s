@@ -52,7 +52,7 @@ glabel func_80AFFA0C
 /* 0181C 80AFFACC 24050002 */  addiu   $a1, $zero, 0x0002         ## $a1 = 00000002
 /* 01820 80AFFAD0 A20802D6 */  sb      $t0, 0x02D6($s0)           ## 000002D6
 /* 01824 80AFFAD4 AFA60024 */  sw      $a2, 0x0024($sp)           
-/* 01828 80AFFAD8 0C2BF8AC */  jal     func_80AFE2B0              
+/* 01828 80AFFAD8 0C2BF8AC */  jal     EnSkj_ChangeAnim              
 /* 0182C 80AFFADC AFA3002C */  sw      $v1, 0x002C($sp)           
 /* 01830 80AFFAE0 3C078016 */  lui     $a3, %hi(gSaveContext)
 /* 01834 80AFFAE4 24E7E660 */  addiu   $a3, %lo(gSaveContext)
@@ -70,7 +70,7 @@ glabel func_80AFFA0C
 /* 0185C 80AFFB0C A20002D6 */  sb      $zero, 0x02D6($s0)         ## 000002D6
 /* 01860 80AFFB10 AFA60024 */  sw      $a2, 0x0024($sp)           
 /* 01864 80AFFB14 AFA3002C */  sw      $v1, 0x002C($sp)           
-/* 01868 80AFFB18 0C2BF8AC */  jal     func_80AFE2B0              
+/* 01868 80AFFB18 0C2BF8AC */  jal     EnSkj_ChangeAnim              
 /* 0186C 80AFFB1C 24050009 */  addiu   $a1, $zero, 0x0009         ## $a1 = 00000009
 /* 01870 80AFFB20 3C078016 */  lui     $a3, %hi(gSaveContext)
 /* 01874 80AFFB24 24E7E660 */  addiu   $a3, %lo(gSaveContext)
@@ -86,10 +86,10 @@ glabel func_80AFFA0C
 /* 01894 80AFFB44 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 01898 80AFFB48 00310821 */  addu    $at, $at, $s1              
 /* 0189C 80AFFB4C A42004C6 */  sh      $zero, 0x04C6($at)         ## 000104C6
-/* 018A0 80AFFB50 0C2BF8AC */  jal     func_80AFE2B0              
+/* 018A0 80AFFB50 0C2BF8AC */  jal     EnSkj_ChangeAnim              
 /* 018A4 80AFFB54 A20002D6 */  sb      $zero, 0x02D6($s0)         ## 000002D6
 /* 018A8 80AFFB58 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 018AC 80AFFB5C 0C2BF8CE */  jal     func_80AFE338              
+/* 018AC 80AFFB5C 0C2BF8CE */  jal     EnSkj_SetupAction              
 /* 018B0 80AFFB60 2405000A */  addiu   $a1, $zero, 0x000A         ## $a1 = 0000000A
 /* 018B4 80AFFB64 1000005A */  beq     $zero, $zero, .L80AFFCD0   
 /* 018B8 80AFFB68 8FBF001C */  lw      $ra, 0x001C($sp)           

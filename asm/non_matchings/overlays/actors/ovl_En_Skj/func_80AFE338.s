@@ -1,4 +1,37 @@
-glabel func_80AFE338
+.late_rodata
+glabel jtbl_80B01880
+    .word L80AFE378
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE378
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE380
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+    .word L80AFE378
+
+.text
+glabel EnSkj_SetupAction
 /* 00088 80AFE338 AFA50004 */  sw      $a1, 0x0004($sp)           
 /* 0008C 80AFE33C 30A500FF */  andi    $a1, $a1, 0x00FF           ## $a1 = 00000000
 /* 00090 80AFE340 00057080 */  sll     $t6, $a1,  2               

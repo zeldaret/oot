@@ -8,10 +8,10 @@ glabel func_80B006F8
 /* 02460 80B00710 E4840060 */  swc1    $f4, 0x0060($a0)           ## 00000060
 /* 02464 80B00714 E4860068 */  swc1    $f6, 0x0068($a0)           ## 00000068
 /* 02468 80B00718 AFA40018 */  sw      $a0, 0x0018($sp)           
-/* 0246C 80B0071C 0C2BF8AC */  jal     func_80AFE2B0              
+/* 0246C 80B0071C 0C2BF8AC */  jal     EnSkj_ChangeAnim              
 /* 02470 80B00720 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 02474 80B00724 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 02478 80B00728 0C2BF8CE */  jal     func_80AFE338              
+/* 02478 80B00728 0C2BF8CE */  jal     EnSkj_SetupAction              
 /* 0247C 80B0072C 2405001C */  addiu   $a1, $zero, 0x001C         ## $a1 = 0000001C
 /* 02480 80B00730 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 02484 80B00734 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

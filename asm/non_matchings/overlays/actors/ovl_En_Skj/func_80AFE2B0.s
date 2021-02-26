@@ -1,4 +1,4 @@
-glabel func_80AFE2B0
+glabel EnSkj_ChangeAnim
 /* 00000 80AFE2B0 27BDFFD0 */  addiu   $sp, $sp, 0xFFD0           ## $sp = FFFFFFD0
 /* 00004 80AFE2B4 AFA50034 */  sw      $a1, 0x0034($sp)
 /* 00008 80AFE2B8 93AE0037 */  lbu     $t6, 0x0037($sp)

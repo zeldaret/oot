@@ -6,7 +6,7 @@ glabel func_80B002A4
 /* 02004 80B002B4 0C042DC8 */  jal     func_8010B720              
 /* 02008 80B002B8 2405101E */  addiu   $a1, $zero, 0x101E         ## $a1 = 0000101E
 /* 0200C 80B002BC 8FA40018 */  lw      $a0, 0x0018($sp)           
-/* 02010 80B002C0 0C2BF8CE */  jal     func_80AFE338              
+/* 02010 80B002C0 0C2BF8CE */  jal     EnSkj_SetupAction              
 /* 02014 80B002C4 24050015 */  addiu   $a1, $zero, 0x0015         ## $a1 = 00000015
 /* 02018 80B002C8 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 0201C 80B002CC 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

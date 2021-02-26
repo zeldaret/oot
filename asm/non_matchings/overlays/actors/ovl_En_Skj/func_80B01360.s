@@ -1,3 +1,17 @@
+.rdata
+glabel D_80B01830
+    .asciz "../z_en_skj.c"
+    .balign 4
+
+glabel D_80B01840
+    .asciz "../z_en_skj.c"
+    .balign 4
+
+glabel D_80B01850
+    .asciz "../z_en_skj.c"
+    .balign 4
+    
+.text
 glabel func_80B01360
 /* 030B0 80B01360 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 030B4 80B01364 AFBF001C */  sw      $ra, 0x001C($sp)
@@ -54,7 +68,7 @@ glabel func_80B01360
 /* 03180 80B01430 244C0008 */  addiu   $t4, $v0, 0x0008           ## $t4 = 00000008
 /* 03184 80B01434 AE0C02C0 */  sw      $t4, 0x02C0($s0)           ## 000002C0
 /* 03188 80B01438 AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
-/* 0318C 80B0143C 0C034221 */  jal     Matrix_Pop
+/* 0318C 80B0143C 0C034221 */  jal     Matrix_Pull
 /* 03190 80B01440 AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
 /* 03194 80B01444 8FAF0040 */  lw      $t7, 0x0040($sp)
 .L80B01448:
