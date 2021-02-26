@@ -94,7 +94,7 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
     }
 }
 
-//#ifdef NON_MATCHING
+#ifdef NON_MATCHING
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     u8 isPlayerOnTop;
     s16 i;
@@ -409,10 +409,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         phi_s0_3++;
     }
 }
-//#else
+#else
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx);
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
-//#endif
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
+#endif
 
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJsjutan* this = THIS;
@@ -468,9 +468,12 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 782),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+
+    // Draws the carpet's shadow textures.
     gSPDisplayList(POLY_OPA_DISP++, D_80A8D618);
     gDPPipeSync(POLY_OPA_DISP++);
 
+    // Draws the carpet's shadow vertexs.
     if (globalCtx->gameplayFrames & 1) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8BA98);
     } else {
@@ -484,9 +487,12 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 805),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    // Draws the carpet's textures.
     gSPDisplayList(POLY_OPA_DISP++, D_80A8D598);
+
     gDPPipeSync(POLY_OPA_DISP++);
 
+    // Draws the carpet vertexs.
     if (globalCtx->gameplayFrames & 1) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8CC98);
     } else {
