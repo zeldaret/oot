@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_ds" Segment="6">
+        <Skeleton Name="gDsSkel" Type="Flex" LimbType="Standard" Offset="0x4768"/>
+        <Animation Name="gDsAnim" Offset="0x39C"/>
+    </File>
+</Root>

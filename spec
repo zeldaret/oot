@@ -5081,7 +5081,8 @@ endseg
 beginseg
     name "object_ds"
     romalign 0x1000
-    include "build/baserom/object_ds.o"
+    include "build/assets/objects/object_ds/object_ds.o"
+    number 6
 endseg
 
 beginseg
