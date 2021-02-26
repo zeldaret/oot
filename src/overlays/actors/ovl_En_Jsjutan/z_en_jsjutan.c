@@ -109,7 +109,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     Player* player;
     Actor* parent;
     Actor* actorExplosive;
-    //f32 pad;
     f32 phi_f28;
     u8 spE0[3];
     f32 spD4[3];
@@ -128,6 +127,14 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     f32 phi_f2_2;
     f32 phi_f2_3;
     u8 isInCreditsScene;
+    s16 index; // phi_v1_5
+    //f32 temp_f24;
+    f32 phi_f22;
+    f32 aux_f20;
+    s16 phi_v1_4;
+    s16 temp_a0_3;
+    u16 dayTime;
+
 
     isPlayerOnTop = 0;
     player = PLAYER;
@@ -189,14 +196,14 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             actorBeanGuy = actorBeanGuy->next;
         }
 
-        spD4[1] = (actorProfessor->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
-        spC8[1] = (actorProfessor->world.pos.y - this->unk_168) * 50.0f;
-        spBC[1] = (actorProfessor->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+        spD4[1] = 50.0f * (actorProfessor->world.pos.x - this->dyna.actor.world.pos.x);
+        spC8[1] = 50.0f * (actorProfessor->world.pos.y - this->unk_168);
+        spBC[1] = 50.0f * (actorProfessor->world.pos.z - this->dyna.actor.world.pos.z);
         spE0[1] = 1;
 
-        spD4[2] = (actorBeanGuy->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
-        spC8[2] = (actorBeanGuy->world.pos.y - this->unk_168) * 50.0f;
-        spBC[2] = (actorBeanGuy->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+        spD4[2] = 50.0f * (actorBeanGuy->world.pos.x - this->dyna.actor.world.pos.x);
+        spC8[2] = 50.0f * (actorBeanGuy->world.pos.y - this->unk_168);
+        spBC[2] = 50.0f * (actorBeanGuy->world.pos.z - this->dyna.actor.world.pos.z);
         spE0[2] = 1;
     } else {
         //isInCreditsScene = 0;
@@ -223,7 +230,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     //phi_s0 = phi_s0_2;
 
-    if (!(&this->dyna.actor.world)) { }
+    if (1) {}
 
     for (j = 0; j < 0x90; j++) {
 
@@ -263,7 +270,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             //distance = CLAMP_MIN(distance, 0.0f);
             //if (1) { }
 
-            spA8 = (distance_1 * 100.0f) * 0.01f;
+            spA8 = 100.0f * distance_1 * 0.01f;
             if (spA8 > 100.0f) {
                 spA8 = 100.0f;
             }
@@ -299,6 +306,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 temp_f14_2 +=  ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
                 distance_2 = distance_2 - 1500.0f;
+                //if (1) { }
                 //distance = CLAMP_MIN(distance, 0.0f);
                 if (distance_2 < 0.0f) {
                     distance_2 = 0.0f;
@@ -333,8 +341,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         temp_f0_3 = Math_SinS(globalCtx->gameplayFrames * 4000 + j * 10000);
 
         if (this->unk_174 != 0) {
-            s16 phi_v1_4;// = (phi_f28 + (temp_f0_3 * spA8));
-            s16 temp_a0_3;// = ((phi_s3->n.ob[1] - this->unk_168) * 50.0f);
 
             temp_f14_2 = temp_f0_3 * spA8;
 
@@ -369,7 +375,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     // address: ac4 ~ bb8
     if (this->unk_174 == 0) {
-        u16 dayTime;
 
         this->dyna.actor.velocity.y = 0.0f;
         this->dyna.actor.world.pos.y = this->unk_168;
@@ -384,6 +389,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         //if (1) { }  if (1) { }  if (1) { }  if (1) { }  if (1) { }  if (1) { } 
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
+        if (!gSaveContext.dayTime) { if (1) { }  if (1) { }  if (1) { }  if (1) { } }
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
         Math_ApproachF(&this->shadowAlpha, 0.0f, 1.0f, 3.0f);
         Math_ApproachF(&this->unk_170, -5000.0f, 1.0f, 100.0f);
@@ -392,16 +398,13 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     // address: bbc
     phi_s0_3 = phi_s0_2;
 
+    if (1) { }  if (1) { }
+
     sp108.x = 0.0f;
     sp108.y = 0.0f;
     sp108.z = 120.0f;
 
     for (j = 0; j < 0x90; j++) {
-        s16 index; // phi_v1_5
-        //f32 temp_f24;
-        f32 phi_f22;
-        f32 aux_f20;
-
         if ((j % 0xC) == 0xB) {
             index = j - 1;
             phi_f22 = phi_s0_3->n.ob[2] - phi_s0_2[index].n.ob[2];
