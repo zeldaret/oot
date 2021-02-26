@@ -135,7 +135,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     s16 temp_a0_3;
     u16 dayTime;
 
-
     isPlayerOnTop = 0;
     player = PLAYER;
     parent = this->dyna.actor.parent;
@@ -150,12 +149,9 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
     }
 
-    // *((s32*)0) = 0;
-
     spB8 = (player->actor.world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
     spB4 = (player->actor.world.pos.y - this->unk_168) * 50.0f;
     spB0 = (player->actor.world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
-    //phi_s0 = phi_s0_2
     phi_s0_2 = phi_s0;
 
     if ((fabsf(spB8) < 5500.0f) && (fabsf(spB4) < 3000.0f) && (fabsf(spB0) < 5500.0f)) {
@@ -206,9 +202,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         spBC[2] = 50.0f * (actorBeanGuy->world.pos.z - this->dyna.actor.world.pos.z);
         spE0[2] = 1;
     } else {
-        //isInCreditsScene = 0;
-        // if (actorExplosive != NULL) { }
-
         while (actorExplosive != NULL) {
             if (i < 3) {
                 spD4[i] = 50.0f * (actorExplosive->world.pos.x - this->dyna.actor.world.pos.x);
@@ -228,20 +221,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         }
     }
 
-    //phi_s0 = phi_s0_2;
-
     if (1) {}
 
     for (j = 0; j < 0x90; j++) {
-
-        //if (*new_var) {
         if (isPlayerOnTop) {
-            //f32 distance = sqrtf(((phi_s0->n.ob[0] - spB8) * (phi_s0->n.ob[0] - spB8)) + ((phi_s0->n.ob[2] - spB0) * (phi_s0->n.ob[2] - spB0)));
-            //f32 aux1 = (phi_s0->n.ob[0] - spB8);
-            //f32 aux2 = (phi_s0->n.ob[2] - spB0);
-            //f32 distance = sqrtf((aux1 * aux1) + (aux2 *aux2));
-            
-            //distance = sqrtf(SQ(((f32) (phi_s0->n.ob[0] - spB8))) + SQ(((f32) (phi_s0->n.ob[2] - spB0))));
             distance_1 = sqrtf(SQ(phi_s0->n.ob[2] - spB0) + SQ(phi_s0->n.ob[0] - spB8));
 
             phi_f2_4 = (2500.0f - distance_1) / 2500.0f;
@@ -284,8 +267,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         for (i = 0; i < 3; i++) {
             if (spE0[i] != 0) {
-                
-                //distance = sqrtf(SQ((f32) phi_s0->n.ob[0] - spD4[i]) + SQ((f32) phi_s0->n.ob[2] - spBC[i]));
                 distance_2 = sqrtf(SQ(phi_s0->n.ob[2] - spBC[i]) + SQ(phi_s0->n.ob[0] - spD4[i]));
                 
                 if ((i == 0) || isInCreditsScene) {
@@ -320,18 +301,12 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
                 //phi_f28 = CLAMP_MAX(phi_f28, temp_f14_2);
                 //phi_f28 = phi_f28;
-                //if (phi_f28 > temp_f14_2) {
-                //    phi_f28 = temp_f14_2;
-                //}
                 if (temp_f14_2 < phi_f28) {
                     phi_f28 = temp_f14_2;
                 }
 
                 //spA8 = CLAMP_MAX(spA8, phi_f2_3);
                 //spA8 = spA8;
-                //if (spA8 > phi_f2_3) {
-                //    spA8 = phi_f2_3;
-                //}
                 if (phi_f2_3 < spA8) {
                     spA8 = phi_f2_3;
                 }
@@ -341,7 +316,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         temp_f0_3 = Math_SinS(globalCtx->gameplayFrames * 4000 + j * 10000);
 
         if (this->unk_174) {
-
             temp_f14_2 = temp_f0_3 * spA8;
 
             phi_v1_4 = phi_f28 + (temp_f14_2);
@@ -374,7 +348,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     // address: ac4 ~ bb8
     if (!this->unk_174) {
-
         this->dyna.actor.velocity.y = 0.0f;
         this->dyna.actor.world.pos.y = this->unk_168;
 
