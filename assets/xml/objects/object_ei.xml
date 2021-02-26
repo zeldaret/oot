@@ -1,0 +1,10 @@
+<Root>
+    <File Name="object_ei" Segment="6">
+        <Skeleton Name="gEiSkel" Type="Standard" LimbType="Standard" Offset="0x3410"/>
+        <Animation Name="gEiAnim0" Offset="0x288"/>
+        <Animation Name="gEiAnim1" Offset="0x4C4"/>
+        <Animation Name="gEiAnim2" Offset="0x704"/>
+        <Animation Name="gEiAnim3" Offset="0xFC0"/>
+        <Animation Name="gEiAnim4" Offset="0x12AC"/>
+    </File>
+</Root>

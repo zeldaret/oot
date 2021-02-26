@@ -3697,7 +3697,8 @@ endseg
 beginseg
     name "object_ei"
     romalign 0x1000
-    include "build/baserom/object_ei.o"
+    include "build/assets/objects/object_ei/object_ei.o"
+    number 6
 endseg
 
 beginseg

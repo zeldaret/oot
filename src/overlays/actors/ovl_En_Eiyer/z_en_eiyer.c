@@ -1,4 +1,5 @@
 #include "z_en_eiyer.h"
+#include "objects/object_ei/object_ei.h"
 
 #define FLAGS 0x00000005
 
@@ -8,13 +9,6 @@ void EnEiyer_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnEiyer_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_06000288;
-extern UNK_TYPE D_060004C4;
-extern UNK_TYPE D_06000704;
-extern UNK_TYPE D_06000FC0;
-extern UNK_TYPE D_060012AC;
-extern UNK_TYPE D_06003410;
 
 /*
 const ActorInit En_Eiyer_InitVars = {
