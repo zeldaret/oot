@@ -1,0 +1,7 @@
+<Root>
+    <File Name="object_vm" Segment="6">
+        <Skeleton Name="gVmSkel" Type="Standard" LimbType="Standard" Offset="0x3F60"/>
+        <Animation Name="gVmAnim" Offset="0x68"/>
+        <DList Name="gVmDL" Offset="0x2728"/>
+    </File>
+</Root>

@@ -4240,7 +4240,8 @@ endseg
 beginseg
     name "object_vm"
     romalign 0x1000
-    include "build/baserom/object_vm.o"
+    include "build/assets/objects/object_vm/object_vm.o"
+    number 6
 endseg
 
 beginseg
