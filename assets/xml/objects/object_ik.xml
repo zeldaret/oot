@@ -1,0 +1,45 @@
+<Root>
+    <File Name="object_ik" Segment="6">
+        <Skeleton Name="gIkSkel0" Type="Standard" LimbType="Standard" Offset="0x380"/>
+        <Skeleton Name="gIkSkel1" Type="Standard" LimbType="Standard" Offset="0x660"/>
+        <Skeleton Name="gIkSkel2" Type="Flex" LimbType="Standard" Offset="0x900"/>
+        <Skeleton Name="gIkSkel3" Type="Standard" LimbType="Standard" Offset="0xC90"/>
+        <Skeleton Name="gIkSkel4" Type="Flex" LimbType="Standard" Offset="0xF30"/>
+        <Skeleton Name="gIkSkel5" Type="Flex" LimbType="Standard" Offset="0x1E178"/>
+        <Skeleton Name="gIkSkel6" Type="Flex" LimbType="Standard" Offset="0x1EB40"/>
+        <Skeleton Name="gIkSkel7" Type="Flex" LimbType="Standard" Offset="0x1EE60"/>
+        <Skeleton Name="gIkSkel8" Type="Flex" LimbType="Standard" Offset="0x205C0"/>
+        <Animation Name="gIkAnim0" Offset="0x35C"/>
+        <Animation Name="gIkAnim1" Offset="0x634"/>
+        <Animation Name="gIkAnim2" Offset="0x8DC"/>
+        <Animation Name="gIkAnim3" Offset="0xC6C"/>
+        <Animation Name="gIkAnim4" Offset="0xF0C"/>
+        <Animation Name="gIkAnim5" Offset="0x1C28"/>
+        <Animation Name="gIkAnim6" Offset="0x2538"/>
+        <Animation Name="gIkAnim7" Offset="0x29FC"/>
+        <Animation Name="gIkAnim8" Offset="0x33C4"/>
+        <Animation Name="gIkAnim9" Offset="0x3DBC"/>
+        <Animation Name="gIkAnim10" Offset="0x45BC"/>
+        <Animation Name="gIkAnim11" Offset="0x485C"/>
+        <Animation Name="gIkAnim12" Offset="0x5944"/>
+        <Animation Name="gIkAnim13" Offset="0x6194"/>
+        <Animation Name="gIkAnim14" Offset="0x6734"/>
+        <Animation Name="gIkAnim15" Offset="0xC114"/>
+        <Animation Name="gIkAnim16" Offset="0xCD70"/>
+        <Animation Name="gIkAnim17" Offset="0xDD50"/>
+        <Animation Name="gIkAnim18" Offset="0xED24"/>
+        <Animation Name="gIkAnim19" Offset="0x1EB14"/>
+        <Animation Name="gIkAnim20" Offset="0x1EE34"/>
+        <Animation Name="gIkAnim21" Offset="0x203D8"/>
+        <DList Name="gIkDL0" Offset="0x16BE0"/>
+        <DList Name="gIkDL1" Offset="0x16CD8"/>
+        <DList Name="gIkDL2" Offset="0x16F88"/>
+        <DList Name="gIkDL3" Offset="0x17028"/>
+        <DList Name="gIkDL4" Offset="0x17170"/>
+        <DList Name="gIkDL5" Offset="0x16D88"/>
+        <DList Name="gIkDL6" Offset="0x16EE8"/>
+        <DList Name="gIkDL7" Offset="0x18E78"/>
+        <DList Name="gIkDL8" Offset="0x19100"/>
+        <DList Name="gIkDL9" Offset="0x19E08"/>
+    </File>
+</Root>
