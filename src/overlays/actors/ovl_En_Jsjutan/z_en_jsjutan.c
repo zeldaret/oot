@@ -94,7 +94,7 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
+//#ifdef NON_MATCHING
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     u8 isPlayerOnTop;
     s16 i;
@@ -142,7 +142,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     actorExplosive = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
     isInCreditsScene = 0;
 
-    if (globalCtx->gameplayFrames & 1) {
+    if (globalCtx->gameplayFrames % 2 != 0) {
         phi_s0 = SEGMENTED_TO_VIRTUAL(D_80A8CC98);
         phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8BA98);
     } else {
@@ -211,9 +211,9 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         while (actorExplosive != NULL) {
             if (i < 3) {
-                spD4[i] = (actorExplosive->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
-                spC8[i] = (actorExplosive->world.pos.y - this->unk_168) * 50.0f;
-                spBC[i] = (actorExplosive->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
+                spD4[i] = 50.0f * (actorExplosive->world.pos.x - this->dyna.actor.world.pos.x);
+                spC8[i] = 50.0f * (actorExplosive->world.pos.y - this->unk_168);
+                spBC[i] = 50.0f * (actorExplosive->world.pos.z - this->dyna.actor.world.pos.z);
 
                 if ((fabsf(spD4[i]) < 5500.0f) && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
                     if (actorExplosive->params == 1) {
@@ -267,7 +267,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             if (distance_1 < 0.0f) {
                 distance_1 = 0.0f;
             }
-            //distance = CLAMP_MIN(distance, 0.0f);
+            //distance_1 = CLAMP_MIN(distance_1, 0.0f);
             //if (1) { }
 
             spA8 = 100.0f * distance_1 * 0.01f;
@@ -307,7 +307,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
                 distance_2 = distance_2 - 1500.0f;
                 //if (1) { }
-                //distance = CLAMP_MIN(distance, 0.0f);
+                //distance_2 = CLAMP_MIN(distance_2, 0.0f);
                 if (distance_2 < 0.0f) {
                     distance_2 = 0.0f;
                 }
@@ -340,14 +340,13 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         temp_f0_3 = Math_SinS(globalCtx->gameplayFrames * 4000 + j * 10000);
 
-        if (this->unk_174 != 0) {
+        if (this->unk_174) {
 
             temp_f14_2 = temp_f0_3 * spA8;
 
             phi_v1_4 = phi_f28 + (temp_f14_2);
             temp_a0_3 = (phi_s3->n.ob[1] - this->unk_168) * 50.0f;
 
-            //phi_v1_4 = phi_v1_4;
             if (phi_v1_4 < temp_a0_3) {
                 phi_v1_4 = temp_a0_3;
             }
@@ -360,13 +359,13 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
             phi_s0->n.ob[1] = phi_f28 + (temp_f14_2);
 
-            //s16 temp_v1_4 = (s16) (temp_f2_3 * 0.5f);
-            phi_s0->n.ob[0] = D_80A8EE10[j].x + (s16)((temp_f14_2) * 0.5f);
-            phi_s0->n.ob[2] = D_80A8EE10[j].z + (s16)((temp_f14_2) * 0.5f);
+            phi_v1_4 = temp_f14_2 * 0.5f;
+            phi_s0->n.ob[0] = D_80A8EE10[j].x + phi_v1_4;
+            phi_s0->n.ob[2] = D_80A8EE10[j].z + phi_v1_4;
 
-            // s16 temp_a0_4 = (s16) (s32) temp_f2_3;
-            phi_s3->n.ob[0] = D_80A8EE10[j].x + (s16)(temp_f14_2);
-            phi_s3->n.ob[2] = D_80A8EE10[j].z + (s16)(temp_f14_2);
+            phi_v1_4 = temp_f14_2;
+            phi_s3->n.ob[0] = D_80A8EE10[j].x + phi_v1_4;
+            phi_s3->n.ob[2] = D_80A8EE10[j].z + phi_v1_4;
         }
 
         phi_s0++;
@@ -374,7 +373,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     }
 
     // address: ac4 ~ bb8
-    if (this->unk_174 == 0) {
+    if (!this->unk_174) {
 
         this->dyna.actor.velocity.y = 0.0f;
         this->dyna.actor.world.pos.y = this->unk_168;
@@ -437,10 +436,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         phi_s0_3++;
     }
 }
-#else
+//#else
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
-#endif
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
+//#endif
 
 void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJsjutan* this = THIS;
