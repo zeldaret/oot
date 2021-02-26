@@ -3612,7 +3612,8 @@ endseg
 beginseg
     name "object_peehat"
     romalign 0x1000
-    include "build/baserom/object_peehat.o"
+    include "build/assets/objects/object_peehat/object_peehat.o"
+    number 6
 endseg
 
 beginseg
@@ -3642,7 +3643,8 @@ endseg
 beginseg
     name "object_zl1"
     romalign 0x1000
-    include "build/baserom/object_zl1.o"
+    include "build/assets/objects/object_zl1/object_zl1.o"
+    number 6
 endseg
 
 beginseg

@@ -1,0 +1,9 @@
+<Root>
+    <File Name="object_peehat" Segment="6">
+        <Skeleton Name="gPeehatSkel" Type="Standard" LimbType="Standard" Offset="0x1C80"/>
+        <Animation Name="gPeehatAnim0" Offset="0x350"/>
+        <Animation Name="gPeehatAnim1" Offset="0x5C4"/>
+        <Animation Name="gPeehatAnim2" Offset="0x844"/>
+        <Animation Name="gPeehatAnim3" Offset="0x9C4"/>
+    </File>
+</Root>

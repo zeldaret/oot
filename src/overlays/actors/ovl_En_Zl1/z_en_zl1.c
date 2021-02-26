@@ -5,6 +5,7 @@
  */
 
 #include "z_en_zl1.h"
+#include "objects/object_zl1/object_zl1.h"
 
 #define FLAGS 0x00000019
 
@@ -58,22 +59,8 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static u64* D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
-static u64* D_80B4E62C[] = { 0x06007608 };
-
-extern AnimationHeader D_06000438;
-extern u64 D_06008848[];
-extern u64 D_06008C48[];
-extern FlexSkeletonHeader D_0600F5D8;
-extern AnimationHeader D_06010B38;
-extern AnimationHeader D_06011348;
-extern AnimationHeader D_060116E4;
-extern AnimationHeader D_06011B88;
-extern AnimationHeader D_06012118;
-extern AnimationHeader D_060132D8;
-extern AnimationHeader D_060138E0;
-extern AnimationHeader D_06013F10;
-extern AnimationHeader D_060143A8;
+static u64* D_80B4E61C[] = { gZl1EyeTex0, gZl1EyeTex4, gZl1EyeTex5, gZl1EyeTex4 };
+static u64* D_80B4E62C[] = { gZl1EyeTex1 };
 
 void func_80B4AB40(void) {
 }
@@ -85,9 +72,9 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 frameCount;
     EnZl1* this = THIS;
 
-    frameCount = Animation_GetLastFrame(&D_06012118);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600F5D8, NULL, NULL, NULL, 0);
-    Animation_Change(&this->skelAnime, &D_06012118, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    frameCount = Animation_GetLastFrame(&gZl1Anim5);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gZl1Skel, NULL, NULL, NULL, 0);
+    Animation_Change(&this->skelAnime, &gZl1Anim5, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -96,21 +83,21 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.targetMode = 0;
 
     if (gSaveContext.sceneSetupIndex >= 4) {
-        frameCount = Animation_GetLastFrame(&D_06000438);
-        Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+        frameCount = Animation_GetLastFrame(&gZl1Anim0);
+        Animation_Change(&this->skelAnime, &gZl1Anim0, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->unk_1E6 = 0;
         this->actionFunc = func_80B4BC78;
     } else if (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
         Actor_Kill(&this->actor);
     } else if ((Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25)) ||
                (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x37))) {
-        frameCount = Animation_GetLastFrame(&D_06000438);
-        Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+        frameCount = Animation_GetLastFrame(&gZl1Anim0);
+        Animation_Change(&this->skelAnime, &gZl1Anim0, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703D;
         this->actionFunc = func_80B4AF18;
     } else if (Flags_GetEventChkInf(0x40)) {
-        frameCount = Animation_GetLastFrame(&D_06000438);
-        Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+        frameCount = Animation_GetLastFrame(&gZl1Anim0);
+        Animation_Change(&this->skelAnime, &gZl1Anim0, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703C;
         this->actionFunc = func_80B4AF18;
     } else {
@@ -127,9 +114,9 @@ void EnZl1_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B4AE18(EnZl1* this) {
-    if ((this->skelAnime.animation == &D_06010B38) && (this->skelAnime.curFrame < 26.0f)) {
-        this->unk_1F4 = &D_06008C48;
-        this->unk_1F8 = &D_06008848;
+    if ((this->skelAnime.animation == &gZl1Anim1) && (this->skelAnime.curFrame < 26.0f)) {
+        this->unk_1F4 = &gZl1EyeTex3;
+        this->unk_1F8 = &gZl1EyeTex2;
         this->unk_1FC = 2;
     } else {
         if (DECR(this->unk_1FC) == 0) {
@@ -174,7 +161,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
     s16 rotDiff;
 
     if (func_8002F194(&this->actor, globalCtx)) {
-        Animation_Change(&this->skelAnime, &D_06010B38, 1.0f, 0.0f, Animation_GetLastFrame(&D_06010B38),
+        Animation_Change(&this->skelAnime, &gZl1Anim1, 1.0f, 0.0f, Animation_GetLastFrame(&gZl1Anim1),
                          ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
         Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
@@ -228,7 +215,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
                     }
                     break;
                 case 64:
-                    animHeaderSeg = &D_06011348;
+                    animHeaderSeg = &gZl1Anim2;
                     sp3C = 1;
                     this->actor.textId = 0x702E;
                     func_8010B680(globalCtx, this->actor.textId, NULL);
@@ -250,20 +237,20 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 2:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animHeaderSeg = &D_06013F10;
+                    animHeaderSeg = &gZl1Anim9;
                     sp3C = 2;
                     this->unk_1E2++;
                 } else {
-                    animHeaderSeg = &D_060116E4;
+                    animHeaderSeg = &gZl1Anim3;
                     sp3C = 2;
                     this->unk_1E2 = 6;
                 }
             }
             break;
         case 3:
-            frameCount = Animation_GetLastFrame(&D_06013F10);
+            frameCount = Animation_GetLastFrame(&gZl1Anim9);
             if (this->skelAnime.curFrame == frameCount) {
-                animHeaderSeg = &D_060143A8;
+                animHeaderSeg = &gZl1Anim10;
                 sp3C = 1;
                 this->actor.textId = 0x7032;
                 func_8010B720(globalCtx, this->actor.textId);
@@ -273,7 +260,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 4:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animHeaderSeg = &D_060132D8;
+                    animHeaderSeg = &gZl1Anim7;
                     sp3C = 2;
                     this->unk_1E2 = 9;
                 } else {
@@ -291,9 +278,9 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 6:
-            frameCount = Animation_GetLastFrame(&D_060116E4);
+            frameCount = Animation_GetLastFrame(&gZl1Anim3);
             if (this->skelAnime.curFrame == frameCount) {
-                animHeaderSeg = &D_06011B88;
+                animHeaderSeg = &gZl1Anim4;
                 sp3C = 1;
                 this->actor.textId = 0x7031;
                 func_8010B720(globalCtx, this->actor.textId);
@@ -310,7 +297,7 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
         case 8:
             if ((func_8010BDBC(msgCtx) == 4) && (func_80106BC8(globalCtx) != 0)) {
                 if (msgCtx->choiceIndex == 0) {
-                    animHeaderSeg = &D_060138E0;
+                    animHeaderSeg = &gZl1Anim8;
                     sp3C = 2;
                     this->unk_1E2 = 3;
                 } else {
@@ -321,9 +308,9 @@ void func_80B4B240(EnZl1* this, GlobalContext* globalCtx) {
             }
             break;
         case 9:
-            frameCount = Animation_GetLastFrame(&D_060132D8);
+            frameCount = Animation_GetLastFrame(&gZl1Anim7);
             if (this->skelAnime.curFrame == frameCount) {
-                animHeaderSeg = &D_06000438;
+                animHeaderSeg = &gZl1Anim0;
                 sp3C = 1;
                 globalCtx->csCtx.segment = D_80B4C5D0;
                 gSaveContext.cutsceneTrigger = 1;
@@ -359,7 +346,7 @@ void func_80B4B874(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* spB0[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
+        0x00000000, 0x00000000, &gZl1Anim6, &gZl1Anim5, &gZl1Anim1,
     };
     u8 spA4[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
@@ -417,10 +404,10 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
-    f32 frameCount = Animation_GetLastFrame(&D_06000438);
+    f32 frameCount = Animation_GetLastFrame(&gZl1Anim0);
     Player* player = PLAYER;
 
-    Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gZl1Anim0, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_8002DF54(globalCtx, &this->actor, 1);
     func_8002F7DC(&player->actor, NA_SE_VO_LI_SURPRISE_KID);
     this->actor.textId = 0x7039;
@@ -432,7 +419,7 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* sp90[] = {
         0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0x00000000, 0x00000000, 0x06012B04, 0x06012118, 0x06010B38,
+        0x00000000, 0x00000000, &gZl1Anim6, &gZl1Anim5, &gZl1Anim1,
     };
     u8 sp84[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
@@ -446,9 +433,9 @@ void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
     s32 pad;
     f32 frameCount;
 
-    if (SkelAnime_Update(&this->skelAnime) && (this->skelAnime.animation == &D_06010B38)) {
-        frameCount = Animation_GetLastFrame(&D_06011348);
-        Animation_Change(&this->skelAnime, &D_06011348, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
+    if (SkelAnime_Update(&this->skelAnime) && (this->skelAnime.animation == &gZl1Anim1)) {
+        frameCount = Animation_GetLastFrame(&gZl1Anim2);
+        Animation_Change(&this->skelAnime, &gZl1Anim2, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -10.0f);
     }
     func_80B4B874(this, globalCtx);
     npcAction = globalCtx->csCtx.npcActions[0];

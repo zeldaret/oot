@@ -1,0 +1,22 @@
+<Root>
+    <File Name="object_zl1" Segment="6">
+        <Texture Name="gZl1EyeTex0" OutName="zl1_eye_0" Format="ci8" Width="32" Height="32" Offset="0x7208"/>
+        <Texture Name="gZl1EyeTex1" OutName="zl1_eye_1" Format="ci8" Width="32" Height="32" Offset="0x7608"/>
+        <Texture Name="gZl1EyeTex2" OutName="zl1_eye_2" Format="ci8" Width="32" Height="32" Offset="0x8848"/>
+        <Texture Name="gZl1EyeTex3" OutName="zl1_eye_3" Format="ci8" Width="32" Height="32" Offset="0x8C48"/>
+        <Texture Name="gZl1EyeTex4" OutName="zl1_eye_4" Format="ci8" Width="32" Height="32" Offset="0x9848"/>
+        <Texture Name="gZl1EyeTex5" OutName="zl1_eye_5" Format="ci8" Width="32" Height="32" Offset="0x9C48"/>
+        <Animation Name="gZl1Anim0" Offset="0x438"/>
+        <Animation Name="gZl1Anim1" Offset="0x10B38"/>
+        <Animation Name="gZl1Anim2" Offset="0x11348"/>
+        <Animation Name="gZl1Anim3" Offset="0x116E4"/>
+        <Animation Name="gZl1Anim4" Offset="0x11B88"/>
+        <Animation Name="gZl1Anim5" Offset="0x12118"/>
+        <Animation Name="gZl1Anim6" Offset="0x12B04"/>
+        <Animation Name="gZl1Anim7" Offset="0x132D8"/>
+        <Animation Name="gZl1Anim8" Offset="0x138E0"/>
+        <Animation Name="gZl1Anim9" Offset="0x13F10"/>
+        <Animation Name="gZl1Anim10" Offset="0x143A8"/>
+        <Skeleton Name="gZl1Skel" Type="Flex" LimbType="Standard" Offset="0xF5D8"/>
+    </File>
+</Root>
