@@ -1,0 +1,15 @@
+<Root>
+    <File Name="object_shopnuts" Segment="6">
+        <Skeleton Name="gShopnutsSkel" Type="Flex" LimbType="Standard" Offset="0x41A8"/>
+        <Animation Name="gShopnutsAnim0" Offset="0x1EC"/>
+        <Animation Name="gShopnutsAnim1" Offset="0x39C"/>
+        <Animation Name="gShopnutsAnim2" Offset="0x764"/>
+        <Animation Name="gShopnutsAnim3" Offset="0x9A0"/>
+        <Animation Name="gShopnutsAnim4" Offset="0xBA0"/>
+        <Animation Name="gShopnutsAnim5" Offset="0x1108"/>
+        <Animation Name="gShopnutsAnim6" Offset="0x139C"/>
+        <Animation Name="gShopnutsAnim7" Offset="0x4404"/>
+        <Animation Name="gShopnutsAnim8" Offset="0x4574"/>
+        <DList Name="gShopnutsDL" Offset="0x3B68"/>
+    </File>
+</Root>

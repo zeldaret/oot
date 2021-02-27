@@ -5658,7 +5658,8 @@ endseg
 beginseg
     name "object_shopnuts"
     romalign 0x1000
-    include "build/baserom/object_shopnuts.o"
+    include "build/assets/objects/object_shopnuts/object_shopnuts.o"
+    number 6
 endseg
 
 beginseg
