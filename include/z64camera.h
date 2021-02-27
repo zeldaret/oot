@@ -10,6 +10,8 @@
 #define CAM_STAT_ACTIVE     7
 #define CAM_STAT_UNK100     0x100
 
+#define ONEPOINTDEMO(camera) ((Unique9OnePointDemo*)camera->paramData)
+
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
     /* 0x01 */ CAM_SET_NORMAL0,

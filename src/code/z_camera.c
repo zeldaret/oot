@@ -15,7 +15,7 @@ s32 Camera_CheckWater(Camera* camera);
 #define NEXTSETTING ((values++)->val)
 #define NEXTPCT PCT(NEXTSETTING)
 
-#define ONEPOINTDEMO ((Unique9OnePointDemo*)camera->paramData)
+#define ONEPOINTDEMO(camera) ((Unique9OnePointDemo*)camera->paramData)
 
 #define BGCAM_POS(v) ((v)[0])
 #define BGCAM_ROT(v) ((v)[1])
@@ -4993,7 +4993,7 @@ s32 Camera_Unique8(Camera* camera) {
 s32 Camera_Unique9(Camera* camera) {
     Vec3f atTarget;
     Vec3f eyeTarget;
-    Unique9* uniq9 = &ONEPOINTDEMO->uniq9;
+    Unique9* uniq9 = &ONEPOINTDEMO(camera)->uniq9;
     Unique9Anim* anim = &uniq9->anim;
     f32 invKeyFrameTimer;
     VecSph eyeNextAtOffset;
@@ -5051,8 +5051,8 @@ s32 Camera_Unique9(Camera* camera) {
     if (anim->keyFrameTimer == 0) {
         anim->isNewKeyFrame = true;
         anim->curKeyFrameIdx++;
-        if (anim->curKeyFrameIdx < ONEPOINTDEMO->keyFrameCnt) {
-            anim->curKeyFrame = &ONEPOINTDEMO->keyFrames[anim->curKeyFrameIdx];
+        if (anim->curKeyFrameIdx < ONEPOINTDEMO(camera)->keyFrameCnt) {
+            anim->curKeyFrame = &ONEPOINTDEMO(camera)->keyFrames[anim->curKeyFrameIdx];
             anim->keyFrameTimer = anim->curKeyFrame->timerInit;
 
             if (anim->curKeyFrame->unk_01 != 0xFF) {
@@ -5845,28 +5845,28 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D6AC[1].timerInit = camera->timer - 1;
             D_8011D6AC[1].atTargetInit.z = Rand_ZeroOne() * 10.0f;
             D_8011D6AC[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
-            ONEPOINTDEMO->keyFrames = D_8011D6AC;
-            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
+            ONEPOINTDEMO(camera)->keyFrames = D_8011D6AC;
+            ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
             if (camera->parentCamIdx != 0) {
-                ONEPOINTDEMO->keyFrameCnt--;
+                ONEPOINTDEMO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
         } else {
             D_8011D724[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
-            ONEPOINTDEMO->keyFrames = D_8011D724;
-            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D724);
+            ONEPOINTDEMO(camera)->keyFrames = D_8011D724;
+            ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D724);
             if (camera->parentCamIdx != 0) {
-                ONEPOINTDEMO->keyFrameCnt--;
+                ONEPOINTDEMO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D724[2].timerInit;
             }
         }
     } else if (playerTargetGeo.r < 30.0f) {
         // distance between player and target is less than 30 units.
-        ONEPOINTDEMO->keyFrames = D_8011D79C;
-        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
+        ONEPOINTDEMO(camera)->keyFrames = D_8011D79C;
+        ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
         if ((sp78.yaw < 0x15) || (sp78.yaw >= 0x12C) || (sp78.pitch < 0x29) || (sp78.pitch >= 0xC8)) {
             D_8011D79C[0].actionFlags = 0x41;
             D_8011D79C[0].atTargetInit.y = -30.0f;
@@ -5880,7 +5880,7 @@ s32 Camera_Demo5(Camera* camera) {
         D_8011D79C[1].timerInit = camera->timer - 1;
 
         if (camera->parentCamIdx != 0) {
-            ONEPOINTDEMO->keyFrameCnt -= 2;
+            ONEPOINTDEMO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
         }
@@ -5888,10 +5888,10 @@ s32 Camera_Demo5(Camera* camera) {
         // distance from the camera's current positon and the target is less than 300 units
         // and the distance fromthe camera's current position to the player is less than 30 units
         D_8011D83C[0].timerInit = camera->timer;
-        ONEPOINTDEMO->keyFrames = D_8011D83C;
-        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
+        ONEPOINTDEMO(camera)->keyFrames = D_8011D83C;
+        ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
         if (camera->parentCamIdx != 0) {
-            ONEPOINTDEMO->keyFrameCnt--;
+            ONEPOINTDEMO(camera)->keyFrameCnt--;
         } else {
             camera->timer += D_8011D83C[1].timerInit;
         }
@@ -5901,10 +5901,10 @@ s32 Camera_Demo5(Camera* camera) {
         // is less than ~76.9 degrees
         if (sp78.yaw >= 0x15 && sp78.yaw < 0x12C && sp78.pitch >= 0x29 && sp78.pitch < 0xC8 && eyePlayerGeo.r > 30.0f) {
             D_8011D88C[0].timerInit = camera->timer;
-            ONEPOINTDEMO->keyFrames = D_8011D88C;
-            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
+            ONEPOINTDEMO(camera)->keyFrames = D_8011D88C;
+            ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
             if (camera->parentCamIdx != 0) {
-                ONEPOINTDEMO->keyFrameCnt--;
+                ONEPOINTDEMO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D88C[1].timerInit;
             }
@@ -5919,10 +5919,10 @@ s32 Camera_Demo5(Camera* camera) {
             }
             D_8011D8DC[0].timerInit = camera->timer;
             D_8011D8DC[1].timerInit = (s16)(eyeTargetDist * 0.005f) + 8;
-            ONEPOINTDEMO->keyFrames = D_8011D8DC;
-            ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
+            ONEPOINTDEMO(camera)->keyFrames = D_8011D8DC;
+            ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
             if (camera->parentCamIdx != 0) {
-                ONEPOINTDEMO->keyFrameCnt -= 2;
+                ONEPOINTDEMO(camera)->keyFrameCnt -= 2;
             } else {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
             }
@@ -5956,10 +5956,10 @@ s32 Camera_Demo5(Camera* camera) {
         } else {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
-        ONEPOINTDEMO->keyFrames = D_8011D954;
-        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D954);
+        ONEPOINTDEMO(camera)->keyFrames = D_8011D954;
+        ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D954);
         if (camera->parentCamIdx != 0) {
-            ONEPOINTDEMO->keyFrameCnt -= 2;
+            ONEPOINTDEMO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
         }
@@ -5981,14 +5981,14 @@ s32 Camera_Demo5(Camera* camera) {
             t = eyeTargetDist * 0.005f;
             D_8011D9F4[1].timerInit = t + 8;
         }
-        ONEPOINTDEMO->keyFrames = D_8011D9F4;
-        ONEPOINTDEMO->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
+        ONEPOINTDEMO(camera)->keyFrames = D_8011D9F4;
+        ONEPOINTDEMO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
         if (camera->parentCamIdx != 0) {
             if (camera->globalCtx->state.frames & 1) {
                 D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
                 D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
             }
-            ONEPOINTDEMO->keyFrameCnt -= 2;
+            ONEPOINTDEMO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D9F4[1].timerInit + D_8011D9F4[2].timerInit;
             D_8011D9F4[0].rollTargetInit = D_8011D9F4[1].rollTargetInit = 0;
