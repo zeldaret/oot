@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_timeblock" Segment="6">
+        <DList Name="gTimeblockDL" Offset="0x980"/>
+        <Collision Name="gTimeblockCol" Offset="0xB30"/>
+    </File>
+</Root>

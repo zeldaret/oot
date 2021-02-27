@@ -5938,7 +5938,8 @@ endseg
 beginseg
     name "object_timeblock"
     romalign 0x1000
-    include "build/baserom/object_timeblock.o"
+    include "build/assets/objects/object_timeblock/object_timeblock.o"
+    number 6
 endseg
 
 beginseg
