@@ -25,7 +25,7 @@
         <Texture Name="gShiekEyeHalfClosedTex" OutName="shiek_eye_half_closed" Format="ci8" Width="32" Height="32" Offset="0x50C0"/>
         <Texture Name="gShiekEyeShutTex" OutName="shiek_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x54C0"/>
         <Texture Name="gShiekEyeSquintingTex" OutName="shiek_eye_squinting" Format="ci8" Width="32" Height="32" Offset="0x58C0"/>
-        <DList Name="gShiekDL_011150" Offset="0x11150"/>
+        <DList Name="gShiekHarpDL" Offset="0x11150"/>
         <DList Name="gShiekDL_011620" Offset="0x11620"/>
         <DList Name="gShiekDL_012970" Offset="0x12970"/>
     </File>

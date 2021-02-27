@@ -9,6 +9,15 @@ struct EnXc;
 typedef void (*EnXcActionFunc)(struct EnXc*, GlobalContext*);
 typedef void (*EnXcDrawFunc)(struct EnXc*, GlobalContext*);
 
+typedef enum {
+    /* 0 */ XC_DRAW_NOTHING,
+    /* 1 */ XC_DRAW_1,
+    /* 2 */ XC_DRAW_2,
+    /* 3 */ XC_DRAW_HARP,
+    /* 4 */ XC_DRAW_TRIFORCE,
+    /* 5 */ XC_DRAW_5
+} EnXcDrawMode;
+
 typedef struct EnXc {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
