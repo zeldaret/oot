@@ -1,0 +1,18 @@
+<Root>
+    <File Name="object_fw" Segment="6">
+        <Skeleton Name="gFwSkel0" Type="Flex" LimbType="Standard" Offset="0x5810"/>
+        <Skeleton Name="gFwSkel1" Type="Flex" LimbType="Standard" Offset="0x7C30"/>
+        <Animation Name="gFwAnim0" Offset="0x10B4"/>
+        <Animation Name="gFwAnim1" Offset="0x5C64"/>
+        <Animation Name="gFwAnim2" Offset="0x6044"/>
+        <Animation Name="gFwAnim3" Offset="0x6A18"/>
+        <Animation Name="gFwAnim4" Offset="0x6B64"/>
+        <Animation Name="gFwAnim5" Offset="0x6CF8"/>
+        <Animation Name="gFwAnim6" Offset="0x7CD0"/>
+        <Animation Name="gFwAnim7" Offset="0x7DC8"/>
+        <DList Name="gFwDL0" Offset="0x7928"/>
+        <DList Name="gFwDL1" Offset="0x7938"/>
+        <DList Name="gFwDL2" Offset="0x79F8"/>
+        <DList Name="gFwDL3" Offset="0x7A78"/>
+    </File>
+</Root>

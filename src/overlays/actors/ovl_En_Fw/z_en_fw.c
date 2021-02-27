@@ -5,6 +5,7 @@
  */
 
 #include "z_en_fw.h"
+#include "objects/object_fw/object_fw.h"
 #include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -66,16 +67,12 @@ static ColliderJntSphInit sJntSphInit = {
 
 static CollisionCheckInfoInit2 D_80A1FB94 = { 8, 2, 25, 25, MASS_IMMOVABLE };
 
-static struct_80034EC0_Entry D_80A1FBA0[] = {
-    { 0x06006CF8, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
-    { 0x06007CD0, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
-    { 0x06007DC8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
-};
 
-extern FlexSkeletonHeader D_06007C30;
-extern Gfx D_06007928[];
-extern Gfx D_06007938[];
-extern AnimationHeader D_06006CF8;
+static struct_80034EC0_Entry D_80A1FBA0[] = {
+    { &gFwAnim5, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
+    { &gFwAnim6, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &gFwAnim7, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+};
 
 s32 EnFw_DoBounce(EnFw* this, s32 totalBounces, f32 yVelocity) {
     s16 temp_v1;
@@ -190,7 +187,7 @@ s32 EnFw_SpawnDust(EnFw* this, u8 timer, f32 scale, f32 scaleStep, s32 dustCnt, 
 void EnFw_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFw* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06007C30, NULL, this->jointTable, this->morphTable, 11);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gFwSkel1, NULL, this->jointTable, this->morphTable, 11);
     func_80034EC0(&this->skelAnime, D_80A1FBA0, 0);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -222,7 +219,7 @@ void EnFw_Run(EnFw* this, GlobalContext* globalCtx) {
     Actor* flareDancer;
 
     Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
-    if (this->skelAnime.animation == &D_06006CF8) {
+    if (this->skelAnime.animation == &gFwAnim5) {
         if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame) == 0) {
             this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.parent->world.pos);
             func_80034EC0(&this->skelAnime, D_80A1FBA0, 2);
@@ -466,7 +463,7 @@ void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
         if (eff->type != 0) {
             if (!firstDone) {
                 POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0U);
-                gSPDisplayList(POLY_XLU_DISP++, D_06007928);
+                gSPDisplayList(POLY_XLU_DISP++, gFwDL0);
                 gDPSetEnvColor(POLY_XLU_DISP++, 100, 60, 20, 0);
                 firstDone = true;
             }
@@ -481,7 +478,7 @@ void EnFw_DrawDust(EnFw* this, GlobalContext* globalCtx) {
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             idx = eff->timer * (8.0f / eff->initialTimer);
             gSPSegment(POLY_XLU_DISP++, 0x8, SEGMENTED_TO_VIRTUAL(D_80A1FC18[idx]));
-            gSPDisplayList(POLY_XLU_DISP++, &D_06007938);
+            gSPDisplayList(POLY_XLU_DISP++, &gFwDL1);
         }
     }
 

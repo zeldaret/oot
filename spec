@@ -3656,7 +3656,8 @@ endseg
 beginseg
     name "object_bubble"
     romalign 0x1000
-    include "build/baserom/object_bubble.o"
+    include "build/assets/objects/object_bubble/object_bubble.o"
+    number 6
 endseg
 
 beginseg
@@ -4373,7 +4374,8 @@ endseg
 beginseg
     name "object_fw"
     romalign 0x1000
-    include "build/baserom/object_fw.o"
+    include "build/assets/objects/object_fw/object_fw.o"
+    number 6
 endseg
 
 beginseg

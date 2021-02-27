@@ -1,0 +1,5 @@
+<Root>
+    <File Name="object_bubble" Segment="6">
+        <DList Name="gBubbleDL" Offset="0x1000"/>
+    </File>
+</Root>
