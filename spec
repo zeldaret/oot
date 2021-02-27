@@ -5182,7 +5182,8 @@ endseg
 beginseg
     name "object_d_lift"
     romalign 0x1000
-    include "build/baserom/object_d_lift.o"
+    include "build/assets/objects/object_d_lift/object_d_lift.o"
+    number 6
 endseg
 
 beginseg

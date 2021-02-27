@@ -1,0 +1,6 @@
+<Root>
+    <File Name="object_d_lift" Segment="6">
+        <DList Name="gDLiftDL" Offset="0x140"/>
+        <Collision Name="gDLiftCol" Offset="0x3D0"/>
+    </File>
+</Root>
