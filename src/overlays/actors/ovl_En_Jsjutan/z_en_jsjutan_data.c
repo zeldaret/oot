@@ -1,6 +1,8 @@
 #include "z_en_jsjutan.h"
 
+// Shadow texture. 32x64 I8.
 u8 D_80A8E610[0x800];
+
 Vec3s D_80A8EE10[0x90];
 
 static s32 sUnused[2] = {
@@ -8,6 +10,7 @@ static s32 sUnused[2] = {
     0,
 };
 
+// Carpet texture. 32x64 RGBA16.
 u16 D_80A8AA98[] = {
     14529, 12481, 14595, 18821, 16643, 12481, 16707, 22917, 18755, 18755, 16641, 14529, 14529, 12481, 12481, 22915,
     22915, 12481, 12481, 12481, 18819, 16643, 18755, 18755, 18755, 20869, 20869, 16707, 23047, 22983, 16707, 14595,
@@ -139,6 +142,7 @@ u16 D_80A8AA98[] = {
     22915, 12481, 12481, 12481, 18819, 16643, 18755, 18755, 18755, 20869, 20869, 16707, 23047, 22983, 16707, 14595,
 };
 
+// Same vertex type as D_80A8C398. Used when gameplayFrames is odd.
 Vtx D_80A8BA98[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
@@ -214,6 +218,7 @@ Vtx D_80A8BA98[] = {
     VTX(5500, 0, 4500, 2048, 186, 0x00, 0x78, 0x00, 0xFF),   VTX(5500, 0, 5500, 2048, 0, 0x00, 0x78, 0x00, 0xFF),
 };
 
+// Same vertex type as D_80A8BA98. Used when gameplayFrames is even.
 Vtx D_80A8C398[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
@@ -289,6 +294,7 @@ Vtx D_80A8C398[] = {
     VTX(5500, 0, 4500, 2048, 186, 0x00, 0x78, 0x00, 0xFF),   VTX(5500, 0, 5500, 2048, 0, 0x00, 0x78, 0x00, 0xFF),
 };
 
+// Same vertex type as D_80A8DAB8. Used when gameplayFrames is odd.
 Vtx D_80A8CC98[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
@@ -364,6 +370,7 @@ Vtx D_80A8CC98[] = {
     VTX(5500, 0, 4500, 2048, 186, 0x00, 0x78, 0x00, 0xFF),   VTX(5500, 0, 5500, 2048, 0, 0x00, 0x78, 0x00, 0xFF),
 };
 
+// Draws the carpet's textures.
 Gfx D_80A8D598[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
@@ -378,6 +385,7 @@ Gfx D_80A8D598[] = {
     gsSPEndDisplayList(),
 };
 
+// Draws the carpet's shadow textures.
 Gfx D_80A8D618[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
@@ -391,6 +399,7 @@ Gfx D_80A8D618[] = {
     gsSPEndDisplayList(),
 };
 
+// Draws vertexs in segment 0x0C.
 Gfx D_80A8D688[] = {
     gsDPPipeSync(),
     gsSPVertex(0x0C000000, 24, 0),
@@ -528,6 +537,7 @@ Gfx D_80A8D688[] = {
     gsSPEndDisplayList(),
 };
 
+// Same vertex type as D_80A8CC98. Used when gameplayFrames is even.
 Vtx D_80A8DAB8[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
