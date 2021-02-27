@@ -5711,7 +5711,8 @@ endseg
 beginseg
     name "object_kibako2"
     romalign 0x1000
-    include "build/baserom/object_kibako2.o"
+    include "build/assets/objects/object_kibako2/object_kibako2.o"
+    number 6
 endseg
 
 beginseg
