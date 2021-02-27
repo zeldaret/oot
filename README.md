@@ -88,6 +88,8 @@ sudo apt-get update
 sudo apt-get install git build-essential binutils-mips-linux-gnu python3
 ```
 
+If you have Nix, you can instead skip to step 3, and run `nix-shell` inside the `oot` directory before running `make setup` or `make`. Note that, if using Nix, you will be using `qemu-irix` and `ORIG_COMPILER` automatically.
+
 #### 2. Download and set up qemu-irix (optional)
 
 Note: We are currently testing a recompiled version of the compiler that does not require qemu-irix.
