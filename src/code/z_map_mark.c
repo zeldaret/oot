@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "textures/parameter_static/parameter_static.h"
 
 typedef struct {
     /* 0x00 */ void* texture;
@@ -37,8 +38,8 @@ static u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
 #define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
 
 static MapMarkInfo sMapMarkInfoTable[] = {
-    { D_02002580, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1024, 1024 }, // Chest Icon
-    { D_02002900, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1024, 1024 },    // Boss Skull Icon
+    { gHUDTreasureMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1024, 1024 },
+    { gHUDBossMarkerTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1024, 1024 },
 };
 
 static MapMarkDataOverlay sMapMarkDataOvl = {

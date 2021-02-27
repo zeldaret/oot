@@ -1,6 +1,7 @@
 #include "global.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "textures/parameter_static/parameter_static.h"
 
 MapData* gMapData;
 
@@ -459,7 +460,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                             ((gMapData->owEntranceFlag[sEntranceIconMapIndex] != 0xFFFF) &&
                              (gSaveContext.infTable[26] & gBitFlags[gMapData->owEntranceFlag[mapIndex]]))) {
 
-                            gDPLoadTextureBlock(OVERLAY_DISP++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
+                            gDPLoadTextureBlock(OVERLAY_DISP++, gHUDExitMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                                 G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                                 G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
@@ -473,7 +474,7 @@ void Minimap_Draw(GlobalContext* globalCtx) {
                     }
 
                     if ((globalCtx->sceneNum == SCENE_SPOT08) && (gSaveContext.infTable[26] & gBitFlags[9])) {
-                        gDPLoadTextureBlock(OVERLAY_DISP++, D_02002500, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
+                        gDPLoadTextureBlock(OVERLAY_DISP++, gHUDExitMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 0,
                                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 

@@ -345,8 +345,8 @@ void func_80B4B874(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* spB0[] = {
-        0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0x00000000, 0x00000000, &gZl1Anim6, &gZl1Anim5, &gZl1Anim1,
+        NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, &gZl1Anim6, &gZl1Anim5, &gZl1Anim1,
     };
     u8 spA4[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,
@@ -418,8 +418,8 @@ void func_80B4BBC4(EnZl1* this, GlobalContext* globalCtx) {
 
 void func_80B4BC78(EnZl1* this, GlobalContext* globalCtx) {
     AnimationHeader* sp90[] = {
-        0x00000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
-        0x00000000, 0x00000000, &gZl1Anim6, &gZl1Anim5, &gZl1Anim1,
+        NULL, NULL, NULL, NULL, NULL,
+        NULL, NULL, &gZl1Anim6, &gZl1Anim5, &gZl1Anim1,
     };
     u8 sp84[] = {
         0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0x00, 0x02,

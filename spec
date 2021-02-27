@@ -4051,7 +4051,8 @@ endseg
 beginseg
     name "object_yukabyun"
     romalign 0x1000
-    include "build/baserom/object_yukabyun.o"
+    include "build/assets/objects/object_yukabyun/object_yukabyun.o"
+    number 6
 endseg
 
 beginseg

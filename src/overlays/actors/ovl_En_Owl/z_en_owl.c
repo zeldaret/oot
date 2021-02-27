@@ -6,14 +6,13 @@
 
 #include "z_en_owl.h"
 #include "objects/object_owl/object_owl.h"
+#include "scenes/overworld/spot06/spot06_scene.h"
+#include "scenes/overworld/spot16/spot16_scene.h"
 #include "vt.h"
 
 #define FLAGS 0x00000019
 
 #define THIS ((EnOwl*)thisx)
-
-extern CsCmdActorAction D_0201E6A0;
-extern CsCmdActorAction D_0201B0C0;
 
 void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOwl_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -955,12 +954,12 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
                     osSyncPrintf(VT_FGCOL(CYAN));
                     osSyncPrintf("SPOT 06 の デモがはしった\n"); // Demo of SPOT 06
                     osSyncPrintf(VT_RST);
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201B0C0);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&spot06_sceneCutsceneData0x01B0C0);
                     this->actor.draw = NULL;
                     break;
                 case 8:
                 case 9:
-                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&D_0201E6A0);
+                    globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&spot16_sceneCutsceneData0x01E6A0);
                     this->actor.draw = NULL;
                     break;
                 default:
