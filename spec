@@ -5189,7 +5189,8 @@ endseg
 beginseg
     name "object_mamenoki"
     romalign 0x1000
-    include "build/baserom/object_mamenoki.o"
+    include "build/assets/objects/object_mamenoki/object_mamenoki.o"
+    number 6
 endseg
 
 beginseg

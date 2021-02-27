@@ -1,0 +1,9 @@
+<Root>
+    <File Name="object_mamenoki" Segment="6">
+        <DList Name="gMamenokiDL0" Offset="0x90"/>
+        <DList Name="gMamenokiDL1" Offset="0x1B0"/>
+        <DList Name="gMamenokiDL2" Offset="0x3F0"/>
+        <DList Name="gMamenokiDL3" Offset="0x650"/>
+        <Collision Name="gMamenokiCol" Offset="0x5DC"/>
+    </File>
+</Root>

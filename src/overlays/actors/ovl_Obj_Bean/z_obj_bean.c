@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_bean.h"
+#include "objects/object_mamenoki/object_mamenoki.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00400000
@@ -15,12 +16,6 @@ void ObjBean_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjBean_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_06000090;
-extern UNK_TYPE D_060001B0;
-extern UNK_TYPE D_060003F0;
-extern UNK_TYPE D_060005DC;
-extern UNK_TYPE D_06000650;
 
 /*
 const ActorInit Obj_Bean_InitVars = {
