@@ -291,47 +291,49 @@ void func_80AFE428(EnSkj* this) {
             break;
     }
 }
+
 #define NON_MATCHING
 #ifdef NON_MATCHING
 void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
     EnSkj* this = (EnSkj*)thisx;
-    s32 pad[2];
+    GlobalContext* globalCtx2;
+    s32 pad[1];
     Player* player;
 
     Actor_ProcessInitChain(thisx, D_80B017C0);
     switch (type) {
         case 5:
             D_80B01640.unk0 = 1;
-            D_80B01640.skullkid = thisx;
-            thisx->destroy = NULL;
-            thisx->draw = NULL;
-            thisx->update = func_80B00964;
-            thisx->flags &= ~5;
-            thisx->flags |= 0;
+            D_80B01640.skullkid = THIS;
+            this->actor.destroy = NULL;
+            this->actor.draw = NULL;
+            this->actor.update = func_80B00964;
+            this->actor.flags &= ~5;
+            this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             break;
 
         case 6:
             D_80B01640.unk0 = 1;
-            D_80B01640.skullkid = thisx;
-            thisx->destroy = NULL;
-            thisx->draw = NULL;
-            thisx->update = func_80B01244;
-            thisx->flags &= ~5;
-            thisx->flags |= 0;
+            D_80B01640.skullkid = THIS;
+            this->actor.destroy = NULL;
+            this->actor.draw = NULL;
+            this->actor.update = func_80B01244;
+            this->actor.flags &= ~5;
+            this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
-            thisx->focus.pos.x = 1230.0f;
-            thisx->focus.pos.y = -90.0f;
-            thisx->focus.pos.z = 450.0f;
+            this->actor.focus.pos.x = 1230.0f;
+            this->actor.focus.pos.y = -90.0f;
+            this->actor.focus.pos.z = 450.0f;
             this->actionFunc = func_80B00A54;
             break;
 
         default:
-            thisx->params = type;
-            if (((thisx->params != 0) && (thisx->params != 1)) && (thisx->params != 2)) {
+            this->actor.params = type;
+            if (((this->actor.params != 0) && (this->actor.params != 1)) && (this->actor.params != 2)) {
                 if (gSaveContext.inventory.items[gItemSlots[ITEM_POCKET_EGG]] < ITEM_SAW) {
-                    Actor_Kill(thisx);
+                    Actor_Kill(&this->actor);
                     return;
                 }
             }
@@ -340,18 +342,18 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005F40, &D_06000E10,
                                this->jointTable, this->morphTable, 19);
             if ((type >= 0) && (type < 3)) {
-                thisx->flags &= ~5;
-                thisx->flags |= 9;
+                this->actor.flags &= ~5;
+                this->actor.flags |= 9;
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
             }
 
             if ((type < 0) || (type >= 7)) {
-                thisx->flags &= ~0x02000000;
+                this->actor.flags &= ~0x02000000;
             }
 
             if ((type > 0) && (type < 3)) {
-                thisx->targetMode = 7;
-                this->posCopy = thisx->world.pos;
+                this->actor.targetMode = 7;
+                this->posCopy = this->actor.world.pos;
                 D_80B01648[type - 1].unk0 = 1;
                 D_80B01648[type - 1].skullkid = this;
                 this->unk_2D8 = 0;
@@ -362,11 +364,11 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
                 func_80AFF038(this);
             }
 
-            thisx->colChkInfo.damageTable = &D_80B016A4;
-            thisx->colChkInfo.health = 10;
+            this->actor.colChkInfo.damageTable = &D_80B016A4;
+            this->actor.colChkInfo.health = 10;
             Collider_InitCylinder(globalCtx, &this->collider);
             Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &D_80B01678);
-            ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
+            ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
             Actor_SetScale(thisx, 0.01f);
             this->textId = 0;
             this->actor.textId = 0;
@@ -378,13 +380,15 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.velocity.y = 0.0f;
             this->actor.gravity = -1.0f;
             func_80AFE390(this);
-            player = PLAYER;
+            globalCtx2 = globalCtx;
+            player = ((Player*)globalCtx2->actorCtx.actorLists[ACTORCAT_PLAYER].head);
             osSyncPrintf("Player_X : %f\n", player->actor.world.pos.x);
             osSyncPrintf("Player_Z : %f\n", player->actor.world.pos.z);
             osSyncPrintf("World_X  : %f\n", this->actor.world.pos.x);
             osSyncPrintf("World_Z  : %f\n", this->actor.world.pos.z);
             osSyncPrintf("Center_X : %f\n", this->center.x);
             osSyncPrintf("Center_Z : %f\n\n", this->center.z);
+            
             break;
     }
 }
