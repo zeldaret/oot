@@ -13,7 +13,7 @@
         <Animation Name="gDaruniaHitBreastAnim" Offset="0x2374"/>
         <Animation Name="gDaruniaStandUpAfterFallingAnim" Offset="0x288C"/>
 
-        <!-- Darunia dancing the Saria's Song -->
+        <!-- Animations of Darunia dancing the Saria's Song -->
 
         <!-- He opens and closes his arms -->
         <Animation Name="gDaruniaDancingLoop1Anim" Offset="0x2D94"/>
