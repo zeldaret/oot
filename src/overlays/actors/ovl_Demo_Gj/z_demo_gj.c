@@ -17,23 +17,6 @@ void DemoGj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Update(Actor* thisx, GlobalContext* globalCtx);
 void DemoGj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-extern Gfx gGanonsCastleRubbleAroundArenaDL[];
-extern CollisionHeader gGanonsCastleRubbleAroundArenaCol;
-extern Gfx gGanonsCastleRubble2DL[];
-extern CollisionHeader gGanonsCastleRubble2Col;
-extern Gfx gGanonsCastleRubble3DL[];
-extern CollisionHeader gGanonsCastleRubble3Col;
-extern Gfx gGanonsCastleRubble4DL[];
-extern CollisionHeader gGanonsCastleRubble4Col;
-extern Gfx gGanonsCastleRubble5DL[];
-extern CollisionHeader gGanonsCastleRubble5Col;
-extern Gfx gGanonsCastleRubble6DL[];
-extern CollisionHeader gGanonsCastleRubble6Col;
-extern Gfx gGanonsCastleRubble7DL[];
-extern CollisionHeader gGanonsCastleRubble7Col;
-extern Gfx gGanonsCastleRubbleTallDL[];
-extern CollisionHeader gGanonsCastleRubbleTallCol;
-
 static ColliderCylinderInitType1 sCylinderInit1 = {
     {
         COLTYPE_HIT0,
