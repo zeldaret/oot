@@ -20,7 +20,8 @@ static s32 sUnused = 0;
 #include "z_demo_du_cutscene_data.c" EARLY
 
 static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
-static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGriningTex, gDaruniaMouthOpenTex, gDaruniaMouthHappyTex };
+static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGriningTex, gDaruniaMouthOpenTex,
+                                 gDaruniaMouthHappyTex };
 
 /**
  * Cs => Cutscene
@@ -229,7 +230,8 @@ void DemoDu_CsFireMedallion_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) 
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 2)) {
-            Animation_Change(&this->skelAnime, &gDaruniaItemGiveAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaItemGiveAnim), 2, 0.0f);
+            Animation_Change(&this->skelAnime, &gDaruniaItemGiveAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gDaruniaItemGiveAnim), 2, 0.0f);
             this->updateIndex = CS_FIREMEDALLION_SUBSCENE(4);
         }
     }
@@ -237,7 +239,8 @@ void DemoDu_CsFireMedallion_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) 
 
 void DemoDu_CsFireMedallion_AdvanceTo05(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaItemGiveIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaItemGiveIdleAnim), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaItemGiveIdleAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gDaruniaItemGiveIdleAnim), 0, 0.0f);
         this->updateIndex = CS_FIREMEDALLION_SUBSCENE(5);
     }
 }
@@ -467,7 +470,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 1)) {
-            Animation_Change(&this->skelAnime, &gDaruniaStandUpAfterFallingAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaStandUpAfterFallingAnim), 2, 0.0f);
+            Animation_Change(&this->skelAnime, &gDaruniaStandUpAfterFallingAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gDaruniaStandUpAfterFallingAnim), 2, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(2);
             this->drawIndex = 1;
             DemoDu_CsGoronsRuby_DaruniaFalling(this, globalCtx);
@@ -500,7 +504,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo05(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
+                         0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(5);
     }
 }
@@ -510,7 +515,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 3)) {
-            Animation_Change(&this->skelAnime, &gDaruniaHitBreastAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaHitBreastAnim), 2, -4.0f);
+            Animation_Change(&this->skelAnime, &gDaruniaHitBreastAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gDaruniaHitBreastAnim), 2, -4.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(6);
         }
     }
@@ -518,7 +524,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo07(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
+                         0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(7);
     }
 }
@@ -528,7 +535,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo08(DemoDu* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 4)) {
-            Animation_Change(&this->skelAnime, &gDaruniaHitLinkAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaHitLinkAnim), 2, 0.0f);
+            Animation_Change(&this->skelAnime, &gDaruniaHitLinkAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gDaruniaHitLinkAnim), 2, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(8);
         }
     }
@@ -536,14 +544,16 @@ void DemoDu_CsGoronsRuby_AdvanceTo08(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo09(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaHitBreastAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaHitBreastAnim), 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaHitBreastAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gDaruniaHitBreastAnim), 2, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(9);
     }
 }
 
 void DemoDu_CsGoronsRuby_AdvanceTo10(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0,
+                         0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(10);
     }
 }
@@ -553,7 +563,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo11(DemoDu* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 5)) {
-            Animation_Change(&this->skelAnime, &gDaruniaItemGiveAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaItemGiveAnim), 2, 0.0f);
+            Animation_Change(&this->skelAnime, &gDaruniaItemGiveAnim, 1.0f, 0.0f,
+                             Animation_GetLastFrame(&gDaruniaItemGiveAnim), 2, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(11);
         }
     }
@@ -561,7 +572,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo11(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo12(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaItemGiveIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaItemGiveIdleAnim), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaItemGiveIdleAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gDaruniaItemGiveIdleAnim), 0, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(12);
     }
 }
@@ -571,7 +583,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo13(DemoDu* this, GlobalContext* globalCtx) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 6)) {
-            Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), 0, 0.0f);
+            Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                             0, 0.0f);
             this->updateIndex = CS_GORONSRUBY_SUBSCENE(13);
         }
     }
