@@ -30,7 +30,7 @@ void EnXc_CalculateHeadTurn(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetEyePattern(EnXc* this);
 void EnXc_SpawnArrow(EnXc* this, GlobalContext* globalCtx);
 void EnXc_BgCheck(EnXc* this, GlobalContext* globalCtx);
-s32 EnXc_UpdateAnimation(EnXc* this);
+s32 EnXc_AnimIsFinished(EnXc* this);
 CsCmdActorAction* EnXc_GetCsCmd(GlobalContext* globalCtx, s32 npcActionIdx);
 s32 EnXc_ActionEqualsCsCmdAction(EnXc* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx);
 s32 EnXc_ActionDoesNotEqualCsCmdAction(EnXc* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx);
@@ -39,7 +39,7 @@ void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx);
 void EnXc_ChangeAnimation(EnXc* this, AnimationHeader* animation, u8 mode, f32 transitionRate, s32 arg4);
 void EnXc_CheckAndSetAction(EnXc* this, s32 action1, s32 action2);
 void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3);
-s32 func_80B3C800(GlobalContext* globalCtx);
+s32 EnXc_NotInCutscene(GlobalContext* globalCtx);
 void func_80B3C820(EnXc* this);
 void func_80B3C888(EnXc* this, GlobalContext* globalCtx);
 void func_80B3C8CC(EnXc* this, GlobalContext* globalCtx);
@@ -62,7 +62,7 @@ void EnXc_SpawnFlame(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetupFlamePos(EnXc* this, GlobalContext* globalCtx);
 void EnXc_InitFlame(EnXc* this, GlobalContext* globalCtx);
 void func_80B3D48C(EnXc* this, GlobalContext* globalCtx);
-AnimationHeader* func_80B3D4D8(GlobalContext* globalCtx, s32 index);
+AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index);
 void func_80B3D56C(EnXc* this);
 void func_80B3D644(EnXc* this);
 void func_80B3D664(EnXc* this);
@@ -70,10 +70,10 @@ void func_80B3D6F0(EnXc* this);
 void func_80B3D710(EnXc* this);
 void func_80B3D730(EnXc* this);
 void func_80B3D750(EnXc* this, GlobalContext* globalCtx);
-void func_80B3D794(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx);
 void func_80B3D8A4(EnXc* this, GlobalContext* globalCtx, s32 animFinished);
 void func_80B3D990(EnXc* this);
-void func_80B3DA00(EnXc* this);
+void EnXc_SetupHalt(EnXc* this);
 void func_80B3DAA8(EnXc* this);
 void func_80B3DAF0(EnXc* this, GlobalContext* globalCtx);
 void func_80B3DBAC(EnXc* this, s32 animFinished);
@@ -83,41 +83,41 @@ void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx);
 void func_80B3DE78(EnXc* this, s32 animFinished);
 void func_80B3DEF4(EnXc* this, GlobalContext* globalCtx);
 void func_80B3DFA4(EnXc* this);
-void func_80B3E0BC(EnXc* this);
+void EnXc_SetupNutThrow(EnXc* this);
 void func_80B3E164(EnXc* this, GlobalContext* globalCtx);
 void func_80B3E1B8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E224(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E25C(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E294(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E30C(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E368(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E3C4(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E420(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E464(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E4AC(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E4F8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E53C(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E580(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E5C8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E610(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E668(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E6D0(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E738(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E7A0(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E804(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E85C(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc0(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc1(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc2(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc3(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc4(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc5(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc6(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc7(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc8(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc9(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc10(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc11(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc12(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc13(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc14(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc15(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc16(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ThrowNutAction(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc18(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc19(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EC0C(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EC90(EnXc* this, GlobalContext* globalCtx);
 void func_80B3ECD8(EnXc* this);
-void func_80B3ED48(EnXc* this, GlobalContext* globalCtx);
-void func_80B3ED68(EnXc* this, GlobalContext* globalCtx);
-void func_80B3ED88(EnXc* this, GlobalContext* globalCtx);
-void func_80B3EDCC(EnXc* this, GlobalContext* globalCtx);
-void func_80B3EE28(EnXc* this, GlobalContext* globalCtx);
-void func_80B3EE34(EnXc* this, GlobalContext* globalCtx);
-void func_80B3EE40(EnXc* this, GlobalContext* globalCtx);
-void func_80B3EE4C(EnXc* this, GlobalContext* globalCtx);
-void func_80B3EE58(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc20(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc21(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc22(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc23(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc24(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc25(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc26(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc27(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc28(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EE64(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EE74(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EEA4(EnXc* this);
@@ -134,53 +134,53 @@ void func_80B3F010(EnXc* this);
 void func_80B3F0B8(EnXc* this);
 void func_80B3F0DC(EnXc* this);
 void func_80B3F100(EnXc* this);
-void func_80B3F124(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F144(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F16C(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F1A8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F1D0(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F1F8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F220(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F248(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F270(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F298(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F2C0(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F2E8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F344(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F36C(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F394(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F3BC(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc29(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc30(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc31(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc32(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc33(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc34(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc35(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc36(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc37(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc38(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc39(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc40(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc41(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc42(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc43(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc44(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F3C8(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F3D8();
-void func_80B3F3F8(Vec3f* src, GlobalContext* globalCtx);
+void EnXc_PlayDiveSFX(Vec3f* src, GlobalContext* globalCtx);
 void func_80B3F59C(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F620(EnXc* this);
 void func_80B3F644(EnXc* this);
 void func_80B3F668(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F6DC(EnXc* this);
-void func_80B3F700(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupKneelAction(EnXc* this, GlobalContext* globalCtx);
 void func_80B3F754(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F7F8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F820(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F848(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F8A0(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F8C8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F928(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F988(EnXc* this, GlobalContext* globalCtx);
-void func_80B3F9E8(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc45(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc46(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc47(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc48(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc49(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Kneel(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc51(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc52(EnXc* this, GlobalContext* globalCtx);
 void func_80B3FA08(EnXc* this, GlobalContext* globalCtx);
 void func_80B3FA2C(void);
-void func_80B3FA4C(Actor* thisx, GlobalContext* globalCtx);
+void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx);
 void func_80B3FAE0(EnXc* this);
-void func_80B3FB24(Actor* thisx, GlobalContext* globalCtx);
+void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx);
 void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx);
-void func_80B3FFB4(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupShowTriforceAction(EnXc* this, GlobalContext* globalCtx);
 void func_80B400AC(EnXc* this, GlobalContext* globalCtx);
-void func_80B400E4(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc53(EnXc* this, GlobalContext* globalCtx);
 void func_80B40CBC(EnXc* this);
-void func_80B40104(EnXc* this, GlobalContext* globalCtx);
-void func_80B4015C(EnXc* this, GlobalContext* globalCtx);
-void func_80B401CC(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc54(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ShowTriforce(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ShowTriforceIdle(EnXc* this, GlobalContext* globalCtx);
 void func_80B40590(EnXc* this, GlobalContext* globalCtx);
 void func_80B4066C(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetCrySFX(EnXc* this, GlobalContext* globalCtx);
@@ -200,32 +200,32 @@ void func_80B40E64(EnXc* this);
 void func_80B40E40(EnXc* this);
 void func_80B40E88(EnXc* this);
 s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx);
-void func_80B41000(EnXc* this, GlobalContext* globalCtx);
-void func_80B41020(EnXc* this, GlobalContext* globalCtx);
-void func_80B41068(EnXc* this, GlobalContext* globalCtx);
-void func_80B410AC(EnXc* this, GlobalContext* globalCtx);
-void func_80B41110(EnXc* this, GlobalContext* globalCtx);
-void func_80B41174(EnXc* this, GlobalContext* globalCtx);
-void func_80B411AC(EnXc* this, GlobalContext* globalCtx);
-void func_80B41204(EnXc* this, GlobalContext* globalCtx);
-void func_80B41248(EnXc* this, GlobalContext* globalCtx);
-void func_80B41284(EnXc* this, GlobalContext* globalCtx);
-void func_80B412AC(EnXc* this, GlobalContext* globalCtx);
-void func_80B412D4(EnXc* this, GlobalContext* globalCtx);
-void func_80B412FC(EnXc* this, GlobalContext* globalCtx);
-void func_80B41324(EnXc* this, GlobalContext* globalCtx);
-void func_80B4134C(EnXc* this, GlobalContext* globalCtx);
-void func_80B41374(EnXc* this, GlobalContext* globalCtx);
-void func_80B4139C(EnXc* this, GlobalContext* globalCtx);
-void func_80B413C4(EnXc* this, GlobalContext* globalCtx);
-void func_80B41414(EnXc* this, GlobalContext* globalCtx);
-void func_80B4143C(EnXc* this, GlobalContext* globalCtx);
-void func_80B41464(EnXc* this, GlobalContext* globalCtx);
-void func_80B4148C(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc57(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc58(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc59(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc60(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc61(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc62(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc63(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc64(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc65(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc66(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc67(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc68(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc69(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc70(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc71(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc72(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc73(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc74(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc75(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc76(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc77(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc78(EnXc* this, GlobalContext* globalCtx);
 void func_80B415B8(EnXc* this, GlobalContext* globalCtx);
 void func_80B41798(EnXc* this, GlobalContext* globalCtx);
-void func_80B417E4(EnXc* this, GlobalContext* globalCtx);
-void func_80B41844(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc79(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ActionFunc80(EnXc* this, GlobalContext* globalCtx);
 
 void EnXc_DrawNothing(EnXc* this, GlobalContext* globalCtx);
 void func_80B41BA4(EnXc* this, GlobalContext* globalCtx);
@@ -331,7 +331,7 @@ void EnXc_BgCheck(EnXc* this, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 75.0f, 30.0f, 30.0f, 4);
 }
 
-s32 EnXc_UpdateAnimation(EnXc* this) {
+s32 EnXc_AnimIsFinished(EnXc* this) {
     return SkelAnime_Update(&this->skelAnime);
 }
 
@@ -438,20 +438,20 @@ void func_80B3C7D4(EnXc* this, s32 action1, s32 action2, s32 action3) {
     }
 }
 
-s32 func_80B3C800(GlobalContext* globalCtx) {
+s32 EnXc_NotInCutscene(GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state == 0) {
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void func_80B3C820(EnXc* this) {
-    Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), 0, 0.0f);
     this->action = 53;
 }
 
 void func_80B3C888(EnXc* this, GlobalContext* globalCtx) {
-    if ((func_80B3C800(globalCtx) != 0) && this->actor.params == 4) {
+    if (EnXc_NotInCutscene(globalCtx) && this->actor.params == 4) {
         func_80B3C820(this);
     }
 }
@@ -484,7 +484,7 @@ void func_80B3C9DC(EnXc* this) {
 }
 
 void func_80B3C9EC(EnXc* this) {
-    EnXc_ChangeAnimation(this, &gShiekAnim8, 0, 0.0f, 0);
+    EnXc_ChangeAnimation(this, &gShiekArmsCrossedIdleAnim, 0, 0.0f, 0);
     this->action = 79;
     this->drawMode = XC_DRAW_1;
     this->unk_30C = 1;
@@ -595,6 +595,7 @@ void EnXc_SetNutThrowSFX(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 sfxId;
     s32 pad2;
+
     if (Animation_OnFrame(&this->skelAnime, 7.0f)) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
@@ -777,22 +778,22 @@ void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
     this->actor.shape.rot.y = this->actor.world.rot.y;
 }
 
-AnimationHeader* func_80B3D4D8(GlobalContext* globalCtx, s32 index) {
-    AnimationHeader* animation = &gShiekAnim11;
+AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
+    AnimationHeader* animation = &gShiekPlayingHarp5Anim;
     CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, index);
 
     if (npcAction) {
         u16 action = npcAction->action;
         if (action == 11) {
-            animation = &gShiekAnim4;
+            animation = &gShiekPlayingHarp3Anim;
         } else if (action == 12) {
-            animation = &gShiekAnim3;
+            animation = &gShiekPlayingHarp2Anim;
         } else if (action == 13) {
-            animation = &gShiekAnim5;
+            animation = &gShiekPlayingHarp4Anim;
         } else {
-            animation = &gShiekAnim11;
+            animation = &gShiekPlayingHarp5Anim;
             if (action == 23) {
-                animation = &gShiekAnim0;
+                animation = &gShiekPlayingHarpAnim;
             }
         }
     }
@@ -844,22 +845,23 @@ void func_80B3D730(EnXc* this) {
 }
 
 void func_80B3D750(EnXc* this, GlobalContext* globalCtx) {
-    if (EnXc_InitMinuetCutscene(this, globalCtx) != 0 && EnXc_InitBoleroCutscene(this, globalCtx)) {
+    if (EnXc_InitMinuetCutscene(this, globalCtx) && EnXc_InitBoleroCutscene(this, globalCtx)) {
         this->action = 1;
     }
 }
 
-void func_80B3D794(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* npcAction;
+
     if (csCtx->state && (npcAction = csCtx->npcActions[4], npcAction && npcAction->action == 2)) {
         s32 pad;
         Vec3f* pos = &this->actor.world.pos;
         SkelAnime* skelAnime = &this->skelAnime;
-        f32 frameCount = Animation_GetLastFrame(&gShiekAnim18);
+        f32 frameCount = Animation_GetLastFrame(&gShiekFallingFromSkyAnim);
 
-        this->action = 2;
+        this->action = XC_ACTION_GRACEFUL_FALL;
         this->drawMode = XC_DRAW_1;
 
         pos->x = npcAction->startPos.x;
@@ -868,7 +870,7 @@ void func_80B3D794(EnXc* this, GlobalContext* globalCtx) {
 
         func_80B3D48C(this, globalCtx);
         func_80B3C964(this, globalCtx);
-        Animation_Change(skelAnime, &gShiekAnim18, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+        Animation_Change(skelAnime, &gShiekFallingFromSkyAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
         func_80B3D118(globalCtx);
     }
 }
@@ -876,9 +878,9 @@ void func_80B3D794(EnXc* this, GlobalContext* globalCtx) {
 void func_80B3D8A4(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
     if (animFinished) {
         SkelAnime* skelAnime = &this->skelAnime;
-        f32 frameCount = Animation_GetLastFrame(&gShiekAnim7);
+        f32 frameCount = Animation_GetLastFrame(&gShiekWalkingAnim);
 
-        Animation_Change(skelAnime, &gShiekAnim7, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
+        Animation_Change(skelAnime, &gShiekWalkingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
 
         this->action = 3;
         this->timer = 0.0f;
@@ -901,15 +903,15 @@ void func_80B3D990(EnXc* this) {
     }
 }
 
-void func_80B3DA00(EnXc* this) {
+void EnXc_SetupHalt(EnXc* this) {
     SkelAnime* skelAnime = &this->skelAnime;
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (xzDistToPlayer <= (kREG(3) + 95.0f)) {
-        f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
+        f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
 
-        Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -12.0f);
-        this->action = 5;
+        Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -12.0f);
+        this->action = XC_ACTION_HALT;
         this->timer = 0.0f;
     }
 }
@@ -933,8 +935,8 @@ void func_80B3DAF0(EnXc* this, GlobalContext* globalCtx) {
     if (npcAction &&
         (action = npcAction->action, action == 3 || action == 11 || action == 12 || action == 13 || action == 23)) {
         skelAnime = &this->skelAnime;
-        frameCount = Animation_GetLastFrame(&gShiekAnim17);
-        Animation_Change(&this->skelAnime, &gShiekAnim17, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
+        frameCount = Animation_GetLastFrame(&gShiekPullingOutHarpAnim);
+        Animation_Change(&this->skelAnime, &gShiekPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
         this->action = 7;
         this->drawMode = XC_DRAW_2;
     }
@@ -946,8 +948,8 @@ void func_80B3DBAC(EnXc* this, s32 animFinished) {
 
     if (animFinished) {
         skelAnime = &this->skelAnime;
-        frameCount = Animation_GetLastFrame(&gShiekAnim12);
-        Animation_Change(skelAnime, &gShiekAnim12, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+        frameCount = Animation_GetLastFrame(&gShiekInitialHarpAnim);
+        Animation_Change(skelAnime, &gShiekInitialHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
         this->action = 8;
         this->drawMode = XC_DRAW_HARP;
     }
@@ -961,7 +963,7 @@ void func_80B3DC24(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
 
     if (animFinished) {
         skelAnime = &this->skelAnime;
-        animation = func_80B3D4D8(globalCtx, 4);
+        animation = EnXc_GetCurrentHarpAnim(globalCtx, 4);
         frameCount = Animation_GetLastFrame(animation);
         Animation_Change(skelAnime, animation, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
         this->action = 9;
@@ -975,8 +977,8 @@ void func_80B3DCA8(EnXc* this, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state != 0 &&
         (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 8)) {
-        frameCount = Animation_GetLastFrame(&gShiekAnim12);
-        Animation_Change(&this->skelAnime, &gShiekAnim12, 0.0f, frameCount, frameCount, ANIMMODE_LOOP, -8.0f);
+        frameCount = Animation_GetLastFrame(&gShiekInitialHarpAnim);
+        Animation_Change(&this->skelAnime, &gShiekInitialHarpAnim, 0.0f, frameCount, frameCount, ANIMMODE_LOOP, -8.0f);
         this->action = 10;
     }
 }
@@ -989,7 +991,7 @@ void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx) {
         curFrame = this->skelAnime.curFrame;
         animFrameCount = this->skelAnime.endFrame;
         if (curFrame >= animFrameCount) {
-            Animation_Change(&this->skelAnime, &gShiekAnim12, -1.0f, Animation_GetLastFrame(&gShiekAnim12), 0.0f,
+            Animation_Change(&this->skelAnime, &gShiekInitialHarpAnim, -1.0f, Animation_GetLastFrame(&gShiekInitialHarpAnim), 0.0f,
                              ANIMMODE_ONCE, 0.0f);
             this->action = 11;
         }
@@ -1000,7 +1002,7 @@ void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B3DE00(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekAnim17, -1.0f, Animation_GetLastFrame(&gShiekAnim17), 0.0f, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekPullingOutHarpAnim, -1.0f, Animation_GetLastFrame(&gShiekPullingOutHarpAnim), 0.0f, 2, 0.0f);
         this->action = 12;
         this->drawMode = XC_DRAW_2;
     }
@@ -1008,7 +1010,7 @@ void func_80B3DE00(EnXc* this, s32 animFinished) {
 
 void func_80B3DE78(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), 0, 0.0f);
         this->action = 13;
         this->drawMode = XC_DRAW_1;
         this->timer = 0.0f;
@@ -1020,7 +1022,7 @@ void func_80B3DEF4(EnXc* this, GlobalContext* globalCtx) {
 
     if (globalCtx->csCtx.state != 0 &&
         (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 4)) {
-        Animation_Change(&this->skelAnime, &gShiekAnim7, -1.0f, Animation_GetLastFrame(&gShiekAnim7), 0.0f,
+        Animation_Change(&this->skelAnime, &gShiekWalkingAnim, -1.0f, Animation_GetLastFrame(&gShiekWalkingAnim), 0.0f,
                          ANIMMODE_LOOP, -12.0f);
         this->action = 14;
         this->actor.world.rot.y += 0x8000;
@@ -1040,19 +1042,19 @@ void func_80B3E014(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (xzDistToPlayer >= kREG(5) + 140.0f) {
-        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6),
+        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
         this->action = 16;
         this->timer = 0.0f;
     }
 }
 
-void func_80B3E0BC(EnXc* this) {
+void EnXc_SetupNutThrow(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
-        Animation_Change(&this->skelAnime, &gShiekAnim14, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim14),
+        Animation_Change(&this->skelAnime, &gShiekThrowingNutAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekThrowingNutAnim),
                          ANIMMODE_ONCE, 0.0f);
-        this->action = 17;
+        this->action = XC_ACTION_THROW_NUT;
         this->timer = 0.0f;
         this->actor.speedXZ = 0.0f;
     }
@@ -1084,21 +1086,20 @@ void func_80B3E1B8(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-// Action 0
-void func_80B3E224(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc0(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetColossusAppearSFX(this, globalCtx);
     EnXc_SetWindSFX(globalCtx);
     func_80B3D750(this, globalCtx);
 }
 
-void func_80B3E25C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc1(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetColossusAppearSFX(this, globalCtx);
     EnXc_SetWindSFX(globalCtx);
-    func_80B3D794(this, globalCtx);
+    EnXc_SetupFallFromSkyAction(this, globalCtx);
 }
 
-void func_80B3E294(EnXc* this, GlobalContext* globalCtx) {
-    s32 animFinished = EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc2(EnXc* this, GlobalContext* globalCtx) {
+    s32 animFinished = EnXc_AnimIsFinished(this);
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
@@ -1108,97 +1109,97 @@ void func_80B3E294(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D8A4(this, globalCtx, animFinished);
 }
 
-void func_80B3E30C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc3(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D56C(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
     func_80B3D990(this);
 }
 
-void func_80B3E368(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc4(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D644(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
-    func_80B3DA00(this);
+    EnXc_SetupHalt(this);
 }
 
-void func_80B3E3C4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc5(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D664(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
     func_80B3DAA8(this);
 }
 
-void func_80B3E420(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc6(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3DAF0(this, globalCtx);
 }
 
-void func_80B3E464(EnXc* this, GlobalContext* globalCtx) {
-    s32 animFinished = EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc7(EnXc* this, GlobalContext* globalCtx) {
+    s32 animFinished = EnXc_AnimIsFinished(this);
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3DBAC(this, animFinished);
 }
 
-void func_80B3E4AC(EnXc* this, GlobalContext* globalCtx) {
-    s32 animFinished = EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc8(EnXc* this, GlobalContext* globalCtx) {
+    s32 animFinished = EnXc_AnimIsFinished(this);
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3DC24(this, globalCtx, animFinished);
 }
 
-void func_80B3E4F8(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc9(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3DCA8(this, globalCtx);
 }
 
-void func_80B3E53C(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc10(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3DD3C(this, globalCtx);
 }
 
-void func_80B3E580(EnXc* this, GlobalContext* globalCtx) {
-    s32 animFinished = EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc11(EnXc* this, GlobalContext* globalCtx) {
+    s32 animFinished = EnXc_AnimIsFinished(this);
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3DE00(this, animFinished);
 }
 
-void func_80B3E5C8(EnXc* this, GlobalContext* globalCtx) {
-    s32 animFinished = EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc12(EnXc* this, GlobalContext* globalCtx) {
+    s32 animFinished = EnXc_AnimIsFinished(this);
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3DE78(this, animFinished);
 }
 
-void func_80B3E610(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc13(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_InitFlame(this, globalCtx);
     func_80B3DEF4(this, globalCtx);
 }
 
-void func_80B3E668(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc14(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D6F0(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
@@ -1206,9 +1207,9 @@ void func_80B3E668(EnXc* this, GlobalContext* globalCtx) {
     func_80B3DFA4(this);
 }
 
-void func_80B3E6D0(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc15(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D710(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
@@ -1216,18 +1217,18 @@ void func_80B3E6D0(EnXc* this, GlobalContext* globalCtx) {
     func_80B3E014(this);
 }
 
-void func_80B3E738(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc16(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D730(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
     EnXc_InitFlame(this, globalCtx);
-    func_80B3E0BC(this);
+    EnXc_SetupNutThrow(this);
 }
 
-void func_80B3E7A0(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ThrowNutAction(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetNutThrowSFX(this, globalCtx);
@@ -1235,15 +1236,15 @@ void func_80B3E7A0(EnXc* this, GlobalContext* globalCtx) {
     func_80B3E164(this, globalCtx);
 }
 
-void func_80B3E804(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc18(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_InitFlame(this, globalCtx);
     func_80B3E1B8(this, globalCtx);
 }
 
-void func_80B3E85C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc19(EnXc* this, GlobalContext* globalCtx) {
     EnXc_InitFlame(this, globalCtx);
 }
 
@@ -1364,43 +1365,43 @@ void func_80B3ECD8(EnXc* this) {
     }
 }
 
-void func_80B3ED48(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc20(EnXc* this, GlobalContext* globalCtx) {
     func_80B3EC00(this);
 }
 
-void func_80B3ED68(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc21(EnXc* this, GlobalContext* globalCtx) {
     func_80B3EC0C(this, globalCtx);
 }
 
-void func_80B3ED88(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc22(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B3EC90(this, globalCtx);
 }
 
-void func_80B3EDCC(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc23(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D6F0(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
     func_80B3ECD8(this);
 }
 
-void func_80B3EE28(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc24(EnXc* this, GlobalContext* globalCtx) {
 }
 
-void func_80B3EE34(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc25(EnXc* this, GlobalContext* globalCtx) {
 }
 
-void func_80B3EE40(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc26(EnXc* this, GlobalContext* globalCtx) {
 }
 
-void func_80B3EE4C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc27(EnXc* this, GlobalContext* globalCtx) {
 }
 
-void func_80B3EE58(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc28(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3EE64(EnXc* this, GlobalContext* globalCtx) {
@@ -1455,8 +1456,9 @@ void func_80B3EFEC(EnXc* this) {
 
 void func_80B3F010(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
+
     if (kREG(5) + 140.0f <= xzDistToPlayer) {
-        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), 0, -12.0f);
+        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), ANIMMODE_LOOP, -12.0f);
         this->action = 41;
         this->timer = 0.0f;
     }
@@ -1474,87 +1476,86 @@ void func_80B3F100(EnXc* this) {
     EnXc_CheckAndSetAction(this, 43, 44);
 }
 
-// Action 29
-void func_80B3F124(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc29(EnXc* this, GlobalContext* globalCtx) {
     func_80B3EE74(this, globalCtx);
 }
 
-void func_80B3F144(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3ED68(this, globalCtx);
+void EnXc_ActionFunc30(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc21(this, globalCtx);
     func_80B3EEA4(this);
 }
 
-void func_80B3F16C(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E420(this, globalCtx);
+void EnXc_ActionFunc31(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc6(this, globalCtx);
     func_80B3C588(this, globalCtx, 4);
     func_80B3EEC8(this);
 }
 
-void func_80B3F1A8(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E464(this, globalCtx);
+void EnXc_ActionFunc32(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc7(this, globalCtx);
     func_80B3EEEC(this);
 }
 
-void func_80B3F1D0(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E4AC(this, globalCtx);
+void EnXc_ActionFunc33(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc8(this, globalCtx);
     func_80B3EF10(this);
 }
 
-void func_80B3F1F8(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E4F8(this, globalCtx);
+void EnXc_ActionFunc34(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc9(this, globalCtx);
     func_80B3EF34(this);
 }
 
-void func_80B3F220(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E53C(this, globalCtx);
+void EnXc_ActionFunc35(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc10(this, globalCtx);
     func_80B3EF58(this);
 }
 
-void func_80B3F248(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E580(this, globalCtx);
+void EnXc_ActionFunc36(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc11(this, globalCtx);
     func_80B3EF80(this);
 }
 
-void func_80B3F270(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E5C8(this, globalCtx);
+void EnXc_ActionFunc37(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc12(this, globalCtx);
     func_80B3EFA4(this);
 }
 
-void func_80B3F298(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E610(this, globalCtx);
+void EnXc_ActionFunc38(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc13(this, globalCtx);
     func_80B3EFC8(this);
 }
 
-void func_80B3F2C0(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E668(this, globalCtx);
+void EnXc_ActionFunc39(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc14(this, globalCtx);
     func_80B3EFEC(this);
 }
 
-void func_80B3F2E8(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc40(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D710(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
     func_80B3F010(this);
 }
 
-void func_80B3F344(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E738(this, globalCtx);
+void EnXc_ActionFunc41(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc16(this, globalCtx);
     func_80B3F0B8(this);
 }
 
-void func_80B3F36C(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E7A0(this, globalCtx);
+void EnXc_ActionFunc42(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ThrowNutAction(this, globalCtx);
     func_80B3F0DC(this);
 }
 
-void func_80B3F394(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E804(this, globalCtx);
+void EnXc_ActionFunc43(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc18(this, globalCtx);
     func_80B3F100(this);
 }
 
-void func_80B3F3BC(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc44(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3F3C8(EnXc* this, GlobalContext* globalCtx) {
@@ -1565,14 +1566,14 @@ void func_80B3F3D8() {
     func_800788CC(NA_SE_PL_SKIP);
 }
 
-void func_80B3F3F8(Vec3f* src, GlobalContext* globalCtx) {
+void EnXc_PlayDiveSFX(Vec3f* src, GlobalContext* globalCtx) {
     f32 wDest[2];
 
     SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, src, &D_80B42DA0, wDest);
     func_80078914(&D_80B42DA0, NA_SE_EV_DIVE_INTO_WATER);
 }
 
-void func_80B3F44C(GlobalContext* globalCtx) {
+void EnXc_LakeHyliaDive(GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = npcAction = EnXc_GetCsCmd(globalCtx, 0);
 
     if (npcAction) {
@@ -1586,7 +1587,7 @@ void func_80B3F44C(GlobalContext* globalCtx) {
         EffectSsGRipple_Spawn(globalCtx, &startPos, 100, 500, 10);
         EffectSsGRipple_Spawn(globalCtx, &startPos, 100, 500, 20);
         EffectSsGSplash_Spawn(globalCtx, &startPos, NULL, NULL, 1, 0);
-        func_80B3F3F8(&startPos, globalCtx);
+        EnXc_PlayDiveSFX(&startPos, globalCtx);
     }
 }
 
@@ -1612,7 +1613,7 @@ void func_80B3F59C(EnXc* this, GlobalContext* globalCtx) {
                     func_80B3F3D8();
                     break;
                 case 3:
-                    func_80B3F44C(globalCtx);
+                    EnXc_LakeHyliaDive(globalCtx);
                     break;
                 default:
                     break;
@@ -1627,18 +1628,18 @@ Vec3f D_80B41DB0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B41DBC = { 0.0f, 0.0f, 0.0f };
 
 static EnXcActionFunc sActionFuncs[] = {
-    func_80B3E224, func_80B3E25C, func_80B3E294, func_80B3E30C, func_80B3E368, func_80B3E3C4, func_80B3E420,
-    func_80B3E464, func_80B3E4AC, func_80B3E4F8, func_80B3E53C, func_80B3E580, func_80B3E5C8, func_80B3E610,
-    func_80B3E668, func_80B3E6D0, func_80B3E738, func_80B3E7A0, func_80B3E804, func_80B3E85C, func_80B3ED48,
-    func_80B3ED68, func_80B3ED88, func_80B3EDCC, func_80B3EE28, func_80B3EE34, func_80B3EE40, func_80B3EE4C,
-    func_80B3EE58, func_80B3F124, func_80B3F144, func_80B3F16C, func_80B3F1A8, func_80B3F1D0, func_80B3F1F8,
-    func_80B3F220, func_80B3F248, func_80B3F270, func_80B3F298, func_80B3F2C0, func_80B3F2E8, func_80B3F344,
-    func_80B3F36C, func_80B3F394, func_80B3F3BC, func_80B3F7F8, func_80B3F820, func_80B3F848, func_80B3F8A0,
-    func_80B3F8C8, func_80B3F928, func_80B3F988, func_80B3F9E8, func_80B400E4, func_80B40104, func_80B4015C,
-    func_80B401CC, func_80B41000, func_80B41020, func_80B41068, func_80B410AC, func_80B41110, func_80B41174,
-    func_80B411AC, func_80B41204, func_80B41248, func_80B41284, func_80B412AC, func_80B412D4, func_80B412FC,
-    func_80B41324, func_80B4134C, func_80B41374, func_80B4139C, func_80B413C4, func_80B41414, func_80B4143C,
-    func_80B41464, func_80B4148C, func_80B417E4, func_80B41844,
+    EnXc_ActionFunc0, EnXc_ActionFunc1, EnXc_ActionFunc2, EnXc_ActionFunc3, EnXc_ActionFunc4, EnXc_ActionFunc5, EnXc_ActionFunc6,
+    EnXc_ActionFunc7, EnXc_ActionFunc8, EnXc_ActionFunc9, EnXc_ActionFunc10, EnXc_ActionFunc11, EnXc_ActionFunc12, EnXc_ActionFunc13,
+    EnXc_ActionFunc14, EnXc_ActionFunc15, EnXc_ActionFunc16, EnXc_ThrowNutAction, EnXc_ActionFunc18, EnXc_ActionFunc19, EnXc_ActionFunc20,
+    EnXc_ActionFunc21, EnXc_ActionFunc22, EnXc_ActionFunc23, EnXc_ActionFunc24, EnXc_ActionFunc25, EnXc_ActionFunc26, EnXc_ActionFunc27,
+    EnXc_ActionFunc28, EnXc_ActionFunc29, EnXc_ActionFunc30, EnXc_ActionFunc31, EnXc_ActionFunc32, EnXc_ActionFunc33, EnXc_ActionFunc34,
+    EnXc_ActionFunc35, EnXc_ActionFunc36, EnXc_ActionFunc37, EnXc_ActionFunc38, EnXc_ActionFunc39, EnXc_ActionFunc40, EnXc_ActionFunc41,
+    EnXc_ActionFunc42, EnXc_ActionFunc43, EnXc_ActionFunc44, EnXc_ActionFunc45, EnXc_ActionFunc46, EnXc_ActionFunc47, EnXc_ActionFunc48,
+    EnXc_ActionFunc49, EnXc_Kneel, EnXc_ActionFunc51, EnXc_ActionFunc52, EnXc_ActionFunc53, EnXc_ActionFunc54, EnXc_ShowTriforce,
+    EnXc_ShowTriforceIdle, EnXc_ActionFunc57, EnXc_ActionFunc58, EnXc_ActionFunc59, EnXc_ActionFunc60, EnXc_ActionFunc61, EnXc_ActionFunc62,
+    EnXc_ActionFunc63, EnXc_ActionFunc64, EnXc_ActionFunc65, EnXc_ActionFunc66, EnXc_ActionFunc67, EnXc_ActionFunc68, EnXc_ActionFunc69,
+    EnXc_ActionFunc70, EnXc_ActionFunc71, EnXc_ActionFunc72, EnXc_ActionFunc73, EnXc_ActionFunc74, EnXc_ActionFunc75, EnXc_ActionFunc76,
+    EnXc_ActionFunc77, EnXc_ActionFunc78, EnXc_ActionFunc79, EnXc_ActionFunc80,
 };
 
 Vec3f D_80B41F0C = { 0.0f, 10.0f, 0.0f };
@@ -1669,7 +1670,7 @@ void func_80B3F644(EnXc* this) {
 
 void func_80B3F668(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 4, 4)) {
-        EnXc_ChangeAnimation(this, &gShiekAnim7, 0, -12.0f, 1);
+        EnXc_ChangeAnimation(this, &gShiekWalkingAnim, ANIMMODE_LOOP, -12.0f, true);
         this->action = 48;
         this->actor.world.rot.y += 0x8000;
         this->timer = 0.0f;
@@ -1680,16 +1681,16 @@ void func_80B3F6DC(EnXc* this) {
     EnXc_CheckAndSetAction(this, 48, 49);
 }
 
-void func_80B3F700(EnXc* this, GlobalContext* globalCtx) {
-    if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 0x10, 4)) {
-        EnXc_ChangeAnimation(this, &gShiekAnim15, 0, 0.0f, 0);
-        this->action = 50;
+void EnXc_SetupKneelAction(EnXc* this, GlobalContext* globalCtx) {
+    if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 16, 4)) {
+        EnXc_ChangeAnimation(this, &gShiekKneelingAnim, ANIMMODE_LOOP, 0.0f, false);
+        this->action = XC_SHIEK_KNEEL;
     }
 }
 
 void func_80B3F754(EnXc* this, GlobalContext* globalCtx) {
-    if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 0x16, 4)) {
-        EnXc_ChangeAnimation(this, &gShiekAnim19, 0, 0.0f, 0);
+    if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 22, 4)) {
+        EnXc_ChangeAnimation(this, &gShiekAnim17, ANIMMODE_LOOP, 0.0f, false);
         this->action = 51;
         func_80B3C588(this, globalCtx, 4);
     }
@@ -1702,55 +1703,55 @@ void func_80B3F7BC(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B3F7F8(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3ED48(this, globalCtx);
+void EnXc_ActionFunc45(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc20(this, globalCtx);
     func_80B3F620(this);
 }
 
-void func_80B3F820(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3ED68(this, globalCtx);
+void EnXc_ActionFunc46(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc21(this, globalCtx);
     func_80B3F644(this);
 }
 
-void func_80B3F848(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc47(EnXc* this, GlobalContext* globalCtx) {
     func_80B3F534(globalCtx);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     func_80B3C588(this, globalCtx, 4);
     func_80B3F668(this, globalCtx);
 }
 
-void func_80B3F8A0(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3EDCC(this, globalCtx);
+void EnXc_ActionFunc48(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc23(this, globalCtx);
     func_80B3F6DC(this);
 }
 
-void func_80B3F8C8(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc49(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D710(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
-    func_80B3F700(this, globalCtx);
+    EnXc_SetupKneelAction(this, globalCtx);
 }
 
-void func_80B3F928(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_Kneel(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     func_80B3F59C(this, globalCtx);
     func_80B3C588(this, globalCtx, 4);
     func_80B3F754(this, globalCtx);
 }
 
-void func_80B3F988(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc51(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     func_80B3F59C(this, globalCtx);
     func_80B3C620(this, globalCtx, 4);
     func_80B3F7BC(this, globalCtx);
 }
 
-void func_80B3F9E8(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc52(EnXc* this, GlobalContext* globalCtx) {
     func_80B3F59C(this, globalCtx);
 }
 
@@ -1763,7 +1764,7 @@ void func_80B3FA2C(void) {
     func_800F3F3C(1);
 }
 
-void func_80B3FA4C(Actor* thisx, GlobalContext* globalCtx) {
+void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
     if (this->unk_2A8) {
@@ -1787,16 +1788,16 @@ void func_80B3FAE0(EnXc* this) {
     }
 }
 
-void func_80B3FB24(Actor* thisx, GlobalContext* globalCtx) {
+void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
-    if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 0x15, 4)) {
+    if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 21, 4)) {
         this->unk_274 = 1;
         if (this->unk_2AC == 0) {
             this->unk_2AC = 1;
             this->unk_2A8 = 1;
         }
-    } else if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 0x13, 4)) {
+    } else if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 19, 4)) {
         this->unk_274 = 2;
     }
     if (this->unk_274 != 0) {
@@ -1861,18 +1862,18 @@ void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B3FFB4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupShowTriforceAction(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_ActionEqualsCsCmdAction(this, globalCtx, 10, 4)) {
-        Animation_Change(&this->skelAnime, &gShiekAnim1, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim1), ANIMMODE_ONCE, -8.0f);
-        this->action = 55;
+        Animation_Change(&this->skelAnime, &gShiekShowingTriforceOnHandAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekShowingTriforceOnHandAnim), ANIMMODE_ONCE, -8.0f);
+        this->action = XC_ACTION_SHOW_TRIFORCE;
         this->drawMode = XC_DRAW_TRIFORCE;
     }
 }
 
-void func_80B40040(EnXc* this, s32 animFinished) {
+void EnXc_SetupShowTriforceIdleAction(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekAnim2, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim2), ANIMMODE_LOOP, 0.0f);
-        this->action = 56;
+        Animation_Change(&this->skelAnime, &gShiekShowingTriforceOnHandIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekShowingTriforceOnHandIdleAnim), ANIMMODE_LOOP, 0.0f);
+        this->action = XC_ACTION_SHOW_TRIFORCE_IDLE;
     }
 }
 void func_80B400AC(EnXc* this, GlobalContext* globalCtx) {
@@ -1881,34 +1882,34 @@ void func_80B400AC(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B400E4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc53(EnXc* this, GlobalContext* globalCtx) {
     func_80B3FF0C(this, globalCtx);
 }
 
-void func_80B40104(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc54(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B3FFB4(this, globalCtx);
+    EnXc_SetupShowTriforceAction(this, globalCtx);
     func_80B3C888(this, globalCtx);
 }
 
-void func_80B4015C(EnXc* this, GlobalContext* globalCtx) {
-    s32 animFinished = EnXc_UpdateAnimation(this);
+void EnXc_ShowTriforce(EnXc* this, GlobalContext* globalCtx) {
+    s32 animFinished = EnXc_AnimIsFinished(this);
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B3FB24(&this->actor, globalCtx);
+    EnXc_CalcTriforce(&this->actor, globalCtx);
     func_80B3FAE0(this);
-    func_80B40040(this, animFinished);
+    EnXc_SetupShowTriforceIdleAction(this, animFinished);
     func_80B3C888(this, globalCtx);
 }
 
-void func_80B401CC(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ShowTriforceIdle(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B3FB24(&this->actor, globalCtx);
+    EnXc_CalcTriforce(&this->actor, globalCtx);
     func_80B400AC(this, globalCtx);
 }
 
@@ -1926,7 +1927,7 @@ void func_80B40248(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (limbIndex == 15) {
         vec = D_80B41DBC;
-        func_80B3FA4C(&this->actor, globalCtx);
+        EnXc_PlayTriforceSFX(&this->actor, globalCtx);
         Matrix_MultVec3f(&vec, &this->vec_2B0);
         this->unk_2BC = 1;
     }
@@ -2018,11 +2019,11 @@ void func_80B4070C(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     ActorShape* actorShape = &this->actor.shape;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
+    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
 
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     this->action = 58;
     this->drawMode = XC_DRAW_5;
     actorShape->shadowAlpha = 255;
@@ -2041,11 +2042,12 @@ void func_80B407A8(Actor* thisx) {
 void func_80B40820(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
-    Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
+
+    Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
-    Animation_Change(skelAnime, &gShiekAnim10, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim10), 2, 0.0f);
+    Animation_Change(skelAnime, &gShiekContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekContortionsAnim), ANIMMODE_ONCE, 0.0f);
     this->action = 60;
     this->drawMode = XC_DRAW_1;
     this->actor.shape.shadowAlpha = 255;
@@ -2054,11 +2056,12 @@ void func_80B40820(EnXc* this, GlobalContext* globalCtx) {
 void func_80B408FC(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
-    Animation_Change(skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
+
+    Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
-    Animation_Change(skelAnime, &gShiekAnim9, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim9), 2, 0.0f);
+    Animation_Change(skelAnime, &gShiekFallingFromContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekFallingFromContortionsAnim), ANIMMODE_ONCE, 0.0f);
     this->action = 61;
     this->drawMode = XC_DRAW_1;
     this->actor.shape.shadowAlpha = 255;
@@ -2066,10 +2069,11 @@ void func_80B408FC(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B409D8(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim16);
+    f32 frameCount = Animation_GetLastFrame(&gShiekHittingGroundAnim);
+
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekAnim16, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
     this->action = 62;
     this->drawMode = XC_DRAW_1;
     this->actor.shape.shadowAlpha = 255;
@@ -2077,10 +2081,10 @@ void func_80B409D8(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B40A78(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim16);
+    f32 frameCount = Animation_GetLastFrame(&gShiekHittingGroundAnim);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekAnim16, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
     this->action = 63;
     this->drawMode = XC_DRAW_1;
     this->actor.shape.shadowAlpha = 255;
@@ -2088,10 +2092,10 @@ void func_80B40A78(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B40B18(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim15);
+    f32 frameCount = Animation_GetLastFrame(&gShiekKneelingAnim);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekAnim15, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekKneelingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     this->action = 64;
     this->drawMode = XC_DRAW_1;
     this->actor.shape.shadowAlpha = 255;
@@ -2099,10 +2103,10 @@ void func_80B40B18(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B40BB4(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim6);
+    f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
-    Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     this->action = 65;
     this->drawMode = XC_DRAW_1;
     this->actor.shape.shadowAlpha = 255;
@@ -2148,7 +2152,7 @@ void func_80B40D98(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (kREG(5) + 140.0f <= xzDistToPlayer) {
-        Animation_Change(&this->skelAnime, &gShiekAnim6, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekAnim6), ANIMMODE_LOOP, -12.0f);
+        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), ANIMMODE_LOOP, -12.0f);
         this->action = 75;
         this->timer = 0.0f;
     }
@@ -2218,27 +2222,27 @@ s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80B41000(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc57(EnXc* this, GlobalContext* globalCtx) {
     func_80B40EAC(&this->actor, globalCtx);
 }
 
-void func_80B41020(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc58(EnXc* this, GlobalContext* globalCtx) {
     func_80B3C588(this, globalCtx, 4);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     func_80B40EAC(&this->actor, globalCtx);
 }
 
-void func_80B41068(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc59(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B40EAC(&this->actor, globalCtx);
 }
 
-void func_80B410AC(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc60(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetCrySFX(this, globalCtx);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_SetEyePattern(this);
     if (!func_80B40EAC(&this->actor, globalCtx)) {
         func_80B3C924(this, globalCtx);
@@ -2246,8 +2250,8 @@ void func_80B410AC(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B41110(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc61(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_SetEyePattern(this);
     EnXc_SetThrownAroundSFX(this);
     if (!func_80B40EAC(&this->actor, globalCtx)) {
@@ -2256,97 +2260,97 @@ void func_80B41110(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B41174(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc62(EnXc* this, GlobalContext* globalCtx) {
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B40EAC(&this->actor, globalCtx);
 }
 
-void func_80B411AC(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc63(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     func_80B4066C(this, globalCtx);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B40EAC(&this->actor, globalCtx);
 }
 
-void func_80B41204(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_UpdateAnimation(this);
+void EnXc_ActionFunc64(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B40EAC(&this->actor, globalCtx);
 }
 
-void func_80B41248(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E420(this, globalCtx);
+void EnXc_ActionFunc65(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc6(this, globalCtx);
     func_80B3C588(this, globalCtx, 4);
     func_80B40C50(this);
 }
 
-void func_80B41284(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E464(this, globalCtx);
+void EnXc_ActionFunc66(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc7(this, globalCtx);
     func_80B40C74(this);
 }
 
-void func_80B412AC(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E4AC(this, globalCtx);
+void EnXc_ActionFunc67(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc8(this, globalCtx);
     func_80B40C98(this);
 }
 
-void func_80B412D4(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E4F8(this, globalCtx);
+void EnXc_ActionFunc68(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc9(this, globalCtx);
     func_80B40CBC(this);
 }
 
-void func_80B412FC(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E53C(this, globalCtx);
+void EnXc_ActionFunc69(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc10(this, globalCtx);
     func_80B40CE0(this);
 }
 
-void func_80B41324(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E580(this, globalCtx);
+void EnXc_ActionFunc70(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc11(this, globalCtx);
     func_80B40D08(this);
 }
 
-void func_80B4134C(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E5C8(this, globalCtx);
+void EnXc_ActionFunc71(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc12(this, globalCtx);
     func_80B40D2C(this);
 }
 
-void func_80B41374(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E610(this, globalCtx);
+void EnXc_ActionFunc72(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc13(this, globalCtx);
     func_80B40D50(this);
 }
 
-void func_80B4139C(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E668(this, globalCtx);
+void EnXc_ActionFunc73(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc14(this, globalCtx);
     func_80B40D74(this);
 }
 
-void func_80B413C4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc74(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D710(this);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     func_80B40D98(this);
 }
 
-void func_80B41414(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E738(this, globalCtx);
+void EnXc_ActionFunc75(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc16(this, globalCtx);
     func_80B40E40(this);
 }
 
-void func_80B4143C(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E7A0(this, globalCtx);
+void EnXc_ActionFunc76(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ThrowNutAction(this, globalCtx);
     func_80B40E64(this);
 }
 
-void func_80B41464(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3E804(this, globalCtx);
+void EnXc_ActionFunc77(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ActionFunc18(this, globalCtx);
     func_80B40E88(this);
 }
 
-void func_80B4148C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc78(EnXc* this, GlobalContext* globalCtx) {
     Actor_Kill(&this->actor);
 }
 
@@ -2410,20 +2414,20 @@ void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B417E4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc79(EnXc* this, GlobalContext* globalCtx) {
     EnXc_BgCheck(this, globalCtx);
     EnXc_UpdateCollider(&this->actor, globalCtx);
     EnXc_CalculateHeadTurn(this, globalCtx);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_SetEyePattern(this);
     func_80B41718(this, globalCtx);
 }
 
-void func_80B41844(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ActionFunc80(EnXc* this, GlobalContext* globalCtx) {
     EnXc_BgCheck(this, globalCtx);
     EnXc_UpdateCollider(&this->actor, globalCtx);
     EnXc_CalculateHeadTurn(this, globalCtx);
-    EnXc_UpdateAnimation(this);
+    EnXc_AnimIsFinished(this);
     EnXc_SetEyePattern(this);
     func_80B41798(this, globalCtx);
 }
@@ -2443,7 +2447,7 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gShiekSkel, &gShiekAnim6, this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gShiekSkel, &gShiekIdleAnim, this->jointTable, this->morphTable, ARRAY_COUNT(this->jointTable));
     EnXc_InitCollider(thisx, globalCtx);
 
     switch (this->actor.params) {
