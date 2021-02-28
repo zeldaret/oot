@@ -47,7 +47,7 @@
 
         <!-- Darunia's mouth textures -->
         <Texture Name="gDaruniaMouthSeriousTex" OutName="darunia_mouth_serious" Format="ci8" Width="64" Height="32" Offset="0x8C80"/>
-        <Texture Name="gDaruniaMouthGriningTex" OutName="darunia_mouth_grinning" Format="ci8" Width="64" Height="32" Offset="0x9D40"/>
+        <Texture Name="gDaruniaMouthGrinningTex" OutName="darunia_mouth_grinning" Format="ci8" Width="64" Height="32" Offset="0x9D40"/>
         <Texture Name="gDaruniaMouthOpenTex" OutName="darunia_mouth_open" Format="ci8" Width="64" Height="32" Offset="0xA940"/>
         <Texture Name="gDaruniaMouthHappyTex" OutName="darunia_mouth_happy" Format="ci8" Width="64" Height="32" Offset="0xB180"/>
 
