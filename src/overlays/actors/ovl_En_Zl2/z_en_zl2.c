@@ -62,15 +62,11 @@ void func_80B523BC(EnZl2* this, GlobalContext* globalCtx);
 void func_80B523C8(EnZl2* this, GlobalContext* globalCtx);
 void func_80B525D4(EnZl2* this, GlobalContext* globalCtx);
 
-static u64* sEyeTextures[] = {
-    gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex, gZelda2Eye03Tex, gZelda2Eye04Tex, gZelda2Eye05Tex, gZelda2Eye06Tex, gZelda2Eye07Tex, gZelda2Eye08Tex
-};
+static u64* sEyeTextures[] = { gZelda2EyeOpenTex, gZelda2EyeHalfTex, gZelda2EyeShutTex,
+                               gZelda2Eye03Tex,   gZelda2Eye04Tex,   gZelda2Eye05Tex,
+                               gZelda2Eye06Tex,   gZelda2Eye07Tex,   gZelda2Eye08Tex };
 
-static u64* sMouthTextures[] = {
-    gZelda2MouthSeriousTex,
-    gZelda2MouthHappyTex,
-    gZelda2MouthOpenTex
-};
+static u64* sMouthTextures[] = { gZelda2MouthSeriousTex, gZelda2MouthHappyTex, gZelda2MouthOpenTex };
 
 static EnZl2ActionFunc sActionFuncs[] = {
     func_80B521A0, func_80B50BBC, func_80B50BEC, func_80B50C40, func_80B50CA8, func_80B50CFC,
