@@ -94,7 +94,6 @@ static DamageTable sDamageTable[] = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-
 void EnAnubice_Hover(EnAnubice* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
@@ -125,7 +124,8 @@ void EnAnubice_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnAnubice* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 20.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable, 16);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gAnubiceSkel, &gAnubiceIdleAnim, this->jointTable, this->morphTable,
+                   16);
 
     osSyncPrintf("\n\n");
     // ☆☆☆☆☆ Anubis occurence ☆☆☆☆☆
