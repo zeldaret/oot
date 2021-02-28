@@ -1978,8 +1978,7 @@ endseg
 beginseg
     name "ovl_En_Brob"
     include "build/src/overlays/actors/ovl_En_Brob/z_en_brob.o"
-    include "build/data/overlays/actors/z_en_brob.data.o"
-    include "build/data/overlays/actors/z_en_brob.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Brob/ovl_En_Brob_reloc.o"
 endseg
 
 beginseg
