@@ -38,6 +38,10 @@ void func_80B00068(EnSkj* this);
 void func_80B000EC(EnSkj* this);
 void func_80B00370(EnSkj* this);
 void func_80B0047C(EnSkj* this);
+void func_80AFF16C(EnSkj* this);
+void func_80AFF16C(EnSkj* this);
+void func_80AFF1F0(EnSkj* this);
+void func_80AFF1F0(EnSkj* this);
 void func_80B00F2C(EnSkj* this, GlobalContext* globalCtx);
 void func_80B001CC(EnSkj* this, GlobalContext* globalCtx);
 f32 func_80AFE968(EnSkj* this);
@@ -287,21 +291,19 @@ void func_80AFE428(EnSkj* this) {
             break;
     }
 }
-
+#define NON_MATCHING
 #ifdef NON_MATCHING
-void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
+void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
-    GlobalContext* globalCtx = globalCtx2;
-    EnSkj* this = THIS;
-    s32 pad;
+    EnSkj* this = (EnSkj*)thisx;
+    s32 pad[2];
     Player* player;
 
     Actor_ProcessInitChain(thisx, D_80B017C0);
-
     switch (type) {
         case 5:
             D_80B01640.unk0 = 1;
-            D_80B01640.skullkid = this;
+            D_80B01640.skullkid = thisx;
             thisx->destroy = NULL;
             thisx->draw = NULL;
             thisx->update = func_80B00964;
@@ -312,38 +314,34 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         case 6:
             D_80B01640.unk0 = 1;
-            D_80B01640.skullkid = this;
+            D_80B01640.skullkid = thisx;
             thisx->destroy = NULL;
             thisx->draw = NULL;
             thisx->update = func_80B01244;
             thisx->flags &= ~5;
             thisx->flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
-
             thisx->focus.pos.x = 1230.0f;
             thisx->focus.pos.y = -90.0f;
             thisx->focus.pos.z = 450.0f;
-
             this->actionFunc = func_80B00A54;
             break;
 
         default:
             thisx->params = type;
-
-            if ((thisx->params != 0) && (thisx->params != 1) && (thisx->params != 2)) {
-                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_SAW) {
+            if (((thisx->params != 0) && (thisx->params != 1)) && (thisx->params != 2)) {
+                if (gSaveContext.inventory.items[gItemSlots[ITEM_POCKET_EGG]] < ITEM_SAW) {
                     Actor_Kill(thisx);
                     return;
                 }
             }
 
             func_80AFE428(this);
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005F40, &D_06000E10, this->jointTable,
-                               this->morphTable, 19);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005F40, &D_06000E10,
+                               this->jointTable, this->morphTable, 19);
             if ((type >= 0) && (type < 3)) {
                 thisx->flags &= ~5;
                 thisx->flags |= 9;
-
                 Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_NPC);
             }
 
@@ -352,7 +350,6 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             }
 
             if ((type > 0) && (type < 3)) {
-                // ocarina minigame
                 thisx->targetMode = 7;
                 this->posCopy = thisx->world.pos;
                 D_80B01648[type - 1].unk0 = 1;
@@ -367,32 +364,25 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
             thisx->colChkInfo.damageTable = &D_80B016A4;
             thisx->colChkInfo.health = 10;
-
             Collider_InitCylinder(globalCtx, &this->collider);
-            Collider_SetCylinderType1(globalCtx, &this->collider, thisx, &D_80B01678);
-
+            Collider_SetCylinderType1(globalCtx, &this->collider, &this->actor, &D_80B01678);
             ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 40.0f);
             Actor_SetScale(thisx, 0.01f);
-
             this->textId = 0;
-            thisx->textId = 0;
-
+            this->actor.textId = 0;
             this->playbackTimer = 0;
             this->unk_2D2 = 0;
             this->unk_2D4 = 3;
             this->unk_2D5 = 3;
-
-            thisx->speedXZ = 0.0f;
-            thisx->velocity.y = 0.0f;
-            thisx->gravity = -1.0f;
-
+            this->actor.speedXZ = 0.0f;
+            this->actor.velocity.y = 0.0f;
+            this->actor.gravity = -1.0f;
             func_80AFE390(this);
-
             player = PLAYER;
             osSyncPrintf("Player_X : %f\n", player->actor.world.pos.x);
             osSyncPrintf("Player_Z : %f\n", player->actor.world.pos.z);
-            osSyncPrintf("World_X  : %f\n", thisx->world.pos.x);
-            osSyncPrintf("World_Z  : %f\n", thisx->world.pos.z);
+            osSyncPrintf("World_X  : %f\n", this->actor.world.pos.x);
+            osSyncPrintf("World_Z  : %f\n", this->actor.world.pos.z);
             osSyncPrintf("Center_X : %f\n", this->center.x);
             osSyncPrintf("Center_Z : %f\n\n", this->center.z);
             break;
@@ -402,6 +392,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/EnSkj_Init.s")
 #endif
 
+#undef NON_MATCHING
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSkj* this = THIS;
@@ -460,65 +451,64 @@ s32 func_80AFE9D4(EnSkj* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/func_80AFEAEC.s")
-//void func_80AFEAEC(GlobalContext* globalCtx, Vec3f* pos) {
-//    EffectSparkInit effect;
-//
-//    s32 sp20;
-//
-//    effect.position.x = pos->x;
-//    effect.position.y = pos->y;
-//    effect.position.z = pos->z;
-//    effect.uDiv = 5;
-//    effect.vDiv = 5;
-//    effect.speed = 8.0f;
-//    effect.gravity = -1.0f;
-//
-//
-//    effect.colorStart[0].r = 0;
-//    effect.colorStart[0].g = 0;
-//    effect.colorStart[0].b = 128;
-//    effect.colorStart[0].a = 255;
-//
-//    effect.colorStart[1].r = 0;
-//    effect.colorStart[1].g = 0;
-//    effect.colorStart[1].b = 128;
-//    effect.colorStart[1].a = 255;
-//
-//    effect.colorStart[2].r = 0;
-//    effect.colorStart[2].g = 0;
-//    effect.colorStart[2].b = 128;
-//    effect.colorStart[2].a = 255;
-//
-//    effect.colorStart[3].r = 0;
-//    effect.colorStart[3].g = 0;
-//    effect.colorStart[3].b = 128;
-//    effect.colorStart[3].a = 255;
-//
-//    effect.colorEnd[0].r = 0;
-//    effect.colorEnd[0].g = 0;
-//    effect.colorEnd[0].b = 32;
-//    effect.colorEnd[0].a = 0;
-//
-//    effect.colorEnd[1].r = 0;
-//    effect.colorEnd[1].g = 0;
-//    effect.colorEnd[1].b = 32;
-//    effect.colorEnd[1].a = 0;
-//
-//    effect.colorEnd[2].r = 0;
-//    effect.colorEnd[2].g = 0;
-//    effect.colorEnd[2].b = 64;
-//    effect.colorEnd[2].a = 0;
-//
-//    effect.colorEnd[0].r = 0;
-//    effect.colorEnd[0].g = 0;
-//    effect.colorEnd[0].b = 64;
-//    effect.colorEnd[0].a = 0;
-//
-//    effect.timer = 0;
-//    effect.duration = 8;
-//    Effect_Add(globalCtx, (s32*)&sp20, EFFECT_SPARK, 0, 1, &effect);
-//}
+// Create Spark
+void func_80AFEAEC(GlobalContext* globalCtx, Vec3f* pos) {
+    EffectSparkInit effect;
+    s32 sp20;
+
+    effect.position.x = pos->x;
+    effect.position.y = pos->y;
+    effect.position.z = pos->z;
+    effect.uDiv = 5;
+    effect.vDiv = 5;
+
+    effect.colorStart[0].r = 0;
+    effect.colorStart[0].g = 0;
+    effect.colorStart[0].b = 128;
+    effect.colorStart[0].a = 255;
+
+    effect.colorStart[1].r = 0;
+    effect.colorStart[1].g = 0;
+    effect.colorStart[1].b = 128;
+    effect.colorStart[1].a = 255;
+
+    effect.colorStart[2].r = 0;
+    effect.colorStart[2].g = 0;
+    effect.colorStart[2].b = 128;
+    effect.colorStart[2].a = 255;
+
+    effect.colorStart[3].r = 0;
+    effect.colorStart[3].g = 0;
+    effect.colorStart[3].b = 128;
+    effect.colorStart[3].a = 255;
+
+    effect.colorEnd[0].r = 0;
+    effect.colorEnd[0].g = 0;
+    effect.colorEnd[0].b = 32;
+    effect.colorEnd[0].a = 0;
+
+    effect.colorEnd[1].r = 0;
+    effect.colorEnd[1].g = 0;
+    effect.colorEnd[1].b = 32;
+    effect.colorEnd[1].a = 0;
+
+    effect.colorEnd[2].r = 0;
+    effect.colorEnd[2].g = 0;
+    effect.colorEnd[2].b = 64;
+    effect.colorEnd[2].a = 0;
+
+    effect.colorEnd[3].r = 0;
+    effect.colorEnd[3].g = 0;
+    effect.colorEnd[3].b = 64;
+    effect.colorEnd[3].a = 0;
+
+    effect.speed = 8.0f;
+    effect.gravity = -1.0f;
+
+    effect.timer = 0;
+    effect.duration = 8;
+    Effect_Add(globalCtx, &sp20, EFFECT_SPARK, 0, 1, &effect);
+}
 
 s32 func_80AFEC3C(EnSkj* this, GlobalContext* globalCtx) {
     s16 yawDiff;
@@ -675,7 +665,10 @@ void func_80AFF07C(EnSkj* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/func_80AFF16C.s")
+void func_80AFF16C(EnSkj* this) {
+    EnSkj_ChangeAnim(this, 3);
+    EnSkj_SetupAction(this, 3);
+}
 
 void func_80AFF19C(EnSkj* this, GlobalContext* globalCtx) {
     s16 lastFrame = Animation_GetLastFrame(&D_06006A98);
@@ -685,7 +678,10 @@ void func_80AFF19C(EnSkj* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/func_80AFF1F0.s")
+void func_80AFF1F0(EnSkj* this) {
+    EnSkj_ChangeAnim(this, 4);
+    EnSkj_SetupAction(this, 4);
+}
 
 void func_80AFF220(EnSkj* this, GlobalContext* globalCtx) {
     s16 lastFrame = Animation_GetLastFrame(&D_06006D84);
@@ -700,7 +696,12 @@ void func_80AFF220(EnSkj* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/func_80AFF2A0.s")
+void func_80AFF2A0(EnSkj* this) {
+    func_80AFE390(this);
+    this->actor.speedXZ = 0.0f;
+    EnSkj_ChangeAnim(this, 5);
+    EnSkj_SetupAction(this, 5);
+}
 
 void func_80AFF2E0(EnSkj* this, GlobalContext* globalCtx) {
     s16 lastFrame = Animation_GetLastFrame(&D_06007128);
