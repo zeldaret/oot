@@ -28,9 +28,8 @@
         <Collision Name="gGanonsCastleRubbleTallCol" Offset="0x3AF0"/>
 
         <!-- The following are unused -->
-        <!-- This is probably an unused spike variant of the rubbles, but somebody said it looked like a laser, so I'm keeping it someone says otherwise (also, it is probably an "ia16", but in this format looks like a laser) -->
-        <Texture Name="gGanonsCastleUnusedLaserTex" OutName="ganons_castle_unused_cool_laser_beam_unused_variant" Format="rgba32" Width="32" Height="32" Offset="0x8B20"/>
+        <Texture Name="gGanonsCastleUnusedSpikeVariantTex" OutName="ganons_castle_unused_spike_variant" Format="ia16" Width="64" Height="32" Offset="0x8B20"/>
         <Texture Name="gGanonsCastleUnusedWallTex" OutName="ganons_castle_unused_wall" Format="rgb5a1" Width="32" Height="32" Offset="0x9B20"/>
-        <Texture Name="gGanonsCastleUnusedTex_00A320" OutName="ganons_castle_unused_00A320" Format="ia16" Width="16" Height="16" Offset="0xA320"/>
+        <Texture Name="gGanonsCastleUnusedTex_00A320" OutName="ganons_castle_unused_00A320" Format="ia16" Width="16" Height="32" Offset="0xA320"/>
     </File>
 </Root>
