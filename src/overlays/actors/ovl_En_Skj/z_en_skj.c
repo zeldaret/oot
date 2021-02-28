@@ -1,5 +1,6 @@
 #include "z_en_skj.h"
 #include "../ovl_En_Skjneedle/z_en_skjneedle.h"
+#include "objects/object_skj/object_skj.h"
 
 #define FLAGS 0x02000015
 
@@ -187,10 +188,16 @@ typedef struct {
 } SkullkidAnimationEntry;
 
 SkullkidAnimationEntry D_80B016D4[] = {
-    { 0x0600051C, ANIMMODE_ONCE, 0.0f }, { 0x060007A4, ANIMMODE_ONCE, 0.0f }, { 0x06000E10, ANIMMODE_LOOP, 0.0f },
-    { 0x06006A98, ANIMMODE_ONCE, 0.0f }, { 0x06006D84, ANIMMODE_ONCE, 0.0f }, { 0x06007128, ANIMMODE_ONCE, 0.0f },
-    { 0x06008174, ANIMMODE_LOOP, 0.0f }, { 0x06008374, ANIMMODE_LOOP, 0.0f }, { 0x06008E14, ANIMMODE_LOOP, 0.0f },
-    { 0x06008B9C, ANIMMODE_LOOP, 0.0f },
+    { &gSkullKidAnimBackflip, ANIMMODE_ONCE, 0.0f },
+    { &gSkullKidAnimShootNeedle, ANIMMODE_ONCE, 0.0f },
+    { &gSkullKidAnimPlayFlute, ANIMMODE_LOOP, 0.0f },
+    { &gSkullKidAnimDie, ANIMMODE_ONCE, 0.0f },
+    { &gSkullKidAnimHit, ANIMMODE_ONCE, 0.0f },
+    { &gSkullKidAnimLand, ANIMMODE_ONCE, 0.0f },
+    { &gSkullKidAnimLookLeftAndRight, ANIMMODE_LOOP, 0.0f }, //Unused
+    { &gSkullKidAnimFightingStance, ANIMMODE_LOOP, 0.0f },
+    { &gSkullKidAnimWalkToPlayer, ANIMMODE_LOOP, 0.0f },
+    { &gSkullKidAnimWait, ANIMMODE_LOOP, 0.0f },
 };
 
 EnSkjActionFunc D_80B0174C[] = {
@@ -207,14 +214,6 @@ InitChainEntry D_80B017C0[] = {
 };
 
 s32 D_80B01EA0; // gets set if actor flags & 0x100 is set
-
-extern UNK_TYPE D_060007A4;
-extern AnimationHeader D_06000E10;
-extern Gfx D_060014C8[];
-extern FlexSkeletonHeader D_06005F40;
-extern UNK_TYPE D_06006A98;
-extern UNK_TYPE D_06006D84;
-extern UNK_TYPE D_06007128;
 
 void EnSkj_ChangeAnim(EnSkj* this, u8 animIndex) {
     f32 startFrame = Animation_GetLastFrame(D_80B016D4[animIndex].animation);
@@ -292,7 +291,7 @@ void func_80AFE428(EnSkj* this) {
     }
 }
 
-#define NON_MATCHING
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
@@ -333,14 +332,14 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.params = type;
             if (((this->actor.params != 0) && (this->actor.params != 1)) && (this->actor.params != 2)) {
                 if (gSaveContext.inventory.items[gItemSlots[ITEM_POCKET_EGG]] < ITEM_SAW) {
-                    Actor_Kill(&this->actor);
-                    return;
+                  //  Actor_Kill(&this->actor);
+                    //return;
                 }
             }
 
             func_80AFE428(this);
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005F40, &D_06000E10,
-                               this->jointTable, this->morphTable, 19);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gSkullKidSkel, &gSkullKidAnimPlayFlute, this->jointTable,
+                               this->morphTable, 19);
             if ((type >= 0) && (type < 3)) {
                 this->actor.flags &= ~5;
                 this->actor.flags |= 9;
@@ -388,7 +387,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             osSyncPrintf("World_Z  : %f\n", this->actor.world.pos.z);
             osSyncPrintf("Center_X : %f\n", this->center.x);
             osSyncPrintf("Center_Z : %f\n\n", this->center.z);
-            
+
             break;
     }
 }
@@ -626,7 +625,7 @@ void func_80AFEF5C(EnSkj* this) {
 
 void func_80AFEF98(EnSkj* this, GlobalContext* globalCtx) {
     u8 val;
-    s16 lastFrame = Animation_GetLastFrame(&D_060007A4);
+    s16 lastFrame = Animation_GetLastFrame(&gSkullKidAnimShootNeedle);
 
     if ((this->skelAnime.curFrame == lastFrame) && (this->unk_2CC == 0)) {
         val = this->unk_2D4;
@@ -675,7 +674,7 @@ void func_80AFF16C(EnSkj* this) {
 }
 
 void func_80AFF19C(EnSkj* this, GlobalContext* globalCtx) {
-    s16 lastFrame = Animation_GetLastFrame(&D_06006A98);
+    s16 lastFrame = Animation_GetLastFrame(&gSkullKidAnimDie);
 
     if (this->skelAnime.curFrame == lastFrame) {
         func_80AFF660(this);
@@ -688,7 +687,7 @@ void func_80AFF1F0(EnSkj* this) {
 }
 
 void func_80AFF220(EnSkj* this, GlobalContext* globalCtx) {
-    s16 lastFrame = Animation_GetLastFrame(&D_06006D84);
+    s16 lastFrame = Animation_GetLastFrame(&gSkullKidAnimHit);
 
     if (this->skelAnime.curFrame == lastFrame) {
         if (this->unk_2D5 == 0) {
@@ -708,7 +707,7 @@ void func_80AFF2A0(EnSkj* this) {
 }
 
 void func_80AFF2E0(EnSkj* this, GlobalContext* globalCtx) {
-    s16 lastFrame = Animation_GetLastFrame(&D_06007128);
+    s16 lastFrame = Animation_GetLastFrame(&gSkullKidAnimLand);
     if (this->skelAnime.curFrame == lastFrame) {
         func_80AFF3D0(this);
     }
@@ -1043,7 +1042,7 @@ void func_80B00068(EnSkj* this) {
 }
 
 void func_80B00098(EnSkj* this, GlobalContext* globalCtx) {
-    s16 lastFrame = Animation_GetLastFrame(&D_06007128);
+    s16 lastFrame = Animation_GetLastFrame(&gSkullKidAnimLand);
     if (this->skelAnime.curFrame == lastFrame) {
         func_80B000EC(this);
     }
@@ -1227,7 +1226,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f dropPos;
     s32 pad;
     EnSkj* this = THIS;
-
+    
     D_80B01EA0 = func_8002F194(&this->actor, globalCtx);
 
     this->timer++;
@@ -1562,7 +1561,7 @@ void func_80B01360(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         Matrix_RotateRPY(-0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj.c", 2430),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_060014C8);
+        gSPDisplayList(POLY_OPA_DISP++, gSKJskullMaskDList);
         Matrix_Pop();
     }
 

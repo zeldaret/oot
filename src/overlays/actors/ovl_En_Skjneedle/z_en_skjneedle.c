@@ -5,6 +5,7 @@
  */
 
 #include "z_en_skjneedle.h"
+#include "objects/object_skj/object_skj.h"
 
 #define FLAGS 0x00000205
 
@@ -16,8 +17,6 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 s32 func_80B01F6C(EnSkjneedle* this);
-
-extern Gfx D_06000EB0[];
 
 const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
@@ -73,9 +72,9 @@ s32 func_80B01F6C(EnSkjneedle* this) {
     return 0;
 }
 
-void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx) {
+void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnSkjneedle* this = THIS;
-    GlobalContext* preserve = globalCtx; // workaround to store globalCtx in $s1 and not on the stack
+    GlobalContext* globalCtx = globalCtx2;
 
     this->unk_1E0++;
     if (this->unk_1E2 != 0) {
@@ -84,7 +83,6 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (func_80B01F6C(this) || this->unk_1E2 == 0) {
         Actor_Kill(&this->actor);
     } else {
-        globalCtx = preserve; // workaround
         Actor_SetScale(&this->actor, 0.01f);
         Collider_UpdateCylinder(&this->actor, &this->collider);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
@@ -102,7 +100,7 @@ void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 205),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_06000EB0);
+    gSPDisplayList(POLY_OPA_DISP++, gSKJeedleDList);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 210);
 }

@@ -2908,7 +2908,11 @@ beginseg
     //include "build/data/overlays/actors/z_en_skj.data.o"
     //include "build/data/overlays/actors/z_en_skj.rodata.o"
     //include "build/data/overlays/actors/z_en_skj.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Skj/ovl_En_Skj_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_skj.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -5019,7 +5023,9 @@ endseg
 beginseg
     name "object_skj"
     romalign 0x1000
-    include "build/baserom/object_skj.o"
+    //include "build/baserom/object_skj.o"
+    include "build/assets/objects/object_skj/object_skj.o"
+    number 6
 endseg
 
 beginseg
