@@ -40,11 +40,10 @@
 
 
         <!-- Darunia's eyes textures -->
-        <!-- TODO: Rename darunia_eye_half1 and darunia_eye_half2 to something more clear -->
         <Texture Name="gDaruniaEyeOpenTex" OutName="darunia_eye_open" Format="ci8" Width="32" Height="32" Offset="0x8080"/>
-        <Texture Name="gDaruniaEyeHalf1Tex" OutName="darunia_eye_half1" Format="ci8" Width="32" Height="32" Offset="0x8480"/>
+        <Texture Name="gDaruniaEyeOpeningTex" OutName="darunia_eye_opening" Format="ci8" Width="32" Height="32" Offset="0x8480"/>
         <Texture Name="gDaruniaEyeShutTex" OutName="darunia_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x8880"/>
-        <Texture Name="gDaruniaEyeHalf2Tex" OutName="darunia_eye_half2" Format="ci8" Width="32" Height="32" Offset="0xA540"/>
+        <Texture Name="gDaruniaEyeClosingTex" OutName="darunia_eye_closing" Format="ci8" Width="32" Height="32" Offset="0xA540"/>
 
         <!-- Darunia's mouth textures -->
         <Texture Name="gDaruniaMouthSeriousTex" OutName="darunia_mouth_serious" Format="ci8" Width="64" Height="32" Offset="0x8C80"/>

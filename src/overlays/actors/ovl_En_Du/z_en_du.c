@@ -162,33 +162,33 @@ void func_809FDE24(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FDE9C(EnDu* this) {
-    if (this->unk_1F2 > 0) {
-        this->unk_1F2--;
+    if (this->blinkTimer > 0) {
+        this->blinkTimer--;
     } else {
-        this->unk_1F2 = 0;
+        this->blinkTimer = 0;
     }
-    if (this->unk_1F2 < 3) {
-        this->eyeTexIndex = this->unk_1F2;
+    if (this->blinkTimer < 3) {
+        this->eyeTexIndex = this->blinkTimer;
     }
 
     switch (this->unk_1EC) {
         case 0:
-            if (this->unk_1F2 == 0) {
-                this->unk_1F2 = Rand_S16Offset(0x1E, 0x1E);
+            if (this->blinkTimer == 0) {
+                this->blinkTimer = Rand_S16Offset(30, 30);
             }
             break;
         case 1:
-            if (this->unk_1F2 == 0) {
+            if (this->blinkTimer == 0) {
                 this->eyeTexIndex = 2;
             }
             break;
         case 2:
-            if (this->unk_1F2 == 0) {
+            if (this->blinkTimer == 0) {
                 this->eyeTexIndex = 2;
             }
             break;
         case 3:
-            if (this->unk_1F2 == 0) {
+            if (this->blinkTimer == 0) {
                 this->eyeTexIndex = 0;
             }
             break;
@@ -208,6 +208,7 @@ void func_809FDE9C(EnDu* this) {
             this->mouthTexIndex = 0;
             break;
     }
+
     if (this->unk_1EE == 1) {
         this->noseTexIndex = 1;
     } else {
@@ -437,13 +438,13 @@ void func_809FE890(EnDu* this, GlobalContext* globalCtx) {
             }
             this->unk_1EA = csAction->action;
             if (this->unk_1EA == 7) {
-                this->unk_1F2 = 0xB;
+                this->blinkTimer = 11;
                 this->unk_1EC = 2;
                 this->unk_1ED = 2;
                 this->unk_1EE = 1;
             }
             if (this->unk_1EA == 8) {
-                this->unk_1F2 = 0xB;
+                this->blinkTimer = 11;
                 this->unk_1EC = 3;
                 this->unk_1ED = 3;
                 this->unk_1EE = 0;
@@ -475,7 +476,7 @@ void func_809FE890(EnDu* this, GlobalContext* globalCtx) {
 }
 
 void func_809FEB08(EnDu* this, GlobalContext* globalCtx) {
-    this->unk_1F2 = 0xB;
+    this->blinkTimer = 11;
     this->unk_1EC = 0;
     this->unk_1ED = 0;
     this->unk_1EE = 0;
@@ -586,7 +587,7 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 }
 
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeHalf1Tex, gDaruniaEyeShutTex, gDaruniaEyeHalf2Tex };
+    static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
     static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthTeethsTex, gDaruniaMouthOpenTex,
                                      gDaruniaMouthHappyTex };
     static u64* sNoseTextures[] = { gDaruniaNoseSeriousTex, gDaruniaNoseHappyTex };
