@@ -20,7 +20,7 @@ static s32 sUnused = 0;
 #include "z_demo_du_cutscene_data.c" EARLY
 
 static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
-static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthTeethsTex, gDaruniaMouthOpenTex, gDaruniaMouthHappyTex };
+static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGriningTex, gDaruniaMouthOpenTex, gDaruniaMouthHappyTex };
 
 /**
  * Cs => Cutscene

@@ -588,7 +588,7 @@ void EnDu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnDu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static u64* sEyeTextures[] = { gDaruniaEyeOpenTex, gDaruniaEyeOpeningTex, gDaruniaEyeShutTex, gDaruniaEyeClosingTex };
-    static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthTeethsTex, gDaruniaMouthOpenTex,
+    static u64* sMouthTextures[] = { gDaruniaMouthSeriousTex, gDaruniaMouthGriningTex, gDaruniaMouthOpenTex,
                                      gDaruniaMouthHappyTex };
     static u64* sNoseTextures[] = { gDaruniaNoseSeriousTex, gDaruniaNoseHappyTex };
 
