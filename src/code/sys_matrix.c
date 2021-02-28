@@ -29,7 +29,7 @@ void Matrix_Push(void) {
     sCurrentMatrix++;
 }
 
-void Matrix_Pull(void) {
+void Matrix_Pop(void) {
     sCurrentMatrix--;
     if (sCurrentMatrix < sMatrixStack) {
         __assert("Matrix_now >= Matrix_stack", "../sys_matrix.c", 176);

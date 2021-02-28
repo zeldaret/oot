@@ -166,7 +166,7 @@ void EnDha_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos.y += 50.0f;
     this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 8;
-    this->unk_1CE = -0x4000;
+    this->unk_1CE.x = -0x4000;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItem);
     this->actor.flags &= ~1;
@@ -198,7 +198,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
     Vec3f playerPos = player->actor.world.pos;
-    Vec3s test;
+    Vec3s unkRot;
     s16 result;
     s32 resultAbs;
 
@@ -210,7 +210,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         playerPos.y += 56.0f;
     }
     if (this->actor.xzDistToPlayer <= 100.0f) {
-        this->unk_1D6.x = this->unk_1D0.z = this->unk_1D0.y = 0;
+        this->unk_1D4.y = this->unk_1D4.x = this->unk_1CE.z = 0;
         if (Math_Vec3f_DistXYZ(&playerPos, &this->unk_1DC) <= 12.0f) {
             if (this->unk_1CC == 0) {
                 if (globalCtx->grabPlayer(globalCtx, player)) {
@@ -223,7 +223,7 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
                 }
             } else {
                 this->unk_1CA += 0x1194;
-                this->unk_1D0.y = Math_SinS(this->unk_1CA) * 1820.0f;
+                this->unk_1CE.z = Math_SinS(this->unk_1CA) * 1820.0f;
                 if (!(player->stateFlags2 & 0x80)) {
                     this->unk_1CC = 0;
                     func_809ECF60(this);
@@ -233,9 +233,9 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DEADHAND_GRIP);
                 }
             }
-            func_80035844(&this->unk_1E8, &playerPos, &this->unk_1D0.z, 0);
-            this->unk_1D6.x -= this->actor.shape.rot.y + this->unk_1D0.y;
-            this->unk_1D0.z -= this->actor.shape.rot.x + this->unk_1CE + this->unk_1D0.x;
+            func_80035844(&this->unk_1E8, &playerPos, &this->unk_1D4, 0);
+            this->unk_1D4.y -= this->actor.shape.rot.y + this->unk_1CE.z;
+            this->unk_1D4.x -= this->actor.shape.rot.x + this->unk_1CE.x + this->unk_1CE.y;
         } else {
             if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
                 player->stateFlags2 &= ~0x80;
@@ -251,24 +251,24 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->unk_1DC.x, playerPos.x, 1.0f, 16.0f, 0.0f);
         Math_SmoothStepToF(&this->unk_1DC.y, playerPos.y, 1.0f, 16.0f, 0.0f);
         Math_SmoothStepToF(&this->unk_1DC.z, playerPos.z, 1.0f, 16.0f, 0.0f);
-        func_80035844(&this->unk_1F4, &this->unk_1DC, &test.x, 0);
+        func_80035844(&this->unk_1F4, &this->unk_1DC, &unkRot, 0);
         Matrix_Translate(this->unk_1DC.x, this->unk_1DC.y, this->unk_1DC.z, MTXMODE_NEW);
-        Matrix_RotateRPY(test.x, test.y, 0, MTXMODE_APPLY);
+        Matrix_RotateRPY(unkRot.x, unkRot.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809ED758, &this->unk_1F4);
         Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, MTXMODE_NEW);
-        func_80035844(&this->actor.world.pos, &this->unk_1F4, &test.x, 0);
-        Matrix_RotateRPY(test.x, test.y, 0, MTXMODE_APPLY);
+        func_80035844(&this->actor.world.pos, &this->unk_1F4, &unkRot, 0);
+        Matrix_RotateRPY(unkRot.x, unkRot.y, 0, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_809ED74C, &this->unk_1F4);
-        this->unk_1CE = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_1F4);
+        this->unk_1CE.x = Math_Vec3f_Pitch(&this->actor.world.pos, &this->unk_1F4);
         result = Math_Vec3f_Yaw(&this->actor.world.pos, &this->unk_1F4) - this->actor.shape.rot.y;
         resultAbs = ABS(result);
         if (resultAbs >= 0x4000) {
-            this->unk_1CE = -0x8000 - this->unk_1CE;
+            this->unk_1CE.x = -0x8000 - this->unk_1CE.x;
         }
-        this->unk_1D0.x = (Math_Vec3f_Pitch(&this->unk_1F4, &this->unk_1DC) - this->unk_1CE);
-        if (this->unk_1D0.x < 0) {
-            this->unk_1CE += this->unk_1D0.x * 2;
-            this->unk_1D0.x *= -2;
+        this->unk_1CE.y = (Math_Vec3f_Pitch(&this->unk_1F4, &this->unk_1DC) - this->unk_1CE.x);
+        if (this->unk_1CE.y < 0) {
+            this->unk_1CE.x += this->unk_1CE.y * 2;
+            this->unk_1CE.y *= -2;
         }
     } else {
         if ((player->stateFlags2 & 0x80) && (&this->actor == player->actor.parent)) {
@@ -277,8 +277,8 @@ void func_809ECA50(EnDha* this, GlobalContext* globalCtx) {
             player->unk_850 = 200;
         }
         this->actor.home.rot.z = 1;
-        Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 0x3E8, 0);
-        Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 0x3E8, 0);
+        Math_SmoothStepToS(&this->unk_1CE.y, 0, 1, 0x3E8, 0);
+        Math_SmoothStepToS(&this->unk_1CE.x, -0x4000, 1, 0x3E8, 0);
         SkelAnime_Update(&this->skelAnime);
     }
 }
@@ -296,9 +296,9 @@ void func_809ECF8C(EnDha* this, GlobalContext* globalCtx) {
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
-    Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 2000, 0);
-    Math_SmoothStepToS(&this->unk_1D0.y, 0, 1, 600, 0);
-    Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 2000, 0);
+    Math_SmoothStepToS(&this->unk_1CE.y, 0, 1, 2000, 0);
+    Math_SmoothStepToS(&this->unk_1CE.z, 0, 1, 600, 0);
+    Math_SmoothStepToS(&this->unk_1CE.x, -0x4000, 1, 2000, 0);
     SkelAnime_Update(&this->skelAnime);
     this->unk_1C8--;
     if (this->unk_1C8 == 0) {
@@ -331,8 +331,8 @@ void EnDha_Die(EnDha* this, GlobalContext* globalCtx) {
         player->actor.parent = NULL;
         player->unk_850 = 200;
     }
-    Math_SmoothStepToS(&this->unk_1D0.x, 0, 1, 0x7D0, 0);
-    result = Math_SmoothStepToS(&this->unk_1CE, -0x4000, 1, 0x7D0, 0);
+    Math_SmoothStepToS(&this->unk_1CE.y, 0, 1, 0x7D0, 0);
+    result = Math_SmoothStepToS(&this->unk_1CE.x, -0x4000, 1, 0x7D0, 0);
     SkelAnime_Update(&this->skelAnime);
     if (result == 0) {
         vector = this->actor.world.pos;
@@ -398,14 +398,14 @@ s32 EnDha_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
     EnDha* this = THIS;
 
     if (limbIndex == 1) {
-        rot->y = -(s16)(this->unk_1CE + 0x4000);
-        rot->z += this->unk_1D0.y;
+        rot->y = -(s16)(this->unk_1CE.x + 0x4000);
+        rot->z += this->unk_1CE.z;
     } else if (limbIndex == 2) {
-        rot->z = this->unk_1D0.x;
-        rot->y -= this->unk_1D0.y;
+        rot->z = this->unk_1CE.y;
+        rot->y -= this->unk_1CE.z;
     } else if (limbIndex == 3) {
-        rot->y = -this->unk_1D6.x;
-        rot->z = -this->unk_1D0.z;
+        rot->y = -this->unk_1D4.y;
+        rot->z = -this->unk_1D4.x;
     }
     return false;
 }
