@@ -1,6 +1,6 @@
 #include "global.h"
 #include "vt.h"
-
+#include "../overlays/actors/ovl_En_Skj/z_en_skj.h"
 void* D_8012D1F0 = NULL;
 UNK_TYPE D_8012D1F4 = 0; // unused
 Input* D_8012D1F8 = NULL;
@@ -415,7 +415,22 @@ void Gameplay_Update(GlobalContext* globalCtx) {
     s32 pad2;
 
     input = globalCtx->state.input;
-
+    //{
+    //    EnSkj* this = Actor_Find(&globalCtx->actorCtx, ACTOR_EN_SKJ, ACTORCAT_PROP);
+    //    if (this != NULL) {
+    //        GfxPrint printer;
+    //        u32 offset = (u32)(this->actionFunc) - (u32)(this->actor.overlayEntry->loadedRamAddr);
+    //        u32 vram = (u32)this->actor.overlayEntry->vramStart + offset;
+    //        GfxPrint_Init(&printer);
+    //        GfxPrint_Open(&printer, globalCtx->state.gfxCtx->polyOpa.p);
+    //        GfxPrint_SetPos(&printer, 4, 4);
+    //        GfxPrint_SetColor(&printer, 255, 255, 255, 255);
+    //        // GfxPrint_SetPosPx(&printer, this->actor.projectedPos.x, this->actor.projectedPos.z);
+    //        GfxPrint_Printf(&printer, "Action %x", vram);
+    //        globalCtx->state.gfxCtx->polyOpa.p = GfxPrint_Close(&printer);
+    //        GfxPrint_Destroy(&printer);
+    //    }
+    //}
     if ((SREG(1) < 0) || (DREG(0) != 0)) {
         SREG(1) = 0;
         ZeldaArena_Display();

@@ -38,6 +38,19 @@ typedef struct EnSkj {
     /* 0x02F4 */ Vec3f posCopy;
 } EnSkj; // size = 0x0300
 
+typedef enum {
+    /* 0 */ SKJ_ANIM_BACKFLIP,
+    /* 1 */ SKJ_ANIM_SHOOT_NEEDLE,
+    /* 2 */ SKJ_ANIM_PLAY_FLUTE,
+    /* 3 */ SKJ_ANIM_DIE,
+    /* 4 */ SKJ_ANIM_HIT,
+    /* 5 */ SKJ_ANIM_LAND,
+    /* 6 */ SKJ_ANIM_LOOK_LEFT_RIGHT,
+    /* 7 */ SKJ_ANIM_FIGHTING_STANCE,
+    /* 8 */ SKJ_ANIM_WALK_TO_PLAYER,
+    /* 9 */ SKJ_ANIM_WAIT
+} SKULLKID_ANIMS;
+
 extern const ActorInit En_Skj_InitVars;
 
 #endif

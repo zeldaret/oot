@@ -174,7 +174,7 @@ DamageTable D_80B016A4 = {
     /* Unknown 2     */ DMG_ENTRY(0, 0x0),
 };
 
-s32 D_80B016C4[] = {
+static s32 sOcarinaGameRewards[] = {
     GI_RUPEE_GREEN,
     GI_RUPEE_BLUE,
     GI_HEART_PIECE,
@@ -187,20 +187,20 @@ typedef struct {
     f32 morphFrames;
 } SkullkidAnimationEntry;
 
-SkullkidAnimationEntry D_80B016D4[] = {
+static SkullkidAnimationEntry sSkullKidAnimations[] = {
     { &gSkullKidAnimBackflip, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidAnimShootNeedle, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidAnimPlayFlute, ANIMMODE_LOOP, 0.0f },
     { &gSkullKidAnimDie, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidAnimHit, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidAnimLand, ANIMMODE_ONCE, 0.0f },
-    { &gSkullKidAnimLookLeftAndRight, ANIMMODE_LOOP, 0.0f }, //Unused
+    { &gSkullKidAnimLookLeftAndRight, ANIMMODE_LOOP, 0.0f }, // Unused
     { &gSkullKidAnimFightingStance, ANIMMODE_LOOP, 0.0f },
     { &gSkullKidAnimWalkToPlayer, ANIMMODE_LOOP, 0.0f },
     { &gSkullKidAnimWait, ANIMMODE_LOOP, 0.0f },
 };
 
-EnSkjActionFunc D_80B0174C[] = {
+static EnSkjActionFunc sActionFuncs[] = {
     func_80AFEECC, func_80AFEF98, func_80AFF07C, func_80AFF19C, func_80AFF220, func_80AFF2E0,
     func_80AFF380, func_80AFF424, func_80AFF620, func_80AFF688, func_80AFF7D8, func_80AFFA0C,
     func_80AFFD14, func_80AFFD84, func_80AFFE44, func_80AFFED4, func_80AFFF58, func_80B00018,
@@ -213,19 +213,19 @@ InitChainEntry D_80B017C0[] = {
     ICHAIN_F32(targetArrowOffset, 30, ICHAIN_STOP),
 };
 
-s32 D_80B01EA0; // gets set if actor flags & 0x100 is set
+static s32 D_80B01EA0; // gets set if actor flags & 0x100 is set
 
 void EnSkj_ChangeAnim(EnSkj* this, u8 animIndex) {
-    f32 startFrame = Animation_GetLastFrame(D_80B016D4[animIndex].animation);
+    f32 startFrame = Animation_GetLastFrame(sSkullKidAnimations[animIndex].animation);
 
     this->animIndex = animIndex;
-    Animation_Change(&this->skelAnime, D_80B016D4[animIndex].animation, 1.0f, 0.0f, startFrame,
-                     D_80B016D4[animIndex].mode, D_80B016D4[animIndex].morphFrames);
+    Animation_Change(&this->skelAnime, sSkullKidAnimations[animIndex].animation, 1.0f, 0.0f, startFrame,
+                     sSkullKidAnimations[animIndex].mode, sSkullKidAnimations[animIndex].morphFrames);
 }
 
 void EnSkj_SetupAction(EnSkj* this, u8 action) {
     this->action = action;
-    this->actionFunc = D_80B0174C[action];
+    this->actionFunc = sActionFuncs[action];
 
     switch (action) {
         case 0:
@@ -332,8 +332,8 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->actor.params = type;
             if (((this->actor.params != 0) && (this->actor.params != 1)) && (this->actor.params != 2)) {
                 if (gSaveContext.inventory.items[gItemSlots[ITEM_POCKET_EGG]] < ITEM_SAW) {
-                  //  Actor_Kill(&this->actor);
-                    //return;
+                    //  Actor_Kill(&this->actor);
+                    // return;
                 }
             }
 
@@ -395,7 +395,6 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Skj/EnSkj_Init.s")
 #endif
 
-#undef NON_MATCHING
 void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSkj* this = THIS;
@@ -585,7 +584,7 @@ void func_80AFEE84(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
     this->actor.speedXZ = -8.0f;
 
-    EnSkj_ChangeAnim(this, 0);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     EnSkj_SetupAction(this, 0);
 }
 
@@ -619,7 +618,7 @@ void func_80AFEECC(EnSkj* this, GlobalContext* globalCtx) {
 void func_80AFEF5C(EnSkj* this) {
     this->unk_2D4 = 3;
     this->unk_2CC = 0;
-    EnSkj_ChangeAnim(this, 1);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_SHOOT_NEEDLE);
     EnSkj_SetupAction(this, 1);
 }
 
@@ -644,7 +643,7 @@ void func_80AFEF98(EnSkj* this, GlobalContext* globalCtx) {
 void func_80AFF038(EnSkj* this) {
     this->unk_2C8 = 0xAAA;
     this->unk_2EC = 200.0f;
-    EnSkj_ChangeAnim(this, 2);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_PLAY_FLUTE);
     EnSkj_SetupAction(this, 2);
 }
 
@@ -669,7 +668,7 @@ void func_80AFF07C(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFF16C(EnSkj* this) {
-    EnSkj_ChangeAnim(this, 3);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_DIE);
     EnSkj_SetupAction(this, 3);
 }
 
@@ -682,7 +681,7 @@ void func_80AFF19C(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFF1F0(EnSkj* this) {
-    EnSkj_ChangeAnim(this, 4);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_HIT);
     EnSkj_SetupAction(this, 4);
 }
 
@@ -702,7 +701,7 @@ void func_80AFF220(EnSkj* this, GlobalContext* globalCtx) {
 void func_80AFF2A0(EnSkj* this) {
     func_80AFE390(this);
     this->actor.speedXZ = 0.0f;
-    EnSkj_ChangeAnim(this, 5);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_LAND);
     EnSkj_SetupAction(this, 5);
 }
 
@@ -717,7 +716,7 @@ void func_80AFF334(EnSkj* this) {
     this->unk_2C8 = 0x2000;
     this->playbackTimer = 400;
     this->unk_2EC = 600.0f;
-    EnSkj_ChangeAnim(this, 6);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_LOOK_LEFT_RIGHT);
     EnSkj_SetupAction(this, 6);
 }
 
@@ -735,7 +734,7 @@ void func_80AFF3D0(EnSkj* this) {
     this->unk_2C8 = 0x2000;
     this->unk_2F0 = 0.0f;
     this->unk_2EC = 600.0f;
-    EnSkj_ChangeAnim(this, 7);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_FIGHTING_STANCE);
     EnSkj_SetupAction(this, 7);
 }
 
@@ -831,7 +830,7 @@ void func_80AFF688(EnSkj* this, GlobalContext* globalCtx) {
 void func_80AFF7A0(EnSkj* this) {
     this->textId = 0x10BC;
 
-    EnSkj_ChangeAnim(this, 9);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, 10);
 }
 
@@ -901,15 +900,15 @@ void func_80AFFA0C(EnSkj* this, GlobalContext* globalCtx) { // Has to do with oc
     } else {
         if ((globalCtx->msgCtx.msgMode == 0xD) && (this->unk_2D6 == 0)) {
             this->unk_2D6 = 1;
-            EnSkj_ChangeAnim(this, 2);
+            EnSkj_ChangeAnim(this, SKJ_ANIM_PLAY_FLUTE);
         } else if ((this->unk_2D6 != 0) && (globalCtx->msgCtx.msgMode == 0x1A)) {
             this->unk_2D6 = 0;
-            EnSkj_ChangeAnim(this, 9);
+            EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
         }
         if (globalCtx->msgCtx.unk_E3EE == 4) {
             globalCtx->msgCtx.unk_E3EE = 0;
             this->unk_2D6 = 0;
-            EnSkj_ChangeAnim(this, 9);
+            EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
             EnSkj_SetupAction(this, 0xA);
         } else if (globalCtx->msgCtx.unk_E3EE == 3) {
             if (!(gSaveContext.itemGetInf[1] & 0x40)) {
@@ -949,7 +948,7 @@ void func_80AFFA0C(EnSkj* this, GlobalContext* globalCtx) { // Has to do with oc
 
 void func_80AFFCE0(EnSkj* this) {
     this->unk_2D6 = 0;
-    EnSkj_ChangeAnim(this, 9);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, 0xC);
 }
 
@@ -1020,7 +1019,7 @@ void func_80AFFF58(EnSkj* this, GlobalContext* globalCtx) {
 void func_80AFFFBC(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
     this->actor.speedXZ = 2.0f;
-    EnSkj_ChangeAnim(this, 0);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     Animation_Reverse(&this->skelAnime);
     this->skelAnime.curFrame = this->skelAnime.startFrame;
     EnSkj_SetupAction(this, 0x11);
@@ -1037,7 +1036,7 @@ void func_80B00018(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void func_80B00068(EnSkj* this) {
-    EnSkj_ChangeAnim(this, 5);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_LAND);
     EnSkj_SetupAction(this, 0x12);
 }
 
@@ -1051,7 +1050,7 @@ void func_80B00098(EnSkj* this, GlobalContext* globalCtx) {
 void func_80B000EC(EnSkj* this) {
     this->unk_2F0 = 0.0f;
     this->actor.speedXZ = 2.0f;
-    EnSkj_ChangeAnim(this, 8);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_WALK_TO_PLAYER);
     EnSkj_SetupAction(this, 0x13);
 }
 
@@ -1067,7 +1066,7 @@ void func_80B00130(EnSkj* this, GlobalContext* globalCtx) {
 
 void func_80B001CC(EnSkj* this, GlobalContext* globalCtx) {
     func_8010B680(globalCtx, 0x101C, &this->actor);
-    EnSkj_ChangeAnim(this, 9);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, 0x14);
 }
 
@@ -1119,7 +1118,7 @@ void func_80B00390(EnSkj* this, GlobalContext* globalCtx) {
 
 void func_80B003F4(EnSkj* this) {
     this->textId = 0x1041;
-    EnSkj_ChangeAnim(this, 9);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, 0x17);
 }
 
@@ -1148,7 +1147,7 @@ void func_80B0049C(EnSkj* this, GlobalContext* globalCtx) {
 
 void func_80B00514(EnSkj* this) {
     this->actor.flags &= ~1;
-    EnSkj_ChangeAnim(this, 9);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, 25);
 }
 
@@ -1170,7 +1169,7 @@ s32 func_80B00590(EnSkj* this) {
 }
 
 void func_80B005E0(EnSkj* this) {
-    EnSkj_ChangeAnim(this, 9);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_WAIT);
     EnSkj_SetupAction(this, 26);
 }
 
@@ -1194,7 +1193,7 @@ void func_80B00638(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void func_80B00680(EnSkj* this) {
-    EnSkj_ChangeAnim(this, 2);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_PLAY_FLUTE);
     EnSkj_SetupAction(this, 27);
 }
 
@@ -1209,7 +1208,7 @@ void func_80B006B0(EnSkj* this, GlobalContext* globalCtx) {
 void func_80B006F8(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
     this->actor.speedXZ = -8.0f;
-    EnSkj_ChangeAnim(this, 0);
+    EnSkj_ChangeAnim(this, SKJ_ANIM_BACKFLIP);
     EnSkj_SetupAction(this, 28);
 }
 
@@ -1226,7 +1225,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f dropPos;
     s32 pad;
     EnSkj* this = THIS;
-    
+
     D_80B01EA0 = func_8002F194(&this->actor, globalCtx);
 
     this->timer++;
@@ -1477,7 +1476,7 @@ void func_80B01004(EnSkj* this, GlobalContext* globalCtx) {
 // EnSkj_WaitToGiveReward
 void func_80B01040(EnSkj* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx))) {
-        func_8002F434(&this->actor, globalCtx, D_80B016C4[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
+        func_8002F434(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
         this->actionFunc = func_80B010C4;
     }
 }
@@ -1488,7 +1487,7 @@ void func_80B010C4(EnSkj* this, GlobalContext* globalCtx) {
         this->actor.parent = NULL;
         this->actionFunc = func_80B01134;
     } else {
-        func_8002F434(&this->actor, globalCtx, D_80B016C4[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
+        func_8002F434(&this->actor, globalCtx, sOcarinaGameRewards[gSaveContext.ocarinaGameReward], 26.0f, 26.0f);
     }
 }
 
@@ -1536,11 +1535,11 @@ void func_80B01244(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos.y = -90.0f;
     this->actor.focus.pos.z = 450.0f;
 
-    if (BREG(0) != 0) {
+    //if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
-    }
+    //}
 
     this->actionFunc(this, globalCtx);
 
@@ -1594,6 +1593,7 @@ Gfx* func_80B014E4(GraphicsContext* gfxCtx, u32 alpha) {
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSkj* this = THIS;
+    GfxPrint printer;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2475);
 
@@ -1607,6 +1607,19 @@ void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           func_80B01348, func_80B01360, this);
-
+    {
+        u32 offset = (u32)(this->actionFunc) - (u32)(this->actor.overlayEntry->loadedRamAddr);
+        u32 vram = (u32)this->actor.overlayEntry->vramStart + offset;
+        GfxPrint_Init(&printer);
+        GfxPrint_Open(&printer, globalCtx->state.gfxCtx->polyOpa.p);
+        GfxPrint_SetPos(&printer, 0, 8);
+        GfxPrint_SetColor(&printer, 255, 255, 255, 255);
+        // GfxPrint_SetPosPx(&printer, this->actor.projectedPos.x, this->actor.projectedPos.z);
+        GfxPrint_Printf(&printer, "Action %x\n", vram);
+        GfxPrint_Printf(&printer, "params %d\n", (s16)thisx->params);
+        GfxPrint_Printf(&printer, "xzDist %.2f", thisx->xzDistToPlayer);
+        globalCtx->state.gfxCtx->polyOpa.p = GfxPrint_Close(&printer);
+        GfxPrint_Destroy(&printer);
+    }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2495);
 }

@@ -1,0 +1,17 @@
+<Root>
+    <File Name="object_skj" Segment="6">
+        <DList Name="gSKJeedleDList" Offset="0x0EB0"/>
+        <DList Name="gSKJskullMaskDList" Offset="0x14C8"/>
+        <Skeleton Name="gSkullKidSkel" Type="Flex" LimbType="Standard" Offset="0x5F40"/>
+        <Animation Name="gSkullKidAnimBackflip" Offset="0x051C"/>
+        <Animation Name="gSkullKidAnimShootNeedle" Offset="0x07A4"/>
+        <Animation Name="gSkullKidAnimPlayFlute" Offset="0x0E10"/>
+        <Animation Name="gSkullKidAnimDie" Offset="0x6A98"/>
+        <Animation Name="gSkullKidAnimHit" Offset="0x6D84"/>
+        <Animation Name="gSkullKidAnimLand" Offset="0x7128"/>
+        <Animation Name="gSkullKidAnimLookLeftAndRight" Offset="0x8174"/> <!--Unused-->
+        <Animation Name="gSkullKidAnimFightingStance" Offset="0x8374"/>
+        <Animation Name="gSkullKidAnimWait" Offset="0x8B9C"/>
+        <Animation Name="gSkullKidAnimWalkToPlayer" Offset="0x8E14"/>
+    </File>
+</Root>
