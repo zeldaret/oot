@@ -111,13 +111,17 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     Actor* parent;
     Actor* actorExplosive;
     f32 phi_f28;
+    // 0 if no actor in that index of diffToTracked
     u8 spE0[3];
-    f32 spD4[3];
-    f32 spC8[3];
-    f32 spBC[3];
-    f32 spB8; // xDiff 
-    f32 spB4; // yDiff 
-    f32 spB0; // zDiff 
+    // Tracks distance to other actors.
+    // Index 0 is always the Magic Carpet Man. 1 and 2 could be bombs, or EnMk and EnMs if in credits.
+    f32 spD4[3]; // diffToTracked X
+    f32 spC8[3]; // diffToTracked Y
+    f32 spBC[3]; // diffToTracked Z
+    // Tracks distance to Link
+    f32 spB8; // diffToPlayer X
+    f32 spB4; // diffToPlayer Y
+    f32 spB0; // diffToPlayer Z
     f32 phi_f2_4;
     f32 spA8; // wave amplitude (?)
     Actor* actorProfessor;
@@ -192,6 +196,9 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             actorBeanGuy = actorBeanGuy->next;
         }
 
+        // If somehow, neither of these two actors is not found, the game
+        // will dereference a NULL pointer, but this is unlikely to happen.
+
         spD4[1] = 50.0f * (actorProfessor->world.pos.x - this->dyna.actor.world.pos.x);
         spC8[1] = 50.0f * (actorProfessor->world.pos.y - this->unk_168);
         spBC[1] = 50.0f * (actorProfessor->world.pos.z - this->dyna.actor.world.pos.z);
@@ -211,7 +218,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 if ((fabsf(spD4[i]) < 5500.0f) && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
                     //spE0[i] = (actorExplosive->params == BOMB_EXPLOSION) ? 35 : 1;
                     if (actorExplosive->params == BOMB_EXPLOSION) {
-                        spE0[i] = 35;
+                        spE0[i] = 35; // Code never checks this, so it goes unused. Maybe it was planned to damage the carpet with explosions (?)
                     } else {
                         spE0[i] = 1;
                     }
@@ -230,15 +237,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
             phi_f2_4 = (2500.0f - distance_1) / 2500.0f;
 
-            //*((s32*)0) = 0;
-
             if (phi_f2_4 < 0.0f) {
                 phi_f2_4 = 0.0f;
             }
-            //phi_f2_4 = CLAMP_MIN(phi_f2_4, 0.0f);
 
-            // phi_f16 = this->unk_170;
-            
             //phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
             //phi_f28 = ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f) + (spB4 * phi_f2_4);
             //phi_f28 = (spB4 * phi_f2_4);
@@ -246,23 +248,18 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             spA8 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
             phi_f28 = spA8;
 
-            //distance_1 = distance_1 - 1500.0f;
             distance_1 -= 1500.0f;
 
             if (distance_1 < 0.0f) {
                 distance_1 = 0.0f;
             }
-            //distance_1 = CLAMP_MIN(distance_1, 0.0f);
             //if (1) { }
 
             spA8 = 100.0f * distance_1 * 0.01f;
             if (spA8 > 100.0f) {
                 spA8 = 100.0f;
             }
-            //spA8 = CLAMP_MAX(spA8, 100.0f);
-
         } else {
-            // temp_f16_2 = this->unk_170;
             phi_f28 = this->unk_170 - 200.f;
             spA8 = 100.0f;
         }
@@ -277,38 +274,29 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                     phi_f2_2 = (2000.0f - distance_2) / 2000.0f;
                 }
 
-                //phi_f2_2 = CLAMP_MIN(phi_f2_2, 0.0f);
                 if (phi_f2_2 < 0.0f) {
                     phi_f2_2 = 0.0f;
                 }
 
-                // distance = distance - 1500.0f;
                 //temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
                 //temp_f14_2 = ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f) + (spC8[i] * phi_f2_2);
                 temp_f14_2 = (spC8[i] * phi_f2_2);
                 temp_f14_2 += ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
                 distance_2 = distance_2 - 1500.0f;
-                //if (1) { }
-                //distance_2 = CLAMP_MIN(distance_2, 0.0f);
                 if (distance_2 < 0.0f) {
                     distance_2 = 0.0f;
                 }
 
                 phi_f2_3 = 100.0f * distance_2 * 0.01f;
-                //phi_f2_3 = CLAMP_MAX(phi_f2_3, 100.0f);
                 if (phi_f2_3 > 100.0f) {
                     phi_f2_3 = 100.0f;
                 }
 
-                //phi_f28 = CLAMP_MAX(phi_f28, temp_f14_2);
-                //phi_f28 = phi_f28;
                 if (temp_f14_2 < phi_f28) {
                     phi_f28 = temp_f14_2;
                 }
 
-                //spA8 = CLAMP_MAX(spA8, phi_f2_3);
-                //spA8 = spA8;
                 if (phi_f2_3 < spA8) {
                     spA8 = phi_f2_3;
                 }
@@ -326,11 +314,9 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             if (phi_v1_4 < temp_a0_3) {
                 phi_v1_4 = temp_a0_3;
             }
-            //phi_v1_4 = CLAMP_MIN(phi_v1_4, temp_a0_3);
 
             phi_s0->n.ob[1] = phi_v1_4;
         } else {
-            //f32 temp_f2_3 = temp_f0_3 * spA8;
             temp_f14_2 = temp_f0_3 * spA8;
 
             phi_s0->n.ob[1] = phi_f28 + (temp_f14_2);
