@@ -5,6 +5,7 @@
  */
 
 #include "z_en_jsjutan.h"
+#include "overlays/actors/ovl_En_Bom/z_en_bom.h"
 
 #define FLAGS 0x00000009
 
@@ -173,7 +174,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
-
         isInCreditsScene = 1;
 
         actorProfessor = globalCtx->actorCtx.actorLists[ACTORCAT_NPC].head;
@@ -209,7 +209,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 spBC[i] = 50.0f * (actorExplosive->world.pos.z - this->dyna.actor.world.pos.z);
 
                 if ((fabsf(spD4[i]) < 5500.0f) && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
-                    if (actorExplosive->params == 1) {
+                    //spE0[i] = (actorExplosive->params == BOMB_EXPLOSION) ? 35 : 1;
+                    if (actorExplosive->params == BOMB_EXPLOSION) {
                         spE0[i] = 35;
                     } else {
                         spE0[i] = 1;
@@ -245,7 +246,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             spA8 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
             phi_f28 = spA8;
 
-            distance_1 = distance_1 - 1500.0f;
+            //distance_1 = distance_1 - 1500.0f;
+            distance_1 -= 1500.0f;
 
             if (distance_1 < 0.0f) {
                 distance_1 = 0.0f;
@@ -268,7 +270,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         for (i = 0; i < 3; i++) {
             if (spE0[i] != 0) {
                 distance_2 = sqrtf(SQ(phi_s0->n.ob[2] - spBC[i]) + SQ(phi_s0->n.ob[0] - spD4[i]));
-                
+
                 if ((i == 0) || isInCreditsScene) {
                     phi_f2_2 = (3000.0f - distance_2) / 3000.0f;
                 } else {
@@ -284,7 +286,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 //temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
                 //temp_f14_2 = ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f) + (spC8[i] * phi_f2_2);
                 temp_f14_2 = (spC8[i] * phi_f2_2);
-                temp_f14_2 +=  ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
+                temp_f14_2 += ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
                 distance_2 = distance_2 - 1500.0f;
                 //if (1) { }
