@@ -980,7 +980,7 @@ void BgDyYoseizo_ParticleUpdate(BgDyYoseizo* this, GlobalContext* globalCtx) {
                 sp94.x = sp94.y = sp94.z = 3.0f;
 
                 Matrix_MultVec3f(&sp94, &sp88);
-                Matrix_Pull();
+                Matrix_Pop();
                 particle->pos.x += sp88.x;
                 particle->pos.y += sp88.y;
                 particle->pos.z += sp88.z;

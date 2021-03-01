@@ -1942,23 +1942,22 @@ D_06012014 = 0x06012014;
 D_0600FAA0 = 0x0600FAA0;
 
 // z_demo_gj
-D_06000DC0 = 0x06000DC0;
-D_06000EA0 = 0x06000EA0;
-D_06001B70 = 0x06001B70;
-D_06001D20 = 0x06001D20;
-D_06001F70 = 0x06001F70;
-D_06002160 = 0x06002160;
-D_06002448 = 0x06002448;
-D_06002600 = 0x06002600;
-D_06002850 = 0x06002850;
-D_06002A40 = 0x06002A40;
-D_06002D28 = 0x06002D28;
-D_06002E80 = 0x06002E80;
-D_06002FE4 = 0x06002FE4;
-D_06003190 = 0x06003190;
-D_060033E0 = 0x060033E0;
-D_06003710 = 0x06003710;
-D_06003AF0 = 0x06003AF0;
+gGanonsCastleRubbleAroundArenaDL = 0x06000DC0;
+gGanonsCastleRubbleAroundArenaCol = 0x06001B70;
+gGanonsCastleRubble2DL = 0x06001D20;
+gGanonsCastleRubble2Col = 0x06001F70;
+gGanonsCastleRubble3DL = 0x06002160;
+gGanonsCastleRubble3Col = 0x06002448;
+gGanonsCastleRubble4DL = 0x06002600;
+gGanonsCastleRubble4Col = 0x06002850;
+gGanonsCastleRubble5DL = 0x06002A40;
+gGanonsCastleRubble5Col = 0x06002D28;
+gGanonsCastleRubble6DL = 0x06002E80;
+gGanonsCastleRubble6Col = 0x06002FE4;
+gGanonsCastleRubble7DL = 0x06003190;
+gGanonsCastleRubble7Col = 0x060033E0;
+gGanonsCastleRubbleTallDL = 0x06003710;
+gGanonsCastleRubbleTallCol = 0x06003AF0;
 
 // z_demo_ik
 D_0600035C = 0x0600035C;

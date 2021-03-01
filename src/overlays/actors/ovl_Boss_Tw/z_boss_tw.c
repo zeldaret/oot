@@ -996,7 +996,7 @@ f32 func_8093AED8(Vec3f *arg0) {
     // 45 Degrees to radians
     Matrix_RotateY((45.0f * (M_PI / 180.0f)), MTXMODE_NEW);
     Matrix_MultVec3f(arg0, &sp2C);
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (fabsf(sp2C.x) > 920.0f || fabsf(sp2C.z) > 920.0f) {
         return 35.0f;
@@ -3143,7 +3143,7 @@ void func_80941BC0(Actor *thisx, GlobalContext *globalCtx) {
     Matrix_RotateY(this->unk_1C0, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6423), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601C1C0));
-    Matrix_Pull();
+    Matrix_Pop();
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6427), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPSegment(POLY_XLU_DISP++, 0xD, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, this->unk_152 & 0x7F, (u8)(this->unk_152 * 8), 0x20, 0x40, 1, (-this->unk_152 * 2) & 0x3F, 0, 0x10, 0x10));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, (s16)this->unk_1A8);
@@ -3151,7 +3151,7 @@ void func_80941BC0(Actor *thisx, GlobalContext *globalCtx) {
     gDPSetRenderMode(POLY_XLU_DISP++, Z_CMP | IM_RD | CVG_DST_SAVE | ZMODE_DEC | FORCE_BL | GBL_c1(G_BL_CLR_FOG, G_BL_A_SHADE, G_BL_CLR_IN, G_BL_1MA), G_RM_ZB_OVL_SURF2);
     gSPSetGeometryMode(POLY_XLU_DISP++, G_CULL_BACK | G_FOG);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601A790));
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6461);
 }
 
@@ -3187,7 +3187,7 @@ void func_80942180(BossTw *this, GlobalContext *globalCtx) {
     Matrix_Scale(this->unk_1B4, this->unk_1B4, this->unk_1B4, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6575), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_06019938));
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6579);
 }
 
@@ -3214,7 +3214,7 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 0, (s16)this->spawnPortalAlpha);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601DBE8));
     }
-    Matrix_Pull();
+    Matrix_Pop();
     if (this->actor.params == 0) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 195, 225, 235, (s16)this->flameAlpha);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601A998));
@@ -3236,7 +3236,7 @@ void func_809426F0(BossTw *this, GlobalContext *globalCtx) {
         func_800D1FD4(&globalCtx->mf_11DA0);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6751), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601A430));
-        Matrix_Pull();
+        Matrix_Pop();
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6756);
 }
@@ -3274,7 +3274,7 @@ void func_80942C70(Actor *thisx, GlobalContext *globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 6870), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
             gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601DDF0));
         }
-        Matrix_Pull();
+        Matrix_Pop();
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6878);
 }
@@ -3296,7 +3296,7 @@ void func_80943028(Actor *thisx, GlobalContext *globalCtx) {
     Matrix_Scale((this->actor.scale.x * 4000.0f) / 100.0f, 1.0f, (this->actor.scale.x * 4000.0f) / 100.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, (char *) "../z_boss_tw.c", 6926), G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gCircleShadowDL));
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6933);
 }
 
@@ -3349,7 +3349,7 @@ void BossTw_Draw(Actor *thisx, GlobalContext *globalCtx2) {
 
         Matrix_Push();
         SkelAnime_DrawLod(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, func_809416D0, func_80941788, &this->actor);
-        Matrix_Pull();
+        Matrix_Pop();
         POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     }
     if (this->actor.params == 0) {
@@ -3473,7 +3473,7 @@ void func_80943D90(GlobalContext *globalCtx, s32 limbIndex, Gfx **dList, Vec3s *
             Matrix_Push();
             Matrix_Scale(this->unk_1B4, this->unk_1B4, this->unk_1B4, MTXMODE_APPLY);
             gSPMatrix(gfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7295), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
-            Matrix_Pull();
+            Matrix_Pop();
             gSPDisplayList(gfxCtx->polyXlu.p++, *dList);
             break;
     }
@@ -3566,7 +3566,7 @@ void func_80943F08(BossTw *this, GlobalContext *globalCtx) {
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601E9F0));
     }
 
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7531);
 }
 
@@ -3597,7 +3597,7 @@ void func_809447BC(BossTw *this, GlobalContext *globalCtx) {
     Matrix_RotateX(1.5707964f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7631), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601DBE8));
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7635);
 }
 
@@ -3614,7 +3614,7 @@ void func_80944C50(BossTw *this, GlobalContext *globalCtx) {
     Matrix_Scale(this->unk_1D0, this->unk_1D0, this->unk_1D0, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7671), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601F390));
-    Matrix_Pull();
+    Matrix_Pop();
     gSPSegment(POLY_XLU_DISP++, 8, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -koumePtr->unk_150 * 2, 0, 0x20, 0x20, 1, -koumePtr->unk_150 * 2, 0, 0x20, 0x40));
     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, (s16)this->unk_1CC / 2);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7694), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
@@ -3628,7 +3628,7 @@ void func_80944C50(BossTw *this, GlobalContext *globalCtx) {
     Matrix_Scale(phi_f12, 1.0f, phi_f12, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7728), G_MTX_LOAD | G_MTX_MODELVIEW | G_MTX_NOPUSH);
     gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_0601EEB0));
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 7732);
 }
 
@@ -3647,7 +3647,7 @@ void BossTw_TwinrovaDraw(Actor *thisx, GlobalContext *globalCtx2) {
         
         Matrix_Push();
         SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, func_80943950, func_80943D90, thisx);
-        Matrix_Pull();
+        Matrix_Pop();
         
         Matrix_MultVec3f(&D_8094A9EC, &this->beamOrigin);
         POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP, globalCtx->lightCtx.unk_07, globalCtx->lightCtx.unk_08, globalCtx->lightCtx.unk_09, 0, globalCtx->lightCtx.unk_0A, 0x3E8);

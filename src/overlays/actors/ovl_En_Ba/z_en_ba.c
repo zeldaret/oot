@@ -504,7 +504,7 @@ void EnBa_Draw(Actor* thisx, GlobalContext* globalCtx) {
             }
             Matrix_ToMtx(mtx, "../z_en_ba.c", 970);
         }
-        Matrix_Pull();
+        Matrix_Pop();
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_ba.c", 973),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, D_06000890);
