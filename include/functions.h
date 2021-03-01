@@ -1827,7 +1827,7 @@ s16 Math_Atan2S(f32 x, f32 y);
 f32 Math_Atan2F(f32 x, f32 y);
 void Matrix_Init(GameState* gameState);
 void Matrix_Push(void);
-void Matrix_Pull(void);
+void Matrix_Pop(void);
 void Matrix_Get(MtxF* dest);
 void Matrix_Put(MtxF* src);
 void Matrix_Mult(MtxF* mf, u8 mode);

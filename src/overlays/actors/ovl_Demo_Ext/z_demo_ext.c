@@ -201,7 +201,7 @@ void DemoExt_DrawVortex(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_RotateRPY((s16)(kREG(16) + 0x4000), this->rotationPitch, kREG(18), MTXMODE_APPLY);
     Matrix_Translate(kREG(22), kREG(23), kREG(24), MTXMODE_APPLY);
     Matrix_ToMtx(mtx, "../z_demo_ext.c", 476);
-    Matrix_Pull();
+    Matrix_Pop();
     func_80093D84(gfxCtx);
 
     gDPSetPrimColor(POLY_XLU_DISP++, 0, kREG(33) + 128, kREG(25) + 140, kREG(26) + 80, kREG(27) + 140, this->primAlpha);

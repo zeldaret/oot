@@ -10381,7 +10381,7 @@ void Player_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateX(-sp78, MTXMODE_APPLY);
             func_8084A0E8(globalCtx, this, lod, gCullFrontDList, overrideLimbDraw);
             this->actor.scale.y = -this->actor.scale.y;
-            Matrix_Pull();
+            Matrix_Pop();
         }
 
         gSPClearGeometryMode(POLY_OPA_DISP++, G_CULL_BOTH);
