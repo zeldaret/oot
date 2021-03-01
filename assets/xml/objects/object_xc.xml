@@ -14,7 +14,7 @@
         <Animation Name="gShiekContortionsAnim" Offset="0x169E8"/>
         <Animation Name="gShiekPlayingHarp5Anim" Offset="0x177F8"/>
         <Animation Name="gShiekInitialHarpAnim" Offset="0x17C54"/>
-        <Animation Name="gShiekAnim13" Offset="0x18B00"/>
+        <Animation Name="gShiekDefenseStanceAnim" Offset="0x18B00"/>
         <Animation Name="gShiekThrowingNutAnim" Offset="0x19598"/>
         <Animation Name="gShiekKneelingAnim" Offset="0x19C30"/>
         <Animation Name="gShiekHittingGroundAnim" Offset="0x19F78"/>

@@ -28,7 +28,7 @@ void func_80B40248(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
 void EnXc_CalculateHeadTurn(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetEyePattern(EnXc* this);
-void EnXc_SpawnArrow(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SpawnNut(EnXc* this, GlobalContext* globalCtx);
 void EnXc_BgCheck(EnXc* this, GlobalContext* globalCtx);
 s32 EnXc_AnimIsFinished(EnXc* this);
 CsCmdActorAction* EnXc_GetCsCmd(GlobalContext* globalCtx, s32 npcActionIdx);
@@ -47,12 +47,12 @@ void func_80B3C924(EnXc* this, GlobalContext* globalCtx);
 void func_80B3C964(EnXc* this, GlobalContext* globalCtx);
 void func_80B3C9DC(EnXc* this);
 void func_80B3C9EC(EnXc* this);
-s32 EnXc_InitMinuetCutscene(EnXc* this, GlobalContext* globalCtx);
+s32 EnXc_MinuetProc(EnXc* this, GlobalContext* globalCtx);
 void func_80B3CB58(EnXc* this, GlobalContext* globalCtx);
-s32 EnXc_InitBoleroCutscene(EnXc* this, GlobalContext* globalCtx);
-void func_80B3CD00(EnXc* this, GlobalContext* globalCtx);
-s32 EnXc_InitSerenadeCutscene(EnXc* this, GlobalContext* globalCtx);
-void func_80B3CE78(EnXc* this, GlobalContext* globalCtx);
+s32 EnXc_BoleroProc(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx);
+s32 EnXc_SerenadeProc(EnXc* this, GlobalContext* globalCtx);
+void EnXc_DoNothing(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetWalkingSFX(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetNutThrowSFX(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetLandingSFX(EnXc* this, GlobalContext* globalCtx);
@@ -63,35 +63,35 @@ void EnXc_SetupFlamePos(EnXc* this, GlobalContext* globalCtx);
 void EnXc_InitFlame(EnXc* this, GlobalContext* globalCtx);
 void func_80B3D48C(EnXc* this, GlobalContext* globalCtx);
 AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index);
-void func_80B3D56C(EnXc* this);
+void EnXc_CalcXZAccel(EnXc* this);
 void func_80B3D644(EnXc* this);
-void func_80B3D664(EnXc* this);
+void EnXc_CalcXZSpeed(EnXc* this);
 void func_80B3D6F0(EnXc* this);
 void func_80B3D710(EnXc* this);
 void func_80B3D730(EnXc* this);
 void func_80B3D750(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx);
 void func_80B3D8A4(EnXc* this, GlobalContext* globalCtx, s32 animFinished);
-void func_80B3D990(EnXc* this);
-void EnXc_SetupHalt(EnXc* this);
-void func_80B3DAA8(EnXc* this);
+void EnXc_SetupWalkAction(EnXc* this);
+void EnXc_SetupHaltAction(EnXc* this);
+void EnXc_SetupStoppedAction(EnXc* this);
 void func_80B3DAF0(EnXc* this, GlobalContext* globalCtx);
-void func_80B3DBAC(EnXc* this, s32 animFinished);
-void func_80B3DC24(EnXc* this, GlobalContext* globalCtx, s32 animFinished);
+void EnXc_SetupInitialHarpAction(EnXc* this, s32 animFinished);
+void EnXc_SetupPlayingHarpAction(EnXc* this, GlobalContext* globalCtx, s32 animFinished);
 void func_80B3DCA8(EnXc* this, GlobalContext* globalCtx);
-void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupHarpPutawayAction(EnXc* this, GlobalContext* globalCtx);
 void func_80B3DE78(EnXc* this, s32 animFinished);
-void func_80B3DEF4(EnXc* this, GlobalContext* globalCtx);
-void func_80B3DFA4(EnXc* this);
+void EnXc_SetupReverseAccel(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupReverseWalkAction(EnXc* this);
 void EnXc_SetupNutThrow(EnXc* this);
 void func_80B3E164(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E1B8(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupDisappear(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc0(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc1(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc2(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc3(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc4(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc5(EnXc* this, GlobalContext* globalCtx);
+void EnXc_GracefulFall(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Accelerate(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Walk(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Stopped(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc6(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc7(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc8(EnXc* this, GlobalContext* globalCtx);
@@ -100,12 +100,12 @@ void EnXc_ActionFunc10(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc11(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc12(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc13(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc14(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ReverseAccelerate(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc15(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc16(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ThrowNutAction(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc18(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc19(EnXc* this, GlobalContext* globalCtx);
+void EnXc_HaltAndWaitToThrowNut(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ThrowNut(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Delete(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Fade(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EC0C(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EC90(EnXc* this, GlobalContext* globalCtx);
 void func_80B3ECD8(EnXc* this);
@@ -134,7 +134,7 @@ void func_80B3F010(EnXc* this);
 void func_80B3F0B8(EnXc* this);
 void func_80B3F0DC(EnXc* this);
 void func_80B3F100(EnXc* this);
-void EnXc_ActionFunc29(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Serenade(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc30(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc31(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc32(EnXc* this, GlobalContext* globalCtx);
@@ -182,32 +182,32 @@ void EnXc_ActionFunc54(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ShowTriforce(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ShowTriforceIdle(EnXc* this, GlobalContext* globalCtx);
 void func_80B40590(EnXc* this, GlobalContext* globalCtx);
-void func_80B4066C(EnXc* this, GlobalContext* globalCtx);
+void EnXc_PlayLinkScreamSFX(EnXc* this, GlobalContext* globalCtx);
 void EnXc_SetCrySFX(EnXc* this, GlobalContext* globalCtx);
 void func_80B406F8(Actor* thisx);
-void func_80B4070C(EnXc* this, GlobalContext* globalCtx);
-void func_80B407A8(Actor* thisx);
-void func_80B40820(EnXc* this, GlobalContext* globalCtx);
-void func_80B408FC(EnXc* this, GlobalContext* globalCtx);
-void func_80B409D8(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupIdleInNocturne(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupDefenseStance(Actor* thisx);
+void EnXc_SetupContortions(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupFallInNocturne(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupHittingGroundInNocturne(EnXc* this, GlobalContext* globalCtx);
 void func_80B40A78(EnXc* this, GlobalContext* globalCtx);
-void func_80B40B18(EnXc* this, GlobalContext* globalCtx);
+void EnXc_SetupKneelInNocturne(EnXc* this, GlobalContext* globalCtx);
 void func_80B40BB4(EnXc* this, GlobalContext* globalCtx);
 void func_80B40C50(EnXc* this);
 void func_80B40C98(EnXc* this);
-void func_80B40D98(EnXc* this);
+void EnXc_SetupReverseHaltInNocturneCS(EnXc* this);
 void func_80B40E64(EnXc* this);
 void func_80B40E40(EnXc* this);
 void func_80B40E88(EnXc* this);
-s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx);
-void EnXc_ActionFunc57(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc58(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc59(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc60(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc61(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc62(EnXc* this, GlobalContext* globalCtx);
+s32 EnXc_SetupNocturneState(Actor* thisx, GlobalContext* globalCtx);
+void EnXc_InitialNocturneAction(EnXc* this, GlobalContext* globalCtx);
+void EnXc_IdleInNocturne(EnXc* this, GlobalContext* globalCtx);
+void EnXc_DefenseStance(EnXc* this, GlobalContext* globalCtx);
+void EnXc_Contort(EnXc* this, GlobalContext* globalCtx);
+void EnXc_FallInNocturne(EnXc* this, GlobalContext* globalCtx);
+void EnXc_HitGroundInNocturne(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc63(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc64(EnXc* this, GlobalContext* globalCtx);
+void EnXc_KneelInNocturneCS(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc65(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc66(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc67(EnXc* this, GlobalContext* globalCtx);
@@ -216,24 +216,24 @@ void EnXc_ActionFunc69(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc70(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc71(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc72(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc73(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc74(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc75(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc76(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc77(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc78(EnXc* this, GlobalContext* globalCtx);
-void func_80B415B8(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ReverseAccelInNocturneCS(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ReverseWalkInNocturneCS(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ReverseHaltInNocturneCS(EnXc* this, GlobalContext* globalCtx);
+void EnXc_ThrowNutInNocturneCS(EnXc* this, GlobalContext* globalCtx);
+void EnXc_DeleteInNocturneCS(EnXc* this, GlobalContext* globalCtx);
+void EnXc_KillInNocturneCS(EnXc* this, GlobalContext* globalCtx);
+void EnXc_PreludeCS(EnXc* this, GlobalContext* globalCtx);
 void func_80B41798(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc79(EnXc* this, GlobalContext* globalCtx);
+void EnXc_BlockingPedestalAction(EnXc* this, GlobalContext* globalCtx);
 void EnXc_ActionFunc80(EnXc* this, GlobalContext* globalCtx);
 
 void EnXc_DrawNothing(EnXc* this, GlobalContext* globalCtx);
-void func_80B41BA4(EnXc* this, GlobalContext* globalCtx);
-void func_80B3E908(Actor* thisx, GlobalContext* globalCtx);
-void func_80B41BA4(EnXc* this, GlobalContext* globalCtx);
+void EnXc_DrawDefault(EnXc* this, GlobalContext* globalCtx);
+void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx);
+void EnXc_DrawDefault(EnXc* this, GlobalContext* globalCtx);
 void EnXc_DrawHarp(Actor* thsix, GlobalContext* globalCtx);
 void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx);
-void func_80B414AC(EnXc* this, GlobalContext* globalCtx);
+void EnXc_DrawSquintingEyes(EnXc* this, GlobalContext* globalCtx);
 
 void func_80B3EBF0(EnXc* this, GlobalContext* globalCtx);
 void func_80B3EC00(EnXc* this);
@@ -310,12 +310,12 @@ void EnXc_SetEyePattern(EnXc* this) {
     }
 
     *eyePattern = *blinkTimer;
-    if (*eyePattern >= 3) {
+    if (*eyePattern >= ARRAY_COUNT(sEyeTextures)) {
         *eyePattern = 0;
     }
 }
 
-void EnXc_SpawnArrow(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SpawnNut(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f* pos = &this->actor.world.pos;
     s16 angle = this->actor.shape.rot.y;
@@ -486,20 +486,21 @@ void func_80B3C9DC(EnXc* this) {
 void func_80B3C9EC(EnXc* this) {
     EnXc_ChangeAnimation(this, &gShiekArmsCrossedIdleAnim, 0, 0.0f, 0);
     this->action = 79;
-    this->drawMode = XC_DRAW_1;
+    this->drawMode = XC_DRAW_DEFAULT;
     this->unk_30C = 1;
 }
 
 void func_80B3CA38(EnXc* this, GlobalContext* globalCtx) {
+    /* If Player is adult but hasn't learned Minuet of Forest */
     if (!(gSaveContext.eventChkInf[5] & 1) && LINK_IS_ADULT) {
-        this->action = 0;
+        this->action = XC_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
-s32 EnXc_InitMinuetCutscene(EnXc* this, GlobalContext* globalCtx) {
-    if (this->actor.params == 6) {
+s32 EnXc_MinuetProc(EnXc* this, GlobalContext* globalCtx) {
+    if (this->actor.params == XC_TYPE_MINUET) {
         Player* player = PLAYER;
         f32 z = player->actor.world.pos.z;
         if (z < -2225.0f) {
@@ -508,27 +509,28 @@ s32 EnXc_InitMinuetCutscene(EnXc* this, GlobalContext* globalCtx) {
                 gSaveContext.cutsceneTrigger = 1;
                 gSaveContext.eventChkInf[5] |= 1;
                 Item_Give(globalCtx, ITEM_SONG_MINUET);
-                return 1;
+                return true;
             }
         }
-        return 0;
+        return false;
     }
-    return 1;
+    return true;
 }
 
 void func_80B3CB58(EnXc* this, GlobalContext* globalCtx) {
+    /* If hasn't learned Bolero and Player is Adult */
     if (!(gSaveContext.eventChkInf[5] & 2) && LINK_IS_ADULT) {
-        this->action = 0;
+        this->action = XC_ACTION_INIT;
     } else {
         Actor_Kill(&this->actor);
     }
 }
 
-s32 EnXc_InitBoleroCutscene(EnXc* this, GlobalContext* globalCtx) {
+s32 EnXc_BoleroProc(EnXc* this, GlobalContext* globalCtx) {
     Player* player;
     PosRot* posRot;
 
-    if (this->actor.params == 7) {
+    if (this->actor.params == XC_TYPE_BOLERO) {
         player = PLAYER;
         posRot = &player->actor.world;
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
@@ -545,10 +547,10 @@ s32 EnXc_InitBoleroCutscene(EnXc* this, GlobalContext* globalCtx) {
     return true;
 }
 
-void func_80B3CD00(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupSerenadeAction(EnXc* this, GlobalContext* globalCtx) {
     /* Player is adult and does not have iron boots and has not learned Serenade */
     if ((!CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4)) && LINK_IS_ADULT) {
-        this->action = 29;
+        this->action = XC_ACTION_SERENADE;
         osSyncPrintf("水のセレナーデ シーク誕生!!!!!!!!!!!!!!!!!!\n");
     } else {
         Actor_Kill(&this->actor);
@@ -556,8 +558,8 @@ void func_80B3CD00(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-s32 EnXc_InitSerenadeCutscene(EnXc* this, GlobalContext* globalCtx) {
-    if (this->actor.params == 8) {
+s32 EnXc_SerenadeProc(EnXc* this, GlobalContext* globalCtx) {
+    if (this->actor.params == XC_TYPE_SERENADE) {
         Player* player = PLAYER;
         s32 stateFlags = player->stateFlags1;
         if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && ((stateFlags << 2) >= 0) &&
@@ -575,7 +577,7 @@ s32 EnXc_InitSerenadeCutscene(EnXc* this, GlobalContext* globalCtx) {
     return true;
 }
 
-void func_80B3CE78(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_DoNothing(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetWalkingSFX(EnXc* this, GlobalContext* globalCtx) {
@@ -664,7 +666,7 @@ void func_80B3D118(GlobalContext* globalCtx) {
     }
 }
 
-void EnXc_SetWindSFX(GlobalContext* globalCtx) {
+void EnXc_SetColossusWindSFX(GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 4) {
         s32 pad;
         s16 sceneNum = globalCtx->sceneNum;
@@ -800,7 +802,7 @@ AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
     return animation;
 }
 
-void func_80B3D56C(EnXc* this) {
+void EnXc_CalcXZAccel(EnXc* this) {
     f32 timer = this->timer;
     f32* speedXZ = &this->actor.speedXZ;
 
@@ -820,7 +822,7 @@ void func_80B3D644(EnXc* this) {
     Actor_MoveForward(&this->actor);
 }
 
-void func_80B3D664(EnXc* this) {
+void EnXc_CalcXZSpeed(EnXc* this) {
     f32 timer = this->timer;
     f32* speedXZ = &this->actor.speedXZ;
 
@@ -833,7 +835,7 @@ void func_80B3D664(EnXc* this) {
 }
 
 void func_80B3D6F0(EnXc* this) {
-    func_80B3D56C(this);
+    EnXc_CalcXZAccel(this);
 }
 
 void func_80B3D710(EnXc* this) {
@@ -841,12 +843,12 @@ void func_80B3D710(EnXc* this) {
 }
 
 void func_80B3D730(EnXc* this) {
-    func_80B3D664(this);
+    EnXc_CalcXZSpeed(this);
 }
 
 void func_80B3D750(EnXc* this, GlobalContext* globalCtx) {
-    if (EnXc_InitMinuetCutscene(this, globalCtx) && EnXc_InitBoleroCutscene(this, globalCtx)) {
-        this->action = 1;
+    if (EnXc_MinuetProc(this, globalCtx) && EnXc_BoleroProc(this, globalCtx)) {
+        this->action = XC_ACTION_WAIT;
     }
 }
 
@@ -862,7 +864,7 @@ void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx) {
         f32 frameCount = Animation_GetLastFrame(&gShiekFallingFromSkyAnim);
 
         this->action = XC_ACTION_GRACEFUL_FALL;
-        this->drawMode = XC_DRAW_1;
+        this->drawMode = XC_DRAW_DEFAULT;
 
         pos->x = npcAction->startPos.x;
         pos->y = npcAction->startPos.y;
@@ -882,7 +884,7 @@ void func_80B3D8A4(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
 
         Animation_Change(skelAnime, &gShiekWalkingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
 
-        this->action = 3;
+        this->action = XC_ACTION_ACCEL;
         this->timer = 0.0f;
 
         func_80B3C9DC(this);
@@ -893,17 +895,17 @@ void func_80B3D8A4(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
     }
 }
 
-void func_80B3D990(EnXc* this) {
+void EnXc_SetupWalkAction(EnXc* this) {
     f32* timer = &this->timer;
 
     *timer += 1.0f;
     if (*timer >= 12.0f) {
         this->actor.speedXZ = (kREG(2) * 0.01f) + 1.2f;
-        this->action = 4;
+        this->action = XC_ACTION_WALK;
     }
 }
 
-void EnXc_SetupHalt(EnXc* this) {
+void EnXc_SetupHaltAction(EnXc* this) {
     SkelAnime* skelAnime = &this->skelAnime;
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
@@ -916,12 +918,12 @@ void EnXc_SetupHalt(EnXc* this) {
     }
 }
 
-void func_80B3DAA8(EnXc* this) {
+void EnXc_SetupStoppedAction(EnXc* this) {
     f32* timer = &this->timer;
 
     *timer += 1.0f;
     if (*timer >= 12.0f) {
-        this->action = 6;
+        this->action = XC_ACTION_STOPPED;
         this->actor.speedXZ = 0.0f;
     }
 }
@@ -938,11 +940,11 @@ void func_80B3DAF0(EnXc* this, GlobalContext* globalCtx) {
         frameCount = Animation_GetLastFrame(&gShiekPullingOutHarpAnim);
         Animation_Change(&this->skelAnime, &gShiekPullingOutHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -4.0f);
         this->action = 7;
-        this->drawMode = XC_DRAW_2;
+        this->drawMode = XC_DRAW_PULLING_OUT_HARP;
     }
 }
 
-void func_80B3DBAC(EnXc* this, s32 animFinished) {
+void EnXc_SetupInitialHarpAction(EnXc* this, s32 animFinished) {
     SkelAnime* skelAnime;
     f32 frameCount;
 
@@ -950,12 +952,12 @@ void func_80B3DBAC(EnXc* this, s32 animFinished) {
         skelAnime = &this->skelAnime;
         frameCount = Animation_GetLastFrame(&gShiekInitialHarpAnim);
         Animation_Change(skelAnime, &gShiekInitialHarpAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-        this->action = 8;
+        this->action = XC_ACTION_HARP_READY;
         this->drawMode = XC_DRAW_HARP;
     }
 }
 
-void func_80B3DC24(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
+void EnXc_SetupPlayingHarpAction(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
     s32 pad;
     SkelAnime* skelAnime;
     AnimationHeader* animation;
@@ -966,7 +968,7 @@ void func_80B3DC24(EnXc* this, GlobalContext* globalCtx, s32 animFinished) {
         animation = EnXc_GetCurrentHarpAnim(globalCtx, 4);
         frameCount = Animation_GetLastFrame(animation);
         Animation_Change(skelAnime, animation, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, -8.0f);
-        this->action = 9;
+        this->action = XC_PLAYING_HARP;
         this->drawMode = XC_DRAW_HARP;
     }
 }
@@ -983,7 +985,7 @@ void func_80B3DCA8(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupHarpPutawayAction(EnXc* this, GlobalContext* globalCtx) {
     f32 curFrame;
     f32 animFrameCount;
 
@@ -993,58 +995,58 @@ void func_80B3DD3C(EnXc* this, GlobalContext* globalCtx) {
         if (curFrame >= animFrameCount) {
             Animation_Change(&this->skelAnime, &gShiekInitialHarpAnim, -1.0f, Animation_GetLastFrame(&gShiekInitialHarpAnim), 0.0f,
                              ANIMMODE_ONCE, 0.0f);
-            this->action = 11;
+            this->action = XC_ACTION_PUT_HARP_AWAY;
         }
     } else if (EnXc_ActionDoesNotEqualCsCmdAction(this, globalCtx, 8, 4)) {
-        func_80B3DC24(this, globalCtx, 1);
+        EnXc_SetupPlayingHarpAction(this, globalCtx, true);
     }
 }
 
 void func_80B3DE00(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekPullingOutHarpAnim, -1.0f, Animation_GetLastFrame(&gShiekPullingOutHarpAnim), 0.0f, 2, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekPullingOutHarpAnim, -1.0f, Animation_GetLastFrame(&gShiekPullingOutHarpAnim), 0.0f, ANIMMODE_ONCE, 0.0f);
         this->action = 12;
-        this->drawMode = XC_DRAW_2;
+        this->drawMode = XC_DRAW_PULLING_OUT_HARP;
     }
 }
 
 void func_80B3DE78(EnXc* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), 0, 0.0f);
+        Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), ANIMMODE_LOOP, 0.0f);
         this->action = 13;
-        this->drawMode = XC_DRAW_1;
+        this->drawMode = XC_DRAW_DEFAULT;
         this->timer = 0.0f;
     }
 }
 
-void func_80B3DEF4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupReverseAccel(EnXc* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
 
     if (globalCtx->csCtx.state != 0 &&
         (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 4)) {
         Animation_Change(&this->skelAnime, &gShiekWalkingAnim, -1.0f, Animation_GetLastFrame(&gShiekWalkingAnim), 0.0f,
                          ANIMMODE_LOOP, -12.0f);
-        this->action = 14;
+        this->action = XC_ACTION_REVERSE_ACCEL;
         this->actor.world.rot.y += 0x8000;
         this->timer = 0.0f;
     }
 }
 
-void func_80B3DFA4(EnXc* this) {
+void EnXc_SetupReverseWalkAction(EnXc* this) {
     this->timer++;
     if (this->timer >= 12.0f) {
         this->actor.speedXZ = (kREG(2) * 0.01f) + 1.2f;
-        this->action = 15;
+        this->action = XC_ACTION_REVERSE_WALK;
     }
 }
 
-void func_80B3E014(EnXc* this) {
+void EnXc_SetupReverseHaltAction(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (xzDistToPlayer >= kREG(5) + 140.0f) {
         Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
                          ANIMMODE_LOOP, -12.0f);
-        this->action = 16;
+        this->action = XC_ACTION_REVERSE_HALT;
         this->timer = 0.0f;
     }
 }
@@ -1063,12 +1065,12 @@ void EnXc_SetupNutThrow(EnXc* this) {
 void func_80B3E164(EnXc* this, GlobalContext* globalCtx) {
     this->timer++;
     if (this->timer >= 30.0f) {
-        this->action = 18;
-        EnXc_SpawnArrow(this, globalCtx);
+        this->action = XC_ACTION_DELETE;
+        EnXc_SpawnNut(this, globalCtx);
     }
 }
 
-void func_80B3E1B8(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupDisappear(EnXc* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction;
     s16 sceneNum;
 
@@ -1076,8 +1078,12 @@ void func_80B3E1B8(EnXc* this, GlobalContext* globalCtx) {
         (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 9)) {
         sceneNum = globalCtx->sceneNum;
 
+        /**
+         * Shiek fades away if end of Bolero CS
+         * Kill actor otherwise 
+         */
         if (sceneNum == SCENE_SPOT17) {
-            this->action = 19;
+            this->action = XC_ACTION_FADE;
             this->drawMode = XC_DRAW_NOTHING;
             this->actor.shape.shadowAlpha = 0;
         } else {
@@ -1088,52 +1094,52 @@ void func_80B3E1B8(EnXc* this, GlobalContext* globalCtx) {
 
 void EnXc_ActionFunc0(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetColossusAppearSFX(this, globalCtx);
-    EnXc_SetWindSFX(globalCtx);
+    EnXc_SetColossusWindSFX(globalCtx);
     func_80B3D750(this, globalCtx);
 }
 
 void EnXc_ActionFunc1(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetColossusAppearSFX(this, globalCtx);
-    EnXc_SetWindSFX(globalCtx);
+    EnXc_SetColossusWindSFX(globalCtx);
     EnXc_SetupFallFromSkyAction(this, globalCtx);
 }
 
-void EnXc_ActionFunc2(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_GracefulFall(EnXc* this, GlobalContext* globalCtx) {
     s32 animFinished = EnXc_AnimIsFinished(this);
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetLandingSFX(this, globalCtx);
     EnXc_SetColossusAppearSFX(this, globalCtx);
-    EnXc_SetWindSFX(globalCtx);
+    EnXc_SetColossusWindSFX(globalCtx);
     func_80B3D8A4(this, globalCtx, animFinished);
 }
 
-void EnXc_ActionFunc3(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3D56C(this);
+void EnXc_Accelerate(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_CalcXZAccel(this);
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
-    func_80B3D990(this);
+    EnXc_SetupWalkAction(this);
 }
 
-void EnXc_ActionFunc4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_Walk(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D644(this);
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
-    EnXc_SetupHalt(this);
+    EnXc_SetupHaltAction(this);
 }
 
-void EnXc_ActionFunc5(EnXc* this, GlobalContext* globalCtx) {
-    func_80B3D664(this);
+void EnXc_Stopped(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_CalcXZSpeed(this);
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
-    func_80B3DAA8(this);
+    EnXc_SetupStoppedAction(this);
 }
 
 void EnXc_ActionFunc6(EnXc* this, GlobalContext* globalCtx) {
@@ -1148,7 +1154,7 @@ void EnXc_ActionFunc7(EnXc* this, GlobalContext* globalCtx) {
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B3DBAC(this, animFinished);
+    EnXc_SetupInitialHarpAction(this, animFinished);
 }
 
 void EnXc_ActionFunc8(EnXc* this, GlobalContext* globalCtx) {
@@ -1156,7 +1162,7 @@ void EnXc_ActionFunc8(EnXc* this, GlobalContext* globalCtx) {
 
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B3DC24(this, globalCtx, animFinished);
+    EnXc_SetupPlayingHarpAction(this, globalCtx, animFinished);
 }
 
 void EnXc_ActionFunc9(EnXc* this, GlobalContext* globalCtx) {
@@ -1170,7 +1176,7 @@ void EnXc_ActionFunc10(EnXc* this, GlobalContext* globalCtx) {
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B3DD3C(this, globalCtx);
+    EnXc_SetupHarpPutawayAction(this, globalCtx);
 }
 
 void EnXc_ActionFunc11(EnXc* this, GlobalContext* globalCtx) {
@@ -1194,17 +1200,17 @@ void EnXc_ActionFunc13(EnXc* this, GlobalContext* globalCtx) {
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_InitFlame(this, globalCtx);
-    func_80B3DEF4(this, globalCtx);
+    EnXc_SetupReverseAccel(this, globalCtx);
 }
 
-void EnXc_ActionFunc14(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ReverseAccelerate(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D6F0(this);
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
     EnXc_InitFlame(this, globalCtx);
-    func_80B3DFA4(this);
+    EnXc_SetupReverseWalkAction(this);
 }
 
 void EnXc_ActionFunc15(EnXc* this, GlobalContext* globalCtx) {
@@ -1214,10 +1220,10 @@ void EnXc_ActionFunc15(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetEyePattern(this);
     EnXc_SetWalkingSFX(this, globalCtx);
     EnXc_InitFlame(this, globalCtx);
-    func_80B3E014(this);
+    EnXc_SetupReverseHaltAction(this);
 }
 
-void EnXc_ActionFunc16(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_HaltAndWaitToThrowNut(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D730(this);
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
@@ -1227,7 +1233,7 @@ void EnXc_ActionFunc16(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetupNutThrow(this);
 }
 
-void EnXc_ThrowNutAction(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ThrowNut(EnXc* this, GlobalContext* globalCtx) {
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
@@ -1236,15 +1242,15 @@ void EnXc_ThrowNutAction(EnXc* this, GlobalContext* globalCtx) {
     func_80B3E164(this, globalCtx);
 }
 
-void EnXc_ActionFunc18(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_Delete(EnXc* this, GlobalContext* globalCtx) {
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
     EnXc_InitFlame(this, globalCtx);
-    func_80B3E1B8(this, globalCtx);
+    EnXc_SetupDisappear(this, globalCtx);
 }
 
-void EnXc_ActionFunc19(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_Fade(EnXc* this, GlobalContext* globalCtx) {
     EnXc_InitFlame(this, globalCtx);
 }
 
@@ -1255,6 +1261,7 @@ void func_80B3E87C(Gfx** dList, EnXc* this) {
         *dList = gShiekHarpDL;
     }
 }
+
 s32 func_80B3E8AC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnXc* this = THIS;
 
@@ -1275,7 +1282,7 @@ s32 func_80B3E8E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80B3E908(Actor* thisx, GlobalContext* globalCtx) {
+void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 pad;
     s16 eyePattern = this->eyeIdx;
@@ -1344,7 +1351,7 @@ void func_80B3EC0C(EnXc* this, GlobalContext* globalCtx) {
         posRot->rot.y = shape->rot.y = npcAction->rot.y;
 
         this->action = 22;
-        this->drawMode = XC_DRAW_1;
+        this->drawMode = XC_DRAW_DEFAULT;
     }
 }
 
@@ -1409,7 +1416,7 @@ void func_80B3EE64(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3EE74(EnXc* this, GlobalContext* globalCtx) {
-    if (EnXc_InitSerenadeCutscene(this, globalCtx)) {
+    if (EnXc_SerenadeProc(this, globalCtx)) {
         this->action = 30;
     }
 }
@@ -1476,7 +1483,7 @@ void func_80B3F100(EnXc* this) {
     EnXc_CheckAndSetAction(this, 43, 44);
 }
 
-void EnXc_ActionFunc29(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_Serenade(EnXc* this, GlobalContext* globalCtx) {
     func_80B3EE74(this, globalCtx);
 }
 
@@ -1527,7 +1534,7 @@ void EnXc_ActionFunc38(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_ActionFunc39(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ActionFunc14(this, globalCtx);
+    EnXc_ReverseAccelerate(this, globalCtx);
     func_80B3EFEC(this);
 }
 
@@ -1541,17 +1548,17 @@ void EnXc_ActionFunc40(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_ActionFunc41(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ActionFunc16(this, globalCtx);
+    EnXc_HaltAndWaitToThrowNut(this, globalCtx);
     func_80B3F0B8(this);
 }
 
 void EnXc_ActionFunc42(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ThrowNutAction(this, globalCtx);
+    EnXc_ThrowNut(this, globalCtx);
     func_80B3F0DC(this);
 }
 
 void EnXc_ActionFunc43(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ActionFunc18(this, globalCtx);
+    EnXc_Delete(this, globalCtx);
     func_80B3F100(this);
 }
 
@@ -1628,24 +1635,24 @@ Vec3f D_80B41DB0 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_80B41DBC = { 0.0f, 0.0f, 0.0f };
 
 static EnXcActionFunc sActionFuncs[] = {
-    EnXc_ActionFunc0, EnXc_ActionFunc1, EnXc_ActionFunc2, EnXc_ActionFunc3, EnXc_ActionFunc4, EnXc_ActionFunc5, EnXc_ActionFunc6,
+    EnXc_ActionFunc0, EnXc_ActionFunc1, EnXc_GracefulFall, EnXc_Accelerate, EnXc_Walk, EnXc_Stopped, EnXc_ActionFunc6,
     EnXc_ActionFunc7, EnXc_ActionFunc8, EnXc_ActionFunc9, EnXc_ActionFunc10, EnXc_ActionFunc11, EnXc_ActionFunc12, EnXc_ActionFunc13,
-    EnXc_ActionFunc14, EnXc_ActionFunc15, EnXc_ActionFunc16, EnXc_ThrowNutAction, EnXc_ActionFunc18, EnXc_ActionFunc19, EnXc_ActionFunc20,
+    EnXc_ReverseAccelerate, EnXc_ActionFunc15, EnXc_HaltAndWaitToThrowNut, EnXc_ThrowNut, EnXc_Delete, EnXc_Fade, EnXc_ActionFunc20,
     EnXc_ActionFunc21, EnXc_ActionFunc22, EnXc_ActionFunc23, EnXc_ActionFunc24, EnXc_ActionFunc25, EnXc_ActionFunc26, EnXc_ActionFunc27,
-    EnXc_ActionFunc28, EnXc_ActionFunc29, EnXc_ActionFunc30, EnXc_ActionFunc31, EnXc_ActionFunc32, EnXc_ActionFunc33, EnXc_ActionFunc34,
+    EnXc_ActionFunc28, EnXc_Serenade, EnXc_ActionFunc30, EnXc_ActionFunc31, EnXc_ActionFunc32, EnXc_ActionFunc33, EnXc_ActionFunc34,
     EnXc_ActionFunc35, EnXc_ActionFunc36, EnXc_ActionFunc37, EnXc_ActionFunc38, EnXc_ActionFunc39, EnXc_ActionFunc40, EnXc_ActionFunc41,
     EnXc_ActionFunc42, EnXc_ActionFunc43, EnXc_ActionFunc44, EnXc_ActionFunc45, EnXc_ActionFunc46, EnXc_ActionFunc47, EnXc_ActionFunc48,
     EnXc_ActionFunc49, EnXc_Kneel, EnXc_ActionFunc51, EnXc_ActionFunc52, EnXc_ActionFunc53, EnXc_ActionFunc54, EnXc_ShowTriforce,
-    EnXc_ShowTriforceIdle, EnXc_ActionFunc57, EnXc_ActionFunc58, EnXc_ActionFunc59, EnXc_ActionFunc60, EnXc_ActionFunc61, EnXc_ActionFunc62,
-    EnXc_ActionFunc63, EnXc_ActionFunc64, EnXc_ActionFunc65, EnXc_ActionFunc66, EnXc_ActionFunc67, EnXc_ActionFunc68, EnXc_ActionFunc69,
-    EnXc_ActionFunc70, EnXc_ActionFunc71, EnXc_ActionFunc72, EnXc_ActionFunc73, EnXc_ActionFunc74, EnXc_ActionFunc75, EnXc_ActionFunc76,
-    EnXc_ActionFunc77, EnXc_ActionFunc78, EnXc_ActionFunc79, EnXc_ActionFunc80,
+    EnXc_ShowTriforceIdle, EnXc_InitialNocturneAction, EnXc_IdleInNocturne, EnXc_DefenseStance, EnXc_Contort, EnXc_FallInNocturne, EnXc_HitGroundInNocturne,
+    EnXc_ActionFunc63, EnXc_KneelInNocturneCS, EnXc_ActionFunc65, EnXc_ActionFunc66, EnXc_ActionFunc67, EnXc_ActionFunc68, EnXc_ActionFunc69,
+    EnXc_ActionFunc70, EnXc_ActionFunc71, EnXc_ActionFunc72, EnXc_ReverseAccelInNocturneCS, EnXc_ReverseWalkInNocturneCS, EnXc_ReverseHaltInNocturneCS, EnXc_ThrowNutInNocturneCS,
+    EnXc_DeleteInNocturneCS, EnXc_KillInNocturneCS, EnXc_BlockingPedestalAction, EnXc_ActionFunc80,
 };
 
 Vec3f D_80B41F0C = { 0.0f, 10.0f, 0.0f };
 
 static EnXcDrawFunc sDrawFuncs[] = {
-    EnXc_DrawNothing, func_80B41BA4, func_80B3E908, EnXc_DrawHarp, EnXc_DrawTriforce, func_80B414AC,
+    EnXc_DrawNothing, EnXc_DrawDefault, EnXc_DrawPullingOutHarp, EnXc_DrawHarp, EnXc_DrawTriforce, EnXc_DrawSquintingEyes,
 };
 
 const ActorInit En_Xc_InitVars = {
@@ -1858,7 +1865,7 @@ void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx) {
         }
 
         this->action = 54;
-        this->drawMode = XC_DRAW_1;
+        this->drawMode = XC_DRAW_DEFAULT;
     }
 }
 
@@ -1972,8 +1979,8 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void func_80B40590(EnXc* this, GlobalContext* globalCtx) {
-    this->action = 57;
-    this->drawMode = XC_DRAW_5;
+    this->action = XC_ACTION_NOCTURNE_INIT;
+    this->drawMode = XC_DRAW_SQUINT;
 }
 
 void EnXc_SetThrownAroundSFX(EnXc* this) {
@@ -1991,7 +1998,7 @@ void EnXc_SetThrownAroundSFX(EnXc* this) {
     }
 }
 
-void func_80B4066C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_PlayLinkScreamSFX(EnXc* this, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.frames == 1455) {
         func_800F3F3C(7);
     }
@@ -2010,12 +2017,12 @@ void EnXc_SetCrySFX(EnXc* this, GlobalContext* globalCtx) {
 void func_80B406F8(Actor* thisx) {
     EnXc* this = THIS;
 
-    this->action = 57;
+    this->action = XC_ACTION_NOCTURNE_INIT;
     this->drawMode = XC_DRAW_NOTHING;
     this->actor.shape.shadowAlpha = 0;
 }
 
-void func_80B4070C(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupIdleInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     ActorShape* actorShape = &this->actor.shape;
     SkelAnime* skelAnime = &this->skelAnime;
@@ -2024,22 +2031,22 @@ void func_80B4070C(EnXc* this, GlobalContext* globalCtx) {
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
     Animation_Change(skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = 58;
-    this->drawMode = XC_DRAW_5;
+    this->action = XC_ACTION_NOCTURNE_IDLE;
+    this->drawMode = XC_DRAW_SQUINT;
     actorShape->shadowAlpha = 255;
 }
 
-void func_80B407A8(Actor* thisx) {
+void EnXc_SetupDefenseStance(Actor* thisx) {
     EnXc* this = THIS;
     SkelAnime* skelAnime = &this->skelAnime;
-    f32 frameCount = Animation_GetLastFrame(&gShiekAnim13);
+    f32 frameCount = Animation_GetLastFrame(&gShiekDefenseStanceAnim);
 
-    Animation_Change(skelAnime, &gShiekAnim13, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
-    this->action = 59;
-    this->drawMode = XC_DRAW_1;
+    Animation_Change(skelAnime, &gShiekDefenseStanceAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, -8.0f);
+    this->action = XC_ACTION_DEFENSE_STANCE;
+    this->drawMode = XC_DRAW_DEFAULT;
 }
 
-void func_80B40820(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupContortions(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
@@ -2048,12 +2055,12 @@ void func_80B40820(EnXc* this, GlobalContext* globalCtx) {
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
     Animation_Change(skelAnime, &gShiekContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekContortionsAnim), ANIMMODE_ONCE, 0.0f);
-    this->action = 60;
-    this->drawMode = XC_DRAW_1;
+    this->action = XC_ACTION_CONTORT;
+    this->drawMode = XC_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void func_80B408FC(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupFallInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
     f32 frameCount = Animation_GetLastFrame(&gShiekIdleAnim);
@@ -2062,42 +2069,44 @@ void func_80B408FC(EnXc* this, GlobalContext* globalCtx) {
     func_80B3C588(this, globalCtx, 4);
     func_80B3C964(this, globalCtx);
     Animation_Change(skelAnime, &gShiekFallingFromContortionsAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekFallingFromContortionsAnim), ANIMMODE_ONCE, 0.0f);
-    this->action = 61;
-    this->drawMode = XC_DRAW_1;
+    this->action = XC_ACTION_NOCTURNE_FALL;
+    this->drawMode = XC_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void func_80B409D8(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupHittingGroundInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
     f32 frameCount = Animation_GetLastFrame(&gShiekHittingGroundAnim);
 
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
     Animation_Change(&this->skelAnime, &gShiekHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-    this->action = 62;
-    this->drawMode = XC_DRAW_1;
+    this->action = XC_ACTION_NOCTURNE_HIT_GROUND;
+    this->drawMode = XC_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
 void func_80B40A78(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
     f32 frameCount = Animation_GetLastFrame(&gShiekHittingGroundAnim);
+
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
     Animation_Change(&this->skelAnime, &gShiekHittingGroundAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
     this->action = 63;
-    this->drawMode = XC_DRAW_1;
+    this->drawMode = XC_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
-void func_80B40B18(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupKneelInNocturne(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[3];
     f32 frameCount = Animation_GetLastFrame(&gShiekKneelingAnim);
+
     func_80B3C9DC(this);
     func_80B3C588(this, globalCtx, 4);
     Animation_Change(&this->skelAnime, &gShiekKneelingAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
-    this->action = 64;
-    this->drawMode = XC_DRAW_1;
+    this->action = XC_ACTION_NOCTURNE_KNEEL;
+    this->drawMode = XC_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
@@ -2108,7 +2117,7 @@ void func_80B40BB4(EnXc* this, GlobalContext* globalCtx) {
     func_80B3C588(this, globalCtx, 4);
     Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
     this->action = 65;
-    this->drawMode = XC_DRAW_1;
+    this->drawMode = XC_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 255;
 }
 
@@ -2141,36 +2150,36 @@ void func_80B40D2C(EnXc* this) {
 }
 
 void func_80B40D50(EnXc* this) {
-    EnXc_CheckAndSetAction(this, 72, 73);
+    EnXc_CheckAndSetAction(this, 72, XC_ACTION_NOCTURNE_REVERSE_ACCEL);
 }
 
 void func_80B40D74(EnXc* this) {
-    EnXc_CheckAndSetAction(this, 73, 74);
+    EnXc_CheckAndSetAction(this, XC_ACTION_NOCTURNE_REVERSE_ACCEL, XC_ACTION_NOCTURNE_REVERSE_WALK);
 }
 
-void func_80B40D98(EnXc* this) {
+void EnXc_SetupReverseHaltInNocturneCS(EnXc* this) {
     f32 xzDistToPlayer = this->actor.xzDistToPlayer;
 
     if (kREG(5) + 140.0f <= xzDistToPlayer) {
         Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), ANIMMODE_LOOP, -12.0f);
-        this->action = 75;
+        this->action = XC_ACTION_NOCTURNE_REVERSE_HALT;
         this->timer = 0.0f;
     }
 }
 
 void func_80B40E40(EnXc* this) {
-    EnXc_CheckAndSetAction(this, 75, 76);
+    EnXc_CheckAndSetAction(this, XC_ACTION_NOCTURNE_REVERSE_HALT, XC_ACTION_NOCTURNE_THROW_NUT);
 }
 
 void func_80B40E64(EnXc* this) {
-    EnXc_CheckAndSetAction(this, 76, 77);
+    EnXc_CheckAndSetAction(this, XC_ACTION_NOCTURNE_THROW_NUT, 77);
 }
 
 void func_80B40E88(EnXc* this) {
     EnXc_CheckAndSetAction(this, 77, 78);
 }
 
-s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
+s32 EnXc_SetupNocturneState(Actor* thisx, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 4);
 
     if (npcAction != NULL) {
@@ -2184,25 +2193,25 @@ s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
                     func_80B406F8(thisx);
                     break;
                 case 6:
-                    func_80B4070C(this, globalCtx);
+                    EnXc_SetupIdleInNocturne(this, globalCtx);
                     break;
                 case 20:
-                    func_80B407A8(thisx);
+                    EnXc_SetupDefenseStance(thisx);
                     break;
                 case 18:
-                    func_80B40820(this, globalCtx);
+                    EnXc_SetupContortions(this, globalCtx);
                     break;
                 case 14:
-                    func_80B408FC(this, globalCtx);
+                    EnXc_SetupFallInNocturne(this, globalCtx);
                     break;
                 case 19:
-                    func_80B409D8(this, globalCtx);
+                    EnXc_SetupHittingGroundInNocturne(this, globalCtx);
                     break;
                 case 15:
                     func_80B40A78(this, globalCtx);
                     break;
                 case 16:
-                    func_80B40B18(this, globalCtx);
+                    EnXc_SetupKneelInNocturne(this, globalCtx);
                     break;
                 case 17:
                     func_80B40BB4(this, globalCtx);
@@ -2222,63 +2231,63 @@ s32 func_80B40EAC(Actor* thisx, GlobalContext* globalCtx) {
     return 0;
 }
 
-void EnXc_ActionFunc57(EnXc* this, GlobalContext* globalCtx) {
-    func_80B40EAC(&this->actor, globalCtx);
+void EnXc_InitialNocturneAction(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_SetupNocturneState(&this->actor, globalCtx);
 }
 
-void EnXc_ActionFunc58(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_IdleInNocturne(EnXc* this, GlobalContext* globalCtx) {
     func_80B3C588(this, globalCtx, 4);
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
-    func_80B40EAC(&this->actor, globalCtx);
+    EnXc_SetupNocturneState(&this->actor, globalCtx);
 }
 
-void EnXc_ActionFunc59(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_DefenseStance(EnXc* this, GlobalContext* globalCtx) {
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B40EAC(&this->actor, globalCtx);
+    EnXc_SetupNocturneState(&this->actor, globalCtx);
 }
 
-void EnXc_ActionFunc60(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_Contort(EnXc* this, GlobalContext* globalCtx) {
     EnXc_SetCrySFX(this, globalCtx);
     EnXc_AnimIsFinished(this);
     EnXc_SetEyePattern(this);
-    if (!func_80B40EAC(&this->actor, globalCtx)) {
+    if (!EnXc_SetupNocturneState(&this->actor, globalCtx)) {
         func_80B3C924(this, globalCtx);
         EnXc_BgCheck(this, globalCtx);
     }
 }
 
-void EnXc_ActionFunc61(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_FallInNocturne(EnXc* this, GlobalContext* globalCtx) {
     EnXc_AnimIsFinished(this);
     EnXc_SetEyePattern(this);
     EnXc_SetThrownAroundSFX(this);
-    if (!func_80B40EAC(&this->actor, globalCtx)) {
+    if (!EnXc_SetupNocturneState(&this->actor, globalCtx)) {
         func_80B3C8CC(this, globalCtx);
         EnXc_BgCheck(this, globalCtx);
     }
 }
 
-void EnXc_ActionFunc62(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_HitGroundInNocturne(EnXc* this, GlobalContext* globalCtx) {
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B40EAC(&this->actor, globalCtx);
+    EnXc_SetupNocturneState(&this->actor, globalCtx);
 }
 
 void EnXc_ActionFunc63(EnXc* this, GlobalContext* globalCtx) {
     EnXc_AnimIsFinished(this);
-    func_80B4066C(this, globalCtx);
+    EnXc_PlayLinkScreamSFX(this, globalCtx);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B40EAC(&this->actor, globalCtx);
+    EnXc_SetupNocturneState(&this->actor, globalCtx);
 }
 
-void EnXc_ActionFunc64(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_KneelInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B40EAC(&this->actor, globalCtx);
+    EnXc_SetupNocturneState(&this->actor, globalCtx);
 }
 
 void EnXc_ActionFunc65(EnXc* this, GlobalContext* globalCtx) {
@@ -2322,39 +2331,39 @@ void EnXc_ActionFunc72(EnXc* this, GlobalContext* globalCtx) {
     func_80B40D50(this);
 }
 
-void EnXc_ActionFunc73(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ActionFunc14(this, globalCtx);
+void EnXc_ReverseAccelInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ReverseAccelerate(this, globalCtx);
     func_80B40D74(this);
 }
 
-void EnXc_ActionFunc74(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_ReverseWalkInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
     func_80B3D710(this);
     EnXc_AnimIsFinished(this);
     EnXc_BgCheck(this, globalCtx);
     EnXc_SetEyePattern(this);
-    func_80B40D98(this);
+    EnXc_SetupReverseHaltInNocturneCS(this);
 }
 
-void EnXc_ActionFunc75(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ActionFunc16(this, globalCtx);
+void EnXc_ReverseHaltInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_HaltAndWaitToThrowNut(this, globalCtx);
     func_80B40E40(this);
 }
 
-void EnXc_ActionFunc76(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ThrowNutAction(this, globalCtx);
+void EnXc_ThrowNutInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_ThrowNut(this, globalCtx);
     func_80B40E64(this);
 }
 
-void EnXc_ActionFunc77(EnXc* this, GlobalContext* globalCtx) {
-    EnXc_ActionFunc18(this, globalCtx);
+void EnXc_DeleteInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
+    EnXc_Delete(this, globalCtx);
     func_80B40E88(this);
 }
 
-void EnXc_ActionFunc78(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_KillInNocturneCS(EnXc* this, GlobalContext* globalCtx) {
     Actor_Kill(&this->actor);
 }
 
-void func_80B414AC(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_DrawSquintingEyes(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     SkelAnime* skelAnime = &this->skelAnime;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -2368,19 +2377,22 @@ void func_80B414AC(EnXc* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 854);
 }
 
-void func_80B415B8(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_PreludeCS(EnXc* this, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
+        /* If Sheik is not in front of Master Sword Pedestal */
         if (!(gSaveContext.eventChkInf[12] & 0x20)) {
-            gSaveContext.eventChkInf[12] |= 0x20;
+            gSaveContext.eventChkInf[12] |= 0x20; /* Set flag for Sheik in front of Master Sword Pedestal */
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(tokinoma_sceneCutsceneData0x0046F0);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, globalCtx);
+        /* If Sheik is in front of Master Sword Pedestal and Player has obtained Forest Medallion */
         } else if (!(gSaveContext.eventChkInf[5] & 0x20) && (gSaveContext.eventChkInf[4] & 0x100)) {
-            gSaveContext.eventChkInf[5] |= 0x20;
+            gSaveContext.eventChkInf[5] |= 0x20; /* Set Sheik moved away from Master Sword Pedestal flag */
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(tokinoma_sceneCutsceneData0x006D20);
             gSaveContext.cutsceneTrigger = 1;
             this->action = 30;
+        /* If Sheik is in front of Master Sword Pedestal but has NOT obtained Forest Medallion */
         } else if (!(gSaveContext.eventChkInf[5] & 0x20)) {
             func_80B3C9EC(this);
         } else {
@@ -2391,9 +2403,9 @@ void func_80B415B8(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80B41718(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
     if (func_8002F194(&this->actor, globalCtx)) {
-        this->action = 80;
+        this->action = XC_ACTION_IN_DIALOGUE;
     } else {
         this->actor.flags |= 9;
         if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
@@ -2409,18 +2421,18 @@ void func_80B41718(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B41798(EnXc* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        this->action = 79;
-        this->actor.flags &= -0xA;
+        this->action = XC_ACTION_BLOCK_PEDESTAL;
+        this->actor.flags &= ~9;
     }
 }
 
-void EnXc_ActionFunc79(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_BlockingPedestalAction(EnXc* this, GlobalContext* globalCtx) {
     EnXc_BgCheck(this, globalCtx);
     EnXc_UpdateCollider(&this->actor, globalCtx);
     EnXc_CalculateHeadTurn(this, globalCtx);
     EnXc_AnimIsFinished(this);
     EnXc_SetEyePattern(this);
-    func_80B41718(this, globalCtx);
+    EnXc_SetupDialogueAction(this, globalCtx);
 }
 
 void EnXc_ActionFunc80(EnXc* this, GlobalContext* globalCtx) {
@@ -2454,7 +2466,7 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 1:
             func_80B3EBF0(this, globalCtx);
             break;
-        case 2:
+        case 2: /* Beta Serenade Cutscene or Learning Prelude */
             func_80B3EE64(this, globalCtx);
             break;
         case 3:
@@ -2466,24 +2478,24 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 5:
             func_80B40590(this, globalCtx);
             break;
-        case 6:
+        case XC_TYPE_MINUET:
             func_80B3CA38(this, globalCtx);
             break;
-        case 7:
+        case XC_TYPE_BOLERO:
             func_80B3CB58(this, globalCtx);
             break;
-        case 8:
-            func_80B3CD00(this, globalCtx);
+        case XC_TYPE_SERENADE:
+            EnXc_SetupSerenadeAction(this, globalCtx);
             break;
         case 9:
-            func_80B415B8(this, globalCtx);
+            EnXc_PreludeCS(this, globalCtx);
             break;
         case 0:
-            func_80B3CE78(this, globalCtx);
+            EnXc_DoNothing(this, globalCtx);
             break;
         default:
             osSyncPrintf(VT_FGCOL(RED) " En_Oa2 の arg_data がおかしい!!!!!!!!!!!!!!!!!!!!!!!!!\n" VT_RST);
-            func_80B3CE78(this, globalCtx);
+            EnXc_DoNothing(this, globalCtx);
     }
 }
 
@@ -2522,7 +2534,7 @@ void func_80B41B0C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 void EnXc_DrawNothing(EnXc* this, GlobalContext* globalCtx) {
 }
 
-void func_80B41BA4(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_DrawDefault(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[2];
     s16 eyeIdx = this->eyeIdx;
     u64* eyeSegment = sEyeTextures[eyeIdx];
