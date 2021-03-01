@@ -29,7 +29,7 @@ protected:
 	uint8_t* bmpRgb;
 	uint8_t* bmpRgba;
 
-	virtual void ParseXML(tinyxml2::XMLElement* reader);
+	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void FixRawData();
 	void PrepareBitmap();
 	void PrepareBitmapRGBA16();
@@ -52,13 +52,15 @@ protected:
 	void PrepareRawDataPalette4(std::string palPath);
 	void PrepareRawDataPalette8(std::string palPath);
 	float GetPixelMultiplyer();
-	bool IsExternalResource();
-	ZResourceType GetResourceType();
-	void CalcHash();
+	bool IsExternalResource() override;
+	ZResourceType GetResourceType() override;
+	void CalcHash() override;
 
 public:
 	ZTexture();
 	~ZTexture();
+
+	bool isPalette;
 
 	static ZTexture* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool readFile);
 	static ZTexture* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath);
@@ -67,15 +69,18 @@ public:
 	static ZTexture* FromHLTexture(HLTexture* hlTex);
 	static TextureType GetTextureTypeFromString(std::string str);
 
-	std::string GetSourceOutputCode(std::string prefix);
-	std::string GetSourceOutputHeader(std::string prefix);
+	std::string GetSourceOutputCode(const std::string& prefix) override;
+	std::string GetSourceOutputHeader(const std::string& prefix) override;
 
-	std::vector<uint8_t> GetRawData();
-	int GetRawDataSize();
+	std::vector<uint8_t> GetRawData() override;
+	int GetRawDataSize() override;
 	std::string GetIMFmtFromType();
 	std::string GetIMSizFromType();
 	int GetWidth();
 	int GetHeight();
-	void Save(std::string outFolder);
-	std::string GetExternalExtension();
+	void SetWidth(int nWidth);
+	void SetHeight(int nHeight);
+	TextureType GetTextureType();
+	void Save(const std::string& outFolder) override;
+	std::string GetExternalExtension() override;
 };

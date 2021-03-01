@@ -1033,7 +1033,7 @@ glabel EnTorch2_Update
 /* 012F4 80B1EC74 24A50150 */  addiu   $a1, $a1, %lo(sSpawnPoint)  ## $a1 = 80B20150
 /* 012F8 80B1EC78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 012FC 80B1EC7C 46044280 */  add.s   $f10, $f8, $f4             
-/* 01300 80B1EC80 0C00B6DB */  jal     func_8002DB6C              
+/* 01300 80B1EC80 0C00B6DB */  jal     Actor_WorldDistXYZToPoint              
 /* 01304 80B1EC84 E60A002C */  swc1    $f10, 0x002C($s0)          ## 0000002C
 /* 01308 80B1EC88 3C014448 */  lui     $at, 0x4448                ## $at = 44480000
 /* 0130C 80B1EC8C 44818000 */  mtc1    $at, $f16                  ## $f16 = 800.00
@@ -1364,7 +1364,7 @@ glabel EnTorch2_Update
 /* 017B8 80B1F138 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 017BC 80B1F13C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 017C0 80B1F140 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 017C4 80B1F144 0C00D09B */  jal     func_8003426C              
+/* 017C4 80B1F144 0C00D09B */  jal     Actor_SetColorFilter              
 /* 017C8 80B1F148 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 017CC 80B1F14C 10000039 */  beq     $zero, $zero, .L80B1F234   
 /* 017D0 80B1F150 A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
@@ -1372,7 +1372,7 @@ glabel EnTorch2_Update
 /* 017D4 80B1F154 240A0050 */  addiu   $t2, $zero, 0x0050         ## $t2 = 00000050
 /* 017D8 80B1F158 AFAA0010 */  sw      $t2, 0x0010($sp)           
 /* 017DC 80B1F15C 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 017E0 80B1F160 0C00D09B */  jal     func_8003426C              
+/* 017E0 80B1F160 0C00D09B */  jal     Actor_SetColorFilter              
 /* 017E4 80B1F164 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 017E8 80B1F168 10000032 */  beq     $zero, $zero, .L80B1F234   
 /* 017EC 80B1F16C A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
@@ -1415,7 +1415,7 @@ glabel EnTorch2_Update
 /* 0187C 80B1F1FC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01880 80B1F200 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 01884 80B1F204 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 01888 80B1F208 0C00D09B */  jal     func_8003426C              
+/* 01888 80B1F208 0C00D09B */  jal     Actor_SetColorFilter              
 /* 0188C 80B1F20C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01890 80B1F210 10000008 */  beq     $zero, $zero, .L80B1F234   
 /* 01894 80B1F214 A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
@@ -1424,7 +1424,7 @@ glabel EnTorch2_Update
 /* 0189C 80B1F21C AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 018A0 80B1F220 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 018A4 80B1F224 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 018A8 80B1F228 0C00D09B */  jal     func_8003426C              
+/* 018A8 80B1F228 0C00D09B */  jal     Actor_SetColorFilter              
 /* 018AC 80B1F22C 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 .L80B1F230:
 /* 018B0 80B1F230 A20000B0 */  sb      $zero, 0x00B0($s0)         ## 000000B0
@@ -1684,10 +1684,10 @@ glabel EnTorch2_Update
 /* 01C48 80B1F5C8 0C028EF0 */  jal     LinkAnimation_Update              
 /* 01C4C 80B1F5CC 8FA40084 */  lw      $a0, 0x0084($sp)           
 /* 01C50 80B1F5D0 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C54 80B1F5D4 0C017458 */  jal     Collider_QuadSetAT              
+/* 01C54 80B1F5D4 0C017458 */  jal     Collider_ResetQuadAT              
 /* 01C58 80B1F5D8 8FA50030 */  lw      $a1, 0x0030($sp)           
 /* 01C5C 80B1F5DC 8FA40084 */  lw      $a0, 0x0084($sp)           
-/* 01C60 80B1F5E0 0C017458 */  jal     Collider_QuadSetAT              
+/* 01C60 80B1F5E0 0C017458 */  jal     Collider_ResetQuadAT              
 /* 01C64 80B1F5E4 8FA50038 */  lw      $a1, 0x0038($sp)           
 /* 01C68 80B1F5E8 3C0780B2 */  lui     $a3, %hi(sStaggerTimer)       ## $a3 = 80B20000
 /* 01C6C 80B1F5EC 3C0680B2 */  lui     $a2, %hi(sCounterState)       ## $a2 = 80B20000

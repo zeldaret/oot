@@ -338,6 +338,83 @@ void FileChoose_ConfigModeUpdate(FileChooseContext* this) {
 
 void func_8080C330(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C330.s")
+// void func_8080C330(FileChooseContext* this) {
+//     GraphicsContext* gfxCtx = this->state.gfxCtx;
+//     s16 i;
+//     s16 j;
+//     s16 x;
+//     s16 tmp;
+//     s16 tmp2;
+//     s16 tmp3;
+
+//     this->allocVtx1 = Graph_Alloc(gfxCtx, sizeof(Vtx) * 80);
+//     tmp = this->windowPosX - 90;
+
+//     for (i = 0, x = 0; i < 4; i++) {
+//         tmp += 0x40;
+//         if (i == 3) {
+//             tmp2 = 0x30;
+//         } else {
+//             tmp2 = 0x40;
+//         }
+//         tmp3 = 0x50;
+
+//         for (j = 0; j < 5; j++, x += 4) {
+
+//             this->allocVtx1[x].v.ob[0] = 
+//             this->allocVtx1[x+2].v.ob[0] = tmp;
+
+//             this->allocVtx1[x+3].v.ob[0] = tmp + tmp2;
+//             this->allocVtx1[x+1].v.ob[0] = tmp + tmp2;
+//             // 54
+//             this->allocVtx1[x].v.ob[1] = 
+//             this->allocVtx1[x+1].v.ob[1] = tmp3;
+
+//             this->allocVtx1[x+3].v.ob[1] = tmp3 - 0x20;
+//             this->allocVtx1[x+2].v.ob[1] = tmp3 - 0x20;
+//             // 59
+//             this->allocVtx1[x].v.ob[2] = 
+//             this->allocVtx1[x+1].v.ob[2] = 
+//             this->allocVtx1[x+2].v.ob[2] = 
+//             this->allocVtx1[x+3].v.ob[2] = 0;
+//             // 64
+//             this->allocVtx1[x].v.flag = 
+//             this->allocVtx1[x+1].v.flag = 
+//             this->allocVtx1[x+2].v.flag = 
+//             this->allocVtx1[x+3].v.flag = 0;
+//             // 69
+//             this->allocVtx1[x].v.tc[0] = 
+//             this->allocVtx1[x].v.tc[1] = 
+//             this->allocVtx1[x+1].v.tc[1] = 
+//             this->allocVtx1[x+2].v.tc[0] = 0;
+//             //74
+//             this->allocVtx1[x+3].v.tc[0] = tmp2 * 32;
+//             this->allocVtx1[x+1].v.tc[0] = tmp2 * 32;
+//             // 76
+//             this->allocVtx1[x+2].v.tc[1] = 
+//             this->allocVtx1[x+3].v.tc[1] = 0x400;
+//             // 79
+//             this->allocVtx1[x].v.cn[0] = 
+//             this->allocVtx1[x+2].v.cn[0] = 
+//             this->allocVtx1[x].v.cn[1] = 
+//             this->allocVtx1[x+2].v.cn[1] = 
+//             this->allocVtx1[x].v.cn[2] = 
+//             this->allocVtx1[x+2].v.cn[2] = 
+//             this->allocVtx1[x+1].v.cn[0] = 
+//             this->allocVtx1[x+3].v.cn[0] = 
+//             this->allocVtx1[x+1].v.cn[1] = 
+//             this->allocVtx1[x+3].v.cn[1] = 
+//             this->allocVtx1[x+1].v.cn[2] = 
+//             this->allocVtx1[x+3].v.cn[2] = 
+//             this->allocVtx1[x].v.cn[3] = 
+//             this->allocVtx1[x+2].v.cn[3] = 
+//             this->allocVtx1[x+1].v.cn[3] = 
+//             this->allocVtx1[x+3].v.cn[3] = 0xFF;
+
+//             tmp3 -= 0x20;
+//         }
+//     }
+// }
 
 void func_8080C60C(FileChooseContext* this);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/gamestates/ovl_file_choose/func_8080C60C.s")

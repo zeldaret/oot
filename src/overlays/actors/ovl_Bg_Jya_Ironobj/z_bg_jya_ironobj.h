@@ -6,9 +6,12 @@
 
 struct BgJyaIronobj;
 
+typedef void (*BgJyaIronobjActionFunc)(struct BgJyaIronobj*, GlobalContext*);
+
 typedef struct BgJyaIronobj {
-    /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x68];
+    /* 0x0000 */ DynaPolyActor dyna;
+    /* 0x0164 */ BgJyaIronobjActionFunc actionFunc;
+    /* 0x0168 */ ColliderCylinder colCylinder;
 } BgJyaIronobj; // size = 0x01B4
 
 extern const ActorInit Bg_Jya_Ironobj_InitVars;

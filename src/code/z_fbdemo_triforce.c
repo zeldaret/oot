@@ -20,7 +20,11 @@ Vtx sTriforceVTX[] = {
     VTX(32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF), VTX(-32000, -32000, 0, 0, 0, 0xFF, 0xFF, 0xFF, 0xFF),
 };
 
-void TransitionTriforce_Start(TransitionTriforce* this) {
+#define THIS ((TransitionTriforce*)thisx)
+
+void TransitionTriforce_Start(void* thisx) {
+    TransitionTriforce* this = THIS;
+
     switch (this->state) {
         case 1:
         case 2:
@@ -30,7 +34,9 @@ void TransitionTriforce_Start(TransitionTriforce* this) {
     this->transPos = 0.03f;
 }
 
-TransitionTriforce* TransitionTriforce_Init(TransitionTriforce* this) {
+void* TransitionTriforce_Init(void* thisx) {
+    TransitionTriforce* this = THIS;
+
     bzero(this, sizeof(*this));
     guOrtho(&this->projection, -160.0f, 160.0f, -120.0f, 120.0f, -1000.0f, 1000.0f, 1.0f);
     this->transPos = 1.0f;
@@ -40,12 +46,14 @@ TransitionTriforce* TransitionTriforce_Init(TransitionTriforce* this) {
     return this;
 }
 
-void TransitionTriforce_Destroy(TransitionTriforce* this) {
+void TransitionTriforce_Destroy(void* thisx) {
 }
 
-void TransitionTriforce_Update(TransitionTriforce* this, s32 updateRate) {
+void TransitionTriforce_Update(void* thisx, s32 updateRate) {
+    TransitionTriforce* this = THIS;
     f32 temp_f0;
     s32 i;
+
     for (i = updateRate; i > 0; i--) {
         if (this->state == 1) {
             this->transPos = CLAMP_MIN(this->transPos * (1.0f - this->step), 0.03f);
@@ -59,30 +67,33 @@ void TransitionTriforce_Update(TransitionTriforce* this, s32 updateRate) {
     }
 }
 
-void TransitionTriforce_SetColor(TransitionTriforce* this, u32 color) {
+void TransitionTriforce_SetColor(void* thisx, u32 color) {
+    TransitionTriforce* this = THIS;
+
     this->color.rgba = color;
 }
 
-void TransitionTriforce_SetType(TransitionTriforce* this, s32 type) {
+void TransitionTriforce_SetType(void* thisx, s32 type) {
+    TransitionTriforce* this = THIS;
+
     this->fadeDirection = type;
 }
 
 // unused
-void TransitionTriforce_SetState(TransitionTriforce* this, s32 state) {
+void TransitionTriforce_SetState(void* thisx, s32 state) {
+    TransitionTriforce* this = THIS;
+
     this->state = state;
 }
 
-void TransitionTriforce_Draw(TransitionTriforce* this, Gfx** gfxP) {
-
+void TransitionTriforce_Draw(void* thisx, Gfx** gfxP) {
     Gfx* gfx = *gfxP;
     Mtx* modelView;
     f32 scale;
-    char pad[4];
+    TransitionTriforce* this = THIS;
+    s32 pad;
+    f32 rotation = this->transPos * 360.0f;
 
-    char pad2[4];
-    f32 rotation;
-
-    rotation = this->transPos * 360.0f;
     modelView = this->modelView[this->frame];
     scale = this->transPos * 0.625f;
     this->frame ^= 1;
@@ -125,8 +136,11 @@ void TransitionTriforce_Draw(TransitionTriforce* this, Gfx** gfxP) {
     *gfxP = gfx;
 }
 
-s32 TransitionTriforce_IsDone(TransitionTriforce* this) {
+s32 TransitionTriforce_IsDone(void* thisx) {
+    TransitionTriforce* this = THIS;
+
     s32 ret = 0;
+
     if (this->state == 1 || this->state == 2) {
         return this->transPos <= 0.03f;
 
