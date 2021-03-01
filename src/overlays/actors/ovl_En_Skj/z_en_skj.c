@@ -11,10 +11,10 @@ void EnSkj_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80B00964(Actor* thisx, GlobalContext* globalCtx); // update for params 5
-void func_80B01244(Actor* thisx, GlobalContext* globalCtx); // update for params 6
+void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx); // update for params 5
+void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx); // update for params 6
 
-void func_80AFEE84(EnSkj* this);
+void EnSkj_Backflip(EnSkj* this);
 void func_80AFF2A0(EnSkj* this);
 void func_80AFF334(EnSkj* this);
 
@@ -23,7 +23,7 @@ void func_80B00514(EnSkj* this);
 void func_80AFF038(EnSkj* this);
 void func_80B006F8(EnSkj* this);
 void func_80B00680(EnSkj* this);
-void func_80AFEE84(EnSkj* this);
+void EnSkj_Backflip(EnSkj* this);
 void func_80AFF5F0(EnSkj* this);
 void func_80AFF660(EnSkj* this);
 void func_80AFF3D0(EnSkj* this);
@@ -48,12 +48,12 @@ void func_80B001CC(EnSkj* this, GlobalContext* globalCtx);
 f32 func_80AFE968(EnSkj* this);
 s32 func_80AFEC3C(EnSkj* this, GlobalContext* globalCtx);
 void func_80B002A4(EnSkj* this, GlobalContext* globalCtx);
-void func_80B00A08(EnSkj* this, Player* player);
+void EnSkj_TurnPlayer(EnSkj* this, Player* player);
 
 // ocarina minigame action funcs
-void func_80B00A54(EnSkj* this, GlobalContext* globalCtx);
-void func_80B00BB0(EnSkj* this, GlobalContext* globalCtx);
-void func_80B00B0C(EnSkj* this, GlobalContext* globalCtx);
+void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx);
+void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx);
+void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx);
 void func_80B00C38(EnSkj* this, GlobalContext* globalCtx);
 void func_80B00EA4(EnSkj* this, GlobalContext* globalCtx);
 void func_80B01004(EnSkj* this, GlobalContext* globalCtx);
@@ -62,7 +62,7 @@ void func_80B010C4(EnSkj* this, GlobalContext* globalCtx);
 void func_80B01134(EnSkj* this, GlobalContext* globalCtx);
 void func_80B00EE0(EnSkj* this, GlobalContext* globalCtx);
 void func_80B00F64(EnSkj* this, GlobalContext* globalCtx);
-void func_80B00A54(EnSkj* this, GlobalContext* globalCtx);
+void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx);
 void func_80B011CC(EnSkj* this, GlobalContext* globalCtx);
 
 // actionFuncs enemy?
@@ -96,7 +96,7 @@ void func_80B00638(EnSkj* this, GlobalContext* globalCtx);
 void func_80B006B0(EnSkj* this, GlobalContext* globalCtx);
 void func_80B00740(EnSkj* this, GlobalContext* globalCtx);
 
-void func_80AFEAEC(GlobalContext* globalCtx, Vec3f* pos);
+void EnSkj_CreateDamageEffect(GlobalContext* globalCtx, Vec3f* pos);
 
 void func_80AFF7A0(EnSkj* this);
 
@@ -105,8 +105,8 @@ typedef struct {
     EnSkj* skullkid;
 } unkSkjStruct;
 
-unkSkjStruct D_80B01640 = { 0, NULL };
-unkSkjStruct D_80B01648[] = { { 0, NULL }, { 0, NULL } };
+unkSkjStruct sSmallStumpSkullKid = { 0, NULL };
+unkSkjStruct sOcarinaMinigameSkullKids[] = { { 0, NULL }, { 0, NULL } };
 
 const ActorInit En_Skj_InitVars = {
     ACTOR_EN_SKJ,
@@ -268,15 +268,15 @@ void func_80AFE390(EnSkj* this) {
 }
 
 // EnSkj_SetNaviEnemyID
-void func_80AFE428(EnSkj* this) {
+void EnSkj_SetNaviId(EnSkj* this) {
     switch (this->actor.params) {
         case 0:
             if (gSaveContext.itemGetInf[3] & 0x200) {
-                this->actor.naviEnemyId = 0x41;
+                this->actor.naviEnemyId = 0x41; //Skull kid with skull mask
             } else if (gSaveContext.itemGetInf[1] & 0x40) {
-                this->actor.naviEnemyId = 0x40;
+                this->actor.naviEnemyId = 0x40; //Skull kid after Saria's song but no mask
             } else {
-                this->actor.naviEnemyId = 0x3F;
+                this->actor.naviEnemyId = 0x3F;//No Sarias song no skull mask
             }
             break;
 
@@ -286,12 +286,13 @@ void func_80AFE428(EnSkj* this) {
             break;
 
         default:
-            this->actor.naviEnemyId = 0x36;
+            this->actor.naviEnemyId = 0x36;//Skull kid as adult
             break;
     }
 }
 
 //#define NON_MATCHING
+
 #ifdef NON_MATCHING
 void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
@@ -302,30 +303,30 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(thisx, D_80B017C0);
     switch (type) {
-        case 5:
-            D_80B01640.unk0 = 1;
-            D_80B01640.skullkid = THIS;
+        case 5: // Invisible on the small (sarias song))
+            sSmallStumpSkullKid.unk0 = 1;
+            sSmallStumpSkullKid.skullkid = THIS;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
-            this->actor.update = func_80B00964;
+            this->actor.update = EnSkj_SariasSongShortStumpUpdate;
             this->actor.flags &= ~5;
             this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             break;
 
-        case 6:
-            D_80B01640.unk0 = 1;
-            D_80B01640.skullkid = THIS;
+        case 6: // Short Stump (ocarina game)
+            sSmallStumpSkullKid.unk0 = 1;
+            sSmallStumpSkullKid.skullkid = THIS;
             this->actor.destroy = NULL;
             this->actor.draw = NULL;
-            this->actor.update = func_80B01244;
+            this->actor.update = EnSkj_OcarinaMinigameShortStumpUpdate;
             this->actor.flags &= ~5;
             this->actor.flags |= 0;
             Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, thisx, ACTORCAT_PROP);
             this->actor.focus.pos.x = 1230.0f;
             this->actor.focus.pos.y = -90.0f;
             this->actor.focus.pos.z = 450.0f;
-            this->actionFunc = func_80B00A54;
+            this->actionFunc = EnSkj_SetupWaitForOcarina;
             break;
 
         default:
@@ -337,7 +338,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
                 }
             }
 
-            func_80AFE428(this);
+            EnSkj_SetNaviId(this);
             SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gSkullKidSkel, &gSkullKidAnimPlayFlute, this->jointTable,
                                this->morphTable, 19);
             if ((type >= 0) && (type < 3)) {
@@ -353,8 +354,8 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
             if ((type > 0) && (type < 3)) {
                 this->actor.targetMode = 7;
                 this->posCopy = this->actor.world.pos;
-                D_80B01648[type - 1].unk0 = 1;
-                D_80B01648[type - 1].skullkid = this;
+                sOcarinaMinigameSkullKids[type - 1].unk0 = 1;
+                sOcarinaMinigameSkullKids[type - 1].skullkid = this;
                 this->unk_2D8 = 0;
                 this->alpha = 0;
                 func_80B00514(this);
@@ -415,14 +416,14 @@ f32 func_80AFE968(EnSkj* this) { // GI_xzRange
     f32 zDiff;
     f32 xDiff;
 
-    temp_v0 = D_80B01640.skullkid;
+    temp_v0 = sSmallStumpSkullKid.skullkid;
     xDiff = temp_v0->actor.world.pos.x - this->actor.world.pos.x;
     zDiff = temp_v0->actor.world.pos.z - this->actor.world.pos.z;
     return sqrtf(SQ(xDiff) + SQ(zDiff)) + 26.0f;
 }
 
 f32 func_80AFE9AC(EnSkj* this) { // GI_yRange
-    return fabsf(D_80B01640.skullkid->actor.world.pos.y - this->actor.world.pos.y) + 10.0f;
+    return fabsf(sSmallStumpSkullKid.skullkid->actor.world.pos.y - this->actor.world.pos.y) + 10.0f;
 }
 
 // Spawn/shoot needle
@@ -445,7 +446,7 @@ s32 func_80AFE9D4(EnSkj* this, GlobalContext* globalCtx) {
 
     needle = (EnSkjneedle*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_SKJNEEDLE, pos2.x, pos2.y, pos2.z,
                                        this->actor.shape.rot.x, this->actor.shape.rot.y, this->actor.shape.rot.z, 0);
-    if (needle != 0) {
+    if (needle != NULL) {
         needle->unk_1E2 = 100;
         needle->actor.speedXZ = 24.0f;
         return 1;
@@ -454,7 +455,7 @@ s32 func_80AFE9D4(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 // Create Spark
-void func_80AFEAEC(GlobalContext* globalCtx, Vec3f* pos) {
+void EnSkj_CreateDamageEffect(GlobalContext* globalCtx, Vec3f* pos) {
     EffectSparkInit effect;
     s32 sp20;
 
@@ -524,7 +525,7 @@ s32 func_80AFEC3C(EnSkj* this, GlobalContext* globalCtx) {
                 effectPos.y = this->collider.info.bumper.hitPos.y;
                 effectPos.z = this->collider.info.bumper.hitPos.z;
 
-                func_80AFEAEC(globalCtx, &effectPos);
+                EnSkj_CreateDamageEffect(globalCtx, &effectPos);
                 EffectSsHitMark_SpawnFixedScale(globalCtx, 1, &effectPos);
 
                 yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
@@ -554,7 +555,7 @@ s32 func_80AFEC3C(EnSkj* this, GlobalContext* globalCtx) {
             }
         } else {
             this->unk_2D2 = 1;
-            func_80AFEE84(this);
+            EnSkj_Backflip(this);
             return 1;
         }
     }
@@ -580,7 +581,7 @@ s32 func_80AFEDF8(EnSkj* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-void func_80AFEE84(EnSkj* this) {
+void EnSkj_Backflip(EnSkj* this) {
     this->actor.velocity.y = 8.0f;
     this->actor.speedXZ = -8.0f;
 
@@ -651,13 +652,13 @@ void func_80AFF07C(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
         if ((!(gSaveContext.itemGetInf[1] & 0x40)) && (this->actor.xzDistToPlayer < 200.0f)) {
             this->unk_2D2 = 1;
-            func_80AFEE84(this);
-        } else if (D_80B01640.unk0 != 0) {
+            EnSkj_Backflip(this);
+        } else if (sSmallStumpSkullKid.unk0 != 0) {
             Player* player = PLAYER;
-            if (func_80AFE8EC(player, D_80B01640.skullkid) != 0) {
+            if (func_80AFE8EC(player, sSmallStumpSkullKid.skullkid) != 0) {
                 func_80AFF7A0(this);
                 player->stateFlags2 |= 0x800000;
-                player->unk_6A8 = &D_80B01640.skullkid->actor;
+                player->unk_6A8 = &sSmallStumpSkullKid.skullkid->actor;
             }
         }
     } else {
@@ -691,7 +692,7 @@ void func_80AFF220(EnSkj* this, GlobalContext* globalCtx) {
     if (this->skelAnime.curFrame == lastFrame) {
         if (this->unk_2D5 == 0) {
             this->unk_2D5 = 3;
-            func_80AFEE84(this);
+            EnSkj_Backflip(this);
         } else {
             func_80AFF3D0(this);
         }
@@ -775,7 +776,7 @@ void func_80AFF424(EnSkj* this, GlobalContext* globalCtx) {
 
     } else if (func_80AFEDF8(this, globalCtx) != 0) {
         this->unk_2D2 = 1;
-        func_80AFEE84(this);
+        EnSkj_Backflip(this);
     } else {
         func_80AFF038(this);
     }
@@ -842,24 +843,24 @@ void func_80AFF7D8(EnSkj* this, GlobalContext* globalCtx) { // Mask quest?
 
     if (player->stateFlags2 & 0x1000000) {
         player->stateFlags2 |= 0x2000000;
-        player->unk_6A8 = &D_80B01640.skullkid->actor;
-        player->actor.world.pos.x = D_80B01640.skullkid->actor.world.pos.x;
-        player->actor.world.pos.y = D_80B01640.skullkid->actor.world.pos.y;
-        player->actor.world.pos.z = D_80B01640.skullkid->actor.world.pos.z;
-        func_80B00A08(D_80B01640.skullkid, player);
+        player->unk_6A8 = &sSmallStumpSkullKid.skullkid->actor;
+        player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
+        player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
+        player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
+        EnSkj_TurnPlayer(sSmallStumpSkullKid.skullkid, player);
         func_8010BD88(globalCtx, 0x22);
         func_80AFF9E8(this);
     } else if (D_80B01EA0 != 0) {
-        player->actor.world.pos.x = D_80B01640.skullkid->actor.world.pos.x;
-        player->actor.world.pos.y = D_80B01640.skullkid->actor.world.pos.y;
-        player->actor.world.pos.z = D_80B01640.skullkid->actor.world.pos.z;
-        if ((Player_GetMask(globalCtx) == 2) && !(gSaveContext.itemGetInf[3] & 0x200)) {
+        player->actor.world.pos.x = sSmallStumpSkullKid.skullkid->actor.world.pos.x;
+        player->actor.world.pos.y = sSmallStumpSkullKid.skullkid->actor.world.pos.y;
+        player->actor.world.pos.z = sSmallStumpSkullKid.skullkid->actor.world.pos.z;
+        if ((Player_GetMask(globalCtx) == PLAYER_MASK_SKULL) && !(gSaveContext.itemGetInf[3] & 0x200)) {
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
             func_80AFFF38(this);
         } else {
             func_80AFFD64(this);
         }
-    } else if (func_80AFE8EC(player, D_80B01640.skullkid) == 0) {
+    } else if (func_80AFE8EC(player, sSmallStumpSkullKid.skullkid) == 0) {
         func_80AFF038(this);
     } else {
         player->stateFlags2 |= 0x800000;
@@ -997,7 +998,7 @@ void func_80AFFEB4(EnSkj* this) {
 void func_80AFFED4(EnSkj* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
         gSaveContext.itemGetInf[1] |= 0x40;
-        func_80AFE428(this);
+        EnSkj_SetNaviId(this);
         func_80AFF7A0(this);
     }
 }
@@ -1096,7 +1097,7 @@ void func_80B002D8(EnSkj* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
         Rupees_ChangeBy(10);
         gSaveContext.itemGetInf[3] |= 0x200;
-        func_80AFE428(this);
+        EnSkj_SetNaviId(this);
         Player_UnsetMask(globalCtx);
         Item_Give(globalCtx, ITEM_SOLD_OUT);
         func_8010B720(globalCtx, 0x101F);
@@ -1112,7 +1113,7 @@ void func_80B00390(EnSkj* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
         func_8002DF54(globalCtx, &this->actor, 7);
         this->unk_2D2 = 1;
-        func_80AFEE84(this);
+        EnSkj_Backflip(this);
     }
 }
 
@@ -1141,7 +1142,7 @@ void func_80B0049C(EnSkj* this, GlobalContext* globalCtx) {
     if (((state = func_8010BDBC(&globalCtx->msgCtx)), player = PLAYER, state == 6) && func_80106BC8(globalCtx)) {
         func_80AFF7A0(this);
         player->stateFlags2 |= 0x800000;
-        player->unk_6A8 = (Actor*)D_80B01640.skullkid;
+        player->unk_6A8 = (Actor*)sSmallStumpSkullKid.skullkid;
     }
 }
 
@@ -1161,7 +1162,7 @@ void func_80B00554(EnSkj* this, GlobalContext* globalCtx) {
 s32 func_80B00590(EnSkj* this) {
     s32 paramDecr = this->actor.params - 1;
 
-    if (D_80B01648[paramDecr].unk0 == 2) {
+    if (sOcarinaMinigameSkullKids[paramDecr].unk0 == 2) {
         func_80B006F8(this);
         return 1;
     }
@@ -1215,10 +1216,10 @@ void func_80B006F8(EnSkj* this) {
 void func_80B00740(EnSkj* this, GlobalContext* globalCtx) {
     s32 paramsDecr = this->actor.params - 1;
 
-    D_80B01648[paramsDecr].unk0 = 0;
-    D_80B01648[paramsDecr].skullkid = NULL;
+    sOcarinaMinigameSkullKids[paramsDecr].unk0 = 0;
+    sOcarinaMinigameSkullKids[paramsDecr].skullkid = NULL;
     this->unk_2D2 = 1;
-    func_80AFEE84(this);
+    EnSkj_Backflip(this);
 }
 
 void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1279,7 +1280,7 @@ void EnSkj_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 20.0f, 7);
 }
 
-void func_80B00964(Actor* thisx, GlobalContext* globalCtx) {
+void EnSkj_SariasSongShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
     EnSkj* this = THIS;
 
     D_80B01EA0 = func_8002F194(&this->actor, globalCtx);
@@ -1291,61 +1292,58 @@ void func_80B00964(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// EnSkj_TurnPlayer
-void func_80B00A08(EnSkj* this, Player* player) {
+void EnSkj_TurnPlayer(EnSkj* this, Player* player) {
     Math_SmoothStepToS(&player->actor.shape.rot.y, this->actor.world.rot.y, 5, 2000, 0);
     player->actor.world.rot.y = player->actor.shape.rot.y;
     player->currentYaw = player->actor.shape.rot.y;
 }
 
 // EnSkj_StartWaitingForOcarina
-void func_80B00A54(EnSkj* this, GlobalContext* globalCtx) {
+void EnSkj_SetupWaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (func_80AFE8EC(player, this) != 0) {
-        D_80B01648[0].skullkid->unk_2D7 = 1;
-        D_80B01648[1].skullkid->unk_2D7 = 1;
+        sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->unk_2D7 = 1;
+        sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->unk_2D7 = 1;
 
         if (player->stateFlags2 & 0x1000000) {
             player->stateFlags2 |= 0x2000000;
             func_800F5BF0(4);
-            func_80B00A08(this, player);
+            EnSkj_TurnPlayer(this, player);
             player->unk_6A8 = &this->actor;
             func_8010B680(globalCtx, 0x10BE, &this->actor);
-            this->actionFunc = func_80B00BB0;
+            this->actionFunc = EnSkj_StartOcarinaMinigame;
         } else {
-            this->actionFunc = func_80B00B0C;
+            this->actionFunc = EnSkj_WaitForOcarina;
         }
     }
 }
 
-// EnSkj_WaitForOcarina
-void func_80B00B0C(EnSkj* this, GlobalContext* globalCtx) {
+void EnSkj_WaitForOcarina(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (player->stateFlags2 & 0x1000000) {
         player->stateFlags2 |= 0x2000000;
         func_800F5BF0(4);
-        func_80B00A08(this, player);
+        EnSkj_TurnPlayer(this, player);
         player->unk_6A8 = &this->actor;
         func_8010B680(globalCtx, 0x10BE, &this->actor);
-        this->actionFunc = func_80B00BB0;
+        this->actionFunc = EnSkj_StartOcarinaMinigame;
     } else if (func_80AFE8EC(player, this) != 0) {
         player->stateFlags2 |= 0x800000;
     }
 }
 
-// EnSkj_StartMinigame
-void func_80B00BB0(EnSkj* this, GlobalContext* globalCtx) {
+void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx) {
     u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
     Player* player = PLAYER;
 
-    func_80B00A08(this, player);
+    EnSkj_TurnPlayer(this, player);
 
     if (dialogState == 2) {
         func_8010BD58(globalCtx, 0x2E); // play song?
-        if (D_80B01648[0].skullkid != NULL) {
-            D_80B01648[0].skullkid->unk_2D8 = 1;
+        if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
+            sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->unk_2D8 = SKULL_KID_OCARINA_PLAY_NOTES;
         }
         this->playbackTimer = 160;
         this->actionFunc = func_80B00C38;
@@ -1356,7 +1354,7 @@ void func_80B00BB0(EnSkj* this, GlobalContext* globalCtx) {
 void func_80B00C38(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    func_80B00A08(this, player);
+    EnSkj_TurnPlayer(this, player);
 
     if (globalCtx->msgCtx.unk_E3EE == 3) { // failed the game
         func_80106CCC(globalCtx);
@@ -1376,20 +1374,20 @@ void func_80B00C38(EnSkj* this, GlobalContext* globalCtx) {
     } else { // playing the game
         switch (globalCtx->msgCtx.msgMode) {
             case 0x2B:
-                if (D_80B01648[0].skullkid != NULL) {
-                    D_80B01648[0].skullkid->unk_2D8 = 0;
+                if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
+                    sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->unk_2D8 = SKULL_KID_OCRAINA_WAIT;
                 }
                 if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
-                    if (D_80B01648[1].skullkid != NULL) {
-                        D_80B01648[1].skullkid->unk_2D8 = 1;
+                    if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
+                        sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->unk_2D8 = SKULL_KID_OCARINA_PLAY_NOTES;
                     }
                     func_80106AA8(globalCtx);
                 }
                 break;
 
             case 0x2D:
-                if (D_80B01648[1].skullkid != NULL) {
-                    D_80B01648[1].skullkid->unk_2D8 = 0;
+                if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
+                    sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->unk_2D8 = SKULL_KID_OCRAINA_WAIT;
                 }
                 if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
                     func_80106AA8(globalCtx);
@@ -1413,8 +1411,8 @@ void func_80B00C38(EnSkj* this, GlobalContext* globalCtx) {
 
             case 0x30:
                 if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
-                    if (D_80B01648[0].skullkid != NULL) {
-                        D_80B01648[0].skullkid->unk_2D8 = 1;
+                    if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
+                        sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->unk_2D8 = SKULL_KID_OCARINA_PLAY_NOTES;
                     }
                     this->playbackTimer = 160;
                     func_800ED858(6); // related instrument sound (flute?)
@@ -1456,7 +1454,7 @@ void func_80B00F64(EnSkj* this, GlobalContext* globalCtx) {
             case 0: // yes
                 player = PLAYER;
                 player->stateFlags3 |= 0x20; // makes player take ocarina out right away after closing box
-                this->actionFunc = func_80B00A54;
+                this->actionFunc = EnSkj_SetupWaitForOcarina;
                 break;
             case 1: // no
                 this->actionFunc = func_80B011CC;
@@ -1511,21 +1509,21 @@ void func_80B01134(EnSkj* this, GlobalContext* globalCtx) {
 
 // EnSkj_DissapearFromMinigame
 void func_80B011CC(EnSkj* this, GlobalContext* globalCtx) {
-    if (D_80B01648[0].skullkid != NULL) {
-        D_80B01648[0].unk0 = 2;
+    if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
+        sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk0 = 2;
     }
 
-    if (D_80B01648[1].skullkid != NULL) {
-        D_80B01648[1].unk0 = 2;
+    if (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid != NULL) {
+        sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk0 = 2;
     }
 
-    if ((D_80B01648[0].unk0 == 2) && (D_80B01648[1].unk0 == 2)) {
+    if ((sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk0 == 2) && (sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk0 == 2)) {
         func_800F5C2C();
         Actor_Kill(&this->actor);
     }
 }
 
-void func_80B01244(Actor* thisx, GlobalContext* globalCtx) {
+void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCtx) {
     EnSkj* this = THIS;
 
     D_80B01EA0 = func_8002F194(&this->actor, globalCtx);
@@ -1535,11 +1533,11 @@ void func_80B01244(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos.y = -90.0f;
     this->actor.focus.pos.z = 450.0f;
 
-    //if (BREG(0) != 0) {
+    if (BREG(0) != 0) {
         DebugDisplay_AddObject(this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z,
                                this->actor.world.rot.x, this->actor.world.rot.y, this->actor.world.rot.z, 1.0f, 1.0f,
                                1.0f, 255, 0, 0, 255, 4, globalCtx->state.gfxCtx);
-    //}
+    }
 
     this->actionFunc(this, globalCtx);
 
@@ -1547,11 +1545,11 @@ void func_80B01244(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.xzDistToPlayer = 50.0;
 }
 
-s32 func_80B01348(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     return 0;
 }
 
-void func_80B01360(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2417);
 
     if ((limbIndex == 11) && (gSaveContext.itemGetInf[3] & 0x200)) {
@@ -1567,7 +1565,7 @@ void func_80B01360(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2437);
 }
 
-Gfx* func_80B01474(GraphicsContext* gfxCtx, u32 alpha) {
+Gfx* EnSkj_AllocTranslucentDList(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dList;
     Gfx* dListHead;
 
@@ -1579,7 +1577,7 @@ Gfx* func_80B01474(GraphicsContext* gfxCtx, u32 alpha) {
     return dList;
 }
 
-Gfx* func_80B014E4(GraphicsContext* gfxCtx, u32 alpha) {
+Gfx* EnSkj_AllocOpaqueDList(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dList;
     Gfx* dListHead;
 
@@ -1593,33 +1591,46 @@ Gfx* func_80B014E4(GraphicsContext* gfxCtx, u32 alpha) {
 void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnSkj* this = THIS;
-    GfxPrint printer;
+    //GfxPrint printer;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2475);
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    if (this->alpha < 0xFF) {
-        gSPSegment(POLY_OPA_DISP++, 0x0C, func_80B01474(globalCtx->state.gfxCtx, this->alpha));
+    if (this->alpha < 255) {
+        gSPSegment(POLY_OPA_DISP++, 0x0C, EnSkj_AllocTranslucentDList(globalCtx->state.gfxCtx, this->alpha));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x0C, func_80B014E4(globalCtx->state.gfxCtx, this->alpha));
+        gSPSegment(POLY_OPA_DISP++, 0x0C, EnSkj_AllocOpaqueDList(globalCtx->state.gfxCtx, this->alpha));
     }
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80B01348, func_80B01360, this);
-    {
-        u32 offset = (u32)(this->actionFunc) - (u32)(this->actor.overlayEntry->loadedRamAddr);
-        u32 vram = (u32)this->actor.overlayEntry->vramStart + offset;
-        GfxPrint_Init(&printer);
-        GfxPrint_Open(&printer, globalCtx->state.gfxCtx->polyOpa.p);
-        GfxPrint_SetPos(&printer, 0, 8);
-        GfxPrint_SetColor(&printer, 255, 255, 255, 255);
-        // GfxPrint_SetPosPx(&printer, this->actor.projectedPos.x, this->actor.projectedPos.z);
-        GfxPrint_Printf(&printer, "Action %x\n", vram);
-        GfxPrint_Printf(&printer, "params %d\n", (s16)thisx->params);
-        GfxPrint_Printf(&printer, "xzDist %.2f", thisx->xzDistToPlayer);
-        globalCtx->state.gfxCtx->polyOpa.p = GfxPrint_Close(&printer);
-        GfxPrint_Destroy(&printer);
-    }
+                          EnSkj_OverrideLimbDraw, EnSkj_PostLimbDraw, this);
+  //  {
+        //Player* player = PLAYER;
+        //u32 offset = (u32)(this->actionFunc) - (u32)(this->actor.overlayEntry->loadedRamAddr);
+        //u32 vram = (u32)this->actor.overlayEntry->vramStart + offset;
+        //GfxPrint_Init(&printer);
+        //GfxPrint_Open(&printer, globalCtx->state.gfxCtx->polyOpa.p);
+        //GfxPrint_SetPos(&printer, 0, 7);
+        //GfxPrint_SetColor(&printer, 255, 255, 255, 255);
+        //// GfxPrint_SetPosPx(&printer, this->actor.projectedPos.x, this->actor.projectedPos.z);
+        //GfxPrint_Printf(&printer, "this %x\n", this);
+        //GfxPrint_Printf(&printer, "STMP.skullkid %x\n", sSmallStumpSkullKid.skullkid);
+        //GfxPrint_Printf(&printer, "sOGKIDS[0].skullkid->unk_2D8 %d\n", (u8)sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->unk_2D8);
+        //GfxPrint_Printf(&printer, "sOGKIDS[1].skullKid->unk_2D8 %d\n" ,(u8)sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].skullkid->unk_2D8);
+        //GfxPrint_Printf(&printer, "sOGKIDs[0].unk0 %x\n", (u8)sOcarinaMinigameSkullKids[SKULL_KID_LEFT].unk0);
+        //GfxPrint_Printf(&printer, "sOGKIDs[1].unk0 %x\n", (u8)sOcarinaMinigameSkullKids[SKULL_KID_RIGHT].unk0);
+        ////GfxPrint_Printf(&printer, "Action %x\n", vram);
+        ////GfxPrint_Printf(&printer, "params %d\n", (s16)thisx->params);
+        ////GfxPrint_Printf(&printer, "xzDist %.2f\n", thisx->xzDistToPlayer);
+        ////GfxPrint_Printf(&printer, "thisx->world.x %.2f\n", thisx->world.pos.x);
+        ////GfxPrint_Printf(&printer, "thisx->world.z %.2f\n", thisx->world.pos.z);
+        ////GfxPrint_Printf(&printer, "STMP x %.2f\n", sSmallStumpSkullKid.skullkid->actor.world.pos.x);
+        ////GfxPrint_Printf(&printer, "STMP z %.2f\n", sSmallStumpSkullKid.skullkid->actor.world.pos.z);
+        ////GfxPrint_Printf(&printer, "Player_X : %f\n", player->actor.world.pos.x);
+        ////GfxPrint_Printf(&printer, "Player_Z : %f\n", player->actor.world.pos.z);
+        //globalCtx->state.gfxCtx->polyOpa.p = GfxPrint_Close(&printer);
+        //GfxPrint_Destroy(&printer);
+    //}
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2495);
 }

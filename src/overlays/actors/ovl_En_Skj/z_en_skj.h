@@ -49,7 +49,18 @@ typedef enum {
     /* 7 */ SKJ_ANIM_FIGHTING_STANCE,
     /* 8 */ SKJ_ANIM_WALK_TO_PLAYER,
     /* 9 */ SKJ_ANIM_WAIT
-} SKULLKID_ANIMS;
+} SkullKidAnims ;
+
+typedef enum {
+    /* 0 */ SKULL_KID_LEFT,
+    /* 1 */ SKULL_KID_RIGHT,
+} SkullKidStumpSide;
+
+typedef enum {
+   /* 0 */ SKULL_KID_OCRAINA_WAIT,
+   /* 1 */ SKULL_KID_OCARINA_PLAY_NOTES,
+   /* 2 */ SKULL_KID_OCARINA_LEAVE_GAME
+} SkullKidOcarinaGameStates;
 
 extern const ActorInit En_Skj_InitVars;
 

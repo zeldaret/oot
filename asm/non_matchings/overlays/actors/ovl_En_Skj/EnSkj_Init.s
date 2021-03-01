@@ -46,12 +46,12 @@ glabel EnSkj_Init
 /* 00230 80AFE4E0 24A517C0 */  addiu   $a1, $a1, %lo(D_80B017C0)  ## $a1 = 80B017C0
 /* 00234 80AFE4E4 87A3004E */  lh      $v1, 0x004E($sp)
 /* 00238 80AFE4E8 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
-/* 0023C 80AFE4EC 3C0280B0 */  lui     $v0, %hi(D_80B01640)       ## $v0 = 80B00000
+/* 0023C 80AFE4EC 3C0280B0 */  lui     $v0, %hi(sSmallStumpSkullKid)       ## $v0 = 80B00000
 /* 00240 80AFE4F0 10610006 */  beq     $v1, $at, .L80AFE50C
-/* 00244 80AFE4F4 24421640 */  addiu   $v0, $v0, %lo(D_80B01640)  ## $v0 = 80B01640
+/* 00244 80AFE4F4 24421640 */  addiu   $v0, $v0, %lo(sSmallStumpSkullKid)  ## $v0 = 80B01640
 /* 00248 80AFE4F8 24010006 */  addiu   $at, $zero, 0x0006         ## $at = 00000006
 /* 0024C 80AFE4FC 10610017 */  beq     $v1, $at, .L80AFE55C
-/* 00250 80AFE500 3C0280B0 */  lui     $v0, %hi(D_80B01640)       ## $v0 = 80B00000
+/* 00250 80AFE500 3C0280B0 */  lui     $v0, %hi(sSmallStumpSkullKid)       ## $v0 = 80B00000
 /* 00254 80AFE504 10000035 */  beq     $zero, $zero, .L80AFE5DC
 /* 00258 80AFE508 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 .L80AFE50C:
@@ -60,9 +60,9 @@ glabel EnSkj_Init
 /* 00264 80AFE514 AC500004 */  sw      $s0, 0x0004($v0)           ## 80B00004
 /* 00268 80AFE518 8E180004 */  lw      $t8, 0x0004($s0)           ## 00000004
 /* 0026C 80AFE51C 2401FFFA */  addiu   $at, $zero, 0xFFFA         ## $at = FFFFFFFA
-/* 00270 80AFE520 3C0F80B0 */  lui     $t7, %hi(func_80B00964)    ## $t7 = 80B00000
+/* 00270 80AFE520 3C0F80B0 */  lui     $t7, %hi(EnSkj_SariasSongShortStumpUpdate)    ## $t7 = 80B00000
 /* 00274 80AFE524 0301C824 */  and     $t9, $t8, $at
-/* 00278 80AFE528 25EF0964 */  addiu   $t7, $t7, %lo(func_80B00964) ## $t7 = 80B00964
+/* 00278 80AFE528 25EF0964 */  addiu   $t7, $t7, %lo(EnSkj_SariasSongShortStumpUpdate) ## $t7 = 80B00964
 /* 0027C 80AFE52C AE190004 */  sw      $t9, 0x0004($s0)           ## 00000004
 /* 00280 80AFE530 AE00012C */  sw      $zero, 0x012C($s0)         ## 0000012C
 /* 00284 80AFE534 AE000134 */  sw      $zero, 0x0134($s0)         ## 00000134
@@ -77,15 +77,15 @@ glabel EnSkj_Init
 /* 002A4 80AFE554 100000D7 */  beq     $zero, $zero, .L80AFE8B4
 /* 002A8 80AFE558 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80AFE55C:
-/* 002AC 80AFE55C 24421640 */  addiu   $v0, $v0, %lo(D_80B01640)  ## $v0 = 00001640
+/* 002AC 80AFE55C 24421640 */  addiu   $v0, $v0, %lo(sSmallStumpSkullKid)  ## $v0 = 00001640
 /* 002B0 80AFE560 240A0001 */  addiu   $t2, $zero, 0x0001         ## $t2 = 00000001
 /* 002B4 80AFE564 A04A0000 */  sb      $t2, 0x0000($v0)           ## 00001640
 /* 002B8 80AFE568 AC500004 */  sw      $s0, 0x0004($v0)           ## 00001644
 /* 002BC 80AFE56C 8E0C0004 */  lw      $t4, 0x0004($s0)           ## 00000004
 /* 002C0 80AFE570 2401FFFA */  addiu   $at, $zero, 0xFFFA         ## $at = FFFFFFFA
-/* 002C4 80AFE574 3C0B80B0 */  lui     $t3, %hi(func_80B01244)    ## $t3 = 80B00000
+/* 002C4 80AFE574 3C0B80B0 */  lui     $t3, %hi(EnSkj_OcarinaMinigameShortStumpUpdate)    ## $t3 = 80B00000
 /* 002C8 80AFE578 01816824 */  and     $t5, $t4, $at
-/* 002CC 80AFE57C 256B1244 */  addiu   $t3, $t3, %lo(func_80B01244) ## $t3 = 80B01244
+/* 002CC 80AFE57C 256B1244 */  addiu   $t3, $t3, %lo(EnSkj_OcarinaMinigameShortStumpUpdate) ## $t3 = 80B01244
 /* 002D0 80AFE580 AE0D0004 */  sw      $t5, 0x0004($s0)           ## 00000004
 /* 002D4 80AFE584 AE00012C */  sw      $zero, 0x012C($s0)         ## 0000012C
 /* 002D8 80AFE588 AE000134 */  sw      $zero, 0x0134($s0)         ## 00000134
@@ -103,8 +103,8 @@ glabel EnSkj_Init
 /* 00304 80AFE5B4 44813000 */  mtc1    $at, $f6                   ## $f6 = -90.00
 /* 00308 80AFE5B8 3C0143E1 */  lui     $at, 0x43E1                ## $at = 43E10000
 /* 0030C 80AFE5BC 44814000 */  mtc1    $at, $f8                   ## $f8 = 450.00
-/* 00310 80AFE5C0 3C1880B0 */  lui     $t8, %hi(func_80B00A54)    ## $t8 = 80B00000
-/* 00314 80AFE5C4 27180A54 */  addiu   $t8, $t8, %lo(func_80B00A54) ## $t8 = 80B00A54
+/* 00310 80AFE5C0 3C1880B0 */  lui     $t8, %hi(EnSkj_SetupWaitForOcarina)    ## $t8 = 80B00000
+/* 00314 80AFE5C4 27180A54 */  addiu   $t8, $t8, %lo(EnSkj_SetupWaitForOcarina) ## $t8 = 80B00A54
 /* 00318 80AFE5C8 AE180274 */  sw      $t8, 0x0274($s0)           ## 00000274
 /* 0031C 80AFE5CC E6040038 */  swc1    $f4, 0x0038($s0)           ## 00000038
 /* 00320 80AFE5D0 E606003C */  swc1    $f6, 0x003C($s0)           ## 0000003C
@@ -133,7 +133,7 @@ glabel EnSkj_Init
 /* 00374 80AFE624 100000A3 */  beq     $zero, $zero, .L80AFE8B4
 /* 00378 80AFE628 8FBF002C */  lw      $ra, 0x002C($sp)
 .L80AFE62C:
-/* 0037C 80AFE62C 0C2BF90A */  jal     func_80AFE428
+/* 0037C 80AFE62C 0C2BF90A */  jal     EnSkj_SetNaviId
 /* 00380 80AFE630 A7A3004E */  sh      $v1, 0x004E($sp)
 /* 00384 80AFE634 3C060600 */  lui     $a2, %hi(D_06005F40)                ## $a2 = 06000000
 /* 00388 80AFE638 3C070600 */  lui     $a3, %hi(D_06000E10)                ## $a3 = 06000000
@@ -184,10 +184,10 @@ glabel EnSkj_Init
 /* 0042C 80AFE6DC 24080007 */  addiu   $t0, $zero, 0x0007         ## $t0 = 00000007
 /* 00430 80AFE6E0 8E0A0024 */  lw      $t2, 0x0024($s0)           ## 00000024
 /* 00434 80AFE6E4 8E090028 */  lw      $t1, 0x0028($s0)           ## 00000028
-/* 00438 80AFE6E8 3C0C80B0 */  lui     $t4, %hi(D_80B01648)       ## $t4 = 80B00000
+/* 00438 80AFE6E8 3C0C80B0 */  lui     $t4, %hi(sOcarinaMinigameSkullKids)       ## $t4 = 80B00000
 /* 0043C 80AFE6EC AE0A02F4 */  sw      $t2, 0x02F4($s0)           ## 000002F4
 /* 00440 80AFE6F0 8E0A002C */  lw      $t2, 0x002C($s0)           ## 0000002C
-/* 00444 80AFE6F4 258C1648 */  addiu   $t4, $t4, %lo(D_80B01648)  ## $t4 = 80B01648
+/* 00444 80AFE6F4 258C1648 */  addiu   $t4, $t4, %lo(sOcarinaMinigameSkullKids)  ## $t4 = 80B01648
 /* 00448 80AFE6F8 000358C0 */  sll     $t3, $v1,  3
 /* 0044C 80AFE6FC A208001F */  sb      $t0, 0x001F($s0)           ## 0000001F
 /* 00450 80AFE700 016C1021 */  addu    $v0, $t3, $t4
