@@ -439,8 +439,8 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_80A89A6C(this, globalCtx);
     if (this->unk_164 != 0) {
         this->unk_164 = 0;
-        for (i = 0; i < ARRAY_COUNT(D_80A8AA98); i++) {
-            if (D_80A8AA98[i] != 0) {
+        for (i = 0; i < ARRAY_COUNT(D_80A8E610); i++) {
+            if (((u16*)D_80A8AA98)[i] != 0) { // Hack to bypass ZAPD exporting textures as u64
                 D_80A8E610[i] = 0xFF;
             } else {
                 D_80A8E610[i] = 0;
