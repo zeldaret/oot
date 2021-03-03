@@ -22,10 +22,10 @@ void BgHakaShip_SetupCrash(BgHakaShip* this, GlobalContext* globalCtx);
 void BgHakaShip_CrashShake(BgHakaShip* this, GlobalContext* globalCtx);
 void BgHakaShip_CrashFall(BgHakaShip* this, GlobalContext* globalCtx);
 
-extern UNK_TYPE D_06005A70;
-extern UNK_TYPE D_0600D330;
+extern Gfx D_06005A70[];
+extern Gfx D_0600D330[];
 extern CollisionHeader D_0600E408;
-extern UNK_TYPE D_0600E910;
+extern Gfx D_0600E910[];
 extern CollisionHeader D_0600ED7C;
 
 const ActorInit Bg_Haka_Ship_InitVars = {
@@ -47,9 +47,8 @@ static InitChainEntry sInitChain[] = {
 void BgHakaShip_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHakaShip* this = THIS;
     s32 pad;
-    CollisionHeader* colHeader;
+    CollisionHeader* colHeader = NULL;
 
-    colHeader = NULL;
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, 1);
     this->switchFlag = (thisx->params >> 8) & 0xFF;
@@ -67,9 +66,9 @@ void BgHakaShip_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->dyna.actor.world.rot.y = this->dyna.actor.shape.rot.y - 0x4000;
     this->yOffset = 0;
     if (this->dyna.actor.params == 0 &&
-        !Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_HAKA_SHIP,
-                            this->dyna.actor.world.pos.x + -10.0f, this->dyna.actor.world.pos.y + 82.0f,
-                            this->dyna.actor.world.pos.z, 0, 0, 0, 1)) {
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_HAKA_SHIP,
+                           this->dyna.actor.world.pos.x + -10.0f, this->dyna.actor.world.pos.y + 82.0f,
+                           this->dyna.actor.world.pos.z, 0, 0, 0, 1) == NULL) {
         Actor_Kill(&this->dyna.actor);
     }
 }
@@ -82,10 +81,9 @@ void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_ChildUpdatePosition(BgHakaShip* this, GlobalContext* globalCtx) {
-    BgHakaShip* parent;
+    BgHakaShip* parent = (BgHakaShip*)this->dyna.actor.parent;
 
-    parent = (BgHakaShip*)this->dyna.actor.parent;
-    if (parent && parent->dyna.actor.update) {
+    if (parent != NULL && parent->dyna.actor.update != NULL) {
         this->dyna.actor.world.pos.x = parent->dyna.actor.world.pos.x + -10.0f;
         this->dyna.actor.world.pos.y = parent->dyna.actor.world.pos.y + 82.0f;
         this->dyna.actor.world.pos.z = parent->dyna.actor.world.pos.z;
@@ -103,7 +101,7 @@ void BgHakaShip_WaitForSong(BgHakaShip* this, GlobalContext* globalCtx) {
             this->counter = 130;
             this->actionFunc = BgHakaShip_CutsceneStationary;
             osSyncPrintf("シーン 外輪船 ...  アァクション！！\n");
-            func_800800F8(globalCtx, 3390, 999, &this->dyna.actor, 0);
+            func_800800F8(globalCtx, 0xD3E, 999, &this->dyna.actor, 0);
         }
     }
 }
@@ -145,7 +143,7 @@ void BgHakaShip_Moving(BgHakaShip* this, GlobalContext* globalCtx) {
         Math_StepToF(&this->dyna.actor.speedXZ, 4.0f, 0.2f);
     }
     child = (BgHakaShip*)this->dyna.actor.child;
-    if (child && child->dyna.actor.update) {
+    if (child != NULL && child->dyna.actor.update != NULL) {
         child->dyna.actor.shape.rot.z += ((655.0f / 13.0f) * this->dyna.actor.speedXZ);
     } else {
         this->dyna.actor.child = NULL;
@@ -171,7 +169,7 @@ void BgHakaShip_CrashShake(BgHakaShip* this, GlobalContext* globalCtx) {
         this->dyna.actor.gravity = -1.0f;
         this->actionFunc = BgHakaShip_CrashFall;
     }
-    func_8002F974(&this->dyna.actor, 0x205C);
+    func_8002F974(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
 }
 
 void BgHakaShip_CrashFall(BgHakaShip* this, GlobalContext* globalCtx) {
@@ -180,7 +178,7 @@ void BgHakaShip_CrashFall(BgHakaShip* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 2000.0f) {
         Actor_Kill(&this->dyna.actor);
         child = (BgHakaShip*)this->dyna.actor.child;
-        if (child && child->dyna.actor.update) {
+        if (child != NULL && child->dyna.actor.update != NULL) {
             Actor_Kill(&child->dyna.actor);
         }
     } else {
