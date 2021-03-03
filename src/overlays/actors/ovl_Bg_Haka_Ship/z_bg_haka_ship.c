@@ -81,12 +81,12 @@ void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_ChildUpdatePosition(BgHakaShip* this, GlobalContext* globalCtx) {
-    BgHakaShip* parent = (BgHakaShip*)this->dyna.actor.parent;
+    Actor* parent = (Actor*)this->dyna.actor.parent;
 
-    if (parent != NULL && parent->dyna.actor.update != NULL) {
-        this->dyna.actor.world.pos.x = parent->dyna.actor.world.pos.x + -10.0f;
-        this->dyna.actor.world.pos.y = parent->dyna.actor.world.pos.y + 82.0f;
-        this->dyna.actor.world.pos.z = parent->dyna.actor.world.pos.z;
+    if (parent != NULL && parent->update != NULL) {
+        this->dyna.actor.world.pos.x = parent->world.pos.x + -10.0f;
+        this->dyna.actor.world.pos.y = parent->world.pos.y + 82.0f;
+        this->dyna.actor.world.pos.z = parent->world.pos.z;
     } else {
         this->dyna.actor.parent = NULL;
     }
@@ -119,7 +119,7 @@ void BgHakaShip_CutsceneStationary(BgHakaShip* this, GlobalContext* globalCtx) {
 
 void BgHakaShip_Moving(BgHakaShip* this, GlobalContext* globalCtx) {
     f32 distanceFromHome;
-    BgHakaShip* child;
+    Actor* child;
 
     if (this->counter) {
         this->counter--;
@@ -142,9 +142,9 @@ void BgHakaShip_Moving(BgHakaShip* this, GlobalContext* globalCtx) {
     } else {
         Math_StepToF(&this->dyna.actor.speedXZ, 4.0f, 0.2f);
     }
-    child = (BgHakaShip*)this->dyna.actor.child;
-    if (child != NULL && child->dyna.actor.update != NULL) {
-        child->dyna.actor.shape.rot.z += ((655.0f / 13.0f) * this->dyna.actor.speedXZ);
+    child = (Actor*)this->dyna.actor.child;
+    if (child != NULL && child->update != NULL) {
+        child->shape.rot.z += ((655.0f / 13.0f) * this->dyna.actor.speedXZ);
     } else {
         this->dyna.actor.child = NULL;
     }
@@ -173,13 +173,13 @@ void BgHakaShip_CrashShake(BgHakaShip* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_CrashFall(BgHakaShip* this, GlobalContext* globalCtx) {
-    BgHakaShip* child;
+    Actor* child;
 
     if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 2000.0f) {
         Actor_Kill(&this->dyna.actor);
-        child = (BgHakaShip*)this->dyna.actor.child;
-        if (child != NULL && child->dyna.actor.update != NULL) {
-            Actor_Kill(&child->dyna.actor);
+        child = (Actor*)this->dyna.actor.child;
+        if (child != NULL && child->update != NULL) {
+            Actor_Kill(child);
         }
     } else {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCKSINK - SFX_FLAG);
