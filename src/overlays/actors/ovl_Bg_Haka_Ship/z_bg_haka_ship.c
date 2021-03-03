@@ -81,7 +81,7 @@ void BgHakaShip_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_ChildUpdatePosition(BgHakaShip* this, GlobalContext* globalCtx) {
-    Actor* parent = (Actor*)this->dyna.actor.parent;
+    Actor* parent = this->dyna.actor.parent;
 
     if (parent != NULL && parent->update != NULL) {
         this->dyna.actor.world.pos.x = parent->world.pos.x + -10.0f;
@@ -142,7 +142,7 @@ void BgHakaShip_Moving(BgHakaShip* this, GlobalContext* globalCtx) {
     } else {
         Math_StepToF(&this->dyna.actor.speedXZ, 4.0f, 0.2f);
     }
-    child = (Actor*)this->dyna.actor.child;
+    child = this->dyna.actor.child;
     if (child != NULL && child->update != NULL) {
         child->shape.rot.z += ((655.0f / 13.0f) * this->dyna.actor.speedXZ);
     } else {
@@ -177,7 +177,7 @@ void BgHakaShip_CrashFall(BgHakaShip* this, GlobalContext* globalCtx) {
 
     if (this->dyna.actor.home.pos.y - this->dyna.actor.world.pos.y > 2000.0f) {
         Actor_Kill(&this->dyna.actor);
-        child = (Actor*)this->dyna.actor.child;
+        child = this->dyna.actor.child;
         if (child != NULL && child->update != NULL) {
             Actor_Kill(child);
         }
