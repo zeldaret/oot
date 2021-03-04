@@ -16,10 +16,14 @@
             <Vtx/>
         </Array>
 
+        <!-- Variable declared in bss. Used by D_80A8D618 -->
+        <Symbol Name="D_80A8E610" Offset="0x4E70"/>
+
         <!--D_80A8D598-->
         <DList Name="D_80A8D598" Offset="0x3DF8"/>
-        <!--D_80A8D618--> <!-- Crashes ZAPD -->
-        <!--DList Name="D_80A8D618" Offset="0x3E78"/-->
+        <!--D_80A8D618-->
+        <DList Name="D_80A8D618" Offset="0x3E78"/>
+
         <!--D_80A8D688--> <!-- Bad extraction -->
         <!--DList Name="D_80A8D688" Offset="0x3EE8"/-->
 
@@ -28,7 +32,7 @@
             <Vtx/>
         </Array>
 
-        <!--D_80A8E400-->
+        <!--D_80A8E400--> <!-- Needs a fix in ZAPD. See https://github.com/zeldaret/ZAPD/pull/85 -->
         <!--Collision Name="D_80A8E400" Offset="0x4C60"/-->
     </File>
 </Root>
