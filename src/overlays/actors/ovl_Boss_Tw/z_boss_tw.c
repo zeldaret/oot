@@ -4264,197 +4264,165 @@ void func_80947240(Actor *thisx, GlobalContext *globalCtx2) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 9111);
 }
 
-#ifdef NON_MATCHING
 void func_809477E0(GlobalContext *globalCtx) {
     Vec3f sp11C;
+    BossTwEEffect *phi_s1 = globalCtx->actorEffects;
+    Player *player = PLAYER;
     u8 sp113;
-    s16 sp110;
+    s16 i;
+    s16 j;
+    s16 phi_v1;
+    Vec3f off;
     Vec3f spF4;
     Vec3f spE8;
     Vec3f spDC;
     Vec3f spD0;
+    f32 phi_f22;
     Vec3f spC0;
     Vec3f spB4;
     Vec3f spA8;
     s16 spA6;
-    void *sp94;
-    Vec3f *temp_s0_2;
-    Vec3f *temp_s0_3;
-    f32 *temp_s4;
-    f32 *temp_s5;
-    f32 *temp_s6;
-    f32 temp_f0;
-    f32 temp_f0_2;
-    f32 temp_f0_3;
-    f32 temp_f0_4;
-    f32 temp_f12;
-    f32 temp_f12_2;
-    f32 temp_f2;
-    f32 temp_f2_2;
-    s16 temp_v0_3;
-    s16 temp_v0_4;
-    s32 temp_s0;
-    s32 temp_v0_6;
-    s32 temp_v1;
-    s32 temp_v1_2;
-    s16 temp_v1_3;
-    u8 temp_t8;
-    u8 temp_v0;
-    void *temp_s0_4;
-    void *temp_s0_5;
-    Player* player;
-    void *temp_v0_2;
-    void *temp_v0_5;
-    BossTwEEffect *phi_s1;
-    s16 phi_v1;
-    s16 phi_s0;
     f32 phi_f0;
-    f32 phi_f16;
-    f32 phi_f22;
-    s32 phi_v1_2;
+    Actor *unk44;
 
-    player = PLAYER;
-    phi_s1 = globalCtx->actorEffects;
     sp113 = 0;
-    for(sp110 = 0; sp110 < 0x96; sp110++, phi_s1++){
-        if(phi_s1->type == 0){
-            continue;
-        }
-        phi_s1->pos.x += phi_s1->curSpeed.x;
-        phi_s1->pos.y += phi_s1->curSpeed.y;
-        phi_s1->pos.z += phi_s1->curSpeed.z;
-        phi_s1->frame++;
-        phi_s1->curSpeed.x += phi_s1->accel.x;
-        phi_s1->curSpeed.y += phi_s1->accel.y;
-        phi_s1->curSpeed.z += phi_s1->accel.z;
-        
-        if (phi_s1->type == 1) {
-            phi_v1 = phi_s1->frame % 4;
-            if (phi_s1->args == 0) {
-                phi_v1 += 4;
-            }
-            phi_s1->color.r = D_8094AA28[phi_v1].r;
-            phi_s1->color.g = D_8094AA28[phi_v1].g;
-            phi_s1->color.b = D_8094AA28[phi_v1].b;
-            phi_s1->alpha -= 20;
-            if (phi_s1->alpha <= 0) {
-                phi_s1->alpha = 0;
-                phi_s1->type = 0;
-            }
-        } else if ((phi_s1->type == 3) || (phi_s1->type == 2)) {
-            if (phi_s1->args == 2) {
+    for(i = 0; i < 0x96; i++) {
+        if (phi_s1->type != 0) {
+            phi_s1->pos.x += phi_s1->curSpeed.x;
+            phi_s1->pos.y += phi_s1->curSpeed.y;
+            phi_s1->pos.z += phi_s1->curSpeed.z;
+            phi_s1->frame++;
+            phi_s1->curSpeed.x += phi_s1->accel.x;
+            phi_s1->curSpeed.y += phi_s1->accel.y;
+            phi_s1->curSpeed.z += phi_s1->accel.z;
+            if (phi_s1->type == 1) {
+                phi_v1 = phi_s1->frame % 4;
+                if (phi_s1->args == 0) {
+                    phi_v1 += 4;
+                }
+
+                phi_s1->color.r = D_8094AA28[phi_v1].r;
+                phi_s1->color.g = D_8094AA28[phi_v1].g;
+                phi_s1->color.b = D_8094AA28[phi_v1].b;
                 phi_s1->alpha -= 20;
                 if (phi_s1->alpha <= 0) {
                     phi_s1->alpha = 0;
                     phi_s1->type = 0;
                 }
-            } else if (phi_s1->args == 0) {
-                phi_s1->alpha += 10;
-                if (phi_s1->alpha >= 0x64) {
-                    phi_s1->args += 1;
-                }
-            } else {
-                phi_s1->alpha -= 3;
-                if (phi_s1->alpha <= 0) {
-                    phi_s1->alpha = 0;
-                    phi_s1->type = 0;
-                }
-            }
-        } else if (phi_s1->type == 6) {
-            if (phi_s1->unk_30 != 0) {
-                phi_s1->alpha -= (sp110 & 7) - 0xD;
-                if (phi_s1->alpha <= 0) {
-                    phi_s1->alpha = 0;
-                    phi_s1->type = 0;
-                }
-            } else {
-                phi_s1->alpha += 0x12C;
-                if (phi_s1->alpha >= 0xFF) {
-                    phi_s1->alpha = 0xFF;
-                    phi_s1->unk_30++;
-                }
-            }
-        } else if (phi_s1->type == 8) {
-            phi_s1->unk_30++;
-            D_8094C870 = 1;
-            if (phi_s1->unk_30 > 30) {
-                phi_s1->alpha -= 0xA;
-                if (phi_s1->alpha <= 0) {
-                    phi_s1->alpha = 0;
-                    phi_s1->type = 0;
-                }
-            }
-            Math_ApproachF(&phi_s1->scale, phi_s1->dist, 0.1f, 0.003f);
-            temp_f0_2 = twinrovaPtr->actor.world.pos.x - phi_s1->pos.x;
-            temp_f2_2 = (twinrovaPtr->actor.world.pos.y - phi_s1->pos.y) * 0.5f;
-            temp_f12_2 = twinrovaPtr->actor.world.pos.z - phi_s1->pos.z;
-            if (twinrovaPtr->actionFunc != func_80949E10) {
-                if (SQ(temp_f0_2) + SQ(temp_f2_2) + SQ(temp_f12_2) < 3600) {
-                    for(phi_s0 = 0; phi_s0 < 50; phi_s0++) {
-                        spF4.x = Rand_CenteredFloat(35.0f) + twinrovaPtr->actor.world.pos.x;
-                        spF4.y = Rand_CenteredFloat(70.0f) + twinrovaPtr->actor.world.pos.y;
-                        spF4.z = Rand_CenteredFloat(35.0f) + twinrovaPtr->actor.world.pos.z;
-                        spE8.x = Rand_CenteredFloat(20.0f);
-                        spE8.y = Rand_CenteredFloat(20.0f);
-                        spE8.z = Rand_CenteredFloat(20.0f);
-                        spDC.x = 0.0f;
-                        spDC.y = 0.0f;
-                        spDC.z = 0.0f;
-                        func_80939070(globalCtx, &spF4, &spE8, &spDC, Rand_ZeroFloat(10.0f) + 25.0f, phi_s1->args);
+            } else if ((phi_s1->type == 3) || (phi_s1->type == 2)) {
+                if (phi_s1->args == 2) {
+                    phi_s1->alpha -= 20;
+                    if (phi_s1->alpha <= 0) {
+                        phi_s1->alpha = 0;
+                        phi_s1->type = 0;
                     }
-                    twinrovaPtr->twinrovaStun = 1;
-                    globalCtx->envCtx.unk_D8 = 1.0f;
-                    phi_s1->type = 0;
+                } else if (phi_s1->args == 0) {
+                    phi_s1->alpha += 10;
+                    if (phi_s1->alpha >= 100) {
+                        phi_s1->args++;
+                    }
+                } else {
+                    phi_s1->alpha -= 3;
+                    if (phi_s1->alpha <= 0) {
+                        phi_s1->alpha = 0;
+                        phi_s1->type = 0;
+                    }
                 }
-            }
-        } else if (phi_s1->type == 7) {
-            sp11C.x = 0.0f;
-            sp11C.y = phi_s1->pos.y;
-            sp11C.z = phi_s1->dist;
-            Matrix_RotateY(phi_s1->roll + twinrovaPtr->unk_1A8, MTXMODE_NEW);
-            Matrix_MultVec3f(&sp11C, &phi_s1->pos);
-            if (phi_s1->unk_30 != 0) {
-                phi_s1->alpha -= 60;
-                if (phi_s1->alpha <= 0) {
-                    phi_s1->alpha = 0;
-                    phi_s1->type = 0;
+            } else if (phi_s1->type == 6) {
+                if (phi_s1->unk_30 != 0) {
+                    phi_s1->alpha = (phi_s1->alpha - (i & 7)) - 0xD;
+                    if (phi_s1->alpha <= 0) {
+                        phi_s1->alpha = 0;
+                        phi_s1->type = 0;
+                    }
+                } else {
+                    phi_s1->alpha += 300;
+                    if (phi_s1->alpha >= 255) {
+                        phi_s1->alpha = 255;
+                        phi_s1->unk_30++;
+                    }
                 }
-            } else {
-                phi_s1->alpha += 60;
-                if (phi_s1->alpha >= 0xFF) {
-                    phi_s1->alpha = 0xFF;
-                    phi_s1->unk_30++;
+            } else if (phi_s1->type == 8) {
+                D_8094C870 = 1;
+                phi_s1->unk_30++;
+                if (phi_s1->unk_30 >= 31) {
+                    phi_s1->alpha -= 10;
+                    if (phi_s1->alpha <= 0) {
+                        phi_s1->alpha = 0;
+                        phi_s1->type = 0;
+                    }
                 }
-            }
-        } else if (phi_s1->type == 9) {
-            phi_s1->unk_30++;
-            sp11C.x = 0.0f;
-            sp11C.y = 0.0f;
-            sp11C.z = -phi_s1->dist;
-            Matrix_RotateY((D_8094C86C / 32768.0f) * M_PI, MTXMODE_NEW);
-            Matrix_RotateX(-0.2f, MTXMODE_APPLY);
-            Matrix_RotateZ(phi_s1->roll, MTXMODE_APPLY);
-            Matrix_RotateY(phi_s1->yaw, MTXMODE_APPLY);
-            temp_s0_2 = phi_s1 + 4;
-            Matrix_MultVec3f(&sp11C, &phi_s1->pos);
-            phi_s1->pos.x += D_8094C860.x;
-            phi_s1->pos.y += D_8094C860.y;
-            phi_s1->pos.z += D_8094C860.z;
-            if (phi_s1->unk_30 < 0x10) {
-                Math_ApproachF(&phi_s1->dist, 50.0f, 0.5f, 100.0f);
-            } else {
-                Math_ApproachF(&phi_s1->yaw, 0.0f, 0.5f, 10.0f);
-                Math_ApproachF(&phi_s1->dist, 1000.0f, 1.0f, 10.0f);
-                temp_v0_4 = phi_s1->unk_30;
-                if (phi_s1->unk_30 >= 0x10) {
-                    if (phi_s1->unk_30 == 0x10) {
-                        if (sp113 == 0) {
+                Math_ApproachF(&phi_s1->scale, phi_s1->dist, 0.1f, 0.003f);
+                off.x = twinrovaPtr->actor.world.pos.x - phi_s1->pos.x;
+                off.y = (twinrovaPtr->actor.world.pos.y - phi_s1->pos.y) * 0.5f;
+                off.z = twinrovaPtr->actor.world.pos.z - phi_s1->pos.z;
+                if (twinrovaPtr->actionFunc != func_80949E10) {
+                    if ((SQ(off.x) + SQ(off.y) + SQ(off.z)) < 3600.0f) {
+                        for(j = 0; j < 50; j++) {
+                            spF4.x = Rand_CenteredFloat(35.0f) + twinrovaPtr->actor.world.pos.x;
+                            spF4.y = Rand_CenteredFloat(70.0f) + twinrovaPtr->actor.world.pos.y;
+                            spF4.z = Rand_CenteredFloat(35.0f) + twinrovaPtr->actor.world.pos.z;
+                            spE8.x = Rand_CenteredFloat(20.0f);
+                            spE8.y = Rand_CenteredFloat(20.0f);
+                            spE8.z = Rand_CenteredFloat(20.0f);
+                            spDC.x = 0.0f;
+                            spDC.y = 0.0f;
+                            spDC.z = 0.0f;
+                            func_80939070(globalCtx, &spF4, &spE8, &spDC, Rand_ZeroFloat(10.0f) + 25.0f, phi_s1->args);
+                        }
+                        twinrovaPtr->twinrovaStun = 1;
+                        globalCtx->envCtx.unk_D8 = 1.0f;
+                        phi_s1->type = 0;
+                    }
+                }
+            } else if (phi_s1->type == 7) {
+                sp11C.x = 0.0f;
+                sp11C.y = phi_s1->pos.y;
+                sp11C.z = phi_s1->dist;
+                Matrix_RotateY(phi_s1->roll + twinrovaPtr->unk_1A8, MTXMODE_NEW);
+                Matrix_MultVec3f(&sp11C, &phi_s1->pos);
+                if (phi_s1->unk_30 != 0) {
+                    phi_s1->alpha -= 60;
+                    if (phi_s1->alpha <= 0) {
+                        phi_s1->alpha = 0;
+                        phi_s1->type = 0;
+                    }
+                } else {
+                    phi_s1->alpha += 60;
+                    if (phi_s1->alpha >= 255) {
+                        phi_s1->alpha = 255;
+                        phi_s1->unk_30++;
+                    }
+                }
+            } else if (phi_s1->type == 9) {
+                phi_s1->unk_30++;
+                sp11C.x = 0.0f;
+                sp11C.y = 0.0f;
+                sp11C.z = -phi_s1->dist;
+                Matrix_RotateY((D_8094C86C / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateX(-0.2f, MTXMODE_APPLY);
+                Matrix_RotateZ(phi_s1->roll, MTXMODE_APPLY);
+                Matrix_RotateY(phi_s1->yaw, MTXMODE_APPLY);
+                Matrix_MultVec3f(&sp11C, &phi_s1->pos);
+                phi_s1->pos.x += D_8094C860.x;
+                phi_s1->pos.y += D_8094C860.y;
+                phi_s1->pos.z += D_8094C860.z;
+                if (phi_s1->unk_30 < 10) {
+                    Math_ApproachF(&phi_s1->dist, 50.0f, 0.5f, 100.0f);
+                } else {
+                    Math_ApproachF(&phi_s1->yaw, 0.0f, 0.5f, 10.0f);
+                    Math_ApproachF(&phi_s1->dist, 1000.0f, 1.0f, 10.0f);
+                    if (phi_s1->unk_30 >= 0x10) {
+                        if ((phi_s1->unk_30 == 0x10) && (sp113 == 0)) {
                             sp113 = 1;
                             spD0 = phi_s1->pos;
-                            spD0.y = phi_s1->pos.y > 40.0f ? 220.0f : -50.0f;
-                            phi_f22 = func_8093AED8(&spD0);
-                            twinrovaPtr->unk_500.y = phi_f22;
-                            if (phi_f22 >= 0.0f) {
+                            if (phi_s1->pos.y > 40.0f) {
+                                spD0.y = 220.0f;
+                            } else {
+                                spD0.y = -50.0f;
+                            }
+                            twinrovaPtr->unk_500.y = phi_f0= func_8093AED8(&spD0);
+                            if (phi_f0 >= 0.0f) {
                                 if (twinrovaPtr->unk_500.y != 35.0f) {
                                     twinrovaPtr->unk_500.x = phi_s1->pos.x;
                                     twinrovaPtr->unk_500.z = phi_s1->pos.z;
@@ -4462,130 +4430,125 @@ void func_809477E0(GlobalContext *globalCtx) {
                                 }
                             }
                         }
-                    }
-                    phi_s1->alpha -= 300;
-                    if (phi_s1->alpha <= 0) {
-                        phi_s1->alpha = 0;
-                        phi_s1->type = 0;
-                    }
-                }
-            }
-            func_80939070(globalCtx, &phi_s1->pos, &sZeroVector, &sZeroVector, 10, phi_s1->args);
-        } else if (phi_s1->type == 10) {
-            phi_s1->unk_30++;
-            sp11C.x = 0.0f;
-            sp11C.y = 0.0f;
-            sp11C.z = -phi_s1->dist;
-            Matrix_RotateY((D_8094C86C / 32768.0f) * M_PI, MTXMODE_NEW);
-            Matrix_RotateX(-0.2f, MTXMODE_APPLY);
-            Matrix_RotateZ(phi_s1->roll, MTXMODE_APPLY);
-            Matrix_RotateY(phi_s1->yaw, MTXMODE_APPLY);
-            temp_s0_3 = phi_s1 + 4;
-            Matrix_MultVec3f(&sp11C, &phi_s1->pos);
-            phi_s1->pos.x += D_8094C860.x;
-            phi_s1->pos.y += D_8094C860.y;
-            phi_s1->pos.z += D_8094C860.z;
-            if (phi_s1->unk_30 < 5) {
-                Math_ApproachF(&phi_s1->dist, 40.0f, 0.5f, 100.0f);
-            } else {
-                Math_ApproachF(&phi_s1->dist, 0.0f, 0.2f, 5.0f);
-                if (phi_s1->unk_30 >= 0xB) {
-                    phi_s1->alpha -= 30;
-                    if (phi_s1->alpha <= 0) {
-                        phi_s1->alpha = 0;
-                        phi_s1->type = 0;
-                    }
-                }
-            }
-            func_80939070(globalCtx, &phi_s1->pos, &sZeroVector, &sZeroVector, 10, phi_s1->args);
-        } else if (phi_s1->type == 4) {
-            if (phi_s1->unk_30 == 0) {
-                Math_ApproachF(&phi_s1->scale, phi_s1->dist, 0.05f, 1.0f);
-                if (phi_s1->frame >= 0x10) {
-                    phi_s1->alpha -= 10;
-                    if (phi_s1->alpha <= 0) {
-                        phi_s1->alpha = 0;
-                        phi_s1->type = 0;
-                    }
-                }
-            } else {
-                Math_ApproachF(&phi_s1->scale, phi_s1->dist, 0.1f, 2.0f);
-                phi_s1->alpha -= 15;
-                if (phi_s1->alpha <= 0) {
-                    phi_s1->alpha = 0;
-                    phi_s1->type = 0;
-                }
-            }
-        } else if (phi_s1->type == 5) {
-            if (phi_s1->args < phi_s1->frame) {
-                phi_f0 = 1.0f;
-                if ((phi_s1->unk_44 != NULL) || D_8094C841 == 1) {
-                    phi_f0 *= 3.0f;
-                }
-                Math_ApproachF(&phi_s1->scale, 0.0f, 1.0f, 0.0005f * phi_f0);
-                if (phi_s1->scale == 0.0f) {
-                    phi_s1->type = 0;
-                    if (phi_s1->unk_44 == NULL) {
-                        player->stateFlags2 &= ~0x8000;
-                        D_8094C85F = 0;
-                    }
-                }
-            } else {
-                if (D_8094C841 == 1) {
-                    phi_s1->frame = 100;
-                }
-                Math_ApproachF(&phi_s1->dist, 0.8f, 0.2f, 0.04f);
-                if (phi_s1->unk_44 == NULL) {
-                    Math_ApproachF(&phi_s1->scale, 0.012f, 1.0f, 0.002f);
-                    phi_s1->roll += phi_s1->dist;
-                    temp_f0_4 = phi_s1->roll;
-                    if (phi_s1->roll >= 0.8f) {
-                        phi_s1->roll -= 0.8f;
-                        player->stateFlags2 |= 0x8000;
-                    } else {
-                        player->stateFlags2 &= ~0x8000;
-                    }
-                    if (kotakePtr->unk_1B0 > 10.0f) {
-                        if (kotakePtr->unk_1B0 < 200.0f) {
-                            phi_s1->frame = 100;
+                        phi_s1->alpha -= 300;
+                        if (phi_s1->alpha <= 0) {
+                            phi_s1->alpha = 0;
+                            phi_s1->type = 0;
                         }
                     }
-                    if ((globalCtx->gameplayFrames & 1) == 0) {
-                        globalCtx->damagePlayer(globalCtx, -1);
+                }
+                func_80939070(globalCtx, &phi_s1->pos, &sZeroVector, &sZeroVector, 10, phi_s1->args);
+            } else if (phi_s1->type == 0xA) {
+                phi_s1->unk_30++;
+                sp11C.x = 0.0f;
+                sp11C.y = 0.0f;
+                sp11C.z = -phi_s1->dist;
+                Matrix_RotateY((D_8094C86C / 32768.0f) * M_PI, MTXMODE_NEW);
+                Matrix_RotateX(-0.2f, MTXMODE_APPLY);
+                Matrix_RotateZ(phi_s1->roll, MTXMODE_APPLY);
+                Matrix_RotateY(phi_s1->yaw, MTXMODE_APPLY);
+                Matrix_MultVec3f(&sp11C, &phi_s1->pos);
+                phi_s1->pos.x += D_8094C860.x;
+                phi_s1->pos.y += D_8094C860.y;
+                phi_s1->pos.z += D_8094C860.z;
+                if (phi_s1->unk_30 < 5) {
+                    Math_ApproachF(&phi_s1->dist, 40.0f, 0.5f, 100.0f);
+                } else {
+                    Math_ApproachF(&phi_s1->dist, 0.0f, 0.2f, 5.0f);
+                    if (phi_s1->unk_30 >= 11) {
+                        phi_s1->alpha -= 30;
+                        if (phi_s1->alpha <= 0) {
+                            phi_s1->alpha = 0;
+                            phi_s1->type = 0;
+                        }
+                    }
+                }
+                func_80939070(globalCtx, &phi_s1->pos, &sZeroVector, &sZeroVector, 10, phi_s1->args);
+            } else if (phi_s1->type == 4) {
+                if (phi_s1->unk_30 == 0) {
+                    Math_ApproachF(&phi_s1->scale, phi_s1->dist, 0.05f, 1.0f);
+                    if (phi_s1->frame >= 16) {
+                        phi_s1->alpha -= 10;
+                        if (phi_s1->alpha <= 0) {
+                            phi_s1->alpha = 0;
+                            phi_s1->type = 0;
+                        }
                     }
                 } else {
-                    Math_ApproachF(&phi_s1->scale, 0.042f, 1.0f, 0.002f);
-                }
-                if (phi_s1->dist > 0.4f && (phi_s1->frame & 7) == 0) {
-                    spA6 = Rand_ZeroFloat(17.9f);
-                    if (phi_s1->unk_44 == NULL) {
-                        phi_f16 = 10.0f;
-                        spC0.x = Rand_CenteredFloat(5.0f) + player->bodyPartsPos[spA6].x;
-                        spC0.y = Rand_CenteredFloat(5.0f) + player->bodyPartsPos[spA6].y;
-                        spC0.z = Rand_CenteredFloat(5.0f) + player->bodyPartsPos[spA6].z;
-                    } else {
-                        phi_f16 = 20.0f;
-                        spC0.x = Rand_CenteredFloat(40.0f) + phi_s1->unk_44->world.pos.x;
-                        spC0.y = Rand_CenteredFloat(40.0f) + phi_s1->unk_44->world.pos.y;
-                        spC0.z = Rand_CenteredFloat(40.0f) + phi_s1->unk_44->world.pos.z;
+                    Math_ApproachF(&phi_s1->scale, phi_s1->dist, 0.1f, 2.0f);
+                    phi_s1->alpha -= 15;
+                    if (phi_s1->alpha <= 0) {
+                        phi_s1->alpha = 0;
+                        phi_s1->type = 0;
                     }
-                    spB4.x = 0.0f;
-                    spB4.y = 0.0f;
-                    spB4.z = 0.0f;
-                    spA8.x = 0.0f;
-                    spA8.y = 0.0f;
-                    spA8.z = 0.1f;
-                    func_80938DC4(globalCtx, 3, &spC0, &spB4, &spA8, Rand_ZeroFloat(phi_f16 * 0.5f) + phi_f16, 0, 0, 0x96);
+                }
+            } else if (phi_s1->type == 5) {
+                if (phi_s1->args < phi_s1->frame) {
+                    phi_f0 = 1.0f;
+                    if (phi_s1->unk_44 != NULL || D_8094C841 == 1) {
+                        phi_f0 *= 3.0f;
+                    }
+
+                    Math_ApproachF(&phi_s1->scale, 0.0f, 1.0f, 0.0005f * phi_f0);
+                    if (phi_s1->scale == 0.0f) {
+                        phi_s1->type = 0;
+                        if (phi_s1->unk_44 == NULL) {
+                            player->stateFlags2 &= ~0x8000;
+                            D_8094C85F = 0;
+                        }
+                    }
+                } else {
+                    if (D_8094C841 == 1) {
+                        phi_s1->frame = 100;;
+                    }
+                    Math_ApproachF(&phi_s1->dist, 0.8f, 0.2f, 0.04f);
+                    if (phi_s1->unk_44 == NULL) {
+                        Math_ApproachF(&phi_s1->scale, 0.012f, 1.0f, 0.002f);
+                        phi_s1->roll += phi_s1->dist;
+                        if (phi_s1->roll >= 0.8f) {
+                            phi_s1->roll -= 0.8f;
+                            player->stateFlags2 |= 0x8000;
+                        } else {
+                            player->stateFlags2 &= ~0x8000;
+                        }
+
+                        if ((kotakePtr->unk_1B0 > 10.0f) && (kotakePtr->unk_1B0 < 200.0f)) {
+                            phi_s1->frame = 100;
+                        }
+                        if (!(globalCtx->gameplayFrames & 1)) {
+                            globalCtx->damagePlayer(globalCtx, -1);
+                        }
+                    } else {
+                        Math_ApproachF(&phi_s1->scale, 0.042f, 1.0f, 0.002f);
+                    }
+                    if ((phi_s1->dist > 0.4f) && ((phi_s1->frame & 7) == 0)) {
+                        spA6 = Rand_ZeroFloat(17.9f);
+                        if (phi_s1->unk_44 == NULL) {
+                            spC0.x = player->bodyPartsPos[spA6].x + Rand_CenteredFloat(5.0f);
+                            spC0.y = player->bodyPartsPos[spA6].y + Rand_CenteredFloat(5.0f);
+                            spC0.z = player->bodyPartsPos[spA6].z + Rand_CenteredFloat(5.0f);
+                            phi_f22 = 10.0f;
+                        } else {
+                            unk44 = phi_s1->unk_44;
+                            spC0.x = unk44->world.pos.x + Rand_CenteredFloat(40.0f);
+                            spC0.y = unk44->world.pos.y + Rand_CenteredFloat(40.0f);
+                            spC0.z = unk44->world.pos.z + Rand_CenteredFloat(40.0f);
+                            phi_f22 = 20.0f;
+                        }
+                        spB4.x = 0.0f;
+                        spB4.y = 0.0f;
+                        spB4.z = 0.0f;
+                        spA8.x = 0.0f;
+                        spA8.y = 0.1f;
+                        spA8.z = 0.0f;
+                        func_80938DC4(globalCtx, 3, &spC0, &spB4, &spA8, phi_f22 + Rand_ZeroFloat(phi_f22 * 0.5f), 0, 0, 0x96);
+                    }
                 }
             }
         }
+        phi_s1++;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_809477E0.s")
-#endif
-
-
 
 void func_80948528(s32 arg0, s32 arg1, s32 arg2) {
     D_8094F2B0 = arg0;
