@@ -1,5 +1,5 @@
 <Root>
-    <File Name="ovl_En_Jsjutan" RangeStart="0x12F8" RangeEnd="0x4C88" Segment="128">
+    <File Name="ovl_En_Jsjutan" BaseAddress="0x80A897A0" RangeStart="0x12F8" RangeEnd="0x4C88" Segment="128">
         <!--D_80A8AA98-->
         <Texture Name="gJsjutanCarpetTex" OutName="carpet" Format="rgb5a1" Width="32" Height="64" Offset="0x12F8"/>
 
@@ -16,8 +16,8 @@
             <Vtx/>
         </Array>
 
-        <!--D_80A8D598--> <!-- Crashes ZAPD -->
-        <!--DList Name="D_80A8D598" Offset="0x3DF8"/-->
+        <!--D_80A8D598-->
+        <DList Name="D_80A8D598" Offset="0x3DF8"/>
         <!--D_80A8D618--> <!-- Crashes ZAPD -->
         <!--DList Name="D_80A8D618" Offset="0x3E78"/-->
         <!--D_80A8D688--> <!-- Bad extraction -->
