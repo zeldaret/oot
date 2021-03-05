@@ -22,45 +22,6 @@ void EnXc_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnXc_ActionFunc45(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc46(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc47(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc48(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc49(EnXc* this, GlobalContext* globalCtx);
-void EnXc_Kneel(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc51(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc52(EnXc* this, GlobalContext* globalCtx);
-void EnXc_SetupShowTriforceAction(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc53(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc54(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ShowTriforce(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ShowTriforceIdle(EnXc* this, GlobalContext* globalCtx);
-void EnXc_InitialNocturneAction(EnXc* this, GlobalContext* globalCtx);
-void EnXc_IdleInNocturne(EnXc* this, GlobalContext* globalCtx);
-void EnXc_DefenseStance(EnXc* this, GlobalContext* globalCtx);
-void EnXc_Contort(EnXc* this, GlobalContext* globalCtx);
-void EnXc_FallInNocturne(EnXc* this, GlobalContext* globalCtx);
-void EnXc_HitGroundInNocturne(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc63(EnXc* this, GlobalContext* globalCtx);
-void EnXc_KneelInNocturneCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc65(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc66(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc67(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc68(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc69(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc70(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc71(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc72(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ReverseAccelInNocturneCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ReverseWalkInNocturneCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ReverseHaltInNocturneCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ThrowNutInNocturneCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_DeleteInNocturneCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_KillInNocturneCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_PreludeCS(EnXc* this, GlobalContext* globalCtx);
-void EnXc_BlockingPedestalAction(EnXc* this, GlobalContext* globalCtx);
-void EnXc_ActionFunc80(EnXc* this, GlobalContext* globalCtx);
-
 void EnXc_DrawNothing(EnXc* this, GlobalContext* globalCtx);
 void EnXc_DrawDefault(EnXc* this, GlobalContext* globalCtx);
 void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx);
@@ -408,6 +369,7 @@ void EnXc_SetWalkingSFX(EnXc* this, GlobalContext* globalCtx) {
     s32 pad[2];
     u32 sfxId;
     s32 pad2;
+
     if ((Animation_OnFrame(&this->skelAnime, 11.0f)) || (Animation_OnFrame(&this->skelAnime, 23.0f))) {
         if (this->actor.bgCheckFlags & 1) {
             sfxId = SFX_FLAG;
@@ -448,39 +410,31 @@ void EnXc_SetLandingSFX(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetColossusAppearSFX(EnXc* this, GlobalContext* globalCtx) {
-    s32 pad;
     s16 sceneNum;
-
-    static Vec3f D_80B42D90;
-    static Vec3f D_80B41D78 = { -611.0f, 728.0f, -2.0f };
-    static Vec3f D_80B41D84 = { -1069.0f, 38.0f, 0.0f };
+    static Vec3f sXyzDist;
 
     if (gSaveContext.sceneSetupIndex == 4) {
         sceneNum = globalCtx->sceneNum;
         if (sceneNum == SCENE_SPOT11) {
             CutsceneContext* csCtx = &globalCtx->csCtx;
             u16 frameCount = csCtx->frames;
-            f32* wDest;
+            f32 wDest[2];
 
             if (frameCount == 119) {
-                Vec3f pos = D_80B41D78;
+                Vec3f pos = { -611.0f, 728.0f, -2.0f };
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &D_80B42D90, &wDest);
-                func_80078914(&D_80B42D90, NA_SE_EV_JUMP_CONC);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &sXyzDist, wDest);
+                func_80078914(&sXyzDist, NA_SE_EV_JUMP_CONC);
             } else if (frameCount == 164) {
-                Vec3f pos = D_80B41D84;
+                Vec3f pos = { -1069.0f, 38.0f, 0.0f };
                 s32 pad;
 
-                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &D_80B42D90, &wDest);
-                func_80078914(&D_80B42D90, NA_SE_PL_WALK_CONCRETE);
+                SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &pos, &sXyzDist, wDest);
+                func_80078914(&sXyzDist, NA_SE_PL_WALK_CONCRETE);
             }
         }
     }
 }
-
-Vec3f D_80B42DA0;
-
-Vec3f D_80B42DB0;
 
 void func_80B3D118(GlobalContext* globalCtx) {
     s16 sceneNum;
@@ -490,13 +444,16 @@ void func_80B3D118(GlobalContext* globalCtx) {
     }
 }
 
+Vec3f D_80B42DA0;
+
 void EnXc_SetColossusWindSFX(GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 4) {
         s32 pad;
         s16 sceneNum = globalCtx->sceneNum;
         static s32 D_80B41D90 = 0;
-        static Vec3f D_80B41D94 = { 0.0f, 0.0f, 0.0f };
-        static f32 D_80B41DA0 = 0.0f;
+        static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
+        static f32 sMaxSpeed = 0.0f;
+        static Vec3f D_80B42DB0;
 
         if (sceneNum == SCENE_SPOT11) {
             CutsceneContext* csCtx = &globalCtx->csCtx;
@@ -508,16 +465,17 @@ void EnXc_SetColossusWindSFX(GlobalContext* globalCtx) {
                     Vec3f* eye = &globalCtx->view.eye;
 
                     if (D_80B41D90 != 0) {
-                        f32 xyzDist = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
+                        f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
 
-                        D_80B41DA0 = CLAMP_MIN(D_80B41DA0, xyzDist);
+                        sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
 
-                        osSyncPrintf("MAX speed = %f\n", D_80B41DA0);
+                        osSyncPrintf("MAX speed = %f\n", sMaxSpeed);
 
-                        xyzDist = CLAMP_MAX(xyzDist, 2.0f);
+                        speed = CLAMP_MAX(speed, 2.0f);
 
-                        func_800F436C(&D_80B41D94, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * xyzDist));
+                        func_800F436C(&sPos, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * speed));
                     }
+
                     D_80B42DB0.x = eye->x;
                     D_80B42DB0.y = eye->y;
                     D_80B42DB0.z = eye->z;
@@ -1088,7 +1046,7 @@ void func_80B3E87C(Gfx** dList, EnXc* this) {
     }
 }
 
-s32 func_80B3E8AC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnXc_PullingOutHarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnXc* this = THIS;
 
     if (limbIndex == 12) {
@@ -1098,7 +1056,7 @@ s32 func_80B3E8AC(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-s32 func_80B3E8E4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnXc_HarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnXc* this = THIS;
 
     if (limbIndex == 12) {
@@ -1125,7 +1083,7 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, func_80B3E8AC,
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_PullingOutHarpOverrideLimbDraw,
                           NULL, thisx);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inSpot05.c", 1497);
 }
@@ -1148,7 +1106,7 @@ void EnXc_DrawHarp(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, func_80B3E8E4,
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_HarpOverrideLimbDraw,
                           NULL, thisx);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inSpot05.c", 1564);
 }
@@ -1457,112 +1415,7 @@ void func_80B3F59C(EnXc* this, GlobalContext* globalCtx) {
     }
 }
 
-Vec3f D_80B41DB0 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_80B41DBC = { 0.0f, 0.0f, 0.0f };
-
-static EnXcActionFunc sActionFuncs[] = {
-    EnXc_ActionFunc0,
-    EnXc_ActionFunc1,
-    EnXc_GracefulFall,
-    EnXc_Accelerate,
-    EnXc_Walk,
-    EnXc_Stopped,
-    EnXc_ActionFunc6,
-    EnXc_ActionFunc7,
-    EnXc_ActionFunc8,
-    EnXc_ActionFunc9,
-    EnXc_ActionFunc10,
-    EnXc_ActionFunc11,
-    EnXc_ActionFunc12,
-    EnXc_ActionFunc13,
-    EnXc_ReverseAccelerate,
-    EnXc_ActionFunc15,
-    EnXc_HaltAndWaitToThrowNut,
-    EnXc_ThrowNut,
-    EnXc_Delete,
-    EnXc_Fade,
-    EnXc_ActionFunc20,
-    EnXc_ActionFunc21,
-    EnXc_ActionFunc22,
-    EnXc_ActionFunc23,
-    EnXc_ActionFunc24,
-    EnXc_ActionFunc25,
-    EnXc_ActionFunc26,
-    EnXc_ActionFunc27,
-    EnXc_ActionFunc28,
-    EnXc_Serenade,
-    EnXc_ActionFunc30,
-    EnXc_ActionFunc31,
-    EnXc_ActionFunc32,
-    EnXc_ActionFunc33,
-    EnXc_ActionFunc34,
-    EnXc_ActionFunc35,
-    EnXc_ActionFunc36,
-    EnXc_ActionFunc37,
-    EnXc_ActionFunc38,
-    EnXc_ActionFunc39,
-    EnXc_ActionFunc40,
-    EnXc_ActionFunc41,
-    EnXc_ActionFunc42,
-    EnXc_ActionFunc43,
-    EnXc_ActionFunc44,
-    EnXc_ActionFunc45,
-    EnXc_ActionFunc46,
-    EnXc_ActionFunc47,
-    EnXc_ActionFunc48,
-    EnXc_ActionFunc49,
-    EnXc_Kneel,
-    EnXc_ActionFunc51,
-    EnXc_ActionFunc52,
-    EnXc_ActionFunc53,
-    EnXc_ActionFunc54,
-    EnXc_ShowTriforce,
-    EnXc_ShowTriforceIdle,
-    EnXc_InitialNocturneAction,
-    EnXc_IdleInNocturne,
-    EnXc_DefenseStance,
-    EnXc_Contort,
-    EnXc_FallInNocturne,
-    EnXc_HitGroundInNocturne,
-    EnXc_ActionFunc63,
-    EnXc_KneelInNocturneCS,
-    EnXc_ActionFunc65,
-    EnXc_ActionFunc66,
-    EnXc_ActionFunc67,
-    EnXc_ActionFunc68,
-    EnXc_ActionFunc69,
-    EnXc_ActionFunc70,
-    EnXc_ActionFunc71,
-    EnXc_ActionFunc72,
-    EnXc_ReverseAccelInNocturneCS,
-    EnXc_ReverseWalkInNocturneCS,
-    EnXc_ReverseHaltInNocturneCS,
-    EnXc_ThrowNutInNocturneCS,
-    EnXc_DeleteInNocturneCS,
-    EnXc_KillInNocturneCS,
-    EnXc_BlockingPedestalAction,
-    EnXc_ActionFunc80,
-};
-
-Vec3f D_80B41F0C = { 0.0f, 10.0f, 0.0f };
-
-static EnXcDrawFunc sDrawFuncs[] = {
-    EnXc_DrawNothing, EnXc_DrawDefault,  EnXc_DrawPullingOutHarp,
-    EnXc_DrawHarp,    EnXc_DrawTriforce, EnXc_DrawSquintingEyes,
-};
-
-const ActorInit En_Xc_InitVars = {
-    ACTOR_EN_XC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_XC,
-    sizeof(EnXc),
-    (ActorFunc)EnXc_Init,
-    (ActorFunc)EnXc_Destroy,
-    (ActorFunc)EnXc_Update,
-    (ActorFunc)EnXc_Draw,
-};
+// Vec3f D_80B41F0C = ;
 
 void func_80B3F620(EnXc* this) {
     EnXc_CheckAndSetAction(this, XC_ACTION_45, XC_ACTION_46);
@@ -1675,7 +1528,7 @@ void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx) {
         s32 pad;
         Vec3f src;
         Vec3f pos;
-        Vec3f sp1C = D_80B41DB0;
+        Vec3f sp1C = { 0.0f, 0.0f, 0.0f };
         f32 wDest[1];
 
         Matrix_MultVec3f(&sp1C, &src);
@@ -1819,20 +1672,19 @@ void EnXc_ShowTriforceIdle(EnXc* this, GlobalContext* globalCtx) {
     func_80B400AC(this, globalCtx);
 }
 
-s32 func_80B40224(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnXc_TriforceOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     if (limbIndex == 15) {
         *dList = gShiekDL_011620;
     }
     return 0;
 }
 
-void func_80B40248(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnXc_TriforcePostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     s32 pad[2];
     EnXc* this = THIS;
-    Vec3f vec;
 
     if (limbIndex == 15) {
-        vec = D_80B41DBC;
+        Vec3f vec = { 0.0f, 0.0f, 0.0f };
         EnXc_PlayTriforceSFX(&this->actor, globalCtx);
         Matrix_MultVec3f(&vec, &this->vec_2B0);
         this->unk_2BC = 1;
@@ -1872,8 +1724,8 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, func_80B40224,
-                          func_80B40248, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_TriforceOverrideLimbDraw,
+                          EnXc_TriforcePostLimbDraw, &this->actor);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 668);
 }
 
@@ -2346,6 +2198,90 @@ void EnXc_ActionFunc80(EnXc* this, GlobalContext* globalCtx) {
     func_80B41798(this, globalCtx);
 }
 
+static EnXcActionFunc sActionFuncs[] = {
+    EnXc_ActionFunc0,
+    EnXc_ActionFunc1,
+    EnXc_GracefulFall,
+    EnXc_Accelerate,
+    EnXc_Walk,
+    EnXc_Stopped,
+    EnXc_ActionFunc6,
+    EnXc_ActionFunc7,
+    EnXc_ActionFunc8,
+    EnXc_ActionFunc9,
+    EnXc_ActionFunc10,
+    EnXc_ActionFunc11,
+    EnXc_ActionFunc12,
+    EnXc_ActionFunc13,
+    EnXc_ReverseAccelerate,
+    EnXc_ActionFunc15,
+    EnXc_HaltAndWaitToThrowNut,
+    EnXc_ThrowNut,
+    EnXc_Delete,
+    EnXc_Fade,
+    EnXc_ActionFunc20,
+    EnXc_ActionFunc21,
+    EnXc_ActionFunc22,
+    EnXc_ActionFunc23,
+    EnXc_ActionFunc24,
+    EnXc_ActionFunc25,
+    EnXc_ActionFunc26,
+    EnXc_ActionFunc27,
+    EnXc_ActionFunc28,
+    EnXc_Serenade,
+    EnXc_ActionFunc30,
+    EnXc_ActionFunc31,
+    EnXc_ActionFunc32,
+    EnXc_ActionFunc33,
+    EnXc_ActionFunc34,
+    EnXc_ActionFunc35,
+    EnXc_ActionFunc36,
+    EnXc_ActionFunc37,
+    EnXc_ActionFunc38,
+    EnXc_ActionFunc39,
+    EnXc_ActionFunc40,
+    EnXc_ActionFunc41,
+    EnXc_ActionFunc42,
+    EnXc_ActionFunc43,
+    EnXc_ActionFunc44,
+    EnXc_ActionFunc45,
+    EnXc_ActionFunc46,
+    EnXc_ActionFunc47,
+    EnXc_ActionFunc48,
+    EnXc_ActionFunc49,
+    EnXc_Kneel,
+    EnXc_ActionFunc51,
+    EnXc_ActionFunc52,
+    EnXc_ActionFunc53,
+    EnXc_ActionFunc54,
+    EnXc_ShowTriforce,
+    EnXc_ShowTriforceIdle,
+    EnXc_InitialNocturneAction,
+    EnXc_IdleInNocturne,
+    EnXc_DefenseStance,
+    EnXc_Contort,
+    EnXc_FallInNocturne,
+    EnXc_HitGroundInNocturne,
+    EnXc_ActionFunc63,
+    EnXc_KneelInNocturneCS,
+    EnXc_ActionFunc65,
+    EnXc_ActionFunc66,
+    EnXc_ActionFunc67,
+    EnXc_ActionFunc68,
+    EnXc_ActionFunc69,
+    EnXc_ActionFunc70,
+    EnXc_ActionFunc71,
+    EnXc_ActionFunc72,
+    EnXc_ReverseAccelInNocturneCS,
+    EnXc_ReverseWalkInNocturneCS,
+    EnXc_ReverseHaltInNocturneCS,
+    EnXc_ThrowNutInNocturneCS,
+    EnXc_DeleteInNocturneCS,
+    EnXc_KillInNocturneCS,
+    EnXc_BlockingPedestalAction,
+    EnXc_ActionFunc80,
+};
+
 void EnXc_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;
     s32 action = this->action;
@@ -2402,7 +2338,7 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-s32 func_80B41A88(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnXc_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnXc* this = THIS;
 
     if (this->unk_30C != 0) {
@@ -2417,10 +2353,10 @@ s32 func_80B41A88(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80B41B0C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnXc_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     if (limbIndex == 16) {
         EnXc* this = THIS;
-        Vec3f src = D_80B41F0C;
+        Vec3f src = { 0.0f, 10.0f, 0.0f };
         Vec3f dest;
 
         Matrix_MultVec3f(&src, &dest);
@@ -2433,7 +2369,6 @@ void func_80B41B0C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
     }
 }
 
-// EnXc_DrawNothing
 void EnXc_DrawNothing(EnXc* this, GlobalContext* globalCtx) {
 }
 
@@ -2450,10 +2385,27 @@ void EnXc_DrawDefault(EnXc* this, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeSegment));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeSegment));
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, func_80B41A88,
-                          func_80B41B0C, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_OverrideLimbDraw,
+                          EnXc_PostLimbDraw, &this->actor);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2.c", 1207);
 }
+
+static EnXcDrawFunc sDrawFuncs[] = {
+    EnXc_DrawNothing, EnXc_DrawDefault,  EnXc_DrawPullingOutHarp,
+    EnXc_DrawHarp,    EnXc_DrawTriforce, EnXc_DrawSquintingEyes,
+};
+
+const ActorInit En_Xc_InitVars = {
+    ACTOR_EN_XC,
+    ACTORCAT_NPC,
+    FLAGS,
+    OBJECT_XC,
+    sizeof(EnXc),
+    (ActorFunc)EnXc_Init,
+    (ActorFunc)EnXc_Destroy,
+    (ActorFunc)EnXc_Update,
+    (ActorFunc)EnXc_Draw,
+};
 
 void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnXc* this = THIS;

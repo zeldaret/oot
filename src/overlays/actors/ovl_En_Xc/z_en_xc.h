@@ -7,7 +7,7 @@
 struct EnXc;
 
 typedef void (*EnXcActionFunc)(struct EnXc*, GlobalContext*);
-typedef void (*EnXcDrawFunc)(struct EnXc*, GlobalContext*);
+typedef void (*EnXcDrawFunc)(struct Actor*, GlobalContext*);
 
 typedef enum {
     /* 0 */ XC_TYPE_0,
