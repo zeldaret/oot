@@ -33,10 +33,7 @@ u8 D_80A8E610[0x800];
 
 Vec3s D_80A8EE10[0x90];
 
-static s32 sUnused[2] = {
-    0,
-    0,
-};
+static s32 sUnused[2] = { 0, 0 };
 
 #include "z_en_jsjutan_data.c"
 
@@ -70,7 +67,7 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
     phi_s0 = SEGMENTED_TO_VIRTUAL(D_80A8BA98);
     phi_s2 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
 
-    for (i = 0; i < ARRAY_COUNT(D_80A8EE10); i++) {
+    for (i = 0; i < ARRAY_COUNT(D_80A8EE10); i++, phi_s0++, phi_s2++) {
         D_80A8EE10[i].x = phi_s0->v.ob[0];
         D_80A8EE10[i].z = phi_s0->v.ob[2];
         if (this->dyna.actor.params == ENJSJUTAN_TYPE_01) {
@@ -82,12 +79,11 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
             phi_s0->v.ob[1] = phi_s2->v.ob[1] = this->dyna.actor.floorHeight;
             this->dyna.actor.world.pos = actorPos;
         }
-        phi_s0++;
-        phi_s2++;
     }
 }
 
 #ifdef NON_MATCHING
+// regalloc differences
 void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     u8 isPlayerOnTop;
     s16 i;
@@ -145,6 +141,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         phi_s3 = SEGMENTED_TO_VIRTUAL(D_80A8C398);
     }
 
+    // Distance of player to carpet.
     spB8 = (player->actor.world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
     spB4 = (player->actor.world.pos.y - this->unk_168) * 50.0f;
     spB0 = (player->actor.world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
@@ -154,6 +151,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         isPlayerOnTop = 1;
     }
 
+    // Distance of Magic Carpet Salesman to carpet.
     spD4[0] = (parent->world.pos.x - this->dyna.actor.world.pos.x) * 50.0f;
     spC8[0] = ((parent->world.pos.y - 8.0f) - this->unk_168) * 50.0f;
     spBC[0] = (parent->world.pos.z - this->dyna.actor.world.pos.z) * 50.0f;
@@ -198,6 +196,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         spBC[2] = 50.0f * (actorBeanGuy->world.pos.z - this->dyna.actor.world.pos.z);
         spE0[2] = 1;
     } else {
+        // Player can place bombs in carpet and it will react to it.
         while (actorExplosive != NULL) {
             if (i < 3) {
                 spD4[i] = 50.0f * (actorExplosive->world.pos.x - this->dyna.actor.world.pos.x);
@@ -220,12 +219,14 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    for (j = 0; j < 0x90; j++) {
+    // Fancy math to make a woobly and reactive carpet.
+    for (j = 0; j < ARRAY_COUNT(D_80A8EE10); j++, phi_s0++, phi_s3++) {
         if (isPlayerOnTop) {
+            // Linear distance from j-th wave to player, in XZ plane.
             distance_1 = sqrtf(SQ(phi_s0->n.ob[2] - spB0) + SQ(phi_s0->n.ob[0] - spB8));
 
+            // Distance percentage. 0.0f to 1.0f. 2500.0f is the max distance to an actor that this wave will consider.
             phi_f2_4 = (2500.0f - distance_1) / 2500.0f;
-
             if (phi_f2_4 < 0.0f) {
                 phi_f2_4 = 0.0f;
             }
@@ -235,7 +236,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             phi_f28 = spA8;
 
             distance_1 -= 1500.0f;
-
             if (distance_1 < 0.0f) {
                 distance_1 = 0.0f;
             }
@@ -251,6 +251,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         for (i = 0; i < 3; i++) {
             if (spE0[i] != 0) {
+                // Linear distance from j-th wave to whatever actor is there, in XZ plane.
                 distance_2 = sqrtf(SQ(phi_s0->n.ob[2] - spBC[i]) + SQ(phi_s0->n.ob[0] - spD4[i]));
 
                 if ((i == 0) || isInCreditsScene) {
@@ -287,6 +288,15 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             }
         }
 
+        /**
+         * See https://en.wikipedia.org/wiki/Sine_wave#General_form
+         * k: 10000
+         * x: j
+         * w: 4000
+         * t: gameplayFrames
+         * A: spA8
+         * D: phi_f28
+         */
         temp_f0_3 = Math_SinS(globalCtx->gameplayFrames * 4000 + j * 10000);
 
         if (this->unk_174) {
@@ -313,9 +323,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             phi_s3->n.ob[0] = D_80A8EE10[j].x + phi_v1_4;
             phi_s3->n.ob[2] = D_80A8EE10[j].z + phi_v1_4;
         }
-
-        phi_s0++;
-        phi_s3++;
     }
 
     // address: ac4 ~ bb8
@@ -353,8 +360,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     sp108.y = 0.0f;
     sp108.z = 120.0f;
 
-    for (j = 0; j < 0x90; j++) {
-        if ((j % 0xC) == 0xB) {
+    // Fancy math to smooth each part of the wave considering its neighborhood.
+    for (j = 0; j < ARRAY_COUNT(D_80A8CC98); j++, phi_s0_3++) {
+        // Carpet size is 12x12.
+        if ((j % 12) == 11) { // Last column.
             index = j - 1;
             phi_f22 = phi_s0_3->n.ob[2] - phi_s0_2[index].n.ob[2];
         } else {
@@ -366,11 +375,11 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         phi_f22 = Math_Atan2F(phi_f22, temp_f0_3);
 
-        if (j >= 0x84) {
-            index = j - 0xC;
+        if (j >= 132) { // Last row.
+            index = j - 12;
             aux_f20 = phi_s0_3->n.ob[0] - phi_s0_2[index].n.ob[0];
         } else {
-            index = j + 0xC;
+            index = j + 12;
             aux_f20 = phi_s0_2[index].n.ob[0] - phi_s0_3->n.ob[0];
         }
 
@@ -383,7 +392,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         phi_s0_3->n.n[0] = spFC.x;
         phi_s0_3->n.n[1] = spFC.y;
         phi_s0_3->n.n[2] = spFC.z;
-        phi_s0_3++;
     }
 }
 #else
@@ -391,12 +399,11 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jsjutan/func_80A89A6C.s")
 #endif
 
-void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx) {
-    EnJsjutan* this = THIS;
+void EnJsjutan_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
 
-    this->dyna.actor.shape.rot.x = Math_SinS(globalCtx->gameplayFrames * 3000) * 300.0f;
-    this->dyna.actor.shape.rot.z = Math_CosS(globalCtx->gameplayFrames * 3500) * 300.0f;
-    if (!globalCtx) {}
+    thisx->shape.rot.x = Math_SinS(globalCtx->gameplayFrames * 3000) * 300.0f;
+    thisx->shape.rot.z = Math_CosS(globalCtx->gameplayFrames * 3500) * 300.0f;
 }
 
 void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
@@ -429,7 +436,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->unk_164 != 0) {
         this->unk_164 = 0;
         for (i = 0; i < ARRAY_COUNT(D_80A8E610); i++) {
-            if (((u16*)D_80A8AA98)[i] != 0) { // Hack to bypass ZAPD exporting textures as u64
+            if (((u16*)D_80A8AA98)[i] != 0) { // Hack to bypass ZAPD exporting textures as u64.
                 D_80A8E610[i] = 0xFF;
             } else {
                 D_80A8E610[i] = 0;
@@ -450,8 +457,8 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     gSPDisplayList(POLY_OPA_DISP++, D_80A8D618);
     gDPPipeSync(POLY_OPA_DISP++);
 
-    // Draws the carpet's shadow vertexs.
-    if (globalCtx->gameplayFrames & 1) {
+    // Draws the carpet's shadow vertices. Swaps them between frames to get an smoother result.
+    if (globalCtx->gameplayFrames % 2 != 0) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8BA98);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8C398);
@@ -469,8 +476,8 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     gDPPipeSync(POLY_OPA_DISP++);
 
-    // Draws the carpet vertexs.
-    if (globalCtx->gameplayFrames & 1) {
+    // Draws the carpet vertices.
+    if (globalCtx->gameplayFrames % 2 != 0) {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8CC98);
     } else {
         gSPSegment(POLY_OPA_DISP++, 0x0C, D_80A8DAB8);

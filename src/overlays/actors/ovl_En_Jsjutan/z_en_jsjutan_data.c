@@ -9,7 +9,7 @@ u64 D_80A8AA98[] = {
 #include "assets/overlays/ovl_En_Jsjutan/carpet.rgb5a1.inc.c"
 };
 
-// Same vertex type as D_80A8C398. Used when gameplayFrames is odd.
+// Carpet's shadow vertices. Same vertex type as D_80A8C398. Used when gameplayFrames is odd.
 Vtx D_80A8BA98[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
@@ -85,7 +85,7 @@ Vtx D_80A8BA98[] = {
     VTX(5500, 0, 4500, 2048, 186, 0x00, 0x78, 0x00, 0xFF),   VTX(5500, 0, 5500, 2048, 0, 0x00, 0x78, 0x00, 0xFF),
 };
 
-// Same vertex type as D_80A8BA98. Used when gameplayFrames is even.
+// Carpet's shadow vertices. Same vertex type as D_80A8BA98. Used when gameplayFrames is even.
 Vtx D_80A8C398[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
@@ -161,7 +161,7 @@ Vtx D_80A8C398[] = {
     VTX(5500, 0, 4500, 2048, 186, 0x00, 0x78, 0x00, 0xFF),   VTX(5500, 0, 5500, 2048, 0, 0x00, 0x78, 0x00, 0xFF),
 };
 
-// Same vertex type as D_80A8DAB8. Used when gameplayFrames is odd.
+// Carpet vertices. Same vertex type as D_80A8DAB8. Used when gameplayFrames is odd.
 Vtx D_80A8CC98[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
@@ -404,7 +404,7 @@ Gfx D_80A8D688[] = {
     gsSPEndDisplayList(),
 };
 
-// Same vertex type as D_80A8CC98. Used when gameplayFrames is even.
+// Carpet vertices. Same vertex type as D_80A8CC98. Used when gameplayFrames is even.
 Vtx D_80A8DAB8[] = {
     VTX(-4500, 0, -5500, 186, 2048, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -4500, 186, 1862, 0x00, 0x78, 0x00, 0xFF),
     VTX(-4500, 0, -3500, 186, 1676, 0x00, 0x78, 0x00, 0xFF), VTX(-4500, 0, -2500, 186, 1489, 0x00, 0x78, 0x00, 0xFF),
