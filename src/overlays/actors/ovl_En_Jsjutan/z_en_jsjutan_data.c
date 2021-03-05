@@ -1,16 +1,7 @@
 #include "z_en_jsjutan.h"
 
 // Shadow texture. 32x64 I8.
-u8 D_80A8E610[0x800];
-
-Vec3s D_80A8EE10[0x90];
-
-static s32 sUnused[2] = {
-    0,
-    0,
-};
-
-//#include "assets/overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
+extern u8 D_80A8E610[0x800];
 
 // Carpet texture. 32x64 RGBA16.
 //u64 gJsjutanCarpetTex[] = {

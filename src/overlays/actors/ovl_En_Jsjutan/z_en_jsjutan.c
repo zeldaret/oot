@@ -28,25 +28,17 @@ const ActorInit En_Jsjutan_InitVars = {
     (ActorFunc)EnJsjutan_Draw,
 };
 
-#include "z_en_jsjutan_data.c"
-/*
-extern u8 D_80A8E610[0x800];
-extern Vec3s D_80A8EE10[0x90];
+// Shadow texture. 32x64 I8.
+u8 D_80A8E610[0x800];
 
-extern u16 D_80A8AA98[0x800];
-extern Vtx D_80A8BA98[];
-extern Vtx D_80A8C398[];
-extern Vtx D_80A8CC98[];
-extern Gfx D_80A8D598[];
-extern Gfx D_80A8D618[];
-extern Gfx D_80A8D688[];
-extern Vtx D_80A8DAB8[];
-extern CamData D_80A8E3B8;
-extern SurfaceType D_80A8E3C0;
-extern CollisionPoly D_80A8E3C8[];
-extern Vec3s D_80A8E3E8[];
-extern CollisionHeader D_80A8E400;
-*/
+Vec3s D_80A8EE10[0x90];
+
+static s32 sUnused[2] = {
+    0,
+    0,
+};
+
+#include "z_en_jsjutan_data.c"
 
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnJsjutan* this = THIS;
@@ -81,7 +73,7 @@ void func_80A89860(EnJsjutan* this, GlobalContext* globalCtx) {
     for (i = 0; i < ARRAY_COUNT(D_80A8EE10); i++) {
         D_80A8EE10[i].x = phi_s0->v.ob[0];
         D_80A8EE10[i].z = phi_s0->v.ob[2];
-        if (this->dyna.actor.params == 1) {
+        if (this->dyna.actor.params == ENJSJUTAN_TYPE_01) {
             phi_s0->v.ob[1] = phi_s2->v.ob[1] = 0x585;
         } else {
             this->dyna.actor.world.pos.x = phi_s0->v.ob[0] * 0.02f + actorPos.x;
@@ -216,7 +208,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 spBC[i] = 50.0f * (actorExplosive->world.pos.z - this->dyna.actor.world.pos.z);
 
                 if ((fabsf(spD4[i]) < 5500.0f) && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
-                    //spE0[i] = (actorExplosive->params == BOMB_EXPLOSION) ? 35 : 1;
                     if (actorExplosive->params == BOMB_EXPLOSION) {
                         spE0[i] = 35; // Code never checks this, so it goes unused. Maybe it was planned to damage the carpet with explosions (?)
                     } else {
@@ -418,7 +409,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_jsjutan.c", 701);
 
-    if (thisx->params == 1) {
+    if (thisx->params == ENJSJUTAN_TYPE_01) {
         thisx->world.pos.x = parent->world.pos.x;
         thisx->world.pos.y = parent->world.pos.y;
         thisx->world.pos.z = parent->world.pos.z;
