@@ -13,9 +13,13 @@ typedef enum {
     /* 0 */ XC_TYPE_0,
     /* 1 */ XC_TYPE_1,
     /* 2 */ XC_TYPE_2,
-    /* 6 */ XC_TYPE_MINUET = 6,
-    /* 7 */ XC_TYPE_BOLERO = 7,
-    /* 8 */ XC_TYPE_SERENADE = 8
+    /* 3 */ XC_TYPE_3,
+    /* 4 */ XC_TYPE_4,
+    /* 5 */ XC_TYPE_5,
+    /* 6 */ XC_TYPE_MINUET,
+    /* 7 */ XC_TYPE_BOLERO,
+    /* 8 */ XC_TYPE_SERENADE,
+    /* 9 */ XC_TYPE_9
 } EnXcType;
 
 typedef enum {
