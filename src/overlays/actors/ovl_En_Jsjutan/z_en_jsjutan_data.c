@@ -4,7 +4,7 @@
 extern u8 D_80A8E610[0x800];
 
 // Carpet texture. 32x64 RGBA16.
-//u64 gJsjutanCarpetTex[] = {
+// u64 gJsjutanCarpetTex[] = {
 u64 D_80A8AA98[] = {
 #include "assets/overlays/ovl_En_Jsjutan/carpet.rgb5a1.inc.c"
 };

@@ -125,7 +125,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     f32 phi_f2_3;
     u8 isInCreditsScene;
     s16 index; // phi_v1_5
-    //f32 temp_f24;
     f32 phi_f22;
     f32 aux_f20;
     s16 phi_v1_4;
@@ -165,8 +164,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     }
 
     i = 1;
-
-    //if (1) { }
 
     // Credits scene. The magic carpet man is friends with the bean guy and the lakeside professor.
     if ((gSaveContext.entranceIndex == 0x157) && (gSaveContext.sceneSetupIndex == 8)) {
@@ -209,7 +206,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
                 if ((fabsf(spD4[i]) < 5500.0f) && (fabsf(spC8[i]) < 3000.0f) && (fabsf(spBC[i]) < 5500.0f)) {
                     if (actorExplosive->params == BOMB_EXPLOSION) {
-                        spE0[i] = 35; // Code never checks this, so it goes unused. Maybe it was planned to damage the carpet with explosions (?)
+                        spE0[i] = 35; // Code never checks this, so it goes unused. Maybe it was planned to damage the
+                                      // carpet with explosions (?)
                     } else {
                         spE0[i] = 1;
                     }
@@ -232,10 +230,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                 phi_f2_4 = 0.0f;
             }
 
-            //phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
-            //phi_f28 = ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f) + (spB4 * phi_f2_4);
-            //phi_f28 = (spB4 * phi_f2_4);
-            //phi_f28 = phi_f28 + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
+            // phi_f28 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
             spA8 = (spB4 * phi_f2_4) + ((this->unk_170 - (this->unk_170 * phi_f2_4)) - 200.0f);
             phi_f28 = spA8;
 
@@ -244,7 +239,6 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
             if (distance_1 < 0.0f) {
                 distance_1 = 0.0f;
             }
-            //if (1) { }
 
             spA8 = 100.0f * distance_1 * 0.01f;
             if (spA8 > 100.0f) {
@@ -269,8 +263,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
                     phi_f2_2 = 0.0f;
                 }
 
-                //temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
-                //temp_f14_2 = ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f) + (spC8[i] * phi_f2_2);
+                // temp_f14_2 = (spC8[i] * phi_f2_2) + ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
                 temp_f14_2 = (spC8[i] * phi_f2_2);
                 temp_f14_2 += ((this->unk_170 - (this->unk_170 * phi_f2_2)) - 200.0f);
 
@@ -337,10 +330,14 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
 
         this->shadowAlpha = (dayTime * 0.00275f) + 10.0f; // (1.0f / 364.0f) ?
         this->unk_170 = 1000.0f;
-        //if (1) { }  if (1) { }  if (1) { }  if (1) { }  if (1) { }  if (1) { } 
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
-        if (!gSaveContext.dayTime) { if (1) { }  if (1) { }  if (1) { }  if (1) { } }
+        if (!gSaveContext.dayTime) {
+            if (1) {}
+            if (1) {}
+            if (1) {}
+            if (1) {}
+        }
         Math_ApproachF(&this->dyna.actor.velocity.y, 5.0f, 1.0f, 0.5f);
         Math_ApproachF(&this->shadowAlpha, 0.0f, 1.0f, 3.0f);
         Math_ApproachF(&this->unk_170, -5000.0f, 1.0f, 100.0f);
@@ -349,7 +346,8 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
     // address: bbc
     phi_s0_3 = phi_s0_2;
 
-    if (1) { }  if (1) { }
+    if (1) {}
+    if (1) {}
 
     sp108.x = 0.0f;
     sp108.y = 0.0f;
