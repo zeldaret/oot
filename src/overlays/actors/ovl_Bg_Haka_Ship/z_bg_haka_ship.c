@@ -163,7 +163,9 @@ void BgHakaShip_SetupCrash(BgHakaShip* this, GlobalContext* globalCtx) {
 }
 
 void BgHakaShip_CrashShake(BgHakaShip* this, GlobalContext* globalCtx) {
-    DECR(this->counter);
+    if (this->counter != 0) {
+        this->counter--;
+    }
     this->dyna.actor.world.pos.y = this->counter % 4 * 3 - 6 + this->dyna.actor.home.pos.y;
     if (!this->counter) {
         this->dyna.actor.gravity = -1.0f;
