@@ -1332,7 +1332,8 @@ void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
 
                 if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
                     ((actor->params & 0xFF) == 0x16)) {
-                    if (SQ(this->unk_218.x - gj->actor.world.pos.x) + SQ(this->unk_218.z - gj->actor.world.pos.z) <
+                    if (SQ(this->unk_218.x - gj->dyna.actor.world.pos.x) +
+                            SQ(this->unk_218.z - gj->dyna.actor.world.pos.z) <
                         10000.0f) {
                         s32 pad;
                         Vec3f sp28;
@@ -1342,7 +1343,7 @@ void func_808FF898(BossGanon2* this, GlobalContext* globalCtx) {
                         sp28.y = 0.0f;
                         sp28.z = 1.0f;
                         Matrix_MultVec3f(&sp28, &gj->unk_26C);
-                        gj->unk_268 = 1;
+                        gj->killFlag = true;
                         func_800A9F6C(0.0f, 0x96, 0x14, 0x32);
                         this->unk_392 = 6;
                         return;
@@ -1372,8 +1373,8 @@ s32 func_808FFA24(BossGanon2* this, GlobalContext* globalCtx) {
 
             if (((actor->params & 0xFF) == 0x10) || ((actor->params & 0xFF) == 0x11) ||
                 ((actor->params & 0xFF) == 0x16)) {
-                if (SQ(this->actor.world.pos.x - gj->actor.world.pos.x) +
-                        SQ(this->actor.world.pos.z - gj->actor.world.pos.z) <
+                if (SQ(this->actor.world.pos.x - gj->dyna.actor.world.pos.x) +
+                        SQ(this->actor.world.pos.z - gj->dyna.actor.world.pos.z) <
                     40000.0f) {
                     return true;
                 }
@@ -2023,7 +2024,7 @@ void func_8090464C(BossGanon2* this, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5290),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_80909C18));
-        Matrix_Pull();
+        Matrix_Pop();
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5293);
     }
@@ -2102,14 +2103,14 @@ void BossGanon2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLis
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5522),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
     } else if ((limbIndex == 33) || (limbIndex == 34)) {
         Matrix_Push();
         Matrix_Scale(this->unk_228, this->unk_228, this->unk_228, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5533),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
     }
 
     if (*dList != NULL) {
@@ -2265,7 +2266,7 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5814),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_8090BB80));
-        Matrix_Pull();
+        Matrix_Pop();
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5817);
     }

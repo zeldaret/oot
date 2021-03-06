@@ -1,8 +1,8 @@
 <Root>
     <File Name="ovl_Magic_Dark" BaseOffset="0x80B873D0" RangeStart="0xD10" RangeEnd="0x1740">
-        <Symbol Name="D_04032490" Offset="0x04032490"/>
-        <Texture Name="sDiamondTexture" OutName="diamond_texture" Format="i8" Width="32" Height="64" Offset="0xD10"/>
-        <!--<DList Name="sDiamondTextureDList" Offset="0x1650"/>
-        <DList Name="sDiamondVertsDList" Offset="0x1700"/>-->
+        <Symbol Name="gEffUnknown10Tex" Offset="0x04032490"/>
+        <Texture Name="sDiamondTex" OutName="diamond_texture" Format="i8" Width="32" Height="64" Offset="0xD10"/>
+        <!--<DList Name="sDiamondTexDL" Offset="0x1650"/>
+        <DList Name="sDiamondVertsDL" Offset="0x1700"/>-->
     </File>
 </Root>

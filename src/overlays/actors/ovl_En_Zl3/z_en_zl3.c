@@ -681,7 +681,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateRPY(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[2], "../z_en_zl3.c", 1554);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
@@ -704,7 +704,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateRPY(unk_28C[12] + kREG(43), unk_28C[13] + kREG(44), unk_28C[14] + kREG(45), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[4], "../z_en_zl3.c", 1598);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
@@ -727,8 +727,8 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_RotateRPY(unk_28C[18] + kREG(49), unk_28C[19] + kREG(50), unk_28C[20] + kREG(51), MTXMODE_APPLY);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&sp78[6], "../z_en_zl3.c", 1642);
-        Matrix_Pull();
-        Matrix_Pull();
+        Matrix_Pop();
+        Matrix_Pop();
         this->unk_2FC = 1;
     } else if (limbIndex == 7) {
         rot->x += unk_3F8_unk_0E->y;
@@ -2503,20 +2503,20 @@ s32 func_80B5944C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&mtx[1], "../z_en_zl3_inEscape.c", 2474);
         Matrix_Translate(-1019.0f, -26.0f, 0.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&mtx[2], "../z_en_zl3_inEscape.c", 2477);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(40.0f, 264.0f, 386.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&mtx[3], "../z_en_zl3_inEscape.c", 2483);
         Matrix_Translate(-446.0f, -52.0f, 84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&mtx[4], "../z_en_zl3_inEscape.c", 2486);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_Push();
         Matrix_Translate(40.0f, 264.0f, -386.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&mtx[5], "../z_en_zl3_inEscape.c", 2492);
         Matrix_Translate(-446.0f, -52.0f, -84.0f, MTXMODE_APPLY);
         Matrix_ToMtx(&mtx[6], "../z_en_zl3_inEscape.c", 2495);
-        Matrix_Pull();
-        Matrix_Pull();
+        Matrix_Pop();
+        Matrix_Pop();
     }
     return false;
 }

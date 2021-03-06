@@ -529,8 +529,8 @@ glabel func_8002FBAC
 /* AA746C 800302CC 0C0346A2 */  jal   Matrix_NewMtx
 /* AA7470 800302D0 AFA20058 */   sw    $v0, 0x58($sp)
 /* AA7474 800302D4 8FA30058 */  lw    $v1, 0x58($sp)
-/* AA7478 800302D8 3C040401 */  lui   $a0, %hi(gGameKeepMoteDL0) # $a0, 0x401
-/* AA747C 800302DC 24840130 */  addiu $a0, %lo(gGameKeepMoteDL0) # addiu $a0, $a0, 0x130
+/* AA7478 800302D8 3C040401 */  lui   $a0, %hi(gEffFlash1DL) # $a0, 0x401
+/* AA747C 800302DC 24840130 */  addiu $a0, %lo(gEffFlash1DL) # addiu $a0, $a0, 0x130
 /* AA7480 800302E0 AC620004 */  sw    $v0, 4($v1)
 /* AA7484 800302E4 8FA500EC */  lw    $a1, 0xec($sp)
 /* AA7488 800302E8 3C18DE00 */  li    $t8, 0xDE000000 # 0.000000
@@ -539,7 +539,7 @@ glabel func_8002FBAC
 /* AA7494 800302F4 ACAF02D0 */  sw    $t7, 0x2d0($a1)
 /* AA7498 800302F8 AC440004 */  sw    $a0, 4($v0)
 /* AA749C 800302FC AC580000 */  sw    $t8, ($v0)
-/* AA74A0 80030300 0C034221 */  jal   Matrix_Pull
+/* AA74A0 80030300 0C034221 */  jal   Matrix_Pop
 /* AA74A4 80030304 AFA40030 */   sw    $a0, 0x30($sp)
 /* AA74A8 80030308 8FAE0034 */  lw    $t6, 0x34($sp)
 /* AA74AC 8003030C 3C014F80 */  li    $at, 0x4F800000 # 0.000000

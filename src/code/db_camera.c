@@ -13,7 +13,7 @@ extern s16 D_8016111A;
 extern s16 D_8016110C;
 
 typedef struct {
-    char state;
+    u8 state;
     s16 mode;
     CutsceneCameraPoint* eyePoints;
     CutsceneCameraPoint* atPoints;
@@ -82,7 +82,7 @@ void func_800B3FF4(PosRot* arg0, Vec3f* arg1, Vec3f* arg2) {
     func_800B3F38(arg1, &sp1C);
     OLib_Vec3fToVecSphGeo(&sp28, &sp1C);
     sp28.yaw += arg0->rot.y;
-    func_800B3B50(arg2, arg0, &sp28);
+    func_800B3B50(arg2, &arg0->pos, &sp28);
 }
 
 void func_800B404C(s32 arg0, Vec3s* arg1, Vec3f* arg2) {
@@ -92,6 +92,7 @@ void func_800B404C(s32 arg0, Vec3s* arg1, Vec3f* arg2) {
     func_800B3FF4(arg0, &sp1C, arg2);
 }
 
+void func_800B4088(DBCamera* dbCamera, Camera* camera);
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B4088.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/db_camera/func_800B41DC.s")

@@ -1,5 +1,12 @@
+/*
+ * File: z_bg_spot11_oasis.c
+ * Overlay: ovl_Bg_Spot11_Oasis
+ * Description: Refilling Oasis (Desert Colossus)
+ */
+
 #include "z_bg_spot11_oasis.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
+#include "objects/object_spot11_obj/object_spot11_obj.h"
 
 #define FLAGS 0x00000010
 
@@ -42,8 +49,6 @@ static Vec3f D_808B2E34[] = {
     { 0.0f, -100.0f, 0.0f },   { 100.0f, -80.0f, -50.0f }, { -50.0f, -80.0f, -100.0f },
     { -75.0f, -90.0f, 90.0f }, { 30.0f, -100.0f, 40.0f },
 };
-
-extern Gfx D_06000870[];
 
 void func_808B27F0(GlobalContext* globalCtx, s16 waterSurface) {
     WaterBox* waterBox = &globalCtx->colCtx.colHeader->waterBoxes[0];
@@ -154,6 +159,6 @@ void BgSpot11Oasis_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 0x08,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 127 - (gameplayFrames % 128), (gameplayFrames * 1) % 128,
                                 32, 32, 1, gameplayFrames % 128, (gameplayFrames * 1) % 128, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000870);
+    gSPDisplayList(POLY_XLU_DISP++, gDesertColossusOasisDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot11_oasis.c", 346);
 }

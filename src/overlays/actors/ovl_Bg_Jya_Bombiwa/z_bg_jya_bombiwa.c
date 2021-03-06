@@ -1,3 +1,9 @@
+/*
+ * File: z_bg_jya_bombiwa.c
+ * Overlay: ovl_Bg_Jya_Bombiwa
+ * Description: Spirit Temple top room bombable wall
+ */
+
 #include "z_bg_jya_bombiwa.h"
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "vt.h"
@@ -46,7 +52,7 @@ static ColliderJntSphInit sJntSphInit = {
         COLSHAPE_JNTSPH,
     },
     1,
-    &sJntSphElementsInit,
+    sJntSphElementsInit,
 };
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -76,30 +82,32 @@ void BgJyaBombiwa_SetupDynaPoly(BgJyaBombiwa* this, GlobalContext* globalCtx, vo
 }
 
 void BgJyaBombiwa_InitCollider(BgJyaBombiwa* this, GlobalContext* globalCtx) {
-    Actor* thisx = &this->dyna.actor;
+    s32 pad;
 
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, thisx, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->dyna.actor, &sJntSphInit, this->colliderItems);
 }
 
 void BgJyaBombiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
-    if ((thisx->params & 0x3F) != 0x29) {
+    BgJyaBombiwa* this = THIS;
+
+    if ((this->dyna.actor.params & 0x3F) != 0x29) {
         osSyncPrintf(VT_COL(YELLOW, BLACK));
 
         // Warning: Switch Number changed (%s %d)(SW %d
         osSyncPrintf("Ｗａｒｎｉｎｇ : Switch Number が変更された(%s %d)(SW %d)\n", "../z_bg_jya_bombiwa.c", 218,
-                     thisx->params & 0x3F);
-        osSyncPrintf(VT_SGR());
+                     this->dyna.actor.params & 0x3F);
+        osSyncPrintf(VT_RST);
     }
-    BgJyaBombiwa_SetupDynaPoly(thisx, globalCtx, &D_0600E710, DPM_UNK);
-    BgJyaBombiwa_InitCollider(thisx, globalCtx);
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
-        Actor_Kill(thisx);
+    BgJyaBombiwa_SetupDynaPoly(this, globalCtx, &D_0600E710, DPM_UNK);
+    BgJyaBombiwa_InitCollider(this, globalCtx);
+    if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
+        Actor_Kill(&this->dyna.actor);
     } else {
-        Actor_ProcessInitChain(thisx, sInitChain);
+        Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
 
         // Rock destroyed by jya bomb
-        osSyncPrintf("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", thisx->params);
+        osSyncPrintf("(jya 爆弾で破壊岩)(arg_data 0x%04x)\n", this->dyna.actor.params);
     }
 }
 
@@ -160,7 +168,7 @@ void BgJyaBombiwa_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         BgJyaBombiwa_Break(this, globalCtx);
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
-        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world, 40, NA_SE_EV_WALL_BROKEN);
+        Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         Actor_Kill(&this->dyna.actor);
     } else {
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);

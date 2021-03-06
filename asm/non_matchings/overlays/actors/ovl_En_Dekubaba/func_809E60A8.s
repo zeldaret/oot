@@ -38,7 +38,7 @@ glabel func_809E60A8
 /* 00950 809E6120 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00954 809E6124 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 00958 809E6128 2406009B */  addiu   $a2, $zero, 0x009B         ## $a2 = 0000009B
-/* 0095C 809E612C 0C00D09B */  jal     func_8003426C
+/* 0095C 809E612C 0C00D09B */  jal     Actor_SetColorFilter
 /* 00960 809E6130 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00964 809E6134 10000006 */  beq     $zero, $zero, .L809E6150
 /* 00968 809E6138 00000000 */  nop
@@ -46,7 +46,7 @@ glabel func_809E60A8
 /* 0096C 809E613C 2409002A */  addiu   $t1, $zero, 0x002A         ## $t1 = 0000002A
 /* 00970 809E6140 AFA90010 */  sw      $t1, 0x0010($sp)
 /* 00974 809E6144 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 00978 809E6148 0C00D09B */  jal     func_8003426C
+/* 00978 809E6148 0C00D09B */  jal     Actor_SetColorFilter
 /* 0097C 809E614C 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 .L809E6150:
 /* 00980 809E6150 3C0A809E */  lui     $t2, %hi(func_809E78DC)    ## $t2 = 809E0000

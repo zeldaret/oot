@@ -326,10 +326,10 @@ const ActorInit En_Zo_InitVars = {
 };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06002FE8, 1.0f, 0.0f, -1.0f, 0, 0.0f },
-    { &D_06002F10, 0.0f, 1.0f, 1.0f, 2, 0.0f },   { &D_06002F10, 1.0f, 1.0f, -1.0f, 0, -8.0f },
-    { &D_06002F10, 1.0f, 8.0f, -1.0f, 0, -8.0f }, { &D_0600219C, 1.0f, 0.0f, -1.0f, 0, -8.0f },
-    { &D_06000598, 1.0f, 0.0f, -1.0f, 0, -8.0f }, { &D_06000D48, 1.0f, 0.0f, -1.0f, 0, -8.0f },
+    { &D_06002FE8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_06002FE8, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
+    { &D_06002F10, 0.0f, 1.0f, 1.0f, ANIMMODE_ONCE, 0.0f },   { &D_06002F10, 1.0f, 1.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &D_06002F10, 1.0f, 8.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_0600219C, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
+    { &D_06000598, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f }, { &D_06000D48, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -8.0f },
 };
 
 void EnZo_SpawnSplashes(EnZo* this) {
@@ -792,7 +792,7 @@ void EnZo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnZo_DrawRipples(this, globalCtx);
     EnZo_DrawBubbles(this, globalCtx);
     EnZo_DrawSplashes(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
 
     if ((s32)this->alpha != 0) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_zo.c", 1008);

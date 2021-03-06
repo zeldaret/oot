@@ -1,5 +1,6 @@
 #include "global.h"
 #include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -53,19 +54,25 @@ static ColliderCylinderInit sCylinderInit = {
     { 25, 60, 0, { 0, 0, 0 } },
 };
 
-extern CollisionHeader D_040394B0;
-extern CollisionHeader D_0403A120;
-extern CollisionHeader D_0403A480;
-extern CollisionHeader D_0403A7F0;
 extern CollisionHeader D_06000730;
 
 static CollisionHeader* D_8011546C[] = {
-    &D_040394B0, &D_040394B0, &D_0403A120, &D_0403A480, &D_0403A7F0, &D_06000730,
+    &gUnknown1Col, &gUnknown1Col, &gUnknown4Col, &gUnknown5Col, &gUnknown6Col, &D_06000730,
 };
 
 static Gfx* D_80115484[] = {
-    0x04039C00, 0x04039C00, 0x04039C00, 0x0403A2D0, 0x0403A2D0, 0x0403A630,
-    0x06000210, 0x0403AB80, 0x0403A9B0, 0x0403C050, 0x0403C5B0, 0x0400D340,
+    gUnusedRockRectangularPrism2DL,
+    gUnusedRockRectangularPrism2DL,
+    gUnusedRockRectangularPrism2DL,
+    gUnusedRockRectangularPrism4DL,
+    gUnusedRockRectangularPrism4DL,
+    gUnusedRockRectangularPrism5DL,
+    0x06000210,
+    gUnusedGrassBladesDL,
+    gUnusedTreeStumpDL,
+    gSignRectangularDL,
+    gSignDirectionalDL,
+    gBoulderFragmentsDL,
 };
 
 void EnAObj_SetupAction(EnAObj* this, EnAObjActionFunc actionFunc) {
@@ -76,9 +83,7 @@ void EnAObj_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     s32 pad;
     EnAObj* this = THIS;
-    f32 sp28;
-
-    sp28 = 6.0f;
+    f32 sp28 = 6.0f;
 
     this->textId = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
@@ -269,10 +274,9 @@ void func_8001D4A8(EnAObj* this, GlobalContext* globalCtx) {
     this->dyna.actor.shape.rot.z = this->dyna.actor.shape.rot.z + (this->dyna.actor.world.rot.z >> 1);
 
     if ((this->dyna.actor.speedXZ != 0.0f) && (this->dyna.actor.bgCheckFlags & 0x8)) {
-        if (1) { // Necessary to match
-            this->dyna.actor.world.rot.y =
-                ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) - 0x8000;
-        }
+        this->dyna.actor.world.rot.y =
+            ((this->dyna.actor.wallYaw - this->dyna.actor.world.rot.y) + this->dyna.actor.wallYaw) - 0x8000;
+        if (1) {} // Necessary to match
         this->dyna.actor.bgCheckFlags &= ~0x8;
     }
 

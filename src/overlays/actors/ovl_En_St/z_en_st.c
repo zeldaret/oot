@@ -1,3 +1,9 @@
+/*
+ * File: z_en_st.c
+ * Overlay: ovl_En_St
+ * Description: Skulltula (normal, big, invisible)
+ */
+
 #include "z_en_st.h"
 
 #define FLAGS 0x00000035
@@ -123,11 +129,15 @@ extern AnimationHeader D_06005B98;
 extern AnimationHeader D_060055A8;
 extern AnimationHeader D_060055A8;
 
-struct_80034EC0_Entry sAnimations[] = {
-    { &D_06000304, 1.0f, 0.0f, -1.0f, 0x01, 0.0f },  { &D_06005B98, 1.0f, 0.0f, -1.0f, 0x03, -8.0f },
-    { &D_06000304, 4.0f, 0.0f, -1.0f, 0x03, -8.0f }, { &D_06000304, 1.0f, 0.0f, -1.0f, 0x01, -8.0f },
-    { &D_060055A8, 1.0f, 0.0f, -1.0f, 0x03, -8.0f }, { &D_06000304, 8.0f, 0.0f, -1.0f, 0x01, -8.0f },
-    { &D_06000304, 6.0f, 0.0f, -1.0f, 0x01, -8.0f }, { &D_06005B98, 2.0f, 0.0f, -1.0f, 0x01, -8.0f },
+static struct_80034EC0_Entry sAnimations[] = {
+    { &D_06000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, 0.0f },
+    { &D_06005B98, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &D_06000304, 4.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &D_06000304, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &D_060055A8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -8.0f },
+    { &D_06000304, 8.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &D_06000304, 6.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
+    { &D_06005B98, 2.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -8.0f },
 };
 
 void EnSt_SetupAction(EnSt* this, EnStActionFunc actionFunc) {
@@ -240,7 +250,7 @@ void EnSt_AddBlurVertex(EnSt* this) {
     Matrix_Push();
     Matrix_MultVec3f(&v1, &v1Pos);
     Matrix_MultVec3f(&v2, &v2Pos);
-    Matrix_Pull();
+    Matrix_Pop();
     EffectBlure_AddVertex(Effect_GetByIndex(this->blureIdx), &v1Pos, &v2Pos);
 }
 
@@ -352,7 +362,7 @@ s32 EnSt_SetCylinderOC(EnSt* this, GlobalContext* globalCtx) {
         Matrix_Translate(cylPos.x, cylPos.y, cylPos.z, MTXMODE_NEW);
         Matrix_RotateY((this->initalYaw / 32768.0f) * M_PI, MTXMODE_APPLY);
         Matrix_MultVec3f(&cyloffsets[i], &cylPos);
-        Matrix_Pull();
+        Matrix_Pop();
         this->colCylinder[i + 3].dim.pos.x = cylPos.x;
         this->colCylinder[i + 3].dim.pos.y = cylPos.y;
         this->colCylinder[i + 3].dim.pos.z = cylPos.z;
@@ -448,7 +458,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
         if (this->stunTimer == 0) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
             this->stunTimer = 120;
-            func_8003426C(&this->actor, 0, 0xC8, 0, this->stunTimer);
+            Actor_SetColorFilter(&this->actor, 0, 0xC8, 0, this->stunTimer);
         }
         return false;
     }
@@ -457,7 +467,7 @@ s32 EnSt_CheckHitBackside(EnSt* this, GlobalContext* globalCtx) {
     this->gaveDamageSpinTimer = 1;
     func_80034EC0(&this->skelAnime, sAnimations, 3);
     this->takeDamageSpinTimer = this->skelAnime.animLength;
-    func_8003426C(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0, this->takeDamageSpinTimer);
     if (Actor_ApplyDamage(&this->actor)) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALTU_DAMAGE);
         return false;
@@ -494,7 +504,7 @@ s32 EnSt_CheckColliders(EnSt* this, GlobalContext* globalCtx) {
         return true;
     }
 
-    if (EnSt_CheckHitBackside(&this->actor, globalCtx)) {
+    if (EnSt_CheckHitBackside(this, globalCtx)) {
         // player has hit the backside of the skulltulla
         return true;
     }
@@ -771,7 +781,7 @@ void EnSt_Sway(EnSt* this) {
         Matrix_Translate(this->ceilingPos.x, this->ceilingPos.y, this->ceilingPos.z, MTXMODE_NEW);
         Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768.0f), MTXMODE_APPLY);
         Matrix_MultVec3f(&amtToTranslate, &translatedPos);
-        Matrix_Pull();
+        Matrix_Pop();
         this->actor.shape.rot.z = -(rotAngle * 2);
         this->actor.world.pos.x = translatedPos.x;
         this->actor.world.pos.z = translatedPos.z;

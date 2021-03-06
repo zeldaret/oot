@@ -19,30 +19,43 @@ typedef struct {
 } CutsceneCameraPoint; // size = 0x10
 
 typedef struct {
+    /* 0x00 */ Vec3f at;
+    /* 0x0C */ Vec3f eye;
+    /* 0x18 */ s16 roll;
+    /* 0x1A */ s16 fov;
+} CutsceneCameraAngle; // size = 0x1C
+
+typedef struct {
+    /* 0x0 */ CutsceneCameraPoint* atPoints;
+    /* 0x4 */ CutsceneCameraPoint* eyePoints;
+    /* 0x8 */ s16 relativeToPlayer;
+} CutsceneCameraMove; // size = 0xC
+
+typedef struct {
     /* 0x00 */ u16 base;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdBase;
+} CsCmdBase; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u8  unk_00;
     /* 0x01 */ u8  setting;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdEnvLighting;
+} CsCmdEnvLighting; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u8  unk_00;
     /* 0x01 */ u8  sequence;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdMusicChange;
+} CsCmdMusicChange; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u16 type;
     /* 0x02 */ u16 startFrame;
     /* 0x04 */ u16 endFrame;
-} CsCmdMusicFade;
+} CsCmdMusicFade; // size = 0x6
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -51,7 +64,7 @@ typedef struct {
     /* 0x06 */ u8  unk_06;
     /* 0x07 */ u8  unk_07;
     /* 0x08 */ u8  unk_08;
-} CsCmdUnknown9;
+} CsCmdUnknown9; // size = 0xA
 
 typedef struct {
     /* 0x00 */ u16 unk_00;
@@ -59,7 +72,7 @@ typedef struct {
     /* 0x04 */ u16 endFrame;
     /* 0x06 */ u8  hour;
     /* 0x07 */ u8  minute;
-} CsCmdDayTime;
+} CsCmdDayTime; // size = 0x8
 
 typedef struct {
     /* 0x00 */ u16 base;
