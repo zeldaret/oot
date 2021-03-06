@@ -73,8 +73,8 @@ extern AnimationHeader D_06026510;
 extern AnimationHeader D_06026AF4;
 extern AnimationHeader D_06027824;
 extern AnimationHeader D_0602A848;
-extern UNK_TYPE D_060334F8;
-extern UNK_TYPE D_06034278;
+extern AnimationHeader D_060334F8;
+extern AnimationHeader D_06034278;
 extern AnimationHeader D_060353C0;
 
 const ActorInit Boss_Ganon2_InitVars = {
@@ -1696,7 +1696,157 @@ void func_80900818(BossGanon2* this, GlobalContext* globalCtx) {
     this->unk_336 = 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80900890.s")
+void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
+    Vec3f sp5C;
+    Vec3f sp50;
+    Camera* sp4C;
+    Player* player;
+    Camera* temp_v0;
+    Camera* temp_v0_2;
+    s32 pad;
+    f32 temp_f12;
+    f32 temp_f2;
+
+    sp4C = Gameplay_GetCamera(globalCtx, 0);
+    player = PLAYER;
+    SkelAnime_Update(&this->skelAnime);
+    this->unk_398++;
+    this->unk_339 = 0x14;
+
+    switch (this->unk_39C) {
+        case 0:
+            func_80064520(globalCtx, &globalCtx->csCtx);
+            this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
+            func_8002DF54(globalCtx, &this->actor, 8);
+            this->unk_39C = 1;
+            this->unk_3A4 = sp4C->eye;
+            this->unk_3B0 = sp4C->at;
+            this->unk_1A2[0] = 0x12C;
+            this->unk_1A2[1] = 0x64;
+            globalCtx->envCtx.unk_D8 = 0.0f;
+        case 1:
+            if (this->unk_1A2[1] == 0x32) {
+                func_80078884(NA_SE_EN_MGANON_WALK);
+            }
+            Matrix_RotateY(((this->actor.shape.rot.y / (f32)0x8000) * M_PI) + 0.3f, MTXMODE_NEW);
+            sp5C.x = 0.0f;
+            sp5C.y = 0.0f;
+            sp5C.z = 250.0f;
+            Matrix_MultVec3f(&sp5C, &sp50);
+            Math_ApproachF(&this->unk_3A4.x, this->actor.world.pos.x + sp50.x, 0.2f, 100.0f);
+            Math_ApproachF(&this->unk_3A4.y, 1136.0f, 0.2f, 100.0f);
+            Math_ApproachF(&this->unk_3A4.z, this->actor.world.pos.z + sp50.z, 0.2f, 100.0f);
+            Math_ApproachF(&this->unk_3B0.x, this->unk_1B8.x, 0.2f, 100.0f);
+            Math_ApproachF(&this->unk_3B0.y, this->unk_1B8.y, 0.2f, 100.0f);
+            Math_ApproachF(&this->unk_3B0.z, this->unk_1B8.z, 0.2f, 100.0f);
+            if (this->unk_1A2[1] == 0) {
+                this->unk_39C = 2;
+                this->unk_1A2[1] = 0x5A;
+            }
+            break;
+        case 2:
+            this->unk_1A2[0] = 0x12C;
+            this->unk_3A4.x = D_8090EB2C->actor.world.pos.x - 100.0f;
+            this->unk_3A4.y = D_8090EB2C->actor.world.pos.y + 30.0f;
+            this->unk_3A4.z = (D_8090EB2C->actor.world.pos.z + 30.0f) - 60.0f;
+            this->unk_3B0.x = D_8090EB2C->actor.world.pos.x;
+            this->unk_3B0.y = D_8090EB2C->actor.world.pos.y + 30.0f;
+            this->unk_3B0.z = D_8090EB2C->actor.world.pos.z - 10.0f;
+            Math_ApproachZeroF(&this->unk_324, 1.0f, 5.0f);
+            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.019607844f);
+            if (this->unk_1A2[1] == 0x50) {
+                func_8010B680(globalCtx, 0x70D7, NULL);
+            }
+            if ((this->unk_1A2[1] < 0x1E) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                temp_v0 = Gameplay_GetCamera(globalCtx, 0);
+                temp_v0->eye = this->unk_3A4;
+                temp_v0->eyeNext = this->unk_3A4;
+                temp_v0->at = this->unk_3B0;
+                func_800C08AC(globalCtx, this->unk_39E, 0);
+                this->unk_39E = 0;
+                func_80064534(globalCtx, &globalCtx->csCtx);
+                func_8002DF54(globalCtx, &this->actor, 7);
+                this->unk_39C = 3;
+            }
+            break;
+        case 10:
+            func_80064520(globalCtx, &globalCtx->csCtx);
+            this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
+            this->unk_39C = 0xB;
+            this->unk_334 = 1;
+            func_8002DF54(globalCtx, &this->actor, 0x60);
+            this->unk_398 = 0;
+        case 11:
+            player->actor.world.pos.x = D_8090EB2C->actor.world.pos.x + 50.0f + 10.0f;
+            player->actor.world.pos.z = D_8090EB2C->actor.world.pos.z - 25.0f;
+            player->actor.shape.rot.y = -0x8000;
+            this->unk_3A4.x = (player->actor.world.pos.x + 100.0f) - 80.0f;
+            this->unk_3A4.y = (player->actor.world.pos.y + 60.0f) - 40.0f;
+            this->unk_3A4.z = player->actor.world.pos.z - 110.0f;
+            this->unk_3B0.x = player->actor.world.pos.x;
+            this->unk_3B0.y = (player->actor.world.pos.y + 60.0f) - 25.0f;
+            this->unk_3B0.z = player->actor.world.pos.z;
+            if (this->unk_398 == 0x50) {
+                temp_v0_2 = Gameplay_GetCamera(globalCtx, 0);
+                temp_v0_2->eye = this->unk_3A4;
+                temp_v0_2->eyeNext = this->unk_3A4;
+                temp_v0_2->at = this->unk_3B0;
+                this->unk_39C = 3;
+                func_800C08AC(globalCtx, this->unk_39E, 0);
+                this->unk_39E = 0;
+                func_80064534(globalCtx, &globalCtx->csCtx);
+                func_8002DF54(globalCtx, &this->actor, 7);
+            }
+    }
+
+    if (this->unk_39E != 0) {
+        Gameplay_CameraSetAtEye(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4);
+    }
+
+    switch (this->unk_1AC) {
+        case 0:
+            if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
+                Animation_MorphToLoop(&this->skelAnime, &D_06034278, 0.0f);
+                this->unk_1AC = 1;
+            }
+            break;
+        case 1:
+            if ((globalCtx->gameplayFrames & 0x1F) == 0) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_BREATH);
+            }
+
+            if ((this->unk_1A2[0] == 0) || (this->unk_334 != 0)) {
+                temp_f2 = -200.0f - player->actor.world.pos.x;
+                temp_f12 = -200.0f - player->actor.world.pos.z;
+
+                if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) <= 784.0f) {
+                    Animation_MorphToPlayOnce(&this->skelAnime, &D_060334F8, 0.0f);
+                    this->unk_194 = Animation_GetLastFrame(&D_060334F8);
+                    this->unk_1AC = 2;
+                    this->unk_1A2[0] = 0x28;
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_ROAR);
+                }
+            }
+            break;
+        case 2:
+            Math_ApproachF(&this->unk_324, 255.0f, 1.0f, 10.0f);
+            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.039215688f);
+            if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
+                func_808FFDB0(this, globalCtx);
+                if (this->unk_334 == 0) {
+                    this->actor.colChkInfo.health = 25;
+                }
+                this->unk_336 = 1;
+            }
+            break;
+    }
+
+    Math_ApproachZeroF(&this->actor.speedXZ, 0.5f, 1.0f);
+}
 
 void func_80901020(BossGanon2* this, GlobalContext* globalCtx) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_0602A848, -5.0f);
