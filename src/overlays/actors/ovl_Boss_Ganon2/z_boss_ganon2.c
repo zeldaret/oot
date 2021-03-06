@@ -1881,8 +1881,54 @@ void func_8090109C(BossGanon2* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090120C.s")
 
-void func_80902348(BossGanon2* this, GlobalContext* globalCtx);
+#ifdef NON_MATCHING
+void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
+    Player* player;
+    f32 temp_f12;
+    f32 temp_f2;
+    s16 phi_v0_2;
+    s16 i;
+
+    if (this->unk_316 == 0) {
+        for (i = 0; i < 2; i++) {
+            if (this->unk_444.elements[i].info.bumperFlags & 2) {
+                this->unk_444.elements[i].info.bumperFlags &= ~2;
+            } else if (this->unk_444.elements[i].info.toucherFlags & 2) {
+                this->unk_444.elements[i].info.toucherFlags &= ~2;
+
+                if (this->unk_312 == 1) {
+                    phi_v0_2 = 0x1800;
+                } else {
+                    phi_v0_2 = 0;
+                }
+
+                func_8002F6D4(globalCtx, &this->actor, 15.0f, this->actor.yawTowardsPlayer + phi_v0_2, 2.0f, 0);
+                D_8090EB2C->unk_3C8 = 8;
+                this->unk_316 = 0xA;
+                break;
+            }
+        }
+    }
+
+    if (this->unk_324 > 0.0f) {
+        player = PLAYER;
+        temp_f2 = -200.0f - player->actor.world.pos.x;
+        temp_f12 = -200.0f - player->actor.world.pos.z;
+
+        if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 784.0f) {
+            for (i = 0; i < 18; i++) {
+                player->flameTimers[i] = Rand_S16Offset(0, 200);
+            }
+
+            player->isBurning = true;
+            func_8002F6D4(globalCtx, &this->actor, 10.0f, Math_Atan2S(temp_f12, temp_f2), 0.0f, 0x10);
+            D_8090EB2C->unk_3C8 = 8;
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902348.s")
+#endif
 
 void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902524.s")
