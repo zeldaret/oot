@@ -40,7 +40,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
-void func_80906538(BossGanon2* this, u32* tex, f32 arg2);
 void func_809069F8(u32* tex, BossGanon2* this, GlobalContext* globalCtx);
 void func_80906AB0(u32* tex, BossGanon2* this, GlobalContext* globalCtx);
 
@@ -2638,6 +2637,7 @@ void func_809060E8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6185);
 }
 
+void func_80906538(BossGanon2* this, u32* tex, f32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80906538.s")
 
 void func_809069F8(u32* tex, BossGanon2* this, GlobalContext* globalCtx) {
