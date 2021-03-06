@@ -113,9 +113,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
-// extern Gfx D_060000B0[];
-// extern Gfx D_06000C50[];
-
 void MirRay_SetupCollider(MirRay* this) {
     Vec3f colliderOffset;
     MirRayDataEntry* dataEntry = &sMirRayData[this->actor.params];
