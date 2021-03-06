@@ -1881,13 +1881,13 @@ void func_8090109C(BossGanon2* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090120C.s")
 
-#ifdef NON_MATCHING
 void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
     Player* player;
-    f32 temp_f12;
     f32 temp_f2;
-    s16 phi_v0_2;
+    f32 temp_f12;
     s16 i;
+    s16 j;
+    s16 phi_v0_2;
 
     if (this->unk_316 == 0) {
         for (i = 0; i < 2; i++) {
@@ -1916,8 +1916,8 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
         temp_f12 = -200.0f - player->actor.world.pos.z;
 
         if (sqrtf(SQ(temp_f2) + SQ(temp_f12)) > 784.0f) {
-            for (i = 0; i < 18; i++) {
-                player->flameTimers[i] = Rand_S16Offset(0, 200);
+            for (j = 0; j < 18; j++) {
+                player->flameTimers[j] = Rand_S16Offset(0, 200);
             }
 
             player->isBurning = true;
@@ -1926,9 +1926,6 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902348.s")
-#endif
 
 void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902524.s")
