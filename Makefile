@@ -194,6 +194,14 @@ build/undefined_syms.txt: undefined_syms.txt
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
+clean_everything: clean
+	$(RM) -r $(TEXTURE_BIN_DIRS)
+	$(RM) -r baserom/
+	$(MAKE) -C tools clean_everything
+
+nuke: clean_everything
+	@echo "Nuked."
+
 setup:
 	$(MAKE) -C tools -j
 	python3 fixbaserom.py
@@ -204,7 +212,7 @@ resources: $(ASSET_FILES_OUT)
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
-.PHONY: all clean setup test
+.PHONY: all clean setup test clean_everything nuke
 
 #### Various Recipes ####
 

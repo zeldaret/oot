@@ -11,6 +11,11 @@ clean:
 	$(RM) ZAPD/ZAPD.out
 # Need to clean the above line later...
 
+clean_everything: clean
+	$(MAKE) -C ZAPD clean
+
+.PHONY: all clean clean_everything
+
 mkldscript_SOURCES := mkldscript.c util.c
 elf2rom_SOURCES    := elf2rom.c elf32.c n64chksum.c util.c
 yaz0_SOURCES       := yaz0tool.c yaz0.c util.c
