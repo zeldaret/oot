@@ -1311,6 +1311,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
 
     temp_a1 = this->unk_39E;
     if (temp_a1 != 0) {
+        // Definitely fake.
         temp[1] = &this->unk_3A4;
         temp[0] = &this->unk_3B0;
 
