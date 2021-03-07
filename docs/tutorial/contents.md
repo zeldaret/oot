@@ -37,6 +37,10 @@
 	- Fake symbols
 	- Inlining
 
+## [Object Decompilation](object_decomp.md)
+- Object files
+- How we decompile objects
+- [Example](object_decomp_example.md)
 
 
 ## After Decompilation
