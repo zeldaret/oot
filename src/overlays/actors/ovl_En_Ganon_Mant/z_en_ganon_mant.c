@@ -134,6 +134,8 @@ void func_80A23D84(EnGanonMant* this) {
 // Stack only
 void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec3f* arg3, Vec3f* arg4, Vec3f* arg5,
                    Vec3f* arg6, s16 arg7) {
+    f32 temp_1;
+    f32 temp_2;
     f32 temp_f12;
     f32 temp_f20;
     f32 temp_f22;
@@ -141,8 +143,6 @@ void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec
     f32 temp_f26;
     s16 phi_s4;
     f32 unk_16C8;
-    f32 temp_1;
-    f32 temp_2;
 
     f32 spAC;
     Vec3f spA0;
@@ -254,8 +254,8 @@ void func_80A23FE0(GlobalContext* globalCtx, EnGanonMant* this, Vec3f* arg2, Vec
 
 void func_80A245A4(EnGanonMant* this) {
     s16 i;
-    Vtx_tn* vtx;
-    Vtx_tn* vertices;
+    Vtx* vtx;
+    Vtx* vertices;
     MantSub14C* sub;
     s16 j;
     s16 k;
@@ -263,9 +263,9 @@ void func_80A245A4(EnGanonMant* this) {
     Vec3f normal;
 
     if (this->frameTimer % 2 != 0) {
-        vertices = (Vtx_tn*)SEGMENTED_TO_VIRTUAL(D_80A26778);
+        vertices = (Vtx*)SEGMENTED_TO_VIRTUAL(D_80A26778);
     } else {
-        vertices = (Vtx_tn*)SEGMENTED_TO_VIRTUAL(D_80A27578);
+        vertices = (Vtx*)SEGMENTED_TO_VIRTUAL(D_80A27578);
     }
     up.x = 0.0f;
     up.y = 30.0f;
@@ -275,15 +275,15 @@ void func_80A245A4(EnGanonMant* this) {
     for (i = 0; i < ARRAY_COUNT(sub->unk_C); i++, sub++) {
         for (j = 0, k = 0; j < ARRAY_COUNT(sub->unk_C); j++, k += ARRAY_COUNT(sub->unk_C)) {
             vtx = &vertices[D_80A24E4C[i + k]];
-            vtx->ob[0] = sub->unk_C[j].x;
-            vtx->ob[1] = sub->unk_C[j].y;
-            vtx->ob[2] = sub->unk_C[j].z;
+            vtx->n.ob[0] = sub->unk_C[j].x;
+            vtx->n.ob[1] = sub->unk_C[j].y;
+            vtx->n.ob[2] = sub->unk_C[j].z;
             Matrix_RotateY(sub->unk_90[j].y, MTXMODE_NEW);
             Matrix_RotateX(sub->unk_90[j].x, MTXMODE_APPLY);
             Matrix_MultVec3f(&up, &normal);
-            vtx->n[0] = normal.x;
-            vtx->n[1] = normal.y;
-            vtx->n[2] = normal.z;
+            vtx->n.n[0] = normal.x;
+            vtx->n.n[1] = normal.y;
+            vtx->n.n[2] = normal.z;
         }
     }
 }
