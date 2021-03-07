@@ -1764,7 +1764,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2661),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_06000980);
-    Matrix_Pull();
+    Matrix_Pop();
     Matrix_Push();
     Matrix_RotateY((2.0f * M_PI) / 3.0f, MTXMODE_APPLY);
     Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
@@ -1772,7 +1772,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2672),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_06000980);
-    Matrix_Pull();
+    Matrix_Pop();
     Matrix_Push();
     Matrix_RotateY((4.0f * M_PI) / 3.0f, MTXMODE_APPLY);
     Matrix_RotateX((11.0 * M_PI) / 180.0, MTXMODE_APPLY);
@@ -1780,7 +1780,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2683),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_XLU_DISP++, D_06000980);
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2688);
 }
 
@@ -1845,7 +1845,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
         gSPDisplayList(POLY_XLU_DISP++, D_06000330);
         func_80093D18(globalCtx->state.gfxCtx);
         func_8002EBCC(&this->actor, globalCtx, 0);
-        Matrix_Pull();
+        Matrix_Pop();
 
         this->godLgt.rotation++;
         if (this->godLgt.rotation > 120) {
@@ -1895,7 +1895,7 @@ void DemoEffect_DrawLightEffect(Actor* thisx, GlobalContext* globalCtx) {
                       G_MTX_MODELVIEW | G_MTX_LOAD | G_MTX_NOPUSH);
             if (disp) {};
             gSPDisplayList(POLY_XLU_DISP++, disp);
-            Matrix_Pull();
+            Matrix_Pop();
             Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
             Matrix_RotateZ(-(f32)this->light.rotation * (M_PI / 180.0f), MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2874),
@@ -1998,7 +1998,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
             gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 180, 255, 255, this->triforceSpot.lightColumnOpacity);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 150, 255);
             gSPDisplayList(POLY_XLU_DISP++, D_06000840);
-            Matrix_Pull();
+            Matrix_Pop();
         }
 
         if (this->triforceSpot.triforceSpotOpacity != 0) {

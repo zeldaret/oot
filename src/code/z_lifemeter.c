@@ -47,6 +47,110 @@
 #define HEARTS_DROWN_ENV_G 0
 #define HEARTS_DROWN_ENV_B 255
 
+static s16 sHeartsPrimColors[3][3] = {
+    { HEARTS_PRIM_R, HEARTS_PRIM_G, HEARTS_PRIM_B },
+    { HEARTS_BURN_PRIM_R, HEARTS_BURN_PRIM_G, HEARTS_BURN_PRIM_B },    // unused
+    { HEARTS_DROWN_PRIM_R, HEARTS_DROWN_PRIM_G, HEARTS_DROWN_PRIM_B }, // unused
+};
+
+static s16 sHeartsEnvColors[3][3] = {
+    { HEARTS_ENV_R, HEARTS_ENV_G, HEARTS_ENV_B },
+    { HEARTS_BURN_ENV_R, HEARTS_BURN_ENV_G },
+    { HEARTS_DROWN_ENV_R, HEARTS_DROWN_ENV_G, HEARTS_DROWN_ENV_B },
+};
+
+static s16 sHeartsPrimFactors[3][3] = {
+    {
+        HEARTS_PRIM_R - HEARTS_PRIM_R,
+        HEARTS_PRIM_G - HEARTS_PRIM_G,
+        HEARTS_PRIM_B - HEARTS_PRIM_B,
+    },
+    // unused
+    {
+        HEARTS_BURN_PRIM_R - HEARTS_PRIM_R,
+        HEARTS_BURN_PRIM_G - HEARTS_PRIM_G,
+        HEARTS_BURN_PRIM_B - HEARTS_PRIM_B,
+    },
+    // unused
+    {
+        HEARTS_DROWN_PRIM_R - HEARTS_PRIM_R,
+        HEARTS_DROWN_PRIM_G - HEARTS_PRIM_G,
+        HEARTS_DROWN_PRIM_B - HEARTS_PRIM_B,
+    },
+};
+
+static s16 sHeartsEnvFactors[3][3] = {
+    {
+        HEARTS_ENV_R - HEARTS_ENV_R,
+        HEARTS_ENV_G - HEARTS_ENV_G,
+        HEARTS_ENV_B - HEARTS_ENV_B,
+    },
+    // unused
+    {
+        HEARTS_BURN_ENV_R - HEARTS_ENV_R,
+        HEARTS_BURN_ENV_G - HEARTS_ENV_G,
+        HEARTS_BURN_ENV_B - HEARTS_ENV_B,
+    },
+    // unused
+    {
+        HEARTS_DROWN_ENV_R - HEARTS_ENV_R,
+        HEARTS_DROWN_ENV_G - HEARTS_ENV_G,
+        HEARTS_DROWN_ENV_B - HEARTS_ENV_B,
+    },
+};
+
+static s16 sHeartsDDPrimColors[3][3] = {
+    { HEARTS_DD_PRIM_R, HEARTS_DD_PRIM_G, HEARTS_DD_PRIM_B },
+    { HEARTS_BURN_PRIM_R, HEARTS_BURN_PRIM_G, HEARTS_BURN_PRIM_B },    // unused
+    { HEARTS_DROWN_PRIM_R, HEARTS_DROWN_PRIM_G, HEARTS_DROWN_PRIM_B }, // unused
+};
+
+static s16 sHeartsDDEnvColors[3][3] = {
+    { HEARTS_DD_ENV_R, HEARTS_DD_ENV_G, HEARTS_DD_ENV_B },
+    { HEARTS_BURN_ENV_R, HEARTS_BURN_ENV_G, HEARTS_BURN_ENV_B },    // unused
+    { HEARTS_DROWN_ENV_R, HEARTS_DROWN_ENV_G, HEARTS_DROWN_ENV_B }, // unused
+};
+
+static s16 sHeartsDDPrimFactors[3][3] = {
+    {
+        HEARTS_DD_PRIM_R - HEARTS_DD_PRIM_R,
+        HEARTS_DD_PRIM_G - HEARTS_DD_PRIM_G,
+        HEARTS_DD_PRIM_B - HEARTS_DD_PRIM_B,
+    },
+    // unused
+    {
+        HEARTS_BURN_PRIM_R - HEARTS_DD_PRIM_R,
+        HEARTS_BURN_PRIM_G - HEARTS_DD_PRIM_G,
+        HEARTS_BURN_PRIM_B - HEARTS_DD_PRIM_B,
+    },
+    // unused
+    {
+        HEARTS_DROWN_PRIM_R - HEARTS_DD_PRIM_R,
+        HEARTS_DROWN_PRIM_G - HEARTS_DD_PRIM_G,
+        HEARTS_DROWN_PRIM_B - HEARTS_DD_PRIM_B,
+    },
+};
+
+static s16 sHeartsDDEnvFactors[3][3] = {
+    {
+        HEARTS_DD_ENV_R - HEARTS_DD_ENV_R,
+        HEARTS_DD_ENV_G - HEARTS_DD_ENV_G,
+        HEARTS_DD_ENV_B - HEARTS_DD_ENV_B,
+    },
+    // unused
+    {
+        HEARTS_BURN_ENV_R - HEARTS_DD_ENV_R,
+        HEARTS_BURN_ENV_G - HEARTS_DD_ENV_G,
+        HEARTS_BURN_ENV_B - HEARTS_DD_ENV_B,
+    },
+    // unused
+    {
+        HEARTS_DROWN_ENV_R - HEARTS_DD_ENV_R,
+        HEARTS_DROWN_ENV_G - HEARTS_DD_ENV_G,
+        HEARTS_DROWN_ENV_B - HEARTS_DD_ENV_B,
+    },
+};
+
 // Current colors for the double defense hearts
 s16 sHeartsDDPrim[3];
 s16 sHeartsDDEnv[3];
@@ -87,46 +191,6 @@ void HealthMeter_Init(GlobalContext* globalCtx) {
 }
 
 void HealthMeter_Update(GlobalContext* globalCtx) {
-    static s16 sHeartsPrimColors[3][3] = {
-        { HEARTS_PRIM_R, HEARTS_PRIM_G, HEARTS_PRIM_B },
-        { HEARTS_BURN_PRIM_R, HEARTS_BURN_PRIM_G, HEARTS_BURN_PRIM_B },    // unused
-        { HEARTS_DROWN_PRIM_R, HEARTS_DROWN_PRIM_G, HEARTS_DROWN_PRIM_B }, // unused
-    };
-    static s16 sHeartsEnvColors[3][3] = {
-        { HEARTS_ENV_R, HEARTS_ENV_G, HEARTS_ENV_B },
-        { HEARTS_BURN_ENV_R, HEARTS_BURN_ENV_G },                       // unused
-        { HEARTS_DROWN_ENV_R, HEARTS_DROWN_ENV_G, HEARTS_DROWN_ENV_B }, // unused
-    };
-    static s16 sHeartsPrimFactors[3][3] = {
-        { 0, 0, 0 },
-        { 0, 120, -50 },   // unused
-        { -155, 30, 205 }, // unused
-    };
-    static s16 sHeartsEnvFactors[3][3] = {
-        { 0, 0, 0 },
-        { 205, -40, -60 }, // unused
-        { -50, -40, 195 }, // unused
-    };
-    static s16 sHeartsDDPrimColors[3][3] = {
-        { HEARTS_DD_PRIM_R, HEARTS_DD_PRIM_G, HEARTS_DD_PRIM_B },
-        { HEARTS_BURN_PRIM_R, HEARTS_BURN_PRIM_G, HEARTS_BURN_PRIM_B },    // unused
-        { HEARTS_DROWN_PRIM_R, HEARTS_DROWN_PRIM_G, HEARTS_DROWN_PRIM_B }, // unused
-    };
-    static s16 sHeartsDDEnvColors[3][3] = {
-        { HEARTS_DD_ENV_R, HEARTS_DD_ENV_G, HEARTS_DD_ENV_B },
-        { HEARTS_BURN_ENV_R, HEARTS_BURN_ENV_G, HEARTS_BURN_ENV_B },    // unused
-        { HEARTS_DROWN_ENV_R, HEARTS_DROWN_ENV_G, HEARTS_DROWN_ENV_B }, // unused
-    };
-    static s16 sHeartsDDPrimFactors[3][3] = {
-        { 0, 0, 0 },
-        { 0, -65, -255 },  // unused
-        { -155, -155, 0 }, // unused
-    };
-    static s16 sHeartsDDEnvFactors[3][3] = {
-        { 0, 0, 0 },
-        { 55, 0, 0 },     // unused
-        { -200, 0, 255 }, // unused
-    };
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     f32 factor = interfaceCtx->unk_1FE * 0.1f;
     f32 ddFactor;
@@ -349,11 +413,11 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
             }
 
             if (i < fullHeartCount) {
-                heartBgImg = D_02000400;
+                heartBgImg = gHUDHeartFullTex;
             } else if (i == fullHeartCount) {
                 heartBgImg = sHeartTextures[curHeartFraction];
             } else {
-                heartBgImg = D_02000000;
+                heartBgImg = gHUDHeartEmptyTex;
             }
         } else {
             if (i < fullHeartCount) {
@@ -394,11 +458,11 @@ void HealthMeter_Draw(GlobalContext* globalCtx) {
             }
 
             if (i < fullHeartCount) {
-                heartBgImg = D_02000900;
+                heartBgImg = gHUDDefenseHeartFullTex;
             } else if (i == fullHeartCount) {
                 heartBgImg = sDDHeartTextures[curHeartFraction];
             } else {
-                heartBgImg = D_02000500;
+                heartBgImg = gHUDDefenseHeartEmptyTex;
             }
         }
 

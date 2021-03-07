@@ -539,7 +539,7 @@ glabel func_8002FBAC
 /* AA7494 800302F4 ACAF02D0 */  sw    $t7, 0x2d0($a1)
 /* AA7498 800302F8 AC440004 */  sw    $a0, 4($v0)
 /* AA749C 800302FC AC580000 */  sw    $t8, ($v0)
-/* AA74A0 80030300 0C034221 */  jal   Matrix_Pull
+/* AA74A0 80030300 0C034221 */  jal   Matrix_Pop
 /* AA74A4 80030304 AFA40030 */   sw    $a0, 0x30($sp)
 /* AA74A8 80030308 8FAE0034 */  lw    $t6, 0x34($sp)
 /* AA74AC 8003030C 3C014F80 */  li    $at, 0x4F800000 # 0.000000

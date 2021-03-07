@@ -1,0 +1,19 @@
+<Root>
+    <File Name="object_ydan_objects" Segment="6">
+        <DList Name="gDTUnknownWebDL" Offset="0x3850"/>
+        <DList Name="gDTRisingPlatformsDL" Offset="0x5018"/>
+        <DList Name="gDTWaterPlaneDL" Offset="0x5DE0"/>
+        <DList Name="gDTWebWallDL" Offset="0x5F40"/>
+        <DList Name="gDTWebFloorDL" Offset="0x61B0"/>
+        <DList Name="gDTFallingLadderDL" Offset="0x6570"/>
+        <DList Name="gDTDungeonDoor1DL" Offset="0x67A0"/>
+        <DList Name="gDTDungeonDoor2DL" Offset="0x6910"/>
+        <DList Name="gDTSlidingPlatformDL" Offset="0x7508"/>
+        <DList Name="gDTRollingSpikeTrapDL" Offset="0x8D88"/>
+        <Collision Name="gDTRisingPlatformsCol" Offset="0x5780"/>
+        <Collision Name="gDTWebWallCol" Offset="0x6050"/>
+        <Collision Name="gDTWebFloorCol" Offset="0x6460"/>
+        <Collision Name="gDTFallingLadderCol" Offset="0x66A8"/>
+        <Collision Name="gDTSlidingPlatformCol" Offset="0x7798"/>
+    </File>
+</Root>

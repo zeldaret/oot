@@ -349,7 +349,7 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
             if (this->actor.colChkInfo.damageEffect != 2) {
                 if (this->actor.colChkInfo.damageEffect == 0xF) {
                     Actor_ApplyDamage(&this->actor);
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 8);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
                     if (this->actor.colChkInfo.health) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FREEZAD_DAMAGE);
                         vec.x = this->actor.world.pos.x;
@@ -369,7 +369,7 @@ void EnFz_ApplyDamage(EnFz* this, GlobalContext* globalCtx) {
                 }
             } else {
                 Actor_ApplyDamage(&this->actor);
-                func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 8);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 8);
                 if (this->actor.colChkInfo.health == 0) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FREEZAD_DEAD);
                     EnFz_SetupMelt(this);

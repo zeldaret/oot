@@ -1,35 +1,35 @@
 <Root>
-    <File Name="icon_item_nes_static">
-        <Texture Name="gPauseDekuTitleTex" OutName="pause_deku_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseDodongoTitleTex" OutName="pause_dodongo_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseJabuTitleTex" OutName="pause_inside_jabu_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseForestTitleTex" OutName="pause_forest_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseFireTitleTex" OutName="pause_fire_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseWaterTitleTex" OutName="pause_water_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseSpiritTitleTex" OutName="pause_spirit_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseShadowTitleTex" OutName="pause_shadow_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseBotWTitleTex" OutName="pause_botw_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseIceCavernTitleTex" OutName="pause_ice_cavern_title" Format="ia8" Width="96" Height="16"/>
-        <Texture Name="gPauseToEquipTex" OutName="pause_to_equip" Format="ia8" Width="56" Height="16"/>
-        <Texture Name="gPauseToDecideTex" OutName="pause_to_decide" Format="ia8" Width="64" Height="16"/>
-        <Texture Name="gPauseToPlayMelodyTex" OutName="pause_to_play_melody" Format="ia8" Width="80" Height="16"/>
-        <Texture Name="gPauseToSelectItemTex" OutName="pause_to_select_item" Format="ia8" Width="128" Height="16"/>
-        <Texture Name="gPauseToMapTex" OutName="pause_to_map" Format="ia8" Width="128" Height="16"/>
-        <Texture Name="gPauseToQuestStatusTex" OutName="pause_to_quest_status" Format="ia8" Width="128" Height="16"/>
-        <Texture Name="gPauseToEquipmentTex" OutName="pause_to_equipment" Format="ia8" Width="128" Height="16"/>
-        <Texture Name="gPauseSavePromptTex" OutName="pause_save_prompt" Format="ia8" Width="152" Height="16"/>
-        <Texture Name="gPauseSaveConfirmationTex" OutName="pause_save_confirmation" Format="ia8" Width="152" Height="16"/>
-        <Texture Name="gPauseYesTex" OutName="pause_yes" Format="ia8" Width="48" Height="16"/>
-        <Texture Name="gPauseNoTex" OutName="pause_no" Format="ia8" Width="48" Height="16"/>
-        <Texture Name="gPauseCurrentPositionTex" OutName="pause_current_position" Format="i4" Width="64" Height="8"/>
-        <Texture Name="gPauseEquipment10Tex" OutName="pause_equipment_1_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseSelectItem00Tex" OutName="pause_select_item_0_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseSelectItem10Tex" OutName="pause_select_item_1_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseSelectItem20Tex" OutName="pause_select_item_2_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseMap10Tex" OutName="pause_map_1_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseQuestStatus00Tex" OutName="pause_quest_status_0_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseQuestStatus10Tex" OutName="pause_quest_status_1_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseQuestStatus20Tex" OutName="pause_quest_status_2_0" Format="ia8" Width="80" Height="32"/>
-        <Texture Name="gPauseSave10Tex" OutName="pause_save_1_0" Format="ia8" Width="80" Height="32"/>
+    <File Name="icon_item_nes_static" Segment="13">
+        <Texture Name="gPauseDekuTitleENGTex" OutName="pause_deku_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseDodongoTitleENGTex" OutName="pause_dodongo_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseJabuTitleENGTex" OutName="pause_inside_jabu_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseForestTitleENGTex" OutName="pause_forest_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseFireTitleENGTex" OutName="pause_fire_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseWaterTitleENGTex" OutName="pause_water_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseSpiritTitleENGTex" OutName="pause_spirit_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseShadowTitleENGTex" OutName="pause_shadow_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseBotWTitleENGTex" OutName="pause_botw_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseIceCavernTitleENGTex" OutName="pause_ice_cavern_title_eng" Format="ia8" Width="96" Height="16"/>
+        <Texture Name="gPauseToEquipENGTex" OutName="pause_to_equip_eng" Format="ia8" Width="56" Height="16"/>
+        <Texture Name="gPauseToDecideENGTex" OutName="pause_to_decide_eng" Format="ia8" Width="64" Height="16"/>
+        <Texture Name="gPauseToPlayMelodyENGTex" OutName="pause_to_play_melody_eng" Format="ia8" Width="80" Height="16"/>
+        <Texture Name="gPauseToSelectItemENGTex" OutName="pause_to_select_item_eng" Format="ia8" Width="128" Height="16"/>
+        <Texture Name="gPauseToMapENGTex" OutName="pause_to_map_eng" Format="ia8" Width="128" Height="16"/>
+        <Texture Name="gPauseToQuestStatusENGTex" OutName="pause_to_quest_status_eng" Format="ia8" Width="128" Height="16"/>
+        <Texture Name="gPauseToEquipmentENGTex" OutName="pause_to_equipment_eng" Format="ia8" Width="128" Height="16"/>
+        <Texture Name="gPauseSavePromptENGTex" OutName="pause_save_prompt_eng" Format="ia8" Width="152" Height="16"/>
+        <Texture Name="gPauseSaveConfirmationENGTex" OutName="pause_save_confirmation_eng" Format="ia8" Width="152" Height="16"/>
+        <Texture Name="gPauseYesENGTex" OutName="pause_yes_eng" Format="ia8" Width="48" Height="16"/>
+        <Texture Name="gPauseNoENGTex" OutName="pause_no_eng" Format="ia8" Width="48" Height="16"/>
+        <Texture Name="gPauseCurrentPositionENGTex" OutName="pause_current_position_eng" Format="i4" Width="64" Height="8"/>
+        <Texture Name="gPauseEquipment10ENGTex" OutName="pause_equipment_1_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem00ENGTex" OutName="pause_select_item_0_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem10ENGTex" OutName="pause_select_item_1_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSelectItem20ENGTex" OutName="pause_select_item_2_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseMap10ENGTex" OutName="pause_map_1_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus00ENGTex" OutName="pause_quest_status_0_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus10ENGTex" OutName="pause_quest_status_1_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseQuestStatus20ENGTex" OutName="pause_quest_status_2_0_eng" Format="ia8" Width="80" Height="32"/>
+        <Texture Name="gPauseSave10ENGTex" OutName="pause_save_1_0_eng" Format="ia8" Width="80" Height="32"/>
     </File>
 </Root>

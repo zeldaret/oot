@@ -188,37 +188,43 @@ endseg
 beginseg
     name "item_name_static"
     romalign 0x1000
-    include "build/baserom/item_name_static.o"
+    include "build/assets/textures/item_name_static/item_name_static.o"
+    number 10
 endseg
 
 beginseg
     name "map_name_static"
     romalign 0x1000
-    include "build/baserom/map_name_static.o"
+    include "build/assets/textures/map_name_static/map_name_static.o"
+    number 11
 endseg
 
 beginseg
     name "do_action_static"
     romalign 0x1000
-    include "build/baserom/do_action_static.o"
+    include "build/assets/textures/do_action_static/do_action_static.o"
+    number 7
 endseg
 
 beginseg
     name "message_static"
     romalign 0x1000
-    include "build/baserom/message_static.o"
+    include "build/assets/textures/message_static/message_static.o"
+    number 7
 endseg
 
 beginseg
     name "message_texture_static"
     romalign 0x1000
-    include "build/baserom/message_texture_static.o"
+    include "build/assets/textures/message_texture_static/message_texture_static.o"
+    number 9
 endseg
 
 beginseg
     name "nes_font_static"
     romalign 0x1000
-    include "build/baserom/nes_font_static.o"
+    include "build/assets/textures/nes_font_static/nes_font_static.o"
+    number 10
 endseg
 
 beginseg
@@ -252,7 +258,8 @@ endseg
 beginseg
     name "map_grand_static"
     romalign 0x1000
-    include "build/baserom/map_grand_static.o"
+    include "build/assets/textures/map_grand_static/map_grand_static.o"
+    number 11
 endseg
 
 beginseg
@@ -264,7 +271,8 @@ endseg
 beginseg
     name "map_i_static"
     romalign 0x1000
-    include "build/baserom/map_i_static.o"
+    include "build/assets/textures/map_i_static/map_i_static.o"
+    number 11
 endseg
 
 beginseg
@@ -832,8 +840,7 @@ endseg
 beginseg
     name "ovl_Bg_Hidan_Hrock"
     include "build/src/overlays/actors/ovl_Bg_Hidan_Hrock/z_bg_hidan_hrock.o"
-    include "build/data/overlays/actors/z_bg_hidan_hrock.data.o"
-    include "build/data/overlays/actors/z_bg_hidan_hrock.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Hidan_Hrock/ovl_Bg_Hidan_Hrock_reloc.o"
 endseg
 
 beginseg
@@ -1461,8 +1468,7 @@ endseg
 beginseg
     name "ovl_Demo_Du"
     include "build/src/overlays/actors/ovl_Demo_Du/z_demo_du.o"
-    include "build/data/overlays/actors/z_demo_du.data.o"
-    include "build/data/overlays/actors/z_demo_du.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Du/ovl_Demo_Du_reloc.o"
 endseg
 
 beginseg
@@ -1492,8 +1498,7 @@ endseg
 beginseg
     name "ovl_Demo_Gj"
     include "build/src/overlays/actors/ovl_Demo_Gj/z_demo_gj.o"
-    include "build/data/overlays/actors/z_demo_gj.data.o"
-    include "build/data/overlays/actors/z_demo_gj.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Gj/ovl_Demo_Gj_reloc.o"
 endseg
 
 beginseg
@@ -1841,8 +1846,7 @@ endseg
 beginseg
     name "ovl_En_Am"
     include "build/src/overlays/actors/ovl_En_Am/z_en_am.o"
-    include "build/data/overlays/actors/z_en_am.data.o"
-    include "build/data/overlays/actors/z_en_am.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Am/ovl_En_Am_reloc.o"
 endseg
 
 beginseg
@@ -1854,15 +1858,13 @@ endseg
 beginseg
     name "ovl_En_Anubice"
     include "build/src/overlays/actors/ovl_En_Anubice/z_en_anubice.o"
-    include "build/data/overlays/actors/z_en_anubice.data.o"
-    include "build/data/overlays/actors/z_en_anubice.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Anubice/ovl_En_Anubice_reloc.o"
 endseg
 
 beginseg
     name "ovl_En_Anubice_Fire"
     include "build/src/overlays/actors/ovl_En_Anubice_Fire/z_en_anubice_fire.o"
-    include "build/data/overlays/actors/z_en_anubice_fire.data.o"
-    include "build/data/overlays/actors/z_en_anubice_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Anubice_Fire/ovl_En_Anubice_Fire_reloc.o"
 endseg
 
 beginseg
@@ -1892,8 +1894,7 @@ endseg
 beginseg
     name "ovl_En_Ba"
     include "build/src/overlays/actors/ovl_En_Ba/z_en_ba.o"
-    include "build/data/overlays/actors/z_en_ba.data.o"
-    include "build/data/overlays/actors/z_en_ba.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Ba/ovl_En_Ba_reloc.o"
 endseg
 
 beginseg
@@ -1979,8 +1980,7 @@ endseg
 beginseg
     name "ovl_En_Brob"
     include "build/src/overlays/actors/ovl_En_Brob/z_en_brob.o"
-    include "build/data/overlays/actors/z_en_brob.data.o"
-    include "build/data/overlays/actors/z_en_brob.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Brob/ovl_En_Brob_reloc.o"
 endseg
 
 beginseg
@@ -2249,11 +2249,7 @@ endseg
 beginseg
     name "ovl_En_Fr"
     include "build/src/overlays/actors/ovl_En_Fr/z_en_fr.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Fr/ovl_En_Fr_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_fr.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2771,8 +2767,7 @@ endseg
 beginseg
     name "ovl_En_Peehat"
     include "build/src/overlays/actors/ovl_En_Peehat/z_en_peehat.o"
-    include "build/data/overlays/actors/z_en_peehat.data.o"
-    include "build/data/overlays/actors/z_en_peehat.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Peehat/ovl_En_Peehat_reloc.o"
 endseg
 
 beginseg
@@ -2899,8 +2894,11 @@ endseg
 beginseg
     name "ovl_En_Skb"
     include "build/src/overlays/actors/ovl_En_Skb/z_en_skb.o"
-    include "build/data/overlays/actors/z_en_skb.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Skb/ovl_En_Skb_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_skb.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3152,8 +3150,11 @@ endseg
 beginseg
     name "ovl_En_Yabusame_Mark"
     include "build/src/overlays/actors/ovl_En_Yabusame_Mark/z_en_yabusame_mark.o"
-    include "build/data/overlays/actors/z_en_yabusame_mark.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Yabusame_Mark/ovl_En_Yabusame_Mark_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_yabusame_mark.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3261,8 +3262,7 @@ endseg
 beginseg
     name "ovl_Magic_Fire"
     include "build/src/overlays/actors/ovl_Magic_Fire/z_magic_fire.o"
-    include "build/data/overlays/actors/z_magic_fire.data.o"
-    include "build/data/overlays/actors/z_magic_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_Magic_Fire/ovl_Magic_Fire_reloc.o"
 endseg
 
 beginseg
@@ -3432,8 +3432,7 @@ endseg
 beginseg
     name "ovl_Obj_Tsubo"
     include "build/src/overlays/actors/ovl_Obj_Tsubo/z_obj_tsubo.o"
-    include "build/data/overlays/actors/z_obj_tsubo.data.o"
-    include "build/data/overlays/actors/z_obj_tsubo.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Tsubo/ovl_Obj_Tsubo_reloc.o"
 endseg
 
 beginseg
@@ -3792,7 +3791,8 @@ endseg
 beginseg
     name "object_ydan_objects"
     romalign 0x1000
-    include "build/baserom/object_ydan_objects.o"
+    include "build/assets/objects/object_ydan_objects/object_ydan_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -3804,7 +3804,8 @@ endseg
 beginseg
     name "object_am"
     romalign 0x1000
-    include "build/baserom/object_am.o"
+    include "build/assets/objects/object_am/object_am.o"
+    number 6
 endseg
 
 beginseg
@@ -4377,7 +4378,8 @@ endseg
 beginseg
     name "object_syokudai"
     romalign 0x1000
-    include "build/baserom/object_syokudai.o"
+    include "build/assets/objects/object_syokudai/object_syokudai.o"
+    number 6
 endseg
 
 beginseg
@@ -6230,13 +6232,15 @@ endseg
 beginseg
     name "nintendo_rogo_static"
     romalign 0x1000
-    include "build/baserom/nintendo_rogo_static.o"
+    include "build/assets/textures/nintendo_rogo_static/nintendo_rogo_static.o"
+    number 1
 endseg
 
 beginseg
     name "title_static"
     romalign 0x1000
-    include "build/baserom/title_static.o"
+    include "build/assets/textures/title_static/title_static.o"
+    number 1
 endseg
 
 beginseg

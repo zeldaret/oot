@@ -76,7 +76,7 @@ void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
         z = 1330;
     }
 
-    vtxPtr = vertices;
+    vtxPtr = sFrustumVtx;
     if (this->counter >= 80) {
         alpha = 12 * (100 - this->counter);
     } else {
@@ -104,7 +104,7 @@ void OceffWipe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
     gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 6, scroll * (-6), 64, 64, 1,
                                                      scroll * (-6), 0, 64, 64));
-    gSPDisplayList(POLY_XLU_DISP++, sFrustrumDl);
+    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe2.c", 417);
 }

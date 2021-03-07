@@ -226,7 +226,7 @@ void EnBili_SetupBurnt(EnBili* this) {
     this->collider.base.acFlags &= ~AC_ON;
     this->actor.flags |= 0x10;
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0x4000, 0xC8, 0x2000, 0x14);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0x2000, 0x14);
     this->actionFunc = EnBili_Burnt;
 }
 
@@ -245,7 +245,7 @@ void EnBili_SetupStunned(EnBili* this) {
     this->collider.info.bumper.effect = 0;
     this->actor.gravity = -1.0f;
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0, 0x96, 0x2000, 0x50);
+    Actor_SetColorFilter(&this->actor, 0, 0x96, 0x2000, 0x50);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     this->collider.base.atFlags &= ~AT_ON;
     this->actionFunc = EnBili_Stunned;
@@ -273,7 +273,7 @@ void EnBili_SetupFrozen(EnBili* this, GlobalContext* globalCtx) {
     }
 
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0, 0x96, 0x2000, 0xA);
+    Actor_SetColorFilter(&this->actor, 0, 0x96, 0x2000, 0xA);
     this->collider.base.atFlags &= ~AT_ON;
     this->collider.base.acFlags &= ~AC_ON;
     this->timer = 300;
@@ -563,7 +563,7 @@ void EnBili_UpdateDamage(EnBili* this, GlobalContext* globalCtx) {
                 }
             } else if (damageEffect == BIRI_DMGEFF_SWORD) {
                 if (this->actionFunc != EnBili_Stunned) {
-                    func_8003426C(&this->actor, 0x4000, 0xC8, 0x2000, 0xA);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xC8, 0x2000, 0xA);
 
                     if (this->actor.colChkInfo.health == 0) {
                         this->actor.params = EN_BILI_TYPE_DYING;

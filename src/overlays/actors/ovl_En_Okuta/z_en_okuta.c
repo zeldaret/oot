@@ -249,7 +249,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
 
 void EnOkuta_SetupWaitToDie(EnOkuta* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &D_06003910, -5.0f);
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0xB);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xB);
     this->collider.base.acFlags &= ~AC_HIT;
     Actor_SetScale(&this->actor, 0.01f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_OCTAROCK_DEAD1);
@@ -264,7 +264,7 @@ void EnOkuta_SetupDie(EnOkuta* this) {
 
 void EnOkuta_SetupFreeze(EnOkuta* this) {
     this->timer = 80;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
     this->actionFunc = EnOkuta_Freeze;
 }
 

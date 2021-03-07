@@ -1,7 +1,7 @@
 #include "z_oceff_wipe4.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
-static u32 tex0[] = {
+static u32 sTexture[] = {
     0x00061507, 0x00000000, 0x295a2b08, 0x10030f03, 0x0d070006, 0x00031625, 0x3f230012, 0x79590000, 0x00102c2a,
     0x254a1b0e, 0xaff66600, 0x00467e29, 0x08020000, 0x03383e0b, 0x0501000a, 0x31211c05, 0x00031c27, 0x4ca92f13,
     0xb2ef5500, 0x057ebf37, 0x00000000, 0x0e493f13, 0x00000002, 0x335c3e03, 0x00000e07, 0x3c761200, 0x447e2200,
@@ -61,7 +61,7 @@ static u32 tex0[] = {
     0x00000000, 0x00000008, 0x14030015, 0x5d2c0000, 0x00000115, 0x08000027, 0x724f0f0a, 0x353d0600,
 };
 
-static Vtx vertices[] = {
+static Vtx sFrustumVtx[] = {
     VTX(88, 121, 0, 819, 1024, 0xFF, 0xFF, 0xFF, 0x00),    VTX(243, 176, 1000, 717, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(143, 46, 0, 614, 1024, 0xFF, 0xFF, 0xFF, 0x00),    VTX(300, 0, 1000, 512, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(0, 150, 0, 1024, 1024, 0xFF, 0xFF, 0xFF, 0x00),    VTX(93, 285, 1000, 922, 0, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -79,8 +79,8 @@ static Gfx sTexture0DL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(gEffUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                       G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 15),
+    gsDPLoadMultiBlock(gEffUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                       G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 1, 15),
     gsDPSetPrimColor(0x00, 0x00, 170, 255, 255, 255),
     gsDPSetEnvColor(0, 150, 0, 128),
     gsSPEndDisplayList(),
@@ -90,8 +90,8 @@ static Gfx sTexture1DL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadMultiBlock(gEffUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                       G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 5, 1, 0),
+    gsDPLoadMultiBlock(gEffUnknown12Tex, 0x100, 1, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                       G_TX_NOMIRROR | G_TX_WRAP, 5, 5, 1, 0),
     gsDPSetPrimColor(0x00, 0x00, 255, 170, 255, 255),
     gsDPSetEnvColor(120, 0, 100, 128),
     gsSPEndDisplayList(),
@@ -99,8 +99,8 @@ static Gfx sTexture1DL[] = {
 
 static Gfx sTexture2DL[] = {
     gsDPPipeSync(),
-    gsDPLoadTextureBlock(tex0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                         G_TX_NOMIRROR | G_TX_NOMIRROR, 5, 6, 14, 1),
+    gsDPLoadTextureBlock(sTexture, G_IM_FMT_I, G_IM_SIZ_8b, 32, 64, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                         G_TX_NOMIRROR | G_TX_WRAP, 5, 6, 14, 1),
     gsDPSetCombineLERP(TEXEL0, PRIMITIVE, ENV_ALPHA, TEXEL1, TEXEL0, 0, ENVIRONMENT, TEXEL1, PRIMITIVE, ENVIRONMENT,
                        COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
     gsDPSetRenderMode(AA_EN | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_OPA | FORCE_BL |
@@ -110,8 +110,8 @@ static Gfx sTexture2DL[] = {
     //! @bug : gsSPEndDisplayList() is missing so the next dlist will execute as well
 };
 
-static Gfx sFrustrumDl[] = {
-    gsSPVertex(vertices, 22, 0),
+static Gfx sFrustumDL[] = {
+    gsSPVertex(sFrustumVtx, 22, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
     gsSP2Triangles(4, 5, 0, 0, 5, 1, 0, 0),
     gsSP2Triangles(6, 7, 4, 0, 7, 5, 4, 0),
