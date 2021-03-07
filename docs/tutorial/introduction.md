@@ -40,13 +40,13 @@ void func_80A13098(EnFirefly* this) {
 }
 ```
 
-which is intended to be as close to the original code as possible. We are doing *matching* decomp: in the right context, the above C compiles into *precisely* the assembly code above, not just equivalent code.
+which is intended to be as close to the original code as possible. We are doing *matching* decomp: in the right context, and with the right compiler settings, the above C compiles into *precisely* the assembly code above, not just equivalent code.
 
 N.B. We are using only publicly available code. In particular, we are not looking at any of the recent Nintendo source code leaks. (These apparently contain very little Ocarina of Time material anyway.)
 
 Progress of the project can be found at [https://zelda64.dev]. The long-term goal of this project is to obtain a complete compilable version of the code for every publicly released version of Ocarina of Time (there are also sister projects for Majora's Mask and other Zelda games). *We are not working on a PC Port, and this project will not be making one*, although the resulting code will be very useful if someone does intend to make such a port.
 
-Most of the discussion on the project takes place on the Zelda Decompilation Discord. We are very welcoming to newcomers and are happy to help you with any problems you might have with the decompilation process.
+Most of the discussion on the project takes place on the Zelda Decompilation Discord (linked in the README.md). We are very welcoming to newcomers and are happy to help you with any problems you might have with the decompilation process.
 
 ## What do I need to know to take part?
 
@@ -60,14 +60,14 @@ The most useful knowledge to have is a general understanding of how the game wor
 
 A lot of work has already been done on the code to bring it into a format that is easy to decompile. I will discuss actors, since this is where the majority of new people should begin.
 
-An *actor* is any thing in the game that moves or performs actions or interactions: Link is an actor, enemies are actors, NPCs are actors, props like grass are actors (Fishing is also an actor, the largest one, but you don't need to know about it). 
+An *actor* is any thing in the game that moves or performs actions or interactions: Link is an actor, enemies are actors, NPCs are actors, props like grass are actors (Fishing is also an actor, the largest one, but you don't need to know about it). The vast majority of actors are *overlays*, which means they are loaded only when the game needs them.
 
 In the code, each actor is associated to several files: there is 
 - the main .c file, e.g. `src/overlays/actors/ovl_En_Firefly/z_en_firefly.c`
 - the actor's Header file, e.g. `src/overlays/actors/ovl_En_Firefly/z_en_firefly.h`
 - various .o files that tell the `make` script how to incorporate it into building the ROM, 
 
-and then for undecompiled actors, various assembly (.s) files: 
+and then for undecompiled actors, various assembly (.s) files, generally including: 
 - one for the actor's *data* (this usually includes things like its collision information about how to draw it, and various other stuff that is used in it), e.g. `data/overlays/actors/z_en_firefly.data.s`
 - one for each function in the actor, e.g. `asm/non_matchings/overlays/actors/ovl_En_Firefly/func_80A13098.s`
 
