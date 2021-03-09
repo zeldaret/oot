@@ -18,7 +18,7 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalC
 
 const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     ACTOR_BG_JYA_BOMBCHUIWA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJyaBombchuiwa),
@@ -28,21 +28,35 @@ const ActorInit Bg_Jya_Bombchuiwa_InitVars = {
     (ActorFunc)BgJyaBombchuiwa_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000008, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x00000008, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 0, { { -300, 0, 0 }, 40 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x21, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_2,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 3, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 3, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
@@ -70,18 +84,21 @@ void BgJyaBombchuiwa_SetDrawFlags(BgJyaBombchuiwa* this, u8 drawFlags) {
 void BgJyaBombchuiwa_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombchuiwa* this = THIS;
 
-    Actor_ProcessInitChain(thisx, &sInitChain);
-    BgJyaBombchuiwa_SetupCollider(thisx, globalCtx);
-    if (Flags_GetSwitch(globalCtx, thisx->params & 0x3F)) {
+    Actor_ProcessInitChain(&this->actor, sInitChain);
+    BgJyaBombchuiwa_SetupCollider(this, globalCtx);
+    if (Flags_GetSwitch(globalCtx, this->actor.params & 0x3F)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
     } else {
         BgJyaBombchuiwa_SetupWaitForExplosion(this, globalCtx);
     }
-    Actor_SetHeight(thisx, 0.0f);
+    Actor_SetFocus(&this->actor, 0.0f);
 }
 
-void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx) {
-    Collider_DestroyJntSph(globalCtx, &THIS->collider);
+void BgJyaBombchuiwa_Destroy(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+    BgJyaBombchuiwa* this = THIS;
+
+    Collider_DestroyJntSph(globalCtx, &this->collider);
 }
 
 void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
@@ -94,19 +111,19 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     s32 i;
 
     for (i = 0; i < 20; i++) {
-        pos.x = Math_Rand_ZeroOne() * 10.0f + this->actor.posRot.pos.x - 10.0f;
-        pos.y = Math_Rand_ZeroOne() * 40.0f + this->actor.posRot.pos.y - 20.0f;
-        pos.z = Math_Rand_ZeroOne() * 50.0f + this->actor.posRot.pos.z - 25.0f;
-        velocity.x = Math_Rand_ZeroOne() * 3.0f - 0.3f;
-        velocity.y = Math_Rand_ZeroOne() * 18.0f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) * 15.0f;
-        scale = (s32)(Math_Rand_ZeroOne() * 20.0f) + 1;
+        pos.x = Rand_ZeroOne() * 10.0f + this->actor.world.pos.x - 10.0f;
+        pos.y = Rand_ZeroOne() * 40.0f + this->actor.world.pos.y - 20.0f;
+        pos.z = Rand_ZeroOne() * 50.0f + this->actor.world.pos.z - 25.0f;
+        velocity.x = Rand_ZeroOne() * 3.0f - 0.3f;
+        velocity.y = Rand_ZeroOne() * 18.0f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) * 15.0f;
+        scale = (s32)(Rand_ZeroOne() * 20.0f) + 1;
         if (scale > 10) {
             arg5 = 5;
         } else {
             arg5 = 1;
         }
-        if (Math_Rand_ZeroOne() < 0.4f) {
+        if (Rand_ZeroOne() < 0.4f) {
             arg5 |= 0x40;
             arg6 = 0xC;
             arg7 = 8;
@@ -122,7 +139,7 @@ void BgJyaBombchuiwa_Break(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
         EffectSsKakera_Spawn(globalCtx, &pos, &velocity, &pos, -300, arg5, arg6, arg7, 0, scale, 1, 15, 80,
                              KAKERA_COLOR_NONE, OBJECT_JYA_OBJ, D_0600EDC0);
     }
-    func_80033480(globalCtx, &this->actor.posRot.pos, 100.0f, 8, 100, 160, 0);
+    func_80033480(globalCtx, &this->actor.world.pos, 100.0f, 8, 100, 160, 0);
 }
 
 void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
@@ -132,7 +149,7 @@ void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext*
 }
 
 void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
-    if ((this->collider.base.acFlags & 2) || (this->timer > 0)) {
+    if ((this->collider.base.acFlags & AC_HIT) || (this->timer > 0)) {
         if (this->timer == 0) {
             func_800800F8(globalCtx, 3410, -99, &this->actor, 0);
         }
@@ -140,11 +157,11 @@ void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* glob
         if (this->timer > 10) {
             BgJyaBombchuiwa_Break(this, globalCtx);
             BgJyaBombchuiwa_CleanUpAfterExplosion(this, globalCtx);
-            Audio_PlaySoundAtPosition(globalCtx, &this->actor.posRot.pos, 40, NA_SE_EV_WALL_BROKEN);
+            Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 40, NA_SE_EV_WALL_BROKEN);
         }
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
@@ -159,9 +176,9 @@ void BgJyaBombchuiwa_CleanUpAfterExplosion(BgJyaBombchuiwa* this, GlobalContext*
 void func_808949B8(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     this->timer++;
     if (this->timer & 4) {
-        func_80033480(globalCtx, &this->actor.posRot.pos, 60.0f, 3, 100, 100, 0);
+        func_80033480(globalCtx, &this->actor.world.pos, 60.0f, 3, 100, 100, 0);
     }
-    if (Math_ApproxF(&this->lightRayIntensity, 1.0f, 0.028)) {
+    if (Math_StepToF(&this->lightRayIntensity, 1.0f, 0.028)) {
         BgJyaBombchuiwa_SpawnLightRay(this, globalCtx);
     }
 }
@@ -170,8 +187,8 @@ void BgJyaBombchuiwa_SpawnLightRay(BgJyaBombchuiwa* this, GlobalContext* globalC
     this->actionFunc = NULL;
     this->lightRayIntensity = 153.0f;
     BgJyaBombchuiwa_SetDrawFlags(this, 4);
-    if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                    this->actor.posRot.pos.z, 0, 0, 0, 0) == NULL) {
+    if (Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_MIR_RAY, this->actor.world.pos.x, this->actor.world.pos.y,
+                    this->actor.world.pos.z, 0, 0, 0, 0) == NULL) {
         // Occurrence failure
         osSyncPrintf("Ｅｒｒｏｒ : Mir_Ray 発生失敗(%s %d)(arg_data 0x%04x)\n", "../z_bg_jya_bombchuiwa.c", 410,
                      this->actor.params);
@@ -216,8 +233,8 @@ void BgJyaBombchuiwa_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaBombchuiwa* this = THIS;
 
     if (this->drawFlags & 1) {
-        Gfx_DrawDListOpa(globalCtx, &D_0600E8D0);
-        func_800628A4(0, &this->collider);
+        Gfx_DrawDListOpa(globalCtx, D_0600E8D0);
+        Collider_UpdateSpheres(0, &this->collider);
     }
 
     if (this->drawFlags & 2) {

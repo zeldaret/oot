@@ -280,7 +280,7 @@ glabel func_808DFBD0
 /* 09714 808DFF84 3C018000 */  lui     $at, 0x8000                ## $at = 80000000
 /* 09718 808DFF88 01F8C821 */  addu    $t9, $t7, $t8              
 /* 0971C 808DFF8C 03214021 */  addu    $t0, $t9, $at              
-/* 09720 808DFF90 0C034221 */  jal     Matrix_Pull              
+/* 09720 808DFF90 0C034221 */  jal     Matrix_Pop              
 /* 09724 808DFF94 AC480004 */  sw      $t0, 0x0004($v0)           ## 00000004
 /* 09728 808DFF98 8FAE005C */  lw      $t6, 0x005C($sp)           
 /* 0972C 808DFF9C 3C06808F */  lui     $a2, %hi(D_808F7BCC)       ## $a2 = 808F0000

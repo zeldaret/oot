@@ -16,7 +16,7 @@ glabel EnJsjutan_Update
 /* 00DD8 80A8A578 00812023 */  subu    $a0, $a0, $at              
 /* 00DDC 80A8A57C 000420C0 */  sll     $a0, $a0,  3               
 /* 00DE0 80A8A580 00042400 */  sll     $a0, $a0, 16               
-/* 00DE4 80A8A584 0C01DE1C */  jal     Math_Sins
+/* 00DE4 80A8A584 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00DE8 80A8A588 00042403 */  sra     $a0, $a0, 16               
 /* 00DEC 80A8A58C 3C014396 */  lui     $at, 0x4396                ## $at = 43960000
@@ -40,7 +40,7 @@ glabel EnJsjutan_Update
 /* 00E34 80A8A5D4 00812023 */  subu    $a0, $a0, $at              
 /* 00E38 80A8A5D8 00042080 */  sll     $a0, $a0,  2               
 /* 00E3C 80A8A5DC 00042400 */  sll     $a0, $a0, 16               
-/* 00E40 80A8A5E0 0C01DE0D */  jal     Math_Coss
+/* 00E40 80A8A5E0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00E44 80A8A5E4 00042403 */  sra     $a0, $a0, 16               
 /* 00E48 80A8A5E8 3C014396 */  lui     $at, 0x4396                ## $at = 43960000

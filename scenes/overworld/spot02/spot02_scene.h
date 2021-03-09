@@ -1,0 +1,396 @@
+extern RomFile _spot02_scene_roomList_00000124[];
+extern TransitionActorEntry _spot02_scene_transitionActorList_00000104[];
+extern CollisionHeader _spot02_scene_collisionHeader_00003C54;
+extern EntranceEntry _spot02_scene_entranceList_00000134[];
+extern Vec3s _spot02_scene_pathwayList_00000348[];
+extern ActorEntry _spot02_scene_startPositionList_00000084[];
+extern u16 _spot02_scene_exitList_00000144[];
+extern LightSettings _spot02_scene_lightSettings_00000154[];
+extern RomFile _spot02_scene_roomList_000069D8[];
+extern TransitionActorEntry _spot02_scene_transitionActorList_000069B8[];
+extern CollisionHeader _spot02_scene_collisionHeader_00003C54;
+extern EntranceEntry _spot02_scene_entranceList_000069E8[];
+extern Vec3s _spot02_scene_pathwayList_00006BFC[];
+extern ActorEntry _spot02_scene_startPositionList_00006938[];
+extern u16 _spot02_scene_exitList_000069F8[];
+extern LightSettings _spot02_scene_lightSettings_00006A08[];
+extern RomFile _spot02_scene_roomList_000062E8[];
+extern TransitionActorEntry _spot02_scene_transitionActorList_000062C8[];
+extern CollisionHeader _spot02_scene_collisionHeader_00003C54;
+extern EntranceEntry _spot02_scene_entranceList_000062F8[];
+extern Vec3s _spot02_scene_pathwayList_00006540[];
+extern ActorEntry _spot02_scene_startPositionList_00006238[];
+extern u16 _spot02_scene_exitList_0000630C[];
+extern LightSettings _spot02_scene_lightSettings_0000631C[];
+extern RomFile _spot02_scene_roomList_00006668[];
+extern TransitionActorEntry _spot02_scene_transitionActorList_00006648[];
+extern CollisionHeader _spot02_scene_collisionHeader_00003C54;
+extern EntranceEntry _spot02_scene_entranceList_00006678[];
+extern Vec3s _spot02_scene_pathwayList_000068C0[];
+extern ActorEntry _spot02_scene_startPositionList_000065B8[];
+extern u16 _spot02_scene_exitList_0000668C[];
+extern LightSettings _spot02_scene_lightSettings_0000669C[];
+extern RomFile _spot02_scene_roomList_00006CB0[];
+extern TransitionActorEntry _spot02_scene_transitionActorList_00006C90[];
+extern CollisionHeader _spot02_scene_collisionHeader_00003C54;
+extern EntranceEntry _spot02_scene_entranceList_00006CC0[];
+extern Vec3s _spot02_scene_pathwayList_00006EB0[];
+extern ActorEntry _spot02_scene_startPositionList_00006C80[];
+extern u16 _spot02_scene_exitList_00006CC4[];
+extern LightSettings _spot02_scene_lightSettings_00006CD4[];
+extern s32 _spot02_scene_cutsceneData_00003C80[];
+extern RomFile _spot02_scene_roomList_00006F60[];
+extern TransitionActorEntry _spot02_scene_transitionActorList_00006F40[];
+extern CollisionHeader _spot02_scene_collisionHeader_00003C54;
+extern EntranceEntry _spot02_scene_entranceList_00006F70[];
+extern Vec3s _spot02_scene_pathwayList_000070B0[];
+extern ActorEntry _spot02_scene_startPositionList_00006F30[];
+extern u16 _spot02_scene_exitList_00006F74[];
+extern LightSettings _spot02_scene_lightSettings_00006F84[];
+extern s32 _spot02_scene_cutsceneData_00004E90[];
+
+extern SCmdAltHeaders _spot02_scene_set0000_cmd00;
+extern SCmdSoundSettings _spot02_scene_set0000_cmd01;
+extern SCmdRoomList _spot02_scene_set0000_cmd02;
+extern SCmdTransiActorList _spot02_scene_set0000_cmd03;
+extern SCmdMiscSettings _spot02_scene_set0000_cmd04;
+extern SCmdColHeader _spot02_scene_set0000_cmd05;
+extern SCmdEntranceList _spot02_scene_set0000_cmd06;
+extern SCmdSpecialFiles _spot02_scene_set0000_cmd07;
+extern SCmdPathList _spot02_scene_set0040_cmd08;
+extern SCmdSpawnList _spot02_scene_set0000_cmd09;
+extern SCmdSkyboxSettings _spot02_scene_set0000_cmd0A;
+extern SCmdExitList _spot02_scene_set0000_cmd0B;
+extern SCmdLightSettingList _spot02_scene_set0000_cmd0C;
+extern SCmdEndMarker _spot02_scene_set0000_cmd0D;
+extern u32 _spot02_scene_alternateHeaders_00000070[];
+extern Vec3s _spot02_scene_pathwayList_00000324[];
+extern Path _spot02_scene_pathway_00000348;
+extern SCmdSoundSettings _spot02_scene_set61D0_cmd00;
+extern SCmdRoomList _spot02_scene_set61D0_cmd01;
+extern SCmdTransiActorList _spot02_scene_set61D0_cmd02;
+extern SCmdMiscSettings _spot02_scene_set61D0_cmd03;
+extern SCmdColHeader _spot02_scene_set61D0_cmd04;
+extern SCmdEntranceList _spot02_scene_set61D0_cmd05;
+extern SCmdSpecialFiles _spot02_scene_set61D0_cmd06;
+extern SCmdPathList _spot02_scene_set6208_cmd07;
+extern SCmdSpawnList _spot02_scene_set61D0_cmd08;
+extern SCmdSkyboxSettings _spot02_scene_set61D0_cmd09;
+extern SCmdExitList _spot02_scene_set61D0_cmd0A;
+extern SCmdLightSettingList _spot02_scene_set61D0_cmd0B;
+extern SCmdEndMarker _spot02_scene_set61D0_cmd0C;
+extern Vec3s _spot02_scene_pathwayList_0000652C[];
+extern Path _spot02_scene_pathway_00006540;
+extern SCmdSoundSettings _spot02_scene_set6550_cmd00;
+extern SCmdRoomList _spot02_scene_set6550_cmd01;
+extern SCmdTransiActorList _spot02_scene_set6550_cmd02;
+extern SCmdMiscSettings _spot02_scene_set6550_cmd03;
+extern SCmdColHeader _spot02_scene_set6550_cmd04;
+extern SCmdEntranceList _spot02_scene_set6550_cmd05;
+extern SCmdSpecialFiles _spot02_scene_set6550_cmd06;
+extern SCmdPathList _spot02_scene_set6588_cmd07;
+extern SCmdSpawnList _spot02_scene_set6550_cmd08;
+extern SCmdSkyboxSettings _spot02_scene_set6550_cmd09;
+extern SCmdExitList _spot02_scene_set6550_cmd0A;
+extern SCmdLightSettingList _spot02_scene_set6550_cmd0B;
+extern SCmdEndMarker _spot02_scene_set6550_cmd0C;
+extern Vec3s _spot02_scene_pathwayList_000068AC[];
+extern Path _spot02_scene_pathway_000068C0;
+extern SCmdSoundSettings _spot02_scene_set68D0_cmd00;
+extern SCmdRoomList _spot02_scene_set68D0_cmd01;
+extern SCmdTransiActorList _spot02_scene_set68D0_cmd02;
+extern SCmdMiscSettings _spot02_scene_set68D0_cmd03;
+extern SCmdColHeader _spot02_scene_set68D0_cmd04;
+extern SCmdEntranceList _spot02_scene_set68D0_cmd05;
+extern SCmdSpecialFiles _spot02_scene_set68D0_cmd06;
+extern SCmdPathList _spot02_scene_set6908_cmd07;
+extern SCmdSpawnList _spot02_scene_set68D0_cmd08;
+extern SCmdSkyboxSettings _spot02_scene_set68D0_cmd09;
+extern SCmdExitList _spot02_scene_set68D0_cmd0A;
+extern SCmdLightSettingList _spot02_scene_set68D0_cmd0B;
+extern SCmdEndMarker _spot02_scene_set68D0_cmd0C;
+extern Vec3s _spot02_scene_pathwayList_00006BD8[];
+extern Path _spot02_scene_pathway_00006BFC;
+extern SCmdSoundSettings _spot02_scene_set6C10_cmd00;
+extern SCmdRoomList _spot02_scene_set6C10_cmd01;
+extern SCmdTransiActorList _spot02_scene_set6C10_cmd02;
+extern SCmdMiscSettings _spot02_scene_set6C10_cmd03;
+extern SCmdColHeader _spot02_scene_set6C10_cmd04;
+extern SCmdEntranceList _spot02_scene_set6C10_cmd05;
+extern SCmdSpecialFiles _spot02_scene_set6C10_cmd06;
+extern SCmdPathList _spot02_scene_set6C48_cmd07;
+extern SCmdSpawnList _spot02_scene_set6C10_cmd08;
+extern SCmdSkyboxSettings _spot02_scene_set6C10_cmd09;
+extern SCmdExitList _spot02_scene_set6C10_cmd0A;
+extern SCmdLightSettingList _spot02_scene_set6C10_cmd0B;
+extern SCmdCutsceneData _spot02_scene_set6C10_cmd0C;
+extern SCmdEndMarker _spot02_scene_set6C10_cmd0D;
+extern Vec3s _spot02_scene_pathwayList_00006E8C[];
+extern Path _spot02_scene_pathway_00006EB0;
+extern SCmdSoundSettings _spot02_scene_set6EC0_cmd00;
+extern SCmdRoomList _spot02_scene_set6EC0_cmd01;
+extern SCmdTransiActorList _spot02_scene_set6EC0_cmd02;
+extern SCmdMiscSettings _spot02_scene_set6EC0_cmd03;
+extern SCmdColHeader _spot02_scene_set6EC0_cmd04;
+extern SCmdEntranceList _spot02_scene_set6EC0_cmd05;
+extern SCmdSpecialFiles _spot02_scene_set6EC0_cmd06;
+extern SCmdPathList _spot02_scene_set6EF8_cmd07;
+extern SCmdSpawnList _spot02_scene_set6EC0_cmd08;
+extern SCmdSkyboxSettings _spot02_scene_set6EC0_cmd09;
+extern SCmdExitList _spot02_scene_set6EC0_cmd0A;
+extern SCmdLightSettingList _spot02_scene_set6EC0_cmd0B;
+extern SCmdCutsceneData _spot02_scene_set6EC0_cmd0C;
+extern SCmdEndMarker _spot02_scene_set6EC0_cmd0D;
+extern Vec3s _spot02_scene_pathwayList_0000708C[];
+extern Path _spot02_scene_pathway_000070B0;
+extern u64 _spot02_scene_tex_00007280[];
+extern u64 _spot02_scene_tex_00007A80[];
+extern u64 _spot02_scene_tex_00007E80[];
+extern u64 _spot02_scene_tex_00008680[];
+extern u64 _spot02_scene_tex_00008E80[];
+extern u64 _spot02_scene_tex_00009E80[];
+extern u64 _spot02_scene_tex_0000A280[];
+extern u64 _spot02_scene_tex_0000AA80[];
+extern u64 _spot02_scene_tex_0000AE80[];
+extern u64 _spot02_scene_tex_0000B080[];
+extern u64 _spot02_scene_tex_0000B880[];
+
+#define _spot02_room_1_vertices_00006200 ((u32)_spot02_room_1_vertices_00006020 + 0x000001E0)
+#define _spot02_room_1_vertices_00019B70 ((u32)_spot02_room_1_vertices_00019990 + 0x000001E0)
+#define _spot02_room_1_vertices_00019D60 ((u32)_spot02_room_1_vertices_00019990 + 0x000003D0)
+#define _spot02_room_1_vertices_00005600 ((u32)_spot02_room_1_vertices_00005410 + 0x000001F0)
+#define _spot02_room_1_vertices_00006200 ((u32)_spot02_room_1_vertices_00006020 + 0x000001E0)
+#define _spot02_room_1_vertices_00019B70 ((u32)_spot02_room_1_vertices_00019990 + 0x000001E0)
+#define _spot02_room_1_vertices_00019D60 ((u32)_spot02_room_1_vertices_00019990 + 0x000003D0)
+#define _spot02_room_1_vertices_00005600 ((u32)_spot02_room_1_vertices_00005410 + 0x000001F0)
+#define _spot02_room_1_vertices_00006200 ((u32)_spot02_room_1_vertices_00006020 + 0x000001E0)
+#define _spot02_room_1_vertices_00019B70 ((u32)_spot02_room_1_vertices_00019990 + 0x000001E0)
+#define _spot02_room_1_vertices_00019D60 ((u32)_spot02_room_1_vertices_00019990 + 0x000003D0)
+#define _spot02_room_1_vertices_00005600 ((u32)_spot02_room_1_vertices_00005410 + 0x000001F0)
+#define _spot02_room_1_vertices_00006200 ((u32)_spot02_room_1_vertices_00006020 + 0x000001E0)
+#define _spot02_room_1_vertices_00019B70 ((u32)_spot02_room_1_vertices_00019990 + 0x000001E0)
+#define _spot02_room_1_vertices_00019D60 ((u32)_spot02_room_1_vertices_00019990 + 0x000003D0)
+#define _spot02_room_1_vertices_00005600 ((u32)_spot02_room_1_vertices_00005410 + 0x000001F0)
+#define _spot02_room_1_vertices_00006200 ((u32)_spot02_room_1_vertices_00006020 + 0x000001E0)
+#define _spot02_room_1_vertices_00019B70 ((u32)_spot02_room_1_vertices_00019990 + 0x000001E0)
+#define _spot02_room_1_vertices_00019D60 ((u32)_spot02_room_1_vertices_00019990 + 0x000003D0)
+#define _spot02_room_1_vertices_00005600 ((u32)_spot02_room_1_vertices_00005410 + 0x000001F0)
+#define _spot02_room_1_vertices_00006200 ((u32)_spot02_room_1_vertices_00006020 + 0x000001E0)
+#define _spot02_room_1_vertices_00019B70 ((u32)_spot02_room_1_vertices_00019990 + 0x000001E0)
+#define _spot02_room_1_vertices_00019D60 ((u32)_spot02_room_1_vertices_00019990 + 0x000003D0)
+#define _spot02_room_1_vertices_00005600 ((u32)_spot02_room_1_vertices_00005410 + 0x000001F0)
+
+
+
+
+extern SCmdAltHeaders _spot02_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _spot02_scene_set0000_cmd01;
+
+extern SCmdRoomList _spot02_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _spot02_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _spot02_scene_set0000_cmd04;
+
+extern SCmdColHeader _spot02_scene_set0000_cmd05;
+
+extern SCmdEntranceList _spot02_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _spot02_scene_set0000_cmd07;
+
+extern SCmdPathList _spot02_scene_set0040_cmd08;
+
+extern SCmdSpawnList _spot02_scene_set0000_cmd09;
+
+extern SCmdSkyboxSettings _spot02_scene_set0000_cmd0A;
+
+extern SCmdExitList _spot02_scene_set0000_cmd0B;
+
+extern SCmdLightSettingList _spot02_scene_set0000_cmd0C;
+
+extern SCmdEndMarker _spot02_scene_set0000_cmd0D;
+
+extern u32 _spot02_scene_alternateHeaders_00000070[];
+
+extern Vec3s _spot02_scene_pathwayList_00000324[];
+
+extern Path _spot02_scene_pathway_00000348;
+
+extern SCmdSoundSettings _spot02_scene_set61D0_cmd00;
+
+extern SCmdRoomList _spot02_scene_set61D0_cmd01;
+
+extern SCmdTransiActorList _spot02_scene_set61D0_cmd02;
+
+extern SCmdMiscSettings _spot02_scene_set61D0_cmd03;
+
+extern SCmdColHeader _spot02_scene_set61D0_cmd04;
+
+extern SCmdEntranceList _spot02_scene_set61D0_cmd05;
+
+extern SCmdSpecialFiles _spot02_scene_set61D0_cmd06;
+
+extern SCmdPathList _spot02_scene_set6208_cmd07;
+
+extern SCmdSpawnList _spot02_scene_set61D0_cmd08;
+
+extern SCmdSkyboxSettings _spot02_scene_set61D0_cmd09;
+
+extern SCmdExitList _spot02_scene_set61D0_cmd0A;
+
+extern SCmdLightSettingList _spot02_scene_set61D0_cmd0B;
+
+extern SCmdEndMarker _spot02_scene_set61D0_cmd0C;
+
+extern Vec3s _spot02_scene_pathwayList_0000652C[];
+
+extern Path _spot02_scene_pathway_00006540;
+
+extern SCmdSoundSettings _spot02_scene_set6550_cmd00;
+
+extern SCmdRoomList _spot02_scene_set6550_cmd01;
+
+extern SCmdTransiActorList _spot02_scene_set6550_cmd02;
+
+extern SCmdMiscSettings _spot02_scene_set6550_cmd03;
+
+extern SCmdColHeader _spot02_scene_set6550_cmd04;
+
+extern SCmdEntranceList _spot02_scene_set6550_cmd05;
+
+extern SCmdSpecialFiles _spot02_scene_set6550_cmd06;
+
+extern SCmdPathList _spot02_scene_set6588_cmd07;
+
+extern SCmdSpawnList _spot02_scene_set6550_cmd08;
+
+extern SCmdSkyboxSettings _spot02_scene_set6550_cmd09;
+
+extern SCmdExitList _spot02_scene_set6550_cmd0A;
+
+extern SCmdLightSettingList _spot02_scene_set6550_cmd0B;
+
+extern SCmdEndMarker _spot02_scene_set6550_cmd0C;
+
+extern Vec3s _spot02_scene_pathwayList_000068AC[];
+
+extern Path _spot02_scene_pathway_000068C0;
+
+extern SCmdSoundSettings _spot02_scene_set68D0_cmd00;
+
+extern SCmdRoomList _spot02_scene_set68D0_cmd01;
+
+extern SCmdTransiActorList _spot02_scene_set68D0_cmd02;
+
+extern SCmdMiscSettings _spot02_scene_set68D0_cmd03;
+
+extern SCmdColHeader _spot02_scene_set68D0_cmd04;
+
+extern SCmdEntranceList _spot02_scene_set68D0_cmd05;
+
+extern SCmdSpecialFiles _spot02_scene_set68D0_cmd06;
+
+extern SCmdPathList _spot02_scene_set6908_cmd07;
+
+extern SCmdSpawnList _spot02_scene_set68D0_cmd08;
+
+extern SCmdSkyboxSettings _spot02_scene_set68D0_cmd09;
+
+extern SCmdExitList _spot02_scene_set68D0_cmd0A;
+
+extern SCmdLightSettingList _spot02_scene_set68D0_cmd0B;
+
+extern SCmdEndMarker _spot02_scene_set68D0_cmd0C;
+
+extern Vec3s _spot02_scene_pathwayList_00006BD8[];
+
+extern Path _spot02_scene_pathway_00006BFC;
+
+extern SCmdSoundSettings _spot02_scene_set6C10_cmd00;
+
+extern SCmdRoomList _spot02_scene_set6C10_cmd01;
+
+extern SCmdTransiActorList _spot02_scene_set6C10_cmd02;
+
+extern SCmdMiscSettings _spot02_scene_set6C10_cmd03;
+
+extern SCmdColHeader _spot02_scene_set6C10_cmd04;
+
+extern SCmdEntranceList _spot02_scene_set6C10_cmd05;
+
+extern SCmdSpecialFiles _spot02_scene_set6C10_cmd06;
+
+extern SCmdPathList _spot02_scene_set6C48_cmd07;
+
+extern SCmdSpawnList _spot02_scene_set6C10_cmd08;
+
+extern SCmdSkyboxSettings _spot02_scene_set6C10_cmd09;
+
+extern SCmdExitList _spot02_scene_set6C10_cmd0A;
+
+extern SCmdLightSettingList _spot02_scene_set6C10_cmd0B;
+
+extern SCmdCutsceneData _spot02_scene_set6C10_cmd0C;
+
+extern SCmdEndMarker _spot02_scene_set6C10_cmd0D;
+
+extern Vec3s _spot02_scene_pathwayList_00006E8C[];
+
+extern Path _spot02_scene_pathway_00006EB0;
+
+extern SCmdSoundSettings _spot02_scene_set6EC0_cmd00;
+
+extern SCmdRoomList _spot02_scene_set6EC0_cmd01;
+
+extern SCmdTransiActorList _spot02_scene_set6EC0_cmd02;
+
+extern SCmdMiscSettings _spot02_scene_set6EC0_cmd03;
+
+extern SCmdColHeader _spot02_scene_set6EC0_cmd04;
+
+extern SCmdEntranceList _spot02_scene_set6EC0_cmd05;
+
+extern SCmdSpecialFiles _spot02_scene_set6EC0_cmd06;
+
+extern SCmdPathList _spot02_scene_set6EF8_cmd07;
+
+extern SCmdSpawnList _spot02_scene_set6EC0_cmd08;
+
+extern SCmdSkyboxSettings _spot02_scene_set6EC0_cmd09;
+
+extern SCmdExitList _spot02_scene_set6EC0_cmd0A;
+
+extern SCmdLightSettingList _spot02_scene_set6EC0_cmd0B;
+
+extern SCmdCutsceneData _spot02_scene_set6EC0_cmd0C;
+
+extern SCmdEndMarker _spot02_scene_set6EC0_cmd0D;
+
+extern Vec3s _spot02_scene_pathwayList_0000708C[];
+
+extern Path _spot02_scene_pathway_000070B0;
+
+extern u64 _spot02_scene_tex_00007280[];
+
+extern u64 _spot02_scene_tex_00007A80[];
+
+extern u64 _spot02_scene_tex_00007E80[];
+
+extern u64 _spot02_scene_tex_00008680[];
+
+extern u64 _spot02_scene_tex_00008E80[];
+
+extern u64 _spot02_scene_tex_00009E80[];
+
+extern u64 _spot02_scene_tex_0000A280[];
+
+extern u64 _spot02_scene_tex_0000AA80[];
+
+extern u64 _spot02_scene_tex_0000AE80[];
+
+extern u64 _spot02_scene_tex_0000B080[];
+
+extern u64 _spot02_scene_tex_0000B880[];
+
+

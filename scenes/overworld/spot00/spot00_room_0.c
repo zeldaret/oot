@@ -1,0 +1,8688 @@
+#include <ultra64.h>
+#include <z64.h>
+#include "spot00_room_0.h"
+#include <z64.h>
+#include <segment_symbols.h>
+#include <command_macros_base.h>
+#include <z64cutscene_commands.h>
+#include <variables.h>
+#include "spot00_scene.h"
+
+
+
+SCmdAltHeaders _spot00_room_0_set0000_cmd00 = { 0x18, 0, (u32)&_spot00_room_0_alternateHeaders_00000050}; // 0x0000
+SCmdEchoSettings _spot00_room_0_set0000_cmd01 = { 0x16, 0, { 0 }, 0x07 }; // 0x0008
+SCmdRoomBehavior _spot00_room_0_set0000_cmd02 = { 0x08, 0x00, 0x00000000 }; // 0x0010
+SCmdSkyboxDisables _spot00_room_0_set0000_cmd03 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x0018
+SCmdTimeSettings _spot00_room_0_set0000_cmd04 = { 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x0A }; // 0x0020
+SCmdWindSettings _spot00_room_0_set0000_cmd05 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x0028
+SCmdMesh _spot00_room_0_set0000_cmd06 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x0030
+SCmdObjectList _spot00_room_0_set0000_cmd07 = { 0x0B, 0x07, (u32)_spot00_room_0_objectList_00000080 }; // 0x0038
+SCmdActorList _spot00_room_0_set0000_cmd08 = { 0x01, 0x49, (u32)_spot00_room_0_actorList_00000090 }; // 0x0040
+SCmdEndMarker _spot00_room_0_set0000_cmd09 = { 0x14, 0x00, 0x00 }; // 0x0048
+u32 _spot00_room_0_alternateHeaders_00000050[] = 
+{
+	(u32)&_spot00_room_0_set0C50_cmd00,
+	(u32)&_spot00_room_0_set0770_cmd00,
+	0,
+	(u32)&_spot00_room_0_set1120_cmd00,
+	(u32)&_spot00_room_0_set11F0_cmd00,
+	(u32)&_spot00_room_0_set12C0_cmd00,
+	(u32)&_spot00_room_0_set1360_cmd00,
+	(u32)&_spot00_room_0_set1570_cmd00,
+	(u32)&_spot00_room_0_set18D0_cmd00,
+	(u32)&_spot00_room_0_set1920_cmd00,
+	(u32)&_spot00_room_0_set1C80_cmd00,
+	(u32)&_spot00_room_0_set1CF0_cmd00,
+};
+
+s16 _spot00_room_0_objectList_00000080[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_WOOD02,
+	OBJECT_KANBAN,
+	OBJECT_OWL,
+	OBJECT_PEEHAT,
+	OBJECT_BOMBIWA,
+	OBJECT_SKB,
+};
+
+ActorEntry _spot00_room_0_actorList_00000090[73] = 
+{
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x00000090 
+	{ ACTOR_EN_RIVER_SOUND, 5161, 29, 3688, 0, 0, 0, 0x0000 }, //0x000000A0 
+	{ ACTOR_EN_RIVER_SOUND, -7870, -300, 6920, 0, 0, 0, 0x0015 }, //0x000000B0 
+	{ ACTOR_EN_OWL, 4284, 182, 7877, 0, 0, 0, 0x004C }, //0x000000C0 
+	{ ACTOR_EN_OWL, 3276, 510, 971, 0, 0, 0, 0x00FF }, //0x000000D0 
+	{ ACTOR_EN_OWL, -6270, 30, 8579, 0, 0, 0, 0x013F }, //0x000000E0 
+	{ ACTOR_EN_OWL, -4670, -500, 13739, 0, 0, 0, 0x014B }, //0x000000F0 
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x00000100 
+	{ ACTOR_EN_PEEHAT, -4858, -300, -216, 0, 0, 0, 0xFFFF }, //0x00000110 
+	{ ACTOR_EN_PEEHAT, -993, -402, 9938, 0, 0, 0, 0xFFFF }, //0x00000120 
+	{ ACTOR_EN_PEEHAT, 483, -436, 11174, 0, 0, 0, 0xFFFF }, //0x00000130 
+	{ ACTOR_EN_PEEHAT, 1411, -447, 12262, 0, 0, 0, 0xFFFF }, //0x00000140 
+	{ ACTOR_EN_PEEHAT, 3145, -189, 7530, 0, 0, 0, 0xFFFF }, //0x00000150 
+	{ ACTOR_EN_PEEHAT, -5445, -195, 10195, 0, 0, 0, 0x0000 }, //0x00000160 
+	{ ACTOR_EN_PEEHAT, -1349, -500, 13418, 0, 0, 0, 0x0000 }, //0x00000170 
+	{ ACTOR_EN_ENCOUNT1, 116, 192, 6206, 0, 0, 0, 0x10A4 }, //0x00000180 
+	{ ACTOR_DOOR_ANA, -1425, 0, 810, 0, -8192, 0, 0x0000 }, //0x00000190 
+	{ ACTOR_DOOR_ANA, -4030, -700, 13860, 0, -32768, 0, 0x0003 }, //0x000001A0 
+	{ ACTOR_DOOR_ANA, -270, -500, 12350, 0, -27307, 0, 0x0022 }, //0x000001B0 
+	{ ACTOR_DOOR_ANA, -4945, -300, 2835, 0, 5461, 11, 0x02E1 }, //0x000001C0 
+	{ ACTOR_DOOR_ANA, -7870, -300, 6920, 0, 0, 5, 0x02E4 }, //0x000001D0 
+	{ ACTOR_DOOR_ANA, 2060, 20, -170, 0, -16384, 1, 0x02E5 }, //0x000001E0 
+	{ ACTOR_DOOR_ANA, -4990, -700, 13820, 0, -5461, 2, 0x02E6 }, //0x000001F0 
+	{ ACTOR_EN_A_OBJ, 3230, -20, 570, 0, 0, 0, 0x050A }, //0x00000200 
+	{ ACTOR_EN_A_OBJ, 5925, -20, 3805, 0, 1820, 0, 0x0C0A }, //0x00000210 
+	{ ACTOR_EN_A_OBJ, -1564, -159, 4318, 0, -17658, 0, 0x150A }, //0x00000220 
+	{ ACTOR_EN_A_OBJ, -4935, -700, 14045, 0, -29127, 0, 0x170A }, //0x00000230 
+	{ ACTOR_EN_A_OBJ, -8780, -300, 7680, 0, -27307, 0, 0x190A }, //0x00000240 
+	{ ACTOR_EN_A_OBJ, 3952, -143, 7232, 0, 21845, 0, 0x390A }, //0x00000250 
+	{ ACTOR_EN_A_OBJ, -130, 0, 2105, 0, -16384, 0, 0x3A0A }, //0x00000260 
+	{ ACTOR_EN_ISHI, 674, -145, 8256, 0, 0, 0, 0xFF01 }, //0x00000270 
+	{ ACTOR_EN_WOOD02, 1635, -428, 12043, 0, 0, 0, 0x0206 }, //0x00000280 
+	{ ACTOR_EN_WOOD02, -4976, -300, 2812, 0, 0, 0, 0x0B07 }, //0x00000290 
+	{ ACTOR_EN_WOOD02, -1448, 0, 620, 0, 0, 0, 0x0B07 }, //0x000002A0 
+	{ ACTOR_EN_WOOD02, 450, -446, 11705, 0, 0, 0, 0x0208 }, //0x000002B0 
+	{ ACTOR_EN_WOOD02, 1015, -500, 12657, 0, 0, 0, 0x0208 }, //0x000002C0 
+	{ ACTOR_EN_WOOD02, 3837, -110, 6980, 0, 23120, 0, 0x0208 }, //0x000002D0 
+	{ ACTOR_EN_WOOD02, -4713, -300, 262, 0, -3277, 0, 0x0D08 }, //0x000002E0 
+	{ ACTOR_EN_WOOD02, -30, -500, 12654, 0, 0, 0, 0x0D08 }, //0x000002F0 
+	{ ACTOR_EN_WOOD02, -1244, 0, 819, 0, 0, 0, 0x0205 }, //0x00000300 
+	{ ACTOR_EN_WOOD02, -1041, 0, 1022, 0, 0, 0, 0x0205 }, //0x00000310 
+	{ ACTOR_EN_WOOD02, -6293, -500, 7182, 0, 0, 0, 0x020D }, //0x00000320 
+	{ ACTOR_EN_WOOD02, -5223, -648, 12892, 0, 0, 0, 0x020D }, //0x00000330 
+	{ ACTOR_EN_WOOD02, -5211, -300, 1541, 0, 0, 0, 0x020D }, //0x00000340 
+	{ ACTOR_EN_WOOD02, -5114, -300, 16, 0, -32768, 0, 0x020D }, //0x00000350 
+	{ ACTOR_EN_WOOD02, -4122, -300, -144, 0, 0, 0, 0x020D }, //0x00000360 
+	{ ACTOR_EN_WOOD02, -4007, -700, 13620, 0, 0, 0, 0x020D }, //0x00000370 
+	{ ACTOR_EN_WOOD02, -1374, -500, 13381, 0, 0, 0, 0x020D }, //0x00000380 
+	{ ACTOR_EN_WOOD02, 130, -500, 12933, 0, 0, 0, 0x020D }, //0x00000390 
+	{ ACTOR_EN_WOOD02, 482, -435, 11173, 0, 0, 0, 0x020D }, //0x000003A0 
+	{ ACTOR_EN_WOOD02, 1410, -447, 12261, 0, 0, 0, 0x020D }, //0x000003B0 
+	{ ACTOR_EN_WOOD02, 2076, 20, -91, 0, 0, 0, 0x0D02 }, //0x000003C0 
+	{ ACTOR_EN_WONDER_ITEM, -99, 405, 662, 0, 0, 1, 0x12BF }, //0x000003D0 
+	{ ACTOR_EN_WONDER_ITEM, -1, 401, 665, 0, 0, 1, 0x12BF }, //0x000003E0 
+	{ ACTOR_EN_WONDER_ITEM, 93, 401, 659, 0, 0, 1, 0x12BF }, //0x000003F0 
+	{ ACTOR_OBJ_MURE2, -7875, -300, 6915, 0, 0, 0, 0x0202 }, //0x00000400 
+	{ ACTOR_OBJ_MURE2, -5557, -347, 9065, 0, 0, 0, 0x0201 }, //0x00000410 
+	{ ACTOR_OBJ_MURE2, -5210, -253, 9585, 0, 0, 0, 0x0201 }, //0x00000420 
+	{ ACTOR_OBJ_MURE2, -991, -402, 9939, 0, 0, 0, 0x0201 }, //0x00000430 
+	{ ACTOR_OBJ_MURE2, -447, -451, 11258, 0, 0, 0, 0x0201 }, //0x00000440 
+	{ ACTOR_OBJ_MURE2, 908, 219, 3571, 0, 0, 0, 0x0201 }, //0x00000450 
+	{ ACTOR_OBJ_MURE2, 3144, -189, 7529, 0, 0, 0, 0x0201 }, //0x00000460 
+	{ ACTOR_EN_WOOD02, 3117, 282, 4239, 0, 0, 0, 0x0200 }, //0x00000470 
+	{ ACTOR_EN_WOOD02, -6270, -500, 8579, 0, 0, 0, 0x0B00 }, //0x00000480 
+	{ ACTOR_EN_WOOD02, -4377, -700, 13662, 0, 0, 0, 0x0B00 }, //0x00000490 
+	{ ACTOR_EN_WOOD02, -1907, 66, 5409, 0, 0, 0, 0x0B00 }, //0x000004A0 
+	{ ACTOR_EN_WOOD02, -786, -500, 11293, 0, 0, 0, 0x0B00 }, //0x000004B0 
+	{ ACTOR_EN_WOOD02, 3276, -20, 971, 0, 0, 0, 0x0B00 }, //0x000004C0 
+	{ ACTOR_OBJ_BOMBIWA, -270, -500, 12350, 0, 0, 0, 0x8008 }, //0x000004D0 
+	{ ACTOR_OBJ_BOMBIWA, -1425, 0, 810, 0, 0, 0, 0x800E }, //0x000004E0 
+	{ ACTOR_OBJ_BOMBIWA, -4450, -300, -425, 0, -32768, 0, 0x8010 }, //0x000004F0 
+	{ ACTOR_DOOR_ANA, -4450, -300, -425, 0, 0, 0, 0x10FF }, //0x00000500 
+	{ ACTOR_SHOT_SUN, 5143, -55, 5012, 0, 0, 0, 0xFF41 }, //0x00000510 
+};
+
+
+MeshHeader2 _spot00_room_0_meshHeader_00000520 = { { 2 }, 0x24, (u32)&_spot00_room_0_meshDListEntry_0000052C, (u32)&(_spot00_room_0_meshDListEntry_0000052C) + sizeof(_spot00_room_0_meshDListEntry_0000052C) };
+
+MeshEntry2 _spot00_room_0_meshDListEntry_0000052C[36] = 
+{
+	{ 94, -66, 2551, 1881, 0, (u32)_spot00_room_0_dlist_00013250 },
+	{ -4616, -200, 8279, 4925, 0, (u32)_spot00_room_0_dlist_000139A8 },
+	{ 1561, -50, 6734, 4974, 0, (u32)_spot00_room_0_dlist_000143C8 },
+	{ -2741, -158, -633, 203, 0, (u32)_spot00_room_0_dlist_00015100 },
+	{ 133, -188, 2491, 6743, 0, (u32)_spot00_room_0_dlist_00014E28 },
+	{ -2945, 286, 6624, 1661, (u32)_spot00_room_0_dlist_00008448, (u32)_spot00_room_0_dlist_00012C38 },
+	{ 5502, 952, 102, 1777, 0, (u32)_spot00_room_0_dlist_00012E18 },
+	{ -5391, -135, 425, 1623, (u32)_spot00_room_0_dlist_00002790, 0 },
+	{ -2945, 40, -28, 1787, (u32)_spot00_room_0_dlist_00003338, 0 },
+	{ -18, 0, 950, 1758, (u32)_spot00_room_0_dlist_00003ED0, 0 },
+	{ 2646, 633, 27, 2398, (u32)_spot00_room_0_dlist_00005030, 0 },
+	{ -4417, -100, 2550, 1712, (u32)_spot00_room_0_dlist_00005850, 0 },
+	{ -1472, -50, 2550, 1718, (u32)_spot00_room_0_dlist_00005BC0, 0 },
+	{ 1472, 170, 2550, 1715, (u32)_spot00_room_0_dlist_00005E78, 0 },
+	{ 4344, 280, 2746, 1780, (u32)_spot00_room_0_dlist_000067C8, 0 },
+	{ -5889, -100, 5100, 1746, (u32)_spot00_room_0_dlist_00006ED0, 0 },
+	{ -2945, 6, 4831, 1852, (u32)_spot00_room_0_dlist_00007230, 0 },
+	{ 0, 130, 5100, 1727, (u32)_spot00_room_0_dlist_00008ED8, 0 },
+	{ 2944, 130, 5100, 1721, (u32)_spot00_room_0_dlist_000093A0, 0 },
+	{ 5524, 220, 4687, 1954, (u32)_spot00_room_0_dlist_00009D10, 0 },
+	{ -8469, 8, 7457, 2828, (u32)_spot00_room_0_dlist_0000AD00, 0 },
+	{ -4417, -173, 7650, 1730, (u32)_spot00_room_0_dlist_0000B520, 0 },
+	{ -1472, -100, 7650, 1711, (u32)_spot00_room_0_dlist_0000B8B0, 0 },
+	{ 2208, 59, 8065, 2555, (u32)_spot00_room_0_dlist_0000BD20, 0 },
+	{ 4493, 49, 7650, 1797, (u32)_spot00_room_0_dlist_0000CEB8, 0 },
+	{ -5987, -200, 9895, 2236, (u32)_spot00_room_0_dlist_0000D980, 0 },
+	{ -2945, -200, 10200, 1726, (u32)_spot00_room_0_dlist_0000DD70, 0 },
+	{ 0, -143, 10200, 1737, (u32)_spot00_room_0_dlist_0000DFA8, 0 },
+	{ -4406, -400, 12750, 1735, (u32)_spot00_room_0_dlist_0000E7B0, 0 },
+	{ -3901, -598, 14997, 2914, (u32)_spot00_room_0_dlist_0000F3F8, 0 },
+	{ -1472, -300, 12750, 1711, (u32)_spot00_room_0_dlist_0000FB50, 0 },
+	{ 1472, -200, 12325, 1970, (u32)_spot00_room_0_dlist_0000FE98, 0 },
+	{ 1930, 6, 819, 165, (u32)_spot00_room_0_dlist_000127B8, 0 },
+	{ 4517, 117, 8607, 2258, (u32)_spot00_room_0_dlist_0000E328, 0 },
+	{ -236, 240, 357, 1886, (u32)_spot00_room_0_dlist_000112B8, 0 },
+	{ 0, 421, -726, 1376, (u32)_spot00_room_0_dlist_000121D0, 0 },
+};
+
+static u32 terminatorMaybe = 0x01000000; // This always appears after the mesh entries. Its purpose is not clear.
+
+SCmdEchoSettings _spot00_room_0_set0770_cmd00 = { 0x16, 0, { 0 }, 0x07 }; // 0x0770
+SCmdRoomBehavior _spot00_room_0_set0770_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x0778
+SCmdSkyboxDisables _spot00_room_0_set0770_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x0780
+SCmdTimeSettings _spot00_room_0_set0770_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x0A }; // 0x0788
+SCmdWindSettings _spot00_room_0_set0770_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x0790
+SCmdMesh _spot00_room_0_set0770_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x0798
+SCmdObjectList _spot00_room_0_set0770_cmd06 = { 0x0B, 0x06, (u32)_spot00_room_0_objectList_000007B8 }; // 0x07A0
+SCmdActorList _spot00_room_0_set0770_cmd07 = { 0x01, 0x48, (u32)_spot00_room_0_actorList_000007C4 }; // 0x07A8
+SCmdEndMarker _spot00_room_0_set0770_cmd08 = { 0x14, 0x00, 0x00 }; // 0x07B0
+s16 _spot00_room_0_objectList_000007B8[] = 
+{
+	OBJECT_SPOT00_BREAK,
+	OBJECT_WOOD02,
+	OBJECT_KANBAN,
+	OBJECT_PO_FIELD,
+	OBJECT_HORSE,
+	OBJECT_BOMBIWA,
+};
+
+ActorEntry _spot00_room_0_actorList_000007C4[72] = 
+{
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x000007C4 
+	{ ACTOR_EN_RIVER_SOUND, 5161, 29, 3688, 0, 0, 0, 0x0000 }, //0x000007D4 
+	{ ACTOR_EN_RIVER_SOUND, -7870, -300, 6920, 0, 0, 0, 0x0015 }, //0x000007E4 
+	{ ACTOR_EN_WEATHER_TAG, 0, 0, 635, 0, 0, 0, 0x0A00 }, //0x000007F4 
+	{ ACTOR_BG_SPOT00_BREAK, 0, -10, 670, 0, 0, 0, 0x0000 }, //0x00000804 
+	{ ACTOR_BG_SPOT00_BREAK, -3713, -400, 11456, 0, 27307, 1274, 0x0001 }, //0x00000814 
+	{ ACTOR_BG_SPOT00_BREAK, -869, 4, 7990, 0, -5461, -1092, 0x0001 }, //0x00000824 
+	{ ACTOR_BG_SPOT00_BREAK, 746, -100, 8925, 0, -5461, 0, 0x0001 }, //0x00000834 
+	{ ACTOR_OBJ_HAMISHI, -7870, -310, 6920, 0, 0, 0, 0x0011 }, //0x00000844 
+	{ ACTOR_OBJ_HAMISHI, -7804, -264, 7983, 0, 0, 0, 0x0012 }, //0x00000854 
+	{ ACTOR_OBJ_HAMISHI, -8397, -322, 7947, 0, 0, 0, 0x0014 }, //0x00000864 
+	{ ACTOR_OBJ_HAMISHI, -6461, -297, 8220, 0, 0, 0, 0x0015 }, //0x00000874 
+	{ ACTOR_EN_PO_FIELD, -5215, -273, 1504, 0, 0, 0, 0x0016 }, //0x00000884 
+	{ ACTOR_EN_PO_FIELD, -1933, 104, 5455, 0, 0, 0, 0x0017 }, //0x00000894 
+	{ ACTOR_EN_PO_FIELD, -118, 27, 2167, 0, 0, 0, 0x0018 }, //0x000008A4 
+	{ ACTOR_EN_PO_FIELD, 3709, 164, 1721, 0, 0, 0, 0x0019 }, //0x000008B4 
+	{ ACTOR_EN_PO_FIELD, 1361, 421, 5869, 0, 0, 0, 0x001A }, //0x000008C4 
+	{ ACTOR_EN_PO_FIELD, 679, -118, 8268, 0, 0, 0, 0x001B }, //0x000008D4 
+	{ ACTOR_EN_PO_FIELD, -446, -417, 11256, 0, 0, 0, 0x001C }, //0x000008E4 
+	{ ACTOR_EN_PO_FIELD, -29, -473, 12613, 0, 0, 0, 0x001D }, //0x000008F4 
+	{ ACTOR_EN_PO_FIELD, -6267, -473, 7135, 0, 0, 0, 0x001E }, //0x00000904 
+	{ ACTOR_EN_PO_FIELD, -6146, -473, 9007, 0, 0, 0, 0x001F }, //0x00000914 
+	{ ACTOR_EN_WEATHER_TAG, -1923, 263, 6047, 0, 0, 0, 0x1401 }, //0x00000924 
+	{ ACTOR_DOOR_ANA, -1425, 0, 810, 0, -8192, 0, 0x0000 }, //0x00000934 
+	{ ACTOR_DOOR_ANA, -4030, -700, 13860, 0, -32768, 0, 0x0003 }, //0x00000944 
+	{ ACTOR_DOOR_ANA, -270, -500, 12350, 0, -27307, 0, 0x0022 }, //0x00000954 
+	{ ACTOR_DOOR_ANA, -4945, -300, 2835, 0, 5461, 11, 0x02E1 }, //0x00000964 
+	{ ACTOR_DOOR_ANA, -7870, -300, 6920, 0, 0, 5, 0x02E4 }, //0x00000974 
+	{ ACTOR_DOOR_ANA, 2060, 20, -170, 0, -16384, 1, 0x02E5 }, //0x00000984 
+	{ ACTOR_DOOR_ANA, -4990, -700, 13820, 0, -5461, 2, 0x02E6 }, //0x00000994 
+	{ ACTOR_EN_A_OBJ, 3230, -20, 570, 0, 0, 0, 0x050A }, //0x000009A4 
+	{ ACTOR_EN_A_OBJ, 5925, -20, 3805, 0, 1820, 0, 0x0C0A }, //0x000009B4 
+	{ ACTOR_EN_A_OBJ, -1564, -159, 4318, 0, -17658, 0, 0x160A }, //0x000009C4 
+	{ ACTOR_EN_A_OBJ, -4935, -700, 14045, 0, -29127, 0, 0x170A }, //0x000009D4 
+	{ ACTOR_EN_A_OBJ, -8780, -300, 7680, 0, -27307, 0, 0x190A }, //0x000009E4 
+	{ ACTOR_EN_A_OBJ, 3952, -143, 7232, 0, 21845, 0, 0x390A }, //0x000009F4 
+	{ ACTOR_EN_A_OBJ, -130, 0, 2105, 0, -16384, 0, 0x3A0A }, //0x00000A04 
+	{ ACTOR_EN_ISHI, 674, -145, 8256, 0, 0, 0, 0xFF01 }, //0x00000A14 
+	{ ACTOR_EN_WOOD02, 450, -446, 11705, 0, 0, 0, 0x0706 }, //0x00000A24 
+	{ ACTOR_EN_WOOD02, 1015, -500, 12657, 0, 0, 0, 0x0706 }, //0x00000A34 
+	{ ACTOR_EN_WOOD02, 3837, -110, 6980, 0, 23120, 0, 0x0706 }, //0x00000A44 
+	{ ACTOR_EN_WOOD02, -30, -500, 12654, 0, 0, 0, 0x0D06 }, //0x00000A54 
+	{ ACTOR_EN_WOOD02, -4713, -300, 262, 0, -3277, 0, 0x0D06 }, //0x00000A64 
+	{ ACTOR_EN_WOOD02, -4976, -300, 2812, 0, 0, 0, 0x0707 }, //0x00000A74 
+	{ ACTOR_EN_WOOD02, -1244, 0, 819, 0, 0, 0, 0x0707 }, //0x00000A84 
+	{ ACTOR_EN_WOOD02, -1041, 0, 1022, 0, 0, 0, 0x0707 }, //0x00000A94 
+	{ ACTOR_EN_WOOD02, 2076, 20, -91, 0, 0, 0, 0x0902 }, //0x00000AA4 
+	{ ACTOR_OBJ_MURE2, -7875, -300, 6915, 0, 0, 0, 0x0702 }, //0x00000AB4 
+	{ ACTOR_OBJ_MURE2, -5557, -347, 9065, 0, 0, 0, 0x0701 }, //0x00000AC4 
+	{ ACTOR_OBJ_MURE2, -5210, -253, 9585, 0, 0, 0, 0x0701 }, //0x00000AD4 
+	{ ACTOR_OBJ_MURE2, -991, -402, 9939, 0, 0, 0, 0x0701 }, //0x00000AE4 
+	{ ACTOR_OBJ_MURE2, -447, -451, 11258, 0, 0, 0, 0x0701 }, //0x00000AF4 
+	{ ACTOR_OBJ_MURE2, 908, 219, 3571, 0, 0, 0, 0x0701 }, //0x00000B04 
+	{ ACTOR_OBJ_MURE2, 3144, -138, 7529, 0, 0, 0, 0x0701 }, //0x00000B14 
+	{ ACTOR_EN_WOOD02, -6293, -500, 7182, 0, 0, 0, 0x0713 }, //0x00000B24 
+	{ ACTOR_EN_WOOD02, -5223, -648, 12892, 0, 0, 0, 0x0713 }, //0x00000B34 
+	{ ACTOR_EN_WOOD02, -5211, -300, 1541, 0, 0, 0, 0x0713 }, //0x00000B44 
+	{ ACTOR_EN_WOOD02, 130, -500, 12933, 0, 0, 0, 0x0713 }, //0x00000B54 
+	{ ACTOR_EN_WOOD02, 482, -435, 11173, 0, 0, 0, 0x0713 }, //0x00000B64 
+	{ ACTOR_EN_WOOD02, -4007, -700, 13620, 0, 0, 0, 0x0B13 }, //0x00000B74 
+	{ ACTOR_EN_WOOD02, -1448, 0, 620, 0, 0, 0, 0x0B0A }, //0x00000B84 
+	{ ACTOR_EN_WOOD02, -1907, 66, 5409, 0, 0, 0, 0x0B00 }, //0x00000B94 
+	{ ACTOR_EN_WOOD02, -786, -500, 11293, 0, 0, 0, 0x0B00 }, //0x00000BA4 
+	{ ACTOR_EN_WOOD02, 3117, 282, 4239, 0, 0, 0, 0x0700 }, //0x00000BB4 
+	{ ACTOR_EN_WOOD02, 3276, -20, 971, 0, 0, 0, 0x0B00 }, //0x00000BC4 
+	{ ACTOR_EN_WOOD02, -4377, -700, 13662, 0, 0, 0, 0x0B00 }, //0x00000BD4 
+	{ ACTOR_EN_WOOD02, -6241, -500, 7097, 0, 0, 0, 0x0B00 }, //0x00000BE4 
+	{ ACTOR_OBJ_BOMBIWA, -270, -500, 12350, 0, 0, 0, 0x8008 }, //0x00000BF4 
+	{ ACTOR_OBJ_BOMBIWA, -1425, 0, 810, 0, 0, 0, 0x800E }, //0x00000C04 
+	{ ACTOR_OBJ_BOMBIWA, -4450, -300, -425, 0, -32768, 0, 0x8010 }, //0x00000C14 
+	{ ACTOR_DOOR_ANA, -4450, -300, -425, 0, 0, 0, 0x10FF }, //0x00000C24 
+	{ ACTOR_SHOT_SUN, 5143, -55, 5012, 0, 0, 0, 0xFF41 }, //0x00000C34 
+};
+
+static u32 padC44 = 0;
+static u32 padC48 = 0;
+static u32 padC4C = 0;
+
+SCmdEchoSettings _spot00_room_0_set0C50_cmd00 = { 0x16, 0, { 0 }, 0x07 }; // 0x0C50
+SCmdRoomBehavior _spot00_room_0_set0C50_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x0C58
+SCmdSkyboxDisables _spot00_room_0_set0C50_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x0C60
+SCmdTimeSettings _spot00_room_0_set0C50_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x0A }; // 0x0C68
+SCmdWindSettings _spot00_room_0_set0C50_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x0C70
+SCmdMesh _spot00_room_0_set0C50_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x0C78
+SCmdObjectList _spot00_room_0_set0C50_cmd06 = { 0x0B, 0x09, (u32)_spot00_room_0_objectList_00000C98 }; // 0x0C80
+SCmdActorList _spot00_room_0_set0C50_cmd07 = { 0x01, 0x47, (u32)_spot00_room_0_actorList_00000CAC }; // 0x0C88
+SCmdEndMarker _spot00_room_0_set0C50_cmd08 = { 0x14, 0x00, 0x00 }; // 0x0C90
+s16 _spot00_room_0_objectList_00000C98[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_WOOD02,
+	OBJECT_KANBAN,
+	OBJECT_PEEHAT,
+	OBJECT_BOMBIWA,
+	OBJECT_SKB,
+	OBJECT_OS_ANIME,
+	OBJECT_MM,
+	OBJECT_GI_OCARINA,
+};
+
+ActorEntry _spot00_room_0_actorList_00000CAC[71] = 
+{
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x00000CAC 
+	{ ACTOR_EN_RIVER_SOUND, 5161, 29, 3688, 0, 0, 0, 0x0000 }, //0x00000CBC 
+	{ ACTOR_EN_RIVER_SOUND, -7870, -300, 6920, 0, 0, 0, 0x0015 }, //0x00000CCC 
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x00000CDC 
+	{ ACTOR_EN_PEEHAT, -4858, -300, -216, 0, 0, 0, 0xFFFF }, //0x00000CEC 
+	{ ACTOR_EN_PEEHAT, -993, -402, 9938, 0, 0, 0, 0xFFFF }, //0x00000CFC 
+	{ ACTOR_EN_PEEHAT, 483, -436, 11174, 0, 0, 0, 0xFFFF }, //0x00000D0C 
+	{ ACTOR_EN_PEEHAT, 1411, -447, 12262, 0, 0, 0, 0xFFFF }, //0x00000D1C 
+	{ ACTOR_EN_PEEHAT, 3145, -189, 7530, 0, 0, 0, 0xFFFF }, //0x00000D2C 
+	{ ACTOR_EN_PEEHAT, -5445, -195, 10195, 0, 0, 0, 0x0000 }, //0x00000D3C 
+	{ ACTOR_EN_PEEHAT, -1349, -500, 13418, 0, 0, 0, 0x0000 }, //0x00000D4C 
+	{ ACTOR_EN_ENCOUNT1, 116, 192, 6206, 0, 0, 0, 0x10A4 }, //0x00000D5C 
+	{ ACTOR_EN_MM, -5050, -300, 2800, 0, 4551, 0, 0x0001 }, //0x00000D6C 
+	{ ACTOR_DOOR_ANA, -4030, -700, 13860, 0, -32768, 0, 0x0003 }, //0x00000D7C 
+	{ ACTOR_DOOR_ANA, -1425, 0, 810, 0, -8192, 0, 0x0000 }, //0x00000D8C 
+	{ ACTOR_DOOR_ANA, -270, -500, 12350, 0, -27307, 0, 0x0022 }, //0x00000D9C 
+	{ ACTOR_DOOR_ANA, -7870, -300, 6920, 0, 0, 5, 0x02E4 }, //0x00000DAC 
+	{ ACTOR_DOOR_ANA, -4990, -700, 13820, 0, -5461, 2, 0x02E6 }, //0x00000DBC 
+	{ ACTOR_DOOR_ANA, -4945, -300, 2835, 0, 5461, 11, 0x02E1 }, //0x00000DCC 
+	{ ACTOR_DOOR_ANA, 2060, 20, -170, 0, -16384, 1, 0x02E5 }, //0x00000DDC 
+	{ ACTOR_EN_A_OBJ, -8780, -300, 7680, 0, -27307, 0, 0x190A }, //0x00000DEC 
+	{ ACTOR_EN_A_OBJ, -4935, -700, 14045, 0, -29127, 0, 0x170A }, //0x00000DFC 
+	{ ACTOR_EN_A_OBJ, -1564, -159, 4318, 0, -17658, 0, 0x150A }, //0x00000E0C 
+	{ ACTOR_EN_A_OBJ, -130, 0, 2105, 0, -16384, 0, 0x3A0A }, //0x00000E1C 
+	{ ACTOR_EN_A_OBJ, 3230, -20, 570, 0, 0, 0, 0x050A }, //0x00000E2C 
+	{ ACTOR_EN_A_OBJ, 3952, -143, 7232, 0, 21845, 0, 0x390A }, //0x00000E3C 
+	{ ACTOR_EN_A_OBJ, 5925, -20, 3805, 0, 1820, 0, 0x0C0A }, //0x00000E4C 
+	{ ACTOR_EN_ISHI, 674, -145, 8256, 0, 0, 0, 0xFF01 }, //0x00000E5C 
+	{ ACTOR_EN_WOOD02, 1635, -428, 12043, 0, 0, 0, 0x0206 }, //0x00000E6C 
+	{ ACTOR_EN_WOOD02, -4976, -300, 2812, 0, 0, 0, 0x0B07 }, //0x00000E7C 
+	{ ACTOR_EN_WOOD02, -1448, 0, 620, 0, 0, 0, 0x0B07 }, //0x00000E8C 
+	{ ACTOR_EN_WOOD02, -4713, -300, 262, 0, -3277, 0, 0x0D08 }, //0x00000E9C 
+	{ ACTOR_EN_WOOD02, -30, -500, 12654, 0, 0, 0, 0x0D08 }, //0x00000EAC 
+	{ ACTOR_EN_WOOD02, 450, -446, 11705, 0, 0, 0, 0x0208 }, //0x00000EBC 
+	{ ACTOR_EN_WOOD02, 1015, -500, 12657, 0, 0, 0, 0x0208 }, //0x00000ECC 
+	{ ACTOR_EN_WOOD02, 3837, -110, 6980, 0, 23120, 0, 0x0208 }, //0x00000EDC 
+	{ ACTOR_EN_WOOD02, -1244, 0, 819, 0, 0, 0, 0x0205 }, //0x00000EEC 
+	{ ACTOR_EN_WOOD02, -1041, 0, 1022, 0, 0, 0, 0x0205 }, //0x00000EFC 
+	{ ACTOR_EN_WOOD02, -6293, -500, 7182, 0, 0, 0, 0x020D }, //0x00000F0C 
+	{ ACTOR_EN_WOOD02, -5223, -648, 12892, 0, 0, 0, 0x020D }, //0x00000F1C 
+	{ ACTOR_EN_WOOD02, -5211, -300, 1541, 0, 0, 0, 0x020D }, //0x00000F2C 
+	{ ACTOR_EN_WOOD02, -5114, -300, 16, 0, -32768, 0, 0x020D }, //0x00000F3C 
+	{ ACTOR_EN_WOOD02, -4122, -300, -144, 0, 0, 0, 0x020D }, //0x00000F4C 
+	{ ACTOR_EN_WOOD02, -4007, -700, 13620, 0, 0, 0, 0x020D }, //0x00000F5C 
+	{ ACTOR_EN_WOOD02, -1374, -500, 13381, 0, 0, 0, 0x020D }, //0x00000F6C 
+	{ ACTOR_EN_WOOD02, 130, -500, 12933, 0, 0, 0, 0x020D }, //0x00000F7C 
+	{ ACTOR_EN_WOOD02, 482, -435, 11173, 0, 0, 0, 0x020D }, //0x00000F8C 
+	{ ACTOR_EN_WOOD02, 1410, -447, 12261, 0, 0, 0, 0x020D }, //0x00000F9C 
+	{ ACTOR_ITEM_OCARINA, 299, -136, 884, 0, 0, 0, 0x0003 }, //0x00000FAC 
+	{ ACTOR_EN_WOOD02, 2076, 20, -91, 0, 0, 0, 0x0D02 }, //0x00000FBC 
+	{ ACTOR_EN_WONDER_ITEM, -99, 405, 662, 0, 0, 1, 0x12BF }, //0x00000FCC 
+	{ ACTOR_EN_WONDER_ITEM, -1, 401, 665, 0, 0, 1, 0x12BF }, //0x00000FDC 
+	{ ACTOR_EN_WONDER_ITEM, 93, 401, 659, 0, 0, 1, 0x12BF }, //0x00000FEC 
+	{ ACTOR_OBJ_MURE2, -7875, -300, 6915, 0, 0, 0, 0x0202 }, //0x00000FFC 
+	{ ACTOR_OBJ_MURE2, -5557, -347, 9065, 0, 0, 0, 0x0201 }, //0x0000100C 
+	{ ACTOR_OBJ_MURE2, -5210, -253, 9585, 0, 0, 0, 0x0201 }, //0x0000101C 
+	{ ACTOR_OBJ_MURE2, -991, -402, 9939, 0, 0, 0, 0x0201 }, //0x0000102C 
+	{ ACTOR_OBJ_MURE2, -447, -451, 11258, 0, 0, 0, 0x0201 }, //0x0000103C 
+	{ ACTOR_OBJ_MURE2, 908, 219, 3571, 0, 0, 0, 0x0201 }, //0x0000104C 
+	{ ACTOR_OBJ_MURE2, 3144, -189, 7529, 0, 0, 0, 0x0201 }, //0x0000105C 
+	{ ACTOR_EN_WOOD02, -6270, -500, 8579, 0, 0, 0, 0x0B00 }, //0x0000106C 
+	{ ACTOR_EN_WOOD02, -4377, -700, 13662, 0, 0, 0, 0x0B00 }, //0x0000107C 
+	{ ACTOR_EN_WOOD02, -1907, 66, 5409, 0, 0, 0, 0x0B00 }, //0x0000108C 
+	{ ACTOR_EN_WOOD02, -786, -500, 11293, 0, 0, 0, 0x0B00 }, //0x0000109C 
+	{ ACTOR_EN_WOOD02, 3117, 282, 4239, 0, 0, 0, 0x0200 }, //0x000010AC 
+	{ ACTOR_EN_WOOD02, 3276, -20, 971, 0, 0, 0, 0x0B00 }, //0x000010BC 
+	{ ACTOR_OBJ_BOMBIWA, -4450, -300, -425, 0, -32768, 0, 0x8010 }, //0x000010CC 
+	{ ACTOR_OBJ_BOMBIWA, -1425, 0, 810, 0, 0, 0, 0x800E }, //0x000010DC 
+	{ ACTOR_OBJ_BOMBIWA, -270, -500, 12350, 0, 0, 0, 0x8008 }, //0x000010EC 
+	{ ACTOR_DOOR_ANA, -4450, -300, -425, 0, 0, 0, 0x10FF }, //0x000010FC 
+	{ ACTOR_SHOT_SUN, 5143, -55, 5012, 0, 0, 0, 0xFF41 }, //0x0000110C 
+};
+
+static u32 pad111C = 0;
+
+SCmdEchoSettings _spot00_room_0_set1120_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x1120
+SCmdRoomBehavior _spot00_room_0_set1120_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x1128
+SCmdSkyboxDisables _spot00_room_0_set1120_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x01 }; // 0x1130
+SCmdTimeSettings _spot00_room_0_set1120_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0x15, 0x00, 0x00 }; // 0x1138
+SCmdWindSettings _spot00_room_0_set1120_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x01}; // 0x1140
+SCmdMesh _spot00_room_0_set1120_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x1148
+SCmdObjectList _spot00_room_0_set1120_cmd06 = { 0x0B, 0x07, (u32)_spot00_room_0_objectList_00001168 }; // 0x1150
+SCmdActorList _spot00_room_0_set1120_cmd07 = { 0x01, 0x07, (u32)_spot00_room_0_actorList_00001178 }; // 0x1158
+SCmdEndMarker _spot00_room_0_set1120_cmd08 = { 0x14, 0x00, 0x00 }; // 0x1160
+s16 _spot00_room_0_objectList_00001168[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_ZL4,
+	OBJECT_HORSE_GANON,
+	OBJECT_HORSE_ZELDA,
+	OBJECT_GNDD,
+	OBJECT_OPENING_DEMO1,
+	OBJECT_IM,
+};
+
+ActorEntry _spot00_room_0_actorList_00001178[7] = 
+{
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x00001178 
+	{ ACTOR_EN_VIEWER, 2313, -11, 2013, 0, 0, 0, 0x0000 }, //0x00001188 
+	{ ACTOR_EN_VIEWER, 2398, -12, 2017, 0, 0, 0, 0x0101 }, //0x00001198 
+	{ ACTOR_EN_VIEWER, 2313, -7, 2098, 0, 0, 0, 0x0202 }, //0x000011A8 
+	{ ACTOR_EN_VIEWER, 2395, -2, 2098, 0, 0, 0, 0x0303 }, //0x000011B8 
+	{ ACTOR_EN_VIEWER, 2361, -9, 2062, 0, 0, 0, 0x0404 }, //0x000011C8 
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x000011D8 
+};
+
+static u32 pad11E8 = 0;
+static u32 pad11EC = 0;
+
+SCmdEchoSettings _spot00_room_0_set11F0_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x11F0
+SCmdRoomBehavior _spot00_room_0_set11F0_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x11F8
+SCmdSkyboxDisables _spot00_room_0_set11F0_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x01 }; // 0x1200
+SCmdTimeSettings _spot00_room_0_set11F0_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x32 }; // 0x1208
+SCmdWindSettings _spot00_room_0_set11F0_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x1210
+SCmdMesh _spot00_room_0_set11F0_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x1218
+SCmdObjectList _spot00_room_0_set11F0_cmd06 = { 0x0B, 0x09, (u32)_spot00_room_0_objectList_00001238 }; // 0x1220
+SCmdActorList _spot00_room_0_set11F0_cmd07 = { 0x01, 0x07, (u32)_spot00_room_0_actorList_0000124C }; // 0x1228
+SCmdEndMarker _spot00_room_0_set11F0_cmd08 = { 0x14, 0x00, 0x00 }; // 0x1230
+s16 _spot00_room_0_objectList_00001238[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_ZL4,
+	OBJECT_HORSE_GANON,
+	OBJECT_HORSE_ZELDA,
+	OBJECT_GNDD,
+	OBJECT_OPENING_DEMO1,
+	OBJECT_IM,
+	OBJECT_GI_OCARINA,
+	OBJECT_GND_MAGIC,
+};
+
+ActorEntry _spot00_room_0_actorList_0000124C[7] = 
+{
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x0000124C 
+	{ ACTOR_EN_VIEWER, 2313, -11, 2013, 0, 0, 0, 0x0000 }, //0x0000125C 
+	{ ACTOR_EN_VIEWER, 2398, -12, 2017, 0, 0, 0, 0x0101 }, //0x0000126C 
+	{ ACTOR_EN_VIEWER, 2313, -7, 2098, 0, 0, 0, 0x0202 }, //0x0000127C 
+	{ ACTOR_EN_VIEWER, 2395, -2, 2098, 0, 0, 0, 0x0303 }, //0x0000128C 
+	{ ACTOR_EN_VIEWER, 2361, -9, 2062, 0, 0, 0, 0x0404 }, //0x0000129C 
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x000012AC 
+};
+
+static u32 pad12BC = 0;
+
+SCmdEchoSettings _spot00_room_0_set12C0_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x12C0
+SCmdRoomBehavior _spot00_room_0_set12C0_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x12C8
+SCmdSkyboxDisables _spot00_room_0_set12C0_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x01 }; // 0x12D0
+SCmdTimeSettings _spot00_room_0_set12C0_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x00 }; // 0x12D8
+SCmdWindSettings _spot00_room_0_set12C0_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x12E0
+SCmdMesh _spot00_room_0_set12C0_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x12E8
+SCmdObjectList _spot00_room_0_set12C0_cmd06 = { 0x0B, 0x06, (u32)_spot00_room_0_objectList_00001308 }; // 0x12F0
+SCmdActorList _spot00_room_0_set12C0_cmd07 = { 0x01, 0x04, (u32)_spot00_room_0_actorList_00001314 }; // 0x12F8
+SCmdEndMarker _spot00_room_0_set12C0_cmd08 = { 0x14, 0x00, 0x00 }; // 0x1300
+s16 _spot00_room_0_objectList_00001308[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_ZL4,
+	OBJECT_HORSE_ZELDA,
+	OBJECT_OPENING_DEMO1,
+	OBJECT_IM,
+	OBJECT_GI_OCARINA,
+};
+
+ActorEntry _spot00_room_0_actorList_00001314[4] = 
+{
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x00001314 
+	{ ACTOR_EN_VIEWER, 2313, -11, 2013, 0, 0, 0, 0x0000 }, //0x00001324 
+	{ ACTOR_EN_VIEWER, 2398, -12, 2017, 0, 0, 0, 0x0101 }, //0x00001334 
+	{ ACTOR_EN_VIEWER, 2313, -7, 2098, 0, 0, 0, 0x0202 }, //0x00001344 
+};
+
+static u32 pad1354 = 0;
+static u32 pad1358 = 0;
+static u32 pad135C = 0;
+
+SCmdEchoSettings _spot00_room_0_set1360_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x1360
+SCmdRoomBehavior _spot00_room_0_set1360_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x1368
+SCmdSkyboxDisables _spot00_room_0_set1360_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x1370
+SCmdTimeSettings _spot00_room_0_set1360_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0x04, 0x00, 0x05 }; // 0x1378
+SCmdWindSettings _spot00_room_0_set1360_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x1380
+SCmdMesh _spot00_room_0_set1360_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x1388
+SCmdObjectList _spot00_room_0_set1360_cmd06 = { 0x0B, 0x04, (u32)_spot00_room_0_objectList_000013A8 }; // 0x1390
+SCmdActorList _spot00_room_0_set1360_cmd07 = { 0x01, 0x1C, (u32)_spot00_room_0_actorList_000013B0 }; // 0x1398
+SCmdEndMarker _spot00_room_0_set1360_cmd08 = { 0x14, 0x00, 0x00 }; // 0x13A0
+s16 _spot00_room_0_objectList_000013A8[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_WOOD02,
+	OBJECT_HORSE,
+	OBJECT_MAG,
+};
+
+ActorEntry _spot00_room_0_actorList_000013B0[28] = 
+{
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x000013B0 
+	{ ACTOR_EN_WOOD02, -4725, -300, 2592, 0, 0, 0, 0xFF05 }, //0x000013C0 
+	{ ACTOR_EN_WOOD02, -3431, -300, 1173, 0, 0, 0, 0xFF0D }, //0x000013D0 
+	{ ACTOR_EN_WOOD02, -6855, -500, 9364, 0, 0, 0, 0xFF0D }, //0x000013E0 
+	{ ACTOR_EN_WOOD02, -5383, -646, 12852, 0, 0, 0, 0xFF0D }, //0x000013F0 
+	{ ACTOR_EN_WOOD02, -4007, -700, 13620, 0, 0, 0, 0xFF0D }, //0x00001400 
+	{ ACTOR_EN_WOOD02, 482, -435, 11173, 0, 0, 0, 0xFF0D }, //0x00001410 
+	{ ACTOR_OBJ_MURE2, 685, 163, 6522, 0, 0, 0, 0xFF02 }, //0x00001420 
+	{ ACTOR_OBJ_MURE2, 3144, -138, 7529, 0, 0, 0, 0xFF01 }, //0x00001430 
+	{ ACTOR_OBJ_MURE2, 908, 219, 3571, 0, 0, 0, 0xFF01 }, //0x00001440 
+	{ ACTOR_OBJ_MURE2, -447, -451, 11258, 0, 0, 0, 0xFF01 }, //0x00001450 
+	{ ACTOR_OBJ_MURE2, -991, -402, 9939, 0, 0, 0, 0xFF01 }, //0x00001460 
+	{ ACTOR_OBJ_MURE2, -5210, -253, 9585, 0, 0, 0, 0xFF01 }, //0x00001470 
+	{ ACTOR_OBJ_MURE2, -5557, -347, 9065, 0, 0, 0, 0xFF01 }, //0x00001480 
+	{ ACTOR_OBJ_MURE2, 4338, 3, 6586, 1274, 0, 364, 0xFF00 }, //0x00001490 
+	{ ACTOR_OBJ_MURE2, -4301, -264, 2628, 0, 0, 0, 0xFF00 }, //0x000014A0 
+	{ ACTOR_EN_WOOD02, 2771, 356, 4624, 0, 0, 0, 0xFF00 }, //0x000014B0 
+	{ ACTOR_EN_WOOD02, -786, -500, 11293, 0, 0, 0, 0xFF00 }, //0x000014C0 
+	{ ACTOR_EN_WOOD02, -1907, 66, 5409, 0, 0, 0, 0xFF00 }, //0x000014D0 
+	{ ACTOR_EN_WOOD02, -4377, -700, 13662, 0, 0, 0, 0xFF00 }, //0x000014E0 
+	{ ACTOR_EN_WOOD02, -6332, -500, 9129, 0, 0, 0, 0xFF00 }, //0x000014F0 
+	{ ACTOR_EN_WOOD02, 3178, -144, 7005, 0, 0, 0, 0xFF03 }, //0x00001500 
+	{ ACTOR_EN_WOOD02, 4136, 45, 6136, 0, 0, 0, 0xFF01 }, //0x00001510 
+	{ ACTOR_EN_WOOD02, 1790, 20, -137, 0, 0, 0, 0xFF01 }, //0x00001520 
+	{ ACTOR_EN_MAG, -48, 1, 2317, 0, 0, 0, 0x0000 }, //0x00001530 
+	{ ACTOR_EN_WOOD02, 5322, -23, 3275, 0, 0, 0, 0xFF00 }, //0x00001540 
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x00001550 
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x00001560 
+};
+
+
+SCmdEchoSettings _spot00_room_0_set1570_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x1570
+SCmdRoomBehavior _spot00_room_0_set1570_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x1578
+SCmdSkyboxDisables _spot00_room_0_set1570_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x1580
+SCmdTimeSettings _spot00_room_0_set1570_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0x12, 0x20, 0x00 }; // 0x1588
+SCmdMesh _spot00_room_0_set1570_cmd04 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x1590
+SCmdObjectList _spot00_room_0_set1570_cmd05 = { 0x0B, 0x03, (u32)_spot00_room_0_objectList_000015B0 }; // 0x1598
+SCmdActorList _spot00_room_0_set1570_cmd06 = { 0x01, 0x31, (u32)_spot00_room_0_actorList_000015B8 }; // 0x15A0
+SCmdEndMarker _spot00_room_0_set1570_cmd07 = { 0x14, 0x00, 0x00 }; // 0x15A8
+s16 _spot00_room_0_objectList_000015B0[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_WOOD02,
+	OBJECT_HORSE,
+};
+
+ActorEntry _spot00_room_0_actorList_000015B8[49] = 
+{
+	{ ACTOR_BG_UMAJUMP, -6010, -499, 8499, 0, 0, 0, 0xFFFF }, //0x000015B8 
+	{ ACTOR_BG_UMAJUMP, -5374, -429, 11033, 0, 4915, 1274, 0xFFFF }, //0x000015C8 
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x000015D8 
+	{ ACTOR_EN_ISHI, 674, -145, 8256, 0, 0, 0, 0xFF01 }, //0x000015E8 
+	{ ACTOR_EN_WOOD02, -4735, -300, 45, 0, 0, 0, 0xFF07 }, //0x000015F8 
+	{ ACTOR_EN_WOOD02, -4775, -300, -425, 0, 0, 0, 0xFF07 }, //0x00001608 
+	{ ACTOR_EN_WOOD02, -5171, -300, 188, 0, 0, 0, 0xFF07 }, //0x00001618 
+	{ ACTOR_EN_WOOD02, -4725, -300, 2592, 0, 0, 0, 0xFF07 }, //0x00001628 
+	{ ACTOR_OBJ_MURE2, 685, 163, 6522, 0, 0, 0, 0xFF02 }, //0x00001638 
+	{ ACTOR_OBJ_MURE2, 3144, -138, 7529, 0, 0, 0, 0xFF01 }, //0x00001648 
+	{ ACTOR_OBJ_MURE2, -4299, -251, 2628, 0, 0, 0, 0xFF01 }, //0x00001658 
+	{ ACTOR_OBJ_MURE2, -5557, -347, 9065, 0, 0, 0, 0xFF01 }, //0x00001668 
+	{ ACTOR_OBJ_MURE2, -5210, -253, 9585, 0, 0, 0, 0xFF01 }, //0x00001678 
+	{ ACTOR_OBJ_MURE2, 908, 219, 3571, 0, 0, 0, 0xFF01 }, //0x00001688 
+	{ ACTOR_OBJ_MURE2, -990, -356, 9939, 0, 0, 0, 0xFF01 }, //0x00001698 
+	{ ACTOR_OBJ_MURE2, -447, -451, 11258, 0, 0, 0, 0xFF01 }, //0x000016A8 
+	{ ACTOR_OBJ_MURE2, 4338, 3, 6586, 1274, 0, 364, 0xFF00 }, //0x000016B8 
+	{ ACTOR_OBJ_MURE2, -1360, -463, 11530, 0, 0, 0, 0xFF00 }, //0x000016C8 
+	{ ACTOR_OBJ_MURE2, -4301, -264, 2628, 0, 0, 0, 0xFF00 }, //0x000016D8 
+	{ ACTOR_EN_WOOD02, 2055, 20, 149, 0, 0, 0, 0xFF13 }, //0x000016E8 
+	{ ACTOR_EN_WOOD02, -4359, -300, -331, 0, 0, 0, 0xFF13 }, //0x000016F8 
+	{ ACTOR_EN_WOOD02, -5351, -300, -11, 0, 0, 0, 0xFF13 }, //0x00001708 
+	{ ACTOR_EN_WOOD02, -3431, -300, 1173, 0, 0, 0, 0xFF13 }, //0x00001718 
+	{ ACTOR_EN_WOOD02, -6855, -500, 9364, 0, 0, 0, 0xFF13 }, //0x00001728 
+	{ ACTOR_EN_WOOD02, -5383, -646, 12852, 0, 0, 0, 0xFF13 }, //0x00001738 
+	{ ACTOR_EN_WOOD02, -4007, -700, 13620, 0, 0, 0, 0xFF13 }, //0x00001748 
+	{ ACTOR_EN_WOOD02, 482, -435, 11173, 0, 0, 0, 0xFF13 }, //0x00001758 
+	{ ACTOR_EN_WOOD02, 1410, -447, 12261, 0, 0, 0, 0xFF13 }, //0x00001768 
+	{ ACTOR_EN_WOOD02, 130, -500, 12933, 0, 0, 0, 0xFF13 }, //0x00001778 
+	{ ACTOR_EN_WOOD02, -1374, -500, 13381, 0, 0, 0, 0xFF13 }, //0x00001788 
+	{ ACTOR_EN_WOOD02, 5319, -23, 3280, 0, 0, 0, 0xFF0A }, //0x00001798 
+	{ ACTOR_EN_WOOD02, 4136, 45, 6136, 0, 0, 0, 0xFF0A }, //0x000017A8 
+	{ ACTOR_EN_WOOD02, 3178, -144, 7005, 0, 0, 0, 0xFF0A }, //0x000017B8 
+	{ ACTOR_EN_WOOD02, 2771, 356, 4624, 0, 0, 0, 0xFF0A }, //0x000017C8 
+	{ ACTOR_EN_WOOD02, 2042, 20, -193, 0, 0, 0, 0xFF0A }, //0x000017D8 
+	{ ACTOR_EN_WOOD02, 1790, 20, -137, 0, 0, 0, 0xFF0A }, //0x000017E8 
+	{ ACTOR_EN_WOOD02, 1414, -403, 11892, 0, 0, 0, 0xFF0A }, //0x000017F8 
+	{ ACTOR_EN_WOOD02, 989, -500, 12499, 0, 0, 0, 0xFF0A }, //0x00001808 
+	{ ACTOR_EN_WOOD02, 200, -500, 12317, 0, 0, 0, 0xFF0A }, //0x00001818 
+	{ ACTOR_EN_WOOD02, -786, -500, 11293, 0, 0, 0, 0xFF0A }, //0x00001828 
+	{ ACTOR_EN_WOOD02, -1907, 66, 5409, 0, 0, 0, 0xFF0A }, //0x00001838 
+	{ ACTOR_EN_WOOD02, -4377, -700, 13662, 0, 0, 0, 0xFF0A }, //0x00001848 
+	{ ACTOR_EN_WOOD02, -6332, -500, 9129, 0, 0, 0, 0xFF0A }, //0x00001858 
+	{ ACTOR_EN_WOOD02, 3622, -158, 7473, 0, 0, 0, 0xFF0A }, //0x00001868 
+	{ ACTOR_EN_WOOD02, 2808, -234, 7920, 0, 0, 0, 0xFF0A }, //0x00001878 
+	{ ACTOR_EN_WOOD02, 2645, -188, 7351, 0, 0, 0, 0xFF0A }, //0x00001888 
+	{ ACTOR_EN_WOOD02, -461, -500, 12654, 0, 0, 0, 0xFF0A }, //0x00001898 
+	{ ACTOR_EN_WOOD02, 597, -453, 11841, 0, 0, 0, 0xFF0A }, //0x000018A8 
+	{ ACTOR_EN_WOOD02, -318, -500, 11861, 0, 0, 0, 0xFF0A }, //0x000018B8 
+};
+
+static u32 pad18C8 = 0;
+static u32 pad18CC = 0;
+
+SCmdEchoSettings _spot00_room_0_set18D0_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x18D0
+SCmdRoomBehavior _spot00_room_0_set18D0_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x18D8
+SCmdSkyboxDisables _spot00_room_0_set18D0_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x18E0
+SCmdTimeSettings _spot00_room_0_set18D0_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0x0F, 0x00, 0x0A }; // 0x18E8
+SCmdWindSettings _spot00_room_0_set18D0_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x18F0
+SCmdMesh _spot00_room_0_set18D0_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x18F8
+SCmdObjectList _spot00_room_0_set18D0_cmd06 = { 0x0B, 0x03, (u32)_spot00_room_0_objectList_00001910 }; // 0x1900
+SCmdEndMarker _spot00_room_0_set18D0_cmd07 = { 0x14, 0x00, 0x00 }; // 0x1908
+s16 _spot00_room_0_objectList_00001910[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_WOOD02,
+	OBJECT_HORSE,
+};
+
+static u8 unaccounted1918[] = 
+{
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+};
+
+SCmdEchoSettings _spot00_room_0_set1920_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x1920
+SCmdRoomBehavior _spot00_room_0_set1920_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x1928
+SCmdSkyboxDisables _spot00_room_0_set1920_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x1930
+SCmdTimeSettings _spot00_room_0_set1920_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0x12, 0x20, 0x00 }; // 0x1938
+SCmdMesh _spot00_room_0_set1920_cmd04 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x1940
+SCmdObjectList _spot00_room_0_set1920_cmd05 = { 0x0B, 0x03, (u32)_spot00_room_0_objectList_00001960 }; // 0x1948
+SCmdActorList _spot00_room_0_set1920_cmd06 = { 0x01, 0x31, (u32)_spot00_room_0_actorList_00001968 }; // 0x1950
+SCmdEndMarker _spot00_room_0_set1920_cmd07 = { 0x14, 0x00, 0x00 }; // 0x1958
+s16 _spot00_room_0_objectList_00001960[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_WOOD02,
+	OBJECT_HORSE,
+};
+
+ActorEntry _spot00_room_0_actorList_00001968[49] = 
+{
+	{ ACTOR_BG_UMAJUMP, -6010, -499, 8499, 0, 0, 0, 0xFFFF }, //0x00001968 
+	{ ACTOR_BG_UMAJUMP, -5374, -429, 11033, 0, 4915, 1274, 0xFFFF }, //0x00001978 
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x00001988 
+	{ ACTOR_EN_ISHI, 674, -145, 8256, 0, 0, 0, 0xFF01 }, //0x00001998 
+	{ ACTOR_EN_WOOD02, -4735, -300, 45, 0, 0, 0, 0xFF07 }, //0x000019A8 
+	{ ACTOR_EN_WOOD02, -4775, -300, -425, 0, 0, 0, 0xFF07 }, //0x000019B8 
+	{ ACTOR_EN_WOOD02, -5171, -300, 188, 0, 0, 0, 0xFF07 }, //0x000019C8 
+	{ ACTOR_EN_WOOD02, -4725, -300, 2592, 0, 0, 0, 0xFF07 }, //0x000019D8 
+	{ ACTOR_OBJ_MURE2, 685, 163, 6522, 0, 0, 0, 0xFF02 }, //0x000019E8 
+	{ ACTOR_OBJ_MURE2, 3144, -138, 7529, 0, 0, 0, 0xFF01 }, //0x000019F8 
+	{ ACTOR_OBJ_MURE2, -4299, -251, 2628, 0, 0, 0, 0xFF01 }, //0x00001A08 
+	{ ACTOR_OBJ_MURE2, -5557, -347, 9065, 0, 0, 0, 0xFF01 }, //0x00001A18 
+	{ ACTOR_OBJ_MURE2, -5210, -253, 9585, 0, 0, 0, 0xFF01 }, //0x00001A28 
+	{ ACTOR_OBJ_MURE2, 908, 219, 3571, 0, 0, 0, 0xFF01 }, //0x00001A38 
+	{ ACTOR_OBJ_MURE2, -990, -356, 9939, 0, 0, 0, 0xFF01 }, //0x00001A48 
+	{ ACTOR_OBJ_MURE2, -447, -451, 11258, 0, 0, 0, 0xFF01 }, //0x00001A58 
+	{ ACTOR_OBJ_MURE2, 4338, 3, 6586, 1274, 0, 364, 0xFF00 }, //0x00001A68 
+	{ ACTOR_OBJ_MURE2, -1360, -463, 11530, 0, 0, 0, 0xFF00 }, //0x00001A78 
+	{ ACTOR_OBJ_MURE2, -4301, -264, 2628, 0, 0, 0, 0xFF00 }, //0x00001A88 
+	{ ACTOR_EN_WOOD02, 2055, 20, 149, 0, 0, 0, 0xFF13 }, //0x00001A98 
+	{ ACTOR_EN_WOOD02, -4359, -300, -331, 0, 0, 0, 0xFF13 }, //0x00001AA8 
+	{ ACTOR_EN_WOOD02, -5351, -300, -11, 0, 0, 0, 0xFF13 }, //0x00001AB8 
+	{ ACTOR_EN_WOOD02, -3431, -300, 1173, 0, 0, 0, 0xFF13 }, //0x00001AC8 
+	{ ACTOR_EN_WOOD02, -6855, -500, 9364, 0, 0, 0, 0xFF13 }, //0x00001AD8 
+	{ ACTOR_EN_WOOD02, -5383, -646, 12852, 0, 0, 0, 0xFF13 }, //0x00001AE8 
+	{ ACTOR_EN_WOOD02, -4007, -700, 13620, 0, 0, 0, 0xFF13 }, //0x00001AF8 
+	{ ACTOR_EN_WOOD02, 482, -435, 11173, 0, 0, 0, 0xFF13 }, //0x00001B08 
+	{ ACTOR_EN_WOOD02, 1410, -447, 12261, 0, 0, 0, 0xFF13 }, //0x00001B18 
+	{ ACTOR_EN_WOOD02, 130, -500, 12933, 0, 0, 0, 0xFF13 }, //0x00001B28 
+	{ ACTOR_EN_WOOD02, -1374, -500, 13381, 0, 0, 0, 0xFF13 }, //0x00001B38 
+	{ ACTOR_EN_WOOD02, 5319, -23, 3280, 0, 0, 0, 0xFF0A }, //0x00001B48 
+	{ ACTOR_EN_WOOD02, 4136, 45, 6136, 0, 0, 0, 0xFF0A }, //0x00001B58 
+	{ ACTOR_EN_WOOD02, 3178, -144, 7005, 0, 0, 0, 0xFF0A }, //0x00001B68 
+	{ ACTOR_EN_WOOD02, 2771, 356, 4624, 0, 0, 0, 0xFF0A }, //0x00001B78 
+	{ ACTOR_EN_WOOD02, 2042, 20, -193, 0, 0, 0, 0xFF0A }, //0x00001B88 
+	{ ACTOR_EN_WOOD02, 1790, 20, -137, 0, 0, 0, 0xFF0A }, //0x00001B98 
+	{ ACTOR_EN_WOOD02, 1414, -403, 11892, 0, 0, 0, 0xFF0A }, //0x00001BA8 
+	{ ACTOR_EN_WOOD02, 989, -500, 12499, 0, 0, 0, 0xFF0A }, //0x00001BB8 
+	{ ACTOR_EN_WOOD02, 200, -500, 12317, 0, 0, 0, 0xFF0A }, //0x00001BC8 
+	{ ACTOR_EN_WOOD02, -786, -500, 11293, 0, 0, 0, 0xFF0A }, //0x00001BD8 
+	{ ACTOR_EN_WOOD02, -1907, 66, 5409, 0, 0, 0, 0xFF0A }, //0x00001BE8 
+	{ ACTOR_EN_WOOD02, -4377, -700, 13662, 0, 0, 0, 0xFF0A }, //0x00001BF8 
+	{ ACTOR_EN_WOOD02, -6332, -500, 9129, 0, 0, 0, 0xFF0A }, //0x00001C08 
+	{ ACTOR_EN_WOOD02, 3622, -158, 7473, 0, 0, 0, 0xFF0A }, //0x00001C18 
+	{ ACTOR_EN_WOOD02, 2808, -234, 7920, 0, 0, 0, 0xFF0A }, //0x00001C28 
+	{ ACTOR_EN_WOOD02, 2645, -188, 7351, 0, 0, 0, 0xFF0A }, //0x00001C38 
+	{ ACTOR_EN_WOOD02, -461, -500, 12654, 0, 0, 0, 0xFF0A }, //0x00001C48 
+	{ ACTOR_EN_WOOD02, 597, -453, 11841, 0, 0, 0, 0xFF0A }, //0x00001C58 
+	{ ACTOR_EN_WOOD02, -318, -500, 11861, 0, 0, 0, 0xFF0A }, //0x00001C68 
+};
+
+static u32 pad1C78 = 0;
+static u32 pad1C7C = 0;
+
+SCmdEchoSettings _spot00_room_0_set1C80_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x1C80
+SCmdRoomBehavior _spot00_room_0_set1C80_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x1C88
+SCmdSkyboxDisables _spot00_room_0_set1C80_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x1C90
+SCmdTimeSettings _spot00_room_0_set1C80_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0x0E, 0x00, 0x00 }; // 0x1C98
+SCmdMesh _spot00_room_0_set1C80_cmd04 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x1CA0
+SCmdObjectList _spot00_room_0_set1C80_cmd05 = { 0x0B, 0x05, (u32)_spot00_room_0_objectList_00001CC0 }; // 0x1CA8
+SCmdActorList _spot00_room_0_set1C80_cmd06 = { 0x01, 0x02, (u32)_spot00_room_0_actorList_00001CCC }; // 0x1CB0
+SCmdEndMarker _spot00_room_0_set1C80_cmd07 = { 0x14, 0x00, 0x00 }; // 0x1CB8
+s16 _spot00_room_0_objectList_00001CC0[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_ZL2,
+	OBJECT_EFC_STAR_FIELD,
+	OBJECT_WARP1,
+	OBJECT_ZL2_ANIME1,
+};
+
+ActorEntry _spot00_room_0_actorList_00001CCC[2] = 
+{
+	{ ACTOR_EN_ZL2, 2289, 1, 2172, 0, 0, 0, 0x0001 }, //0x00001CCC 
+	{ ACTOR_DEMO_KANKYO, 2404, -10, 2196, 0, 0, 0, 0x0007 }, //0x00001CDC 
+};
+
+static u32 pad1CEC = 0;
+
+SCmdEchoSettings _spot00_room_0_set1CF0_cmd00 = { 0x16, 0, { 0 }, 0x0F }; // 0x1CF0
+SCmdRoomBehavior _spot00_room_0_set1CF0_cmd01 = { 0x08, 0x00, 0x00000000 }; // 0x1CF8
+SCmdSkyboxDisables _spot00_room_0_set1CF0_cmd02 = { 0x12, 0, 0, 0, 0x00, 0x00 }; // 0x1D00
+SCmdTimeSettings _spot00_room_0_set1CF0_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x0A }; // 0x1D08
+SCmdWindSettings _spot00_room_0_set1CF0_cmd04 = { 0x05, 0x00, 0x00, 0x00, 0x50, 0x50, 0x50, 0x00}; // 0x1D10
+SCmdMesh _spot00_room_0_set1CF0_cmd05 = { 0x0A, 0, (u32)&_spot00_room_0_meshHeader_00000520 }; // 0x1D18
+SCmdObjectList _spot00_room_0_set1CF0_cmd06 = { 0x0B, 0x04, (u32)_spot00_room_0_objectList_00001D38 }; // 0x1D20
+SCmdActorList _spot00_room_0_set1CF0_cmd07 = { 0x01, 0x2A, (u32)_spot00_room_0_actorList_00001D40 }; // 0x1D28
+SCmdEndMarker _spot00_room_0_set1CF0_cmd08 = { 0x14, 0x00, 0x00 }; // 0x1D30
+s16 _spot00_room_0_objectList_00001D38[] = 
+{
+	OBJECT_SPOT00_OBJECTS,
+	OBJECT_WOOD02,
+	OBJECT_GI_OCARINA,
+	OBJECT_IM,
+};
+
+ActorEntry _spot00_room_0_actorList_00001D40[96] = 
+{
+	{ ACTOR_BG_SPOT00_HANEBASI, 0, -10, 670, 0, 0, 0, 0xFFFF }, //0x00001D40 
+	{ ACTOR_EN_WOOD02, -4735, -300, 45, 0, 0, 0, 0xFF05 }, //0x00001D50 
+	{ ACTOR_EN_WOOD02, -4775, -300, -425, 0, 0, 0, 0xFF05 }, //0x00001D60 
+	{ ACTOR_EN_WOOD02, -4725, -300, 2592, 0, 0, 0, 0xFF05 }, //0x00001D70 
+	{ ACTOR_EN_WOOD02, -5371, -300, 1248, 0, 0, 0, 0xFF05 }, //0x00001D80 
+	{ ACTOR_EN_WOOD02, 2055, 20, 149, 0, 0, 0, 0xFF0D }, //0x00001D90 
+	{ ACTOR_EN_WOOD02, -4359, -300, -331, 0, 0, 0, 0xFF0D }, //0x00001DA0 
+	{ ACTOR_EN_WOOD02, -5351, -300, -11, 0, 0, 0, 0xFF0D }, //0x00001DB0 
+	{ ACTOR_EN_WOOD02, -3431, -300, 1173, 0, 0, 0, 0xFF0D }, //0x00001DC0 
+	{ ACTOR_EN_WOOD02, -6855, -500, 9364, 0, 0, 0, 0xFF0D }, //0x00001DD0 
+	{ ACTOR_EN_WOOD02, -5383, -646, 12852, 0, 0, 0, 0xFF0D }, //0x00001DE0 
+	{ ACTOR_EN_WOOD02, -4007, -700, 13620, 0, 0, 0, 0xFF0D }, //0x00001DF0 
+	{ ACTOR_EN_WOOD02, 482, -435, 11173, 0, 0, 0, 0xFF0D }, //0x00001E00 
+	{ ACTOR_EN_WOOD02, 1410, -447, 12261, 0, 0, 0, 0xFF0D }, //0x00001E10 
+	{ ACTOR_EN_WOOD02, 130, -500, 12933, 0, 0, 0, 0xFF0D }, //0x00001E20 
+	{ ACTOR_EN_WOOD02, -1374, -500, 13381, 0, 0, 0, 0xFF0D }, //0x00001E30 
+	{ ACTOR_EN_WOOD02, -5211, -300, 1541, 0, 0, 0, 0xFF0D }, //0x00001E40 
+	{ ACTOR_EN_WOOD02, 2042, 20, -193, 0, 0, 0, 0xFF02 }, //0x00001E50 
+	{ ACTOR_OBJ_MURE2, 685, 163, 6522, 0, 0, 0, 0xFF02 }, //0x00001E60 
+	{ ACTOR_OBJ_MURE2, 3144, -138, 7529, 0, 0, 0, 0xFF01 }, //0x00001E70 
+	{ ACTOR_OBJ_MURE2, 908, 219, 3571, 0, 0, 0, 0xFF01 }, //0x00001E80 
+	{ ACTOR_OBJ_MURE2, -447, -451, 11258, 0, 0, 0, 0xFF01 }, //0x00001E90 
+	{ ACTOR_OBJ_MURE2, -991, -402, 9939, 0, 0, 0, 0xFF01 }, //0x00001EA0 
+	{ ACTOR_OBJ_MURE2, -5210, -253, 9585, 0, 0, 0, 0xFF01 }, //0x00001EB0 
+	{ ACTOR_OBJ_MURE2, -5557, -347, 9065, 0, 0, 0, 0xFF01 }, //0x00001EC0 
+	{ ACTOR_OBJ_MURE2, 4338, 3, 6586, 1274, 0, 364, 0xFF00 }, //0x00001ED0 
+	{ ACTOR_OBJ_MURE2, -1360, -463, 11530, 0, 0, 0, 0xFF00 }, //0x00001EE0 
+	{ ACTOR_OBJ_MURE2, -4301, -264, 2628, 0, 0, 0, 0xFF00 }, //0x00001EF0 
+	{ ACTOR_EN_WOOD02, 5319, -23, 3280, 0, 0, 0, 0xFF00 }, //0x00001F00 
+	{ ACTOR_EN_WOOD02, 2771, 356, 4624, 0, 0, 0, 0xFF00 }, //0x00001F10 
+	{ ACTOR_EN_WOOD02, -786, -500, 11293, 0, 0, 0, 0xFF00 }, //0x00001F20 
+	{ ACTOR_EN_WOOD02, -1907, 66, 5409, 0, 0, 0, 0xFF00 }, //0x00001F30 
+	{ ACTOR_EN_WOOD02, -4377, -700, 13662, 0, 0, 0, 0xFF00 }, //0x00001F40 
+	{ ACTOR_EN_WOOD02, -6332, -500, 9129, 0, 0, 0, 0xFF00 }, //0x00001F50 
+	{ ACTOR_EN_WOOD02, 3178, -144, 7005, 0, 0, 0, 0xFF03 }, //0x00001F60 
+	{ ACTOR_EN_WOOD02, 1414, -403, 11892, 0, 0, 0, 0xFF03 }, //0x00001F70 
+	{ ACTOR_EN_WOOD02, 200, -500, 12317, 0, 0, 0, 0xFF03 }, //0x00001F80 
+	{ ACTOR_EN_WOOD02, 4136, 45, 6136, 0, 0, 0, 0xFF01 }, //0x00001F90 
+	{ ACTOR_EN_WOOD02, 1790, 20, -137, 0, 0, 0, 0xFF01 }, //0x00001FA0 
+	{ ACTOR_EN_WOOD02, 989, -500, 12499, 0, 0, 0, 0xFF01 }, //0x00001FB0 
+	{ ACTOR_EN_RIVER_SOUND, -2862, -315, -500, 0, 0, 0, 0x0001 }, //0x00001FC0 
+	{ ACTOR_DEMO_IM, 274, 0, 1698, 0, 0, 0, 0x0004 }, //0x00001FD0 
+	{ 0x1600, 0, 0, 15, 2048, 0, 0, 0x0000 }, //0x00001FE0 
+	{ 0x1200, 0, 0, 0, 4096, 0, 4640, 0x0000 }, //0x00001FF0 
+	{ 0x0A00, 0, 768, 1312, 2819, 0, 768, 0x2020 }, //0x00002000 
+	{ ACTOR_EN_EX_RUPPY, 0, 768, 8232, 5120, 0, 0, 0x0000 }, //0x00002010 
+	{ ACTOR_EN_DODOJR, 124, 26, 0, 264, -6010, -499, 0x2133 }, //0x00002020 
+	{ ACTOR_PLAYER, 0, 0, -1, 264, -5374, -429, 0x2B19 }, //0x00002030 
+	{ ACTOR_PLAYER, 4915, 1274, -1, 74, 0, -10, 0x029E }, //0x00002040 
+	{ ACTOR_PLAYER, 0, 0, -1, 334, 674, -145, 0x2040 }, //0x00002050 
+	{ ACTOR_PLAYER, 0, 0, -255, 119, -4735, -300, 0x002D }, //0x00002060 
+	{ ACTOR_PLAYER, 0, 0, -249, 119, -4775, -300, 0xFE57 }, //0x00002070 
+	{ ACTOR_PLAYER, 0, 0, -249, 119, -5171, -300, 0x00BC }, //0x00002080 
+	{ ACTOR_PLAYER, 0, 0, -249, 119, -4725, -300, 0x0A20 }, //0x00002090 
+	{ ACTOR_PLAYER, 0, 0, -249, 337, 685, 163, 0x197A }, //0x000020A0 
+	{ ACTOR_PLAYER, 0, 0, -254, 337, 3144, -138, 0x1D69 }, //0x000020B0 
+	{ ACTOR_PLAYER, 0, 0, -255, 337, -4299, -251, 0x0A44 }, //0x000020C0 
+	{ ACTOR_PLAYER, 0, 0, -255, 337, -5557, -347, 0x2369 }, //0x000020D0 
+	{ ACTOR_PLAYER, 0, 0, -255, 337, -5210, -253, 0x2571 }, //0x000020E0 
+	{ ACTOR_PLAYER, 0, 0, -255, 337, 908, 219, 0x0DF3 }, //0x000020F0 
+	{ ACTOR_PLAYER, 0, 0, -255, 337, -990, -356, 0x26D3 }, //0x00002100 
+	{ ACTOR_PLAYER, 0, 0, -255, 337, -447, -451, 0x2BFA }, //0x00002110 
+	{ ACTOR_PLAYER, 0, 0, -255, 337, 4338, 3, 0x19BA }, //0x00002120 
+	{ 0x04FA, 0, 364, -256, 337, -1360, -463, 0x2D0A }, //0x00002130 
+	{ ACTOR_PLAYER, 0, 0, -256, 337, -4301, -264, 0x0A44 }, //0x00002140 
+	{ ACTOR_PLAYER, 0, 0, -256, 119, 2055, 20, 0x0095 }, //0x00002150 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, -4359, -300, 0xFEB5 }, //0x00002160 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, -5351, -300, 0xFFF5 }, //0x00002170 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, -3431, -300, 0x0495 }, //0x00002180 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, -6855, -500, 0x2494 }, //0x00002190 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, -5383, -646, 0x3234 }, //0x000021A0 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, -4007, -700, 0x3534 }, //0x000021B0 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, 482, -435, 0x2BA5 }, //0x000021C0 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, 1410, -447, 0x2FE5 }, //0x000021D0 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, 130, -500, 0x3285 }, //0x000021E0 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, -1374, -500, 0x3445 }, //0x000021F0 
+	{ ACTOR_PLAYER, 0, 0, -237, 119, 5319, -23, 0x0CD0 }, //0x00002200 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 4136, 45, 0x17F8 }, //0x00002210 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 3178, -144, 0x1B5D }, //0x00002220 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 2771, 356, 0x1210 }, //0x00002230 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 2042, 20, 0xFF3F }, //0x00002240 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 1790, 20, 0xFF77 }, //0x00002250 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 1414, -403, 0x2E74 }, //0x00002260 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 989, -500, 0x30D3 }, //0x00002270 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 200, -500, 0x301D }, //0x00002280 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, -786, -500, 0x2C1D }, //0x00002290 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, -1907, 66, 0x1521 }, //0x000022A0 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, -4377, -700, 0x355E }, //0x000022B0 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, -6332, -500, 0x23A9 }, //0x000022C0 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 3622, -158, 0x1D31 }, //0x000022D0 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 2808, -234, 0x1EF0 }, //0x000022E0 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 2645, -188, 0x1CB7 }, //0x000022F0 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, -461, -500, 0x316E }, //0x00002300 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, 597, -453, 0x2E41 }, //0x00002310 
+	{ ACTOR_PLAYER, 0, 0, -246, 119, -318, -500, 0x2E55 }, //0x00002320 
+	{ ACTOR_PLAYER, 0, 0, -246, 0, 0, 0, 0x0000 }, //0x00002330 
+};
+
+
+Vtx_t _spot00_room_0_vertices_00002340[7] = 
+{
+	 { -5889, -300, 0, 0, -1101, 0, 90, 72, 31, 255 }, // 0x00002340
+	 { -5889, -300, 634, 0, -1101, 5407, 89, 0, 80, 255 }, // 0x00002350
+	 { -4417, -300, 434, 0, 11463, 3700, 8, 113, 39, 255 }, // 0x00002360
+	 { -4417, -300, -850, 0, 11463, -7253, 12, 108, 50, 255 }, // 0x00002370
+	 { -5889, -300, 1034, 0, -1101, 8820, 81, 0, 168, 255 }, // 0x00002380
+	 { -5889, -300, 1700, 0, -1101, 14507, 84, 84, 0, 255 }, // 0x00002390
+	 { -4417, -300, 850, 0, 11463, 7253, 247, 114, 223, 255 }, // 0x000023A0
+};
+
+Vtx_t _spot00_room_0_vertices_000023B0[12] = 
+{
+	 { -4417, -300, -850, 0, 8192, 2048, 12, 108, 50, 255 }, // 0x000023B0
+	 { -4417, 110, -850, 0, 8192, 0, 27, 0, 116, 255 }, // 0x000023C0
+	 { -5889, 100, 0, 0, 0, 0, 113, 0, 39, 255 }, // 0x000023D0
+	 { -5889, -300, 0, 0, 0, 2048, 90, 72, 31, 255 }, // 0x000023E0
+	 { -5889, 100, 0, 0, 6144, 0, 113, 0, 39, 255 }, // 0x000023F0
+	 { -5889, 100, 1700, 0, -2048, 0, 120, 0, 0, 255 }, // 0x00002400
+	 { -5889, -220, 1090, 0, 1364, 1638, 120, 0, 0, 255 }, // 0x00002410
+	 { -5889, -220, 577, 0, 3412, 1638, 120, 0, 0, 255 }, // 0x00002420
+	 { -5889, -300, 0, 0, 6144, 2048, 90, 72, 31, 255 }, // 0x00002430
+	 { -5889, -300, 577, 0, 3412, 2048, 120, 0, 0, 255 }, // 0x00002440
+	 { -5889, -300, 1700, 0, -2048, 2048, 84, 84, 0, 255 }, // 0x00002450
+	 { -5889, -300, 1090, 0, 1364, 2048, 120, 0, 0, 255 }, // 0x00002460
+};
+
+Vtx_t _spot00_room_0_vertices_00002470[24] = 
+{
+	 { -5889, -300, 1034, 0, 6105, -3462, 81, 0, 168, 255 }, // 0x00002470
+	 { -6365, -300, 1093, 0, 6105, 2682, 5, 254, 137, 255 }, // 0x00002480
+	 { -6365, -300, 693, 0, 1024, 2048, 33, 254, 115, 255 }, // 0x00002490
+	 { -5889, -300, 634, 0, 1024, -4096, 89, 0, 80, 255 }, // 0x000024A0
+	 { -6365, -300, 893, 0, 1536, 4096, 20, 118, 0, 255 }, // 0x000024B0
+	 { -5889, -380, 834, 0, 1536, 0, 10, 119, 0, 255 }, // 0x000024C0
+	 { -5889, -380, 634, 0, 768, 0, 39, 97, 58, 255 }, // 0x000024D0
+	 { -6365, -300, 693, 0, 0, 4096, 33, 254, 115, 255 }, // 0x000024E0
+	 { -5889, -300, 634, 0, 0, 0, 89, 0, 80, 255 }, // 0x000024F0
+	 { -6365, -300, 1093, 0, 0, -2048, 5, 254, 137, 255 }, // 0x00002500
+	 { -5889, -300, 1034, 0, 0, 2048, 81, 0, 168, 255 }, // 0x00002510
+	 { -5889, -380, 1034, 0, 768, 2048, 25, 100, 196, 255 }, // 0x00002520
+	 { -6365, -300, 893, 0, 1536, -2048, 20, 118, 0, 255 }, // 0x00002530
+	 { -5889, -380, 834, 0, 1536, 2048, 10, 119, 0, 255 }, // 0x00002540
+	 { -5889, -380, 1034, 0, 768, -4096, 25, 100, 196, 255 }, // 0x00002550
+	 { -5889, -300, 1034, 0, 0, -4096, 81, 0, 168, 255 }, // 0x00002560
+	 { -4417, -300, 850, 0, 0, 4096, 247, 114, 223, 255 }, // 0x00002570
+	 { -4417, -380, 642, 0, 1536, 4096, 254, 119, 0, 255 }, // 0x00002580
+	 { -5889, -380, 834, 0, 1536, -4096, 10, 119, 0, 255 }, // 0x00002590
+	 { -4417, -300, 434, 0, 0, -4096, 8, 113, 39, 255 }, // 0x000025A0
+	 { -5889, -300, 634, 0, 0, 4096, 89, 0, 80, 255 }, // 0x000025B0
+	 { -5889, -380, 634, 0, 768, 4096, 39, 97, 58, 255 }, // 0x000025C0
+	 { -4417, -380, 642, 0, 1536, -4096, 254, 119, 0, 255 }, // 0x000025D0
+	 { -5889, -380, 834, 0, 1536, 4096, 10, 119, 0, 255 }, // 0x000025E0
+};
+
+Vtx_t _spot00_room_0_vertices_000025F0[4] = 
+{
+	 { -5889, -300, 1034, 0, -2560, 0, 81, 0, 168, 255 }, // 0x000025F0
+	 { -5889, -380, 1034, 0, -2560, 2048, 25, 100, 196, 255 }, // 0x00002600
+	 { -5889, -380, 634, 0, 3840, 2048, 39, 97, 58, 255 }, // 0x00002610
+	 { -5889, -300, 634, 0, 3840, 0, 89, 0, 80, 255 }, // 0x00002620
+};
+
+Vtx_t _spot00_room_0_vertices_00002630[14] = 
+{
+	 { -5889, -300, 634, 0, 1748, 1024, 89, 0, 80, 255 }, // 0x00002630
+	 { -5889, -220, 634, 0, 1748, 512, 120, 0, 0, 255 }, // 0x00002640
+	 { -5889, -220, 1034, 0, -812, 512, 120, 0, 0, 255 }, // 0x00002650
+	 { -5889, -300, 1034, 0, -812, 1024, 81, 0, 168, 255 }, // 0x00002660
+	 { -5832, -300, 577, 0, 2110, 1024, 120, 0, 0, 255 }, // 0x00002670
+	 { -5832, -180, 577, 0, 2110, 256, 120, 0, 0, 255 }, // 0x00002680
+	 { -5889, -180, 634, 0, 1748, 256, 84, 0, 84, 255 }, // 0x00002690
+	 { -5889, -180, 1034, 0, -812, 256, 84, 0, 172, 255 }, // 0x000026A0
+	 { -5832, -180, 1090, 0, -1174, 256, 120, 0, 0, 255 }, // 0x000026B0
+	 { -5832, -300, 1090, 0, -1174, 1024, 120, 0, 0, 255 }, // 0x000026C0
+	 { -5889, -300, 520, 0, 2472, 1024, 84, 0, 172, 255 }, // 0x000026D0
+	 { -5889, -180, 520, 0, 2472, 256, 84, 0, 172, 255 }, // 0x000026E0
+	 { -5889, -300, 1147, 0, -1536, 1024, 84, 0, 84, 255 }, // 0x000026F0
+	 { -5889, -180, 1147, 0, -1536, 256, 84, 0, 84, 255 }, // 0x00002700
+};
+
+Vtx_t _spot00_room_0_vertices_00002710[8] = 
+{
+	 { -4417, -380, -850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002710
+	 { -3681, -380, 425, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002720
+	 { -4417, 110, -850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002730
+	 { -3681, 110, 425, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002740
+	 { -6720, -380, 480, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002750
+	 { -5983, -380, 1755, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002760
+	 { -6720, 110, 480, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002770
+	 { -5983, 110, 1755, 0, 0, 0, 0, 0, 0, 0 }, // 0x00002780
+};
+
+Gfx _spot00_room_0_dlist_00002790[] =
+{
+	gsDPPipeSync(), // 0x00002790
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00002798
+	gsSPVertex(_spot00_room_0_vertices_00002710, 8, 0), // 0x000027A0
+	gsSPCullDisplayList(0, 7), // 0x000027A8
+	gsDPPipeSync(), // 0x000027B0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000027B8
+	gsDPPipeSync(), // 0x000027C0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000027C8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x000027D0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x000027D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x000027E0
+	gsDPLoadSync(), // 0x000027E8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000027F0
+	gsDPPipeSync(), // 0x000027F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00002800
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00002808
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00002810
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00002818
+	gsDPLoadSync(), // 0x00002820
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00002828
+	gsDPPipeSync(), // 0x00002830
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00002838
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00002840
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00002848
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00002850
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00002858
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00002860
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00002868
+	gsSPVertex(_spot00_room_0_vertices_00002340, 7, 0), // 0x00002870
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x00002878
+	gsSP1Triangle(4, 5, 6, 0), // 0x00002880
+	gsDPPipeSync(), // 0x00002888
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00002890
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00002898
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x000028A0
+	gsDPLoadSync(), // 0x000028A8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000028B0
+	gsDPPipeSync(), // 0x000028B8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000028C0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000028C8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x000028D0
+	gsDPTileSync(), // 0x000028D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x000028E0
+	gsDPLoadSync(), // 0x000028E8
+	gsDPLoadTLUTCmd(7, 15), // 0x000028F0
+	gsDPPipeSync(), // 0x000028F8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00002900
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00002908
+	gsSPVertex(_spot00_room_0_vertices_000023B0, 12, 0), // 0x00002910
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00002918
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00002920
+	gsSP2Triangles(8, 4, 7, 0, 7, 9, 8, 0), // 0x00002928
+	gsSP2Triangles(5, 10, 6, 0, 10, 11, 6, 0), // 0x00002930
+	gsDPPipeSync(), // 0x00002938
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00002940
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x00002948
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x00002950
+	gsDPLoadSync(), // 0x00002958
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00002960
+	gsDPPipeSync(), // 0x00002968
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x00002970
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00002978
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00002980
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00002988
+	gsSPVertex(_spot00_room_0_vertices_00002470, 24, 0), // 0x00002990
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00002998
+	gsSP2Triangles(4, 5, 6, 0, 7, 4, 6, 0), // 0x000029A0
+	gsSP2Triangles(8, 7, 6, 0, 9, 10, 11, 0), // 0x000029A8
+	gsSP2Triangles(12, 9, 11, 0, 13, 12, 11, 0), // 0x000029B0
+	gsSP2Triangles(14, 15, 16, 0, 17, 18, 14, 0), // 0x000029B8
+	gsSP2Triangles(17, 14, 16, 0, 19, 20, 21, 0), // 0x000029C0
+	gsSP2Triangles(22, 19, 21, 0, 23, 22, 21, 0), // 0x000029C8
+	gsDPPipeSync(), // 0x000029D0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00028198), // 0x000029D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 3, 0), // 0x000029E0
+	gsDPLoadSync(), // 0x000029E8
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x000029F0
+	gsDPPipeSync(), // 0x000029F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 2, 6, 0, 0, 3, 0), // 0x00002A00
+	gsDPSetTileSize(0, 0, 0, 28, 252), // 0x00002A08
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00002A10
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00002A18
+	gsSPVertex(_spot00_room_0_vertices_000025F0, 4, 0), // 0x00002A20
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00002A28
+	gsDPPipeSync(), // 0x00002A30
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00002A38
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00002A40
+	gsDPLoadSync(), // 0x00002A48
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00002A50
+	gsDPPipeSync(), // 0x00002A58
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00002A60
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00002A68
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00002A70
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00002A78
+	gsSPVertex(_spot00_room_0_vertices_00002630, 14, 0), // 0x00002A80
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00002A88
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 0, 0), // 0x00002A90
+	gsSP2Triangles(3, 7, 8, 0, 3, 8, 9, 0), // 0x00002A98
+	gsSP2Triangles(4, 10, 11, 0, 4, 11, 5, 0), // 0x00002AA0
+	gsSP2Triangles(12, 9, 8, 0, 12, 8, 13, 0), // 0x00002AA8
+	gsSPEndDisplayList(), // 0x00002AB0
+};
+
+Vtx_t _spot00_room_0_vertices_00002AB8[21] = 
+{
+	 { -4417, -300, 850, 0, -13113, 7253, 247, 114, 223, 255 }, // 0x00002AB8
+	 { -2944, -300, 1700, 0, -550, 14507, 220, 114, 5, 255 }, // 0x00002AC8
+	 { -3236, -300, 88, 0, -3037, 751, 239, 116, 235, 255 }, // 0x00002AD8
+	 { -2161, -300, 710, 0, 6135, 6061, 193, 85, 200, 255 }, // 0x00002AE8
+	 { -1822, -300, 371, 0, 9031, 3165, 188, 96, 23, 255 }, // 0x00002AF8
+	 { -1645, 0, 455, 0, 10542, 3879, 5, 114, 220, 255 }, // 0x00002B08
+	 { -1991, 0, 654, 0, 7583, 5578, 84, 80, 228, 255 }, // 0x00002B18
+	 { -1935, 0, 710, 0, 8066, 6061, 68, 96, 233, 255 }, // 0x00002B28
+	 { -1472, 0, 850, 0, 12013, 7253, 0, 120, 0, 255 }, // 0x00002B38
+	 { -2048, 0, 823, 0, 7100, 7027, 42, 86, 71, 255 }, // 0x00002B48
+	 { -2145, 0, 1238, 0, 6273, 10567, 77, 89, 237, 255 }, // 0x00002B58
+	 { -2600, -300, -408, 0, 2385, -3481, 180, 77, 52, 255 }, // 0x00002B68
+	 { -2783, -300, -365, 0, 825, -3110, 241, 110, 211, 255 }, // 0x00002B78
+	 { -4417, -300, -850, 0, -13113, -7253, 12, 108, 50, 255 }, // 0x00002B88
+	 { -3010, -300, -591, 0, -1106, -5041, 45, 109, 16, 255 }, // 0x00002B98
+	 { -2953, -300, -760, 0, -623, -6489, 217, 64, 93, 255 }, // 0x00002BA8
+	 { -3462, -300, -138, 0, -4968, -1180, 22, 114, 28, 255 }, // 0x00002BB8
+	 { -4417, -300, 434, 0, -13113, 3700, 8, 113, 39, 255 }, // 0x00002BC8
+	 { -1737, 0, 399, 0, 9755, 3406, 85, 51, 66, 255 }, // 0x00002BD8
+	 { -1991, 0, 654, 0, 7583, 5578, 84, 80, 228, 255 }, // 0x00002BE8
+	 { -1539, 0, 427, 0, 11445, 3648, 21, 90, 180, 255 }, // 0x00002BF8
+};
+
+Vtx_t _spot00_room_0_vertices_00002C08[16] = 
+{
+	 { -2953, -300, -760, 0, 8416, 2048, 217, 64, 93, 255 }, // 0x00002C08
+	 { -2953, 50, -760, 0, 8416, 0, 249, 0, 119, 255 }, // 0x00002C18
+	 { -4417, 110, -850, 0, 0, 0, 27, 0, 116, 255 }, // 0x00002C28
+	 { -4417, -300, -850, 0, 0, 2048, 12, 108, 50, 255 }, // 0x00002C38
+	 { -2161, -300, 710, 0, 0, 2048, 193, 85, 200, 255 }, // 0x00002C48
+	 { -2944, -300, 1700, 0, 6144, 2048, 220, 114, 5, 255 }, // 0x00002C58
+	 { -2944, 120, 1700, 0, 6144, 0, 186, 96, 8, 255 }, // 0x00002C68
+	 { -2161, 140, 710, 0, 0, 0, 186, 81, 203, 255 }, // 0x00002C78
+	 { -2048, 0, 823, 0, 2287, 1024, 42, 86, 71, 255 }, // 0x00002C88
+	 { -2048, 160, 823, 0, 2287, 0, 79, 88, 17, 255 }, // 0x00002C98
+	 { -2145, 160, 1238, 0, 0, 0, 74, 92, 234, 255 }, // 0x00002CA8
+	 { -2145, 0, 1238, 0, 0, 1024, 77, 89, 237, 255 }, // 0x00002CB8
+	 { -3406, 20, -1213, 0, 6407, 2048, 255, 0, 119, 255 }, // 0x00002CC8
+	 { -3911, 270, -1032, 0, 3204, 0, 40, 0, 112, 255 }, // 0x00002CD8
+	 { -4417, 47, -850, 0, 0, 0, 40, 0, 112, 255 }, // 0x00002CE8
+	 { -3406, 360, -1213, 0, 6407, 0, 40, 0, 112, 255 }, // 0x00002CF8
+};
+
+Vtx_t _spot00_room_0_vertices_00002D08[32] = 
+{
+	 { -3010, -300, -591, 0, 0, -3072, 45, 109, 16, 255 }, // 0x00002D08
+	 { -2896, -420, -591, 0, 2048, -4096, 14, 111, 43, 255 }, // 0x00002D18
+	 { -2953, -300, -760, 0, 0, -6144, 217, 64, 93, 255 }, // 0x00002D28
+	 { -2953, -380, -421, 0, 1536, -2048, 16, 117, 240, 255 }, // 0x00002D38
+	 { -3462, -300, -138, 0, 0, 2048, 22, 114, 28, 255 }, // 0x00002D48
+	 { -3349, -380, -25, 0, 1536, 2048, 0, 120, 0, 255 }, // 0x00002D58
+	 { -2600, -300, -408, 0, 0, 2048, 180, 77, 52, 255 }, // 0x00002D68
+	 { -2783, -420, -478, 0, 2048, 0, 231, 110, 217, 255 }, // 0x00002D78
+	 { -2783, -300, -365, 0, 0, -1024, 241, 110, 211, 255 }, // 0x00002D88
+	 { -2953, -380, -421, 0, 1536, -2048, 16, 117, 240, 255 }, // 0x00002D98
+	 { -3236, -300, 88, 0, 0, -6144, 239, 116, 235, 255 }, // 0x00002DA8
+	 { -3349, -380, -25, 0, 1536, -6144, 0, 120, 0, 255 }, // 0x00002DB8
+	 { -2953, -300, -760, 0, 0, -2048, 217, 64, 93, 255 }, // 0x00002DC8
+	 { -2896, -420, -591, 0, 2048, 0, 14, 111, 43, 255 }, // 0x00002DD8
+	 { -2600, -300, -408, 0, 0, 4096, 180, 77, 52, 255 }, // 0x00002DE8
+	 { -2783, -420, -478, 0, 2048, 2048, 231, 110, 217, 255 }, // 0x00002DF8
+	 { -2953, -380, -421, 0, 4096, 1024, 16, 117, 240, 255 }, // 0x00002E08
+	 { -4417, -380, 642, 0, 1536, 4096, 254, 119, 0, 255 }, // 0x00002E18
+	 { -3462, -300, -138, 0, 0, -4096, 22, 114, 28, 255 }, // 0x00002E28
+	 { -4417, -300, 434, 0, 0, 4096, 8, 113, 39, 255 }, // 0x00002E38
+	 { -3349, -380, -25, 0, 1536, -4096, 0, 120, 0, 255 }, // 0x00002E48
+	 { -3349, -380, -25, 0, 1536, 4096, 0, 120, 0, 255 }, // 0x00002E58
+	 { -4417, -380, 642, 0, 1536, -4096, 254, 119, 0, 255 }, // 0x00002E68
+	 { -3236, -300, 88, 0, 0, 4096, 239, 116, 235, 255 }, // 0x00002E78
+	 { -4417, -300, 850, 0, 0, -4096, 247, 114, 223, 255 }, // 0x00002E88
+	 { -1645, 0, 455, 0, 0, 1641, 5, 114, 220, 255 }, // 0x00002E98
+	 { -1539, 0, 427, 0, 0, 2048, 21, 90, 180, 255 }, // 0x00002EA8
+	 { -1539, -45, 427, 0, 329, 2048, 30, 77, 169, 255 }, // 0x00002EB8
+	 { -1680, -45, 343, 0, 439, 878, 49, 109, 250, 255 }, // 0x00002EC8
+	 { -1737, 0, 399, 0, 0, 878, 85, 51, 66, 255 }, // 0x00002ED8
+	 { -1539, -140, 427, 0, 1024, 2048, 84, 0, 172, 255 }, // 0x00002EE8
+	 { -1652, -140, 314, 0, 1024, 878, 84, 80, 228, 255 }, // 0x00002EF8
+};
+
+Vtx_t _spot00_room_0_vertices_00002F08[4] = 
+{
+	 { -1539, -45, 427, 0, 329, 2048, 30, 77, 169, 255 }, // 0x00002F08
+	 { -1652, -140, 314, 0, 1024, 878, 84, 80, 228, 255 }, // 0x00002F18
+	 { -1652, -45, 314, 0, 731, 878, 116, 1, 27, 255 }, // 0x00002F28
+	 { -1680, -45, 343, 0, 439, 878, 49, 109, 250, 255 }, // 0x00002F38
+};
+
+Vtx_t _spot00_room_0_vertices_00002F48[19] = 
+{
+	 { -2727, -20, -534, 0, 512, 256, 154, 0, 61, 255 }, // 0x00002F48
+	 { -2727, 20, -534, 0, 512, 0, 154, 194, 11, 255 }, // 0x00002F58
+	 { -2614, -20, -647, 0, -512, 0, 182, 174, 211, 255 }, // 0x00002F68
+	 { -1822, -300, 371, 0, 4608, 2048, 188, 96, 23, 255 }, // 0x00002F78
+	 { -2727, -20, -534, 0, -3584, 256, 154, 0, 61, 255 }, // 0x00002F88
+	 { -2600, -300, -408, 0, -2441, 2048, 180, 77, 52, 255 }, // 0x00002F98
+	 { -2840, -20, -647, 0, -4608, 256, 203, 0, 107, 255 }, // 0x00002FA8
+	 { -2953, -300, -760, 0, -5632, 2048, 217, 64, 93, 255 }, // 0x00002FB8
+	 { -2840, 20, -647, 0, 0, 0, 245, 194, 102, 255 }, // 0x00002FC8
+	 { -2840, -20, -647, 0, 0, 256, 203, 0, 107, 255 }, // 0x00002FD8
+	 { -2727, -20, -760, 0, 1024, 0, 45, 174, 74, 255 }, // 0x00002FE8
+	 { -2840, 20, -647, 0, 0, 1024, 245, 194, 102, 255 }, // 0x00002FF8
+	 { -2727, -20, -760, 0, 1024, 1024, 45, 174, 74, 255 }, // 0x00003008
+	 { -2614, -20, -647, 0, 1024, 0, 182, 174, 211, 255 }, // 0x00003018
+	 { -2727, 20, -534, 0, 0, 0, 154, 194, 11, 255 }, // 0x00003028
+	 { -1822, 20, 371, 0, 4608, 0, 139, 0, 23, 255 }, // 0x00003038
+	 { -2727, 20, -534, 0, -3584, 0, 154, 194, 11, 255 }, // 0x00003048
+	 { -2953, 20, -760, 0, -5632, 0, 172, 0, 84, 255 }, // 0x00003058
+	 { -2840, 20, -647, 0, -4608, 0, 245, 194, 102, 255 }, // 0x00003068
+};
+
+Vtx_t _spot00_room_0_vertices_00003078[16] = 
+{
+	 { -2896, 300, -930, 0, 8192, 2048, 137, 0, 2, 255 }, // 0x00003078
+	 { -2896, 500, -930, 0, 8192, 0, 172, 84, 1, 255 }, // 0x00003088
+	 { -2910, 500, -1755, 0, 0, 0, 172, 84, 1, 255 }, // 0x00003098
+	 { -2910, 300, -1755, 0, 0, 2048, 137, 0, 2, 255 }, // 0x000030A8
+	 { -2331, 300, -365, 0, 6144, 2048, 172, 0, 84, 255 }, // 0x000030B8
+	 { -2331, 500, -365, 0, 6144, 0, 196, 84, 60, 255 }, // 0x000030C8
+	 { -2896, 500, -930, 0, -2048, 0, 196, 84, 60, 255 }, // 0x000030D8
+	 { -2896, 300, -930, 0, -2048, 2048, 172, 0, 84, 255 }, // 0x000030E8
+	 { -1822, 20, 371, 0, 8192, 2048, 172, 0, 84, 255 }, // 0x000030F8
+	 { -1822, 340, 371, 0, 8192, 0, 196, 84, 60, 255 }, // 0x00003108
+	 { -3406, 340, -1213, 0, -6144, 0, 196, 84, 60, 255 }, // 0x00003118
+	 { -3406, 20, -1213, 0, -6144, 2048, 172, 0, 84, 255 }, // 0x00003128
+	 { -1907, 500, -365, 0, 4096, 0, 0, 84, 84, 255 }, // 0x00003138
+	 { -2331, 500, -365, 0, 0, 0, 0, 84, 84, 255 }, // 0x00003148
+	 { -2331, 300, -365, 0, 0, 2048, 0, 0, 120, 255 }, // 0x00003158
+	 { -1907, 300, -365, 0, 4096, 2048, 0, 0, 120, 255 }, // 0x00003168
+};
+
+Vtx_t _spot00_room_0_vertices_00003178[12] = 
+{
+	 { -2161, 0, 710, 0, 512, 2176, 149, 0, 203, 255 }, // 0x00003178
+	 { -2048, 0, 823, 0, 1536, 2176, 42, 86, 71, 255 }, // 0x00003188
+	 { -2048, 480, 823, 0, 1536, -896, 0, 69, 98, 255 }, // 0x00003198
+	 { -2161, 480, 710, 0, 512, -896, 158, 69, 0, 255 }, // 0x000031A8
+	 { -2048, -300, 597, 0, 512, 1024, 172, 0, 172, 255 }, // 0x000031B8
+	 { -2161, -300, 710, 0, 1536, 1024, 193, 85, 200, 255 }, // 0x000031C8
+	 { -2161, 0, 710, 0, 1536, -896, 149, 0, 203, 255 }, // 0x000031D8
+	 { -2048, 20, 597, 0, 512, -1024, 172, 0, 172, 255 }, // 0x000031E8
+	 { -2048, 480, 597, 0, 512, -896, 0, 40, 143, 255 }, // 0x000031F8
+	 { -2161, 0, 710, 0, 1536, 2176, 149, 0, 203, 255 }, // 0x00003208
+	 { -2161, 480, 710, 0, 1536, -896, 158, 69, 0, 255 }, // 0x00003218
+	 { -2048, 20, 597, 0, 512, 2048, 172, 0, 172, 255 }, // 0x00003228
+};
+
+Vtx_t _spot00_room_0_vertices_00003238[4] = 
+{
+	 { -2048, 20, 597, 0, 2048, 2048, 172, 0, 172, 255 }, // 0x00003238
+	 { -2048, 340, 597, 0, 2048, 0, 196, 84, 196, 255 }, // 0x00003248
+	 { -1822, 340, 371, 0, 0, 0, 196, 84, 196, 255 }, // 0x00003258
+	 { -1822, 20, 371, 0, 0, 2048, 172, 0, 172, 255 }, // 0x00003268
+};
+
+Vtx_t _spot00_room_0_vertices_00003278[4] = 
+{
+	 { -1822, 20, 371, 0, -1536, 0, 139, 0, 23, 255 }, // 0x00003278
+	 { -1822, -300, 371, 0, -1536, 2048, 188, 96, 23, 255 }, // 0x00003288
+	 { -2048, -300, 597, 0, 512, 2048, 172, 0, 172, 255 }, // 0x00003298
+	 { -2048, 20, 597, 0, 512, 0, 172, 0, 172, 255 }, // 0x000032A8
+};
+
+Vtx_t _spot00_room_0_vertices_000032B8[8] = 
+{
+	 { -2760, -420, -1841, 0, 0, 0, 0, 0, 0, 0 }, // 0x000032B8
+	 { -1273, -420, 735, 0, 0, 0, 0, 0, 0, 0 }, // 0x000032C8
+	 { -2760, 500, -1841, 0, 0, 0, 0, 0, 0, 0 }, // 0x000032D8
+	 { -1273, 500, 735, 0, 0, 0, 0, 0, 0, 0 }, // 0x000032E8
+	 { -5168, -420, -451, 0, 0, 0, 0, 0, 0, 0 }, // 0x000032F8
+	 { -3681, -420, 2125, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003308
+	 { -5168, 500, -451, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003318
+	 { -3681, 500, 2125, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003328
+};
+
+Gfx _spot00_room_0_dlist_00003338[] =
+{
+	gsDPPipeSync(), // 0x00003338
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00003340
+	gsSPVertex(_spot00_room_0_vertices_000032B8, 8, 0), // 0x00003348
+	gsSPCullDisplayList(0, 7), // 0x00003350
+	gsDPPipeSync(), // 0x00003358
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00003360
+	gsDPPipeSync(), // 0x00003368
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00003370
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00003378
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00003380
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00003388
+	gsDPLoadSync(), // 0x00003390
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00003398
+	gsDPPipeSync(), // 0x000033A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x000033A8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000033B0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x000033B8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x000033C0
+	gsDPLoadSync(), // 0x000033C8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000033D0
+	gsDPPipeSync(), // 0x000033D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x000033E0
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x000033E8
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000033F0
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x000033F8
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00003400
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00003408
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00003410
+	gsSPVertex(_spot00_room_0_vertices_00002AB8, 21, 0), // 0x00003418
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 2, 0), // 0x00003420
+	gsSP2Triangles(1, 3, 2, 0, 5, 6, 7, 0), // 0x00003428
+	gsSP2Triangles(5, 7, 8, 0, 7, 9, 8, 0), // 0x00003430
+	gsSP2Triangles(9, 10, 8, 0, 11, 12, 4, 0), // 0x00003438
+	gsSP2Triangles(12, 2, 4, 0, 13, 14, 15, 0), // 0x00003440
+	gsSP2Triangles(13, 16, 14, 0, 13, 17, 16, 0), // 0x00003448
+	gsSP2Triangles(5, 18, 19, 0, 8, 20, 5, 0), // 0x00003450
+	gsDPPipeSync(), // 0x00003458
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00003460
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00003468
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00003470
+	gsDPLoadSync(), // 0x00003478
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00003480
+	gsDPPipeSync(), // 0x00003488
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00003490
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00003498
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x000034A0
+	gsDPTileSync(), // 0x000034A8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x000034B0
+	gsDPLoadSync(), // 0x000034B8
+	gsDPLoadTLUTCmd(7, 15), // 0x000034C0
+	gsDPPipeSync(), // 0x000034C8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000034D0
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x000034D8
+	gsSPVertex(_spot00_room_0_vertices_00002C08, 16, 0), // 0x000034E0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000034E8
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000034F0
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x000034F8
+	gsSP2Triangles(12, 13, 14, 0, 12, 15, 13, 0), // 0x00003500
+	gsDPPipeSync(), // 0x00003508
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00003510
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x00003518
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x00003520
+	gsDPLoadSync(), // 0x00003528
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00003530
+	gsDPPipeSync(), // 0x00003538
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x00003540
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00003548
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00003550
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00003558
+	gsSPVertex(_spot00_room_0_vertices_00002D08, 32, 0), // 0x00003560
+	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0), // 0x00003568
+	gsSP2Triangles(4, 3, 0, 0, 4, 5, 3, 0), // 0x00003570
+	gsSP2Triangles(6, 7, 8, 0, 8, 7, 9, 0), // 0x00003578
+	gsSP2Triangles(8, 9, 10, 0, 9, 11, 10, 0), // 0x00003580
+	gsSP2Triangles(12, 13, 14, 0, 13, 15, 14, 0), // 0x00003588
+	gsSP2Triangles(16, 15, 13, 0, 17, 18, 19, 0), // 0x00003590
+	gsSP2Triangles(17, 20, 18, 0, 21, 22, 23, 0), // 0x00003598
+	gsSP2Triangles(22, 24, 23, 0, 25, 26, 27, 0), // 0x000035A0
+	gsSP2Triangles(28, 29, 25, 0, 25, 27, 28, 0), // 0x000035A8
+	gsSP1Triangle(27, 30, 31, 0), // 0x000035B0
+	gsSPVertex(_spot00_room_0_vertices_00002F08, 4, 0), // 0x000035B8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000035C0
+	gsDPPipeSync(), // 0x000035C8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x000035D0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x000035D8
+	gsDPLoadSync(), // 0x000035E0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000035E8
+	gsDPPipeSync(), // 0x000035F0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000035F8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00003600
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00003608
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00003610
+	gsSPVertex(_spot00_room_0_vertices_00002F48, 19, 0), // 0x00003618
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00003620
+	gsSP2Triangles(4, 6, 7, 0, 4, 7, 5, 0), // 0x00003628
+	gsSP2Triangles(8, 9, 10, 0, 11, 12, 13, 0), // 0x00003630
+	gsSP2Triangles(11, 13, 14, 0, 15, 16, 4, 0), // 0x00003638
+	gsSP2Triangles(3, 15, 4, 0, 17, 7, 6, 0), // 0x00003640
+	gsSP1Triangle(17, 6, 18, 0), // 0x00003648
+	gsDPPipeSync(), // 0x00003650
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00003658
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00003660
+	gsDPLoadSync(), // 0x00003668
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00003670
+	gsDPPipeSync(), // 0x00003678
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00003680
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00003688
+	gsDPSetPrimColor(0, 0, 235, 235, 200, 255), // 0x00003690
+	gsSPVertex(_spot00_room_0_vertices_00003078, 16, 0), // 0x00003698
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000036A0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000036A8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x000036B0
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x000036B8
+	gsDPPipeSync(), // 0x000036C0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x000036C8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x000036D0
+	gsDPLoadSync(), // 0x000036D8
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000036E0
+	gsDPPipeSync(), // 0x000036E8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000036F0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000036F8
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00003700
+	gsSPVertex(_spot00_room_0_vertices_00003178, 12, 0), // 0x00003708
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00003710
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00003718
+	gsSP2Triangles(8, 9, 10, 0, 9, 8, 11, 0), // 0x00003720
+	gsDPPipeSync(), // 0x00003728
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00003730
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00003738
+	gsDPLoadSync(), // 0x00003740
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00003748
+	gsDPPipeSync(), // 0x00003750
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00003758
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00003760
+	gsDPSetPrimColor(0, 0, 235, 235, 200, 255), // 0x00003768
+	gsSPVertex(_spot00_room_0_vertices_00003238, 4, 0), // 0x00003770
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00003778
+	gsDPPipeSync(), // 0x00003780
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00003788
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00003790
+	gsDPLoadSync(), // 0x00003798
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000037A0
+	gsDPPipeSync(), // 0x000037A8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000037B0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000037B8
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x000037C0
+	gsSPVertex(_spot00_room_0_vertices_00003278, 4, 0), // 0x000037C8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000037D0
+	gsSPEndDisplayList(), // 0x000037D8
+};
+
+Vtx_t _spot00_room_0_vertices_000037E0[7] = 
+{
+	 { 1472, 0, 850, 0, 12563, 7253, 3, 119, 255, 255 }, // 0x000037E0
+	 { 793, 0, 1080, 0, 6763, 9216, 232, 102, 198, 255 }, // 0x000037F0
+	 { 0, 0, 1700, 0, 0, 14507, 0, 120, 0, 255 }, // 0x00003800
+	 { -886, 0, 1080, 0, -7563, 9216, 24, 102, 198, 255 }, // 0x00003810
+	 { -1472, 0, 850, 0, -12563, 7253, 0, 120, 0, 255 }, // 0x00003820
+	 { 1379, 0, 494, 0, 11766, 4213, 224, 87, 75, 255 }, // 0x00003830
+	 { -1539, 0, 427, 0, -13131, 3648, 21, 90, 180, 255 }, // 0x00003840
+};
+
+Vtx_t _spot00_room_0_vertices_00003850[16] = 
+{
+	 { 793, -140, 1080, 0, 1024, 0, 232, 102, 198, 255 }, // 0x00003850
+	 { 793, 0, 1080, 0, 0, 0, 232, 102, 198, 255 }, // 0x00003860
+	 { 1379, 0, 494, 0, 0, 6064, 224, 87, 75, 255 }, // 0x00003870
+	 { 1379, -140, 494, 0, 1024, 6064, 218, 107, 218, 255 }, // 0x00003880
+	 { -886, -140, 1080, 0, 1024, 2048, 24, 102, 198, 255 }, // 0x00003890
+	 { -1539, -140, 427, 0, 1024, -6144, 84, 0, 172, 255 }, // 0x000038A0
+	 { -1539, 0, 427, 0, 0, -6144, 21, 90, 180, 255 }, // 0x000038B0
+	 { -886, 0, 1080, 0, 0, 2048, 24, 102, 198, 255 }, // 0x000038C0
+	 { 793, 0, 1080, 0, 0, 2039, 232, 102, 198, 255 }, // 0x000038D0
+	 { 793, -140, 1080, 0, 1024, 2039, 232, 102, 198, 255 }, // 0x000038E0
+	 { 180, -140, 1080, 0, 1024, -2441, 69, 69, 187, 255 }, // 0x000038F0
+	 { 180, 0, 1080, 0, 0, -2441, 220, 36, 148, 255 }, // 0x00003900
+	 { -180, -140, 1080, 0, 1024, -5074, 187, 69, 187, 255 }, // 0x00003910
+	 { -886, -140, 1080, 0, 1024, -10240, 24, 102, 198, 255 }, // 0x00003920
+	 { -886, 0, 1080, 0, 0, -10240, 24, 102, 198, 255 }, // 0x00003930
+	 { -180, 0, 1080, 0, 0, -5074, 36, 36, 148, 255 }, // 0x00003940
+};
+
+Vtx_t _spot00_room_0_vertices_00003950[6] = 
+{
+	 { -180, 0, 1240, 0, 512, 512, 84, 0, 84, 255 }, // 0x00003950
+	 { -180, 40, 1240, 0, 512, 0, 69, 69, 69, 255 }, // 0x00003960
+	 { -220, 40, 1240, 0, 0, 0, 187, 69, 69, 255 }, // 0x00003970
+	 { -220, 0, 1240, 0, 0, 512, 172, 0, 84, 255 }, // 0x00003980
+	 { -180, 0, 1080, 0, 2560, 512, 36, 36, 148, 255 }, // 0x00003990
+	 { -180, 40, 1080, 0, 2560, 0, 69, 69, 187, 255 }, // 0x000039A0
+};
+
+Vtx_t _spot00_room_0_vertices_000039B0[4] = 
+{
+	 { -180, 40, 1240, 0, 2048, 0, 69, 69, 69, 255 }, // 0x000039B0
+	 { -180, 40, 1080, 0, 0, 0, 69, 69, 187, 255 }, // 0x000039C0
+	 { -220, 40, 1080, 0, 0, 512, 187, 69, 187, 255 }, // 0x000039D0
+	 { -220, 40, 1240, 0, 2048, 512, 187, 69, 69, 255 }, // 0x000039E0
+};
+
+Vtx_t _spot00_room_0_vertices_000039F0[22] = 
+{
+	 { -220, 0, 1240, 0, 2048, 512, 172, 0, 84, 255 }, // 0x000039F0
+	 { -220, 40, 1240, 0, 2048, 0, 187, 69, 69, 255 }, // 0x00003A00
+	 { -220, 40, 1080, 0, 0, 0, 187, 69, 187, 255 }, // 0x00003A10
+	 { -220, 0, 1080, 0, 0, 512, 172, 0, 172, 255 }, // 0x00003A20
+	 { -220, 0, 1080, 0, 1024, 512, 172, 0, 172, 255 }, // 0x00003A30
+	 { -220, 40, 1080, 0, 1024, 0, 187, 69, 187, 255 }, // 0x00003A40
+	 { -180, 40, 1080, 0, 512, 0, 69, 69, 187, 255 }, // 0x00003A50
+	 { -180, 0, 1080, 0, 512, 512, 36, 36, 148, 255 }, // 0x00003A60
+	 { 220, 0, 1240, 0, 512, 512, 84, 0, 84, 255 }, // 0x00003A70
+	 { 220, 40, 1240, 0, 512, 0, 69, 69, 69, 255 }, // 0x00003A80
+	 { 180, 40, 1240, 0, 0, 0, 187, 69, 69, 255 }, // 0x00003A90
+	 { 180, 0, 1240, 0, 0, 512, 172, 0, 84, 255 }, // 0x00003AA0
+	 { 180, 0, 1240, 0, 2048, 512, 172, 0, 84, 255 }, // 0x00003AB0
+	 { 180, 40, 1240, 0, 2048, 0, 187, 69, 69, 255 }, // 0x00003AC0
+	 { 180, 40, 1080, 0, 0, 0, 187, 69, 187, 255 }, // 0x00003AD0
+	 { 180, 0, 1080, 0, 0, 512, 220, 36, 148, 255 }, // 0x00003AE0
+	 { 180, 0, 1080, 0, 1024, 512, 220, 36, 148, 255 }, // 0x00003AF0
+	 { 180, 40, 1080, 0, 1024, 0, 187, 69, 187, 255 }, // 0x00003B00
+	 { 220, 40, 1080, 0, 512, 0, 69, 69, 187, 255 }, // 0x00003B10
+	 { 220, 0, 1080, 0, 512, 512, 84, 0, 172, 255 }, // 0x00003B20
+	 { 220, 0, 1080, 0, 2560, 512, 84, 0, 172, 255 }, // 0x00003B30
+	 { 220, 40, 1080, 0, 2560, 0, 69, 69, 187, 255 }, // 0x00003B40
+};
+
+Vtx_t _spot00_room_0_vertices_00003B50[4] = 
+{
+	 { 220, 40, 1240, 0, 2048, 0, 69, 69, 69, 255 }, // 0x00003B50
+	 { 220, 40, 1080, 0, 0, 0, 69, 69, 187, 255 }, // 0x00003B60
+	 { 180, 40, 1080, 0, 0, 512, 187, 69, 187, 255 }, // 0x00003B70
+	 { 180, 40, 1240, 0, 2048, 512, 187, 69, 69, 255 }, // 0x00003B80
+};
+
+Vtx_t _spot00_room_0_vertices_00003B90[8] = 
+{
+	 { 797, 40, 1090, 0, 3072, 0, 31, 88, 75, 255 }, // 0x00003B90
+	 { 553, 40, 1090, 0, -3072, 0, 0, 84, 84, 255 }, // 0x00003BA0
+	 { 553, 0, 1090, 0, -3072, 1024, 0, 0, 120, 255 }, // 0x00003BB0
+	 { 797, 0, 1090, 0, 3072, 1024, 46, 0, 110, 255 }, // 0x00003BC0
+	 { 969, 0, 917, 0, 4096, 1024, 84, 0, 84, 255 }, // 0x00003BD0
+	 { 969, 40, 917, 0, 4096, 0, 60, 84, 60, 255 }, // 0x00003BE0
+	 { 797, 40, 1090, 0, -2048, 0, 31, 88, 75, 255 }, // 0x00003BF0
+	 { 797, 0, 1090, 0, -2048, 1024, 46, 0, 110, 255 }, // 0x00003C00
+};
+
+Vtx_t _spot00_room_0_vertices_00003C10[4] = 
+{
+	 { 1282, -140, 397, 0, 2560, 2048, 143, 0, 218, 255 }, // 0x00003C10
+	 { 1282, -25, 397, 0, 2560, 0, 145, 26, 37, 255 }, // 0x00003C20
+	 { 1113, -25, 227, 0, -1536, 0, 222, 207, 103, 255 }, // 0x00003C30
+	 { 1113, -140, 227, 0, -1536, 2048, 28, 80, 84, 255 }, // 0x00003C40
+};
+
+Vtx_t _spot00_room_0_vertices_00003C50[4] = 
+{
+	 { -1652, -45, 314, 0, -1104, 85, 116, 1, 27, 255 }, // 0x00003C50
+	 { -1652, -140, 314, 0, -1104, 2048, 84, 80, 228, 255 }, // 0x00003C60
+	 { -1539, -140, 201, 0, 1626, 2048, 228, 80, 84, 255 }, // 0x00003C70
+	 { -1539, -45, 201, 0, 1626, 85, 40, 212, 104, 255 }, // 0x00003C80
+};
+
+Vtx_t _spot00_room_0_vertices_00003C90[4] = 
+{
+	 { 1617, -140, 336, 0, 2560, 2048, 84, 0, 84, 255 }, // 0x00003C90
+	 { 1617, -45, 336, 0, 2560, 0, 60, 84, 60, 255 }, // 0x00003CA0
+	 { 1447, -45, 505, 0, -1536, 0, 60, 84, 60, 255 }, // 0x00003CB0
+	 { 1447, -140, 505, 0, -1536, 2048, 84, 0, 84, 255 }, // 0x00003CC0
+};
+
+Vtx_t _spot00_room_0_vertices_00003CD0[8] = 
+{
+	 { -284, 140, 680, 0, 0, 0, 174, 58, 65, 255 }, // 0x00003CD0
+	 { -260, 110, 680, 0, 0, 1024, 0, 172, 84, 255 }, // 0x00003CE0
+	 { -260, 140, 710, 0, 512, 0, 0, 249, 119, 255 }, // 0x00003CF0
+	 { -236, 140, 680, 0, 0, 0, 82, 58, 65, 255 }, // 0x00003D00
+	 { 260, 140, 710, 0, 512, 0, 0, 249, 119, 255 }, // 0x00003D10
+	 { 260, 110, 680, 0, 0, 1024, 0, 172, 84, 255 }, // 0x00003D20
+	 { 284, 140, 680, 0, 0, 0, 82, 58, 65, 255 }, // 0x00003D30
+	 { 236, 140, 680, 0, 0, 0, 174, 58, 65, 255 }, // 0x00003D40
+};
+
+Vtx_t _spot00_room_0_vertices_00003D50[4] = 
+{
+	 { -895, 0, 1085, 0, 12288, 1024, 172, 0, 84, 255 }, // 0x00003D50
+	 { -895, 40, 1085, 0, 12288, 0, 196, 84, 60, 255 }, // 0x00003D60
+	 { -1546, 40, 435, 0, -11264, 0, 196, 84, 60, 255 }, // 0x00003D70
+	 { -1546, 0, 435, 0, -11264, 1024, 172, 0, 84, 255 }, // 0x00003D80
+};
+
+Vtx_t _spot00_room_0_vertices_00003D90[12] = 
+{
+	 { 245, 50, 696, 0, 0, 1024, 0, 0, 120, 255 }, // 0x00003D90
+	 { 275, 50, 696, 0, 512, 1024, 0, 0, 120, 255 }, // 0x00003DA0
+	 { 275, 103, 696, 0, 512, 0, 0, 0, 120, 255 }, // 0x00003DB0
+	 { 245, 103, 696, 0, 0, 0, 0, 0, 120, 255 }, // 0x00003DC0
+	 { 405, 50, 696, 0, 0, 1024, 0, 0, 120, 255 }, // 0x00003DD0
+	 { 435, 50, 696, 0, 512, 1024, 0, 0, 120, 255 }, // 0x00003DE0
+	 { 435, 103, 696, 0, 512, 0, 0, 0, 120, 255 }, // 0x00003DF0
+	 { 405, 103, 696, 0, 0, 0, 0, 0, 120, 255 }, // 0x00003E00
+	 { 565, 50, 696, 0, 0, 1024, 0, 0, 120, 255 }, // 0x00003E10
+	 { 595, 50, 696, 0, 512, 1024, 0, 0, 120, 255 }, // 0x00003E20
+	 { 595, 103, 696, 0, 512, 0, 0, 0, 120, 255 }, // 0x00003E30
+	 { 565, 103, 696, 0, 0, 0, 0, 0, 120, 255 }, // 0x00003E40
+};
+
+Vtx_t _spot00_room_0_vertices_00003E50[8] = 
+{
+	 { -1652, -140, 201, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003E50
+	 { 1617, -140, 201, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003E60
+	 { -1652, 140, 201, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003E70
+	 { 1617, 140, 201, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003E80
+	 { -1652, -140, 1700, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003E90
+	 { 1617, -140, 1700, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003EA0
+	 { -1652, 140, 1700, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003EB0
+	 { 1617, 140, 1700, 0, 0, 0, 0, 0, 0, 0 }, // 0x00003EC0
+};
+
+Gfx _spot00_room_0_dlist_00003ED0[] =
+{
+	gsDPPipeSync(), // 0x00003ED0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00003ED8
+	gsSPVertex(_spot00_room_0_vertices_00003E50, 8, 0), // 0x00003EE0
+	gsSPCullDisplayList(0, 7), // 0x00003EE8
+	gsDPPipeSync(), // 0x00003EF0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00003EF8
+	gsDPPipeSync(), // 0x00003F00
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00003F08
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00003F10
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00003F18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00003F20
+	gsDPLoadSync(), // 0x00003F28
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00003F30
+	gsDPPipeSync(), // 0x00003F38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00003F40
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00003F48
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00003F50
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00003F58
+	gsDPLoadSync(), // 0x00003F60
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00003F68
+	gsDPPipeSync(), // 0x00003F70
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00003F78
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00003F80
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00003F88
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00003F90
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00003F98
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00003FA0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00003FA8
+	gsSPVertex(_spot00_room_0_vertices_000037E0, 7, 0), // 0x00003FB0
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 2, 0), // 0x00003FB8
+	gsSP2Triangles(1, 0, 5, 0, 6, 4, 3, 0), // 0x00003FC0
+	gsSP1Triangle(3, 2, 1, 0), // 0x00003FC8
+	gsDPPipeSync(), // 0x00003FD0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x00003FD8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x00003FE0
+	gsDPLoadSync(), // 0x00003FE8
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00003FF0
+	gsDPPipeSync(), // 0x00003FF8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x00004000
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00004008
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00004010
+	gsSPVertex(_spot00_room_0_vertices_00003850, 16, 0), // 0x00004018
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00004020
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00004028
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00004030
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x00004038
+	gsDPPipeSync(), // 0x00004040
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00023018), // 0x00004048
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 4, 0, 0, 6, 0), // 0x00004050
+	gsDPLoadSync(), // 0x00004058
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x00004060
+	gsDPPipeSync(), // 0x00004068
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 2, 4, 0, 0, 6, 0), // 0x00004070
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x00004078
+	gsSPVertex(_spot00_room_0_vertices_00003950, 6, 0), // 0x00004080
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00004088
+	gsSP2Triangles(4, 5, 1, 0, 4, 1, 0, 0), // 0x00004090
+	gsDPPipeSync(), // 0x00004098
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00022818), // 0x000040A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 0, 6, 0), // 0x000040A8
+	gsDPLoadSync(), // 0x000040B0
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x000040B8
+	gsDPPipeSync(), // 0x000040C0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 0, 4, 0, 0, 6, 0), // 0x000040C8
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x000040D0
+	gsSPVertex(_spot00_room_0_vertices_000039B0, 4, 0), // 0x000040D8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000040E0
+	gsDPPipeSync(), // 0x000040E8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00023018), // 0x000040F0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 4, 0, 0, 6, 0), // 0x000040F8
+	gsDPLoadSync(), // 0x00004100
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x00004108
+	gsDPPipeSync(), // 0x00004110
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 2, 4, 0, 0, 6, 0), // 0x00004118
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x00004120
+	gsSPVertex(_spot00_room_0_vertices_000039F0, 22, 0), // 0x00004128
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00004130
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00004138
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00004140
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x00004148
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x00004150
+	gsSP2Triangles(20, 21, 9, 0, 20, 9, 8, 0), // 0x00004158
+	gsDPPipeSync(), // 0x00004160
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00022818), // 0x00004168
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 0, 6, 0), // 0x00004170
+	gsDPLoadSync(), // 0x00004178
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x00004180
+	gsDPPipeSync(), // 0x00004188
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 0, 4, 0, 0, 6, 0), // 0x00004190
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x00004198
+	gsSPVertex(_spot00_room_0_vertices_00003B50, 4, 0), // 0x000041A0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000041A8
+	gsDPPipeSync(), // 0x000041B0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001C198), // 0x000041B8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x000041C0
+	gsDPLoadSync(), // 0x000041C8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000041D0
+	gsDPPipeSync(), // 0x000041D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x000041E0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000041E8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000041F0
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x000041F8
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x00004200
+	gsSPVertex(_spot00_room_0_vertices_00003B90, 8, 0), // 0x00004208
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00004210
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00004218
+	gsDPPipeSync(), // 0x00004220
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00028198), // 0x00004228
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 3, 0), // 0x00004230
+	gsDPLoadSync(), // 0x00004238
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x00004240
+	gsDPPipeSync(), // 0x00004248
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 2, 6, 0, 0, 3, 0), // 0x00004250
+	gsDPSetTileSize(0, 0, 0, 28, 252), // 0x00004258
+	gsSPVertex(_spot00_room_0_vertices_00003C10, 4, 0), // 0x00004260
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00004268
+	gsDPPipeSync(), // 0x00004270
+	gsSPGeometryMode(0xFF000000, 0x00000400), // 0x00004278
+	gsSPVertex(_spot00_room_0_vertices_00003C50, 4, 0), // 0x00004280
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00004288
+	gsDPPipeSync(), // 0x00004290
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x00004298
+	gsSPVertex(_spot00_room_0_vertices_00003C90, 4, 0), // 0x000042A0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000042A8
+	gsDPPipeSync(), // 0x000042B0
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00026898), // 0x000042B8
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 4, 0), // 0x000042C0
+	gsDPLoadSync(), // 0x000042C8
+	gsDPLoadBlock(7, 0, 0, 127, 2048), // 0x000042D0
+	gsDPPipeSync(), // 0x000042D8
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_4b, 1, 0, 0, 0, 0, 5, 0, 0, 4, 0), // 0x000042E0
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x000042E8
+	gsSPGeometryMode(0xFF000000, 0x00000400), // 0x000042F0
+	gsSPVertex(_spot00_room_0_vertices_00003CD0, 8, 0), // 0x000042F8
+	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0), // 0x00004300
+	gsSP2Triangles(4, 5, 6, 0, 7, 5, 4, 0), // 0x00004308
+	gsDPPipeSync(), // 0x00004310
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001C198), // 0x00004318
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x00004320
+	gsDPLoadSync(), // 0x00004328
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00004330
+	gsDPPipeSync(), // 0x00004338
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x00004340
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00004348
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x00004350
+	gsSPVertex(_spot00_room_0_vertices_00003D50, 4, 0), // 0x00004358
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00004360
+	gsDPPipeSync(), // 0x00004368
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00016A98), // 0x00004370
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 2, 4, 0), // 0x00004378
+	gsDPLoadSync(), // 0x00004380
+	gsDPLoadBlock(7, 0, 0, 127, 2048), // 0x00004388
+	gsDPPipeSync(), // 0x00004390
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_4b, 1, 0, 0, 0, 2, 5, 0, 2, 4, 0), // 0x00004398
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x000043A0
+	gsSPGeometryMode(0xFF000000, 0x00000400), // 0x000043A8
+	gsDPSetPrimColor(0, 0, 235, 235, 200, 255), // 0x000043B0
+	gsSPVertex(_spot00_room_0_vertices_00003D90, 12, 0), // 0x000043B8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000043C0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000043C8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x000043D0
+	gsSPEndDisplayList(), // 0x000043D8
+};
+
+Vtx_t _spot00_room_0_vertices_000043E0[21] = 
+{
+	 { 2131, 20, -565, 0, -6393, -4817, 228, 98, 63, 255 }, // 0x000043E0
+	 { 2018, 20, -678, 0, -7359, -5783, 0, 69, 98, 255 }, // 0x000043F0
+	 { 1339, 20, 1, 0, -13151, 10, 50, 108, 4, 255 }, // 0x00004400
+	 { 1472, 0, 850, 0, -12013, 7253, 3, 119, 255, 255 }, // 0x00004410
+	 { 1916, -20, 975, 0, -8224, 8316, 53, 90, 198, 255 }, // 0x00004420
+	 { 1379, 0, 494, 0, -12810, 4213, 224, 87, 75, 255 }, // 0x00004430
+	 { 1804, 20, 143, 0, -9184, 1219, 254, 119, 6, 255 }, // 0x00004440
+	 { 1605, 0, 267, 0, -10879, 2282, 58, 96, 41, 255 }, // 0x00004450
+	 { 2086, -20, 805, 0, -6776, 6868, 211, 96, 55, 255 }, // 0x00004460
+	 { 2543, 20, 145, 0, -2875, 1240, 195, 85, 58, 255 }, // 0x00004470
+	 { 2944, -60, 1700, 0, 550, 14507, 25, 95, 188, 255 }, // 0x00004480
+	 { 1577, -20, 296, 0, -11121, 2524, 184, 63, 72, 255 }, // 0x00004490
+	 { 1407, -20, 465, 0, -12569, 3972, 79, 41, 177, 255 }, // 0x000044A0
+	 { 3212, -20, 1545, 0, 2836, 13187, 239, 113, 36, 255 }, // 0x000044B0
+	 { 3489, -20, 732, 0, 5200, 6243, 174, 85, 241, 255 }, // 0x000044C0
+	 { 3263, -20, 505, 0, 3269, 4312, 238, 98, 67, 255 }, // 0x000044D0
+	 { 3736, -10, 1243, 0, 7308, 10605, 193, 95, 37, 255 }, // 0x000044E0
+	 { 3871, 280, 265, 0, 8458, 2261, 221, 110, 223, 255 }, // 0x000044F0
+	 { 3871, 280, -18, 0, 8458, -153, 0, 69, 98, 255 }, // 0x00004500
+	 { 3730, 280, 124, 0, 7251, 1054, 63, 51, 88, 255 }, // 0x00004510
+	 { 4013, 280, 124, 0, 9665, 1054, 242, 118, 242, 255 }, // 0x00004520
+};
+
+Vtx_t _spot00_room_0_vertices_00004530[22] = 
+{
+	 { 2001, -140, 890, 0, 1024, 2048, 0, 120, 0, 255 }, // 0x00004530
+	 { 3078, -140, 1623, 0, 1024, -8192, 254, 119, 5, 255 }, // 0x00004540
+	 { 2086, -140, 805, 0, 512, 2048, 213, 98, 53, 255 }, // 0x00004550
+	 { 2086, -20, 805, 0, 0, 2048, 211, 96, 55, 255 }, // 0x00004560
+	 { 3212, -20, 1545, 0, 0, -8192, 239, 113, 36, 255 }, // 0x00004570
+	 { 3078, -140, 1623, 0, 1024, 4096, 254, 119, 5, 255 }, // 0x00004580
+	 { 1916, -140, 975, 0, 512, -6144, 51, 89, 194, 255 }, // 0x00004590
+	 { 2944, -60, 1700, 0, 0, 4096, 25, 95, 188, 255 }, // 0x000045A0
+	 { 1916, -20, 975, 0, 0, -6144, 53, 90, 198, 255 }, // 0x000045B0
+	 { 2001, -140, 890, 0, 1024, -6144, 0, 120, 0, 255 }, // 0x000045C0
+	 { 1492, -140, 381, 0, 1024, 3899, 0, 120, 0, 255 }, // 0x000045D0
+	 { 2001, -140, 890, 0, 1024, -2245, 0, 120, 0, 255 }, // 0x000045E0
+	 { 2086, -140, 805, 0, 512, -2245, 213, 98, 53, 255 }, // 0x000045F0
+	 { 1577, -140, 296, 0, 512, 3899, 186, 66, 70, 255 }, // 0x00004600
+	 { 2086, -20, 805, 0, 0, -2245, 211, 96, 55, 255 }, // 0x00004610
+	 { 1577, -20, 296, 0, 0, 3899, 184, 63, 72, 255 }, // 0x00004620
+	 { 1407, -20, 465, 0, 0, -1851, 79, 41, 177, 255 }, // 0x00004630
+	 { 1916, -20, 975, 0, 0, 4293, 53, 90, 198, 255 }, // 0x00004640
+	 { 1916, -140, 975, 0, 512, 4293, 51, 89, 194, 255 }, // 0x00004650
+	 { 1407, -140, 465, 0, 512, -1851, 60, 84, 196, 255 }, // 0x00004660
+	 { 2001, -140, 890, 0, 1024, 4293, 0, 120, 0, 255 }, // 0x00004670
+	 { 1492, -140, 381, 0, 1024, -1851, 0, 120, 0, 255 }, // 0x00004680
+};
+
+Vtx_t _spot00_room_0_vertices_00004690[44] = 
+{
+	 { 3263, 220, 505, 0, 6144, 1024, 227, 26, 113, 255 }, // 0x00004690
+	 { 3263, 518, 344, 0, 6144, 0, 206, 51, 95, 255 }, // 0x000046A0
+	 { 2977, 488, -419, 0, 3072, 0, 139, 7, 24, 255 }, // 0x000046B0
+	 { 2977, 237, -419, 0, 3072, 1024, 137, 0, 7, 255 }, // 0x000046C0
+	 { 3036, 523, -1470, 0, 0, 0, 137, 0, 249, 255 }, // 0x000046D0
+	 { 3036, 20, -1470, 0, 0, 1024, 207, 0, 109, 255 }, // 0x000046E0
+	 { 3036, 523, -1470, 0, 0, 0, 137, 0, 249, 255 }, // 0x000046F0
+	 { 2543, 260, 145, 0, 0, 0, 181, 22, 90, 255 }, // 0x00004700
+	 { 2543, 20, 145, 0, 0, 2048, 195, 85, 58, 255 }, // 0x00004710
+	 { 3263, -20, 505, 0, 4096, 2048, 238, 98, 67, 255 }, // 0x00004720
+	 { 3263, 220, 505, 0, 4096, 1024, 227, 26, 113, 255 }, // 0x00004730
+	 { 3263, 518, 344, 0, 4096, 0, 206, 51, 95, 255 }, // 0x00004740
+	 { 2131, 180, -565, 0, 587, 512, 153, 18, 58, 255 }, // 0x00004750
+	 { 2131, 20, -565, 0, 587, 1024, 228, 98, 63, 255 }, // 0x00004760
+	 { 2543, 20, 145, 0, 4096, 2048, 195, 85, 58, 255 }, // 0x00004770
+	 { 2543, 260, 145, 0, 4096, 0, 181, 22, 90, 255 }, // 0x00004780
+	 { 2187, 340, -621, 0, 587, 0, 160, 51, 50, 255 }, // 0x00004790
+	 { 3730, 280, 124, 0, 0, 1024, 63, 51, 88, 255 }, // 0x000047A0
+	 { 3871, 280, -18, 0, 512, 1024, 0, 69, 98, 255 }, // 0x000047B0
+	 { 3871, 663, -18, 0, 512, 0, 0, 0, 120, 255 }, // 0x000047C0
+	 { 3730, 680, 124, 0, 0, 0, 66, 19, 98, 255 }, // 0x000047D0
+	 { 4437, 197, 548, 0, 1024, 1536, 53, 0, 149, 255 }, // 0x000047E0
+	 { 3871, 280, 265, 0, 2048, 2048, 221, 110, 223, 255 }, // 0x000047F0
+	 { 3871, 723, 265, 0, 2048, 0, 209, 13, 147, 255 }, // 0x00004800
+	 { 4437, 580, 548, 0, 1024, 0, 159, 0, 186, 255 }, // 0x00004810
+	 { 3871, 723, 265, 0, 0, 0, 209, 13, 147, 255 }, // 0x00004820
+	 { 3871, 280, 265, 0, 0, 2048, 221, 110, 223, 255 }, // 0x00004830
+	 { 3489, -20, 732, 0, 2048, 2048, 174, 85, 241, 255 }, // 0x00004840
+	 { 3489, 380, 732, 0, 2048, 1024, 139, 22, 0, 255 }, // 0x00004850
+	 { 3623, 666, 745, 0, 2048, 0, 149, 51, 242, 255 }, // 0x00004860
+	 { 3736, 730, 1243, 0, 2048, 0, 149, 17, 50, 255 }, // 0x00004870
+	 { 3623, 666, 745, 0, 0, 0, 149, 51, 242, 255 }, // 0x00004880
+	 { 3489, 380, 732, 0, 0, 1024, 139, 22, 0, 255 }, // 0x00004890
+	 { 3489, -20, 732, 0, 0, 2048, 174, 85, 241, 255 }, // 0x000048A0
+	 { 3736, -10, 1243, 0, 2048, 2048, 193, 95, 37, 255 }, // 0x000048B0
+	 { 3871, 663, -18, 0, 510, 0, 0, 0, 120, 255 }, // 0x000048C0
+	 { 4437, 280, 548, 0, 2558, 1024, 172, 0, 84, 255 }, // 0x000048D0
+	 { 4437, 580, 548, 0, 2558, 0, 159, 0, 186, 255 }, // 0x000048E0
+	 { 3871, 280, -18, 0, 510, 1024, 0, 69, 98, 255 }, // 0x000048F0
+	 { 3263, 220, 505, 0, 0, 1024, 227, 26, 113, 255 }, // 0x00004900
+	 { 3263, -20, 505, 0, 0, 2048, 238, 98, 67, 255 }, // 0x00004910
+	 { 3730, 280, 124, 0, 2048, 1024, 63, 51, 88, 255 }, // 0x00004920
+	 { 3730, 680, 124, 0, 2048, 0, 66, 19, 98, 255 }, // 0x00004930
+	 { 3263, 518, 344, 0, 0, 0, 206, 51, 95, 255 }, // 0x00004940
+};
+
+Vtx_t _spot00_room_0_vertices_00004950[7] = 
+{
+	 { 4437, 480, 548, 0, 0, -14848, 229, 113, 229, 255 }, // 0x00004950
+	 { 4013, 280, 124, 0, 0, 512, 242, 118, 242, 255 }, // 0x00004960
+	 { 3871, 280, 265, 0, 4096, 512, 221, 110, 223, 255 }, // 0x00004970
+	 { 3263, -20, 505, 0, 0, 512, 238, 98, 67, 255 }, // 0x00004980
+	 { 3489, -20, 732, 0, 4096, 512, 174, 85, 241, 255 }, // 0x00004990
+	 { 3871, 280, 265, 0, 4096, -14848, 221, 110, 223, 255 }, // 0x000049A0
+	 { 3730, 280, 124, 0, 0, -14848, 63, 51, 88, 255 }, // 0x000049B0
+};
+
+Vtx_t _spot00_room_0_vertices_000049C0[10] = 
+{
+	 { 2018, 340, -678, 0, 0, 1024, 222, 49, 103, 255 }, // 0x000049C0
+	 { 2131, 520, -565, 0, 1024, -128, 222, 49, 103, 255 }, // 0x000049D0
+	 { 1961, 520, -734, 0, -512, -128, 196, 84, 60, 255 }, // 0x000049E0
+	 { 1961, 340, -734, 0, -512, 1024, 172, 0, 84, 255 }, // 0x000049F0
+	 { 2018, 20, -678, 0, 0, 3072, 0, 69, 98, 255 }, // 0x00004A00
+	 { 2131, 20, -565, 0, 1024, 3072, 228, 98, 63, 255 }, // 0x00004A10
+	 { 3036, 20, -1470, 0, 5120, 2048, 207, 0, 109, 255 }, // 0x00004A20
+	 { 3036, 520, -1470, 0, 5120, -1152, 60, 84, 60, 255 }, // 0x00004A30
+	 { 2131, 520, -565, 0, -3072, -1152, 222, 49, 103, 255 }, // 0x00004A40
+	 { 2131, 20, -565, 0, -3072, 2048, 228, 98, 63, 255 }, // 0x00004A50
+};
+
+Vtx_t _spot00_room_0_vertices_00004A60[4] = 
+{
+	 { 1282, 500, -55, 0, -2048, 0, 60, 84, 60, 255 }, // 0x00004A60
+	 { 1282, 300, -55, 0, -2048, 2048, 84, 0, 84, 255 }, // 0x00004A70
+	 { 1961, 300, -734, 0, 6144, 2048, 84, 0, 84, 255 }, // 0x00004A80
+	 { 1961, 500, -734, 0, 6144, 0, 60, 84, 60, 255 }, // 0x00004A90
+};
+
+Vtx_t _spot00_room_0_vertices_00004AA0[4] = 
+{
+	 { 1339, 340, 1, 0, 2048, 1024, 103, 49, 222, 255 }, // 0x00004AA0
+	 { 1282, 340, -55, 0, 2560, 1024, 84, 0, 172, 255 }, // 0x00004AB0
+	 { 1282, 520, -55, 0, 2560, -128, 60, 84, 196, 255 }, // 0x00004AC0
+	 { 1605, 520, 267, 0, 0, -128, 103, 49, 222, 255 }, // 0x00004AD0
+};
+
+Vtx_t _spot00_room_0_vertices_00004AE0[4] = 
+{
+	 { 1339, 20, 1, 0, -2048, 2048, 84, 0, 84, 255 }, // 0x00004AE0
+	 { 2018, 20, -678, 0, 4096, 2048, 84, 0, 84, 255 }, // 0x00004AF0
+	 { 2018, 340, -678, 0, 4096, 0, 60, 84, 60, 255 }, // 0x00004B00
+	 { 1339, 340, 1, 0, -2048, 0, 60, 84, 60, 255 }, // 0x00004B10
+};
+
+Vtx_t _spot00_room_0_vertices_00004B20[12] = 
+{
+	 { 1339, 340, 1, 0, 2048, 1024, 103, 49, 222, 255 }, // 0x00004B20
+	 { 1605, 520, 267, 0, 0, -128, 103, 49, 222, 255 }, // 0x00004B30
+	 { 1605, 0, 267, 0, 0, 3200, 58, 96, 41, 255 }, // 0x00004B40
+	 { 1339, 20, 1, 0, 2048, 3072, 50, 108, 4, 255 }, // 0x00004B50
+	 { 1605, 0, 267, 0, 2048, 3200, 58, 96, 41, 255 }, // 0x00004B60
+	 { 1605, 520, 267, 0, 2048, -128, 103, 49, 222, 255 }, // 0x00004B70
+	 { 1379, 520, 494, 0, 0, -128, 222, 49, 103, 255 }, // 0x00004B80
+	 { 1379, 0, 494, 0, 0, 3200, 224, 87, 75, 255 }, // 0x00004B90
+	 { 1407, -45, 465, 0, 256, 398, 60, 84, 60, 255 }, // 0x00004BA0
+	 { 1447, -45, 505, 0, 256, 36, 60, 84, 60, 255 }, // 0x00004BB0
+	 { 1617, -45, 336, 0, 1792, 36, 60, 84, 60, 255 }, // 0x00004BC0
+	 { 1577, -45, 296, 0, 1792, 398, 60, 84, 60, 255 }, // 0x00004BD0
+};
+
+Vtx_t _spot00_room_0_vertices_00004BE0[8] = 
+{
+	 { 1311, -25, 29, 0, 0, 393, 0, 187, 98, 255 }, // 0x00004BE0
+	 { 1311, -140, 29, 0, 0, 1024, 0, 69, 98, 255 }, // 0x00004BF0
+	 { 1577, -140, 296, 0, 2410, 1024, 186, 66, 70, 255 }, // 0x00004C00
+	 { 1577, -25, 296, 0, 2410, 393, 196, 172, 60, 255 }, // 0x00004C10
+	 { 1379, 0, 494, 0, 0, 128, 224, 87, 75, 255 }, // 0x00004C20
+	 { 1407, -45, 465, 0, 256, 384, 60, 84, 60, 255 }, // 0x00004C30
+	 { 1577, -45, 296, 0, 1792, 384, 60, 84, 60, 255 }, // 0x00004C40
+	 { 1605, 0, 267, 0, 2048, 128, 58, 96, 41, 255 }, // 0x00004C50
+};
+
+Vtx_t _spot00_room_0_vertices_00004C60[12] = 
+{
+	 { 975, 200, -1367, 0, 0, 2179, 84, 0, 84, 255 }, // 0x00004C60
+	 { 975, 200, -1510, 0, 2048, 2179, 84, 0, 172, 255 }, // 0x00004C70
+	 { 975, 675, -1510, 0, 2048, 131, 84, 20, 173, 255 }, // 0x00004C80
+	 { 975, 675, -1367, 0, 0, 131, 84, 20, 83, 255 }, // 0x00004C90
+	 { 856, 675, -1367, 0, 2048, 131, 172, 20, 83, 255 }, // 0x00004CA0
+	 { 856, 675, -1510, 0, 0, 131, 172, 20, 173, 255 }, // 0x00004CB0
+	 { 856, 200, -1510, 0, 0, 2179, 172, 0, 172, 255 }, // 0x00004CC0
+	 { 856, 200, -1367, 0, 2048, 2179, 172, 0, 84, 255 }, // 0x00004CD0
+	 { 856, 200, -1367, 0, 0, 2179, 172, 0, 84, 255 }, // 0x00004CE0
+	 { 975, 200, -1367, 0, 2048, 2179, 84, 0, 84, 255 }, // 0x00004CF0
+	 { 975, 675, -1367, 0, 2048, 131, 84, 20, 83, 255 }, // 0x00004D00
+	 { 856, 675, -1367, 0, 0, 131, 172, 20, 83, 255 }, // 0x00004D10
+};
+
+Vtx_t _spot00_room_0_vertices_00004D20[8] = 
+{
+	 { 856, 675, -1367, 0, 376, 1152, 172, 20, 83, 255 }, // 0x00004D20
+	 { 975, 675, -1367, 0, 971, 1152, 84, 20, 83, 255 }, // 0x00004D30
+	 { 915, 945, -1438, 0, 673, 0, 0, 103, 61, 255 }, // 0x00004D40
+	 { 975, 675, -1510, 0, 1722, 1152, 84, 20, 173, 255 }, // 0x00004D50
+	 { 915, 945, -1438, 0, 1347, 0, 0, 103, 61, 255 }, // 0x00004D60
+	 { 856, 675, -1510, 0, 2318, 1152, 172, 20, 173, 255 }, // 0x00004D70
+	 { 856, 675, -1367, 0, 3069, 1152, 172, 20, 83, 255 }, // 0x00004D80
+	 { 915, 945, -1438, 0, 2693, 0, 0, 103, 61, 255 }, // 0x00004D90
+};
+
+Vtx_t _spot00_room_0_vertices_00004DA0[6] = 
+{
+	 { 2187, 1070, -1409, 0, 6093, 584, 0, 11, 119, 255 }, // 0x00004DA0
+	 { 2187, 1407, -1438, 0, 5560, -853, 0, 120, 0, 255 }, // 0x00004DB0
+	 { 2161, 1070, -1453, 0, 5026, 584, 153, 11, 196, 255 }, // 0x00004DC0
+	 { 2213, 1070, -1453, 0, 2672, 584, 103, 11, 196, 255 }, // 0x00004DD0
+	 { 2187, 1407, -1438, 0, 2138, -853, 0, 120, 0, 255 }, // 0x00004DE0
+	 { 2187, 1070, -1409, 0, 1605, 584, 0, 11, 119, 255 }, // 0x00004DF0
+};
+
+Vtx_t _spot00_room_0_vertices_00004E00[15] = 
+{
+	 { 2273, 865, -1231, 0, 2245, 1459, 45, 24, 108, 255 }, // 0x00004E00
+	 { 2395, 865, -1525, 0, 2887, 1459, 108, 24, 211, 255 }, // 0x00004E10
+	 { 2334, 1024, -1499, 0, 2887, 780, 74, 89, 225, 255 }, // 0x00004E20
+	 { 2248, 1024, -1291, 0, 2245, 780, 31, 89, 74, 255 }, // 0x00004E30
+	 { 2101, 865, -1646, 0, 4811, 1459, 211, 24, 148, 255 }, // 0x00004E40
+	 { 1979, 865, -1352, 0, 5453, 1459, 148, 24, 45, 255 }, // 0x00004E50
+	 { 2040, 1024, -1378, 0, 5453, 780, 182, 89, 31, 255 }, // 0x00004E60
+	 { 2126, 1024, -1585, 0, 4811, 780, 225, 89, 182, 255 }, // 0x00004E70
+	 { 1979, 865, -1352, 0, 962, 1459, 148, 24, 45, 255 }, // 0x00004E80
+	 { 2273, 865, -1231, 0, 1604, 1459, 45, 24, 108, 255 }, // 0x00004E90
+	 { 2248, 1024, -1291, 0, 1604, 780, 31, 89, 74, 255 }, // 0x00004EA0
+	 { 2040, 1024, -1378, 0, 962, 780, 182, 89, 31, 255 }, // 0x00004EB0
+	 { 2187, 1090, -1438, 0, 2566, 499, 252, 119, 9, 255 }, // 0x00004EC0
+	 { 2187, 1090, -1438, 0, 5132, 499, 252, 119, 9, 255 }, // 0x00004ED0
+	 { 2187, 1090, -1438, 0, 1283, 499, 252, 119, 9, 255 }, // 0x00004EE0
+};
+
+Vtx_t _spot00_room_0_vertices_00004EF0[12] = 
+{
+	 { 1979, 320, -1352, 0, 0, 2043, 146, 0, 46, 255 }, // 0x00004EF0
+	 { 2273, 320, -1231, 0, 2048, 2043, 46, 0, 110, 255 }, // 0x00004F00
+	 { 2273, 865, -1231, 0, 2048, 150, 45, 24, 108, 255 }, // 0x00004F10
+	 { 1979, 865, -1352, 0, 0, 150, 148, 24, 45, 255 }, // 0x00004F20
+	 { 2273, 320, -1231, 0, 0, 2043, 46, 0, 110, 255 }, // 0x00004F30
+	 { 2395, 320, -1525, 0, 2048, 2043, 110, 0, 210, 255 }, // 0x00004F40
+	 { 2395, 865, -1525, 0, 2048, 150, 108, 24, 211, 255 }, // 0x00004F50
+	 { 2273, 865, -1231, 0, 0, 150, 45, 24, 108, 255 }, // 0x00004F60
+	 { 2101, 320, -1646, 0, 0, 2043, 210, 0, 146, 255 }, // 0x00004F70
+	 { 1979, 320, -1352, 0, 2048, 2043, 146, 0, 46, 255 }, // 0x00004F80
+	 { 1979, 865, -1352, 0, 2048, 150, 148, 24, 45, 255 }, // 0x00004F90
+	 { 2101, 865, -1646, 0, 0, 150, 211, 24, 148, 255 }, // 0x00004FA0
+};
+
+Vtx_t _spot00_room_0_vertices_00004FB0[8] = 
+{
+	 { 359, -411, -1223, 0, 0, 0, 0, 0, 0, 0 }, // 0x00004FB0
+	 { 2271, -411, 2089, 0, 0, 0, 0, 0, 0, 0 }, // 0x00004FC0
+	 { 2728, 72, -2591, 0, 0, 0, 0, 0, 0, 0 }, // 0x00004FD0
+	 { 4640, 72, 721, 0, 0, 0, 0, 0, 0, 0 }, // 0x00004FE0
+	 { 134, 1063, -1093, 0, 0, 0, 0, 0, 0, 0 }, // 0x00004FF0
+	 { 2046, 1063, 2219, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005000
+	 { 2503, 1545, -2461, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005010
+	 { 4415, 1545, 851, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005020
+};
+
+Gfx _spot00_room_0_dlist_00005030[] =
+{
+	gsDPPipeSync(), // 0x00005030
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00005038
+	gsSPVertex(_spot00_room_0_vertices_00004FB0, 8, 0), // 0x00005040
+	gsSPCullDisplayList(0, 7), // 0x00005048
+	gsDPPipeSync(), // 0x00005050
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00005058
+	gsDPPipeSync(), // 0x00005060
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00005068
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00005070
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00005078
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00005080
+	gsDPLoadSync(), // 0x00005088
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00005090
+	gsDPPipeSync(), // 0x00005098
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x000050A0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000050A8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x000050B0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x000050B8
+	gsDPLoadSync(), // 0x000050C0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000050C8
+	gsDPPipeSync(), // 0x000050D0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x000050D8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x000050E0
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000050E8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x000050F0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x000050F8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00005100
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00005108
+	gsSPVertex(_spot00_room_0_vertices_000043E0, 21, 0), // 0x00005110
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00005118
+	gsSP2Triangles(6, 7, 8, 0, 9, 0, 6, 0), // 0x00005120
+	gsSP2Triangles(9, 6, 8, 0, 10, 4, 3, 0), // 0x00005128
+	gsSP2Triangles(7, 11, 8, 0, 4, 12, 5, 0), // 0x00005130
+	gsSP2Triangles(6, 0, 2, 0, 13, 14, 15, 0), // 0x00005138
+	gsSP2Triangles(13, 16, 14, 0, 15, 9, 8, 0), // 0x00005140
+	gsSP2Triangles(15, 8, 13, 0, 17, 18, 19, 0), // 0x00005148
+	gsSP2Triangles(17, 20, 18, 0, 7, 6, 2, 0), // 0x00005150
+	gsDPPipeSync(), // 0x00005158
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x00005160
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x00005168
+	gsDPLoadSync(), // 0x00005170
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00005178
+	gsDPPipeSync(), // 0x00005180
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x00005188
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00005190
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00005198
+	gsSPVertex(_spot00_room_0_vertices_00004530, 22, 0), // 0x000051A0
+	gsSP2Triangles(0, 1, 2, 0, 3, 2, 4, 0), // 0x000051A8
+	gsSP2Triangles(2, 1, 4, 0, 5, 6, 7, 0), // 0x000051B0
+	gsSP2Triangles(6, 8, 7, 0, 5, 9, 6, 0), // 0x000051B8
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x000051C0
+	gsSP2Triangles(14, 15, 13, 0, 12, 14, 13, 0), // 0x000051C8
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x000051D0
+	gsSP2Triangles(18, 20, 21, 0, 18, 21, 19, 0), // 0x000051D8
+	gsDPPipeSync(), // 0x000051E0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x000051E8
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x000051F0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x000051F8
+	gsDPLoadSync(), // 0x00005200
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00005208
+	gsDPPipeSync(), // 0x00005210
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00005218
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00005220
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x00005228
+	gsDPTileSync(), // 0x00005230
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00005238
+	gsDPLoadSync(), // 0x00005240
+	gsDPLoadTLUTCmd(7, 15), // 0x00005248
+	gsDPPipeSync(), // 0x00005250
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00005258
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00005260
+	gsSPVertex(_spot00_room_0_vertices_00004690, 32, 0), // 0x00005268
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005270
+	gsSP2Triangles(4, 5, 3, 0, 6, 3, 2, 0), // 0x00005278
+	gsSP2Triangles(7, 8, 9, 0, 7, 9, 10, 0), // 0x00005280
+	gsSP2Triangles(7, 10, 11, 0, 12, 13, 14, 0), // 0x00005288
+	gsSP2Triangles(12, 14, 15, 0, 16, 12, 15, 0), // 0x00005290
+	gsSP2Triangles(17, 18, 19, 0, 17, 19, 20, 0), // 0x00005298
+	gsSP2Triangles(21, 22, 23, 0, 21, 23, 24, 0), // 0x000052A0
+	gsSP2Triangles(25, 26, 27, 0, 25, 27, 28, 0), // 0x000052A8
+	gsSP1Triangle(29, 25, 28, 0), // 0x000052B0
+	gsSPVertex(_spot00_room_0_vertices_00004870, 14, 0), // 0x000052B8
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 4, 0), // 0x000052C0
+	gsSP2Triangles(2, 4, 0, 0, 5, 6, 7, 0), // 0x000052C8
+	gsSP2Triangles(5, 8, 6, 0, 9, 10, 11, 0), // 0x000052D0
+	gsSP2Triangles(9, 11, 12, 0, 13, 9, 12, 0), // 0x000052D8
+	gsDPPipeSync(), // 0x000052E0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000052E8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D198), // 0x000052F0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 1, 6, 0), // 0x000052F8
+	gsDPLoadSync(), // 0x00005300
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x00005308
+	gsDPPipeSync(), // 0x00005310
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 0, 4, 0, 1, 6, 0), // 0x00005318
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x00005320
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00005328
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00005330
+	gsSPVertex(_spot00_room_0_vertices_00004950, 7, 0), // 0x00005338
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00005340
+	gsSP1Triangle(3, 5, 6, 0), // 0x00005348
+	gsDPPipeSync(), // 0x00005350
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00005358
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00005360
+	gsDPLoadSync(), // 0x00005368
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00005370
+	gsDPPipeSync(), // 0x00005378
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00005380
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00005388
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00005390
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00005398
+	gsSPVertex(_spot00_room_0_vertices_000049C0, 10, 0), // 0x000053A0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000053A8
+	gsSP2Triangles(0, 4, 5, 0, 0, 5, 1, 0), // 0x000053B0
+	gsSP2Triangles(6, 7, 8, 0, 6, 8, 9, 0), // 0x000053B8
+	gsDPPipeSync(), // 0x000053C0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x000053C8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x000053D0
+	gsDPLoadSync(), // 0x000053D8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000053E0
+	gsDPPipeSync(), // 0x000053E8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000053F0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000053F8
+	gsDPSetPrimColor(0, 0, 235, 235, 200, 255), // 0x00005400
+	gsSPVertex(_spot00_room_0_vertices_00004A60, 4, 0), // 0x00005408
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005410
+	gsDPPipeSync(), // 0x00005418
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00005420
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00005428
+	gsDPLoadSync(), // 0x00005430
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00005438
+	gsDPPipeSync(), // 0x00005440
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00005448
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00005450
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00005458
+	gsSPVertex(_spot00_room_0_vertices_00004AA0, 4, 0), // 0x00005460
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005468
+	gsDPPipeSync(), // 0x00005470
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00005478
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00005480
+	gsDPLoadSync(), // 0x00005488
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00005490
+	gsDPPipeSync(), // 0x00005498
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000054A0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000054A8
+	gsDPSetPrimColor(0, 0, 235, 235, 200, 255), // 0x000054B0
+	gsSPVertex(_spot00_room_0_vertices_00004AE0, 4, 0), // 0x000054B8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000054C0
+	gsDPPipeSync(), // 0x000054C8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x000054D0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x000054D8
+	gsDPLoadSync(), // 0x000054E0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000054E8
+	gsDPPipeSync(), // 0x000054F0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000054F8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00005500
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00005508
+	gsSPVertex(_spot00_room_0_vertices_00004B20, 12, 0), // 0x00005510
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005518
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00005520
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00005528
+	gsDPPipeSync(), // 0x00005530
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00005538
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00005540
+	gsDPLoadSync(), // 0x00005548
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00005550
+	gsDPPipeSync(), // 0x00005558
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00005560
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00005568
+	gsSPVertex(_spot00_room_0_vertices_00004BE0, 8, 0), // 0x00005570
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005578
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00005580
+	gsDPPipeSync(), // 0x00005588
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00005590
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00005598
+	gsDPLoadSync(), // 0x000055A0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000055A8
+	gsDPPipeSync(), // 0x000055B0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000055B8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000055C0
+	gsDPSetPrimColor(0, 0, 140, 128, 110, 255), // 0x000055C8
+	gsSPVertex(_spot00_room_0_vertices_00004C60, 12, 0), // 0x000055D0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000055D8
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000055E0
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x000055E8
+	gsDPPipeSync(), // 0x000055F0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x000055F8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00005600
+	gsDPLoadSync(), // 0x00005608
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00005610
+	gsDPPipeSync(), // 0x00005618
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00005620
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00005628
+	gsDPSetPrimColor(0, 0, 125, 65, 15, 255), // 0x00005630
+	gsSPVertex(_spot00_room_0_vertices_00004D20, 8, 0), // 0x00005638
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0), // 0x00005640
+	gsSP1Triangle(5, 6, 7, 0), // 0x00005648
+	gsDPPipeSync(), // 0x00005650
+	gsDPSetPrimColor(0, 0, 83, 82, 57, 255), // 0x00005658
+	gsSPVertex(_spot00_room_0_vertices_00004DA0, 6, 0), // 0x00005660
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00005668
+	gsDPPipeSync(), // 0x00005670
+	gsDPSetPrimColor(0, 0, 125, 65, 15, 255), // 0x00005678
+	gsSPVertex(_spot00_room_0_vertices_00004E00, 15, 0), // 0x00005680
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005688
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00005690
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00005698
+	gsSP2Triangles(3, 2, 12, 0, 7, 6, 13, 0), // 0x000056A0
+	gsSP1Triangle(11, 10, 14, 0), // 0x000056A8
+	gsDPPipeSync(), // 0x000056B0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x000056B8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x000056C0
+	gsDPLoadSync(), // 0x000056C8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000056D0
+	gsDPPipeSync(), // 0x000056D8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000056E0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000056E8
+	gsDPSetPrimColor(0, 0, 140, 128, 110, 255), // 0x000056F0
+	gsSPVertex(_spot00_room_0_vertices_00004EF0, 12, 0), // 0x000056F8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005700
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00005708
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00005710
+	gsSPEndDisplayList(), // 0x00005718
+};
+
+Vtx_t _spot00_room_0_vertices_00005720[7] = 
+{
+	 { -4417, -300, 2550, 0, 3271, -2816, 0, 120, 0, 255 }, // 0x00005720
+	 { -4417, -300, 850, 0, 3271, -17323, 247, 114, 223, 255 }, // 0x00005730
+	 { -5889, -300, 1700, 0, -9293, -10069, 84, 84, 0, 255 }, // 0x00005740
+	 { -5889, -300, 3400, 0, -9293, 4437, 47, 110, 251, 255 }, // 0x00005750
+	 { -4417, -300, 4250, 0, 3271, 11691, 1, 118, 237, 255 }, // 0x00005760
+	 { -2944, -300, 3400, 0, 15834, 4437, 246, 119, 249, 255 }, // 0x00005770
+	 { -2944, -300, 1700, 0, 15834, -10069, 220, 114, 5, 255 }, // 0x00005780
+};
+
+Vtx_t _spot00_room_0_vertices_00005790[4] = 
+{
+	 { -5889, -300, 1700, 0, 8192, 2048, 84, 84, 0, 255 }, // 0x00005790
+	 { -5889, 100, 1700, 0, 8192, 0, 120, 0, 0, 255 }, // 0x000057A0
+	 { -5889, 100, 3400, 0, 0, 0, 116, 0, 29, 255 }, // 0x000057B0
+	 { -5889, -300, 3400, 0, 0, 2048, 47, 110, 251, 255 }, // 0x000057C0
+};
+
+Vtx_t _spot00_room_0_vertices_000057D0[8] = 
+{
+	 { -5889, -300, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x000057D0
+	 { -2944, -300, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x000057E0
+	 { -5889, 100, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x000057F0
+	 { -2944, 100, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005800
+	 { -5889, -300, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005810
+	 { -2944, -300, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005820
+	 { -5889, 100, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005830
+	 { -2944, 100, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005840
+};
+
+Gfx _spot00_room_0_dlist_00005850[] =
+{
+	gsDPPipeSync(), // 0x00005850
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00005858
+	gsSPVertex(_spot00_room_0_vertices_000057D0, 8, 0), // 0x00005860
+	gsSPCullDisplayList(0, 7), // 0x00005868
+	gsDPPipeSync(), // 0x00005870
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00005878
+	gsDPPipeSync(), // 0x00005880
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00005888
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00005890
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00005898
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x000058A0
+	gsDPLoadSync(), // 0x000058A8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000058B0
+	gsDPPipeSync(), // 0x000058B8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x000058C0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000058C8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x000058D0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x000058D8
+	gsDPLoadSync(), // 0x000058E0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000058E8
+	gsDPPipeSync(), // 0x000058F0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x000058F8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00005900
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00005908
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00005910
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00005918
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00005920
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00005928
+	gsSPVertex(_spot00_room_0_vertices_00005720, 7, 0), // 0x00005930
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x00005938
+	gsSP2Triangles(3, 4, 0, 0, 0, 4, 5, 0), // 0x00005940
+	gsSP2Triangles(5, 6, 0, 0, 1, 0, 6, 0), // 0x00005948
+	gsDPPipeSync(), // 0x00005950
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00005958
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00005960
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00005968
+	gsDPLoadSync(), // 0x00005970
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00005978
+	gsDPPipeSync(), // 0x00005980
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00005988
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00005990
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x00005998
+	gsDPTileSync(), // 0x000059A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x000059A8
+	gsDPLoadSync(), // 0x000059B0
+	gsDPLoadTLUTCmd(7, 15), // 0x000059B8
+	gsDPPipeSync(), // 0x000059C0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000059C8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x000059D0
+	gsSPVertex(_spot00_room_0_vertices_00005790, 4, 0), // 0x000059D8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000059E0
+	gsSPEndDisplayList(), // 0x000059E8
+};
+
+Vtx_t _spot00_room_0_vertices_000059F0[9] = 
+{
+	 { -2944, -300, 3400, 0, -8742, 12629, 246, 119, 249, 255 }, // 0x000059F0
+	 { -1791, 0, 2430, 0, 1101, 4354, 253, 103, 60, 255 }, // 0x00005A00
+	 { -2944, -300, 1700, 0, -8742, -1877, 220, 114, 5, 255 }, // 0x00005A10
+	 { -1472, -180, 4250, 0, 3821, 19883, 251, 119, 248, 255 }, // 0x00005A20
+	 { -1472, 0, 850, 0, 3821, -9131, 0, 120, 0, 255 }, // 0x00005A30
+	 { -1456, 0, 2042, 0, 3959, 1043, 35, 114, 4, 255 }, // 0x00005A40
+	 { 0, 0, 1700, 0, 16384, -1877, 0, 120, 0, 255 }, // 0x00005A50
+	 { -2145, 0, 1238, 0, -1919, -5817, 77, 89, 237, 255 }, // 0x00005A60
+	 { 0, 0, 3400, 0, 16384, 12629, 241, 118, 245, 255 }, // 0x00005A70
+};
+
+Vtx_t _spot00_room_0_vertices_00005A80[12] = 
+{
+	 { -2944, 120, 1700, 0, 0, 0, 186, 96, 8, 255 }, // 0x00005A80
+	 { -2944, -300, 1700, 0, 0, 2048, 220, 114, 5, 255 }, // 0x00005A90
+	 { -1791, 0, 2430, 0, 6144, 1024, 253, 103, 60, 255 }, // 0x00005AA0
+	 { -1791, 200, 2430, 0, 6144, 0, 11, 66, 99, 255 }, // 0x00005AB0
+	 { -1456, 0, 2042, 0, 2048, 1024, 35, 114, 4, 255 }, // 0x00005AC0
+	 { -1456, 200, 2042, 0, 2048, 0, 99, 68, 255, 255 }, // 0x00005AD0
+	 { -1791, 200, 2430, 0, 0, 0, 11, 66, 99, 255 }, // 0x00005AE0
+	 { -1791, 0, 2430, 0, 0, 1024, 253, 103, 60, 255 }, // 0x00005AF0
+	 { -2145, 0, 1238, 0, 6144, 1024, 77, 89, 237, 255 }, // 0x00005B00
+	 { -2145, 160, 1238, 0, 6144, 0, 74, 92, 234, 255 }, // 0x00005B10
+	 { -1456, 200, 2042, 0, 0, 0, 99, 68, 255, 255 }, // 0x00005B20
+	 { -1456, 0, 2042, 0, 0, 1024, 35, 114, 4, 255 }, // 0x00005B30
+};
+
+Vtx_t _spot00_room_0_vertices_00005B40[8] = 
+{
+	 { -2944, -300, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005B40
+	 { 0, -300, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005B50
+	 { -2944, 200, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005B60
+	 { 0, 200, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005B70
+	 { -2944, -300, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005B80
+	 { 0, -300, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005B90
+	 { -2944, 200, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005BA0
+	 { 0, 200, 4250, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005BB0
+};
+
+Gfx _spot00_room_0_dlist_00005BC0[] =
+{
+	gsDPPipeSync(), // 0x00005BC0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00005BC8
+	gsSPVertex(_spot00_room_0_vertices_00005B40, 8, 0), // 0x00005BD0
+	gsSPCullDisplayList(0, 7), // 0x00005BD8
+	gsDPPipeSync(), // 0x00005BE0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00005BE8
+	gsDPPipeSync(), // 0x00005BF0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00005BF8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00005C00
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00005C08
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00005C10
+	gsDPLoadSync(), // 0x00005C18
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00005C20
+	gsDPPipeSync(), // 0x00005C28
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00005C30
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00005C38
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00005C40
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00005C48
+	gsDPLoadSync(), // 0x00005C50
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00005C58
+	gsDPPipeSync(), // 0x00005C60
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00005C68
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00005C70
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00005C78
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00005C80
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00005C88
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00005C90
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00005C98
+	gsSPVertex(_spot00_room_0_vertices_000059F0, 9, 0), // 0x00005CA0
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00005CA8
+	gsSP2Triangles(4, 5, 6, 0, 5, 4, 7, 0), // 0x00005CB0
+	gsSP2Triangles(5, 8, 6, 0, 8, 5, 3, 0), // 0x00005CB8
+	gsSP1Triangle(5, 1, 3, 0), // 0x00005CC0
+	gsDPPipeSync(), // 0x00005CC8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00005CD0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00005CD8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00005CE0
+	gsDPLoadSync(), // 0x00005CE8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00005CF0
+	gsDPPipeSync(), // 0x00005CF8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00005D00
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00005D08
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x00005D10
+	gsDPTileSync(), // 0x00005D18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00005D20
+	gsDPLoadSync(), // 0x00005D28
+	gsDPLoadTLUTCmd(7, 15), // 0x00005D30
+	gsDPPipeSync(), // 0x00005D38
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00005D40
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00005D48
+	gsSPVertex(_spot00_room_0_vertices_00005A80, 12, 0), // 0x00005D50
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00005D58
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00005D60
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00005D68
+	gsSPEndDisplayList(), // 0x00005D70
+};
+
+Vtx_t _spot00_room_0_vertices_00005D78[8] = 
+{
+	 { 1472, 0, 2550, 0, 4371, -2816, 253, 119, 243, 255 }, // 0x00005D78
+	 { 1472, 0, 850, 0, 4371, -17323, 3, 119, 255, 255 }, // 0x00005D88
+	 { 0, 0, 1700, 0, -8192, -10069, 0, 120, 0, 255 }, // 0x00005D98
+	 { 0, 0, 3400, 0, -8192, 4437, 241, 118, 245, 255 }, // 0x00005DA8
+	 { 1472, 400, 4250, 0, 4371, 11691, 13, 118, 243, 255 }, // 0x00005DB8
+	 { 2944, 200, 3400, 0, 16934, 4437, 7, 118, 239, 255 }, // 0x00005DC8
+	 { 2944, -60, 1700, 0, 16934, -10069, 25, 95, 188, 255 }, // 0x00005DD8
+	 { 2944, 153, 3095, 0, 16934, 1832, 4, 119, 245, 255 }, // 0x00005DE8
+};
+
+Vtx_t _spot00_room_0_vertices_00005DF8[8] = 
+{
+	 { 0, -436, 927, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005DF8
+	 { 2944, -436, 927, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005E08
+	 { 0, 0, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005E18
+	 { 2944, 0, 850, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005E28
+	 { 0, 157, 4293, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005E38
+	 { 2944, 157, 4293, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005E48
+	 { 0, 593, 4216, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005E58
+	 { 2944, 593, 4216, 0, 0, 0, 0, 0, 0, 0 }, // 0x00005E68
+};
+
+Gfx _spot00_room_0_dlist_00005E78[] =
+{
+	gsDPPipeSync(), // 0x00005E78
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00005E80
+	gsSPVertex(_spot00_room_0_vertices_00005DF8, 8, 0), // 0x00005E88
+	gsSPCullDisplayList(0, 7), // 0x00005E90
+	gsDPPipeSync(), // 0x00005E98
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00005EA0
+	gsDPPipeSync(), // 0x00005EA8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00005EB0
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00005EB8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00005EC0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00005EC8
+	gsDPLoadSync(), // 0x00005ED0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00005ED8
+	gsDPPipeSync(), // 0x00005EE0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00005EE8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00005EF0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00005EF8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00005F00
+	gsDPLoadSync(), // 0x00005F08
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00005F10
+	gsDPPipeSync(), // 0x00005F18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00005F20
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00005F28
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00005F30
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00005F38
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00005F40
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00005F48
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00005F50
+	gsSPVertex(_spot00_room_0_vertices_00005D78, 8, 0), // 0x00005F58
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x00005F60
+	gsSP2Triangles(3, 4, 0, 0, 0, 4, 5, 0), // 0x00005F68
+	gsSP2Triangles(0, 6, 1, 0, 7, 6, 0, 0), // 0x00005F70
+	gsSP1Triangle(5, 7, 0, 0), // 0x00005F78
+	gsSPEndDisplayList(), // 0x00005F80
+};
+
+Vtx_t _spot00_room_0_vertices_00005F88[24] = 
+{
+	 { 2944, 153, 3095, 0, -7642, 1832, 4, 119, 245, 255 }, // 0x00005F88
+	 { 3562, 138, 1924, 0, -2372, -8156, 236, 102, 197, 255 }, // 0x00005F98
+	 { 2944, -60, 1700, 0, -7642, -10069, 25, 95, 188, 255 }, // 0x00005FA8
+	 { 4483, -20, 3042, 0, 5485, 1381, 38, 112, 237, 255 }, // 0x00005FB8
+	 { 4417, 160, 4250, 0, 4921, 11691, 31, 115, 250, 255 }, // 0x00005FC8
+	 { 4855, -20, 3997, 0, 8665, 9529, 61, 99, 29, 255 }, // 0x00005FD8
+	 { 5169, -20, 3816, 0, 11340, 7985, 43, 111, 254, 255 }, // 0x00005FE8
+	 { 4778, -20, 2936, 0, 8008, 480, 214, 111, 12, 255 }, // 0x00005FF8
+	 { 5748, -20, 3482, 0, 16278, 5134, 220, 108, 37, 255 }, // 0x00006008
+	 { 4691, -60, 2313, 0, 7264, -4838, 183, 78, 53, 255 }, // 0x00006018
+	 { 5500, -20, 3624, 0, 14167, 6353, 225, 106, 46, 255 }, // 0x00006028
+	 { 4016, 118, 2089, 0, 1502, -6750, 52, 105, 234, 255 }, // 0x00006038
+	 { 3635, 138, 1845, 0, -1750, -8831, 199, 104, 242, 255 }, // 0x00006048
+	 { 3708, 158, 1487, 0, -1124, -11883, 26, 99, 194, 255 }, // 0x00006058
+	 { 3563, 158, 1554, 0, -2055, -11455, 167, 64, 209, 255 }, // 0x00006068
+	 { 3647, -34, 1605, 0, -1643, -10883, 254, 118, 21, 255 }, // 0x00006078
+	 { 3212, -20, 1545, 0, -5356, -11389, 239, 113, 36, 255 }, // 0x00006088
+	 { 4185, -60, 1817, 0, 2947, -9074, 219, 98, 57, 255 }, // 0x00006098
+	 { 3633, -24, 1556, 0, -1762, -11298, 201, 105, 11, 255 }, // 0x000060A8
+	 { 3693, -28, 1591, 0, -1250, -11002, 26, 93, 70, 255 }, // 0x000060B8
+	 { 3693, -16, 1521, 0, -1250, -11593, 30, 104, 206, 255 }, // 0x000060C8
+	 { 3736, -10, 1243, 0, -884, -13971, 193, 95, 37, 255 }, // 0x000060D8
+	 { 2944, 200, 3400, 0, -7642, 4437, 7, 118, 239, 255 }, // 0x000060E8
+	 { 4375, -60, 2450, 0, 4563, -3672, 65, 89, 209, 255 }, // 0x000060F8
+};
+
+Vtx_t _spot00_room_0_vertices_00006108[7] = 
+{
+	 { 3736, 730, 1243, 0, 2048, 0, 149, 17, 50, 255 }, // 0x00006108
+	 { 3736, -10, 1243, 0, 2048, 2048, 193, 95, 37, 255 }, // 0x00006118
+	 { 4185, -60, 1817, 0, 4096, 2048, 219, 98, 57, 255 }, // 0x00006128
+	 { 4185, 740, 1817, 0, 4096, 0, 167, 0, 80, 255 }, // 0x00006138
+	 { 4949, 740, 2586, 0, 2048, 0, 163, 233, 72, 255 }, // 0x00006148
+	 { 5748, 180, 3482, 0, 4096, 1024, 154, 207, 40, 255 }, // 0x00006158
+	 { 5629, 475, 3696, 0, 5120, 0, 149, 231, 210, 255 }, // 0x00006168
+};
+
+Vtx_t _spot00_room_0_vertices_00006178[4] = 
+{
+	 { 4016, 118, 2089, 0, 0, 0, 52, 105, 234, 255 }, // 0x00006178
+	 { 4016, -2, 2089, 0, 0, 1457, 62, 195, 174, 255 }, // 0x00006188
+	 { 3708, 118, 1487, 0, 3146, 410, 47, 200, 161, 255 }, // 0x00006198
+	 { 3708, 158, 1487, 0, 3146, 0, 26, 99, 194, 255 }, // 0x000061A8
+};
+
+Vtx_t _spot00_room_0_vertices_000061B8[28] = 
+{
+	 { 4691, -60, 2313, 0, 0, 2048, 183, 78, 53, 255 }, // 0x000061B8
+	 { 4533, -180, 2381, 0, 1024, 2048, 245, 119, 4, 255 }, // 0x000061C8
+	 { 4778, -20, 2936, 0, 0, 0, 214, 111, 12, 255 }, // 0x000061D8
+	 { 4631, -140, 2989, 0, 1024, 0, 254, 119, 0, 255 }, // 0x000061E8
+	 { 4533, -180, 2381, 0, 1024, -2048, 245, 119, 4, 255 }, // 0x000061F8
+	 { 4483, -20, 3042, 0, 0, 2048, 38, 112, 237, 255 }, // 0x00006208
+	 { 4631, -140, 2989, 0, 1024, 2048, 254, 119, 0, 255 }, // 0x00006218
+	 { 4375, -60, 2450, 0, 0, -2048, 65, 89, 209, 255 }, // 0x00006228
+	 { 4185, -60, 1817, 0, 0, 2048, 219, 98, 57, 255 }, // 0x00006238
+	 { 4533, -180, 2381, 0, 1024, 0, 245, 119, 4, 255 }, // 0x00006248
+	 { 4691, -60, 2313, 0, 0, 0, 183, 78, 53, 255 }, // 0x00006258
+	 { 4101, -180, 1953, 0, 1024, 2048, 17, 116, 233, 255 }, // 0x00006268
+	 { 4101, -180, 1953, 0, 1024, 0, 17, 116, 233, 255 }, // 0x00006278
+	 { 4375, -60, 2450, 0, 0, 2048, 65, 89, 209, 255 }, // 0x00006288
+	 { 4533, -180, 2381, 0, 1024, 2048, 245, 119, 4, 255 }, // 0x00006298
+	 { 4016, -60, 2089, 0, 0, 0, 55, 43, 159, 255 }, // 0x000062A8
+	 { 3212, -20, 1545, 0, 0, 4096, 239, 113, 36, 255 }, // 0x000062B8
+	 { 3078, -140, 1623, 0, 1024, 4096, 254, 119, 5, 255 }, // 0x000062C8
+	 { 4185, -60, 1817, 0, 0, -2048, 219, 98, 57, 255 }, // 0x000062D8
+	 { 4101, -180, 1953, 0, 1024, -2048, 17, 116, 233, 255 }, // 0x000062E8
+	 { 4778, -20, 2936, 0, 0, 4096, 214, 111, 12, 255 }, // 0x000062F8
+	 { 4631, -140, 2989, 0, 1024, 4096, 254, 119, 0, 255 }, // 0x00006308
+	 { 5500, -20, 3624, 0, 0, -2048, 225, 106, 46, 255 }, // 0x00006318
+	 { 5414, -140, 3766, 0, 1024, -2048, 6, 119, 1, 255 }, // 0x00006328
+	 { 4631, -140, 2989, 0, 1024, -2048, 254, 119, 0, 255 }, // 0x00006338
+	 { 5169, -20, 3816, 0, 0, 4096, 43, 111, 254, 255 }, // 0x00006348
+	 { 5414, -140, 3766, 0, 1024, 4096, 6, 119, 1, 255 }, // 0x00006358
+	 { 4483, -20, 3042, 0, 0, -2048, 38, 112, 237, 255 }, // 0x00006368
+};
+
+Vtx_t _spot00_room_0_vertices_00006378[6] = 
+{
+	 { 5748, -20, 3482, 0, 4096, 2048, 220, 108, 37, 255 }, // 0x00006378
+	 { 5748, 180, 3482, 0, 4096, 1024, 154, 207, 40, 255 }, // 0x00006388
+	 { 4949, 740, 2586, 0, 2048, 0, 163, 233, 72, 255 }, // 0x00006398
+	 { 4691, -60, 2313, 0, 1283, 2048, 183, 78, 53, 255 }, // 0x000063A8
+	 { 4185, 740, 1817, 0, 0, 0, 167, 0, 80, 255 }, // 0x000063B8
+	 { 4185, -60, 1817, 0, 0, 2048, 219, 98, 57, 255 }, // 0x000063C8
+};
+
+Vtx_t _spot00_room_0_vertices_000063D8[26] = 
+{
+	 { 3562, 138, 1924, 0, 0, 0, 236, 102, 197, 255 }, // 0x000063D8
+	 { 3562, -2, 1924, 0, 0, 1457, 20, 238, 139, 255 }, // 0x000063E8
+	 { 2944, -60, 1700, 0, 3072, 0, 25, 95, 188, 255 }, // 0x000063F8
+	 { 4016, -2, 2089, 0, 3072, 1457, 62, 195, 174, 255 }, // 0x00006408
+	 { 4016, 118, 2089, 0, 3072, 0, 52, 105, 234, 255 }, // 0x00006418
+	 { 4375, -60, 2450, 0, 0, 0, 65, 89, 209, 255 }, // 0x00006428
+	 { 3562, -2, 1924, 0, 3072, 1457, 20, 238, 139, 255 }, // 0x00006438
+	 { 4016, -2, 2089, 0, 0, 1457, 62, 195, 174, 255 }, // 0x00006448
+	 { 4016, -60, 2089, 0, 0, 2048, 55, 43, 159, 255 }, // 0x00006458
+	 { 4016, -60, 2089, 0, 3072, 2048, 55, 43, 159, 255 }, // 0x00006468
+	 { 3635, 138, 1845, 0, 2808, 0, 199, 104, 242, 255 }, // 0x00006478
+	 { 3563, 158, 1554, 0, 3689, 0, 167, 64, 209, 255 }, // 0x00006488
+	 { 3563, 118, 1554, 0, 3689, 410, 156, 200, 222, 255 }, // 0x00006498
+	 { 3635, 78, 1845, 0, 2808, 637, 190, 166, 214, 255 }, // 0x000064A8
+	 { 3562, 138, 1924, 0, 3072, 0, 236, 102, 197, 255 }, // 0x000064B8
+	 { 3708, 158, 1487, 0, 3146, 0, 26, 99, 194, 255 }, // 0x000064C8
+	 { 3708, 118, 1487, 0, 3146, 410, 47, 200, 161, 255 }, // 0x000064D8
+	 { 3658, 40, 1530, 0, 3351, 1206, 200, 229, 154, 255 }, // 0x000064E8
+	 { 3693, -16, 1521, 0, 3161, 2048, 30, 104, 206, 255 }, // 0x000064F8
+	 { 3633, -24, 1556, 0, 3444, 2048, 201, 105, 11, 255 }, // 0x00006508
+	 { 3658, 40, 1582, 0, 3238, 1206, 178, 213, 80, 255 }, // 0x00006518
+	 { 3693, -28, 1591, 0, 3010, 2048, 26, 93, 70, 255 }, // 0x00006528
+	 { 3703, 40, 1556, 0, 3026, 1206, 114, 223, 245, 255 }, // 0x00006538
+	 { 3698, 74, 1667, 0, 2816, 1067, 255, 137, 14, 255 }, // 0x00006548
+	 { 3562, -60, 1924, 0, 3072, 2048, 34, 65, 162, 255 }, // 0x00006558
+	 { 3562, -60, 1924, 0, 0, 2048, 34, 65, 162, 255 }, // 0x00006568
+};
+
+Vtx_t _spot00_room_0_vertices_00006578[5] = 
+{
+	 { 3078, -140, 1623, 0, 1024, -2048, 254, 119, 5, 255 }, // 0x00006578
+	 { 3562, -60, 1924, 0, 0, 1493, 34, 65, 162, 255 }, // 0x00006588
+	 { 4101, -180, 1953, 0, 1024, 4096, 17, 116, 233, 255 }, // 0x00006598
+	 { 2944, -60, 1700, 0, 0, -2048, 25, 95, 188, 255 }, // 0x000065A8
+	 { 4016, -60, 2089, 0, 0, 4096, 55, 43, 159, 255 }, // 0x000065B8
+};
+
+Vtx_t _spot00_room_0_vertices_000065C8[24] = 
+{
+	 { 3574, 188, 1560, 0, 0, 0, 175, 45, 181, 255 }, // 0x000065C8
+	 { 3703, 188, 1502, 0, 4096, 0, 57, 80, 188, 255 }, // 0x000065D8
+	 { 3703, 156, 1502, 0, 4096, 1024, 5, 81, 168, 255 }, // 0x000065E8
+	 { 3574, 157, 1560, 0, 0, 1024, 149, 45, 228, 255 }, // 0x000065F8
+	 { 3703, 188, 1502, 0, 0, 0, 57, 80, 188, 255 }, // 0x00006608
+	 { 4009, 148, 2095, 0, 23105, 0, 59, 101, 232, 255 }, // 0x00006618
+	 { 4009, 118, 2095, 0, 23105, 1024, 62, 101, 242, 255 }, // 0x00006628
+	 { 3703, 156, 1502, 0, 0, 1024, 5, 81, 168, 255 }, // 0x00006638
+	 { 3645, 168, 1848, 0, -9498, 0, 177, 89, 247, 255 }, // 0x00006648
+	 { 3574, 188, 1560, 0, 1024, 0, 175, 45, 181, 255 }, // 0x00006658
+	 { 3574, 157, 1560, 0, 1024, 1024, 149, 45, 228, 255 }, // 0x00006668
+	 { 3645, 137, 1848, 0, -9498, 1024, 185, 90, 223, 255 }, // 0x00006678
+	 { 3564, 168, 1934, 0, -3072, 0, 201, 94, 205, 255 }, // 0x00006688
+	 { 3645, 168, 1848, 0, 747, 0, 177, 89, 247, 255 }, // 0x00006698
+	 { 3645, 137, 1848, 0, 747, 1024, 185, 90, 223, 255 }, // 0x000066A8
+	 { 3564, 137, 1934, 0, -3072, 1024, 234, 101, 196, 255 }, // 0x000066B8
+	 { 2941, -30, 1710, 0, -21510, 0, 19, 57, 153, 255 }, // 0x000066C8
+	 { 3564, 168, 1934, 0, 1024, 0, 201, 94, 205, 255 }, // 0x000066D8
+	 { 3564, 137, 1934, 0, 1024, 1024, 234, 101, 196, 255 }, // 0x000066E8
+	 { 2941, -60, 1710, 0, -21510, 1024, 245, 103, 196, 255 }, // 0x000066F8
+	 { 4009, 148, 2095, 0, 572, 0, 59, 101, 232, 255 }, // 0x00006708
+	 { 4367, -30, 2457, 0, 17399, 0, 71, 93, 231, 255 }, // 0x00006718
+	 { 4367, -60, 2457, 0, 17399, 1024, 87, 56, 197, 255 }, // 0x00006728
+	 { 4009, 118, 2095, 0, 572, 1024, 62, 101, 242, 255 }, // 0x00006738
+};
+
+Vtx_t _spot00_room_0_vertices_00006748[8] = 
+{
+	 { 2200, -489, 2324, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006748
+	 { 4292, -489, 4817, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006758
+	 { 3801, -120, 982, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006768
+	 { 5892, -120, 3475, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006778
+	 { 2082, 387, 2424, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006788
+	 { 4174, 387, 4917, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006798
+	 { 3682, 756, 1081, 0, 0, 0, 0, 0, 0, 0 }, // 0x000067A8
+	 { 5774, 756, 3574, 0, 0, 0, 0, 0, 0, 0 }, // 0x000067B8
+};
+
+Gfx _spot00_room_0_dlist_000067C8[] =
+{
+	gsDPPipeSync(), // 0x000067C8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000067D0
+	gsSPVertex(_spot00_room_0_vertices_00006748, 8, 0), // 0x000067D8
+	gsSPCullDisplayList(0, 7), // 0x000067E0
+	gsDPPipeSync(), // 0x000067E8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000067F0
+	gsDPPipeSync(), // 0x000067F8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00006800
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00006808
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00006810
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00006818
+	gsDPLoadSync(), // 0x00006820
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00006828
+	gsDPPipeSync(), // 0x00006830
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00006838
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00006840
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00006848
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00006850
+	gsDPLoadSync(), // 0x00006858
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00006860
+	gsDPPipeSync(), // 0x00006868
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00006870
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00006878
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00006880
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00006888
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00006890
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00006898
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x000068A0
+	gsSPVertex(_spot00_room_0_vertices_00005F88, 24, 0), // 0x000068A8
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x000068B0
+	gsSP2Triangles(5, 6, 3, 0, 7, 8, 9, 0), // 0x000068B8
+	gsSP2Triangles(10, 8, 7, 0, 11, 12, 1, 0), // 0x000068C0
+	gsSP2Triangles(11, 13, 12, 0, 13, 14, 12, 0), // 0x000068C8
+	gsSP2Triangles(15, 16, 17, 0, 15, 18, 16, 0), // 0x000068D0
+	gsSP2Triangles(17, 19, 15, 0, 15, 19, 18, 0), // 0x000068D8
+	gsSP2Triangles(17, 20, 19, 0, 21, 20, 17, 0), // 0x000068E0
+	gsSP2Triangles(21, 18, 20, 0, 16, 18, 21, 0), // 0x000068E8
+	gsSP2Triangles(0, 22, 4, 0, 4, 3, 0, 0), // 0x000068F0
+	gsSP2Triangles(11, 1, 0, 0, 23, 11, 0, 0), // 0x000068F8
+	gsSP1Triangle(0, 3, 23, 0), // 0x00006900
+	gsDPPipeSync(), // 0x00006908
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00006910
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00006918
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00006920
+	gsDPLoadSync(), // 0x00006928
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00006930
+	gsDPPipeSync(), // 0x00006938
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00006940
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00006948
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x00006950
+	gsDPTileSync(), // 0x00006958
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00006960
+	gsDPLoadSync(), // 0x00006968
+	gsDPLoadTLUTCmd(7, 15), // 0x00006970
+	gsDPPipeSync(), // 0x00006978
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00006980
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00006988
+	gsSPVertex(_spot00_room_0_vertices_00006108, 7, 0), // 0x00006990
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00006998
+	gsSP1Triangle(4, 5, 6, 0), // 0x000069A0
+	gsDPPipeSync(), // 0x000069A8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000069B0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00019B98), // 0x000069B8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x000069C0
+	gsDPLoadSync(), // 0x000069C8
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x000069D0
+	gsDPPipeSync(), // 0x000069D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x000069E0
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x000069E8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000069F0
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x000069F8
+	gsSPVertex(_spot00_room_0_vertices_00006178, 4, 0), // 0x00006A00
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00006A08
+	gsDPPipeSync(), // 0x00006A10
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x00006A18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x00006A20
+	gsDPLoadSync(), // 0x00006A28
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00006A30
+	gsDPPipeSync(), // 0x00006A38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x00006A40
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00006A48
+	gsSPVertex(_spot00_room_0_vertices_000061B8, 28, 0), // 0x00006A50
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x00006A58
+	gsSP2Triangles(4, 5, 6, 0, 4, 7, 5, 0), // 0x00006A60
+	gsSP2Triangles(8, 9, 10, 0, 8, 11, 9, 0), // 0x00006A68
+	gsSP2Triangles(12, 13, 14, 0, 12, 15, 13, 0), // 0x00006A70
+	gsSP2Triangles(16, 17, 18, 0, 17, 19, 18, 0), // 0x00006A78
+	gsSP2Triangles(20, 21, 22, 0, 21, 23, 22, 0), // 0x00006A80
+	gsSP2Triangles(24, 25, 26, 0, 24, 27, 25, 0), // 0x00006A88
+	gsDPPipeSync(), // 0x00006A90
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00006A98
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00006AA0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00006AA8
+	gsDPLoadSync(), // 0x00006AB0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00006AB8
+	gsDPPipeSync(), // 0x00006AC0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00006AC8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00006AD0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x00006AD8
+	gsDPTileSync(), // 0x00006AE0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00006AE8
+	gsDPLoadSync(), // 0x00006AF0
+	gsDPLoadTLUTCmd(7, 15), // 0x00006AF8
+	gsDPPipeSync(), // 0x00006B00
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00006B08
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00006B10
+	gsSPVertex(_spot00_room_0_vertices_00006378, 6, 0), // 0x00006B18
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00006B20
+	gsSP2Triangles(2, 4, 5, 0, 2, 5, 3, 0), // 0x00006B28
+	gsDPPipeSync(), // 0x00006B30
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00006B38
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00019B98), // 0x00006B40
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x00006B48
+	gsDPLoadSync(), // 0x00006B50
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00006B58
+	gsDPPipeSync(), // 0x00006B60
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x00006B68
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00006B70
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00006B78
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00006B80
+	gsSPVertex(_spot00_room_0_vertices_000063D8, 26, 0), // 0x00006B88
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00006B90
+	gsSP2Triangles(6, 7, 8, 0, 5, 9, 3, 0), // 0x00006B98
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x00006BA0
+	gsSP2Triangles(13, 6, 14, 0, 13, 14, 10, 0), // 0x00006BA8
+	gsSP2Triangles(15, 16, 12, 0, 15, 12, 11, 0), // 0x00006BB0
+	gsSP2Triangles(6, 13, 7, 0, 17, 18, 19, 0), // 0x00006BB8
+	gsSP2Triangles(19, 20, 17, 0, 21, 20, 19, 0), // 0x00006BC0
+	gsSP2Triangles(21, 22, 20, 0, 18, 22, 21, 0), // 0x00006BC8
+	gsSP2Triangles(18, 17, 22, 0, 23, 20, 22, 0), // 0x00006BD0
+	gsSP2Triangles(22, 16, 23, 0, 17, 16, 22, 0), // 0x00006BD8
+	gsSP2Triangles(17, 12, 16, 0, 20, 12, 17, 0), // 0x00006BE0
+	gsSP2Triangles(20, 23, 12, 0, 12, 23, 13, 0), // 0x00006BE8
+	gsSP2Triangles(7, 23, 16, 0, 7, 13, 23, 0), // 0x00006BF0
+	gsSP2Triangles(8, 24, 6, 0, 25, 2, 1, 0), // 0x00006BF8
+	gsDPPipeSync(), // 0x00006C00
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x00006C08
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x00006C10
+	gsDPLoadSync(), // 0x00006C18
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00006C20
+	gsDPPipeSync(), // 0x00006C28
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x00006C30
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00006C38
+	gsSPVertex(_spot00_room_0_vertices_00006578, 5, 0), // 0x00006C40
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00006C48
+	gsSP1Triangle(1, 4, 2, 0), // 0x00006C50
+	gsDPPipeSync(), // 0x00006C58
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D98), // 0x00006C60
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x00006C68
+	gsDPLoadSync(), // 0x00006C70
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00006C78
+	gsDPPipeSync(), // 0x00006C80
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x00006C88
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00006C90
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00006C98
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00006CA0
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x00006CA8
+	gsSPVertex(_spot00_room_0_vertices_000065C8, 24, 0), // 0x00006CB0
+	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0), // 0x00006CB8
+	gsSP2Triangles(4, 5, 6, 0, 7, 4, 6, 0), // 0x00006CC0
+	gsSP2Triangles(8, 9, 10, 0, 11, 8, 10, 0), // 0x00006CC8
+	gsSP2Triangles(12, 13, 14, 0, 15, 12, 14, 0), // 0x00006CD0
+	gsSP2Triangles(16, 17, 18, 0, 19, 16, 18, 0), // 0x00006CD8
+	gsSP2Triangles(20, 21, 22, 0, 23, 20, 22, 0), // 0x00006CE0
+	gsSPEndDisplayList(), // 0x00006CE8
+};
+
+Vtx_t _spot00_room_0_vertices_00006CF0[14] = 
+{
+	 { -7361, -500, 5950, 0, -13664, 9813, 57, 99, 36, 255 }, // 0x00006CF0
+	 { -5889, 100, 5100, 0, -1101, 2560, 246, 119, 1, 255 }, // 0x00006D00
+	 { -6573, 7, 4705, 0, -6938, -810, 67, 88, 45, 255 }, // 0x00006D10
+	 { -5889, -300, 3400, 0, -1101, -11947, 47, 110, 251, 255 }, // 0x00006D20
+	 { -5422, 100, 5475, 0, 2888, 5758, 242, 116, 23, 255 }, // 0x00006D30
+	 { -5273, 100, 5310, 0, 4156, 4348, 10, 118, 238, 255 }, // 0x00006D40
+	 { -4833, 100, 5815, 0, 7913, 8660, 246, 117, 23, 255 }, // 0x00006D50
+	 { -4716, 100, 5631, 0, 8907, 7091, 12, 118, 241, 255 }, // 0x00006D60
+	 { -4417, 100, 5950, 0, 11463, 9813, 214, 110, 238, 255 }, // 0x00006D70
+	 { -5273, 100, 5310, 0, 4156, 4348, 10, 118, 238, 255 }, // 0x00006D80
+	 { -4417, -300, 4250, 0, 11463, -4693, 1, 118, 237, 255 }, // 0x00006D90
+	 { -5889, -500, 6800, 0, -1101, 17067, 239, 117, 14, 255 }, // 0x00006DA0
+	 { -7361, -500, 5950, 0, -13664, 9813, 57, 99, 36, 255 }, // 0x00006DB0
+	 { -4417, -119, 5019, 0, 11463, 1872, 5, 116, 227, 255 }, // 0x00006DC0
+};
+
+Vtx_t _spot00_room_0_vertices_00006DD0[8] = 
+{
+	 { -5889, -300, 3400, 0, 2048, 2048, 47, 110, 251, 255 }, // 0x00006DD0
+	 { -5889, 100, 3400, 0, 2048, 0, 116, 0, 29, 255 }, // 0x00006DE0
+	 { -6573, 287, 4705, 0, -6144, 0, 103, 0, 60, 255 }, // 0x00006DF0
+	 { -6573, 7, 4705, 0, -6144, 1024, 67, 88, 45, 255 }, // 0x00006E00
+	 { -7361, -500, 5950, 0, 2048, 2048, 57, 99, 36, 255 }, // 0x00006E10
+	 { -6573, 7, 4705, 0, 6144, 1024, 67, 88, 45, 255 }, // 0x00006E20
+	 { -6573, 287, 4705, 0, 6144, 0, 103, 0, 60, 255 }, // 0x00006E30
+	 { -7361, 300, 5950, 0, 2048, 0, 117, 0, 22, 255 }, // 0x00006E40
+};
+
+Vtx_t _spot00_room_0_vertices_00006E50[8] = 
+{
+	 { -5889, -500, 3400, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006E50
+	 { -3681, -500, 4675, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006E60
+	 { -5889, 300, 3400, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006E70
+	 { -3681, 300, 4675, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006E80
+	 { -7361, -500, 5950, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006E90
+	 { -5153, -500, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006EA0
+	 { -7361, 300, 5950, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006EB0
+	 { -5153, 300, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x00006EC0
+};
+
+Gfx _spot00_room_0_dlist_00006ED0[] =
+{
+	gsDPPipeSync(), // 0x00006ED0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00006ED8
+	gsSPVertex(_spot00_room_0_vertices_00006E50, 8, 0), // 0x00006EE0
+	gsSPCullDisplayList(0, 7), // 0x00006EE8
+	gsDPPipeSync(), // 0x00006EF0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00006EF8
+	gsDPPipeSync(), // 0x00006F00
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00006F08
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00006F10
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00006F18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00006F20
+	gsDPLoadSync(), // 0x00006F28
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00006F30
+	gsDPPipeSync(), // 0x00006F38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00006F40
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00006F48
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00006F50
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00006F58
+	gsDPLoadSync(), // 0x00006F60
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00006F68
+	gsDPPipeSync(), // 0x00006F70
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00006F78
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00006F80
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00006F88
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00006F90
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00006F98
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00006FA0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00006FA8
+	gsSPVertex(_spot00_room_0_vertices_00006CF0, 14, 0), // 0x00006FB0
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x00006FB8
+	gsSP2Triangles(4, 5, 1, 0, 4, 6, 7, 0), // 0x00006FC0
+	gsSP2Triangles(4, 7, 5, 0, 8, 7, 6, 0), // 0x00006FC8
+	gsSP2Triangles(3, 1, 9, 0, 3, 9, 10, 0), // 0x00006FD0
+	gsSP2Triangles(8, 6, 11, 0, 6, 4, 11, 0), // 0x00006FD8
+	gsSP2Triangles(4, 1, 12, 0, 12, 11, 4, 0), // 0x00006FE0
+	gsSP2Triangles(13, 9, 7, 0, 10, 9, 13, 0), // 0x00006FE8
+	gsSP1Triangle(13, 7, 8, 0), // 0x00006FF0
+	gsDPPipeSync(), // 0x00006FF8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00007000
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00007008
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00007010
+	gsDPLoadSync(), // 0x00007018
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00007020
+	gsDPPipeSync(), // 0x00007028
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00007030
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00007038
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x00007040
+	gsDPTileSync(), // 0x00007048
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00007050
+	gsDPLoadSync(), // 0x00007058
+	gsDPLoadTLUTCmd(7, 15), // 0x00007060
+	gsDPPipeSync(), // 0x00007068
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00007070
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00007078
+	gsSPVertex(_spot00_room_0_vertices_00006DD0, 8, 0), // 0x00007080
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00007088
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00007090
+	gsSPEndDisplayList(), // 0x00007098
+};
+
+Vtx_t _spot00_room_0_vertices_000070A0[17] = 
+{
+	 { -1472, 0, 5100, 0, 12013, 2560, 251, 118, 235, 255 }, // 0x000070A0
+	 { -1472, -180, 4250, 0, 12013, -4693, 251, 119, 248, 255 }, // 0x000070B0
+	 { -2944, 100, 5100, 0, -550, 2560, 252, 106, 202, 255 }, // 0x000070C0
+	 { -4417, -300, 4250, 0, -13113, -4693, 1, 118, 237, 255 }, // 0x000070D0
+	 { -2944, -300, 3400, 0, -550, -11947, 246, 119, 249, 255 }, // 0x000070E0
+	 { -1637, 100, 5855, 0, 10608, 9002, 5, 96, 186, 255 }, // 0x000070F0
+	 { -1472, 100, 5950, 0, 12013, 9813, 35, 112, 235, 255 }, // 0x00007100
+	 { -1845, 100, 5735, 0, 8834, 7978, 62, 97, 223, 255 }, // 0x00007110
+	 { -1821, 242, 6110, 0, 9037, 11182, 21, 70, 162, 255 }, // 0x00007120
+	 { -1982, 233, 5953, 0, 7662, 9843, 60, 99, 28, 255 }, // 0x00007130
+	 { -2300, 313, 6262, 0, 4950, 12473, 84, 84, 250, 255 }, // 0x00007140
+	 { -2200, 313, 6262, 0, 5803, 12473, 0, 120, 0, 255 }, // 0x00007150
+	 { -2235, 313, 6129, 0, 5508, 11338, 8, 109, 208, 255 }, // 0x00007160
+	 { -2315, 313, 6046, 0, 4825, 10634, 66, 93, 36, 255 }, // 0x00007170
+	 { -1821, 242, 6110, 0, 9037, 11182, 21, 70, 162, 255 }, // 0x00007180
+	 { -4417, -119, 5019, 0, -13113, 1872, 5, 116, 227, 255 }, // 0x00007190
+	 { -4417, 100, 5950, 0, -13113, 9813, 214, 110, 238, 255 }, // 0x000071A0
+};
+
+Vtx_t _spot00_room_0_vertices_000071B0[8] = 
+{
+	 { -4417, -445, 3426, 0, 0, 0, 0, 0, 0, 0 }, // 0x000071B0
+	 { -1472, -445, 3426, 0, 0, 0, 0, 0, 0, 0 }, // 0x000071C0
+	 { -4417, -158, 3375, 0, 0, 0, 0, 0, 0, 0 }, // 0x000071D0
+	 { -1472, -158, 3375, 0, 0, 0, 0, 0, 0, 0 }, // 0x000071E0
+	 { -4417, 63, 6306, 0, 0, 0, 0, 0, 0, 0 }, // 0x000071F0
+	 { -1472, 63, 6306, 0, 0, 0, 0, 0, 0, 0 }, // 0x00007200
+	 { -4417, 350, 6255, 0, 0, 0, 0, 0, 0, 0 }, // 0x00007210
+	 { -1472, 350, 6255, 0, 0, 0, 0, 0, 0, 0 }, // 0x00007220
+};
+
+Gfx _spot00_room_0_dlist_00007230[] =
+{
+	gsDPPipeSync(), // 0x00007230
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00007238
+	gsSPVertex(_spot00_room_0_vertices_000071B0, 8, 0), // 0x00007240
+	gsSPCullDisplayList(0, 7), // 0x00007248
+	gsDPPipeSync(), // 0x00007250
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00007258
+	gsDPPipeSync(), // 0x00007260
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00007268
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00007270
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00007278
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00007280
+	gsDPLoadSync(), // 0x00007288
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00007290
+	gsDPPipeSync(), // 0x00007298
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x000072A0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000072A8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x000072B0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x000072B8
+	gsDPLoadSync(), // 0x000072C0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000072C8
+	gsDPPipeSync(), // 0x000072D0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x000072D8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x000072E0
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000072E8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x000072F0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x000072F8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00007300
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00007308
+	gsSPVertex(_spot00_room_0_vertices_000070A0, 17, 0), // 0x00007310
+	gsSP2Triangles(0, 1, 2, 0, 3, 2, 4, 0), // 0x00007318
+	gsSP2Triangles(2, 1, 4, 0, 0, 5, 6, 0), // 0x00007320
+	gsSP2Triangles(0, 7, 5, 0, 7, 0, 2, 0), // 0x00007328
+	gsSP2Triangles(8, 5, 9, 0, 5, 7, 9, 0), // 0x00007330
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x00007338
+	gsSP2Triangles(13, 12, 9, 0, 12, 14, 9, 0), // 0x00007340
+	gsSP2Triangles(3, 15, 2, 0, 15, 16, 2, 0), // 0x00007348
+	gsSPEndDisplayList(), // 0x00007350
+};
+
+Vtx_t _spot00_room_0_vertices_00007358[32] = 
+{
+	 { -1664, 273, 7405, 0, 0, 1024, 112, 36, 19, 255 }, // 0x00007358
+	 { -1688, 313, 7351, 0, 512, 768, 91, 59, 207, 255 }, // 0x00007368
+	 { -1688, 433, 7351, 0, 512, 0, 56, 61, 170, 255 }, // 0x00007378
+	 { -1664, 433, 7405, 0, 0, 0, 98, 64, 24, 255 }, // 0x00007388
+	 { -1648, 273, 6631, 0, 5888, 1024, 113, 34, 19, 255 }, // 0x00007398
+	 { -1688, 313, 6671, 0, 5632, 768, 84, 60, 60, 255 }, // 0x000073A8
+	 { -1928, 313, 7351, 0, 2048, 768, 0, 84, 172, 255 }, // 0x000073B8
+	 { -1928, 433, 7351, 0, 2048, 0, 0, 84, 172, 255 }, // 0x000073C8
+	 { -1928, 433, 6671, 0, 4096, 0, 0, 85, 84, 255 }, // 0x000073D8
+	 { -1928, 313, 6671, 0, 4096, 768, 0, 84, 84, 255 }, // 0x000073E8
+	 { -1688, 433, 6671, 0, 5632, 0, 41, 57, 97, 255 }, // 0x000073F8
+	 { -1648, 433, 6631, 0, 5888, 0, 111, 45, 2, 255 }, // 0x00007408
+	 { -3439, 273, 8078, 0, 0, 1024, 9, 36, 114, 255 }, // 0x00007418
+	 { -3399, 313, 8038, 0, 512, 768, 60, 60, 84, 255 }, // 0x00007428
+	 { -3399, 433, 8038, 0, 512, 0, 97, 57, 40, 255 }, // 0x00007438
+	 { -3439, 433, 8078, 0, 0, 0, 11, 65, 100, 255 }, // 0x00007448
+	 { -2519, 273, 8078, 0, 6144, 1024, 251, 37, 114, 255 }, // 0x00007458
+	 { -2559, 313, 8038, 0, 5632, 768, 196, 60, 84, 255 }, // 0x00007468
+	 { -2519, 433, 8078, 0, 6144, 0, 250, 66, 99, 255 }, // 0x00007478
+	 { -2559, 433, 8038, 0, 5632, 0, 159, 57, 40, 255 }, // 0x00007488
+	 { -3399, 313, 7798, 0, 2048, 768, 84, 84, 0, 255 }, // 0x00007498
+	 { -3399, 433, 7798, 0, 2048, 0, 84, 84, 0, 255 }, // 0x000074A8
+	 { -2559, 433, 7798, 0, 4096, 0, 172, 84, 0, 255 }, // 0x000074B8
+	 { -2559, 313, 7798, 0, 4096, 768, 172, 84, 0, 255 }, // 0x000074C8
+	 { -4131, 433, 7636, 0, 0, 0, 180, 55, 75, 255 }, // 0x000074D8
+	 { -4131, 273, 7636, 0, 0, 1024, 171, 0, 84, 255 }, // 0x000074E8
+	 { -3439, 273, 8078, 0, 6144, 1024, 9, 36, 114, 255 }, // 0x000074F8
+	 { -3439, 433, 8078, 0, 6144, 0, 11, 65, 100, 255 }, // 0x00007508
+	 { -2519, 433, 8078, 0, 0, 0, 250, 66, 99, 255 }, // 0x00007518
+	 { -2519, 273, 8078, 0, 0, 1024, 251, 37, 114, 255 }, // 0x00007528
+	 { -1664, 273, 7405, 0, 8192, 1024, 112, 36, 19, 255 }, // 0x00007538
+	 { -1664, 433, 7405, 0, 8192, 0, 98, 64, 24, 255 }, // 0x00007548
+};
+
+Vtx_t _spot00_room_0_vertices_00007558[32] = 
+{
+	 { -4360, 433, 7263, 0, 1787, 0, 156, 64, 244, 255 }, // 0x00007558
+	 { -4360, 273, 7263, 0, 1787, 1024, 142, 35, 247, 255 }, // 0x00007568
+	 { -4131, 273, 7636, 0, 4096, 1024, 171, 0, 84, 255 }, // 0x00007578
+	 { -4131, 433, 7636, 0, 4096, 0, 180, 55, 75, 255 }, // 0x00007588
+	 { -4320, 433, 7223, 0, 3584, 0, 216, 57, 159, 255 }, // 0x00007598
+	 { -4320, 313, 7223, 0, 3584, 768, 172, 60, 196, 255 }, // 0x000075A8
+	 { -4360, 273, 7263, 0, 4096, 1024, 142, 35, 247, 255 }, // 0x000075B8
+	 { -4360, 433, 7263, 0, 4096, 0, 156, 64, 244, 255 }, // 0x000075C8
+	 { -4120, 433, 7223, 0, 2048, 0, 0, 84, 172, 255 }, // 0x000075D8
+	 { -4120, 313, 7223, 0, 2048, 768, 0, 84, 172, 255 }, // 0x000075E8
+	 { -4360, 433, 6583, 0, 0, 0, 159, 54, 43, 255 }, // 0x000075F8
+	 { -4360, 273, 6583, 0, 0, 1024, 146, 32, 32, 255 }, // 0x00007608
+	 { -4320, 313, 6623, 0, 512, 768, 172, 60, 60, 255 }, // 0x00007618
+	 { -4320, 433, 6623, 0, 512, 0, 213, 54, 97, 255 }, // 0x00007628
+	 { -4120, 313, 6623, 0, 2048, 768, 0, 84, 84, 255 }, // 0x00007638
+	 { -4120, 433, 6623, 0, 2048, 0, 252, 111, 45, 255 }, // 0x00007648
+	 { -4360, 473, 6103, 0, 0, 0, 181, 81, 210, 255 }, // 0x00007658
+	 { -4360, 273, 6103, 0, 0, 1024, 145, 0, 211, 255 }, // 0x00007668
+	 { -4360, 273, 6583, 0, 2048, 1024, 146, 32, 32, 255 }, // 0x00007678
+	 { -4360, 433, 6583, 0, 2048, 0, 159, 54, 43, 255 }, // 0x00007688
+	 { -1648, 433, 6631, 0, -256, 0, 111, 45, 2, 255 }, // 0x00007698
+	 { -1648, 273, 6631, 0, -256, 1024, 113, 34, 19, 255 }, // 0x000076A8
+	 { -1821, 242, 6110, 0, 2048, 1024, 21, 70, 162, 255 }, // 0x000076B8
+	 { -1821, 335, 6110, 0, 2048, 512, 7, 10, 137, 255 }, // 0x000076C8
+	 { -1822, 421, 6125, 0, 2048, 0, 15, 101, 194, 255 }, // 0x000076D8
+	 { -4095, 473, 5956, 0, 0, 0, 229, 109, 215, 255 }, // 0x000076E8
+	 { -4135, 273, 5876, 0, 0, 2048, 194, 36, 160, 255 }, // 0x000076F8
+	 { -4360, 473, 6103, 0, 2048, 0, 181, 81, 210, 255 }, // 0x00007708
+	 { -4360, 273, 6103, 0, 2048, 1024, 145, 0, 211, 255 }, // 0x00007718
+	 { -3526, 513, 5662, 0, 4096, 0, 223, 91, 186, 255 }, // 0x00007728
+	 { -4135, 273, 5876, 0, 8192, 2048, 194, 36, 160, 255 }, // 0x00007738
+	 { -4095, 473, 5956, 0, 8192, 0, 229, 109, 215, 255 }, // 0x00007748
+};
+
+Vtx_t _spot00_room_0_vertices_00007758[7] = 
+{
+	 { -3526, 513, 5662, 0, 4096, 0, 223, 91, 186, 255 }, // 0x00007758
+	 { -2998, 273, 5288, 0, 0, 2048, 230, 52, 151, 255 }, // 0x00007768
+	 { -4135, 273, 5876, 0, 8192, 2048, 194, 36, 160, 255 }, // 0x00007778
+	 { -2958, 433, 5368, 0, 0, 0, 10, 101, 193, 255 }, // 0x00007788
+	 { -2958, 433, 5368, 0, 2048, 0, 10, 101, 193, 255 }, // 0x00007798
+	 { -2543, 273, 5367, 0, 0, 0, 36, 95, 193, 255 }, // 0x000077A8
+	 { -2998, 273, 5288, 0, 2048, 2048, 230, 52, 151, 255 }, // 0x000077B8
+};
+
+Vtx_t _spot00_room_0_vertices_000077C8[32] = 
+{
+	 { -4417, 340, 5950, 0, 0, 0, 199, 100, 225, 255 }, // 0x000077C8
+	 { -4417, 100, 5950, 0, 0, 1024, 214, 110, 238, 255 }, // 0x000077D8
+	 { -4417, -100, 7235, 0, 4096, 2048, 179, 90, 20, 255 }, // 0x000077E8
+	 { -4417, 300, 7235, 0, 4096, 0, 174, 83, 25, 255 }, // 0x000077F8
+	 { -4155, -100, 7661, 0, 0, 2048, 197, 94, 44, 255 }, // 0x00007808
+	 { -3439, 113, 8118, 0, 4096, 1024, 226, 97, 63, 255 }, // 0x00007818
+	 { -3439, 353, 8118, 0, 4096, 0, 228, 83, 81, 255 }, // 0x00007828
+	 { -4155, 300, 7661, 0, 0, 0, 192, 82, 59, 255 }, // 0x00007838
+	 { -4417, -100, 7235, 0, 0, 2048, 179, 90, 20, 255 }, // 0x00007848
+	 { -4155, -100, 7661, 0, 2048, 2048, 197, 94, 44, 255 }, // 0x00007858
+	 { -4155, 300, 7661, 0, 2048, 0, 192, 82, 59, 255 }, // 0x00007868
+	 { -4417, 300, 7235, 0, 0, 0, 174, 83, 25, 255 }, // 0x00007878
+	 { -2315, 313, 6046, 0, 2048, 1024, 66, 93, 36, 255 }, // 0x00007888
+	 { -2315, 473, 6046, 0, 2048, 0, 50, 99, 45, 255 }, // 0x00007898
+	 { -2300, 473, 6262, 0, 1024, 0, 15, 118, 4, 255 }, // 0x000078A8
+	 { -2300, 313, 6262, 0, 1024, 1024, 84, 84, 250, 255 }, // 0x000078B8
+	 { -1981, 401, 5937, 0, 0, 0, 54, 96, 46, 255 }, // 0x000078C8
+	 { -1982, 342, 5953, 0, 0, 512, 73, 12, 94, 255 }, // 0x000078D8
+	 { -1845, 380, 5735, 0, 2048, 0, 106, 55, 6, 255 }, // 0x000078E8
+	 { -1982, 233, 5953, 0, 0, 1024, 60, 99, 28, 255 }, // 0x000078F8
+	 { -1845, 100, 5735, 0, 2048, 1024, 62, 97, 223, 255 }, // 0x00007908
+	 { -1845, 100, 5735, 0, 0, 1024, 62, 97, 223, 255 }, // 0x00007918
+	 { -2944, 100, 5100, 0, 4096, 1024, 252, 106, 202, 255 }, // 0x00007928
+	 { -2944, 340, 5100, 0, 4096, 0, 3, 97, 186, 255 }, // 0x00007938
+	 { -1845, 380, 5735, 0, 0, 0, 106, 55, 6, 255 }, // 0x00007948
+	 { -4417, 100, 5950, 0, 6144, 1024, 214, 110, 238, 255 }, // 0x00007958
+	 { -4417, 340, 5950, 0, 6144, 0, 199, 100, 225, 255 }, // 0x00007968
+	 { -2944, 340, 5100, 0, 0, 0, 3, 97, 186, 255 }, // 0x00007978
+	 { -2944, 100, 5100, 0, 0, 1024, 252, 106, 202, 255 }, // 0x00007988
+	 { -2944, 340, 8149, 0, 2048, 0, 4, 81, 88, 255 }, // 0x00007998
+	 { -3439, 353, 8118, 0, 0, 0, 228, 83, 81, 255 }, // 0x000079A8
+	 { -3439, 113, 8118, 0, 0, 1024, 226, 97, 63, 255 }, // 0x000079B8
+};
+
+Vtx_t _spot00_room_0_vertices_000079C8[36] = 
+{
+	 { -2944, 340, 8149, 0, 2048, 0, 4, 81, 88, 255 }, // 0x000079C8
+	 { -3439, 113, 8118, 0, 0, 1024, 226, 97, 63, 255 }, // 0x000079D8
+	 { -2944, 100, 8149, 0, 2048, 1024, 1, 85, 84, 255 }, // 0x000079E8
+	 { -2944, 100, 8149, 0, 0, 1024, 1, 85, 84, 255 }, // 0x000079F8
+	 { -2399, 100, 8118, 0, 2048, 1024, 28, 92, 70, 255 }, // 0x00007A08
+	 { -2399, 300, 8118, 0, 2048, 0, 31, 81, 82, 255 }, // 0x00007A18
+	 { -2944, 340, 8149, 0, 0, 0, 4, 81, 88, 255 }, // 0x00007A28
+	 { -1592, 100, 7570, 0, 4096, 1024, 46, 104, 36, 255 }, // 0x00007A38
+	 { -1592, 300, 7570, 0, 4096, 0, 74, 84, 42, 255 }, // 0x00007A48
+	 { -2399, 300, 8118, 0, 0, 0, 31, 81, 82, 255 }, // 0x00007A58
+	 { -2399, 100, 8118, 0, 0, 1024, 28, 92, 70, 255 }, // 0x00007A68
+	 { -1592, 300, 7570, 0, 0, 0, 74, 84, 42, 255 }, // 0x00007A78
+	 { -1592, 100, 7570, 0, 0, 1024, 46, 104, 36, 255 }, // 0x00007A88
+	 { -1592, 100, 6410, 0, 6144, 1024, 83, 85, 11, 255 }, // 0x00007A98
+	 { -1592, 380, 6410, 0, 6144, 0, 62, 102, 6, 255 }, // 0x00007AA8
+	 { -1472, 100, 5950, 0, 2048, 1024, 35, 112, 235, 255 }, // 0x00007AB8
+	 { -1472, 380, 5950, 0, 2048, 0, 92, 65, 216, 255 }, // 0x00007AC8
+	 { -1592, 380, 6410, 0, 0, 0, 62, 102, 6, 255 }, // 0x00007AD8
+	 { -1592, 100, 6410, 0, 0, 1024, 83, 85, 11, 255 }, // 0x00007AE8
+	 { -1637, 100, 5855, 0, 1024, 1024, 5, 96, 186, 255 }, // 0x00007AF8
+	 { -1639, 380, 5858, 0, 1024, 0, 219, 81, 176, 255 }, // 0x00007B08
+	 { -1472, 380, 5950, 0, 0, 0, 92, 65, 216, 255 }, // 0x00007B18
+	 { -1472, 100, 5950, 0, 0, 1024, 35, 112, 235, 255 }, // 0x00007B28
+	 { -1821, 242, 6110, 0, 2048, 1024, 21, 70, 162, 255 }, // 0x00007B38
+	 { -1821, 335, 6110, 0, 2048, 512, 7, 10, 137, 255 }, // 0x00007B48
+	 { -1822, 421, 6125, 0, 2048, 0, 15, 101, 194, 255 }, // 0x00007B58
+	 { -2235, 313, 6129, 0, 2048, 1024, 8, 109, 208, 255 }, // 0x00007B68
+	 { -2235, 453, 6129, 0, 2048, 0, 5, 58, 152, 255 }, // 0x00007B78
+	 { -1821, 335, 6110, 0, 0, 512, 7, 10, 137, 255 }, // 0x00007B88
+	 { -1821, 242, 6110, 0, 0, 1024, 21, 70, 162, 255 }, // 0x00007B98
+	 { -1822, 421, 6125, 0, 0, 0, 15, 101, 194, 255 }, // 0x00007BA8
+	 { -1982, 233, 5953, 0, 2048, 1024, 60, 99, 28, 255 }, // 0x00007BB8
+	 { -1982, 342, 5953, 0, 2048, 512, 73, 12, 94, 255 }, // 0x00007BC8
+	 { -2315, 473, 6046, 0, 0, 0, 50, 99, 45, 255 }, // 0x00007BD8
+	 { -2315, 313, 6046, 0, 0, 1024, 66, 93, 36, 255 }, // 0x00007BE8
+	 { -1981, 401, 5937, 0, 2048, 0, 54, 96, 46, 255 }, // 0x00007BF8
+};
+
+Vtx_t _spot00_room_0_vertices_00007C08[14] = 
+{
+	 { -1626, 351, 6214, 0, 1687, 512, 119, 0, 0, 255 }, // 0x00007C08
+	 { -1625, 391, 6030, 0, 4037, 512, 119, 0, 0, 255 }, // 0x00007C18
+	 { -1625, 431, 6030, 0, 4037, 0, 85, 79, 29, 255 }, // 0x00007C28
+	 { -1626, 391, 6214, 0, 1687, 0, 84, 83, 18, 255 }, // 0x00007C38
+	 { -1625, 460, 5899, 0, 5724, 512, 119, 0, 0, 255 }, // 0x00007C48
+	 { -1625, 500, 5899, 0, 5724, 0, 79, 80, 41, 255 }, // 0x00007C58
+	 { -1888, 500, 5747, 0, 0, 0, 180, 86, 224, 255 }, // 0x00007C68
+	 { -1888, 460, 5747, 0, 0, 512, 198, 0, 152, 255 }, // 0x00007C78
+	 { -2150, 372, 5892, 0, 3840, 512, 198, 0, 152, 255 }, // 0x00007C88
+	 { -2150, 412, 5892, 0, 3840, 0, 199, 83, 191, 255 }, // 0x00007C98
+	 { -2150, 372, 5892, 0, 3840, 512, 198, 0, 152, 255 }, // 0x00007CA8
+	 { -2412, 327, 6038, 0, 7680, 512, 198, 0, 152, 255 }, // 0x00007CB8
+	 { -2412, 367, 6038, 0, 7680, 0, 204, 84, 188, 255 }, // 0x00007CC8
+	 { -2150, 412, 5892, 0, 3840, 0, 199, 83, 191, 255 }, // 0x00007CD8
+};
+
+Vtx_t _spot00_room_0_vertices_00007CE8[8] = 
+{
+	 { -2140, 478, 6812, 0, -1536, 0, 188, 39, 90, 255 }, // 0x00007CE8
+	 { -2140, 353, 6812, 0, -1536, 1024, 149, 0, 53, 255 }, // 0x00007CF8
+	 { -1890, 353, 6812, 0, 512, 1024, 84, 0, 84, 255 }, // 0x00007D08
+	 { -1890, 478, 6812, 0, 512, 0, 68, 39, 90, 255 }, // 0x00007D18
+	 { -1890, 478, 6687, 0, -1536, 878, 90, 51, 60, 255 }, // 0x00007D28
+	 { -1890, 478, 6437, 0, 512, 878, 90, 51, 196, 255 }, // 0x00007D38
+	 { -1890, 553, 6437, 0, 512, 0, 90, 39, 188, 255 }, // 0x00007D48
+	 { -1890, 553, 6687, 0, -1536, 0, 90, 39, 68, 255 }, // 0x00007D58
+};
+
+Vtx_t _spot00_room_0_vertices_00007D68[4] = 
+{
+	 { -2140, 478, 6687, 0, 0, 299, 166, 51, 60, 255 }, // 0x00007D68
+	 { -2140, 478, 6812, 0, 256, 299, 188, 39, 90, 255 }, // 0x00007D78
+	 { -2015, 553, 6812, 0, 256, 0, 0, 103, 60, 255 }, // 0x00007D88
+	 { -2015, 553, 6687, 0, 0, 0, 0, 78, 91, 255 }, // 0x00007D98
+};
+
+Vtx_t _spot00_room_0_vertices_00007DA8[5] = 
+{
+	 { -2140, 553, 6687, 0, -512, 0, 166, 39, 68, 255 }, // 0x00007DA8
+	 { -2140, 478, 6687, 0, -512, 878, 166, 51, 60, 255 }, // 0x00007DB8
+	 { -2015, 553, 6687, 0, 0, 0, 0, 78, 91, 255 }, // 0x00007DC8
+	 { -1890, 478, 6687, 0, 512, 878, 90, 51, 60, 255 }, // 0x00007DD8
+	 { -1890, 553, 6687, 0, 512, 0, 90, 39, 68, 255 }, // 0x00007DE8
+};
+
+Vtx_t _spot00_room_0_vertices_00007DF8[4] = 
+{
+	 { -1890, 478, 6812, 0, 256, 299, 68, 39, 90, 255 }, // 0x00007DF8
+	 { -1890, 478, 6687, 0, 0, 299, 90, 51, 60, 255 }, // 0x00007E08
+	 { -2015, 553, 6687, 0, 0, 0, 0, 78, 91, 255 }, // 0x00007E18
+	 { -2015, 553, 6812, 0, 256, 0, 0, 103, 60, 255 }, // 0x00007E28
+};
+
+Vtx_t _spot00_room_0_vertices_00007E38[4] = 
+{
+	 { -2140, 553, 6687, 0, 512, 0, 166, 39, 68, 255 }, // 0x00007E38
+	 { -2140, 553, 6437, 0, -1536, 0, 166, 39, 188, 255 }, // 0x00007E48
+	 { -2140, 478, 6437, 0, -1536, 878, 166, 51, 196, 255 }, // 0x00007E58
+	 { -2140, 478, 6687, 0, 512, 878, 166, 51, 60, 255 }, // 0x00007E68
+};
+
+Vtx_t _spot00_room_0_vertices_00007E78[6] = 
+{
+	 { -2140, 628, 6562, 0, 256, 0, 196, 103, 0, 255 }, // 0x00007E78
+	 { -2140, 553, 6687, 0, 256, 299, 166, 39, 68, 255 }, // 0x00007E88
+	 { -1890, 553, 6687, 0, -256, 299, 90, 39, 68, 255 }, // 0x00007E98
+	 { -1890, 628, 6562, 0, -256, 0, 60, 103, 0, 255 }, // 0x00007EA8
+	 { -2140, 553, 6437, 0, 256, 299, 166, 39, 188, 255 }, // 0x00007EB8
+	 { -1890, 553, 6437, 0, -256, 299, 90, 39, 188, 255 }, // 0x00007EC8
+};
+
+Vtx_t _spot00_room_0_vertices_00007ED8[5] = 
+{
+	 { -2015, 553, 6437, 0, 0, 0, 0, 78, 165, 255 }, // 0x00007ED8
+	 { -1890, 553, 6437, 0, -512, 0, 90, 39, 188, 255 }, // 0x00007EE8
+	 { -1890, 478, 6437, 0, -512, 878, 90, 51, 196, 255 }, // 0x00007EF8
+	 { -2140, 478, 6437, 0, 512, 878, 166, 51, 196, 255 }, // 0x00007F08
+	 { -2140, 553, 6437, 0, 512, 0, 166, 39, 188, 255 }, // 0x00007F18
+};
+
+Vtx_t _spot00_room_0_vertices_00007F28[6] = 
+{
+	 { -2015, 553, 6187, 0, -256, 0, 0, 103, 196, 255 }, // 0x00007F28
+	 { -2140, 478, 6187, 0, -256, 299, 166, 31, 184, 255 }, // 0x00007F38
+	 { -2140, 478, 6437, 0, 256, 299, 166, 51, 196, 255 }, // 0x00007F48
+	 { -2015, 553, 6437, 0, 256, 0, 0, 78, 165, 255 }, // 0x00007F58
+	 { -1890, 478, 6437, 0, 256, 299, 90, 51, 196, 255 }, // 0x00007F68
+	 { -1890, 478, 6187, 0, -256, 299, 68, 39, 166, 255 }, // 0x00007F78
+};
+
+Vtx_t _spot00_room_0_vertices_00007F88[12] = 
+{
+	 { -2140, 353, 6812, 0, 2048, 1024, 149, 0, 53, 255 }, // 0x00007F88
+	 { -2140, 478, 6187, 0, -3072, 0, 166, 31, 184, 255 }, // 0x00007F98
+	 { -2140, 353, 6187, 0, -3072, 1024, 172, 0, 172, 255 }, // 0x00007FA8
+	 { -2140, 478, 6812, 0, 2048, 0, 188, 39, 90, 255 }, // 0x00007FB8
+	 { -1890, 478, 6812, 0, -2560, 0, 68, 39, 90, 255 }, // 0x00007FC8
+	 { -1890, 353, 6812, 0, -2560, 1024, 84, 0, 84, 255 }, // 0x00007FD8
+	 { -1890, 353, 6187, 0, 2560, 1024, 84, 0, 172, 255 }, // 0x00007FE8
+	 { -1890, 478, 6187, 0, 2560, 0, 68, 39, 166, 255 }, // 0x00007FF8
+	 { -1890, 353, 6187, 0, -1536, 1024, 84, 0, 172, 255 }, // 0x00008008
+	 { -2140, 353, 6187, 0, 512, 1024, 172, 0, 172, 255 }, // 0x00008018
+	 { -2140, 478, 6187, 0, 512, 0, 166, 31, 184, 255 }, // 0x00008028
+	 { -1890, 478, 6187, 0, -1536, 0, 68, 39, 166, 255 }, // 0x00008038
+};
+
+Vtx_t _spot00_room_0_vertices_00008048[12] = 
+{
+	 { -1890, 553, 6437, 0, 512, 512, 90, 39, 188, 255 }, // 0x00008048
+	 { -1890, 628, 6562, 0, 0, 0, 60, 103, 0, 255 }, // 0x00008058
+	 { -1890, 553, 6687, 0, -512, 512, 90, 39, 68, 255 }, // 0x00008068
+	 { -2140, 553, 6687, 0, 512, 512, 166, 39, 68, 255 }, // 0x00008078
+	 { -2140, 628, 6562, 0, 0, 0, 196, 103, 0, 255 }, // 0x00008088
+	 { -2140, 553, 6437, 0, -512, 512, 166, 39, 188, 255 }, // 0x00008098
+	 { -2140, 478, 6187, 0, 512, 512, 166, 31, 184, 255 }, // 0x000080A8
+	 { -2015, 553, 6187, 0, 0, 0, 0, 103, 196, 255 }, // 0x000080B8
+	 { -1890, 478, 6187, 0, -512, 512, 68, 39, 166, 255 }, // 0x000080C8
+	 { -2015, 553, 6812, 0, 0, 0, 0, 103, 60, 255 }, // 0x000080D8
+	 { -2140, 478, 6812, 0, -512, 512, 188, 39, 90, 255 }, // 0x000080E8
+	 { -1890, 478, 6812, 0, 512, 512, 68, 39, 90, 255 }, // 0x000080F8
+};
+
+Vtx_t _spot00_room_0_vertices_00008108[8] = 
+{
+	 { -3897, 113, 7550, 0, 1303, 5734, 84, 3, 172, 255 }, // 0x00008108
+	 { -3997, 113, 7550, 0, 579, 5734, 172, 3, 172, 255 }, // 0x00008118
+	 { -3987, 673, 7560, 0, 579, 0, 172, 3, 172, 255 }, // 0x00008128
+	 { -3907, 673, 7560, 0, 1159, 0, 84, 3, 172, 255 }, // 0x00008138
+	 { -3907, 673, 7640, 0, 579, 0, 84, 3, 84, 255 }, // 0x00008148
+	 { -3897, 113, 7650, 0, 579, 5734, 84, 3, 84, 255 }, // 0x00008158
+	 { -3997, 113, 7650, 0, -145, 5734, 172, 3, 84, 255 }, // 0x00008168
+	 { -3987, 673, 7640, 0, 0, 0, 172, 3, 84, 255 }, // 0x00008178
+};
+
+Vtx_t _spot00_room_0_vertices_00008188[12] = 
+{
+	 { -4320, 393, 7223, 0, 4392, 0, 172, 84, 0, 255 }, // 0x00008188
+	 { -4320, 393, 6623, 0, -3840, 0, 172, 84, 0, 255 }, // 0x00008198
+	 { -4320, 313, 6623, 0, -3840, 1024, 172, 60, 60, 255 }, // 0x000081A8
+	 { -4320, 313, 7223, 0, 4392, 1024, 172, 60, 196, 255 }, // 0x000081B8
+	 { -2559, 393, 8038, 0, 5632, 0, 0, 84, 84, 255 }, // 0x000081C8
+	 { -3399, 393, 8038, 0, -5120, 0, 0, 84, 84, 255 }, // 0x000081D8
+	 { -3399, 313, 8038, 0, -5120, 1024, 60, 60, 84, 255 }, // 0x000081E8
+	 { -2559, 313, 8038, 0, 5632, 1024, 196, 60, 84, 255 }, // 0x000081F8
+	 { -1688, 393, 6671, 0, 4608, 0, 84, 84, 0, 255 }, // 0x00008208
+	 { -1688, 393, 7351, 0, -4096, 0, 84, 84, 0, 255 }, // 0x00008218
+	 { -1688, 313, 7351, 0, -4096, 1024, 91, 59, 207, 255 }, // 0x00008228
+	 { -1688, 313, 6671, 0, 4608, 1024, 84, 60, 60, 255 }, // 0x00008238
+};
+
+Vtx_t _spot00_room_0_vertices_00008248[24] = 
+{
+	 { -1853, 500, 5767, 0, 0, -3584, 73, 84, 42, 255 }, // 0x00008248
+	 { -1853, 100, 5767, 0, 0, 1536, 103, 0, 60, 255 }, // 0x00008258
+	 { -1833, 100, 5732, 0, 1024, 1024, 115, 0, 225, 255 }, // 0x00008268
+	 { -1833, 500, 5732, 0, 1024, -4096, 94, 69, 231, 255 }, // 0x00008278
+	 { -1833, 500, 5732, 0, 0, -3584, 94, 69, 231, 255 }, // 0x00008288
+	 { -1833, 100, 5732, 0, 0, 1536, 115, 0, 225, 255 }, // 0x00008298
+	 { -1868, 100, 5712, 0, 1024, 1024, 225, 0, 141, 255 }, // 0x000082A8
+	 { -1868, 500, 5712, 0, 1024, -4096, 231, 69, 162, 255 }, // 0x000082B8
+	 { -1868, 100, 5712, 0, 0, 1536, 225, 0, 141, 255 }, // 0x000082C8
+	 { -1888, 100, 5747, 0, 1024, 1024, 153, 0, 196, 255 }, // 0x000082D8
+	 { -1888, 500, 5747, 0, 1024, -4096, 206, 86, 190, 255 }, // 0x000082E8
+	 { -1868, 500, 5712, 0, 0, -3584, 231, 69, 162, 255 }, // 0x000082F8
+	 { -1640, 100, 5844, 0, 0, 1536, 225, 0, 141, 255 }, // 0x00008308
+	 { -1660, 100, 5879, 0, 1024, 1024, 153, 0, 196, 255 }, // 0x00008318
+	 { -1660, 500, 5879, 0, 1024, -4096, 183, 84, 214, 255 }, // 0x00008328
+	 { -1640, 500, 5844, 0, 0, -3584, 231, 69, 162, 255 }, // 0x00008338
+	 { -1605, 500, 5864, 0, 0, -3584, 94, 69, 231, 255 }, // 0x00008348
+	 { -1605, 100, 5864, 0, 0, 1536, 115, 0, 225, 255 }, // 0x00008358
+	 { -1640, 100, 5844, 0, 1024, 1024, 225, 0, 141, 255 }, // 0x00008368
+	 { -1640, 500, 5844, 0, 1024, -4096, 231, 69, 162, 255 }, // 0x00008378
+	 { -1625, 500, 5899, 0, 0, -3584, 79, 80, 41, 255 }, // 0x00008388
+	 { -1625, 100, 5899, 0, 0, 1536, 103, 0, 60, 255 }, // 0x00008398
+	 { -1605, 100, 5864, 0, 1024, 1024, 115, 0, 225, 255 }, // 0x000083A8
+	 { -1605, 500, 5864, 0, 1024, -4096, 94, 69, 231, 255 }, // 0x000083B8
+};
+
+Vtx_t _spot00_room_0_vertices_000083C8[8] = 
+{
+	 { -4417, -100, 5100, 0, 0, 0, 0, 0, 0, 0 }, // 0x000083C8
+	 { -1472, -100, 5100, 0, 0, 0, 0, 0, 0, 0 }, // 0x000083D8
+	 { -4417, 673, 5100, 0, 0, 0, 0, 0, 0, 0 }, // 0x000083E8
+	 { -1472, 673, 5100, 0, 0, 0, 0, 0, 0, 0 }, // 0x000083F8
+	 { -4417, -100, 8149, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008408
+	 { -1472, -100, 8149, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008418
+	 { -4417, 673, 8149, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008428
+	 { -1472, 673, 8149, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008438
+};
+
+Gfx _spot00_room_0_dlist_00008448[] =
+{
+	gsDPPipeSync(), // 0x00008448
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00008450
+	gsSPVertex(_spot00_room_0_vertices_000083C8, 8, 0), // 0x00008458
+	gsSPCullDisplayList(0, 7), // 0x00008460
+	gsDPPipeSync(), // 0x00008468
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00008470
+	gsDPPipeSync(), // 0x00008478
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00008480
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00008488
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00008490
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00008498
+	gsDPLoadSync(), // 0x000084A0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000084A8
+	gsDPPipeSync(), // 0x000084B0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000084B8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000084C0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x000084C8
+	gsDPTileSync(), // 0x000084D0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x000084D8
+	gsDPLoadSync(), // 0x000084E0
+	gsDPLoadTLUTCmd(7, 15), // 0x000084E8
+	gsDPPipeSync(), // 0x000084F0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000084F8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00008500
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00008508
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00008510
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00008518
+	gsSPVertex(_spot00_room_0_vertices_00007358, 32, 0), // 0x00008520
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008528
+	gsSP2Triangles(4, 5, 1, 0, 4, 1, 0, 0), // 0x00008530
+	gsSP2Triangles(2, 1, 6, 0, 2, 6, 7, 0), // 0x00008538
+	gsSP2Triangles(8, 9, 5, 0, 8, 5, 10, 0), // 0x00008540
+	gsSP2Triangles(10, 5, 4, 0, 10, 4, 11, 0), // 0x00008548
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x00008550
+	gsSP2Triangles(16, 17, 13, 0, 16, 13, 12, 0), // 0x00008558
+	gsSP2Triangles(16, 18, 19, 0, 16, 19, 17, 0), // 0x00008560
+	gsSP2Triangles(14, 13, 20, 0, 14, 20, 21, 0), // 0x00008568
+	gsSP2Triangles(22, 23, 17, 0, 22, 17, 19, 0), // 0x00008570
+	gsSP2Triangles(24, 25, 26, 0, 24, 26, 27, 0), // 0x00008578
+	gsSP2Triangles(28, 29, 30, 0, 28, 30, 31, 0), // 0x00008580
+	gsSPVertex(_spot00_room_0_vertices_00007558, 32, 0), // 0x00008588
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008590
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00008598
+	gsSP2Triangles(4, 8, 9, 0, 4, 9, 5, 0), // 0x000085A0
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x000085A8
+	gsSP2Triangles(6, 5, 12, 0, 6, 12, 11, 0), // 0x000085B0
+	gsSP2Triangles(14, 15, 13, 0, 14, 13, 12, 0), // 0x000085B8
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x000085C0
+	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0), // 0x000085C8
+	gsSP2Triangles(23, 24, 20, 0, 25, 26, 27, 0), // 0x000085D0
+	gsSP2Triangles(26, 28, 27, 0, 29, 30, 31, 0), // 0x000085D8
+	gsSPVertex(_spot00_room_0_vertices_00007758, 7, 0), // 0x000085E0
+	gsSP2Triangles(0, 1, 2, 0, 3, 1, 0, 0), // 0x000085E8
+	gsSP1Triangle(4, 5, 6, 0), // 0x000085F0
+	gsSPVertex(_spot00_room_0_vertices_000077C8, 32, 0), // 0x000085F8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008600
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00008608
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00008610
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x00008618
+	gsSP2Triangles(16, 17, 18, 0, 17, 19, 20, 0), // 0x00008620
+	gsSP2Triangles(17, 20, 18, 0, 21, 22, 23, 0), // 0x00008628
+	gsSP2Triangles(21, 23, 24, 0, 25, 26, 27, 0), // 0x00008630
+	gsSP2Triangles(25, 27, 28, 0, 29, 30, 31, 0), // 0x00008638
+	gsSPVertex(_spot00_room_0_vertices_000079C8, 32, 0), // 0x00008640
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00008648
+	gsSP2Triangles(3, 5, 6, 0, 7, 8, 9, 0), // 0x00008650
+	gsSP2Triangles(7, 9, 10, 0, 11, 12, 13, 0), // 0x00008658
+	gsSP2Triangles(11, 13, 14, 0, 15, 16, 17, 0), // 0x00008660
+	gsSP2Triangles(15, 17, 18, 0, 19, 20, 21, 0), // 0x00008668
+	gsSP2Triangles(19, 21, 22, 0, 23, 24, 20, 0), // 0x00008670
+	gsSP2Triangles(23, 20, 19, 0, 24, 25, 20, 0), // 0x00008678
+	gsSP2Triangles(26, 27, 28, 0, 26, 28, 29, 0), // 0x00008680
+	gsSP1Triangle(27, 30, 28, 0), // 0x00008688
+	gsSPVertex(_spot00_room_0_vertices_00007BB8, 5, 0), // 0x00008690
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008698
+	gsSP1Triangle(1, 4, 2, 0), // 0x000086A0
+	gsDPPipeSync(), // 0x000086A8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000086B0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00016698), // 0x000086B8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 4, 0, 0, 5, 0), // 0x000086C0
+	gsDPLoadSync(), // 0x000086C8
+	gsDPLoadBlock(7, 0, 0, 511, 256), // 0x000086D0
+	gsDPPipeSync(), // 0x000086D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 4, 0, 0, 5, 0), // 0x000086E0
+	gsDPSetTileSize(0, 0, 0, 124, 60), // 0x000086E8
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x000086F0
+	gsSPVertex(_spot00_room_0_vertices_00007C08, 14, 0), // 0x000086F8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008700
+	gsSP2Triangles(1, 4, 5, 0, 1, 5, 2, 0), // 0x00008708
+	gsSP2Triangles(6, 7, 8, 0, 6, 8, 9, 0), // 0x00008710
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x00008718
+	gsDPPipeSync(), // 0x00008720
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001BD98), // 0x00008728
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 1, 4, 0), // 0x00008730
+	gsDPLoadSync(), // 0x00008738
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x00008740
+	gsDPPipeSync(), // 0x00008748
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 5, 0, 1, 4, 0), // 0x00008750
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x00008758
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00008760
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00008768
+	gsSPGeometryMode(0xFF000000, 0x00000400), // 0x00008770
+	gsDPSetPrimColor(0, 0, 214, 200, 130, 255), // 0x00008778
+	gsSPVertex(_spot00_room_0_vertices_00007CE8, 8, 0), // 0x00008780
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008788
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00008790
+	gsDPPipeSync(), // 0x00008798
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025818), // 0x000087A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 3, 0, 0, 3, 0), // 0x000087A8
+	gsDPLoadSync(), // 0x000087B0
+	gsDPLoadBlock(7, 0, 0, 63, 1024), // 0x000087B8
+	gsDPPipeSync(), // 0x000087C0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 0, 3, 0, 0, 3, 0), // 0x000087C8
+	gsDPSetTileSize(0, 0, 0, 28, 28), // 0x000087D0
+	gsSPVertex(_spot00_room_0_vertices_00007D68, 4, 0), // 0x000087D8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000087E0
+	gsDPPipeSync(), // 0x000087E8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001BD98), // 0x000087F0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 1, 4, 0), // 0x000087F8
+	gsDPLoadSync(), // 0x00008800
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x00008808
+	gsDPPipeSync(), // 0x00008810
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 5, 0, 1, 4, 0), // 0x00008818
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x00008820
+	gsSPVertex(_spot00_room_0_vertices_00007DA8, 5, 0), // 0x00008828
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 2, 0), // 0x00008830
+	gsDPPipeSync(), // 0x00008838
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025818), // 0x00008840
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 3, 0, 0, 3, 0), // 0x00008848
+	gsDPLoadSync(), // 0x00008850
+	gsDPLoadBlock(7, 0, 0, 63, 1024), // 0x00008858
+	gsDPPipeSync(), // 0x00008860
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 0, 3, 0, 0, 3, 0), // 0x00008868
+	gsDPSetTileSize(0, 0, 0, 28, 28), // 0x00008870
+	gsSPVertex(_spot00_room_0_vertices_00007DF8, 4, 0), // 0x00008878
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008880
+	gsDPPipeSync(), // 0x00008888
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001BD98), // 0x00008890
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 1, 4, 0), // 0x00008898
+	gsDPLoadSync(), // 0x000088A0
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x000088A8
+	gsDPPipeSync(), // 0x000088B0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 5, 0, 1, 4, 0), // 0x000088B8
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x000088C0
+	gsSPVertex(_spot00_room_0_vertices_00007E38, 4, 0), // 0x000088C8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000088D0
+	gsDPPipeSync(), // 0x000088D8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025818), // 0x000088E0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 3, 0, 0, 3, 0), // 0x000088E8
+	gsDPLoadSync(), // 0x000088F0
+	gsDPLoadBlock(7, 0, 0, 63, 1024), // 0x000088F8
+	gsDPPipeSync(), // 0x00008900
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 0, 3, 0, 0, 3, 0), // 0x00008908
+	gsDPSetTileSize(0, 0, 0, 28, 28), // 0x00008910
+	gsSPVertex(_spot00_room_0_vertices_00007E78, 6, 0), // 0x00008918
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008920
+	gsSP2Triangles(4, 0, 3, 0, 4, 3, 5, 0), // 0x00008928
+	gsDPPipeSync(), // 0x00008930
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001BD98), // 0x00008938
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 1, 4, 0), // 0x00008940
+	gsDPLoadSync(), // 0x00008948
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x00008950
+	gsDPPipeSync(), // 0x00008958
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 5, 0, 1, 4, 0), // 0x00008960
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x00008968
+	gsSPVertex(_spot00_room_0_vertices_00007ED8, 5, 0), // 0x00008970
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 4, 0), // 0x00008978
+	gsDPPipeSync(), // 0x00008980
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025818), // 0x00008988
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 3, 0, 0, 3, 0), // 0x00008990
+	gsDPLoadSync(), // 0x00008998
+	gsDPLoadBlock(7, 0, 0, 63, 1024), // 0x000089A0
+	gsDPPipeSync(), // 0x000089A8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 0, 3, 0, 0, 3, 0), // 0x000089B0
+	gsDPSetTileSize(0, 0, 0, 28, 28), // 0x000089B8
+	gsSPVertex(_spot00_room_0_vertices_00007F28, 6, 0), // 0x000089C0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000089C8
+	gsSP2Triangles(4, 5, 0, 0, 4, 0, 3, 0), // 0x000089D0
+	gsDPPipeSync(), // 0x000089D8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001BD98), // 0x000089E0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 1, 4, 0), // 0x000089E8
+	gsDPLoadSync(), // 0x000089F0
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x000089F8
+	gsDPPipeSync(), // 0x00008A00
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 5, 0, 1, 4, 0), // 0x00008A08
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x00008A10
+	gsSPVertex(_spot00_room_0_vertices_00007F88, 12, 0), // 0x00008A18
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00008A20
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00008A28
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00008A30
+	gsDPPipeSync(), // 0x00008A38
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001BB98), // 0x00008A40
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 4, 0, 1, 4, 0), // 0x00008A48
+	gsDPLoadSync(), // 0x00008A50
+	gsDPLoadBlock(7, 0, 0, 255, 512), // 0x00008A58
+	gsDPPipeSync(), // 0x00008A60
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 4, 0, 1, 4, 0), // 0x00008A68
+	gsDPSetTileSize(0, 0, 0, 60, 60), // 0x00008A70
+	gsSPVertex(_spot00_room_0_vertices_00008048, 12, 0), // 0x00008A78
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00008A80
+	gsSP2Triangles(6, 7, 8, 0, 9, 10, 11, 0), // 0x00008A88
+	gsDPPipeSync(), // 0x00008A90
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00008A98
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00008AA0
+	gsDPLoadSync(), // 0x00008AA8
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00008AB0
+	gsDPPipeSync(), // 0x00008AB8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00008AC0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00008AC8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00008AD0
+	gsSPVertex(_spot00_room_0_vertices_00008108, 8, 0), // 0x00008AD8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008AE0
+	gsSP2Triangles(0, 3, 4, 0, 0, 4, 5, 0), // 0x00008AE8
+	gsSP2Triangles(2, 1, 6, 0, 2, 6, 7, 0), // 0x00008AF0
+	gsSP2Triangles(6, 5, 4, 0, 6, 4, 7, 0), // 0x00008AF8
+	gsDPPipeSync(), // 0x00008B00
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001F618), // 0x00008B08
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 3, 0), // 0x00008B10
+	gsDPLoadSync(), // 0x00008B18
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00008B20
+	gsDPPipeSync(), // 0x00008B28
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 2, 5, 0, 0, 3, 0), // 0x00008B30
+	gsDPSetTileSize(0, 0, 0, 28, 124), // 0x00008B38
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00008B40
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00008B48
+	gsSPVertex(_spot00_room_0_vertices_00008188, 12, 0), // 0x00008B50
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008B58
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00008B60
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00008B68
+	gsDPPipeSync(), // 0x00008B70
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00019398), // 0x00008B78
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00008B80
+	gsDPLoadSync(), // 0x00008B88
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00008B90
+	gsDPPipeSync(), // 0x00008B98
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00008BA0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00008BA8
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x00008BB0
+	gsSPVertex(_spot00_room_0_vertices_00008248, 24, 0), // 0x00008BB8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00008BC0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00008BC8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00008BD0
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x00008BD8
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x00008BE0
+	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0), // 0x00008BE8
+	gsSPEndDisplayList(), // 0x00008BF0
+};
+
+Vtx_t _spot00_room_0_vertices_00008BF8[10] = 
+{
+	 { 0, 320, 5100, 0, 0, 2560, 236, 117, 246, 255 }, // 0x00008BF8
+	 { 0, 0, 3400, 0, 0, -11947, 241, 118, 245, 255 }, // 0x00008C08
+	 { -736, 0, 4675, 0, -6282, -1067, 232, 114, 231, 255 }, // 0x00008C18
+	 { 0, 0, 3400, 0, 0, -11947, 241, 118, 245, 255 }, // 0x00008C28
+	 { -1472, -180, 4250, 0, -12563, -4693, 251, 119, 248, 255 }, // 0x00008C38
+	 { -1472, 0, 5100, 0, -12563, 2560, 251, 118, 235, 255 }, // 0x00008C48
+	 { -1472, 100, 5950, 0, -12563, 9813, 35, 112, 235, 255 }, // 0x00008C58
+	 { 0, 100, 6800, 0, 0, 17067, 4, 113, 39, 255 }, // 0x00008C68
+	 { 1472, 400, 5950, 0, 12563, 9813, 86, 60, 57, 255 }, // 0x00008C78
+	 { 1472, 400, 4250, 0, 12563, -4693, 13, 118, 243, 255 }, // 0x00008C88
+};
+
+Vtx_t _spot00_room_0_vertices_00008C98[8] = 
+{
+	 { 1472, 400, 4330, 0, 11264, 512, 84, 0, 172, 255 }, // 0x00008C98
+	 { 1472, 436, 4330, 0, 11264, 0, 69, 69, 187, 255 }, // 0x00008CA8
+	 { 1472, 440, 5950, 0, -10240, 0, 62, 92, 44, 255 }, // 0x00008CB8
+	 { 1472, 400, 5950, 0, -10240, 512, 86, 60, 57, 255 }, // 0x00008CC8
+	 { 1472, 400, 5950, 0, 11264, 512, 86, 60, 57, 255 }, // 0x00008CD8
+	 { 1472, 440, 5950, 0, 11264, 0, 62, 92, 44, 255 }, // 0x00008CE8
+	 { 0, 140, 6800, 0, -10240, 0, 222, 64, 95, 255 }, // 0x00008CF8
+	 { 0, 100, 6800, 0, -10240, 512, 4, 113, 39, 255 }, // 0x00008D08
+};
+
+Vtx_t _spot00_room_0_vertices_00008D18[8] = 
+{
+	 { 1472, 436, 4330, 0, 11264, 512, 69, 69, 187, 255 }, // 0x00008D18
+	 { 1432, 436, 4330, 0, 11264, 0, 187, 69, 187, 255 }, // 0x00008D28
+	 { 1432, 437, 5927, 0, -9944, 0, 183, 88, 221, 255 }, // 0x00008D38
+	 { 1472, 440, 5950, 0, -10240, 512, 62, 92, 44, 255 }, // 0x00008D48
+	 { 0, 140, 6800, 0, 12288, 512, 222, 64, 95, 255 }, // 0x00008D58
+	 { 1472, 440, 5950, 0, -9216, 512, 62, 92, 44, 255 }, // 0x00008D68
+	 { 1432, 437, 5927, 0, -8920, 0, 183, 88, 221, 255 }, // 0x00008D78
+	 { -20, 140, 6765, 0, 12288, 0, 157, 64, 238, 255 }, // 0x00008D88
+};
+
+Vtx_t _spot00_room_0_vertices_00008D98[12] = 
+{
+	 { 1432, 396, 4330, 0, -9728, 512, 172, 0, 172, 255 }, // 0x00008D98
+	 { 1432, 397, 5927, 0, 12288, 512, 153, 0, 196, 255 }, // 0x00008DA8
+	 { 1432, 437, 5927, 0, 12288, 0, 183, 88, 221, 255 }, // 0x00008DB8
+	 { 1432, 436, 4330, 0, -9728, 0, 187, 69, 187, 255 }, // 0x00008DC8
+	 { 1472, 436, 4330, 0, -10240, 0, 69, 69, 187, 255 }, // 0x00008DD8
+	 { 1472, 400, 4330, 0, -10240, 512, 84, 0, 172, 255 }, // 0x00008DE8
+	 { 0, 100, 6800, 0, 12288, 512, 4, 113, 39, 255 }, // 0x00008DF8
+	 { 0, 140, 6800, 0, 12288, 0, 222, 64, 95, 255 }, // 0x00008E08
+	 { -20, 140, 6765, 0, 11776, 0, 157, 64, 238, 255 }, // 0x00008E18
+	 { -20, 100, 6765, 0, 11776, 512, 141, 0, 225, 255 }, // 0x00008E28
+	 { 1432, 437, 5927, 0, -10240, 0, 183, 88, 221, 255 }, // 0x00008E38
+	 { 1432, 397, 5927, 0, -10240, 512, 153, 0, 196, 255 }, // 0x00008E48
+};
+
+Vtx_t _spot00_room_0_vertices_00008E58[8] = 
+{
+	 { -1791, -321, 3716, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008E58
+	 { -1209, -321, 7013, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008E68
+	 { 1311, 235, 3169, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008E78
+	 { 1893, 235, 6466, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008E88
+	 { -1864, 100, 3729, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008E98
+	 { -1282, 100, 7026, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008EA8
+	 { 1238, 655, 3182, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008EB8
+	 { 1820, 655, 6479, 0, 0, 0, 0, 0, 0, 0 }, // 0x00008EC8
+};
+
+Gfx _spot00_room_0_dlist_00008ED8[] =
+{
+	gsDPPipeSync(), // 0x00008ED8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00008EE0
+	gsSPVertex(_spot00_room_0_vertices_00008E58, 8, 0), // 0x00008EE8
+	gsSPCullDisplayList(0, 7), // 0x00008EF0
+	gsDPPipeSync(), // 0x00008EF8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00008F00
+	gsDPPipeSync(), // 0x00008F08
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00008F10
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00008F18
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00008F20
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00008F28
+	gsDPLoadSync(), // 0x00008F30
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00008F38
+	gsDPPipeSync(), // 0x00008F40
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00008F48
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00008F50
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00008F58
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00008F60
+	gsDPLoadSync(), // 0x00008F68
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00008F70
+	gsDPPipeSync(), // 0x00008F78
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00008F80
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00008F88
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00008F90
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00008F98
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00008FA0
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00008FA8
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00008FB0
+	gsSPVertex(_spot00_room_0_vertices_00008BF8, 10, 0), // 0x00008FB8
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 2, 0), // 0x00008FC0
+	gsSP2Triangles(4, 5, 2, 0, 5, 0, 2, 0), // 0x00008FC8
+	gsSP2Triangles(5, 6, 0, 0, 6, 7, 0, 0), // 0x00008FD0
+	gsSP2Triangles(0, 7, 8, 0, 8, 9, 0, 0), // 0x00008FD8
+	gsSP1Triangle(1, 0, 9, 0), // 0x00008FE0
+	gsDPPipeSync(), // 0x00008FE8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00023018), // 0x00008FF0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 4, 0, 0, 6, 0), // 0x00008FF8
+	gsDPLoadSync(), // 0x00009000
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x00009008
+	gsDPPipeSync(), // 0x00009010
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 2, 4, 0, 0, 6, 0), // 0x00009018
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x00009020
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00009028
+	gsSPVertex(_spot00_room_0_vertices_00008C98, 8, 0), // 0x00009030
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00009038
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00009040
+	gsDPPipeSync(), // 0x00009048
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00022818), // 0x00009050
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 0, 6, 0), // 0x00009058
+	gsDPLoadSync(), // 0x00009060
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x00009068
+	gsDPPipeSync(), // 0x00009070
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 0, 4, 0, 0, 6, 0), // 0x00009078
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x00009080
+	gsSPVertex(_spot00_room_0_vertices_00008D18, 8, 0), // 0x00009088
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00009090
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00009098
+	gsDPPipeSync(), // 0x000090A0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00023018), // 0x000090A8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 4, 0, 0, 6, 0), // 0x000090B0
+	gsDPLoadSync(), // 0x000090B8
+	gsDPLoadBlock(7, 0, 0, 1023, 128), // 0x000090C0
+	gsDPPipeSync(), // 0x000090C8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 2, 4, 0, 0, 6, 0), // 0x000090D0
+	gsDPSetTileSize(0, 0, 0, 252, 60), // 0x000090D8
+	gsSPVertex(_spot00_room_0_vertices_00008D98, 12, 0), // 0x000090E0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000090E8
+	gsSP2Triangles(4, 5, 0, 0, 4, 0, 3, 0), // 0x000090F0
+	gsSP2Triangles(6, 7, 8, 0, 6, 8, 9, 0), // 0x000090F8
+	gsSP2Triangles(8, 10, 11, 0, 8, 11, 9, 0), // 0x00009100
+	gsSPEndDisplayList(), // 0x00009108
+};
+
+Vtx_t _spot00_room_0_vertices_00009110[17] = 
+{
+	 { 2944, 400, 5100, 0, 550, 2560, 1, 119, 7, 255 }, // 0x00009110
+	 { 2944, 200, 3400, 0, 550, -11947, 7, 118, 239, 255 }, // 0x00009120
+	 { 1472, 400, 4250, 0, -12013, -4693, 13, 118, 243, 255 }, // 0x00009130
+	 { 1472, 200, 5950, 0, -12013, 9813, 37, 105, 43, 255 }, // 0x00009140
+	 { 2944, -140, 6800, 0, 550, 17067, 1, 117, 25, 255 }, // 0x00009150
+	 { 3779, 264, 4618, 0, 7673, -1552, 29, 116, 0, 255 }, // 0x00009160
+	 { 3457, 317, 4804, 0, 4921, 36, 22, 117, 249, 255 }, // 0x00009170
+	 { 3471, 290, 5404, 0, 5042, 5153, 28, 115, 19, 255 }, // 0x00009180
+	 { 3713, 240, 5544, 0, 7108, 6346, 34, 114, 16, 255 }, // 0x00009190
+	 { 3475, 72, 6091, 0, 5074, 11015, 31, 108, 42, 255 }, // 0x000091A0
+	 { 3876, 113, 5928, 0, 8503, 9623, 18, 116, 25, 255 }, // 0x000091B0
+	 { 3355, 7, 6304, 0, 4056, 12834, 24, 107, 48, 255 }, // 0x000091C0
+	 { 4417, 93, 5950, 0, 13113, 9813, 13, 118, 13, 255 }, // 0x000091D0
+	 { 3837, 185, 5554, 0, 8165, 6433, 45, 110, 8, 255 }, // 0x000091E0
+	 { 4417, 160, 4250, 0, 13113, -4693, 31, 115, 250, 255 }, // 0x000091F0
+	 { 3298, 361, 5304, 0, 3569, 4303, 18, 117, 18, 255 }, // 0x00009200
+	 { 3370, 115, 6085, 0, 4185, 10964, 37, 102, 50, 255 }, // 0x00009210
+};
+
+Vtx_t _spot00_room_0_vertices_00009220[16] = 
+{
+	 { 1472, 400, 5950, 0, 0, 1024, 86, 60, 57, 255 }, // 0x00009220
+	 { 1472, 200, 5950, 0, 0, 2048, 37, 105, 43, 255 }, // 0x00009230
+	 { 1472, 400, 4250, 0, 8760, 2048, 13, 118, 243, 255 }, // 0x00009240
+	 { 3837, 185, 5554, 0, 0, 1024, 45, 110, 8, 255 }, // 0x00009250
+	 { 3779, 264, 4618, 0, 5120, 0, 29, 116, 0, 255 }, // 0x00009260
+	 { 3713, 240, 5544, 0, 512, 0, 34, 114, 16, 255 }, // 0x00009270
+	 { 3876, 113, 5928, 0, -2048, 0, 18, 116, 25, 255 }, // 0x00009280
+	 { 3298, 361, 5304, 0, 4608, 0, 18, 117, 18, 255 }, // 0x00009290
+	 { 3471, 290, 5404, 0, 4096, 1024, 28, 115, 19, 255 }, // 0x000092A0
+	 { 3457, 317, 4804, 0, 7168, 0, 22, 117, 249, 255 }, // 0x000092B0
+	 { 3370, 115, 6085, 0, 0, 0, 37, 102, 50, 255 }, // 0x000092C0
+	 { 3475, 72, 6091, 0, 0, 1024, 31, 108, 42, 255 }, // 0x000092D0
+	 { 3355, 7, 6304, 0, -256, 768, 24, 107, 48, 255 }, // 0x000092E0
+	 { 3475, 72, 6091, 0, 1024, 1024, 31, 108, 42, 255 }, // 0x000092F0
+	 { 3370, 115, 6085, 0, 1024, 0, 37, 102, 50, 255 }, // 0x00009300
+	 { 2944, -140, 6800, 0, -3072, 0, 1, 117, 25, 255 }, // 0x00009310
+};
+
+Vtx_t _spot00_room_0_vertices_00009320[8] = 
+{
+	 { 2208, -140, 2975, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009320
+	 { 5153, -140, 4675, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009330
+	 { 2208, 400, 2975, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009340
+	 { 5153, 400, 4675, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009350
+	 { 736, -140, 5525, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009360
+	 { 3681, -140, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009370
+	 { 736, 400, 5525, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009380
+	 { 3681, 400, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009390
+};
+
+Gfx _spot00_room_0_dlist_000093A0[] =
+{
+	gsDPPipeSync(), // 0x000093A0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000093A8
+	gsSPVertex(_spot00_room_0_vertices_00009320, 8, 0), // 0x000093B0
+	gsSPCullDisplayList(0, 7), // 0x000093B8
+	gsDPPipeSync(), // 0x000093C0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000093C8
+	gsDPPipeSync(), // 0x000093D0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000093D8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x000093E0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x000093E8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x000093F0
+	gsDPLoadSync(), // 0x000093F8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00009400
+	gsDPPipeSync(), // 0x00009408
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00009410
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00009418
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00009420
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00009428
+	gsDPLoadSync(), // 0x00009430
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00009438
+	gsDPPipeSync(), // 0x00009440
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00009448
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00009450
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00009458
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00009460
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00009468
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00009470
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00009478
+	gsSPVertex(_spot00_room_0_vertices_00009110, 17, 0), // 0x00009480
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x00009488
+	gsSP2Triangles(3, 4, 0, 0, 5, 6, 7, 0), // 0x00009490
+	gsSP2Triangles(5, 7, 8, 0, 9, 10, 8, 0), // 0x00009498
+	gsSP2Triangles(9, 8, 7, 0, 10, 9, 11, 0), // 0x000094A0
+	gsSP2Triangles(11, 4, 12, 0, 12, 10, 11, 0), // 0x000094A8
+	gsSP2Triangles(12, 13, 10, 0, 12, 14, 5, 0), // 0x000094B0
+	gsSP2Triangles(12, 5, 13, 0, 1, 0, 6, 0), // 0x000094B8
+	gsSP2Triangles(1, 6, 5, 0, 1, 5, 14, 0), // 0x000094C0
+	gsSP2Triangles(0, 15, 6, 0, 4, 15, 0, 0), // 0x000094C8
+	gsSP1Triangle(4, 16, 15, 0), // 0x000094D0
+	gsDPPipeSync(), // 0x000094D8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00019B98), // 0x000094E0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x000094E8
+	gsDPLoadSync(), // 0x000094F0
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x000094F8
+	gsDPPipeSync(), // 0x00009500
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x00009508
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00009510
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00009518
+	gsSPVertex(_spot00_room_0_vertices_00009220, 16, 0), // 0x00009520
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00009528
+	gsSP2Triangles(5, 6, 3, 0, 7, 8, 9, 0), // 0x00009530
+	gsSP2Triangles(10, 11, 8, 0, 10, 8, 7, 0), // 0x00009538
+	gsSP2Triangles(12, 13, 14, 0, 15, 12, 14, 0), // 0x00009540
+	gsSPEndDisplayList(), // 0x00009548
+};
+
+Vtx_t _spot00_room_0_vertices_00009550[21] = 
+{
+	 { 4417, 93, 5950, 0, -11463, 9813, 13, 118, 13, 255 }, // 0x00009550
+	 { 4976, 80, 6273, 0, -6688, 12570, 180, 84, 218, 255 }, // 0x00009560
+	 { 4839, -40, 5633, 0, -7859, 7106, 29, 114, 237, 255 }, // 0x00009570
+	 { 4747, 0, 5373, 0, -8645, 4887, 68, 99, 253, 255 }, // 0x00009580
+	 { 5273, -40, 5743, 0, -4152, 8044, 198, 90, 204, 255 }, // 0x00009590
+	 { 5452, 20, 4660, 0, -2628, -1196, 186, 92, 32, 255 }, // 0x000095A0
+	 { 5344, -40, 4975, 0, -3548, 1497, 236, 116, 18, 255 }, // 0x000095B0
+	 { 5553, -40, 5303, 0, -1763, 4289, 178, 90, 247, 255 }, // 0x000095C0
+	 { 5055, -40, 4734, 0, -6019, -563, 226, 115, 8, 255 }, // 0x000095D0
+	 { 5033, -60, 4143, 0, -6200, -5609, 191, 96, 228, 255 }, // 0x000095E0
+	 { 5748, -20, 3482, 0, -106, -11250, 220, 108, 37, 255 }, // 0x000095F0
+	 { 6036, -20, 3894, 0, 2356, -7728, 2, 112, 41, 255 }, // 0x00009600
+	 { 6049, -20, 3721, 0, 2465, -9206, 246, 91, 77, 255 }, // 0x00009610
+	 { 5500, -20, 3624, 0, -2217, -10031, 225, 106, 46, 255 }, // 0x00009620
+	 { 6416, -20, 3561, 0, 5600, -10577, 19, 113, 33, 255 }, // 0x00009630
+	 { 6495, -20, 3739, 0, 6271, -9051, 37, 108, 35, 255 }, // 0x00009640
+	 { 6632, -60, 3101, 0, 8295, -12792, 210, 110, 249, 255 }, // 0x00009650
+	 { 4417, 160, 4250, 0, -11463, -4693, 31, 115, 250, 255 }, // 0x00009660
+	 { 4731, 0, 4895, 0, -8781, 810, 78, 90, 3, 255 }, // 0x00009670
+	 { 4855, -20, 3997, 0, -7719, -6855, 61, 99, 29, 255 }, // 0x00009680
+	 { 4731, 0, 4895, 0, -8781, 810, 78, 90, 3, 255 }, // 0x00009690
+};
+
+Vtx_t _spot00_room_0_vertices_000096A0[46] = 
+{
+	 { 5033, -60, 4143, 0, 0, 8192, 191, 96, 228, 255 }, // 0x000096A0
+	 { 4832, -140, 4779, 0, 1024, 2731, 39, 113, 1, 255 }, // 0x000096B0
+	 { 5055, -40, 4734, 0, 0, 2048, 226, 115, 8, 255 }, // 0x000096C0
+	 { 4939, -140, 4061, 0, 1024, 8192, 13, 119, 9, 255 }, // 0x000096D0
+	 { 5154, -140, 5366, 0, 2048, -5120, 246, 119, 248, 255 }, // 0x000096E0
+	 { 5553, -40, 5303, 0, 0, -4096, 178, 90, 247, 255 }, // 0x000096F0
+	 { 5344, -40, 4975, 0, 0, -2048, 236, 116, 18, 255 }, // 0x00009700
+	 { 5273, -40, 5743, 0, 0, -8192, 198, 90, 204, 255 }, // 0x00009710
+	 { 4857, -140, 5079, 0, 1365, 1365, 18, 118, 1, 255 }, // 0x00009720
+	 { 5169, -20, 3816, 0, 0, -8192, 43, 111, 254, 255 }, // 0x00009730
+	 { 4855, -20, 3997, 0, 0, -4096, 61, 99, 29, 255 }, // 0x00009740
+	 { 5414, -140, 3766, 0, 1024, -8192, 6, 119, 1, 255 }, // 0x00009750
+	 { 4939, -140, 4061, 0, 1024, -4096, 13, 119, 9, 255 }, // 0x00009760
+	 { 4855, -20, 3997, 0, 0, -10240, 61, 99, 29, 255 }, // 0x00009770
+	 { 4832, -140, 4779, 0, 1039, -4949, 39, 113, 1, 255 }, // 0x00009780
+	 { 4939, -140, 4061, 0, 1024, -10240, 13, 119, 9, 255 }, // 0x00009790
+	 { 4731, 0, 4895, 0, 0, -4096, 78, 90, 3, 255 }, // 0x000097A0
+	 { 5154, -140, 5366, 0, 2048, 3072, 246, 119, 248, 255 }, // 0x000097B0
+	 { 4839, -40, 5633, 0, 0, 2389, 29, 114, 237, 255 }, // 0x000097C0
+	 { 5273, -40, 5743, 0, 0, 6144, 198, 90, 204, 255 }, // 0x000097D0
+	 { 6564, -60, 3940, 0, 171, -2048, 187, 62, 181, 255 }, // 0x000097E0
+	 { 6632, -60, 3101, 0, 171, 2048, 210, 110, 249, 255 }, // 0x000097F0
+	 { 6529, -140, 3839, 0, 1024, -2048, 10, 113, 37, 255 }, // 0x00009800
+	 { 6529, -140, 3839, 0, 1024, 2048, 10, 113, 37, 255 }, // 0x00009810
+	 { 6632, -60, 3101, 0, 0, -2048, 210, 110, 249, 255 }, // 0x00009820
+	 { 6495, -20, 3739, 0, 0, 2048, 37, 108, 35, 255 }, // 0x00009830
+	 { 6033, -140, 3996, 0, 1024, 2048, 243, 119, 6, 255 }, // 0x00009840
+	 { 6529, -140, 3839, 0, 1024, -2048, 10, 113, 37, 255 }, // 0x00009850
+	 { 6036, -20, 3894, 0, 0, 2048, 2, 112, 41, 255 }, // 0x00009860
+	 { 6495, -20, 3739, 0, 0, -2048, 37, 108, 35, 255 }, // 0x00009870
+	 { 6529, -140, 3839, 0, 1024, 2048, 10, 113, 37, 255 }, // 0x00009880
+	 { 6033, -140, 3996, 0, 1024, -2048, 243, 119, 6, 255 }, // 0x00009890
+	 { 6564, -60, 3940, 0, 171, 2048, 187, 62, 181, 255 }, // 0x000098A0
+	 { 6031, -60, 4097, 0, 171, -2048, 5, 67, 157, 255 }, // 0x000098B0
+	 { 5414, -140, 3766, 0, 1024, 2048, 6, 119, 1, 255 }, // 0x000098C0
+	 { 6033, -140, 3996, 0, 1024, -2048, 243, 119, 6, 255 }, // 0x000098D0
+	 { 5500, -20, 3624, 0, 0, 2048, 225, 106, 46, 255 }, // 0x000098E0
+	 { 6036, -20, 3894, 0, 0, -2048, 2, 112, 41, 255 }, // 0x000098F0
+	 { 6033, -140, 3996, 0, 1024, 2048, 243, 119, 6, 255 }, // 0x00009900
+	 { 5414, -140, 3766, 0, 1024, -2048, 6, 119, 1, 255 }, // 0x00009910
+	 { 6031, -60, 4097, 0, 171, 2048, 5, 67, 157, 255 }, // 0x00009920
+	 { 5426, -60, 3922, 0, 171, -2048, 244, 64, 156, 255 }, // 0x00009930
+	 { 5414, -140, 3766, 0, 1024, 2048, 6, 119, 1, 255 }, // 0x00009940
+	 { 5033, -60, 4143, 0, 0, -2048, 191, 96, 228, 255 }, // 0x00009950
+	 { 5426, -60, 3922, 0, 171, 2048, 244, 64, 156, 255 }, // 0x00009960
+	 { 4939, -140, 4061, 0, 1024, -2048, 13, 119, 9, 255 }, // 0x00009970
+};
+
+Vtx_t _spot00_room_0_vertices_00009980[43] = 
+{
+	 { 5426, 180, 3922, 0, 0, 1024, 200, 236, 153, 255 }, // 0x00009980
+	 { 5033, 286, 4143, 0, 2048, 1024, 142, 23, 230, 255 }, // 0x00009990
+	 { 5153, 580, 4143, 0, 2048, 0, 153, 23, 200, 255 }, // 0x000099A0
+	 { 5629, 475, 3696, 0, -1024, 0, 149, 231, 210, 255 }, // 0x000099B0
+	 { 6564, 220, 3940, 0, 2048, 1024, 165, 213, 192, 255 }, // 0x000099C0
+	 { 6564, 460, 3940, 0, 2048, 0, 140, 0, 226, 255 }, // 0x000099D0
+	 { 6632, 460, 3101, 0, 0, 0, 140, 0, 226, 255 }, // 0x000099E0
+	 { 6564, -60, 3940, 0, 2048, 2048, 187, 62, 181, 255 }, // 0x000099F0
+	 { 6632, 460, 3101, 0, 0, 0, 140, 0, 226, 255 }, // 0x00009A00
+	 { 6632, -60, 3101, 0, 0, 2048, 210, 110, 249, 255 }, // 0x00009A10
+	 { 6031, 140, 4097, 0, 1536, 1536, 4, 171, 172, 255 }, // 0x00009A20
+	 { 6049, 140, 3721, 0, 512, 1536, 250, 165, 77, 255 }, // 0x00009A30
+	 { 6416, 220, 3561, 0, 0, 1024, 45, 175, 76, 255 }, // 0x00009A40
+	 { 6416, -20, 3561, 0, 0, 2048, 19, 113, 33, 255 }, // 0x00009A50
+	 { 6049, -20, 3721, 0, 512, 2048, 246, 91, 77, 255 }, // 0x00009A60
+	 { 6564, -60, 3940, 0, 2048, 2048, 187, 62, 181, 255 }, // 0x00009A70
+	 { 6031, -60, 4097, 0, 1536, 2048, 5, 67, 157, 255 }, // 0x00009A80
+	 { 5426, -60, 3922, 0, 2048, 2048, 244, 64, 156, 255 }, // 0x00009A90
+	 { 5426, 180, 3922, 0, 2048, 1024, 200, 236, 153, 255 }, // 0x00009AA0
+	 { 5748, 180, 3482, 0, 0, 1024, 154, 207, 40, 255 }, // 0x00009AB0
+	 { 5748, -20, 3482, 0, 0, 2048, 220, 108, 37, 255 }, // 0x00009AC0
+	 { 5629, 475, 3696, 0, 1024, 0, 149, 231, 210, 255 }, // 0x00009AD0
+	 { 5426, -60, 3922, 0, 0, 2048, 244, 64, 156, 255 }, // 0x00009AE0
+	 { 5033, -60, 4143, 0, 2048, 2048, 191, 96, 228, 255 }, // 0x00009AF0
+	 { 5033, 286, 4143, 0, 2048, 1024, 142, 23, 230, 255 }, // 0x00009B00
+	 { 5426, 180, 3922, 0, 0, 1024, 200, 236, 153, 255 }, // 0x00009B10
+	 { 5153, 580, 4143, 0, 0, 0, 153, 23, 200, 255 }, // 0x00009B20
+	 { 5033, 286, 4143, 0, 0, 1024, 142, 23, 230, 255 }, // 0x00009B30
+	 { 5452, 420, 4660, 0, 2048, 0, 151, 13, 55, 255 }, // 0x00009B40
+	 { 5033, -60, 4143, 0, 0, 2048, 191, 96, 228, 255 }, // 0x00009B50
+	 { 5452, 20, 4660, 0, 2048, 2048, 186, 92, 32, 255 }, // 0x00009B60
+	 { 4976, 80, 6273, 0, 2048, 1024, 180, 84, 218, 255 }, // 0x00009B70
+	 { 4976, 380, 6273, 0, 2048, 0, 146, 0, 209, 255 }, // 0x00009B80
+	 { 5273, 380, 5743, 0, 0, 0, 153, 0, 195, 255 }, // 0x00009B90
+	 { 5273, -40, 5743, 0, 0, 2048, 198, 90, 204, 255 }, // 0x00009BA0
+	 { 5273, -40, 5743, 0, 2048, 2048, 198, 90, 204, 255 }, // 0x00009BB0
+	 { 5273, 380, 5743, 0, 2048, 0, 153, 0, 195, 255 }, // 0x00009BC0
+	 { 5553, 380, 5303, 0, 0, 0, 139, 0, 232, 255 }, // 0x00009BD0
+	 { 5553, -40, 5303, 0, 0, 2048, 178, 90, 247, 255 }, // 0x00009BE0
+	 { 5553, -40, 5303, 0, 2048, 2048, 178, 90, 247, 255 }, // 0x00009BF0
+	 { 5553, 380, 5303, 0, 2048, 0, 139, 0, 232, 255 }, // 0x00009C00
+	 { 5452, 420, 4660, 0, 0, 0, 151, 13, 55, 255 }, // 0x00009C10
+	 { 5452, 20, 4660, 0, 0, 2048, 186, 92, 32, 255 }, // 0x00009C20
+};
+
+Vtx_t _spot00_room_0_vertices_00009C30[6] = 
+{
+	 { 5154, -140, 5366, 0, 2048, 3072, 246, 119, 248, 255 }, // 0x00009C30
+	 { 4857, -140, 5079, 0, 1365, -3413, 18, 118, 1, 255 }, // 0x00009C40
+	 { 4839, -40, 5633, 0, 0, 2389, 29, 114, 237, 255 }, // 0x00009C50
+	 { 4747, 0, 5373, 0, 0, 341, 68, 99, 253, 255 }, // 0x00009C60
+	 { 4832, -140, 4779, 0, 1039, -4949, 39, 113, 1, 255 }, // 0x00009C70
+	 { 4731, 0, 4895, 0, 0, -4096, 78, 90, 3, 255 }, // 0x00009C80
+};
+
+Vtx_t _spot00_room_0_vertices_00009C90[8] = 
+{
+	 { 5468, -140, 2429, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009C90
+	 { 6944, -140, 3281, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009CA0
+	 { 5468, 580, 2429, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009CB0
+	 { 6944, 580, 3281, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009CC0
+	 { 3681, -140, 5525, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009CD0
+	 { 5157, -140, 6377, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009CE0
+	 { 3681, 580, 5525, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009CF0
+	 { 5157, 580, 6377, 0, 0, 0, 0, 0, 0, 0 }, // 0x00009D00
+};
+
+Gfx _spot00_room_0_dlist_00009D10[] =
+{
+	gsDPPipeSync(), // 0x00009D10
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00009D18
+	gsSPVertex(_spot00_room_0_vertices_00009C90, 8, 0), // 0x00009D20
+	gsSPCullDisplayList(0, 7), // 0x00009D28
+	gsDPPipeSync(), // 0x00009D30
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00009D38
+	gsDPPipeSync(), // 0x00009D40
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00009D48
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00009D50
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x00009D58
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x00009D60
+	gsDPLoadSync(), // 0x00009D68
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00009D70
+	gsDPPipeSync(), // 0x00009D78
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x00009D80
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00009D88
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x00009D90
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x00009D98
+	gsDPLoadSync(), // 0x00009DA0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00009DA8
+	gsDPPipeSync(), // 0x00009DB0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x00009DB8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00009DC0
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00009DC8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00009DD0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00009DD8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00009DE0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00009DE8
+	gsSPVertex(_spot00_room_0_vertices_00009550, 21, 0), // 0x00009DF0
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x00009DF8
+	gsSP2Triangles(4, 2, 1, 0, 5, 6, 7, 0), // 0x00009E00
+	gsSP2Triangles(6, 5, 8, 0, 9, 8, 5, 0), // 0x00009E08
+	gsSP2Triangles(10, 11, 12, 0, 10, 13, 11, 0), // 0x00009E10
+	gsSP2Triangles(12, 11, 14, 0, 11, 15, 14, 0), // 0x00009E18
+	gsSP2Triangles(15, 16, 14, 0, 17, 18, 19, 0), // 0x00009E20
+	gsSP2Triangles(17, 0, 3, 0, 17, 3, 20, 0), // 0x00009E28
+	gsDPPipeSync(), // 0x00009E30
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x00009E38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x00009E40
+	gsDPLoadSync(), // 0x00009E48
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x00009E50
+	gsDPPipeSync(), // 0x00009E58
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x00009E60
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00009E68
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00009E70
+	gsSPVertex(_spot00_room_0_vertices_000096A0, 32, 0), // 0x00009E78
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00009E80
+	gsSP2Triangles(4, 5, 6, 0, 4, 7, 5, 0), // 0x00009E88
+	gsSP2Triangles(2, 1, 8, 0, 9, 10, 11, 0), // 0x00009E90
+	gsSP2Triangles(10, 12, 11, 0, 13, 14, 15, 0), // 0x00009E98
+	gsSP2Triangles(13, 16, 14, 0, 17, 18, 19, 0), // 0x00009EA0
+	gsSP2Triangles(2, 8, 6, 0, 8, 4, 6, 0), // 0x00009EA8
+	gsSP2Triangles(20, 21, 22, 0, 23, 24, 25, 0), // 0x00009EB0
+	gsSP2Triangles(26, 27, 28, 0, 27, 29, 28, 0), // 0x00009EB8
+	gsSPVertex(_spot00_room_0_vertices_00009880, 16, 0), // 0x00009EC0
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x00009EC8
+	gsSP2Triangles(4, 5, 6, 0, 5, 7, 6, 0), // 0x00009ED0
+	gsSP2Triangles(8, 9, 10, 0, 9, 11, 10, 0), // 0x00009ED8
+	gsSP2Triangles(12, 13, 14, 0, 12, 15, 13, 0), // 0x00009EE0
+	gsDPPipeSync(), // 0x00009EE8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00009EF0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x00009EF8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00009F00
+	gsDPLoadSync(), // 0x00009F08
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00009F10
+	gsDPPipeSync(), // 0x00009F18
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00009F20
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00009F28
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x00009F30
+	gsDPTileSync(), // 0x00009F38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00009F40
+	gsDPLoadSync(), // 0x00009F48
+	gsDPLoadTLUTCmd(7, 15), // 0x00009F50
+	gsDPPipeSync(), // 0x00009F58
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00009F60
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00009F68
+	gsSPVertex(_spot00_room_0_vertices_00009980, 32, 0), // 0x00009F70
+	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0), // 0x00009F78
+	gsSP2Triangles(4, 5, 6, 0, 7, 4, 8, 0), // 0x00009F80
+	gsSP2Triangles(7, 8, 9, 0, 4, 10, 11, 0), // 0x00009F88
+	gsSP2Triangles(4, 11, 12, 0, 13, 12, 11, 0), // 0x00009F90
+	gsSP2Triangles(13, 11, 14, 0, 4, 15, 16, 0), // 0x00009F98
+	gsSP2Triangles(4, 16, 10, 0, 10, 16, 17, 0), // 0x00009FA0
+	gsSP2Triangles(10, 17, 18, 0, 19, 11, 10, 0), // 0x00009FA8
+	gsSP2Triangles(19, 10, 18, 0, 14, 11, 19, 0), // 0x00009FB0
+	gsSP2Triangles(14, 19, 20, 0, 18, 21, 19, 0), // 0x00009FB8
+	gsSP2Triangles(22, 23, 24, 0, 22, 24, 25, 0), // 0x00009FC0
+	gsSP2Triangles(26, 27, 28, 0, 27, 29, 30, 0), // 0x00009FC8
+	gsSP1Triangle(27, 30, 28, 0), // 0x00009FD0
+	gsSPVertex(_spot00_room_0_vertices_00009B70, 12, 0), // 0x00009FD8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00009FE0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00009FE8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00009FF0
+	gsDPPipeSync(), // 0x00009FF8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000A000
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001D998), // 0x0000A008
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 5, 0), // 0x0000A010
+	gsDPLoadSync(), // 0x0000A018
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x0000A020
+	gsDPPipeSync(), // 0x0000A028
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 6, 0, 2, 5, 0), // 0x0000A030
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x0000A038
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000A040
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000A048
+	gsSPVertex(_spot00_room_0_vertices_00009C30, 6, 0), // 0x0000A050
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x0000A058
+	gsSP2Triangles(1, 4, 3, 0, 4, 5, 3, 0), // 0x0000A060
+	gsSPEndDisplayList(), // 0x0000A068
+};
+
+Vtx_t _spot00_room_0_vertices_0000A070[12] = 
+{
+	 { -6256, -500, 7663, 0, 12152, -148, 26, 102, 199, 255 }, // 0x0000A070
+	 { -5889, -500, 6800, 0, 15283, -7509, 239, 117, 14, 255 }, // 0x0000A080
+	 { -7361, -500, 7650, 0, 2720, -256, 49, 97, 207, 255 }, // 0x0000A090
+	 { -5889, -500, 7657, 0, 15283, -197, 236, 118, 0, 255 }, // 0x0000A0A0
+	 { -5889, -500, 8500, 0, 15283, 6997, 220, 113, 243, 255 }, // 0x0000A0B0
+	 { -6129, -500, 8277, 0, 13235, 5093, 53, 105, 18, 255 }, // 0x0000A0C0
+	 { -6455, -500, 8541, 0, 10450, 7348, 18, 97, 67, 255 }, // 0x0000A0D0
+	 { -6695, -500, 8965, 0, 8405, 10969, 29, 100, 198, 255 }, // 0x0000A0E0
+	 { -7558, -500, 8561, 0, 1042, 7518, 251, 112, 40, 255 }, // 0x0000A0F0
+	 { -7558, -500, 8761, 0, 1042, 9224, 253, 102, 194, 255 }, // 0x0000A100
+	 { -7361, -500, 5950, 0, 2720, -14763, 57, 99, 36, 255 }, // 0x0000A110
+	 { -7361, -500, 6150, 0, 2720, -13056, 84, 84, 0, 255 }, // 0x0000A120
+};
+
+Vtx_t _spot00_room_0_vertices_0000A130[26] = 
+{
+	 { -8619, -300, 7645, 0, -1691, -1832, 0, 107, 53, 255 }, // 0x0000A130
+	 { -8683, -300, 7533, 0, -1857, -2120, 218, 111, 234, 255 }, // 0x0000A140
+	 { -8833, -300, 7947, 0, -2241, -1060, 31, 108, 214, 255 }, // 0x0000A150
+	 { -8833, -300, 7443, 0, -2241, -2350, 32, 96, 64, 255 }, // 0x0000A160
+	 { -8833, -300, 6800, 0, -2241, -3996, 32, 113, 21, 255 }, // 0x0000A170
+	 { -8554, -300, 7533, 0, -1525, -2120, 38, 111, 234, 255 }, // 0x0000A180
+	 { -8052, -300, 7650, 0, -241, -1820, 251, 116, 227, 255 }, // 0x0000A190
+	 { -8052, -300, 7933, 0, -241, -1095, 239, 118, 13, 255 }, // 0x0000A1A0
+	 { -6209, -300, 8237, 0, 4477, -318, 59, 102, 20, 255 }, // 0x0000A1B0
+	 { -6336, -300, 7743, 0, 4152, -1583, 45, 71, 172, 255 }, // 0x0000A1C0
+	 { -7361, -180, 7650, 0, 1528, -1820, 1, 111, 212, 255 }, // 0x0000A1D0
+	 { -6495, -300, 8461, 0, 3744, 256, 31, 98, 61, 255 }, // 0x0000A1E0
+	 { -7558, -180, 8561, 0, 1024, 512, 232, 80, 85, 255 }, // 0x0000A1F0
+	 { -7361, -300, 7650, 0, 1528, -1820, 30, 61, 157, 255 }, // 0x0000A200
+	 { -7361, -300, 6150, 0, 1528, -5660, 110, 23, 42, 255 }, // 0x0000A210
+	 { -8833, -300, 7947, 0, -2241, -1060, 31, 108, 214, 255 }, // 0x0000A220
+	 { -8833, -300, 8500, 0, -2241, 356, 56, 102, 228, 255 }, // 0x0000A230
+	 { -7558, -500, 8561, 0, 1024, 512, 251, 112, 40, 255 }, // 0x0000A240
+	 { -7736, -451, 8885, 0, 567, 1342, 8, 87, 175, 255 }, // 0x0000A250
+	 { -7558, -500, 8761, 0, 1024, 1024, 253, 102, 194, 255 }, // 0x0000A260
+	 { -9193, -300, 7443, 0, -3163, -2350, 218, 92, 67, 255 }, // 0x0000A270
+	 { -9431, -300, 7814, 0, -3771, -1400, 57, 89, 200, 255 }, // 0x0000A280
+	 { -9913, -100, 6723, 0, -5006, -4194, 37, 109, 223, 255 }, // 0x0000A290
+	 { -9430, -168, 6732, 0, -3769, -4169, 176, 66, 60, 255 }, // 0x0000A2A0
+	 { -9814, -58, 6404, 0, -4751, -5011, 14, 95, 72, 255 }, // 0x0000A2B0
+	 { -10875, -12, 7123, 0, -7467, -3170, 93, 62, 213, 255 }, // 0x0000A2C0
+};
+
+Vtx_t _spot00_room_0_vertices_0000A2D0[16] = 
+{
+	 { -8833, -300, 8500, 0, 2048, 2048, 56, 102, 228, 255 }, // 0x0000A2D0
+	 { -8833, 183, 8500, 0, 2048, 0, 97, 0, 187, 255 }, // 0x0000A2E0
+	 { -7736, 149, 8885, 0, 0, 0, 240, 0, 138, 255 }, // 0x0000A2F0
+	 { -7736, -451, 8885, 0, 0, 2048, 8, 87, 175, 255 }, // 0x0000A300
+	 { -8833, -300, 8500, 0, 0, 2048, 56, 102, 228, 255 }, // 0x0000A310
+	 { -8833, -300, 7947, 0, 1024, 2048, 31, 108, 214, 255 }, // 0x0000A320
+	 { -8833, 100, 7947, 0, 1024, 0, 93, 0, 181, 255 }, // 0x0000A330
+	 { -8833, 183, 8500, 0, 0, 0, 97, 0, 187, 255 }, // 0x0000A340
+	 { -8833, 183, 6800, 0, -1024, 0, 84, 0, 85, 255 }, // 0x0000A350
+	 { -7361, -300, 6150, 0, 1024, 1536, 110, 23, 42, 255 }, // 0x0000A360
+	 { -7361, 300, 6150, 0, 1024, 0, 100, 0, 65, 255 }, // 0x0000A370
+	 { -8833, -300, 6800, 0, -1024, 2048, 32, 113, 21, 255 }, // 0x0000A380
+	 { -8833, -300, 6800, 0, 1024, 2048, 32, 113, 21, 255 }, // 0x0000A390
+	 { -8833, 183, 6800, 0, 1024, 0, 84, 0, 85, 255 }, // 0x0000A3A0
+	 { -8833, 62, 7443, 0, 0, 0, 72, 218, 88, 255 }, // 0x0000A3B0
+	 { -8833, -300, 7443, 0, 0, 2048, 32, 96, 64, 255 }, // 0x0000A3C0
+};
+
+Vtx_t _spot00_room_0_vertices_0000A3D0[12] = 
+{
+	 { -8586, -225, 7589, 0, 1536, 1536, 102, 22, 59, 255 }, // 0x0000A3D0
+	 { -8554, 0, 7533, 0, 2048, 0, 103, 241, 197, 255 }, // 0x0000A3E0
+	 { -8619, 0, 7645, 0, 1024, 0, 0, 241, 119, 255 }, // 0x0000A3F0
+	 { -8619, -225, 7533, 0, 2560, 1536, 0, 22, 139, 255 }, // 0x0000A400
+	 { -8683, 0, 7533, 0, 3072, 0, 153, 241, 197, 255 }, // 0x0000A410
+	 { -8651, -225, 7589, 0, 3584, 1536, 154, 22, 59, 255 }, // 0x0000A420
+	 { -8651, -225, 7589, 0, 512, 1536, 154, 22, 59, 255 }, // 0x0000A430
+	 { -8683, 0, 7533, 0, 0, 0, 153, 241, 197, 255 }, // 0x0000A440
+	 { -8683, -300, 7533, 0, 3072, 2048, 218, 111, 234, 255 }, // 0x0000A450
+	 { -8554, -300, 7533, 0, 2048, 2048, 38, 111, 234, 255 }, // 0x0000A460
+	 { -8683, -300, 7533, 0, 0, 2048, 218, 111, 234, 255 }, // 0x0000A470
+	 { -8619, -300, 7645, 0, 1024, 2048, 0, 107, 53, 255 }, // 0x0000A480
+};
+
+Vtx_t _spot00_room_0_vertices_0000A490[47] = 
+{
+	 { -9692, -206, 7912, 0, 2560, 1024, 62, 195, 174, 255 }, // 0x0000A490
+	 { -9461, 150, 7848, 0, 2048, 0, 91, 180, 244, 255 }, // 0x0000A4A0
+	 { -8954, -73, 8501, 0, 0, 0, 71, 196, 181, 255 }, // 0x0000A4B0
+	 { -9461, 150, 7848, 0, 0, 0, 91, 180, 244, 255 }, // 0x0000A4C0
+	 { -9692, -206, 7912, 0, 512, 1024, 62, 195, 174, 255 }, // 0x0000A4D0
+	 { -9485, -39, 7735, 0, 1024, 1024, 16, 138, 10, 255 }, // 0x0000A4E0
+	 { -9092, 32, 7545, 0, 2048, 0, 48, 179, 78, 255 }, // 0x0000A4F0
+	 { -9193, -108, 7443, 0, 2048, 1024, 196, 194, 83, 255 }, // 0x0000A500
+	 { -9295, 32, 7341, 0, 0, 0, 181, 167, 230, 255 }, // 0x0000A510
+	 { -9193, -108, 7443, 0, 0, 1024, 196, 194, 83, 255 }, // 0x0000A520
+	 { -9485, -39, 7735, 0, 1024, 1024, 16, 138, 10, 255 }, // 0x0000A530
+	 { -9692, -206, 7912, 0, 1536, 1024, 62, 195, 174, 255 }, // 0x0000A540
+	 { -10007, 204, 7655, 0, 2048, 0, 20, 211, 147, 255 }, // 0x0000A550
+	 { -10007, 204, 7655, 0, 3072, 0, 20, 211, 147, 255 }, // 0x0000A560
+	 { -10875, -12, 7123, 0, 3072, 1024, 93, 62, 213, 255 }, // 0x0000A570
+	 { -11048, 456, 7297, 0, 2048, 0, 109, 47, 238, 255 }, // 0x0000A580
+	 { -10007, 204, 7655, 0, 1024, 0, 20, 211, 147, 255 }, // 0x0000A590
+	 { -9692, -206, 7912, 0, 512, 1024, 62, 195, 174, 255 }, // 0x0000A5A0
+	 { -9814, 302, 6164, 0, 0, 0, 217, 29, 109, 255 }, // 0x0000A5B0
+	 { -9814, -58, 6404, 0, 0, 2048, 14, 95, 72, 255 }, // 0x0000A5C0
+	 { -9430, -168, 6732, 0, 1418, 2048, 176, 66, 60, 255 }, // 0x0000A5D0
+	 { -9430, 112, 6732, 0, 1718, 0, 146, 234, 42, 255 }, // 0x0000A5E0
+	 { -9193, -108, 7443, 0, 3072, 1024, 196, 194, 83, 255 }, // 0x0000A5F0
+	 { -9295, 32, 7341, 0, 3072, 0, 181, 167, 230, 255 }, // 0x0000A600
+	 { -9193, -300, 7443, 0, 3072, 2048, 218, 92, 67, 255 }, // 0x0000A610
+	 { -10875, 516, 7071, 0, 3072, 0, 105, 6, 57, 255 }, // 0x0000A620
+	 { -9431, -48, 7814, 0, 0, 0, 59, 0, 152, 255 }, // 0x0000A630
+	 { -8833, 100, 7947, 0, 1024, 0, 93, 0, 181, 255 }, // 0x0000A640
+	 { -8833, -300, 7947, 0, 1024, 2048, 31, 108, 214, 255 }, // 0x0000A650
+	 { -9431, -300, 7814, 0, 0, 2048, 57, 89, 200, 255 }, // 0x0000A660
+	 { -9913, -100, 6723, 0, 4096, 2048, 37, 109, 223, 255 }, // 0x0000A670
+	 { -9913, 140, 6723, 0, 4096, 0, 44, 248, 145, 255 }, // 0x0000A680
+	 { -9431, -48, 7814, 0, 0, 0, 59, 0, 152, 255 }, // 0x0000A690
+	 { -9431, -300, 7814, 0, 0, 2048, 57, 89, 200, 255 }, // 0x0000A6A0
+	 { -9092, 32, 7545, 0, 0, 0, 48, 179, 78, 255 }, // 0x0000A6B0
+	 { -9193, -108, 7443, 0, 0, 1024, 196, 194, 83, 255 }, // 0x0000A6C0
+	 { -8833, 62, 7443, 0, 1024, 0, 72, 218, 88, 255 }, // 0x0000A6D0
+	 { -8833, -300, 7443, 0, 1024, 2048, 32, 96, 64, 255 }, // 0x0000A6E0
+	 { -9193, -300, 7443, 0, 0, 2048, 218, 92, 67, 255 }, // 0x0000A6F0
+	 { -10875, 516, 7071, 0, 0, 0, 105, 6, 57, 255 }, // 0x0000A700
+	 { -10875, -12, 7123, 0, 0, 2048, 93, 62, 213, 255 }, // 0x0000A710
+	 { -9814, -58, 6404, 0, 4096, 2048, 14, 95, 72, 255 }, // 0x0000A720
+	 { -9814, 302, 6164, 0, 4096, 0, 217, 29, 109, 255 }, // 0x0000A730
+	 { -10875, -12, 7123, 0, 4096, 2048, 93, 62, 213, 255 }, // 0x0000A740
+	 { -10875, 516, 7071, 0, 4096, 0, 105, 6, 57, 255 }, // 0x0000A750
+	 { -9913, 140, 6723, 0, 0, 0, 44, 248, 145, 255 }, // 0x0000A760
+	 { -9913, -100, 6723, 0, 0, 2048, 37, 109, 223, 255 }, // 0x0000A770
+};
+
+Vtx_t _spot00_room_0_vertices_0000A780[27] = 
+{
+	 { -8052, -300, 7933, 0, 0, 0, 239, 118, 13, 255 }, // 0x0000A780
+	 { -7558, -500, 8561, 0, 2048, 1024, 251, 112, 40, 255 }, // 0x0000A790
+	 { -7558, -180, 8561, 0, 2048, 0, 232, 80, 85, 255 }, // 0x0000A7A0
+	 { -6455, -500, 8541, 0, 3072, 1024, 18, 97, 67, 255 }, // 0x0000A7B0
+	 { -7558, -180, 8561, 0, 0, 0, 232, 80, 85, 255 }, // 0x0000A7C0
+	 { -7558, -500, 8561, 0, 0, 1024, 251, 112, 40, 255 }, // 0x0000A7D0
+	 { -6495, -300, 8461, 0, 3072, 0, 31, 98, 61, 255 }, // 0x0000A7E0
+	 { -6495, -300, 8461, 0, 0, 0, 31, 98, 61, 255 }, // 0x0000A7F0
+	 { -6455, -500, 8541, 0, 0, 1024, 18, 97, 67, 255 }, // 0x0000A800
+	 { -6129, -500, 8277, 0, 2150, 1024, 53, 105, 18, 255 }, // 0x0000A810
+	 { -6209, -300, 8237, 0, 2048, 0, 59, 102, 20, 255 }, // 0x0000A820
+	 { -6256, -500, 7663, 0, 3072, 1024, 26, 102, 199, 255 }, // 0x0000A830
+	 { -6336, -300, 7743, 0, 3072, 0, 45, 71, 172, 255 }, // 0x0000A840
+	 { -6209, -300, 8237, 0, 0, 0, 59, 102, 20, 255 }, // 0x0000A850
+	 { -6129, -500, 8277, 0, 0, 1024, 53, 105, 18, 255 }, // 0x0000A860
+	 { -6256, -500, 7663, 0, 0, 1024, 26, 102, 199, 255 }, // 0x0000A870
+	 { -7361, -500, 7650, 0, 3072, 1024, 49, 97, 207, 255 }, // 0x0000A880
+	 { -7361, -300, 7650, 0, 3072, 384, 30, 61, 157, 255 }, // 0x0000A890
+	 { -6336, -300, 7743, 0, 0, 0, 45, 71, 172, 255 }, // 0x0000A8A0
+	 { -7361, -180, 7650, 0, 3072, 0, 1, 111, 212, 255 }, // 0x0000A8B0
+	 { -7361, -180, 7650, 0, 0, 0, 1, 111, 212, 255 }, // 0x0000A8C0
+	 { -7361, -300, 7650, 0, 0, 384, 30, 61, 157, 255 }, // 0x0000A8D0
+	 { -8052, -300, 7650, 0, 3072, 0, 251, 116, 227, 255 }, // 0x0000A8E0
+	 { -7361, -500, 6150, 0, 8192, 1024, 84, 84, 0, 255 }, // 0x0000A8F0
+	 { -7361, -300, 6150, 0, 8192, 0, 110, 23, 42, 255 }, // 0x0000A900
+	 { -7361, -300, 7650, 0, 0, 0, 30, 61, 157, 255 }, // 0x0000A910
+	 { -7361, -500, 7650, 0, 0, 1024, 49, 97, 207, 255 }, // 0x0000A920
+};
+
+Vtx_t _spot00_room_0_vertices_0000A930[9] = 
+{
+	 { -7361, -500, 5950, 0, 480, 2048, 57, 99, 36, 255 }, // 0x0000A930
+	 { -7361, 300, 5950, 0, 480, 0, 117, 0, 22, 255 }, // 0x0000A940
+	 { -7361, -300, 6150, 0, 32, 1536, 110, 23, 42, 255 }, // 0x0000A950
+	 { -7361, 300, 6150, 0, 32, 0, 100, 0, 65, 255 }, // 0x0000A960
+	 { -7361, -500, 6150, 0, 32, 2048, 84, 84, 0, 255 }, // 0x0000A970
+	 { -7736, -451, 8885, 0, 32, 2048, 8, 87, 175, 255 }, // 0x0000A980
+	 { -7736, 149, 8885, 0, 32, 0, 240, 0, 138, 255 }, // 0x0000A990
+	 { -7558, 100, 8761, 0, 480, 0, 234, 0, 139, 255 }, // 0x0000A9A0
+	 { -7558, -500, 8761, 0, 480, 2048, 253, 102, 194, 255 }, // 0x0000A9B0
+};
+
+Vtx_t _spot00_room_0_vertices_0000A9C0[4] = 
+{
+	 { -7456, -500, 8785, 0, 256, 512, 0, 120, 0, 255 }, // 0x0000A9C0
+	 { -7456, -500, 8559, 0, 256, 0, 0, 120, 0, 255 }, // 0x0000A9D0
+	 { -7558, -500, 8561, 0, 0, 0, 251, 112, 40, 255 }, // 0x0000A9E0
+	 { -7558, -500, 8761, 0, 0, 512, 253, 102, 194, 255 }, // 0x0000A9F0
+};
+
+Vtx_t _spot00_room_0_vertices_0000AA00[32] = 
+{
+	 { -7371, -300, 6150, 0, -18432, 1024, 84, 84, 0, 255 }, // 0x0000AA00
+	 { -7371, -260, 6150, 0, -18432, 0, 84, 84, 0, 255 }, // 0x0000AA10
+	 { -7371, -260, 7650, 0, 19968, 0, 84, 84, 0, 255 }, // 0x0000AA20
+	 { -7371, -300, 7650, 0, 19968, 1024, 84, 84, 0, 255 }, // 0x0000AA30
+	 { -8833, -300, 7443, 0, -9216, 1024, 69, 69, 69, 255 }, // 0x0000AA40
+	 { -8073, -300, 7443, 0, 10240, 1024, 0, 84, 84, 255 }, // 0x0000AA50
+	 { -8073, -260, 7443, 0, 10240, 0, 0, 84, 84, 255 }, // 0x0000AA60
+	 { -8833, -260, 7443, 0, -9216, 0, 69, 69, 69, 255 }, // 0x0000AA70
+	 { -8833, -300, 7443, 0, 4096, 1024, 69, 69, 69, 255 }, // 0x0000AA80
+	 { -8833, -260, 7443, 0, 4096, 0, 69, 69, 69, 255 }, // 0x0000AA90
+	 { -8833, -260, 7723, 0, -3072, 0, 84, 84, 0, 255 }, // 0x0000AAA0
+	 { -8833, -300, 7723, 0, -3072, 1024, 84, 84, 0, 255 }, // 0x0000AAB0
+	 { -9302, -300, 7612, 0, 3072, 1024, 71, 84, 46, 255 }, // 0x0000AAC0
+	 { -9302, -260, 7612, 0, 3072, 0, 71, 84, 46, 255 }, // 0x0000AAD0
+	 { -9431, -260, 7814, 0, -3072, 0, 71, 84, 46, 255 }, // 0x0000AAE0
+	 { -9431, -300, 7814, 0, -3072, 1024, 71, 84, 46, 255 }, // 0x0000AAF0
+	 { -8052, -300, 7659, 0, -9216, 1024, 242, 83, 172, 255 }, // 0x0000AB00
+	 { -8052, -260, 7659, 0, -9216, 0, 242, 83, 172, 255 }, // 0x0000AB10
+	 { -7362, -140, 7659, 0, 8192, 0, 2, 85, 172, 255 }, // 0x0000AB20
+	 { -7362, -181, 7659, 0, 8192, 1024, 2, 85, 172, 255 }, // 0x0000AB30
+	 { -7362, -181, 7659, 0, -15360, 1024, 2, 85, 172, 255 }, // 0x0000AB40
+	 { -7362, -140, 7659, 0, -15360, 0, 2, 85, 172, 255 }, // 0x0000AB50
+	 { -6345, -260, 7753, 0, 11264, 0, 54, 91, 200, 255 }, // 0x0000AB60
+	 { -6345, -300, 7753, 0, 11264, 1024, 54, 91, 200, 255 }, // 0x0000AB70
+	 { -6345, -300, 7753, 0, -6144, 1024, 54, 91, 200, 255 }, // 0x0000AB80
+	 { -6345, -260, 7753, 0, -6144, 0, 54, 91, 200, 255 }, // 0x0000AB90
+	 { -6221, -260, 8233, 0, 7168, 0, 97, 61, 33, 255 }, // 0x0000ABA0
+	 { -6221, -300, 8233, 0, 7168, 1024, 97, 61, 33, 255 }, // 0x0000ABB0
+	 { -6221, -300, 8233, 0, -5120, 1024, 97, 61, 33, 255 }, // 0x0000ABC0
+	 { -6221, -260, 8233, 0, -5120, 0, 97, 61, 33, 255 }, // 0x0000ABD0
+	 { -6499, -260, 8452, 0, 4096, 0, 35, 85, 77, 255 }, // 0x0000ABE0
+	 { -6499, -300, 8452, 0, 4096, 1024, 35, 85, 77, 255 }, // 0x0000ABF0
+};
+
+Vtx_t _spot00_room_0_vertices_0000AC00[8] = 
+{
+	 { -6499, -300, 8452, 0, -15360, 1024, 35, 85, 77, 255 }, // 0x0000AC00
+	 { -6499, -260, 8452, 0, -15360, 0, 35, 85, 77, 255 }, // 0x0000AC10
+	 { -7553, -140, 8551, 0, 12288, 0, 223, 88, 73, 255 }, // 0x0000AC20
+	 { -7553, -181, 8551, 0, 12288, 1024, 223, 88, 73, 255 }, // 0x0000AC30
+	 { -7553, -181, 8551, 0, -11264, 1024, 223, 88, 73, 255 }, // 0x0000AC40
+	 { -7553, -140, 8551, 0, -11264, 0, 223, 88, 73, 255 }, // 0x0000AC50
+	 { -8045, -260, 7928, 0, 9216, 0, 180, 78, 49, 255 }, // 0x0000AC60
+	 { -8045, -300, 7928, 0, 9216, 1024, 180, 78, 49, 255 }, // 0x0000AC70
+};
+
+Vtx_t _spot00_room_0_vertices_0000AC80[8] = 
+{
+	 { -9543, -500, 4690, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000AC80
+	 { -5153, -500, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000AC90
+	 { -9543, 516, 4690, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000ACA0
+	 { -5153, 516, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000ACB0
+	 { -11048, -500, 7297, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000ACC0
+	 { -6658, -500, 9832, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000ACD0
+	 { -11048, 516, 7297, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000ACE0
+	 { -6658, 516, 9832, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000ACF0
+};
+
+Gfx _spot00_room_0_dlist_0000AD00[] =
+{
+	gsDPPipeSync(), // 0x0000AD00
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000AD08
+	gsSPVertex(_spot00_room_0_vertices_0000AC80, 8, 0), // 0x0000AD10
+	gsSPCullDisplayList(0, 7), // 0x0000AD18
+	gsDPPipeSync(), // 0x0000AD20
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000AD28
+	gsDPPipeSync(), // 0x0000AD30
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000AD38
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000AD40
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000AD48
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000AD50
+	gsDPLoadSync(), // 0x0000AD58
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000AD60
+	gsDPPipeSync(), // 0x0000AD68
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000AD70
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000AD78
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000AD80
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000AD88
+	gsDPLoadSync(), // 0x0000AD90
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000AD98
+	gsDPPipeSync(), // 0x0000ADA0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000ADA8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000ADB0
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000ADB8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000ADC0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000ADC8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000ADD0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000ADD8
+	gsSPVertex(_spot00_room_0_vertices_0000A070, 12, 0), // 0x0000ADE0
+	gsSP2Triangles(0, 1, 2, 0, 1, 0, 3, 0), // 0x0000ADE8
+	gsSP2Triangles(4, 3, 0, 0, 4, 0, 5, 0), // 0x0000ADF0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000ADF8
+	gsSP2Triangles(6, 8, 9, 0, 6, 9, 7, 0), // 0x0000AE00
+	gsSP2Triangles(10, 11, 1, 0, 11, 2, 1, 0), // 0x0000AE08
+	gsDPPipeSync(), // 0x0000AE10
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00018B98), // 0x0000AE18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x0000AE20
+	gsDPLoadSync(), // 0x0000AE28
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000AE30
+	gsDPPipeSync(), // 0x0000AE38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x0000AE40
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000AE48
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000AE50
+	gsDPSetPrimColor(0, 0, 255, 235, 220, 255), // 0x0000AE58
+	gsSPVertex(_spot00_room_0_vertices_0000A130, 26, 0), // 0x0000AE60
+	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0), // 0x0000AE68
+	gsSP2Triangles(3, 1, 4, 0, 1, 5, 4, 0), // 0x0000AE70
+	gsSP2Triangles(6, 4, 5, 0, 5, 0, 7, 0), // 0x0000AE78
+	gsSP2Triangles(7, 6, 5, 0, 0, 2, 7, 0), // 0x0000AE80
+	gsSP2Triangles(8, 9, 10, 0, 11, 8, 10, 0), // 0x0000AE88
+	gsSP2Triangles(11, 10, 12, 0, 12, 10, 7, 0), // 0x0000AE90
+	gsSP2Triangles(10, 6, 7, 0, 13, 14, 4, 0), // 0x0000AE98
+	gsSP2Triangles(13, 4, 6, 0, 15, 16, 7, 0), // 0x0000AEA0
+	gsSP2Triangles(17, 7, 16, 0, 18, 17, 16, 0), // 0x0000AEA8
+	gsSP2Triangles(17, 18, 19, 0, 2, 20, 21, 0), // 0x0000AEB0
+	gsSP2Triangles(2, 3, 20, 0, 22, 20, 23, 0), // 0x0000AEB8
+	gsSP2Triangles(22, 21, 20, 0, 24, 22, 23, 0), // 0x0000AEC0
+	gsSP1Triangle(25, 22, 24, 0), // 0x0000AEC8
+	gsDPPipeSync(), // 0x0000AED0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00017B98), // 0x0000AED8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x0000AEE0
+	gsDPLoadSync(), // 0x0000AEE8
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x0000AEF0
+	gsDPPipeSync(), // 0x0000AEF8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x0000AF00
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x0000AF08
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000AF10
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000AF18
+	gsDPSetPrimColor(0, 0, 255, 230, 210, 255), // 0x0000AF20
+	gsSPVertex(_spot00_room_0_vertices_0000A2D0, 16, 0), // 0x0000AF28
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000AF30
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000AF38
+	gsSP2Triangles(8, 9, 10, 0, 8, 11, 9, 0), // 0x0000AF40
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000AF48
+	gsDPPipeSync(), // 0x0000AF50
+	gsDPSetPrimColor(0, 0, 255, 235, 220, 255), // 0x0000AF58
+	gsSPVertex(_spot00_room_0_vertices_0000A3D0, 12, 0), // 0x0000AF60
+	gsSP2Triangles(0, 1, 2, 0, 1, 0, 3, 0), // 0x0000AF68
+	gsSP2Triangles(3, 4, 1, 0, 3, 5, 4, 0), // 0x0000AF70
+	gsSP2Triangles(6, 2, 7, 0, 6, 0, 2, 0), // 0x0000AF78
+	gsSP2Triangles(8, 3, 9, 0, 8, 5, 3, 0), // 0x0000AF80
+	gsSP2Triangles(6, 10, 11, 0, 11, 0, 6, 0), // 0x0000AF88
+	gsSP2Triangles(0, 11, 9, 0, 9, 3, 0, 0), // 0x0000AF90
+	gsDPPipeSync(), // 0x0000AF98
+	gsDPSetPrimColor(0, 0, 255, 230, 210, 255), // 0x0000AFA0
+	gsSPVertex(_spot00_room_0_vertices_0000A490, 32, 0), // 0x0000AFA8
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000AFB0
+	gsSP2Triangles(6, 3, 5, 0, 7, 6, 5, 0), // 0x0000AFB8
+	gsSP2Triangles(8, 9, 10, 0, 10, 11, 12, 0), // 0x0000AFC0
+	gsSP2Triangles(8, 10, 12, 0, 1, 0, 13, 0), // 0x0000AFC8
+	gsSP2Triangles(14, 15, 16, 0, 17, 14, 16, 0), // 0x0000AFD0
+	gsSP2Triangles(18, 19, 20, 0, 18, 20, 21, 0), // 0x0000AFD8
+	gsSP2Triangles(22, 23, 21, 0, 20, 22, 21, 0), // 0x0000AFE0
+	gsSP2Triangles(20, 24, 22, 0, 15, 14, 25, 0), // 0x0000AFE8
+	gsSP2Triangles(26, 27, 28, 0, 29, 26, 28, 0), // 0x0000AFF0
+	gsSPVertex(_spot00_room_0_vertices_0000A670, 17, 0), // 0x0000AFF8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B000
+	gsSP2Triangles(4, 5, 6, 0, 7, 6, 5, 0), // 0x0000B008
+	gsSP2Triangles(7, 5, 8, 0, 9, 10, 11, 0), // 0x0000B010
+	gsSP2Triangles(9, 11, 12, 0, 13, 14, 15, 0), // 0x0000B018
+	gsSP1Triangle(13, 15, 16, 0), // 0x0000B020
+	gsDPPipeSync(), // 0x0000B028
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00016B98), // 0x0000B030
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x0000B038
+	gsDPLoadSync(), // 0x0000B040
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000B048
+	gsDPPipeSync(), // 0x0000B050
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x0000B058
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000B060
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000B068
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000B070
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000B078
+	gsSPVertex(_spot00_room_0_vertices_0000A780, 27, 0), // 0x0000B080
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000B088
+	gsSP2Triangles(3, 6, 4, 0, 7, 8, 9, 0), // 0x0000B090
+	gsSP2Triangles(7, 9, 10, 0, 11, 12, 13, 0), // 0x0000B098
+	gsSP2Triangles(11, 13, 14, 0, 15, 16, 17, 0), // 0x0000B0A0
+	gsSP2Triangles(18, 15, 17, 0, 18, 17, 19, 0), // 0x0000B0A8
+	gsSP2Triangles(20, 21, 22, 0, 23, 24, 25, 0), // 0x0000B0B0
+	gsSP1Triangle(23, 25, 26, 0), // 0x0000B0B8
+	gsDPPipeSync(), // 0x0000B0C0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00015E98), // 0x0000B0C8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 4, 0), // 0x0000B0D0
+	gsDPLoadSync(), // 0x0000B0D8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000B0E0
+	gsDPPipeSync(), // 0x0000B0E8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 2, 4, 0), // 0x0000B0F0
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000B0F8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000B100
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000B108
+	gsSPVertex(_spot00_room_0_vertices_0000A930, 9, 0), // 0x0000B110
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x0000B118
+	gsSP2Triangles(0, 2, 4, 0, 5, 6, 7, 0), // 0x0000B120
+	gsSP1Triangle(5, 7, 8, 0), // 0x0000B128
+	gsDPPipeSync(), // 0x0000B130
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00015D98), // 0x0000B138
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 4, 0, 2, 3, 0), // 0x0000B140
+	gsDPLoadSync(), // 0x0000B148
+	gsDPLoadBlock(7, 0, 0, 127, 1024), // 0x0000B150
+	gsDPPipeSync(), // 0x0000B158
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 2, 0, 0, 0, 2, 4, 0, 2, 3, 0), // 0x0000B160
+	gsDPSetTileSize(0, 0, 0, 28, 60), // 0x0000B168
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8104DD8), // 0x0000B170
+	gsDPSetPrimColor(0, 0, 255, 235, 220, 255), // 0x0000B178
+	gsSPVertex(_spot00_room_0_vertices_0000A9C0, 4, 0), // 0x0000B180
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B188
+	gsDPPipeSync(), // 0x0000B190
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00017398), // 0x0000B198
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x0000B1A0
+	gsDPLoadSync(), // 0x0000B1A8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000B1B0
+	gsDPPipeSync(), // 0x0000B1B8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x0000B1C0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000B1C8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000B1D0
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x0000B1D8
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000B1E0
+	gsSPVertex(_spot00_room_0_vertices_0000AA00, 32, 0), // 0x0000B1E8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B1F0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000B1F8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000B200
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000B208
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x0000B210
+	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0), // 0x0000B218
+	gsSP2Triangles(24, 25, 26, 0, 24, 26, 27, 0), // 0x0000B220
+	gsSP2Triangles(28, 29, 30, 0, 28, 30, 31, 0), // 0x0000B228
+	gsSPVertex(_spot00_room_0_vertices_0000AC00, 8, 0), // 0x0000B230
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B238
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000B240
+	gsSPEndDisplayList(), // 0x0000B248
+};
+
+Vtx_t _spot00_room_0_vertices_0000B250[13] = 
+{
+	 { -4417, -100, 7235, 0, 3271, -3798, 179, 90, 20, 255 }, // 0x0000B250
+	 { -4417, 100, 5950, 0, 3271, -14763, 214, 110, 238, 255 }, // 0x0000B260
+	 { -5889, -500, 6800, 0, -9293, -7509, 239, 117, 14, 255 }, // 0x0000B270
+	 { -5889, -500, 7657, 0, -9293, -197, 236, 118, 0, 255 }, // 0x0000B280
+	 { -4997, -190, 7890, 0, -1677, 1793, 221, 113, 239, 255 }, // 0x0000B290
+	 { -5889, -300, 8500, 0, -9293, 6997, 160, 68, 234, 255 }, // 0x0000B2A0
+	 { -4417, -100, 9350, 0, 3271, 14251, 247, 119, 7, 255 }, // 0x0000B2B0
+	 { -2944, 100, 8500, 0, 15834, 6997, 5, 118, 16, 255 }, // 0x0000B2C0
+	 { -2944, 100, 8149, 0, 15834, 4004, 1, 85, 84, 255 }, // 0x0000B2D0
+	 { -3439, 113, 8118, 0, 11612, 3734, 226, 97, 63, 255 }, // 0x0000B2E0
+	 { -4155, -100, 7661, 0, 5506, -165, 197, 94, 44, 255 }, // 0x0000B2F0
+	 { -4417, -100, 9350, 0, 3271, 14251, 247, 119, 7, 255 }, // 0x0000B300
+	 { -5889, -500, 8500, 0, -9293, 6997, 220, 113, 243, 255 }, // 0x0000B310
+};
+
+Vtx_t _spot00_room_0_vertices_0000B320[4] = 
+{
+	 { -5017, -179, 6514, 0, 256, 1915, 172, 0, 172, 255 }, // 0x0000B320
+	 { -5017, -186, 6554, 0, 512, 1968, 172, 0, 84, 255 }, // 0x0000B330
+	 { -5017, 46, 6554, 0, 512, 0, 187, 69, 69, 255 }, // 0x0000B340
+	 { -5017, 46, 6514, 0, 256, 0, 187, 69, 187, 255 }, // 0x0000B350
+};
+
+Vtx_t _spot00_room_0_vertices_0000B360[4] = 
+{
+	 { -5017, 46, 6514, 0, 0, 2048, 187, 69, 187, 255 }, // 0x0000B360
+	 { -5017, 46, 6554, 0, 0, 2048, 187, 69, 69, 255 }, // 0x0000B370
+	 { -4417, 46, 6554, 0, 0, 2048, 0, 84, 84, 255 }, // 0x0000B380
+	 { -4417, 46, 6514, 0, 0, 2048, 0, 84, 172, 255 }, // 0x0000B390
+};
+
+Vtx_t _spot00_room_0_vertices_0000B3A0[8] = 
+{
+	 { -4417, 46, 6514, 0, -3584, 0, 0, 84, 172, 255 }, // 0x0000B3A0
+	 { -4417, 11, 6514, 0, -3584, 288, 0, 0, 136, 255 }, // 0x0000B3B0
+	 { -5017, -179, 6514, 0, 256, 1915, 172, 0, 172, 255 }, // 0x0000B3C0
+	 { -5017, 46, 6514, 0, 256, 0, 187, 69, 187, 255 }, // 0x0000B3D0
+	 { -5017, 46, 6554, 0, 0, 0, 187, 69, 69, 255 }, // 0x0000B3E0
+	 { -5017, -186, 6554, 0, 0, 1968, 172, 0, 84, 255 }, // 0x0000B3F0
+	 { -4417, 5, 6554, 0, 3840, 341, 0, 0, 120, 255 }, // 0x0000B400
+	 { -4417, 46, 6554, 0, 3840, 0, 0, 84, 84, 255 }, // 0x0000B410
+};
+
+Vtx_t _spot00_room_0_vertices_0000B420[8] = 
+{
+	 { -5878, -300, 8505, 0, -14336, 1024, 180, 86, 223, 255 }, // 0x0000B420
+	 { -5878, -260, 8505, 0, -14336, 0, 180, 86, 223, 255 }, // 0x0000B430
+	 { -4991, -150, 7898, 0, 13312, 0, 200, 80, 188, 255 }, // 0x0000B440
+	 { -4991, -190, 7898, 0, 13312, 1024, 200, 80, 188, 255 }, // 0x0000B450
+	 { -4417, -100, 9350, 0, 19456, 1024, 204, 81, 185, 255 }, // 0x0000B460
+	 { -4417, -58, 9350, 0, 19456, 0, 204, 81, 185, 255 }, // 0x0000B470
+	 { -3439, 154, 8118, 0, -23552, 0, 163, 56, 207, 255 }, // 0x0000B480
+	 { -3439, 113, 8118, 0, -23552, 1024, 163, 56, 207, 255 }, // 0x0000B490
+};
+
+Vtx_t _spot00_room_0_vertices_0000B4A0[8] = 
+{
+	 { -6603, -645, 7212, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B4A0
+	 { -5131, -645, 9762, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B4B0
+	 { -4225, -161, 5839, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B4C0
+	 { -2753, -161, 8389, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B4D0
+	 { -6668, -217, 7250, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B4E0
+	 { -5196, -217, 9800, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B4F0
+	 { -4290, 267, 5877, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B500
+	 { -2818, 267, 8427, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B510
+};
+
+Gfx _spot00_room_0_dlist_0000B520[] =
+{
+	gsDPPipeSync(), // 0x0000B520
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000B528
+	gsSPVertex(_spot00_room_0_vertices_0000B4A0, 8, 0), // 0x0000B530
+	gsSPCullDisplayList(0, 7), // 0x0000B538
+	gsDPPipeSync(), // 0x0000B540
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000B548
+	gsDPPipeSync(), // 0x0000B550
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000B558
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000B560
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000B568
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000B570
+	gsDPLoadSync(), // 0x0000B578
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000B580
+	gsDPPipeSync(), // 0x0000B588
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000B590
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000B598
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000B5A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000B5A8
+	gsDPLoadSync(), // 0x0000B5B0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000B5B8
+	gsDPPipeSync(), // 0x0000B5C0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000B5C8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000B5D0
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000B5D8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000B5E0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000B5E8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000B5F0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000B5F8
+	gsSPVertex(_spot00_room_0_vertices_0000B250, 13, 0), // 0x0000B600
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 4, 0), // 0x0000B608
+	gsSP2Triangles(5, 6, 4, 0, 7, 8, 9, 0), // 0x0000B610
+	gsSP2Triangles(9, 10, 11, 0, 11, 7, 9, 0), // 0x0000B618
+	gsSP2Triangles(2, 4, 0, 0, 0, 4, 10, 0), // 0x0000B620
+	gsSP2Triangles(11, 10, 4, 0, 4, 3, 12, 0), // 0x0000B628
+	gsDPPipeSync(), // 0x0000B630
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00021818), // 0x0000B638
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 4, 0), // 0x0000B640
+	gsDPLoadSync(), // 0x0000B648
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000B650
+	gsDPPipeSync(), // 0x0000B658
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 0, 4, 0), // 0x0000B660
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000B668
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000B670
+	gsSPVertex(_spot00_room_0_vertices_0000B320, 4, 0), // 0x0000B678
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B680
+	gsDPPipeSync(), // 0x0000B688
+	gsSPTexture(0, 0, 0, 0, 0), // 0x0000B690
+	gsDPSetCombineLERP(SHADE, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, 1, K5, K5, 0, COMBINED, 0, 0, 0, COMBINED), // 0x0000B698
+	gsDPSetPrimColor(0, 0, 223, 223, 214, 255), // 0x0000B6A0
+	gsSPVertex(_spot00_room_0_vertices_0000B360, 4, 0), // 0x0000B6A8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B6B0
+	gsDPPipeSync(), // 0x0000B6B8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000B6C0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00021818), // 0x0000B6C8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 4, 0), // 0x0000B6D0
+	gsDPLoadSync(), // 0x0000B6D8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000B6E0
+	gsDPPipeSync(), // 0x0000B6E8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 0, 4, 0), // 0x0000B6F0
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000B6F8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000B700
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000B708
+	gsSPVertex(_spot00_room_0_vertices_0000B3A0, 8, 0), // 0x0000B710
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B718
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000B720
+	gsDPPipeSync(), // 0x0000B728
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D98), // 0x0000B730
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x0000B738
+	gsDPLoadSync(), // 0x0000B740
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000B748
+	gsDPPipeSync(), // 0x0000B750
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x0000B758
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000B760
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000B768
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000B770
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x0000B778
+	gsSPVertex(_spot00_room_0_vertices_0000B420, 8, 0), // 0x0000B780
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000B788
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000B790
+	gsSPEndDisplayList(), // 0x0000B798
+};
+
+Vtx_t _spot00_room_0_vertices_0000B7A0[9] = 
+{
+	 { -1592, 100, 7570, 0, 2797, -939, 46, 104, 36, 255 }, // 0x0000B7A0
+	 { -1472, -300, 9350, 0, 3821, 14251, 9, 117, 23, 255 }, // 0x0000B7B0
+	 { 0, -100, 8500, 0, 16384, 6997, 3, 119, 13, 255 }, // 0x0000B7C0
+	 { 0, 100, 6800, 0, 16384, -7509, 4, 113, 39, 255 }, // 0x0000B7D0
+	 { -2399, 100, 8118, 0, -4089, 3734, 28, 92, 70, 255 }, // 0x0000B7E0
+	 { -2944, 100, 8500, 0, -8742, 6997, 5, 118, 16, 255 }, // 0x0000B7F0
+	 { -2944, 100, 8149, 0, -8742, 4004, 1, 85, 84, 255 }, // 0x0000B800
+	 { -1472, 100, 5950, 0, 3821, -14763, 35, 112, 235, 255 }, // 0x0000B810
+	 { -1592, 100, 6410, 0, 2797, -10837, 83, 85, 11, 255 }, // 0x0000B820
+};
+
+Vtx_t _spot00_room_0_vertices_0000B830[8] = 
+{
+	 { -1624, -300, 5862, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B830
+	 { 736, -300, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B840
+	 { -1624, 100, 5862, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B850
+	 { 736, 100, 7225, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B860
+	 { -3096, -300, 8412, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B870
+	 { -736, -300, 9775, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B880
+	 { -3096, 100, 8412, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B890
+	 { -736, 100, 9775, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000B8A0
+};
+
+Gfx _spot00_room_0_dlist_0000B8B0[] =
+{
+	gsDPPipeSync(), // 0x0000B8B0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000B8B8
+	gsSPVertex(_spot00_room_0_vertices_0000B830, 8, 0), // 0x0000B8C0
+	gsSPCullDisplayList(0, 7), // 0x0000B8C8
+	gsDPPipeSync(), // 0x0000B8D0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000B8D8
+	gsDPPipeSync(), // 0x0000B8E0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000B8E8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000B8F0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000B8F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000B900
+	gsDPLoadSync(), // 0x0000B908
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000B910
+	gsDPPipeSync(), // 0x0000B918
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000B920
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000B928
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000B930
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000B938
+	gsDPLoadSync(), // 0x0000B940
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000B948
+	gsDPPipeSync(), // 0x0000B950
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000B958
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000B960
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000B968
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000B970
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000B978
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000B980
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000B988
+	gsSPVertex(_spot00_room_0_vertices_0000B7A0, 9, 0), // 0x0000B990
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x0000B998
+	gsSP2Triangles(0, 4, 1, 0, 4, 5, 1, 0), // 0x0000B9A0
+	gsSP2Triangles(4, 6, 5, 0, 7, 8, 3, 0), // 0x0000B9A8
+	gsSP1Triangle(8, 0, 3, 0), // 0x0000B9B0
+	gsSPEndDisplayList(), // 0x0000B9B8
+};
+
+Vtx_t _spot00_room_0_vertices_0000B9C0[23] = 
+{
+	 { 1472, 200, 5950, 0, -3821, -14763, 37, 105, 43, 255 }, // 0x0000B9C0
+	 { 1472, -220, 7650, 0, -3821, -256, 8, 119, 10, 255 }, // 0x0000B9D0
+	 { 2944, -140, 6800, 0, 8742, -7509, 1, 117, 25, 255 }, // 0x0000B9E0
+	 { 1269, -176, 7533, 0, -5555, -1257, 48, 108, 16, 255 }, // 0x0000B9F0
+	 { 1216, -199, 7798, 0, -6003, 1004, 31, 113, 22, 255 }, // 0x0000BA00
+	 { 760, -162, 8061, 0, -9901, 3254, 14, 118, 16, 255 }, // 0x0000BA10
+	 { 1472, -182, 8195, 0, -3821, 4395, 1, 118, 235, 255 }, // 0x0000BA20
+	 { 875, -119, 8739, 0, -8918, 9034, 255, 119, 244, 255 }, // 0x0000BA30
+	 { 0, -100, 8500, 0, -16384, 6997, 3, 119, 13, 255 }, // 0x0000BA40
+	 { 1472, -100, 9350, 0, -3821, 14251, 226, 115, 246, 255 }, // 0x0000BA50
+	 { 1516, -140, 8387, 0, -3445, 6031, 255, 118, 239, 255 }, // 0x0000BA60
+	 { 2254, -170, 8487, 0, 2849, 6885, 21, 118, 0, 255 }, // 0x0000BA70
+	 { 2270, -198, 8268, 0, 2986, 5022, 25, 114, 232, 255 }, // 0x0000BA80
+	 { 2944, -282, 8500, 0, 8742, 6997, 237, 108, 209, 255 }, // 0x0000BA90
+	 { 2546, -265, 8270, 0, 5340, 5033, 21, 117, 245, 255 }, // 0x0000BAA0
+	 { 2270, -253, 8111, 0, 2988, 3675, 11, 117, 236, 255 }, // 0x0000BAB0
+	 { 1042, -9, 6926, 0, -7495, -6438, 26, 115, 18, 255 }, // 0x0000BAC0
+	 { 0, 100, 6800, 0, -16384, -7509, 4, 113, 39, 255 }, // 0x0000BAD0
+	 { 1074, -137, 7789, 0, -7222, 932, 33, 108, 38, 255 }, // 0x0000BAE0
+	 { 1168, -114, 7475, 0, -6413, -1753, 47, 109, 11, 255 }, // 0x0000BAF0
+	 { 2964, -116, 8500, 0, 8913, 6997, 240, 118, 4, 255 }, // 0x0000BB00
+	 { 2944, -276, 10180, 0, 8742, 21333, 235, 117, 11, 255 }, // 0x0000BB10
+	 { 4417, 60, 9350, 0, 21305, 14251, 246, 119, 253, 255 }, // 0x0000BB20
+};
+
+Vtx_t _spot00_room_0_vertices_0000BB30[4] = 
+{
+	 { 2944, 89, 8500, 0, 0, 0, 199, 0, 151, 255 }, // 0x0000BB30
+	 { 2944, -282, 8500, 0, 0, 2048, 237, 108, 209, 255 }, // 0x0000BB40
+	 { 1472, -100, 9350, 0, 10240, 2048, 226, 115, 246, 255 }, // 0x0000BB50
+	 { 1472, 215, 9350, 0, 10240, 0, 153, 0, 196, 255 }, // 0x0000BB60
+};
+
+Vtx_t _spot00_room_0_vertices_0000BB70[19] = 
+{
+	 { 0, 100, 6800, 0, -7445, 2048, 4, 113, 39, 255 }, // 0x0000BB70
+	 { 1472, 200, 5950, 0, 1024, 2048, 37, 105, 43, 255 }, // 0x0000BB80
+	 { 1472, 400, 5950, 0, 1024, 1024, 86, 60, 57, 255 }, // 0x0000BB90
+	 { 2270, -198, 8268, 0, 2048, 0, 25, 114, 232, 255 }, // 0x0000BBA0
+	 { 2546, -265, 8270, 0, 0, 0, 21, 117, 245, 255 }, // 0x0000BBB0
+	 { 2270, -253, 8111, 0, 2048, 1024, 11, 117, 236, 255 }, // 0x0000BBC0
+	 { 1516, -140, 8387, 0, 4096, 0, 255, 118, 239, 255 }, // 0x0000BBD0
+	 { 2270, -198, 8268, 0, 0, 0, 25, 114, 232, 255 }, // 0x0000BBE0
+	 { 2270, -253, 8111, 0, 0, 1024, 11, 117, 236, 255 }, // 0x0000BBF0
+	 { 1472, -182, 8195, 0, 4096, 1024, 1, 118, 235, 255 }, // 0x0000BC00
+	 { 1516, -140, 8387, 0, 0, 0, 255, 118, 239, 255 }, // 0x0000BC10
+	 { 1472, -182, 8195, 0, 0, 1024, 1, 118, 235, 255 }, // 0x0000BC20
+	 { 875, -119, 8739, 0, 3072, 0, 255, 119, 244, 255 }, // 0x0000BC30
+	 { 1216, -199, 7798, 0, 0, 1024, 31, 113, 22, 255 }, // 0x0000BC40
+	 { 1269, -176, 7533, 0, 1536, 1024, 48, 108, 16, 255 }, // 0x0000BC50
+	 { 1168, -114, 7475, 0, 2048, 0, 47, 109, 11, 255 }, // 0x0000BC60
+	 { 1074, -137, 7789, 0, -512, 0, 33, 108, 38, 255 }, // 0x0000BC70
+	 { 760, -162, 8061, 0, -2560, 0, 14, 118, 16, 255 }, // 0x0000BC80
+	 { 1042, -9, 6926, 0, 6144, 0, 26, 115, 18, 255 }, // 0x0000BC90
+};
+
+Vtx_t _spot00_room_0_vertices_0000BCA0[8] = 
+{
+	 { 736, -282, 5525, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BCA0
+	 { 5153, -282, 8075, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BCB0
+	 { 736, 400, 5525, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BCC0
+	 { 5153, 400, 8075, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BCD0
+	 { -736, -282, 8075, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BCE0
+	 { 3681, -282, 10625, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BCF0
+	 { -736, 400, 8075, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BD00
+	 { 3681, 400, 10625, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000BD10
+};
+
+Gfx _spot00_room_0_dlist_0000BD20[] =
+{
+	gsDPPipeSync(), // 0x0000BD20
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000BD28
+	gsSPVertex(_spot00_room_0_vertices_0000BCA0, 8, 0), // 0x0000BD30
+	gsSPCullDisplayList(0, 7), // 0x0000BD38
+	gsDPPipeSync(), // 0x0000BD40
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000BD48
+	gsDPPipeSync(), // 0x0000BD50
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000BD58
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000BD60
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000BD68
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000BD70
+	gsDPLoadSync(), // 0x0000BD78
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000BD80
+	gsDPPipeSync(), // 0x0000BD88
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000BD90
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000BD98
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000BDA0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000BDA8
+	gsDPLoadSync(), // 0x0000BDB0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000BDB8
+	gsDPPipeSync(), // 0x0000BDC0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000BDC8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000BDD0
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000BDD8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000BDE0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000BDE8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000BDF0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000BDF8
+	gsSPVertex(_spot00_room_0_vertices_0000B9C0, 23, 0), // 0x0000BE00
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0), // 0x0000BE08
+	gsSP2Triangles(4, 5, 6, 0, 6, 1, 4, 0), // 0x0000BE10
+	gsSP2Triangles(6, 5, 7, 0, 5, 8, 7, 0), // 0x0000BE18
+	gsSP2Triangles(9, 7, 8, 0, 10, 7, 9, 0), // 0x0000BE20
+	gsSP2Triangles(10, 11, 12, 0, 9, 11, 10, 0), // 0x0000BE28
+	gsSP2Triangles(11, 9, 13, 0, 14, 12, 11, 0), // 0x0000BE30
+	gsSP2Triangles(14, 11, 13, 0, 1, 6, 15, 0), // 0x0000BE38
+	gsSP2Triangles(3, 1, 16, 0, 16, 1, 0, 0), // 0x0000BE40
+	gsSP2Triangles(0, 17, 16, 0, 8, 5, 17, 0), // 0x0000BE48
+	gsSP2Triangles(5, 18, 17, 0, 18, 19, 17, 0), // 0x0000BE50
+	gsSP2Triangles(19, 16, 17, 0, 2, 14, 13, 0), // 0x0000BE58
+	gsSP2Triangles(2, 15, 14, 0, 2, 1, 15, 0), // 0x0000BE60
+	gsSP1Triangle(20, 21, 22, 0), // 0x0000BE68
+	gsDPPipeSync(), // 0x0000BE70
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000BE78
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000BE80
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000BE88
+	gsDPLoadSync(), // 0x0000BE90
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000BE98
+	gsDPPipeSync(), // 0x0000BEA0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000BEA8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000BEB0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000BEB8
+	gsDPTileSync(), // 0x0000BEC0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000BEC8
+	gsDPLoadSync(), // 0x0000BED0
+	gsDPLoadTLUTCmd(7, 15), // 0x0000BED8
+	gsDPPipeSync(), // 0x0000BEE0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000BEE8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000BEF0
+	gsSPVertex(_spot00_room_0_vertices_0000BB30, 4, 0), // 0x0000BEF8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000BF00
+	gsDPPipeSync(), // 0x0000BF08
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000BF10
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00019B98), // 0x0000BF18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x0000BF20
+	gsDPLoadSync(), // 0x0000BF28
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x0000BF30
+	gsDPPipeSync(), // 0x0000BF38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x0000BF40
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x0000BF48
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000BF50
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000BF58
+	gsSPVertex(_spot00_room_0_vertices_0000BB70, 19, 0), // 0x0000BF60
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000BF68
+	gsSP2Triangles(6, 7, 8, 0, 6, 8, 9, 0), // 0x0000BF70
+	gsSP2Triangles(10, 11, 12, 0, 13, 14, 15, 0), // 0x0000BF78
+	gsSP2Triangles(13, 15, 16, 0, 17, 13, 16, 0), // 0x0000BF80
+	gsSP1Triangle(14, 18, 15, 0), // 0x0000BF88
+	gsSPEndDisplayList(), // 0x0000BF90
+};
+
+Vtx_t _spot00_room_0_vertices_0000BF98[24] = 
+{
+	 { 2944, -282, 8500, 0, -7642, 6997, 237, 108, 209, 255 }, // 0x0000BF98
+	 { 4166, -160, 7873, 0, 2779, 1648, 14, 115, 228, 255 }, // 0x0000BFA8
+	 { 2944, -140, 6800, 0, -7642, -7509, 1, 117, 25, 255 }, // 0x0000BFB8
+	 { 4566, -160, 7591, 0, 6191, -761, 201, 106, 255, 255 }, // 0x0000BFC8
+	 { 4417, 93, 5950, 0, 4921, -14763, 13, 118, 13, 255 }, // 0x0000BFD8
+	 { 4976, 80, 6273, 0, 9696, -12006, 180, 84, 218, 255 }, // 0x0000BFE8
+	 { 4996, 187, 6293, 0, 9867, -11835, 253, 119, 12, 255 }, // 0x0000BFF8
+	 { 4586, 40, 7591, 0, 6362, -761, 250, 119, 6, 255 }, // 0x0000C008
+	 { 5889, 160, 6800, 0, 17485, -7509, 250, 119, 8, 255 }, // 0x0000C018
+	 { 4286, -160, 8531, 0, 3802, 7261, 54, 92, 203, 255 }, // 0x0000C028
+	 { 4526, -160, 8271, 0, 5850, 5042, 232, 115, 22, 255 }, // 0x0000C038
+	 { 5186, -160, 8631, 0, 11482, 8114, 176, 80, 216, 255 }, // 0x0000C048
+	 { 5186, -160, 8311, 0, 11482, 5383, 157, 48, 48, 255 }, // 0x0000C058
+	 { 4786, -160, 8631, 0, 8068, 8114, 8, 85, 172, 255 }, // 0x0000C068
+	 { 5186, 40, 8631, 0, 11482, 8114, 244, 119, 248, 255 }, // 0x0000C078
+	 { 4786, 40, 8631, 0, 8068, 8114, 0, 119, 253, 255 }, // 0x0000C088
+	 { 4417, 60, 9350, 0, 4921, 14251, 246, 119, 253, 255 }, // 0x0000C098
+	 { 4286, 40, 8531, 0, 3802, 7261, 247, 119, 0, 255 }, // 0x0000C0A8
+	 { 4526, 40, 8271, 0, 5850, 5042, 0, 120, 0, 255 }, // 0x0000C0B8
+	 { 5186, 40, 8311, 0, 11482, 5383, 246, 119, 3, 255 }, // 0x0000C0C8
+	 { 2964, -116, 8500, 0, -7471, 6997, 240, 118, 4, 255 }, // 0x0000C0D8
+	 { 4146, 40, 7893, 0, 2608, 1818, 242, 119, 3, 255 }, // 0x0000C0E8
+	 { 5566, 101, 8027, 0, 14727, 2959, 243, 119, 4, 255 }, // 0x0000C0F8
+	 { 5503, 101, 8717, 0, 14193, 8852, 238, 118, 245, 255 }, // 0x0000C108
+};
+
+Vtx_t _spot00_room_0_vertices_0000C118[43] = 
+{
+	 { 4166, 180, 7873, 0, -4096, 0, 53, 0, 149, 255 }, // 0x0000C118
+	 { 4166, -160, 7873, 0, -4096, 1024, 14, 115, 228, 255 }, // 0x0000C128
+	 { 2944, -282, 8500, 0, 2048, 2048, 237, 108, 209, 255 }, // 0x0000C138
+	 { 2944, 89, 8500, 0, 2048, 0, 199, 0, 151, 255 }, // 0x0000C148
+	 { 4566, -160, 7591, 0, 6144, 1024, 201, 106, 255, 255 }, // 0x0000C158
+	 { 4566, 140, 7591, 0, 6144, 0, 139, 0, 230, 255 }, // 0x0000C168
+	 { 4976, 80, 6273, 0, 0, 1024, 180, 84, 218, 255 }, // 0x0000C178
+	 { 4976, 380, 6273, 0, 0, 0, 146, 0, 209, 255 }, // 0x0000C188
+	 { 5186, 140, 8631, 0, 0, 0, 140, 0, 227, 255 }, // 0x0000C198
+	 { 5186, -160, 8631, 0, 0, 2048, 176, 80, 216, 255 }, // 0x0000C1A8
+	 { 4786, -160, 8631, 0, 2048, 1024, 8, 85, 172, 255 }, // 0x0000C1B8
+	 { 4786, 140, 8631, 0, 2048, 0, 12, 0, 137, 255 }, // 0x0000C1C8
+	 { 4786, -160, 8631, 0, 0, 1024, 8, 85, 172, 255 }, // 0x0000C1D8
+	 { 4286, -160, 8531, 0, 2048, 1024, 54, 92, 203, 255 }, // 0x0000C1E8
+	 { 4286, 140, 8531, 0, 2048, 0, 85, 0, 172, 255 }, // 0x0000C1F8
+	 { 4786, 140, 8631, 0, 0, 0, 12, 0, 137, 255 }, // 0x0000C208
+	 { 4286, -160, 8531, 0, 0, 1024, 54, 92, 203, 255 }, // 0x0000C218
+	 { 4166, -160, 7873, 0, 2048, 1024, 14, 115, 228, 255 }, // 0x0000C228
+	 { 4166, 180, 7873, 0, 2048, 0, 53, 0, 149, 255 }, // 0x0000C238
+	 { 4286, 140, 8531, 0, 0, 0, 85, 0, 172, 255 }, // 0x0000C248
+	 { 4566, 140, 7591, 0, 0, 0, 139, 0, 230, 255 }, // 0x0000C258
+	 { 4566, -160, 7591, 0, 0, 1024, 201, 106, 255, 255 }, // 0x0000C268
+	 { 4526, -160, 8271, 0, 2048, 1024, 232, 115, 22, 255 }, // 0x0000C278
+	 { 4526, 140, 8271, 0, 2048, 0, 167, 0, 79, 255 }, // 0x0000C288
+	 { 4526, -160, 8271, 0, 0, 1024, 232, 115, 22, 255 }, // 0x0000C298
+	 { 5186, -160, 8311, 0, 2048, 2048, 157, 48, 48, 255 }, // 0x0000C2A8
+	 { 5186, 140, 8311, 0, 2048, 0, 140, 0, 29, 255 }, // 0x0000C2B8
+	 { 4526, 140, 8271, 0, 0, 0, 167, 0, 79, 255 }, // 0x0000C2C8
+	 { 5186, -102, 8363, 0, 337, 1653, 136, 0, 0, 255 }, // 0x0000C2D8
+	 { 5186, -160, 8311, 0, 0, 2048, 157, 48, 48, 255 }, // 0x0000C2E8
+	 { 5186, -160, 8392, 0, 518, 2048, 136, 0, 0, 255 }, // 0x0000C2F8
+	 { 5186, -109, 8577, 0, 1705, 1702, 136, 0, 0, 255 }, // 0x0000C308
+	 { 5186, -160, 8544, 0, 1493, 2048, 136, 0, 0, 255 }, // 0x0000C318
+	 { 5186, -160, 8631, 0, 2048, 2048, 176, 80, 216, 255 }, // 0x0000C328
+	 { 5186, -30, 8360, 0, 313, 1160, 142, 246, 221, 255 }, // 0x0000C338
+	 { 5186, 140, 8311, 0, 0, 0, 140, 0, 29, 255 }, // 0x0000C348
+	 { 5186, -160, 8311, 0, 0, 2048, 157, 48, 48, 255 }, // 0x0000C358
+	 { 5186, -102, 8363, 0, 337, 1653, 136, 0, 0, 255 }, // 0x0000C368
+	 { 5186, -32, 8581, 0, 1728, 1173, 144, 241, 39, 255 }, // 0x0000C378
+	 { 5186, 140, 8631, 0, 2048, 0, 140, 0, 227, 255 }, // 0x0000C388
+	 { 5186, 20, 8544, 0, 1491, 816, 188, 83, 53, 255 }, // 0x0000C398
+	 { 5186, 50, 8472, 0, 1030, 617, 169, 82, 248, 255 }, // 0x0000C3A8
+	 { 5186, 27, 8405, 0, 604, 771, 170, 68, 208, 255 }, // 0x0000C3B8
+};
+
+Vtx_t _spot00_room_0_vertices_0000C3C8[32] = 
+{
+	 { 5186, -109, 8577, 0, 2047, 897, 136, 0, 0, 255 }, // 0x0000C3C8
+	 { 5186, -102, 8556, 0, 1850, 931, 188, 32, 163, 255 }, // 0x0000C3D8
+	 { 5186, -160, 8519, 0, 1738, 1411, 187, 93, 227, 255 }, // 0x0000C3E8
+	 { 5186, -160, 8544, 0, 1908, 1496, 136, 0, 0, 255 }, // 0x0000C3F8
+	 { 5186, -160, 8392, 0, 906, 2027, 136, 0, 0, 255 }, // 0x0000C408
+	 { 5186, -160, 8416, 0, 926, 1841, 203, 91, 56, 255 }, // 0x0000C418
+	 { 5186, -96, 8384, 0, 475, 1644, 173, 19, 84, 255 }, // 0x0000C428
+	 { 5186, -102, 8363, 0, 348, 1783, 136, 0, 0, 255 }, // 0x0000C438
+	 { 5186, -37, 8380, 0, 202, 1207, 159, 213, 55, 255 }, // 0x0000C448
+	 { 5186, -30, 8360, 0, 11, 1244, 142, 246, 221, 255 }, // 0x0000C458
+	 { 5137, 9, 8418, 0, 257, 695, 188, 160, 22, 255 }, // 0x0000C468
+	 { 5135, 27, 8405, 0, 79, 612, 174, 52, 186, 255 }, // 0x0000C478
+	 { 5118, 27, 8471, 0, 612, 299, 158, 189, 249, 255 }, // 0x0000C488
+	 { 5115, 50, 8472, 0, 517, 122, 184, 95, 11, 255 }, // 0x0000C498
+	 { 5130, 4, 8529, 0, 1169, 224, 190, 160, 232, 255 }, // 0x0000C4A8
+	 { 5128, 20, 8544, 0, 1205, 30, 160, 23, 67, 255 }, // 0x0000C4B8
+	 { 5330, 24, 8462, 0, 1010, 168, 246, 137, 1, 255 }, // 0x0000C4C8
+	 { 5330, -52, 8563, 0, 1875, 818, 246, 222, 142, 255 }, // 0x0000C4D8
+	 { 5130, 4, 8529, 0, 1587, 344, 190, 160, 232, 255 }, // 0x0000C4E8
+	 { 5330, -164, 8395, 0, 441, 1779, 255, 94, 74, 255 }, // 0x0000C4F8
+	 { 5330, -45, 8378, 0, 292, 759, 249, 215, 112, 255 }, // 0x0000C508
+	 { 5186, -96, 8384, 0, 342, 1194, 173, 19, 84, 255 }, // 0x0000C518
+	 { 5186, -102, 8556, 0, 1815, 1245, 188, 32, 163, 255 }, // 0x0000C528
+	 { 5330, -170, 8518, 0, 1491, 1827, 249, 93, 181, 255 }, // 0x0000C538
+	 { 5137, 9, 8418, 0, 634, 298, 188, 160, 22, 255 }, // 0x0000C548
+	 { 5186, -37, 8380, 0, 315, 692, 159, 213, 55, 255 }, // 0x0000C558
+	 { 5186, -160, 8416, 0, 615, 1742, 203, 91, 56, 255 }, // 0x0000C568
+	 { 5186, -160, 8519, 0, 1495, 1742, 187, 93, 227, 255 }, // 0x0000C578
+	 { 5186, -40, 8561, 0, 1852, 716, 159, 212, 201, 255 }, // 0x0000C588
+	 { 5118, 27, 8471, 0, 1089, 142, 158, 189, 249, 255 }, // 0x0000C598
+	 { 6043, -68, 8463, 0, 1024, 1024, 141, 241, 27, 255 }, // 0x0000C5A8
+	 { 5186, -40, 8561, 0, 1676, 500, 159, 212, 201, 255 }, // 0x0000C5B8
+};
+
+Vtx_t _spot00_room_0_vertices_0000C5C8[11] = 
+{
+	 { 5186, -40, 8561, 0, 1676, 500, 159, 212, 201, 255 }, // 0x0000C5C8
+	 { 5186, -109, 8577, 0, 2047, 897, 136, 0, 0, 255 }, // 0x0000C5D8
+	 { 5186, -32, 8581, 0, 1834, 378, 144, 241, 39, 255 }, // 0x0000C5E8
+	 { 5130, 4, 8529, 0, 1169, 224, 190, 160, 232, 255 }, // 0x0000C5F8
+	 { 5186, -40, 8561, 0, 1615, 442, 159, 212, 201, 255 }, // 0x0000C608
+	 { 5186, -32, 8581, 0, 1736, 290, 144, 241, 39, 255 }, // 0x0000C618
+	 { 5128, 20, 8544, 0, 1205, 30, 160, 23, 67, 255 }, // 0x0000C628
+	 { 5186, -160, 8519, 0, 1495, 1742, 187, 93, 227, 255 }, // 0x0000C638
+	 { 5330, -170, 8518, 0, 1491, 1827, 249, 93, 181, 255 }, // 0x0000C648
+	 { 5330, -164, 8395, 0, 441, 1779, 255, 94, 74, 255 }, // 0x0000C658
+	 { 5186, -160, 8416, 0, 615, 1742, 203, 91, 56, 255 }, // 0x0000C668
+};
+
+Vtx_t _spot00_room_0_vertices_0000C678[8] = 
+{
+	 { 5128, 20, 8544, 0, 2196, 1662, 160, 23, 67, 255 }, // 0x0000C678
+	 { 5186, -32, 8581, 0, 2511, 1567, 144, 241, 39, 255 }, // 0x0000C688
+	 { 5186, 20, 8544, 0, 2198, 1399, 188, 83, 53, 255 }, // 0x0000C698
+	 { 5115, 50, 8472, 0, 1801, 1676, 184, 95, 11, 255 }, // 0x0000C6A8
+	 { 5186, 50, 8472, 0, 1811, 1358, 169, 82, 248, 255 }, // 0x0000C6B8
+	 { 5186, -30, 8360, 0, 1086, 1583, 142, 246, 221, 255 }, // 0x0000C6C8
+	 { 5135, 27, 8405, 0, 1448, 1619, 174, 52, 186, 255 }, // 0x0000C6D8
+	 { 5186, 27, 8405, 0, 1450, 1373, 170, 68, 208, 255 }, // 0x0000C6E8
+};
+
+Vtx_t _spot00_room_0_vertices_0000C6F8[32] = 
+{
+	 { 4605, -137, 7465, 0, 1852, 2376, 169, 64, 205, 255 }, // 0x0000C6F8
+	 { 4560, -150, 7525, 0, 2014, 2020, 255, 41, 144, 255 }, // 0x0000C708
+	 { 4576, -103, 7556, 0, 1676, 1655, 243, 62, 155, 255 }, // 0x0000C718
+	 { 4459, -147, 7464, 0, 2495, 2193, 219, 109, 224, 255 }, // 0x0000C728
+	 { 4507, -109, 7536, 0, 2380, 1603, 217, 64, 163, 255 }, // 0x0000C738
+	 { 4480, -159, 7549, 0, 2703, 1921, 144, 22, 220, 255 }, // 0x0000C748
+	 { 4473, -117, 7609, 0, 3125, 1520, 159, 55, 42, 255 }, // 0x0000C758
+	 { 4481, -25, 7629, 0, 3253, 802, 152, 246, 58, 255 }, // 0x0000C768
+	 { 4393, -159, 7642, 0, 3264, 1972, 212, 107, 31, 255 }, // 0x0000C778
+	 { 4507, -160, 7632, 0, 3491, 1884, 190, 11, 99, 255 }, // 0x0000C788
+	 { 4560, -130, 7682, 0, 4208, 1690, 170, 63, 53, 255 }, // 0x0000C798
+	 { 4562, -80, 7657, 0, 4418, 1341, 194, 8, 102, 255 }, // 0x0000C7A8
+	 { 4556, -160, 7749, 0, 4082, 2146, 177, 84, 33, 255 }, // 0x0000C7B8
+	 { 4514, 184, 7632, 0, 1284, -745, 88, 73, 221, 255 }, // 0x0000C7C8
+	 { 4566, 8, 7591, 0, 1404, 749, 53, 42, 157, 255 }, // 0x0000C7D8
+	 { 4463, 158, 7624, 0, 2556, -621, 187, 249, 159, 255 }, // 0x0000C7E8
+	 { 4454, 105, 7662, 0, 3452, -279, 178, 175, 40, 255 }, // 0x0000C7F8
+	 { 4505, 152, 7689, 0, 4395, -582, 19, 224, 114, 255 }, // 0x0000C808
+	 { 4561, -28, 7662, 0, 4543, 937, 53, 6, 107, 255 }, // 0x0000C818
+	 { 4561, -28, 7662, 0, 447, 937, 53, 6, 107, 255 }, // 0x0000C828
+	 { 4505, 152, 7689, 0, 299, -582, 19, 224, 114, 255 }, // 0x0000C838
+	 { 4157, 184, 7722, 0, 1511, -1424, 241, 138, 8, 255 }, // 0x0000C848
+	 { 4309, 189, 7715, 0, 1266, 115, 229, 246, 140, 255 }, // 0x0000C858
+	 { 4322, 164, 7729, 0, 1814, 274, 236, 139, 13, 255 }, // 0x0000C868
+	 { 4463, 158, 7624, 0, 1058, 2263, 187, 249, 159, 255 }, // 0x0000C878
+	 { 4454, 105, 7662, 0, 1835, 2196, 178, 175, 40, 255 }, // 0x0000C888
+	 { 4304, 198, 7741, 0, 811, -111, 163, 235, 73, 255 }, // 0x0000C898
+	 { 4505, 152, 7689, 0, 2579, 2367, 19, 224, 114, 255 }, // 0x0000C8A8
+	 { 4340, 195, 7746, 0, 2579, 246, 78, 212, 79, 255 }, // 0x0000C8B8
+	 { 4304, 198, 7741, 0, -443, 1066, 163, 235, 73, 255 }, // 0x0000C8C8
+	 { 4322, 164, 7729, 0, -213, 1494, 236, 139, 13, 255 }, // 0x0000C8D8
+	 { 4304, 185, 7835, 0, 1042, -325, 244, 137, 252, 255 }, // 0x0000C8E8
+};
+
+Vtx_t _spot00_room_0_vertices_0000C8F8[32] = 
+{
+	 { 4304, 198, 7741, 0, -443, 1066, 163, 235, 73, 255 }, // 0x0000C8F8
+	 { 4304, 185, 7835, 0, 1042, -325, 244, 137, 252, 255 }, // 0x0000C908
+	 { 4289, 199, 7837, 0, 707, -552, 175, 173, 228, 255 }, // 0x0000C918
+	 { 4245, 167, 7971, 0, 1778, -3138, 247, 138, 237, 255 }, // 0x0000C928
+	 { 4322, 164, 7729, 0, -213, 1494, 236, 139, 13, 255 }, // 0x0000C938
+	 { 4340, 195, 7746, 0, 489, 1499, 78, 212, 79, 255 }, // 0x0000C948
+	 { 4317, 194, 7840, 0, 1414, -231, 61, 156, 22, 255 }, // 0x0000C958
+	 { 4344, 76, 8460, 0, -129, -997, 224, 141, 5, 255 }, // 0x0000C968
+	 { 4267, 112, 8477, 0, -1074, -1814, 207, 147, 8, 255 }, // 0x0000C978
+	 { 4342, 92, 8452, 0, -270, -946, 206, 202, 162, 255 }, // 0x0000C988
+	 { 4411, 90, 8413, 0, 265, -1, 166, 4, 178, 255 }, // 0x0000C998
+	 { 4416, 72, 8426, 0, 505, -71, 235, 143, 32, 255 }, // 0x0000C9A8
+	 { 4347, 92, 8469, 0, 34, -1055, 19, 195, 101, 255 }, // 0x0000C9B8
+	 { 4409, 94, 8439, 0, 565, -255, 180, 1, 93, 255 }, // 0x0000C9C8
+	 { 4478, 2, 8343, 0, 358, 1220, 214, 154, 47, 255 }, // 0x0000C9D8
+	 { 4517, 41, 8337, 0, 865, 1603, 53, 198, 90, 255 }, // 0x0000C9E8
+	 { 4433, 98, 8432, 0, 855, 16, 101, 247, 64, 255 }, // 0x0000C9F8
+	 { 4436, 132, 8588, 0, 2927, -1404, 251, 144, 42, 255 }, // 0x0000CA08
+	 { 4476, 40, 8310, 0, -98, 1511, 156, 201, 219, 255 }, // 0x0000CA18
+	 { 4579, -160, 8274, 0, 1190, 2250, 119, 4, 247, 255 }, // 0x0000CA28
+	 { 4526, -9, 8271, 0, 1797, 651, 27, 30, 144, 255 }, // 0x0000CA38
+	 { 4561, -28, 8333, 0, 722, 787, 113, 8, 38, 255 }, // 0x0000CA48
+	 { 4521, 137, 8286, 0, 1763, -892, 68, 62, 180, 255 }, // 0x0000CA58
+	 { 4549, 109, 8337, 0, 870, -657, 49, 37, 102, 255 }, // 0x0000CA68
+	 { 4561, -28, 8333, 0, 4818, 787, 113, 8, 38, 255 }, // 0x0000CA78
+	 { 4549, 109, 8337, 0, 4966, -657, 49, 37, 102, 255 }, // 0x0000CA88
+	 { 4473, -52, 8338, 0, 3531, 966, 195, 11, 102, 255 }, // 0x0000CA98
+	 { 4555, -80, 8330, 0, 4725, 1327, 56, 13, 105, 255 }, // 0x0000CAA8
+	 { 4489, 110, 8354, 0, 3811, -732, 192, 252, 101, 255 }, // 0x0000CAB8
+	 { 4480, 114, 8302, 0, 2521, -705, 154, 46, 214, 255 }, // 0x0000CAC8
+	 { 4528, -103, 8236, 0, 1925, 1675, 194, 47, 165, 255 }, // 0x0000CAD8
+	 { 4464, -118, 8255, 0, 2649, 1763, 182, 55, 180, 255 }, // 0x0000CAE8
+};
+
+Vtx_t _spot00_room_0_vertices_0000CAF8[52] = 
+{
+	 { 4579, -160, 8274, 0, 1190, 2250, 119, 4, 247, 255 }, // 0x0000CAF8
+	 { 4561, -28, 8333, 0, 722, 787, 113, 8, 38, 255 }, // 0x0000CB08
+	 { 4555, -80, 8330, 0, 629, 1327, 56, 13, 105, 255 }, // 0x0000CB18
+	 { 4517, -160, 8337, 0, 4074, 2122, 12, 16, 118, 255 }, // 0x0000CB28
+	 { 4555, -80, 8330, 0, 4725, 1327, 56, 13, 105, 255 }, // 0x0000CB38
+	 { 4473, -52, 8338, 0, 3531, 966, 195, 11, 102, 255 }, // 0x0000CB48
+	 { 4464, -118, 8255, 0, 2649, 1763, 182, 55, 180, 255 }, // 0x0000CB58
+	 { 4442, -160, 8294, 0, 3106, 2133, 140, 29, 9, 255 }, // 0x0000CB68
+	 { 4492, -160, 8231, 0, 2332, 2253, 204, 17, 150, 255 }, // 0x0000CB78
+	 { 4528, -103, 8236, 0, 1925, 1675, 194, 47, 165, 255 }, // 0x0000CB88
+	 { 4583, -139, 8344, 0, 599, 1937, 59, 89, 54, 255 }, // 0x0000CB98
+	 { 4610, -160, 8388, 0, 468, 2530, 41, 109, 28, 255 }, // 0x0000CBA8
+	 { 4610, -160, 8388, 0, 4564, 2530, 41, 109, 28, 255 }, // 0x0000CBB8
+	 { 4583, -139, 8344, 0, 4695, 1937, 59, 89, 54, 255 }, // 0x0000CBC8
+	 { 4463, -119, 8347, 0, 3572, 1649, 209, 70, 85, 255 }, // 0x0000CBD8
+	 { 4411, -160, 8415, 0, 3639, 2363, 233, 107, 47, 255 }, // 0x0000CBE8
+	 { 4400, -160, 8222, 0, 2765, 2621, 209, 103, 216, 255 }, // 0x0000CBF8
+	 { 4533, -160, 8145, 0, 1999, 2814, 163, 61, 212, 255 }, // 0x0000CC08
+	 { 4292, 76, 7644, 0, -182, -2425, 21, 140, 237, 255 }, // 0x0000CC18
+	 { 4362, 112, 7607, 0, -1262, -3692, 45, 147, 236, 255 }, // 0x0000CC28
+	 { 4296, 92, 7651, 0, -324, -2335, 67, 193, 76, 255 }, // 0x0000CC38
+	 { 4240, 90, 7706, 0, 339, -843, 107, 1, 53, 255 }, // 0x0000CC48
+	 { 4231, 72, 7695, 0, 584, -967, 5, 143, 217, 255 }, // 0x0000CC58
+	 { 4287, 92, 7636, 0, -15, -2525, 208, 203, 160, 255 }, // 0x0000CC68
+	 { 4235, 94, 7681, 0, 628, -1265, 42, 16, 145, 255 }, // 0x0000CC78
+	 { 4193, 2, 7791, 0, 566, 1113, 29, 155, 198, 255 }, // 0x0000CC88
+	 { 4157, 41, 7807, 0, 1139, 1705, 171, 205, 189, 255 }, // 0x0000CC98
+	 { 4213, 98, 7693, 0, 962, -844, 140, 253, 226, 255 }, // 0x0000CCA8
+	 { 4170, 132, 7544, 0, 2993, -3221, 250, 144, 214, 255 }, // 0x0000CCB8
+	 { 4203, 40, 7822, 0, 116, 1601, 111, 215, 15, 255 }, // 0x0000CCC8
+	 { 4125, -164, 7894, 0, 4705, 1725, 144, 1, 42, 255 }, // 0x0000CCD8
+	 { 4166, -9, 7873, 0, 5022, 369, 2, 29, 116, 255 }, // 0x0000CCE8
+	 { 4115, -28, 7822, 0, 4012, 536, 137, 7, 255, 255 }, // 0x0000CCF8
+	 { 4166, 137, 7858, 0, 4982, -911, 210, 62, 91, 255 }, // 0x0000CD08
+	 { 4126, 109, 7815, 0, 3897, -668, 182, 37, 170, 255 }, // 0x0000CD18
+	 { 4199, -52, 7795, 0, 2643, 741, 31, 11, 141, 255 }, // 0x0000CD28
+	 { 4122, -80, 7824, 0, 4022, 990, 172, 9, 172, 255 }, // 0x0000CD38
+	 { 4180, 110, 7783, 0, 2967, -679, 36, 252, 142, 255 }, // 0x0000CD48
+	 { 4202, 114, 7832, 0, 2006, -713, 109, 46, 14, 255 }, // 0x0000CD58
+	 { 4166, -9, 7873, 0, 926, 369, 2, 29, 116, 255 }, // 0x0000CD68
+	 { 4172, -103, 7907, 0, 1021, 1189, 82, 48, 73, 255 }, // 0x0000CD78
+	 { 4229, -118, 7872, 0, 1631, 1321, 91, 55, 55, 255 }, // 0x0000CD88
+	 { 4166, 137, 7858, 0, 886, -911, 210, 62, 91, 255 }, // 0x0000CD98
+	 { 4157, -159, 7807, 0, 3457, 1683, 222, 13, 142, 255 }, // 0x0000CDA8
+	 { 4240, -160, 7821, 0, 2136, 1690, 109, 30, 217, 255 }, // 0x0000CDB8
+	 { 4208, -160, 7903, 0, 1323, 1690, 79, 17, 88, 255 }, // 0x0000CDC8
+	 { 4106, -130, 7814, 0, 3946, 1425, 189, 86, 207, 255 }, // 0x0000CDD8
+	 { 4046, -158, 7768, 0, 3799, 2023, 224, 112, 229, 255 }, // 0x0000CDE8
+	 { 4206, -119, 7783, 0, 2657, 1332, 21, 69, 161, 255 }, // 0x0000CDF8
+	 { 4239, -159, 7705, 0, 2751, 2030, 9, 108, 206, 255 }, // 0x0000CE08
+	 { 4300, -160, 7888, 0, 1770, 2040, 55, 102, 30, 255 }, // 0x0000CE18
+	 { 4188, -160, 7996, 0, 1086, 2040, 100, 62, 22, 255 }, // 0x0000CE28
+};
+
+Vtx_t _spot00_room_0_vertices_0000CE38[8] = 
+{
+	 { 2222, -437, 8051, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CE38
+	 { 5266, -437, 9809, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CE48
+	 { 3706, 87, 5480, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CE58
+	 { 6751, 87, 7238, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CE68
+	 { 2177, 78, 8130, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CE78
+	 { 5221, 78, 9888, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CE88
+	 { 3661, 601, 5559, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CE98
+	 { 6705, 601, 7316, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000CEA8
+};
+
+Gfx _spot00_room_0_dlist_0000CEB8[] =
+{
+	gsDPPipeSync(), // 0x0000CEB8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000CEC0
+	gsSPVertex(_spot00_room_0_vertices_0000CE38, 8, 0), // 0x0000CEC8
+	gsSPCullDisplayList(0, 7), // 0x0000CED0
+	gsDPPipeSync(), // 0x0000CED8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000CEE0
+	gsDPPipeSync(), // 0x0000CEE8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000CEF0
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000CEF8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000CF00
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000CF08
+	gsDPLoadSync(), // 0x0000CF10
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000CF18
+	gsDPPipeSync(), // 0x0000CF20
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000CF28
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000CF30
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000CF38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000CF40
+	gsDPLoadSync(), // 0x0000CF48
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000CF50
+	gsDPPipeSync(), // 0x0000CF58
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000CF60
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000CF68
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000CF70
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000CF78
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000CF80
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000CF88
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000CF90
+	gsSPVertex(_spot00_room_0_vertices_0000BF98, 24, 0), // 0x0000CF98
+	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0), // 0x0000CFA0
+	gsSP2Triangles(2, 3, 4, 0, 3, 5, 4, 0), // 0x0000CFA8
+	gsSP2Triangles(6, 7, 8, 0, 1, 9, 10, 0), // 0x0000CFB0
+	gsSP2Triangles(3, 1, 10, 0, 11, 12, 10, 0), // 0x0000CFB8
+	gsSP2Triangles(11, 10, 13, 0, 10, 9, 13, 0), // 0x0000CFC0
+	gsSP2Triangles(14, 15, 16, 0, 15, 17, 16, 0), // 0x0000CFC8
+	gsSP2Triangles(7, 18, 19, 0, 16, 17, 20, 0), // 0x0000CFD0
+	gsSP2Triangles(17, 21, 20, 0, 7, 22, 8, 0), // 0x0000CFD8
+	gsSP2Triangles(7, 19, 22, 0, 19, 14, 23, 0), // 0x0000CFE0
+	gsSP2Triangles(19, 23, 22, 0, 23, 14, 16, 0), // 0x0000CFE8
+	gsDPPipeSync(), // 0x0000CFF0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000CFF8
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000D000
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000D008
+	gsDPLoadSync(), // 0x0000D010
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000D018
+	gsDPPipeSync(), // 0x0000D020
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000D028
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000D030
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000D038
+	gsDPTileSync(), // 0x0000D040
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000D048
+	gsDPLoadSync(), // 0x0000D050
+	gsDPLoadTLUTCmd(7, 15), // 0x0000D058
+	gsDPPipeSync(), // 0x0000D060
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000D068
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000D070
+	gsSPVertex(_spot00_room_0_vertices_0000C118, 32, 0), // 0x0000D078
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000D080
+	gsSP2Triangles(4, 5, 6, 0, 6, 5, 7, 0), // 0x0000D088
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000D090
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000D098
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x0000D0A0
+	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0), // 0x0000D0A8
+	gsSP2Triangles(24, 25, 26, 0, 24, 26, 27, 0), // 0x0000D0B0
+	gsSP1Triangle(28, 29, 30, 0), // 0x0000D0B8
+	gsSPVertex(_spot00_room_0_vertices_0000C308, 12, 0), // 0x0000D0C0
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000D0C8
+	gsSP2Triangles(3, 5, 6, 0, 7, 0, 2, 0), // 0x0000D0D0
+	gsSP2Triangles(7, 2, 8, 0, 9, 7, 8, 0), // 0x0000D0D8
+	gsSP2Triangles(8, 10, 9, 0, 10, 4, 11, 0), // 0x0000D0E0
+	gsSP2Triangles(11, 4, 3, 0, 10, 8, 4, 0), // 0x0000D0E8
+	gsDPPipeSync(), // 0x0000D0F0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000D0F8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00026098), // 0x0000D100
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 1, 5, 0, 1, 5, 0), // 0x0000D108
+	gsDPLoadSync(), // 0x0000D110
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000D118
+	gsDPPipeSync(), // 0x0000D120
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 1, 5, 0, 1, 5, 0), // 0x0000D128
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000D130
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000D138
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000D140
+	gsSPVertex(_spot00_room_0_vertices_0000C3C8, 32, 0), // 0x0000D148
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000D150
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000D158
+	gsSP2Triangles(7, 6, 8, 0, 7, 8, 9, 0), // 0x0000D160
+	gsSP2Triangles(9, 8, 10, 0, 9, 10, 11, 0), // 0x0000D168
+	gsSP2Triangles(11, 10, 12, 0, 11, 12, 13, 0), // 0x0000D170
+	gsSP2Triangles(12, 14, 15, 0, 13, 12, 15, 0), // 0x0000D178
+	gsSP2Triangles(16, 17, 18, 0, 19, 20, 21, 0), // 0x0000D180
+	gsSP2Triangles(22, 17, 23, 0, 20, 16, 24, 0), // 0x0000D188
+	gsSP2Triangles(25, 21, 20, 0, 24, 25, 20, 0), // 0x0000D190
+	gsSP2Triangles(19, 21, 26, 0, 27, 22, 23, 0), // 0x0000D198
+	gsSP2Triangles(22, 28, 17, 0, 28, 18, 17, 0), // 0x0000D1A0
+	gsSP2Triangles(18, 29, 16, 0, 16, 29, 24, 0), // 0x0000D1A8
+	gsSP2Triangles(30, 17, 16, 0, 23, 17, 30, 0), // 0x0000D1B0
+	gsSP2Triangles(19, 23, 30, 0, 20, 19, 30, 0), // 0x0000D1B8
+	gsSP2Triangles(20, 30, 16, 0, 31, 1, 0, 0), // 0x0000D1C0
+	gsSPVertex(_spot00_room_0_vertices_0000C5C8, 11, 0), // 0x0000D1C8
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000D1D0
+	gsSP2Triangles(6, 3, 5, 0, 7, 8, 9, 0), // 0x0000D1D8
+	gsSP1Triangle(7, 9, 10, 0), // 0x0000D1E0
+	gsDPPipeSync(), // 0x0000D1E8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025898), // 0x0000D1F0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x0000D1F8
+	gsDPLoadSync(), // 0x0000D200
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000D208
+	gsDPPipeSync(), // 0x0000D210
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x0000D218
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000D220
+	gsSPVertex(_spot00_room_0_vertices_0000C678, 8, 0), // 0x0000D228
+	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0), // 0x0000D230
+	gsSP2Triangles(3, 2, 4, 0, 5, 6, 7, 0), // 0x0000D238
+	gsSP2Triangles(6, 3, 4, 0, 6, 4, 7, 0), // 0x0000D240
+	gsSPVertex(_spot00_room_0_vertices_0000C6F8, 32, 0), // 0x0000D248
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0), // 0x0000D250
+	gsSP2Triangles(3, 5, 4, 0, 5, 6, 7, 0), // 0x0000D258
+	gsSP2Triangles(5, 8, 6, 0, 8, 9, 6, 0), // 0x0000D260
+	gsSP2Triangles(9, 7, 6, 0, 9, 10, 11, 0), // 0x0000D268
+	gsSP2Triangles(9, 12, 10, 0, 1, 4, 2, 0), // 0x0000D270
+	gsSP2Triangles(7, 4, 5, 0, 9, 11, 7, 0), // 0x0000D278
+	gsSP2Triangles(13, 14, 15, 0, 14, 4, 15, 0), // 0x0000D280
+	gsSP2Triangles(4, 7, 15, 0, 14, 2, 4, 0), // 0x0000D288
+	gsSP2Triangles(15, 7, 16, 0, 7, 17, 16, 0), // 0x0000D290
+	gsSP2Triangles(11, 18, 7, 0, 18, 17, 7, 0), // 0x0000D298
+	gsSP2Triangles(19, 13, 20, 0, 13, 19, 14, 0), // 0x0000D2A0
+	gsSP2Triangles(21, 22, 23, 0, 22, 24, 25, 0), // 0x0000D2A8
+	gsSP2Triangles(22, 25, 23, 0, 21, 23, 26, 0), // 0x0000D2B0
+	gsSP2Triangles(23, 25, 27, 0, 23, 27, 28, 0), // 0x0000D2B8
+	gsSP1Triangle(29, 30, 31, 0), // 0x0000D2C0
+	gsSPVertex(_spot00_room_0_vertices_0000C8F8, 32, 0), // 0x0000D2C8
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x0000D2D0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 1, 0), // 0x0000D2D8
+	gsSP2Triangles(6, 3, 1, 0, 7, 8, 9, 0), // 0x0000D2E0
+	gsSP2Triangles(7, 9, 10, 0, 7, 10, 11, 0), // 0x0000D2E8
+	gsSP2Triangles(12, 8, 7, 0, 12, 7, 11, 0), // 0x0000D2F0
+	gsSP2Triangles(12, 11, 13, 0, 11, 14, 15, 0), // 0x0000D2F8
+	gsSP2Triangles(11, 15, 16, 0, 13, 11, 17, 0), // 0x0000D300
+	gsSP2Triangles(10, 18, 14, 0, 10, 14, 11, 0), // 0x0000D308
+	gsSP2Triangles(11, 16, 17, 0, 19, 20, 21, 0), // 0x0000D310
+	gsSP2Triangles(22, 21, 20, 0, 21, 22, 23, 0), // 0x0000D318
+	gsSP2Triangles(24, 25, 26, 0, 27, 24, 26, 0), // 0x0000D320
+	gsSP2Triangles(26, 25, 28, 0, 29, 26, 28, 0), // 0x0000D328
+	gsSP2Triangles(20, 30, 31, 0, 31, 26, 29, 0), // 0x0000D330
+	gsSP2Triangles(20, 31, 29, 0, 22, 20, 29, 0), // 0x0000D338
+	gsSPVertex(_spot00_room_0_vertices_0000CAF8, 32, 0), // 0x0000D340
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000D348
+	gsSP2Triangles(5, 6, 7, 0, 8, 6, 9, 0), // 0x0000D350
+	gsSP2Triangles(0, 2, 10, 0, 11, 0, 10, 0), // 0x0000D358
+	gsSP2Triangles(3, 12, 13, 0, 3, 13, 4, 0), // 0x0000D360
+	gsSP2Triangles(3, 5, 14, 0, 15, 3, 14, 0), // 0x0000D368
+	gsSP2Triangles(7, 15, 14, 0, 7, 14, 5, 0), // 0x0000D370
+	gsSP2Triangles(16, 7, 6, 0, 8, 16, 6, 0), // 0x0000D378
+	gsSP2Triangles(17, 8, 9, 0, 18, 19, 20, 0), // 0x0000D380
+	gsSP2Triangles(18, 20, 21, 0, 18, 21, 22, 0), // 0x0000D388
+	gsSP2Triangles(23, 19, 18, 0, 23, 18, 22, 0), // 0x0000D390
+	gsSP2Triangles(23, 22, 24, 0, 22, 25, 26, 0), // 0x0000D398
+	gsSP2Triangles(22, 26, 27, 0, 24, 22, 28, 0), // 0x0000D3A0
+	gsSP2Triangles(21, 29, 25, 0, 21, 25, 22, 0), // 0x0000D3A8
+	gsSP1Triangle(22, 27, 28, 0), // 0x0000D3B0
+	gsSPVertex(_spot00_room_0_vertices_0000CCD8, 22, 0), // 0x0000D3B8
+	gsSP2Triangles(0, 1, 2, 0, 3, 2, 1, 0), // 0x0000D3C0
+	gsSP2Triangles(2, 3, 4, 0, 2, 4, 5, 0), // 0x0000D3C8
+	gsSP2Triangles(6, 2, 5, 0, 5, 4, 7, 0), // 0x0000D3D0
+	gsSP2Triangles(8, 5, 7, 0, 9, 10, 11, 0), // 0x0000D3D8
+	gsSP2Triangles(11, 5, 8, 0, 9, 11, 8, 0), // 0x0000D3E0
+	gsSP2Triangles(12, 9, 8, 0, 0, 2, 6, 0), // 0x0000D3E8
+	gsSP2Triangles(13, 6, 5, 0, 5, 11, 14, 0), // 0x0000D3F0
+	gsSP2Triangles(15, 11, 10, 0, 0, 6, 16, 0), // 0x0000D3F8
+	gsSP2Triangles(17, 0, 16, 0, 13, 17, 16, 0), // 0x0000D400
+	gsSP2Triangles(13, 16, 6, 0, 13, 5, 18, 0), // 0x0000D408
+	gsSP2Triangles(19, 13, 18, 0, 14, 19, 18, 0), // 0x0000D410
+	gsSP2Triangles(14, 18, 5, 0, 20, 14, 11, 0), // 0x0000D418
+	gsSP2Triangles(15, 20, 11, 0, 21, 15, 10, 0), // 0x0000D420
+	gsSPEndDisplayList(), // 0x0000D428
+};
+
+Vtx_t _spot00_room_0_vertices_0000D430[15] = 
+{
+	 { -4417, -300, 11050, 0, 11463, 4181, 255, 114, 36, 255 }, // 0x0000D430
+	 { -4417, -100, 9350, 0, 11463, -10325, 247, 119, 7, 255 }, // 0x0000D440
+	 { -5675, -180, 10076, 0, 729, -4128, 206, 108, 10, 255 }, // 0x0000D450
+	 { -5889, -300, 8500, 0, -1101, -17579, 160, 68, 234, 255 }, // 0x0000D460
+	 { -5489, -446, 11360, 0, 2313, 6825, 49, 109, 10, 255 }, // 0x0000D470
+	 { -5889, -500, 11900, 0, -1101, 11435, 42, 108, 29, 255 }, // 0x0000D480
+	 { -5072, -389, 11022, 0, 5869, 3941, 215, 101, 49, 255 }, // 0x0000D490
+	 { -5889, -500, 10200, 0, -1101, -3072, 24, 116, 240, 255 }, // 0x0000D4A0
+	 { -5675, -500, 10076, 0, 729, -4128, 213, 111, 11, 255 }, // 0x0000D4B0
+	 { -5889, -500, 8500, 0, -1101, -17579, 220, 113, 243, 255 }, // 0x0000D4C0
+	 { -6695, -500, 8965, 0, -7979, -13607, 29, 100, 198, 255 }, // 0x0000D4D0
+	 { -6441, -500, 9178, 0, -5814, -11789, 51, 100, 215, 255 }, // 0x0000D4E0
+	 { -5072, -189, 11022, 0, 5869, 3941, 55, 89, 58, 255 }, // 0x0000D4F0
+	 { -5333, -182, 11202, 0, 3643, 5477, 200, 90, 55, 255 }, // 0x0000D500
+	 { -5213, -182, 11242, 0, 4667, 5818, 35, 65, 94, 255 }, // 0x0000D510
+};
+
+Vtx_t _spot00_room_0_vertices_0000D520[20] = 
+{
+	 { -5489, -446, 11360, 0, 2048, 2048, 49, 109, 10, 255 }, // 0x0000D520
+	 { -5489, -46, 11360, 0, 2048, 0, 118, 0, 18, 255 }, // 0x0000D530
+	 { -5889, -100, 11900, 0, 0, 0, 113, 0, 37, 255 }, // 0x0000D540
+	 { -5889, -500, 11900, 0, 0, 2048, 42, 108, 29, 255 }, // 0x0000D550
+	 { -5889, -500, 10200, 0, 4096, 2048, 24, 116, 240, 255 }, // 0x0000D560
+	 { -5889, 100, 10200, 0, 4096, 0, 109, 0, 208, 255 }, // 0x0000D570
+	 { -5489, -46, 11360, 0, 0, 0, 118, 0, 18, 255 }, // 0x0000D580
+	 { -5489, -446, 11360, 0, 0, 2048, 49, 109, 10, 255 }, // 0x0000D590
+	 { -6441, -500, 9178, 0, 2048, 2048, 51, 100, 215, 255 }, // 0x0000D5A0
+	 { -6441, 100, 9178, 0, 2048, 0, 93, 0, 180, 255 }, // 0x0000D5B0
+	 { -5889, 100, 10200, 0, 0, 0, 109, 0, 208, 255 }, // 0x0000D5C0
+	 { -5889, -500, 10200, 0, 0, 2048, 24, 116, 240, 255 }, // 0x0000D5D0
+	 { -6441, 100, 9178, 0, 0, 0, 93, 0, 180, 255 }, // 0x0000D5E0
+	 { -6441, -500, 9178, 0, 0, 2048, 51, 100, 215, 255 }, // 0x0000D5F0
+	 { -6695, -500, 8965, 0, 2048, 2048, 29, 100, 198, 255 }, // 0x0000D600
+	 { -6695, 100, 8965, 0, 2048, 0, 54, 0, 149, 255 }, // 0x0000D610
+	 { -7558, -500, 8761, 0, 2048, 2048, 253, 102, 194, 255 }, // 0x0000D620
+	 { -7558, 100, 8761, 0, 2048, 0, 234, 0, 139, 255 }, // 0x0000D630
+	 { -6695, 100, 8965, 0, 0, 0, 54, 0, 149, 255 }, // 0x0000D640
+	 { -6695, -500, 8965, 0, 0, 2048, 29, 100, 198, 255 }, // 0x0000D650
+};
+
+Vtx_t _spot00_room_0_vertices_0000D660[22] = 
+{
+	 { -4997, -190, 7890, 0, 0, 0, 221, 113, 239, 255 }, // 0x0000D660
+	 { -5889, -500, 8500, 0, 8192, 2048, 220, 113, 243, 255 }, // 0x0000D670
+	 { -5889, -300, 8500, 0, 8192, 0, 160, 68, 234, 255 }, // 0x0000D680
+	 { -5675, -500, 10076, 0, 8192, 2048, 213, 111, 11, 255 }, // 0x0000D690
+	 { -5675, -340, 10076, 0, 8192, 1024, 145, 229, 35, 255 }, // 0x0000D6A0
+	 { -5889, -300, 8500, 0, 0, 0, 160, 68, 234, 255 }, // 0x0000D6B0
+	 { -5889, -500, 8500, 0, 0, 2048, 220, 113, 243, 255 }, // 0x0000D6C0
+	 { -5675, -180, 10076, 0, 8192, 0, 206, 108, 10, 255 }, // 0x0000D6D0
+	 { -5675, -180, 10076, 0, -2048, 0, 206, 108, 10, 255 }, // 0x0000D6E0
+	 { -5675, -340, 10076, 0, -2048, 1024, 145, 229, 35, 255 }, // 0x0000D6F0
+	 { -5333, -222, 11202, 0, 2662, 102, 193, 180, 68, 255 }, // 0x0000D700
+	 { -5333, -182, 11202, 0, 2662, 0, 200, 90, 55, 255 }, // 0x0000D710
+	 { -5213, -222, 11242, 0, 3072, 102, 54, 216, 99, 255 }, // 0x0000D720
+	 { -5213, -182, 11242, 0, 3072, 0, 35, 65, 94, 255 }, // 0x0000D730
+	 { -5675, -500, 10076, 0, -2048, 2048, 213, 111, 11, 255 }, // 0x0000D740
+	 { -5072, -389, 11022, 0, 4096, 2048, 215, 101, 49, 255 }, // 0x0000D750
+	 { -5072, -309, 11022, 0, 4096, 1536, 244, 200, 105, 255 }, // 0x0000D760
+	 { -5072, -309, 11022, 0, 0, 1536, 244, 200, 105, 255 }, // 0x0000D770
+	 { -5072, -389, 11022, 0, 0, 2048, 215, 101, 49, 255 }, // 0x0000D780
+	 { -4417, -300, 11050, 0, 5120, 0, 255, 114, 36, 255 }, // 0x0000D790
+	 { -5072, -189, 11022, 0, 0, 0, 55, 89, 58, 255 }, // 0x0000D7A0
+	 { -5072, -189, 11022, 0, 4096, 0, 55, 89, 58, 255 }, // 0x0000D7B0
+};
+
+Vtx_t _spot00_room_0_vertices_0000D7C0[20] = 
+{
+	 { -5665, -182, 10074, 0, -18432, 1024, 190, 99, 12, 255 }, // 0x0000D7C0
+	 { -5665, -140, 10074, 0, -18432, 0, 190, 99, 12, 255 }, // 0x0000D7D0
+	 { -5878, -260, 8505, 0, 20480, 0, 180, 86, 223, 255 }, // 0x0000D7E0
+	 { -5878, -300, 8505, 0, 20480, 1024, 180, 86, 223, 255 }, // 0x0000D7F0
+	 { -5077, -191, 11012, 0, -5880, 1024, 26, 108, 43, 255 }, // 0x0000D800
+	 { -5077, -149, 11012, 0, -5880, 0, 26, 108, 43, 255 }, // 0x0000D810
+	 { -5218, -142, 11229, 0, 1024, 0, 35, 64, 95, 255 }, // 0x0000D820
+	 { -5218, -184, 11229, 0, 1024, 1024, 35, 64, 95, 255 }, // 0x0000D830
+	 { -5218, -184, 11229, 0, 0, 1024, 35, 64, 95, 255 }, // 0x0000D840
+	 { -5218, -142, 11229, 0, 0, 0, 35, 64, 95, 255 }, // 0x0000D850
+	 { -5325, -142, 11194, 0, 3072, 0, 200, 90, 55, 255 }, // 0x0000D860
+	 { -5325, -184, 11194, 0, 3072, 1024, 200, 90, 55, 255 }, // 0x0000D870
+	 { -5325, -184, 11194, 0, 0, 1024, 200, 90, 55, 255 }, // 0x0000D880
+	 { -5325, -142, 11194, 0, 0, 0, 200, 90, 55, 255 }, // 0x0000D890
+	 { -5665, -140, 10074, 0, 26917, 0, 190, 99, 12, 255 }, // 0x0000D8A0
+	 { -5665, -182, 10074, 0, 26917, 1024, 190, 99, 12, 255 }, // 0x0000D8B0
+	 { -4416, -302, 11040, 0, -8192, 1024, 10, 81, 87, 255 }, // 0x0000D8C0
+	 { -4416, -260, 11040, 0, -8192, 0, 10, 81, 87, 255 }, // 0x0000D8D0
+	 { -5077, -149, 11012, 0, 8192, 0, 26, 108, 43, 255 }, // 0x0000D8E0
+	 { -5077, -191, 11012, 0, 8192, 1024, 26, 108, 43, 255 }, // 0x0000D8F0
+};
+
+Vtx_t _spot00_room_0_vertices_0000D900[8] = 
+{
+	 { -4973, -500, 7820, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D900
+	 { -3769, -500, 11129, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D910
+	 { -4973, 100, 7820, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D920
+	 { -3769, 100, 11129, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D930
+	 { -7558, -500, 8761, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D940
+	 { -6354, -500, 12069, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D950
+	 { -7558, 100, 8761, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D960
+	 { -6354, 100, 12069, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000D970
+};
+
+Gfx _spot00_room_0_dlist_0000D980[] =
+{
+	gsDPPipeSync(), // 0x0000D980
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000D988
+	gsSPVertex(_spot00_room_0_vertices_0000D900, 8, 0), // 0x0000D990
+	gsSPCullDisplayList(0, 7), // 0x0000D998
+	gsDPPipeSync(), // 0x0000D9A0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000D9A8
+	gsDPPipeSync(), // 0x0000D9B0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000D9B8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000D9C0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000D9C8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000D9D0
+	gsDPLoadSync(), // 0x0000D9D8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000D9E0
+	gsDPPipeSync(), // 0x0000D9E8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000D9F0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000D9F8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000DA00
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000DA08
+	gsDPLoadSync(), // 0x0000DA10
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000DA18
+	gsDPPipeSync(), // 0x0000DA20
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000DA28
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000DA30
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000DA38
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000DA40
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000DA48
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000DA50
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000DA58
+	gsSPVertex(_spot00_room_0_vertices_0000D430, 15, 0), // 0x0000DA60
+	gsSP2Triangles(0, 1, 2, 0, 3, 2, 1, 0), // 0x0000DA68
+	gsSP2Triangles(4, 5, 0, 0, 0, 6, 4, 0), // 0x0000DA70
+	gsSP2Triangles(4, 6, 7, 0, 6, 8, 7, 0), // 0x0000DA78
+	gsSP2Triangles(9, 10, 11, 0, 2, 12, 0, 0), // 0x0000DA80
+	gsSP2Triangles(9, 11, 8, 0, 11, 7, 8, 0), // 0x0000DA88
+	gsSP2Triangles(13, 14, 12, 0, 13, 12, 2, 0), // 0x0000DA90
+	gsDPPipeSync(), // 0x0000DA98
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000DAA0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000DAA8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000DAB0
+	gsDPLoadSync(), // 0x0000DAB8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000DAC0
+	gsDPPipeSync(), // 0x0000DAC8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000DAD0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000DAD8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000DAE0
+	gsDPTileSync(), // 0x0000DAE8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000DAF0
+	gsDPLoadSync(), // 0x0000DAF8
+	gsDPLoadTLUTCmd(7, 15), // 0x0000DB00
+	gsDPPipeSync(), // 0x0000DB08
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000DB10
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000DB18
+	gsSPVertex(_spot00_room_0_vertices_0000D520, 20, 0), // 0x0000DB20
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000DB28
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000DB30
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000DB38
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000DB40
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x0000DB48
+	gsDPPipeSync(), // 0x0000DB50
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000DB58
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00019B98), // 0x0000DB60
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x0000DB68
+	gsDPLoadSync(), // 0x0000DB70
+	gsDPLoadBlock(7, 0, 0, 2047, 256), // 0x0000DB78
+	gsDPPipeSync(), // 0x0000DB80
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x0000DB88
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x0000DB90
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000DB98
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000DBA0
+	gsSPVertex(_spot00_room_0_vertices_0000D660, 22, 0), // 0x0000DBA8
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000DBB0
+	gsSP2Triangles(3, 5, 6, 0, 5, 4, 7, 0), // 0x0000DBB8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000DBC0
+	gsSP2Triangles(11, 10, 12, 0, 11, 12, 13, 0), // 0x0000DBC8
+	gsSP2Triangles(9, 14, 15, 0, 9, 15, 16, 0), // 0x0000DBD0
+	gsSP2Triangles(17, 18, 19, 0, 20, 17, 19, 0), // 0x0000DBD8
+	gsSP2Triangles(16, 21, 12, 0, 21, 13, 12, 0), // 0x0000DBE0
+	gsSP2Triangles(9, 16, 10, 0, 16, 12, 10, 0), // 0x0000DBE8
+	gsDPPipeSync(), // 0x0000DBF0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D98), // 0x0000DBF8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x0000DC00
+	gsDPLoadSync(), // 0x0000DC08
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000DC10
+	gsDPPipeSync(), // 0x0000DC18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x0000DC20
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000DC28
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000DC30
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000DC38
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x0000DC40
+	gsSPVertex(_spot00_room_0_vertices_0000D7C0, 20, 0), // 0x0000DC48
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000DC50
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000DC58
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000DC60
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000DC68
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x0000DC70
+	gsSPEndDisplayList(), // 0x0000DC78
+};
+
+Vtx_t _spot00_room_0_vertices_0000DC80[7] = 
+{
+	 { -2944, -300, 10200, 0, -550, -3072, 8, 118, 18, 255 }, // 0x0000DC80
+	 { -2944, 100, 8500, 0, -550, -17579, 5, 118, 16, 255 }, // 0x0000DC90
+	 { -4417, -100, 9350, 0, -13113, -10325, 247, 119, 7, 255 }, // 0x0000DCA0
+	 { -4417, -300, 11050, 0, -13113, 4181, 255, 114, 36, 255 }, // 0x0000DCB0
+	 { -2944, -500, 11900, 0, -550, 11435, 3, 119, 6, 255 }, // 0x0000DCC0
+	 { -1472, -500, 11050, 0, 12013, 4181, 4, 119, 7, 255 }, // 0x0000DCD0
+	 { -1472, -300, 9350, 0, 12013, -10325, 9, 117, 23, 255 }, // 0x0000DCE0
+};
+
+Vtx_t _spot00_room_0_vertices_0000DCF0[8] = 
+{
+	 { -4417, -742, 11857, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DCF0
+	 { -1472, -742, 11857, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DD00
+	 { -4417, -143, 8457, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DD10
+	 { -1472, -143, 8457, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DD20
+	 { -4417, -451, 11909, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DD30
+	 { -1472, -451, 11909, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DD40
+	 { -4417, 148, 8508, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DD50
+	 { -1472, 148, 8508, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DD60
+};
+
+Gfx _spot00_room_0_dlist_0000DD70[] =
+{
+	gsDPPipeSync(), // 0x0000DD70
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000DD78
+	gsSPVertex(_spot00_room_0_vertices_0000DCF0, 8, 0), // 0x0000DD80
+	gsSPCullDisplayList(0, 7), // 0x0000DD88
+	gsDPPipeSync(), // 0x0000DD90
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000DD98
+	gsDPPipeSync(), // 0x0000DDA0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000DDA8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000DDB0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000DDB8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000DDC0
+	gsDPLoadSync(), // 0x0000DDC8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000DDD0
+	gsDPPipeSync(), // 0x0000DDD8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000DDE0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000DDE8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000DDF0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000DDF8
+	gsDPLoadSync(), // 0x0000DE00
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000DE08
+	gsDPPipeSync(), // 0x0000DE10
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000DE18
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000DE20
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000DE28
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000DE30
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000DE38
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000DE40
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000DE48
+	gsSPVertex(_spot00_room_0_vertices_0000DC80, 7, 0), // 0x0000DE50
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x0000DE58
+	gsSP2Triangles(3, 4, 0, 0, 0, 4, 5, 0), // 0x0000DE60
+	gsSP2Triangles(5, 6, 0, 0, 1, 0, 6, 0), // 0x0000DE68
+	gsSPEndDisplayList(), // 0x0000DE70
+};
+
+Vtx_t _spot00_room_0_vertices_0000DE78[7] = 
+{
+	 { 0, -500, 10200, 0, 0, -3072, 248, 118, 14, 255 }, // 0x0000DE78
+	 { 0, -100, 8500, 0, 0, -17579, 3, 119, 13, 255 }, // 0x0000DE88
+	 { -1472, -300, 9350, 0, -12563, -10325, 9, 117, 23, 255 }, // 0x0000DE98
+	 { -1472, -500, 11050, 0, -12563, 4181, 4, 119, 7, 255 }, // 0x0000DEA8
+	 { 0, -500, 11900, 0, 0, 11435, 252, 119, 2, 255 }, // 0x0000DEB8
+	 { 1472, -300, 11050, 0, 12563, 4181, 208, 104, 32, 255 }, // 0x0000DEC8
+	 { 1472, -100, 9350, 0, 12563, -10325, 226, 115, 246, 255 }, // 0x0000DED8
+};
+
+Vtx_t _spot00_room_0_vertices_0000DEE8[4] = 
+{
+	 { 1472, -300, 11050, 0, 8192, 2048, 208, 104, 32, 255 }, // 0x0000DEE8
+	 { 1472, 100, 11050, 0, 8192, 0, 153, 0, 60, 255 }, // 0x0000DEF8
+	 { 1472, 215, 9350, 0, 0, 0, 153, 0, 196, 255 }, // 0x0000DF08
+	 { 1472, -100, 9350, 0, 0, 2048, 226, 115, 246, 255 }, // 0x0000DF18
+};
+
+Vtx_t _spot00_room_0_vertices_0000DF28[8] = 
+{
+	 { -2072, -786, 9254, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF28
+	 { -979, -786, 12256, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF38
+	 { 1094, -192, 8102, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF48
+	 { 2187, -192, 11104, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF58
+	 { -2140, -379, 9279, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF68
+	 { -1047, -379, 12281, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF78
+	 { 1027, 215, 8126, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF88
+	 { 2120, 215, 11129, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000DF98
+};
+
+Gfx _spot00_room_0_dlist_0000DFA8[] =
+{
+	gsDPPipeSync(), // 0x0000DFA8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000DFB0
+	gsSPVertex(_spot00_room_0_vertices_0000DF28, 8, 0), // 0x0000DFB8
+	gsSPCullDisplayList(0, 7), // 0x0000DFC0
+	gsDPPipeSync(), // 0x0000DFC8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000DFD0
+	gsDPPipeSync(), // 0x0000DFD8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000DFE0
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000DFE8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000DFF0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000DFF8
+	gsDPLoadSync(), // 0x0000E000
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000E008
+	gsDPPipeSync(), // 0x0000E010
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000E018
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000E020
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000E028
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000E030
+	gsDPLoadSync(), // 0x0000E038
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000E040
+	gsDPPipeSync(), // 0x0000E048
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000E050
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000E058
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000E060
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000E068
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000E070
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000E078
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000E080
+	gsSPVertex(_spot00_room_0_vertices_0000DE78, 7, 0), // 0x0000E088
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x0000E090
+	gsSP2Triangles(3, 4, 0, 0, 0, 4, 5, 0), // 0x0000E098
+	gsSP2Triangles(5, 6, 0, 0, 1, 0, 6, 0), // 0x0000E0A0
+	gsDPPipeSync(), // 0x0000E0A8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000E0B0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000E0B8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000E0C0
+	gsDPLoadSync(), // 0x0000E0C8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000E0D0
+	gsDPPipeSync(), // 0x0000E0D8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000E0E0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000E0E8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000E0F0
+	gsDPTileSync(), // 0x0000E0F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000E100
+	gsDPLoadSync(), // 0x0000E108
+	gsDPLoadTLUTCmd(7, 15), // 0x0000E110
+	gsDPPipeSync(), // 0x0000E118
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000E120
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000E128
+	gsSPVertex(_spot00_room_0_vertices_0000DEE8, 4, 0), // 0x0000E130
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000E138
+	gsSPEndDisplayList(), // 0x0000E140
+};
+
+Vtx_t _spot00_room_0_vertices_0000E148[10] = 
+{
+	 { 2966, -260, 10189, 0, 14336, 0, 196, 0, 153, 255 }, // 0x0000E148
+	 { 4438, 233, 9339, 0, 0, 0, 196, 0, 153, 255 }, // 0x0000E158
+	 { 4438, -7, 9339, 0, 0, 2048, 196, 0, 153, 255 }, // 0x0000E168
+	 { 4438, -7, 9339, 0, 8192, 2048, 196, 0, 153, 255 }, // 0x0000E178
+	 { 4438, 233, 9339, 0, 8192, 0, 196, 0, 153, 255 }, // 0x0000E188
+	 { 5525, 341, 8707, 0, 0, 0, 164, 0, 180, 255 }, // 0x0000E198
+	 { 5525, 101, 8707, 0, 0, 2048, 164, 0, 180, 255 }, // 0x0000E1A8
+	 { 5525, 101, 8707, 0, 16384, 2048, 164, 0, 180, 255 }, // 0x0000E1B8
+	 { 5525, 341, 8707, 0, 16384, 0, 164, 0, 180, 255 }, // 0x0000E1C8
+	 { 6092, 73, 7044, 0, 0, 0, 143, 0, 217, 255 }, // 0x0000E1D8
+};
+
+Vtx_t _spot00_room_0_vertices_0000E1E8[12] = 
+{
+	 { 5501, 258, 8688, 0, 4096, 1024, 164, 0, 180, 255 }, // 0x0000E1E8
+	 { 5501, 538, 8688, 0, 4096, 0, 164, 0, 180, 255 }, // 0x0000E1F8
+	 { 6068, 270, 7025, 0, 0, 0, 143, 0, 217, 255 }, // 0x0000E208
+	 { 6068, -10, 7025, 0, 0, 1024, 143, 0, 217, 255 }, // 0x0000E218
+	 { 4415, 150, 9321, 0, 2048, 1024, 196, 0, 153, 255 }, // 0x0000E228
+	 { 4415, 430, 9321, 0, 2048, 0, 196, 0, 153, 255 }, // 0x0000E238
+	 { 5501, 538, 8688, 0, 0, 0, 164, 0, 180, 255 }, // 0x0000E248
+	 { 5501, 258, 8688, 0, 0, 1024, 164, 0, 180, 255 }, // 0x0000E258
+	 { 2943, -303, 10171, 0, 3584, 1024, 196, 0, 153, 255 }, // 0x0000E268
+	 { 2943, -23, 10171, 0, 3584, 0, 196, 0, 153, 255 }, // 0x0000E278
+	 { 4415, 430, 9321, 0, 0, 0, 196, 0, 153, 255 }, // 0x0000E288
+	 { 4415, 150, 9321, 0, 0, 1024, 196, 0, 153, 255 }, // 0x0000E298
+};
+
+Vtx_t _spot00_room_0_vertices_0000E2A8[8] = 
+{
+	 { 6073, -303, 7021, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E2A8
+	 { 6676, -303, 7741, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E2B8
+	 { 6073, 538, 7021, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E2C8
+	 { 6676, 538, 7741, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E2D8
+	 { 2685, -303, 9864, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E2E8
+	 { 3289, -303, 10583, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E2F8
+	 { 2685, 538, 9864, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E308
+	 { 3289, 538, 10583, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E318
+};
+
+Gfx _spot00_room_0_dlist_0000E328[] =
+{
+	gsDPPipeSync(), // 0x0000E328
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000E330
+	gsSPVertex(_spot00_room_0_vertices_0000E2A8, 8, 0), // 0x0000E338
+	gsSPCullDisplayList(0, 7), // 0x0000E340
+	gsDPPipeSync(), // 0x0000E348
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000E350
+	gsDPPipeSync(), // 0x0000E358
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000E360
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000E368
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00020018), // 0x0000E370
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000E378
+	gsDPLoadSync(), // 0x0000E380
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000E388
+	gsDPPipeSync(), // 0x0000E390
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000E398
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000E3A0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000E3A8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000E3B0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000E3B8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000E3C0
+	gsDPSetPrimColor(0, 0, 214, 200, 130, 255), // 0x0000E3C8
+	gsSPVertex(_spot00_room_0_vertices_0000E148, 10, 0), // 0x0000E3D0
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x0000E3D8
+	gsSP2Triangles(3, 5, 6, 0, 7, 8, 9, 0), // 0x0000E3E0
+	gsDPPipeSync(), // 0x0000E3E8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001F818), // 0x0000E3F0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x0000E3F8
+	gsDPLoadSync(), // 0x0000E400
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000E408
+	gsDPPipeSync(), // 0x0000E410
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x0000E418
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000E420
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000E428
+	gsDPSetPrimColor(0, 0, 230, 250, 156, 255), // 0x0000E430
+	gsSPVertex(_spot00_room_0_vertices_0000E1E8, 12, 0), // 0x0000E438
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000E440
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000E448
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000E450
+	gsSPEndDisplayList(), // 0x0000E458
+};
+
+Vtx_t _spot00_room_0_vertices_0000E460[14] = 
+{
+	 { -4417, -500, 12750, 0, 3271, 2304, 248, 118, 18, 255 }, // 0x0000E460
+	 { -4417, -300, 11050, 0, 3271, -12203, 255, 114, 36, 255 }, // 0x0000E470
+	 { -5889, -500, 11900, 0, -9293, -4949, 42, 108, 29, 255 }, // 0x0000E480
+	 { -5153, -700, 13175, 0, -3011, 5931, 252, 119, 11, 255 }, // 0x0000E490
+	 { -5889, -700, 13600, 0, -9293, 9557, 71, 90, 222, 255 }, // 0x0000E4A0
+	 { -4417, -700, 13600, 0, 3271, 9557, 251, 118, 18, 255 }, // 0x0000E4B0
+	 { -3681, -500, 13175, 0, 9552, 5931, 238, 110, 43, 255 }, // 0x0000E4C0
+	 { -2944, -700, 13600, 0, 15834, 9557, 202, 104, 23, 255 }, // 0x0000E4D0
+	 { -4417, -700, 14450, 0, 3271, 16811, 4, 92, 179, 255 }, // 0x0000E4E0
+	 { -2944, -500, 13600, 0, 15834, 9557, 0, 120, 0, 255 }, // 0x0000E4F0
+	 { -2944, -500, 11900, 0, 15834, -4949, 3, 119, 6, 255 }, // 0x0000E500
+	 { -4913, -700, 14094, 0, -965, 13774, 243, 108, 207, 255 }, // 0x0000E510
+	 { -5259, -700, 13894, 0, -3921, 12068, 49, 108, 243, 255 }, // 0x0000E520
+	 { -5549, -700, 13796, 0, -6394, 11231, 238, 98, 189, 255 }, // 0x0000E530
+};
+
+Vtx_t _spot00_room_0_vertices_0000E540[19] = 
+{
+	 { -4417, -700, 14450, 0, 8192, 1024, 4, 92, 179, 255 }, // 0x0000E540
+	 { -4417, -500, 14450, 0, 8192, 0, 7, 0, 137, 255 }, // 0x0000E550
+	 { -2944, -300, 13600, 0, 0, 0, 0, 0, 136, 255 }, // 0x0000E560
+	 { -2944, -700, 13600, 0, 0, 2048, 202, 104, 23, 255 }, // 0x0000E570
+	 { -4861, -481, 14124, 0, 2273, 0, 71, 0, 160, 255 }, // 0x0000E580
+	 { -4417, -500, 14450, 0, 0, 0, 7, 0, 137, 255 }, // 0x0000E590
+	 { -4417, -700, 14450, 0, 0, 1024, 4, 92, 179, 255 }, // 0x0000E5A0
+	 { -4861, -700, 14124, 0, 2273, 1024, 65, 0, 156, 255 }, // 0x0000E5B0
+	 { -2944, -700, 13600, 0, 2048, 2048, 202, 104, 23, 255 }, // 0x0000E5C0
+	 { -2944, -500, 13600, 0, 2048, 1024, 0, 120, 0, 255 }, // 0x0000E5D0
+	 { -3681, -500, 13175, 0, -2304, 1024, 238, 110, 43, 255 }, // 0x0000E5E0
+	 { -5889, -700, 13600, 0, 2048, 2048, 71, 90, 222, 255 }, // 0x0000E5F0
+	 { -5889, -300, 13600, 0, 2048, 0, 103, 0, 196, 255 }, // 0x0000E600
+	 { -5549, -298, 13796, 0, 218, 0, 60, 0, 153, 255 }, // 0x0000E610
+	 { -5549, -700, 13796, 0, 218, 2048, 238, 98, 189, 255 }, // 0x0000E620
+	 { -5889, -500, 11900, 0, 6144, 2048, 42, 108, 29, 255 }, // 0x0000E630
+	 { -5889, -100, 11900, 0, 6144, 0, 113, 0, 37, 255 }, // 0x0000E640
+	 { -5889, -300, 13600, 0, -2048, 0, 103, 0, 196, 255 }, // 0x0000E650
+	 { -5889, -700, 13600, 0, -2048, 2048, 71, 90, 222, 255 }, // 0x0000E660
+};
+
+Vtx_t _spot00_room_0_vertices_0000E670[12] = 
+{
+	 { -3676, -500, 13166, 0, 11264, 1024, 60, 0, 153, 255 }, // 0x0000E670
+	 { -3676, -460, 13166, 0, 11264, 0, 42, 84, 183, 255 }, // 0x0000E680
+	 { -2922, -460, 13601, 0, -10240, 0, 42, 84, 183, 255 }, // 0x0000E690
+	 { -2922, -500, 13601, 0, -10240, 1024, 60, 0, 153, 255 }, // 0x0000E6A0
+	 { -4687, -700, 13763, 0, 5120, 1024, 103, 0, 60, 255 }, // 0x0000E6B0
+	 { -4687, -660, 13763, 0, 5120, 0, 73, 84, 42, 255 }, // 0x0000E6C0
+	 { -4887, -660, 14109, 0, -5120, 0, 73, 84, 42, 255 }, // 0x0000E6D0
+	 { -4887, -700, 14109, 0, -5120, 1024, 103, 0, 60, 255 }, // 0x0000E6E0
+	 { -5285, -700, 13879, 0, -5120, 1024, 153, 0, 196, 255 }, // 0x0000E6F0
+	 { -5285, -660, 13879, 0, -5120, 0, 183, 84, 214, 255 }, // 0x0000E700
+	 { -5085, -660, 13533, 0, 5120, 0, 183, 84, 214, 255 }, // 0x0000E710
+	 { -5085, -700, 13533, 0, 5120, 1024, 153, 0, 196, 255 }, // 0x0000E720
+};
+
+Vtx_t _spot00_room_0_vertices_0000E730[8] = 
+{
+	 { -5889, -942, 14407, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E730
+	 { -2922, -942, 14407, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E740
+	 { -5889, -349, 11041, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E750
+	 { -2922, -349, 11041, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E760
+	 { -5889, -422, 14499, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E770
+	 { -2922, -422, 14499, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E780
+	 { -5889, 172, 11133, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E790
+	 { -2922, 172, 11133, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000E7A0
+};
+
+Gfx _spot00_room_0_dlist_0000E7B0[] =
+{
+	gsDPPipeSync(), // 0x0000E7B0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000E7B8
+	gsSPVertex(_spot00_room_0_vertices_0000E730, 8, 0), // 0x0000E7C0
+	gsSPCullDisplayList(0, 7), // 0x0000E7C8
+	gsDPPipeSync(), // 0x0000E7D0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000E7D8
+	gsDPPipeSync(), // 0x0000E7E0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000E7E8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000E7F0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000E7F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000E800
+	gsDPLoadSync(), // 0x0000E808
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000E810
+	gsDPPipeSync(), // 0x0000E818
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000E820
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000E828
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000E830
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000E838
+	gsDPLoadSync(), // 0x0000E840
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000E848
+	gsDPPipeSync(), // 0x0000E850
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000E858
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000E860
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000E868
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000E870
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000E878
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000E880
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000E888
+	gsSPVertex(_spot00_room_0_vertices_0000E460, 14, 0), // 0x0000E890
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x0000E898
+	gsSP2Triangles(2, 4, 3, 0, 5, 0, 3, 0), // 0x0000E8A0
+	gsSP2Triangles(0, 5, 6, 0, 5, 7, 6, 0), // 0x0000E8A8
+	gsSP2Triangles(5, 8, 7, 0, 9, 10, 6, 0), // 0x0000E8B0
+	gsSP2Triangles(10, 0, 6, 0, 1, 0, 10, 0), // 0x0000E8B8
+	gsSP2Triangles(11, 8, 5, 0, 11, 5, 3, 0), // 0x0000E8C0
+	gsSP2Triangles(11, 3, 12, 0, 3, 13, 12, 0), // 0x0000E8C8
+	gsSP1Triangle(3, 4, 13, 0), // 0x0000E8D0
+	gsDPPipeSync(), // 0x0000E8D8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000E8E0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000E8E8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000E8F0
+	gsDPLoadSync(), // 0x0000E8F8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000E900
+	gsDPPipeSync(), // 0x0000E908
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000E910
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000E918
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000E920
+	gsDPTileSync(), // 0x0000E928
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000E930
+	gsDPLoadSync(), // 0x0000E938
+	gsDPLoadTLUTCmd(7, 15), // 0x0000E940
+	gsDPPipeSync(), // 0x0000E948
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000E950
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000E958
+	gsSPVertex(_spot00_room_0_vertices_0000E540, 19, 0), // 0x0000E960
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000E968
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000E970
+	gsSP2Triangles(8, 9, 10, 0, 11, 12, 13, 0), // 0x0000E978
+	gsSP2Triangles(11, 13, 14, 0, 15, 16, 17, 0), // 0x0000E980
+	gsSP1Triangle(15, 17, 18, 0), // 0x0000E988
+	gsDPPipeSync(), // 0x0000E990
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000E998
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001C198), // 0x0000E9A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 5, 0), // 0x0000E9A8
+	gsDPLoadSync(), // 0x0000E9B0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000E9B8
+	gsDPPipeSync(), // 0x0000E9C0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 2, 5, 0, 0, 5, 0), // 0x0000E9C8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000E9D0
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x0000E9D8
+	gsSPVertex(_spot00_room_0_vertices_0000E670, 12, 0), // 0x0000E9E0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000E9E8
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000E9F0
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000E9F8
+	gsSPEndDisplayList(), // 0x0000EA00
+};
+
+Vtx_t _spot00_room_0_vertices_0000EA08[11] = 
+{
+	 { -6330, -1095, 16529, 0, -4864, 9973, 9, 119, 253, 255 }, // 0x0000EA08
+	 { -5387, -828, 15695, 0, 3181, 2857, 188, 95, 24, 255 }, // 0x0000EA18
+	 { -5907, -917, 15855, 0, -1256, 4223, 40, 112, 9, 255 }, // 0x0000EA28
+	 { -5730, -828, 15489, 0, 256, 1098, 207, 106, 25, 255 }, // 0x0000EA38
+	 { -6250, -917, 15649, 0, -4181, 2464, 41, 112, 0, 255 }, // 0x0000EA48
+	 { -5559, -700, 14414, 0, 1711, -8074, 2, 110, 47, 255 }, // 0x0000EA58
+	 { -5213, -700, 14614, 0, 4667, -6368, 180, 84, 218, 255 }, // 0x0000EA68
+	 { -5213, -700, 14614, 0, 4667, -6368, 180, 84, 218, 255 }, // 0x0000EA78
+	 { -4913, -700, 14094, 0, 7227, -10802, 243, 108, 207, 255 }, // 0x0000EA88
+	 { -5259, -700, 13894, 0, 4271, -12508, 49, 108, 243, 255 }, // 0x0000EA98
+	 { -5611, -700, 14384, 0, 1268, -8330, 21, 66, 97, 255 }, // 0x0000EAA8
+};
+
+Vtx_t _spot00_room_0_vertices_0000EAB8[26] = 
+{
+	 { -5730, -828, 15489, 0, 2048, 1024, 207, 106, 25, 255 }, // 0x0000EAB8
+	 { -5730, -628, 15489, 0, 2048, 0, 140, 0, 29, 255 }, // 0x0000EAC8
+	 { -5213, -500, 14614, 0, 0, 0, 153, 0, 196, 255 }, // 0x0000EAD8
+	 { -5213, -700, 14614, 0, 0, 1024, 180, 84, 218, 255 }, // 0x0000EAE8
+	 { -6330, -1095, 16529, 0, 4096, 1024, 9, 119, 253, 255 }, // 0x0000EAF8
+	 { -6330, -895, 16529, 0, 4096, 0, 102, 50, 39, 255 }, // 0x0000EB08
+	 { -5387, -628, 15695, 0, 0, 0, 137, 0, 11, 255 }, // 0x0000EB18
+	 { -5387, -828, 15695, 0, 0, 1024, 188, 95, 24, 255 }, // 0x0000EB28
+	 { -5730, -628, 15489, 0, 0, 0, 140, 0, 29, 255 }, // 0x0000EB38
+	 { -5730, -828, 15489, 0, 0, 1024, 207, 106, 25, 255 }, // 0x0000EB48
+	 { -5387, -828, 15695, 0, 2048, 1024, 188, 95, 24, 255 }, // 0x0000EB58
+	 { -5387, -628, 15695, 0, 2048, 0, 137, 0, 11, 255 }, // 0x0000EB68
+	 { -5611, -700, 14384, 0, 4329, 2048, 21, 66, 97, 255 }, // 0x0000EB78
+	 { -5611, -298, 14384, 0, 4329, 0, 107, 0, 54, 255 }, // 0x0000EB88
+	 { -6250, -577, 15649, 0, 0, 0, 104, 30, 205, 255 }, // 0x0000EB98
+	 { -6250, -917, 15649, 0, 0, 2048, 41, 112, 0, 255 }, // 0x0000EBA8
+	 { -5907, -717, 15855, 0, 0, 1024, 111, 42, 242, 255 }, // 0x0000EBB8
+	 { -5907, -917, 15855, 0, 0, 2048, 40, 112, 9, 255 }, // 0x0000EBC8
+	 { -6250, -917, 15649, 0, 2048, 2048, 41, 112, 0, 255 }, // 0x0000EBD8
+	 { -6250, -577, 15649, 0, 2048, 0, 104, 30, 205, 255 }, // 0x0000EBE8
+	 { -6016, -577, 15884, 0, 0, 0, 94, 74, 255, 255 }, // 0x0000EBF8
+	 { -5907, -917, 15855, 0, 4096, 2048, 40, 112, 9, 255 }, // 0x0000EC08
+	 { -5907, -717, 15855, 0, 4096, 1024, 111, 42, 242, 255 }, // 0x0000EC18
+	 { -6330, -895, 16529, 0, 0, 0, 102, 50, 39, 255 }, // 0x0000EC28
+	 { -6330, -1095, 16529, 0, 0, 1024, 9, 119, 253, 255 }, // 0x0000EC38
+	 { -6016, -577, 15884, 0, 4096, 0, 94, 74, 255, 255 }, // 0x0000EC48
+};
+
+Vtx_t _spot00_room_0_vertices_0000EC58[24] = 
+{
+	 { -4861, -500, 14124, 0, 0, 0, 60, 0, 153, 255 }, // 0x0000EC58
+	 { -4861, -700, 14124, 0, 0, 2048, 65, 0, 156, 255 }, // 0x0000EC68
+	 { -4913, -700, 14094, 0, 512, 2048, 243, 108, 207, 255 }, // 0x0000EC78
+	 { -4913, -500, 14094, 0, 512, 0, 225, 0, 141, 255 }, // 0x0000EC88
+	 { -4913, -500, 14094, 0, -2048, 0, 225, 0, 141, 255 }, // 0x0000EC98
+	 { -4913, -700, 14094, 0, -2048, 2048, 243, 108, 207, 255 }, // 0x0000ECA8
+	 { -5213, -700, 14614, 0, 3072, 2048, 180, 84, 218, 255 }, // 0x0000ECB8
+	 { -5213, -500, 14614, 0, 3072, 0, 153, 0, 196, 255 }, // 0x0000ECC8
+	 { -4661, -500, 13778, 0, 0, 0, 25, 69, 94, 255 }, // 0x0000ECD8
+	 { -4661, -700, 13778, 0, 0, 2048, 31, 0, 115, 255 }, // 0x0000ECE8
+	 { -4631, -700, 13726, 0, 512, 2048, 115, 0, 225, 255 }, // 0x0000ECF8
+	 { -4631, -500, 13726, 0, 512, 0, 94, 69, 231, 255 }, // 0x0000ED08
+	 { -4713, -500, 13748, 0, 0, 0, 162, 69, 25, 255 }, // 0x0000ED18
+	 { -4713, -700, 13748, 0, 0, 2048, 141, 0, 31, 255 }, // 0x0000ED28
+	 { -4661, -700, 13778, 0, 512, 2048, 31, 0, 115, 255 }, // 0x0000ED38
+	 { -4661, -500, 13778, 0, 512, 0, 25, 69, 94, 255 }, // 0x0000ED48
+	 { -4683, -500, 13696, 0, 0, 0, 231, 69, 162, 255 }, // 0x0000ED58
+	 { -4683, -700, 13696, 0, 0, 2048, 225, 0, 141, 255 }, // 0x0000ED68
+	 { -4713, -700, 13748, 0, 512, 2048, 141, 0, 31, 255 }, // 0x0000ED78
+	 { -4713, -500, 13748, 0, 512, 0, 162, 69, 25, 255 }, // 0x0000ED88
+	 { -4631, -500, 13726, 0, 0, 0, 94, 69, 231, 255 }, // 0x0000ED98
+	 { -4631, -700, 13726, 0, 0, 2048, 115, 0, 225, 255 }, // 0x0000EDA8
+	 { -4683, -700, 13696, 0, 512, 2048, 225, 0, 141, 255 }, // 0x0000EDB8
+	 { -4683, -500, 13696, 0, 512, 0, 231, 69, 162, 255 }, // 0x0000EDC8
+};
+
+Vtx_t _spot00_room_0_vertices_0000EDD8[8] = 
+{
+	 { -4631, -500, 13726, 0, 0, 2048, 94, 69, 231, 255 }, // 0x0000EDD8
+	 { -4683, -500, 13696, 0, 0, 2048, 231, 69, 162, 255 }, // 0x0000EDE8
+	 { -4713, -500, 13748, 0, 0, 2048, 162, 69, 25, 255 }, // 0x0000EDF8
+	 { -4661, -500, 13778, 0, 0, 2048, 25, 69, 94, 255 }, // 0x0000EE08
+	 { -5259, -505, 13894, 0, 0, 2048, 67, 98, 238, 255 }, // 0x0000EE18
+	 { -5519, -505, 13744, 0, 0, 2048, 231, 69, 162, 255 }, // 0x0000EE28
+	 { -5549, -505, 13796, 0, 0, 2048, 231, 69, 162, 255 }, // 0x0000EE38
+	 { -5341, -505, 13916, 0, 0, 2048, 67, 98, 238, 255 }, // 0x0000EE48
+};
+
+Vtx_t _spot00_room_0_vertices_0000EE58[16] = 
+{
+	 { -5259, -505, 13894, 0, -2048, 0, 67, 98, 238, 255 }, // 0x0000EE58
+	 { -5259, -700, 13894, 0, -2048, 2048, 49, 108, 243, 255 }, // 0x0000EE68
+	 { -5519, -700, 13744, 0, 512, 2048, 225, 0, 141, 255 }, // 0x0000EE78
+	 { -5519, -505, 13744, 0, 512, 0, 231, 69, 162, 255 }, // 0x0000EE88
+	 { -5519, -505, 13744, 0, 0, 0, 231, 69, 162, 255 }, // 0x0000EE98
+	 { -5519, -700, 13744, 0, 0, 2048, 225, 0, 141, 255 }, // 0x0000EEA8
+	 { -5549, -700, 13796, 0, 512, 2048, 238, 98, 189, 255 }, // 0x0000EEB8
+	 { -5549, -505, 13796, 0, 512, 0, 231, 69, 162, 255 }, // 0x0000EEC8
+	 { -5559, -505, 14414, 0, -2560, 0, 25, 69, 94, 255 }, // 0x0000EED8
+	 { -5559, -700, 14414, 0, -2560, 2048, 2, 110, 47, 255 }, // 0x0000EEE8
+	 { -5259, -700, 13894, 0, 2560, 2048, 49, 108, 243, 255 }, // 0x0000EEF8
+	 { -5259, -505, 13894, 0, 2560, 0, 67, 98, 238, 255 }, // 0x0000EF08
+	 { -5611, -505, 14384, 0, 0, 0, 25, 69, 94, 255 }, // 0x0000EF18
+	 { -5611, -700, 14384, 0, 0, 2048, 21, 66, 97, 255 }, // 0x0000EF28
+	 { -5559, -700, 14414, 0, 512, 2048, 2, 110, 47, 255 }, // 0x0000EF38
+	 { -5559, -505, 14414, 0, 512, 0, 25, 69, 94, 255 }, // 0x0000EF48
+};
+
+Vtx_t _spot00_room_0_vertices_0000EF58[4] = 
+{
+	 { -5259, -505, 13894, 0, 0, 2048, 67, 98, 238, 255 }, // 0x0000EF58
+	 { -5341, -505, 13916, 0, 0, 2048, 67, 98, 238, 255 }, // 0x0000EF68
+	 { -5611, -505, 14384, 0, 0, 2048, 25, 69, 94, 255 }, // 0x0000EF78
+	 { -5559, -505, 14414, 0, 0, 2048, 25, 69, 94, 255 }, // 0x0000EF88
+};
+
+Vtx_t _spot00_room_0_vertices_0000EF98[8] = 
+{
+	 { -5341, -320, 13916, 0, 0, 0, 115, 0, 225, 255 }, // 0x0000EF98
+	 { -5341, -505, 13916, 0, 0, 1434, 67, 98, 238, 255 }, // 0x0000EFA8
+	 { -5549, -505, 13796, 0, 2048, 1434, 231, 69, 162, 255 }, // 0x0000EFB8
+	 { -5549, -320, 13796, 0, 2048, 0, 60, 0, 153, 255 }, // 0x0000EFC8
+	 { -5611, -320, 14384, 0, -2048, 0, 103, 0, 60, 255 }, // 0x0000EFD8
+	 { -5611, -505, 14384, 0, -2048, 1434, 25, 69, 94, 255 }, // 0x0000EFE8
+	 { -5341, -505, 13916, 0, 2560, 1434, 67, 98, 238, 255 }, // 0x0000EFF8
+	 { -5341, -320, 13916, 0, 2560, 0, 115, 0, 225, 255 }, // 0x0000F008
+};
+
+Vtx_t _spot00_room_0_vertices_0000F018[4] = 
+{
+	 { -5029, -500, 13496, 0, 0, 2048, 94, 69, 231, 255 }, // 0x0000F018
+	 { -5081, -500, 13466, 0, 0, 2048, 231, 69, 162, 255 }, // 0x0000F028
+	 { -5111, -500, 13518, 0, 0, 2048, 162, 69, 25, 255 }, // 0x0000F038
+	 { -5059, -500, 13548, 0, 0, 2048, 25, 69, 94, 255 }, // 0x0000F048
+};
+
+Vtx_t _spot00_room_0_vertices_0000F058[16] = 
+{
+	 { -5029, -500, 13496, 0, 0, 0, 94, 69, 231, 255 }, // 0x0000F058
+	 { -5029, -700, 13496, 0, 0, 2048, 115, 0, 225, 255 }, // 0x0000F068
+	 { -5081, -700, 13466, 0, 512, 2048, 225, 0, 141, 255 }, // 0x0000F078
+	 { -5081, -500, 13466, 0, 512, 0, 231, 69, 162, 255 }, // 0x0000F088
+	 { -5081, -500, 13466, 0, 0, 0, 231, 69, 162, 255 }, // 0x0000F098
+	 { -5081, -700, 13466, 0, 0, 2048, 225, 0, 141, 255 }, // 0x0000F0A8
+	 { -5111, -700, 13518, 0, 512, 2048, 141, 0, 31, 255 }, // 0x0000F0B8
+	 { -5111, -500, 13518, 0, 512, 0, 162, 69, 25, 255 }, // 0x0000F0C8
+	 { -5111, -500, 13518, 0, 0, 0, 162, 69, 25, 255 }, // 0x0000F0D8
+	 { -5111, -700, 13518, 0, 0, 2048, 141, 0, 31, 255 }, // 0x0000F0E8
+	 { -5059, -700, 13548, 0, 512, 2048, 31, 0, 115, 255 }, // 0x0000F0F8
+	 { -5059, -500, 13548, 0, 512, 0, 25, 69, 94, 255 }, // 0x0000F108
+	 { -5059, -500, 13548, 0, 0, 0, 25, 69, 94, 255 }, // 0x0000F118
+	 { -5059, -700, 13548, 0, 0, 2048, 31, 0, 115, 255 }, // 0x0000F128
+	 { -5029, -700, 13496, 0, 512, 2048, 115, 0, 225, 255 }, // 0x0000F138
+	 { -5029, -500, 13496, 0, 512, 0, 94, 69, 231, 255 }, // 0x0000F148
+};
+
+Vtx_t _spot00_room_0_vertices_0000F158[8] = 
+{
+	 { -5044, -700, 13522, 0, 5632, 2048, 60, 0, 153, 255 }, // 0x0000F158
+	 { -5044, -620, 13522, 0, 5632, 0, 42, 84, 183, 255 }, // 0x0000F168
+	 { -4698, -620, 13722, 0, -4608, 0, 42, 84, 183, 255 }, // 0x0000F178
+	 { -4698, -700, 13722, 0, -4608, 2048, 60, 0, 153, 255 }, // 0x0000F188
+	 { -5370, -700, 14086, 0, 5632, 2048, 60, 0, 153, 255 }, // 0x0000F198
+	 { -5370, -620, 14086, 0, 5632, 0, 42, 84, 183, 255 }, // 0x0000F1A8
+	 { -5024, -620, 14286, 0, -4608, 0, 42, 84, 183, 255 }, // 0x0000F1B8
+	 { -5024, -700, 14286, 0, -4608, 2048, 60, 0, 153, 255 }, // 0x0000F1C8
+};
+
+Vtx_t _spot00_room_0_vertices_0000F1D8[16] = 
+{
+	 { -5546, -700, 13782, 0, 2048, 6144, 153, 0, 196, 255 }, // 0x0000F1D8
+	 { -5546, -505, 13782, 0, 2048, -7168, 153, 0, 196, 255 }, // 0x0000F1E8
+	 { -5530, -505, 13754, 0, 0, -7168, 153, 0, 196, 255 }, // 0x0000F1F8
+	 { -5530, -700, 13754, 0, 0, 6144, 153, 0, 196, 255 }, // 0x0000F208
+	 { -5546, -505, 13782, 0, 2048, 1024, 153, 0, 196, 255 }, // 0x0000F218
+	 { -5546, -490, 13782, 0, 2048, 350, 153, 0, 196, 255 }, // 0x0000F228
+	 { -5530, -490, 13754, 0, 0, 350, 153, 0, 196, 255 }, // 0x0000F238
+	 { -5530, -505, 13754, 0, 0, 1024, 153, 0, 196, 255 }, // 0x0000F248
+	 { -5574, -700, 14410, 0, 2048, 6144, 196, 0, 103, 255 }, // 0x0000F258
+	 { -5574, -505, 14410, 0, 2048, -7168, 196, 0, 103, 255 }, // 0x0000F268
+	 { -5601, -505, 14394, 0, 0, -7168, 196, 0, 103, 255 }, // 0x0000F278
+	 { -5601, -700, 14394, 0, 0, 6144, 196, 0, 103, 255 }, // 0x0000F288
+	 { -5574, -505, 14410, 0, 2048, 1024, 196, 0, 103, 255 }, // 0x0000F298
+	 { -5574, -490, 14410, 0, 2048, 350, 196, 0, 103, 255 }, // 0x0000F2A8
+	 { -5601, -490, 14394, 0, 0, 350, 196, 0, 103, 255 }, // 0x0000F2B8
+	 { -5601, -505, 14394, 0, 0, 1024, 196, 0, 103, 255 }, // 0x0000F2C8
+};
+
+Vtx_t _spot00_room_0_vertices_0000F2D8[10] = 
+{
+	 { -5710, -1026, 15485, 0, 8192, 2048, 237, 0, 138, 255 }, // 0x0000F2D8
+	 { -5710, -626, 15485, 0, 8192, 0, 237, 0, 138, 255 }, // 0x0000F2E8
+	 { -3720, -406, 15160, 0, 0, 0, 197, 0, 152, 255 }, // 0x0000F2F8
+	 { -3720, -1006, 15160, 0, 0, 2048, 197, 0, 152, 255 }, // 0x0000F308
+	 { -3720, -1006, 15160, 0, 8192, 2048, 197, 0, 152, 255 }, // 0x0000F318
+	 { -3720, -406, 15160, 0, 8192, 0, 197, 0, 152, 255 }, // 0x0000F328
+	 { -1472, -100, 14450, 0, 0, 0, 220, 0, 142, 255 }, // 0x0000F338
+	 { -1472, -500, 14450, 0, 0, 2048, 220, 0, 142, 255 }, // 0x0000F348
+	 { -2944, -300, 13600, 0, 0, 0, 149, 0, 203, 255 }, // 0x0000F358
+	 { -2944, -700, 13600, 0, 0, 2048, 149, 0, 203, 255 }, // 0x0000F368
+};
+
+Vtx_t _spot00_room_0_vertices_0000F378[8] = 
+{
+	 { -6525, -1382, 16404, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F378
+	 { -2691, -1382, 17799, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F388
+	 { -5181, -689, 12713, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F398
+	 { -1348, -689, 14108, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F3A8
+	 { -6565, -709, 16515, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F3B8
+	 { -2732, -709, 17911, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F3C8
+	 { -5222, -16, 12824, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F3D8
+	 { -1388, -16, 14220, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000F3E8
+};
+
+Gfx _spot00_room_0_dlist_0000F3F8[] =
+{
+	gsDPPipeSync(), // 0x0000F3F8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000F400
+	gsSPVertex(_spot00_room_0_vertices_0000F378, 8, 0), // 0x0000F408
+	gsSPCullDisplayList(0, 7), // 0x0000F410
+	gsDPPipeSync(), // 0x0000F418
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000F420
+	gsDPPipeSync(), // 0x0000F428
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000F430
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000F438
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000F440
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000F448
+	gsDPLoadSync(), // 0x0000F450
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000F458
+	gsDPPipeSync(), // 0x0000F460
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000F468
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000F470
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000F478
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000F480
+	gsDPLoadSync(), // 0x0000F488
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000F490
+	gsDPPipeSync(), // 0x0000F498
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000F4A0
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000F4A8
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000F4B0
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000F4B8
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000F4C0
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000F4C8
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000F4D0
+	gsSPVertex(_spot00_room_0_vertices_0000EA08, 11, 0), // 0x0000F4D8
+	gsSP2Triangles(0, 1, 2, 0, 2, 1, 3, 0), // 0x0000F4E0
+	gsSP2Triangles(2, 3, 4, 0, 4, 3, 5, 0), // 0x0000F4E8
+	gsSP2Triangles(3, 6, 5, 0, 7, 8, 9, 0), // 0x0000F4F0
+	gsSP2Triangles(7, 9, 5, 0, 5, 10, 4, 0), // 0x0000F4F8
+	gsDPPipeSync(), // 0x0000F500
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000F508
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000F510
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000F518
+	gsDPLoadSync(), // 0x0000F520
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000F528
+	gsDPPipeSync(), // 0x0000F530
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000F538
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000F540
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000F548
+	gsDPTileSync(), // 0x0000F550
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000F558
+	gsDPLoadSync(), // 0x0000F560
+	gsDPLoadTLUTCmd(7, 15), // 0x0000F568
+	gsDPPipeSync(), // 0x0000F570
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000F578
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000F580
+	gsSPVertex(_spot00_room_0_vertices_0000EAB8, 26, 0), // 0x0000F588
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F590
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F598
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000F5A0
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000F5A8
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x0000F5B0
+	gsSP2Triangles(20, 16, 19, 0, 21, 22, 23, 0), // 0x0000F5B8
+	gsSP2Triangles(21, 23, 24, 0, 22, 25, 23, 0), // 0x0000F5C0
+	gsDPPipeSync(), // 0x0000F5C8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000F5D0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00021818), // 0x0000F5D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 4, 0), // 0x0000F5E0
+	gsDPLoadSync(), // 0x0000F5E8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000F5F0
+	gsDPPipeSync(), // 0x0000F5F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 0, 4, 0), // 0x0000F600
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000F608
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000F610
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000F618
+	gsSPVertex(_spot00_room_0_vertices_0000EC58, 24, 0), // 0x0000F620
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F628
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F630
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000F638
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000F640
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x0000F648
+	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0), // 0x0000F650
+	gsDPPipeSync(), // 0x0000F658
+	gsSPTexture(0, 0, 0, 0, 0), // 0x0000F660
+	gsDPSetCombineLERP(SHADE, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, 1, K5, K5, 0, COMBINED, 0, 0, 0, COMBINED), // 0x0000F668
+	gsDPSetPrimColor(0, 0, 223, 223, 214, 255), // 0x0000F670
+	gsSPVertex(_spot00_room_0_vertices_0000EDD8, 8, 0), // 0x0000F678
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F680
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F688
+	gsDPPipeSync(), // 0x0000F690
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000F698
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00021818), // 0x0000F6A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 4, 0), // 0x0000F6A8
+	gsDPLoadSync(), // 0x0000F6B0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000F6B8
+	gsDPPipeSync(), // 0x0000F6C0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 0, 4, 0), // 0x0000F6C8
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000F6D0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000F6D8
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000F6E0
+	gsSPVertex(_spot00_room_0_vertices_0000EE58, 16, 0), // 0x0000F6E8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F6F0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F6F8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000F700
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000F708
+	gsDPPipeSync(), // 0x0000F710
+	gsSPTexture(0, 0, 0, 0, 0), // 0x0000F718
+	gsDPSetCombineLERP(SHADE, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, 1, K5, K5, 0, COMBINED, 0, 0, 0, COMBINED), // 0x0000F720
+	gsDPSetPrimColor(0, 0, 223, 223, 214, 255), // 0x0000F728
+	gsSPVertex(_spot00_room_0_vertices_0000EF58, 4, 0), // 0x0000F730
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F738
+	gsDPPipeSync(), // 0x0000F740
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000F748
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00021818), // 0x0000F750
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 4, 0), // 0x0000F758
+	gsDPLoadSync(), // 0x0000F760
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000F768
+	gsDPPipeSync(), // 0x0000F770
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 0, 4, 0), // 0x0000F778
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000F780
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000F788
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000F790
+	gsSPVertex(_spot00_room_0_vertices_0000EF98, 8, 0), // 0x0000F798
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F7A0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F7A8
+	gsDPPipeSync(), // 0x0000F7B0
+	gsSPTexture(0, 0, 0, 0, 0), // 0x0000F7B8
+	gsDPSetCombineLERP(SHADE, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, 1, K5, K5, 0, COMBINED, 0, 0, 0, COMBINED), // 0x0000F7C0
+	gsDPSetPrimColor(0, 0, 223, 223, 214, 255), // 0x0000F7C8
+	gsSPVertex(_spot00_room_0_vertices_0000F018, 4, 0), // 0x0000F7D0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F7D8
+	gsDPPipeSync(), // 0x0000F7E0
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000F7E8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00021818), // 0x0000F7F0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 4, 0), // 0x0000F7F8
+	gsDPLoadSync(), // 0x0000F800
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000F808
+	gsDPPipeSync(), // 0x0000F810
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 0, 4, 0), // 0x0000F818
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000F820
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000F828
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000F830
+	gsSPVertex(_spot00_room_0_vertices_0000F058, 16, 0), // 0x0000F838
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F840
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F848
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000F850
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000F858
+	gsDPPipeSync(), // 0x0000F860
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00021018), // 0x0000F868
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 4, 0), // 0x0000F870
+	gsDPLoadSync(), // 0x0000F878
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000F880
+	gsDPPipeSync(), // 0x0000F888
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 6, 0, 0, 4, 0), // 0x0000F890
+	gsDPSetTileSize(0, 0, 0, 60, 252), // 0x0000F898
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000F8A0
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000F8A8
+	gsSPGeometryMode(0xFF000400, 0x00000000), // 0x0000F8B0
+	gsSPVertex(_spot00_room_0_vertices_0000F158, 8, 0), // 0x0000F8B8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F8C0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F8C8
+	gsDPPipeSync(), // 0x0000F8D0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001C998), // 0x0000F8D8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 1, 5, 0), // 0x0000F8E0
+	gsDPLoadSync(), // 0x0000F8E8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000F8F0
+	gsDPPipeSync(), // 0x0000F8F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 0, 1, 5, 0), // 0x0000F900
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000F908
+	gsSPVertex(_spot00_room_0_vertices_0000F1D8, 16, 0), // 0x0000F910
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F918
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F920
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x0000F928
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x0000F930
+	gsDPPipeSync(), // 0x0000F938
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000F940
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000F948
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000F950
+	gsDPLoadSync(), // 0x0000F958
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000F960
+	gsDPPipeSync(), // 0x0000F968
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000F970
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000F978
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000F980
+	gsDPTileSync(), // 0x0000F988
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000F990
+	gsDPLoadSync(), // 0x0000F998
+	gsDPLoadTLUTCmd(7, 15), // 0x0000F9A0
+	gsDPPipeSync(), // 0x0000F9A8
+	gsSPGeometryMode(0xFF000000, 0x00000400), // 0x0000F9B0
+	gsSPVertex(_spot00_room_0_vertices_0000F2D8, 10, 0), // 0x0000F9B8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000F9C0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000F9C8
+	gsSP2Triangles(4, 5, 8, 0, 4, 8, 9, 0), // 0x0000F9D0
+	gsSPEndDisplayList(), // 0x0000F9D8
+};
+
+Vtx_t _spot00_room_0_vertices_0000F9E0[7] = 
+{
+	 { -1472, -500, 12750, 0, 3821, 2304, 0, 120, 0, 255 }, // 0x0000F9E0
+	 { -1472, -500, 11050, 0, 3821, -12203, 4, 119, 7, 255 }, // 0x0000F9F0
+	 { -2944, -500, 11900, 0, -8742, -4949, 3, 119, 6, 255 }, // 0x0000FA00
+	 { -2944, -500, 13600, 0, -8742, 9557, 0, 120, 0, 255 }, // 0x0000FA10
+	 { -1472, -500, 14450, 0, 3821, 16811, 0, 90, 178, 255 }, // 0x0000FA20
+	 { 0, -500, 13600, 0, 16384, 9557, 243, 108, 206, 255 }, // 0x0000FA30
+	 { 0, -500, 11900, 0, 16384, -4949, 252, 119, 2, 255 }, // 0x0000FA40
+};
+
+Vtx_t _spot00_room_0_vertices_0000FA50[8] = 
+{
+	 { -2944, -500, 13600, 0, 8192, 1024, 0, 120, 0, 255 }, // 0x0000FA50
+	 { -2944, -300, 13600, 0, 8192, 0, 0, 0, 136, 255 }, // 0x0000FA60
+	 { -1472, -100, 14450, 0, 0, 0, 0, 0, 136, 255 }, // 0x0000FA70
+	 { -1472, -500, 14450, 0, 0, 2048, 0, 90, 178, 255 }, // 0x0000FA80
+	 { -1472, -500, 14450, 0, 8192, 2048, 0, 90, 178, 255 }, // 0x0000FA90
+	 { -1472, -100, 14450, 0, 8192, 0, 0, 0, 136, 255 }, // 0x0000FAA0
+	 { 0, -100, 13600, 0, 0, 0, 225, 0, 141, 255 }, // 0x0000FAB0
+	 { 0, -500, 13600, 0, 0, 2048, 243, 108, 206, 255 }, // 0x0000FAC0
+};
+
+Vtx_t _spot00_room_0_vertices_0000FAD0[8] = 
+{
+	 { -2944, -500, 11050, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FAD0
+	 { 0, -500, 11050, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FAE0
+	 { -2944, -100, 11050, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FAF0
+	 { 0, -100, 11050, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FB00
+	 { -2944, -500, 14450, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FB10
+	 { 0, -500, 14450, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FB20
+	 { -2944, -100, 14450, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FB30
+	 { 0, -100, 14450, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FB40
+};
+
+Gfx _spot00_room_0_dlist_0000FB50[] =
+{
+	gsDPPipeSync(), // 0x0000FB50
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000FB58
+	gsSPVertex(_spot00_room_0_vertices_0000FAD0, 8, 0), // 0x0000FB60
+	gsSPCullDisplayList(0, 7), // 0x0000FB68
+	gsDPPipeSync(), // 0x0000FB70
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000FB78
+	gsDPPipeSync(), // 0x0000FB80
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000FB88
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000FB90
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000FB98
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000FBA0
+	gsDPLoadSync(), // 0x0000FBA8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000FBB0
+	gsDPPipeSync(), // 0x0000FBB8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000FBC0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000FBC8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000FBD0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000FBD8
+	gsDPLoadSync(), // 0x0000FBE0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000FBE8
+	gsDPPipeSync(), // 0x0000FBF0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000FBF8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000FC00
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000FC08
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000FC10
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000FC18
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000FC20
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000FC28
+	gsSPVertex(_spot00_room_0_vertices_0000F9E0, 7, 0), // 0x0000FC30
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x0000FC38
+	gsSP2Triangles(3, 4, 0, 0, 0, 4, 5, 0), // 0x0000FC40
+	gsSP2Triangles(5, 6, 0, 0, 1, 0, 6, 0), // 0x0000FC48
+	gsDPPipeSync(), // 0x0000FC50
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000FC58
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000FC60
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000FC68
+	gsDPLoadSync(), // 0x0000FC70
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000FC78
+	gsDPPipeSync(), // 0x0000FC80
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000FC88
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000FC90
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000FC98
+	gsDPTileSync(), // 0x0000FCA0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000FCA8
+	gsDPLoadSync(), // 0x0000FCB0
+	gsDPLoadTLUTCmd(7, 15), // 0x0000FCB8
+	gsDPPipeSync(), // 0x0000FCC0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000FCC8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x0000FCD0
+	gsSPVertex(_spot00_room_0_vertices_0000FA50, 8, 0), // 0x0000FCD8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x0000FCE0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x0000FCE8
+	gsSPEndDisplayList(), // 0x0000FCF0
+};
+
+Vtx_t _spot00_room_0_vertices_0000FCF8[6] = 
+{
+	 { 1472, -500, 12750, 0, 4371, 2304, 0, 119, 6, 255 }, // 0x0000FCF8
+	 { 1472, -300, 11050, 0, 4371, -12203, 208, 104, 32, 255 }, // 0x0000FD08
+	 { 0, -500, 11900, 0, -8192, -4949, 252, 119, 2, 255 }, // 0x0000FD18
+	 { 0, -500, 13600, 0, -8192, 9557, 243, 108, 206, 255 }, // 0x0000FD28
+	 { 1472, -500, 13600, 0, 4371, 9557, 223, 88, 183, 255 }, // 0x0000FD38
+	 { 2944, -500, 11900, 0, 16934, -4949, 195, 102, 17, 255 }, // 0x0000FD48
+};
+
+Vtx_t _spot00_room_0_vertices_0000FD58[12] = 
+{
+	 { 0, -500, 13600, 0, 8192, 2048, 243, 108, 206, 255 }, // 0x0000FD58
+	 { 0, -100, 13600, 0, 8192, 0, 225, 0, 141, 255 }, // 0x0000FD68
+	 { 1472, -100, 13600, 0, 0, 0, 206, 0, 147, 255 }, // 0x0000FD78
+	 { 1472, -500, 13600, 0, 0, 2048, 223, 88, 183, 255 }, // 0x0000FD88
+	 { 1472, -500, 13600, 0, 8192, 2048, 223, 88, 183, 255 }, // 0x0000FD98
+	 { 1472, -100, 13600, 0, 8192, 0, 206, 0, 147, 255 }, // 0x0000FDA8
+	 { 2944, -100, 11900, 0, 0, 0, 138, 0, 20, 255 }, // 0x0000FDB8
+	 { 2944, -500, 11900, 0, 0, 2048, 195, 102, 17, 255 }, // 0x0000FDC8
+	 { 2944, -500, 11900, 0, 10240, 2048, 195, 102, 17, 255 }, // 0x0000FDD8
+	 { 2944, -100, 11900, 0, 10240, 0, 138, 0, 20, 255 }, // 0x0000FDE8
+	 { 1472, 100, 11050, 0, 0, 0, 153, 0, 60, 255 }, // 0x0000FDF8
+	 { 1472, -300, 11050, 0, 0, 2048, 208, 104, 32, 255 }, // 0x0000FE08
+};
+
+Vtx_t _spot00_room_0_vertices_0000FE18[8] = 
+{
+	 { 1217, -500, 10450, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE18
+	 { 2944, -500, 11900, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE28
+	 { 1217, 100, 10450, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE38
+	 { 2944, 100, 11900, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE48
+	 { -837, -500, 12898, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE58
+	 { 891, -500, 14347, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE68
+	 { -837, 100, 12898, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE78
+	 { 891, 100, 14347, 0, 0, 0, 0, 0, 0, 0 }, // 0x0000FE88
+};
+
+Gfx _spot00_room_0_dlist_0000FE98[] =
+{
+	gsDPPipeSync(), // 0x0000FE98
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x0000FEA0
+	gsSPVertex(_spot00_room_0_vertices_0000FE18, 8, 0), // 0x0000FEA8
+	gsSPCullDisplayList(0, 7), // 0x0000FEB0
+	gsDPPipeSync(), // 0x0000FEB8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x0000FEC0
+	gsDPPipeSync(), // 0x0000FEC8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x0000FED0
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x0000FED8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001AB98), // 0x0000FEE0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 3, 0, 5, 3), // 0x0000FEE8
+	gsDPLoadSync(), // 0x0000FEF0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000FEF8
+	gsDPPipeSync(), // 0x0000FF00
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 3, 0, 5, 3), // 0x0000FF08
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x0000FF10
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001B398), // 0x0000FF18
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 256, 7, 0, 0, 5, 15, 0, 5, 15), // 0x0000FF20
+	gsDPLoadSync(), // 0x0000FF28
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x0000FF30
+	gsDPPipeSync(), // 0x0000FF38
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 256, 1, 0, 0, 5, 15, 0, 5, 15), // 0x0000FF40
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x0000FF48
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x0000FF50
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x0000FF58
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x0000FF60
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x0000FF68
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x0000FF70
+	gsSPVertex(_spot00_room_0_vertices_0000FCF8, 6, 0), // 0x0000FF78
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 0, 0), // 0x0000FF80
+	gsSP2Triangles(3, 4, 0, 0, 0, 4, 5, 0), // 0x0000FF88
+	gsSP1Triangle(1, 0, 5, 0), // 0x0000FF90
+	gsDPPipeSync(), // 0x0000FF98
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x0000FFA0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024818), // 0x0000FFA8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x0000FFB0
+	gsDPLoadSync(), // 0x0000FFB8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x0000FFC0
+	gsDPPipeSync(), // 0x0000FFC8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x0000FFD0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x0000FFD8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00013D70), // 0x0000FFE0
+	gsDPTileSync(), // 0x0000FFE8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x0000FFF0
+	gsDPLoadSync(), // 0x0000FFF8
+	gsDPLoadTLUTCmd(7, 15), // 0x00010000
+	gsDPPipeSync(), // 0x00010008
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00010010
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00010018
+	gsSPVertex(_spot00_room_0_vertices_0000FD58, 12, 0), // 0x00010020
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00010028
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00010030
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00010038
+	gsSPEndDisplayList(), // 0x00010040
+};
+
+Vtx_t _spot00_room_0_vertices_00010048[12] = 
+{
+	 { 340, 340, 680, 0, 1024, 2048, 0, 53, 107, 255 }, // 0x00010048
+	 { 180, 620, 680, 0, 0, 0, 0, 53, 107, 255 }, // 0x00010058
+	 { 180, 340, 680, 0, 0, 2048, 0, 38, 113, 255 }, // 0x00010068
+	 { 340, 620, 680, 0, 1024, 0, 0, 84, 84, 255 }, // 0x00010078
+	 { 340, 340, 520, 0, 1024, 2048, 120, 0, 0, 255 }, // 0x00010088
+	 { 340, 620, 520, 0, 1024, 0, 84, 84, 0, 255 }, // 0x00010098
+	 { 340, 620, 680, 0, 0, 0, 84, 84, 0, 255 }, // 0x000100A8
+	 { 340, 340, 680, 0, 0, 2048, 120, 0, 0, 255 }, // 0x000100B8
+	 { -180, 340, 680, 0, 1024, 2048, 0, 38, 113, 255 }, // 0x000100C8
+	 { -180, 620, 680, 0, 1024, 0, 0, 53, 107, 255 }, // 0x000100D8
+	 { -340, 340, 680, 0, 0, 2048, 0, 53, 107, 255 }, // 0x000100E8
+	 { -340, 620, 680, 0, 0, 0, 0, 84, 84, 255 }, // 0x000100F8
+};
+
+Vtx_t _spot00_room_0_vertices_00010108[8] = 
+{
+	 { 340, 20, 680, 0, 0, 2048, 0, 0, 120, 255 }, // 0x00010108
+	 { 660, 20, 680, 0, 2048, 2048, 0, 0, 120, 255 }, // 0x00010118
+	 { 660, 340, 680, 0, 2048, 0, 0, 84, 84, 255 }, // 0x00010128
+	 { 340, 340, 680, 0, 0, 0, 0, 53, 107, 255 }, // 0x00010138
+	 { -340, 340, 680, 0, 2048, 0, 0, 53, 107, 255 }, // 0x00010148
+	 { -660, 340, 680, 0, 0, 0, 0, 53, 107, 255 }, // 0x00010158
+	 { -340, 20, 680, 0, 2048, 2048, 0, 0, 120, 255 }, // 0x00010168
+	 { -660, 20, 680, 0, 0, 2048, 0, 0, 120, 255 }, // 0x00010178
+};
+
+Vtx_t _spot00_room_0_vertices_00010188[12] = 
+{
+	 { -340, 620, 520, 0, 0, 0, 172, 84, 0, 255 }, // 0x00010188
+	 { -340, 340, 520, 0, 0, 2048, 136, 0, 0, 255 }, // 0x00010198
+	 { -340, 340, 680, 0, 1024, 2048, 136, 0, 0, 255 }, // 0x000101A8
+	 { -340, 620, 680, 0, 1024, 0, 172, 84, 0, 255 }, // 0x000101B8
+	 { 180, 620, 520, 0, 0, 0, 149, 53, 0, 255 }, // 0x000101C8
+	 { 180, 518, 600, 0, 512, 748, 136, 0, 0, 255 }, // 0x000101D8
+	 { 180, 620, 680, 0, 1024, 0, 149, 53, 0, 255 }, // 0x000101E8
+	 { 180, 518, 520, 0, 0, 748, 136, 0, 0, 255 }, // 0x000101F8
+	 { -180, 518, 600, 0, 512, 748, 120, 0, 0, 255 }, // 0x00010208
+	 { -180, 620, 520, 0, 1024, 0, 107, 53, 0, 255 }, // 0x00010218
+	 { -180, 620, 680, 0, 0, 0, 107, 53, 0, 255 }, // 0x00010228
+	 { -180, 518, 520, 0, 1024, 748, 120, 0, 0, 255 }, // 0x00010238
+};
+
+Vtx_t _spot00_room_0_vertices_00010248[12] = 
+{
+	 { 180, 340, 600, 0, 1536, 0, 143, 228, 28, 255 }, // 0x00010248
+	 { 180, 20, 360, 0, 0, 2048, 136, 0, 0, 255 }, // 0x00010258
+	 { 180, 20, 680, 0, 2048, 2048, 136, 0, 0, 255 }, // 0x00010268
+	 { 180, 340, 360, 0, 0, 0, 172, 172, 0, 255 }, // 0x00010278
+	 { -180, 20, 360, 0, 2048, 2048, 120, 0, 0, 255 }, // 0x00010288
+	 { -180, 340, 600, 0, 512, 0, 113, 228, 28, 255 }, // 0x00010298
+	 { -180, 20, 680, 0, 0, 2048, 120, 0, 0, 255 }, // 0x000102A8
+	 { -180, 340, 360, 0, 2048, 0, 84, 172, 0, 255 }, // 0x000102B8
+	 { 1113, 20, 227, 0, 4096, 2048, 84, 0, 84, 255 }, // 0x000102C8
+	 { 1113, 340, 227, 0, 4096, 0, 60, 84, 60, 255 }, // 0x000102D8
+	 { 660, 340, 680, 0, 0, 0, 60, 84, 60, 255 }, // 0x000102E8
+	 { 660, 20, 680, 0, 0, 2048, 84, 0, 84, 255 }, // 0x000102F8
+};
+
+Vtx_t _spot00_room_0_vertices_00010308[4] = 
+{
+	 { 180, 340, 600, 0, 512, 2048, 143, 228, 28, 255 }, // 0x00010308
+	 { 180, 340, 680, 0, 1024, 2048, 136, 0, 0, 255 }, // 0x00010318
+	 { 180, 518, 600, 0, 512, 748, 136, 0, 0, 255 }, // 0x00010328
+	 { 180, 620, 680, 0, 1024, 0, 149, 53, 0, 255 }, // 0x00010338
+};
+
+Vtx_t _spot00_room_0_vertices_00010348[3] = 
+{
+	 { 180, 340, 600, 0, 1536, 0, 143, 228, 28, 255 }, // 0x00010348
+	 { 180, 20, 680, 0, 2048, 2048, 136, 0, 0, 255 }, // 0x00010358
+	 { 180, 340, 680, 0, 2048, 0, 136, 0, 0, 255 }, // 0x00010368
+};
+
+Vtx_t _spot00_room_0_vertices_00010378[4] = 
+{
+	 { -180, 340, 600, 0, 512, 2048, 113, 228, 28, 255 }, // 0x00010378
+	 { -180, 518, 600, 0, 512, 748, 120, 0, 0, 255 }, // 0x00010388
+	 { -180, 340, 680, 0, 0, 2048, 120, 0, 0, 255 }, // 0x00010398
+	 { -180, 620, 680, 0, 0, 0, 107, 53, 0, 255 }, // 0x000103A8
+};
+
+Vtx_t _spot00_room_0_vertices_000103B8[3] = 
+{
+	 { -180, 20, 680, 0, 0, 2048, 120, 0, 0, 255 }, // 0x000103B8
+	 { -180, 340, 600, 0, 512, 0, 113, 228, 28, 255 }, // 0x000103C8
+	 { -180, 340, 680, 0, 0, 0, 120, 0, 0, 255 }, // 0x000103D8
+};
+
+Vtx_t _spot00_room_0_vertices_000103E8[8] = 
+{
+	 { 180, 340, 600, 0, 2048, 1991, 0, 172, 84, 255 }, // 0x000103E8
+	 { -180, 340, 600, 0, 0, 1991, 0, 172, 84, 255 }, // 0x000103F8
+	 { -180, 340, 360, 0, 0, 626, 0, 136, 0, 255 }, // 0x00010408
+	 { 180, 340, 360, 0, 2048, 626, 0, 136, 0, 255 }, // 0x00010418
+	 { -180, 398, 600, 0, 0, 1626, 0, 0, 120, 255 }, // 0x00010428
+	 { -180, 340, 600, 0, 0, 2048, 0, 0, 120, 255 }, // 0x00010438
+	 { 180, 340, 600, 0, 2048, 2048, 0, 0, 120, 255 }, // 0x00010448
+	 { 180, 398, 600, 0, 2048, 1626, 0, 0, 120, 255 }, // 0x00010458
+};
+
+Vtx_t _spot00_room_0_vertices_00010468[28] = 
+{
+	 { 1056, 300, 171, 0, 8157, 2048, 52, 0, 107, 255 }, // 0x00010468
+	 { 1056, 500, 171, 0, 8157, 0, 37, 84, 76, 255 }, // 0x00010478
+	 { 340, 500, 520, 0, 0, 0, 37, 84, 76, 255 }, // 0x00010488
+	 { 340, 300, 520, 0, 0, 2048, 52, 0, 107, 255 }, // 0x00010498
+	 { -660, 340, 680, 0, 2048, 0, 60, 84, 60, 255 }, // 0x000104A8
+	 { -860, 340, 880, 0, 0, 0, 60, 84, 60, 255 }, // 0x000104B8
+	 { -860, 20, 880, 0, 0, 2048, 84, 0, 84, 255 }, // 0x000104C8
+	 { -660, 20, 680, 0, 2048, 2048, 84, 0, 84, 255 }, // 0x000104D8
+	 { -860, 20, 880, 0, 4096, 2048, 172, 0, 84, 255 }, // 0x000104E8
+	 { -860, 340, 880, 0, 4096, 0, 196, 84, 60, 255 }, // 0x000104F8
+	 { -1539, 340, 201, 0, -2048, 0, 196, 84, 60, 255 }, // 0x00010508
+	 { -1539, 20, 201, 0, -2048, 2048, 172, 0, 84, 255 }, // 0x00010518
+	 { -340, 300, 520, 0, 6144, 2048, 0, 0, 120, 255 }, // 0x00010528
+	 { -340, 500, 520, 0, 6144, 0, 0, 84, 84, 255 }, // 0x00010538
+	 { -740, 500, 520, 0, 2048, 0, 0, 84, 84, 255 }, // 0x00010548
+	 { -740, 300, 520, 0, 2048, 2048, 0, 0, 120, 255 }, // 0x00010558
+	 { -740, 500, 520, 0, 2048, 0, 60, 84, 60, 255 }, // 0x00010568
+	 { -881, 500, 661, 0, 0, 0, 60, 84, 60, 255 }, // 0x00010578
+	 { -881, 300, 661, 0, 0, 2048, 84, 0, 84, 255 }, // 0x00010588
+	 { -740, 300, 520, 0, 2048, 2048, 84, 0, 84, 255 }, // 0x00010598
+	 { -881, 300, 661, 0, 10240, 2048, 172, 0, 84, 255 }, // 0x000105A8
+	 { -881, 500, 661, 0, 10240, 0, 196, 84, 60, 255 }, // 0x000105B8
+	 { -1907, 500, -365, 0, -4096, 0, 196, 84, 60, 255 }, // 0x000105C8
+	 { -1907, 300, -365, 0, -4096, 2048, 172, 0, 84, 255 }, // 0x000105D8
+	 { -1539, 20, 201, 0, 4096, 2048, 84, 0, 84, 255 }, // 0x000105E8
+	 { -1539, 340, 201, 0, 4096, 0, 60, 84, 60, 255 }, // 0x000105F8
+	 { -1991, 340, 654, 0, 0, 0, 60, 84, 60, 255 }, // 0x00010608
+	 { -1991, 20, 654, 0, 0, 2048, 84, 0, 84, 255 }, // 0x00010618
+};
+
+Vtx_t _spot00_room_0_vertices_00010628[8] = 
+{
+	 { -180, -20, 1080, 0, 1536, 375, 187, 69, 187, 255 }, // 0x00010628
+	 { -180, 0, 1080, 0, 1536, 250, 36, 36, 148, 255 }, // 0x00010638
+	 { 180, 0, 1080, 0, 0, 250, 220, 36, 148, 255 }, // 0x00010648
+	 { 180, -20, 1080, 0, 0, 375, 69, 69, 187, 255 }, // 0x00010658
+	 { 660, -140, 680, 0, 8192, 1024, 21, 87, 79, 255 }, // 0x00010668
+	 { 180, -20, 680, 0, 5213, 256, 216, 28, 109, 255 }, // 0x00010678
+	 { -180, -20, 680, 0, 2979, 256, 40, 28, 109, 255 }, // 0x00010688
+	 { -660, -140, 680, 0, 0, 1024, 25, 69, 94, 255 }, // 0x00010698
+};
+
+Vtx_t _spot00_room_0_vertices_000106A8[7] = 
+{
+	 { -180, -140, 1040, 0, 0, 896, 228, 113, 228, 255 }, // 0x000106A8
+	 { -660, -140, 680, 0, -3072, -256, 25, 69, 94, 255 }, // 0x000106B8
+	 { -860, -140, 880, 0, -4352, 384, 0, 108, 51, 255 }, // 0x000106C8
+	 { -886, -140, 1080, 0, -4520, 1024, 24, 102, 198, 255 }, // 0x000106D8
+	 { 180, -140, 1040, 0, 2304, 896, 36, 108, 220, 255 }, // 0x000106E8
+	 { 660, -140, 680, 0, 5376, -256, 21, 87, 79, 255 }, // 0x000106F8
+	 { 793, -140, 1080, 0, 6224, 1024, 232, 102, 198, 255 }, // 0x00010708
+};
+
+Vtx_t _spot00_room_0_vertices_00010718[8] = 
+{
+	 { 180, -20, 680, 0, 5213, 256, 216, 28, 109, 255 }, // 0x00010718
+	 { 660, -140, 680, 0, 8192, 1024, 21, 87, 79, 255 }, // 0x00010728
+	 { 660, 20, 680, 0, 8192, 0, 46, 0, 110, 255 }, // 0x00010738
+	 { 180, 20, 680, 0, 5213, 0, 149, 0, 53, 255 }, // 0x00010748
+	 { -660, 20, 680, 0, 0, 0, 46, 0, 110, 255 }, // 0x00010758
+	 { -660, -140, 680, 0, 0, 1024, 25, 69, 94, 255 }, // 0x00010768
+	 { -180, -20, 680, 0, 2979, 256, 40, 28, 109, 255 }, // 0x00010778
+	 { -180, 20, 680, 0, 2979, 0, 107, 0, 53, 255 }, // 0x00010788
+};
+
+Vtx_t _spot00_room_0_vertices_00010798[8] = 
+{
+	 { -1822, -140, -82, 0, 945, 1536, 193, 3, 101, 255 }, // 0x00010798
+	 { -1539, -45, 201, 0, 945, -1024, 40, 212, 104, 255 }, // 0x000107A8
+	 { -1652, -45, 314, 0, -79, -1024, 116, 1, 27, 255 }, // 0x000107B8
+	 { -1935, -140, 31, 0, -79, 1536, 101, 3, 193, 255 }, // 0x000107C8
+	 { -1935, -140, 31, 0, -11231, -2331, 101, 3, 193, 255 }, // 0x000107D8
+	 { -1652, -140, 314, 0, -9421, -1426, 84, 80, 228, 255 }, // 0x000107E8
+	 { -1539, -140, 201, 0, -8696, -1788, 228, 80, 84, 255 }, // 0x000107F8
+	 { -1822, -140, -82, 0, -10507, -2693, 193, 3, 101, 255 }, // 0x00010808
+};
+
+Vtx_t _spot00_room_0_vertices_00010818[8] = 
+{
+	 { -1539, -140, 201, 0, 1024, 1024, 228, 80, 84, 255 }, // 0x00010818
+	 { -1539, -45, 201, 0, 1024, 288, 40, 212, 104, 255 }, // 0x00010828
+	 { -1822, -25, -82, 0, -1536, 288, 172, 0, 84, 255 }, // 0x00010838
+	 { -1822, -140, -82, 0, -1536, 1024, 193, 3, 101, 255 }, // 0x00010848
+	 { -1652, -140, 314, 0, 0, 1024, 84, 80, 228, 255 }, // 0x00010858
+	 { -1935, -140, 31, 0, 2560, 1024, 101, 3, 193, 255 }, // 0x00010868
+	 { -1935, -25, 31, 0, 2560, 288, 84, 0, 172, 255 }, // 0x00010878
+	 { -1652, -45, 314, 0, 0, 288, 116, 1, 27, 255 }, // 0x00010888
+};
+
+Vtx_t _spot00_room_0_vertices_00010898[4] = 
+{
+	 { 1113, -140, 227, 0, 8272, -1704, 28, 80, 84, 255 }, // 0x00010898
+	 { 1379, -140, 494, 0, 9976, -852, 218, 107, 218, 255 }, // 0x000108A8
+	 { 1577, -140, 296, 0, 11244, -1486, 186, 66, 70, 255 }, // 0x000108B8
+	 { 1311, -140, 29, 0, 9539, -2338, 0, 69, 98, 255 }, // 0x000108C8
+};
+
+Vtx_t _spot00_room_0_vertices_000108D8[4] = 
+{
+	 { 1113, -140, 227, 0, -1024, 1024, 28, 80, 84, 255 }, // 0x000108D8
+	 { 1311, -140, 29, 0, 768, 1024, 0, 69, 98, 255 }, // 0x000108E8
+	 { 1311, -25, 29, 0, 768, 288, 0, 187, 98, 255 }, // 0x000108F8
+	 { 1113, -25, 227, 0, -1024, 288, 222, 207, 103, 255 }, // 0x00010908
+};
+
+Vtx_t _spot00_room_0_vertices_00010918[4] = 
+{
+	 { 1577, -25, 296, 0, 1898, 1536, 196, 172, 60, 255 }, // 0x00010918
+	 { 1379, -25, 494, 0, 1898, -256, 172, 0, 84, 255 }, // 0x00010928
+	 { 1113, -25, 227, 0, -512, -256, 222, 207, 103, 255 }, // 0x00010938
+	 { 1311, -25, 29, 0, -512, 1536, 0, 187, 98, 255 }, // 0x00010948
+};
+
+Vtx_t _spot00_room_0_vertices_00010958[9] = 
+{
+	 { -1539, -45, 201, 0, 2048, 416, 40, 212, 104, 255 }, // 0x00010958
+	 { -1539, 20, 201, 0, 2048, 0, 23, 0, 117, 255 }, // 0x00010968
+	 { -1737, 0, 399, 0, 256, 128, 85, 51, 66, 255 }, // 0x00010978
+	 { -1652, -45, 314, 0, 1024, 416, 116, 1, 27, 255 }, // 0x00010988
+	 { 1282, -140, 397, 0, 512, 1024, 143, 0, 218, 255 }, // 0x00010998
+	 { 1169, -140, 510, 0, 1536, 1024, 136, 0, 0, 255 }, // 0x000109A8
+	 { 1169, -45, 510, 0, 1536, 416, 158, 69, 0, 255 }, // 0x000109B8
+	 { 1226, -45, 454, 0, 1024, 416, 154, 36, 205, 255 }, // 0x000109C8
+	 { 1282, -25, 397, 0, 512, 288, 145, 26, 37, 255 }, // 0x000109D8
+};
+
+Vtx_t _spot00_room_0_vertices_000109E8[29] = 
+{
+	 { 1113, 20, 227, 0, 0, 1024, 233, 0, 117, 255 }, // 0x000109E8
+	 { 1113, -25, 227, 0, 0, 1312, 222, 207, 103, 255 }, // 0x000109F8
+	 { 1282, -25, 397, 0, 1305, 1312, 145, 26, 37, 255 }, // 0x00010A08
+	 { -180, 0, 360, 0, 2979, -64, 38, 113, 0, 255 }, // 0x00010A18
+	 { 180, 0, 360, 0, 5213, -64, 218, 113, 0, 255 }, // 0x00010A28
+	 { 540, 0, -240, 0, 7447, -1984, 0, 120, 0, 255 }, // 0x00010A38
+	 { -540, 0, -240, 0, 745, -1984, 0, 120, 0, 255 }, // 0x00010A48
+	 { -540, 0, 360, 0, 745, -64, 0, 120, 0, 255 }, // 0x00010A58
+	 { 540, 0, 360, 0, 7447, -64, 0, 120, 0, 255 }, // 0x00010A68
+	 { 1113, 340, 227, 0, 0, -1024, 222, 49, 103, 255 }, // 0x00010A78
+	 { 1379, 0, 494, 0, 2048, 1152, 224, 87, 75, 255 }, // 0x00010A88
+	 { 1379, 520, 494, 0, 2048, -2176, 222, 49, 103, 255 }, // 0x00010A98
+	 { 1056, 520, 171, 0, -435, -2176, 196, 84, 60, 255 }, // 0x00010AA8
+	 { 1056, 340, 171, 0, -435, -1024, 172, 0, 84, 255 }, // 0x00010AB8
+	 { -1935, 0, 710, 0, 512, 1152, 68, 96, 233, 255 }, // 0x00010AC8
+	 { -1991, 20, 654, 0, 1024, 1024, 116, 0, 227, 255 }, // 0x00010AD8
+	 { -1935, 480, 710, 0, 512, -1920, 102, 36, 205, 255 }, // 0x00010AE8
+	 { -1991, 340, 654, 0, 1024, -1024, 102, 36, 205, 255 }, // 0x00010AF8
+	 { -2048, 480, 597, 0, 1536, -1920, 0, 40, 143, 255 }, // 0x00010B08
+	 { -2048, 0, 597, 0, 1536, 1152, 84, 0, 172, 255 }, // 0x00010B18
+	 { -1935, 0, 710, 0, 512, 1152, 68, 96, 233, 255 }, // 0x00010B28
+	 { -1991, 0, 654, 0, 1024, 1152, 84, 80, 228, 255 }, // 0x00010B38
+	 { -1991, 20, 654, 0, 1024, 1024, 116, 0, 227, 255 }, // 0x00010B48
+	 { -2048, 0, 597, 0, 1536, 1152, 84, 0, 172, 255 }, // 0x00010B58
+	 { -1991, 0, 654, 0, 1024, 1152, 84, 80, 228, 255 }, // 0x00010B68
+	 { -2048, 0, 823, 0, 512, 2176, 42, 86, 71, 255 }, // 0x00010B78
+	 { -1935, 0, 710, 0, 1536, 2176, 68, 96, 233, 255 }, // 0x00010B88
+	 { -1935, 480, 710, 0, 1536, -896, 102, 36, 205, 255 }, // 0x00010B98
+	 { -2048, 480, 823, 0, 512, -896, 0, 69, 98, 255 }, // 0x00010BA8
+};
+
+Vtx_t _spot00_room_0_vertices_00010BB8[4] = 
+{
+	 { -1737, 0, 399, 0, 256, 128, 85, 51, 66, 255 }, // 0x00010BB8
+	 { -1991, 20, 654, 0, -2048, 0, 116, 0, 227, 255 }, // 0x00010BC8
+	 { -1991, 0, 654, 0, -2048, 128, 84, 80, 228, 255 }, // 0x00010BD8
+	 { -1539, 20, 201, 0, 2048, 0, 23, 0, 117, 255 }, // 0x00010BE8
+};
+
+Vtx_t _spot00_room_0_vertices_00010BF8[4] = 
+{
+	 { -1652, -140, 314, 0, -9421, -1426, 84, 80, 228, 255 }, // 0x00010BF8
+	 { -886, -140, 1080, 0, -4520, 1024, 24, 102, 198, 255 }, // 0x00010C08
+	 { -860, -140, 880, 0, -4352, 384, 0, 108, 51, 255 }, // 0x00010C18
+	 { -1539, -140, 201, 0, -8696, -1788, 228, 80, 84, 255 }, // 0x00010C28
+};
+
+Vtx_t _spot00_room_0_vertices_00010C38[8] = 
+{
+	 { -860, -140, 880, 0, 3072, 1024, 0, 108, 51, 255 }, // 0x00010C38
+	 { -860, 20, 880, 0, 3072, 0, 0, 0, 120, 255 }, // 0x00010C48
+	 { -1539, 20, 201, 0, -3072, 0, 23, 0, 117, 255 }, // 0x00010C58
+	 { -1539, -140, 201, 0, -3072, 1024, 228, 80, 84, 255 }, // 0x00010C68
+	 { -660, 20, 680, 0, 512, 0, 46, 0, 110, 255 }, // 0x00010C78
+	 { -860, 20, 880, 0, -1536, 0, 0, 0, 120, 255 }, // 0x00010C88
+	 { -860, -140, 880, 0, -1536, 1024, 0, 108, 51, 255 }, // 0x00010C98
+	 { -660, -140, 680, 0, 512, 1024, 25, 69, 94, 255 }, // 0x00010CA8
+};
+
+Vtx_t _spot00_room_0_vertices_00010CB8[3] = 
+{
+	 { 1282, -25, 397, 0, 1305, 1312, 145, 26, 37, 255 }, // 0x00010CB8
+	 { 1379, 0, 494, 0, 2048, 1152, 224, 87, 75, 255 }, // 0x00010CC8
+	 { 1113, 20, 227, 0, 0, 1024, 233, 0, 117, 255 }, // 0x00010CD8
+};
+
+Vtx_t _spot00_room_0_vertices_00010CE8[11] = 
+{
+	 { 1282, -25, 397, 0, 512, 288, 145, 26, 37, 255 }, // 0x00010CE8
+	 { 1226, -45, 454, 0, 1024, 416, 154, 36, 205, 255 }, // 0x00010CF8
+	 { 1226, -25, 454, 0, 1024, 288, 158, 69, 0, 255 }, // 0x00010D08
+	 { 1266, -140, 607, 0, 1386, 1024, 172, 0, 84, 255 }, // 0x00010D18
+	 { 1266, -45, 607, 0, 1386, 416, 196, 84, 60, 255 }, // 0x00010D28
+	 { 1169, -45, 510, 0, 512, 416, 158, 69, 0, 255 }, // 0x00010D38
+	 { 1169, -140, 510, 0, 512, 1024, 136, 0, 0, 255 }, // 0x00010D48
+	 { 1226, -25, 454, 0, 1024, 288, 158, 69, 0, 255 }, // 0x00010D58
+	 { 1226, -45, 454, 0, 1024, 416, 154, 36, 205, 255 }, // 0x00010D68
+	 { 1322, -45, 550, 0, 1898, 416, 196, 84, 60, 255 }, // 0x00010D78
+	 { 1322, -25, 550, 0, 1898, 288, 196, 84, 60, 255 }, // 0x00010D88
+};
+
+Vtx_t _spot00_room_0_vertices_00010D98[8] = 
+{
+	 { 1226, -45, 454, 0, 514, 940, 154, 36, 205, 255 }, // 0x00010D98
+	 { 1169, -45, 510, 0, 514, 428, 158, 69, 0, 255 }, // 0x00010DA8
+	 { 1266, -45, 607, 0, 1388, 428, 196, 84, 60, 255 }, // 0x00010DB8
+	 { 1322, -45, 550, 0, 1388, 940, 196, 84, 60, 255 }, // 0x00010DC8
+	 { 1282, -25, 397, 0, 0, 786, 145, 26, 37, 255 }, // 0x00010DD8
+	 { 1226, -25, 454, 0, 0, 274, 158, 69, 0, 255 }, // 0x00010DE8
+	 { 1322, -25, 550, 0, 874, 274, 196, 84, 60, 255 }, // 0x00010DF8
+	 { 1379, -25, 494, 0, 874, 786, 172, 0, 84, 255 }, // 0x00010E08
+};
+
+Vtx_t _spot00_room_0_vertices_00010E18[4] = 
+{
+	 { 180, -20, 1080, 0, 0, 377, 69, 69, 187, 255 }, // 0x00010E18
+	 { 180, -20, 1040, 0, 0, 256, 69, 69, 187, 255 }, // 0x00010E28
+	 { -180, -20, 1040, 0, 1536, 256, 187, 69, 187, 255 }, // 0x00010E38
+	 { -180, -20, 1080, 0, 1536, 377, 187, 69, 187, 255 }, // 0x00010E48
+};
+
+Vtx_t _spot00_room_0_vertices_00010E58[4] = 
+{
+	 { 660, -140, 680, 0, 5376, -256, 21, 87, 79, 255 }, // 0x00010E58
+	 { 793, -140, 1080, 0, 6224, 1024, 232, 102, 198, 255 }, // 0x00010E68
+	 { 1379, -140, 494, 0, 9976, -852, 218, 107, 218, 255 }, // 0x00010E78
+	 { 1113, -140, 227, 0, 8272, -1704, 28, 80, 84, 255 }, // 0x00010E88
+};
+
+Vtx_t _spot00_room_0_vertices_00010E98[12] = 
+{
+	 { -180, -140, 1040, 0, 512, 1024, 228, 113, 228, 255 }, // 0x00010E98
+	 { -180, -140, 1080, 0, 768, 1024, 187, 69, 187, 255 }, // 0x00010EA8
+	 { -180, -20, 1080, 0, 768, 256, 187, 69, 187, 255 }, // 0x00010EB8
+	 { -180, -20, 1040, 0, 512, 256, 187, 69, 187, 255 }, // 0x00010EC8
+	 { 180, -140, 1080, 0, 3920, 1024, 69, 69, 187, 255 }, // 0x00010ED8
+	 { 180, -140, 1040, 0, 4096, 1024, 36, 108, 220, 255 }, // 0x00010EE8
+	 { 180, -20, 1040, 0, 4096, 256, 69, 69, 187, 255 }, // 0x00010EF8
+	 { 180, -20, 1080, 0, 3920, 256, 69, 69, 187, 255 }, // 0x00010F08
+	 { -180, -140, 1040, 0, 1536, 1024, 228, 113, 228, 255 }, // 0x00010F18
+	 { -180, -20, 1040, 0, 1536, 256, 187, 69, 187, 255 }, // 0x00010F28
+	 { 180, -20, 1040, 0, 0, 256, 69, 69, 187, 255 }, // 0x00010F38
+	 { 180, -140, 1040, 0, 0, 1024, 36, 108, 220, 255 }, // 0x00010F48
+};
+
+Vtx_t _spot00_room_0_vertices_00010F58[6] = 
+{
+	 { 180, -140, 1040, 0, 2304, 896, 36, 108, 220, 255 }, // 0x00010F58
+	 { 180, -140, 1080, 0, 2304, 1024, 69, 69, 187, 255 }, // 0x00010F68
+	 { 793, -140, 1080, 0, 6224, 1024, 232, 102, 198, 255 }, // 0x00010F78
+	 { -180, -140, 1080, 0, 0, 1024, 187, 69, 187, 255 }, // 0x00010F88
+	 { -180, -140, 1040, 0, 0, 896, 228, 113, 228, 255 }, // 0x00010F98
+	 { -886, -140, 1080, 0, -4520, 1024, 24, 102, 198, 255 }, // 0x00010FA8
+};
+
+Vtx_t _spot00_room_0_vertices_00010FB8[14] = 
+{
+	 { 180, -20, 680, 0, 5213, 256, 216, 28, 109, 255 }, // 0x00010FB8
+	 { 180, 0, 660, 0, 5213, 128, 168, 75, 31, 255 }, // 0x00010FC8
+	 { -180, 0, 660, 0, 2979, 128, 88, 75, 31, 255 }, // 0x00010FD8
+	 { -180, -20, 680, 0, 2979, 256, 40, 28, 109, 255 }, // 0x00010FE8
+	 { -180, 0, 360, 0, 0, 128, 38, 113, 0, 255 }, // 0x00010FF8
+	 { -180, 20, 360, 0, 0, 0, 120, 0, 0, 255 }, // 0x00011008
+	 { -180, 20, 680, 0, -1536, 0, 107, 0, 53, 255 }, // 0x00011018
+	 { -180, 0, 660, 0, -1440, 128, 88, 75, 31, 255 }, // 0x00011028
+	 { -180, -20, 680, 0, -1536, 128, 40, 28, 109, 255 }, // 0x00011038
+	 { 180, 20, 680, 0, 0, 0, 149, 0, 53, 255 }, // 0x00011048
+	 { 180, 20, 360, 0, -1536, 0, 136, 0, 0, 255 }, // 0x00011058
+	 { 180, 0, 360, 0, -1536, 128, 218, 113, 0, 255 }, // 0x00011068
+	 { 180, 0, 660, 0, -96, 128, 168, 75, 31, 255 }, // 0x00011078
+	 { 180, -20, 680, 0, 0, 128, 216, 28, 109, 255 }, // 0x00011088
+};
+
+Vtx_t _spot00_room_0_vertices_00011098[4] = 
+{
+	 { -180, 0, 660, 0, 2979, 896, 88, 75, 31, 255 }, // 0x00011098
+	 { 180, 0, 660, 0, 5213, 896, 168, 75, 31, 255 }, // 0x000110A8
+	 { 180, 0, 360, 0, 5213, -64, 218, 113, 0, 255 }, // 0x000110B8
+	 { -180, 0, 360, 0, 2979, -64, 38, 113, 0, 255 }, // 0x000110C8
+};
+
+Vtx_t _spot00_room_0_vertices_000110D8[4] = 
+{
+	 { 1113, -140, 227, 0, 4096, 1024, 28, 80, 84, 255 }, // 0x000110D8
+	 { 1113, 20, 227, 0, 4096, 0, 233, 0, 117, 255 }, // 0x000110E8
+	 { 660, 20, 680, 0, 0, 0, 46, 0, 110, 255 }, // 0x000110F8
+	 { 660, -140, 680, 0, 0, 1024, 21, 87, 79, 255 }, // 0x00011108
+};
+
+Vtx_t _spot00_room_0_vertices_00011118[8] = 
+{
+	 { 180, 20, 680, 0, 0, 2048, 0, 0, 120, 255 }, // 0x00011118
+	 { 340, 20, 680, 0, 1024, 2048, 0, 0, 120, 255 }, // 0x00011128
+	 { 180, 340, 680, 0, 0, 0, 0, 38, 113, 255 }, // 0x00011138
+	 { 340, 340, 680, 0, 1024, 0, 0, 53, 107, 255 }, // 0x00011148
+	 { -340, 340, 680, 0, 0, 0, 0, 53, 107, 255 }, // 0x00011158
+	 { -340, 20, 680, 0, 0, 2048, 0, 0, 120, 255 }, // 0x00011168
+	 { -180, 340, 680, 0, 1024, 0, 0, 38, 113, 255 }, // 0x00011178
+	 { -180, 20, 680, 0, 1024, 2048, 0, 0, 120, 255 }, // 0x00011188
+};
+
+Vtx_t _spot00_room_0_vertices_00011198[3] = 
+{
+	 { 1379, 0, 494, 0, 2048, 1152, 224, 87, 75, 255 }, // 0x00011198
+	 { 1282, -25, 397, 0, 1305, 1312, 145, 26, 37, 255 }, // 0x000111A8
+	 { 1379, -25, 494, 0, 2048, 1312, 172, 0, 84, 255 }, // 0x000111B8
+};
+
+Vtx_t _spot00_room_0_vertices_000111C8[3] = 
+{
+	 { -1652, -45, 314, 0, 1024, 416, 116, 1, 27, 255 }, // 0x000111C8
+	 { -1737, 0, 399, 0, 256, 128, 85, 51, 66, 255 }, // 0x000111D8
+	 { -1680, -45, 343, 0, 768, 416, 49, 109, 250, 255 }, // 0x000111E8
+};
+
+Vtx_t _spot00_room_0_vertices_000111F8[4] = 
+{
+	 { -180, 398, 600, 0, 0, 1024, 0, 0, 120, 255 }, // 0x000111F8
+	 { 180, 398, 600, 0, 4096, 1024, 0, 0, 120, 255 }, // 0x00011208
+	 { 180, 518, 600, 0, 4096, 0, 0, 0, 120, 255 }, // 0x00011218
+	 { -180, 518, 600, 0, 0, 0, 0, 0, 120, 255 }, // 0x00011228
+};
+
+Vtx_t _spot00_room_0_vertices_00011238[8] = 
+{
+	 { -2048, -140, -365, 0, 0, 0, 0, 0, 0, 0 }, // 0x00011238
+	 { 1577, -140, -365, 0, 0, 0, 0, 0, 0, 0 }, // 0x00011248
+	 { -2048, 620, -365, 0, 0, 0, 0, 0, 0, 0 }, // 0x00011258
+	 { 1577, 620, -365, 0, 0, 0, 0, 0, 0, 0 }, // 0x00011268
+	 { -2048, -140, 1080, 0, 0, 0, 0, 0, 0, 0 }, // 0x00011278
+	 { 1577, -140, 1080, 0, 0, 0, 0, 0, 0, 0 }, // 0x00011288
+	 { -2048, 620, 1080, 0, 0, 0, 0, 0, 0, 0 }, // 0x00011298
+	 { 1577, 620, 1080, 0, 0, 0, 0, 0, 0, 0 }, // 0x000112A8
+};
+
+Gfx _spot00_room_0_dlist_000112B8[] =
+{
+	gsDPPipeSync(), // 0x000112B8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000112C0
+	gsSPVertex(_spot00_room_0_vertices_00011238, 8, 0), // 0x000112C8
+	gsSPCullDisplayList(0, 7), // 0x000112D0
+	gsDPPipeSync(), // 0x000112D8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000112E0
+	gsDPPipeSync(), // 0x000112E8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000112F0
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x000112F8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00027D98), // 0x00011300
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x00011308
+	gsDPLoadSync(), // 0x00011310
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x00011318
+	gsDPPipeSync(), // 0x00011320
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x00011328
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00011330
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00011338
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00011340
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00011348
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00011350
+	gsDPSetPrimColor(0, 0, 235, 235, 200, 255), // 0x00011358
+	gsSPVertex(_spot00_room_0_vertices_00010048, 12, 0), // 0x00011360
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00011368
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011370
+	gsSP2Triangles(8, 9, 10, 0, 9, 11, 10, 0), // 0x00011378
+	gsDPPipeSync(), // 0x00011380
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00011388
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00011390
+	gsDPLoadSync(), // 0x00011398
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000113A0
+	gsDPPipeSync(), // 0x000113A8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000113B0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000113B8
+	gsSPVertex(_spot00_room_0_vertices_00010108, 8, 0), // 0x000113C0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000113C8
+	gsSP2Triangles(4, 5, 6, 0, 5, 7, 6, 0), // 0x000113D0
+	gsDPPipeSync(), // 0x000113D8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00027D98), // 0x000113E0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x000113E8
+	gsDPLoadSync(), // 0x000113F0
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x000113F8
+	gsDPPipeSync(), // 0x00011400
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x00011408
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00011410
+	gsSPVertex(_spot00_room_0_vertices_00010188, 12, 0), // 0x00011418
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011420
+	gsSP2Triangles(4, 5, 6, 0, 4, 7, 5, 0), // 0x00011428
+	gsSP2Triangles(8, 9, 10, 0, 8, 11, 9, 0), // 0x00011430
+	gsDPPipeSync(), // 0x00011438
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00011440
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00011448
+	gsDPLoadSync(), // 0x00011450
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00011458
+	gsDPPipeSync(), // 0x00011460
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00011468
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00011470
+	gsSPVertex(_spot00_room_0_vertices_00010248, 12, 0), // 0x00011478
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00011480
+	gsSP2Triangles(4, 5, 6, 0, 4, 7, 5, 0), // 0x00011488
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00011490
+	gsDPPipeSync(), // 0x00011498
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00027D98), // 0x000114A0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x000114A8
+	gsDPLoadSync(), // 0x000114B0
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x000114B8
+	gsDPPipeSync(), // 0x000114C0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x000114C8
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x000114D0
+	gsSPVertex(_spot00_room_0_vertices_00010308, 4, 0), // 0x000114D8
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x000114E0
+	gsDPPipeSync(), // 0x000114E8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x000114F0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x000114F8
+	gsDPLoadSync(), // 0x00011500
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00011508
+	gsDPPipeSync(), // 0x00011510
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00011518
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00011520
+	gsSPVertex(_spot00_room_0_vertices_00010348, 3, 0), // 0x00011528
+	gsSP1Triangle(0, 1, 2, 0), // 0x00011530
+	gsDPPipeSync(), // 0x00011538
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00027D98), // 0x00011540
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x00011548
+	gsDPLoadSync(), // 0x00011550
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x00011558
+	gsDPPipeSync(), // 0x00011560
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x00011568
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00011570
+	gsSPVertex(_spot00_room_0_vertices_00010378, 4, 0), // 0x00011578
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x00011580
+	gsDPPipeSync(), // 0x00011588
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00011590
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00011598
+	gsDPLoadSync(), // 0x000115A0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000115A8
+	gsDPPipeSync(), // 0x000115B0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x000115B8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000115C0
+	gsSPVertex(_spot00_room_0_vertices_000103B8, 3, 0), // 0x000115C8
+	gsSP1Triangle(0, 1, 2, 0), // 0x000115D0
+	gsDPPipeSync(), // 0x000115D8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00027D98), // 0x000115E0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x000115E8
+	gsDPLoadSync(), // 0x000115F0
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x000115F8
+	gsDPPipeSync(), // 0x00011600
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x00011608
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00011610
+	gsSPVertex(_spot00_room_0_vertices_000103E8, 8, 0), // 0x00011618
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011620
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011628
+	gsDPPipeSync(), // 0x00011630
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029598), // 0x00011638
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 6, 0), // 0x00011640
+	gsDPLoadSync(), // 0x00011648
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00011650
+	gsDPPipeSync(), // 0x00011658
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 0, 6, 0), // 0x00011660
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00011668
+	gsSPVertex(_spot00_room_0_vertices_00010468, 28, 0), // 0x00011670
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011678
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011680
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00011688
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x00011690
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x00011698
+	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0), // 0x000116A0
+	gsSP2Triangles(24, 25, 26, 0, 24, 26, 27, 0), // 0x000116A8
+	gsDPPipeSync(), // 0x000116B0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x000116B8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x000116C0
+	gsDPLoadSync(), // 0x000116C8
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000116D0
+	gsDPPipeSync(), // 0x000116D8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000116E0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000116E8
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x000116F0
+	gsSPVertex(_spot00_room_0_vertices_00010628, 8, 0), // 0x000116F8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011700
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011708
+	gsDPPipeSync(), // 0x00011710
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011718
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011720
+	gsDPLoadSync(), // 0x00011728
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011730
+	gsDPPipeSync(), // 0x00011738
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011740
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011748
+	gsDPSetPrimColor(0, 0, 60, 60, 46, 255), // 0x00011750
+	gsSPVertex(_spot00_room_0_vertices_000106A8, 7, 0), // 0x00011758
+	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0), // 0x00011760
+	gsSP2Triangles(4, 5, 1, 0, 4, 1, 0, 0), // 0x00011768
+	gsSP1Triangle(6, 5, 4, 0), // 0x00011770
+	gsDPPipeSync(), // 0x00011778
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011780
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011788
+	gsDPLoadSync(), // 0x00011790
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011798
+	gsDPPipeSync(), // 0x000117A0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000117A8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000117B0
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x000117B8
+	gsSPVertex(_spot00_room_0_vertices_00010718, 8, 0), // 0x000117C0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000117C8
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000117D0
+	gsDPPipeSync(), // 0x000117D8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x000117E0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x000117E8
+	gsDPLoadSync(), // 0x000117F0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000117F8
+	gsDPPipeSync(), // 0x00011800
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011808
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011810
+	gsDPSetPrimColor(0, 0, 60, 60, 46, 255), // 0x00011818
+	gsSPVertex(_spot00_room_0_vertices_00010798, 8, 0), // 0x00011820
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011828
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011830
+	gsDPPipeSync(), // 0x00011838
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011840
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011848
+	gsDPLoadSync(), // 0x00011850
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011858
+	gsDPPipeSync(), // 0x00011860
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011868
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011870
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00011878
+	gsSPVertex(_spot00_room_0_vertices_00010818, 8, 0), // 0x00011880
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011888
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011890
+	gsDPPipeSync(), // 0x00011898
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x000118A0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x000118A8
+	gsDPLoadSync(), // 0x000118B0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000118B8
+	gsDPPipeSync(), // 0x000118C0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000118C8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000118D0
+	gsDPSetPrimColor(0, 0, 60, 60, 46, 255), // 0x000118D8
+	gsSPVertex(_spot00_room_0_vertices_00010898, 4, 0), // 0x000118E0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000118E8
+	gsDPPipeSync(), // 0x000118F0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x000118F8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011900
+	gsDPLoadSync(), // 0x00011908
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011910
+	gsDPPipeSync(), // 0x00011918
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011920
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011928
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00011930
+	gsSPVertex(_spot00_room_0_vertices_000108D8, 4, 0), // 0x00011938
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011940
+	gsDPPipeSync(), // 0x00011948
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011950
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011958
+	gsDPLoadSync(), // 0x00011960
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011968
+	gsDPPipeSync(), // 0x00011970
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011978
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011980
+	gsDPSetPrimColor(0, 0, 60, 60, 46, 255), // 0x00011988
+	gsSPVertex(_spot00_room_0_vertices_00010918, 4, 0), // 0x00011990
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011998
+	gsDPPipeSync(), // 0x000119A0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x000119A8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x000119B0
+	gsDPLoadSync(), // 0x000119B8
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x000119C0
+	gsDPPipeSync(), // 0x000119C8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x000119D0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x000119D8
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x000119E0
+	gsSPVertex(_spot00_room_0_vertices_00010958, 9, 0), // 0x000119E8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000119F0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000119F8
+	gsSP1Triangle(4, 7, 8, 0), // 0x00011A00
+	gsDPPipeSync(), // 0x00011A08
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011A10
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011A18
+	gsDPLoadSync(), // 0x00011A20
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011A28
+	gsDPPipeSync(), // 0x00011A30
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011A38
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011A40
+	gsSPVertex(_spot00_room_0_vertices_000109E8, 29, 0), // 0x00011A48
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00011A50
+	gsSP2Triangles(3, 5, 6, 0, 7, 3, 6, 0), // 0x00011A58
+	gsSP2Triangles(4, 8, 5, 0, 9, 0, 10, 0), // 0x00011A60
+	gsSP2Triangles(9, 10, 11, 0, 9, 11, 12, 0), // 0x00011A68
+	gsSP2Triangles(9, 12, 13, 0, 14, 15, 16, 0), // 0x00011A70
+	gsSP2Triangles(15, 17, 16, 0, 17, 18, 16, 0), // 0x00011A78
+	gsSP2Triangles(15, 19, 18, 0, 15, 18, 17, 0), // 0x00011A80
+	gsSP2Triangles(20, 21, 22, 0, 23, 22, 24, 0), // 0x00011A88
+	gsSP2Triangles(25, 26, 27, 0, 25, 27, 28, 0), // 0x00011A90
+	gsDPPipeSync(), // 0x00011A98
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011AA0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011AA8
+	gsDPLoadSync(), // 0x00011AB0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011AB8
+	gsDPPipeSync(), // 0x00011AC0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011AC8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011AD0
+	gsSPVertex(_spot00_room_0_vertices_00010BB8, 4, 0), // 0x00011AD8
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00011AE0
+	gsDPPipeSync(), // 0x00011AE8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011AF0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011AF8
+	gsDPLoadSync(), // 0x00011B00
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011B08
+	gsDPPipeSync(), // 0x00011B10
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011B18
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011B20
+	gsDPSetPrimColor(0, 0, 60, 60, 46, 255), // 0x00011B28
+	gsSPVertex(_spot00_room_0_vertices_00010BF8, 4, 0), // 0x00011B30
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011B38
+	gsDPPipeSync(), // 0x00011B40
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011B48
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011B50
+	gsDPLoadSync(), // 0x00011B58
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011B60
+	gsDPPipeSync(), // 0x00011B68
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011B70
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011B78
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00011B80
+	gsSPVertex(_spot00_room_0_vertices_00010C38, 8, 0), // 0x00011B88
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011B90
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011B98
+	gsDPPipeSync(), // 0x00011BA0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011BA8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011BB0
+	gsDPLoadSync(), // 0x00011BB8
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011BC0
+	gsDPPipeSync(), // 0x00011BC8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011BD0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011BD8
+	gsSPVertex(_spot00_room_0_vertices_00010CB8, 3, 0), // 0x00011BE0
+	gsSP1Triangle(0, 1, 2, 0), // 0x00011BE8
+	gsDPPipeSync(), // 0x00011BF0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011BF8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011C00
+	gsDPLoadSync(), // 0x00011C08
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011C10
+	gsDPPipeSync(), // 0x00011C18
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011C20
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011C28
+	gsSPVertex(_spot00_room_0_vertices_00010CE8, 11, 0), // 0x00011C30
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00011C38
+	gsSP2Triangles(3, 5, 6, 0, 7, 8, 9, 0), // 0x00011C40
+	gsSP1Triangle(7, 9, 10, 0), // 0x00011C48
+	gsDPPipeSync(), // 0x00011C50
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011C58
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011C60
+	gsDPLoadSync(), // 0x00011C68
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011C70
+	gsDPPipeSync(), // 0x00011C78
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011C80
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011C88
+	gsSPVertex(_spot00_room_0_vertices_00010D98, 8, 0), // 0x00011C90
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011C98
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011CA0
+	gsDPPipeSync(), // 0x00011CA8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011CB0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011CB8
+	gsDPLoadSync(), // 0x00011CC0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011CC8
+	gsDPPipeSync(), // 0x00011CD0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011CD8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011CE0
+	gsSPVertex(_spot00_room_0_vertices_00010E18, 4, 0), // 0x00011CE8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011CF0
+	gsDPPipeSync(), // 0x00011CF8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011D00
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011D08
+	gsDPLoadSync(), // 0x00011D10
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011D18
+	gsDPPipeSync(), // 0x00011D20
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011D28
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011D30
+	gsDPSetPrimColor(0, 0, 60, 60, 46, 255), // 0x00011D38
+	gsSPVertex(_spot00_room_0_vertices_00010E58, 4, 0), // 0x00011D40
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011D48
+	gsDPPipeSync(), // 0x00011D50
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011D58
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011D60
+	gsDPLoadSync(), // 0x00011D68
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011D70
+	gsDPPipeSync(), // 0x00011D78
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011D80
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011D88
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00011D90
+	gsSPVertex(_spot00_room_0_vertices_00010E98, 12, 0), // 0x00011D98
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011DA0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011DA8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00011DB0
+	gsDPPipeSync(), // 0x00011DB8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011DC0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011DC8
+	gsDPLoadSync(), // 0x00011DD0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011DD8
+	gsDPPipeSync(), // 0x00011DE0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011DE8
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011DF0
+	gsDPSetPrimColor(0, 0, 60, 60, 46, 255), // 0x00011DF8
+	gsSPVertex(_spot00_room_0_vertices_00010F58, 6, 0), // 0x00011E00
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00011E08
+	gsDPPipeSync(), // 0x00011E10
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011E18
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011E20
+	gsDPLoadSync(), // 0x00011E28
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011E30
+	gsDPPipeSync(), // 0x00011E38
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011E40
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011E48
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00011E50
+	gsSPVertex(_spot00_room_0_vertices_00010FB8, 14, 0), // 0x00011E58
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011E60
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00011E68
+	gsSP2Triangles(6, 8, 7, 0, 9, 10, 11, 0), // 0x00011E70
+	gsSP2Triangles(9, 11, 12, 0, 13, 9, 12, 0), // 0x00011E78
+	gsDPPipeSync(), // 0x00011E80
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011E88
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011E90
+	gsDPLoadSync(), // 0x00011E98
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011EA0
+	gsDPPipeSync(), // 0x00011EA8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011EB0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011EB8
+	gsSPVertex(_spot00_room_0_vertices_00011098, 4, 0), // 0x00011EC0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011EC8
+	gsDPPipeSync(), // 0x00011ED0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011ED8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011EE0
+	gsDPLoadSync(), // 0x00011EE8
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011EF0
+	gsDPPipeSync(), // 0x00011EF8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011F00
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011F08
+	gsSPVertex(_spot00_room_0_vertices_000110D8, 4, 0), // 0x00011F10
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00011F18
+	gsDPPipeSync(), // 0x00011F20
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00027998), // 0x00011F28
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 0, 5, 0), // 0x00011F30
+	gsDPLoadSync(), // 0x00011F38
+	gsDPLoadBlock(7, 0, 0, 511, 1024), // 0x00011F40
+	gsDPPipeSync(), // 0x00011F48
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 2, 6, 0, 0, 5, 0), // 0x00011F50
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00011F58
+	gsDPSetPrimColor(0, 0, 235, 235, 200, 255), // 0x00011F60
+	gsSPVertex(_spot00_room_0_vertices_00011118, 8, 0), // 0x00011F68
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x00011F70
+	gsSP2Triangles(4, 5, 6, 0, 5, 7, 6, 0), // 0x00011F78
+	gsDPPipeSync(), // 0x00011F80
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029F98), // 0x00011F88
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011F90
+	gsDPLoadSync(), // 0x00011F98
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011FA0
+	gsDPPipeSync(), // 0x00011FA8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00011FB0
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00011FB8
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x00011FC0
+	gsSPVertex(_spot00_room_0_vertices_00011198, 3, 0), // 0x00011FC8
+	gsSP1Triangle(0, 1, 2, 0), // 0x00011FD0
+	gsDPPipeSync(), // 0x00011FD8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00029D98), // 0x00011FE0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00011FE8
+	gsDPLoadSync(), // 0x00011FF0
+	gsDPLoadBlock(7, 0, 0, 255, 1024), // 0x00011FF8
+	gsDPPipeSync(), // 0x00012000
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 2, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00012008
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00012010
+	gsSPVertex(_spot00_room_0_vertices_000111C8, 3, 0), // 0x00012018
+	gsSP1Triangle(0, 1, 2, 0), // 0x00012020
+	gsDPPipeSync(), // 0x00012028
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00028598), // 0x00012030
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 1, 6, 0), // 0x00012038
+	gsDPLoadSync(), // 0x00012040
+	gsDPLoadBlock(7, 0, 0, 2047, 128), // 0x00012048
+	gsDPPipeSync(), // 0x00012050
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 0, 5, 0, 1, 6, 0), // 0x00012058
+	gsDPSetTileSize(0, 0, 0, 252, 124), // 0x00012060
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00012068
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00012070
+	gsSPVertex(_spot00_room_0_vertices_000111F8, 4, 0), // 0x00012078
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00012080
+	gsSPEndDisplayList(), // 0x00012088
+};
+
+Vtx_t _spot00_room_0_vertices_00012090[4] = 
+{
+	 { -720, -14, -1811, 0, 0, 1024, 0, 0, 120, 255 }, // 0x00012090
+	 { 720, -14, -1811, 0, 2048, 1024, 0, 0, 120, 255 }, // 0x000120A0
+	 { 720, 866, -1811, 0, 2048, 0, 0, 84, 84, 255 }, // 0x000120B0
+	 { -720, 866, -1811, 0, 0, 0, 0, 84, 84, 255 }, // 0x000120C0
+};
+
+Vtx_t _spot00_room_0_vertices_000120D0[8] = 
+{
+	 { -380, -23, 360, 0, 0, 1024, 93, 0, 75, 255 }, // 0x000120D0
+	 { -220, -23, -120, 0, 410, 1024, 52, 0, 108, 255 }, // 0x000120E0
+	 { -220, 377, -120, 0, 410, 0, 52, 0, 108, 255 }, // 0x000120F0
+	 { -380, 377, 360, 0, 0, 0, 93, 0, 75, 255 }, // 0x00012100
+	 { 260, -23, -120, 0, 1638, 1024, 204, 0, 108, 255 }, // 0x00012110
+	 { 260, 377, -120, 0, 1638, 0, 204, 0, 108, 255 }, // 0x00012120
+	 { 420, -23, 360, 0, 2048, 1024, 163, 0, 75, 255 }, // 0x00012130
+	 { 420, 377, 360, 0, 2048, 0, 163, 0, 75, 255 }, // 0x00012140
+};
+
+Vtx_t _spot00_room_0_vertices_00012150[8] = 
+{
+	 { -720, -23, -1811, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012150
+	 { 720, -23, -1811, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012160
+	 { -720, 866, -1811, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012170
+	 { 720, 866, -1811, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012180
+	 { -720, -23, 360, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012190
+	 { 720, -23, 360, 0, 0, 0, 0, 0, 0, 0 }, // 0x000121A0
+	 { -720, 866, 360, 0, 0, 0, 0, 0, 0, 0 }, // 0x000121B0
+	 { 720, 866, 360, 0, 0, 0, 0, 0, 0, 0 }, // 0x000121C0
+};
+
+Gfx _spot00_room_0_dlist_000121D0[] =
+{
+	gsDPPipeSync(), // 0x000121D0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000121D8
+	gsSPVertex(_spot00_room_0_vertices_00012150, 8, 0), // 0x000121E0
+	gsSPCullDisplayList(0, 7), // 0x000121E8
+	gsDPPipeSync(), // 0x000121F0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000121F8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00012200
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00012208
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00014D98), // 0x00012210
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 6, 0), // 0x00012218
+	gsDPLoadSync(), // 0x00012220
+	gsDPLoadBlock(7, 0, 0, 2047, 128), // 0x00012228
+	gsDPPipeSync(), // 0x00012230
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 2, 5, 0, 0, 6, 0), // 0x00012238
+	gsDPSetTileSize(0, 0, 0, 252, 124), // 0x00012240
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00012248
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x00012250
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00012258
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00012260
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00012268
+	gsSPVertex(_spot00_room_0_vertices_00012090, 4, 0), // 0x00012270
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00012278
+	gsDPPipeSync(), // 0x00012280
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00026998), // 0x00012288
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 2, 6, 0), // 0x00012290
+	gsDPLoadSync(), // 0x00012298
+	gsDPLoadBlock(7, 0, 0, 2047, 128), // 0x000122A0
+	gsDPPipeSync(), // 0x000122A8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 16, 0, 0, 0, 2, 5, 0, 2, 6, 0), // 0x000122B0
+	gsDPSetTileSize(0, 0, 0, 252, 124), // 0x000122B8
+	gsSPVertex(_spot00_room_0_vertices_000120D0, 8, 0), // 0x000122C0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000122C8
+	gsSP2Triangles(1, 4, 5, 0, 1, 5, 2, 0), // 0x000122D0
+	gsSP2Triangles(4, 6, 7, 0, 4, 7, 5, 0), // 0x000122D8
+	gsSPEndDisplayList(), // 0x000122E0
+};
+
+Vtx_t _spot00_room_0_vertices_000122E8[9] = 
+{
+	 { 2086, -20, 805, 0, 2048, -1536, 14, 59, 153, 255 }, // 0x000122E8
+	 { 1945, -20, 663, 0, 0, -1536, 103, 59, 242, 255 }, // 0x000122F8
+	 { 1902, 0, 706, 0, 0, -1024, 70, 83, 51, 255 }, // 0x00012308
+	 { 2044, 0, 847, 0, 2048, -1024, 205, 83, 186, 255 }, // 0x00012318
+	 { 1775, -20, 833, 0, 0, 512, 242, 59, 103, 255 }, // 0x00012328
+	 { 1916, -20, 975, 0, 2048, 512, 153, 59, 14, 255 }, // 0x00012338
+	 { 1959, 0, 932, 0, 2048, 0, 186, 83, 205, 255 }, // 0x00012348
+	 { 1817, 0, 791, 0, 0, 0, 51, 83, 70, 255 }, // 0x00012358
+	 { 1817, 0, 791, 0, 0, 0, 51, 83, 70, 255 }, // 0x00012368
+};
+
+Vtx_t _spot00_room_0_vertices_00012378[32] = 
+{
+	 { 2093, 20, 812, 0, -512, 51, 69, 70, 187, 255 }, // 0x00012378
+	 { 2086, 20, 805, 0, -512, 0, 14, 59, 153, 255 }, // 0x00012388
+	 { 2044, 40, 847, 0, 512, 0, 205, 83, 186, 255 }, // 0x00012398
+	 { 2051, 40, 854, 0, 512, 51, 14, 118, 242, 255 }, // 0x000123A8
+	 { 1916, 20, 975, 0, 3584, 0, 153, 59, 14, 255 }, // 0x000123B8
+	 { 1923, 20, 982, 0, 3584, 51, 187, 70, 69, 255 }, // 0x000123C8
+	 { 1966, 40, 939, 0, 2560, 51, 242, 118, 14, 255 }, // 0x000123D8
+	 { 1959, 40, 932, 0, 2560, 0, 186, 83, 205, 255 }, // 0x000123E8
+	 { 1959, 40, 932, 0, 2560, 0, 186, 83, 205, 255 }, // 0x000123F8
+	 { 2086, 20, 805, 0, 0, 0, 14, 59, 153, 255 }, // 0x00012408
+	 { 2044, -8, 847, 0, 1024, 1024, 205, 83, 186, 255 }, // 0x00012418
+	 { 2044, 40, 847, 0, 1024, 0, 205, 83, 186, 255 }, // 0x00012428
+	 { 2086, -28, 805, 0, 0, 1024, 14, 59, 153, 255 }, // 0x00012438
+	 { 2044, 40, 847, 0, 0, 0, 205, 83, 186, 255 }, // 0x00012448
+	 { 2044, -8, 847, 0, 0, 1024, 205, 83, 186, 255 }, // 0x00012458
+	 { 1959, -8, 932, 0, 2048, 1024, 186, 83, 205, 255 }, // 0x00012468
+	 { 1959, 40, 932, 0, 2048, 0, 186, 83, 205, 255 }, // 0x00012478
+	 { 1959, 40, 932, 0, 0, 0, 186, 83, 205, 255 }, // 0x00012488
+	 { 1959, -8, 932, 0, 0, 1024, 186, 83, 205, 255 }, // 0x00012498
+	 { 1916, 20, 975, 0, 1024, 0, 153, 59, 14, 255 }, // 0x000124A8
+	 { 1916, -28, 975, 0, 1024, 1024, 153, 59, 14, 255 }, // 0x000124B8
+	 { 1923, -20, 982, 0, 64, 853, 172, 0, 84, 255 }, // 0x000124C8
+	 { 1923, 20, 982, 0, 64, 0, 187, 70, 69, 255 }, // 0x000124D8
+	 { 1916, 20, 975, 0, 0, 0, 153, 59, 14, 255 }, // 0x000124E8
+	 { 1916, -20, 975, 0, 0, 853, 153, 59, 14, 255 }, // 0x000124F8
+	 { 2086, -20, 805, 0, 512, 853, 14, 59, 153, 255 }, // 0x00012508
+	 { 2086, 20, 805, 0, 512, 0, 14, 59, 153, 255 }, // 0x00012518
+	 { 2093, 20, 812, 0, 448, 0, 69, 70, 187, 255 }, // 0x00012528
+	 { 2093, -20, 812, 0, 448, 853, 84, 0, 172, 255 }, // 0x00012538
+	 { 1775, -20, 833, 0, 512, 853, 242, 59, 103, 255 }, // 0x00012548
+	 { 1775, 20, 833, 0, 512, 0, 242, 59, 103, 255 }, // 0x00012558
+	 { 1768, 20, 826, 0, 448, 0, 187, 70, 69, 255 }, // 0x00012568
+};
+
+Vtx_t _spot00_room_0_vertices_00012578[28] = 
+{
+	 { 1775, -20, 833, 0, 512, 853, 242, 59, 103, 255 }, // 0x00012578
+	 { 1768, 20, 826, 0, 448, 0, 187, 70, 69, 255 }, // 0x00012588
+	 { 1768, -20, 826, 0, 448, 853, 172, 0, 84, 255 }, // 0x00012598
+	 { 1937, -20, 656, 0, 64, 853, 84, 0, 172, 255 }, // 0x000125A8
+	 { 1937, 20, 656, 0, 64, 0, 69, 70, 187, 255 }, // 0x000125B8
+	 { 1945, 20, 663, 0, 0, 0, 103, 59, 242, 255 }, // 0x000125C8
+	 { 1945, -20, 663, 0, 0, 853, 103, 59, 242, 255 }, // 0x000125D8
+	 { 1945, 20, 663, 0, 3584, 0, 103, 59, 242, 255 }, // 0x000125E8
+	 { 1937, 20, 656, 0, 3584, 51, 69, 70, 187, 255 }, // 0x000125F8
+	 { 1895, 40, 699, 0, 2560, 51, 14, 118, 242, 255 }, // 0x00012608
+	 { 1902, 40, 706, 0, 2560, 0, 70, 83, 51, 255 }, // 0x00012618
+	 { 1768, 20, 826, 0, -512, 51, 187, 70, 69, 255 }, // 0x00012628
+	 { 1775, 20, 833, 0, -512, 0, 242, 59, 103, 255 }, // 0x00012638
+	 { 1817, 40, 791, 0, 512, 0, 51, 83, 70, 255 }, // 0x00012648
+	 { 1810, 40, 784, 0, 512, 51, 242, 118, 14, 255 }, // 0x00012658
+	 { 1775, 20, 833, 0, 0, 0, 242, 59, 103, 255 }, // 0x00012668
+	 { 1817, -8, 791, 0, 1024, 1024, 51, 83, 70, 255 }, // 0x00012678
+	 { 1817, 40, 791, 0, 1024, 0, 51, 83, 70, 255 }, // 0x00012688
+	 { 1775, -28, 833, 0, 0, 1024, 242, 59, 103, 255 }, // 0x00012698
+	 { 1817, 40, 791, 0, 0, 0, 51, 83, 70, 255 }, // 0x000126A8
+	 { 1817, -8, 791, 0, 0, 1024, 51, 83, 70, 255 }, // 0x000126B8
+	 { 1902, -8, 706, 0, 2048, 1024, 70, 83, 51, 255 }, // 0x000126C8
+	 { 1902, 40, 706, 0, 2048, 0, 70, 83, 51, 255 }, // 0x000126D8
+	 { 1902, 40, 706, 0, 2560, 0, 70, 83, 51, 255 }, // 0x000126E8
+	 { 1902, 40, 706, 0, 0, 0, 70, 83, 51, 255 }, // 0x000126F8
+	 { 1902, -8, 706, 0, 0, 1024, 70, 83, 51, 255 }, // 0x00012708
+	 { 1945, 20, 663, 0, 1024, 0, 103, 59, 242, 255 }, // 0x00012718
+	 { 1945, -28, 663, 0, 1024, 1024, 103, 59, 242, 255 }, // 0x00012728
+};
+
+Vtx_t _spot00_room_0_vertices_00012738[8] = 
+{
+	 { 1952, -28, 644, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012738
+	 { 2106, -28, 828, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012748
+	 { 1952, 40, 644, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012758
+	 { 2106, 40, 828, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012768
+	 { 1754, -28, 810, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012778
+	 { 1909, -28, 994, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012788
+	 { 1754, 40, 810, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012798
+	 { 1909, 40, 994, 0, 0, 0, 0, 0, 0, 0 }, // 0x000127A8
+};
+
+Gfx _spot00_room_0_dlist_000127B8[] =
+{
+	gsDPPipeSync(), // 0x000127B8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000127C0
+	gsSPVertex(_spot00_room_0_vertices_00012738, 8, 0), // 0x000127C8
+	gsSPCullDisplayList(0, 7), // 0x000127D0
+	gsDPPipeSync(), // 0x000127D8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000127E0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000127E8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x000127F0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00014998), // 0x000127F8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 1, 5, 0), // 0x00012800
+	gsDPLoadSync(), // 0x00012808
+	gsDPLoadBlock(7, 0, 0, 511, 256), // 0x00012810
+	gsDPPipeSync(), // 0x00012818
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 4, 0, 1, 5, 0), // 0x00012820
+	gsDPSetTileSize(0, 0, 0, 124, 60), // 0x00012828
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00012830
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00012838
+	gsSPGeometryMode(0xFF0C0400, 0x00000000), // 0x00012840
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00012848
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00012850
+	gsSPVertex(_spot00_room_0_vertices_000122E8, 9, 0), // 0x00012858
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00012860
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00012868
+	gsSP2Triangles(8, 6, 3, 0, 8, 3, 2, 0), // 0x00012870
+	gsDPPipeSync(), // 0x00012878
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00014598), // 0x00012880
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 4, 0), // 0x00012888
+	gsDPLoadSync(), // 0x00012890
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x00012898
+	gsDPPipeSync(), // 0x000128A0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 4, 0, 0, 0, 2, 5, 0, 0, 4, 0), // 0x000128A8
+	gsDPSetTileSize(0, 0, 0, 60, 124), // 0x000128B0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000128B8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8113078), // 0x000128C0
+	gsSPVertex(_spot00_room_0_vertices_00012378, 32, 0), // 0x000128C8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000128D0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000128D8
+	gsSP2Triangles(8, 6, 3, 0, 8, 3, 2, 0), // 0x000128E0
+	gsSP2Triangles(9, 10, 11, 0, 9, 12, 10, 0), // 0x000128E8
+	gsSP2Triangles(13, 14, 15, 0, 13, 15, 16, 0), // 0x000128F0
+	gsSP2Triangles(17, 18, 19, 0, 18, 20, 19, 0), // 0x000128F8
+	gsSP2Triangles(21, 22, 23, 0, 21, 23, 24, 0), // 0x00012900
+	gsSP2Triangles(25, 26, 27, 0, 25, 27, 28, 0), // 0x00012908
+	gsSP1Triangle(29, 30, 31, 0), // 0x00012910
+	gsSPVertex(_spot00_room_0_vertices_00012578, 28, 0), // 0x00012918
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00012920
+	gsSP2Triangles(3, 5, 6, 0, 7, 8, 9, 0), // 0x00012928
+	gsSP2Triangles(7, 9, 10, 0, 11, 12, 13, 0), // 0x00012930
+	gsSP2Triangles(11, 13, 14, 0, 15, 16, 17, 0), // 0x00012938
+	gsSP2Triangles(15, 18, 16, 0, 19, 20, 21, 0), // 0x00012940
+	gsSP2Triangles(19, 21, 22, 0, 23, 9, 14, 0), // 0x00012948
+	gsSP2Triangles(23, 14, 13, 0, 24, 25, 26, 0), // 0x00012950
+	gsSP1Triangle(25, 27, 26, 0), // 0x00012958
+	gsSPEndDisplayList(), // 0x00012960
+};
+
+static u8 unaccounted12968[] = 
+{
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x27, 0x90, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x33, 0x38, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x3E, 0xD0, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x50, 0x30, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x58, 0x50, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x5B, 0xC0, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x5E, 0x78, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x67, 0xC8, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x6E, 0xD0, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x72, 0x30, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x84, 0x48, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x8E, 0xD8, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x93, 0xA0, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x9D, 0x10, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xAD, 0x00, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xB5, 0x20, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xB8, 0xB0, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xBD, 0x20, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xCE, 0xB8, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xD9, 0x80, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xDD, 0x70, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xDF, 0xA8, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xE3, 0x28, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xE7, 0xB0, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xF3, 0xF8, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xFB, 0x50, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0xFE, 0x98, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x12, 0xB8, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x21, 0xD0, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x27, 0xB8, 
+	0xDF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF8, 0xBC, 0x01, 0xDE, 0x19, 0x43, 0x00, 0x00, 
+	0x02, 0x00, 0x02, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0xBC, 0x02, 0x22, 0x19, 0x43, 0x00, 0x00, 
+	0x02, 0x00, 0x00, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0xBC, 0x02, 0x22, 0x19, 0x84, 0x00, 0x00, 
+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0xBC, 0x01, 0xDE, 0x19, 0x84, 0x00, 0x00, 
+	0x00, 0x00, 0x02, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0xBC, 0x01, 0xDE, 0x19, 0xC0, 0x00, 0x00, 
+	0x02, 0x00, 0x02, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0xBC, 0x02, 0x22, 0x19, 0xC0, 0x00, 0x00, 
+	0x02, 0x00, 0x00, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0xBC, 0x02, 0x22, 0x1A, 0x01, 0x00, 0x00, 
+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0xBC, 0x01, 0xDE, 0x1A, 0x01, 0x00, 0x00, 
+	0x00, 0x00, 0x02, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0x0D, 0x01, 0xF1, 0x18, 0x0D, 0x00, 0x00, 
+	0x02, 0x00, 0x02, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0x0D, 0x02, 0x1A, 0x18, 0x0D, 0x00, 0x00, 
+	0x02, 0x00, 0x00, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0x35, 0x02, 0x1A, 0x18, 0x0D, 0x00, 0x00, 
+	0x00, 0x00, 0x00, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xF8, 0x35, 0x01, 0xF1, 0x18, 0x0D, 0x00, 0x00, 
+	0x00, 0x00, 0x02, 0x00, 0xFF, 0xEB, 0x61, 0xFF, 0xE7, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	0xE3, 0x00, 0x10, 0x01, 0x00, 0x00, 0x00, 0x00, 0xD7, 0x00, 0x00, 0x02, 0xFF, 0xFF, 0xFF, 0xFF, 
+	0xFD, 0x70, 0x00, 0x00, 0x02, 0x02, 0xA1, 0x98, 0xF5, 0x70, 0x00, 0x00, 0x07, 0x01, 0x01, 0x30, 
+	0xE6, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF3, 0x00, 0x00, 0x00, 0x07, 0x03, 0xF8, 0x00, 
+	0xE7, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0xF5, 0x68, 0x02, 0x00, 0x00, 0x01, 0x01, 0x30, 
+	0xF2, 0x00, 0x00, 0x00, 0x00, 0x01, 0xC0, 0x3C, 0xFC, 0x12, 0x18, 0x03, 0xFF, 0x0F, 0xFF, 0xFF, 
+	0xE2, 0x00, 0x00, 0x1C, 0x0C, 0x18, 0x49, 0xD8, 0xD9, 0xF0, 0xFF, 0xFF, 0x00, 0x00, 0x00, 0x00, 
+	0xD9, 0xFF, 0xFF, 0xFF, 0x00, 0x00, 0x04, 0x00, 0x01, 0x00, 0xC0, 0x18, 0x03, 0x01, 0x2A, 0x60, 
+	0x06, 0x00, 0x02, 0x04, 0x00, 0x00, 0x04, 0x06, 0x06, 0x08, 0x0A, 0x0C, 0x00, 0x08, 0x0C, 0x0E, 
+	0x06, 0x10, 0x12, 0x14, 0x00, 0x10, 0x14, 0x16, 0xDF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	
+};
+
+Vtx_t _spot00_room_0_vertices_00012BB8[8] = 
+{
+	 { -1980, 478, 6137, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012BB8
+	 { -1799, 478, 6635, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012BC8
+	 { -1980, 546, 6137, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012BD8
+	 { -1799, 546, 6635, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012BE8
+	 { -2041, 478, 6159, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012BF8
+	 { -1860, 478, 6657, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012C08
+	 { -2041, 546, 6159, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012C18
+	 { -1860, 546, 6657, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012C28
+};
+
+Gfx _spot00_room_0_dlist_00012C38[] =
+{
+	gsDPPipeSync(), // 0x00012C38
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00012C40
+	gsSPVertex(_spot00_room_0_vertices_00012BB8, 8, 0), // 0x00012C48
+	gsSPCullDisplayList(0, 7), // 0x00012C50
+	gsDPPipeSync(), // 0x00012C58
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00012C60
+	gsSPDisplayList(0x0A000000), // 0x00012C68
+	gsSPEndDisplayList(), // 0x00012C70
+};
+
+Vtx_t _spot00_room_0_vertices_00012C78[4] = 
+{
+	 { 5844, 1356, 574, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00012C78
+	 { 5947, 1356, -263, 0, 1024, 0, 0, 120, 0, 255 }, // 0x00012C88
+	 { 5109, 1356, -366, 0, 0, 0, 0, 120, 0, 255 }, // 0x00012C98
+	 { 5007, 1356, 471, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00012CA8
+};
+
+Vtx_t _spot00_room_0_vertices_00012CB8[6] = 
+{
+	 { 5221, 1349, -407, 0, 0, 0, 168, 70, 40, 255 }, // 0x00012CB8
+	 { 5127, 749, -345, 0, 0, 1024, 147, 22, 45, 255 }, // 0x00012CC8
+	 { 5361, 749, 218, 0, 1024, 1024, 158, 26, 64, 255 }, // 0x00012CD8
+	 { 5784, 749, 659, 0, 2048, 1024, 171, 22, 81, 255 }, // 0x00012CE8
+	 { 5878, 1349, 597, 0, 2048, 0, 184, 70, 65, 255 }, // 0x00012CF8
+	 { 5487, 1349, 136, 0, 1024, 0, 195, 94, 40, 255 }, // 0x00012D08
+};
+
+Vtx_t _spot00_room_0_vertices_00012D18[8] = 
+{
+	 { 4590, 549, -1368, 0, -2048, 0, 174, 85, 19, 255 }, // 0x00012D18
+	 { 5165, 549, -544, 0, 0, 1024, 159, 21, 66, 255 }, // 0x00012D28
+	 { 5217, 1078, -605, 0, 0, 0, 198, 102, 24, 255 }, // 0x00012D38
+	 { 6114, 1108, 701, 0, 4096, 0, 211, 103, 42, 255 }, // 0x00012D48
+	 { 6048, 549, 777, 0, 4096, 1024, 154, 22, 57, 255 }, // 0x00012D58
+	 { 6415, 549, 1573, 0, 6144, 0, 202, 86, 64, 255 }, // 0x00012D68
+	 { 5217, 1078, -605, 0, 0, 0, 198, 102, 24, 255 }, // 0x00012D78
+	 { 5165, 549, -544, 0, 0, 1024, 159, 21, 66, 255 }, // 0x00012D88
+};
+
+Vtx_t _spot00_room_0_vertices_00012D98[8] = 
+{
+	 { 4606, 549, -1388, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012D98
+	 { 7126, 549, 726, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012DA8
+	 { 4606, 1356, -1388, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012DB8
+	 { 7126, 1356, 726, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012DC8
+	 { 3856, 549, -494, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012DD8
+	 { 6375, 549, 1620, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012DE8
+	 { 3856, 1356, -494, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012DF8
+	 { 6375, 1356, 1620, 0, 0, 0, 0, 0, 0, 0 }, // 0x00012E08
+};
+
+Gfx _spot00_room_0_dlist_00012E18[] =
+{
+	gsDPPipeSync(), // 0x00012E18
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00012E20
+	gsSPVertex(_spot00_room_0_vertices_00012D98, 8, 0), // 0x00012E28
+	gsSPCullDisplayList(0, 7), // 0x00012E30
+	gsDPPipeSync(), // 0x00012E38
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00012E40
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00012E48
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00012E50
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001F598), // 0x00012E58
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 1, 4, 0, 1, 4, 0), // 0x00012E60
+	gsDPLoadSync(), // 0x00012E68
+	gsDPLoadBlock(7, 0, 0, 63, 2048), // 0x00012E70
+	gsDPPipeSync(), // 0x00012E78
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 1, 0, 0, 0, 1, 4, 0, 1, 4, 0), // 0x00012E80
+	gsDPSetTileSize(0, 0, 0, 60, 60), // 0x00012E88
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00012E90
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8104B50), // 0x00012E98
+	gsSPGeometryMode(0xFF0C0400, 0x00000000), // 0x00012EA0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00012EA8
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00012EB0
+	gsSPVertex(_spot00_room_0_vertices_00012C78, 4, 0), // 0x00012EB8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00012EC0
+	gsDPPipeSync(), // 0x00012EC8
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001F198), // 0x00012ED0
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 2, 6, 0), // 0x00012ED8
+	gsDPLoadSync(), // 0x00012EE0
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x00012EE8
+	gsDPPipeSync(), // 0x00012EF0
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 5, 0, 2, 6, 0), // 0x00012EF8
+	gsDPSetTileSize(0, 0, 0, 252, 124), // 0x00012F00
+	gsSPGeometryMode(0xFF000000, 0x00000400), // 0x00012F08
+	gsDPSetPrimColor(0, 0, 140, 127, 96, 255), // 0x00012F10
+	gsSPVertex(_spot00_room_0_vertices_00012CB8, 6, 0), // 0x00012F18
+	gsSP2Triangles(0, 1, 2, 0, 2, 3, 4, 0), // 0x00012F20
+	gsSP2Triangles(2, 4, 5, 0, 0, 2, 5, 0), // 0x00012F28
+	gsDPPipeSync(), // 0x00012F30
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_16b, 1, _spot00_scene_tex_0001E998), // 0x00012F38
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 7, 0), // 0x00012F40
+	gsDPLoadSync(), // 0x00012F48
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00012F50
+	gsDPPipeSync(), // 0x00012F58
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_4b, 8, 0, 0, 0, 2, 5, 0, 0, 7, 0), // 0x00012F60
+	gsDPSetTileSize(0, 0, 0, 508, 124), // 0x00012F68
+	gsSPVertex(_spot00_room_0_vertices_00012D18, 8, 0), // 0x00012F70
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00012F78
+	gsSP2Triangles(4, 3, 6, 0, 4, 6, 7, 0), // 0x00012F80
+	gsSPEndDisplayList(), // 0x00012F88
+};
+
+Vtx_t _spot00_room_0_vertices_00012F90[4] = 
+{
+	 { -120, 0, 2220, 0, 2048, 4096, 0, 120, 0, 255 }, // 0x00012F90
+	 { -371, 0, 3055, 0, 2048, -2048, 252, 119, 5, 255 }, // 0x00012FA0
+	 { -195, 0, 3218, 0, 0, -2048, 252, 119, 5, 255 }, // 0x00012FB0
+	 { 120, 0, 2220, 0, 0, 4096, 0, 120, 0, 255 }, // 0x00012FC0
+};
+
+Vtx_t _spot00_room_0_vertices_00012FD0[4] = 
+{
+	 { -120, 0, 1980, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x00012FD0
+	 { -120, 0, 2220, 0, 2048, 0, 0, 120, 0, 255 }, // 0x00012FE0
+	 { 120, 0, 2220, 0, 0, 0, 0, 120, 0, 255 }, // 0x00012FF0
+	 { 120, 0, 1980, 0, 0, 2048, 0, 120, 0, 255 }, // 0x00013000
+};
+
+Vtx_t _spot00_room_0_vertices_00013010[4] = 
+{
+	 { 120, 0, 1980, 0, 0, 2048, 0, 120, 0, 255 }, // 0x00013010
+	 { 120, 0, 2220, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x00013020
+	 { 1129, 0, 2352, 0, 2048, -6144, 0, 120, 0, 255 }, // 0x00013030
+	 { 1174, 0, 2118, 0, 0, -6144, 0, 120, 0, 255 }, // 0x00013040
+};
+
+Vtx_t _spot00_room_0_vertices_00013050[8] = 
+{
+	 { 1174, 0, 2118, 0, 0, 2048, 0, 120, 0, 255 }, // 0x00013050
+	 { 1129, 0, 2352, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x00013060
+	 { 1360, 0, 2396, 0, 2048, 0, 0, 120, 0, 255 }, // 0x00013070
+	 { 1406, 0, 2162, 0, 0, 0, 0, 120, 0, 255 }, // 0x00013080
+	 { -120, 0, 1500, 0, 2048, 0, 0, 120, 0, 255 }, // 0x00013090
+	 { -120, 0, 1740, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x000130A0
+	 { 120, 0, 1740, 0, 0, 2048, 0, 120, 0, 255 }, // 0x000130B0
+	 { 120, 0, 1500, 0, 0, 0, 0, 120, 0, 255 }, // 0x000130C0
+};
+
+Vtx_t _spot00_room_0_vertices_000130D0[8] = 
+{
+	 { -120, 0, 1740, 0, 2048, 0, 0, 120, 0, 255 }, // 0x000130D0
+	 { -120, 0, 1980, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x000130E0
+	 { 120, 0, 1980, 0, 0, 2048, 0, 120, 0, 255 }, // 0x000130F0
+	 { 120, 0, 1740, 0, 0, 0, 0, 120, 0, 255 }, // 0x00013100
+	 { -195, 0, 3218, 0, 0, 2048, 252, 119, 5, 255 }, // 0x00013110
+	 { -371, 0, 3055, 0, 2048, 2048, 252, 119, 5, 255 }, // 0x00013120
+	 { -1004, -100, 3699, 0, 2048, -6144, 247, 119, 10, 255 }, // 0x00013130
+	 { -864, -106, 3899, 0, 0, -6144, 247, 119, 10, 255 }, // 0x00013140
+};
+
+Vtx_t _spot00_room_0_vertices_00013150[4] = 
+{
+	 { -1217, -126, 3822, 0, 2048, 0, 247, 119, 10, 255 }, // 0x00013150
+	 { -1077, -132, 4022, 0, 0, 0, 247, 119, 10, 255 }, // 0x00013160
+	 { -864, -106, 3899, 0, 0, 2048, 247, 119, 10, 255 }, // 0x00013170
+	 { -1004, -100, 3699, 0, 2048, 2048, 247, 119, 10, 255 }, // 0x00013180
+};
+
+Vtx_t _spot00_room_0_vertices_00013190[4] = 
+{
+	 { -180, 0, 1170, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00013190
+	 { 180, 0, 1170, 0, 4096, 1024, 0, 120, 0, 255 }, // 0x000131A0
+	 { 180, 0, 1080, 0, 4096, 0, 220, 36, 148, 255 }, // 0x000131B0
+	 { -180, 0, 1080, 0, 0, 0, 36, 36, 148, 255 }, // 0x000131C0
+};
+
+Vtx_t _spot00_room_0_vertices_000131D0[8] = 
+{
+	 { -172, -132, 952, 0, 0, 0, 0, 0, 0, 0 }, // 0x000131D0
+	 { 1645, -132, 1613, 0, 0, 0, 0, 0, 0, 0 }, // 0x000131E0
+	 { -172, 0, 952, 0, 0, 0, 0, 0, 0, 0 }, // 0x000131F0
+	 { 1645, 0, 1613, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013200
+	 { -1264, -132, 3953, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013210
+	 { 553, -132, 4615, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013220
+	 { -1264, 0, 3953, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013230
+	 { 553, 0, 4615, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013240
+};
+
+Gfx _spot00_room_0_dlist_00013250[] =
+{
+	gsDPPipeSync(), // 0x00013250
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00013258
+	gsSPVertex(_spot00_room_0_vertices_000131D0, 8, 0), // 0x00013260
+	gsSPCullDisplayList(0, 7), // 0x00013268
+	gsDPPipeSync(), // 0x00013270
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00013278
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00013280
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00013288
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013290
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013298
+	gsDPLoadSync(), // 0x000132A0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000132A8
+	gsDPPipeSync(), // 0x000132B0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x000132B8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000132C0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, TEXEL0, 0, PRIMITIVE, 0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, TEXEL1, 0, 1, COMBINED), // 0x000132C8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8104F50), // 0x000132D0
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x000132D8
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x000132E0
+	gsDPSetPrimColor(0, 0, 250, 220, 140, 200), // 0x000132E8
+	gsSPVertex(_spot00_room_0_vertices_00012F90, 4, 0), // 0x000132F0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000132F8
+	gsDPPipeSync(), // 0x00013300
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00023818), // 0x00013308
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013310
+	gsDPLoadSync(), // 0x00013318
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013320
+	gsDPPipeSync(), // 0x00013328
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013330
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013338
+	gsSPVertex(_spot00_room_0_vertices_00012FD0, 4, 0), // 0x00013340
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013348
+	gsDPPipeSync(), // 0x00013350
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013358
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013360
+	gsDPLoadSync(), // 0x00013368
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013370
+	gsDPPipeSync(), // 0x00013378
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013380
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013388
+	gsSPVertex(_spot00_room_0_vertices_00013010, 4, 0), // 0x00013390
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013398
+	gsDPPipeSync(), // 0x000133A0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x000133A8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x000133B0
+	gsDPLoadSync(), // 0x000133B8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000133C0
+	gsDPPipeSync(), // 0x000133C8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x000133D0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000133D8
+	gsSPVertex(_spot00_room_0_vertices_00013050, 8, 0), // 0x000133E0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000133E8
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000133F0
+	gsDPPipeSync(), // 0x000133F8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013400
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013408
+	gsDPLoadSync(), // 0x00013410
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013418
+	gsDPPipeSync(), // 0x00013420
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013428
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013430
+	gsSPVertex(_spot00_room_0_vertices_000130D0, 8, 0), // 0x00013438
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013440
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00013448
+	gsDPPipeSync(), // 0x00013450
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00013458
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00013460
+	gsDPLoadSync(), // 0x00013468
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013470
+	gsDPPipeSync(), // 0x00013478
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00013480
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013488
+	gsSPVertex(_spot00_room_0_vertices_00013150, 4, 0), // 0x00013490
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013498
+	gsDPPipeSync(), // 0x000134A0
+	gsDPSetTextureImage(G_IM_FMT_IA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00022018), // 0x000134A8
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 5, 0, 0, 7, 0), // 0x000134B0
+	gsDPLoadSync(), // 0x000134B8
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000134C0
+	gsDPPipeSync(), // 0x000134C8
+	gsDPSetTile(G_IM_FMT_IA, G_IM_SIZ_4b, 8, 0, 0, 0, 2, 5, 0, 0, 7, 0), // 0x000134D0
+	gsDPSetTileSize(0, 0, 0, 508, 124), // 0x000134D8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, TEXEL0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x000134E0
+	gsDPSetPrimColor(0, 0, 180, 180, 140, 255), // 0x000134E8
+	gsSPVertex(_spot00_room_0_vertices_00013190, 4, 0), // 0x000134F0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000134F8
+	gsSPEndDisplayList(), // 0x00013500
+};
+
+Vtx_t _spot00_room_0_vertices_00013508[4] = 
+{
+	 { -2177, -150, 4216, 0, 0, 2048, 6, 116, 229, 255 }, // 0x00013508
+	 { -2090, -103, 4435, 0, 2048, 2048, 6, 116, 229, 255 }, // 0x00013518
+	 { -1867, -134, 4354, 0, 2048, 0, 6, 116, 229, 255 }, // 0x00013528
+	 { -1953, -181, 4135, 0, 0, 0, 6, 116, 229, 255 }, // 0x00013538
+};
+
+Vtx_t _spot00_room_0_vertices_00013548[10] = 
+{
+	 { -2944, 4, 4691, 0, 2048, -6511, 251, 116, 229, 255 }, // 0x00013548
+	 { -2090, -103, 4435, 0, 2048, -14336, 6, 116, 229, 255 }, // 0x00013558
+	 { -2177, -150, 4216, 0, 0, -14336, 6, 116, 229, 255 }, // 0x00013568
+	 { -2944, -55, 4440, 0, 0, -7303, 251, 116, 229, 255 }, // 0x00013578
+	 { -3522, -57, 4767, 0, 2048, -3073, 240, 115, 229, 255 }, // 0x00013588
+	 { -3889, -157, 4555, 0, 0, -1429, 240, 115, 229, 255 }, // 0x00013598
+	 { -4417, -119, 5019, 0, 2048, 8722, 5, 116, 227, 255 }, // 0x000135A8
+	 { -4417, -190, 4718, 0, 0, 6470, 1, 116, 227, 255 }, // 0x000135B8
+	 { -5273, 100, 5310, 0, 0, 16384, 10, 118, 238, 255 }, // 0x000135C8
+	 { -5044, 100, 5442, 0, 2048, 16384, 9, 118, 241, 255 }, // 0x000135D8
+};
+
+Vtx_t _spot00_room_0_vertices_000135E8[4] = 
+{
+	 { -4210, -476, 12423, 0, 0, 0, 8, 118, 14, 255 }, // 0x000135E8
+	 { -4098, -459, 12215, 0, 2048, 0, 8, 118, 14, 255 }, // 0x000135F8
+	 { -4305, -431, 12102, 0, 2048, 2048, 8, 118, 14, 255 }, // 0x00013608
+	 { -4417, -448, 12309, 0, 0, 2048, 3, 119, 14, 255 }, // 0x00013618
+};
+
+Vtx_t _spot00_room_0_vertices_00013628[5] = 
+{
+	 { -4417, -448, 12309, 0, 0, 4096, 3, 119, 14, 255 }, // 0x00013628
+	 { -4417, -411, 11997, 0, 2048, 2857, 0, 119, 14, 255 }, // 0x00013638
+	 { -5049, -386, 11415, 0, 2048, -4096, 244, 119, 7, 255 }, // 0x00013648
+	 { -5260, -415, 11537, 0, 0, -4096, 244, 119, 7, 255 }, // 0x00013658
+	 { -4305, -431, 12102, 0, 2048, 4096, 8, 118, 14, 255 }, // 0x00013668
+};
+
+Vtx_t _spot00_room_0_vertices_00013678[4] = 
+{
+	 { -7169, -500, 8577, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x00013678
+	 { -7365, -500, 8790, 0, 0, 0, 0, 120, 0, 255 }, // 0x00013688
+	 { -7169, -500, 8787, 0, 0, 2048, 0, 120, 0, 255 }, // 0x00013698
+	 { -7361, -500, 8566, 0, 2048, 0, 0, 120, 0, 255 }, // 0x000136A8
+};
+
+Vtx_t _spot00_room_0_vertices_000136B8[8] = 
+{
+	 { -7169, -500, 8787, 0, 0, -8192, 0, 120, 0, 255 }, // 0x000136B8
+	 { -6129, -500, 8990, 0, 0, 2048, 0, 120, 0, 255 }, // 0x000136C8
+	 { -6129, -500, 8750, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x000136D8
+	 { -7169, -500, 8577, 0, 2048, -8192, 0, 120, 0, 255 }, // 0x000136E8
+	 { -5659, -86, 5831, 0, 0, 4096, 232, 110, 41, 255 }, // 0x000136F8
+	 { -5442, -82, 5947, 0, 2048, 4096, 232, 110, 41, 255 }, // 0x00013708
+	 { -5200, 100, 5603, 0, 2048, 0, 244, 117, 21, 255 }, // 0x00013718
+	 { -5422, 100, 5475, 0, 0, 0, 242, 116, 23, 255 }, // 0x00013728
+};
+
+Vtx_t _spot00_room_0_vertices_00013738[4] = 
+{
+	 { -5780, -197, 6057, 0, 0, 0, 232, 110, 41, 255 }, // 0x00013738
+	 { -5567, -196, 6176, 0, 2048, 0, 232, 110, 41, 255 }, // 0x00013748
+	 { -5442, -82, 5947, 0, 2048, 2048, 232, 110, 41, 255 }, // 0x00013758
+	 { -5659, -86, 5831, 0, 0, 2048, 232, 110, 41, 255 }, // 0x00013768
+};
+
+Vtx_t _spot00_room_0_vertices_00013778[4] = 
+{
+	 { -5889, -500, 8990, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x00013778
+	 { -5889, -500, 8750, 0, 2048, 0, 0, 120, 0, 255 }, // 0x00013788
+	 { -6129, -500, 8750, 0, 0, 0, 0, 120, 0, 255 }, // 0x00013798
+	 { -6129, -500, 8990, 0, 0, 2048, 0, 120, 0, 255 }, // 0x000137A8
+};
+
+Vtx_t _spot00_room_0_vertices_000137B8[4] = 
+{
+	 { -5889, -500, 8750, 0, 2048, 4096, 0, 120, 0, 255 }, // 0x000137B8
+	 { -5889, -500, 7310, 0, 2048, -8192, 0, 120, 0, 255 }, // 0x000137C8
+	 { -6129, -500, 7310, 0, 0, -8192, 0, 120, 0, 255 }, // 0x000137D8
+	 { -6129, -500, 8750, 0, 0, 4096, 0, 120, 0, 255 }, // 0x000137E8
+};
+
+Vtx_t _spot00_room_0_vertices_000137F8[4] = 
+{
+	 { -5889, -500, 7310, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x000137F8
+	 { -5889, -500, 7070, 0, 2048, 0, 0, 120, 0, 255 }, // 0x00013808
+	 { -6129, -500, 7070, 0, 0, 0, 0, 120, 0, 255 }, // 0x00013818
+	 { -6129, -500, 7310, 0, 0, 2048, 0, 120, 0, 255 }, // 0x00013828
+};
+
+Vtx_t _spot00_room_0_vertices_00013838[15] = 
+{
+	 { -6129, -500, 8990, 0, 0, -4096, 0, 120, 0, 255 }, // 0x00013838
+	 { -5889, -500, 10200, 0, 0, 6144, 24, 116, 240, 255 }, // 0x00013848
+	 { -5889, -500, 8990, 0, 2048, -4096, 0, 120, 0, 255 }, // 0x00013858
+	 { -5675, -500, 10076, 0, 2048, 6144, 213, 111, 11, 255 }, // 0x00013868
+	 { -5422, 100, 5475, 0, 0, 2048, 242, 116, 23, 255 }, // 0x00013878
+	 { -5200, 100, 5603, 0, 2048, 2048, 244, 117, 21, 255 }, // 0x00013888
+	 { -5044, 100, 5442, 0, 2048, 0, 9, 118, 241, 255 }, // 0x00013898
+	 { -5273, 100, 5310, 0, 0, 0, 10, 118, 238, 255 }, // 0x000138A8
+	 { -5390, -432, 11279, 0, 0, 3731, 240, 118, 0, 255 }, // 0x000138B8
+	 { -5260, -415, 11537, 0, 0, 6144, 244, 119, 7, 255 }, // 0x000138C8
+	 { -5049, -386, 11415, 0, 2048, 6144, 244, 119, 7, 255 }, // 0x000138D8
+	 { -5191, -405, 11118, 0, 2048, 3401, 240, 118, 0, 255 }, // 0x000138E8
+	 { -5889, -500, 10200, 0, 0, -6144, 24, 116, 240, 255 }, // 0x000138F8
+	 { -5383, -431, 10709, 0, 2048, -303, 245, 119, 251, 255 }, // 0x00013908
+	 { -5675, -500, 10076, 0, 2048, -6144, 213, 111, 11, 255 }, // 0x00013918
+};
+
+Vtx_t _spot00_room_0_vertices_00013928[8] = 
+{
+	 { -5304, -500, 2915, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013928
+	 { -1250, -500, 4391, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013938
+	 { -5304, 100, 2915, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013948
+	 { -1250, 100, 4391, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013958
+	 { -8232, -500, 10959, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013968
+	 { -4178, -500, 12434, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013978
+	 { -8232, 100, 10959, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013988
+	 { -4178, 100, 12434, 0, 0, 0, 0, 0, 0, 0 }, // 0x00013998
+};
+
+Gfx _spot00_room_0_dlist_000139A8[] =
+{
+	gsDPPipeSync(), // 0x000139A8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000139B0
+	gsSPVertex(_spot00_room_0_vertices_00013928, 8, 0), // 0x000139B8
+	gsSPCullDisplayList(0, 7), // 0x000139C0
+	gsDPPipeSync(), // 0x000139C8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000139D0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000139D8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x000139E0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x000139E8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x000139F0
+	gsDPLoadSync(), // 0x000139F8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013A00
+	gsDPPipeSync(), // 0x00013A08
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00013A10
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013A18
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, TEXEL0, 0, PRIMITIVE, 0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, TEXEL1, 0, 1, COMBINED), // 0x00013A20
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8104F50), // 0x00013A28
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00013A30
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00013A38
+	gsDPSetPrimColor(0, 0, 250, 220, 140, 200), // 0x00013A40
+	gsSPVertex(_spot00_room_0_vertices_00013508, 4, 0), // 0x00013A48
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013A50
+	gsDPPipeSync(), // 0x00013A58
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013A60
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013A68
+	gsDPLoadSync(), // 0x00013A70
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013A78
+	gsDPPipeSync(), // 0x00013A80
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013A88
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013A90
+	gsSPVertex(_spot00_room_0_vertices_00013548, 10, 0), // 0x00013A98
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013AA0
+	gsSP2Triangles(4, 0, 3, 0, 4, 3, 5, 0), // 0x00013AA8
+	gsSP2Triangles(6, 4, 5, 0, 6, 5, 7, 0), // 0x00013AB0
+	gsSP2Triangles(8, 9, 6, 0, 8, 6, 7, 0), // 0x00013AB8
+	gsDPPipeSync(), // 0x00013AC0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00013AC8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00013AD0
+	gsDPLoadSync(), // 0x00013AD8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013AE0
+	gsDPPipeSync(), // 0x00013AE8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00013AF0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013AF8
+	gsSPVertex(_spot00_room_0_vertices_000135E8, 4, 0), // 0x00013B00
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013B08
+	gsDPPipeSync(), // 0x00013B10
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013B18
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013B20
+	gsDPLoadSync(), // 0x00013B28
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013B30
+	gsDPPipeSync(), // 0x00013B38
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013B40
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013B48
+	gsSPVertex(_spot00_room_0_vertices_00013628, 5, 0), // 0x00013B50
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013B58
+	gsSP1Triangle(0, 4, 1, 0), // 0x00013B60
+	gsDPPipeSync(), // 0x00013B68
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00013B70
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00013B78
+	gsDPLoadSync(), // 0x00013B80
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013B88
+	gsDPPipeSync(), // 0x00013B90
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00013B98
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013BA0
+	gsSPVertex(_spot00_room_0_vertices_00013678, 4, 0), // 0x00013BA8
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00013BB0
+	gsDPPipeSync(), // 0x00013BB8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013BC0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013BC8
+	gsDPLoadSync(), // 0x00013BD0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013BD8
+	gsDPPipeSync(), // 0x00013BE0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013BE8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013BF0
+	gsSPVertex(_spot00_room_0_vertices_000136B8, 8, 0), // 0x00013BF8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013C00
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00013C08
+	gsDPPipeSync(), // 0x00013C10
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00013C18
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00013C20
+	gsDPLoadSync(), // 0x00013C28
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013C30
+	gsDPPipeSync(), // 0x00013C38
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00013C40
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013C48
+	gsSPVertex(_spot00_room_0_vertices_00013738, 4, 0), // 0x00013C50
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013C58
+	gsDPPipeSync(), // 0x00013C60
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00023818), // 0x00013C68
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013C70
+	gsDPLoadSync(), // 0x00013C78
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013C80
+	gsDPPipeSync(), // 0x00013C88
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013C90
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013C98
+	gsSPVertex(_spot00_room_0_vertices_00013778, 4, 0), // 0x00013CA0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013CA8
+	gsDPPipeSync(), // 0x00013CB0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013CB8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013CC0
+	gsDPLoadSync(), // 0x00013CC8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013CD0
+	gsDPPipeSync(), // 0x00013CD8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013CE0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013CE8
+	gsSPVertex(_spot00_room_0_vertices_000137B8, 4, 0), // 0x00013CF0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013CF8
+	gsDPPipeSync(), // 0x00013D00
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00013D08
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00013D10
+	gsDPLoadSync(), // 0x00013D18
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013D20
+	gsDPPipeSync(), // 0x00013D28
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00013D30
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013D38
+	gsSPVertex(_spot00_room_0_vertices_000137F8, 4, 0), // 0x00013D40
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00013D48
+	gsDPPipeSync(), // 0x00013D50
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00013D58
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00013D60
+	gsDPLoadSync(), // 0x00013D68
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00013D70
+	gsDPPipeSync(), // 0x00013D78
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00013D80
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00013D88
+	gsSPVertex(_spot00_room_0_vertices_00013838, 15, 0), // 0x00013D90
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x00013D98
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00013DA0
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00013DA8
+	gsSP2Triangles(12, 8, 11, 0, 12, 11, 13, 0), // 0x00013DB0
+	gsSP1Triangle(12, 13, 14, 0), // 0x00013DB8
+	gsSPEndDisplayList(), // 0x00013DC0
+};
+
+Vtx_t _spot00_room_0_vertices_00013DC8[4] = 
+{
+	 { -1049, -500, 10934, 0, 0, 0, 0, 120, 0, 255 }, // 0x00013DC8
+	 { -847, -500, 11063, 0, 2048, 0, 0, 120, 0, 255 }, // 0x00013DD8
+	 { -718, -500, 10860, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x00013DE8
+	 { -920, -500, 10731, 0, 0, 2048, 3, 119, 5, 255 }, // 0x00013DF8
+};
+
+Vtx_t _spot00_room_0_vertices_00013E08[9] = 
+{
+	 { -920, -500, 10731, 0, 0, 6144, 3, 119, 5, 255 }, // 0x00013E08
+	 { -471, -500, 10472, 0, 2048, 2215, 4, 119, 7, 255 }, // 0x00013E18
+	 { -223, -470, 10071, 0, 2048, -2048, 4, 118, 21, 255 }, // 0x00013E28
+	 { -434, -441, 9949, 0, 0, -2048, 4, 118, 21, 255 }, // 0x00013E38
+	 { -718, -500, 10860, 0, 2048, 6144, 0, 120, 0, 255 }, // 0x00013E48
+	 { -434, -441, 9949, 0, 0, 6144, 4, 118, 21, 255 }, // 0x00013E58
+	 { -223, -470, 10071, 0, 2048, 6144, 4, 118, 21, 255 }, // 0x00013E68
+	 { 0, -389, 9729, 0, 2048, 2924, 248, 116, 27, 255 }, // 0x00013E78
+	 { 0, -305, 9371, 0, 0, -294, 248, 116, 27, 255 }, // 0x00013E88
+};
+
+Vtx_t _spot00_room_0_vertices_00013E98[4] = 
+{
+	 { 536, -105, 8738, 0, 0, 2048, 5, 119, 248, 255 }, // 0x00013E98
+	 { 706, -100, 8907, 0, 2048, 2048, 254, 119, 3, 255 }, // 0x00013EA8
+	 { 875, -119, 8739, 0, 2048, 0, 255, 119, 244, 255 }, // 0x00013EB8
+	 { 705, -124, 8569, 0, 0, 0, 5, 119, 248, 255 }, // 0x00013EC8
+};
+
+Vtx_t _spot00_room_0_vertices_00013ED8[14] = 
+{
+	 { 706, -100, 8907, 0, 2048, -6144, 254, 119, 3, 255 }, // 0x00013ED8
+	 { 536, -105, 8738, 0, 0, -6144, 5, 119, 248, 255 }, // 0x00013EE8
+	 { 496, -100, 8787, 0, 0, -5703, 251, 119, 10, 255 }, // 0x00013EF8
+	 { 0, -389, 9729, 0, 2048, 2924, 248, 116, 27, 255 }, // 0x00013F08
+	 { 0, -305, 9371, 0, 0, -294, 248, 116, 27, 255 }, // 0x00013F18
+	 { 1472, -220, 7650, 0, 0, 14336, 8, 119, 10, 255 }, // 0x00013F28
+	 { 1685, -229, 7773, 0, 2048, 14336, 5, 119, 1, 255 }, // 0x00013F38
+	 { 1807, -202, 7457, 0, 2048, 11677, 5, 118, 19, 255 }, // 0x00013F48
+	 { 2103, 54, 6314, 0, 2048, 1024, 8, 115, 32, 255 }, // 0x00013F58
+	 { 1887, 104, 6190, 0, 0, 1024, 8, 115, 32, 255 }, // 0x00013F68
+	 { 2339, 318, 5450, 0, 2048, -6881, 255, 117, 25, 255 }, // 0x00013F78
+	 { 2516, 400, 4852, 0, 2048, -12288, 0, 120, 0, 255 }, // 0x00013F88
+	 { 2300, 400, 4728, 0, 0, -12288, 0, 120, 0, 255 }, // 0x00013F98
+	 { 2050, 278, 5616, 0, 0, -4178, 255, 117, 25, 255 }, // 0x00013FA8
+};
+
+Vtx_t _spot00_room_0_vertices_00013FB8[4] = 
+{
+	 { 2300, 400, 4728, 0, 0, 2048, 0, 120, 0, 255 }, // 0x00013FB8
+	 { 2516, 400, 4852, 0, 2048, 2048, 0, 120, 0, 255 }, // 0x00013FC8
+	 { 2644, 365, 4630, 0, 2048, 0, 8, 118, 242, 255 }, // 0x00013FD8
+	 { 2428, 365, 4505, 0, 0, 0, 8, 118, 242, 255 }, // 0x00013FE8
+};
+
+Vtx_t _spot00_room_0_vertices_00013FF8[8] = 
+{
+	 { -614, 100, 7097, 0, 0, 10240, 3, 119, 7, 255 }, // 0x00013FF8
+	 { -394, 100, 6991, 0, 2048, 10240, 3, 119, 7, 255 }, // 0x00014008
+	 { -586, 100, 6462, 0, 2048, 4996, 252, 119, 8, 255 }, // 0x00014018
+	 { -867, 100, 6299, 0, 0, 3098, 252, 119, 8, 255 }, // 0x00014028
+	 { -788, 202, 5555, 0, 2048, -3796, 239, 118, 1, 255 }, // 0x00014038
+	 { -844, 137, 5100, 0, 2048, -8192, 231, 114, 228, 255 }, // 0x00014048
+	 { -1100, 81, 5100, 0, 0, -8192, 231, 114, 228, 255 }, // 0x00014058
+	 { -1014, 168, 5685, 0, 0, -2698, 239, 118, 1, 255 }, // 0x00014068
+};
+
+Vtx_t _spot00_room_0_vertices_00014078[4] = 
+{
+	 { -1100, 81, 5100, 0, 0, 2048, 231, 114, 228, 255 }, // 0x00014078
+	 { -844, 137, 5100, 0, 2048, 2048, 231, 114, 228, 255 }, // 0x00014088
+	 { -875, 48, 4884, 0, 2048, 0, 232, 110, 215, 255 }, // 0x00014098
+	 { -1126, 6, 4915, 0, 0, 0, 232, 110, 215, 255 }, // 0x000140A8
+};
+
+Vtx_t _spot00_room_0_vertices_000140B8[13] = 
+{
+	 { 1472, -193, 8027, 0, 2048, -1425, 7, 119, 248, 255 }, // 0x000140B8
+	 { 1685, -229, 7773, 0, 2048, -4096, 5, 119, 1, 255 }, // 0x000140C8
+	 { 1472, -220, 7650, 0, 0, -4096, 8, 119, 10, 255 }, // 0x000140D8
+	 { 705, -124, 8569, 0, 0, 6144, 5, 119, 248, 255 }, // 0x000140E8
+	 { 875, -119, 8739, 0, 2048, 6144, 255, 119, 244, 255 }, // 0x000140F8
+	 { 0, 10, 7564, 0, 2048, -2443, 12, 118, 14, 255 }, // 0x00014108
+	 { -394, 100, 6991, 0, 2048, -8192, 3, 119, 7, 255 }, // 0x00014118
+	 { -614, 100, 7097, 0, 0, -8192, 3, 119, 7, 255 }, // 0x00014128
+	 { 0, -37, 7964, 0, 0, 328, 12, 118, 14, 255 }, // 0x00014138
+	 { 476, -139, 8225, 0, 2048, 4602, 11, 119, 3, 255 }, // 0x00014148
+	 { 258, -121, 8351, 0, 0, 4200, 11, 119, 3, 255 }, // 0x00014158
+	 { 705, -124, 8569, 0, 2048, 8192, 5, 119, 248, 255 }, // 0x00014168
+	 { 536, -105, 8738, 0, 0, 8192, 5, 119, 248, 255 }, // 0x00014178
+};
+
+Vtx_t _spot00_room_0_vertices_00014188[4] = 
+{
+	 { 4018, -143, 7260, 0, 0, 0, 248, 118, 19, 255 }, // 0x00014188
+	 { 4249, -110, 7147, 0, 2048, 0, 248, 118, 19, 255 }, // 0x00014198
+	 { 4130, -81, 6917, 0, 2048, 2048, 248, 118, 19, 255 }, // 0x000141A8
+	 { 3900, -114, 7030, 0, 0, 2048, 248, 118, 19, 255 }, // 0x000141B8
+};
+
+Vtx_t _spot00_room_0_vertices_000141C8[20] = 
+{
+	 { 3900, -114, 7030, 0, 0, 4096, 248, 118, 19, 255 }, // 0x000141C8
+	 { 4130, -81, 6917, 0, 2048, 4096, 248, 118, 19, 255 }, // 0x000141D8
+	 { 3878, 7, 6261, 0, 2048, 0, 254, 116, 28, 255 }, // 0x000141E8
+	 { 3654, -28, 6391, 0, 0, 0, 254, 116, 28, 255 }, // 0x000141F8
+	 { 3713, 240, 5544, 0, 2048, -256, 34, 114, 16, 255 }, // 0x00014208
+	 { 3681, 280, 4675, 0, 2048, -6144, 17, 118, 251, 255 }, // 0x00014218
+	 { 3457, 317, 4804, 0, 0, -6144, 22, 117, 249, 255 }, // 0x00014228
+	 { 3471, 290, 5404, 0, 0, -2053, 28, 115, 19, 255 }, // 0x00014238
+	 { 3654, -28, 6391, 0, 0, 4096, 254, 116, 28, 255 }, // 0x00014248
+	 { 3878, 7, 6261, 0, 2048, 4096, 254, 116, 28, 255 }, // 0x00014258
+	 { 3457, 317, 4804, 0, 0, 10240, 22, 117, 249, 255 }, // 0x00014268
+	 { 3681, 280, 4675, 0, 2048, 10240, 17, 118, 251, 255 }, // 0x00014278
+	 { 3309, 190, 3611, 0, 2048, 2048, 12, 118, 240, 255 }, // 0x00014288
+	 { 2944, 200, 3400, 0, 0, 0, 7, 118, 239, 255 }, // 0x00014298
+	 { 2944, 153, 3095, 0, 2048, -2048, 4, 119, 245, 255 }, // 0x000142A8
+	 { 2125, 29, 2538, 0, 2048, -10240, 250, 118, 238, 255 }, // 0x000142B8
+	 { 1990, 53, 2735, 0, 0, -10240, 250, 118, 238, 255 }, // 0x000142C8
+	 { 3309, 190, 3611, 0, 2048, 2048, 12, 118, 240, 255 }, // 0x000142D8
+	 { 2944, 153, 3095, 0, 2048, -2048, 4, 119, 245, 255 }, // 0x000142E8
+	 { 2944, 200, 3400, 0, 0, 0, 7, 118, 239, 255 }, // 0x000142F8
+};
+
+Vtx_t _spot00_room_0_vertices_00014308[4] = 
+{
+	 { 1990, 53, 2735, 0, 0, 2048, 250, 118, 238, 255 }, // 0x00014308
+	 { 2125, 29, 2538, 0, 2048, 2048, 250, 118, 238, 255 }, // 0x00014318
+	 { 1927, -1, 2405, 0, 2048, 0, 250, 118, 238, 255 }, // 0x00014328
+	 { 1792, 23, 2602, 0, 0, 0, 250, 118, 238, 255 }, // 0x00014338
+};
+
+Vtx_t _spot00_room_0_vertices_00014348[8] = 
+{
+	 { 2159, -500, 2159, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014348
+	 { 5479, -500, 6115, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014358
+	 { 2159, 400, 2159, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014368
+	 { 5479, 400, 6115, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014378
+	 { -4045, -500, 7364, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014388
+	 { -725, -500, 11320, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014398
+	 { -4045, 400, 7364, 0, 0, 0, 0, 0, 0, 0 }, // 0x000143A8
+	 { -725, 400, 11320, 0, 0, 0, 0, 0, 0, 0 }, // 0x000143B8
+};
+
+Gfx _spot00_room_0_dlist_000143C8[] =
+{
+	gsDPPipeSync(), // 0x000143C8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000143D0
+	gsSPVertex(_spot00_room_0_vertices_00014348, 8, 0), // 0x000143D8
+	gsSPCullDisplayList(0, 7), // 0x000143E0
+	gsDPPipeSync(), // 0x000143E8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000143F0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x000143F8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00014400
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00014408
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00014410
+	gsDPLoadSync(), // 0x00014418
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00014420
+	gsDPPipeSync(), // 0x00014428
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00014430
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014438
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, TEXEL0, 0, PRIMITIVE, 0, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, TEXEL1, 0, 1, COMBINED), // 0x00014440
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8104F50), // 0x00014448
+	gsSPGeometryMode(0xFF0C0000, 0x00000000), // 0x00014450
+	gsSPGeometryMode(0xFF000000, 0x00030400), // 0x00014458
+	gsDPSetPrimColor(0, 0, 250, 220, 140, 200), // 0x00014460
+	gsSPVertex(_spot00_room_0_vertices_00013DC8, 4, 0), // 0x00014468
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00014470
+	gsDPPipeSync(), // 0x00014478
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00014480
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00014488
+	gsDPLoadSync(), // 0x00014490
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00014498
+	gsDPPipeSync(), // 0x000144A0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x000144A8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000144B0
+	gsSPVertex(_spot00_room_0_vertices_00013E08, 9, 0), // 0x000144B8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000144C0
+	gsSP2Triangles(0, 4, 1, 0, 5, 6, 7, 0), // 0x000144C8
+	gsSP1Triangle(5, 7, 8, 0), // 0x000144D0
+	gsDPPipeSync(), // 0x000144D8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00023818), // 0x000144E0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x000144E8
+	gsDPLoadSync(), // 0x000144F0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000144F8
+	gsDPPipeSync(), // 0x00014500
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00014508
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014510
+	gsSPVertex(_spot00_room_0_vertices_00013E98, 4, 0), // 0x00014518
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00014520
+	gsDPPipeSync(), // 0x00014528
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00014530
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00014538
+	gsDPLoadSync(), // 0x00014540
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00014548
+	gsDPPipeSync(), // 0x00014550
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00014558
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014560
+	gsSPVertex(_spot00_room_0_vertices_00013ED8, 14, 0), // 0x00014568
+	gsSP2Triangles(0, 1, 2, 0, 3, 0, 2, 0), // 0x00014570
+	gsSP2Triangles(3, 2, 4, 0, 5, 6, 7, 0), // 0x00014578
+	gsSP2Triangles(5, 7, 8, 0, 5, 8, 9, 0), // 0x00014580
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x00014588
+	gsSP2Triangles(8, 10, 13, 0, 8, 13, 9, 0), // 0x00014590
+	gsDPPipeSync(), // 0x00014598
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x000145A0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x000145A8
+	gsDPLoadSync(), // 0x000145B0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000145B8
+	gsDPPipeSync(), // 0x000145C0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x000145C8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000145D0
+	gsSPVertex(_spot00_room_0_vertices_00013FB8, 4, 0), // 0x000145D8
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000145E0
+	gsDPPipeSync(), // 0x000145E8
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x000145F0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x000145F8
+	gsDPLoadSync(), // 0x00014600
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00014608
+	gsDPPipeSync(), // 0x00014610
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00014618
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014620
+	gsSPVertex(_spot00_room_0_vertices_00013FF8, 8, 0), // 0x00014628
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00014630
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00014638
+	gsSP2Triangles(2, 4, 7, 0, 2, 7, 3, 0), // 0x00014640
+	gsDPPipeSync(), // 0x00014648
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00014650
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00014658
+	gsDPLoadSync(), // 0x00014660
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00014668
+	gsDPPipeSync(), // 0x00014670
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00014678
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014680
+	gsSPVertex(_spot00_room_0_vertices_00014078, 4, 0), // 0x00014688
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00014690
+	gsDPPipeSync(), // 0x00014698
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x000146A0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x000146A8
+	gsDPLoadSync(), // 0x000146B0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000146B8
+	gsDPPipeSync(), // 0x000146C0
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x000146C8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000146D0
+	gsSPVertex(_spot00_room_0_vertices_000140B8, 13, 0), // 0x000146D8
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 0, 0), // 0x000146E0
+	gsSP2Triangles(3, 0, 2, 0, 5, 6, 7, 0), // 0x000146E8
+	gsSP2Triangles(5, 7, 8, 0, 9, 5, 8, 0), // 0x000146F0
+	gsSP2Triangles(9, 8, 10, 0, 11, 9, 10, 0), // 0x000146F8
+	gsSP1Triangle(11, 10, 12, 0), // 0x00014700
+	gsDPPipeSync(), // 0x00014708
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x00014710
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x00014718
+	gsDPLoadSync(), // 0x00014720
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00014728
+	gsDPPipeSync(), // 0x00014730
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00014738
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014740
+	gsSPVertex(_spot00_room_0_vertices_00014188, 4, 0), // 0x00014748
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00014750
+	gsDPPipeSync(), // 0x00014758
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00025018), // 0x00014760
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 2, 6, 0), // 0x00014768
+	gsDPLoadSync(), // 0x00014770
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00014778
+	gsDPPipeSync(), // 0x00014780
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 2, 6, 0), // 0x00014788
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014790
+	gsSPVertex(_spot00_room_0_vertices_000141C8, 20, 0), // 0x00014798
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000147A0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000147A8
+	gsSP2Triangles(8, 9, 4, 0, 8, 4, 7, 0), // 0x000147B0
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x000147B8
+	gsSP2Triangles(13, 14, 15, 0, 13, 15, 16, 0), // 0x000147C0
+	gsSP1Triangle(17, 18, 19, 0), // 0x000147C8
+	gsDPPipeSync(), // 0x000147D0
+	gsDPSetTextureImage(G_IM_FMT_I, G_IM_SIZ_16b, 1, _spot00_scene_tex_00024018), // 0x000147D8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_16b, 0, 0, 7, 0, 2, 6, 0, 2, 6, 0), // 0x000147E0
+	gsDPLoadSync(), // 0x000147E8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000147F0
+	gsDPPipeSync(), // 0x000147F8
+	gsDPSetTile(G_IM_FMT_I, G_IM_SIZ_4b, 4, 0, 0, 0, 2, 6, 0, 2, 6, 0), // 0x00014800
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00014808
+	gsSPVertex(_spot00_room_0_vertices_00014308, 4, 0), // 0x00014810
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00014818
+	gsSPEndDisplayList(), // 0x00014820
+};
+
+Vtx_t _spot00_room_0_vertices_00014828[32] = 
+{
+	 { 660, -60, 680, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014828
+	 { 1407, -60, 465, 0, 1024, -1048, 0, 120, 0, 255 }, // 0x00014838
+	 { 1311, -60, 29, 0, 0, -866, 0, 120, 0, 255 }, // 0x00014848
+	 { 793, -60, 1080, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014858
+	 { 5500, -60, 3624, 0, 0, 2048, 0, 120, 0, 255 }, // 0x00014868
+	 { 5426, -60, 3922, 0, 1024, 2048, 0, 120, 0, 255 }, // 0x00014878
+	 { 6031, -60, 4097, 0, 1024, -1024, 0, 120, 0, 255 }, // 0x00014888
+	 { 6036, -60, 3894, 0, 0, -1024, 0, 120, 0, 255 }, // 0x00014898
+	 { 6036, -60, 3894, 0, 0, 1024, 0, 120, 0, 255 }, // 0x000148A8
+	 { 6031, -60, 4097, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x000148B8
+	 { 6564, -60, 3940, 0, 1024, -2048, 0, 120, 0, 255 }, // 0x000148C8
+	 { 6495, -60, 3739, 0, 0, -2048, 0, 120, 0, 255 }, // 0x000148D8
+	 { 5169, -60, 3816, 0, 512, -4096, 0, 120, 0, 255 }, // 0x000148E8
+	 { 5426, -60, 3922, 0, 1024, -5120, 0, 120, 0, 255 }, // 0x000148F8
+	 { 5500, -60, 3624, 0, 0, -5120, 0, 120, 0, 255 }, // 0x00014908
+	 { 5426, -60, 3922, 0, 1024, -5120, 0, 120, 0, 255 }, // 0x00014918
+	 { 5169, -60, 3816, 0, 512, -4096, 0, 120, 0, 255 }, // 0x00014928
+	 { 5033, -60, 4143, 0, 1024, -2048, 0, 120, 0, 255 }, // 0x00014938
+	 { 4855, -60, 3997, 0, 0, -2048, 0, 120, 0, 255 }, // 0x00014948
+	 { 4691, -60, 2313, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014958
+	 { 4185, -60, 1817, 0, 0, 3482, 0, 120, 0, 255 }, // 0x00014968
+	 { 4016, -60, 2089, 0, 832, 2944, 0, 120, 0, 255 }, // 0x00014978
+	 { 4375, -60, 2450, 0, 768, 1536, 0, 120, 0, 255 }, // 0x00014988
+	 { 3212, -60, 1545, 0, 0, 7168, 0, 120, 0, 255 }, // 0x00014998
+	 { 2944, -60, 1700, 0, 1024, 7168, 0, 120, 0, 255 }, // 0x000149A8
+	 { 4855, -60, 3997, 0, 0, -1024, 0, 120, 0, 255 }, // 0x000149B8
+	 { 4731, -60, 4895, 0, 0, 2048, 0, 120, 0, 255 }, // 0x000149C8
+	 { 5055, -60, 4734, 0, 1024, 2048, 0, 120, 0, 255 }, // 0x000149D8
+	 { 5033, -60, 4143, 0, 1024, -1024, 0, 120, 0, 255 }, // 0x000149E8
+	 { 3212, -60, 1545, 0, 0, -4096, 0, 120, 0, 255 }, // 0x000149F8
+	 { 2086, -60, 805, 0, 0, 3072, 0, 120, 0, 255 }, // 0x00014A08
+	 { 1916, -60, 975, 0, 1024, 3072, 0, 120, 0, 255 }, // 0x00014A18
+};
+
+Vtx_t _spot00_room_0_vertices_00014A28[56] = 
+{
+	 { 3212, -60, 1545, 0, 0, -4096, 0, 120, 0, 255 }, // 0x00014A28
+	 { 1916, -60, 975, 0, 1024, 3072, 0, 120, 0, 255 }, // 0x00014A38
+	 { 2944, -60, 1700, 0, 1024, -4096, 0, 120, 0, 255 }, // 0x00014A48
+	 { 2086, -60, 805, 0, 0, 3072, 0, 120, 0, 255 }, // 0x00014A58
+	 { 1407, -60, 465, 0, 1024, 5120, 0, 120, 0, 255 }, // 0x00014A68
+	 { 1916, -60, 975, 0, 1024, 3072, 0, 120, 0, 255 }, // 0x00014A78
+	 { 1311, -60, 29, 0, 0, 5120, 0, 120, 0, 255 }, // 0x00014A88
+	 { 6495, -60, 3739, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014A98
+	 { 6564, -60, 3940, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014AA8
+	 { 6632, -60, 3101, 0, 1024, -2048, 0, 120, 0, 255 }, // 0x00014AB8
+	 { 4747, -60, 5373, 0, -604, 1882, 0, 120, 0, 255 }, // 0x00014AC8
+	 { 5344, -60, 4975, 0, 2877, 1155, 0, 120, 0, 255 }, // 0x00014AD8
+	 { 5055, -60, 4734, 0, 1024, 0, 0, 120, 0, 255 }, // 0x00014AE8
+	 { 4731, -60, 4895, 0, 0, 0, 0, 120, 0, 255 }, // 0x00014AF8
+	 { 4839, -60, 5633, 0, -102, 3410, 0, 120, 0, 255 }, // 0x00014B08
+	 { 5553, -60, 5303, 0, 3215, 2643, 0, 120, 0, 255 }, // 0x00014B18
+	 { 5273, -60, 5743, 0, 1625, 4185, 0, 120, 0, 255 }, // 0x00014B28
+	 { -860, -60, 880, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014B38
+	 { 793, -60, 1080, 0, 1024, -3072, 0, 120, 0, 255 }, // 0x00014B48
+	 { -660, -60, 680, 0, -512, 512, 0, 120, 0, 255 }, // 0x00014B58
+	 { 660, -60, 680, 0, 0, -3072, 0, 120, 0, 255 }, // 0x00014B68
+	 { -886, -60, 1080, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014B78
+	 { -1652, -60, 314, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014B88
+	 { -886, -60, 1080, 0, 1024, -1024, 0, 120, 0, 255 }, // 0x00014B98
+	 { -860, -60, 880, 0, 0, -1024, 0, 120, 0, 255 }, // 0x00014BA8
+	 { -1539, -60, 201, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014BB8
+	 { -1935, -60, 31, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014BC8
+	 { -1652, -60, 314, 0, 1024, 0, 0, 120, 0, 255 }, // 0x00014BD8
+	 { -1539, -60, 201, 0, 0, 0, 0, 120, 0, 255 }, // 0x00014BE8
+	 { -1822, -60, -82, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014BF8
+	 { -3010, -315, -591, 0, 0, -1024, 0, 120, 0, 255 }, // 0x00014C08
+	 { -3462, -315, -138, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014C18
+	 { -3236, -315, 88, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014C28
+	 { -2783, -315, -365, 0, 1024, -1024, 0, 120, 0, 255 }, // 0x00014C38
+	 { -3462, -315, -138, 0, 0, -3072, 0, 120, 0, 255 }, // 0x00014C48
+	 { -4417, -315, 434, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014C58
+	 { -4417, -315, 850, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014C68
+	 { -3236, -315, 88, 0, 1024, -3072, 0, 120, 0, 255 }, // 0x00014C78
+	 { -4417, -315, 434, 0, 0, -2048, 0, 120, 0, 255 }, // 0x00014C88
+	 { -5889, -315, 634, 0, 0, 3072, 0, 120, 0, 255 }, // 0x00014C98
+	 { -5889, -315, 1034, 0, 1024, 3072, 0, 120, 0, 255 }, // 0x00014CA8
+	 { -4417, -315, 850, 0, 1024, -2048, 0, 120, 0, 255 }, // 0x00014CB8
+	 { -3010, -315, -591, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014CC8
+	 { -2783, -315, -365, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014CD8
+	 { -2600, -315, -408, 0, 1280, 256, 0, 120, 0, 255 }, // 0x00014CE8
+	 { -2953, -315, -760, 0, -256, 256, 0, 120, 0, 255 }, // 0x00014CF8
+	 { -6365, -315, 693, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014D08
+	 { -6365, -315, 1093, 0, 1024, 1024, 0, 120, 0, 255 }, // 0x00014D18
+	 { -5889, -315, 1034, 0, 1024, 0, 0, 120, 0, 255 }, // 0x00014D28
+	 { -5889, -315, 634, 0, 0, 0, 0, 120, 0, 255 }, // 0x00014D38
+	 { 4691, -60, 2313, 0, 0, 1024, 0, 120, 0, 255 }, // 0x00014D48
+	 { 4375, -60, 2450, 0, 768, 1536, 0, 120, 0, 255 }, // 0x00014D58
+	 { 4483, -60, 3042, 0, 683, -341, 0, 120, 0, 255 }, // 0x00014D68
+	 { 4778, -60, 2936, 0, 0, -1024, 0, 120, 0, 255 }, // 0x00014D78
+	 { 5169, -60, 3816, 0, 512, -4096, 0, 120, 0, 255 }, // 0x00014D88
+	 { 5500, -60, 3624, 0, 0, -5120, 0, 120, 0, 255 }, // 0x00014D98
+};
+
+Vtx_t _spot00_room_0_vertices_00014DA8[8] = 
+{
+	 { -5254, -315, -2360, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014DA8
+	 { 7206, -315, 2175, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014DB8
+	 { -5254, -60, -2360, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014DC8
+	 { 7206, -60, 2175, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014DD8
+	 { -6642, -315, 1454, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014DE8
+	 { 5818, -315, 5989, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014DF8
+	 { -6642, -60, 1454, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014E08
+	 { 5818, -60, 5989, 0, 0, 0, 0, 0, 0, 0 }, // 0x00014E18
+};
+
+Gfx _spot00_room_0_dlist_00014E28[] =
+{
+	gsDPPipeSync(), // 0x00014E28
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00014E30
+	gsSPVertex(_spot00_room_0_vertices_00014DA8, 8, 0), // 0x00014E38
+	gsSPCullDisplayList(0, 7), // 0x00014E40
+	gsDPPipeSync(), // 0x00014E48
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00014E50
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00014E58
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00014E60
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00020818), // 0x00014E68
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 15, 0, 5, 14), // 0x00014E70
+	gsDPLoadSync(), // 0x00014E78
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00014E80
+	gsDPPipeSync(), // 0x00014E88
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 15, 0, 5, 14), // 0x00014E90
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00014E98
+	gsDPTileSync(), // 0x00014EA0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 1, 0, 0, 5, 14, 0, 5, 15), // 0x00014EA8
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00014EB0
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, COMBINED, 0, PRIMITIVE, 0), // 0x00014EB8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC81049D8), // 0x00014EC0
+	gsSPGeometryMode(0xFF0C0400, 0x00000000), // 0x00014EC8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00014ED0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 102), // 0x00014ED8
+	gsSPDisplayList(0x08000000), // 0x00014EE0
+	gsSPVertex(_spot00_room_0_vertices_00014828, 32, 0), // 0x00014EE8
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00014EF0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00014EF8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00014F00
+	gsSP2Triangles(12, 13, 14, 0, 15, 16, 17, 0), // 0x00014F08
+	gsSP2Triangles(16, 18, 17, 0, 19, 20, 21, 0), // 0x00014F10
+	gsSP2Triangles(19, 21, 22, 0, 20, 23, 24, 0), // 0x00014F18
+	gsSP2Triangles(20, 24, 21, 0, 25, 26, 27, 0), // 0x00014F20
+	gsSP2Triangles(25, 27, 28, 0, 29, 30, 31, 0), // 0x00014F28
+	gsSPVertex(_spot00_room_0_vertices_00014A28, 32, 0), // 0x00014F30
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00014F38
+	gsSP2Triangles(3, 6, 4, 0, 7, 8, 9, 0), // 0x00014F40
+	gsSP2Triangles(10, 11, 12, 0, 10, 12, 13, 0), // 0x00014F48
+	gsSP2Triangles(10, 14, 15, 0, 10, 15, 11, 0), // 0x00014F50
+	gsSP2Triangles(14, 16, 15, 0, 17, 18, 19, 0), // 0x00014F58
+	gsSP2Triangles(18, 20, 19, 0, 17, 21, 18, 0), // 0x00014F60
+	gsSP2Triangles(22, 23, 24, 0, 22, 24, 25, 0), // 0x00014F68
+	gsSP2Triangles(26, 27, 28, 0, 26, 28, 29, 0), // 0x00014F70
+	gsSPVertex(_spot00_room_0_vertices_00014C08, 26, 0), // 0x00014F78
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00014F80
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x00014F88
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x00014F90
+	gsSP2Triangles(12, 13, 14, 0, 12, 14, 15, 0), // 0x00014F98
+	gsSP2Triangles(16, 17, 18, 0, 16, 18, 19, 0), // 0x00014FA0
+	gsSP2Triangles(20, 21, 22, 0, 20, 22, 23, 0), // 0x00014FA8
+	gsSP2Triangles(22, 24, 25, 0, 22, 25, 23, 0), // 0x00014FB0
+	gsSPEndDisplayList(), // 0x00014FB8
+};
+
+Vtx_t _spot00_room_0_vertices_00014FC0[12] = 
+{
+	 { -2755, -315, -506, 0, 2048, 1024, 172, 0, 84, 255 }, // 0x00014FC0
+	 { -2755, -40, -506, 0, 2048, 0, 178, 46, 78, 255 }, // 0x00014FD0
+	 { -2868, -40, -619, 0, 0, 0, 178, 46, 78, 255 }, // 0x00014FE0
+	 { -2868, -315, -619, 0, 0, 1024, 172, 0, 84, 255 }, // 0x00014FF0
+	 { -2755, -40, -506, 0, 2048, 1024, 178, 46, 78, 255 }, // 0x00015000
+	 { -2727, 0, -534, 0, 2048, 0, 224, 110, 32, 255 }, // 0x00015010
+	 { -2840, 0, -647, 0, 0, 0, 224, 110, 32, 255 }, // 0x00015020
+	 { -2868, -40, -619, 0, 0, 1024, 178, 46, 78, 255 }, // 0x00015030
+	 { -2727, 0, -534, 0, 2048, 1024, 224, 110, 32, 255 }, // 0x00015040
+	 { -2614, 0, -647, 0, 2048, -1024, 0, 120, 0, 255 }, // 0x00015050
+	 { -2727, 0, -760, 0, 0, -1024, 0, 120, 0, 255 }, // 0x00015060
+	 { -2840, 0, -647, 0, 0, 1024, 224, 110, 32, 255 }, // 0x00015070
+};
+
+Vtx_t _spot00_room_0_vertices_00015080[8] = 
+{
+	 { -2861, -329, -648, 0, 0, 0, 0, 0, 0, 0 }, // 0x00015080
+	 { -2748, -329, -512, 0, 0, 0, 0, 0, 0, 0 }, // 0x00015090
+	 { -2716, 0, -769, 0, 0, 0, 0, 0, 0, 0 }, // 0x000150A0
+	 { -2602, 0, -634, 0, 0, 0, 0, 0, 0, 0 }, // 0x000150B0
+	 { -2971, -246, -556, 0, 0, 0, 0, 0, 0, 0 }, // 0x000150C0
+	 { -2857, -246, -420, 0, 0, 0, 0, 0, 0, 0 }, // 0x000150D0
+	 { -2825, 82, -678, 0, 0, 0, 0, 0, 0, 0 }, // 0x000150E0
+	 { -2712, 82, -542, 0, 0, 0, 0, 0, 0, 0 }, // 0x000150F0
+};
+
+Gfx _spot00_room_0_dlist_00015100[] =
+{
+	gsDPPipeSync(), // 0x00015100
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00015108
+	gsSPVertex(_spot00_room_0_vertices_00015080, 8, 0), // 0x00015110
+	gsSPCullDisplayList(0, 7), // 0x00015118
+	gsDPPipeSync(), // 0x00015120
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00015128
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00000000), // 0x00015130
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00015138
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _spot00_scene_tex_00020818), // 0x00015140
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 15, 0, 5, 14), // 0x00015148
+	gsDPLoadSync(), // 0x00015150
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00015158
+	gsDPPipeSync(), // 0x00015160
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 0, 0, 0, 5, 15, 0, 5, 14), // 0x00015168
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00015170
+	gsDPTileSync(), // 0x00015178
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 0, 1, 0, 0, 5, 14, 0, 5, 15), // 0x00015180
+	gsDPSetTileSize(1, 0, 0, 124, 124), // 0x00015188
+	gsDPSetCombineLERP(TEXEL1, TEXEL0, ENV_ALPHA, TEXEL0, 0, 0, 0, 1, COMBINED, K5, SHADE, COMBINED_ALPHA, COMBINED, 0, PRIMITIVE, 0), // 0x00015190
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC81049D8), // 0x00015198
+	gsSPGeometryMode(0xFF0C0400, 0x00000000), // 0x000151A0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000151A8
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 102), // 0x000151B0
+	gsSPDisplayList(0x09000000), // 0x000151B8
+	gsSPVertex(_spot00_room_0_vertices_00014FC0, 12, 0), // 0x000151C0
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000151C8
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000151D0
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x000151D8
+	gsSPEndDisplayList(), // 0x000151E0
+};
+
+static u8 unaccounted151E8[] = 
+{
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x2C, 0x38, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x2E, 0x18, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x32, 0x50, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x39, 0xA8, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x43, 0xC8, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x4E, 0x28, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x01, 0x51, 0x00, 0xDF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+};
+
+

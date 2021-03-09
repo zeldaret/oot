@@ -1,0 +1,886 @@
+#include <ultra64.h>
+#include <z64.h>
+#include "jyasinzou_room_22.h"
+#include <z64.h>
+#include <segment_symbols.h>
+#include <command_macros_base.h>
+#include <z64cutscene_commands.h>
+#include <variables.h>
+#include "jyasinzou_scene.h"
+
+
+
+SCmdEchoSettings _jyasinzou_room_22_set0000_cmd00 = { 0x16, 0, { 0 }, 0x0A }; // 0x0000
+SCmdRoomBehavior _jyasinzou_room_22_set0000_cmd01 = { 0x08, 0x01, 0x00000000 }; // 0x0008
+SCmdSkyboxDisables _jyasinzou_room_22_set0000_cmd02 = { 0x12, 0, 0, 0, 0x01, 0x01 }; // 0x0010
+SCmdTimeSettings _jyasinzou_room_22_set0000_cmd03 = { 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0x00 }; // 0x0018
+SCmdMesh _jyasinzou_room_22_set0000_cmd04 = { 0x0A, 0, (u32)&_jyasinzou_room_22_meshHeader_00000110 }; // 0x0020
+SCmdObjectList _jyasinzou_room_22_set0000_cmd05 = { 0x0B, 0x06, (u32)_jyasinzou_room_22_objectList_00000040 }; // 0x0028
+SCmdActorList _jyasinzou_room_22_set0000_cmd06 = { 0x01, 0x0C, (u32)_jyasinzou_room_22_actorList_0000004C }; // 0x0030
+SCmdEndMarker _jyasinzou_room_22_set0000_cmd07 = { 0x14, 0x00, 0x00 }; // 0x0038
+s16 _jyasinzou_room_22_objectList_00000040[] = 
+{
+	OBJECT_JYA_OBJ,
+	OBJECT_JYA_DOOR,
+	OBJECT_GI_SUTARU,
+	OBJECT_ST,
+	OBJECT_IK,
+	OBJECT_JYA_IRON,
+};
+
+ActorEntry _jyasinzou_room_22_actorList_0000004C[12] = 
+{
+	{ ACTOR_EN_IK, 681, 1633, -1317, 0, 0, 0, 0xFF02 }, //0x0000004C 
+	{ ACTOR_BG_JYA_IRONOBJ, 682, 1633, -1593, 0, -16384, 0, 0x0001 }, //0x0000005C 
+	{ ACTOR_BG_JYA_IRONOBJ, 732, 1633, -1643, 0, 0, 0, 0x0001 }, //0x0000006C 
+	{ ACTOR_BG_JYA_IRONOBJ, 632, 1633, -1643, 0, -32768, 0, 0x0001 }, //0x0000007C 
+	{ ACTOR_BG_JYA_IRONOBJ, 435, 1633, -1296, 0, 16384, 0, 0x0001 }, //0x0000008C 
+	{ ACTOR_BG_JYA_IRONOBJ, 485, 1633, -1246, 0, 0, 0, 0x0001 }, //0x0000009C 
+	{ ACTOR_BG_JYA_IRONOBJ, 435, 1633, -1196, 0, -16384, 0, 0x0001 }, //0x000000AC 
+	{ ACTOR_BG_JYA_IRONOBJ, 925, 1633, -1296, 0, 16384, 0, 0x0001 }, //0x000000BC 
+	{ ACTOR_BG_JYA_IRONOBJ, 925, 1633, -1196, 0, -16384, 0, 0x0001 }, //0x000000CC 
+	{ ACTOR_BG_JYA_IRONOBJ, 875, 1633, -1246, 0, -32768, 0, 0x0001 }, //0x000000DC 
+	{ ACTOR_EN_SW, 410, 1737, -1246, 16384, 16384, 0, 0x8704 }, //0x000000EC 
+	{ ACTOR_EN_SW, 681, 1708, -1668, 16384, 0, 0, 0x8710 }, //0x000000FC 
+};
+
+static u32 pad10C = 0;
+
+MeshHeader2 _jyasinzou_room_22_meshHeader_00000110 = { { 2 }, 0x04, (u32)&_jyasinzou_room_22_meshDListEntry_0000011C, (u32)&(_jyasinzou_room_22_meshDListEntry_0000011C) + sizeof(_jyasinzou_room_22_meshDListEntry_0000011C) };
+
+MeshEntry2 _jyasinzou_room_22_meshDListEntry_0000011C[4] = 
+{
+	{ 680, 1763, -1340, 445, (u32)_jyasinzou_room_22_dlist_000005D0, 0 },
+	{ 680, 1633, -1340, 296, (u32)_jyasinzou_room_22_dlist_00000B30, 0 },
+	{ 680, 1633, -1340, 426, (u32)_jyasinzou_room_22_dlist_00000E48, 0 },
+	{ 680, 1713, -960, 111, (u32)_jyasinzou_room_22_dlist_000012C8, 0 },
+};
+
+static u32 terminatorMaybe = 0x01000000; // This always appears after the mesh entries. Its purpose is not clear.
+
+static u8 unaccounted0160[] = 
+{
+	0x16, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 
+	0x0A, 0x00, 0x00, 0x00, 0x03, 0x00, 0x01, 0x10, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	0x16, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	0x12, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x10, 0x00, 0x00, 0x00, 0xFF, 0xFF, 0xFF, 0x00, 
+	0x0A, 0x00, 0x00, 0x00, 0x03, 0x00, 0x01, 0x10, 0x14, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+	
+};
+
+Vtx_t _jyasinzou_room_22_vertices_000001C0[5] = 
+{
+	 { 410, 1893, -1010, 0, 4608, 2048, 52, 49, 38, 255 }, // 0x000001C0
+	 { 680, 1893, -1340, 0, 2304, -768, 100, 89, 67, 255 }, // 0x000001D0
+	 { 950, 1893, -1010, 0, 0, 2048, 52, 49, 38, 255 }, // 0x000001E0
+	 { 950, 1893, -1670, 0, 0, -3584, 52, 49, 38, 255 }, // 0x000001F0
+	 { 410, 1893, -1670, 0, 4608, -3584, 52, 49, 38, 255 }, // 0x00000200
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000210[11] = 
+{
+	 { 620, 1793, -1010, 0, 4224, 0, 169, 154, 126, 255 }, // 0x00000210
+	 { 620, 1633, -1010, 0, 4224, 2048, 169, 154, 126, 255 }, // 0x00000220
+	 { 410, 1633, -1010, 0, 6912, 2048, 100, 89, 67, 255 }, // 0x00000230
+	 { 950, 1633, -1010, 0, 0, 2048, 100, 89, 67, 255 }, // 0x00000240
+	 { 740, 1633, -1010, 0, 2688, 2048, 169, 154, 126, 255 }, // 0x00000250
+	 { 740, 1793, -1010, 0, 2688, 0, 169, 154, 126, 255 }, // 0x00000260
+	 { 950, 1893, -1010, 0, 0, -1280, 100, 89, 67, 255 }, // 0x00000270
+	 { 680, 1893, -1010, 0, 3456, -1280, 100, 89, 67, 255 }, // 0x00000280
+	 { 620, 1793, -1010, 0, 4224, 0, 169, 154, 126, 255 }, // 0x00000290
+	 { 620, 1793, -1010, 0, 4224, 0, 169, 154, 126, 255 }, // 0x000002A0
+	 { 410, 1893, -1010, 0, 6912, -1280, 100, 89, 67, 255 }, // 0x000002B0
+};
+
+Vtx_t _jyasinzou_room_22_vertices_000002C0[3] = 
+{
+	 { 410, 1633, -1670, 0, 8192, 2048, 115, 102, 78, 255 }, // 0x000002C0
+	 { 410, 1813, -1670, 0, 8192, 0, 69, 62, 48, 255 }, // 0x000002D0
+	 { 410, 1813, -1340, 0, 4096, 0, 115, 102, 78, 255 }, // 0x000002E0
+};
+
+Vtx_t _jyasinzou_room_22_vertices_000002F0[5] = 
+{
+	 { 410, 1813, -1670, 0, 5120, 512, 69, 62, 48, 255 }, // 0x000002F0
+	 { 410, 1893, -1670, 0, 5120, 0, 52, 49, 38, 255 }, // 0x00000300
+	 { 410, 1813, -1340, 0, 2560, 512, 115, 102, 78, 255 }, // 0x00000310
+	 { 410, 1893, -1010, 0, 0, 0, 52, 49, 38, 255 }, // 0x00000320
+	 { 410, 1813, -1010, 0, 0, 512, 69, 62, 48, 255 }, // 0x00000330
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000340[8] = 
+{
+	 { 410, 1633, -1010, 0, 0, 2048, 69, 62, 48, 255 }, // 0x00000340
+	 { 410, 1813, -1340, 0, 4096, 0, 115, 102, 78, 255 }, // 0x00000350
+	 { 410, 1813, -1010, 0, 0, 0, 69, 62, 48, 255 }, // 0x00000360
+	 { 410, 1633, -1670, 0, 8192, 2048, 115, 102, 78, 255 }, // 0x00000370
+	 { 950, 1813, -1340, 0, 4096, 0, 115, 102, 78, 255 }, // 0x00000380
+	 { 950, 1633, -1670, 0, 0, 2048, 115, 102, 78, 255 }, // 0x00000390
+	 { 950, 1633, -1010, 0, 8192, 2048, 69, 62, 48, 255 }, // 0x000003A0
+	 { 950, 1813, -1670, 0, 0, 0, 69, 62, 48, 255 }, // 0x000003B0
+};
+
+Vtx_t _jyasinzou_room_22_vertices_000003C0[4] = 
+{
+	 { 950, 1813, -1340, 0, 2560, 512, 115, 102, 78, 255 }, // 0x000003C0
+	 { 950, 1893, -1010, 0, 0, 0, 52, 49, 38, 255 }, // 0x000003D0
+	 { 950, 1893, -1670, 0, 5120, 0, 52, 49, 38, 255 }, // 0x000003E0
+	 { 950, 1813, -1670, 0, 5120, 512, 69, 62, 48, 255 }, // 0x000003F0
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000400[3] = 
+{
+	 { 950, 1813, -1010, 0, 8192, 0, 69, 62, 48, 255 }, // 0x00000400
+	 { 950, 1813, -1340, 0, 4096, 0, 115, 102, 78, 255 }, // 0x00000410
+	 { 950, 1633, -1010, 0, 8192, 2048, 69, 62, 48, 255 }, // 0x00000420
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000430[7] = 
+{
+	 { 950, 1813, -1010, 0, 0, 512, 69, 62, 48, 255 }, // 0x00000430
+	 { 950, 1893, -1010, 0, 0, 0, 52, 49, 38, 255 }, // 0x00000440
+	 { 950, 1813, -1340, 0, 2560, 512, 115, 102, 78, 255 }, // 0x00000450
+	 { 950, 1893, -1670, 0, 4096, 0, 52, 49, 38, 255 }, // 0x00000460
+	 { 410, 1893, -1670, 0, 0, 0, 52, 49, 38, 255 }, // 0x00000470
+	 { 680, 1813, -1670, 0, 2048, 512, 115, 102, 78, 255 }, // 0x00000480
+	 { 950, 1813, -1670, 0, 4096, 512, 69, 62, 48, 255 }, // 0x00000490
+};
+
+Vtx_t _jyasinzou_room_22_vertices_000004A0[4] = 
+{
+	 { 680, 1633, -1670, 0, 3072, 2048, 158, 142, 111, 255 }, // 0x000004A0
+	 { 950, 1633, -1670, 0, 6144, 2048, 115, 102, 78, 255 }, // 0x000004B0
+	 { 950, 1813, -1670, 0, 6144, 0, 69, 62, 48, 255 }, // 0x000004C0
+	 { 680, 1813, -1670, 0, 3072, 0, 115, 102, 78, 255 }, // 0x000004D0
+};
+
+Vtx_t _jyasinzou_room_22_vertices_000004E0[3] = 
+{
+	 { 680, 1813, -1670, 0, 2048, 512, 115, 102, 78, 255 }, // 0x000004E0
+	 { 410, 1893, -1670, 0, 0, 0, 52, 49, 38, 255 }, // 0x000004F0
+	 { 410, 1813, -1670, 0, 0, 512, 69, 62, 48, 255 }, // 0x00000500
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000510[4] = 
+{
+	 { 680, 1813, -1670, 0, 3072, 0, 115, 102, 78, 255 }, // 0x00000510
+	 { 410, 1813, -1670, 0, 0, 0, 69, 62, 48, 255 }, // 0x00000520
+	 { 680, 1633, -1670, 0, 3072, 2048, 158, 142, 111, 255 }, // 0x00000530
+	 { 410, 1633, -1670, 0, 0, 2048, 115, 102, 78, 255 }, // 0x00000540
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000550[8] = 
+{
+	 { 410, 1633, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000550
+	 { 950, 1633, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000560
+	 { 410, 1893, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000570
+	 { 950, 1893, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000580
+	 { 410, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000590
+	 { 950, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x000005A0
+	 { 410, 1893, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x000005B0
+	 { 950, 1893, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x000005C0
+};
+
+Gfx _jyasinzou_room_22_dlist_000005D0[] =
+{
+	gsDPPipeSync(), // 0x000005D0
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000005D8
+	gsSPVertex(_jyasinzou_room_22_vertices_00000550, 8, 0), // 0x000005E0
+	gsSPCullDisplayList(0, 7), // 0x000005E8
+	gsDPPipeSync(), // 0x000005F0
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000005F8
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00000600
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00000608
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00002868), // 0x00000610
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 0, 6, 0), // 0x00000618
+	gsDPLoadSync(), // 0x00000620
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00000628
+	gsDPPipeSync(), // 0x00000630
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 0, 6, 0), // 0x00000638
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00000640
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018000), // 0x00000648
+	gsDPTileSync(), // 0x00000650
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00000658
+	gsDPLoadSync(), // 0x00000660
+	gsDPLoadTLUTCmd(7, 15), // 0x00000668
+	gsDPPipeSync(), // 0x00000670
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00000678
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00000680
+	gsSPGeometryMode(0xFF0E0000, 0x00000000), // 0x00000688
+	gsSPGeometryMode(0xFF000000, 0x00010400), // 0x00000690
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00000698
+	gsSPVertex(_jyasinzou_room_22_vertices_000001C0, 5, 0), // 0x000006A0
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x000006A8
+	gsSP2Triangles(0, 4, 1, 0, 4, 3, 1, 0), // 0x000006B0
+	gsDPPipeSync(), // 0x000006B8
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00019320), // 0x000006C0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 0, 6, 0), // 0x000006C8
+	gsDPLoadSync(), // 0x000006D0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000006D8
+	gsDPPipeSync(), // 0x000006E0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 0, 6, 0), // 0x000006E8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000006F0
+	gsSPVertex(_jyasinzou_room_22_vertices_00000210, 11, 0), // 0x000006F8
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00000700
+	gsSP2Triangles(3, 5, 6, 0, 5, 7, 6, 0), // 0x00000708
+	gsSP2Triangles(5, 8, 7, 0, 9, 10, 7, 0), // 0x00000710
+	gsSP1Triangle(9, 2, 10, 0), // 0x00000718
+	gsDPPipeSync(), // 0x00000720
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001C68), // 0x00000728
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 1, 6, 0, 1, 5, 0), // 0x00000730
+	gsDPLoadSync(), // 0x00000738
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00000740
+	gsDPPipeSync(), // 0x00000748
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, 1, 6, 0, 1, 5, 0), // 0x00000750
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00000758
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00017BE0), // 0x00000760
+	gsDPTileSync(), // 0x00000768
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00000770
+	gsDPLoadSync(), // 0x00000778
+	gsDPLoadTLUTCmd(7, 255), // 0x00000780
+	gsDPPipeSync(), // 0x00000788
+	gsSPVertex(_jyasinzou_room_22_vertices_000002C0, 3, 0), // 0x00000790
+	gsSP1Triangle(0, 1, 2, 0), // 0x00000798
+	gsDPPipeSync(), // 0x000007A0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018820), // 0x000007A8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 0, 4, 0), // 0x000007B0
+	gsDPLoadSync(), // 0x000007B8
+	gsDPLoadBlock(7, 0, 0, 127, 1024), // 0x000007C0
+	gsDPPipeSync(), // 0x000007C8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 2, 0, 0, 0, 0, 4, 0, 0, 4, 0), // 0x000007D0
+	gsDPSetTileSize(0, 0, 0, 60, 60), // 0x000007D8
+	gsSPVertex(_jyasinzou_room_22_vertices_000002F0, 5, 0), // 0x000007E0
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0), // 0x000007E8
+	gsSP1Triangle(2, 3, 4, 0), // 0x000007F0
+	gsDPPipeSync(), // 0x000007F8
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001C68), // 0x00000800
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 1, 6, 0, 1, 5, 0), // 0x00000808
+	gsDPLoadSync(), // 0x00000810
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00000818
+	gsDPPipeSync(), // 0x00000820
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, 1, 6, 0, 1, 5, 0), // 0x00000828
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00000830
+	gsSPVertex(_jyasinzou_room_22_vertices_00000340, 8, 0), // 0x00000838
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00000840
+	gsSP2Triangles(4, 5, 6, 0, 4, 7, 5, 0), // 0x00000848
+	gsDPPipeSync(), // 0x00000850
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018820), // 0x00000858
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 0, 4, 0), // 0x00000860
+	gsDPLoadSync(), // 0x00000868
+	gsDPLoadBlock(7, 0, 0, 127, 1024), // 0x00000870
+	gsDPPipeSync(), // 0x00000878
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 2, 0, 0, 0, 0, 4, 0, 0, 4, 0), // 0x00000880
+	gsDPSetTileSize(0, 0, 0, 60, 60), // 0x00000888
+	gsSPVertex(_jyasinzou_room_22_vertices_000003C0, 4, 0), // 0x00000890
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00000898
+	gsDPPipeSync(), // 0x000008A0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001C68), // 0x000008A8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 1, 6, 0, 1, 5, 0), // 0x000008B0
+	gsDPLoadSync(), // 0x000008B8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000008C0
+	gsDPPipeSync(), // 0x000008C8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, 1, 6, 0, 1, 5, 0), // 0x000008D0
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x000008D8
+	gsSPVertex(_jyasinzou_room_22_vertices_00000400, 3, 0), // 0x000008E0
+	gsSP1Triangle(0, 1, 2, 0), // 0x000008E8
+	gsDPPipeSync(), // 0x000008F0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018820), // 0x000008F8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 0, 4, 0), // 0x00000900
+	gsDPLoadSync(), // 0x00000908
+	gsDPLoadBlock(7, 0, 0, 127, 1024), // 0x00000910
+	gsDPPipeSync(), // 0x00000918
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 2, 0, 0, 0, 0, 4, 0, 0, 4, 0), // 0x00000920
+	gsDPSetTileSize(0, 0, 0, 60, 60), // 0x00000928
+	gsSPVertex(_jyasinzou_room_22_vertices_00000430, 7, 0), // 0x00000930
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0), // 0x00000938
+	gsSP1Triangle(6, 3, 5, 0), // 0x00000940
+	gsDPPipeSync(), // 0x00000948
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001C68), // 0x00000950
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 1, 6, 0, 1, 5, 0), // 0x00000958
+	gsDPLoadSync(), // 0x00000960
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00000968
+	gsDPPipeSync(), // 0x00000970
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, 1, 6, 0, 1, 5, 0), // 0x00000978
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00000980
+	gsSPVertex(_jyasinzou_room_22_vertices_000004A0, 4, 0), // 0x00000988
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00000990
+	gsDPPipeSync(), // 0x00000998
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018820), // 0x000009A0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 4, 0, 0, 4, 0), // 0x000009A8
+	gsDPLoadSync(), // 0x000009B0
+	gsDPLoadBlock(7, 0, 0, 127, 1024), // 0x000009B8
+	gsDPPipeSync(), // 0x000009C0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 2, 0, 0, 0, 0, 4, 0, 0, 4, 0), // 0x000009C8
+	gsDPSetTileSize(0, 0, 0, 60, 60), // 0x000009D0
+	gsSPVertex(_jyasinzou_room_22_vertices_000004E0, 3, 0), // 0x000009D8
+	gsSP1Triangle(0, 1, 2, 0), // 0x000009E0
+	gsDPPipeSync(), // 0x000009E8
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001C68), // 0x000009F0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 1, 6, 0, 1, 5, 0), // 0x000009F8
+	gsDPLoadSync(), // 0x00000A00
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00000A08
+	gsDPPipeSync(), // 0x00000A10
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, 1, 6, 0, 1, 5, 0), // 0x00000A18
+	gsDPSetTileSize(0, 0, 0, 124, 252), // 0x00000A20
+	gsSPVertex(_jyasinzou_room_22_vertices_00000510, 4, 0), // 0x00000A28
+	gsSP2Triangles(0, 1, 2, 0, 3, 2, 1, 0), // 0x00000A30
+	gsSPEndDisplayList(), // 0x00000A38
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000A40[7] = 
+{
+	 { 470, 1633, -1130, 0, 0, 1024, 134, 119, 89, 255 }, // 0x00000A40
+	 { 680, 1633, -1340, 0, 3072, -2048, 255, 255, 255, 255 }, // 0x00000A50
+	 { 470, 1633, -1550, 0, 0, -5120, 134, 119, 89, 255 }, // 0x00000A60
+	 { 680, 1633, -1130, 0, 3072, 1024, 158, 142, 111, 255 }, // 0x00000A70
+	 { 890, 1633, -1130, 0, 6144, 1024, 134, 119, 89, 255 }, // 0x00000A80
+	 { 890, 1633, -1550, 0, 6144, -5120, 134, 119, 89, 255 }, // 0x00000A90
+	 { 680, 1633, -1550, 0, 3072, -5120, 158, 142, 111, 255 }, // 0x00000AA0
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000AB0[8] = 
+{
+	 { 470, 1633, -1550, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000AB0
+	 { 890, 1633, -1550, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000AC0
+	 { 470, 1633, -1550, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000AD0
+	 { 890, 1633, -1550, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000AE0
+	 { 470, 1633, -1130, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000AF0
+	 { 890, 1633, -1130, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000B00
+	 { 470, 1633, -1130, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000B10
+	 { 890, 1633, -1130, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000B20
+};
+
+Gfx _jyasinzou_room_22_dlist_00000B30[] =
+{
+	gsDPPipeSync(), // 0x00000B30
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00000B38
+	gsSPVertex(_jyasinzou_room_22_vertices_00000AB0, 8, 0), // 0x00000B40
+	gsSPCullDisplayList(0, 7), // 0x00000B48
+	gsDPPipeSync(), // 0x00000B50
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00000B58
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00000B60
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00000B68
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00002468), // 0x00000B70
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 0, 5, 0), // 0x00000B78
+	gsDPLoadSync(), // 0x00000B80
+	gsDPLoadBlock(7, 0, 0, 511, 512), // 0x00000B88
+	gsDPPipeSync(), // 0x00000B90
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 4, 0, 0, 0, 0, 5, 0, 0, 5, 0), // 0x00000B98
+	gsDPSetTileSize(0, 0, 0, 124, 124), // 0x00000BA0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00017DE0), // 0x00000BA8
+	gsDPTileSync(), // 0x00000BB0
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00000BB8
+	gsDPLoadSync(), // 0x00000BC0
+	gsDPLoadTLUTCmd(7, 255), // 0x00000BC8
+	gsDPPipeSync(), // 0x00000BD0
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00000BD8
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00000BE0
+	gsSPGeometryMode(0xFF0E0000, 0x00000000), // 0x00000BE8
+	gsSPGeometryMode(0xFF000000, 0x00010400), // 0x00000BF0
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00000BF8
+	gsSPVertex(_jyasinzou_room_22_vertices_00000A40, 7, 0), // 0x00000C00
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00000C08
+	gsSP2Triangles(3, 4, 1, 0, 4, 5, 1, 0), // 0x00000C10
+	gsSP2Triangles(5, 6, 1, 0, 6, 2, 1, 0), // 0x00000C18
+	gsSPEndDisplayList(), // 0x00000C20
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000C28[7] = 
+{
+	 { 890, 1633, -1550, 0, 8192, -5120, 134, 119, 89, 255 }, // 0x00000C28
+	 { 950, 1633, -1670, 0, 9216, -7168, 115, 102, 78, 255 }, // 0x00000C38
+	 { 680, 1633, -1550, 0, 4608, -5120, 158, 142, 111, 255 }, // 0x00000C48
+	 { 410, 1633, -1670, 0, 0, -7168, 115, 102, 78, 255 }, // 0x00000C58
+	 { 470, 1633, -1550, 0, 1024, -5120, 134, 119, 89, 255 }, // 0x00000C68
+	 { 410, 1633, -1010, 0, 0, 4096, 81, 72, 55, 255 }, // 0x00000C78
+	 { 470, 1633, -1130, 0, 1024, 2048, 134, 119, 89, 255 }, // 0x00000C88
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000C98[4] = 
+{
+	 { 680, 1633, -1130, 0, 2048, -5120, 158, 142, 111, 255 }, // 0x00000C98
+	 { 680, 1633, -1010, 0, 2048, -1024, 115, 102, 78, 255 }, // 0x00000CA8
+	 { 740, 1633, -1010, 0, 4096, -1024, 115, 102, 78, 255 }, // 0x00000CB8
+	 { 620, 1633, -1010, 0, 0, -1024, 115, 102, 78, 255 }, // 0x00000CC8
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000CD8[6] = 
+{
+	 { 950, 1633, -1670, 0, 9216, -7168, 115, 102, 78, 255 }, // 0x00000CD8
+	 { 890, 1633, -1550, 0, 8192, -5120, 134, 119, 89, 255 }, // 0x00000CE8
+	 { 890, 1633, -1130, 0, 8192, 2048, 134, 119, 89, 255 }, // 0x00000CF8
+	 { 950, 1633, -1010, 0, 9216, 4096, 81, 72, 55, 255 }, // 0x00000D08
+	 { 740, 1633, -1130, 0, 5632, 2048, 177, 164, 138, 255 }, // 0x00000D18
+	 { 740, 1633, -1010, 0, 5632, 4096, 115, 102, 78, 255 }, // 0x00000D28
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000D38[5] = 
+{
+	 { 740, 1633, -1130, 0, 4096, -5120, 177, 164, 138, 255 }, // 0x00000D38
+	 { 680, 1633, -1130, 0, 2048, -5120, 158, 142, 111, 255 }, // 0x00000D48
+	 { 740, 1633, -1010, 0, 4096, -1024, 115, 102, 78, 255 }, // 0x00000D58
+	 { 620, 1633, -1130, 0, 0, -5120, 177, 164, 138, 255 }, // 0x00000D68
+	 { 620, 1633, -1010, 0, 0, -1024, 115, 102, 78, 255 }, // 0x00000D78
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000D88[4] = 
+{
+	 { 620, 1633, -1130, 0, 3584, 2048, 177, 164, 138, 255 }, // 0x00000D88
+	 { 470, 1633, -1130, 0, 1024, 2048, 134, 119, 89, 255 }, // 0x00000D98
+	 { 410, 1633, -1010, 0, 0, 4096, 81, 72, 55, 255 }, // 0x00000DA8
+	 { 620, 1633, -1010, 0, 3584, 4096, 115, 102, 78, 255 }, // 0x00000DB8
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00000DC8[8] = 
+{
+	 { 410, 1633, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000DC8
+	 { 950, 1633, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000DD8
+	 { 410, 1633, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000DE8
+	 { 950, 1633, -1670, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000DF8
+	 { 410, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000E08
+	 { 950, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000E18
+	 { 410, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000E28
+	 { 950, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00000E38
+};
+
+Gfx _jyasinzou_room_22_dlist_00000E48[] =
+{
+	gsDPPipeSync(), // 0x00000E48
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x00000E50
+	gsSPVertex(_jyasinzou_room_22_vertices_00000DC8, 8, 0), // 0x00000E58
+	gsSPCullDisplayList(0, 7), // 0x00000E60
+	gsDPPipeSync(), // 0x00000E68
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x00000E70
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x00000E78
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00000E80
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00002868), // 0x00000E88
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 0, 6, 0), // 0x00000E90
+	gsDPLoadSync(), // 0x00000E98
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00000EA0
+	gsDPPipeSync(), // 0x00000EA8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 0, 6, 0), // 0x00000EB0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00000EB8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018000), // 0x00000EC0
+	gsDPTileSync(), // 0x00000EC8
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00000ED0
+	gsDPLoadSync(), // 0x00000ED8
+	gsDPLoadTLUTCmd(7, 15), // 0x00000EE0
+	gsDPPipeSync(), // 0x00000EE8
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00000EF0
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00000EF8
+	gsSPGeometryMode(0xFF0E0000, 0x00000000), // 0x00000F00
+	gsSPGeometryMode(0xFF000000, 0x00010400), // 0x00000F08
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00000F10
+	gsSPVertex(_jyasinzou_room_22_vertices_00000C28, 7, 0), // 0x00000F18
+	gsSP2Triangles(0, 1, 2, 0, 3, 4, 2, 0), // 0x00000F20
+	gsSP2Triangles(1, 3, 2, 0, 4, 3, 5, 0), // 0x00000F28
+	gsSP1Triangle(4, 5, 6, 0), // 0x00000F30
+	gsDPPipeSync(), // 0x00000F38
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001468), // 0x00000F40
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 1, 6, 0), // 0x00000F48
+	gsDPLoadSync(), // 0x00000F50
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00000F58
+	gsDPPipeSync(), // 0x00000F60
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, 0, 5, 0, 1, 6, 0), // 0x00000F68
+	gsDPSetTileSize(0, 0, 0, 252, 124), // 0x00000F70
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00017DE0), // 0x00000F78
+	gsDPTileSync(), // 0x00000F80
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00000F88
+	gsDPLoadSync(), // 0x00000F90
+	gsDPLoadTLUTCmd(7, 255), // 0x00000F98
+	gsDPPipeSync(), // 0x00000FA0
+	gsSPVertex(_jyasinzou_room_22_vertices_00000C98, 4, 0), // 0x00000FA8
+	gsSP2Triangles(0, 1, 2, 0, 0, 3, 1, 0), // 0x00000FB0
+	gsDPPipeSync(), // 0x00000FB8
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00002868), // 0x00000FC0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 0, 6, 0), // 0x00000FC8
+	gsDPLoadSync(), // 0x00000FD0
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00000FD8
+	gsDPPipeSync(), // 0x00000FE0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 0, 6, 0), // 0x00000FE8
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00000FF0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018000), // 0x00000FF8
+	gsDPTileSync(), // 0x00001000
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00001008
+	gsDPLoadSync(), // 0x00001010
+	gsDPLoadTLUTCmd(7, 15), // 0x00001018
+	gsDPPipeSync(), // 0x00001020
+	gsSPVertex(_jyasinzou_room_22_vertices_00000CD8, 6, 0), // 0x00001028
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00001030
+	gsSP2Triangles(3, 2, 4, 0, 3, 4, 5, 0), // 0x00001038
+	gsDPPipeSync(), // 0x00001040
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001468), // 0x00001048
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 1, 6, 0), // 0x00001050
+	gsDPLoadSync(), // 0x00001058
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x00001060
+	gsDPPipeSync(), // 0x00001068
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, 0, 5, 0, 1, 6, 0), // 0x00001070
+	gsDPSetTileSize(0, 0, 0, 252, 124), // 0x00001078
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00017DE0), // 0x00001080
+	gsDPTileSync(), // 0x00001088
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00001090
+	gsDPLoadSync(), // 0x00001098
+	gsDPLoadTLUTCmd(7, 255), // 0x000010A0
+	gsDPPipeSync(), // 0x000010A8
+	gsSPVertex(_jyasinzou_room_22_vertices_00000D38, 5, 0), // 0x000010B0
+	gsSP2Triangles(0, 1, 2, 0, 1, 3, 4, 0), // 0x000010B8
+	gsDPPipeSync(), // 0x000010C0
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00002868), // 0x000010C8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 0, 6, 0), // 0x000010D0
+	gsDPLoadSync(), // 0x000010D8
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x000010E0
+	gsDPPipeSync(), // 0x000010E8
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 0, 6, 0), // 0x000010F0
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x000010F8
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018000), // 0x00001100
+	gsDPTileSync(), // 0x00001108
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00001110
+	gsDPLoadSync(), // 0x00001118
+	gsDPLoadTLUTCmd(7, 15), // 0x00001120
+	gsDPPipeSync(), // 0x00001128
+	gsSPVertex(_jyasinzou_room_22_vertices_00000D88, 4, 0), // 0x00001130
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00001138
+	gsSPEndDisplayList(), // 0x00001140
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00001148[12] = 
+{
+	 { 740, 1793, -1010, 0, 1536, 0, 35, 31, 25, 255 }, // 0x00001148
+	 { 740, 1793, -910, 0, 1536, 1280, 35, 31, 25, 255 }, // 0x00001158
+	 { 620, 1793, -910, 0, 0, 1280, 35, 31, 25, 255 }, // 0x00001168
+	 { 620, 1793, -1010, 0, 0, 0, 35, 31, 25, 255 }, // 0x00001178
+	 { 740, 1633, -1010, 0, 0, 2048, 100, 89, 67, 255 }, // 0x00001188
+	 { 740, 1633, -910, 0, 1280, 2048, 81, 72, 55, 255 }, // 0x00001198
+	 { 740, 1793, -910, 0, 1280, 0, 81, 72, 55, 255 }, // 0x000011A8
+	 { 740, 1793, -1010, 0, 0, 0, 35, 31, 25, 255 }, // 0x000011B8
+	 { 620, 1793, -1010, 0, 1280, 0, 35, 31, 25, 255 }, // 0x000011C8
+	 { 620, 1793, -910, 0, 0, 0, 35, 31, 25, 255 }, // 0x000011D8
+	 { 620, 1633, -910, 0, 0, 2048, 100, 89, 67, 255 }, // 0x000011E8
+	 { 620, 1633, -1010, 0, 1280, 2048, 100, 89, 67, 255 }, // 0x000011F8
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00001208[4] = 
+{
+	 { 620, 1633, -1010, 0, 0, -1024, 100, 89, 67, 255 }, // 0x00001208
+	 { 620, 1633, -910, 0, 0, 2389, 100, 89, 67, 255 }, // 0x00001218
+	 { 740, 1633, -910, 0, 4096, 2389, 100, 89, 67, 255 }, // 0x00001228
+	 { 740, 1633, -1010, 0, 4096, -1024, 100, 89, 67, 255 }, // 0x00001238
+};
+
+Vtx_t _jyasinzou_room_22_vertices_00001248[8] = 
+{
+	 { 620, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00001248
+	 { 740, 1633, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00001258
+	 { 620, 1793, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00001268
+	 { 740, 1793, -1010, 0, 0, 0, 0, 0, 0, 0 }, // 0x00001278
+	 { 620, 1633, -910, 0, 0, 0, 0, 0, 0, 0 }, // 0x00001288
+	 { 740, 1633, -910, 0, 0, 0, 0, 0, 0, 0 }, // 0x00001298
+	 { 620, 1793, -910, 0, 0, 0, 0, 0, 0, 0 }, // 0x000012A8
+	 { 740, 1793, -910, 0, 0, 0, 0, 0, 0, 0 }, // 0x000012B8
+};
+
+Gfx _jyasinzou_room_22_dlist_000012C8[] =
+{
+	gsDPPipeSync(), // 0x000012C8
+	gsSPGeometryMode(0xFF030000, 0x00000000), // 0x000012D0
+	gsSPVertex(_jyasinzou_room_22_vertices_00001248, 8, 0), // 0x000012D8
+	gsSPCullDisplayList(0, 7), // 0x000012E0
+	gsDPPipeSync(), // 0x000012E8
+	gsSPGeometryMode(0xFF000000, 0x00030000), // 0x000012F0
+	gsSPSetOtherMode(0xE3, 14, 2, 0x00008000), // 0x000012F8
+	gsSPTexture(65535, 65535, 0, 0, 1), // 0x00001300
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00019320), // 0x00001308
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 6, 0, 0, 6, 0), // 0x00001310
+	gsDPLoadSync(), // 0x00001318
+	gsDPLoadBlock(7, 0, 0, 1023, 512), // 0x00001320
+	gsDPPipeSync(), // 0x00001328
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_4b, 4, 0, 0, 0, 0, 6, 0, 0, 6, 0), // 0x00001330
+	gsDPSetTileSize(0, 0, 0, 252, 252), // 0x00001338
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00018000), // 0x00001340
+	gsDPTileSync(), // 0x00001348
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00001350
+	gsDPLoadSync(), // 0x00001358
+	gsDPLoadTLUTCmd(7, 15), // 0x00001360
+	gsDPPipeSync(), // 0x00001368
+	gsDPSetCombineLERP(TEXEL0, K5, SHADE, COMBINED_ALPHA, 0, 0, 0, 1, COMBINED, K5, PRIMITIVE, COMBINED_ALPHA, 0, 0, 0, COMBINED), // 0x00001370
+	gsSPSetOtherMode(0xE2, 3, 29, 0xC8112078), // 0x00001378
+	gsSPGeometryMode(0xFF0E0000, 0x00000000), // 0x00001380
+	gsSPGeometryMode(0xFF000000, 0x00010400), // 0x00001388
+	gsDPSetPrimColor(0, 0, 255, 255, 255, 255), // 0x00001390
+	gsSPVertex(_jyasinzou_room_22_vertices_00001148, 12, 0), // 0x00001398
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x000013A0
+	gsSP2Triangles(4, 5, 6, 0, 4, 6, 7, 0), // 0x000013A8
+	gsSP2Triangles(8, 9, 10, 0, 8, 10, 11, 0), // 0x000013B0
+	gsDPPipeSync(), // 0x000013B8
+	gsDPSetTextureImage(G_IM_FMT_CI, G_IM_SIZ_16b, 1, _jyasinzou_room_22_tex_00001468), // 0x000013C0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_16b, 0, 0, 7, 0, 0, 5, 0, 1, 6, 0), // 0x000013C8
+	gsDPLoadSync(), // 0x000013D0
+	gsDPLoadBlock(7, 0, 0, 1023, 256), // 0x000013D8
+	gsDPPipeSync(), // 0x000013E0
+	gsDPSetTile(G_IM_FMT_CI, G_IM_SIZ_8b, 8, 0, 0, 0, 0, 5, 0, 1, 6, 0), // 0x000013E8
+	gsDPSetTileSize(0, 0, 0, 252, 124), // 0x000013F0
+	gsDPSetTextureImage(G_IM_FMT_RGBA, G_IM_SIZ_16b, 1, _jyasinzou_scene_tex_00017DE0), // 0x000013F8
+	gsDPTileSync(), // 0x00001400
+	gsDPSetTile(G_IM_FMT_RGBA, G_IM_SIZ_4b, 0, 256, 7, 0, 0, 0, 0, 0, 0, 0), // 0x00001408
+	gsDPLoadSync(), // 0x00001410
+	gsDPLoadTLUTCmd(7, 255), // 0x00001418
+	gsDPPipeSync(), // 0x00001420
+	gsSPVertex(_jyasinzou_room_22_vertices_00001208, 4, 0), // 0x00001428
+	gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0), // 0x00001430
+	gsSPEndDisplayList(), // 0x00001438
+};
+
+static u8 unaccounted1440[] = 
+{
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x05, 0xD0, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x0B, 0x30, 
+	0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x0E, 0x48, 0xDE, 0x00, 0x00, 0x00, 0x03, 0x00, 0x12, 0xC8, 
+	0xDF, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+};
+
+u64 _jyasinzou_room_22_tex_00001468[] = 
+{
+	0x292F021616021616, 0x0C02160202161658, 0x5816071313040704, 0x0402020213040202,  // 0x00001468 
+	0x130213134E02112F, 0x0204131304020404, 0x04112F4E13021302, 0x7302137313131358,  // 0x00001488 
+	0x07072B2B0C2B0C2B, 0x0C16020216161616, 0x58585A0C13135A0C, 0x042B2B020C042B04,  // 0x000014A8 
+	0x0C2B130C5A020C6D, 0x04040C1313040C0C, 0x111104130C2B1302, 0x2B040C0713130C6D,  // 0x000014C8 
+	0x29040202022B1602, 0x1616020216021602, 0x16585A0C2B6A4E2B, 0x0C13132B0C042B04,  // 0x000014E8 
+	0x0C132B024E0C1304, 0x11110C2B6A040204, 0x6D1102130C13130C, 0x0C040C040C0C040C,  // 0x00001508 
+	0x2B2BFC022B2B1616, 0x16020216162B0202, 0x2B1615040202736A, 0x13132B6A13020202,  // 0x00001528 
+	0x2B2B020273072B6A, 0x0211040213731315, 0x1515074E5A136A6A, 0x6A134E130C0C074E,  // 0x00001548 
+	0x2F02FC16022B1602, 0x1616165802021616, 0x02586A0204024E13, 0x1313021313020702,  // 0x00001568 
+	0x0202110773040213, 0x110202041313112F, 0x02070C1507040202, 0x026A130211020413,  // 0x00001588 
+	0x15736A132B2B6A6A, 0x6A0C581616161616, 0x16164E0411044E0C, 0x0C0C0404042B0C02,  // 0x000015A8 
+	0x0204020C4E04040C, 0x022B0411070C110C, 0x02020C0C04110402, 0x02130C021102110C,  // 0x000015C8 
+	0x2F2B021616160216, 0x0C16161616160216, 0x16164E110C0C5A0C, 0x0C020C0411130202,  // 0x000015E8 
+	0x020C0C0C4E070411, 0x0C0C110C150C042B, 0x04022B0C0C041104, 0x0213020C0C020C11,  // 0x00001608 
+	0x2F0C020216160216, 0x2B16020202162B16, 0x58161504132B5A13, 0x130C2B0C042B020C,  // 0x00001628 
+	0x02132B2B13730C11, 0x0C11041313040C13, 0x0C02022B2B021111, 0x0213020402022B11,  // 0x00001648 
+	0x2902021602161616, 0x2B16021616021602, 0x1658151307025A73, 0x1313021302020213,  // 0x00001668 
+	0x040702044E131304, 0x6D11130713021313, 0x020C130202041111, 0x114E04020202026D,  // 0x00001688 
+	0x046A072B0C6A2B0C, 0x6A02585816161616, 0x16585A1304117F13, 0x0C042B0C042B040C,  // 0x000016A8 
+	0x0704110213130C04, 0x6D0413040C021313, 0x2B2B131302071104, 0x1304112B2B022F6D,  // 0x000016C8 
+	0x292B0202020C0216, 0x1616161616020216, 0x16164E0C13135A0C, 0x020C132B0C130C04,  // 0x000016E8 
+	0x0C04040213130211, 0x110C0C0407020C0C, 0x0C1302112B131104, 0x0711110C0C2B110C,  // 0x00001708 
+	0x290C0202020C0216, 0x1658161616020216, 0x16164E044E025A04, 0x02132B2B022B0C04,  // 0x00001728 
+	0x1102020C4E130C04, 0x0C2B040C13070707, 0x071313070C075A5A, 0x4715040C07155A13,  // 0x00001748 
+	0x29022B16160C1602, 0x1658161602021616, 0x0202734E130C4707, 0x1313151313134E66,  // 0x00001768 
+	0x0707134E134E074E, 0x131313730C040402, 0x0C022B0711110C02, 0x154E7313040C7313,  // 0x00001788 
+	0x046A070C0C6A0C0C, 0x1302161602160216, 0x2B0C4E0213131504, 0x1302020202020407,  // 0x000017A8 
+	0x0704021302130473, 0x0202024E13021102, 0x1302020402021302, 0x047313046D040213,  // 0x000017C8 
+	0x2904021616025816, 0x2B02020216160216, 0x0C2B4E040C0C4E13, 0x130202022B040C13,  // 0x000017E8 
+	0x132B6A0C02130C0C, 0x2B0204150C020202, 0x132B2B042B2B0C02, 0x13131111074E020C,  // 0x00001808 
+	0x290C6D1616021616, 0x2B0202020216160C, 0x58165A0C0C117313, 0x130C0C020C110413,  // 0x00001828 
+	0x0C0C6A0C020C0211, 0x0C0C0C0711020C02, 0x0C0C0C0C130C0C0C, 0x6A071104136A1313,  // 0x00001848 
+	0x292B6D1616161658, 0x0C16160202165816, 0x5816470C02044E02, 0x2B040C04040C1107,  // 0x00001868 
+	0x020C2B2B0C110204, 0x0C0C0C13040C2B0C, 0x0C02020C2B0C132B, 0x2B0C040C6A2B0C02,  // 0x00001888 
+	0x046A072B04132B0C, 0x1358161616165816, 0x160273070202130C, 0x020207112F070415,  // 0x000018A8 
+	0x1104020404110202, 0x1313071302040413, 0x0402020402131302, 0x110C021313020411,  // 0x000018C8 
+	0x29110216020C1602, 0x0216160216160258, 0x161673042B021507, 0x0202042B11040713,  // 0x000018E8 
+	0x04042B02022B1104, 0x0C1304130202110C, 0x0702020702131311, 0x110C2B130C2B0704,  // 0x00001908 
+	0x2F2F1116162B1616, 0x0216021616160216, 0x16164E110C021313, 0x2B2B040C2B040C4E,  // 0x00001928 
+	0x0C2B0C0202130C04, 0x020C111502020402, 0x0C022B1313130C04, 0x0C070C0C04130C11,  // 0x00001948 
+	0x29042F16162B1616, 0x0216021616160202, 0x161613110C0C1313, 0x2B2B0C0C130C1113,  // 0x00001968 
+	0x02130C020C2B2B0C, 0x040411150C0C0204, 0x040C1313130C110C, 0x1313040C0C0C1111,  // 0x00001988 
+	0x076A072B2B2B0258, 0x1616021616161616, 0x025815042B041313, 0x02022B04132B1107,  // 0x000019A8 
+	0x0213040C0C0C022B, 0x1111041304130C11, 0x04136A7F73474E66, 0x737F4E667366474E,  // 0x000019C8 
+	0x076A070C2B6A6A13, 0x730C0202022B0216, 0x16585A1302131313, 0x0404021313020C47,  // 0x000019E8 
+	0x074E4E4E73130202, 0x2F044E4E4E4E4E13, 0x4E4E4E7F02110213, 0x1113070204027302,  // 0x00001A08 
+	0x2F02021602160216, 0x2B16160202161616, 0x58164E0C02131313, 0x2B2B02130C2B024E,  // 0x00001A28 
+	0x020413130C131313, 0x0713154E130C1302, 0x13130C73042B6A13, 0x2F110C2B04041302,  // 0x00001A48 
+	0x2F0C020216161602, 0x6A16161602160216, 0x16164E0C020C0713, 0x0C0C2B0C020C2B4E,  // 0x00001A68 
+	0x02040C13022B0215, 0x020C0C020C020C2B, 0x13130C730C132B0C, 0x0C0C04130C0C0C02,  // 0x00001A88 
+	0x292B020216161602, 0x0C2B161602160216, 0x02164E0202110707, 0x040C13020C0C134E,  // 0x00001AA8 
+	0x0C0C0C2B02130C4E, 0x0202020211020C0C, 0x2B2B0273132B020C, 0x2B130C2B0C2B0202,  // 0x00001AC8 
+	0x076A2B2B0C6A2B2B, 0x0C2B160216160202, 0x02164E020204150C, 0x0413070207070713,  // 0x00001AE8 
+	0x130407020207075A, 0x0202020204110711, 0x0402024E07040204, 0x026A13041102020C,  // 0x00001B08 
+	0x29FC0216020C1616, 0x0202021658161616, 0x16164E112B07136A, 0x134E136A1313136A,  // 0x00001B28 
+	0x4E13130C13151566, 0x1302112B07040402, 0x0202116604040402, 0x2B041307022B2B6A,  // 0x00001B48 
+	0x2F2B0C02162B0202, 0x1616161616161616, 0x16164E020C0C1313, 0x130C2B0C2B2B6A0C,  // 0x00001B68 
+	0x040C0211020C115A, 0x022B020C0C2B0404, 0x02020C660C11042B, 0x13040C0C020C132B,  // 0x00001B88 
+	0x0773732B2B6A2B6A, 0x0C58161616161616, 0x1616730C0C021313, 0x2B020C0C2B137304,  // 0x00001BA8 
+	0x11020C0C0C02044E, 0x0C130C0C02130C11, 0x0C0C134E040C0413, 0x0C04040C0C0C2B04,  // 0x00001BC8 
+	0x292B2B160216022B, 0x0C58161602021616, 0x16164E2B04024E13, 0x0C0C042B0C136A02,  // 0x00001BE8 
+	0x1102042B2B020207, 0x042B2B04022B2B11, 0x0404134711130C2B, 0x110C022B2B130211,  // 0x00001C08 
+	0x292B021616020216, 0x0258161616161616, 0x1616020402044E4E, 0x1313040413130211,  // 0x00001C28 
+	0x1102020402020207, 0x0402040204020202, 0x0402134702131304, 0x0413020204130211,  // 0x00001C48 
+};
+
+u64 _jyasinzou_room_22_tex_00001C68[] = 
+{
+	0x0012121212000608, 0x0800010000000000, 0x0101014701010101, 0x0101010101000012,  // 0x00001C68 
+	0x050512051C1C1C1C, 0x051C0B1C1C021C0B, 0x0E0E1C0E0E0E0E0E, 0x0E0E0E0E0E0E0E05,  // 0x00001C88 
+	0x09043A3A04040404, 0x043A3A090109043A, 0x0404040404040404, 0x3A3A3A3A3A090909,  // 0x00001CA8 
+	0x0006121200000151, 0x0006060606000000, 0x0006000000000000, 0x0000000601061200,  // 0x00001CC8 
+	0x0006060651000100, 0x0000510612060618, 0x0000000051080851, 0x0006000000181200,  // 0x00001CE8 
+	0x0806060600010008, 0x0000121206061800, 0x0600080812120808, 0x0608000618060506,  // 0x00001D08 
+	0x0812120600010008, 0x0612121206060606, 0x0006060606080806, 0x0618000606061212,  // 0x00001D28 
+	0x0012060651000012, 0x1212051206060612, 0x0012120606081206, 0x0018000606060600,  // 0x00001D48 
+	0x0112121206121205, 0x1200050512060512, 0x0512120612050512, 0x0505060618061818,  // 0x00001D68 
+	0x010505050B050B0B, 0x120B050B0B0B0506, 0x0505050505051205, 0x0506001801091800,  // 0x00001D88 
+	0x00050B0E050B0B0B, 0x120B121212051205, 0x0B0505120505050B, 0x0606061212180618,  // 0x00001DA8 
+	0x0106057908050B05, 0x1212061205050505, 0x0B7905050B050B12, 0x120605795F797979,  // 0x00001DC8 
+	0x01120579120B0B12, 0x120512120B050B12, 0x0E790B0B0B057912, 0x12125F5F5F5F0B05,  // 0x00001DE8 
+	0x00051279050B0B06, 0x050512050B120505, 0x9E050B0512791279, 0x5F63CF3A1FC6C66D,  // 0x00001E08 
+	0x080812790B0B0B9E, 0x05050B0505060579, 0x0B050505795F5358, 0x6015A3C6A321211F,  // 0x00001E28 
+	0x01120579050B0B79, 0x0B0B05050B050B9E, 0x0505055F5F630827, 0xA36D2127271F1010,  // 0x00001E48 
+	0x120505790B0B0E0B, 0x0B9E0B050B059E05, 0x059E5F5F5F006D6D, 0x6D271F1410160F0F,  // 0x00001E68 
+	0x111C0B790B0B0E0B, 0x059E0B050B0B9E13, 0x0B5F5F020F6D6D27, 0x211F10160F0C0C04,  // 0x00001E88 
+	0x050B0E0E0B130E0B, 0x0B9E050E130B9E02, 0xB8B89B39A321271F, 0x1F1016160F0C0C3A,  // 0x00001EA8 
+	0x050B0E0B0B130E0B, 0x0B9E130B13020EB8, 0x029B01A36D272910, 0x160F0F0F0C0C2D09,  // 0x00001EC8 
+	0x130E0E0B130E0B0B, 0x0E0B13020E5F0202, 0x0206216D27291616, 0x370F0F0C0C042D01,  // 0x00001EE8 
+	0x0B0E130B130E0B0B, 0x0E0B13025F130E0E, 0x1821212729161637, 0x0F372D2D093A3A01,  // 0x00001F08 
+	0x050E1C0B130E0B0B, 0x9E13130E130E9E63, 0x276D1F1F10160C0F, 0x372D090901090106,  // 0x00001F28 
+	0x12130B0B0B0E0B0B, 0x9E0B1C0E0EB8B814, 0x6D2729101637370C, 0x04373A0909090005,  // 0x00001F48 
+	0x050B0B0B0E0B0B0B, 0x0E0B9E0B0B660627, 0x211F48160F0F0F2D, 0x603E090909011806,  // 0x00001F68 
+	0x05050B0B0E0B0B0B, 0x9E0B9E9E5F061F21, 0x211F100F0F0F2D3A, 0x0909090940010608,  // 0x00001F88 
+	0x120B0B0B9E0B0B0E, 0x0B0B9E79791F2114, 0x14101616370C2D09, 0x0909090940010608,  // 0x00001FA8 
+	0x001205050E0B0B0E, 0x0B05797939212748, 0x101616390C0C3E09, 0x0909600940010608,  // 0x00001FC8 
+	0x01060B9E050B0B0E, 0x0E7979061F211410, 0x10160F2D0C2D4F09, 0x0909604040400608,  // 0x00001FE8 
+	0x00120B9E050B0B0B, 0x9E05796D21481010, 0x101639372D4F0960, 0x0909604040400608,  // 0x00002008 
+	0x12050E0B050E0E0E, 0x0B5F082721481010, 0x100F372D3A4F6060, 0x6060404018180608,  // 0x00002028 
+	0x060513130B0E0E0B, 0x0E9B1F2727101010, 0x16372D2D3E526060, 0x6040404018180608,  // 0x00002048 
+	0x120511131C5F0B0E, 0xB809141410101616, 0x0F2D3A3A3E606040, 0x4040401818000608,  // 0x00002068 
+	0x120B0E130E0E0B5F, 0x0E1F1F4810160C4D, 0x2D3A3A4F60606040, 0x4040181818180808,  // 0x00002088 
+	0x0B0B130E0E0E0E5F, 0x131F211616160F0F, 0x2D3A3E6060606040, 0x4018181806180608,  // 0x000020A8 
+	0x1113130E130E0E5F, 0x046D2710160F0C2D, 0x3A093E6060604001, 0x0018180606180608,  // 0x000020C8 
+	0x0B1313131C5F5F0E, 0x1F2710160F2D373A, 0x3A09096060604000, 0x1818180606180608,  // 0x000020E8 
+	0x050B0B13055F5F09, 0x2729100F373A3A09, 0x0909096060404018, 0x1818060606080608,  // 0x00002108 
+	0x12050505125F0E00, 0x27480F0C2D3A0909, 0x09093E6060404018, 0x1818180606080608,  // 0x00002128 
+	0x080B500579790B1F, 0x48100F0F2D0C4F09, 0x3E09604060404018, 0x1806180606080608,  // 0x00002148 
+	0x060B12125F5F046D, 0x140F0F0F37375209, 0x3A09604040401818, 0x0606060606080606,  // 0x00002168 
+	0x00121212585F0FA3, 0x1F0F0F372D3A3E09, 0x0909404040181818, 0x0608080606080606,  // 0x00002188 
+	0x120B0B0B0E5F0F21, 0x100F372D52606060, 0x0909404040181818, 0x0608060606060606,  // 0x000021A8 
+	0x050E13130B02046D, 0x100F372D40404009, 0x0909400101181818, 0x0608060606061212,  // 0x000021C8 
+	0x05021102289B2714, 0x0F372D6040400101, 0x0101000000001806, 0x0808080606061205,  // 0x000021E8 
+	0x1C0E70280E9B1F10, 0x0F0F2D3E40400109, 0x0101000000061806, 0x0608080606061205,  // 0x00002208 
+	0x02130202029B140F, 0x372D2D0960400040, 0x0101000006061806, 0x0608080606121205,  // 0x00002228 
+	0x0E0213029B9B480F, 0x0F0F2D0940400118, 0x0101000006060606, 0x0606060612120505,  // 0x00002248 
+	0x0E0202025F824816, 0x0F0F040140400118, 0x4001000806060608, 0x0606080612120505,  // 0x00002268 
+	0x0B1C02280E5F4816, 0x160C3E0940404006, 0x1800000808060608, 0x0608080612120505,  // 0x00002288 
+	0x1C1302130E5F480F, 0x0F0F040940401806, 0x1800000808080608, 0x0606060612050505,  // 0x000022A8 
+	0x051C13130E5F480F, 0x0F0F040940181806, 0x1806060606060808, 0x0606061212050505,  // 0x000022C8 
+	0x080B13130E5F100F, 0x0F0C3A0101181806, 0x1818001806060808, 0x060612061205050B,  // 0x000022E8 
+	0x1C0202110E5F100F, 0x0C2D090101181818, 0x1806060606060608, 0x060612121205050B,  // 0x00002308 
+	0x050513130E5F1616, 0x0C2D090101181818, 0x1818180612120808, 0x0606121206050505,  // 0x00002328 
+	0x080B11115F5F1010, 0x0C3E3E0901181840, 0x1818180612120608, 0x060606060605051C,  // 0x00002348 
+	0x00450B119E5F1610, 0x0C3E3E0901401840, 0x1818180606060606, 0x1206120606050605,  // 0x00002368 
+	0x06130B11B80E1610, 0x0C3E091901404060, 0x1818180600060606, 0x120606060606060B,  // 0x00002388 
+	0x06130B11B89E1610, 0x373E090901404040, 0x1818181818180008, 0x080800060606060B,  // 0x000023A8 
+	0x060505029B0E0F10, 0x0F2D474701404040, 0x1800000001000001, 0x0100000A0805050B,  // 0x000023C8 
+	0x060505050E0E0F10, 0x0F2D474701010118, 0x070718180A181818, 0x181818060505050B,  // 0x000023E8 
+	0x0605080E9E134D16, 0x373E474701010101, 0x1807181818181818, 0x181818060605050B,  // 0x00002408 
+	0x061C0B1111110C4D, 0x373A2D0901070100, 0x0000180000000018, 0x181818060605050B,  // 0x00002428 
+	0x0B0D0D1113130C0C, 0x0C0C044701070707, 0x0101010101000000, 0x181808081205050B,  // 0x00002448 
+};
+
+u64 _jyasinzou_room_22_tex_00002468[] = 
+{
+	0x522C28062D2D2D06, 0x06062D2D2D2D2D2D, 0x2D062D0606060606, 0x251A252506062831,  // 0x00002468 
+	0x2C905757C3C3C357, 0x57573F3F1D3F3F3F, 0x573F1D0D0D1D3F3F, 0x3F570D3F57579090,  // 0x00002488 
+	0x2890573F1D1D1D1D, 0x1D1D630D0F2D0F0F, 0x0F0F630D0D0D0D1D, 0x1D0D0D0D1D1D5790,  // 0x000024A8 
+	0x0690571D1D1D3F1D, 0x1D1D0D0D0F2D0F0F, 0x0F0D0D0D0D0D1D1D, 0x1D0D0F0F0D1D5790,  // 0x000024C8 
+	0x0690571D3F1D3F0D, 0x1D1D1D1D0D0D0D1D, 0x0D7C1D1D3F3F3F3F, 0x1D3F0D1D1D5757B1,  // 0x000024E8 
+	0x2D5757631D1D3F1D, 0x0D1D1D1D1D0D0F0D, 0x1D1D1D3F573F3F3F, 0x1D3F1D1D0D3F5790,  // 0x00002508 
+	0x063F3F631D1D3F1D, 0x1D1D1D3F3F0D0D0D, 0x0D1D1D1D3F57573F, 0x3F573F573F573F3F,  // 0x00002528 
+	0x061D3F630F1D3F1D, 0x1D0D0F0F0D0F0F0F, 0x0D1D1D3F5757573F, 0x3F3F3F573F571D62,  // 0x00002548 
+	0x061D1D0D0D0D1D0D, 0x0D0F0D0F0F0F2D2D, 0x0D0D0D1D3F3F3F1D, 0x1D0D1D0D0D3F3F0D,  // 0x00002568 
+	0x060D0F0F7C7C0D0D, 0x0F0F0F0F0F2D2D2D, 0x2D0F0D0D1D1D1D1D, 0x630D0D0F0D0D1D1D,  // 0x00002588 
+	0x061D0F0F1D1D0D0F, 0x0F0F0F2D2D2D2D2D, 0x0F0F0F0D0D0F0D0D, 0x0D0F0F0D0D0D1D3F,  // 0x000025A8 
+	0x06570F0D571D1D0F, 0x0D0D0F2D2D0F2D2D, 0x0F0F0F0D0D0F0D0D, 0x0F2D0D0D0D0D1D90,  // 0x000025C8 
+	0x2D3F0D1D3F1D1D0F, 0x0F0F0F2D2D2D2D06, 0x2D0F0F0D1D0D0F0F, 0x0F0F0D0D0D0D3FB1,  // 0x000025E8 
+	0x2D3F0D1D0D1D0D0D, 0x0F0F0F062D0F2D06, 0x2D0D0D0D0D0D0D0D, 0x0F0F0D1D0D0D1DB1,  // 0x00002608 
+	0x061D0F0D0F0D0F0F, 0x2D2D2D06060F2D06, 0x0F0D0D0D0D0D0F0D, 0x0D0F2D1D1D1D1D90,  // 0x00002628 
+	0x2D3F0F0D0F0F0F2D, 0x2D060606060F2D2D, 0x2D0F0D0D0D0D0F0F, 0x0D0D0D1D0D0D0D57,  // 0x00002648 
+	0x2D0D0F0F0F0F2D2D, 0x2D0606062D0F2D0F, 0x0F0D0D0D620D0D0D, 0x0D0D1D0D0D0D0D57,  // 0x00002668 
+	0x2D0F2D2D0F0F0F2D, 0x2D2D2D2D0D0D0F0F, 0x0D0D62621D1D0D62, 0x0D0F0D0F0D0D0D57,  // 0x00002688 
+	0x2D3F0D0F2D0F0F0F, 0x0F0F2D0F0D0D0D0D, 0x0D621D1D1D1D620D, 0x0D0F0F0F0F0F1D90,  // 0x000026A8 
+	0x2D3F0D0D2D0F0D0D, 0x0F0F0D0D0D1D0D0D, 0x0D621D1D3F1D1D1D, 0x620D0D0D0D0F1D90,  // 0x000026C8 
+	0x2D1D2D0F0F0D0D0F, 0x0F0F0D0D0D1D630D, 0x0D1D1D5757575757, 0x3F3F1D1D1D0D1D57,  // 0x000026E8 
+	0x060D2D0F0F0F0F0F, 0x0F0F0F0F0F0D0D0D, 0x0D1D3F5757573F3F, 0x1D3F1D1D1D1D1D57,  // 0x00002708 
+	0x2D1D0F0F0F0F0F0F, 0x0F0F0F0F0F0D0D0D, 0x0D0D3F3F3F3F1D1D, 0x1D1D1D1D1D1D0D3F,  // 0x00002728 
+	0x2D1D0F0F0F0F0F2D, 0x0F0F0F0F0F0F0F0F, 0x0F0D0D0D1D0D0F0D, 0x0D7C7C7C0D0D0D90,  // 0x00002748 
+	0x06570D0F0F0F0F0F, 0x2D2D0F2D0F0D0F0F, 0x0D0D0D0D0D0F0D0D, 0x0F0D0F0F0D0D1D90,  // 0x00002768 
+	0x2D901D1D0F0F0F0F, 0x2D2D2D2D2D0F0F0F, 0x0D0D1D1D7C0D1D63, 0x1D0D1D1D1D1D1DA4,  // 0x00002788 
+	0x0FCF3F0F1D1D7C0F, 0x0F0F0F2D0F0D0D0D, 0x1D1D1D1D1D1D7C0D, 0x0D0D1D1D0D0D1D90,  // 0x000027A8 
+	0x2DCF3F3F1D0D7C2D, 0x0F2D2D2D2D0F0F0D, 0x0D0D0D1D1D1D1D7C, 0x0D0F7C0F0F0D3FB1,  // 0x000027C8 
+	0x06CF90573F1D0F0F, 0x0F0F2D2D2D2D2D2D, 0x0F0F0F0F0F0F0F0F, 0x0F0F2D062D0D3FA4,  // 0x000027E8 
+	0x2DCFB15757571D0F, 0x0F2D2D2D2D2D0F2D, 0x0F0D0D0D0D0D0D0D, 0x0F0F2D062D6257B1,  // 0x00002808 
+	0x28B1B1B190573F1D, 0x1D0F7C0F0D1D1D1D, 0x0D6262620D0D1D62, 0x0D0D0F2D0F1D3F90,  // 0x00002828 
+	0x283F57909090B190, 0x571D3F3F57575790, 0x57573F1D1D1D1D1D, 0x1D0D0F0F0D1D3F57,  // 0x00002848 
+};
+
+u64 _jyasinzou_room_22_tex_00002868[] = 
+{
+	0x8929492941103851, 0x31311131015388CD, 0x8875111515153533, 0x5675778499999066,  // 0x00002868 
+	0x8924299919138011, 0x131114445003336C, 0x1115111111111377, 0x3315334491999948,  // 0x00002888 
+	0x6499493941481844, 0x441411145131000C, 0x2221111114111021, 0x2115613144444926,  // 0x000028A8 
+	0x8424494914434544, 0x444444054411112B, 0x2103311113300310, 0x0021640422092922,  // 0x000028C8 
+	0x8999444914311111, 0x1212304000120128, 0x4233311133A11A2A, 0x4110640209499940,  // 0x000028E8 
+	0x8922414111313310, 0x1010111111101018, 0x203777333333A73A, 0x7A71003229229994,  // 0x00002908 
+	0x8494009143314111, 0x1141101024424416, 0x2402020222222222, 0x2220000102999990,  // 0x00002928 
+	0x6423941110110010, 0x0022022242202248, 0x0225000202222222, 0x2222030124429993,  // 0x00002948 
+	0x8020002403033310, 0x1110122442222226, 0x5550000000000224, 0x2222010012202060,  // 0x00002968 
+	0x8016680660036836, 0x8666663111211118, 0x3766000000007721, 0x1300336330306668,  // 0x00002988 
+	0x8006000630013103, 0x0666033111411338, 0x731033301033A311, 0x1111000311030018,  // 0x000029A8 
+	0x8366680607011113, 0x1033311444444118, 0x13031001122A7341, 0x1113336313300020,  // 0x000029C8 
+	0xC063660333131411, 0x1330341194411338, 0x3030003000307A11, 0x1111336011000216,  // 0x000029E8 
+	0x8666606665751511, 0x1773319119411338, 0x3606703313A37311, 0x1113336310002006,  // 0x00002A08 
+	0xC666600066311113, 0x0710021444005558, 0x5660666566775533, 0x113A006022202426,  // 0x00002A28 
+	0xC066066666751111, 0x330002322423755B, 0x55686575777755A3, 0xA3A7300020202216,  // 0x00002A48 
+	0xC060004001491914, 0x4220222444007558, 0x55866557757555A3, 0x3A37A00022234226,  // 0x00002A68 
+	0xC660002420219141, 0x4492212144101358, 0x566667A7A755557A, 0x73A733002A2222A6,  // 0x00002A88 
+	0xC660244222419144, 0x4442224212122158, 0x5566577777755577, 0x3775A07322AA2126,  // 0x00002AA8 
+	0xC660022420349414, 0x4444424224415558, 0x575865A7A77A5553, 0x37A5230A22222A08,  // 0x00002AC8 
+	0xC863222207224141, 0x4444224442250118, 0x15576777777757A7, 0x7775703022222276,  // 0x00002AE8 
+	0xC660042202244144, 0x0242222204041418, 0x13576777777A5577, 0x7777202A22A0AA06,  // 0x00002B08 
+	0xCC60429410044141, 0x1024202214101118, 0x1372A7A7A7755577, 0x5757720A24423078,  // 0x00002B28 
+	0xC866024220244414, 0x1242444202242915, 0x113230737A755575, 0x7557021A42441776,  // 0x00002B48 
+	0xC866002206603331, 0x7121200144221915, 0x11370330A7555555, 0x757521004A927308,  // 0x00002B68 
+	0xC866002060677333, 0x6700013001300198, 0x1157767667655B55, 0x5556021322437768,  // 0x00002B88 
+	0xC806002055555555, 0x8557303310030118, 0x3135755555888855, 0x7557010323247668,  // 0x00002BA8 
+	0xC806000606677775, 0x555577550637611B, 0x115755555558B853, 0x7356010323416608,  // 0x00002BC8 
+	0xC600002035657555, 0x856755573776631C, 0x8B3775555685885A, 0x777670030411666B,  // 0x00002BE8 
+	0xC806000065555555, 0x555565575776611B, 0x3585555558585873, 0x3332010402136008,  // 0x00002C08 
+	0xC600202060631777, 0x56666677550663BB, 0x3355588885855831, 0x3200100001130868,  // 0x00002C28 
+	0xD842022104224113, 0x60008023367585BC, 0x55B88B8858856871, 0x0105207030330036,  // 0x00002C48 
+	0xDDCC8888888B8888, 0x8B8CCBC688CCBDDD, 0xDBBBBBBBBBBB8C88, 0x88BDC88B8B88C8BB,  // 0x00002C68 
+	0xDC20222222206320, 0x200602201020048D, 0x833758B85555A311, 0x4400510000011008,  // 0x00002C88 
+	0xC840224222228000, 0x021020111031044B, 0x1111555855553031, 0x1158503000330300,  // 0x00002CA8 
+	0xC200242222020000, 0x0101012130002498, 0x1511355885557111, 0x1110533036003300,  // 0x00002CC8 
+	0xC010422021222021, 0x2222444043114448, 0x19114755B5537733, 0x3138033100013136,  // 0x00002CE8 
+	0xC010224204222002, 0x2224424242104958, 0x99914775B8731331, 0x3335730006606600,  // 0x00002D08 
+	0xB002224222242020, 0x1222444494949558, 0x9999207686500333, 0x3130700066006636,  // 0x00002D28 
+	0xC300022010000000, 0x212444444442445B, 0x4494000677733033, 0x1103331060002166,  // 0x00002D48 
+	0xC000202300100060, 0x301122201033190B, 0x9999103075631333, 0x3310730203330166,  // 0x00002D68 
+	0xC030220300000606, 0x0302311213030778, 0x1441401367733077, 0x3735633000110160,  // 0x00002D88 
+	0xC100423730060060, 0x300100038033141B, 0x4444130378577357, 0x3575777401041906,  // 0x00002DA8 
+	0xB202412733000006, 0x3001033103317148, 0x1411203755557777, 0x5375676002141060,  // 0x00002DC8 
+	0x8022222707767766, 0x030120000337394B, 0x0744101533535366, 0x7776566004026911,  // 0x00002DE8 
+	0x82020A0377767065, 0x3330331377AA3346, 0x4114203137853578, 0x5685526629499309,  // 0x00002E08 
+	0xC007773755555356, 0xA33A3773363AAA35, 0x44A1655553455767, 0x5852556029999140,  // 0x00002E28 
+	0x8231377576657757, 0x733173731AA33315, 0x1413335555855588, 0x5555850044463944,  // 0x00002E48 
+	0x8857707655573373, 0x3131131373333338, 0x5535755555555555, 0x5555660499999210,  // 0x00002E68 
+	0x8005070573573353, 0x1111113133733118, 0x1335535555855555, 0x1555772249003191,  // 0x00002E88 
+	0x8021501333332113, 0x3111131377775118, 0x1151155555555555, 0x5555762499993049,  // 0x00002EA8 
+	0x8000022000222223, 0x1114444411111118, 0x1111111515555555, 0x5553773499339122,  // 0x00002EC8 
+	0x8000000000000200, 0x2249444242222138, 0x1341515555155555, 0x5515373099991444,  // 0x00002EE8 
+	0xC000000000000222, 0x0444422222222A78, 0xA731111111111155, 0x5111371449431142,  // 0x00002F08 
+	0x8000000000000060, 0x0202202022222078, 0x677A731111111111, 0x1113333149999142,  // 0x00002F28 
+	0x8000000600000200, 0x1002000000000066, 0x7000077777733133, 0x3350303489991299,  // 0x00002F48 
+	0x8002000666060063, 0x0122022222222428, 0x077A222A03202373, 0x3565688032269992,  // 0x00002F68 
+	0x8420222020000202, 0x2121220202222006, 0xA22A2A2A27206676, 0x7760000249991999,  // 0x00002F88 
+	0x6422022606060020, 0x2022142402000206, 0x2776766667777667, 0x66766004A9999999,  // 0x00002FA8 
+	0x8422000000060060, 0x000000000066680C, 0x000022222A2A6700, 0x0000002499999999,  // 0x00002FC8 
+	0x8990022006066007, 0x333333337766666C, 0x0602022220000066, 0x6060001449999999,  // 0x00002FE8 
+	0x6444402000201111, 0x111131133306686C, 0x6606303331137666, 0x6603730499999999,  // 0x00003008 
+	0x8990449440333311, 0x333160600867600C, 0x0086865667777676, 0x0333131199999999,  // 0x00003028 
+	0xC80006888B8B8C88, 0xC8C8C88BC88CCBBD, 0xCBCCBBBCBCCCCCCC, 0xBCCBCB8888866668,  // 0x00003048 
+};
+
+static u8 unaccounted3068[] = 
+{
+	0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 
+};
+
+

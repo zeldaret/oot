@@ -63,9 +63,10 @@ void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x) {
 
 s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
     s32 pad;
+
     if (req->countdown > 0) {
-        f32 a = Math_Sins(req->speed * req->countdown);
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Math_SinS(req->speed * req->countdown);
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -73,7 +74,7 @@ s16 Quake_Callback1(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback5(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Sins(req->speed * req->countdown);
+        f32 a = Math_SinS(req->speed * req->countdown);
         Quake_UpdateShakeInfo(req, shake, a, a);
         req->countdown--;
     }
@@ -85,14 +86,14 @@ s16 Quake_Callback6(QuakeRequest* req, ShakeInfo* shake) {
     f32 a;
 
     req->countdown--;
-    a = Math_Sins(req->speed * ((req->countdown & 0xF) + 500));
-    Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+    a = Math_SinS(req->speed * ((req->countdown & 0xF) + 500));
+    Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
     return 1;
 }
 
 s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Sins(req->speed * req->countdown) * ((f32)req->countdown / (f32)req->countdownMax);
+        f32 a = Math_SinS(req->speed * req->countdown) * ((f32)req->countdown / (f32)req->countdownMax);
         Quake_UpdateShakeInfo(req, shake, a, a);
         req->countdown--;
     }
@@ -101,8 +102,8 @@ s16 Quake_Callback3(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Rand_ZeroOne();
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Rand_ZeroOne();
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
@@ -110,14 +111,14 @@ s16 Quake_Callback2(QuakeRequest* req, ShakeInfo* shake) {
 
 s16 Quake_Callback4(QuakeRequest* req, ShakeInfo* shake) {
     if (req->countdown > 0) {
-        f32 a = Math_Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
-        Quake_UpdateShakeInfo(req, shake, a, Math_Rand_ZeroOne() * a);
+        f32 a = Rand_ZeroOne() * ((f32)req->countdown / (f32)req->countdownMax);
+        Quake_UpdateShakeInfo(req, shake, a, Rand_ZeroOne() * a);
         req->countdown--;
     }
     return req->countdown;
 }
 
-s16 Quake_GetFreeIndex() {
+s16 Quake_GetFreeIndex(void) {
     s32 i;
     s32 ret;
     s32 min = 0x10000;
@@ -151,7 +152,7 @@ QuakeRequest* Quake_AddImpl(Camera* cam, u32 callbackIdx) {
     req->camPtrIdx = cam->thisIdx;
     req->callbackIdx = callbackIdx;
     req->unk_1C = 1;
-    req->randIdx = ((s16)(Math_Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
+    req->randIdx = ((s16)(Rand_ZeroOne() * (f32)0x10000) & ~3) + idx;
     sQuakeRequestCount++;
 
     return req;
@@ -178,9 +179,8 @@ QuakeRequest* Quake_GetRequest(s16 idx) {
 }
 
 QuakeRequest* Quake_SetValue(s16 idx, s16 valueType, s16 value) {
-    QuakeRequest* req;
+    QuakeRequest* req = Quake_GetRequest(idx);
 
-    req = Quake_GetRequest(idx);
     if (req == NULL) {
         return NULL;
     } else {
@@ -222,7 +222,8 @@ QuakeRequest* Quake_SetValue(s16 idx, s16 valueType, s16 value) {
 
 u32 Quake_SetSpeed(s16 idx, s16 value) {
     QuakeRequest* req = Quake_GetRequest(idx);
-    if (req) {
+
+    if (req != NULL) {
         req->speed = value;
         return true;
     }
@@ -231,7 +232,8 @@ u32 Quake_SetSpeed(s16 idx, s16 value) {
 
 u32 Quake_SetCountdown(s16 idx, s16 value) {
     QuakeRequest* req = Quake_GetRequest(idx);
-    if (req) {
+
+    if (req != NULL) {
         req->countdown = value;
         req->countdownMax = req->countdown;
         return true;
@@ -241,7 +243,8 @@ u32 Quake_SetCountdown(s16 idx, s16 value) {
 
 s16 Quake_GetCountdown(s16 idx) {
     QuakeRequest* req = Quake_GetRequest(idx);
-    if (req) {
+
+    if (req != NULL) {
         return req->countdown;
     }
     return 0;
@@ -249,7 +252,8 @@ s16 Quake_GetCountdown(s16 idx) {
 
 u32 Quake_SetQuakeValues(s16 idx, s16 y, s16 x, s16 zoom, s16 rotZ) {
     QuakeRequest* req = Quake_GetRequest(idx);
-    if (req) {
+
+    if (req != NULL) {
         req->y = y;
         req->x = x;
         req->zoom = zoom;
@@ -261,7 +265,8 @@ u32 Quake_SetQuakeValues(s16 idx, s16 y, s16 x, s16 zoom, s16 rotZ) {
 
 u32 Quake_SetUnkValues(s16 idx, s16 arg1, SubQuakeRequest14 arg2) {
     QuakeRequest* req = Quake_GetRequest(idx);
-    if (req) {
+
+    if (req != NULL) {
         req->unk_1C = arg1;
 
         req->unk_14 = arg2;
@@ -270,8 +275,9 @@ u32 Quake_SetUnkValues(s16 idx, s16 arg1, SubQuakeRequest14 arg2) {
     return false;
 }
 
-void Quake_Init() {
+void Quake_Init(void) {
     s16 i;
+
     for (i = 0; i < ARRAY_COUNT(sQuakeRequest); i++) {
         sQuakeRequest[i].callbackIdx = 0;
         sQuakeRequest[i].countdown = 0;
@@ -286,7 +292,8 @@ s16 Quake_Add(Camera* cam, u32 callbackIdx) {
 
 u32 Quake_RemoveFromIdx(s16 idx) {
     QuakeRequest* req = Quake_GetRequest(idx);
-    if (req) {
+
+    if (req != NULL) {
         Quake_Remove(req);
         return true;
     }

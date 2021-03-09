@@ -1,0 +1,33 @@
+extern RomFile _depth_test_scene_roomList_00000048[];
+extern CollisionHeader _depth_test_scene_collisionHeader_000002D4;
+extern EntranceEntry _depth_test_scene_entranceList_00000050[];
+extern ActorEntry _depth_test_scene_startPositionList_00000038[];
+extern LightSettings _depth_test_scene_lightSettings_00000054[];
+
+extern SCmdRoomList _depth_test_scene_set0000_cmd00;
+extern SCmdColHeader _depth_test_scene_set0000_cmd01;
+extern SCmdEntranceList _depth_test_scene_set0000_cmd02;
+extern SCmdSpawnList _depth_test_scene_set0000_cmd03;
+extern SCmdSkyboxSettings _depth_test_scene_set0000_cmd04;
+extern SCmdLightSettingList _depth_test_scene_set0000_cmd05;
+extern SCmdEndMarker _depth_test_scene_set0000_cmd06;
+
+
+
+
+
+extern SCmdRoomList _depth_test_scene_set0000_cmd00;
+
+extern SCmdColHeader _depth_test_scene_set0000_cmd01;
+
+extern SCmdEntranceList _depth_test_scene_set0000_cmd02;
+
+extern SCmdSpawnList _depth_test_scene_set0000_cmd03;
+
+extern SCmdSkyboxSettings _depth_test_scene_set0000_cmd04;
+
+extern SCmdLightSettingList _depth_test_scene_set0000_cmd05;
+
+extern SCmdEndMarker _depth_test_scene_set0000_cmd06;
+
+

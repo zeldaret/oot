@@ -1,0 +1,46 @@
+extern RomFile _kokiri_home5_scene_roomList_00000068[];
+extern CollisionHeader _kokiri_home5_scene_collisionHeader_000013DC;
+extern EntranceEntry _kokiri_home5_scene_entranceList_00000070[];
+extern ActorEntry _kokiri_home5_scene_startPositionList_00000058[];
+extern u16 _kokiri_home5_scene_exitList_00000074[];
+extern LightSettings _kokiri_home5_scene_lightSettings_00000078[];
+
+extern SCmdSoundSettings _kokiri_home5_scene_set0000_cmd00;
+extern SCmdRoomList _kokiri_home5_scene_set0000_cmd01;
+extern SCmdMiscSettings _kokiri_home5_scene_set0000_cmd02;
+extern SCmdColHeader _kokiri_home5_scene_set0000_cmd03;
+extern SCmdEntranceList _kokiri_home5_scene_set0000_cmd04;
+extern SCmdSpecialFiles _kokiri_home5_scene_set0000_cmd05;
+extern SCmdSpawnList _kokiri_home5_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _kokiri_home5_scene_set0000_cmd07;
+extern SCmdExitList _kokiri_home5_scene_set0000_cmd08;
+extern SCmdLightSettingList _kokiri_home5_scene_set0000_cmd09;
+extern SCmdEndMarker _kokiri_home5_scene_set0000_cmd0A;
+
+
+
+
+
+extern SCmdSoundSettings _kokiri_home5_scene_set0000_cmd00;
+
+extern SCmdRoomList _kokiri_home5_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _kokiri_home5_scene_set0000_cmd02;
+
+extern SCmdColHeader _kokiri_home5_scene_set0000_cmd03;
+
+extern SCmdEntranceList _kokiri_home5_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _kokiri_home5_scene_set0000_cmd05;
+
+extern SCmdSpawnList _kokiri_home5_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _kokiri_home5_scene_set0000_cmd07;
+
+extern SCmdExitList _kokiri_home5_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _kokiri_home5_scene_set0000_cmd09;
+
+extern SCmdEndMarker _kokiri_home5_scene_set0000_cmd0A;
+
+

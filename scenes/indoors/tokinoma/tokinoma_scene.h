@@ -1,0 +1,672 @@
+extern RomFile _tokinoma_scene_roomList_00000130[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_00000120[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_00000140[];
+extern ActorEntry _tokinoma_scene_startPositionList_000000A0[];
+extern u16 _tokinoma_scene_exitList_00000150[];
+extern LightSettings _tokinoma_scene_lightSettings_00000154[];
+extern RomFile _tokinoma_scene_roomList_0000C228[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000C218[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000C238[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000C208[];
+extern u16 _tokinoma_scene_exitList_0000C23C[];
+extern LightSettings _tokinoma_scene_lightSettings_0000C240[];
+extern s32 _tokinoma_scene_cutsceneData_000046F0[];
+extern RomFile _tokinoma_scene_roomList_0000C3D8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000C3C8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000C3E8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000C3B8[];
+extern u16 _tokinoma_scene_exitList_0000C3EC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000C3F0[];
+extern s32 _tokinoma_scene_cutsceneData_00003BB0[];
+extern RomFile _tokinoma_scene_roomList_0000C608[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000C5F8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000C618[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000C5E8[];
+extern u16 _tokinoma_scene_exitList_0000C61C[];
+extern LightSettings _tokinoma_scene_lightSettings_0000C620[];
+extern s32 _tokinoma_scene_cutsceneData_00006D20[];
+extern RomFile _tokinoma_scene_roomList_0000C7B8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000C7A8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000C7C8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000C798[];
+extern u16 _tokinoma_scene_exitList_0000C7CC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000C7D0[];
+extern s32 _tokinoma_scene_cutsceneData_00003330[];
+extern RomFile _tokinoma_scene_roomList_0000C8B8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000C8A8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000C8C8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000C898[];
+extern u16 _tokinoma_scene_exitList_0000C8CC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000C8D0[];
+extern s32 _tokinoma_scene_cutsceneData_000038C0[];
+extern RomFile _tokinoma_scene_roomList_0000C9B8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000C9A8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000C9C8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000C998[];
+extern u16 _tokinoma_scene_exitList_0000C9CC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000C9D0[];
+extern s32 _tokinoma_scene_cutsceneData_000035D0[];
+extern RomFile _tokinoma_scene_roomList_0000CAB8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000CAA8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000CAC8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000CA98[];
+extern u16 _tokinoma_scene_exitList_0000CACC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000CAD0[];
+extern s32 _tokinoma_scene_cutsceneData_0000BE90[];
+extern RomFile _tokinoma_scene_roomList_0000CBB8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000CBA8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000CBC8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000CB98[];
+extern u16 _tokinoma_scene_exitList_0000CBCC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000CBD0[];
+extern s32 _tokinoma_scene_cutsceneData_000061C0[];
+extern RomFile _tokinoma_scene_roomList_0000CCC8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000CCB8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000CCD8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000CCA8[];
+extern u16 _tokinoma_scene_exitList_0000CCDC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000CCE0[];
+extern s32 _tokinoma_scene_cutsceneData_000084E0[];
+extern RomFile _tokinoma_scene_roomList_0000CD98[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000CD88[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000CDA8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000CD78[];
+extern u16 _tokinoma_scene_exitList_0000CDAC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000CDB0[];
+extern s32 _tokinoma_scene_cutsceneData_00008BC0[];
+extern RomFile _tokinoma_scene_roomList_0000C4D8[];
+extern TransitionActorEntry _tokinoma_scene_transitionActorList_0000C4C8[];
+extern CollisionHeader _tokinoma_scene_collisionHeader_000032F8;
+extern EntranceEntry _tokinoma_scene_entranceList_0000C4E8[];
+extern ActorEntry _tokinoma_scene_startPositionList_0000C4B8[];
+extern u16 _tokinoma_scene_exitList_0000C4EC[];
+extern LightSettings _tokinoma_scene_lightSettings_0000C4F0[];
+extern s32 _tokinoma_scene_cutsceneData_00009F70[];
+
+extern SCmdAltHeaders _tokinoma_scene_set0000_cmd00;
+extern SCmdSoundSettings _tokinoma_scene_set0000_cmd01;
+extern SCmdRoomList _tokinoma_scene_set0000_cmd02;
+extern SCmdTransiActorList _tokinoma_scene_set0000_cmd03;
+extern SCmdMiscSettings _tokinoma_scene_set0000_cmd04;
+extern SCmdColHeader _tokinoma_scene_set0000_cmd05;
+extern SCmdEntranceList _tokinoma_scene_set0000_cmd06;
+extern SCmdSpecialFiles _tokinoma_scene_set0000_cmd07;
+extern SCmdSpawnList _tokinoma_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _tokinoma_scene_set0000_cmd09;
+extern SCmdExitList _tokinoma_scene_set0000_cmd0A;
+extern SCmdLightSettingList _tokinoma_scene_set0000_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_set0000_cmd0C;
+extern u32 _tokinoma_scene_alternateHeaders_00000068[];
+extern SCmdSoundSettings _tokinoma_scene_setC1A0_cmd00;
+extern SCmdRoomList _tokinoma_scene_setC1A0_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setC1A0_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setC1A0_cmd03;
+extern SCmdColHeader _tokinoma_scene_setC1A0_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setC1A0_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setC1A0_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setC1A0_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setC1A0_cmd08;
+extern SCmdExitList _tokinoma_scene_setC1A0_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setC1A0_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setC1A0_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setC1A0_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setC350_cmd00;
+extern SCmdRoomList _tokinoma_scene_setC350_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setC350_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setC350_cmd03;
+extern SCmdColHeader _tokinoma_scene_setC350_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setC350_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setC350_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setC350_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setC350_cmd08;
+extern SCmdExitList _tokinoma_scene_setC350_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setC350_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setC350_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setC350_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setC450_cmd00;
+extern SCmdRoomList _tokinoma_scene_setC450_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setC450_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setC450_cmd03;
+extern SCmdColHeader _tokinoma_scene_setC450_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setC450_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setC450_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setC450_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setC450_cmd08;
+extern SCmdExitList _tokinoma_scene_setC450_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setC450_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setC450_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setC450_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setC580_cmd00;
+extern SCmdRoomList _tokinoma_scene_setC580_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setC580_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setC580_cmd03;
+extern SCmdColHeader _tokinoma_scene_setC580_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setC580_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setC580_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setC580_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setC580_cmd08;
+extern SCmdExitList _tokinoma_scene_setC580_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setC580_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setC580_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setC580_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setC730_cmd00;
+extern SCmdRoomList _tokinoma_scene_setC730_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setC730_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setC730_cmd03;
+extern SCmdColHeader _tokinoma_scene_setC730_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setC730_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setC730_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setC730_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setC730_cmd08;
+extern SCmdExitList _tokinoma_scene_setC730_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setC730_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setC730_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setC730_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setC830_cmd00;
+extern SCmdRoomList _tokinoma_scene_setC830_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setC830_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setC830_cmd03;
+extern SCmdColHeader _tokinoma_scene_setC830_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setC830_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setC830_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setC830_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setC830_cmd08;
+extern SCmdExitList _tokinoma_scene_setC830_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setC830_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setC830_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setC830_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setC930_cmd00;
+extern SCmdRoomList _tokinoma_scene_setC930_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setC930_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setC930_cmd03;
+extern SCmdColHeader _tokinoma_scene_setC930_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setC930_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setC930_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setC930_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setC930_cmd08;
+extern SCmdExitList _tokinoma_scene_setC930_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setC930_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setC930_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setC930_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setCA30_cmd00;
+extern SCmdRoomList _tokinoma_scene_setCA30_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setCA30_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setCA30_cmd03;
+extern SCmdColHeader _tokinoma_scene_setCA30_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setCA30_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setCA30_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setCA30_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setCA30_cmd08;
+extern SCmdExitList _tokinoma_scene_setCA30_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setCA30_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setCA30_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setCA30_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setCB30_cmd00;
+extern SCmdRoomList _tokinoma_scene_setCB30_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setCB30_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setCB30_cmd03;
+extern SCmdColHeader _tokinoma_scene_setCB30_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setCB30_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setCB30_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setCB30_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setCB30_cmd08;
+extern SCmdExitList _tokinoma_scene_setCB30_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setCB30_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setCB30_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setCB30_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setCC40_cmd00;
+extern SCmdRoomList _tokinoma_scene_setCC40_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setCC40_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setCC40_cmd03;
+extern SCmdColHeader _tokinoma_scene_setCC40_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setCC40_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setCC40_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setCC40_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setCC40_cmd08;
+extern SCmdExitList _tokinoma_scene_setCC40_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setCC40_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setCC40_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setCC40_cmd0C;
+extern SCmdSoundSettings _tokinoma_scene_setCD10_cmd00;
+extern SCmdRoomList _tokinoma_scene_setCD10_cmd01;
+extern SCmdTransiActorList _tokinoma_scene_setCD10_cmd02;
+extern SCmdMiscSettings _tokinoma_scene_setCD10_cmd03;
+extern SCmdColHeader _tokinoma_scene_setCD10_cmd04;
+extern SCmdEntranceList _tokinoma_scene_setCD10_cmd05;
+extern SCmdSpecialFiles _tokinoma_scene_setCD10_cmd06;
+extern SCmdSpawnList _tokinoma_scene_setCD10_cmd07;
+extern SCmdSkyboxSettings _tokinoma_scene_setCD10_cmd08;
+extern SCmdExitList _tokinoma_scene_setCD10_cmd09;
+extern SCmdLightSettingList _tokinoma_scene_setCD10_cmd0A;
+extern SCmdCutsceneData _tokinoma_scene_setCD10_cmd0B;
+extern SCmdEndMarker _tokinoma_scene_setCD10_cmd0C;
+extern u64 _tokinoma_scene_tex_0000CFA0[];
+extern u64 _tokinoma_scene_tex_0000D7A0[];
+extern u64 _tokinoma_scene_tex_0000DFA0[];
+extern u64 _tokinoma_scene_tex_0000EFA0[];
+extern u64 _tokinoma_scene_tex_0000FFA0[];
+extern u64 _tokinoma_scene_tex_000107A0[];
+extern u64 _tokinoma_scene_tex_00010FA0[];
+extern u64 _tokinoma_scene_tex_000117A0[];
+extern u64 _tokinoma_scene_tex_00011FA0[];
+
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_0_vertices_000029F8 ((u32)_tokinoma_room_0_vertices_00002808 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00005258 ((u32)_tokinoma_room_0_vertices_00005068 + 0x000001F0)
+#define _tokinoma_room_0_vertices_00006298 ((u32)_tokinoma_room_0_vertices_000060B8 + 0x000001E0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+#define _tokinoma_room_1_vertices_000028F8 ((u32)_tokinoma_room_1_vertices_00002708 + 0x000001F0)
+#define _tokinoma_room_1_vertices_00002D80 ((u32)_tokinoma_room_1_vertices_00002BA0 + 0x000001E0)
+#define _tokinoma_room_1_vertices_00004700 ((u32)_tokinoma_room_1_vertices_00004510 + 0x000001F0)
+
+
+
+
+extern SCmdAltHeaders _tokinoma_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _tokinoma_scene_set0000_cmd01;
+
+extern SCmdRoomList _tokinoma_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _tokinoma_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _tokinoma_scene_set0000_cmd04;
+
+extern SCmdColHeader _tokinoma_scene_set0000_cmd05;
+
+extern SCmdEntranceList _tokinoma_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _tokinoma_scene_set0000_cmd07;
+
+extern SCmdSpawnList _tokinoma_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _tokinoma_scene_set0000_cmd09;
+
+extern SCmdExitList _tokinoma_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _tokinoma_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_set0000_cmd0C;
+
+extern u32 _tokinoma_scene_alternateHeaders_00000068[];
+
+extern SCmdSoundSettings _tokinoma_scene_setC1A0_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setC1A0_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setC1A0_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setC1A0_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setC1A0_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setC1A0_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setC1A0_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setC1A0_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setC1A0_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setC1A0_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setC1A0_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setC1A0_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setC1A0_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setC350_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setC350_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setC350_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setC350_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setC350_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setC350_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setC350_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setC350_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setC350_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setC350_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setC350_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setC350_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setC350_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setC450_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setC450_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setC450_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setC450_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setC450_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setC450_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setC450_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setC450_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setC450_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setC450_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setC450_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setC450_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setC450_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setC580_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setC580_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setC580_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setC580_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setC580_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setC580_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setC580_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setC580_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setC580_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setC580_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setC580_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setC580_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setC580_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setC730_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setC730_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setC730_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setC730_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setC730_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setC730_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setC730_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setC730_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setC730_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setC730_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setC730_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setC730_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setC730_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setC830_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setC830_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setC830_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setC830_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setC830_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setC830_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setC830_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setC830_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setC830_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setC830_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setC830_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setC830_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setC830_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setC930_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setC930_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setC930_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setC930_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setC930_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setC930_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setC930_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setC930_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setC930_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setC930_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setC930_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setC930_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setC930_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setCA30_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setCA30_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setCA30_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setCA30_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setCA30_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setCA30_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setCA30_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setCA30_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setCA30_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setCA30_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setCA30_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setCA30_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setCA30_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setCB30_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setCB30_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setCB30_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setCB30_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setCB30_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setCB30_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setCB30_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setCB30_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setCB30_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setCB30_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setCB30_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setCB30_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setCB30_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setCC40_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setCC40_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setCC40_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setCC40_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setCC40_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setCC40_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setCC40_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setCC40_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setCC40_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setCC40_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setCC40_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setCC40_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setCC40_cmd0C;
+
+extern SCmdSoundSettings _tokinoma_scene_setCD10_cmd00;
+
+extern SCmdRoomList _tokinoma_scene_setCD10_cmd01;
+
+extern SCmdTransiActorList _tokinoma_scene_setCD10_cmd02;
+
+extern SCmdMiscSettings _tokinoma_scene_setCD10_cmd03;
+
+extern SCmdColHeader _tokinoma_scene_setCD10_cmd04;
+
+extern SCmdEntranceList _tokinoma_scene_setCD10_cmd05;
+
+extern SCmdSpecialFiles _tokinoma_scene_setCD10_cmd06;
+
+extern SCmdSpawnList _tokinoma_scene_setCD10_cmd07;
+
+extern SCmdSkyboxSettings _tokinoma_scene_setCD10_cmd08;
+
+extern SCmdExitList _tokinoma_scene_setCD10_cmd09;
+
+extern SCmdLightSettingList _tokinoma_scene_setCD10_cmd0A;
+
+extern SCmdCutsceneData _tokinoma_scene_setCD10_cmd0B;
+
+extern SCmdEndMarker _tokinoma_scene_setCD10_cmd0C;
+
+extern u64 _tokinoma_scene_tex_0000CFA0[];
+
+extern u64 _tokinoma_scene_tex_0000D7A0[];
+
+extern u64 _tokinoma_scene_tex_0000DFA0[];
+
+extern u64 _tokinoma_scene_tex_0000EFA0[];
+
+extern u64 _tokinoma_scene_tex_0000FFA0[];
+
+extern u64 _tokinoma_scene_tex_000107A0[];
+
+extern u64 _tokinoma_scene_tex_00010FA0[];
+
+extern u64 _tokinoma_scene_tex_000117A0[];
+
+extern u64 _tokinoma_scene_tex_00011FA0[];
+
+

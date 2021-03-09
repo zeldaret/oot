@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dead_db.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rScale regs[0]
 #define rTextIdx regs[1]
@@ -28,15 +29,13 @@ EffectSsInit Effect_Ss_Dead_Db_InitVars = {
     EffectSsDeadDb_Init,
 };
 
-extern Gfx D_04031FE0[];
-
 u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDeadDbInitParams* initParams = (EffectSsDeadDbInitParams*)initParamsx;
 
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04031FE0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffEnemyDeathFlameDL);
     this->life = initParams->unk_34;
     this->flags = 4;
     this->rScaleStep = initParams->scaleStep;
@@ -57,9 +56,10 @@ u32 EffectSsDeadDb_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, voi
     return 1;
 }
 
-static void* sTextures[] = {
-    0x0402CFE0, 0x0402D7E0, 0x0402DFE0, 0x0402E7E0, 0x0402EFE0,
-    0x0402F7E0, 0x0402FFE0, 0x040307E0, 0x04030FE0, 0x040317E0,
+static UNK_PTR sTextures[] = {
+    gEffEnemyDeathFlame1Tex, gEffEnemyDeathFlame2Tex,  gEffEnemyDeathFlame3Tex, gEffEnemyDeathFlame4Tex,
+    gEffEnemyDeathFlame5Tex, gEffEnemyDeathFlame6Tex,  gEffEnemyDeathFlame7Tex, gEffEnemyDeathFlame8Tex,
+    gEffEnemyDeathFlame9Tex, gEffEnemyDeathFlame10Tex,
 };
 
 void EffectSsDeadDb_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {

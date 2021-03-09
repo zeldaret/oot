@@ -1,0 +1,42 @@
+extern MeshHeader0 _Bmori1_room_19_meshHeader_000000A0;
+extern MeshEntry0 _Bmori1_room_19_meshDListEntry_000000AC[1];
+extern Gfx _Bmori1_room_19_dlist_000004F0[];
+extern Gfx _Bmori1_room_19_dlist_000003B0[];
+extern Vtx_t _Bmori1_room_19_vertices_000000C0[32];
+extern Vtx_t _Bmori1_room_19_vertices_000002C0[7];
+extern Vtx_t _Bmori1_room_19_vertices_00000330[8];
+s16 _Bmori1_room_19_objectList_00000040[];
+extern ActorEntry _Bmori1_room_19_actorList_00000054[4];
+
+extern SCmdEchoSettings _Bmori1_room_19_set0000_cmd00;
+extern SCmdRoomBehavior _Bmori1_room_19_set0000_cmd01;
+extern SCmdSkyboxDisables _Bmori1_room_19_set0000_cmd02;
+extern SCmdTimeSettings _Bmori1_room_19_set0000_cmd03;
+extern SCmdMesh _Bmori1_room_19_set0000_cmd04;
+extern SCmdObjectList _Bmori1_room_19_set0000_cmd05;
+extern SCmdActorList _Bmori1_room_19_set0030_cmd06;
+extern SCmdEndMarker _Bmori1_room_19_set0000_cmd07;
+
+
+
+
+
+extern SCmdEchoSettings _Bmori1_room_19_set0000_cmd00;
+
+extern SCmdRoomBehavior _Bmori1_room_19_set0000_cmd01;
+
+extern SCmdSkyboxDisables _Bmori1_room_19_set0000_cmd02;
+
+extern SCmdTimeSettings _Bmori1_room_19_set0000_cmd03;
+
+extern SCmdMesh _Bmori1_room_19_set0000_cmd04;
+
+extern SCmdObjectList _Bmori1_room_19_set0000_cmd05;
+
+extern SCmdActorList _Bmori1_room_19_set0030_cmd06;
+
+extern SCmdEndMarker _Bmori1_room_19_set0000_cmd07;
+
+
+
+

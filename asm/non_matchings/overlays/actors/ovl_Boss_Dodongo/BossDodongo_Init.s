@@ -37,8 +37,8 @@ glabel BossDodongo_Init
 
 /* 00818 808C19A8 24A5A3C8 */  addiu   $a1, $a1, %lo(D_808CA3C8)  ## $a1 = 808CA3C8
 /* 0081C 808C19AC 3C05460F */  lui     $a1, 0x460F                ## $a1 = 460F0000
-/* 00820 808C19B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00824 808C19B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00820 808C19B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00824 808C19B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00828 808C19B8 34A5C000 */  ori     $a1, $a1, 0xC000           ## $a1 = 460FC000
 /* 0082C 808C19BC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00830 808C19C0 0C00AC78 */  jal     ActorShape_Init
@@ -49,11 +49,11 @@ glabel BossDodongo_Init
 /* 00840 808C19D0 0C00B58B */  jal     Actor_SetScale
 
 /* 00844 808C19D4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 00848 808C19D8 3C120601 */  lui     $s2, 0x0601                ## $s2 = 06010000
-/* 0084C 808C19DC 2652F0D8 */  addiu   $s2, $s2, 0xF0D8           ## $s2 = 0600F0D8
+/* 00848 808C19D8 3C120601 */  lui     $s2, %hi(D_0600F0D8)                ## $s2 = 06010000
+/* 0084C 808C19DC 2652F0D8 */  addiu   $s2, $s2, %lo(D_0600F0D8)           ## $s2 = 0600F0D8
 /* 00850 808C19E0 2611014C */  addiu   $s1, $s0, 0x014C           ## $s1 = 0000014C
-/* 00854 808C19E4 3C060602 */  lui     $a2, 0x0602                ## $a2 = 06020000
-/* 00858 808C19E8 24C6B310 */  addiu   $a2, $a2, 0xB310           ## $a2 = 0601B310
+/* 00854 808C19E4 3C060602 */  lui     $a2, %hi(D_0601B310)                ## $a2 = 06020000
+/* 00858 808C19E8 24C6B310 */  addiu   $a2, $a2, %lo(D_0601B310)           ## $a2 = 0601B310
 /* 0085C 808C19EC 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0000014C
 /* 00860 808C19F0 02403825 */  or      $a3, $s2, $zero            ## $a3 = 0600F0D8
 /* 00864 808C19F4 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
@@ -63,7 +63,7 @@ glabel BossDodongo_Init
 
 /* 00874 808C1A04 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00878 808C1A08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
-/* 0087C 808C1A0C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 0087C 808C1A0C 0C0294BE */  jal     Animation_PlayLoop
 /* 00880 808C1A10 02402825 */  or      $a1, $s2, $zero            ## $a1 = 0600F0D8
 /* 00884 808C1A14 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00888 808C1A18 44812000 */  mtc1    $at, $f4                   ## $f4 = 1.00
@@ -107,9 +107,9 @@ glabel BossDodongo_Init
 /* 0091C 808C1AAC 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 00920 808C1AB0 1040005A */  beq     $v0, $zero, .L808C1C1C
 /* 00924 808C1AB4 3C058016 */  lui     $a1, %hi(gSegments)
-/* 00928 808C1AB8 3C020300 */  lui     $v0, 0x0300                ## $v0 = 03000000
+/* 00928 808C1AB8 3C020300 */  lui     $v0, %hi(D_030021D8)                ## $v0 = 03000000
 /* 0092C 808C1ABC 3C03808D */  lui     $v1, %hi(D_808C93C8)       ## $v1 = 808D0000
-/* 00930 808C1AC0 244221D8 */  addiu   $v0, $v0, 0x21D8           ## $v0 = 030021D8
+/* 00930 808C1AC0 244221D8 */  addiu   $v0, $v0, %lo(D_030021D8)           ## $v0 = 030021D8
 /* 00934 808C1AC4 246393C8 */  addiu   $v1, $v1, %lo(D_808C93C8)  ## $v1 = 808C93C8
 /* 00938 808C1AC8 00024100 */  sll     $t0, $v0,  4
 /* 0093C 808C1ACC 00037900 */  sll     $t7, $v1,  4

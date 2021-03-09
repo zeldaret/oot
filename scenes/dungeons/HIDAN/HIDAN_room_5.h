@@ -1,0 +1,224 @@
+extern MeshHeader2 _HIDAN_room_5_meshHeader_00000280;
+extern MeshEntry2 _HIDAN_room_5_meshDListEntry_0000028C[6];
+extern Gfx _HIDAN_room_5_dlist_00000A60[];
+extern Vtx_t _HIDAN_room_5_vertices_000002F0[8];
+extern Vtx_t _HIDAN_room_5_vertices_00000370[4];
+extern Vtx_t _HIDAN_room_5_vertices_000003B0[4];
+extern Vtx_t _HIDAN_room_5_vertices_000003F0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00000430[23];
+extern Vtx_t _HIDAN_room_5_vertices_000005A0[6];
+extern Vtx_t _HIDAN_room_5_vertices_00000600[4];
+extern Vtx_t _HIDAN_room_5_vertices_00000640[10];
+extern Vtx_t _HIDAN_room_5_vertices_000006E0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00000720[6];
+extern Vtx_t _HIDAN_room_5_vertices_00000780[6];
+extern Vtx_t _HIDAN_room_5_vertices_000007E0[6];
+extern Vtx_t _HIDAN_room_5_vertices_00000840[22];
+extern Vtx_t _HIDAN_room_5_vertices_000009A0[4];
+extern Vtx_t _HIDAN_room_5_vertices_000009E0[8];
+extern u64 _HIDAN_room_5_tex_00007EE0[];
+extern u64 _HIDAN_room_5_tex_000080E0[];
+extern Gfx _HIDAN_room_5_dlist_00002140[];
+extern Vtx_t _HIDAN_room_5_vertices_00001120[8];
+extern Vtx_t _HIDAN_room_5_vertices_000011A0[4];
+extern Vtx_t _HIDAN_room_5_vertices_000011E0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001220[3];
+extern Vtx_t _HIDAN_room_5_vertices_00001250[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001290[4];
+extern Vtx_t _HIDAN_room_5_vertices_000012D0[6];
+extern Vtx_t _HIDAN_room_5_vertices_00001330[6];
+extern Vtx_t _HIDAN_room_5_vertices_00001390[4];
+extern Vtx_t _HIDAN_room_5_vertices_000013D0[19];
+extern Vtx_t _HIDAN_room_5_vertices_00001500[3];
+extern Vtx_t _HIDAN_room_5_vertices_00001530[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001570[7];
+extern Vtx_t _HIDAN_room_5_vertices_000015E0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001620[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001660[7];
+extern Vtx_t _HIDAN_room_5_vertices_000016D0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001710[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001750[8];
+extern Vtx_t _HIDAN_room_5_vertices_000017D0[12];
+extern Vtx_t _HIDAN_room_5_vertices_00001890[4];
+extern Vtx_t _HIDAN_room_5_vertices_000018D0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001910[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001950[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001990[8];
+extern Vtx_t _HIDAN_room_5_vertices_00001A10[6];
+extern Vtx_t _HIDAN_room_5_vertices_00001A70[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001AB0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001AF0[3];
+extern Vtx_t _HIDAN_room_5_vertices_00001B20[8];
+extern Vtx_t _HIDAN_room_5_vertices_00001BA0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001BE0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001C20[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001C60[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001CA0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001CE0[9];
+extern Vtx_t _HIDAN_room_5_vertices_00001D70[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001DB0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00001DF0[20];
+extern Vtx_t _HIDAN_room_5_vertices_00001F30[13];
+extern Vtx_t _HIDAN_room_5_vertices_00002000[4];
+extern Vtx_t _HIDAN_room_5_vertices_00002040[4];
+extern Vtx_t _HIDAN_room_5_vertices_00002080[4];
+extern Vtx_t _HIDAN_room_5_vertices_000020C0[8];
+extern u64 _HIDAN_room_5_tex_00008CE0[];
+extern u64 _HIDAN_room_5_tex_000096E0[];
+extern u64 _HIDAN_room_5_tex_00009AE0[];
+extern u64 _HIDAN_room_5_tex_00009EE0[];
+extern Gfx _HIDAN_room_5_dlist_00003BE0[];
+extern Vtx_t _HIDAN_room_5_vertices_00003150[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003190[7];
+extern Vtx_t _HIDAN_room_5_vertices_00003200[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003240[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003280[8];
+extern Vtx_t _HIDAN_room_5_vertices_00003300[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003340[3];
+extern Vtx_t _HIDAN_room_5_vertices_00003370[21];
+extern Vtx_t _HIDAN_room_5_vertices_000034C0[8];
+extern Vtx_t _HIDAN_room_5_vertices_00003540[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003580[3];
+extern Vtx_t _HIDAN_room_5_vertices_000035B0[3];
+extern Vtx_t _HIDAN_room_5_vertices_000035E0[5];
+extern Vtx_t _HIDAN_room_5_vertices_00003630[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003670[4];
+extern Vtx_t _HIDAN_room_5_vertices_000036B0[4];
+extern Vtx_t _HIDAN_room_5_vertices_000036F0[3];
+extern Vtx_t _HIDAN_room_5_vertices_00003720[3];
+extern Vtx_t _HIDAN_room_5_vertices_00003750[10];
+extern Vtx_t _HIDAN_room_5_vertices_000037F0[5];
+extern Vtx_t _HIDAN_room_5_vertices_00003840[6];
+extern Vtx_t _HIDAN_room_5_vertices_000038A0[4];
+extern Vtx_t _HIDAN_room_5_vertices_000038E0[3];
+extern Vtx_t _HIDAN_room_5_vertices_00003910[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003950[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003990[9];
+extern Vtx_t _HIDAN_room_5_vertices_00003A20[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003A60[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003AA0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00003AE0[8];
+extern Vtx_t _HIDAN_room_5_vertices_00003B60[8];
+extern u64 _HIDAN_room_5_tex_00008CE0[];
+extern u64 _HIDAN_room_5_tex_000096E0[];
+extern u64 _HIDAN_room_5_tex_00009AE0[];
+extern u64 _HIDAN_room_5_tex_00009EE0[];
+extern Gfx _HIDAN_room_5_dlist_00005058[];
+extern Vtx_t _HIDAN_room_5_vertices_000046D8[8];
+extern Vtx_t _HIDAN_room_5_vertices_00004758[9];
+extern Vtx_t _HIDAN_room_5_vertices_000047E8[10];
+extern Vtx_t _HIDAN_room_5_vertices_00004888[12];
+extern Vtx_t _HIDAN_room_5_vertices_00004948[4];
+extern Vtx_t _HIDAN_room_5_vertices_00004988[22];
+extern Vtx_t _HIDAN_room_5_vertices_00004AE8[8];
+extern Vtx_t _HIDAN_room_5_vertices_00004B68[4];
+extern Vtx_t _HIDAN_room_5_vertices_00004BA8[5];
+extern Vtx_t _HIDAN_room_5_vertices_00004BF8[16];
+extern Vtx_t _HIDAN_room_5_vertices_00004CF8[3];
+extern Vtx_t _HIDAN_room_5_vertices_00004D28[4];
+extern Vtx_t _HIDAN_room_5_vertices_00004D68[8];
+extern Vtx_t _HIDAN_room_5_vertices_00004DE8[4];
+extern Vtx_t _HIDAN_room_5_vertices_00004E28[4];
+extern Vtx_t _HIDAN_room_5_vertices_00004E68[6];
+extern Vtx_t _HIDAN_room_5_vertices_00004EC8[4];
+extern Vtx_t _HIDAN_room_5_vertices_00004F08[6];
+extern Vtx_t _HIDAN_room_5_vertices_00004F68[4];
+extern Vtx_t _HIDAN_room_5_vertices_00004FA8[3];
+extern Vtx_t _HIDAN_room_5_vertices_00004FD8[8];
+extern u64 _HIDAN_room_5_tex_000088E0[];
+extern u64 _HIDAN_room_5_tex_00008CE0[];
+extern u64 _HIDAN_room_5_tex_000096E0[];
+extern u64 _HIDAN_room_5_tex_00009AE0[];
+extern u64 _HIDAN_room_5_tex_00009EE0[];
+extern Gfx _HIDAN_room_5_dlist_00005D80[];
+extern Vtx_t _HIDAN_room_5_vertices_00005880[4];
+extern Vtx_t _HIDAN_room_5_vertices_000058C0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00005900[8];
+extern Vtx_t _HIDAN_room_5_vertices_00005980[4];
+extern Vtx_t _HIDAN_room_5_vertices_000059C0[16];
+extern Vtx_t _HIDAN_room_5_vertices_00005AC0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00005B00[12];
+extern Vtx_t _HIDAN_room_5_vertices_00005BC0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00005C00[16];
+extern Vtx_t _HIDAN_room_5_vertices_00005D00[8];
+extern u64 _HIDAN_room_5_tex_000096E0[];
+extern Gfx _HIDAN_room_5_dlist_00007130[];
+extern Vtx_t _HIDAN_room_5_vertices_00006130[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006170[12];
+extern Vtx_t _HIDAN_room_5_vertices_00006230[7];
+extern Vtx_t _HIDAN_room_5_vertices_000062A0[4];
+extern Vtx_t _HIDAN_room_5_vertices_000062E0[8];
+extern Vtx_t _HIDAN_room_5_vertices_00006360[10];
+extern Vtx_t _HIDAN_room_5_vertices_00006400[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006440[12];
+extern Vtx_t _HIDAN_room_5_vertices_00006500[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006540[7];
+extern Vtx_t _HIDAN_room_5_vertices_000065B0[8];
+extern Vtx_t _HIDAN_room_5_vertices_00006630[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006670[13];
+extern Vtx_t _HIDAN_room_5_vertices_00006740[9];
+extern Vtx_t _HIDAN_room_5_vertices_000067D0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006810[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006850[5];
+extern Vtx_t _HIDAN_room_5_vertices_000068A0[3];
+extern Vtx_t _HIDAN_room_5_vertices_000068D0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006910[8];
+extern Vtx_t _HIDAN_room_5_vertices_00006990[4];
+extern Vtx_t _HIDAN_room_5_vertices_000069D0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006A10[20];
+extern Vtx_t _HIDAN_room_5_vertices_00006B50[13];
+extern Vtx_t _HIDAN_room_5_vertices_00006C20[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006C60[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006CA0[8];
+extern Vtx_t _HIDAN_room_5_vertices_00006D20[16];
+extern Vtx_t _HIDAN_room_5_vertices_00006E20[8];
+extern Vtx_t _HIDAN_room_5_vertices_00006EA0[16];
+extern Vtx_t _HIDAN_room_5_vertices_00006FA0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00006FE0[4];
+extern Vtx_t _HIDAN_room_5_vertices_00007020[4];
+extern Vtx_t _HIDAN_room_5_vertices_00007060[5];
+extern Vtx_t _HIDAN_room_5_vertices_000070B0[8];
+extern u64 _HIDAN_room_5_tex_00008CE0[];
+extern u64 _HIDAN_room_5_tex_000094E0[];
+extern u64 _HIDAN_room_5_tex_000096E0[];
+extern u64 _HIDAN_room_5_tex_00009AE0[];
+extern u64 _HIDAN_room_5_tex_00009EE0[];
+s16 _HIDAN_room_5_objectList_00000040[];
+extern ActorEntry _HIDAN_room_5_actorList_00000054[34];
+
+extern SCmdEchoSettings _HIDAN_room_5_set0000_cmd00;
+extern SCmdRoomBehavior _HIDAN_room_5_set0000_cmd01;
+extern SCmdSkyboxDisables _HIDAN_room_5_set0000_cmd02;
+extern SCmdTimeSettings _HIDAN_room_5_set0000_cmd03;
+extern SCmdMesh _HIDAN_room_5_set0000_cmd04;
+extern SCmdObjectList _HIDAN_room_5_set0000_cmd05;
+extern SCmdActorList _HIDAN_room_5_set0030_cmd06;
+extern SCmdEndMarker _HIDAN_room_5_set0000_cmd07;
+
+
+
+
+
+extern SCmdEchoSettings _HIDAN_room_5_set0000_cmd00;
+
+extern SCmdRoomBehavior _HIDAN_room_5_set0000_cmd01;
+
+extern SCmdSkyboxDisables _HIDAN_room_5_set0000_cmd02;
+
+extern SCmdTimeSettings _HIDAN_room_5_set0000_cmd03;
+
+extern SCmdMesh _HIDAN_room_5_set0000_cmd04;
+
+extern SCmdObjectList _HIDAN_room_5_set0000_cmd05;
+
+extern SCmdActorList _HIDAN_room_5_set0030_cmd06;
+
+extern SCmdEndMarker _HIDAN_room_5_set0000_cmd07;
+
+
+
+
+
+
+
+

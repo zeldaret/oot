@@ -1,0 +1,304 @@
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000078[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000088[1];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000220[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000230[4];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_000002B0[];
+extern ActorEntry _hiral_demo_room_0_actorList_000002B4[2];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000320[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000330[5];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_000003C0[];
+extern ActorEntry _hiral_demo_room_0_actorList_000003C4[1];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000420[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000430[2];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000490[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000494[2];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000500[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000504[2];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000570[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000580[5];
+extern MeshHeader0 _hiral_demo_room_0_meshHeader_000000A0;
+extern MeshEntry0 _hiral_demo_room_0_meshDListEntry_000000AC[1];
+extern Gfx _hiral_demo_room_0_dlist_00000630[];
+s16 _hiral_demo_room_0_objectList_00000610[];
+extern ActorEntry _hiral_demo_room_0_actorList_00000614[1];
+
+extern SCmdAltHeaders _hiral_demo_room_0_set0000_cmd00;
+extern SCmdEchoSettings _hiral_demo_room_0_set0000_cmd01;
+extern SCmdRoomBehavior _hiral_demo_room_0_set0000_cmd02;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0000_cmd03;
+extern SCmdTimeSettings _hiral_demo_room_0_set0000_cmd04;
+extern SCmdMesh _hiral_demo_room_0_set0000_cmd05;
+extern SCmdObjectList _hiral_demo_room_0_set0000_cmd06;
+extern SCmdActorList _hiral_demo_room_0_set0038_cmd07;
+extern SCmdEndMarker _hiral_demo_room_0_set0000_cmd08;
+extern u32 _hiral_demo_room_0_alternateHeaders_00000048[];
+extern SCmdEchoSettings _hiral_demo_room_0_set01E0_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set01E0_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set01E0_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set01E0_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set01E0_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set01E0_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set0210_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set01E0_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set0270_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set0270_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0270_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set0270_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set0270_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set0270_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set02A0_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set0270_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set02E0_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set02E0_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set02E0_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set02E0_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set02E0_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set02E0_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set0310_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set02E0_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set0380_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set0380_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0380_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set0380_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set0380_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set0380_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set03B0_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set0380_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set03E0_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set03E0_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set03E0_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set03E0_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set03E0_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set03E0_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set0410_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set03E0_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set0450_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set0450_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0450_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set0450_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set0450_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set0450_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set0480_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set0450_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set04C0_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set04C0_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set04C0_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set04C0_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set04C0_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set04C0_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set04F0_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set04C0_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set0530_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set0530_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0530_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set0530_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set0530_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set0530_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set0560_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set0530_cmd07;
+extern SCmdEchoSettings _hiral_demo_room_0_set05D0_cmd00;
+extern SCmdRoomBehavior _hiral_demo_room_0_set05D0_cmd01;
+extern SCmdSkyboxDisables _hiral_demo_room_0_set05D0_cmd02;
+extern SCmdTimeSettings _hiral_demo_room_0_set05D0_cmd03;
+extern SCmdMesh _hiral_demo_room_0_set05D0_cmd04;
+extern SCmdObjectList _hiral_demo_room_0_set05D0_cmd05;
+extern SCmdActorList _hiral_demo_room_0_set0600_cmd06;
+extern SCmdEndMarker _hiral_demo_room_0_set05D0_cmd07;
+
+
+
+
+
+extern SCmdAltHeaders _hiral_demo_room_0_set0000_cmd00;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set0000_cmd01;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set0000_cmd02;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0000_cmd03;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set0000_cmd04;
+
+extern SCmdMesh _hiral_demo_room_0_set0000_cmd05;
+
+extern SCmdObjectList _hiral_demo_room_0_set0000_cmd06;
+
+extern SCmdActorList _hiral_demo_room_0_set0038_cmd07;
+
+extern SCmdEndMarker _hiral_demo_room_0_set0000_cmd08;
+
+extern u32 _hiral_demo_room_0_alternateHeaders_00000048[];
+
+extern SCmdEchoSettings _hiral_demo_room_0_set01E0_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set01E0_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set01E0_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set01E0_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set01E0_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set01E0_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set0210_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set01E0_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set0270_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set0270_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0270_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set0270_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set0270_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set0270_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set02A0_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set0270_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set02E0_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set02E0_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set02E0_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set02E0_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set02E0_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set02E0_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set0310_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set02E0_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set0380_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set0380_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0380_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set0380_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set0380_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set0380_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set03B0_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set0380_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set03E0_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set03E0_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set03E0_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set03E0_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set03E0_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set03E0_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set0410_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set03E0_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set0450_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set0450_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0450_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set0450_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set0450_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set0450_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set0480_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set0450_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set04C0_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set04C0_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set04C0_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set04C0_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set04C0_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set04C0_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set04F0_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set04C0_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set0530_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set0530_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set0530_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set0530_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set0530_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set0530_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set0560_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set0530_cmd07;
+
+extern SCmdEchoSettings _hiral_demo_room_0_set05D0_cmd00;
+
+extern SCmdRoomBehavior _hiral_demo_room_0_set05D0_cmd01;
+
+extern SCmdSkyboxDisables _hiral_demo_room_0_set05D0_cmd02;
+
+extern SCmdTimeSettings _hiral_demo_room_0_set05D0_cmd03;
+
+extern SCmdMesh _hiral_demo_room_0_set05D0_cmd04;
+
+extern SCmdObjectList _hiral_demo_room_0_set05D0_cmd05;
+
+extern SCmdActorList _hiral_demo_room_0_set0600_cmd06;
+
+extern SCmdEndMarker _hiral_demo_room_0_set05D0_cmd07;
+
+
+

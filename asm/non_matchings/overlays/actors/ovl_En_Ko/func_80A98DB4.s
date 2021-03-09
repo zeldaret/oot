@@ -54,7 +54,7 @@ glabel func_80A98DB4
 .L80A98E6C:
 /* 020BC 80A98E6C 44815000 */  mtc1    $at, $f10                  ## $f10 = 1.00
 /* 020C0 80A98E70 44050000 */  mfc1    $a1, $f0
-/* 020C4 80A98E74 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 020C4 80A98E74 0C01E0C4 */  jal     Math_SmoothStepToF
 
 /* 020C8 80A98E78 E7AA0010 */  swc1    $f10, 0x0010($sp)
 /* 020CC 80A98E7C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

@@ -16,10 +16,10 @@ typedef struct EnCrow {
     /* 0x01C4 */ s16 timer;
     /* 0x01C6 */ s16 aimRotX;
     /* 0x01C8 */ s16 aimRotY;
-    /* 0x01CA */ Vec3s limbDrawTable[9];
-    /* 0x0200 */ Vec3s transitionDrawTable[9];
+    /* 0x01CA */ Vec3s jointTable[9];
+    /* 0x0200 */ Vec3s morphTable[9];
     /* 0x0238 */ ColliderJntSph collider;
-    /* 0x0258 */ ColliderJntSphItem colliderItems[1];
+    /* 0x0258 */ ColliderJntSphElement colliderItems[1];
 } EnCrow; // size = 0x0298
 
 extern const ActorInit En_Crow_InitVars;

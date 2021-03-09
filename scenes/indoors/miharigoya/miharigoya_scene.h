@@ -1,0 +1,145 @@
+extern RomFile _miharigoya_scene_roomList_00000094[];
+extern TransitionActorEntry _miharigoya_scene_transitionActorList_00000084[];
+extern CollisionHeader _miharigoya_scene_collisionHeader_00000B28;
+extern EntranceEntry _miharigoya_scene_entranceList_0000009C[];
+extern ActorEntry _miharigoya_scene_startPositionList_00000074[];
+extern u16 _miharigoya_scene_exitList_000000A0[];
+extern LightSettings _miharigoya_scene_lightSettings_000000A4[];
+extern RomFile _miharigoya_scene_roomList_00000BE0[];
+extern TransitionActorEntry _miharigoya_scene_transitionActorList_00000BD0[];
+extern CollisionHeader _miharigoya_scene_collisionHeader_00000B28;
+extern EntranceEntry _miharigoya_scene_entranceList_00000BE8[];
+extern ActorEntry _miharigoya_scene_startPositionList_00000BC0[];
+extern u16 _miharigoya_scene_exitList_00000BEC[];
+extern LightSettings _miharigoya_scene_lightSettings_00000BF0[];
+
+extern SCmdAltHeaders _miharigoya_scene_set0000_cmd00;
+extern SCmdSoundSettings _miharigoya_scene_set0000_cmd01;
+extern SCmdRoomList _miharigoya_scene_set0000_cmd02;
+extern SCmdTransiActorList _miharigoya_scene_set0000_cmd03;
+extern SCmdMiscSettings _miharigoya_scene_set0000_cmd04;
+extern SCmdColHeader _miharigoya_scene_set0000_cmd05;
+extern SCmdEntranceList _miharigoya_scene_set0000_cmd06;
+extern SCmdSpecialFiles _miharigoya_scene_set0000_cmd07;
+extern SCmdSpawnList _miharigoya_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _miharigoya_scene_set0000_cmd09;
+extern SCmdExitList _miharigoya_scene_set0000_cmd0A;
+extern SCmdLightSettingList _miharigoya_scene_set0000_cmd0B;
+extern SCmdEndMarker _miharigoya_scene_set0000_cmd0C;
+extern u32 _miharigoya_scene_alternateHeaders_00000068[];
+extern SCmdSoundSettings _miharigoya_scene_set0B60_cmd00;
+extern SCmdRoomList _miharigoya_scene_set0B60_cmd01;
+extern SCmdTransiActorList _miharigoya_scene_set0B60_cmd02;
+extern SCmdMiscSettings _miharigoya_scene_set0B60_cmd03;
+extern SCmdColHeader _miharigoya_scene_set0B60_cmd04;
+extern SCmdEntranceList _miharigoya_scene_set0B60_cmd05;
+extern SCmdSpecialFiles _miharigoya_scene_set0B60_cmd06;
+extern SCmdSpawnList _miharigoya_scene_set0B60_cmd07;
+extern SCmdSkyboxSettings _miharigoya_scene_set0B60_cmd08;
+extern SCmdExitList _miharigoya_scene_set0B60_cmd09;
+extern SCmdLightSettingList _miharigoya_scene_set0B60_cmd0A;
+extern SCmdEndMarker _miharigoya_scene_set0B60_cmd0B;
+extern u64 _miharigoya_scene_tex_00000C50[];
+extern u64 _miharigoya_scene_tex_00001050[];
+extern u64 _miharigoya_scene_tex_00001150[];
+extern u64 _miharigoya_scene_tex_00003350[];
+extern u64 _miharigoya_scene_tex_00004550[];
+extern u64 _miharigoya_scene_tex_00004950[];
+extern u64 _miharigoya_scene_tex_00005950[];
+extern u64 _miharigoya_scene_tex_00005D50[];
+extern u64 _miharigoya_scene_tex_00007550[];
+extern u64 _miharigoya_scene_tex_00008550[];
+extern u64 _miharigoya_scene_tex_00008D50[];
+extern u64 _miharigoya_scene_tex_00009D50[];
+extern u64 _miharigoya_scene_tex_0000AD50[];
+extern u64 _miharigoya_scene_tex_0000BD50[];
+
+#define _miharigoya_room_0_vertices_00001588 ((u32)_miharigoya_room_0_vertices_00001398 + 0x000001F0)
+#define _miharigoya_room_0_vertices_00001768 ((u32)_miharigoya_room_0_vertices_00001398 + 0x000003D0)
+#define _miharigoya_room_0_vertices_00001588 ((u32)_miharigoya_room_0_vertices_00001398 + 0x000001F0)
+#define _miharigoya_room_0_vertices_00001768 ((u32)_miharigoya_room_0_vertices_00001398 + 0x000003D0)
+
+
+
+
+extern SCmdAltHeaders _miharigoya_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _miharigoya_scene_set0000_cmd01;
+
+extern SCmdRoomList _miharigoya_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _miharigoya_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _miharigoya_scene_set0000_cmd04;
+
+extern SCmdColHeader _miharigoya_scene_set0000_cmd05;
+
+extern SCmdEntranceList _miharigoya_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _miharigoya_scene_set0000_cmd07;
+
+extern SCmdSpawnList _miharigoya_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _miharigoya_scene_set0000_cmd09;
+
+extern SCmdExitList _miharigoya_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _miharigoya_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _miharigoya_scene_set0000_cmd0C;
+
+extern u32 _miharigoya_scene_alternateHeaders_00000068[];
+
+extern SCmdSoundSettings _miharigoya_scene_set0B60_cmd00;
+
+extern SCmdRoomList _miharigoya_scene_set0B60_cmd01;
+
+extern SCmdTransiActorList _miharigoya_scene_set0B60_cmd02;
+
+extern SCmdMiscSettings _miharigoya_scene_set0B60_cmd03;
+
+extern SCmdColHeader _miharigoya_scene_set0B60_cmd04;
+
+extern SCmdEntranceList _miharigoya_scene_set0B60_cmd05;
+
+extern SCmdSpecialFiles _miharigoya_scene_set0B60_cmd06;
+
+extern SCmdSpawnList _miharigoya_scene_set0B60_cmd07;
+
+extern SCmdSkyboxSettings _miharigoya_scene_set0B60_cmd08;
+
+extern SCmdExitList _miharigoya_scene_set0B60_cmd09;
+
+extern SCmdLightSettingList _miharigoya_scene_set0B60_cmd0A;
+
+extern SCmdEndMarker _miharigoya_scene_set0B60_cmd0B;
+
+extern u64 _miharigoya_scene_tex_00000C50[];
+
+extern u64 _miharigoya_scene_tex_00001050[];
+
+extern u64 _miharigoya_scene_tex_00001150[];
+
+extern u64 _miharigoya_scene_tex_00003350[];
+
+extern u64 _miharigoya_scene_tex_00004550[];
+
+extern u64 _miharigoya_scene_tex_00004950[];
+
+extern u64 _miharigoya_scene_tex_00005950[];
+
+extern u64 _miharigoya_scene_tex_00005D50[];
+
+extern u64 _miharigoya_scene_tex_00007550[];
+
+extern u64 _miharigoya_scene_tex_00008550[];
+
+extern u64 _miharigoya_scene_tex_00008D50[];
+
+extern u64 _miharigoya_scene_tex_00009D50[];
+
+extern u64 _miharigoya_scene_tex_0000AD50[];
+
+extern u64 _miharigoya_scene_tex_0000BD50[];
+
+

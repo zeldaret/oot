@@ -39,7 +39,7 @@ glabel func_80A5E12C
 /* 02EC4 80A5E1B4 27A50034 */  addiu   $a1, $sp, 0x0034           ## $a1 = FFFFFFFC
 /* 02EC8 80A5E1B8 0C298C52 */  jal     func_80A63148              
 /* 02ECC 80A5E1BC 27A60032 */  addiu   $a2, $sp, 0x0032           ## $a2 = FFFFFFFA
-/* 02ED0 80A5E1C0 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 02ED0 80A5E1C0 0C02927F */  jal     SkelAnime_Update
               
 /* 02ED4 80A5E1C4 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
 /* 02ED8 80A5E1C8 10400032 */  beq     $v0, $zero, .L80A5E294     
@@ -76,7 +76,7 @@ glabel func_80A5E12C
 /* 02F50 80A5E240 10000015 */  beq     $zero, $zero, .L80A5E298   
 /* 02F54 80A5E244 8FBF0024 */  lw      $ra, 0x0024($sp)           
 .L80A5E248:
-/* 02F58 80A5E248 0C01DE0D */  jal     Math_Coss
+/* 02F58 80A5E248 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 02F5C 80A5E24C 87A40032 */  lh      $a0, 0x0032($sp)           
 /* 02F60 80A5E250 3C01BF00 */  lui     $at, 0xBF00                ## $at = BF000000

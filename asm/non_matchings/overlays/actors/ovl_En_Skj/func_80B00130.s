@@ -13,13 +13,13 @@ glabel func_80B00130
 /* 01EAC 80B0015C 44073000 */  mfc1    $a3, $f6                   
 /* 01EB0 80B00160 00000000 */  nop
 /* 01EB4 80B00164 00073C00 */  sll     $a3, $a3, 16               
-/* 01EB8 80B00168 0C01E1A7 */  jal     Math_SmoothScaleMaxMinS
+/* 01EB8 80B00168 0C01E1A7 */  jal     Math_SmoothStepToS
               
 /* 01EBC 80B0016C 00073C03 */  sra     $a3, $a3, 16               
 /* 01EC0 80B00170 260402F0 */  addiu   $a0, $s0, 0x02F0           ## $a0 = 000002F0
 /* 01EC4 80B00174 3C0544FA */  lui     $a1, 0x44FA                ## $a1 = 44FA0000
 /* 01EC8 80B00178 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 01ECC 80B0017C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 01ECC 80B0017C 0C01E107 */  jal     Math_ApproachF
               
 /* 01ED0 80B00180 3C0742C8 */  lui     $a3, 0x42C8                ## $a3 = 42C80000
 /* 01ED4 80B00184 3C0142F0 */  lui     $at, 0x42F0                ## $at = 42F00000

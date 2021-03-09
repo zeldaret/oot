@@ -4,7 +4,7 @@ glabel func_80A5F760
 /* 04478 80A5F768 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 0447C 80A5F76C 8CA51C44 */  lw      $a1, 0x1C44($a1)           ## 00001C44
 /* 04480 80A5F770 24100004 */  addiu   $s0, $zero, 0x0004         ## $s0 = 00000004
-/* 04484 80A5F774 0C00B6E3 */  jal     func_8002DB8C              
+/* 04484 80A5F774 0C00B6E3 */  jal     Actor_WorldDistXZToActor              
 /* 04488 80A5F778 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 0448C 80A5F77C 3C0143C8 */  lui     $at, 0x43C8                ## $at = 43C80000
 /* 04490 80A5F780 44811000 */  mtc1    $at, $f2                   ## $f2 = 400.00
