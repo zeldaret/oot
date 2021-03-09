@@ -3247,7 +3247,6 @@ endseg
 beginseg
     name "ovl_Item_Shield"
     include "build/src/overlays/actors/ovl_Item_Shield/z_item_shield.o"
-    include "build/data/overlays/actors/z_item_shield.data.o"
     include "build/data/overlays/actors/z_item_shield.reloc.o"
 endseg
 
