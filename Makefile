@@ -194,12 +194,12 @@ build/undefined_syms.txt: undefined_syms.txt
 clean:
 	$(RM) -r $(ROM) $(ELF) build
 
-clean_everything: clean
+distclean: clean
 	$(RM) -r $(TEXTURE_BIN_DIRS)
 	$(RM) -r baserom/
-	$(MAKE) -C tools clean_everything
+	$(MAKE) -C tools distclean
 
-nuke: clean_everything
+nuke: distclean
 	@echo "Nuked."
 
 setup:
@@ -212,7 +212,7 @@ resources: $(ASSET_FILES_OUT)
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
-.PHONY: all clean setup test clean_everything nuke
+.PHONY: all clean setup test distclean nuke
 
 #### Various Recipes ####
 
