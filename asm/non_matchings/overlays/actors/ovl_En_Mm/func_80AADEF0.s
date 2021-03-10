@@ -220,7 +220,7 @@ glabel func_80AADEF0
 /* 00A74 80AAE1E4 AFAD0014 */  sw      $t5, 0x0014($sp)           
 /* 00A78 80AAE1E8 8FA4007C */  lw      $a0, 0x007C($sp)           
 /* 00A7C 80AAE1EC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
-/* 00A80 80AAE1F0 0C00B92D */  jal     func_8002E4B4              
+/* 00A80 80AAE1F0 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 00A84 80AAE1F4 E7B40010 */  swc1    $f20, 0x0010($sp)          
 /* 00A88 80AAE1F8 8FBF0044 */  lw      $ra, 0x0044($sp)           
 /* 00A8C 80AAE1FC D7B40020 */  ldc1    $f20, 0x0020($sp)          

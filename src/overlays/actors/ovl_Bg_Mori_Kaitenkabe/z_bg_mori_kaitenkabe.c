@@ -21,12 +21,12 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 void BgMoriKaitenkabe_SetupRotate(BgMoriKaitenkabe* this);
 void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx);
 
-extern ColHeader D_060063B8;
+extern CollisionHeader D_060063B8;
 extern Gfx D_060056B0[];
 
 const ActorInit Bg_Mori_Kaitenkabe_InitVars = {
     ACTOR_BG_MORI_KAITENKABE,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_MORI_OBJECTS,
     sizeof(BgMoriKaitenkabe),
@@ -52,15 +52,14 @@ void BgMoriKaitenkabe_CrossProduct(Vec3f* dest, Vec3f* v1, Vec3f* v2) {
 void BgMoriKaitenkabe_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriKaitenkabe* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     // Forest Temple object 【Rotating Wall (arg_data: 0x% 04x)】 appears
     osSyncPrintf("◯◯◯森の神殿オブジェクト【回転壁(arg_data : 0x%04x)】出現 \n", this->dyna.actor.params);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
-    DynaPolyInfo_Alloc(&D_060063B8, &colHeader);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    CollisionHeader_GetVirtual(&D_060063B8, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->moriTexObjIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_MORI_TEX);
     if (this->moriTexObjIndex < 0) {
         Actor_Kill(&this->dyna.actor);
@@ -75,7 +74,7 @@ void BgMoriKaitenkabe_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgMoriKaitenkabe* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void BgMoriKaitenkabe_WaitForMoriTex(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
@@ -101,13 +100,13 @@ void BgMoriKaitenkabe_Wait(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
         if ((this->timer > 28) && !Player_InCsMode(globalCtx)) {
             BgMoriKaitenkabe_SetupRotate(this);
             func_8002DF54(globalCtx, &this->dyna.actor, 8);
-            Math_Vec3f_Copy(&this->lockedPlayerPos, &player->actor.posRot.pos);
+            Math_Vec3f_Copy(&this->lockedPlayerPos, &player->actor.world.pos);
             push.x = Math_SinS(this->dyna.unk_158);
             push.y = 0.0f;
             push.z = Math_CosS(this->dyna.unk_158);
-            leverArm.x = this->dyna.actor.posRot.pos.x - player->actor.posRot.pos.x;
+            leverArm.x = this->dyna.actor.world.pos.x - player->actor.world.pos.x;
             leverArm.y = 0.0f;
-            leverArm.z = this->dyna.actor.posRot.pos.z - player->actor.posRot.pos.z;
+            leverArm.z = this->dyna.actor.world.pos.z - player->actor.world.pos.z;
             BgMoriKaitenkabe_CrossProduct(&torque, &push, &leverArm);
             this->rotDirection = (torque.y > 0.0f) ? 1.0f : -1.0f;
         }
@@ -136,22 +135,22 @@ void BgMoriKaitenkabe_Rotate(BgMoriKaitenkabe* this, GlobalContext* globalCtx) {
         BgMoriKaitenkabe_SetupWait(this);
         func_8002DF54(globalCtx, thisx, 7);
         if (this->rotDirection > 0.0f) {
-            thisx->initPosRot.rot.y += 0x2000;
+            thisx->home.rot.y += 0x2000;
         } else {
-            thisx->initPosRot.rot.y -= 0x2000;
+            thisx->home.rot.y -= 0x2000;
         }
-        thisx->posRot.rot.y = thisx->shape.rot.y = thisx->initPosRot.rot.y;
+        thisx->world.rot.y = thisx->shape.rot.y = thisx->home.rot.y;
         func_800788CC(NA_SE_EV_STONEDOOR_STOP);
     } else {
         rotY = this->rotYdeg * (0x10000 / 360.0f);
-        thisx->posRot.rot.y = thisx->shape.rot.y = thisx->initPosRot.rot.y + rotY;
+        thisx->world.rot.y = thisx->shape.rot.y = thisx->home.rot.y + rotY;
         func_800788CC(NA_SE_EV_WALL_SLIDE - SFX_FLAG);
     }
     if (fabsf(this->dyna.unk_150) > 0.001f) {
         this->dyna.unk_150 = 0.0f;
         player->stateFlags2 &= ~0x10;
     }
-    Math_Vec3f_Copy(&player->actor.posRot.pos, &this->lockedPlayerPos);
+    Math_Vec3f_Copy(&player->actor.world.pos, &this->lockedPlayerPos);
 }
 
 void BgMoriKaitenkabe_Update(Actor* thisx, GlobalContext* globalCtx) {

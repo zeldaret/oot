@@ -23,6 +23,7 @@ u16 Audio_GetScriptControlFlowArgument(M64ScriptState* state, u8 arg1) {
     u8 temp_v0 = D_80130470[arg1];
     u8 loBits = temp_v0 & 3;
     u16 ret = 0;
+
     if (loBits == 1) {
         if ((temp_v0 & 0x80) == 0) {
             ret = Audio_M64ReadU8(state);
@@ -227,6 +228,7 @@ void Audio_SeqChannelLayerFree(SequenceChannel* seqChannel, s32 layerIdx) {
 
 void Audio_SequenceChannelDisable(SequenceChannel* seqChannel) {
     s32 i;
+
     for (i = 0; i < 4; i++) {
         Audio_SeqChannelLayerFree(seqChannel, i);
     }
@@ -290,6 +292,7 @@ void Audio_SequencePlayerDisable(SequencePlayer* seqPlayer) {
     if (!seqPlayer->enabled) {
         return;
     }
+
     seqPlayer->enabled = false;
     seqPlayer->finished = true;
 
@@ -320,9 +323,11 @@ void Audio_AudioListPushBack(AudioListItem* list, AudioListItem* item) {
 
 void* Audio_AudioListPopBack(AudioListItem* list) {
     AudioListItem* item = list->prev;
+
     if (item == list) {
         return NULL;
     }
+
     item->prev->next = list;
     list->prev = item->prev;
     item->prev = NULL;
@@ -606,7 +611,7 @@ s32 func_800EA0C0(SequenceChannelLayer* layer) {
 }
 
 s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
-    s32 sameSound;
+    s32 sameSound = 1;
     s32 instOrWave;
     s32 speed;
     f32 temp_f14;
@@ -620,15 +625,12 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
     s32 pad;
     SequenceChannel* seqChannel;
     SequencePlayer* seqPlayer;
-    u8 cmd;
+    u8 cmd = arg1;
     u16 sfxId;
     s32 cmd2;
     s32 vel;
     f32 time;
     f32 tuning;
-
-    sameSound = 1;
-    cmd = arg1;
 
     instOrWave = layer->instOrWave;
     seqChannel = layer->seqChannel;
@@ -803,17 +805,13 @@ s32 func_800EA440(SequenceChannelLayer* layer, s32 arg1) {
 }
 
 s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
-    M64ScriptState* state;
+    M64ScriptState* state = &layer->scriptState;
     u16 playPercentage;
     s32 velocity;
-    SequenceChannel* seqChannel;
-    SequencePlayer* seqPlayer;
+    SequenceChannel* seqChannel = layer->seqChannel;
+    SequencePlayer* seqPlayer = seqChannel->seqPlayer;
     s32 intDelta;
     f32 floatDelta;
-
-    state = &layer->scriptState;
-    seqChannel = layer->seqChannel;
-    seqPlayer = seqChannel->seqPlayer;
 
     if (arg1 == 0xC0) {
         layer->delay = Audio_M64ReadCompressedU16(state);
@@ -888,7 +886,7 @@ s32 func_800EAAE0(SequenceChannelLayer* layer, s32 arg1) {
     layer->delay = playPercentage;
     layer->duration = (layer->noteDuration * playPercentage) >> 8;
     if (seqChannel->durationRandomVariance != 0) {
-        // @bug should probably be durationRandomVariance
+        //! @bug should probably be durationRandomVariance
         intDelta = (layer->duration * (gAudioContext.gAudioRandom % seqChannel->velocityRandomVariance)) / 100;
         if ((gAudioContext.gAudioRandom & 0x4000) != 0) {
             intDelta = -intDelta;
@@ -924,6 +922,7 @@ void func_800EAEF4(SequenceChannel* seqChannel, u8 arg1) {
 
 u8 Audio_GetInstrument(SequenceChannel* seqChannel, u8 instId, Instrument** instOut, AdsrSettings* adsr) {
     Instrument* inst = Audio_GetInstrumentInner(seqChannel->bankId, instId);
+
     if (inst == NULL) {
         *instOut = NULL;
         return 0;
@@ -957,13 +956,11 @@ void Audio_SequenceChannelSetVolume(SequenceChannel* seqChannel, u8 volume) {
     seqChannel->volume = (f32)(s32)volume / 127.0f;
 }
 
+void Audio_SequenceChannelProcessScript(SequenceChannel* seqChannel);
 #pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequenceChannelProcessScript.s")
 
-void Audio_SequenceChannelProcessScript(SequenceChannel* seqChannel);
-
-#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerProcessSequence.s")
-
 void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer);
+#pragma GLOBAL_ASM("asm/non_matchings/code/audio_seqplayer/Audio_SequencePlayerProcessSequence.s")
 
 void Audio_ProcessSequences(s32 arg0) {
     SequencePlayer* seqPlayer;
@@ -1018,10 +1015,9 @@ void Audio_ResetSequencePlayer(SequencePlayer* seqPlayer) {
 
 void func_800EC734(s32 seqPlayerIdx) {
     SequenceChannel* seqChannel;
-    SequencePlayer* seqPlayer;
+    SequencePlayer* seqPlayer = &gAudioContext.gSequencePlayers[seqPlayerIdx];
     s32 i, j;
 
-    seqPlayer = &gAudioContext.gSequencePlayers[seqPlayerIdx];
     for (i = 0; i < 0x10; i++) {
         seqPlayer->channels[i] = Audio_AllocZeroed(&gAudioContext.gNotesAndBuffersPool, sizeof(SequenceChannel));
         if (seqPlayer->channels[i] == NULL) {

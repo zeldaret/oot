@@ -21,6 +21,7 @@ ZTexture::ZTexture() : ZResource()
 	width = 0;
 	height = 0;
 	type = TextureType::Error;
+	isPalette = false;
 }
 
 ZTexture::~ZTexture()
@@ -98,12 +99,12 @@ ZTexture* ZTexture::FromPNG(string pngFilePath, TextureType texType)
 	ZTexture* tex = new ZTexture();
 	tex->type = texType;
 	tex->name = StringHelper::Split(Path::GetFileNameWithoutExtension(pngFilePath), ".")[0];
-
+	
 	tex->bmpRgb = (uint8_t*)stbi_load((pngFilePath).c_str(), &tex->width, &tex->height, &comp, STBI_rgb);
 	stbi_image_free(tex->bmpRgb);
 	tex->bmpRgb = nullptr;
 	tex->rawData = vector<uint8_t>(tex->GetRawDataSize());
-	
+
 	switch (texType)
 	{
 		case TextureType::RGBA16bpp: tex->PrepareRawDataRGBA16(pngFilePath); break;
@@ -116,7 +117,7 @@ ZTexture* ZTexture::FromPNG(string pngFilePath, TextureType texType)
 		case TextureType::Palette4bpp: tex->PrepareRawDataPalette4(pngFilePath); break;
 		case TextureType::Palette8bpp: tex->PrepareRawDataPalette8(pngFilePath); break;
 	}
-	
+
 	tex->FixRawData();
 
 	return tex;
@@ -129,7 +130,7 @@ ZTexture* ZTexture::FromHLTexture(HLTexture* hlTex)
 	tex->width = hlTex->width;
 	tex->height = hlTex->height;
 	tex->type = (TextureType)hlTex->type;
-	
+
 	return tex;
 }
 
@@ -139,14 +140,14 @@ void ZTexture::ParseXML(XMLElement* reader)
 
 	if (reader->Attribute("Width") != nullptr)
 		width = atoi(reader->Attribute("Width"));
-	
+
 	if (reader->Attribute("Height") != nullptr)
 		height = atoi(reader->Attribute("Height"));
 
 	string formatStr = reader->Attribute("Format");
 
 	type = GetTextureTypeFromString(formatStr);
-	
+
 	if (type == TextureType::Error)
 		throw "Format " + formatStr + " is not supported!";
 }
@@ -260,7 +261,7 @@ void ZTexture::PrepareBitmapGrayscale8()
 		for (int x = 0; x < width; x++)
 		{
 			int pos = ((y * width) + x) * 1;
-			
+
 			bmpRgb[(((y * width) + x) * 3) + 0] = rawData[pos];
 			bmpRgb[(((y * width) + x) * 3) + 1] = rawData[pos];
 			bmpRgb[(((y * width) + x) * 3) + 2] = rawData[pos];
@@ -363,7 +364,7 @@ void ZTexture::PrepareBitmapPalette8()
 		for (int x = 0; x < width; x++)
 		{
 			int pos = ((y * width) + x) * 1;
-			
+
 			bmpRgb[(((y * width) + x) * 3) + 0] = rawData[pos];
 			bmpRgb[(((y * width) + x) * 3) + 1] = rawData[pos];
 			bmpRgb[(((y * width) + x) * 3) + 2] = rawData[pos];
@@ -426,7 +427,7 @@ void ZTexture::PrepareRawDataRGBA32(string rgbaPath)
 	int comp;
 
 	bmpRgba = (uint8_t*)stbi_load(rgbaPath.c_str(), &width, &height, &comp, STBI_rgb_alpha);
-	
+
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
@@ -518,7 +519,7 @@ void ZTexture::PrepareRawDataGrayscaleAlpha8(string grayAlphaPath)
 	int comp;
 
 	bmpRgba = (uint8_t*)stbi_load(grayAlphaPath.c_str(), &width, &height, &comp, STBI_rgb_alpha);
-	
+
 	for (int y = 0; y < height; y++)
 	{
 		for (int x = 0; x < width; x++)
@@ -657,7 +658,22 @@ int ZTexture::GetHeight()
 	return height;
 }
 
-void ZTexture::Save(string outFolder)
+void ZTexture::SetWidth(int nWidth)
+{
+	width = nWidth;
+}
+
+void ZTexture::SetHeight(int nHeight)
+{
+	height = nHeight;
+}
+
+TextureType ZTexture::GetTextureType()
+{
+	return type;
+}
+
+void ZTexture::Save(const std::string& outFolder)
 {
 	if (type == TextureType::RGBA32bpp)
 		stbi_write_png((outFolder + "/" + outName + ".rgba32.png").c_str(), width, height, 4, bmpRgba, width * 4);
@@ -683,7 +699,7 @@ void ZTexture::Save(string outFolder)
 }
 
 // HOTSPOT
-string ZTexture::GetSourceOutputCode(std::string prefix)
+string ZTexture::GetSourceOutputCode(const std::string& prefix)
 {
 	sourceOutput = "";
 
@@ -703,7 +719,7 @@ string ZTexture::GetSourceOutputCode(std::string prefix)
 		if (i % 32 == 0)
 			sourceOutput += "\t";
 
-		sourceOutput += StringHelper::Sprintf("0x%016llX, ", BitConverter::ToInt64BE(rawDataArr, i));
+		sourceOutput += StringHelper::Sprintf("0x%016llX, ", BitConverter::ToUInt64BE(rawDataArr, i));
 
 		if (i % 32 == 24)
 			sourceOutput += StringHelper::Sprintf(" // 0x%06X \n", rawDataIndex + ((i / 32) * 32));
@@ -748,7 +764,7 @@ std::string ZTexture::GetExternalExtension()
 }
 
 
-string ZTexture::GetSourceOutputHeader(std::string prefix)
+string ZTexture::GetSourceOutputHeader(const std::string& prefix)
 {
 	//return StringHelper::Sprintf("extern u64 %s[];\n", name.c_str());
 	return "";

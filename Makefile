@@ -21,7 +21,7 @@ MAKE = make
 CPPFLAGS += -P
 
 ifeq ($(OS),Windows_NT)
-    $(error Native Windows builds not yet supported. Please use WSL, Docker or a Linux VM)
+    DETECTED_OS=windows
 else
     UNAME_S := $(shell uname -s)
     ifeq ($(UNAME_S),Linux)
@@ -143,6 +143,7 @@ build/src/libultra_code_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_code_O2/%.o: OPTFLAGS := -O2
 build/src/libultra_code_O2_g3/%.o: OPTFLAGS := -O2 -g3
 
+build/src/libultra_boot_O1/ll.o: MIPS_VERSION := -mips3 -32
 build/src/libultra_code_O1/llcvt.o: MIPS_VERSION := -mips3 -32
 
 build/src/code/fault.o: CFLAGS += -trapuv
@@ -232,6 +233,12 @@ build/src/%.o: src/%.c
 	$(CC_CHECK) $^
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
+build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+	$(CC_CHECK) $^
+	python3 tools/set_o32abi_bit.py $@
+	@$(OBJDUMP) -d $@ > $(@:.o=.s)
+
 build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
 	$(CC_CHECK) $^
@@ -244,41 +251,31 @@ assets/%.c: assets/%.xml
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o build/$(@:.c=.o) $@
 
 build/%.rgba32.inc.c: %.rgba32.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt rgba32 -i $< -o $@
 
 build/%.rgb5a1.inc.c: %.rgb5a1.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt rgb5a1 -i $< -o $@
 
 build/%.i4.inc.c: %.i4.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt i4 -i $< -o $@
 
 build/%.i8.inc.c: %.i8.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt i8 -i $< -o $@
 
 build/%.ia4.inc.c: %.ia4.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ia4 -i $< -o $@
 
 build/%.ia8.inc.c: %.ia8.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ia8 -i $< -o $@
 
 build/%.ia16.inc.c: %.ia16.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ia16 -i $< -o $@
 
-build/assets/%.ci4.inc.c: assets/%.ci4.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
+build/%.ci4.inc.c: %.ci4.png
 	$(ZAPD) btex -tt ci4 -i $< -o $@
 
 build/%.ci8.inc.c: %.ci8.png
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) btex -tt ci8 -i $< -o $@
 
 build/assets/%.bin.inc.c: assets/%.bin
-	python3 tools/touchasset.py $(addsuffix basefile.txt, $(dir $@))
 	$(ZAPD) bblb -i $< -o $@

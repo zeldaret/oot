@@ -61,7 +61,7 @@ glabel BossGoma_Update
 /* 04A54 8091A464 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 04A58 8091A468 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000
 /* 04A5C 8091A46C AFAC0014 */  sw      $t4, 0x0014($sp)           
-/* 04A60 8091A470 0C00B92D */  jal     func_8002E4B4              
+/* 04A60 8091A470 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 04A64 8091A474 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 04A68 8091A478 10000009 */  beq     $zero, $zero, .L8091A4A0   
 /* 04A6C 8091A47C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -71,7 +71,7 @@ glabel BossGoma_Update
 /* 04A78 8091A488 44815000 */  mtc1    $at, $f10                  ## $f10 = 80.00
 /* 04A7C 8091A48C 44070000 */  mfc1    $a3, $f0                   
 /* 04A80 8091A490 AFAD0014 */  sw      $t5, 0x0014($sp)           
-/* 04A84 8091A494 0C00B92D */  jal     func_8002E4B4              
+/* 04A84 8091A494 0C00B92D */  jal     Actor_UpdateBgCheckInfo              
 /* 04A88 8091A498 E7AA0010 */  swc1    $f10, 0x0010($sp)          
 /* 04A8C 8091A49C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L8091A4A0:
@@ -101,7 +101,7 @@ glabel BossGoma_Update
 /* 04AE8 8091A4F8 8FA4003C */  lw      $a0, 0x003C($sp)           
 /* 04AEC 8091A4FC 8FA5002C */  lw      $a1, 0x002C($sp)           
 /* 04AF0 8091A500 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 04AF4 8091A504 8FA60028 */  lw      $a2, 0x0028($sp)           
 /* 04AF8 8091A508 8E020190 */  lw      $v0, 0x0190($s0)           ## 00000190
 /* 04AFC 8091A50C 3C0F8092 */  lui     $t7, %hi(func_80919150)    ## $t7 = 80920000

@@ -72,7 +72,7 @@ glabel func_80951844
 /* 02664 80951924 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 02668 80951928 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0266C 8095192C 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 02670 80951930 0C00D09B */  jal     func_8003426C              
+/* 02670 80951930 0C00D09B */  jal     Actor_SetColorFilter              
 /* 02674 80951934 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 02678 80951938 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0267C 8095193C 0C00BE0A */  jal     Audio_PlayActorSound2
@@ -169,7 +169,7 @@ glabel func_80951844
 /* 027B8 80951A78 2605028C */  addiu   $a1, $s0, 0x028C           ## $a1 = 0000028C
 .L80951A7C:
 /* 027BC 80951A7C AFA50040 */  sw      $a1, 0x0040($sp)           
-/* 027C0 80951A80 0C0189B7 */  jal     Collider_CylinderUpdate
+/* 027C0 80951A80 0C0189B7 */  jal     Collider_UpdateCylinder
               
 /* 027C4 80951A84 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 027C8 80951A88 8FA4004C */  lw      $a0, 0x004C($sp)           
@@ -178,7 +178,7 @@ glabel func_80951844
 /* 027D4 80951A94 00812821 */  addu    $a1, $a0, $at              
 /* 027D8 80951A98 AFA5003C */  sw      $a1, 0x003C($sp)           
 /* 027DC 80951A9C 0C017713 */  jal     CollisionCheck_SetOC
-              ## CollisionCheck_setOT
+              ## CollisionCheck_setOC
 /* 027E0 80951AA0 8FA60040 */  lw      $a2, 0x0040($sp)           
 /* 027E4 80951AA4 8FA5003C */  lw      $a1, 0x003C($sp)           
 /* 027E8 80951AA8 8FA4004C */  lw      $a0, 0x004C($sp)           

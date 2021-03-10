@@ -86,7 +86,8 @@ void Overlay_Relocate(void* allocatedVRamAddress, OverlayRelocationSection* over
                     vaddr = (s16)relocData;
                     isLoNeg = (((relocOffset + allocu32) & 0x8000) ? 1 : 0);
                     unrelocatedAddress = (*luiInstRef << 0x10) + vaddr;
-                    *luiInstRef = *luiInstRef & 0xFFFF0000 | ((((relocOffset + allocu32) >> 0x10) & 0xFFFF) + isLoNeg);
+                    *luiInstRef =
+                        (*luiInstRef & 0xFFFF0000) | ((((relocOffset + allocu32) >> 0x10) & 0xFFFF) + isLoNeg);
                     relocatedValue = (*relocDataP & 0xFFFF0000) | ((relocOffset + allocu32) & 0xFFFF);
 
                     relocatedAddress = (*luiInstRef << 0x10) + (s16)relocatedValue;

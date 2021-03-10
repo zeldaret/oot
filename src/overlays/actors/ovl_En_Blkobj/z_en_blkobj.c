@@ -5,6 +5,7 @@
  */
 
 #include "z_en_blkobj.h"
+#include "objects/object_blkobj/object_blkobj.h"
 
 #define FLAGS 0x00000030
 
@@ -22,7 +23,7 @@ void EnBlkobj_DoNothing(EnBlkobj* this, GlobalContext* globalCtx);
 
 const ActorInit En_Blkobj_InitVars = {
     ACTOR_EN_BLKOBJ,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_BLKOBJ,
     sizeof(EnBlkobj),
@@ -49,10 +50,6 @@ static Gfx sSetupXluDL[] = {
     gsSPEndDisplayList(),
 };
 
-extern Gfx D_060014E0[];
-extern Gfx D_060053D0[];
-extern ColHeader D_06007564;
-
 void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
     this->timer = 0;
@@ -61,17 +58,16 @@ void EnBlkobj_SetupAction(EnBlkobj* this, EnBlkobjActionFunc actionFunc) {
 void EnBlkobj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
-    ColHeader* colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyInfo_SetActorMove(&this->dyna, 0);
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
     if (Flags_GetClear(globalCtx, this->dyna.actor.room)) {
         this->alpha = 255;
         EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
     } else {
-        DynaPolyInfo_Alloc(&D_06007564, &colHeader);
-        this->dyna.dynaPolyId =
-            DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+        CollisionHeader_GetVirtual(&gIllusionRoomCol, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
         EnBlkobj_SetupAction(this, EnBlkobj_Wait);
     }
 }
@@ -80,13 +76,13 @@ void EnBlkobj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnBlkobj* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (this->dyna.actor.xzDistToLink < 120.0f) {
+    if (this->dyna.actor.xzDistToPlayer < 120.0f) {
         EnBlkobj_SetupAction(this, EnBlkobj_SpawnDarkLink);
     }
     player->stateFlags2 |= 0x04000000;
@@ -94,8 +90,8 @@ void EnBlkobj_Wait(EnBlkobj* this, GlobalContext* globalCtx) {
 
 void EnBlkobj_SpawnDarkLink(EnBlkobj* this, GlobalContext* globalCtx) {
     if (!(this->dyna.actor.flags & 0x40)) {
-        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TORCH2, this->dyna.actor.posRot.pos.x,
-                    this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, this->dyna.actor.yawTowardsLink, 0,
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TORCH2, this->dyna.actor.world.pos.x,
+                    this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.yawTowardsPlayer, 0,
                     0);
         EnBlkobj_SetupAction(this, EnBlkobj_DarkLinkFight);
     }
@@ -105,7 +101,7 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx) {
     s32 alphaMod;
 
     if (this->timer == 0) {
-        if (Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TORCH2, ACTORTYPE_BOSS) == NULL) {
+        if (Actor_Find(&globalCtx->actorCtx, ACTOR_EN_TORCH2, ACTORCAT_BOSS) == NULL) {
             Flags_SetClear(globalCtx, this->dyna.actor.room);
             this->timer++;
         }
@@ -118,7 +114,7 @@ void EnBlkobj_DarkLinkFight(EnBlkobj* this, GlobalContext* globalCtx) {
         if (this->alpha > 255) {
             this->alpha = 255;
             EnBlkobj_SetupAction(this, EnBlkobj_DoNothing);
-            DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+            DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
         }
     }
 }
@@ -169,11 +165,11 @@ void EnBlkobj_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->alpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, D_060014E0, this->alpha);
+        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomNormalDL, this->alpha);
     }
     illusionAlpha = 255 - this->alpha;
     if (illusionAlpha != 0) {
-        EnBlkobj_DrawAlpha(globalCtx, D_060053D0, illusionAlpha);
+        EnBlkobj_DrawAlpha(globalCtx, gIllusionRoomIllusionDL, illusionAlpha);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_blkobj.c", 375);

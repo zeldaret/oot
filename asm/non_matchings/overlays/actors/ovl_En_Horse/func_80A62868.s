@@ -19,7 +19,7 @@ glabel func_80A62868
 /* 075A0 80A62890 8FA5004C */  lw      $a1, 0x004C($sp)           
 /* 075A4 80A62894 261007C0 */  addiu   $s0, $s0, 0x07C0           ## $s0 = 000007C0
 /* 075A8 80A62898 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000007C0
-/* 075AC 80A6289C 0C00F250 */  jal     func_8003C940              
+/* 075AC 80A6289C 0C00F250 */  jal     BgCheck_EntityRaycastFloor3              
 /* 075B0 80A628A0 27A6003C */  addiu   $a2, $sp, 0x003C           ## $a2 = FFFFFFFC
 /* 075B4 80A628A4 3C01C6FA */  lui     $at, 0xC6FA                ## $at = C6FA0000
 /* 075B8 80A628A8 44812000 */  mtc1    $at, $f4                   ## $f4 = -32000.00
@@ -38,7 +38,7 @@ glabel func_80A62868
 /* 075E8 80A628D8 8C470008 */  lw      $a3, 0x0008($v0)           ## 00000009
 /* 075EC 80A628DC 27B90034 */  addiu   $t9, $sp, 0x0034           ## $t9 = FFFFFFF4
 /* 075F0 80A628E0 AFB90014 */  sw      $t9, 0x0014($sp)           
-/* 075F4 80A628E4 0C010891 */  jal     func_80042244              
+/* 075F4 80A628E4 0C010891 */  jal     WaterBox_GetSurfaceImpl              
 /* 075F8 80A628E8 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 075FC 80A628EC 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
 /* 07600 80A628F0 14410009 */  bne     $v0, $at, .L80A62918       
@@ -69,7 +69,7 @@ glabel func_80A62868
 /* 0765C 80A6294C 00000000 */  nop
 /* 07660 80A62950 4501000C */  bc1t    .L80A62984                 
 /* 07664 80A62954 00000000 */  nop
-/* 07668 80A62958 0C0107BB */  jal     func_80041EEC              
+/* 07668 80A62958 0C0107BB */  jal     SurfaceType_IsHorseBlocked              
 /* 0766C 80A6295C 8FA6003C */  lw      $a2, 0x003C($sp)           
 /* 07670 80A62960 14400008 */  bne     $v0, $zero, .L80A62984     
 /* 07674 80A62964 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000007C0

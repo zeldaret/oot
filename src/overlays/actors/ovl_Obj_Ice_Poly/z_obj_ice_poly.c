@@ -5,6 +5,7 @@
  */
 
 #include "z_obj_ice_poly.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -18,11 +19,9 @@ void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx);
 void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx);
 void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx);
 
-extern Gfx* D_04033EE0[];
-
 const ActorInit Obj_Ice_Poly_InitVars = {
     ACTOR_OBJ_ICE_POLY,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjIcePoly),
@@ -33,14 +32,42 @@ const ActorInit Obj_Ice_Poly_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInitIce = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0xFFCFFFFF, 0x02, 0x00 }, { 0x00020800, 0x00, 0x00 }, 0x19, 0x01, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x02, 0x00 },
+        { 0x00020800, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 50, 120, 0, { 0, 0, 0 } },
 };
 
 static ColliderCylinderInit sCylinderInitHard = {
-    { COLTYPE_UNK12, 0x00, 0x0D, 0x00, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4E01F7F6, 0x00, 0x00 }, 0x00, 0x01, 0x00 },
+    {
+        COLTYPE_HARD,
+        AT_NONE,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x4E01F7F6, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
     { 50, 120, 0, { 0, 0, 0 } },
 };
 
@@ -59,20 +86,20 @@ void ObjIcePoly_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
     Actor_SetScale(thisx, sScale[thisx->params]);
-    thisx->posRot.pos.y = sOffsetY[thisx->params] + thisx->initPosRot.pos.y;
+    thisx->world.pos.y = sOffsetY[thisx->params] + thisx->home.pos.y;
     Collider_InitCylinder(globalCtx, &this->colliderIce);
     Collider_SetCylinder(globalCtx, &this->colliderIce, thisx, &sCylinderInitIce);
     Collider_InitCylinder(globalCtx, &this->colliderHard);
     Collider_SetCylinder(globalCtx, &this->colliderHard, thisx, &sCylinderInitHard);
-    Collider_CylinderUpdate(thisx, &this->colliderIce);
-    Collider_CylinderUpdate(thisx, &this->colliderHard);
-    thisx->colChkInfo.mass = 0xFF;
+    Collider_UpdateCylinder(thisx, &this->colliderIce);
+    Collider_UpdateCylinder(thisx, &this->colliderHard);
+    thisx->colChkInfo.mass = MASS_IMMOVABLE;
     this->alpha = 255;
     this->colliderIce.dim.radius *= thisx->scale.x;
     this->colliderIce.dim.height *= thisx->scale.y;
     this->colliderHard.dim.radius *= thisx->scale.x;
     this->colliderHard.dim.height *= thisx->scale.y;
-    Actor_SetHeight(thisx, thisx->scale.y * 30.0f);
+    Actor_SetFocus(thisx, thisx->scale.y * 30.0f);
     this->actionFunc = ObjIcePoly_Idle;
 }
 
@@ -91,9 +118,9 @@ void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
     s32 pad;
     Vec3f pos;
 
-    if (this->colliderIce.base.acFlags & 2) {
-        this->meltTimer = -this->colliderIce.body.acHitItem->toucher.damage;
-        this->actor.posRot2.rot.y = this->actor.yawTowardsLink;
+    if (this->colliderIce.base.acFlags & AC_HIT) {
+        this->meltTimer = -this->colliderIce.info.acHitInfo->toucher.damage;
+        this->actor.focus.rot.y = this->actor.yawTowardsPlayer;
         func_800800F8(globalCtx, 0x1400, 40, &this->actor, 0);
         this->actionFunc = ObjIcePoly_Melt;
     } else if (this->actor.parent != NULL) {
@@ -105,11 +132,9 @@ void ObjIcePoly_Idle(ObjIcePoly* this, GlobalContext* globalCtx) {
     } else {
         Actor_Kill(&this->actor);
     }
-    pos.x =
-        this->actor.posRot.pos.x + this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
-    pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Rand_S16Offset(10, 90);
-    pos.z =
-        this->actor.posRot.pos.z + this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.x = this->actor.world.pos.x + this->actor.scale.x * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+    pos.y = this->actor.world.pos.y + this->actor.scale.y * Rand_S16Offset(10, 90);
+    pos.z = this->actor.world.pos.z + this->actor.scale.z * (Rand_S16Offset(15, 15) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
     if ((globalCtx->gameplayFrames % 7) == 0) {
         EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &zeroVec, &zeroVec, &sColorWhite, &sColorGray, 2000, 5);
     }
@@ -129,11 +154,11 @@ void ObjIcePoly_Melt(ObjIcePoly* this, GlobalContext* globalCtx) {
     vel.z = 0.0f;
 
     for (i = 0; i < 2; i++) {
-        pos.x = this->actor.posRot.pos.x +
-                this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
-        pos.y = this->actor.posRot.pos.y + this->actor.scale.y * Rand_ZeroOne() * 50.0f;
-        pos.z = this->actor.posRot.pos.z +
-                this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+        pos.x =
+            this->actor.world.pos.x + this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
+        pos.y = this->actor.world.pos.y + this->actor.scale.y * Rand_ZeroOne() * 50.0f;
+        pos.z =
+            this->actor.world.pos.z + this->actor.scale.x * (Rand_S16Offset(20, 20) * (Rand_ZeroOne() < 0.5f ? -1 : 1));
         func_8002829C(globalCtx, &pos, &vel, &accel, &sColorWhite, &sColorGray,
                       Rand_S16Offset(0x15E, 0x64) * this->actor.scale.x, this->actor.scale.x * 20.0f);
     }
@@ -180,7 +205,7 @@ void ObjIcePoly_Draw(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, globalCtx->gameplayFrames % 0x100, 0x20, 0x10, 1, 0,
                                 (globalCtx->gameplayFrames * 2) % 0x100, 0x40, 0x20));
     gDPSetEnvColor(POLY_XLU_DISP++, 0, 50, 100, this->alpha);
-    gSPDisplayList(POLY_XLU_DISP++, D_04033EE0);
+    gSPDisplayList(POLY_XLU_DISP++, gEffIceFragment3DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_ice_poly.c", 444);
 }

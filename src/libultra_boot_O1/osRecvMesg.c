@@ -1,15 +1,15 @@
 #include "global.h"
 
 s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag) {
-    register s32 s0 = __osDisableInt();
+    register s32 prevInt = __osDisableInt();
 
     while (mq->validCount == 0) {
         if (flag == OS_MESG_NOBLOCK) {
-            __osRestoreInt(s0);
+            __osRestoreInt(prevInt);
             return -1;
         }
         __osRunningThread->state = 8;
-        __osEnqueueAndYield(mq);
+        __osEnqueueAndYield((OSThread**)mq);
     }
 
     if (msg != NULL) {
@@ -23,7 +23,7 @@ s32 osRecvMesg(OSMesgQueue* mq, OSMesg* msg, s32 flag) {
         osStartThread(__osPopThread(&mq->fullqueue));
     }
 
-    __osRestoreInt(s0);
+    __osRestoreInt(prevInt);
 
     return 0;
 }
