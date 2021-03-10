@@ -1891,7 +1891,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     f32 temp_f14;
     s16 temp_a0_2;
     s16 temp_a1;
-    s16 temp_v1;
     s16 temp_v1_9;
     s32 temp_a0_3;
     u32 temp_v1_2;
@@ -1921,7 +1920,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     this->unk_3BC.x = 0.0f;
     this->unk_3BC.z = 0.0f;
 
-    temp_v1 = this->unk_39C;
     switch (this->unk_39C) {
         case 0:
             func_80064520(globalCtx, &globalCtx->csCtx);
