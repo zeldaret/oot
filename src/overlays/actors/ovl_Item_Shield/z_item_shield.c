@@ -56,7 +56,7 @@ const ActorInit Item_Shield_InitVars = {
 static Color_RGBA8 unused = { 255, 255, 0, 255 };
 static Color_RGBA8 unused2 = { 255, 0, 0, 255 };
 
-void func_80B86920(ItemShield* this, ItemShieldActionFunc actionFunc) {
+void ItemShield_SetupAction(ItemShield* this, ItemShieldActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -71,12 +71,12 @@ void ItemShield_Init(Actor* thisx, GlobalContext* globalCtx) {
         case 0:
             ActorShape_Init(&this->actor.shape, 1400.0f, NULL, 0.0f);
             this->actor.shape.rot.x = 0x4000;
-            func_80B86920(this, func_80B86BC8);
+            ItemShield_SetupAction(this, func_80B86BC8);
             break;
 
         case 1:
             ActorShape_Init(&this->actor.shape, 0.0f, NULL, 0.0f);
-            func_80B86920(this, func_80B86F68);
+            ItemShield_SetupAction(this, func_80B86F68);
             this->unk_19C |= 2;
             for (i = 0; i < 8; i++) {
                 this->unk_19E[i] = 1 + 2 * i;
@@ -90,7 +90,7 @@ void ItemShield_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.01f);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
-    osSyncPrintf(VT_SGR("32") "Item_Shild %d \n" VT_RST, this->actor.params);
+    osSyncPrintf(VT_FGCOL(GREEN) "Item_Shild %d \n" VT_RST, this->actor.params);
 }
 
 void ItemShield_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -129,7 +129,7 @@ void func_80B86BC8(ItemShield* this, GlobalContext* globalCtx) {
     }
     func_8002F434(&this->actor, globalCtx, GI_SHIELD_DEKU, 30.0f, 50.0f);
     if (this->collider.base.acFlags & AC_HIT) {
-        func_80B86920(this, func_80B86AC8);
+        ItemShield_SetupAction(this, func_80B86AC8);
         this->actor.velocity.y = 4.0f;
         this->actor.minVelocityY = -4.0f;
         this->actor.gravity = -0.8f;
@@ -201,7 +201,7 @@ void func_80B86F68(ItemShield* this, GlobalContext* globalCtx) {
         this->unk_19C |= 1;
     }
 
-    func_80B86920(this, func_80B86CA8);
+    ItemShield_SetupAction(this, func_80B86CA8);
 
     this->actor.velocity.y = 4.0;
     this->actor.minVelocityY = -4.0;
