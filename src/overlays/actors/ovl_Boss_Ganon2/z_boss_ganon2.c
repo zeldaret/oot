@@ -1890,7 +1890,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     f32 temp_f12;
     f32 temp_f14;
     s16 temp_a0_2;
-    s16 temp_a1;
     s16 temp_v1_9;
     s32 temp_a0_3;
     u32 temp_v1_2;
@@ -2285,22 +2284,23 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             break;
     }
 
-    temp_a1 = this->unk_39E;
-    if (temp_a1 != 0) {
-        Gameplay_CameraSetAtEyeUp(globalCtx, temp_a1, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
+    if (this->unk_39E != 0) {
+        Gameplay_CameraSetAtEyeUp(globalCtx, this->unk_39E, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
     }
-    temp_v1_9 = this->unk_1AC;
-    if (temp_v1_9 != 0) {
-        if (temp_v1_9 != 1) {
-            return;
-        }
-        if ((this->unk_39C < 7) && ((globalCtx->gameplayFrames & 0x1F) == 0)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_BREATH);
-        }
-    } else if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
-        Animation_MorphToLoop(&this->skelAnime, &D_06034278, 0.0f);
-        this->unk_1AC = 1;
-        return;
+
+    switch (this->unk_1AC) {
+        case 0:
+            if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
+                Animation_MorphToLoop(&this->skelAnime, &D_06034278, 0.0f);
+                this->unk_1AC = 1;
+                return;
+            }
+            break;
+        case 1:
+            if ((this->unk_39C < 7) && ((globalCtx->gameplayFrames & 0x1F) == 0)) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_BREATH);
+            }
+            break;
     }
 }
 #else
