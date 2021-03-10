@@ -1988,7 +1988,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.x = this->unk_1B8.x;
             this->unk_3B0.y = this->unk_1B8.y;
             this->unk_3B0.z = this->unk_1B8.z;
-            if ((u32)this->unk_398 >= 0x88) {
+            if (this->unk_398 >= 0x88) {
                 this->unk_39C = 2;
                 this->unk_398 = 0;
             }
@@ -2026,7 +2026,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             }
             break;
         case 4:
-            if ((u32)this->unk_398 >= 0xB) {
+            if (this->unk_398 >= 0xB) {
                 Math_ApproachZeroF(&this->unk_37C, 1.0f, 10.0f);
                 if (this->unk_398 == 0x1E) {
                     D_8090EB2C->unk_3C8 = 0xA;
@@ -2171,6 +2171,16 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_3BC.z = 0.0f;
             }
             break;
+        case 75:
+            this->unk_339 = 0x17;
+            if (this->unk_398 == 0x37) {
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_06007288, 0.0f);
+                this->unk_194 = Animation_GetLastFrame(&D_06007288);
+                func_8002DF54(globalCtx, &this->actor, 0x62);
+                this->unk_39C = 8;
+                this->unk_398 = 0x3E8;
+            }
+            break;
         case 8:
             if (this->unk_398 == 0x401) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_STAND);
@@ -2272,16 +2282,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             globalCtx->sceneLoadFlag = 0x14;
             globalCtx->fadeTransition = 3;
             globalCtx->linkAgeOnLoad = 1;
-        case 75:
-            this->unk_339 = 0x17;
-            if (this->unk_398 == 0x37) {
-                Animation_MorphToPlayOnce(&this->skelAnime, &D_06007288, 0.0f);
-                this->unk_194 = Animation_GetLastFrame(&D_06007288);
-                func_8002DF54(globalCtx, &this->actor, 0x62);
-                this->unk_39C = 8;
-                this->unk_398 = 0x3E8;
-            }
-            break;
     }
 
     if (this->unk_39E != 0) {
