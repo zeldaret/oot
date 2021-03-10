@@ -388,9 +388,9 @@ glabel BossTw_ShootBeam
 /* 029F8 8093B6C8 3C014150 */  lui     $at, 0x4150                ## $at = 41500000
 /* 029FC 8093B6CC 86B9001C */  lh      $t9, 0x001C($s5)           ## 0000001C
 /* 02A00 8093B6D0 A6A004FC */  sh      $zero, 0x04FC($s5)         ## 000004FC
-/* 02A04 8093B6D4 3C018095 */  lui     $at, %hi(D_8094C840)       ## $at = 80950000
+/* 02A04 8093B6D4 3C018095 */  lui     $at, %hi(sEnvType)       ## $at = 80950000
 /* 02A08 8093B6D8 27290001 */  addiu   $t1, $t9, 0x0001           ## $t1 = 00000001
-/* 02A0C 8093B6DC A029C840 */  sb      $t1, %lo(D_8094C840)($at)
+/* 02A0C 8093B6DC A029C840 */  sb      $t1, %lo(sEnvType)($at)
 /* 02A10 8093B6E0 3C014150 */  lui     $at, 0x4150                ## $at = 41500000
 .L8093B6E4:
 /* 02A14 8093B6E4 44819000 */  mtc1    $at, $f18                  ## $f18 = 13.00
@@ -733,8 +733,8 @@ glabel BossTw_ShootBeam
 .L8093BBB0:
 /* 02EE0 8093BBB0 86A20178 */  lh      $v0, 0x0178($s5)           ## 00000178
 .L8093BBB4:
-/* 02EE4 8093BBB4 3C048095 */  lui     $a0, %hi(D_8094C840)       ## $a0 = 80950000
-/* 02EE8 8093BBB8 2484C840 */  addiu   $a0, $a0, %lo(D_8094C840)  ## $a0 = 8094C840
+/* 02EE4 8093BBB4 3C048095 */  lui     $a0, %hi(sEnvType)       ## $a0 = 80950000
+/* 02EE8 8093BBB8 2484C840 */  addiu   $a0, $a0, %lo(sEnvType)  ## $a0 = 8094C840
 /* 02EEC 8093BBBC 14400009 */  bne     $v0, $zero, .L8093BBE4
 /* 02EF0 8093BBC0 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 02EF4 8093BBC4 80830000 */  lb      $v1, 0x0000($a0)           ## 8094C840

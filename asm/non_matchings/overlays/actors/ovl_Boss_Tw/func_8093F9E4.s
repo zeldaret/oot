@@ -90,8 +90,8 @@ glabel func_8093F9E4
 /* 06E20 8093FAF0 00330821 */  addu    $at, $at, $s3
 /* 06E24 8093FAF4 E4240AFC */  swc1    $f4, 0x0AFC($at)           ## 00010AFC
 .L8093FAF8:
-/* 06E28 8093FAF8 3C018095 */  lui     $at, %hi(D_8094C840)       ## $at = 80950000
-/* 06E2C 8093FAFC A02AC840 */  sb      $t2, %lo(D_8094C840)($at)
+/* 06E28 8093FAF8 3C018095 */  lui     $at, %hi(sEnvType)       ## $at = 80950000
+/* 06E2C 8093FAFC A02AC840 */  sb      $t2, %lo(sEnvType)($at)
 /* 06E30 8093FB00 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
 /* 06E34 8093FB04 00330821 */  addu    $at, $at, $s3
 /* 06E38 8093FB08 A02B0AE2 */  sb      $t3, 0x0AE2($at)           ## 00010AE2
@@ -895,8 +895,8 @@ glabel L809402FC
 /* 079B8 80940688 10000004 */  beq     $zero, $zero, .L8094069C
 /* 079BC 8094068C 864505FC */  lh      $a1, 0x05FC($s2)           ## 000005FC
 glabel L80940690
-/* 079C0 80940690 3C018095 */  lui     $at, %hi(D_8094C840)       ## $at = 80950000
-/* 079C4 80940694 A020C840 */  sb      $zero, %lo(D_8094C840)($at)
+/* 079C0 80940690 3C018095 */  lui     $at, %hi(sEnvType)       ## $at = 80950000
+/* 079C4 80940694 A020C840 */  sb      $zero, %lo(sEnvType)($at)
 .L80940698:
 /* 079C8 80940698 864505FC */  lh      $a1, 0x05FC($s2)           ## 000005FC
 .L8094069C:

@@ -9,7 +9,7 @@
 
 .balign 16
 
-glabel D_8094C840
+glabel sEnvType
  .space 0x01
 glabel D_8094C841
  .space 0x03
