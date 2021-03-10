@@ -49,10 +49,10 @@ extern AnimationHeader D_06002168;
 extern AnimationHeader D_060028A8;
 extern AnimationHeader D_06002E6C;
 extern AnimationHeader D_06003754;
-extern UNK_TYPE D_06003B1C;
+extern AnimationHeader D_06003B1C;
 extern AnimationHeader D_06003F38;
-extern UNK_TYPE D_06007288;
-extern UNK_TYPE D_06008EB8;
+extern AnimationHeader D_06007288;
+extern AnimationHeader D_06008EB8;
 extern Gfx D_0600A8E0[];
 extern AnimationHeader D_0600ADD0;
 extern Gfx D_0600BE90[];
@@ -1880,7 +1880,434 @@ void func_8090109C(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
+#ifdef NON_MATCHING
+void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
+    Player* player;
+    f32 sp48;
+    f32 sp44;
+    Camera* temp_v0_2;
+    EnZl3* temp_v0;
+    f32 temp_f12;
+    f32 temp_f14;
+    s16 temp_a0_2;
+    s16 temp_a1;
+    s16 temp_v1;
+    s16 temp_v1_9;
+    s32 temp_a0_3;
+    u32 temp_v1_2;
+    u32 temp_v1_3;
+    u32 temp_v1_5;
+    u32 temp_v1_7;
+    u32 temp_v1_8;
+    Vec3f* temp_v0_3;
+    Vec3f* temp_v1_6;
+    u32 phi_v1;
+    f32 phi_f0;
+    u32 phi_v1_2;
+    u32 phi_v1_3;
+    s32 phi_v1_4;
+    u32 phi_v1_5;
+    u32 phi_v1_6;
+    Actor* phi_a2;
+    s32 phi_a1;
+    u32 phi_v1_7;
+    u32 phi_v1_8;
+    u32 phi_v1_9;
+
+    player = PLAYER;
+    this->unk_398++;
+    SkelAnime_Update(&this->skelAnime);
+    this->unk_3BC.y = 1.0f;
+    this->unk_3BC.x = 0.0f;
+    this->unk_3BC.z = 0.0f;
+
+    temp_v1 = this->unk_39C;
+    switch (this->unk_39C) {
+        case 0:
+            func_80064520(globalCtx, &globalCtx->csCtx);
+            this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
+            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
+            func_8002DF54(globalCtx, &this->actor, 8);
+            this->unk_39C = 1;
+            this->unk_398 = 0;
+            D_8090EB2C->unk_3C8 = 9;
+            this->unk_31C = 0;
+            this->unk_1A2[2] = 0;
+            this->unk_336 = 0;
+            this->unk_324 = 0.0f;
+            this->actor.speedXZ = 0.0f;
+            this->unk_31A = this->unk_31C;
+            globalCtx->envCtx.unk_D8 = 0.0f;
+            break;
+        case 1:
+            temp_v1_2 = this->unk_398;
+            if (temp_v1_2 < 0x5A) {
+                this->unk_339 = 0x14;
+                Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
+            } else if (temp_v1_2 >= 0x5A) {
+                this->unk_339 = 0x15;
+                Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.08f);
+            }
+            phi_v1 = this->unk_398;
+            if (this->unk_398 == 0x32) {
+                func_80078884(NA_SE_EN_MGANON_WALK);
+                phi_v1 = this->unk_398;
+            }
+            phi_v1_2 = phi_v1;
+            if (phi_v1 >= 0x5B) {
+                Math_ApproachF(&this->unk_380, 0.25f, 1.0f, 0.0125f);
+                this->unk_37C = 200.0f;
+                func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
+                phi_v1_2 = this->unk_398;
+            }
+            phi_v1_3 = phi_v1_2;
+            if (phi_v1_2 >= 0x6E) {
+                if (phi_v1_2 == 0x6E) {
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_HIT_THUNDER);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
+                }
+                Math_ApproachF(&this->unk_30C, 10.0f, 0.2f, 5.0f);
+                this->skelAnime.playSpeed = 3.0f;
+                phi_v1_3 = this->unk_398;
+            }
+            if (phi_v1_3 == 0x78) {
+                func_8002DF54(globalCtx, &this->actor, 0x63);
+            }
+            this->actor.world.rot.y = 0x4000;
+            this->actor.world.pos.z = 0.0f;
+            this->actor.world.pos.x = 0.0f;
+            player->actor.shape.rot.y = -0x4000;
+            player->actor.world.pos.x = 200.0f;
+            player->actor.world.pos.z = 30.0f;
+            D_8090EB2C->actor.world.pos.x = 340.0f;
+            D_8090EB2C->actor.world.pos.z = -250.0f;
+            D_8090EB2C->actor.shape.rot.y = -0x2000;
+            temp_v0 = D_8090EB2C;
+            temp_v0->actor.world.rot.y = temp_v0->actor.shape.rot.y;
+            this->unk_3A4.x = 250.0f;
+            this->unk_3A4.z = 0.0f;
+            this->unk_3A4.y = 1150.0f;
+            this->unk_3B0.x = this->unk_1B8.x;
+            this->unk_3B0.y = this->unk_1B8.y;
+            this->unk_3B0.z = this->unk_1B8.z;
+            if ((u32)this->unk_398 >= 0x88) {
+                this->unk_39C = 2;
+                this->unk_398 = 0;
+            }
+            break;
+        case 2:
+            this->unk_339 = 0x16;
+            Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
+            func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
+            this->unk_3A4.x = 250.0f;
+            this->unk_3A4.z = 0.0f;
+            this->unk_3A4.y = 1150.0f;
+            Math_ApproachF(&this->unk_3B0.x, D_8090EB2C->actor.world.pos.x, 0.2f, 20.0f);
+            Math_ApproachF(&this->unk_3B0.y, D_8090EB2C->actor.world.pos.y + 50.0f, 0.2f, 10.0f);
+            Math_ApproachF(&this->unk_3B0.z, D_8090EB2C->actor.world.pos.z, 0.2f, 20.0f);
+            if (this->unk_398 == 0x32) {
+                this->unk_39C = 3;
+                this->unk_398 = 0;
+            }
+            break;
+        case 3:
+            this->unk_339 = 0x16;
+            func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
+            this->unk_3A4.x = 330.0f;
+            this->unk_3A4.y = 1120.0f;
+            this->unk_3A4.z = -150.0f;
+            this->unk_3B0.x = D_8090EB2C->actor.world.pos.x;
+            this->unk_3B0.y = D_8090EB2C->actor.world.pos.y + 40.0f;
+            this->unk_3B0.z = D_8090EB2C->actor.world.pos.z;
+            if (this->unk_398 == 0xA) {
+                func_8010B680(globalCtx, 0x70D8, NULL);
+            }
+            if ((this->unk_398 >= 0x51) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                this->unk_39C = 4;
+                this->unk_398 = 0;
+            }
+            break;
+        case 4:
+            if ((u32)this->unk_398 >= 0xB) {
+                Math_ApproachZeroF(&this->unk_37C, 1.0f, 10.0f);
+                if (this->unk_398 == 0x1E) {
+                    D_8090EB2C->unk_3C8 = 0xA;
+                }
+                this->unk_339 = 0x17;
+                Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.05f);
+            } else {
+                this->unk_339 = 0x16;
+            }
+            if (this->unk_398 == 0x64) {
+                this->unk_39C = 5;
+                this->unk_398 = 0x28;
+                this->skelAnime.playSpeed = 1.0f;
+                func_8002DF54(globalCtx, &this->actor, 0x64);
+            }
+            break;
+        case 5:
+            temp_v1_3 = this->unk_398;
+            this->unk_339 = 0x17;
+            if ((temp_v1_3 >= 0x3C) && (temp_v1_3 < 0x5B)) {
+                if (temp_v1_3 == 0x3E) {
+                    func_80078884(NA_SE_EV_TRIFORCE_FLASH);
+                }
+                Math_ApproachF(&this->unk_38C, 200.0f, 1.0f, 8.0f);
+            } else {
+                Math_ApproachZeroF(&this->unk_38C, 1.0f, 8.0f);
+            }
+            if (this->unk_398 == 0x46) {
+                func_8002DF54(globalCtx, &this->actor, 0x65);
+            }
+            if (this->unk_398 == 0x96) {
+                func_8002DF54(globalCtx, &this->actor, 0x66);
+            }
+            this->unk_30C = 10.0f;
+            player->actor.world.pos.x = 250.0f;
+            player->actor.world.pos.z = 30.0f;
+            this->unk_3A4.x = 250.0f - 50.0f;
+            this->unk_3A4.y = player->actor.world.pos.y + 50.0f;
+            this->unk_3A4.z = player->actor.world.pos.z + 40.0f;
+            this->unk_3B0.x = player->actor.world.pos.x;
+            this->unk_3B0.y = player->actor.world.pos.y + 40.0f;
+            this->unk_3B0.z = player->actor.world.pos.z;
+            if (this->unk_398 == 0xA6) {
+                temp_v0_2 = Gameplay_GetCamera(globalCtx, 0);
+                temp_v0_2->eye = this->unk_3A4;
+                temp_v0_2->eyeNext = this->unk_3A4;
+                temp_v0_2->at = this->unk_3B0;
+                func_800C08AC(globalCtx, this->unk_39E, 0);
+                this->unk_39E = 0;
+                func_80064534(globalCtx, &globalCtx->csCtx);
+                func_8002DF54(globalCtx, &this->actor, 7);
+                this->unk_39C = 6;
+            }
+            break;
+        case 6:
+            this->unk_339 = 0x17;
+            temp_f14 = this->unk_1B8.x - player->actor.world.pos.x;
+            temp_f12 = this->unk_1B8.z - player->actor.world.pos.z;
+            sp48 = temp_f14;
+            sp44 = temp_f12;
+            temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
+            phi_v1_4 = 0 - temp_a0_2;
+            if ((s32)temp_a0_2 >= 0) {
+                phi_v1_4 = (s32)temp_a0_2;
+            }
+            if ((phi_v1_4 < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) && (player->swordState != 0) &&
+                (player->heldItemActionParam == 3)) {
+                func_80064520(globalCtx, &globalCtx->csCtx);
+                this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
+                Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+                Gameplay_ChangeCameraStatus(globalCtx, this->unk_39E, 7);
+                this->unk_39C = 7;
+                this->unk_398 = 0;
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_06003B1C, 0.0f);
+                this->unk_194 = Animation_GetLastFrame(&D_06003B1C);
+                globalCtx->startPlayerCutscene(globalCtx, this, 0x61);
+            }
+        case 7:
+            this->unk_339 = 0x17;
+            Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.2f);
+            player->actor.world.pos.x = 250.0f;
+            player->actor.shape.rot.y = -0x4000;
+            player->actor.world.pos.z = 30.0f;
+            temp_v1_5 = this->unk_398;
+            if ((temp_v1_5 == 0x14) || (temp_v1_5 == 0x1E) || (temp_v1_5 == 0x41) || (temp_v1_5 == 0x28)) {
+                func_80078884(NA_SE_VO_LI_SWORD_N);
+                func_80078884(NA_SE_IT_SWORD_SWING_HARD);
+            }
+            if ((this->unk_398 == 0x16) || (this->unk_398 == 0x23) || (this->unk_398 == 0x48) ||
+                (phi_v1_5 = this->unk_398, (this->unk_398 == 0x2D))) {
+                func_80078884(NA_SE_EN_MGANON_DAMAGE);
+                func_80078884(NA_SE_IT_SHIELD_BOUND);
+                globalCtx->envCtx.unk_D8 = 1.0f;
+                phi_v1_5 = this->unk_398;
+                phi_a2 = player;
+            }
+            if ((phi_v1_5 == 0x16) || (phi_v1_5 == 0x23) || (phi_v1_5 == 0x48) ||
+                (phi_v1_6 = phi_v1_5, (phi_v1_5 == 0x2D))) {
+                func_8090109C(this, globalCtx);
+                phi_v1_6 = this->unk_398;
+                phi_a2 = player;
+            }
+            if ((phi_v1_6 >= 0x22U) && (phi_v1_6 < 0x28U)) {
+                this->unk_3A4.x = 269.0f;
+                this->unk_3A4.y = 1112.0f;
+                this->unk_3A4.z = -28.0f;
+                this->unk_3B0.x = 234.0f;
+                this->unk_3B0.y = 1117.0f;
+                this->unk_3B0.z = -11.0f;
+            } else {
+                if (phi_v1_6 < 0x1EU) {
+                    phi_a1 = 0;
+                } else if (phi_v1_6 < 0x2BU) {
+                    phi_a1 = 1;
+                } else {
+                    this->unk_3BC.z = -0.8f;
+                    phi_a2->world.pos.x = 200.0f;
+                    phi_a2->world.pos.z = 10.0f;
+                    phi_a1 = 2;
+                }
+                temp_a0_3 = ((phi_a1 * 4) - phi_a1) * 4;
+                temp_v0_3 = &D_8090702C[phi_a1];
+                temp_v1_6 = &D_80907050[phi_a1];
+                this->unk_3A4.x = temp_v0_3->x + (phi_a2->world.pos.x - 50.0f);
+                this->unk_3A4.y = temp_v0_3->y + (phi_a2->world.pos.y + 50.0f);
+                this->unk_3A4.z = temp_v0_3->z + (phi_a2->world.pos.z + 40.0f);
+                this->unk_3B0.x = temp_v1_6->x + phi_a2->world.pos.x;
+                this->unk_3B0.y = temp_v1_6->y + (phi_a2->world.pos.y + 40.0f);
+                this->unk_3B0.z = temp_v1_6->z + phi_a2->world.pos.z;
+            }
+            if ((u32)this->unk_398 >= 0x51U) {
+                Audio_SetBGM(0x100100FF);
+                this->unk_39C = 0x4B;
+                this->unk_398 = 0;
+                this->unk_3A4.x = 112.0f;
+                this->unk_3A4.y = 1146.0f;
+                this->unk_3A4.z = 202.0f;
+                this->unk_3B0.x = 110.0f;
+                this->unk_3B0.y = 1144.0f;
+                this->unk_3B0.z = 177.0f;
+                player->actor.world.pos.x = 200.0f;
+                this->unk_3BC.z = 0.0f;
+            }
+            break;
+        case 8:
+            if (this->unk_398 == 0x401) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_STAND);
+            }
+            phi_v1_7 = this->unk_398;
+            if (this->unk_398 >= 0x3E8) {
+                phi_v1_7 = this->unk_398;
+                if (this->unk_398 < 0x410) {
+                    this->unk_339 = 0x17;
+                    Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.2f);
+                    phi_v1_7 = this->unk_398;
+                }
+            }
+            if (phi_v1_7 == 0x410) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DEAD2);
+                this->unk_336 = 2;
+                this->unk_339 = 0;
+                globalCtx->envCtx.unk_BE = 0;
+                globalCtx->envCtx.unk_D8 = 0.0f;
+            }
+            if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_06008EB8, 0.0f);
+                this->unk_398 = 0;
+                this->unk_194 = 1000.0f;
+            }
+            temp_v1_7 = this->unk_398;
+            this->unk_3A4.x = 250.0f;
+            this->unk_3A4.y = 1150.0f;
+            this->unk_3A4.z = 0.0f;
+            this->unk_3B0.x = this->unk_1B8.x;
+            this->unk_3B0.y = this->unk_1B8.y;
+            this->unk_3B0.z = this->unk_1B8.z;
+            if ((temp_v1_7 < 0x3E8) && ((temp_v1_7 & 0xF) == 0)) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_SWORD);
+            }
+            if (this->unk_398 == 0x28) {
+                this->unk_39C = 9;
+                this->unk_398 = 0;
+                D_8090EB2C->unk_3C8 = 0xB;
+                func_8010B680(globalCtx, 0x70D9, NULL);
+                this->unk_336 = 0;
+                globalCtx->envCtx.unk_D8 = 0.0f;
+            }
+            break;
+        case 9:
+            this->unk_339 = 0x18;
+            this->unk_3A4.x = 330.0f;
+            this->unk_3A4.y = 1120.0f;
+            this->unk_3A4.z = -150.0f;
+            this->unk_3B0.x = D_8090EB2C->actor.world.pos.x;
+            this->unk_3B0.y = D_8090EB2C->actor.world.pos.y + 40.0f;
+            this->unk_3B0.z = D_8090EB2C->actor.world.pos.z;
+            if (this->unk_398 >= 0x3D) {
+                this->unk_39C = 0xA;
+                this->unk_398 = 0;
+                this->unk_410.x = 0.0f;
+            }
+            break;
+        case 10:
+            this->unk_339 = 0x18;
+            Math_ApproachF(&this->unk_3A4.x, 290.0f, 0.05f, this->unk_410.x);
+            Math_ApproachF(&this->unk_3A4.y, 1130.0f, 0.05f, this->unk_410.x * 0.25f);
+            Math_ApproachF(&this->unk_3A4.z, -260.0f, 0.05f, this->unk_410.x * 1.25f);
+            temp_v1_8 = this->unk_398;
+            if ((temp_v1_8 >= 0x28) && (temp_v1_8 < 0x6F)) {
+                Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.02f);
+                Math_ApproachF(&this->unk_384, 10.0f, 0.1f, 0.2f);
+                Audio_PlayActorSound2(&D_8090EB2C->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
+            } else {
+                Math_ApproachZeroF(&this->unk_384, 1.0f, 0.2f);
+            }
+            if (this->unk_398 >= 0x83) {
+                Math_ApproachF(&this->unk_3B0.y, (D_8090EB2C->actor.world.pos.y + 40.0f + 10.0f) - 20.0f, 0.1f,
+                               this->unk_410.x);
+            } else {
+                Math_ApproachF(&this->unk_3B0.y, D_8090EB2C->actor.world.pos.y + 40.0f + 10.0f, 0.05f,
+                               this->unk_410.x * 0.25f);
+            }
+            Math_ApproachF(&this->unk_410.x, 1.0f, 1.0f, 0.01f);
+            if (this->unk_398 == 0xA) {
+                D_8090EB2C->unk_3C8 = 0xC;
+            }
+            phi_v1_8 = this->unk_398;
+            if (this->unk_398 == 0x6E) {
+                D_8090EB2C->unk_3C8 = 0xD;
+                phi_v1_8 = this->unk_398;
+            }
+            phi_v1_9 = phi_v1_8;
+            if (phi_v1_8 == 0x8C) {
+                Audio_PlayActorSound2(&D_8090EB2C->actor, NA_SE_EV_HUMAN_BOUND);
+                phi_v1_9 = this->unk_398;
+            }
+            if (phi_v1_9 < 0xA0) {
+                break;
+            }
+        case 20:
+            globalCtx->nextEntranceIndex = 0x6B;
+            gSaveContext.nextCutsceneIndex = 0xFFF2;
+            globalCtx->sceneLoadFlag = 0x14;
+            globalCtx->fadeTransition = 3;
+            globalCtx->linkAgeOnLoad = 1;
+        case 75:
+            this->unk_339 = 0x17;
+            if (this->unk_398 == 0x37) {
+                Animation_MorphToPlayOnce(&this->skelAnime, &D_06007288, 0.0f);
+                this->unk_194 = Animation_GetLastFrame(&D_06007288);
+                func_8002DF54(globalCtx, &this->actor, 0x62);
+                this->unk_39C = 8;
+                this->unk_398 = 0x3E8;
+            }
+            break;
+    }
+
+    temp_a1 = this->unk_39E;
+    if (temp_a1 != 0) {
+        Gameplay_CameraSetAtEyeUp(globalCtx, temp_a1, &this->unk_3B0, &this->unk_3A4, &this->unk_3BC);
+    }
+    temp_v1_9 = this->unk_1AC;
+    if (temp_v1_9 != 0) {
+        if (temp_v1_9 != 1) {
+            return;
+        }
+        if ((this->unk_39C < 7) && ((globalCtx->gameplayFrames & 0x1F) == 0)) {
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_BREATH);
+        }
+    } else if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
+        Animation_MorphToLoop(&this->skelAnime, &D_06034278, 0.0f);
+        this->unk_1AC = 1;
+        return;
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090120C.s")
+#endif
 
 void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
     Player* player;
