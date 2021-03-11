@@ -39,22 +39,23 @@ where you replace `ActorName` by the actual actor name as used elsewhere in the 
 
 
 Here are the usual names and the sizes of some of the most common structs used in actors and their structs:
-| Type                 | Usual name            | Size            |
-| -------------------- | --------------------- | --------------- |
-| `Actor`              | `actor`               | 0x14C           |
-| `DynaPolyActor`      | `dyna`                | 0x164           |
-| `Vec3f`              |                       | 0xC             | 
-| `Vec3s`              |                       | 0x6             | 
-| `SkelAnime`          | `skelAnime`           | 0x44            |
-| `Vec3s[limbCount]`   | `limbDrawTable`       | 0x6 * limbCount |
-| `Vec3s[limbCount]`   | `transitionDrawTable` | 0x6 * limbCount |
-| `ColliderCylinder`   | `collider`            | 0x4C            |
-| `ColliderQuad`       | `collider`            | 0x80            |
-| `ColliderJntSph`     | `collider`            | 0x20            |
-| `ColliderJntSphItem` | `colliderItems[n]`    | 0x40 * n        |
-| `ColliderTris`       | `collider`            | 0x20            |
-| `ColliderTrisItem`   | `colliderItems[n]`    | 0x5C * n        |
+| Type                    | Usual name               | Size            |
+| ----------------------- | ------------------------ | --------------- |
+| `Actor`                 | `actor`                  | 0x14C           |
+| `DynaPolyActor`         | `dyna`                   | 0x164           |
+| `Vec3f`                 |                          | 0xC             | 
+| `Vec3s`                 |                          | 0x6             | 
+| `SkelAnime`             | `skelAnime`              | 0x44            |
+| `Vec3s[limbCount]`      | `jointTable`             | 0x6 * limbCount |
+| `Vec3s[limbCount]`      | `morphTable`             | 0x6 * limbCount |
+| `ColliderCylinder`      | `collider`               | 0x4C            |
+| `ColliderQuad`          | `collider`               | 0x80            |
+| `ColliderJntSph`        | `collider`               | 0x20            |
+| `ColliderJntSphElement` | `colliderElements[n]` | 0x40 * n        |
+| `ColliderTris`          | `collider`            | 0x20            |
+| `ColliderTrisElement`   | `colliderElements[n]` | 0x5C * n        |
 
+(`colliderElements` used to be called `colliderItems`, and we have not switched over fully in the repo yet.)
 
 ## Padding
 

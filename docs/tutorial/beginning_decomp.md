@@ -404,22 +404,22 @@ Animation_PlayLoop((SkelAnime *) sp44, (AnimationHeader *) &D_06001F4C);
 
 (Both of the temps are likely to be fake.)
 
-An actor with SkelAnime has three structs in the Actor struct that handle it: one called SkelAnime, and two arrays of `Vec3s`, called `limbDrawTable` and `overrideDrawTable` (for now). Usually, although not always, they are next to one another.
+An actor with SkelAnime has three structs in the Actor struct that handle it: one called SkelAnime, and two arrays of `Vec3s`, called `jointTable` and `overrideDrawTable` (for now). Usually, although not always, they are next to one another.
 
 There are two different sorts of SkelAnime, although for decompilation purposes there is not much difference between them. From `SkelAnime_InitFlex` we can read off that
 
 - The `SkelAnime` struct is at `this + 0x164`
-- The `limbDrawTable` is at `this + 0x1A8`
+- The `jointTable` is at `this + 0x1A8`
 - The `overrideDrawTable` is at `this + 0x22C`
 - The number of limbs is `0x16 = 22`
-- Hence the `limbDrawTable` and `overrideDrawTable` both have `22` elements
+- Hence the `jointTable` and `overrideDrawTable` both have `22` elements
 
-Looking in `z64animation.h`, we find that `SkelAnime` has size `0x44`, and looking in `z64math.h`, that `Vec3s` has size `0x6`. Since ` 0x164 + 0x44 = 0x1A8 `, `limbDrawTable` is immediately after the `SkelAnime`, and since `0x1A8 + 0x6 * 0x16 = 0x22C`, `overrideDrawTable` is immediately after the `limbDrawTable`. Finally, `0x22C + 0x6 * 0x16 = 2B0`, and we have filled all the space between the `dyna` and `collider`. Therefore the struct now looks like
+Looking in `z64animation.h`, we find that `SkelAnime` has size `0x44`, and looking in `z64math.h`, that `Vec3s` has size `0x6`. Since ` 0x164 + 0x44 = 0x1A8 `, `jointTable` is immediately after the `SkelAnime`, and since `0x1A8 + 0x6 * 0x16 = 0x22C`, `overrideDrawTable` is immediately after the `jointTable`. Finally, `0x22C + 0x6 * 0x16 = 2B0`, and we have filled all the space between the `dyna` and `collider`. Therefore the struct now looks like
 ```C
 typedef struct EnJj {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ SkelAnime skelAnime;
-    /* 0x01A8 */ Vec3s limbDrawTable[22];
+    /* 0x01A8 */ Vec3s jointTable[22];
     /* 0x022C */ Vec3s overrideDrawTable[22];
     /* 0x02B0 */ ColliderCylinder collider;
     /* 0x02FC */ char unk_2FC[0x18];
@@ -438,7 +438,7 @@ extern UNK_TYPE D_0600BA8C;
 
 and removing the temps,
 ```C
-SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->limbDrawTable, this->transitionDrawTable, 22);
+SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
 Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
 ```
 
@@ -473,8 +473,8 @@ This is not quite as helpful as you might think: it tells us the size of these v
 typedef struct EnJj {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ SkelAnime skelAnime;
-    /* 0x01A8 */ Vec3s limbDrawTable[22];
-    /* 0x022C */ Vec3s transitionDrawTable[22];
+    /* 0x01A8 */ Vec3s jointTable[22];
+    /* 0x022C */ Vec3s morphTable[22];
     /* 0x02B0 */ ColliderCylinder collider;
     /* 0x02FC */ char unk_2FC[0x4];
     /* 0x0300 */ Actor* childActor;
@@ -509,7 +509,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     // temp_a1 = this->unk_164;
     if (temp_v0 == -1) {
         // sp44 = (DynaCollisionContext *) temp_a1;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->limbDrawTable, this->transitionDrawTable, 22);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
         Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
         this->unk_30A = 0;
         this->unk_30E = 0;
@@ -717,7 +717,7 @@ void EnJj_Init(Actor *thisx, GlobalContext *globalCtx) {
     // temp_a1 = this->unk_164;
     if (temp_v0 == -1) {
         // sp44 = (DynaCollisionContext *) temp_a1;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->limbDrawTable, this->transitionDrawTable, 22);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable, this->morphTable, 22);
         Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
         this->unk_30A = 0;
         this->unk_30E = 0;
@@ -840,8 +840,8 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     switch (temp_v0) {
         case -1:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->limbDrawTable,
-                               this->transitionDrawTable, 22);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B9A8, &D_06001F4C, this->jointTable,
+                               this->morphTable, 22);
             Animation_PlayLoop(&this->skelAnime, &D_06001F4C);
             this->unk_30A = 0;
             this->unk_30E = 0;

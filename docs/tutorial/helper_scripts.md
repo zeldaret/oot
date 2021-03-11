@@ -104,10 +104,10 @@ Collider types supported are
 - `ColliderCylinderInit`
 - `ColliderTrisInit`
 - `ColliderQuadInit`
-- `ColliderJntSphItemInit`
-- `ColliderTrisItemInit`
+- `ColliderJntSphElementInit`
+- `ColliderTrisElementInit`
 
-and `num` is used only for `ColliderJntSphItemInit`.
+and `num` is used only for `ColliderJntSphElementInit`.
 
 ## sfxconvert
 
