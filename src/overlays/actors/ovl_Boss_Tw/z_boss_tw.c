@@ -200,37 +200,36 @@ Color_RGB8 D_8094AA28[] = {
 Vec3f D_8094AA40 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8094AA4C = { 0.0f, 0.0f, 0.0f };
 
-extern u8 twInitalized;
-extern s8 sEnvType;
-extern s16 D_8094C872;
-extern u8 sBeamDivertTimer;
-extern u8 D_8094C850;
-extern u8 D_8094C85E;
-extern u8 D_8094C85C;
-extern u8 D_8094C85F;
-extern u8 D_8094C841;
-extern u8 D_8094C851;
-extern u8 D_8094C86F;
-extern u8 D_8094C870;
-extern s8 D_8094C87E;
-extern s16 D_8094C87C;
-extern s16 D_8094C87A;
-extern u8 D_8094C878;
-extern s16 D_8094C876;
-extern u16 D_8094C874;
-extern f32 D_8094C854;
-extern f32 D_8094C858;
-extern u8 D_8094C85D;
-extern s32 D_8094F2B0;
-extern s32 D_8094F2B4;
-extern s32 D_8094F2B8;
-extern Vec3f D_8094C860;
-extern s16 D_8094C86C;
-extern Vec3f sZeroVector;
-extern BossTw* kotakePtr;
-extern BossTw* twinrovaPtr;
-extern BossTw* koumePtr;
-extern BossTwEEffect sTWEffects[150];
+s8 sEnvType;
+u8 D_8094C841;
+BossTw* kotakePtr;
+BossTw* koumePtr;
+BossTw* twinrovaPtr;
+u8 D_8094C850;
+u8 D_8094C851;
+f32 D_8094C854;
+f32 D_8094C858;
+u8 D_8094C85C;
+u8 D_8094C85D;
+u8 D_8094C85E;
+u8 D_8094C85F;
+Vec3f D_8094C860;
+s16 D_8094C86C;
+u8 sBeamDivertTimer;
+u8 D_8094C86F;
+u8 D_8094C870;
+s16 D_8094C872;
+u16 D_8094C874;
+s16 D_8094C876;
+u8 D_8094C878;
+s16 D_8094C87A;
+s16 D_8094C87C;
+s8 D_8094C87E;
+BossTwEEffect sTWEffects[150];
+s32 D_8094F2B0;
+s32 D_8094F2B4;
+s32 D_8094F2B8;
+
 
 extern SkeletonHeader D_060070E0;
 extern AnimationHeader D_06006F28;
@@ -680,6 +679,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_Init.s")
 #endif
+#undef NON_MATCHING
 
 void BossTw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BossTw* this = THIS;
@@ -1026,17 +1026,19 @@ f32 func_8093AED8(Vec3f* arg0) {
     return -100.0f;
 }
 
+//#define NON_MATCHING
 #ifdef NON_MATCHING
 void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
-    s16 j;
     f32 temp_f20;
     f32 temp_f24;
     f32 temp_f26;
+    f32 pad;
     Vec3f sp130;
     Vec3s sp128;
     Player* player = PLAYER;
     BossTw* parent = this->actor.parent;
+    Input* inp = &globalCtx->state.input[0];
 
     Math_ApproachF(&this->actor.world.pos.y, 400.0f, 0.05f, this->actor.speedXZ);
     Math_ApproachF(&this->actor.speedXZ, 5.0f, 1.0f, 0.25f);
@@ -1069,18 +1071,19 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                 }
 
                 if (this->timers[1] == 5) {
-                    this->unk_4D0 = 255.0f;
+                    this->unk_4D0 = 255;
                 }
 
                 if (this->timers[1] >= 5) {
-                    for (i = 0; i < 2; i++) {
+                    s16 j;
+                    for (j = 0; j < 2; j++) {
                         for (j = 0; j < 5; j++) {
                             Vec3f pos;
                             Vec3f velocity;
                             Vec3f accel;
-                            pos.x = this->unk_450[j].x;
-                            pos.y = this->unk_450[j].y;
-                            pos.z = this->unk_450[j].z;
+                            pos.x = this->unk_450[i].x;
+                            pos.y = this->unk_450[i].y;
+                            pos.z = this->unk_450[i].z;
                             velocity.x = Rand_CenteredFloat(10.0f);
                             velocity.y = Rand_CenteredFloat(10.0f);
                             velocity.z = Rand_CenteredFloat(10.0f);
@@ -1095,14 +1098,14 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             }
 
             if (this->timers[1] < 0x14) {
-                Math_ApproachF(&this->flameAlpha, 0.0f, 1.0f, 20.0f);
-                Math_ApproachF(&this->spawnPortalAlpha, 0.0f, 1.0f, 30.0f);
+                Math_ApproachF(&this->flameAlpha, 0, 1.0f, 20.0f);
+                Math_ApproachF(&this->spawnPortalAlpha, 0, 1.0f, 30.0f);
             } else {
                 Math_ApproachF(&this->flameAlpha, 255.0f, 1.0f, 10.0f);
                 if (this->actor.params == 1) {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MS_FIRE);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MS_FIRE - SFX_FLAG);
                 } else {
-                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MS_FREEZE);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_TWINROBA_MS_FREEZE - SFX_FLAG);
                 }
             }
 
@@ -1139,8 +1142,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         }
 
         temp_f20 = this->targetPos.x - this->beamOrigin.x;
-        temp_f24 = this->targetPos.z - this->beamOrigin.z;
         temp_f26 = this->targetPos.y - this->beamOrigin.y;
+        temp_f24 = this->targetPos.z - this->beamOrigin.z;
         this->beamYaw = Math_FAtan2F(temp_f20, temp_f24);
 
         this->beamPitch = -Math_FAtan2F(temp_f26, sqrtf(SQ(temp_f20) + SQ(temp_f24)));
@@ -1159,7 +1162,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                             velocity.y = Rand_CenteredFloat(15.0f);
                             velocity.z = Rand_CenteredFloat(15.0f);
                             pos = player->bodyPartsPos[15];
-                            BossTw_AddDotEffect(globalCtx, &pos, &velocity, &pos, (s16)Rand_ZeroFloat(2.0f) + 5,
+                            BossTw_AddDotEffect(globalCtx, &pos, &velocity, &accel, (s16)Rand_ZeroFloat(2.0f) + 5,
                                                 this->actor.params, 0x96);
                         }
 
@@ -1195,13 +1198,13 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                 }
                 break;
             case 1:
-                if (CHECK_BTN_ALL(globalCtx->state.input[0].cur.button, BTN_R)) {
+                if (CHECK_BTN_ALL(inp->cur.button, BTN_R)) {
                     Player* player = PLAYER;
                     this->beamDist = sqrtf(SQ(temp_f20) + SQ(temp_f26) + SQ(temp_f24));
                     Math_ApproachF(&this->beamReflectionDist, 2000.0f, 1.0f, 40.0f);
                     Math_ApproachF(&this->targetPos.x, player->bodyPartsPos[15].x, 1.0f, 400.0f);
                     Math_ApproachF(&this->targetPos.y, player->bodyPartsPos[15].y, 1.0f, 400.0f);
-                    Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[15].x, 1.0f, 400.0f);
+                    Math_ApproachF(&this->targetPos.z, player->bodyPartsPos[15].z, 1.0f, 400.0f);
                     if ((this->unk_150 & 3) == 0) {
                         BossTw_AddRingEffect(globalCtx, &player->bodyPartsPos[15], 0.5f, 3.0f, 0xFF, this->actor.params,
                                              1, 0x96);
@@ -1231,7 +1234,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         }
 
         if (this->timers[0] == 0) {
-            if ((sEnvType == 1) || (sEnvType == 2)) {
+            if (sEnvType == 1 || sEnvType == 2) {
                 sEnvType = 0;
             }
         }
@@ -1281,17 +1284,21 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         sp130.z = this->beamReflectionDist + -170.0f;
         Matrix_MultVec3f(&sp130, &this->beamReflectionAFXPos);
         if (this->unk_440 == 0) {
-            for (sp130.z = 0.0f, i = 0; !(sp130.z > this->beamReflectionDist) && i < 200; sp130.z += 20.0f, i++) {
+            sp130.z = 0.0f;
+            i = 0;
+            do {
                 Vec3f spBC;
                 Matrix_MultVec3f(&sp130, &spBC);
-                this->unk_500.y = func_8093AED8(&spBC);
-                if (0.0f <= this->unk_500.y) {
+                pad = func_8093AED8(&spBC);
+                this->unk_500.y = pad;
+                i++;
+                if (pad >= 0.0f) {
                     if ((this->unk_500.y != 35.0f) && (0.0f < this->beamReflectionPitch) && (this->timers[0] != 0)) {
                         this->unk_440 = 1;
                         this->unk_500.x = spBC.x;
                         this->unk_500.z = spBC.z;
                         func_8093A5C4(this, globalCtx, this->actor.params);
-                        this->timers[0] = 0x14;
+                        this->timers[0] = 20;
                     } else {
                         for (i = 0; i < 5; i++) {
                             Vec3f velocity;
@@ -1311,7 +1318,8 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                     }
                     break;
                 }
-            }
+                sp130.z += 20.0f;
+            } while(!(this->beamReflectionDist > sp130.z) && i < 200);
         }
 
         if (func_8093ADB4(this, &this->actor.world.pos) && (this->unk_150 & 3) == 0) {
@@ -1344,6 +1352,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
 #else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_ShootBeam.s")
 #endif
+#undef NON_MATCHING
 
 void func_8093C164(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = func_8093C1C4;
@@ -2323,6 +2332,7 @@ void func_8093F108(BossTw* this, GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
+// minor reordering.
 void func_8093F1C4(BossTw* this, GlobalContext* globalCtx) {
     s32 pad;
     s32 pad2;
@@ -2505,7 +2515,9 @@ void func_8093F1C4(BossTw* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->unk_1CC, 0.0f, 1.0f, 3.0f);
             }
             Audio_PlayActorSound2(&this->actor, 0x2086);
+            return;
         } else {
+            // reordering here.
             Math_ApproachF(&kotakePtr->actor.world.pos.y, 20.0f + (263.0f + (Math_CosS(this->unk_152 * 1700) * 4.0f)),
                            0.1f, this->actor.speedXZ);
             Math_ApproachF(&koumePtr->actor.world.pos.y, 20.0f + (263.0f + (Math_SinS(this->unk_152 * 1500) * 4.0f)),

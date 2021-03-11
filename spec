@@ -1443,7 +1443,6 @@ endseg
 beginseg
     name "ovl_Boss_Tw"
     include "build/src/overlays/actors/ovl_Boss_Tw/z_boss_tw.o"
-    include "build/data/overlays/actors/z_boss_tw.bss.o"
     include "build/data/overlays/actors/z_boss_tw.reloc.o"
 endseg
 

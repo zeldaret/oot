@@ -209,8 +209,8 @@ glabel BossTw_Init
 /* 00CDC 809399AC 444EF800 */  cfc1    $t6, $31
 /* 00CE0 809399B0 240F0001 */  addiu   $t7, $zero, 0x0001         ## $t7 = 00000001
 /* 00CE4 809399B4 44CFF800 */  ctc1    $t7, $31
-/* 00CE8 809399B8 3C048095 */  lui     $a0, %hi(D_8094C880)       ## $a0 = 80950000
-/* 00CEC 809399BC 2484C880 */  addiu   $a0, $a0, %lo(D_8094C880)  ## $a0 = 8094C880
+/* 00CE8 809399B8 3C048095 */  lui     $a0, %hi(sTWEffects)       ## $a0 = 80950000
+/* 00CEC 809399BC 2484C880 */  addiu   $a0, $a0, %lo(sTWEffects)  ## $a0 = 8094C880
 /* 00CF0 809399C0 46000224 */  cvt.w.s $f8, $f0
 /* 00CF4 809399C4 8FA50044 */  lw      $a1, 0x0044($sp)
 /* 00CF8 809399C8 3C014F00 */  lui     $at, 0x4F00                ## $at = 4F000000
