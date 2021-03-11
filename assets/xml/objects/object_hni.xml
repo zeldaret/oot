@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_hni" Segment="6">
         <!-- Needs ZAPD support. -->
-        <!-- <Skeleton Name="gHorseIngoSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/> -->
+        <Skeleton Name="gHorseIngoSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/>
 
         <DList Name="gHorseIngoDL_006530" Offset="0x6530"/>
 

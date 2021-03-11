@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_horse" Segment="6">
         <!-- Needs ZAPD support. -->
-        <!-- <Skeleton Name="gHorseSkel_009D74" Type="Normal" LimbType="Skin" Offset="0x9D74"/> -->
+        <Skeleton Name="gHorseSkel_009D74" Type="Normal" LimbType="Skin" Offset="0x9D74"/>
 
         <Animation Name="gHorseAnim_006D50" Offset="0x6D50"/>
         <Animation Name="gHorseAnim_005584" Offset="0x5584"/>

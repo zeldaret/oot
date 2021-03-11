@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_horse_link_child" Segment="6">
         <!-- Needs ZAPD support. -->
-        <!-- <Skeleton Name="gHorseLinkChildSkel_007B20" Type="Normal" LimbType="Skin" Offset="0x7B20"/> -->
+        <Skeleton Name="gHorseLinkChildSkel_007B20" Type="Normal" LimbType="Skin" Offset="0x7B20"/>
 
         <Animation Name="gHorseLinkChildAnim_0043E4" Offset="0x43E4"/>
         <Animation Name="gHorseLinkChildAnim_004B08" Offset="0x4B08"/>
