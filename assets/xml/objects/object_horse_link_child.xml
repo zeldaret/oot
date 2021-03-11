@@ -1,26 +1,33 @@
 <Root>
     <File Name="object_horse_link_child" Segment="6">
         <!-- Needs ZAPD support. -->
-        <Skeleton Name="gHorseLinkChildSkel_007B20" Type="Normal" LimbType="Skin" Offset="0x7B20"/>
+        <Skeleton Name="gChildEponaSkel" Type="Normal" LimbType="Skin" Offset="0x7B20"/>
 
-        <Animation Name="gHorseLinkChildAnim_0043E4" Offset="0x43E4"/>
-        <Animation Name="gHorseLinkChildAnim_004B08" Offset="0x4B08"/>
-        <Animation Name="gHorseLinkChildAnim_0053F0" Offset="0x53F0"/>
-        <Animation Name="gHorseLinkChildAnim_00360C" Offset="0x360C"/>
-        <Animation Name="gHorseLinkChildAnim_002F98" Offset="0x2F98"/>
+        <!-- Idle animation. -->
+        <Animation Name="gChildEponaIdleAnim" Offset="0x43E4"/>
+        <!-- The animation that horses usually do. You know, that one... moving its head... -->
+        <Animation Name="gChildEponaAnim_004B08" Offset="0x4B08"/>
+        <!-- Walking slow. -->
+        <Animation Name="gChildEponaWalkingSlowAnim" Offset="0x53F0"/>
+        <!-- Walking fast. -->
+        <Animation Name="gChildEponaWalkingFastAnim" Offset="0x360C"/>
+        <!-- Running. -->
+        <Animation Name="gChildEponaRunningAnim" Offset="0x2F98"/>
 
         <!-- ZAPD doesn't extract it correctly. -->
-        <!--Array Name="gHorseLinkChildVtx_001928" Count="32" Offset="0x1928">
+        <!-- 
+        <Array Name="gChildEponaVtx_001928" Count="32" Offset="0x1928">
             <Vtx />
         </Array>
-        <Array Name="gHorseLinkChildVtx_001B28" Count="32" Offset="0x1B28">
+        <Array Name="gChildEponaVtx_001B28" Count="32" Offset="0x1B28">
             <Vtx />
         </Array>
-        <Array Name="gHorseLinkChildVtx_001D28" Count="32" Offset="0x1D28">
+        <Array Name="gChildEponaVtx_001D28" Count="32" Offset="0x1D28">
             <Vtx />
-        </Array-->
+        </Array>
+        -->
 
         <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
-        <!-- <DList Name="gHorseNormalDL_007B30" Offset="0x7B30"/> -->
+        <!-- <DList Name="gHChildEponaDL_007B30" Offset="0x7B30"/> -->
     </File>
 </Root>
