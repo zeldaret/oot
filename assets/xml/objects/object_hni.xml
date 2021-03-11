@@ -1,21 +1,21 @@
 <Root>
     <File Name="object_hni" Segment="6">
         <!-- Needs ZAPD support. -->
-        <!-- <Skeleton Name="gHorseSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/> -->
+        <!-- <Skeleton Name="gHorseIngoSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/> -->
 
-        <DList Name="gHorseDL_006530" Offset="0x6530"/>
+        <DList Name="gHorseIngoDL_006530" Offset="0x6530"/>
 
-        <Animation Name="gHorseAnim_009FC4" Offset="0x9FC4"/>
-        <Animation Name="gHorseAnim_00A6B4" Offset="0xA6B4"/>
-        <Animation Name="gHorseAnim_00901C" Offset="0x901C"/>
-        <Animation Name="gHorseAnim_0085E0" Offset="0x85E0"/>
-        <Animation Name="gHorseAnim_00AF60" Offset="0xAF60"/>
-        <Animation Name="gHorseAnim_007B54" Offset="0x7B54"/>
-        <Animation Name="gHorseAnim_00506C" Offset="0x506C"/>
-        <Animation Name="gHorseAnim_005684" Offset="0x5684"/>
-        <Animation Name="gHorseAnim_005E20" Offset="0x5E20"/>
+        <Animation Name="gHorseIngoAnim_009FC4" Offset="0x9FC4"/>
+        <Animation Name="gHorseIngoAnim_00A6B4" Offset="0xA6B4"/>
+        <Animation Name="gHorseIngoAnim_00901C" Offset="0x901C"/>
+        <Animation Name="gHorseIngoAnim_0085E0" Offset="0x85E0"/>
+        <Animation Name="gHorseIngoAnim_00AF60" Offset="0xAF60"/>
+        <Animation Name="gHorseIngoAnim_007B54" Offset="0x7B54"/>
+        <Animation Name="gHorseIngoAnim_00506C" Offset="0x506C"/>
+        <Animation Name="gHorseIngoAnim_005684" Offset="0x5684"/>
+        <Animation Name="gHorseIngoAnim_005E20" Offset="0x5E20"/>
 
         <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
-        <!-- <DList Name="gHorseDL_006ED0" Offset="0x6ED0"/> -->
+        <!-- <DList Name="gHorseIngoDL_006ED0" Offset="0x6ED0"/> -->
     </File>
 </Root>

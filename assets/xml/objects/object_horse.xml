@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_horse" Segment="6">
         <!-- Needs ZAPD support. -->
-        <Skeleton Name="gHorseSkel_009D74" Type="Normal" LimbType="Skin" Offset="0x9D74"/>
+        <!-- <Skeleton Name="gHorseSkel_009D74" Type="Normal" LimbType="Skin" Offset="0x9D74"/> -->
 
         <Animation Name="gHorseAnim_006D50" Offset="0x6D50"/>
         <Animation Name="gHorseAnim_005584" Offset="0x5584"/>
@@ -13,7 +13,8 @@
         <Animation Name="gHorseAnim_002470" Offset="0x2470"/>
         <Animation Name="gHorseAnim_002C38" Offset="0x2C38"/>
 
-        <Array Name="gHorseVtx_009F80" Count="32" Offset="0x9F80">
+        <!-- ZAPD doesn't extract it correctly. -->
+        <!--Array Name="gHorseVtx_009F80" Count="32" Offset="0x9F80">
             <Vtx />
         </Array>
         <Array Name="gHorseVtx_00A180" Count="32" Offset="0xA180">
@@ -21,7 +22,7 @@
         </Array>
         <Array Name="gHorseVtx_00A380" Count="32" Offset="0xA380">
             <Vtx />
-        </Array>
+        </Array-->
 
         <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
         <!-- <DList Name="gHorseDL_00B7C0" Offset="0xB7C0"/> -->
