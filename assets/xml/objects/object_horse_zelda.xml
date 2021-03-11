@@ -1,10 +1,11 @@
 <Root>
     <File Name="object_horse_zelda" Segment="6">
-        <!-- Needs ZAPD support -->
+        <!-- Needs ZAPD support. -->
         <!-- <Skeleton Name="gHorseZeldaSkel_006B2C" Type="Normal" LimbType="Skin" Offset="0x6B2C"/> -->
 
         <Animation Name="gHorseZeldaAnim_007148" Offset="0x7148"/>
 
-        <DList Name="gHorseZeldaDL_0036F8" Offset="0x36F8"/>
+        <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
+        <!-- <DList Name="gHorseZeldaDL_0036F8" Offset="0x36F8"/> -->
     </File>
 </Root>

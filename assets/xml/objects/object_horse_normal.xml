@@ -1,0 +1,19 @@
+<Root>
+    <File Name="object_horse_normal" Segment="6">
+        <!-- Needs ZAPD support. -->
+        <!-- <Skeleton Name="gHorseNormalSkel_009FAC" Type="Normal" LimbType="Skin" Offset="0x9FAC"/> -->
+
+        <Animation Name="gHorseNormalAnim_000608" Offset="0x608"/>
+        <Animation Name="gHorseNormalAnim_000C20" Offset="0xC20"/>
+        <Animation Name="gHorseNormalAnim_0013A8" Offset="0x13A8"/>
+        <Animation Name="gHorseNormalAnim_001A1C" Offset="0x1A1C"/>
+        <Animation Name="gHorseNormalAnim_002458" Offset="0x2458"/>
+        <Animation Name="gHorseNormalAnim_0035D4" Offset="0x35D4"/>
+        <Animation Name="gHorseNormalAnim_004580" Offset="0x4580"/>
+        <Animation Name="gHorseNormalAnim_004C20" Offset="0x4C20"/>
+        <Animation Name="gHorseNormalAnim_0054BC" Offset="0x54BC"/>
+
+        <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
+        <!-- <DList Name="gHorseNormalDL_007528" Offset="0x7528"/> -->
+    </File>
+</Root>
