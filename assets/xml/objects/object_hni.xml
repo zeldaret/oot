@@ -1,0 +1,19 @@
+<Root>
+    <File Name="object_hni" Segment="6">
+        <!--Skeleton Name="gHorseSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/-->
+
+        <!-- <CutsceneData Name="gHorseUnknown_006530" Offset="0x6530"/> -->
+
+        <!-- 
+        <Animation Name="gHorseAnim_009FC4" Offset="0x9FC4"/>
+        <Animation Name="gHorseAnim_00A6B4" Offset="0xA6B4"/>
+        <Animation Name="gHorseAnim_00901C" Offset="0x901C"/>
+        <Animation Name="gHorseAnim_0085E0" Offset="0x85E0"/>
+        <Animation Name="gHorseAnim_00AF60" Offset="0xAF60"/>
+        <Animation Name="gHorseAnim_007B54" Offset="0x7B54"/>
+        <Animation Name="gHorseAnim_00506C" Offset="0x506C"/>
+        <Animation Name="gHorseAnim_005684" Offset="0x5684"/>
+        <Animation Name="gHorseAnim_005E20" Offset="0x5E20"/>
+        -->
+    </File>
+</Root>
