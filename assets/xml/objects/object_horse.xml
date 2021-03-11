@@ -2,9 +2,6 @@
     <File Name="object_horse" Segment="6">
         <!-- Needs ZAPD support. -->
         <Skeleton Name="gHorseSkel_009D74" Type="Normal" LimbType="Skin" Offset="0x9D74"/>
-        <!--Skeleton Name="gHorseSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/-->
-
-        <!-- <CutsceneData Name="gHorseUnknown_006530" Offset="0x6530"/> -->
 
         <Animation Name="gHorseAnim_006D50" Offset="0x6D50"/>
         <Animation Name="gHorseAnim_005584" Offset="0x5584"/>
@@ -15,17 +12,6 @@
         <Animation Name="gHorseAnim_001E2C" Offset="0x1E2C"/>
         <Animation Name="gHorseAnim_002470" Offset="0x2470"/>
         <Animation Name="gHorseAnim_002C38" Offset="0x2C38"/>
-        <!-- 
-        <Animation Name="gHorseAnim_009FC4" Offset="0x9FC4"/>
-        <Animation Name="gHorseAnim_00A6B4" Offset="0xA6B4"/>
-        <Animation Name="gHorseAnim_00901C" Offset="0x901C"/>
-        <Animation Name="gHorseAnim_0085E0" Offset="0x85E0"/>
-        <Animation Name="gHorseAnim_00AF60" Offset="0xAF60"/>
-        <Animation Name="gHorseAnim_007B54" Offset="0x7B54"/>
-        <Animation Name="gHorseAnim_00506C" Offset="0x506C"/>
-        <Animation Name="gHorseAnim_005684" Offset="0x5684"/>
-        <Animation Name="gHorseAnim_005E20" Offset="0x5E20"/>
-        -->
 
         <Array Name="gHorseVtx_009F80" Count="32" Offset="0x9F80">
             <Vtx />

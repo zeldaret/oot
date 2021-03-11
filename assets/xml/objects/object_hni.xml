@@ -1,10 +1,10 @@
 <Root>
     <File Name="object_hni" Segment="6">
-        <!--Skeleton Name="gHorseSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/-->
+        <!-- Needs ZAPD support. -->
+        <!-- <Skeleton Name="gHorseSkel_004A24" Type="Normal" LimbType="Skin" Offset="0x4A24"/> -->
 
-        <!-- <CutsceneData Name="gHorseUnknown_006530" Offset="0x6530"/> -->
+        <DList Name="gHorseDL_006530" Offset="0x6530"/>
 
-        <!-- 
         <Animation Name="gHorseAnim_009FC4" Offset="0x9FC4"/>
         <Animation Name="gHorseAnim_00A6B4" Offset="0xA6B4"/>
         <Animation Name="gHorseAnim_00901C" Offset="0x901C"/>
@@ -14,6 +14,8 @@
         <Animation Name="gHorseAnim_00506C" Offset="0x506C"/>
         <Animation Name="gHorseAnim_005684" Offset="0x5684"/>
         <Animation Name="gHorseAnim_005E20" Offset="0x5E20"/>
-        -->
+
+        <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
+        <!-- <DList Name="gHorseDL_006ED0" Offset="0x6ED0"/> -->
     </File>
 </Root>
