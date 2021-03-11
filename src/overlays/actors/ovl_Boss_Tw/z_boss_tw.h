@@ -6,24 +6,6 @@
 
 struct BossTw;
 
-typedef struct {
-    /* 0x0000 */ u8 type;
-    /* 0x0001 */ u8 frame;
-    /* 0x0004 */ Vec3f pos;
-    /* 0x0010 */ Vec3f curSpeed;
-    /* 0x001C */ Vec3f accel;
-    /* 0x0028 */ Color_RGB8 color;
-    /* 0x002C */ s16 alpha;
-    /* 0x002E */ s16 args;
-    /* 0x0030 */ s16 unk_30;    
-    /* 0x0034 */ f32 scale;
-    /* 0x0038 */ f32 dist; // dist? 
-    /* used as roll for all types except type = 7, which is used as yaw */
-    /* 0x003C */ f32 roll; // roll
-    /* 0x0040 */ f32 yaw; // yaw
-    /* 0x0044 */ Actor* unk_44;
-} BossTwEEffect;
-
 typedef void (*BossTW_ActionFunc)(struct BossTw* this, GlobalContext* globalCtx);
 
 typedef struct BossTw {

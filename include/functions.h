@@ -889,6 +889,7 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(GlobalContext* globalCtx);
 void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx);
+void func_80064520(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064534(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx);

@@ -5,6 +5,24 @@
 
 #define THIS ((BossTw*)thisx)
 
+typedef struct {
+    /* 0x0000 */ u8 type;
+    /* 0x0001 */ u8 frame;
+    /* 0x0004 */ Vec3f pos;
+    /* 0x0010 */ Vec3f curSpeed;
+    /* 0x001C */ Vec3f accel;
+    /* 0x0028 */ Color_RGB8 color;
+    /* 0x002C */ s16 alpha;
+    /* 0x002E */ s16 args;
+    /* 0x0030 */ s16 unk_30;    
+    /* 0x0034 */ f32 scale;
+    /* 0x0038 */ f32 dist; // dist? 
+    /* used as roll for all types except type = 7, which is used as yaw */
+    /* 0x003C */ f32 roll; // roll
+    /* 0x0040 */ f32 yaw; // yaw
+    /* 0x0044 */ Actor* unk_44;
+} BossTwEEffect;
+
 typedef enum {
     TW_KOTAKE,
     TW_KOUME,
@@ -16,8 +34,6 @@ typedef enum {
 } TwinrovaType;
 
 typedef enum { BEAM_STATE_CHARGING = -1, BEAM_STATE_SHOOTING, BEAM_STATE_REFLECTING } TwinrovaBeamState;
-
-#define FACING_PLAYER_OFF (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000)
 
 void BossTw_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossTw_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -37,8 +53,8 @@ void func_80949BFC(BossTw* this, GlobalContext* globalCtx);
 void func_80949920(BossTw* this, GlobalContext* globalCtx);
 void func_809496D0(BossTw* this, GlobalContext* globalCtx);
 void func_809495A4(BossTw* this, GlobalContext* globalCtx);
-s32 func_809416D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
-void func_80941788(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx);
+s32 func_809416D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
+void func_80941788(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 void func_80939070(GlobalContext*, Vec3f*, Vec3f*, Vec3f*, f32, s16);
 void func_8093F9E4(BossTw* this, GlobalContext* globalCtx);
 void func_8093D5C0(BossTw* this, GlobalContext* globalCtx);
@@ -182,6 +198,7 @@ Vec3f D_8094A9F8 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8094AA04 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8094AA10 = { 0.0f, 0.0f, 0.0f };
 Vec3f D_8094AA1C = { 0.0f, 0.0f, 0.0f };
+
 Color_RGB8 D_8094AA28[] = {
     { 255, 128, 0 },
     { 255, 0, 0 },
@@ -231,10 +248,10 @@ s32 D_8094F2B4;
 s32 D_8094F2B8;
 
 
-extern SkeletonHeader D_060070E0;
+extern FlexSkeletonHeader D_060070E0;
 extern AnimationHeader D_06006F28;
 extern AnimationHeader D_6006F28;
-extern SkeletonHeader D_601F888;
+extern FlexSkeletonHeader D_601F888;
 extern Gfx D_0602A9B0[];
 extern Gfx D_0602A070[];
 extern Gfx D_0602A470[];
@@ -326,7 +343,7 @@ extern AnimationHeader D_06009398;
 extern AnimationHeader D_06003614;
 extern AnimationHeader D_06003E34;
 extern AnimationHeader D_06007688;
-extern SkeletonHeader D_06032020;
+extern FlexSkeletonHeader D_06032020;
 extern AnimationHeader D_060244B4;
 extern AnimationHeader D_060244B4;
 
@@ -545,7 +562,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
     BossTw* this = THIS;
     s16 phi_v0;
 
-    Actor_ProcessInitChain(&this->actor, &D_8094A8A0);
+    Actor_ProcessInitChain(&this->actor, D_8094A8A0);
     ActorShape_Init(&this->actor.shape, 0, NULL, 0);
     if (this->actor.params >= TW_FIRE_BLAST) {
         // Blasts
@@ -604,7 +621,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         // Kotake
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
         this->actor.naviEnemyId = 0x33;
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_060070E0, &D_06006F28, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060070E0, &D_06006F28, NULL, NULL, 0);
         if (gSaveContext.eventChkInf[7] & 0x20) {
             // began twinrova battle
             func_8093A0A8(this, globalCtx);
@@ -621,7 +638,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         // Koume
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
         this->actor.naviEnemyId = 0x32;
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_601F888, &D_6006F28, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_601F888, &D_6006F28, NULL, NULL, 0);
         if (gSaveContext.eventChkInf[7] & 0x20) {
             // began twinrova battle
             func_8093A0A8(this, globalCtx);
@@ -640,7 +657,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         this->actor.colChkInfo.health = 0x18;
         this->actor.update = func_80940D48;
         this->actor.draw = BossTw_TwinrovaDraw;
-        SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06032020, &D_060244B4, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06032020, &D_060244B4, NULL, NULL, 0);
         Animation_MorphToLoop(&this->skelAnime, &D_060244B4, -3.0f);
         if (gSaveContext.eventChkInf[7] & 0x20) {
             // began twinrova battle
@@ -660,10 +677,10 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
                                0, 0, 0xFFFF);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, -600.0f, 230.0f, 0.0f, 0, 0, 0, 0);
         } else {
-            kotakePtr = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_TW,
+            kotakePtr = (BossTw*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_TW,
                                            this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0,
                                            0, 0, TW_KOTAKE);
-            koumePtr = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_TW,
+            koumePtr = (BossTw*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_TW,
                                           this->actor.world.pos.x, this->actor.world.pos.y, this->actor.world.pos.z, 0,
                                           0, 0, TW_KOUME);
             kotakePtr->actor.parent = &koumePtr->actor;
@@ -913,7 +930,7 @@ s32 BossTw_CheckBeamReflection(BossTw* this, GlobalContext* globalCtx) {
     Vec3f vec;
     Player* player = PLAYER;
 
-    if (player->stateFlags1 & 0x400000 && FACING_PLAYER_OFF < 0x2000 && FACING_PLAYER_OFF >= -0x1FFF) {
+    if (player->stateFlags1 & 0x400000 && (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) < 0x2000 && (s16)(player->actor.shape.rot.y - this->actor.shape.rot.y + 0x8000) >= -0x1FFF) {
         // player is shielding and facing angles are less than 45 degrees in either direction
         offset.x = 0.0f;
         offset.y = 0.0f;
@@ -2192,7 +2209,7 @@ void func_8093D5C0(BossTw* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->subCamEye.z, 1000.0f, 0.05f, this->unk_654.x);
                 Math_ApproachF(&this->unk_654.x, 40.0f, 1.0f, 1);
             } else {
-                Math_ApproachF(&this->subCamEye, 300.0f, 0.05f, this->unk_654.x);
+                Math_ApproachF(&this->subCamEye.x, 300.0f, 0.05f, this->unk_654.x);
                 Math_ApproachF(&this->unk_654.x, 5.0f, 1.0f, 0.5f);
             }
             if (this->unk_150 < 200) {
@@ -3079,8 +3096,9 @@ void func_80940D48(Actor* thisx, GlobalContext* globalCtx2) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/func_80940D48.s")
 #endif
 
-s32 func_809416D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_809416D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     BossTw* this = THIS;
+
     if (limbIndex == 0x15) {
         if (this->unk_5F8 == 0) {
             if (this->actor.params == 0) {
@@ -3104,7 +3122,7 @@ s32 func_809416D0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void func_80941788(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void func_80941788(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossTw* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_tw.c", 6168);
@@ -3408,7 +3426,7 @@ void BossTw_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         if (this->actionFunc == func_8093D444) {
             func_80943028(&this->actor, globalCtx);
         } else {
-            func_809426F0(&this->actor, globalCtx);
+            func_809426F0(this, globalCtx);
             Matrix_MultVec3f(&D_8094A9A4, &this->beamOrigin);
             func_80942C70(&this->actor, globalCtx);
         }
@@ -3478,7 +3496,7 @@ s32 func_80943950(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 }
 
 // BossTw_TwinrovaPostLimbDraw
-void func_80943D90(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void func_80943D90(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     BossTw* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[4];
@@ -4201,7 +4219,7 @@ void BossTw_BlastUpdate(Actor* thisx, GlobalContext* globalCtx) {
 
     this->blastTailPos[this->unk_156] = this->actor.world.pos;
 
-    this->actionFunc(thisx, globalCtx);
+    this->actionFunc(this, globalCtx);
 
     for (i = 0; i < 5; i++) {
         DECR(this->timers[i]);
