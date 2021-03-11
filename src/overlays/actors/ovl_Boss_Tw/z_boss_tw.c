@@ -236,22 +236,21 @@ u8 sBeamDivertTimer;
 u8 D_8094C86F;
 u8 D_8094C870;
 s16 D_8094C872;
-u16 D_8094C874;
+s16 D_8094C874;
 s16 D_8094C876;
 u8 D_8094C878;
 s16 D_8094C87A;
 s16 D_8094C87C;
-s8 D_8094C87E;
+u8 D_8094C87E;
 BossTwEEffect sTWEffects[150];
 s32 D_8094F2B0;
 s32 D_8094F2B4;
 s32 D_8094F2B8;
 
-
 extern FlexSkeletonHeader D_060070E0;
 extern AnimationHeader D_06006F28;
 extern AnimationHeader D_6006F28;
-extern FlexSkeletonHeader D_601F888;
+extern FlexSkeletonHeader D_0601F888;
 extern Gfx D_0602A9B0[];
 extern Gfx D_0602A070[];
 extern Gfx D_0602A470[];
@@ -556,7 +555,6 @@ void func_809394FC(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     }
 }
 
-#ifdef NON_MATCHING
 void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     BossTw* this = THIS;
@@ -599,15 +597,30 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
     Collider_InitCylinder(globalCtx, &this->collider);
 
     if (!twInitalized) {
-        twInitalized = 1;
+        twInitalized = true;
         globalCtx->envCtx.unk_BF = 1;
         globalCtx->envCtx.unk_BE = 1;
         globalCtx->envCtx.unk_BD = 1;
         globalCtx->envCtx.unk_D8 = 0.0f;
 
-        D_8094C874 = D_8094C876 = D_8094C878 = D_8094C87A = D_8094C87C = D_8094C87E = D_8094C851 = D_8094C841 =
-            D_8094C85F = D_8094C85C = D_8094C85E = D_8094C850 = D_8094C86F = sBeamDivertTimer = D_8094C872 = sEnvType =
-                0;
+        D_8094C874 =
+        D_8094C876 =
+        D_8094C878 =
+        D_8094C87A =
+        D_8094C87C =
+        D_8094C87E =
+        D_8094C870 =
+        D_8094C86F =
+        D_8094C872 =
+        sBeamDivertTimer =
+        sEnvType =
+        D_8094C841 =
+        D_8094C85F =
+        D_8094C85C =
+        D_8094C85E =
+        D_8094C850 =
+        D_8094C851 = 0;
+
 
         D_8094C858 = D_8094C854 = 0.0f;
         D_8094C85D = Rand_ZeroFloat(1.99f);
@@ -632,13 +645,13 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         } else {
             BossTw_SetupCSWait(this, globalCtx);
         }
-        Animation_MorphToLoop(&this->skelAnime, &D_6006F28, -3.0f);
+        Animation_MorphToLoop(&this->skelAnime, &D_06006F28, -3.0f);
         this->unk_564 = 1;
     } else if (this->actor.params == 1) {
         // Koume
         Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInitKoumeKotake);
         this->actor.naviEnemyId = 0x32;
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_601F888, &D_6006F28, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0601F888, &D_06006F28, NULL, NULL, 0);
         if (gSaveContext.eventChkInf[7] & 0x20) {
             // began twinrova battle
             func_8093A0A8(this, globalCtx);
@@ -648,7 +661,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
         } else {
             BossTw_SetupCSWait(this, globalCtx);
         }
-        Animation_MorphToLoop(&this->skelAnime, &D_6006F28, -3.0f);
+        Animation_MorphToLoop(&this->skelAnime, &D_06006F28, -3.0f);
         this->unk_564 = 1;
     } else {
         // Twinrova
@@ -693,10 +706,6 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
     this->fogMin = globalCtx->lightCtx.unk_0A;
     this->fogMax = 1000.0f;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_Init.s")
-#endif
-#undef NON_MATCHING
 
 void BossTw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BossTw* this = THIS;
