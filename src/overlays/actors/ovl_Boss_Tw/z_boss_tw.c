@@ -1052,8 +1052,6 @@ f32 func_8093AED8(Vec3f* arg0) {
     return -100.0f;
 }
 
-//#define NON_MATCHING
-#ifdef NON_MATCHING
 void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
     s16 i;
     f32 temp_f20;
@@ -1063,7 +1061,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
     Vec3f sp130;
     Vec3s sp128;
     Player* player = PLAYER;
-    BossTw* parent = this->actor.parent;
+    BossTw* parent = (BossTw*)this->actor.parent;
     Input* inp = &globalCtx->state.input[0];
 
     Math_ApproachF(&this->actor.world.pos.y, 400.0f, 0.05f, this->actor.speedXZ);
@@ -1103,7 +1101,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                 if (this->timers[1] >= 5) {
                     s16 j;
                     for (j = 0; j < 2; j++) {
-                        for (j = 0; j < 5; j++) {
+                        for (i = 0; i < 5; i++) {
                             Vec3f pos;
                             Vec3f velocity;
                             Vec3f accel;
@@ -1180,9 +1178,9 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                 if (this->timers[0] != 0) {
                     s32 temp_v0_4 = BossTw_CheckBeamReflection(this, globalCtx);
                     if (temp_v0_4 == 1) {
-                        Vec3f accel = D_8094A8DC;
-                        Vec3f velocity;
                         Vec3f pos;
+                        Vec3f velocity;
+                        Vec3f accel = D_8094A8DC;
                         for (i = 0; i < ARRAY_COUNT(sTWEffects); i++) {
                             velocity.x = Rand_CenteredFloat(15.0f);
                             velocity.y = Rand_CenteredFloat(15.0f);
@@ -1311,13 +1309,12 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
         Matrix_MultVec3f(&sp130, &this->beamReflectionAFXPos);
         if (this->unk_440 == 0) {
             sp130.z = 0.0f;
-            i = 0;
-            do {
+
+            for(i = 0; i < 200; i++) { 
                 Vec3f spBC;
                 Matrix_MultVec3f(&sp130, &spBC);
                 pad = func_8093AED8(&spBC);
                 this->unk_500.y = pad;
-                i++;
                 if (pad >= 0.0f) {
                     if ((this->unk_500.y != 35.0f) && (0.0f < this->beamReflectionPitch) && (this->timers[0] != 0)) {
                         this->unk_440 = 1;
@@ -1344,8 +1341,13 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                     }
                     break;
                 }
+
                 sp130.z += 20.0f;
-            } while(!(this->beamReflectionDist > sp130.z) && i < 200);
+
+                if(this->beamReflectionDist < sp130.z) {
+                    break;
+                }
+            }
         }
 
         if (func_8093ADB4(this, &this->actor.world.pos) && (this->unk_150 & 3) == 0) {
@@ -1368,17 +1370,13 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                 accel.z = 0.0f;
                 func_80939070(globalCtx, &pos, &velocity, &accel, Rand_ZeroFloat(10.0f) + 25.0f, this->actor.params);
             }
-            func_8093C25C(&parent->actor, globalCtx);
+            func_8093C25C(parent, globalCtx);
             Audio_PlayActorSound2(&parent->actor, NA_SE_EN_TWINROBA_DAMAGE_VOICE);
             globalCtx->envCtx.unk_D8 = 1.0f;
             parent->actor.colChkInfo.health++;
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Tw/BossTw_ShootBeam.s")
-#endif
-#undef NON_MATCHING
 
 void func_8093C164(BossTw* this, GlobalContext* globalCtx) {
     this->actionFunc = func_8093C1C4;
