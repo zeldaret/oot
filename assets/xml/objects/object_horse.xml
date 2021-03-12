@@ -1,30 +1,24 @@
 <Root>
     <File Name="object_horse" Segment="6">
         <!-- Needs ZAPD support. -->
-        <Skeleton Name="gHorseSkel_009D74" Type="Normal" LimbType="Skin" Offset="0x9D74"/>
+        <Skeleton Name="gEponaSkel" Type="Normal" LimbType="Skin" Offset="0x9D74"/>
 
-        <Animation Name="gHorseAnim_006D50" Offset="0x6D50"/>
-        <Animation Name="gHorseAnim_005584" Offset="0x5584"/>
-        <Animation Name="gHorseAnim_004DEC" Offset="0x4DEC"/>
-        <Animation Name="gHorseAnim_003CEC" Offset="0x3CEC"/>
-        <Animation Name="gHorseAnim_0075F0" Offset="0x75F0"/>
-        <Animation Name="gHorseAnim_0032B0" Offset="0x32B0"/>
-        <Animation Name="gHorseAnim_001E2C" Offset="0x1E2C"/>
-        <Animation Name="gHorseAnim_002470" Offset="0x2470"/>
-        <Animation Name="gHorseAnim_002C38" Offset="0x2C38"/>
+        <Animation Name="gEponaAnim_006D50" Offset="0x6D50"/>
+        <Animation Name="gEponaAnim_005584" Offset="0x5584"/>
+        <Animation Name="gEponaAnim_004DEC" Offset="0x4DEC"/>
+        <Animation Name="gEponaAnim_003CEC" Offset="0x3CEC"/>
+        <Animation Name="gEponaAnim_0075F0" Offset="0x75F0"/>
+        <Animation Name="gEponaAnim_0032B0" Offset="0x32B0"/>
+        <Animation Name="gEponaAnim_001E2C" Offset="0x1E2C"/>
+        <Animation Name="gEponaAnim_002470" Offset="0x2470"/>
+        <Animation Name="gEponaAnim_002C38" Offset="0x2C38"/>
 
-        <!-- ZAPD doesn't extract it correctly. -->
-        <!--Array Name="gHorseVtx_009F80" Count="32" Offset="0x9F80">
-            <Vtx />
-        </Array>
-        <Array Name="gHorseVtx_00A180" Count="32" Offset="0xA180">
-            <Vtx />
-        </Array>
-        <Array Name="gHorseVtx_00A380" Count="32" Offset="0xA380">
-            <Vtx />
-        </Array-->
+        <!-- Uses palette located at offset 0x9D80. -->
+        <Texture Name="gEponaEyeOpenTex" OutName="epona_eye_open" Format="ci8" Width="32" Height="16" Offset="0x9F80" />
+        <Texture Name="gEponaEyeHalfTex" OutName="epona_eye_half" Format="ci8" Width="32" Height="16" Offset="0xA180" />
+        <Texture Name="gEponaEyeCloseTex" OutName="epona_eye_close" Format="ci8" Width="32" Height="16" Offset="0xA380" />
 
         <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
-        <!-- <DList Name="gHorseDL_00B7C0" Offset="0xB7C0"/> -->
+        <!-- <DList Name="gEponaDL_00B7C0" Offset="0xB7C0"/> -->
     </File>
 </Root>
