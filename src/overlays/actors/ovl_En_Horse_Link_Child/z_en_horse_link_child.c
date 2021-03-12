@@ -33,7 +33,7 @@ const ActorInit En_Horse_Link_Child_InitVars = {
     (ActorFunc)EnHorseLinkChild_Draw,
 };
 
-static AnimationHeader* sAnimations[] = { &gChildEponaIdleAnim, &gChildEponaAnim_004B08, &gChildEponaWalkingSlowAnim, &gChildEponaWalkingFastAnim, &gChildEponaRunningAnim };
+static AnimationHeader* sAnimations[] = { &gChildEponaIdleAnim, &gChildEponaWhinnyAnim, &gChildEponaWalkingSlowAnim, &gChildEponaWalkingFastAnim, &gChildEponaRunningAnim };
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -159,7 +159,7 @@ void EnHorseLinkChild_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetJntSph(globalCtx, &this->headCollider, &this->actor, &sJntSphInit, this->headElements);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColCheckInfoInit);
     this->unk_1F0 = 0;
-    this->unk_1EC = 0;
+    this->eyeTexIndex = 0;
 
     if (gSaveContext.sceneSetupIndex > 3) {
         func_80A69EC0(this);
@@ -544,9 +544,9 @@ void func_80A6A7D0(EnHorseLinkChild* this, GlobalContext* globalCtx) {
 static EnHorseLinkChildActionFunc sActionFuncs[] = {
     func_80A698F4, func_80A69C18, func_80A699FC, func_80A6A068, func_80A6A7D0, func_80A6A5A4,
 };
-// static Vtx* D_80A6AF94[] = { &gChildEponaVtx_001D28, &gChildEponaVtx_001928, &gChildEponaVtx_001B28 };
-static UNK_PTR D_80A6AF94[] = { 0x06001D28, 0x06001928, 0x06001B28 };
-static u8 D_80A6AFA0[] = { 0, 1, 2, 1 };
+
+static u64* sEyeTextures[] = { gChildEponaEyeOpenTex, gChildEponaEyeHalfTex, gChildEponaEyeCloseTex };
+static u8 sEyeIndexOrder[] = { 0, 1, 2, 1 };
 
 void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorseLinkChild* this = THIS;
@@ -563,12 +563,12 @@ void EnHorseLinkChild_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 70.0f;
 
-    if ((Rand_ZeroOne() < 0.025f) && (this->unk_1EC == 0)) {
-        this->unk_1EC++;
-    } else if (this->unk_1EC > 0) {
-        this->unk_1EC++;
-        if (this->unk_1EC >= ARRAY_COUNT(D_80A6AFA0)) {
-            this->unk_1EC = 0;
+    if ((Rand_ZeroOne() < 0.025f) && (this->eyeTexIndex == 0)) {
+        this->eyeTexIndex++;
+    } else if (this->eyeTexIndex > 0) {
+        this->eyeTexIndex++;
+        if (this->eyeTexIndex >= ARRAY_COUNT(sEyeIndexOrder)) {
+            this->eyeTexIndex = 0;
         }
     }
 
@@ -604,8 +604,8 @@ s32 func_80A6AD84(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* ar
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_link_child.c", 1467);
 
     if (arg2 == 0xD) {
-        u8 index = D_80A6AFA0[this->unk_1EC];
-        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A6AF94[index]));
+        u8 index = sEyeIndexOrder[this->eyeTexIndex];
+        gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[index]));
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse_link_child.c", 1479);

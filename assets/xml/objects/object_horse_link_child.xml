@@ -6,7 +6,7 @@
         <!-- Idle animation. -->
         <Animation Name="gChildEponaIdleAnim" Offset="0x43E4"/>
         <!-- The animation that horses usually do. You know, that one... moving its head... -->
-        <Animation Name="gChildEponaAnim_004B08" Offset="0x4B08"/>
+        <Animation Name="gChildEponaWhinnyAnim" Offset="0x4B08"/>
         <!-- Walking slow. -->
         <Animation Name="gChildEponaWalkingSlowAnim" Offset="0x53F0"/>
         <!-- Walking fast. -->
@@ -14,18 +14,9 @@
         <!-- Running. -->
         <Animation Name="gChildEponaRunningAnim" Offset="0x2F98"/>
 
-        <!-- ZAPD doesn't extract it correctly. -->
-        <!-- 
-        <Array Name="gChildEponaVtx_001928" Count="32" Offset="0x1928">
-            <Vtx />
-        </Array>
-        <Array Name="gChildEponaVtx_001B28" Count="32" Offset="0x1B28">
-            <Vtx />
-        </Array>
-        <Array Name="gChildEponaVtx_001D28" Count="32" Offset="0x1D28">
-            <Vtx />
-        </Array>
-        -->
+        <Texture Name="gChildEponaEyeOpenTex" OutName="child_epona_eye_open" Format="ci8" Width="32" Height="16" Offset="0x1D28" />
+        <Texture Name="gChildEponaEyeHalfTex" OutName="child_epona_eye_half" Format="ci8" Width="32" Height="16" Offset="0x1928" />
+        <Texture Name="gChildEponaEyeCloseTex" OutName="child_epona_eye_close" Format="ci8" Width="32" Height="16" Offset="0x1B28" />
 
         <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
         <!-- <DList Name="gHChildEponaDL_007B30" Offset="0x7B30"/> -->
