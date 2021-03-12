@@ -12,7 +12,7 @@ glabel D_8094B010
  .word 0x43838000
 
 .text
-glabel func_8093F9E4
+glabel BossTw_TwinrovaDeathCS
 /* 06D14 8093F9E4 27BDFF20 */  addiu   $sp, $sp, 0xFF20           ## $sp = FFFFFF20
 /* 06D18 8093F9E8 AFB20044 */  sw      $s2, 0x0044($sp)
 /* 06D1C 8093F9EC AFBF004C */  sw      $ra, 0x004C($sp)

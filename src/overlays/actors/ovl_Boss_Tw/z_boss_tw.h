@@ -18,7 +18,7 @@ typedef struct BossTw {
     /* 0x0158 */ s16 unk_158;
     /* 0x015A */ s16 invincibilityTimer;
     /* 0x015C */ s16 fogTimer;
-    /* 0x015E */ s16 unk_15E;
+    /* 0x015E */ s16 canShootBeam;
     /* 0x0160 */ s16 unk_160;
     /* 0x0162 */ s16 unk_162;
     /* 0x0164 */ s16 unk_164;
@@ -53,8 +53,7 @@ typedef struct BossTw {
     /* 0x01E0 */ f32 fogMin;
     /* 0x01E4 */ f32 fogMax;
     /* 0x01E8 */ Vec3f blastTailPos[50];
-    /* 0x0440 */ s16 unk_440;
-    /* 0x0442 */ char unk_442[0x2];
+    /* 0x0440 */ s16 csState1;
     /* 0x0444 */ Vec3f unk_444;
     /* 0x0450 */ Vec3f unk_450[5];
     /* 0x048C */ Vec3f beamOrigin;
@@ -70,11 +69,11 @@ typedef struct BossTw {
     /* 0x04D8 */ f32 spawnPortalAlpha;
     /* 0x04DC */ f32 unk_4DC;
     /* 0x04E0 */ f32 spawnPortalScale;
-    /* 0x04E4 */ f32 updateRate1;  // updateRate for portal scale and flameRotation
+    /* 0x04E4 */ f32 updateRate1;
     /* 0x04E8 */ f32 flameRotation;
-    /* 0x04EC */ f32 portalRotation; // updateRate for portalRotation
+    /* 0x04EC */ f32 portalRotation;
     /* 0x04F0 */ f32 updateRate2;
-    /* 0x04F4 */ u8 twinrovaStun; // stuns twinrova when set
+    /* 0x04F4 */ u8 twinrovaStun;
     /* 0x04F8 */ f32 beamAlpha;
     /* 0x04FC */ s16 beamShootState;
     /* 0x04FE */ s16 unk_4FE;
@@ -99,12 +98,12 @@ typedef struct BossTw {
     /* 0x05AC */ ColliderCylinder collider;
     /* 0x05F8 */ u8 unk_5F8;
     /* 0x05F9 */ u8 unk_5F9;
-    /* 0x05FA */ s16 unk_5FA; // camera state?
-    /* 0x05FC */ s16 subCamId; // cam id? 
+    /* 0x05FA */ s16 csState2;
+    /* 0x05FC */ s16 subCamId;
     /* 0x05FE */ s16 unk_5FE;
-    /* 0x0600 */ Vec3f subCamEye; // eye
-    /* 0x060C */ Vec3f subCamAt; // at
-    /* 0x0618 */ Vec3f unk_618; // probably vec3f
+    /* 0x0600 */ Vec3f subCamEye;
+    /* 0x060C */ Vec3f subCamAt;
+    /* 0x0618 */ Vec3f unk_618;
     /* 0x0624 */ Vec3f unk_624;
     /* 0x0630 */ Vec3f unk_630;
     /* 0x063C */ Vec3f unk_63C;
