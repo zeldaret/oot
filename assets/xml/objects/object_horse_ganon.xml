@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_horse_ganon" Segment="6">
         <!-- Needs ZAPD support. -->
-        <Skeleton Name="gHorseGanonSkel_008668" Type="Normal" LimbType="Skin" Offset="0x8668"/>
+        <Skeleton Name="gHorseGanonSkel" Type="Normal" LimbType="Skin" Offset="0x8668"/>
 
         <Animation Name="gHorseGanonAnim_004AA4" Offset="0x4AA4"/>
         <Animation Name="gHorseGanonAnim_005264" Offset="0x5264"/>
