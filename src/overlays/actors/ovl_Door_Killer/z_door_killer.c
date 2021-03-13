@@ -3,6 +3,7 @@
  * Overlay: ovl_Door_Killer
  * Description: Fake doors which attack player
  */
+
 #include "z_door_killer.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -286,7 +287,6 @@ void DoorKiller_RiseBackUp(DoorKiller* this, GlobalContext* globalCtx) {
             this->jointTable[i].y = rotation;
         }
     }
-    return;
 }
 
 /**
@@ -387,7 +387,7 @@ void DoorKiller_Wobble(DoorKiller* this, GlobalContext* globalCtx) {
     for (i = 2; i < 9; i++) {
         this->jointTable[i].y = rotation;
     }
-    rotation = (u16)(s16)(-Math_CosS(this->timer * 0x1000) * 1000.0f) + 1000;
+    rotation = (u16)(s32)(-Math_CosS(this->timer * 0x1000) * 1000.0f) + 1000;
     for (i = 2; i < 9; i++) {
         this->jointTable[i].z = rotation;
     }
@@ -406,19 +406,20 @@ void DoorKiller_WaitBeforeWobble(DoorKiller* this, GlobalContext* globalCtx) {
 }
 
 void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
-    Player* player;
+    Player* player = PLAYER;
     Vec3f playerPosRelToDoor;
     s16 angleToFacingPlayer;
 
-    player = PLAYER;
     func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+
     // playerIsOpening is set by player
-    if (this->playerIsOpening != 0) {
+    if (this->playerIsOpening) {
         this->actionFunc = DoorKiller_WaitBeforeWobble;
         this->timer = 10;
         this->playerIsOpening = 0;
         return;
     }
+
     if (DoorKiller_IsHit(&this->actor, globalCtx)) {
         // AC cylinder: wobble if hit by most weapons, die if hit by explosives or hammer
         if ((this->colliderCylinder.info.acHitInfo->toucher.dmgFlags & 0x1FFA6) != 0) {
@@ -448,6 +449,7 @@ void DoorKiller_Wait(DoorKiller* this, GlobalContext* globalCtx) {
             player->doorActor = &this->actor;
         }
     }
+
     DoorKiller_SetAC(this, globalCtx);
 }
 
@@ -493,7 +495,7 @@ void DoorKiller_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 void DoorKiller_SetTexture(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = THIS;
-    s32 doorTexture = this->texture;
+    u64* doorTexture = this->texture;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_door_killer.c", 883);
     gSPSegment(POLY_OPA_DISP++, 0x08, doorTexture);
@@ -504,7 +506,7 @@ void DoorKiller_DrawDoor(Actor* thisx, GlobalContext* globalCtx) {
     DoorKiller* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    DoorKiller_SetTexture(thisx, globalCtx);
+    DoorKiller_SetTexture(&this->actor, globalCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           NULL, NULL, NULL);
 }

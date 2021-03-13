@@ -1163,6 +1163,7 @@ s32 DemoIm_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     if ((*unk_2D0 != 0) && (limbIndex == 15)) {
         *dList = D_0600EDE8;
     }
+
     return false;
 }
 
