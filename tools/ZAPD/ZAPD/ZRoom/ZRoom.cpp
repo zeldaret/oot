@@ -225,10 +225,8 @@ void ZRoom::ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet co
 {
 	bool shouldContinue = true;
 	int currentIndex = 0;
-	int rawDataIndex = commandSet.address;
-	int8_t segmentNumber = rawDataIndex >> 24;
+	int rawDataIndex = commandSet.address & 0x00FFFFFF;
 
-	rawDataIndex &= 0x00FFFFFF;
 	int32_t commandsLeft = commandSet.commandCount;
 
 	while (shouldContinue)
@@ -305,7 +303,6 @@ void ZRoom::ProcessCommandSets()
 		std::vector<ZRoomCommand*> setCommands = std::vector<ZRoomCommand*>();
 
 		int32_t commandSet = commandSets[0].address;
-		int8_t segmentNumber = commandSet >> 24;
 		ParseCommands(setCommands, commandSets[0]);
 		commandSets.erase(commandSets.begin());
 
