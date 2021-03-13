@@ -1,0 +1,5 @@
+<Root>
+     <File Name="nintendo_rogo_static" Segment="1">
+        <DList Name="gNintendo64LogoDL" Offset="0x2720"/>
+     </File>
+</Root>
