@@ -43,6 +43,7 @@ void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->sceneNum != SCENE_SPOT16) {
         this->isNotDeathMountain = true;
     }
+
     if (!this->isNotDeathMountain) {
         osSyncPrintf("\n\n");
         // "☆☆☆☆☆ Death Mountain Encount2 set ☆☆☆☆☆"
@@ -57,6 +58,7 @@ void EnEncount2_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ ガノンタワー脱出エンカウント２セットされました ☆☆☆☆☆ %d\n" VT_RST,
                      this->actor.params);
     }
+
     this->actionFunc = EnEncount2_Wait;
 }
 
@@ -81,6 +83,7 @@ void EnEncount2_Wait(EnEncount2* this, GlobalContext* globalCtx) {
             spawnerState = ENCOUNT2_ACTIVE_GANONS_TOWER;
         }
     }
+
     switch (spawnerState) {
         case ENCOUNT2_INACTIVE:
             this->isQuaking = false;
@@ -129,25 +132,31 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
     s16 maxRocks;
 
     this->envEffectsTimer++;
+
     if (this->envEffectsTimer > 60) {
         this->envEffectsTimer = 60;
     }
+
     spawnerState = ENCOUNT2_INACTIVE;
+
     if (!this->isNotDeathMountain) {
         if (this->deathMountainSpawnerTimer == 0) {
             this->deathMountainSpawnerTimer = 100;
             this->actionFunc = EnEncount2_Wait;
             return;
         }
+
         if ((player->actor.world.pos.y > 1500.0f) && (player->actor.world.pos.x > -700.0f) &&
             (player->actor.world.pos.x < 100.0f) && (player->actor.world.pos.z < -1290.0f) &&
             (player->actor.world.pos.z > -3860.0f)) {
             maxRocks = 2;
             spawnerState = ENCOUNT2_ACTIVE_DEATH_MOUNTAIN;
         }
+
         Audio_PlayActorSound2(&this->actor, NA_SE_EV_VOLCANO - SFX_FLAG);
     } else if ((this->actor.xzDistToPlayer < 700.0f) && (Flags_GetSwitch(globalCtx, 0x37) != 0)) {
         s16 scene = globalCtx->sceneNum;
+
         if (((scene == SCENE_GANON_DEMO) || (scene == SCENE_GANON_FINAL) || (scene == SCENE_GANON_SONOGO) ||
              (scene == SCENE_GANONTIKA_SONOGO)) &&
             (!this->collapseSpawnerInactive)) {
@@ -178,6 +187,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
         particlePos.y = Rand_CenteredFloat(50.0f) + tempVec1Y;
         particlePos.z = Rand_CenteredFloat(200.0f) + (globalCtx->view.eye.z + (tempVec2Z * 200.0f));
         particleScale = Rand_CenteredFloat(0.005f) + 0.007f;
+
         if (spawnerState == ENCOUNT2_ACTIVE_DEATH_MOUNTAIN) {
             EnEncount2_ParticleInit(this, &particlePos, particleScale);
         } else if (this->particleSpawnTimer == 0) {
@@ -212,6 +222,7 @@ void EnEncount2_SpawnRocks(EnEncount2* this, GlobalContext* globalCtx) {
                 // rock spawn pos X,Z at a random position roughly 300 units ahead of camera
                 tempVec2X = Rand_CenteredFloat(100.0f) + tempVec1X;
                 tempVec2Z = Rand_CenteredFloat(100.0f) + tempVec1Z;
+
                 if (Rand_ZeroFloat(3.99f) < 1.0f) {
                     // rock spawn pos X,Z at a random position near player
                     tempVec2X = Rand_CenteredFloat(70.0f) + player->actor.world.pos.x;
@@ -243,14 +254,19 @@ void EnEncount2_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->deathMountainSpawnerTimer != 0) {
         this->deathMountainSpawnerTimer--;
     }
+
     if (this->timerBetweenRockSpawns != 0) {
         this->timerBetweenRockSpawns--;
     }
+
     if (this->particleSpawnTimer != 0) {
         this->particleSpawnTimer--;
     }
+
     this->actionFunc(this, globalCtx);
+
     EnEncount2_ParticleUpdate(this, globalCtx);
+
     if (!this->isNotDeathMountain) {
         this->unk17C = this->envEffectsTimer / 60.0f;
         this->unk160 = this->unk17C * -50.0f;
@@ -311,6 +327,7 @@ void EnEncount2_ParticleUpdate(EnEncount2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&particle->pos.y, targetPos.y, 0.8f, 250.0f);
             Math_ApproachF(&particle->pos.z, targetPos.z, 0.3f, 30.0f);
             Math_ApproachF(&particle->moveDirection.y, -20.0f, 0.9f, 1.0f);
+
             if (globalCtx->sceneNum != SCENE_SPOT16) {
                 if (particle->pos.y < (player->actor.floorHeight - 50.0f)) {
                     particle->isAlive = 0;
@@ -330,17 +347,20 @@ void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
     s32 objBankIndex;
 
     OPEN_DISPS(gfxCtx, "../z_en_encount2.c", 642);
+
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_EFC_STAR_FIELD);
+
     if (objBankIndex >= 0) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[objBankIndex].segment);
+
         for (i = 0; i < ARRAY_COUNT(this->particles); particle++, i++) {
             if (particle->isAlive) {
-                Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, 0);
-                Matrix_RotateX(particle->rot.x * (M_PI / 180), 1);
-                Matrix_RotateY(particle->rot.y * (M_PI / 180), 1);
-                Matrix_RotateZ(particle->rot.z * (M_PI / 180), 1);
-                Matrix_Scale(particle->scale, particle->scale, particle->scale, 1);
+                Matrix_Translate(particle->pos.x, particle->pos.y, particle->pos.z, MTXMODE_NEW);
+                Matrix_RotateX(particle->rot.x * (M_PI / 180), MTXMODE_APPLY);
+                Matrix_RotateY(particle->rot.y * (M_PI / 180), MTXMODE_APPLY);
+                Matrix_RotateZ(particle->rot.z * (M_PI / 180), MTXMODE_APPLY);
+                Matrix_Scale(particle->scale, particle->scale, particle->scale, MTXMODE_APPLY);
                 gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 155, 55, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 155, 255, 55, 255);
                 gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_encount2.c", 669),
@@ -349,5 +369,6 @@ void EnEncount2_ParticleDraw(Actor* thisx, GlobalContext* globalCtx) {
             }
         }
     }
+
     CLOSE_DISPS(gfxCtx, "../z_en_encount2.c", 678);
 }
