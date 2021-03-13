@@ -239,7 +239,7 @@ void EnWallmas_SetupTakeDamage(EnWallmas* this) {
         this->actor.world.rot.y = Actor_WorldYawTowardActor(&this->actor, this->collider.base.ac) + 0x8000;
     }
 
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x14);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x14);
     this->actionFunc = EnWallmas_TakeDamage;
     this->actor.speedXZ = 5.0f;
     this->actor.velocity.y = 10.0f;
@@ -293,9 +293,9 @@ void EnWallmas_SetupStun(EnWallmas* this) {
 
     this->actor.speedXZ = 0.0f;
     if (this->actor.colChkInfo.damageEffect == 4) {
-        func_8003426C(&this->actor, -0x8000, 0xFF, 0, 0x50);
+        Actor_SetColorFilter(&this->actor, -0x8000, 0xFF, 0, 0x50);
     } else {
-        func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
     }
 
@@ -646,7 +646,7 @@ void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
         gSPDisplayList(POLY_OPA_DISP++, D_06008688);
 
-        Matrix_Pull();
+        Matrix_Pop();
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1495);
     }

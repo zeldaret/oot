@@ -70,15 +70,12 @@ u32 func_8006BE88(ElfMessage** msgp) {
 }
 
 u32 func_8006BF1C(ElfMessage** msgp) {
-    ElfMessage* msg;
+    ElfMessage* msg = *msgp;
     u32 sp44[10];
-    s32 temp1;
-    s32 temp2;
+    s32 temp1 = 0;
+    s32 temp2 = 0;
     s32 temp3;
 
-    msg = *msgp;
-    temp1 = 0;
-    temp2 = 0;
     do {
         sp44[temp2] = ElfMessage_CheckCondition(msg);
         temp1 += sp44[temp2];

@@ -1,5 +1,5 @@
 <Root>
-    <File Name="icon_item_field_static">
+    <File Name="icon_item_field_static" Segment="12">
         <Texture Name="gWorldMapImageTex" OutName="world_map_image" Format="ci8" Width="216" Height="128"/>
         <Texture Name="gWorldMapImagePaletteTex" OutName="world_map_image_palette" Format="rgb5a1" Width="16" Height="16"/>
         <Texture Name="gWorldMapDotTex" OutName="world_map_dot" Format="ia8" Width="8" Height="8"/>

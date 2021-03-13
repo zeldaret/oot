@@ -571,7 +571,7 @@ void func_80AA6F04(EnMb* this) {
 void func_80AA6F8C(EnMb* this) {
     this->unk_320 = 5;
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0, 0x78, 0, 0x50);
+    Actor_SetColorFilter(&this->actor, 0, 0x78, 0, 0x50);
     if (this->unk_188 == 6) {
         this->unk_328 = 40;
     } else {
@@ -1354,7 +1354,7 @@ void func_80AA94D8(EnMb* this, GlobalContext* globalCtx) {
                 }
             } else {
                 Actor_ApplyDamage(&this->actor);
-                func_8003426C(&this->actor, 0x4000, 0xFA, 0, 0xC);
+                Actor_SetColorFilter(&this->actor, 0x4000, 0xFA, 0, 0xC);
                 if (this->actor.params == 0) {
                     if (this->actor.colChkInfo.health == 0) {
                         func_80AA6F04(this);

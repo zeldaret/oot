@@ -219,7 +219,7 @@ void EnFirefly_SetupFall(EnFirefly* this) {
     Animation_Change(&this->skelAnime, &D_0600017C, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 40);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 40);
     this->actionFunc = EnFirefly_Fall;
 }
 
@@ -253,7 +253,7 @@ void EnFirefly_SetupFlyAway(EnFirefly* this) {
 
 void EnFirefly_SetupStunned(EnFirefly* this) {
     this->timer = 80;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 80);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 80);
     this->auraType = KEESE_AURA_NONE;
     this->actor.velocity.y = 0.0f;
     this->skelAnime.playSpeed = 3.0f;
@@ -268,7 +268,7 @@ void EnFirefly_SetupFrozenFall(EnFirefly* this, GlobalContext* globalCtx) {
     this->actor.flags |= 0x10;
     this->auraType = KEESE_AURA_NONE;
     this->actor.speedXZ = 0.0f;
-    func_8003426C(&this->actor, 0, 0xFF, 0, 0xFF);
+    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0xFF);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
 
     for (i = 0; i <= 7; i++) {
