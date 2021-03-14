@@ -97,7 +97,6 @@ SPEC := spec
 
 SRC_DIRS := $(shell find src -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
-ASSET_DIRS := assets/objects assets/textures assets/scenes assets/overlays
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
@@ -113,17 +112,15 @@ O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
                  $(foreach f,$(wildcard baserom/*),build/$f.o)
 
-TEXTURE_BIN_DIRS := $(shell find assets/objects/* assets/textures/* assets/scenes/* assets/overlays/* -type d)
-
-TEXTURE_FILES_RGBA32 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.rgba32.png))
-TEXTURE_FILES_RGBA16 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.rgb5a1.png))
-TEXTURE_FILES_GRAY4 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.i4.png))
-TEXTURE_FILES_GRAY8 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.i8.png))
-TEXTURE_FILES_GRAYA4 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ia4.png))
-TEXTURE_FILES_GRAYA8 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ia8.png))
-TEXTURE_FILES_GRAYA16 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ia16.png))
-TEXTURE_FILES_CI4 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ci4.png))
-TEXTURE_FILES_CI8 := $(foreach dir,$(TEXTURE_BIN_DIRS),$(wildcard $(dir)/*.ci8.png))
+TEXTURE_FILES_RGBA32 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.rgba32.png))
+TEXTURE_FILES_RGBA16 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.rgb5a1.png))
+TEXTURE_FILES_GRAY4 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.i4.png))
+TEXTURE_FILES_GRAY8 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.i8.png))
+TEXTURE_FILES_GRAYA4 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ia4.png))
+TEXTURE_FILES_GRAYA8 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ia8.png))
+TEXTURE_FILES_GRAYA16 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ia16.png))
+TEXTURE_FILES_CI4 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ci4.png))
+TEXTURE_FILES_CI8 := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.ci8.png))
 TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_RGBA32:.rgba32.png=.rgba32.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_RGBA16:.rgb5a1.png=.rgb5a1.inc.c),build/$f) \
 					 $(foreach f,$(TEXTURE_FILES_GRAY4:.i4.png=.i4.inc.c),build/$f) \
@@ -135,7 +132,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_RGBA32:.rgba32.png=.rgba32.inc.
 					 $(foreach f,$(TEXTURE_FILES_CI8:.ci8.png=.ci8.inc.c),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(TEXTURE_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
+$(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
