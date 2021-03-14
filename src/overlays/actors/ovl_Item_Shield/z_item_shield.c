@@ -143,7 +143,7 @@ void func_80B86BC8(ItemShield* this, GlobalContext* globalCtx) {
 
 void func_80B86CA8(ItemShield* this, GlobalContext* globalCtx) {
     static Vec3f D_80B871F4 = { 0.0f, 0.0f, 0.0f };
-    static f32 D_80B87200[] = { 0.3f, 0.6f, 0.9f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f,
+    static f32 D_80B87200[] = { 0.3f, 0.6f,  0.9f, 1.0f,  1.0f, 1.0f,  1.0f, 1.0f,
                                 1.0f, 0.85f, 0.7f, 0.55f, 0.4f, 0.25f, 0.1f, 0.0f };
     static f32 D_80B87240[] = { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.8f,
                                 0.6f, 0.4f, 0.2f, 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
@@ -159,7 +159,8 @@ void func_80B86CA8(ItemShield* this, GlobalContext* globalCtx) {
         D_80B871F4.x = this->unk_1A8[i].x;
         D_80B871F4.y = this->unk_1A8[i].y + (this->actor.shape.yOffset * 0.01f) + (D_80B87200[temp] * -10.0f * 0.2f);
         D_80B871F4.z = this->unk_1A8[i].z;
-        EffectSsFireTail_SpawnFlame(globalCtx, &this->actor, &D_80B871F4, D_80B87200[temp] * 0.2f, -1, D_80B87240[temp]);
+        EffectSsFireTail_SpawnFlame(globalCtx, &this->actor, &D_80B871F4, D_80B87200[temp] * 0.2f, -1,
+                                    D_80B87240[temp]);
         if (this->unk_19E[i] != 0) {
             this->unk_19E[i]--;
         } else if (this->timer > 16) {
