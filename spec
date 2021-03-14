@@ -2182,8 +2182,7 @@ endseg
 beginseg
     name "ovl_En_Encount2"
     include "build/src/overlays/actors/ovl_En_Encount2/z_en_encount2.o"
-    include "build/data/overlays/actors/z_en_encount2.data.o"
-    include "build/data/overlays/actors/z_en_encount2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Encount2/ovl_En_Encount2_reloc.o"
 endseg
 
 beginseg
@@ -2220,8 +2219,7 @@ endseg
 beginseg
     name "ovl_En_Fire_Rock"
     include "build/src/overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.o"
-    include "build/data/overlays/actors/z_en_fire_rock.data.o"
-    include "build/data/overlays/actors/z_en_fire_rock.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fire_Rock/ovl_En_Fire_Rock_reloc.o"
 endseg
 
 beginseg
