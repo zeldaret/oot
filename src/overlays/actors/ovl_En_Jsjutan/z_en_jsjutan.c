@@ -35,6 +35,7 @@ Vec3s D_80A8EE10[0x90];
 
 static s32 sUnused[2] = { 0, 0 };
 
+//#include "overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
 #include "z_en_jsjutan_data.c"
 
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
@@ -339,6 +340,10 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         this->unk_170 = 1000.0f;
     } else {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
+        //! Note to whoever tries to match this function:
+        //!  daytime commonly needs the (void)0 trick.
+        //!  could help with the temp above and some of these other memes. 
+        //!  -fig02 (https://github.com/zeldaret/oot/pull/713#discussion_r593921251)
         if (!gSaveContext.dayTime) {
             if (1) {}
             if (1) {}

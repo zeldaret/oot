@@ -1,17 +1,17 @@
 <Root>
     <File Name="ovl_En_Jsjutan" BaseAddress="0x80A897A0" RangeStart="0x12F8" RangeEnd="0x4C88" Segment="128">
-        <!--D_80A8AA98-->
+        <!-- D_80A8AA98 -->
         <Texture Name="gJsjutanCarpetTex" OutName="carpet" Format="rgb5a1" Width="32" Height="64" Offset="0x12F8"/>
 
-        <!--D_80A8BA98-->
+        <!-- D_80A8BA98 -->
         <Array Name="D_80A8BA98" Count="144" Offset="0x22F8">
             <Vtx/>
         </Array>
-        <!--D_80A8C398-->
+        <!-- D_80A8C398 -->
         <Array Name="D_80A8C398" Count="144" Offset="0x2BF8">
             <Vtx/>
         </Array>
-        <!--D_80A8CC98-->
+        <!-- D_80A8CC98 -->
         <Array Name="D_80A8CC98" Count="144" Offset="0x34F8">
             <Vtx/>
         </Array>
@@ -19,20 +19,20 @@
         <!-- Variable declared in bss. Used by D_80A8D618 -->
         <Symbol Name="D_80A8E610" Offset="0x4E70"/>
 
-        <!--D_80A8D598-->
+        <!-- D_80A8D598 -->
         <DList Name="D_80A8D598" Offset="0x3DF8"/>
-        <!--D_80A8D618--> <!-- Will complain D_80A8E610 doesn't exists -->
-        <!--DList Name="D_80A8D618" Offset="0x3E78"/-->
+        <!-- D_80A8D618 --> <!-- Will complain D_80A8E610 doesn't exists -->
+        <!-- <DList Name="D_80A8D618" Offset="0x3E78"/> -->
 
-        <!--D_80A8D688--> <!-- Bad extraction -->
-        <!--DList Name="D_80A8D688" Offset="0x3EE8"/-->
+        <!-- D_80A8D688 -->
+        <DList Name="D_80A8D688" Offset="0x3EE8"/>
 
-        <!--D_80A8DAB8-->
+        <!-- D_80A8DAB8 -->
         <Array Name="D_80A8DAB8" Count="144" Offset="0x4318">
             <Vtx/>
         </Array>
 
-        <!--D_80A8E400--> <!-- Needs a fix in ZAPD. See https://github.com/zeldaret/ZAPD/pull/85 -->
-        <!--Collision Name="D_80A8E400" Offset="0x4C60"/-->
+        <!-- D_80A8E400 -->
+        <Collision Name="D_80A8E400" Offset="0x4C60"/>
     </File>
 </Root>
