@@ -9,7 +9,7 @@ using namespace std;
 SetLightingSettings::SetLightingSettings(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex) : ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	uint8_t numLights = rawData[rawDataIndex + 1];
-	segmentOffset = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
+	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
 
 	for (int i = 0; i < numLights; i++)
 		settings.push_back(new LightingSettings(rawData, segmentOffset + (i * 22)));
