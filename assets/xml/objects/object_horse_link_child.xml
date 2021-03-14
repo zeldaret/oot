@@ -1,6 +1,5 @@
 <Root>
     <File Name="object_horse_link_child" Segment="6">
-        <!-- Needs ZAPD support. -->
         <Skeleton Name="gChildEponaSkel" Type="Normal" LimbType="Skin" Offset="0x7B20"/>
 
         <!-- Idle animation. -->
@@ -14,12 +13,9 @@
         <!-- Running. -->
         <Animation Name="gChildEponaRunningAnim" Offset="0x2F98"/>
 
-        <!-- Uses palette located at offset 0x1728. -->
+        <Texture Name="gChildEponaEyePaletteTex" OutName="child_epona_eye_palette" Format="rgb5a1" Width="16" Height="16" Offset="0x1728" />
         <Texture Name="gChildEponaEyeOpenTex" OutName="child_epona_eye_open" Format="ci8" Width="32" Height="16" Offset="0x1D28" />
         <Texture Name="gChildEponaEyeHalfTex" OutName="child_epona_eye_half" Format="ci8" Width="32" Height="16" Offset="0x1928" />
         <Texture Name="gChildEponaEyeCloseTex" OutName="child_epona_eye_close" Format="ci8" Width="32" Height="16" Offset="0x1B28" />
-
-        <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
-        <!-- <DList Name="gHChildEponaDL_007B30" Offset="0x7B30"/> -->
     </File>
 </Root>
