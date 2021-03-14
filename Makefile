@@ -195,12 +195,9 @@ clean:
 	$(RM) -r $(ROM) $(ELF) build
 
 distclean: clean
-	$(RM) -r $(TEXTURE_BIN_DIRS)
+	$(RM) -r $(ASSET_BIN_DIRS)
 	$(RM) -r baserom/
 	$(MAKE) -C tools distclean
-
-nuke: distclean
-	@echo "Nuked."
 
 setup:
 	$(MAKE) -C tools -j
@@ -212,7 +209,7 @@ resources: $(ASSET_FILES_OUT)
 test: $(ROM)
 	$(EMULATOR) $(EMU_FLAGS) $<
 
-.PHONY: all clean setup test distclean nuke
+.PHONY: all clean setup test distclean
 
 #### Various Recipes ####
 
