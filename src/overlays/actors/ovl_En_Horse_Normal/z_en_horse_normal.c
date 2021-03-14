@@ -54,7 +54,7 @@ const ActorInit En_Horse_Normal_InitVars = {
 };
 
 static AnimationHeader* sAnimations[] = {
-    &gHorseNormalAnim_004580, &gHorseNormalAnim_004C20, &gHorseNormalAnim_0035D4, &gHorseNormalAnim_002458, &gHorseNormalWalkingSlowAnim, &gHorseNormalWalkingFastAnim, &gHorseNormalRunningAnim, &gHorseNormalJumpingAnim, &gHorseNormalJumpingHighAnim,
+    &gHorseNormalIdleAnim, &gHorseNormalAnim_004C20, &gHorseNormalAnim_0035D4, &gHorseNormalAnim_002458, &gHorseNormalWalkingSlowAnim, &gHorseNormalWalkingFastAnim, &gHorseNormalRunningAnim, &gHorseNormalJumpingAnim, &gHorseNormalJumpingHighAnim,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {
@@ -226,7 +226,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             return;
         }
         this->actor.home.rot.z = this->actor.world.rot.z = this->actor.shape.rot.z = 0;
-        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalAnim_004580);
+        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
         if ((this->actor.world.pos.x == -730.0f && this->actor.world.pos.y == 0.0f &&
              this->actor.world.pos.z == -1100.0f) ||
@@ -240,7 +240,7 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->actor);
             return;
         } else {
-            func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalAnim_004580);
+            func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C6B0(this);
             return;
@@ -248,15 +248,15 @@ void EnHorseNormal_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (globalCtx->sceneNum == SCENE_SPOT12) {
         if (this->actor.world.pos.x == 3707.0f && this->actor.world.pos.y == 1413.0f &&
             this->actor.world.pos.z == -665.0f) {
-            func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalAnim_004580);
+            func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
             Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
             func_80A6C4CC(this);
             return;
         }
-        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalAnim_004580);
+        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     } else {
-        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalAnim_004580);
+        func_800A663C(globalCtx, &this->skin, &gHorseNormalSkel, &gHorseNormalIdleAnim);
         Animation_PlayOnce(&this->skin.skelAnime, sAnimations[this->animationIdx]);
     }
     if ((this->actor.params & 0xF0) == 0x10 && (this->actor.params & 0xF) != 0xF) {

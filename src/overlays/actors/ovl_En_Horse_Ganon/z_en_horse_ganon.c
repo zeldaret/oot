@@ -37,7 +37,7 @@ const ActorInit En_Horse_Ganon_InitVars = {
     (ActorFunc)EnHorseGanon_Draw,
 };
 
-static AnimationHeader* sAnimations[] = { &gHorseGanonAnim_004AA4, &gHorseGanonAnim_005264, &gHorseGanonAnim_005B78, &gHorseGanonAnim_002CE4, &gHorseGanonAnim_002650, &gHorseGanonAnim_003858 };
+static AnimationHeader* sAnimations[] = { &gHorseGanonIdleAnim, &gHorseGanonAnim_005264, &gHorseGanonWalkingSlowAnim, &gHorseGanonWalkingFastAnim, &gHorseGanonRunningAnim, &gHorseGanonAnim_003858 };
 
 static f32 splaySpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
@@ -176,7 +176,7 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gHorseGanonSkel, &gHorseGanonAnim_004AA4);
+    func_800A663C(globalCtx, &this->skin, &gHorseGanonSkel, &gHorseGanonIdleAnim);
     this->currentAnimation = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
 

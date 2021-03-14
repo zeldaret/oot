@@ -10,12 +10,12 @@
         <Animation Name="gHorseNormalJumpingHighAnim" Offset="0x13A8"/>
         <!-- Walking fast. -->
         <Animation Name="gHorseNormalWalkingFastAnim" Offset="0x1A1C"/>
-        <!-- Stand in two feets for a moment? -->
+        <!-- Stand in two legs for a moment? -->
         <Animation Name="gHorseNormalAnim_002458" Offset="0x2458"/>
         <!-- Jump? -->
         <Animation Name="gHorseNormalAnim_0035D4" Offset="0x35D4"/>
         <!-- Idle1. Horse moving leg. -->
-        <Animation Name="gHorseNormalAnim_004580" Offset="0x4580"/>
+        <Animation Name="gHorseNormalIdleAnim" Offset="0x4580"/>
         <!-- Idle2. Moving head? -->
         <Animation Name="gHorseNormalAnim_004C20" Offset="0x4C20"/>
         <!-- Walking slow. -->

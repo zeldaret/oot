@@ -101,7 +101,7 @@ struct_80B2CEE8 D_80B2CEE8[] = {
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06002928 },
     { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonAnim_003858 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060005B4 },
-    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonAnim_002650 },
+    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonRunningAnim },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06004260 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060050A8 },
     { OBJECT_GANON, OBJECT_GANON, 1, -6, 0, 10, 0, &D_060114E8, &D_06011348 },
@@ -298,11 +298,11 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             if (curFrame == 30) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_LAND2);
             }
-        } else if (this->skin.skelAnime.animation == &gHorseGanonAnim_004AA4) {
+        } else if (this->skin.skelAnime.animation == &gHorseGanonIdleAnim) {
             if (curFrame == 25) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_SANDDUST);
             }
-        } else if (this->skin.skelAnime.animation == &gHorseGanonAnim_002650) {
+        } else if (this->skin.skelAnime.animation == &gHorseGanonRunningAnim) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
         }
     }
@@ -321,8 +321,8 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                     if (this->skin.skelAnime.animation != &D_06002928) {
                         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06002928, 1.0f);
                     }
-                } else if (this->skin.skelAnime.animation != &gHorseGanonAnim_004AA4) {
-                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonAnim_004AA4, 1.0f);
+                } else if (this->skin.skelAnime.animation != &gHorseGanonIdleAnim) {
+                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonIdleAnim, 1.0f);
                 }
             } else if (globalCtx->csCtx.npcActions[1]->action == 1) {
                 D_80B2CFCC = 100;
@@ -382,8 +382,8 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                         this->unk_1E5 = 0;
                         break;
                 }
-            } else if (this->skin.skelAnime.animation != &gHorseGanonAnim_002650 && globalCtx->csCtx.npcActions[1]->action == 12) {
-                Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonAnim_002650, 3.0f);
+            } else if (this->skin.skelAnime.animation != &gHorseGanonRunningAnim && globalCtx->csCtx.npcActions[1]->action == 12) {
+                Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonRunningAnim, 3.0f);
             }
         }
     } else if (params == 1) {

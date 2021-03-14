@@ -2,14 +2,21 @@
     <File Name="object_horse_ganon" Segment="6">
         <Skeleton Name="gHorseGanonSkel" Type="Normal" LimbType="Skin" Offset="0x8668"/>
 
-        <Animation Name="gHorseGanonAnim_004AA4" Offset="0x4AA4"/>
-        <!-- Unused? -->
+        <!-- Idle. Horse moving leg. -->
+        <Animation Name="gHorseGanonIdleAnim" Offset="0x4AA4"/>
+        <!-- Idle2? Moving head? -->
         <Animation Name="gHorseGanonAnim_005264" Offset="0x5264"/>
-        <!-- Unused? -->
-        <Animation Name="gHorseGanonAnim_005B78" Offset="0x5B78"/>
-        <!-- Unused? -->
-        <Animation Name="gHorseGanonAnim_002CE4" Offset="0x2CE4"/>
-        <Animation Name="gHorseGanonAnim_002650" Offset="0x2650"/>
+        <!-- Walking slow. -->
+        <Animation Name="gHorseGanonWalkingSlowAnim" Offset="0x5B78"/>
+        <!-- Walking fast. -->
+        <Animation Name="gHorseGanonWalkingFastAnim" Offset="0x2CE4"/>
+        <!-- Running. -->
+        <Animation Name="gHorseGanonRunningAnim" Offset="0x2650"/>
+        <!-- Stand in two legs for a moment. -->
         <Animation Name="gHorseGanonAnim_003858" Offset="0x3858"/>
+
+        <Texture Name="gHorseGanonEyeTex" OutName="horse_ganon_eye" Format="rgb5a1" Width="16" Height="16" Offset="0xAC10" />
+        <Texture Name="gHorseGanonHeadHairTex" OutName="horse_ganon_head_hair" Format="rgb5a1" Width="16" Height="16" Offset="0xAE10" />
+        <Texture Name="gHorseGanonLegTex" OutName="horse_ganon_leg" Format="rgb5a1" Width="16" Height="16" Offset="0xA370" />
     </File>
 </Root>
