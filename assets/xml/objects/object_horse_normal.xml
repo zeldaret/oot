@@ -1,6 +1,5 @@
 <Root>
     <File Name="object_horse_normal" Segment="6">
-        <!-- Needs ZAPD support. -->
         <Skeleton Name="gHorseNormalSkel" Type="Normal" LimbType="Skin" Offset="0x9FAC"/>
 
         <!-- Running. -->
@@ -22,7 +21,6 @@
         <!-- Walking slow. -->
         <Animation Name="gHorseNormalWalkingSlowAnim" Offset="0x54BC"/>
 
-        <!-- This unaccounted is a DList that will be automatically extracted when ZAPD supports horses. -->
-        <!-- <DList Name="gHorseNormalDL_007528" Offset="0x7528"/> -->
+        <Texture Name="gHorseNormalEyeTex" OutName="horse_normal_eye" Format="rgb5a1" Width="32" Height="16" Offset="0x54D8"/>
     </File>
 </Root>
