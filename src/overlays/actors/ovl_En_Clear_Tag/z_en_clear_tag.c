@@ -33,7 +33,7 @@ const ActorInit En_Clear_Tag_InitVars = {
     (ActorFunc)EnClearTag_Draw,
 };
 
-static u8 sIsEffectsInitialized = 0;
+static u8 sIsEffectsInitialized = false;
 
 static Vec3f sZeroVector = { 0.0f, 0.0f, 0.0f };
 
@@ -292,7 +292,7 @@ void EnClearTag_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // Initialize all effects to available if effects have not been initialized.
     if (!sIsEffectsInitialized) {
-        sIsEffectsInitialized = 1;
+        sIsEffectsInitialized = true;
         globalCtx->specialEffects = &sClearTagEffects[0];
         for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++) {
             sClearTagEffects[i].type = CLEAR_TAG_EFFECT_AVAILABLE;
@@ -934,7 +934,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
     gfxCtx = globalCtx2->state.gfxCtx;
 
     firstEffect = effect = (EnClearTagEffect*)globalCtx2->specialEffects;
-    isMaterialApplied = 0;
+    isMaterialApplied = false;
 
     OPEN_DISPS(gfxCtx, "../z_en_clear_tag.c", 1288);
     func_80093D18(globalCtx2->state.gfxCtx);
@@ -962,7 +962,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all ground flash effects.
     effect = firstEffect;
-    isMaterialApplied = 0;
+    isMaterialApplied = false;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash ground effect material if it has not already been applied.
@@ -977,7 +977,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
             Matrix_Translate(effect->position.x, effect->floorHeight, effect->position.z, MTXMODE_NEW);
             Matrix_RotateX(effect->floorTangent.x, MTXMODE_APPLY);
             Matrix_RotateZ(effect->floorTangent.z, MTXMODE_APPLY);
-            Matrix_Scale(effect->scale + effect->scale, 1.0f, effect->scale + effect->scale, MTXMODE_APPLY);
+            Matrix_Scale(effect->scale + effect->scale, 1.0f, effect->scale * 2.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_en_clear_tag.c", 1342),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, gArwingFlashEffectGroundDL);
@@ -986,7 +986,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all smoke effects.
     effect = firstEffect;
-    isMaterialApplied = 0;
+    isMaterialApplied = false;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_SMOKE) {
             // Apply the smoke effect material if it has not already been applied.
@@ -1015,7 +1015,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all fire effects.
     effect = firstEffect;
-    isMaterialApplied = 0;
+    isMaterialApplied = false;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FIRE) {
             // Apply the fire effect material if it has not already been applied.
@@ -1041,7 +1041,7 @@ void EnClearTag_DrawEffects(GlobalContext* globalCtx) {
 
     // Draw all flash billboard effects.
     effect = firstEffect;
-    isMaterialApplied = 0;
+    isMaterialApplied = false;
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type == CLEAR_TAG_EFFECT_FLASH) {
             // Apply the flash billboard effect material if it has not already been applied.
