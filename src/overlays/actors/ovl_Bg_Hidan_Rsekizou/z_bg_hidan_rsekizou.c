@@ -207,7 +207,7 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     tmpf7 = (((((0.7f * fVar6) + 0.5f) * 10.0f) * fVar6) + 20.0f);
 
     mf->wx = (tmpf7 * sins) + this->dyna.actor.world.pos.x;
-    mf->wy = (this->dyna.actor.world.pos.y + 30.0f) + (0.699999988079f * fVar6);
+    mf->wy = (this->dyna.actor.world.pos.y + 30.0f) + (.7f * fVar6);
     mf->wz = (tmpf7 * coss) + this->dyna.actor.world.pos.z;
 
     gSPMatrix(displayList++,
