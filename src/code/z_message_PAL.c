@@ -1777,8 +1777,6 @@ u8 func_8010BDBC(MessageContext* msgCtx) {
     return ret;
 }
 
-#ifdef NON_MATCHING
-// Missing move, other reorderings caused by delay slot differences due to the missing move
 void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Gfx* gfx = *p;
@@ -1786,57 +1784,42 @@ void func_8010BED8(GlobalContext* globalCtx, Gfx** p) {
     gDPPipeSync(gfx++);
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->unk_E3FE, msgCtx->unk_E400, msgCtx->unk_E402, msgCtx->unk_E406);
 
-    if (msgCtx->unk_E2FD == 0 || msgCtx->unk_E2FD == 2) {
-        do {
-            gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment, G_IM_FMT_I, 128, 64, 0, 
-                            G_TX_MIRROR | G_TX_WRAP, 
-                            G_TX_NOMIRROR | G_TX_WRAP, 
-                            7, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        } while(0);
+    if (!(msgCtx->unk_E2FD) || (msgCtx->unk_E2FD == 2)) {
+        gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment, G_IM_FMT_I, 128, 64, 0, G_TX_MIRROR, G_TX_NOMIRROR, 7, 0,
+                               G_TX_NOLOD, G_TX_NOLOD);
     } else {
         if (msgCtx->unk_E2FD == 3) {
             gDPSetEnvColor(gfx++, 0, 0, 0, 255);
         } else {
             gDPSetEnvColor(gfx++, 50, 20, 0, 255);
         }
-        do {
-            gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment, G_IM_FMT_IA, 128, 64, 0, 
-                G_TX_MIRROR | G_TX_WRAP, 
-                G_TX_MIRROR | G_TX_WRAP, 
-                7, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        } while (0);
+
+        gDPLoadTextureBlock_4b(gfx++, msgCtx->textboxSegment, G_IM_FMT_IA, 128, 64, 0, G_TX_MIRROR, G_TX_MIRROR, 7, 0,
+                               G_TX_NOLOD, G_TX_NOLOD);
     }
-    gSPTextureRectangle(gfx++, 
-            VREG(0) << 2, 
-            VREG(1) << 2, 
-            (VREG(0) + YREG(22)) << 2, 
-            (VREG(1) + YREG(23)) << 2, 
-            0, 0, 0, YREG(16) << 1, YREG(17) << 1);
+
+    gSPTextureRectangle(gfx++, VREG(0) << 2, VREG(1) << 2, (VREG(0) + YREG(22)) << 2, (VREG(1) + YREG(23)) << 2,
+                        G_TX_RENDERTILE, 0, 0, YREG(16) << 1, YREG(17) << 1);
+
+    if (1) {}
+
     if (msgCtx->unk_E2FD == 3) {
         gDPPipeSync(gfx++);
-        gDPSetCombineLERP(gfx++, 
-                1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 
-                1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0);
+
+        gDPSetCombineLERP(gfx++, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE, 0, 1, 0, PRIMITIVE, 0, TEXEL0, 0, PRIMITIVE,
+                          0);
+
         gDPSetPrimColor(gfx++, 0, 0, 255, 100, 0, 255);
-        do {
-            gDPLoadTextureBlock_4b(gfx++, &D_02002E40, G_IM_FMT_I, 16, 32, 0, 
-                            G_TX_MIRROR | G_TX_WRAP, 
-                            G_TX_MIRROR | G_TX_WRAP, 
-                            G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        } while (0);
-        gSPTextureRectangle(gfx++, 
-                VREG(7) << 2, 
-                VREG(8) << 2, 
-                (VREG(7) + 0x10) << 2, 
-                (VREG(8) + 0x20) << 2, 
-                0, 0, 0, 0x400, 0x400);
+
+        gDPLoadTextureBlock_4b(gfx++, &D_02002E40, G_IM_FMT_I, 16, 32, 0, G_TX_MIRROR, G_TX_MIRROR, G_TX_NOMASK,
+                               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
+        gSPTextureRectangle(gfx++, VREG(7) << 2, VREG(8) << 2, (VREG(7) + 16) << 2, (VREG(8) + 32) << 2,
+                            G_TX_RENDERTILE, 0, 0, 1 << 10, 1 << 10);
     }
+
     *p = gfx;
 }
-#else
-void func_8010BED8(GlobalContext* globalCtx, Gfx** p);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_message_PAL/func_8010BED8.s")
-#endif
 
 // Message_SetView ?
 void func_8010C358(View* view) {
