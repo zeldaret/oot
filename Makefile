@@ -41,8 +41,8 @@ else
   $(error Please install or build mips-linux-gnu)
 endif
 
-CC       := tools/ido_recomp/$(DETECTED_OS)/7.1/cc
-CC_OLD   := tools/ido_recomp/$(DETECTED_OS)/5.3/cc
+CC       := tools/ido_recomp/build71/out/cc
+CC_OLD   := tools/ido_recomp/build53/out/cc
 
 # if ORIG_COMPILER is 1, check that either QEMU_IRIX is set or qemu-irix package installed
 ifeq ($(ORIG_COMPILER),1)

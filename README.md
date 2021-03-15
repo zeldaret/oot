@@ -80,12 +80,13 @@ The build process has the following package requirements:
 * build-essential
 * binutils-mips-linux-gnu
 * python3
+* libcapstone-dev
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libcapstone-dev
 ```
 
 #### 2. Download and set up qemu-irix (optional)
