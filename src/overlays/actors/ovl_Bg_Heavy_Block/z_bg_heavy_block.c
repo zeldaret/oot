@@ -327,13 +327,13 @@ void BgHeavyBlock_Wait(BgHeavyBlock* this, GlobalContext* globalCtx) {
 
         switch (this->dyna.actor.params & 0xFF) {
             case HEAVYBLOCK_BREAKABLE:
-                OnePointDemo_Init(globalCtx, 0xFB4, 0x10E, &this->dyna.actor, 0);
+                OnePointDemo_Init(globalCtx, 4020, 0x10E, &this->dyna.actor, 0);
                 break;
             case HEAVYBLOCK_UNBREAKABLE:
-                OnePointDemo_Init(globalCtx, 0xFB5, 0xDC, &this->dyna.actor, 0);
+                OnePointDemo_Init(globalCtx, 4021, 0xDC, &this->dyna.actor, 0);
                 break;
             case HEAVYBLOCK_UNBREAKABLE_OUTSIDE_CASTLE:
-                OnePointDemo_Init(globalCtx, 0xFB6, 0xD2, &this->dyna.actor, 0);
+                OnePointDemo_Init(globalCtx, 4022, 0xD2, &this->dyna.actor, 0);
                 break;
         }
 

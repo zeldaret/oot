@@ -102,7 +102,7 @@ void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
-            OnePointDemo_Init(globalCtx, 0xD66, -99, &this->dyna.actor, 0);
+            OnePointDemo_Init(globalCtx, 3430, -99, &this->dyna.actor, 0);
             BgJyaLift_SetupMove(this);
         }
     }

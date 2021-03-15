@@ -174,7 +174,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         if (this->subCamera != 0) {
                             this->subCamera = 0;
                             reaction = DNT_SIGNAL_LOOK;
-                            OnePointDemo_Init(globalCtx, 0x924, -99, &this->leader->actor, 0);
+                            OnePointDemo_Init(globalCtx, 2340, -99, &this->leader->actor, 0);
                         }
                         break;
                     }
@@ -213,7 +213,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                             case DNT_ACTION_ATTACK:
                                 if (this->subCamera != 0) {
                                     this->subCamera = 0;
-                                    OnePointDemo_Init(globalCtx, 0x92E, -99, &this->scrubs[3]->actor, 0);
+                                    OnePointDemo_Init(globalCtx, 2350, -99, &this->scrubs[3]->actor, 0);
                                 }
                                 Audio_SetBGM(0x81A);
                                 break;

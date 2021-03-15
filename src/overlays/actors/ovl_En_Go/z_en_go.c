@@ -785,7 +785,7 @@ void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
-            OnePointDemo_Init(globalCtx, 0x1068, -99, &this->actor, 0);
+            OnePointDemo_Init(globalCtx, 4200, -99, &this->actor, 0);
         }
     }
 }
@@ -877,7 +877,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 globalCtx->msgCtx.msgMode = 0x37;
                 gSaveContext.timer2State = 0;
-                OnePointDemo_Init(globalCtx, 0x105E, -99, &this->actor, 0);
+                OnePointDemo_Init(globalCtx, 4190, -99, &this->actor, 0);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
