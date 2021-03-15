@@ -646,7 +646,7 @@ void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
         gSPDisplayList(POLY_OPA_DISP++, D_06008688);
 
-        Matrix_Pull();
+        Matrix_Pop();
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1495);
     }

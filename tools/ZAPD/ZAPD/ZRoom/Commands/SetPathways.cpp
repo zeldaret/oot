@@ -14,7 +14,7 @@ SetPathways::SetPathways(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 	segmentOffset = 0;
 	listSegmentOffset = 0;
 
-	InitList(SEG2FILESPACE(BitConverter::ToInt32BE(rawData, rawDataIndex + 4)));
+	InitList(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4)));
 
 	uint32_t currentPtr = listSegmentOffset;
 
@@ -31,7 +31,7 @@ SetPathways::~SetPathways()
 void SetPathways::InitList(uint32_t address)
 {
 	segmentOffset = address;
-	listSegmentOffset = SEG2FILESPACE(BitConverter::ToInt32BE(_rawData, address + 4));
+	listSegmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(_rawData, address + 4));
 	numPoints = _rawData[address + 0];
 }
 

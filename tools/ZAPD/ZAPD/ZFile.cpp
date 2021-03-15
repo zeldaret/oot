@@ -4,6 +4,7 @@
 #include "ZRoom/ZRoom.h"
 #include "ZTexture.h"
 #include "ZAnimation.h"
+#include "ZLimb.h"
 #include "ZSkeleton.h"
 #include "ZCollision.h"
 #include "ZScalar.h"
@@ -237,10 +238,10 @@ void ZFile::ParseXML(ZFileMode mode, XMLElement* reader, std::string filename, b
 		}
 		else if (string(child->Name()) == "Limb")
 		{
-			ZLimbStandard* limb = nullptr;
+			ZLimb* limb = nullptr;
 
 			if (mode == ZFileMode::Extract)
-				limb = ZLimbStandard::FromXML(child, rawData, rawDataIndex, folderName, this);
+				limb = ZLimb::FromXML(child, rawData, rawDataIndex, folderName, this);
 
 			resources.push_back(limb);
 
@@ -977,6 +978,10 @@ string ZFile::ProcessDeclarations()
 	// Next, output the actual declarations
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
+		if (item.first < rangeStart || item.first >= rangeEnd) {
+			continue;
+		}
+
 		if (item.second->includePath != "")
 		{
 			//output += StringHelper::Sprintf("#include \"%s\"\n", item.second->includePath.c_str());
@@ -1080,6 +1085,10 @@ string ZFile::ProcessExterns()
 
 	for (pair<int32_t, Declaration*> item : declarationKeysSorted)
 	{
+		if (item.first < rangeStart || item.first >= rangeEnd) {
+			continue;
+		}
+
 		if (!StringHelper::StartsWith(item.second->varType, "static ") && item.second->varType != "")// && item.second->includePath == "")
 		{
 			if (item.second->isArray)

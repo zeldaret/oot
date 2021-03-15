@@ -11,8 +11,10 @@
 #define CAM_STAT_UNK100     0x100
 
 #define NUM_SUBCAMS 3
+#define SUBCAM_FIRST 1
+#define SUBCAM_NONE 0
+#define SUBCAM_INVALID -1
 #define CAM_INDEX_MAIN 0
-#define CAM_INDEX_INVALID -1
 
 #define ONEPOINTDEMO(camera) ((Unique9OnePointDemo*)camera->paramData)
 

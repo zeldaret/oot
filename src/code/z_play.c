@@ -1502,7 +1502,7 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
 
     if (i == 4) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
-        return CAM_INDEX_INVALID;
+        return SUBCAM_INVALID;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(

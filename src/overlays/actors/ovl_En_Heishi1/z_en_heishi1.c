@@ -437,7 +437,7 @@ void EnHeishi1_Update(Actor* thisx, GlobalContext* globalCtx) {
                         Matrix_RotateY(((this->actor.shape.rot.y + this->headAngle) / 32768.0f) * M_PI, 0);
                         searchBallMult.z = 30.0f;
                         Matrix_MultVec3f(&searchBallMult, &searchBallVel);
-                        Matrix_Pull();
+                        Matrix_Pop();
 
                         EffectSsSolderSrchBall_Spawn(globalCtx, &searchBallPos, &searchBallVel, &searchBallAccel, 2,
                                                      &this->linkDetected);

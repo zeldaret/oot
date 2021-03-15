@@ -5,7 +5,7 @@
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 
-static s16 sDisableLookAtActor = false;
+static s16 sDisableAttention = false;
 static s16 sUnused = -1;
 static s32 sPrevFrameDemo1100 = -4096;
 
@@ -306,7 +306,7 @@ s32 OnePointDemo_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 demoId, Actor
             func_8002DF54(globalCtx, NULL, 8);
             demoCam->roll = 0;
             demoCam->fov = 50.0f;
-            if (demoCam->childCamIdx != 0) {
+            if (demoCam->childCamIdx != SUBCAM_NONE) {
                 OnePointDemo_EndDemo(globalCtx, demoCam->childCamIdx);
             }
             break;
@@ -1127,7 +1127,7 @@ s32 OnePointDemo_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
     if (camera->thisIdx == PARENT_CAM(camera)->childCamIdx) {
         PARENT_CAM(camera)->childCamIdx = camera->childCamIdx;
     }
-    nextCamIdx = (globalCtx->activeCamera == camIdx) ? camera->parentCamIdx : CAM_INDEX_INVALID;
+    nextCamIdx = (globalCtx->activeCamera == camIdx) ? camera->parentCamIdx : SUBCAM_INVALID;
     camera->parentCamIdx = CAM_INDEX_MAIN;
     camera->childCamIdx = camera->parentCamIdx;
     camera->timer = -1;
@@ -1146,20 +1146,20 @@ s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* ac
     s16 demoCamIdx;
     Camera* demoCam;
 
-    if (parentCamIdx == CAM_INDEX_INVALID) {
+    if (parentCamIdx == SUBCAM_INVALID) {
         parentCamIdx = globalCtx->activeCamera;
     }
     demoCamIdx = Gameplay_CreateSubCamera(globalCtx);
-    if (demoCamIdx == CAM_INDEX_INVALID) {
+    if (demoCamIdx == SUBCAM_INVALID) {
         osSyncPrintf(VT_COL(RED, WHITE) "onepoint demo: error: too many cameras ... give up! type=%d\n" VT_RST, demoId);
-        return CAM_INDEX_INVALID;
+        return SUBCAM_INVALID;
     }
 
     // Inserts a demo camera into the demo list
 
     vChildCamIdx = globalCtx->cameraPtrs[parentCamIdx]->childCamIdx;
     vDemoStatus = CAM_STAT_ACTIVE;
-    if (vChildCamIdx >= 1) {
+    if (vChildCamIdx >= SUBCAM_FIRST) {
         OnePointDemo_SetAsChild(globalCtx, vChildCamIdx, demoCamIdx);
         vDemoStatus = CAM_STAT_WAIT;
     } else {
@@ -1190,7 +1190,7 @@ s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* ac
     vCurCamIdx = demoCamIdx;
     vNextCamIdx = globalCtx->cameraPtrs[demoCamIdx]->childCamIdx;
 
-    while (vNextCamIdx >= 1) {
+    while (vNextCamIdx >= SUBCAM_FIRST) {
         s16 nextDemoId = globalCtx->cameraPtrs[vNextCamIdx]->demoId;
         s16 thisDemoId = globalCtx->cameraPtrs[demoCamIdx]->demoId;
 
@@ -1198,7 +1198,7 @@ s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* ac
             osSyncPrintf(VT_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" VT_RST,
                          vNextCamIdx, nextDemoId, thisDemoId);
             if (globalCtx->cameraPtrs[vNextCamIdx]->demoId != 0x1392) {
-                if ((vNextCamIdx = OnePointDemo_RemoveCamera(globalCtx, vNextCamIdx)) != CAM_INDEX_INVALID) {
+                if ((vNextCamIdx = OnePointDemo_RemoveCamera(globalCtx, vNextCamIdx)) != SUBCAM_INVALID) {
                     Gameplay_ChangeCameraStatus(globalCtx, vNextCamIdx, CAM_STAT_ACTIVE);
                 }
             } else {
@@ -1215,7 +1215,7 @@ s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* ac
 
 // Ends the onepointdemo in camIdx by setting its timer to 0. For attention demos, it is set to 5 instead.
 s16 OnePointDemo_EndDemo(GlobalContext* globalCtx, s16 camIdx) {
-    if (camIdx == CAM_INDEX_INVALID) {
+    if (camIdx == SUBCAM_INVALID) {
         camIdx = globalCtx->activeCamera;
     }
     if (globalCtx->cameraPtrs[camIdx] != NULL) {
@@ -1242,9 +1242,9 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
     s32 temp2;
     s32 timer;
 
-    if (sDisableLookAtActor) {
+    if (sDisableAttention) {
         osSyncPrintf(VT_COL(YELLOW, BLACK) "actor attention demo camera: canceled by other camera\n" VT_RST);
-        return CAM_INDEX_INVALID;
+        return SUBCAM_INVALID;
     }
     sUnused = -1;
 
@@ -1257,7 +1257,7 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
     // Finds the camera of the first actor attention demo with a lower category actor, or the first non-attention demo after at least one attention demo.
 
     vLastHigherCat = ACTORCAT_UNDEFINED;
-    while (sp3C->childCamIdx != 0) {
+    while (sp3C->childCamIdx != SUBCAM_NONE) {
         sp3C = globalCtx->cameraPtrs[sp3C->childCamIdx];
         if (sp3C == NULL) {
             break;
@@ -1307,13 +1307,13 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
     // If the previous attention demo has the same category, skip this actor.
     if (actor->category == vLastHigherCat) {
         osSyncPrintf("→ " VT_FGCOL(PURPLE) "×" VT_RST " (%d)\n", actor->id);
-        return CAM_INDEX_INVALID;
+        return SUBCAM_INVALID;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
     vDemoCamIdx = OnePointDemo_Init(globalCtx, 0x1392, timer, actor, vParentCamIdx);
-    if (vDemoCamIdx == CAM_INDEX_INVALID) {
+    if (vDemoCamIdx == SUBCAM_INVALID) {
         osSyncPrintf(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
-        return CAM_INDEX_INVALID;
+        return SUBCAM_INVALID;
     } else {
         s32* data = (s32*)&globalCtx->cameraPtrs[vDemoCamIdx]->data1;
 
@@ -1326,7 +1326,7 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
 s32 OnePointDemo_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfxId) {
     s32 demoCamIdx = OnePointDemo_Attention(globalCtx, actor);
 
-    if (demoCamIdx != CAM_INDEX_INVALID) {
+    if (demoCamIdx != SUBCAM_INVALID) {
         s32* data = (s32*)&globalCtx->cameraPtrs[demoCamIdx]->data1;
 
         *data = sfxId;
@@ -1335,19 +1335,19 @@ s32 OnePointDemo_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfx
 }
 
 // unused
-void OnePointDemo_EnableLookAtActor() {
-    sDisableLookAtActor = false;
+void OnePointDemo_EnableAttention() {
+    sDisableAttention = false;
 }
 
 // unused
-void OnePointDemo_DisableLookAtActor() {
-    sDisableLookAtActor = true;
+void OnePointDemo_DisableAttention() {
+    sDisableAttention = true;
 }
 
 s32 OnePointDemo_CheckForCategory(GlobalContext* globalCtx, s32 category) {
     Camera* sp3C = globalCtx->cameraPtrs[CAM_INDEX_MAIN];
 
-    while (sp3C->childCamIdx != 0) {
+    while (sp3C->childCamIdx != SUBCAM_NONE) {
         sp3C = globalCtx->cameraPtrs[sp3C->childCamIdx];
         if ((sp3C == NULL) || (sp3C->setting != CAM_SET_DEMO4)) {
             break;
