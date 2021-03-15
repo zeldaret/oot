@@ -11,7 +11,7 @@ SetObjectList::SetObjectList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int ra
 {
 	objects = vector<uint16_t>();
 	uint8_t objectCnt = rawData[rawDataIndex + 1];
-	segmentOffset = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
+	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
 	uint32_t currentPtr = segmentOffset;
 
 	for (int i = 0; i < objectCnt; i++)

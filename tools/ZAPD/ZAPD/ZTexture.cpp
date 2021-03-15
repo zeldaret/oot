@@ -792,6 +792,7 @@ TextureType ZTexture::GetTextureTypeFromString(string str)
 		texType = TextureType::Palette4bpp;
 	else if (str == "ci8")
 		texType = TextureType::Palette8bpp;
-
+	else 
+		printf("Encountered Unknown Texture Type %s \n",str.c_str());
 	return texType;
 }

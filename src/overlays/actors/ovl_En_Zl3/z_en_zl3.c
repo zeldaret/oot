@@ -1926,10 +1926,10 @@ s32 func_80B57890(EnZl3* this, GlobalContext* globalCtx) {
 
 void func_80B57A74(GlobalContext* globalCtx) {
     Actor* actorIt = globalCtx->actorCtx.actorLists[ACTORCAT_PROP].head;
-
+    //! @bug checks for encount2 in ACTORCAT_PROP but encount2 is in ACTORCAT_ENEMY so this condition is never met
     while (actorIt != NULL) {
         if (actorIt->id == ACTOR_EN_ENCOUNT2) {
-            ((EnEncount2*)actorIt)->unk_15C = 1;
+            ((EnEncount2*)actorIt)->collapseSpawnerInactive = true;
         }
         actorIt = actorIt->next;
     }
