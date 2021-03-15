@@ -64,7 +64,7 @@ glabel jtbl_80154CC4
     .word L8010FE58
 
 .text
-glabel func_8010F6F0
+glabel Message_Update
 /* B86890 8010F6F0 27BDFFA8 */  addiu $sp, $sp, -0x58
 /* B86894 8010F6F4 AFBF001C */  sw    $ra, 0x1c($sp)
 /* B86898 8010F6F8 AFA40058 */  sw    $a0, 0x58($sp)
