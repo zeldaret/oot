@@ -302,44 +302,99 @@ typedef enum {
     MESSAGE_ICON_ARROW
 } MessageBoxIcon;
 
+typedef struct {
+    /* 0x00 */ u8 noteIdx;
+    /* 0x01 */ u8 state;    // "status"
+    /* 0x02 */ u8 pos;      // "locate"
+} OcarinaStaff;
+
+#define LANGUAGE_ENG 0
+#define LANGUAGE_GER 1
+#define LANGUAGE_FRA 2
+#define LANGUAGE_MAX LANGUAGE_FRA
+
 #define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
 
 typedef struct {
-    /* 0x0000 */ u32   msgOffset;
-    /* 0x0004 */ u32   msgLength;
-    /* 0x0008 */ char  unk_8[0x3C00];
-    /* 0x3C08 */ u8    iconBuf[FONT_CHAR_TEX_SIZE];
-    /* 0x3C88 */ u8    fontBuf[FONT_CHAR_TEX_SIZE * 320]; // size possibly unconfirmed
-    /* 0xDC88 */ char  msgBuf[1064]; // size unconfirmed
-    /* 0xE0B0 */ char  unk_E0B0[0xD8];
+    /* 0x0000 */ u32    msgOffset;
+    /* 0x0004 */ u32    msgLength;
+    /* 0x0008 */ u8     xy;
+    /* 0x0009 */ char   unk_C[0x3BFF];
+    /* 0x3C08 */ u8     iconBuf[FONT_CHAR_TEX_SIZE];
+    /* 0x3C88 */ u8     fontBuf[FONT_CHAR_TEX_SIZE * 320]; // size possibly unconfirmed
+    /* 0xDC88 */ char   msgBuf[1064]; // size unconfirmed
+    /* 0xE0B0 */ s32    unk_E0B0;
+    /* 0xE0B4 */ u8     unk_E0B4;
+    /* 0xE0B5 */ char   unk_E0B5[0xC9];
+    /* 0xE17E */ u16    unk_E17E;
+    /* 0xE180 */ u16    unk_E180;
+    /* 0xE182 */ u16    unk_E182;
+    /* 0xE184 */ char   unk_E184[0x04];
 } Font; // size = 0xE188
 
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Font   font;
     /* 0xE2B0 */ void*  textboxSegment; // "fukidashiSegment"
-    /* 0xE2B4 */ char   unk_E2B4[0x44];
+    /* 0xE2B4 */ char   unk_E2B4[0x04];
+    /* 0xE2B8 */ OcarinaStaff* unk_E2B8; // original name : info
+    /* 0xE2BC */ u8     unk_E2BC;
+    /* 0xE2BD */ char   unk_E2BD[0x02];
+    /* 0xE2BF */ u8     unk_E2BF;
+    /* 0xE2C0 */ u8     unk_E2C0;
+    /* 0xE2C2 */ char   unk_E2C2[0x04];
+    /* 0xE2C6 */ u16    unk_E2C6;
+    /* 0xE2C8 */ u16    unk_E2C8;
+    /* 0xE2CA */ char   unk_E2CA[0x12];
+    /* 0xE2DC */ s16    unk_E2DC;
+    /* 0xE2DE */ s16    unk_E2DE;
+    /* 0xE2E0 */ s32    unk_E2E0;
+    /* 0xE2E4 */ char   unk_E2E4[0x14];
     /* 0xE2FA */ u16    unk_E2F8;
     /* 0xE2FA */ u16    unk_E2FA;
-    /* 0xE2FC */ char   unk_E2FC[0x04];
-    /* 0xE300 */ s32    unk_E300;
+    /* 0xE2FC */ u8     unk_E2FC; // original name : msg_disp_type
+    /* 0xE2FD */ u8     unk_E2FD; // "text box type"
+    /* 0xE2FE */ u8     unk_E2FE; // text box position
+    /* 0xE2FF */ u8     unk_E2FF;
+    /* 0xE300 */ s32    unk_E300; // original name : msg_data
     /* 0xE304 */ u8     msgMode;
-    /* 0xE305 */ char   unk_E305[0xD1];
+    /* 0xE305 */ u8     unk_E305;
+    /* 0xE306 */ u8     unk_E306[200]; // decoded message buffer, TODO size
+    /* 0xE3CE */ u16    unk_E3CE; // original name : rdp
+    /* 0xE3D0 */ u16    unk_E3D0;
+    /* 0xE3D2 */ u16    unk_E3D2;
+    /* 0xE3D4 */ u16    unk_E3D4;
     /* 0xE3D6 */ u16    unk_E3D6;
-    /* 0xE3D8 */ char   unk_E3D8[0x0A];
-    /* 0xE3E2 */ u16    unk_E3E2;
-    /* 0xE3E4 */ u8     unk_E3E4;
+    /* 0xE3D8 */ s16    unk_E3D8;
+    /* 0xE3DA */ s16    unk_E3DA;
+    /* 0xE3DC */ s16    unk_E3DC;
+    /* 0xE3DE */ s16    unk_E3DE;
+    /* 0xE3E0 */ s16    unk_E3E0;
+    /* 0xE3E2 */ s16    unk_E3E2;
+    /* 0xE3E4 */ u8     unk_E3E4; // original name : select
     /* 0xE3E5 */ u8     choiceIndex;
-    /* 0xE3E6 */ char   unk_E3E6[0x01];
+    /* 0xE3E6 */ u8     unk_E3E6;
     /* 0xE3E7 */ u8     unk_E3E7;
-    /* 0xE3E8 */ char   unk_E3E8[0x04];
-    /* 0xE3EC */ u16    unk_E3EC;
-    /* 0xE3EE */ u16    unk_E3EE;
-    /* 0xE3F0 */ u16    unk_E3F0;
-    /* 0xE3F2 */ u16    unk_E3F2;
+    /* 0xE3E8 */ u16    unk_E3E8;
+    /* 0xE3EA */ u16    unk_E3EA;
+    /* 0xE3EA */ u16    unk_E3EC; // "Ocarina_Flog" , "Ocarina_Free"
+    /* 0xE3EE */ u16    unk_E3EE; // original name : ocarina_mode
+    /* 0xE3F0 */ u16    unk_E3F0; // original name : ocarina_no
+    /* 0xE3F2 */ u16    unk_E3F2; // original name : chk_ocarina_no
     /* 0xE3F4 */ u16    unk_E3F4;
-    /* 0xE3F6 */ char   unk_E3F6[0x16];
-    /* 0xE40C */ u16    unk_E40C;
+    /* 0xE3F6 */ u16    unk_E3F6;
+    /* 0xE3F8 */ u8     unk_E3F8;
+    /* 0xE3F8 */ u8     unk_E3F9;
+    /* 0xE3F8 */ u8     unk_E3FA;
+    /* 0xE3F8 */ u8     unk_E3FB;
+    /* 0xE3FC */ char   unk_E3FC[0x02];
+    /* 0xE3FE */ s16    unk_E3FE;
+    /* 0xE400 */ s16    unk_E400;
+    /* 0xE402 */ s16    unk_E402;
+    /* 0xE404 */ s16    unk_E404;
+    /* 0xE406 */ s16    unk_E406;
+    /* 0xE408 */ Actor* unk_E408;
+    /* 0xE40C */ s16    unk_E40C;
     /* 0xE40E */ s16    unk_E40E;
     /* 0xE410 */ u8     unk_E410;
     /* 0xE411 */ char   unk_E411[0x07];

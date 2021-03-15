@@ -60,6 +60,16 @@ typedef struct {
     /* 0x24 */ s32 tempCollectFlags;
 } FaroresWindData; // size = 0x28
 
+typedef enum {
+    /* 0x00 */ HIGHSCORE_HORSE_ARCHERY,
+    /* 0x01 */ HIGHSCORE_POE_POINTS,
+    /* 0x02 */ HIGHSCORE_LARGEST_FISH,
+    /* 0x03 */ HIGHSCORE_HORSE_RACE,
+    /* 0x04 */ HIGHSCORE_MARATHON,
+    /* 0x05 */ HIGHSCORE_UNK_05,
+    /* 0x06 */ HIGHSCORE_DAMPE_RACE
+} Highscores;
+
 typedef struct {
     /* 0x0000 */ s32 entranceIndex; // start of `save` substruct, originally called "memory"
     /* 0x0004 */ s32 linkAge; // 0: Adult; 1: Child
