@@ -46,26 +46,20 @@ static f32 sDistSquared1[] = { SQ(1600.0f), SQ(1600.0f), SQ(1600.0f) };
 
 static f32 sDistSquared2[] = { SQ(1705.0f), SQ(1705.0f), SQ(1705.0f) };
 
-/*static*/ s16 D_80B9A818[] = { 9, 12, 8 };
+static s16 D_80B9A818[] = { 9, 12, 8 };
 
 static s16 sActorSpawnIDs[] = { ACTOR_EN_KUSA, ACTOR_EN_KUSA, ACTOR_EN_ISHI };
 
-#ifdef NON_MATCHING
-// Very close to matching, just regalloc and a stack diff
 void ObjMure2_SetPosShrubCircle(Vec3f* vec, ObjMure2* this) {
-    Vec3f* vecPtr = vec;
     s32 i;
 
-    Math_Vec3f_Copy(vecPtr, &this->actor.world.pos);
-    for (i = 1, vecPtr++; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
-        Math_Vec3f_Copy(vecPtr, &this->actor.world.pos);
-        vecPtr->x += (80.0f * Math_SinS((i - 1) * 0x2000));
-        vecPtr->z += (80.0f * Math_CosS((i - 1) * 0x2000));
+    Math_Vec3f_Copy(vec, &this->actor.world.pos);
+    for (i = 1; i < D_80B9A818[this->actor.params & 3]; i++) {
+        Math_Vec3f_Copy(vec + i, &this->actor.world.pos);
+        (vec + i)->x += (80.0f * Math_SinS((i - 1) * 0x2000));
+        (vec + i)->z += (80.0f * Math_CosS((i - 1) * 0x2000));
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Obj_Mure2/ObjMure2_SetPosShrubCircle.s")
-#endif
 
 static Mure2sScatteredShrubInfo sScatteredShrubInfo[] = {
     { 40, 0x0666 }, { 40, 0x2CCC }, { 40, 0x5999 }, { 40, 0x8666 }, { 20, 0xC000 }, { 80, 0x1333 },
@@ -73,28 +67,22 @@ static Mure2sScatteredShrubInfo sScatteredShrubInfo[] = {
 };
 
 void ObjMure2_SetPosShrubScattered(Vec3f* vec, ObjMure2* this) {
-
-    Vec3f* vecPtr;
     s32 i;
-    Vec3f* actorPos = &this->actor.world.pos; // Required to match
-    ObjMure2* this2 = this;                   // Required to match
 
-    for (vecPtr = vec, i = 0; i < D_80B9A818[this2->actor.params & 3]; vecPtr++, i++) {
-        Math_Vec3f_Copy(vecPtr, actorPos);
-        if (1) {}
-        vecPtr->x += (sScatteredShrubInfo[i].radius * Math_CosS(sScatteredShrubInfo[i].angle));
-        vecPtr->z -= (sScatteredShrubInfo[i].radius * Math_SinS(sScatteredShrubInfo[i].angle));
+    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
+        Math_Vec3f_Copy(vec + i, &this->actor.world.pos);
+        (vec + i)->x += (sScatteredShrubInfo[i].radius * Math_CosS(sScatteredShrubInfo[i].angle));
+        (vec + i)->z -= (sScatteredShrubInfo[i].radius * Math_SinS(sScatteredShrubInfo[i].angle));
     }
 }
 
 void ObjMure2_SetPosRockCircle(Vec3f* vec, ObjMure2* this) {
-    Vec3f* vecPtr = vec;
     s32 i;
 
-    for (i = 0; i < D_80B9A818[this->actor.params & 3]; vecPtr++, i++) {
-        Math_Vec3f_Copy(vecPtr, &this->actor.world.pos);
-        vecPtr->x += (80.0f * Math_SinS(i * 0x2000));
-        vecPtr->z += (80.0f * Math_CosS(i * 0x2000));
+    for (i = 0; i < D_80B9A818[this->actor.params & 3]; i++) {
+        Math_Vec3f_Copy(vec + i, &this->actor.world.pos);
+        (vec + i)->x += (80.0f * Math_SinS(i * 0x2000));
+        (vec + i)->z += (80.0f * Math_CosS(i * 0x2000));
     }
 }
 
