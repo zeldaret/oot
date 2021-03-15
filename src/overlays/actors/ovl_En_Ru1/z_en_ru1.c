@@ -811,7 +811,7 @@ void func_80AEC40C(EnRu1* this) {
     f32 unk_26C = this->unk_26C;
 
     if (unk_26C < 8.0f) {
-        this->actor.speedXZ = (((kREG(3) * 0.01f) + 2.7f) * 0.125f) * unk_26C;
+        this->actor.speedXZ = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
     } else {
         this->actor.speedXZ = (kREG(3) * 0.01f) + 2.7f;
     }
@@ -830,8 +830,8 @@ void func_80AEC4F4(EnRu1* this) {
 
     if (this->unk_26C < 8.0f) {
         *unk_26C += 1.0f;
-        *speedXZ *= (8.0f - *unk_26C) * 0.125f;
-        this->actor.velocity.y = -*unk_26C * (((kREG(4) * 0.01f) + 13.0f) * 0.125f);
+        *speedXZ *= (8.0f - *unk_26C) / 8.0f;
+        this->actor.velocity.y = -*unk_26C * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
     } else {
         *speedXZ = 0.0f;
         this->actor.velocity.y = -((kREG(4) * 0.01f) + 13.0f);

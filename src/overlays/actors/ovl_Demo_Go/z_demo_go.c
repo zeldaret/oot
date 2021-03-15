@@ -157,8 +157,9 @@ void func_8097CB0C(DemoGo* this, GlobalContext* globalCtx) {
 
 void func_8097CC08(DemoGo* this) {
     f32 something = this->unk_19C;
+
     if (something < 8.0f) {
-        this->actor.speedXZ = (((kREG(15) * 0.01f) + 1.2f) * 0.125f) * something;
+        this->actor.speedXZ = (((kREG(15) * 0.01f) + 1.2f) / 8.0f) * something;
     } else {
         this->actor.speedXZ = (kREG(15) * 0.01f) + 1.2f;
     }

@@ -93,7 +93,7 @@ void EffectSsKakera_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     f32 scale;
     s32 colorIdx;
 
-    scale = this->rScale * 0.00390625f;
+    scale = this->rScale / 256.0f;
     colorIdx = this->rColorIdx;
 
     OPEN_DISPS(gfxCtx, "../z_eff_kakera.c", 241);
@@ -300,7 +300,7 @@ s32 func_809A9FD8(EffectSs* this, Vec3f* diff, f32 dist) {
 }
 
 s32 func_809AA0B8(EffectSs* this, Vec3f* diff, f32 dist) {
-    this->accel.y += this->rGravity * 0.00390625f;
+    this->accel.y += this->rGravity / 256.0f;
 
     return 1;
 }
