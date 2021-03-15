@@ -784,7 +784,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     }
 
     func_80A02E30(this, &player->bodyPartsPos[0]);
-    Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * 0.012345679f)) * 0.008f);
+    Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * SQ(1.0f / 9.0f))) * 0.008f);
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, globalCtx, 32);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
@@ -887,7 +887,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
         switch (this->unk_2A8) {
             case 7:
-                func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * 0.033333335f);
+                func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * (1.0f / 30.0f));
                 xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.world.pos);
 
                 if (distFromLinksHead < 7.0f) {

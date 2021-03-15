@@ -241,7 +241,7 @@ void func_80AF28E8(EnRu2* this, AnimationHeader* animation, u8 arg2, f32 transit
 }
 
 void func_80AF2978(EnRu2* this, GlobalContext* globalCtx) {
-    this->actor.shape.yOffset += 83.333336f;
+    this->actor.shape.yOffset += 250.0f / 3.0f;
 }
 
 void func_80AF2994(EnRu2* this, GlobalContext* globalCtx) {

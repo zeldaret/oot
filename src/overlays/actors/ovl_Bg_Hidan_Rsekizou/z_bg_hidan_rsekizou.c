@@ -186,11 +186,11 @@ Gfx* BgHidanRsekizou_DrawFireball(GlobalContext* globalCtx, BgHidanRsekizou* thi
     f32 fVar6;
     f32 tmpf7;
 
-    temp = (((this->burnFrame + frame) % 8) * 7) * 0.14285715f;
+    temp = (((this->burnFrame + frame) % 8) * 7) * (1.0f / 7.0f);
     gSPSegment(displayList++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088CD74[temp]));
 
     frame++;
-    fVar6 = (frame != 4) ? frame + ((3 - this->bendFrame) * 0.33333334f) : frame;
+    fVar6 = (frame != 4) ? frame + ((3 - this->bendFrame) * (1.0f / 3.0f)) : frame;
 
     gDPSetPrimColor(displayList++, 0, 1, 255, 255, 0, 150);
     gDPSetEnvColor(displayList++, 255, 0, 0, 255);

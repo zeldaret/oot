@@ -210,7 +210,7 @@ void EnSyatekiMan_WaitForGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     if (1) {}
     gallery = ((EnSyatekiItm*)this->actor.parent);
     if ((gallery->actor.update != NULL) && (gallery->signal == ENSYATEKI_END)) {
-        this->onePointCam = OnePointDemo_Init(globalCtx, 0x1F42, -99, &this->actor, 0);
+        this->onePointCam = OnePointDemo_Init(globalCtx, 8002, -99, &this->actor, 0);
         switch (gallery->hitCount) {
             case 10:
                 this->gameResult = SYATEKI_RESULT_WINNER;

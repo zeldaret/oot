@@ -344,7 +344,7 @@ void EnDntJiji_Return(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     dx = this->flowerPos.x - this->actor.world.pos.x;
     dz = this->flowerPos.z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * 10430.378f, 1, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(dx, dz) * (0x8000 / M_PI), 1, 0xBB8, 0);
     this->actor.world.rot.y = this->actor.shape.rot.y;
     if ((this->actor.bgCheckFlags & 8) && (this->actor.bgCheckFlags & 1)) {
         this->actor.velocity.y = 9.0f;

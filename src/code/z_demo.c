@@ -428,8 +428,8 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
     s16 temp2;
 
     if (csCtx->frames == cmd->startFrame) {
-        temp1 = (cmd->hour * 60.0f) / 0.021972656f;
-        temp2 = (cmd->minute + 1) / 0.021972656f;
+        temp1 = (cmd->hour * 60.0f) / (360.0f / 0x4000);
+        temp2 = (cmd->minute + 1) / (360.0f / 0x4000);
 
         gSaveContext.dayTime = temp1 + temp2;
         gSaveContext.environmentTime = temp1 + temp2;

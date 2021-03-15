@@ -138,7 +138,7 @@ void EnNb_UpdatePath(EnNb* this, GlobalContext* globalCtx) {
         this->finalPos.y = pointPos[1].y;
         this->finalPos.z = pointPos[1].z;
         this->pathYaw =
-            (Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) * 10430.378f);
+            (Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) * (0x8000 / M_PI));
         // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
     } else {
@@ -346,7 +346,7 @@ void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_ComeUpImpl(EnNb* this, GlobalContext* globalCtx) {
-    this->actor.shape.yOffset += 83.333336f;
+    this->actor.shape.yOffset += 250.0f / 3.0f;
 }
 
 void EnNb_SetupChamberCsImpl(EnNb* this, GlobalContext* globalCtx) {

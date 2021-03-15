@@ -137,7 +137,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         }
     } else {
         if ((Player_GetMask(globalCtx) != 0) && (this->subCamera == SUBCAM_NONE)) {
-            this->subCamera = OnePointDemo_Init(globalCtx, 0x8AC, -99, &this->scrubs[3]->actor, 0);
+            this->subCamera = OnePointDemo_Init(globalCtx, 2220, -99, &this->scrubs[3]->actor, 0);
         }
         this->debugArrowTimer = 0;
         if (this->judgeTimer == 40) {

@@ -378,7 +378,7 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         }
     }
     this->dyna.actor.world.pos.y =
-        this->dyna.actor.home.pos.y - (sinf(this->timer * (M_PI / 256.0f)) * 471.239990234375f); // pi * 150
+        this->dyna.actor.home.pos.y - (sinf(this->timer * (M_PI / 256.0f)) * 471.24f); // pi * 150
     if (this->timer == 0) {
         this->timer = 512;
     }

@@ -481,14 +481,14 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
         // redundant check because this is contained in an if block for non-zero speed
         Matrix_RotateZ((this->actor.speedXZ == 0.0f) ? 0.0f
-                                                     : ((globalCtx->gameplayFrames & 0xFF) * 4000) * (M_PI / 32768),
+                                                     : ((globalCtx->gameplayFrames & 0xFF) * 4000) * (M_PI / 0x8000),
                        MTXMODE_APPLY);
         Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1374),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
         Matrix_Pop();
-        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1381);
     }

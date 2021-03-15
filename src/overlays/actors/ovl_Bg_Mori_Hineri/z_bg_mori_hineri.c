@@ -268,7 +268,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Put(&mtx);
         Matrix_Translate(167.0f, -218.0f, -453.0f, MTXMODE_APPLY);
         if (Flags_GetTreasure(globalCtx, 0xE)) {
-            Matrix_RotateZ(1.3008157f, MTXMODE_APPLY);
+            Matrix_RotateZ(0x3500 * (M_PI / 0x8000), MTXMODE_APPLY);
         } else {
             Matrix_RotateZ(M_PI, MTXMODE_APPLY);
         }

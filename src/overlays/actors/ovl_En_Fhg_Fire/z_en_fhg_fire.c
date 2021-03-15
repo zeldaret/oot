@@ -137,9 +137,9 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         tempf1 = player->actor.world.pos.x - thisx->world.pos.x;
         tempf2 = player->actor.world.pos.y + 30.0f - thisx->world.pos.y;
         tempf3 = player->actor.world.pos.z - thisx->world.pos.z;
-        thisx->world.rot.y = Math_FAtan2F(tempf1, tempf3) * 10430.378f; // 65536/(2*M_PI)
+        thisx->world.rot.y = Math_FAtan2F(tempf1, tempf3) * (0x8000 / M_PI); // 65536/(2*M_PI)
         tempf0 = sqrtf(SQ(tempf1) + SQ(tempf3));
-        thisx->world.rot.x = Math_FAtan2F(tempf2, tempf0) * 10430.378f; // 65536/(2*M_PI)
+        thisx->world.rot.x = Math_FAtan2F(tempf2, tempf0) * (0x8000 / M_PI); // 65536/(2*M_PI)
         this->collider.dim.radius = 40;
         this->collider.dim.height = 50;
         this->collider.dim.yShift = -25;

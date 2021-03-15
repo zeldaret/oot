@@ -670,7 +670,7 @@ void EnDntNomal_StageAttack(EnDntNomal* this, GlobalContext* globalCtx) {
     dx = player->actor.world.pos.x - this->mouthPos.x;
     dy = player->actor.world.pos.y + 30.0f - this->mouthPos.y;
     dz = player->actor.world.pos.z - this->mouthPos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.x, -(s16)(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))) * 10430.378f), 3,
+    Math_SmoothStepToS(&this->actor.shape.rot.x, -(s16)(Math_FAtan2F(dy, sqrtf(SQ(dx) + SQ(dz))) * (0x8000 / M_PI)), 3,
                        0x1388, 0);
     if ((frame >= this->endFrame) && (this->timer2 == 0)) {
         this->timer2 = (s16)Rand_ZeroFloat(10.0f) + 10;
@@ -723,7 +723,7 @@ void EnDntNomal_StageReturn(EnDntNomal* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     sp2C = this->flowerPos.x - this->actor.world.pos.x;
     sp28 = this->flowerPos.z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(sp2C, sp28) * 10430.378f, 1, 0xBB8, 0);
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(sp2C, sp28) * (0x8000 / M_PI), 1, 0xBB8, 0);
     if (this->timer5 == 0) {
         this->timer5 = 10;
     } else if (!(this->timer5 & 1)) {

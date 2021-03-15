@@ -175,7 +175,7 @@ void BgHakaHuta_SlideOpen(BgHakaHuta* this, GlobalContext* globalCtx) {
 
 void func_8087D720(BgHakaHuta* this, GlobalContext* globalCtx) {
     static Vec3f D_8087D958 = { 30.0f, 0.0f, 0.0f };
-    static Vec3f D_8087D964 = { 0.032579999f, 0.325800001f, -0.944899976f };
+    static Vec3f D_8087D964 = { 0.03258f, 0.3258f, -0.9449f };
     MtxF mtx;
     Vec3f vec;
     s32 quakeIndex;

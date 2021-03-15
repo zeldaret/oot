@@ -298,7 +298,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     if (this->unk_1AC > 0.6f) {
         this->unk_1B0 = 1.0f;
     } else {
-        this->unk_1B0 = this->unk_1AC * 1.6666666f;
+        this->unk_1B0 = this->unk_1AC * (5.0f / 3.0f);
     }
 
     func_80A9F938(this, globalCtx);

@@ -331,8 +331,8 @@ void BgJyaMegami_DrawExplode(BgJyaMegami* this, GlobalContext* globalCtx) {
         piece = &this->pieces[i];
         Matrix_Translate(piece->pos.x + sPiecesInit[i].unk_00.x, piece->pos.y + sPiecesInit[i].unk_00.y,
                          piece->pos.z + sPiecesInit[i].unk_00.z, MTXMODE_NEW);
-        Matrix_RotateY(piece->rotVelY * 0.0000958738f, MTXMODE_APPLY);
-        Matrix_RotateX(piece->rotVelX * 0.0000958738f, MTXMODE_APPLY);
+        Matrix_RotateY(piece->rotVelY * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateX(piece->rotVelX * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale(0.1f, 0.1f, 0.1f, MTXMODE_APPLY);
         Matrix_Translate(sPiecesInit[i].unk_00.x * -10.0f, sPiecesInit[i].unk_00.y * -10.0f,
                          sPiecesInit[i].unk_00.z * -10.0f, MTXMODE_APPLY);

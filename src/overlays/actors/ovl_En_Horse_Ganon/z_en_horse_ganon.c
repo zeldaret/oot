@@ -38,7 +38,7 @@ const ActorInit En_Horse_Ganon_InitVars = {
 
 static AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4, 0x06002650, 0x06003858 };
 
-static f32 splaySpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
+static f32 splaySpeeds[] = { 2.0f / 3.0f, 2.0f / 3.0f, 1.0f, 1.0f, 1.0f, 2.0f / 3.0f };
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -281,7 +281,7 @@ void func_80A68E14(EnHorseGanon* this, GlobalContext* globalCtx) {
     temp_ret = BgCheck_EntityRaycastFloor3(&globalCtx->colCtx, &col, &temp1, &v);
 
     this->unk_1F4 = temp_ret;
-    this->actor.shape.rot.x = 10430.3779f * Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f);
+    this->actor.shape.rot.x = (0x8000 / M_PI) * Math_FAtan2F(this->actor.world.pos.y - temp_ret, 30.0f);
 }
 
 void EnHorseGanon_Update(Actor* thisx, GlobalContext* globalCtx) {

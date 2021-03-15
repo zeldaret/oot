@@ -1496,7 +1496,7 @@ s32 Camera_Normal1(Camera* camera) {
     sp9C = camera->speedRatio * PCT(OREG(26));
     sp98 = anim->swing.unk_18 != 0 ? PCT(OREG(25)) : spA0;
 
-    sp94 = (camera->xzSpeed - anim->unk_20) * (0.3333329856395721435546875f);
+    sp94 = (camera->xzSpeed - anim->unk_20) * (0.333333f);
     if (sp94 > 1.0f) {
         sp94 = 1.0f;
     }
