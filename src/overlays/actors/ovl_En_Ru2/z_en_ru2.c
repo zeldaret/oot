@@ -641,13 +641,13 @@ s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3878(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF383C(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
         this->action = 16;
-        OnePointDemo_Init(globalCtx, 0xC3A, -0x63, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0xC3A, -99, &this->actor, 0);
     }
 }
 
 void func_80AF38D0(EnRu2* this, GlobalContext* globalCtx) {
     this->action = 16;
-    OnePointDemo_Init(globalCtx, 0xC3A, -0x63, &this->actor, 0);
+    OnePointDemo_Init(globalCtx, 0xC3A, -99, &this->actor, 0);
 }
 
 void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {

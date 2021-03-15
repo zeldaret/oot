@@ -221,7 +221,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
         if (absyawTowardsPlayer < 0x4300) {
             if (!this->unk_194) {
                 if (player->stateFlags2 & 0x1000000) {
-                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -99, &this->actor, 0);
 
                     func_8010BD58(globalCtx, 0x2A);
                     this->unk_19A = 0;
@@ -273,7 +273,7 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
         if (this->camId != -1) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
-        this->camId = OnePointDemo_Init(globalCtx, 0x8DE, -0x63, &this->actor, 0);
+        this->camId = OnePointDemo_Init(globalCtx, 0x8DE, -99, &this->actor, 0);
         globalCtx->msgCtx.msgMode = 0x37;
         func_8002DF54(globalCtx, NULL, 8);
         func_8010BD58(globalCtx, 0x2B);
@@ -302,7 +302,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
         this->actionFunc = func_80A8FBB8;
         OnePointDemo_EndDemo(globalCtx, this->camId);
         this->camId = -1;
-        this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+        this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -99, &this->actor, 0);
         func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
     }
 }

@@ -117,7 +117,7 @@ void BgHidanFwbig_UpdatePosition(BgHidanFwbig* this) {
 void BgHidanFwbig_WaitForSwitch(BgHidanFwbig* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         this->actionFunc = BgHidanFwbig_WaitForCs;
-        OnePointDemo_Init(globalCtx, 0xD0C, -0x63, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0xD0C, -99, &this->actor, 0);
         this->timer = 35;
     }
 }
@@ -174,7 +174,7 @@ void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx) {
 
     if (player->actor.world.pos.x < 1150.0f) {
         this->actionFunc = BgHidanFwbig_Rise;
-        OnePointDemo_Init(globalCtx, 0xCDA, -0x63, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0xCDA, -99, &this->actor, 0);
     }
 }
 

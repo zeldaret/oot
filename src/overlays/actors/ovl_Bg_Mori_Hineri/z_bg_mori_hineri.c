@@ -23,7 +23,7 @@ void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx
 void BgMoriHineri_DoNothing(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx);
 
-static s16 D_808A43E0 = -1;
+static s16 D_808A43E0 = SUBCAM_INVALID;
 
 const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
@@ -180,7 +180,7 @@ void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
 }
 
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
-    s16 defaultCamChildIdx;
+    s16 mainCamChildIdx;
 
     if ((Flags_GetSwitch(globalCtx, this->switchFlag) &&
          (this->dyna.actor.params == 0 || this->dyna.actor.params == 2)) ||
@@ -189,12 +189,12 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
-        defaultCamChildIdx = globalCtx->cameraPtrs[0]->childCamIdx;
-        if ((defaultCamChildIdx != 0) && (globalCtx->cameraPtrs[defaultCamChildIdx]->setting == CAM_SET_DEMO1)) {
-            OnePointDemo_EndDemo(globalCtx, defaultCamChildIdx);
+        mainCamChildIdx = globalCtx->cameraPtrs[CAM_INDEX_MAIN]->childCamIdx;
+        if ((mainCamChildIdx != SUBCAM_NONE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_DEMO1)) {
+            OnePointDemo_EndDemo(globalCtx, mainCamChildIdx);
         }
-        OnePointDemo_Init(globalCtx, 0xCBC, 0x28, &this->dyna.actor, 0);
-        D_808A43E0 = OnePointDemo_Init(globalCtx, 0xCBD, 0x28, &this->dyna.actor, 0);
+        OnePointDemo_Init(globalCtx, 3260, 40, &this->dyna.actor, 0);
+        D_808A43E0 = OnePointDemo_Init(globalCtx, 3261, 40, &this->dyna.actor, 0);
     }
 }
 
@@ -202,20 +202,20 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
     s8 objBankIndex;
 
     if (globalCtx->activeCamera == D_808A43E0) {
-        if (D_808A43E0 != 0) {
+        if (D_808A43E0 != SUBCAM_NONE) {
             objBankIndex = this->dyna.actor.objBankIndex;
             this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
             this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
-            D_808A43E0 = 0;
+            D_808A43E0 = SUBCAM_NONE;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             this->dyna.actor.draw = NULL;
             this->actionFunc = func_808A3D58;
-            D_808A43E0 = -1;
+            D_808A43E0 = SUBCAM_INVALID;
         }
     }
-    if ((D_808A43E0 > 0) && ((ACTIVE_CAM->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
+    if ((D_808A43E0 >= SUBCAM_FIRST) && ((ACTIVE_CAM->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_FLOOR_ROLLING - SFX_FLAG);
     }
 }
@@ -260,7 +260,7 @@ void BgMoriHineri_DrawHallAndRoom(Actor* thisx, GlobalContext* globalCtx) {
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         Matrix_Put(&mtx);
         Matrix_Translate(147.0f, -245.0f, -453.0f, MTXMODE_APPLY);
-        Matrix_RotateY(1.5707964f, MTXMODE_APPLY);
+        Matrix_RotateY(M_PI / 2, MTXMODE_APPLY);
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mori_hineri.c", 689),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

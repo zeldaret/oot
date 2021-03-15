@@ -6240,7 +6240,7 @@ s32 Camera_Demo9(Camera* camera) {
                         onePointParam = demo9OnePoint->onePointDemo.initTimer < 0x32
                                             ? 5
                                             : demo9OnePoint->onePointDemo.initTimer / 5;
-                        OnePointDemo_Init(camera->globalCtx, 0x3FC, onePointParam, NULL, camera->parentCamIdx);
+                        OnePointDemo_Init(camera->globalCtx, 1020, onePointParam, NULL, camera->parentCamIdx);
                     }
                 } else {
                     // finish action = 0x1000, copy the current camera's values to the
@@ -7756,7 +7756,7 @@ s16 Camera_ChangeSettingFlags(Camera* camera, s16 setting, s16 flags) {
 
     if (setting == CAM_SET_NONE || setting >= CAM_SET_MAX) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera: error: illegal camera set (%d) !!!!\n" VT_RST, setting);
-        return -0x63;
+        return -99;
     }
 
     if ((setting == camera->setting) && (!(flags & 1))) {

@@ -240,7 +240,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
             if (!this->unk_194) {
 
                 if (player->stateFlags2 & 0x1000000) {
-                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -99, &this->actor, 0);
                     globalCtx->msgCtx.msgMode = 0x37;
                     this->dialogState = 5;
                     this->unk_1B8 = 0.0f;
@@ -255,7 +255,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
             } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
 
                 if (player->stateFlags2 & 0x1000000) {
-                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -99, &this->actor, 0);
                     globalCtx->msgCtx.msgMode = 0x37;
                     this->dialogState = 5;
                     this->unk_1B8 = 0.0f;
@@ -321,7 +321,7 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode = 0x37;
         func_8010BD58(globalCtx, 0x2D);
         this->actionFunc = func_80A917FC;
-        this->camId = OnePointDemo_Init(globalCtx, 0x8E8, -0x63, &this->actor, 0);
+        this->camId = OnePointDemo_Init(globalCtx, 0x8E8, -99, &this->actor, 0);
     }
 }
 

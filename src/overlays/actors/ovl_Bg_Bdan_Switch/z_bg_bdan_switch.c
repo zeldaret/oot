@@ -92,7 +92,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-static Vec3f D_8086E0E0 = { 0, 140.0f, 0 };
+static Vec3f D_8086E0E0 = { 0.0f, 140.0f, 0.0f };
 
 void func_8086D010(BgBdanSwitch* this, GlobalContext* globalCtx, CollisionHeader* collision, DynaPolyMoveFlag flag) {
     s16 pad1;

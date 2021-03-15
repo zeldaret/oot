@@ -120,7 +120,7 @@ void EnDntJiji_Wait(EnDntJiji* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->timer == 1) && (this->actor.xzDistToPlayer < 150.0f) && !Gameplay_InCsMode(globalCtx) &&
         !(player->stateFlags1 & 0x800)) {
-        OnePointDemo_Init(globalCtx, 0x8B6, -0x63, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0x8B6, -99, &this->actor, 0);
         this->timer = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnDntJiji_SetupUnburrow;

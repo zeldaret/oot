@@ -1310,7 +1310,7 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
         return SUBCAM_INVALID;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
-    vDemoCamIdx = OnePointDemo_Init(globalCtx, 0x1392, timer, actor, vParentCamIdx);
+    vDemoCamIdx = OnePointDemo_Init(globalCtx, 5010, timer, actor, vParentCamIdx);
     if (vDemoCamIdx == SUBCAM_INVALID) {
         osSyncPrintf(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
         return SUBCAM_INVALID;

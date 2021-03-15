@@ -213,7 +213,7 @@ void BgJyaMegami_DetectLight(BgJyaMegami* this, GlobalContext* globalCtx) {
         Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         BgJyaMegami_SetupExplode(this);
         Audio_PlaySoundAtPosition(globalCtx, &this->dyna.actor.world.pos, 100, NA_SE_EV_FACE_EXPLOSION);
-        OnePointDemo_Init(globalCtx, 0xD70, -0x63, &this->dyna.actor, 0);
+        OnePointDemo_Init(globalCtx, 0xD70, -99, &this->dyna.actor, 0);
     } else {
         if (this->lightTimer < 8) {
             this->crumbleIndex = 0;

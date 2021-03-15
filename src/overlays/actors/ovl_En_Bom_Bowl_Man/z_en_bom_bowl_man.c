@@ -300,7 +300,7 @@ void EnBomBowlMan_HandlePlayChoice(EnBomBowlMan* this, GlobalContext* globalCtx)
                         this->actor.textId = 0x1B;
                         func_8010B720(globalCtx, this->actor.textId);
                         this->dialogState = 5;
-                        OnePointDemo_Init(globalCtx, 0x1F4A, -0x63, NULL, 0);
+                        OnePointDemo_Init(globalCtx, 0x1F4A, -99, NULL, 0);
                         func_8002DF54(globalCtx, NULL, 8);
                         this->actionFunc = EnBomBowMan_SetupChooseShowPrize;
                     }
