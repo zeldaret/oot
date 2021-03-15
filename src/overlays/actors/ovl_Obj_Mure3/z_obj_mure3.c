@@ -41,10 +41,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 100, ICHAIN_STOP),
 };
 
-void func_80B9A9D0(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9A9D0(ObjMure3* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f spawnPos;
- 
+
     Math_Vec3f_Copy(&spawnPos, &this->actor.world.pos);
     for (i = 0; i < 5; i++, spawnPos.y += 20.0f) {
         if (!((this->unk_16C >> i) & 1)) {
@@ -56,11 +56,11 @@ void func_80B9A9D0(ObjMure3 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80B9AA90(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9AA90(ObjMure3* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f spawnPos;
     f32 sn = Math_SinS(this->actor.world.rot.y);
-    f32 cos  = Math_CosS(this->actor.world.rot.y);
+    f32 cos = Math_CosS(this->actor.world.rot.y);
     f32 radius;
 
     spawnPos.y = this->actor.world.pos.y;
@@ -77,7 +77,7 @@ void func_80B9AA90(ObjMure3 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80B9ABA0(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9ABA0(ObjMure3* this, GlobalContext* globalCtx) {
     s32 i;
     Vec3f spawnPos;
     s16 yRot;
@@ -105,7 +105,7 @@ void func_80B9ABA0(ObjMure3 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80B9ACE4(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9ACE4(ObjMure3* this, GlobalContext* globalCtx) {
     s16 count = sRupeeCounts[(this->actor.params >> 13) & 7];
     s32 i;
 
@@ -123,12 +123,12 @@ void func_80B9ACE4(ObjMure3 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80B9ADCC(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9ADCC(ObjMure3* this, GlobalContext* globalCtx) {
     s16 count = sRupeeCounts[(this->actor.params >> 13) & 7];
     s32 i;
 
     for (i = 0; i < count; i++) {
-        EnItem00 **collectible = &this->unk_150[i];
+        EnItem00** collectible = &this->unk_150[i];
 
         if ((*collectible != NULL) && !((this->unk_16C >> i) & 1)) {
             if (Actor_HasParent(&(*collectible)->actor, globalCtx)) {
@@ -161,15 +161,15 @@ void func_80B9AF24(ObjMure3* this) {
     this->actionFunc = func_80B9AF34;
 }
 
-void func_80B9AF34(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9AF34(ObjMure3* this, GlobalContext* globalCtx) {
     func_80B9AF54(this);
 }
 
-void func_80B9AF54(ObjMure3 *this) {
+void func_80B9AF54(ObjMure3* this) {
     this->actionFunc = func_80B9AF64;
 }
 
-void func_80B9AF64(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9AF64(ObjMure3* this, GlobalContext* globalCtx) {
     static ObjMure3SpawnFunc sSpawnFuncs[] = { func_80B9A9D0, func_80B9AA90, func_80B9ABA0 };
 
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) < SQ(1150.0f)) {
@@ -179,11 +179,11 @@ void func_80B9AF64(ObjMure3 *this, GlobalContext *globalCtx) {
     }
 }
 
-void func_80B9AFEC(ObjMure3 *this) {
+void func_80B9AFEC(ObjMure3* this) {
     this->actionFunc = func_80B9AFFC;
 }
 
-void func_80B9AFFC(ObjMure3 *this, GlobalContext *globalCtx) {
+void func_80B9AFFC(ObjMure3* this, GlobalContext* globalCtx) {
     func_80B9ADCC(this, globalCtx);
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) >= SQ(1450.0f)) {
         this->actor.flags &= ~0x10;
