@@ -1132,8 +1132,8 @@ void func_80832340(GlobalContext* globalCtx, Player* this) {
 
     if (this->unk_46C != -1) {
         camera = globalCtx->cameraPtrs[this->unk_46C];
-        if ((camera != NULL) && (camera->unk_168 == 1100)) {
-            func_800803F0(globalCtx, this->unk_46C);
+        if ((camera != NULL) && (camera->demoId == 1100)) {
+            OnePointDemo_EndDemo(globalCtx, this->unk_46C);
             this->unk_46C = -1;
         }
     }
@@ -2771,7 +2771,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
-        func_800800F8(globalCtx, 0x264E, cond ? 120 : 60, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0x264E, cond ? 120 : 60, &this->actor, 0);
         ShrinkWindow_SetVal(0x20);
     }
 }
@@ -4599,7 +4599,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayer326Anim, 0.83f);
 
     if (magicSpell == 5) {
-        this->unk_46C = func_800800F8(globalCtx, 1100, -101, NULL, 0);
+        this->unk_46C = OnePointDemo_Init(globalCtx, 1100, -101, NULL, 0);
     } else {
         func_80835EA4(globalCtx, 10);
     }
@@ -6192,13 +6192,13 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(globalCtx, this, &gPlayer129Anim);
                 func_80832F54(globalCtx, this, 0x9D);
-                func_800800F8(globalCtx, 0x2581, 999, NULL, 0);
+                OnePointDemo_Init(globalCtx, 0x2581, 999, NULL, 0);
             } else {
                 this->actor.shape.rot.y = this->actor.wallYaw;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &gPlayer130Anim, -1.0f,
                                      Animation_GetLastFrame(&gPlayer130Anim), 0.0f, ANIMMODE_ONCE, 0.0f);
                 func_80832F54(globalCtx, this, 0x9D);
-                func_800800F8(globalCtx, 0x2582, 999, NULL, 0);
+                OnePointDemo_Init(globalCtx, 0x2582, 999, NULL, 0);
             }
 
             this->currentYaw = this->actor.shape.rot.y;
@@ -7774,7 +7774,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         this->unk_850 = 60;
         Player_SpawnFairy(globalCtx, this, &this->actor.world.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
-        func_800800F8(globalCtx, 0x26B4, 125, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0x26B4, 125, &this->actor, 0);
     } else if (globalCtx->unk_10A20 == 2) {
         globalCtx->unk_10A20 = 3;
     }
@@ -8900,7 +8900,7 @@ void func_808468E8(GlobalContext* globalCtx, Player* this) {
     func_80835C58(globalCtx, this, func_8084F9C0, 0);
     this->stateFlags1 |= 0x20000000;
     this->fallStartHeight = this->actor.world.pos.y;
-    func_800800F8(globalCtx, 0x13F6, 40, &this->actor, 0);
+    OnePointDemo_Init(globalCtx, 0x13F6, 40, &this->actor, 0);
 }
 
 void func_80846978(GlobalContext* globalCtx, Player* this) {

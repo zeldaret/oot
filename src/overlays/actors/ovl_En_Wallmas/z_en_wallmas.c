@@ -274,7 +274,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
     this->yTarget = this->actor.yDistToPlayer;
     func_8002DF38(globalCtx, &this->actor, 0x25);
-    func_800800F8(globalCtx, 0x251C, 0x270F, &this->actor, 0);
+    OnePointDemo_Init(globalCtx, 0x251C, 9999, &this->actor, 0);
 }
 
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {

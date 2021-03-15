@@ -10,6 +10,10 @@
 #define CAM_STAT_ACTIVE     7
 #define CAM_STAT_UNK100     0x100
 
+#define NUM_SUBCAMS 3
+#define CAM_INDEX_MAIN 0
+#define CAM_INDEX_INVALID -1
+
 #define ONEPOINTDEMO(camera) ((Unique9OnePointDemo*)camera->paramData)
 
 typedef enum {
@@ -851,7 +855,7 @@ typedef struct {
 } CamColChk; // size = 0x28
 
 typedef struct {
-    char paramData[0x50];
+    /* 0x0000 */ char paramData[0x50];
     /* 0x0050 */ Vec3f at;
     /* 0x005C */ Vec3f eye;
     /* 0x0068 */ Vec3f up;
@@ -886,7 +890,7 @@ typedef struct {
     /* 0x012C */ s16 data2;
     /* 0x012E */ s16 data3;
     /* 0x0130 */ s16 uid;
-    /* 0x0132 */ char unk_132[0x02];
+    /* 0x0132 */ char unk_132[2];
     /* 0x0134 */ Vec3s inputDir;
     /* 0x013A */ Vec3s camDir;
     /* 0x0140 */ s16 status;
@@ -909,7 +913,7 @@ typedef struct {
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;
     /* 0x0166 */ s16 prevCamDataIdx;
-    /* 0x0168 */ s16 unk_168;
+    /* 0x0168 */ s16 demoId;
     /* 0x016A */ s16 unk_16A;
 } Camera; // size = 0x16C
 

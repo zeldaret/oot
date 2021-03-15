@@ -15,8 +15,6 @@ s32 Camera_CheckWater(Camera* camera);
 #define NEXTSETTING ((values++)->val)
 #define NEXTPCT PCT(NEXTSETTING)
 
-#define ONEPOINTDEMO(camera) ((Unique9OnePointDemo*)camera->paramData)
-
 #define BGCAM_POS(v) ((v)[0])
 #define BGCAM_ROT(v) ((v)[1])
 #define BGCAM_FOV(v) ((v)[2].x)
@@ -6242,7 +6240,7 @@ s32 Camera_Demo9(Camera* camera) {
                         onePointParam = demo9OnePoint->onePointDemo.initTimer < 0x32
                                             ? 5
                                             : demo9OnePoint->onePointDemo.initTimer / 5;
-                        func_800800F8(camera->globalCtx, 0x3FC, onePointParam, NULL, camera->parentCamIdx);
+                        OnePointDemo_Init(camera->globalCtx, 0x3FC, onePointParam, NULL, camera->parentCamIdx);
                     }
                 } else {
                     // finish action = 0x1000, copy the current camera's values to the
@@ -6835,11 +6833,11 @@ void Camera_Init(Camera* camera, View* view, CollisionContext* colCtx, GlobalCon
     sCameraShrinkWindowVal = 0x20;
     sCameraInterfaceAlpha = 0;
     camera->unk_14C = 0;
-    camera->setting = camera->prevSetting = 0x21;
+    camera->setting = camera->prevSetting = CAM_SET_FREE0;
     camera->camDataIdx = camera->prevCamDataIdx = -1;
     camera->mode = 0;
     camera->bgCheckId = BGCHECK_SCENE;
-    camera->unk_168 = 0x7FFF;
+    camera->demoId = 0x7FFF;
     camera->timer = -1;
     camera->unk_14C |= 0x4000;
 
@@ -7558,9 +7556,9 @@ void Camera_Finish(Camera* camera) {
     Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->timer == 0) {
-        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, 7);
+        Gameplay_ChangeCameraStatus(camera->globalCtx, camera->parentCamIdx, CAM_STAT_ACTIVE);
 
-        if ((camera->parentCamIdx == 0) && (camera->unk_168 != 0)) {
+        if ((camera->parentCamIdx == 0) && (camera->demoId != 0)) {
             player->actor.freezeTimer = 0;
             player->stateFlags1 &= ~0x20000000;
 
@@ -7584,8 +7582,7 @@ void Camera_Finish(Camera* camera) {
             camera->globalCtx->cameraPtrs[camera->parentCamIdx]->animState = 0;
         }
 
-        camera->parentCamIdx = 0;
-        camera->childCamIdx = camera->parentCamIdx;
+        camera->childCamIdx = camera->parentCamIdx = 0;
         camera->timer = -1;
         camera->globalCtx->envCtx.unk_E1 = 0;
 

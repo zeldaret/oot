@@ -251,7 +251,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
             if (LINK_IS_CHILD && !(gSaveContext.itemGetInf[1] & 0x2000)) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {
-                    func_800800F8(globalCtx, 0x102C, -0x63, &this->actor, 0);
+                    OnePointDemo_Init(globalCtx, 0x102C, -0x63, &this->actor, 0);
                     func_8002DF54(globalCtx, &this->actor, 1);
                     this->timer4 = 50;
                     this->actionFunc = EnDntNomal_SetupTargetUnburrow;
@@ -340,7 +340,7 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
         func_8005B1A4(ACTIVE_CAM);
-        ACTIVE_CAM->unk_168 = 0;
+        ACTIVE_CAM->demoId = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnDntNomal_SetupTargetGivePrize;
     }

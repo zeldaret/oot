@@ -191,10 +191,10 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
 
         defaultCamChildIdx = globalCtx->cameraPtrs[0]->childCamIdx;
         if ((defaultCamChildIdx != 0) && (globalCtx->cameraPtrs[defaultCamChildIdx]->setting == CAM_SET_DEMO1)) {
-            func_800803F0(globalCtx, defaultCamChildIdx);
+            OnePointDemo_EndDemo(globalCtx, defaultCamChildIdx);
         }
-        func_800800F8(globalCtx, 0xCBC, 0x28, &this->dyna.actor, 0);
-        D_808A43E0 = func_800800F8(globalCtx, 0xCBD, 0x28, &this->dyna.actor, 0);
+        OnePointDemo_Init(globalCtx, 0xCBC, 0x28, &this->dyna.actor, 0);
+        D_808A43E0 = OnePointDemo_Init(globalCtx, 0xCBD, 0x28, &this->dyna.actor, 0);
     }
 }
 

@@ -281,7 +281,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
                 this->actionFlags &= ~0x40;
             }
         }
-        this->cameraIdx = func_800800F8(globalCtx, 0x21FC, timer, &this->actor, 0);
+        this->cameraIdx = OnePointDemo_Init(globalCtx, 0x21FC, timer, &this->actor, 0);
         return true;
     } else {
         this->actor.textId = textId;

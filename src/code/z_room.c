@@ -332,7 +332,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = ACTIVE_CAM;
-    sp9C = (camera->setting == 25);
+    sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
@@ -427,7 +427,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = ACTIVE_CAM;
-    sp98 = (camera->setting == 25);
+    sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);

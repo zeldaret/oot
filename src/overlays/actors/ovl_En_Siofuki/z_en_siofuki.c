@@ -257,7 +257,7 @@ void func_80AFC478(EnSiofuki* this, GlobalContext* globalCtx) {
         if (Flags_GetSwitch(globalCtx, ((u16)this->dyna.actor.params >> 6) & 0x3F)) {
             this->timer = 20;
             this->actionFunc = func_80AFC3C8;
-            func_800800F8(globalCtx, 0x1392, 0x28, &this->dyna.actor, 0);
+            OnePointDemo_Init(globalCtx, 0x1392, 40, &this->dyna.actor, 0);
         }
 
         if (Flags_GetTreasure(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {

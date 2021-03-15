@@ -864,7 +864,7 @@ typedef struct GlobalContext {
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
     /* 0x0034C */ Camera subCameras[3];
-    /* 0x00790 */ Camera* cameraPtrs[4];
+    /* 0x00790 */ Camera* cameraPtrs[3 + 1];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;

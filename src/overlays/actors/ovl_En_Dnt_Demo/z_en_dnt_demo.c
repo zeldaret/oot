@@ -137,7 +137,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
         }
     } else {
         if ((Player_GetMask(globalCtx) != 0) && (this->subCamera == 0)) {
-            this->subCamera = func_800800F8(globalCtx, 0x8AC, -0x63, &this->scrubs[3]->actor, 0);
+            this->subCamera = OnePointDemo_Init(globalCtx, 0x8AC, -0x63, &this->scrubs[3]->actor, 0);
         }
         this->debugArrowTimer = 0;
         if (this->judgeTimer == 40) {
@@ -174,7 +174,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                         if (this->subCamera != 0) {
                             this->subCamera = 0;
                             reaction = DNT_SIGNAL_LOOK;
-                            func_800800F8(globalCtx, 0x924, -0x63, &this->leader->actor, 0);
+                            OnePointDemo_Init(globalCtx, 0x924, -0x63, &this->leader->actor, 0);
                         }
                         break;
                     }
@@ -213,7 +213,7 @@ void EnDntDemo_Judge(EnDntDemo* this, GlobalContext* globalCtx) {
                             case DNT_ACTION_ATTACK:
                                 if (this->subCamera != 0) {
                                     this->subCamera = 0;
-                                    func_800800F8(globalCtx, 0x92E, -0x63, &this->scrubs[3]->actor, 0);
+                                    OnePointDemo_Init(globalCtx, 0x92E, -0x63, &this->scrubs[3]->actor, 0);
                                 }
                                 Audio_SetBGM(0x81A);
                                 break;

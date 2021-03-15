@@ -150,7 +150,7 @@ void BgYdanHasi_SetupThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
         this->timer = 260;
         this->dyna.actor.draw = BgYdanHasi_Draw;
         this->actionFunc = BgYdanHasi_UpdateThreeBlocks;
-        func_800800F8(globalCtx, 0xBE0, 0x1E, &this->dyna.actor, 0);
+        OnePointDemo_Init(globalCtx, 0xBE0, 0x1E, &this->dyna.actor, 0);
     }
 }
 

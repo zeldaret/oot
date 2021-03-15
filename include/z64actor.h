@@ -289,6 +289,7 @@ typedef struct EnAObj {
 } EnAObj; // size = 0x1C8
 
 typedef enum {
+    /*  -1  */ ACTORCAT_UNDEFINED = -1,
     /* 0x00 */ ACTORCAT_SWITCH,
     /* 0x01 */ ACTORCAT_BG,
     /* 0x02 */ ACTORCAT_PLAYER,

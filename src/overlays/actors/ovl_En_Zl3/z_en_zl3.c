@@ -1809,6 +1809,7 @@ s32 func_80B575F0(EnZl3* this, GlobalContext* globalCtx) {
 
     if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
         s32 unk_314 = this->unk_314;
+
         if (unk_314 == 1) {
             return 1;
         }
@@ -1821,10 +1822,9 @@ void func_80B5764C(EnZl3* this, GlobalContext* globalCtx) {
 
     if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
         s32 unk_314 = this->unk_314 + 1;
-        if (unk_314 == 1) {
-            if (!Gameplay_InCsMode(globalCtx)) {
-                func_800800F8(globalCtx, 0x3E8, 0x28, &this->actor, 0);
-            }
+
+        if ((unk_314 == 1) && !Gameplay_InCsMode(globalCtx)) {
+            OnePointDemo_Init(globalCtx, 0x3E8, 40, &this->actor, 0);
         }
     }
 }
@@ -1865,7 +1865,7 @@ void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     f32 posZ = vec->z;
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, posX, posY, posZ, 0,
-                (Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ) * 10430.3779296875f), 0, 5);
+                (Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ) * (0x8000 / M_PI)), 0, 5);
 }
 
 void func_80B57858(GlobalContext* globalCtx) {
@@ -2076,14 +2076,14 @@ void func_80B58014(EnZl3* this, GlobalContext* globalCtx) {
         this->action = 29;
         func_80B538B0(this);
     } else if (func_80B57C8C(this) && func_80B57F84(this, globalCtx)) {
-        func_800800F8(globalCtx, 0xFA0, -0x63, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0xFA0, -0x63, &this->actor, 0);
         this->unk_3D0 = 0;
     } else if (func_80B576C8(this, globalCtx) && func_80B575B0(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
         this->action = 0x1F;
         this->unk_3CC = 0.0f;
         func_80B537E8(this);
         this->unk_3D8 = 1;
-        func_800800F8(globalCtx, 0xFAA, -0x63, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 0xFAA, -0x63, &this->actor, 0);
     } else if (!func_80B57C8C(this) && !func_80B576C8(this, globalCtx) && func_80B57564(this, globalCtx)) {
         func_80B54E14(this, &D_06009BE4, 0, -8.0f, 0);
         func_80B5764C(this, globalCtx);
@@ -2155,7 +2155,7 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
     if (D_80B5A4BC == 0) {
         if ((nearbyEnTest == NULL) && (!Gameplay_InCsMode(globalCtx))) {
             this->action = 33;
-            func_800800F8(globalCtx, 0xFAB, -0x63, &this->actor, 0);
+            OnePointDemo_Init(globalCtx, 0xFAB, -0x63, &this->actor, 0);
         } else if (invincibilityTimer > 0) {
             func_80B54E14(this, &D_06003FF8, 0, -12.0f, 0);
             D_80B5A4BC = 1;
@@ -2166,7 +2166,7 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
             func_80B54E14(this, &D_06007664, 0, -12.0f, 0);
             D_80B5A4BC = 0;
             this->action = 33;
-            func_800800F8(globalCtx, 0xFAB, -0x63, &this->actor, 0);
+            OnePointDemo_Init(globalCtx, 0xFAB, -0x63, &this->actor, 0);
         } else if (invincibilityTimer <= 0) {
             func_80B54E14(this, &D_06007664, 0, -12.0f, 0);
             D_80B5A4BC = 0;

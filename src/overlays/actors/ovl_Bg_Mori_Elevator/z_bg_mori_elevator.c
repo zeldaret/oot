@@ -172,8 +172,8 @@ void BgMoriElevator_MoveIntoGround(BgMoriElevator* this, GlobalContext* globalCt
 
 void func_808A1CF4(BgMoriElevator* this, GlobalContext* globalCtx) {
     this->actionFunc = BgMoriElevator_MoveAboveGround;
-    func_800800F8(globalCtx, 0xC9E, 0x46, &this->dyna.actor, 0);
-    func_800800F8(globalCtx, 0x3FC, 0xF, &this->dyna.actor, 0);
+    OnePointDemo_Init(globalCtx, 0xC9E, 70, &this->dyna.actor, 0);
+    OnePointDemo_Init(globalCtx, 0x3FC, 15, &this->dyna.actor, 0);
 }
 
 void BgMoriElevator_MoveAboveGround(BgMoriElevator* this, GlobalContext* globalCtx) {

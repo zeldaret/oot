@@ -240,7 +240,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
             if (!this->unk_194) {
 
                 if (player->stateFlags2 & 0x1000000) {
-                    this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -0x63, &this->actor, 0);
                     globalCtx->msgCtx.msgMode = 0x37;
                     this->dialogState = 5;
                     this->unk_1B8 = 0.0f;
@@ -255,7 +255,7 @@ void func_80A91348(EnKakasi3* this, GlobalContext* globalCtx) {
             } else if (gSaveContext.scarecrowSpawnSongSet && !this->unk_195) {
 
                 if (player->stateFlags2 & 0x1000000) {
-                    this->camId = func_800800F8(globalCtx, 0x8D4, -0x63, &this->actor, 0);
+                    this->camId = OnePointDemo_Init(globalCtx, 0x8D4, -0x63, &this->actor, 0);
                     globalCtx->msgCtx.msgMode = 0x37;
                     this->dialogState = 5;
                     this->unk_1B8 = 0.0f;
@@ -288,7 +288,7 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         (globalCtx->msgCtx.msgMode == 0)) {
 
-        func_800803F0(globalCtx, this->camId);
+        OnePointDemo_EndDemo(globalCtx, this->camId);
         if (globalCtx->cameraPtrs[this->camId] == NULL) {
             this->camId = -1;
         }
@@ -321,7 +321,7 @@ void func_80A91760(EnKakasi3* this, GlobalContext* globalCtx) {
         globalCtx->msgCtx.msgMode = 0x37;
         func_8010BD58(globalCtx, 0x2D);
         this->actionFunc = func_80A917FC;
-        this->camId = func_800800F8(globalCtx, 0x8E8, -0x63, &this->actor, 0);
+        this->camId = OnePointDemo_Init(globalCtx, 0x8E8, -0x63, &this->actor, 0);
     }
 }
 
@@ -332,7 +332,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
     } else {
         globalCtx->msgCtx.unk_E3EE = 4;
         func_80106CCC(globalCtx);
-        func_800803F0(globalCtx, this->camId);
+        OnePointDemo_EndDemo(globalCtx, this->camId);
         this->actionFunc = func_80A911F0;
     }
 }
@@ -358,7 +358,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
 
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
-        func_800803F0(globalCtx, this->camId);
+        OnePointDemo_EndDemo(globalCtx, this->camId);
         this->camId = -1;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;

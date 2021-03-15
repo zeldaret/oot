@@ -227,9 +227,9 @@ void func_8086D4B4(BgBdanSwitch* this, GlobalContext* globalCtx) {
         type = this->dyna.actor.params & 0xFF;
         Flags_SetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         if (type == BLUE || type == YELLOW_TALL_2) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointDemo_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         } else {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
+            OnePointDemo_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_CORRECT_CHIME);
         }
     }
 }
@@ -238,7 +238,7 @@ void func_8086D548(BgBdanSwitch* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F)) {
         Flags_UnsetSwitch(globalCtx, (this->dyna.actor.params >> 8) & 0x3F);
         if ((this->dyna.actor.params & 0xFF) == YELLOW_TALL_2) {
-            func_800806BC(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
+            OnePointDemo_AttentionSetSfx(globalCtx, &this->dyna.actor, NA_SE_SY_TRE_BOX_APPEAR);
         }
     }
 }

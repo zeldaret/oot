@@ -3,6 +3,9 @@
 
 #include "ultra64.h"
 
+#define CSCAM_NEXT 0
+#define CSCAM_STOP 0xFF
+
 typedef struct {
     /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages

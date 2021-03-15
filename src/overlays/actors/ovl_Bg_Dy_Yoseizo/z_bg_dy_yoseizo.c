@@ -313,9 +313,9 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_BF = 2;
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        func_800800F8(globalCtx, 0x219B, -99, NULL, 0);
+        OnePointDemo_Init(globalCtx, 0x219B, -99, NULL, 0);
     } else {
-        func_800800F8(globalCtx, 0x219C, -99, NULL, 0);
+        OnePointDemo_Init(globalCtx, 0x219C, -99, NULL, 0);
     };
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);

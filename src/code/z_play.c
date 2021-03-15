@@ -219,7 +219,7 @@ void Gameplay_Init(GameState* thisx) {
 
     for (i = 0; i < 3; i++) {
         Camera_Init(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-        Camera_ChangeStatus(&globalCtx->subCameras[i], 0x100);
+        Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STAT_UNK100);
     }
 
     globalCtx->cameraPtrs[0] = &globalCtx->mainCamera;
@@ -1103,6 +1103,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         if ((HREG(80) != 10) || (HREG(92) != 0)) {
             Gfx* gfxP;
             Gfx* sp1CC = POLY_OPA_DISP;
+
             gfxP = Graph_GfxPlusOne(sp1CC);
             gSPDisplayList(OVERLAY_DISP++, gfxP);
 
@@ -1133,6 +1134,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
         if (gTrnsnUnkState == 3) {
             Gfx* sp88 = POLY_OPA_DISP;
+
             TransitionUnk_Draw(&sTrnsnUnk, &sp88);
             POLY_OPA_DISP = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
@@ -1150,23 +1152,23 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if (R_PAUSE_MENU_MODE == 3) {
                 Gfx* sp84 = POLY_OPA_DISP;
+
                 func_800C24BC(&globalCtx->preRenderCtx, &sp84);
                 POLY_OPA_DISP = sp84;
                 goto Gameplay_Draw_DrawOverlayElements;
             } else {
                 s32 sp80;
+
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if (globalCtx->skyboxId) {
-                        if ((globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
-                            if ((globalCtx->skyboxId == 1) || (globalCtx->skyboxId == 5)) {
-                                func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
-                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
-                                                globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
-                                                globalCtx->view.eye.z);
-                            } else if (globalCtx->skyboxCtx.unk_140 == 0) {
-                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
-                                                globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
-                            }
+                    if (globalCtx->skyboxId && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
+                        if ((globalCtx->skyboxId == 1) || (globalCtx->skyboxId == 5)) {
+                            func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
+                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
+                                            globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
+                                            globalCtx->view.eye.z);
+                        } else if (globalCtx->skyboxCtx.unk_140 == 0) {
+                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
+                                            globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
                         }
                     }
                 }
@@ -1206,14 +1208,13 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (ACTIVE_CAM->setting != 0x19) {
-                            Vec3f sp74;
-                            Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
-                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
-                                            globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
-                                            globalCtx->view.eye.z + sp74.z);
-                        }
+                    if ((globalCtx->skyboxCtx.unk_140 != 0) && (ACTIVE_CAM->setting != CAM_SET_PREREND0)) {
+                        Vec3f sp74;
+
+                        Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
+                        SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
+                                        globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
+                                        globalCtx->view.eye.z + sp74.z);
                     }
                 }
 
@@ -1267,6 +1268,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = OVERLAY_DISP;
                     s32 pad[4];
+
                     globalCtx->preRenderCtx.fbuf = gfxCtx->curFrameBuffer;
                     globalCtx->preRenderCtx.fbufSave = (u16*)gZBuffer;
                     func_800C1F20(&globalCtx->preRenderCtx, &sp70);
@@ -1500,7 +1502,7 @@ s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
 
     if (i == 4) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
-        return -1;
+        return CAM_INDEX_INVALID;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
@@ -1536,7 +1538,7 @@ void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
     }
 
     if (globalCtx->cameraPtrs[camIdx] != NULL) {
-        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], 0x100);
+        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], CAM_STAT_UNK100);
         globalCtx->cameraPtrs[camIdx] = NULL;
         osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
                          CYAN) " " VT_RST "\n",
@@ -1673,7 +1675,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
         Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
         globalCtx->cameraPtrs[0]->childCamIdx = globalCtx->cameraPtrs[0]->parentCamIdx = 0;
     } else {
-        func_800800F8(globalCtx, 1020, arg2, NULL, 0);
+        OnePointDemo_Init(globalCtx, 0x3FC, arg2, NULL, 0);
     }
 }
 

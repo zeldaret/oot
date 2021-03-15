@@ -183,7 +183,7 @@ struct_80034EC0_Entry sAnimationEntries[] = {
 void EnZl4_SetCsCameraAngle(GlobalContext* globalCtx, s16 index) {
     Camera* activeCam = ACTIVE_CAM;
 
-    Camera_ChangeSetting(activeCam, 0x21);
+    Camera_ChangeSetting(activeCam, CAM_SET_FREE0);
     activeCam->at = sCsCameraAngle[index].at;
     activeCam->eye = activeCam->eyeNext = sCsCameraAngle[index].eye;
     activeCam->roll = sCsCameraAngle[index].roll;
@@ -194,7 +194,7 @@ void EnZl4_SetCsCameraMove(GlobalContext* globalCtx, s16 index) {
     Camera* activeCam = ACTIVE_CAM;
     Player* player = PLAYER;
 
-    Camera_ChangeSetting(activeCam, 0x25);
+    Camera_ChangeSetting(activeCam, CAM_SET_DEMO0);
     Camera_ResetAnim(activeCam);
     Camera_SetCSParams(activeCam, sCsCameraMove[index].atPoints, sCsCameraMove[index].eyePoints, player,
                        sCsCameraMove[index].relativeToPlayer);

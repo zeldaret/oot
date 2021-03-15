@@ -1914,7 +1914,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                     Gameplay_CopyCamera(globalCtx, D_8015FCC6, csCtx->unk_14);
             }
 
-            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_ACTIVE);
             Gameplay_ClearCamera(globalCtx, csCtx->unk_14);
             func_8005B1A4(globalCtx->cameraPtrs[D_8015FCC6]);
         }

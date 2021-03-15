@@ -37,7 +37,7 @@ glabel func_8087F2D8
 /* 00240 8087F340 8FA40024 */  lw      $a0, 0x0024($sp)           
 /* 00244 8087F344 24050D3E */  addiu   $a1, $zero, 0x0D3E         ## $a1 = 00000D3E
 /* 00248 8087F348 240603E7 */  addiu   $a2, $zero, 0x03E7         ## $a2 = 000003E7
-/* 0024C 8087F34C 0C02003E */  jal     func_800800F8              
+/* 0024C 8087F34C 0C02003E */  jal     OnePointDemo_Init              
 /* 00250 8087F350 AFA00010 */  sw      $zero, 0x0010($sp)         
 .L8087F354:
 /* 00254 8087F354 8FBF001C */  lw      $ra, 0x001C($sp)           

@@ -265,10 +265,10 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x30);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
         } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }
@@ -276,7 +276,7 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
 }
 
 void func_8088B90C(BgHidanRock* this, GlobalContext* globalCtx) {
-    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f) != 0) {
+    if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f)) {
         this->actionFunc = func_8088B634;
     }
 }
@@ -318,10 +318,10 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x30);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
         } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }
