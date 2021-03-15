@@ -2072,7 +2072,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_398 = 0;
                 Animation_MorphToPlayOnce(&this->skelAnime, &D_06003B1C, 0.0f);
                 this->unk_194 = Animation_GetLastFrame(&D_06003B1C);
-                globalCtx->startPlayerCutscene(globalCtx, this, 0x61);
+                globalCtx->startPlayerCutscene(globalCtx, &this->actor, 0x61);
             }
         case 7:
             this->unk_339 = 0x17;
