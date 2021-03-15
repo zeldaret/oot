@@ -232,8 +232,6 @@ void func_80A4E910(EnGs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4EA08(EnGs* this, GlobalContext* globalCtx) {
-    s32 temp_t8;
-
     if (this->unk_19F == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->unk_1E8 = 0.3f;
@@ -306,13 +304,13 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     Vec3f bomb2Pos;
 
     if (this->unk_19F == 0) {
-        this->unk_200 = 0x28;
+        this->unk_200 = 40;
         this->unk_19F++;
     }
 
     if (this->unk_19F == 1) {
         if ((u32)this->unk_200-- <= 0) {
-            this->unk_200 = 0x50;
+            this->unk_200 = 80;
             this->unk_19E |= 4;
             this->unk_19F++;
         }
@@ -321,16 +319,16 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_19F == 2) {
         this->unk_200--;
         Color_RGBA8_Copy(&this->flashColor, &baseWhite);
-        if ((this->unk_200 < 0x50) && ((this->unk_200 % 0x14) < 8)) {
-            if (this->unk_200 < 0x14) {
+        if ((this->unk_200 < 80) && ((this->unk_200 % 20) < 8)) {
+            if (this->unk_200 < 20) {
                 Color_RGBA8_Copy(&this->flashColor, &flashRed);
-                if ((this->unk_200 % 0x14) == 7) {
+                if ((this->unk_200 % 20) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 }
             } else {
                 Color_RGBA8_Copy(&this->flashColor, &flashBlue);
-                if ((this->unk_200 % 0x14) == 7) {
+                if ((this->unk_200 % 20) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 }
@@ -414,7 +412,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     }
     if (this->unk_19F == 2) {
         this->unk_1A0[0].y += (s32)(this->unk_1E8 * (0x10000 / 360.0f));
-        if (this->unk_200++ > 0x28) {
+        if (this->unk_200++ > 40) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 1.5f;
             this->unk_1F0 = this->unk_1B4[1].y - 1.0f;
@@ -430,7 +428,7 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (tmpf1 == 0.0f) {
-            this->unk_1E8 = 0.6981317f;  // 2 * M_PI / 9
+            this->unk_1E8 = 0.34906584f * 2.0f;
             this->unk_1EC = 0.34906584f; // M_PI / 9
             this->unk_19F = 4;
         }
