@@ -1801,6 +1801,7 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx) {
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
             }
+            break;
     }
 
     if (this->unk_39E != 0) {
