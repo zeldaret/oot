@@ -1883,40 +1883,22 @@ void func_8090109C(BossGanon2* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     Player* player;
-    f32 sp48;
-    f32 sp44;
     Camera* temp_v0_2;
-    EnZl3* temp_v0;
     f32 temp_f12;
     f32 temp_f14;
     s16 temp_a0_2;
     s16 temp_v1_9;
-    s32 temp_a0_3;
-    u32 temp_v1_2;
-    u32 temp_v1_3;
-    u32 temp_v1_5;
-    u32 temp_v1_7;
-    u32 temp_v1_8;
-    Vec3f* temp_v0_3;
-    Vec3f* temp_v1_6;
     u32 phi_v1;
     f32 phi_f0;
-    u32 phi_v1_2;
-    u32 phi_v1_3;
     s32 phi_v1_4;
-    u32 phi_v1_5;
-    u32 phi_v1_6;
-    Actor* phi_a2;
     s32 phi_a1;
-    u32 phi_v1_7;
-    u32 phi_v1_8;
-    u32 phi_v1_9;
 
     player = PLAYER;
     this->unk_398++;
     SkelAnime_Update(&this->skelAnime);
-    this->unk_3BC.y = 1.0f;
+
     this->unk_3BC.x = 0.0f;
+    this->unk_3BC.y = 1.0f;
     this->unk_3BC.z = 0.0f;
 
     switch (this->unk_39C) {
@@ -1936,39 +1918,31 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->actor.speedXZ = 0.0f;
             this->unk_31A = this->unk_31C;
             globalCtx->envCtx.unk_D8 = 0.0f;
-            break;
         case 1:
-            temp_v1_2 = this->unk_398;
-            if (temp_v1_2 < 0x5A) {
+            if (this->unk_398 < 0x5A) {
                 this->unk_339 = 0x14;
                 Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
-            } else if (temp_v1_2 >= 0x5A) {
+            } else if (this->unk_398 >= 0x5A) {
                 this->unk_339 = 0x15;
                 Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.08f);
             }
-            phi_v1 = this->unk_398;
             if (this->unk_398 == 0x32) {
                 func_80078884(NA_SE_EN_MGANON_WALK);
-                phi_v1 = this->unk_398;
             }
-            phi_v1_2 = phi_v1;
-            if (phi_v1 >= 0x5B) {
+            if (this->unk_398 >= 0x5B) {
                 Math_ApproachF(&this->unk_380, 0.25f, 1.0f, 0.0125f);
                 this->unk_37C = 200.0f;
                 func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
-                phi_v1_2 = this->unk_398;
             }
-            phi_v1_3 = phi_v1_2;
-            if (phi_v1_2 >= 0x6E) {
-                if (phi_v1_2 == 0x6E) {
+            if (this->unk_398 >= 0x6E) {
+                if (this->unk_398 == 0x6E) {
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_HIT_THUNDER);
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
                 }
                 Math_ApproachF(&this->unk_30C, 10.0f, 0.2f, 5.0f);
                 this->skelAnime.playSpeed = 3.0f;
-                phi_v1_3 = this->unk_398;
             }
-            if (phi_v1_3 == 0x78) {
+            if (this->unk_398 == 0x78) {
                 func_8002DF54(globalCtx, &this->actor, 0x63);
             }
             this->actor.world.rot.y = 0x4000;
@@ -1979,12 +1953,10 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.world.pos.z = 30.0f;
             D_8090EB2C->actor.world.pos.x = 340.0f;
             D_8090EB2C->actor.world.pos.z = -250.0f;
-            D_8090EB2C->actor.shape.rot.y = -0x2000;
-            temp_v0 = D_8090EB2C;
-            temp_v0->actor.world.rot.y = temp_v0->actor.shape.rot.y;
+            D_8090EB2C->actor.world.rot.y = D_8090EB2C->actor.shape.rot.y = -0x2000;
             this->unk_3A4.x = 250.0f;
-            this->unk_3A4.z = 0.0f;
             this->unk_3A4.y = 1150.0f;
+            this->unk_3A4.z = 0.0f;
             this->unk_3B0.x = this->unk_1B8.x;
             this->unk_3B0.y = this->unk_1B8.y;
             this->unk_3B0.z = this->unk_1B8.z;
@@ -1998,8 +1970,8 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
             func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
             this->unk_3A4.x = 250.0f;
-            this->unk_3A4.z = 0.0f;
             this->unk_3A4.y = 1150.0f;
+            this->unk_3A4.z = 0.0f;
             Math_ApproachF(&this->unk_3B0.x, D_8090EB2C->actor.world.pos.x, 0.2f, 20.0f);
             Math_ApproachF(&this->unk_3B0.y, D_8090EB2C->actor.world.pos.y + 50.0f, 0.2f, 10.0f);
             Math_ApproachF(&this->unk_3B0.z, D_8090EB2C->actor.world.pos.z, 0.2f, 20.0f);
@@ -2044,10 +2016,9 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             }
             break;
         case 5:
-            temp_v1_3 = this->unk_398;
             this->unk_339 = 0x17;
-            if ((temp_v1_3 >= 0x3C) && (temp_v1_3 < 0x5B)) {
-                if (temp_v1_3 == 0x3E) {
+            if ((this->unk_398 >= 0x3C) && (this->unk_398 < 0x5B)) {
+                if (this->unk_398 == 0x3E) {
                     func_80078884(NA_SE_EV_TRIFORCE_FLASH);
                 }
                 Math_ApproachF(&this->unk_38C, 200.0f, 1.0f, 8.0f);
@@ -2085,8 +2056,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_339 = 0x17;
             temp_f14 = this->unk_1B8.x - player->actor.world.pos.x;
             temp_f12 = this->unk_1B8.z - player->actor.world.pos.z;
-            sp48 = temp_f14;
-            sp44 = temp_f12;
             temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
             phi_v1_4 = 0 - temp_a0_2;
             if ((s32)temp_a0_2 >= 0) {
@@ -2110,26 +2079,22 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             player->actor.world.pos.x = 250.0f;
             player->actor.shape.rot.y = -0x4000;
             player->actor.world.pos.z = 30.0f;
-            temp_v1_5 = this->unk_398;
-            if ((temp_v1_5 == 0x14) || (temp_v1_5 == 0x1E) || (temp_v1_5 == 0x41) || (temp_v1_5 == 0x28)) {
+            if ((this->unk_398 == 0x14) || (this->unk_398 == 0x1E) || (this->unk_398 == 0x41) ||
+                (this->unk_398 == 0x28)) {
                 func_80078884(NA_SE_VO_LI_SWORD_N);
                 func_80078884(NA_SE_IT_SWORD_SWING_HARD);
             }
             if ((this->unk_398 == 0x16) || (this->unk_398 == 0x23) || (this->unk_398 == 0x48) ||
-                (phi_v1_5 = this->unk_398, (this->unk_398 == 0x2D))) {
+                (this->unk_398 == 0x2D)) {
                 func_80078884(NA_SE_EN_MGANON_DAMAGE);
                 func_80078884(NA_SE_IT_SHIELD_BOUND);
                 globalCtx->envCtx.unk_D8 = 1.0f;
-                phi_v1_5 = this->unk_398;
-                phi_a2 = player;
             }
-            if ((phi_v1_5 == 0x16) || (phi_v1_5 == 0x23) || (phi_v1_5 == 0x48) ||
-                (phi_v1_6 = phi_v1_5, (phi_v1_5 == 0x2D))) {
+            if ((this->unk_398 == 0x16) || (this->unk_398 == 0x23) || (this->unk_398 == 0x48) ||
+                (this->unk_398 == 0x2D)) {
                 func_8090109C(this, globalCtx);
-                phi_v1_6 = this->unk_398;
-                phi_a2 = player;
             }
-            if ((phi_v1_6 >= 0x22U) && (phi_v1_6 < 0x28U)) {
+            if ((this->unk_398 >= 0x22U) && (this->unk_398 < 0x28U)) {
                 this->unk_3A4.x = 269.0f;
                 this->unk_3A4.y = 1112.0f;
                 this->unk_3A4.z = -28.0f;
@@ -2137,27 +2102,24 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_3B0.y = 1117.0f;
                 this->unk_3B0.z = -11.0f;
             } else {
-                if (phi_v1_6 < 0x1EU) {
+                if (this->unk_398 < 0x1EU) {
                     phi_a1 = 0;
-                } else if (phi_v1_6 < 0x2BU) {
+                } else if (this->unk_398 < 0x2BU) {
                     phi_a1 = 1;
                 } else {
                     this->unk_3BC.z = -0.8f;
-                    phi_a2->world.pos.x = 200.0f;
-                    phi_a2->world.pos.z = 10.0f;
+                    player->actor.world.pos.x = 200.0f;
+                    player->actor.world.pos.z = 10.0f;
                     phi_a1 = 2;
                 }
-                temp_a0_3 = ((phi_a1 * 4) - phi_a1) * 4;
-                temp_v0_3 = &D_8090702C[phi_a1];
-                temp_v1_6 = &D_80907050[phi_a1];
-                this->unk_3A4.x = temp_v0_3->x + (phi_a2->world.pos.x - 50.0f);
-                this->unk_3A4.y = temp_v0_3->y + (phi_a2->world.pos.y + 50.0f);
-                this->unk_3A4.z = temp_v0_3->z + (phi_a2->world.pos.z + 40.0f);
-                this->unk_3B0.x = temp_v1_6->x + phi_a2->world.pos.x;
-                this->unk_3B0.y = temp_v1_6->y + (phi_a2->world.pos.y + 40.0f);
-                this->unk_3B0.z = temp_v1_6->z + phi_a2->world.pos.z;
+                this->unk_3A4.x = D_8090702C[phi_a1].x + (player->actor.world.pos.x - 50.0f);
+                this->unk_3A4.y = D_8090702C[phi_a1].y + (player->actor.world.pos.y + 50.0f);
+                this->unk_3A4.z = D_8090702C[phi_a1].z + (player->actor.world.pos.z + 40.0f);
+                this->unk_3B0.x = D_80907050[phi_a1].x + player->actor.world.pos.x;
+                this->unk_3B0.y = D_80907050[phi_a1].y + (player->actor.world.pos.y + 40.0f);
+                this->unk_3B0.z = D_80907050[phi_a1].z + player->actor.world.pos.z;
             }
-            if ((u32)this->unk_398 >= 0x51U) {
+            if (this->unk_398 >= 0x51U) {
                 Audio_SetBGM(0x100100FF);
                 this->unk_39C = 0x4B;
                 this->unk_398 = 0;
@@ -2185,16 +2147,13 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0x401) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_STAND);
             }
-            phi_v1_7 = this->unk_398;
             if (this->unk_398 >= 0x3E8) {
-                phi_v1_7 = this->unk_398;
                 if (this->unk_398 < 0x410) {
                     this->unk_339 = 0x17;
                     Math_ApproachZeroF(&globalCtx->envCtx.unk_D8, 1.0f, 0.2f);
-                    phi_v1_7 = this->unk_398;
                 }
             }
-            if (phi_v1_7 == 0x410) {
+            if (this->unk_398 == 0x410) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DEAD2);
                 this->unk_336 = 2;
                 this->unk_339 = 0;
@@ -2206,14 +2165,13 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_398 = 0;
                 this->unk_194 = 1000.0f;
             }
-            temp_v1_7 = this->unk_398;
             this->unk_3A4.x = 250.0f;
             this->unk_3A4.y = 1150.0f;
             this->unk_3A4.z = 0.0f;
             this->unk_3B0.x = this->unk_1B8.x;
             this->unk_3B0.y = this->unk_1B8.y;
             this->unk_3B0.z = this->unk_1B8.z;
-            if ((temp_v1_7 < 0x3E8) && ((temp_v1_7 & 0xF) == 0)) {
+            if ((this->unk_398 < 0x3E8) && ((this->unk_398 & 0xF) == 0)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_SWORD);
             }
             if (this->unk_398 == 0x28) {
@@ -2244,8 +2202,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->unk_3A4.x, 290.0f, 0.05f, this->unk_410.x);
             Math_ApproachF(&this->unk_3A4.y, 1130.0f, 0.05f, this->unk_410.x * 0.25f);
             Math_ApproachF(&this->unk_3A4.z, -260.0f, 0.05f, this->unk_410.x * 1.25f);
-            temp_v1_8 = this->unk_398;
-            if ((temp_v1_8 >= 0x28) && (temp_v1_8 < 0x6F)) {
+            if ((this->unk_398 >= 0x28) && (this->unk_398 < 0x6F)) {
                 Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.02f);
                 Math_ApproachF(&this->unk_384, 10.0f, 0.1f, 0.2f);
                 Audio_PlayActorSound2(&D_8090EB2C->actor, NA_SE_EV_GOD_LIGHTBALL_2 - SFX_FLAG);
@@ -2263,17 +2220,13 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0xA) {
                 D_8090EB2C->unk_3C8 = 0xC;
             }
-            phi_v1_8 = this->unk_398;
             if (this->unk_398 == 0x6E) {
                 D_8090EB2C->unk_3C8 = 0xD;
-                phi_v1_8 = this->unk_398;
             }
-            phi_v1_9 = phi_v1_8;
-            if (phi_v1_8 == 0x8C) {
+            if (this->unk_398 == 0x8C) {
                 Audio_PlayActorSound2(&D_8090EB2C->actor, NA_SE_EV_HUMAN_BOUND);
-                phi_v1_9 = this->unk_398;
             }
-            if (phi_v1_9 < 0xA0) {
+            if (this->unk_398 < 0xA0) {
                 break;
             }
         case 20:
