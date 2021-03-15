@@ -434,7 +434,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     Vec3s zeroVec = { 0, 0, 0 };
 
     this->camId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
     Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
     sp48.x = this->actor.world.pos.x;
     sp48.y = this->actor.world.pos.y + 60.0f;

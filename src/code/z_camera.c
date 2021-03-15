@@ -7316,7 +7316,7 @@ Vec3s Camera_Update(Camera* camera) {
     QuakeCamCalc quake;
     Player* player;
 
-    player = camera->globalCtx->cameraPtrs[0]->player;
+    player = camera->globalCtx->cameraPtrs[MAIN_CAM]->player;
 
     if (R_DBG_CAM_UPDATE) {
         osSyncPrintf("camera: in %x\n", camera);
@@ -7552,7 +7552,7 @@ Vec3s Camera_Update(Camera* camera) {
  * When the camera's timer is 0, change the camera to it's parent
  */
 void Camera_Finish(Camera* camera) {
-    Camera* defaultCam = camera->globalCtx->cameraPtrs[0];
+    Camera* defaultCam = camera->globalCtx->cameraPtrs[MAIN_CAM];
     Player* player = (Player*)camera->globalCtx->actorCtx.actorLists[ACTORCAT_PLAYER].head;
 
     if (camera->timer == 0) {

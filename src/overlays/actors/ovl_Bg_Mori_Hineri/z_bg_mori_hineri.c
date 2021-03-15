@@ -23,7 +23,7 @@ void BgMoriHineri_SpawnBossKeyChest(BgMoriHineri* this, GlobalContext* globalCtx
 void BgMoriHineri_DoNothing(BgMoriHineri* this, GlobalContext* globalCtx);
 void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx);
 
-static s16 D_808A43E0 = SUBCAM_INVALID;
+static s16 D_808A43E0 = SUBCAM_NONE;
 
 const ActorInit Bg_Mori_Hineri_InitVars = {
     ACTOR_BG_MORI_HINERI,
@@ -173,7 +173,7 @@ void func_808A3C8C(BgMoriHineri* this, GlobalContext* globalCtx) {
 
     f0 = 1100.0f - (player->actor.world.pos.z - this->dyna.actor.world.pos.z);
     this->dyna.actor.shape.rot.z = CLAMP(f0, 0.0f, 1000.0f) * 16.384f;
-    Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
+    Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON1);
     if (this->dyna.actor.params != 0) {
         this->dyna.actor.shape.rot.z = -this->dyna.actor.shape.rot.z;
     }
@@ -189,12 +189,12 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
         this->dyna.actor.draw = BgMoriHineri_DrawHallAndRoom;
         this->actionFunc = func_808A3E54;
 
-        mainCamChildIdx = globalCtx->cameraPtrs[CAM_INDEX_MAIN]->childCamIdx;
-        if ((mainCamChildIdx != SUBCAM_NONE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_DEMO1)) {
+        mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
+        if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_DEMO1)) {
             OnePointDemo_EndDemo(globalCtx, mainCamChildIdx);
         }
-        OnePointDemo_Init(globalCtx, 3260, 40, &this->dyna.actor, 0);
-        D_808A43E0 = OnePointDemo_Init(globalCtx, 3261, 40, &this->dyna.actor, 0);
+        OnePointDemo_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
+        D_808A43E0 = OnePointDemo_Init(globalCtx, 3261, 40, &this->dyna.actor, MAIN_CAM);
     }
 }
 
@@ -202,17 +202,17 @@ void func_808A3E54(BgMoriHineri* this, GlobalContext* globalCtx) {
     s8 objBankIndex;
 
     if (globalCtx->activeCamera == D_808A43E0) {
-        if (D_808A43E0 != SUBCAM_NONE) {
+        if (D_808A43E0 != MAIN_CAM) {
             objBankIndex = this->dyna.actor.objBankIndex;
             this->dyna.actor.objBankIndex = this->moriHineriObjIdx;
             this->moriHineriObjIdx = objBankIndex;
             this->dyna.actor.params ^= 1;
-            D_808A43E0 = SUBCAM_NONE;
+            D_808A43E0 = MAIN_CAM;
             func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
         } else {
             this->dyna.actor.draw = NULL;
             this->actionFunc = func_808A3D58;
-            D_808A43E0 = SUBCAM_INVALID;
+            D_808A43E0 = SUBCAM_NONE;
         }
     }
     if ((D_808A43E0 >= SUBCAM_FIRST) && ((ACTIVE_CAM->eye.z - this->dyna.actor.world.pos.z) < 1100.0f)) {

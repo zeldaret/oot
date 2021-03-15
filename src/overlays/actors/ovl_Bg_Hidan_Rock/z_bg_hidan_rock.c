@@ -265,10 +265,10 @@ void func_8088B79C(BgHidanRock* this, GlobalContext* globalCtx) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_HIDAN1);
         } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }
@@ -318,10 +318,10 @@ void func_8088B990(BgHidanRock* this, GlobalContext* globalCtx) {
             if (this->unk_169 == 0) {
                 this->unk_169 = 3;
             }
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_HIDAN1);
         } else if (!func_8004356C(&this->dyna)) {
             if (this->unk_169 != 0) {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
             }
             this->unk_169 = 0;
         }

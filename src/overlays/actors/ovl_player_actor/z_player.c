@@ -2778,7 +2778,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
-        OnePointDemo_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
         ShrinkWindow_SetVal(0x20);
     }
 }
@@ -4423,8 +4423,8 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
         sp74.y = this->actor.world.pos.y;
         sp74.z = this->actor.prevPos.z + (sp74.z * temp1);
 
-        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &sp74, &sp68, &sp84, true, false, false, true,
-                                    &sp80) &&
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &sp74, &sp68, &sp84, true, false, false,
+                                    true, &sp80) &&
             (ABS(sp84->normal.y) < 600)) {
             f32 nx = COLPOLY_GET_NORMAL(sp84->normal.x);
             f32 ny = COLPOLY_GET_NORMAL(sp84->normal.y);
@@ -4612,7 +4612,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayer326Anim, 0.83f);
 
     if (magicSpell == 5) {
-        this->unk_46C = OnePointDemo_Init(globalCtx, 1100, -101, NULL, 0);
+        this->unk_46C = OnePointDemo_Init(globalCtx, 1100, -101, NULL, MAIN_CAM);
     } else {
         func_80835EA4(globalCtx, 10);
     }
@@ -6159,7 +6159,8 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
     sp60.z = this->actor.world.pos.z + (arg3 * yawCos);
     sp60.y = sp6C.y = this->actor.world.pos.y + arg1;
 
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, true, false, false, true, &sp78)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, true, false, false,
+                                true, &sp78)) {
         wallPoly = this->actor.wallPoly;
 
         this->actor.bgCheckFlags |= 0x200;
@@ -6205,13 +6206,13 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(globalCtx, this, &gPlayer129Anim);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointDemo_Init(globalCtx, 9601, 999, NULL, 0);
+                OnePointDemo_Init(globalCtx, 9601, 999, NULL, MAIN_CAM);
             } else {
                 this->actor.shape.rot.y = this->actor.wallYaw;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &gPlayer130Anim, -1.0f,
                                      Animation_GetLastFrame(&gPlayer130Anim), 0.0f, ANIMMODE_ONCE, 0.0f);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointDemo_Init(globalCtx, 9602, 999, NULL, 0);
+                OnePointDemo_Init(globalCtx, 9602, 999, NULL, MAIN_CAM);
             }
 
             this->currentYaw = this->actor.shape.rot.y;
@@ -6983,7 +6984,7 @@ void func_80841860(GlobalContext* globalCtx, Player* this) {
     f32 frame;
     LinkAnimationHeader* sp38 = D_80853914[this->modelAnimType + 144];
     LinkAnimationHeader* sp34 = D_80853914[this->modelAnimType + 150];
-    
+
     this->skelAnime.animation = sp38;
 
     func_8084029C(this, (REG(30) / 1000.0f) + ((REG(32) / 1000.0f) * this->linearVelocity));
@@ -7168,7 +7169,8 @@ void func_80841EE4(Player* this, GlobalContext* globalCtx) {
 
             func_80841CC4(this, 1, globalCtx);
 
-            LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, func_80833438(this), this->unk_868 * (20.0f / 29.0f));
+            LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, func_80833438(this),
+                                      this->unk_868 * (20.0f / 29.0f));
         }
     }
 
@@ -7464,7 +7466,8 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
                     sp68.y = this->swordInfo[0].tip.y + (sp50.y * phi_f2);
                     sp68.z = this->swordInfo[0].tip.z + (sp50.z * phi_f2);
 
-                    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp68, &this->swordInfo[0].tip, &sp5C, &sp78, true, false, false, true, &sp74) &&
+                    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp68, &this->swordInfo[0].tip, &sp5C, &sp78, true,
+                                                false, false, true, &sp74) &&
                         !SurfaceType_IsIgnoredByEntities(&globalCtx->colCtx, sp78, sp74) &&
                         (func_80041D4C(&globalCtx->colCtx, sp78, sp74) != 6) &&
                         (func_8002F9EC(globalCtx, &this->actor, sp78, sp74, &sp5C) == 0)) {
@@ -7783,7 +7786,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         this->unk_850 = 60;
         Player_SpawnFairy(globalCtx, this, &this->actor.world.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
-        OnePointDemo_Init(globalCtx, 9908, 125, &this->actor, 0);
+        OnePointDemo_Init(globalCtx, 9908, 125, &this->actor, MAIN_CAM);
     } else if (globalCtx->unk_10A20 == 2) {
         globalCtx->unk_10A20 = 3;
     }
@@ -8909,7 +8912,7 @@ void func_808468E8(GlobalContext* globalCtx, Player* this) {
     func_80835C58(globalCtx, this, func_8084F9C0, 0);
     this->stateFlags1 |= 0x20000000;
     this->fallStartHeight = this->actor.world.pos.y;
-    OnePointDemo_Init(globalCtx, 5110, 40, &this->actor, 0);
+    OnePointDemo_Init(globalCtx, 5110, 40, &this->actor, MAIN_CAM);
 }
 
 void func_80846978(GlobalContext* globalCtx, Player* this) {
@@ -10809,7 +10812,8 @@ void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
             sp44.x = this->actor.world.pos.x;
             sp44.z = this->actor.world.pos.z;
             sp44.y = sp5C.y;
-            if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp5C, &sp38, &sp54, true, false, false, true, &sp50)) {
+            if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp5C, &sp38, &sp54, true, false, false, true,
+                                         &sp50)) {
                 func_8084B840(globalCtx, this, -2.0f);
                 return;
             }

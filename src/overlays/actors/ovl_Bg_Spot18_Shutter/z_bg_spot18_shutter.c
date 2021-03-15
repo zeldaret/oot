@@ -103,7 +103,7 @@ void func_808B9618(BgSpot18Shutter* this, GlobalContext* globalCtx) {
             this->actionFunc = func_808B9698;
         } else {
             this->actionFunc = func_808B971C;
-            OnePointDemo_Init(globalCtx, 4221, 0x8C, &this->dyna.actor, 0);
+            OnePointDemo_Init(globalCtx, 4221, 140, &this->dyna.actor, MAIN_CAM);
         }
     }
 }

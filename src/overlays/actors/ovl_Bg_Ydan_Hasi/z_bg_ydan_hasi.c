@@ -83,7 +83,6 @@ void BgYdanHasi_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 void BgYdanHasi_UpdateFloatingBlock(BgYdanHasi* this, GlobalContext* globalCtx) {
     WaterBox* waterBox;
     f32 framesAfterMath;
-    
 
     framesAfterMath = sinf((globalCtx->gameplayFrames & 0xFF) * (M_PI / 128)) * 165.0f;
     this->dyna.actor.world.pos.x =
@@ -142,7 +141,7 @@ void BgYdanHasi_SetupThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
         this->timer = 260;
         this->dyna.actor.draw = BgYdanHasi_Draw;
         this->actionFunc = BgYdanHasi_UpdateThreeBlocks;
-        OnePointDemo_Init(globalCtx, 3040, 0x1E, &this->dyna.actor, 0);
+        OnePointDemo_Init(globalCtx, 3040, 30, &this->dyna.actor, MAIN_CAM);
     }
 }
 
@@ -184,11 +183,11 @@ void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         func_80093D84(globalCtx->state.gfxCtx);
         gSPSegment(POLY_XLU_DISP++, 0x08,
-                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -globalCtx->gameplayFrames % 128,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -globalCtx->gameplayFrames % 128,
                                     globalCtx->gameplayFrames % 128, 0x20, 0x20, 1, globalCtx->gameplayFrames % 128,
                                     globalCtx->gameplayFrames % 128, 0x20, 0x20));
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
-                G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gDTWaterPlaneDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 597);

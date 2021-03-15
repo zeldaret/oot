@@ -431,7 +431,7 @@ void func_80A3F0E4(EnGo* this) {
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     f32 xyzDist;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    Camera* camera = globalCtx->cameraPtrs[0];
+    Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
 
     if (fabsf(yawDiff) > 10920.0f) {
         return 0;
@@ -785,7 +785,7 @@ void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
-            OnePointDemo_Init(globalCtx, 4200, -99, &this->actor, 0);
+            OnePointDemo_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
         }
     }
 }
@@ -877,7 +877,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 globalCtx->msgCtx.msgMode = 0x37;
                 gSaveContext.timer2State = 0;
-                OnePointDemo_Init(globalCtx, 4190, -99, &this->actor, 0);
+                OnePointDemo_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
