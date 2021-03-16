@@ -946,7 +946,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                     LOG_NUM("1", 1, "../z_play.c", 3733);
                 }
 
-                func_8010F6F0(globalCtx);
+                Message_Update(globalCtx);
             }
 
             if (1 && HREG(63)) {

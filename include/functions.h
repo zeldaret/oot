@@ -2629,7 +2629,7 @@ u8 func_8010BDBC(MessageContext* msgCtx);
 // ? func_8010F2CC(?);
 // ? func_8010F494(?);
 void func_8010F58C(GlobalContext* globalCtx);
-void func_8010F6F0(GlobalContext* globalCtx);
+void Message_Update(GlobalContext* globalCtx);
 void func_8011040C(void);
 void func_80110450(GlobalContext* globalCtx);
 void func_80110460(GlobalContext* globalCtx);

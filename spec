@@ -767,8 +767,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Ship"
     include "build/src/overlays/actors/ovl_Bg_Haka_Ship/z_bg_haka_ship.o"
-    include "build/data/overlays/actors/z_bg_haka_ship.data.o"
-    include "build/data/overlays/actors/z_bg_haka_ship.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Ship/ovl_Bg_Haka_Ship_reloc.o"
 endseg
 
 beginseg
@@ -3249,8 +3248,7 @@ endseg
 beginseg
     name "ovl_Item_Shield"
     include "build/src/overlays/actors/ovl_Item_Shield/z_item_shield.o"
-    include "build/data/overlays/actors/z_item_shield.data.o"
-    include "build/data/overlays/actors/z_item_shield.reloc.o"
+    include "build/src/overlays/actors/ovl_Item_Shield/ovl_Item_Shield_reloc.o"
 endseg
 
 beginseg
