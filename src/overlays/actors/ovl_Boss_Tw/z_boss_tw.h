@@ -8,45 +8,60 @@ struct BossTw;
 
 typedef void (*BossTW_ActionFunc)(struct BossTw* this, GlobalContext* globalCtx);
 
+#define CS_TIMER_1 0
+#define CS_TIMER_2 1
+#define UNK_S2 2
+#define UNK_S3 3
+#define BLINK_IDX 4
+#define INVINC_TIMER 5
+#define FOG_TIMER 6
+#define CAN_SHOOT 7
+#define UNK_S8 8
+#define UNK_S9 9
+#define UNK_S10 10
+#define UNK_S11 11
+#define UNK_S12 12
+#define UNK_S13 13
+#define UNK_S14 14
+#define UNK_S15 15
+#define UNK_S16 16
+#define UNK_S17 17
+#define UNK_S18 18
+#define UNK_S19 19
+#define UNK_S20 20
+
+#define OUTR_CRWN_TX_X1 0 // both x1
+#define OUTR_CRWN_TX_X2 1 // both x2
+
+#define INNR_CRWN_TX_X1 2 // outer x1
+#define INNR_CRWN_TX_X2 3 // outer x2
+
+#define OUTR_CRWN_TX_Y1 4 // both y1
+#define OUTR_CRWN_TX_Y2 5 // both y2 INNER 
+
+#define INNR_CRWN_TX_Y1 6 // y red y1 blue
+#define INNR_CRWN_TX_Y2 7 // y2 blue  OUTER
+
+#define ANIM_SW_TGT 8
+#define UNK_F9 9
+#define UNK_F10 10
+#define UNK_F11 11
+#define UNK_F12 12
+#define UNK_F13 13
+#define UNK_F14 14
+#define UNK_F15 15
+#define UNK_F16 16
+#define UNK_F17 17
+#define UNK_F18 18
+#define UNK_F19 19
+#define UNK_F20 20
+
 typedef struct BossTw {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ BossTW_ActionFunc actionFunc;
-    /* 0x0150 */ s16 unk_150;
-    /* 0x0152 */ s16 unk_152;
-    /* 0x0154 */ s16 unk_154;
-    /* 0x0156 */ s16 unk_156;
-    /* 0x0158 */ s16 unk_158;
-    /* 0x015A */ s16 invincibilityTimer;
-    /* 0x015C */ s16 fogTimer;
-    /* 0x015E */ s16 canShootBeam;
-    /* 0x0160 */ s16 unk_160;
-    /* 0x0162 */ s16 unk_162;
-    /* 0x0164 */ s16 unk_164;
-    /* 0x0166 */ s16 unk_166;
-    /* 0x0168 */ s16 unk_168;
-    /* 0x016A */ char unk_16A[0xE];
+    /* 0x0150 */ s16 work[20];
     /* 0x0178 */ s16 timers[5];
-    /* 0x0182 */ s16 unk_182;
-    /* 0x0184 */ f32 unk_184;
-    /* 0x0188 */ f32 unk_188;
-    /* 0x018C */ f32 unk_18C;
-    /* 0x0190 */ f32 unk_190;
-    /* 0x0194 */ f32 unk_194;
-    /* 0x0198 */ f32 unk_198;
-    /* 0x019C */ f32 unk_19C;
-    /* 0x01A0 */ f32 unk_1A0;
-    /* 0x01A4 */ f32 animFrameSwitch;
-    /* 0x01A8 */ f32 unk_1A8;
-    /* 0x01AC */ f32 unk_1AC;
-    /* 0x01B0 */ f32 unk_1B0;
-    /* 0x01B4 */ f32 unk_1B4;
-    /* 0x01B8 */ f32 unk_1B8;
-    /* 0x01BC */ f32 unk_1BC;
-    /* 0x01C0 */ f32 unk_1C0;
-    /* 0x01C4 */ f32 unk_1C4;
-    /* 0x01C8 */ f32 unk_1C8;
-    /* 0x01CC */ f32 unk_1CC; // has to do with the floating up anim
-    /* 0x01D0 */ f32 unk_1D0;
+    /* 0x0184 */ f32 workf[20];
     /* 0x01D4 */ f32 fogR;
     /* 0x01D8 */ f32 fogG;
     /* 0x01DC */ f32 fogB;
@@ -54,15 +69,15 @@ typedef struct BossTw {
     /* 0x01E4 */ f32 fogMax;
     /* 0x01E8 */ Vec3f blastTailPos[50];
     /* 0x0440 */ s16 csState1;
-    /* 0x0444 */ Vec3f unk_444;
+    /* 0x0444 */ Vec3f crownPos;
     /* 0x0450 */ Vec3f unk_450[5];
     /* 0x048C */ Vec3f beamOrigin;
-    /* 0x0498 */ Vec3f unk_498; // Left hand pos only used for tw
-    /* 0x04A4 */ Vec3f unk_4A4; // right hand pos
+    /* 0x0498 */ Vec3f leftScepterPos;
+    /* 0x04A4 */ Vec3f rightScepterPos;
     /* 0x04B0 */ Vec3f targetPos;
     /* 0x04BC */ Vec3f unk_4BC;
     /* 0x04C8 */ f32 unk_4C8;
-    /* 0x04CC */ s16 unk_4CC;
+    /* 0x04CC */ s16 eyeTexIdx;
     /* 0x04CE */ s16 unk_4CE;
     /* 0x04D0 */ f32 unk_4D0;
     /* 0x04D4 */ f32 flameAlpha;
@@ -91,7 +106,7 @@ typedef struct BossTw {
     /* 0x0548 */ f32 beamReflectionDist;
     /* 0x054C */ Vec3f unk_54C;
     /* 0x0558 */ Vec3f beamReflectionProjectedAFXPos;
-    /* 0x0564 */ u8 unk_564;
+    /* 0x0564 */ u8 visible;
     /* 0x0565 */ u8 unk_565;
     /* 0x0566 */ s16 unk_566;
     /* 0x0568 */ SkelAnime skelAnime;
@@ -104,8 +119,8 @@ typedef struct BossTw {
     /* 0x0600 */ Vec3f subCamEye;
     /* 0x060C */ Vec3f subCamAt;
     /* 0x0618 */ Vec3f unk_618;
-    /* 0x0624 */ Vec3f unk_624;
-    /* 0x0630 */ Vec3f unk_630;
+    /* 0x0624 */ Vec3f subCamEye2;
+    /* 0x0630 */ Vec3f subCamAt2;
     /* 0x063C */ Vec3f unk_63C;
     /* 0x0648 */ Vec3f unk_648;
     /* 0x0654 */ Vec3f unk_654;
