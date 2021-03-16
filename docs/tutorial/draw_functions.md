@@ -316,7 +316,7 @@ Then the calculation is
 and so all this calculation is doing is turning `temp_v1` back into a word, with the last byte replaced by `0xFF` (that all the elements of `D_809F5E4C` have `0xFF` as their last element anyway is irrelevant here). Looking back at the output of gfxdis, we see that this actually means that the r,g,b just slot into the penultimate three arguments, the last being `0xFF`, leaving
 ```C
 temp_v1 = D_809F5E4C[this->unk_26A - 1];
-gDPSetEnvColor(POLY_OPA_DISP++, temp_v1.r, temp_v1.g, temp_v1.r, 0xFF);
+gDPSetEnvColor(POLY_OPA_DISP++, temp_v1.r, temp_v1.g, temp_v1.b, 0xFF);
 ```
 as the residue of this block; it may turn out later that we can eliminate the temp.
 
