@@ -185,7 +185,7 @@ s32 func_80A15688(EnFish* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Fish/func _80A15774.s")
-s32 func_80A15774(EnFish* this, GlobalContext* globalCtx) {
+s32 EnFish_CheckXZDistanceToPlayer(EnFish* this, GlobalContext* globalCtx) {
     return (this->actor.xzDistToPlayer < 60.0f);
 }
 
@@ -211,7 +211,7 @@ void func_80A157FC(EnFish* this, GlobalContext* globalCtx) {
         func_80A158EC(this);
     } else if (&this->actor == this->actor.child) {
         func_80A15D18(this);
-    } else if (func_80A15774(this, globalCtx)) {
+    } else if (EnFish_CheckXZDistanceToPlayer(this, globalCtx)) {
         func_80A15AD4(this);
     }
 }
@@ -255,7 +255,7 @@ void func_80A15944(EnFish* this, GlobalContext* globalCtx) {
         func_80A157A4(this);
     } else if (&this->actor == this->actor.child) {
         func_80A15D18(this);
-    } else if (func_80A15774(this, globalCtx)) {
+    } else if (EnFish_CheckXZDistanceToPlayer(this, globalCtx)) {
         func_80A15AD4(this);
     }
 }
@@ -279,7 +279,7 @@ void func_80A15B2C(EnFish* this, GlobalContext* globalCtx) {
     s16 sp34;
 
     func_80A155D0(this);
-    sp34 = func_80A15774(this, globalCtx);
+    sp34 = EnFish_CheckXZDistanceToPlayer(this, globalCtx);
     Math_SmoothStepToF(&this->actor.speedXZ, 4.2f, 0.08f, 1.4f, 0.0f);
 
     if (EnFish_XZDistanceSquared(&this->actor.world.pos, &this->actor.home.pos) > 25600.0f) {
