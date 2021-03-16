@@ -3378,11 +3378,7 @@ endseg
 beginseg
     name "ovl_Obj_Mure2"
     include "build/src/overlays/actors/ovl_Obj_Mure2/z_obj_mure2.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Obj_Mure2/ovl_Obj_Mure2_reloc.o"
-#else
-    include "build/data/overlays/actors/z_obj_mure2.reloc.o"
-#endif
 endseg
 
 beginseg
