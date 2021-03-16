@@ -358,7 +358,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
-
+            
             if (this->touchedPoly && (this->hitActor != NULL)) {
                 this->hitActor->flags &= ~0x8000;
                 this->hitActor = NULL;
@@ -487,7 +487,7 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1374),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768), MTXMODE_APPLY);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1381);

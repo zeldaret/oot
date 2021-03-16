@@ -188,37 +188,43 @@ endseg
 beginseg
     name "item_name_static"
     romalign 0x1000
-    include "build/baserom/item_name_static.o"
+    include "build/assets/textures/item_name_static/item_name_static.o"
+    number 10
 endseg
 
 beginseg
     name "map_name_static"
     romalign 0x1000
-    include "build/baserom/map_name_static.o"
+    include "build/assets/textures/map_name_static/map_name_static.o"
+    number 11
 endseg
 
 beginseg
     name "do_action_static"
     romalign 0x1000
-    include "build/baserom/do_action_static.o"
+    include "build/assets/textures/do_action_static/do_action_static.o"
+    number 7
 endseg
 
 beginseg
     name "message_static"
     romalign 0x1000
-    include "build/baserom/message_static.o"
+    include "build/assets/textures/message_static/message_static.o"
+    number 7
 endseg
 
 beginseg
     name "message_texture_static"
     romalign 0x1000
-    include "build/baserom/message_texture_static.o"
+    include "build/assets/textures/message_texture_static/message_texture_static.o"
+    number 9
 endseg
 
 beginseg
     name "nes_font_static"
     romalign 0x1000
-    include "build/baserom/nes_font_static.o"
+    include "build/assets/textures/nes_font_static/nes_font_static.o"
+    number 10
 endseg
 
 beginseg
@@ -248,7 +254,8 @@ endseg
 beginseg
     name "map_grand_static"
     romalign 0x1000
-    include "build/baserom/map_grand_static.o"
+    include "build/assets/textures/map_grand_static/map_grand_static.o"
+    number 11
 endseg
 
 beginseg
@@ -260,7 +267,8 @@ endseg
 beginseg
     name "map_i_static"
     romalign 0x1000
-    include "build/baserom/map_i_static.o"
+    include "build/assets/textures/map_i_static/map_i_static.o"
+    number 11
 endseg
 
 beginseg
@@ -757,8 +765,7 @@ endseg
 beginseg
     name "ovl_Bg_Haka_Ship"
     include "build/src/overlays/actors/ovl_Bg_Haka_Ship/z_bg_haka_ship.o"
-    include "build/data/overlays/actors/z_bg_haka_ship.data.o"
-    include "build/data/overlays/actors/z_bg_haka_ship.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Haka_Ship/ovl_Bg_Haka_Ship_reloc.o"
 endseg
 
 beginseg
@@ -1458,8 +1465,7 @@ endseg
 beginseg
     name "ovl_Demo_Du"
     include "build/src/overlays/actors/ovl_Demo_Du/z_demo_du.o"
-    include "build/data/overlays/actors/z_demo_du.data.o"
-    include "build/data/overlays/actors/z_demo_du.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Du/ovl_Demo_Du_reloc.o"
 endseg
 
 beginseg
@@ -1489,8 +1495,7 @@ endseg
 beginseg
     name "ovl_Demo_Gj"
     include "build/src/overlays/actors/ovl_Demo_Gj/z_demo_gj.o"
-    include "build/data/overlays/actors/z_demo_gj.data.o"
-    include "build/data/overlays/actors/z_demo_gj.reloc.o"
+    include "build/src/overlays/actors/ovl_Demo_Gj/ovl_Demo_Gj_reloc.o"
 endseg
 
 beginseg
@@ -1570,8 +1575,7 @@ endseg
 beginseg
     name "ovl_Door_Killer"
     include "build/src/overlays/actors/ovl_Door_Killer/z_door_killer.o"
-    include "build/data/overlays/actors/z_door_killer.data.o"
-    include "build/data/overlays/actors/z_door_killer.reloc.o"
+    include "build/src/overlays/actors/ovl_Door_Killer/ovl_Door_Killer_reloc.o"
 endseg
 
 beginseg
@@ -1972,8 +1976,7 @@ endseg
 beginseg
     name "ovl_En_Brob"
     include "build/src/overlays/actors/ovl_En_Brob/z_en_brob.o"
-    include "build/data/overlays/actors/z_en_brob.data.o"
-    include "build/data/overlays/actors/z_en_brob.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Brob/ovl_En_Brob_reloc.o"
 endseg
 
 beginseg
@@ -2178,8 +2181,7 @@ endseg
 beginseg
     name "ovl_En_Encount2"
     include "build/src/overlays/actors/ovl_En_Encount2/z_en_encount2.o"
-    include "build/data/overlays/actors/z_en_encount2.data.o"
-    include "build/data/overlays/actors/z_en_encount2.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Encount2/ovl_En_Encount2_reloc.o"
 endseg
 
 beginseg
@@ -2216,8 +2218,7 @@ endseg
 beginseg
     name "ovl_En_Fire_Rock"
     include "build/src/overlays/actors/ovl_En_Fire_Rock/z_en_fire_rock.o"
-    include "build/data/overlays/actors/z_en_fire_rock.data.o"
-    include "build/data/overlays/actors/z_en_fire_rock.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fire_Rock/ovl_En_Fire_Rock_reloc.o"
 endseg
 
 beginseg
@@ -3241,8 +3242,7 @@ endseg
 beginseg
     name "ovl_Item_Shield"
     include "build/src/overlays/actors/ovl_Item_Shield/z_item_shield.o"
-    include "build/data/overlays/actors/z_item_shield.data.o"
-    include "build/data/overlays/actors/z_item_shield.reloc.o"
+    include "build/src/overlays/actors/ovl_Item_Shield/ovl_Item_Shield_reloc.o"
 endseg
 
 beginseg
@@ -6224,13 +6224,15 @@ endseg
 beginseg
     name "nintendo_rogo_static"
     romalign 0x1000
-    include "build/baserom/nintendo_rogo_static.o"
+    include "build/assets/textures/nintendo_rogo_static/nintendo_rogo_static.o"
+    number 1
 endseg
 
 beginseg
     name "title_static"
     romalign 0x1000
-    include "build/baserom/title_static.o"
+    include "build/assets/textures/title_static/title_static.o"
+    number 1
 endseg
 
 beginseg

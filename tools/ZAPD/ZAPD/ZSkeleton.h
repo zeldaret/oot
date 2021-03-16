@@ -2,64 +2,40 @@
 
 #include <vector>
 #include <string>
-#include <stdint.h>
+#include <cstdint>
 #include "ZFile.h"
-
-enum class ZLimbType
-{
-	Standard,
-	LOD
-};
-
-struct ZLimbStandard : public ZResource
-{
-	uint32_t address;
-	std::string name;
-
-	int16_t transX, transY, transZ;
-	uint8_t childIndex, siblingIndex;
-	uint32_t dListPtr;
-
-	std::vector<ZLimbStandard*> children;
-
-	ZLimbStandard();
-	static ZLimbStandard* FromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* parent);
-	static ZLimbStandard* FromRawData(std::vector<uint8_t> nRawData, int rawDataIndex);
-	std::string GetSourceOutputCode(const std::string& prefix) override;
-	int GetRawDataSize() override;
-};
-
-struct ZLimbLOD : ZLimbStandard
-{
-	uint32_t farDListPtr;
-
-	ZLimbLOD();
-	//static ZLimbLOD* FromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* parent);
-	static ZLimbLOD* FromRawData(std::vector<uint8_t> nRawData, int rawDataIndex);
-	std::string GetSourceOutputCode(const std::string& prefix) override;
-	int GetRawDataSize() override;
-};
+#include "ZDisplayList.h"
+#include "ZLimb.h"
 
 enum ZSkeletonType
 {
 	Normal,
-	Flex,
-	Skin
+	Flex
 };
 
 class ZSkeleton : public ZResource
 {
 public:
-	ZSkeletonType type;
-	std::vector<ZLimbStandard*> limbs;
-	ZLimbStandard* rootLimb;
+	ZSkeletonType type = ZSkeletonType::Normal;
+	ZLimbType limbType = ZLimbType::Standard;
+	std::vector<ZLimb*> limbs;
+	segptr_t limbsArrayAddress;
+	uint8_t limbCount;
 	uint8_t dListCount; // FLEX SKELETON ONLY
 
-	ZSkeleton();
-	virtual void GenerateHLIntermediette(HLFileIntermediette& hlFile);
+	ZSkeleton(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, int nRawDataIndex, ZFile* nParent);
+	~ZSkeleton();
+	void ParseXML(tinyxml2::XMLElement* reader) override;
+	void ParseRawData() override;
 	static ZSkeleton* FromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* nParent);
 	void Save(const std::string& outFolder) override;
+	void GenerateHLIntermediette(HLFileIntermediette& hlFile) override;
+
+	int GetRawDataSize() override;
+	std::string GetSourceOutputCode(const std::string& prefix) override;
+
+	std::string GetSourceTypeName() override;
 	ZResourceType GetResourceType() override;
 
-	std::string GetSourceOutputCode(const std::string& prefix) override;
+	segptr_t GetAddress();
 };

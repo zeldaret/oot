@@ -87,7 +87,7 @@ void func_809B26EC(EnAnubiceFire* this, GlobalContext* globalCtx) {
     Matrix_RotateX(BINANG_TO_RAD(this->actor.world.rot.x), MTXMODE_APPLY);
     velocity.z = 15.0f;
     Matrix_MultVec3f(&velocity, &this->actor.velocity);
-    Matrix_Pull();
+    Matrix_Pop();
 
     this->actionFunc = func_809B27D8;
     this->actor.world.rot.x = this->actor.world.rot.y = this->actor.world.rot.z = 0;
@@ -252,7 +252,7 @@ void EnAnubiceFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
             break;
         }
     }
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_anubice_fire.c", 556);
 }
