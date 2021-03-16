@@ -13,7 +13,7 @@
 #define SEGMENT_OBJECT 6
 #define SEGMENT_LINKANIMETION 7
 
-#define SEG2FILESPACE(x) (x & 0x00FFFFFF)
+#define GETSEGOFFSET(x) (x & 0x00FFFFFF)
 #define GETSEGNUM(x) ((x >> 24) & 0xFF)
 
 typedef uint32_t segptr_t;
@@ -125,3 +125,6 @@ public:
 protected:
 	Declaration(DeclarationAlignment nAlignment, DeclarationPadding nPadding, uint32_t nSize, std::string nText);
 };
+
+
+uint32_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress);
