@@ -385,7 +385,7 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
                 }
                 player->doorTimer = 10;
             }
-            player->doorType = 2;
+            player->doorType = PLAYER_DOORTYPE_SLIDING;
             player->doorDirection = doorDirection;
             player->doorActor = &this->dyna.actor;
         }
