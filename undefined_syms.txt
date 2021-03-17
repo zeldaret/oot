@@ -1891,24 +1891,6 @@ D_06012014 = 0x06012014;
 // z_demo_ext
 D_0600FAA0 = 0x0600FAA0;
 
-// z_demo_gj
-gGanonsCastleRubbleAroundArenaDL = 0x06000DC0;
-gGanonsCastleRubbleAroundArenaCol = 0x06001B70;
-gGanonsCastleRubble2DL = 0x06001D20;
-gGanonsCastleRubble2Col = 0x06001F70;
-gGanonsCastleRubble3DL = 0x06002160;
-gGanonsCastleRubble3Col = 0x06002448;
-gGanonsCastleRubble4DL = 0x06002600;
-gGanonsCastleRubble4Col = 0x06002850;
-gGanonsCastleRubble5DL = 0x06002A40;
-gGanonsCastleRubble5Col = 0x06002D28;
-gGanonsCastleRubble6DL = 0x06002E80;
-gGanonsCastleRubble6Col = 0x06002FE4;
-gGanonsCastleRubble7DL = 0x06003190;
-gGanonsCastleRubble7Col = 0x060033E0;
-gGanonsCastleRubbleTallDL = 0x06003710;
-gGanonsCastleRubbleTallCol = 0x06003AF0;
-
 // z_demo_ik
 D_0600035C = 0x0600035C;
 D_06000380 = 0x06000380;

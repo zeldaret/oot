@@ -5793,7 +5793,8 @@ endseg
 beginseg
     name "object_gj"
     romalign 0x1000
-    include "build/baserom/object_gj.o"
+    include "build/assets/objects/object_gj/object_gj.o"
+    number 6
 endseg
 
 beginseg
