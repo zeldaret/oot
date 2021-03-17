@@ -301,225 +301,79 @@ s32 func_80AADE60(Path* pathList, Vec3f* pos, s32 pathNum, s32 waypoint) {
     return 0;
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mm/func_80AADEF0.s")
-// void func_80AADEF0(EnMm *this, GlobalContext *globalCtx) {
-//     f32 sp64;
-//     s32 sp60;
-//     EnMmPathInfo *temp_a0;
-//     f32 temp_f0;
-//     f32 temp_f0_2;
-//     f32 temp_f20;
-//     f32 temp_f20_2;
-//     f32 temp_f22;
-//     f32 temp_f22_2;
-//     f32 temp_f8;
-//     f32 temp_f8_2;
-//     s32 temp_a2;
-//     s32 temp_a3;
-//     s32 temp_a3_2;
-//     s32 temp_a3_3;
-//     s32 temp_t6;
-//     s32 temp_v0;
-//     s32 temp_v1;
-//     EnMmPathInfo *phi_a0;
-//     s32 phi_a2;
-//     EnMmPathInfo *phi_a0_2;
-//     s32 phi_v1;
-//     s32 phi_a3;
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Mm/func_80AADEF0.s")
 
-//     func_80AADE60(globalCtx->setupPathList, &sp64, this->path, this->waypoint);
-//     temp_f20 = sp64 - this->actor.world.pos.x;
-//     temp_f22 = sp6C - this->actor.world.pos.z;
-//     temp_f0 = sqrtf((temp_f20 * temp_f20) + (temp_f22 * temp_f22));
-//     temp_f8 = Math_FAtan2F(temp_f20, temp_f22) * 10430.378f;
-//     this->yawToWaypoint = temp_f0;
-//     this->distToWaypoint = temp_f8;
-//     if ((temp_f0 <= 10.44f) && (this->unk_1E8 != 0)) {
-// loop_3:
-//         temp_a0 = &D_80AAEBA8[this->unk_1E8];
-//         this->waypoint = this->waypoint + temp_a0->unk_00;
-//         temp_a2 = temp_a0->unk_08;
-//         if (temp_a2 != 0) {
-//             if (temp_a2 != 1) {
-//                 if (temp_a2 != 2) {
-//                     phi_a0 = temp_a0;
-//                     phi_a2 = temp_a2;
-//                 } else {
-//                     phi_a0 = temp_a0;
-//                     phi_a2 = this->unk_1F0;
-//                 }
-//             } else {
-//                 phi_a0 = &D_80AAEBA8[this->unk_1E8];
-//                 phi_a2 = EnMm_GetPointCount(globalCtx->setupPathList, this->path) - 1;
-//             }
-//         } else {
-//             phi_a0 = temp_a0;
-//             phi_a2 = 0;
-//         }
-//         temp_v1 = phi_a0->unk_0C;
-//         if (temp_v1 != 0) {
-//             if (temp_v1 != 1) {
-//                 if (temp_v1 != 2) {
-//                     phi_a0_2 = phi_a0;
-//                     phi_v1 = temp_v1;
-//                 } else {
-//                     phi_a0_2 = phi_a0;
-//                     phi_v1 = this->unk_1F0;
-//                 }
-//             } else {
-//                 sp60 = phi_a2;
-//                 phi_a0_2 = &D_80AAEBA8[this->unk_1E8];
-//                 phi_v1 = EnMm_GetPointCount(globalCtx->setupPathList, this->path) - 1;
-//             }
-//         } else {
-//             phi_a0_2 = phi_a0;
-//             phi_v1 = 0;
-//         }
-//         temp_v0 = phi_a0_2->unk_00;
-//         if (temp_v0 >= 0) {
-//             temp_a3 = this->waypoint;
-//             if ((temp_a3 >= phi_a2) && (phi_v1 >= temp_a3)) {
-// block_20:
-//                 temp_a3_2 = this->waypoint;
-//                 phi_a3 = temp_a3_2;
-//                 if (temp_v0 < 0) {
-//                     if ((phi_a2 < temp_a3_2) || (phi_a3 = temp_a3_2, ((temp_a3_2 < phi_v1) != 0))) {
-// block_23:
-//                         temp_t6 = phi_a0_2->unk_04;
-//                         this->unk_1E8 = temp_t6;
-//                         temp_a3_3 = D_80AAEBA8[temp_t6].unk_08;
-//                         this->waypoint = temp_a3_3;
-//                         phi_a3 = temp_a3_3;
-//                     }
-//                 }
-//             } else {
-//                 goto block_23;
-//             }
-//         } else {
-//             goto block_20;
-//         }
-//         func_80AADE60(globalCtx->setupPathList, &sp64, this->path, phi_a3);
-//         temp_f20_2 = sp64 - this->actor.world.pos.x;
-//         temp_f22_2 = sp6C - this->actor.world.pos.z;
-//         temp_f0_2 = sqrtf((temp_f20_2 * temp_f20_2) + (temp_f22_2 * temp_f22_2));
-//         temp_f8_2 = Math_FAtan2F(temp_f20_2, temp_f22_2) * 10430.378f;
-//         this->yawToWaypoint = temp_f0_2;
-//         this->distToWaypoint = temp_f8_2;
-//         if (temp_f0_2 <= 10.44f) {
-//             if (this->unk_1E8 != 0) {
-//                 goto loop_3;
-//             }
-//         }
-//     }
+s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
+    Vec3f waypointPos; // sp64
+    f32 xDiff;
+    f32 zDiff;
+    s32 phi_a2;
+    s32 phi_v1;
 
-//     Math_SmoothStepToS(&this->actor.shape.rot.y, this->distToWaypoint, 1, 0x9C4, 0);
-//     this->actor.world.rot.y = this->actor.shape.rot.y;
-//     Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZ, 0.6f, this->yawToWaypoint, 0.0f);
-//     Actor_MoveForward(this);
-//     Actor_UpdateBgCheckInfo(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
-// }
+    func_80AADE60(globalCtx->setupPathList, &waypointPos, this->path, this->waypoint);
 
+    xDiff = waypointPos.x - this->actor.world.pos.x;
+    zDiff = waypointPos.z - this->actor.world.pos.z;
 
+    this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+    this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
+    while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
+        this->waypoint += D_80AAEBA8[this->unk_1E8].unk_00;
 
-// void func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
-//     Vec3f sp64;
-//     s32 sp60;
-//     char* temp_a3;
-//     char* temp_a3_2;
-//     char* temp_a3_3;
-//     f32 temp_f0;
-//     f32 temp_f0_2;
-//     f32 temp_f20;
-//     f32 temp_f20_2;
-//     f32 temp_f22;
-//     f32 temp_f22_2;
-//     f32 temp_f8;
-//     f32 temp_f8_2;
-//     s32 temp_a2;
-//     s32 temp_t6;
-//     s32 temp_v0;
-//     s32 temp_v1;
-//     void* temp_a0;
-//     void* phi_a0;
-//     s32 phi_a2;
-//     void* phi_a0_2;
-//     s32 phi_v1;
-//     char* phi_a3;
+        switch (D_80AAEBA8[this->unk_1E8].unk_08) {
+            case 0:
+                phi_a2 = 0;
+                break;
+            case 1:
+                phi_a2 = EnMm_GetPointCount(globalCtx->setupPathList, this->path) - 1;
+                break;
+            case 2:
+                phi_a2 = this->unk_1F0;
+                break;
+            default:
+                phi_a2 = D_80AAEBA8[this->unk_1E8].unk_08;
+                break;
+        }
 
-//     func_80AADE60(globalCtx->setupPathList, &sp64, this->path, this->waypoint);
+        switch (D_80AAEBA8[this->unk_1E8].unk_0C) {
+            case 0:
+                phi_v1 = 0;
+                break;
+            case 1:
+                phi_v1 = EnMm_GetPointCount(globalCtx->setupPathList, this->path) - 1;
+                break;
+            case 2:
+                phi_v1 = this->unk_1F0;
+                break;
+            default:
+                phi_v1 = D_80AAEBA8[this->unk_1E8].unk_0C;
+                break;
+        }
 
-//     temp_f20 = sp64.x - this->actor.world.pos.x;
-//     temp_f22 = sp64.z - this->actor.world.pos.z;
-//     temp_f0 = sqrtf(SQ(temp_f20) + SQ(temp_f22));
-//     temp_f8 = Math_FAtan2F(temp_f20, temp_f22) * 10430.378f;
-//     this->distToWaypoint = temp_f0;
-//     this->yawToWaypoint = temp_f8;
-//     // might need to use temp?
+        if ((D_80AAEBA8[this->unk_1E8].unk_00 >= 0 && (this->waypoint < phi_a2 || phi_v1 < this->waypoint)) || 
+            (D_80AAEBA8[this->unk_1E8].unk_00 < 0 && (phi_a2 < this->waypoint || this->waypoint < phi_v1))) {
+                this->unk_1E8 = D_80AAEBA8[this->unk_1E8].unk_04;
+                this->waypoint = D_80AAEBA8[this->unk_1E8].unk_08;
+        }
+        
+        func_80AADE60(globalCtx->setupPathList, &waypointPos, this->path, this->waypoint);
 
-//     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
-//         this->waypoint += D_80AAEBA8[this->unk_1E8].unk_00;
+        xDiff = waypointPos.x - this->actor.world.pos.x;
+        zDiff = waypointPos.z - this->actor.world.pos.z;
 
-//         switch (D_80AAEBA8[this->unk_1E8].unk_08) {
-//             case 0:
-//                 phi_a2 = 0;
-//                 break;
-//             case 1:
-//                 phi_a2 = EnMm_GetPointCount(globalCtx->setupPathList, this->path, D_80AAEBA8[this->unk_1E8].unk_08) -
-//                 1; break;
-//             case 2:
-//                 phi_a2 = this->unk_1F0;
-//                 break;
-//             default:
-//                 phi_a2 = D_80AAEBA8[this->unk_1E8].unk_08;
-//         }
+        this->yawToWaypoint = (s32)(Math_FAtan2F(xDiff, zDiff) * 10430.378f);
+        this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
+    }
 
-//         switch (D_80AAEBA8[this->unk_1E8].unk_0C) {
-//             case 0:
-//                 phi_v1 = 0;
-//                 break;
-//             case 1:
-//                 phi_v1 = EnMm_GetPointCount(globalCtx->setupPathList, this->path, phi_a2) - 1;
-//                 break;
-//             case 2:
-//                 phi_v1 = this->unk_1F0;
-//                 break;
-//             default:
-//                 phi_v1 = D_80AAEBA8[this->unk_1E8].unk_0C;
-//         }
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->yawToWaypoint, 1, 2500, 0);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
+    Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
+    Actor_MoveForward(&this->actor);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
 
-//         if (D_80AAEBA8[this->unk_1E8].unk_00 >= 0) {
-//             if ((this->waypoint >= phi_a2) && (phi_v1 >= this->waypoint)) {
-//             block_20:
-
-//                 if (D_80AAEBA8[this->unk_1E8].unk_00 < 0) {
-//                     if ((phi_a2 < this->waypoint) || (this->waypoint < phi_v1)) { // second cond had != 0 ?
-//                     block_23:
-//                         this->waypoint = D_80AAEBA8[D_80AAEBA8[this->unk_1E8].unk_04].unk_08;
-//                     }
-//                 }
-//             } else {
-//                 goto block_23;
-//             }
-//         } else {
-//             goto block_20;
-//         }
-
-//         func_80AADE60(globalCtx->setupPathList, &sp64, this->path, this->waypoint);
-//         temp_f20_2 = sp64.x - this->actor.world.pos.x;
-//         temp_f22_2 = sp64.z - this->actor.world.pos.z;
-//         temp_f0_2 = sqrtf((temp_f20_2 * temp_f20_2) + (temp_f22_2 * temp_f22_2));
-//         temp_f8_2 = Math_FAtan2F(temp_f20_2, temp_f22_2) * 10430.378f;
-//         this->distToWaypoint = temp_f0_2;
-//         this->yawToWaypoint = temp_f8_2;
-//     }
-
-//     Math_SmoothStepToS(&this->actor.shape.rot.y, this->yawToWaypoint, 1, 2500, 0);
-//     this->actor.world.rot.y = this->actor.shape.rot.y;
-//     Math_SmoothStepToF(&this->actor.speedXZ, this->speedXZ, 0.6f, this->distToWaypoint, 0.0f);
-//     Actor_MoveForward(this);
-//     Actor_UpdateBgCheckInfo(globalCtx, this, 0.0f, 0.0f, 0.0f, 4);
-// }
+    return 0;
+}
 
 void func_80AAE224(EnMm* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
