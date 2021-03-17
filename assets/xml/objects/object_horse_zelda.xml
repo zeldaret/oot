@@ -5,7 +5,6 @@
         <Animation Name="gHorseZeldaRunningAnim" Offset="0x7148"/>
 
         <Texture Name="gHorseZeldaEyeTex" OutName="horse_zelda_eye" Format="rgb5a1" Width="32" Height="16" Offset="0x8" />
-        <Texture Name="gHorseZeldaHeadTex_0988" OutName="horse_zelda_head_0988" Format="rgb5a1" Width="4" Height="4" Offset="0x988" />
         <Texture Name="gHorseZeldaHeadHairTex" OutName="horse_zelda_head_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x688" />
         <Texture Name="gHorseZeldaNoseTex" OutName="horse_zelda_nose" Format="rgb5a1" Width="16" Height="16" Offset="0x488" />
 
