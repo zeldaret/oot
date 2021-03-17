@@ -16,8 +16,8 @@
         <Animation Name="gHorseNormalAnim_0035D4" Offset="0x35D4"/>
         <!-- Idle1. Horse moving leg. -->
         <Animation Name="gHorseNormalIdleAnim" Offset="0x4580"/>
-        <!-- Idle2. Moving head? -->
-        <Animation Name="gHorseNormalAnim_004C20" Offset="0x4C20"/>
+        <!-- Idle2. Moving head. -->
+        <Animation Name="gHorseNormalWhinnyAnim" Offset="0x4C20"/>
         <!-- Walking slow. -->
         <Animation Name="gHorseNormalWalkingSlowAnim" Offset="0x54BC"/>
 

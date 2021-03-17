@@ -4,8 +4,8 @@
 
         <!-- Idle. Horse moving leg. -->
         <Animation Name="gHorseGanonIdleAnim" Offset="0x4AA4"/>
-        <!-- Idle2? Moving head? -->
-        <Animation Name="gHorseGanonAnim_005264" Offset="0x5264"/>
+        <!-- Idle2. Moving head. -->
+        <Animation Name="gHorseGanonWhinnyAnim" Offset="0x5264"/>
         <!-- Walking slow. -->
         <Animation Name="gHorseGanonWalkingSlowAnim" Offset="0x5B78"/>
         <!-- Walking fast. -->
