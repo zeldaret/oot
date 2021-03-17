@@ -11,7 +11,7 @@ using namespace std;
 SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, int segAddressOffset) : ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	data = rawData[rawDataIndex + 1];
-	segmentOffset = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
+	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
 
 	string declaration = "";
 	int8_t meshHeaderType = rawData[segmentOffset + 0];
@@ -22,8 +22,8 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 		meshHeader0->headerType = 0;
 		meshHeader0->entries = vector<MeshEntry0*>();
 
-		meshHeader0->dListStart = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, segmentOffset + 4));
-		meshHeader0->dListEnd = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, segmentOffset + 8));
+		meshHeader0->dListStart = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, segmentOffset + 4));
+		meshHeader0->dListEnd = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, segmentOffset + 8));
 
 		int8_t numEntries = rawData[segmentOffset + 1];
 		uint32_t currentPtr = meshHeader0->dListStart;
@@ -38,8 +38,8 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 		for (int i = 0; i < numEntries; i++)
 		{
 			MeshEntry0* entry = new MeshEntry0();
-			entry->opaqueDListAddr = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, currentPtr + 0));
-			entry->translucentDListAddr = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, currentPtr + 4));
+			entry->opaqueDListAddr = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, currentPtr + 0));
+			entry->translucentDListAddr = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, currentPtr + 4));
 
 			if (entry->opaqueDListAddr != 0)
 			{
@@ -82,12 +82,12 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 		for (int i = 0; i < meshHeader0->entries.size(); i++)
 		{
 			if (meshHeader0->entries[i]->opaqueDListAddr != 0)
-				declaration += StringHelper::Sprintf("\t{ (u32)%sDlist0x%06X, ", zRoom->GetName().c_str(), meshHeader0->entries[i]->opaqueDListAddr);
+				declaration += StringHelper::Sprintf("\t{ (u32)%sDL_%06X, ", zRoom->GetName().c_str(), meshHeader0->entries[i]->opaqueDListAddr);
 			else
 				declaration += "\t{ 0, ";
 
 			if (meshHeader0->entries[i]->translucentDListAddr != 0)
-				declaration += StringHelper::Sprintf("(u32)%sDlist0x%06X },\n", zRoom->GetName().c_str(), meshHeader0->entries[i]->translucentDListAddr);
+				declaration += StringHelper::Sprintf("(u32)%sDL_%06X },\n", zRoom->GetName().c_str(), meshHeader0->entries[i]->translucentDListAddr);
 			else
 				declaration += "0 },\n";
 		}
@@ -134,7 +134,7 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 				StringHelper::Sprintf("%sMeshHeader0x%06X", zRoom->GetName().c_str(), segmentOffset), declaration);
 
 			meshHeader1 = headerSingle;
-;		}
+		}
 		else if (fmt == 2) // Multi-Format
 		{
 			MeshHeader1Multi* headerMulti = new MeshHeader1Multi();
@@ -173,8 +173,8 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 		meshHeader2->headerType = 2;
 		
 		meshHeader2->entries = vector<MeshEntry2*>();
-		meshHeader2->dListStart = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, segmentOffset + 4));
-		meshHeader2->dListEnd = SEG2FILESPACE(BitConverter::ToInt32BE(rawData, segmentOffset + 8));
+		meshHeader2->dListStart = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, segmentOffset + 4));
+		meshHeader2->dListEnd = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, segmentOffset + 8));
 
 		int8_t numEntries = rawData[segmentOffset + 1];
 		uint32_t currentPtr = meshHeader2->dListStart;
@@ -234,12 +234,12 @@ SetMesh::SetMesh(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex, 
 			declaration += StringHelper::Sprintf("\t{ %i, %i, %i, %i, ", meshHeader2->entries[i]->playerXMax, meshHeader2->entries[i]->playerZMax, meshHeader2->entries[i]->playerXMin, meshHeader2->entries[i]->playerZMin);
 
 			if (meshHeader2->entries[i]->opaqueDListAddr != 0)
-				declaration += StringHelper::Sprintf("(u32)%sDlist0x%06X, ", zRoom->GetName().c_str(), meshHeader2->entries[i]->opaqueDListAddr);
+				declaration += StringHelper::Sprintf("(u32)%sDL_%06X, ", zRoom->GetName().c_str(), meshHeader2->entries[i]->opaqueDListAddr);
 			else
 				declaration += "0, ";
 
 			if (meshHeader2->entries[i]->translucentDListAddr != 0)
-				declaration += StringHelper::Sprintf("(u32)%sDlist0x%06X },\n", zRoom->GetName().c_str(), meshHeader2->entries[i]->translucentDListAddr);
+				declaration += StringHelper::Sprintf("(u32)%sDL_%06X },\n", zRoom->GetName().c_str(), meshHeader2->entries[i]->translucentDListAddr);
 			else
 				declaration += "0 },\n";
 		}
@@ -306,9 +306,9 @@ std::string SetMesh::GenDListExterns(ZDisplayList* dList)
 	string sourceOutput = "";
 	
 	if (Globals::Instance->includeFilePrefix)
-		sourceOutput += StringHelper::Sprintf("extern Gfx %sDlist0x%06X[];\n", zRoom->GetName().c_str(), dList->GetRawDataIndex());
+		sourceOutput += StringHelper::Sprintf("extern Gfx %sDL_%06X[];\n", zRoom->GetName().c_str(), dList->GetRawDataIndex());
 	else
-		sourceOutput += StringHelper::Sprintf("extern Gfx dlist0x%06X[];\n", dList->GetRawDataIndex());
+		sourceOutput += StringHelper::Sprintf("extern Gfx DL_%06X[];\n", dList->GetRawDataIndex());
 
 	for (ZDisplayList* otherDList : dList->otherDLists)
 		sourceOutput += GenDListExterns(otherDList);
