@@ -1117,6 +1117,9 @@ s16 OnePointDemo_SetAsChild(GlobalContext* globalCtx, s16 newCamIdx, s16 parentC
     return prevCamIdx;
 }
 
+/**
+ * Removes a demo camera from the list. Returns the parent cam if the removed camera is active, otherwise returns SUBCAM_NONE
+ */
 s32 OnePointDemo_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     s32 nextCamIdx;
@@ -1140,6 +1143,9 @@ s32 OnePointDemo_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
 #define vCurCamIdx temp2
 #define vNextCamIdx temp1
 
+/**
+ * Creates a demo subcamera with the specified ID, duration, and targeted actor. The camera is placed into the demo queue in front of the specified camera, then all lower priority demos in front of it are removed from the queue.
+ */
 s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* actor, s16 parentCamIdx) {
     s16 temp1;
     s16 temp2;
@@ -1155,7 +1161,7 @@ s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* ac
         return SUBCAM_NONE;
     }
 
-    // Inserts a demo camera into the demo list
+    // Inserts the demo camera into the demo queue in front of parentCam
 
     vChildCamIdx = globalCtx->cameraPtrs[parentCamIdx]->childCamIdx;
     vDemoStatus = CAM_STAT_ACTIVE;
@@ -1186,7 +1192,7 @@ s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* ac
     OnePointDemo_SetInfo(globalCtx, demoCamIdx, demoId, actor, timer);
     Gameplay_ChangeCameraStatus(globalCtx, demoCamIdx, vDemoStatus);
 
-    // Removes lower priority child demos
+    // Removes all lower priority demos in front of this demo from the queue.
     vCurCamIdx = demoCamIdx;
     vNextCamIdx = globalCtx->cameraPtrs[demoCamIdx]->childCamIdx;
 
@@ -1213,7 +1219,9 @@ s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 demoId, s16 timer, Actor* ac
     return demoCamIdx;
 }
 
-// Ends the onepointdemo in camIdx by setting its timer to 0. For attention demos, it is set to 5 instead.
+/**
+ *  Ends the onepointdemo in camIdx by setting its timer to 0. For attention demos, it is set to 5 instead.
+ */
 s16 OnePointDemo_EndDemo(GlobalContext* globalCtx, s16 camIdx) {
     if (camIdx == SUBCAM_ACTIVE) {
         camIdx = globalCtx->activeCamera;
@@ -1235,7 +1243,9 @@ s16 OnePointDemo_EndDemo(GlobalContext* globalCtx, s16 camIdx) {
 #define vLastHigherCat temp2
 #define vDemoCamIdx temp2
 
-// Adds an attention demo to the demo list. Lower category actors have their demos play first.
+/**
+ *  Adds an attention demo to the demo queue. 
+ */
 s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
     Camera* parentCam;
     s32 temp1;
@@ -1277,7 +1287,7 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
         }
     }
     // Actorcat is only undefined if the actor is in a higher category than all other attention demos. In this case, it
-    // goes on the bottom of the demo stack. Otherwise, it goes in the index found in the loop.
+    // goes in the first position of the list. Otherwise, it goes in the index found in the loop.
     vParentCamIdx = (vLastHigherCat == -1) ? MAIN_CAM : parentCam->thisIdx;
 
     switch (actor->category) {
@@ -1324,7 +1334,9 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
     }
 }
 
-// Adds an attention demo to the list with the specified sound effect
+/**
+ *  Adds an attention demo to the demo queue with the specified sound effect
+ */
 s32 OnePointDemo_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfxId) {
     s32 demoCamIdx = OnePointDemo_Attention(globalCtx, actor);
 
@@ -1361,5 +1373,5 @@ s32 OnePointDemo_CheckForCategory(GlobalContext* globalCtx, s32 category) {
 }
 
 // unused, also empty.
-void OnePointDemo_Noop(GlobalContext* globalCtx, UNK_TYPE arg1) {
+void OnePointDemo_Noop(GlobalContext* globalCtx, s32 arg1) {
 }

@@ -1079,7 +1079,7 @@ s32 OnePointDemo_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfx
 void OnePointDemo_EnableAttention(void);
 void OnePointDemo_DisableAttention(void);
 s32 OnePointDemo_CheckForCategory(GlobalContext* globalCtx, s32 actorCategory);
-void OnePointDemo_Noop(GlobalContext* globalCtx, UNK_TYPE arg1);
+void OnePointDemo_Noop(GlobalContext* globalCtx, s32 arg1);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor);
 void Map_InitData(GlobalContext* globalCtx, s16 room);
