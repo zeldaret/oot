@@ -17,8 +17,6 @@ expected/
 notes/
 baserom/
 docs/doxygen/
-tools/ido_recomp/build71
-tools/ido_recomp/build53
 *.elf
 *.sra
 *.z64
@@ -38,6 +36,8 @@ tools/asmsplitter/asm/*
 tools/asmsplitter/c/*
 ctx.c
 tools/*dSYM/
+tools/ido_recomp/build71/*
+tools/ido_recomp/build53/*
 
 # Assets
 *.rgba32.png
