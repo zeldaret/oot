@@ -17,6 +17,8 @@ expected/
 notes/
 baserom/
 docs/doxygen/
+tools/ido_recomp/build71
+tools/ido_recomp/build53
 *.elf
 *.sra
 *.z64
