@@ -29,9 +29,10 @@ Most objects are used by at least one actor. For those used by an actor, we can 
 
 ### Files and folders
 
-Make:
-- A folder `assets/objects/object_name/` for ZAPD to put the extracted files in (`object_name` being the name of the object),
-- An XML file for the instructions, `assets/xml/objects/object_name.xml`
+Make an XML file for the instructions, `assets/xml/objects/object_name.xml`.
+
+The ZAPD output will go in the folder `assets/objects/object_name/`: you'll want this folder open later to check the output is correct.
+
 
 
 ### Extracting assets
