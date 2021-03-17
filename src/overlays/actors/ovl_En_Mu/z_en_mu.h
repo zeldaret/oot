@@ -13,10 +13,10 @@ typedef struct EnMu {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnMuActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ char dialogState[0x28];
+    /* 0x01E0 */ struct_80034A14_arg1 dialogState;
     /* 0x0208 */ u16 defFaceReaction;
-    /* 0x020A */ s16 jointTable[0x10];
-    /* 0x022A */ s16 morphTable[0x11];
+    /* 0x020A */ s16 jointTable[16];
+    /* 0x022A */ s16 morphTable[17];
 } EnMu; // size = 0x024C
 
 extern const ActorInit En_Mu_InitVars;
