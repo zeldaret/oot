@@ -297,12 +297,6 @@ public:
 class ZDisplayList : public ZResource
 {
 protected:
-	uint32_t lastTexWidth, lastTexHeight, lastTexAddr, lastTexSeg;
-	F3DZEXTexFormats lastTexFmt;
-	F3DZEXTexSizes lastTexSiz, lastTexSizTest, lastCISiz;
-	bool lastTexLoaded;
-	bool lastTexIsPalette;
-
 	static TextureType TexFormatToTexType(F3DZEXTexFormats fmt, F3DZEXTexSizes siz);
 	void ParseRawData();
 
@@ -341,6 +335,13 @@ public:
 	std::string sceneSegName;
 	ZRoom* scene;
 	std::vector<uint64_t> instructions;
+	std::string curPrefix;
+
+	uint32_t lastTexWidth, lastTexHeight, lastTexAddr, lastTexSeg;
+	F3DZEXTexFormats lastTexFmt;
+	F3DZEXTexSizes lastTexSiz, lastTexSizTest, lastCISiz;
+	bool lastTexLoaded;
+	bool lastTexIsPalette;
 
 	DListType dListType;
 
@@ -361,6 +362,7 @@ public:
 	ZDisplayList();
 	ZDisplayList(std::vector<uint8_t> nRawData, int rawDataIndex, int rawDataSize);
 
+	static ZDisplayList* static_instance;
 	static ZDisplayList* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, int rawDataSize, std::string nRelPath);
 	static ZDisplayList* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool readFile);
 
