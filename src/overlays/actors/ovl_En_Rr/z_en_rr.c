@@ -862,7 +862,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    Matrix_Pull();
+    Matrix_Pop();
     zeroVec.x = 0.0f;
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
@@ -875,7 +875,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
                      (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, MTXMODE_APPLY);
         Matrix_ToMtx(segMtx, "../z_en_rr.c", 1527);
-        Matrix_Pull();
+        Matrix_Pop();
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }
