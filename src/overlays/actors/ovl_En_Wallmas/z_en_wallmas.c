@@ -5,6 +5,7 @@
  */
 
 #include "z_en_wallmas.h"
+#include "objects/object_wallmaster/object_wallmaster.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000015
@@ -116,24 +117,12 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32_DIV1000(gravity, -1500, 0),
 };
 
-extern AnimationHeader D_06000EA4;
-extern AnimationHeader D_06000590;
-extern AnimationHeader D_0600299C;
-extern FlexSkeletonHeader D_06008FB0;
-extern AnimationHeader D_06009DB0;
-extern AnimationHeader D_060019CC;
-extern AnimationHeader D_06009520;
-extern AnimationHeader D_06009244;
-extern AnimationHeader D_060041F4;
-extern AnimationHeader D_0600A054;
-extern Gfx D_06008688[];
-
 void EnWallmas_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnWallmas* this = THIS;
 
     Actor_ProcessInitChain(thisx, sInitChain);
     ActorShape_Init(&thisx->shape, 0, NULL, 0.5f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008FB0, &D_06009DB0, this->jointTable, this->morphTable, 25);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWallmasterSkel, &gWallmasterWaitAnim, this->jointTable, this->morphTable, 25);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -176,9 +165,9 @@ void EnWallmas_TimerInit(EnWallmas* this, GlobalContext* globalCtx) {
 
 void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    AnimationHeader* objSegChangee = &D_0600299C;
+    AnimationHeader* objSegChangee = &gWallmasterLungeAnim;
 
-    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&D_0600299C), ANIMMODE_ONCE,
+    Animation_Change(&this->skelAnime, objSegChangee, 0.0f, 20.0f, Animation_GetLastFrame(&gWallmasterLungeAnim), ANIMMODE_ONCE,
                      0.0f);
 
     this->yTarget = player->actor.world.pos.y;
@@ -191,8 +180,8 @@ void EnWallmas_SetupDrop(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
-    AnimationHeader* objSegFrameCount = &D_060019CC;
-    AnimationHeader* objSegChangee = &D_060019CC;
+    AnimationHeader* objSegFrameCount = &gWallmasterJumpAnim;
+    AnimationHeader* objSegChangee = &gWallmasterJumpAnim;
 
     Animation_Change(&this->skelAnime, objSegChangee, 1.0f, 41.0f, Animation_GetLastFrame(objSegFrameCount),
                      ANIMMODE_ONCE, -3.0f);
@@ -203,24 +192,24 @@ void EnWallmas_SetupLand(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_SetupStand(EnWallmas* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_0600A054);
+    Animation_PlayOnce(&this->skelAnime, &gWallmasterStandUpAnim);
     this->actionFunc = EnWallmas_Stand;
 }
 
 void EnWallmas_SetupWalk(EnWallmas* this) {
-    Animation_PlayOnceSetSpeed(&this->skelAnime, &D_060041F4, 3.0f);
+    Animation_PlayOnceSetSpeed(&this->skelAnime, &gWallmasterWalkAnim, 3.0f);
     this->actionFunc = EnWallmas_Walk;
     this->actor.speedXZ = 3.0f;
 }
 
 void EnWallmas_SetupJumpToCeiling(EnWallmas* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06009244);
+    Animation_PlayOnce(&this->skelAnime, &gWallmasterStopWalkAnim);
     this->actionFunc = EnWallmas_JumpToCeiling;
     this->actor.speedXZ = 0.0f;
 }
 void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
-    AnimationHeader* objSegFrameCount = &D_060019CC;
-    AnimationHeader* objSegChangee = &D_060019CC;
+    AnimationHeader* objSegFrameCount = &gWallmasterJumpAnim;
+    AnimationHeader* objSegChangee = &gWallmasterJumpAnim;
 
     this->timer = 0;
     this->actor.speedXZ = 0.0f;
@@ -232,7 +221,7 @@ void EnWallmas_SetupReturnToCeiling(EnWallmas* this) {
 }
 
 void EnWallmas_SetupTakeDamage(EnWallmas* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06000590, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterDamageAnim, -3.0f);
     if (this->collider.info.acHitInfo->toucher.dmgFlags & 0x0001F824) {
         this->actor.world.rot.y = this->collider.base.ac->world.rot.y;
     } else {
@@ -246,7 +235,7 @@ void EnWallmas_SetupTakeDamage(EnWallmas* this) {
 }
 
 void EnWallmas_SetupCooldown(EnWallmas* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000EA4);
+    Animation_PlayOnce(&this->skelAnime, &gWallmasterRecoverFromDamageAnim);
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -266,7 +255,7 @@ void EnWallmas_SetupDie(EnWallmas* this, GlobalContext* globalCtx) {
 }
 
 void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06009520, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gWallmasterHoverAnim, -5.0f);
     this->timer = -0x1e;
     this->actionFunc = EnWallmas_TakePlayer;
     this->actor.speedXZ = 0.0f;
@@ -289,7 +278,7 @@ void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {
 }
 
 void EnWallmas_SetupStun(EnWallmas* this) {
-    Animation_Change(&this->skelAnime, &D_060019CC, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
+    Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.5f, 0, 20.0f, ANIMMODE_ONCE, -3.0f);
 
     this->actor.speedXZ = 0.0f;
     if (this->actor.colChkInfo.damageEffect == 4) {
@@ -644,7 +633,7 @@ void EnWallMas_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
         Matrix_Scale(2.0f, 2.0f, 2.0f, MTXMODE_APPLY);
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_wallmas.c", 1489), G_MTX_LOAD);
-        gSPDisplayList(POLY_OPA_DISP++, D_06008688);
+        gSPDisplayList(POLY_OPA_DISP++, gWallmasterFingerDL);
 
         Matrix_Pop();
 
