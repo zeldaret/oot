@@ -13,7 +13,7 @@
         <!-- Running. -->
         <Animation Name="gHorseGanonRunningAnim" Offset="0x2650"/>
         <!-- Stand in two legs for a moment. -->
-        <Animation Name="gHorseGanonAnim_003858" Offset="0x3858"/>
+        <Animation Name="gHorseGanonRearingAnim" Offset="0x3858"/>
 
         <Texture Name="gHorseGanonEyeTex" OutName="horse_ganon_eye" Format="rgb5a1" Width="16" Height="16" Offset="0xAC10" />
         <Texture Name="gHorseGanonHeadHairTex" OutName="horse_ganon_head_hair" Format="rgb5a1" Width="16" Height="16" Offset="0xAE10" />

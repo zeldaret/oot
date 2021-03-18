@@ -99,7 +99,7 @@ struct_80B2CEE8 D_80B2CEE8[] = {
     { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 3, &D_0600F788, &D_060029CC },
     { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 2, &gChildZeldaSkel, &D_06000450 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06002928 },
-    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonAnim_003858 },
+    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonRearingAnim },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060005B4 },
     { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonRunningAnim },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06004260 },
@@ -291,7 +291,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
         }
     } else if (params == 4) {
         curFrame = this->skin.skelAnime.curFrame;
-        if (this->skin.skelAnime.animation == &gHorseGanonAnim_003858) {
+        if (this->skin.skelAnime.animation == &gHorseGanonRearingAnim) {
             if (curFrame == 8) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_GANON_HORSE_NEIGH);
             }
@@ -330,8 +330,8 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                     if (this->skin.skelAnime.animation != &D_06001D28) {
                         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06001D28, 1.0f);
                     }
-                } else if (this->skin.skelAnime.animation != &gHorseGanonAnim_003858) {
-                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonAnim_003858, 1.0f);
+                } else if (this->skin.skelAnime.animation != &gHorseGanonRearingAnim) {
+                    Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonRearingAnim, 1.0f);
                 }
             } else if (params == 3) {
                 switch (this->unk_1E5) {
