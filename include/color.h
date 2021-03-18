@@ -31,12 +31,4 @@ typedef union {
     u16 rgba;
 } Color_RGB5A1;
 
-typedef union {
-    struct {
-        u8 a : 3;
-        u8 b : 5;
-    };
-    u8 c;
-} Struct_Cvg;
-
 #endif
