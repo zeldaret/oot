@@ -54,7 +54,9 @@ const ActorInit En_Horse_Normal_InitVars = {
 };
 
 static AnimationHeader* sAnimations[] = {
-    &gHorseNormalIdleAnim, &gHorseNormalWhinnyAnim, &gHorseNormalSlowDownAnim, &gHorseNormalRearingAnim, &gHorseNormalWalkingSlowAnim, &gHorseNormalWalkingFastAnim, &gHorseNormalRunningAnim, &gHorseNormalJumpingAnim, &gHorseNormalJumpingHighAnim,
+    &gHorseNormalIdleAnim,    &gHorseNormalWhinnyAnim,      &gHorseNormalSlowDownAnim,
+    &gHorseNormalRearingAnim, &gHorseNormalWalkingSlowAnim, &gHorseNormalWalkingFastAnim,
+    &gHorseNormalRunningAnim, &gHorseNormalJumpingAnim,     &gHorseNormalJumpingHighAnim,
 };
 
 static ColliderCylinderInit sCylinderInit1 = {

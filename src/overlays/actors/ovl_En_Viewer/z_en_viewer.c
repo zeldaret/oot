@@ -169,7 +169,8 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, SkeletonHeader* ske
     s16 params = this->actor.params >> 8;
 
     if (params == 2 || params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, (FlexSkeletonHeader*)skeletonHeaderSeg, NULL, NULL, NULL, 0);
+        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, (FlexSkeletonHeader*)skeletonHeaderSeg, NULL, NULL, NULL,
+                           0);
     } else {
         SkelAnime_Init(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     }
@@ -382,7 +383,8 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                         this->unk_1E5 = 0;
                         break;
                 }
-            } else if (this->skin.skelAnime.animation != &gHorseGanonRunningAnim && globalCtx->csCtx.npcActions[1]->action == 12) {
+            } else if (this->skin.skelAnime.animation != &gHorseGanonRunningAnim &&
+                       globalCtx->csCtx.npcActions[1]->action == 12) {
                 Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonRunningAnim, 3.0f);
             }
         }

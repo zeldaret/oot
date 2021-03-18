@@ -33,7 +33,8 @@ const ActorInit En_Horse_Link_Child_InitVars = {
     (ActorFunc)EnHorseLinkChild_Draw,
 };
 
-static AnimationHeader* sAnimations[] = { &gChildEponaIdleAnim, &gChildEponaWhinnyAnim, &gChildEponaWalkingSlowAnim, &gChildEponaWalkingFastAnim, &gChildEponaRunningAnim };
+static AnimationHeader* sAnimations[] = { &gChildEponaIdleAnim, &gChildEponaWhinnyAnim, &gChildEponaWalkingSlowAnim,
+                                          &gChildEponaWalkingFastAnim, &gChildEponaRunningAnim };
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
