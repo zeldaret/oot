@@ -3724,7 +3724,8 @@ endseg
 beginseg
     name "object_hidan_objects"
     romalign 0x1000
-    include "build/baserom/object_hidan_objects.o"
+    include "build/assets/objects/object_hidan_objects/object_hidan_objects.o"
+    number 6
 endseg
 
 beginseg
