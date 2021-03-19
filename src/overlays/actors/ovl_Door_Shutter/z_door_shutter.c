@@ -8,6 +8,7 @@
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -91,8 +92,8 @@ static ShutterInfo D_80998134[] = {
     { 0x06000100, 0x060001F0, 240, 14, 50, 15 },
     { 0x060010C0, NULL, 130, 12, 50, 15 },
     { gDoorMetalBarsDL, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06010CB0, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06011F20, gDungeonDoorDL, 130, 12, 20, 15 },
+    { gFireTempleDoorFrontDL, gDungeonDoorDL, 130, 12, 20, 15 },
+    { gFireTempleDoorBackDL, gDungeonDoorDL, 130, 12, 20, 15 },
     { 0x060000C0, gDungeonDoorDL, 130, 12, 20, 15 },
     { 0x06005D90, gDungeonDoorDL, 130, 12, 20, 15 },
     { 0x06007000, gDungeonDoorDL, 130, 12, 20, 15 },

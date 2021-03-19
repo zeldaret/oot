@@ -1,4 +1,11 @@
+/*
+ * File: z_bg_hidan_sima.c
+ * Overlay: ovl_Bg_Hidan_Sima
+ * Description: Stone platform (Fire Temple)
+ */
+
 #include "z_bg_hidan_sima.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -15,12 +22,6 @@ void func_8088E6D0(BgHidanSima* this, GlobalContext* globalCtx);
 void func_8088E760(BgHidanSima* this, GlobalContext* globalCtx);
 void func_8088E7A8(BgHidanSima* this, GlobalContext* globalCtx);
 void func_8088E90C(BgHidanSima* this);
-
-extern Gfx D_0600C338[];
-extern Gfx D_0600C470[];
-extern Gfx D_0600DC30[];
-extern CollisionHeader D_0600FAE8;
-extern CollisionHeader D_060120E8;
 
 const ActorInit Bg_Hidan_Sima_InitVars = {
     ACTOR_BG_HIDAN_SIMA,
@@ -76,7 +77,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-u64* D_8088F1FC[] = { 0x06015D20, 0x06016120, 0x06016520, 0x06016920, 0x06016D20, 0x06017120, 0x06017520, 0x06017920 };
+static u64* sFireballsTexs[] = {
+    gFireTempleFireball0Tex, gFireTempleFireball1Tex, gFireTempleFireball2Tex, gFireTempleFireball3Tex,
+    gFireTempleFireball4Tex, gFireTempleFireball5Tex, gFireTempleFireball6Tex, gFireTempleFireball7Tex,
+};
 
 void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgHidanSima* this = THIS;
@@ -87,9 +91,9 @@ void BgHidanSima_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (this->dyna.actor.params == 0) {
-        CollisionHeader_GetVirtual(&D_060120E8, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStonePlatform1Col, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_0600FAE8, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStonePlatform2Col, &colHeader);
     }
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -254,21 +258,21 @@ Gfx* func_8088EB54(GlobalContext* globalCtx, BgHidanSima* this, Gfx* gfx) {
         mtxF.yy += 0.4f;
         mtxF.zz += 0.4f;
 
-        gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->timer + s3) % 7]));
+        gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
         gSPMatrix(gfx++,
                   Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 611),
                                    Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(gfx++, D_0600DC30);
+        gSPDisplayList(gfx++, gFireTempleFireballDL);
     }
     mtxF.wx = this->dyna.actor.world.pos.x + (phi_s5 * 25 + 80) * sin;
     mtxF.wz = this->dyna.actor.world.pos.z + (phi_s5 * 25 + 80) * cos;
-    gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(D_8088F1FC[(this->timer + s3) % 7]));
+    gSPSegment(gfx++, 0x09, SEGMENTED_TO_VIRTUAL(sFireballsTexs[(this->timer + s3) % 7]));
     gSPMatrix(gfx++,
               Matrix_MtxFToMtx(Matrix_CheckFloats(&mtxF, "../z_bg_hidan_sima.c", 624),
                                Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx))),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(gfx++, D_0600DC30);
+    gSPDisplayList(gfx++, gFireTempleFireballDL);
     return gfx;
 }
 
@@ -280,9 +284,9 @@ void BgHidanSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_sima.c", 645),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     if (this->dyna.actor.params == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, D_0600C338);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform1DL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, D_0600C470);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStonePlatform2DL);
         if (this->actionFunc == func_8088E7A8) {
             POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x14);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 1, 255, 255, 0, 150);
