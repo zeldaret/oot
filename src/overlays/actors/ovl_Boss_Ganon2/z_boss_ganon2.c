@@ -1888,10 +1888,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     f32 temp_f12;
     f32 temp_f14;
     s16 temp_a0_2;
-    s16 temp_v1_9;
-    u32 phi_v1;
     f32 phi_f0;
-    s32 phi_v1_4;
     s32 phi_a1;
 
     player = PLAYER;
@@ -2035,7 +2032,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_30C = 10.0f;
             player->actor.world.pos.x = 250.0f;
             player->actor.world.pos.z = 30.0f;
-            this->unk_3A4.x = 250.0f - 50.0f;
+            this->unk_3A4.x = player->actor.world.pos.x - 50.0f;
             this->unk_3A4.y = player->actor.world.pos.y + 50.0f;
             this->unk_3A4.z = player->actor.world.pos.z + 40.0f;
             this->unk_3B0.x = player->actor.world.pos.x;
@@ -2058,12 +2055,8 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             temp_f14 = this->unk_1B8.x - player->actor.world.pos.x;
             temp_f12 = this->unk_1B8.z - player->actor.world.pos.z;
             temp_a0_2 = Math_Atan2S(temp_f12, temp_f14) - player->actor.shape.rot.y;
-            phi_v1_4 = 0 - temp_a0_2;
-            if ((s32)temp_a0_2 >= 0) {
-                phi_v1_4 = (s32)temp_a0_2;
-            }
-            if ((phi_v1_4 < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) && (player->swordState != 0) &&
-                (player->heldItemActionParam == 3)) {
+            if ((ABS(temp_a0_2) < 0x2000) && (sqrtf(SQ(temp_f14) + SQ(temp_f12)) < 70.0f) &&
+                (player->swordState != 0) && (player->heldItemActionParam == 3)) {
                 func_80064520(globalCtx, &globalCtx->csCtx);
                 this->unk_39E = Gameplay_CreateSubCamera(globalCtx);
                 Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -2236,6 +2229,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             globalCtx->sceneLoadFlag = 0x14;
             globalCtx->fadeTransition = 3;
             globalCtx->linkAgeOnLoad = 1;
+            break;
     }
 
     if (this->unk_39E != 0) {
@@ -2247,7 +2241,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
                 Animation_MorphToLoop(&this->skelAnime, &D_06034278, 0.0f);
                 this->unk_1AC = 1;
-                return;
             }
             break;
         case 1:
