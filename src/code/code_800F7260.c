@@ -165,7 +165,7 @@ void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
     s32 phi_a0;
     u8 i = D_801333A4;
 
-    while (i != D_801333A0) {
+    for (i; i != D_801333A0; i++) {
         phi_a0 = false;
         entry = &D_8016C9A0[i];
         switch (arg0) {
@@ -203,22 +203,23 @@ void func_800F74E0(u8 arg0, SoundBankEntry* arg1) {
         if (phi_a0) {
             entry->sfxId = 0;
         }
-        i++;
+        // i++;
     }
 }
 
-#ifdef NON_EQUIVALENT
+#ifdef NON_MATCHING
 // Mostly ok at the start, then runs into some reorderings near the assignments
 // of temp_s0 and temp_a2, inducing regalloc throughout the rest
 void func_800F7680(void) {
     u8 sp43;
     Struct_8013331C* temp_a2;
-    SoundBankEntry* temp_s0;
+    Struct_8013331C* temp_v1;
+    SoundBankEntry* temp_v0;
     s32 phi_s5;
     Struct_800F738C* phi_t2;
     u8 phi_a1;
     u8 phi_t4;
-    s32 phi_s1;
+    u8 phi_s1;
 
     phi_t2 = &D_8016C9A0[D_801333A4];
     phi_s1 = 0x80;
@@ -235,32 +236,38 @@ void func_800F7680(void) {
     while (phi_a1 != 0xFF && phi_a1 != 0) {
         if (gSoundBanks[phi_s5][phi_a1].posX == &phi_t2->pos->x) {
             temp_a2 = &D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)];
-            temp_s0 = &gSoundBanks[phi_s5][phi_a1];
-            if (!(temp_a2->unk_2 & 0x20) || temp_s0->unk_24 != temp_a2->unk_0) {
-                if (temp_s0->unk_28 == phi_t2->sfxId) {
-                    phi_t4 = D_80130594[phi_s5][D_801333CC];
+            // *((s32*)0) = 0;
+            if (!(!(D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)].unk_2 & 0x20) || D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)].unk_0 != gSoundBanks[phi_s5][phi_a1].unk_24)) {
+                return;
+            }
+                if (gSoundBanks[phi_s5][phi_a1].unk_28 == phi_t2->sfxId) {
+                    phi_t4 = D_80130594[D_801333CC][phi_s5];
                 } else {
                     //!@bug possibly uninitialized sp43 ? confirm when matching
                     if (phi_t4 == 0) {
                         phi_s1 = phi_a1;
-                        sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
-                    } else if (temp_s0->unk_24 < sp43) {
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
-                        if (1) {}
+                        sp43 = D_8013331C[SFX_BANK_SHIFT(gSoundBanks[phi_s5][phi_a1].unk_28 & 0xFFFF)][SFX_INDEX(gSoundBanks[phi_s5][phi_a1].unk_28)].unk_0;
+                    } else if (gSoundBanks[phi_s5][phi_a1].unk_24 < sp43) {
+                        // if (1) {}
+                        // if (1) {}
+                        // if (1) {}
+                        // if (1) {}
+                        // if (1) {}
+                        // if (1) {}
                         phi_s1 = phi_a1;
-                        sp43 = D_8013331C[SFX_BANK_SHIFT(temp_s0->unk_28)][SFX_INDEX(temp_s0->unk_28)].unk_0;
+                        // s32 newvar
+                        sp43 = D_8013331C[SFX_BANK_SHIFT(gSoundBanks[phi_s5][phi_a1].unk_28 & 0xFFFF)][SFX_INDEX(gSoundBanks[phi_s5][phi_a1].unk_28)].unk_0;
                     }
                     phi_t4++;
-                    if (phi_t4 == D_80130594[phi_s5][D_801333CC]) {
-                        phi_a1 = (temp_a2->unk_0 >= sp43) ? phi_s1 : 0;
+                    if (phi_t4 == D_80130594[D_801333CC][phi_s5]) {
+                        phi_a1 = (D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)].unk_0 >= sp43) ? phi_s1 : 0;
                     }
                 }
-                if (D_80130594[phi_s5][D_801333CC] == phi_t4) {
-                    if ((phi_t2->sfxId & 0xC00) || (temp_a2->unk_2 & 4) || phi_a1 == phi_s1) {
+                if (D_80130594[D_801333CC][phi_s5] == phi_t4) {
+                    
+
+                    if ((phi_t2->sfxId & 0xC00) || (D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)].unk_2 & 4) || phi_a1 == phi_s1) {
+                        Struct_8013331C* temp_t0 = &D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)];
                         if ((gSoundBanks[phi_s5][phi_a1].unk_26 & 8) && gSoundBanks[phi_s5][phi_a1].unk_2A != 1) {
                             func_800F731C(gSoundBanks[phi_s5][phi_a1].unk_2E);
                         }
@@ -271,16 +278,14 @@ void func_800F7680(void) {
                         gSoundBanks[phi_s5][phi_a1].unk_10 = phi_t2->unk_C;
                         gSoundBanks[phi_s5][phi_a1].unk_14 = phi_t2->unk_10;
                         gSoundBanks[phi_s5][phi_a1].unk_18 = phi_t2->unk_14;
-                        gSoundBanks[phi_s5][phi_a1].unk_26 = temp_a2->unk_2;
-                        gSoundBanks[phi_s5][phi_a1].unk_24 = temp_a2->unk_0;
+                        gSoundBanks[phi_s5][phi_a1].unk_26 = temp_t0->unk_2;
+                        gSoundBanks[phi_s5][phi_a1].unk_24 = temp_t0->unk_0;
                     } else if (gSoundBanks[phi_s5][phi_a1].unk_2A == 5) {
                         gSoundBanks[phi_s5][phi_a1].unk_2A = 4;
                     }
                     phi_a1 = 0;
                 }
-            } else {
-                return;
-            }
+            
         }
         if (phi_a1 != 0) {
             phi_a1 = gSoundBanks[phi_s5][phi_a1].next;
@@ -288,26 +293,26 @@ void func_800F7680(void) {
     }
     if (gSoundBanks[phi_s5][D_8016E1A8[phi_s5]].next != 0xFF && phi_a1 != 0) {
         phi_a1 = D_8016E1A8[phi_s5];
-        temp_s0 = &gSoundBanks[phi_s5][phi_a1];
-        temp_s0->posX = &phi_t2->pos->x;
-        temp_s0->posY = &phi_t2->pos->y;
-        temp_s0->posZ = &phi_t2->pos->z;
-        temp_s0->unk_C = phi_t2->unk_8;
-        temp_s0->unk_10 = phi_t2->unk_C;
-        temp_s0->unk_14 = phi_t2->unk_10;
-        temp_s0->unk_18 = phi_t2->unk_14;
-        temp_a2 = &D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)];
-        temp_s0->unk_26 = temp_a2->unk_2;
-        temp_s0->unk_24 = temp_a2->unk_0;
-        temp_s0->unk_28 = phi_t2->sfxId;
-        temp_s0->unk_2A = 1;
-        temp_s0->unk_2B = 2;
-        temp_s0->prev = D_8016E1A0[phi_s5];
+        temp_v0 = &gSoundBanks[phi_s5][phi_a1];
+        temp_v0->posX = &phi_t2->pos->x;
+        temp_v0->posY = &phi_t2->pos->y;
+        temp_v0->posZ = &phi_t2->pos->z;
+        temp_v0->unk_C = phi_t2->unk_8;
+        temp_v0->unk_10 = phi_t2->unk_C;
+        temp_v0->unk_14 = phi_t2->unk_10;
+        temp_v0->unk_18 = phi_t2->unk_14;
+        temp_v1 = &D_8013331C[SFX_BANK_SHIFT(phi_t2->sfxId)][SFX_INDEX(phi_t2->sfxId)];
+        temp_v0->unk_26 = temp_v1->unk_2;
+        temp_v0->unk_24 = temp_v1->unk_0;
+        temp_v0->unk_28 = phi_t2->sfxId;
+        temp_v0->unk_2A = 1;
+        temp_v0->unk_2B = 2;
+        temp_v0->prev = D_8016E1A0[phi_s5];
         gSoundBanks[phi_s5][D_8016E1A0[phi_s5]].next = D_8016E1A8[phi_s5];
         D_8016E1A0[phi_s5] = D_8016E1A8[phi_s5];
         D_8016E1A8[phi_s5] = gSoundBanks[phi_s5][D_8016E1A8[phi_s5]].next;
         gSoundBanks[phi_s5][D_8016E1A8[phi_s5]].prev = 0xFF;
-        temp_s0->next = 0xFF;
+        temp_v0->next = 0xFF;
     }
 }
 #else
