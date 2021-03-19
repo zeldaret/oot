@@ -9,7 +9,7 @@ glabel func_80AFF620
 /* 0138C 80AFF63C 00000000 */  nop
 /* 01390 80AFF640 45020004 */  bc1fl   .L80AFF654                 
 /* 01394 80AFF644 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 01398 80AFF648 0C2BFCF4 */  jal     func_80AFF3D0              
+/* 01398 80AFF648 0C2BFCF4 */  jal     EnSkj_SetupStand              
 /* 0139C 80AFF64C 00000000 */  nop
 /* 013A0 80AFF650 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AFF654:

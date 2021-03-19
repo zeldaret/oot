@@ -1,4 +1,4 @@
-glabel func_80AFF19C
+glabel EnSkj_WaitForDeathAnim
 /* 00EEC 80AFF19C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00EF0 80AFF1A0 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 00EF4 80AFF1A4 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -15,7 +15,7 @@ glabel func_80AFF19C
 /* 00F1C 80AFF1CC 00000000 */  nop
 /* 00F20 80AFF1D0 45020004 */  bc1fl   .L80AFF1E4                 
 /* 00F24 80AFF1D4 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 00F28 80AFF1D8 0C2BFD98 */  jal     func_80AFF660              
+/* 00F28 80AFF1D8 0C2BFD98 */  jal     EnSkj_SetupSpawnDeathEffect              
 /* 00F2C 80AFF1DC 00000000 */  nop
 /* 00F30 80AFF1E0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AFF1E4:

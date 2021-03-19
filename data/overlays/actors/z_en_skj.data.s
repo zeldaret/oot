@@ -34,16 +34,16 @@ glabel D_80B016C4
 glabel D_80B016D4
  .word 0x0600051C, 0x02000000, 0x00000000, 0x060007A4, 0x02000000, 0x00000000, 0x06000E10, 0x00000000, 0x00000000, 0x06006A98, 0x02000000, 0x00000000, 0x06006D84, 0x02000000, 0x00000000, 0x06007128, 0x02000000, 0x00000000, 0x06008174, 0x00000000, 0x00000000, 0x06008374, 0x00000000, 0x00000000, 0x06008E14, 0x00000000, 0x00000000, 0x06008B9C, 0x00000000, 0x00000000
 glabel D_80B0174C
- .word func_80AFEECC
-.word func_80AFEF98
+ .word EnSkj_Fade
+.word EnSkj_WaitToShootNeedle
 .word func_80AFF07C
-.word func_80AFF19C
-.word func_80AFF220
-.word func_80AFF2E0
+.word EnSkj_WaitForDeathAnim
+.word EnSkj_PickNextFightAction
+.word EnSkj_WaitForLandAnim
 .word func_80AFF380
 .word func_80AFF424
 .word func_80AFF620
-.word func_80AFF688
+.word EnSkj_SpawnDeathEffect
 .word func_80AFF7D8
 .word func_80AFFA0C
 .word func_80AFFD14

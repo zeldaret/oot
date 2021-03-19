@@ -1,4 +1,4 @@
-glabel func_80AFF2E0
+glabel EnSkj_WaitForLandAnim
 /* 01030 80AFF2E0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01034 80AFF2E4 AFA40018 */  sw      $a0, 0x0018($sp)           
 /* 01038 80AFF2E8 AFBF0014 */  sw      $ra, 0x0014($sp)           
@@ -15,7 +15,7 @@ glabel func_80AFF2E0
 /* 01060 80AFF310 00000000 */  nop
 /* 01064 80AFF314 45020004 */  bc1fl   .L80AFF328                 
 /* 01068 80AFF318 8FBF0014 */  lw      $ra, 0x0014($sp)           
-/* 0106C 80AFF31C 0C2BFCF4 */  jal     func_80AFF3D0              
+/* 0106C 80AFF31C 0C2BFCF4 */  jal     EnSkj_SetupStand              
 /* 01070 80AFF320 00000000 */  nop
 /* 01074 80AFF324 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AFF328:

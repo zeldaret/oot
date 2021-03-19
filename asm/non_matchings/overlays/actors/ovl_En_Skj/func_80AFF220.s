@@ -1,4 +1,4 @@
-glabel func_80AFF220
+glabel EnSkj_PickNextFightAction
 /* 00F70 80AFF220 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00F74 80AFF224 AFA5001C */  sw      $a1, 0x001C($sp)           
 /* 00F78 80AFF228 00802825 */  or      $a1, $a0, $zero            ## $a1 = 00000000
@@ -27,7 +27,7 @@ glabel func_80AFF220
 /* 00FD0 80AFF280 10000004 */  beq     $zero, $zero, .L80AFF294   
 /* 00FD4 80AFF284 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AFF288:
-/* 00FD8 80AFF288 0C2BFCF4 */  jal     func_80AFF3D0              
+/* 00FD8 80AFF288 0C2BFCF4 */  jal     EnSkj_SetupStand              
 /* 00FDC 80AFF28C 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 00FE0 80AFF290 8FBF0014 */  lw      $ra, 0x0014($sp)           
 .L80AFF294:

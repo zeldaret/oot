@@ -1,4 +1,4 @@
-glabel func_80AFF688
+glabel EnSkj_SpawnDeathEffect
 /* 013D8 80AFF688 27BDFF88 */  addiu   $sp, $sp, 0xFF88           ## $sp = FFFFFF88
 /* 013DC 80AFF68C AFBF004C */  sw      $ra, 0x004C($sp)           
 /* 013E0 80AFF690 AFB00048 */  sw      $s0, 0x0048($sp)           

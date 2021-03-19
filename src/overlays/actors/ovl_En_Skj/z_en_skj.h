@@ -62,6 +62,14 @@ typedef enum {
    /* 2 */ SKULL_KID_OCARINA_LEAVE_GAME
 } SkullKidOcarinaGameStates;
 
+typedef enum {
+    /* 0 */ SKJ_ACTION_FADE,
+    /* 1 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
+    /* 3 */ SKJ_ACTON_WAIT_FOR_DEATH_ANIM = 3,
+    /* 4 */ SKJ_ACTION_PICK_NEXT_FIHGT_ACTION = 4,
+    /* 5 */ SKJ_ACTON_WAIT_FOR_LAND_ANIM = 5,
+} SkullKidActions;
+
 extern const ActorInit En_Skj_InitVars;
 
 #endif

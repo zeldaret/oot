@@ -11,7 +11,7 @@ glabel func_80AFF424
 /* 01184 80AFF434 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01188 80AFF438 55C00006 */  bnel    $t6, $zero, .L80AFF454     
 /* 0118C 80AFF43C 860F02CA */  lh      $t7, 0x02CA($s0)           ## 000002CA
-/* 01190 80AFF440 0C2BFBD7 */  jal     func_80AFEF5C              
+/* 01190 80AFF440 0C2BFBD7 */  jal     EnSkj_SetupWaitToShootNeedle              
 /* 01194 80AFF444 00000000 */  nop
 /* 01198 80AFF448 10000065 */  beq     $zero, $zero, .L80AFF5E0   
 /* 0119C 80AFF44C 8FBF0024 */  lw      $ra, 0x0024($sp)           

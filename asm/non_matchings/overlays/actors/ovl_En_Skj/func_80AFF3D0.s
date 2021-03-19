@@ -1,4 +1,4 @@
-glabel func_80AFF3D0
+glabel EnSkj_SetupStand
 /* 01120 80AFF3D0 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 01124 80AFF3D4 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 01128 80AFF3D8 3C014416 */  lui     $at, 0x4416                ## $at = 44160000

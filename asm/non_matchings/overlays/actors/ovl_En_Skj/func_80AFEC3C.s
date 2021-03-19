@@ -1,4 +1,4 @@
-glabel func_80AFEC3C
+glabel EnSkj_CollisionCheck
 /* 0098C 80AFEC3C 27BDFFC0 */  addiu   $sp, $sp, 0xFFC0           ## $sp = FFFFFFC0
 /* 00990 80AFEC40 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00994 80AFEC44 AFB00020 */  sw      $s0, 0x0020($sp)           
@@ -68,7 +68,7 @@ glabel func_80AFEC3C
 /* 00A8C 80AFED3C 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
 /* 00A90 80AFED40 0C00D09B */  jal     Actor_SetColorFilter              
 /* 00A94 80AFED44 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 00A98 80AFED48 0C2BFC5B */  jal     func_80AFF16C              
+/* 00A98 80AFED48 0C2BFC5B */  jal     EnSkj_SetupDie              
 /* 00A9C 80AFED4C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00AA0 80AFED50 10000024 */  beq     $zero, $zero, .L80AFEDE4   
 /* 00AA4 80AFED54 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
@@ -102,7 +102,7 @@ glabel func_80AFEC3C
 /* 00B04 80AFEDB4 1000000B */  beq     $zero, $zero, .L80AFEDE4   
 /* 00B08 80AFEDB8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001
 .L80AFEDBC:
-/* 00B0C 80AFEDBC 0C2BFC5B */  jal     func_80AFF16C              
+/* 00B0C 80AFEDBC 0C2BFC5B */  jal     EnSkj_SetupDie              
 /* 00B10 80AFEDC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00B14 80AFEDC4 10000007 */  beq     $zero, $zero, .L80AFEDE4   
 /* 00B18 80AFEDC8 24020001 */  addiu   $v0, $zero, 0x0001         ## $v0 = 00000001

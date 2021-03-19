@@ -1,4 +1,4 @@
-glabel func_80AFEF5C
+glabel EnSkj_SetupWaitToShootNeedle
 /* 00CAC 80AFEF5C 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00CB0 80AFEF60 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00CB4 80AFEF64 240E0003 */  addiu   $t6, $zero, 0x0003         ## $t6 = 00000003

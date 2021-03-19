@@ -249,7 +249,7 @@ glabel EnSkj_Init
 /* 0051C 80AFE7CC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00520 80AFE7D0 E6000068 */  swc1    $f0, 0x0068($s0)           ## 00000068
 /* 00524 80AFE7D4 E6000060 */  swc1    $f0, 0x0060($s0)           ## 00000060
-/* 00528 80AFE7D8 0C2BF8E4 */  jal     func_80AFE390
+/* 00528 80AFE7D8 0C2BF8E4 */  jal     EnSkj_CalculateCenter
 /* 0052C 80AFE7DC E60A006C */  swc1    $f10, 0x006C($s0)          ## 0000006C
 /* 00530 80AFE7E0 8FA80054 */  lw      $t0, 0x0054($sp)
 /* 00534 80AFE7E4 3C0480B0 */  lui     $a0, %hi(D_80B017D0)       ## $a0 = 80B00000

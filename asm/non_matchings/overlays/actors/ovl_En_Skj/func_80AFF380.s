@@ -14,7 +14,7 @@ glabel func_80AFF380
 /* 010FC 80AFF3AC 10400004 */  beq     $v0, $zero, .L80AFF3C0     
 /* 01100 80AFF3B0 8FA40018 */  lw      $a0, 0x0018($sp)           
 /* 01104 80AFF3B4 240F0258 */  addiu   $t7, $zero, 0x0258         ## $t7 = 00000258
-/* 01108 80AFF3B8 0C2BFCF4 */  jal     func_80AFF3D0              
+/* 01108 80AFF3B8 0C2BFCF4 */  jal     EnSkj_SetupStand              
 /* 0110C 80AFF3BC A48F02CA */  sh      $t7, 0x02CA($a0)           ## 000002CA
 .L80AFF3C0:
 /* 01110 80AFF3C0 8FBF0014 */  lw      $ra, 0x0014($sp)           
