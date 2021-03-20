@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_syoku.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -35,9 +36,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern Gfx D_0600A7E0[];
-extern CollisionHeader* D_0600E568;
-
 void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgHidanSyoku* this = THIS;
@@ -45,7 +43,7 @@ void BgHidanSyoku_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&D_0600E568, &colHeader);
+    CollisionHeader_GetVirtual(&gFireTempleFlareDancerPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     this->actionFunc = func_8088F4B8;
     this->dyna.actor.home.pos.y += 540.0f;
@@ -126,5 +124,5 @@ void BgHidanSyoku_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanSyoku_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_0600A7E0);
+    Gfx_DrawDListOpa(globalCtx, gFireTempleFlareDancerPlatformDL);
 }

@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_hamstep.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -20,11 +21,6 @@ void func_80888860(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_808889B8(BgHidanHamstep* this, GlobalContext* globalCtx);
 void func_80888A58(BgHidanHamstep* this, GlobalContext* globalCtx);
 void BgHidanHamstep_DoNothing(BgHidanHamstep* this, GlobalContext* globalCtx);
-
-extern Gfx D_0600A548[];
-extern Gfx D_0600A668[];
-extern CollisionHeader D_0600DE44;
-extern CollisionHeader D_0600DD1C;
 
 static f32 sYPosOffsets[] = {
     -20.0f, -120.0f, -220.0f, -320.0f, -420.0f,
@@ -158,9 +154,9 @@ void BgHidanHamstep_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if ((this->dyna.actor.params & 0xFF) == 0) {
-        CollisionHeader_GetVirtual(&D_0600DE44, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStoneStep1Col, &colHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_0600DD1C, &colHeader);
+        CollisionHeader_GetVirtual(&gFireTempleStoneStep2Col, &colHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -410,9 +406,9 @@ void BgHidanHamstep_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if ((thisx->params & 0xFF) == 0) {
-        gSPDisplayList(POLY_OPA_DISP++, D_0600A668);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStoneStep1DL);
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, D_0600A548);
+        gSPDisplayList(POLY_OPA_DISP++, gFireTempleStoneStep2DL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_hamstep.c", 796);

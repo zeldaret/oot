@@ -3,10 +3,10 @@
 #define TINYGLTF_IMPLEMENTATION
 
 #include "ZTexture.h"
-#include "StringHelper.h"
 #include "BitConverter.h"
-#include "Path.h"
 #include "File.h"
+#include "Path.h"
+#include "StringHelper.h"
 
 #include "stb_image.h"
 #include "stb_image_write.h"
@@ -44,13 +44,15 @@ ZTexture::~ZTexture()
 }
 
 // EXTRACT MODE
-ZTexture* ZTexture::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int nRawDataIndex, string nRelPath)
+ZTexture* ZTexture::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int nRawDataIndex,
+                                   string nRelPath)
 {
 	ZTexture* tex = new ZTexture();
 
 	tex->ParseXML(reader);
 	tex->rawDataIndex = nRawDataIndex;
-	tex->rawData = vector<uint8_t>(nRawData.data() + tex->rawDataIndex, nRawData.data() + tex->rawDataIndex + tex->GetRawDataSize());
+	tex->rawData = vector<uint8_t>(nRawData.data() + tex->rawDataIndex,
+	                               nRawData.data() + tex->rawDataIndex + tex->GetRawDataSize());
 
 	tex->relativePath = nRelPath;
 
@@ -60,7 +62,8 @@ ZTexture* ZTexture::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData,
 	return tex;
 }
 
-ZTexture* ZTexture::FromBinary(TextureType nType, std::vector<uint8_t> nRawData, int nRawDataIndex, std::string nName, int nWidth, int nHeight)
+ZTexture* ZTexture::FromBinary(TextureType nType, std::vector<uint8_t> nRawData, int nRawDataIndex,
+                               std::string nName, int nWidth, int nHeight)
 {
 	ZTexture* tex = new ZTexture();
 
@@ -99,23 +102,44 @@ ZTexture* ZTexture::FromPNG(string pngFilePath, TextureType texType)
 	ZTexture* tex = new ZTexture();
 	tex->type = texType;
 	tex->name = StringHelper::Split(Path::GetFileNameWithoutExtension(pngFilePath), ".")[0];
-	
-	tex->bmpRgb = (uint8_t*)stbi_load((pngFilePath).c_str(), &tex->width, &tex->height, &comp, STBI_rgb);
+
+	tex->bmpRgb =
+		(uint8_t*)stbi_load((pngFilePath).c_str(), &tex->width, &tex->height, &comp, STBI_rgb);
 	stbi_image_free(tex->bmpRgb);
 	tex->bmpRgb = nullptr;
 	tex->rawData = vector<uint8_t>(tex->GetRawDataSize());
 
 	switch (texType)
 	{
-		case TextureType::RGBA16bpp: tex->PrepareRawDataRGBA16(pngFilePath); break;
-		case TextureType::RGBA32bpp: tex->PrepareRawDataRGBA32(pngFilePath); break;
-		case TextureType::Grayscale4bpp: tex->PrepareRawDataGrayscale4(pngFilePath); break;
-		case TextureType::Grayscale8bpp: tex->PrepareRawDataGrayscale8(pngFilePath); break;
-		case TextureType::GrayscaleAlpha4bpp: tex->PrepareRawDataGrayscaleAlpha4(pngFilePath); break;
-		case TextureType::GrayscaleAlpha8bpp: tex->PrepareRawDataGrayscaleAlpha8(pngFilePath); break;
-		case TextureType::GrayscaleAlpha16bpp: tex->PrepareRawDataGrayscaleAlpha16(pngFilePath); break;
-		case TextureType::Palette4bpp: tex->PrepareRawDataPalette4(pngFilePath); break;
-		case TextureType::Palette8bpp: tex->PrepareRawDataPalette8(pngFilePath); break;
+	case TextureType::RGBA16bpp:
+		tex->PrepareRawDataRGBA16(pngFilePath);
+		break;
+	case TextureType::RGBA32bpp:
+		tex->PrepareRawDataRGBA32(pngFilePath);
+		break;
+	case TextureType::Grayscale4bpp:
+		tex->PrepareRawDataGrayscale4(pngFilePath);
+		break;
+	case TextureType::Grayscale8bpp:
+		tex->PrepareRawDataGrayscale8(pngFilePath);
+		break;
+	case TextureType::GrayscaleAlpha4bpp:
+		tex->PrepareRawDataGrayscaleAlpha4(pngFilePath);
+		break;
+	case TextureType::GrayscaleAlpha8bpp:
+		tex->PrepareRawDataGrayscaleAlpha8(pngFilePath);
+		break;
+	case TextureType::GrayscaleAlpha16bpp:
+		tex->PrepareRawDataGrayscaleAlpha16(pngFilePath);
+		break;
+	case TextureType::Palette4bpp:
+		tex->PrepareRawDataPalette4(pngFilePath);
+		break;
+	case TextureType::Palette8bpp:
+		tex->PrepareRawDataPalette8(pngFilePath);
+		break;
+	default:
+		throw std::runtime_error("Format is not supported!");
 	}
 
 	tex->FixRawData();
@@ -149,23 +173,23 @@ void ZTexture::ParseXML(XMLElement* reader)
 	type = GetTextureTypeFromString(formatStr);
 
 	if (type == TextureType::Error)
-		throw "Format " + formatStr + " is not supported!";
+		throw std::runtime_error("Format " + formatStr + " is not supported!");
 }
 
 void ZTexture::FixRawData()
 {
 	if (type == TextureType::RGBA32bpp)
 	{
-		for (int i = 0; i < rawData.size(); i += 4)
+		for (size_t i = 0; i < rawData.size(); i += 4)
 		{
 			uint8_t tmp = rawData[i];
 			rawData[i] = rawData[i + 2];
 			rawData[i + 2] = tmp;
 		}
 	}
-	else if (type == TextureType::RGBA16bpp)// || type == TextureType::GrayscaleAlpha16bpp)
+	else if (type == TextureType::RGBA16bpp)  // || type == TextureType::GrayscaleAlpha16bpp)
 	{
-		for (int i = 0; i < rawData.size(); i += 2)
+		for (size_t i = 0; i < rawData.size(); i += 2)
 		{
 			uint8_t tmp = rawData[i];
 			rawData[i] = rawData[i + 1];
@@ -181,15 +205,35 @@ void ZTexture::PrepareBitmap()
 
 	switch (type)
 	{
-	case TextureType::RGBA16bpp: PrepareBitmapRGBA16(); break;
-	case TextureType::RGBA32bpp: PrepareBitmapRGBA32(); break;
-	case TextureType::Grayscale4bpp: PrepareBitmapGrayscale4(); break;
-	case TextureType::Grayscale8bpp: PrepareBitmapGrayscale8(); break;
-	case TextureType::GrayscaleAlpha4bpp: PrepareBitmapGrayscaleAlpha4(); break;
-	case TextureType::GrayscaleAlpha8bpp: PrepareBitmapGrayscaleAlpha8(); break;
-	case TextureType::GrayscaleAlpha16bpp: PrepareBitmapGrayscaleAlpha16(); break;
-	case TextureType::Palette4bpp: PrepareBitmapPalette4(); break;
-	case TextureType::Palette8bpp: PrepareBitmapPalette8(); break;
+	case TextureType::RGBA16bpp:
+		PrepareBitmapRGBA16();
+		break;
+	case TextureType::RGBA32bpp:
+		PrepareBitmapRGBA32();
+		break;
+	case TextureType::Grayscale4bpp:
+		PrepareBitmapGrayscale4();
+		break;
+	case TextureType::Grayscale8bpp:
+		PrepareBitmapGrayscale8();
+		break;
+	case TextureType::GrayscaleAlpha4bpp:
+		PrepareBitmapGrayscaleAlpha4();
+		break;
+	case TextureType::GrayscaleAlpha8bpp:
+		PrepareBitmapGrayscaleAlpha8();
+		break;
+	case TextureType::GrayscaleAlpha16bpp:
+		PrepareBitmapGrayscaleAlpha16();
+		break;
+	case TextureType::Palette4bpp:
+		PrepareBitmapPalette4();
+		break;
+	case TextureType::Palette8bpp:
+		PrepareBitmapPalette8();
+		break;
+	default:
+		throw std::runtime_error("Format is not supported!");
 	}
 }
 
@@ -378,17 +422,35 @@ void ZTexture::PrepareRawData(string inFolder)
 
 	switch (type)
 	{
-	case TextureType::RGBA16bpp: PrepareRawDataRGBA16(inFolder + "/" + outName + ".rgba5a1.png"); break;
-	case TextureType::RGBA32bpp: PrepareRawDataRGBA32(inFolder + "/" + outName + ".rgba32.png"); break;
-	case TextureType::Grayscale4bpp: PrepareRawDataGrayscale4(inFolder + "/" + outName + ".i4.png"); break;
-	case TextureType::Grayscale8bpp: PrepareRawDataGrayscale8(inFolder + "/" + outName + ".i8.png"); break;
-	case TextureType::GrayscaleAlpha4bpp: PrepareRawDataGrayscaleAlpha4(inFolder + "/" + outName + ".ia4.png"); break;
-	case TextureType::GrayscaleAlpha8bpp: PrepareRawDataGrayscaleAlpha8(inFolder + "/" + outName + ".ia8.png"); break;
-	case TextureType::GrayscaleAlpha16bpp: PrepareRawDataGrayscaleAlpha16(inFolder + "/" + outName + ".ia16.png"); break;
-	case TextureType::Palette4bpp: PrepareRawDataPalette4(inFolder + "/" + outName + ".ci4.png"); break;
-	case TextureType::Palette8bpp: PrepareRawDataPalette8(inFolder + "/" + outName + ".ci8.png"); break;
+	case TextureType::RGBA16bpp:
+		PrepareRawDataRGBA16(inFolder + "/" + outName + ".rgba5a1.png");
+		break;
+	case TextureType::RGBA32bpp:
+		PrepareRawDataRGBA32(inFolder + "/" + outName + ".rgba32.png");
+		break;
+	case TextureType::Grayscale4bpp:
+		PrepareRawDataGrayscale4(inFolder + "/" + outName + ".i4.png");
+		break;
+	case TextureType::Grayscale8bpp:
+		PrepareRawDataGrayscale8(inFolder + "/" + outName + ".i8.png");
+		break;
+	case TextureType::GrayscaleAlpha4bpp:
+		PrepareRawDataGrayscaleAlpha4(inFolder + "/" + outName + ".ia4.png");
+		break;
+	case TextureType::GrayscaleAlpha8bpp:
+		PrepareRawDataGrayscaleAlpha8(inFolder + "/" + outName + ".ia8.png");
+		break;
+	case TextureType::GrayscaleAlpha16bpp:
+		PrepareRawDataGrayscaleAlpha16(inFolder + "/" + outName + ".ia16.png");
+		break;
+	case TextureType::Palette4bpp:
+		PrepareRawDataPalette4(inFolder + "/" + outName + ".ci4.png");
+		break;
+	case TextureType::Palette8bpp:
+		PrepareRawDataPalette8(inFolder + "/" + outName + ".ci8.png");
+		break;
 	default:
-		throw "Build Mode: Format is not supported!";
+		throw std::runtime_error("Build Mode: Format is not supported!");
 	}
 }
 
@@ -603,13 +665,22 @@ float ZTexture::GetPixelMultiplyer()
 {
 	switch (type)
 	{
-		case TextureType::Grayscale4bpp: case TextureType::GrayscaleAlpha4bpp: case TextureType::Palette4bpp: return 0.5f;
-		case TextureType::Grayscale8bpp: case TextureType::GrayscaleAlpha8bpp: case TextureType::Palette8bpp: return 1;
-		case TextureType::GrayscaleAlpha16bpp: case TextureType::RGBA16bpp: return 2;
-		case TextureType::RGBA32bpp: return 4;
+	case TextureType::Grayscale4bpp:
+	case TextureType::GrayscaleAlpha4bpp:
+	case TextureType::Palette4bpp:
+		return 0.5f;
+	case TextureType::Grayscale8bpp:
+	case TextureType::GrayscaleAlpha8bpp:
+	case TextureType::Palette8bpp:
+		return 1;
+	case TextureType::GrayscaleAlpha16bpp:
+	case TextureType::RGBA16bpp:
+		return 2;
+	case TextureType::RGBA32bpp:
+		return 4;
+	default:
+		return -1;
 	}
-
-	return -1;
 }
 
 vector<uint8_t> ZTexture::GetRawData()
@@ -626,26 +697,43 @@ std::string ZTexture::GetIMFmtFromType()
 {
 	switch (type)
 	{
-	case TextureType::RGBA32bpp: case TextureType::RGBA16bpp: return "G_IM_FMT_RGBA";
-	case TextureType::Grayscale4bpp: case TextureType::Grayscale8bpp: return "G_IM_FMT_I";
-	case TextureType::Palette4bpp: case TextureType::Palette8bpp: return "G_IM_FMT_CI";
-	case TextureType::GrayscaleAlpha4bpp: case TextureType::GrayscaleAlpha8bpp: case TextureType::GrayscaleAlpha16bpp: return "G_IM_FMT_IA";
+	case TextureType::RGBA32bpp:
+	case TextureType::RGBA16bpp:
+		return "G_IM_FMT_RGBA";
+	case TextureType::Grayscale4bpp:
+	case TextureType::Grayscale8bpp:
+		return "G_IM_FMT_I";
+	case TextureType::Palette4bpp:
+	case TextureType::Palette8bpp:
+		return "G_IM_FMT_CI";
+	case TextureType::GrayscaleAlpha4bpp:
+	case TextureType::GrayscaleAlpha8bpp:
+	case TextureType::GrayscaleAlpha16bpp:
+		return "G_IM_FMT_IA";
+	default:
+		return "ERROR";
 	}
-
-	return "ERROR";
 }
 
 std::string ZTexture::GetIMSizFromType()
 {
 	switch (type)
 	{
-	case TextureType::Grayscale4bpp: case TextureType::Palette4bpp: case TextureType::GrayscaleAlpha4bpp: return "G_IM_SIZ_4b";
-	case TextureType::Palette8bpp: case TextureType::Grayscale8bpp: return "G_IM_SIZ_8b";
-	case TextureType::GrayscaleAlpha16bpp: case TextureType::RGBA16bpp: return "G_IM_SIZ_16b";
-	case TextureType::RGBA32bpp: return "G_IM_SIZ_32b";
+	case TextureType::Grayscale4bpp:
+	case TextureType::Palette4bpp:
+	case TextureType::GrayscaleAlpha4bpp:
+		return "G_IM_SIZ_4b";
+	case TextureType::Palette8bpp:
+	case TextureType::Grayscale8bpp:
+		return "G_IM_SIZ_8b";
+	case TextureType::GrayscaleAlpha16bpp:
+	case TextureType::RGBA16bpp:
+		return "G_IM_SIZ_16b";
+	case TextureType::RGBA32bpp:
+		return "G_IM_SIZ_32b";
+	default:
+		return "ERROR";
 	}
-
-	return "ERROR";
 }
 
 int ZTexture::GetWidth()
@@ -676,26 +764,35 @@ TextureType ZTexture::GetTextureType()
 void ZTexture::Save(const std::string& outFolder)
 {
 	if (type == TextureType::RGBA32bpp)
-		stbi_write_png((outFolder + "/" + outName + ".rgba32.png").c_str(), width, height, 4, bmpRgba, width * 4);
+		stbi_write_png((outFolder + "/" + outName + ".rgba32.png").c_str(), width, height, 4,
+		               bmpRgba, width * 4);
 	else if (type == TextureType::RGBA16bpp)
-		stbi_write_png((outFolder + "/" + outName + ".rgb5a1.png").c_str(), width, height, 4, bmpRgba, width * 4);
+		stbi_write_png((outFolder + "/" + outName + ".rgb5a1.png").c_str(), width, height, 4,
+		               bmpRgba, width * 4);
 	else if (type == TextureType::Grayscale8bpp)
-		stbi_write_png((outFolder + "/" + outName + ".i8.png").c_str(), width, height, 3, bmpRgb, width * 3);
+		stbi_write_png((outFolder + "/" + outName + ".i8.png").c_str(), width, height, 3, bmpRgb,
+		               width * 3);
 	else if (type == TextureType::Grayscale4bpp)
-		stbi_write_png((outFolder + "/" + outName + ".i4.png").c_str(), width, height, 3, bmpRgb, width * 3);
+		stbi_write_png((outFolder + "/" + outName + ".i4.png").c_str(), width, height, 3, bmpRgb,
+		               width * 3);
 	else if (type == TextureType::GrayscaleAlpha16bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ia16.png").c_str(), width, height, 4, bmpRgba, width * 4);
+		stbi_write_png((outFolder + "/" + outName + ".ia16.png").c_str(), width, height, 4, bmpRgba,
+		               width * 4);
 	else if (type == TextureType::GrayscaleAlpha8bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ia8.png").c_str(), width, height, 4, bmpRgba, width * 4);
+		stbi_write_png((outFolder + "/" + outName + ".ia8.png").c_str(), width, height, 4, bmpRgba,
+		               width * 4);
 	else if (type == TextureType::GrayscaleAlpha4bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ia4.png").c_str(), width, height, 4, bmpRgba, width * 4);
+		stbi_write_png((outFolder + "/" + outName + ".ia4.png").c_str(), width, height, 4, bmpRgba,
+		               width * 4);
 	else if (type == TextureType::Palette4bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ci4.png").c_str(), width, height, 3, bmpRgb, width * 3);
+		stbi_write_png((outFolder + "/" + outName + ".ci4.png").c_str(), width, height, 3, bmpRgb,
+		               width * 3);
 	else if (type == TextureType::Palette8bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ci8.png").c_str(), width, height, 3, bmpRgb, width * 3);
+		stbi_write_png((outFolder + "/" + outName + ".ci8.png").c_str(), width, height, 3, bmpRgb,
+		               width * 3);
 
-	//if (outName != name && outName != "")
-		//File::WriteAllText(outFolder + "/" + outName + ".cfg", name.c_str());
+	// if (outName != name && outName != "")
+	// File::WriteAllText(outFolder + "/" + outName + ".cfg", name.c_str());
 }
 
 // HOTSPOT
@@ -703,29 +800,33 @@ string ZTexture::GetSourceOutputCode(const std::string& prefix)
 {
 	sourceOutput = "";
 
-	//sprintf(line, "%s:\n", name.c_str());
-	//sourceOutput += line;
+	// sprintf(line, "%s:\n", name.c_str());
+	// sourceOutput += line;
 
 	// TODO: TEMP
 	relativePath = "build/assets/" + relativePath;
 	FixRawData();
 
-	//sourceOutput += StringHelper::Sprintf("u64 %s[] = \n{\n", name.c_str());
+	// sourceOutput += StringHelper::Sprintf("u64 %s[] = \n{\n", name.c_str());
 
 	uint8_t* rawDataArr = rawData.data();
 
-	for (int i = 0; i < rawData.size(); i += 8)
+	for (size_t i = 0; i < rawData.size(); i += 8)
 	{
 		if (i % 32 == 0)
 			sourceOutput += "\t";
 
-		sourceOutput += StringHelper::Sprintf("0x%016llX, ", BitConverter::ToUInt64BE(rawDataArr, i));
+		sourceOutput +=
+			StringHelper::Sprintf("0x%016llX, ", BitConverter::ToUInt64BE(rawDataArr, i));
 
 		if (i % 32 == 24)
 			sourceOutput += StringHelper::Sprintf(" // 0x%06X \n", rawDataIndex + ((i / 32) * 32));
 	}
 
-	//sourceOutput += "};\n";
+	// Ensure there's always a trailing line feed to prevent dumb warnings.
+	sourceOutput += "\n";
+
+	// sourceOutput += "};\n";
 
 	return sourceOutput;
 }
@@ -749,24 +850,32 @@ std::string ZTexture::GetExternalExtension()
 {
 	switch (type)
 	{
-		case TextureType::RGBA32bpp: return "rgba32";
-		case TextureType::RGBA16bpp: return "rgb5a1";
-		case TextureType::Grayscale4bpp: return "i4";
-		case TextureType::Grayscale8bpp: return "i8";
-		case TextureType::GrayscaleAlpha4bpp: return "ia4";
-		case TextureType::GrayscaleAlpha8bpp: return "ia8";
-		case TextureType::GrayscaleAlpha16bpp: return "ia16";
-		case TextureType::Palette4bpp: return "ci4";
-		case TextureType::Palette8bpp: return "ci8";
+	case TextureType::RGBA32bpp:
+		return "rgba32";
+	case TextureType::RGBA16bpp:
+		return "rgb5a1";
+	case TextureType::Grayscale4bpp:
+		return "i4";
+	case TextureType::Grayscale8bpp:
+		return "i8";
+	case TextureType::GrayscaleAlpha4bpp:
+		return "ia4";
+	case TextureType::GrayscaleAlpha8bpp:
+		return "ia8";
+	case TextureType::GrayscaleAlpha16bpp:
+		return "ia16";
+	case TextureType::Palette4bpp:
+		return "ci4";
+	case TextureType::Palette8bpp:
+		return "ci8";
+	default:
+		return "ERROR";
 	}
-
-	return "";
 }
-
 
 string ZTexture::GetSourceOutputHeader(const std::string& prefix)
 {
-	//return StringHelper::Sprintf("extern u64 %s[];\n", name.c_str());
+	// return StringHelper::Sprintf("extern u64 %s[];\n", name.c_str());
 	return "";
 }
 
@@ -792,7 +901,7 @@ TextureType ZTexture::GetTextureTypeFromString(string str)
 		texType = TextureType::Palette4bpp;
 	else if (str == "ci8")
 		texType = TextureType::Palette8bpp;
-	else 
-		printf("Encountered Unknown Texture Type %s \n",str.c_str());
+	else
+		fprintf(stderr, "Encountered Unknown Texture Type %s \n", str.c_str());
 	return texType;
 }

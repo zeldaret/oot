@@ -59,8 +59,8 @@ glabel BgHidanSekizou_Init
 /* 0048C 8088D34C 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 00490 8088D350 1612FFF3 */  bne     $s0, $s2, .L8088D320       
 /* 00494 8088D354 00000000 */  nop
-/* 00498 8088D358 3C040601 */  lui     $a0, %hi(D_0600CC90)                ## $a0 = 06010000
-/* 0049C 8088D35C 2484CC90 */  addiu   $a0, $a0, %lo(D_0600CC90)           ## $a0 = 0600CC90
+/* 00498 8088D358 3C040601 */  lui     $a0, %hi(gFireTempleStationaryFlamethrowerCol)                ## $a0 = 06010000
+/* 0049C 8088D35C 2484CC90 */  addiu   $a0, $a0, %lo(gFireTempleStationaryFlamethrowerCol)           ## $a0 = 0600CC90
 /* 004A0 8088D360 0C010620 */  jal     CollisionHeader_GetVirtual
               
 /* 004A4 8088D364 27A50040 */  addiu   $a1, $sp, 0x0040           ## $a1 = FFFFFFF0
