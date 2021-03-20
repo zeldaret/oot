@@ -51,11 +51,11 @@ typedef struct EnfHG {
     /* 0x01DE */ s16 hitTimer;
     /* 0x01E0 */ s16 turnRot;
     /* 0x01E2 */ char unk_1E2[6];
-    /* 0x01E8 */ f32 warpFogR;
-    /* 0x01EC */ f32 warpFogG;
-    /* 0x01F0 */ f32 warpFogB;
-    /* 0x01F4 */ f32 warpFogUnk1;
-    /* 0x01F8 */ f32 warpFogUnk2;
+    /* 0x01E8 */ f32 warpColorFilterR;
+    /* 0x01EC */ f32 warpColorFilterG;
+    /* 0x01F0 */ f32 warpColorFilterB;
+    /* 0x01F4 */ f32 warpColorFilterUnk1;
+    /* 0x01F8 */ f32 warpColorFilterUnk2;
     /* 0x01FC */ EnfHGActionFunc actionFunc;
     /* 0x0200 */ char unk_200[4];
     /* 0x0204 */ PSkinAwb skin;

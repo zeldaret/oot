@@ -197,8 +197,7 @@ static u64* sLimbTex_rgb5a1_16x16[] = {
 };
 static u64* sLimbTex_rgb5a1_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
 
-// These are the mouth textures for the intro
-static u64* sFaceTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
+static u64* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
@@ -249,22 +248,23 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
     s16 i;
 
     for (i = 0; i < 5; i++) {
+        // ARRAY_COUNT can't be used here because the arrays aren't guaranteed to be the same size.
         BossGanondrof_ClearPixels8x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_8x8[i]), mask, index);
         BossGanondrof_ClearPixels16x8(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x8[i]), mask, index);
     }
 
-    for (i = 0; i < 9; i++) {
+    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgb5a1_16x16); i++) {
         BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x16[i]), mask, index);
     }
 
-    for (i = 0; i < 2; i++) {
+    for (i = 0; i < ARRAY_COUNT(sLimbTex_rgb5a1_16x32); i++) {
         BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(sLimbTex_rgb5a1_16x32[i]), mask, index);
     }
 
     BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(gPhantomGanonLimbTex_00B380), mask, index);
     BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(gPhantomGanonEyeTex), mask, index);
-    for (i = 0; i < 2; i++) {
-        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sFaceTex_ci8_16x16[i]), mask, index);
+    for (i = 0; i < ARRAY_COUNT(sMouthTex_ci8_16x16); i++) {
+        BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sMouthTex_ci8_16x16[i]), mask, index);
     }
 }
 
@@ -1500,8 +1500,9 @@ void BossGanondrof_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->work[GND_INVINC_TIMER] & 4) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099);
     } else {
-        POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, (u32)horse->warpFogR, (u32)horse->warpFogG, (u32)horse->warpFogB, 0,
-                                   (s32)horse->warpFogUnk1 + 995, (s32)horse->warpFogUnk2 + 1000);
+        POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, (u32)horse->warpColorFilterR, (u32)horse->warpColorFilterG,
+                                   (u32)horse->warpColorFilterB, 0, (s32)horse->warpColorFilterUnk1 + 995,
+                                   (s32)horse->warpColorFilterUnk2 + 1000);
     }
 
     osSyncPrintf("DRAW 11\n");

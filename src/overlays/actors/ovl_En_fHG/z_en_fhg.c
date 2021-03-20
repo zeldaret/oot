@@ -62,13 +62,13 @@ const ActorInit En_fHG_InitVars = {
     (ActorFunc)EnfHG_Draw,
 };
 
-static EnfHGPainting sPaintings[6] = {
+static EnfHGPainting sPaintings[] = {
     { { 0.0f, 60.0f, -315.0f }, 0x0000 },   { { -260.0f, 60.0f, -145.0f }, 0x2AAA },
     { { -260.0f, 60.0f, 165.0f }, 0x5554 }, { { 0.0f, 60.0f, 315.0f }, 0x7FFE },
     { { 260.0f, 60.0f, 155.0f }, 0xAAA8 },  { { 260.0f, 60.0f, -155.0f }, 0xD552 },
 };
 
-static InitChainEntry sInitChain[2] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_S8(naviEnemyId, 26, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 1200, ICHAIN_STOP),
 };
@@ -452,11 +452,11 @@ void EnfHG_SetupApproach(EnfHG* this, GlobalContext* globalCtx, s16 paintingInde
     this->actor.scale.z = 0.001f;
     this->approachRate = 0.0f;
 
-    this->warpFogR = globalCtx->lightCtx.unk_07;
-    this->warpFogG = globalCtx->lightCtx.unk_08;
-    this->warpFogB = globalCtx->lightCtx.unk_09;
-    this->warpFogUnk1 = 0.0f;
-    this->warpFogUnk2 = 0.0f;
+    this->warpColorFilterR = globalCtx->lightCtx.unk_07;
+    this->warpColorFilterG = globalCtx->lightCtx.unk_08;
+    this->warpColorFilterB = globalCtx->lightCtx.unk_09;
+    this->warpColorFilterUnk1 = 0.0f;
+    this->warpColorFilterUnk2 = 0.0f;
     this->turnRot = 0;
     this->turnTarget = 0;
     this->spawnedWarp = false;
@@ -509,15 +509,15 @@ void EnfHG_Attack(EnfHG* this, GlobalContext* globalCtx) {
             this->timers[1] = 50;
             Animation_MorphToPlayOnce(&this->skin.skelAnime, &gPhantomHorseLeapAnim, 0.0f);
         }
-        Math_ApproachF(&this->warpFogR, 255.0f, 1.0f, 10.0f);
-        Math_ApproachF(&this->warpFogG, 255.0f, 1.0f, 10.0f);
-        Math_ApproachF(&this->warpFogB, 255.0f, 1.0f, 10.0f);
-        Math_ApproachF(&this->warpFogUnk1, -60.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->warpColorFilterR, 255.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpColorFilterG, 255.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpColorFilterB, 255.0f, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpColorFilterUnk1, -60.0f, 1.0f, 5.0f);
     } else {
-        Math_ApproachF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_ApproachF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_ApproachF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-        Math_ApproachF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
+        Math_ApproachF(&this->warpColorFilterR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpColorFilterG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpColorFilterB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+        Math_ApproachF(&this->warpColorFilterUnk1, 0.0f, 1.0f, 5.0f);
         if (this->timers[1] == 29) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_MASIC2);
             Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_VOICE);
@@ -587,10 +587,10 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
 
     osSyncPrintf("REVISE !!\n");
     SkelAnime_Update(&this->skin.skelAnime);
-    Math_ApproachF(&this->warpFogR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_ApproachF(&this->warpFogG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_ApproachF(&this->warpFogB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
-    Math_ApproachF(&this->warpFogUnk1, 0.0f, 1.0f, 5.0f);
+    Math_ApproachF(&this->warpColorFilterR, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_ApproachF(&this->warpColorFilterG, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_ApproachF(&this->warpColorFilterB, globalCtx->lightCtx.unk_07, 1.0f, 10.0f);
+    Math_ApproachF(&this->warpColorFilterUnk1, 0.0f, 1.0f, 5.0f);
     Math_ApproachF(&this->actor.scale.z, 0.011499999f, 1.0f, 0.002f);
     if (this->timers[0] != 0) {
         Math_ApproachZeroF(&this->damageSpeedMod, 1.0f, 0.1f);
@@ -724,8 +724,9 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     POLY_OPA_DISP = ((bossGnd->work[GND_INVINC_TIMER] & 4) && (bossGnd->flyMode == GND_FLY_PAINTING))
                         ? Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099)
-                        : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
-                                     (s32)this->warpFogUnk1 + 995, (s32)this->warpFogUnk2 + 1000);
+                        : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpColorFilterR, (u32)this->warpColorFilterG,
+                                     (u32)this->warpColorFilterB, 0, (s32)this->warpColorFilterUnk1 + 995,
+                                     (s32)this->warpColorFilterUnk2 + 1000);
     func_800A6330(&this->actor, globalCtx, &this->skin, EnfHG_Noop, 0x23);
     POLY_OPA_DISP = func_800BC8A0(globalCtx, POLY_OPA_DISP);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2480);

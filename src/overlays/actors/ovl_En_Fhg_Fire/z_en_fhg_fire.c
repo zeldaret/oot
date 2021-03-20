@@ -113,7 +113,7 @@ void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->fwork[FHGFIRE_ALPHA] = 255.0f;
         this->work[FHGFIRE_TIMER] = 32;
         this->work[FHGFIRE_FX_TIMER] = 50;
-        this->unkTimer = 10;
+        this->lensFlareTimer = 10;
 
         this->fwork[FHGFIRE_BURST_SCALE] = this->actor.world.rot.x / 100.0f;
         this->collider.dim.radius = this->actor.world.rot.x * 0.13f;
@@ -358,22 +358,21 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         globalCtx->envCtx.unk_E1 = 0;
     }
-    if (this->unkTimer != 0) {
-        this->unkTimer--;
-        this->unkFlag = true;
-        Math_ApproachF(&this->unkFloat, 40.0f, 0.3f, 10.0f);
+    
+    if (this->lensFlareTimer != 0) {
+        this->lensFlareTimer--;
+        this->lensFlareOn = true;
+        Math_ApproachF(&this->lensFlareScale, 40.0f, 0.3f, 10.0f);
     } else {
-        Math_ApproachZeroF(&this->unkFloat, 1.0f, 5.0f);
-        if (this->unkFloat == 0.0f) {
-            this->unkFlag = false;
+        Math_ApproachZeroF(&this->lensFlareScale, 1.0f, 5.0f);
+        if (this->lensFlareScale == 0.0f) {
+            this->lensFlareOn = false;
         }
     }
 
-    // Related to scene draw config 30, only used in BossGanon_Update and
-    // loaded in z_kankyo
-    D_8015FCF0 = this->unkFlag;
+    D_8015FCF0 = this->lensFlareOn;
     D_8015FCF8 = this->actor.world.pos;
-    D_8015FD06 = this->unkFloat;
+    D_8015FD06 = this->lensFlareScale;
     D_8015FD08 = 10.0f;
     D_8015FD0C = 0;
 }
@@ -690,14 +689,14 @@ void EnFhgFire_Update(Actor* thisx, GlobalContext* globalCtx) {
     if (this->work[FHGFIRE_TIMER] != 0) {
         this->work[FHGFIRE_TIMER]--;
     }
-    if (this->work[FHGFIRE_FX_TIMER]) {
+    if (this->work[FHGFIRE_FX_TIMER] != 0) {
         this->work[FHGFIRE_FX_TIMER]--;
     }
 
     this->updateFunc(this, globalCtx);
 }
 
-static s32 D_80A1181C[] = {
+static u64* sDustTextures[] = {
     gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
 };
 

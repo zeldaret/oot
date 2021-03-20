@@ -6,7 +6,7 @@
 
 struct EnFhgFire;
 
-typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, GlobalContext *globalCtx);
+typedef void (*EnFhgFireUpdateFunc)(struct EnFhgFire*, GlobalContext*);
 
 typedef enum {
     /*   1 */ FHGFIRE_LIGHTNING_STRIKE = 1,
@@ -61,9 +61,9 @@ typedef struct EnFhgFire {
     /* 0x019C */ LightNode* lightNode;
     /* 0x01A0 */ LightInfo lightInfo;
     /* 0x01B0 */ ColliderCylinder collider;
-    /* 0x01FC */ u8 unkFlag;
-    /* 0x01FE */ s16 unkTimer;
-    /* 0x0200 */ f32 unkFloat;
+    /* 0x01FC */ u8 lensFlareOn;
+    /* 0x01FE */ s16 lensFlareTimer;
+    /* 0x0200 */ f32 lensFlareScale;
 } EnFhgFire; // size = 0x0204
 
 extern const ActorInit En_Fhg_Fire_InitVars;
