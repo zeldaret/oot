@@ -1,4 +1,5 @@
 #include "z_en_okuta.h"
+#include "objects/object_okuta/object_okuta.h"
 
 #define FLAGS 0x00000005
 
@@ -31,15 +32,6 @@ const ActorInit En_Okuta_InitVars = {
     (ActorFunc)EnOkuta_Update,
     (ActorFunc)EnOkuta_Draw,
 };
-
-extern AnimationHeader D_06000344;
-extern AnimationHeader D_060008FC;
-extern AnimationHeader D_06000AC0;
-extern AnimationHeader D_06000DDC;
-extern Gfx D_06003380[];
-extern SkeletonHeader D_06003660;
-extern AnimationHeader D_06003910;
-extern AnimationHeader D_06003C64;
 
 static ColliderCylinderInit sProjectileColliderInit = {
     {
@@ -134,7 +126,7 @@ void EnOkuta_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->numShots = (thisx->params >> 8) & 0xFF;
     thisx->params &= 0xFF;
     if (thisx->params == 0) {
-        SkelAnime_Init(globalCtx, &this->skelAnime, &D_06003660, &D_06003C64, this->jointTable, this->morphTable, 38);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gOctorokSkel, &gOctorokAppearAnim, this->jointTable, this->morphTable, 38);
         Collider_InitCylinder(globalCtx, &this->collider);
         Collider_SetCylinder(globalCtx, &this->collider, thisx, &sOctorockColliderInit);
         CollisionCheck_SetInfo(&thisx->colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -215,24 +207,24 @@ void EnOkuta_SetupAppear(EnOkuta* this, GlobalContext* globalCtx) {
     this->actor.draw = EnOkuta_Draw;
     this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
     this->actor.flags |= 1;
-    Animation_PlayOnce(&this->skelAnime, &D_06003C64);
+    Animation_PlayOnce(&this->skelAnime, &gOctorokAppearAnim);
     EnOkuta_SpawnBubbles(this, globalCtx);
     this->actionFunc = EnOkuta_Appear;
 }
 
 void EnOkuta_SetupHide(EnOkuta* this) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000AC0);
+    Animation_PlayOnce(&this->skelAnime, &gOctorokHideAnim);
     this->actionFunc = EnOkuta_Hide;
 }
 
 void EnOkuta_SetupWaitToShoot(EnOkuta* this) {
-    Animation_PlayLoop(&this->skelAnime, &D_06000DDC);
+    Animation_PlayLoop(&this->skelAnime, &gOctorokFloatAnim);
     this->timer = (this->actionFunc == EnOkuta_Shoot) ? 2 : 0;
     this->actionFunc = EnOkuta_WaitToShoot;
 }
 
 void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
-    Animation_PlayOnce(&this->skelAnime, &D_06000344);
+    Animation_PlayOnce(&this->skelAnime, &gOctorokShootAnim);
     if (this->actionFunc != EnOkuta_Shoot) {
         this->timer = this->numShots;
     }
@@ -248,7 +240,7 @@ void EnOkuta_SetupShoot(EnOkuta* this, GlobalContext* globalCtx) {
 }
 
 void EnOkuta_SetupWaitToDie(EnOkuta* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_06003910, -5.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gOctorokHitAnim, -5.0f);
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0xB);
     this->collider.base.acFlags &= ~AC_HIT;
     Actor_SetScale(&this->actor, 0.01f);
@@ -257,7 +249,7 @@ void EnOkuta_SetupWaitToDie(EnOkuta* this) {
 }
 
 void EnOkuta_SetupDie(EnOkuta* this) {
-    Animation_MorphToPlayOnce(&this->skelAnime, &D_060008FC, -3.0f);
+    Animation_MorphToPlayOnce(&this->skelAnime, &gOctorokDieAnim, -3.0f);
     this->timer = 0;
     this->actionFunc = EnOkuta_Die;
 }
@@ -507,7 +499,7 @@ void EnOkuta_ProjectileFly(EnOkuta* this, GlobalContext* globalCtx) {
             pos.x = this->actor.world.pos.x;
             pos.y = this->actor.world.pos.y + 11.0f;
             pos.z = this->actor.world.pos.z;
-            EffectSsHahen_SpawnBurst(globalCtx, &pos, 6.0f, 0, 1, 2, 15, 7, 10, D_06003380);
+            EffectSsHahen_SpawnBurst(globalCtx, &pos, 6.0f, 0, 1, 2, 15, 7, 10, gOctorokProjectileDL);
             Audio_PlaySoundAtPosition(globalCtx, &this->actor.world.pos, 20, NA_SE_EN_OCTAROCK_ROCK);
             Actor_Kill(&this->actor);
         }
@@ -725,7 +717,7 @@ void EnOkuta_Draw(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_RotateZ(this->actor.home.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1657),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06003380);
+        gSPDisplayList(POLY_OPA_DISP++, gOctorokProjectileDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_okuta.c", 1662);
     }

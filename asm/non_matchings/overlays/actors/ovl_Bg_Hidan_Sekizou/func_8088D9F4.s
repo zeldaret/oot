@@ -38,7 +38,7 @@ glabel func_8088D9F4
 /* 00B84 8088DA44 354A0024 */  ori     $t2, $t2, 0x0024           ## $t2 = DB060024
 /* 00B88 8088DA48 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
 /* 00B8C 8088DA4C 468021A0 */  cvt.s.w $f6, $f4                   
-/* 00B90 8088DA50 3C048089 */  lui     $a0, %hi(D_8088E27C)       ## $a0 = 80890000
+/* 00B90 8088DA50 3C048089 */  lui     $a0, %hi(sFireballsTexs)       ## $a0 = 80890000
 /* 00B94 8088DA54 3C198016 */  lui     $t9, %hi(gSegments)
 /* 00B98 8088DA58 3C0100FF */  lui     $at, 0x00FF                ## $at = 00FF0000
 /* 00B9C 8088DA5C 3421FFFF */  ori     $at, $at, 0xFFFF           ## $at = 00FFFFFF
@@ -55,7 +55,7 @@ glabel func_8088D9F4
 /* 00BC8 8088DA88 87AB0062 */  lh      $t3, 0x0062($sp)           
 /* 00BCC 8088DA8C 000B6080 */  sll     $t4, $t3,  2               
 /* 00BD0 8088DA90 008C2021 */  addu    $a0, $a0, $t4              
-/* 00BD4 8088DA94 8C84E27C */  lw      $a0, %lo(D_8088E27C)($a0)  
+/* 00BD4 8088DA94 8C84E27C */  lw      $a0, %lo(sFireballsTexs)($a0)  
 /* 00BD8 8088DA98 3C0CFA00 */  lui     $t4, 0xFA00                ## $t4 = FA000000
 /* 00BDC 8088DA9C 358C0001 */  ori     $t4, $t4, 0x0001           ## $t4 = FA000001
 /* 00BE0 8088DAA0 00047100 */  sll     $t6, $a0,  4               
@@ -157,10 +157,10 @@ glabel func_8088D9F4
 /* 00D54 8088DC14 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 00D58 8088DC18 8FA8002C */  lw      $t0, 0x002C($sp)           
 /* 00D5C 8088DC1C 8FA30064 */  lw      $v1, 0x0064($sp)           
-/* 00D60 8088DC20 3C0A0601 */  lui     $t2, %hi(D_0600DC30)                ## $t2 = 06010000
+/* 00D60 8088DC20 3C0A0601 */  lui     $t2, %hi(gFireTempleFireballDL)                ## $t2 = 06010000
 /* 00D64 8088DC24 AD020004 */  sw      $v0, 0x0004($t0)           ## 00000004
 /* 00D68 8088DC28 00601025 */  or      $v0, $v1, $zero            ## $v0 = 00000000
-/* 00D6C 8088DC2C 254ADC30 */  addiu   $t2, $t2, %lo(D_0600DC30)           ## $t2 = 0600DC30
+/* 00D6C 8088DC2C 254ADC30 */  addiu   $t2, $t2, %lo(gFireTempleFireballDL)           ## $t2 = 0600DC30
 /* 00D70 8088DC30 3C09DE00 */  lui     $t1, 0xDE00                ## $t1 = DE000000
 /* 00D74 8088DC34 AC490000 */  sw      $t1, 0x0000($v0)           ## 00000000
 /* 00D78 8088DC38 AC4A0004 */  sw      $t2, 0x0004($v0)           ## 00000004
