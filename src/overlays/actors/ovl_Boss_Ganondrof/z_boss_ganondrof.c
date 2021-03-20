@@ -920,7 +920,7 @@ void BossGanondrof_Charge(BossGanondrof* this, GlobalContext* globalCtx) {
             Matrix_RotateX((thisx->shape.rot.x / (f32)0x8000) * M_PI, MTXMODE_APPLY);
             Matrix_RotateZ((this->work[GND_PARTICLE_ANGLE] / (f32)0x8000) * M_PI, MTXMODE_APPLY);
             Matrix_MultVec3f(&sp8C, &sp80);
-            Matrix_Pull();
+            Matrix_Pop();
             spB0.x = this->spearTip.x + sp80.x;
             spB0.y = this->spearTip.y + sp80.y;
             spB0.z = this->spearTip.z + sp80.z;

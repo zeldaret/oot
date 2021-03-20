@@ -734,7 +734,7 @@ void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     Matrix_Push();
     EnTkEff_Draw(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_tk.c", 1294);
 

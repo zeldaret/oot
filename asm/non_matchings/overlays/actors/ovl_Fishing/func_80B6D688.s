@@ -613,7 +613,7 @@ glabel func_80B6D688
 /* 04544 80B6DEE4 1420FF66 */  bne     $at, $zero, .L80B6DC80     
 /* 04548 80B6DEE8 AC680004 */  sw      $t0, 0x0004($v1)           ## 00000004
 .L80B6DEEC:
-/* 0454C 80B6DEEC 0C034221 */  jal     Matrix_Pull              
+/* 0454C 80B6DEEC 0C034221 */  jal     Matrix_Pop              
 /* 04550 80B6DEF0 00000000 */  nop
 /* 04554 80B6DEF4 8FA900E8 */  lw      $t1, 0x00E8($sp)           
 /* 04558 80B6DEF8 0C024F61 */  jal     func_80093D84              

@@ -333,3 +333,4 @@ ASALocalRun/
 *.o
 *.d
 .vscode/
+ZAPD/BuildInfo.h
