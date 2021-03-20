@@ -201,7 +201,7 @@ s32 Math3D_PlaneVsPlaneVsLineClosestPoint(f32 planeAA, f32 planeAB, f32 planeAC,
     static Linef planeIntersect;
 
     if (!Math3D_PlaneVsPlaneNewLine(planeAA, planeAB, planeAC, planeADist, planeBA, planeBB, planeBC, planeBDist,
-                                    &planeIntersect)) {
+                                    (InfiniteLine*)&planeIntersect)) {
         return false;
     }
     Math3D_LineClosestToPoint(&planeIntersect, point, closestPoint);

@@ -9,6 +9,7 @@
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "objects/object_ydan_objects/object_ydan_objects.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -83,8 +84,8 @@ typedef struct {
 } ShutterInfo;
 
 static ShutterInfo D_80998134[] = {
-    { gYdanDoorDlist1, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06006910, gDungeonDoorDL, 130, 12, 20, 15 },
+    { gDTDungeonDoor1DL, gDungeonDoorDL, 130, 12, 20, 15 },
+    { gDTDungeonDoor2DL, gDungeonDoorDL, 130, 12, 20, 15 },
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
     { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { 0x06012AB0, NULL, 130, 12, 50, 15 },
@@ -92,8 +93,8 @@ static ShutterInfo D_80998134[] = {
     { 0x06000100, 0x060001F0, 240, 14, 50, 15 },
     { 0x060010C0, NULL, 130, 12, 50, 15 },
     { gDoorMetalBarsDL, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06010CB0, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06011F20, gDungeonDoorDL, 130, 12, 20, 15 },
+    { gFireTempleDoorFrontDL, gDungeonDoorDL, 130, 12, 20, 15 },
+    { gFireTempleDoorBackDL, gDungeonDoorDL, 130, 12, 20, 15 },
     { 0x060000C0, gDungeonDoorDL, 130, 12, 20, 15 },
     { 0x06005D90, gDungeonDoorDL, 130, 12, 20, 15 },
     { 0x06007000, gDungeonDoorDL, 130, 12, 20, 15 },
@@ -386,7 +387,7 @@ void func_80996B0C(DoorShutter* this, GlobalContext* globalCtx) {
                 }
                 player->doorTimer = 10;
             }
-            player->doorType = 2;
+            player->doorType = PLAYER_DOORTYPE_SLIDING;
             player->doorDirection = doorDirection;
             player->doorActor = &this->dyna.actor;
         }

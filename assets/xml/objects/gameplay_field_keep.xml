@@ -38,7 +38,7 @@
         <DList Name="gFieldSkelUnusedFishDL_61E8" Offset="0x61E8"/>
         <DList Name="gFieldSkelUnusedFishDL_63A8" Offset="0x63A8"/>
         <DList Name="gFieldSkelUnusedFishDL_6448" Offset="0x6448"/>
-        <Texture Name="gFieldUnusedFishTex" OutName="unused_fish" Format="rgb5a1" Width="64" Height="64" Offset="0x64A8"/>
+        <Texture Name="gFieldUnusedFishTex" OutName="unused_fish" Format="rgb5a1" Width="64" Height="32" Offset="0x64A8"/>
         <Texture Name="gFieldUnusedFishBottomTex" OutName="unused_fish_bottom" Format="rgb5a1" Width="64" Height="32" Offset="0x074A8"/>
         <Texture Name="gFieldUnusedFishFinTex" OutName="unused_fish_fin" Format="rgb5a1" Width="32" Height="16" Offset="0x84A8"/>
         <DList Name="gSilverRockDlist" Offset="0xA3B8"/> 
@@ -51,9 +51,10 @@
         <DList Name="gFieldBeehiveFragmentDlist" Offset="0x9940"/>
         <Texture Name="gFieldBeehiveTex" OutName="beehive" Format="rgb5a1" Width="32" Height="32" Offset="0x8900"/>
         <Texture Name="gFieldBeehiveFragmentTex" OutName="beehive_fragment" Format="rgb5a1" Width="16" Height="16" Offset="0x9710"/>
-        <Texture Name="gFieldSilverRockTex" OutName="silver_rock" Format="ci8" Width="64" Height="64" Offset="0x99F8"/>
+        <Texture Name="gFieldSilverRockTex" OutName="silver_rock" Format="ci4" Width="64" Height="64" Offset="0x99F8"/>
         <Texture Name="gFieldSilverRockPalette" OutName="silver_rock_palette" Format="rgb5a1" Width="4" Height="4" Offset="0x99D0"/>
         <!-- Kankyo Stuff-->
-        <!--<DList Name="gFieldDL_CA70" Offset="0xCA70"/> TODO fix this when ZAPD can handle the Opcodes it uses-->        
+        <DList Name="gFieldDL_CA70" Offset="0xCA70"/>
+        <Blob Name="gFieldUnaccounted_CB30" Size="0x800"/>
     </File>
 </Root>

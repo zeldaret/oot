@@ -1,7 +1,7 @@
 /*
  * File: z_bg_ydan_maruta.c
  * Overlay: ovl_Bg_Ydan_Maruta
- * Description: Rotating spike log in Deku Tree
+ * Description: Rotating spike log and falling ladder in Deku Tree
  */
 
 #include "z_bg_ydan_maruta.h"
@@ -99,11 +99,11 @@ void BgYdanMaruta_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         triInit = &sTrisElementsInit[1];
         DynaPolyActor_Init(&this->dyna, DPM_UNK);
-        CollisionHeader_GetVirtual(&gYdanMarutaCol, &colHeader);
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
-        this->dyna.actor.home.pos.y += -280.0f;
+        CollisionHeader_GetVirtual(&gDTFallingLadderCol, &colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        thisx->home.pos.y += -280.0f;
         if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-            this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
+            thisx->world.pos.y = thisx->home.pos.y;
             this->actionFunc = BgYdanMaruta_DoNothing;
         } else {
             this->actionFunc = func_808BF078;
@@ -204,8 +204,8 @@ void BgYdanMaruta_Draw(Actor* thisx, GlobalContext* globalCtx) {
     BgYdanMaruta* this = THIS;
 
     if (this->dyna.actor.params == 0) {
-        Gfx_DrawDListOpa(globalCtx, gYdanMarutaDlist1);
+        Gfx_DrawDListOpa(globalCtx, gDTRollingSpikeTrapDL);
     } else {
-        Gfx_DrawDListOpa(globalCtx, gYdanMarutaDlist2);
+        Gfx_DrawDListOpa(globalCtx, gDTFallingLadderDL);
     }
 }

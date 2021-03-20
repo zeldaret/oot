@@ -34,7 +34,7 @@ glabel func_809329D4
 /* 0647C 80932A4C 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 06480 80932A50 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
 /* 06484 80932A54 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
-/* 06488 80932A58 0C00D09B */  jal     func_8003426C
+/* 06488 80932A58 0C00D09B */  jal     Actor_SetColorFilter
 /* 0648C 80932A5C AFA20010 */  sw      $v0, 0x0010($sp)
 /* 06490 80932A60 3C0C8093 */  lui     $t4, %hi(func_80932A80)    ## $t4 = 80930000
 /* 06494 80932A64 258C2A80 */  addiu   $t4, $t4, %lo(func_80932A80) ## $t4 = 80932A80

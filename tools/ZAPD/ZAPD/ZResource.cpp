@@ -29,7 +29,6 @@ void ZResource::ParseXML(tinyxml2::XMLElement* reader)
 
 void ZResource::Save(const std::string& outFolder)
 {
-
 }
 
 void ZResource::PreGenSourceFiles()
@@ -107,7 +106,6 @@ void ZResource::ParseRawData()
 
 void ZResource::GenerateHLIntermediette(HLFileIntermediette& hlFile)
 {
-
 }
 
 std::string ZResource::GetSourceTypeName()
@@ -123,4 +121,14 @@ ZResourceType ZResource::GetResourceType()
 void ZResource::CalcHash()
 {
 	hash = 0;
+}
+
+uint32_t Seg2Filespace(segptr_t segmentedAddress, uint32_t parentBaseAddress)
+{
+	uint32_t currentPtr = GETSEGOFFSET(segmentedAddress);
+
+	if (GETSEGNUM(segmentedAddress) == 0x80)  // Is defined in code?
+		currentPtr -= GETSEGOFFSET(parentBaseAddress);
+
+	return currentPtr;
 }

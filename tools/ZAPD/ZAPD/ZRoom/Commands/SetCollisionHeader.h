@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
 #include "../../ZCollision.h"
+#include "../ZRoomCommand.h"
 
 class SetCollisionHeader : public ZRoomCommand
 {

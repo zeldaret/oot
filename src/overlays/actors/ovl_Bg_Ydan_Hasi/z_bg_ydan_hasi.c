@@ -65,16 +65,17 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
         waterBox->ySurface = this->dyna.actor.home.pos.y;
         this->actionFunc = BgYdanHasi_InitWater;
     } else {
-        if (this->dyna.actor.params == HASI_WATER_BLOCK) {
-            CollisionHeader_GetVirtual(&gYdanHasiCol2, &colHeader);
-            this->dyna.actor.scale.z = 0.15f;
-            this->dyna.actor.scale.x = 0.15f;
-            this->dyna.actor.world.pos.y = waterBox->ySurface + 20.0f;
+        if (thisx->params == 0) {
+            // Moving platform on the water in B1
+            CollisionHeader_GetVirtual(&gDTSlidingPlatformCol, &colHeader);
+            thisx->scale.z = 0.15f;
+            thisx->scale.x = 0.15f;
+            thisx->world.pos.y = (waterBox->ySurface + 20.0f);
             this->actionFunc = BgYdanHasi_UpdateFloatingBlock;
         } else {
             // 3 platforms on 2F
-            CollisionHeader_GetVirtual(&gYdanHasiCol, &colHeader);
-            this->dyna.actor.draw = NULL;
+            CollisionHeader_GetVirtual(&gDTRisingPlatformsCol, &colHeader);
+            thisx->draw = NULL;
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
             Actor_SetFocus(&this->dyna.actor, 40.0f);
         }
@@ -189,11 +190,11 @@ void BgYdanHasi_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* sDlists[] = { gYdanHasiWaterBlockDlist, gYdanHasiWaterDlist, gYdanHasiThreeBlocksDlist };
+    static Gfx* dLists[] = { gDTSlidingPlatformDL, gDTWaterPlaneDL, gDTRisingPlatformsDL };
     BgYdanHasi* this = THIS;
 
-    if (this->dyna.actor.params == HASI_WATER_BLOCK || this->dyna.actor.params == HASI_THREE_BLOCKS) {
-        Gfx_DrawDListOpa(globalCtx, sDlists[this->dyna.actor.params]);
+    if (this->dyna.actor.params == 0 || this->dyna.actor.params == 2) {
+        Gfx_DrawDListOpa(globalCtx, dLists[this->dyna.actor.params]);
         return;
     }
 
@@ -201,12 +202,12 @@ void BgYdanHasi_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D84(globalCtx->state.gfxCtx);
     gSPSegment(POLY_XLU_DISP++, 0x08,
-               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, - globalCtx->gameplayFrames & 0x7F,
+               Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, -globalCtx->gameplayFrames & 0x7F,
                                 globalCtx->gameplayFrames & 0x7F, 0x20, 0x20, 1, globalCtx->gameplayFrames & 0x7F,
                                 globalCtx->gameplayFrames & 0x7F, 0x20, 0x20));
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 592),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, &gYdanHasiWaterDlist);
+    gSPDisplayList(POLY_XLU_DISP++, gDTWaterPlaneDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_ydan_hasi.c", 597);
 }

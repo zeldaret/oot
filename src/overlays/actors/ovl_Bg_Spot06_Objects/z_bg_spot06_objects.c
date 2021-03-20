@@ -282,7 +282,8 @@ void BgSpot06Objects_LockSpawnWaterRipples(BgSpot06Objects* this, GlobalContext*
 
 void BgSpot06Objects_LockSpawnBubbles(BgSpot06Objects* this, GlobalContext* globalCtx, s32 flag) {
     if (!(globalCtx->gameplayFrames % 7) || flag) {
-        EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.world.pos, 0.0f, 40.0f, 30.0f, (Rand_ZeroOne() * 0.05f) + 0.175f);
+        EffectSsBubble_Spawn(globalCtx, &this->dyna.actor.world.pos, 0.0f, 40.0f, 30.0f,
+                             (Rand_ZeroOne() * 0.05f) + 0.175f);
     }
 }
 
