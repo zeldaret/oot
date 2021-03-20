@@ -40,7 +40,7 @@ The header file is also used to declare structs and other information about the 
 
 The general rule for order of decompilation is
 - Start with `Init`, because it usually contains the most information about the structure of the actor.
-- Next, decompile any other functions from the actor you have found in `Init`. You generally start with the action functions, because they retorn nothing and all take the same arguments,
+- Next, decompile any other functions from the actor you have found in `Init`. You generally start with the action functions, because they return nothing and all take the same arguments,
 
 ```C
 void func_80whatever(EnJj* this, GlobalContext* globalCtx);

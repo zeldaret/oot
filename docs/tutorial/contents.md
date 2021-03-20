@@ -12,7 +12,7 @@
 ## Decompilation
 
 - [Begining decompilation: order, Init and the actor struct](beginning_decomp.md)
-	- order of decompilation
+	- Order of decompilation
 	- Init and common actor features
 		- Initchains
 		- Actors and dynapoly actors

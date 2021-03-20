@@ -122,7 +122,7 @@ Optional arguments are `-o output` to output to a different file and `-v` to giv
 
 This turns the strange strings in the `osSyncPrintf`s into the human-readable equivalent instructions. Copy the contents, including the quotation marks, and run
 ```sh
-./tools/vtfmt.py "contents"
+./tools/vt_fmt.py "contents"
 ```
 and replace the contents of the printf with the output.
 
@@ -146,7 +146,7 @@ Shell script that does a standardised format to the C code. Can be run on a file
 
 Tracks down any `.s` files no longer used by the project. Does not ignore comments, so you have to actually remove any `#pragma` lines for it to consider the file unused.
 ```sh
-./tools/find_unused_asm.py
+./tools/find_unused_asm.sh
 ```
 will output a list of all such files, while adding `-d` deletes the files.
 
