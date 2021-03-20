@@ -67,14 +67,14 @@ public:
 	int16_t absMinX, absMinY, absMinZ;
 	int16_t absMaxX, absMaxY, absMaxZ;
 	int16_t numVerts;
-	segptr_t vtxSegmentOffset;
+	segptr_t vtxAddress;
 	int16_t numPolygons;
-	segptr_t polySegmentOffset;
-	segptr_t polyTypeDefSegmentOffset;
-	segptr_t camDataSegmentOffset;
+	segptr_t polyAddress;
+	segptr_t polyTypeDefAddress;
+	segptr_t camDataAddress;
 
 	int32_t numWaterBoxes;
-	int32_t waterBoxSegmentOffset;
+	segptr_t waterBoxAddress;
 
 	std::vector<VertexEntry*> vertices;
 	std::vector<PolygonEntry*> polygons;
