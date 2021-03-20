@@ -347,7 +347,185 @@ void func_800F7B54(u8 bankId, u8 bankIndex) {
     }
 }
 
+#ifdef NON_EQUIVALENT
+
+typedef struct {
+    s32 unk_0;
+    u8 unk_4;
+} Struct_sp84; // size = 0x8
+
+void func_800F7CEC(u8 arg0) {
+    u8 spAE;
+    u8 spAC;
+    u8 spA9;
+    u8 phi_t3;
+    Struct_sp84 sp84[3];
+    Struct_sp84* sp74;
+    s32 sp64;
+    SoundBankEntry *phi_v1;
+    SoundBankEntry **temp_s6;
+    SoundBankEntry *temp_s2;
+    SoundBankEntry *temp_v0;
+    u8 phi_s4;
+    u8 phi_s3;
+    u8 phi_s0;
+    u8 phi_s0_2;
+    u8 temp_t1;
+    u8 temp_t1_2;
+    u8 phi_a1;
+    u8 phi_v1_3;
+    Struct_sp84* temp_s4_3;
+    u8 phi_v1_5;
+    u8 phi_t4;
+    Struct_sp84* temp_a0_6;
+    u8 phi_t2;
+    u8 temp_t2;
+
+
+
+    for(phi_t3 = 0; phi_t3 < 3; phi_t3++) {
+        sp84[phi_t3].unk_0 = 0x7FFFFFFF;
+        sp84[phi_t3].unk_4 = 0xFF;
+    }
+    temp_s6 = &gSoundBanks[arg0];
+    phi_v1 = *temp_s6;
+    phi_s4 = phi_v1->next;
+    phi_s3 = 0;
+    phi_s0 = 0;
+    while (phi_s4 != 0xFF) {
+        temp_v0 = &phi_v1[phi_s4];
+        if ((1 == temp_v0->unk_2A) && ((temp_v0->unk_28 & 0xC00) != 0)) {
+            temp_v0->unk_2B--;
+        } else if (((temp_v0->unk_28 & 0xC00) == 0) && (temp_v0->unk_2A == 5)) {
+            func_800E5B20((temp_v0->unk_2E << 8) | 0x6020000, 0);
+            func_800F7B54(arg0, phi_s4);
+        }
+        if (temp_v0->unk_2B == 0) {
+            func_800F7B54(arg0, phi_s4);
+        } else {
+            temp_s2 = &phi_v1[phi_s4];
+            if (temp_v0->unk_2A != 0) {
+                if (&D_801333D4.x == temp_s2->posX) {
+                    temp_s2->unk_1C = 0.0f;
+                } else {
+                    temp_s2->unk_1C = (SQ(*temp_s2->posX) + SQ(*temp_s2->posY * 1.0f) + SQ(*temp_s2->posZ)) * 1.0f;
+                }
+                if (temp_s2->unk_26 & 0x10) {
+                    temp_s2->unk_20 = SQ(0xFF - temp_s2->unk_24) * 0x1690;
+                } else {
+                    if (temp_s2->unk_1C > 0x7FFFFFD0) {
+                        temp_s2->unk_1C = 0x70000008;
+                        // spA9 = temp_s2->unk_24;
+                        osSyncPrintf(D_80133344, temp_s2->unk_28, temp_s2->posX, temp_s2->posZ, *temp_s2->posX, *temp_s2->posY, *temp_s2->posZ);
+                    }
+                    temp_s2->unk_20 = ((u32)temp_s2->unk_1C + (SQ(0xFF - temp_s2->unk_24) * 0x1690) + temp_s2->unk_28) - temp_s2->unk_28;
+                    if (*temp_s2->posZ < 0.0f) {
+                        temp_s2->unk_20 += (s32)(-*temp_s2->posZ * 6.0f);
+                    }
+                }
+                if (temp_s2->unk_1C > 1.0e10f) {
+                    if (temp_s2->unk_2A == 4) {
+                        func_800E5B20((temp_s2->unk_2E << 8) | 0x6020000, 0);
+                        if ((temp_s2->unk_28 & 0xC00) != 0) {
+                            func_800F7B54(arg0, phi_s4 & 0xFF);
+                            phi_s4 = phi_s0;
+                        }
+                    }
+                } else {
+                    temp_t2 = D_80130578[D_801333CC][arg0];
+                    temp_t1 = temp_t2 & 0xFF;
+                    for(phi_t3 = 0; phi_t3 < temp_t1; phi_t3++) {
+                        if (sp84[phi_t3].unk_0 >= temp_s2->unk_20) {
+                            if (phi_s3 < D_80130578[D_801333CC][arg0]) {
+                                phi_s3++;
+                            }
+                            for(phi_a1 = temp_t1 - 1; phi_a1 > phi_t3; phi_a1--) {
+                                phi_v1_3 = phi_a1; //weirdness
+                                sp84[phi_a1].unk_0 = sp84[phi_v1_3-1].unk_0;
+                                sp84[phi_a1].unk_4 = sp84[phi_v1_3-1].unk_4;
+                            }
+                            sp84[phi_t3].unk_0 = temp_s2->unk_20;
+                            sp84[phi_t3].unk_4 = phi_s4;
+                            phi_t3 = temp_t1;
+                        }
+                    }
+                }
+                phi_s0 = phi_s4;
+            }
+        }
+        phi_s4 = phi_v1[phi_s0].next;
+    }
+    for(phi_t3 = 0; phi_t3 < phi_s3; phi_t3++) {
+        temp_s2 = &(*temp_s6)[sp84[phi_t3].unk_4];
+        if (temp_s2->unk_2A == 1) {
+            temp_s2->unk_2A = 2;
+        } else if (temp_s2->unk_2A == 4) {
+            temp_s2->unk_2A = 3;
+        }
+    }
+
+    temp_t1_2 = D_80130578[D_801333CC][arg0];
+    sp74 = &D_8016E1B8[arg0];
+    sp64 = temp_t1_2;
+    spAE = temp_t1_2;
+    for(phi_t3 = 0; phi_t3 < temp_t1_2; phi_t3++) {
+        temp_s4_3 = &D_8016E1B8[arg0][phi_t3];
+        if (temp_s4_3->unk_4 == 0xFF) {
+            phi_v1_5 = 1;
+        } else {
+            temp_s2 = &(*temp_s6)[temp_s4_3->unk_4];
+            if (temp_s2->unk_2A == 4) {
+                if ((temp_s2->unk_28 & 0xC00) != 0) {
+                    func_800F7B54(arg0, temp_s4_3->unk_4);
+                    phi_v1_5 = 1;
+                    phi_t4 = 3;
+                } else {
+                    temp_s2->unk_2A = 1;
+                    phi_v1_5 = 1;
+                }
+            } else if (temp_s2->unk_2A == 0) {
+                temp_s4_3->unk_4 = 0xFF;
+                phi_v1_5 = 1;
+            } else {
+                for(phi_a1 = 0; phi_a1 < sp64; phi_a1++) {
+                    if (phi_a1 == sp84[phi_a1].unk_4) {
+                        sp84[phi_a1].unk_4 = 0xFF;
+                        phi_a1 = spAE;
+                    }
+                }
+                phi_v1_5 = 0;
+            }
+        }
+        if (1 == phi_v1_5) {
+            phi_t2 = phi_v1_5;
+            for(phi_a1 = 0; phi_a1 < sp64; phi_a1++) {
+                temp_a0_6 = &sp84[phi_a1];
+                if (temp_a0_6->unk_4 != 0xFF) {
+                    if (phi_t4 != (*temp_s6)[temp_a0_6->unk_4].unk_2A) {
+                        for(phi_s0_2 = 0; phi_s0_2 < sp64; phi_s0_2++) {
+                            if (temp_a0_6->unk_4 == sp74[phi_s0_2].unk_4) {
+                                phi_s0_2 = spAE & 0xFF;
+                                phi_v1_5 = 0;
+                            }
+                            phi_t2 = phi_v1_5;
+                        }
+                        if (1 == phi_t2) {
+                            temp_s4_3->unk_4 = temp_a0_6->unk_4;
+                            temp_a0_6->unk_4 = 0xFF;
+                            phi_a1 = sp64 + 1;
+                        }
+                    }
+                }
+            }
+            if (sp64 == phi_a1) {
+                temp_s4_3->unk_4 = 0xFF;
+            }
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/code/code_800F7260/func_800F7CEC.s")
+#endif
 
 void func_800F8480(u8 bankId) {
     u8 bankIndex;
