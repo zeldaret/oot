@@ -118,7 +118,7 @@ Automatically converts sound effect numbers in a file into their corresponding `
 
 Optional arguments are `-o output` to output to a different file and `-v` to give verbose output (i.e. tell you what changes it has made).
 
-## vtfmt
+## vt_fmt
 
 This turns the strange strings in the `osSyncPrintf`s into the human-readable equivalent instructions. Copy the contents, including the quotation marks, and run
 ```sh
@@ -160,10 +160,15 @@ on the address from the `D_address` containing the cutscene data.
 
 ## regconvert
 
-This converts the direct memory references, of the form `gGameInfo + 0x<offset>`, into the corresponding REG macros defined in [regs.h](../include/regs.h). Run
+This converts the direct memory references, of the form `gGameInfo->data[index]` or `gGameInfo + 0x<offset>`, into the corresponding REG macros defined in [regs.h](../include/regs.h). Run
 ```sh
-./tools/regconvert.py <offset>
+./tools/regconvert.py <index>
 ```
+if you have it in the form `gGameInfo->data[index]`, or
+```sh
+./tools/regconvert.py --offset <offset>
+```
+if you have it in the form `gGameInfo + 0x<offset>`. You can also run it on a whole file using `--file <path/to/file>`.
 
 ## assist
 

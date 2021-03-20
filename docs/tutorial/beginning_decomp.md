@@ -899,7 +899,7 @@ we see that the diff is nearly correct (note that `-3` lets you compare current 
 ![Init diff 2](images/init_diff2.png)
 </details>
 
-except we still have some stack issues. Now that `temp_v0` is only used once, it looks fake. Eliminating it actually seems to make the stack worse. To fix this, we employ something that we have evidence that the developers did: namely, we make a copy of `globalCtx` (the theory is that they actually used `gameState` as an argument of the main 4 functions, just like we used `Actor* thisx` as the first argument. The quick way to do this is to change the top of the function to
+except we still have some stack issues. Now that `temp_v0` is only used once, it looks fake. Eliminating it actually seems to make the stack worse. To fix this, we employ something that we have evidence that the developers did: namely, we make a copy of `globalCtx` (the theory is that they actually used `gameState` as an argument of the main 4 functions, just like we used `Actor* thisx` as the first argument.) The quick way to do this is to change the top of the function to
 ```C
 void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
