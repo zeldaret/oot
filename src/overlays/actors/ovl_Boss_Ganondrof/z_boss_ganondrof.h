@@ -64,23 +64,24 @@ typedef struct BossGanondrof {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossGanondrofActionFunc actionFunc;
-    /* 0x0194 */ s16 varianceTimer;
-    /* 0x0196 */ char unk_196[6];
-    /* 0x019C */ s16 unkTimer1; // Decremented every frame, but
-    /* 0x019E */ s16 unkTimer2; // nothing sets or uses them.
-    /* 0x01A0 */ s16 invincibilityTimer;
-    /* 0x01A2 */ s16 actionState;
-    /* 0x01A4 */ s16 throwFrame;
-    /* 0x01A6 */ s16 throwCount;
-    /* 0x01A8 */ s16 maskOff;
-    /* 0x01AA */ s16 eyeState;
-    /* 0x01AC */ s16 particleAngle;
-    /* 0x01AE */ s16 bodyDecayIndex;
-    /* 0x01B0 */ s16 bodyDecayFlag;
-    /* 0x01B2 */ s16 limbDecayIndex;
-    /* 0x01B4 */ s16 deathEnvTimer;
-    /* 0x01B6 */ s16 deathSfxTimer;
-    /* 0x01B8 */ char unk_1B8[4];
+    /* 0x0194 */ s16 work[GND_SHORT_COUNT];
+    // /* 0x0194 */ s16 varianceTimer;
+    // /* 0x0196 */ char unk_196[6];
+    // /* 0x019C */ s16 unkTimer1; // Decremented every frame, but
+    // /* 0x019E */ s16 unkTimer2; // nothing sets or uses them.
+    // /* 0x01A0 */ s16 invincibilityTimer;
+    // /* 0x01A2 */ s16 actionState;
+    // /* 0x01A4 */ s16 throwFrame;
+    // /* 0x01A6 */ s16 throwCount;
+    // /* 0x01A8 */ s16 maskOff;
+    // /* 0x01AA */ s16 eyeState;
+    // /* 0x01AC */ s16 particleAngle;
+    // /* 0x01AE */ s16 bodyDecayIndex;
+    // /* 0x01B0 */ s16 bodyDecayFlag;
+    // /* 0x01B2 */ s16 limbDecayIndex;
+    // /* 0x01B4 */ s16 deathEnvTimer;
+    // /* 0x01B6 */ s16 deathSfxTimer;
+    // /* 0x01B8 */ char unk_1B8[4];
     /* 0x01BC */ s16 timers[5];
     /* 0x01C6 */ u8 killActor;
     /* 0x01C7 */ u8 returnCount;

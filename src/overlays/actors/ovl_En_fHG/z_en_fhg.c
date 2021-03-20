@@ -279,13 +279,13 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
                 Audio_SetBGM(0x105000FF);
             }
             if (this->timers[0] == 30) {
-                bossFhg->eyeState = 2;
+                bossFhg->work[GND_EYE_STATE] = 2;
             }
             if (this->timers[0] == 35) {
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_EYE);
             }
             if (this->timers[0] == 130) {
-                bossFhg->eyeState = 1;
+                bossFhg->work[GND_EYE_STATE] = 1;
                 func_80078914(&audioVec, NA_SE_EN_FANTOM_ST_LAUGH);
             }
             if (this->timers[0] == 20) {
@@ -702,7 +702,7 @@ void EnfHG_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_fhg.c", 2439);
     func_80093D18(globalCtx->state.gfxCtx);
 
-    POLY_OPA_DISP = ((bossFhg->invincibilityTimer & 4) && (bossFhg->flyMode == GND_FLY_PAINTING))
+    POLY_OPA_DISP = ((bossFhg->work[GND_INVINC_TIMER] & 4) && (bossFhg->flyMode == GND_FLY_PAINTING))
                         ? Gfx_SetFog(POLY_OPA_DISP, 255, 50, 0, 0, 900, 1099)
                         : Gfx_SetFog(POLY_OPA_DISP, (u32)this->warpFogR, (u32)this->warpFogG, (u32)this->warpFogB, 0,
                                      (s32)this->warpFogUnk1 + 995, (s32)this->warpFogUnk2 + 1000);
