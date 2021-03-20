@@ -2300,8 +2300,96 @@ void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80902524(BossGanon2* this, GlobalContext* globalCtx);
+#ifdef NON_MATCHING
+void func_80902524(BossGanon2* this, GlobalContext* globalCtx) {
+    s32 temp_a0_2;
+    s8 temp_v0_4;
+    s8 temp_v0_6;
+    u32 temp_a0;
+    u8 temp_a1;
+    u8 temp_v1_2;
+    BossGanon2ActionFunc temp_v0_3;
+    ColliderInfo* temp_a3;
+    s16 i;
+    u8 phi_v1_2;
+
+    osSyncPrintf("this->no_hit_time %d\n", this->unk_316);
+    if (this->unk_316 != 0 || ((this->unk_334 == 0) && (this->actionFunc == func_80900890))) {
+        for (i = 0; i < 16; i++) {
+            this->unk_424.elements[i].info.bumperFlags &= ~2;
+        }
+    }
+
+    osSyncPrintf("this->look_on %d\n", this->unk_313);
+    if (this->unk_313 != 0) {
+        if (this->actionFunc != func_808FFFE0) {
+            if (this->unk_424.elements[0].info.bumperFlags & 2) {
+                this->unk_424.elements[0].info.bumperFlags &= ~2;
+                temp_a0 = this->unk_424.elements[0].info.acHitInfo->toucher.dmgFlags;
+                if ((temp_a0 & 0x2000) && (this->actionFunc != func_80900890)) {
+                    func_809000A0(this, globalCtx);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
+                    func_800F8D04(NA_SE_EN_MGANON_UNARI);
+                } else if ((this->actionFunc == func_80900890) && (temp_a0 & 0x9000200)) {
+                    this->unk_316 = 0x3C;
+                    this->unk_342 = 5;
+                    Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
+                    func_800F8D04(NA_SE_EN_MGANON_UNARI);
+                    this->actor.colChkInfo.health -= 2;
+                    temp_v0_4 = this->actor.colChkInfo.health;
+                    if (temp_v0_4 < 0x15 && this->unk_334 == 0) {
+                        func_80900818(this, globalCtx);
+                    } else {
+                        if (temp_v0_4 <= 0) {
+                            func_80901020(this, globalCtx);
+                        } else {
+                            func_80900210(this, globalCtx);
+                        }
+                    }
+                } else if (this->actionFunc != func_80900890) {
+                    func_808FFF90(this, globalCtx);
+                    Audio_PlayActorSound2(&this->actor, NA_SE_IT_HOOKSHOT_REFLECT);
+                }
+            }
+        }
+    } else {
+        temp_v1_2 = this->unk_424.elements[15].info.bumperFlags;
+        if (temp_v1_2 & 2) {
+            this->unk_424.elements[15].info.bumperFlags &= ~2;
+            this->unk_316 = 0x3C;
+            this->unk_344 = 0x32;
+            this->unk_342 = 5;
+            Audio_PlayActorSound2(&this->actor, NA_SE_EN_MGANON_DAMAGE);
+            func_800F8D04(NA_SE_EN_MGANON_UNARI);
+            temp_a3 = this->unk_424.elements[0].info.acHitInfo;
+            temp_a0_2 = temp_a3->toucher.dmgFlags;
+            phi_v1_2 = 1;
+            if (temp_a0_2 & 0x9000200) {
+                if (temp_a0_2 & 0x8000000) {
+                    phi_v1_2 = 4;
+                } else {
+                    phi_v1_2 = 2;
+                }
+            }
+            this->actor.colChkInfo.health -= phi_v1_2;
+            temp_v0_6 = this->actor.colChkInfo.health;
+            if ((temp_v0_6 < 0x15) && (this->unk_334 == 0)) {
+                func_80900818(this, globalCtx);
+            } else if ((temp_v0_6 <= 0) && (phi_v1_2 >= 2)) {
+                func_80901020(this, globalCtx);
+            } else {
+                if (temp_v0_6 <= 0) {
+                    this->actor.colChkInfo.health = 1;
+                }
+                func_80900210(this, globalCtx);
+            }
+        }
+    }
+}
+#else
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80902524.s")
+#endif
 
 void BossGanon2_Update(Actor* thisx, GlobalContext* globalCtx) {
     BossGanon2* this = THIS;
