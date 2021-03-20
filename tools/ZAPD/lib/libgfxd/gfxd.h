@@ -10,6 +10,7 @@ extern "C"
 enum
 {
 	gfxd_Word,		/* generic word */
+	gfxd_Opcode,		/* command opcode (G_*) */
 	gfxd_Coordi,		/* integer coordinate */
 	gfxd_Coordq,		/* fractional (q10.2) coordinate */
 	gfxd_Pal,		/* palette index */
@@ -65,7 +66,8 @@ enum
 	gfxd_Dlflag,		/* display list flag */
 	gfxd_Cr,		/* clip ratio */
 	gfxd_Num,		/* element count */
-	gfxd_Fogz,		/* fog depth (0 - 1000) */
+	gfxd_Fogz,		/* fog factor */
+	gfxd_Fogp,		/* fog position (0 - 1000) */
 	gfxd_Mtxptr,		/* matrix pointer */
 	gfxd_Gm,		/* geometry mode */
 	gfxd_Mwo_matrix,	/* matrix moveword offset */
@@ -186,6 +188,7 @@ enum
 	gfxd_SPCullDisplayList,
 	gfxd_SPDisplayList,
 	gfxd_SPEndDisplayList,
+	gfxd_SPFogFactor,
 	gfxd_SPFogPosition,
 	gfxd_SPForceMatrix,
 	gfxd_SPSetGeometryMode,
@@ -225,8 +228,10 @@ enum
 	gfxd_DisplayList,
 	gfxd_DPHalf1,
 	gfxd_DPHalf2,
+	gfxd_DPWord,
 	gfxd_DPLoadTile,
 	gfxd_SPGeometryMode,
+	gfxd_SPSetOtherMode,
 	gfxd_SPSetOtherModeLo,
 	gfxd_SPSetOtherModeHi,
 	gfxd_DPSetOtherMode,
@@ -251,12 +256,14 @@ enum
 	gfxd_stop_on_end,
 	gfxd_emit_dec_color,
 	gfxd_emit_q_macro,
+	gfxd_emit_ext_macro,
 };
 
 enum
 {
 	gfxd_endian_big,
 	gfxd_endian_little,
+	gfxd_endian_host,
 };
 
 enum
@@ -347,6 +354,8 @@ void gfxd_endian(int endian, int wordsize);
 void gfxd_dynamic(const char *arg);
 void gfxd_enable(int cap);
 void gfxd_disable(int cap);
+void gfxd_udata_set(void *ptr);
+void *gfxd_udata_get(void);
 
 int gfxd_execute(void);
 
