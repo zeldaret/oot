@@ -105,7 +105,10 @@ static UNK_PTR D_80AF0870[] = {
 
 static s32 sUnused = 0;
 
-#include "z_en_ru1_cutscene_data.c" EARLY
+extern CutsceneData D_80AF0880[];
+extern CutsceneData D_80AF10A4[];
+extern CutsceneData D_80AF1728[];
+#pragma INCLUDE_EARLY("z_en_ru1_cutscene_data.c")
 
 static u32 D_80AF1938 = 0;
 

@@ -63,7 +63,8 @@ static UNK_PTR D_80AF410C[] = {
 
 static UNK_TYPE D_80AF4118 = 0;
 
-#include "z_en_ru2_cutscene_data.c" EARLY
+extern CutsceneData D_80AF411C[];
+#pragma INCLUDE_EARLY("z_en_ru2_cutscene_data.c")
 
 static EnRu2ActionFunc sActionFuncs[] = {
     func_80AF2CB4, func_80AF2CD4, func_80AF2CF4, func_80AF2D2C, func_80AF2D6C, func_80AF2DAC, func_80AF2DEC,

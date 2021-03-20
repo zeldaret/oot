@@ -105,7 +105,8 @@ static UNK_PTR sEyeTextures[] = {
 
 static s32 D_80AB4318 = 0;
 
-#include "z_en_nb_cutscene_data.c" EARLY
+extern CutsceneData D_80AB431C[];
+#pragma INCLUDE_EARLY("z_en_nb_cutscene_data.c")
 
 s32 EnNb_GetPath(EnNb* this) {
     s32 path = this->actor.params >> 8;
