@@ -31,7 +31,6 @@ extern CutsceneData D_808BD520[];
 extern CutsceneData D_808BD790[];
 #pragma INCLUDE_EARLY("z_bg_treemouth_cutscene_data.c")
 
-
 const ActorInit Bg_Treemouth_InitVars = {
     ACTOR_BG_TREEMOUTH,
     ACTORCAT_BG,
