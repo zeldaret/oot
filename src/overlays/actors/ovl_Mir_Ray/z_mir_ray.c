@@ -5,6 +5,7 @@
  */
 
 #include "z_mir_ray.h"
+#include "objects/object_mir_ray/object_mir_ray.h"
 
 #define FLAGS 0x00000030
 
@@ -111,9 +112,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneScale, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
-
-extern Gfx D_060000B0[];
-extern Gfx D_06000C50[];
 
 void MirRay_SetupCollider(MirRay* this) {
     Vec3f colliderOffset;
@@ -505,7 +503,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_mir_ray.c", 972),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, (s16)(temp = this->reflectIntensity * 100.0f));
-            gSPDisplayList(POLY_XLU_DISP++, D_06000C50);
+            gSPDisplayList(POLY_XLU_DISP++, &gShieldBeamGlowDL);
             MirRay_SetupReflectionPolys(this, globalCtx, reflection);
             MirRay_RemoveSimilarReflections(reflection);
             MirRay_ReflectedBeam(this, globalCtx, reflection);
@@ -529,7 +527,7 @@ void MirRay_Draw(Actor* thisx, GlobalContext* globalCtx) {
                               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
                     gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_DECAL2);
                     gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 150, reflection[0].opacity);
-                    gSPDisplayList(POLY_XLU_DISP++, D_060000B0);
+                    gSPDisplayList(POLY_XLU_DISP++, &gShieldBeamImageDL);
                 }
             }
 
