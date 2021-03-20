@@ -501,7 +501,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                                                &D_801333E0, &D_801333E8);
                         func_800AA000(this->actor.xyzDistToPlayerSq, 0xFF, 0x14, 0x96);
                     } else {
-                        if (bossFhg->flyMode == FHG_FLY_NEUTRAL) {
+                        if (bossFhg->flyMode == GND_FLY_NEUTRAL) {
                             angleModX = Rand_CenteredFloat(0x2000);
                             angleModY = Rand_CenteredFloat(0x2000);
                             this->actor.speedXZ = 15.0f;
@@ -533,14 +533,14 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                 } else if (sqrtf(SQ(dxL) + SQ(dyL) + SQ(dzL)) <= 25.0f) {
                     killMode = BALL_BURST;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_HIT_THUNDER);
-                    if ((bossFhg->flyMode >= FHG_FLY_VOLLEY) && (this->returnCount >= 2)) {
+                    if ((bossFhg->flyMode >= GND_FLY_VOLLEY) && (this->returnCount >= 2)) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FANTOM_LAUGH);
                     }
                     func_8002F698(globalCtx, &this->actor, 3.0f, this->actor.world.rot.y, 0.0f, 3, 0x10);
                 }
                 break;
             case FHGFIRE_LIGHT_BLUE:
-                if ((bossFhg->flyMode == FHG_FLY_RETURN) && (this->returnCount < 100)) {
+                if ((bossFhg->flyMode == GND_FLY_RETURN) && (this->returnCount < 100)) {
                     this->actor.world.rot.y = Math_FAtan2F(dxPG, dzPG) * (0x8000 / M_PI);
                     if ((sqrtf(SQ(dxPG) + SQ(dzPG)) < (150.0f + (this->actor.speedXZ * 8.0f)))) {
                         this->fireMode = FHGFIRE_LIGHT_REFLECT;
@@ -614,7 +614,7 @@ void EnFhgFire_EnergyBall(EnFhgFire* this, GlobalContext* globalCtx) {
                                        this->actor.world.pos.x, player->actor.world.pos.y + 20.0f,
                                        this->actor.world.pos.z, 0xC8, 0, 0, FHGFIRE_LIGHTNING_BURST);
                 }
-                bossFhg->flyMode = FHG_FLY_NEUTRAL;
+                bossFhg->flyMode = GND_FLY_NEUTRAL;
                 this->killTimer = 30;
                 this->actor.draw = NULL;
                 if (killMode == BALL_FIZZLE) {

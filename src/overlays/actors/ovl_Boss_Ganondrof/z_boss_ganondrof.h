@@ -8,16 +8,57 @@ struct BossGanondrof;
 
 typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, GlobalContext*);
 
-#define FHG_REAL_BOSS 1
-#define FHG_FAKE_BOSS 10
+#define GND_REAL_BOSS 1
+#define GND_FAKE_BOSS 10
 
 typedef enum {
-    /* 0 */ FHG_FLY_PAINTING,
-    /* 1 */ FHG_FLY_NEUTRAL,
-    /* 2 */ FHG_FLY_VOLLEY,
-    /* 3 */ FHG_FLY_RETURN,
-    /* 4 */ FHG_FLY_CHARGE
+    /* 0 */ GND_FLY_PAINTING,
+    /* 1 */ GND_FLY_NEUTRAL,
+    /* 2 */ GND_FLY_VOLLEY,
+    /* 3 */ GND_FLY_RETURN,
+    /* 4 */ GND_FLY_CHARGE
 } BossGanondrofFlyModes;
+
+typedef enum {
+    /*  0 */ GND_VARIANCE_TIMER,
+    /*  1 */ GND_UNKSHORT_1,
+    /*  2 */ GND_UNKSHORT_2,
+    /*  3 */ GND_UNKSHORT_3,
+    /*  4 */ GND_UNKTIMER_1,
+    /*  5 */ GND_UNKTIMER_2,
+    /*  6 */ GND_INVINC_TIMER,
+    /*  7 */ GND_ACTION_STATE,
+    /*  8 */ GND_THROW_FRAME,
+    /*  9 */ GND_THROW_COUNT,
+    /* 10 */ GND_MASK_OFF,
+    /* 11 */ GND_EYE_STATE,
+    /* 12 */ GND_PARTICLE_ANGLE,
+    /* 13 */ GND_BODY_DECAY_INDEX,
+    /* 14 */ GND_BODY_DECAY_FLAG,
+    /* 15 */ GND_LIMB_DECAY_INDEX,
+    /* 16 */ GND_DEATH_ENV_TIMER,
+    /* 17 */ GND_DEATH_SFX_TIMER,
+    /* 18 */ GND_UNKSHORT_18,
+    /* 19 */ GND_UNKSHORT_19,
+    /* 20 */ GND_SHORT_COUNT
+} BossGanondrofS16Vars;
+
+typedef enum {
+    /*  0 */ GND_FLOAT_SPEED,
+    /*  1 */ GND_END_FRAME,
+    /*  2 */ GND_EYE_BRIGHTNESS,
+    /*  3 */ GND_CAMERA_ZOOM,
+    /*  4 */ GND_CAMERA_ANGLE,
+    /*  5 */ GND_EYE_ALPHA,
+    /*  6 */ GND_UNKFLOAT_6,
+    /*  7 */ GND_UNKFLOAT_7,
+    /*  8 */ GND_UNKFLOAT_8,
+    /*  9 */ GND_UNKFLOAT_9,
+    /* 10 */ GND_UNKFLOAT_10,
+    /* 11 */ GND_UNKFLOAT_11,
+    /* 12 */ GND_UNKFLOAT_12,
+    /* 13 */ GND_FLOAT_COUNT
+} BossGanondrofF32Vars;
 
 typedef struct BossGanondrof {
     /* 0x0000 */ Actor actor;
