@@ -358,7 +358,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
-            
+
             if (this->touchedPoly && (this->hitActor != NULL)) {
                 this->hitActor->flags &= ~0x8000;
                 this->hitActor = NULL;
