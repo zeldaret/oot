@@ -198,7 +198,7 @@ static u64* sLimbTex_rgb5a1_16x16[] = {
 static u64* sLimbTex_rgb5a1_16x32[] = { gPhantomGanonLimbTex_00AA80, gPhantomGanonLimbTex_00AF80 };
 
 // These are the mouth textures for the intro
-static u64* sFaceTex_ci8_16x16[] = { gPhantomGanonFaceTex_0040B0, gPhantomGanonFaceTex_003FB0 };
+static u64* sFaceTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileTex };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
@@ -262,7 +262,7 @@ void BossGanondrof_ClearPixels(u8* mask, s16 index) {
     }
 
     BossGanondrof_ClearPixels32x16(SEGMENTED_TO_VIRTUAL(gPhantomGanonLimbTex_00B380), mask, index);
-    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(gPhantomGanonFaceTex_003DB0), mask, index);
+    BossGanondrof_ClearPixels16x32(SEGMENTED_TO_VIRTUAL(gPhantomGanonEyeTex), mask, index);
     for (i = 0; i < 2; i++) {
         BossGanondrof_ClearPixels16x16(SEGMENTED_TO_VIRTUAL(sFaceTex_ci8_16x16[i]), mask, index);
     }

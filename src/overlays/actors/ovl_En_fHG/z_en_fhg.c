@@ -427,7 +427,7 @@ void EnfHG_SetupApproach(EnfHG* this, GlobalContext* globalCtx, s16 paintingInde
 
     this->actor.world.pos.x = (1.3f * sPaintings[this->curPainting].pos.x) + (GND_BOSSROOM_CENTER_X - 4.0f);
     this->actor.world.pos.y = sPaintings[this->curPainting].pos.y + (GND_BOSSROOM_CENTER_Y + 153.0f);
-    this->actor.world.pos.z = (1.3f * sPaintings[this->curPainting].pos.z) - (-(GND_BOSSROOM_CENTER_Z - 10.0f));
+    this->actor.world.pos.z = (1.3f * sPaintings[this->curPainting].pos.z) - -(GND_BOSSROOM_CENTER_Z - 10.0f);
     this->actor.world.rot.y = sPaintings[this->curPainting].yRot;
 
     osSyncPrintf("XP1  = %f\n", this->actor.world.pos.x);
@@ -435,7 +435,7 @@ void EnfHG_SetupApproach(EnfHG* this, GlobalContext* globalCtx, s16 paintingInde
 
     this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + (GND_BOSSROOM_CENTER_X - 4.0f);
     this->inPaintingPos.y = sPaintings[this->targetPainting].pos.y + (GND_BOSSROOM_CENTER_Y + 33.0f);
-    this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - (-(GND_BOSSROOM_CENTER_Z - 10.0f));
+    this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - -(GND_BOSSROOM_CENTER_Z - 10.0f);
     this->inPaintingVelX = (fabsf(this->inPaintingPos.x - this->actor.world.pos.x) * 2) * 0.01f;
 
     if (this->inPaintingVelX < 1.0f) {
@@ -598,8 +598,7 @@ void EnfHG_Damage(EnfHG* this, GlobalContext* globalCtx) {
             this->targetPainting = this->curPainting;
             this->inPaintingPos.x = (sPaintings[this->targetPainting].pos.x * 1.3f) + (GND_BOSSROOM_CENTER_X - 4.0f);
             this->inPaintingPos.y = sPaintings[this->targetPainting].pos.y;
-            this->inPaintingPos.z =
-                (sPaintings[this->targetPainting].pos.z * 1.3f) - (-(GND_BOSSROOM_CENTER_Z - 10.0f));
+            this->inPaintingPos.z = (sPaintings[this->targetPainting].pos.z * 1.3f) - -(GND_BOSSROOM_CENTER_Z - 10.0f);
         }
     } else {
         Math_ApproachF(&this->damageSpeedMod, 1.0f, 1.0f, 0.1f);
