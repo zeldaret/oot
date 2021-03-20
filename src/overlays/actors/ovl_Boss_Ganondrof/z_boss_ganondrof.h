@@ -8,51 +8,71 @@ struct BossGanondrof;
 
 typedef void (*BossGanondrofActionFunc)(struct BossGanondrof*, GlobalContext*);
 
-#define FHG_REAL_BOSS 1
-#define FHG_FAKE_BOSS 10
+#define GND_REAL_BOSS 1
+#define GND_FAKE_BOSS 10
+
+#define GND_BOSSROOM_CENTER_X 14.0f
+#define GND_BOSSROOM_CENTER_Y -33.0f
+#define GND_BOSSROOM_CENTER_Z -3315.0f
 
 typedef enum {
-    /* 0 */ FHG_FLY_PAINTING,
-    /* 1 */ FHG_FLY_NEUTRAL,
-    /* 2 */ FHG_FLY_VOLLEY,
-    /* 3 */ FHG_FLY_RETURN,
-    /* 4 */ FHG_FLY_CHARGE
-} BossGanondrofFlyModes;
+    /* 0 */ GND_FLY_PAINTING,
+    /* 1 */ GND_FLY_NEUTRAL,
+    /* 2 */ GND_FLY_VOLLEY,
+    /* 3 */ GND_FLY_RETURN,
+    /* 4 */ GND_FLY_CHARGE
+} BossGanondrofFlyMode;
+
+typedef enum {
+    /* 0 */ GND_EYESTATE_NONE,
+    /* 1 */ GND_EYESTATE_FADE,
+    /* 2 */ GND_EYESTATE_BRIGHTEN
+} BossGanondrofEyeState;
+
+typedef enum {
+    /*  0 */ GND_VARIANCE_TIMER,
+    /*  1 */ GND_US_1,
+    /*  2 */ GND_US_2,
+    /*  3 */ GND_US_3,
+    /*  4 */ GND_UNKTIMER_1,
+    /*  5 */ GND_UNKTIMER_2,
+    /*  6 */ GND_INVINC_TIMER,
+    /*  7 */ GND_ACTION_STATE,
+    /*  8 */ GND_THROW_FRAME,
+    /*  9 */ GND_THROW_COUNT,
+    /* 10 */ GND_MASK_OFF,
+    /* 11 */ GND_EYE_STATE,
+    /* 12 */ GND_PARTICLE_ANGLE,
+    /* 13 */ GND_BODY_DECAY_INDEX,
+    /* 14 */ GND_BODY_DECAY_FLAG,
+    /* 15 */ GND_LIMB_DECAY_INDEX,
+    /* 16 */ GND_DEATH_ENV_TIMER,
+    /* 17 */ GND_DEATH_SFX_TIMER,
+    /* 20 */ GND_SHORT_COUNT = 20
+} BossGanondrofS16Var;
+
+typedef enum {
+    /*  0 */ GND_FLOAT_SPEED,
+    /*  1 */ GND_END_FRAME,
+    /*  2 */ GND_EYE_BRIGHTNESS,
+    /*  3 */ GND_CAMERA_ZOOM,
+    /*  4 */ GND_CAMERA_ANGLE,
+    /*  5 */ GND_EYE_ALPHA,
+    /* 13 */ GND_FLOAT_COUNT = 13
+} BossGanondrofF32Var;
 
 typedef struct BossGanondrof {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossGanondrofActionFunc actionFunc;
-    /* 0x0194 */ s16 varianceTimer;
-    /* 0x0196 */ char unk_196[6];
-    /* 0x019C */ s16 unkTimer1; // Decremented every frame, but
-    /* 0x019E */ s16 unkTimer2; // nothing sets or uses them.
-    /* 0x01A0 */ s16 invincibilityTimer;
-    /* 0x01A2 */ s16 actionState;
-    /* 0x01A4 */ s16 throwFrame;
-    /* 0x01A6 */ s16 throwCount;
-    /* 0x01A8 */ s16 maskOff;
-    /* 0x01AA */ s16 eyeState;
-    /* 0x01AC */ s16 particleAngle;
-    /* 0x01AE */ s16 bodyDecayIndex;
-    /* 0x01B0 */ s16 bodyDecayFlag;
-    /* 0x01B2 */ s16 limbDecayIndex;
-    /* 0x01B4 */ s16 deathEnvTimer;
-    /* 0x01B6 */ s16 deathSfxTimer;
-    /* 0x01B8 */ char unk_1B8[4];
+    /* 0x0194 */ s16 work[GND_SHORT_COUNT];
     /* 0x01BC */ s16 timers[5];
     /* 0x01C6 */ u8 killActor;
     /* 0x01C7 */ u8 returnCount;
     /* 0x01C8 */ u8 shockTimer;
     /* 0x01C9 */ u8 flyMode;
     /* 0x01CA */ u8 returnSuccess;
-    /* 0x01CC */ f32 floatSpeed;
-    /* 0x01D0 */ f32 endFrame;
-    /* 0x01D4 */ f32 eyeBrightness;
-    /* 0x01D8 */ f32 cameraZoom;
-    /* 0x01DC */ f32 cameraAngle;
-    /* 0x01E0 */ f32 eyeAlpha;
-    /* 0x01E4 */ char unk_1E4[0x1C];
+    /* 0x01CC */ f32 fwork[GND_FLOAT_COUNT];
     /* 0x0200 */ Vec3f spearTip;
     /* 0x020C */ Vec3f targetPos;
     /* 0x0218 */ Vec3f bodyPartsPos[27]; // only 25 used

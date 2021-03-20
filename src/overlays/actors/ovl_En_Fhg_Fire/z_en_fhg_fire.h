@@ -1,5 +1,5 @@
-#ifndef _Z_EN_FHGFIRE_FIRE_H_
-#define _Z_EN_FHGFIRE_FIRE_H_
+#ifndef _Z_EN_FHG_FIRE_H_
+#define _Z_EN_FHG_FIRE_H_
 
 #include "ultra64.h"
 #include "global.h"
@@ -26,28 +26,38 @@ typedef enum {
     /* 2 */ FHGFIRE_LIGHT_REFLECT
 } FhgLightMode;
 
+typedef enum {
+    /*  0 */ FHGFIRE_TIMER,
+    /*  1 */ FHGFIRE_FX_TIMER,
+    /*  2 */ FHGFIRE_US_2,
+    /*  3 */ FHGFIRE_VARIANCE_TIMER,
+    /*  4 */ FHGFIRE_FIRE_MODE,
+    /*  5 */ FHGFIRE_RETURN_COUNT,
+    /*  6 */ FHGFIRE_KILL_TIMER,
+    /*  7 */ FHGFIRE_SHORT_COUNT
+} FhgFireS16Var;
+
+typedef enum {
+    /*  0 */ FHGFIRE_ALPHA,
+    /*  1 */ FHGFIRE_UF_1,
+    /*  2 */ FHGFIRE_UF_2,
+    /*  3 */ FHGFIRE_SCALE,
+    /*  4 */ FHGFIRE_UF_4,
+    /*  5 */ FHGFIRE_WARP_TEX_1_X,
+    /*  6 */ FHGFIRE_WARP_TEX_1_Y,
+    /*  7 */ FHGFIRE_WARP_TEX_2_X,
+    /*  8 */ FHGFIRE_WARP_TEX_2_Y,
+    /*  9 */ FHGFIRE_WARP_TEX_SPEED,
+    /* 10 */ FHGFIRE_WARP_ALPHA,
+    /* 11 */ FHGFIRE_BURST_SCALE,
+    /* 15 */ FHGFIRE_FLOAT_COUNT = 15
+} FhgFireF32Var;
+
 typedef struct EnFhgFire {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ EnFhgFireUpdateFunc updateFunc;
-    /* 0x0150 */ s16 timer;
-    /* 0x0152 */ s16 effectsTimer;
-    /* 0x0154 */ char unk_154[2];
-    /* 0x0156 */ s16 varianceTimer;
-    /* 0x0158 */ s16 fireMode;
-    /* 0x015a */ s16 returnCount;
-    /* 0x015C */ s16 killTimer;
-    /* 0x0160 */ f32 alpha;
-    /* 0x0164 */ char unk_164[8];
-    /* 0x016C */ f32 scale;
-    /* 0x0170 */ char unk_170[4];
-    /* 0x0174 */ f32 warpTex1x;
-    /* 0x0178 */ f32 warpTex1y;
-    /* 0x017C */ f32 warpTex2x;
-    /* 0x0180 */ f32 warpTex2y;
-    /* 0x0184 */ f32 warpTexSpeed;
-    /* 0x0188 */ f32 warpAlpha;
-    /* 0x018C */ f32 burstScale;
-    /* 0x0190 */ char unk_190[0xC];
+    /* 0x0150 */ s16 work[FHGFIRE_SHORT_COUNT];
+    /* 0x0160 */ f32 fwork[FHGFIRE_FLOAT_COUNT];
     /* 0x019C */ LightNode* lightNode;
     /* 0x01A0 */ LightInfo lightInfo;
     /* 0x01B0 */ ColliderCylinder collider;
