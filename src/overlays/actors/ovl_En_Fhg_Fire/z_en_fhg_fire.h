@@ -18,7 +18,7 @@ typedef enum {
     /*  41 */ FHGFIRE_WARP_DEATH,
     /*  50 */ FHGFIRE_ENERGY_BALL = 50,
     /* 100 */ FHGFIRE_LIGHTNING_TRAIL = 100
-} FhgFireParams;
+} FhgFireParam;
 
 typedef enum {
     /* 0 */ FHGFIRE_LIGHT_GREEN,

@@ -15,7 +15,7 @@
 
 #define THIS ((EnfHG*)thisx)
 
-typedef struct EnfHGPainting {
+typedef struct {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ s16 yRot;
 } EnfHGPainting; // size = 0x10;
@@ -32,7 +32,7 @@ typedef enum {
     /*  8 */ INTRO_RETREAT,
     /*  9 */ INTRO_FINISH,
     /* 15 */ INTRO_READY = 15
-} EnfHGIntroStates;
+} EnfHGIntroState;
 
 void EnfHG_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnfHG_Destroy(Actor* thisx, GlobalContext* globalCtx);

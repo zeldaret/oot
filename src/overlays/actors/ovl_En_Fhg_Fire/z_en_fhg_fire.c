@@ -31,7 +31,7 @@ typedef enum {
     /* 0 */ BALL_FIZZLE,
     /* 1 */ BALL_BURST,
     /* 2 */ BALL_IMPACT
-} BallKillModes;
+} BallKillMode;
 
 void EnFhgFire_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnFhgFire_Destroy(Actor* thisx, GlobalContext* globalCtx);

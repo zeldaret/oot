@@ -18,7 +18,7 @@ typedef enum {
     /* 10 */ FHG_SPUR = 10,
     /* 11 */ FHG_FINISH,
     /* -1 */ FHG_START_FIGHT = 255
-} EnfHGSignals;
+} EnfHGSignal;
 
 typedef struct EnfHG {
     /* 0x0000 */ Actor actor;
