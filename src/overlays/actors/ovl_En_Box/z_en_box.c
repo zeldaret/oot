@@ -1,5 +1,6 @@
 #include "z_en_box.h"
 #include "objects/object_box/object_box.h"
+
 #define FLAGS 0x00000000
 
 #define THIS ((EnBox*)thisx)
@@ -62,7 +63,7 @@ const ActorInit En_Box_InitVars = {
     (ActorFunc)EnBox_Draw,
 };
 
-static AnimationHeader* D_809CA800[4] = { &gEnBoxAnim_00024C, &gEnBoxAnim_000128, &gEnBoxAnim_00043C, &gEnBoxAnim_00043C };
+static AnimationHeader* sAnimations[4] = { &gEnBoxAnim_00024C, &gEnBoxAnim_000128, &gEnBoxAnim_00043C, &gEnBoxAnim_00043C };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 0, ICHAIN_STOP),
@@ -97,7 +98,7 @@ void EnBox_Init(Actor* thisx, GlobalContext* globalCtx) {
     f32 endFrame;
 
     animFrameStart = 0.0f;
-    anim = D_809CA800[((void)0, gSaveContext.linkAge)];
+    anim = sAnimations[((void)0, gSaveContext.linkAge)];
     colHeader = NULL;
     endFrame = Animation_GetLastFrame(anim);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
@@ -397,7 +398,7 @@ void EnBox_WaitOpen(EnBox* this, GlobalContext* globalCtx) {
     this->movementFlags |= ENBOX_MOVE_IMMOBILE;
     if (this->unk_1F4 != 0) { // unk_1F4 is modified by player code
         linkAge = gSaveContext.linkAge;
-        anim = D_809CA800[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
+        anim = sAnimations[(this->unk_1F4 < 0 ? 2 : 0) + linkAge];
         frameCount = Animation_GetLastFrame(anim);
         Animation_Change(&this->skelanime, anim, 1.5f, 0, frameCount, ANIMMODE_ONCE, 0.0f);
         EnBox_SetupAction(this, EnBox_Open);
@@ -548,17 +549,17 @@ void EnBox_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1492),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
-            gSPDisplayList((*gfx)++, gEnBoxChestBaseDlist);
+            gSPDisplayList((*gfx)++, gEnBoxChestFrontDlist);
         } else {
-            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestBaseDlist);
+            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestFrontDlist);
         }
     } else if (limbIndex == 3) {
         gSPMatrix((*gfx)++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_box.c", 1502),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         if (this->type != ENBOX_TYPE_DECORATED_BIG) {
-            gSPDisplayList((*gfx)++, gEnBoxChestLidDlist);
+            gSPDisplayList((*gfx)++, gEnBoxChestSideAndLidDlist);
         } else {
-            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestLidDlist);
+            gSPDisplayList((*gfx)++, gEnBoxBossKeyChestSideAndTopDlist);
         }
     }
 }

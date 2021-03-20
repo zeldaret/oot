@@ -1,13 +1,29 @@
 <Root>
     <File Name="object_box" Segment="6">
+        <Skeleton Name="gEnBoxCurveSkel" Type="Curve" LimbType="Curve" Offset="0x5EB8"/>
+        <CurveAnimation Name="gEnBoxCurveAnim_4B60" SkelOffset="0x5EB8" Offset="0x4B60"/>
+        <CurveAnimation Name="gEnBoxCurveAnim_4F70" SkelOffset="0x5EB8" Offset="0x4F70"/>
         <Animation Name="gEnBoxAnim_000128" Offset="0x128"/>
         <Animation Name="gEnBoxAnim_00024C" Offset="0x24C"/>
         <Animation Name="gEnBoxAnim_00043C" Offset="0x43C"/>
-        <DList Name="gEnBoxChestBaseDlist" Offset="0x6F0"/>
-        <DList Name="gEnBoxBossKeyChestBaseDlist" Offset="0xAE8"/>
-        <DList Name="gEnBoxChestLidDlist" Offset="0x10C0"/>
-        <DList Name="gEnBoxBossKeyChestLidDlist" Offset="0x1678"/>
+
+        <DList Name="gEnBoxChestFrontDlist" Offset="0x6F0"/>
+        <Texture Name="gEnBoxFrontTex" OutName="chest_front" Format="rgb5a1" Width="32" Height="64" Offset="0x1798"/>
+
+        <DList Name="gEnBoxBossKeyChestFrontDlist" Offset="0xAE8"/>
+        <Texture Name="gEnBoxBossKeyFrontTex" OutName="boss_key_front_tex" Format="rgb5a1" Width="32" Height="64" Offset="0x3798"/>
+        
+        <DList Name="gEnBoxChestSideAndLidDlist" Offset="0x10C0"/>
+        <Texture Name="gEnBoxSideAndTopTex" OutName="side_and_top" Format="rgb5a1" Width="32" Height="32" Offset="0x2798"/>
+
+        <DList Name="gEnBoxBossKeyChestSideAndTopDlist" Offset="0x1678"/>
+        <Texture Name="gEnBoxBossKeySideAndTopTex" OutName="boss_key_side_and_top" Format="rgb5a1" Width="32" Height="32" Offset="0x2F98"/>
+
         <Skeleton Name="gEnBoxSkel" Type="Standard" LimbType="Standard" Offset="0x47D8"/>
         <Collision Name="gEnBoxCol" Offset="0x5FC8"/>
+
+        <!--Large Unaccounted-->
+        <Blob Name="gBoxUnaccounted25C" Size="0xF4" Offset="0x025C"/>
+        <Blob Name="gBoxUnaccounted44C" Size="0x64" Offset="0x044C"/>
     </File>
 </Root>
