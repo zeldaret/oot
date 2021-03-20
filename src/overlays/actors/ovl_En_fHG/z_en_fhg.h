@@ -22,8 +22,8 @@ typedef enum {
 
 typedef struct EnfHG {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ u8 bossFhgSignal;
-    /* 0x014D */ u8 bossFhgInPainting;
+    /* 0x014C */ u8 bossGndSignal;
+    /* 0x014D */ u8 bossGndInPainting;
     /* 0x014E */ u8 killActor;
     /* 0x014F */ u8 fhgFireKillWarp;
     /* 0x0150 */ Vec3f cameraEye;

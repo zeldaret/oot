@@ -2,32 +2,41 @@
     <File Name="object_gnd" Segment="6">
         
         <!-- Skeleton -->
-        <Skeleton Name="gPhantomGanonSkel" Type="Standard" LimbType="Standard" Offset="0xC710"/>
+        <Skeleton Name="gPhantomGanonSkel" Type="Normal" LimbType="Standard" Offset="0xC710"/>
         
-        <!-- Animations -->
-        <Animation Name="gPhantomGanonAnim_003CA4" Offset="0x3CA4"/>
-        <Animation Name="gPhantomGanonAnim_001144" Offset="0x1144"/>
-        <Animation Name="gPhantomGanonAnim_002684" Offset="0x2684"/>
-        <Animation Name="gPhantomGanonAnim_0019A4" Offset="0x19A4"/>
-        <Animation Name="gPhantomGanonAnim_00D99C" Offset="0xD99C"/>
-        <Animation Name="gPhantomGanonAnim_00DF80" Offset="0xDF80"/>
-        <Animation Name="gPhantomGanonAnim_00189C" Offset="0x189C"/>
-        <Animation Name="gPhantomGanonAnim_001AB0" Offset="0x1AB0"/>
-        <Animation Name="gPhantomGanonAnim_0108D8" Offset="0x108D8"/>
-        <Animation Name="gPhantomGanonAnim_000D84" Offset="0xD84"/>
-        <Animation Name="gPhantomGanonAnim_00090C" Offset="0x90C"/>
-        <Animation Name="gPhantomGanonAnim_00FAC8" Offset="0xFAC8"/>
-        <Animation Name="gPhantomGanonAnim_011BCC" Offset="0x11BCC"/>
-        <Animation Name="gPhantomGanonAnim_010060" Offset="0x10060"/>
-        <Animation Name="gPhantomGanonAnim_011F44" Offset="0x11F44"/>
-        <Animation Name="gPhantomGanonAnim_01267C" Offset="0x1267C"/>
-        <Animation Name="gPhantomGanonAnim_003080" Offset="0x3080"/>
-        <Animation Name="gPhantomGanonAnim_00EC94" Offset="0xEC94"/>
-        <Animation Name="gPhantomGanonAnim_010344" Offset="0x10344"/>
-        <Animation Name="gPhantomGanonAnim_0129E0" Offset="0x129E0"/>
-        <Animation Name="gPhantomGanonAnim_00F48C" Offset="0xF48C"/>
-        <Animation Name="gPhantomGanonAnim_010FD4" Offset="0x10FD4"/>
-        <Animation Name="gPhantomGanonAnim_011800" Offset="0x11800"/>
+        <!-- Riding animations -->
+        <Animation Name="gPhantomGanonRideAnim" Offset="0x3CA4"/>
+        <Animation Name="gPhantomGanonMaskOnAnim" Offset="0x1144"/>
+        <Animation Name="gPhantomGanonRidePoseAnim" Offset="0x19A4"/>
+        <Animation Name="gPhantomGanonHorseRearingAnim" Offset="0x2684"/>
+        <Animation Name="gPhantomGanonRideSpearRaiseAnim" Offset="0xD99C"/>
+        <Animation Name="gPhantomGanonRideSpearStrikeAnim" Offset="0x3080"/>
+        <Animation Name="gPhantomGanonRideSpearResetAnim" Offset="0xDF80"/>
+
+        <!-- Fight animations -->
+        <Animation Name="gPhantomGanonNeutralAnim" Offset="0x10060"/>
+
+        <Animation Name="gPhantomGanonThrowAnim" Offset="0xEC94"/>
+        <Animation Name="gPhantomGanonThrowEndAnim" Offset="0xF48C"/>
+        
+        <Animation Name="gPhantomGanonReturn1Anim" Offset="0x10FD4"/>
+        <Animation Name="gPhantomGanonReturn2Anim" Offset="0x11800"/>
+        
+        <Animation Name="gPhantomGanonBlockAnim" Offset="0x10344"/>
+
+        <Animation Name="gPhantomGanonChargeWindupAnim" Offset="0x129E0"/>
+        <Animation Name="gPhantomGanonChargeStartAnim" Offset="0x11F44"/>
+        <Animation Name="gPhantomGanonChargeAnim" Offset="0x1267C"/>
+        
+        <Animation Name="gPhantomGanonAirDamageAnim" Offset="0x108D8"/>
+        <Animation Name="gPhantomGanonGroundDamageAnim" Offset="0xFAC8"/>
+        <Animation Name="gPhantomGanonStunnedAnim" Offset="0x11BCC"/>
+
+        <!-- Death animations -->
+        <Animation Name="gPhantomGanonDeathBlowAnim" Offset="0x90C"/>
+        <Animation Name="gPhantomGanonLimpAnim" Offset="0xD84"/>
+        <Animation Name="gPhantomGanonScreamAnim" Offset="0x189C"/>
+        <Animation Name="gPhantomGanonLastPoseAnim" Offset="0x1AB0"/>
 
         <!-- Limb textures -->
         <Texture Name="gPhantomGanonLimbTex_00B380" Format="rgb5a1" Width="16" Height="32" Offset="0xB380"/>
