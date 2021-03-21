@@ -77,8 +77,8 @@ static ColliderCylinderInit sLaserCylinderInit = {
     { 15, 30, 10, { 0, 0, 0 } },
 };
 
-static u32 D_809D5C98 = 0; // unused
-static u32 D_809D5C9C = 0; // unused
+static UNK_TYPE4 D_809D5C98 = 0; // unused
+static UNK_TYPE4 D_809D5C9C = 0; // unused
 
 static EnClearTagEffect sClearTagEffects[CLEAR_TAG_EFFECT_MAX_COUNT];
 
