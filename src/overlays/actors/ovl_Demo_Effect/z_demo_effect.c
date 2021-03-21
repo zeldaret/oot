@@ -1,6 +1,7 @@
 #include "z_demo_effect.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_triforce_spot/object_triforce_spot.h"
 
 #define FLAGS 0x00000030
 
@@ -66,11 +67,11 @@ extern Gfx D_06000040[]; // fireBall
 extern Gfx D_06000190[]; // lightRing
 extern Gfx D_06000330[]; // godLgtTrail
 extern Gfx D_06003C50[]; // godLgt
-extern Gfx D_06000600[]; // triforceSpot
-extern Gfx D_06000840[]; // triforceLightColumn
+// extern Gfx D_06000600[]; // triforceSpot
+// extern Gfx D_06000840[]; // triforceLightColumn
 extern Gfx D_06000980[]; // crystalLight
 extern Gfx D_060011D0[]; // lgtShower
-extern Vtx D_06000000[]; // triforceLightColumnVertices
+// extern Vtx D_06000000[]; // triforceLightColumnVertices
 extern Vtx D_06000060[]; // timewarpVertices
 
 extern TransformUpdateIndex D_06000050; // timewarpTransformUpdateIndex
@@ -1977,7 +1978,7 @@ void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx) {
 void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
     DemoEffect* this = THIS;
     s32 pad;
-    Vtx* vertices = SEGMENTED_TO_VIRTUAL(D_06000000);
+    Vtx* vertices = SEGMENTED_TO_VIRTUAL(gTriforceVtx);
     u32 frames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2994);
@@ -1997,7 +1998,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                 vertices[93].n.a = vertices[94].n.a = vertices[95].n.a = (s8)this->triforceSpot.lightColumnOpacity;
             gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 180, 255, 255, this->triforceSpot.lightColumnOpacity);
             gDPSetEnvColor(POLY_XLU_DISP++, 0, 255, 150, 255);
-            gSPDisplayList(POLY_XLU_DISP++, D_06000840);
+            gSPDisplayList(POLY_XLU_DISP++, gTriforceLightColumnDL);
             Matrix_Pop();
         }
 
@@ -2017,7 +2018,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
                 gDPSetPrimColor(POLY_XLU_DISP++, 128, 128, 255, 255, 160, this->triforceSpot.triforceSpotOpacity);
                 gDPSetEnvColor(POLY_XLU_DISP++, 170, 140, 0, 255);
-                gSPDisplayList(POLY_XLU_DISP++, D_06000600);
+                gSPDisplayList(POLY_XLU_DISP++, gTriforceDL);
             } else {
                 func_8002EBCC(&this->actor, globalCtx, 0);
                 func_80093D18(globalCtx->state.gfxCtx);
@@ -2029,7 +2030,7 @@ void DemoEffect_DrawTriforceSpot(Actor* thisx, GlobalContext* globalCtx) {
                            Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 16, 1, 0, 0, 16, 8));
                 gDPSetPrimColor(POLY_OPA_DISP++, 128, 128, 255, 255, 160, 255);
                 gDPSetEnvColor(POLY_OPA_DISP++, 170, 140, 0, 255);
-                gSPDisplayList(POLY_OPA_DISP++, D_06000600);
+                gSPDisplayList(POLY_OPA_DISP++, gTriforceDL);
             }
         }
     }

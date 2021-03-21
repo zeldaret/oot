@@ -4283,7 +4283,8 @@ endseg
 beginseg
     name "object_triforce_spot"
     romalign 0x1000
-    include "build/baserom/object_triforce_spot.o"
+    include "build/assets/objects/object_triforce_spot/object_triforce_spot.o"
+    number 6
 endseg
 
 beginseg
