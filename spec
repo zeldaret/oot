@@ -3725,7 +3725,8 @@ endseg
 beginseg
     name "object_hidan_objects"
     romalign 0x1000
-    include "build/baserom/object_hidan_objects.o"
+    include "build/assets/objects/object_hidan_objects/object_hidan_objects.o"
+    number 6
 endseg
 
 beginseg
@@ -4417,7 +4418,8 @@ endseg
 beginseg
     name "object_mir_ray"
     romalign 0x1000
-    include "build/baserom/object_mir_ray.o"
+    include "build/assets/objects/object_mir_ray/object_mir_ray.o"
+    number 6
 endseg
 
 beginseg
@@ -5547,7 +5549,8 @@ endseg
 beginseg
     name "object_bg"
     romalign 0x1000
-    include "build/baserom/object_bg.o"
+    include "build/assets/objects/object_bg/object_bg.o"
+    number 6
 endseg
 
 beginseg
