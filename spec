@@ -4248,7 +4248,8 @@ endseg
 beginseg
     name "object_efc_fire_ball"
     romalign 0x1000
-    include "build/baserom/object_efc_fire_ball.o"
+    include "build/assets/objects/object_efc_fire_ball/object_efc_fire_ball.o"
+    number 6
 endseg
 
 beginseg

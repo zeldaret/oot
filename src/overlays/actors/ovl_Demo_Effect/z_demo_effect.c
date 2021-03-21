@@ -2,11 +2,13 @@
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_efc_crystal_light/object_efc_crystal_light.h"
+#include "objects/object_efc_fire_ball/object_efc_fire_ball.h"
 #include "objects/object_triforce_spot/object_triforce_spot.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
 
 // OBJECT_EFC_CRYSTAL_LIGHT,
 // OBJECT_EFC_FIRE_BALL,
+
 // OBJECT_GAMEPLAY_KEEP,
 // OBJECT_EFC_LGT_SHOWER,
 // OBJECT_GOD_LGT,
@@ -77,7 +79,7 @@ void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csAc
 // extern Gfx D_06001FB0[]; // goronJewelHolder
 // extern Gfx D_06003530[]; // zoraJewel
 // extern Gfx D_06003370[]; // zoraJewelHolder
-extern Gfx D_06000040[]; // fireBall
+// extern Gfx D_06000040[]; // fireBall
 extern Gfx D_06000190[]; // lightRing
 extern Gfx D_06000330[]; // godLgtTrail
 extern Gfx D_06003C50[]; // godLgt
@@ -1816,7 +1818,7 @@ void DemoEffect_DrawFireBall(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(
         POLY_XLU_DISP++, 8,
         Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 32, 32, 1, 0, 128 - ((frames * 20) % 128) - 1, 32, 32));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000040);
+    gSPDisplayList(POLY_XLU_DISP++, gCreationFireBallDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2723);
 }
 
