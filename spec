@@ -4261,7 +4261,8 @@ endseg
 beginseg
     name "object_efc_lgt_shower"
     romalign 0x1000
-    include "build/baserom/object_efc_lgt_shower.o"
+    include "build/assets/objects/object_efc_lgt_shower/object_efc_lgt_shower.o"
+    number 6
 endseg
 
 beginseg

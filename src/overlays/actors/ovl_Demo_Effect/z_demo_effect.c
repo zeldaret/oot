@@ -3,6 +3,7 @@
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "objects/object_efc_fire_ball/object_efc_fire_ball.h"
+#include "objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
 #include "objects/object_triforce_spot/object_triforce_spot.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
 
@@ -11,12 +12,16 @@
 
 // OBJECT_GAMEPLAY_KEEP,
 // OBJECT_EFC_LGT_SHOWER,
+
 // OBJECT_GOD_LGT,
 // OBJECT_LIGHT_RING,
+
 // OBJECT_TRIFORCE_SPOT,
 // OBJECT_GI_MEDAL,
 // OBJECT_EFC_TW,
+
 // OBJECT_GI_JEWEL,
+
 // OBJECT_GI_M_ARROW,
 
 #define FLAGS 0x00000030
@@ -86,7 +91,7 @@ extern Gfx D_06003C50[]; // godLgt
 // extern Gfx D_06000600[]; // triforceSpot
 // extern Gfx D_06000840[]; // triforceLightColumn
 // extern Gfx D_06000980[]; // crystalLight
-extern Gfx D_060011D0[]; // lgtShower
+// extern Gfx D_060011D0[]; // lgtShower
 // extern Vtx D_06000000[]; // triforceLightColumnVertices
 extern Vtx D_06000060[]; // timewarpVertices
 
@@ -1961,7 +1966,7 @@ void DemoEffect_DrawLgtShower(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (frames * 5) % 1024, 0, 256, 64, 1, (frames * 10) % 128,
                                 512 - ((frames * 50) % 512), 32, 16));
-    gSPDisplayList(POLY_XLU_DISP++, D_060011D0);
+    gSPDisplayList(POLY_XLU_DISP++, gEnliveningLightDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2942);
 }
 
