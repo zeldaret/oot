@@ -4,14 +4,23 @@
 
         <DList Name="gHorseIngoSaddleDL" Offset="0x6530"/>
 
-        <Animation Name="gHorseIngoAnim_009FC4" Offset="0x9FC4"/>
-        <Animation Name="gHorseIngoAnim_00A6B4" Offset="0xA6B4"/>
-        <Animation Name="gHorseIngoAnim_00901C" Offset="0x901C"/>
-        <Animation Name="gHorseIngoAnim_0085E0" Offset="0x85E0"/>
-        <Animation Name="gHorseIngoAnim_00AF60" Offset="0xAF60"/>
-        <Animation Name="gHorseIngoAnim_007B54" Offset="0x7B54"/>
-        <Animation Name="gHorseIngoAnim_00506C" Offset="0x506C"/>
-        <Animation Name="gHorseIngoAnim_005684" Offset="0x5684"/>
-        <Animation Name="gHorseIngoAnim_005E20" Offset="0x5E20"/>
+        <!-- Idle. -->
+        <Animation Name="gHorseIngoIdleAnim" Offset="0x9FC4"/>
+        <!-- Whinny. -->
+        <Animation Name="gHorseIngoWhinnyAnim" Offset="0xA6B4"/>
+        <!-- Refusing to jump / Slowing down. -->
+        <Animation Name="gHorseIngoSlowDownAnim" Offset="0x901C"/>
+        <!-- Stand in two legs for a moment. -->
+        <Animation Name="gHorseIngoRearingAnim" Offset="0x85E0"/>
+        <!-- Walking slow. -->
+        <Animation Name="gHorseIngoWalkingSlowAnim" Offset="0xAF60"/>
+        <!-- Walking fast. -->
+        <Animation Name="gHorseIngoWalkingFastAnim" Offset="0x7B54"/>
+        <!-- Running. -->
+        <Animation Name="gHorseIngoRunningAnim" Offset="0x506C"/>
+        <!-- Jumping. -->
+        <Animation Name="gHorseIngoJumpingAnim" Offset="0x5684"/>
+        <!-- Jumping High. -->
+        <Animation Name="gHorseIngoJumpingHighAnim" Offset="0x5E20"/>
     </File>
 </Root>
