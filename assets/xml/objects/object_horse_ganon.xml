@@ -7,11 +7,11 @@
         <!-- Idle2. Moving head. -->
         <Animation Name="gHorseGanonWhinnyAnim" Offset="0x5264"/>
         <!-- Walking slow. -->
-        <Animation Name="gHorseGanonWalkingSlowAnim" Offset="0x5B78"/>
+        <Animation Name="gHorseGanonWalkingAnim" Offset="0x5B78"/>
         <!-- Walking fast. -->
-        <Animation Name="gHorseGanonWalkingFastAnim" Offset="0x2CE4"/>
+        <Animation Name="gHorseGanonTrottingAnim" Offset="0x2CE4"/>
         <!-- Running. -->
-        <Animation Name="gHorseGanonRunningAnim" Offset="0x2650"/>
+        <Animation Name="gHorseGanonGallopingAnim" Offset="0x2650"/>
         <!-- Stand in two legs for a moment. -->
         <Animation Name="gHorseGanonRearingAnim" Offset="0x3858"/>
 

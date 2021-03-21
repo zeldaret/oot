@@ -95,13 +95,13 @@ static InitChainEntry sInitChain[] = {
 };
 
 struct_80B2CEE8 D_80B2CEE8[] = {
-    { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0, 2, 20, 1, &gHorseZeldaSkel, &gHorseZeldaRunningAnim },
+    { OBJECT_HORSE_ZELDA, OBJECT_HORSE_ZELDA, 1, 0, 2, 20, 1, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim },
     { OBJECT_IM, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 3, &D_0600F788, &D_060029CC },
     { OBJECT_ZL4, OBJECT_OPENING_DEMO1, 1, 0, 0, 10, 2, &gChildZeldaSkel, &D_06000450 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06002928 },
     { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonRearingAnim },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060005B4 },
-    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonRunningAnim },
+    { OBJECT_HORSE_GANON, OBJECT_HORSE_GANON, 1, 0, 2, 20, 1, &gHorseGanonSkel, &gHorseGanonGallopingAnim },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_06004260 },
     { OBJECT_GNDD, OBJECT_GNDD, 1, -6, 0, 10, 0, &D_060119E8, &D_060050A8 },
     { OBJECT_GANON, OBJECT_GANON, 1, -6, 0, 10, 0, &D_060114E8, &D_06011348 },
@@ -303,7 +303,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
             if (curFrame == 25) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_SANDDUST);
             }
-        } else if (this->skin.skelAnime.animation == &gHorseGanonRunningAnim) {
+        } else if (this->skin.skelAnime.animation == &gHorseGanonGallopingAnim) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_HORSE_RUN_LEVEL - SFX_FLAG);
         }
     }
@@ -383,9 +383,9 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                         this->unk_1E5 = 0;
                         break;
                 }
-            } else if (this->skin.skelAnime.animation != &gHorseGanonRunningAnim &&
+            } else if (this->skin.skelAnime.animation != &gHorseGanonGallopingAnim &&
                        globalCtx->csCtx.npcActions[1]->action == 12) {
-                Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonRunningAnim, 3.0f);
+                Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &gHorseGanonGallopingAnim, 3.0f);
             }
         }
     } else if (params == 1) {

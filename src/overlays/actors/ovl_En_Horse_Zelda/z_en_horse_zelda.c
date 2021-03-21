@@ -32,7 +32,7 @@ const ActorInit En_Horse_Zelda_InitVars = {
     (ActorFunc)EnHorseZelda_Draw,
 };
 
-static AnimationHeader* sAnimationHeaders[] = { &gHorseZeldaRunningAnim };
+static AnimationHeader* sAnimationHeaders[] = { &gHorseZeldaGallopingAnim };
 
 static f32 splaySpeeds[] = { 0.66666666f };
 
@@ -159,7 +159,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &gHorseZeldaSkel, &gHorseZeldaRunningAnim);
+    func_800A663C(globalCtx, &this->skin, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);

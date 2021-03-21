@@ -38,8 +38,8 @@ const ActorInit En_Horse_Ganon_InitVars = {
 };
 
 static AnimationHeader* sAnimations[] = { &gHorseGanonIdleAnim,        &gHorseGanonWhinnyAnim,
-                                          &gHorseGanonWalkingSlowAnim, &gHorseGanonWalkingFastAnim,
-                                          &gHorseGanonRunningAnim,     &gHorseGanonRearingAnim };
+                                          &gHorseGanonWalkingAnim, &gHorseGanonTrottingAnim,
+                                          &gHorseGanonGallopingAnim,     &gHorseGanonRearingAnim };
 
 static f32 splaySpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
