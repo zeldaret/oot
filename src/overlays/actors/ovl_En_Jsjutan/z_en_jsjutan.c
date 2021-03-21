@@ -35,8 +35,7 @@ Vec3s D_80A8EE10[0x90];
 
 static s32 sUnused[2] = { 0, 0 };
 
-//#include "overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
-#include "z_en_jsjutan_data.c"
+#include "overlays/ovl_En_Jsjutan/ovl_En_Jsjutan.c"
 
 void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnJsjutan* this = THIS;
@@ -441,7 +440,7 @@ void EnJsjutan_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->unk_164 != 0) {
         this->unk_164 = 0;
         for (i = 0; i < ARRAY_COUNT(D_80A8E610); i++) {
-            if (((u16*)D_80A8AA98)[i] != 0) { // Hack to bypass ZAPD exporting textures as u64.
+            if (((u16*)gJsjutanCarpetTex)[i] != 0) { // Hack to bypass ZAPD exporting textures as u64.
                 D_80A8E610[i] = 0xFF;
             } else {
                 D_80A8E610[i] = 0;
