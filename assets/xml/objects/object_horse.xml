@@ -2,15 +2,24 @@
     <File Name="object_horse" Segment="6">
         <Skeleton Name="gEponaSkel" Type="Normal" LimbType="Skin" Offset="0x9D74"/>
 
-        <Animation Name="gEponaAnim_006D50" Offset="0x6D50"/>
-        <Animation Name="gEponaAnim_005584" Offset="0x5584"/>
-        <Animation Name="gEponaAnim_004DEC" Offset="0x4DEC"/>
-        <Animation Name="gEponaAnim_003CEC" Offset="0x3CEC"/>
-        <Animation Name="gEponaAnim_0075F0" Offset="0x75F0"/>
-        <Animation Name="gEponaAnim_0032B0" Offset="0x32B0"/>
-        <Animation Name="gEponaAnim_001E2C" Offset="0x1E2C"/>
-        <Animation Name="gEponaAnim_002470" Offset="0x2470"/>
-        <Animation Name="gEponaAnim_002C38" Offset="0x2C38"/>
+        <!-- Idle. -->
+        <Animation Name="gEponaIdleAnim" Offset="0x6D50"/>
+        <!-- Whinny. -->
+        <Animation Name="gEponaWhinnyAnim" Offset="0x5584"/>
+        <!-- Refusing to jump / Slowing down. -->
+        <Animation Name="gEponaSlowDownAnim" Offset="0x4DEC"/>
+        <!-- Stand in two legs for a moment. -->
+        <Animation Name="gEponaRearingAnim" Offset="0x3CEC"/>
+        <!-- Walking slow. -->
+        <Animation Name="gEponaWalkingSlowAnim" Offset="0x75F0"/>
+        <!-- Walking fast. -->
+        <Animation Name="gEponaWalkingFastAnim" Offset="0x32B0"/>
+        <!-- Running. -->
+        <Animation Name="gEponaRunningAnim" Offset="0x1E2C"/>
+        <!-- Jumping. -->
+        <Animation Name="gEponaJumpingAnim" Offset="0x2470"/>
+        <!-- Jumping High. -->
+        <Animation Name="gEponaJumpingHighAnim" Offset="0x2C38"/>
 
         <Texture Name="gEponaEyePal" OutName="epona_eye_pal" Format="rgb5a1" Width="16" Height="16" Offset="0x9D80" />
         <Texture Name="gEponaEyeOpenTex" OutName="epona_eye_open" Format="ci8" Width="32" Height="16" Offset="0x9F80" />
