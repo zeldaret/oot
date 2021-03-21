@@ -29,8 +29,7 @@ extern AnimationHeader D_06012014;
 
 static s32 sUnused = 0;
 
-extern CutsceneData D_8096C1A4[];
-#pragma INCLUDE_EARLY("z_demo_du_cutscene_data.c")
+#include "z_demo_du_cutscene_data.c" EARLY
 
 static u64* sEyeTextures[] = { 0x06008080, 0x06008480, 0x06008880, 0x0600A540 };
 static u64* sMouthTextures[] = { 0x06008C80, 0x06009D40, 0x0600A940, 0x0600B180 };

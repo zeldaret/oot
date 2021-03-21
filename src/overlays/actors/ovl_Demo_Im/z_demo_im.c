@@ -71,8 +71,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-extern CutsceneData D_8098786C[];
-#pragma INCLUDE_EARLY("z_demo_im_cutscene_data.c")
+#include "z_demo_im_cutscene_data.c" EARLY
 
 static DemoImActionFunc sActionFuncs[] = {
     func_809856F8, func_80985718, func_80985738, func_80985770, func_809857B0, func_809857F0, func_80985830,

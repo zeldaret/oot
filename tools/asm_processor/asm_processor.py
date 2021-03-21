@@ -784,11 +784,11 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 output_lines[-1] = ''.join(src)
                 asm_functions.append(fn)
                 global_asm = None
-            elif line.startswith('#pragma INCLUDE_EARLY("') and line.endswith('")'):
+            elif line.startswith('#include "') and line.endswith('" EARLY'):
                 # C includes qualified with EARLY (i.e. #include "file.c" EARLY) will be
                 # processed recursively when encountered
                 fpath = os.path.dirname(f.name)
-                fname = line[line.index('("') + 2 : line.index('")')]
+                fname = line[line.index(' ') + 2 : -7]
                 include_src = StringIO()
                 with open(fpath + os.path.sep + fname, encoding=input_enc) as include_file:
                     parse_source(include_file, opt, framepointer, input_enc, output_enc, include_src)
