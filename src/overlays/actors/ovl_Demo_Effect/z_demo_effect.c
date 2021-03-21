@@ -5,6 +5,7 @@
 #include "objects/object_efc_fire_ball/object_efc_fire_ball.h"
 #include "objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
 #include "objects/object_god_lgt/object_god_lgt.h"
+#include "objects/object_light_ring/object_light_ring.h"
 #include "objects/object_triforce_spot/object_triforce_spot.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
 
@@ -14,7 +15,6 @@
 // OBJECT_GAMEPLAY_KEEP,
 // OBJECT_EFC_LGT_SHOWER,
 // OBJECT_GOD_LGT,
-
 // OBJECT_LIGHT_RING,
 // OBJECT_TRIFORCE_SPOT,
 
@@ -86,7 +86,7 @@ void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csAc
 // extern Gfx D_06003530[]; // zoraJewel
 // extern Gfx D_06003370[]; // zoraJewelHolder
 // extern Gfx D_06000040[]; // fireBall
-extern Gfx D_06000190[]; // lightRing
+// extern Gfx D_06000190[]; // lightRing
 // extern Gfx D_06000330[]; // godLgtTrail
 // extern Gfx D_06003C50[]; // godLgt
 // extern Gfx D_06000600[]; // triforceSpot
@@ -1989,7 +1989,7 @@ void DemoEffect_DrawLightRing(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_XLU_DISP++, 8,
                Gfx_TwoTexScroll(globalCtx2->state.gfxCtx, 0, (frames * 5) % 64, 512 - ((frames * 2) % 512) - 1, 16, 128,
                                 1, 0, 0, 8, 1024));
-    gSPDisplayList(POLY_XLU_DISP++, D_06000190);
+    gSPDisplayList(POLY_XLU_DISP++, gGoldenGoddessLightRingDL);
 
     CLOSE_DISPS(globalCtx2->state.gfxCtx, "../z_demo_effect.c", 2978);
 }

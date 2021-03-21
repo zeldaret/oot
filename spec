@@ -4281,7 +4281,8 @@ endseg
 beginseg
     name "object_light_ring"
     romalign 0x1000
-    include "build/baserom/object_light_ring.o"
+    include "build/assets/objects/object_light_ring/object_light_ring.o"
+    number 6
 endseg
 
 beginseg
