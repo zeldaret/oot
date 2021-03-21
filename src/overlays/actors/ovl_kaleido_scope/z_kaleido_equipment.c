@@ -1,7 +1,5 @@
 #include "z_kaleido_scope.h"
-
-extern u64 D_0803D000[];
-extern u64 D_08055000[];
+#include "textures/icon_item_static/icon_item_static.h"
 
 u8 D_8082A3F0[] = { UPG_BULLET_BAG, UPG_BOMB_BAG, UPG_STRENGTH, UPG_SCALE };
 
@@ -19,7 +17,7 @@ u8 D_8082A404[] = {
 
 s16 D_8082A414 = 0;
 
-void func_80817D50(GlobalContext* globalCtx, void* source, u32 width, u32 height) {
+void KaleidoScope_DrawEquipmentImage(GlobalContext* globalCtx, void* source, u32 width, u32 height) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     u8* curTexture;
     s32 vtxIndex;
@@ -54,7 +52,7 @@ void func_80817D50(GlobalContext* globalCtx, void* source, u32 width, u32 height
     remainingSize -= textureSize;
 
     for (i = 0; i < textureCount; i++) {
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_15C[vtxIndex], 4, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[vtxIndex], 4, 0);
 
         gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, curTexture);
 
@@ -84,37 +82,38 @@ void func_80817D50(GlobalContext* globalCtx, void* source, u32 width, u32 height
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_equipment.c", 122);
 }
 
-void func_8081819C(GlobalContext* globalCtx) {
+void KaleidoScope_DrawPlayerWork(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
-    Vec3f sp50;
-    Vec3s sp48;
+    Vec3f pos;
+    Vec3s rot;
     f32 scale;
 
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-        sp50.x = 2.0f;
-        sp50.y = -130.0f;
-        sp50.z = -150.0f;
+        pos.x = 2.0f;
+        pos.y = -130.0f;
+        pos.z = -150.0f;
         scale = 0.046f;
     } else if (CUR_EQUIP_VALUE(EQUIP_SWORD) != 2) {
-        sp50.x = 25.0f;
-        sp50.y = -228.0f;
-        sp50.z = 60.0f;
+        pos.x = 25.0f;
+        pos.y = -228.0f;
+        pos.z = 60.0f;
         scale = 0.056f;
     } else {
-        sp50.x = 20.0f;
-        sp50.y = -180.0f;
-        sp50.z = -40.0f;
+        pos.x = 20.0f;
+        pos.y = -180.0f;
+        pos.z = -40.0f;
         scale = 0.047f;
     }
 
-    sp48.y = 32300;
-    sp48.x = sp48.z = 0;
-    func_8009214C(globalCtx, pauseCtx->unk_13C, &pauseCtx->skelAnime, &sp50, &sp48, scale, CUR_EQUIP_VALUE(EQUIP_SWORD),
-                  CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1, CUR_EQUIP_VALUE(EQUIP_SHIELD), CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1);
+    rot.y = 32300;
+    rot.x = rot.z = 0;
+    func_8009214C(globalCtx, pauseCtx->playerSegment, &pauseCtx->playerSkelAnime, &pos, &rot, scale,
+                  CUR_EQUIP_VALUE(EQUIP_SWORD), CUR_EQUIP_VALUE(EQUIP_TUNIC) - 1, CUR_EQUIP_VALUE(EQUIP_SHIELD),
+                  CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1);
 }
 
 #ifdef NON_MATCHING
-void func_80818340(GlobalContext* globalCtx) {
+void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     Input* input = &globalCtx->state.input[0];
     u16 temp_s7;
@@ -136,16 +135,15 @@ void func_80818340(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_equipment.c", 219);
 
     gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, gGameInfo->data[999], gGameInfo->data[1000], gGameInfo->data[1001],
-                    pauseCtx->unk_208);
-    gDPSetEnvColor(POLY_OPA_DISP++, gGameInfo->data[1003], gGameInfo->data[1004], gGameInfo->data[1005], 0);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, ZREG(39), ZREG(40), ZREG(41), pauseCtx->unk_208);
+    gDPSetEnvColor(POLY_OPA_DISP++, ZREG(43), ZREG(44), ZREG(45), 0);
 
     for (phi_s5 = 0, phi_s4 = 64; phi_s5 < 4; phi_s5++, phi_s4 += 4) {
         if (CUR_EQUIP_VALUE(phi_s5) != 0) {
             gDPPipeSync(POLY_OPA_DISP++);
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_15C[phi_s4], 4, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[phi_s4], 4, 0);
 
-            POLY_OPA_DISP = func_8081F50C(POLY_OPA_DISP, D_02000A00[1], 32, 32, 0);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_02000A00[1], 32, 32, 0);
         }
     }
 
@@ -451,7 +449,7 @@ void func_80818340(GlobalContext* globalCtx) {
             }
         }
 
-        func_80819E14(pauseCtx, temp_s7 * 4, pauseCtx->vtx_15C);
+        func_80819E14(pauseCtx, temp_s7 * 4, pauseCtx->equipVtx);
 
         if ((pauseCtx->unk_238 == 0) && (phi_s0_2 != 999) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) &&
             CHECK_BTN_ALL(input->press.button, BTN_A)) {
@@ -497,7 +495,7 @@ void func_80818340(GlobalContext* globalCtx) {
 
         spBA = temp_s7;
     } else if ((pauseCtx->unk_1E4 == 7) && (pauseCtx->kscpPos == 3)) {
-        func_80819E14(pauseCtx, pauseCtx->unk_246[3] * 4, pauseCtx->vtx_15C);
+        func_80819E14(pauseCtx, pauseCtx->unk_246[3] * 4, pauseCtx->equipVtx);
         pauseCtx->unk_260 = 8;
 
         D_8082A414--;
@@ -520,14 +518,14 @@ void func_80818340(GlobalContext* globalCtx) {
                 if ((D_8082ABFC[(phi_s5 * 4) + phi_s0_3 + 0x18 + 1] == 9) ||
                     (D_8082ABFC[(phi_s5 * 4) + phi_s0_3 + 0x18 + 1] == ((void)0, gSaveContext.linkAge))) {
                     if (spBA == phi_s3_3) {
-                        pauseCtx->vtx_15C[phi_s4 + 0].v.ob[0] = pauseCtx->vtx_15C[phi_s4 + 2].v.ob[0] =
-                            pauseCtx->vtx_15C[phi_s4 + 0].v.ob[0] - 2;
-                        pauseCtx->vtx_15C[phi_s4 + 1].v.ob[0] = pauseCtx->vtx_15C[phi_s4 + 3].v.ob[0] =
-                            pauseCtx->vtx_15C[phi_s4 + 1].v.ob[0] + 4;
-                        pauseCtx->vtx_15C[phi_s4 + 0].v.ob[1] = pauseCtx->vtx_15C[phi_s4 + 1].v.ob[1] =
-                            pauseCtx->vtx_15C[phi_s4 + 0].v.ob[1] + 2;
-                        pauseCtx->vtx_15C[phi_s4 + 2].v.ob[1] = pauseCtx->vtx_15C[phi_s4 + 3].v.ob[1] =
-                            pauseCtx->vtx_15C[phi_s4 + 2].v.ob[1] - 4;
+                        pauseCtx->equipVtx[phi_s4 + 0].v.ob[0] = pauseCtx->equipVtx[phi_s4 + 2].v.ob[0] =
+                            pauseCtx->equipVtx[phi_s4 + 0].v.ob[0] - 2;
+                        pauseCtx->equipVtx[phi_s4 + 1].v.ob[0] = pauseCtx->equipVtx[phi_s4 + 3].v.ob[0] =
+                            pauseCtx->equipVtx[phi_s4 + 1].v.ob[0] + 4;
+                        pauseCtx->equipVtx[phi_s4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_s4 + 1].v.ob[1] =
+                            pauseCtx->equipVtx[phi_s4 + 0].v.ob[1] + 2;
+                        pauseCtx->equipVtx[phi_s4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_s4 + 3].v.ob[1] =
+                            pauseCtx->equipVtx[phi_s4 + 2].v.ob[1] - 4;
                     }
                 }
             }
@@ -553,20 +551,23 @@ void func_80818340(GlobalContext* globalCtx) {
     phi_s5 = 0;
     phi_s3_3 = 0;
     while (phi_s5 < 4) {
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_15C[phi_s4], 16, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[phi_s4], 16, 0);
 
         if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
             phi_s2_3 = CUR_UPG_VALUE(D_8082A3F0[phi_s5]);
             if ((phi_s2_3 != 0) && (CUR_UPG_VALUE(D_8082A3F0[phi_s5]) != 0)) {
-                func_8081F87C(globalCtx->state.gfxCtx,
-                              gItemIcons[CUR_UPG_VALUE(D_8082A3F0[phi_s5]) + D_8082A3F8[phi_s5] - 1], 32, 32, 0);
+                KaleidoScope_DrawQuadTextureRGBA32(
+                    globalCtx->state.gfxCtx, gItemIcons[CUR_UPG_VALUE(D_8082A3F0[phi_s5]) + D_8082A3F8[phi_s5] - 1], 32,
+                    32, 0);
             }
         } else if ((phi_s5 == 0) && (CUR_UPG_VALUE(D_8082A3F4[phi_s5]) == 0)) {
-            func_8081F87C(globalCtx->state.gfxCtx,
-                          gItemIcons[CUR_UPG_VALUE(D_8082A3F0[phi_s5]) + D_8082A3F8[phi_s5] - 1], 32, 32, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx,
+                                               gItemIcons[CUR_UPG_VALUE(D_8082A3F0[phi_s5]) + D_8082A3F8[phi_s5] - 1],
+                                               32, 32, 0);
         } else if (CUR_UPG_VALUE(D_8082A3F4[phi_s5]) != 0) {
-            func_8081F87C(globalCtx->state.gfxCtx,
-                          gItemIcons[CUR_UPG_VALUE(D_8082A3F4[phi_s5]) + D_8082A3F8[phi_s5] - 1], 32, 32, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx,
+                                               gItemIcons[CUR_UPG_VALUE(D_8082A3F4[phi_s5]) + D_8082A3F8[phi_s5] - 1],
+                                               32, 32, 0);
         }
 
         phi_s0_3 = 0;
@@ -574,12 +575,14 @@ void func_80818340(GlobalContext* globalCtx) {
         phi_s1_3 = spC2;
         while (phi_s0_3 < 3) {
             if ((phi_s5 == 0) && (phi_s0_3 == 2) && (gSaveContext.bgsFlag != 0)) {
-                func_8081F87C(globalCtx->state.gfxCtx, D_0803D000, 32, 32, phi_s2_3);
+                KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gBiggoronSwordIconTex, 32, 32, phi_s2_3);
             } else if ((phi_s5 == 0) && (phi_s0_3 == 2) &&
                        (gBitFlags[phi_s1_3 + 1] & gSaveContext.inventory.equipment)) {
-                func_8081F87C(globalCtx->state.gfxCtx, D_08055000, 32, 32, phi_s2_3);
+                KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gBrokenGiantsKnifeIconTex, 32, 32,
+                                                   phi_s2_3);
             } else if (gBitFlags[phi_s1_3] & gSaveContext.inventory.equipment) {
-                func_8081F87C(globalCtx->state.gfxCtx, gItemIcons[phi_s3_3 + 0x3B], 32, 32, phi_s2_3);
+                KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gItemIcons[phi_s3_3 + 0x3B], 32, 32,
+                                                   phi_s2_3);
             }
             phi_s0_3++;
             phi_s2_3 += 4;
@@ -592,29 +595,29 @@ void func_80818340(GlobalContext* globalCtx) {
         phi_s4 += 16;
     }
 
-    func_8081819C(globalCtx);
+    KaleidoScope_DrawPlayerWork(globalCtx);
 
     if ((pauseCtx->unk_1E4 == 7) && (D_8082A414 == 10)) {
-        func_8081F1F0(globalCtx);
+        KaleidoScope_SetupPlayerPreRender(globalCtx);
     }
 
     if ((pauseCtx->unk_1E4 == 7) && (D_8082A414 == 9)) {
         // @bug This function doesn't have any arguments
-        func_8081F2FC(globalCtx);
+        KaleidoScope_ProcessPlayerPreRender(globalCtx);
     }
 
-    gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->unk_13C);
-    gSPSegment(POLY_OPA_DISP++, 0x08, pauseCtx->unk_128);
-    gSPSegment(POLY_OPA_DISP++, 0x09, pauseCtx->unk_12C);
-    gSPSegment(POLY_OPA_DISP++, 0x0A, pauseCtx->unk_138);
+    gSPSegment(POLY_OPA_DISP++, 0x07, pauseCtx->playerSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x08, pauseCtx->iconItemSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x09, pauseCtx->iconItem24Segment);
+    gSPSegment(POLY_OPA_DISP++, 0x0A, pauseCtx->nameSegment);
     gSPSegment(POLY_OPA_DISP++, 0x0B, globalCtx->interfaceCtx.mapSegment);
-    gSPSegment(POLY_OPA_DISP++, 0x0C, pauseCtx->unk_130);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, pauseCtx->iconItemAltSegment);
 
     func_800949A8(globalCtx->state.gfxCtx);
-    func_80817D50(globalCtx, pauseCtx->unk_13C, 0x40, 0x70);
+    KaleidoScope_DrawEquipmentImage(globalCtx, pauseCtx->playerSegment, 64, 112);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_equipment.c", 609);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_80818340.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/KaleidoScope_DrawEquipment.s")
 #endif

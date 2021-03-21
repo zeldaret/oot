@@ -29,7 +29,7 @@ glabel D_8082F4A0
     .balign 4
 
 .text
-glabel func_80813820
+glabel KaleidoScope_DrawQuestStatus
 /* 00000 80813820 27BDFDD0 */  addiu   $sp, $sp, 0xFDD0           ## $sp = FFFFFDD0
 /* 00004 80813824 AFB50034 */  sw      $s5, 0x0034($sp)           
 /* 00008 80813828 0080A825 */  or      $s5, $a0, $zero            ## $s5 = 00000000
@@ -941,7 +941,7 @@ glabel func_80813820
 /* 00D00 80814520 8CA573F4 */  lw      $a1, %lo(gItemIcons+0x198)($a1)
 /* 00D04 80814524 A7A9021A */  sh      $t1, 0x021A($sp)           
 /* 00D08 80814528 A7A80218 */  sh      $t0, 0x0218($sp)           
-/* 00D0C 8081452C 0C207E1F */  jal     func_8081F87C              
+/* 00D0C 8081452C 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 00D10 80814530 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00D14 80814534 3C158083 */  lui     $s5, %hi(D_8082A100)       ## $s5 = 80830000
 /* 00D18 80814538 3C138083 */  lui     $s3, %hi(D_8082A0FC)       ## $s3 = 80830000
@@ -1005,8 +1005,8 @@ glabel func_80813820
 /* 00DF8 80814618 ACB80004 */  sw      $t8, 0x0004($a1)           ## 00000004
 /* 00DFC 8081461C ACAE0000 */  sw      $t6, 0x0000($a1)           ## 00000000
 /* 00E00 80814620 8E2502C0 */  lw      $a1, 0x02C0($s1)           ## 000002C0
-/* 00E04 80814624 3C0E0809 */  lui     $t6, %hi(D_08089440)       ## $t6 = 08090000
-/* 00E08 80814628 25CE9440 */  addiu   $t6, %lo(D_08089440)       ## $t6 = 08089440
+/* 00E04 80814624 3C0E0809 */  lui     $t6, %hi(gSongNoteTex)       ## $t6 = 08090000
+/* 00E08 80814628 25CE9440 */  addiu   $t6, %lo(gSongNoteTex)       ## $t6 = 08089440
 /* 00E0C 8081462C 24B90008 */  addiu   $t9, $a1, 0x0008           ## $t9 = 00000008
 /* 00E10 80814630 AE3902C0 */  sw      $t9, 0x02C0($s1)           ## 000002C0
 /* 00E14 80814634 3C0FFD70 */  lui     $t7, 0xFD70                ## $t7 = FD700000
@@ -1210,7 +1210,7 @@ glabel func_80813820
 /* 0111C 8081493C 8CA5740C */  lw      $a1, %lo(gItemIcons+0x1b0)($a1)
 /* 01120 80814940 A7A9021A */  sh      $t1, 0x021A($sp)           
 /* 01124 80814944 A7A80218 */  sh      $t0, 0x0218($sp)           
-/* 01128 80814948 0C207E1F */  jal     func_8081F87C              
+/* 01128 80814948 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 0112C 8081494C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 01130 80814950 87A80218 */  lh      $t0, 0x0218($sp)           
 /* 01134 80814954 87A9021A */  lh      $t1, 0x021A($sp)           
@@ -1279,7 +1279,7 @@ glabel func_80813820
 /* 01228 80814A48 8CA57418 */  lw      $a1, %lo(gItemIcons+0x1bc)($a1)
 /* 0122C 80814A4C A7A9021A */  sh      $t1, 0x021A($sp)           
 /* 01230 80814A50 A7A80218 */  sh      $t0, 0x0218($sp)           
-/* 01234 80814A54 0C207E1F */  jal     func_8081F87C              
+/* 01234 80814A54 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 01238 80814A58 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0123C 80814A5C 3C0E8016 */  lui     $t6, %hi(gSaveContext+0xa4)
 /* 01240 80814A60 8DCEE704 */  lw      $t6, %lo(gSaveContext+0xa4)($t6)
@@ -1623,7 +1623,7 @@ glabel func_80813820
 /* 0170C 80814F2C 8E2402C0 */  lw      $a0, 0x02C0($s1)           ## 000002C0
 /* 01710 80814F30 A7A9021A */  sh      $t1, 0x021A($sp)           
 /* 01714 80814F34 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 01718 80814F38 0C207D43 */  jal     func_8081F50C              
+/* 01718 80814F38 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 0171C 80814F3C 8CA57440 */  lw      $a1, %lo(gItemIcons+0x1e4)($a1)
 /* 01720 80814F40 87A9021A */  lh      $t1, 0x021A($sp)           
 /* 01724 80814F44 AE2202C0 */  sw      $v0, 0x02C0($s1)           ## 000002C0

@@ -34,8 +34,8 @@ static const u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
 extern PauseMapMarksData sPauseMapMarkDataTable[];
 
 void PauseMapMark_Init(GlobalContext* globalCtx) {
-    D_8012D1E0 = 0;
-    D_80161398 = 1.0f;
+    gBossMarkState = 0;
+    gBossMarkScale = 1.0f;
     gLoadedPauseMarkDataTable = sPauseMapMarkDataTable;
 }
 
@@ -61,18 +61,18 @@ void PauseMapMark_DrawForDungeon(GlobalContext* globalCtx) {
 
         if ((mapMarkData->markType == 1) && (globalCtx->sceneNum >= SCENE_YDAN_BOSS) &&
             (globalCtx->sceneNum <= SCENE_GANON_FINAL)) {
-            if (D_8012D1E0 == 0) {
-                Math_ApproachF(&D_80161398, 1.5f, 1.0f, 0.041f);
-                if (D_80161398 == 1.5f) {
-                    D_8012D1E0 = 1;
+            if (gBossMarkState == 0) {
+                Math_ApproachF(&gBossMarkScale, 1.5f, 1.0f, 0.041f);
+                if (gBossMarkScale == 1.5f) {
+                    gBossMarkState = 1;
                 }
             } else {
-                Math_ApproachF(&D_80161398, 1.0f, 1.0f, 0.041f);
-                if (D_80161398 == 1.0f) {
-                    D_8012D1E0 = 0;
+                Math_ApproachF(&gBossMarkScale, 1.0f, 1.0f, 0.041f);
+                if (gBossMarkScale == 1.0f) {
+                    gBossMarkState = 0;
                 }
             }
-            scale = D_80161398;
+            scale = gBossMarkScale;
         } else {
             scale = 1.0f;
         }
@@ -135,8 +135,10 @@ void PauseMapMark_DrawForDungeon(GlobalContext* globalCtx) {
                 gSPVertex(POLY_OPA_DISP++, mapMarkData->vtx, mapMarkData->vtxCount, 0);
                 gSP1Quadrangle(POLY_OPA_DISP++, 1, 3, 2, 0, 0);
             }
+
             markPoint++;
         }
+
         mapMarkData++;
         Matrix_Pop();
     }

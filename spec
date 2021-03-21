@@ -147,42 +147,49 @@ beginseg
     name "icon_item_24_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_24_static/icon_item_24_static.o"
+    number 9
 endseg
 
 beginseg
     name "icon_item_field_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_field_static/icon_item_field_static.o"
+    number 12
 endseg
 
 beginseg
     name "icon_item_dungeon_static"
     romalign 0x1000
     include "build/assets/textures/icon_item_dungeon_static/icon_item_dungeon_static.o"
+    number 12
 endseg
 
 beginseg
     name "icon_item_gameover_static"
     romalign 0x1000
-    include "build/baserom/icon_item_gameover_static.o"
+    include "build/assets/textures/icon_item_gameover_static/icon_item_gameover_static.o"
+    number 12
 endseg
 
 beginseg
     name "icon_item_nes_static"
     romalign 0x1000
-    include "build/baserom/icon_item_nes_static.o"
+    include "build/assets/textures/icon_item_nes_static/icon_item_nes_static.o"
+    number 13
 endseg
 
 beginseg
     name "icon_item_ger_static"
     romalign 0x1000
     include "build/baserom/icon_item_ger_static.o"
+    number 13
 endseg
 
 beginseg
     name "icon_item_fra_static"
     romalign 0x1000
     include "build/baserom/icon_item_fra_static.o"
+    number 13
 endseg
 
 beginseg

@@ -1173,8 +1173,8 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
 void Player_DrawGetItem(GlobalContext* globalCtx, Player* player);
 void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* data);
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime);
-void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f* pos, Vec3s* rot, f32 scale, s32 sword,
-                   s32 tunic, s32 shield, s32 boots);
+void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime, Vec3f* pos, Vec3s* rot, f32 scale,
+                   s32 sword, s32 tunic, s32 shield, s32 boots);
 void PreNMI_Init(GameState* thisx);
 Vec3f* Quake_AddVec(Vec3f* dst, Vec3f* arg1, VecSph* arg2);
 void Quake_UpdateShakeInfo(QuakeRequest* req, ShakeInfo* shake, f32 y, f32 x);

@@ -1251,7 +1251,7 @@ void Interface_LoadItemIcon1(GlobalContext* globalCtx, u16 button) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
-    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->icon_itemSegment + button * 0x1000,
+    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->iconItemSegment + button * 0x1000,
                         (u32)_icon_item_staticSegmentRomStart + (gSaveContext.equips.buttonItems[button] * 0x1000),
                         0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1171);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
@@ -1261,7 +1261,7 @@ void Interface_LoadItemIcon2(GlobalContext* globalCtx, u16 button) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
-    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_180, interfaceCtx->icon_itemSegment + button * 0x1000,
+    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_180, interfaceCtx->iconItemSegment + button * 0x1000,
                         (u32)_icon_item_staticSegmentRomStart + (gSaveContext.equips.buttonItems[button] * 0x1000),
                         0x1000, 0, &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 1193);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
@@ -2053,12 +2053,12 @@ void Interface_LoadActionLabel(InterfaceContext* interfaceCtx, u16 action, s16 a
 
     if ((action != 0x0A) && (action != 0x27) && (action != 0x44)) {
         osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
-        DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->do_actionSegment + (arg2 * 0x180),
+        DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + (arg2 * 0x180),
                             (u32)_do_action_staticSegmentRomStart + (action * 0x180), 0x180, 0,
                             &interfaceCtx->loadQueue, NULL, "../z_parameter.c", 2145);
         osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
     } else {
-        gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->do_actionSegment);
+        gSegments[7] = VIRTUAL_TO_PHYSICAL(interfaceCtx->doActionSegment);
         func_80086D5C(SEGMENTED_TO_VIRTUAL(sDoActionTextures[arg2]), 0x180 / 4);
     }
 }
@@ -2114,7 +2114,7 @@ void Interface_LoadActionLabelB(GlobalContext* globalCtx, u16 action) {
     interfaceCtx->unk_1FC = action;
 
     osCreateMesgQueue(&interfaceCtx->loadQueue, &interfaceCtx->loadMsg, OS_MESG_BLOCK);
-    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->do_actionSegment + 0x180,
+    DmaMgr_SendRequest2(&interfaceCtx->dmaRequest_160, interfaceCtx->doActionSegment + 0x180,
                         (u32)_do_action_staticSegmentRomStart + (action * 0x180), 0x180, 0, &interfaceCtx->loadQueue,
                         NULL, "../z_parameter.c", 2228);
     osRecvMesg(&interfaceCtx->loadQueue, NULL, OS_MESG_BLOCK);
@@ -2707,7 +2707,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
-            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->do_actionSegment + 0x300, G_IM_FMT_IA, 48, 16, 0,
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->doActionSegment + 0x300, G_IM_FMT_IA, 48, 16, 0,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                    G_TX_NOLOD, G_TX_NOLOD);
 
@@ -2871,7 +2871,7 @@ void Interface_DrawActionButton(GlobalContext* globalCtx) {
 
     gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_parameter.c", 3177),
               G_MTX_MODELVIEW | G_MTX_LOAD);
-    gSPVertex(OVERLAY_DISP++, interfaceCtx->vtx_128, 4, 0);
+    gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[0], 4, 0);
 
     gDPLoadTextureBlock(OVERLAY_DISP++, D_02000A00[0], G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -2885,81 +2885,81 @@ void Interface_InitVertices(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     s16 i;
 
-    interfaceCtx->vtx_128 = Graph_Alloc(globalCtx->state.gfxCtx, 8 * sizeof(Vtx));
+    interfaceCtx->actionVtx = Graph_Alloc(globalCtx->state.gfxCtx, 8 * sizeof(Vtx));
 
     // clang-format off
-    interfaceCtx->vtx_128[0].v.ob[0] =
-    interfaceCtx->vtx_128[2].v.ob[0] = -14;
-    interfaceCtx->vtx_128[1].v.ob[0] =
-    interfaceCtx->vtx_128[3].v.ob[0] = interfaceCtx->vtx_128[0].v.ob[0] + 28;
+    interfaceCtx->actionVtx[0].v.ob[0] =
+    interfaceCtx->actionVtx[2].v.ob[0] = -14;
+    interfaceCtx->actionVtx[1].v.ob[0] =
+    interfaceCtx->actionVtx[3].v.ob[0] = interfaceCtx->actionVtx[0].v.ob[0] + 28;
 
-    interfaceCtx->vtx_128[0].v.ob[1] =
-    interfaceCtx->vtx_128[1].v.ob[1] = 14;
-    interfaceCtx->vtx_128[2].v.ob[1] =
-    interfaceCtx->vtx_128[3].v.ob[1] = interfaceCtx->vtx_128[0].v.ob[1] - 28;
+    interfaceCtx->actionVtx[0].v.ob[1] =
+    interfaceCtx->actionVtx[1].v.ob[1] = 14;
+    interfaceCtx->actionVtx[2].v.ob[1] =
+    interfaceCtx->actionVtx[3].v.ob[1] = interfaceCtx->actionVtx[0].v.ob[1] - 28;
 
-    interfaceCtx->vtx_128[4].v.ob[0] =
-    interfaceCtx->vtx_128[6].v.ob[0] = -(XREG(21) / 2);
-    interfaceCtx->vtx_128[5].v.ob[0] =
-    interfaceCtx->vtx_128[7].v.ob[0] = interfaceCtx->vtx_128[4].v.ob[0] + XREG(21);
+    interfaceCtx->actionVtx[4].v.ob[0] =
+    interfaceCtx->actionVtx[6].v.ob[0] = -(XREG(21) / 2);
+    interfaceCtx->actionVtx[5].v.ob[0] =
+    interfaceCtx->actionVtx[7].v.ob[0] = interfaceCtx->actionVtx[4].v.ob[0] + XREG(21);
 
-    interfaceCtx->vtx_128[4].v.ob[1] =
-    interfaceCtx->vtx_128[5].v.ob[1] = XREG(28) / 2;
-    interfaceCtx->vtx_128[6].v.ob[1] =
-    interfaceCtx->vtx_128[7].v.ob[1] = interfaceCtx->vtx_128[4].v.ob[1] - XREG(28);
+    interfaceCtx->actionVtx[4].v.ob[1] =
+    interfaceCtx->actionVtx[5].v.ob[1] = XREG(28) / 2;
+    interfaceCtx->actionVtx[6].v.ob[1] =
+    interfaceCtx->actionVtx[7].v.ob[1] = interfaceCtx->actionVtx[4].v.ob[1] - XREG(28);
 
     for (i = 0; i < 8; i += 4) {
-        interfaceCtx->vtx_128[i].v.ob[2] = interfaceCtx->vtx_128[i+1].v.ob[2] =
-        interfaceCtx->vtx_128[i+2].v.ob[2] = interfaceCtx->vtx_128[i+3].v.ob[2] = 0;
+        interfaceCtx->actionVtx[i].v.ob[2] = interfaceCtx->actionVtx[i+1].v.ob[2] =
+        interfaceCtx->actionVtx[i+2].v.ob[2] = interfaceCtx->actionVtx[i+3].v.ob[2] = 0;
 
-        interfaceCtx->vtx_128[i].v.flag = interfaceCtx->vtx_128[i+1].v.flag =
-        interfaceCtx->vtx_128[i+2].v.flag = interfaceCtx->vtx_128[i+3].v.flag = 0;
+        interfaceCtx->actionVtx[i].v.flag = interfaceCtx->actionVtx[i+1].v.flag =
+        interfaceCtx->actionVtx[i+2].v.flag = interfaceCtx->actionVtx[i+3].v.flag = 0;
 
-        interfaceCtx->vtx_128[i].v.tc[0] = interfaceCtx->vtx_128[i].v.tc[1] =
-        interfaceCtx->vtx_128[i+1].v.tc[1] = interfaceCtx->vtx_128[i+2].v.tc[0] = 0;
-        interfaceCtx->vtx_128[i+1].v.tc[0] = interfaceCtx->vtx_128[i+2].v.tc[1] =
-        interfaceCtx->vtx_128[i+3].v.tc[0] = interfaceCtx->vtx_128[i+3].v.tc[1] = 1024;
+        interfaceCtx->actionVtx[i].v.tc[0] = interfaceCtx->actionVtx[i].v.tc[1] =
+        interfaceCtx->actionVtx[i+1].v.tc[1] = interfaceCtx->actionVtx[i+2].v.tc[0] = 0;
+        interfaceCtx->actionVtx[i+1].v.tc[0] = interfaceCtx->actionVtx[i+2].v.tc[1] =
+        interfaceCtx->actionVtx[i+3].v.tc[0] = interfaceCtx->actionVtx[i+3].v.tc[1] = 1024;
 
-        interfaceCtx->vtx_128[i].v.cn[0] = interfaceCtx->vtx_128[i+1].v.cn[0] =
-        interfaceCtx->vtx_128[i+2].v.cn[0] = interfaceCtx->vtx_128[i+3].v.cn[0] =
-        interfaceCtx->vtx_128[i].v.cn[1] = interfaceCtx->vtx_128[i+1].v.cn[1] =
-        interfaceCtx->vtx_128[i+2].v.cn[1] = interfaceCtx->vtx_128[i+3].v.cn[1] =
-        interfaceCtx->vtx_128[i].v.cn[2] = interfaceCtx->vtx_128[i+1].v.cn[2] =
-        interfaceCtx->vtx_128[i+2].v.cn[2] = interfaceCtx->vtx_128[i+3].v.cn[2] = 0xFF;
+        interfaceCtx->actionVtx[i].v.cn[0] = interfaceCtx->actionVtx[i+1].v.cn[0] =
+        interfaceCtx->actionVtx[i+2].v.cn[0] = interfaceCtx->actionVtx[i+3].v.cn[0] =
+        interfaceCtx->actionVtx[i].v.cn[1] = interfaceCtx->actionVtx[i+1].v.cn[1] =
+        interfaceCtx->actionVtx[i+2].v.cn[1] = interfaceCtx->actionVtx[i+3].v.cn[1] =
+        interfaceCtx->actionVtx[i].v.cn[2] = interfaceCtx->actionVtx[i+1].v.cn[2] =
+        interfaceCtx->actionVtx[i+2].v.cn[2] = interfaceCtx->actionVtx[i+3].v.cn[2] = 255;
 
-        interfaceCtx->vtx_128[i].v.cn[3] = interfaceCtx->vtx_128[i+1].v.cn[3] =
-        interfaceCtx->vtx_128[i+2].v.cn[3] = interfaceCtx->vtx_128[i+3].v.cn[3] = 0xFF;
+        interfaceCtx->actionVtx[i].v.cn[3] = interfaceCtx->actionVtx[i+1].v.cn[3] =
+        interfaceCtx->actionVtx[i+2].v.cn[3] = interfaceCtx->actionVtx[i+3].v.cn[3] = 255;
     }
 
-    interfaceCtx->vtx_128[5].v.tc[0] = interfaceCtx->vtx_128[7].v.tc[0] = 1536;
-    interfaceCtx->vtx_128[6].v.tc[1] = interfaceCtx->vtx_128[7].v.tc[1] = 512;
+    interfaceCtx->actionVtx[5].v.tc[0] = interfaceCtx->actionVtx[7].v.tc[0] = 1536;
+    interfaceCtx->actionVtx[6].v.tc[1] = interfaceCtx->actionVtx[7].v.tc[1] = 512;
 
-    interfaceCtx->vtx_12C = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Vtx));
+    interfaceCtx->beatingHeartVtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Vtx));
 
-    interfaceCtx->vtx_12C[0].v.ob[0] = interfaceCtx->vtx_12C[2].v.ob[0] = -8;
-    interfaceCtx->vtx_12C[1].v.ob[0] = interfaceCtx->vtx_12C[3].v.ob[0] = 8;
-    interfaceCtx->vtx_12C[0].v.ob[1] = interfaceCtx->vtx_12C[1].v.ob[1] = 8;
-    interfaceCtx->vtx_12C[2].v.ob[1] = interfaceCtx->vtx_12C[3].v.ob[1] = -8;
+    interfaceCtx->beatingHeartVtx[0].v.ob[0] = interfaceCtx->beatingHeartVtx[2].v.ob[0] = -8;
+    interfaceCtx->beatingHeartVtx[1].v.ob[0] = interfaceCtx->beatingHeartVtx[3].v.ob[0] = 8;
+    interfaceCtx->beatingHeartVtx[0].v.ob[1] = interfaceCtx->beatingHeartVtx[1].v.ob[1] = 8;
+    interfaceCtx->beatingHeartVtx[2].v.ob[1] = interfaceCtx->beatingHeartVtx[3].v.ob[1] = -8;
 
-    interfaceCtx->vtx_12C[0].v.ob[2] = interfaceCtx->vtx_12C[1].v.ob[2] =
-    interfaceCtx->vtx_12C[2].v.ob[2] = interfaceCtx->vtx_12C[3].v.ob[2] = 0;
+    interfaceCtx->beatingHeartVtx[0].v.ob[2] = interfaceCtx->beatingHeartVtx[1].v.ob[2] =
+    interfaceCtx->beatingHeartVtx[2].v.ob[2] = interfaceCtx->beatingHeartVtx[3].v.ob[2] = 0;
 
-    interfaceCtx->vtx_12C[0].v.flag = interfaceCtx->vtx_12C[1].v.flag =
-    interfaceCtx->vtx_12C[2].v.flag = interfaceCtx->vtx_12C[3].v.flag = 0;
+    interfaceCtx->beatingHeartVtx[0].v.flag = interfaceCtx->beatingHeartVtx[1].v.flag =
+    interfaceCtx->beatingHeartVtx[2].v.flag = interfaceCtx->beatingHeartVtx[3].v.flag = 0;
 
-    interfaceCtx->vtx_12C[0].v.tc[0] = interfaceCtx->vtx_12C[0].v.tc[1] =
-    interfaceCtx->vtx_12C[1].v.tc[1] = interfaceCtx->vtx_12C[2].v.tc[0] = 0;
-    interfaceCtx->vtx_12C[1].v.tc[0] = interfaceCtx->vtx_12C[2].v.tc[1] =
-    interfaceCtx->vtx_12C[3].v.tc[0] = interfaceCtx->vtx_12C[3].v.tc[1] = 512;
+    interfaceCtx->beatingHeartVtx[0].v.tc[0] = interfaceCtx->beatingHeartVtx[0].v.tc[1] =
+    interfaceCtx->beatingHeartVtx[1].v.tc[1] = interfaceCtx->beatingHeartVtx[2].v.tc[0] = 0;
+    interfaceCtx->beatingHeartVtx[1].v.tc[0] = interfaceCtx->beatingHeartVtx[2].v.tc[1] =
+    interfaceCtx->beatingHeartVtx[3].v.tc[0] = interfaceCtx->beatingHeartVtx[3].v.tc[1] = 512;
 
-    interfaceCtx->vtx_12C[0].v.cn[0] = interfaceCtx->vtx_12C[1].v.cn[0] =
-    interfaceCtx->vtx_12C[2].v.cn[0] = interfaceCtx->vtx_12C[3].v.cn[0] =
-    interfaceCtx->vtx_12C[0].v.cn[1] = interfaceCtx->vtx_12C[1].v.cn[1] =
-    interfaceCtx->vtx_12C[2].v.cn[1] = interfaceCtx->vtx_12C[3].v.cn[1] =
-    interfaceCtx->vtx_12C[0].v.cn[2] = interfaceCtx->vtx_12C[1].v.cn[2] =
-    interfaceCtx->vtx_12C[2].v.cn[2] = interfaceCtx->vtx_12C[3].v.cn[2] =
-    interfaceCtx->vtx_12C[0].v.cn[3] = interfaceCtx->vtx_12C[1].v.cn[3] =
-    interfaceCtx->vtx_12C[2].v.cn[3] = interfaceCtx->vtx_12C[3].v.cn[3] = 0xFF;
+    interfaceCtx->beatingHeartVtx[0].v.cn[0] = interfaceCtx->beatingHeartVtx[1].v.cn[0] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[0] = interfaceCtx->beatingHeartVtx[3].v.cn[0] =
+    interfaceCtx->beatingHeartVtx[0].v.cn[1] = interfaceCtx->beatingHeartVtx[1].v.cn[1] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[1] = interfaceCtx->beatingHeartVtx[3].v.cn[1] =
+    interfaceCtx->beatingHeartVtx[0].v.cn[2] = interfaceCtx->beatingHeartVtx[1].v.cn[2] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[2] = interfaceCtx->beatingHeartVtx[3].v.cn[2] =
+    interfaceCtx->beatingHeartVtx[0].v.cn[3] = interfaceCtx->beatingHeartVtx[1].v.cn[3] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[3] = interfaceCtx->beatingHeartVtx[3].v.cn[3] = 255;
     // clang-format on
 }
 
@@ -3042,8 +3042,8 @@ void Interface_Draw(GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_parameter.c", 3405);
 
     gSPSegment(OVERLAY_DISP++, 0x02, interfaceCtx->parameterSegment);
-    gSPSegment(OVERLAY_DISP++, 0x07, interfaceCtx->do_actionSegment);
-    gSPSegment(OVERLAY_DISP++, 0x08, interfaceCtx->icon_itemSegment);
+    gSPSegment(OVERLAY_DISP++, 0x07, interfaceCtx->doActionSegment);
+    gSPSegment(OVERLAY_DISP++, 0x08, interfaceCtx->iconItemSegment);
     gSPSegment(OVERLAY_DISP++, 0x0B, interfaceCtx->mapSegment);
 
     if (pauseCtx->flag == 0) {
@@ -3171,7 +3171,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (interfaceCtx->unk_1FA == 0) {
             // B Button Icon & possibly Ammo Count
             if (gSaveContext.equips.buttonItems[0] != ITEM_NONE) {
-                Interface_DrawItemIconTexture(globalCtx, interfaceCtx->icon_itemSegment, 0);
+                Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment, 0);
 
                 if ((player->stateFlags1 & 0x00800000) || (globalCtx->shootingGalleryStatus > 1) ||
                     ((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
@@ -3188,7 +3188,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->bAlpha);
 
-            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->do_actionSegment + 0x180, G_IM_FMT_IA, 48, 16, 0,
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, interfaceCtx->doActionSegment + 0x180, G_IM_FMT_IA, 48, 16, 0,
                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                    G_TX_NOLOD, G_TX_NOLOD);
 
@@ -3205,7 +3205,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[1] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cLeftAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->icon_itemSegment + 0x1000, 1);
+            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x1000, 1);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -3218,7 +3218,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[2] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cDownAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->icon_itemSegment + 0x2000, 2);
+            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x2000, 2);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -3231,7 +3231,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
         if (gSaveContext.equips.buttonItems[3] < 0xF0) {
             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->cRightAlpha);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->icon_itemSegment + 0x3000, 3);
+            Interface_DrawItemIconTexture(globalCtx, interfaceCtx->iconItemSegment + 0x3000, 3);
             gDPPipeSync(OVERLAY_DISP++);
             gDPSetCombineLERP(OVERLAY_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0,
                               PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
@@ -3258,12 +3258,12 @@ void Interface_Draw(GlobalContext* globalCtx) {
         Matrix_RotateX(interfaceCtx->unk_1F4 / 10000.0f, MTXMODE_APPLY);
         gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_parameter.c", 3701),
                   G_MTX_MODELVIEW | G_MTX_LOAD);
-        gSPVertex(OVERLAY_DISP++, &interfaceCtx->vtx_128[4], 4, 0);
+        gSPVertex(OVERLAY_DISP++, &interfaceCtx->actionVtx[4], 4, 0);
 
         if ((interfaceCtx->unk_1EC < 2) || (interfaceCtx->unk_1EC == 3)) {
-            Interface_DrawActionLabel(globalCtx->state.gfxCtx, interfaceCtx->do_actionSegment);
+            Interface_DrawActionLabel(globalCtx->state.gfxCtx, interfaceCtx->doActionSegment);
         } else {
-            Interface_DrawActionLabel(globalCtx->state.gfxCtx, interfaceCtx->do_actionSegment + 0x180);
+            Interface_DrawActionLabel(globalCtx->state.gfxCtx, interfaceCtx->doActionSegment + 0x180);
         }
 
         gDPPipeSync(OVERLAY_DISP++);
@@ -3272,22 +3272,22 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
         if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 3)) {
             // Inventory Equip Effects
-            gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->unk_128);
+            gSPSegment(OVERLAY_DISP++, 0x08, pauseCtx->iconItemSegment);
             func_80094A14(globalCtx->state.gfxCtx);
             gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
             gSPMatrix(OVERLAY_DISP++, &gMtxClear, G_MTX_MODELVIEW | G_MTX_LOAD);
 
-            pauseCtx->vtx_168[16].v.ob[0] = pauseCtx->vtx_168[18].v.ob[0] = pauseCtx->unk_254 / 10;
-            pauseCtx->vtx_168[17].v.ob[0] = pauseCtx->vtx_168[19].v.ob[0] =
-                pauseCtx->vtx_168[16].v.ob[0] + WREG(90) / 10;
-            pauseCtx->vtx_168[16].v.ob[1] = pauseCtx->vtx_168[17].v.ob[1] = pauseCtx->unk_256 / 10;
-            pauseCtx->vtx_168[18].v.ob[1] = pauseCtx->vtx_168[19].v.ob[1] =
-                pauseCtx->vtx_168[16].v.ob[1] - WREG(90) / 10;
+            pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] = pauseCtx->unk_254 / 10;
+            pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
+                pauseCtx->cursorVtx[16].v.ob[0] + WREG(90) / 10;
+            pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] = pauseCtx->unk_256 / 10;
+            pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] =
+                pauseCtx->cursorVtx[16].v.ob[1] - WREG(90) / 10;
 
             if (pauseCtx->unk_24E < 0xBF) {
                 // Normal Equip (icon goes from the inventory slot to the C button when equipping it)
                 gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_258);
-                gSPVertex(OVERLAY_DISP++, &pauseCtx->vtx_168[16], 4, 0);
+                gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[16], 4, 0);
 
                 gDPLoadTextureBlock(OVERLAY_DISP++, gItemIcons[pauseCtx->unk_24E], G_IM_FMT_RGBA, G_IM_SIZ_32b, 32, 32,
                                     0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
@@ -3300,17 +3300,17 @@ void Interface_Draw(GlobalContext* globalCtx) {
 
                 if ((pauseCtx->unk_258 > 0) && (pauseCtx->unk_258 < 255)) {
                     phi_s3_2 = (pauseCtx->unk_258 / 8) / 2;
-                    pauseCtx->vtx_168[16].v.ob[0] = pauseCtx->vtx_168[18].v.ob[0] =
-                        pauseCtx->vtx_168[16].v.ob[0] - phi_s3_2;
-                    pauseCtx->vtx_168[17].v.ob[0] = pauseCtx->vtx_168[19].v.ob[0] =
-                        pauseCtx->vtx_168[16].v.ob[0] + phi_s3_2 * 2 + 32;
-                    pauseCtx->vtx_168[16].v.ob[1] = pauseCtx->vtx_168[17].v.ob[1] =
-                        pauseCtx->vtx_168[16].v.ob[1] + phi_s3_2;
-                    pauseCtx->vtx_168[18].v.ob[1] = pauseCtx->vtx_168[19].v.ob[1] =
-                        pauseCtx->vtx_168[16].v.ob[1] - phi_s3_2 * 2 - 32;
+                    pauseCtx->cursorVtx[16].v.ob[0] = pauseCtx->cursorVtx[18].v.ob[0] =
+                        pauseCtx->cursorVtx[16].v.ob[0] - phi_s3_2;
+                    pauseCtx->cursorVtx[17].v.ob[0] = pauseCtx->cursorVtx[19].v.ob[0] =
+                        pauseCtx->cursorVtx[16].v.ob[0] + phi_s3_2 * 2 + 32;
+                    pauseCtx->cursorVtx[16].v.ob[1] = pauseCtx->cursorVtx[17].v.ob[1] =
+                        pauseCtx->cursorVtx[16].v.ob[1] + phi_s3_2;
+                    pauseCtx->cursorVtx[18].v.ob[1] = pauseCtx->cursorVtx[19].v.ob[1] =
+                        pauseCtx->cursorVtx[16].v.ob[1] - phi_s3_2 * 2 - 32;
                 }
 
-                gSPVertex(OVERLAY_DISP++, &pauseCtx->vtx_168[16], 4, 0);
+                gSPVertex(OVERLAY_DISP++, &pauseCtx->cursorVtx[16], 4, 0);
                 gDPLoadTextureBlock(OVERLAY_DISP++, D_080895C0, G_IM_FMT_IA, G_IM_SIZ_8b, 32, 32, 0,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                     G_TX_NOLOD, G_TX_NOLOD);

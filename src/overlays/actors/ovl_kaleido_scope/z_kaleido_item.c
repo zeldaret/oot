@@ -1,8 +1,8 @@
 #include "z_kaleido_scope.h"
 
 u8 D_8082A420[] = {
-    SLOT_STICK,    SLOT_NUT,  SLOT_BOMB, SLOT_BOW,  SLOT_NONE, SLOT_NONE, SLOT_SLINGSHOT,   SLOT_NONE,
-    SLOT_HOOKSHOT, SLOT_NONE, SLOT_NONE, SLOT_NONE, SLOT_NONE, SLOT_NONE, SLOT_ARROW_LIGHT, SLOT_NONE,
+    ITEM_STICK,   ITEM_NUT,  ITEM_BOMB, ITEM_BOW,  ITEM_NONE, ITEM_NONE, ITEM_SLINGSHOT, ITEM_NONE,
+    ITEM_BOMBCHU, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_NONE, ITEM_BEAN,      ITEM_NONE,
 };
 
 s16 D_8082A430 = 0;
@@ -15,7 +15,7 @@ s16 D_8082A43C[] = {
     0, 2, 4, 6, 99, 99, 8, 99, 99, 10, 99, 99, 99, 99, 99, 99, 12,
 };
 
-void func_808198A0(PauseContext* pauseCtx, GraphicsContext* gfxCtx, s16 item) {
+void KaleidoScope_DrawAmmoCount(PauseContext* pauseCtx, GraphicsContext* gfxCtx, s16 item) {
     s16 ammo;
     s16 i;
 
@@ -49,43 +49,32 @@ void func_808198A0(PauseContext* pauseCtx, GraphicsContext* gfxCtx, s16 item) {
     gDPPipeSync(POLY_OPA_DISP++);
 
     if (i != 0) {
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_158[(D_8082A43C[item] + 0x1B) * 4], 4, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(D_8082A43C[item] + 27) * 4], 4, 0);
 
-        gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, D_020035C0[i]);
-        gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                   G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPLoadSync(POLY_OPA_DISP++);
-        gDPLoadBlock(POLY_OPA_DISP++, G_TX_LOADTILE, 0, 0, 31, 2048);
-        gDPPipeSync(POLY_OPA_DISP++);
-        gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 1, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-                   G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-        gDPSetTileSize(POLY_OPA_DISP++, G_TX_RENDERTILE, 0, 0, 28, 28);
+        gDPLoadTextureBlock(POLY_OPA_DISP++, D_020035C0[i], G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0,
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
+                            G_TX_NOLOD);
+
         gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
     }
 
-    gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_158[(D_8082A43C[item] + 0x1C) * 4], 4, 0);
+    gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[(D_8082A43C[item] + 28) * 4], 4, 0);
 
-    gDPSetTextureImage(POLY_OPA_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, D_020035C0[ammo]);
-    gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPLoadSync(POLY_OPA_DISP++);
-    gDPLoadBlock(POLY_OPA_DISP++, G_TX_LOADTILE, 0, 0, 31, 2048);
-    gDPPipeSync(POLY_OPA_DISP++);
-    gDPSetTile(POLY_OPA_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 1, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
-               G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-    gDPSetTileSize(POLY_OPA_DISP++, G_TX_RENDERTILE, 0, 0, 28, 28);
+    gDPLoadTextureBlock(POLY_OPA_DISP++, D_020035C0[ammo], G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                        G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+
     gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
 
     CLOSE_DISPS(gfxCtx, "../z_kaleido_item.c", 116);
 }
 
 void func_80819E14(PauseContext* pauseCtx, u16 arg1, Vtx* arg2) {
-    pauseCtx->vtx_168[0].v.ob[0] = arg2[arg1].v.ob[0];
-    pauseCtx->vtx_168[0].v.ob[1] = arg2[arg1].v.ob[1];
+    pauseCtx->cursorVtx[0].v.ob[0] = arg2[arg1].v.ob[0];
+    pauseCtx->cursorVtx[0].v.ob[1] = arg2[arg1].v.ob[1];
 }
 
 void func_80819E40(PauseContext* pauseCtx) {
-    func_80819E14(pauseCtx, pauseCtx->unk_246[0] * 4, pauseCtx->vtx_158);
+    func_80819E14(pauseCtx, pauseCtx->unk_246[0] * 4, pauseCtx->itemVtx);
 }
 
 s16 D_8082A460[] = { 255, 100, 255 };
@@ -96,7 +85,7 @@ s16 D_8082A470[] = { 0, 255, 100 };
 
 #ifdef NON_MATCHING
 // single ordering difference
-void func_80819E6C(GlobalContext* globalCtx) {
+void KaleidoScope_DrawInventory(GlobalContext* globalCtx) {
     Input* input = &globalCtx->state.input[0];
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     u16 i;
@@ -350,7 +339,7 @@ void func_80819E6C(GlobalContext* globalCtx) {
 
             if (spAA != 999) {
                 temp = spA8 * 4; // required to match?
-                func_80819E14(pauseCtx, temp, pauseCtx->vtx_158);
+                func_80819E14(pauseCtx, temp, pauseCtx->itemVtx);
 
                 if ((pauseCtx->flag == 0) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0)) {
                     if (CHECK_BTN_ANY(input->press.button, BTN_CLEFT | BTN_CDOWN | BTN_CRIGHT)) {
@@ -367,8 +356,8 @@ void func_80819E6C(GlobalContext* globalCtx) {
                             pauseCtx->unk_24E = spAA;
                             pauseCtx->unk_250 = spA8;
                             pauseCtx->unk_1E4 = 3;
-                            pauseCtx->unk_254 = pauseCtx->vtx_158[temp].v.ob[0] * 10;
-                            pauseCtx->unk_256 = pauseCtx->vtx_158[temp].v.ob[1] * 10;
+                            pauseCtx->unk_254 = pauseCtx->itemVtx[temp].v.ob[0] * 10;
+                            pauseCtx->unk_256 = pauseCtx->itemVtx[temp].v.ob[1] * 10;
                             pauseCtx->unk_258 = 255;
                             D_8082A434 = 0;
                             D_8082A430 = 3;
@@ -399,11 +388,11 @@ void func_80819E6C(GlobalContext* globalCtx) {
                     }
                 }
             } else {
-                pauseCtx->vtx_168[0].v.ob[0] = pauseCtx->vtx_168[2].v.ob[0] = pauseCtx->vtx_168[1].v.ob[0] =
-                    pauseCtx->vtx_168[3].v.ob[0] = 0;
+                pauseCtx->cursorVtx[0].v.ob[0] = pauseCtx->cursorVtx[2].v.ob[0] = pauseCtx->cursorVtx[1].v.ob[0] =
+                    pauseCtx->cursorVtx[3].v.ob[0] = 0;
 
-                pauseCtx->vtx_168[0].v.ob[1] = pauseCtx->vtx_168[1].v.ob[1] = pauseCtx->vtx_168[2].v.ob[1] =
-                    pauseCtx->vtx_168[3].v.ob[1] = -200;
+                pauseCtx->cursorVtx[0].v.ob[1] = pauseCtx->cursorVtx[1].v.ob[1] = pauseCtx->cursorVtx[2].v.ob[1] =
+                    pauseCtx->cursorVtx[3].v.ob[1] = -200;
             }
         } else {
             pauseCtx->unk_23E[0] = 999;
@@ -413,7 +402,7 @@ void func_80819E6C(GlobalContext* globalCtx) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
     } else if ((pauseCtx->unk_1E4 == 3) && (pauseCtx->kscpPos == 0)) {
-        func_80819E14(pauseCtx, spA8 * 4, pauseCtx->vtx_158);
+        func_80819E14(pauseCtx, spA8 * 4, pauseCtx->itemVtx);
         pauseCtx->unk_260 = 4;
     }
 
@@ -422,10 +411,10 @@ void func_80819E6C(GlobalContext* globalCtx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    for (i = 0, spAC = 96; i < 3; i++, spAC += 4) {
+    for (i = 0, spAC = 24 * 4; i < 3; i++, spAC += 4) {
         if (gSaveContext.equips.buttonItems[i + 1] != ITEM_NONE) {
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_158[spAC], 4, 0);
-            POLY_OPA_DISP = func_8081F50C(POLY_OPA_DISP, D_02000A00[1], 32, 32, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[spAC], 4, 0);
+            POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(POLY_OPA_DISP, D_02000A00[1], 32, 32, 0);
         }
     }
 
@@ -443,35 +432,36 @@ void func_80819E6C(GlobalContext* globalCtx) {
                                         D_8082A468[pauseCtx->unk_24E - 0xBF], D_8082A470[pauseCtx->unk_24E - 0xBF],
                                         pauseCtx->unk_208);
 
-                        pauseCtx->vtx_158[spAC + 0].v.ob[0] = pauseCtx->vtx_158[spAC + 2].v.ob[0] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[0] - 2;
+                        pauseCtx->itemVtx[spAC + 0].v.ob[0] = pauseCtx->itemVtx[spAC + 2].v.ob[0] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[0] - 2;
 
-                        pauseCtx->vtx_158[spAC + 1].v.ob[0] = pauseCtx->vtx_158[spAC + 3].v.ob[0] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[0] + 32;
+                        pauseCtx->itemVtx[spAC + 1].v.ob[0] = pauseCtx->itemVtx[spAC + 3].v.ob[0] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[0] + 32;
 
-                        pauseCtx->vtx_158[spAC + 0].v.ob[1] = pauseCtx->vtx_158[spAC + 1].v.ob[1] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[1] + 2;
+                        pauseCtx->itemVtx[spAC + 0].v.ob[1] = pauseCtx->itemVtx[spAC + 1].v.ob[1] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[1] + 2;
 
-                        pauseCtx->vtx_158[spAC + 2].v.ob[1] = pauseCtx->vtx_158[spAC + 3].v.ob[1] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[1] - 32;
+                        pauseCtx->itemVtx[spAC + 2].v.ob[1] = pauseCtx->itemVtx[spAC + 3].v.ob[1] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[1] - 32;
                     } else if (i == spA8) {
-                        pauseCtx->vtx_158[spAC + 0].v.ob[0] = pauseCtx->vtx_158[spAC + 2].v.ob[0] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[0] - 2;
+                        pauseCtx->itemVtx[spAC + 0].v.ob[0] = pauseCtx->itemVtx[spAC + 2].v.ob[0] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[0] - 2;
 
-                        pauseCtx->vtx_158[spAC + 1].v.ob[0] = pauseCtx->vtx_158[spAC + 3].v.ob[0] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[0] + 32;
+                        pauseCtx->itemVtx[spAC + 1].v.ob[0] = pauseCtx->itemVtx[spAC + 3].v.ob[0] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[0] + 32;
 
-                        pauseCtx->vtx_158[spAC + 0].v.ob[1] = pauseCtx->vtx_158[spAC + 1].v.ob[1] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[1] + 2;
+                        pauseCtx->itemVtx[spAC + 0].v.ob[1] = pauseCtx->itemVtx[spAC + 1].v.ob[1] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[1] + 2;
 
-                        pauseCtx->vtx_158[spAC + 2].v.ob[1] = pauseCtx->vtx_158[spAC + 3].v.ob[1] =
-                            pauseCtx->vtx_158[spAC + 0].v.ob[1] - 32;
+                        pauseCtx->itemVtx[spAC + 2].v.ob[1] = pauseCtx->itemVtx[spAC + 3].v.ob[1] =
+                            pauseCtx->itemVtx[spAC + 0].v.ob[1] - 32;
                     }
                 }
             }
 
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_158[spAC + 0], 4, 0);
-            func_8081F87C(globalCtx->state.gfxCtx, gItemIcons[gSaveContext.inventory.items[i]], 32, 32, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->itemVtx[spAC + 0], 4, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gItemIcons[gSaveContext.inventory.items[i]], 32,
+                                               32, 0);
         }
     }
 
@@ -484,15 +474,15 @@ void func_80819E6C(GlobalContext* globalCtx) {
                       ENVIRONMENT, TEXEL0, ENVIRONMENT, TEXEL0, 0, PRIMITIVE, 0);
 
     for (i = 0; i < 15; i++) {
-        if ((D_8082A420[i] != SLOT_NONE) && (gSaveContext.inventory.items[i] != ITEM_NONE)) {
-            func_808198A0(pauseCtx, globalCtx->state.gfxCtx, gSaveContext.inventory.items[i]);
+        if ((D_8082A420[i] != ITEM_NONE) && (gSaveContext.inventory.items[i] != ITEM_NONE)) {
+            KaleidoScope_DrawAmmoCount(pauseCtx, globalCtx->state.gfxCtx, gSaveContext.inventory.items[i]);
         }
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_item.c", 516);
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_80819E6C.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/KaleidoScope_DrawInventory.s")
 #endif
 
 s16 D_8082A478[] = { 660, 900, 1140 };
@@ -521,7 +511,7 @@ void func_8081AD44(GlobalContext* globalCtx) {
 
         if (D_8082A488 == 0) {
             pauseCtx->unk_24E -= 0x87;
-            pauseCtx->unk_250 = 3;
+            pauseCtx->unk_250 = SLOT_BOW;
             D_8082A438 = 6;
             WREG(90) = 320;
             WREG(87) = WREG(91);
@@ -532,7 +522,7 @@ void func_8081AD44(GlobalContext* globalCtx) {
     }
 
     if (D_8082A430 == 1) {
-        vtx = &pauseCtx->vtx_158[12];
+        vtx = &pauseCtx->itemVtx[12];
         phi_a2 = ABS(pauseCtx->unk_254 - vtx->v.ob[0] * 10) / D_8082A438;
         phi_a1 = ABS(pauseCtx->unk_256 - vtx->v.ob[1] * 10) / D_8082A438;
     } else {
@@ -556,13 +546,13 @@ void func_8081AD44(GlobalContext* globalCtx) {
         WREG(87) -= WREG(87) / D_8082A438;
 
         if (D_8082A430 == 1) {
-            if (pauseCtx->unk_254 >= (pauseCtx->vtx_158[12].v.ob[0] * 10)) {
+            if (pauseCtx->unk_254 >= (pauseCtx->itemVtx[12].v.ob[0] * 10)) {
                 pauseCtx->unk_254 -= phi_a2;
             } else {
                 pauseCtx->unk_254 += phi_a2;
             }
 
-            if (pauseCtx->unk_256 >= (pauseCtx->vtx_158[12].v.ob[1] * 10)) {
+            if (pauseCtx->unk_256 >= (pauseCtx->itemVtx[12].v.ob[1] * 10)) {
                 pauseCtx->unk_256 -= phi_a1;
             } else {
                 pauseCtx->unk_256 += phi_a1;
@@ -595,54 +585,56 @@ void func_8081AD44(GlobalContext* globalCtx) {
             if (pauseCtx->unk_252 == 0) {
 
                 if (pauseCtx->unk_250 == gSaveContext.equips.cButtonSlots[1]) {
-                    if (gSaveContext.equips.buttonItems[1] != 0xFF) {
-                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2) &&
-                            ((gSaveContext.equips.buttonItems[1] == 3) ||
-                             ((gSaveContext.equips.buttonItems[1] >= 0x38) &&
-                              (gSaveContext.equips.buttonItems[1] < 0x3B)))) {
+                    if (gSaveContext.equips.buttonItems[1] != ITEM_NONE) {
+                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1) &&
+                            ((gSaveContext.equips.buttonItems[1] == ITEM_BOW) ||
+                             ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_ARROW_FIRE) &&
+                              (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_ARROW_LIGHT)))) {
                             pauseCtx->unk_24E -= 0x87;
-                            pauseCtx->unk_250 = 3;
+                            pauseCtx->unk_250 = SLOT_BOW;
                         } else {
                             gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[1];
                             gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[0];
                             Interface_LoadItemIcon2(globalCtx, 2);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[2] = 0xFF;
-                        gSaveContext.equips.cButtonSlots[1] = 0xFF;
+                        gSaveContext.equips.buttonItems[2] = ITEM_NONE;
+                        gSaveContext.equips.cButtonSlots[1] = SLOT_NONE;
                     }
                 } else if (pauseCtx->unk_250 == gSaveContext.equips.cButtonSlots[2]) {
-                    if (gSaveContext.equips.buttonItems[1] != 0xFF) {
-                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2) &&
-                            ((gSaveContext.equips.buttonItems[1] == 3) ||
-                             ((gSaveContext.equips.buttonItems[1] >= 0x38) &&
-                              (gSaveContext.equips.buttonItems[1] < 0x3B)))) {
+                    if (gSaveContext.equips.buttonItems[1] != ITEM_NONE) {
+                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1) &&
+                            ((gSaveContext.equips.buttonItems[1] == ITEM_BOW) ||
+                             ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_ARROW_FIRE) &&
+                              (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_ARROW_LIGHT)))) {
                             pauseCtx->unk_24E -= 0x87;
-                            pauseCtx->unk_250 = 3;
+                            pauseCtx->unk_250 = SLOT_BOW;
                         } else {
                             gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[1];
                             gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[0];
                             Interface_LoadItemIcon2(globalCtx, 3);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[3] = 0xFF;
-                        gSaveContext.equips.cButtonSlots[2] = 0xFF;
+                        gSaveContext.equips.buttonItems[3] = ITEM_NONE;
+                        gSaveContext.equips.cButtonSlots[2] = SLOT_NONE;
                     }
                 }
 
-                if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2)) {
-                    if ((gSaveContext.equips.buttonItems[1] == 3) ||
-                        ((gSaveContext.equips.buttonItems[1] >= 0x38) && (gSaveContext.equips.buttonItems[1] < 0x3B))) {
+                if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1)) {
+                    if ((gSaveContext.equips.buttonItems[1] == ITEM_BOW) ||
+                        ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_ARROW_FIRE) &&
+                         (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_ARROW_LIGHT))) {
                         pauseCtx->unk_24E -= 0x87;
-                        pauseCtx->unk_250 = 3;
+                        pauseCtx->unk_250 = SLOT_BOW;
                     }
-                } else if (pauseCtx->unk_24E == 3) {
-                    if ((gSaveContext.equips.buttonItems[2] >= 0x38) && (gSaveContext.equips.buttonItems[2] < 0x3B)) {
+                } else if (pauseCtx->unk_24E == ITEM_BOW) {
+                    if ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_ARROW_FIRE) &&
+                        (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[1];
                         gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[0];
                         Interface_LoadItemIcon2(globalCtx, 2);
-                    } else if ((gSaveContext.equips.buttonItems[3] >= 0x38) &&
-                               (gSaveContext.equips.buttonItems[3] < 0x3B)) {
+                    } else if ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_ARROW_FIRE) &&
+                               (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[1];
                         gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[0];
                         Interface_LoadItemIcon2(globalCtx, 3);
@@ -668,53 +660,55 @@ void func_8081AD44(GlobalContext* globalCtx) {
                              gSaveContext.equips.cButtonSlots[2]);
 
                 if (pauseCtx->unk_250 == gSaveContext.equips.cButtonSlots[0]) {
-                    if (gSaveContext.equips.buttonItems[2] != 0xFF) {
-                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2) &&
-                            ((gSaveContext.equips.buttonItems[2] == 3) ||
-                             ((gSaveContext.equips.buttonItems[2] >= 0x38) &&
-                              (gSaveContext.equips.buttonItems[2] < 0x3B)))) {
+                    if (gSaveContext.equips.buttonItems[2] != ITEM_NONE) {
+                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1) &&
+                            ((gSaveContext.equips.buttonItems[2] == ITEM_BOW) ||
+                             ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_ARROW_FIRE) &&
+                              (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_ARROW_LIGHT)))) {
                             pauseCtx->unk_24E -= 0x87;
-                            pauseCtx->unk_250 = 3;
+                            pauseCtx->unk_250 = SLOT_BOW;
                         } else {
                             gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[2];
                             gSaveContext.equips.cButtonSlots[0] = gSaveContext.equips.cButtonSlots[1];
                             Interface_LoadItemIcon2(globalCtx, 1);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[1] = 0xFF;
-                        gSaveContext.equips.cButtonSlots[0] = 0xFF;
+                        gSaveContext.equips.buttonItems[1] = ITEM_NONE;
+                        gSaveContext.equips.cButtonSlots[0] = SLOT_NONE;
                     }
                 } else if (pauseCtx->unk_250 == gSaveContext.equips.cButtonSlots[2]) {
-                    if (gSaveContext.equips.buttonItems[2] != 0xFF) {
-                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2) &&
-                            ((gSaveContext.equips.buttonItems[2] == 3) ||
-                             ((gSaveContext.equips.buttonItems[2] >= 0x38) &&
-                              (gSaveContext.equips.buttonItems[2] < 0x3B)))) {
+                    if (gSaveContext.equips.buttonItems[2] != ITEM_NONE) {
+                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1) &&
+                            ((gSaveContext.equips.buttonItems[2] == ITEM_BOW) ||
+                             ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_ARROW_FIRE) &&
+                              (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_ARROW_LIGHT)))) {
                             pauseCtx->unk_24E -= 0x87;
-                            pauseCtx->unk_250 = 3;
+                            pauseCtx->unk_250 = SLOT_BOW;
                         } else {
                             gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[2];
                             gSaveContext.equips.cButtonSlots[2] = gSaveContext.equips.cButtonSlots[1];
                             Interface_LoadItemIcon2(globalCtx, 3);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[3] = 0xFF;
-                        gSaveContext.equips.cButtonSlots[2] = 0xFF;
+                        gSaveContext.equips.buttonItems[3] = ITEM_NONE;
+                        gSaveContext.equips.cButtonSlots[2] = SLOT_NONE;
                     }
                 }
 
-                if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2)) {
-                    if ((gSaveContext.equips.buttonItems[2] == 3) ||
-                        ((gSaveContext.equips.buttonItems[2] >= 0x38) && (gSaveContext.equips.buttonItems[2] < 0x3B))) {
+                if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1)) {
+                    if ((gSaveContext.equips.buttonItems[2] == ITEM_BOW) ||
+                        ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_ARROW_FIRE) &&
+                         (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_ARROW_LIGHT))) {
                         pauseCtx->unk_24E -= 0x87;
-                        pauseCtx->unk_250 = 3;
+                        pauseCtx->unk_250 = SLOT_BOW;
                     }
-                } else if (pauseCtx->unk_24E == 3) {
-                    if ((gSaveContext.equips.buttonItems[1] >= 0x38) && (gSaveContext.equips.buttonItems[1] < 0x3B)) {
+                } else if (pauseCtx->unk_24E == ITEM_BOW) {
+                    if ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_ARROW_FIRE) &&
+                        (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[2];
                         Interface_LoadItemIcon2(globalCtx, 1);
-                    } else if ((gSaveContext.equips.buttonItems[3] >= 0x38) &&
-                               (gSaveContext.equips.buttonItems[3] < 0x3B)) {
+                    } else if ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_ARROW_FIRE) &&
+                               (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[3] = gSaveContext.equips.buttonItems[2];
                         Interface_LoadItemIcon2(globalCtx, 3);
                     }
@@ -739,53 +733,55 @@ void func_8081AD44(GlobalContext* globalCtx) {
                              gSaveContext.equips.cButtonSlots[2]);
 
                 if (pauseCtx->unk_250 == gSaveContext.equips.cButtonSlots[0]) {
-                    if (gSaveContext.equips.buttonItems[3] != 0xFF) {
-                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2) &&
-                            ((gSaveContext.equips.buttonItems[3] == 3) ||
-                             ((gSaveContext.equips.buttonItems[3] >= 0x38) &&
-                              (gSaveContext.equips.buttonItems[3] < 0x3B)))) {
+                    if (gSaveContext.equips.buttonItems[3] != ITEM_NONE) {
+                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1) &&
+                            ((gSaveContext.equips.buttonItems[3] == ITEM_BOW) ||
+                             ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_ARROW_FIRE) &&
+                              (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_ARROW_LIGHT)))) {
                             pauseCtx->unk_24E -= 0x87;
-                            pauseCtx->unk_250 = 3;
+                            pauseCtx->unk_250 = SLOT_BOW;
                         } else {
                             gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[3];
                             gSaveContext.equips.cButtonSlots[0] = gSaveContext.equips.cButtonSlots[2];
                             Interface_LoadItemIcon2(globalCtx, 1);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[1] = 0xFF;
-                        gSaveContext.equips.cButtonSlots[0] = 0xFF;
+                        gSaveContext.equips.buttonItems[1] = ITEM_NONE;
+                        gSaveContext.equips.cButtonSlots[0] = SLOT_NONE;
                     }
                 } else if (pauseCtx->unk_250 == gSaveContext.equips.cButtonSlots[1]) {
-                    if (gSaveContext.equips.buttonItems[3] != 0xFF) {
-                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2) &&
-                            ((gSaveContext.equips.buttonItems[3] == 3) ||
-                             ((gSaveContext.equips.buttonItems[3] >= 0x38) &&
-                              (gSaveContext.equips.buttonItems[3] < 0x3B)))) {
+                    if (gSaveContext.equips.buttonItems[3] != ITEM_NONE) {
+                        if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1) &&
+                            ((gSaveContext.equips.buttonItems[3] == ITEM_BOW) ||
+                             ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_ARROW_FIRE) &&
+                              (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_ARROW_LIGHT)))) {
                             pauseCtx->unk_24E -= 0x87;
-                            pauseCtx->unk_250 = 3;
+                            pauseCtx->unk_250 = SLOT_BOW;
                         } else {
                             gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[3];
                             gSaveContext.equips.cButtonSlots[1] = gSaveContext.equips.cButtonSlots[2];
                             Interface_LoadItemIcon2(globalCtx, 2);
                         }
                     } else {
-                        gSaveContext.equips.buttonItems[2] = 0xFF;
-                        gSaveContext.equips.cButtonSlots[1] = 0xFF;
+                        gSaveContext.equips.buttonItems[2] = ITEM_NONE;
+                        gSaveContext.equips.cButtonSlots[1] = SLOT_NONE;
                     }
                 }
 
-                if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E < 0xC2)) {
-                    if ((gSaveContext.equips.buttonItems[3] == 3) ||
-                        ((gSaveContext.equips.buttonItems[3] >= 0x38) && (gSaveContext.equips.buttonItems[3] < 0x3B))) {
+                if ((pauseCtx->unk_24E >= 0xBF) && (pauseCtx->unk_24E <= 0xC1)) {
+                    if ((gSaveContext.equips.buttonItems[3] == ITEM_BOW) ||
+                        ((gSaveContext.equips.buttonItems[3] >= ITEM_BOW_ARROW_FIRE) &&
+                         (gSaveContext.equips.buttonItems[3] <= ITEM_BOW_ARROW_LIGHT))) {
                         pauseCtx->unk_24E -= 0x87;
-                        pauseCtx->unk_250 = 3;
+                        pauseCtx->unk_250 = SLOT_BOW;
                     }
-                } else if (pauseCtx->unk_24E == 3) {
-                    if ((gSaveContext.equips.buttonItems[1] >= 0x38) && (gSaveContext.equips.buttonItems[1] < 0x3B)) {
+                } else if (pauseCtx->unk_24E == ITEM_BOW) {
+                    if ((gSaveContext.equips.buttonItems[1] >= ITEM_BOW_ARROW_FIRE) &&
+                        (gSaveContext.equips.buttonItems[1] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[1] = gSaveContext.equips.buttonItems[3];
                         Interface_LoadItemIcon2(globalCtx, 1);
-                    } else if ((gSaveContext.equips.buttonItems[2] >= 0x38) &&
-                               (gSaveContext.equips.buttonItems[2] < 0x3B)) {
+                    } else if ((gSaveContext.equips.buttonItems[2] >= ITEM_BOW_ARROW_FIRE) &&
+                               (gSaveContext.equips.buttonItems[2] <= ITEM_BOW_ARROW_LIGHT)) {
                         gSaveContext.equips.buttonItems[2] = gSaveContext.equips.buttonItems[3];
                         Interface_LoadItemIcon2(globalCtx, 2);
                     }

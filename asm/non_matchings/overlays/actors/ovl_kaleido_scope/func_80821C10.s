@@ -650,8 +650,8 @@ glabel func_80821C10
 /* 0ED24 80822544 AFF802C0 */  sw      $t8, 0x02C0($ra)           ## 000002C0
 /* 0ED28 80822548 AC4F0000 */  sw      $t7, 0x0000($v0)           ## 00000000
 /* 0ED2C 8082254C 8D190154 */  lw      $t9, 0x0154($t0)           ## 00000154
-/* 0ED30 80822550 3C180809 */  lui     $t8, %hi(D_080899C0)       ## $t8 = 08090000
-/* 0ED34 80822554 271899C0 */  addiu   $t8, %lo(D_080899C0)       ## $t8 = 080899C0
+/* 0ED30 80822550 3C180809 */  lui     $t8, %hi(gItemNamePanelDL)       ## $t8 = 08090000
+/* 0ED34 80822554 271899C0 */  addiu   $t8, %lo(gItemNamePanelDL)       ## $t8 = 080899C0
 /* 0ED38 80822558 AC590004 */  sw      $t9, 0x0004($v0)           ## 00000004
 /* 0ED3C 8082255C 8FE202C0 */  lw      $v0, 0x02C0($ra)           ## 000002C0
 /* 0ED40 80822560 3C07DE00 */  lui     $a3, 0xDE00                ## $a3 = DE000000
@@ -690,8 +690,8 @@ glabel func_80821C10
 /* 0EDC4 808225E4 AC4F0004 */  sw      $t7, 0x0004($v0)           ## 00000004
 /* 0EDC8 808225E8 8FE202C0 */  lw      $v0, 0x02C0($ra)           ## 000002C0
 .L808225EC:
-/* 0EDCC 808225EC 3C180809 */  lui     $t8, %hi(D_08089A50)       ## $t8 = 08090000
-/* 0EDD0 808225F0 27189A50 */  addiu   $t8, %lo(D_08089A50)       ## $t8 = 08089A50
+/* 0EDCC 808225EC 3C180809 */  lui     $t8, %hi(gLButtonIconDL)       ## $t8 = 08090000
+/* 0EDD0 808225F0 27189A50 */  addiu   $t8, %lo(gLButtonIconDL)       ## $t8 = 08089A50
 /* 0EDD4 808225F4 24590008 */  addiu   $t9, $v0, 0x0008           ## $t9 = 00000008
 /* 0EDD8 808225F8 AFF902C0 */  sw      $t9, 0x02C0($ra)           ## 000002C0
 /* 0EDDC 808225FC AC580004 */  sw      $t8, 0x0004($v0)           ## 00000004
@@ -734,8 +734,8 @@ glabel func_80821C10
 .L80822690:
 /* 0EE70 80822690 8FE202C0 */  lw      $v0, 0x02C0($ra)           ## 000002C0
 .L80822694:
-/* 0EE74 80822694 3C0E0809 */  lui     $t6, %hi(D_08089AA0)       ## $t6 = 08090000
-/* 0EE78 80822698 25CE9AA0 */  addiu   $t6, %lo(D_08089AA0)       ## $t6 = 08089AA0
+/* 0EE74 80822694 3C0E0809 */  lui     $t6, %hi(gRButtonIconDL)       ## $t6 = 08090000
+/* 0EE78 80822698 25CE9AA0 */  addiu   $t6, %lo(gRButtonIconDL)       ## $t6 = 08089AA0
 /* 0EE7C 8082269C 24590008 */  addiu   $t9, $v0, 0x0008           ## $t9 = 00000008
 /* 0EE80 808226A0 AFF902C0 */  sw      $t9, 0x02C0($ra)           ## 000002C0
 /* 0EE84 808226A4 AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
@@ -915,7 +915,7 @@ glabel func_80821C10
 /* 0F11C 8082293C 8D050138 */  lw      $a1, 0x0138($t0)           ## 00000138
 /* 0F120 80822940 AFBF00F0 */  sw      $ra, 0x00F0($sp)           
 /* 0F124 80822944 AFA80038 */  sw      $t0, 0x0038($sp)           
-/* 0F128 80822948 0C207CCD */  jal     func_8081F334              
+/* 0F128 80822948 0C207CCD */  jal     KaleidoScope_QuadTextureIA4              
 /* 0F12C 8082294C AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0F130 80822950 8FBF00F0 */  lw      $ra, 0x00F0($sp)           
 /* 0F134 80822954 8FA80038 */  lw      $t0, 0x0038($sp)           
@@ -1035,8 +1035,8 @@ glabel func_80821C10
 /* 0F2E8 80822B08 2401FF00 */  addiu   $at, $zero, 0xFF00         ## $at = FFFFFF00
 /* 0F2EC 80822B0C A5D901A0 */  sh      $t9, 0x01A0($t6)           ## 801201A0
 /* 0F2F0 80822B10 8D030154 */  lw      $v1, 0x0154($t0)           ## 00000154
-/* 0F2F4 80822B14 3C050900 */  lui     $a1, %hi(D_09006300)       ## $a1 = 09000000
-/* 0F2F8 80822B18 24A56300 */  addiu   $a1, %lo(D_09006300)       ## $a1 = 09006300
+/* 0F2F4 80822B14 3C050900 */  lui     $a1, %hi(gGoldSkulltulaIconTex)       ## $a1 = 09000000
+/* 0F2F8 80822B18 24A56300 */  addiu   $a1, %lo(gGoldSkulltulaIconTex)       ## $a1 = 09006300
 /* 0F2FC 80822B1C 846F01A0 */  lh      $t7, 0x01A0($v1)           ## 000001A0
 /* 0F300 80822B20 24060018 */  addiu   $a2, $zero, 0x0018         ## $a2 = 00000018
 /* 0F304 80822B24 24070018 */  addiu   $a3, $zero, 0x0018         ## $a3 = 00000018
@@ -1111,7 +1111,7 @@ glabel func_80821C10
 /* 0F418 80822C38 AC580000 */  sw      $t8, 0x0000($v0)           ## 8082FFFE
 /* 0F41C 80822C3C 8FB90108 */  lw      $t9, 0x0108($sp)           
 /* 0F420 80822C40 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000006
-/* 0F424 80822C44 0C207E1F */  jal     func_8081F87C              
+/* 0F424 80822C44 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 0F428 80822C48 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0F42C 80822C4C 10000234 */  beq     $zero, $zero, .L80823520   
 /* 0F430 80822C50 8FAE0108 */  lw      $t6, 0x0108($sp)           
@@ -1216,8 +1216,8 @@ glabel func_80821C10
 /* 0F5B4 80822DD4 00187040 */  sll     $t6, $t8,  1               
 /* 0F5B8 80822DD8 016E7821 */  addu    $t7, $t3, $t6              
 /* 0F5BC 80822DDC 95E20000 */  lhu     $v0, 0x0000($t7)           ## 80160000
-/* 0F5C0 80822DE0 3C0F0809 */  lui     $t7, %hi(D_08089B48)       ## $t7 = 08090000
-/* 0F5C4 80822DE4 25EF9B48 */  addiu   $t7, %lo(D_08089B48)       ## $t7 = 08089B48
+/* 0F5C0 80822DE0 3C0F0809 */  lui     $t7, %hi(gAButtonIconDL)       ## $t7 = 08090000
+/* 0F5C4 80822DE4 25EF9B48 */  addiu   $t7, %lo(gAButtonIconDL)       ## $t7 = 08089B48
 /* 0F5C8 80822DE8 00021140 */  sll     $v0, $v0,  5               
 /* 0F5CC 80822DEC 00021400 */  sll     $v0, $v0, 16               
 /* 0F5D0 80822DF0 00021403 */  sra     $v0, $v0, 16               
@@ -1252,7 +1252,7 @@ glabel func_80821C10
 /* 0F644 80822E64 00B92821 */  addu    $a1, $a1, $t9              
 /* 0F648 80822E68 AFBF00F0 */  sw      $ra, 0x00F0($sp)           
 /* 0F64C 80822E6C 8CA5AD60 */  lw      $a1, %lo(D_8082AD60)($a1)  
-/* 0F650 80822E70 0C207D43 */  jal     func_8081F50C              
+/* 0F650 80822E70 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 0F654 80822E74 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 0F658 80822E78 8FBF00F0 */  lw      $ra, 0x00F0($sp)           
 /* 0F65C 80822E7C 100001A7 */  beq     $zero, $zero, .L8082351C   
@@ -1323,7 +1323,7 @@ glabel func_80821C10
 /* 0F75C 80822F7C 8CA5AD78 */  lw      $a1, %lo(D_8082AD78)($a1)  
 /* 0F760 80822F80 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0F764 80822F84 24060080 */  addiu   $a2, $zero, 0x0080         ## $a2 = 00000080
-/* 0F768 80822F88 0C207D43 */  jal     func_8081F50C              
+/* 0F768 80822F88 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 0F76C 80822F8C 24070010 */  addiu   $a3, $zero, 0x0010         ## $a3 = 00000010
 /* 0F770 80822F90 8FBF00F0 */  lw      $ra, 0x00F0($sp)           
 /* 0F774 80822F94 10000161 */  beq     $zero, $zero, .L8082351C   
@@ -1340,7 +1340,7 @@ glabel func_80821C10
 /* 0F79C 80822FBC 00AF2821 */  addu    $a1, $a1, $t7              
 /* 0F7A0 80822FC0 AFBF00F0 */  sw      $ra, 0x00F0($sp)           
 /* 0F7A4 80822FC4 8CA5ADA8 */  lw      $a1, %lo(D_8082ADA8)($a1)  
-/* 0F7A8 80822FC8 0C207D43 */  jal     func_8081F50C              
+/* 0F7A8 80822FC8 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 0F7AC 80822FCC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 0F7B0 80822FD0 8FBF00F0 */  lw      $ra, 0x00F0($sp)           
 /* 0F7B4 80822FD4 10000151 */  beq     $zero, $zero, .L8082351C   
@@ -1409,8 +1409,8 @@ glabel func_80821C10
 /* 0F8AC 808230CC 000E7840 */  sll     $t7, $t6,  1               
 /* 0F8B0 808230D0 016FC821 */  addu    $t9, $t3, $t7              
 /* 0F8B4 808230D4 97220000 */  lhu     $v0, 0x0000($t9)           ## 80160000
-/* 0F8B8 808230D8 3C190809 */  lui     $t9, %hi(D_08089AF0)       ## $t9 = 08090000
-/* 0F8BC 808230DC 27399AF0 */  addiu   $t9, %lo(D_08089AF0)       ## $t9 = 08089AF0
+/* 0F8B8 808230D8 3C190809 */  lui     $t9, %hi(gCButtonIconsDL)       ## $t9 = 08090000
+/* 0F8BC 808230DC 27399AF0 */  addiu   $t9, %lo(gCButtonIconsDL)       ## $t9 = 08089AF0
 /* 0F8C0 808230E0 00021140 */  sll     $v0, $v0,  5               
 /* 0F8C4 808230E4 00021400 */  sll     $v0, $v0, 16               
 /* 0F8C8 808230E8 00021403 */  sra     $v0, $v0, 16               
@@ -1445,7 +1445,7 @@ glabel func_80821C10
 /* 0F93C 8082315C 00B82821 */  addu    $a1, $a1, $t8              
 /* 0F940 80823160 AFBF00F0 */  sw      $ra, 0x00F0($sp)           
 /* 0F944 80823164 8CA5AD54 */  lw      $a1, %lo(D_8082AD54)($a1)  
-/* 0F948 80823168 0C207D43 */  jal     func_8081F50C              
+/* 0F948 80823168 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 0F94C 8082316C AFB90010 */  sw      $t9, 0x0010($sp)           
 /* 0F950 80823170 8FBF00F0 */  lw      $ra, 0x00F0($sp)           
 /* 0F954 80823174 100000E9 */  beq     $zero, $zero, .L8082351C   
@@ -1542,8 +1542,8 @@ glabel func_80821C10
 /* 0FAB4 808232D4 00197040 */  sll     $t6, $t9,  1               
 /* 0FAB8 808232D8 016E7821 */  addu    $t7, $t3, $t6              
 /* 0FABC 808232DC 95E20000 */  lhu     $v0, 0x0000($t7)           ## 80160000
-/* 0FAC0 808232E0 3C0F0809 */  lui     $t7, %hi(D_08089B48)       ## $t7 = 08090000
-/* 0FAC4 808232E4 25EF9B48 */  addiu   $t7, %lo(D_08089B48)       ## $t7 = 08089B48
+/* 0FAC0 808232E0 3C0F0809 */  lui     $t7, %hi(gAButtonIconDL)       ## $t7 = 08090000
+/* 0FAC4 808232E4 25EF9B48 */  addiu   $t7, %lo(gAButtonIconDL)       ## $t7 = 08089B48
 /* 0FAC8 808232E8 00021140 */  sll     $v0, $v0,  5               
 /* 0FACC 808232EC 00021400 */  sll     $v0, $v0, 16               
 /* 0FAD0 808232F0 00021403 */  sra     $v0, $v0, 16               
@@ -1578,7 +1578,7 @@ glabel func_80821C10
 /* 0FB44 80823364 00B82821 */  addu    $a1, $a1, $t8              
 /* 0FB48 80823368 AFBF00F0 */  sw      $ra, 0x00F0($sp)           
 /* 0FB4C 8082336C 8CA5AD6C */  lw      $a1, %lo(D_8082AD6C)($a1)  
-/* 0FB50 80823370 0C207D43 */  jal     func_8081F50C              
+/* 0FB50 80823370 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 0FB54 80823374 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 0FB58 80823378 8FBF00F0 */  lw      $ra, 0x00F0($sp)           
 /* 0FB5C 8082337C 10000067 */  beq     $zero, $zero, .L8082351C   
@@ -1647,8 +1647,8 @@ glabel func_80821C10
 /* 0FC50 80823470 00197840 */  sll     $t7, $t9,  1               
 /* 0FC54 80823474 016FC021 */  addu    $t8, $t3, $t7              
 /* 0FC58 80823478 97020000 */  lhu     $v0, 0x0000($t8)           ## 80160000
-/* 0FC5C 8082347C 3C180809 */  lui     $t8, %hi(D_08089B48)       ## $t8 = 08090000
-/* 0FC60 80823480 27189B48 */  addiu   $t8, %lo(D_08089B48)       ## $t8 = 08089B48
+/* 0FC5C 8082347C 3C180809 */  lui     $t8, %hi(gAButtonIconDL)       ## $t8 = 08090000
+/* 0FC60 80823480 27189B48 */  addiu   $t8, %lo(gAButtonIconDL)       ## $t8 = 08089B48
 /* 0FC64 80823484 00021140 */  sll     $v0, $v0,  5               
 /* 0FC68 80823488 00021400 */  sll     $v0, $v0, 16               
 /* 0FC6C 8082348C 00021403 */  sra     $v0, $v0, 16               
@@ -1683,7 +1683,7 @@ glabel func_80821C10
 /* 0FCE0 80823500 00AE2821 */  addu    $a1, $a1, $t6              
 /* 0FCE4 80823504 AFBF00F0 */  sw      $ra, 0x00F0($sp)           
 /* 0FCE8 80823508 8CA5AD54 */  lw      $a1, %lo(D_8082AD54)($a1)  
-/* 0FCEC 8082350C 0C207D43 */  jal     func_8081F50C              
+/* 0FCEC 8082350C 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 0FCF0 80823510 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 0FCF4 80823514 8FBF00F0 */  lw      $ra, 0x00F0($sp)           
 /* 0FCF8 80823518 AFE202C0 */  sw      $v0, 0x02C0($ra)           ## 000002C0

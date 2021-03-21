@@ -3,7 +3,7 @@
 
 void (*sKaleidoScopeUpdateFunc)(GlobalContext* globalCtx);
 void (*sKaleidoScopeDrawFunc)(GlobalContext* globalCtx);
-f32 D_80161398;
+f32 gBossMarkScale;
 u32 D_8016139C;
 PauseMapMarksData* gLoadedPauseMarkDataTable;
 

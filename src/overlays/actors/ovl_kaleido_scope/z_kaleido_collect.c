@@ -1,10 +1,10 @@
 #include "z_kaleido_scope.h"
-
-extern u8 D_08089440[];
+#include "textures/parameter_static/parameter_static.h"
+#include "textures/icon_item_static/icon_item_static.h"
 
 #ifdef NON_MATCHING
 // still needs some work
-void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
+void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     static s16 D_8082A070[][4] = {
         { 255, 0, 0, 255 },
         { 255, 70, 0, 150 },
@@ -31,11 +31,11 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     static u8 D_8082A124[] = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     };
-    static u64* D_8082A130[] = {
-        0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
+    static void* D_8082A130[] = {
+        gHUDButtonATex, gHUDButtonCDownTex, gHUDButtonCRightTex, gHUDButtonCLeftTex, gHUDButtonCUpTex,
     };
     static u16 D_8082A144[] = {
-        0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0,
+        0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC,
     };
     static s16 D_8082A150[] = {
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -90,7 +90,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 if (pauseCtx->stickRelX < -30) {
                     phi_s0 = D_8082A1AC[phi_s3][2];
                     if (phi_s0 == -3) {
-                        func_8081F81C(globalCtx, 0xA);
+                        func_8081F81C(globalCtx, 10);
                         pauseCtx->unk_1E4 = 0;
                     } else {
                         while (phi_s0 >= 0) {
@@ -103,7 +103,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 } else if (pauseCtx->stickRelX > 30) {
                     phi_s0 = D_8082A1AC[phi_s3][3];
                     if (phi_s0 == -2) {
-                        func_8081F81C(globalCtx, 0xB);
+                        func_8081F81C(globalCtx, 11);
                         pauseCtx->unk_1E4 = 0;
                     } else {
                         while (phi_s0 >= 0) {
@@ -169,7 +169,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 pauseCtx->unk_246[pauseCtx->kscpPos] = sp216;
             }
 
-            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->vtx_164);
+            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
 
             if ((pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) && (pauseCtx->unk_238 == 0)) {
                 if ((sp216 >= 6) && (sp216 < 0x12)) {
@@ -209,13 +209,13 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                     D_8082A120 = 10;
                 }
             }
-        } else if (pauseCtx->unk_238 == 0xA) {
+        } else if (pauseCtx->unk_238 == 10) {
             if (pauseCtx->stickRelX > 30) {
                 pauseCtx->unk_218[2] = 0x15;
                 pauseCtx->unk_25C = 0;
                 pauseCtx->unk_238 = 0;
                 sp216 = pauseCtx->unk_218[2];
-                func_80819E14(pauseCtx, sp216 * 4, pauseCtx->vtx_164);
+                func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
                 Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 if (CHECK_QUEST_ITEM(pauseCtx->unk_218[2])) {
                     phi_s0 = pauseCtx->unk_218[2] + 0x5A;
@@ -231,7 +231,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             pauseCtx->unk_25C = 0;
             pauseCtx->unk_238 = 0;
             sp216 = pauseCtx->unk_218[2];
-            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->vtx_164);
+            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             if (CHECK_QUEST_ITEM(pauseCtx->unk_218[2])) {
                 if (pauseCtx->unk_218[2] < 6) {
@@ -275,11 +275,11 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                 pauseCtx->unk_194 = func_800EE3F8();
                 pauseCtx->unk_194[2] = 0;
                 sp216 = pauseCtx->unk_246[2];
-                func_80819E14(pauseCtx, sp216 * 4, pauseCtx->vtx_164);
+                func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
             }
         } else {
             sp216 = pauseCtx->unk_246[2];
-            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->vtx_164);
+            func_80819E14(pauseCtx, sp216 * 4, pauseCtx->questVtx);
         }
     }
 
@@ -324,9 +324,9 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             gDPPipeSync(POLY_OPA_DISP++);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
             gDPSetEnvColor(POLY_OPA_DISP++, D_8082A0D8[sp218], D_8082A0E4[sp218], D_8082A0F0[sp218], 0);
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
-            func_8081F87C(gfxCtx, gItemIcons[ITEM_MEDALLION_FOREST + sp218], 24, 24, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_MEDALLION_FOREST + sp218], 24, 24, 0);
         }
     }
 
@@ -342,28 +342,28 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
 
-    gDPLoadTextureBlock(POLY_OPA_DISP++, D_08089440, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
+    gDPLoadTextureBlock(POLY_OPA_DISP++, gSongNoteTex, G_IM_FMT_IA, G_IM_SIZ_8b, 16, 24, 0, G_TX_NOMIRROR | G_TX_WRAP,
                         G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
     for (sp218 = 0; sp218 < 12; sp218++, sp21A += 4) {
         if (CHECK_QUEST_ITEM(sp218 + 6)) {
             if ((sp218 + 6) == sp216) {
-                pauseCtx->vtx_164[sp21A + 0].v.ob[0] = pauseCtx->vtx_164[sp21A + 2].v.ob[0] =
-                    pauseCtx->vtx_164[sp21A + 0].v.ob[0] - 2;
+                pauseCtx->questVtx[sp21A + 0].v.ob[0] = pauseCtx->questVtx[sp21A + 2].v.ob[0] =
+                    pauseCtx->questVtx[sp21A + 0].v.ob[0] - 2;
 
-                pauseCtx->vtx_164[sp21A + 1].v.ob[0] = pauseCtx->vtx_164[sp21A + 3].v.ob[0] =
-                    pauseCtx->vtx_164[sp21A + 1].v.ob[0] + 4;
+                pauseCtx->questVtx[sp21A + 1].v.ob[0] = pauseCtx->questVtx[sp21A + 3].v.ob[0] =
+                    pauseCtx->questVtx[sp21A + 1].v.ob[0] + 4;
 
-                pauseCtx->vtx_164[sp21A + 0].v.ob[1] = pauseCtx->vtx_164[sp21A + 1].v.ob[1] =
-                    pauseCtx->vtx_164[sp21A + 0].v.ob[1] + 2;
+                pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
+                    pauseCtx->questVtx[sp21A + 0].v.ob[1] + 2;
 
-                pauseCtx->vtx_164[sp21A + 2].v.ob[1] = pauseCtx->vtx_164[sp21A + 3].v.ob[1] =
-                    pauseCtx->vtx_164[sp21A + 2].v.ob[1] - 4;
+                pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
+                    pauseCtx->questVtx[sp21A + 2].v.ob[1] - 4;
             }
 
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, D_8082A164[sp218], D_8082A17C[sp218], D_8082A194[sp218],
                             pauseCtx->unk_208);
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
             gSP1Quadrangle(POLY_OPA_DISP++, 0, 2, 3, 1, 0);
         }
     }
@@ -374,8 +374,8 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
 
     for (sp218 = 0; sp218 < 3; sp218++, sp21A += 4) {
         if (CHECK_QUEST_ITEM(sp218 + 0x12)) {
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
-            func_8081F87C(gfxCtx, gItemIcons[ITEM_KOKIRI_EMERALD + sp218], 24, 24, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_KOKIRI_EMERALD + sp218], 24, 24, 0);
         }
     }
 
@@ -384,9 +384,9 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
 
     for (sp218 = 0; sp218 < 3; sp218++, sp21A += 4) {
         if (CHECK_QUEST_ITEM(sp218 + 0x15)) {
-            gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
+            gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
             gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
-            func_8081F87C(gfxCtx, gItemIcons[ITEM_STONE_OF_AGONY + sp218], 24, 24, 0);
+            KaleidoScope_DrawQuadTextureRGBA32(gfxCtx, gItemIcons[ITEM_STONE_OF_AGONY + sp218], 24, 24, 0);
         }
     }
 
@@ -440,9 +440,9 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
         }
 
         gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
-        POLY_OPA_DISP = func_8081F50C(
+        POLY_OPA_DISP = KaleidoScope_QuadTextureIA8(
             POLY_OPA_DISP, gItemIcons[0x79 + (((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> 0x1C)],
             48, 48, 0);
     }
@@ -484,11 +484,11 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                         }
                     }
 
-                    pauseCtx->vtx_164[sp21A + 0].v.ob[1] = pauseCtx->vtx_164[sp21A + 1].v.ob[1] =
+                    pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
                         VREG(21 + D_8082A124[sp218]);
 
-                    pauseCtx->vtx_164[sp21A + 2].v.ob[1] = pauseCtx->vtx_164[sp21A + 3].v.ob[1] =
-                        pauseCtx->vtx_164[sp21A + 0].v.ob[1] - 12;
+                    pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
+                        pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
 
                     gDPPipeSync(POLY_OPA_DISP++);
 
@@ -499,7 +499,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                     }
 
                     gDPSetEnvColor(POLY_OPA_DISP++, 10, 10, 10, 0);
-                    gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
+                    gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
                     gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_8082A124[sp218]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
                                         16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
@@ -513,11 +513,11 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             sp218 = sp21A;
 
             for (phi_s3 = 0; phi_s3 < sp226; phi_s3++, sp21A += 4) {
-                pauseCtx->vtx_164[sp21A + 0].v.ob[1] = pauseCtx->vtx_164[sp21A + 1].v.ob[1] =
+                pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
                     VREG(21 + D_80131C00[pauseCtx->unk_264][phi_s3 + 1]);
 
-                pauseCtx->vtx_164[sp21A + 2].v.ob[1] = pauseCtx->vtx_164[sp21A + 3].v.ob[1] =
-                    pauseCtx->vtx_164[sp21A + 0].v.ob[1] - 12;
+                pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
+                    pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
 
                 gDPPipeSync(POLY_OPA_DISP++);
 
@@ -533,7 +533,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
 
                 gDPSetEnvColor(POLY_OPA_DISP++, 10, 10, 10, 0);
 
-                gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
+                gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
                 gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_80131C00[pauseCtx->unk_264][phi_s3 + 1]], G_IM_FMT_IA,
                                     G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
@@ -566,11 +566,11 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
                             D_8082A150[phi_s3] = 255;
                         }
                     }
-                    pauseCtx->vtx_164[sp21A + 0].v.ob[1] = pauseCtx->vtx_164[sp21A + 1].v.ob[1] =
+                    pauseCtx->questVtx[sp21A + 0].v.ob[1] = pauseCtx->questVtx[sp21A + 1].v.ob[1] =
                         VREG(21 + D_8082A124[phi_s3]);
 
-                    pauseCtx->vtx_164[sp21A + 2].v.ob[1] = pauseCtx->vtx_164[sp21A + 3].v.ob[1] =
-                        pauseCtx->vtx_164[sp21A + 0].v.ob[1] - 12;
+                    pauseCtx->questVtx[sp21A + 2].v.ob[1] = pauseCtx->questVtx[sp21A + 3].v.ob[1] =
+                        pauseCtx->questVtx[sp21A + 0].v.ob[1] - 12;
 
                     gDPPipeSync(POLY_OPA_DISP++);
 
@@ -582,7 +582,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
 
                     gDPSetEnvColor(POLY_OPA_DISP++, 10, 10, 10, 0);
 
-                    gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[sp21A], 4, 0);
+                    gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[sp21A], 4, 0);
 
                     gDPLoadTextureBlock(POLY_OPA_DISP++, D_8082A130[D_8082A124[phi_s3]], G_IM_FMT_IA, G_IM_SIZ_8b, 16,
                                         16, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
@@ -628,7 +628,7 @@ void func_80813820(GlobalContext* globalCtx, GraphicsContext* gfxCtx) {
             sp208[2] -= 10;
         }
 
-        gSPVertex(POLY_OPA_DISP++, &pauseCtx->vtx_164[0xA4], 24, 0);
+        gSPVertex(POLY_OPA_DISP++, &pauseCtx->questVtx[164], 24, 0);
 
         for (phi_s3 = 0, sp21A = 0; phi_s3 < 2; phi_s3++) {
             if (phi_s3 == 0) {
@@ -683,11 +683,11 @@ s16 D_8082A120 = 0;
 u8 D_8082A124[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
-u64* D_8082A130[] = {
-    0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
+void* D_8082A130[] = {
+    gHUDButtonATex, gHUDButtonCDownTex, gHUDButtonCRightTex, gHUDButtonCLeftTex, gHUDButtonCUpTex,
 };
 u16 D_8082A144[] = {
-    0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0,
+    0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC, 0xFFCC,
 };
 s16 D_8082A150[] = {
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
@@ -710,7 +710,7 @@ s8 D_8082A1AC[][4] = {
     { 0x02, 0xFF, 0x13, 0xFE }, { 0xFF, 0x17, 0xFD, 0x16 }, { 0xFF, 0x17, 0x15, 0x18 }, { 0x15, 0x0C, 0xFD, 0x18 },
     { 0xFF, 0x10, 0x16, 0x04 }, { 0x00, 0x00, 0x00, 0x00 },
 };
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/func_80813820.s")
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/KaleidoScope_DrawQuestStatus.s")
 #endif
 
 s32 func_80815CC8(PauseContext* pauseCtx, s32 arg1) {

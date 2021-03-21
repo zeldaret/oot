@@ -43,13 +43,13 @@ void func_801109B0(GlobalContext* globalCtx) {
     DmaMgr_SendRequest1(interfaceCtx->parameterSegment, (u32)_parameter_staticSegmentRomStart, parameterSize,
                         "../z_construct.c", 162);
 
-    interfaceCtx->do_actionSegment = GameState_Alloc(&globalCtx->state, 0x480, "../z_construct.c", 166);
+    interfaceCtx->doActionSegment = GameState_Alloc(&globalCtx->state, 0x480, "../z_construct.c", 166);
 
     // Translates to: "DO Action Texture Initialization"
     osSyncPrintf("ＤＯアクション テクスチャ初期=%x\n", 0x480);
-    osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->do_actionSegment);
+    osSyncPrintf("parameter->do_actionSegment=%x\n", interfaceCtx->doActionSegment);
 
-    if (interfaceCtx->do_actionSegment == NULL) {
+    if (interfaceCtx->doActionSegment == NULL) {
         __assert("parameter->do_actionSegment != NULL", "../z_construct.c", 169);
     }
 
@@ -61,7 +61,7 @@ void func_801109B0(GlobalContext* globalCtx) {
         do_actionOffset = 0x5700;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->do_actionSegment, (u32)_do_action_staticSegmentRomStart + do_actionOffset, 0x300,
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment, (u32)_do_action_staticSegmentRomStart + do_actionOffset, 0x300,
                         "../z_construct.c", 174);
 
     if (gSaveContext.language == 0) {
@@ -72,16 +72,16 @@ void func_801109B0(GlobalContext* globalCtx) {
         do_actionOffset = 0x5B80;
     }
 
-    DmaMgr_SendRequest1(interfaceCtx->do_actionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + do_actionOffset,
+    DmaMgr_SendRequest1(interfaceCtx->doActionSegment + 0x300, (u32)_do_action_staticSegmentRomStart + do_actionOffset,
                         0x180, "../z_construct.c", 178);
 
-    interfaceCtx->icon_itemSegment = GameState_Alloc(&globalCtx->state, 0x4000, "../z_construct.c", 190);
+    interfaceCtx->iconItemSegment = GameState_Alloc(&globalCtx->state, 0x4000, "../z_construct.c", 190);
 
     // Translates to: "Icon Item Texture Initialization = %x"
     osSyncPrintf("アイコンアイテム テクスチャ初期=%x\n", 0x4000);
-    osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->icon_itemSegment);
+    osSyncPrintf("parameter->icon_itemSegment=%x\n", interfaceCtx->iconItemSegment);
 
-    if (interfaceCtx->icon_itemSegment == NULL) {
+    if (interfaceCtx->iconItemSegment == NULL) {
         __assert("parameter->icon_itemSegment != NULL", "../z_construct.c", 193);
     }
 
@@ -90,29 +90,29 @@ void func_801109B0(GlobalContext* globalCtx) {
                  gSaveContext.equips.buttonItems[3]);
 
     if (gSaveContext.equips.buttonItems[0] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
                             _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
                             "../z_construct.c", 198);
     } else if (gSaveContext.equips.buttonItems[0] != 0xFF) {
-        DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment,
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment,
                             _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[0] * 0x1000, 0x1000,
                             "../z_construct.c", 203);
     }
 
     if (gSaveContext.equips.buttonItems[1] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment + 0x1000,
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x1000,
                             _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[1] * 0x1000, 0x1000,
                             "../z_construct.c", 209);
     }
 
     if (gSaveContext.equips.buttonItems[2] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment + 0x2000,
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x2000,
                             _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[2] * 0x1000, 0x1000,
                             "../z_construct.c", 214);
     }
 
     if (gSaveContext.equips.buttonItems[3] < 0xF0) {
-        DmaMgr_SendRequest1(interfaceCtx->icon_itemSegment + 0x3000,
+        DmaMgr_SendRequest1(interfaceCtx->iconItemSegment + 0x3000,
                             _icon_item_staticSegmentRomStart + gSaveContext.equips.buttonItems[3] * 0x1000, 0x1000,
                             "../z_construct.c", 219);
     }

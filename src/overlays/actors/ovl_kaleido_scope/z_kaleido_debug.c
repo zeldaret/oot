@@ -1,6 +1,7 @@
 #include "z_kaleido_scope.h"
 
-u16 D_8082A220[][2] = {
+// Positions of each input section in the debug menu
+u16 sSectionPositions[][2] = {
     { 64, 15 },   { 144, 15 },  { 170, 15 },  { 78, 35 },   { 104, 35 },  { 130, 35 },  { 156, 35 },  { 182, 35 },
     { 208, 35 },  { 78, 50 },   { 104, 50 },  { 130, 50 },  { 156, 50 },  { 182, 50 },  { 208, 50 },  { 78, 65 },
     { 104, 65 },  { 130, 65 },  { 156, 65 },  { 182, 65 },  { 208, 65 },  { 78, 80 },   { 104, 80 },  { 130, 80 },
@@ -15,21 +16,24 @@ u16 D_8082A220[][2] = {
     { 234, 149 }, { 78, 185 },  { 90, 185 },  { 145, 185 }, { 210, 185 },
 };
 
-u16 D_8082A394[] = {
+// First section of each row in the debug menu (starting from the top)
+u16 sRowFirstSections[] = {
     0x00, 0x03, 0x1B, 0x2C, 0x34, 0x38, 0x44, 0x4A, 0x56, 0x59, 0x5C,
 };
 
-u8 D_8082A3AC[] = {
+// Maximum value of each upgrade type
+u8 sMaxUpgradeValues[] = {
     3, 3, 3, 2, 2, 3, 3, 3,
 };
 
-s16 D_8082A3B4[] = {
+// Item ID corresponding to each slot, aside from bottles and trade items
+s16 sSlotItems[] = {
     ITEM_STICK,     ITEM_NUT,           ITEM_BOMB,    ITEM_BOW,      ITEM_ARROW_FIRE,  ITEM_DINS_FIRE,
     ITEM_SLINGSHOT, ITEM_OCARINA_FAIRY, ITEM_BOMBCHU, ITEM_HOOKSHOT, ITEM_ARROW_ICE,   ITEM_FARORES_WIND,
     ITEM_BOOMERANG, ITEM_LENS,          ITEM_BEAN,    ITEM_HAMMER,   ITEM_ARROW_LIGHT, ITEM_NAYRUS_LOVE,
 };
 
-void func_80815CE0(Gfx** gfxp) {
+void KaleidoScope_DrawDebugMenuText(Gfx** gfxp) {
     GfxPrint printer;
     s32 pad[2];
 
@@ -38,35 +42,35 @@ void func_80815CE0(Gfx** gfxp) {
 
     GfxPrint_SetPos(&printer, 4, 2);
     GfxPrint_SetColor(&printer, 255, 60, 0, 255);
-    GfxPrint_Printf(&printer, "%s", "\x8Cﾙﾋﾟｰ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cﾙﾋﾟｰ"); // "Rupee"
     GfxPrint_SetPos(&printer, 15, 2);
-    GfxPrint_Printf(&printer, "%s", "\x8Cﾊｰﾄ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cﾊｰﾄ"); // "Heart"
     GfxPrint_SetPos(&printer, 26, 3);
     GfxPrint_Printf(&printer, "%s", "/4");
     GfxPrint_SetPos(&printer, 4, 5);
-    GfxPrint_Printf(&printer, "%s", "\x8Cｱｲﾃﾑ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cｱｲﾃﾑ"); // "Item"
     GfxPrint_SetPos(&printer, 4, 13);
     GfxPrint_Printf(&printer, "%s", "KEY");
     GfxPrint_SetPos(&printer, 4, 15);
-    GfxPrint_Printf(&printer, "%s", "\x8Dｿｳﾋﾞ");
+    GfxPrint_Printf(&printer, "%s", "\x8Dｿｳﾋﾞ"); // "Equipment"
     GfxPrint_SetPos(&printer, 23, 14);
-    GfxPrint_Printf(&printer, "%s", "\x8Cｹﾝ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cｹﾝ"); // "Sword"
     GfxPrint_SetPos(&printer, 23, 15);
-    GfxPrint_Printf(&printer, "%s", "\x8Cﾀﾃ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cﾀﾃ"); // "Shield"
     GfxPrint_SetPos(&printer, 4, 17);
     GfxPrint_Printf(&printer, "%s", "MAP");
     GfxPrint_SetPos(&printer, 4, 19);
-    GfxPrint_Printf(&printer, "%s", "\x8Dﾌｳｲﾝ");
+    GfxPrint_Printf(&printer, "%s", "\x8Dﾌｳｲﾝ"); // "Seal"
     GfxPrint_SetPos(&printer, 20, 19);
-    GfxPrint_Printf(&printer, "%s", "\x8Dｾｲﾚｲｾｷ");
+    GfxPrint_Printf(&printer, "%s", "\x8Dｾｲﾚｲｾｷ"); // "Spiritual Stone"
     GfxPrint_SetPos(&printer, 4, 21);
-    GfxPrint_Printf(&printer, "%s", "\x8Cｵｶﾘﾅ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cｵｶﾘﾅ"); // "Ocarina"
     GfxPrint_SetPos(&printer, 4, 24);
-    GfxPrint_Printf(&printer, "%s", "\x8Cｺﾚｸﾄ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cｺﾚｸﾄ"); // "Collect"
     GfxPrint_SetPos(&printer, 14, 24);
-    GfxPrint_Printf(&printer, "%s", "\x8Cｷﾝｽﾀ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cｷﾝｽﾀ"); // "Skulltula"
     GfxPrint_SetPos(&printer, 23, 24);
-    GfxPrint_Printf(&printer, "%s", "\x8Cｶｹﾗ");
+    GfxPrint_Printf(&printer, "%s", "\x8Cｶｹﾗ"); // "Gold Token"
     GfxPrint_SetPos(&printer, 28, 24);
     GfxPrint_Printf(&printer, "%s", "/4");
 
@@ -74,7 +78,7 @@ void func_80815CE0(Gfx** gfxp) {
     GfxPrint_Destroy(&printer);
 }
 
-void func_80815FD4(GlobalContext* globalCtx, s32 digit, s32 rectLeft, s32 rectTop) {
+void KaleidoScope_DrawDigit(GlobalContext* globalCtx, s32 digit, s32 rectLeft, s32 rectTop) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 208);
 
     gDPLoadTextureBlock(POLY_OPA_DISP++, &D_02003040[digit], G_IM_FMT_I, G_IM_SIZ_8b, 8, 16, 0,
@@ -86,11 +90,11 @@ void func_80815FD4(GlobalContext* globalCtx, s32 digit, s32 rectLeft, s32 rectTo
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 220);
 }
 
-void func_808161AC(GlobalContext* globalCtx) {
-    static s16 D_8082A3D8 = 0;
-    static s16 D_8082A3DC = 0;
-    static s32 D_8082A3E0 = 0;
-    static s32 D_8082A3E4 = 0;
+void KaleidoScope_DrawDebugMenu(GlobalContext* globalCtx) {
+    static s16 curSection = 0;
+    static s16 curRow = 0;
+    static s32 prevDBtnInput = 0;
+    static s32 heldDBtnTimer = 0;
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     Input* input = &globalCtx->state.input[0];
     Gfx* gfx;
@@ -101,7 +105,7 @@ void func_808161AC(GlobalContext* globalCtx) {
     s16 j;
     s16 x;
     s16 y;
-    s32 spC8 = input->cur.button & (BTN_DUP | BTN_DDOWN | BTN_DLEFT | BTN_DRIGHT);
+    s32 dBtnInput = input->cur.button & (BTN_DUP | BTN_DDOWN | BTN_DLEFT | BTN_DRIGHT);
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_debug.c", 402);
 
@@ -122,22 +126,23 @@ void func_808161AC(GlobalContext* globalCtx) {
     gfx = Graph_GfxPlusOne(gfxRef);
     gSPDisplayList(OVERLAY_DISP++, gfx);
 
-    func_80815CE0(&gfx);
+    KaleidoScope_DrawDebugMenuText(&gfx);
 
     gSPEndDisplayList(gfx++);
     Graph_BranchDlist(gfxRef, gfx);
     POLY_OPA_DISP = gfx;
 
     gDPPipeSync(POLY_OPA_DISP++);
-
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 0, 0, 255);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 0);
 
-    func_80815FD4(globalCtx, (gSaveContext.health % 0x10) / 4, 194, 15);
+    // Current Health Quarter (X / 4)
+    KaleidoScope_DrawDigit(globalCtx, (gSaveContext.health % 0x10) / 4, 194, 15);
 
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, 255);
 
+    // Rupees
     spD8[0] = spD8[1] = spD8[2] = 0;
     spD8[3] = gSaveContext.rupees;
     while (spD8[3] >= 1000) {
@@ -156,9 +161,10 @@ void func_808161AC(GlobalContext* globalCtx) {
     }
 
     for (i = 0, x = 68; i < 4; i++, x += 10) {
-        func_80815FD4(globalCtx, spD8[i], x, 15);
+        KaleidoScope_DrawDigit(globalCtx, spD8[i], x, 15);
     }
 
+    // Health capacity
     spD8[2] = 0;
     spD8[3] = gSaveContext.healthCapacity / 0x10;
     while (spD8[3] >= 10) {
@@ -166,9 +172,10 @@ void func_808161AC(GlobalContext* globalCtx) {
         spD8[3] -= 10;
     }
 
-    func_80815FD4(globalCtx, spD8[2], 146, 15);
-    func_80815FD4(globalCtx, spD8[3], 156, 15);
+    KaleidoScope_DrawDigit(globalCtx, spD8[2], 146, 15);
+    KaleidoScope_DrawDigit(globalCtx, spD8[3], 156, 15);
 
+    // Health
     spD8[2] = 0;
     spD8[3] = gSaveContext.health / 0x10;
     while (spD8[3] >= 10) {
@@ -176,9 +183,10 @@ void func_808161AC(GlobalContext* globalCtx) {
         spD8[3] -= 10;
     }
 
-    func_80815FD4(globalCtx, spD8[2], 172, 15);
-    func_80815FD4(globalCtx, spD8[3], 182, 15);
+    KaleidoScope_DrawDigit(globalCtx, spD8[2], 172, 15);
+    KaleidoScope_DrawDigit(globalCtx, spD8[3], 182, 15);
 
+    // Inventory
     for (slot = 0, i = 0, y = 35; i < 4; i++, y += 15) {
         for (j = 0, x = 78; j < 6; j++, slot++, x += 26) {
             spD8[2] = 0;
@@ -200,11 +208,12 @@ void func_808161AC(GlobalContext* globalCtx) {
                 spD8[2] = spD8[3] = 0;
             }
 
-            func_80815FD4(globalCtx, spD8[2], x, y);
-            func_80815FD4(globalCtx, spD8[3], x + 10, y);
+            KaleidoScope_DrawDigit(globalCtx, spD8[2], x, y);
+            KaleidoScope_DrawDigit(globalCtx, spD8[3], x + 10, y);
         }
     }
 
+    // Keys
     for (spD8[1] = 78, i = 0; i < 17; i++) {
         spD8[2] = 0;
 
@@ -217,55 +226,63 @@ void func_808161AC(GlobalContext* globalCtx) {
             spD8[2] = spD8[3] = 0;
         }
 
-        func_80815FD4(globalCtx, spD8[3], spD8[1], 98);
+        KaleidoScope_DrawDigit(globalCtx, spD8[3], spD8[1], 98);
         spD8[1] += 10;
     }
 
+    // Upgrades
     for (spD8[1] = 78, i = 0; i < 8; i++, spD8[1] += 12) {
-        func_80815FD4(globalCtx, CUR_UPG_VALUE(i), spD8[1], 115);
+        KaleidoScope_DrawDigit(globalCtx, CUR_UPG_VALUE(i), spD8[1], 115);
     }
 
+    // Equipment
     for (spD8[1] = 202, i = 0; i < 4; i++, spD8[1] += 12) {
-        func_80815FD4(globalCtx, ALL_EQUIP_VALUE(i), spD8[1], 115);
+        KaleidoScope_DrawDigit(globalCtx, ALL_EQUIP_VALUE(i), spD8[1], 115);
     }
 
+    // Dungeon Items
     for (spD8[1] = 78, i = 0; i < 12; i++, spD8[1] += 12) {
         spD8[2] = gSaveContext.inventory.dungeonItems[i] & gEquipMasks[0];
-        func_80815FD4(globalCtx, spD8[2], spD8[1], 132);
+        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 132);
     }
 
+    // Medallions
     for (spD8[1] = 78, i = 0; i < 6; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_MEDALLION_FOREST + i)) {
             spD8[2] = 1;
         }
-        func_80815FD4(globalCtx, spD8[2], spD8[1], 149);
+        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 149);
     }
 
+    // Spiritual Stones
     for (spD8[1] = 210, i = 0; i < 3; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD + i)) {
             spD8[2] = 1;
         }
-        func_80815FD4(globalCtx, spD8[2], spD8[1], 149);
+        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 149);
     }
 
+    // Songs
     for (spD8[1] = 78, i = 0; i < 12; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_SONG_MINUET + i)) {
             spD8[2] = 1;
         }
-        func_80815FD4(globalCtx, spD8[2], spD8[1], 166);
+        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 166);
     }
 
+    // Other Quest Items
     for (spD8[1] = 78, i = 0; i < 2; i++, spD8[1] += 12) {
         spD8[2] = 0;
         if (CHECK_QUEST_ITEM(QUEST_STONE_OF_AGONY + i)) {
             spD8[2] = 1;
         }
-        func_80815FD4(globalCtx, spD8[2], spD8[1], 185);
+        KaleidoScope_DrawDigit(globalCtx, spD8[2], spD8[1], 185);
     }
 
+    // GS Tokens
     spD8[3] = gSaveContext.inventory.gsTokens;
     spD8[1] = 0;
     spD8[2] = 0;
@@ -279,44 +296,50 @@ void func_808161AC(GlobalContext* globalCtx) {
         spD8[3] -= 10;
     }
 
-    func_80815FD4(globalCtx, spD8[1], 145, 185);
-    func_80815FD4(globalCtx, spD8[2], 155, 185);
-    func_80815FD4(globalCtx, spD8[3], 165, 185);
-    func_80815FD4(globalCtx, ((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> 0x1C, 210, 185);
+    KaleidoScope_DrawDigit(globalCtx, spD8[1], 145, 185);
+    KaleidoScope_DrawDigit(globalCtx, spD8[2], 155, 185);
+    KaleidoScope_DrawDigit(globalCtx, spD8[3], 165, 185);
 
-    if (spC8 == D_8082A3E0) {
-        D_8082A3E4--;
-        if (D_8082A3E4 < 0) {
-            D_8082A3E4 = 1;
+    // Heart Pieces (X / 4)
+    KaleidoScope_DrawDigit(globalCtx, ((gSaveContext.inventory.questItems & 0xF0000000) & 0xF0000000) >> 0x1C, 210,
+                           185);
+
+    // Handles navigating the menu to different sections with the D-Pad
+    // When the same direction is held, registers the input periodically based on a timer
+    if (dBtnInput == prevDBtnInput) {
+        heldDBtnTimer--;
+        if (heldDBtnTimer < 0) {
+            heldDBtnTimer = 1;
         } else {
-            spC8 ^= D_8082A3E0;
+            dBtnInput ^= prevDBtnInput;
         }
     } else {
-        D_8082A3E0 = spC8;
-        D_8082A3E4 = 16;
+        prevDBtnInput = dBtnInput;
+        heldDBtnTimer = 16;
     }
 
-    if (spC8 & BTN_DDOWN) {
-        if ((u32)++D_8082A3DC > 10U) {
-            D_8082A3DC = 0;
+    if (dBtnInput & BTN_DDOWN) {
+        if ((u32)++curRow > 10) {
+            curRow = 0;
         }
-        D_8082A3D8 = D_8082A394[D_8082A3DC];
-    } else if (spC8 & BTN_DUP) {
-        if (--D_8082A3DC < 0) {
-            D_8082A3DC = 22;
+        curSection = sRowFirstSections[curRow];
+    } else if (dBtnInput & BTN_DUP) {
+        if (--curRow < 0) {
+            curRow = 22;
         }
-        D_8082A3D8 = D_8082A394[D_8082A3DC];
-    } else if (spC8 & BTN_DLEFT) {
-        if (--D_8082A3D8 < 0) {
-            D_8082A3D8 = 0x5C;
+        curSection = sRowFirstSections[curRow];
+    } else if (dBtnInput & BTN_DLEFT) {
+        if (--curSection < 0) {
+            curSection = 0x5C;
         }
-    } else if (spC8 & BTN_DRIGHT) {
-        if (++D_8082A3D8 > 0x5C) {
-            D_8082A3D8 = 0;
+    } else if (dBtnInput & BTN_DRIGHT) {
+        if (++curSection > 0x5C) {
+            curSection = 0;
         }
     }
 
-    switch (D_8082A3D8) {
+    // Handles the logic to change values based on the selected section
+    switch (curSection) {
         case 0:
             if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
                 gSaveContext.rupees -= 100;
@@ -382,8 +405,8 @@ void func_808161AC(GlobalContext* globalCtx) {
             break;
 
         default:
-            if (D_8082A3D8 < 0x1B) {
-                i = D_8082A3D8 - 3;
+            if (curSection < 0x1B) {
+                i = curSection - 3;
                 if ((i <= SLOT_BOW) || (i == SLOT_SLINGSHOT) || (i == SLOT_BOMBCHU) || (i == SLOT_BEAN)) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP)) {
                         Inventory_DeleteItem(D_8082A420[i], SLOT(D_8082A420[i]));
@@ -494,7 +517,7 @@ void func_808161AC(GlobalContext* globalCtx) {
                             gSaveContext.inventory.items[i]--;
                         }
                     }
-                } else if (i <= (SLOT_TRADE_CHILD + 3)) {
+                } else if (i < 0x1B) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT) ||
                         CHECK_BTN_ALL(input->press.button, BTN_CDOWN) ||
                         CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
@@ -505,7 +528,7 @@ void func_808161AC(GlobalContext* globalCtx) {
                                 Inventory_DeleteItem(ITEM_BEAN, SLOT(ITEM_BEAN));
                             }
                         } else {
-                            j = D_8082A3B4[i];
+                            j = sSlotItems[i];
                             osSyncPrintf("i=%d  j=%d\n", i, j);
                             if (gSaveContext.inventory.items[i] == ITEM_NONE) {
                                 gSaveContext.inventory.items[i] = j;
@@ -515,16 +538,16 @@ void func_808161AC(GlobalContext* globalCtx) {
                         }
                     }
                 }
-            } else if (D_8082A3D8 < 0x2C) {
+            } else if (curSection < 0x2C) {
                 if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
-                    i = D_8082A3D8 - 0x1B;
+                    i = curSection - 0x1B;
                     gSaveContext.inventory.dungeonKeys[i]--;
                     if (gSaveContext.inventory.dungeonKeys[i] < 0) {
                         gSaveContext.inventory.dungeonKeys[i] = -1;
                     }
                 } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN) ||
                            CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                    i = D_8082A3D8 - 0x1B;
+                    i = curSection - 0x1B;
                     if (gSaveContext.inventory.dungeonKeys[i] < 0) {
                         gSaveContext.inventory.dungeonKeys[i] = 1;
                     } else {
@@ -535,9 +558,9 @@ void func_808161AC(GlobalContext* globalCtx) {
                     }
                 }
             } else {
-                if (D_8082A3D8 < 0x38) {
-                    i = D_8082A3D8 - 0x2C;
-                    if ((D_8082A3D8 >= 0x2C) && (D_8082A3D8 < 0x34)) {
+                if (curSection < 0x38) {
+                    i = curSection - 0x2C;
+                    if ((curSection >= 0x2C) && (curSection < 0x34)) {
                         if (CHECK_BTN_ALL(input->press.button, BTN_CUP) ||
                             CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                             if (CUR_UPG_VALUE(i) != 0) {
@@ -545,12 +568,12 @@ void func_808161AC(GlobalContext* globalCtx) {
                             }
                         } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN) ||
                                    CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
-                            if (CUR_UPG_VALUE(i) < D_8082A3AC[i]) {
+                            if (CUR_UPG_VALUE(i) < sMaxUpgradeValues[i]) {
                                 Inventory_ChangeUpgrade(i, CUR_UPG_VALUE(i) + 1);
                             }
                         }
                     } else {
-                        i = D_8082A3D8 - 0x34;
+                        i = curSection - 0x34;
                         if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                             gSaveContext.inventory.equipment ^= (1 << gEquipShifts[i]);
                         }
@@ -564,8 +587,8 @@ void func_808161AC(GlobalContext* globalCtx) {
                             gSaveContext.inventory.equipment ^= (8 << gEquipShifts[i]);
                         }
                     }
-                } else if (D_8082A3D8 < 0x44) {
-                    i = D_8082A3D8 - 0x38;
+                } else if (curSection < 0x44) {
+                    i = curSection - 0x38;
                     if (CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                         gSaveContext.inventory.dungeonItems[i] ^= 4;
                     }
@@ -575,7 +598,7 @@ void func_808161AC(GlobalContext* globalCtx) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CRIGHT)) {
                         gSaveContext.inventory.dungeonItems[i] ^= 1;
                     }
-                } else if (D_8082A3D8 == 0x5B) {
+                } else if (curSection == 0x5B) {
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                         gSaveContext.inventory.gsTokens++;
                     } else if (CHECK_BTN_ALL(input->press.button, BTN_CDOWN) ||
@@ -585,8 +608,8 @@ void func_808161AC(GlobalContext* globalCtx) {
                             gSaveContext.inventory.gsTokens = 0;
                         }
                     }
-                } else if (D_8082A3D8 < 0x5C) {
-                    i = D_8082A3D8 - 0x44;
+                } else if (curSection < 0x5C) {
+                    i = curSection - 0x44;
                     if (CHECK_BTN_ALL(input->press.button, BTN_CUP) || CHECK_BTN_ALL(input->press.button, BTN_CLEFT)) {
                         gSaveContext.inventory.questItems ^= gBitFlags[i];
                     }
@@ -595,22 +618,25 @@ void func_808161AC(GlobalContext* globalCtx) {
             break;
     }
 
+    // Draws an highlight on the selected section
     gDPPipeSync(POLY_OPA_DISP++);
     gDPSetRenderMode(POLY_OPA_DISP++, G_RM_XLU_SURF, G_RM_XLU_SURF2);
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_PRIMITIVE, G_CC_PRIMITIVE);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 0, 0, 200, 120);
 
-    if (D_8082A3D8 == 0) {
-        gDPFillRectangle(POLY_OPA_DISP++, D_8082A220[D_8082A3D8][0], D_8082A220[D_8082A3D8][1],
-                         D_8082A220[D_8082A3D8][0] + 45, D_8082A220[D_8082A3D8][1] + 16);
-    } else if ((D_8082A3D8 >= 0x1B) || (D_8082A3D8 == 0x5B)) {
-        gDPFillRectangle(POLY_OPA_DISP++, D_8082A220[D_8082A3D8][0] - 2, D_8082A220[D_8082A3D8][1],
-                         D_8082A220[D_8082A3D8][0] + 14, D_8082A220[D_8082A3D8][1] + 16);
+    if (curSection == 0) {
+        gDPFillRectangle(POLY_OPA_DISP++, sSectionPositions[curSection][0], sSectionPositions[curSection][1],
+                         sSectionPositions[curSection][0] + 45, sSectionPositions[curSection][1] + 16);
+    } else if ((curSection >= 0x1B) || (curSection == 0x5B)) {
+        gDPFillRectangle(POLY_OPA_DISP++, sSectionPositions[curSection][0] - 2, sSectionPositions[curSection][1],
+                         sSectionPositions[curSection][0] + 14, sSectionPositions[curSection][1] + 16);
     } else {
-        gDPFillRectangle(POLY_OPA_DISP++, D_8082A220[D_8082A3D8][0] - 4, D_8082A220[D_8082A3D8][1],
-                         D_8082A220[D_8082A3D8][0] + 24, D_8082A220[D_8082A3D8][1] + 16);
+        gDPFillRectangle(POLY_OPA_DISP++, sSectionPositions[curSection][0] - 4, sSectionPositions[curSection][1],
+                         sSectionPositions[curSection][0] + 24, sSectionPositions[curSection][1] + 16);
     }
 
+    // Handles exiting the menu with the L trigger
+    // The menu is opened with `flag` set to 1, and becomes closable after a frame once `flag` is set to 2
     if (pauseCtx->flag == 1) {
         pauseCtx->flag = 2;
     } else if ((pauseCtx->flag == 2) && CHECK_BTN_ALL(input->press.button, BTN_L)) {

@@ -348,13 +348,13 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ Vtx*   vtx_128;
-    /* 0x012C */ Vtx*   vtx_12C;
+    /* 0x0128 */ Vtx*   actionVtx;
+    /* 0x012C */ Vtx*   beatingHeartVtx;
     /* 0x0130 */ u8*    parameterSegment;
-    /* 0x0134 */ u8*    do_actionSegment;
-    /* 0x0138 */ u8*    icon_itemSegment;
+    /* 0x0134 */ u8*    doActionSegment;
+    /* 0x0138 */ u8*    iconItemSegment;
     /* 0x013C */ u8*    mapSegment;
-    /* 0x0140 */ u8     unk_140[32];
+    /* 0x0140 */ u8     mapPalette[32];
     /* 0x0160 */ DmaRequest dmaRequest_160;
     /* 0x0180 */ DmaRequest dmaRequest_180;
     /* 0x01A0 */ char   unk_1A0[0x20];
@@ -440,24 +440,24 @@ typedef enum {
 
 typedef struct {
     /* 0x0000 */ View   view;
-    /* 0x0128 */ u8*    unk_128;
-    /* 0x012C */ u8*    unk_12C;
-    /* 0x0130 */ u8*    unk_130;
-    /* 0x0134 */ u8*    unk_134;
-    /* 0x0138 */ u8*    unk_138;
-    /* 0x013C */ u8*    unk_13C;
+    /* 0x0128 */ u8*    iconItemSegment;
+    /* 0x012C */ u8*    iconItem24Segment;
+    /* 0x0130 */ u8*    iconItemAltSegment;
+    /* 0x0134 */ u8*    iconItemLangSegment;
+    /* 0x0138 */ u8*    nameSegment;
+    /* 0x013C */ u8*    playerSegment;
     /* 0x0140 */ char   unk_140[0x04];
-    /* 0x0144 */ Vtx*   vtx_144;
-    /* 0x0148 */ Vtx*   vtx_148;
-    /* 0x014C */ Vtx*   vtx_14C;
-    /* 0x0150 */ Vtx*   vtx_150;
-    /* 0x0154 */ Vtx*   vtx_154;
-    /* 0x0158 */ Vtx*   vtx_158;
-    /* 0x015C */ Vtx*   vtx_15C;
+    /* 0x0144 */ Vtx*   itemPageVtx;
+    /* 0x0148 */ Vtx*   equipPageVtx;
+    /* 0x014C */ Vtx*   mapPageVtx;
+    /* 0x0150 */ Vtx*   questPageVtx;
+    /* 0x0154 */ Vtx*   namePanelVtx;
+    /* 0x0158 */ Vtx*   itemVtx;
+    /* 0x015C */ Vtx*   equipVtx;
     /* 0x0160 */ char   unk_160[0x04];
-    /* 0x0164 */ Vtx*   vtx_164;
-    /* 0x0168 */ Vtx*   vtx_168;
-    /* 0x016C */ Vtx*   vtx_16C;
+    /* 0x0164 */ Vtx*   questVtx;
+    /* 0x0168 */ Vtx*   cursorVtx;
+    /* 0x016C */ Vtx*   saveVtx;
     /* 0x0170 */ char   unk_170[0x24];
     /* 0x0194 */ u8*    unk_194;
     /* 0x0198 */ char   unk_198[0x20];
@@ -471,7 +471,6 @@ typedef struct {
     /* 0x01E8 */ u16    kscpPos; // "kscp_pos"; basically the page index (0=SELECT ITEM; 1=MAP; 2=QUEST STATUS; 3=EQUIPMENT)
     /* 0x01EA */ u16    unk_1EA;
     /* 0x01EC */ u16    unk_1EC;
-    /* 0x01EE */ char   unk_1EE[0x02];
     /* 0x01F0 */ f32    unk_1F0;
     /* 0x01F4 */ f32    unk_1F4;
     /* 0x01F8 */ f32    unk_1F8;
@@ -506,7 +505,7 @@ typedef struct {
     /* 0x0264 */ s16    unk_264;
     /* 0x0266 */ u8     unk_266[20];
     /* 0x027A */ u8     unk_27A;
-    /* 0x027C */ SkelAnime skelAnime;
+    /* 0x027C */ SkelAnime playerSkelAnime;
 } PauseContext; // size = 0x2C0
 
 typedef enum {
@@ -894,7 +893,7 @@ typedef struct GlobalContext {
     /* 0x000A4 */ s16 sceneNum;
     /* 0x000A6 */ u8 sceneConfig;
     /* 0x000A7 */ char unk_A7[0x9];
-    /* 0x000B0 */ u8* sceneSegment;
+    /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
     /* 0x0034C */ Camera subCameras[NUM_CAMS - SUBCAM_FIRST];

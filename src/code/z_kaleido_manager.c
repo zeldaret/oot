@@ -14,7 +14,7 @@ KaleidoMgrOverlay gKaleidoMgrOverlayTable[] = {
 
 void* sKaleidoAreaPtr = NULL;
 KaleidoMgrOverlay* gKaleidoMgrCurOvl = NULL;
-u8 D_8012D1E0 = 0;
+u8 gBossMarkState = 0;
 
 void KaleidoManager_LoadOvl(KaleidoMgrOverlay* ovl) {
     LogUtils_CheckNullPointer("KaleidoArea_allocp", sKaleidoAreaPtr, "../z_kaleido_manager.c", 99);

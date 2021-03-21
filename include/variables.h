@@ -351,7 +351,7 @@ extern u8 gFontFF[]; // original name: "font_ff"
 //extern ? D_8012D172;
 extern KaleidoMgrOverlay gKaleidoMgrOverlayTable[KALEIDO_OVL_MAX];
 extern KaleidoMgrOverlay* gKaleidoMgrCurOvl;
-extern u8 D_8012D1E0;
+extern u8 gBossMarkState;
 extern void* D_8012D1F0;
 //extern ? D_8012D200;
 //extern ? D_8012D207;
@@ -3199,7 +3199,7 @@ extern u8 D_801610DA;
 //extern ? D_801612D2;
 //extern ? D_801612EA;
 //extern ? D_801612EC;
-extern f32 D_80161398;
+extern f32 gBossMarkScale;
 extern PauseMapMarksData* gLoadedPauseMarkDataTable;
 extern s32 gTrnsnUnkState;
 extern Color_RGBA8_u32 D_801614B0;

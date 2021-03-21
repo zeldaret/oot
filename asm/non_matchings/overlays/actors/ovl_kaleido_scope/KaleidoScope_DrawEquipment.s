@@ -25,7 +25,7 @@ glabel D_8082F6E8
     .balign 4
 
 .text
-glabel func_80818340
+glabel KaleidoScope_DrawEquipment
 /* 04B20 80818340 27BDFF28 */  addiu   $sp, $sp, 0xFF28           ## $sp = FFFFFF28
 /* 04B24 80818344 AFBF0044 */  sw      $ra, 0x0044($sp)           
 /* 04B28 80818348 AFBE0040 */  sw      $s8, 0x0040($sp)           
@@ -136,7 +136,7 @@ glabel func_80818340
 /* 04CC8 808184E8 AC790004 */  sw      $t9, 0x0004($v1)           ## 00000004
 /* 04CCC 808184EC 8FB800AC */  lw      $t8, 0x00AC($sp)           
 /* 04CD0 808184F0 8F0402C0 */  lw      $a0, 0x02C0($t8)           ## 000002C0
-/* 04CD4 808184F4 0C207D43 */  jal     func_8081F50C              
+/* 04CD4 808184F4 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 04CD8 808184F8 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 04CDC 808184FC 8FAB00AC */  lw      $t3, 0x00AC($sp)           
 /* 04CE0 80818500 3C088016 */  lui     $t0, %hi(gSaveContext)
@@ -1211,7 +1211,7 @@ glabel func_80818340
 /* 05C60 80819480 8DC5FFFC */  lw      $a1, -0x0004($t6)          ## 8011FFFC
 /* 05C64 80819484 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 05C68 80819488 24060020 */  addiu   $a2, $zero, 0x0020         ## $a2 = 00000020
-/* 05C6C 8081948C 0C207E1F */  jal     func_8081F87C              
+/* 05C6C 8081948C 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 05C70 80819490 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
 /* 05C74 80819494 3C088016 */  lui     $t0, %hi(gSaveContext)
 /* 05C78 80819498 1000004C */  beq     $zero, $zero, .L808195CC   
@@ -1256,7 +1256,7 @@ glabel func_80818340
 /* 05D10 80819530 018D7821 */  addu    $t7, $t4, $t5              
 /* 05D14 80819534 8DE5FFFC */  lw      $a1, -0x0004($t7)          ## FFFFFFFC
 /* 05D18 80819538 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 05D1C 8081953C 0C207E1F */  jal     func_8081F87C              
+/* 05D1C 8081953C 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 05D20 80819540 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
 /* 05D24 80819544 3C088016 */  lui     $t0, %hi(gSaveContext)
 /* 05D28 80819548 10000020 */  beq     $zero, $zero, .L808195CC   
@@ -1289,7 +1289,7 @@ glabel func_80818340
 /* 05D90 808195B0 8F25FFFC */  lw      $a1, -0x0004($t9)          ## FFFFFFFC
 /* 05D94 808195B4 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 05D98 808195B8 24060020 */  addiu   $a2, $zero, 0x0020         ## $a2 = 00000020
-/* 05D9C 808195BC 0C207E1F */  jal     func_8081F87C              
+/* 05D9C 808195BC 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 05DA0 808195C0 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
 /* 05DA4 808195C4 3C088016 */  lui     $t0, %hi(gSaveContext)
 /* 05DA8 808195C8 2508E660 */  addiu   $t0, %lo(gSaveContext)
@@ -1304,14 +1304,14 @@ glabel func_80818340
 /* 05DC0 808195E0 16F0000E */  bne     $s7, $s0, .L8081961C       
 /* 05DC4 808195E4 00000000 */  nop
 /* 05DC8 808195E8 9118003E */  lbu     $t8, 0x003E($t0)           ## 8015E69E
-/* 05DCC 808195EC 3C050804 */  lui     $a1, %hi(D_0803D000)       ## $a1 = 08040000
-/* 05DD0 808195F0 24A5D000 */  addiu   $a1, %lo(D_0803D000)       ## $a1 = 0803D000
+/* 05DCC 808195EC 3C050804 */  lui     $a1, %hi(gBiggoronSwordIconTex)       ## $a1 = 08040000
+/* 05DD0 808195F0 24A5D000 */  addiu   $a1, %lo(gBiggoronSwordIconTex)       ## $a1 = 0803D000
 /* 05DD4 808195F4 13000009 */  beq     $t8, $zero, .L8081961C     
 /* 05DD8 808195F8 8FAC00D8 */  lw      $t4, 0x00D8($sp)           
 /* 05DDC 808195FC 8D840000 */  lw      $a0, 0x0000($t4)           ## 00000000
 /* 05DE0 80819600 AFB20010 */  sw      $s2, 0x0010($sp)           
 /* 05DE4 80819604 24060020 */  addiu   $a2, $zero, 0x0020         ## $a2 = 00000020
-/* 05DE8 80819608 0C207E1F */  jal     func_8081F87C              
+/* 05DE8 80819608 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 05DEC 8081960C 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
 /* 05DF0 80819610 3C088016 */  lui     $t0, %hi(gSaveContext)
 /* 05DF4 80819614 10000026 */  beq     $zero, $zero, .L808196B0   
@@ -1324,15 +1324,15 @@ glabel func_80818340
 /* 05E0C 8081962C 3C0F8012 */  lui     $t7, %hi(gBitFlags+4)
 /* 05E10 80819630 01ED7821 */  addu    $t7, $t7, $t5              
 /* 05E14 80819634 8DEF7124 */  lw      $t7, %lo(gBitFlags+4)($t7)
-/* 05E18 80819638 3C050805 */  lui     $a1, %hi(D_08055000)       ## $a1 = 08050000
-/* 05E1C 8081963C 24A55000 */  addiu   $a1, %lo(D_08055000)       ## $a1 = 08055000
+/* 05E18 80819638 3C050805 */  lui     $a1, %hi(gBrokenGiantsKnifeIconTex)       ## $a1 = 08050000
+/* 05E1C 8081963C 24A55000 */  addiu   $a1, %lo(gBrokenGiantsKnifeIconTex)       ## $a1 = 08055000
 /* 05E20 80819640 01E25824 */  and     $t3, $t7, $v0              
 /* 05E24 80819644 11600009 */  beq     $t3, $zero, .L8081966C     
 /* 05E28 80819648 8FAE00D8 */  lw      $t6, 0x00D8($sp)           
 /* 05E2C 8081964C 8DC40000 */  lw      $a0, 0x0000($t6)           ## 00000000
 /* 05E30 80819650 AFB20010 */  sw      $s2, 0x0010($sp)           
 /* 05E34 80819654 24060020 */  addiu   $a2, $zero, 0x0020         ## $a2 = 00000020
-/* 05E38 80819658 0C207E1F */  jal     func_8081F87C              
+/* 05E38 80819658 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 05E3C 8081965C 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
 /* 05E40 80819660 3C088016 */  lui     $t0, %hi(gSaveContext)
 /* 05E44 80819664 10000012 */  beq     $zero, $zero, .L808196B0   
@@ -1351,7 +1351,7 @@ glabel func_80818340
 /* 05E74 80819694 8DE500EC */  lw      $a1, 0x00EC($t7)           ## 000000EC
 /* 05E78 80819698 AFB20010 */  sw      $s2, 0x0010($sp)           
 /* 05E7C 8081969C 24060020 */  addiu   $a2, $zero, 0x0020         ## $a2 = 00000020
-/* 05E80 808196A0 0C207E1F */  jal     func_8081F87C              
+/* 05E80 808196A0 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 05E84 808196A4 24070020 */  addiu   $a3, $zero, 0x0020         ## $a3 = 00000020
 /* 05E88 808196A8 3C088016 */  lui     $t0, %hi(gSaveContext)
 /* 05E8C 808196AC 2508E660 */  addiu   $t0, %lo(gSaveContext)
@@ -1375,7 +1375,7 @@ glabel func_80818340
 /* 05ED0 808196F0 A7AE00C2 */  sh      $t6, 0x00C2($sp)           
 /* 05ED4 808196F4 1420FF35 */  bne     $at, $zero, .L808193CC     
 /* 05ED8 808196F8 3294FFFF */  andi    $s4, $s4, 0xFFFF           ## $s4 = 00000010
-/* 05EDC 808196FC 0C206067 */  jal     func_8081819C              
+/* 05EDC 808196FC 0C206067 */  jal     KaleidoScope_DrawPlayerWork              
 /* 05EE0 80819700 8FA400D8 */  lw      $a0, 0x00D8($sp)           
 /* 05EE4 80819704 96C201E4 */  lhu     $v0, 0x01E4($s6)           ## 000001E4
 /* 05EE8 80819708 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
@@ -1385,7 +1385,7 @@ glabel func_80818340
 /* 05EF8 80819718 2401000A */  addiu   $at, $zero, 0x000A         ## $at = 0000000A
 /* 05EFC 8081971C 55410005 */  bnel    $t2, $at, .L80819734       
 /* 05F00 80819720 24010007 */  addiu   $at, $zero, 0x0007         ## $at = 00000007
-/* 05F04 80819724 0C207C7C */  jal     func_8081F1F0              
+/* 05F04 80819724 0C207C7C */  jal     KaleidoScope_SetupPlayerPreRender              
 /* 05F08 80819728 8FA400D8 */  lw      $a0, 0x00D8($sp)           
 /* 05F0C 8081972C 96C201E4 */  lhu     $v0, 0x01E4($s6)           ## 000001E4
 .L80819730:
@@ -1397,7 +1397,7 @@ glabel func_80818340
 /* 05F20 80819740 24010009 */  addiu   $at, $zero, 0x0009         ## $at = 00000009
 /* 05F24 80819744 57210004 */  bnel    $t9, $at, .L80819758       
 /* 05F28 80819748 8FB800AC */  lw      $t8, 0x00AC($sp)           
-/* 05F2C 8081974C 0C207CBF */  jal     func_8081F2FC              
+/* 05F2C 8081974C 0C207CBF */  jal     KaleidoScope_ProcessPlayerPreRender              
 /* 05F30 80819750 8FA400D8 */  lw      $a0, 0x00D8($sp)           
 .L80819754:
 /* 05F34 80819754 8FB800AC */  lw      $t8, 0x00AC($sp)           
@@ -1463,7 +1463,7 @@ glabel func_80818340
 /* 06020 80819840 8FA400D8 */  lw      $a0, 0x00D8($sp)           
 /* 06024 80819844 8EC5013C */  lw      $a1, 0x013C($s6)           ## 0000013C
 /* 06028 80819848 24060040 */  addiu   $a2, $zero, 0x0040         ## $a2 = 00000040
-/* 0602C 8081984C 0C205F54 */  jal     func_80817D50              
+/* 0602C 8081984C 0C205F54 */  jal     KaleidoScope_DrawEquipmentImage              
 /* 06030 80819850 24070070 */  addiu   $a3, $zero, 0x0070         ## $a3 = 00000070
 /* 06034 80819854 8FAC00D8 */  lw      $t4, 0x00D8($sp)           
 /* 06038 80819858 3C068083 */  lui     $a2, %hi(D_8082F6E8)       ## $a2 = 80830000

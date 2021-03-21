@@ -21,7 +21,7 @@ glabel D_8082F7D8
     .balign 4
 
 .text
-glabel func_80819E6C
+glabel KaleidoScope_DrawInventory
 /* 0664C 80819E6C 27BDFF48 */  addiu   $sp, $sp, 0xFF48           ## $sp = FFFFFF48
 /* 06650 80819E70 AFBF0034 */  sw      $ra, 0x0034($sp)           
 /* 06654 80819E74 AFB50030 */  sw      $s5, 0x0030($sp)           
@@ -766,7 +766,7 @@ glabel func_80819E6C
 /* 070E8 8081A908 AC6A0004 */  sw      $t2, 0x0004($v1)           ## 00000004
 /* 070EC 8081A90C 8E6402C0 */  lw      $a0, 0x02C0($s3)           ## 000002C0
 /* 070F0 8081A910 A7A800AC */  sh      $t0, 0x00AC($sp)           
-/* 070F4 8081A914 0C207D43 */  jal     func_8081F50C              
+/* 070F4 8081A914 0C207D43 */  jal     KaleidoScope_QuadTextureIA8              
 /* 070F8 8081A918 AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 070FC 8081A91C 97A800AC */  lhu     $t0, 0x00AC($sp)           
 /* 07100 8081A920 AE6202C0 */  sw      $v0, 0x02C0($s3)           ## 000002C0
@@ -975,7 +975,7 @@ glabel func_80819E6C
 /* 07410 8081AC30 8F240000 */  lw      $a0, 0x0000($t9)           ## 0000002B
 /* 07414 8081AC34 A7A800AC */  sh      $t0, 0x00AC($sp)           
 /* 07418 8081AC38 AFA00010 */  sw      $zero, 0x0010($sp)         
-/* 0741C 8081AC3C 0C207E1F */  jal     func_8081F87C              
+/* 0741C 8081AC3C 0C207E1F */  jal     KaleidoScope_DrawQuadTextureRGBA32              
 /* 07420 8081AC40 8CA5725C */  lw      $a1, %lo(gItemIcons)($a1)
 /* 07424 8081AC44 97A800AC */  lhu     $t0, 0x00AC($sp)           
 /* 07428 8081AC48 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000002
@@ -1021,7 +1021,7 @@ glabel func_80819E6C
 /* 074BC 8081ACDC 12A20004 */  beq     $s5, $v0, .L8081ACF0       
 /* 074C0 8081ACE0 00023400 */  sll     $a2, $v0, 16               
 /* 074C4 8081ACE4 8DA50000 */  lw      $a1, 0x0000($t5)           ## 00000000
-/* 074C8 8081ACE8 0C206628 */  jal     func_808198A0              
+/* 074C8 8081ACE8 0C206628 */  jal     KaleidoScope_DrawAmmoCount              
 /* 074CC 8081ACEC 00063403 */  sra     $a2, $a2, 16               
 .L8081ACF0:
 /* 074D0 8081ACF0 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000002
