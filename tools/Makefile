@@ -3,7 +3,7 @@ CFLAGS := -Wall -Wextra -pedantic -std=c99 -g -O2
 PROGRAMS := yaz0 makeromfs elf2rom mkldscript vtxdis
 ZAPD := ZAPD/ZAPD.out
 
-all: $(PROGRAMS) zapd ido71 ido53
+all: $(PROGRAMS) zapd ido
 
 clean:
 	$(RM) $(PROGRAMS) $(addsuffix .exe,$(PROGRAMS))
@@ -11,11 +11,8 @@ clean:
 
 # Need to clean the above line later...
 
-ido71:
-	cd ido_recomp && ./build.py -O2 ../ido7.1_compiler/
-
-ido53:
-	cd ido_recomp && ./build.py -O2 ../ido5.3_compiler/
+ido:
+	$(MAKE) -C ido_recomp -j 4
 
 zapd:
 	cd ZAPD && $(MAKE)
@@ -25,8 +22,7 @@ zapd:
 
 distclean: clean
 	$(MAKE) -C ZAPD clean
-	$(RM) -r ido_recomp/build71 
-	$(RM) -r ido_recomp/build53 
+	$(MAKE) -C ido_recomp clean
 
 
 mkldscript_SOURCES := mkldscript.c util.c

@@ -5,3 +5,7 @@ makeromfs
 elf2rom
 mkldscript
 vtxdis
+*_c.c
+ido_recomp/recomp
+ido_recomp/build71
+ido_recomp/build53

@@ -41,8 +41,8 @@ else
   $(error Please install or build mips-linux-gnu)
 endif
 
-CC       := tools/ido_recomp/build71/out/cc
-CC_OLD   := tools/ido_recomp/build53/out/cc
+CC       := tools/ido_recomp/build71/cc
+CC_OLD   := tools/ido_recomp/build53/cc
 
 # if ORIG_COMPILER is 1, check that either QEMU_IRIX is set or qemu-irix package installed
 ifeq ($(ORIG_COMPILER),1)
@@ -223,25 +223,33 @@ build/assets/%.o: assets/%.c
 
 build/src/overlays/%.o: src/overlays/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+ifneq ($(shell uname -m), aarch64)
 	$(CC_CHECK) $^
+endif
 	$(ZAPD) bovl -i $@ -cfg $^ --outputpath $(@D)/$(notdir $(@D))_reloc.s
 	-test -f $(@D)/$(notdir $(@D))_reloc.s && $(AS) $(ASFLAGS) $(@D)/$(notdir $(@D))_reloc.s -o $(@D)/$(notdir $(@D))_reloc.o
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+ifneq ($(shell uname -m), aarch64)
 	$(CC_CHECK) $^
+endif
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+ifneq ($(shell uname -m), aarch64)
 	$(CC_CHECK) $^
+endif
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_code_O1/llcvt.o: src/libultra_code_O1/llcvt.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+ifneq ($(shell uname -m), aarch64)
 	$(CC_CHECK) $^
+endif
 	python3 tools/set_o32abi_bit.py $@
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
