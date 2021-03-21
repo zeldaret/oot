@@ -231,7 +231,7 @@ void DemoKekkai_TrialBarrierDispel(Actor* thisx, GlobalContext* globalCtx) {
     this->timer++;
 }
 
-static void* sSageCutscenes[] = {
+static CutsceneData* sSageCutscenes[] = {
     NULL,
     gWaterTrialSageCs,
     gLightTrialSageCs,
