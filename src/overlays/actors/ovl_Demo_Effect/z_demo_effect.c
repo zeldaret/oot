@@ -1,8 +1,21 @@
 #include "z_demo_effect.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
-#include "objects/object_gi_jewel/object_gi_jewel.h"
+#include "objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "objects/object_triforce_spot/object_triforce_spot.h"
+#include "objects/object_gi_jewel/object_gi_jewel.h"
+
+// OBJECT_EFC_CRYSTAL_LIGHT,
+// OBJECT_EFC_FIRE_BALL,
+// OBJECT_GAMEPLAY_KEEP,
+// OBJECT_EFC_LGT_SHOWER,
+// OBJECT_GOD_LGT,
+// OBJECT_LIGHT_RING,
+// OBJECT_TRIFORCE_SPOT,
+// OBJECT_GI_MEDAL,
+// OBJECT_EFC_TW,
+// OBJECT_GI_JEWEL,
+// OBJECT_GI_M_ARROW,
 
 #define FLAGS 0x00000030
 
@@ -70,7 +83,7 @@ extern Gfx D_06000330[]; // godLgtTrail
 extern Gfx D_06003C50[]; // godLgt
 // extern Gfx D_06000600[]; // triforceSpot
 // extern Gfx D_06000840[]; // triforceLightColumn
-extern Gfx D_06000980[]; // crystalLight
+// extern Gfx D_06000980[]; // crystalLight
 extern Gfx D_060011D0[]; // lgtShower
 // extern Vtx D_06000000[]; // triforceLightColumnVertices
 extern Vtx D_06000060[]; // timewarpVertices
@@ -1765,7 +1778,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2661),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000980);
+    gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
     Matrix_RotateY((2.0f * M_PI) / 3.0f, MTXMODE_APPLY);
@@ -1773,7 +1786,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2672),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000980);
+    gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     Matrix_Push();
     Matrix_RotateY((4.0f * M_PI) / 3.0f, MTXMODE_APPLY);
@@ -1781,7 +1794,7 @@ void DemoEffect_DrawCrystalLight(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Translate(0.0f, 150.0f, 0.0f, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2683),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_XLU_DISP++, D_06000980);
+    gSPDisplayList(POLY_XLU_DISP++, gCrystalLightDL);
     Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2688);
 }

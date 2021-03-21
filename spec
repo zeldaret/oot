@@ -4241,7 +4241,8 @@ endseg
 beginseg
     name "object_efc_crystal_light"
     romalign 0x1000
-    include "build/baserom/object_efc_crystal_light.o"
+    include "build/assets/objects/object_efc_crystal_light/object_efc_crystal_light.o"
+    number 6
 endseg
 
 beginseg
