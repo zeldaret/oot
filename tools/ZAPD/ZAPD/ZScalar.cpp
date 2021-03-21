@@ -1,11 +1,12 @@
 #include "ZScalar.h"
-#include "ZFile.h"
 #include "BitConverter.h"
-#include "StringHelper.h"
 #include "File.h"
 #include "Globals.h"
+#include "StringHelper.h"
+#include "ZFile.h"
 
-ZScalar* ZScalar::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath)
+ZScalar* ZScalar::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+                                 const int rawDataIndex, const std::string& nRelPath)
 {
 	ZScalar* scalar = new ZScalar();
 	scalar->rawData = nRawData;
@@ -35,7 +36,7 @@ void ZScalar::ParseXML(tinyxml2::XMLElement* reader)
 	scalarType = ZScalar::MapOutputTypeToScalarType(type);
 }
 
-ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type) 
+ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type)
 {
 	if (type == "s8")
 	{
@@ -83,7 +84,8 @@ ZScalarType ZScalar::MapOutputTypeToScalarType(const std::string& type)
 
 std::string ZScalar::MapScalarTypeToOutputType(const ZScalarType scalarType)
 {
-	switch (scalarType) {
+	switch (scalarType)
+	{
 	case ZSCALAR_S8:
 		return "s8";
 	case ZSCALAR_U8:
@@ -111,7 +113,8 @@ std::string ZScalar::MapScalarTypeToOutputType(const ZScalarType scalarType)
 
 int ZScalar::MapTypeToSize(const ZScalarType scalarType)
 {
-	switch (scalarType) {
+	switch (scalarType)
+	{
 	case ZSCALAR_S8:
 		return sizeof(scalarData.s8);
 	case ZSCALAR_U8:
@@ -149,7 +152,8 @@ void ZScalar::ParseRawData()
 
 void ZScalar::ParseRawData(const std::vector<uint8_t>& data, const int offset)
 {
-	switch (scalarType) {
+	switch (scalarType)
+	{
 	case ZSCALAR_S8:
 		scalarData.s8 = BitConverter::ToInt8BE(data, offset);
 		break;
@@ -180,6 +184,10 @@ void ZScalar::ParseRawData(const std::vector<uint8_t>& data, const int offset)
 	case ZSCALAR_F64:
 		scalarData.f64 = BitConverter::ToDoubleBE(data, offset);
 		break;
+	case ZSCALAR_NONE:
+		fprintf(stderr, "Warning in ZScalar: Invalid type. %d %s %d\n", (int)scalarType, __FILE__,
+		        __LINE__);
+		break;
 	}
 }
 
@@ -190,7 +198,8 @@ std::string ZScalar::GetSourceTypeName()
 
 std::string ZScalar::GetSourceValue()
 {
-	switch (scalarType) {
+	switch (scalarType)
+	{
 	case ZSCALAR_S8:
 		return StringHelper::Sprintf("%hhd", scalarData.s8);
 	case ZSCALAR_U8:
@@ -219,7 +228,8 @@ std::string ZScalar::GetSourceValue()
 std::string ZScalar::GetSourceOutputCode(const std::string& prefix)
 {
 	if (parent != nullptr)
-		parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(), GetSourceTypeName(), GetName(), GetSourceValue());
+		parent->AddDeclaration(rawDataIndex, DeclarationAlignment::None, GetRawDataSize(),
+		                       GetSourceTypeName(), GetName(), GetSourceValue());
 
 	return "";
 }

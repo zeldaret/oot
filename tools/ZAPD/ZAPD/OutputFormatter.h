@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
 #include <map>
 #include <string>
+#include <vector>
 
 class OutputFormatter
 {
@@ -18,21 +18,20 @@ private:
 
 	char word[128];
 	char space[128];
-	char *word_p;
-	char *space_p;
+	char* word_p;
+	char* space_p;
 
 	std::string str;
 
-	int write(const char *buf, int count);
+	int write(const char* buf, int count);
 
-	static OutputFormatter *static_instance;
-	static int write_static(const char *buf, int count);
+	static OutputFormatter* static_instance;
+	static int write_static(const char* buf, int count);
 
 public:
-	OutputFormatter(int tab_size = 4, int default_indent = 4,
-			int line_limit = 120);
+	OutputFormatter(int tab_size = 4, int default_indent = 4, int line_limit = 120);
 
-	int (*static_writer())(const char *buf, int count);
+	int (*static_writer())(const char* buf, int count);
 
 	std::string get_output();
 };
