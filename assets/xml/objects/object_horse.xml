@@ -7,15 +7,15 @@
         <!-- Whinny. -->
         <Animation Name="gEponaWhinnyAnim" Offset="0x5584"/>
         <!-- Refusing to jump / Slowing down. -->
-        <Animation Name="gEponaSlowDownAnim" Offset="0x4DEC"/>
+        <Animation Name="gEponaRefuseAnim" Offset="0x4DEC"/>
         <!-- Stand in two legs for a moment. -->
         <Animation Name="gEponaRearingAnim" Offset="0x3CEC"/>
         <!-- Walking slow. -->
-        <Animation Name="gEponaWalkingSlowAnim" Offset="0x75F0"/>
+        <Animation Name="gEponaWalkingAnim" Offset="0x75F0"/>
         <!-- Walking fast. -->
-        <Animation Name="gEponaWalkingFastAnim" Offset="0x32B0"/>
+        <Animation Name="gEponaTrottingAnim" Offset="0x32B0"/>
         <!-- Running. -->
-        <Animation Name="gEponaRunningAnim" Offset="0x1E2C"/>
+        <Animation Name="gEponaGallopingAnim" Offset="0x1E2C"/>
         <!-- Jumping. -->
         <Animation Name="gEponaJumpingAnim" Offset="0x2470"/>
         <!-- Jumping High. -->

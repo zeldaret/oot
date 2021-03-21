@@ -7,15 +7,15 @@
         <!-- Whinny. -->
         <Animation Name="gHorseIngoWhinnyAnim" Offset="0xA6B4"/>
         <!-- Refusing to jump / Slowing down. -->
-        <Animation Name="gHorseIngoSlowDownAnim" Offset="0x901C"/>
+        <Animation Name="gHorseIngoRefuseAnim" Offset="0x901C"/>
         <!-- Stand in two legs for a moment. -->
         <Animation Name="gHorseIngoRearingAnim" Offset="0x85E0"/>
         <!-- Walking slow. -->
-        <Animation Name="gHorseIngoWalkingSlowAnim" Offset="0xAF60"/>
+        <Animation Name="gHorseIngoWalkingAnim" Offset="0xAF60"/>
         <!-- Walking fast. -->
-        <Animation Name="gHorseIngoWalkingFastAnim" Offset="0x7B54"/>
+        <Animation Name="gHorseIngoTrottingAnim" Offset="0x7B54"/>
         <!-- Running. -->
-        <Animation Name="gHorseIngoRunningAnim" Offset="0x506C"/>
+        <Animation Name="gHorseIngoGallopingAnim" Offset="0x506C"/>
         <!-- Jumping. -->
         <Animation Name="gHorseIngoJumpingAnim" Offset="0x5684"/>
         <!-- Jumping High. -->
