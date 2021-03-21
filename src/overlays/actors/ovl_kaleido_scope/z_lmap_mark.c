@@ -1,5 +1,4 @@
-#include "ultra64.h"
-#include "global.h"
+#include "z_kaleido_scope.h"
 
 typedef struct {
     /* 0x00 */ void* texture;

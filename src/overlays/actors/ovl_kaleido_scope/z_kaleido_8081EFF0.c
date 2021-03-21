@@ -1,5 +1,4 @@
-#include "ultra64.h"
-#include "global.h"
+#include "z_kaleido_scope.h"
 
 s16 D_8082A6E0[] = { 100, 255 };
 

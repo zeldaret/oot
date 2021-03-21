@@ -1,5 +1,4 @@
-#include "ultra64.h"
-#include "global.h"
+#include "z_kaleido_scope.h"
 
 extern u8 D_08089440[];
 

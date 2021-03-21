@@ -1,5 +1,4 @@
-#include "ultra64.h"
-#include "global.h"
+#include "z_kaleido_scope.h"
 
 const Vtx D_80830610[] = {
     VTX(-4, 4, 0, 0, 0, 255, 255, 255, 255),

@@ -1,5 +1,4 @@
-#include "ultra64.h"
-#include "global.h"
+#include "z_kaleido_scope.h"
 
 u8 D_8082A420[] = {
     SLOT_STICK,    SLOT_NUT,  SLOT_BOMB, SLOT_BOW,  SLOT_NONE, SLOT_NONE, SLOT_SLINGSHOT,   SLOT_NONE,

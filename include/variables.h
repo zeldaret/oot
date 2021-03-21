@@ -3414,10 +3414,4 @@ extern GfxPool gGfxPools[2]; // 0x24820 bytes
 extern u8 gAudioHeap[0x38000]; // 0x38000 bytes
 extern u8 gSystemHeap[];
 
-extern u8 D_8082A420[];
-extern s16 D_8082AAEC[];
-extern s16 D_8082AB2C[];
-extern u8 D_8082ABFC[];
-extern u8 D_8082AC7C[];
-
 #endif
