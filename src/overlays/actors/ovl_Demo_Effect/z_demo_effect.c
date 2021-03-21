@@ -4,6 +4,7 @@
 #include "objects/object_efc_crystal_light/object_efc_crystal_light.h"
 #include "objects/object_efc_fire_ball/object_efc_fire_ball.h"
 #include "objects/object_efc_lgt_shower/object_efc_lgt_shower.h"
+#include "objects/object_god_lgt/object_god_lgt.h"
 #include "objects/object_triforce_spot/object_triforce_spot.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
 
@@ -12,11 +13,11 @@
 
 // OBJECT_GAMEPLAY_KEEP,
 // OBJECT_EFC_LGT_SHOWER,
-
 // OBJECT_GOD_LGT,
-// OBJECT_LIGHT_RING,
 
+// OBJECT_LIGHT_RING,
 // OBJECT_TRIFORCE_SPOT,
+
 // OBJECT_GI_MEDAL,
 // OBJECT_EFC_TW,
 
@@ -86,8 +87,8 @@ void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csAc
 // extern Gfx D_06003370[]; // zoraJewelHolder
 // extern Gfx D_06000040[]; // fireBall
 extern Gfx D_06000190[]; // lightRing
-extern Gfx D_06000330[]; // godLgtTrail
-extern Gfx D_06003C50[]; // godLgt
+// extern Gfx D_06000330[]; // godLgtTrail
+// extern Gfx D_06003C50[]; // godLgt
 // extern Gfx D_06000600[]; // triforceSpot
 // extern Gfx D_06000840[]; // triforceLightColumn
 // extern Gfx D_06000980[]; // crystalLight
@@ -1864,7 +1865,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Push();
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2801),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_XLU_DISP++, D_06000330);
+        gSPDisplayList(POLY_XLU_DISP++, gGoldenGoddessAuraDL);
         func_80093D18(globalCtx->state.gfxCtx);
         func_8002EBCC(&this->actor, globalCtx, 0);
         Matrix_Pop();
@@ -1881,7 +1882,7 @@ void DemoEffect_DrawGodLgt(Actor* thisx, GlobalContext* globalCtx) {
         Matrix_Scale(0.03f, 0.03f, 0.03f, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2824),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, D_06003C50);
+        gSPDisplayList(POLY_OPA_DISP++, gGoldenGoddessBodyDL);
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_demo_effect.c", 2829);

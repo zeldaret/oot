@@ -4274,7 +4274,8 @@ endseg
 beginseg
     name "object_god_lgt"
     romalign 0x1000
-    include "build/baserom/object_god_lgt.o"
+    include "build/assets/objects/object_god_lgt/object_god_lgt.o"
+    number 6
 endseg
 
 beginseg
