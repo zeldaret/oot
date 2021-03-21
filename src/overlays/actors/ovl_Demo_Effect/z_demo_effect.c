@@ -1,6 +1,7 @@
 #include "z_demo_effect.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_gi_jewel/object_gi_jewel.h"
 #include "objects/object_triforce_spot/object_triforce_spot.h"
 
 #define FLAGS 0x00000030
@@ -57,12 +58,12 @@ void DemoEffect_InitPositionFromCsAction(DemoEffect* this, GlobalContext* global
 void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, s32 shouldUpdateFacing);
 void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed);
 
-extern Gfx D_06001240[]; // kokiriJewel
-extern Gfx D_060010E0[]; // kokiriJewelHolder
-extern Gfx D_060020A0[]; // goronJewel
-extern Gfx D_06001FB0[]; // goronJewelHolder
-extern Gfx D_06003530[]; // zoraJewel
-extern Gfx D_06003370[]; // zoraJewelHolder
+// extern Gfx D_06001240[]; // kokiriJewel
+// extern Gfx D_060010E0[]; // kokiriJewelHolder
+// extern Gfx D_060020A0[]; // goronJewel
+// extern Gfx D_06001FB0[]; // goronJewelHolder
+// extern Gfx D_06003530[]; // zoraJewel
+// extern Gfx D_06003370[]; // zoraJewelHolder
 extern Gfx D_06000040[]; // fireBall
 extern Gfx D_06000190[]; // lightRing
 extern Gfx D_06000330[]; // godLgtTrail
@@ -483,24 +484,24 @@ void DemoEffect_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         case DEMO_EFFECT_JEWEL_KOKIRI:
-            this->jewelDisplayList = D_06001240;
-            this->jewelHolderDisplayList = D_060010E0;
+            this->jewelDisplayList = gGiKokiriEmeraldGemDL;
+            this->jewelHolderDisplayList = gGiKokiriEmeraldSettingDL;
             this->jewel.type = DEMO_EFFECT_JEWEL_KOKIRI;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             break;
 
         case DEMO_EFFECT_JEWEL_GORON:
-            this->jewelDisplayList = D_060020A0;
-            this->jewelHolderDisplayList = D_06001FB0;
+            this->jewelDisplayList = gGiGoronRubyGemDL;
+            this->jewelHolderDisplayList = gGiGoronRubySettingDL;
             this->jewel.type = DEMO_EFFECT_JEWEL_GORON;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
             break;
 
         case DEMO_EFFECT_JEWEL_ZORA:
-            this->jewelDisplayList = D_06003530;
-            this->jewelHolderDisplayList = D_06003370;
+            this->jewelDisplayList = gGiZoraSapphireGemDL;
+            this->jewelHolderDisplayList = gGiZoraSapphireSettingDL;
             this->jewel.type = DEMO_EFFECT_JEWEL_ZORA;
             this->jewel.isPositionInit = 0;
             DemoEffect_InitJewel(globalCtx, this);
