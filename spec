@@ -4404,7 +4404,8 @@ endseg
 beginseg
     name "object_efc_tw"
     romalign 0x1000
-    include "build/baserom/object_efc_tw.o"
+    include "build/assets/objects/object_efc_tw/object_efc_tw.o"
+    number 6
 endseg
 
 beginseg

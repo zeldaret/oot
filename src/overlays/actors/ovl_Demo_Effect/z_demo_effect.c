@@ -7,23 +7,8 @@
 #include "objects/object_god_lgt/object_god_lgt.h"
 #include "objects/object_light_ring/object_light_ring.h"
 #include "objects/object_triforce_spot/object_triforce_spot.h"
+#include "objects/object_efc_tw/object_efc_tw.h"
 #include "objects/object_gi_jewel/object_gi_jewel.h"
-
-// OBJECT_EFC_CRYSTAL_LIGHT,
-// OBJECT_EFC_FIRE_BALL,
-
-// OBJECT_GAMEPLAY_KEEP,
-// OBJECT_EFC_LGT_SHOWER,
-// OBJECT_GOD_LGT,
-// OBJECT_LIGHT_RING,
-// OBJECT_TRIFORCE_SPOT,
-
-// OBJECT_GI_MEDAL,
-// OBJECT_EFC_TW,
-
-// OBJECT_GI_JEWEL,
-
-// OBJECT_GI_M_ARROW,
 
 #define FLAGS 0x00000030
 
@@ -78,26 +63,6 @@ s32 DemoEffect_CheckCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csA
 void DemoEffect_InitPositionFromCsAction(DemoEffect* this, GlobalContext* globalCtx, s32 csActionIndex);
 void DemoEffect_MoveToCsEndpoint(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, s32 shouldUpdateFacing);
 void DemoEffect_MoveGetItem(DemoEffect* this, GlobalContext* globalCtx, s32 csActionId, f32 speed);
-
-// extern Gfx D_06001240[]; // kokiriJewel
-// extern Gfx D_060010E0[]; // kokiriJewelHolder
-// extern Gfx D_060020A0[]; // goronJewel
-// extern Gfx D_06001FB0[]; // goronJewelHolder
-// extern Gfx D_06003530[]; // zoraJewel
-// extern Gfx D_06003370[]; // zoraJewelHolder
-// extern Gfx D_06000040[]; // fireBall
-// extern Gfx D_06000190[]; // lightRing
-// extern Gfx D_06000330[]; // godLgtTrail
-// extern Gfx D_06003C50[]; // godLgt
-// extern Gfx D_06000600[]; // triforceSpot
-// extern Gfx D_06000840[]; // triforceLightColumn
-// extern Gfx D_06000980[]; // crystalLight
-// extern Gfx D_060011D0[]; // lgtShower
-// extern Vtx D_06000000[]; // triforceLightColumnVertices
-extern Vtx D_06000060[]; // timewarpVertices
-
-extern TransformUpdateIndex D_06000050; // timewarpTransformUpdateIndex
-extern SkelCurveLimbList D_060012E8;    // timewarpLimbList
 
 const ActorInit Demo_Effect_InitVars = {
     ACTOR_DEMO_EFFECT,
@@ -717,12 +682,12 @@ void DemoEffect_UpdateGetItem(DemoEffect* this, GlobalContext* globalCtx) {
 void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
     s32 effectType = (this->actor.params & 0x00FF);
 
-    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &D_060012E8, &D_06000050)) {
+    if (!SkelCurve_Init(globalCtx, &this->skelCurve, &gTimeWarpSkel, &gTimeWarpAnim)) {
         __assert("0", "../z_demo_effect.c", 1283);
     }
 
     if (effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_LARGE || effectType == DEMO_EFFECT_TIMEWARP_TIMEBLOCK_SMALL) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.7f);
+        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 1.0f, 1.7f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_InitTimeWarpTimeblock;
 
@@ -733,12 +698,12 @@ void DemoEffect_InitTimeWarp(DemoEffect* this, GlobalContext* globalCtx) {
         }
     } else if (gSaveContext.sceneSetupIndex == 5 || gSaveContext.sceneSetupIndex == 4 ||
                (gSaveContext.entranceIndex == 0x0324 && !((gSaveContext.eventChkInf[12] & 0x200)))) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 59.0f, 0.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 59.0f, 0.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpReturnFromChamberOfSages;
         osSyncPrintf(VT_FGCOL(CYAN) " 縮むバージョン \n" VT_RST);
     } else {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 59.0f, 1.0f, 1.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 59.0f, 1.0f, 1.0f);
         SkelCurve_Update(globalCtx, &this->skelCurve);
         this->updateFunc = DemoEffect_UpdateTimeWarpPullMasterSword;
         osSyncPrintf(VT_FGCOL(CYAN) " 通常 バージョン \n" VT_RST);
@@ -757,7 +722,7 @@ void DemoEffect_UpdateTimeWarpPullMasterSword(DemoEffect* this, GlobalContext* g
         }
 
         if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
-            SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
+            SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 60.0f, 59.0f, 0.0f);
         }
     }
 }
@@ -772,7 +737,7 @@ void DemoEffect_TimewarpShrink(f32 size) {
     u8 sizes[3];
 
     // This function uses the data in obj_efc_tw offset 0x0060 to 0x01B0
-    vertices = SEGMENTED_TO_VIRTUAL(D_06000060);
+    vertices = SEGMENTED_TO_VIRTUAL(gTimeWarpVtx);
 
     sizes[0] = 0;
     sizes[1] = (s32)(202.0f * size);
@@ -850,7 +815,7 @@ void DemoEffect_InitTimeWarpTimeblock(DemoEffect* this, GlobalContext* globalCtx
     func_8002F948(&this->actor, NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
 
     if (SkelCurve_Update(globalCtx, &this->skelCurve)) {
-        SkelCurve_SetAnim(&this->skelCurve, &D_06000050, 1.0f, 60.0f, 59.0f, 0.0f);
+        SkelCurve_SetAnim(&this->skelCurve, &gTimeWarpAnim, 1.0f, 60.0f, 59.0f, 0.0f);
         this->updateFunc = DemoEffect_UpdateTimeWarpTimeblock;
         this->timeWarp.shrinkTimer = 0;
     }

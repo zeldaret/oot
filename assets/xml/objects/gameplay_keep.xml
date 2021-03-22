@@ -800,7 +800,7 @@
         <Texture Name="gEffEnemyDeathFlame10Tex" OutName="eff_enemy_death_flame_10" Format="i8" Width="32" Height="64" Offset="0x317E0"/>
         <DList Name="gEffEnemyDeathFlameDL" Offset="0x31FE0"/>
         <Texture Name="gEffUnknown9Tex" OutName="eff_unknown_9" Format="i8" Width="32" Height="32" Offset="0x32090"/>
-        <Texture Name="gGoldenGoddessBodyTex" OutName="golden_goddess" Format="i8" Width="32" Height="32" Offset="0x32490"/>
+        <Texture Name="gEffUnknown10Tex" OutName="golden_goddess" Format="i8" Width="32" Height="32" Offset="0x32490"/>
         <Texture Name="gEffUnknown11Tex" OutName="eff_unknown_11" Format="i8" Width="32" Height="32" Offset="0x32890"/>
         <Texture Name="gEffUnknown12Tex" OutName="eff_unknown_12" Format="i8" Width="32" Height="32" Offset="0x32C90"/>
         <Texture Name="gUnknownWoodBoardTex" OutName="unknown_wood_board" Format="i8" Width="32" Height="32" Offset="0x33090"/>
