@@ -7,7 +7,7 @@
     <Animation Name="gEnHeishiDyingGuardTalk" Offset="0xC6C8"/>
     <Animation Name="gEnHeishiDyingGuardDie" Offset="0xC374"/>
     <Animation Name="gEnHeishiDyingGuard_unk" Offset="0xC444"/>
-    <DList Name="gHeishiKingGuard" Offset="0x2C10"/>
+    <DList Name="gHeishiKingGuardDlist" Offset="0x2C10"/>
     <DList Name="gEnHeishiHeadDlist" Offset="0xA030"/>
     <DList Name="gEnHeishiTorsoArmorDlist" Offset="0xA440"/>
     <DList Name="gEnHeishiDlist_A6F8" Offset="0xA6F8"/><!--Belt?-->
@@ -23,5 +23,28 @@
     <DList Name="gEnHeishiHandDlist" Offset="0xB520"/>
     <DList Name="gEnHeishiLowerArmDlist2" Offset="0xB730"/>
     <DList Name="gEnHeishiUpperArmDlist2" Offset="0xB8C0"/>
+    <!--King Guard Textures-->
+    <Texture Name="gEnHeishiKingGuardPAL" Format="rgb5a1" Width="16" Height="16" Offset="0x0000"/>
+    <Texture Name="gEnHeishiKingGuard_200Tex" Format="ci8" Width="8" Height="8" Offset="0x0200"/><!--Mouth?-->
+    <Texture Name="gEnHeishiKingGuard_240Tex" Format="ci8" Width="8" Height="8" Offset="0x0240"/><!--Eyes?-->
+    <Texture Name="gEnHeishiKingGuardArmorTex" OutName="king_guard_armor" Format="ci8" Width="8" Height="8" Offset="0x0280"/>
+    <Texture Name="gEnHeishiKingGuardSholderGuardTex" OutName="king_guard_sholder_guard" Format="ci8" Width="8" Height="16" Offset="0x02C0"/>
+    <Texture Name="gEnHeishiKingGuardChestArmorTex" OutName="king_guard_chest_armor" Format="ci8" Width="32" Height="64" Offset="0x0340"/>
+    <Texture Name="gEnHeishiKingGuard_B40Tex" Format="ci8" Width="16" Height="16S" Offset="0x0B40"/> <!--Leg Armor?-->
+    <Texture Name="gEnHeishiKingGuardHandTex" Format="ci8" Width="8" Height="8" Offset="0x0C40"/>
+    <Texture Name="gEnHeishiKingGuardPantsTex" Format="ci8" Width="16" Height="16" Offset="0x0C80"/>
+    <!--Normal Guard Textures-->
+    <Texture Name="gHeishiPAL" OutName="guard_pal" Format="rgb5a1" Width="16" Height="16" Offset="0x5C40"/>
+    <Texture Name="gEnHeishiMouthTex" OutName="mouth_tex" Format="ci8" Width="16" Height="16" Offset="0x5E40"/>
+    <Texture Name="gEnHeishiGradient1Tex" OutName="gradient1" Format="ci8" Width="8" Height="8" Offset="0x5F40"/>
+    <Texture Name="gEnHeishiGradient2Tex" OutName="gradient2" Format="ci8" Width="8" Height="8" Offset="0x5F80"/>
+    <Texture Name="gEnHeishiArmorTex" OutName="armor" Format="ci8" Width="8" Height="8" Offset="0x5FC0"/>
+    <Texture Name="gEnHeishiUniform1Tex" OutName="uniform1" Format="i4" Width="16" Height="16" Offset="0x6000"/>
+    <Texture Name="gEnHeishiUniform2Tex" OutName="uniform2" Format="i4" Width="16" Height="8" Offset="0x6080"/>
+    <Texture Name="gEnHeishiUniformGreyTriforceTex" OutName="uniform_grey_triforce" Format="i4" Width="32" Height="32" Offset="0x60C0"/>
+    <Texture Name="gEnHeishiUniformGoldTriforceTex" OutName="uniform_gold_triforce" Format="ci8" Width="32" Height="32" Offset="0x62C0"/>
+    <Texture Name="gEnHeishiLegTex" OutName="leg" Format="ci8" Width="16" Height="16" Offset="0x66C0"/>
+    <Texture Name="gEnHeishi_67C0Tex" Format="ci8" Width="32" Height="32" Offset="0x67C0"/>
+    <Texture Name="gEnHeishiHandTex" OutName="hand" Format="ci8" Width="16" Height="16" Offset="0x6BC0"/>
     </File>
 </Root>

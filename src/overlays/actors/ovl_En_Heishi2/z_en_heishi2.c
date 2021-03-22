@@ -20,9 +20,9 @@ void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx);
-void func_80A531CC(EnHeishi2* this, GlobalContext* globalCtx);
-void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx);
+void EnHeishi2_DrawKingGuard(Actor* thisx, GlobalContext* globalCtx);
+void EnHeishi2_DoNothing1(EnHeishi2* this, GlobalContext* globalCtx);
+void EnHeishi_DoNothing2(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A5344C(EnHeishi2* this, GlobalContext* globalCtx);
@@ -51,8 +51,7 @@ void func_80A546DC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A541FC(EnHeishi2* this, GlobalContext* globalCtx);
 void func_80A53DF8(EnHeishi2* this, GlobalContext* globalCtx);
 
-extern Gfx D_0602B060[]; // Keaton Mask
-extern Gfx D_06002C10[]; // 2D Guard in Window
+extern Gfx D_0602B060[]; // Keaton Mask From Object_Link_Child
 
 const ActorInit En_Heishi2_InitVars = {
     ACTOR_EN_HEISHI2,
@@ -91,15 +90,15 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnHeishi2* this = THIS;
 
     Actor_SetScale(&this->actor, 0.01f);
-    this->initParams = this->actor.params & 0xFF;
+    this->type = this->actor.params & 0xFF;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
-    if ((this->initParams == 6) || (this->initParams == 9)) {
-        this->actor.draw = func_80A54C6C;
+    if ((this->type == 6) || (this->type == 9)) {
+        this->actor.draw = EnHeishi2_DrawKingGuard;
         this->actor.flags &= -2;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, 6);
-        if (this->initParams == 6) {
-            this->actionFunc = func_80A531CC;
+        if (this->type == 6) {
+            this->actionFunc = EnHeishi2_DoNothing1;
 
         } else {
             osSyncPrintf("\n\n");
@@ -131,7 +130,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->collider.dim.height = 0x46;
         this->actor.targetMode = 6;
 
-        switch (this->initParams) {
+        switch (this->type) {
 
             case 2:
                 this->actionFunc = func_80A531E4;
@@ -147,7 +146,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
                 osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 覗き穴奥兵士ふぃ〜 ☆☆☆☆☆ \n" VT_RST);
                 Collider_DestroyCylinder(globalCtx, collider);
                 this->actor.flags &= -0xA;
-                this->actionFunc = func_80A531D8;
+                this->actionFunc = EnHeishi_DoNothing2;
                 break;
         }
 
@@ -156,7 +155,7 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         // "Soldier Set 2 Completed!"
         osSyncPrintf(VT_FGCOL(GREEN) " ☆☆☆☆☆ 兵士２セット完了！ ☆☆☆☆☆ %d\n" VT_RST, this->actor.params);
         // "Identification Completed!"
-        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->initParams);
+        osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 識別完了！         ☆☆☆☆☆ %d\n" VT_RST, this->type);
         // "Message completed!"
         osSyncPrintf(VT_FGCOL(PURPLE) " ☆☆☆☆☆ メッセージ完了！   ☆☆☆☆☆ %x\n\n" VT_RST, (this->actor.params >> 8) & 0xF);
     }
@@ -170,10 +169,10 @@ void EnHeishi2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void func_80A531CC(EnHeishi2* this, GlobalContext* globalCtx) {
+void EnHeishi2_DoNothing1(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
-void func_80A531D8(EnHeishi2* this, GlobalContext* globalCtx) {
+void EnHeishi_DoNothing2(EnHeishi2* this, GlobalContext* globalCtx) {
 }
 
 void func_80A531E4(EnHeishi2* this, GlobalContext* globalCtx) {
@@ -697,28 +696,28 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
 
     if (Text_GetFaceReaction(globalCtx, 5) != 0) {
         if (this->unk_30B == 0) {
-            if (this->initParams == 2) {
+            if (this->type == 2) {
                 this->actionFunc = func_80A53278;
                 return;
             }
-            if (this->initParams == 5) {
+            if (this->type == 5) {
                 this->actionFunc = func_80A5399C;
                 return;
             }
         }
     } else if (this->unk_30B != 0) {
-        if (this->initParams == 2) {
+        if (this->type == 2) {
             this->actionFunc = func_80A53278;
             return;
         }
-        if (this->initParams == 5) {
+        if (this->type == 5) {
             this->actionFunc = func_80A5399C;
             return;
         }
     }
 
     if (func_8002F194(&this->actor, globalCtx)) {
-        if (this->initParams == 2) {
+        if (this->type == 2) {
             if (this->unk_30E == 1) {
                 this->actionFunc = func_80A5344C;
                 return;
@@ -726,7 +725,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
                 this->actionFunc = func_80A53278;
                 return;
             }
-        } else if (this->initParams == 5) {
+        } else if (this->type == 5) {
             if (this->unk_300 == 6) {
                 this->actionFunc = func_80A5399C;
             }
@@ -744,7 +743,7 @@ void func_80A5475C(EnHeishi2* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (((this->initParams != 2) && (this->initParams != 5)) ||
+    if (((this->type != 2) && (this->type != 5)) ||
         ((yawDiff = ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)),
           !(this->actor.xzDistToPlayer > 120.0f)) &&
          (yawDiff < 0x4300))) {
@@ -764,10 +763,10 @@ void func_80A549E8(EnHeishi2* this, GlobalContext* globalCtx) {
     if (this->unk_300 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);
-            if (this->initParams == 2) {
+            if (this->type == 2) {
                 this->actionFunc = func_80A531E4;
             }
-            if (this->initParams == 5) {
+            if (this->type == 5) {
                 this->actionFunc = func_80A53908;
             }
         }
@@ -780,7 +779,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 i;
 
     Actor_SetFocus(&this->actor, this->unk_2E0);
-    if ((this->initParams == 2) || (this->initParams == 5)) {
+    if ((this->type == 2) || (this->type == 5)) {
         this->actor.focus.pos.y = 70.0f;
         Actor_SetFocus(&this->actor, 70.0f);
         func_80038290(globalCtx, &this->actor, &this->unk_260, &this->unk_26C, this->actor.focus.pos);
@@ -795,7 +794,7 @@ void EnHeishi2_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     Actor_MoveForward(&this->actor);
-    switch (this->initParams) {
+    switch (this->type) {
         case 6:
             break;
         case 9:
@@ -812,7 +811,7 @@ s32 EnHeishi2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
                                void* thisx) {
     EnHeishi2* this = THIS;
 
-    switch (this->initParams) {
+    switch (this->type) {
         case 1:
             break;
         case 7:
@@ -838,12 +837,12 @@ void EnHeishi2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     }
 }
 
-void func_80A54C6C(Actor* thisx, GlobalContext* globalCtx) {
+void EnHeishi2_DrawKingGuard(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1772);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1774),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, &D_06002C10);
+    gSPDisplayList(POLY_OPA_DISP++, &gHeishiKingGuardDlist);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_heishi2.c", 1777);
 }
@@ -859,7 +858,7 @@ void EnHeishi2_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_DrawOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, EnHeishi2_OverrideLimbDraw,
                       EnHeishi2_PostLimbDraw, this);
-    if ((this->initParams == 5) && (gSaveContext.infTable[7] & 0x80)) {
+    if ((this->type == 5) && (gSaveContext.infTable[7] & 0x80)) {
         linkObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_LINK_CHILD);
         if (linkObjBankIndex >= 0) {
             Matrix_Put(&this->mtxf_330);
