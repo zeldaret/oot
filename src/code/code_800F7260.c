@@ -394,9 +394,9 @@ void func_800F7CEC(u8 arg0) {
     phi_s0 = 0;
     while (phi_s4 != 0xFF) {
         temp_v0 = &phi_v1[phi_s4];
-        if ((1 == temp_v0->unk_2A) && ((temp_v0->unk_28 & 0xC00) != 0)) {
+        if ((1 == temp_v0->unk_2A) && (temp_v0->unk_28 & 0xC00)) {
             temp_v0->unk_2B--;
-        } else if (((temp_v0->unk_28 & 0xC00) == 0) && (temp_v0->unk_2A == 5)) {
+        } else if (!(temp_v0->unk_28 & 0xC00) && (temp_v0->unk_2A == 5)) {
             func_800E5B20((temp_v0->unk_2E << 8) | 0x6020000, 0);
             func_800F7B54(arg0, phi_s4);
         }
