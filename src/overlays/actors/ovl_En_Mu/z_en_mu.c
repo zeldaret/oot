@@ -143,7 +143,7 @@ void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnMu_Pose(Actor* thisx, GlobalContext* globalCtx) {
     EnMu* this = THIS;
-    func_80034F54(globalCtx, &this->jointTable, &this->morphTable, 16);
+    func_80034F54(globalCtx, &this->unk_20A, &this->unk_22A, 16);
 }
 
 void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -173,8 +173,8 @@ s32 EnMu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
     EnMu* this = THIS;
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
         (limbIndex == 13) || (limbIndex == 14)) {
-        rot->y += Math_SinS(this->jointTable[limbIndex]) * 200.0f;
-        rot->z += Math_CosS(this->morphTable[limbIndex]) * 200.0f;
+        rot->y += Math_SinS(this->unk_20A[limbIndex]) * 200.0f;
+        rot->z += Math_CosS(this->unk_22A[limbIndex]) * 200.0f;
     }
     return false;
 }
