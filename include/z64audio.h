@@ -671,7 +671,8 @@ typedef struct {
     /* 0x2624 */ char unk_2624[0x210];
     /* 0x2834 */ s16* unk_2834;
     /* 0x2838 */ ManyStruct_800E0E0C_2* unk_2838;
-    /* 0x283C */ char unk_283C[0x8];
+    /* 0x283C */ u8* unk_283C;
+    /* 0x2840 */ char unk_2840[0x4];
     /* 0x2844 */ CtlEntry* gCtlEntries;
     /* 0x2848 */ AudioBufferParameters gAudioBufferParameters;
     /* 0x2870 */ f32 unk_2870;
