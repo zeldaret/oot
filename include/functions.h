@@ -2117,7 +2117,7 @@ void func_800E3A14(void);
 // ? func_800E48C0(?);
 // ? func_800E4918(?);
 void func_800E4D94(void);
-void func_800E4EEC(u32,s32,void*);
+// ? func_800E4EEC(?);
 // ? func_800E4F58(?);
 void func_800E4FB0(void);
 Sub_AudioMgr_18* func_800E4FE0(void);
