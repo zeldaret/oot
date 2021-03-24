@@ -1211,13 +1211,11 @@ void EnHorse_MountedTrot(EnHorse* this, GlobalContext* globalCtx) {
         func_800AA000(0.0f, 60, 8, 255);
         if (this->actor.speedXZ >= 6.0f) {
             EnHorse_StartGallopingInterruptable(this);
-            return;
-        }
-        if (this->actor.speedXZ < 3.0f) {
+        } else if (this->actor.speedXZ < 3.0f) {
             EnHorse_StartWalkingInterruptable(this);
-            return;
+        } else {
+            EnHorse_MountedTrotReset(this);
         }
-        EnHorse_MountedTrotReset(this);
     }
 }
 
