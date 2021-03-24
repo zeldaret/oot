@@ -9,5 +9,4 @@
 class HLAnimation
 {
 public:
-
 };

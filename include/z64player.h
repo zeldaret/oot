@@ -149,6 +149,15 @@ typedef enum {
     /* 0x16 */ PLAYER_LIMB_MAX
 } PlayerLimb;
 
+typedef enum {
+    /* -1 */ PLAYER_DOORTYPE_AJAR = -1,
+    /*  0 */ PLAYER_DOORTYPE_NONE,
+    /*  1 */ PLAYER_DOORTYPE_HANDLE,
+    /*  2 */ PLAYER_DOORTYPE_SLIDING,
+    /*  3 */ PLAYER_DOORTYPE_FAKE
+} PlayerDoorType;
+
+
 #define PLAYER_LIMB_BUF_COUNT PLAYER_LIMB_MAX + 2 // 2 extra entries in limb buffers?
 
 typedef struct {

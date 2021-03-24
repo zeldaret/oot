@@ -46,8 +46,8 @@ typedef void (*EnDoorActionFunc)(struct EnDoor*, GlobalContext*);
 typedef struct EnDoor {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ u8 unk_190;
-    /* 0x0191 */ u8 unk_191;
+    /* 0x0190 */ u8 animStyle; // Must be at same offset as animStyle in DoorKiller due to the cast in func_80839800
+    /* 0x0191 */ u8 playerIsOpening; // Must be at same offset as playerIsOpening in DoorKiller due to the cast in func_80839800
     /* 0x0192 */ u8 unk_192;
     /* 0x0193 */ s8 requiredObjBankIndex;
     /* 0x0194 */ s8 dListIndex;

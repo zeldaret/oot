@@ -1,4 +1,5 @@
 #include "global.h"
+#include "alloca.h"
 
 void PreRender_SetValuesSave(PreRenderContext* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg) {
     this->widthSave = width;
@@ -36,11 +37,7 @@ void func_800C0F28(PreRenderContext* this, Gfx** gfxp, void* buf, void* bufSave)
     Gfx* gfx;
     s32 x;
     s32 x2;
-    s32 add;
-    s32 uls;
-    s32 ult;
-    s32 lrs;
-    s32 lrt;
+    s32 dx;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 215);
     LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 216);
@@ -55,19 +52,19 @@ void func_800C0F28(PreRenderContext* this, Gfx** gfxp, void* buf, void* bufSave)
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, bufSave);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
+    dx = 0x1000 / (this->width * 2);
+
     x = this->height;
-    add = 0x1000 / (this->width * 2);
-    uls = 0;
     x2 = 0;
-
     while (x > 0) {
-        lrs = this->width - 1;
-        if (x < add) {
-            add = x;
-        }
+        s32 uls = 0;
+        s32 lrs = this->width - 1;
+        s32 ult;
+        s32 lrt;
 
+        dx = CLAMP_MAX(dx, x);
         ult = x2;
-        lrt = (ult + add) - 1;
+        lrt = (ult + dx) - 1;
 
         if (1) {}
         gDPLoadTextureTile(gfx++, buf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
@@ -76,8 +73,8 @@ void func_800C0F28(PreRenderContext* this, Gfx** gfxp, void* buf, void* bufSave)
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, lrs << 2, lrt << 2, G_TX_RENDERTILE, uls << 5, ult << 5, 4 << 10,
                             1 << 10);
 
-        x -= add;
-        x2 += add;
+        x -= dx;
+        x2 += dx;
     }
 
     gDPPipeSync(gfx++);
@@ -89,11 +86,7 @@ void func_800C1258(PreRenderContext* this, Gfx** gfxp) {
     Gfx* gfx;
     s32 y;
     s32 y2;
-    s32 add;
-    s32 ult;
-    s32 lrs;
-    s32 lrt;
-    s32 uly;
+    s32 dy;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 278);
     LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 279);
@@ -108,28 +101,30 @@ void func_800C1258(PreRenderContext* this, Gfx** gfxp) {
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->fbuf);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, this->ulx, this->uly, this->lrx + 1, this->lry + 1);
 
-    y2 = 0;
-    add = 0x1000 / ((this->lrxSave - this->ulxSave + 1) * 2);
-    y = (this->lrySave - this->ulySave) + 1;
+    dy = 0x1000 / ((this->lrxSave - this->ulxSave + 1) * 2);
 
+    y = (this->lrySave - this->ulySave) + 1;
+    y2 = 0;
     while (y > 0) {
-        if (y < add) {
-            add = y;
-        }
+        s32 ult;
+        s32 lrt;
+        s32 uly;
+
+        dy = CLAMP_MAX(dy, y);
 
         ult = this->ulySave + y2;
+        lrt = (ult + dy) - 1;
         uly = this->uly + y2;
-        lrt = (ult + add) - 1;
 
         if (1) {}
         gDPLoadTextureTile(gfx++, this->fbufSave, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->widthSave, this->height - 1,
                            this->ulxSave, ult, this->lrxSave, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-        gSPTextureRectangle(gfx++, this->ulx << 2, uly << 2, this->lrx << 2, (uly + add - 1) << 2, G_TX_RENDERTILE,
+        gSPTextureRectangle(gfx++, this->ulx << 2, uly << 2, this->lrx << 2, (uly + dy - 1) << 2, G_TX_RENDERTILE,
                             this->ulxSave << 5, ult << 5, 4 << 10, 1 << 10);
 
-        y -= add;
-        y2 += add;
+        y -= dy;
+        y2 += dy;
     }
 
     gDPPipeSync(gfx++);
@@ -142,12 +137,7 @@ void func_800C170C(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSav
     Gfx* gfx;
     s32 x;
     s32 x2;
-    s32 add;
-    s32 uls;
-    s32 ult;
-    s32 lrs;
-    s32 lrt;
-    s32 unk;
+    s32 dx;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 343);
     LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 344);
@@ -165,20 +155,19 @@ void func_800C170C(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSav
     gDPSetColorImage(gfx++, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, fbufSave);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
-    x2 = 0;
+    dx = 0x1000 / (this->width * 2);
+
     x = this->height;
-    add = 0x1000 / (this->width * 2);
-
+    x2 = 0;
     while (x > 0) {
-        lrs = this->width - 1;
+        s32 uls = 0;
+        s32 lrs = this->width - 1;
+        s32 ult;
+        s32 lrt;
 
-        if (x < add) {
-            add = x;
-        }
-
-        uls = 0;
+        dx = CLAMP_MAX(dx, x);
         ult = x2;
-        lrt = (x2 + add - 1);
+        lrt = x2 + dx - 1;
 
         gDPLoadTextureTile(gfx++, fbuf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -187,8 +176,8 @@ void func_800C170C(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSav
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
-        x -= add;
-        x2 += add;
+        x -= dx;
+        x2 += dx;
     }
 
     gDPPipeSync(gfx++);
@@ -204,11 +193,7 @@ void func_800C1B24(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* cvgSave
     Gfx* gfx;
     s32 x;
     s32 x2;
-    s32 add;
-    s32 uls;
-    s32 ult;
-    s32 lrs;
-    s32 lrt;
+    s32 dx;
 
     LogUtils_CheckNullPointer("this", this, "../PreRender.c", 422);
     LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 423);
@@ -224,18 +209,19 @@ void func_800C1B24(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* cvgSave
     gDPSetColorImage(gfx++, G_IM_FMT_I, G_IM_SIZ_8b, this->width, cvgSave);
     gDPSetScissor(gfx++, G_SC_NON_INTERLACE, 0, 0, this->width, this->height);
 
+    dx = 0x1000 / (this->width * 2);
+
     x = this->height;
     x2 = 0;
-    add = 0x1000 / (this->width * 2);
-
     while (x > 0) {
-        lrs = this->width - 1;
-        if (x < add) {
-            add = x;
-        }
-        uls = 0;
+        s32 uls = 0;
+        s32 lrs = this->width - 1;
+        s32 ult;
+        s32 lrt;
+
+        dx = CLAMP_MAX(dx, x);
         ult = x2;
-        lrt = (x2 + add) - 1;
+        lrt = x2 + dx - 1;
 
         gDPLoadTextureTile(gfx++, fbuf, G_IM_FMT_IA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -243,9 +229,8 @@ void func_800C1B24(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* cvgSave
         if (1) {}
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
-
-        x -= add;
-        x2 += add;
+        x -= dx;
+        x2 += dx;
     }
 
     gDPPipeSync(gfx++);
@@ -257,22 +242,18 @@ void func_800C1E9C(PreRenderContext* this, Gfx** gfxp) {
     LogUtils_CheckNullPointer("this->zbuf_save", this->zbufSave, "../PreRender.c", 481);
     LogUtils_CheckNullPointer("this->zbuf", this->zbuf, "../PreRender.c", 482);
 
-    if (!this->zbufSave || !this->zbuf) {
-        return;
+    if ((this->zbufSave != NULL) && (this->zbuf != NULL)) {
+        func_800C0F28(this, gfxp, this->zbuf, this->zbufSave);
     }
-
-    func_800C0F28(this, gfxp, this->zbuf, this->zbufSave);
 }
 
 void func_800C1F20(PreRenderContext* this, Gfx** gfxp) {
     LogUtils_CheckNullPointer("this->fbuf_save", this->fbufSave, "../PreRender.c", 495);
     LogUtils_CheckNullPointer("this->fbuf", this->fbuf, "../PreRender.c", 496);
 
-    if (!this->fbufSave || !this->fbuf) {
-        return;
+    if ((this->fbufSave != NULL) && (this->fbuf != NULL)) {
+        func_800C1AE8(this, gfxp, this->fbuf, this->fbufSave);
     }
-
-    func_800C1AE8(this, gfxp, this->fbuf, this->fbufSave);
 }
 
 void func_800C1FA4(PreRenderContext* this, Gfx** gfxp) {
@@ -295,11 +276,9 @@ void func_800C1FA4(PreRenderContext* this, Gfx** gfxp) {
 void func_800C20B4(PreRenderContext* this, Gfx** gfxp) {
     func_800C1FA4(this, gfxp);
     LogUtils_CheckNullPointer("this->cvg_save", this->cvgSave, "../PreRender.c", 532);
-    if (!this->cvgSave) {
-        return;
+    if (this->cvgSave != NULL) {
+        func_800C1B24(this, gfxp, this->fbuf, this->cvgSave);
     }
-
-    func_800C1B24(this, gfxp, this->fbuf, this->cvgSave);
 }
 
 void func_800C2118(PreRenderContext* this, Gfx** gfxp) {
@@ -310,68 +289,58 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
     Gfx* gfx;
     s32 y;
     s32 y2;
-    s32 add;
-    s32 uls;
-    s32 yinc; // vertical increment amount
-    s32 ult;
-    s32 lrx;
-    s32 lry;
+    s32 dy;
+    s32 rtile = 1;
 
-    if (!this->cvgSave) {
-        return;
-    }
+    if (this->cvgSave != NULL) {
+        LogUtils_CheckNullPointer("this", this, "../PreRender.c", 563);
+        LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 564);
+        gfx = *gfxp;
+        LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 566);
 
-    LogUtils_CheckNullPointer("this", this, "../PreRender.c", 563);
-    LogUtils_CheckNullPointer("glistpp", gfxp, "../PreRender.c", 564);
-    gfx = *gfxp;
-    LogUtils_CheckNullPointer("glistp", gfx, "../PreRender.c", 566);
+        gDPPipeSync(gfx++);
+        gDPSetEnvColor(gfx++, 255, 255, 255, 32);
+        gDPSetOtherMode(gfx++,
+                        G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
+                            G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
+                        G_AC_NONE | G_ZS_PRIM | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA |
+                            GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
+                            GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1));
+        gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
 
-    gDPPipeSync(gfx++);
-    gDPSetEnvColor(gfx++, 255, 255, 255, 32);
-    gDPSetOtherMode(gfx++,
-                    G_AD_DISABLE | G_CD_DISABLE | G_CK_NONE | G_TC_FILT | G_TF_POINT | G_TT_NONE | G_TL_TILE |
-                        G_TD_CLAMP | G_TP_NONE | G_CYC_2CYCLE | G_PM_NPRIMITIVE,
-                    G_AC_NONE | G_ZS_PRIM | AA_EN | CVG_DST_CLAMP | ZMODE_OPA | CVG_X_ALPHA |
-                        GBL_c1(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1) |
-                        GBL_c2(G_BL_CLR_IN, G_BL_0, G_BL_CLR_IN, G_BL_1));
-    gDPSetCombineLERP(gfx++, 0, 0, 0, TEXEL0, 1, 0, TEXEL1, ENVIRONMENT, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED);
+        dy = 4;
 
-    y = this->height;
-    add = 4;
-    y2 = 0;
+        y = this->height;
+        y2 = 0;
+        while (y > 0) {
+            s32 uls = 0;
+            s32 lrs = this->width - 1;
+            s32 ult;
+            s32 lrt;
 
-    while (y > 0) {
-        lrx = this->width - 1;
-        if (y < add) {
-            add = y;
+            dy = CLAMP_MAX(dy, y);
+
+            ult = y2;
+            lrt = (y2 + dy - 1);
+
+            gDPLoadMultiTile(gfx++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
+                             this->height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                             G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            if (1) {}
+            gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height,
+                             uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
+                             G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
+            if (1) {}
+            gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
+                                ult << 5, 1 << 10, 1 << 10);
+
+            y -= dy;
+            y2 += dy;
         }
 
-        uls = 0;
-        yinc = 1;
-        ult = y2;
-        lry = (y2 + add - yinc);
-
-        gDPLoadMultiTile(gfx++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
-                         this->height, uls, ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
-                         G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-        do {
-        } while (0); // force register allocation behavior
-        gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, yinc, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height, uls,
-                         ult, lrx, lry, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
-                         G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-
-        do {
-        } while (0); // force register allocation behavior
-        gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrx + yinc) << 2, (lry + yinc) << 2, G_TX_RENDERTILE, uls << 5,
-                            ult << 5, 1 << 10, 1 << 10);
-
-        y -= add;
-        y2 += add;
+        gDPPipeSync(gfx++);
+        *gfxp = gfx;
     }
-
-    gDPPipeSync(gfx++);
-    *gfxp = gfx;
 }
 
 void func_800C24BC(PreRenderContext* this, Gfx** gfxp) {
@@ -382,27 +351,30 @@ void func_800C24E0(PreRenderContext* this, Gfx** gfxp) {
     func_800C1258(this, gfxp);
 }
 
-#ifdef NON_EQUIVALENT
 void func_800C2500(PreRenderContext* this, s32 x, s32 y) {
-
-    u32 buffA[3 * 8]; // 0x144
-    u32 buffR[3 * 8]; // 0x108
-    u32 buffG[3 * 8]; // 0xCC
-    u32 buffB[3 * 8]; // 0x90
-
-    u32 pxR, pxG, pxB, pxR2, pxG2, pxB2;
-
     s32 i;
-
-    s32 x1, y1;
-    u32 px;
-    u32 comp;
-
-    u32 unk;
-    u16 pixel;
+    s32 j;
+    s32 buffA[3 * 5];
+    s32 buffR[3 * 5];
+    s32 buffG[3 * 5];
+    s32 buffB[3 * 5];
+    s32 x1;
+    s32 y1;
+    s32 pad;
+    s32 pxR;
+    s32 pxG;
+    s32 pxB;
+    s32 pxR2;
+    s32 pxG2;
+    s32 pxB2;
+    Color_RGB5A1 pxIn;
+    Color_RGB5A1 pxOut;
+    u32 pxR3;
+    u32 pxG3;
+    u32 pxB3;
 
     /*
-    you have to picture this as a 3x5 rectangle where the middle pixel (index 7) correspond to (x; y)
+    Picture this as a 3x5 rectangle where the middle pixel (index 7) correspond to (x, y)
       _ _ _ _ _
     | 0 1 2 3 4 |
     | 5 6 7 8 9 |
@@ -410,227 +382,193 @@ void func_800C2500(PreRenderContext* this, s32 x, s32 y) {
       ‾ ‾ ‾ ‾ ‾
     */
     for (i = 0; i < 3 * 5; i++) {
-        x1 = (i % 5) + x - 2; // range (-2) - (2)
-        y1 = (i / 5) + x - 1; // range (-1) - (1)
+        x1 = (i % 5) + x - 2;
+        y1 = (i / 5) + y - 1;
 
         if (x1 < 0) {
             x1 = 0;
-        } else if (this->width - 1 < x1) {
+        } else if (x1 > (this->width - 1)) {
             x1 = this->width - 1;
         }
         if (y1 < 0) {
             y1 = 0;
-        } else if (this->height - 1 < y1) {
+        } else if (y1 > (this->height - 1)) {
             y1 = this->height - 1;
         }
 
-        px = this->fbufSave[y1 * this->width + x1];
-        comp = (px << 0) >> 27; // R
-        buffR[i] = (comp << 3) | (comp >> 2);
-        comp = (px << 5) >> 27; // G
-        buffG[i] = (comp << 3) | (comp >> 2);
-        comp = (px << 10) >> 27; // B
-        buffB[i] = (comp << 3) | (comp >> 2);
-        buffA[i] = this->cvgSave[y1 * this->width + x1] >> 5; // A
+        pxIn.rgba = this->fbufSave[x1 + y1 * this->width];
+        buffR[i] = (pxIn.r << 3) | (pxIn.r >> 2);
+        buffG[i] = (pxIn.g << 3) | (pxIn.g >> 2);
+        buffB[i] = (pxIn.b << 3) | (pxIn.b >> 2);
+        buffA[i] = this->cvgSave[x1 + y1 * this->width] >> 5; // A
     }
 
-    // 7 == buffA[7] ?
-    if (7 == buffA[7]) {
+    if (buffA[7] == 7) {
         osSyncPrintf("Error, should not be in here \n");
         return;
     }
 
-    pxR = buffR[7];
-    pxG = buffG[7];
-    pxB = buffB[7];
+    pxR = pxR2 = buffR[7];
+    pxG = pxG2 = buffG[7];
+    pxB = pxB2 = buffB[7];
 
     for (i = 1; i < 3 * 5; i += 2) {
-        if (7 == buffA[i]) {
-            // R
+        if (buffA[i] == 7) {
             if (pxR < buffR[i]) {
-                if (i != 1 && buffR[1] >= buffR[i] && 7 == buffA[1]) {
-                    pxR = buffR[i];
-                }
-                if (i != 3 && buffR[3] >= buffR[i] && 7 == buffA[3]) {
-                    pxR = buffR[i];
-                }
-                if (i != 5 && buffR[5] >= buffR[i] && 7 == buffA[5]) {
-                    pxR = buffR[i];
-                }
-                if (i != 7 && buffR[7] >= buffR[i] && 7 == buffA[7]) {
-                    pxR = buffR[i];
-                }
-                if (i != 9 && buffR[9] >= buffR[i] && 7 == buffA[9]) {
-                    pxR = buffR[i];
-                }
-                if (i != 11 && buffR[11] >= buffR[i] && 7 == buffA[11]) {
-                    pxR = buffR[i];
-                }
-                if (i != 13 && buffR[13] >= buffR[i] && 7 == buffA[13]) {
-                    pxR = buffR[i];
+                for (j = 1; j < 15; j += 2) {
+                    if ((i != j) && (buffR[j] >= buffR[i]) && (buffA[j] == 7)) {
+                        pxR = buffR[i];
+                    }
                 }
             }
-            // G
             if (pxG < buffG[i]) {
-                if (i != 1 && buffG[1] >= buffG[i] && 7 == buffA[1]) {
-                    pxG = buffG[i];
-                }
-                if (i != 3 && buffG[3] >= buffG[i] && 7 == buffA[3]) {
-                    pxG = buffG[i];
-                }
-                if (i != 5 && buffG[5] >= buffG[i] && 7 == buffA[5]) {
-                    pxG = buffG[i];
-                }
-                if (i != 7 && buffG[7] >= buffG[i] && 7 == buffA[7]) {
-                    pxG = buffG[i];
-                }
-                if (i != 9 && buffG[9] >= buffG[i] && 7 == buffA[9]) {
-                    pxG = buffG[i];
-                }
-                if (i != 11 && buffG[11] >= buffG[i] && 7 == buffA[11]) {
-                    pxG = buffG[i];
-                }
-                if (i != 13 && buffG[13] >= buffG[i] && 7 == buffA[13]) {
-                    pxG = buffG[i];
+                for (j = 1; j < 15; j += 2) {
+                    if ((i != j) && (buffG[j] >= buffG[i]) && (buffA[j] == 7)) {
+                        pxG = buffG[i];
+                    }
                 }
             }
-            // B
             if (pxB < buffB[i]) {
-                if (i != 1 && buffB[1] >= buffB[i] && 7 == buffA[1]) {
-                    pxB = buffB[i];
-                }
-                if (i != 3 && buffB[3] >= buffB[i] && 7 == buffA[3]) {
-                    pxB = buffB[i];
-                }
-                if (i != 5 && buffB[5] >= buffB[i] && 7 == buffA[5]) {
-                    pxB = buffB[i];
-                }
-                if (i != 7 && buffB[7] >= buffB[i] && 7 == buffA[7]) {
-                    pxB = buffB[i];
-                }
-                if (i != 9 && buffB[9] >= buffB[i] && 7 == buffA[9]) {
-                    pxB = buffB[i];
-                }
-                if (i != 11 && buffB[11] >= buffB[i] && 7 == buffA[11]) {
-                    pxB = buffB[i];
-                }
-                if (i != 13 && buffB[13] >= buffB[i] && 7 == buffA[13]) {
-                    pxB = buffB[i];
+                for (j = 1; j < 15; j += 2) {
+                    if ((i != j) && (buffB[j] >= buffB[i]) && (buffA[j] == 7)) {
+                        pxB = buffB[i];
+                    }
                 }
             }
-
-            // R
-            if (pxR2 < buffR[i + 1]) {
-                if (i + 1 != 1 && buffR[1] >= buffR[i + 1] && 7 == buffA[1]) {
-                    pxR2 = buffR[i + 1];
-                }
-                if (i + 1 != 3 && buffR[3] >= buffR[i + 1] && 7 == buffA[3]) {
-                    pxR2 = buffR[i + 1];
-                }
-                if (i + 1 != 5 && buffR[5] >= buffR[i + 1] && 7 == buffA[5]) {
-                    pxR2 = buffR[i + 1];
-                }
-                if (i + 1 != 7 && buffR[7] >= buffR[i + 1] && 7 == buffA[7]) {
-                    pxR2 = buffR[i + 1];
-                }
-                if (i + 1 != 9 && buffR[9] >= buffR[i + 1] && 7 == buffA[9]) {
-                    pxR2 = buffR[i + 1];
-                }
-                if (i + 1 != 11 && buffR[11] >= buffR[i + 1] && 7 == buffA[11]) {
-                    pxR2 = buffR[i + 1];
-                }
-                if (i + 1 != 13 && buffR[13] >= buffR[i + 1] && 7 == buffA[13]) {
-                    pxR2 = buffR[i + 1];
+            if (1) {}
+            if (pxR2 > buffR[i]) {
+                for (j = 1; j < 15; j += 2) {
+                    if ((i != j) && (buffR[j] <= buffR[i]) && (buffA[j] == 7)) {
+                        pxR2 = buffR[i];
+                    }
                 }
             }
-            // G
-            if (pxG2 < buffG[i + 1]) {
-                if (i + 1 != 1 && buffG[1] >= buffG[i + 1] && 7 == buffA[1]) {
-                    pxG2 = buffG[i + 1];
-                }
-                if (i + 1 != 3 && buffG[3] >= buffG[i + 1] && 7 == buffA[3]) {
-                    pxG2 = buffG[i + 1];
-                }
-                if (i + 1 != 5 && buffG[5] >= buffG[i + 1] && 7 == buffA[5]) {
-                    pxG2 = buffG[i + 1];
-                }
-                if (i + 1 != 7 && buffG[7] >= buffG[i + 1] && 7 == buffA[7]) {
-                    pxG2 = buffG[i + 1];
-                }
-                if (i + 1 != 9 && buffG[9] >= buffG[i + 1] && 7 == buffA[9]) {
-                    pxG2 = buffG[i + 1];
-                }
-                if (i + 1 != 11 && buffG[11] >= buffG[i + 1] && 7 == buffA[11]) {
-                    pxG2 = buffG[i + 1];
-                }
-                if (i + 1 != 13 && buffG[13] >= buffG[i + 1] && 7 == buffA[13]) {
-                    pxG2 = buffG[i + 1];
+            if (pxG2 > buffG[i]) {
+                for (j = 1; j < 15; j += 2) {
+                    if ((i != j) && (buffG[j] <= buffG[i]) && (buffA[j] == 7)) {
+                        pxG2 = buffG[i];
+                    }
                 }
             }
-            // B
-            if (pxB2 < buffB[i + 1]) {
-                if (i + 1 != 1 && buffB[1] >= buffB[i + 1] && 7 == buffA[1]) {
-                    pxB2 = buffB[i + 1];
-                }
-                if (i + 1 != 3 && buffB[3] >= buffB[i + 1] && 7 == buffA[3]) {
-                    pxB2 = buffB[i + 1];
-                }
-                if (i + 1 != 5 && buffB[5] >= buffB[i + 1] && 7 == buffA[5]) {
-                    pxB2 = buffB[i + 1];
-                }
-                if (i + 1 != 7 && buffB[7] >= buffB[i + 1] && 7 == buffA[7]) {
-                    pxB2 = buffB[i + 1];
-                }
-                if (i + 1 != 9 && buffB[9] >= buffB[i + 1] && 7 == buffA[9]) {
-                    pxB2 = buffB[i + 1];
-                }
-                if (i + 1 != 11 && buffB[11] >= buffB[i + 1] && 7 == buffA[11]) {
-                    pxB2 = buffB[i + 1];
-                }
-                if (i + 1 != 13 && buffB[13] >= buffB[i + 1] && 7 == buffA[13]) {
-                    pxB2 = buffB[i + 1];
+            if (pxB2 > buffB[i]) {
+                for (j = 1; j < 15; j += 2) {
+                    if ((i != j) && (buffB[j] <= buffB[i]) && (buffA[j] == 7)) {
+                        pxB2 = buffB[i];
+                    }
                 }
             }
         }
     }
 
-    unk = 7 - buffA[7];
+    pxR3 = buffR[7] + ((s32)((7 - buffA[7]) * ((pxR + pxR2) - (buffR[7] << 1)) + 4) >> 3);
+    pxG3 = buffG[7] + ((s32)((7 - buffA[7]) * ((pxG + pxG2) - (buffG[7] << 1)) + 4) >> 3);
+    pxB3 = buffB[7] + ((s32)((7 - buffA[7]) * ((pxB + pxB2) - (buffB[7] << 1)) + 4) >> 3);
 
-    pixel =
-        (((((((pxR + pxR2) - (buffR[7] << 1)) * unk + 4) >> 3) + buffR[7]) >> 3) << 3) | (pixel & 0xFF07); // RG + 7?
-    pixel = ((((((((pxG + pxG2) - (buffG[7] << 1)) * unk + 4) >> 3) + buffG[7]) >> 3) << 6) & 0x07C0) |
-            (pixel & 0xF83F); // R-BA
-    pixel = ((((((((pxB + pxB2) - (buffB[7] << 1)) * unk + 4) >> 3) + buffB[7]) >> 3) << 1) & 0x003E) |
-            (pixel & 0xFFC1); // RG-A
-    pixel |= 1;
-    this->fbufSave[y * this->width + x] = pixel;
+    pxOut.r = pxR3 >> 3;
+    pxOut.g = pxG3 >> 3;
+    pxOut.b = pxB3 >> 3;
+    pxOut.a = 1;
+    this->fbufSave[x + y * this->width] = pxOut.rgba;
+}
+
+#ifdef NON_MATCHING
+// Redundant conditional is the only nonmatching.
+void func_800C2FE4(PreRenderContext* this) {
+    s32 x;
+    s32 y;
+    s32 phi_v0;
+    u8* buffR = alloca(this->width);
+    u8* buffG = alloca(this->width);
+    u8* buffB = alloca(this->width);
+    s32 pxR;
+    s32 pxG;
+    s32 pxB;
+    s32 medR;
+    s32 medG;
+    s32 medB;
+
+    for (y = 0; y < this->height; y++) {
+        for (x = 0; x < this->width; x++) {
+            Color_RGB5A1 pxIn;
+
+            pxIn.rgba = this->fbufSave[x + y * this->width];
+            buffR[x] = pxIn.r;
+            buffG[x] = pxIn.g;
+            buffB[x] = pxIn.b;
+        }
+        for (x = 1; x < this->width - 1; x++) {
+            Color_RGB5A1 pxOut;
+            s32 a = this->cvgSave[x + y * this->width];
+
+            a >>= 5;
+            if (a == 7) {
+                continue;
+            }
+
+            if (((HREG(80) == 0xF) ? HREG(81) : 0) != 0) {
+                // There's a redundant branch in the ASM that taken literally looks like this
+                // phi_v0 = ((HREG(80) == 0xF) ? 0 : 0);
+                // if (((HREG(80) == 0xF) ? HREG(81) : phi_v0) == 5) {
+                
+                if (((HREG(80) == 0xF) ? HREG(81) : 0) == 5) {
+                    pxR = 31;
+                    pxG = 0;
+                    pxB = 0;
+                } else {
+                    u8* temp_s0 = &buffR[x - 1];
+                    u8* temp_s1 = &buffG[x - 1];
+                    u8* temp_s2 = &buffB[x - 1];
+
+                    if (((HREG(80) == 0xF) ? HREG(81) : 0) == 3) {
+                        medR = MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]);
+                        medG = MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]);
+                        medB = MEDIAN3(temp_s2[0], temp_s2[1], temp_s2[2]);
+                        osSyncPrintf("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", temp_s0[0],
+                                     temp_s0[1], temp_s0[2], medR, temp_s1[0], temp_s1[1], temp_s1[2], medG, temp_s2[0],
+                                     temp_s2[1], temp_s2[2], medB);
+                    }
+                    if (((HREG(80) == 0xF) ? HREG(81) : 0) == 1) {
+                        pxR = MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]);
+                        pxG = MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]);
+                        pxB = MEDIAN3(temp_s2[0], temp_s2[1], temp_s2[2]);
+                    } else {
+                        pxR = MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]);
+                        pxG = MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]);
+                        pxB = MEDIAN3(temp_s2[0], temp_s2[1], temp_s2[2]);
+                    }
+                }
+                pxOut.r = pxR;
+                pxOut.g = pxG;
+                pxOut.b = pxB;
+                pxOut.a = 1;
+            }
+            this->fbufSave[x + y * this->width] = pxOut.rgba;
+        }
+    }
 }
 #else
-#pragma GLOBAL_ASM("asm/non_matchings/code/PreRender/func_800C2500.s")
-#endif
-
 #pragma GLOBAL_ASM("asm/non_matchings/code/PreRender/func_800C2FE4.s")
+#endif
 
 void PreRender_Calc(PreRenderContext* this) {
     s32 x;
     s32 y;
 
-    if (!this->cvgSave || !this->fbufSave) {
-        return;
-    }
+    if ((this->cvgSave != NULL) && (this->fbufSave != NULL)) {
 
-    for (y = 0; y < this->height; y++) {
-        for (x = 0; x < this->width; x++) {
-            s32 a = this->cvgSave[x + y * this->width];
-            a >>= 5;
-            a++;
-            if (a != 8) {
-                func_800C2500(this, x, y);
+        for (y = 0; y < this->height; y++) {
+            for (x = 0; x < this->width; x++) {
+                s32 a = this->cvgSave[x + y * this->width];
+                a >>= 5;
+                a++;
+                if (a != 8) {
+                    func_800C2500(this, x, y);
+                }
             }
         }
-    }
 
-    if (HREG(80) == 0xF ? HREG(81) : 0) {
-        func_800C2FE4(this);
+        if (HREG(80) == 0xF ? HREG(81) : 0) {
+            func_800C2FE4(this);
+        }
     }
 }

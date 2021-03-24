@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_hrock.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -18,9 +19,6 @@ void BgHidanHrock_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_8088960C(BgHidanHrock* this, GlobalContext* globalCtx);
 void func_808896B8(BgHidanHrock* this, GlobalContext* globalCtx);
 void func_808894A4(BgHidanHrock* this, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_0600D054;
-extern UNK_TYPE D_0600D188;
 
 const ActorInit Bg_Hidan_Hrock_InitVars = {
     ACTOR_BG_HIDAN_HROCK,
@@ -136,9 +134,9 @@ void BgHidanHrock_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == 0) {
-        CollisionHeader_GetVirtual(&D_0600D054, &collisionHeader);
+        CollisionHeader_GetVirtual(&gFireTempleTallestPillarAboveRoomBeforeBossCol, &collisionHeader);
     } else {
-        CollisionHeader_GetVirtual(&D_0600D188, &collisionHeader);
+        CollisionHeader_GetVirtual(&gFireTemplePillarInsertedInGroundCol, &collisionHeader);
     }
 
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, collisionHeader);
@@ -233,7 +231,11 @@ void BgHidanHrock_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgHidanHrock_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* dlists[] = { 0x0600A240, 0x0600C838, 0x0600C838 };
+    static Gfx* dlists[] = {
+        gFireTempleTallestPillarAboveRoomBeforeBossDL,
+        gFireTemplePillarInsertedInGroundDL,
+        gFireTemplePillarInsertedInGroundDL,
+    };
 
     Gfx_DrawDListOpa(globalCtx, dlists[thisx->params]);
 }
