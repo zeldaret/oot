@@ -1,6 +1,5 @@
 #include "z_en_horse.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
-#include "alloca.h"
 
 #define FLAGS 0x00000010
 
@@ -140,16 +139,6 @@ static ColliderJntSphInit sJntSphInit = {
     1,
     sJntSphItemsInit,
 };
-
-#define DBG_HORSE 0
-
-#if DBG_HORSE
-static GfxPrint sDebugPrinter;
-static GfxPrint *dprint = &sDebugPrinter;
-static int horse = 0;
-static int changed = 0;
-static int dbgY;
-#endif
 
 CollisionCheckInfoInit D_80A65F38 = { 10, 35, 100, MASS_HEAVY };
 
@@ -1609,15 +1598,7 @@ void EnHorse_HighJump(EnHorse* this, GlobalContext* globalCtx) {
     } else {
         jointTable = this->skin.skelAnime.jointTable;
         y = jointTable->y;
-#if DBG_HORSE
-        if (CHECK_BTN_ALL(globalCtx->state.input[0].cur.button, BTN_DUP)) {
-            this->actor.world.pos.y = this->jumpStartY + y * 0.21f;
-        } else {
-            this->actor.world.pos.y = this->jumpStartY + y * 0.01f;
-        }
-#else
         this->actor.world.pos.y = this->jumpStartY + y * 0.01f;
-#endif
 
     }
 
@@ -3346,18 +3327,6 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f dustVel = { 0.0f, 1.0f, 0.0f };
     Player* player = PLAYER;
 
-#if DBG_HORSE
-    if (!changed && CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DLEFT))
-    {
-        horse ^= 1;
-        changed = true;
-    }
-    else if (changed && !CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DLEFT))
-    {
-        changed = false;
-    }
-#endif
-
     this->lastYaw = thisx->shape.rot.y;
     EnHorse_UpdateStick(this, globalCtx2);
     EnHorse_UpdatePlayerDir(this, globalCtx2);
@@ -3376,62 +3345,6 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
             EnHorse_StartRearing(this);
         }
     }
-
-#if DBG_HORSE
-    dbgY = 4;
-    if (this->type == horse) {
-        if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DDOWN)) {
-            DREG(53) = 1;
-        }
-        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
-        gSPSegment(POLY_OPA_DISP++, 0x08, NULL);
-        GfxPrint_Init(dprint);
-        GfxPrint_Open(dprint, POLY_OPA_DISP);
-
-        GfxPrint_SetColor(dprint, 255, 255, 255, 255);
-        /* 
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "entrance %d", gSaveContext.entranceIndex);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "scene %d setup %d", globalCtx->sceneNum, gSaveContext.sceneSetupIndex);
-         */
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "dreg53 %d dreg1 %d", DREG(53), DREG(1));
-
-        GfxPrint_SetColor(dprint, 155, 255, 155, 255);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "Horse type: %d", this->type);
-
-        GfxPrint_SetColor(dprint, 255, 155, 150, 255);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "Horse flags %08x", this->flags);
-
-        GfxPrint_SetColor(dprint, 80, 80, 255, 255);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "action: %d", this->action);
-
-        GfxPrint_SetColor(dprint, 185, 185, 185, 255);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "Horse x %.2f", thisx->world.pos.x);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "Horse y %.2f", thisx->world.pos.y);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "Horse z %.2f", thisx->world.pos.z);
-
-        GfxPrint_SetColor(dprint, 255, 150, 180, 255);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "Horse speedXZ %.2f", thisx->speedXZ);
-
-        GfxPrint_SetColor(dprint, 185, 185, 185, 255);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "cutsceneAction %d", this->cutsceneAction);
-        GfxPrint_SetPos(dprint, 1, dbgY++);
-        GfxPrint_Printf(dprint, "cutsceneFlags 0x%x", this->cutsceneFlags);
-        
-        POLY_OPA_DISP = GfxPrint_Close(dprint);
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8601);
-    }
-#endif
 
     sActionFuncs[this->action](this, globalCtx2);
     this->flags &= ~ENHORSE_OBSTACLE;
