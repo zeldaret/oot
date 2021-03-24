@@ -126,11 +126,8 @@ s16 D_80153958[] = {
 };
 
 s16 D_8015396C[] = {
-    0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0008, 0x0007, 0x0006, 0x0009,
+    0x0000, 0x0001, 0x0002, 0x0003, 0x0004, 0x0005, 0x0008, 0x0007, 0x0006, 0x0009, 0x000A, 0x000B,
 };
-
-// claims to be a float, but clearly isn't, maybe references to this should be D_80153988 - 0x8
-u32 D_80153980 = 0x000A000B;
 
 // bss
 s32 D_801759A0;
@@ -266,14 +263,6 @@ void func_80106D40(GlobalContext* globalCtx, u8 arg1) {
     msgCtx->unk_E3DA = (arg1 == 1) ? gGameInfo->data[msgCtx->choiceIndex + 0x584] : gGameInfo->data[msgCtx->choiceIndex + 0x583];
 }
 
-f32 D_80153988[] = {
-    1.20000004768f, 1.5f, 1.79999995232f, 2.0f, 2.09999990463f, 2.20000004768f, 2.09999990463f, 2.0f,
-};
-
-f32 D_801539A8[] = {
-    0.600000023842f, 0.75f, 0.899999976158f, 1.0f, 1.04999995232f, 1.10000002384f, 1.04999995232f, 1.0f,
-};
-
 void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Gfx* gfx = *p;
@@ -291,22 +280,29 @@ void func_80106F1C(GlobalContext* globalCtx, void* textureImage, Gfx** p) {
     if (msgCtx->unk_E2FD != 5) {
         gDPSetPrimColor(gfx++, 0, 0, 0x00, 0x00, 0x00, msgCtx->unk_E3E2);
         gSPTextureRectangle(gfx++, 
-                    (unk_E3D8 + XREG(60)) * 4, 
-                    (unk_E3DA + XREG(60)) * 4, 
-                    (unk_E3D8 + XREG(60) + D_801759A0) * 4, 
-                    (unk_E3DA + XREG(60) + D_801759A0) * 4, G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
+                    (unk_E3D8 + XREG(60)) << 2, 
+                    (unk_E3DA + XREG(60)) << 2, 
+                    (unk_E3D8 + XREG(60) + D_801759A0) << 2, 
+                    (unk_E3DA + XREG(60) + D_801759A0) << 2, G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
     }
     gDPPipeSync(gfx++);
     gDPSetPrimColor(gfx++, 0, 0, msgCtx->unk_E3DC, msgCtx->unk_E3DE, msgCtx->unk_E3E0, msgCtx->unk_E3E2);
     gSPTextureRectangle(gfx++, 
-                unk_E3D8 * 4, 
-                unk_E3DA * 4, 
-                (unk_E3D8 + D_801759A0) * 4, 
-                (unk_E3DA + D_801759A0) * 4, G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
+                (unk_E3D8) << 2, 
+                (unk_E3DA) << 2, 
+                (unk_E3D8 + D_801759A0) << 2, 
+                (unk_E3DA + D_801759A0) << 2, G_TX_RENDERTILE, 0, 0, D_801759A4, D_801759A4);
     *p = gfx;
 }
 
 void func_80107244(MessageContext *msgCtx) {
+    static f32 D_80153988[] = {
+        1.2f, 1.5f, 1.8f, 2.0f, 2.1f, 2.2f, 2.1f, 2.0f,
+    };
+    static f32 D_801539A8[] = {
+        0.6f, 0.75f, 0.9f, 1.0f, 1.05f, 1.1f, 1.05f, 1.0f,
+    };
+
     f32 temp_f0 = XREG(74) * (D_80153988[msgCtx->unk_E3E7] + D_80153988[msgCtx->unk_E3E7]);
     f32 temp_f14 = XREG(75) * D_801539A8[msgCtx->unk_E3E7];
     f32 temp_f18 = XREG(76) / (D_80153988[msgCtx->unk_E3E7] + D_80153988[msgCtx->unk_E3E7]);
@@ -526,6 +522,7 @@ void func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
     static s16 D_801539F4 = 0;
     static s16 D_801539F8 = 0;
     static s16 D_801539FC = 0;
+
     MessageContext* msgCtx = &globalCtx->msgCtx;
     Font* font = &msgCtx->font;
     Gfx* gfx = *p;
@@ -535,7 +532,7 @@ void func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
     s16 envR;
     s16 envG;
     s16 envB;
-    u8* iconTexture = &font->iconBuf;
+    u8* iconTexture = font->iconBuf;
 
     if (!D_8014B308) {
         primR = (ABS(D_801539E0 - D_801539C8[D_801539F0].r)) / D_801539EC;
@@ -618,6 +615,7 @@ void func_80107980(GlobalContext* globalCtx, Gfx** p, s16 arg2, s16 arg3) {
     }
 }
 
+// font widths
 f32 D_80153A00[] = {
     8.0f,  8.0f,  6.0f,  9.0f,  9.0f,  14.0f, 12.0f, 3.0f,  7.0f,  7.0f,  7.0f,  9.0f,  4.0f,  6.0f,  4.0f,  9.0f,
     10.0f, 5.0f,  9.0f,  9.0f,  10.0f, 9.0f,  9.0f,  9.0f,  9.0f,  9.0f,  6.0f,  6.0f,  9.0f,  11.0f, 9.0f,  11.0f,
@@ -646,9 +644,9 @@ u16 func_801080B4(GlobalContext* globalCtx, u16 arg1, Gfx** p, u16 arg3) {
 
     gDPPipeSync(gfx++);
     gDPSetCombineMode(gfx++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
-    gDPSetPrimColor(gfx++, 0, 0, 0xFF, 0xFF, 0xFF, msgCtx->unk_E3E2);
+    gDPSetPrimColor(gfx++, 0, 0, 255, 255, 255, msgCtx->unk_E3E2);
 
-    if (arg1 >= 0x66) {
+    if (arg1 >= 102) {
         gDPLoadTextureBlock(gfx++, (u32)msgCtx->textboxSegment + 0x1000, 
                     G_IM_FMT_RGBA, G_IM_SIZ_32b, 24, 24, 0, 
                     G_TX_NOMIRROR | G_TX_WRAP, 
@@ -739,16 +737,17 @@ void func_801083F8(GlobalContext* globalCtx) {
 }
 
 #ifdef NON_MATCHING
-// Stack only
+// Compiler stack is 0x4 off
 void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
-    s32 temp_v0;
+    MessageContext *msgCtx = &globalCtx->msgCtx;
+    u16 pad;
+    u8 phi_v0;
     u16 phi_a0;
-    u16 sp128;
     u16 phi_s2;
     u16 new_var;
-    Gfx *sp120 = *gfxP;
+    u16 sp128;
     Font* font = &globalCtx->msgCtx.font;
-    MessageContext *msgCtx = &globalCtx->msgCtx;
+    Gfx *sp120 = *gfxP;
 
     globalCtx->msgCtx.unk_E3D8 = XREG(54);
     if (D_8014B308 == 0) {
@@ -765,8 +764,8 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
     sp128 = 0;
 
     for (phi_s2 = 0; phi_s2 < msgCtx->unk_E3D2; phi_s2++) {
-        temp_v0 = msgCtx->unk_E306[phi_s2];
-        switch(temp_v0) {
+        phi_v0 = msgCtx->unk_E306[phi_s2];
+        switch(phi_v0) {
             case 1:
                 msgCtx->unk_E3D8 = XREG(54);
                 if ((msgCtx->unk_E3E6 == 1) || (msgCtx->unk_E3E6 == 3)) {
@@ -830,6 +829,7 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
                         phi_s2 = phi_a0 - 1;
                         msgCtx->unk_E3D2 = phi_s2 + 1;
                     }
+                    if (phi_v0) {}
                 }
             case 9:
                 break;
@@ -1003,10 +1003,9 @@ void func_801086B0(GlobalContext *globalCtx, Gfx **gfxP) {
                 if (msgCtx->msgMode == 6 && phi_s2 + 1 == msgCtx->unk_E3D2 && msgCtx->unk_E3E8 == msgCtx->unk_E3EA) {
                     Audio_PlaySoundGeneral(0, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 }
-                // TODO this is not ok, what is this
-                func_80106F1C(globalCtx, &((u8*)&font->xy)[sp128], &sp120);
+                func_80106F1C(globalCtx, &font->unk_8[sp128], &sp120);
                 sp128 += 128;
-                msgCtx->unk_E3D8 += (s32)(D_80153988[temp_v0 - 2] * (XREG(57) / 100.0f));
+                msgCtx->unk_E3D8 += (s32)(D_80153A00[phi_v0 - 0x20] * (XREG(57) / 100.0f));
                 break;
         }
     }
@@ -1056,7 +1055,7 @@ void func_80109968(GlobalContext* globalCtx, u16 arg1, s16 arg2) {
 
 // Message_Decode
 #ifdef NON_MATCHING
-// Missing some useless moves and ands, few other reorderings, some regalloc, stack
+// Missing some useless moves, reorderings around dma functions, regalloc, stack
 void func_80109B3C(GlobalContext *globalCtx) {
     u8 temp_s2;
     u8 phi_s1;
@@ -1091,20 +1090,19 @@ void func_80109B3C(GlobalContext *globalCtx) {
             phi_s3 = msgCtx->unk_E2FD;
             if (phi_s3 != 4) {
                 if (sp86 == 0) {
-                    XREG(55) = VREG(1) + 0x1A;
+                    XREG(55) = (u16)(VREG(1) + 0x1A);
                 } else if (sp86 == 1) {
-                    XREG(55) = (VREG(1) + 0x14) & 0xFFFF;
+                    XREG(55) = (u16)(VREG(1) + 0x14);
                 } else if (sp86 == 2) {
-                    XREG(55) = VREG(1) + 0x10;
+                    XREG(55) = (u16)(VREG(1) + 0x10);
                 }
             }
             if (temp_s2 == 7) {
                 osSyncPrintf("NZ_NEXTMSG=%x, %x, %x\n", font->msgBuf[msgCtx->unk_E3CE], font->msgBuf[msgCtx->unk_E3CE + 1], font->msgBuf[msgCtx->unk_E3CE + 2]);
                 temp_s2 = font->msgBuf[msgCtx->unk_E3CE + 1];
                 msgCtx->unk_E306[++phi_s6] = temp_s2;
-                phi_s1 = (temp_s2 << 8);
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[msgCtx->unk_E3CE + 2];
-                D_8014B304 = msgCtx->unk_E306[phi_s6] | phi_s1;
+                D_8014B304 = msgCtx->unk_E306[phi_s6] | (temp_s2 << 8);
             }
             if (temp_s2 == 0xC) {
                 msgCtx->unk_E306[++phi_s6] = font->msgBuf[msgCtx->unk_E3CE + 1];
@@ -1266,9 +1264,9 @@ void func_80109B3C(GlobalContext *globalCtx) {
         } else if (temp_s2 == 0x1E) {
             phi_s0_3 = HIGH_SCORE(font->msgBuf[++msgCtx->unk_E3CE]);
             osSyncPrintf("ランキング＝%d\n", font->msgBuf[msgCtx->unk_E3CE]);
-            if (font->msgBuf[msgCtx->unk_E3CE] == 2) {
+            if ((font->msgBuf[msgCtx->unk_E3CE] & 0xFF) == 2) {
                 if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
-                    phi_s0_3 = phi_s0_3 & 0x7F;
+                    phi_s0_3 &= 0x7F;
                 } else {
                     osSyncPrintf("HI_SCORE( kanfont->mbuff.nes_mes_buf[message->rdp] & 0xff000000 ) = %x\n", 
                                 HIGH_SCORE(((u16*)font->msgBuf)[msgCtx->unk_E3CE] & 0xFF000000));
@@ -1277,7 +1275,7 @@ void func_80109B3C(GlobalContext *globalCtx) {
                 phi_s0_3 = SQ((f32)phi_s0_3) * 0.0036f + 0.5f;
                 osSyncPrintf("score=%d\n", phi_s0_3);
             }
-            switch (font->msgBuf[msgCtx->unk_E3CE]) {
+            switch (font->msgBuf[msgCtx->unk_E3CE] & 0xFF) {
                 case HS_HBA:
                 case HS_POE_POINTS:
                 case HS_FISHING:
@@ -1362,7 +1360,7 @@ void func_80109B3C(GlobalContext *globalCtx) {
                 sp7C[1] -= 10;
             }
             sp7C[2] = 0;
-            sp7C[3] = (s16)temp_f0_2 % 0x3C;
+            sp7C[3] = (s16)temp_f0_2 % 60;
             while (sp7C[3] >= 10) {
                 sp7C[2]++;
                 sp7C[3] -= 10;
@@ -1816,7 +1814,7 @@ void func_8010C358(View* view) {
 
 // Message_DrawMain ?
 #ifdef NON_EQUIVALENT
-// Still major issues in case 13 / 28 / 39, smaller issues elsewhere particularly towards the end
+// Many small issues throughout, regalloc, stack
 void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
     // oceff actor ids
     static s16 D_80153C68[] = {
@@ -1830,19 +1828,19 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
     static UNK_PTR D_80153C94[] = {
         0x02002940, 0x02002A40, 0x02002B40, 0x02002C40, 0x02002D40,
     };
-    static Vec3s D_80153CA8[] = {
+    static ColorRGB16 D_80153CA8[] = {
         { 0x0050, 0x00FF, 0x0096 },
         { 0x0064, 0x00FF, 0x00C8 },
     };
-    static Vec3s D_80153CB4[] = {
+    static ColorRGB16 D_80153CB4[] = {
         { 0x000A, 0x000A, 0x000A },
         { 0x0032, 0x00FF, 0x0032 },
     };
-    static Vec3s D_80153CC0[] = {
+    static ColorRGB16 D_80153CC0[] = {
         { 0x00FF, 0x00FF, 0x0032 },
         { 0x00FF, 0x00FF, 0x00B4 },
     };
-    static Vec3s D_80153CCC[] = {
+    static ColorRGB16 D_80153CCC[] = {
         { 0x000A, 0x000A, 0x000A },
         { 0x006E, 0x006E, 0x0032 },
     };
@@ -1854,99 +1852,31 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
 
     Player *player;
     Gfx *gfx;
-    s32 sp7C[2];
-    s32 sp78;
-    s32 sp70;
-    s32 sp6C;
-    s32 sp64;
-    s32 sp5C;
-    s32 sp54;
-    Vec3s* temp_a1;
-    Vec3s* temp_a1_2;
-    Vec3s* temp_a1_3;
-    Vec3s* temp_a1_4;
     MessageContext *msgCtx;
-    s16 temp_a0_3;
-    s16 temp_a0_4;
-    s16 temp_a0_5;
-    s16 temp_a0_6;
-    s16 temp_a0_7;
-    s16 temp_a2_2;
-    s16 temp_a2_3;
-    s16 temp_a2_4;
-    s16 temp_a2_5;
-    s16 temp_a3_3;
-    s16 temp_a3_4;
-    s16 temp_a3_5;
-    s16 temp_a3_6;
-    s16 temp_ra;
-    s16 temp_t0_2;
-    s16 temp_t0_3;
-    s16 temp_t0_4;
-    s16 temp_t0_5;
-    s16 temp_t1;
-    s16 temp_t1_2;
-    s16 temp_t1_3;
-    s16 temp_t1_4;
-    s16 temp_t2;
-    s16 temp_t3;
-    s16 temp_t3_2;
-    s16 temp_t3_3;
-    s16 temp_t4;
-    s16 temp_t5;
-    s16 temp_t8;
-    s16 temp_t8_2;
-    s16 temp_t9_4;
-    s16 temp_t9_5;
-    s16 temp_v0_10;
-    s32 temp_v1_10;
-    s32 temp_v1_11;
-    s32 temp_v1_12;
-    s32 temp_v1_13;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
-    s32 temp_v1_4;
-    s32 temp_v1_5;
-    s32 temp_v1_6;
-    s32 temp_v1_7;
-    s32 temp_v1_8;
-    s32 temp_v1_9;
-    u16 temp_a3;
-    u32 temp_t9;
-    u8 temp_a0;
-    u8 temp_a0_2;
-    u8 temp_a2;
-    u8 temp_v1;
+    s16 g1;
+    s16 r1;
     u8 temp_a0_9;
     u16 phi_a2;
     u16 phi_a3;
-    s8 phi_t8;
-    u8 phi_a0;
-    s32 phi_v0;
-    s32 phi_v0_2;
-    s32 phi_v0_3;
-    s32 phi_v0_4;
-    s32 phi_v0_5;
-    s16 phi_t9;
-    s32 phi_v0_6;
-    s32 phi_v0_7;
-    s16 phi_t9_2;
-    s32 phi_v0_8;
-    s32 phi_v0_9;
-    s16 phi_t8_2;
-    s32 phi_v1;
+    s16 b1;
+    s16 r2;
+    s16 g2;
+    s16 r3;
+    s16 g3;
+    s16 r4;
+    s16 g4;
     u16 phi_a3_3;
-    s32 phi_v0_10;
-    s32 phi_a3_4;
+    u16 phi_v0_10;
+    u16 phi_a3_4;
     u16 phi_a3_5;
     u16 phi_v0_11;
     u16 phi_a3_6;
     u16 phi_a3_7;
     s32 phi_a3_8;
     u16 phi_a3_9;
-    s32 phi_v0_13;
-    s32 phi_v0_14;
-    s32 phi_v0_15;
+    s16 b2;
+    s16 b3;
+    s16 b4;
     u8 pos;
     s16 temp_abc;
 
@@ -1966,8 +1896,7 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
         func_8009457C(&gfx);
 
         gDPSetAlphaCompare(gfx++, G_AC_NONE);
-        gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 
-                                   0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
+        gDPSetCombineLERP(gfx++, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, PRIMITIVE, TEXEL0, 0, PRIMITIVE, 0);
 
         switch (msgCtx->msgMode) {
             case 1:
@@ -2114,205 +2043,104 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
             case 13:
             case 28:
             case 39:
-                temp_a1 = &D_80153CA8[D_80153CDC];
-                temp_a2_2 = D_801759A8;
-                temp_t8 = temp_a1->x;
-                temp_v1_2 = temp_a2_2 - temp_t8;
-                sp7C[2] = temp_t8;
-                if (temp_v1_2 >= 0) {
-                    phi_v0 = temp_v1_2;
-                } else {
-                    phi_v0 = -temp_v1_2;
-                }
-                temp_t0_2 = phi_v0 / D_80153CD8;
+                r1 = ABS(D_801759A8 - D_80153CA8[D_80153CDC].r) / D_80153CD8;
+                g1 = ABS(D_801759AC - D_80153CA8[D_80153CDC].g) / D_80153CD8;
+                b1 = ABS(D_801759AA - D_80153CA8[D_80153CDC].b) / D_80153CD8;
 
-                temp_t2 = D_80153CD8;
-                temp_a3_3 = D_801759AC;
+                if (D_801759A8 >= D_80153CA8[D_80153CDC].r) {
+                    D_801759A8 -= r1;
+                } else {
+                    D_801759A8 += r1;
+                }
+                if (D_801759AC >= D_80153CA8[D_80153CDC].g) {
+                    D_801759AC -= g1;
+                } else {
+                    D_801759AC += g1;
+                }
+                if (D_801759AA >= D_80153CA8[D_80153CDC].b) {
+                    D_801759AA -= b1;
+                } else {
+                    D_801759AA += b1;
+                }
 
-                temp_t9_4 = temp_a1->y;
-                temp_v1_3 = temp_a3_3 - temp_t9_4;
-                sp78 = temp_t9_4;
-                if (temp_v1_3 >= 0) {
-                    phi_v0_2 = temp_v1_3;
+                r2 = ABS(D_801759AE - D_80153CB4[D_80153CDC].r) / D_80153CD8;
+                g2 = ABS(D_801759B2 - D_80153CB4[D_80153CDC].g) / D_80153CD8;
+                b2 = ABS(D_801759B0 - D_80153CB4[D_80153CDC].b) / D_80153CD8;
+    
+                if (D_801759BA >= D_80153CB4[D_80153CDC].r) {
+                    D_801759AE -= r2;
                 } else {
-                    phi_v0_2 = -temp_v1_3;
+                    D_801759AE += r2;
                 }
-                temp_t1 = D_801759AA;
-                temp_t3 = temp_a1->z;
-                temp_v1_4 = temp_t1 - temp_t3;
-                temp_a0_3 = phi_v0_2 / temp_t2;
-                if (temp_v1_4 >= 0) {
-                    phi_v0_3 = temp_v1_4;
+                if (D_801759BE >= D_80153CB4[D_80153CDC].g) {
+                    D_801759B2 -= g2;
                 } else {
-                    phi_v0_3 = -temp_v1_4;
+                    D_801759B2 += g2;
                 }
-                if (temp_a2_2 >= sp7C[2]) {
-                    D_801759A8 = temp_a2_2 - temp_t0_2;
+                if (D_801759BC >= D_80153CB4[D_80153CDC].b) {
+                    D_801759B0 -= b2;
                 } else {
-                    D_801759A8 = temp_a2_2 + temp_t0_2;
+                    D_801759B0 += b2;
                 }
-                if (temp_a3_3 >= sp78) {
-                    D_801759AC = temp_a3_3 - temp_a0_3;
+
+                r3 = ABS(D_801759B4 - D_80153CC0[D_80153CDC].r) / D_80153CD8;
+                g3 = ABS(D_801759B8 - D_80153CC0[D_80153CDC].g) / D_80153CD8;
+                b3 = ABS(D_801759B6 - D_80153CC0[D_80153CDC].b) / D_80153CD8;
+
+                if (D_801759B4 >= D_80153CC0[D_80153CDC].r) {
+                    D_801759B4 -= r3;
                 } else {
-                    D_801759AC = temp_a3_3 + temp_a0_3;
+                    D_801759B4 += r3;
                 }
-                if (temp_t1 >= temp_t3) {
-                    D_801759AA = temp_t1 - (phi_v0_3 / temp_t2);
+                if (D_801759B8 >= D_80153CC0[D_80153CDC].g) {
+                    D_801759B8 -= g3;
                 } else {
-                    D_801759AA = temp_t1 + (phi_v0_3 / temp_t2);
+                    D_801759B8 += g3;
                 }
-                sp70 = temp_t3;
-                temp_a1_2 = &D_80153CB4[D_80153CDC];
-                temp_t8_2 = temp_a1_2->x;
-                temp_a2_3 = D_801759AE;
-                temp_v1_5 = temp_a2_3 - temp_t8_2;
-                if (temp_v1_5 >= 0) {
-                    phi_v0_4 = temp_v1_5;
+                if (D_801759B6 >= D_80153CC0[D_80153CDC].b) {
+                    D_801759B6 -= b3;
                 } else {
-                    phi_v0_4 = -temp_v1_5;
+                    D_801759B6 += b3;
                 }
-                temp_a3_4 = D_801759B2;
-                temp_t9_5 = temp_a1_2->y;
-                temp_v1_6 = temp_a3_4 - temp_t9_5;
-                temp_t0_3 = phi_v0_4 / temp_t2;
-                sp6C = temp_t9_5;
-                if (temp_v1_6 >= 0) {
-                    phi_v0_5 = temp_v1_6;
+
+                r4 = ABS(D_801759BA - D_80153CCC[D_80153CDC].r) / D_80153CD8;
+                g4 = ABS(D_801759BE - D_80153CCC[D_80153CDC].g) / D_80153CD8;
+                b4 = ABS(D_801759BC - D_80153CCC[D_80153CDC].b) / D_80153CD8;
+
+                if (D_801759BA >= D_80153CCC[D_80153CDC].r) {
+                    D_801759BA -= r4;
                 } else {
-                    phi_v0_5 = -temp_v1_6;
+                    D_801759BA += r4;
                 }
-                temp_t1_2 = D_801759B0;
-                temp_t3_2 = temp_a1_2->z;
-                temp_v1_7 = temp_t1_2 - temp_t3_2;
-                temp_a0_4 = phi_v0_5 / temp_t2;
-                sp64 = temp_t3_2;
-                if (temp_v1_7 >= 0) {
-                    phi_v0_13 = temp_v1_7;
+                if (D_801759BE >= D_80153CCC[D_80153CDC].g) {
+                    D_801759BE -= g4;
                 } else {
-                    phi_v0_13 = -temp_v1_7;
+                    D_801759BE += g4;
                 }
-                temp_t3_3 = D_801759BA;
-                if (temp_t3_3 >= temp_t8_2) {
-                    D_801759AE = temp_a2_3 - temp_t0_3;
+                if (D_801759BC >= D_80153CCC[D_80153CDC].b) {
+                    D_801759BC -= b4;
                 } else {
-                    D_801759AE = temp_a2_3 + temp_t0_3;
+                    D_801759BC += b4;
                 }
-                temp_t4 = D_801759BE;
-                if (temp_t4 >= sp6C) {
-                    D_801759B2 = temp_a3_4 - temp_a0_4;
-                } else {
-                    D_801759B2 = temp_a3_4 + temp_a0_4;
-                }
-                temp_t5 = D_801759BC;
-                if (temp_t5 >= sp64) {
-                    phi_t9 = temp_t1_2 - (phi_v0_13 / temp_t2);
-                } else {
-                    phi_t9 = temp_t1_2 + (phi_v0_13 / temp_t2);
-                }
-                D_801759B0 = phi_t9;
-                temp_a1_3 = &D_80153CC0[D_80153CDC];
-                temp_v0_10 = temp_a1_3->x;
-                temp_a2_4 = D_801759B4;
-                sp5C = temp_v0_10;
-                temp_v1_8 = temp_a2_4 - temp_v0_10;
-                if (temp_v1_8 >= 0) {
-                    phi_v0_6 = temp_v1_8;
-                } else {
-                    phi_v0_6 = -temp_v1_8;
-                }
-                temp_a3_5 = D_801759B8;
-                temp_a0_5 = temp_a1_3->y;
-                temp_v1_9 = temp_a3_5 - temp_a0_5;
-                temp_t0_4 = phi_v0_6 / temp_t2;
-                sp54 = temp_a0_5;
-                if (temp_v1_9 >= 0) {
-                    phi_v0_7 = temp_v1_9;
-                } else {
-                    phi_v0_7 = -temp_v1_9;
-                }
-                temp_t1_3 = D_801759B6;
-                temp_ra = temp_a1_3->z;
-                temp_v1_10 = temp_t1_3 - temp_ra;
-                temp_a0_6 = phi_v0_7 / temp_t2;
-                if (temp_v1_10 >= 0) {
-                    phi_v0_14 = temp_v1_10;
-                } else {
-                    phi_v0_14 = -temp_v1_10;
-                }
-                if (temp_a2_4 >= sp5C) {
-                    D_801759B4 = temp_a2_4 - temp_t0_4;
-                } else {
-                    D_801759B4 = temp_a2_4 + temp_t0_4;
-                }
-                if (temp_a3_5 >= sp54) {
-                    D_801759B8 = temp_a3_5 - temp_a0_6;
-                } else {
-                    D_801759B8 = temp_a3_5 + temp_a0_6;
-                }
-                if (temp_t1_3 >= temp_ra) {
-                    phi_t9_2 = temp_t1_3 - (phi_v0_14 / temp_t2);
-                } else {
-                    phi_t9_2 = temp_t1_3 + (phi_v0_14 / temp_t2);
-                }
-                D_801759B6 = phi_t9_2;
-                temp_a1_4 = &D_80153CCC[D_80153CDC];
-                temp_t1_4 = temp_a1_4->x;
-                temp_v1_11 = temp_t3_3 - temp_t1_4;
-                if (temp_v1_11 >= 0) {
-                    phi_v0_8 = temp_v1_11;
-                } else {
-                    phi_v0_8 = -temp_v1_11;
-                }
-                temp_a2_5 = temp_a1_4->y;
-                temp_v1_12 = temp_t4 - temp_a2_5;
-                temp_t0_5 = phi_v0_8 / temp_t2;
-                if (temp_v1_12 >= 0) {
-                    phi_v0_9 = temp_v1_12;
-                } else {
-                    phi_v0_9 = -temp_v1_12;
-                }
-                temp_a3_6 = temp_a1_4->z;
-                temp_v1_13 = temp_t5 - temp_a3_6;
-                temp_a0_7 = phi_v0_9 / temp_t2;
-                if (temp_v1_13 >= 0) {
-                    phi_v0_15 = temp_v1_13;
-                } else {
-                    phi_v0_15 = -temp_v1_13;
-                }
-                if (temp_t3_3 >= temp_t1_4) {
-                    D_801759BA = temp_t3_3 - temp_t0_5;
-                } else {
-                    D_801759BA = temp_t3_3 + temp_t0_5;
-                }
-                if (temp_t4 >= temp_a2_5) {
-                    D_801759BE = temp_t4 - temp_a0_7;
-                } else {
-                    D_801759BE = temp_t4 + temp_a0_7;
-                }
-                if (temp_t5 >= temp_a3_6) {
-                    phi_t8_2 = temp_t5 - (phi_v0_15 / temp_t2);
-                } else {
-                    phi_t8_2 = temp_t5 + (phi_v0_15 / temp_t2);
-                }
-                D_801759BC = phi_t8_2;
-                temp_t2 = temp_t2 - 1;
-                D_80153CD8 = temp_t2;
-                if (temp_t2 == 0) {
-                    D_801759A8 = sp7C[2];
-                    D_801759AC = sp78;
-                    D_801759AA = sp70;
-                    D_801759AE = sp7C;
-                    D_801759B2 = sp6C;
-                    D_801759B0 = sp64;
-                    D_801759B4 = sp5C;
-                    D_801759B8 = sp54;
-                    D_801759B6 = temp_ra;
-                    D_801759BA = temp_t1_4;
-                    D_801759BE = temp_a2_5;
-                    D_801759BC = temp_a3_6;
+
+                D_80153CD8--;
+                if (D_80153CD8 == 0) {
+                    D_801759A8 = D_80153CA8[D_80153CDC].r;
+                    D_801759AC = D_80153CA8[D_80153CDC].g;
+                    D_801759AA = D_80153CA8[D_80153CDC].b;
+                    D_801759AE = D_80153CB4[D_80153CDC].r;
+                    D_801759B2 = D_80153CB4[D_80153CDC].g;
+                    D_801759B0 = D_80153CB4[D_80153CDC].b;
+                    D_801759B4 = D_80153CC0[D_80153CDC].r;
+                    D_801759B8 = D_80153CC0[D_80153CDC].g;
+                    D_801759B6 = D_80153CC0[D_80153CDC].b;
+                    D_801759BA = D_80153CCC[D_80153CDC].r;
+                    D_801759BE = D_80153CCC[D_80153CDC].g;
+                    D_801759BC = D_80153CCC[D_80153CDC].b;
                     D_80153CDC ^= 1;
                     D_80153CD8 = 3;
                 }
+
                 msgCtx->unk_E3E7--;
                 if (msgCtx->unk_E3E7 == 0) {
                     func_800ED858(0);
@@ -2585,7 +2413,7 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
                 msgCtx->unk_E2B8 = func_800EE3C8();
                 osSyncPrintf("\nonpu_pt=%d, locate=%d", D_8014B2F8, msgCtx->unk_E2B8->pos);
                 if ((msgCtx->unk_E2B8->pos != 0) && (msgCtx->unk_E2B8->pos == (D_8014B2F8 + 1))) {
-                    // this loop gets unrolled when it shouldn't be
+                    // missing a range check
                     for (phi_v0_10 = D_8014B2FC - 8, phi_a3_4 = 0; phi_a3_4 < 8; phi_v0_10++, phi_a3_4++) {
                         D_8015394C[phi_v0_10] = D_8015394C[phi_v0_10 + 1];
                     }
@@ -2864,18 +2692,9 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
                     gDPSetPrimColor(gfx++, 0, 0, 150, 150, 150, 150);
                     gDPSetEnvColor(gfx++, 10, 10, 10, 0);
 
-                    // gDPLoadTextureBlock
-                    gDPSetTextureImage(gfx++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, D_80153C94[temp_a0_9]);
-                    gDPSetTile(gfx++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, 
-                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, 
-                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                    gDPLoadSync(gfx++);
-                    gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 127, 1024);
-                    gDPPipeSync(gfx++);
-                    gDPSetTile(gfx++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, 
-                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, 
-                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                    gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 0x003C, 0x003C);
+                    gDPLoadTextureBlock(gfx++, D_80153C94[temp_a0_9], 
+                            G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, 
+                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                     gSPTextureRectangle(gfx++, 
                         VREG(28) << 2, 
@@ -2888,6 +2707,7 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
             }
             if (msgCtx->msgMode != 0x21 && msgCtx->msgMode != 0x29) {
                 if (D_8015394C[phi_a3_9] != 0xFF) {
+
                     for (phi_a3_9 = 0; phi_a3_9 < 8; phi_a3_9++) {
                         if (D_80153958[phi_a3_9] != 0xFF) {
                             D_80153958[phi_a3_9] += VREG(50);
@@ -2905,18 +2725,9 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
                             gDPSetEnvColor(gfx++, D_801759BA, D_801759BE, D_801759BC, 0);
                         }
 
-                        // gDPLoadTextureBlock
-                        gDPSetTextureImage(gfx++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, D_80153C94[D_8015394C[phi_a3_9]]);
-                        gDPSetTile(gfx++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, 
-                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, 
-                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                        gDPLoadSync(gfx++);
-                        gDPLoadBlock(gfx++, G_TX_LOADTILE, 0, 0, 127, 1024);
-                        gDPPipeSync(gfx++);
-                        gDPSetTile(gfx++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, 
-                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, 
-                                    G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD);
-                        gDPSetTileSize(gfx++, G_TX_RENDERTILE, 0, 0, 0x003C, 0x003C);
+                        gDPLoadTextureBlock(gfx++, D_80153C94[D_8015394C[phi_a3_9]], 
+                                G_IM_FMT_IA, G_IM_SIZ_8b, 16, 16, 0, G_TX_NOMIRROR | G_TX_WRAP, 
+                                G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                         gSPTextureRectangle(gfx++, 
                             VREG(28) << 2, 
@@ -2933,6 +2744,7 @@ void func_8010C39C(GlobalContext *globalCtx, Gfx **p) {
     }
     *p = gfx;
 }
+
 #else
 void func_8010C39C(GlobalContext* globalCtx, Gfx** p);
 s16 D_80153C68[] = {
