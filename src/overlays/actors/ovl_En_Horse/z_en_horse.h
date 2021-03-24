@@ -4,6 +4,30 @@
 #include "ultra64.h"
 #include "global.h"
 
+typedef enum {
+    /* 0  */ ENHORSE_ACT_FROZEN,
+    /* 1  */ ENHORSE_ACT_INACTIVE,
+    /* 2  */ ENHORSE_ACT_IDLE,
+    /* 3  */ ENHORSE_ACT_FOLLOW_PLAYER,
+    /* 4  */ ENHORSE_ACT_INGO_RACE,
+    /* 5  */ ENHORSE_ACT_MOUNTED_IDLE,
+    /* 6  */ ENHORSE_ACT_MOUNTED_IDLE_WHINNEYING,
+    /* 7  */ ENHORSE_ACT_MOUNTED_TURN,
+    /* 8  */ ENHORSE_ACT_MOUNTED_WALK,
+    /* 9  */ ENHORSE_ACT_MOUNTED_TROT,
+    /* 10 */ ENHORSE_ACT_MOUNTED_GALLOP,
+    /* 11 */ ENHORSE_ACT_MOUNTED_REARING,
+    /* 12 */ ENHORSE_ACT_STOPPING,
+    /* 13 */ ENHORSE_ACT_REVERSE,
+    /* 14 */ ENHORSE_ACT_LOW_JUMP,
+    /* 15 */ ENHORSE_ACT_HIGH_JUMP,
+    /* 16 */ ENHORSE_ACT_BRIDGE_JUMP,
+    /* 17 */ ENHORSE_ACT_CS_UPDATE,
+    /* 18 */ ENHORSE_ACT_HBA,
+    /* 19 */ ENHORSE_ACT_FLEE_PLAYER,
+} EnHorseAction;
+
+
 #define ENHORSE_BOOST                      (1 << 0)   /*         0x1 */
 #define ENHORSE_BOOST_DECEL                (1 << 1)   /*         0x2 */
 #define ENHORSE_JUMPING                    (1 << 2)   /*         0x4 */
@@ -69,7 +93,7 @@ typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, GlobalContext*);
 
 typedef struct EnHorse {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ s32 action;
+    /* 0x014C */ EnHorseAction action;
     /* 0x0150 */ s32 noInputTimer;
     /* 0x0154 */ s32 noInputTimerMax;
     /* 0x0158 */ s32 type;
@@ -98,7 +122,7 @@ typedef struct EnHorse {
 
     /* 0x0250 */ s16 followTimer;
     /* 0x0252 */ s16 unk_252;
-    /* 0x0254 */ u32 prevAction;
+    /* 0x0254 */ EnHorseAction prevAction;
     /* 0x0258 */ Vec3f riderPos;
     /* 0x0264 */ Vec2f curStick;
     /* 0x026C */ Vec2f lastStick;
@@ -159,7 +183,7 @@ typedef struct EnHorse {
         : false)
 
 #define EN_HORSE_CHECK_4(horseActor)                                                                 \
-    (((((horseActor)->action == 5) || ((horseActor)->action == 0) || ((horseActor)->action == 6)) && \
+    (((((horseActor)->action == ENHORSE_ACT_MOUNTED_IDLE) || ((horseActor)->action == ENHORSE_ACT_FROZEN) || ((horseActor)->action == ENHORSE_ACT_MOUNTED_IDLE_WHINNEYING)) && \
       !((horseActor)->flags & ENHORSE_FLAG_19) && !((horseActor)->flags & ENHORSE_FLAG_25))          \
          ? true                                                                                      \
          : false)
