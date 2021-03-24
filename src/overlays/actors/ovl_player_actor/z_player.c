@@ -6,6 +6,7 @@
 
 #include "ultra64.h"
 #include "global.h"
+#include "alloca.h"
 
 #include "overlays/actors/ovl_Bg_Heavy_Block/z_bg_heavy_block.h"
 #include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
@@ -5717,9 +5718,9 @@ s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
         unk_04 = D_80854578[temp].unk_04;
         unk_08 = D_80854578[temp].unk_08;
         this->actor.world.pos.x =
-            rideActor->actor.world.pos.x + rideActor->unk_258.x + ((unk_04 * sp38) + (unk_08 * sp34));
+            rideActor->actor.world.pos.x + rideActor->riderPos.x + ((unk_04 * sp38) + (unk_08 * sp34));
         this->actor.world.pos.z =
-            rideActor->actor.world.pos.z + rideActor->unk_258.z + ((unk_08 * sp38) - (unk_04 * sp34));
+            rideActor->actor.world.pos.z + rideActor->riderPos.z + ((unk_08 * sp38) - (unk_04 * sp34));
 
         this->unk_878 = rideActor->actor.world.pos.y - this->actor.world.pos.y;
         this->currentYaw = this->actor.shape.rot.y = rideActor->actor.shape.rot.y;
@@ -10182,6 +10183,8 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
 
 Vec3f D_80854838 = { 0.0f, 0.0f, -30.0f };
 
+#define DBG_HORSE 0
+
 void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Vec3f sDogSpawnPos;
     Player* this = THIS;
@@ -10189,6 +10192,26 @@ void Player_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     Input sp44;
     Actor* dog;
+#if DBG_HORSE
+    int dbgY = 1;
+    GfxPrint *dprint = alloca(sizeof(GfxPrint));
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
+    gSPSegment(POLY_OPA_DISP++, 0x08, NULL);
+    GfxPrint_Init(dprint);
+    GfxPrint_Open(dprint, POLY_OPA_DISP);
+
+    GfxPrint_SetColor(dprint, 255, 255, 255, 255);
+    GfxPrint_SetPos(dprint, 1, dbgY++);
+    GfxPrint_Printf(dprint, "entrance %d", gSaveContext.entranceIndex);
+    GfxPrint_SetPos(dprint, 1, dbgY++);
+    GfxPrint_Printf(dprint, "scene %d setup %d", globalCtx->sceneNum, gSaveContext.sceneSetupIndex);
+    GfxPrint_SetPos(dprint, 1, dbgY++);
+    GfxPrint_Printf(dprint, "x %.2f y %.2f z %.2f", thisx->world.pos.x, thisx->world.pos.y, thisx->world.pos.z);
+
+    POLY_OPA_DISP = GfxPrint_Close(dprint);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8601);
+#endif
 
     if (func_8084FCAC(this, globalCtx)) {
         if (gSaveContext.dogParams < 0) {
@@ -11287,8 +11310,8 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
     func_8002DE74(globalCtx, this);
     this->skelAnime.prevTransl = D_8085499C;
 
-    if ((rideActor->unk_210 != this->unk_850) && ((rideActor->unk_210 >= 2) || (this->unk_850 >= 2))) {
-        if ((this->unk_850 = rideActor->unk_210) < 2) {
+    if ((rideActor->animationIdx != this->unk_850) && ((rideActor->animationIdx >= 2) || (this->unk_850 >= 2))) {
+        if ((this->unk_850 = rideActor->animationIdx) < 2) {
             f32 rand = Rand_ZeroOne();
             s32 temp = 0;
 
@@ -11339,9 +11362,9 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
         }
     }
 
-    this->actor.world.pos.x = rideActor->actor.world.pos.x + rideActor->unk_258.x;
-    this->actor.world.pos.y = (rideActor->actor.world.pos.y + rideActor->unk_258.y) - 27.0f;
-    this->actor.world.pos.z = rideActor->actor.world.pos.z + rideActor->unk_258.z;
+    this->actor.world.pos.x = rideActor->actor.world.pos.x + rideActor->riderPos.x;
+    this->actor.world.pos.y = (rideActor->actor.world.pos.y + rideActor->riderPos.y) - 27.0f;
+    this->actor.world.pos.z = rideActor->actor.world.pos.z + rideActor->riderPos.z;
 
     this->currentYaw = this->actor.shape.rot.y = rideActor->actor.shape.rot.y;
 
@@ -11351,7 +11374,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
         if (D_808535E0 == 0) {
             if (this->unk_84F != 0) {
                 if (LinkAnimation_Update(globalCtx, &this->skelAnime2)) {
-                    rideActor->flags &= ~0x100;
+                    rideActor->flags &= ~ENHORSE_FLAG_8;
                     this->unk_84F = 0;
                 }
 

@@ -4,6 +4,39 @@
 #include "ultra64.h"
 #include "global.h"
 
+#define ENHORSE_BOOST                      (1 << 0)   /*         0x1 */
+#define ENHORSE_BOOST_DECEL                (1 << 1)   /*         0x2 */
+#define ENHORSE_JUMPING                    (1 << 2)   /*         0x4 */
+#define ENHORSE_CALC_RIDER_POS             (1 << 3)   /*         0x8 */
+#define ENHORSE_FORCE_REVERSING            (1 << 4)   /*        0x10 */
+#define ENHORSE_FORCE_WALKING              (1 << 5)   /*        0x20 */
+#define ENHORSE_FLAG_6                     (1 << 6)   /*        0x40 */
+#define ENHORSE_FLAG_7                     (1 << 7)   /*        0x80 */
+#define ENHORSE_FLAG_8                     (1 << 8)   /*       0x100 */
+#define ENHORSE_FLAG_9                     (1 << 9)   /*       0x200 */
+#define ENHORSE_STOPPING_NEIGH_SOUND       (1 << 10)  /*       0x400 */
+#define ENHORSE_LAND2_SOUND                (1 << 11)  /*       0x800 */
+#define ENHORSE_SANDDUST_SOUND             (1 << 12)  /*      0x1000 */
+#define ENHORSE_INACTIVE                   (1 << 13)  /*      0x2000 */
+#define ENHORSE_OBSTACLE                   (1 << 14)  /*      0x4000 */
+#define ENHORSE_TURNING_TO_PLAYER          (1 << 15)  /*      0x8000 */
+#define ENHORSE_UNRIDEABLE                 (1 << 16)  /*    0x1 0000 */
+#define ENHORSE_CANT_JUMP                  (1 << 17)  /*    0x2 0000 */
+#define ENHORSE_FLAG_18                    (1 << 18)  /*    0x4 0000 */
+#define ENHORSE_FLAG_19                    (1 << 19)  /*    0x8 0000 */
+#define ENHORSE_FLAG_20                    (1 << 20)  /*   0x10 0000 */
+#define ENHORSE_FLAG_21                    (1 << 21)  /*   0x20 0000 */
+#define ENHORSE_FIRST_BOOST_REGEN          (1 << 22)  /*   0x40 0000 */
+#define ENHORSE_INGO_WON                   (1 << 23)  /*   0x80 0000 */
+#define ENHORSE_FLAG_24                    (1 << 24)  /*  0x100 0000 */
+#define ENHORSE_FLAG_25                    (1 << 25)  /*  0x200 0000 */
+#define ENHORSE_FLAG_26                    (1 << 26)  /*  0x400 0000 */
+#define ENHORSE_DRAW                       (1 << 27)  /*  0x800 0000 */
+#define ENHORSE_FLAG_28                    (1 << 28)  /* 0x1000 0000 */
+#define ENHORSE_FLAG_29                    (1 << 29)  /* 0x2000 0000 */
+#define ENHORSE_FLAG_30                    (1 << 30)  /* 0x4000 0000 */
+#define ENHORSE_FLAG_31                    (1 << 31)  /* 0x8000 0000 */
+
 struct EnHorse;
 
 typedef enum {
@@ -12,115 +45,127 @@ typedef enum {
     /* 2 */ PLAYER_DIR_BACK_R,
     /* 3 */ PLAYER_DIR_BACK_L,
     /* 4 */ PLAYER_DIR_SIDE_R,
-    /* 5 */ PLAYER_DIR_SIDE_L
+    /* 5 */ PLAYER_DIR_SIDE_L,
 } EnHorsePlayerDir;
+
+typedef enum {
+    /* 0 */ ENHORSE_ANIM_IDLE,
+    /* 1 */ ENHORSE_ANIM_WHINNEY,
+    /* 2 */ ENHORSE_ANIM_STOPPING,
+    /* 3 */ ENHORSE_ANIM_REARING,
+    /* 4 */ ENHORSE_ANIM_WALK,
+    /* 5 */ ENHORSE_ANIM_TROT,
+    /* 6 */ ENHORSE_ANIM_GALLOP,
+    /* 7 */ ENHORSE_ANIM_LOW_JUMP,
+    /* 8 */ ENHORSE_ANIM_HIGH_JUMP,
+} EnHorseAnimationIndex;
 
 typedef enum {
     /* 0 */ HORSE_EPONA,
     /* 1 */ HORSE_HNI,
 } HorseType;
 
+typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, GlobalContext*);
 
 typedef struct EnHorse {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ s32 action;
-    /* 0x0150 */ s32 unk_150; // some counter
-    /* 0x0154 */ s32 unk_154; // copy of unk_150
+    /* 0x0150 */ s32 noInputTimer;
+    /* 0x0154 */ s32 noInputTimerMax;
     /* 0x0158 */ s32 type;
     /* 0x015C */ s8 bankIndex;
     /* 0x0160 */ PSkinAwb skin;
     /* 0x01F0 */ u32 flags;
     /* 0x01F4 */ Vec3f lastPos;
     /* 0x0200 */ s16 lastYaw;
-    /* 0x0202 */ s16 unk_202;
-    /* 0x0204 */ s32 unk_204;
+    /* 0x0204 */ s32 curRaceWaypoint;
     /* 0x0208 */ s32 boostSpeed;
-    /* 0x020C */ s32 unk_20C;
-    /* 0x0210 */ s32 unk_210;
+    /* 0x020C */ s32 playerControlled;
+    /* 0x0210 */ s32 animationIdx;
     /* 0x0214 */ f32 curFrame;
-    /* 0x0218 */ s32 unk_218;
+    /* 0x0218 */ s32 soundTimer;
     /* 0x021C */ Vec3f unk_21C;
     /* 0x0228 */ Vec3f unk_228;
     /* 0x0234 */ s32 unk_234;
-    /* 0x0238 */ u8 unk_238;
-    /* 0x023C */ s32 unk_23C;
-    /* 0x0240 */ s32 unk_240;
-    /* 0x0244 */ void (*unk_244)(struct EnHorse *this, GlobalContext *globalCtx);
+    /* 0x0238 */ u8 numBoosts;
+    /* 0x023C */ s32 boostRegenTime;
+    /* 0x0240 */ s32 boostTimer;
+    /* 0x0244 */ EnHorsePostdrawFunc postDrawFunc;
 
     // The y coordinate of the floor under the front and back feet
     /* 0x0248 */ f32 yFront;
     /* 0x024C */ f32 yBack;
 
-    /* 0x0250 */ s16 unk_250;
+    /* 0x0250 */ s16 followTimer;
     /* 0x0252 */ s16 unk_252;
-    /* 0x0254 */ u32 unk_254;
-    /* 0x0258 */ Vec3f unk_258;
+    /* 0x0254 */ u32 prevAction;
+    /* 0x0258 */ Vec3f riderPos;
     /* 0x0264 */ Vec2f curStick;
     /* 0x026C */ Vec2f lastStick;
-    /* 0x0274 */ f32 unk_274;
+    /* 0x0274 */ f32 jumpStartY;
     /* 0x0278 */ ColliderCylinder cyl1;
     /* 0x02C4 */ ColliderCylinder cyl2;
     /* 0x0310 */ ColliderJntSph jntSph;
     /* 0x0330 */ ColliderJntSphElement jntSphList;
     /* 0x0370 */ u32 playerDir;
     /* 0x0374 */ s16 unk_374;
-    /* 0x0376 */ s16 unk_376;
-    /* 0x0378 */ s16 unk_378;
-    /* 0x037A */ u8 unk_37A;
-    /* 0x037C */ s16 unk_37C;
+    /* 0x0376 */ s16 angleToPlayer;
+    /* 0x0378 */ s16 followPlayerTurnSpeed;
+    /* 0x037A */ u8 blinkTimer;
+    /* 0x037C */ s16 waitTimer;
     /* 0x037E */ s16 unk_37E;
-    /* 0x0380 */ s32 unk_380;
-    /* 0x0384 */ u16 unk_384;
+    /* 0x0380 */ s32 cutsceneAction;
+    /* 0x0384 */ u16 cutsceneFlags;
     /* 0x0386 */ s16 unk_386; // pad
-    /* 0x0388 */ s32 unk_388;
     // struct {
+    /* 0x0388 */ s32 inRace;
     /* 0x038C */ Actor* rider;
     /* 0x0390 */ u32 unk_390;
-    /* 0x0394 */ u16 unk_394;
-    /* 0x0398 */ f32 unk_398;
+    /* 0x0394 */ u16 ingoRaceFlags;
+    /* 0x0398 */ f32 ingoHorseMaxSpeed;
     // } race; //?
-    /* 0x039C */ s32 unk_39C;
-    /* 0x03A0 */ s32 unk_3A0;
-    /* 0x03A4 */ s32 unk_3A4;
-    /* 0x03A8 */ s32 unk_3A8;
-    /* 0x03AC */ u8 unk_3AC;
-    /* 0x03B0 */ Vec3f unk_3B0;
-    /* 0x03BC */ s32 unk_3BC;
-    /* 0x03C0 */ f32 unk_3C0;
-    /* 0x03C4 */ s16 unk_3C4;
+    /* 0x039C */ s32 unk_39C; // probably hbaAction
+    /* 0x03A0 */ s32 hbaStarted;
+    /* 0x03A4 */ s32 hbaFlags;
+    /* 0x03A8 */ s32 hbaTimer;
+    /* 0x03AC */ u8 bridgeJumpIdx;
+    /* 0x03B0 */ Vec3f bridgeJumpStart;
+    /* 0x03BC */ s32 bridgeJumpTimer;
+    /* 0x03C0 */ f32 bridgeJumpYVel;
+    /* 0x03C4 */ s16 bridgeJumpRelAngle;
     /* 0x03C6 */ s16 unk_3C6; // pad
     // sub struct?
 
-    /* 0x03C8 */ u16 dustSpawn;
-    /* 0x03CC */ Vec3f unk_3CC;
-    /* 0x03D8 */ Vec3f unk_3D8;
-    /* 0x03E4 */ Vec3f unk_3E4;
-    /* 0x03F0 */ Vec3f unk_3F0;
+    /* 0x03C8 */ u16 dustFlags;
+    /* 0x03CC */ Vec3f frontRightHoof;
+    /* 0x03D8 */ Vec3f frontLeftHoof;
+    /* 0x03E4 */ Vec3f backRightHoof;
+    /* 0x03F0 */ Vec3f backLeftHoof;
 } EnHorse; // size = 0x03FC
 
 #define EN_HORSE_CHECK_1(horseActor) \
-    (((horseActor)->flags & 0x40)  \
+    (((horseActor)->flags & ENHORSE_FLAG_6)  \
         ? true                       \
         : false)
 
 #define EN_HORSE_CHECK_2(horseActor) \
-    (((horseActor)->flags & 0x100) \
+    (((horseActor)->flags & ENHORSE_FLAG_8) \
         ? true                       \
         : false)
 
 #define EN_HORSE_CHECK_3(horseActor) \
-    (((horseActor)->flags & 0x200) \
+    (((horseActor)->flags & ENHORSE_FLAG_9) \
         ? true                       \
         : false)
 
-#define EN_HORSE_CHECK_4(horseActor)                                                                    \
+#define EN_HORSE_CHECK_4(horseActor)                                                                 \
     (((((horseActor)->action == 5) || ((horseActor)->action == 0) || ((horseActor)->action == 6)) && \
-      !((horseActor)->flags & 0x80000) && !((horseActor)->flags & 0x2000000))                       \
-         ? true                                                                                         \
+      !((horseActor)->flags & ENHORSE_FLAG_19) && !((horseActor)->flags & ENHORSE_FLAG_25))          \
+         ? true                                                                                      \
          : false)
 
-#define EN_HORSE_CHECK_5(horseActor) \
-    (((horseActor)->flags & 0x4) \
+#define EN_HORSE_CHECK_JUMPING(horseActor) \
+    (((horseActor)->flags & ENHORSE_JUMPING) \
         ? true                       \
         : false)
 
