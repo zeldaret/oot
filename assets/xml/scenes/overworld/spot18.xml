@@ -3,7 +3,6 @@
         <Scene Name="spot18_scene">
             <CutsceneHint Name="gGoronCityDaruniaCorrectCs" Offset="0x59E0"/>
 
-            <!-- For some reason, this name (`gGoronCityDarunia01Cs`) is ignored, and `spot18_sceneCutsceneData0x006930` is used instead. (See PR https://github.com/zeldaret/ZAPD/pull/91) -->
             <CutsceneHint Name="gGoronCityDarunia01Cs" Offset="0x6930"/>
 
             <CutsceneHint Name="gGoronCityDaruniaWrongCs" Offset="0x7DE0"/>

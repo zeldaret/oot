@@ -272,7 +272,7 @@ void EnDu_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1F4.unk_00 = 0;
 
     if (gSaveContext.cutsceneIndex >= 0xFFF0) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot18_sceneCutsceneData0x006930);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGoronCityDarunia01Cs);
         gSaveContext.cutsceneTrigger = 1;
         EnDu_SetupAction(this, func_809FE890);
     } else if (globalCtx->sceneNum == 4) {
