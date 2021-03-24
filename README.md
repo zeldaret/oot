@@ -81,6 +81,7 @@ The build process has the following package requirements:
 * binutils-mips-linux-gnu
 * python3
 * libcapstone-dev
+* pkg-config
 
 Under Debian / Ubuntu (which we recommend using), you can install them with the following commands:
 

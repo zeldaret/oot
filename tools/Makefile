@@ -12,13 +12,13 @@ clean:
 # Need to clean the above line later...
 
 ido:
-	$(MAKE) -C ido_recomp -j 4
+	$(MAKE) -C ido_recomp
 
 zapd:
 	cd ZAPD && $(MAKE)
 
 
-.PHONY: all clean distclean ido71 ido53 zapd
+.PHONY: all clean distclean ido zapd
 
 distclean: clean
 	$(MAKE) -C ZAPD clean
