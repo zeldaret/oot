@@ -160,8 +160,8 @@ void EnSkb_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFE;
     this->actor.colChkInfo.health = 2;
     this->actor.shape.yOffset = -8000.0f;
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060041F8, &D_06001854, this->limbDrawTable,
-                   this->transitionDrawTable, 20);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060041F8, &D_06001854, this->jointTable,
+                   this->morphTable, 20);
     this->actor.naviEnemyId = 0x55;
 
     Collider_InitJntSph(globalCtx, &this->collider);
