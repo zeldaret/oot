@@ -1,20 +1,20 @@
-#include "ZFile.h"
-#include "ZTexture.h"
-#include "ZBlob.h"
-#include "ZAnimation.h"
-#include "HighLevel/HLModelIntermediette.h"
+#include "BuildInfo.h"
+#include "Directory.h"
+#include "File.h"
+#include "Globals.h"
 #include "HighLevel/HLAnimationIntermediette.h"
+#include "HighLevel/HLModelIntermediette.h"
 #include "Overlays/ZOverlay.h"
 #include "Path.h"
-#include "File.h"
-#include "Directory.h"
-#include "Globals.h"
-#include "BuildInfo.h"
+#include "ZAnimation.h"
+#include "ZBlob.h"
+#include "ZFile.h"
+#include "ZTexture.h"
 
 #if !defined(_MSC_VER) && !defined(__CYGWIN__)
 #include <execinfo.h>
-#include <unistd.h>
 #include <signal.h>
+#include <unistd.h>
 #endif
 
 #include <string>
@@ -23,9 +23,11 @@
 using namespace tinyxml2;
 using namespace std;
 
-bool Parse(const std::string& xmlFilePath, const std::string& basePath, const std::string& outPath, ZFileMode fileMode);
+bool Parse(const std::string& xmlFilePath, const std::string& basePath, const std::string& outPath,
+           ZFileMode fileMode);
 
-void BuildAssetTexture(const std::string& pngFilePath, TextureType texType, const std::string& outPath);
+void BuildAssetTexture(const std::string& pngFilePath, TextureType texType,
+                       const std::string& outPath);
 void BuildAssetBlob(const std::string& blobFilePath, const std::string& outPath);
 void BuildAssetModelIntermediette(const std::string& mdlPath, const std::string& outPath);
 void BuildAssetAnimationIntermediette(const std::string& animPath, const std::string& outPath);
@@ -41,13 +43,13 @@ void ErrorHandler(int sig)
 	size = backtrace(array, 4096);
 	symbols = backtrace_symbols(array, 4096);
 
-	for (int i = 1; i < size; i++)
+	for (size_t i = 1; i < size; i++)
 	{
-		size_t len = strlen(symbols[i]);
+		// size_t len = strlen(symbols[i]);
 		cout << symbols[i] << "\n";
 	}
 
-	//cout << "Error: signal " << sig << ":\n";
+	// cout << "Error: signal " << sig << ":\n";
 	backtrace_symbols_fd(array, size, STDERR_FILENO);
 	exit(1);
 }
@@ -101,82 +103,83 @@ int NewMain(int argc, char* argv[])
 	{
 		string arg = argv[i];
 
-		if (arg == "-o" || arg == "--outputpath") // Set output path
+		if (arg == "-o" || arg == "--outputpath")  // Set output path
 		{
 			Globals::Instance->outputPath = argv[i + 1];
 			i++;
 		}
-		else if (arg == "-i" || arg == "--inputpath") // Set input path
+		else if (arg == "-i" || arg == "--inputpath")  // Set input path
 		{
 			Globals::Instance->inputPath = argv[i + 1];
 			i++;
 		}
-		else if (arg == "-b" || arg == "--baserompath") // Set baserom path
+		else if (arg == "-b" || arg == "--baserompath")  // Set baserom path
 		{
 			Globals::Instance->baseRomPath = argv[i + 1];
 			i++;
 		}
-		else if (arg == "-gsf") // Generate source file during extraction
+		else if (arg == "-gsf")  // Generate source file during extraction
 		{
 			Globals::Instance->genSourceFile = string(argv[i + 1]) == "1";
 			i++;
 		}
-		else if (arg == "-ifp") // Include file prefix in generated symbols
+		else if (arg == "-ifp")  // Include file prefix in generated symbols
 		{
 			Globals::Instance->includeFilePrefix = string(argv[i + 1]) == "1";
 			i++;
 		}
-		else if (arg == "-tm") // Test Mode
+		else if (arg == "-tm")  // Test Mode
 		{
 			Globals::Instance->testMode = string(argv[i + 1]) == "1";
 			i++;
 		}
-		else if (arg == "-profile") // Profile
+		else if (arg == "-profile")  // Profile
 		{
 			Globals::Instance->profile = string(argv[i + 1]) == "1";
 			i++;
 		}
-		else if (arg == "-uer") // Split resources into their individual components (enabled by default)
+		else if (arg ==
+		         "-uer")  // Split resources into their individual components (enabled by default)
 		{
 			Globals::Instance->useExternalResources = string(argv[i + 1]) == "1";
 			i++;
 		}
-		else if (arg == "-tt") // Set texture type
+		else if (arg == "-tt")  // Set texture type
 		{
 			Globals::Instance->texType = ZTexture::GetTextureTypeFromString(argv[i + 1]);
 			i++;
 		}
-		else if (arg == "-cfg") // Set cfg path
+		else if (arg == "-cfg")  // Set cfg path
 		{
 			Globals::Instance->cfgPath = argv[i + 1];
 			i++;
 		}
-		else if (arg == "-sm") // Set symbol map path
+		else if (arg == "-sm")  // Set symbol map path
 		{
 			Globals::Instance->GenSymbolMap(argv[i + 1]);
 			i++;
 		}
-		else if (arg == "-rconf") // Read Config File
+		else if (arg == "-rconf")  // Read Config File
 		{
 			Globals::Instance->ReadConfigFile(argv[i + 1]);
 			i++;
 		}
-		else if (arg == "-al") // Set actor list
+		else if (arg == "-al")  // Set actor list
 		{
 			i++;
 		}
-		else if (arg == "-ol") // Set object list
+		else if (arg == "-ol")  // Set object list
 		{
 			i++;
 		}
-		else if (arg == "-eh") // Enable Error Handler
+		else if (arg == "-eh")  // Enable Error Handler
 		{
 #if !defined(_MSC_VER) && !defined(__CYGWIN__)
 			signal(SIGSEGV, ErrorHandler);
 			signal(SIGABRT, ErrorHandler);
 #endif
 		}
-		else if (arg == "-v") // Verbose
+		else if (arg == "-v")  // Verbose
 		{
 			Globals::Instance->verbosity = (VerbosityLevel)strtol(argv[++i], NULL, 16);
 		}
@@ -185,9 +188,15 @@ int NewMain(int argc, char* argv[])
 	if (Globals::Instance->verbosity >= VERBOSITY_INFO)
 		printf("ZAPD: Zelda Asset Processor For Decomp: %s\n", gBuildHash);
 
-	if (fileMode == ZFileMode::Build || fileMode == ZFileMode::Extract || fileMode == ZFileMode::BuildSourceFile)
+	if (fileMode == ZFileMode::Build || fileMode == ZFileMode::Extract ||
+	    fileMode == ZFileMode::BuildSourceFile)
 	{
-		Parse(Globals::Instance->inputPath, Globals::Instance->baseRomPath, Globals::Instance->outputPath, fileMode);
+		bool parseSuccessful = Parse(Globals::Instance->inputPath, Globals::Instance->baseRomPath,
+		                             Globals::Instance->outputPath, fileMode);
+		if (!parseSuccessful)
+		{
+			return 1;
+		}
 	}
 	else if (fileMode == ZFileMode::BuildTexture)
 	{
@@ -210,11 +219,14 @@ int NewMain(int argc, char* argv[])
 	}
 	else if (fileMode == ZFileMode::BuildAnimationIntermediette)
 	{
-		BuildAssetAnimationIntermediette(Globals::Instance->inputPath, Globals::Instance->outputPath);
+		BuildAssetAnimationIntermediette(Globals::Instance->inputPath,
+		                                 Globals::Instance->outputPath);
 	}
 	else if (fileMode == ZFileMode::BuildOverlay)
 	{
-		ZOverlay* overlay = ZOverlay::FromBuild(Path::GetDirectoryName(Globals::Instance->inputPath), Path::GetDirectoryName(Globals::Instance->cfgPath));
+		ZOverlay* overlay =
+			ZOverlay::FromBuild(Path::GetDirectoryName(Globals::Instance->inputPath),
+		                        Path::GetDirectoryName(Globals::Instance->cfgPath));
 
 		if (overlay)
 			File::WriteAllText(Globals::Instance->outputPath, overlay->GetSourceOutputCode(""));
@@ -223,20 +235,28 @@ int NewMain(int argc, char* argv[])
 	return 0;
 }
 
-bool Parse(const std::string& xmlFilePath, const std::string& basePath, const std::string& outPath, ZFileMode fileMode)
+bool Parse(const std::string& xmlFilePath, const std::string& basePath, const std::string& outPath,
+           ZFileMode fileMode)
 {
 	XMLDocument doc;
 	XMLError eResult = doc.LoadFile(xmlFilePath.c_str());
 
 	if (eResult != tinyxml2::XML_SUCCESS)
+	{
+		fprintf(stderr, "Invalid xml file: '%s'\n", xmlFilePath.c_str());
 		return false;
+	}
 
 	XMLNode* root = doc.FirstChild();
 
 	if (root == nullptr)
+	{
+		fprintf(stderr, "Missing Root tag in xml file: '%s'\n", xmlFilePath.c_str());
 		return false;
+	}
 
-	for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	for (XMLElement* child = root->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
 	{
 		if (string(child->Name()) == "File")
 		{
@@ -264,7 +284,8 @@ bool Parse(const std::string& xmlFilePath, const std::string& basePath, const st
 	return true;
 }
 
-void BuildAssetTexture(const std::string& pngFilePath, TextureType texType, const std::string& outPath)
+void BuildAssetTexture(const std::string& pngFilePath, TextureType texType,
+                       const std::string& outPath)
 {
 	vector<string> split = StringHelper::Split(outPath, "/");
 	string name = StringHelper::Split(split[split.size() - 1], ".")[0];
@@ -274,7 +295,8 @@ void BuildAssetTexture(const std::string& pngFilePath, TextureType texType, cons
 	if (File::Exists(cfgPath))
 		name = File::ReadAllText(cfgPath);
 
-	//string src = StringHelper::Sprintf("u64 %s[] = \n{\n", name.c_str()) + tex->GetSourceOutputCode(name) + "};\n";
+	// string src = StringHelper::Sprintf("u64 %s[] = \n{\n", name.c_str()) +
+	// tex->GetSourceOutputCode(name) + "};\n";
 	string src = tex->GetSourceOutputCode(name);
 
 	File::WriteAllText(outPath, src);
@@ -288,7 +310,8 @@ void BuildAssetBlob(const std::string& blobFilePath, const std::string& outPath)
 	ZBlob* blob = ZBlob::FromFile(blobFilePath);
 	string name = StringHelper::Split(split[split.size() - 1], ".")[0];
 
-	//string src = StringHelper::Sprintf("u8 %s[] = \n{\n", name.c_str()) + blob->GetSourceOutputCode(name) + "};\n";
+	// string src = StringHelper::Sprintf("u8 %s[] = \n{\n", name.c_str()) +
+	// blob->GetSourceOutputCode(name) + "};\n";
 	string src = blob->GetSourceOutputCode(name);
 
 	File::WriteAllText(outPath, src);
@@ -299,7 +322,7 @@ void BuildAssetBlob(const std::string& blobFilePath, const std::string& outPath)
 void BuildAssetModelIntermediette(const std::string& mdlPath, const std::string& outPath)
 {
 	XMLDocument doc;
-	XMLError eResult = doc.LoadFile(mdlPath.c_str());
+	// XMLError eResult = doc.LoadFile(mdlPath.c_str());
 
 	vector<string> split = StringHelper::Split(outPath, "/");
 	HLModelIntermediette* mdl = HLModelIntermediette::FromXML(doc.RootElement());
@@ -318,8 +341,8 @@ void BuildAssetAnimationIntermediette(const std::string& animPath, const std::st
 	ZAnimation* zAnim = anim->ToZAnimation();
 	zAnim->SetName(Path::GetFileNameWithoutExtension(split[split.size() - 1]));
 	zAnim->parent = file;
-	//zAnim->rotationIndicesSeg = 1;
-	//zAnim->rotationValuesSeg = 2;
+	// zAnim->rotationIndicesSeg = 1;
+	// zAnim->rotationValuesSeg = 2;
 
 	zAnim->GetSourceOutputCode(split[split.size() - 2]);
 	string output = "";

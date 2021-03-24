@@ -329,9 +329,9 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
         Actor_MoveForward(&this->actor);
 
-        if (this->touchedPoly =
+        if ((this->touchedPoly =
                 BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
-                                           &this->actor.wallPoly, true, true, true, true, &bgId)) {
+                                           &this->actor.wallPoly, true, true, true, true, &bgId))) {
             func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, bgId, &hitPoint);
             Math_Vec3f_Copy(&posCopy, &this->actor.world.pos);
             Math_Vec3f_Copy(&this->actor.world.pos, &hitPoint);
@@ -358,7 +358,7 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
             } else {
                 Math_Vec3f_Sum(&this->actor.world.pos, &this->unk_250, &this->hitActor->world.pos);
             }
-            
+
             if (this->touchedPoly && (this->hitActor != NULL)) {
                 this->hitActor->flags &= ~0x8000;
                 this->hitActor = NULL;
