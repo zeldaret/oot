@@ -73,11 +73,11 @@ Tells you where your built rom first differs from the baserom. It gives you a me
 
 If the rom is shifted, the first problem will be in gDMADataTable. Ignore this and look at the next one for where you actually need to look to see what's happened. The last line makes a guess on this location you need to edit to fix the problem.
 
-## syminfo
+## sym_info
 
 Gives information about a `D_address` symbol (ROM address, RAM address, file). Run
 ```C
-./syminfo.py <D_number>
+./sym_info.py <D_number>
 ```
 
 ## ichaindis
@@ -90,7 +90,7 @@ into an InitChain. It lives in the tools directory. Run
 ```sh
 ./tools/ichaindis.py <path_to_baserom> <D_address>
 ```
-and copy the output. (This used to only take the ROM address, which you would need to get from `syminfo.py`. Now you can just give it the RAM address, or even the raw `D_address`.)
+and copy the output. (This used to only take the ROM address, which you would need to get from `sym_info.py`. Now you can just give it the RAM address, or even the raw `D_address`.)
 
 ## colliderinit
 
