@@ -8,6 +8,8 @@
 // z_horse.c
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2);
 
+void func_80028A54(GlobalContext* globalCtx, f32 arg1, Vec3f* vec);
+
 void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnHorse_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx);
@@ -43,19 +45,17 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_StartBraking(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_FleePlayer(EnHorse* this, GlobalContext* globalCtx);
 
-extern Vec3f D_80A66788, D_80A66794;
-
 extern CutsceneData D_02000230[];
 extern CutsceneData D_02002AC0[];
 extern Gfx D_06006530[];
 
-AnimationHeader* D_80A65E10[] = { 0x06006D50, 0x06005584, 0x06004DEC, 0x06003CEC, 0x060075F0,
-                                  0x060032B0, 0x06001E2C, 0x06002470, 0x06002C38 };
+AnimationHeader* sEponaAnimHeaders[] = { 0x06006D50, 0x06005584, 0x06004DEC, 0x06003CEC, 0x060075F0,
+                                         0x060032B0, 0x06001E2C, 0x06002470, 0x06002C38 };
 
-AnimationHeader* D_80A65E34[] = { 0x06009FC4, 0x0600A6B4, 0x0600901C, 0x060085E0, 0x0600AF60,
-                                  0x06007B54, 0x0600506C, 0x06005684, 0x06005E20 };
+AnimationHeader* sHniAnimHeaders[] = { 0x06009FC4, 0x0600A6B4, 0x0600901C, 0x060085E0, 0x0600AF60,
+                                       0x06007B54, 0x0600506C, 0x06005684, 0x06005E20 };
 
-static AnimationHeader** sAnimationHeaders[] = { D_80A65E10, D_80A65E34 };
+static AnimationHeader** sAnimationHeaders[] = { sEponaAnimHeaders, sHniAnimHeaders };
 
 static f32 sPlaybackSpeeds[] = { 0.6666667f, 0.6666667f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.6666667f, 0.6666667f };
 
@@ -263,7 +263,7 @@ struct BridgeJumpPoint {
 };
 
 struct BridgeJumpPoint sBridgeJumps[] = { { -195, -40,  225,  120,  360, -0x4000, 0x7D0, -270, -52, -117 },
-                                     { -195, -40, -240, -120, -360,  0x4000, 0x7D0,  270, -52, -117 } };
+                                          { -195, -40, -240, -120, -360,  0x4000, 0x7D0,  270, -52, -117 } };
 
 struct RaceWaypoint {
     s16 x;
@@ -296,7 +296,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 300, ICHAIN_STOP),
 };
 
-u8 D_80A6666C[] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0 };
+u8 sResetNoInput[] = { 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 0 };
 
 s32 sIdleAnimIds[] = { 1, 3, 0, 3, 1, 0 };
 
@@ -478,8 +478,8 @@ void EnHorse_UpdateIngoRaceInfo(EnHorse* this, GlobalContext* globalCtx, struct 
         this->actor.shape.rot.y = this->actor.world.rot.y;
     }
 
-    sp50 = Actor_WorldDistXZToActor(&this->actor, PLAYER);
-    relPlayerYaw = Actor_WorldYawTowardActor(&this->actor, PLAYER) - this->actor.world.rot.y;
+    sp50 = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
+    relPlayerYaw = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
     if (sp50 <= 200.0f || (fabsf(Math_SinS(relPlayerYaw)) < 0.8f && Math_CosS(relPlayerYaw) > 0.0f)) {
         if (this->actor.speedXZ < this->ingoHorseMaxSpeed) {
             this->actor.speedXZ += 0.47f;
@@ -812,7 +812,7 @@ void EnHorse_RotateToPlayer(EnHorse* this, GlobalContext* globalCtx) {
 
 void EnHorse_Freeze(EnHorse* this) {
     if (this->action != 17 && this->action != 18) {
-        if (D_80A6666C[this->actor.params] != 0 && this->actor.params != 4) {
+        if (sResetNoInput[this->actor.params] != 0 && this->actor.params != 4) {
             this->noInputTimer = 0;
             this->noInputTimerMax = 0;
         }
@@ -935,8 +935,7 @@ void EnHorse_UpdateSpeed(EnHorse* this, GlobalContext* globalCtx, f32 brakeDecel
             this->flags &= ~ENHORSE_BOOST_DECEL;
         }
     } else {
-        // 1/54
-        this->actor.speedXZ += (this->actor.speedXZ <= baseSpeed * 0.018518519f * stickMag ? 1.0f : -1.0f) * 50.0f * 0.01f;
+        this->actor.speedXZ += (this->actor.speedXZ <= baseSpeed * (1.0f/54.0f) * stickMag ? 1.0f : -1.0f) * 50.0f * 0.01f;
         if (baseSpeed < this->actor.speedXZ) {
             this->actor.speedXZ = this->actor.speedXZ - decel;
             if (this->actor.speedXZ < baseSpeed) {
@@ -1756,7 +1755,7 @@ void EnHorse_SetFollowAnimation(EnHorse* this, GlobalContext* globalCtx) {
     s32 animId = ENHORSE_ANIM_WALK;
     f32 distToPlayer;
 
-    distToPlayer = Actor_WorldDistXZToActor(&this->actor, PLAYER);
+    distToPlayer = Actor_WorldDistXZToActor(&this->actor, &PLAYER->actor);
     if (distToPlayer > 400.0f) {
         animId = ENHORSE_ANIM_GALLOP;
     } else if (!(distToPlayer <= 300.0f)) {
@@ -2656,8 +2655,6 @@ void EnHorse_BridgeJumpMove(EnHorse* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80028A54(GlobalContext* globalCtx, f32 arg1, Vec3f* vec);
-
 void EnHorse_CheckBridgeJumpLanding(EnHorse* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 8.0f;
     this->skin.skelAnime.playSpeed = 1.5f;
@@ -2978,7 +2975,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
     f32 ny;
     s32 movingFast;
     s32 pad5;
-    Actor* dynaPoly;
+    DynaPolyActor* dynaPoly;
     Vec3f intersect;
     Vec3f obstacleTop;
 
@@ -3057,7 +3054,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
         }
 
         dynaPoly = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
-        if ((this->flags & ENHORSE_FLAG_26) && ((dynaPoly && dynaPoly->id != 0x108) || dynaPoly == 0)) {
+        if ((this->flags & ENHORSE_FLAG_26) && ((dynaPoly && dynaPoly->actor.id != 0x108) || dynaPoly == 0)) {
             if (movingFast == 0) {
                 this->flags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == 1) {
@@ -3332,7 +3329,7 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnHorse_UpdatePlayerDir(this, globalCtx2);
 
     if (!(this->flags & ENHORSE_INACTIVE)) {
-        EnHorse_MountDismount(thisx, globalCtx2);
+        EnHorse_MountDismount(this, globalCtx2);
     }
 
     if (this->flags & ENHORSE_FLAG_19) {
@@ -3670,9 +3667,9 @@ void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         this->flags |= ENHORSE_DRAW;
         if (this->flags & ENHORSE_JUMPING) {
-            func_800A6360(this, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 0);
+            func_800A6360(thisx, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 0);
         } else {
-            func_800A6360(this, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 1);
+            func_800A6360(thisx, globalCtx, &this->skin, &EnHorse_SkinCallback1, &EnHorse_SkinCallback2, 1);
         }
         if (this->postDrawFunc != NULL) {
             this->postDrawFunc(this, globalCtx);
