@@ -1774,7 +1774,7 @@ s32 func_800C0CB8(GlobalContext* globalCtx) {
 }
 
 s32 FrameAdvance_IsEnabled(GlobalContext* globalCtx) {
-    return (globalCtx->frameAdvCtx.enabled != 0);
+    return !!globalCtx->frameAdvCtx.enabled;
 }
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {

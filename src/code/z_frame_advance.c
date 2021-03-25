@@ -18,29 +18,12 @@ s32 FrameAdvance_Update(FrameAdvanceContext* frameAdvCtx, Input* input) {
         frameAdvCtx->enabled = !frameAdvCtx->enabled;
     }
 
-    if (!frameAdvCtx->enabled) {
-        goto advance;
+    if (!frameAdvCtx->enabled || (CHECK_BTN_ALL(input->cur.button, BTN_Z) &&
+                                  (CHECK_BTN_ALL(input->press.button, BTN_R) ||
+                                   (CHECK_BTN_ALL(input->cur.button, BTN_R) && (++frameAdvCtx->timer >= 9))))) {
+        frameAdvCtx->timer = 0;
+        return true;
     }
-
-    if (CHECK_BTN_ALL(input->cur.button, BTN_Z)) {
-        if (CHECK_BTN_ALL(input->press.button, BTN_R)) {
-            goto advance;
-        }
-
-        if (CHECK_BTN_ALL(input->cur.button, BTN_R)) {
-            frameAdvCtx->timer++;
-            if (frameAdvCtx->timer >= 9) {
-                goto advance;
-            }
-        }
-    }
-
-    goto freeze;
-
-advance:
-    frameAdvCtx->timer = 0;
-    return true;
-
-freeze:
+    
     return false;
 }
