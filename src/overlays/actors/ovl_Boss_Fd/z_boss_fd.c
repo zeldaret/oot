@@ -1745,9 +1745,7 @@ void BossFd_DrawMane(GlobalContext* globalCtx, BossFd* this, Vec3f* manePos, Vec
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4419);
 
     maneLength = this->skinSegments;
-    if (maneLength > 10) {
-        maneLength = 10;
-    }
+    maneLength = CLAMP_MAX(maneLength, 10);
 
     for (i = 0; i < maneLength; i++) {
         maneIndex = (this->leadManeSeg - (i * 2) + 30) % 30;

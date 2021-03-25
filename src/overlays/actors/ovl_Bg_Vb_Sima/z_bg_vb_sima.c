@@ -76,22 +76,12 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     BgVbSima* this = THIS;
     BossFd* bossFd = (BossFd*)this->dyna.actor.parent;
-    u32 signal;
-    s16 i2;
-    s16 i1;
-    f32 minus1;
-    Vec3f splashVel;
-    Vec3f splashAcc;
-    Vec3f splashPos;
-    Vec3f emberPos;
-    Vec3f emberVel;
-    Vec3f emberAcc;
-    f32 edgeX;
-    f32 edgeZ;
+    f32 minus1 = -1.0f;
 
     this->shakeTimer++;
     if (!Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
-        signal = bossFd->platformSignal;
+        s32 signal = bossFd->platformSignal;
+
         if (signal == VBSIMA_COLLAPSE) {
             Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
             this->dyna.actor.world.pos.z += 2.0f * Math_CosS(this->shakeTimer * 0x8000);
@@ -103,6 +93,17 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_Kill(&this->dyna.actor);
         }
         if (bossFd->platformSignal != VBSIMA_STAND) {
+            s16 i2;
+            s16 i1;
+            Vec3f splashVel;
+            Vec3f splashAcc;
+            Vec3f splashPos;
+            Vec3f emberPos;
+            Vec3f emberVel;
+            Vec3f emberAcc;
+            f32 edgeX;
+            f32 edgeZ;
+
             for (i1 = 0; i1 < 10; i1++) {
                 if (Rand_ZeroOne() < 0.33f) {
                     edgeX = -80.0f;
@@ -110,7 +111,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                 } else {
                     edgeZ = 80.0f;
                     if (Rand_ZeroOne() < 0.5f) {
-                        minus1 = -1.0f; // Not a fake match; the game really does this.
+                        // minus1 = -1.0f; // Not a fake match; the game really does this.
                         edgeZ = 80.0f * minus1;
                     }
                     edgeX = Rand_CenteredFloat(160.0f);
