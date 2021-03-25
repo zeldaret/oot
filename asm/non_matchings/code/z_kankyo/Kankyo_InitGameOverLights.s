@@ -1,4 +1,4 @@
-glabel func_80075F14
+glabel Kankyo_InitGameOverLights
 /* AED0B4 80075F14 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* AED0B8 80075F18 AFBF0024 */  sw    $ra, 0x24($sp)
 /* AED0BC 80075F1C AFA40038 */  sw    $a0, 0x38($sp)
