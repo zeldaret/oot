@@ -35,6 +35,9 @@ const ActorInit Bg_Ice_Shelter_InitVars = {
 
 static f32 sScales[] = { 0.1f, 0.06f, 0.1f, 0.1f, 0.25f };
 
+static Color_RGBA8 sDustPrimColor = { 250, 250, 250, 255 };
+static Color_RGBA8 sDustEnvColor = { 180, 180, 180, 255 };
+
 static ColliderCylinderInit D_8089170C = {
     {
         COLTYPE_NONE,
@@ -55,7 +58,7 @@ static ColliderCylinderInit D_8089170C = {
     { 0, 0, 0, { 0, 0, 0 } },
 };
 
-ColliderCylinderInit D_80891738 = {
+static ColliderCylinderInit D_80891738 = {
     {
         COLTYPE_HARD,
         AT_NONE,
@@ -83,7 +86,7 @@ void func_80890740(BgIceShelter* this, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->cylinder1);
     Collider_SetCylinder(globalCtx, &this->cylinder1, &this->dyna.actor, &D_8089170C);
-    Collider_CylinderUpdate(&this->dyna.actor, &this->cylinder1);
+    Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder1);
 
     this->cylinder1.dim.radius = cylinderRadii[type];
     this->cylinder1.dim.height = cylinderHeights[type];
@@ -91,7 +94,7 @@ void func_80890740(BgIceShelter* this, GlobalContext* globalCtx) {
     if (type == 0 || type == 1 || type == 4) {
         Collider_InitCylinder(globalCtx, &this->cylinder2);
         Collider_SetCylinder(globalCtx, &this->cylinder2, &this->dyna.actor, &D_80891738);
-        Collider_CylinderUpdate(&this->dyna.actor, &this->cylinder2);
+        Collider_UpdateCylinder(&this->dyna.actor, &this->cylinder2);
         this->cylinder2.dim.radius = cylinderRadii[type];
         this->cylinder2.dim.height = cylinderHeights[type];
     }
@@ -134,7 +137,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
-    static Vec3f D_80891788 = { 0.18f, 0.27f, 0.24f }; // king zora ice scale
+    static Vec3f kzIceScale = { 0.18f, 0.27f, 0.24f };
     BgIceShelter* this = THIS;
     s16 type = (this->dyna.actor.params >> 8) & 7;
 
@@ -148,7 +151,7 @@ void BgIceShelter_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (type == 4) {
-        Math_Vec3f_Copy(&this->dyna.actor.scale, &D_80891788);
+        Math_Vec3f_Copy(&this->dyna.actor.scale, &kzIceScale);
     } else {
         Actor_SetScale(&this->dyna.actor, sScales[type]);
     }
@@ -198,9 +201,6 @@ void BgIceShelter_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 s16 D_80891794[] = { 0x0000, 0x4000, 0x2000, 0x6000, 0x1000, 0x5000, 0x3000, 0x7000 };
 s16 D_808917A4[] = { 0x0000, 0x003C, 0x0018, 0x0054, 0x0030, 0x000C, 0x0048, 0x0024 };
 
-static Color_RGBA8 sDustPrimColor = { 250, 250, 250, 255 };
-static Color_RGBA8 sDustEnvColor = { 180, 180, 180, 255 };
-
 void func_80890B8C(BgIceShelter* this, GlobalContext* globalCtx, f32 chance, f32 scale) {
     f32 cos;
     f32 sin;
@@ -245,7 +245,7 @@ void func_80890B8C(BgIceShelter* this, GlobalContext* globalCtx, f32 chance, f32
 }
 
 void func_80890E00(BgIceShelter* this, GlobalContext* globalCtx, f32 chance, f32 arg3) {
-    static f32 D_808917B4[] = { 0xBF800000, 0x3F800000 };
+    static f32 D_808917B4[] = { -1.0f, 1.0f };
     Vec3f* icePos;
     s16 frames;
     s32 pad[2];
@@ -310,7 +310,7 @@ void func_8089107C(BgIceShelter* this, GlobalContext* globalCtx) {
             }
 
             func_808911BC(this);
-            Audio_PlayActorSound2(this, NA_SE_EV_ICE_MELT);
+            Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_ICE_MELT);
         }
     }
 
@@ -331,13 +331,15 @@ void func_808911BC(BgIceShelter* this) {
     this->alpha = 255;
 }
 
-static void (*D_808917E4[])(BgIceShelter* this, GlobalContext* globalCtx, f32 chance, f32 scale) = {
+static f32 D_808917BC[] = { -0.0015f, -0.0009f, -0.0016f, -0.0016f, -0.00375f };
+static f32 D_808917D0[] = { 1.0f, 0.6f, 1.2f, 1.0f, 1.8f };
+
+static void (*sEffSpawnFuncs[])(BgIceShelter* this, GlobalContext* globalCtx, f32 chance, f32 scale) = {
     func_80890B8C, func_80890B8C, func_80890B8C, func_80890E00, func_80890B8C,
 };
 
 void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx) {
-    static f32 D_808917BC[] = { 0xBAC49BA6, 0xBA6BEDFA, 0xBAD1B717, 0xBAD1B717, 0xBB75C28F };
-    static f32 D_808917D0[] = { 0x3F800000, 0x3F19999A, 0x3F99999A, 0x3F800000, 0x3FE66666 };
+
     s32 pad;
     s32 type = (this->dyna.actor.params >> 8) & 7;
     f32 phi_f0;
@@ -361,16 +363,16 @@ void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx) {
 
     if (this->alpha > 180) {
         phi_f0 = 1.0f;
-    } else if (this->alpha >= 0x3D) {
+    } else if (this->alpha > 60) {
         phi_f0 = 0.5f;
     } else {
         phi_f0 = 0.0f;
     }
 
-    D_808917E4[type](this, globalCtx, phi_f0, D_808917D0[type]);
+    sEffSpawnFuncs[type](this, globalCtx, phi_f0, D_808917D0[type]);
 
     if (this->alpha <= 0) {
-        if (((this->dyna.actor.params >> 6) & 1) == 0) {
+        if (!((this->dyna.actor.params >> 6) & 1)) {
             Flags_SetSwitch(globalCtx, this->dyna.actor.params & 0x3F);
         }
 
@@ -378,7 +380,7 @@ void func_808911D4(BgIceShelter* this, GlobalContext* globalCtx) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
         }
 
-        Actor_Kill(this);
+        Actor_Kill(&this->dyna.actor);
     }
 }
 
@@ -404,7 +406,7 @@ void BgIceShelter_Draw(Actor* thisx, GlobalContext* globalCtx2) {
         case 1:
         case 2:
         case 4:
-            func_8002ED80(this, globalCtx, 0);
+            func_8002ED80(&this->dyna.actor, globalCtx, 0);
             break;
     }
 
