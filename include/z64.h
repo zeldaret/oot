@@ -224,10 +224,10 @@ typedef struct {
     /* 0x00 */ u8* texture;
     /* 0x04 */ s16 x;
     /* 0x06 */ s16 y;
-    /* 0x08 */ u8 width;
-    /* 0x09 */ u8 height;
-    /* 0x0A */ u8 timer1;
-    /* 0x0B */ u8 timer2;
+    /* 0x08 */ u8  width;
+    /* 0x09 */ u8  height;
+    /* 0x0A */ u8  timer1;
+    /* 0x0B */ u8  timer2;
     /* 0x0C */ s16 alpha;
     /* 0x0E */ s16 color; // used for red, green, and blue
 } TitleCardContext; // size = 0x10
@@ -296,7 +296,7 @@ typedef struct {
     /* 0x144 */ Vec3f rot;
     /* 0x150 */ Vec3f eye;
     /* 0x15C */ s16 angle;
-} SkyboxContext; // size = 0x150
+} SkyboxContext; // size = 0x160
 
 typedef enum {
     MESSAGE_ICON_TRIANGLE,
@@ -350,12 +350,12 @@ typedef struct {
 typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ Vtx*   vtx_128;
-    /* 0x012C */ Vtx*   vtx_12C;
+    /* 0x012C */ Vtx*   beatingHeartVtx;
     /* 0x0130 */ void*  parameterSegment;
     /* 0x0134 */ void*  do_actionSegment;
     /* 0x0138 */ void*  icon_itemSegment;
     /* 0x013C */ void*  mapSegment;
-    /* 0x0140 */ u8     unk_140[32];
+    /* 0x0140 */ u8     mapPalette[32]; // current map palette data
     /* 0x0160 */ DmaRequest dmaRequest_160;
     /* 0x0180 */ DmaRequest dmaRequest_180;
     /* 0x01A0 */ char   unk_1A0[0x20];
@@ -391,7 +391,7 @@ typedef struct {
     /* 0x023E */ u16    hbaAmmo; // ammo while playing the horseback archery minigame
     /* 0x0240 */ u16    unk_240;
     /* 0x0242 */ u16    unk_242;
-    /* 0x0224 */ u16    unk_244; // screen fill alpha?
+    /* 0x0224 */ u16    screenFillAlpha;
     /* 0x0246 */ u16    aAlpha; // also carrots alpha
     /* 0x0248 */ u16    bAlpha; // also HBA score alpha
     /* 0x024A */ u16    cLeftAlpha;
@@ -401,8 +401,8 @@ typedef struct {
     /* 0x0252 */ u16    magicAlpha; // also Rupee and Key counters alpha
     /* 0x0254 */ u16    minimapAlpha;
     /* 0x0256 */ s16    startAlpha;
-    /* 0x0258 */ s16    unk_258;
-    /* 0x025A */ s16    unk_25A;
+    /* 0x0258 */ s16    mapOverworldNum; // used with "spot" scenes
+    /* 0x025A */ s16    dungeonOverworldNum;
     /* 0x025C */ s16    mapRoomNum;
     /* 0x025E */ s16    mapPaletteNum; // "map_palete_no"
     /* 0x0260 */ u8     unk_260;
@@ -486,7 +486,7 @@ typedef struct {
     /* 0x0254 */ s16    unk_254;
     /* 0x0256 */ s16    unk_256;
     /* 0x0258 */ s16    unk_258;
-    /* 0x025A */ s16    unk_25A;
+    /* 0x025A */ s16    dungeonOverworldNum;
     /* 0x025C */ s16    unk_25C;
     /* 0x025E */ s16    unk_25E;
     /* 0x0260 */ s16    unk_260;

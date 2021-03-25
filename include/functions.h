@@ -2634,9 +2634,9 @@ void func_8011040C(void);
 void func_80110450(GlobalContext* globalCtx);
 void func_80110460(GlobalContext* globalCtx);
 void func_801104C8(GlobalContext* globalCtx);
-void func_80110990(GlobalContext* globalCtx);
-void func_801109B0(GlobalContext* globalCtx);
-void func_80110F68(GlobalContext* globalCtx);
+void Interface_Destroy(GlobalContext* globalCtx);
+void Interface_Init(GlobalContext* globalCtx);
+void Message_Init(GlobalContext* globalCtx);
 void func_80112098(GlobalContext* globalCtx);
 
 void Title_Init(GameState* thisx);

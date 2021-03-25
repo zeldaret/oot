@@ -32,8 +32,8 @@ void Map_SetPaletteData(GlobalContext* globalCtx, s16 room) {
                  room, mapIndex, gSaveContext.sceneFlags[mapIndex].rooms, interfaceCtx->mapPaletteNum);
     osSyncPrintf(VT_RST);
 
-    interfaceCtx->unk_140[paletteNum * 2] = 2;
-    interfaceCtx->unk_140[paletteNum * 2 + 1] = 0xBF;
+    interfaceCtx->mapPalette[paletteNum * 2] = 2;
+    interfaceCtx->mapPalette[paletteNum * 2 + 1] = 0xBF;
 }
 
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
@@ -43,13 +43,13 @@ void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor) {
     s16 i;
 
     for (i = 0; i < 16; i++) {
-        interfaceCtx->unk_140[i] = 0;
-        interfaceCtx->unk_140[i + 16] = 0;
+        interfaceCtx->mapPalette[i] = 0;
+        interfaceCtx->mapPalette[i + 16] = 0;
     }
 
     if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
-        interfaceCtx->unk_140[30] = 0;
-        interfaceCtx->unk_140[31] = 1;
+        interfaceCtx->mapPalette[30] = 0;
+        interfaceCtx->mapPalette[31] = 1;
     }
 
     switch (globalCtx->sceneNum) {
@@ -132,7 +132,7 @@ void Map_InitData(GlobalContext* globalCtx, s16 room) {
             DmaMgr_SendRequest1(interfaceCtx->mapSegment,
                                 (u32)_map_grand_staticSegmentRomStart + gMapData->owMinimapTexOffset[extendedMapIndex],
                                 gMapData->owMinimapTexSize[mapIndex], "../z_map_exp.c", 309);
-            interfaceCtx->unk_258 = mapIndex;
+            interfaceCtx->mapOverworldNum = mapIndex;
             break;
         case SCENE_YDAN:
         case SCENE_DDAN:
@@ -200,7 +200,7 @@ void Map_InitRoomData(GlobalContext* globalCtx, s16 room) {
                 gSaveContext.sceneFlags[mapIndex].rooms |= gBitFlags[room];
                 osSyncPrintf("ＲＯＯＭ＿ＩＮＦ＝%d\n", gSaveContext.sceneFlags[mapIndex].rooms);
                 interfaceCtx->mapRoomNum = room;
-                interfaceCtx->unk_25A = mapIndex;
+                interfaceCtx->dungeonOverworldNum = mapIndex;
                 Map_SetPaletteData(globalCtx, room);
                 osSyncPrintf(VT_FGCOL(YELLOW));
                 osSyncPrintf("部屋部屋＝%d\n", room); // "Room Room = %d"
@@ -228,8 +228,8 @@ void Map_Init(GlobalContext* globalCtx) {
 
     gMapData = &gMapDataTable;
 
-    interfaceCtx->unk_258 = -1;
-    interfaceCtx->unk_25A = -1;
+    interfaceCtx->mapOverworldNum = -1;
+    interfaceCtx->dungeonOverworldNum = -1;
 
     interfaceCtx->mapSegment = GameState_Alloc(&globalCtx->state, 0x1000, "../z_map_exp.c", 457);
     // Translates to "ＭＡＰ TEXTURE INITIALIZATION scene_data_ID=%d mapSegment=%x"
@@ -524,11 +524,11 @@ void Map_Update(GlobalContext* globalCtx) {
             case SCENE_HAKADAN:
             case SCENE_HAKADANCH:
             case SCENE_ICE_DOUKUTO:
-                interfaceCtx->unk_140[30] = 0;
+                interfaceCtx->mapPalette[30] = 0;
                 if (CHECK_DUNGEON_ITEM(DUNGEON_MAP, mapIndex)) {
-                    interfaceCtx->unk_140[31] = 1;
+                    interfaceCtx->mapPalette[31] = 1;
                 } else {
-                    interfaceCtx->unk_140[31] = 0;
+                    interfaceCtx->mapPalette[31] = 0;
                 }
 
                 for (floor = 0; floor < 8; floor++) {

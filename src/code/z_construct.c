@@ -1,10 +1,10 @@
 #include "global.h"
 
-void func_80110990(GlobalContext* globalCtx) {
+void Interface_Destroy(GlobalContext* globalCtx) {
     Map_Destroy(globalCtx);
 }
 
-void func_801109B0(GlobalContext* globalCtx) {
+void Interface_Init(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
     u32 parameterSize;
     u16 do_actionOffset;
@@ -23,7 +23,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     interfaceCtx->unk_228 = XREG(95);
     interfaceCtx->minimapAlpha = 0;
     interfaceCtx->unk_260 = 0;
-    interfaceCtx->unk_244 = interfaceCtx->aAlpha = interfaceCtx->bAlpha = interfaceCtx->cLeftAlpha =
+    interfaceCtx->screenFillAlpha = interfaceCtx->aAlpha = interfaceCtx->bAlpha = interfaceCtx->cLeftAlpha =
         interfaceCtx->cDownAlpha = interfaceCtx->cRightAlpha = interfaceCtx->healthAlpha = interfaceCtx->startAlpha =
             interfaceCtx->magicAlpha = 0;
 
@@ -173,7 +173,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     R_A_BTN_COLOR(2) = 50;
 }
 
-void func_80110F68(GlobalContext* globalCtx) {
+void Message_Init(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     s32 pad;
 
@@ -270,8 +270,8 @@ void func_80111070(void) {
     YREG(85) = 0;
     YREG(86) = -0x15;
     YREG(87) = 0x1FE;
-    R_C_UP_ICON_X = 0xF7;
-    R_C_UP_ICON_Y = 0x14;
+    R_C_UP_ICON_X = 247;
+    R_C_UP_ICON_Y = 20;
     YREG(92) = 8;
     YREG(93) = 6;
     YREG(94) = 3;
@@ -316,36 +316,36 @@ void func_80111070(void) {
     R_START_LABEL_DD(0) = 0x64;
     R_START_LABEL_DD(1) = 0x59;
     R_START_LABEL_DD(2) = 0x5C;
-    R_START_LABEL_Y(0) = 0x14;
-    R_START_LABEL_Y(1) = 0x14;
-    R_START_LABEL_Y(2) = 0x14;
-    R_START_LABEL_X(0) = 0x78;
-    R_START_LABEL_X(1) = 0x77;
-    R_START_LABEL_X(2) = 0x77;
+    R_START_LABEL_Y(0) = 20;
+    R_START_LABEL_Y(1) = 20;
+    R_START_LABEL_Y(2) = 20;
+    R_START_LABEL_X(0) = 120;
+    R_START_LABEL_X(1) = 119;
+    R_START_LABEL_X(2) = 119;
     ZREG(61) = 1;
-    R_C_UP_BTN_X = 0xFE;
-    R_C_UP_BTN_Y = 0x10;
+    R_C_UP_BTN_X = 254;
+    R_C_UP_BTN_Y = 16;
     ZREG(64) = 0x14;
     ZREG(65) = 0x15;
     ZREG(66) = 0x7A;
-    R_ITEM_BTN_X(1) = 0xE3;
-    R_ITEM_BTN_X(2) = 0xF9;
-    R_ITEM_BTN_X(3) = 0x10F;
-    R_ITEM_BTN_Y(0) = 0x11;
-    R_ITEM_BTN_Y(1) = 0x12;
-    R_ITEM_BTN_Y(2) = 0x22;
-    R_ITEM_BTN_Y(3) = 0x12;
+    R_ITEM_BTN_X(1) = 227;
+    R_ITEM_BTN_X(2) = 249;
+    R_ITEM_BTN_X(3) = 271;
+    R_ITEM_BTN_Y(0) = 17;
+    R_ITEM_BTN_Y(1) = 18;
+    R_ITEM_BTN_Y(2) = 34;
+    R_ITEM_BTN_Y(3) = 18;
     R_ITEM_BTN_DD(0) = 0x23F;
     R_ITEM_BTN_DD(1) = 0x26C;
     R_ITEM_BTN_DD(2) = 0x26C;
     R_ITEM_BTN_DD(3) = 0x26C;
-    R_ITEM_ICON_X(1) = 0xE3;
-    R_ITEM_ICON_X(2) = 0xF9;
-    R_ITEM_ICON_X(3) = 0x10F;
-    R_ITEM_ICON_Y(0) = 0x11;
-    R_ITEM_ICON_Y(1) = 0x12;
-    R_ITEM_ICON_Y(2) = 0x22;
-    R_ITEM_ICON_Y(3) = 0x12;
+    R_ITEM_ICON_X(1) = 227;
+    R_ITEM_ICON_X(2) = 249;
+    R_ITEM_ICON_X(3) = 271;
+    R_ITEM_ICON_Y(0) = 17;
+    R_ITEM_ICON_Y(1) = 18;
+    R_ITEM_ICON_Y(2) = 34;
+    R_ITEM_ICON_Y(3) = 18;
     R_ITEM_ICON_DD(0) = 0x226;
     R_ITEM_ICON_DD(1) = 0x2A8;
     R_ITEM_ICON_DD(2) = 0x2A8;
@@ -395,10 +395,10 @@ void func_80111070(void) {
     XREG(45) = 0x24;
     XREG(46) = 0x10;
     XREG(47) = 8;
-    R_MAGIC_BAR_SMALL_Y = 0x22;
-    R_MAGIC_BAR_X = 0x12;
-    R_MAGIC_BAR_LARGE_Y = 0x2A;
-    R_MAGIC_FILL_X = 0x1A;
+    R_MAGIC_BAR_SMALL_Y = 34;
+    R_MAGIC_BAR_X = 18;
+    R_MAGIC_BAR_LARGE_Y = 42;
+    R_MAGIC_FILL_X = 26;
     XREG(52) = 0;
     XREG(53) = 1;
     XREG(54) = 0x41;
@@ -470,9 +470,9 @@ void func_80111070(void) {
     WREG(26) = -0x28;
     WREG(27) = 0;
     WREG(28) = 0;
-    R_OW_MINIMAP_X = 0xEE;
-    R_OW_MINIMAP_Y = 0xA4;
-    R_MINIMAP_TOGGLED = 0;
+    R_OW_MINIMAP_X = 238;
+    R_OW_MINIMAP_Y = 164;
+    R_MINIMAP_TOGGLED = false;
     WREG(32) = 0x7A;
     WREG(33) = 0x3C;
     WREG(35) = 0;
@@ -480,12 +480,12 @@ void func_80111070(void) {
     WREG(37) = 0x64;
     WREG(38) = 0x63;
     WREG(39) = 0x6D;
-    R_B_LABEL_X(0) = 0x97;
-    R_B_LABEL_X(1) = 0x95;
-    R_B_LABEL_X(2) = 0x94;
-    R_B_LABEL_Y(0) = 0x17;
-    R_B_LABEL_Y(1) = 0x16;
-    R_B_LABEL_Y(2) = 0x16;
+    R_B_LABEL_X(0) = 151;
+    R_B_LABEL_X(1) = 149;
+    R_B_LABEL_X(2) = 148;
+    R_B_LABEL_Y(0) = 23;
+    R_B_LABEL_Y(1) = 22;
+    R_B_LABEL_Y(2) = 22;
     WREG(46) = -0x17C;
     WREG(47) = -0x168;
     WREG(48) = -0x15E;
@@ -507,8 +507,8 @@ void func_80111070(void) {
     WREG(64) = -0x25;
     WREG(65) = 0x1E;
     WREG(66) = -0x32;
-    R_DGN_MINIMAP_X = 0xCC;
-    R_DGN_MINIMAP_Y = 0x8C;
+    R_DGN_MINIMAP_X = 204;
+    R_DGN_MINIMAP_Y = 140;
     WREG(87) = 0x50;
     WREG(88) = 0x46;
     WREG(89) = 0x28;
@@ -530,10 +530,10 @@ void func_80111070(void) {
         VREG(7) = 0x4E;
         VREG(8) = 0xA6;
         VREG(9) = 0x28;
-        R_COMPASS_SCALE_X = 0x20;
-        R_COMPASS_SCALE_Y = 0x20;
-        R_COMPASS_OFFSET_X = 0x6E;
-        R_COMPASS_OFFSET_Y = -0x2E4;
+        R_COMPASS_SCALE_X = 32;
+        R_COMPASS_SCALE_Y = 32;
+        R_COMPASS_OFFSET_X = 110;
+        R_COMPASS_OFFSET_Y = -740;
         R_MINIMAP_COLOR(0) = 0;
         R_MINIMAP_COLOR(1) = 255;
         R_MINIMAP_COLOR(2) = 255;
@@ -580,25 +580,25 @@ void func_80111070(void) {
     VREG(61) = 0x64;
     VREG(62) = 0;
     VREG(63) = 0xA;
-    R_ITEM_AMMO_X(1) = 0xE4;
-    R_ITEM_AMMO_X(2) = 0xFA;
-    R_ITEM_AMMO_X(3) = 0x110;
-    R_ITEM_AMMO_Y(0) = 0x23;
-    R_ITEM_AMMO_Y(1) = 0x23;
-    R_ITEM_AMMO_Y(2) = 0x33;
-    R_ITEM_AMMO_Y(3) = 0x23;
+    R_ITEM_AMMO_X(1) = 228;
+    R_ITEM_AMMO_X(2) = 250;
+    R_ITEM_AMMO_X(3) = 272;
+    R_ITEM_AMMO_Y(0) = 35;
+    R_ITEM_AMMO_Y(1) = 35;
+    R_ITEM_AMMO_Y(2) = 51;
+    R_ITEM_AMMO_Y(3) = 35;
     VREG(72) = 0;
     VREG(73) = 0;
     VREG(74) = 0;
     VREG(75) = 0;
-    R_ITEM_ICON_WIDTH(0) = 0x1E;
-    R_ITEM_ICON_WIDTH(1) = 0x18;
-    R_ITEM_ICON_WIDTH(2) = 0x18;
-    R_ITEM_ICON_WIDTH(3) = 0x18;
-    R_ITEM_BTN_WIDTH(0) = 0x1D;
-    R_ITEM_BTN_WIDTH(1) = 0x1B;
-    R_ITEM_BTN_WIDTH(2) = 0x1B;
-    R_ITEM_BTN_WIDTH(3) = 0x1B;
+    R_ITEM_ICON_WIDTH(0) = 30;
+    R_ITEM_ICON_WIDTH(1) = 24;
+    R_ITEM_ICON_WIDTH(2) = 24;
+    R_ITEM_ICON_WIDTH(3) = 24;
+    R_ITEM_BTN_WIDTH(0) = 29;
+    R_ITEM_BTN_WIDTH(1) = 27;
+    R_ITEM_BTN_WIDTH(2) = 27;
+    R_ITEM_BTN_WIDTH(3) = 27;
     VREG(84) = 0;
     VREG(85) = 0x32;
     VREG(86) = 0;

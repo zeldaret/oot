@@ -177,7 +177,7 @@ void Gameplay_Destroy(GameState* thisx) {
     }
 
     func_80031C3C(&globalCtx->actorCtx, globalCtx);
-    func_80110990(globalCtx);
+    Interface_Destroy(globalCtx);
     KaleidoScopeCall_Destroy(globalCtx);
     KaleidoManager_Destroy();
     ZeldaArena_Cleanup();
@@ -228,7 +228,7 @@ void Gameplay_Init(GameState* thisx) {
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
-    func_80110F68(globalCtx);
+    Message_Init(globalCtx);
     func_80110450(globalCtx);
     func_8006BA00(globalCtx);
     Effect_InitContext(globalCtx);
@@ -304,7 +304,7 @@ void Gameplay_Init(GameState* thisx) {
 
     Cutscene_HandleEntranceTriggers(globalCtx);
     KaleidoScopeCall_Init(globalCtx);
-    func_801109B0(globalCtx);
+    Interface_Init(globalCtx);
 
     if (gSaveContext.nextDayTime != 0xFFFF) {
         if (gSaveContext.nextDayTime == 0x8001) {

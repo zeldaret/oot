@@ -2934,32 +2934,32 @@ void Interface_InitVertices(GlobalContext* globalCtx) {
     interfaceCtx->vtx_128[5].v.tc[0] = interfaceCtx->vtx_128[7].v.tc[0] = 1536;
     interfaceCtx->vtx_128[6].v.tc[1] = interfaceCtx->vtx_128[7].v.tc[1] = 512;
 
-    interfaceCtx->vtx_12C = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Vtx));
+    interfaceCtx->beatingHeartVtx = Graph_Alloc(globalCtx->state.gfxCtx, 4 * sizeof(Vtx));
 
-    interfaceCtx->vtx_12C[0].v.ob[0] = interfaceCtx->vtx_12C[2].v.ob[0] = -8;
-    interfaceCtx->vtx_12C[1].v.ob[0] = interfaceCtx->vtx_12C[3].v.ob[0] = 8;
-    interfaceCtx->vtx_12C[0].v.ob[1] = interfaceCtx->vtx_12C[1].v.ob[1] = 8;
-    interfaceCtx->vtx_12C[2].v.ob[1] = interfaceCtx->vtx_12C[3].v.ob[1] = -8;
+    interfaceCtx->beatingHeartVtx[0].v.ob[0] = interfaceCtx->beatingHeartVtx[2].v.ob[0] = -8;
+    interfaceCtx->beatingHeartVtx[1].v.ob[0] = interfaceCtx->beatingHeartVtx[3].v.ob[0] = 8;
+    interfaceCtx->beatingHeartVtx[0].v.ob[1] = interfaceCtx->beatingHeartVtx[1].v.ob[1] = 8;
+    interfaceCtx->beatingHeartVtx[2].v.ob[1] = interfaceCtx->beatingHeartVtx[3].v.ob[1] = -8;
 
-    interfaceCtx->vtx_12C[0].v.ob[2] = interfaceCtx->vtx_12C[1].v.ob[2] =
-    interfaceCtx->vtx_12C[2].v.ob[2] = interfaceCtx->vtx_12C[3].v.ob[2] = 0;
+    interfaceCtx->beatingHeartVtx[0].v.ob[2] = interfaceCtx->beatingHeartVtx[1].v.ob[2] =
+    interfaceCtx->beatingHeartVtx[2].v.ob[2] = interfaceCtx->beatingHeartVtx[3].v.ob[2] = 0;
 
-    interfaceCtx->vtx_12C[0].v.flag = interfaceCtx->vtx_12C[1].v.flag =
-    interfaceCtx->vtx_12C[2].v.flag = interfaceCtx->vtx_12C[3].v.flag = 0;
+    interfaceCtx->beatingHeartVtx[0].v.flag = interfaceCtx->beatingHeartVtx[1].v.flag =
+    interfaceCtx->beatingHeartVtx[2].v.flag = interfaceCtx->beatingHeartVtx[3].v.flag = 0;
 
-    interfaceCtx->vtx_12C[0].v.tc[0] = interfaceCtx->vtx_12C[0].v.tc[1] =
-    interfaceCtx->vtx_12C[1].v.tc[1] = interfaceCtx->vtx_12C[2].v.tc[0] = 0;
-    interfaceCtx->vtx_12C[1].v.tc[0] = interfaceCtx->vtx_12C[2].v.tc[1] =
-    interfaceCtx->vtx_12C[3].v.tc[0] = interfaceCtx->vtx_12C[3].v.tc[1] = 512;
+    interfaceCtx->beatingHeartVtx[0].v.tc[0] = interfaceCtx->beatingHeartVtx[0].v.tc[1] =
+    interfaceCtx->beatingHeartVtx[1].v.tc[1] = interfaceCtx->beatingHeartVtx[2].v.tc[0] = 0;
+    interfaceCtx->beatingHeartVtx[1].v.tc[0] = interfaceCtx->beatingHeartVtx[2].v.tc[1] =
+    interfaceCtx->beatingHeartVtx[3].v.tc[0] = interfaceCtx->beatingHeartVtx[3].v.tc[1] = 512;
 
-    interfaceCtx->vtx_12C[0].v.cn[0] = interfaceCtx->vtx_12C[1].v.cn[0] =
-    interfaceCtx->vtx_12C[2].v.cn[0] = interfaceCtx->vtx_12C[3].v.cn[0] =
-    interfaceCtx->vtx_12C[0].v.cn[1] = interfaceCtx->vtx_12C[1].v.cn[1] =
-    interfaceCtx->vtx_12C[2].v.cn[1] = interfaceCtx->vtx_12C[3].v.cn[1] =
-    interfaceCtx->vtx_12C[0].v.cn[2] = interfaceCtx->vtx_12C[1].v.cn[2] =
-    interfaceCtx->vtx_12C[2].v.cn[2] = interfaceCtx->vtx_12C[3].v.cn[2] =
-    interfaceCtx->vtx_12C[0].v.cn[3] = interfaceCtx->vtx_12C[1].v.cn[3] =
-    interfaceCtx->vtx_12C[2].v.cn[3] = interfaceCtx->vtx_12C[3].v.cn[3] = 0xFF;
+    interfaceCtx->beatingHeartVtx[0].v.cn[0] = interfaceCtx->beatingHeartVtx[1].v.cn[0] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[0] = interfaceCtx->beatingHeartVtx[3].v.cn[0] =
+    interfaceCtx->beatingHeartVtx[0].v.cn[1] = interfaceCtx->beatingHeartVtx[1].v.cn[1] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[1] = interfaceCtx->beatingHeartVtx[3].v.cn[1] =
+    interfaceCtx->beatingHeartVtx[0].v.cn[2] = interfaceCtx->beatingHeartVtx[1].v.cn[2] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[2] = interfaceCtx->beatingHeartVtx[3].v.cn[2] =
+    interfaceCtx->beatingHeartVtx[0].v.cn[3] = interfaceCtx->beatingHeartVtx[1].v.cn[3] =
+    interfaceCtx->beatingHeartVtx[2].v.cn[3] = interfaceCtx->beatingHeartVtx[3].v.cn[3] = 0xFF;
     // clang-format on
 }
 
@@ -3792,10 +3792,10 @@ void Interface_Draw(GlobalContext* globalCtx) {
         FlagSet_Update(globalCtx);
     }
 
-    if (interfaceCtx->unk_244 != 0) {
+    if (interfaceCtx->screenFillAlpha != 0) {
         gDPPipeSync(OVERLAY_DISP++);
         gSPDisplayList(OVERLAY_DISP++, sSetupDL_80125A60);
-        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 0, interfaceCtx->unk_244);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 0, 0, interfaceCtx->screenFillAlpha);
         gDPFillRectangle(OVERLAY_DISP++, 0, 0, gScreenWidth - 1, gScreenHeight - 1);
     }
 
