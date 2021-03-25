@@ -419,7 +419,7 @@ glabel func_80912594
 /* 024F4 80912B34 27A4008C */  addiu   $a0, $sp, 0x008C           ## $a0 = FFFFFFAC
 /* 024F8 80912B38 0C0346BD */  jal     Matrix_MultVec3f
 /* 024FC 80912B3C 27A50080 */  addiu   $a1, $sp, 0x0080           ## $a1 = FFFFFFA0
-/* 02500 80912B40 0C034221 */  jal     Matrix_Pull
+/* 02500 80912B40 0C034221 */  jal     Matrix_Pop
 /* 02504 80912B44 00000000 */  nop
 /* 02508 80912B48 C6240200 */  lwc1    $f4, 0x0200($s1)           ## 00000200
 /* 0250C 80912B4C C7A60080 */  lwc1    $f6, 0x0080($sp)

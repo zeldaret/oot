@@ -1028,7 +1028,7 @@ s32 EnPeehat_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1959),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1963);
         return true;
     }
@@ -1062,7 +1062,7 @@ void EnPeehat_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1990),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_peehat.c", 1994);
     }
 }
