@@ -91,8 +91,8 @@ void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f*
     s16 i;
 
     for (i = 0; i < 180; i++, effect++) {
-        if (effect->type == FD_NULL) {
-            effect->type = FD_DEBRIS;
+        if (effect->type == BFD_FX_NONE) {
+            effect->type = BFD_FX_DEBRIS;
             effect->pos = *position;
             effect->velocity = *velocity;
             effect->accel = *acceleration;
@@ -109,8 +109,8 @@ void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* p
     s16 i;
 
     for (i = 0; i < 180; i++, effect++) {
-        if (effect->type == FD_NULL) {
-            effect->type = FD_DUST;
+        if (effect->type == BFD_FX_NONE) {
+            effect->type = BFD_FX_DUST;
             effect->pos = *position;
             effect->velocity = *velocity;
             effect->accel = *acceleration;

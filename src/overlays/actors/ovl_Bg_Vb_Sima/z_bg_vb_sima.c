@@ -57,8 +57,8 @@ void BgVbSima_SpawnEmber(BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
     s16 i;
 
     for (i = 0; i < 180; i++, effect++) {
-        if (effect->type == FD_NULL) {
-            effect->type = FD_EMBER;
+        if (effect->type == BFD_FX_NONE) {
+            effect->type = BFD_FX_EMBER;
             effect->pos = *position;
             effect->velocity = *velocity;
             effect->accel = *acceleration;
