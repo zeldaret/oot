@@ -72,9 +72,9 @@ static ColliderCylinderInit D_80AAEAE0 = {
     { 18, 63, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 sColChkInfoInit[] = { 0, 0, 0, 0, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 sColChkInfoInit[] = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-DamageTable D_80AAEB18 = {
+static DamageTable D_80AAEB18 = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),
     /* Deku stick    */ DMG_ENTRY(0, 0x0),
     /* Slingshot     */ DMG_ENTRY(0, 0x0),
@@ -116,7 +116,7 @@ typedef struct {
     /* 0x0C */ f32 morphFrames;
 } EnMmAnimEntry; // size = 0x10
 
-EnMmAnimEntry sAnimationEntries[] = {
+static EnMmAnimEntry sAnimationEntries[] = {
     { &gRunningManRunAnim, 1.0f, ANIMMODE_LOOP, -7.0f },     { &gRunningManSitStandAnim, -1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSitWaitAnim, 1.0f, ANIMMODE_LOOP, -7.0f }, { &gRunningManSitStandAnim, 1.0f, ANIMMODE_ONCE, -7.0f },
     { &gRunningManSprintAnim, 1.0f, ANIMMODE_LOOP, -7.0f },  { &gRunningManExcitedAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
@@ -130,7 +130,7 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } EnMmPathInfo;
 
-EnMmPathInfo D_80AAEBA8[] = {
+static EnMmPathInfo D_80AAEBA8[] = {
     { 0, 1, 0, 0 },
     { 1, 1, 0, 1 },
     { 1, 3, 2, 1 },
