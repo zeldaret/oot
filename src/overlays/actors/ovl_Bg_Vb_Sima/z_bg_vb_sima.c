@@ -19,9 +19,6 @@ void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-// extern CollisionHeader gVolvagiaPlatformCol_000D68;
-// extern Gfx gVolvagiaPlatformDL_000240[];
-
 const ActorInit Bg_Vb_Sima_InitVars = {
     ACTOR_BG_VB_SIMA,
     ACTORCAT_BG,
@@ -45,7 +42,7 @@ void BgVbSima_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    CollisionHeader_GetVirtual(&gVolvagiaPlatformCol_000D68, &colHeader);
+    CollisionHeader_GetVirtual(&gVolvagiaPlatformCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 }
 
@@ -56,18 +53,18 @@ void BgVbSima_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
-void BgVbSima_SpawnEmber(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
+void BgVbSima_SpawnEmber(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == FD_NULL) {
-            particle->type = FD_EMBER;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->scale = scale / 1000.0f;
-            particle->alpha = 255;
-            particle->timer1 = (s16)Rand_ZeroFloat(10.0f);
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == FD_NULL) {
+            effect->type = FD_EMBER;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->scale = scale / 1000.0f;
+            effect->alpha = 255;
+            effect->timer1 = (s16)Rand_ZeroFloat(10.0f);
             break;
         }
     }
@@ -78,8 +75,8 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
     static Color_RGBA8 colorRed = { 255, 10, 0, 255 };
     s32 pad;
     BgVbSima* this = THIS;
-    BossFd* bossFd = BOSSFD;
-    u32 colPlat;
+    BossFd* bossFd = (BossFd*)this->dyna.actor.parent;
+    u32 signal;
     s16 i2;
     s16 i1;
     f32 minus1;
@@ -94,18 +91,18 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->shakeTimer++;
     if (!Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
-        colPlat = bossFd->collapsePlatform;
-        if (colPlat == 1) {
+        signal = bossFd->platformSignal;
+        if (signal == VBSIMA_COLLAPSE) {
             Math_SmoothStepToF(&this->dyna.actor.world.pos.y, -1000.0f, 1.0f, 1.5f, 0.0f);
             this->dyna.actor.world.pos.z += 2.0f * Math_CosS(this->shakeTimer * 0x8000);
             this->dyna.actor.shape.rot.x = (s16)Math_SinS(this->shakeTimer * 0x7000) * 0x37;
             this->dyna.actor.shape.rot.z = (s16)Math_SinS(this->shakeTimer * 0x5000) * 0x37;
             Audio_PlaySoundGeneral(NA_SE_EV_BLOCKSINK - SFX_FLAG, &this->dyna.actor.projectedPos, 4, &D_801333E0,
                                    &D_801333E0, &D_801333E8);
-        } else if (colPlat == 2) {
+        } else if (signal == VBSIMA_KILL) {
             Actor_Kill(&this->dyna.actor);
         }
-        if (bossFd->collapsePlatform != 0) {
+        if (bossFd->platformSignal != VBSIMA_STAND) {
             for (i1 = 0; i1 < 10; i1++) {
                 if (Rand_ZeroOne() < 0.33f) {
                     edgeX = -80.0f;
@@ -147,7 +144,7 @@ void BgVbSima_Update(Actor* thisx, GlobalContext* globalCtx) {
                     emberPos.y = Rand_ZeroFloat(40.0f) + splashPos.y;
                     emberPos.z = Rand_CenteredFloat(60.0f) + splashPos.z;
 
-                    BgVbSima_SpawnEmber(bossFd->particles, &emberPos, &emberVel, &emberAcc,
+                    BgVbSima_SpawnEmber(bossFd->effects, &emberPos, &emberVel, &emberAcc,
                                         (s16)Rand_ZeroFloat(2.0f) + 8);
                 }
             }
@@ -160,6 +157,6 @@ void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 291),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gVolvagiaPlatformDL_000240);
+    gSPDisplayList(POLY_OPA_DISP++, gVolvagiaPlatformDL);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_vb_sima.c", 296);
 }

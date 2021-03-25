@@ -156,7 +156,7 @@ void Title_Main(GameState* thisx) {
 void Title_Destroy(GameState* thisx) {
     TitleContext* this = (TitleContext*)thisx;
 
-    Sram_InitSram(this, &this->sramCtx);
+    Sram_InitSram(&this->state, &this->sramCtx);
 }
 
 void Title_Init(GameState* thisx) {

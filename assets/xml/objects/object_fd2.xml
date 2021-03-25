@@ -1,11 +1,14 @@
 <Root>
     <File Name="object_fd2" Segment="6">
+        <!-- Skeleton -->
         <Skeleton Name="gHoleVolvagiaSkel" Type="Flex" LimbType="Standard" Offset="0x11A78"/>
 
+        <!-- Display lists -->
         <DList Name="gHoleVolvagiaManeSetupDL" Offset="0x4B48"/>
         <DList Name="gHoleVolvagiaManeVtxDL" Offset="0x4BC8"/>
         <DList Name="gHoleVolvagiaBrokenFaceDL" Offset="0x4E38"/>
 
+        <!-- Animations -->
         <Animation Name="gHoleVolvagiaBreatheFireAnim" Offset="0x73CC"/>
         <Animation Name="gHoleVolvagiaHitAnim" Offset="0x7850"/>
         <Animation Name="gHoleVolvagiaDamagedAnim" Offset="0x89DC"/>
@@ -17,11 +20,14 @@
         <Animation Name="gHoleVolvagiaEmergeAnim" Offset="0xC1D0"/>
         <Animation Name="gHoleVolvagiaIdleAnim" Offset="0xC8EC"/>
 
-        <Texture Name="gHoleVolvagiaEyeHalfTex" Format="i8" Width="32" Height="32" Offset="0x2708"/>
-        <Texture Name="gHoleVolvagiaEyeOpenTex" Format="i8" Width="32" Height="32" Offset="0x2B08"/>
-        <Texture Name="gHoleVolvagiaEyeShutTex" Format="i8" Width="32" Height="32" Offset="0x2F08"/>
+        <!-- Eye textures -->
+        <Texture Name="gHoleVolvagiaEyeHalfTex" OutName="hole_volvagia_eye_half" Format="i8" Width="32" Height="32" Offset="0x2708"/>
+        <Texture Name="gHoleVolvagiaEyeOpenTex" OutName="hole_volvagia_eye_open" Format="i8" Width="32" Height="32" Offset="0x2B08"/>
+        <Texture Name="gHoleVolvagiaEyeClosedTex" OutName="hole_volvagia_eye_closed" Format="i8" Width="32" Height="32" Offset="0x2F08"/>
         
-        <Animation Name="gHoleVolvagiaAnim_00CDAC" Offset="0xCDAC"/>
+        <!-- Unused animation -->
+        <Animation Name="gHoleVolvagiaAnim_00CDAC" Offset="0xCDAC"/> <!-- Looks tired. Low health animation? -->
+
         <!-- <Array Name="gHoleVolvagiaSkelVtx" Count="795" Offset="0xCDC0">
             <Vtx/>
         </Array> -->

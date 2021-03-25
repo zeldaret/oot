@@ -13,15 +13,10 @@
 
 #define THIS ((EnVbBall*)thisx)
 
-#define BOSSFD ((BossFd*)this->actor.parent)
-
 void EnVbBall_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-// extern Gfx gVolvagiaRockDL_009F20[];
-// extern Gfx gVolvagiaRockDL_00B2F8[];
 
 const ActorInit En_Vb_Ball_InitVars = {
     0,
@@ -91,43 +86,43 @@ void EnVbBall_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void EnVbBall_SpawnDebris(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
                           Vec3f* acceleration, f32 scale) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == FD_NULL) {
-            particle->type = FD_DEBRIS;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->scale = scale / 1000.0f;
-            particle->xRot = Rand_ZeroFloat(100.0f);
-            particle->yRot = Rand_ZeroFloat(100.0f);
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == FD_NULL) {
+            effect->type = FD_DEBRIS;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->scale = scale / 1000.0f;
+            effect->xRot = Rand_ZeroFloat(100.0f);
+            effect->yRot = Rand_ZeroFloat(100.0f);
             break;
         }
     }
 }
 
-void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void EnVbBall_SpawnDust(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
                         Vec3f* acceleration, f32 scale) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == FD_NULL) {
-            particle->type = FD_DUST;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->timer2 = 0;
-            particle->scale = scale / 400.0f;
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == FD_NULL) {
+            effect->type = FD_DUST;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->timer2 = 0;
+            effect->scale = scale / 400.0f;
             break;
         }
     }
 }
 
 void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     f32 pad2;
     f32 pad1;
     f32 angle;
@@ -160,7 +155,7 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
             dustPos.y = this->actor.floorHeight + 10.0f;
             dustPos.z = Rand_CenteredFloat(20.0f) + this->actor.world.pos.z;
 
-            EnVbBall_SpawnDust(globalCtx, bossFd->particles, &dustPos, &dustVel, &dustAcc,
+            EnVbBall_SpawnDust(globalCtx, bossFd->effects, &dustPos, &dustVel, &dustAcc,
                                Rand_ZeroFloat(80.0f) + 200.0f);
         }
     }
@@ -172,14 +167,16 @@ void EnVbBall_UpdateBones(EnVbBall* this, GlobalContext* globalCtx) {
 void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
     GlobalContext* globalCtx2 = globalCtx;
     EnVbBall* this = THIS;
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     f32 radius;
     f32 pad2;
     s16 spawnNum;
     s16 i;
 
     this->unkTimer2++;
-    DECR(this->unkTimer1);
+    if (this->unkTimer1 != 0) {
+        this->unkTimer1--;
+    }
     this->actor.shape.rot.x += (s16)this->xRotVel;
     this->actor.shape.rot.y += (s16)this->yRotVel;
     this->actor.velocity.y += -1.0f;
@@ -208,7 +205,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     Vec3f spawnOffset;
                     EnVbBall* newActor;
                     f32 xRotVel;
-                    
+
                     if (this->actor.params == 100) {
                         spawnOffset.x = Rand_CenteredFloat(13.0f);
                         spawnOffset.y = Rand_ZeroFloat(5.0f) + 6.0f;
@@ -228,7 +225,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                             Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_ROCK, &newActor->actor.projectedPos, 4,
                                                    &D_801333E0, &D_801333E0, &D_801333E8);
                         }
-                        newActor->actor.parent = &BOSSFD->actor;
+                        newActor->actor.parent = this->actor.parent;
                         newActor->actor.velocity = spawnOffset;
                         newActor->yRotVel = 0.0f;
                         xRotVel = sqrtf(SQ(spawnOffset.x) + SQ(spawnOffset.z));
@@ -250,7 +247,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     debrisPos1.y = Rand_CenteredFloat(10.0f) + this->actor.world.pos.y;
                     debrisPos1.z = Rand_CenteredFloat(10.0f) + this->actor.world.pos.z;
 
-                    EnVbBall_SpawnDebris(globalCtx2, bossFd->particles, &debrisPos1, &debrisVel1, &debrisAcc1,
+                    EnVbBall_SpawnDebris(globalCtx2, bossFd->effects, &debrisPos1, &debrisVel1, &debrisAcc1,
                                          (s16)Rand_ZeroFloat(12.0f) + 15);
                 }
                 for (i = 0; i < 10; i++) {
@@ -268,7 +265,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     dustPos.y = Rand_CenteredFloat(30.0f) + this->actor.world.pos.y;
                     dustPos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
 
-                    EnVbBall_SpawnDust(globalCtx2, bossFd->particles, &dustPos, &dustVel, &dustAcc,
+                    EnVbBall_SpawnDust(globalCtx2, bossFd->effects, &dustPos, &dustVel, &dustAcc,
                                        Rand_ZeroFloat(100.0f) + 350.0f);
                 }
             } else {
@@ -285,7 +282,7 @@ void EnVbBall_Update(Actor* thisx, GlobalContext* globalCtx) {
                     debrisPos2.y = Rand_CenteredFloat(5.0f) + this->actor.world.pos.y;
                     debrisPos2.z = Rand_CenteredFloat(5.0f) + this->actor.world.pos.z;
 
-                    EnVbBall_SpawnDebris(globalCtx2, bossFd->particles, &debrisPos2, &debrisVel2, &debrisAcc2,
+                    EnVbBall_SpawnDebris(globalCtx2, bossFd->effects, &debrisPos2, &debrisVel2, &debrisAcc2,
                                          (s16)Rand_ZeroFloat(12.0f) + 15);
                 }
                 Actor_Kill(&this->actor);
@@ -313,9 +310,9 @@ void EnVbBall_Draw(Actor* thisx, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     if (this->actor.params >= 200) {
-        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaDL_00B2F8));
+        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaRibsDL));
     } else {
-        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaRockDL_009F20));
+        gSPDisplayList(POLY_OPA_DISP++, SEGMENTED_TO_VIRTUAL(gVolvagiaRockDL));
         func_80094044(globalCtx->state.gfxCtx);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 0, (s8)this->shadowOpacity);

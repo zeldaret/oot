@@ -6,6 +6,12 @@
 
 struct BgVbSima;
 
+typedef enum {
+    /* 0 */ VBSIMA_STAND,
+    /* 1 */ VBSIMA_COLLAPSE,
+    /* 2 */ VBSIMA_KILL
+} BgVbSimaSignal;
+
 typedef struct BgVbSima {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ char unk_164[0x10]; //apparently unused

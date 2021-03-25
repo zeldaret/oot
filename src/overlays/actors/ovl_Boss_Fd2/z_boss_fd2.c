@@ -13,7 +13,14 @@
 
 #define THIS ((BossFd2*)thisx)
 
-#define BOSSFD ((BossFd*)this->actor.parent)
+typedef enum {
+    /* 0 */ DEATH_START,
+    /* 1 */ DEATH_RETREAT,
+    /* 2 */ DEATH_HANDOFF,
+    /* 3 */ DEATH_FD_BODY,
+    /* 4 */ DEATH_FD_SKULL,
+    /* 5 */ DEATH_FINISH
+} BossFd2CutsceneStates;
 
 void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -34,15 +41,6 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx);
 void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx);
 
-typedef enum {
-    /* 0 */ DEATH_START,
-    /* 1 */ DEATH_RETREAT,
-    /* 2 */ DEATH_HANDOFF,
-    /* 3 */ DEATH_FD_BODY,
-    /* 4 */ DEATH_FD_SKULL,
-    /* 5 */ DEATH_FINISH
-} BossFd2CutsceneStates;
-
 const ActorInit Boss_Fd2_InitVars = {
     ACTOR_BOSS_FD2,
     ACTORCAT_BOSS,
@@ -55,120 +53,7 @@ const ActorInit Boss_Fd2_InitVars = {
     (ActorFunc)BossFd2_Draw,
 };
 
-static ColliderJntSphElementInit sJntSphElementsInit[9] = {
-    {
-        {
-            ELEMTYPE_UNK3,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_NONE,
-            BUMP_ON | BUMP_HOOKABLE,
-            OCELEM_ON,
-        },
-        { 35, { { 6000, 0, 0 }, 21 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 18, { { 4000, 0, 0 }, 13 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 19, { { 3000, 0, 0 }, 13 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 20, { { 4000, 0, 0 }, 15 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 24, { { 4000, 0, 0 }, 13 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 25, { { 3000, 0, 0 }, 13 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 26, { { 3500, 1500, 0 }, 15 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 17, { { 0, 0, 0 }, 26 }, 100 },
-    },
-    {
-        {
-            ELEMTYPE_UNK2,
-            { 0xFFCFFFFF, 0x00, 0x20 },
-            { 0xFFCDFFFE, 0x00, 0x00 },
-            TOUCH_ON | TOUCH_SFX_NORMAL,
-            BUMP_NONE,
-            OCELEM_ON,
-        },
-        { 30, { { 0, 0, 0 }, 17 }, 100 },
-    },
-};
-
-static ColliderJntSphInit sJntSphInit = {
-    {
-        COLTYPE_METAL,
-        AT_ON | AT_TYPE_ENEMY,
-        AC_ON | AC_TYPE_PLAYER,
-        OC1_ON | OC1_TYPE_PLAYER,
-        OC2_TYPE_1,
-        COLSHAPE_JNTSPH,
-    },
-    9,
-    sJntSphElementsInit,
-};
+#include "z_boss_fd2_colchk.c"
 
 static Vec3f sHoleLocations[] = {
     { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
@@ -183,96 +68,96 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };
 
-void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void BossFd2_SpawnDebris(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
                          Vec3f* acceleration, f32 scale) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == FD_NULL) {
-            particle->type = FD_DEBRIS;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->scale = scale / 1000.0f;
-            particle->xRot = Rand_ZeroFloat(100.0f);
-            particle->yRot = Rand_ZeroFloat(100.0f);
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == FD_NULL) {
+            effect->type = FD_DEBRIS;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->scale = scale / 1000.0f;
+            effect->xRot = Rand_ZeroFloat(100.0f);
+            effect->yRot = Rand_ZeroFloat(100.0f);
             break;
         }
     }
 }
 
-void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void BossFd2_SpawnFireBreath(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
                              Vec3f* acceleration, f32 scale, s16 alpha, s16 kbAngle) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == FD_NULL) {
-            particle->type = FD_FIRE_BREATH;
-            particle->timer1 = 0;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->pos.x -= particle->velocity.x;
-            particle->pos.y -= particle->velocity.y;
-            particle->pos.z -= particle->velocity.z;
-            particle->scaleMod = 0.0f;
-            particle->alpha = alpha;
-            particle->yStop = Rand_ZeroFloat(10.0f);
-            particle->timer2 = 0;
-            particle->scale = scale / 400.0f;
-            particle->kbAngle = kbAngle;
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == FD_NULL) {
+            effect->type = FD_FIRE_BREATH;
+            effect->timer1 = 0;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->pos.x -= effect->velocity.x;
+            effect->pos.y -= effect->velocity.y;
+            effect->pos.z -= effect->velocity.z;
+            effect->scaleMod = 0.0f;
+            effect->alpha = alpha;
+            effect->yStop = Rand_ZeroFloat(10.0f);
+            effect->timer2 = 0;
+            effect->scale = scale / 400.0f;
+            effect->kbAngle = kbAngle;
             break;
         }
     }
 }
 
-void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void BossFd2_SpawnEmber(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
                         Vec3f* acceleration, f32 scale) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == 0) {
-            particle->type = 1;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->scale = scale / 1000.0f;
-            particle->alpha = 255;
-            particle->timer1 = (s16)Rand_ZeroFloat(10.0f);
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == 0) {
+            effect->type = 1;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->scale = scale / 1000.0f;
+            effect->alpha = 255;
+            effect->timer1 = (s16)Rand_ZeroFloat(10.0f);
             break;
         }
     }
 }
 
-void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdParticle* particle, Vec3f* position, Vec3f* velocity,
+void BossFd2_SpawnSkullPiece(GlobalContext* globalCtx, BossFdEffect* effect, Vec3f* position, Vec3f* velocity,
                              Vec3f* acceleration, f32 scale) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == FD_NULL) {
-            particle->type = FD_SKULL_PIECE;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->scale = scale / 1000.0f;
-            particle->xRot = Rand_ZeroFloat(100.0f);
-            particle->yRot = Rand_ZeroFloat(100.0f);
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == FD_NULL) {
+            effect->type = FD_SKULL_PIECE;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->scale = scale / 1000.0f;
+            effect->xRot = Rand_ZeroFloat(100.0f);
+            effect->yRot = Rand_ZeroFloat(100.0f);
             break;
         }
     }
 }
 
-void BossFd2_SpawnDust(BossFdParticle* particle, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
+void BossFd2_SpawnDust(BossFdEffect* effect, Vec3f* position, Vec3f* velocity, Vec3f* acceleration, f32 scale) {
     s16 i;
 
-    for (i = 0; i < 180; i++, particle++) {
-        if (particle->type == FD_NULL) {
-            particle->type = FD_DUST;
-            particle->pos = *position;
-            particle->velocity = *velocity;
-            particle->accel = *acceleration;
-            particle->timer2 = 0;
-            particle->scale = scale / 400.0f;
+    for (i = 0; i < 180; i++, effect++) {
+        if (effect->type == FD_NULL) {
+            effect->type = FD_DUST;
+            effect->pos = *position;
+            effect->velocity = *velocity;
+            effect->accel = *acceleration;
+            effect->timer2 = 0;
+            effect->scale = scale / 400.0f;
             break;
         }
     }
@@ -286,7 +171,7 @@ void BossFd2_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_SetScale(&this->actor, 0.0069999993f);
     this->actor.world.pos.y = -850.0f;
     ActorShape_Init(&this->actor.shape, -580.0f / this->actor.scale.y, NULL, 0.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gHoleVolvagiaSkel, &gHoleVolvagiaIdleAnim, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gHoleVolvagiaSkel, &gHoleVolvagiaIdleAnim, NULL, NULL, 0);
     if (this->actor.params == 0) {
         BossFd2_SetupEmerge(this, globalCtx);
     } else {
@@ -305,7 +190,7 @@ void BossFd2_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     s16 temp_rand;
     s8 health;
 
@@ -335,7 +220,7 @@ void BossFd2_SetupEmerge(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
     s8 health;
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     Player* player = PLAYER;
     s16 i;
     s16 holeTime;
@@ -416,7 +301,7 @@ void BossFd2_Emerge(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupIdle(BossFd2* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     s8 health;
     s16 idleTime;
 
@@ -462,7 +347,7 @@ void BossFd2_Idle(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_SetupBurrow(BossFd2* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
 
     Animation_MorphToPlayOnce(&this->skelAnime, &gHoleVolvagiaBurrowAnim, -5.0f);
     this->actionFunc = BossFd2_Burrow;
@@ -472,7 +357,7 @@ void BossFd2_SetupBurrow(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Burrow(BossFd2* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (this->actionState == 0) {
         SkelAnime_Update(&this->skelAnime);
@@ -486,7 +371,7 @@ void BossFd2_Burrow(BossFd2* this, GlobalContext* globalCtx) {
             if ((this->holeCounter >= 3) && ((s8)bossFd->actor.colChkInfo.health < 24)) {
                 this->holeCounter = 0;
                 this->actionFunc = BossFd2_Wait;
-                bossFd->handoffSignal = 1;
+                bossFd->handoffSignal = FDSIGNAL_FLY;
             } else {
                 BossFd2_SetupEmerge(this, globalCtx);
             }
@@ -509,10 +394,10 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
     s16 angleX;
     s16 angleY;
     s16 breathOpacity = 0;
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     Player* player = PLAYER;
-    f32 temp_x;
-    f32 temp_y;
+    f32 tempX;
+    f32 tempY;
 
     SkelAnime_Update(&this->skelAnime);
     if (Animation_OnFrame(&this->skelAnime, this->animationLength)) {
@@ -564,14 +449,14 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         spawnSpeed.z = 30.0f;
         spawnPos = this->headPos;
 
-        temp_y = ((this->actor.shape.rot.y + this->headRot.y) / (f32)0x8000) * M_PI;
-        temp_x = ((this->headRot.x / (f32)0x8000) * M_PI) + 1.0f / 2;
-        Matrix_RotateY(temp_y, MTXMODE_NEW);
-        Matrix_RotateX(temp_x, MTXMODE_APPLY);
+        tempY = ((this->actor.shape.rot.y + this->headRot.y) / (f32)0x8000) * M_PI;
+        tempX = ((this->headRot.x / (f32)0x8000) * M_PI) + 1.0f / 2;
+        Matrix_RotateY(tempY, MTXMODE_NEW);
+        Matrix_RotateX(tempX, MTXMODE_APPLY);
         Matrix_MultVec3f(&spawnSpeed, &spawnVel);
 
         breathScale = 300.0f + 50.0f * Math_SinS(this->varianceTimer * 0x2000);
-        BossFd2_SpawnFireBreath(globalCtx, bossFd->particles, &spawnPos, &spawnVel, &spawnAccel, breathScale,
+        BossFd2_SpawnFireBreath(globalCtx, bossFd->effects, &spawnPos, &spawnVel, &spawnAccel, breathScale,
                                 breathOpacity, this->actor.shape.rot.y + this->headRot.y);
 
         spawnPos.x += spawnVel.x * 0.5f;
@@ -579,22 +464,22 @@ void BossFd2_BreatheFire(BossFd2* this, GlobalContext* globalCtx) {
         spawnPos.z += spawnVel.z * 0.5f;
 
         breathScale = 300.0f + 50.0f * Math_SinS(this->varianceTimer * 0x2000);
-        BossFd2_SpawnFireBreath(globalCtx, bossFd->particles, &spawnPos, &spawnVel, &spawnAccel, breathScale,
+        BossFd2_SpawnFireBreath(globalCtx, bossFd->effects, &spawnPos, &spawnVel, &spawnAccel, breathScale,
                                 breathOpacity, this->actor.shape.rot.y + this->headRot.y);
 
         VEC_SET(spawnSpeed, 0.0f, 17.0f, 0.0f);
         for (i = 0; i < 6; i++) {
-            temp_y = Rand_ZeroFloat(2.0f * M_PI);
-            temp_x = Rand_ZeroFloat(2.0f * M_PI);
-            Matrix_RotateY(temp_y, MTXMODE_NEW);
-            Matrix_RotateX(temp_x, MTXMODE_APPLY);
+            tempY = Rand_ZeroFloat(2.0f * M_PI);
+            tempX = Rand_ZeroFloat(2.0f * M_PI);
+            Matrix_RotateY(tempY, MTXMODE_NEW);
+            Matrix_RotateX(tempX, MTXMODE_APPLY);
             Matrix_MultVec3f(&spawnSpeed, &spawnVel);
 
             spawnAccel.x = (spawnVel.x * -10.0f) / 100.0f;
             spawnAccel.y = (spawnVel.y * -10.0f) / 100.0f;
             spawnAccel.z = (spawnVel.z * -10.0f) / 100.0f;
 
-            BossFd2_SpawnEmber(globalCtx, bossFd->particles, &this->headPos, &spawnVel, &spawnAccel,
+            BossFd2_SpawnEmber(globalCtx, bossFd->effects, &this->headPos, &spawnVel, &spawnAccel,
                                (s16)Rand_ZeroFloat(2.0f) + 8);
         }
     }
@@ -625,7 +510,7 @@ void BossFd2_SetupVulnerable(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     s16 i;
 
     this->disableAT = true;
@@ -652,7 +537,7 @@ void BossFd2_Vulnerable(BossFd2* this, GlobalContext* globalCtx) {
                     spawnPos.y = Rand_CenteredFloat(10.0f) + this->actor.focus.pos.y;
                     spawnPos.z = Rand_CenteredFloat(10.0f) + this->actor.focus.pos.z;
 
-                    BossFd2_SpawnDust(bossFd->particles, &spawnPos, &spawnVel, &spawnAccel,
+                    BossFd2_SpawnDust(bossFd->effects, &spawnPos, &spawnVel, &spawnAccel,
                                       Rand_ZeroFloat(100.0f) + 300.0f);
                 }
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_LAND);
@@ -682,7 +567,7 @@ void BossFd2_SetupDamaged(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
 
     SkelAnime_Update(&this->skelAnime);
     this->disableAT = true;
@@ -707,7 +592,7 @@ void BossFd2_Damaged(BossFd2* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->actor.world.pos.y, -100.0f, 1.0f, 10.0f);
         if (this->timers[0] == 0) {
             this->actionFunc = BossFd2_Wait;
-            bossFd->handoffSignal = 1;
+            bossFd->handoffSignal = FDSIGNAL_FLY;
         }
     }
 }
@@ -745,7 +630,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
     f32 retreatSpeed;
     Vec3f sp70;
     Vec3f sp64;
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     Camera* camera = Gameplay_GetCamera(globalCtx, 0);
     f32 pad3;
     f32 pad2;
@@ -826,7 +711,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             if (this->timers[0] == 0) {
                 this->actor.draw = NULL;
                 this->deathState = DEATH_FD_BODY;
-                bossFd->handoffSignal = 2;
+                bossFd->handoffSignal = FDSIGNAL_DEATH;
                 this->actionState = 0;
                 this->cameraSpeedMod = 0.0f;
             } else {
@@ -898,10 +783,10 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx) {
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
 
-    if (bossFd->handoffSignal == 100) {
-        bossFd->handoffSignal = 0;
+    if (bossFd->handoffSignal == FDSIGNAL_GROUND) {
+        bossFd->handoffSignal = FDSIGNAL_NONE;
         BossFd2_SetupEmerge(this, globalCtx);
         this->timers[0] = 20;
         this->holeCounter = 0;
@@ -913,7 +798,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     u8 canKill;
     u8 damage;
     Player* player;
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     ColliderInfo* hurtbox;
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
@@ -960,7 +845,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                     debrisPos.y = this->actor.focus.pos.y;
                     debrisPos.z = this->actor.focus.pos.z;
 
-                    BossFd2_SpawnDebris(globalCtx, bossFd->particles, &debrisPos, &debrisVel, &debrisAccel,
+                    BossFd2_SpawnDebris(globalCtx, bossFd->effects, &debrisPos, &debrisVel, &debrisAccel,
                                         (s16)Rand_ZeroFloat(10.0) + 10);
                 }
             }
@@ -1014,7 +899,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                     piecePos.y = this->actor.focus.pos.y;
                     piecePos.z = this->actor.focus.pos.z;
 
-                    BossFd2_SpawnSkullPiece(globalCtx, bossFd->particles, &piecePos, &pieceVel, &pieceAccel,
+                    BossFd2_SpawnSkullPiece(globalCtx, bossFd->effects, &piecePos, &pieceVel, &pieceAccel,
                                             (s16)Rand_ZeroFloat(6.0f) + 10);
                 }
             }
@@ -1039,7 +924,9 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
     } else {
         this->eyeState = eyeStates[this->blinkTimer];
     }
-    DECR(this->blinkTimer);
+    if (this->blinkTimer != 0) {
+        this->blinkTimer--;
+    }
 
     if (this->screamTimer != 0) {
         maxOpen = 6000.0f;
@@ -1050,7 +937,9 @@ void BossFd2_UpdateFace(BossFd2* this, GlobalContext* globalCtx) {
     }
     Math_ApproachF(&this->jawOpening, maxOpen, 0.3f, openRate);
 
-    DECR(this->screamTimer);
+    if (this->screamTimer != 0) {
+        this->screamTimer--;
+    }
 }
 
 void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -1067,10 +956,16 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx2);
 
     for (i = 0; i < ARRAY_COUNT(this->timers); i++) {
-        DECR(this->timers[i]);
+        if (this->timers[i] != 0) {
+            this->timers[i]--;
+        }
     }
-    DECR(this->damageFlashTimer);
-    DECR(this->invincibilityTimer);
+    if (this->damageFlashTimer != 0) {
+        this->damageFlashTimer--;
+    }
+    if (this->invincibilityTimer != 0) {
+        this->invincibilityTimer--;
+    }
 
     if (this->deathState == DEATH_START) {
         if (this->invincibilityTimer == 0) {
@@ -1098,7 +993,7 @@ void BossFd2_Update(Actor* thisx, GlobalContext* globalCtx) {
 s32 BossFd2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                              void* thisx) {
     BossFd2* this = THIS;
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
 
     if (limbIndex == 31) {
         rot->y -= (f32)this->headRot.y;
@@ -1247,13 +1142,13 @@ void BossFd2_UpdateMane(BossFd2* this, GlobalContext* globalCtx, Vec3f* head, Ve
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gHoleVolvagiaManeVtxDL);
     }
-    Matrix_Pull();
+    Matrix_Pop();
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2503);
 }
 
 void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
     f32 pad;
-    BossFd* bossFd = BOSSFD;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
     s16 i;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd2.c", 2515);
@@ -1284,7 +1179,7 @@ void BossFd2_DrawMane(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static u64* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeShutTex };
+    static u64* eyeTextures[] = { gHoleVolvagiaEyeOpenTex, gHoleVolvagiaEyeHalfTex, gHoleVolvagiaEyeClosedTex };
     s32 pad;
     BossFd2* this = THIS;
 

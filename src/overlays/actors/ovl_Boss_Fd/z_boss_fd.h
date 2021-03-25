@@ -7,9 +7,15 @@
 struct BossFd;
 
 typedef void (*BossFdActionFunc)(struct BossFd*, GlobalContext*);
-    
 
-typedef struct BossFdParticle {
+typedef enum {
+    FDSIGNAL_NONE,
+    FDSIGNAL_FLY,
+    FDSIGNAL_DEATH,
+    FDSIGNAL_GROUND=100
+} BossFdSignal;
+
+typedef struct BossFdEffect {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3f velocity;
     /* 0x18 */ Vec3f accel;
@@ -22,7 +28,7 @@ typedef struct BossFdParticle {
     /* 0x30 */ f32 scale;
     /* 0x34 */ union {f32 xRot; f32 scaleMod;};
     /* 0x38 */ union {f32 yRot; f32 yStop;};
-} BossFdParticle; // size = 0x3C
+} BossFdEffect; // size = 0x3C
 
 typedef enum {
     /* 0 */ FD_NULL,
@@ -31,7 +37,7 @@ typedef enum {
     /* 3 */ FD_DUST,
     /* 4 */ FD_FIRE_BREATH,
     /* 5 */ FD_SKULL_PIECE
-} BossFdParticleType;
+} BossFdEffectType;
 
 typedef enum {
     /*  -1 */ FD_WAIT_INTRO = -1,
@@ -49,7 +55,7 @@ typedef enum {
     /* 203 */ FD_SKULL_PAUSE,
     /* 204 */ FD_SKULL_FALL,
     /* 205 */ FD_SKULL_BURN
-} BossFdActionStates;
+} BossFdActionState;
 
 typedef struct BossFdMane {
     /* 0x000 */ Vec3f pos[30];
@@ -112,7 +118,7 @@ typedef struct BossFd {
     /* 0x02C8 */ Vec3f holePosition;
     /* 0x02D4 */ u8 holeIndex;
     /* 0x02D5 */ u8 eyeState;
-    /* 0x02D6 */ u8 collapsePlatform;
+    /* 0x02D6 */ u8 platformSignal;
     /* 0x02D7 */ u8 faceExposed;
     /* 0x02D8 */ u8 handoffSignal;
     /* 0x02DC */ Vec3f bodySegsRot[100];
@@ -145,7 +151,7 @@ typedef struct BossFd {
     /* 0x148C */ f32 cameraShake;
     /* 0x1490 */ ColliderJntSph collider;
     /* 0x14B0 */ ColliderJntSphElement elements[19];
-    /* 0x1970 */ BossFdParticle particles[180];
+    /* 0x1970 */ BossFdEffect effects[180];
 } BossFd; // size = 0x43A0
 
 extern const ActorInit Boss_Fd_InitVars;

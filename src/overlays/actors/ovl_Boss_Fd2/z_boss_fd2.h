@@ -15,7 +15,6 @@ typedef struct BossFd2Mane {
     /* 0x168 */ f32 scale[10];
     /* 0x190 */ Vec3f head;
 } BossFd2Mane; //size = 0x19C
-    
 
 typedef struct BossFd2 {
     /* 0x0000 */ Actor actor;

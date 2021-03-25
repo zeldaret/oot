@@ -1,56 +1,76 @@
 <Root>
     <File Name="object_fd" Segment="6">
-        <DList Name="gVolvagiaDL_0059F8" Offset="0x59F8"/>
-        <DList Name="gVolvagiaDL_009168" Offset="0x9168"/>
-        <DList Name="gVolvagiaDL_0091E8" Offset="0x91E8"/>
-        <DList Name="gVolvagiaDL_00B2F8" Offset="0xB2F8"/>
-        <DList Name="gVolvagiaDL_00CBC8" Offset="0xCBC8"/>
-        <DList Name="gVolvagiaDL_00D0A0" Offset="0xD0A0"/>
-        <Animation Name="gVolvagiaAnim_011464" Offset="0x11464"/>
-        <Animation Name="gVolvagiaAnim_011524" Offset="0x11524"/>
-        <Animation Name="gVolvagiaAnim_0115E4" Offset="0x115E4"/>
-        <Skeleton Name="gVolvagiaSkel_0114E0" Type="Standard" LimbType="Standard" Offset="0x114E0"/>
-        <Skeleton Name="gVolvagiaSkel_0115A0" Type="Standard" LimbType="Standard" Offset="0x115A0"/>
-        <Skeleton Name="gVolvagiaSkel_011660" Type="Standard" LimbType="Standard" Offset="0x11660"/>
-        <DList Name="gVolvagiaDL_00A880" Offset="0xA880"/>
-        <DList Name="gVolvagiaDL_00A900" Offset="0xA900"/>
-        <DList Name="gVolvagiaDL_00B3A8" Offset="0xB3A8"/>
-        <DList Name="gVolvagiaDL_00B3C8" Offset="0xB3C8"/>
-        <DList Name="gVolvagiaDL_00D3A0" Offset="0xD3A0"/>
-        <DList Name="gVolvagiaDL_00D420" Offset="0xD420"/>
-        <DList Name="gVolvagiaDL_00D668" Offset="0xD668"/>
-        <DList Name="gVolvagiaDL_00D6E8" Offset="0xD6E8"/>
-        <Texture Name="gVolvagiaUnknown_00D700" Format="i8" Width="128" Height="120" Offset="0xD700"/>
-        <Texture Name="gVolvagiaUnknown_0038A8" Format="i8" Width="32" Height="32" Offset="0x38A8"/>
-        <Texture Name="gVolvagiaUnknown_0034A8" Format="i8" Width="32" Height="32" Offset="0x34A8"/>
-        <Texture Name="gVolvagiaUnknown_003CA8" Format="i8" Width="32" Height="32" Offset="0x3CA8"/>
-        <DList Name="gVolvagiaDL_0079A0" Offset="0x79A0"/>
-        <DList Name="gVolvagiaDL_007AC0" Offset="0x7AC0"/>
-        <DList Name="gVolvagiaDL_007B70" Offset="0x7B70"/>
-        <DList Name="gVolvagiaDL_007BD0" Offset="0x7BD0"/>
-        <DList Name="gVolvagiaDL_007C30" Offset="0x7C30"/>
-        <DList Name="gVolvagiaDL_007C90" Offset="0x7C90"/>
-        <DList Name="gVolvagiaDL_007CF0" Offset="0x7CF0"/>
-        <DList Name="gVolvagiaDL_007D50" Offset="0x7D50"/>
-        <DList Name="gVolvagiaDL_007DB0" Offset="0x7DB0"/>
-        <DList Name="gVolvagiaDL_007E10" Offset="0x7E10"/>
-        <DList Name="gVolvagiaDL_007E70" Offset="0x7E70"/>
-        <DList Name="gVolvagiaDL_007ED0" Offset="0x7ED0"/>
-        <DList Name="gVolvagiaDL_007F30" Offset="0x7F30"/>
-        <DList Name="gVolvagiaDL_007F90" Offset="0x7F90"/>
-        <DList Name="gVolvagiaDL_007FF0" Offset="0x7FF0"/>
-        <DList Name="gVolvagiaDL_008038" Offset="0x8038"/>
-        <DList Name="gVolvagiaDL_008080" Offset="0x8080"/>
-        <DList Name="gVolvagiaDL_0080D8" Offset="0x80D8"/>
+        <!-- Boss title card -->
+        <Texture Name="gVolvagiaBossTitleCardTex" OutName="volvagia_boss_title_card" Format="i8" Width="128" Height="120" Offset="0xD700"/>
 
-        <Animation Name="gVolvagiaAnim_0061D8" Offset="0x61D8"/>
-        <Texture Name="gVolvagiaTex_008128" Format="rgb5a1" Width="32" Height="64" Offset="0x8128"/>
-        <Skeleton Name="gVolvagiaSkel_011454" Type="Flex" LimbType="Standard" Offset="0x11420"/>
+        <!-- Skeletons -->
+        <Skeleton Name="gVolvagiaLeftArmSkel" Type="Standard" LimbType="Standard" Offset="0x114E0"/>
+        <Skeleton Name="gVolvagiaRightArmSkel" Type="Standard" LimbType="Standard" Offset="0x115A0"/>
+        <Skeleton Name="gVolvagiaHeadSkel" Type="Standard" LimbType="Standard" Offset="0x11660"/>
+
+        <!-- Animations -->
+        <Animation Name="gVolvagiaLeftArmEmergeAnim" Offset="0x11464"/>
+        <Animation Name="gVolvagiaRightArmEmergeAnim" Offset="0x11524"/>
+        <Animation Name="gVolvagiaHeadEmergeAnim" Offset="0x115E4"/>
+
+        <!-- Head display lists -->
+        <DList Name="gVolvagiaBrokenFaceDL" Offset="0x59F8"/>
+        <DList Name="gVolvagiaManeSetupDL" Offset="0x9168"/>
+        <DList Name="gVolvagiaManeVtxDL" Offset="0x91E8"/>
+
+        <!-- Eye textures -->
+        <Texture Name="gVolvagiaEyeOpenTex" OutName="volvagia_eye_open" Format="i8" Width="32" Height="32" Offset="0x38A8"/>
+        <Texture Name="gVolvagiaEyeHalfTex" OutName="volvagia_eye_half" Format="i8" Width="32" Height="32" Offset="0x34A8"/>
+        <Texture Name="gVolvagiaEyeClosedTex" OutName="volvagia_eye_closed" Format="i8" Width="32" Height="32" Offset="0x3CA8"/>
+
+        <!-- Death display lists -->
+        <DList Name="gVolvagiaRibsDL" Offset="0xB2F8"/>
+        <DList Name="gVolvagiaSkullDL" Offset="0xCBC8"/>
+        <DList Name="gVolvagiaJawboneDL" Offset="0xD0A0"/>
+
+        <!-- Body segment display lists -->
+        <DList Name="gVolvagiaBodySeg1DL" Offset="0x79A0"/>
+        <DList Name="gVolvagiaBodySeg2DL" Offset="0x7AC0"/>
+        <DList Name="gVolvagiaBodySeg3DL" Offset="0x7B70"/>
+        <DList Name="gVolvagiaBodySeg4DL" Offset="0x7BD0"/>
+        <DList Name="gVolvagiaBodySeg5DL" Offset="0x7C30"/>
+        <DList Name="gVolvagiaBodySeg6DL" Offset="0x7C90"/>
+        <DList Name="gVolvagiaBodySeg7DL" Offset="0x7CF0"/>
+        <DList Name="gVolvagiaBodySeg8DL" Offset="0x7D50"/>
+        <DList Name="gVolvagiaBodySeg9DL" Offset="0x7DB0"/>
+        <DList Name="gVolvagiaBodySeg10DL" Offset="0x7E10"/>
+        <DList Name="gVolvagiaBodySeg11DL" Offset="0x7E70"/>
+        <DList Name="gVolvagiaBodySeg12DL" Offset="0x7ED0"/>
+        <DList Name="gVolvagiaBodySeg13DL" Offset="0x7F30"/>
+        <DList Name="gVolvagiaBodySeg14DL" Offset="0x7F90"/>
+        <DList Name="gVolvagiaBodySeg15DL" Offset="0x7FF0"/>
+        <DList Name="gVolvagiaBodySeg16DL" Offset="0x8038"/>
+        <DList Name="gVolvagiaBodySeg17DL" Offset="0x8080"/>
+        <DList Name="gVolvagiaBodySeg18DL" Offset="0x80D8"/>
+        
+        <!-- Particle display lists -->
+        <DList Name="gVolvagiaEmberSetupDL" Offset="0xA880"/>
+        <DList Name="gVolvagiaEmberVtxDL" Offset="0xA900"/>
+        <DList Name="gVolvagiaDustSetupDL" Offset="0xB3A8"/>
+        <DList Name="gVolvagiaDustVtxDL" Offset="0xB3C8"/>
+        <DList Name="gVolvagiaDebrisSetupDL" Offset="0xD3A0"/>
+        <DList Name="gVolvagiaDebrisVtxDL" Offset="0xD420"/>
+        <DList Name="gVolvagiaSkullPieceSetupDL" Offset="0xD668"/>
+        <DList Name="gVolvagiaSkullPieceVtxDL" Offset="0xD6E8"/>
+
+        <!-- Unused body skeleton assets -->
+        <Skeleton Name="gVolvagiaBodySkel" Type="Flex" LimbType="Standard" Offset="0x11420"/>
+        <Animation Name="gVolvagiaBodyStaticAnim" Offset="0x61D8"/>
+        <Texture Name="gVolvagiaBodyTex" OutName="volvagia_body" Format="rgb5a1" Width="32" Height="64" Offset="0x8128"/>
+
+        <!-- Unused, purpose unknown -->
         <DList Name="gVolvagiaDL_009668" Offset="0x9668"/>
 
-        <Collision Name="gVolvagiaPlatformCol_000D68" Offset="0xD68"/>
-        <DList Name="gVolvagiaPlatformDL_000240" Offset="0x240"/>
+        <!-- Platform assets -->
+        <Collision Name="gVolvagiaPlatformCol" Offset="0xD68"/>
+        <DList Name="gVolvagiaPlatformDL" Offset="0x240"/>
 
-        <DList Name="gVolvagiaRockDL_009F20" Offset="0x9F20"/>
+        <!-- Boulder assets -->
+        <DList Name="gVolvagiaRockDL" Offset="0x9F20"/>
     </File>
 </Root>

@@ -5,6 +5,7 @@
  */
 
 #include "z_en_firefly.h"
+#include "objects/object_firefly/object_firefly.h"
 #include "overlays/actors/ovl_Obj_Syokudai/z_obj_syokudai.h"
 
 #define FLAGS 0x00005005
@@ -117,10 +118,6 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(targetArrowOffset, 4000, ICHAIN_STOP),
 };
 
-extern SkeletonHeader D_060018B8;
-extern AnimationHeader D_0600017C;
-extern Gfx D_06001678[];
-
 void EnFirefly_Extinguish(EnFirefly* this) {
     this->actor.params += 2;
     this->collider.elements[0].info.toucher.effect = 0; // None
@@ -146,7 +143,7 @@ void EnFirefly_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 25.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &D_060018B8, &D_0600017C, this->jointTable, this->morphTable, 28);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gKeeseSkeleton, &gKeeseFlyAnim, this->jointTable, this->morphTable, 28);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -216,7 +213,7 @@ void EnFirefly_SetupFlyIdle(EnFirefly* this) {
 void EnFirefly_SetupFall(EnFirefly* this) {
     this->timer = 40;
     this->actor.velocity.y = 0.0f;
-    Animation_Change(&this->skelAnime, &D_0600017C, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
+    Animation_Change(&this->skelAnime, &gKeeseFlyAnim, 0.5f, 0.0f, 0.0f, ANIMMODE_LOOP_INTERP, -3.0f);
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_FFLY_DEAD);
     this->actor.flags |= 0x10;
     Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 40);
@@ -752,7 +749,7 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     EnFirefly* this = THIS;
 
     if (!this->onFire && (limbIndex == 27)) {
-        gSPDisplayList((*gfx)++, D_06001678);
+        gSPDisplayList((*gfx)++, gKeeseEyesDL);
     } else {
         if ((this->auraType == KEESE_AURA_FIRE) || (this->auraType == KEESE_AURA_ICE)) {
             if ((limbIndex == 15) || (limbIndex == 21)) {

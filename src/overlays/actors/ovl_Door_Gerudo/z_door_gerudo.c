@@ -118,7 +118,7 @@ void func_8099485C(DoorGerudo* this, GlobalContext* globalCtx) {
             } else if (!Flags_GetCollectible(globalCtx, (this->dyna.actor.params >> 8) & 0x1F)) {
                 player->naviTextId = -0x225;
             } else {
-                player->doorType = 2;
+                player->doorType = PLAYER_DOORTYPE_SLIDING;
                 player->doorDirection = direction;
                 player->doorActor = &this->dyna.actor;
                 player->doorTimer = 10;
