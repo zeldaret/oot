@@ -1,5 +1,13 @@
+/*
+ * File: z_bg_hidan_fwbig.c
+ * Overlay: ovl_Bg_Hidan_Fwbig
+ * Description: Large fire walls at Fire Temple (flame wall before bombable door and the one that chases the player in
+ * the lava room)
+ */
+
 #include "z_bg_hidan_fwbig.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -24,8 +32,6 @@ void BgHidanFwbig_Lower(BgHidanFwbig* this, GlobalContext* globalCtx);
 void BgHidanFwbig_WaitForTimer(BgHidanFwbig* this, GlobalContext* globalCtx);
 void BgHidanFwbig_WaitForPlayer(BgHidanFwbig* this, GlobalContext* globalCtx);
 void BgHidanFwbig_Move(BgHidanFwbig* this, GlobalContext* globalCtx);
-
-extern Gfx D_0600DB20[];
 
 const ActorInit Bg_Hidan_Fwbig_InitVars = {
     ACTOR_BG_HIDAN_FWBIG,
@@ -247,6 +253,7 @@ void BgHidanFwbig_Draw(Actor* thisx, GlobalContext* globalCtx) {
     f32 height;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_fwbig.c", 630);
+
     func_80093D84(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_XLU_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gEffUnknown4Tex));
@@ -266,7 +273,7 @@ void BgHidanFwbig_Draw(Actor* thisx, GlobalContext* globalCtx) {
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_fwbig.c", 660),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gSPDisplayList(POLY_XLU_DISP++, D_0600DB20);
+    gSPDisplayList(POLY_XLU_DISP++, gFireTempleBigFireWallDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_fwbig.c", 664);
 }

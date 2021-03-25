@@ -64,8 +64,6 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0 } },
 };
 
-
-
 void EnAni_SetupAction(EnAni* this, EnAniActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }

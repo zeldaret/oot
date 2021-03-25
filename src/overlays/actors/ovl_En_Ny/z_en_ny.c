@@ -316,16 +316,16 @@ s32 EnNy_CollisionCheck(EnNy* this, GlobalContext* globalCtx) {
                         sp3F = 1;
                     case 0xF:
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         break;
                     case 1:
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         break;
                     case 2:
                         this->unk_1CA = 4;
                         Actor_ApplyDamage(&this->actor);
-                        func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                         break;
                 }
             }

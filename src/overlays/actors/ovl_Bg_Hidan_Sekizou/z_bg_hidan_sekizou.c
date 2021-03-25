@@ -1,4 +1,11 @@
+/*
+ * File: z_bg_hidan_sekizou.c
+ * Overlay: ovl_Bg_Hidan_Sekizou
+ * Description: Stationary flame thrower statue
+ */
+
 #include "z_bg_hidan_sekizou.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000000
 
@@ -8,11 +15,6 @@ void BgHidanSekizou_Init(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Update(Actor* thisx, GlobalContext* globalCtx);
 void BgHidanSekizou_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_0600ABC8;
-extern UNK_TYPE D_0600B0F8;
-extern UNK_TYPE D_0600CC90;
-extern UNK_TYPE D_0600DC30;
 
 /*
 const ActorInit Bg_Hidan_Sekizou_InitVars = {

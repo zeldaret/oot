@@ -78,12 +78,11 @@ void MapMark_Draw(GlobalContext* globalCtx) {
     MapMarkData* mapMarkData;
     MapMarkPoint* markPoint;
     MapMarkInfo* markInfo;
-    u16 dungeon;
+    u16 dungeon = gSaveContext.mapIndex;
     s32 i;
     s32 rectLeft;
     s32 rectTop;
 
-    dungeon = gSaveContext.mapIndex;
     interfaceCtx = &globalCtx->interfaceCtx;
 
     if ((gMapData != NULL) && (globalCtx->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon])) {
@@ -97,7 +96,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
 
-    while (1) {
+    while (true) {
         if (mapMarkData->markType == -1) {
             break;
         }
