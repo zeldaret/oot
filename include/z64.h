@@ -221,15 +221,15 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ u8*      texture;
-    /* 0x04 */ s16      unk_4;
-    /* 0x06 */ s16      unk_6;
-    /* 0x08 */ u8       unk_8;
-    /* 0x09 */ u8       unk_9;
-    /* 0x0A */ u8       delayA;
-    /* 0x0B */ u8       delayB;
-    /* 0x0C */ s16      unk_C;
-    /* 0x0E */ s16      unk_E;
+    /* 0x00 */ u8* texture;
+    /* 0x04 */ s16 x;
+    /* 0x06 */ s16 y;
+    /* 0x08 */ u8 width;
+    /* 0x09 */ u8 height;
+    /* 0x0A */ u8 timer1;
+    /* 0x0B */ u8 timer2;
+    /* 0x0C */ s16 alpha;
+    /* 0x0E */ s16 color; // used for red, green, and blue
 } TitleCardContext; // size = 0x10
 
 typedef struct {
@@ -287,13 +287,15 @@ typedef struct {
 } SoundSource; // size = 0x1C
 
 typedef struct {
-    /* 0x000 */ char unk_00[0x128];
+    /* 0x000 */ View view;
     /* 0x128 */ void* staticSegments[3];
-    /* 0x134 */ Gfx* dpList;
+    /* 0x134 */ Gfx* dList;
     /* 0x138 */ Gfx* unk_138;
-    /* 0x13C */ void* roomVtx;
-    /* 0x140 */ s16  unk_140;
+    /* 0x13C */ Vtx* vertices;
+    /* 0x140 */ s16 shouldDraw;
     /* 0x144 */ Vec3f rot;
+    /* 0x150 */ Vec3f eye;
+    /* 0x15C */ s16 angle;
 } SkyboxContext; // size = 0x150
 
 typedef enum {
@@ -876,7 +878,6 @@ typedef struct GlobalContext {
     /* 0x01DB4 */ SoundSource soundSources[16];
     /* 0x01F74 */ SramContext sramCtx;
     /* 0x01F78 */ SkyboxContext skyboxCtx;
-    /* 0x020C8 */ char unk_20C8[0x10];
     /* 0x020D8 */ MessageContext msgCtx; // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
