@@ -190,7 +190,7 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ u32 enabled;
+    /* 0x00 */ s32 enabled;
     /* 0x04 */ s32 timer;
 } FrameAdvanceContext; // size = 0x8
 
