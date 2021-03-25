@@ -48,7 +48,7 @@ void func_80B9A9D0(ObjMure3* this, GlobalContext* globalCtx) {
     Math_Vec3f_Copy(&spawnPos, &this->actor.world.pos);
     for (i = 0; i < 5; i++, spawnPos.y += 20.0f) {
         if (!((this->unk_16C >> i) & 1)) {
-            this->unk_150[i] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4001);
+            this->unk_150[i] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4000 | ITEM00_RUPEE_BLUE);
             if (this->unk_150[i] != NULL) {
                 this->unk_150[i]->actor.room = this->actor.room;
             }
@@ -69,7 +69,7 @@ void func_80B9AA90(ObjMure3* this, GlobalContext* globalCtx) {
         if (!((this->unk_16C >> i) & 1)) {
             spawnPos.x = this->actor.world.pos.x + (sn * radius);
             spawnPos.z = this->actor.world.pos.z + (cos * radius);
-            this->unk_150[i] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4000);
+            this->unk_150[i] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4000 | ITEM00_RUPEE_GREEN);
             if (this->unk_150[i] != NULL) {
                 this->unk_150[i]->actor.room = this->actor.room;
             }
@@ -88,7 +88,7 @@ void func_80B9ABA0(ObjMure3* this, GlobalContext* globalCtx) {
         if (!((this->unk_16C >> i) & 1)) {
             spawnPos.x = (Math_SinS(yRot) * 40.0f) + this->actor.world.pos.x;
             spawnPos.z = (Math_CosS(yRot) * 40.0f) + this->actor.world.pos.z;
-            this->unk_150[i] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4000);
+            this->unk_150[i] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4000 | ITEM00_RUPEE_GREEN);
             if (this->unk_150[i] != NULL) {
                 this->unk_150[i]->actor.room = this->actor.room;
             }
@@ -98,7 +98,7 @@ void func_80B9ABA0(ObjMure3* this, GlobalContext* globalCtx) {
     if (!((this->unk_16C >> 6) & 1)) {
         spawnPos.x = this->actor.world.pos.x;
         spawnPos.z = this->actor.world.pos.z;
-        this->unk_150[6] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4002);
+        this->unk_150[6] = Item_DropCollectible2(globalCtx, &spawnPos, 0x4000 | ITEM00_RUPEE_RED);
         if (this->unk_150[6] != NULL) {
             this->unk_150[6]->actor.room = this->actor.room;
         }
@@ -170,11 +170,11 @@ void func_80B9AF54(ObjMure3* this) {
 }
 
 void func_80B9AF64(ObjMure3* this, GlobalContext* globalCtx) {
-    static ObjMure3SpawnFunc sSpawnFuncs[] = { func_80B9A9D0, func_80B9AA90, func_80B9ABA0 };
+    static ObjMure3SpawnFunc spawnFuncs[] = { func_80B9A9D0, func_80B9AA90, func_80B9ABA0 };
 
     if (Math3D_Dist1DSq(this->actor.projectedPos.x, this->actor.projectedPos.z) < SQ(1150.0f)) {
         this->actor.flags |= 0x10;
-        sSpawnFuncs[(this->actor.params >> 13) & 7](this, globalCtx);
+        spawnFuncs[(this->actor.params >> 13) & 7](this, globalCtx);
         func_80B9AFEC(this);
     }
 }
