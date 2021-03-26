@@ -1,11 +1,15 @@
 <Root>
     <File Name="object_bv" Segment="6">
-        <Skeleton Name="gBarinadeSkel_015B18" Type="Standard" LimbType="Standard" Offset="0x15B18"/>
-        <Skeleton Name="gBarinadeSkel_017498" Type="Flex" LimbType="Standard" Offset="0x17498"/>
-        <Skeleton Name="gBarinadeSkel_0199A0" Type="Flex" LimbType="Standard" Offset="0x199A0"/>
-        <Skeleton Name="gBarinadeSkel_018870" Type="Flex" LimbType="Standard" Offset="0x18870"/>
-        <Skeleton Name="gBarinadeSkel_004E70" Type="Standard" LimbType="Standard" Offset="0x4E70"/>
-        <Skeleton Name="gBarinadeSkel_017FC8" Type="Flex" LimbType="Standard" Offset="0x17FC8"/>
+        <!-- Boss title card -->
+        <Texture Name="gBarinadeTitleCardTex" OutName="barinade_title_card" Format="i8" Width="128" Height="120" Offset="0x1230"/>
+
+        <Skeleton Name="gBarinadeBodySkel" Type="Normal" LimbType="Standard" Offset="0x15B18"/>
+        <Skeleton Name="gBarinadeSupportSkel" Type="Flex" LimbType="Standard" Offset="0x17498"/>
+        <Skeleton Name="gBarinadeZapperSkel" Type="Flex" LimbType="Standard" Offset="0x199A0"/>
+        <Skeleton Name="gBarinadeStumpSkel" Type="Flex" LimbType="Standard" Offset="0x18870"/>
+        <Skeleton Name="gBarinadeBariSkel" Type="Normal" LimbType="Standard" Offset="0x4E70"/>
+        <Skeleton Name="gBarinadeCutSupportSkel" Type="Flex" LimbType="Standard" Offset="0x17FC8"/>
+        
         <Animation Name="gBarinadeAnim_005184" Offset="0x5184"/>
         <Animation Name="gBarinadeAnim_0166A8" Offset="0x166A8"/>
         <Animation Name="gBarinadeAnim_018D18" Offset="0x18D18"/>
@@ -17,6 +21,7 @@
         <Animation Name="gBarinadeAnim_0177F4" Offset="0x177F4"/>
         <Animation Name="gBarinadeAnim_018A68" Offset="0x18A68"/>
         <Animation Name="gBarinadeAnim_018B90" Offset="0x18B90"/>
+
         <DList Name="gBarinadeDL_008D70" Offset="0x8D70"/>
         <DList Name="gBarinadeDL_008BB8" Offset="0x8BB8"/>
         <DList Name="gBarinadeDL_000FA0" Offset="0xFA0"/>
@@ -34,23 +39,23 @@
         <DList Name="gBarinadeDL_013638" Offset="0x13638"/>
         <DList Name="gBarinadeDL_008F08" Offset="0x8F08"/>
         <DList Name="gBarinadeDL_008F70" Offset="0x8F70"/>
-        <Texture Name="gBarinadeTitleCardTex" Format="i8" Width="128" Height="120" Offset="0x1230"/>
-        <Texture Name="gBarinadeUnknown_0096F8" Format="i8" Width="64" Height="64" Offset="0x96F8"/>
-        <Texture Name="gBarinadeUnknown_00A6F8" Format="i8" Width="64" Height="64" Offset="0xA6F8"/>
-        <Texture Name="gBarinadeUnknown_00B6F8" Format="i8" Width="64" Height="64" Offset="0xB6F8"/>
-        <Texture Name="gBarinadeUnknown_00C6F8" Format="i8" Width="64" Height="64" Offset="0xC6F8"/>
-        <Texture Name="gBarinadeUnknown_00D6F8" Format="i8" Width="64" Height="64" Offset="0xD6F8"/>
-        <Texture Name="gBarinadeUnknown_00E6F8" Format="i8" Width="64" Height="64" Offset="0xE6F8"/>
-        <Texture Name="gBarinadeUnknown_00F6F8" Format="i8" Width="64" Height="64" Offset="0xF6F8"/>
-        <Texture Name="gBarinadeUnknown_0106F8" Format="i8" Width="64" Height="64" Offset="0x106F8"/>
-        <DList Name="gBarinadeDL_01A3E8" Offset="0x1A3E8"/>
-        <DList Name="gBarinadeDL_01AEE8" Offset="0x1AEE8"/>
-        <DList Name="gBarinadeDL_01B9E8" Offset="0x1B9E8"/>
-        <DList Name="gBarinadeDL_01C4E8" Offset="0x1C4E8"/>
-        <DList Name="gBarinadeDL_01CFE8" Offset="0x1CFE8"/>
-        <DList Name="gBarinadeDL_01DAE8" Offset="0x1DAE8"/>
-        <DList Name="gBarinadeDL_01E5E8" Offset="0x1E5E8"/>
-        <DList Name="gBarinadeDL_01F0E8" Offset="0x1F0E8"/>
+        
+        <Texture Name="gBarinadeSparkBall1Tex" Format="i8" Width="64" Height="64" Offset="0x96F8"/>
+        <Texture Name="gBarinadeSparkBall2Tex" Format="i8" Width="64" Height="64" Offset="0xA6F8"/>
+        <Texture Name="gBarinadeSparkBall3Tex" Format="i8" Width="64" Height="64" Offset="0xB6F8"/>
+        <Texture Name="gBarinadeSparkBall4Tex" Format="i8" Width="64" Height="64" Offset="0xC6F8"/>
+        <Texture Name="gBarinadeSparkBall5Tex" Format="i8" Width="64" Height="64" Offset="0xD6F8"/>
+        <Texture Name="gBarinadeSparkBall6Tex" Format="i8" Width="64" Height="64" Offset="0xE6F8"/>
+        <Texture Name="gBarinadeSparkBall7Tex" Format="i8" Width="64" Height="64" Offset="0xF6F8"/>
+        <Texture Name="gBarinadeSparkBall8Tex" Format="i8" Width="64" Height="64" Offset="0x106F8"/>
+        <DList Name="gBarinadeDoorPiece1DL" Offset="0x1A3E8"/>
+        <DList Name="gBarinadeDoorPiece2DL" Offset="0x1AEE8"/>
+        <DList Name="gBarinadeDoorPiece3DL" Offset="0x1B9E8"/>
+        <DList Name="gBarinadeDoorPiece4DL" Offset="0x1C4E8"/>
+        <DList Name="gBarinadeDoorPiece5DL" Offset="0x1CFE8"/>
+        <DList Name="gBarinadeDoorPiece6DL" Offset="0x1DAE8"/>
+        <DList Name="gBarinadeDoorPiece7DL" Offset="0x1E5E8"/>
+        <DList Name="gBarinadeDoorPiece8DL" Offset="0x1F0E8"/>
 
         <Animation Name="gBarinadeAnim_018A00" Offset="0x18A00"/>
         <Animation Name="gBarinadeAnim_015F10" Offset="0x15F10"/>

@@ -188,12 +188,6 @@ void BossVa_SpawnBloodDroplets(GlobalContext* globalCtx, BossVaEffect* ptr, Vec3
 void BossVa_Tumor(GlobalContext* globalCtx, BossVa* this, s32 count, s16 scale, f32 xzSpread, f32 ySpread, u8 mode,
                   f32 range, u8 fixed);
 
-// extern SkeletonHeader gBarinadeSkel_015B18;
-// extern FlexSkeletonHeader gBarinadeSkel_017498;
-// extern FlexSkeletonHeader gBarinadeSkel_0199A0;
-// extern FlexSkeletonHeader gBarinadeSkel_018870;
-// extern SkeletonHeader gBarinadeSkel_004E70;
-// extern FlexSkeletonHeader gBarinadeSkel_017FC8;
 // extern AnimationHeader gBarinadeAnim_005184;
 // extern AnimationHeader gBarinadeAnim_0166A8;
 // extern AnimationHeader gBarinadeAnim_018D18;
@@ -587,34 +581,34 @@ void BossVa_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     Actor_SetScale(&this->actor, 0.1f);
     this->actor.targetMode = 5;
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
     switch (this->actor.params) {
         case BOSSVA_BODY:
-            SkelAnime_Init(globalCtx, &this->skelAnime, &gBarinadeSkel_015B18, &gBarinadeAnim_005184, NULL, NULL, 0);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &gBarinadeBodySkel, &gBarinadeAnim_005184, NULL, NULL, 0);
             this->actor.flags |= 0x1000000;
             break;
         case BOSSVA_SUPPORT_1:
         case BOSSVA_SUPPORT_2:
         case BOSSVA_SUPPORT_3:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeSkel_017498, &gBarinadeAnim_0166A8, NULL, NULL,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeSupportSkel, &gBarinadeAnim_0166A8, NULL, NULL,
                                0);
             break;
         case BOSSVA_ZAPPER_1:
         case BOSSVA_ZAPPER_2:
         case BOSSVA_ZAPPER_3:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeSkel_0199A0, &gBarinadeAnim_018D18, NULL, NULL,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeZapperSkel, &gBarinadeAnim_018D18, NULL, NULL,
                                0);
             break;
         case BOSSVA_STUMP_1:
         case BOSSVA_STUMP_2:
         case BOSSVA_STUMP_3:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeSkel_018870, &gBarinadeAnim_018150, NULL, NULL,
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeStumpSkel, &gBarinadeAnim_018150, NULL, NULL,
                                0);
             break;
         default:
             this->actor.flags |= 0x1000000;
-            SkelAnime_Init(globalCtx, &this->skelAnime, &gBarinadeSkel_004E70, &gBarinadeAnim_000024, NULL, NULL, 0);
+            SkelAnime_Init(globalCtx, &this->skelAnime, &gBarinadeBariSkel, &gBarinadeAnim_000024, NULL, NULL, 0);
             this->actor.shape.yOffset = 400.0f;
             break;
         case BOSSVA_DOOR:
@@ -1772,7 +1766,7 @@ void BossVa_SetupSupportCut(BossVa* this, GlobalContext* globalCtx) {
 
 void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
     BossVa* vaBody = BODY;
-    f32 frames;
+    f32 endFrame;
 
     BossVa_AttachToBody(this);
 
@@ -1781,8 +1775,8 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
         this->onCeiling = false;
         this->timer = (s32)(Rand_ZeroOne() * 10.0f) + 5;
         SkelAnime_Free(&this->skelAnime, globalCtx);
-        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeSkel_017FC8, &gBarinadeAnim_017694, 0, 0, 0);
-        Animation_Change(&this->skelAnime, &gBarinadeAnim_017694, 1.0f, 0.0f, frames, 2, 0.0f);
+        SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gBarinadeCutSupportSkel, &gBarinadeAnim_017694, NULL, NULL, 0);
+        Animation_Change(&this->skelAnime, &gBarinadeAnim_017694, 1.0f, 0.0f, endFrame, ANIMMODE_ONCE, 0.0f);
         sBodyState = 0;
         BODY->actor.shape.yOffset -= 60.0f;
 
@@ -1803,8 +1797,8 @@ void BossVa_SupportCut(BossVa* this, GlobalContext* globalCtx) {
 
     Math_SmoothStepToS(&this->headRot.x, vaBody->vaBodySpinRate * -3, 1, 0x4B0, 0);
     if (SkelAnime_Update(&this->skelAnime)) {
-        frames = Animation_GetLastFrame(&gBarinadeAnim_0177F4);
-        Animation_Change(&this->skelAnime, &gBarinadeAnim_0177F4, 1.0f, 0.0f, frames, 1, 0.0f);
+        endFrame = Animation_GetLastFrame(&gBarinadeAnim_0177F4);
+        Animation_Change(&this->skelAnime, &gBarinadeAnim_0177F4, 1.0f, 0.0f, endFrame, ANIMMODE_LOOP_INTERP, 0.0f);
         this->actor.flags &= ~1;
     }
 
@@ -3518,9 +3512,9 @@ void BossVa_UpdateEffects(GlobalContext* globalCtx) {
 }
 
 void BossVa_DrawEffects(BossVaEffect* ptr, GlobalContext* globalCtx) {
-    static UNK_PTR sSparkBallTex[] = {
-        &gBarinadeUnknown_0096F8, &gBarinadeUnknown_00A6F8, &gBarinadeUnknown_00B6F8, &gBarinadeUnknown_00C6F8,
-        &gBarinadeUnknown_00D6F8, &gBarinadeUnknown_00E6F8, &gBarinadeUnknown_00F6F8, &gBarinadeUnknown_0106F8,
+    static u64* sSparkBallTex[] = {
+        gBarinadeSparkBall1Tex, gBarinadeSparkBall2Tex, gBarinadeSparkBall3Tex, gBarinadeSparkBall4Tex,
+        gBarinadeSparkBall5Tex, gBarinadeSparkBall6Tex, gBarinadeSparkBall7Tex, gBarinadeSparkBall8Tex,
     };
     s16 i;
     GraphicsContext* localGfx = globalCtx->state.gfxCtx;
@@ -3983,8 +3977,8 @@ void BossVa_SpawnZapperCharge(GlobalContext* globalCtx, BossVaEffect* ptr, BossV
 
 void BossVa_DrawDoor(GlobalContext* globalCtx, s16 scale) {
     static Gfx* doorPieceDispList[] = {
-        gBarinadeDL_01A3E8, gBarinadeDL_01AEE8, gBarinadeDL_01B9E8, gBarinadeDL_01C4E8,
-        gBarinadeDL_01CFE8, gBarinadeDL_01DAE8, gBarinadeDL_01E5E8, gBarinadeDL_01F0E8,
+        gBarinadeDoorPiece1DL, gBarinadeDoorPiece2DL, gBarinadeDoorPiece3DL, gBarinadeDoorPiece4DL,
+        gBarinadeDoorPiece5DL, gBarinadeDoorPiece6DL, gBarinadeDoorPiece7DL, gBarinadeDoorPiece8DL,
     };
     static s16 doorPieceLength[] = { 836, 900, 836, 1016, 800, 1016, 836, 900 };
 
