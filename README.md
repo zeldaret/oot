@@ -87,7 +87,7 @@ Under Debian / Ubuntu (which we recommend using), you can install them with the 
 
 ```bash
 sudo apt-get update
-sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libcapstone-dev
+sudo apt-get install git build-essential binutils-mips-linux-gnu python3 libcapstone-dev pkg-config
 ```
 
 #### 2. Download and set up qemu-irix (optional)
