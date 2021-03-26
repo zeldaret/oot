@@ -12,9 +12,9 @@
         <Texture Name="gJabuJabuEyeClosedTex" OutName="jabu_jabu_eye_closed" Format="rgb5a1" Width="16" Height="32" Offset="0x7E98"/>
 
         <!-- Jabu Jabu collision -->
-        <Collision Name="gJabuJabuMinus1Col" Offset="0x0A1C"/>
-        <Collision Name="gJabuJabu0Col" Offset="0x1830"/>
-        <Collision Name="gJabuJabu1Col" Offset="0xBA8C"/>
+        <Collision Name="gJabuJabuHeadCol" Offset="0x0A1C"/>
+        <Collision Name="gJabuJabuBodyCol" Offset="0x1830"/>
+        <Collision Name="gJabuJabuUnusedCol" Offset="0xBA8C"/>
 
             
     </File>
