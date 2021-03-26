@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <stdint.h>
+#include <string>
+#include <vector>
 #include "ZResource.h"
 #include "tinyxml2.h"
 
@@ -141,7 +141,7 @@ class CutsceneCommandFadeBGM : public CutsceneCommand
 public:
 	std::vector<MusicFadeEntry*> entries;
 
-	CutsceneCommandFadeBGM( const std::vector<uint8_t>& rawData, int rawDataIndex);
+	CutsceneCommandFadeBGM(const std::vector<uint8_t>& rawData, int rawDataIndex);
 	std::string GetCName(const std::string& prefix);
 	std::string GenerateSourceCode(const std::string& roomName, int baseAddress);
 	size_t GetCommandSize();
@@ -411,11 +411,14 @@ public:
 
 	ZResourceType GetResourceType() override;
 
-	static ZCutscene* ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath);
+	static ZCutscene* ExtractFromXML(tinyxml2::XMLElement* reader,
+	                                 const std::vector<uint8_t>& nRawData, const int rawDataIndex,
+	                                 const std::string& nRelPath);
+
 protected:
 	int numCommands;
 	int endFrame;
 	std::vector<CutsceneCommand*> commands;
 
-	void ParseRawData();
+	void ParseRawData() override;
 };

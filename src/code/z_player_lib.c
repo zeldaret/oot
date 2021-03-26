@@ -738,7 +738,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
         Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_8012602C, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
-        Matrix_Pull();
+        Matrix_Pop();
 
         footprintPos.y += 15.0f;
 
@@ -1281,7 +1281,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
 
-            Matrix_Pull();
+            Matrix_Pop();
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2809);
         } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == 10)) {
