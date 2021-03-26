@@ -1,15 +1,16 @@
 <Root>
     <File Name="object_jj" Segment="6">
 
-        <!-- Jabu Jabu animation (waggling fins and gills) -->
+        <!-- Jabu Jabu animation (waggling fins etc.) -->
         <Animation Name="gJabuJabuAnim" Offset="0x1F4C"/>
-
-        <Skeleton Name="gJabuJabuSkel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
             
         <!-- Jabu Jabu eye textures -->
         <Texture Name="gJabuJabuEyeOpenTex" OutName="jabu_jabu_eye_open" Format="rgb5a1" Width="16" Height="32" Offset="0x7698"/>
         <Texture Name="gJabuJabuEyeHalfTex" OutName="jabu_jabu_eye_half" Format="rgb5a1" Width="16" Height="32" Offset="0x7A98"/>
         <Texture Name="gJabuJabuEyeClosedTex" OutName="jabu_jabu_eye_closed" Format="rgb5a1" Width="16" Height="32" Offset="0x7E98"/>
+
+        <!-- Jabu Jabu skeleton -->
+        <Skeleton Name="gJabuJabuSkel" Type="Flex" LimbType="Standard" Offset="0xB9A8"/>
 
         <!-- Jabu Jabu collision -->
         <Collision Name="gJabuJabuHeadCol" Offset="0x0A1C"/>

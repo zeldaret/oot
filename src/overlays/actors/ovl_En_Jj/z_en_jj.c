@@ -6,10 +6,18 @@
 
 #include "z_en_jj.h"
 #include "objects/object_jj/object_jj.h"
+#include "overlays/actors/ovl_Eff_Dust/z_eff_dust.h"
 
 #define FLAGS 0x00000030
 
 #define THIS ((EnJj*)thisx)
+
+typedef enum {
+    /* 0 */ JABUJABU_EYE_OPEN,
+    /* 1 */ JABUJABU_EYE_HALF,
+    /* 2 */ JABUJABU_EYE_CLOSED,
+    /* 3 */ JABUJABU_EYE_MAX
+} EnJjEyeState;
 
 void EnJj_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -88,17 +96,17 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             Animation_PlayLoop(&this->skelAnime, &gJabuJabuAnim);
             this->unk_30A = 0;
             this->eyeIndex = 0;
-            this->unk_30F = 0;
-            this->unk_310 = 0;
-            this->unk_311 = 0;
+            this->blinkTimer = 0;
+            this->extraBlinkCounter = 0;
+            this->extraBlinkTotal = 0;
             if (gSaveContext.eventChkInf[3] & 0x400) { // Fish given
                 EnJj_SetupAction(this, func_80A87BEC);
             } else {
                 EnJj_SetupAction(this, func_80A87C30);
             }
-            this->childActor = (DynaPolyActor*)Actor_SpawnAsChild(
+            this->bodyCollisionActor = (DynaPolyActor*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, 0);
+                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, JABUJABU_COLLISION);
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gJabuJabuHeadCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -146,18 +154,22 @@ void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87B1C.s")
-void func_80A87B1C(EnJj* this) {
-    if (this->unk_30F > 0) {
-        this->unk_30F--;
+/**
+ * Blink routine. Blinks at the end of each randomised blinkTimer cycle. If extraBlinkCounter is not zero, blink that many more times before resuming random blinkTimer cycles. 
+ * extraBlinkTotal can be set to a positive number to blink that many extra times at the end of every blinkTimer cycle, but the actor always sets it to zero, so only one multiblink happens when extraBlinkCounter is nonzero.
+ */
+void EnJj_Blink(EnJj* this) {
+    if (this->blinkTimer > 0) {
+        this->blinkTimer--;
     } else {
         this->eyeIndex++;
         if (this->eyeIndex >= 3) {
             this->eyeIndex = 0;
-            if (this->unk_310 > 0) {
-                this->unk_310--;
+            if (this->extraBlinkCounter > 0) {
+                this->extraBlinkCounter--;
             } else {
-                this->unk_30F = Rand_S16Offset(20, 20);
-                this->unk_310 = this->unk_311;
+                this->blinkTimer = Rand_S16Offset(20, 20);
+                this->extraBlinkCounter = this->extraBlinkTotal;
             }
         }
     }
@@ -165,7 +177,7 @@ void func_80A87B1C(EnJj* this) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87B9C.s")
 void func_80A87B9C(EnJj* this, GlobalContext* globalCtx) {
-    DynaPolyActor* child = this->childActor;
+    DynaPolyActor* child = this->bodyCollisionActor;
 
     if (this->unk_308 >= -5200) {
         this->unk_308 -= 102;
@@ -200,7 +212,7 @@ void func_80A87C30(EnJj* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87CEC.s")
 void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
-    DynaPolyActor* child = this->childActor;
+    DynaPolyActor* child = this->bodyCollisionActor;
 
     if (this->unk_30C > 0) {
         this->unk_30C--;
@@ -219,33 +231,33 @@ void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
 void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
     switch (globalCtx->csCtx.npcActions[2]->action) {
         case 1:
-            if ((this->unk_30A & 2) != 0) {
+            if (this->unk_30A & 2) {
                 this->eyeIndex = 0;
-                this->unk_30F = Rand_S16Offset(20, 20);
-                this->unk_310 = 0;
-                this->unk_311 = 0;
+                this->blinkTimer = Rand_S16Offset(20, 20);
+                this->extraBlinkCounter = 0;
+                this->extraBlinkTotal = 0;
                 this->unk_30A ^= 2;
             }
             break;
         case 2:
             this->unk_30A |= 1;
-            if ((this->unk_30A & 8) == 0) {
-                this->unk_304 = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EFF_DUST,
-                                                   -1100.0f, 105.0f, -27.0f, 0, 0, 0, 0);
+            if (!(this->unk_30A & 8)) {
+                this->dust = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EFF_DUST,
+                                                   -1100.0f, 105.0f, -27.0f, 0, 0, 0, EFF_DUST_TYPE_0);
                 this->unk_30A |= 8;
             }
             break;
         case 3:
-            if ((this->unk_30A & 2) == 0) {
+            if (!(this->unk_30A & 2)) {
                 this->eyeIndex = 0;
-                this->unk_30F = 0;
-                this->unk_310 = 1;
-                this->unk_311 = 0;
+                this->blinkTimer = 0;
+                this->extraBlinkCounter = 1;
+                this->extraBlinkTotal = 0;
                 this->unk_30A |= 2;
             }
             break;
     }
-    if ((this->unk_30A & 1) != 0) {
+    if (this->unk_30A & 1) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
         if (this->unk_308 >= -5200) {
             this->unk_308 -= 102;
@@ -255,13 +267,13 @@ void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87EF0.s")
 void func_80A87EF0(EnJj* this, GlobalContext* globalCtx) {
-    Actor* temp_a0;
+    Actor* dust;
 
     if (!(this->unk_30A & 4)) {
         this->unk_30A |= 4;
-        temp_a0 = this->unk_304;
-        if (temp_a0 != NULL) {
-            Actor_Kill(temp_a0);
+        dust = this->dust;
+        if (dust != NULL) {
+            Actor_Kill(dust);
             this->dyna.actor.child = NULL;
         }
     }
@@ -283,7 +295,7 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
-    func_80A87B1C(this);
+    EnJj_Blink(this);
     SkelAnime_Update(&this->skelAnime);
     Actor_SetScale(&this->dyna.actor, 0.087f);
     this->skelAnime.jointTable[10].z = this->unk_308;
@@ -299,14 +311,15 @@ static u64* sEyeTextures[] = {
 void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnJj* this = THIS;
-    // s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 879);
+
     func_800943C8(globalCtx->state.gfxCtx);
     Matrix_Translate(0.0f, (cosf(this->skelAnime.curFrame * (M_PI / 41.0f)) * 10.0f) - 10.0f, 0.0f, MTXMODE_APPLY);
     Matrix_Scale(10.0f, 10.0f, 10.0f, MTXMODE_APPLY);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           0, 0, this);
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_jj.c", 898);
 }
