@@ -25,9 +25,9 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void EnJj_UpdateStaticCollision(Actor* thisx, GlobalContext* globalCtx);
-void func_80A87BEC(EnJj* this, GlobalContext* globalCtx);
-void func_80A87C30(EnJj* this, GlobalContext* globalCtx);
-void func_80A87CEC(EnJj* this, GlobalContext* globalCtx);
+void EnJj_WaitToOpenMouth(EnJj* this, GlobalContext* globalCtx);
+void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx);
+void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx);
 void func_80A87EF0(EnJj* this, GlobalContext* globalCtx);
 
 const ActorInit En_Jj_InitVars = {
@@ -99,11 +99,13 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
             this->blinkTimer = 0;
             this->extraBlinkCounter = 0;
             this->extraBlinkTotal = 0;
+
             if (gSaveContext.eventChkInf[3] & 0x400) { // Fish given
-                EnJj_SetupAction(this, func_80A87BEC);
+                EnJj_SetupAction(this, EnJj_WaitToOpenMouth);
             } else {
-                EnJj_SetupAction(this, func_80A87C30);
+                EnJj_SetupAction(this, EnJj_WaitForFish);
             }
+
             this->bodyCollisionActor = (DynaPolyActor*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
                 this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, JABUJABU_COLLISION);
@@ -176,34 +178,36 @@ void EnJj_Blink(EnJj* this) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87B9C.s")
-void func_80A87B9C(EnJj* this, GlobalContext* globalCtx) {
-    DynaPolyActor* child = this->bodyCollisionActor;
+void EnJj_OpenMouth(EnJj* this, GlobalContext* globalCtx) {
+    DynaPolyActor* bodyCollisionActor = this->bodyCollisionActor;
 
-    if (this->unk_308 >= -5200) {
-        this->unk_308 -= 102;
-        if (this->unk_308 < -2600) {
-            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
+    if (this->mouthOpenAngle >= -5200) {
+        this->mouthOpenAngle -= 102;
+
+        if (this->mouthOpenAngle < -2600) {
+            func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, bodyCollisionActor->bgId);
         }
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87BEC.s")
-void func_80A87BEC(EnJj* this, GlobalContext* globalCtx) {
+void EnJj_WaitToOpenMouth(EnJj* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.xzDistToPlayer < 300.0f) {
-        EnJj_SetupAction(this, func_80A87B9C);
+        EnJj_SetupAction(this, EnJj_OpenMouth);
     }
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87C30.s")
-void func_80A87C30(EnJj* this, GlobalContext* globalCtx) {
-    static Vec3f D_80A88CF0 = { -1589.0f, 53.0f, -43.0f };
+void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx) {
+    static Vec3f feedingSpot = { -1589.0f, 53.0f, -43.0f };
     Player* player = PLAYER;
 
-    if ((Math_Vec3f_DistXZ(&D_80A88CF0, &player->actor.world.pos) < 300.0f) &&
+    if ((Math_Vec3f_DistXZ(&feedingSpot, &player->actor.world.pos) < 300.0f) &&
         globalCtx->isPlayerDroppingFish(globalCtx)) {
-        this->unk_30C = 100;
-        EnJj_SetupAction(this, func_80A87CEC);
+        this->cutsceneCountdownTimer = 100;
+        EnJj_SetupAction(this, EnJj_BeginCutscene);
     }
+
     this->collider.dim.pos.x = -1245;
     this->collider.dim.pos.y = 20;
     this->collider.dim.pos.z = -48;
@@ -211,16 +215,16 @@ void func_80A87C30(EnJj* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87CEC.s")
-void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
-    DynaPolyActor* child = this->bodyCollisionActor;
+void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx) {
+    DynaPolyActor* bodyCollisionActor = this->bodyCollisionActor;
 
-    if (this->unk_30C > 0) {
-        this->unk_30C--;
+    if (this->cutsceneCountdownTimer > 0) {
+        this->cutsceneCountdownTimer--;
     } else {
         EnJj_SetupAction(this, func_80A87EF0);
         globalCtx->csCtx.segment = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, child->bgId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, bodyCollisionActor->bgId);
         func_8005B1A4(ACTIVE_CAM);
         gSaveContext.eventChkInf[3] |= 0x400;
         func_80078884(NA_SE_SY_CORRECT_CHIME);
@@ -228,7 +232,7 @@ void func_80A87CEC(EnJj* this, GlobalContext* globalCtx) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87D94.s")
-void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
+void EnJj_CutsceneUpdate(EnJj* this, GlobalContext* globalCtx) {
     switch (globalCtx->csCtx.npcActions[2]->action) {
         case 1:
             if (this->unk_30A & 2) {
@@ -239,14 +243,17 @@ void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
                 this->unk_30A ^= 2;
             }
             break;
+
         case 2:
             this->unk_30A |= 1;
+
             if (!(this->unk_30A & 8)) {
                 this->dust = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EFF_DUST,
                                                    -1100.0f, 105.0f, -27.0f, 0, 0, 0, EFF_DUST_TYPE_0);
                 this->unk_30A |= 8;
             }
             break;
+
         case 3:
             if (!(this->unk_30A & 2)) {
                 this->eyeIndex = 0;
@@ -257,10 +264,12 @@ void func_80A87D94(EnJj* this, GlobalContext* globalCtx) {
             }
             break;
     }
+
     if (this->unk_30A & 1) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_BREATHE - SFX_FLAG);
-        if (this->unk_308 >= -5200) {
-            this->unk_308 -= 102;
+
+        if (this->mouthOpenAngle >= -5200) {
+            this->mouthOpenAngle -= 102;
         }
     }
 }
@@ -272,6 +281,7 @@ void func_80A87EF0(EnJj* this, GlobalContext* globalCtx) {
     if (!(this->unk_30A & 4)) {
         this->unk_30A |= 4;
         dust = this->dust;
+
         if (dust != NULL) {
             Actor_Kill(dust);
             this->dyna.actor.child = NULL;
@@ -288,17 +298,19 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJj* this = THIS;
 
     if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[2] != NULL)) {
-        func_80A87D94(this, globalCtx);
+        EnJj_CutsceneUpdate(this, globalCtx);
     } else {
         this->actionFunc(this, globalCtx);
+
         if (this->skelAnime.curFrame == 41.0f) {
             Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_JABJAB_GROAN);
         }
     }
+
     EnJj_Blink(this);
     SkelAnime_Update(&this->skelAnime);
     Actor_SetScale(&this->dyna.actor, 0.087f);
-    this->skelAnime.jointTable[10].z = this->unk_308;
+    this->skelAnime.jointTable[10].z = this->mouthOpenAngle;
 }
 
 static u64* sEyeTextures[] = {
