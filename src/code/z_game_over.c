@@ -13,11 +13,10 @@ void GameOver_FadeInLights(GlobalContext* globalCtx) {
     }
 }
 
-// This file has the same issue as z_message where data is going to rodata.
-// This hack allows the function to OK, though rodata still needs to be fixed along with z_message rodata.
-extern const s16 D_80153D80[];
-#define NON_CONST(x, type) ((type*)(&x))
-#define GAME_OVER_TIMER NON_CONST(D_80153D80, s16)[0]
+// This variable has the same problem as z_message's data going to rodata.
+// A fix for this is planned, and will be taken care of with z_message.
+// For now this variable is externed from z_message's rodata.s file.
+extern s16 D_80153D80; // todo: rename to `timer` and make this in function static (after rodata issue is resolved)
 
 void GameOver_Update(GlobalContext* globalCtx) {
     GameOverContext* gameOverCtx = &globalCtx->gameOverCtx;
@@ -76,7 +75,7 @@ void GameOver_Update(GlobalContext* globalCtx) {
             gSaveContext.unk_13E7 = gSaveContext.unk_13E8 = gSaveContext.unk_13EA = gSaveContext.unk_13EC = 0;
 
             Kankyo_InitGameOverLights(globalCtx);
-            GAME_OVER_TIMER = 20;
+            D_80153D80 = 20;
             if (1) {}
             v90 = VREG(90);
             v91 = VREG(91);
@@ -92,9 +91,9 @@ void GameOver_Update(GlobalContext* globalCtx) {
             break;
 
         case GAMEOVER_DEATH_DELAY_MENU:
-            GAME_OVER_TIMER--;
+            D_80153D80--;
 
-            if (GAME_OVER_TIMER == 0) {
+            if (D_80153D80 == 0) {
                 globalCtx->pauseCtx.state = 8;
                 gameOverCtx->state++;
                 func_800AA15C();
@@ -103,13 +102,13 @@ void GameOver_Update(GlobalContext* globalCtx) {
 
         case GAMEOVER_REVIVE_START:
             gameOverCtx->state++;
-            GAME_OVER_TIMER = 0;
+            D_80153D80 = 0;
             Kankyo_InitGameOverLights(globalCtx);
             ShrinkWindow_SetVal(0x20);
             return;
 
         case GAMEOVER_REVIVE_RUMBLE:
-            GAME_OVER_TIMER = 50;
+            D_80153D80 = 50;
             gameOverCtx->state++;
             if (1) {}
 
@@ -122,28 +121,28 @@ void GameOver_Update(GlobalContext* globalCtx) {
             break;
 
         case GAMEOVER_REVIVE_WAIT_GROUND:
-            GAME_OVER_TIMER--;
+            D_80153D80--;
 
-            if (GAME_OVER_TIMER == 0) {
-                GAME_OVER_TIMER = 64;
+            if (D_80153D80 == 0) {
+                D_80153D80 = 64;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_WAIT_FAIRY:
-            GAME_OVER_TIMER--;
+            D_80153D80--;
 
-            if (GAME_OVER_TIMER == 0) {
-                GAME_OVER_TIMER = 50;
+            if (D_80153D80 == 0) {
+                D_80153D80 = 50;
                 gameOverCtx->state++;
             }
             break;
 
         case GAMEOVER_REVIVE_FADE_OUT:
             Kankyo_FadeOutGameOverLights(globalCtx);
-            GAME_OVER_TIMER--;
+            D_80153D80--;
 
-            if (GAME_OVER_TIMER == 0) {
+            if (D_80153D80 == 0) {
                 gameOverCtx->state = GAMEOVER_INACTIVE;
             }
             break;
