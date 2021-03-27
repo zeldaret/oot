@@ -8,7 +8,7 @@ struct EnJsjutan;
 
 typedef struct EnJsjutan {
     /* 0x0000 */ DynaPolyActor dyna;
-    /* 0x0165 */ u8 unk_164; // flag to set carpet shadow textures.
+    /* 0x0164 */ u8 unk_164; // flag to set carpet shadow textures.
     /* 0x0168 */ f32 unk_168; // actorYPos
     /* 0x016C */ f32 shadowAlpha;
     /* 0x0170 */ f32 unk_170;
