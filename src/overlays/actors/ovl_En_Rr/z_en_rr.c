@@ -452,7 +452,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     this->stopScroll = false;
                     Actor_ApplyDamage(&this->actor);
                     this->invincibilityTimer = 40;
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, this->invincibilityTimer);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, this->invincibilityTimer);
                     if (this->hasPlayer) {
                         EnRr_SetupReleasePlayer(this, globalCtx);
                     } else if (this->actor.colChkInfo.health != 0) {
@@ -467,7 +467,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RANDOM_RUPEE;
                     }
-                    func_8003426C(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0x2000, 0x50);
                     this->effectTimer = 20;
                     EnRr_SetupStunned(this);
                     return;
@@ -478,7 +478,7 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     }
                     if (this->actor.colorFilterTimer == 0) {
                         this->effectTimer = 20;
-                        func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     }
                     EnRr_SetupStunned(this);
                     return;
@@ -487,12 +487,12 @@ void EnRr_CollisionCheck(EnRr* this, GlobalContext* globalCtx) {
                     if (this->actor.colChkInfo.health == 0) {
                         this->dropType = RR_DROP_RUPEE_RED;
                     }
-                    func_8003426C(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
+                    Actor_SetColorFilter(&this->actor, -0x8000, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);
                     return;
                 case RR_DMG_STUN: // Boomerang and Hookshot
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
-                    func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                    Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     EnRr_SetupStunned(this);
                     return;
             }
@@ -862,7 +862,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                  (1.0f + this->bodySegs[RR_BASE].scaleMod.z) * this->bodySegs[RR_BASE].scale.z, MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_rr.c", 1501),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    Matrix_Pull();
+    Matrix_Pop();
     zeroVec.x = 0.0f;
     zeroVec.y = 0.0f;
     zeroVec.z = 0.0f;
@@ -875,7 +875,7 @@ void EnRr_Draw(Actor* thisx, GlobalContext* globalCtx) {
                      (1.0f + this->bodySegs[i].scaleMod.y) * this->bodySegs[i].scale.y,
                      (1.0f + this->bodySegs[i].scaleMod.z) * this->bodySegs[i].scale.z, MTXMODE_APPLY);
         Matrix_ToMtx(segMtx, "../z_en_rr.c", 1527);
-        Matrix_Pull();
+        Matrix_Pop();
         segMtx++;
         Matrix_MultVec3f(&zeroVec, &this->effectPos[i]);
     }

@@ -295,7 +295,7 @@ glabel EnGoma_Draw
 /* 023B4 80A4B274 AE2C02C0 */  sw      $t4, 0x02C0($s1)           ## 000002C0
 /* 023B8 80A4B278 3C0DDE00 */  lui     $t5, 0xDE00                ## $t5 = DE000000
 /* 023BC 80A4B27C AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
-/* 023C0 80A4B280 0C034221 */  jal     Matrix_Pull              
+/* 023C0 80A4B280 0C034221 */  jal     Matrix_Pop              
 /* 023C4 80A4B284 AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
 /* 023C8 80A4B288 1000003D */  beq     $zero, $zero, .L80A4B380   
 /* 023CC 80A4B28C 8FAB007C */  lw      $t3, 0x007C($sp)           

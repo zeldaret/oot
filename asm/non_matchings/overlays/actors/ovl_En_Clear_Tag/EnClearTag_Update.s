@@ -97,7 +97,7 @@ glabel EnClearTag_Update
 /* 00764 809D3D14 AFAF0010 */  sw      $t7, 0x0010($sp)           
 /* 00768 809D3D18 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 0076C 809D3D1C 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 00770 809D3D20 0C00D09B */  jal     func_8003426C              
+/* 00770 809D3D20 0C00D09B */  jal     Actor_SetColorFilter              
 /* 00774 809D3D24 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00778 809D3D28 3C014170 */  lui     $at, 0x4170                ## $at = 41700000
 /* 0077C 809D3D2C 44816000 */  mtc1    $at, $f12                  ## $f12 = 15.00

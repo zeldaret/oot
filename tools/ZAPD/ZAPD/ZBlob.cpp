@@ -1,26 +1,28 @@
 #include "ZBlob.h"
-#include "File.h"
-#include "ZFile.h"
 #include "BitConverter.h"
+#include "File.h"
 #include "Path.h"
 #include "StringHelper.h"
+#include "ZFile.h"
 
 using namespace tinyxml2;
 using namespace std;
 
 ZBlob::ZBlob() : ZResource()
 {
-
 }
 
-ZBlob::ZBlob(const std::vector<uint8_t>& nRawData, int nRawDataIndex, int size, std::string nName) : ZBlob()
+ZBlob::ZBlob(const std::vector<uint8_t>& nRawData, int nRawDataIndex, int size, std::string nName)
+	: ZBlob()
 {
 	rawDataIndex = nRawDataIndex;
-	rawData = vector<uint8_t>(nRawData.data() + rawDataIndex, nRawData.data() + rawDataIndex + size);
+	rawData =
+		vector<uint8_t>(nRawData.data() + rawDataIndex, nRawData.data() + rawDataIndex + size);
 	name = std::move(nName);
 }
 
-ZBlob* ZBlob::ExtractFromXML(XMLElement* reader, const vector<uint8_t>& nRawData, int nRawDataIndex, string nRelPath)
+ZBlob* ZBlob::ExtractFromXML(XMLElement* reader, const vector<uint8_t>& nRawData, int nRawDataIndex,
+                             string nRelPath)
 {
 	ZBlob* blob = new ZBlob();
 
@@ -28,7 +30,8 @@ ZBlob* ZBlob::ExtractFromXML(XMLElement* reader, const vector<uint8_t>& nRawData
 
 	blob->ParseXML(reader);
 	int size = strtol(reader->Attribute("Size"), NULL, 16);
-	blob->rawData = vector<uint8_t>(nRawData.data() + blob->rawDataIndex, nRawData.data() + blob->rawDataIndex + size);
+	blob->rawData = vector<uint8_t>(nRawData.data() + blob->rawDataIndex,
+	                                nRawData.data() + blob->rawDataIndex + size);
 	blob->relativePath = std::move(nRelPath);
 
 	return blob;
@@ -48,7 +51,6 @@ ZBlob* ZBlob::BuildFromXML(XMLElement* reader, const std::string& inFolder, bool
 
 ZBlob* ZBlob::FromFile(const std::string& filePath)
 {
-	int comp;
 	ZBlob* blob = new ZBlob();
 	blob->name = StringHelper::Split(Path::GetFileNameWithoutExtension(filePath), ".")[0];
 	blob->rawData = File::ReadAllBytes(filePath);
@@ -59,9 +61,9 @@ ZBlob* ZBlob::FromFile(const std::string& filePath)
 string ZBlob::GetSourceOutputCode(const std::string& prefix)
 {
 	sourceOutput = "";
-	//sourceOutput += StringHelper::Sprintf("u8 %s_%s[] = \n{\n", prefix.c_str(), name.c_str());
+	// sourceOutput += StringHelper::Sprintf("u8 %s_%s[] = \n{\n", prefix.c_str(), name.c_str());
 
-	for (int i = 0; i < rawData.size(); i += 1)
+	for (uint32_t i = 0; i < rawData.size(); i += 1)
 	{
 		if (i % 16 == 0)
 			sourceOutput += "\t";
@@ -72,7 +74,10 @@ string ZBlob::GetSourceOutputCode(const std::string& prefix)
 			sourceOutput += "\n";
 	}
 
-	//sourceOutput += "};\n";
+	// Ensure there's always a trailing line feed to prevent dumb warnings.
+	sourceOutput += "\n";
+
+	// sourceOutput += "};\n";
 
 	return sourceOutput;
 }
@@ -84,7 +89,7 @@ string ZBlob::GetSourceOutputHeader(const std::string& prefix)
 
 void ZBlob::Save(const std::string& outFolder)
 {
-	//printf("NAME = %s\n", name.c_str());
+	// printf("NAME = %s\n", name.c_str());
 	File::WriteAllBytes(outFolder + "/" + name + ".bin", rawData);
 }
 

@@ -2,8 +2,8 @@
 
 #include <tinyxml2.h>
 
-#include <vector>
 #include <string>
+#include <vector>
 
 class ZRoom;
 

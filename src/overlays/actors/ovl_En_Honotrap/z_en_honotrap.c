@@ -248,7 +248,7 @@ void EnHonotrap_EyeIdle(EnHonotrap* this, GlobalContext* globalCtx) {
 
 void EnHonotrap_SetupEyeOpen(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_EyeOpen;
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x28);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x28);
     this->timer = 30;
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_RED_EYE);
 }
