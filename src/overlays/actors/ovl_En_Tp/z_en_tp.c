@@ -5,6 +5,7 @@
  */
 
 #include "z_en_tp.h"
+#include "objects/object_tp/object_tp.h"
 
 #define FLAGS 0x00000000
 
@@ -109,16 +110,13 @@ const ActorInit En_Tp_InitVars = {
     ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
 };
 
-extern Gfx D_06000000[];
-extern Gfx D_060008D0[];
-extern u64 D_06000C68[];
-
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B20DE0.s")
 void func_80B20DE0(EnTp* this, EnTpActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+#ifdef NON_MATCHING
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     // s32 pad;
     GlobalContext* globalCtx = globalCtx2;
@@ -190,6 +188,9 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         func_80B217FC(this);
     }
 }
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Destroy.s")
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -609,9 +610,9 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
                     this->actor.freezeTimer = 0x50;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
                     if (phi_s2 != 0) {
-                        func_8003426C(&this->actor, 0, 0xFF, 0, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0, 0x50);
                     } else {
-                        func_8003426C(&this->actor, 0, 0xFF, 0x2000, 0x50);
+                        Actor_SetColorFilter(&this->actor, 0, 0xFF, 0x2000, 0x50);
                     }
                 }
 
@@ -623,9 +624,9 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
                         Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_JR_FREEZE);
 
                         if (phi_s2 != 0) {
-                            func_8003426C(&phi_s0->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&phi_s0->actor, 0, 0xFF, 0, 0x50);
                         } else {
-                            func_8003426C(&phi_s0->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&phi_s0->actor, 0, 0xFF, 0x2000, 0x50);
                         }
                     }
                 }
@@ -636,9 +637,9 @@ void func_80B221E8(EnTp* this, GlobalContext* globalCtx) {
                         phi_s0->actor.freezeTimer = 0x50;
 
                         if (phi_s2 != 0) {
-                            func_8003426C(&phi_s0->actor, 0, 0xFF, 0, 0x50);
+                            Actor_SetColorFilter(&phi_s0->actor, 0, 0xFF, 0, 0x50);
                         } else {
-                            func_8003426C(&phi_s0->actor, 0, 0xFF, 0x2000, 0x50);
+                            Actor_SetColorFilter(&phi_s0->actor, 0, 0xFF, 0x2000, 0x50);
                         }
                     }
                 }
@@ -728,8 +729,8 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 // Matching, but permuter doesn't like it
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Draw.s")
-/* void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Draw.s")
+void EnTp_Draw(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnTp* this = THIS;
 
@@ -741,7 +742,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
 
             gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5B3),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_OPA_DISP++, D_060008D0);
+            gSPDisplayList(POLY_OPA_DISP++, gTailpasaranHeadDL);
 
             Matrix_Translate(0.0f, 0.0f, 8.0f, MTXMODE_APPLY);
         } else {
@@ -754,11 +755,11 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
                               TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, ENVIRONMENT,
                               TEXEL0, ENVIRONMENT);
             gDPPipeSync(POLY_XLU_DISP++);
-            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_06000C68));
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gTailpasaranTailSegmentTex));
             gDPPipeSync(POLY_XLU_DISP++);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_tp.c", 0x5C8),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(POLY_XLU_DISP++, D_06000000);
+            gSPDisplayList(POLY_XLU_DISP++, gTailpasaranTailSegmentDL);
         }
     }
 
@@ -767,4 +768,4 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     if ((thisx->params <= 0) || (thisx->params == 0xB)) {
         Collider_UpdateSpheres(0, &this->collider);
     }
-} */
+}

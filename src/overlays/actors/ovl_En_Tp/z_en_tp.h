@@ -23,8 +23,6 @@ typedef struct EnTp {
     /* 0x0168 */ f32 unk_168;
     /* 0x016C */ f32 unk_16C;
     /* 0x0170 */ f32 unk_170;
-    // /* 0x0164 */ char unk_164[0x4];
-    // /* 0x0168 */ Vec3f unk_168;
     /* 0x0174 */ ColliderJntSph collider;
     /* 0x0194 */ ColliderJntSphElement colliderItems[1];
     /* 0x01D4 */ struct EnTp* unk_1D4;
