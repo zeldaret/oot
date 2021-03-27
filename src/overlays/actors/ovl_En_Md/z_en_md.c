@@ -419,7 +419,6 @@ u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
     EnMd* this = THIS;
-
     switch (func_80AAAC78(this, globalCtx)) {
         case 0:
         case 1:
