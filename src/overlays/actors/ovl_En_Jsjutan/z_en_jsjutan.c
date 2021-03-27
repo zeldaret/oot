@@ -42,7 +42,7 @@ void EnJsjutan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     CollisionHeader* header = NULL;
 
-    this->dyna.actor.flags = this->dyna.actor.flags & ~1;
+    this->dyna.actor.flags &= ~1;
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
     CollisionHeader_GetVirtual(&gJsjutanCol, &header);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, header);
