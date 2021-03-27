@@ -61,7 +61,7 @@ glabel EnJsjutan_Draw
 /* 00F18 80A8A6B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00F1C 80A8A6BC A20A0175 */  sb      $t2, 0x0175($s0)           ## 00000175
 /* 00F20 80A8A6C0 844400B6 */  lh      $a0, 0x00B6($v0)           ## 000000B6
-/* 00F24 80A8A6C4 0C01DE1C */  jal     Math_Sins
+/* 00F24 80A8A6C4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 00F28 80A8A6C8 AFA20078 */  sw      $v0, 0x0078($sp)           
 /* 00F2C 80A8A6CC 3C014270 */  lui     $at, 0x4270                ## $at = 42700000
@@ -79,7 +79,7 @@ glabel EnJsjutan_Draw
 /* 00F5C 80A8A6FC 460A4400 */  add.s   $f16, $f8, $f10            
 /* 00F60 80A8A700 46128101 */  sub.s   $f4, $f16, $f18            
 /* 00F64 80A8A704 E6040028 */  swc1    $f4, 0x0028($s0)           ## 00000028
-/* 00F68 80A8A708 0C01DE0D */  jal     Math_Coss
+/* 00F68 80A8A708 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 00F6C 80A8A70C 844400B6 */  lh      $a0, 0x00B6($v0)           ## 000000B6
 /* 00F70 80A8A710 3C014270 */  lui     $at, 0x4270                ## $at = 42700000

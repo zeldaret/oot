@@ -8,14 +8,14 @@ glabel func_80A4A50C
 /* 01664 80A4A524 AFAE0010 */  sw      $t6, 0x0010($sp)           
 /* 01668 80A4A528 00002825 */  or      $a1, $zero, $zero          ## $a1 = 00000000
 /* 0166C 80A4A52C 240600B4 */  addiu   $a2, $zero, 0x00B4         ## $a2 = 000000B4
-/* 01670 80A4A530 0C00D09B */  jal     func_8003426C              
+/* 01670 80A4A530 0C00D09B */  jal     Actor_SetColorFilter              
 /* 01674 80A4A534 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01678 80A4A538 861802CC */  lh      $t8, 0x02CC($s0)           ## 000002CC
 /* 0167C 80A4A53C 240F0002 */  addiu   $t7, $zero, 0x0002         ## $t7 = 00000002
 /* 01680 80A4A540 A60F02C4 */  sh      $t7, 0x02C4($s0)           ## 000002C4
 /* 01684 80A4A544 53000004 */  beql    $t8, $zero, .L80A4A558     
 /* 01688 80A4A548 96190088 */  lhu     $t9, 0x0088($s0)           ## 00000088
-/* 0168C 80A4A54C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0168C 80A4A54C 0C02927F */  jal     SkelAnime_Update
               
 /* 01690 80A4A550 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01694 80A4A554 96190088 */  lhu     $t9, 0x0088($s0)           ## 00000088
@@ -27,7 +27,7 @@ glabel func_80A4A50C
 /* 016A8 80A4A568 860202F8 */  lh      $v0, 0x02F8($s0)           ## 000002F8
 /* 016AC 80A4A56C 44802000 */  mtc1    $zero, $f4                 ## $f4 = 0.00
 /* 016B0 80A4A570 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
-/* 016B4 80A4A574 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 016B4 80A4A574 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 016B8 80A4A578 E6040060 */  swc1    $f4, 0x0060($s0)           ## 00000060
 /* 016BC 80A4A57C 860202F8 */  lh      $v0, 0x02F8($s0)           ## 000002F8

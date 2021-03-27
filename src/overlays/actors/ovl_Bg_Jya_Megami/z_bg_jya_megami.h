@@ -1,8 +1,8 @@
 #ifndef _Z_BG_JYA_MEGAMI_H_
 #define _Z_BG_JYA_MEGAMI_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgJyaMegami;
 
@@ -19,7 +19,7 @@ typedef struct BgJyaMegami {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ BgJyaMegamiActionFunc actionFunc;
     /* 0x0168 */ ColliderJntSph collider;
-    /* 0x0188 */ ColliderJntSphItem colliderItem;
+    /* 0x0188 */ ColliderJntSphElement colliderItem;
     /* 0x01C8 */ s16 lightTimer;
     /* 0x01CA */ s16 explosionTimer;
     /* 0x01CC */ s16 crumbleIndex;

@@ -1,8 +1,8 @@
 #ifndef _Z_EN_GS_H_
 #define _Z_EN_GS_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnGs;
 
@@ -10,7 +10,7 @@ typedef void (*EnGsActionFunc)(struct EnGs*, GlobalContext*);
 
 typedef struct EnGs {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ ColliderCylinder unk_14C;
+    /* 0x014C */ ColliderCylinder collider;
     /* 0x0198 */ EnGsActionFunc actionFunc;
     /* 0x019C */ u8 unk_19C;
     /* 0x019D */ u8 unk_19D;

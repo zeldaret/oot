@@ -1,8 +1,13 @@
 #ifndef _Z_OCEFF_WIPE4_H_
 #define _Z_OCEFF_WIPE4_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
+
+typedef enum {
+    /* 0x00 */ OCEFF_WIPE4_SCARECROWS,
+    /* 0x01 */ OCEFF_WIPE4_UNUSED
+} OceffWipe4Type;
 
 struct OceffWipe4;
 

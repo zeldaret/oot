@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 void func_80110990(GlobalContext* globalCtx) {
     Map_Destroy(globalCtx);
@@ -156,7 +155,7 @@ void func_801109B0(GlobalContext* globalCtx) {
     // Translates to: "Parameter Area = %x"
     osSyncPrintf("ＰＡＲＡＭＥＴＥＲ領域＝%x\n", parameterSize + 0x5300);
 
-    Health_InitData(globalCtx);
+    HealthMeter_Init(globalCtx);
     Map_Init(globalCtx);
 
     interfaceCtx->unk_23C = interfaceCtx->unk_242 = 0;
@@ -200,7 +199,7 @@ void func_80110F68(GlobalContext* globalCtx) {
         __assert("message->fukidashiSegment != NULL", "../z_construct.c", 352);
     }
 
-    func_8006EF10(&globalCtx->msgCtx.unk_128);
+    Font_LoadOrderedFont(&globalCtx->msgCtx.font);
 
     YREG(31) = 0;
 }

@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 
@@ -69,7 +68,7 @@ void EffectSs_Delete(EffectSs* effectSs) {
     }
 
     if (effectSs->flags & 4) {
-        func_800F89E8(&effectSs->unk_2C);
+        func_800F89E8(&effectSs->vec);
     }
 
     EffectSs_Reset(effectSs);
@@ -81,15 +80,15 @@ void EffectSs_Reset(EffectSs* effectSs) {
     effectSs->type = EFFECT_SS_TYPE_MAX;
     effectSs->accel.x = effectSs->accel.y = effectSs->accel.z = 0;
     effectSs->velocity.x = effectSs->velocity.y = effectSs->velocity.z = 0;
-    effectSs->unk_2C.x = effectSs->unk_2C.y = effectSs->unk_2C.z = 0;
+    effectSs->vec.x = effectSs->vec.y = effectSs->vec.z = 0;
     effectSs->pos.x = effectSs->pos.y = effectSs->pos.z = 0;
     effectSs->life = -1;
     effectSs->flags = 0;
     effectSs->priority = 128;
     effectSs->draw = NULL;
     effectSs->update = NULL;
-    effectSs->displayList = NULL;
-    effectSs->unk_3C = NULL;
+    effectSs->gfx = NULL;
+    effectSs->actor = NULL;
 
     for (i = 0; i < ARRAY_COUNT(effectSs->regs); i++) {
         effectSs->regs[i] = 0;
@@ -295,10 +294,9 @@ void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
 
 // original name: "EffectSoftSprite2_disp"
 void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    Lights* lights;
+    Lights* lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     s32 i;
 
-    lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     Lights_BindAll(lights, globalCtx->lightCtx.listHead, NULL);
     Lights_Draw(lights, globalCtx->state.gfxCtx);
 

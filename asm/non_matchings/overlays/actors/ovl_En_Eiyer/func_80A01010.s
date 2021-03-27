@@ -4,17 +4,17 @@ glabel func_80A01010
 /* 01078 80A01018 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 0107C 80A0101C AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 01080 80A01020 AFA50034 */  sw      $a1, 0x0034($sp)           
-/* 01084 80A01024 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01084 80A01024 0C02927F */  jal     SkelAnime_Update
               
 /* 01088 80A01028 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 0108C 80A0102C 26040030 */  addiu   $a0, $s0, 0x0030           ## $a0 = 00000030
 /* 01090 80A01030 2405C000 */  addiu   $a1, $zero, 0xC000         ## $a1 = FFFFC000
-/* 01094 80A01034 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01094 80A01034 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 01098 80A01038 24060450 */  addiu   $a2, $zero, 0x0450         ## $a2 = 00000450
 /* 0109C 80A0103C 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 010A0 80A01040 3C0540E0 */  lui     $a1, 0x40E0                ## $a1 = 40E00000
-/* 010A4 80A01044 0C01DE80 */  jal     Math_ApproxF
+/* 010A4 80A01044 0C01DE80 */  jal     Math_StepToF
               
 /* 010A8 80A01048 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 010AC 80A0104C 86020194 */  lh      $v0, 0x0194($s0)           ## 00000194
@@ -47,7 +47,7 @@ glabel func_80A01010
 /* 01110 80A010B0 240A02BC */  addiu   $t2, $zero, 0x02BC         ## $t2 = 000002BC
 /* 01114 80A010B4 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 01118 80A010B8 AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 0111C 80A010BC 0C00A527 */  jal     func_8002949C              
+/* 0111C 80A010BC 0C00A527 */  jal     EffectSsGSplash_Spawn              
 /* 01120 80A010C0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 01124 80A010C4 1000000B */  beq     $zero, $zero, .L80A010F4   
 /* 01128 80A010C8 8FBF0024 */  lw      $ra, 0x0024($sp)           

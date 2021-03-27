@@ -1,8 +1,8 @@
 glabel func_80B3C9EC
 /* 0080C 80B3C9EC 27BDFFE0 */  addiu   $sp, $sp, 0xFFE0           ## $sp = FFFFFFE0
 /* 00810 80B3C9F0 AFBF001C */  sw      $ra, 0x001C($sp)           
-/* 00814 80B3C9F4 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
-/* 00818 80B3C9F8 24A53AA4 */  addiu   $a1, $a1, 0x3AA4           ## $a1 = 06013AA4
+/* 00814 80B3C9F4 3C050601 */  lui     $a1, %hi(D_06013AA4)                ## $a1 = 06010000
+/* 00818 80B3C9F8 24A53AA4 */  addiu   $a1, $a1, %lo(D_06013AA4)           ## $a1 = 06013AA4
 /* 0081C 80B3C9FC AFA00010 */  sw      $zero, 0x0010($sp)         
 /* 00820 80B3CA00 AFA40020 */  sw      $a0, 0x0020($sp)           
 /* 00824 80B3CA04 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000

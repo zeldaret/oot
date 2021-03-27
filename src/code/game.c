@@ -1,12 +1,5 @@
-#include <global.h>
+#include "global.h"
 #include "vt.h"
-
-typedef struct {
-    /* 0x0000 */ OSViMode viMode;
-    /* 0x0050 */ char unk_50[0x30];
-    /* 0x0080 */ u32 viFeatures;
-    /* 0x0084 */ char unk_84[4];
-} unk_80166528;
 
 SpeedMeter D_801664D0;
 struct_801664F0 D_801664F0;
@@ -32,6 +25,7 @@ void GameState_FaultPrint(void) {
 void GameState_SetFBFilter(Gfx** gfx) {
     Gfx* gfxP;
     gfxP = *gfx;
+
     if ((R_FB_FILTER_TYPE > 0) && (R_FB_FILTER_TYPE < 5)) {
         D_801664F0.type = R_FB_FILTER_TYPE;
         D_801664F0.color.r = R_FB_FILTER_PRIM_COLOR(0);
@@ -75,19 +69,19 @@ void func_800C4344(GameState* gameState) {
     }
 
     if (HREG(80) == 0xC) {
-        selectedInput = &gameState->input[HREG(81) < 4U ? HREG(81) : 0];
+        selectedInput = &gameState->input[(u32)HREG(81) < 4U ? HREG(81) : 0];
         hReg82 = HREG(82);
-        HREG(83) = selectedInput->cur.in.button;
-        HREG(84) = selectedInput->press.in.button;
-        HREG(85) = selectedInput->rel.in.x;
-        HREG(86) = selectedInput->rel.in.y;
-        HREG(87) = selectedInput->rel.in.x;
-        HREG(88) = selectedInput->rel.in.y;
-        HREG(89) = selectedInput->cur.in.x;
-        HREG(90) = selectedInput->cur.in.y;
-        HREG(93) = (selectedInput->cur.in.button == hReg82);
-        HREG(94) = CHECK_PAD(selectedInput->cur, hReg82);
-        HREG(95) = CHECK_PAD(selectedInput->press, hReg82);
+        HREG(83) = selectedInput->cur.button;
+        HREG(84) = selectedInput->press.button;
+        HREG(85) = selectedInput->rel.stick_x;
+        HREG(86) = selectedInput->rel.stick_y;
+        HREG(87) = selectedInput->rel.stick_x;
+        HREG(88) = selectedInput->rel.stick_y;
+        HREG(89) = selectedInput->cur.stick_x;
+        HREG(90) = selectedInput->cur.stick_y;
+        HREG(93) = (selectedInput->cur.button == hReg82);
+        HREG(94) = CHECK_BTN_ALL(selectedInput->cur.button, hReg82);
+        HREG(95) = CHECK_BTN_ALL(selectedInput->press.button, hReg82);
     }
 
     if (D_8012DBC0 != 0) {
@@ -151,14 +145,14 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 746);
 
-    newDList = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
-    gSPDisplayList(oGfxCtx->overlay.p++, newDList);
+    newDList = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, newDList);
 
     if (R_ENABLE_FB_FILTER == 1) {
         GameState_SetFBFilter(&newDList);
     }
 
-    sLastButtonPressed = gameState->input[0].press.in.button | gameState->input[0].cur.in.button;
+    sLastButtonPressed = gameState->input[0].press.button | gameState->input[0].cur.button;
     if (R_DISABLE_INPUT_DISPLAY == 0) {
         GameState_DrawInputDisplay(sLastButtonPressed, &newDList);
     }
@@ -186,7 +180,7 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 
     gSPEndDisplayList(newDList++);
     Graph_BranchDlist(polyOpaP, newDList);
-    oGfxCtx->polyOpa.p = newDList;
+    POLY_OPA_DISP = newDList;
 
     if (1) {}
 
@@ -203,15 +197,15 @@ void GameState_Draw(GameState* gameState, GraphicsContext* gfxCtx) {
 void GameState_SetFrameBuffer(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../game.c", 814);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0, 0);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0xE, gZBuffer);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0, 0);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0xE, gZBuffer);
-    gSPSegment(oGfxCtx->overlay.p++, 0, 0);
-    gSPSegment(oGfxCtx->overlay.p++, 0xF, gfxCtx->curFrameBuffer);
-    gSPSegment(oGfxCtx->overlay.p++, 0xE, gZBuffer);
+    gSPSegment(POLY_OPA_DISP++, 0, 0);
+    gSPSegment(POLY_OPA_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_OPA_DISP++, 0xE, gZBuffer);
+    gSPSegment(POLY_XLU_DISP++, 0, 0);
+    gSPSegment(POLY_XLU_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(POLY_XLU_DISP++, 0xE, gZBuffer);
+    gSPSegment(OVERLAY_DISP++, 0, 0);
+    gSPSegment(OVERLAY_DISP++, 0xF, gfxCtx->curFrameBuffer);
+    gSPSegment(OVERLAY_DISP++, 0xE, gZBuffer);
 
     CLOSE_DISPS(gfxCtx, "../game.c", 838);
 }
@@ -222,20 +216,22 @@ void func_800C49F4(GraphicsContext* gfxCtx) {
 
     OPEN_DISPS(gfxCtx, "../game.c", 846);
 
-    newDlist = Graph_GfxPlusOne(polyOpaP = oGfxCtx->polyOpa.p);
-    gSPDisplayList(oGfxCtx->overlay.p++, newDlist);
+    newDlist = Graph_GfxPlusOne(polyOpaP = POLY_OPA_DISP);
+    gSPDisplayList(OVERLAY_DISP++, newDlist);
 
     gSPEndDisplayList(newDlist++);
     Graph_BranchDlist(polyOpaP, newDlist);
-    oGfxCtx->polyOpa.p = newDlist;
+    POLY_OPA_DISP = newDlist;
 
     if (1) {}
 
     CLOSE_DISPS(gfxCtx, "../game.c", 865);
 }
 
+void PadMgr_RequestPadData(PadMgr*, Input*, s32);
+
 void GameState_ReqPadData(GameState* gameState) {
-    PadMgr_RequestPadData(&gPadMgr, &gameState->input, 1);
+    PadMgr_RequestPadData(&gPadMgr, &gameState->input[0], 1);
 }
 
 void GameState_Update(GameState* gameState) {
@@ -346,9 +342,8 @@ void GameState_Realloc(GameState* gameState, size_t size) {
     u32 systemMaxFree;
     u32 systemFree;
     u32 systemAlloc;
-    void* thaBufp;
+    void* thaBufp = gameState->tha.bufp;
 
-    thaBufp = gameState->tha.bufp;
     THA_Dt(&gameState->tha);
     GameAlloc_Free(alloc, thaBufp);
     // Hyrule temporarily released !!
@@ -482,7 +477,7 @@ void* GameState_Alloc(GameState* gameState, size_t size, char* file, s32 line) {
     if (THA_IsCrash(&gameState->tha)) {
         osSyncPrintf("ハイラルは滅亡している\n");
         ret = NULL;
-    } else if (THA_GetSize(&gameState->tha) < size) {
+    } else if ((u32)THA_GetSize(&gameState->tha) < size) {
         // Hyral on the verge of extinction does not have% d bytes left (% d bytes until extinction)
         osSyncPrintf("滅亡寸前のハイラルには %d バイトの余力もない（滅亡まであと %d バイト）\n", size,
                      THA_GetSize(&gameState->tha));

@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 u8* sJpegBitStreamPtr;
 u32 sJpegBitStreamByteIdx;
@@ -13,7 +13,7 @@ s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollo
     s16 unk2;
     u32 idx;
     s32 inc;
-    s16 unkCount;
+    u16 unkCount;
 
     JpegHuffmanTable* hTable0;
     JpegHuffmanTable* hTable1;
@@ -86,7 +86,7 @@ s32 JpegDecoder_Decode(JpegDecoder* decoder, u16* mcuBuff, s32 count, u8 isFollo
     return 0;
 }
 
-s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, s16* mcu, s16* unk) {
+s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1, u16* mcu, s16* unk) {
     s8 i = 0;
     s8 zeroCount;
     s16 coeff;
@@ -124,17 +124,11 @@ s32 JpegDecoder_ProcessMcu(JpegHuffmanTable* hTable0, JpegHuffmanTable* hTable1,
     return 0;
 }
 
-#ifdef NON_MATCHING
-// stack usage (coeffLength is stored as a u32 instead of a u8)
-s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, u8* outZeroCount) {
-    u16 buff;
+s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, s8* outZeroCount) {
     u8 codeIdx;
     u8 sym;
-    u8 coeffLength; // 0x26
-    u16 codeOff;    // 0x24
-
-    codeOff = 0;
-    buff = JpegDecoder_ReadBits(16);
+    u16 codeOff = 0;
+    u16 buff = JpegDecoder_ReadBits(16);
 
     for (codeIdx = 0; codeIdx < 16; codeIdx++) {
         if (hTable->codesB[codeIdx] == 0xFFFF) {
@@ -153,23 +147,19 @@ s32 JpegDecoder_ParseNextSymbol(JpegHuffmanTable* hTable, s16* outCoeff, u8* out
 
     sym = hTable->symbols[hTable->codeOffs[codeIdx] + codeOff - hTable->codesA[codeIdx]];
     *outZeroCount = sym >> 4;
-    coeffLength = sym & 0xF; // not using a temp for "sym & 0xF" puts coeffLength on the stack
+    sym &= 0xF;
 
     sJpegBitStreamBitIdx += codeIdx - 15;
     *outCoeff = 0;
-    if (coeffLength) { // (cond != 0) instead of (cond) puts coeffLength on the stack
-        *outCoeff = JpegDecoder_ReadBits(coeffLength);
-        if (*outCoeff < (1 << (coeffLength - 1))) {
-            *outCoeff +=
-                (-1 << coeffLength) + 1; // (*outCoeff -= (1 << coeffLength)-1; makes more sense but doesn't match)
+    if (sym) {
+        *outCoeff = JpegDecoder_ReadBits(sym);
+        if (*outCoeff < (1 << (sym - 1))) {
+            *outCoeff += (-1 << sym) + 1;
         }
     }
 
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/jpegdecoder/JpegDecoder_ParseNextSymbol.s")
-#endif
 
 u16 JpegDecoder_ReadBits(u8 len) {
     u8 byteCount;

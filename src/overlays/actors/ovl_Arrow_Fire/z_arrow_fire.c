@@ -24,7 +24,7 @@ void ArrowFire_Hit(ArrowFire* this, GlobalContext* globalCtx);
 
 const ActorInit Arrow_Fire_InitVars = {
     ACTOR_ARROW_FIRE,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ArrowFire),
@@ -48,8 +48,8 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
     this->unk_158 = 1.0f;
-    ArrowFire_SetupAction(&this->actor, ArrowFire_Charge);
-    Actor_SetScale(this, 0.01f);
+    ArrowFire_SetupAction(this, ArrowFire_Charge);
+    Actor_SetScale(&this->actor, 0.01f);
     this->alpha = 160;
     this->timer = 0;
     this->unk_15C = 0.0f;
@@ -74,14 +74,14 @@ void ArrowFire_Charge(ArrowFire* this, GlobalContext* globalCtx) {
         this->radius += 1;
     }
     // copy position and rotation from arrow
-    this->actor.posRot.pos = arrow->actor.posRot.pos;
+    this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
 
     func_8002F974(&this->actor, NA_SE_PL_ARROW_CHARGE_FIRE - SFX_FLAG);
 
     // if arrow has no parent, player has fired the arrow
     if (arrow->actor.parent == NULL) {
-        this->unkPos = this->actor.posRot.pos;
+        this->unkPos = this->actor.world.pos;
         this->radius = 10;
         ArrowFire_SetupAction(this, ArrowFire_Fly);
         this->alpha = 255;
@@ -157,16 +157,16 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
         return;
     }
     // copy position and rotation from arrow
-    this->actor.posRot.pos = arrow->actor.posRot.pos;
+    this->actor.world.pos = arrow->actor.world.pos;
     this->actor.shape.rot = arrow->actor.shape.rot;
-    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.posRot.pos) * (1.0f / 24.0f);
+    distanceScaled = Math_Vec3f_DistXYZ(&this->unkPos, &this->actor.world.pos) * (1.0f / 24.0f);
     this->unk_158 = distanceScaled;
     if (distanceScaled < 1.0f) {
         this->unk_158 = 1.0f;
     }
-    func_80865ECC(&this->unkPos, &this->actor.posRot.pos, 0.05f);
+    func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
 
-    if (arrow->hitWall & 1) {
+    if (arrow->hitFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
@@ -203,11 +203,11 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
-        tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
+        tranform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
 
-        Matrix_Translate(tranform->posRot.pos.x, tranform->posRot.pos.y, tranform->posRot.pos.z, MTXMODE_NEW);
+        Matrix_Translate(tranform->world.pos.x, tranform->world.pos.y, tranform->world.pos.z, MTXMODE_NEW);
         Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateX(tranform->shape.rot.x * (M_PI / 32768), MTXMODE_APPLY);
         Matrix_RotateZ(tranform->shape.rot.z * (M_PI / 32768), MTXMODE_APPLY);
@@ -215,18 +215,18 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
         // Draw red effect over the screen when arrow hits
         if (this->unk_15C > 0) {
-            oGfxCtx->polyXlu.p = func_800937C0(oGfxCtx->polyXlu.p);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0, 0,
+            POLY_XLU_DISP = func_800937C0(POLY_XLU_DISP);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, (s32)(40.0f * this->unk_15C) & 0xFF, 0, 0,
                             (s32)(150.0f * this->unk_15C) & 0xFF);
-            gDPSetAlphaDither(oGfxCtx->polyXlu.p++, G_AD_DISABLE);
-            gDPSetColorDither(oGfxCtx->polyXlu.p++, G_CD_DISABLE);
-            gDPFillRectangle(oGfxCtx->polyXlu.p++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
+            gDPSetAlphaDither(POLY_XLU_DISP++, G_AD_DISABLE);
+            gDPSetColorDither(POLY_XLU_DISP++, G_CD_DISABLE);
+            gDPFillRectangle(POLY_XLU_DISP++, 0, 0, SCREEN_WIDTH - 1, SCREEN_HEIGHT - 1);
         }
 
         // Draw fire on the arrow
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0x80, 0x80, 255, 200, 0, this->alpha);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 128);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 200, 0, this->alpha);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 128);
         Matrix_RotateRPY(0x4000, 0x0, 0x0, MTXMODE_APPLY);
         if (this->timer != 0) {
             Matrix_Translate(0.0f, 0.0f, 0.0f, MTXMODE_APPLY);
@@ -235,13 +235,13 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
         }
         Matrix_Scale(this->radius * 0.2f, this->unk_158 * 4.0f, this->radius * 0.2f, MTXMODE_APPLY);
         Matrix_Translate(0.0f, -700.0f, 0.0f, MTXMODE_APPLY);
-        gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666),
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 666),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL);
-        gSPDisplayList(oGfxCtx->polyXlu.p++,
+        gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+        gSPDisplayList(POLY_XLU_DISP++,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 255 - (stateFrames * 2) % 256, 0, 64, 32, 1,
                                         255 - stateFrames % 256, 511 - (stateFrames * 10) % 512, 64, 64));
-        gSPDisplayList(oGfxCtx->polyXlu.p++, sVertexDL);
+        gSPDisplayList(POLY_XLU_DISP++, sVertexDL);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 682);
     }

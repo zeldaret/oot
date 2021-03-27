@@ -1,13 +1,11 @@
-#include <global.h>
+#include "global.h"
 
 s32 D_8012CED0 = 0;
 
 s32 sShrinkWindowVal = 0;
-
 s32 sShrinkWindowCurrentVal = 0;
 
 void ShrinkWindow_SetVal(s32 value) {
-
     if (HREG(80) == 0x13 && HREG(81) == 1) {
         osSyncPrintf("shrink_window_setval(%d)\n", value);
     }

@@ -5,7 +5,7 @@
  */
 
 #include "z_oceff_wipe3.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x02000010
 
@@ -18,7 +18,7 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Oceff_Wipe3_InitVars = {
     ACTOR_OCEFF_WIPE3,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe3),
@@ -34,7 +34,7 @@ void OceffWipe3_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe3* this = THIS;
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = ACTIVE_CAM->eye;
     // it's actually WIPE3...
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE2 arg_data = %d\n" VT_RST, this->actor.params);
 }
@@ -51,7 +51,7 @@ void OceffWipe3_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void OceffWipe3_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe3* this = THIS;
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = ACTIVE_CAM->eye;
     if (this->counter < 100) {
         this->counter++;
     } else {
@@ -70,14 +70,14 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
 
     eye = ACTIVE_CAM->eye;
-    func_8005AFB4(&vec, ACTIVE_CAM);
+    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
     if (this->counter < 32) {
-        z = Math_Sins(this->counter << 9) * 1330;
+        z = Math_SinS(this->counter << 9) * 1330;
     } else {
         z = 1330;
     }
 
-    vtxPtr = vertices;
+    vtxPtr = sFrustumVtx;
     if (this->counter >= 80) {
         alpha = 12 * (100 - this->counter);
     } else {
@@ -97,15 +97,15 @@ void OceffWipe3_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 353),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 353),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, 255, 255, 170, 255);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, 100, 200, 0, 128);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64,
-                                                          64, 1, scroll * 8, scroll * (-8), 64, 64));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sFrustrumDl);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 170, 255);
+    gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 128);
+    gSPDisplayList(POLY_XLU_DISP++, sTextureDL);
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 12, scroll * (-12), 64, 64, 1,
+                                                     scroll * 8, scroll * (-8), 64, 64));
+    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe3.c", 370);
 }

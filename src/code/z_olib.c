@@ -1,5 +1,4 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
 
 /**
  * Calculates the distances between `a` and `b`
@@ -76,19 +75,17 @@ Vec3f* OLib_Vec3fDistNormalize(Vec3f* dest, Vec3f* a, Vec3f* b) {
  */
 Vec3f* OLib_VecSphToVec3f(Vec3f* dest, VecSph* sph) {
     Vec3f v;
-    f32 sinPhi;
-    f32 cosPhi;
-    f32 sinTheta;
-    f32 cosTheta;
+    f32 sinPitch;
+    f32 cosPitch = Math_CosS(sph->pitch);
+    f32 sinYaw;
+    f32 cosYaw = Math_CosS(sph->yaw);
 
-    cosPhi = Math_Coss(sph->pitch);
-    cosTheta = Math_Coss(sph->yaw);
-    sinPhi = Math_Sins(sph->pitch);
-    sinTheta = Math_Sins(sph->yaw);
+    sinPitch = Math_SinS(sph->pitch);
+    sinYaw = Math_SinS(sph->yaw);
 
-    v.x = sph->r * sinPhi * sinTheta;
-    v.y = sph->r * cosPhi;
-    v.z = sph->r * sinPhi * cosTheta;
+    v.x = sph->r * sinPitch * sinYaw;
+    v.y = sph->r * cosPitch;
+    v.z = sph->r * sinPitch * cosYaw;
 
     *dest = v;
 
@@ -114,23 +111,20 @@ Vec3f* OLib_VecSphGeoToVec3f(Vec3f* dest, VecSph* sph) {
 VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec) {
     VecSph sph;
 
-    f32 distSquared;
-    f32 dist;
-
-    distSquared = SQ(vec->x) + SQ(vec->z);
-    dist = sqrtf(distSquared);
+    f32 distSquared = SQ(vec->x) + SQ(vec->z);
+    f32 dist = sqrtf(distSquared);
 
     if ((dist == 0.0f) && (vec->y == 0.0f)) {
         sph.pitch = 0;
     } else {
-        sph.pitch = DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(dist, vec->y)));
+        sph.pitch = DEGF_TO_BINANG(RADF_TO_DEGF(Math_FAtan2F(dist, vec->y)));
     }
 
     sph.r = sqrtf(SQ(vec->y) + distSquared);
     if ((vec->x == 0.0f) && (vec->z == 0.0f)) {
         sph.yaw = 0;
     } else {
-        sph.yaw = DEGF_TO_BINANG(RADF_TO_DEGF(Math_atan2f(vec->x, vec->z)));
+        sph.yaw = DEGF_TO_BINANG(RADF_TO_DEGF(Math_FAtan2F(vec->x, vec->z)));
     }
 
     *dest = sph;
@@ -184,8 +178,8 @@ VecSph* OLib_Vec3fDiffToVecSphGeo(VecSph* dest, Vec3f* a, Vec3f* b) {
 Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b) {
     Vec3f anglesRad;
 
-    anglesRad.x = Math_atan2f(b->z - a->z, b->y - a->y);
-    anglesRad.y = Math_atan2f(b->x - a->x, b->z - a->z);
+    anglesRad.x = Math_FAtan2F(b->z - a->z, b->y - a->y);
+    anglesRad.y = Math_FAtan2F(b->x - a->x, b->z - a->z);
     anglesRad.z = 0;
 
     *dest = anglesRad;

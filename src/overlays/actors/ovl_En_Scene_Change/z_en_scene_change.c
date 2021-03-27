@@ -19,7 +19,7 @@ void EnSceneChange_DoNothing(EnSceneChange* this, GlobalContext* globalCtx);
 
 const ActorInit En_Scene_Change_InitVars = {
     ACTOR_EN_SCENE_CHANGE,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_JJ,
     sizeof(EnSceneChange),
@@ -62,7 +62,7 @@ void EnSceneChange_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_scene_change.c", 290);
 
     displayListHead = displayList;
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, displayListHead);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, displayListHead);
 
     func_80093D18(globalCtx->state.gfxCtx);
 

@@ -9,27 +9,27 @@ glabel func_809E7A88
 /* 022C0 809E7A90 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 022C4 809E7A94 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 022C8 809E7A98 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 022CC 809E7A9C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 022CC 809E7A9C 0C02927F */  jal     SkelAnime_Update
               
 /* 022D0 809E7AA0 2484017C */  addiu   $a0, $a0, 0x017C           ## $a0 = 0000017C
 /* 022D4 809E7AA4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 022D8 809E7AA8 860501CA */  lh      $a1, 0x01CA($s0)           ## 000001CA
-/* 022DC 809E7AAC 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 022DC 809E7AAC 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 022E0 809E7AB0 2406071C */  addiu   $a2, $zero, 0x071C         ## $a2 = 0000071C
 /* 022E4 809E7AB4 260401CA */  addiu   $a0, $s0, 0x01CA           ## $a0 = 000001CA
 /* 022E8 809E7AB8 860501CC */  lh      $a1, 0x01CC($s0)           ## 000001CC
-/* 022EC 809E7ABC 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 022EC 809E7ABC 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 022F0 809E7AC0 2406071C */  addiu   $a2, $zero, 0x071C         ## $a2 = 0000071C
 /* 022F4 809E7AC4 260401CC */  addiu   $a0, $s0, 0x01CC           ## $a0 = 000001CC
 /* 022F8 809E7AC8 860501CE */  lh      $a1, 0x01CE($s0)           ## 000001CE
-/* 022FC 809E7ACC 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 022FC 809E7ACC 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 02300 809E7AD0 2406071C */  addiu   $a2, $zero, 0x071C         ## $a2 = 0000071C
 /* 02304 809E7AD4 260401CE */  addiu   $a0, $s0, 0x01CE           ## $a0 = 000001CE
 /* 02308 809E7AD8 860501C8 */  lh      $a1, 0x01C8($s0)           ## 000001C8
-/* 0230C 809E7ADC 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 0230C 809E7ADC 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 02310 809E7AE0 2406071C */  addiu   $a2, $zero, 0x071C         ## $a2 = 0000071C
 /* 02314 809E7AE4 50400010 */  beql    $v0, $zero, .L809E7B28     

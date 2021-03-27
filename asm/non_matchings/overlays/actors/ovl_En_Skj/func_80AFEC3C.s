@@ -43,7 +43,7 @@ glabel func_80AFEC3C
 /* 00A30 80AFECE0 E7B20038 */  swc1    $f18, 0x0038($sp)          
 /* 00A34 80AFECE4 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00A38 80AFECE8 24050001 */  addiu   $a1, $zero, 0x0001         ## $a1 = 00000001
-/* 00A3C 80AFECEC 0C00A729 */  jal     func_80029CA4              
+/* 00A3C 80AFECEC 0C00A729 */  jal     EffectSsHitMark_SpawnFixedScale              
 /* 00A40 80AFECF0 27A60030 */  addiu   $a2, $sp, 0x0030           ## $a2 = FFFFFFF0
 /* 00A44 80AFECF4 860B008A */  lh      $t3, 0x008A($s0)           ## 0000008A
 /* 00A48 80AFECF8 860C0032 */  lh      $t4, 0x0032($s0)           ## 00000032
@@ -66,7 +66,7 @@ glabel func_80AFEC3C
 /* 00A84 80AFED34 AFAD0010 */  sw      $t5, 0x0010($sp)           
 /* 00A88 80AFED38 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 00A8C 80AFED3C 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 00A90 80AFED40 0C00D09B */  jal     func_8003426C              
+/* 00A90 80AFED40 0C00D09B */  jal     Actor_SetColorFilter              
 /* 00A94 80AFED44 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00A98 80AFED48 0C2BFC5B */  jal     func_80AFF16C              
 /* 00A9C 80AFED4C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -81,7 +81,7 @@ glabel func_80AFEC3C
 /* 00AB8 80AFED68 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00ABC 80AFED6C 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 00AC0 80AFED70 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 00AC4 80AFED74 0C00D09B */  jal     func_8003426C              
+/* 00AC4 80AFED74 0C00D09B */  jal     Actor_SetColorFilter              
 /* 00AC8 80AFED78 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 00ACC 80AFED7C 920F00AF */  lbu     $t7, 0x00AF($s0)           ## 000000AF
 /* 00AD0 80AFED80 11E0000E */  beq     $t7, $zero, .L80AFEDBC     

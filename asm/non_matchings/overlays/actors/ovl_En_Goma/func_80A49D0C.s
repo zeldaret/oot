@@ -15,12 +15,12 @@ glabel func_80A49D0C
 /* 00E54 80A49D14 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00E58 80A49D18 AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 00E5C 80A49D1C AFA5004C */  sw      $a1, 0x004C($sp)           
-/* 00E60 80A49D20 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00E60 80A49D20 0C02927F */  jal     SkelAnime_Update
               
 /* 00E64 80A49D24 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00E68 80A49D28 26040068 */  addiu   $a0, $s0, 0x0068           ## $a0 = 00000068
 /* 00E6C 80A49D2C 3C053F80 */  lui     $a1, 0x3F80                ## $a1 = 3F800000
-/* 00E70 80A49D30 0C01E123 */  jal     Math_SmoothDownscaleMaxF
+/* 00E70 80A49D30 0C01E123 */  jal     Math_ApproachZeroF
               
 /* 00E74 80A49D34 3C064000 */  lui     $a2, 0x4000                ## $a2 = 40000000
 /* 00E78 80A49D38 860202CC */  lh      $v0, 0x02CC($s0)           ## 000002CC
@@ -55,7 +55,7 @@ glabel func_80A49D0C
 /* 00EEC 80A49DAC AFA00014 */  sw      $zero, 0x0014($sp)         
 /* 00EF0 80A49DB0 AFB80010 */  sw      $t8, 0x0010($sp)           
 /* 00EF4 80A49DB4 8FA4004C */  lw      $a0, 0x004C($sp)           
-/* 00EF8 80A49DB8 0C00A76F */  jal     func_80029DBC              
+/* 00EF8 80A49DB8 0C00A76F */  jal     EffectSsKFire_Spawn              
 /* 00EFC 80A49DBC E7A60040 */  swc1    $f6, 0x0040($sp)           
 /* 00F00 80A49DC0 860202CC */  lh      $v0, 0x02CC($s0)           ## 000002CC
 .L80A49DC4:
@@ -67,7 +67,7 @@ glabel func_80A49D0C
 /* 00F18 80A49DD8 34E774BC */  ori     $a3, $a3, 0x74BC           ## $a3 = 3B1374BC
 /* 00F1C 80A49DDC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00F20 80A49DE0 3C063F00 */  lui     $a2, 0x3F00                ## $a2 = 3F000000
-/* 00F24 80A49DE4 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 00F24 80A49DE4 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 00F28 80A49DE8 E7A80010 */  swc1    $f8, 0x0010($sp)           
 /* 00F2C 80A49DEC 3C0180A5 */  lui     $at, %hi(D_80A4B92C)       ## $at = 80A50000

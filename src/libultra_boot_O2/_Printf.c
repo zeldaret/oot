@@ -1,12 +1,10 @@
-#include <ultra64.h>
-#include <ultra64/printf.h>
-#include <stdarg.h>
-#include <string.h>
+#include "global.h"
 
 #define ATOI(i, a)                           \
     for (i = 0; *a >= '0' && *a <= '9'; a++) \
         if (i < 999)                         \
             i = *a + i * 10 - '0';
+
 #define _PROUT(fmt, _size)                 \
     if (_size > 0) {                       \
         arg = (void*)pfn(arg, fmt, _size); \
@@ -17,8 +15,8 @@
     }
 #define _PAD(m, src, extracond)      \
     if (extracond && m > 0) {        \
-        int i;                       \
-        int j;                       \
+        s32 i;                       \
+        s32 j;                       \
         for (j = m; j > 0; j -= i) { \
             if ((u32)j > 32)         \
                 i = 32;              \
@@ -33,20 +31,19 @@ char zeroes[] = "00000000000000000000000000000000";
 
 void _Putfld(_Pft*, va_list*, u8, u8*);
 
-s32 _Printf(char* (*pfn)(char*, const char*, size_t), char* arg, const char* fmt, va_list ap) {
+s32 _Printf(PrintCallback pfn, void* arg, const char* fmt, va_list ap) {
     _Pft x;
     x.nchar = 0;
-    while (1) {
-        const u8* s;
-        u8 c;
-        u8* t;
 
-        static const u8 fchar[] = " +-#0";
+    while (true) {
+        static const char fchar[] = " +-#0";
         static const u32 fbit[] = { FLAGS_SPACE, FLAGS_PLUS, FLAGS_MINUS, FLAGS_HASH, FLAGS_ZERO, 0 };
 
+        const u8* s = (u8*)fmt;
+        u8 c;
+        const char* t;
         u8 ac[0x20];
 
-        s = (u8*)fmt;
         while ((c = *s) != 0 && c != '%') {
             s++;
         }
@@ -108,7 +105,6 @@ void _Putfld(_Pft* px, va_list* pap, u8 code, u8* ac) {
     px->n0 = px->nz0 = px->n1 = px->nz1 = px->n2 = px->nz2 = 0;
 
     switch (code) {
-
         case 'c':
             ac[px->n0++] = va_arg(*pap, u32);
             break;
@@ -139,7 +135,6 @@ void _Putfld(_Pft* px, va_list* pap, u8 code, u8* ac) {
 
             _Litob(px, code);
             break;
-
         case 'x':
         case 'X':
         case 'u':
@@ -168,7 +163,6 @@ void _Putfld(_Pft* px, va_list* pap, u8 code, u8* ac) {
             px->s = (char*)&ac[px->n0];
             _Litob(px, code);
             break;
-
         case 'e':
         case 'f':
         case 'g':
@@ -189,7 +183,6 @@ void _Putfld(_Pft* px, va_list* pap, u8 code, u8* ac) {
             px->s = (char*)&ac[px->n0];
             _Ldtob(px, code);
             break;
-
         case 'n':
             if (px->qual == 'h') {
                 *(va_arg(*pap, u16*)) = px->nchar;
@@ -203,11 +196,10 @@ void _Putfld(_Pft* px, va_list* pap, u8 code, u8* ac) {
             break;
 
         case 'p':
-            px->v.ll = (long)va_arg(*pap, void*);
+            px->v.ll = va_arg(*pap, void*);
             px->s = (char*)&ac[px->n0];
             _Litob(px, 'x');
             break;
-
         case 's':
             px->s = va_arg(*pap, char*);
             px->n1 = strlen(px->s);
@@ -215,11 +207,9 @@ void _Putfld(_Pft* px, va_list* pap, u8 code, u8* ac) {
                 px->n1 = px->prec;
             }
             break;
-
         case '%':
             ac[px->n0++] = '%';
             break;
-
         default:
             ac[px->n0++] = code;
             break;
