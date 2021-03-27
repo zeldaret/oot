@@ -161,8 +161,8 @@ void EnJj_Blink(EnJj* this) {
         this->blinkTimer--;
     } else {
         this->eyeIndex++;
-        if (this->eyeIndex >= 3) {
-            this->eyeIndex = 0;
+        if (this->eyeIndex >= JABUJABU_EYE_MAX) {
+            this->eyeIndex = JABUJABU_EYE_OPEN;
             if (this->extraBlinkCounter > 0) {
                 this->extraBlinkCounter--;
             } else {
@@ -298,6 +298,8 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJj_Blink(this);
     SkelAnime_Update(&this->skelAnime);
     Actor_SetScale(&this->dyna.actor, 0.087f);
+    
+    // Head
     this->skelAnime.jointTable[10].z = this->mouthOpenAngle;
 }
 
