@@ -78,7 +78,8 @@ void EnMu_Interact(EnMu* this, GlobalContext* globalCtx) {
 
     if (i == 5) {
         if (this->defFaceReaction == (textIdOffset[randomIndex] | 0x7000)) {
-            if (++randomIndex >= 5) {
+            randomIndex++;
+            if (randomIndex >= 5) {
                 randomIndex = 0;
             }
         }
@@ -126,7 +127,7 @@ void EnMu_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnMu* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 160.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004F70, &D_060003F4, 0, 0, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004F70, &D_060003F4, NULL, NULL, 0);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AB0BD0);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &D_80AB0BFC);
