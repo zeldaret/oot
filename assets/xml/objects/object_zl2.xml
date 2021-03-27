@@ -4,7 +4,7 @@
         <Skeleton Name="gZelda2Skel" Type="Flex" LimbType="Standard" Offset="0x10D70"/>
 
         <!-- Zelda 2 eyes textures -->
-        <Texture Name="gZelda2EyesPalette" OutName="zelda_2_eyes_palette" Format="rgb5a1" Width="16" Height="16" Offset="0x2B00"/>
+        <Texture Name="gZelda2EyesTlut" OutName="zelda_2_eyes_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x2B00"/>
         <Texture Name="gZelda2EyeOpenTex" OutName="zelda_2_eye_open" Format="ci8" Width="32" Height="32" Offset="0x30C8"/>
         <Texture Name="gZelda2EyeHalfTex" OutName="zelda_2_eye_half" Format="ci8" Width="32" Height="32" Offset="0x3C48"/>
         <Texture Name="gZelda2EyeShutTex" OutName="zelda_2_eye_shut" Format="ci8" Width="32" Height="32" Offset="0x4048"/>
@@ -18,7 +18,7 @@
         <Texture Name="gZelda2EyeUnusedTex" OutName="zelda_2_eye_unused" Format="rgb5a1" Width="32" Height="32" Offset="0x600"/>
 
         <!-- Zelda 2 mouth textures -->
-        <Texture Name="gZelda2MouthPalette" OutName="zelda_2_mouth_palette" Format="rgb5a1" Width="16" Height="14" Offset="0x2D90"/>
+        <Texture Name="gZelda2MouthTlut" OutName="zelda_2_mouth_tlut" Format="rgb5a1" Width="16" Height="14" Offset="0x2D90"/>
         <Texture Name="gZelda2MouthSeriousTex" OutName="zelda_2_mouth_serious" Format="ci8" Width="32" Height="32"  Offset="0x3508"/>
         <Texture Name="gZelda2MouthHappyTex" OutName="zelda_2_mouth_happy" Format="ci8" Width="32" Height="32"  Offset="0x5548"/>
         <Texture Name="gZelda2MouthOpenTex" OutName="zelda_2_mouth_open" Format="ci8" Width="32" Height="32"  Offset="0x5948"/>
@@ -28,14 +28,14 @@
         <Texture Name="gZelda2OcarinaTex" OutName="zelda_2_ocarina" Format="rgb5a1" Width="32" Height="16" Offset="0xB598"/>
 
         <!-- Palletes -->
-        <Texture Name="gZelda2Palette0" OutName="zelda_2_palette_0" Format="rgb5a1" Width="16" Height="16" Offset="0x0"/>
-        <Texture Name="gZelda2Palette1" OutName="zelda_2_palette_1" Format="rgb5a1" Width="16" Height="16" Offset="0x200"/>
-        <Texture Name="gZelda2Palette2" OutName="zelda_2_palette_2" Format="rgb5a1" Width="16" Height="16" Offset="0x400"/>
-        <Texture Name="gZelda2Palette3" OutName="zelda_2_palette_3" Format="rgb5a1" Width="9" Height="8" Offset="0x2D00"/>
-        <Texture Name="gZelda2Palette4" OutName="zelda_2_palette_4" Format="rgb5a1" Width="47" Height="4" Offset="0x2F50"/>
-        <Texture Name="gZelda2Palette5" OutName="zelda_2_palette_5" Format="rgb5a1" Width="17" Height="8" Offset="0x9490"/>
-        <Texture Name="gZelda2Palette6" OutName="zelda_2_palette_6" Format="rgb5a1" Width="15" Height="12" Offset="0x95A0"/>
-        <Texture Name="gZelda2Palette7" OutName="zelda_2_palette_7" Format="rgb5a1" Width="6" Height="4" Offset="0x9708"/>
+        <Texture Name="gZelda2_0Tlut" OutName="zelda_2_0_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x0"/>
+        <Texture Name="gZelda2_1Tlut" OutName="zelda_2_1_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x200"/>
+        <Texture Name="gZelda2_2Tlut" OutName="zelda_2_2_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x400"/>
+        <Texture Name="gZelda2_3Tlut" OutName="zelda_2_3_tlut" Format="rgb5a1" Width="9" Height="8" Offset="0x2D00"/>
+        <Texture Name="gZelda2_4Tlut" OutName="zelda_2_4_tlut" Format="rgb5a1" Width="47" Height="4" Offset="0x2F50"/>
+        <Texture Name="gZelda2_5Tlut" OutName="zelda_2_5_tlut" Format="rgb5a1" Width="17" Height="8" Offset="0x9490"/>
+        <Texture Name="gZelda2_6Tlut" OutName="zelda_2_6_tlut" Format="rgb5a1" Width="15" Height="12" Offset="0x95A0"/>
+        <Texture Name="gZelda2_7Tlut" OutName="zelda_2_7_tlut" Format="rgb5a1" Width="6" Height="4" Offset="0x9708"/>
 
         <Texture Name="gZelda2TriforceTex" OutName="zelda_2_triforce" Format="rgb5a1" Width="16" Height="16" Offset="0x2900"/>
     </File>
