@@ -229,7 +229,7 @@ void func_80B2A570(EnViewer* this, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, unkStruct->unk_5 * 100,
                     sActorShadowDrawFunc[unkStruct->actorShadowDrawFuncIndex], unkStruct->unk_7);
     this->drawFuncIndex = unkStruct->drawFuncIndex;
-    sAnimFuncs[this->drawFuncIndex](this, globalCtx, unkStruct->unk_C.normal, unkStruct->unk_10);
+    sAnimFuncs[this->drawFuncIndex](this, globalCtx, unkStruct->skel, unkStruct->unk_10);
     EnViewer_SetupAction(this, func_80B2A75C);
 }
 

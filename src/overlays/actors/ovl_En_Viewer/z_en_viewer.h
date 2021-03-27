@@ -18,11 +18,7 @@ typedef struct {
     /* 0x06 */ u8 actorShadowDrawFuncIndex;
     /* 0x07 */ u8 unk_7;
     /* 0x08 */ u8 drawFuncIndex;
-    /* 0x0C */ union {
-                    void* ptr; // prevents compiler warnings
-                    SkeletonHeader* normal;
-                    FlexSkeletonHeader* flex;
-                } unk_C;
+    /* 0x0C */ void* skel;
     /* 0x10 */ AnimationHeader* unk_10;
 } struct_80B2CEE8; // size = 0x14
 
