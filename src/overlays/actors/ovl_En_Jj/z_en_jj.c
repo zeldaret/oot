@@ -28,7 +28,7 @@ void EnJj_UpdateStaticCollision(Actor* thisx, GlobalContext* globalCtx);
 void EnJj_WaitToOpenMouth(EnJj* this, GlobalContext* globalCtx);
 void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx);
 void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx);
-void func_80A87EF0(EnJj* this, GlobalContext* globalCtx);
+void EnJj_RemoveDust(EnJj* this, GlobalContext* globalCtx);
 
 const ActorInit En_Jj_InitVars = {
     ACTOR_EN_JJ,
@@ -75,12 +75,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_STOP),
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87800.s")
 void EnJj_SetupAction(EnJj* this, EnJjActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/EnJj_Init.s")
 void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnJj* this = THIS;
@@ -138,7 +136,6 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/EnJj_Destroy.s")
 void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnJj* this = THIS;
 
@@ -155,7 +152,6 @@ void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87B1C.s")
 /**
  * Blink routine. Blinks at the end of each randomised blinkTimer cycle. If extraBlinkCounter is not zero, blink that many more times before resuming random blinkTimer cycles. 
  * extraBlinkTotal can be set to a positive number to blink that many extra times at the end of every blinkTimer cycle, but the actor always sets it to zero, so only one multiblink happens when extraBlinkCounter is nonzero.
@@ -177,7 +173,6 @@ void EnJj_Blink(EnJj* this) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87B9C.s")
 void EnJj_OpenMouth(EnJj* this, GlobalContext* globalCtx) {
     DynaPolyActor* bodyCollisionActor = this->bodyCollisionActor;
 
@@ -190,14 +185,12 @@ void EnJj_OpenMouth(EnJj* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87BEC.s")
 void EnJj_WaitToOpenMouth(EnJj* this, GlobalContext* globalCtx) {
     if (this->dyna.actor.xzDistToPlayer < 300.0f) {
         EnJj_SetupAction(this, EnJj_OpenMouth);
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87C30.s")
 void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx) {
     static Vec3f feedingSpot = { -1589.0f, 53.0f, -43.0f };
     Player* player = PLAYER;
@@ -214,14 +207,13 @@ void EnJj_WaitForFish(EnJj* this, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87CEC.s")
 void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx) {
     DynaPolyActor* bodyCollisionActor = this->bodyCollisionActor;
 
     if (this->cutsceneCountdownTimer > 0) {
         this->cutsceneCountdownTimer--;
     } else {
-        EnJj_SetupAction(this, func_80A87EF0);
+        EnJj_SetupAction(this, EnJj_RemoveDust);
         globalCtx->csCtx.segment = &D_80A88164;
         gSaveContext.cutsceneTrigger = 1;
         func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, bodyCollisionActor->bgId);
@@ -231,7 +223,6 @@ void EnJj_BeginCutscene(EnJj* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87D94.s")
 void EnJj_CutsceneUpdate(EnJj* this, GlobalContext* globalCtx) {
     switch (globalCtx->csCtx.npcActions[2]->action) {
         case 1:
@@ -274,8 +265,7 @@ void EnJj_CutsceneUpdate(EnJj* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87EF0.s")
-void func_80A87EF0(EnJj* this, GlobalContext* globalCtx) {
+void EnJj_RemoveDust(EnJj* this, GlobalContext* globalCtx) {
     Actor* dust;
 
     if (!(this->unk_30A & 4)) {
@@ -289,11 +279,9 @@ void func_80A87EF0(EnJj* this, GlobalContext* globalCtx) {
     }
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/func _80A87F44.s")
 void EnJj_UpdateStaticCollision(Actor* thisx, GlobalContext* globalCtx) {
 }
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/EnJj_Update.s")
 void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJj* this = THIS;
 
@@ -319,7 +307,6 @@ static u64* sEyeTextures[] = {
     gJabuJabuEyeClosedTex,
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Jj/EnJj_Draw.s")
 void EnJj_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnJj* this = THIS;
