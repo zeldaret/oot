@@ -39,7 +39,7 @@ def animation_to_xml(var_name,offset):
     return animation_xml.format(var_name,offset.lstrip('0'))
 
 def skeleton_to_xml(var_name,offset, type):
-    skel_type = "Flex" if "Flex" in type else "Standard"
+    skel_type = "Flex" if "Flex" in type else "Normal"
     limb_type = "Standard"
 
     return skeleton_xml.format(var_name, offset.lstrip('0'), skel_type, limb_type)
