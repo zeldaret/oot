@@ -199,8 +199,8 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, 90.0f);
 
-    this->actor.colChkInfo.cylRadius = 0x28;
-    this->actor.colChkInfo.cylHeight = 0x64;
+    this->actor.colChkInfo.cylRadius = 40;
+    this->actor.colChkInfo.cylHeight = 100;
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 45.0f;
     this->actor.colChkInfo.damageTable = D_80864618;
@@ -214,7 +214,7 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitQuad(globalCtx, &this->swordCollider);
     Collider_SetQuad(globalCtx, &this->swordCollider, &this->actor, &D_808645C8);
 
-    this->actor.colChkInfo.mass = 0xFE;
+    this->actor.colChkInfo.mass = MASS_HEAVY;
     this->actor.colChkInfo.health = 10;
 
     slashBlure.p1StartColor[0] = slashBlure.p1StartColor[1] = slashBlure.p1StartColor[2] = slashBlure.p1StartColor[3] =
@@ -781,7 +781,6 @@ void func_80861B94(EnTest* this) {
     }
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861C40.s")
 void func_80861C40(EnTest* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime_188) != 0) {
         if (this->timer == 0) {
