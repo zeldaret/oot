@@ -1,4 +1,6 @@
 #include "z_bg_mizu_movebg.h"
+#include "z64water_temple.h"
+#include "objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -12,8 +14,6 @@ void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx);
 void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx);
 void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx);
 s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId);
-
-void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Mizu_Movebg_InitVars = {
     ACTOR_BG_MIZU_MOVEBG,
@@ -34,11 +34,25 @@ f32 D_8089EB40[] = {
     0.0f,
 };
 Gfx* D_8089EB50[] = {
-    0x06000190, 0x06000680, 0x06000C20, 0x06002E10, 0x06002E10, 0x06002E10, 0x06002E10, 0x060011F0
+    gObjectMizuObjectsMovebgDL_000190,
+    gObjectMizuObjectsMovebgDL_000680,
+    gObjectMizuObjectsMovebgDL_000C20,
+    gObjectMizuObjectsMovebgDL_002E10,
+    gObjectMizuObjectsMovebgDL_002E10,
+    gObjectMizuObjectsMovebgDL_002E10,
+    gObjectMizuObjectsMovebgDL_002E10,
+    gObjectMizuObjectsMovebgDL_0011F0
 };
 
 CollisionHeader* D_8089EB70[] = {
-    0x060003F0, 0x06000998, 0x06000ED0, 0x06003590, 0x06003590, 0x06003590, 0x06003590, 0x060015F8
+    &gObjectMizuObjectsMovebgCol_0003F0,
+    &gObjectMizuObjectsMovebgCol_000998,
+    &gObjectMizuObjectsMovebgCol_000ED0,
+    &gObjectMizuObjectsMovebgCol_003590,
+    &gObjectMizuObjectsMovebgCol_003590,
+    &gObjectMizuObjectsMovebgCol_003590,
+    &gObjectMizuObjectsMovebgCol_003590,
+    &gObjectMizuObjectsMovebgCol_0015F8
 };
 
 InitChainEntry D_8089EB90[] = {
@@ -61,13 +75,13 @@ u8 D_8089EE40;
 s32 func_8089DC30(GlobalContext* globalCtx) {
     s32 result;
 
-    if (Flags_GetSwitch(globalCtx, 0x1C)) {
+    if (Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F1_FLAG)) {
         result = 1;
     }
-    else if (Flags_GetSwitch(globalCtx, 0x1D)) {
+    else if (Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F2_FLAG)) {
         result = 2;
     }
-    else if (Flags_GetSwitch(globalCtx, 0x1E)) {
+    else if (Flags_GetSwitch(globalCtx, WATER_TEMPLE_WATER_F3_FLAG)) {
         result = 3;
     }
     else
@@ -215,29 +229,28 @@ s32 func_8089E108(Path* pathList, Vec3f* pos, s32 pathId, s32 pointId) {
     return 0;
 }
 
-#define BLEND_ASS(v1, v2, f1, f2, cv) (v1 - (s32)((f32)(cv - f1)/ (f2 - f1) * (v1 - v2)))
-
 void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
     f32 waterLevel = globalCtx->colCtx.colHeader->waterBoxes[2].ySurface;
 
-    if (waterLevel < -15) {
+    if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
         this->scrollAlpha1 = 255;
-    } else if (waterLevel < 445) {
-        this->scrollAlpha1 = BLEND_ASS(255, 160, -15, 445, waterLevel);
+    } else if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
+        this->scrollAlpha1 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F1_Y) / (WATER_TEMPLE_WATER_F2_Y - WATER_TEMPLE_WATER_F1_Y) * (255 - 160));
+            
     } else {
         this->scrollAlpha1 = 160;
     }
-    if (waterLevel < 445) {
+    if (waterLevel < WATER_TEMPLE_WATER_F2_Y) {
         this->scrollAlpha2 = 255;
-    } else if (waterLevel < 765) {
-        this->scrollAlpha2 = BLEND_ASS(255, 160, 445, 765, waterLevel);
+    } else if (waterLevel < WATER_TEMPLE_WATER_F3_Y) {
+        this->scrollAlpha2 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_F2_Y) / (WATER_TEMPLE_WATER_F3_Y - WATER_TEMPLE_WATER_F2_Y) * (255 - 160));
     } else {
         this->scrollAlpha2 = 160;
     }
-    if (waterLevel < -835) {
+    if (waterLevel < WATER_TEMPLE_WATER_B1_Y) {
         this->scrollAlpha3 = 255;
-    } else if (waterLevel < -15) {
-        this->scrollAlpha3 = BLEND_ASS(255, 160, -835, -15, waterLevel);
+    } else if (waterLevel < WATER_TEMPLE_WATER_F1_Y) {
+        this->scrollAlpha3 = 255 - (s32)((waterLevel - WATER_TEMPLE_WATER_B1_Y) / (WATER_TEMPLE_WATER_F1_Y - WATER_TEMPLE_WATER_B1_Y) * (255 - 160));
     } else {
         this->scrollAlpha3 = 160;
     }
@@ -274,7 +287,7 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
     case 3:
         phi_f0 = this->unk_168 + D_8089EB40[func_8089DC30(globalCtx)];
         if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
-            if (!(D_8089EE40 & 2) && GetSpeed(this->dyna.actor.params) != 0) { 
+            if (!(D_8089EE40 & 2) && GetSpeed(this->dyna.actor.params) != 0) {
                 D_8089EE40 |= 2;
                 this->unk_17C |= 2;
             }
