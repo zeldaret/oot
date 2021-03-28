@@ -2641,8 +2641,56 @@ void func_80903F38(BossGanon2* this, GlobalContext* globalCtx) {
 void func_80904108(BossGanon2* this, GlobalContext* globalCtx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904108.s")
 
-void func_80904340(BossGanon2* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904340.s")
+void func_80904340(BossGanon2* this, GlobalContext* globalCtx) {
+    s16 i;
+    f32 rand;
+    f32 angle;
+    f32 sin;
+    f32 cos;
+
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5196);
+    Matrix_Push();
+
+    if ((this->unk_330 != 0) || (this->unk_328 != 0)) {
+        if (this->unk_330 != 0) {
+            this->unk_330--;
+        } else {
+            this->unk_328 -= 70;
+
+            if (this->unk_328 < 0) {
+                this->unk_328 = 0;
+            }
+        }
+
+        Math_ApproachF(&this->unk_32C, 0.13f, 1.0f, 0.065f);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 255, this->unk_328);
+        func_808FCF40(this->unk_340 + 1, 0x71AC - this->unk_340, 0x263A);
+        rand = func_808FCF5C();
+        if (1) {}
+
+        for (i = 0; i < 5; i++) {
+            angle = (i * (2 * M_PI / 5)) + (rand * M_PI);
+            sin = 5000.0f * sinf(angle);
+            cos = 5000.0f * cosf(angle);
+            Matrix_Translate(-200.0f + sin, 4786.0f, -200.0f + cos, MTXMODE_NEW);
+            Matrix_Scale(this->unk_32C, this->unk_32C, this->unk_32C, MTXMODE_APPLY);
+            Matrix_RotateY(angle, MTXMODE_APPLY);
+            Matrix_RotateZ((func_808FCF5C() - 0.5f) * 100.0f * 0.01f, MTXMODE_APPLY);
+
+            if (func_808FCF5C() < 0.5f) {
+                Matrix_RotateY(M_PI, MTXMODE_APPLY);
+            }
+
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5250),
+                      G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_8090A6D8));
+        }
+    }
+
+    Matrix_Pop();
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5255);
+}
 
 void func_8090464C(BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
