@@ -722,7 +722,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->unk_3B0.y, player->actor.world.pos.y + 47.0f + 7.0f, 0.1f, 2.0f);
             this->unk_339 = 4;
             if (this->unk_398 == 0xA) {
-                func_80078914(&D_80906D6C, 0x281D);
+                func_80078914(&D_80906D6C, NA_SE_EV_STONE_BOUND);
                 Audio_SetBGM(0x100000FF);
             }
             if (this->unk_398 == 0x14) {
@@ -805,7 +805,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 11:
             this->unk_339 = 5;
-            func_80078884(0x301C);
+            func_80078884(NA_SE_EN_GOMA_LAST - SFX_FLAG);
             player->actor.world.pos.x = 490.0f;
             player->actor.world.pos.y = 1086.0f;
             player->actor.world.pos.z = -166.0f;
@@ -821,10 +821,10 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = ((player->actor.world.pos.y + 200.0f) - 151.0f) - 2.0f;
             this->unk_3B0.z = player->actor.world.pos.z + 2.0f;
             if (this->unk_398 == 0xA) {
-                func_80078914(&D_80906D6C, 0x281D);
+                func_80078914(&D_80906D6C, NA_SE_EV_STONE_BOUND);
             }
             if (this->unk_398 == 0x14) {
-                func_80078884(0x281D);
+                func_80078884(NA_SE_EV_STONE_BOUND);
             }
             if (this->unk_398 == 0x1E) {
                 func_8002DF54(globalCtx, &this->actor, 0x52);
@@ -858,7 +858,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
             }
             if (this->unk_398 == 0x1E) {
-                func_80078884(0x28C2);
+                func_80078884(NA_SE_EV_GRAVE_EXPLOSION);
             }
             if (this->unk_398 >= 0x1E) {
                 Math_ApproachF(&this->actor.world.pos.y, 1289.0f, 0.1f, 10.0f);
