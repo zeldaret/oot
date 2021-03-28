@@ -602,9 +602,9 @@ void EnMm_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     if (limbIndex == 15) {
         Matrix_MultVec3f(&headOffset, &this->actor.focus.pos);
         Matrix_Translate(260.0f, 20.0f, 0.0f, MTXMODE_APPLY);
-        Matrix_RotateY(0.0f, 1);
-        Matrix_RotateX(0.0f, 1);
-        Matrix_RotateZ(2.5132742f, 1);
+        Matrix_RotateY(0.0f, MTXMODE_APPLY);
+        Matrix_RotateX(0.0f, MTXMODE_APPLY);
+        Matrix_RotateZ(2.5132742f, MTXMODE_APPLY);
         Matrix_Translate(-260.0f, 58.0f, 10.0f, MTXMODE_APPLY);
         Matrix_Get(&this->unk_208);
     }
