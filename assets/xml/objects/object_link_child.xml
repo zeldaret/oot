@@ -121,8 +121,10 @@
         
         <!--Textures-->
         <Texture Name="gLinkChildNoseTex" OutName="link_child_nose" Format="ci8" Width="16" Height="16" Offset="0x5000"/>
+        <Texture Name="gLinkChildUnusedHandTex" OutName="link_child_hand_unused" Format="ci8" Width="16" Height="16" Offset="0x5100"/>
         <Texture Name="gLinkChildEarTex" OutName="link_child_ear" Format="ci8" Width="16" Height="16" Offset="0x5200"/>
         <Texture Name="gLinkChildLowerBootTex" OutName="link_child_lower_boot" Format="ci8" Height="16" Width="16" Offset="0x5C00"/>
+        <Texture Name="gLinkChildUnusedBootTex" OutName="link_child_unused_boot" Format="ci8" Height="32" Width="24" Offset="0x5D00"/><!--Unused so hard to verify-->
         <Texture Name="gLinkChildBootTex" OutName="link_child_boot" Format="ci8" Width="32" Height="32" Offset="0x6000"/>
         <Texture Name="gChildLinkWaistTex" OutName="link_child_waist" Format="i8" Width="32" Height="32" Offset="0x6400"/>
         <Texture Name="gLinkChildBeltTex" OutName="link_child_belt" Format="ci8" Width="8" Height="16" Offset="0x6800"/>
@@ -168,7 +170,12 @@
         <Texture Name="gLinkChildGerudoMaskEyeTex" OutName="link_child_gerudo_mask_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x285A0"/>
         <Texture Name="gLinkChildGerudoMaskMouthTex" OutName="link_child_gerudo_mask_mouth" Format="rgb5a1" Width="16" Height="16" Offset="0x28DA0"/>
         <Texture Name="gLinkChildGerudoMaskHairTex" OutName="link_child_gerudo_mask_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x28FA0"/>
-<Texture Name="gLinkChildGerudoMaskNoseTex" OutName="link_child_gerudo_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x291A0"/>
+        <Texture Name="gLinkChildGerudoMaskNoseTex" OutName="link_child_gerudo_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x291A0"/>
+
+        <Texture Name="gLinkChildBunnyHoodEyeTex" OutName="link_child_bunny_hood_eye" Format="rgb5a1" Width="16" Height="16" Offset="0x2BA28"/>
+        <Texture Name="gLinkChildBunnyHoodTex" OutName="link_child_bunny_hood" Format="rgb5a1" Width="16" Height="32" Offset="0x2BC28"/>
+        <Texture Name="gLinkChildBunnyHoodEarTex" OutName="link_child_bunny_hood_ear" Format="rgb5a1" Width="16" Height="32" Offset="0x2C028"/>
+        
         <!--Palettes-->
         <Texture Name="gLinkChildSkinPAL" OutName="link_child_skin_palette" Format="rgb5a1" Width="16" Height="16" Offset="0x5500"/>
         <Texture Name="gLinkChildHandPAL" OutName="link_child_hand_palette" Format="rgb5a1" Width="17" Height="4" Offset="0x9E88"/>
@@ -191,5 +198,30 @@
         <Texture Name="gChildMouthTex2" OutName="link_mouth_2" Format="i8" Width="32" Height="32" Offset="0x4400"/>
         <Texture Name="gChildMouthTex3" OutName="link_mouth_3" Format="i8" Width="32" Height="32" Offset="0x4800"/>
         <Texture Name="gChildMouthTex4" OutName="link_mouth_4" Format="i8" Width="32" Height="32" Offset="0x4C00"/>
+
+        <!--Unused VTX-->
+        <Array Name="gLinkChild_19E08VTX" Count="35" Offset="0x19E08">
+            <Vtx/>
+        </Array>
+        
+        <Array Name="gLinkChild_1A428VTX" Count="39" Offset="0x1A428">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gLinkChild_1AA98VTX" Count="40" Offset="0x1AA98">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gLinkChild_1EB38VTX" Count="39" Offset="0x1EB38">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gLinkChild_1F2B8VTX" Count="39" Offset="0x1F2B8">
+            <Vtx/>
+        </Array>
+
+        <Array Name="gLinkChild_1FA28VTX" Count="62" Offset="0x1FA28">
+            <Vtx/>
+        </Array>
     </File> 
 </Root>

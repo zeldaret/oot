@@ -3359,7 +3359,7 @@ void func_80837B9C(Player* this, GlobalContext* globalCtx) {
     }
 }
 
-LinkAnimationHeader* D_808544B0[] = {
+static LinkAnimationHeader* D_808544B0[] = {
     &gPlayer401Anim, &gPlayer400Anim, &gPlayer349Anim, &gPlayer348Anim,
     &gPlayer399Anim, &gPlayer70Anim,  &gPlayer346Anim, &gPlayer63Anim,
 };
@@ -4470,7 +4470,7 @@ void func_8083A9B8(Player* this, LinkAnimationHeader* anim, GlobalContext* globa
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, anim, 1.3f);
 }
 
-Vec3f D_8085451C = { 0.0f, 0.0f, 100.0f };
+static Vec3f D_8085451C = { 0.0f, 0.0f, 100.0f };
 
 void func_8083AA10(Player* this, GlobalContext* globalCtx) {
     s32 sp5C;
@@ -11811,7 +11811,7 @@ void func_8084E368(Player* this, GlobalContext* globalCtx) {
     func_8084AEEC(this, &this->linearVelocity, 0.0f, this->actor.shape.rot.y);
 }
 
-s16 D_808549D4[] = { 0x0600, 0x04F6, 0x0604, 0x01F1, 0x0568, 0x05F4 };
+static s16 D_808549D4[] = { 0x0600, 0x04F6, 0x0604, 0x01F1, 0x0568, 0x05F4 };
 
 void func_8084E3C4(Player* this, GlobalContext* globalCtx) {
     if (LinkAnimation_Update(globalCtx, &this->skelAnime)) {

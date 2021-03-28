@@ -1,6 +1,11 @@
 <Root>
     <File Name="spot18_scene">
         <Scene Name="spot18_scene">
+            <CutsceneHint Name="gGoronCityDaruniaCorrectCs" Offset="0x59E0"/>
+
+            <CutsceneHint Name="gGoronCityDarunia01Cs" Offset="0x6930"/>
+
+            <CutsceneHint Name="gGoronCityDaruniaWrongCs" Offset="0x7DE0"/>
         </Scene>
     </File>
     <File Name="spot18_room_0">
