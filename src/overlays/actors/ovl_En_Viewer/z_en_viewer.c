@@ -27,12 +27,9 @@ void func_80B2A570(EnViewer* this, GlobalContext* globalCtx);
 void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx);
 
 // sAnimFuncs
-void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                   AnimationHeader* animationSeg);
-void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                   AnimationHeader* animationSeg);
-void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                   AnimationHeader* animationSeg);
+void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* animationSeg);
+void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* animationSeg);
+void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* animationSeg);
 
 // sDrawFuncs
 void func_80B2B4A8(EnViewer* this, GlobalContext* globalCtx);
@@ -164,13 +161,11 @@ void EnViewer_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     func_800A6888(globalCtx, &this->skin);
 }
 
-void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                   AnimationHeader* animationSeg) {
+void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* animationSeg) {
     s16 params = this->actor.params >> 8;
 
     if (params == 2 || params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL,
-                           0);
+        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     } else {
         SkelAnime_Init(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     }
@@ -183,15 +178,13 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeade
     }
 }
 
-void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                   AnimationHeader* animationSeg) {
+void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* animationSeg) {
     SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 3.0f);
 }
 
-void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
-                   AnimationHeader* animationSeg) {
+void func_80B2A4D8(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg, AnimationHeader* animationSeg) {
     u8 params;
 
     func_800A663C(globalCtx, &this->skin, skeletonHeaderSeg, animationSeg);
