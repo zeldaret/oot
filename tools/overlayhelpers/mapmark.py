@@ -4,7 +4,7 @@ import struct
 import sys
 
 NUM_SCENES = 10
-SIMPLIFY_OUTPUT = False # setting to True reduces the final output by ~9k lines
+SIMPLIFY_OUTPUT = True # setting to True reduces the final output by ~9k lines
 MAP_MARK_RAM = 0x80858B70
 MAP_MARK_ROM = 0x00C27940
 gMapMarkDataTable = 0x8085F5E8
@@ -71,7 +71,7 @@ def GetSceneMaps(data, ptr, numMaps):
     return maps
     
 def GetDungeonSymbol(i):
-    return f"mapMark{DUNGEON_NAMES[i][0]}"
+    return f"sMapMark{DUNGEON_NAMES[i][0]}"
     
 def GetDungeonName(i):
     return DUNGEON_NAMES[i][1]
@@ -113,7 +113,7 @@ cstr = HEADER
 for scenemap in scenemaps:
     cstr += f"MapMarkData {GetDungeonSymbol(scenemap[0])}[] = {{\n" 
     for mapId, map in enumerate(scenemap[1]):
-        cstr += IND(1) + f"// {GetDungeonName(scenemap[0])} map {mapId}\n"
+        cstr += IND(1) + f"// {GetDungeonName(scenemap[0])} minimap {mapId}\n"
         cstr += IND(1) + "{\n"
         cstr += IND(2) + "{\n"
         for icon in map:
