@@ -4033,7 +4033,8 @@ endseg
 beginseg
     name "object_zl2"
     romalign 0x1000
-    include "build/baserom/object_zl2.o"
+    include "build/assets/objects/object_zl2/object_zl2.o"
+    number 6
 endseg
 
 beginseg
@@ -5437,13 +5438,15 @@ endseg
 beginseg
     name "object_zl2_anime1"
     romalign 0x1000
-    include "build/baserom/object_zl2_anime1.o"
+    include "build/assets/objects/object_zl2_anime1/object_zl2_anime1.o"
+    number 6
 endseg
 
 beginseg
     name "object_zl2_anime2"
     romalign 0x1000
-    include "build/baserom/object_zl2_anime2.o"
+    include "build/assets/objects/object_zl2_anime2/object_zl2_anime2.o"
+    number 6
 endseg
 
 beginseg
