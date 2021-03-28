@@ -34,15 +34,15 @@ void GameOver_Update(GlobalContext* globalCtx) {
             gSaveContext.timer2State = 0;
             gSaveContext.eventInf[1] &= ~1;
 
-            for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) { // search for spoiling items
+            // search inventory for spoiling items and revert if necessary
+            for (i = 0; i < ARRAY_COUNT(gSpoilingItems); i++) {
                 if (INV_CONTENT(ITEM_POCKET_EGG) == gSpoilingItems[i]) {
-                    INV_CONTENT(gSpoilingItemReverts[i]) =
-                        gSpoilingItemReverts[i]; // if a spoiling item is found, revert it
-                    for (j = 1; j < ARRAY_COUNT(gSaveContext.equips.buttonItems);
-                         j++) { // search c buttons for the found spoiling item
+                    INV_CONTENT(gSpoilingItemReverts[i]) = gSpoilingItemReverts[i];
+
+                    // search c buttons for the found spoiling item and revert if necessary
+                    for (j = 1; j < ARRAY_COUNT(gSaveContext.equips.buttonItems); j++) {
                         if (gSaveContext.equips.buttonItems[j] == gSpoilingItems[i]) {
-                            gSaveContext.equips.buttonItems[j] =
-                                gSpoilingItemReverts[i]; // if found on a c button, revert it
+                            gSaveContext.equips.buttonItems[j] = gSpoilingItemReverts[i];
                             Interface_LoadItemIcon1(globalCtx, j);
                         }
                     }
