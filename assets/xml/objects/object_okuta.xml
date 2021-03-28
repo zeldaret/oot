@@ -20,7 +20,7 @@
         <Texture Name="gOctorokFadeToBlackTex" OutName="fade_to_black" Format="rgb5a1" Width="8" Height="8" Offset="0x30D0"/>
 
         <!-- Octorok Skeleton -->
-        <Skeleton Name="gOctorokSkel" Offset="0x3660"/>
+        <Skeleton Name="gOctorokSkel" Type="Normal" LimbType="Standard" Offset="0x3660"/>
 
         <!-- Projectile -->
         <Texture Name="gOctorokProjectileTex" OutName="projectile" Format="rgb5a1" Width="16" Height="16" Offset="0x3150"/>
