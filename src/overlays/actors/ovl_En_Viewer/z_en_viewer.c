@@ -185,7 +185,7 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeade
 
 void func_80B2A448(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeaderSeg,
                    AnimationHeader* animationSeg) {
-    SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, (FlexSkeletonHeader*)skeletonHeaderSeg, NULL, NULL, NULL, 0);
+    SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->animObjBankIndex].segment);
     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, animationSeg, 3.0f);
 }
