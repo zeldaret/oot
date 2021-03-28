@@ -1458,8 +1458,11 @@ endseg
 beginseg
     name "ovl_Demo_6K"
     include "build/src/overlays/actors/ovl_Demo_6K/z_demo_6k.o"
-    include "build/data/overlays/actors/z_demo_6k.data.o"
+#if NON_MATCHING
+    include "build/src/overlays/actors/ovl_Demo_6K/ovl_Demo_6K_reloc.o"
+#else
     include "build/data/overlays/actors/z_demo_6k.reloc.o"
+#endif
 endseg
 
 beginseg
