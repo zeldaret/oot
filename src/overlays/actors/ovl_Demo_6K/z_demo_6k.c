@@ -359,7 +359,7 @@ void func_80967410(Demo6K* this, GlobalContext* globalCtx) {
         func_809691BC(this, globalCtx, params);
 
         if (globalCtx->csCtx.npcActions[params]->action == 3) {
-            this->flags &= 0xFFFE;
+            this->flags &= ~1;
             func_80967244(this, globalCtx);
         } else {
             this->flags |= 1;
