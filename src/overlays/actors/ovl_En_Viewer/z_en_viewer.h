@@ -8,7 +8,7 @@ struct EnViewer;
 
 typedef void (*EnViewerActionFunc)(struct EnViewer*, GlobalContext*);
 typedef void (*EnViewerDrawFunc)(struct EnViewer*, GlobalContext*);
-typedef void (*EnViewerAnimFunc)(struct EnViewer*, GlobalContext*, SkeletonHeader*, AnimationHeader*);
+typedef void (*EnViewerAnimFunc)(struct EnViewer*, GlobalContext*, void*, AnimationHeader*);
 
 typedef struct {
     /* 0x00 */ s16 objId1;
