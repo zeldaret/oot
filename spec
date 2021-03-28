@@ -4344,7 +4344,8 @@ endseg
 beginseg
     name "object_du"
     romalign 0x1000
-    include "build/baserom/object_du.o"
+    include "build/assets/objects/object_du/object_du.o"
+    number 6
 endseg
 
 beginseg
