@@ -1,5 +1,6 @@
 #include "global.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_link_child/object_link_child.h"
 
 typedef struct {
     /* 0x00 */ u8 flag;
@@ -11,7 +12,7 @@ typedef struct {
     /* 0x04 */ Vec3f pos;
 } BowStringData; // size = 0x10
 
-FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, 0x0602CF6C };
+FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, &gLinkChildSkel };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
     { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
@@ -44,146 +45,160 @@ u8 gPlayerModelTypes[][5] = {
 };
 
 Gfx* D_80125CE8[] = {
-    0x060226E0, 0x06014320, 0x06027690, 0x06016620, 0x060226E0, 0x06014440, 0x06027690, 0x06016740,
-    0x06022970, 0x06014320, 0x06027918, 0x06016620, 0x060241C0, 0x06014320, 0x06028B40, 0x06016620,
+    0x060226E0, gChildRightHandClosedNearDlist,   0x06027690, gChildRightHandClosedFarDlist,
+    0x060226E0, gChildRightFistAndDekuShieldNear, 0x06027690, gChildRightFistAndDekuShieldFar,
+    0x06022970, gChildRightHandClosedNearDlist,   0x06027918, gChildRightHandClosedFarDlist,
+    0x060241C0, gChildRightHandClosedNearDlist,   0x06028B40, gChildRightHandClosedFarDlist,
 };
 
 Gfx* D_80125D28[] = {
-    0x06023160, 0x06015248, 0x06027F00, 0x06017360, 0x06023160, 0x06014D68, 0x06027F00, 0x06016EE8,
-    0x06020A78, 0x060148A8, 0x06025FB8, 0x06016A98, 0x060211B8, 0x06015248, 0x060264F0, 0x06017360,
+    0x06023160, gChildLimbSwordAndSheathNearDlist,         0x06027F00, gChildLimbSwordAndSheathFarDlist,
+    0x06023160, gChildDekuShieldSwordAndSheathNearDlist,   0x06027F00, gChildDekuShieldSwordAndSheathFarDlist,
+    0x06020A78, gChildHylianShieldSwordAndSheathDlistNear, 0x06025FB8, gChildHylianShieldSwordAndSheathDlistFar,
+    0x060211B8, gChildLimbSwordAndSheathNearDlist,         0x060264F0, gChildLimbSwordAndSheathFarDlist,
 };
 
 Gfx* D_80125D68[] = {
-    NULL, NULL, NULL, NULL, NULL, 0x06022688, NULL, 0x06022688,
+    NULL, NULL, NULL, NULL, NULL, gChildDekuShieldWithMatrixDlist, NULL, gChildDekuShieldWithMatrixDlist,
 };
 
 Gfx* D_80125D88[] = {
-    0x060249D8, 0x06015408, 0x06028150, 0x06017500, 0x060249D8, 0x06015010, 0x06028150, 0x06017150,
-    0x06020E70, 0x06014B40, 0x060262B8, 0x06016CF8, 0x060216B0, 0x06015408, 0x06026910, 0x06017500,
-    NULL,       NULL,       NULL,       NULL,       0x060249D8, 0x06022688, 0x060249D8, 0x06022688,
+    0x060249D8, gChildSheathNearDlist,
+    0x06028150, gChildSheathFarDlist,
+    0x060249D8, gChildDekuShieldAndSheathNearDlist,
+    0x06028150, gChildDekuShieldAndSheathFarDlist,
+    0x06020E70, gChildHylianShieldAndSheathNearDlist,
+    0x060262B8, gChildHylianShieldAndSheathFarDlist,
+    0x060216B0, gChildSheathNearDlist,
+    0x06026910, gChildSheathFarDlist,
+    NULL,       NULL,
+    NULL,       NULL,
+    0x060249D8, gChildDekuShieldWithMatrixDlist,
+    0x060249D8, gChildDekuShieldWithMatrixDlist,
 };
 
 Gfx* D_80125DE8[] = {
-    0x060238C8, 0x06015540, 0x060286B8, 0x06015540, 0x06023D50, 0x06015540, 0x060291E8, 0x06015540,
+    0x060238C8, gChildLeftHandHoldingMasterSwordDlist, 0x060286B8, gChildLeftHandHoldingMasterSwordDlist,
+    0x06023D50, gChildLeftHandHoldingMasterSwordDlist, 0x060291E8, gChildLeftHandHoldingMasterSwordDlist,
 };
 
 Gfx* D_80125E08[] = {
     0x06021AA8,
-    0x06013CB0,
+    gChildLimbLeftHandNearDlist,
     0x06026C58,
-    0x06016280,
+    gChildLimbLeftHandFarDlist,
 };
 
 Gfx* D_80125E18[] = {
     0x06021CE8,
-    0x06013E18,
+    gChildLeftFistNearDlist,
     0x06026DF0,
-    0x060163C0,
+    gChildLeftFistFarDlist,
 };
 
 Gfx* D_80125E28[] = {
     0x06021F78,
-    0x06013F38,
+    gChildLeftFistAndKokiriSwordNear,
     0x06027078,
-    0x06017630,
+    gChildLeftFistAndKokiriSwordFar,
 };
 
 Gfx* D_80125E38[] = {
     0x06021F78,
-    0x06013F38,
+    gChildLeftFistAndKokiriSwordNear,
     0x06027078,
-    0x06017630,
+    gChildLeftFistAndKokiriSwordFar,
 };
 
 Gfx* D_80125E48[] = {
     0x06022498,
-    0x060141C0,
+    gChildLimbRightHandNearDlist,
     0x060274F8,
-    0x060164E0,
+    gChildLimbRightHandFarDlist,
 };
 
 Gfx* D_80125E58[] = {
     0x060226E0,
-    0x06014320,
+    gChildRightHandClosedNearDlist,
     0x06027690,
-    0x06016620,
+    gChildRightHandClosedFarDlist,
 };
 
 Gfx* D_80125E68[] = {
     0x06022DA8,
-    0x06015DF0,
+    gChildRightHandHoldingFairySlingshotNearDlist,
     0x06027B88,
-    0x06017D38,
+    gChildRightHandHoldingFairySlingshotFarDlist,
 };
 
 Gfx* D_80125E78[] = {
     0x06023160,
-    0x06015248,
+    gChildLimbSwordAndSheathNearDlist,
     0x06027F00,
-    0x06017360,
+    gChildLimbSwordAndSheathFarDlist,
 };
 
 Gfx* D_80125E88[] = {
     0x060249D8,
-    0x06015408,
+    gChildSheathNearDlist,
     0x06028150,
-    0x06017500,
+    gChildSheathFarDlist,
 };
 
 Gfx* D_80125E98[] = {
     0x06035330,
-    0x060202A8,
+    gChildLimbWaistNearDlist,
     0x0602F530,
-    0x0601AEC8,
+    gChildLimbWaistFarDlist,
 };
 
 Gfx* D_80125EA8[] = {
     0x06022DA8,
-    0x06015DF0,
+    gChildRightHandHoldingFairySlingshotNearDlist,
     0x06027B88,
-    0x06017D38,
+    gChildRightHandHoldingFairySlingshotFarDlist,
 };
 
 Gfx* D_80125EB8[] = {
     0x06024698,
-    0x06015BA8,
+    gChildRightHandHoldingFairyOcarinaNearDlist,
     0x06028F58,
-    0x06017AF0,
+    gChildRightHandHoldingFairyOcarinaFarDlist,
 };
 
 Gfx* D_80125EC8[] = {
     0x06024698,
-    0x06015958,
+    gChildRightHandAndOOTNearDlist,
     0x06028F58,
-    0x060178A0,
+    gChildRightHandHoldingOOTFarDlist,
 };
 
 Gfx* D_80125ED8[] = {
     0x06024D70,
-    0x060141C0,
+    gChildLimbRightHandNearDlist,
     0x06024D70,
-    0x060164E0,
+    gChildLimbRightHandFarDlist,
 };
 
 Gfx* D_80125EE8[] = {
     0x060233E0,
-    0x06013CB0,
+    gChildLimbLeftHandNearDlist,
     0x06028288,
-    0x06016280,
+    gChildLimbLeftHandFarDlist,
 };
 
 Gfx* D_80125EF8[] = {
     0x06021AA8,
-    0x06014660,
+    gChildLeftFistAndBoomerangDlistNear,
     0x06026C58,
-    0x06016908,
+    gChildLeftFistAndBoomerangDlistFar,
 };
 
 Gfx* D_80125F08[] = {
     0x06024B58,
-    0x06015FD0,
+    gChildLeftHandUpNearDlist,
     0x06024B58,
-    0x06015FD0,
+    gChildLeftHandUpNearDlist,
 };
 
 Gfx* D_80125F18[] = {
@@ -198,7 +213,7 @@ Gfx* D_80125F20[] = {
 
 Gfx* D_80125F28[] = {
     0x06036E58,
-    0x06021AE8,
+    gChildLimbLeftShoulderNearDlist,
 };
 
 Gfx* D_80125F30[] = {
@@ -208,7 +223,7 @@ Gfx* D_80125F30[] = {
 
 Gfx* D_80125F38[] = {
     0x0602A248,
-    0x06018048,
+    gChildRightArmStretchedSlingshotDlist,
 };
 
 // Indexed by model types (left hand, right hand, sheath or waist)
@@ -599,11 +614,17 @@ u8 sEyeMouthIndexes[][2] = {
     { 7, 2 }, { 0, 2 }, { 3, 0 }, { 4, 0 }, { 2, 2 }, { 1, 1 }, { 0, 2 }, { 0, 0 },
 };
 
-u8* sEyeTextures[] = {
+/*
+ * The dev who set these up likely knew that these textures would be in the same spot for child and adult link.
+ * Though this works its a problem for mods.
+ * They will be left as addresses until object_link_boy is completed where they will
+ * then have the symbols from adult links object.
+ */
+u64* sEyeTextures[] = {
     0x06000000, 0x06000800, 0x06001000, 0x06001800, 0x06002000, 0x06002800, 0x06003000, 0x06003800,
 };
 
-u8* sMouthTextures[] = {
+u64* sMouthTextures[] = {
     0x06004000,
     0x06004400,
     0x06004800,
@@ -1112,7 +1133,7 @@ f32 sSwordLengths[] = {
     0.0f, 4000.0f, 3000.0f, 5500.0f, 0.0f, 2500.0f,
 };
 
-Gfx* sBottleDLists[] = { 0x0602AD58, 0x06018478 };
+Gfx* sBottleDLists[] = { 0x0602AD58, gChildBottleDlist };
 
 Color_RGB8 sBottleColors[] = {
     { 255, 255, 255 }, { 80, 80, 255 },   { 255, 100, 255 }, { 0, 0, 255 }, { 255, 0, 255 },

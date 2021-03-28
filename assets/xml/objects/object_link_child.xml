@@ -1,0 +1,195 @@
+<Root>
+    <File Name="object_link_child" Segment="6">
+        <Skeleton Name="gLinkChildSkel" Type="Flex" LimbType="LOD" Offset="0x2CF6C"/>
+        
+        <!--Far Limb DLists--> 
+        <DList Name="gChildLimbLeftHandFarDlist" Offset="0x16280"/>   
+        <DList Name="gChildLimbRightHandFarDlist" Offset="0x164E0"/>  
+        <DList Name="gChildLimbSwordAndSheathFarDlist" Offset="0x17360"/>
+        <DList Name="gChildLimbWaistFarDlist"  Offset="0x1AEC8"/>
+        <DList Name="gChildLimbLeftThighFarDlist"  Offset="0x1B0F8"/>
+        <DList Name="gChildLimbLeftShinFarDlist"  Offset="0x1B2B8"/>
+        <DList Name="gChildLimbLeftFootFarDlist"  Offset="0x1B510"/>
+        <DList Name="gChildLimbRightThighFarDlist"  Offset="0x1B638"/>
+        <DList Name="gChildLimbRightShinFarDlist"  Offset="0x1B7F8"/>
+        <DList Name="gChildLimbRightFootFarDlist"  Offset="0x1BA50"/>
+        <DList Name="gChildLimbCollarFarDlist"  Offset="0x1BB78"/>
+        <DList Name="gChildLimbTorsoFarDlist"  Offset="0x1BBD8"/>
+        <DList Name="gChildLimbHeadFarDlist"  Offset="0x1BDA0"/>
+        <DList Name="gChildLimbHatFarDlist"  Offset="0x1C2A8"/>
+        <DList Name="gChildLimbLeftShoulderFarDlist"  Offset="0x1C398"/>
+        <DList Name="gChildLimbLeftForearmFarDlist"  Offset="0x1C558"/>
+        <DList Name="gChildLimbRightShoulderFarDlist"  Offset="0x1C688"/>
+        <DList Name="gChildLimbRightForearmFarDlist" Offset="0x1C848"/>
+        
+        <!--Near Limb DLists-->
+        <DList Name="gChildLimbLeftHandNearDlist" Offset="0x13CB0"/>
+        <DList Name="gChildLimbRightHandNearDlist" Offset="0x141C0"/>
+        <DList Name="gChildLimbSwordAndSheathNearDlist" Offset="0x15248"/>
+        <DList Name="gChildLimbWaistNearDlist"  Offset="0x202A8"/>
+        <DList Name="gChildLimbLeftThighNearDlist"  Offset="0x204F0"/>
+        <DList Name="gChildLimbLeftShinNearDlist"  Offset="0x206E8"/>
+        <DList Name="gChildLimbLeftFootNearDlist"  Offset="0x20978"/>
+        <DList Name="gChildLimbRightThighNearDlist"  Offset="0x20AD8"/>
+        <DList Name="gChildLimbRightShinNearDlist"  Offset="0x20CD0"/>
+        <DList Name="gChildLimbRightFootNearDlist"  Offset="0x20F60"/>
+        <DList Name="gChildLimbCollarNearDlist"  Offset="0x210C0"/>
+        <DList Name="gChildLimbTorsoNearDlist"  Offset="0x21130"/>
+        <DList Name="gChildLimbHeadNearDlist"  Offset="0x21360"/>
+        <DList Name="gChildLimbHatNearDlist"  Offset="0x219B0"/>
+        <DList Name="gChildLimbLeftShoulderNearDlist"  Offset="0x21AE8"/>
+        <DList Name="gChildLimbLeftForearmNearDlist"  Offset="0x21CB8"/>
+        <DList Name="gChildLimbRightShoulderNearDlist"  Offset="0x21E18"/>
+        <DList Name="gChildLimbRightForearmNearDList" Offset="0x21FE8"/>
+        
+        <!--Limbs-->
+        <Limb Name="gChildLink_2CDC8Limb" Type="LOD" Offset="0x2CDC8"/>
+        <Limb Name="gChildLinkWaistLimb" Type="LOD" Offset="0x2CDD8"/>
+        <Limb Name="gChildLink_2CDE8Limb" Type="LOD" Offset="0x2CDE8"/>
+        <Limb Name="gChildLinkLeftThighLimb" Type="LOD" Offset="0x2CDF8"/>
+        <Limb Name="gChildLinkLeftShinLimb" Type="LOD" Offset="0x2CE08"/>
+        <Limb Name="gChildLinkLeftFootLimb" Type="LOD" Offset="0x2CE18"/>
+        <Limb Name="gChildLinkRightThighLimb" Type="LOD" Offset="0x2CE28"/>
+        <Limb Name="gChildLinkRightShinLimb" Type="LOD" Offset="0x2CE38"/>
+        <Limb Name="gChildLinkRightFootLimb" Type="LOD" Offset="0x2CE48"/>
+        <Limb Name="gChildLink_2CE58Limb" Type="LOD" Offset="0x2CE58"/>
+        <Limb Name="gChildLinkHandLimb" Type="LOD" Offset="0x2CE68"/>
+        <Limb Name="gChildLinkHatLimb" Type="LOD" Offset="0x2CE78"/>
+        <Limb Name="gChildLinkCollarLimb" Type="LOD" Offset="0x2CE88"/>
+        <Limb Name="gChildLinkRightSholderLimb" Type="LOD" Offset="0x2CE98"/>
+        <Limb Name="gChildLinkRightForearmLimb" Type="LOD" Offset="0x2CEA8"/>
+        <Limb Name="gChildLinkLeftHandLimb" Type="LOD" Offset="0x2CEB8"/>
+        <Limb Name="gChildLinkLeftSholderLimb" Type="LOD" Offset="0x2CEC8"/>
+        <Limb Name="gChildLinkLeftForearmLimb" Type="LOD" Offset="0x2CED8"/>
+        <Limb Name="gChildLinkRightHandLimb" Type="LOD" Offset="0x2CEE8"/>
+        <Limb Name="gChildLinkSwordAndSheathLimb" Type="LOD" Offset="0x2CEF8"/>
+        <Limb Name="gChildLinkTorsoLimb" Type="LOD" Offset="0x2CF08"/>
+        
+        <!--General DLists-->
+        <DList Name="gChildLinkDekuStickDlist" Offset="0x6CC0"/>
+        <DList Name="gChildLeftHandHoldingMasterSwordDlist" Offset="0x15540"/>
+        <DList Name="gChildLinkGoronBraceletDlist" Offset="0x16118"/>
+        
+        <!--Body Parts not used in Limbs-->
+        <DList Name="gChildLeftFistNearDlist" Offset="0x13E18"/>
+        <DList Name="gChildRightHandClosedNearDlist" Offset="0x14320"/>
+        <DList Name="gChildRightHandClosedFarDlist" Offset="0x16620"/>
+        <DList Name="gChildLeftFistFarDlist" Offset="0x163C0"/>
+        <DList Name="gChildLeftFistAndKokiriSwordNear" Offset="0x13F38"/>
+        <DList Name="gChildLeftFistAndKokiriSwordFar" Offset="0x17630"/>
+        <DList Name="gChildRightFistAndDekuShieldNear" Offset="0x14440"/>
+        <DList Name="gChildRightFistAndDekuShieldFar" Offset="0x16740"/>
+        <DList Name="gChildLeftFistAndBoomerangDlistNear" Offset="0x14660"/>
+        <DList Name="gChildLeftFistAndBoomerangDlistFar" Offset="0x16908"/>
+        <DList Name="gChildHylianShieldSwordAndSheathDlistNear" Offset="0x148A8"/>
+        <DList Name="gChildHylianShieldSwordAndSheathDlistFar" Offset="0x16A98"/>
+        <DList Name="gChildHylianShieldAndSheathNearDlist" Offset="0x14B40"/>
+        <DList Name="gChildHylianShieldAndSheathFarDlist" Offset="0x16CF8"/>
+        <DList Name="gChildDekuShieldSwordAndSheathNearDlist" Offset="0x14D68"/>
+        <DList Name="gChildDekuShieldSwordAndSheathFarDlist" Offset="0x16EE8"/>
+        <DList Name="gChildDekuShieldAndSheathNearDlist" Offset="0x15010"/>
+        <DList Name="gChildDekuShieldAndSheathFarDlist" Offset="0x17150"/>
+        <DList Name="gChildSheathNearDlist" Offset="0x15408"/>
+        <DList Name="gChildSheathFarDlist" Offset="0x17500"/>
+        <DList Name="gChildRightHandAndOOTNearDlist" Offset="0x15958"/>
+        <DList Name="gChildRightHandHoldingOOTFarDlist" Offset="0x178A0"/>
+        <DList Name="gChildRightHandHoldingFairyOcarinaNearDlist" Offset="0x15BA8"/>
+        <DList Name="gChildRightHandHoldingFairyOcarinaFarDlist" Offset="0x17AF0"/>
+        <DList Name="gChildRightHandHoldingFairySlingshotNearDlist" Offset="0x15DF0"/>
+        <DList Name="gChildRightHandHoldingFairySlingshotFarDlist" Offset="0x17D38"/>
+        <DList Name="gChildLeftHandUpNearDlist" Offset="0x15FD0"/>
+        <DList Name="gChildLeftHandUpFarDlist" Offset="0x17F00"/>
+
+        <DList Name="gChildRightArmStretchedSlingshotDlist" Offset="0x18048"/>
+        <DList Name="gChildBottleDlist" Offset="0x18478"/>
+        <DList Name="gCHild_18580Dlist" Offset="0x18580"/>
+        <DList Name="gChildBottle2Dlist" Offset="0x18648"/>
+        <DList Name="gChildSlinghotStringDlist" Offset="0x221A8"/>
+        <DList Name="gChildDekuShieldDlist" Offset="0x224F8"/>
+        <Blob Name="gChildDekuShieldMtx" Size="0x40" Offset="0x22648"/><!--TODO make this a matrix when ZAPD can extract them-->
+        <DList Name="gChildDekuShieldWithMatrixDlist" Offset="0x22688"/>
+        
+        <!--Masks-->
+        <DList Name="gChildSkullMaskDlist" Offset="0x2AD40"/>
+        <DList Name="gChildSpookyMaskDlist" Offset="0x2AF70"/>
+        <DList Name="gChildKeatonMaskDlist" Offset="0x2B060"/>
+        <DList Name="gChildMaskOfTruthDlist" Offset="0x2B1F0"/>
+        <DList Name="gChildGoronMaskDlist" Offset="0x2B350"/>
+        <DList Name="gChildZoraMaskDlist" Offset="0x2B580"/>
+        <DList Name="gChildGerudoMaskDlist" Offset="0x2B788"/>
+        <DList Name="gChildBunnyHoodDlist" Offset="0x2CA38"/>
+        
+        <!--Textures-->
+        <Texture Name="gLinkChildNoseTex" OutName="link_child_nose" Format="ci8" Width="16" Height="16" Offset="0x5000"/>
+        <Texture Name="gLinkChildEarTex" OutName="link_child_ear" Format="ci8" Width="16" Height="16" Offset="0x5200"/>
+        <Texture Name="gLinkChildLowerBootTex" OutName="link_child_lower_boot" Format="ci8" Height="16" Width="16" Offset="0x5C00"/>
+        <Texture Name="gLinkChildBootTex" OutName="link_child_boot" Format="ci8" Width="32" Height="32" Offset="0x6000"/>
+        <Texture Name="gChildLinkWaistTex" OutName="link_child_waist" Format="i8" Width="32" Height="32" Offset="0x6400"/>
+        <Texture Name="gLinkChildBeltTex" OutName="link_child_belt" Format="ci8" Width="8" Height="16" Offset="0x6800"/>
+        <Texture Name="gLinkChildBeltClaspTex" OutName="link_child_belt_clasp" Format="ci8" Width="32" Height="16" Offset="0x6880"/>
+        <Texture Name="gLinkChildFairyOcarinaTex" OutName="link_child_fairy_ocarina" Format="rgb5a1" Width="32" Height="16" Offset="0x6E08"/>
+        <Texture Name="gLinkChildDekuShieldBackTex" OutName="link_child_deku_shield_back" Format="rgb5a1" Height="32" Width="32" Offset="0x7688"/>
+        <Texture Name="gLinkChildDekuShieldFrontTex" OutName="link_child_deku_shield_front" Format="rgb5a1" Height="32" Width="64" Offset="0x7E88"/>
+        <Texture Name="gLinkChildHylianShieldBackTex" OutName="link_child_hylian_shield_back" Format="rgb5a1" Height="32" Width="16" Offset="0x8E88"/>
+        <Texture Name="gLinkChildSlingshotTex" OutName="link_child_slingshot" Format="rgb5a1" Width="16" Height="32" Offset="0x9288"/>
+        <Texture Name="gLinkChildSlingshotSeedTex" Outname="link_child_slingshot_seed" Format="rgb5a1" Width="32" Height="32" Offset="0x9688"/>
+        <Texture Name="gChildHandTex" OutName="link_child_hand" Format="ci8" Width="16" Height="16" Offset="0xA1F0"/>
+        <Texture Name="gLinkChildKokiriSwordSheathTex" OutName="link_child_kokiri_sword_sheath" Format="ci8" Height="16" Width="16" Offset="0xA2F0"/>
+        <Texture Name="gChildSwordJewelTex" OutName="link_child_sword_jewel" Format="ci8" Width="32" Height="16" Offset="0xA3F0"/>
+        <Texture Name="gLinkChildMasterSwordPommelTex" OutName="link_child_master_sword_pommel" Format="ci8" Height="16" Width="16" Offset="0xA5F0"/>
+        <Texture Name="gLinkChildMasterSwordGuardTex" OutName="link_child_master_sword_guard" Format="ci8" Height="32" Width="32" Offset="0xA6F0"/>
+        <Texture Name="gLinkChildMasterSwordEmblemTex" OutName="link_child_master_sword_emblem" Format="ci8" Height="16" Width="16" Offset="0xAAF0"/>
+        <Texture Name="gLinkChildGoronBracletTex" OutName="link_child_goron_braclet" Format="rgb5a1" Width="8" Height="8" Offset="0x7208"/>
+        <Texture Name="gLinkChildGoronSymbolTex" Outname="link_child_goron_symbol" Format="ia16" Width="16" Height="32" Offset="0x7288"/>
+
+        <Texture Name="gLinkChildSkullMaskTeethTex" OutName="link_child_skull_mask_teeth" Format="rgb5a1" Width="8" Height="8" Offset="0x26BA0"/>
+        <Texture Name="gLinkChildSkullMaskNoseTex" OutName="link_child_skull_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x27520"/>
+        <Texture Name="gLinkChildSkullMaskEyeTex" OutName="link_child_skull_mask_eye" Format="rgb5a1" Width="16" Height="16" Offset="0x23B20"/>
+        
+        <Texture Name="gLinkChildSpookyMaskTex" OutName="link_child_spooky_mask" Format="ia16" Width="32" Height="64" Offset="0x226A0"/>
+        
+        <Texture Name="gLinkChildKeatonMaskEyeBrowTex" OutName="link_child_keaton_mask_eye_brow" Format="rgb5a1" Width="32" Height="16" Offset="0x236A0"/>
+        <Texture Name="gLinkChildKeatonMaskEarTex" OutName="link_child_keaton_mask_ear" Format="rgb5a1" Width="8" Height="8" Offset="0x23AA0"/>
+
+        <Texture Name="gLinkChildMaskOfTruthCurveTex" OutName="link_child_mask_of_truth_curves" Format="rgb5a1" Width="16" Height="32" Offset="0x24D20"/>
+        <Texture Name="gLinkChildMaskOfTruthTex" OutName="link_child_mask_of_truth" Format="rgb5a1" Width="32" Height="64" Offset="0x23D20"/>
+        
+        <Texture Name="gLinkChildGoronMaskMouthTex" OutName="link_child_goron_mask_mouth" Format="rgb5a1" Width="64" Height="32" Offset="0x25120"/>
+        <Texture Name="gLinkChildGoronMaskEyeTex" OutName="link_child_goron_mask_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x26120"/>
+        <Texture Name="gLinkChildGoronMaskNoseTex" OutName="link_child_goron_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x26920"/>
+        <Texture Name="gLinkChildGoronMaskHairTex" OutName="link_child_goron_mask_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x269A0"/>
+        <Texture Name="gLinkChildGoronMaskEarTex" OutName="link_child_goron_mask_ear" Format="rgb5a1" Width="8" Height="8" Offset="0x26C20"/><!--TODO verify this-->
+
+        <Texture Name="gLinkChildZoraMaskEyeBoarderTex" OutName="link_child_zora_mask_eye_boarder" Format="rgb5a1" Width="8" Height="8" Offset="0x26CA0"/>
+        <Texture Name="gLinkChildZoraMaskEarTex" OutName="link_child_zora_mask_ear" Format="rgb5a1" Width="32" Height="32" Offset="0x26D20"/>
+        <Texture Name="gLinkChildZoraMaskEyeTex" OutName="link_child_zora_mask_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x275A0"/>
+        <Texture Name="gLinkChildZoraMaskMouthTex" OutName="link_child_zora_mask_mouth" Format="rgb5a1" Width="32" Height="32" Offset="0x27DA0"/>
+
+        <Texture Name="gLinkChildGerudoMaskEyeTex" OutName="link_child_gerudo_mask_eye" Format="rgb5a1" Width="32" Height="32" Offset="0x285A0"/>
+        <Texture Name="gLinkChildGerudoMaskMouthTex" OutName="link_child_gerudo_mask_mouth" Format="rgb5a1" Width="16" Height="16" Offset="0x28DA0"/>
+        <Texture Name="gLinkChildGerudoMaskHairTex" OutName="link_child_gerudo_mask_hair" Format="rgb5a1" Width="16" Height="16" Offset="0x28FA0"/>
+<Texture Name="gLinkChildGerudoMaskNoseTex" OutName="link_child_gerudo_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x291A0"/>
+        <!--Palettes-->
+        <Texture Name="gLinkChildSkinPAL" OutName="link_child_skin_palette" Format="rgb5a1" Width="16" Height="16" Offset="0x5500"/>
+        <Texture Name="gLinkChildHandPAL" OutName="link_child_hand_palette" Format="rgb5a1" Width="17" Height="4" Offset="0x9E88"/>
+        <Texture Name="gLinkChildSwordsPAL" OutName="link_child_swords_palette" Format="rgb5a1" Width="20" Height="13" Offset="0x9F10"/> <!--For both the kokiri sword sheath and master sword-->
+        <Texture Name="gLinkChildSwordPAL" OutName="link_child_sword_palette" Format="rgb5a1" Width="27" Height="4" Offset="0xA118"/>
+        <Texture Name="gLinkChildBeltPAL" OutName="link_child_belt_palette" Format="rgb5a1" Width="16" Height="16" Offset="0x5300"/>
+        
+        <!--Eyes-->
+        <Texture Name="gChildEyesOpenTex" OutName="link_child_eyes_open" Format="i8" Width="64" Height="32" Offset="0x0000"/>
+        <Texture Name="gChildEyesHalfTex" OutName="link_child_eyes_half" Format="i8" Width="64" Height="32" Offset="0x0800"/>
+        <Texture Name="gChildEyesClosedfTex" OutName="link_child_eyes_closed" Format="i8" Width="64" Height="32" Offset="0x1000"/>
+        <Texture Name="gChildEyesRollLeft" OutName="link_child_eyes_roll_left" Format="i8" Width="64" Height="32" Offset="0x1800"/><!--Left from links perspective-->
+        <Texture Name="gChildEyesRollRight" OutName="link_child_eyes_roll_right" Format="i8" Width="64" Height="32" Offset="0x2000"/><!--Right from links perspective-->
+        <Texture Name="gChildEyesShock" OutName="link_child_eyes_shock" Format="i8" Width="64" Height="32" Offset="0x2800"/>
+        <Texture Name="gChildEyesUnk1" OutName="link_child_eyes_unk_1" Format="i8" Width="64" Height="32" Offset="0x3000"/>
+        <Texture Name="gChildEyesUnk2" OutName="link_child_eyes_unk_2" Format="i8" Width="64" Height="32" Offset="0x3800"/>
+        
+        <!--Mouth-->
+        <Texture Name="gChildMouthTex1" OutName="link_mouth_1" Format="i8" Width="32" Height="32" Offset="0x4000"/>
+        <Texture Name="gChildMouthTex2" OutName="link_mouth_2" Format="i8" Width="32" Height="32" Offset="0x4400"/>
+        <Texture Name="gChildMouthTex3" OutName="link_mouth_3" Format="i8" Width="32" Height="32" Offset="0x4800"/>
+        <Texture Name="gChildMouthTex4" OutName="link_mouth_4" Format="i8" Width="32" Height="32" Offset="0x4C00"/>
+    </File> 
+</Root>
