@@ -4,9 +4,9 @@
 ; git-subrepo command. See https://github.com/git-commands/git-subrepo#readme
 ;
 [subrepo]
-	remote = https://github.com/zeldaret/ZAPD.git
+	remote = https://github.com/glankk/libgfxd.git
 	branch = master
-	commit = c4773301a17a5a9f9c964a3e7ba6dfbf0730a94b
-	parent = 97f80eeb3f79bafac383fa6dd17765ae291e05d7
+	commit = 2f00ff7dff14ae44c12ed421be54b9fec815541b
+	parent = a43a526c4296d7dc48852f6017fe069724465494
 	method = merge
 	cmdver = 0.4.3

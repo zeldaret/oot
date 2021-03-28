@@ -892,8 +892,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Shelter"
     include "build/src/overlays/actors/ovl_Bg_Ice_Shelter/z_bg_ice_shelter.o"
-    include "build/data/overlays/actors/z_bg_ice_shelter.data.o"
-    include "build/data/overlays/actors/z_bg_ice_shelter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Shelter/ovl_Bg_Ice_Shelter_reloc.o"
 endseg
 
 beginseg
@@ -1458,8 +1457,11 @@ endseg
 beginseg
     name "ovl_Demo_6K"
     include "build/src/overlays/actors/ovl_Demo_6K/z_demo_6k.o"
-    include "build/data/overlays/actors/z_demo_6k.data.o"
+#if NON_MATCHING
+    include "build/src/overlays/actors/ovl_Demo_6K/ovl_Demo_6K_reloc.o"
+#else
     include "build/data/overlays/actors/z_demo_6k.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2522,9 +2524,11 @@ endseg
 beginseg
     name "ovl_En_Jsjutan"
     include "build/src/overlays/actors/ovl_En_Jsjutan/z_en_jsjutan.o"
-    include "build/data/overlays/actors/z_en_jsjutan.data.o"
-    include "build/data/overlays/actors/z_en_jsjutan.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Jsjutan/ovl_En_Jsjutan_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_jsjutan.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2667,8 +2671,7 @@ endseg
 beginseg
     name "ovl_En_Mu"
     include "build/src/overlays/actors/ovl_En_Mu/z_en_mu.o"
-    include "build/data/overlays/actors/z_en_mu.data.o"
-    include "build/data/overlays/actors/z_en_mu.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Mu/ovl_En_Mu_reloc.o"
 endseg
 
 beginseg
@@ -3383,8 +3386,7 @@ endseg
 beginseg
     name "ovl_Obj_Mure3"
     include "build/src/overlays/actors/ovl_Obj_Mure3/z_obj_mure3.o"
-    include "build/data/overlays/actors/z_obj_mure3.data.o"
-    include "build/data/overlays/actors/z_obj_mure3.reloc.o"
+    include "build/src/overlays/actors/ovl_Obj_Mure3/ovl_Obj_Mure3_reloc.o"
 endseg
 
 beginseg
@@ -3693,7 +3695,8 @@ endseg
 beginseg
     name "object_horse_normal"
     romalign 0x1000
-    include "build/baserom/object_horse_normal.o"
+    include "build/assets/objects/object_horse_normal/object_horse_normal.o"
+    number 6
 endseg
 
 beginseg
@@ -3730,7 +3733,8 @@ endseg
 beginseg
     name "object_horse_ganon"
     romalign 0x1000
-    include "build/baserom/object_horse_ganon.o"
+    include "build/assets/objects/object_horse_ganon/object_horse_ganon.o"
+    number 6
 endseg
 
 beginseg
@@ -3877,7 +3881,8 @@ endseg
 beginseg
     name "object_horse_zelda"
     romalign 0x1000
-    include "build/baserom/object_horse_zelda.o"
+    include "build/assets/objects/object_horse_zelda/object_horse_zelda.o"
+    number 6
 endseg
 
 beginseg
@@ -4034,7 +4039,8 @@ endseg
 beginseg
     name "object_zl2"
     romalign 0x1000
-    include "build/baserom/object_zl2.o"
+    include "build/assets/objects/object_zl2/object_zl2.o"
+    number 6
 endseg
 
 beginseg
@@ -4342,7 +4348,8 @@ endseg
 beginseg
     name "object_du"
     romalign 0x1000
-    include "build/baserom/object_du.o"
+    include "build/assets/objects/object_du/object_du.o"
+    number 6
 endseg
 
 beginseg
@@ -4354,7 +4361,8 @@ endseg
 beginseg
     name "object_horse_link_child"
     romalign 0x1000
-    include "build/baserom/object_horse_link_child.o"
+    include "build/assets/objects/object_horse_link_child/object_horse_link_child.o"
+    number 6
 endseg
 
 beginseg
@@ -5439,13 +5447,15 @@ endseg
 beginseg
     name "object_zl2_anime1"
     romalign 0x1000
-    include "build/baserom/object_zl2_anime1.o"
+    include "build/assets/objects/object_zl2_anime1/object_zl2_anime1.o"
+    number 6
 endseg
 
 beginseg
     name "object_zl2_anime2"
     romalign 0x1000
-    include "build/baserom/object_zl2_anime2.o"
+    include "build/assets/objects/object_zl2_anime2/object_zl2_anime2.o"
+    number 6
 endseg
 
 beginseg
