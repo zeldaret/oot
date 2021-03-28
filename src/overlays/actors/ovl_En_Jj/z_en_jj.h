@@ -11,8 +11,8 @@ typedef void (*EnJjActionFunc)(struct EnJj*, GlobalContext*);
 typedef struct EnJj {
     /* 0x0000 */ DynaPolyActor dyna;
     /* 0x0164 */ SkelAnime skelAnime;
-    /* 0x01A8 */ Vec3s limbDrawTable[22];
-    /* 0x022C */ Vec3s transitionDrawTable[22];
+    /* 0x01A8 */ Vec3s jointTable[22];
+    /* 0x022C */ Vec3s morphTable[22];
     /* 0x02B0 */ ColliderCylinder collider;
     /* 0x02FC */ EnJjActionFunc actionFunc;
     /* 0x0300 */ DynaPolyActor* bodyCollisionActor;

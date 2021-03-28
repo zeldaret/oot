@@ -26,6 +26,7 @@
         <DList Name="gJabuJabuFlukeDL" Offset="0x44A0"/>
         
         <!-- Jabu Jabu limbs -->
+        <!-- Only limbs with attached dLists are included for now; others are indicated by spaces -->
 
 
 

@@ -89,8 +89,8 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     switch (this->dyna.actor.params) {
         case JABUJABU_MAIN:
-            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gJabuJabuSkel, &gJabuJabuAnim, this->limbDrawTable,
-                               this->transitionDrawTable, 22);
+            SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gJabuJabuSkel, &gJabuJabuAnim, this->jointTable,
+                               this->morphTable, 22);
             Animation_PlayLoop(&this->skelAnime, &gJabuJabuAnim);
             this->unk_30A = 0;
             this->eyeIndex = 0;
@@ -106,7 +106,8 @@ void EnJj_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
             this->bodyCollisionActor = (DynaPolyActor*)Actor_SpawnAsChild(
                 &globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EN_JJ, this->dyna.actor.world.pos.x - 10.0f,
-                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0, JABUJABU_COLLISION);
+                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, this->dyna.actor.world.rot.y, 0,
+                JABUJABU_COLLISION);
             DynaPolyActor_Init(&this->dyna, 0);
             CollisionHeader_GetVirtual(&gJabuJabuHeadCol, &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -144,7 +145,7 @@ void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
             DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
             Collider_DestroyCylinder(globalCtx, &this->collider);
             break;
-            
+
         case JABUJABU_COLLISION:
         case JABUJABU_UNUSED_COLLISION:
             DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
@@ -153,8 +154,10 @@ void EnJj_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 /**
- * Blink routine. Blinks at the end of each randomised blinkTimer cycle. If extraBlinkCounter is not zero, blink that many more times before resuming random blinkTimer cycles. 
- * extraBlinkTotal can be set to a positive number to blink that many extra times at the end of every blinkTimer cycle, but the actor always sets it to zero, so only one multiblink happens when extraBlinkCounter is nonzero.
+ * Blink routine. Blinks at the end of each randomised blinkTimer cycle. If extraBlinkCounter is not zero, blink that
+ * many more times before resuming random blinkTimer cycles. extraBlinkTotal can be set to a positive number to blink
+ * that many extra times at the end of every blinkTimer cycle, but the actor always sets it to zero, so only one
+ * multiblink happens when extraBlinkCounter is nonzero.
  */
 void EnJj_Blink(EnJj* this) {
     if (this->blinkTimer > 0) {
@@ -240,7 +243,7 @@ void EnJj_CutsceneUpdate(EnJj* this, GlobalContext* globalCtx) {
 
             if (!(this->unk_30A & 8)) {
                 this->dust = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_EFF_DUST,
-                                                   -1100.0f, 105.0f, -27.0f, 0, 0, 0, EFF_DUST_TYPE_0);
+                                                -1100.0f, 105.0f, -27.0f, 0, 0, 0, EFF_DUST_TYPE_0);
                 this->unk_30A |= 8;
             }
             break;
@@ -298,7 +301,7 @@ void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJj_Blink(this);
     SkelAnime_Update(&this->skelAnime);
     Actor_SetScale(&this->dyna.actor, 0.087f);
-    
+
     // Head
     this->skelAnime.jointTable[10].z = this->mouthOpenAngle;
 }
