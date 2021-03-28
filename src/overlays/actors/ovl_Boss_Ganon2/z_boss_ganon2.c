@@ -1929,7 +1929,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 >= 0x5B) {
                 Math_ApproachF(&this->unk_380, 0.25f, 1.0f, 0.0125f);
                 this->unk_37C = 200.0f;
-                func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
+                func_80078884(NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
             }
             if (this->unk_398 >= 0x6E) {
                 if (this->unk_398 == 0x6E) {
@@ -1943,15 +1943,14 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 func_8002DF54(globalCtx, &this->actor, 0x63);
             }
             this->actor.world.rot.y = 0x4000;
-            this->actor.world.pos.z = 0.0f;
-            this->actor.world.pos.x = 0.0f;
+            this->actor.world.pos.x = this->actor.world.pos.z = 0.0f;
             player->actor.shape.rot.y = -0x4000;
             player->actor.world.pos.x = 200.0f;
             player->actor.world.pos.z = 30.0f;
             D_8090EB2C->actor.world.pos.x = 340.0f;
             D_8090EB2C->actor.world.pos.z = -250.0f;
             D_8090EB2C->actor.world.rot.y = D_8090EB2C->actor.shape.rot.y = -0x2000;
-            this->unk_3A4.x = 250.0f;
+            this->unk_3A4.x = 250;
             this->unk_3A4.y = 1150.0f;
             this->unk_3A4.z = 0.0f;
             this->unk_3B0.x = this->unk_1B8.x;
@@ -1965,8 +1964,8 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
         case 2:
             this->unk_339 = 0x16;
             Math_ApproachF(&globalCtx->envCtx.unk_D8, 1.0f, 1.0f, 0.1f);
-            func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
-            this->unk_3A4.x = 250.0f;
+            func_80078884(NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
+            this->unk_3A4.x = 250;
             this->unk_3A4.y = 1150.0f;
             this->unk_3A4.z = 0.0f;
             Math_ApproachF(&this->unk_3B0.x, D_8090EB2C->actor.world.pos.x, 0.2f, 20.0f);
@@ -1979,7 +1978,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 3:
             this->unk_339 = 0x16;
-            func_80078884(NA_SE_EV_TIMETRIP_LIGHT);
+            func_80078884(NA_SE_EV_TIMETRIP_LIGHT - SFX_FLAG);
             this->unk_3A4.x = 330.0f;
             this->unk_3A4.y = 1120.0f;
             this->unk_3A4.z = -150.0f;
@@ -2158,7 +2157,7 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_398 = 0;
                 this->unk_194 = 1000.0f;
             }
-            this->unk_3A4.x = 250.0f;
+            this->unk_3A4.x = 250;
             this->unk_3A4.y = 1150.0f;
             this->unk_3A4.z = 0.0f;
             this->unk_3B0.x = this->unk_1B8.x;
