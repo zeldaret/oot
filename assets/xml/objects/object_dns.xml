@@ -1,7 +1,7 @@
 <Root>
     <File Name="object_dns" Segment="6">
         <!-- Forest Stage leader skeleton -->
-        <Skeleton Name="gDntJijiSkel" Type="Standard" LimbType="Standard" Offset="0x33E0"/>
+        <Skeleton Name="gDntJijiSkel" Type="Normal" LimbType="Standard" Offset="0x33E0"/>
 
         <!-- Forest Stage leader animations -->
         <Animation Name="gDntJijiBurrowAnim" Offset="0x560"/>

@@ -1,10 +1,11 @@
 #pragma once
 
 #include <stdint.h>
-#include <vector>
 #include <string>
+#include <vector>
 
-// TODO: This was duplicated from ZTexture. It's probably going to be modified to differentiate from ZTexture but if not, we're going to need to have the two share an enum.
+// TODO: This was duplicated from ZTexture. It's probably going to be modified to differentiate from
+// ZTexture but if not, we're going to need to have the two share an enum.
 enum class HLTextureType
 {
 	RGBA32bpp,
@@ -18,7 +19,6 @@ enum class HLTextureType
 	GrayscaleAlpha16bpp,
 	Error
 };
-
 
 class HLTexture
 {
