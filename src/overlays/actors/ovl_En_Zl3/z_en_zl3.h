@@ -16,13 +16,13 @@ typedef struct EnZl3 {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ Vec3s jointTable[15];
     /* 0x01EA */ Vec3s morphTable[15];
-    /* 0x0244 */ s16 unk_244;
-    /* 0x0246 */ s16 unk_246;
-    /* 0x0248 */ s16 unk_248;
+    /* 0x0244 */ s16 eyeTexIndex;
+    /* 0x0246 */ s16 blinkTimer;
+    /* 0x0248 */ s16 mouthTexIndex;
     /* 0x024C */ s32 action;
     /* 0x0250 */ s32 drawConfig;
     /* 0x0254 */ char unk_254[0x4];
-    /* 0x0258 */ s32 unk_258;
+    /* 0x0258 */ s32 alpha;
     /* 0x025C */ s16 unk_25C[24];
     /* 0x028C */ s16 unk_28C[24];
     /* 0x02BC */ s16 unk_2BC[24];
@@ -56,7 +56,7 @@ typedef struct EnZl3 {
     /* 0x03C8 */ u8 unk_3C8;
     /* 0x03CC */ f32 unk_3CC;
     /* 0x03D0 */ s16 unk_3D0;
-    /* 0x03D4 */ BossGanon2* unk_3D4;
+    /* 0x03D4 */ BossGanon2* ganon;
     /* 0x03D8 */ s32 unk_3D8;
     /* 0x03DC */ f32 unk_3DC;
     /* 0x03E0 */ f32 unk_3E0;
