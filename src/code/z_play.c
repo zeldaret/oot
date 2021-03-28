@@ -328,7 +328,7 @@ void Gameplay_Init(GameState* thisx) {
     PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
-    func_8008E6A0(&globalCtx->sub_7B8);
+    FrameAdvance_Init(&globalCtx->frameAdvCtx);
     Rand_Seed((u32)osGetTime());
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
@@ -442,7 +442,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
     gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
-    if (func_8008E6AC(&globalCtx->sub_7B8, &input[1]) != 0) {
+    if (FrameAdvance_Update(&globalCtx->frameAdvCtx, &input[1])) {
         if ((globalCtx->transitionMode == 0) && (globalCtx->sceneLoadFlag != 0)) {
             globalCtx->transitionMode = 1;
         }
@@ -1773,8 +1773,8 @@ s32 func_800C0CB8(GlobalContext* globalCtx) {
            (YREG(15) != 0x40) && (globalCtx->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
-s32 func_800C0D28(GlobalContext* globalCtx) {
-    return (globalCtx->sub_7B8.toggle != 0);
+s32 FrameAdvance_IsEnabled(GlobalContext* globalCtx) {
+    return !!globalCtx->frameAdvCtx.enabled;
 }
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {

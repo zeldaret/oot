@@ -621,7 +621,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 0);
             func_80B54360(this, sp30.x, 1);
             func_80B53B64(this, sp30.z, 2);
@@ -631,7 +631,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 3);
         }
         Matrix_RotateRPY(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
@@ -639,7 +639,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B54360(this, sp30.x, 7);
         }
         Matrix_RotateRPY(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
@@ -650,7 +650,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 9);
             func_80B54360(this, sp30.x, 10);
             func_80B53B64(this, sp30.z, 11);
@@ -660,7 +660,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 12);
             func_80B54360(this, sp30.x, 13);
             func_80B53B64(this, sp30.z, 14);
@@ -673,7 +673,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 15);
             func_80B54360(this, sp30.x, 16);
             func_80B53B64(this, sp30.z, 17);
@@ -683,7 +683,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 18);
             func_80B54360(this, sp30.x, 19);
             func_80B53B64(this, sp30.z, 20);
