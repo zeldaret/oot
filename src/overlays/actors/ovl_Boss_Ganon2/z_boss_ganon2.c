@@ -1880,12 +1880,11 @@ void func_8090109C(BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
     Player* player;
-    Camera* temp_v0_2;
-    f32 temp_f12;
     f32 temp_f14;
+    f32 temp_f12;
+    Camera* temp_v0_2;
     s16 temp_a0_2;
     f32 phi_f0;
     s32 phi_a1;
@@ -2064,6 +2063,8 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
                 Animation_MorphToPlayOnce(&this->skelAnime, &D_06003B1C, 0.0f);
                 this->unk_194 = Animation_GetLastFrame(&D_06003B1C);
                 globalCtx->startPlayerCutscene(globalCtx, &this->actor, 0x61);
+            } else {
+                break;
             }
         case 7:
             this->unk_339 = 0x17;
@@ -2248,9 +2249,6 @@ void func_8090120C(BossGanon2* this, GlobalContext* globalCtx) {
             break;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_8090120C.s")
-#endif
 
 void func_80902348(BossGanon2* this, GlobalContext* globalCtx) {
     Player* player;
