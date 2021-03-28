@@ -24,6 +24,6 @@ s32 FrameAdvance_Update(FrameAdvanceContext* frameAdvCtx, Input* input) {
         frameAdvCtx->timer = 0;
         return true;
     }
-    
+
     return false;
 }

@@ -72,8 +72,9 @@ void EnOkarinaEffect_TriggerStorm(EnOkarinaEffect* this, GlobalContext* globalCt
 
 void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx) {
     Flags_UnsetEnv(globalCtx, 5); // clear storms env flag
-    if (((globalCtx->pauseCtx.state == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->msgCtx.unk_E300 == 0) &&
-         (!FrameAdvance_IsEnabled(globalCtx)) && ((globalCtx->transitionMode == 0) || (gSaveContext.gameMode != 0))) ||
+    if (((globalCtx->pauseCtx.state == 0) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
+         (globalCtx->msgCtx.unk_E300 == 0) && (!FrameAdvance_IsEnabled(globalCtx)) &&
+         ((globalCtx->transitionMode == 0) || (gSaveContext.gameMode != 0))) ||
         (this->timer >= 250)) {
         if (globalCtx->envCtx.unk_1E != 0 || globalCtx->envCtx.unk_1F != 1) {
             this->timer--;

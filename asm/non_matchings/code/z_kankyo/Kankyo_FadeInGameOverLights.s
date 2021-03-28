@@ -1,4 +1,4 @@
-glabel func_800760F4
+glabel Kankyo_FadeInGameOverLights
 /* AED294 800760F4 27BDFFC8 */  addiu $sp, $sp, -0x38
 /* AED298 800760F8 AFBF002C */  sw    $ra, 0x2c($sp)
 /* AED29C 800760FC AFB00028 */  sw    $s0, 0x28($sp)
