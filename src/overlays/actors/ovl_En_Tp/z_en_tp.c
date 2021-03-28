@@ -658,7 +658,7 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
     Color_RGBA8 kiraPrimColor = { 0, 0, 255, 255 };
     Color_RGBA8 kiraEnvColor = { 0, 0, 0, 0 };
     Player* player = PLAYER;
-    s16 temp_v0;
+    s16 yawToWall;
 
     if (player->stateFlags1 & 0x4000000) {
         this->unk_158 = 0;
@@ -677,10 +677,10 @@ void EnTp_Update(Actor* thisx, GlobalContext* globalCtx) {
             Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 15.0f, 10.0f, 5);
         }
         if ((this->actor.speedXZ != 0.0f) && (this->actor.bgCheckFlags & 8)) {
-            temp_v0 = this->actor.wallYaw - this->actor.world.rot.y;
+            yawToWall = this->actor.wallYaw - this->actor.world.rot.y;
 
-            if (ABS(temp_v0) > 0x4000) {
-                if (temp_v0 >= 0) {
+            if (ABS(yawToWall) > 0x4000) {
+                if (yawToWall >= 0) {
                     this->actor.world.rot.y -= 0x1F4;
                 } else {
                     this->actor.world.rot.y += 0x1F4;
