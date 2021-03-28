@@ -57,25 +57,25 @@
 
 
         <!-- Palettes -->
-        <Texture Name="gDaruniaTLUT_6EC0" OutName="tlut_6EC0" Format="rgb5a1" Width="16" Height="16" Offset="0x6EC0"/>
-        <Texture Name="gDaruniaTLUT_7AF8" OutName="tlut_7AF8" Format="rgb5a1" Width="29" Height="8" Offset="0x7AF8"/>
-        <Texture Name="gDaruniaTLUT_7CC8" OutName="tlut_7CC8" Format="rgb5a1" Width="21" Height="12" Offset="0x7CC8"/>
-        <Texture Name="gDaruniaTLUT_7980" OutName="tlut_7980" Format="rgb5a1" Width="47" Height="4" Offset="0x7980"/>
+        <Texture Name="gDaruniaTLUT_6EC0" OutName="darunia_tlut_6EC0" Format="rgb5a1" Width="16" Height="16" Offset="0x6EC0"/>
+        <Texture Name="gDaruniaTLUT_7AF8" OutName="darunia_tlut_7AF8" Format="rgb5a1" Width="29" Height="8" Offset="0x7AF8"/>
+        <Texture Name="gDaruniaTLUT_7CC8" OutName="darunia_tlut_7CC8" Format="rgb5a1" Width="21" Height="12" Offset="0x7CC8"/>
+        <Texture Name="gDaruniaTLUT_7980" OutName="darunia_tlut_7980" Format="rgb5a1" Width="47" Height="4" Offset="0x7980"/>
 
         <!-- Palette: gDaruniaPalette_6EC0 -->
-        <Texture Name="gDaruniaSkelTex_70C0" OutName="tex_70C0" Format="ci8" Width="32" Height="16" Offset="0x70C0"/>
-        <Texture Name="gDaruniaSkelTex_72C0" OutName="tex_72C0" Format="ci8" Width="16" Height="16" Offset="0x72C0"/>
-        <Texture Name="gDaruniaSkelTex_73C0" OutName="tex_73C0" Format="ci8" Width="8" Height="16" Offset="0x73C0"/>
-        <Texture Name="gDaruniaSkelTex_7440" OutName="tex_7440" Format="ci8" Width="8" Height="8" Offset="0x7440"/>
-        <Texture Name="gDaruniaSkelTex_7480" OutName="tex_7480" Format="ci8" Width="16" Height="16" Offset="0x7480"/>
-        <Texture Name="gDaruniaSkelTex_7580" OutName="tex_7580" Format="ci8" Width="32" Height="32" Offset="0x7580"/>
+        <Texture Name="gDaruniaSkelTex_70C0" OutName="darunia_tex_70C0" Format="ci8" Width="32" Height="16" Offset="0x70C0"/>
+        <Texture Name="gDaruniaSkelTex_72C0" OutName="darunia_tex_72C0" Format="ci8" Width="16" Height="16" Offset="0x72C0"/>
+        <Texture Name="gDaruniaSkelTex_73C0" OutName="darunia_tex_73C0" Format="ci8" Width="8" Height="16" Offset="0x73C0"/>
+        <Texture Name="gDaruniaSkelTex_7440" OutName="darunia_tex_7440" Format="ci8" Width="8" Height="8" Offset="0x7440"/>
+        <Texture Name="gDaruniaSkelTex_7480" OutName="darunia_tex_7480" Format="ci8" Width="16" Height="16" Offset="0x7480"/>
+        <Texture Name="gDaruniaSkelTex_7580" OutName="darunia_tex_7580" Format="ci8" Width="32" Height="32" Offset="0x7580"/>
 
         <!-- Palette: gDaruniaPalette_7980 -->
-        <Texture Name="gDaruniaSkelTex_7EC0" OutName="tex_7EC0" Format="ci8" Width="8" Height="16" Offset="0x7EC0"/>
-        <Texture Name="gDaruniaSkelTex_7F40" OutName="tex_7F40" Format="ci8" Width="8" Height="16" Offset="0x7F40"/>
-        <Texture Name="gDaruniaSkelTex_8000" OutName="tex_8000" Format="ci8" Width="8" Height="16" Offset="0x8000"/>
-        <Texture Name="gDaruniaSkelTex_9480" OutName="tex_9480" Format="ci8" Width="8" Height="16" Offset="0x9480"/>
-        <Texture Name="gDaruniaSkelTex_9500" OutName="tex_9500" Format="ci8" Width="32" Height="64" Offset="0x9500"/>
-        <Texture Name="gDaruniaSkelTex_9D00" OutName="tex_9D00" Format="ci8" Width="8" Height="8" Offset="0x9D00"/>
+        <Texture Name="gDaruniaSkelTex_7EC0" OutName="darunia_tex_7EC0" Format="ci8" Width="8" Height="16" Offset="0x7EC0"/>
+        <Texture Name="gDaruniaSkelTex_7F40" OutName="darunia_tex_7F40" Format="ci8" Width="8" Height="16" Offset="0x7F40"/>
+        <Texture Name="gDaruniaSkelTex_8000" OutName="darunia_tex_8000" Format="ci8" Width="8" Height="16" Offset="0x8000"/>
+        <Texture Name="gDaruniaSkelTex_9480" OutName="darunia_tex_9480" Format="ci8" Width="8" Height="16" Offset="0x9480"/>
+        <Texture Name="gDaruniaSkelTex_9500" OutName="darunia_tex_9500" Format="ci8" Width="32" Height="64" Offset="0x9500"/>
+        <Texture Name="gDaruniaSkelTex_9D00" OutName="darunia_tex_9D00" Format="ci8" Width="8" Height="8" Offset="0x9D00"/>
     </File>
 </Root>
