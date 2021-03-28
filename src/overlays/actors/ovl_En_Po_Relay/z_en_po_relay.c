@@ -81,9 +81,9 @@ static Vec3f D_80AD8D3C = { 0.0f, 0.0f, 0.0f };
 static Vec3f D_80AD8D48 = { 0.0f, 1200.0f, 0.0f };
 
 static u64* sEyesSegments[] = {
-    gDampeEyeOpen,
-    gDampeEyeHalfOpen,
-    gDampeEyeClosed,
+    gDampeEyeOpenTex,
+    gDampeEyeHalfOpenTex,
+    gDampeEyeClosedTex,
 };
 
 void EnPoRelay_Init(Actor* thisx, GlobalContext* globalCtx) {

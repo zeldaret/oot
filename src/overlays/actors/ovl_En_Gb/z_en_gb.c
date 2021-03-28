@@ -160,7 +160,7 @@ void EnGb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     DynaPolyActor_Init(&this->dyna, DPM_UNK);
-    CollisionHeader_GetVirtual(&gPoeSellerCollision, &colHeader);
+    CollisionHeader_GetVirtual(&gPoeSellerCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gPoeSellerSkel, &gPoeSellerIdleAnim, this->jointTable, this->morphTable, 12);
     Collider_InitCylinder(globalCtx, &this->collider);
@@ -263,7 +263,7 @@ s32 func_80A2F760(EnGb* this) {
 }
 
 void func_80A2F7C0(EnGb* this) {
-    Animation_Change(&this->skelAnime, &gPoeSellerUnkAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gPoeSellerUnkAnim), ANIMMODE_ONCE,
+    Animation_Change(&this->skelAnime, &gPoeSellerSwingStickAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gPoeSellerSwingStickAnim), ANIMMODE_ONCE,
                      0.0f);
     Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_NALE_MAGIC);
     this->actionFunc = func_80A2FC70;
@@ -374,7 +374,7 @@ void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx) {
 }
 
 void func_80A2FC70(EnGb* this, GlobalContext* globalCtx) {
-    if (this->skelAnime.curFrame == Animation_GetLastFrame(&gPoeSellerUnkAnim)) {
+    if (this->skelAnime.curFrame == Animation_GetLastFrame(&gPoeSellerSwingStickAnim)) {
         Animation_Change(&this->skelAnime, &gPoeSellerIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gPoeSellerIdleAnim), 0, 0.0f);
         this->actionFunc = func_80A2F83C;
     } else if (this->skelAnime.curFrame == 18.0f) {

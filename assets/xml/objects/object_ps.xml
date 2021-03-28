@@ -13,7 +13,7 @@
         <Texture Name="gPoeSellerSadSoulTex" OutName="poe_seller_sad_soul_tex" Format="i8" Width="32" Height="64" Offset="0xB870"/>
         <DList Name="gPoeSellerCagedSoulDL" Offset="0xC0B0"/>
         <Skeleton Name="gPoeSellerSkel" Type="Flex" LimbType="Standard" Offset="0xC220"/>
-        <Collision Name="gPoeSellerCollision" Offset="0xC2D0"/>
-        <Animation Name="gPoeSellerUnkAnim" Offset="0xC8EC"/>
+        <Collision Name="gPoeSellerCol" Offset="0xC2D0"/>
+        <Animation Name="gPoeSellerSwingStickAnim" Offset="0xC8EC"/>
     </File>
 </Root>

@@ -716,9 +716,9 @@ void EnTk_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 void EnTk_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static u64* sEyesSegments[] = {
-        gDampeEyeOpen,
-        gDampeEyeHalfOpen,
-        gDampeEyeClosed,
+        gDampeEyeOpenTex,
+        gDampeEyeHalfOpenTex,
+        gDampeEyeClosedTex,
     };
     EnTk* this = THIS;
 
