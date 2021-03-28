@@ -52,7 +52,7 @@ const ActorInit En_Mm_InitVars = {
     (ActorFunc)EnMm_Draw,
 };
 
-static ColliderCylinderInit D_80AAEAE0 = {
+static ColliderCylinderInit sCylinderInit = {
     {
         COLTYPE_NONE,
         AT_NONE,
@@ -74,7 +74,7 @@ static ColliderCylinderInit D_80AAEAE0 = {
 
 static CollisionCheckInfoInit2 sColChkInfoInit[] = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
-static DamageTable D_80AAEB18 = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),
     /* Deku stick    */ DMG_ENTRY(0, 0x0),
     /* Slingshot     */ DMG_ENTRY(0, 0x0),
@@ -130,14 +130,14 @@ typedef struct {
     /* 0x0C */ s32 unk_0C;
 } EnMmPathInfo;
 
-static EnMmPathInfo D_80AAEBA8[] = {
+static EnMmPathInfo sPathInfo[] = {
     { 0, 1, 0, 0 },
     { 1, 1, 0, 1 },
     { 1, 3, 2, 1 },
     { -1, 0, 2, 0 },
 };
 
-static InitChainEntry D_80AAEBE8[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneForward, 4000, ICHAIN_STOP),
 };
 
@@ -169,14 +169,14 @@ void EnMm_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnMm* this = THIS;
 
-    Actor_ProcessInitChain(&this->actor, D_80AAEBE8);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
 
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRunningManSkel, NULL, this->jointTable, this->morphTable, 16);
 
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_80AAEAE0);
-    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &D_80AAEB18, sColChkInfoInit);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, &sDamageTable, sColChkInfoInit);
 
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     Animation_Change(&this->skelAnime, sAnimationEntries[RM_ANIM_RUN].animation, 1.0f, 0.0f,
@@ -350,9 +350,9 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
     this->distToWaypoint = sqrtf(SQ(xDiff) + SQ(zDiff));
 
     while ((this->distToWaypoint <= 10.44f) && (this->unk_1E8 != 0)) {
-        this->waypoint += D_80AAEBA8[this->unk_1E8].unk_00;
+        this->waypoint += sPathInfo[this->unk_1E8].unk_00;
 
-        phi_a2 = D_80AAEBA8[this->unk_1E8].unk_08;
+        phi_a2 = sPathInfo[this->unk_1E8].unk_08;
 
         switch (phi_a2) {
             case 0:
@@ -366,7 +366,7 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        phi_v1 = D_80AAEBA8[this->unk_1E8].unk_0C;
+        phi_v1 = sPathInfo[this->unk_1E8].unk_0C;
 
         switch (phi_v1) {
             case 0:
@@ -380,10 +380,10 @@ s32 func_80AADEF0(EnMm* this, GlobalContext* globalCtx) {
                 break;
         }
 
-        if ((D_80AAEBA8[this->unk_1E8].unk_00 >= 0 && (this->waypoint < phi_a2 || phi_v1 < this->waypoint)) ||
-            (D_80AAEBA8[this->unk_1E8].unk_00 < 0 && (phi_a2 < this->waypoint || this->waypoint < phi_v1))) {
-            this->unk_1E8 = D_80AAEBA8[this->unk_1E8].unk_04;
-            this->waypoint = D_80AAEBA8[this->unk_1E8].unk_08;
+        if ((sPathInfo[this->unk_1E8].unk_00 >= 0 && (this->waypoint < phi_a2 || phi_v1 < this->waypoint)) ||
+            (sPathInfo[this->unk_1E8].unk_00 < 0 && (phi_a2 < this->waypoint || this->waypoint < phi_v1))) {
+            this->unk_1E8 = sPathInfo[this->unk_1E8].unk_04;
+            this->waypoint = sPathInfo[this->unk_1E8].unk_08;
         }
 
         func_80AADE60(globalCtx->setupPathList, &waypointPos, this->path, this->waypoint);
