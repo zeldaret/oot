@@ -42,11 +42,11 @@ const ActorInit En_Jj_InitVars = {
     (ActorFunc)EnJj_Draw,
 };
 
-s32 unused = 0;
+static s32 sUnused = 0;
 
 #include "z_en_jj_cutscene_data.c" EARLY
 
-s32 usused2[] = { 0, 0 };
+static s32 sUnused2[] = { 0, 0 };
 
 static ColliderCylinderInit sCylinderInit = {
     {
