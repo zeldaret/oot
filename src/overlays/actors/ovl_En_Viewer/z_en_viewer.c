@@ -169,7 +169,7 @@ void func_80B2A300(EnViewer* this, GlobalContext* globalCtx, void* skeletonHeade
     s16 params = this->actor.params >> 8;
 
     if (params == 2 || params == 3 || params == 5 || params == 7 || params == 8 || params == 9) {
-        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, (FlexSkeletonHeader*)skeletonHeaderSeg, NULL, NULL, NULL,
+        SkelAnime_InitFlex(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL,
                            0);
     } else {
         SkelAnime_Init(globalCtx, &this->skin.skelAnime, skeletonHeaderSeg, NULL, NULL, NULL, 0);
