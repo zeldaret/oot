@@ -1,3 +1,9 @@
+/*
+ * File: z_en_diving_game.c
+ * Overlay: ovl_En_Diving_Game
+ * Description: Diving minigame
+ */
+
 #include "z_en_diving_game.h"
 #include <vt.h>
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
@@ -48,9 +54,9 @@ const ActorInit En_Diving_Game_InitVars = {
 
 u8 D_809EF0B0 = 0;
 
-ColliderCylinderInit D_809EF0B4 = {
-    { COLTYPE_NONE, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+static ColliderCylinderInit sCylinderInit = {
+    { COLTYPE_NONE, AT_NONE, AC_NONE, OC1_ON | OC1_TYPE_ALL, OC2_TYPE_2, COLSHAPE_CYLINDER, },
+    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_NONE | TOUCH_SFX_NORMAL, BUMP_NONE, OCELEM_ON, },
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
@@ -71,7 +77,7 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
-    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_809EF0B4);
+    Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n" VT_RST);
     this->actor.room = -1;
     this->actor.scale.x = 0.01f;
@@ -125,10 +131,7 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
         func_8010B680(globalCtx, this->actor.textId, NULL);
         this->unk_2A4 = 0;
         this->unk_292 = 5;
-        this->unk_2A2 = this->unk_2A4;
-        this->unk_29C = this->unk_2A4;
-        this->unk_2A8 = this->unk_2A4;
-        this->unk_31E = this->unk_2A4;
+        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_809EE048;
         return 1;
@@ -238,23 +241,17 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
                     } else {
                         this->unk_2A4 = 0;
                         this->actor.textId = 0x85;
-                        this->unk_2A2 = this->unk_2A4;
-                        this->unk_29C = this->unk_2A4;
-                        this->unk_2A8 = this->unk_2A4;
-                        this->unk_31E = this->unk_2A4;
+                        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4;
                     }
                     break;
                 case 1:
                     this->unk_2A4 = 0;
                     this->actor.textId = 0x2D;
-                    this->unk_2A2 = this->unk_2A4;
-                    this->unk_29C = this->unk_2A4;
-                    this->unk_2A8 = this->unk_2A4;
-                    this->unk_31E = this->unk_2A4;
+                    this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4;
                     break;
             }
-            if ((!(gSaveContext.eventChkInf[3] & 0x100)) || (this->actor.textId == 0x85) ||
-                (this->actor.textId == 0x2D)) {
+            if (!(gSaveContext.eventChkInf[3] & 0x100) || this->actor.textId == 0x85 ||
+                this->actor.textId == 0x2D) {
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_292 = 5;
                 this->actionFunc = func_809EE048;
@@ -317,12 +314,7 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     } else {
         this->unk_2A6 = 10;
     }
-    this->unk_308 = 0.1f;
-    this->unk_304 = 0.1f;
-    this->unk_300 = 0.1f;
-    this->unk_2E4 = 0.1f;
-    this->unk_2E0 = 0.1f;
-    this->unk_2DC = 0.1f;
+    this->unk_2DC = this->unk_2E0 = this->unk_2E4 = this->unk_300 = this->unk_304 = this->unk_308 = 0.1f;
     this->vec_2B8.x = globalCtx->view.lookAt.x;
     this->vec_2B8.y = globalCtx->view.lookAt.y;
     this->vec_2B8.z = globalCtx->view.lookAt.z;
@@ -424,7 +416,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);
-            if ((gSaveContext.eventChkInf[3] & 0x100) == 0) {
+            if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 func_80088B34(BREG(2) + 50);
             } else {
                 func_80088B34(BREG(2) + 50);
@@ -549,6 +541,7 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
 Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* displayList = Graph_Alloc(gfxCtx, sizeof(Gfx));
+
     gSPEndDisplayList(displayList);
     return displayList;
 }
