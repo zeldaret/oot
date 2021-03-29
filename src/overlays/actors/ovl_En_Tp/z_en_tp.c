@@ -43,7 +43,7 @@ const ActorInit En_Tp_InitVars = {
     (ActorFunc)EnTp_Draw,
 };
 
-/* static */ ColliderJntSphElementInit D_80B22A90[1] = {
+static ColliderJntSphElementInit D_80B22A90[1] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -57,7 +57,7 @@ const ActorInit En_Tp_InitVars = {
     },
 };
 
-/* static */ ColliderJntSphInit D_80B22AB4 = {
+static ColliderJntSphInit D_80B22AB4 = {
     {
         COLTYPE_HIT1,
         AT_ON | AT_TYPE_ENEMY,
@@ -70,7 +70,7 @@ const ActorInit En_Tp_InitVars = {
     D_80B22A90,
 };
 
-/* static */ DamageTable D_80B22AC4 = {
+static DamageTable D_80B22AC4 = {
     /* Deku nut      */ DMG_ENTRY(0, 0x1),
     /* Deku stick    */ DMG_ENTRY(2, 0xF),
     /* Slingshot     */ DMG_ENTRY(0, 0x0),
@@ -106,7 +106,7 @@ const ActorInit En_Tp_InitVars = {
 };
 
 // sInitChain
-/* static */ InitChainEntry D_80B22AE4[] = {
+static InitChainEntry D_80B22AE4[] = {
     ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
 };
 
@@ -116,17 +116,17 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-#ifdef NON_MATCHING
+// #ifdef NON_MATCHING
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     // s32 pad;
     GlobalContext* globalCtx = globalCtx2;
     EnTp* this = THIS;
 
-    EnTp* new_var;
+    // EnTp* new_var;
     EnTp* phi_s5;
     EnTp* temp_v0_2;
     s32 phi_s1;
-    s16 temp_s4;
+    s32 temp_s4;
     // s16 temp_s2;
 
 
@@ -155,11 +155,11 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         // phi_s5 = &this->actor;
         //  phi_s5 = this;
         // phi_s1 = 0;
-        temp_s4 = 0;
-        for (phi_s1 = 0; phi_s1 <= 6; phi_s1++) {
+        for (phi_s1 = 0, temp_s4 = 0; phi_s1 <= 6; phi_s1++) {
+        
 
             temp_v0_2 =
-            new_var =
+            temp_s4 =
             (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
@@ -178,7 +178,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
                 temp_v0_2->unk_15A = temp_v0_2->unk_15C  = phi_s1 * -5;
                 temp_v0_2->unk_16C = 6.0f - (phi_s1 * 0.75f);
-                phi_s5 = new_var;
+                phi_s5 = temp_s4;
             }
         }
     } else if (this->actor.params == 0) {
@@ -188,9 +188,9 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         func_80B217FC(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-#endif
+// #else
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+// #endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Destroy.s")
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
