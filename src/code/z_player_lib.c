@@ -615,10 +615,10 @@ u8 sEyeMouthIndexes[][2] = {
 };
 
 /*
- * The dev who set these up likely knew that these textures would be in the same spot for child and adult link.
- * Though this works its a problem for mods.
- * They will be left as addresses until object_link_boy is completed where they will
- * then have the symbols from adult links object.
+ *Link's eye and mouth textures are placed at the exact same place in adult and child Link's respective object files.
+ *This allows the array to only contain the symbols for one file and have it apply to both. This is a problem for
+ *shiftability, and changes will need to be made in the code to account for this in a modding scenario. The symbols from
+ *adult Link's object are used here.
  */
 u64* sEyeTextures[] = {
     0x06000000, 0x06000800, 0x06001000, 0x06001800, 0x06002000, 0x06002800, 0x06003000, 0x06003800,
