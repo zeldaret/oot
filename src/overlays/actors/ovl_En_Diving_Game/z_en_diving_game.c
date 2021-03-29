@@ -69,8 +69,7 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.gravity = -3.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, this->jointTable,
-                     this->morphTable, 20);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, this->jointTable, this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_809EF0B4);
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n" VT_RST);
@@ -102,12 +101,12 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx) {
     EnExRuppy* attached;
     Vec3f rupeePos;
 
-    rupeePos.x = ((Rand_ZeroOne() - 0.5f) * 30.0f) + this->actor.world.pos.x;
-    rupeePos.y = ((Rand_ZeroOne() - 0.5f) * 20.0f) + (this->actor.world.pos.y + 30.0f);
-    rupeePos.z = ((Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.world.pos.z;
+    rupeePos.x = (Rand_ZeroOne() - 0.5f) * 30.0f + this->actor.world.pos.x;
+    rupeePos.y = (Rand_ZeroOne() - 0.5f) * 20.0f + (this->actor.world.pos.y + 30.0f);
+    rupeePos.z = (Rand_ZeroOne() - 0.5f) * 20.0f + this->actor.world.pos.z;
     attached = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
-                                               rupeePos.x, rupeePos.y, rupeePos.z, 0,
-                                               (s16)Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
+                                              rupeePos.x, rupeePos.y, rupeePos.z, 0,
+                                              (s16)Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
     if (attached != 0) {
         attached->actor.speedXZ = 12.0f;
         attached->actor.velocity.y = 6.0f;
@@ -500,7 +499,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 //#ifdef NON_MATCHING
-void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx2) {
+void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnDivingGame* this = THIS;
     Player* player = PLAYER;
@@ -519,7 +518,7 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx2) {
         this->unk_29A--;
     }
 
-    if (1) { }
+    if (1) {}
 
     if (gSaveContext.timer1Value == 10) {
         func_800F5918();
@@ -577,7 +576,7 @@ s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     return 0;
 }
 
-void EnDivingGame_Draw(Actor* thisx, GlobalContext *globalCtx) {
+void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDivingGame* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     Gfx* dispRefs[5];
@@ -587,7 +586,8 @@ void EnDivingGame_Draw(Actor* thisx, GlobalContext *globalCtx) {
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809EF0E0[this->unk_29E]));
-    
-    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, func_809EEDE4, NULL, &this->actor);
+
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          func_809EEDE4, NULL, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1232);
 }
