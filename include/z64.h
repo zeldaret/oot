@@ -19,6 +19,7 @@
 #include "z64animation.h"
 #include "z64dma.h"
 #include "z64math.h"
+#include "z64map_mark.h"
 #include "z64transition.h"
 #include "bgm.h"
 #include "sfx.h"
@@ -1166,19 +1167,6 @@ typedef struct {
     /* 0x68 */ u8  (*floorID)[8];
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
-
-typedef struct {
-    /* 0x00 */ s8 chestFlag; // chest icon is only displayed if this flag is not set for the current room
-    /* 0x01 */ u8 x, y; // coordinates to place the icon (top-left corner), relative to the minimap texture
-} MapMarkPoint; // size = 0x3
-
-typedef struct {
-    /* 0x00 */ s8 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x01 */ u8 count; // number of icons to display
-    /* 0x02 */ MapMarkPoint points[12];
-} MapMarkData; // size = 0x26
-
-typedef MapMarkData MapMarksData[3]; // size = 0x72
 
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
