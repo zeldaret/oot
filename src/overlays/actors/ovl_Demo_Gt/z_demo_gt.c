@@ -59,7 +59,7 @@ void DemoGt_SpawnDust(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velocity, Vec
 void func_8097D7D8(GlobalContext* globalCtx, Vec3f* pos, Vec3f* velOffset, f32 scale, s32 arg4, s32 arg5, s16 life) {
     s32 pad;
 
-    if (func_800C0D28(globalCtx) == 0) {
+    if (!FrameAdvance_IsEnabled(globalCtx)) {
         s32 frames = globalCtx->gameplayFrames;
 
         if (ABS(frames % arg4) == arg5) {
@@ -281,7 +281,7 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
     f32 dustScale = 300.0f * scale;
     Vec3f pos;
 
-    if ((func_800C0D28(globalCtx) == 0) && (arg7 > 0) && (arg6 > 0)) {
+    if ((!FrameAdvance_IsEnabled(globalCtx)) && (arg7 > 0) && (arg6 > 0)) {
         frames = (ABS((s32)globalCtx->gameplayFrames) % arg7);
         phi_s0 = 0x10000 * frames / arg6;
         increment = 0x10000 / arg6;
@@ -1298,7 +1298,7 @@ void DemoGt_Draw4(DemoGt* this, GlobalContext* globalCtx) {
         Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
         Matrix_ToMtx(sp60, "../z_demo_gt_part4_1.c", 232);
 
-        if (func_800C0D28(globalCtx2) == 0) {
+        if (!FrameAdvance_IsEnabled(globalCtx2)) {
             func_80980F8C(this, globalCtx2);
         }
 
@@ -1417,7 +1417,7 @@ void DemoGt_Draw5(DemoGt* this, GlobalContext* globalCtx) {
     Matrix_Translate(sp48.x, sp48.y, sp48.z, MTXMODE_APPLY);
     Matrix_ToMtx(sp60, "../z_demo_gt_part4_2.c", 227);
 
-    if (func_800C0D28(globalCtx) == 0) {
+    if (!FrameAdvance_IsEnabled(globalCtx)) {
         func_80981458(this, globalCtx);
     }
 

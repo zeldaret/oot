@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_hidan_kousi.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -40,14 +41,10 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
 
-extern CollisionHeader D_0600E2CC;
-extern CollisionHeader D_0600E380;
-extern CollisionHeader D_0600E430;
-
-static CollisionHeader* D_80889E70[] = {
-    &D_0600E2CC,
-    &D_0600E380,
-    &D_0600E430,
+static CollisionHeader* sMetalFencesCollisions[] = {
+    &gFireTempleMetalFenceWithSlantCol,
+    &gFireTempleMetalFenceCol,
+    &gFireTempleMetalFence2Col,
 };
 
 static s16 D_80889E7C[] = {
@@ -57,10 +54,10 @@ static s16 D_80889E7C[] = {
     0x0000,
 };
 
-static Gfx* D_80889E84[] = {
-    0x0600C798,
-    0x0600BFA8,
-    0x0600BB58,
+static Gfx* sMetalFencesDLs[] = {
+    gFireTempleMetalFenceWithSlantDL,
+    gFireTempleMetalFenceDL,
+    gFireTempleMetalFence2DL,
 };
 
 void BgHidanKousi_SetupAction(BgHidanKousi* this, BgHidanKousiActionFunc actionFunc) {
@@ -82,7 +79,7 @@ void BgHidanKousi_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("arg_data おかしい 【格子】\n");
     }
 
-    CollisionHeader_GetVirtual(D_80889E70[thisx->params & 0xFF], &colHeader);
+    CollisionHeader_GetVirtual(sMetalFencesCollisions[thisx->params & 0xFF], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
     thisx->world.rot.y = D_80889E7C[this->dyna.actor.params & 0xFF] + thisx->shape.rot.y;
     if (Flags_GetSwitch(globalCtx, (thisx->params >> 8) & 0xFF)) {
@@ -161,7 +158,7 @@ void BgHidanKousi_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 354),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_80889E84[thisx->params & 0xFF]);
+    gSPDisplayList(POLY_OPA_DISP++, sMetalFencesDLs[thisx->params & 0xFF]);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_hidan_kousi.c", 359);
 }
