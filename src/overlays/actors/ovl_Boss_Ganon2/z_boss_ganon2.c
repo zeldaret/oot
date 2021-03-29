@@ -705,14 +705,14 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3A4.z = -181.0f;
             this->unk_3B0.x = player->actor.world.pos.x;
             this->unk_3B0.z = (player->actor.world.pos.z - 15.0f) + 5.0f;
-            if (this->unk_398 >= 0x69) {
+            if (this->unk_398 > 0x68) {
                 Math_ApproachF(&this->unk_3B0.y, player->actor.world.pos.y + 47.0f + 7.0f + 15.0f, 0.1f,
                                this->unk_410.x);
                 Math_ApproachF(&this->unk_410.x, 2.0f, 1.0f, 0.1f);
             } else {
                 this->unk_3B0.y = player->actor.world.pos.y + 47.0f + 7.0f;
             }
-            if ((this->unk_398 >= 0xAB) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+            if ((this->unk_398 > 0xAA) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                 this->unk_39C = 3;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
@@ -784,7 +784,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.y = (player->actor.world.pos.y + 200.0f) - 160.0f;
             this->unk_3B0.z = player->actor.world.pos.z;
             if (this->unk_398 >= 0x14) {
-                func_80078884(0x301C);
+                func_80078884(NA_SE_EN_GOMA_LAST - SFX_FLAG);
                 Math_ApproachF(&this->unk_324, 255.0f, 1.0f, 10.0f);
                 this->unk_339 = 5;
                 if (this->unk_398 == 0x14) {
@@ -864,7 +864,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->actor.world.pos.y, 1289.0f, 0.1f, 10.0f);
                 this->unk_3B0.y = this->actor.world.pos.y + 70.0f;
             }
-            if (Animation_OnFrame(&this->skelAnime, this->unk_194) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
                 Animation_MorphToLoop(&this->skelAnime, &D_06002E6C, 0.0f);
                 this->unk_39C = 0xE;
                 this->unk_398 = 0;
@@ -953,7 +953,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             }
             this->unk_1B4 = 0.0f;
             SkelAnime_Update(&this->skelAnime);
-            if (Animation_OnFrame(&this->skelAnime, this->unk_194) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, this->unk_194)) {
                 Animation_MorphToPlayOnce(&this->skelAnime, &D_060028A8, 0.0f);
                 this->unk_194 = 1000.0f;
             }
@@ -964,7 +964,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_BIGMASIC);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GANON_THROW_BIG);
             }
-            if (this->unk_398 < 0x33) {
+            if (this->unk_398 <= 0x32) {
                 sp8D = true;
             }
             if (this->unk_398 >= 0x3C) {
@@ -1028,7 +1028,6 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0xA) {
                 this->unk_39C = 0x14;
                 this->unk_398 = 0;
-                // might be fake?
                 this->actor.world.pos.x += 250;
                 this->actor.world.pos.y = 1886.0f;
                 this->unk_394 = 0.0f;
@@ -1090,7 +1089,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 this->unk_336 = 2;
             }
             if (this->unk_398 == 0x50) {
-                func_808FD108(this, globalCtx, 0x153, 0);
+                func_808FD108(this, globalCtx, OBJECT_GANON2, 0);
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_06021A90), 0xA0,
                                        0xB4, 0x80, 0x28);
             }
@@ -1100,24 +1099,18 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3B0.x = this->actor.world.pos.x;
             this->unk_3B0.z = this->actor.world.pos.z;
             this->unk_3B0.y = (this->unk_1B8.y + 60.0f) - 40.0f;
-            if (this->unk_398 >= 0xA7) {
-                if (this->unk_398 < 0xAD) {
-                    this->unk_312 = 2;
-                }
+            if (this->unk_398 > 0xA6 && this->unk_398 < 0xAD) {
+                this->unk_312 = 2;
             }
-            if (this->unk_398 >= 0xBB) {
-                if (this->unk_398 < 0xC4) {
-                    this->unk_312 = 1;
-                }
+            if (this->unk_398 > 0xBA && this->unk_398 < 0xC4) {
+                this->unk_312 = 1;
             }
-            if (this->unk_398 >= 0xCB) {
-                if (this->unk_398 < 0xD2) {
-                    this->unk_312 = 2;
-                }
+            if (this->unk_398 > 0xCA && this->unk_398 < 0xD2) {
+                this->unk_312 = 2;
             }
             if ((this->unk_398 == 0xA6) || (this->unk_398 == 0xB9) || (this->unk_398 == 0xC8)) {
-                func_80078884(0x3997);
-                func_80078884(0x398F);
+                func_80078884(NA_SE_EN_MGANON_SWORD);
+                func_80078884(NA_SE_EN_MGANON_ROAR);
             }
             if (this->unk_398 == 0xD7) {
                 this->unk_39C = 0x17;
@@ -1127,12 +1120,12 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             break;
         case 23:
             SkelAnime_Update(&this->skelAnime);
-            if ((this->unk_398 >= 0xDF) && (this->unk_398 < 0xE8)) {
+            if (this->unk_398 > 0xDE && this->unk_398 < 0xE8) {
                 this->unk_312 = 2;
             }
             if (this->unk_398 == 0xDE) {
-                func_80078884(0x3997);
-                func_80078884(0x398F);
+                func_80078884(NA_SE_EN_MGANON_SWORD);
+                func_80078884(NA_SE_EN_MGANON_ROAR);
             }
             this->unk_3A4.x = (player->actor.world.pos.x - 40.0f) + 6.0f;
             this->unk_3A4.y = player->actor.world.pos.y + 40.0f;
@@ -1172,7 +1165,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             this->unk_3A4.y = temp_v0_3->position.y - 30.0f;
             this->unk_3A4.z = temp_v0_3->position.z + 70.0f;
             if ((this->unk_398 & 3) == 0) {
-                func_80078884(0x1801);
+                func_80078884(NA_SE_IT_SWORD_SWING);
             }
             if (this->unk_398 == 0x19) {
                 func_8002DF54(globalCtx, &this->actor, 0x57);
@@ -1258,7 +1251,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->unk_3B0.x, D_8090EB30->world.pos.x, 0.2f, 50.0f);
                 Math_ApproachF(&this->unk_3B0.y, D_8090EB30->world.pos.y, 0.2f, 50.0f);
                 Math_ApproachF(&this->unk_3B0.z, D_8090EB30->world.pos.z, 0.2f, 50.0f);
-                if ((this->unk_398 >= 0x29) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
+                if ((this->unk_398 > 0x28) && (func_8010BDBC(&globalCtx->msgCtx) == 0)) {
                     this->unk_39C = 0x1D;
                     this->unk_398 = 0;
                     Animation_MorphToPlayOnce(&this->skelAnime, &D_060147E0, 0.0f);
