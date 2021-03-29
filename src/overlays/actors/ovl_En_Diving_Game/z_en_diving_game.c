@@ -72,8 +72,8 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDivingGame* this = THIS;
 
     this->actor.gravity = -3.0f;
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, &this->jointTable,
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
+    SkelAnime_DrawFlexOpa(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, &this->jointTable,
                      &this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_809EF0B4);
@@ -106,12 +106,12 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx) {
     EnExRuppy* attached;
     Vec3f rupeePos;
 
-    rupeePos.x = ((Math_Rand_ZeroOne() - 0.5f) * 30.0f) + this->actor.world.pos.x;
-    rupeePos.y = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + (this->actor.world.pos.y + 30.0f);
-    rupeePos.z = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.world.pos.z;
+    rupeePos.x = ((Rand_ZeroOne() - 0.5f) * 30.0f) + this->actor.world.pos.x;
+    rupeePos.y = ((Rand_ZeroOne() - 0.5f) * 20.0f) + (this->actor.world.pos.y + 30.0f);
+    rupeePos.z = ((Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.world.pos.z;
     attached = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
                                                rupeePos.x, rupeePos.y, rupeePos.z, 0,
-                                               (s16)Math_Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
+                                               (s16)Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
     if (attached != 0) {
         attached->actor.speedXZ = 12.0f;
         attached->actor.velocity.y = 6.0f;
@@ -355,12 +355,12 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         func_800F6828(0);
     }
     if (this->camId != 0) {
-        Math_SmoothScaleMaxF(&this->vec_2C4.x, this->unk_2D0, this->unk_2DC, this->unk_2E8 * this->unk_318);
-        Math_SmoothScaleMaxF(&this->vec_2C4.z, this->unk_2D8, this->unk_2E4, this->unk_2F0 * this->unk_318);
-        Math_SmoothScaleMaxF(&this->vec_2B8.x, this->unk_2F4, this->unk_300, this->unk_30C * this->unk_318);
-        Math_SmoothScaleMaxF(&this->vec_2B8.y, this->unk_2F8, this->unk_304, this->unk_310 * this->unk_318);
-        Math_SmoothScaleMaxF(&this->vec_2B8.z, this->unk_2FC, this->unk_308, this->unk_314 * this->unk_318);
-        Math_SmoothScaleMaxF(&this->unk_318, 1.0f, 1.0f, 0.02f);
+        Math_ApproachF(&this->vec_2C4.x, this->unk_2D0, this->unk_2DC, this->unk_2E8 * this->unk_318);
+        Math_ApproachF(&this->vec_2C4.z, this->unk_2D8, this->unk_2E4, this->unk_2F0 * this->unk_318);
+        Math_ApproachF(&this->vec_2B8.x, this->unk_2F4, this->unk_300, this->unk_30C * this->unk_318);
+        Math_ApproachF(&this->vec_2B8.y, this->unk_2F8, this->unk_304, this->unk_310 * this->unk_318);
+        Math_ApproachF(&this->vec_2B8.z, this->unk_2FC, this->unk_308, this->unk_314 * this->unk_318);
+        Math_ApproachF(&this->unk_318, 1.0f, 1.0f, 0.02f);
     }
     func_800C04D8(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
     if (this->unk_31E == 0) {
@@ -536,14 +536,14 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx) {
         }
     }
     this->actionFunc(this, globalCtx);
-    Actor_SetHeight(&this->actor, 80.0f);
-    this->unk_324.unk_18 = player->actor.posRot.pos;
-    this->unk_324.unk_18.y = player->actor.posRot.pos.y;
+    Actor_SetScale(&this->actor, 80.0f);
+    this->unk_324.unk_18 = player->actor.world.pos;
+    this->unk_324.unk_18.y = player->actor.world.pos.y;
     func_80034A14(&this->actor, &this->unk_324, 2, 4);
     this->vec_284 = this->unk_324.unk_08;
     this->vec_28A = this->unk_324.unk_0E;
     if ((globalCtx->gameplayFrames % 16) == 0) {
-        vec = this->actor.posRot.pos;
+        vec = this->actor.world.pos;
         vec.y += 20.0f;
         func_80029444(globalCtx, &vec, 0x64, 0x1F4, 0x1E);
     }
@@ -594,6 +594,6 @@ void EnDivingGame_Draw(Actor* thisx, GlobalContext *globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809EF0E0[this->unk_29E]));
     
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount, func_809EEDE4, NULL, &this->actor);
+    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, func_809EEDE4, NULL, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1232);
 }
