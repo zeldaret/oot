@@ -3015,7 +3015,6 @@ extern s16 gTatumsPerBeat;
 //extern ? D_80153CFC;
 //extern ? D_80153D74;
 //extern ? D_80153D78;
-//extern ? D_80153D80;
 //extern ? D_80153D90;
 //extern ? D_80153DEC;
 //extern ? D_80153E48;

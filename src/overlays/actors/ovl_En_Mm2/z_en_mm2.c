@@ -1,9 +1,31 @@
+/*
+ * File: z_en_mm.c
+ * Overlay: ovl_En_Mm
+ * Description: Running Man (adult)
+ */
+
 #include "z_en_mm2.h"
 #include "vt.h"
+#include "objects/object_mm/object_mm.h"
 
 #define FLAGS 0x00000019
 
 #define THIS ((EnMm2*)thisx)
+
+typedef enum {
+    /* 0 */ RM2_ANIM_RUN,
+    /* 1 */ RM2_ANIM_SIT,
+    /* 2 */ RM2_ANIM_SIT_WAIT,
+    /* 3 */ RM2_ANIM_STAND,
+    /* 4 */ RM2_ANIM_SPRINT,
+    /* 5 */ RM2_ANIM_EXCITED, // plays when talking to him with bunny hood on
+    /* 6 */ RM2_ANIM_HAPPY    // plays when you sell him the bunny hood
+} RunningManAnimIndex;
+
+typedef enum {
+    /* 0 */ RM2_MOUTH_CLOSED,
+    /* 1 */ RM2_MOUTH_OPEN
+} RunningManMouthTex;
 
 void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnMm2_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -14,8 +36,6 @@ void func_80AAF57C(EnMm2* this, GlobalContext* globalCtx);
 void func_80AAF668(EnMm2* this, GlobalContext* globalCtx);
 s32 EnMm2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnMm2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
-
-extern FlexSkeletonHeader D_06005E18;
 
 const ActorInit En_Mm2_InitVars = {
     ACTOR_EN_MM2,
@@ -54,12 +74,13 @@ typedef struct {
     /* 0x04 */ f32 playSpeed;
     /* 0x08 */ u8 mode;
     /* 0x0C */ f32 morphFrames;
-} Mm2AnimationEntry; // size = 0x10
+} EnMm2AnimEntry; // size = 0x10
 
-static Mm2AnimationEntry sAnimations[] = {
-    { 0x06000718, 1.0f, 0, -7.0f },  { 0x06006940, -1.0f, 2, -7.0f }, { 0x06006C50, 1.0f, 0, -7.0f },
-    { 0x06006940, 1.0f, 2, -7.0f },  { 0x06000468, 1.0f, 0, -7.0f },  { 0x060073A0, 1.0f, 0, -12.0f },
-    { 0x06008060, 1.0f, 0, -12.0f },
+static EnMm2AnimEntry sAnimationEntries[] = {
+    { &gRunningManRunAnim, 1.0f, ANIMMODE_LOOP, -7.0f },     { &gRunningManSitStandAnim, -1.0f, ANIMMODE_ONCE, -7.0f },
+    { &gRunningManSitWaitAnim, 1.0f, ANIMMODE_LOOP, -7.0f }, { &gRunningManSitStandAnim, 1.0f, ANIMMODE_ONCE, -7.0f },
+    { &gRunningManSprintAnim, 1.0f, ANIMMODE_LOOP, -7.0f },  { &gRunningManExcitedAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
+    { &gRunningManHappyAnim, 1.0f, ANIMMODE_LOOP, -12.0f },
 };
 
 static InitChainEntry sInitChain[] = {
@@ -72,17 +93,19 @@ void EnMm2_ChangeAnimation(EnMm2* this, s32 animationIndex, s32* previousAnimati
     if ((*previousAnimation < 0) || (animationIndex == *previousAnimation)) {
         phi_f0 = 0.0f;
     } else {
-        phi_f0 = sAnimations[animationIndex].morphFrames;
+        phi_f0 = sAnimationEntries[animationIndex].morphFrames;
     }
 
-    if (sAnimations[animationIndex].playSpeed >= 0.0f) {
-        Animation_Change(&this->skelAnime, sAnimations[animationIndex].animation, sAnimations[animationIndex].playSpeed,
-                         0.0f, (f32)Animation_GetLastFrame(sAnimations[animationIndex].animation),
-                         sAnimations[animationIndex].mode, phi_f0);
+    if (sAnimationEntries[animationIndex].playSpeed >= 0.0f) {
+        Animation_Change(&this->skelAnime, sAnimationEntries[animationIndex].animation,
+                         sAnimationEntries[animationIndex].playSpeed, 0.0f,
+                         (f32)Animation_GetLastFrame(sAnimationEntries[animationIndex].animation),
+                         sAnimationEntries[animationIndex].mode, phi_f0);
     } else {
-        Animation_Change(&this->skelAnime, sAnimations[animationIndex].animation, sAnimations[animationIndex].playSpeed,
-                         (f32)Animation_GetLastFrame(sAnimations[animationIndex].animation), 0.0f,
-                         sAnimations[animationIndex].mode, phi_f0);
+        Animation_Change(&this->skelAnime, sAnimationEntries[animationIndex].animation,
+                         sAnimationEntries[animationIndex].playSpeed,
+                         (f32)Animation_GetLastFrame(sAnimationEntries[animationIndex].animation), 0.0f,
+                         sAnimationEntries[animationIndex].mode, phi_f0);
     }
     *previousAnimation = animationIndex;
 }
@@ -115,14 +138,15 @@ void EnMm2_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 21.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005E18, NULL, this->jointTable, this->morphTable, 16);
-    Animation_Change(&this->skelAnime, sAnimations[2].animation, 1.0f, 0.0f,
-                     Animation_GetLastFrame(sAnimations[2].animation), sAnimations[2].mode, sAnimations[2].morphFrames);
-    this->previousAnimation = 2;
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gRunningManSkel, NULL, this->jointTable, this->morphTable, 16);
+    Animation_Change(&this->skelAnime, sAnimationEntries[RM2_ANIM_SIT_WAIT].animation, 1.0f, 0.0f,
+                     Animation_GetLastFrame(sAnimationEntries[RM2_ANIM_SIT_WAIT].animation),
+                     sAnimationEntries[RM2_ANIM_SIT_WAIT].mode, sAnimationEntries[RM2_ANIM_SIT_WAIT].morphFrames);
+    this->previousAnimation = RM2_ANIM_SIT_WAIT;
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->unk_1E0 = 0;
+    this->mouthTexIndex = RM2_MOUTH_CLOSED;
     this->actor.targetMode = 6;
     this->unk_1F4 |= 1;
     this->actor.gravity = -1.0f;
@@ -157,14 +181,14 @@ s32 func_80AAF224(EnMm2* this, GlobalContext* globalCtx, EnMm2ActionFunc actionF
         return 1;
     }
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    if ((ABS(yawDiff) < 0x4301) && (this->actor.xzDistToPlayer < 100.0f)) {
+    if ((ABS(yawDiff) <= 0x4300) && (this->actor.xzDistToPlayer < 100.0f)) {
         func_8002F2CC(&this->actor, globalCtx, 100.0f);
     }
     return 0;
 }
 
 void func_80AAF2BC(EnMm2* this, GlobalContext* globalCtx) {
-    if (this->unk_1F6 >= 61) {
+    if (this->unk_1F6 > 60) {
         Actor_Kill(&this->actor);
     }
     SkelAnime_Update(&this->skelAnime);
@@ -176,7 +200,7 @@ void func_80AAF330(EnMm2* this, GlobalContext* globalCtx) {
     if (SkelAnime_Update(&this->skelAnime)) {
         this->actionFunc = func_80AAF2BC;
         EnMm2_ChangeAnimation(this, 0, &this->previousAnimation);
-        this->unk_1E0 = 1;
+        this->mouthTexIndex = RM2_MOUTH_OPEN;
         if (!(this->unk_1F4 & 2)) {
             func_80106CCC(globalCtx);
         }
@@ -187,6 +211,7 @@ void func_80AAF330(EnMm2* this, GlobalContext* globalCtx) {
 
 void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
+
     switch (this->actor.textId) {
         case 0x607D:
         case 0x607E:
@@ -218,6 +243,7 @@ void func_80AAF3C0(EnMm2* this, GlobalContext* globalCtx) {
             }
             return;
     }
+
     if (func_8002F334(&this->actor, globalCtx)) {
         if (this->actor.textId == 0x607F) {
             func_80088AA0(0);
@@ -292,12 +318,12 @@ void EnMm2_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnMm2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static UNK_PTR D_80AAFB60[] = { 0x06000E30, 0x06000C30 };
+    static u64* mouthTextures[] = { gRunningManMouthClosedTex, gRunningManMouthOpenTex };
     EnMm2* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_mm2.c", 634);
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AAFB60[this->unk_1E0]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(mouthTextures[this->mouthTexIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnMm2_OverrideLimbDraw, EnMm2_PostLimbDraw, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_mm2.c", 654);
@@ -316,14 +342,15 @@ s32 EnMm2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
             rot->z += this->unk_1E8.x + 0xFA0;
             break;
     }
+
     return 0;
 }
 
 void EnMm2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
-    static Vec3f D_80AAFB68 = { 200.0f, 800.0f, 0.0f };
+    static Vec3f headOffset = { 200.0f, 800.0f, 0.0f };
     EnMm2* this = THIS;
 
     if (limbIndex == 15) {
-        Matrix_MultVec3f(&D_80AAFB68, &this->actor.focus.pos);
+        Matrix_MultVec3f(&headOffset, &this->actor.focus.pos);
     }
 }
