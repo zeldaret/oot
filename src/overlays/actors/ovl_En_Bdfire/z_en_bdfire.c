@@ -51,12 +51,12 @@ void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
         EnBdfire_SetupAction(this, func_809BC2A4);
         this->actor.scale.x = 2.8f;
         this->unk_154 = 90;
-        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.posRot.pos.x, this->actor.posRot.pos.y,
-                                  this->actor.posRot.pos.z, 255, 255, 255, 300);
+        Lights_PointNoGlowSetInfo(&this->lightInfoNoGlow, this->actor.world.pos.x, this->actor.world.pos.y,
+                                  this->actor.world.pos.z, 255, 255, 255, 300);
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfoNoGlow);
     } else {
         EnBdfire_SetupAction(this, func_809BC598);
-        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 0.0f);
+        ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.0f);
         this->actor.speedXZ = 30.0f;
         this->unk_154 = (25 - (s32)(this->actor.params * 0.8f));
         if (this->unk_154 < 0) {
@@ -71,7 +71,7 @@ void EnBdfire_Init(Actor* thisx, GlobalContext* globalCtx) {
         if (this->unk_18C < 20.0f) {
             this->unk_18C = 20.0f;
         }
-        this->unk_156 = (Math_Rand_ZeroOne() * 8.0f);
+        this->unk_156 = (Rand_ZeroOne() * 8.0f);
     }
 }
 
@@ -88,20 +88,20 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
     s32 temp;
 
     kingDodongo = (BossDodongo*)this->actor.parent;
-    this->actor.posRot.pos.x = kingDodongo->firePos.x;
-    this->actor.posRot.pos.y = kingDodongo->firePos.y;
-    this->actor.posRot.pos.z = kingDodongo->firePos.z;
+    this->actor.world.pos.x = kingDodongo->firePos.x;
+    this->actor.world.pos.y = kingDodongo->firePos.y;
+    this->actor.world.pos.z = kingDodongo->firePos.z;
     if (kingDodongo->unk_1E2 == 0) {
-        Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0f, 1.0f, 0.6f, 0.0f);
-        if (Math_SmoothScaleMaxMinF(&this->unk_18C, 0.0f, 1.0f, 20.0f, 0.0f) == 0.0f) {
+        Math_SmoothStepToF(&this->actor.scale.x, 0.0f, 1.0f, 0.6f, 0.0f);
+        if (Math_SmoothStepToF(&this->unk_18C, 0.0f, 1.0f, 20.0f, 0.0f) == 0.0f) {
             Actor_Kill(&this->actor);
             return;
         }
     } else {
         if (this->unk_154 < 70) {
-            Math_SmoothScaleMaxMinF(&this->unk_18C, 128.0f, 0.1f, 1.5f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->unk_190, 255.0f, 1.0f, 3.8249998f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->unk_194, 100.0f, 1.0f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->unk_18C, 128.0f, 0.1f, 1.5f, 0.0f);
+            Math_SmoothStepToF(&this->unk_190, 255.0f, 1.0f, 3.8249998f, 0.0f);
+            Math_SmoothStepToF(&this->unk_194, 100.0f, 1.0f, 1.5f, 0.0f);
         }
         if (this->unk_154 == 0) {
             temp = 0;
@@ -110,10 +110,10 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
             temp = this->unk_154;
         }
         if (temp == 0) {
-            Math_SmoothScaleMaxMinF(&this->actor.scale.x, 0.0f, 1.0f, 0.3f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->unk_190, 0.0f, 1.0f, 25.5f, 0.0f);
-            Math_SmoothScaleMaxMinF(&this->unk_194, 0.0f, 1.0f, 10.0f, 0.0f);
-            if (Math_SmoothScaleMaxMinF(&this->unk_18C, 0.0f, 1.0f, 10.0f, 0.0f) == 0.0f) {
+            Math_SmoothStepToF(&this->actor.scale.x, 0.0f, 1.0f, 0.3f, 0.0f);
+            Math_SmoothStepToF(&this->unk_190, 0.0f, 1.0f, 25.5f, 0.0f);
+            Math_SmoothStepToF(&this->unk_194, 0.0f, 1.0f, 10.0f, 0.0f);
+            if (Math_SmoothStepToF(&this->unk_18C, 0.0f, 1.0f, 10.0f, 0.0f) == 0.0f) {
                 Actor_Kill(&this->actor);
             }
         }
@@ -138,31 +138,31 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
         Audio_PlaySoundGeneral(NA_SE_EN_DODO_K_FIRE - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     }
-    Math_SmoothScaleMaxMinF(&this->actor.scale.x, this->unk_188, 0.3f, 0.5f, 0.0f);
+    Math_SmoothStepToF(&this->actor.scale.x, this->unk_188, 0.3f, 0.5f, 0.0f);
     Actor_SetScale(&this->actor, this->actor.scale.x);
-    if (this->actor.posRot.pos.x < -1390.0f) {
+    if (this->actor.world.pos.x < -1390.0f) {
         if (this->actor.velocity.x < -10.0f) {
-            this->actor.posRot.pos.x = -1390.0f;
+            this->actor.world.pos.x = -1390.0f;
             phi_v1_2 = 1;
         }
     }
-    if ((this->actor.posRot.pos.x > -390.0f) && (this->actor.velocity.x > 10.0f)) {
-        this->actor.posRot.pos.x = -390.0f;
+    if ((this->actor.world.pos.x > -390.0f) && (this->actor.velocity.x > 10.0f)) {
+        this->actor.world.pos.x = -390.0f;
         phi_v1_2 = 1;
     }
-    if ((this->actor.posRot.pos.z > -2804.0f) && (this->actor.velocity.z > 10.0f)) {
-        this->actor.posRot.pos.z = -2804.0f;
+    if ((this->actor.world.pos.z > -2804.0f) && (this->actor.velocity.z > 10.0f)) {
+        this->actor.world.pos.z = -2804.0f;
         phi_v1_2 = 1;
     }
-    if ((this->actor.posRot.pos.z < -3804.0f) && (this->actor.velocity.z < -10.0f)) {
-        this->actor.posRot.pos.z = -3804.0f;
+    if ((this->actor.world.pos.z < -3804.0f) && (this->actor.velocity.z < -10.0f)) {
+        this->actor.world.pos.z = -3804.0f;
         phi_v1_2 = 1;
     }
     if (phi_v1_2 != 0) {
         if (this->unk_158 == 0) {
-            this->actor.posRot.rot.y += 0x4000;
+            this->actor.world.rot.y += 0x4000;
         } else {
-            this->actor.posRot.rot.y -= 0x4000;
+            this->actor.world.rot.y -= 0x4000;
         }
     }
     if (this->unk_154 == 0) {
@@ -172,19 +172,19 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
         temp = this->unk_154;
     }
     if (temp == 0) {
-        Math_SmoothScaleMaxMinF(&this->unk_18C, 0.0f, 1.0f, 10.0f, 0.0f);
+        Math_SmoothStepToF(&this->unk_18C, 0.0f, 1.0f, 10.0f, 0.0f);
         if (this->unk_18C < 10.0f) {
             Actor_Kill(&this->actor);
             return;
         }
     } else if (!player->isBurning) {
         distToBurn = (this->actor.scale.x * 130.0f) / 4.2000003f;
-        if (this->actor.xyzDistFromLinkSq < SQ(distToBurn)) {
+        if (this->actor.xyzDistToPlayerSq < SQ(distToBurn)) {
             for (i = 0; i < 18; i++) {
-                player->flameTimers[i] = Math_Rand_S16Offset(0, 200);
+                player->flameTimers[i] = Rand_S16Offset(0, 200);
             }
             player->isBurning = true;
-            func_8002F6D4(globalCtx, &this->actor, 20.0f, this->actor.posRot.rot.y, 0.0f, 8);
+            func_8002F6D4(globalCtx, &this->actor, 20.0f, this->actor.world.rot.y, 0.0f, 8);
             osSyncPrintf("POWER\n");
         }
     }

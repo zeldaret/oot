@@ -119,10 +119,10 @@ glabel BossDodongo_Update
 /* 02A54 808C3BE4 A63801A6 */  sh      $t8, 0x01A6($s1)           ## 000001A6
 /* 02A58 808C3BE8 A62001A6 */  sh      $zero, 0x01A6($s1)         ## 000001A6
 .L808C3BEC:
-/* 02A5C 808C3BEC 0C23147D */  jal     func_808C51F4              
+/* 02A5C 808C3BEC 0C23147D */  jal     BossDodongo_PlayerYawCheck              
 /* 02A60 808C3BF0 8FA500B4 */  lw      $a1, 0x00B4($sp)           
 /* 02A64 808C3BF4 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 02A68 808C3BF8 0C231493 */  jal     func_808C524C              
+/* 02A68 808C3BF8 0C231493 */  jal     BossDodongo_PlayerPosCheck              
 /* 02A6C 808C3BFC 8FA500B4 */  lw      $a1, 0x00B4($sp)           
 /* 02A70 808C3C00 8E390190 */  lw      $t9, 0x0190($s1)           ## 00000190
 /* 02A74 808C3C04 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
@@ -143,7 +143,7 @@ glabel BossDodongo_Update
               
 /* 02AAC 808C3C3C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02AB0 808C3C40 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
-/* 02AB4 808C3C44 0C2314D5 */  jal     func_808C5354              
+/* 02AB4 808C3C44 0C2314D5 */  jal     BossDodongo_UpdateDamage              
 /* 02AB8 808C3C48 8FA500B4 */  lw      $a1, 0x00B4($sp)           
 /* 02ABC 808C3C4C 3C014120 */  lui     $at, 0x4120                ## $at = 41200000
 /* 02AC0 808C3C50 44810000 */  mtc1    $at, $f0                   ## $f0 = 10.00
@@ -915,8 +915,8 @@ glabel BossDodongo_Update
 /* 03588 808C4718 5720001C */  bnel    $t9, $zero, .L808C478C     
 /* 0358C 808C471C 8E2A0190 */  lw      $t2, 0x0190($s1)           ## 00000190
 /* 03590 808C4720 8E2C0190 */  lw      $t4, 0x0190($s1)           ## 00000190
-/* 03594 808C4724 3C0B808C */  lui     $t3, %hi(func_808C5578)    ## $t3 = 808C0000
-/* 03598 808C4728 256B5578 */  addiu   $t3, $t3, %lo(func_808C5578) ## $t3 = 808C5578
+/* 03594 808C4724 3C0B808C */  lui     $t3, %hi(BossDodongo_DeathCutscene)    ## $t3 = 808C0000
+/* 03598 808C4728 256B5578 */  addiu   $t3, $t3, %lo(BossDodongo_DeathCutscene) ## $t3 = 808C5578
 /* 0359C 808C472C 116C0006 */  beq     $t3, $t4, .L808C4748       
 /* 035A0 808C4730 8FA400B4 */  lw      $a0, 0x00B4($sp)           
 /* 035A4 808C4734 3C010001 */  lui     $at, 0x0001                ## $at = 00010000
@@ -936,8 +936,8 @@ glabel BossDodongo_Update
               ## CollisionCheck_setOC
 /* 035D4 808C4764 AFA60034 */  sw      $a2, 0x0034($sp)           
 /* 035D8 808C4768 8E2F0190 */  lw      $t7, 0x0190($s1)           ## 00000190
-/* 035DC 808C476C 3C03808C */  lui     $v1, %hi(func_808C3704)    ## $v1 = 808C0000
-/* 035E0 808C4770 24633704 */  addiu   $v1, $v1, %lo(func_808C3704) ## $v1 = 808C3704
+/* 035DC 808C476C 3C03808C */  lui     $v1, %hi(BossDodongo_Roll)    ## $v1 = 808C0000
+/* 035E0 808C4770 24633704 */  addiu   $v1, $v1, %lo(BossDodongo_Roll) ## $v1 = 808C3704
 /* 035E4 808C4774 146F0004 */  bne     $v1, $t7, .L808C4788       
 /* 035E8 808C4778 8FA60034 */  lw      $a2, 0x0034($sp)           
 /* 035EC 808C477C 8FA400B4 */  lw      $a0, 0x00B4($sp)           
@@ -947,11 +947,11 @@ glabel BossDodongo_Update
 .L808C4788:
 /* 035F8 808C4788 8E2A0190 */  lw      $t2, 0x0190($s1)           ## 00000190
 .L808C478C:
-/* 035FC 808C478C 3C18808C */  lui     $t8, %hi(func_808C3224)    ## $t8 = 808C0000
-/* 03600 808C4790 3C03808C */  lui     $v1, %hi(func_808C3704)    ## $v1 = 808C0000
-/* 03604 808C4794 27183224 */  addiu   $t8, $t8, %lo(func_808C3224) ## $t8 = 808C3224
+/* 035FC 808C478C 3C18808C */  lui     $t8, %hi(BossDodongo_Inhale)    ## $t8 = 808C0000
+/* 03600 808C4790 3C03808C */  lui     $v1, %hi(BossDodongo_Roll)    ## $v1 = 808C0000
+/* 03604 808C4794 27183224 */  addiu   $t8, $t8, %lo(BossDodongo_Inhale) ## $t8 = 808C3224
 /* 03608 808C4798 170A0005 */  bne     $t8, $t2, .L808C47B0       
-/* 0360C 808C479C 24633704 */  addiu   $v1, $v1, %lo(func_808C3704) ## $v1 = 808C3704
+/* 0360C 808C479C 24633704 */  addiu   $v1, $v1, %lo(BossDodongo_Roll) ## $v1 = 808C3704
 /* 03610 808C47A0 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
 /* 03614 808C47A4 8E39045C */  lw      $t9, 0x045C($s1)           ## 0000045C
 /* 03618 808C47A8 10000006 */  beq     $zero, $zero, .L808C47C4   

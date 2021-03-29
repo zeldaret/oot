@@ -889,6 +889,7 @@ DebugDispObject* DebugDisplay_AddObject(f32 posX, f32 posY, f32 posZ, s16 rotX, 
                                         GraphicsContext* gfxCtx);
 void DebugDisplay_DrawObjects(GlobalContext* globalCtx);
 void func_8006450C(GlobalContext* globalCtx, CutsceneContext* csCtx);
+void func_80064520(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064534(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_80064558(GlobalContext* globalCtx, CutsceneContext* csCtx);
 void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx);
@@ -2649,6 +2650,7 @@ void func_80811A20(GameState* thisx); // FileChoose_Init
 void func_80811A18(GameState* thisx); // FileChoose_Destroy
 
 void func_80823994(PauseContext*, f32, f32, f32);
+Gfx* func_80094968(Gfx* gfx);
 void func_800949A8(GraphicsContext*);
 void func_8082409C(GlobalContext*, GraphicsContext*);
 void func_80820434(GlobalContext*, GraphicsContext*);

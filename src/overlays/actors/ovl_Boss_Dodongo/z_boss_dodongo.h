@@ -28,13 +28,13 @@ typedef struct BossDodongo {
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
-    /* 0x019C */ s16 unk_19C;
+    /* 0x019C */ s16 csState;
     /* 0x019E */ s16 unk_19E;
     /* 0x01A0 */ s16 unk_1A0;
     /* 0x01A2 */ s16 unk_1A2;
     /* 0x01A4 */ s16 unk_1A4;
     /* 0x01A6 */ s16 unk_1A6;
-    /* 0x01A8 */ s16 unk_1A8;
+    /* 0x01A8 */ s16 numWallCollisions;
     /* 0x01AA */ s16 unk_1AA;
     /* 0x01AC */ s16 unk_1AC;
     /* 0x01AE */ s16 unk_1AE;
@@ -42,8 +42,8 @@ typedef struct BossDodongo {
     /* 0x01B2 */ char unk_1B2[0x2];
     /* 0x01B4 */ s16 cutsceneCamera;
     /* 0x01B6 */ s16 unk_1B6;
-    /* 0x01B8 */ s16 unk_1B8;
-    /* 0x01BA */ s16 unk_1BA;
+    /* 0x01B8 */ s16 playerYawInRange;
+    /* 0x01BA */ s16 playerPosInRange;
     /* 0x01BC */ s16 unk_1BC; // u16 unk_1BC;
     /* 0x01BE */ s16 unk_1BE;
     /* 0x01C0 */ s16 unk_1C0;
@@ -95,7 +95,7 @@ typedef struct BossDodongo {
     /* 0x0428 */ Vec3f cameraEye;
     /* 0x0434 */ Vec3f cameraAt;
     /* 0x0440 */ ColliderJntSph collider;
-    /* 0x0460 */ ColliderJntSphItem items[19];
+    /* 0x0460 */ ColliderJntSphElement items[19];
     /* 0x0920 */ BossDodongoEffect effects[80];
 } BossDodongo; // size = 0x1820
 
