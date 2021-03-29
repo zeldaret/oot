@@ -671,7 +671,7 @@ void func_808FD5F4(BossGanon2* this, GlobalContext* globalCtx) {
             if (this->unk_398 == 0x96) {
                 func_8010B680(globalCtx, 0x70D3, NULL);
             }
-            if (this->unk_398 >= 0xFB && func_8010BDBC(&globalCtx->msgCtx) == 0) {
+            if (this->unk_398 > 0xFA && func_8010BDBC(&globalCtx->msgCtx) == 0) {
                 this->unk_39C = 2;
                 this->unk_398 = 0;
                 this->unk_410.x = 0.0f;
