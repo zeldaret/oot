@@ -93,7 +93,7 @@ void MapMark_Draw(GlobalContext* globalCtx) {
         return;
     }
 
-    mapMarkIconData = sLoadedMarkDataTable[dungeon][interfaceCtx->mapRoomNum].icons;
+    mapMarkIconData = &sLoadedMarkDataTable[dungeon][interfaceCtx->mapRoomNum][0];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
 

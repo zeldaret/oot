@@ -115,21 +115,19 @@ for scenemap in scenemaps:
     for mapId, map in enumerate(scenemap[1]):
         cstr += IND(1) + f"// {GetDungeonName(scenemap[0])} minimap {mapId}\n"
         cstr += IND(1) + "{\n"
-        cstr += IND(2) + "{\n"
         for icon in map:
             if SIMPLIFY_OUTPUT and icon[0] == 0 and icon[1] == 0:
-                cstr += IND(3) + "{ 0 },\n"
+                cstr += IND(2) + "{ 0 },\n"
             elif SIMPLIFY_OUTPUT and icon[0] == -1:
-                cstr += IND(3) + f"{{ {GetIconName(icon[0])}, 0, {{ 0 }} }},\n"
+                cstr += IND(2) + f"{{ {GetIconName(icon[0])}, 0, {{ 0 }} }},\n"
             else:
+                cstr += IND(2) + "{\n"
+                cstr += IND(3) + f"{GetIconName(icon[0])}, {icon[1]},\n"
                 cstr += IND(3) + "{\n"
-                cstr += IND(4) + f"{GetIconName(icon[0])}, {icon[1]},\n"
-                cstr += IND(4) + "{\n"
                 for point in icon[2]:
-                    cstr += IND(5) + f"{{ {point[0]}, {point[1]}, {point[2]} }},\n"
-                cstr += IND(4) + "}\n"
-                cstr += IND(3) + "},\n"
-        cstr += IND(2) + "},\n"
+                    cstr += IND(4) + f"{{ {point[0]}, {point[1]}, {point[2]} }},\n"
+                cstr += IND(3) + "}\n"
+                cstr += IND(2) + "},\n"
         cstr += IND(1) + "},\n"
     cstr += "};\n\n"
     

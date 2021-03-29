@@ -18,9 +18,7 @@ typedef struct {
     /* 0x02 */ MapMarkPoint points[12];
 } MapMarkIconData; // size = 0x26
 
-typedef struct {
-    MapMarkIconData icons[3];
-} MapMarkData; // size = 0x72
+typedef MapMarkIconData MapMarkData[3]; // size = 0x72
 
 extern MapMarkData* gMapMarkDataTable[];
 
