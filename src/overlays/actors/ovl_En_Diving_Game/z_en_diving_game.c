@@ -29,7 +29,7 @@ void func_809EE96C(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx);
-s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx);
+s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx);
 s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx);
 Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx);
@@ -73,8 +73,8 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.gravity = -3.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_DrawFlexOpa(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, &this->jointTable,
-                     &this->morphTable, 20);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, this->jointTable,
+                     this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_809EF0B4);
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n" VT_RST);
@@ -174,14 +174,14 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06002FE8.common);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06002FE8, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    f32 frameCount = Animation_GetLastFrame(&D_06002FE8.common);
+    Animation_Change(&this->skelAnime, &D_06002FE8, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->unk_31D = 1;
     this->actionFunc = func_809EDD4C;
 }
 
 void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk_2A8 != 2) || (func_809EDB08(this, globalCtx) == 0)) {
         if (func_8002F194(&this->actor, globalCtx) != 0) {
             if (this->unk_292 != 6) {
@@ -232,7 +232,7 @@ void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             switch (globalCtx->msgCtx.choiceIndex) {
@@ -273,7 +273,7 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             if (this->unk_29C == 0) {
@@ -290,8 +290,8 @@ void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_0600219C.common);
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_0600219C, 1.0f, 0.0f, (s16)frameCount, 2, -10.0f);
+    f32 frameCount = Animation_GetLastFrame(&D_0600219C.common);
+    Animation_Change(&this->skelAnime, &D_0600219C, 1.0f, 0.0f, (s16)frameCount, 2, -10.0f);
     this->unk_31D = 0;
     this->actionFunc = func_809EE194;
 }
@@ -299,7 +299,7 @@ void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 currentFrame;
     currentFrame = this->skelAnime.curFrame;
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (currentFrame >= 15.0f) {
         this->actionFunc = func_809EE1F4;
     }
@@ -307,7 +307,7 @@ void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     this->camId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->camId, 7);
@@ -341,8 +341,8 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     this->unk_30C = fabsf(this->vec_2B8.x - this->unk_2F4) * 0.04f;
     this->unk_310 = fabsf(this->vec_2B8.y - this->unk_2F8) * 0.04f;
     this->unk_314 = fabsf(this->vec_2B8.z - this->unk_2FC) * 0.04f;
-    func_800C04D8(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
-    func_800C0704(globalCtx, this->camId, globalCtx->mainCamera.fov);
+    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
+    Gameplay_CameraSetFov(globalCtx, this->camId, globalCtx->mainCamera.fov);
     this->unk_294 = 0x3C;
     this->actionFunc = func_809EE408;
     this->unk_318 = 0.0f;
@@ -350,7 +350,7 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
 
 //#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Diving_Game/func_809EE408.s")
 void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos) != 0) {
         func_800F6828(0);
     }
@@ -362,7 +362,7 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->vec_2B8.z, this->unk_2FC, this->unk_308, this->unk_314 * this->unk_318);
         Math_ApproachF(&this->unk_318, 1.0f, 1.0f, 0.02f);
     }
-    func_800C04D8(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
+    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
     if (this->unk_31E == 0) {
         if (this->unk_29A == 0) {
             this->unk_29A = 5;
@@ -394,7 +394,7 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_296 == 0) {
         this->unk_2A2 = 1;
         this->unk_294 = 100;
@@ -415,7 +415,7 @@ void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_294 == 0) {
         Gameplay_ClearCamera(globalCtx, this->camId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, 7);
@@ -427,7 +427,7 @@ void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
         if (func_80106BC8(globalCtx) != 0) {
             func_80106CCC(globalCtx);
@@ -447,7 +447,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE8F0(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0))) {
         func_80106CCC(globalCtx);
         this->actionFunc = func_809EDD4C;
@@ -457,7 +457,7 @@ void func_809EE8F0(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE96C(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0))) {
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
@@ -469,7 +469,7 @@ void func_809EE96C(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0))) {
         func_80106CCC(globalCtx);
         this->actor.parent = NULL;
@@ -479,7 +479,7 @@ void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (Actor_HasParent(&this->actor, globalCtx) != 0) {
         this->actionFunc = func_809EEAF8;
     } else {
@@ -488,7 +488,7 @@ void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
         if (func_80106BC8(globalCtx) != 0) {
             // "Successful completion"
@@ -532,7 +532,7 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx) {
         this->unk_29E++;
         if (this->unk_29E >= 3) {
             this->unk_29E = 0;
-            this->unk_298 = (s32)Math_Rand_ZeroFloat(60.0f) + 0x14;
+            this->unk_298 = (s32)Rand_ZeroFloat(60.0f) + 0x14;
         }
     }
     this->actionFunc(this, globalCtx);
@@ -545,11 +545,11 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx) {
     if ((globalCtx->gameplayFrames % 16) == 0) {
         vec = this->actor.world.pos;
         vec.y += 20.0f;
-        func_80029444(globalCtx, &vec, 0x64, 0x1F4, 0x1E);
+        EffectSsGRipple_Spawn(globalCtx, &vec, 0x64, 0x1F4, 0x1E);
     }
     this->unk_290++;
-    func_8002E4B4(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
-    Collider_CylinderUpdate(&this->actor, &this->collider);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
+    Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 #else
@@ -562,7 +562,7 @@ Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDivingGame* this = THIS;
     s32 pad;
 
@@ -576,8 +576,8 @@ s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
     }
 
     if ((this->unk_31D != 0) && ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12))) {
-        rot->y += (Math_Sins((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
-        rot->z += (Math_Coss((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
+        rot->y += (Math_SinS((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f);
+        rot->z += (Math_CosS((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f);
     }
 
     return 0;
@@ -594,6 +594,6 @@ void EnDivingGame_Draw(Actor* thisx, GlobalContext *globalCtx) {
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
     gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809EF0E0[this->unk_29E]));
     
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, func_809EEDE4, NULL, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount, func_809EEDE4, NULL, &this->actor);
     Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1232);
 }
