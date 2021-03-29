@@ -35,7 +35,7 @@ glabel BossGanondrof_Destroy
 /* 0070C 80910D4C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 00710 80910D50 15C10003 */  bne     $t6, $at, .L80910D60
 /* 00714 80910D54 262507A8 */  addiu   $a1, $s1, 0x07A8           ## $a1 = 000007A8
-/* 00718 80910D58 0C01E9F1 */  jal     Lights_Remove
+/* 00718 80910D58 0C01E9F1 */  jal     LightContext_RemoveLight
 
 /* 0071C 80910D5C 8E0604CC */  lw      $a2, 0x04CC($s0)           ## 000004CC
 .L80910D60:

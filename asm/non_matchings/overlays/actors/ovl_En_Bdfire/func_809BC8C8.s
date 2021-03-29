@@ -119,8 +119,8 @@ glabel func_809BC8C8
 /* 00A34 809BCA64 0C0346A2 */  jal     Matrix_NewMtx              
 /* 00A38 809BCA68 AFA2002C */  sw      $v0, 0x002C($sp)           
 /* 00A3C 809BCA6C 8FA3002C */  lw      $v1, 0x002C($sp)           
-/* 00A40 809BCA70 3C0D0602 */  lui     $t5, 0x0602                ## $t5 = 06020000
-/* 00A44 809BCA74 25ADD950 */  addiu   $t5, $t5, 0xD950           ## $t5 = 0601D950
+/* 00A40 809BCA70 3C0D0602 */  lui     $t5, %hi(D_0601D950)                ## $t5 = 06020000
+/* 00A44 809BCA74 25ADD950 */  addiu   $t5, $t5, %lo(D_0601D950)           ## $t5 = 0601D950
 /* 00A48 809BCA78 AC620004 */  sw      $v0, 0x0004($v1)           ## 00000004
 /* 00A4C 809BCA7C 8E0202D0 */  lw      $v0, 0x02D0($s0)           ## 000002D0
 /* 00A50 809BCA80 3C0CDE00 */  lui     $t4, 0xDE00                ## $t4 = DE000000

@@ -33,14 +33,14 @@ glabel BossFd2_Init
 
 /* 00490 808D2B00 00000000 */  nop
 /* 00494 808D2B04 3C060601 */  lui     $a2, 0x0601                ## $a2 = 06010000
-/* 00498 808D2B08 3C070601 */  lui     $a3, 0x0601                ## $a3 = 06010000
-/* 0049C 808D2B0C 24E7C8EC */  addiu   $a3, $a3, 0xC8EC           ## $a3 = 0600C8EC
+/* 00498 808D2B08 3C070601 */  lui     $a3, %hi(D_0600C8EC)                ## $a3 = 06010000
+/* 0049C 808D2B0C 24E7C8EC */  addiu   $a3, $a3, %lo(D_0600C8EC)           ## $a3 = 0600C8EC
 /* 004A0 808D2B10 24C61A78 */  addiu   $a2, $a2, 0x1A78           ## $a2 = 06011A78
 /* 004A4 808D2B14 8FA40044 */  lw      $a0, 0x0044($sp)
 /* 004A8 808D2B18 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
 /* 004AC 808D2B1C AFA00010 */  sw      $zero, 0x0010($sp)
 /* 004B0 808D2B20 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 004B4 808D2B24 0C0291BE */  jal     SkelAnime_InitSV
+/* 004B4 808D2B24 0C0291BE */  jal     SkelAnime_InitFlex
 /* 004B8 808D2B28 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 004BC 808D2B2C 860E001C */  lh      $t6, 0x001C($s0)           ## 0000001C
 /* 004C0 808D2B30 3C0F808D */  lui     $t7, %hi(func_808D4748)    ## $t7 = 808D0000

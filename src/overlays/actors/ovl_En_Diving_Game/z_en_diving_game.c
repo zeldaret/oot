@@ -34,9 +34,13 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx);
 s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx);
 Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx);
 
+extern UNK_TYPE D_0600219C;
+extern UNK_TYPE D_06002FE8;
+extern UNK_TYPE D_0600BFA8;
+
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_ZO,
     sizeof(EnDivingGame),

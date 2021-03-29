@@ -15,10 +15,12 @@ void EnBdfire_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnBdfire_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_0601D950;
+
 /*
 const ActorInit En_Bdfire_InitVars = {
     0,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_KINGDODONGO,
     sizeof(EnBdfire),

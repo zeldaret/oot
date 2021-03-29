@@ -19,7 +19,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx);
 
 const ActorInit En_Ds_InitVars = {
     ACTOR_EN_DS,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_DS,
     sizeof(EnDs),
@@ -29,22 +29,22 @@ const ActorInit En_Ds_InitVars = {
     (ActorFunc)EnDs_Draw,
 };
 
-extern SkeletonHeader D_06004768;
+extern FlexSkeletonHeader D_06004768;
 extern AnimationHeader D_0600039C;
 
 void EnDs_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 36.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, &this->limbDrawTable, &this->unk_1B4, 6);
-    SkelAnime_ChangeAnimDefaultStop(&this->skelAnime, &D_0600039C);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004768, &D_0600039C, this->jointTable, this->morphTable, 6);
+    Animation_PlayOnce(&this->skelAnime, &D_0600039C);
 
-    this->actor.colChkInfo.mass = 0xFF;
+    this->actor.colChkInfo.mass = MASS_IMMOVABLE;
 
-    Actor_SetScale(this, 0.013f);
+    Actor_SetScale(&this->actor, 0.013f);
 
     this->actionFunc = EnDs_Wait;
-    this->actor.unk_1F = 1;
+    this->actor.targetMode = 1;
     this->unk_1E8 = 0;
     this->actor.flags &= ~0x1;
     this->unk_1E4 = 0.0f;
@@ -113,7 +113,7 @@ void EnDs_BrewOddPotion3(EnDs* this, GlobalContext* globalCtx) {
         func_8010B720(globalCtx, 0x504D);
     }
 
-    Math_ApproxF(&this->unk_1E4, 0, 0.03f);
+    Math_StepToF(&this->unk_1E4, 0, 0.03f);
     func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
@@ -135,7 +135,7 @@ void EnDs_BrewOddPotion1(EnDs* this, GlobalContext* globalCtx) {
         this->brewTimer = 20;
     }
 
-    Math_ApproxF(&this->unk_1E4, 1.0f, 0.01f);
+    Math_StepToF(&this->unk_1E4, 1.0f, 0.01f);
     func_800773A8(globalCtx, this->unk_1E4 * (2.0f - this->unk_1E4), 0.0f, 0.1f, 1.0f);
 }
 
@@ -149,7 +149,7 @@ void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
                 this->brewTimer = 60;
                 Flags_SetSwitch(globalCtx, 0x3F);
                 globalCtx->msgCtx.msgMode = 0x37;
-                player->exchangeItemId = 0;
+                player->exchangeItemId = EXCH_ITEM_NONE;
                 break;
             case 1: // no
                 func_8010B720(globalCtx, 0x504C);
@@ -158,7 +158,7 @@ void EnDs_OfferOddPotion(EnDs* this, GlobalContext* globalCtx) {
     }
 }
 
-int EnDs_CheckRupeesAndBottle() {
+s32 EnDs_CheckRupeesAndBottle() {
     if (gSaveContext.rupees < 100) {
         return 0;
     } else if (Inventory_HasEmptyBottle() == 0) {
@@ -192,7 +192,7 @@ void EnDs_OfferBluePotion(EnDs* this, GlobalContext* globalCtx) {
                     case 2: // have 100 rupees and empty bottle
                         Rupees_ChangeBy(-100);
                         this->actor.flags &= ~0x10000;
-                        func_8002F434(this, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
+                        func_8002F434(&this->actor, globalCtx, GI_POTION_BLUE, 10000.0f, 50.0f);
                         this->actionFunc = EnDs_GiveBluePotion;
                         return;
                 }
@@ -209,7 +209,7 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
     s16 yawDiff;
 
     if (func_8002F194(&this->actor, globalCtx) != 0) {
-        if (func_8002F368(globalCtx) == 8) {
+        if (func_8002F368(globalCtx) == EXCH_ITEM_ODD_MUSHROOM) {
             Audio_PlaySoundGeneral(NA_SE_SY_TRE_BOX_APPEAR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             player->actor.textId = 0x504A;
             this->actionFunc = EnDs_OfferOddPotion;
@@ -225,11 +225,11 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
             this->actionFunc = EnDs_Talk;
         }
     } else {
-        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         this->actor.textId = 0x5048;
 
-        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistFromLink < 200.0f)) {
-            func_8002F298(this, globalCtx, 100.0f, 8);
+        if ((ABS(yawDiff) < 0x2151) && (this->actor.xzDistToPlayer < 200.0f)) {
+            func_8002F298(&this->actor, globalCtx, 100.0f, EXCH_ITEM_ODD_MUSHROOM);
             this->unk_1E8 |= 1;
         }
     }
@@ -238,37 +238,38 @@ void EnDs_Wait(EnDs* this, GlobalContext* globalCtx) {
 void EnDs_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
-    if (SkelAnime_FrameUpdateMatrix(&this->skelAnime) != 0) {
-        this->skelAnime.animCurrentFrame = 0.0f;
+    if (SkelAnime_Update(&this->skelAnime) != 0) {
+        this->skelAnime.curFrame = 0.0f;
     }
 
     this->actionFunc(this, globalCtx);
 
     if (this->unk_1E8 & 1) {
-        func_80038290(globalCtx, this, &this->unk_1D8, &this->unk_1DE, this->actor.posRot2.pos);
+        func_80038290(globalCtx, &this->actor, &this->unk_1D8, &this->unk_1DE, this->actor.focus.pos);
     } else {
-        Math_SmoothScaleMaxMinS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_1D8.y, 0, 6, 0x1838, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_1DE.x, 0, 6, 0x1838, 100);
-        Math_SmoothScaleMaxMinS(&this->unk_1DE.y, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1D8.x, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1D8.y, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1DE.x, 0, 6, 0x1838, 100);
+        Math_SmoothStepToS(&this->unk_1DE.y, 0, 6, 0x1838, 100);
     }
 }
 
-s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* thisx) {
+s32 EnDs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnDs* this = THIS;
 
     if (limbIndex == 5) {
         rot->x += this->unk_1D8.y;
         rot->z += this->unk_1D8.x;
     }
-    return 0;
+    return false;
 }
 
-void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void EnDs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f sMultVec = { 1100.0f, 500.0f, 0.0f };
+    EnDs* this = THIS;
 
     if (limbIndex == 5) {
-        Matrix_MultVec3f(&sMultVec, &thisx->posRot2.pos);
+        Matrix_MultVec3f(&sMultVec, &this->actor.focus.pos);
     }
 }
 
@@ -276,6 +277,6 @@ void EnDs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDs* this = THIS;
 
     func_800943C8(globalCtx->state.gfxCtx);
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnDs_OverrideLimbDraw, EnDs_PostLimbDraw, this);
 }

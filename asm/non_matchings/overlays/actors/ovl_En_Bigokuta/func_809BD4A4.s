@@ -2,11 +2,11 @@ glabel func_809BD4A4
 /* 00844 809BD4A4 27BDFFE8 */  addiu   $sp, $sp, 0xFFE8           ## $sp = FFFFFFE8
 /* 00848 809BD4A8 AFBF0014 */  sw      $ra, 0x0014($sp)
 /* 0084C 809BD4AC 00803825 */  or      $a3, $a0, $zero            ## $a3 = 00000000
-/* 00850 809BD4B0 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 00854 809BD4B4 24A514B8 */  addiu   $a1, $a1, 0x14B8           ## $a1 = 060014B8
+/* 00850 809BD4B0 3C050600 */  lui     $a1, %hi(D_060014B8)                ## $a1 = 06000000
+/* 00854 809BD4B4 24A514B8 */  addiu   $a1, $a1, %lo(D_060014B8)           ## $a1 = 060014B8
 /* 00858 809BD4B8 AFA70018 */  sw      $a3, 0x0018($sp)
 /* 0085C 809BD4BC 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 00860 809BD4C0 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 00860 809BD4C0 0C0294D3 */  jal     Animation_MorphToLoop
 /* 00864 809BD4C4 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 00868 809BD4C8 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 0086C 809BD4CC 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000

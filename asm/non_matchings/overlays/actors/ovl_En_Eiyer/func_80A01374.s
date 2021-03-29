@@ -11,15 +11,15 @@ glabel func_80A01374
 /* 013F8 80A01398 244EFFFF */  addiu   $t6, $v0, 0xFFFF           ## $t6 = FFFFFFFF
 /* 013FC 80A0139C A48E0194 */  sh      $t6, 0x0194($a0)           ## 00000194
 .L80A013A0:
-/* 01400 80A013A0 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 01400 80A013A0 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 01404 80A013A4 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 01408 80A013A8 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
-/* 0140C 80A013AC 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 0140C 80A013AC 0C02927F */  jal     SkelAnime_Update
               
 /* 01410 80A013B0 AFA40024 */  sw      $a0, 0x0024($sp)           
 /* 01414 80A013B4 8FA40024 */  lw      $a0, 0x0024($sp)           
-/* 01418 80A013B8 0C0295B2 */  jal     func_800A56C8              
+/* 01418 80A013B8 0C0295B2 */  jal     Animation_OnFrame              
 /* 0141C 80A013BC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 01420 80A013C0 10400003 */  beq     $v0, $zero, .L80A013D0     
 /* 01424 80A013C4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
@@ -40,11 +40,11 @@ glabel func_80A01374
 /* 01450 80A013F0 5720000A */  bnel    $t9, $zero, .L80A0141C     
 /* 01454 80A013F4 8FBF001C */  lw      $ra, 0x001C($sp)           
 /* 01458 80A013F8 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 0145C 80A013FC 3C0880A0 */  lui     $t0, %hi(D_80A01992)       ## $t0 = 80A00000
+/* 0145C 80A013FC 3C0880A0 */  lui     $t0, %hi(D_80A01970+0x22)       ## $t0 = 80A00000
 /* 01460 80A01400 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 01464 80A01404 E600006C */  swc1    $f0, 0x006C($s0)           ## 0000006C
 /* 01468 80A01408 E6000060 */  swc1    $f0, 0x0060($s0)           ## 00000060
-/* 0146C 80A0140C 85081992 */  lh      $t0, %lo(D_80A01992)($t0)  
+/* 0146C 80A0140C 85081992 */  lh      $t0, %lo(D_80A01970+0x22)($t0)  
 /* 01470 80A01410 0C28012F */  jal     func_80A004BC              
 /* 01474 80A01414 A60802CA */  sh      $t0, 0x02CA($s0)           ## 000002CA
 /* 01478 80A01418 8FBF001C */  lw      $ra, 0x001C($sp)           

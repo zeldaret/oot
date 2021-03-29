@@ -1,11 +1,10 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 u32 gCurrentRegion = 0;
 LocaleCartInfo sCartInfo;
 
-void Locale_Init() {
+void Locale_Init(void) {
     osEPiReadIo(gCartHandle, 0x38, &sCartInfo.mediaFormat);
     osEPiReadIo(gCartHandle, 0x3C, &sCartInfo.regionInfo);
 
@@ -30,11 +29,11 @@ void Locale_Init() {
     osSyncPrintf("z_locale_init:日本用かアメリカ用か３コンで判断させる\n");
 }
 
-void Locale_ResetRegion() {
+void Locale_ResetRegion(void) {
     gCurrentRegion = REGION_NULL;
 }
 
-u32 func_80001F48() {
+u32 func_80001F48(void) {
     if (gCurrentRegion == REGION_NATIVE) {
         return 0;
     }
@@ -46,7 +45,7 @@ u32 func_80001F48() {
     return 1;
 }
 
-u32 func_80001F8C() {
+u32 func_80001F8C(void) {
     if (gCurrentRegion == REGION_NATIVE) {
         return 0;
     }
@@ -59,6 +58,6 @@ u32 func_80001F8C() {
 }
 
 // This function appears to be unused?
-u32 Locale_IsRegionNative() {
+u32 Locale_IsRegionNative(void) {
     return gCurrentRegion == REGION_NATIVE;
 }

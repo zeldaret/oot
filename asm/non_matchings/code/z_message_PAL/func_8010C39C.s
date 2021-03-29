@@ -2382,8 +2382,8 @@ glabel L8010DF4C
 /* B852F4 8010E154 0C00084C */  jal   osSyncPrintf
 /* B852F8 8010E158 248447AC */   addiu $a0, %lo(D_801547AC) # addiu $a0, $a0, 0x47ac
 /* B852FC 8010E15C 3C048016 */  lui   $a0, %hi(gSaveContext+0xf41) # $a0, 0x8016
-/* B85300 8010E160 3C058013 */  lui   $a1, %hi(D_80131BE4) # $a1, 0x8013
-/* B85304 8010E164 8CA51BE4 */  lw    $a1, %lo(D_80131BE4)($a1)
+/* B85300 8010E160 3C058013 */  lui   $a1, %hi(gScarecrowCustomSongPtr) # $a1, 0x8013
+/* B85304 8010E164 8CA51BE4 */  lw    $a1, %lo(gScarecrowCustomSongPtr)($a1)
 /* B85308 8010E168 2484F5A1 */  addiu $a0, %lo(gSaveContext+0xf41) # addiu $a0, $a0, -0xa5f
 /* B8530C 8010E16C 0C01A508 */  jal   MemCopy
 /* B85310 8010E170 24060360 */   li    $a2, 864
@@ -2583,8 +2583,8 @@ glabel L8010E364
 /* B855E8 8010E448 0C00084C */  jal   osSyncPrintf
 /* B855EC 8010E44C 24844880 */   addiu $a0, %lo(D_80154880) # addiu $a0, $a0, 0x4880
 /* B855F0 8010E450 3C048016 */  lui   $a0, %hi(gSaveContext+0x12c6) # $a0, 0x8016
-/* B855F4 8010E454 3C058013 */  lui   $a1, %hi(D_80131BE8) # $a1, 0x8013
-/* B855F8 8010E458 8CA51BE8 */  lw    $a1, %lo(D_80131BE8)($a1)
+/* B855F4 8010E454 3C058013 */  lui   $a1, %hi(gScarecrowSpawnSongPtr) # $a1, 0x8013
+/* B855F8 8010E458 8CA51BE8 */  lw    $a1, %lo(gScarecrowSpawnSongPtr)($a1)
 /* B855FC 8010E45C 2484F926 */  addiu $a0, %lo(gSaveContext+0x12c6) # addiu $a0, $a0, -0x6da
 /* B85600 8010E460 0C01A508 */  jal   MemCopy
 /* B85604 8010E464 24060080 */   li    $a2, 128

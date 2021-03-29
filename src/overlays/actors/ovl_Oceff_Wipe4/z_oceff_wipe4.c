@@ -1,11 +1,11 @@
 /*
  * File: z_oceff_wipe4.c
  * Overlay: ovl_Oceff_Wipe4
- * Description: Song of Time effect
+ * Description: Scarecrow's Song and an unused Ocarina Effect
  */
 
 #include "z_oceff_wipe4.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x02000010
 
@@ -18,7 +18,7 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 const ActorInit Oceff_Wipe4_InitVars = {
     ACTOR_OCEFF_WIPE4,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(OceffWipe4),
@@ -32,20 +32,23 @@ const ActorInit Oceff_Wipe4_InitVars = {
 
 void OceffWipe4_Init(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+
     Actor_SetScale(&this->actor, 0.1f);
     this->counter = 0;
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+    this->actor.world.pos = ACTIVE_CAM->eye;
     osSyncPrintf(VT_FGCOL(CYAN) " WIPE4 arg_data = %d\n" VT_RST, this->actor.params);
 }
 
 void OceffWipe4_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
+
     func_800876C8(globalCtx);
 }
 
 void OceffWipe4_Update(Actor* thisx, GlobalContext* globalCtx) {
     OceffWipe4* this = THIS;
-    this->actor.posRot.pos = ACTIVE_CAM->eye;
+
+    this->actor.world.pos = ACTIVE_CAM->eye;
     if (this->counter < 50) {
         this->counter++;
     } else {
@@ -64,14 +67,14 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Vec3f vec;
 
     eye = ACTIVE_CAM->eye;
-    func_8005AFB4(&vec, ACTIVE_CAM);
+    Camera_GetSkyboxOffset(&vec, ACTIVE_CAM);
     if (this->counter < 16) {
-        z = Math_Sins(this->counter << 10) * 1330;
+        z = Math_SinS(this->counter << 10) * 1330;
     } else {
         z = 1330;
     }
 
-    vtxPtr = vertices;
+    vtxPtr = sFrustumVtx;
     if (this->counter >= 30) {
         alpha = 12 * (50 - this->counter);
     } else {
@@ -91,19 +94,19 @@ void OceffWipe4_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_800D1FD4(&globalCtx->mf_11DA0);
     Matrix_Translate(0.0f, 0.0f, -z, MTXMODE_APPLY);
 
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 324),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 324),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->actor.params == 1) {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL1);
+    if (this->actor.params == OCEFF_WIPE4_UNUSED) {
+        gSPDisplayList(POLY_XLU_DISP++, sTexture1DL);
     } else {
-        gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL0);
+        gSPDisplayList(POLY_XLU_DISP++, sTexture0DL);
     }
 
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sTextureDL2);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64,
-                                                          1, scroll * (-1), scroll, 32, 32));
-    gSPDisplayList(oGfxCtx->polyXlu.p++, sFrustrumDl);
+    gSPDisplayList(POLY_XLU_DISP++, sTexture2DL);
+    gSPDisplayList(POLY_XLU_DISP++, Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, scroll * 2, scroll * (-2), 32, 64, 1,
+                                                     scroll * (-1), scroll, 32, 32));
+    gSPDisplayList(POLY_XLU_DISP++, sFrustumDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_oceff_wipe4.c", 344);
 }

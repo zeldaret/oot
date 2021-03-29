@@ -24,11 +24,11 @@ void func_80892E0C(BgJya1flift* this);
 void BgJya1flift_ResetMoveDelay(BgJya1flift* this);
 void BgJya1flift_DelayMove(BgJya1flift* this, GlobalContext* globalCtx);
 
-u8 sHasSpawned = false;
+static u8 sIsSpawned = false;
 
 const ActorInit Bg_Jya_1flift_InitVars = {
     ACTOR_BG_JYA_1FLIFT,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_JYA_OBJ,
     sizeof(BgJya1flift),
@@ -39,12 +39,26 @@ const ActorInit Bg_Jya_1flift_InitVars = {
 };
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
-    { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 70, 80, -82, { 0, 0, 0 } },
 };
 
-f32 finalPositions[] = { 443.0f, -50.0f };
+static f32 sFinalPositions[] = { 443.0f, -50.0f };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
@@ -53,23 +67,21 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 1200, ICHAIN_STOP),
 };
 
-extern UNK_TYPE D_060004A8;
+extern CollisionHeader D_060004A8;
 extern Gfx D_060001F0[];
 
-void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, UNK_PTR arg2, s32 moveFlag) {
+void BgJya1flift_InitDynapoly(BgJya1flift* this, GlobalContext* globalCtx, CollisionHeader* collision, s32 moveFlag) {
     s32 pad;
-    s32 localConst;
+    CollisionHeader* colHeader = NULL;
     s32 pad2;
 
-    localConst = 0;
-    DynaPolyInfo_SetActorMove(&this->dyna, moveFlag);
-    DynaPolyInfo_Alloc(arg2, &localConst);
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, localConst);
+    DynaPolyActor_Init(&this->dyna, moveFlag);
+    CollisionHeader_GetVirtual(collision, &colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
-    if (this->dyna.dynaPolyId == 0x32) {
+    if (this->dyna.bgId == BG_ACTOR_MAX) {
         // Warning : move BG login failed
-        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 0xB3,
+        osSyncPrintf("Warning : move BG 登録失敗(%s %d)(name %d)(arg_data 0x%04x)\n", "../z_bg_jya_1flift.c", 179,
                      this->dyna.actor.id, this->dyna.actor.params);
     }
 }
@@ -79,19 +91,19 @@ void BgJya1flift_InitCollision(Actor* thisx, GlobalContext* globalCtx) {
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->dyna.actor, &sCylinderInit);
-    this->dyna.actor.colChkInfo.mass = 0xFF;
+    this->dyna.actor.colChkInfo.mass = MASS_IMMOVABLE;
 }
 
 void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
     // 1 F lift
-    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sHasSpawned, globalCtx->roomCtx.curRoom.num);
+    osSyncPrintf("(１Ｆリフト)(flag %d)(room %d)\n", sIsSpawned, globalCtx->roomCtx.curRoom.num);
     this->hasInitialized = false;
-    if (sHasSpawned) {
+    if (sIsSpawned) {
         Actor_Kill(thisx);
         return;
     }
-    BgJya1flift_InitDynapoly(this, globalCtx, &D_060004A8, 0);
+    BgJya1flift_InitDynapoly(this, globalCtx, &D_060004A8, DPM_UNK);
     Actor_ProcessInitChain(thisx, sInitChain);
     BgJya1flift_InitCollision(thisx, globalCtx);
     if (Flags_GetSwitch(globalCtx, (thisx->params & 0x3F))) {
@@ -100,7 +112,7 @@ void BgJya1flift_Init(Actor* thisx, GlobalContext* globalCtx) {
         func_80892DB0(this);
     }
     thisx->room = -1;
-    sHasSpawned = true;
+    sIsSpawned = true;
     this->hasInitialized = true;
 }
 
@@ -108,15 +120,15 @@ void BgJya1flift_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     BgJya1flift* this = THIS;
 
     if (this->hasInitialized) {
-        sHasSpawned = false;
+        sIsSpawned = false;
         Collider_DestroyCylinder(globalCtx, &this->collider);
-        DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
 void func_80892DB0(BgJya1flift* this) {
     this->actionFunc = func_80892DCC;
-    this->dyna.actor.posRot.pos.y = finalPositions[0];
+    this->dyna.actor.world.pos.y = sFinalPositions[0];
 }
 
 void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx) {
@@ -127,7 +139,7 @@ void func_80892DCC(BgJya1flift* this, GlobalContext* globalCtx) {
 
 void func_80892E0C(BgJya1flift* this) {
     this->actionFunc = BgJya1flift_DoNothing;
-    this->dyna.actor.posRot.pos.y = finalPositions[0];
+    this->dyna.actor.world.pos.y = sFinalPositions[0];
 }
 
 void BgJya1flift_DoNothing(BgJya1flift* this, GlobalContext* globalCtx) {
@@ -142,15 +154,15 @@ void BgJya1flift_ChangeDirection(BgJya1flift* this) {
 void BgJya1flift_Move(BgJya1flift* this, GlobalContext* globalCtx) {
     f32 tempVelocity;
 
-    Math_ApproxF(&this->dyna.actor.velocity.y, 6.0f, 0.4f);
+    Math_StepToF(&this->dyna.actor.velocity.y, 6.0f, 0.4f);
     if (this->dyna.actor.velocity.y < 1.0f) {
         tempVelocity = 1.0f;
     } else {
         tempVelocity = this->dyna.actor.velocity.y;
     }
-    if (fabsf(Math_SmoothScaleMaxMinF(&this->dyna.actor.posRot.pos.y, (finalPositions[this->isMovingDown]), 0.5f,
-                                      tempVelocity, 1.0f)) < 0.001f) {
-        this->dyna.actor.posRot.pos.y = finalPositions[this->isMovingDown];
+    if (fabsf(Math_SmoothStepToF(&this->dyna.actor.world.pos.y, (sFinalPositions[this->isMovingDown]), 0.5f,
+                                 tempVelocity, 1.0f)) < 0.001f) {
+        this->dyna.actor.world.pos.y = sFinalPositions[this->isMovingDown];
         BgJya1flift_ResetMoveDelay(this);
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BLOCK_BOUND);
     } else {
@@ -182,14 +194,14 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
         tempIsRiding = func_8004356C(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                func_8005A77C(globalCtx->cameraPtrs[0], 0x30);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
             } else if (!tempIsRiding && this->isLinkRiding) {
-                func_8005A77C(globalCtx->cameraPtrs[0], 3);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
             }
         }
         this->isLinkRiding = tempIsRiding;
-        Collider_CylinderUpdate(thisx, &this->collider);
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        Collider_UpdateCylinder(thisx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     } else {
         Actor_Kill(thisx);
     }

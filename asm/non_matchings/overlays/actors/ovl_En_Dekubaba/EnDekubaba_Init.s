@@ -8,23 +8,23 @@ glabel EnDekubaba_Init
 /* 00018 809E57E8 0C01E037 */  jal     Actor_ProcessInitChain
               
 /* 0001C 809E57EC 24A59020 */  addiu   $a1, $a1, %lo(D_809E9020)  ## $a1 = 809E9020
-/* 00020 809E57F0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00024 809E57F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00020 809E57F0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00024 809E57F4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00028 809E57F8 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 0002C 809E57FC 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 00030 809E5800 0C00AC78 */  jal     ActorShape_Init
               
 /* 00034 809E5804 3C0741B0 */  lui     $a3, 0x41B0                ## $a3 = 41B00000
-/* 00038 809E5808 3C060600 */  lui     $a2, 0x0600                ## $a2 = 06000000
-/* 0003C 809E580C 3C070600 */  lui     $a3, 0x0600                ## $a3 = 06000000
+/* 00038 809E5808 3C060600 */  lui     $a2, %hi(D_06002A40)                ## $a2 = 06000000
+/* 0003C 809E580C 3C070600 */  lui     $a3, %hi(D_060002B8)                ## $a3 = 06000000
 /* 00040 809E5810 260E01D0 */  addiu   $t6, $s0, 0x01D0           ## $t6 = 000001D0
 /* 00044 809E5814 260F0200 */  addiu   $t7, $s0, 0x0200           ## $t7 = 00000200
 /* 00048 809E5818 24180008 */  addiu   $t8, $zero, 0x0008         ## $t8 = 00000008
 /* 0004C 809E581C AFB80018 */  sw      $t8, 0x0018($sp)           
 /* 00050 809E5820 AFAF0014 */  sw      $t7, 0x0014($sp)           
 /* 00054 809E5824 AFAE0010 */  sw      $t6, 0x0010($sp)           
-/* 00058 809E5828 24E702B8 */  addiu   $a3, $a3, 0x02B8           ## $a3 = 060002B8
-/* 0005C 809E582C 24C62A40 */  addiu   $a2, $a2, 0x2A40           ## $a2 = 06002A40
+/* 00058 809E5828 24E702B8 */  addiu   $a3, $a3, %lo(D_060002B8)           ## $a3 = 060002B8
+/* 0005C 809E582C 24C62A40 */  addiu   $a2, $a2, %lo(D_06002A40)           ## $a2 = 06002A40
 /* 00060 809E5830 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 00064 809E5834 0C02915F */  jal     SkelAnime_Init
               
@@ -89,10 +89,10 @@ glabel EnDekubaba_Init
 /* 00148 809E5918 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
 /* 0014C 809E591C 13200003 */  beq     $t9, $zero, .L809E592C     
 /* 00150 809E5920 3C05809F */  lui     $a1, %hi(D_809E9000)       ## $a1 = 809F0000
-/* 00154 809E5924 3C01809F */  lui     $at, %hi(D_809E901B)       ## $at = 809F0000
-/* 00158 809E5928 A028901B */  sb      $t0, %lo(D_809E901B)($at)  
+/* 00154 809E5924 3C01809F */  lui     $at, %hi(D_809E9000+0x1B)       ## $at = 809F0000
+/* 00158 809E5928 A028901B */  sb      $t0, %lo(D_809E9000+0x1B)($at)  
 .L809E592C:
-/* 0015C 809E592C 0C0187B5 */  jal     func_80061ED4              
+/* 0015C 809E592C 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 00160 809E5930 24A59000 */  addiu   $a1, $a1, %lo(D_809E9000)  ## $a1 = 809E9000
 /* 00164 809E5934 24090004 */  addiu   $t1, $zero, 0x0004         ## $t1 = 00000004
 /* 00168 809E5938 240A0008 */  addiu   $t2, $zero, 0x0008         ## $t2 = 00000008
@@ -127,12 +127,12 @@ glabel EnDekubaba_Init
 .L809E59A4:
 /* 001D4 809E59A4 8F18E664 */  lw      $t8, %lo(gSaveContext+4)($t8)
 /* 001D8 809E59A8 24190004 */  addiu   $t9, $zero, 0x0004         ## $t9 = 00000004
-/* 001DC 809E59AC 3C01809F */  lui     $at, %hi(D_809E8FFB)       ## $at = 809F0000
+/* 001DC 809E59AC 3C01809F */  lui     $at, %hi(D_809E8FE0+0x1B)       ## $at = 809F0000
 /* 001E0 809E59B0 13000002 */  beq     $t8, $zero, .L809E59BC     
 /* 001E4 809E59B4 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 001E8 809E59B8 A0398FFB */  sb      $t9, %lo(D_809E8FFB)($at)  
+/* 001E8 809E59B8 A0398FFB */  sb      $t9, %lo(D_809E8FE0+0x1B)($at)  
 .L809E59BC:
-/* 001EC 809E59BC 0C0187B5 */  jal     func_80061ED4              
+/* 001EC 809E59BC 0C0187B5 */  jal     CollisionCheck_SetInfo              
 /* 001F0 809E59C0 24C68FD8 */  addiu   $a2, $a2, %lo(D_809E8FD8)  ## $a2 = 809E8FD8
 /* 001F4 809E59C4 24080007 */  addiu   $t0, $zero, 0x0007         ## $t0 = 00000007
 /* 001F8 809E59C8 24090001 */  addiu   $t1, $zero, 0x0001         ## $t1 = 00000001

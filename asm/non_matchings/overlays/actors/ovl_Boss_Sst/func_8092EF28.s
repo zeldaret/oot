@@ -10,7 +10,7 @@ glabel func_8092EF28
 /* 02978 8092EF48 24A5E7B8 */  addiu   $a1, $a1, 0xE7B8           ## $a1 = 0600E7B8
 /* 0297C 8092EF4C 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 02980 8092EF50 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
-/* 02984 8092EF54 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 02984 8092EF54 0C0294D3 */  jal     Animation_MorphToLoop
 /* 02988 8092EF58 AFAE002C */  sw      $t6, 0x002C($sp)
 /* 0298C 8092EF5C 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 02990 8092EF60 0C24CF4B */  jal     func_80933D2C
@@ -20,7 +20,7 @@ glabel func_8092EF28
 /* 029A0 8092EF70 02202025 */  or      $a0, $s1, $zero            ## $a0 = 00000000
 /* 029A4 8092EF74 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 029A8 8092EF78 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 029AC 8092EF7C 0C00D09B */  jal     func_8003426C
+/* 029AC 8092EF7C 0C00D09B */  jal     Actor_SetColorFilter
 /* 029B0 8092EF80 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 029B4 8092EF84 3C048094 */  lui     $a0, %hi(D_80938C98)       ## $a0 = 80940000
 /* 029B8 8092EF88 2418003C */  addiu   $t8, $zero, 0x003C         ## $t8 = 0000003C
@@ -28,7 +28,7 @@ glabel func_8092EF28
 /* 029C0 8092EF90 8C848C98 */  lw      $a0, %lo(D_80938C98)($a0)
 /* 029C4 8092EF94 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 029C8 8092EF98 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 029CC 8092EF9C 0C00D09B */  jal     func_8003426C
+/* 029CC 8092EF9C 0C00D09B */  jal     Actor_SetColorFilter
 /* 029D0 8092EFA0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 029D4 8092EFA4 3C048094 */  lui     $a0, %hi(D_80938C9C)       ## $a0 = 80940000
 /* 029D8 8092EFA8 2419003C */  addiu   $t9, $zero, 0x003C         ## $t9 = 0000003C
@@ -36,7 +36,7 @@ glabel func_8092EF28
 /* 029E0 8092EFB0 8C848C9C */  lw      $a0, %lo(D_80938C9C)($a0)
 /* 029E4 8092EFB4 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 029E8 8092EFB8 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 029EC 8092EFBC 0C00D09B */  jal     func_8003426C
+/* 029EC 8092EFBC 0C00D09B */  jal     Actor_SetColorFilter
 /* 029F0 8092EFC0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 029F4 8092EFC4 922906C5 */  lbu     $t1, 0x06C5($s1)           ## 000006C5
 /* 029F8 8092EFC8 922B03E6 */  lbu     $t3, 0x03E6($s1)           ## 000003E6
@@ -76,7 +76,7 @@ glabel func_8092EF28
 /* 02A7C 8092F04C 3C058094 */  lui     $a1, %hi(D_80938CC4)       ## $a1 = 80940000
 /* 02A80 8092F050 84A58CC4 */  lh      $a1, %lo(D_80938CC4)($a1)
 /* 02A84 8092F054 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 02A88 8092F058 0C0301E3 */  jal     func_800C078C
+/* 02A88 8092F058 0C0301E3 */  jal     Gameplay_CopyCamera
 /* 02A8C 8092F05C 00003025 */  or      $a2, $zero, $zero          ## $a2 = 00000000
 /* 02A90 8092F060 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02A94 8092F064 8FA5002C */  lw      $a1, 0x002C($sp)

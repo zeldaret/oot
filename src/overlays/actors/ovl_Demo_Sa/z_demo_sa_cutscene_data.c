@@ -1,5 +1,5 @@
 #include "z_demo_sa.h"
-#include <z64cutscene_commands.h>
+#include "z64cutscene_commands.h"
 
 // clang-format off
 static CutsceneData D_8099010C[] = {

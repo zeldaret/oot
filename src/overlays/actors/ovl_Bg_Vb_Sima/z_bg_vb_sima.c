@@ -12,7 +12,7 @@ void BgVbSima_Draw(Actor* thisx, GlobalContext* globalCtx);
 /*
 const ActorInit Bg_Vb_Sima_InitVars = {
     ACTOR_BG_VB_SIMA,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_FD,
     sizeof(BgVbSima),

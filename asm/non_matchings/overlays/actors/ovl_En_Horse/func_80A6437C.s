@@ -10,17 +10,17 @@ glabel func_80A6437C
 /* 09090 80A64380 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 09094 80A64384 AFB00018 */  sw      $s0, 0x0018($sp)           
 /* 09098 80A64388 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
-/* 0909C 80A6438C 0C00B69E */  jal     func_8002DA78              
+/* 0909C 80A6438C 0C00B69E */  jal     Actor_WorldYawTowardActor              
 /* 090A0 80A64390 8CA51C44 */  lw      $a1, 0x1C44($a1)           ## 00001C44
 /* 090A4 80A64394 860E0032 */  lh      $t6, 0x0032($s0)           ## 00000032
 /* 090A8 80A64398 004E2023 */  subu    $a0, $v0, $t6              
 /* 090AC 80A6439C 00042400 */  sll     $a0, $a0, 16               
 /* 090B0 80A643A0 00042403 */  sra     $a0, $a0, 16               
-/* 090B4 80A643A4 0C01DE1C */  jal     Math_Sins
+/* 090B4 80A643A4 0C01DE1C */  jal     Math_SinS
               ## sins?
 /* 090B8 80A643A8 A7A4002A */  sh      $a0, 0x002A($sp)           
 /* 090BC 80A643AC 87A4002A */  lh      $a0, 0x002A($sp)           
-/* 090C0 80A643B0 0C01DE0D */  jal     Math_Coss
+/* 090C0 80A643B0 0C01DE0D */  jal     Math_CosS
               ## coss?
 /* 090C4 80A643B4 E7A00024 */  swc1    $f0, 0x0024($sp)           
 /* 090C8 80A643B8 3C0180A6 */  lui     $at, %hi(D_80A669AC)       ## $at = 80A60000

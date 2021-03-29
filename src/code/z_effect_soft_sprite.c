@@ -1,6 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
 
 EffectSsInfo sEffectSsInfo = { 0 }; // "EffectSS2Info"
 
@@ -69,7 +68,7 @@ void EffectSs_Delete(EffectSs* effectSs) {
     }
 
     if (effectSs->flags & 4) {
-        func_800F89E8(&effectSs->unk_2C);
+        func_800F89E8(&effectSs->vec);
     }
 
     EffectSs_Reset(effectSs);
@@ -81,15 +80,15 @@ void EffectSs_Reset(EffectSs* effectSs) {
     effectSs->type = EFFECT_SS_TYPE_MAX;
     effectSs->accel.x = effectSs->accel.y = effectSs->accel.z = 0;
     effectSs->velocity.x = effectSs->velocity.y = effectSs->velocity.z = 0;
-    effectSs->unk_2C.x = effectSs->unk_2C.y = effectSs->unk_2C.z = 0;
+    effectSs->vec.x = effectSs->vec.y = effectSs->vec.z = 0;
     effectSs->pos.x = effectSs->pos.y = effectSs->pos.z = 0;
     effectSs->life = -1;
     effectSs->flags = 0;
     effectSs->priority = 128;
     effectSs->draw = NULL;
     effectSs->update = NULL;
-    effectSs->displayList = NULL;
-    effectSs->unk_3C = NULL;
+    effectSs->gfx = NULL;
+    effectSs->actor = NULL;
 
     for (i = 0; i < ARRAY_COUNT(effectSs->regs); i++) {
         effectSs->regs[i] = 0;
@@ -159,7 +158,7 @@ s32 EffectSs_FindSlot(s32 priority, s32* pIndex) {
 void EffectSs_Insert(GlobalContext* globalCtx, EffectSs* effectSs) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) != 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) != true) {
         if (EffectSs_FindSlot(effectSs->priority, &index) == 0) {
             sEffectSsInfo.searchStartIndex = index + 1;
             sEffectSsInfo.table[index] = *effectSs;
@@ -295,12 +294,11 @@ void EffectSs_Draw(GlobalContext* globalCtx, s32 index) {
 
 // original name: "EffectSoftSprite2_disp"
 void EffectSs_DrawAll(GlobalContext* globalCtx) {
-    LightMapper* lightMapper;
+    Lights* lights = LightContext_NewLights(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
     s32 i;
 
-    lightMapper = Lights_CreateMapper(&globalCtx->lightCtx, globalCtx->state.gfxCtx);
-    func_8007A474(lightMapper, globalCtx->lightCtx.lightsHead, 0);
-    func_80079EFC(lightMapper, globalCtx->state.gfxCtx);
+    Lights_BindAll(lights, globalCtx->lightCtx.listHead, NULL);
+    Lights_Draw(lights, globalCtx->state.gfxCtx);
 
     for (i = 0; i < sEffectSsInfo.tableSize; i++) {
         if (sEffectSsInfo.table[i].life > -1) {

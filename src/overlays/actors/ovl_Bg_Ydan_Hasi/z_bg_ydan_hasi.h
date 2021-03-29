@@ -1,12 +1,12 @@
 #ifndef _Z_BG_YDAN_HASI_H_
 #define _Z_BG_YDAN_HASI_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct BgYdanHasi;
 
-typedef void (*BgYdanHasiActionFunc)(struct BgYdanHasi*, struct GlobalCtx*);
+typedef void (*BgYdanHasiActionFunc)(struct BgYdanHasi*, GlobalContext*);
 
 typedef struct BgYdanHasi {
     /* 0x0000 */ DynaPolyActor dyna;

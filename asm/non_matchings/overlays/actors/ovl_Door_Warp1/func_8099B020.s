@@ -19,7 +19,7 @@ glabel func_8099B020
 /* 028C4 8099B044 3C054300 */  lui     $a1, 0x4300                ## $a1 = 43000000
 /* 028C8 8099B048 248401A0 */  addiu   $a0, $a0, 0x01A0           ## $a0 = 000001A0
 /* 028CC 8099B04C 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
-/* 028D0 8099B050 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 028D0 8099B050 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 028D4 8099B054 E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 028D8 8099B058 3C01809A */  lui     $at, %hi(D_8099C7E8)       ## $at = 809A0000
@@ -29,7 +29,7 @@ glabel func_8099B020
 /* 028E8 8099B068 260401A4 */  addiu   $a0, $s0, 0x01A4           ## $a0 = 000001A4
 /* 028EC 8099B06C 3C054300 */  lui     $a1, 0x4300                ## $a1 = 43000000
 /* 028F0 8099B070 3C074000 */  lui     $a3, 0x4000                ## $a3 = 40000000
-/* 028F4 8099B074 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 028F4 8099B074 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 028F8 8099B078 E7A60010 */  swc1    $f6, 0x0010($sp)           
 /* 028FC 8099B07C 3C014300 */  lui     $at, 0x4300                ## $at = 43000000
@@ -41,13 +41,13 @@ glabel func_8099B020
 /* 02914 8099B094 3C063C23 */  lui     $a2, 0x3C23                ## $a2 = 3C230000
 /* 02918 8099B098 45020009 */  bc1fl   .L8099B0C0                 
 /* 0291C 8099B09C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
-/* 02920 8099B0A0 0C01DE80 */  jal     Math_ApproxF
+/* 02920 8099B0A0 0C01DE80 */  jal     Math_StepToF
               
 /* 02924 8099B0A4 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3C23D70A
 /* 02928 8099B0A8 3C063CA3 */  lui     $a2, 0x3CA3                ## $a2 = 3CA30000
 /* 0292C 8099B0AC 34C6D70A */  ori     $a2, $a2, 0xD70A           ## $a2 = 3CA3D70A
 /* 02930 8099B0B0 26040198 */  addiu   $a0, $s0, 0x0198           ## $a0 = 00000198
-/* 02934 8099B0B4 0C01DE80 */  jal     Math_ApproxF
+/* 02934 8099B0B4 0C01DE80 */  jal     Math_StepToF
               
 /* 02938 8099B0B8 3C054120 */  lui     $a1, 0x4120                ## $a1 = 41200000
 /* 0293C 8099B0BC 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

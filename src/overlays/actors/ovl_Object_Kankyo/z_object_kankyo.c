@@ -5,6 +5,8 @@
  */
 
 #include "z_object_kankyo.h"
+#include "objects/object_demo_kekkai/object_demo_kekkai.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x02000030
 
@@ -15,10 +17,13 @@ void ObjectKankyo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Update(Actor* thisx, GlobalContext* globalCtx);
 void ObjectKankyo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_01000000;
+extern UNK_TYPE D_06009620;
+
 /*
 const ActorInit Object_Kankyo_InitVars = {
     ACTOR_OBJECT_KANKYO,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ObjectKankyo),

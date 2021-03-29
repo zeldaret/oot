@@ -65,11 +65,11 @@ glabel EnBdfire_Init
 /* 000CC 809BC0FC AFAB0018 */  sw      $t3, 0x0018($sp)           
 /* 000D0 809BC100 AFAA0014 */  sw      $t2, 0x0014($sp)           
 /* 000D4 809BC104 AFA90010 */  sw      $t1, 0x0010($sp)           
-/* 000D8 809BC108 0C01E763 */  jal     Lights_InitType0PositionalLight
+/* 000D8 809BC108 0C01E763 */  jal     Lights_PointNoGlowSetInfo
 /* 000DC 809BC10C AFA40034 */  sw      $a0, 0x0034($sp)           
 /* 000E0 809BC110 8FA40044 */  lw      $a0, 0x0044($sp)           
 /* 000E4 809BC114 8FA60034 */  lw      $a2, 0x0034($sp)           
-/* 000E8 809BC118 0C01E9D9 */  jal     Lights_Insert
+/* 000E8 809BC118 0C01E9D9 */  jal     LightContext_InsertLight
 /* 000EC 809BC11C 248507A8 */  addiu   $a1, $a0, 0x07A8           ## $a1 = 000007A8
 /* 000F0 809BC120 1000004D */  beq     $zero, $zero, .L809BC258   
 /* 000F4 809BC124 AE0201D0 */  sw      $v0, 0x01D0($s0)           ## 000001D0
@@ -77,8 +77,8 @@ glabel EnBdfire_Init
 /* 000F8 809BC128 0C26F00C */  jal     func_809BC030              
 /* 000FC 809BC12C 24A5C598 */  addiu   $a1, $a1, %lo(func_809BC598) ## $a1 = FFFFC598
 /* 00100 809BC130 44800000 */  mtc1    $zero, $f0                 ## $f0 = 0.00
-/* 00104 809BC134 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00108 809BC138 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00104 809BC134 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00108 809BC138 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 0010C 809BC13C 44050000 */  mfc1    $a1, $f0                   
 /* 00110 809BC140 44070000 */  mfc1    $a3, $f0                   
 /* 00114 809BC144 0C00AC78 */  jal     ActorShape_Init
@@ -144,7 +144,7 @@ glabel EnBdfire_Init
 /* 001F8 809BC228 00000000 */  nop
 /* 001FC 809BC22C E60C018C */  swc1    $f12, 0x018C($s0)          ## 0000018C
 .L809BC230:
-/* 00200 809BC230 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 00200 809BC230 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00204 809BC234 00000000 */  nop
 /* 00208 809BC238 3C014100 */  lui     $at, 0x4100                ## $at = 41000000

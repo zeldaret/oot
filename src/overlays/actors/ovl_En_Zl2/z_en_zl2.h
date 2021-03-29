@@ -1,24 +1,22 @@
 #ifndef _Z_EN_ZL2_H_
 #define _Z_EN_ZL2_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
 struct EnZl2;
 
 typedef void (*EnZl2ActionFunc)(struct EnZl2*, GlobalContext*);
-typedef s32 (*EnZl2PreLimbDrawFunc)(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                    Actor* thisx, Gfx** gfx);
 typedef void (*EnZl2DrawFunc)(struct EnZl2*, GlobalContext*);
 
 typedef struct EnZl2 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ s16 unk_190;
-    /* 0x0192 */ s16 unk_192;
-    /* 0x0194 */ s16 unk_194;
+    /* 0x0190 */ s16 eyeTexIndex;
+    /* 0x0192 */ s16 blinkTimer;
+    /* 0x0194 */ s16 eyeTexIndex2;
     /* 0x0196 */ char unk_196[0x2];
-    /* 0x0198 */ s16 unk_198;
+    /* 0x0198 */ s16 mouthTexIndex;
     /* 0x019A */ char unk_19A[0x2];
     /* 0x019C */ s32 action;
     /* 0x01A0 */ s32 drawConfig;

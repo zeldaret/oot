@@ -35,7 +35,7 @@ glabel func_80916AEC
 /* 01160 80916B70 0C0300C5 */  jal     Gameplay_ChangeCameraStatus
 /* 01164 80916B74 24060007 */  addiu   $a2, $zero, 0x0007         ## $a2 = 00000007
 /* 01168 80916B78 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 0116C 80916B7C 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 0116C 80916B7C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01170 80916B80 24840918 */  addiu   $a0, $a0, 0x0918           ## $a0 = 06010918
 /* 01174 80916B84 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
@@ -49,11 +49,11 @@ glabel func_80916AEC
 /* 01194 80916BA4 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01198 80916BA8 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 0119C 80916BAC 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
-/* 011A0 80916BB0 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 011A0 80916BB0 0C029468 */  jal     Animation_Change
 
 /* 011A4 80916BB4 E7A00018 */  swc1    $f0, 0x0018($sp)
 /* 011A8 80916BB8 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 011AC 80916BBC 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 011AC 80916BBC 0C028800 */  jal     Animation_GetLastFrame
 
 /* 011B0 80916BC0 24840918 */  addiu   $a0, $a0, 0x0918           ## $a0 = 06010918
 /* 011B4 80916BC4 44824000 */  mtc1    $v0, $f8                   ## $f8 = 0.00
@@ -76,7 +76,7 @@ glabel func_80916AEC
 /* 011F8 80916C08 E646002C */  swc1    $f6, 0x002C($s2)           ## 0000002C
 /* 011FC 80916C0C A6490032 */  sh      $t1, 0x0032($s2)           ## 00000032
 /* 01200 80916C10 8E251C44 */  lw      $a1, 0x1C44($s1)           ## 00001C44
-/* 01204 80916C14 0C00B69E */  jal     func_8002DA78
+/* 01204 80916C14 0C00B69E */  jal     Actor_WorldYawTowardActor
 /* 01208 80916C18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0120C 80916C1C 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 01210 80916C20 00415021 */  addu    $t2, $v0, $at
