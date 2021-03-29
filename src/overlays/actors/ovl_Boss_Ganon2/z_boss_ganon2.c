@@ -87,7 +87,7 @@ const ActorInit Boss_Ganon2_InitVars = {
     (ActorFunc)BossGanon2_Draw,
 };
 
-/* static */ Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
 
 /* static */ Vec3f D_80906D6C = { 0.0f, 0.0f, 500.0f };
 
@@ -328,93 +328,93 @@ static ColliderJntSphInit D_80907014 = {
 };
 
 // primColor
-/* static */ Color_RGBA8 D_80907024 = { 0, 120, 0, 255 };
+static Color_RGBA8 D_80907024 = { 0, 120, 0, 255 };
 
 // envColor
-/* static */ Color_RGBA8 D_80907028 = { 0, 120, 0, 255 };
+static Color_RGBA8 D_80907028 = { 0, 120, 0, 255 };
 
-/* static */ Vec3f D_8090702C[] = {
+static Vec3f D_8090702C[] = {
     { 10.0f, -10.0f, 0.0f },
     { 0.0f, 0.0f, -60.0f },
     { 70.0f, -30.0f, 10.0f },
 };
 
-/* static */ Vec3f D_80907050[] = {
+static Vec3f D_80907050[] = {
     { -20.0f, 0.0f, 0.0f },
     { -15.0f, 0.0f, 10.0f },
     { -16.0f, -12.0f, 40.0f },
 };
 
-/* static */ s16 D_80907074[] = { 0, 1, 2, 2, 1, 0 };
+static s16 D_80907074[] = { 0, 1, 2, 2, 1, 0 };
 
-/* static */ s16 D_80907080 = 0;
+static s16 D_80907080 = 0;
 
 /* static */ u8 D_80907084[] = { 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20 };
 
 /* static */ u8 D_80907090[] = { 1, 3, 5, 7, 9, 11, 13, 15, 17, 19, 21 };
 
-/* static */ s8 D_8090709C[] = {
+static s8 D_8090709C[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0x00, 0xFF, 0xFF, 0x02, 0x09, 0x0A, 0x0B, 0x0C, 0x0D, 0x0E, 0xFF, 0xFF, 0xFF, 0x0F, 0xFF, 0x00,
 };
 
-/* static */ s8 D_809070CC[] = {
+static s8 D_809070CC[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0xFF, 0xFF, 0x05, 0xFF, 0x06, 0x07, 0xFF, 0xFF, 0x08, 0xFF,
     0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0x00, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0x00,
 };
 
-/* static */ Vec3f D_809070FC = {
+static Vec3f D_809070FC = {
     0.0f,
     0.0f,
     5000.0f,
 };
 
-/* static */ Vec3f D_80907108 = {
+static Vec3f D_80907108 = {
     0.0f,
     2000.0f,
     0.0f,
 };
 
-/* static */ Vec3f D_80907114 = {
+static Vec3f D_80907114 = {
     0.0f,
     2000.0f,
     0.0f,
 };
 
-/* static */ Vec3f D_80907120 = {
+static Vec3f D_80907120 = {
     0.0f,
     0.0f,
     17000.0f,
 };
 
-/* static */ Vec3f D_8090712C = {
+static Vec3f D_8090712C = {
     0.0f,
     0.0f,
     3000.0f,
 };
 
-/* static */ Vec3f D_80907138 = {
+static Vec3f D_80907138 = {
     0.0f,
     0.0f,
     0.0f,
 };
 
-/* static */ s8 D_80907144[] = {
+static s8 D_80907144[] = {
     0xFF, 0xFF, 0x01, 0xFF, 0x03, 0x04, 0x05, 0xFF, 0x06, 0x07, 0x08, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF,
     0xFF, 0xFF, 0xFF, 0x02, 0x0C, 0x0D, 0x0E, 0x09, 0x0A, 0x0B, 0xFF, 0xFF, 0xFF, 0xFF, 0x00, 0x00,
 };
 
-/* static */ Vec3f D_80907164 = { 800.0f, 420.0f, 100.0f };
+static Vec3f D_80907164 = { 800.0f, 420.0f, 100.0f };
 
-/* static */ UNK_PTR D_80907170[] = {
+static UNK_PTR D_80907170[] = {
     D_0601E188,
     D_0601E988,
     D_0601EA08,
 };
 
-/* static */ Vec3f D_8090717C = { 0.0f, -2000.0f, 0.0f };
+static Vec3f D_8090717C = { 0.0f, -2000.0f, 0.0f };
 
 /* static */ UNK_TYPE D_80907188[] = {
     0x00010002,
@@ -450,29 +450,29 @@ static ColliderJntSphInit D_80907014 = {
 
 #include "z_boss_ganon2_gfx.c"
 
-/* static */ Vec3f D_8090EB20;
+static Vec3f D_8090EB20;
 
 /* static */ EnZl3* D_8090EB2C;
 
 /* static */ Actor* D_8090EB30;
 
-/* static */ UNK_TYPE D_8090EB34;
+static UNK_TYPE D_8090EB34;
 
-/* static */ BossGanon2Effect D_8090EB38[100];
+static BossGanon2Effect D_8090EB38[100];
 
-/* static */ s32 D_809105C8;
+static s32 D_809105C8;
 
-/* static */ s32 D_809105CC;
+static s32 D_809105CC;
 
-/* static */ s32 D_809105D0;
+static s32 D_809105D0;
 
-/* static */ UNK_TYPE D_809105DC;
+static UNK_TYPE D_809105DC;
 
 /* static */ Vec3f D_809105D8[4];
 
-/* static */ Vec3f D_80910608[4];
+static Vec3f D_80910608[4];
 
-/* static */ s8 D_80910638;
+static s8 D_80910638;
 
 void func_808FCF40(s32 arg0, s32 arg1, s32 arg2) {
     D_809105C8 = arg0;
@@ -2748,7 +2748,6 @@ s32 BossGanon2_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         if (this->unk_342 & 1) {
             gDPSetEnvColor(POLY_OPA_DISP++, 255, 0, 0, 255);
         } else {
-            // Terrible and probably fake.
             gDPSetEnvColor(POLY_OPA_DISP++, (s16)this->unk_1B0, (s16)this->unk_1B0, (s16)(*this).unk_1B0, 255);
         }
     }
