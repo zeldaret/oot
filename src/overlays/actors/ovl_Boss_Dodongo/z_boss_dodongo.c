@@ -833,38 +833,15 @@ void BossDodongo_Roll(BossDodongo* this, GlobalContext* globalCtx) {
     }
 }
 
-Vec3f D_808CA428 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808CA434 = { 0.0f, 0.0f, 0.0f };
-Color_RGBA8 magmaPrimColor[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 150 } };
-Color_RGBA8 magmaEnvColor[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
-Vec3f D_808CA450 = { 5000.0f, -2500.0f, 0.0f };
-
- #ifdef NON_MATCHING
-// Very minor ordering issue near SEGMENTED_TO_VIRTUAL
-void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
+void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     BossDodongo* this = THIS;
-    s16 new_var;
-    u16* ptr1;
-    u16* ptr2;
+    f32 temp_f0;
+    s16 i1;
     Player* player = PLAYER;
     Player* player2 = PLAYER;
-    s16 magmaScale;
-    s16 i1;
-    s16 phi_s0_3;
-    s16 sp90;
-    s16 magma2DrawMode;
-    Vec3f sp84;
-    f32 temp_f12;
-    f32 temp_f10;
-    Vec3f sp6C;
-    Vec3f sp60;
-    Vec3f sp54;
-    f32 sp50;
-    f32 sp4C;
-    f32 temp_f0;
-    f32 temp_f10_2;
-    f32 temp_f12_2;
-    GlobalContext* new_var2;
+    s32 pad;
+    
     this->unk_1E2 = 0;
     this->unk_19E++;
 
@@ -910,7 +887,7 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 
     thisx->shape.rot.y = thisx->world.rot.y;
-    new_var2 = globalCtx;
+    // globalCtx = globalCtx;
     Math_SmoothStepToF(&thisx->shape.yOffset, this->unk_228, 1.0f, 100.0f, 0.0f);
     Actor_MoveForward(thisx);
     BossDodongo_UpdateDamage(this, globalCtx);
@@ -938,8 +915,8 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
         if ((globalCtx->envCtx.unk_8C[1][2] == 0) && (globalCtx->envCtx.unk_8C[0][2] == 0)) {
             globalCtx->envCtx.unk_8C[1][0] = (u8)this->unk_240;
             globalCtx->envCtx.unk_8C[1][1] = (u8)(this->unk_240 * 0.1f);
-            new_var2->envCtx.unk_8C[0][0] = (u8)this->unk_240;
-            new_var2->envCtx.unk_8C[0][1] = (u8)(this->unk_240 * 0.1f);
+            globalCtx->envCtx.unk_8C[0][0] = (u8)this->unk_240;
+            globalCtx->envCtx.unk_8C[0][1] = (u8)(this->unk_240 * 0.1f);
         }
     }
 
@@ -957,15 +934,19 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->fogMin, 900.0f, 1, 10.0f, 0.0);
         Math_SmoothStepToF(&this->fogMax, 1099.0f, 1, 10.0f, 0.0);
     } else {
-        Math_SmoothStepToF(&this->fogR, new_var2->lightCtx.unk_07, 1, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->fogG, new_var2->lightCtx.unk_08, 1.0f, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->fogB, new_var2->lightCtx.unk_09, 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->fogR, globalCtx->lightCtx.unk_07, 1, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->fogG, globalCtx->lightCtx.unk_08, 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->fogB, globalCtx->lightCtx.unk_09, 1.0f, 5.0f, 0.0);
         Math_SmoothStepToF(&this->fogMin, globalCtx->lightCtx.unk_0A, 1.0, 5.0f, 0.0);
         Math_SmoothStepToF(&this->fogMax, 1000.0f, 1, 5.0f, 0.0);
     }
 
     if (player->actor.world.pos.y < -1000.0f) {
-        magmaScale = 0;
+        s16 phi_s0_3;
+        s16 sp90;
+        s16 magma2DrawMode;
+        s16 magmaScale = 0;    
+        // magmaScale = 0;
         if (this->unk_224 > 1.9f) {
             phi_s0_3 = 1;
             magma2DrawMode = 0;
@@ -995,6 +976,12 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->unk_19E & phi_s0_3) == 0) {
+            static Color_RGBA8 magmaPrimColor[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 150 } };
+            static Color_RGBA8 magmaEnvColor[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
+            Vec3f sp84;
+            f32 temp_f12;
+            f32 temp_f10;
+
             temp_f12 = Rand_ZeroOne() * 330.0f;
             temp_f10 = Rand_ZeroOne() * 6.28f;
             sp84.x = (sinf(temp_f10) * temp_f12) + (-890.0f);
@@ -1005,14 +992,15 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         if ((this->unk_19E & sp90) == 0) {
-            sp6C = D_808CA428;
-            sp60 = D_808CA434;
-            sp50 = Rand_ZeroOne() * 330.0f;
-            temp_f12_2 = Rand_ZeroOne() * 6.28f;
-            temp_f10_2 = sinf(temp_f12_2) * sp50;
-            sp54.x = temp_f10_2 + (-890.0f);
+            Vec3f sp6C = { 0.0f, 0.0f, 0.0f };
+            Vec3f sp60 = { 0.0f, 0.0f, 0.0f };
+            Vec3f sp54;
+            f32 sp50 = Rand_ZeroOne() * 330.0f;
+            f32 sp4C = Rand_ZeroOne() * 6.28f;
+
+            sp54.x = sinf(sp4C) * sp50 + (-890.0f);
             sp54.y = -1523.76f;
-            sp54.z = (cosf(temp_f12_2) * sp50) + (-3304.0f);
+            sp54.z = (cosf(sp4C) * sp50) + (-3304.0f);
             EffectSsGMagma_Spawn(globalCtx, &sp54);
             for (i1 = 0; i1 < 4; i1++) {
                 sp60.y = 0.4f;
@@ -1031,23 +1019,16 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->unk_1C6 != 0) {
-        ptr1 = SEGMENTED_TO_VIRTUAL(D_808C73C8);
-        ptr2 = SEGMENTED_TO_VIRTUAL(D_808C93C8);
-        // new_var = 20;
-        for (i1 = -1; (i1 + 1) < 20; i1++) {
-            new_var = this->unk_1C2 & 0x7FF;
+        u16* ptr1 = SEGMENTED_TO_VIRTUAL(D_808C73C8);
+        u16* ptr2 = SEGMENTED_TO_VIRTUAL(D_808C93C8);
+        s16 i2;
+
+        for (i2 = 0; i2  < 20; i2++) {
+            s16 new_var = this->unk_1C2 & 0x7FF;
 
             ptr1[new_var] = ptr2[new_var];
             this->unk_1C2 += 37;
         }
-        /*i1 = -1;
-        while ((i1 + 1) < 20) {
-            i1++;
-            new_var = (this->unk_1C2) & 0x7ff;
-            ptr1[new_var] = ptr2[new_var];
-            (this->unk_1C2) = (this->unk_1C2) + 0x25;
-        } */
-
         Math_SmoothStepToF(&this->unk_224, 0.0f, 1.0f, 0.01f, 0.0f);
     }
 
@@ -1084,9 +1065,6 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx) {
     Math_SmoothStepToF(&this->unk_244, 0.0f, 1.0f, 2.0f, 0.0f);
     BossDodongo_UpdateEffects(globalCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_Update.s")
-#endif
 
 s32 BossDodongo_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
                                  void* thisx) {
@@ -1136,6 +1114,7 @@ block_1:
 }
 
 void BossDodongo_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    static Vec3f D_808CA450 = { 5000.0f, -2500.0f, 0.0f };
     static Vec3f D_808CA45C = { 0.0f, 0.0f, 0.0f };
     static Vec3f D_808CA468 = { 11500.0f, -3000.0f, 0.0f };
     static Vec3f D_808CA474 = { 5000.0f, -2000.0f, 0.0f };
@@ -1389,7 +1368,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&this->cameraAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.1f);
             // D_06002D0C = roaring death thing
             // D_0600DF38 = begin roll
-            if (Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&D_06002D0C)) != 0) {
+            if (Animation_OnFrame(&this->skelAnime, Animation_GetLastFrame(&D_06002D0C))) {
                 Animation_Change(&this->skelAnime, &D_06003CF8, 1.0f, 0.0f, Animation_GetLastFrame(&D_06003CF8), 2,
                                  -1.0f);
                 this->csState = 6;
@@ -1558,6 +1537,7 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                         Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
                         Color_RGBA8* lMagmaPrimColor = magmaPrimColor2;
                         Color_RGBA8* lMagmaEnvColor = magmaEnvColor2;
+
                         effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.world.pos.x;
                         effectPos.y = Rand_ZeroFloat(50.0f) + this->actor.world.pos.y;
                         effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.world.pos.z;
