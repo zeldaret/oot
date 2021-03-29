@@ -931,7 +931,7 @@ typedef struct GlobalContext {
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
-    /* 0x11E10 */ char unk_11E10[0x4];
+    /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;

@@ -2014,9 +2014,7 @@ endseg
 beginseg
     name "ovl_En_Clear_Tag"
     include "build/src/overlays/actors/ovl_En_Clear_Tag/z_en_clear_tag.o"
-    include "build/data/overlays/actors/z_en_clear_tag.data.o"
-    include "build/data/overlays/actors/z_en_clear_tag.bss.o"
-    include "build/data/overlays/actors/z_en_clear_tag.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Clear_Tag/ovl_En_Clear_Tag_reloc.o"
 endseg
 
 beginseg
