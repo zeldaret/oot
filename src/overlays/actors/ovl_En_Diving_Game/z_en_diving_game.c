@@ -34,10 +34,6 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx);
 s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx);
 Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx);
 
-extern AnimationHeader D_0600219C;
-extern AnimationHeader D_06002FE8;
-extern SkeletonHeader D_0600BFA8;
-
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
     ACTORCAT_NPC,
@@ -64,7 +60,7 @@ UNK_PTR D_809EF0E0[] = {
     0x06004E40,
 };
 
-extern SkeletonHeader D_0600BFA8;
+extern FlexSkeletonHeader D_0600BFA8;
 extern AnimationHeader D_06002FE8;
 extern AnimationHeader D_0600219C;
 
@@ -348,7 +344,6 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     this->unk_318 = 0.0f;
 }
 
-//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Diving_Game/func_809EE408.s")
 void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos) != 0) {
@@ -504,26 +499,29 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx) {
-    s32 pad[2];
-    Player* player;
+//#ifdef NON_MATCHING
+void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
     EnDivingGame* this = THIS;
-    Vec3f vec;
+    Player* player = PLAYER; // sp3C
+    Vec3f pos; // sp30
 
-    player = PLAYER;
-    if (this->unk_294 != 0) {
+    DECR(this->unk_294);
+    /*if (this->unk_294 != 0) {
         this->unk_294--;
-    }
-    if (this->unk_296 != 0) {
+    }*/
+    DECR(this->unk_296);
+    /*if (this->unk_296 != 0) {
         this->unk_296--;
-    }
-    if (this->unk_298 != 0) {
+    }*/
+    DECR(this->unk_298);
+    /*if (this->unk_298 != 0) {
         this->unk_298--;
-    }
-    if (this->unk_29A != 0) {
+    }*/
+    DECR(this->unk_29A);
+    /*if (this->unk_29A != 0) {
         this->unk_29A--;
-    }
+    }*/
     if (gSaveContext.timer1Value == 0xA) {
         func_800F5918();
     }
@@ -532,29 +530,29 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext *globalCtx) {
         this->unk_29E++;
         if (this->unk_29E >= 3) {
             this->unk_29E = 0;
-            this->unk_298 = (s32)Rand_ZeroFloat(60.0f) + 0x14;
+            this->unk_298 = (s16) Rand_ZeroFloat(60.0f) + 0x14;
         }
     }
     this->actionFunc(this, globalCtx);
-    Actor_SetScale(&this->actor, 80.0f);
+    Actor_SetFocus(&this->actor, 80.0f);
     this->unk_324.unk_18 = player->actor.world.pos;
     this->unk_324.unk_18.y = player->actor.world.pos.y;
     func_80034A14(&this->actor, &this->unk_324, 2, 4);
     this->vec_284 = this->unk_324.unk_08;
     this->vec_28A = this->unk_324.unk_0E;
     if ((globalCtx->gameplayFrames % 16) == 0) {
-        vec = this->actor.world.pos;
-        vec.y += 20.0f;
-        EffectSsGRipple_Spawn(globalCtx, &vec, 0x64, 0x1F4, 0x1E);
+        pos = this->actor.world.pos;
+        pos.y += 20.0f;
+        EffectSsGRipple_Spawn(globalCtx, &pos, 0x64, 0x1F4, 0x1E);
     }
     this->unk_290++;
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 60.0f, 0x1D);
     Collider_UpdateCylinder(&this->actor, &this->collider);
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Diving_Game/EnDivingGame_Update.s")
-#endif
+//#else
+//#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Diving_Game/EnDivingGame_Update.s")
+//#endif
 
 Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* displayList = Graph_Alloc(gfxCtx, sizeof(Gfx));
