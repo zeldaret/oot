@@ -137,31 +137,26 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx) {
 s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
     s32 var;
 
-    if ((gSaveContext.timer1State == 0xA) && (Gameplay_InCsMode(globalCtx) == 0)) {
+    if (gSaveContext.timer1State == 10 && Gameplay_InCsMode(globalCtx) == 0) {
         gSaveContext.timer1State = 0;
         func_800F5B58();
         func_80078884(NA_SE_SY_FOUND);
-        this->actor.textId = 0x71AD; // Too bad! Practice hard and come back!
+        this->actor.textId = 0x71AD;
         func_8010B680(globalCtx, this->actor.textId, NULL);
-        this->unk_2A4 = 0;
         this->unk_292 = 5;
-        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4;
+        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_809EE048;
         return 1;
     } else {
         var = 5;
-        if ((gSaveContext.eventChkInf[3] & 0x100) != 0) {
+        if (gSaveContext.eventChkInf[3] & 0x100) {
             var = 10;
         }
         if (this->unk_2A4 >= var) {
             gSaveContext.timer1State = 0;
-            this->unk_2A4 = 0;
-            this->unk_2A2 = this->unk_2A4;
-            this->unk_29C = this->unk_2A4;
-            this->unk_2A8 = this->unk_2A4;
-            this->unk_31E = this->unk_2A4;
-            if ((gSaveContext.eventChkInf[3] & 0x100) == 0) {
+            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
+            if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->actor.textId = 0x4055;
             } else {
                 this->actor.textId = 0x405D;
@@ -194,8 +189,8 @@ void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk_2A8 != 2) || (func_809EDB08(this, globalCtx) == 0)) {
-        if (func_8002F194(&this->actor, globalCtx) != 0) {
+    if (this->unk_2A8 != 2 || (func_809EDB08(this, globalCtx) == 0)) {
+        if (func_8002F194(&this->actor, globalCtx)) {
             if (this->unk_292 != 6) {
                 switch (this->unk_2A8) {
                     case 0:
@@ -253,15 +248,13 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
                         Rupees_ChangeBy(-20);
                         this->actor.textId = 0x4054;
                     } else {
-                        this->unk_2A4 = 0;
                         this->actor.textId = 0x85;
-                        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4;
+                        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
                     }
                     break;
                 case 1:
-                    this->unk_2A4 = 0;
                     this->actor.textId = 0x2D;
-                    this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4;
+                    this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
                     break;
             }
             if (!(gSaveContext.eventChkInf[3] & 0x100) || this->actor.textId == 0x85 || this->actor.textId == 0x2D) {
@@ -365,9 +358,9 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         if (this->unk_29A == 0) {
             this->unk_29A = 5;
             func_809ED9E0(this, globalCtx);
-            this->unk_2A6 = (s16)(this->unk_2A6 - 1);
+            this->unk_2A6 = this->unk_2A6 - 1;
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
-                this->unk_296 = 0x1E;
+                this->unk_296 = 30;
             } else {
                 this->unk_296 = 5;
             }
@@ -377,7 +370,7 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
             }
         }
     }
-    if ((this->unk_294 == 0) ||
+    if (this->unk_294 == 0 ||
         ((fabsf(this->vec_2C4.x - this->unk_2D0) < 2.0f) && (fabsf(this->vec_2C4.y - this->unk_2D4) < 2.0f) &&
          (fabsf(this->vec_2C4.z - this->unk_2D8) < 2.0f) && (fabsf(this->vec_2B8.x - this->unk_2F4) < 2.0f) &&
          (fabsf(this->vec_2B8.y - this->unk_2F8) < 2.0f) && (fabsf(this->vec_2B8.z - this->unk_2FC) < 2.0f))) {
@@ -412,6 +405,7 @@ void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
+// EnDivingGame_StartMinigame ?
 void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_294 == 0) {
@@ -491,11 +485,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
         if (func_80106BC8(globalCtx) != 0) {
             // "Successful completion"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-            this->unk_2A4 = 0;
-            this->unk_2A2 = this->unk_2A4;
-            this->unk_29C = this->unk_2A4;
-            this->unk_2A8 = this->unk_2A4;
-            this->unk_31E = this->unk_2A4;
+            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
             gSaveContext.eventChkInf[3] |= 0x100;
             this->actionFunc = func_809EDCB0;
         }
@@ -514,8 +504,8 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->unk_296 != 0) {
         this->unk_296--;
     }
-    if (this->unk_298 != 0) {
-        this->unk_298--;
+    if (this->eyeTimer != 0) {
+        this->eyeTimer--;
     }
     if (this->unk_29A != 0) {
         this->unk_29A--;
@@ -526,12 +516,12 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     if (gSaveContext.timer1Value == 10) {
         func_800F5918();
     }
-    if (this->unk_298 == 0) {
-        this->unk_298 = 2;
-        this->unk_29E++;
-        if (this->unk_29E >= 3) {
-            this->unk_29E = 0;
-            this->unk_298 = (s16)Rand_ZeroFloat(60.0f) + 20;
+    if (this->eyeTimer == 0) {
+        this->eyeTimer = 2;
+        this->eyeTexIndex++;
+        if (this->eyeTexIndex >= 3) {
+            this->eyeTexIndex = 0;
+            this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->actionFunc(this, globalCtx);
@@ -589,7 +579,7 @@ void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
     gSPSegment(POLY_OPA_DISP++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_29E]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeTexIndex]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnDivingGame_OverrideLimbDraw, NULL, this);
