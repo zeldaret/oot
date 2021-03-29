@@ -274,15 +274,10 @@ UCFUNC int c_ltb(gfxd_macro_t *m, int n_macro, int id, int mdxt, int mtmem,
 	}
 	int width = (argvu(&m[6], 3) >> 2) + 1;
 	int height = (argvu(&m[6], 4) >> 2) + 1;
-	unsigned lrs = ((width * height + 1) * G_SIZ_BITS(siz) - 1) /
-			G_SIZ_BITS(G_SIZ_LDSIZ(siz)) - 1;
+	unsigned lrs = G_LDBLK_TXL(G_LTB_LRS(width, height, siz));
 	unsigned dxt = 0;
 	if (!mdxt)
-	{
-		dxt = (width * G_SIZ_BITS(siz) <= 64 ? (1 << 11) :
-			((1 << 11) + width * G_SIZ_BITS(siz) / 64 - 1) /
-			(width * G_SIZ_BITS(siz) / 64));
-	}
+		dxt = G_DXT(siz, width);
 	int line;
 	if (myuv)
 		line = (width + 7) / 8;
@@ -592,7 +587,13 @@ UCFUNC int d_DPLoadBlock(gfxd_macro_t *m, uint32_t hi, uint32_t lo)
 	argu(m, 2, "ult", getfield(hi, 12, 0), gfxd_Coordi);
 	argu(m, 3, "lrs", getfield(lo, 12, 12), gfxd_Coordi);
 	argu(m, 4, "dxt", getfield(lo, 12, 0), gfxd_Dxt);
-	return 0;
+	if (argvu(m, 3) > G_TX_LDBLK_MAX_TXL) {
+		badarg(m, 3);
+		return -1;
+	}
+	else {
+		return 0;
+	}
 }
 
 UCFUNC int d_DPNoOp(gfxd_macro_t *m, uint32_t hi, uint32_t lo)

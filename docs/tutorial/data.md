@@ -23,8 +23,6 @@ Both approaches have their advantages and disadvantages.
 <!-- Fig shows how to do this in his video.  -->
 This way is good for smaller actors with little data. It is not really suitable for EnJj, for example, because of the enormous section of data labelled as `D_80A88164`.
 
-An important thing to bear in mind is that data cannot be made static if it is used in an undecompiled file (i.e. one that is `#pragma`'d), so it is best to make everything static only after the whole actor is decompiled.
-
 ### Example: `EnTg`
 
 We give a simple example of this approach with a small NPC actor, EnTg, that is, the spinning couple.
@@ -165,10 +163,10 @@ static ColliderCylinderInit sCylinderInit =
 };
 ```
 
-Copy this in below `D_80B18910`, delete the original words of data, and for now, remove `static` (in case it's used in other files that have not been decompiled), change the name back to `D_80B18910`, and put `sCylinderInit` commented out above it:
+Copy this in below `D_80B18910`, delete the original words of data, change the name back to `D_80B18910`, and put `sCylinderInit` commented out above it:
 ```C
 // sCylinderInit
-ColliderCylinderInit D_80B18910 =
+static ColliderCylinderInit D_80B18910 =
 {
     { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
