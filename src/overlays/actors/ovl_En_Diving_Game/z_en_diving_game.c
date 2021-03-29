@@ -55,12 +55,26 @@ const ActorInit En_Diving_Game_InitVars = {
 u8 D_809EF0B0 = 0;
 
 static ColliderCylinderInit sCylinderInit = {
-    { COLTYPE_NONE, AT_NONE, AC_NONE, OC1_ON | OC1_TYPE_ALL, OC2_TYPE_2, COLSHAPE_CYLINDER, },
-    { ELEMTYPE_UNK0, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, TOUCH_NONE | TOUCH_SFX_NORMAL, BUMP_NONE, OCELEM_ON, },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_NONE,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_2,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0x00000000, 0x00, 0x00 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_NONE | TOUCH_SFX_NORMAL,
+        BUMP_NONE,
+        OCELEM_ON,
+    },
     { 10, 10, 0, { 0, 0, 0 } },
 };
 
-UNK_PTR D_809EF0E0[] = {
+static u64* sEyeTextures[] = {
     0x06003E40,
     0x06004640,
     0x06004E40,
@@ -90,14 +104,14 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         D_809EF0B0 = 1;
         this->actor.targetMode = 0;
-        this->actor.colChkInfo.mass = 0xFF;
+        this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = func_809EDCB0;
     }
 }
 
 void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnDivingGame* this = THIS;
-    
+
     if (this->unk_31F == 0) {
         gSaveContext.timer1State = 0;
     }
@@ -148,9 +162,9 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
             this->unk_2A8 = this->unk_2A4;
             this->unk_31E = this->unk_2A4;
             if ((gSaveContext.eventChkInf[3] & 0x100) == 0) {
-                this->actor.textId = 0x4055; // "Hey! Congratulations! I've got something very nice for you! ..."
+                this->actor.textId = 0x4055;
             } else {
-                this->actor.textId = 0x405D; // "Hey! Congratulations!!"
+                this->actor.textId = 0x405D;
                 if (this->unk_2AA < 100) {
                     this->unk_2AA++;
                 }
@@ -250,8 +264,7 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
                     this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4;
                     break;
             }
-            if (!(gSaveContext.eventChkInf[3] & 0x100) || this->actor.textId == 0x85 ||
-                this->actor.textId == 0x2D) {
+            if (!(gSaveContext.eventChkInf[3] & 0x100) || this->actor.textId == 0x85 || this->actor.textId == 0x2D) {
                 func_8010B720(globalCtx, this->actor.textId);
                 this->unk_292 = 5;
                 this->actionFunc = func_809EE048;
@@ -465,7 +478,7 @@ void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (Actor_HasParent(&this->actor, globalCtx) != 0) {
+    if (Actor_HasParent(&this->actor, globalCtx)) {
         this->actionFunc = func_809EEAF8;
     } else {
         func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
@@ -546,7 +559,8 @@ Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx) {
     return displayList;
 }
 
-s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnDivingGame_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                  void* thisx) {
     EnDivingGame* this = THIS;
     s32 pad;
 
@@ -559,7 +573,7 @@ s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         rot->z += this->vec_284.z;
     }
 
-    if ((this->unk_31D != 0) && ((limbIndex == 8) || (limbIndex == 9) || (limbIndex == 12))) {
+    if (this->unk_31D != 0 && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {
         rot->y += Math_SinS((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f;
         rot->z += Math_CosS((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f;
     }
@@ -573,11 +587,11 @@ void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1212);
     func_80093D18(globalCtx->state.gfxCtx);
-    gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
-    gSPSegment(gfxCtx->polyOpa.p++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
-    gSPSegment(gfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(D_809EF0E0[this->unk_29E]));
+    gDPSetEnvColor(POLY_OPA_DISP++, 0, 0, 0, 255);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->unk_29E]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_809EEDE4, NULL, &this->actor);
+                          EnDivingGame_OverrideLimbDraw, NULL, this);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1232);
 }
