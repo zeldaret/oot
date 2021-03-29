@@ -39,8 +39,8 @@ void func_80900890(BossGanon2* this, GlobalContext* globalCtx);
 void func_8090120C(BossGanon2* this, GlobalContext* globalCtx);
 void func_80905DA8(BossGanon2* this, GlobalContext* globalCtx);
 void func_809060E8(GlobalContext* globalCtx);
-void func_809069F8(u32* tex, BossGanon2* this, GlobalContext* globalCtx);
-void func_80906AB0(u32* tex, BossGanon2* this, GlobalContext* globalCtx);
+void func_809069F8(u8* tex, BossGanon2* this, GlobalContext* globalCtx);
+void func_80906AB0(u8* tex, BossGanon2* this, GlobalContext* globalCtx);
 
 extern AnimationHeader D_06000BFC;
 extern Gfx D_06000EA0[];
@@ -2958,7 +2958,7 @@ void func_80905674(BossGanon2* this, GlobalContext* globalCtx) {
 }
 
 void BossGanon2_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    u32* tex = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
+    u8* tex = Graph_Alloc(globalCtx->state.gfxCtx, 4096);
     BossGanon2* this = THIS;
     s16 i;
 
@@ -3173,12 +3173,12 @@ void func_809060E8(GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 6185);
 }
 
-void func_80906538(BossGanon2* this, u32* tex, f32 arg2);
+void func_80906538(BossGanon2* this, u8* tex, f32 arg2);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80906538.s")
 
-void func_809069F8(u32* tex, BossGanon2* this, GlobalContext* globalCtx) {
+void func_809069F8(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
     s16 i;
-    u32* p = tex;
+    u32* p = (u32*)tex;
 
     for (i = 0; i < 1024; i++, p++) {
         *p = 0;
@@ -3191,7 +3191,7 @@ void func_809069F8(u32* tex, BossGanon2* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_80906AB0(u32* tex, BossGanon2* this, GlobalContext* globalCtx) {
+void func_80906AB0(u8* tex, BossGanon2* this, GlobalContext* globalCtx) {
     s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
     s16 alpha;
