@@ -350,7 +350,7 @@ void MagicFire_UpdateBeforeCast(Actor* thisx, GlobalContext* globalCtx) {
     if (this->actionTimer > 0) {
         this->actionTimer--;
     } else {
-        this->actor.update = &MagicFire_Update;
+        this->actor.update = MagicFire_Update;
         func_8002F7DC(&player->actor, NA_SE_PL_MAGIC_FIRE);
     }
     this->actor.world.pos = player->actor.world.pos;
