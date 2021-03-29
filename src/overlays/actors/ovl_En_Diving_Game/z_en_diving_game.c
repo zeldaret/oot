@@ -34,9 +34,9 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx);
 s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx);
 Gfx* EnDivingGame_EmptyDList(GraphicsContext* gfxCtx);
 
-extern UNK_TYPE D_0600219C;
-extern UNK_TYPE D_06002FE8;
-extern UNK_TYPE D_0600BFA8;
+extern AnimationHeader D_0600219C;
+extern AnimationHeader D_06002FE8;
+extern SkeletonHeader D_0600BFA8;
 
 const ActorInit En_Diving_Game_InitVars = {
     ACTOR_EN_DIVING_GAME,
@@ -53,7 +53,7 @@ const ActorInit En_Diving_Game_InitVars = {
 u8 D_809EF0B0 = 0;
 
 ColliderCylinderInit D_809EF0B4 = {
-    { COLTYPE_UNK10, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
+    { COLTYPE_NONE, 0x00, 0x00, 0x39, 0x20, COLSHAPE_CYLINDER },
     { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x00000000, 0x00, 0x00 }, 0x00, 0x00, 0x01 },
     { 10, 10, 0, { 0, 0, 0 } },
 };
@@ -73,8 +73,8 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->actor.gravity = -3.0f;
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 30.0f);
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, &this->limbDrawTable,
-                     &this->transitionDrawTable, 20);
+    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_0600BFA8, &D_06002FE8, &this->jointTable,
+                     &this->morphTable, 20);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &D_809EF0B4);
     osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 素もぐりＧＯ ☆☆☆☆☆ \n" VT_RST);
@@ -88,7 +88,7 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
     } else {
         D_809EF0B0 = 1;
-        this->actor.unk_1F = 0;
+        this->actor.targetMode = 0;
         this->actor.colChkInfo.mass = 0xFF;
         this->actionFunc = func_809EDCB0;
     }
@@ -106,9 +106,9 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx) {
     EnExRuppy* attached;
     Vec3f rupeePos;
 
-    rupeePos.x = ((Math_Rand_ZeroOne() - 0.5f) * 30.0f) + this->actor.posRot.pos.x;
-    rupeePos.y = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + (this->actor.posRot.pos.y + 30.0f);
-    rupeePos.z = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.posRot.pos.z;
+    rupeePos.x = ((Math_Rand_ZeroOne() - 0.5f) * 30.0f) + this->actor.world.pos.x;
+    rupeePos.y = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + (this->actor.world.pos.y + 30.0f);
+    rupeePos.z = ((Math_Rand_ZeroOne() - 0.5f) * 20.0f) + this->actor.world.pos.z;
     attached = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
                                                rupeePos.x, rupeePos.y, rupeePos.z, 0,
                                                (s16)Math_Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
@@ -174,7 +174,7 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06002FE8.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_06002FE8.common);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_06002FE8, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->unk_31D = 1;
     this->actionFunc = func_809EDD4C;
@@ -290,7 +290,7 @@ void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_0600219C.genericHeader);
+    f32 frameCount = SkelAnime_GetFrameCount(&D_0600219C.common);
     SkelAnime_ChangeAnim(&this->skelAnime, &D_0600219C, 1.0f, 0.0f, (s16)frameCount, 2, -10.0f);
     this->unk_31D = 0;
     this->actionFunc = func_809EE194;
@@ -298,7 +298,7 @@ void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 currentFrame;
-    currentFrame = this->skelAnime.animCurrentFrame;
+    currentFrame = this->skelAnime.curFrame;
     SkelAnime_FrameUpdateMatrix(&this->skelAnime);
     if (currentFrame >= 15.0f) {
         this->actionFunc = func_809EE1F4;
