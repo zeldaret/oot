@@ -577,9 +577,8 @@ s32 func_809EEDE4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
 void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnDivingGame* this = THIS;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
-    Gfx* dispRefs[5];
 
-    Graph_OpenDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1212);
+    OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1212);
     func_80093D18(globalCtx->state.gfxCtx);
     gDPSetEnvColor(gfxCtx->polyOpa.p++, 0, 0, 0, 255);
     gSPSegment(gfxCtx->polyOpa.p++, 0x0C, EnDivingGame_EmptyDList(globalCtx->state.gfxCtx));
@@ -587,5 +586,5 @@ void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           func_809EEDE4, NULL, &this->actor);
-    Graph_CloseDisps(dispRefs, globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1232);
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_diving_game.c", 1232);
 }
