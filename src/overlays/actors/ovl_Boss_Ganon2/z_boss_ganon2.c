@@ -2631,8 +2631,29 @@ void func_80903F38(BossGanon2* this, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5122);
 }
 
-void func_80904108(BossGanon2* this, GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon2/func_80904108.s")
+void func_80904108(BossGanon2* this, GlobalContext* globalCtx) {
+    s32 pad;
+
+    if (this->unk_324 > 0.0f) {
+        OPEN_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5131);
+
+        Matrix_Push();
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPSegment(POLY_XLU_DISP++, 0x08,
+                   Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, (s32)globalCtx->gameplayFrames, 0, 32, 64, 1,
+                                    (0 - globalCtx->gameplayFrames) * 2, (0 - globalCtx->gameplayFrames) * 8, 32, 32));
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 200, 0, (s8)this->unk_324);
+        gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 128);
+        Matrix_Translate(-200.0f, 1086.0f, -200.0f, MTXMODE_NEW);
+        Matrix_Scale(0.098000005f, 0.1f, 0.098000005f, MTXMODE_APPLY);
+        gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5183),
+                  G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(D_8090B100));
+        Matrix_Pop();
+
+        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_ganon2.c", 5186);
+    }
+}
 
 void func_80904340(BossGanon2* this, GlobalContext* globalCtx) {
     s16 i;
