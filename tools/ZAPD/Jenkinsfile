@@ -1,5 +1,7 @@
 pipeline {
-    agent any
+    agent {
+        label "ZAPD"
+    }
 
     stages {
         stage('Build ZAPD') {

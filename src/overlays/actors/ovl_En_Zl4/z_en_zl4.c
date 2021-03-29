@@ -92,7 +92,7 @@ static ColliderCylinderInit sCylinderInit = {
     { 10, 44, 0, { 0, 0, 0 } },
 };
 
-CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
+static CollisionCheckInfoInit2 sColChkInfoInit = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
 typedef enum {
     /*  0 */ ZL4_ANIM_0,
@@ -131,7 +131,7 @@ typedef enum {
     /* 33 */ ZL4_ANIM_33
 } EnZl4Animation;
 
-struct_80034EC0_Entry sAnimationEntries[] = {
+static struct_80034EC0_Entry sAnimationEntries[] = {
     /*  0 */ /* standing idle */ { &gChildZeldaAnim_000654, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, 0.0f },
     /*  1 */ /* moves to introduce herself */ { &gChildZeldaAnim_00E5C8, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE, -1.0f },
     /*  2 */ /* introducing herself */ { &gChildZeldaAnim_00EBC4, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP, -1.0f },
