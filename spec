@@ -2081,7 +2081,7 @@ endseg
 beginseg
     name "ovl_En_Diving_Game"
     include "build/src/overlays/actors/ovl_En_Diving_Game/z_en_diving_game.o"
-    include "build/data/overlays/actors/z_en_diving_game.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Diving_Game/ovl_En_Diving_Game_reloc.o"
 endseg
 
 beginseg
