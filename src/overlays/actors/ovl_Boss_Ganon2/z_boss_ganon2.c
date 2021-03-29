@@ -93,8 +93,7 @@ static Vec3f D_80906D60 = { 0.0f, 0.0f, 0.0f };
 
 /* static */ u8 D_80906D78 = 0;
 
-// sJntSphItemsInit
-static ColliderJntSphElementInit D_80906D7C[] = {
+static ColliderJntSphElementInit sJntSphItemsInit1[] = {
     {
         {
             ELEMTYPE_UNK0,
@@ -273,8 +272,7 @@ static ColliderJntSphElementInit D_80906D7C[] = {
     },
 };
 
-// sJntSphInit
-static ColliderJntSphInit D_80906FBC = {
+static ColliderJntSphInit sJntSphInit1 = {
     {
         COLTYPE_METAL,
         AT_ON | AT_TYPE_ENEMY,
@@ -283,12 +281,11 @@ static ColliderJntSphInit D_80906FBC = {
         OC2_FIRST_ONLY | OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(D_80906D7C),
-    D_80906D7C,
+    ARRAY_COUNT(sJntSphItemsInit1),
+    sJntSphItemsInit1,
 };
 
-// sJntSphItemsInit
-static ColliderJntSphElementInit D_80906FCC[] = {
+static ColliderJntSphElementInit sJntSphItemsInit2[] = {
     {
         {
             ELEMTYPE_UNK2,
@@ -313,8 +310,7 @@ static ColliderJntSphElementInit D_80906FCC[] = {
     },
 };
 
-// sJntSphInit
-static ColliderJntSphInit D_80907014 = {
+static ColliderJntSphInit sJntSphInit2 = {
     {
         COLTYPE_METAL,
         AT_ON | AT_TYPE_ENEMY,
@@ -323,15 +319,13 @@ static ColliderJntSphInit D_80907014 = {
         OC2_TYPE_1,
         COLSHAPE_JNTSPH,
     },
-    ARRAY_COUNT(D_80906FCC),
-    D_80906FCC,
+    ARRAY_COUNT(sJntSphItemsInit2),
+    sJntSphItemsInit2,
 };
 
-// primColor
-static Color_RGBA8 D_80907024 = { 0, 120, 0, 255 };
+static Color_RGBA8 sPrimColor = { 0, 120, 0, 255 };
 
-// envColor
-static Color_RGBA8 D_80907028 = { 0, 120, 0, 255 };
+static Color_RGBA8 sEnvColor = { 0, 120, 0, 255 };
 
 static Vec3f D_8090702C[] = {
     { 10.0f, -10.0f, 0.0f },
@@ -570,9 +564,9 @@ void BossGanon2_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.colChkInfo.mass = 0xFF;
     this->actor.colChkInfo.health = 0x1E;
     Collider_InitJntSph(globalCtx, &this->unk_424);
-    Collider_SetJntSph(globalCtx, &this->unk_424, &this->actor, &D_80906FBC, this->unk_464);
+    Collider_SetJntSph(globalCtx, &this->unk_424, &this->actor, &sJntSphInit1, this->unk_464);
     Collider_InitJntSph(globalCtx, &this->unk_444);
-    Collider_SetJntSph(globalCtx, &this->unk_444, &this->actor, &D_80907014, this->unk_864);
+    Collider_SetJntSph(globalCtx, &this->unk_444, &this->actor, &sJntSphInit2, this->unk_864);
     func_808FD108(this, globalCtx, OBJECT_GANON, 0);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060114E8, NULL, 0, 0, 0);
     func_808FD5C4(this, globalCtx);
@@ -1868,7 +1862,7 @@ void func_8090109C(BossGanon2* this, GlobalContext* globalCtx) {
         pos.x = this->unk_1B8.x;
         pos.y = this->unk_1B8.y;
         pos.z = this->unk_1B8.z;
-        func_8002836C(globalCtx, &pos, &velocity, &accel, &D_80907024, &D_80907028, (s16)Rand_ZeroFloat(50.0f) + 50, 0,
+        func_8002836C(globalCtx, &pos, &velocity, &accel, &sPrimColor, &sEnvColor, (s16)Rand_ZeroFloat(50.0f) + 50, 0,
                       17);
     }
 }
