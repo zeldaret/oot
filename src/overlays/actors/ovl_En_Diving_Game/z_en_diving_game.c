@@ -91,6 +91,7 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnDivingGame* this = THIS;
+    
     if (this->unk_31F == 0) {
         gSaveContext.timer1State = 0;
     }
@@ -107,7 +108,7 @@ void func_809ED9E0(EnDivingGame* this, GlobalContext* globalCtx) {
     attached = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
                                               rupeePos.x, rupeePos.y, rupeePos.z, 0,
                                               (s16)Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
-    if (attached != 0) {
+    if (attached != NULL) {
         attached->actor.speedXZ = 12.0f;
         attached->actor.velocity.y = 6.0f;
     }
@@ -158,7 +159,6 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
             func_8002DF54(globalCtx, NULL, 8);
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->actionFunc = func_809EE96C;
-
             } else {
                 this->actionFunc = func_809EE048;
             }
@@ -301,7 +301,6 @@ void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
-
     SkelAnime_Update(&this->skelAnime);
     this->camId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
@@ -498,7 +497,6 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
-//#ifdef NON_MATCHING
 void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
     EnDivingGame* this = THIS;
