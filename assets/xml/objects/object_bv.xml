@@ -10,17 +10,17 @@
         <Skeleton Name="gBarinadeBariSkel" Type="Normal" LimbType="Standard" Offset="0x4E70"/>
         <Skeleton Name="gBarinadeCutSupportSkel" Type="Flex" LimbType="Standard" Offset="0x17FC8"/>
         
-        <Animation Name="gBarinadeAnim_005184" Offset="0x5184"/>
-        <Animation Name="gBarinadeAnim_0166A8" Offset="0x166A8"/>
-        <Animation Name="gBarinadeAnim_018D18" Offset="0x18D18"/>
-        <Animation Name="gBarinadeAnim_018150" Offset="0x18150"/>
-        <Animation Name="gBarinadeAnim_000024" Offset="0x24"/>
-        <Animation Name="gBarinadeAnim_0162AC" Offset="0x162AC"/>
-        <Animation Name="gBarinadeAnim_0164B0" Offset="0x164B0"/>
-        <Animation Name="gBarinadeAnim_017694" Offset="0x17694"/>
-        <Animation Name="gBarinadeAnim_0177F4" Offset="0x177F4"/>
-        <Animation Name="gBarinadeAnim_018A68" Offset="0x18A68"/>
-        <Animation Name="gBarinadeAnim_018B90" Offset="0x18B90"/>
+        <Animation Name="gBarinadeBodyAnim" Offset="0x5184"/> <!-- Body anim 1-->
+        <Animation Name="gBarinadeSupportAttachedAnim" Offset="0x166A8"/> <!-- Support anim 1 -->
+        <Animation Name="gBarinadeZapperIdleAnim" Offset="0x18D18"/> <!-- Zapper anim 1 -->
+        <Animation Name="gBarinadeStumpAnim" Offset="0x18150"/> <!-- Stump anim 1 -->
+        <Animation Name="gBarinadeBariAnim" Offset="0x24"/> <!-- Bari anim -->
+        <Animation Name="gBarinadeSupportDamage1Anim" Offset="0x162AC"/> <!-- Support damaged anim 1 -->
+        <Animation Name="gBarinadeSupportDamage2Anim" Offset="0x164B0"/> <!-- Support damaged anim 2 -->
+        <Animation Name="gBarinadeSupportCutAnim" Offset="0x17694"/> <!-- Support cut init anim -->
+        <Animation Name="gBarinadeSupportDetachedAnim" Offset="0x177F4"/> <!-- Support cut idle anim -->
+        <Animation Name="gBarinadeZapperDamage1Anim" Offset="0x18A68"/> <!-- Zapper damaged anim 1 -->
+        <Animation Name="gBarinadeZapperDamage2Anim" Offset="0x18B90"/> <!-- Zapper damaged anim 2 -->
 
         <DList Name="gBarinadeDL_008D70" Offset="0x8D70"/>
         <DList Name="gBarinadeDL_008BB8" Offset="0x8BB8"/>
