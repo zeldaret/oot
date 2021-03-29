@@ -1046,7 +1046,8 @@ void func_80B3E87C(Gfx** dList, EnXc* this) {
     }
 }
 
-s32 EnXc_PullingOutHarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnXc_PullingOutHarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                        void* thisx) {
     EnXc* this = THIS;
 
     if (limbIndex == 12) {
@@ -1056,7 +1057,8 @@ s32 EnXc_PullingOutHarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex,
     return 0;
 }
 
-s32 EnXc_HarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnXc_HarpOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                              void* thisx) {
     EnXc* this = THIS;
 
     if (limbIndex == 12) {
@@ -1083,8 +1085,8 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_PullingOutHarpOverrideLimbDraw,
-                          NULL, thisx);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
+                          EnXc_PullingOutHarpOverrideLimbDraw, NULL, thisx);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inSpot05.c", 1497);
 }
 
@@ -1106,8 +1108,8 @@ void EnXc_DrawHarp(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_HarpOverrideLimbDraw,
-                          NULL, thisx);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
+                          EnXc_HarpOverrideLimbDraw, NULL, thisx);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inSpot05.c", 1564);
 }
 
@@ -1672,7 +1674,8 @@ void EnXc_ShowTriforceIdle(EnXc* this, GlobalContext* globalCtx) {
     func_80B400AC(this, globalCtx);
 }
 
-s32 EnXc_TriforceOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnXc_TriforceOverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
+                                  void* thisx) {
     if (limbIndex == 15) {
         *dList = gShiekDL_011620;
     }
@@ -1724,8 +1727,8 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_TriforceOverrideLimbDraw,
-                          EnXc_TriforcePostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
+                          EnXc_TriforceOverrideLimbDraw, EnXc_TriforcePostLimbDraw, &this->actor);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 668);
 }
 
@@ -2385,8 +2388,8 @@ void EnXc_DrawDefault(EnXc* this, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeSegment));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeSegment));
-    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, EnXc_OverrideLimbDraw,
-                          EnXc_PostLimbDraw, &this->actor);
+    SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
+                          EnXc_OverrideLimbDraw, EnXc_PostLimbDraw, &this->actor);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2.c", 1207);
 }
 
