@@ -17,7 +17,7 @@ glabel func_80B2194C
 /* 00BA4 80B21984 46083280 */  add.s   $f10, $f6, $f8             
 /* 00BA8 80B21988 4600540D */  trunc.w.s $f16, $f10                 
 /* 00BAC 80B2198C 440F8000 */  mfc1    $t7, $f16                  
-/* 00BB0 80B21990 0C2C8378 */  jal     func_80B20DE0              
+/* 00BB0 80B21990 0C2C8378 */  jal     EnTp_SetupAction              
 /* 00BB4 80B21994 A48F015A */  sh      $t7, 0x015A($a0)           ## 0000015A
 /* 00BB8 80B21998 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00BBC 80B2199C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

@@ -12,7 +12,7 @@ glabel func_80B21B90
 /* 00DD8 80B21BB8 A498015A */  sh      $t8, 0x015A($a0)           ## 0000015A
 /* 00DDC 80B21BBC A480015C */  sh      $zero, 0x015C($a0)         ## 0000015C
 /* 00DE0 80B21BC0 24A51BDC */  addiu   $a1, $a1, %lo(func_80B21BDC) ## $a1 = 80B21BDC
-/* 00DE4 80B21BC4 0C2C8378 */  jal     func_80B20DE0              
+/* 00DE4 80B21BC4 0C2C8378 */  jal     EnTp_SetupAction              
 /* 00DE8 80B21BC8 E4840068 */  swc1    $f4, 0x0068($a0)           ## 00000068
 /* 00DEC 80B21BCC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 00DF0 80B21BD0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

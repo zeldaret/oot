@@ -6,7 +6,7 @@ glabel func_80B2128C
 /* 004BC 80B2129C 3C0580B2 */  lui     $a1, %hi(func_80B212C0)    ## $a1 = 80B20000
 /* 004C0 80B212A0 AC8E014C */  sw      $t6, 0x014C($a0)           ## 0000014C
 /* 004C4 80B212A4 A48F015A */  sh      $t7, 0x015A($a0)           ## 0000015A
-/* 004C8 80B212A8 0C2C8378 */  jal     func_80B20DE0              
+/* 004C8 80B212A8 0C2C8378 */  jal     EnTp_SetupAction              
 /* 004CC 80B212AC 24A512C0 */  addiu   $a1, $a1, %lo(func_80B212C0) ## $a1 = 80B212C0
 /* 004D0 80B212B0 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 004D4 80B212B4 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

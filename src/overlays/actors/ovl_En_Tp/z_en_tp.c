@@ -110,8 +110,8 @@ const ActorInit En_Tp_InitVars = {
     ICHAIN_F32(targetArrowOffset, 10, ICHAIN_STOP),
 };
 
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B20DE0.s")
-void func_80B20DE0(EnTp* this, EnTpActionFunc actionFunc) {
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func _80B20DE0.s")
+void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
     this->actionFunc = actionFunc;
 }
 
@@ -202,7 +202,7 @@ void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21084.s")
 void func_80B21084(EnTp* this) {
     this->unk_14C = 2;
-    func_80B20DE0(this, func_80B210B0);
+    EnTp_SetupAction(this, func_80B210B0);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B210B0.s")
@@ -242,7 +242,7 @@ void func_80B210B0(EnTp* this, GlobalContext* globalCtx) {
 void func_80B2128C(EnTp* this) {
     this->unk_14C = 7;
     this->unk_15A = 200;
-    func_80B20DE0(this, func_80B212C0);
+    EnTp_SetupAction(this, func_80B212C0);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B212C0.s")
@@ -296,7 +296,7 @@ void func_80B21454(EnTp* this) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_TAIL_DEAD);
     }
     this->unk_14C = 1;
-    func_80B20DE0(this, func_80B214CC);
+    EnTp_SetupAction(this, func_80B214CC);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B214CC.s")
@@ -355,7 +355,7 @@ void func_80B217FC(EnTp* this) {
     this->actor.velocity.y = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.velocity.z = (Rand_ZeroOne() - 0.5f) * 1.5f;
     this->actor.flags &= ~1;
-    func_80B20DE0(this, func_80B21900);
+    EnTp_SetupAction(this, func_80B21900);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21900.s")
@@ -373,7 +373,7 @@ void func_80B21900(EnTp* this, GlobalContext* globalCtx) {
 void func_80B2194C(EnTp* this) {
     this->unk_15A = (s32)((Rand_ZeroOne() * 15.0f) + 40.0f);
     this->unk_14C = 8;
-    func_80B20DE0(this, func_80B219A8);
+    EnTp_SetupAction(this, func_80B219A8);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B219A8.s")
@@ -428,7 +428,7 @@ void func_80B21B90(EnTp* this) {
     this->unk_15A = 60;
     this->unk_15C = 0;
     this->actor.speedXZ = 0.0f;
-    func_80B20DE0(this, func_80B21BDC);
+    EnTp_SetupAction(this, func_80B21BDC);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21BDC.s")
@@ -488,7 +488,7 @@ void func_80B21BDC(EnTp* this, GlobalContext* globalCtx) {
 void func_80B21EE8(EnTp* this) {
     this->unk_14C = 9;
     this->unk_15A = 0;
-    func_80B20DE0(this, func_80B21F18);
+    EnTp_SetupAction(this, func_80B21F18);
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/func_80B21F18.s")

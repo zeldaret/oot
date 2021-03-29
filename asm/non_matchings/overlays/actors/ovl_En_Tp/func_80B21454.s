@@ -27,7 +27,7 @@ glabel func_80B21454
 /* 006C8 80B214A8 24190001 */  addiu   $t9, $zero, 0x0001         ## $t9 = 00000001
 /* 006CC 80B214AC 3C0580B2 */  lui     $a1, %hi(func_80B214CC)    ## $a1 = 80B20000
 /* 006D0 80B214B0 AC99014C */  sw      $t9, 0x014C($a0)           ## 0000014C
-/* 006D4 80B214B4 0C2C8378 */  jal     func_80B20DE0              
+/* 006D4 80B214B4 0C2C8378 */  jal     EnTp_SetupAction              
 /* 006D8 80B214B8 24A514CC */  addiu   $a1, $a1, %lo(func_80B214CC) ## $a1 = 80B214CC
 /* 006DC 80B214BC 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 006E0 80B214C0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000
