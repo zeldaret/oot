@@ -34,7 +34,7 @@ glabel EnSkj_Init
 /* 00204 80AFE4B4 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 00208 80AFE4B8 AFA50054 */  sw      $a1, 0x0054($sp)
 /* 0020C 80AFE4BC 8483001C */  lh      $v1, 0x001C($a0)           ## 0000001C
-/* 00210 80AFE4C0 3C0580B0 */  lui     $a1, %hi(D_80B017C0)       ## $a1 = 80B00000
+/* 00210 80AFE4C0 3C0580B0 */  lui     $a1, %hi(sInitChain)       ## $a1 = 80B00000
 /* 00214 80AFE4C4 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00218 80AFE4C8 00031A83 */  sra     $v1, $v1, 10
 /* 0021C 80AFE4CC 3063003F */  andi    $v1, $v1, 0x003F           ## $v1 = 00000000
@@ -43,7 +43,7 @@ glabel EnSkj_Init
 /* 00228 80AFE4D8 A7A3004E */  sh      $v1, 0x004E($sp)
 /* 0022C 80AFE4DC 0C01E037 */  jal     Actor_ProcessInitChain
 
-/* 00230 80AFE4E0 24A517C0 */  addiu   $a1, $a1, %lo(D_80B017C0)  ## $a1 = 80B017C0
+/* 00230 80AFE4E0 24A517C0 */  addiu   $a1, $a1, %lo(sInitChain)  ## $a1 = 80B017C0
 /* 00234 80AFE4E4 87A3004E */  lh      $v1, 0x004E($sp)
 /* 00238 80AFE4E8 24010005 */  addiu   $at, $zero, 0x0005         ## $at = 00000005
 /* 0023C 80AFE4EC 3C0280B0 */  lui     $v0, %hi(sSmallStumpSkullKid)       ## $v0 = 80B00000
@@ -135,16 +135,16 @@ glabel EnSkj_Init
 .L80AFE62C:
 /* 0037C 80AFE62C 0C2BF90A */  jal     EnSkj_SetNaviId
 /* 00380 80AFE630 A7A3004E */  sh      $v1, 0x004E($sp)
-/* 00384 80AFE634 3C060600 */  lui     $a2, %hi(D_06005F40)                ## $a2 = 06000000
-/* 00388 80AFE638 3C070600 */  lui     $a3, %hi(D_06000E10)                ## $a3 = 06000000
+/* 00384 80AFE634 3C060600 */  lui     $a2, %hi(gSkullKidSkel)                ## $a2 = 06000000
+/* 00388 80AFE638 3C070600 */  lui     $a3, %hi(gSkullKidPlayFluteAnim)                ## $a3 = 06000000
 /* 0038C 80AFE63C 26090190 */  addiu   $t1, $s0, 0x0190           ## $t1 = 00000190
 /* 00390 80AFE640 260A0202 */  addiu   $t2, $s0, 0x0202           ## $t2 = 00000202
 /* 00394 80AFE644 240B0013 */  addiu   $t3, $zero, 0x0013         ## $t3 = 00000013
 /* 00398 80AFE648 AFAB0018 */  sw      $t3, 0x0018($sp)
 /* 0039C 80AFE64C AFAA0014 */  sw      $t2, 0x0014($sp)
 /* 003A0 80AFE650 AFA90010 */  sw      $t1, 0x0010($sp)
-/* 003A4 80AFE654 24E70E10 */  addiu   $a3, $a3, %lo(D_06000E10)           ## $a3 = 06000E10
-/* 003A8 80AFE658 24C65F40 */  addiu   $a2, $a2, %lo(D_06005F40)           ## $a2 = 06005F40
+/* 003A4 80AFE654 24E70E10 */  addiu   $a3, $a3, %lo(gSkullKidPlayFluteAnim)           ## $a3 = 06000E10
+/* 003A8 80AFE658 24C65F40 */  addiu   $a2, $a2, %lo(gSkullKidSkel)           ## $a2 = 06005F40
 /* 003AC 80AFE65C 8FA40054 */  lw      $a0, 0x0054($sp)
 /* 003B0 80AFE660 0C0291BE */  jal     SkelAnime_InitFlex
 /* 003B4 80AFE664 2605014C */  addiu   $a1, $s0, 0x014C           ## $a1 = 0000014C
@@ -208,8 +208,8 @@ glabel EnSkj_Init
 /* 00488 80AFE738 0C2BFC0E */  jal     func_80AFF038
 /* 0048C 80AFE73C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80AFE740:
-/* 00490 80AFE740 3C0F80B0 */  lui     $t7, %hi(D_80B016A4)       ## $t7 = 80B00000
-/* 00494 80AFE744 25EF16A4 */  addiu   $t7, $t7, %lo(D_80B016A4)  ## $t7 = 80B016A4
+/* 00490 80AFE740 3C0F80B0 */  lui     $t7, %hi(sDamageTable)       ## $t7 = 80B00000
+/* 00494 80AFE744 25EF16A4 */  addiu   $t7, $t7, %lo(sDamageTable)  ## $t7 = 80B016A4
 /* 00498 80AFE748 2418000A */  addiu   $t8, $zero, 0x000A         ## $t8 = 0000000A
 /* 0049C 80AFE74C AE0F0098 */  sw      $t7, 0x0098($s0)           ## 00000098
 /* 004A0 80AFE750 A21800AF */  sb      $t8, 0x00AF($s0)           ## 000000AF
