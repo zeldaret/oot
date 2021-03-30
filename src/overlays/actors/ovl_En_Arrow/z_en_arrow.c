@@ -329,9 +329,9 @@ void EnArrow_Fly(EnArrow* this, GlobalContext* globalCtx) {
         Math_Vec3f_Copy(&this->unk_210, &this->actor.world.pos);
         Actor_MoveForward(&this->actor);
 
-        if (this->touchedPoly =
-                BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
-                                           &this->actor.wallPoly, true, true, true, true, &bgId)) {
+        if ((this->touchedPoly =
+                 BgCheck_ProjectileLineTest(&globalCtx->colCtx, &this->actor.prevPos, &this->actor.world.pos, &hitPoint,
+                                            &this->actor.wallPoly, true, true, true, true, &bgId))) {
             func_8002F9EC(globalCtx, &this->actor, this->actor.wallPoly, bgId, &hitPoint);
             Math_Vec3f_Copy(&posCopy, &this->actor.world.pos);
             Math_Vec3f_Copy(&this->actor.world.pos, &hitPoint);
@@ -487,7 +487,7 @@ void EnArrow_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1374),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, gEffSparklesDL);
-        Matrix_Pull();
+        Matrix_Pop();
         Matrix_RotateY(this->actor.world.rot.y * (M_PI / 32768), MTXMODE_APPLY);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_arrow.c", 1381);

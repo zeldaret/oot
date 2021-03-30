@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
 #include "../../Vec3s.h"
+#include "../ZRoomCommand.h"
 
 class PathwayEntry
 {

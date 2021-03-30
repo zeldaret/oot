@@ -15,6 +15,7 @@
 void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx);
+void ObjTsubo_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void ObjTsubo_SpawnCollectible(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_ApplyGravity(ObjTsubo* this);
@@ -30,7 +31,6 @@ void ObjTsubo_SetupLiftedUp(ObjTsubo* this);
 void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_SetupThrown(ObjTsubo* this);
 void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx);
-void ObjTsubo_Draw(ObjTsubo* this, GlobalContext* globalCtx);
 
 s16 D_80BA1B50 = 0;
 s16 D_80BA1B54 = 0;
@@ -132,7 +132,7 @@ void ObjTsubo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ObjTsubo_InitCollider(&this->actor, globalCtx);
-    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
+    CollisionCheck_SetInfo(&this->actor.colChkInfo, NULL, sColChkInfoInit);
     if (!ObjTsubo_SnapToFloor(this, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
@@ -333,6 +333,6 @@ void ObjTsubo_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-void ObjTsubo_Draw(ObjTsubo* this, GlobalContext* globalCtx) {
-    Gfx_DrawDListOpa(globalCtx, D_80BA1B84[(this->actor.params >> 8) & 1]);
+void ObjTsubo_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    Gfx_DrawDListOpa(globalCtx, D_80BA1B84[(thisx->params >> 8) & 1]);
 }
