@@ -28,7 +28,6 @@ extern u32 D_0300AA48;
 extern u32 D_03012B20;
 extern Gfx gFieldDL_CA70[];
 extern Gfx D_06006CC0[];
-extern Gfx D_06016118[];
 extern Gfx D_06025218[];
 extern Gfx D_060252D8[];
 extern Gfx D_06025438[];
