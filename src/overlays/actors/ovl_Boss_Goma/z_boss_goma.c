@@ -51,7 +51,7 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void BossGoma_SetupEncounter(BossGoma* this, GlobalContext* globalCtx);
-void func_80916C9C(BossGoma* this, GlobalContext* globalCtx);
+void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_Defeated(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_FloorPrepareAttack(BossGoma* this, GlobalContext* globalCtx);
@@ -462,7 +462,7 @@ void BossGoma_SetupEncounter(BossGoma* this, GlobalContext* globalCtx) {
     f32 fc = Animation_GetLastFrame(&D_06002360);
 
     Animation_Change(&this->skelanime, &D_06002360, 1.0f, 0.0f, fc, 0, -15.0f);
-    this->actionFunc = func_80916C9C;
+    this->actionFunc = BossGoma_Encounter;
     this->actionState = 0;
     this->disableGameplayLogic = true;
     globalCtx->envCtx.unk_BF = 4;
@@ -693,14 +693,13 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
 }
 
 /**
- * BossGoma_Encounter
  * Spawns the door once the player entered
  * Wait for the player to look at Gohma on the ceiling
  * Handles the "meeting Gohma" cutscene, including boss card
  *
  * Skips the door and look-at-Gohma puzzle if the player already reached the boss card part before
  */
-void func_80916C9C(BossGoma* this, GlobalContext* globalCtx) {
+void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
     Camera* cam;
     Player* player;
     s32 pad[2];
@@ -1589,7 +1588,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
         rot = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor);
         /*
         timer setup values
-        func_80916C9C: 200
+        BossGoma_Encounter: 200
         BossGoma_FloorDamaged: 0
         BossGoma_FloorLandStruckDown: 0
         BossGoma_FloorLand: 200
@@ -1605,7 +1604,7 @@ void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx) {
         } else {
             /*
             timer setup values
-            func_80916C9C: keep any (most likely 0)
+            BossGoma_Encounter: keep any (most likely 0)
             BossGoma_FloorAttackPosture: keep any (but always setup from this action, BossGoma_FloorMain,
                 without patienceTimer having been modified before
                 "looping" back, so unreachable case)
@@ -1917,7 +1916,7 @@ void BossGoma_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                              Actor* thisx) {
+                              void* thisx) {
     BossGoma* this = THIS;
     s32 doNotDrawLimb = false;
 
@@ -1998,7 +1997,7 @@ s32 BossGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dLi
     return doNotDrawLimb;
 }
 
-void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* thisx) {
+void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     static Vec3f tailZero = { 0.0f, 0.0f, 0.0f };
     static Vec3f clawBackLocalPos = { 0.0f, 0.0f, 0.0f };
     static Vec3f focusEyeLocalPos = { 0.0f, 300.0f, 2650.0f }; // in the center of the surface of the lens
