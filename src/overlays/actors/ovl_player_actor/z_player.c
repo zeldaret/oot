@@ -2768,10 +2768,10 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
         func_800F47BC();
 
         if (Inventory_ConsumeFairy(globalCtx)) {
-            globalCtx->unk_10A20 = 20;
+            globalCtx->gameOverCtx.state = GAMEOVER_REVIVE_START;
             this->unk_84F = 1;
         } else {
-            globalCtx->unk_10A20 = 1;
+            globalCtx->gameOverCtx.state = GAMEOVER_DEATH_START;
             func_800F6AB0(0);
             func_800F5C64(0x20);
             gSaveContext.seqIndex = 0xFF;
@@ -7788,8 +7788,8 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         Player_SpawnFairy(globalCtx, this, &this->actor.world.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
         func_800800F8(globalCtx, 0x26B4, 125, &this->actor, 0);
-    } else if (globalCtx->unk_10A20 == 2) {
-        globalCtx->unk_10A20 = 3;
+    } else if (globalCtx->gameOverCtx.state == GAMEOVER_DEATH_WAIT_GROUND) {
+        globalCtx->gameOverCtx.state = GAMEOVER_DEATH_DELAY_MENU;
     }
 }
 

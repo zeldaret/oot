@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../ZRoomCommand.h"
 #include "../../ZCutscene.h"
+#include "../ZRoomCommand.h"
 
 class SetCutscenes : public ZRoomCommand
 {

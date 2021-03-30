@@ -1,13 +1,13 @@
 #pragma once
 
 #include "ZResource.h"
-#include "ZTexture.h"
 #include "ZRoom/ZRoom.h"
+#include "ZTexture.h"
 #include "tinyxml2.h"
 
-#include <vector>
 #include <map>
 #include <string>
+#include <vector>
 
 enum class F3DEXOpcode
 {
@@ -164,10 +164,10 @@ enum class OoTSegments
 	FrameBuffer = 16,
 };
 
-#define	G_MDSFT_ALPHACOMPARE	0
-#define	G_MDSFT_ZSRCSEL			2
-#define	G_MDSFT_RENDERMODE		3
-#define	G_MDSFT_BLENDER			16
+#define G_MDSFT_ALPHACOMPARE 0
+#define G_MDSFT_ZSRCSEL 2
+#define G_MDSFT_RENDERMODE 3
+#define G_MDSFT_BLENDER 16
 
 #define G_RM_FOG_SHADE_A 0xC8000000
 #define G_RM_FOG_PRIM_A 0xC4000000
@@ -263,23 +263,23 @@ enum class OoTSegments
 #define G_RM_OPA_CI 0x0C080000
 #define G_RM_OPA_CI2 0x03020000
 
-#define	AA_EN		0x8
-#define	Z_CMP		0x10
-#define	Z_UPD		0x20
-#define	IM_RD		0x40
-#define	CLR_ON_CVG	0x80
-#define	CVG_DST_CLAMP	0
-#define	CVG_DST_WRAP	0x100
-#define	CVG_DST_FULL	0x200
-#define	CVG_DST_SAVE	0x300
-#define	ZMODE_OPA	0
-#define	ZMODE_INTER	0x400
-#define	ZMODE_XLU	0x800
-#define	ZMODE_DEC	0xc00
-#define	CVG_X_ALPHA	0x1000
-#define	ALPHA_CVG_SEL	0x2000
-#define	FORCE_BL	0x4000
-#define	TEX_EDGE	0x0000
+#define AA_EN 0x8
+#define Z_CMP 0x10
+#define Z_UPD 0x20
+#define IM_RD 0x40
+#define CLR_ON_CVG 0x80
+#define CVG_DST_CLAMP 0
+#define CVG_DST_WRAP 0x100
+#define CVG_DST_FULL 0x200
+#define CVG_DST_SAVE 0x300
+#define ZMODE_OPA 0
+#define ZMODE_INTER 0x400
+#define ZMODE_XLU 0x800
+#define ZMODE_DEC 0xc00
+#define CVG_X_ALPHA 0x1000
+#define ALPHA_CVG_SEL 0x2000
+#define FORCE_BL 0x4000
+#define TEX_EDGE 0x0000
 
 class Vertex
 {
@@ -290,7 +290,8 @@ public:
 	uint8_t r, g, b, a;
 
 	Vertex();
-	Vertex(int16_t nX, int16_t nY, int16_t nZ, uint16_t nFlag, int16_t nS, int16_t nT, uint8_t nR, uint8_t nG, uint8_t nB, uint8_t nA);
+	Vertex(int16_t nX, int16_t nY, int16_t nZ, uint16_t nFlag, int16_t nS, int16_t nT, uint8_t nR,
+	       uint8_t nG, uint8_t nB, uint8_t nA);
 	Vertex(std::vector<uint8_t> rawData, int rawDataIndex);
 };
 
@@ -298,7 +299,7 @@ class ZDisplayList : public ZResource
 {
 protected:
 	static TextureType TexFormatToTexType(F3DZEXTexFormats fmt, F3DZEXTexSizes siz);
-	void ParseRawData();
+	void ParseRawData() override;
 
 	void ParseF3DZEX(F3DZEXOpcode opcode, uint64_t data, int i, std::string prefix, char* line);
 	void ParseF3DEX(F3DEXOpcode opcode, uint64_t data, int i, std::string prefix, char* line);
@@ -331,6 +332,7 @@ protected:
 	void Opcode_G_SETOTHERMODE_H(uint64_t data, int i, std::string prefix, char* line);
 	void Opcode_G_LOADTLUT(uint64_t data, int i, std::string prefix, char* line);
 	void Opcode_G_ENDDL(uint64_t data, int i, std::string prefix, char* line);
+
 public:
 	std::string sceneSegName;
 	ZRoom* scene;
@@ -345,7 +347,7 @@ public:
 
 	DListType dListType;
 
-	//int dListAddress;
+	// int dListAddress;
 
 	std::map<uint32_t, std::vector<Vertex>> vertices;
 	std::map<uint32_t, std::string> vtxDeclarations;
@@ -356,21 +358,28 @@ public:
 
 	std::vector<uint32_t> references;
 
-	std::string defines; // Hack for special cases where vertex arrays intersect...
+	std::string defines;  // Hack for special cases where vertex arrays intersect...
 	std::vector<uint8_t> fileData;
 
 	ZDisplayList();
 	ZDisplayList(std::vector<uint8_t> nRawData, int rawDataIndex, int rawDataSize);
 
 	static ZDisplayList* static_instance;
-	static ZDisplayList* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, int rawDataSize, std::string nRelPath);
-	static ZDisplayList* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool readFile);
+	static ZDisplayList* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData,
+	                                    int rawDataIndex, int rawDataSize, std::string nRelPath);
+	static ZDisplayList* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder,
+	                                  bool readFile);
 
 	void TextureGenCheck(std::string prefix);
-	static bool TextureGenCheck(std::vector<uint8_t> fileData, std::map<uint32_t, ZTexture*>& textures, ZRoom* scene, ZFile* parent, std::string prefix, uint32_t texWidth, uint32_t texHeight, uint32_t texAddr, uint32_t texSeg, F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded, bool texIsPalette);
+	static bool TextureGenCheck(std::vector<uint8_t> fileData,
+	                            std::map<uint32_t, ZTexture*>& textures, ZRoom* scene,
+	                            ZFile* parent, std::string prefix, uint32_t texWidth,
+	                            uint32_t texHeight, uint32_t texAddr, uint32_t texSeg,
+	                            F3DZEXTexFormats texFmt, F3DZEXTexSizes texSiz, bool texLoaded,
+	                            bool texIsPalette);
 	static int GetDListLength(std::vector<uint8_t> rawData, int rawDataIndex, DListType dListType);
 
-	std::vector<uint8_t> GetRawData();
+	std::vector<uint8_t> GetRawData() override;
 	int GetRawDataSize() override;
 	std::string GetSourceOutputHeader(const std::string& prefix) override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
