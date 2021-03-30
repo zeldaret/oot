@@ -2,9 +2,6 @@
 #include "vt.h"
 #include "overlays/actors/ovl_En_Sw/z_en_sw.h"
 
-#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
-#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
-
 static s16 sDisableAttention = false;
 static s16 sUnused = -1;
 static s32 sPrevFrameCs1100 = -4096;
@@ -332,12 +329,12 @@ s32 OnePointDemo_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* 
             break;
         case 9601:
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
-            Gameplay_CameraChangeSetting(globalCtx, 0, mainCam->prevSetting);
+            Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
             OnePointDemo_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
             break;
         case 9602:
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
-            Gameplay_CameraChangeSetting(globalCtx, 0, mainCam->prevSetting);
+            Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
             OnePointDemo_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
             break;
         case 4175:
@@ -1052,7 +1049,7 @@ s32 OnePointDemo_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* 
             break;
         case 4022:
             csCam->timer = D_801237CC[0].timerInit + D_801237CC[3].timerInit + D_801237CC[1].timerInit +
-                             D_801237CC[2].timerInit + D_801237CC[4].timerInit;
+                           D_801237CC[2].timerInit + D_801237CC[4].timerInit;
 
             csInfo->keyFrames = D_801237CC;
             csInfo->keyFrameCnt = 5;
@@ -1118,7 +1115,8 @@ s16 OnePointDemo_SetAsChild(GlobalContext* globalCtx, s16 newCamIdx, s16 parentC
 }
 
 /**
- * Removes a cutscene camera from the list. Returns the parent cam if the removed camera is active, otherwise returns SUBCAM_NONE
+ * Removes a cutscene camera from the list. Returns the parent cam if the removed camera is active, otherwise returns
+ * SUBCAM_NONE
  */
 s32 OnePointDemo_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
     Camera* camera = globalCtx->cameraPtrs[camIdx];
@@ -1144,7 +1142,9 @@ s32 OnePointDemo_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
 #define vNextCamIdx temp1
 
 /**
- * Creates a cutscene subcamera with the specified ID, duration, and targeted actor. The camera is placed into the cutscene queue in front of the specified camera, then all lower priority demos in front of it are removed from the queue.
+ * Creates a cutscene subcamera with the specified ID, duration, and targeted actor. The camera is placed into the
+ * cutscene queue in front of the specified camera, then all lower priority demos in front of it are removed from the
+ * queue.
  */
 s16 OnePointDemo_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor, s16 parentCamIdx) {
     s16 temp1;
@@ -1244,7 +1244,7 @@ s16 OnePointDemo_EndCutscene(GlobalContext* globalCtx, s16 camIdx) {
 #define vCsCamIdx temp2
 
 /**
- *  Adds an attention cutscene to the cutscene queue. 
+ *  Adds an attention cutscene to the cutscene queue.
  */
 s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
     Camera* parentCam;
@@ -1286,8 +1286,8 @@ s32 OnePointDemo_Attention(GlobalContext* globalCtx, Actor* actor) {
             vLastHigherCat = vTargetCat;
         }
     }
-    // Actorcat is only undefined if the actor is in a higher category than all other attention cutscenes. In this case, it
-    // goes in the first position of the list. Otherwise, it goes in the index found in the loop.
+    // Actorcat is only undefined if the actor is in a higher category than all other attention cutscenes. In this case,
+    // it goes in the first position of the list. Otherwise, it goes in the index found in the loop.
     vParentCamIdx = (vLastHigherCat == -1) ? MAIN_CAM : parentCam->thisIdx;
 
     switch (actor->category) {

@@ -896,9 +896,9 @@ s32 EnZl4_CsLookWindow(EnZl4* this, GlobalContext* globalCtx) {
             this->talkState++;
             break;
         case 1:
-            if (globalCtx->csCtx.state != 0) {
+            if (globalCtx->csCtx.state != CS_STATE_IDLE) {
                 if (globalCtx->csCtx.frames == 90) {
-                    globalCtx->csCtx.state = 3;
+                    globalCtx->csCtx.state = CS_STATE_UNSKIPPABLE_INIT;
                 }
             } else {
                 globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gZeldasCourtyardGanonCs);
@@ -908,9 +908,9 @@ s32 EnZl4_CsLookWindow(EnZl4* this, GlobalContext* globalCtx) {
             }
             break;
         case 2:
-            if (globalCtx->csCtx.state != 0) {
+            if (globalCtx->csCtx.state != CS_STATE_IDLE) {
                 if (globalCtx->csCtx.frames == 209) {
-                    globalCtx->csCtx.state = 3;
+                    globalCtx->csCtx.state = CS_STATE_UNSKIPPABLE_INIT;
                 }
             } else {
                 func_800AA000(0.0f, 0xA0, 0xA, 0x28);
@@ -1098,7 +1098,7 @@ s32 EnZl4_CsMakePlan(EnZl4* this, GlobalContext* globalCtx) {
             if (!((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx))) {
                 break;
             } else {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[globalCtx->activeCamera], 1);
+                Camera_ChangeSetting(ACTIVE_CAM, 1);
                 this->talkState = 7;
                 globalCtx->talkWithPlayer(globalCtx, &this->actor);
                 func_8002F434(&this->actor, globalCtx, GI_LETTER_ZELDA, fabsf(this->actor.xzDistToPlayer) + 1.0f,

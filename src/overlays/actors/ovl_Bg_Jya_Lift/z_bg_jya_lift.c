@@ -143,10 +143,10 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
-        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_TEPPEN);
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[MAIN_CAM], CAM_SET_TEPPEN);
     } else if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) &&
-               (globalCtx2->cameraPtrs[0]->setting == CAM_SET_TEPPEN)) {
-        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_DUNGEON0);
+               (globalCtx2->cameraPtrs[MAIN_CAM]->setting == CAM_SET_TEPPEN)) {
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.unk_160;
 

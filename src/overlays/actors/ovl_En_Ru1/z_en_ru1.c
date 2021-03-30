@@ -262,7 +262,7 @@ void func_80AEAECC(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEAF38(GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         return 1;
     }
     return 0;
@@ -1000,7 +1000,7 @@ void func_80AECC1C(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AECC84(EnRu1* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         Actor_Kill(&this->actor);
     }
 }

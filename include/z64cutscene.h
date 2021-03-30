@@ -3,9 +3,6 @@
 
 #include "ultra64.h"
 
-#define CSCAM_NEXT 0
-#define CSCAM_STOP 0xFF
-
 typedef struct {
     /* 0x00 */ u16 entrance;       // entrance index upon which the cutscene should trigger
     /* 0x02 */ u8  ageRestriction; // 0 for adult only, 1 for child only, 2 for both ages
@@ -159,8 +156,8 @@ typedef union CutsceneData {
     s8  b[4];
 } CutsceneData;
 
-#define CS_CMD_CONTINUE 0x00
-#define CS_CMD_STOP 0xFF
+#define CS_CMD_CONTINUE 0
+#define CS_CMD_STOP -1
 
 typedef enum {
     /* 0x00 */ OCARINA_ACTION_UNK_0,

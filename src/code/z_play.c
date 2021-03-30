@@ -224,7 +224,7 @@ void Gameplay_Init(GameState* thisx) {
 
     globalCtx->cameraPtrs[MAIN_CAM] = &globalCtx->mainCamera;
     globalCtx->cameraPtrs[MAIN_CAM]->uid = 0;
-    globalCtx->activeCamera = 0;
+    globalCtx->activeCamera = MAIN_CAM;
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
@@ -997,7 +997,7 @@ skip:
         LOG_NUM("1", 1, "../z_play.c", 3801);
     }
 
-    if ((sp80 == 0) || (gDbgCamEnabled != 0)) {
+    if ((sp80 == 0) || (gDbgCamEnabled)) {
         s32 pad3[5];
         s32 i;
 
@@ -1007,7 +1007,7 @@ skip:
             LOG_NUM("1", 1, "../z_play.c", 3806);
         }
 
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < NUM_CAMS; i++) {
             if ((i != globalCtx->nextCamera) && (globalCtx->cameraPtrs[i] != NULL)) {
                 if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3809);
@@ -1353,7 +1353,7 @@ void Gameplay_Main(GameState* thisx) {
 
 // original name: "Game_play_demo_mode_check"
 s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
-    return (globalCtx->csCtx.state != 0) || Player_InCsMode(globalCtx);
+    return (globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx);
 }
 
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
@@ -1630,7 +1630,7 @@ s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov) {
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll) {
     s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
-    
+
     camera->roll = roll;
 
     return 1;

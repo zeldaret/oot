@@ -414,7 +414,7 @@ void func_809FE890(EnDu* this, GlobalContext* globalCtx) {
     Vec3f velocity = { 0.0f, 0.0f, 0.0f };
     CsCmdActorAction* csAction;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         func_8002DF54(globalCtx, &this->actor, 1);
         EnDu_SetupAction(this, func_809FEB08);
         return;

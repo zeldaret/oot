@@ -95,7 +95,7 @@ void ObjDekujr_ComeUp(ObjDekujr* this, GlobalContext* globalCtx) {
     f32 actionLength;
     f32 gravity;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->unk_19C = 2;
         this->unk_19B = 0;
     } else {

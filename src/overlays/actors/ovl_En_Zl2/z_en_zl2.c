@@ -213,7 +213,7 @@ s32 EnZl2_FrameUpdateMatrix(EnZl2* this) {
 }
 
 CsCmdActorAction* EnZl2_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[idx];
     }
     return NULL;

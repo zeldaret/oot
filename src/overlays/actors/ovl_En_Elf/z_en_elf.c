@@ -845,7 +845,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
     xScale = 0.0f;
 
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[8] != NULL)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[8] != NULL)) {
         EnElf_GetCutsceneNextPos(&nextPos, globalCtx, 8);
 
         if (globalCtx->csCtx.npcActions[8]->action == 5) {
@@ -1060,7 +1060,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
     Actor* arrowPointedActor;
     Player* player = PLAYER;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if (globalCtx->csCtx.npcActions[8] != NULL) {
             switch (globalCtx->csCtx.npcActions[8]->action) {
                 case 4:
@@ -1440,7 +1440,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_2C7--;
     }
 
-    if ((this->unk_2C7 == 0) && (globalCtx->csCtx.state != 0)) {
+    if ((this->unk_2C7 == 0) && (globalCtx->csCtx.state != CS_STATE_IDLE)) {
         this->unk_2C7 = 1;
     }
 

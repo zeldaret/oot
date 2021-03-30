@@ -106,7 +106,7 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if (CHECK_BTN_ALL(pad1->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
-        (gSaveContext.sceneSetupIndex >= 4) && (gDbgCamEnabled == 0)) {
+        (gSaveContext.sceneSetupIndex >= 4) && !gDbgCamEnabled) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
@@ -1301,7 +1301,7 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)cmd)->continueFlag == -1) {
+        if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
         cmd += 0x10;
@@ -1338,7 +1338,7 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)cmd)->continueFlag == -1) {
+        if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
         cmd += 0x10;

@@ -1053,7 +1053,7 @@ void func_80B559C4(EnZl3* this) {
 }
 
 void func_80B55A58(EnZl3* this, GlobalContext* globalCtx) {
-    if (globalCtx->activeCamera == 0) {
+    if (globalCtx->activeCamera == MAIN_CAM) {
         func_80B537E8(this);
     }
 }

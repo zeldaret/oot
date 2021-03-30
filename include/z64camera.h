@@ -18,6 +18,8 @@
 #define SUBCAM_ACTIVE -1
 
 #define ONEPOINTDEMO_INFO(camera) ((Unique9OnePointDemo*)camera->paramData)
+#define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
+#define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
