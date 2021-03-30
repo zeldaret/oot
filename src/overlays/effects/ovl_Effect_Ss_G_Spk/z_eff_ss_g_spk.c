@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_g_spk.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -28,21 +29,19 @@ EffectSsInit Effect_Ss_G_Spk_InitVars = {
     EffectSsGSpk_Init,
 };
 
-extern Gfx D_04025550[];
-
 u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsGSpkInitParams* initParams = (EffectSsGSpkInitParams*)initParamsx;
 
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04025550);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffSparkDL);
 
     if (initParams->updateMode == 0) {
         this->life = 10;
-        this->vec.x = initParams->pos.x - initParams->actor->posRot.pos.x;
-        this->vec.y = initParams->pos.y - initParams->actor->posRot.pos.y;
-        this->vec.z = initParams->pos.z - initParams->actor->posRot.pos.z;
+        this->vec.x = initParams->pos.x - initParams->actor->world.pos.x;
+        this->vec.y = initParams->pos.y - initParams->actor->world.pos.y;
+        this->vec.z = initParams->pos.z - initParams->actor->world.pos.z;
         this->update = EffectSsGSpk_Update;
     } else {
         this->life = 5;
@@ -66,11 +65,11 @@ u32 EffectSsGSpk_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     return 1;
 }
 
-static void* sTextures[] = {
-    0x04055FB0,
-    0x040561B0,
-    0x040563B0,
-    0x040565B0,
+static UNK_PTR sTextures[] = {
+    gEffSpark1Tex,
+    gEffSpark2Tex,
+    gEffSpark3Tex,
+    gEffSpark4Tex,
 };
 
 void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -94,12 +93,12 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
         func_80094BC4(gfxCtx);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     }
 
     if (1) {}
@@ -110,14 +109,14 @@ void EffectSsGSpk_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
-    this->accel.x = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
-    this->accel.z = (Math_Rand_ZeroOne() - 0.5f) * 3.0f;
+    this->accel.x = (Rand_ZeroOne() - 0.5f) * 3.0f;
+    this->accel.z = (Rand_ZeroOne() - 0.5f) * 3.0f;
 
     if (this->actor != NULL) {
-        if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {
-            this->pos.x = this->actor->posRot.pos.x + this->vec.x;
-            this->pos.y = this->actor->posRot.pos.y + this->vec.y;
-            this->pos.z = this->actor->posRot.pos.z + this->vec.z;
+        if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
+            this->pos.x = this->actor->world.pos.x + this->vec.x;
+            this->pos.y = this->actor->world.pos.y + this->vec.y;
+            this->pos.z = this->actor->world.pos.z + this->vec.z;
         }
     }
 
@@ -133,9 +132,9 @@ void EffectSsGSpk_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 // with this update mode, the sparks dont move randomly in the xz plane, appearing to be on top of each other
 void EffectSsGSpk_UpdateNoAccel(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     if (this->actor != NULL) {
-        if ((this->actor->type == ACTORTYPE_EXPLOSIVES) && (this->actor->update != NULL)) {
-            this->pos.x += (Math_Sins(this->actor->posRot.rot.y) * this->actor->speedXZ);
-            this->pos.z += (Math_Coss(this->actor->posRot.rot.y) * this->actor->speedXZ);
+        if ((this->actor->category == ACTORCAT_EXPLOSIVE) && (this->actor->update != NULL)) {
+            this->pos.x += (Math_SinS(this->actor->world.rot.y) * this->actor->speedXZ);
+            this->pos.z += (Math_CosS(this->actor->world.rot.y) * this->actor->speedXZ);
         }
     }
 

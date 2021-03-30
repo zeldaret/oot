@@ -5,7 +5,7 @@
  */
 
 #include "z_en_takara_man.h"
-#include <vt.h>
+#include "vt.h"
 
 #define FLAGS 0x08000039
 
@@ -25,7 +25,7 @@ void func_80B17AC4(EnTakaraMan* this, GlobalContext* globalCtx);
 
 const ActorInit En_Takara_Man_InitVars = {
     ACTOR_EN_TAKARA_MAN,
-    ACTORTYPE_NPC,
+    ACTORCAT_NPC,
     FLAGS,
     OBJECT_TS,
     sizeof(EnTakaraMan),
@@ -37,7 +37,7 @@ const ActorInit En_Takara_Man_InitVars = {
 
 static u8 sTakaraIsInitialized = false;
 
-extern SkeletonHeader D_06004FE0;
+extern FlexSkeletonHeader D_06004FE0;
 extern AnimationHeader D_06000498;
 
 void EnTakaraMan_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -57,27 +57,26 @@ void EnTakaraMan_Init(Actor* thisx, GlobalContext* globalCtx) {
     osSyncPrintf(VT_FGCOL(PURPLE) "☆☆☆☆☆ ばぅん！ ☆☆☆☆☆ %x\n" VT_RST,
                  globalCtx->actorCtx.flags.chest); // "Bun! %x" (needs a better translation)
     globalCtx->actorCtx.flags.chest = 0;
-    gSaveContext.dungeonKeys[gSaveContext.mapIndex] = -1;
-    SkelAnime_InitSV(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->limbDrawTbl, this->transitionDrawTbl,
-                     10);
-    thisx->posRot2.pos = thisx->posRot.pos;
-    this->pos = thisx->posRot.pos;
-    thisx->posRot.pos.x = 133.0f;
-    thisx->posRot.pos.y = -12.0f;
-    thisx->posRot.pos.z = 102.0f;
+    gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex] = -1;
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004FE0, &D_06000498, this->jointTable, this->morphTable, 10);
+    thisx->focus.pos = thisx->world.pos;
+    this->pos = thisx->world.pos;
+    thisx->world.pos.x = 133.0f;
+    thisx->world.pos.y = -12.0f;
+    thisx->world.pos.z = 102.0f;
     Actor_SetScale(&this->actor, 0.013f);
     this->height = 90.0f;
     this->originalRoomNum = thisx->room;
     thisx->room = -1;
-    thisx->posRot.rot.y = thisx->shape.rot.y = -0x4E20;
-    thisx->unk_1F = 1;
+    thisx->world.rot.y = thisx->shape.rot.y = -0x4E20;
+    thisx->targetMode = 1;
     this->actionFunc = func_80B176E0;
 }
 
 void func_80B176E0(EnTakaraMan* this, GlobalContext* globalCtx) {
-    f32 frameCount = SkelAnime_GetFrameCount(&D_06000498.genericHeader);
+    f32 frameCount = Animation_GetLastFrame(&D_06000498);
 
-    SkelAnime_ChangeAnim(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
+    Animation_Change(&this->skelAnime, &D_06000498, 1.0f, 0.0f, (s16)frameCount, ANIMMODE_LOOP, -10.0f);
     if (!this->unk_214) {
         this->actor.textId = 0x6D; // "Open the chest and..Surprise! ... 10 Rupees to play .. Yes/No"
         this->dialogState = 4;
@@ -89,7 +88,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
     s16 absYawDiff;
     s16 yawDiff;
 
-    SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+    SkelAnime_Update(&this->skelAnime);
     if (func_8002F194(&this->actor, globalCtx) && this->dialogState != 6) {
         if (!this->unk_214) {
             this->actionFunc = func_80B17934;
@@ -97,7 +96,7 @@ void func_80B1778C(EnTakaraMan* this, GlobalContext* globalCtx) {
             this->actionFunc = func_80B17B14;
         }
     } else {
-        yawDiff = this->actor.yawTowardsLink - this->actor.shape.rot.y;
+        yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
         if (globalCtx->roomCtx.curRoom.num == 6 && !this->unk_21A) {
             this->actor.textId = 0x6E; // "Great! You are a real gambler!"
             this->unk_21A = 1;
@@ -188,13 +187,13 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->eyeTimer--;
     }
 
-    Actor_SetHeight(&this->actor, this->height);
-    func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.posRot2.pos);
+    Actor_SetFocus(&this->actor, this->height);
+    func_80038290(globalCtx, &this->actor, &this->unk_22C, &this->unk_232, this->actor.focus.pos);
     if (this->eyeTimer == 0) {
         this->eyeTextureIdx++;
         if (this->eyeTextureIdx >= 2) {
             this->eyeTextureIdx = 0;
-            this->eyeTimer = (s16)Math_Rand_ZeroFloat(60.0f) + 20;
+            this->eyeTimer = (s16)Rand_ZeroFloat(60.0f) + 20;
         }
     }
     this->unk_212++;
@@ -202,7 +201,7 @@ void EnTakaraMan_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot,
-                                 Actor* thisx) {
+                                 void* thisx) {
     EnTakaraMan* this = THIS;
 
     if (limbIndex == 1) {
@@ -212,7 +211,7 @@ s32 EnTakaraMan_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** 
         rot->x += this->unk_22C.y;
         rot->z += this->unk_22C.z;
     }
-    return 0;
+    return false;
 }
 
 void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -226,9 +225,9 @@ void EnTakaraMan_Draw(Actor* thisx, GlobalContext* globalCtx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 528);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTakaraEyeTextures[this->eyeTextureIdx]));
-    SkelAnime_DrawSV(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl, this->skelAnime.dListCount,
-                     EnTakaraMan_OverrideLimbDraw, NULL, &this->actor);
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTakaraEyeTextures[this->eyeTextureIdx]));
+    SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
+                          EnTakaraMan_OverrideLimbDraw, NULL, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_takara_man.c", 544);
 }

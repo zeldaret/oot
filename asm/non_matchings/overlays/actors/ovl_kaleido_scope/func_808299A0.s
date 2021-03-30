@@ -110,7 +110,7 @@ glabel func_808299A0
 /* 16278 80829A98 3C073D27 */  lui     $a3, 0x3D27                ## $a3 = 3D270000
 /* 1627C 80829A9C 34E7EF9E */  ori     $a3, $a3, 0xEF9E           ## $a3 = 3D27EF9E
 /* 16280 80829AA0 24841398 */  addiu   $a0, %lo(D_80161398)
-/* 16284 80829AA4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 16284 80829AA4 0C01E107 */  jal     Math_ApproachF
               
 /* 16288 80829AA8 3C053FC0 */  lui     $a1, 0x3FC0                ## $a1 = 3FC00000
 /* 1628C 80829AAC 3C018016 */  lui     $at, %hi(D_80161398)
@@ -129,7 +129,7 @@ glabel func_808299A0
 .L80829AE0:
 /* 162C0 80829AE0 4405C000 */  mfc1    $a1, $f24                  
 /* 162C4 80829AE4 4406C000 */  mfc1    $a2, $f24                  
-/* 162C8 80829AE8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 162C8 80829AE8 0C01E107 */  jal     Math_ApproachF
               
 /* 162CC 80829AEC 34E7EF9E */  ori     $a3, $a3, 0xEF9E           ## $a3 = 0000EF9E
 /* 162D0 80829AF0 3C018016 */  lui     $at, %hi(D_80161398)
@@ -420,7 +420,7 @@ glabel L80829C28
 /* 16700 80829F20 24060110 */  addiu   $a2, $zero, 0x0110         ## $a2 = 00000110
 /* 16704 80829F24 0C0346A2 */  jal     Matrix_NewMtx              
 /* 16708 80829F28 00408025 */  or      $s0, $v0, $zero            ## $s0 = 00000000
-/* 1670C 80829F2C 0C034221 */  jal     Matrix_Pull              
+/* 1670C 80829F2C 0C034221 */  jal     Matrix_Pop              
 /* 16710 80829F30 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
 /* 16714 80829F34 8E2202C0 */  lw      $v0, 0x02C0($s1)           ## 000002C0
 /* 16718 80829F38 3C010100 */  lui     $at, 0x0100                ## $at = 01000000
@@ -453,7 +453,7 @@ glabel L80829C28
 /* 16780 80829FA0 5420FF0D */  bnel    $at, $zero, .L80829BD8     
 /* 16784 80829FA4 866B0000 */  lh      $t3, 0x0000($s3)           ## 00000000
 .L80829FA8:
-/* 16788 80829FA8 0C034221 */  jal     Matrix_Pull              
+/* 16788 80829FA8 0C034221 */  jal     Matrix_Pop              
 /* 1678C 80829FAC 267300A4 */  addiu   $s3, $s3, 0x00A4           ## $s3 = 000000A4
 /* 16790 80829FB0 1000FEA5 */  beq     $zero, $zero, .L80829A48   
 /* 16794 80829FB4 86620000 */  lh      $v0, 0x0000($s3)           ## 000000A4

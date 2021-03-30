@@ -4,7 +4,7 @@ glabel func_8092DB4C
 /* 01584 8092DB54 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01588 8092DB58 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 0158C 8092DB5C AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 01590 8092DB60 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01590 8092DB60 0C02927F */  jal     SkelAnime_Update
               
 /* 01594 8092DB64 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 01598 8092DB68 82030195 */  lb      $v1, 0x0195($s0)           ## 00000195
@@ -63,7 +63,7 @@ glabel func_8092DB4C
 /* 0165C 8092DC2C 31CF6080 */  andi    $t7, $t6, 0x6080           ## $t7 = 00000000
 /* 01660 8092DC30 15E00014 */  bne     $t7, $zero, .L8092DC84     
 /* 01664 8092DC34 00000000 */  nop
-/* 01668 8092DC38 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01668 8092DC38 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 0166C 8092DC3C 00000000 */  nop
 /* 01670 8092DC40 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000
@@ -88,7 +88,7 @@ glabel func_8092DB4C
 /* 016B4 8092DC84 10000014 */  beq     $zero, $zero, .L8092DCD8   
 /* 016B8 8092DC88 A6090198 */  sh      $t1, 0x0198($s0)           ## 00000198
 .L8092DC8C:
-/* 016BC 8092DC8C 0C00B6B0 */  jal     func_8002DAC0              
+/* 016BC 8092DC8C 0C00B6B0 */  jal     Actor_WorldYawTowardPoint              
 /* 016C0 8092DC90 8CC41C44 */  lw      $a0, 0x1C44($a2)           ## 00001C44
 /* 016C4 8092DC94 34018000 */  ori     $at, $zero, 0x8000         ## $at = 00008000
 /* 016C8 8092DC98 00412821 */  addu    $a1, $v0, $at              
@@ -96,7 +96,7 @@ glabel func_8092DB4C
 /* 016D0 8092DCA0 00052C03 */  sra     $a1, $a1, 16               
 /* 016D4 8092DCA4 260400B6 */  addiu   $a0, $s0, 0x00B6           ## $a0 = 000000B6
 /* 016D8 8092DCA8 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 016DC 8092DCAC 0C01E1EF */  jal     Math_SmoothScaleMaxS
+/* 016DC 8092DCAC 0C01E1EF */  jal     Math_ApproachS
               
 /* 016E0 8092DCB0 24070400 */  addiu   $a3, $zero, 0x0400         ## $a3 = 00000400
 /* 016E4 8092DCB4 86020198 */  lh      $v0, 0x0198($s0)           ## 00000198

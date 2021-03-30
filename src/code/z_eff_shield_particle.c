@@ -1,6 +1,6 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 static Vtx sVertices[5] = {
     VTX(-32, -32, 0, 0, 1024, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -38,14 +38,13 @@ void EffectShieldParticle_Init(void* thisx, void* initParamsx) {
         this->timer = 0;
 
         for (elem = &this->elements[0]; elem < &this->elements[this->numElements]; elem++) {
-            elem->initialSpeed =
-                (Math_Rand_ZeroOne() * (this->maxInitialSpeed * 0.5f)) + (this->maxInitialSpeed * 0.5f);
+            elem->initialSpeed = (Rand_ZeroOne() * (this->maxInitialSpeed * 0.5f)) + (this->maxInitialSpeed * 0.5f);
             elem->endX = 0.0f;
             elem->startXChange = 0.0f;
             elem->startX = 0.0f;
             elem->endXChange = elem->initialSpeed;
-            elem->yaw = Math_Rand_ZeroOne() * 65534.0f;
-            elem->pitch = Math_Rand_ZeroOne() * 65534.0f;
+            elem->yaw = Rand_ZeroOne() * 65534.0f;
+            elem->pitch = Rand_ZeroOne() * 65534.0f;
         }
 
         this->lightDecay = initParams->lightDecay;
@@ -114,10 +113,9 @@ s32 EffectShieldParticle_Update(void* thisx) {
 }
 
 void EffectShieldParticle_GetColors(EffectShieldParticle* this, Color_RGBA8* primColor, Color_RGBA8* envColor) {
-    s32 halfDuration;
+    s32 halfDuration = this->duration * 0.5f;
     f32 ratio;
 
-    halfDuration = this->duration * 0.5f;
     if (halfDuration == 0) {
         primColor->r = this->primColorStart.r;
         primColor->g = this->primColorStart.g;
@@ -159,43 +157,38 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_eff_shield_particle.c", 272);
 
     if (this != NULL) {
-        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0x26);
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x26);
 
-        gDPSetCycleType(oGfxCtx->polyXlu.p++, G_CYC_2CYCLE);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPTexture(oGfxCtx->polyXlu.p++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
+        gDPSetCycleType(POLY_XLU_DISP++, G_CYC_2CYCLE);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPTexture(POLY_XLU_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON);
 
-        gDPLoadTextureBlock(oGfxCtx->polyXlu.p++, D_04038FB0, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
+        gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownCircle6Tex, G_IM_FMT_I, G_IM_SIZ_8b, 32, 32, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 5, 5, G_TX_NOLOD, G_TX_NOLOD);
 
         if (1) {} // Necessary to match
 
-        gDPSetCombineLERP(oGfxCtx->polyXlu.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, 0, 0,
-                          0, 0, COMBINED, 0, 0, 0, COMBINED);
-        gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-        gSPClearGeometryMode(oGfxCtx->polyXlu.p++,
-                             G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
-        gSPSetGeometryMode(oGfxCtx->polyXlu.p++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
+        gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, 0, 0, 0,
+                          0, COMBINED, 0, 0, 0, COMBINED);
+        gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
+        gSPClearGeometryMode(POLY_XLU_DISP++, G_CULL_BOTH | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR);
+        gSPSetGeometryMode(POLY_XLU_DISP++, G_ZBUFFER | G_SHADE | G_SHADING_SMOOTH);
 
         EffectShieldParticle_GetColors(this, &primColor, &envColor);
 
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, primColor.r, primColor.g, primColor.b, primColor.a);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, envColor.r, envColor.g, envColor.b, envColor.a);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, primColor.r, primColor.g, primColor.b, primColor.a);
+        gDPSetEnvColor(POLY_XLU_DISP++, envColor.r, envColor.g, envColor.b, envColor.a);
+        gDPPipeSync(POLY_XLU_DISP++);
 
         for (elem = &this->elements[0]; elem < &this->elements[this->numElements]; elem++) {
             Mtx* mtx;
             MtxF sp104;
             MtxF spC4;
             MtxF sp84;
-            f32 temp1;
-            f32 temp2;
-            f32 temp3;
+            f32 temp1 = (s16)((elem->endX + elem->startX) * 0.5f);
+            f32 temp2 = elem->endX - elem->startX;
+            f32 temp3 = (s16)((temp2 * (1.0f / 64.0f)) / 0.02f);
 
-            temp1 = (s16)((elem->endX + elem->startX) * 0.5f);
-
-            temp2 = elem->endX - elem->startX;
-            temp3 = (s16)((temp2 * (1.0f / 64.0f)) / 0.02f);
             if (temp3 < 1.0f) {
                 temp3 = 1.0f;
             }
@@ -215,9 +208,9 @@ void EffectShieldParticle_Draw(void* thisx, GraphicsContext* gfxCtx) {
                 break;
             }
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPVertex(oGfxCtx->polyXlu.p++, sVertices, 4, 0);
-            gSP2Triangles(oGfxCtx->polyXlu.p++, 0, 1, 2, 0, 0, 3, 1, 0);
+            gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPVertex(POLY_XLU_DISP++, sVertices, 4, 0);
+            gSP2Triangles(POLY_XLU_DISP++, 0, 1, 2, 0, 0, 3, 1, 0);
         }
     }
 

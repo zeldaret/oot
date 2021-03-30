@@ -15,10 +15,25 @@ void EnZf_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnZf_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_06006690;
+extern UNK_TYPE D_06008138;
+extern UNK_TYPE D_06008C6C;
+extern UNK_TYPE D_06009530;
+extern UNK_TYPE D_0600A3D4;
+extern UNK_TYPE D_0600B10C;
+extern UNK_TYPE D_0600E198;
+extern UNK_TYPE D_06010060;
+extern UNK_TYPE D_060104B8;
+extern UNK_TYPE D_060119F4;
+extern UNK_TYPE D_0601366C;
+extern UNK_TYPE D_06014E60;
+extern UNK_TYPE D_060157F8;
+extern UNK_TYPE D_06016388;
+
 /*
 const ActorInit En_Zf_InitVars = {
     ACTOR_EN_ZF,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_ZF,
     sizeof(EnZf),
@@ -26,6 +41,46 @@ const ActorInit En_Zf_InitVars = {
     (ActorFunc)EnZf_Destroy,
     (ActorFunc)EnZf_Update,
     (ActorFunc)EnZf_Draw,
+};
+
+static ColliderCylinderInit D_80B4A1D8 = {
+    {
+        COLTYPE_HIT0,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK1,
+        { 0x00000000, 0x00, 0x00 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_NONE,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 20, 70, 0, { 0, 0, 0 } },
+};
+
+static ColliderQuadInit D_80B4A204 = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_HARD | AC_TYPE_PLAYER,
+        OC1_NONE,
+        OC2_NONE,
+        COLSHAPE_QUAD,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0x00000000, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL | TOUCH_UNK7,
+        BUMP_ON,
+        OCELEM_NONE,
+    },
+    { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Zf/func_80B44050.s")

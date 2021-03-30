@@ -4,7 +4,7 @@ glabel func_809EE408
 /* 00BA0 809EE410 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 00BA4 809EE414 AFBF001C */  sw      $ra, 0x001C($sp)           
 /* 00BA8 809EE418 AFA50024 */  sw      $a1, 0x0024($sp)           
-/* 00BAC 809EE41C 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 00BAC 809EE41C 0C02927F */  jal     SkelAnime_Update
               
 /* 00BB0 809EE420 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 00BB4 809EE424 8FA40024 */  lw      $a0, 0x0024($sp)           
@@ -25,7 +25,7 @@ glabel func_809EE408
 /* 00BEC 809EE45C 46062202 */  mul.s   $f8, $f4, $f6              
 /* 00BF0 809EE460 8E0602DC */  lw      $a2, 0x02DC($s0)           ## 000002DC
 /* 00BF4 809EE464 44074000 */  mfc1    $a3, $f8                   
-/* 00BF8 809EE468 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00BF8 809EE468 0C01E107 */  jal     Math_ApproachF
               
 /* 00BFC 809EE46C 00000000 */  nop
 /* 00C00 809EE470 C60A02F0 */  lwc1    $f10, 0x02F0($s0)          ## 000002F0
@@ -35,7 +35,7 @@ glabel func_809EE408
 /* 00C10 809EE480 46105482 */  mul.s   $f18, $f10, $f16           
 /* 00C14 809EE484 8E0602E4 */  lw      $a2, 0x02E4($s0)           ## 000002E4
 /* 00C18 809EE488 44079000 */  mfc1    $a3, $f18                  
-/* 00C1C 809EE48C 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00C1C 809EE48C 0C01E107 */  jal     Math_ApproachF
               
 /* 00C20 809EE490 00000000 */  nop
 /* 00C24 809EE494 C604030C */  lwc1    $f4, 0x030C($s0)           ## 0000030C
@@ -45,7 +45,7 @@ glabel func_809EE408
 /* 00C34 809EE4A4 46062202 */  mul.s   $f8, $f4, $f6              
 /* 00C38 809EE4A8 8E060300 */  lw      $a2, 0x0300($s0)           ## 00000300
 /* 00C3C 809EE4AC 44074000 */  mfc1    $a3, $f8                   
-/* 00C40 809EE4B0 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00C40 809EE4B0 0C01E107 */  jal     Math_ApproachF
               
 /* 00C44 809EE4B4 00000000 */  nop
 /* 00C48 809EE4B8 C60A0310 */  lwc1    $f10, 0x0310($s0)          ## 00000310
@@ -55,7 +55,7 @@ glabel func_809EE408
 /* 00C58 809EE4C8 46105482 */  mul.s   $f18, $f10, $f16           
 /* 00C5C 809EE4CC 8E060304 */  lw      $a2, 0x0304($s0)           ## 00000304
 /* 00C60 809EE4D0 44079000 */  mfc1    $a3, $f18                  
-/* 00C64 809EE4D4 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00C64 809EE4D4 0C01E107 */  jal     Math_ApproachF
               
 /* 00C68 809EE4D8 00000000 */  nop
 /* 00C6C 809EE4DC C6040314 */  lwc1    $f4, 0x0314($s0)           ## 00000314
@@ -65,7 +65,7 @@ glabel func_809EE408
 /* 00C7C 809EE4EC 46062202 */  mul.s   $f8, $f4, $f6              
 /* 00C80 809EE4F0 8E060308 */  lw      $a2, 0x0308($s0)           ## 00000308
 /* 00C84 809EE4F4 44074000 */  mfc1    $a3, $f8                   
-/* 00C88 809EE4F8 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00C88 809EE4F8 0C01E107 */  jal     Math_ApproachF
               
 /* 00C8C 809EE4FC 00000000 */  nop
 /* 00C90 809EE500 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
@@ -74,14 +74,14 @@ glabel func_809EE408
 /* 00C9C 809EE50C 34E7D70A */  ori     $a3, $a3, 0xD70A           ## $a3 = 3CA3D70A
 /* 00CA0 809EE510 44050000 */  mfc1    $a1, $f0                   
 /* 00CA4 809EE514 44060000 */  mfc1    $a2, $f0                   
-/* 00CA8 809EE518 0C01E107 */  jal     Math_SmoothScaleMaxF
+/* 00CA8 809EE518 0C01E107 */  jal     Math_ApproachF
               
 /* 00CAC 809EE51C 26040318 */  addiu   $a0, $s0, 0x0318           ## $a0 = 00000318
 /* 00CB0 809EE520 860502A0 */  lh      $a1, 0x02A0($s0)           ## 000002A0
 /* 00CB4 809EE524 8FA40024 */  lw      $a0, 0x0024($sp)           
 .L809EE528:
 /* 00CB8 809EE528 260602B8 */  addiu   $a2, $s0, 0x02B8           ## $a2 = 000002B8
-/* 00CBC 809EE52C 0C030136 */  jal     func_800C04D8              
+/* 00CBC 809EE52C 0C030136 */  jal     Gameplay_CameraSetAtEye              
 /* 00CC0 809EE530 260702C4 */  addiu   $a3, $s0, 0x02C4           ## $a3 = 000002C4
 /* 00CC4 809EE534 920E031E */  lbu     $t6, 0x031E($s0)           ## 0000031E
 /* 00CC8 809EE538 55C0001D */  bnel    $t6, $zero, .L809EE5B0     

@@ -4,7 +4,7 @@ glabel func_8092FFF0
 /* 03A28 8092FFF8 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 03A2C 8092FFFC AFBF0024 */  sw      $ra, 0x0024($sp)           
 /* 03A30 80930000 AFA5002C */  sw      $a1, 0x002C($sp)           
-/* 03A34 80930004 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 03A34 80930004 0C02927F */  jal     SkelAnime_Update
               
 /* 03A38 80930008 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
 /* 03A3C 8093000C 8E0E011C */  lw      $t6, 0x011C($s0)           ## 0000011C
@@ -27,22 +27,22 @@ glabel func_8092FFF0
 .L80930050:
 /* 03A80 80930050 44812000 */  mtc1    $at, $f4                   ## $f4 = 3.00
 /* 03A84 80930054 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
-/* 03A88 80930058 0C01E0C4 */  jal     Math_SmoothScaleMaxMinF
+/* 03A88 80930058 0C01E0C4 */  jal     Math_SmoothStepToF
               
 /* 03A8C 8093005C E7A40010 */  swc1    $f4, 0x0010($sp)           
 /* 03A90 80930060 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 03A94 80930064 2405F800 */  addiu   $a1, $zero, 0xF800         ## $a1 = FFFFF800
-/* 03A98 80930068 0C01DE2B */  jal     Math_ApproxUpdateScaledS
+/* 03A98 80930068 0C01DE2B */  jal     Math_ScaledStepToS
               
 /* 03A9C 8093006C 24060100 */  addiu   $a2, $zero, 0x0100         ## $a2 = 00000100
 /* 03AA0 80930070 26040024 */  addiu   $a0, $s0, 0x0024           ## $a0 = 00000024
 /* 03AA4 80930074 8E050008 */  lw      $a1, 0x0008($s0)           ## 00000008
-/* 03AA8 80930078 0C01DE80 */  jal     Math_ApproxF
+/* 03AA8 80930078 0C01DE80 */  jal     Math_StepToF
               
 /* 03AAC 8093007C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 03AB0 80930080 2604002C */  addiu   $a0, $s0, 0x002C           ## $a0 = 0000002C
 /* 03AB4 80930084 8E050010 */  lw      $a1, 0x0010($s0)           ## 00000010
-/* 03AB8 80930088 0C01DE80 */  jal     Math_ApproxF
+/* 03AB8 80930088 0C01DE80 */  jal     Math_StepToF
               
 /* 03ABC 8093008C 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 03AC0 80930090 3C028094 */  lui     $v0, %hi(D_80938C90)       ## $v0 = 80940000

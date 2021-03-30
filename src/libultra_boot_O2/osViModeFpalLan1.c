@@ -1,4 +1,4 @@
-#include <global.h>
+#include "global.h"
 
 OSViMode osViModeFpalLan1 = {
     0x2C, // type

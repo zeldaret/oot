@@ -9,10 +9,57 @@ void BossGanon_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Update(Actor* thisx, GlobalContext* globalCtx);
 void BossGanon_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+extern UNK_TYPE D_02006C18;
+extern UNK_TYPE D_02007418;
+extern UNK_TYPE D_06000540;
+extern UNK_TYPE D_06000FE8;
+extern UNK_TYPE D_06001440;
+extern UNK_TYPE D_06001B0C;
+extern UNK_TYPE D_06001F58;
+extern UNK_TYPE D_06001FF8;
+extern UNK_TYPE D_06002D2C;
+extern UNK_TYPE D_06003018;
+extern UNK_TYPE D_0600343C;
+extern UNK_TYPE D_06003D40;
+extern UNK_TYPE D_06004304;
+extern UNK_TYPE D_06004884;
+extern UNK_TYPE D_06004DA8;
+extern UNK_TYPE D_06004F64;
+extern UNK_TYPE D_060058C4;
+extern UNK_TYPE D_06005FFC;
+extern UNK_TYPE D_06006028;
+extern UNK_TYPE D_060063CC;
+extern UNK_TYPE D_060069A0;
+extern UNK_TYPE D_06006AF4;
+extern UNK_TYPE D_06007268;
+extern UNK_TYPE D_0600738C;
+extern UNK_TYPE D_06007A64;
+extern UNK_TYPE D_06008128;
+extern UNK_TYPE D_060089F8;
+extern UNK_TYPE D_06008A88;
+extern UNK_TYPE D_06008F44;
+extern UNK_TYPE D_060096B0;
+extern UNK_TYPE D_06009A14;
+extern UNK_TYPE D_06009A20;
+extern UNK_TYPE D_06009D5C;
+extern UNK_TYPE D_0600A598;
+extern UNK_TYPE D_0600AA24;
+extern UNK_TYPE D_0600ADDC;
+extern UNK_TYPE D_0600B668;
+extern UNK_TYPE D_0600BE38;
+extern UNK_TYPE D_0600BE90;
+extern UNK_TYPE D_0600C9E8;
+extern UNK_TYPE D_0600CF00;
+extern UNK_TYPE D_0600EA00;
+extern UNK_TYPE D_0600F19C;
+extern UNK_TYPE D_06010298;
+extern UNK_TYPE D_06010514;
+extern UNK_TYPE D_060114E8;
+
 /*
 const ActorInit Boss_Ganon_InitVars = {
     ACTOR_BOSS_GANON,
-    ACTORTYPE_BOSS,
+    ACTORCAT_BOSS,
     FLAGS,
     OBJECT_GANON,
     sizeof(BossGanon),
@@ -20,6 +67,46 @@ const ActorInit Boss_Ganon_InitVars = {
     (ActorFunc)BossGanon_Destroy,
     (ActorFunc)BossGanon_Update,
     (ActorFunc)BossGanon_Draw,
+};
+
+static ColliderCylinderInit D_808E4C00 = {
+    {
+        COLTYPE_HIT3,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x10 },
+        { 0xFFCFFFFE, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON | BUMP_HOOKABLE,
+        OCELEM_ON,
+    },
+    { 20, 80, -50, { 0, 0, 0 } },
+};
+
+static ColliderCylinderInit D_808E4C2C = {
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_CYLINDER,
+    },
+    {
+        ELEMTYPE_UNK6,
+        { 0x00100700, 0x00, 0x08 },
+        { 0x0D900740, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
+    { 20, 30, -15, { 0, 0, 0 } },
 };
 */
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Ganon/func_808D6870.s")

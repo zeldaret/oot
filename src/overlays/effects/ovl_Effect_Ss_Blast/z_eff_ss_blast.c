@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_blast.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -28,8 +29,6 @@ EffectSsInit Effect_Ss_Blast_InitVars = {
     EffectSsBlast_Init,
 };
 
-extern Gfx D_0401A0B0[];
-
 u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsBlastParams* initParams = (EffectSsBlastParams*)initParamsx;
 
@@ -37,7 +36,7 @@ u32 EffectSsBlast_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     this->pos.y += 5.0f;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_0401A0B0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffShockwaveDL);
     this->life = initParams->life;
     this->draw = EffectSsBlast_Draw;
     this->update = EffectSsBlast_Update;
@@ -67,21 +66,20 @@ void EffectSsBlast_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     radius = this->rScale * 0.0025f;
 
     func_80093D84(globalCtx->state.gfxCtx);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+    gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
     func_800BFCB8(globalCtx, &mf, &this->pos);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
-                    this->rPrimColorA);
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, this->rPrimColorA);
     Matrix_Put(&mf);
     Matrix_Scale(radius, radius, radius, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_blast.c", 199),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+    gSPDisplayList(POLY_XLU_DISP++, this->gfx);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_blast.c", 204);
 }
 
 void EffectSsBlast_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    Math_ApproxS(&this->rPrimColorA, 0, this->rAlphaTarget);
+    Math_StepToS(&this->rPrimColorA, 0, this->rAlphaTarget);
     this->rScale += this->rScaleStep;
 
     if (this->rScaleStep != 0) {

@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dust.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -35,8 +36,6 @@ static EffectSsUpdateFunc sUpdateFuncs[] = {
     EffectSsBlast_UpdateFire,
 };
 
-extern Gfx D_04010050[];
-
 u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 randColorOffset;
     EffectSsDustInitParams* initParams = (EffectSsDustInitParams*)initParamsx;
@@ -44,13 +43,13 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04010050);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffDustDL);
     this->life = initParams->life;
     this->update = sUpdateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;
 
     if (initParams->drawFlags & 4) {
-        randColorOffset = Math_Rand_ZeroOne() * 20.0f - 10.0f;
+        randColorOffset = Rand_ZeroOne() * 20.0f - 10.0f;
         this->rPrimColorR = initParams->primColor.r + randColorOffset;
         this->rPrimColorG = initParams->primColor.g + randColorOffset;
         this->rPrimColorB = initParams->primColor.b + randColorOffset;
@@ -78,7 +77,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 static UNK_PTR sTextures[] = {
-    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0,
+    gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
 };
 
 void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -98,41 +97,41 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
     SkinMatrix_MtxFMtxFMult(&mfTrans, &globalCtx->mf_11DA0, &mfTrans11DA0);
     SkinMatrix_MtxFMtxFMult(&mfTrans11DA0, &mfScale, &mfResult);
-    gSPMatrix(oGfxCtx->polyXlu.p++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+    gSPMatrix(POLY_XLU_DISP++, &gMtxClear, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
     mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
     if (mtx != NULL) {
-        gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
-        oGfxCtx->polyXlu.p = Gfx_CallSetupDL(oGfxCtx->polyXlu.p, 0);
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
+        gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+        POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0);
+        gDPPipeSync(POLY_XLU_DISP++);
 
         if (this->rDrawFlags & 1) {
-            gDPSetCombineLERP(oGfxCtx->polyXlu.p++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0,
-                              0, COMBINED, 0, SHADE, 0, 0, 0, 0, COMBINED);
-            gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_FOG_SHADE_A, G_RM_ZB_CLD_SURF2);
-            gSPSetGeometryMode(oGfxCtx->polyXlu.p++, G_FOG | G_LIGHTING);
+            gDPSetCombineLERP(POLY_XLU_DISP++, PRIMITIVE, ENVIRONMENT, TEXEL0, ENVIRONMENT, PRIMITIVE, 0, TEXEL0, 0,
+                              COMBINED, 0, SHADE, 0, 0, 0, 0, COMBINED);
+            gDPSetRenderMode(POLY_XLU_DISP++, G_RM_FOG_SHADE_A, G_RM_ZB_CLD_SURF2);
+            gSPSetGeometryMode(POLY_XLU_DISP++, G_FOG | G_LIGHTING);
         } else if (this->rDrawFlags & 2) {
-            gDPSetRenderMode(oGfxCtx->polyXlu.p++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
-            gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_FOG | G_LIGHTING);
+            gDPSetRenderMode(POLY_XLU_DISP++, G_RM_PASS, G_RM_ZB_CLD_SURF2);
+            gSPClearGeometryMode(POLY_XLU_DISP++, G_FOG | G_LIGHTING);
         } else {
-            gSPClearGeometryMode(oGfxCtx->polyXlu.p++, G_LIGHTING);
+            gSPClearGeometryMode(POLY_XLU_DISP++, G_LIGHTING);
         }
 
-        gDPPipeSync(oGfxCtx->polyXlu.p++);
-        gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
-        gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
-        gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+        gDPPipeSync(POLY_XLU_DISP++);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB, 255);
+        gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB, this->rEnvColorA);
+        gSPDisplayList(POLY_XLU_DISP++, this->gfx);
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dust.c", 389);
 }
 
 void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
 
     if ((this->life <= this->rLifespan) && (this->life >= (this->rLifespan - 7))) {
         if (this->rLifespan >= 5) {
@@ -149,8 +148,8 @@ void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 // this update mode is unused in the original game
 void EffectSsBlast_UpdateFire(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
 
     switch (this->rTexIdx) {
         case 0:

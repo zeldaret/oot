@@ -3,27 +3,27 @@ glabel func_80B45384
 /* 01338 80B45388 AFB00028 */  sw      $s0, 0x0028($sp)
 /* 0133C 80B4538C 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 01340 80B45390 AFBF002C */  sw      $ra, 0x002C($sp)
-/* 01344 80B45394 3C040601 */  lui     $a0, 0x0601                ## $a0 = 06010000
-/* 01348 80B45398 0C028800 */  jal     SkelAnime_GetFrameCount
+/* 01344 80B45394 3C040601 */  lui     $a0, %hi(D_0600B10C)                ## $a0 = 06010000
+/* 01348 80B45398 0C028800 */  jal     Animation_GetLastFrame
 
-/* 0134C 80B4539C 2484B10C */  addiu   $a0, $a0, 0xB10C           ## $a0 = 0600B10C
+/* 0134C 80B4539C 2484B10C */  addiu   $a0, $a0, %lo(D_0600B10C)           ## $a0 = 0600B10C
 /* 01350 80B453A0 44822000 */  mtc1    $v0, $f4                   ## $f4 = 0.00
 /* 01354 80B453A4 3C01C080 */  lui     $at, 0xC080                ## $at = C0800000
 /* 01358 80B453A8 44814000 */  mtc1    $at, $f8                   ## $f8 = -4.00
 /* 0135C 80B453AC 468021A0 */  cvt.s.w $f6, $f4
-/* 01360 80B453B0 3C050601 */  lui     $a1, 0x0601                ## $a1 = 06010000
+/* 01360 80B453B0 3C050601 */  lui     $a1, %hi(D_0600B10C)                ## $a1 = 06010000
 /* 01364 80B453B4 240E0001 */  addiu   $t6, $zero, 0x0001         ## $t6 = 00000001
 /* 01368 80B453B8 AFAE0014 */  sw      $t6, 0x0014($sp)
-/* 0136C 80B453BC 24A5B10C */  addiu   $a1, $a1, 0xB10C           ## $a1 = 0600B10C
+/* 0136C 80B453BC 24A5B10C */  addiu   $a1, $a1, %lo(D_0600B10C)           ## $a1 = 0600B10C
 /* 01370 80B453C0 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01374 80B453C4 E7A60010 */  swc1    $f6, 0x0010($sp)
 /* 01378 80B453C8 3C063F80 */  lui     $a2, 0x3F80                ## $a2 = 3F800000
 /* 0137C 80B453CC 24070000 */  addiu   $a3, $zero, 0x0000         ## $a3 = 00000000
-/* 01380 80B453D0 0C029468 */  jal     SkelAnime_ChangeAnim
+/* 01380 80B453D0 0C029468 */  jal     Animation_Change
 
 /* 01384 80B453D4 E7A80018 */  swc1    $f8, 0x0018($sp)
 /* 01388 80B453D8 240F0003 */  addiu   $t7, $zero, 0x0003         ## $t7 = 00000003
-/* 0138C 80B453DC 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0138C 80B453DC 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01390 80B453E0 AE0F03DC */  sw      $t7, 0x03DC($s0)           ## 000003DC
 /* 01394 80B453E4 3C014120 */  lui     $at, 0x4120                ## $at = 41200000

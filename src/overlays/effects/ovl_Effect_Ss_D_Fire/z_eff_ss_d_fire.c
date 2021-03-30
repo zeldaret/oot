@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_d_fire.h"
+#include "objects/object_dodongo/object_dodongo.h"
 
 #define rScale regs[0]
 #define rTexIdx regs[1]
@@ -26,8 +27,6 @@ EffectSsInit Effect_Ss_D_Fire_InitVars = {
     EffectSsDFire_Init,
 };
 
-extern Gfx D_060098A0[];
-
 u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDFireInitParams* initParams = (EffectSsDFireInitParams*)initParamsx;
     s32 objBankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO);
@@ -36,7 +35,7 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
         this->pos = initParams->pos;
         this->velocity = initParams->velocity;
         this->accel = initParams->accel;
-        this->gfx = SEGMENTED_TO_VIRTUAL(D_060098A0);
+        this->gfx = SEGMENTED_TO_VIRTUAL(gDodongoFireDL);
         this->life = initParams->life;
         this->rScale = initParams->scale;
         this->rScaleStep = initParams->scaleStep;
@@ -57,7 +56,7 @@ u32 EffectSsDFire_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void
     return 0;
 }
 
-static void* sTextures[] = { 0x060090A0, 0x060092A0, 0x060094A0, 0x060096A0 };
+static void* sTextures[] = { gDodongoFire0Tex, gDodongoFire1Tex, gDodongoFire2Tex, gDodongoFire3Tex };
 
 void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
@@ -76,7 +75,7 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
     if (Object_GetIndex(&globalCtx->objectCtx, OBJECT_DODONGO) > -1) {
         gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-        gSPSegment(oGfxCtx->polyXlu.p++, 0x06, object);
+        gSPSegment(POLY_XLU_DISP++, 0x06, object);
         scale = this->rScale / 100.0f;
         SkinMatrix_SetTranslate(&mfTrans, this->pos.x, this->pos.y, this->pos.z);
         SkinMatrix_SetScale(&mfScale, scale, scale, 1.0f);
@@ -86,14 +85,14 @@ void EffectSsDFire_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
         mtx = SkinMatrix_MtxFToNewMtx(gfxCtx, &mfResult);
 
         if (mtx != NULL) {
-            gSPMatrix(oGfxCtx->polyXlu.p++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
+            gSPMatrix(POLY_XLU_DISP++, mtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
             func_80094BC4(gfxCtx);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, 255, 0, 0, 0);
-            gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+            gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
+            gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                             this->rPrimColorA);
             gSegments[6] = VIRTUAL_TO_PHYSICAL(object);
-            gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
-            gSPDisplayList(oGfxCtx->polyXlu.p++, this->gfx);
+            gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sTextures[this->rTexIdx]));
+            gSPDisplayList(POLY_XLU_DISP++, this->gfx);
         }
     }
 

@@ -1,5 +1,5 @@
-#include <ultra64.h>
-#include <global.h>
+#include "global.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 typedef struct {
     /* 0x00 */ u8 flag;
@@ -11,7 +11,7 @@ typedef struct {
     /* 0x04 */ Vec3f pos;
 } BowStringData; // size = 0x10
 
-SkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, 0x0602CF6C };
+FlexSkeletonHeader* gPlayerSkelHeaders[] = { 0x060377F4, 0x0602CF6C };
 
 s16 sBootData[PLAYER_BOOTS_MAX][17] = {
     { 200, 1000, 300, 700, 550, 270, 600, 350, 800, 600, -100, 600, 590, 750, 125, 200, 130 },
@@ -390,7 +390,7 @@ void func_8008EDF0(Player* this) {
 
 void func_8008EE08(Player* this) {
     if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8A00000) ||
-        (!(this->stateFlags1 & 0xC0000) && ((this->actor.posRot.pos.y - this->actor.groundY) < 100.0f))) {
+        (!(this->stateFlags1 & 0xC0000) && ((this->actor.world.pos.y - this->actor.floorHeight) < 100.0f))) {
         this->stateFlags1 &= ~0x400F8000;
     } else if (!(this->stateFlags1 & 0x2C0000)) {
         this->stateFlags1 |= 0x80000;
@@ -407,7 +407,7 @@ void func_8008EEAC(GlobalContext* globalCtx, Actor* actor) {
     this->unk_684 = actor;
     this->stateFlags1 |= 0x10000;
     Camera_SetParam(Gameplay_GetCamera(globalCtx, 0), 8, actor);
-    func_8005A444(Gameplay_GetCamera(globalCtx, 0), 2);
+    Camera_ChangeMode(Gameplay_GetCamera(globalCtx, 0), 2);
 }
 
 s32 func_8008EF30(GlobalContext* globalCtx) {
@@ -417,7 +417,7 @@ s32 func_8008EF30(GlobalContext* globalCtx) {
 }
 
 s32 func_8008EF44(GlobalContext* globalCtx, s32 ammo) {
-    globalCtx->unk_11E5C = ammo + 1;
+    globalCtx->shootingGalleryStatus = ammo + 1;
     return 1;
 }
 
@@ -626,12 +626,12 @@ Gfx* sBootDListGroups[][2] = {
     { 0x06025BA8, 0x06025DB0 },
 };
 
-void func_8008F470(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDrawTable, s32 dListCount, s32 lod,
-                   s32 tunic, s32 boots, s32 face, OverrideLimbDraw overrideLimbDraw, PostLimbDraw postLimbDraw,
-                   void* arg) {
+void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable, s32 dListCount, s32 lod, s32 tunic,
+                   s32 boots, s32 face, OverrideLimbDrawOpa overrideLimbDraw, PostLimbDrawOpa postLimbDraw,
+                   void* data) {
     Color_RGB8* color;
-    s32 eyeIndex = (limbDrawTable[22].x & 0xF) - 1;
-    s32 mouthIndex = (limbDrawTable[22].x >> 4) - 1;
+    s32 eyeIndex = (jointTable[22].x & 0xF) - 1;
+    s32 mouthIndex = (jointTable[22].x >> 4) - 1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 1721);
 
@@ -639,45 +639,45 @@ void func_8008F470(GlobalContext* globalCtx, Skeleton* skeleton, Vec3s* limbDraw
         eyeIndex = sEyeMouthIndexes[face][0];
     }
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyeIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[eyeIndex]));
 
     if (mouthIndex < 0) {
         mouthIndex = sEyeMouthIndexes[face][1];
     }
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[mouthIndex]));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(sMouthTextures[mouthIndex]));
 
     color = &sTunicColors[tunic];
-    gDPSetEnvColor(oGfxCtx->polyOpa.p++, color->r, color->g, color->b, 0);
+    gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
     sDListsLodOffset = lod * 2;
 
-    SkelAnime_LodDrawSV(globalCtx, skeleton, limbDrawTable, dListCount, overrideLimbDraw, postLimbDraw, arg, lod);
+    SkelAnime_DrawFlexLod(globalCtx, skeleton, jointTable, dListCount, overrideLimbDraw, postLimbDraw, data, lod);
 
     if ((overrideLimbDraw != func_800902F0) && (overrideLimbDraw != func_80090440) && (gSaveContext.gameMode != 3)) {
         if (LINK_IS_ADULT) {
             s32 strengthUpgrade = CUR_UPG_VALUE(UPG_STRENGTH);
 
             if (strengthUpgrade >= PLAYER_STR_SILVER_G) {
-                gDPPipeSync(oGfxCtx->polyOpa.p++);
+                gDPPipeSync(POLY_OPA_DISP++);
 
                 color = &sGauntletColors[strengthUpgrade - PLAYER_STR_SILVER_G];
-                gDPSetEnvColor(oGfxCtx->polyOpa.p++, color->r, color->g, color->b, 0);
+                gDPSetEnvColor(POLY_OPA_DISP++, color->r, color->g, color->b, 0);
 
-                gSPDisplayList(oGfxCtx->polyOpa.p++, D_06025218);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, D_06025598);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, (D_80160014 == 0) ? D_060252D8 : D_06025438);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, (D_80160018 == 8) ? D_06025658 : D_060257B8);
+                gSPDisplayList(POLY_OPA_DISP++, D_06025218);
+                gSPDisplayList(POLY_OPA_DISP++, D_06025598);
+                gSPDisplayList(POLY_OPA_DISP++, (D_80160014 == 0) ? D_060252D8 : D_06025438);
+                gSPDisplayList(POLY_OPA_DISP++, (D_80160018 == 8) ? D_06025658 : D_060257B8);
             }
 
             if (boots != 0) {
                 Gfx** bootDLists = sBootDListGroups[boots - 1];
-                gSPDisplayList(oGfxCtx->polyOpa.p++, bootDLists[0]);
-                gSPDisplayList(oGfxCtx->polyOpa.p++, bootDLists[1]);
+                gSPDisplayList(POLY_OPA_DISP++, bootDLists[0]);
+                gSPDisplayList(POLY_OPA_DISP++, bootDLists[1]);
             }
         } else {
             if (Player_GetStrength() > PLAYER_STR_NONE) {
-                gSPDisplayList(oGfxCtx->polyOpa.p++, D_06016118);
+                gSPDisplayList(POLY_OPA_DISP++, D_06016118);
             }
         }
     }
@@ -734,15 +734,15 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
         Matrix_Push();
         Matrix_JointPosition(pos, rot);
         Matrix_MultVec3f(&D_8012602C, &spA4);
-        Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->limbDrawTbl[shinLimbIndex]);
+        Matrix_JointPosition(&D_80126038[(void)0, gSaveContext.linkAge], &skelAnime->jointTable[shinLimbIndex]);
         Matrix_Translate(D_80126050[(void)0, gSaveContext.linkAge], 0.0f, 0.0f, MTXMODE_APPLY);
         Matrix_MultVec3f(&D_8012602C, &sp98);
         Matrix_MultVec3f(&D_80126070, &footprintPos);
-        Matrix_Pull();
+        Matrix_Pop();
 
         footprintPos.y += 15.0f;
 
-        sp80 = func_8003C9A4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) + sp74;
+        sp80 = BgCheck_EntityRaycastFloor4(&globalCtx->colCtx, &sp88, &sp84, &this->actor, &footprintPos) + sp74;
 
         if (sp98.y < sp80) {
             sp70 = sp98.x - spA4.x;
@@ -755,7 +755,7 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
 
-            sp54 = Math_atan2f(sp58, sp60);
+            sp54 = Math_FAtan2F(sp58, sp60);
 
             sp6C = sp80 - spA4.y;
 
@@ -766,26 +766,25 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
             sp58 = sp7C - SQ(sp60);
             sp58 = (sp7C < SQ(sp60)) ? 0.0f : sqrtf(sp58);
 
-            sp50 = Math_atan2f(sp58, sp60);
+            sp50 = Math_FAtan2F(sp58, sp60);
 
-            temp1 = (M_PI - (Math_atan2f(sp5C, sp58) + ((M_PI / 2) - sp50))) * 10430.378f;
-            temp1 = temp1 - skelAnime->limbDrawTbl[shinLimbIndex].z;
+            temp1 = (M_PI - (Math_FAtan2F(sp5C, sp58) + ((M_PI / 2) - sp50))) * 10430.378f;
+            temp1 = temp1 - skelAnime->jointTable[shinLimbIndex].z;
 
-            if ((s16)(ABS(skelAnime->limbDrawTbl[shinLimbIndex].x) + ABS(skelAnime->limbDrawTbl[shinLimbIndex].y)) <
-                0) {
+            if ((s16)(ABS(skelAnime->jointTable[shinLimbIndex].x) + ABS(skelAnime->jointTable[shinLimbIndex].y)) < 0) {
                 temp1 += 0x8000;
             }
 
             temp2 = (sp50 - sp54) * 10430.378f;
             rot->z -= temp2;
 
-            skelAnime->limbDrawTbl[thighLimbIndex].z = skelAnime->limbDrawTbl[thighLimbIndex].z - temp2;
-            skelAnime->limbDrawTbl[shinLimbIndex].z = skelAnime->limbDrawTbl[shinLimbIndex].z + temp1;
-            skelAnime->limbDrawTbl[footLimbIndex].z = skelAnime->limbDrawTbl[footLimbIndex].z + temp2 - temp1;
+            skelAnime->jointTable[thighLimbIndex].z = skelAnime->jointTable[thighLimbIndex].z - temp2;
+            skelAnime->jointTable[shinLimbIndex].z = skelAnime->jointTable[shinLimbIndex].z + temp1;
+            skelAnime->jointTable[footLimbIndex].z = skelAnime->jointTable[footLimbIndex].z + temp2 - temp1;
 
             temp3 = func_80041D4C(&globalCtx->colCtx, sp88, sp84);
 
-            if ((temp3 >= 2) && (temp3 < 4) && !func_80042108(&globalCtx->colCtx, sp88, sp84)) {
+            if ((temp3 >= 2) && (temp3 < 4) && !SurfaceType_IsWallDamage(&globalCtx->colCtx, sp88, sp84)) {
                 footprintPos.y = sp80;
                 EffectSsGFire_Spawn(globalCtx, &footprintPos);
             }
@@ -793,8 +792,8 @@ void func_8008F87C(GlobalContext* globalCtx, Player* this, SkelAnime* skelAnime,
     }
 }
 
-s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    Player* this = (Player*)actor;
+s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    Player* this = (Player*)thisx;
 
     if (limbIndex == PLAYER_LIMB_ROOT) {
         D_80160014 = this->leftHandType;
@@ -802,12 +801,12 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         D_80160000 = &this->swordInfo[2].base;
 
         if (LINK_IS_CHILD) {
-            if (!(this->skelAnime.flags & 4) || (this->skelAnime.flags & 1)) {
+            if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 1)) {
                 pos->x *= 0.64f;
                 pos->z *= 0.64f;
             }
 
-            if (!(this->skelAnime.flags & 4) || (this->skelAnime.flags & 2)) {
+            if (!(this->skelAnime.moveFlags & 4) || (this->skelAnime.moveFlags & 2)) {
                 pos->y *= 0.64f;
             }
         }
@@ -815,7 +814,7 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         pos->y -= this->unk_6C4;
 
         if (this->unk_6C2 != 0) {
-            Matrix_Translate(pos->x, ((Math_Coss(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
+            Matrix_Translate(pos->x, ((Math_CosS(this->unk_6C2) - 1.0f) * 200.0f) + pos->y, pos->z, MTXMODE_APPLY);
             Matrix_RotateX(this->unk_6C2 * (M_PI / 32768), MTXMODE_APPLY);
             Matrix_RotateRPY(rot->x, rot->y, rot->z, MTXMODE_APPLY);
             pos->x = pos->y = pos->z = 0.0f;
@@ -850,19 +849,19 @@ s32 func_8008FCC8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         } else if (limbIndex == PLAYER_LIMB_R_THIGH) {
             func_8008F87C(globalCtx, this, &this->skelAnime, pos, rot, PLAYER_LIMB_R_THIGH, PLAYER_LIMB_R_SHIN,
                           PLAYER_LIMB_R_FOOT);
-            return 0;
+            return false;
         } else {
-            return 0;
+            return false;
         }
     }
 
-    return 0;
+    return false;
 }
 
-s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    Player* this = (Player*)actor;
+s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    Player* this = (Player*)thisx;
 
-    if (func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, actor) == 0) {
+    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         if (limbIndex == PLAYER_LIMB_L_HAND) {
             Gfx** dLists = this->leftHandDLists;
 
@@ -908,13 +907,13 @@ s32 func_80090014(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
     }
 
-    return 0;
+    return false;
 }
 
-s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    Player* this = (Player*)actor;
+s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    Player* this = (Player*)thisx;
 
-    if (func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, actor) == 0) {
+    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         if (this->unk_6AD != 2) {
             *dList = NULL;
         } else if (limbIndex == PLAYER_LIMB_L_FOREARM) {
@@ -932,22 +931,22 @@ s32 func_800902F0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         }
     }
 
-    return 0;
+    return false;
 }
 
-s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, Actor* actor) {
-    if (func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, actor) == 0) {
+s32 func_80090440(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+    if (!func_8008FCC8(globalCtx, limbIndex, dList, pos, rot, thisx)) {
         *dList = NULL;
     }
 
-    return 0;
+    return false;
 }
 
 u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* weaponInfo, Vec3f* newTip,
                  Vec3f* newBase) {
     if (weaponInfo->active == 0) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->tip, newTip);
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -957,12 +956,12 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
                (weaponInfo->tip.z == newTip->z) && (weaponInfo->base.x == newBase->x) &&
                (weaponInfo->base.y == newBase->y) && (weaponInfo->base.z == newBase->z)) {
         if (collider != NULL) {
-            Collider_QuadSetAT(globalCtx, &collider->base);
+            Collider_ResetQuadAT(globalCtx, &collider->base);
         }
         return 0;
     } else {
         if (collider != NULL) {
-            func_80062734(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
+            Collider_SetQuadVertices(collider, newBase, newTip, &weaponInfo->base, &weaponInfo->tip);
             CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
         }
         Math_Vec3f_Copy(&weaponInfo->base, newBase);
@@ -974,22 +973,22 @@ u8 func_80090480(GlobalContext* globalCtx, ColliderQuad* collider, WeaponInfo* w
 
 void func_80090604(GlobalContext* globalCtx, Player* this, ColliderQuad* collider, Vec3f* quadSrc) {
     static u8 shieldColTypes[PLAYER_SHIELD_MAX] = {
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_WOODEN_SHIELD,
-        COLTYPE_METAL_SHIELD,
-        COLTYPE_METAL_SHIELD,
+        COLTYPE_METAL,
+        COLTYPE_WOOD,
+        COLTYPE_METAL,
+        COLTYPE_METAL,
     };
 
     if (this->stateFlags1 & 0x400000) {
         Vec3f quadDest[4];
 
-        this->shieldQuad.base.type = shieldColTypes[this->currentShield];
+        this->shieldQuad.base.colType = shieldColTypes[this->currentShield];
 
         Matrix_MultVec3f(&quadSrc[0], &quadDest[0]);
         Matrix_MultVec3f(&quadSrc[1], &quadDest[1]);
         Matrix_MultVec3f(&quadSrc[2], &quadDest[2]);
         Matrix_MultVec3f(&quadSrc[3], &quadDest[3]);
-        func_80062734(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
+        Collider_SetQuadVertices(collider, &quadDest[0], &quadDest[1], &quadDest[2], &quadDest[3]);
 
         CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &collider->base);
         CollisionCheck_SetAT(globalCtx, &globalCtx->colChkCtx, &collider->base);
@@ -1032,15 +1031,15 @@ void Player_DrawGetItemImpl(GlobalContext* globalCtx, Player* this, Vec3f* refPo
 
     gSegments[6] = VIRTUAL_TO_PHYSICAL(this->giObjectSegment);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, this->giObjectSegment);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x06, this->giObjectSegment);
+    gSPSegment(POLY_OPA_DISP++, 0x06, this->giObjectSegment);
+    gSPSegment(POLY_XLU_DISP++, 0x06, this->giObjectSegment);
 
-    Matrix_Translate(refPos->x + (3.3f * Math_Sins(this->actor.shape.rot.y)), refPos->y + height,
-                     refPos->z + ((3.3f + (IREG(90) / 10.0f)) * Math_Coss(this->actor.shape.rot.y)), MTXMODE_NEW);
+    Matrix_Translate(refPos->x + (3.3f * Math_SinS(this->actor.shape.rot.y)), refPos->y + height,
+                     refPos->z + ((3.3f + (IREG(90) / 10.0f)) * Math_CosS(this->actor.shape.rot.y)), MTXMODE_NEW);
     Matrix_RotateRPY(0, globalCtx->gameplayFrames * 1000, 0, MTXMODE_APPLY);
     Matrix_Scale(0.2f, 0.2f, 0.2f, MTXMODE_APPLY);
 
-    func_800694A0(globalCtx, drawIdPlusOne - 1);
+    GetItem_Draw(globalCtx, drawIdPlusOne - 1);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2421);
 }
@@ -1070,8 +1069,8 @@ void func_80090A28(Player* this, Vec3f* vecs) {
 
 void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
     static Vec3f D_801260C8 = { -500.0f, -100.0f, 0.0f };
-    f32 sp9C;
-    f32 sp98;
+    CollisionPoly* sp9C;
+    s32 bgId;
     Vec3f sp8C;
     Vec3f sp80;
     Vec3f sp74;
@@ -1086,10 +1085,10 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
 
     if (1) {}
 
-    if (func_8003E188(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &sp98) != 0) {
+    if (BgCheck_AnyLineTest3(&globalCtx->colCtx, &sp8C, &sp80, &sp74, &sp9C, 1, 1, 1, 1, &bgId)) {
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2572);
 
-        oGfxCtx->overlay.p = Gfx_CallSetupDL(oGfxCtx->overlay.p, 0x07);
+        OVERLAY_DISP = Gfx_CallSetupDL(OVERLAY_DISP, 0x07);
 
         SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &sp74, &sp68, &sp64);
 
@@ -1098,10 +1097,10 @@ void func_80090AFC(GlobalContext* globalCtx, Player* this, f32 arg2) {
         Matrix_Translate(sp74.x, sp74.y, sp74.z, MTXMODE_NEW);
         Matrix_Scale(sp60, sp60, sp60, MTXMODE_APPLY);
 
-        gSPMatrix(oGfxCtx->overlay.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
+        gSPMatrix(OVERLAY_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2587),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPSegment(oGfxCtx->overlay.p++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
-        gSPDisplayList(oGfxCtx->overlay.p++, D_0602CB48);
+        gSPSegment(OVERLAY_DISP++, 0x06, globalCtx->objectCtx.status[this->actor.objBankIndex].segment);
+        gSPDisplayList(OVERLAY_DISP++, D_0602CB48);
 
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2592);
     }
@@ -1153,10 +1152,8 @@ Vec3f D_801261E0[] = {
     { 200.0f, 200.0f, 0.0f },
 };
 
-#ifdef NON_MATCHING
-// regalloc differences
-void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, Actor* actor) {
-    Player* this = (Player*)actor;
+void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+    Player* this = (Player*)thisx;
 
     if (*dList != NULL) {
         Matrix_MultVec3f(&D_8012602C, D_80160000);
@@ -1164,7 +1161,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
 
     if (limbIndex == PLAYER_LIMB_L_HAND) {
         MtxF sp14C;
-        Actor* hookedActor; // sp+0x148
+        Actor* hookedActor;
 
         Math_Vec3f_Copy(&this->leftHandPos, D_80160000);
 
@@ -1187,9 +1184,9 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             Matrix_RotateRPY(-0x8000, 0, 0x4000, MTXMODE_APPLY);
             Matrix_Scale(1.0f, this->unk_85C, 1.0f, MTXMODE_APPLY);
 
-            gSPMatrix(oGfxCtx->polyOpa.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2653),
+            gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2653),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyOpa.p++, D_06006CC0);
+            gSPDisplayList(POLY_OPA_DISP++, D_06006CC0);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2656);
         } else if ((this->actor.scale.y >= 0.0f) && (this->swordState != 0)) {
@@ -1204,14 +1201,14 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             func_80090A28(this, spE4);
             func_800906D4(globalCtx, this, spE4);
         } else if ((*dList != NULL) && (this->leftHandType == 7)) {
-            Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)]; // sp+0xE0
+            Color_RGB8* bottleColor = &sBottleColors[Player_ActionToBottle(this, this->itemActionParam)];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2710);
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2712),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2712),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gDPSetEnvColor(oGfxCtx->polyXlu.p++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, sBottleDLists[gSaveContext.linkAge]);
+            gDPSetEnvColor(POLY_XLU_DISP++, bottleColor->r, bottleColor->g, bottleColor->b, 0);
+            gSPDisplayList(POLY_XLU_DISP++, sBottleDLists[((void)0, gSaveContext.linkAge)]);
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2717);
         }
@@ -1219,11 +1216,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
         if (this->actor.scale.y >= 0.0f) {
             if (!Player_HoldsHookshot(this) && ((hookedActor = this->heldActor) != NULL)) {
                 if (this->stateFlags1 & 0x200) {
-                    Matrix_MultVec3f(&D_80126128, &hookedActor->posRot.pos);
+                    Matrix_MultVec3f(&D_80126128, &hookedActor->world.pos);
                     Matrix_RotateRPY(0x69E8, -0x5708, 0x458E, MTXMODE_APPLY);
                     Matrix_Get(&sp14C);
-                    func_800D20CC(&sp14C, &hookedActor->posRot.rot, 0);
-                    hookedActor->shape.rot = hookedActor->posRot.rot;
+                    func_800D20CC(&sp14C, &hookedActor->world.rot, 0);
+                    hookedActor->shape.rot = hookedActor->world.rot;
                 } else if (this->stateFlags1 & 0x800) {
                     Vec3s spB8;
 
@@ -1231,10 +1228,9 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     func_800D20CC(&sp14C, &spB8, 0);
 
                     if (hookedActor->flags & 0x20000) {
-                        hookedActor->posRot.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
+                        hookedActor->world.rot.x = hookedActor->shape.rot.x = spB8.x - this->unk_3BC.x;
                     } else {
-                        hookedActor->posRot.rot.y = hookedActor->shape.rot.y =
-                            this->actor.shape.rot.y + this->unk_3BC.y;
+                        hookedActor->world.rot.y = hookedActor->shape.rot.y = this->actor.shape.rot.y + this->unk_3BC.y;
                     }
                 }
             } else {
@@ -1243,12 +1239,12 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
             }
         }
     } else if (limbIndex == PLAYER_LIMB_R_HAND) {
-        Actor* heldActor = this->heldActor; // sp+0xB4
+        Actor* heldActor = this->heldActor;
 
         if (this->rightHandType == 0xFF) {
             Matrix_Get(&this->shieldMf);
         } else if ((this->rightHandType == 11) || (this->rightHandType == 12)) {
-            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge]; // sp+0xB0
+            BowStringData* stringData = &sBowStringData[gSaveContext.linkAge];
 
             OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2783);
 
@@ -1281,11 +1277,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 Matrix_RotateZ(this->unk_858 * -0.2f, MTXMODE_APPLY);
             }
 
-            gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2804),
+            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_player_lib.c", 2804),
                       G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-            gSPDisplayList(oGfxCtx->polyXlu.p++, stringData->dList);
+            gSPDisplayList(POLY_XLU_DISP++, stringData->dList);
 
-            Matrix_Pull();
+            Matrix_Pop();
 
             CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 2809);
         } else if ((this->actor.scale.y >= 0.0f) && (this->rightHandType == 10)) {
@@ -1302,11 +1298,11 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                     MtxF sp44;
                     s32 pad;
 
-                    Matrix_MultVec3f(&D_80126190, &heldActor->posRot.pos);
+                    Matrix_MultVec3f(&D_80126190, &heldActor->world.pos);
                     Matrix_RotateRPY(0, -0x4000, -0x4000, MTXMODE_APPLY);
                     Matrix_Get(&sp44);
-                    func_800D20CC(&sp44, &heldActor->posRot.rot, 0);
-                    heldActor->shape.rot = heldActor->posRot.rot;
+                    func_800D20CC(&sp44, &heldActor->world.rot, 0);
+                    heldActor->shape.rot = heldActor->world.rot;
 
                     if (func_8002DD78(this) != 0) {
                         Matrix_Translate(500.0f, 300.0f, 0.0f, MTXMODE_APPLY);
@@ -1326,7 +1322,7 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 }
 
                 if (this->unk_862 == 0) {
-                    Math_Vec3f_Copy(&heldActor->posRot.pos, &sGetItemRefPos);
+                    Math_Vec3f_Copy(&heldActor->world.pos, &sGetItemRefPos);
                 }
             }
         }
@@ -1341,24 +1337,19 @@ void func_80090D20(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* 
                 Matrix_Get(&this->shieldMf);
             }
         } else if (limbIndex == PLAYER_LIMB_HEAD) {
-            Matrix_MultVec3f(&D_801260D4, &this->actor.posRot2.pos);
+            Matrix_MultVec3f(&D_801260D4, &this->actor.focus.pos);
         } else {
-            Vec3f* vec = &D_801261E0[gSaveContext.linkAge];
+            Vec3f* vec = &D_801261E0[((void)0, gSaveContext.linkAge)];
 
-            func_8002BDB0(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
+            Actor_SetFeetPos(&this->actor, limbIndex, PLAYER_LIMB_L_FOOT, vec, PLAYER_LIMB_R_FOOT, vec);
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_player_lib/func_80090D20.s")
-#endif
 
 u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
-    s16 linkObjectId;
+    s16 linkObjectId = gLinkObjectIds[(void)0, gSaveContext.linkAge];
     u32 size;
     void* ptr;
-
-    linkObjectId = gLinkObjectIds[(void)0, gSaveContext.linkAge];
 
     size = gObjectTable[OBJECT_GAMEPLAY_KEEP].vromEnd - gObjectTable[OBJECT_GAMEPLAY_KEEP].vromStart;
     ptr = segment + 0x3800;
@@ -1373,15 +1364,15 @@ u32 func_80091738(GlobalContext* globalCtx, u8* segment, SkelAnime* skelAnime) {
     gSegments[4] = VIRTUAL_TO_PHYSICAL(segment + 0x3800);
     gSegments[6] = VIRTUAL_TO_PHYSICAL(segment + 0x8800);
 
-    SkelAnime_InitLinkAnimetion(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &D_04003238, 9,
-                                ptr, ptr, PLAYER_LIMB_MAX);
+    SkelAnime_InitLink(globalCtx, skelAnime, gPlayerSkelHeaders[(void)0, gSaveContext.linkAge], &gPlayer488Anim, 9, ptr,
+                       ptr, PLAYER_LIMB_MAX);
 
     return size + 0x8890;
 }
 
 u8 D_801261F8[] = { 2, 2, 5 };
 
-s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* pos, Vec3s* rot, void* arg) {
+s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* arg) {
     u8* ptr = arg;
     u8 modelGroup = D_801261F8[ptr[0] - 1];
     s32 type;
@@ -1421,9 +1412,9 @@ s32 func_80091880(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* p
     return 0;
 }
 
-void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80091A24_arg3* arg3, Vec3f* pos,
-                   Vec3s* rot, f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height,
-                   Vec3f* eye, Vec3f* at, f32 fovy, void* img1, void* img2) {
+void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, SkelAnime* arg3, Vec3f* pos, Vec3s* rot,
+                   f32 scale, s32 sword, s32 tunic, s32 shield, s32 boots, s32 width, s32 height, Vec3f* eye, Vec3f* at,
+                   f32 fovy, void* img1, void* img2) {
     static Vp viewport = { 128, 224, 511, 0, 128, 224, 511, 0 };
     static Lights1 lights1 = gdSPDefLights1(80, 80, 80, 255, 255, 255, 84, 84, 172);
     static Vec3f lightDir = { 89.8f, 0.0f, 89.8f };
@@ -1431,70 +1422,67 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
     Gfx* opaRef;
     Gfx* xluRef;
     u16 perspNorm;
-    Mtx* perspMtx;
-    Mtx* lookAtMtx;
-
-    perspMtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx));
-    lookAtMtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx));
+    Mtx* perspMtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx));
+    Mtx* lookAtMtx = Graph_Alloc(globalCtx->state.gfxCtx, sizeof(Mtx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 3129);
 
     { s32 pad[2]; }
 
-    opaRef = oGfxCtx->polyOpa.p;
-    oGfxCtx->polyOpa.p++;
+    opaRef = POLY_OPA_DISP;
+    POLY_OPA_DISP++;
 
-    xluRef = oGfxCtx->polyXlu.p;
-    oGfxCtx->polyXlu.p++;
+    xluRef = POLY_XLU_DISP;
+    POLY_XLU_DISP++;
 
-    gSPDisplayList(oGfxCtx->work.p++, oGfxCtx->polyOpa.p);
-    gSPDisplayList(oGfxCtx->work.p++, oGfxCtx->polyXlu.p);
+    gSPDisplayList(WORK_DISP++, POLY_OPA_DISP);
+    gSPDisplayList(WORK_DISP++, POLY_XLU_DISP);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x00, NULL);
+    gSPSegment(POLY_OPA_DISP++, 0x00, NULL);
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
 
-    gSPLoadGeometryMode(oGfxCtx->polyOpa.p++, 0);
-    gSPTexture(oGfxCtx->polyOpa.p++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF);
-    gDPSetCombineMode(oGfxCtx->polyOpa.p++, G_CC_SHADE, G_CC_SHADE);
-    gDPSetOtherMode(oGfxCtx->polyOpa.p++,
+    gSPLoadGeometryMode(POLY_OPA_DISP++, 0);
+    gSPTexture(POLY_OPA_DISP++, 0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF);
+    gDPSetCombineMode(POLY_OPA_DISP++, G_CC_SHADE, G_CC_SHADE);
+    gDPSetOtherMode(POLY_OPA_DISP++,
                     G_AD_DISABLE | G_CD_MAGICSQ | G_CK_NONE | G_TC_FILT | G_TF_BILERP | G_TT_NONE | G_TL_TILE |
                         G_TD_CLAMP | G_TP_PERSP | G_CYC_FILL | G_PM_NPRIMITIVE,
                     G_AC_NONE | G_ZS_PIXEL | G_RM_NOOP | G_RM_NOOP2);
-    gSPLoadGeometryMode(oGfxCtx->polyOpa.p++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
-    gDPSetScissorFrac(oGfxCtx->polyOpa.p++, G_SC_NON_INTERLACE, 0, 0, width * 4.0f, height * 4.0f);
-    gSPClipRatio(oGfxCtx->polyOpa.p++, FRUSTRATIO_1);
+    gSPLoadGeometryMode(POLY_OPA_DISP++, G_ZBUFFER | G_SHADE | G_CULL_BACK | G_LIGHTING | G_SHADING_SMOOTH);
+    gDPSetScissorFrac(POLY_OPA_DISP++, G_SC_NON_INTERLACE, 0, 0, width * 4.0f, height * 4.0f);
+    gSPClipRatio(POLY_OPA_DISP++, FRUSTRATIO_1);
 
-    gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img2);
-    gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
-    gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
-    gDPSetFillColor(oGfxCtx->polyOpa.p++, (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
-    gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, width - 1, height - 1);
+    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img2);
+    gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
+    gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
+    gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(255, 255, 240, 0) << 16) | GPACK_RGBA5551(255, 255, 240, 0));
+    gDPFillRectangle(POLY_OPA_DISP++, 0, 0, width - 1, height - 1);
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
 
-    gDPSetColorImage(oGfxCtx->polyOpa.p++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img1);
-    gDPSetCycleType(oGfxCtx->polyOpa.p++, G_CYC_FILL);
-    gDPSetRenderMode(oGfxCtx->polyOpa.p++, G_RM_NOOP, G_RM_NOOP2);
-    gDPSetFillColor(oGfxCtx->polyOpa.p++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
-    gDPFillRectangle(oGfxCtx->polyOpa.p++, 0, 0, width - 1, height - 1);
+    gDPSetColorImage(POLY_OPA_DISP++, G_IM_FMT_RGBA, G_IM_SIZ_16b, width, img1);
+    gDPSetCycleType(POLY_OPA_DISP++, G_CYC_FILL);
+    gDPSetRenderMode(POLY_OPA_DISP++, G_RM_NOOP, G_RM_NOOP2);
+    gDPSetFillColor(POLY_OPA_DISP++, (GPACK_RGBA5551(0, 0, 0, 1) << 16) | GPACK_RGBA5551(0, 0, 0, 1));
+    gDPFillRectangle(POLY_OPA_DISP++, 0, 0, width - 1, height - 1);
 
-    gDPPipeSync(oGfxCtx->polyOpa.p++);
+    gDPPipeSync(POLY_OPA_DISP++);
 
-    gDPSetDepthImage(oGfxCtx->polyOpa.p++, img2);
+    gDPSetDepthImage(POLY_OPA_DISP++, img2);
 
     viewport.vp.vscale[0] = viewport.vp.vtrans[0] = width * 2;
     viewport.vp.vscale[1] = viewport.vp.vtrans[1] = height * 2;
-    gSPViewport(oGfxCtx->polyOpa.p++, &viewport);
+    gSPViewport(POLY_OPA_DISP++, &viewport);
 
     guPerspective(perspMtx, &perspNorm, fovy, (f32)width / (f32)height, 10.0f, 4000.0f, 1.0f);
 
-    gSPPerspNormalize(oGfxCtx->polyOpa.p++, perspNorm);
-    gSPMatrix(oGfxCtx->polyOpa.p++, perspMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
+    gSPPerspNormalize(POLY_OPA_DISP++, perspNorm);
+    gSPMatrix(POLY_OPA_DISP++, perspMtx, G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_PROJECTION);
 
     guLookAt(lookAtMtx, eye->x, eye->y, eye->z, at->x, at->y, at->z, 0.0f, 1.0f, 0.0f);
 
-    gSPMatrix(oGfxCtx->polyOpa.p++, lookAtMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
+    gSPMatrix(POLY_OPA_DISP++, lookAtMtx, G_MTX_NOPUSH | G_MTX_MUL | G_MTX_PROJECTION);
 
     sp12C[0] = sword;
     sp12C[1] = shield;
@@ -1502,33 +1490,33 @@ void func_80091A24(GlobalContext* globalCtx, void* seg04, void* seg06, struct_80
     func_800D1694(pos->x, pos->y, pos->z, rot);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x04, seg04);
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x06, seg06);
+    gSPSegment(POLY_OPA_DISP++, 0x04, seg04);
+    gSPSegment(POLY_OPA_DISP++, 0x06, seg06);
 
-    gSPSetLights1(oGfxCtx->polyOpa.p++, lights1);
+    gSPSetLights1(POLY_OPA_DISP++, lights1);
 
     func_80093C80(globalCtx);
 
-    oGfxCtx->polyOpa.p = Gfx_SetFog2(oGfxCtx->polyOpa.p++, 0, 0, 0, 0, 997, 1000);
+    POLY_OPA_DISP = Gfx_SetFog2(POLY_OPA_DISP++, 0, 0, 0, 0, 997, 1000);
 
     func_8002EABC(pos, &globalCtx->view.eye, &lightDir, globalCtx->state.gfxCtx);
 
-    gSPSegment(oGfxCtx->polyOpa.p++, 0x0C, gCullBackDList);
+    gSPSegment(POLY_OPA_DISP++, 0x0C, gCullBackDList);
 
-    func_8008F470(globalCtx, arg3->skeleton, arg3->limbDrawTable, arg3->dListCount, 0, tunic, boots, 0, func_80091880,
+    func_8008F470(globalCtx, arg3->skeleton, arg3->jointTable, arg3->dListCount, 0, tunic, boots, 0, func_80091880,
                   NULL, &sp12C);
 
-    gSPEndDisplayList(oGfxCtx->polyOpa.p++);
-    gSPEndDisplayList(oGfxCtx->polyXlu.p++);
+    gSPEndDisplayList(POLY_OPA_DISP++);
+    gSPEndDisplayList(POLY_XLU_DISP++);
 
-    gSPBranchList(opaRef, oGfxCtx->polyOpa.p);
-    gSPBranchList(xluRef, oGfxCtx->polyXlu.p);
+    gSPBranchList(opaRef, POLY_OPA_DISP);
+    gSPBranchList(xluRef, POLY_XLU_DISP);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_player_lib.c", 3288);
 }
 
-void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* arg2, Vec3f* pos, Vec3s* rot, f32 scale,
-                   s32 sword, s32 tunic, s32 shield, s32 boots) {
+void func_8009214C(GlobalContext* globalCtx, u8* segment, SkelAnime* arg2, Vec3f* pos, Vec3s* rot, f32 scale, s32 sword,
+                   s32 tunic, s32 shield, s32 boots) {
     static Vec3f eye = { 0.0f, 0.0f, -400.0f };
     static Vec3f at = { 0.0f, 0.0f, 0.0f };
     Vec3s* destTable;
@@ -1555,7 +1543,7 @@ void func_8009214C(GlobalContext* globalCtx, u8* segment, struct_80091A24_arg3* 
     }
 
     srcTable = SEGMENTED_TO_VIRTUAL(srcTable);
-    destTable = arg2->limbDrawTable;
+    destTable = arg2->jointTable;
     for (i = 0; i < arg2->limbCount; i++) {
         *destTable++ = *srcTable++;
     }

@@ -5,8 +5,8 @@ glabel BgSstFloor_Destroy
 /* 00074 808B9984 AFBF0014 */  sw      $ra, 0x0014($sp)           
 /* 00078 808B9988 00A02025 */  or      $a0, $a1, $zero            ## $a0 = 00000000
 /* 0007C 808B998C 24A50810 */  addiu   $a1, $a1, 0x0810           ## $a1 = 00000810
-/* 00080 808B9990 0C00FB56 */  jal     DynaPolyInfo_Free
-              ## DynaPolyInfo_delReserve
+/* 00080 808B9990 0C00FB56 */  jal     DynaPoly_DeleteBgActor
+              ## DynaPoly_DeleteBgActor
 /* 00084 808B9994 8DC6014C */  lw      $a2, 0x014C($t6)           ## 0000014C
 /* 00088 808B9998 8FBF0014 */  lw      $ra, 0x0014($sp)           
 /* 0008C 808B999C 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

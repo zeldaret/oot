@@ -3,9 +3,9 @@ glabel func_80862398
 /* 02D4C 8086239C AFB00020 */  sw      $s0, 0x0020($sp)
 /* 02D50 808623A0 00808025 */  or      $s0, $a0, $zero            ## $s0 = 00000000
 /* 02D54 808623A4 AFBF0024 */  sw      $ra, 0x0024($sp)
-/* 02D58 808623A8 3C050600 */  lui     $a1, 0x0600                ## $a1 = 06000000
-/* 02D5C 808623AC 24A50444 */  addiu   $a1, $a1, 0x0444           ## $a1 = 06000444
-/* 02D60 808623B0 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 02D58 808623A8 3C050600 */  lui     $a1, %hi(D_06000444)                ## $a1 = 06000000
+/* 02D5C 808623AC 24A50444 */  addiu   $a1, $a1, %lo(D_06000444)           ## $a1 = 06000444
+/* 02D60 808623B0 0C02947A */  jal     Animation_PlayOnce
 /* 02D64 808623B4 24840188 */  addiu   $a0, $a0, 0x0188           ## $a0 = 00000188
 /* 02D68 808623B8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02D6C 808623BC 0C00BE0A */  jal     Audio_PlayActorSound2
@@ -21,7 +21,7 @@ glabel func_80862398
 /* 02D90 808623E0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 02D94 808623E4 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 02D98 808623E8 240600FF */  addiu   $a2, $zero, 0x00FF         ## $a2 = 000000FF
-/* 02D9C 808623EC 0C00D09B */  jal     func_8003426C
+/* 02D9C 808623EC 0C00D09B */  jal     Actor_SetColorFilter
 /* 02DA0 808623F0 00003825 */  or      $a3, $zero, $zero          ## $a3 = 00000000
 /* 02DA4 808623F4 3C058086 */  lui     $a1, %hi(func_80862418)    ## $a1 = 80860000
 /* 02DA8 808623F8 24A52418 */  addiu   $a1, $a1, %lo(func_80862418) ## $a1 = 80862418

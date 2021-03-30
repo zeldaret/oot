@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dt_bubble.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -30,17 +31,13 @@ EffectSsInit Effect_Ss_Dt_Bubble_InitVars = {
     EffectSsDtBubble_Init,
 };
 
-extern void* D_04055DB0;
-extern void* D_04055EB0;
-extern Gfx D_0401A160[];
-
 u32 EffectSsDtBubble_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsDtBubbleInitParams* initParams = (EffectSsDtBubbleInitParams*)initParamsx;
 
-    // @bug Math_Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
+    // @bug Rand_ZeroOne in the macro means a random number is generated for both parts of the macro.
     // In the base game this works out because both addresses are segment 4, but it may break if
     // the addresses were changed to refer to different segments
-    this->gfx = SEGMENTED_TO_VIRTUAL(Math_Rand_ZeroOne() < 0.5f ? &D_04055DB0 : &D_04055EB0);
+    this->gfx = SEGMENTED_TO_VIRTUAL(Rand_ZeroOne() < 0.5f ? &gEffBubble1Tex : &gEffBubble2Tex);
     this->pos = initParams->pos;
     this->velocity = initParams->velocity;
     this->accel = initParams->accel;
@@ -84,15 +81,15 @@ void EffectSsDtBubble_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) 
     scale = this->rScale * 0.004f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_dt_bubble.c", 213),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_dt_bubble.c", 213),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80093C14(gfxCtx);
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, this->rPrimColorR, this->rPrimColorG, this->rPrimColorB,
                     (this->rPrimColorA * this->life) / this->rLifespan);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB,
+    gDPSetEnvColor(POLY_XLU_DISP++, this->rEnvColorR, this->rEnvColorG, this->rEnvColorB,
                    (this->rEnvColorA * this->life) / this->rLifespan);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, this->gfx);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, SEGMENTED_TO_VIRTUAL(D_0401A160));
+    gSPSegment(POLY_XLU_DISP++, 0x08, this->gfx);
+    gSPDisplayList(POLY_XLU_DISP++, SEGMENTED_TO_VIRTUAL(gEffBubbleDL));
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_dt_bubble.c", 236);
 }
@@ -101,10 +98,10 @@ void EffectSsDtBubble_Update(GlobalContext* globalCtx, u32 index, EffectSs* this
     f32 rand;
 
     if (this->rRandXZ == 1) {
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->pos.x += (rand * 2.0f) - 1.0f;
 
-        rand = Math_Rand_ZeroOne();
+        rand = Rand_ZeroOne();
         this->pos.z += (rand * 2.0f) - 1.0f;
     }
 }

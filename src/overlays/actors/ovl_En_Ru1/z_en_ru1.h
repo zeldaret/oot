@@ -1,11 +1,11 @@
 #ifndef _Z_EN_RU1_H_
 #define _Z_EN_RU1_H_
 
-#include <ultra64.h>
-#include <global.h>
+#include "ultra64.h"
+#include "global.h"
 
-#include <overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h>
-#include <overlays/actors/ovl_Door_Warp1/z_door_warp1.h>
+#include "overlays/actors/ovl_Bg_Bdan_Objects/z_bg_bdan_objects.h"
+#include "overlays/actors/ovl_Door_Warp1/z_door_warp1.h"
 
 struct EnRu1;
 
@@ -16,10 +16,10 @@ typedef void (*EnRu1PreLimbDrawFunc)(struct EnRu1*, GlobalContext*, s32, Vec3s*)
 typedef struct EnRu1 {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[17];
-    /* 0x01F6 */ Vec3s transitionDrawTable[17];
+    /* 0x0190 */ Vec3s jointTable[17];
+    /* 0x01F6 */ Vec3s morphTable[17];
     /* 0x025C */ s16 unk_25C;
-    /* 0x025E */ char unk_25E[0x2];
+    /* 0x025E */ s16 unk_25E;
     /* 0x0260 */ s16 unk_260;
     /* 0x0262 */ char unk_262[0x2];
     /* 0x0264 */ s32 action;

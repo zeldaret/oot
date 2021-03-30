@@ -1,6 +1,6 @@
-#include <ultra64.h>
-#include <global.h>
-#include <vt.h>
+#include "global.h"
+#include "vt.h"
+#include "textures/parameter_static/parameter_static.h"
 
 typedef struct {
     /* 0x00 */ void* texture;
@@ -38,8 +38,8 @@ static u32 sLineBytesImageSizes[] = { 0, 1, 2, 2 };
 #define G_IM_SIZ_MARK_LINE_BYTES sLineBytesImageSizes[markInfo->imageSize]
 
 static MapMarkInfo sMapMarkInfoTable[] = {
-    { D_02002580, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1024, 1024 }, // Chest Icon
-    { D_02002900, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1024, 1024 },    // Boss Skull Icon
+    { gHUDTreasureMarkerTex, G_IM_FMT_RGBA, G_IM_SIZ_16b, 8, 8, 32, 32, 1024, 1024 }, // Chest Icon
+    { gHUDBossMarkerTex, G_IM_FMT_IA, G_IM_SIZ_8b, 8, 8, 32, 32, 1024, 1024 },        // Boss Skull Icon
 };
 
 static MapMarkDataOverlay sMapMarkDataOvl = {
@@ -51,7 +51,7 @@ static MapMarkDataOverlay sMapMarkDataOvl = {
     gMapMarkDataTable,
 };
 
-static MapMarksData** sLoadedMarkDataTable;
+static MapMarkData** sLoadedMarkDataTable;
 
 void MapMark_Init(GlobalContext* globalCtx) {
     MapMarkDataOverlay* overlay = &sMapMarkDataOvl;
@@ -76,57 +76,57 @@ void MapMark_ClearPointers(GlobalContext* globalCtx) {
 
 void MapMark_Draw(GlobalContext* globalCtx) {
     InterfaceContext* interfaceCtx;
-    MapMarkData* mapMarkData;
+    MapMarkIconData* mapMarkIconData;
     MapMarkPoint* markPoint;
     MapMarkInfo* markInfo;
-    u16 dungeon;
+    u16 dungeon = gSaveContext.mapIndex;
     s32 i;
     s32 rectLeft;
     s32 rectTop;
 
-    dungeon = gSaveContext.mapIndex;
     interfaceCtx = &globalCtx->interfaceCtx;
 
-    if ((gMapData != NULL) && (globalCtx->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon])) {
+    if (gMapData != NULL && globalCtx->interfaceCtx.mapRoomNum >= gMapData->dgnMinimapCount[dungeon]) {
         // Translates to: "ROOM NUMBER EXCEEDED, YIKES %d/%d  MapMarkDraw PROCESSING INTERRUPTED"
         osSyncPrintf(VT_COL(RED, WHITE) "部屋番号がオーバーしてるで,ヤバイで %d/%d  \nMapMarkDraw の処理を中断します\n",
                      VT_RST, globalCtx->interfaceCtx.mapRoomNum, gMapData->dgnMinimapCount[dungeon]);
         return;
     }
 
-    mapMarkData = &sLoadedMarkDataTable[dungeon][interfaceCtx->mapRoomNum][0];
+    mapMarkIconData = &sLoadedMarkDataTable[dungeon][interfaceCtx->mapRoomNum][0];
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 303);
 
-    while (1) {
-        if (mapMarkData->markType == -1) {
+    while (true) {
+        if (mapMarkIconData->markType == MAP_MARK_ICON_NONE) {
             break;
         }
 
-        gDPPipeSync(oGfxCtx->overlay.p++);
-        gDPSetTextureLUT(oGfxCtx->overlay.p++, G_TT_NONE);
-        gDPSetPrimColor(oGfxCtx->overlay.p++, 0, 0, 255, 255, 255, interfaceCtx->minimapAlpha);
-        gDPSetEnvColor(oGfxCtx->overlay.p++, 0, 0, 0, interfaceCtx->minimapAlpha);
+        gDPPipeSync(OVERLAY_DISP++);
+        gDPSetTextureLUT(OVERLAY_DISP++, G_TT_NONE);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->minimapAlpha);
+        gDPSetEnvColor(OVERLAY_DISP++, 0, 0, 0, interfaceCtx->minimapAlpha);
 
-        markPoint = &mapMarkData->points[0];
-        for (i = 0; i < mapMarkData->count; i++) {
-            if ((mapMarkData->markType != 0) || !Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
-                markInfo = &sMapMarkInfoTable[mapMarkData->markType];
+        markPoint = mapMarkIconData->points;
+        for (i = 0; i < mapMarkIconData->count; i++) {
+            if (mapMarkIconData->markType != MAP_MARK_ICON_CHEST ||
+                !Flags_GetTreasure(globalCtx, markPoint->chestFlag)) {
+                markInfo = &sMapMarkInfoTable[mapMarkIconData->markType];
 
-                gDPPipeSync(oGfxCtx->overlay.p++);
-                gDPLoadTextureBlock(oGfxCtx->overlay.p++, markInfo->texture, markInfo->imageFormat, G_IM_SIZ_MARK,
+                gDPPipeSync(OVERLAY_DISP++);
+                gDPLoadTextureBlock(OVERLAY_DISP++, markInfo->texture, markInfo->imageFormat, G_IM_SIZ_MARK,
                                     markInfo->textureWidth, markInfo->textureHeight, 0, G_TX_NOMIRROR | G_TX_WRAP,
                                     G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
 
                 rectLeft = (GREG(94) + markPoint->x + 204) << 2;
                 rectTop = (GREG(95) + markPoint->y + 140) << 2;
-                gSPTextureRectangle(oGfxCtx->overlay.p++, rectLeft, rectTop, markInfo->rectWidth + rectLeft,
+                gSPTextureRectangle(OVERLAY_DISP++, rectLeft, rectTop, markInfo->rectWidth + rectLeft,
                                     rectTop + markInfo->rectHeight, G_TX_RENDERTILE, 0, 0, markInfo->dsdx,
                                     markInfo->dtdy);
             }
             markPoint++;
         }
-        mapMarkData++;
+        mapMarkIconData++;
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_map_mark.c", 339);

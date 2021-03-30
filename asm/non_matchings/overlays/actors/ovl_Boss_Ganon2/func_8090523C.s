@@ -145,7 +145,7 @@ glabel func_8090523C
 /* 084DC 8090541C 0C0342A3 */  jal     Matrix_Scale              
 /* 084E0 80905420 46006386 */  mov.s   $f14, $f12                 
 /* 084E4 80905424 3C018091 */  lui     $at, %hi(D_8090DD4C)       ## $at = 80910000
-/* 084E8 80905428 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 084E8 80905428 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 084EC 8090542C C42CDD4C */  lwc1    $f12, %lo(D_8090DD4C)($at) 
 /* 084F0 80905430 46000306 */  mov.s   $f12, $f0                  

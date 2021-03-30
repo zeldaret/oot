@@ -23,7 +23,7 @@ glabel func_80B3C964
 /* 007D8 80B3C9B8 97290004 */  lhu     $t1, 0x0004($t9)           ## 00000004
 /* 007DC 80B3C9BC A08B0181 */  sb      $t3, 0x0181($a0)           ## 00000181
 /* 007E0 80B3C9C0 A4890188 */  sh      $t1, 0x0188($a0)           ## 00000188
-/* 007E4 80B3C9C4 0C028D88 */  jal     SkelAnime_LoadAnimationType5
+/* 007E4 80B3C9C4 0C028D88 */  jal     AnimationContext_SetMoveActor
 /* 007E8 80B3C9C8 8FA4001C */  lw      $a0, 0x001C($sp)
 /* 007EC 80B3C9CC 8FBF0014 */  lw      $ra, 0x0014($sp)
 /* 007F0 80B3C9D0 27BD0018 */  addiu   $sp, $sp, 0x0018           ## $sp = 00000000

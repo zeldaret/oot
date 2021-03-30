@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_stone1.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rReg0 regs[0]
 
@@ -24,17 +25,15 @@ typedef struct {
 } EffStoneDrawInfo;
 
 static EffStoneDrawInfo sDrawInfo[] = {
-    { 0x04029A90, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
-    { 0x04029690, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
-    { 0x04029290, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
-    { 0x04028E90, { 255, 255, 0, 255 }, { 255, 0, 0, 255 } },
-    { 0x04028A90, { 255, 255, 150, 255 }, { 255, 150, 0, 255 } },
-    { 0x04028690, { 255, 255, 255, 255 }, { 255, 255, 0, 255 } },
-    { 0x04028290, { 255, 255, 255, 255 }, { 0, 255, 0, 255 } },
-    { 0x04027E90, { 255, 255, 255, 255 }, { 0, 255, 255, 255 } },
+    { gUnknownEffStone8Tex, { 200, 0, 0, 255 }, { 0, 0, 0, 255 } },
+    { gUnknownEffStone7Tex, { 255, 100, 0, 255 }, { 100, 0, 0, 255 } },
+    { gUnknownEffStone6Tex, { 255, 200, 0, 255 }, { 200, 0, 0, 255 } },
+    { gUnknownEffStone5Tex, { 255, 255, 0, 255 }, { 255, 0, 0, 255 } },
+    { gUnknownEffStone4Tex, { 255, 255, 150, 255 }, { 255, 150, 0, 255 } },
+    { gUnknownEffStone3Tex, { 255, 255, 255, 255 }, { 255, 255, 0, 255 } },
+    { gUnknownEffStone2Tex, { 255, 255, 255, 255 }, { 0, 255, 0, 255 } },
+    { gUnknownEffStone1Tex, { 255, 255, 255, 255 }, { 0, 255, 255, 255 } },
 };
-
-extern Gfx D_04029E90[];
 
 u32 EffectSsStone1_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     EffectSsStone1InitParams* initParams = (EffectSsStone1InitParams*)initParamsx;
@@ -63,14 +62,14 @@ void EffectSsStone1_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
     scale = (mfW < 1500.0f) ? 3.0f : (mfW / 1500.0f) * 3.0f;
     Matrix_Translate(this->pos.x, this->pos.y, this->pos.z, MTXMODE_NEW);
     Matrix_Scale(scale, scale, scale, MTXMODE_APPLY);
-    gSPMatrix(oGfxCtx->polyXlu.p++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stone1.c", 168),
+    gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_eff_ss_stone1.c", 168),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     func_80094C50(gfxCtx);
-    gSPSegment(oGfxCtx->polyXlu.p++, 0x08, SEGMENTED_TO_VIRTUAL(drawParams->texture));
-    gDPSetPrimColor(oGfxCtx->polyXlu.p++, 0, 0, drawParams->primColor.r, drawParams->primColor.g,
-                    drawParams->primColor.b, 255);
-    gDPSetEnvColor(oGfxCtx->polyXlu.p++, drawParams->envColor.r, drawParams->envColor.g, drawParams->envColor.b, 255);
-    gSPDisplayList(oGfxCtx->polyXlu.p++, D_04029E90);
+    gSPSegment(POLY_XLU_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(drawParams->texture));
+    gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, drawParams->primColor.r, drawParams->primColor.g, drawParams->primColor.b,
+                    255);
+    gDPSetEnvColor(POLY_XLU_DISP++, drawParams->envColor.r, drawParams->envColor.g, drawParams->envColor.b, 255);
+    gSPDisplayList(POLY_XLU_DISP++, gUnknownEffStoneDL);
 
     CLOSE_DISPS(gfxCtx, "../z_eff_ss_stone1.c", 183);
 }

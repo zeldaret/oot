@@ -81,6 +81,9 @@ R_MIPS_26   = 4
 R_MIPS_HI16 = 5
 R_MIPS_LO16 = 6
 
+MIPS_DEBUG_ST_STATIC = 2
+MIPS_DEBUG_ST_STATIC_PROC = 14
+
 
 class ElfHeader:
     """
@@ -132,13 +135,18 @@ class Symbol:
     } Elf32_Sym;
     """
 
-    def __init__(self, data, strtab):
+    def __init__(self, data, strtab, name=None):
         self.st_name, self.st_value, self.st_size, st_info, self.st_other, self.st_shndx = struct.unpack('>IIIBBH', data)
         assert self.st_shndx != SHN_XINDEX, "too many sections (SHN_XINDEX not supported)"
         self.bind = st_info >> 4
         self.type = st_info & 15
-        self.name = strtab.lookup_str(self.st_name)
+        self.name = name if name is not None else strtab.lookup_str(self.st_name)
         self.visibility = self.st_other & 3
+
+    @staticmethod
+    def from_parts(st_name, st_value, st_size, st_info, st_other, st_shndx, strtab, name):
+        header = struct.pack('>IIIBBH', st_name, st_value, st_size, st_info, st_other, st_shndx)
+        return Symbol(header, strtab, name)
 
     def to_bin(self):
         st_info = (self.bind << 4) | self.type
@@ -185,7 +193,7 @@ class Section:
         if self.sh_entsize != 0:
             assert self.sh_size % self.sh_entsize == 0
         if self.sh_type == SHT_NOBITS:
-            self.data = ''
+            self.data = b''
         else:
             self.data = data[self.sh_offset:self.sh_offset + self.sh_size]
         self.index = index
@@ -466,6 +474,9 @@ class GlobalAsmBlock:
             self.fail(".ascii with no string", real_line)
         return ret + num_parts if z else ret
 
+    def align2(self):
+        while self.fn_section_sizes[self.cur_section] % 2 != 0:
+            self.fn_section_sizes[self.cur_section] += 1
 
     def align4(self):
         while self.fn_section_sizes[self.cur_section] % 4 != 0:
@@ -553,6 +564,9 @@ class GlobalAsmBlock:
             self.add_sized(self.count_quoted_size(line, z, real_line, output_enc), real_line)
         elif line.startswith('.byte'):
             self.add_sized(len(line.split(',')), real_line)
+        elif line.startswith('.half'):
+            self.align2()
+            self.add_sized(2*len(line.split(',')), real_line)
         elif line.startswith('.'):
             # .macro, ...
             self.fail("asm directive not supported", real_line)
@@ -778,7 +792,7 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 output_lines[-1] = ''.join(src)
                 asm_functions.append(fn)
                 global_asm = None
-            elif ((line.startswith('#include "')) and line.endswith('" EARLY')):
+            elif line.startswith('#include "') and line.endswith('" EARLY'):
                 # C includes qualified with EARLY (i.e. #include "file.c" EARLY) will be
                 # processed recursively when encountered
                 fpath = os.path.dirname(f.name)
@@ -907,6 +921,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
             asm_objfile = ElfFile(f.read())
 
         # Remove some clutter from objdump output
+        mdebug_section = objfile.find_section('.mdebug')
         objfile.drop_irrelevant_sections()
 
         # Unify reginfo sections
@@ -1008,7 +1023,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
         # Move over symbols, deleting the temporary function labels.
         # Sometimes this naive procedure results in duplicate symbols, or UNDEF
         # symbols that are also defined the same .o file. Hopefully that's fine.
-        # Skip over local symbols that aren't used relocated against, to avoid
+        # Skip over local symbols that aren't relocated against, to avoid
         # conflicts.
         new_local_syms = [s for s in objfile.symtab.local_symbols() if not is_temp_name(s.name)]
         new_global_syms = [s for s in objfile.symtab.global_symbols() if not is_temp_name(s.name)]
@@ -1033,6 +1048,57 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
                 new_local_syms.append(s)
             else:
                 new_global_syms.append(s)
+
+        # Add static symbols from .mdebug, so they can be referred to from GLOBAL_ASM
+        local_sym_replacements = {}
+        if mdebug_section:
+            strtab_index = len(objfile.symtab.strtab.data)
+            new_strtab_data = []
+            ifd_max, cb_fd_offset = struct.unpack('>II', mdebug_section.data[18*4 : 20*4])
+            cb_sym_offset, = struct.unpack('>I', mdebug_section.data[9*4 : 10*4])
+            cb_ss_offset, = struct.unpack('>I', mdebug_section.data[15*4 : 16*4])
+            for i in range(ifd_max):
+                offset = cb_fd_offset + 18*4*i
+                iss_base, _, isym_base, csym = struct.unpack('>IIII', objfile.data[offset + 2*4 : offset + 6*4])
+                for j in range(csym):
+                    offset2 = cb_sym_offset + 12 * (isym_base + j)
+                    iss, value, st_sc_index = struct.unpack('>III', objfile.data[offset2 : offset2 + 12])
+                    st = (st_sc_index >> 26)
+                    sc = (st_sc_index >> 21) & 0x1f
+                    if st in [MIPS_DEBUG_ST_STATIC, MIPS_DEBUG_ST_STATIC_PROC]:
+                        symbol_name_offset = cb_ss_offset + iss_base + iss
+                        symbol_name_offset_end = objfile.data.find(b'\0', symbol_name_offset)
+                        assert symbol_name_offset_end != -1
+                        symbol_name = objfile.data[symbol_name_offset : symbol_name_offset_end + 1]
+                        symbol_name_str = symbol_name[:-1].decode('latin1')
+                        section_name = ['', '.text', '.data', '.bss'][sc]
+                        section = objfile.find_section(section_name)
+                        symtype = STT_FUNC if sc == 1 else STT_OBJECT
+                        sym = Symbol.from_parts(
+                            st_name=strtab_index,
+                            st_value=value,
+                            st_size=0,
+                            st_info=(STB_LOCAL << 4 | symtype),
+                            st_other=STV_DEFAULT,
+                            st_shndx=section.index,
+                            strtab=objfile.symtab.strtab,
+                            name=symbol_name_str)
+                        local_sym_replacements[symbol_name_str] = len(new_local_syms)
+                        strtab_index += len(symbol_name)
+                        new_strtab_data.append(symbol_name)
+                        new_local_syms.append(sym)
+            objfile.symtab.strtab.data += b''.join(new_strtab_data)
+
+        # To get the linker to use the local symbols, we have to get rid of UNDEF
+        # global ones.
+        newer_global_syms = []
+        for s in new_global_syms:
+            if s.st_shndx == SHN_UNDEF and s.name in local_sym_replacements:
+                s.new_index = local_sym_replacements[s.name]
+            else:
+                newer_global_syms.append(s)
+        new_global_syms = newer_global_syms
+
         new_syms = new_local_syms + new_global_syms
         for i, s in enumerate(new_syms):
             s.new_index = i
@@ -1095,7 +1161,7 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
         except:
             pass
 
-def run_wrapped(argv, outfile):
+def run_wrapped(argv, outfile, functions):
     parser = argparse.ArgumentParser(description="Pre-process .c files and post-process .o files to enable embedding assembly into C.")
     parser.add_argument('filename', help="path to .c code")
     parser.add_argument('--post-process', dest='objfile', help="path to .o file to post-process")
@@ -1118,12 +1184,13 @@ def run_wrapped(argv, outfile):
 
     if args.objfile is None:
         with open(args.filename, encoding=args.input_enc) as f:
-            parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, output_enc=args.output_enc, print_source=outfile)
+            return parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, output_enc=args.output_enc, print_source=outfile)
     else:
         if args.assembler is None:
             raise Failure("must pass assembler command")
-        with open(args.filename, encoding=args.input_enc) as f:
-            functions = parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, output_enc=args.output_enc)
+        if functions is None:
+            with open(args.filename, encoding=args.input_enc) as f:
+                functions = parse_source(f, opt=opt, framepointer=args.framepointer, input_enc=args.input_enc, output_enc=args.output_enc)
         if not functions:
             return
         asm_prelude = b''
@@ -1132,9 +1199,9 @@ def run_wrapped(argv, outfile):
                 asm_prelude = f.read()
         fixup_objfile(args.objfile, functions, asm_prelude, args.assembler, args.output_enc)
 
-def run(argv, outfile=sys.stdout.buffer):
+def run(argv, outfile=sys.stdout.buffer, functions=None):
     try:
-        run_wrapped(argv, outfile)
+        return run_wrapped(argv, outfile, functions)
     except Failure as e:
         print("Error:", e, file=sys.stderr)
         sys.exit(1)
