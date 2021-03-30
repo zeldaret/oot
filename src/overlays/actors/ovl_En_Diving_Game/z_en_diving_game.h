@@ -18,10 +18,10 @@ typedef struct EnDivingGame {
     /* 0x028A */ Vec3s vec_28A;
     /* 0x0290 */ s16 unk_290;
     /* 0x0292 */ s16 unk_292;
-    /* 0x0294 */ s16 unk_294;
+    /* 0x0294 */ s16 csCameraTimer;
     /* 0x0296 */ s16 unk_296;
     /* 0x0298 */ s16 eyeTimer;
-    /* 0x029A */ s16 unk_29A;
+    /* 0x029A */ s16 spawnRuppyTimer;
     /* 0x029C */ s16 unk_29C;
     /* 0x029E */ s16 eyeTexIndex;
     /* 0x02A0 */ s16 camId;
