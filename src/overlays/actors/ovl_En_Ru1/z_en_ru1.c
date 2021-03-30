@@ -569,7 +569,6 @@ void func_80AEBA2C(EnRu1* this, GlobalContext* globalCtx) {
     f32 temp_ret_2;
     CsCmdActorAction* csCmdNPCAction = func_80AEB438(globalCtx);
     s32 pad2;
-
     if (csCmdNPCAction != NULL) {
         temp_ret_2 = func_80AEB7E0(csCmdNPCAction, globalCtx);
         thisPos = &this->actor.world.pos;

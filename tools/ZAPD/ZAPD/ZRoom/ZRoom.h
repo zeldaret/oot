@@ -1,13 +1,13 @@
 #pragma once
 
+#include <tinyxml2.h>
 #include "../ZResource.h"
 #include "ZRoomCommand.h"
 #include "ZTexture.h"
-#include <tinyxml2.h>
 
-#include <vector>
 #include <map>
 #include <string>
+#include <vector>
 
 class ZRoom : public ZResource
 {
@@ -29,7 +29,9 @@ public:
 
 	std::string extDefines;
 
-	static ZRoom* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath, ZFile* nParent, ZRoom* nScene);
+	static ZRoom* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData,
+	                             int rawDataIndex, std::string nRelPath, ZFile* nParent,
+	                             ZRoom* nScene);
 	void ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet commandSet);
 	size_t GetDeclarationSizeFromNeighbor(int declarationAddress);
 	size_t GetCommandSizeFromNeighbor(ZRoomCommand* cmd);
@@ -44,7 +46,7 @@ public:
 struct CommandSet
 {
 	int32_t address;
-	int32_t commandCount; // Only used if explicitly specified in the XML
+	int32_t commandCount;  // Only used if explicitly specified in the XML
 
 	CommandSet(int32_t nAddress);
 	CommandSet(int32_t nAddress, int32_t nCommandCount);
