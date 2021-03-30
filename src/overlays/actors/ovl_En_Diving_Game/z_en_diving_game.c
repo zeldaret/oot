@@ -52,7 +52,7 @@ const ActorInit En_Diving_Game_InitVars = {
     (ActorFunc)EnDivingGame_Draw,
 };
 
-u8 D_809EF0B0 = 0;
+static u8 D_809EF0B0 = 0;
 
 static ColliderCylinderInit sCylinderInit = {
     {
