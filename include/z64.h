@@ -223,14 +223,14 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8*      texture;
-    /* 0x04 */ s16      unk_4;
-    /* 0x06 */ s16      unk_6;
-    /* 0x08 */ u8       unk_8;
-    /* 0x09 */ u8       unk_9;
-    /* 0x0A */ u8       delayA;
-    /* 0x0B */ u8       delayB;
-    /* 0x0C */ s16      unk_C;
-    /* 0x0E */ s16      unk_E;
+    /* 0x04 */ s16      screenX;
+    /* 0x06 */ s16      screenY;
+    /* 0x08 */ u8       width;
+    /* 0x09 */ u8       height;
+    /* 0x0A */ u8       timer;
+    /* 0x0B */ u8       delay;
+    /* 0x0C */ s16      alpha;
+    /* 0x0E */ s16      intensity;
 } TitleCardContext; // size = 0x10
 
 typedef struct {
