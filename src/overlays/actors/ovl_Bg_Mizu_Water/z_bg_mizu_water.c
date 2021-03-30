@@ -5,7 +5,6 @@
  */
 
 #include "z_bg_mizu_water.h"
-#include "z64water_temple.h"
 #include "objects/object_mizu_objects/object_mizu_objects.h"
 
 #define FLAGS 0x00000030
