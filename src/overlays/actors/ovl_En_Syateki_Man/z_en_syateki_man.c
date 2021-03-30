@@ -172,7 +172,7 @@ void EnSyatekiMan_StopTalk(EnSyatekiMan* this, GlobalContext* globalCtx) {
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
-            OnePointDemo_EndDemo(globalCtx, this->onePointCam);
+            OnePointDemo_EndCutscene(globalCtx, this->onePointCam);
             this->onePointCam = SUBCAM_NONE;
             this->cameraHold = false;
         }
@@ -190,7 +190,7 @@ void EnSyatekiMan_StartGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     }
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->cameraHold) {
-            OnePointDemo_EndDemo(globalCtx, this->onePointCam);
+            OnePointDemo_EndCutscene(globalCtx, this->onePointCam);
             this->onePointCam = SUBCAM_NONE;
             this->cameraHold = false;
         }
@@ -242,7 +242,7 @@ void EnSyatekiMan_EndGame(EnSyatekiMan* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->numTextBox == func_8010BDBC(&globalCtx->msgCtx)) && func_80106BC8(globalCtx)) {
         if (this->gameResult != SYATEKI_RESULT_FAILURE) {
-            OnePointDemo_EndDemo(globalCtx, this->onePointCam);
+            OnePointDemo_EndCutscene(globalCtx, this->onePointCam);
             this->onePointCam = SUBCAM_NONE;
         }
         func_80106CCC(globalCtx);

@@ -2,7 +2,7 @@
     <File Name="object_firefly" Segment="6">
         <Animation Name="gKeeseFlyAnim" Offset="0x17C"/>
 
-        <Skeleton Name="gKeeseSkeleton" Type="Standard" LimbType="Standard" Offset="0x18B8"/>
+        <Skeleton Name="gKeeseSkeleton" Type="Normal" LimbType="Standard" Offset="0x18B8"/>
 
         <DList Name="gKeeseEyesDL" Offset="0x1678"/>
 

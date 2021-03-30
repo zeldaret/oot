@@ -233,7 +233,8 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags = this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;

@@ -229,7 +229,7 @@ void Gameplay_Init(GameState* thisx) {
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
     func_80110F68(globalCtx);
-    func_80110450(globalCtx);
+    GameOver_Init(globalCtx);
     func_8006BA00(globalCtx);
     Effect_InitContext(globalCtx);
     EffectSs_InitInfo(globalCtx, 0x55);
@@ -328,7 +328,7 @@ void Gameplay_Init(GameState* thisx) {
     PreRender_SetValues(&globalCtx->preRenderCtx, SCREEN_WIDTH, SCREEN_HEIGHT, 0, 0);
     gTrnsnUnkState = 0;
     globalCtx->transitionMode = 0;
-    func_8008E6A0(&globalCtx->sub_7B8);
+    FrameAdvance_Init(&globalCtx->frameAdvCtx);
     Rand_Seed((u32)osGetTime());
     Matrix_Init(&globalCtx->state);
     globalCtx->state.main = Gameplay_Main;
@@ -442,7 +442,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
     gSegments[5] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[globalCtx->objectCtx.subKeepIndex].segment);
     gSegments[2] = VIRTUAL_TO_PHYSICAL(globalCtx->sceneSegment);
 
-    if (func_8008E6AC(&globalCtx->sub_7B8, &input[1]) != 0) {
+    if (FrameAdvance_Update(&globalCtx->frameAdvCtx, &input[1])) {
         if ((globalCtx->transitionMode == 0) && (globalCtx->sceneLoadFlag != 0)) {
             globalCtx->transitionMode = 1;
         }
@@ -771,7 +771,8 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 LOG_NUM("1", 1, "../z_play.c", 3542);
             }
 
-            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) && (globalCtx->unk_10A20 == 0)) {
+            if ((gSaveContext.gameMode == 0) && (globalCtx->msgCtx.msgMode == 0) &&
+                (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE)) {
                 KaleidoSetup_Update(globalCtx);
             }
 
@@ -935,12 +936,12 @@ void Gameplay_Update(GlobalContext* globalCtx) {
                 }
 
                 KaleidoScopeCall_Update(globalCtx);
-            } else if (globalCtx->unk_10A20 != 0) {
+            } else if (globalCtx->gameOverCtx.state != GAMEOVER_INACTIVE) {
                 if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3727);
                 }
 
-                func_801104C8(globalCtx);
+                GameOver_Update(globalCtx);
             } else {
                 if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3733);
@@ -1028,7 +1029,7 @@ skip:
     }
 
     func_80070C24(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
-                  &globalCtx->unk_10A20, globalCtx->state.gfxCtx);
+                  &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
@@ -1042,8 +1043,8 @@ void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {
 
     func_8010F58C(globalCtx);
 
-    if (globalCtx->unk_10A20 != 0) {
-        func_80110460(globalCtx);
+    if (globalCtx->gameOverCtx.state != GAMEOVER_INACTIVE) {
+        GameOver_FadeInLights(globalCtx);
     }
 }
 
@@ -1523,7 +1524,7 @@ s16 Gameplay_GetActiveCamId(GlobalContext* globalCtx) {
 s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status) {
     s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
 
-    if (status == 7) {
+    if (status == CAM_STAT_ACTIVE) {
         globalCtx->activeCamera = camIdx;
     }
 
@@ -1628,9 +1629,8 @@ s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov) {
 
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll) {
     s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
-    Camera* camera;
-
-    camera = globalCtx->cameraPtrs[camIdx];
+    Camera* camera = globalCtx->cameraPtrs[camIdx];
+    
     camera->roll = roll;
 
     return 1;
@@ -1696,7 +1696,7 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
         return 0;
     } else if (camera->uid != arg2) {
         return 0;
-    } else if (camera->status != 7) {
+    } else if (camera->status != CAM_STAT_ACTIVE) {
         return 2;
     } else {
         return 1;
@@ -1775,8 +1775,8 @@ s32 func_800C0CB8(GlobalContext* globalCtx) {
            (YREG(15) != 0x40) && (globalCtx->sceneNum != SCENE_HAIRAL_NIWA);
 }
 
-s32 func_800C0D28(GlobalContext* globalCtx) {
-    return (globalCtx->sub_7B8.toggle != 0);
+s32 FrameAdvance_IsEnabled(GlobalContext* globalCtx) {
+    return !!globalCtx->frameAdvCtx.enabled;
 }
 
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw) {

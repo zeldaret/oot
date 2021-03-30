@@ -251,7 +251,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
             func_8010B680(globalCtx, this->actor.textId, NULL);
             this->actionFunc = func_80A8F9C8;
         } else {
-            OnePointDemo_EndDemo(globalCtx, this->camId);
+            OnePointDemo_EndCutscene(globalCtx, this->camId);
             this->camId = SUBCAM_NONE;
             this->actionFunc = func_80A8F660;
         }
@@ -298,7 +298,7 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
             func_8010B680(globalCtx, this->actor.textId, NULL);
         }
         this->actionFunc = func_80A8FBB8;
-        OnePointDemo_EndDemo(globalCtx, this->camId);
+        OnePointDemo_EndCutscene(globalCtx, this->camId);
         this->camId = SUBCAM_NONE;
         this->camId = OnePointDemo_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
         func_8005B1A4(globalCtx->cameraPtrs[this->camId]);

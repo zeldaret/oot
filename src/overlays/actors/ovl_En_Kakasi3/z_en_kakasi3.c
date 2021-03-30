@@ -286,7 +286,7 @@ void func_80A91620(EnKakasi3* this, GlobalContext* globalCtx) {
     if ((globalCtx->msgCtx.unk_E3EE == 4 || (globalCtx->msgCtx.unk_E3EE >= 5 && globalCtx->msgCtx.unk_E3EE < 11)) &&
         (globalCtx->msgCtx.msgMode == 0)) {
 
-        OnePointDemo_EndDemo(globalCtx, this->camId);
+        OnePointDemo_EndCutscene(globalCtx, this->camId);
         if (globalCtx->cameraPtrs[this->camId] == NULL) {
             this->camId = SUBCAM_NONE;
         }
@@ -330,7 +330,7 @@ void func_80A917FC(EnKakasi3* this, GlobalContext* globalCtx) {
     } else {
         globalCtx->msgCtx.unk_E3EE = 4;
         func_80106CCC(globalCtx);
-        OnePointDemo_EndDemo(globalCtx, this->camId);
+        OnePointDemo_EndCutscene(globalCtx, this->camId);
         this->actionFunc = func_80A911F0;
     }
 }
@@ -356,7 +356,7 @@ void func_80A918E4(EnKakasi3* this, GlobalContext* globalCtx) {
 
         func_8010B680(globalCtx, 0x40A6, NULL);
         this->dialogState = 5;
-        OnePointDemo_EndDemo(globalCtx, this->camId);
+        OnePointDemo_EndCutscene(globalCtx, this->camId);
         this->camId = SUBCAM_NONE;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_80A91A90;

@@ -340,7 +340,7 @@ void EnDntNomal_TargetTalk(EnDntNomal* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         func_80106CCC(globalCtx);
         func_8005B1A4(ACTIVE_CAM);
-        ACTIVE_CAM->demoId = 0;
+        ACTIVE_CAM->csId = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = EnDntNomal_SetupTargetGivePrize;
     }

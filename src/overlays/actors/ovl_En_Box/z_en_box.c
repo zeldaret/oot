@@ -258,7 +258,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
             this->dyna.actor.shape.rot.z = 0;
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             EnBox_SetupAction(this, EnBox_WaitOpen);
-            OnePointDemo_EndDemo(globalCtx, this->unk_1AC);
+            OnePointDemo_EndCutscene(globalCtx, this->unk_1AC);
         }
         Audio_PlaySoundGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);

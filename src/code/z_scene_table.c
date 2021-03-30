@@ -2327,7 +2327,7 @@ void func_8009FE58(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    if (func_800C0D28(globalCtx) != 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) != true) {
         D_8012A39C += 1820;
         D_8012A3A0 += 1820;
 

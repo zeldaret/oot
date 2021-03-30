@@ -17,7 +17,7 @@
 #define SUBCAM_NONE -1
 #define SUBCAM_ACTIVE -1
 
-#define ONEPOINTDEMO(camera) ((Unique9OnePointDemo*)camera->paramData)
+#define ONEPOINTDEMO_INFO(camera) ((Unique9OnePointDemo*)camera->paramData)
 
 typedef enum {
     /* 0x00 */ CAM_SET_NONE,
@@ -916,7 +916,7 @@ typedef struct {
     /* 0x0162 */ s16 parentCamIdx;
     /* 0x0164 */ s16 thisIdx;
     /* 0x0166 */ s16 prevCamDataIdx;
-    /* 0x0168 */ s16 demoId;
+    /* 0x0168 */ s16 csId;
     /* 0x016A */ s16 unk_16A;
 } Camera; // size = 0x16C
 
