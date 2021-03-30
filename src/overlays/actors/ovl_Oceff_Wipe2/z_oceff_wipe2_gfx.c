@@ -1,6 +1,6 @@
 #include "z_oceff_wipe2.h"
 
-static u32 tex0[] = {
+static u32 sTexture[] = {
     0x55211122, 0x22223333, 0x34444444, 0x44555566, 0x66666666, 0x66665555, 0x55554446, 0x99864323, 0x54211222,
     0x22223333, 0x44444444, 0x45555566, 0x66666666, 0x66666666, 0x66555458, 0xa9742224, 0x63212222, 0x22233334,
     0x44444445, 0x55555566, 0x66666666, 0x66666666, 0x66665569, 0xb9532225, 0x53222222, 0x22333344, 0x44445555,
@@ -120,7 +120,7 @@ static u32 tex1[] = {
     0x86444687, 0x55579866, 0x66666666, 0x77777777, 0x76666666, 0x66555555, 0x55579644, 0x46864446,
 };
 
-static Vtx vertices[] = {
+static Vtx sFrustumVtx[] = {
     VTX(88, 121, 0, 1638, 2048, 0xFF, 0xFF, 0xFF, 0x00),   VTX(243, 176, 1000, 1434, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(143, 46, 0, 1229, 2048, 0xFF, 0xFF, 0xFF, 0x00),   VTX(300, 0, 1000, 1024, 0, 0xFF, 0xFF, 0xFF, 0xFF),
     VTX(0, 150, 0, 2048, 2048, 0xFF, 0xFF, 0xFF, 0x00),    VTX(93, 285, 1000, 1843, 0, 0xFF, 0xFF, 0xFF, 0xFF),
@@ -138,10 +138,10 @@ static Gfx sTextureDL[] = {
     gsDPPipeSync(),
     gsDPSetTextureLUT(G_TT_NONE),
     gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_ON),
-    gsDPLoadTextureBlock_4b(tex0, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                            6, 6, 14, 14),
-    gsDPLoadMultiBlock_4b(tex1, 0x100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_NOMIRROR,
-                          G_TX_NOMIRROR | G_TX_NOMIRROR, 6, 6, 1, 14),
+    gsDPLoadTextureBlock_4b(sTexture, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, 6, 6,
+                            14, 14),
+    gsDPLoadMultiBlock_4b(tex1, 0x100, 1, G_IM_FMT_I, 64, 64, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
+                          6, 6, 1, 14),
     gsDPSetCombineLERP(TEXEL1, PRIMITIVE, ENV_ALPHA, TEXEL0, TEXEL1, 0, ENVIRONMENT, TEXEL0, PRIMITIVE, ENVIRONMENT,
                        COMBINED, ENVIRONMENT, COMBINED, 0, SHADE, 0),
     gsDPSetRenderMode(AA_EN | IM_RD | CLR_ON_CVG | CVG_DST_WRAP | ZMODE_OPA | FORCE_BL |
@@ -151,8 +151,8 @@ static Gfx sTextureDL[] = {
     gsSPEndDisplayList(),
 };
 
-static Gfx sFrustrumDl[] = {
-    gsSPVertex(&vertices, 22, 0),
+static Gfx sFrustumDL[] = {
+    gsSPVertex(&sFrustumVtx, 22, 0),
     gsSP2Triangles(0, 1, 2, 0, 1, 3, 2, 0),
     gsSP2Triangles(4, 5, 0, 0, 5, 1, 0, 0),
     gsSP2Triangles(6, 7, 4, 0, 7, 5, 4, 0),

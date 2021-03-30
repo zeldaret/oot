@@ -1,8 +1,8 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <stdint.h>
+#include <string>
+#include <vector>
 #include "ZResource.h"
 #include "tinyxml2.h"
 
@@ -15,11 +15,13 @@ public:
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	int GetRawDataSize() override;
 
-	static ZArray* ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath, ZFile* nParent);
+	static ZArray* ExtractFromXML(tinyxml2::XMLElement* reader,
+	                              const std::vector<uint8_t>& nRawData, const int rawDataIndex,
+	                              const std::string& nRelPath, ZFile* nParent);
 
 protected:
 	int arrayCnt;
 	ZFile* testFile;
 
-	//void ParseRawData(const std::vector<uint8_t>& data, const int offset);
+	// void ParseRawData(const std::vector<uint8_t>& data, const int offset);
 };

@@ -13,7 +13,8 @@ string ZRoomCommand::GenerateSourceCodePass1(string roomName, int baseAddress)
 {
 	char line[2048];
 
-	//sprintf(line, "%s _%s_set%04X_cmd%02X = { 0x%02X,", GetCommandCName().c_str(), roomName.c_str(), baseAddress, cmdIndex, cmdID);
+	// sprintf(line, "%s _%s_set%04X_cmd%02X = { 0x%02X,", GetCommandCName().c_str(),
+	// roomName.c_str(), baseAddress, cmdIndex, cmdID);
 	sprintf(line, " 0x%02X,", (uint8_t)cmdID);
 
 	return string(line);

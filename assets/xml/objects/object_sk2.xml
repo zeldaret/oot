@@ -24,11 +24,11 @@
         <DList Name="gStalfosLeftThighDL" Offset="0x68E0"/>
         <DList Name="gStalfosLeftFistDL" Offset="0x6988"/>
         <DList Name="gStalfosSwordDL" Offset="0x6A48"/>
-        <Limb Name="gStalfosLimb0" Type="Standard" Offset="0x7868"/>
-        <Limb Name="gStalfosLimb1" Type="Standard" Offset="0x7874"/>
-        <Limb Name="gStalfosJawLimb" Type="Standard" Offset="0x78D4"/>
-        <Limb Name="gStalfosHeadLimb" Type="Standard" Offset="0x78E0"/>
-        <Limb Name="gStalfosEntryFirstVertebLimb" Type="Standard" Offset="0x78EC"/>
+        <Limb Name="gStalfosLimb0" LimbType="Standard" Offset="0x7868"/>
+        <Limb Name="gStalfosLimb1" LimbType="Standard" Offset="0x7874"/>
+        <Limb Name="gStalfosJawLimb" LimbType="Standard" Offset="0x78D4"/>
+        <Limb Name="gStalfosHeadLimb" LimbType="Standard" Offset="0x78E0"/>
+        <Limb Name="gStalfosEntryFirstVertebLimb" LimbType="Standard" Offset="0x78EC"/>
         <Skeleton Name="gStalfosSkel" Type="Normal" LimbType="Standard" Offset="0x7C28"/>
         <Animation Name="gStalfosBackDamageAnim" Offset="0x444"/>
         <Animation Name="gStalfosBackDownAnim" Offset="0x1420"/>
