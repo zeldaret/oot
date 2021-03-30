@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ZResource.h"
 #include "HighLevel/HLTexture.h"
+#include "ZResource.h"
 #include "tinyxml2.h"
 
 #include <vector>
@@ -62,9 +62,12 @@ public:
 
 	bool isPalette;
 
-	static ZTexture* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder, bool readFile);
-	static ZTexture* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nRelPath);
-	static ZTexture* FromBinary(TextureType nType, std::vector<uint8_t> nRawData, int rawDataIndex, std::string nName, int nWidth, int nHeight);
+	static ZTexture* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder,
+	                              bool readFile);
+	static ZTexture* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData,
+	                                int rawDataIndex, std::string nRelPath);
+	static ZTexture* FromBinary(TextureType nType, std::vector<uint8_t> nRawData, int rawDataIndex,
+	                            std::string nName, int nWidth, int nHeight);
 	static ZTexture* FromPNG(std::string pngFilePath, TextureType texType);
 	static ZTexture* FromHLTexture(HLTexture* hlTex);
 	static TextureType GetTextureTypeFromString(std::string str);

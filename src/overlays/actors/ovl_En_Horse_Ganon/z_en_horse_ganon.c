@@ -5,6 +5,7 @@
  */
 
 #include "z_en_horse_ganon.h"
+#include "objects/object_horse_ganon/object_horse_ganon.h"
 
 #define FLAGS 0x00000010
 
@@ -36,7 +37,10 @@ const ActorInit En_Horse_Ganon_InitVars = {
     (ActorFunc)EnHorseGanon_Draw,
 };
 
-static AnimationHeader* D_80A691B0[] = { 0x06004AA4, 0x06005264, 0x06005B78, 0x06002CE4, 0x06002650, 0x06003858 };
+static AnimationHeader* sAnimations[] = {
+    &gHorseGanonIdleAnim,     &gHorseGanonWhinnyAnim,    &gHorseGanonWalkingAnim,
+    &gHorseGanonTrottingAnim, &gHorseGanonGallopingAnim, &gHorseGanonRearingAnim,
+};
 
 static f32 splaySpeeds[] = { 0.66666666f, 0.66666666f, 1.0f, 1.0f, 1.0f, 0.66666666f };
 
@@ -104,9 +108,6 @@ static InitChainEntry sInitChain[] = {
 };
 
 static EnHorseGanonActionFunc sActionFuncs[] = { func_80A68AF0, func_80A68DB0 };
-
-extern SkeletonHeader D_06008668;
-extern AnimationHeader D_06004AA4;
 
 void func_80A68660(unk_D_80A69248* data, s32 index, Vec3f* vec) {
     vec->x = data[index].unk_0.x;
@@ -178,9 +179,9 @@ void EnHorseGanon_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &D_06008668, &D_06004AA4);
+    func_800A663C(globalCtx, &this->skin, &gHorseGanonSkel, &gHorseGanonIdleAnim);
     this->currentAnimation = 0;
-    Animation_PlayOnce(&this->skin.skelAnime, D_80A691B0[0]);
+    Animation_PlayOnce(&this->skin.skelAnime, sAnimations[0]);
 
     Collider_InitCylinder(globalCtx, &this->colliderBody);
     Collider_SetCylinder(globalCtx, &this->colliderBody, &this->actor, &sCylinderInit);
@@ -201,7 +202,7 @@ void EnHorseGanon_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80A68AC4(EnHorseGanon* this) {
     this->action = 0;
-    Animation_PlayLoop(&this->skin.skelAnime, D_80A691B0[4]);
+    Animation_PlayLoop(&this->skin.skelAnime, sAnimations[4]);
 }
 
 void func_80A68AF0(EnHorseGanon* this, GlobalContext* globalCtx) {
@@ -245,13 +246,13 @@ void func_80A68B20(EnHorseGanon* this) {
     }
 
     if (animationChanged == 1) {
-        Animation_Change(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
+        Animation_Change(&this->skin.skelAnime, sAnimations[this->currentAnimation],
                          splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), ANIMMODE_ONCE, -3.0f);
+                         Animation_GetLastFrame(sAnimations[this->currentAnimation]), ANIMMODE_ONCE, -3.0f);
     } else {
-        Animation_Change(&this->skin.skelAnime, D_80A691B0[this->currentAnimation],
+        Animation_Change(&this->skin.skelAnime, sAnimations[this->currentAnimation],
                          splaySpeeds[this->currentAnimation] * sp30 * 1.5f, 0.0f,
-                         Animation_GetLastFrame(D_80A691B0[this->currentAnimation]), ANIMMODE_ONCE, 0.0f);
+                         Animation_GetLastFrame(sAnimations[this->currentAnimation]), ANIMMODE_ONCE, 0.0f);
     }
 }
 

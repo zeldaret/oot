@@ -12,8 +12,8 @@ public:
 	virtual RoomCommand GetRoomCommand();
 
 private:
-	//uint16_t time;
-	//int8_t speed;
+	// uint16_t time;
+	// int8_t speed;
 
 	uint8_t hour;
 	uint8_t min;

@@ -217,7 +217,7 @@ glabel BossTw_TwinrovaDeathCS
 /* 06FEC 8093FCBC 27A600B0 */  addiu   $a2, $sp, 0x00B0           ## $a2 = FFFFFFD0
 /* 06FF0 8093FCC0 27A700A4 */  addiu   $a3, $sp, 0x00A4           ## $a3 = FFFFFFC4
 /* 06FF4 8093FCC4 E7A80010 */  swc1    $f8, 0x0010($sp)
-/* 06FF8 8093FCC8 0C24E41C */  jal     func_80939070
+/* 06FF8 8093FCC8 0C24E41C */  jal     BossTw_AddFlameEffect
 /* 06FFC 8093FCCC AFA80014 */  sw      $t0, 0x0014($sp)
 /* 07000 8093FCD0 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 07004 8093FCD4 00108400 */  sll     $s0, $s0, 16
@@ -555,7 +555,7 @@ glabel L809400CC
 /* 074DC 809401AC 02202825 */  or      $a1, $s1, $zero            ## $a1 = FFFFFFB8
 /* 074E0 809401B0 27A6008C */  addiu   $a2, $sp, 0x008C           ## $a2 = FFFFFFAC
 /* 074E4 809401B4 E7A80010 */  swc1    $f8, 0x0010($sp)
-/* 074E8 809401B8 0C24E41C */  jal     func_80939070
+/* 074E8 809401B8 0C24E41C */  jal     BossTw_AddFlameEffect
 /* 074EC 809401BC 27A70080 */  addiu   $a3, $sp, 0x0080           ## $a3 = FFFFFFA0
 /* 074F0 809401C0 0C00CFC8 */  jal     Rand_CenteredFloat
 
@@ -603,7 +603,7 @@ glabel L809400CC
 /* 0758C 8094025C 27A6008C */  addiu   $a2, $sp, 0x008C           ## $a2 = FFFFFFAC
 /* 07590 80940260 27A70080 */  addiu   $a3, $sp, 0x0080           ## $a3 = FFFFFFA0
 /* 07594 80940264 AFA00014 */  sw      $zero, 0x0014($sp)
-/* 07598 80940268 0C24E41C */  jal     func_80939070
+/* 07598 80940268 0C24E41C */  jal     BossTw_AddFlameEffect
 /* 0759C 8094026C E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 075A0 80940270 26100001 */  addiu   $s0, $s0, 0x0001           ## $s0 = 00000001
 /* 075A4 80940274 00108400 */  sll     $s0, $s0, 16

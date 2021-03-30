@@ -262,7 +262,7 @@ void BossTw_AddDotEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* init
     s16 i;
     BossTwEEffect* eff;
 
-    for (i = 0, eff = globalCtx->actorEffects; i < effCnt; i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < effCnt; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_DOT;
             eff->pos = *initalPos;
@@ -281,7 +281,7 @@ void BossTw_AddDmgCloud(GlobalContext* globalCtx, s16 type, Vec3f* initialPos, V
                    s16 alpha, s16 args, s16 effCnt) {
     s16 i;
     BossTwEEffect* eff;
-    for (i = 0, eff = globalCtx->actorEffects; i < effCnt; i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < effCnt; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = type;
             eff->pos = *initialPos;
@@ -301,7 +301,7 @@ void BossTw_AddRingEffect(GlobalContext* globalCtx, Vec3f* initalPos, f32 scale,
     s16 i;
     BossTwEEffect* eff;
 
-    for (i = 0, eff = globalCtx->actorEffects; i < arg7; i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < arg7; i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_RING;
             eff->pos = *initalPos;
@@ -323,7 +323,7 @@ void BossTw_AddPlayerFreezeEffect(GlobalContext* globalCtx, Actor *target) {
     BossTwEEffect* eff;
     s16 i;
 
-    for (eff = globalCtx->actorEffects, i = 0; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
+    for (eff = globalCtx->specialEffects, i = 0; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_PLYR_FRZ;
             eff->curSpeed = sZeroVector;
@@ -346,7 +346,7 @@ void BossTw_AddPlayerFreezeEffect(GlobalContext* globalCtx, Actor *target) {
 void BossTw_AddFlameEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* initalSpeed, Vec3f* accel, f32 scale, s16 args) {
     s16 i;
     BossTwEEffect* eff;
-    for (i = 0, eff = globalCtx->actorEffects; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_FLAME;
             eff->pos = *initalPos;
@@ -365,7 +365,7 @@ void BossTw_AddFlameEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec3f* in
 void BossTw_AddMergeFlameEffect(GlobalContext* globalCtx, Vec3f* initialPos, f32 scale, f32 dist, s16 args) {
     s16 i;
     BossTwEEffect* eff;
-    for (i = 0, eff = globalCtx->actorEffects; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_MERGEFLAME;
             eff->pos = *initialPos;
@@ -387,7 +387,7 @@ void BossTw_AddShieldBlastEffect(GlobalContext* globalCtx, Vec3f* initalPos, Vec
                    s16 alpha, s16 args) {
     s16 i;
     BossTwEEffect* eff;
-    for (i = 0, eff = globalCtx->actorEffects; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
+    for (i = 0, eff = globalCtx->specialEffects; i < ARRAY_COUNT(sTWEffects); i++, eff++) {
         if (eff->type == TWEFF_NONE) {
             eff->type = TWEFF_SHLD_BLST;
             eff->pos = *initalPos;
@@ -413,7 +413,7 @@ void BossTw_AddShieldDeflectEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2)
     sShieldHitPos = player->bodyPartsPos[15];
     sShieldHitYaw = player->actor.shape.rot.y;
     for (i = 0; i < 8; i++) {
-        for (eff = globalCtx->actorEffects, j = 0; j < ARRAY_COUNT(sTWEffects); j++, eff++) {
+        for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTWEffects); j++, eff++) {
             if (eff->type == TWEFF_NONE) {
                 eff->type = TWEFF_SHLD_DEFL;
                 eff->pos = sShieldHitPos;
@@ -442,7 +442,7 @@ void BossTw_AddShieldHitEffect(GlobalContext* globalCtx, f32 arg1, s16 arg2) {
     sShieldHitPos = player->bodyPartsPos[15];
     sShieldHitYaw = player->actor.shape.rot.y;
     for (i = 0; i < 8; i++) {
-        for (eff = globalCtx->actorEffects, j = 0; j < ARRAY_COUNT(sTWEffects); j++, eff++) {
+        for (eff = globalCtx->specialEffects, j = 0; j < ARRAY_COUNT(sTWEffects); j++, eff++) {
             if (eff->type == TWEFF_NONE) {
                 eff->type = TWEFF_SHLD_HIT;
                 eff->pos = sShieldHitPos;
@@ -531,7 +531,7 @@ void BossTw_Init(Actor* thisx, GlobalContext* globalCtx2) {
 
         D_8094C858 = D_8094C854 = 0.0f;
         sFixedBlastType = Rand_ZeroFloat(1.99f);
-        globalCtx->actorEffects = sTWEffects;
+        globalCtx->specialEffects = sTWEffects;
         for (i = 0; i < ARRAY_COUNT(sTWEffects); i++) {
             sTWEffects[i].type = TWEFF_NONE;
         }
@@ -4285,7 +4285,7 @@ Color_RGB8 sDotColors[] = {
 
 void BossTw_EffUpdate(GlobalContext* globalCtx) {
     Vec3f sp11C;
-    BossTwEEffect* eff = globalCtx->actorEffects;
+    BossTwEEffect* eff = globalCtx->specialEffects;
     Player* player = PLAYER;
     u8 sp113;
     s16 i;
@@ -4601,7 +4601,7 @@ void BossTw_EffDraw(GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     s16 phi_s4;
-    BossTwEEffect* eff = globalCtx->actorEffects;
+    BossTwEEffect* eff = globalCtx->specialEffects;
     BossTwEEffect* effStart;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
 

@@ -13,7 +13,7 @@ typedef struct EnMm2 {
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnMm2ActionFunc actionFunc;
     /* 0x0194 */ ColliderCylinder collider;
-    /* 0x01E0 */ s32 unk_1E0;
+    /* 0x01E0 */ s32 mouthTexIndex;
     /* 0x01E4 */ char unk_1E4[0x4];
     /* 0x01E8 */ Vec3s unk_1E8;
     /* 0x01EE */ Vec3s unk_1EE;
