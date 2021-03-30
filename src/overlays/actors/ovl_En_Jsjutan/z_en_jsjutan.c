@@ -341,7 +341,7 @@ void func_80A89A6C(EnJsjutan* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->dyna.actor.world.pos.y, this->unk_168 - 1000.0f, 1.0f, this->dyna.actor.velocity.y);
         //! Note to whoever tries to match this function:
         //!  daytime commonly needs the (void)0 trick.
-        //!  could help with the temp above and some of these other memes. 
+        //!  could help with the temp above and some of these other memes.
         //!  -fig02 (https://github.com/zeldaret/oot/pull/713#discussion_r593921251)
         if (!gSaveContext.dayTime) {
             if (1) {}

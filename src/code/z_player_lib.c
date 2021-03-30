@@ -698,7 +698,7 @@ void func_8008F470(GlobalContext* globalCtx, void** skeleton, Vec3s* jointTable,
             }
         } else {
             if (Player_GetStrength() > PLAYER_STR_NONE) {
-                gSPDisplayList(POLY_OPA_DISP++, D_06016118);
+                gSPDisplayList(POLY_OPA_DISP++, gChildLinkGoronBraceletDlist);
             }
         }
     }

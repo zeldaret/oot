@@ -2453,8 +2453,8 @@ void Interface_UpdateMagicBar(GlobalContext* globalCtx) {
 
         case 7:
             if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
-                (globalCtx->unk_10A20 == 0) && (globalCtx->sceneLoadFlag == 0) && (globalCtx->transitionMode == 0) &&
-                !Gameplay_InCsMode(globalCtx)) {
+                (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (globalCtx->sceneLoadFlag == 0) &&
+                (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx)) {
                 if ((gSaveContext.magic == 0) || ((func_8008F2F8(globalCtx) >= 2) && (func_8008F2F8(globalCtx) < 5)) ||
                     ((gSaveContext.equips.buttonItems[1] != ITEM_LENS) &&
                      (gSaveContext.equips.buttonItems[2] != ITEM_LENS) &&
@@ -3414,8 +3414,9 @@ void Interface_Draw(GlobalContext* globalCtx) {
             }
         }
 
-        if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (globalCtx->unk_10A20 == 0) &&
-            (msgCtx->msgMode == 0) && !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
+        if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
+            (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) && (msgCtx->msgMode == 0) &&
+            !(player->stateFlags2 & 0x01000000) && (globalCtx->sceneLoadFlag == 0) &&
             (globalCtx->transitionMode == 0) && !Gameplay_InCsMode(globalCtx) && (gSaveContext.minigameState != 1) &&
             (globalCtx->shootingGalleryStatus <= 1) &&
             !((globalCtx->sceneNum == SCENE_BOWLING) && Flags_GetSwitch(globalCtx, 0x38))) {
@@ -3836,7 +3837,7 @@ void Interface_Update(GlobalContext* globalCtx) {
         if ((gSaveContext.minigameState == 1) || (gSaveContext.sceneSetupIndex < 4) ||
             ((globalCtx->sceneNum == SCENE_SPOT20) && (gSaveContext.sceneSetupIndex == 4))) {
             if ((msgCtx->msgMode == 0) || ((msgCtx->msgMode != 0) && (globalCtx->sceneNum == SCENE_BOWLING))) {
-                if (globalCtx->unk_10A20 == 0) {
+                if (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) {
                     func_80083108(globalCtx);
                 }
             }
@@ -4056,8 +4057,8 @@ void Interface_Update(GlobalContext* globalCtx) {
     WREG(7) = interfaceCtx->unk_1F4;
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
-        (globalCtx->sceneLoadFlag == 0) && (globalCtx->unk_10A20 == 0) && (globalCtx->transitionMode == 0) &&
-        ((globalCtx->csCtx.state == 0) || !Player_InCsMode(globalCtx))) {
+        (globalCtx->sceneLoadFlag == 0) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
+        (globalCtx->transitionMode == 0) && ((globalCtx->csCtx.state == 0) || !Player_InCsMode(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;
