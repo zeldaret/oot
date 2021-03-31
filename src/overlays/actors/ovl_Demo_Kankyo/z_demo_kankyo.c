@@ -397,7 +397,7 @@ void DemoKankyo_SetRockPos(DemoKankyo* this, GlobalContext* globalCtx, s32 param
 }
 
 void DemoKankyo_UpdateRock(DemoKankyo* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[this->actor.params - 2] != NULL) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[this->actor.params - 2] != NULL) {
         DemoKankyo_SetRockPos(this, globalCtx, this->actor.params - 2);
     }
     this->unk_150[0].unk_C.x += this->unk_150[0].unk_0.x;
@@ -447,11 +447,11 @@ void DemoKankyo_Draw(Actor* thisx, GlobalContext* globalCtx) {
                         break;
                     } else {
                         if (LINK_IS_CHILD) {
-                            if (globalCtx->csCtx.frames < 170 || globalCtx->csCtx.state == 0) {
+                            if (globalCtx->csCtx.frames < 170 || globalCtx->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         } else {
-                            if (globalCtx->csCtx.frames < 120 || globalCtx->csCtx.state == 0) {
+                            if (globalCtx->csCtx.frames < 120 || globalCtx->csCtx.state == CS_STATE_IDLE) {
                                 break;
                             }
                         }
@@ -718,7 +718,7 @@ void DemoKankyo_DrawLightPlane(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_demo_kankyo.c", 1514);
 
-    if (globalCtx->csCtx.state == 0 || gSaveContext.sceneSetupIndex >= 4) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE || gSaveContext.sceneSetupIndex >= 4) {
         func_80093D84(globalCtx->state.gfxCtx);
 
         gSPSegment(POLY_XLU_DISP++, 0x08,
@@ -825,7 +825,7 @@ void DemoKankyo_DrawWarpSparkles(Actor* thisx, GlobalContext* globalCtx) {
                         func_800776E4(globalCtx);
                         this->unk_150[i].unk_22++;
                     }
-                } else if (i + 1 == this->sparkleCounter && globalCtx->csCtx.state == 0) {
+                } else if (i + 1 == this->sparkleCounter && globalCtx->csCtx.state == CS_STATE_IDLE) {
                     func_80088AF0(globalCtx);
                     Actor_Kill(&this->actor);
                 }
@@ -941,7 +941,7 @@ void DemoKankyo_DrawSparkles(Actor* thisx, GlobalContext* globalCtx) {
                 DemoKankyo_Vec3fAddPosRot(&posRot, &camPos, &D_8098CFB8);
                 break;
             case 2:
-                if (i + 1 == this->sparkleCounter && globalCtx->csCtx.state == 0) {
+                if (i + 1 == this->sparkleCounter && globalCtx->csCtx.state == CS_STATE_IDLE) {
                     Actor_Kill(&this->actor);
                 }
                 break;

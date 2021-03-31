@@ -364,7 +364,7 @@ void func_80098D80(GlobalContext* globalCtx, SceneCmd* cmd) {
 
     if ((cmd->timeSettings.hour != 0xFF) && (cmd->timeSettings.min != 0xFF)) {
         gSaveContext.environmentTime = gSaveContext.dayTime =
-            ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / 0.021972656f;
+            ((cmd->timeSettings.hour + (cmd->timeSettings.min / 60.0f)) * 60.0f) / (360.0f / 0x4000);
     }
 
     if (cmd->timeSettings.unk_06 != 0xFF) {

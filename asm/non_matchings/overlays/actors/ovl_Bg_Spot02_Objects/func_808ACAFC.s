@@ -14,7 +14,7 @@ glabel func_808ACAFC
               
 /* 004C8 808ACB28 3C054270 */  lui     $a1, 0x4270                ## $a1 = 42700000
 /* 004CC 808ACB2C 8FA4001C */  lw      $a0, 0x001C($sp)           
-/* 004D0 808ACB30 0C020120 */  jal     func_80080480              
+/* 004D0 808ACB30 0C020120 */  jal     OnePointCutscene_Attention              
 /* 004D4 808ACB34 8FA50018 */  lw      $a1, 0x0018($sp)           
 /* 004D8 808ACB38 8FB80018 */  lw      $t8, 0x0018($sp)           
 /* 004DC 808ACB3C 3C0F808B */  lui     $t7, %hi(func_808ACB58)    ## $t7 = 808B0000

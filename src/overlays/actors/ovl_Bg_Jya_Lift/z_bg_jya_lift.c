@@ -102,7 +102,7 @@ void BgJyaLift_DelayMove(BgJyaLift* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F) || (this->moveDelay > 0)) {
         this->moveDelay++;
         if (this->moveDelay >= 20) {
-            func_800800F8(globalCtx, 0xD66, -0x63, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3430, -99, &this->dyna.actor, MAIN_CAM);
             BgJyaLift_SetupMove(this);
         }
     }
@@ -143,10 +143,10 @@ void BgJyaLift_Update(Actor* thisx, GlobalContext* globalCtx) {
         this->actionFunc(this, globalCtx);
     }
     if ((this->dyna.unk_160 & 4) && ((this->unk_16B & 4) == 0)) {
-        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_TEPPEN);
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[MAIN_CAM], CAM_SET_TEPPEN);
     } else if (((this->dyna.unk_160) & 4) == 0 && ((this->unk_16B & 4)) &&
-               (globalCtx2->cameraPtrs[0]->setting == 0x3F)) {
-        Camera_ChangeSetting(globalCtx2->cameraPtrs[0], CAM_SET_DUNGEON0);
+               (globalCtx2->cameraPtrs[MAIN_CAM]->setting == CAM_SET_TEPPEN)) {
+        Camera_ChangeSetting(globalCtx2->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
     }
     this->unk_16B = this->dyna.unk_160;
 
