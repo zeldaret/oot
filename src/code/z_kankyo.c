@@ -31,7 +31,7 @@
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80073A5C.s")
 
 f32 func_800746DC() {
-    return Math_Rand_ZeroOne() - 0.5f;
+    return Rand_ZeroOne() - 0.5f;
 }
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80074704.s")
@@ -54,11 +54,11 @@ f32 func_800746DC() {
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80075E68.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_80075F14.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_InitGameOverLights.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800760F4.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_FadeInGameOverLights.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800763A8.s")
+#pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/Kankyo_FadeOutGameOverLights.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_kankyo/func_800766C4.s")
 

@@ -79,7 +79,7 @@ glabel func_80933D54
 /* 078A8 80933E78 8C848C90 */  lw      $a0, %lo(D_80938C90)($a0)  
 /* 078AC 80933E7C 0C24B73B */  jal     func_8092DCEC              
 /* 078B0 80933E80 8FA50024 */  lw      $a1, 0x0024($sp)           
-/* 078B4 80933E84 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 078B4 80933E84 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 078B8 80933E88 00000000 */  nop
 /* 078BC 80933E8C 3C013F00 */  lui     $at, 0x3F00                ## $at = 3F000000

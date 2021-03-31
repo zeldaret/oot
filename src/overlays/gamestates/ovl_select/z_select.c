@@ -429,7 +429,7 @@ void Select_PrintLoadingMessage(SelectContext* this, GfxPrint* printer) {
 
     GfxPrint_SetPos(printer, 0xA, 0xF);
     GfxPrint_SetColor(printer, 255, 255, 255, 255);
-    randomMsg = Math_Rand_ZeroOne() * ARRAY_COUNT(sLoadingMessages);
+    randomMsg = Rand_ZeroOne() * ARRAY_COUNT(sLoadingMessages);
     GfxPrint_Printf(printer, "%s", sLoadingMessages[randomMsg]);
 }
 
@@ -618,7 +618,7 @@ void Select_Init(GameState* thisx) {
     }
     SREG(30) = 1;
 
-    this->staticSegment = GameState_Alloc(this, size, "../z_select.c", 1114);
+    this->staticSegment = GameState_Alloc(&this->state, size, "../z_select.c", 1114);
     DmaMgr_SendRequest1(this->staticSegment, _z_select_staticSegmentRomStart, size, "../z_select.c", 1115);
     gSaveContext.cutsceneIndex = 0x8000;
     gSaveContext.linkAge = 1;

@@ -26,7 +26,7 @@ void ItemEtcetera_UpdateFireArrow(ItemEtcetera* this, GlobalContext* globalCtx);
 
 const ActorInit Item_Etcetera_InitVars = {
     ACTOR_ITEM_ETCETERA,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_KEEP,
     sizeof(ItemEtcetera),
@@ -44,7 +44,9 @@ static s16 sObjectIds[] = {
 
 // Indexes passed to the item table in z_draw.c
 static s16 sDrawItemIndexes[] = {
-    0x0000, 0x0044, 0x002B, 0x0015, 0x0029, 0x002A, 0x0001, 0x005F, 0x006C, 0x006D, 0x006E, 0x0070, 0x0013, 0x0001,
+    GID_BOTTLE,       GID_LETTER_RUTO,  GID_SHIELD_HYLIAN, GID_QUIVER_40,   GID_SCALE_SILVER,
+    GID_SCALE_GOLDEN, GID_KEY_SMALL,    GID_ARROW_FIRE,    GID_RUPEE_GREEN, GID_RUPEE_BLUE,
+    GID_RUPEE_RED,    GID_RUPEE_PURPLE, GID_HEART_PIECE,   GID_KEY_SMALL,
 };
 
 static s16 sGetItemIds[] = {
@@ -71,7 +73,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else {
         this->objBankIndex = objBankIndex;
     }
-    this->drawId = sDrawItemIndexes[type];
+    this->giDrawId = sDrawItemIndexes[type];
     this->getItemId = sGetItemIds[type];
     this->futureActionFunc = func_80B85824;
     this->drawFunc = ItemEtcetera_Draw;
@@ -89,7 +91,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
             this->futureActionFunc = ItemEtcetera_UpdateFireArrow;
             Actor_SetScale(&this->actor, 0.5f);
             this->actor.draw = NULL;
-            this->actor.shape.unk_08 = 50.0f;
+            this->actor.shape.yOffset = 50.0f;
             break;
         case ITEM_ETC_RUPEE_GREEN_CHEST_GAME:
         case ITEM_ETC_RUPEE_BLUE_CHEST_GAME:
@@ -100,7 +102,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
             Actor_SetScale(&this->actor, 0.5f);
             this->futureActionFunc = func_80B85B28;
             this->drawFunc = ItemEtcetera_DrawThroughLens;
-            this->actor.posRot.pos.y += 15.0f;
+            this->actor.world.pos.y += 15.0f;
             break;
     }
 }
@@ -139,7 +141,7 @@ void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
         if (0) {} // Necessary to match
         func_8002F434(&this->actor, globalCtx, this->getItemId, 30.0f, 50.0f);
         if ((globalCtx->gameplayFrames & 0xD) == 0) {
-            EffectSsBubble_Spawn(globalCtx, &this->actor.posRot.pos, 0.0f, 0.0f, 10.0f, 0.13f);
+            EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 0.0f, 0.0f, 10.0f, 0.13f);
         }
     }
 }
@@ -147,22 +149,22 @@ void func_80B858B4(ItemEtcetera* this, GlobalContext* globalCtx) {
 void ItemEtcetera_SpawnSparkles(ItemEtcetera* this, GlobalContext* globalCtx) {
     static Vec3f velocity = { 0.0f, 0.2f, 0.0f };
     static Vec3f accel = { 0.0f, 0.05f, 0.0f };
-    static Color_RGB8 primColor = { 255, 255, 255 };
-    static Color_RGB8 envColor = { 255, 50, 50 };
+    static Color_RGBA8 primColor = { 255, 255, 255, 0 };
+    static Color_RGBA8 envColor = { 255, 50, 50, 0 };
     Vec3f pos;
 
-    velocity.x = Math_Rand_CenteredFloat(3.0f);
-    velocity.z = Math_Rand_CenteredFloat(3.0f);
+    velocity.x = Rand_CenteredFloat(3.0f);
+    velocity.z = Rand_CenteredFloat(3.0f);
     velocity.y = -0.05f;
     accel.y = -0.025f;
-    pos.x = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.x;
-    pos.y = (Math_Rand_ZeroOne() * 6.0f) + this->actor.posRot.pos.y;
-    pos.z = Math_Rand_CenteredFloat(12.0f) + this->actor.posRot.pos.z;
+    pos.x = Rand_CenteredFloat(12.0f) + this->actor.world.pos.x;
+    pos.y = (Rand_ZeroOne() * 6.0f) + this->actor.world.pos.y;
+    pos.z = Rand_CenteredFloat(12.0f) + this->actor.world.pos.z;
     EffectSsKiraKira_SpawnDispersed(globalCtx, &pos, &velocity, &accel, &primColor, &envColor, 5000, 16);
 }
 
 void ItemEtcetera_MoveFireArrowDown(ItemEtcetera* this, GlobalContext* globalCtx) {
-    func_8002E4B4(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 10.0f, 10.0f, 0.0f, 5);
     Actor_MoveForward(&this->actor);
     if (!(this->actor.bgCheckFlags & 1)) {
         ItemEtcetera_SpawnSparkles(this, globalCtx);
@@ -204,7 +206,7 @@ void ItemEtcetera_DrawThroughLens(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->actorCtx.unk_03 != 0) {
         func_8002EBCC(&this->actor, globalCtx, 0);
         func_8002ED80(&this->actor, globalCtx, 0);
-        func_800694A0(globalCtx, this->drawId);
+        GetItem_Draw(globalCtx, this->giDrawId);
     }
 }
 
@@ -213,5 +215,5 @@ void ItemEtcetera_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_8002EBCC(&this->actor, globalCtx, 0);
     func_8002ED80(&this->actor, globalCtx, 0);
-    func_800694A0(globalCtx, this->drawId);
+    GetItem_Draw(globalCtx, this->giDrawId);
 }

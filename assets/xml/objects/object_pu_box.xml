@@ -1,0 +1,13 @@
+<Root>
+    <File Name="object_pu_box" Segment="6">
+        <DList Name="gUnknownUnusedBox1DL" Offset="0x0"/>
+        <Collision Name="gUnknownUnusedBox1Col" Offset="0x350"/>
+        <DList Name="gUnknownUnusedBox2DL" Offset="0x380"/>
+        <Collision Name="gUnknownUnusedBox2Col" Offset="0x6D0"/>
+        <DList Name="gUnknownUnusedBox3DL" Offset="0x700"/>
+        <Collision Name="gUnknownUnusedBox3Col" Offset="0xA50"/>
+        <DList Name="gUnknownUnusedBox4DL" Offset="0xA80"/>
+        <Collision Name="gUnknownUnusedBox4Col" Offset="0x15D0"/>
+        <Texture Name="gUnknownUnusedBoxTex" OutName="unknown_unused_box" Format="rgb5a1" Width="32" Height="32" Offset="0xCC8"/>
+    </File>
+</Root>

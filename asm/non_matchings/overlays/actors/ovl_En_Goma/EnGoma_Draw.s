@@ -295,7 +295,7 @@ glabel EnGoma_Draw
 /* 023B4 80A4B274 AE2C02C0 */  sw      $t4, 0x02C0($s1)           ## 000002C0
 /* 023B8 80A4B278 3C0DDE00 */  lui     $t5, 0xDE00                ## $t5 = DE000000
 /* 023BC 80A4B27C AC4D0000 */  sw      $t5, 0x0000($v0)           ## 00000000
-/* 023C0 80A4B280 0C034221 */  jal     Matrix_Pull              
+/* 023C0 80A4B280 0C034221 */  jal     Matrix_Pop              
 /* 023C4 80A4B284 AC4E0004 */  sw      $t6, 0x0004($v0)           ## 00000004
 /* 023C8 80A4B288 1000003D */  beq     $zero, $zero, .L80A4B380   
 /* 023CC 80A4B28C 8FAB007C */  lw      $t3, 0x007C($sp)           
@@ -314,8 +314,8 @@ glabel EnGoma_Draw
 /* 023FC 80A4B2BC 8F240000 */  lw      $a0, 0x0000($t9)           ## 00000000
 /* 02400 80A4B2C0 AE020004 */  sw      $v0, 0x0004($s0)           ## 00000004
 /* 02404 80A4B2C4 8E2202C0 */  lw      $v0, 0x02C0($s1)           ## 000002C0
-/* 02408 80A4B2C8 3C0A0500 */  lui     $t2, %hi(D_05000530)                ## $t2 = 05000000
-/* 0240C 80A4B2CC 254A0530 */  addiu   $t2, $t2, %lo(D_05000530)           ## $t2 = 05000530
+/* 02408 80A4B2C8 3C0A0500 */  lui     $t2, %hi(gBrownFragmentDL)                ## $t2 = 05000000
+/* 0240C 80A4B2CC 254A0530 */  addiu   $t2, $t2, %lo(gBrownFragmentDL)           ## $t2 = 05000530
 /* 02410 80A4B2D0 24480008 */  addiu   $t0, $v0, 0x0008           ## $t0 = 00000008
 /* 02414 80A4B2D4 AE2802C0 */  sw      $t0, 0x02C0($s1)           ## 000002C0
 /* 02418 80A4B2D8 3C09DE00 */  lui     $t1, 0xDE00                ## $t1 = DE000000

@@ -25,16 +25,11 @@ void func_800AD950(struct_80166500* this) {
 
 // Draw
 void func_800AD958(struct_80166500* this, Gfx** gfxp) {
-    Gfx* gfx;
-    u16* tex;
-    s32 fmt;
+    Gfx* gfx = *gfxp;
+    u16* tex = D_0E000000;
+    s32 fmt = this->useRgba == false ? G_IM_FMT_IA : G_IM_FMT_RGBA;
     s32 y;
     s32 height = 6;
-
-    gfx = *gfxp;
-    tex = D_0E000000;
-
-    fmt = this->useRgba == false ? G_IM_FMT_IA : G_IM_FMT_RGBA;
 
     gDPPipeSync(gfx++);
     if (this->setScissor == true) {

@@ -9,7 +9,7 @@ glabel func_8093323C
 /* 06C88 80933258 00AF2821 */  addu    $a1, $a1, $t7
 /* 06C8C 8093325C 8CA5787C */  lw      $a1, %lo(D_8093787C)($a1)
 /* 06C90 80933260 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 06C94 80933264 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 06C94 80933264 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 06C98 80933268 3C064120 */  lui     $a2, 0x4120                ## $a2 = 41200000
 /* 06C9C 8093326C 8FA70018 */  lw      $a3, 0x0018($sp)
 /* 06CA0 80933270 3C188093 */  lui     $t8, %hi(func_80933290)    ## $t8 = 80930000

@@ -237,7 +237,7 @@ s32 func_80096238(void* data) {
         osSyncPrintf("ワークバッファアドレス（Ｚバッファ）%08x\n", gZBuffer);
 
         time = osGetTime();
-        if (!Jpeg_Decode(data, gZBuffer, gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
+        if (!Jpeg_Decode(data, (u16*)gZBuffer, (JpegWork*)gGfxSPTaskOutputBuffer, sizeof(gGfxSPTaskOutputBuffer))) {
             time = osGetTime() - time;
 
             // Translates to: "SUCCESS... I THINK. time = %6.3f ms"
@@ -266,7 +266,7 @@ void func_8009638C(Gfx** displayList, u32 source, u32 tlut, u16 width, u16 heigh
     displayListHead = *displayList;
     func_80096238(SEGMENTED_TO_VIRTUAL(source));
 
-    bg = displayListHead + 1;
+    bg = (uObjBg*)(displayListHead + 1);
     gSPBranchList(displayListHead, (u8*)bg + sizeof(uObjBg));
     bg->b.imageX = 0;
     bg->b.imageW = width * 4;
@@ -389,7 +389,7 @@ BgImage* func_80096A74(PolygonType1* polygon1, GlobalContext* globalCtx) {
     camera = ACTIVE_CAM;
     camId = camera->camDataIdx;
     // jfifid
-    camId2 = func_80041C10(&globalCtx->colCtx, camId, 50)[2].y;
+    camId2 = func_80041C10(&globalCtx->colCtx, camId, BGCHECK_SCENE)[2].y;
     if (camId2 >= 0) {
         camId = camId2;
     }

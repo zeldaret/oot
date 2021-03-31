@@ -11,8 +11,8 @@ typedef void (*EnDodongoActionFunc)(struct EnDodongo*, GlobalContext*);
 typedef struct EnDodongo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s limbDrawTable[31];
-    /* 0x024A */ Vec3s transitionDrawTable[31];
+    /* 0x0190 */ Vec3s jointTable[31];
+    /* 0x024A */ Vec3s morphTable[31];
     /* 0x0304 */ s32 actionState;
     /* 0x0308 */ EnDodongoActionFunc actionFunc;
     /* 0x030C */ s16 timer;
@@ -34,9 +34,9 @@ typedef struct EnDodongo {
     /* 0x03D0 */ s32 blureIdx;
     /* 0x03D4 */ ColliderQuad colliderAT;
     /* 0x0454 */ ColliderTris colliderHard;
-    /* 0x0474 */ ColliderTrisItem trisElements[3];
+    /* 0x0474 */ ColliderTrisElement trisElements[3];
     /* 0x0588 */ ColliderJntSph colliderBody;
-    /* 0x05A8 */ ColliderJntSphItem sphElements[6];
+    /* 0x05A8 */ ColliderJntSphElement sphElements[6];
 } EnDodongo; // size = 0x0728
 
 typedef enum {

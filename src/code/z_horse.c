@@ -48,10 +48,9 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
     };
 
     if ((AREG(6) != 0) && (Flags_GetEventChkInf(0x18) || (DREG(1) != 0))) {
-        player->rideActor =
-            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, player->actor.posRot.pos.x,
-                        player->actor.posRot.pos.y, player->actor.posRot.pos.z, player->actor.shape.rot.x,
-                        player->actor.shape.rot.y, player->actor.shape.rot.z, 9);
+        player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, player->actor.world.pos.x,
+                                        player->actor.world.pos.y, player->actor.world.pos.z, player->actor.shape.rot.x,
+                                        player->actor.shape.rot.y, player->actor.shape.rot.z, 9);
         if (player->rideActor == NULL) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 343);
         }
@@ -70,8 +69,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 3586.0f, 1413.0f, -402.0f, 0, 0x4000, 0, 1);
         horseActor->room = -1;
     } else if ((gSaveContext.entranceIndex == 1230) && (gSaveContext.eventChkInf[1] & 0x100)) {
-        Actor* horseActor;
-        horseActor =
+        Actor* horseActor =
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, -25.0f, 0.0f, -1600.0f, 0, -0x4000, 0, 1);
         if (horseActor == NULL) {
             __assert("horse_actor != NULL", "../z_horse.c", 389);
@@ -83,10 +81,9 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
                      DREG(1));
 
         if (func_8006CFC0(gSaveContext.horseData.scene)) {
-            Actor* horseActor;
-            horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, gSaveContext.horseData.pos.x,
-                                     gSaveContext.horseData.pos.y, gSaveContext.horseData.pos.z, 0,
-                                     gSaveContext.horseData.angle, 0, 1);
+            Actor* horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
+                                            gSaveContext.horseData.pos.x, gSaveContext.horseData.pos.y,
+                                            gSaveContext.horseData.pos.z, 0, gSaveContext.horseData.angle, 0, 1);
             if (horseActor == NULL) {
                 __assert("horse_actor != NULL", "../z_horse.c", 414);
             }
@@ -102,17 +99,16 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
             func_8006D074(globalCtx);
         }
     } else if ((globalCtx->sceneNum == SCENE_SPOT20) && !Flags_GetEventChkInf(0x18) && (DREG(1) == 0)) {
-        Actor* horseActor;
-        horseActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
-        if (horseActor == 0) {
+        Actor* horseActor =
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, 0.0f, 0.0f, -500.0f, 0, 0, 0, 1);
+        if (horseActor == NULL) {
             __assert("horse_actor != NULL", "../z_horse.c", 443);
         }
     } else if (Flags_GetEventChkInf(0x18) || (DREG(1) != 0)) {
         for (i = 0; i < ARRAY_COUNT(horseSpawns); i++) {
             HorseSpawn* horseSpawn = &horseSpawns[i];
             if (horseSpawn->scene == globalCtx->sceneNum) {
-                Actor* horseActor;
-                horseActor =
+                Actor* horseActor =
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, horseSpawn->pos.x, horseSpawn->pos.y,
                                 horseSpawn->pos.z, 0, horseSpawn->angle, 0, horseSpawn->type);
                 if (horseActor == NULL) {
@@ -167,7 +163,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
         }
 
         player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, spawnPos.x, spawnPos.y,
-                                        spawnPos.z, 0, player->actor.posRot.rot.y, 0, 7);
+                                        spawnPos.z, 0, player->actor.world.rot.y, 0, 7);
         if (player->rideActor == NULL) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 561);
         }
@@ -203,14 +199,14 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                 (((void)0, gSaveContext.cutsceneIndex) == D_8011F9B8[i].cutsceneIndex)) {
                 if (D_8011F9B8[i].type == 7) {
                     if ((globalCtx->sceneNum == 99) && (((void)0, gSaveContext.cutsceneIndex) == 0xFFF1)) {
-                        D_8011F9B8[i].pos.x = player->actor.posRot.pos.x;
-                        D_8011F9B8[i].pos.y = player->actor.posRot.pos.y;
-                        D_8011F9B8[i].pos.z = player->actor.posRot.pos.z;
+                        D_8011F9B8[i].pos.x = player->actor.world.pos.x;
+                        D_8011F9B8[i].pos.y = player->actor.world.pos.y;
+                        D_8011F9B8[i].pos.z = player->actor.world.pos.z;
                     }
 
                     player->rideActor = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE,
                                                     D_8011F9B8[i].pos.x, D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0,
-                                                    player->actor.posRot.rot.y, 0, D_8011F9B8[i].type);
+                                                    player->actor.world.rot.y, 0, D_8011F9B8[i].type);
                     if (player->rideActor == NULL) {
                         __assert("player->ride.actor != NULL", "../z_horse.c", 628);
                     }
@@ -219,9 +215,8 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     func_8002DE74(globalCtx, player);
                 } else if ((D_8011F9B8[i].type == 5) || (D_8011F9B8[i].type == 6) || (D_8011F9B8[i].type == 8)) {
                     Vec3f sp54;
-                    s32 temp;
+                    s32 temp = 0;
 
-                    temp = 0;
                     if (((gSaveContext.eventInf[0] & 0x10) >> 4) && D_8011F9B8[i].type == 6) {
                         temp = 0x8000;
                     }
@@ -233,20 +228,20 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                         __assert("player->ride.actor != NULL", "../z_horse.c", 667);
                     }
 
-                    player->actor.posRot.pos.x = D_8011F9B8[i].pos.x;
-                    player->actor.posRot.pos.y = D_8011F9B8[i].pos.y;
-                    player->actor.posRot.pos.z = D_8011F9B8[i].pos.z;
+                    player->actor.world.pos.x = D_8011F9B8[i].pos.x;
+                    player->actor.world.pos.y = D_8011F9B8[i].pos.y;
+                    player->actor.world.pos.z = D_8011F9B8[i].pos.z;
                     player->actor.shape.rot.x = player->actor.shape.rot.z = 0;
                     player->actor.shape.rot.y = D_8011F9B8[i].angle;
 
                     func_8002DECC(globalCtx, player, player->rideActor);
                     func_8002DE74(globalCtx, player);
 
-                    sp54.x = player->actor.posRot.pos.x - 200.0f;
-                    sp54.y = player->actor.posRot.pos.y + 100.0f;
-                    sp54.z = player->actor.posRot.pos.z;
+                    sp54.x = player->actor.world.pos.x - 200.0f;
+                    sp54.y = player->actor.world.pos.y + 100.0f;
+                    sp54.z = player->actor.world.pos.z;
 
-                    Gameplay_CameraSetAtEye(globalCtx, globalCtx->activeCamera, &player->actor.posRot.pos, &sp54);
+                    Gameplay_CameraSetAtEye(globalCtx, globalCtx->activeCamera, &player->actor.world.pos, &sp54);
                 } else {
                     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_HORSE, D_8011F9B8[i].pos.x,
                                 D_8011F9B8[i].pos.y, D_8011F9B8[i].pos.z, 0, D_8011F9B8[i].angle, 0,
@@ -284,15 +279,15 @@ void func_8006DC68(GlobalContext* globalCtx, Player* player) {
 }
 
 void func_8006DD9C(Actor* actor, Vec3f* arg1, s16 arg2) {
-    s16 x = Math_Vec3f_Yaw(&actor->posRot.pos, arg1) - actor->posRot.rot.y;
+    s16 x = Math_Vec3f_Yaw(&actor->world.pos, arg1) - actor->world.rot.y;
 
     if (x > arg2) {
-        actor->posRot.rot.y += arg2;
+        actor->world.rot.y += arg2;
     } else if (x < -arg2) {
-        actor->posRot.rot.y -= arg2;
+        actor->world.rot.y -= arg2;
     } else {
-        actor->posRot.rot.y += x;
+        actor->world.rot.y += x;
     }
 
-    actor->shape.rot.y = actor->posRot.rot.y;
+    actor->shape.rot.y = actor->world.rot.y;
 }

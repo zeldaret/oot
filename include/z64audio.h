@@ -778,11 +778,11 @@ typedef struct {
  * 
  */
 
-#define SFX_BANK_SHIFT(sfxId)   ((sfxId >> 0xC) & 0xFF)
+#define SFX_BANK_SHIFT(sfxId)   (((sfxId) >> 0xC) & 0xFF)
 
-#define SFX_BANK_MASK(sfxId)    (sfxId & 0xF000)
+#define SFX_BANK_MASK(sfxId)    ((sfxId) & 0xF000)
 
-#define SFX_INDEX(sfxId)    (sfxId & 0x01FF)
+#define SFX_INDEX(sfxId)    ((sfxId) & 0x01FF)
 #define SFX_BANK(sfxId)     SFX_BANK_SHIFT(SFX_BANK_MASK(sfxId))
 
 #endif

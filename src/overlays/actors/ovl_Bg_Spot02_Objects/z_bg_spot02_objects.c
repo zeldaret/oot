@@ -32,7 +32,7 @@ s32 D_808AD850[] = { 0x060096B0, 0x0600A2B0, 0x0600AEB0, 0x0600BAB0, 0x0600C6B0,
 
 const ActorInit Bg_Spot02_Objects_InitVars = {
     ACTOR_BG_SPOT02_OBJECTS,
-    ACTORTYPE_BG,
+    ACTORCAT_BG,
     FLAGS,
     OBJECT_SPOT02_OBJECTS,
     sizeof(BgSpot02Objects),

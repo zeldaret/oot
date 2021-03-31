@@ -5,6 +5,7 @@
  */
 
 #include "z_eff_ss_dust.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define rPrimColorR regs[0]
 #define rPrimColorG regs[1]
@@ -35,8 +36,6 @@ static EffectSsUpdateFunc sUpdateFuncs[] = {
     EffectSsBlast_UpdateFire,
 };
 
-extern Gfx D_04010050[];
-
 u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void* initParamsx) {
     s32 randColorOffset;
     EffectSsDustInitParams* initParams = (EffectSsDustInitParams*)initParamsx;
@@ -44,13 +43,13 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
     Math_Vec3f_Copy(&this->pos, &initParams->pos);
     Math_Vec3f_Copy(&this->velocity, &initParams->velocity);
     Math_Vec3f_Copy(&this->accel, &initParams->accel);
-    this->gfx = SEGMENTED_TO_VIRTUAL(D_04010050);
+    this->gfx = SEGMENTED_TO_VIRTUAL(gEffDustDL);
     this->life = initParams->life;
     this->update = sUpdateFuncs[initParams->updateMode];
     this->draw = EffectSsDust_Draw;
 
     if (initParams->drawFlags & 4) {
-        randColorOffset = Math_Rand_ZeroOne() * 20.0f - 10.0f;
+        randColorOffset = Rand_ZeroOne() * 20.0f - 10.0f;
         this->rPrimColorR = initParams->primColor.r + randColorOffset;
         this->rPrimColorG = initParams->primColor.g + randColorOffset;
         this->rPrimColorB = initParams->primColor.b + randColorOffset;
@@ -78,7 +77,7 @@ u32 EffectSsDust_Init(GlobalContext* globalCtx, u32 index, EffectSs* this, void*
 }
 
 static UNK_PTR sTextures[] = {
-    0x04051DB0, 0x040521B0, 0x040525B0, 0x040529B0, 0x04052DB0, 0x040531B0, 0x040535B0, 0x040539B0,
+    gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
 };
 
 void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
@@ -131,8 +130,8 @@ void EffectSsDust_Draw(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 }
 
 void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
 
     if ((this->life <= this->rLifespan) && (this->life >= (this->rLifespan - 7))) {
         if (this->rLifespan >= 5) {
@@ -149,8 +148,8 @@ void EffectSsDust_Update(GlobalContext* globalCtx, u32 index, EffectSs* this) {
 
 // this update mode is unused in the original game
 void EffectSsBlast_UpdateFire(GlobalContext* globalCtx, u32 index, EffectSs* this) {
-    this->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-    this->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+    this->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
 
     switch (this->rTexIdx) {
         case 0:

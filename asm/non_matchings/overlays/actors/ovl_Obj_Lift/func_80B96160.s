@@ -64,7 +64,7 @@ glabel func_80B96160
 /* 00170 80B96240 46040182 */  mul.s   $f6, $f0, $f4              
 /* 00174 80B96244 00000000 */  nop
 /* 00178 80B96248 46143202 */  mul.s   $f8, $f6, $f20             
-/* 0017C 80B9624C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 0017C 80B9624C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 00180 80B96250 E7A800B8 */  swc1    $f8, 0x00B8($sp)           
 /* 00184 80B96254 46180282 */  mul.s   $f10, $f0, $f24            
@@ -77,7 +77,7 @@ glabel func_80B96160
 /* 001A0 80B96270 46062202 */  mul.s   $f8, $f4, $f6              
 /* 001A4 80B96274 00000000 */  nop
 /* 001A8 80B96278 46144282 */  mul.s   $f10, $f8, $f20            
-/* 001AC 80B9627C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 001AC 80B9627C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 001B0 80B96280 E7AA00C0 */  swc1    $f10, 0x00C0($sp)          
 /* 001B4 80B96284 461C003C */  c.lt.s  $f0, $f28                  
@@ -87,7 +87,7 @@ glabel func_80B96160
 /* 001C4 80B96294 10000001 */  beq     $zero, $zero, .L80B9629C   
 /* 001C8 80B96298 24110040 */  addiu   $s1, $zero, 0x0040         ## $s1 = 00000040
 .L80B9629C:
-/* 001CC 80B9629C 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 001CC 80B9629C 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 001D0 80B962A0 00000000 */  nop
 /* 001D4 80B962A4 46160402 */  mul.s   $f16, $f0, $f22            
