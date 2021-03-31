@@ -4991,7 +4991,7 @@ s32 Camera_Unique8(Camera* camera) {
 s32 Camera_Unique9(Camera* camera) {
     Vec3f atTarget;
     Vec3f eyeTarget;
-    Unique9* uniq9 = &ONEPOINTDEMO_INFO(camera)->uniq9;
+    Unique9* uniq9 = &ONEPOINTCS_INFO(camera)->uniq9;
     Unique9Anim* anim = &uniq9->anim;
     f32 invKeyFrameTimer;
     VecSph eyeNextAtOffset;
@@ -5047,8 +5047,8 @@ s32 Camera_Unique9(Camera* camera) {
     if (anim->keyFrameTimer == 0) {
         anim->isNewKeyFrame = true;
         anim->curKeyFrameIdx++;
-        if (anim->curKeyFrameIdx < ONEPOINTDEMO_INFO(camera)->keyFrameCnt) {
-            anim->curKeyFrame = &ONEPOINTDEMO_INFO(camera)->keyFrames[anim->curKeyFrameIdx];
+        if (anim->curKeyFrameIdx < ONEPOINTCS_INFO(camera)->keyFrameCnt) {
+            anim->curKeyFrame = &ONEPOINTCS_INFO(camera)->keyFrames[anim->curKeyFrameIdx];
             anim->keyFrameTimer = anim->curKeyFrame->timerInit;
 
             if (anim->curKeyFrame->unk_01 != 0xFF) {
@@ -5836,28 +5836,28 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D6AC[1].timerInit = camera->timer - 1;
             D_8011D6AC[1].atTargetInit.z = Rand_ZeroOne() * 10.0f;
             D_8011D6AC[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
-            ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D6AC;
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
+            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D6AC;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTDEMO_INFO(camera)->keyFrameCnt--;
+                ONEPOINTCS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
         } else {
             D_8011D724[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
-            ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D724;
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D724);
+            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D724;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D724);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTDEMO_INFO(camera)->keyFrameCnt--;
+                ONEPOINTCS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D724[2].timerInit;
             }
         }
     } else if (playerTargetGeo.r < 30.0f) {
         // distance between player and target is less than 30 units.
-        ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D79C;
-        ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
+        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D79C;
+        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
         if ((sp78.yaw < 0x15) || (sp78.yaw >= 0x12C) || (sp78.pitch < 0x29) || (sp78.pitch >= 0xC8)) {
             D_8011D79C[0].actionFlags = 0x41;
             D_8011D79C[0].atTargetInit.y = -30.0f;
@@ -5871,7 +5871,7 @@ s32 Camera_Demo5(Camera* camera) {
         D_8011D79C[1].timerInit = camera->timer - 1;
 
         if (camera->parentCamIdx != MAIN_CAM) {
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
         }
@@ -5879,10 +5879,10 @@ s32 Camera_Demo5(Camera* camera) {
         // distance from the camera's current positon and the target is less than 300 units
         // and the distance fromthe camera's current position to the player is less than 30 units
         D_8011D83C[0].timerInit = camera->timer;
-        ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D83C;
-        ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
+        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D83C;
+        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
         if (camera->parentCamIdx != MAIN_CAM) {
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt--;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt--;
         } else {
             camera->timer += D_8011D83C[1].timerInit;
         }
@@ -5892,10 +5892,10 @@ s32 Camera_Demo5(Camera* camera) {
         // is less than ~76.9 degrees
         if (sp78.yaw >= 0x15 && sp78.yaw < 0x12C && sp78.pitch >= 0x29 && sp78.pitch < 0xC8 && eyePlayerGeo.r > 30.0f) {
             D_8011D88C[0].timerInit = camera->timer;
-            ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D88C;
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
+            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D88C;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTDEMO_INFO(camera)->keyFrameCnt--;
+                ONEPOINTCS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D88C[1].timerInit;
             }
@@ -5910,10 +5910,10 @@ s32 Camera_Demo5(Camera* camera) {
             }
             D_8011D8DC[0].timerInit = camera->timer;
             D_8011D8DC[1].timerInit = (s16)(eyeTargetDist * 0.005f) + 8;
-            ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D8DC;
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
+            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D8DC;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTDEMO_INFO(camera)->keyFrameCnt -= 2;
+                ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
             } else {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
             }
@@ -5947,10 +5947,10 @@ s32 Camera_Demo5(Camera* camera) {
         } else {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
-        ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D954;
-        ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D954);
+        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D954;
+        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D954);
         if (camera->parentCamIdx != MAIN_CAM) {
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
         }
@@ -5972,14 +5972,14 @@ s32 Camera_Demo5(Camera* camera) {
             t = eyeTargetDist * 0.005f;
             D_8011D9F4[1].timerInit = t + 8;
         }
-        ONEPOINTDEMO_INFO(camera)->keyFrames = D_8011D9F4;
-        ONEPOINTDEMO_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
+        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D9F4;
+        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
         if (camera->parentCamIdx != MAIN_CAM) {
             if (camera->globalCtx->state.frames & 1) {
                 D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
                 D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
             }
-            ONEPOINTDEMO_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D9F4[1].timerInit + D_8011D9F4[2].timerInit;
             D_8011D9F4[0].rollTargetInit = D_8011D9F4[1].rollTargetInit = 0;
@@ -6123,7 +6123,7 @@ s32 Camera_Demo9(Camera* camera) {
     s32 pad;
     s32 finishAction;
     s16 onePointTimer;
-    Demo9OnePointDemo* demo9OnePoint = (Demo9OnePointDemo*)camera->paramData;
+    Demo9OnePointCs* demo9OnePoint = (Demo9OnePointCs*)camera->paramData;
     Vec3f csEyeUpdate;
     Vec3f csAtUpdate;
     Vec3f newEye;
@@ -6162,14 +6162,14 @@ s32 Camera_Demo9(Camera* camera) {
             anim->curFrame = 0.0f;
             camera->animState++;
             anim->doLERPAt = false;
-            finishAction = demo9OnePoint->onePointDemo.actionParameters & 0xF000;
+            finishAction = demo9OnePoint->onePointCs.actionParameters & 0xF000;
             if (finishAction != 0) {
                 anim->finishAction = finishAction;
 
                 // Clear finish parameters
-                demo9OnePoint->onePointDemo.actionParameters &= 0xFFF;
+                demo9OnePoint->onePointCs.actionParameters &= 0xFFF;
             }
-            anim->animTimer = demo9OnePoint->onePointDemo.initTimer;
+            anim->animTimer = demo9OnePoint->onePointCs.initTimer;
         case 1:
             // Run the camera state
             if (anim->animTimer > 0) {
@@ -6178,23 +6178,23 @@ s32 Camera_Demo9(Camera* camera) {
 
                 // Run the at and eye cs interpoloation functions, if either of them return 1 (that no more points
                 // exist) change the animation state to 2 (standby)
-                if (func_800BB2B4(&csEyeUpdate, &newRoll, camFOV, demo9OnePoint->onePointDemo.eyePoints,
+                if (func_800BB2B4(&csEyeUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.eyePoints,
                                   &anim->keyframe, &anim->curFrame) != 0 ||
-                    func_800BB2B4(&csAtUpdate, &newRoll, camFOV, demo9OnePoint->onePointDemo.atPoints, &anim->keyframe,
+                    func_800BB2B4(&csAtUpdate, &newRoll, camFOV, demo9OnePoint->onePointCs.atPoints, &anim->keyframe,
                                   &anim->curFrame) != 0) {
                     camera->animState = 2;
                 }
 
-                if (demo9OnePoint->onePointDemo.actionParameters == 1) {
+                if (demo9OnePoint->onePointCs.actionParameters == 1) {
                     // rotate around mainCam's player
                     Camera_RotateAroundPoint(mainCamPlayerPosRot, &csEyeUpdate, &newEye);
                     Camera_RotateAroundPoint(mainCamPlayerPosRot, &csAtUpdate, &newAt);
-                } else if (demo9OnePoint->onePointDemo.actionParameters == 4) {
+                } else if (demo9OnePoint->onePointCs.actionParameters == 4) {
                     // rotate around the current camera's player
                     Actor_GetWorld(&focusPosRot, &camera->player->actor);
                     Camera_RotateAroundPoint(&focusPosRot, &csEyeUpdate, &newEye);
                     Camera_RotateAroundPoint(&focusPosRot, &csAtUpdate, &newAt);
-                } else if (demo9OnePoint->onePointDemo.actionParameters == 8) {
+                } else if (demo9OnePoint->onePointCs.actionParameters == 8) {
                     // rotate around the current camera's target
                     if (camera->target != NULL && camera->target->update != NULL) {
                         Actor_GetWorld(&focusPosRot, camera->target);
@@ -6229,10 +6229,10 @@ s32 Camera_Demo9(Camera* camera) {
             if (anim->finishAction != 0) {
                 if (anim->finishAction != 0x1000) {
                     if (anim->finishAction == 0x2000) {
-                        // finish action = 0x2000, run OnePointDemo 0x3FC (Dramatic Return to Link)
+                        // finish action = 0x2000, run OnePointCs 0x3FC (Dramatic Return to Link)
                         onePointTimer =
-                            demo9OnePoint->onePointDemo.initTimer < 50 ? 5 : demo9OnePoint->onePointDemo.initTimer / 5;
-                        OnePointDemo_Init(camera->globalCtx, 1020, onePointTimer, NULL, camera->parentCamIdx);
+                            demo9OnePoint->onePointCs.initTimer < 50 ? 5 : demo9OnePoint->onePointCs.initTimer / 5;
+                        OnePointCs_Init(camera->globalCtx, 1020, onePointTimer, NULL, camera->parentCamIdx);
                     }
                 } else {
                     // finish action = 0x1000, copy the current camera's values to the

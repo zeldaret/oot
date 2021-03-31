@@ -17,7 +17,7 @@
 #define SUBCAM_NONE -1
 #define SUBCAM_ACTIVE -1
 
-#define ONEPOINTDEMO_INFO(camera) ((Unique9OnePointDemo*)camera->paramData)
+#define ONEPOINTCS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 
@@ -707,10 +707,10 @@ typedef struct {
     /* 0x000C */ f32 lerpStepScale;
     /* 0x0010 */ Vec3f atTargetInit;
     /* 0x001C */ Vec3f eyeTargetInit;
-} OnePointDemoFull; /* size = 0x28 */
+} OnePointCsFull; /* size = 0x28 */
 
 typedef struct {
-    /* 0x0000 */ OnePointDemoFull* curKeyFrame;
+    /* 0x0000 */ OnePointCsFull* curKeyFrame;
     /* 0x0004 */ Vec3f atTarget;
     /* 0x0010 */ Vec3f eyeTarget;
     /* 0x001C */ Vec3f playerPos;
@@ -730,9 +730,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ s32 keyFrameCnt;
-    /* 0x0004 */ OnePointDemoFull* keyFrames;
+    /* 0x0004 */ OnePointCsFull* keyFrames;
     /* 0x0008 */ Unique9 uniq9;
-} Unique9OnePointDemo; // size = 0x48
+} Unique9OnePointCs; // size = 0x48
 
 typedef struct {
     /* 0x0000 */ f32 curFrame;
@@ -787,12 +787,12 @@ typedef struct {
     /* 0x0004 */ CutsceneCameraPoint* eyePoints;
     /* 0x0008 */ s16 actionParameters;
     /* 0x000A */ s16 initTimer;
-} OnePointDemoCamera; // size = 0xC
+} OnePointCsCamera; // size = 0xC
 
 typedef struct {
-    /* 0x0000 */ OnePointDemoCamera onePointDemo;
+    /* 0x0000 */ OnePointCsCamera onePointCs;
     /* 0x000C */ Demo9 demo9;
-} Demo9OnePointDemo; // size = 0x1C
+} Demo9OnePointCs; // size = 0x1C
 
 typedef struct {
     /* 0x0000 */ f32 lerpAtScale;

@@ -160,13 +160,13 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             this->unk_164 = 0;
             Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             BgDodoago_SetupAction(this, func_80871FB8);
-            OnePointDemo_Init(globalCtx, 3380, 160, &this->dyna.actor, MAIN_CAM);
+            OnePointCs_Init(globalCtx, 3380, 160, &this->dyna.actor, MAIN_CAM);
         } else if (globalCtx->unk_11D30[this->unk_164] == 0) {
-            OnePointDemo_Init(globalCtx, 3065, 40, &this->dyna.actor, MAIN_CAM);
+            OnePointCs_Init(globalCtx, 3065, 40, &this->dyna.actor, MAIN_CAM);
             BgDodoago_SetupAction(this, func_80872288);
             Audio_PlaySoundGeneral(NA_SE_SY_CORRECT_CHIME, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         } else {
-            OnePointDemo_Init(globalCtx, 3065, 20, &this->dyna.actor, MAIN_CAM);
+            OnePointCs_Init(globalCtx, 3065, 20, &this->dyna.actor, MAIN_CAM);
             Audio_PlaySoundGeneral(NA_SE_SY_ERROR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             D_80872824 += 0x1E;
             return;

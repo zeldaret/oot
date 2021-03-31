@@ -218,7 +218,7 @@ void func_80A8F75C(EnKakasi* this, GlobalContext* globalCtx) {
             if (absyawTowardsPlayer < 0x4300) {
                 if (!this->unk_194) {
                     if (player->stateFlags2 & 0x1000000) {
-                        this->camId = OnePointDemo_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
+                        this->camId = OnePointCs_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
 
                         func_8010BD58(globalCtx, 0x2A);
                         this->unk_19A = 0;
@@ -251,7 +251,7 @@ void func_80A8F8D0(EnKakasi* this, GlobalContext* globalCtx) {
             func_8010B680(globalCtx, this->actor.textId, NULL);
             this->actionFunc = func_80A8F9C8;
         } else {
-            OnePointDemo_EndCutscene(globalCtx, this->camId);
+            OnePointCs_EndCutscene(globalCtx, this->camId);
             this->camId = SUBCAM_NONE;
             this->actionFunc = func_80A8F660;
         }
@@ -271,7 +271,7 @@ void func_80A8F9C8(EnKakasi* this, GlobalContext* globalCtx) {
         if (this->camId != SUBCAM_NONE) {
             func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
         }
-        this->camId = OnePointDemo_Init(globalCtx, 2270, -99, &this->actor, MAIN_CAM);
+        this->camId = OnePointCs_Init(globalCtx, 2270, -99, &this->actor, MAIN_CAM);
         globalCtx->msgCtx.msgMode = 0x37;
         func_8002DF54(globalCtx, NULL, 8);
         func_8010BD58(globalCtx, 0x2B);
@@ -298,9 +298,9 @@ void func_80A8FAA4(EnKakasi* this, GlobalContext* globalCtx) {
             func_8010B680(globalCtx, this->actor.textId, NULL);
         }
         this->actionFunc = func_80A8FBB8;
-        OnePointDemo_EndCutscene(globalCtx, this->camId);
+        OnePointCs_EndCutscene(globalCtx, this->camId);
         this->camId = SUBCAM_NONE;
-        this->camId = OnePointDemo_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
+        this->camId = OnePointCs_Init(globalCtx, 2260, -99, &this->actor, MAIN_CAM);
         func_8005B1A4(globalCtx->cameraPtrs[this->camId]);
     }
 }

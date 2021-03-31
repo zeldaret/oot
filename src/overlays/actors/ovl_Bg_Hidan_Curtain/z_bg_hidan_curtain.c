@@ -129,11 +129,11 @@ void BgHidanCurtain_WaitForSwitchOn(BgHidanCurtain* this, GlobalContext* globalC
     if (Flags_GetSwitch(globalCtx, this->actor.params)) {
         if (this->type == 1) {
             this->actionFunc = BgHidanCurtain_WaitForCutscene;
-            OnePointDemo_Init(globalCtx, 3350, -99, &this->actor, MAIN_CAM);
+            OnePointCs_Init(globalCtx, 3350, -99, &this->actor, MAIN_CAM);
             this->timer = 50;
         } else if (this->type == 3) {
             this->actionFunc = BgHidanCurtain_WaitForCutscene;
-            OnePointDemo_Init(globalCtx, 3360, 60, &this->actor, MAIN_CAM);
+            OnePointCs_Init(globalCtx, 3360, 60, &this->actor, MAIN_CAM);
             this->timer = 30;
         } else {
             this->actionFunc = BgHidanCurtain_TurnOff;

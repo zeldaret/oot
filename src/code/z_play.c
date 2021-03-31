@@ -1675,7 +1675,7 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
         Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
         globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx = globalCtx->cameraPtrs[MAIN_CAM]->parentCamIdx = SUBCAM_FREE;
     } else {
-        OnePointDemo_Init(globalCtx, 1020, arg2, NULL, MAIN_CAM);
+        OnePointCs_Init(globalCtx, 1020, arg2, NULL, MAIN_CAM);
     }
 }
 

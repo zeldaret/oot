@@ -251,7 +251,7 @@ void EnDntNomal_TargetWait(EnDntNomal* this, GlobalContext* globalCtx) {
             if (LINK_IS_CHILD && !(gSaveContext.itemGetInf[1] & 0x2000)) {
                 this->hitCounter++;
                 if (this->hitCounter >= 3) {
-                    OnePointDemo_Init(globalCtx, 4140, -99, &this->actor, MAIN_CAM);
+                    OnePointCs_Init(globalCtx, 4140, -99, &this->actor, MAIN_CAM);
                     func_8002DF54(globalCtx, &this->actor, 1);
                     this->timer4 = 50;
                     this->actionFunc = EnDntNomal_SetupTargetUnburrow;

@@ -1309,7 +1309,7 @@ void EnGo2_WakeUp(EnGo2* this, GlobalContext* globalCtx) {
         }
     }
     if ((this->actor.params & 0x1F) == GORON_DMT_BIGGORON) {
-        OnePointDemo_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
+        OnePointCs_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
         func_80034EC0(&this->skelAnime, sAnimations, 10);
         this->skelAnime.playSpeed = 0.5f;
     } else {
@@ -1814,7 +1814,7 @@ void EnGo2_BiggoronEyedrops(EnGo2* this, GlobalContext* globalCtx) {
             this->unk_20C = 0;
             this->goronState++;
             func_800F483C(0x28, 5);
-            OnePointDemo_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
+            OnePointCs_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             break;
         case 1:
             if (DECR(this->animTimer)) {

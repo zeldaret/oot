@@ -122,10 +122,10 @@ void BgMoriIdomizu_Main(BgMoriIdomizu* this, GlobalContext* globalCtx) {
         this->targetWaterLevel = 184.0f;
     }
     if (switchFlagSet && !this->prevSwitchFlagSet) {
-        OnePointDemo_Init(globalCtx, 3240, 70, thisx, MAIN_CAM);
+        OnePointCs_Init(globalCtx, 3240, 70, thisx, MAIN_CAM);
         this->drainTimer = 90;
     } else if (!switchFlagSet && this->prevSwitchFlagSet) {
-        OnePointDemo_Init(globalCtx, 3240, 70, thisx, MAIN_CAM);
+        OnePointCs_Init(globalCtx, 3240, 70, thisx, MAIN_CAM);
         this->drainTimer = 90;
         thisx->world.pos.y = 0.0f;
     }

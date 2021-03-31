@@ -1140,7 +1140,7 @@ void func_80832340(GlobalContext* globalCtx, Player* this) {
     if (this->unk_46C != SUBCAM_NONE) {
         camera = globalCtx->cameraPtrs[this->unk_46C];
         if ((camera != NULL) && (camera->csId == 1100)) {
-            OnePointDemo_EndCutscene(globalCtx, this->unk_46C);
+            OnePointCs_EndCutscene(globalCtx, this->unk_46C);
             this->unk_46C = SUBCAM_NONE;
         }
     }
@@ -2778,7 +2778,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
-        OnePointDemo_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
+        OnePointCs_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
         ShrinkWindow_SetVal(0x20);
     }
 }
@@ -4612,7 +4612,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayer326Anim, 0.83f);
 
     if (magicSpell == 5) {
-        this->unk_46C = OnePointDemo_Init(globalCtx, 1100, -101, NULL, MAIN_CAM);
+        this->unk_46C = OnePointCs_Init(globalCtx, 1100, -101, NULL, MAIN_CAM);
     } else {
         func_80835EA4(globalCtx, 10);
     }
@@ -6206,13 +6206,13 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(globalCtx, this, &gPlayer129Anim);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointDemo_Init(globalCtx, 9601, 999, NULL, MAIN_CAM);
+                OnePointCs_Init(globalCtx, 9601, 999, NULL, MAIN_CAM);
             } else {
                 this->actor.shape.rot.y = this->actor.wallYaw;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &gPlayer130Anim, -1.0f,
                                      Animation_GetLastFrame(&gPlayer130Anim), 0.0f, ANIMMODE_ONCE, 0.0f);
                 func_80832F54(globalCtx, this, 0x9D);
-                OnePointDemo_Init(globalCtx, 9602, 999, NULL, MAIN_CAM);
+                OnePointCs_Init(globalCtx, 9602, 999, NULL, MAIN_CAM);
             }
 
             this->currentYaw = this->actor.shape.rot.y;
@@ -7786,7 +7786,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         this->unk_850 = 60;
         Player_SpawnFairy(globalCtx, this, &this->actor.world.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
-        OnePointDemo_Init(globalCtx, 9908, 125, &this->actor, MAIN_CAM);
+        OnePointCs_Init(globalCtx, 9908, 125, &this->actor, MAIN_CAM);
     } else if (globalCtx->gameOverCtx.state == GAMEOVER_DEATH_WAIT_GROUND) {
         globalCtx->gameOverCtx.state = GAMEOVER_DEATH_DELAY_MENU;
     }
@@ -8912,7 +8912,7 @@ void func_808468E8(GlobalContext* globalCtx, Player* this) {
     func_80835C58(globalCtx, this, func_8084F9C0, 0);
     this->stateFlags1 |= 0x20000000;
     this->fallStartHeight = this->actor.world.pos.y;
-    OnePointDemo_Init(globalCtx, 5110, 40, &this->actor, MAIN_CAM);
+    OnePointCs_Init(globalCtx, 5110, 40, &this->actor, MAIN_CAM);
 }
 
 void func_80846978(GlobalContext* globalCtx, Player* this) {

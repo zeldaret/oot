@@ -415,7 +415,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
                 sTimer = currentBomb->timer + 20;
-                OnePointDemo_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
+                OnePointCs_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
             }
         }
     } else if (player->stateFlags1 & 0x800) {
@@ -445,7 +445,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
         func_808B561C(this, globalCtx);
 
-        OnePointDemo_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
+        OnePointCs_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
         gSaveContext.eventChkInf[2] |= 8;
