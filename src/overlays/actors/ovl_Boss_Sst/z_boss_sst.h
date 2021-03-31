@@ -8,6 +8,11 @@ struct BossSst;
 
 typedef void (*BossSstActionFunc)(struct BossSst*, GlobalContext*);
 
+#define BONGO_BOSSROOM_CENTER_X -50.0f
+#define BONGO_BOSSROOM_CENTER_Y 0.0f
+#define BONGO_BOSSROOM_CENTER_Z 0.0f
+#define BONGO_DRUM_RADIUS 550.0f;
+
 typedef struct {
     /* 0x0000 */ Vec3f pos;
     /* 0x0010 */ Vec3f vel;
@@ -19,7 +24,7 @@ typedef struct {
 } BossSstEffect; // size = 0x28
 
 typedef struct {
-    /* 0x0000 */ PosRot posRot;
+    /* 0x0000 */ PosRot world;
     /* 0x0014 */ f32 zPosMod;
     /* 0x0018 */ s16 yRotMod;
 } BossSstHandTrail; // size = 0x1C

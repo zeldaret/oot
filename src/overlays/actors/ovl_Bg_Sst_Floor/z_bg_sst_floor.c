@@ -43,7 +43,7 @@ void BgSstFloor_Init(BgSstFloor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    DynaPolyActor_Init(&this->dyna, 1);
+    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(&gBongoDrumCol, &colHeader);
     this->dyna.bgId =
         DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
@@ -67,9 +67,9 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     if (1) {}
 
     if (func_80043590(&this->dyna) && (this->dyna.actor.yDistToPlayer < 1000.0f)) {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0xC);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_BOSS_SHADES);
     } else {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[0], 3);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
     }
 
     if (func_8004356C(&this->dyna) && (player->fallDistance > 1000.0f)) {
@@ -78,7 +78,7 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->dyna.actor.params == BONGOFLOOR_HIT) {
-        Actor* misc = globalCtx->actorCtx.actorLists[ACTORCAT_MISC].head;
+        Actor* item00 = globalCtx->actorCtx.actorLists[ACTORCAT_MISC].head;
         f32 distFromRim;
         f32 xzDist;
 
@@ -97,19 +97,19 @@ void BgSstFloor_Update(BgSstFloor* thisx, GlobalContext* globalCtx) {
             }
         }
 
-        while (misc != NULL) {
-            if ((misc->id == ACTOR_EN_ITEM00) && (misc->world.pos.y == 0.0f)) {
-                xzDist = Actor_WorldDistXZToActor(&this->dyna.actor, misc);
+        while (item00 != NULL) {
+            if ((item00->id == ACTOR_EN_ITEM00) && (item00->world.pos.y == 0.0f)) {
+                xzDist = Actor_WorldDistXZToActor(&this->dyna.actor, item00);
                 distFromRim = 600.0f - xzDist;
                 if (xzDist < 600.0f) {
                     if (distFromRim > 350.0f) {
                         distFromRim = 350.0f;
                     }
-                    misc->bgCheckFlags &= ~3;
-                    misc->velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
+                    item00->bgCheckFlags &= ~3;
+                    item00->velocity.y = 9.0f * distFromRim * (1.0f / 350.0f);
                 }
             }
-            misc = misc->next;
+            item00 = item00->next;
         }
     }
     this->drumHeight = sinf(this->drumPhase * (M_PI / 2)) * (-this->drumAmp);

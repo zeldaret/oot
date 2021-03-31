@@ -669,7 +669,7 @@ void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgI
 s32 DynaPoly_SetBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor, CollisionHeader* colHeader);
 DynaPolyActor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId);
 void DynaPoly_DeleteBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId);
-// ? DynaPoly_ExpandSRT(?);
+void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void func_8003F8EC(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(GlobalContext* globalCtx, DynaCollisionContext* dyna);
