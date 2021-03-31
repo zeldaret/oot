@@ -281,7 +281,7 @@ s32 EnOwl_CheckInitTalk(EnOwl* this, GlobalContext* globalCtx, u16 textId, f32 t
                 this->actionFlags &= ~0x40;
             }
         }
-        this->cameraIdx = func_800800F8(globalCtx, 0x21FC, timer, &this->actor, 0);
+        this->cameraIdx = OnePointCutscene_Init(globalCtx, 8700, timer, &this->actor, MAIN_CAM);
         return true;
     } else {
         this->actor.textId = textId;
@@ -1412,7 +1412,7 @@ void func_80ACD2CC(EnOwl* this, GlobalContext* globalCtx) {
     angle = (u16)angle;
     if (this->actionFlags & 4) {
         phi_f2 = globalCtx->csCtx.npcActions[7]->urot.x;
-        phi_f2 *= 0.054931640625f;
+        phi_f2 *= 10.0f * (360.0f / 0x10000);
         if (phi_f2 < 0.0f) {
             phi_f2 += 360.0f;
         }

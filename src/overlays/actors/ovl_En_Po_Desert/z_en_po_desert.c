@@ -219,7 +219,7 @@ s32 EnPoDesert_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
     f32 mtxScale;
 
     if (this->actionFunc == EnPoDesert_Disappear && limbIndex == 7) {
-        mtxScale = this->actionTimer * 0.0625f;
+        mtxScale = this->actionTimer / 16.0f;
         Matrix_Scale(mtxScale, mtxScale, mtxScale, MTXMODE_APPLY);
     }
     if ((this->actor.flags & 0x80) != 0x80) {

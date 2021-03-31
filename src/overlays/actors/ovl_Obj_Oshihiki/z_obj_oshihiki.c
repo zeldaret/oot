@@ -428,12 +428,12 @@ s32 ObjOshihiki_CheckWall(GlobalContext* globalCtx, s16 angle, f32 direction, Ob
         faceVtxNext.x = faceVtx.x + maxDist * sn;
         faceVtxNext.y = faceVtx.y;
         faceVtxNext.z = faceVtx.z + maxDist * cs;
-        if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, 1, 0, 0, 1, &bgId,
-                                    &this->dyna.actor, 0.0f)) {
-            return 1;
+        if (BgCheck_EntityLineTest3(&globalCtx->colCtx, &faceVtx, &faceVtxNext, &posResult, &outPoly, true, false,
+                                    false, true, &bgId, &this->dyna.actor, 0.0f)) {
+            return true;
         }
     }
-    return 0;
+    return false;
 }
 
 s32 ObjOshihiki_MoveWithBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) {
@@ -452,12 +452,12 @@ s32 ObjOshihiki_MoveWithBlockUnder(ObjOshihiki* this, GlobalContext* globalCtx) 
             this->dyna.actor.world.pos.x += this->underDistX;
             this->dyna.actor.world.pos.z += this->underDistZ;
             ObjOshihiki_UpdateInitPos(this);
-            return 1;
+            return true;
         } else if (!(this->blockUnder->stateFlags & PUSHBLOCK_SETUP_PUSH)) {
             this->blockUnder = NULL;
         }
     }
-    return 0;
+    return false;
 }
 
 void ObjOshihiki_SetupOnScene(ObjOshihiki* this, GlobalContext* globalCtx) {
@@ -490,9 +490,7 @@ void ObjOshihiki_OnScene(ObjOshihiki* this, GlobalContext* globalCtx) {
 void ObjOshihiki_SetupOnActor(ObjOshihiki* this, GlobalContext* globalCtx) {
     this->stateFlags |= PUSHBLOCK_SETUP_ON_ACTOR;
     this->actionFunc = ObjOshihiki_OnActor;
-    this->dyna.actor.velocity.z = 0.0f;
-    this->dyna.actor.velocity.y = 0.0f;
-    this->dyna.actor.velocity.x = 0.0f;
+    this->dyna.actor.velocity.x = this->dyna.actor.velocity.y = this->dyna.actor.velocity.z = 0.0f;
     this->dyna.actor.gravity = -1.0f;
 }
 

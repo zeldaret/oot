@@ -97,7 +97,7 @@ void func_808B2970(BgSpot11Oasis* this) {
 
 void func_808B2980(BgSpot11Oasis* this, GlobalContext* globalCtx) {
     if (Flags_GetEnv(globalCtx, 5) && func_808B280C(globalCtx)) {
-        func_800800F8(globalCtx, 0x1036, -99, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4150, -99, &this->actor, MAIN_CAM);
         func_808B29E0(this);
     }
 }

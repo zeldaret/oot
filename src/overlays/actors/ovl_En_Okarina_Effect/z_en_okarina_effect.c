@@ -93,7 +93,7 @@ void EnOkarinaEffect_ManageStorm(EnOkarinaEffect* this, GlobalContext* globalCtx
 
     if (this->timer == 0) {
         globalCtx->envCtx.unk_F2[0] = 0;
-        if (globalCtx->csCtx.state == 0) {
+        if (globalCtx->csCtx.state == CS_STATE_IDLE) {
             func_80077684(globalCtx);
         } else if (func_800FA0B4(0) == 1) {
             func_800F6D58(0xF, 1, 0);

@@ -959,9 +959,9 @@ void BossGanondrof_Death(BossGanondrof* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             this->deathCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
             osSyncPrintf("7\n");
-            Gameplay_ChangeCameraStatus(globalCtx, this->deathCamera, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, this->deathCamera, CAM_STAT_ACTIVE);
             osSyncPrintf("8\n");
             this->deathState = DEATH_THROES;
             player->actor.speedXZ = 0.0f;
