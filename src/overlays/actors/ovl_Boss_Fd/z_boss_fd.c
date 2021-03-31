@@ -151,7 +151,7 @@ void BossFd_SetCameraSpeed(BossFd* this, f32 speedMod) {
 }
 
 void BossFd_UpdateCamera(BossFd* this, GlobalContext* globalCtx) {
-    if (this->introCamera != 0) {
+    if (this->introCamera != SUBCAM_FREE) {
         Math_ApproachF(&this->camData.eye.x, this->camData.nextEye.x, this->camData.eyeMaxVel.x,
                        this->camData.eyeVel.x * this->camData.speedMod);
         Math_ApproachF(&this->camData.eye.y, this->camData.nextEye.y, this->camData.eyeMaxVel.y,
@@ -219,7 +219,7 @@ void BossFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f, 0, 0, 0,
-                           0xFFFF);
+                           -1);
         Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, 0.0f, 100.0f, 200.0f, 0, 0, 0, 0);
     } else {
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_BOSS_FD2, this->actor.world.pos.x,
@@ -249,11 +249,6 @@ void BossFd_SetupFly(BossFd* this, GlobalContext* globalCtx) {
     this->fwork[BFD_TURN_RATE_MAX] = 1000.0f;
 }
 
-#ifdef NON_MATCHING
-// Somehow doesn't use rodata value D_808D1EB4 = 0.1f. It would occur after the 85.56f float
-// literal in case 6 of the boss intro switch statement but before the next switch statement.
-// All instructions match.
-
 static Vec3f sHoleLocations[] = {
     { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
     { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
@@ -264,6 +259,11 @@ static Vec3f sCeilingTargets[] = {
     { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
     { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f },
 };
+
+#ifdef NON_MATCHING
+// Somehow doesn't use rodata value D_808D1EB4 = 0.1f. It would occur after the 85.56f float
+// literal in case 6 of the boss intro switch statement but before the next switch statement.
+// All instructions match.
 
 void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     u8 sp1CF = false;
@@ -308,7 +308,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
 
     if (this->introState != BFD_CS_NONE) {
         Player* player2 = PLAYER; // definitely needed for match
-        Camera* mainCam = Gameplay_GetCamera(globalCtx, 0);
+        Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
 
         switch (this->introState) {
             case BFD_CS_WAIT:
@@ -325,7 +325,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                     func_80064520(globalCtx, &globalCtx->csCtx);
                     func_8002DF54(globalCtx, &this->actor, 8);
                     this->introCamera = Gameplay_CreateSubCamera(globalCtx);
-                    Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
                     Gameplay_ChangeCameraStatus(globalCtx, this->introCamera, CAM_STAT_ACTIVE);
                     player2->actor.world.pos.x = 380.0f;
                     player2->actor.world.pos.y = 100.0f;
@@ -443,9 +443,9 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 if (this->timers[0] == 0) {
                     this->introState = BFD_CS_EMERGE;
                     this->camData.speedMod = 0.0f;
-                    this->camData.nextEye.x = ((player2->actor.world.pos.x + 100.0f) + 300.0f) - 600.0f;
-                    this->camData.nextEye.y = (player2->actor.world.pos.y + 100.0f) - 50.0f;
-                    this->camData.nextEye.z = (player2->actor.world.pos.z + 200.0f) - 150.0f;
+                    this->camData.nextEye.x = player2->actor.world.pos.x + 100.0f + 300.0f - 600.0f;
+                    this->camData.nextEye.y = player2->actor.world.pos.y + 100.0f - 50.0f;
+                    this->camData.nextEye.z = player2->actor.world.pos.z + 200.0f - 150.0f;
                     this->camData.nextAt.x = 0.0f;
                     this->camData.nextAt.y = 120.0f;
                     this->camData.nextAt.z = 0.0f;
@@ -573,7 +573,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                         this->holeIndex = temp_rand;
                     }
                     this->targetPosition.x = sHoleLocations[this->holeIndex].x;
-                    this->targetPosition.y = (sHoleLocations[this->holeIndex].y + 200.0f) + 50.0f;
+                    this->targetPosition.y = sHoleLocations[this->holeIndex].y + 200.0f + 50.0f;
                     this->targetPosition.z = sHoleLocations[this->holeIndex].z;
                     this->fwork[BFD_TURN_RATE] = 0.0f;
                     this->fwork[BFD_TURN_RATE_MAX] = 1000.0f;
@@ -711,6 +711,7 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
                 Math_ApproachF(&this->fwork[BFD_TARGET_Y_OFFSET], 50.0, 1.0f, 2.0f);
             }
             break;
+        case 199: // This makes up for the missing float in rodata so it doesn't shift the whole ROM
         case BOSSFD_DEATH_START:
             if (sqrtf(SQ(dx) + SQ(dz)) < 50.0f) {
                 this->timers[0] = 0;
@@ -1029,26 +1030,14 @@ void BossFd_Fly(BossFd* this, GlobalContext* globalCtx) {
     }
 }
 #else
+static Vec3f D_808D19E0 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_808D19EC = { 0.0f, 0.03f, 0.0f };
 
-Vec3f sHoleLocations[] = {
-    { 0.0f, 90.0f, -243.0f },    { 0.0f, 90.0f, 0.0f },    { 0.0f, 90.0f, 243.0f },
-    { -243.0f, 90.0f, -243.0f }, { -243.0f, 90.0f, 0.0f }, { -243.0f, 90.0f, 243.0f },
-    { 243.0f, 90.0f, -243.0f },  { 243.0f, 90.0f, 0.0f },  { 243.0f, 90.0f, 243.0f },
-};
+static Vec3f D_808D19F8 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_808D1A04 = { 0.0f, 0.0f, 0.0f };
 
-Vec3f sCeilingTargets[] = {
-    { 0.0f, 900.0f, -243.0f }, { 243.0, 900.0f, -100.0f },  { 243.0f, 900.0f, 100.0f },
-    { 0.0f, 900.0f, 243.0f },  { -243.0f, 900.0f, 100.0f }, { -243.0, 900.0f, -100.0f },
-};
-
-Vec3f D_808D19E0 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808D19EC = { 0.0f, 0.03f, 0.0f };
-
-Vec3f D_808D19F8 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808D1A04 = { 0.0f, 0.0f, 0.0f };
-
-Vec3f D_808D1A10 = { 0.0f, 0.0f, 0.0f };
-Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
+static Vec3f D_808D1A10 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Fd/BossFd_Fly.s")
 #endif
 

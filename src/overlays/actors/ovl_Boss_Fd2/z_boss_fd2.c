@@ -614,7 +614,7 @@ void BossFd2_SetupDeath(BossFd2* this, GlobalContext* globalCtx) {
 }
 
 void BossFd2_UpdateCamera(BossFd2* this, GlobalContext* globalCtx) {
-    if (this->deathCamera != 0) {
+    if (this->deathCamera != SUBCAM_FREE) {
         Math_ApproachF(&this->camData.eye.x, this->camData.nextEye.x, this->camData.eyeMaxVel.x,
                        this->camData.eyeVel.x * this->camData.speedMod);
         Math_ApproachF(&this->camData.eye.y, this->camData.nextEye.y, this->camData.eyeMaxVel.y,
@@ -639,7 +639,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
     Vec3f sp70;
     Vec3f sp64;
     BossFd* bossFd = (BossFd*)this->actor.parent;
-    Camera* mainCam = Gameplay_GetCamera(globalCtx, 0);
+    Camera* mainCam = Gameplay_GetCamera(globalCtx, MAIN_CAM);
     f32 pad3;
     f32 pad2;
     f32 pad1;
@@ -653,7 +653,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 1);
             this->deathCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
             Gameplay_ChangeCameraStatus(globalCtx, this->deathCamera, CAM_STAT_ACTIVE);
             this->camData.eye = mainCam->eye;
             this->camData.at = mainCam->at;
@@ -780,7 +780,7 @@ void BossFd2_Death(BossFd2* this, GlobalContext* globalCtx) {
                 func_80064534(globalCtx, &globalCtx->csCtx);
                 func_8002DF54(globalCtx, &this->actor, 7);
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, 0.0f, 100.0f, 0.0f,
-                                   0, 0, 0, 0xFFFF);
+                                   0, 0, 0, -1);
                 Flags_SetClear(globalCtx, globalCtx->roomCtx.curRoom.num);
             }
             break;
