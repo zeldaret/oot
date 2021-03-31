@@ -16,7 +16,7 @@ void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-s32 func_80B01F6C(EnSkjneedle* this);
+s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this);
 
 const ActorInit En_Skjneedle_InitVars = {
     ACTOR_EN_SKJNEEDLE,
@@ -38,7 +38,14 @@ static ColliderCylinderInitType1 sCylinderInit = {
         OC1_NONE,
         COLSHAPE_CYLINDER,
     },
-    { 0x00, { 0xFFCFFFFF, 0x00, 0x08 }, { 0xFFCFFFFF, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+    {
+        ELEMTYPE_UNK0,
+        { 0xFFCFFFFF, 0x00, 0x08 },
+        { 0xFFCFFFFF, 0x00, 0x00 },
+        TOUCH_ON | TOUCH_SFX_NORMAL,
+        BUMP_ON,
+        OCELEM_ON,
+    },
     { 10, 4, -2, { 0, 0, 0 } },
 };
 
@@ -64,7 +71,7 @@ void EnSkjneedle_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     Collider_DestroyCylinder(globalCtx, &this->collider);
 }
 
-s32 func_80B01F6C(EnSkjneedle* this) {
+s32 EnSkjNeedle_CollisionCheck(EnSkjneedle* this) {
     if (this->collider.base.atFlags & AT_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
         return 1;
@@ -76,11 +83,11 @@ void EnSkjneedle_Update(Actor* thisx, GlobalContext* globalCtx2) {
     EnSkjneedle* this = THIS;
     GlobalContext* globalCtx = globalCtx2;
 
-    this->unk_1E0++;
-    if (this->unk_1E2 != 0) {
-        this->unk_1E2--;
+    this->unusedTimer1++;
+    if (this->killTimer != 0) {
+        this->killTimer--;
     }
-    if (func_80B01F6C(this) || this->unk_1E2 == 0) {
+    if (EnSkjNeedle_CollisionCheck(this) || this->killTimer == 0) {
         Actor_Kill(&this->actor);
     } else {
         Actor_SetScale(&this->actor, 0.01f);

@@ -18,19 +18,23 @@ typedef struct EnSkj {
     /* 0x02C4 */ u16 textId;
     /* 0x02C6 */ s16 timer;
     /* 0x02C8 */ s16 unk_2C8;
-    /* 0x02CA */ s16 playbackTimer;
-    /* 0x02CC */ s16 unk_2CC;
-    /* 0x02CE */ s16 unk_2CE;
+    /*
+     * Sarias song skull kid as child always incriments
+     * Hostile skull kid as adult leaves the fight when it reaches zero
+     * Ocarina game fails the game when reaching zero
+     */
+    /* 0x02CA */ s16 multiuseTimer;
+    /* 0x02CC */ s16 needleShootTimer;
+    /* 0x02CE */ s16 dodgeResetTimer;
     /* 0x02D0 */ u8 animIndex;
     /* 0x02D1 */ u8 action;
-    /* 0x02D2 */ u8 unk_2D2;
-    /* 0x02D3 */ u8 unk_2D3;
-    /* 0x02D4 */ u8 unk_2D4;
-    /* 0x02D5 */ u8 unk_2D5;
+    /* 0x02D2 */ u8 backfilpFlag;
+    /* 0x02D3 */ u8 unk_2D3; // Is set to zero when walking to trade for skull mask and set to 1 when dying
+    /* 0x02D4 */ u8 needlesToShoot;
+    /* 0x02D5 */ u8 hitsUntilDodge; // Upon reaching zero will always backflip to avoid stun lock
     /* 0x02D6 */ u8 unk_2D6;
-    /* 0x02D0 */ u8 unk_2D7;
-    /* 0x02D8 */ u8 unk_2D8;
-    /* 0x02D9 */ char unk_2D9[0x3];
+    /* 0x02D0 */ u8 playerInRange;
+    /* 0x02D8 */ u8 minigameState; // Upon reaching zero stops and does another action
     /* 0x02DC */ u32 alpha;
     /* 0x02E0 */ Vec3f center;
     /* 0x02EC */ f32 unk_2EC;
@@ -53,7 +57,7 @@ typedef enum {
 
 typedef enum {
     /* 0 */ SKULL_KID_LEFT,
-    /* 1 */ SKULL_KID_RIGHT,
+    /* 1 */ SKULL_KID_RIGHT
 } SkullKidStumpSide;
 
 typedef enum {
@@ -69,7 +73,11 @@ typedef enum {
     /* 3 */ SKJ_ACTON_WAIT_FOR_DEATH_ANIM,
     /* 4 */ SKJ_ACTION_PICK_NEXT_FIHGT_ACTION,
     /* 5 */ SKJ_ACTON_WAIT_FOR_LAND_ANIM,
-    /* 10 */ SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE = 10,
+    /* 6 */ SKJ_ACTON_RESET_FIGHT,
+    /* 7 */ SKJ_ACTON_FIGHT,
+    /* 8 */ SKJ_ACTON_NEEDLE_RECOVER,
+    /* 9 */ SKJ_ACTON_SPAWN_DEATH_EFFECT,
+    /* 10 */ SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE,
     /* 11 */ SKJ_ACTION_SARIA_SONG_WAIT_FOR_SONG,
     /* 12 */ SKJ_ACTION_SARIA_SONG_AFTER_SONG,
     /* 13 */ SKJ_ACTION_SARIA_TALK,
@@ -83,6 +91,10 @@ typedef enum {
     /* 22 */ SKJ_ACTION_SARIA_SONG_WAIT_MASK_TEXT,
     /* 23 */ SKJ_ACTION_SARIA_SONG_WRONG_SONG,
     /* 24 */ SKJ_ACTION_SARIA_SONG_WAIT_FOR_TEXT,
+    /* 25 */ SKJ_ACTION_OCARINA_GAME_WAIT_FOR_PLAYER,
+    /* 26 */ SKJ_ACTION_OCARINA_GAME_IDLE,
+    /* 27 */ SKJ_ACTION_OCARINA_GAME_PLAY,
+    /* 28 */ SKJ_ACTION_OCARINA_GAME_LEAVE
 } SkullKidActions;
 
 extern const ActorInit En_Skj_InitVars;

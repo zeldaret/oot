@@ -198,14 +198,14 @@ glabel EnSkj_Init
 /* 00464 80AFE714 AC50FFFC */  sw      $s0, -0x0004($v0)          ## FFFFFFFC
 /* 00468 80AFE718 A20002D8 */  sb      $zero, 0x02D8($s0)         ## 000002D8
 /* 0046C 80AFE71C AE0002DC */  sw      $zero, 0x02DC($s0)         ## 000002DC
-/* 00470 80AFE720 0C2C0145 */  jal     func_80B00514
+/* 00470 80AFE720 0C2C0145 */  jal     EnSkj_OcarinaGameSetupWaitForPlayer
 /* 00474 80AFE724 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 00478 80AFE728 10000005 */  beq     $zero, $zero, .L80AFE740
 /* 0047C 80AFE72C 00000000 */  nop
 .L80AFE730:
 /* 00480 80AFE730 240E00FF */  addiu   $t6, $zero, 0x00FF         ## $t6 = 000000FF
 /* 00484 80AFE734 AE0E02DC */  sw      $t6, 0x02DC($s0)           ## 000002DC
-/* 00488 80AFE738 0C2BFC0E */  jal     func_80AFF038
+/* 00488 80AFE738 0C2BFC0E */  jal     EnSkj_SetupResetFight
 /* 0048C 80AFE73C 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 .L80AFE740:
 /* 00490 80AFE740 3C0F80B0 */  lui     $t7, %hi(sDamageTable)       ## $t7 = 80B00000

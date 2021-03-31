@@ -28,7 +28,7 @@ typedef struct EnSkj {
     /* 0x02D4 */ u8 unk_2D4;
     /* 0x02D5 */ u8 unk_2D5;
     /* 0x02D6 */ u8 unk_2D6;
-    /* 0x02D0 */ u8 unk_2D7;
+    /* 0x02D0 */ u8 playerInRange;
     /* 0x02D8 */ u8 unk_2D8;
     /* 0x02D9 */ char unk_2D9[0x3];
     /* 0x02DC */ u32 alpha;
