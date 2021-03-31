@@ -191,31 +191,33 @@ static Vec3f sHandOffset[2];
 static s16 sHandYawOffset[2];
 
 static s16 sCutsceneCamera;
-static Vec3f sCameraAt = { 0.0f, 0.0f, 0.0f };
-static Vec3f sCameraEye = { 100.0f, 100.0f, 0.0f };
+static Vec3f sCameraAt = { BONGO_BOSSROOM_CENTER_X + 50.0f, BONGO_BOSSROOM_CENTER_Y + 0.0f,
+                           BONGO_BOSSROOM_CENTER_Z + 0.0f };
+static Vec3f sCameraEye = { BONGO_BOSSROOM_CENTER_X + 150.0f, BONGO_BOSSROOM_CENTER_Y + 100.0f,
+                            BONGO_BOSSROOM_CENTER_Z + 0.0f };
 static Vec3f sCameraAtVel = { 0.0f, 0.0f, 0.0f };
 static Vec3f sCameraEyeVel = { 0.0f, 0.0f, 0.0f };
 
 static Vec3f sCameraAtPoints[] = {
-    { BONGO_BOSSROOM_CENTER_X + -50.0f, BONGO_BOSSROOM_CENTER_Y + 300.0f, BONGO_BOSSROOM_CENTER_Z + 0.0f },
+    { BONGO_BOSSROOM_CENTER_X - 50.0f, BONGO_BOSSROOM_CENTER_Y + 300.0f, BONGO_BOSSROOM_CENTER_Z + 0.0f },
     { BONGO_BOSSROOM_CENTER_X + 150.0f, BONGO_BOSSROOM_CENTER_Y + 300.0f, BONGO_BOSSROOM_CENTER_Z + 100.0f },
     { BONGO_BOSSROOM_CENTER_X + 0.0f, BONGO_BOSSROOM_CENTER_Y + 600.0f, BONGO_BOSSROOM_CENTER_Z + 100.0f },
     { BONGO_BOSSROOM_CENTER_X + 50.0f, BONGO_BOSSROOM_CENTER_Y + 400.0f, BONGO_BOSSROOM_CENTER_Z + 200.0f },
     { BONGO_BOSSROOM_CENTER_X + 50.0f, BONGO_BOSSROOM_CENTER_Y + 200.0f, BONGO_BOSSROOM_CENTER_Z + 200.0f },
-    { BONGO_BOSSROOM_CENTER_X + -50.0f, BONGO_BOSSROOM_CENTER_Y + 0.0f, BONGO_BOSSROOM_CENTER_Z + 200.0f },
-    { BONGO_BOSSROOM_CENTER_X + -150.0f, BONGO_BOSSROOM_CENTER_Y + 0.0f, BONGO_BOSSROOM_CENTER_Z + 100.0f },
-    { BONGO_BOSSROOM_CENTER_X + -60.0f, BONGO_BOSSROOM_CENTER_Y + 180.0f, BONGO_BOSSROOM_CENTER_Z + 730.0f },
+    { BONGO_BOSSROOM_CENTER_X - 50.0f, BONGO_BOSSROOM_CENTER_Y + 0.0f, BONGO_BOSSROOM_CENTER_Z + 200.0f },
+    { BONGO_BOSSROOM_CENTER_X - 150.0f, BONGO_BOSSROOM_CENTER_Y + 0.0f, BONGO_BOSSROOM_CENTER_Z + 100.0f },
+    { BONGO_BOSSROOM_CENTER_X - 60.0f, BONGO_BOSSROOM_CENTER_Y + 180.0f, BONGO_BOSSROOM_CENTER_Z + 730.0f },
 };
 
 static Vec3f sCameraEyePoints[] = {
     { BONGO_BOSSROOM_CENTER_X + 250.0f, BONGO_BOSSROOM_CENTER_Y + 800.0f, BONGO_BOSSROOM_CENTER_Z + 800.0f },
-    { BONGO_BOSSROOM_CENTER_X + -150.0f, BONGO_BOSSROOM_CENTER_Y + 700.0f, BONGO_BOSSROOM_CENTER_Z + 1400.0f },
+    { BONGO_BOSSROOM_CENTER_X - 150.0f, BONGO_BOSSROOM_CENTER_Y + 700.0f, BONGO_BOSSROOM_CENTER_Z + 1400.0f },
     { BONGO_BOSSROOM_CENTER_X + 250.0f, BONGO_BOSSROOM_CENTER_Y + 100.0f, BONGO_BOSSROOM_CENTER_Z + 750.0f },
     { BONGO_BOSSROOM_CENTER_X + 50.0f, BONGO_BOSSROOM_CENTER_Y + 200.0f, BONGO_BOSSROOM_CENTER_Z + 900.0f },
     { BONGO_BOSSROOM_CENTER_X + 50.0f, BONGO_BOSSROOM_CENTER_Y + 200.0f, BONGO_BOSSROOM_CENTER_Z + 900.0f },
     { BONGO_BOSSROOM_CENTER_X + 350.0f, BONGO_BOSSROOM_CENTER_Y + 400.0f, BONGO_BOSSROOM_CENTER_Z + 1200.0f },
-    { BONGO_BOSSROOM_CENTER_X + -50.0f, BONGO_BOSSROOM_CENTER_Y + 200.0f, BONGO_BOSSROOM_CENTER_Z + 800.0f },
-    { BONGO_BOSSROOM_CENTER_X + -50.0f, BONGO_BOSSROOM_CENTER_Y + 200.0f, BONGO_BOSSROOM_CENTER_Z + 800.0f },
+    { BONGO_BOSSROOM_CENTER_X - 50.0f, BONGO_BOSSROOM_CENTER_Y + 200.0f, BONGO_BOSSROOM_CENTER_Z + 800.0f },
+    { BONGO_BOSSROOM_CENTER_X - 50.0f, BONGO_BOSSROOM_CENTER_Y + 200.0f, BONGO_BOSSROOM_CENTER_Z + 800.0f },
 };
 
 static Vec3f sZeroVec = { 0.0f, 0.0f, 0.0f };
@@ -242,7 +244,6 @@ const ActorInit Boss_Sst_InitVars = {
 
 #include "z_boss_sst_colchk.c"
 
-// Hand animations
 static AnimationHeader* sHandIdleAnims[] = { &gBongoLeftHandIdleAnim, &gBongoRightHandIdleAnim };
 static AnimationHeader* sHandFlatPoses[] = { &gBongoLeftHandFlatPoseAnim, &gBongoRightHandFlatPoseAnim };
 static AnimationHeader* sHandOpenPoses[] = { &gBongoLeftHandOpenPoseAnim, &gBongoRightHandOpenPoseAnim };
@@ -278,14 +279,14 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
         sHead = this;
         this->actor.world.pos.x = BONGO_BOSSROOM_CENTER_X + 50.0f;
         this->actor.world.pos.y = BONGO_BOSSROOM_CENTER_Y + 0.0f;
-        this->actor.world.pos.z = BONGO_BOSSROOM_CENTER_Z + (-650.0f);
+        this->actor.world.pos.z = BONGO_BOSSROOM_CENTER_Z - 650.0f;
         this->actor.home.pos = this->actor.world.pos;
         this->actor.shape.rot.y = 0;
         if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DOOR_WARP1, BONGO_BOSSROOM_CENTER_X,
                         BONGO_BOSSROOM_CENTER_Y, BONGO_BOSSROOM_CENTER_Z + 400.0f, 0, 0, 0, -1);
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_ITEM_B_HEART, BONGO_BOSSROOM_CENTER_X,
-                        BONGO_BOSSROOM_CENTER_Y, BONGO_BOSSROOM_CENTER_Z + (-200.0f), 0, 0, 0, 0);
+                        BONGO_BOSSROOM_CENTER_Y, BONGO_BOSSROOM_CENTER_Z - 200.0f, 0, 0, 0, 0);
             Actor_Kill(&this->actor);
         } else {
             sHand[LEFT] =
@@ -293,7 +294,7 @@ void BossSst_Init(Actor* thisx, GlobalContext* globalCtx2) {
                                       this->actor.world.pos.y, this->actor.world.pos.z + 400.0f, 0,
                                       this->actor.shape.rot.y, 0, BONGO_LEFT_HAND);
             sHand[RIGHT] = (BossSst*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_BOSS_SST,
-                                                 this->actor.world.pos.x + -200.0f, this->actor.world.pos.y,
+                                                 this->actor.world.pos.x + (-200.0f), this->actor.world.pos.y,
                                                  this->actor.world.pos.z + 400.0f, 0, this->actor.shape.rot.y, 0,
                                                  BONGO_RIGHT_HAND);
             sHand[LEFT]->actor.child = &sHand[RIGHT]->actor;
@@ -374,7 +375,7 @@ void BossSst_HeadSetupIntro(BossSst* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, sCutsceneCamera, CAM_STAT_ACTIVE);
     Math_Vec3f_Copy(&sCameraAt, &player->actor.world.pos);
     if (gSaveContext.eventChkInf[7] & 0x80) {
-        sCameraEye.z = BONGO_BOSSROOM_CENTER_Z + (-100.0f);
+        sCameraEye.z = BONGO_BOSSROOM_CENTER_Z - 100.0f;
     }
 
     Gameplay_CameraSetAtEye(globalCtx, sCutsceneCamera, &sCameraAt, &sCameraEye);
@@ -1203,9 +1204,9 @@ void BossSst_HeadFinish(BossSst* this, GlobalContext* globalCtx) {
     colorDarkIndigo.a = this->effects[0].alpha;
 
     for (i = 0; i < 5; i++) {
-        spawnPos.x = Rand_CenteredFloat(800.0f) + sRoomCenter.x;
-        spawnPos.y = (Rand_ZeroOne() * 5.0f) + (sRoomCenter.y + -28.0f);
-        spawnPos.z = Rand_CenteredFloat(800.0f) + sRoomCenter.z;
+        spawnPos.x = sRoomCenter.x + 0.0f + Rand_CenteredFloat(800.0f);
+        spawnPos.y = sRoomCenter.y + (-28.0f) + (Rand_ZeroOne() * 5.0f);
+        spawnPos.z = sRoomCenter.z + 0.0f + Rand_CenteredFloat(800.0f);
         EffectSsGSplash_Spawn(globalCtx, &spawnPos, &colorIndigo, &colorDarkIndigo, 0, 0x3E8);
     }
 }
@@ -2899,9 +2900,9 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 18, 255);
 
         yOffset = 113 * 8 - this->timer * 8;
-        vanishMaskPos.x = 35.0f;
-        vanishMaskPos.y = yOffset + -250.0f;
-        vanishMaskPos.z = 190.0f;
+        vanishMaskPos.x = BONGO_BOSSROOM_CENTER_X + 85.0f;
+        vanishMaskPos.y = BONGO_BOSSROOM_CENTER_Y - 250.0f + yOffset;
+        vanishMaskPos.z = BONGO_BOSSROOM_CENTER_Z + 190.0f;
         if (vanishMaskPos.y > 450.0f) {
             vanishMaskPos.y = 450.0f;
         }
