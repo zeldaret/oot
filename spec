@@ -5032,7 +5032,6 @@ endseg
 beginseg
     name "object_skj"
     romalign 0x1000
-    //include "build/baserom/object_skj.o"
     include "build/assets/objects/object_skj/object_skj.o"
     number 6
 endseg
