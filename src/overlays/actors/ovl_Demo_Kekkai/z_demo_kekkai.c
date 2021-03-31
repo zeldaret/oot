@@ -158,7 +158,7 @@ void DemoKekkai_SpawnParticles(DemoKekkai* this, GlobalContext* globalCtx) {
 }
 
 void DemoKekkai_TowerBarrier(DemoKekkai* this, GlobalContext* globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL) &&
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[0] != NULL) &&
         (globalCtx->csCtx.npcActions[0]->action != 1) && (globalCtx->csCtx.npcActions[0]->action == 2)) {
         if (!(this->sfxFlag & 1)) {
             func_800F3F3C(0xC);

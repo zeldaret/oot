@@ -88,9 +88,9 @@ void BgMizuShutter_Destroy(BgMizuShutter* thisx, GlobalContext* globalCtx) {
 void BgMizuShutter_WaitForSwitch(BgMizuShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, (u16)this->dyna.actor.params & 0x3F)) {
         if (ABS(this->dyna.actor.world.rot.x) > 0x2C60) {
-            func_800800F8(globalCtx, 0x119E, -0x63, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 4510, -99, &this->dyna.actor, MAIN_CAM);
         } else {
-            func_80080480(globalCtx, &this->dyna.actor);
+            OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         }
         this->actionFunc = BgMizuShutter_WaitForCutscene;
         this->timer = 30;

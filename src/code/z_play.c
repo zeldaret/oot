@@ -219,12 +219,12 @@ void Gameplay_Init(GameState* thisx) {
 
     for (i = 0; i < 3; i++) {
         Camera_Init(&globalCtx->subCameras[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
-        Camera_ChangeStatus(&globalCtx->subCameras[i], 0x100);
+        Camera_ChangeStatus(&globalCtx->subCameras[i], CAM_STAT_UNK100);
     }
 
-    globalCtx->cameraPtrs[0] = &globalCtx->mainCamera;
-    globalCtx->cameraPtrs[0]->uid = 0;
-    globalCtx->activeCamera = 0;
+    globalCtx->cameraPtrs[MAIN_CAM] = &globalCtx->mainCamera;
+    globalCtx->cameraPtrs[MAIN_CAM]->uid = 0;
+    globalCtx->activeCamera = MAIN_CAM;
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
@@ -428,7 +428,7 @@ void Gameplay_Update(GlobalContext* globalCtx) {
         for (i = 0; i < gObjectTableSize; i++) {
             s32 size = gObjectTable[i].vromEnd - gObjectTable[i].vromStart;
             osSyncPrintf("%08x-%08x %08x(%8.3fKB)\n", gObjectTable[i].vromStart, gObjectTable[i].vromEnd, size,
-                         size * 0.0009765625f);
+                         size / 1024.0f);
         }
         osSyncPrintf("\n");
     }
@@ -997,7 +997,7 @@ skip:
         LOG_NUM("1", 1, "../z_play.c", 3801);
     }
 
-    if ((sp80 == 0) || (gDbgCamEnabled != 0)) {
+    if ((sp80 == 0) || (gDbgCamEnabled)) {
         s32 pad3[5];
         s32 i;
 
@@ -1007,7 +1007,7 @@ skip:
             LOG_NUM("1", 1, "../z_play.c", 3806);
         }
 
-        for (i = 0; i < 4; i++) {
+        for (i = 0; i < NUM_CAMS; i++) {
             if ((i != globalCtx->nextCamera) && (globalCtx->cameraPtrs[i] != NULL)) {
                 if (1 && HREG(63)) {
                     LOG_NUM("1", 1, "../z_play.c", 3809);
@@ -1104,6 +1104,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
         if ((HREG(80) != 10) || (HREG(92) != 0)) {
             Gfx* gfxP;
             Gfx* sp1CC = POLY_OPA_DISP;
+
             gfxP = Graph_GfxPlusOne(sp1CC);
             gSPDisplayList(OVERLAY_DISP++, gfxP);
 
@@ -1134,6 +1135,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
         if (gTrnsnUnkState == 3) {
             Gfx* sp88 = POLY_OPA_DISP;
+
             TransitionUnk_Draw(&sTrnsnUnk, &sp88);
             POLY_OPA_DISP = sp88;
             goto Gameplay_Draw_DrawOverlayElements;
@@ -1151,23 +1153,23 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
 
             if (R_PAUSE_MENU_MODE == 3) {
                 Gfx* sp84 = POLY_OPA_DISP;
+
                 func_800C24BC(&globalCtx->preRenderCtx, &sp84);
                 POLY_OPA_DISP = sp84;
                 goto Gameplay_Draw_DrawOverlayElements;
             } else {
                 s32 sp80;
+
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if (globalCtx->skyboxId) {
-                        if ((globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
-                            if ((globalCtx->skyboxId == 1) || (globalCtx->skyboxId == 5)) {
-                                func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
-                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
-                                                globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
-                                                globalCtx->view.eye.z);
-                            } else if (globalCtx->skyboxCtx.unk_140 == 0) {
-                                SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
-                                                globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
-                            }
+                    if (globalCtx->skyboxId && (globalCtx->skyboxId != 0x1D) && !globalCtx->envCtx.skyDisabled) {
+                        if ((globalCtx->skyboxId == 1) || (globalCtx->skyboxId == 5)) {
+                            func_8006FC88(globalCtx->skyboxId, &globalCtx->envCtx, &globalCtx->skyboxCtx);
+                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId,
+                                            globalCtx->envCtx.unk_13, globalCtx->view.eye.x, globalCtx->view.eye.y,
+                                            globalCtx->view.eye.z);
+                        } else if (globalCtx->skyboxCtx.unk_140 == 0) {
+                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
+                                            globalCtx->view.eye.x, globalCtx->view.eye.y, globalCtx->view.eye.z);
                         }
                     }
                 }
@@ -1207,14 +1209,13 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 }
 
                 if ((HREG(80) != 10) || (HREG(83) != 0)) {
-                    if (globalCtx->skyboxCtx.unk_140 != 0) {
-                        if (ACTIVE_CAM->setting != 0x19) {
-                            Vec3f sp74;
-                            Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
-                            SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
-                                            globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
-                                            globalCtx->view.eye.z + sp74.z);
-                        }
+                    if ((globalCtx->skyboxCtx.unk_140 != 0) && (ACTIVE_CAM->setting != CAM_SET_PREREND0)) {
+                        Vec3f sp74;
+
+                        Camera_GetSkyboxOffset(&sp74, ACTIVE_CAM);
+                        SkyboxDraw_Draw(&globalCtx->skyboxCtx, gfxCtx, globalCtx->skyboxId, 0,
+                                        globalCtx->view.eye.x + sp74.x, globalCtx->view.eye.y + sp74.y,
+                                        globalCtx->view.eye.z + sp74.z);
                     }
                 }
 
@@ -1268,6 +1269,7 @@ void Gameplay_Draw(GlobalContext* globalCtx) {
                 if ((R_PAUSE_MENU_MODE == 1) || (gTrnsnUnkState == 1)) {
                     Gfx* sp70 = OVERLAY_DISP;
                     s32 pad[4];
+
                     globalCtx->preRenderCtx.fbuf = gfxCtx->curFrameBuffer;
                     globalCtx->preRenderCtx.fbufSave = (u16*)gZBuffer;
                     func_800C1F20(&globalCtx->preRenderCtx, &sp70);
@@ -1351,7 +1353,7 @@ void Gameplay_Main(GameState* thisx) {
 
 // original name: "Game_play_demo_mode_check"
 s32 Gameplay_InCsMode(GlobalContext* globalCtx) {
-    return (globalCtx->csCtx.state != 0) || Player_InCsMode(globalCtx);
+    return (globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx);
 }
 
 f32 func_800BFCB8(GlobalContext* globalCtx, MtxF* mf, Vec3f* vec) {
@@ -1463,7 +1465,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
     globalCtx->sceneNum = sceneNum;
     globalCtx->sceneConfig = scene->config;
 
-    osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) * 0.0009765625f);
+    osSyncPrintf("\nSCENE SIZE %fK\n", (scene->sceneFile.vromEnd - scene->sceneFile.vromStart) / 1024.0f);
 
     globalCtx->sceneSegment = Gameplay_LoadFile(globalCtx, &scene->sceneFile);
     scene->unk_13 = 0;
@@ -1474,7 +1476,7 @@ void Gameplay_SpawnScene(GlobalContext* globalCtx, s32 sceneNum, s32 spawn) {
 
     Gameplay_InitScene(globalCtx, spawn);
 
-    osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(globalCtx, &globalCtx->roomCtx) * 0.0009765625f);
+    osSyncPrintf("ROOM SIZE=%fK\n", func_80096FE8(globalCtx, &globalCtx->roomCtx) / 1024.0f);
 }
 
 void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
@@ -1493,22 +1495,22 @@ void func_800C016C(GlobalContext* globalCtx, Vec3f* src, Vec3f* dest) {
 s16 Gameplay_CreateSubCamera(GlobalContext* globalCtx) {
     s16 i;
 
-    for (i = 1; i < 4; i++) {
+    for (i = SUBCAM_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] == NULL) {
             break;
         }
     }
 
-    if (i == 4) {
+    if (i == NUM_CAMS) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: fulled sub camera system area\n" VT_RST);
-        return -1;
+        return SUBCAM_NONE;
     }
 
     osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " create new sub camera [%d] " VT_BGCOL(
                      CYAN) " " VT_RST "\n",
                  i);
 
-    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - 1];
+    globalCtx->cameraPtrs[i] = &globalCtx->subCameras[i - SUBCAM_FIRST];
     Camera_Init(globalCtx->cameraPtrs[i], &globalCtx->view, &globalCtx->colCtx, globalCtx);
     globalCtx->cameraPtrs[i]->thisIdx = i;
 
@@ -1520,9 +1522,9 @@ s16 Gameplay_GetActiveCamId(GlobalContext* globalCtx) {
 }
 
 s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status) {
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
 
-    if (status == 7) {
+    if (status == CAM_STAT_ACTIVE) {
         globalCtx->activeCamera = camIdx;
     }
 
@@ -1530,14 +1532,14 @@ s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status)
 }
 
 void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
 
-    if (camIdx == 0) {
+    if (camIdx == MAIN_CAM) {
         osSyncPrintf(VT_COL(RED, WHITE) "camera control: error: never clear camera !!\n" VT_RST);
     }
 
     if (globalCtx->cameraPtrs[camIdx] != NULL) {
-        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], 0x100);
+        Camera_ChangeStatus(globalCtx->cameraPtrs[camIdx], CAM_STAT_UNK100);
         globalCtx->cameraPtrs[camIdx] = NULL;
         osSyncPrintf("camera control: " VT_BGCOL(CYAN) " " VT_COL(WHITE, BLUE) " clear sub camera [%d] " VT_BGCOL(
                          CYAN) " " VT_RST "\n",
@@ -1550,24 +1552,24 @@ void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId) {
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx) {
     s16 i;
 
-    for (i = 1; i < 4; i++) {
+    for (i = SUBCAM_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] != NULL) {
             Gameplay_ClearCamera(globalCtx, i);
         }
     }
 
-    globalCtx->activeCamera = 0;
+    globalCtx->activeCamera = MAIN_CAM;
 }
 
 Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId) {
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
 
     return globalCtx->cameraPtrs[camIdx];
 }
 
 s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye) {
     s32 ret = 0;
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
@@ -1593,7 +1595,7 @@ s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3
 
 s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up) {
     s32 ret = 0;
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     Player* player;
 
@@ -1626,25 +1628,24 @@ s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov) {
 }
 
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll) {
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
-    Camera* camera;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
+    Camera* camera = globalCtx->cameraPtrs[camIdx];
 
-    camera = globalCtx->cameraPtrs[camIdx];
     camera->roll = roll;
 
     return 1;
 }
 
 void Gameplay_CopyCamera(GlobalContext* globalCtx, s16 camId1, s16 camId2) {
-    s16 camIdx2 = (camId2 == -1) ? globalCtx->activeCamera : camId2;
-    s16 camIdx1 = (camId1 == -1) ? globalCtx->activeCamera : camId1;
+    s16 camIdx2 = (camId2 == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId2;
+    s16 camIdx1 = (camId1 == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId1;
 
     Camera_Copy(globalCtx->cameraPtrs[camIdx1], globalCtx->cameraPtrs[camIdx2]);
 }
 
 s32 func_800C0808(GlobalContext* globalCtx, s16 camId, Player* player, s16 setting) {
     Camera* camera;
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
 
     camera = globalCtx->cameraPtrs[camIdx];
     Camera_InitPlayerSettings(camera, player);
@@ -1656,12 +1657,12 @@ s32 Gameplay_CameraChangeSetting(GlobalContext* globalCtx, s16 camId, s16 settin
 }
 
 void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
-    s16 camIdx = (camId == -1) ? globalCtx->activeCamera : camId;
+    s16 camIdx = (camId == SUBCAM_ACTIVE) ? globalCtx->activeCamera : camId;
     s16 i;
 
     Gameplay_ClearCamera(globalCtx, camIdx);
 
-    for (i = 1; i < 4; i++) {
+    for (i = SUBCAM_FIRST; i < NUM_CAMS; i++) {
         if (globalCtx->cameraPtrs[i] != NULL) {
             osSyncPrintf(
                 VT_COL(RED, WHITE) "camera control: error: return to main, other camera left. %d cleared!!\n" VT_RST,
@@ -1671,10 +1672,10 @@ void func_800C08AC(GlobalContext* globalCtx, s16 camId, s16 arg2) {
     }
 
     if (arg2 <= 0) {
-        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
-        globalCtx->cameraPtrs[0]->childCamIdx = globalCtx->cameraPtrs[0]->parentCamIdx = 0;
+        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
+        globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx = globalCtx->cameraPtrs[MAIN_CAM]->parentCamIdx = SUBCAM_FREE;
     } else {
-        func_800800F8(globalCtx, 1020, arg2, NULL, 0);
+        OnePointCutscene_Init(globalCtx, 1020, arg2, NULL, MAIN_CAM);
     }
 }
 
@@ -1695,7 +1696,7 @@ s16 func_800C09D8(GlobalContext* globalCtx, s16 camId, s16 arg2) {
         return 0;
     } else if (camera->uid != arg2) {
         return 0;
-    } else if (camera->status != 7) {
+    } else if (camera->status != CAM_STAT_ACTIVE) {
         return 2;
     } else {
         return 1;

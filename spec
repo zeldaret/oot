@@ -326,7 +326,6 @@ beginseg
     include "build/src/code/z_msgevent.o"
     include "build/src/code/z_olib.o"
     include "build/src/code/z_onepointdemo.o"
-    include "build/data/z_onepointdemo.data.o"
     include "build/src/code/z_map_exp.o"
     include "build/src/code/z_map_data.o"
     include "build/src/code/z_parameter.o"

@@ -194,9 +194,9 @@ void BgJya1flift_Update(Actor* thisx, GlobalContext* globalCtx) {
         tempIsRiding = func_8004356C(&this->dyna) ? true : false;
         if ((this->actionFunc == BgJya1flift_Move) || (this->actionFunc == BgJya1flift_DelayMove)) {
             if (tempIsRiding) {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_HIDAN1);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_HIDAN1);
             } else if (!tempIsRiding && this->isLinkRiding) {
-                Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON0);
+                Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON0);
             }
         }
         this->isLinkRiding = tempIsRiding;
