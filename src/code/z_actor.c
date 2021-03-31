@@ -42,7 +42,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
             Matrix_Put(&sp60);
 
             if (dlist != gCircleShadowDL) {
-                Matrix_RotateY(actor->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
+                Matrix_RotateY(actor->shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
             }
 
             temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
@@ -407,7 +407,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y) + 17.0f,
                          actor->focus.pos.z, MTXMODE_NEW);
-        Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
@@ -1898,7 +1898,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             spD4 = spCC * 0.200000000000000011102230246252 + 1.0f;
         }
 
-        if ((globalCtx->csCtx.state == 0) &&
+        if ((globalCtx->csCtx.state == CS_STATE_IDLE) &&
             (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.entranceIndex) &&
             (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
             POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
@@ -2430,7 +2430,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
         if (globalCtx->actorCtx.unk_03 != 0) {
             func_8003115C(globalCtx, invisibleActorCounter, invisibleActors);
-            if ((globalCtx->csCtx.state != 0) || Player_InCsMode(globalCtx)) {
+            if ((globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx)) {
                 func_800304B0(globalCtx);
             }
         }
@@ -3842,7 +3842,7 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     Player* player = PLAYER;
     f32 var;
 
-    if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) {
         var = Math_Vec3f_DistXYZ(&actor->world.pos, &globalCtx->view.eye) * 0.25f;
     } else {
         var = Math_Vec3f_DistXYZ(&actor->world.pos, &player->actor.world.pos);
@@ -5488,7 +5488,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->focus.pos = actor->world.pos;
     actor->focus.pos.y += arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsPlayer - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5497,7 +5497,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp2C = globalCtx->view.eye;
     } else {
         sp2C = player->actor.focus.pos;
@@ -5517,7 +5517,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     actor->focus.pos = arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsPlayer - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5526,7 +5526,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp24 = globalCtx->view.eye;
     } else {
         sp24 = player->actor.focus.pos;

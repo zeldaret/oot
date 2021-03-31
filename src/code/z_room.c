@@ -332,7 +332,7 @@ void func_80096680(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 628);
 
     camera = ACTIVE_CAM;
-    sp9C = (camera->setting == 25);
+    sp9C = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     sp98 = (flags & 1) && sp9C && polygon1->single.source && !(SREG(25) & 1);
@@ -427,7 +427,7 @@ void func_80096B6C(GlobalContext* globalCtx, Room* room, u32 flags) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_room.c", 752);
 
     camera = ACTIVE_CAM;
-    sp98 = (camera->setting == 25);
+    sp98 = (camera->setting == CAM_SET_PREREND0);
     polygon1 = &room->mesh->polygon1;
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon1->dlist);
     bgImage = func_80096A74(polygon1, globalCtx);
@@ -533,7 +533,7 @@ u32 func_80096FE8(GlobalContext* globalCtx, RoomContext* roomCtx) {
 
     osSyncPrintf(VT_FGCOL(YELLOW));
     // Translates to: "ROOM BUFFER SIZE=%08x(%5.1fK)"
-    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize * 0.0009765625f);
+    osSyncPrintf("部屋バッファサイズ=%08x(%5.1fK)\n", maxRoomSize, maxRoomSize / 1024.0f);
     roomCtx->bufPtrs[0] = GameState_Alloc(&globalCtx->state, maxRoomSize, "../z_room.c", 946);
     // Translates to: "ROOM BUFFER INITIAL POINTER=%08x"
     osSyncPrintf("部屋バッファ開始ポインタ=%08x\n", roomCtx->bufPtrs[0]);

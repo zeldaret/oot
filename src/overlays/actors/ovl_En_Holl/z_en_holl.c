@@ -180,7 +180,7 @@ void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
     f32 planeHalfWidth;
     s32 pad2;
     Player* player = PLAYER;
-    s32 useViewEye = gDbgCamEnabled != 0 || globalCtx->csCtx.state != 0;
+    s32 useViewEye = gDbgCamEnabled || globalCtx->csCtx.state != CS_STATE_IDLE;
     s32 transitionActorIdx;
     f32 absZ;
     s32 side;
