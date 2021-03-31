@@ -790,11 +790,11 @@ EntranceInfo gEntranceTable[] = {
 #define TITLED_SCENE(name, title, unk_10, config, unk_12)                                            \
     {                                                                                                \
         (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, (u32)_##title##SegmentRomStart, \
-            (u32)_##title##SegmentRomEnd, unk_10, config, unk_12                                     \
+            (u32)_##title##SegmentRomEnd, unk_10, config, unk_12, 0                                  \
     }
 
 #define UNTITLED_SCENE(name, unk_10, config, unk_12) \
-    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, 0, 0, unk_10, config, unk_12 }
+    { (u32) _##name##SegmentRomStart, (u32)_##name##SegmentRomEnd, 0, 0, unk_10, config, unk_12, 0 }
 
 Scene gSceneTable[] = {
     TITLED_SCENE(ydan_scene, g_pn_06, 1, 19, 2),
@@ -926,7 +926,7 @@ Gfx sDefaultDisplayList[] = {
 void func_800994A0(GlobalContext* globalCtx) {
     s16 computedEntranceIndex;
 
-    if (gSaveContext.nightFlag) {
+    if (gSaveContext.nightFlag != 0) {
         if (LINK_IS_CHILD) {
             computedEntranceIndex = globalCtx->nextEntranceIndex + 1;
         } else {
@@ -957,9 +957,7 @@ u32 D_8012A2F8[] = { 0x0200BA18, 0x0200CA18 };
 
 // Scene Draw Config 19
 void func_800995DC(GlobalContext* globalCtx) {
-    u32 gameplayFrames;
-
-    gameplayFrames = globalCtx->gameplayFrames;
+    u32 gameplayFrames = globalCtx->gameplayFrames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4763);
 
@@ -1001,9 +999,7 @@ u32 D_8012A308[] = { 0x02011F78, 0x02014778, 0x02014378, 0x02013F78, 0x02014B78,
 void func_80099878(GlobalContext* globalCtx) {
     u32 gameplayFrames;
     s32 pad;
-    Gfx* displayListHead;
-
-    displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 6 * sizeof(Gfx));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 6 * sizeof(Gfx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 4905);
 
@@ -1040,9 +1036,7 @@ void func_80099878(GlobalContext* globalCtx) {
 // Scene Draw Config 30
 void func_80099BD8(GlobalContext* globalCtx) {
     f32 temp;
-    Gfx* displayListHead;
-
-    displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 18 * sizeof(Gfx));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 18 * sizeof(Gfx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 5069);
 
@@ -1449,11 +1443,11 @@ void func_8009BEEC(GlobalContext* globalCtx) {
         Quake_SetCountdown(var, 127);
     }
 
-    if ((globalCtx->gameplayFrames % 64 == 0) && (Math_Rand_ZeroOne() > 0.6f)) {
+    if ((globalCtx->gameplayFrames % 64 == 0) && (Rand_ZeroOne() > 0.6f)) {
         var = Quake_Add(ACTIVE_CAM, 3);
-        Quake_SetSpeed(var, 32000.0f + (Math_Rand_ZeroOne() * 3000.0f));
-        Quake_SetQuakeValues(var, 10.0f - (Math_Rand_ZeroOne() * 9.0f), 0, 0, 0);
-        Quake_SetCountdown(var, 48.0f - (Math_Rand_ZeroOne() * 15.0f));
+        Quake_SetSpeed(var, 32000.0f + (Rand_ZeroOne() * 3000.0f));
+        Quake_SetQuakeValues(var, 10.0f - (Rand_ZeroOne() * 9.0f), 0, 0, 0);
+        Quake_SetCountdown(var, 48.0f - (Rand_ZeroOne() * 15.0f));
     }
 }
 
@@ -1836,11 +1830,11 @@ void func_8009DA30(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC555) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 
@@ -2176,9 +2170,7 @@ void func_8009F40C(GlobalContext* globalCtx) {
 
 // Scene Draw Config 14
 void func_8009F5D4(GlobalContext* globalCtx) {
-    Gfx* displayListHead;
-
-    displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 3 * sizeof(Gfx));
+    Gfx* displayListHead = Graph_Alloc(globalCtx->state.gfxCtx, 3 * sizeof(Gfx));
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7461);
 
@@ -2189,11 +2181,11 @@ void func_8009F5D4(GlobalContext* globalCtx) {
     } else {
         if (gSaveContext.dayTime > 0xC000) {
             if (globalCtx->unk_11D30[0] != 255) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 255, 5);
+                Math_StepToS(&globalCtx->unk_11D30[0], 255, 5);
             }
         } else if (gSaveContext.dayTime >= 0x4000) {
             if (globalCtx->unk_11D30[0] != 0) {
-                Math_ApproxS(&globalCtx->unk_11D30[0], 0, 10);
+                Math_StepToS(&globalCtx->unk_11D30[0], 0, 10);
             }
         }
 
@@ -2213,12 +2205,9 @@ void func_8009F5D4(GlobalContext* globalCtx) {
 
 // Scene Draw Config 15
 void func_8009F7D4(GlobalContext* globalCtx) {
-    s8 sp6F;
-    s8 sp6E;
+    s8 sp6F = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
+    s8 sp6E = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
     u32 gameplayFrames;
-
-    sp6F = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
-    sp6E = coss((globalCtx->gameplayFrames * 1500) & 0xFFFF) >> 8;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7512);
 
@@ -2310,9 +2299,6 @@ void func_8009FC90(GlobalContext* globalCtx) {
 
 f32 D_8012A398 = 0.0f;
 
-// Scene Draw Config 21
-#ifdef NON_MATCHING
-// regalloc differences and single equivalent instruction difference
 void func_8009FE58(GlobalContext* globalCtx) {
     static s16 D_8012A39C = 538;
     static s16 D_8012A3A0 = 4272;
@@ -2341,16 +2327,15 @@ void func_8009FE58(GlobalContext* globalCtx) {
     gDPPipeSync(POLY_XLU_DISP++);
     gDPSetEnvColor(POLY_XLU_DISP++, 128, 128, 128, 128);
 
-    if (func_800C0D28(globalCtx) != 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) != true) {
         D_8012A39C += 1820;
         D_8012A3A0 += 1820;
 
         temp = 0.020000001f;
-        func_800AA76C(&globalCtx->view, Math_Coss(D_8012A39C) * (0.00009587531f * temp),
-                      Math_Sins(D_8012A39C) * (0.00009587531f * temp), Math_Sins(D_8012A3A0) * (0.00009587531f * temp));
-        func_800AA78C(&globalCtx->view, 1.0f + (Math_Sins(D_8012A3A0) * (0.79999995f * temp)),
-                      1.0f + (Math_Coss(D_8012A3A0) * (0.39999998f * temp)),
-                      1.0f + (Math_Coss(D_8012A39C) * (1 * temp)));
+        func_800AA76C(&globalCtx->view, 0.00009587531f * temp * Math_CosS(D_8012A39C),
+                      0.00009587531f * temp * Math_SinS(D_8012A39C), 0.00009587531f * temp * Math_SinS(D_8012A3A0));
+        func_800AA78C(&globalCtx->view, 1.f + (0.79999995f * temp * Math_SinS(D_8012A3A0)),
+                      1.f + (0.39999998f * temp * Math_CosS(D_8012A3A0)), 1.f + (1 * temp * Math_CosS(D_8012A39C)));
         func_800AA7AC(&globalCtx->view, 0.95f);
 
         switch (globalCtx->unk_11D30[0]) {
@@ -2377,7 +2362,7 @@ void func_8009FE58(GlobalContext* globalCtx) {
     }
 
     if (globalCtx->roomCtx.curRoom.num == 2) {
-        Matrix_Scale(1, sinf(D_8012A398) * 0.8f, 1, MTXMODE_NEW);
+        Matrix_Scale(1.0f, sinf(D_8012A398) * 0.8f, 1.0f, MTXMODE_NEW);
     } else {
         Matrix_Scale(1.005f, sinf(D_8012A398) * 0.8f, 1.005f, MTXMODE_NEW);
     }
@@ -2386,12 +2371,6 @@ void func_8009FE58(GlobalContext* globalCtx) {
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_scene_table.c", 7811);
 }
-#else
-s16 D_8012A39C = 538;
-s16 D_8012A3A0 = 4272;
-void func_8009FE58(GlobalContext* globalCtx);
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_scene_table/func_8009FE58.s")
-#endif
 
 // Scene Draw Config 26
 void func_800A0334(GlobalContext* globalCtx) {

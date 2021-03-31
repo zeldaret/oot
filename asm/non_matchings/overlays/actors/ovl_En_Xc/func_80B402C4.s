@@ -89,7 +89,7 @@ glabel func_80B402C4
 /* 041EC 80B403CC 8FA40064 */  lw      $a0, 0x0064($sp)
 /* 041F0 80B403D0 0C034695 */  jal     Matrix_ToMtx
 /* 041F4 80B403D4 2406025A */  addiu   $a2, $zero, 0x025A         ## $a2 = 0000025A
-/* 041F8 80B403D8 0C034221 */  jal     Matrix_Pull
+/* 041F8 80B403D8 0C034221 */  jal     Matrix_Pop
 /* 041FC 80B403DC 00000000 */  nop
 /* 04200 80B403E0 0C024F61 */  jal     func_80093D84
 /* 04204 80B403E4 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000

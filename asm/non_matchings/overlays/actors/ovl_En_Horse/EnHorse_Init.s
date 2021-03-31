@@ -211,8 +211,8 @@ glabel EnHorse_Init
 /* 01088 80A5C378 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0108C 80A5C37C 3C01C060 */  lui     $at, 0xC060                ## $at = C0600000
 /* 01090 80A5C380 44815000 */  mtc1    $at, $f10                  ## $f10 = -3.50
-/* 01094 80A5C384 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Squiggly)
-/* 01098 80A5C388 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawFunc_Squiggly)
+/* 01094 80A5C384 3C068003 */  lui     $a2, %hi(ActorShadow_DrawHorse)
+/* 01098 80A5C388 24C6B644 */  addiu   $a2, %lo(ActorShadow_DrawHorse)
 /* 0109C 80A5C38C 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 010A0 80A5C390 24050000 */  addiu   $a1, $zero, 0x0000         ## $a1 = 00000000
 /* 010A4 80A5C394 3C0741A0 */  lui     $a3, 0x41A0                ## $a3 = 41A00000
@@ -265,7 +265,7 @@ glabel EnHorse_Init
 /* 01148 80A5C438 3C0680A6 */  lui     $a2, %hi(D_80A65F38)       ## $a2 = 80A60000
 /* 0114C 80A5C43C 24C65F38 */  addiu   $a2, $a2, %lo(D_80A65F38)  ## $a2 = 80A65F38
 /* 01150 80A5C440 26040098 */  addiu   $a0, $s0, 0x0098           ## $a0 = 00000098
-/* 01154 80A5C444 0C0187B5 */  jal     func_80061ED4
+/* 01154 80A5C444 0C0187B5 */  jal     CollisionCheck_SetInfo
 /* 01158 80A5C448 00402825 */  or      $a1, $v0, $zero            ## $a1 = 00000000
 /* 0115C 80A5C44C 8FA8003C */  lw      $t0, 0x003C($sp)
 /* 01160 80A5C450 3C01428C */  lui     $at, 0x428C                ## $at = 428C0000
@@ -398,7 +398,7 @@ glabel EnHorse_Init
 /* 01318 80A5C608 01194021 */  addu    $t0, $t0, $t9
 /* 0131C 80A5C60C 8D085E58 */  lw      $t0, %lo(D_80A65E58)($t0)
 /* 01320 80A5C610 260401AC */  addiu   $a0, $s0, 0x01AC           ## $a0 = 000001AC
-/* 01324 80A5C614 0C02947A */  jal     SkelAnime_ChangeAnimDefaultStop
+/* 01324 80A5C614 0C02947A */  jal     Animation_PlayOnce
 /* 01328 80A5C618 8D050000 */  lw      $a1, 0x0000($t0)           ## 80A60000
 /* 0132C 80A5C61C 24090006 */  addiu   $t1, $zero, 0x0006         ## $t1 = 00000006
 /* 01330 80A5C620 A2090238 */  sb      $t1, 0x0238($s0)           ## 00000238

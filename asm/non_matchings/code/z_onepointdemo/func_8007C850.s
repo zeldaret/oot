@@ -1050,7 +1050,7 @@ glabel func_8007C850
 /* AF4078 8007CED8 44816000 */  mtc1  $at, $f12
 /* AF407C 8007CEDC 00000000 */  nop
 .L8007CEE0:
-/* AF4080 8007CEE0 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4080 8007CEE0 0C03F66B */  jal   Rand_ZeroOne
 /* AF4084 8007CEE4 E7AC005C */   swc1  $f12, 0x5c($sp)
 /* AF4088 8007CEE8 3C014100 */  li    $at, 0x41000000 # 0.000000
 /* AF408C 8007CEEC 44814000 */  mtc1  $at, $f8
@@ -1075,7 +1075,7 @@ glabel func_8007C850
 /* AF40D4 8007CF34 44816000 */  mtc1  $at, $f12
 /* AF40D8 8007CF38 00000000 */  nop
 .L8007CF3C:
-/* AF40DC 8007CF3C 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF40DC 8007CF3C 0C03F66B */  jal   Rand_ZeroOne
 /* AF40E0 8007CF40 E7AC005C */   swc1  $f12, 0x5c($sp)
 /* AF40E4 8007CF44 3C0140A0 */  li    $at, 0x40A00000 # 0.000000
 /* AF40E8 8007CF48 44812000 */  mtc1  $at, $f4
@@ -1109,13 +1109,13 @@ glabel func_8007C850
 /* AF4150 8007CFB0 2401008F */  li    $at, 143
 /* AF4154 8007CFB4 51A10021 */  beql  $t5, $at, .L8007D03C
 /* AF4158 8007CFB8 8FAE0084 */   lw    $t6, 0x84($sp)
-/* AF415C 8007CFBC 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF415C 8007CFBC 0C03F66B */  jal   Rand_ZeroOne
 /* AF4160 8007CFC0 00000000 */   nop
 /* AF4164 8007CFC4 3C0140A0 */  li    $at, 0x40A00000 # 0.000000
 /* AF4168 8007CFC8 44815000 */  mtc1  $at, $f10
 /* AF416C 8007CFCC 00000000 */  nop
 /* AF4170 8007CFD0 460A0402 */  mul.s $f16, $f0, $f10
-/* AF4174 8007CFD4 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4174 8007CFD4 0C03F66B */  jal   Rand_ZeroOne
 /* AF4178 8007CFD8 E6100010 */   swc1  $f16, 0x10($s0)
 /* AF417C 8007CFDC 3C0141F0 */  li    $at, 0x41F00000 # 0.000000
 /* AF4180 8007CFE0 44814000 */  mtc1  $at, $f8
@@ -1123,7 +1123,7 @@ glabel func_8007C850
 /* AF4188 8007CFE8 44812000 */  mtc1  $at, $f4
 /* AF418C 8007CFEC 46080482 */  mul.s $f18, $f0, $f8
 /* AF4190 8007CFF0 46049180 */  add.s $f6, $f18, $f4
-/* AF4194 8007CFF4 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4194 8007CFF4 0C03F66B */  jal   Rand_ZeroOne
 /* AF4198 8007CFF8 E6060018 */   swc1  $f6, 0x18($s0)
 /* AF419C 8007CFFC 3C0142C8 */  li    $at, 0x42C80000 # 0.000000
 /* AF41A0 8007D000 44815000 */  mtc1  $at, $f10
@@ -1131,7 +1131,7 @@ glabel func_8007C850
 /* AF41A8 8007D008 44814000 */  mtc1  $at, $f8
 /* AF41AC 8007D00C 460A0402 */  mul.s $f16, $f0, $f10
 /* AF41B0 8007D010 46088480 */  add.s $f18, $f16, $f8
-/* AF41B4 8007D014 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF41B4 8007D014 0C03F66B */  jal   Rand_ZeroOne
 /* AF41B8 8007D018 E612001C */   swc1  $f18, 0x1c($s0)
 /* AF41BC 8007D01C 3C0142A0 */  li    $at, 0x42A00000 # 0.000000
 /* AF41C0 8007D020 44812000 */  mtc1  $at, $f4
@@ -1163,7 +1163,7 @@ glabel func_8007C850
 /* AF4220 8007D080 44811000 */  mtc1  $at, $f2
 /* AF4224 8007D084 00000000 */  nop
 .L8007D088:
-/* AF4228 8007D088 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4228 8007D088 0C03F66B */  jal   Rand_ZeroOne
 /* AF422C 8007D08C E7A20060 */   swc1  $f2, 0x60($sp)
 /* AF4230 8007D090 C7A20060 */  lwc1  $f2, 0x60($sp)
 /* AF4234 8007D094 0015C080 */  sll   $t8, $s5, 2
@@ -1217,13 +1217,13 @@ glabel func_8007C850
 /* AF42EC 8007D14C 2401008F */  li    $at, 143
 /* AF42F0 8007D150 51E10021 */  beql  $t7, $at, .L8007D1D8
 /* AF42F4 8007D154 8FB80084 */   lw    $t8, 0x84($sp)
-/* AF42F8 8007D158 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF42F8 8007D158 0C03F66B */  jal   Rand_ZeroOne
 /* AF42FC 8007D15C 00000000 */   nop
 /* AF4300 8007D160 3C0141A0 */  li    $at, 0x41A00000 # 0.000000
 /* AF4304 8007D164 44819000 */  mtc1  $at, $f18
 /* AF4308 8007D168 00000000 */  nop
 /* AF430C 8007D16C 46120102 */  mul.s $f4, $f0, $f18
-/* AF4310 8007D170 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4310 8007D170 0C03F66B */  jal   Rand_ZeroOne
 /* AF4314 8007D174 E6040010 */   swc1  $f4, 0x10($s0)
 /* AF4318 8007D178 3C014220 */  li    $at, 0x42200000 # 0.000000
 /* AF431C 8007D17C 44813000 */  mtc1  $at, $f6
@@ -1231,7 +1231,7 @@ glabel func_8007C850
 /* AF4324 8007D184 44818000 */  mtc1  $at, $f16
 /* AF4328 8007D188 46060282 */  mul.s $f10, $f0, $f6
 /* AF432C 8007D18C 46105200 */  add.s $f8, $f10, $f16
-/* AF4330 8007D190 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4330 8007D190 0C03F66B */  jal   Rand_ZeroOne
 /* AF4334 8007D194 E6080018 */   swc1  $f8, 0x18($s0)
 /* AF4338 8007D198 3C014220 */  li    $at, 0x42200000 # 0.000000
 /* AF433C 8007D19C 44819000 */  mtc1  $at, $f18
@@ -1239,7 +1239,7 @@ glabel func_8007C850
 /* AF4344 8007D1A4 44813000 */  mtc1  $at, $f6
 /* AF4348 8007D1A8 46120102 */  mul.s $f4, $f0, $f18
 /* AF434C 8007D1AC 46062280 */  add.s $f10, $f4, $f6
-/* AF4350 8007D1B0 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4350 8007D1B0 0C03F66B */  jal   Rand_ZeroOne
 /* AF4354 8007D1B4 E60A001C */   swc1  $f10, 0x1c($s0)
 /* AF4358 8007D1B8 3C014220 */  li    $at, 0x42200000 # 0.000000
 /* AF435C 8007D1BC 44818000 */  mtc1  $at, $f16
@@ -1271,7 +1271,7 @@ glabel func_8007C850
 /* AF43BC 8007D21C 44811000 */  mtc1  $at, $f2
 /* AF43C0 8007D220 00000000 */  nop
 .L8007D224:
-/* AF43C4 8007D224 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF43C4 8007D224 0C03F66B */  jal   Rand_ZeroOne
 /* AF43C8 8007D228 E7A20060 */   swc1  $f2, 0x60($sp)
 /* AF43CC 8007D22C C7A20060 */  lwc1  $f2, 0x60($sp)
 /* AF43D0 8007D230 00156880 */  sll   $t5, $s5, 2
@@ -1547,7 +1547,7 @@ glabel func_8007C850
 /* AF47E8 8007D648 F7AA0010 */  sdc1  $f10, 0x10($sp)
 /* AF47EC 8007D64C 0C00084C */  jal   osSyncPrintf
 /* AF47F0 8007D650 F7A40020 */   sdc1  $f4, 0x20($sp)
-/* AF47F4 8007D654 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF47F4 8007D654 0C03F66B */  jal   Rand_ZeroOne
 /* AF47F8 8007D658 00000000 */   nop
 /* AF47FC 8007D65C 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AF4800 8007D660 44811000 */  mtc1  $at, $f2
@@ -1568,7 +1568,7 @@ glabel func_8007C850
 /* AF483C 8007D69C C5C6003C */  lwc1  $f6, 0x3c($t6)
 /* AF4840 8007D6A0 46123200 */  add.s $f8, $f6, $f18
 /* AF4844 8007D6A4 46044280 */  add.s $f10, $f8, $f4
-/* AF4848 8007D6A8 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4848 8007D6A8 0C03F66B */  jal   Rand_ZeroOne
 /* AF484C 8007D6AC E60A0020 */   swc1  $f10, 0x20($s0)
 /* AF4850 8007D6B0 3C0142F0 */  li    $at, 0x42F00000 # 0.000000
 /* AF4854 8007D6B4 44818000 */  mtc1  $at, $f16
@@ -1673,7 +1673,7 @@ glabel func_8007C850
 /* AF49CC 8007D82C 27B000A0 */  addiu $s0, $sp, 0xa0
 .L8007D830:
 /* AF49D0 8007D830 02002025 */  move  $a0, $s0
-/* AF49D4 8007D834 0C00BBB9 */  jal   func_8002EEE4
+/* AF49D4 8007D834 0C00BBB9 */  jal   Actor_GetFocus
 /* AF49D8 8007D838 02202825 */   move  $a1, $s1
 /* AF49DC 8007D83C 8E190000 */  lw    $t9, ($s0)
 /* AF49E0 8007D840 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -1741,7 +1741,7 @@ glabel func_8007C850
 /* AF4AD4 8007D934 E6000064 */  swc1  $f0, 0x64($s0)
 /* AF4AD8 8007D938 E6000070 */  swc1  $f0, 0x70($s0)
 /* AF4ADC 8007D93C E6000048 */  swc1  $f0, 0x48($s0)
-/* AF4AE0 8007D940 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4AE0 8007D940 0C03F66B */  jal   Rand_ZeroOne
 /* AF4AE4 8007D944 E6000020 */   swc1  $f0, 0x20($s0)
 /* AF4AE8 8007D948 44808000 */  mtc1  $zero, $f16
 /* AF4AEC 8007D94C 00000000 */  nop
@@ -1947,7 +1947,7 @@ glabel L8007DBF8
 /* AF4DEC 8007DC4C E6120038 */  swc1  $f18, 0x38($s0)
 /* AF4DF0 8007DC50 E6040044 */  swc1  $f4, 0x44($s0)
 .L8007DC54:
-/* AF4DF4 8007DC54 0C03F66B */  jal   Math_Rand_ZeroOne
+/* AF4DF4 8007DC54 0C03F66B */  jal   Rand_ZeroOne
 /* AF4DF8 8007DC58 00000000 */   nop
 /* AF4DFC 8007DC5C 3C014170 */  li    $at, 0x41700000 # 0.000000
 /* AF4E00 8007DC60 44818000 */  mtc1  $at, $f16
@@ -2067,7 +2067,7 @@ glabel L8007DDF8
 /* AF4FB4 8007DE14 02202825 */  move  $a1, $s1
 /* AF4FB8 8007DE18 E7B000B8 */  swc1  $f16, 0xb8($sp)
 /* AF4FBC 8007DE1C E7A600BC */  swc1  $f6, 0xbc($sp)
-/* AF4FC0 8007DE20 0C00BBB9 */  jal   func_8002EEE4
+/* AF4FC0 8007DE20 0C00BBB9 */  jal   Actor_GetFocus
 /* AF4FC4 8007DE24 E7A400B4 */   swc1  $f4, 0xb4($sp)
 /* AF4FC8 8007DE28 8E0D0000 */  lw    $t5, ($s0)
 /* AF4FCC 8007DE2C 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2412,7 +2412,7 @@ glabel L8007E340
 /* AF54E0 8007E340 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF54E4 8007E344 02002025 */  move  $a0, $s0
 /* AF54E8 8007E348 02202825 */  move  $a1, $s1
-/* AF54EC 8007E34C 0C00BBC5 */  jal   func_8002EF14
+/* AF54EC 8007E34C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF54F0 8007E350 AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF54F4 8007E354 8E0E0000 */  lw    $t6, ($s0)
 /* AF54F8 8007E358 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2432,7 +2432,7 @@ glabel L8007E340
 /* AF5530 8007E390 02002025 */  move  $a0, $s0
 /* AF5534 8007E394 E7A600C4 */  swc1  $f6, 0xc4($sp)
 /* AF5538 8007E398 02802825 */  move  $a1, $s4
-/* AF553C 8007E39C 0C00BBC5 */  jal   func_8002EF14
+/* AF553C 8007E39C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5540 8007E3A0 E7A800D0 */   swc1  $f8, 0xd0($sp)
 /* AF5544 8007E3A4 02202025 */  move  $a0, $s1
 /* AF5548 8007E3A8 0C01F1C1 */  jal   func_8007C704
@@ -2473,7 +2473,7 @@ glabel L8007E340
 glabel L8007E434
 /* AF55D4 8007E434 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF55D8 8007E438 02002025 */  move  $a0, $s0
-/* AF55DC 8007E43C 0C00BBC5 */  jal   func_8002EF14
+/* AF55DC 8007E43C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF55E0 8007E440 02202825 */   move  $a1, $s1
 /* AF55E4 8007E444 8E0E0000 */  lw    $t6, ($s0)
 /* AF55E8 8007E448 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2517,7 +2517,7 @@ glabel L8007E4DC
 /* AF567C 8007E4DC 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5680 8007E4E0 02002025 */  move  $a0, $s0
 /* AF5684 8007E4E4 02202825 */  move  $a1, $s1
-/* AF5688 8007E4E8 0C00BBD1 */  jal   func_8002EF44
+/* AF5688 8007E4E8 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF568C 8007E4EC AFB100F4 */   sw    $s1, 0xf4($sp)
 /* AF5690 8007E4F0 8E190000 */  lw    $t9, ($s0)
 /* AF5694 8007E4F4 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2622,11 +2622,11 @@ glabel L8007E5DC
 /* AF5818 8007E678 E66400FC */   swc1  $f4, 0xfc($s3)
 /* AF581C 8007E67C 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5820 8007E680 02002025 */  move  $a0, $s0
-/* AF5824 8007E684 0C00BBD1 */  jal   func_8002EF44
+/* AF5824 8007E684 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF5828 8007E688 8FA500F4 */   lw    $a1, 0xf4($sp)
 /* AF582C 8007E68C 27B5008C */  addiu $s5, $sp, 0x8c
 /* AF5830 8007E690 02A02025 */  move  $a0, $s5
-/* AF5834 8007E694 0C00BBB9 */  jal   func_8002EEE4
+/* AF5834 8007E694 0C00BBB9 */  jal   Actor_GetFocus
 /* AF5838 8007E698 02802825 */   move  $a1, $s4
 /* AF583C 8007E69C 3C01428C */  li    $at, 0x428C0000 # 0.000000
 /* AF5840 8007E6A0 44814000 */  mtc1  $at, $f8
@@ -2681,7 +2681,7 @@ glabel L8007E5DC
 .L8007E764:
 /* AF5904 8007E764 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF5908 8007E768 02002025 */  move  $a0, $s0
-/* AF590C 8007E76C 0C00BBC5 */  jal   func_8002EF14
+/* AF590C 8007E76C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5910 8007E770 02202825 */   move  $a1, $s1
 /* AF5914 8007E774 8E0D0000 */  lw    $t5, ($s0)
 /* AF5918 8007E778 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2730,7 +2730,7 @@ glabel L8007E5DC
 glabel L8007E824
 /* AF59C4 8007E824 27B000A0 */  addiu $s0, $sp, 0xa0
 /* AF59C8 8007E828 02002025 */  move  $a0, $s0
-/* AF59CC 8007E82C 0C00BBB9 */  jal   func_8002EEE4
+/* AF59CC 8007E82C 0C00BBB9 */  jal   Actor_GetFocus
 /* AF59D0 8007E830 02202825 */   move  $a1, $s1
 /* AF59D4 8007E834 8E190000 */  lw    $t9, ($s0)
 /* AF59D8 8007E838 27B100C0 */  addiu $s1, $sp, 0xc0
@@ -2746,7 +2746,7 @@ glabel L8007E824
 /* AF5A00 8007E860 0C030202 */  jal   func_800C0808
 /* AF5A04 8007E864 AE390008 */   sw    $t9, 8($s1)
 /* AF5A08 8007E868 02002025 */  move  $a0, $s0
-/* AF5A0C 8007E86C 0C00BBC5 */  jal   func_8002EF14
+/* AF5A0C 8007E86C 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5A10 8007E870 02802825 */   move  $a1, $s4
 /* AF5A14 8007E874 27A400D0 */  addiu $a0, $sp, 0xd0
 /* AF5A18 8007E878 02202825 */  move  $a1, $s1
@@ -2821,7 +2821,7 @@ glabel L8007E914
 /* AF5B24 8007E984 0C00B7D5 */  jal   func_8002DF54
 /* AF5B28 8007E988 24060008 */   li    $a2, 8
 /* AF5B2C 8007E98C 27A400A0 */  addiu $a0, $sp, 0xa0
-/* AF5B30 8007E990 0C00BBC5 */  jal   func_8002EF14
+/* AF5B30 8007E990 0C00BBC5 */  jal   Actor_GetWorld
 /* AF5B34 8007E994 8FA500F4 */   lw    $a1, 0xf4($sp)
 /* AF5B38 8007E998 3C018014 */  lui   $at, %hi(D_8013D6CC)
 /* AF5B3C 8007E99C C42AD6CC */  lwc1  $f10, %lo(D_8013D6CC)($at)
@@ -3033,7 +3033,7 @@ glabel L8007EC78
 /* AF5E5C 8007ECBC 8E5900E8 */  lw    $t9, 0xe8($s2)
 /* AF5E60 8007ECC0 ADF90008 */  sw    $t9, 8($t7)
 /* AF5E64 8007ECC4 C65000D0 */  lwc1  $f16, 0xd0($s2)
-/* AF5E68 8007ECC8 0C00BBB9 */  jal   func_8002EEE4
+/* AF5E68 8007ECC8 0C00BBB9 */  jal   Actor_GetFocus
 /* AF5E6C 8007ECCC E4301F24 */   swc1  $f16, %lo(D_80121F24)($at)
 /* AF5E70 8007ECD0 87AD00AE */  lh    $t5, 0xae($sp)
 /* AF5E74 8007ECD4 3C0E8012 */  lui   $t6, %hi(D_80121F1C) # $t6, 0x8012
@@ -3756,10 +3756,10 @@ glabel L8007F6E8
 /* AF693C 8007F79C 8FBF0044 */   lw    $ra, 0x44($sp)
 .L8007F7A0:
 /* AF6940 8007F7A0 27A400A0 */  addiu $a0, $sp, 0xa0
-/* AF6944 8007F7A4 0C00BBB9 */  jal   func_8002EEE4
+/* AF6944 8007F7A4 0C00BBB9 */  jal   Actor_GetFocus
 /* AF6948 8007F7A8 02202825 */   move  $a1, $s1
 /* AF694C 8007F7AC 27A4008C */  addiu $a0, $sp, 0x8c
-/* AF6950 8007F7B0 0C00BBB9 */  jal   func_8002EEE4
+/* AF6950 8007F7B0 0C00BBB9 */  jal   Actor_GetFocus
 /* AF6954 8007F7B4 02802825 */   move  $a1, $s4
 /* AF6958 8007F7B8 C7A600A4 */  lwc1  $f6, 0xa4($sp)
 /* AF695C 8007F7BC C7A80090 */  lwc1  $f8, 0x90($sp)
@@ -3907,7 +3907,7 @@ glabel L8007F6E8
 /* AF6B6C 8007F9CC 27B000A0 */  addiu $s0, $sp, 0xa0
 .L8007F9D0:
 /* AF6B70 8007F9D0 02002025 */  move  $a0, $s0
-/* AF6B74 8007F9D4 0C00BBD1 */  jal   func_8002EF44
+/* AF6B74 8007F9D4 0C00BBD1 */  jal   Actor_GetWorldPosShapeRot
 /* AF6B78 8007F9D8 02802825 */   move  $a1, $s4
 /* AF6B7C 8007F9DC 8FA600DC */  lw    $a2, 0xdc($sp)
 /* AF6B80 8007F9E0 27A400D0 */  addiu $a0, $sp, 0xd0

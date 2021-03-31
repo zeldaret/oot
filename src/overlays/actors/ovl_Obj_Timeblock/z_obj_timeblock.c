@@ -31,7 +31,7 @@ extern CollisionHeader D_06000B30;
 
 const ActorInit Obj_Timeblock_InitVars = {
     ACTOR_OBJ_TIMEBLOCK,
-    ACTORTYPE_ITEMACTION,
+    ACTORCAT_ITEMACTION,
     FLAGS,
     OBJECT_TIMEBLOCK,
     sizeof(ObjTimeblock),
@@ -55,7 +55,7 @@ static ObjTimeblockSizeOptions sSizeOptions[] = {
 static f32 sRanges[] = { 60.0, 100.0, 140.0, 180.0, 220.0, 260.0, 300.0, 300.0 };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_U8(unk_1F, 2, ICHAIN_CONTINUE),
+    ICHAIN_U8(targetMode, 2, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1800, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 300, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1500, ICHAIN_STOP),
@@ -85,8 +85,8 @@ u32 ObjTimeblock_CalculateIsVisible(ObjTimeblock* this) {
 }
 
 void ObjTimeblock_SpawnDemoEffect(ObjTimeblock* this, GlobalContext* globalCtx) {
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.posRot.pos.x,
-                this->dyna.actor.posRot.pos.y, this->dyna.actor.posRot.pos.z, 0, 0, 0,
+    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_DEMO_EFFECT, this->dyna.actor.world.pos.x,
+                this->dyna.actor.world.pos.y, this->dyna.actor.world.pos.z, 0, 0, 0,
                 sSizeOptions[(this->dyna.actor.params >> 8) & 1].demoEffectParams);
 }
 
@@ -101,15 +101,14 @@ void ObjTimeblock_ToggleSwitchFlag(GlobalContext* globalCtx, s32 flag) {
 void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
     ObjTimeblock* this = THIS;
     s32 pad;
-    UNK_PTR colHeader = NULL;
+    CollisionHeader* colHeader = NULL;
 
-    DynaPolyInfo_SetActorMove(&this->dyna, DPM_UNK);
-    this->dyna.actor.posRot.rot.z = this->dyna.actor.shape.rot.z = 0;
+    DynaPolyActor_Init(&this->dyna, DPM_UNK);
+    this->dyna.actor.world.rot.z = this->dyna.actor.shape.rot.z = 0;
 
-    DynaPolyInfo_Alloc(&D_06000B30, &colHeader);
+    CollisionHeader_GetVirtual(&D_06000B30, &colHeader);
 
-    this->dyna.dynaPolyId =
-        DynaPolyInfo_RegisterActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
+    this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     Actor_SetScale(&this->dyna.actor, sSizeOptions[(this->dyna.actor.params >> 8) & 1].scale);
@@ -122,7 +121,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     this->songObserverFunc = ObjTimeblock_WaitForOcarina;
 
-    Actor_SetHeight(&this->dyna.actor, sSizeOptions[(this->dyna.actor.params >> 8) & 1].height);
+    Actor_SetFocus(&this->dyna.actor, sSizeOptions[(this->dyna.actor.params >> 8) & 1].height);
 
     this->unk_174 = (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) ? true : false;
     this->unk_175 = ((this->dyna.actor.params >> 15) & 1) ? true : false;
@@ -138,7 +137,7 @@ void ObjTimeblock_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     // "Block of time"
     osSyncPrintf("時のブロック (<arg> %04xH <type> save:%d color:%d range:%d move:%d)\n", (u16)this->dyna.actor.params,
-                 this->unk_177, this->dyna.actor.initPosRot.rot.z & 7, (this->dyna.actor.params >> 11) & 7,
+                 this->unk_177, this->dyna.actor.home.rot.z & 7, (this->dyna.actor.params >> 11) & 7,
                  (this->dyna.actor.params >> 10) & 1);
 }
 
@@ -146,7 +145,7 @@ void ObjTimeblock_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     ObjTimeblock* this = THIS;
 
-    DynaPolyInfo_Free(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+    DynaPoly_DeleteBgActor(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
 }
 
 u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, GlobalContext* globalCtx) {
@@ -154,11 +153,11 @@ u8 ObjTimeblock_PlayerIsInRange(ObjTimeblock* this, GlobalContext* globalCtx) {
         return false;
     }
 
-    if (this->dyna.actor.xzDistFromLink <= sRanges[(this->dyna.actor.params >> 11) & 7]) {
+    if (this->dyna.actor.xzDistToPlayer <= sRanges[(this->dyna.actor.params >> 11) & 7]) {
         Vec3f distance;
         f32 blockSize;
 
-        func_8002DBD0(&this->dyna.actor, &distance, &PLAYER->actor.posRot.pos);
+        func_8002DBD0(&this->dyna.actor, &distance, &PLAYER->actor.world.pos);
         blockSize = this->dyna.actor.scale.x * 50.0f + 6.0f;
         // Return true if player's xz position is not inside the block
         if (blockSize < fabsf(distance.x) || blockSize < fabsf(distance.z)) {
@@ -326,15 +325,15 @@ void ObjTimeblock_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->isVisible) {
-        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     } else {
-        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.dynaPolyId);
+        func_8003EBF8(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     }
 }
 
 void ObjTimeblock_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (((ObjTimeblock*)thisx)->isVisible) {
-        Color_RGB8* primColor = &sPrimColors[thisx->initPosRot.rot.z & 7];
+        Color_RGB8* primColor = &sPrimColors[thisx->home.rot.z & 7];
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_obj_timeblock.c", 762);
 

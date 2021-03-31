@@ -1,4 +1,11 @@
+/*
+ * File: z_en_fd.c
+ * Overlay: ovl_En_Fd
+ * Description: Flare Dancer (enflamed form)
+ */
+
 #include "z_en_fd.h"
+#include "objects/gameplay_keep/gameplay_keep.h"
 
 #define FLAGS 0x00000215
 
@@ -32,7 +39,7 @@ extern FlexSkeletonHeader D_06005810;
 
 const ActorInit En_Fd_InitVars = {
     ACTOR_EN_FD,
-    ACTORTYPE_ENEMY,
+    ACTORCAT_ENEMY,
     FLAGS,
     OBJECT_FW,
     sizeof(EnFd),
@@ -42,69 +49,162 @@ const ActorInit En_Fd_InitVars = {
     (ActorFunc)EnFd_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[12] = {
+static ColliderJntSphElementInit sJntSphElementsInit[12] = {
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040088, 0x00, 0x00 }, 0x01, 0x05, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040088, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON | BUMP_HOOKABLE,
+            OCELEM_ON,
+        },
         { 21, { { 1600, 0, 0 }, 5 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 12, { { 1600, 0, 0 }, 5 }, 400 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 14, { { 800, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 15, { { 1600, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 16, { { 2000, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 17, { { 800, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 18, { { 1600, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 19, { { 2000, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 4, { { 2200, 0, 0 }, 4 }, 400 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 4, { { 5000, 0, 0 }, 4 }, 300 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 8, { { 2200, 0, 0 }, 4 }, 400 },
     },
     {
-        { 0x00, { 0xFFCFFFFF, 0x01, 0x04 }, { 0x00040008, 0x00, 0x00 }, 0x01, 0x01, 0x01 },
+        {
+            ELEMTYPE_UNK0,
+            { 0xFFCFFFFF, 0x01, 0x04 },
+            { 0x00040008, 0x00, 0x00 },
+            TOUCH_ON | TOUCH_SFX_NORMAL,
+            BUMP_ON,
+            OCELEM_ON,
+        },
         { 8, { { 5000, 0, 0 }, 4 }, 300 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x11, 0x09, 0x39, 0x10, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_ON | AT_TYPE_ENEMY,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_ALL,
+        OC2_TYPE_1,
+        COLSHAPE_JNTSPH,
+    },
     12,
-    sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
-static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, 0xFF };
+static CollisionCheckInfoInit2 sColChkInit = { 24, 2, 25, 25, MASS_IMMOVABLE };
 
 static struct_80034EC0_Entry sAnimations[] = {
-    { 0x060010B4, 1.0f, 0.0f, -1.0f, 0x03, 0.0f },   { 0x06005C64, 1.0f, 0.0f, -1.0f, 0x03, -10.0f },
-    { 0x06006044, 0.0f, 0.0f, -1.0f, 0x03, -10.0f }, { 0x06006A18, 1.0f, 0.0f, -1.0f, 0x01, -10.0f },
-    { 0x06006B64, 0.0f, 0.0f, -1.0f, 0x03, -10.0f },
+    { 0x060010B4, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, 0.0f },
+    { 0x06005C64, 1.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { 0x06006044, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
+    { 0x06006A18, 1.0f, 0.0f, -1.0f, ANIMMODE_LOOP_INTERP, -10.0f },
+    { 0x06006B64, 0.0f, 0.0f, -1.0f, ANIMMODE_ONCE_INTERP, -10.0f },
 };
 
 s32 EnFd_SpawnCore(EnFd* this, GlobalContext* globalCtx) {
@@ -136,9 +236,9 @@ void EnFd_SpawnChildFire(EnFd* this, GlobalContext* globalCtx, s16 fireCnt, s16 
     s32 i;
 
     for (i = 0; i < fireCnt; i++) {
-        s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsLink;
-        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FD_FIRE, this->actor.posRot.pos.x,
-                           this->actor.posRot.pos.y, this->actor.posRot.pos.z, 0, angle, 0, (color << 0xF) | i);
+        s16 angle = (s16)((((i * 360.0f) / fireCnt) * (0x10000 / 360.0f))) + this->actor.yawTowardsPlayer;
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_FD_FIRE, this->actor.world.pos.x,
+                           this->actor.world.pos.y, this->actor.world.pos.z, 0, angle, 0, (color << 0xF) | i);
     }
 }
 
@@ -148,12 +248,12 @@ void EnFd_SpawnDot(EnFd* this, GlobalContext* globalCtx) {
     Vec3f accel = { 0.0f, 0.0f, 0.0f };
 
     if (this->actionFunc == EnFd_Run || this->actionFunc == EnFd_SpinAndSpawnFire) {
-        pos.x = this->actor.posRot.pos.x;
-        pos.y = this->actor.groundY + 4.0f;
-        pos.z = this->actor.posRot.pos.z;
-        accel.x = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
-        accel.y = ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f;
-        accel.z = (Math_Rand_ZeroOne() - 0.5f) * 2.0f;
+        pos.x = this->actor.world.pos.x;
+        pos.y = this->actor.floorHeight + 4.0f;
+        pos.z = this->actor.world.pos.z;
+        accel.x = (Rand_ZeroOne() - 0.5f) * 2.0f;
+        accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.3f;
+        accel.z = (Rand_ZeroOne() - 0.5f) * 2.0f;
         EnFd_AddEffect(this, FD_EFFECT_FLAME, &pos, &velocity, &accel, 8, 0.6f, 0.2f);
     }
 }
@@ -165,8 +265,8 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
     if (this->actionFunc == EnFd_Reappear || this->actionFunc == EnFd_SpinAndGrow ||
         this->actionFunc == EnFd_JumpToGround || this->actionFunc == EnFd_WaitForCore) {
         return false;
-    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistFromLink < 300.0f &&
-               this->actor.yDistFromLink < 60.0f) {
+    } else if (globalCtx->actorCtx.unk_02 != 0 && this->actor.xzDistToPlayer < 300.0f &&
+               this->actor.yDistToPlayer < 60.0f) {
         return true;
     } else {
         return false;
@@ -175,15 +275,15 @@ s32 EnFd_CheckHammer(EnFd* this, GlobalContext* globalCtx) {
 
 s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    ColliderBody* body;
+    ColliderInfo* info;
 
-    if (this->collider.base.acFlags & 2 || EnFd_CheckHammer(this, globalCtx)) {
-        this->collider.base.acFlags &= ~2;
+    if (this->collider.base.acFlags & AC_HIT || EnFd_CheckHammer(this, globalCtx)) {
+        this->collider.base.acFlags &= ~AC_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
-        body = &this->collider.list[0].body;
-        if (body->acHitItem != NULL && (body->acHitItem->toucher.flags & 0x80)) {
+        info = &this->collider.elements[0].info;
+        if (info->acHitInfo != NULL && (info->acHitInfo->toucher.dmgFlags & 0x80)) {
             return false;
         }
 
@@ -195,18 +295,18 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_DAMAGE);
         func_80032C7C(globalCtx, &this->actor);
         return true;
-    } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & 2) {
-        this->collider.base.atFlags &= ~2;
+    } else if (DECR(this->attackTimer) == 0 && this->collider.base.atFlags & AT_HIT) {
+        this->collider.base.atFlags &= ~AT_HIT;
         if (this->invincibilityTimer != 0) {
             return false;
         }
 
-        if (this->collider.base.atFlags & 4) {
+        if (this->collider.base.atFlags & AT_BOUNCED) {
             return false;
         }
         this->attackTimer = 30;
         Audio_PlayActorSound2(&player->actor, NA_SE_PL_BODY_HIT);
-        func_8002F71C(globalCtx, &this->actor, this->actor.speedXZ + 2.0f, this->actor.yawTowardsLink, 6.0f);
+        func_8002F71C(globalCtx, &this->actor, this->actor.speedXZ + 2.0f, this->actor.yawTowardsPlayer, 6.0f);
     }
     return false;
 }
@@ -217,26 +317,26 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
  * towards `actor`, and there must not be a collision poly between `this` and `actor`
  */
 s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
-    CollisionPoly** colPoly;
-    u32 bgId;
+    CollisionPoly* colPoly;
+    s32 bgId;
     Vec3f colPoint;
     s16 angle;
     s32 pad;
 
     // Check to see if `actor` is within 400 units of `this`
-    if (Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &actor->posRot.pos) > 400.0f) {
+    if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &actor->world.pos) > 400.0f) {
         return false;
     }
 
     // Check to see if the angle between this facing angle and `actor` is withing ~40 degrees
-    angle = (f32)Math_Vec3f_Yaw(&this->actor.posRot.pos, &actor->posRot.pos) - this->actor.shape.rot.y;
-    if (ABS(angle) >= 0x1C71) {
+    angle = (f32)Math_Vec3f_Yaw(&this->actor.world.pos, &actor->world.pos) - this->actor.shape.rot.y;
+    if (ABS(angle) > 0x1C70) {
         return false;
     }
 
     // check to see if the line between `this` and `actor` does not intersect a collision poly
-    if (func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &actor->posRot.pos, &colPoint, &colPoly, 1, 0, 0, 1,
-                      &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly, 1,
+                                0, 0, 1, &bgId)) {
         return false;
     }
 
@@ -244,7 +344,7 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
 }
 
 Actor* EnFd_FindBomb(EnFd* this, GlobalContext* globalCtx) {
-    Actor* actor = globalCtx->actorCtx.actorList[ACTORTYPE_EXPLOSIVES].first;
+    Actor* actor = globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
     while (actor != NULL) {
         if (actor->params != 0 || actor->parent != NULL) {
@@ -295,18 +395,18 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
     s16 angle;
     Vec3f newPos;
 
-    angle = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos) + (dir * 0x1554); // ~30 degrees
-    newPos.x = (Math_Sins(angle) * radius) + this->actor.initPosRot.pos.x;
-    newPos.z = (Math_Coss(angle) * radius) + this->actor.initPosRot.pos.z;
-    newPos.x -= this->actor.posRot.pos.x;
-    newPos.z -= this->actor.posRot.pos.z;
+    angle = Math_Vec3f_Yaw(&this->actor.home.pos, &this->actor.world.pos) + (dir * 0x1554); // ~30 degrees
+    newPos.x = (Math_SinS(angle) * radius) + this->actor.home.pos.x;
+    newPos.z = (Math_CosS(angle) * radius) + this->actor.home.pos.z;
+    newPos.x -= this->actor.world.pos.x;
+    newPos.z -= this->actor.world.pos.z;
     *dst = newPos;
     return dst;
 }
 
 s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16* runDir) {
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f colPoint;
     Vec3f pos;
 
@@ -314,11 +414,12 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
     // will result in a background collision
     EnFd_GetPosAdjAroundCircle(&pos, this, radius, *runDir);
 
-    pos.x += this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y;
-    pos.z += this->actor.posRot.pos.z;
+    pos.x += this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y;
+    pos.z += this->actor.world.pos.z;
 
-    if (func_8003DE84(&globalCtx->colCtx, &this->actor.posRot.pos, &pos, &colPoint, &poly, 1, 0, 0, 1, &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, 1, 0, 0, 1,
+                                &bgId)) {
         *runDir = -*runDir;
         return true;
     }
@@ -327,7 +428,7 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
         return false;
     }
 
-    if (Math_Rand_ZeroOne() > 0.5f) {
+    if (Rand_ZeroOne() > 0.5f) {
         *runDir = -*runDir;
     }
     return true;
@@ -335,8 +436,8 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
 
 void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
     if (this->invincibilityTimer != 0) {
-        Math_SmoothScaleMaxMinF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
-        this->actor.shape.unk_14 = this->fadeAlpha;
+        Math_SmoothStepToF(&this->fadeAlpha, 0.0f, 0.3f, 10.0f, 0.0f);
+        this->actor.shape.shadowAlpha = this->fadeAlpha;
         if (!(this->fadeAlpha >= 0.9f)) {
             this->invincibilityTimer = 0;
             this->spinTimer = 0;
@@ -349,18 +450,17 @@ void EnFd_Fade(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnFd* this = THIS;
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005810, NULL, this->limbDrawTable, this->transitionDrawTable,
-                       27);
-    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFunc_Circle, 32.0f);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06005810, NULL, this->jointTable, this->morphTable, 27);
+    ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 32.0f);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colSphs);
-    func_80061EFC(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
+    CollisionCheck_SetInfo2(&this->actor.colChkInfo, DamageTable_Get(0xF), &sColChkInit);
     this->actor.flags &= ~1;
     this->actor.flags |= 0x1000000;
     Actor_SetScale(&this->actor, 0.01f);
     this->firstUpdateFlag = true;
     this->actor.gravity = -1.0f;
-    this->runDir = Math_Rand_ZeroOne() < 0.5f ? -1 : 1;
+    this->runDir = Rand_ZeroOne() < 0.5f ? -1 : 1;
     this->actor.naviEnemyId = 0x22;
     this->actionFunc = EnFd_Reappear;
 }
@@ -372,9 +472,9 @@ void EnFd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
-    this->actor.posRot.pos = this->actor.initPosRot.pos;
+    this->actor.world.pos = this->actor.home.pos;
     this->actor.params = 0;
-    this->actor.shape.unk_14 = 0xFF;
+    this->actor.shape.shadowAlpha = 0xFF;
     this->coreActive = false;
     this->actor.scale.y = 0.0f;
     this->fadeAlpha = 255.0f;
@@ -384,18 +484,18 @@ void EnFd_Reappear(EnFd* this, GlobalContext* globalCtx) {
 }
 
 void EnFd_SpinAndGrow(EnFd* this, GlobalContext* globalCtx) {
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
         this->actor.velocity.y = 6.0f;
         this->actor.scale.y = 0.01f;
-        this->actor.posRot.rot.y ^= 0x8000;
+        this->actor.world.rot.y ^= 0x8000;
         this->actor.flags |= 1;
         this->actor.speedXZ = 8.0f;
         func_80034EC0(&this->skelAnime, sAnimations, 1);
         this->actionFunc = EnFd_JumpToGround;
     } else {
-        this->actor.scale.y = this->skelAnime.animCurrentFrame * (0.01f / this->skelAnime.totalFrames);
+        this->actor.scale.y = this->skelAnime.curFrame * (0.01f / this->skelAnime.animLength);
         this->actor.shape.rot.y += 0x2000;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y;
     }
 }
 
@@ -403,7 +503,7 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
     if ((this->actor.bgCheckFlags & 1) && !(this->actor.velocity.y > 0.0f)) {
         this->actor.velocity.y = 0.0f;
         this->actor.speedXZ = 0.0f;
-        this->actor.posRot.rot.y = this->actor.shape.rot.y;
+        this->actor.world.rot.y = this->actor.shape.rot.y;
         func_80034EC0(&this->skelAnime, sAnimations, 2);
         this->actionFunc = EnFd_Land;
     }
@@ -412,12 +512,12 @@ void EnFd_JumpToGround(EnFd* this, GlobalContext* globalCtx) {
 void EnFd_Land(EnFd* this, GlobalContext* globalCtx) {
     Vec3f adjPos;
 
-    Math_SmoothScaleMaxMinF(&this->skelAnime.animPlaybackSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
-    if (func_800A56C8(&this->skelAnime, this->skelAnime.animFrameCount)) {
-        this->spinTimer = Math_Rand_S16Offset(60, 90);
-        this->runRadius = Math_Vec3f_DistXYZ(&this->actor.posRot.pos, &this->actor.initPosRot.pos);
+    Math_SmoothStepToF(&this->skelAnime.playSpeed, 1.0f, 0.1f, 1.0f, 0.0f);
+    if (Animation_OnFrame(&this->skelAnime, this->skelAnime.endFrame)) {
+        this->spinTimer = Rand_S16Offset(60, 90);
+        this->runRadius = Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.home.pos);
         EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-        this->actor.posRot.rot.y = Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI);
+        this->actor.world.rot.y = Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI);
         func_80034EC0(&this->skelAnime, sAnimations, 4);
         this->actionFunc = EnFd_SpinAndSpawnFire;
     }
@@ -437,7 +537,7 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
     if (DECR(this->spinTimer) != 0) {
         this->actor.shape.rot.y += (this->runDir * 0x2000);
         if (this->spinTimer == 30 && this->invincibilityTimer == 0) {
-            if (this->actor.xzDistFromLink > 160.0f) {
+            if (this->actor.xzDistToPlayer > 160.0f) {
                 // orange flames
                 EnFd_SpawnChildFire(this, globalCtx, 8, 0);
             } else {
@@ -447,25 +547,25 @@ void EnFd_SpinAndSpawnFire(EnFd* this, GlobalContext* globalCtx) {
         }
     } else {
         // slow shape rotation down to meet `this` rotation within ~1.66 degrees
-        deceleration = this->actor.posRot.rot.y;
+        deceleration = this->actor.world.rot.y;
         deceleration -= this->actor.shape.rot.y;
         rotSpeed = 0.0f;
         tgtSpeed = fabsf(deceleration);
         deceleration /= tgtSpeed;
-        Math_SmoothScaleMaxF(&rotSpeed, tgtSpeed, 0.6f, 0x2000);
+        Math_ApproachF(&rotSpeed, tgtSpeed, 0.6f, 0x2000);
         rotSpeed *= deceleration;
         this->actor.shape.rot.y += (s16)rotSpeed;
         rotSpeed = fabsf(rotSpeed);
         if ((s32)rotSpeed <= 300) {
             // ~1.6 degrees
-            this->actor.shape.rot.y = this->actor.posRot.rot.y;
+            this->actor.shape.rot.y = this->actor.world.rot.y;
         }
 
-        if (this->actor.shape.rot.y == this->actor.posRot.rot.y) {
-            this->initYawToInitPos = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos);
+        if (this->actor.shape.rot.y == this->actor.world.rot.y) {
+            this->initYawToInitPos = Math_Vec3f_Yaw(&this->actor.home.pos, &this->actor.world.pos);
             this->curYawToInitPos = this->runDir < 0 ? 0xFFFF : 0;
             this->circlesToComplete = (globalCtx->state.frames & 7) + 2;
-            this->spinTimer = Math_Rand_S16Offset(30, 120);
+            this->spinTimer = Rand_S16Offset(30, 120);
             func_80034EC0(&this->skelAnime, sAnimations, 3);
             this->actionFunc = EnFd_Run;
         }
@@ -485,7 +585,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
 
     if (EnFd_ShouldStopRunning(this, globalCtx, this->runRadius, &this->runDir)) {
         if (this->invincibilityTimer == 0) {
-            this->actor.posRot.rot.y ^= 0x8000;
+            this->actor.world.rot.y ^= 0x8000;
             this->actor.velocity.y = 6.0f;
             this->actor.speedXZ = 0.0f;
             func_80034EC0(&this->skelAnime, sAnimations, 1);
@@ -494,7 +594,7 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
         }
     }
 
-    yawToYawTarget = Math_Vec3f_Yaw(&this->actor.initPosRot.pos, &this->actor.posRot.pos) - this->initYawToInitPos;
+    yawToYawTarget = Math_Vec3f_Yaw(&this->actor.home.pos, &this->actor.world.pos) - this->initYawToInitPos;
     if (this->runDir > 0) {
         if ((u16)this->curYawToInitPos > (u16)(yawToYawTarget)) {
             this->circlesToComplete--;
@@ -512,20 +612,19 @@ void EnFd_Run(EnFd* this, GlobalContext* globalCtx) {
     // the distance to that threat, otherwise default to 200.
     potentialThreat = EnFd_FindPotentialTheat(this, globalCtx);
     if ((potentialThreat != NULL) && (this->invincibilityTimer == 0)) {
-        runRadiusTarget = Math_Vec3f_DistXYZ(&this->actor.initPosRot.pos, &potentialThreat->posRot.pos);
+        runRadiusTarget = Math_Vec3f_DistXYZ(&this->actor.home.pos, &potentialThreat->world.pos);
     } else {
         runRadiusTarget = 200.0f;
     }
-    Math_SmoothScaleMaxMinF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
+    Math_SmoothStepToF(&this->runRadius, runRadiusTarget, 0.3f, 100.0f, 0.0f);
     EnFd_GetPosAdjAroundCircle(&adjPos, this, this->runRadius, this->runDir);
-    Math_SmoothScaleMaxMinS(&this->actor.shape.rot.y, Math_atan2f(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
-    this->actor.posRot.rot = this->actor.shape.rot;
+    Math_SmoothStepToS(&this->actor.shape.rot.y, Math_FAtan2F(adjPos.x, adjPos.z) * (0x8000 / M_PI), 4, 0xFA0, 1);
+    this->actor.world.rot = this->actor.shape.rot;
     func_8002F974(&this->actor, NA_SE_EN_FLAME_RUN - SFX_FLAG);
-    if (this->skelAnime.animCurrentFrame == 6.0f || this->skelAnime.animCurrentFrame == 13.0f ||
-        this->skelAnime.animCurrentFrame == 28.0f) {
+    if (this->skelAnime.curFrame == 6.0f || this->skelAnime.curFrame == 13.0f || this->skelAnime.curFrame == 28.0f) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_FLAME_KICK);
     }
-    Math_SmoothScaleMaxMinF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
+    Math_SmoothStepToF(&this->actor.speedXZ, 8.0f, 0.1f, 1.0f, 0.0f);
 }
 
 /**
@@ -557,7 +656,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (this->actionFunc != EnFd_Reappear) {
-        SkelAnime_FrameUpdateMatrix(&this->skelAnime);
+        SkelAnime_Update(&this->skelAnime);
         EnFd_SpawnDot(this, globalCtx);
     }
 
@@ -575,7 +674,7 @@ void EnFd_Update(Actor* thisx, GlobalContext* globalCtx) {
         EnFd_ColliderCheck(this, globalCtx);
     }
     Actor_MoveForward(&this->actor);
-    func_8002E4B4(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
+    Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     EnFd_Fade(this, globalCtx);
     this->actionFunc(this, globalCtx);
     EnFd_UpdateDots(this);
@@ -606,7 +705,7 @@ s32 EnFd_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
         }
     }
 
-    return 0;
+    return false;
 }
 
 void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx, Gfx** gfxP) {
@@ -624,7 +723,7 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     }
 
     if (limbIndex == 13) {
-        Matrix_MultVec3f(&initialPos, &this->actor.posRot2.pos);
+        Matrix_MultVec3f(&initialPos, &this->actor.focus.pos);
     }
 
     if (limbIndex == 3 || limbIndex == 6 || limbIndex == 7 || limbIndex == 10 || limbIndex == 14 || limbIndex == 15 ||
@@ -633,18 +732,18 @@ void EnFd_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         if ((globalCtx->state.frames % 2) != 0) {
             for (i = 0; i < 1; i++) {
                 Matrix_MultVec3f(&initialPos, &pos);
-                pos.x += (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
-                pos.y += (Math_Rand_ZeroOne() - 0.5f) * 40.0f;
-                pos.z += (Math_Rand_ZeroOne() - 0.5f) * 20.0f;
-                accel.x = (Math_Rand_ZeroOne() - 0.5f) * 0.4f;
-                accel.y = ((Math_Rand_ZeroOne() - 0.5f) * 0.2f) + 0.6f;
-                accel.z = (Math_Rand_ZeroOne() - 0.5f) * 0.4f;
+                pos.x += (Rand_ZeroOne() - 0.5f) * 20.0f;
+                pos.y += (Rand_ZeroOne() - 0.5f) * 40.0f;
+                pos.z += (Rand_ZeroOne() - 0.5f) * 20.0f;
+                accel.x = (Rand_ZeroOne() - 0.5f) * 0.4f;
+                accel.y = ((Rand_ZeroOne() - 0.5f) * 0.2f) + 0.6f;
+                accel.z = (Rand_ZeroOne() - 0.5f) * 0.4f;
                 EnFd_AddEffect(this, FD_EFFECT_DOT, &pos, &velocity, &accel, 0, 0.006f, 0.0f);
             }
         }
     }
 
-    func_800628A4(limbIndex, &this->collider);
+    Collider_UpdateSpheres(limbIndex, &this->collider);
 }
 
 void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -670,7 +769,7 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Push();
     EnFd_DrawDots(this, globalCtx);
     EnFd_DrawFlames(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
         func_80093D84(globalCtx->state.gfxCtx);
@@ -685,7 +784,7 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
         gDPPipeSync(POLY_XLU_DISP++);
         gSPSegment(POLY_XLU_DISP++, 0x9, D_80116280);
 
-        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.limbDrawTbl,
+        POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
                                            this->skelAnime.dListCount, EnFd_OverrideLimbDraw, EnFd_PostLimbDraw, this,
                                            POLY_XLU_DISP);
     }
@@ -710,7 +809,7 @@ void EnFd_AddEffect(EnFd* this, u8 type, Vec3f* pos, Vec3f* velocity, Vec3f* acc
         eff->velocity = *velocity;
         if (eff->type == FD_EFFECT_DOT) {
             eff->color.a = 255;
-            eff->timer = (s16)(Math_Rand_ZeroOne() * 10.0f);
+            eff->timer = (s16)(Rand_ZeroOne() * 10.0f);
         }
         return;
     }
@@ -726,8 +825,8 @@ void EnFd_UpdateFlames(EnFd* this) {
             if (eff->timer == 0) {
                 eff->type = FD_EFFECT_NONE;
             }
-            eff->accel.x = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
-            eff->accel.z = (Math_Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.x = (Rand_ZeroOne() * 0.4f) - 0.2f;
+            eff->accel.z = (Rand_ZeroOne() * 0.4f) - 0.2f;
             eff->pos.x += eff->velocity.x;
             eff->pos.y += eff->velocity.y;
             eff->pos.z += eff->velocity.z;
@@ -773,8 +872,8 @@ void EnFd_UpdateDots(EnFd* this) {
 }
 
 void EnFd_DrawFlames(EnFd* this, GlobalContext* globalCtx) {
-    static Gfx* D_80A0E0F8[] = {
-        0x040539B0, 0x040535B0, 0x040531B0, 0x04052DB0, 0x040529B0, 0x040525B0, 0x040521B0, 0x04051DB0,
+    static UNK_PTR D_80A0E0F8[] = {
+        gDust8Tex, gDust7Tex, gDust6Tex, gDust5Tex, gDust4Tex, gDust3Tex, gDust2Tex, gDust1Tex,
     };
     s32 firstDone;
     s16 i;

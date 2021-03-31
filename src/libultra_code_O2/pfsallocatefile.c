@@ -3,11 +3,14 @@
 #include "ultra64/pfs.h"
 
 s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u8* extName, s32 fileSize, s32* fileNo) {
-    s32 startPage, decleared, prevPage;
+    s32 startPage;
+    s32 decleared;
+    s32 prevPage;
     s32 oldPrevPage = 0;
     s32 ret = 0;
     s32 fileSizeInPages;
-    __OSInode inode, backup_inode;
+    __OSInode inode;
+    __OSInode backupInode;
     __OSDir dir;
     u8 bank;
     u8 prevBank = 0;
@@ -58,14 +61,14 @@ s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u
                 fpage.inode_t.page = (u8)startPage;
                 fpage.inode_t.bank = bank;
             } else { /* Writing previous bank inode */
-                backup_inode.inodePage[oldPrevPage].inode_t.bank = bank;
-                backup_inode.inodePage[oldPrevPage].inode_t.page = (u8)startPage;
-                if ((ret = __osPfsRWInode(pfs, &backup_inode, PFS_WRITE, prevBank)) != 0) {
+                backupInode.inodePage[oldPrevPage].inode_t.bank = bank;
+                backupInode.inodePage[oldPrevPage].inode_t.page = (u8)startPage;
+                if ((ret = __osPfsRWInode(pfs, &backupInode, PFS_WRITE, prevBank)) != 0) {
                     return ret;
                 }
             }
             if (fileSizeInPages > decleared) {
-                bcopy(&inode, &backup_inode, sizeof(__OSInode));
+                bcopy(&inode, &backupInode, sizeof(__OSInode));
                 oldPrevPage = prevPage;
                 prevBank = bank;
                 fileSizeInPages -= decleared;
@@ -91,8 +94,7 @@ s32 osPfsAllocateFile(OSPfs* pfs, u16 companyCode, u32 gameCode, u8* gameName, u
     bcopy(gameName, dir.game_name, PFS_FILE_NAME_LEN);
     bcopy(extName, dir.ext_name, PFS_FILE_EXT_LEN);
 
-    ret = __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + *fileNo, &dir, 0);
-    return ret;
+    return __osContRamWrite(pfs->queue, pfs->channel, pfs->dir_table + *fileNo, (u8*)&dir, 0);
 }
 
 s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* startPage, u8 bank, s32* decleared,
@@ -100,9 +102,8 @@ s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* s
     s32 j;
     s32 spage, prevPage;
     s32 ret = 0;
-    s32 offset;
+    s32 offset = ((bank > PFS_ID_BANK_256K) ? 1 : pfs->inodeStartPage);
 
-    offset = ((bank > PFS_ID_BANK_256K) ? 1 : pfs->inodeStartPage);
     for (j = offset; j < PFS_INODE_SIZE_PER_PAGE; j++) {
         if (inode->inodePage[j].ipage == PFS_PAGE_NOT_USED) {
             break;
@@ -126,6 +127,7 @@ s32 __osPfsDeclearPage(OSPfs* pfs, __OSInode* inode, s32 fileSizeInPages, s32* s
         }
         j++;
     }
+
     *startPage = spage;
     if ((j == (PFS_INODE_SIZE_PER_PAGE)) && (fileSizeInPages > *decleared)) {
         *finalPage = prevPage;

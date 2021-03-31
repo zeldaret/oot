@@ -23,7 +23,7 @@ void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx);
 
 const ActorInit Obj_Comb_InitVars = {
     ACTOR_OBJ_COMB,
-    ACTORTYPE_PROP,
+    ACTORCAT_PROP,
     FLAGS,
     OBJECT_GAMEPLAY_FIELD_KEEP,
     sizeof(ObjComb),
@@ -33,17 +33,31 @@ const ActorInit Obj_Comb_InitVars = {
     (ActorFunc)ObjComb_Draw,
 };
 
-static ColliderJntSphItemInit sJntSphItemsInit[1] = {
+static ColliderJntSphElementInit sJntSphElementsInit[1] = {
     {
-        { 0x00, { 0x00000000, 0x00, 0x00 }, { 0x4001FFFE, 0x00, 0x00 }, 0x00, 0x01, 0x01 },
-        { 0x00, { { 0, 0, 0 }, 15 }, 100 },
+        {
+            ELEMTYPE_UNK0,
+            { 0x00000000, 0x00, 0x00 },
+            { 0x4001FFFE, 0x00, 0x00 },
+            TOUCH_NONE,
+            BUMP_ON,
+            OCELEM_ON,
+        },
+        { 0, { { 0, 0, 0 }, 15 }, 100 },
     },
 };
 
 static ColliderJntSphInit sJntSphInit = {
-    { COLTYPE_UNK10, 0x00, 0x09, 0x09, 0x20, COLSHAPE_JNTSPH },
+    {
+        COLTYPE_NONE,
+        AT_NONE,
+        AC_ON | AC_TYPE_PLAYER,
+        OC1_ON | OC1_TYPE_PLAYER,
+        OC2_TYPE_2,
+        COLSHAPE_JNTSPH,
+    },
     1,
-    &sJntSphItemsInit,
+    sJntSphElementsInit,
 };
 
 static InitChainEntry sInitChain[] = {
@@ -60,7 +74,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
     Vec3f pos1;
     Vec3f pos;
     Vec3f velocity;
-    Gfx** dlist = D_05009940;
+    Gfx* dlist = D_05009940;
     s16 scale;
     s16 angle = 0;
     s16 gravity;
@@ -72,19 +86,19 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
 
     for (i = 0; i < 31; i++) {
         angle += 20000;
-        rand1 = Math_Rand_ZeroOne() * 10.0f;
+        rand1 = Rand_ZeroOne() * 10.0f;
 
-        pos1.x = Math_Sins(angle) * rand1;
+        pos1.x = Math_SinS(angle) * rand1;
         pos1.y = (i - 15) * 0.7f;
-        pos1.z = Math_Coss(angle) * rand1;
+        pos1.z = Math_CosS(angle) * rand1;
 
-        Math_Vec3f_Sum(&pos1, &this->actor.posRot.pos, &pos);
+        Math_Vec3f_Sum(&pos1, &this->actor.world.pos, &pos);
 
-        velocity.x = (Math_Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
-        velocity.y = (Math_Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
-        velocity.z = (Math_Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
+        velocity.x = (Rand_ZeroOne() - 0.5f) + pos1.x * 0.5f;
+        velocity.y = (Rand_ZeroOne() - 0.5f) + pos1.y * 0.6f;
+        velocity.z = (Rand_ZeroOne() - 0.5f) + pos1.z * 0.5f;
 
-        scale = Math_Rand_ZeroOne() * 72.0f + 25.0f;
+        scale = Rand_ZeroOne() * 72.0f + 25.0f;
 
         if (scale < 40) {
             gravity = -200;
@@ -97,7 +111,7 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
             arg6 = 20;
         }
 
-        rand2 = Math_Rand_ZeroOne();
+        rand2 = Rand_ZeroOne();
 
         if (rand2 < 0.1f) {
             arg5 = 96;
@@ -111,9 +125,9 @@ void ObjComb_Break(ObjComb* this, GlobalContext* globalCtx) {
                              KAKERA_COLOR_NONE, OBJECT_GAMEPLAY_FIELD_KEEP, dlist);
     }
 
-    pos.x = this->actor.posRot.pos.x;
-    pos.y = this->actor.posRot.pos.y - 10.0f;
-    pos.z = this->actor.posRot.pos.z;
+    pos.x = this->actor.world.pos.x;
+    pos.y = this->actor.world.pos.y - 10.0f;
+    pos.z = this->actor.world.pos.z;
     func_80033480(globalCtx, &pos, 40.0f, 6, 70, 60, 1);
 }
 
@@ -127,11 +141,11 @@ void ObjComb_ChooseItemDrop(ObjComb* this, GlobalContext* globalCtx) {
             } else {
                 params = (params | (((this->actor.params >> 8) & 0x3F) << 8));
             }
-        } else if (Math_Rand_ZeroOne() < 0.5f) {
+        } else if (Rand_ZeroOne() < 0.5f) {
             params = -1;
         }
         if (params >= 0) {
-            Item_DropCollectible(globalCtx, &this->actor.posRot, params);
+            Item_DropCollectible(globalCtx, &this->actor.world.pos, params);
         }
     }
 }
@@ -141,7 +155,7 @@ void ObjComb_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     Collider_InitJntSph(globalCtx, &this->collider);
-    Collider_SetJntSph(globalCtx, &this->collider, this, &sJntSphInit, &this->colliderItems);
+    Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sJntSphInit, this->colliderItems);
     ObjComb_SetupWait(this);
 }
 
@@ -157,29 +171,29 @@ void ObjComb_SetupWait(ObjComb* this) {
 }
 
 void ObjComb_Wait(ObjComb* this, GlobalContext* globalCtx) {
-    s32 toucherFlags;
+    s32 dmgFlags;
 
     this->unk_1B0 -= 50;
     if (this->unk_1B0 < 0) {
         this->unk_1B0 = 0;
     }
 
-    if ((this->collider.base.acFlags & 0x2) != 0) {
-        this->collider.base.acFlags &= ~0x2;
-        toucherFlags = this->collider.list->body.acHitItem->toucher.flags;
-        if (toucherFlags & 0x4001F866) {
+    if ((this->collider.base.acFlags & AC_HIT) != 0) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        dmgFlags = this->collider.elements[0].info.acHitInfo->toucher.dmgFlags;
+        if (dmgFlags & 0x4001F866) {
             this->unk_1B0 = 1500;
         } else {
             ObjComb_Break(this, globalCtx);
             ObjComb_ChooseItemDrop(this, globalCtx);
-            Actor_Kill(this);
+            Actor_Kill(&this->actor);
         }
     } else {
-        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 
     if (this->actor.update != NULL) {
-        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     }
 }
 
@@ -188,7 +202,7 @@ void ObjComb_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->unk_1B2 += 12000;
     this->actionFunc(this, globalCtx);
-    this->actor.shape.rot.x = Math_Sins(this->unk_1B2) * this->unk_1B0 + this->actor.initPosRot.rot.x;
+    this->actor.shape.rot.x = Math_SinS(this->unk_1B2) * this->unk_1B0 + this->actor.home.rot.x;
 }
 
 void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -198,8 +212,8 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    Matrix_Translate(this->actor.posRot.pos.x, this->actor.posRot.pos.y + (118.0f * this->actor.scale.y),
-                     this->actor.posRot.pos.z, 0);
+    Matrix_Translate(this->actor.world.pos.x, this->actor.world.pos.y + (118.0f * this->actor.scale.y),
+                     this->actor.world.pos.z, 0);
     Matrix_RotateY(this->actor.shape.rot.y * 0.0000958738f, 1);
     Matrix_RotateX(this->actor.shape.rot.x * 0.0000958738f, 1);
     Matrix_RotateZ(this->actor.shape.rot.z * 0.0000958738f, 1);
@@ -211,7 +225,7 @@ void ObjComb_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     gSPDisplayList(POLY_OPA_DISP++, D_050095B0);
 
-    func_800628A4(0, &this->collider);
+    Collider_UpdateSpheres(0, &this->collider);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_obj_comb.c", 402);
 }

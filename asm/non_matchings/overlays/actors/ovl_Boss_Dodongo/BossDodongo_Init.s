@@ -37,8 +37,8 @@ glabel BossDodongo_Init
 
 /* 00818 808C19A8 24A5A3C8 */  addiu   $a1, $a1, %lo(D_808CA3C8)  ## $a1 = 808CA3C8
 /* 0081C 808C19AC 3C05460F */  lui     $a1, 0x460F                ## $a1 = 460F0000
-/* 00820 808C19B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawFunc_Circle)
-/* 00824 808C19B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawFunc_Circle)
+/* 00820 808C19B0 3C068003 */  lui     $a2, %hi(ActorShadow_DrawCircle)
+/* 00824 808C19B4 24C6B5EC */  addiu   $a2, %lo(ActorShadow_DrawCircle)
 /* 00828 808C19B8 34A5C000 */  ori     $a1, $a1, 0xC000           ## $a1 = 460FC000
 /* 0082C 808C19BC 260400B4 */  addiu   $a0, $s0, 0x00B4           ## $a0 = 000000B4
 /* 00830 808C19C0 0C00AC78 */  jal     ActorShape_Init
@@ -63,7 +63,7 @@ glabel BossDodongo_Init
 
 /* 00874 808C1A04 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 00878 808C1A08 02202025 */  or      $a0, $s1, $zero            ## $a0 = 0000014C
-/* 0087C 808C1A0C 0C0294BE */  jal     SkelAnime_ChangeAnimDefaultRepeat
+/* 0087C 808C1A0C 0C0294BE */  jal     Animation_PlayLoop
 /* 00880 808C1A10 02402825 */  or      $a1, $s2, $zero            ## $a1 = 0600F0D8
 /* 00884 808C1A14 3C013F80 */  lui     $at, 0x3F80                ## $at = 3F800000
 /* 00888 808C1A18 44812000 */  mtc1    $at, $f4                   ## $f4 = 1.00

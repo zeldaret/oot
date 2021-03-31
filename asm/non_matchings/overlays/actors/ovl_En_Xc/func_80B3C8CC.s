@@ -15,7 +15,7 @@ glabel func_80B3C8CC
 /* 00720 80B3C900 35090003 */  ori     $t1, $t0, 0x0003           ## $t1 = 00000003
 /* 00724 80B3C904 A0C90035 */  sb      $t1, 0x0035($a2)           ## 00000181
 /* 00728 80B3C908 8FA50018 */  lw      $a1, 0x0018($sp)
-/* 0072C 80B3C90C 0C028D88 */  jal     SkelAnime_LoadAnimationType5
+/* 0072C 80B3C90C 0C028D88 */  jal     AnimationContext_SetMoveActor
 /* 00730 80B3C910 8FA4001C */  lw      $a0, 0x001C($sp)
 /* 00734 80B3C914 8FBF0014 */  lw      $ra, 0x0014($sp)
 .L80B3C918:

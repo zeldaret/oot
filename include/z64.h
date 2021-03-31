@@ -5,6 +5,7 @@
 #include "ultra64/gs2dex.h"
 #include "z64save.h"
 #include "z64light.h"
+#include "z64bgcheck.h"
 #include "z64actor.h"
 #include "z64player.h"
 #include "z64audio.h"
@@ -18,6 +19,7 @@
 #include "z64animation.h"
 #include "z64dma.h"
 #include "z64math.h"
+#include "z64map_mark.h"
 #include "z64transition.h"
 #include "bgm.h"
 #include "sfx.h"
@@ -46,6 +48,11 @@
 // NOTE: Once we start supporting other builds, this can be changed with an ifdef
 #define REGION_NATIVE REGION_EU
 
+typedef struct{
+    /* 0x00 */ char unk[0x4];
+    /* 0x04 */ MtxF mf;
+} HorseStruct;
+
 // Game Info aka. Static Context (dbg ram start: 80210A10)
 // Data normally accessed through REG macros (see regs.h)
 typedef struct {
@@ -69,9 +76,9 @@ typedef struct {
 
 typedef struct {
     /* 0x0000 */ u32    size;
-    /* 0x0004 */ u8*    bufp;
-    /* 0x0008 */ u8*    head;
-    /* 0x000C */ u8*    tail;
+    /* 0x0004 */ void*    bufp;
+    /* 0x0008 */ void*    head;
+    /* 0x000C */ void*    tail;
 } TwoHeadArena; // size = 0x10
 
 typedef struct {
@@ -173,7 +180,7 @@ typedef struct {
     /* 0x0104 */ Vec3f  unk_104;
     /* 0x0110 */ Vec3f  unk_110;
     /* 0x011C */ u16    normal; // used to normalize the projection matrix
-    /* 0x0120 */ u32    flags;
+    /* 0x0120 */ s32    flags;
     /* 0x0124 */ s32    unk_124;
 } View; // size = 0x128
 
@@ -184,46 +191,9 @@ typedef struct {
 } SoundContext; // size = 0x4
 
 typedef struct {
-    /* 0x00 */ u32 toggle;
-    /* 0x04 */ s32 counter;
-} SubGlobalContext7B8; // size = 0x8
-
-typedef struct {
-    /* 0x00 */ char unk_00[0x2];
-    /* 0x02 */ s16  unk_02;
-    /* 0x04 */ char unk_04[0x8];
-    /* 0x0C */ u32 unk_0C;
-} WaterBox; // size = 0x10
-
-typedef struct {
-    /* 0x00 */ Vec3s     colAbsMin;
-    /* 0x06 */ Vec3s     colAbsMax;
-    /* 0x0C */ s16       nbVertices;
-    /* 0x10 */ void*     vertexArray;
-    /* 0x14 */ s16       nbPolygons;
-    /* 0x18 */ void*     polygonArray;
-    /* 0x1C */ void*     polygonTypes;
-    /* 0x20 */ void*     cameraData;
-    /* 0x24 */ u16       nbWaterBoxes;
-    /* 0x28 */ WaterBox* waterBoxes;
-} CollisionHeader;
-
-typedef struct {
-    /* 0x00 */ CollisionHeader* colHeader;
-    /* 0x04 */ char             unk_04[0x4C];
-} StaticCollisionContext; // size = 0x50
-
-typedef struct {
-    /* 0x0000 */ ActorMesh actorMeshArr[50];
-    /* 0x1388 */ char   unk_1388[0x04];
-    /* 0x138C */ u16    flags[50];
-    /* 0x13F0 */ char   unk_13F0[0x24];
-} DynaCollisionContext; // size = 0x1414
-
-typedef struct {
-    /* 0x0000 */ StaticCollisionContext stat;
-    /* 0x0050 */ DynaCollisionContext   dyna;
-} CollisionContext; // size = 0x1464
+    /* 0x00 */ s32 enabled;
+    /* 0x04 */ s32 timer;
+} FrameAdvanceContext; // size = 0x8
 
 typedef struct {
     /* 0x00 */ Vec3f    pos;
@@ -241,7 +211,7 @@ typedef struct {
     /* 0x40 */ f32      unk_40;
     /* 0x44 */ f32      unk_44;
     /* 0x48 */ s16      unk_48;
-    /* 0x4A */ u8       activeType;
+    /* 0x4A */ u8       activeCategory;
     /* 0x4B */ u8       unk_4B;
     /* 0x4C */ s8       unk_4C;
     /* 0x4D */ char     unk_4D[0x03];
@@ -264,8 +234,8 @@ typedef struct {
 } TitleCardContext; // size = 0x10
 
 typedef struct {
-    /* 0x00 */ s32    length; // number of actors loaded of this type
-    /* 0x04 */ Actor* first;  // pointer to first actor of this type
+    /* 0x00 */ s32    length; // number of actors loaded of this category
+    /* 0x04 */ Actor* head; // pointer to head of the linked list of this category (most recent actor added)
 } ActorListEntry; // size = 0x08
 
 typedef struct {
@@ -276,7 +246,7 @@ typedef struct {
     /* 0x0004 */ char   unk_04[0x04];
     /* 0x0008 */ u8     total; // total number of actors loaded
     /* 0x0009 */ char   unk_09[0x03];
-    /* 0x000C */ ActorListEntry actorList[12];
+    /* 0x000C */ ActorListEntry actorLists[12];
     /* 0x006C */ TargetContext targetCtx;
     struct {
         /* 0x0104 */ u32    swch;
@@ -372,7 +342,8 @@ typedef struct {
     /* 0xE3F6 */ char   unk_E3F6[0x16];
     /* 0xE40C */ u16    unk_E40C;
     /* 0xE40E */ s16    unk_E40E;
-    /* 0xE410 */ char   unk_E410[0x08];
+    /* 0xE410 */ u8     unk_E410;
+    /* 0xE411 */ char   unk_E411[0x07];
 } MessageContext; // size = 0xE418
 
 typedef struct {
@@ -399,10 +370,14 @@ typedef struct {
     /* 0x01FC */ s16    unk_1FC;
     /* 0x01FE */ s16    unk_1FE;
     /* 0x0200 */ s16    unk_200;
-    /* 0x0202 */ s16    unk_202[3];
-    /* 0x0208 */ s16    unk_208[3];
-    /* 0x020E */ s16    unk_20E[6];
-    /* 0x021A */ s16    unk_21A[6];
+    /* 0x0202 */ s16    beatingHeartPrim[3];
+    /* 0x0208 */ s16    beatingHeartEnv[3];
+    /* 0x020E */ s16    heartsPrimR[2];
+    /* 0x0212 */ s16    heartsPrimG[2];
+    /* 0x0216 */ s16    heartsPrimB[2];
+    /* 0x021A */ s16    heartsEnvR[2];
+    /* 0x021E */ s16    heartsEnvG[2];
+    /* 0x0222 */ s16    heartsEnvB[2];
     /* 0x0226 */ s16    unk_226;
     /* 0x0228 */ s16    unk_228;
     /* 0x022A */ s16    unk_22A;
@@ -519,6 +494,23 @@ typedef struct {
     /* 0x0266 */ s16    unk_266;
     /* 0x0268 */ char   unk_268[0x58];
 } PauseContext; // size = 0x2C0
+
+typedef enum {
+    /* 00 */ GAMEOVER_INACTIVE,
+    /* 01 */ GAMEOVER_DEATH_START,
+    /* 02 */ GAMEOVER_DEATH_WAIT_GROUND, // wait for link to fall and hit the ground
+    /* 03 */ GAMEOVER_DEATH_DELAY_MENU, // wait for 1 second before showing the game over menu
+    /* 04 */ GAMEOVER_DEATH_MENU, // do nothing while kaliedoscope handles the game over menu
+    /* 20 */ GAMEOVER_REVIVE_START = 20,
+    /* 21 */ GAMEOVER_REVIVE_RUMBLE,
+    /* 22 */ GAMEOVER_REVIVE_WAIT_GROUND, // wait for link to fall and hit the ground
+    /* 23 */ GAMEOVER_REVIVE_WAIT_FAIRY, // wait for the fairy to rise all the way up out of links body
+    /* 24 */ GAMEOVER_REVIVE_FADE_OUT // fade out the game over lights as link is revived and gets back up
+} GameOverState;
+
+typedef struct {
+    /* 0x00 */ u16 state;
+} GameOverContext;
 
 typedef struct {
     /* 0x00 */ char     unk_00[0x02];
@@ -699,15 +691,15 @@ typedef struct {
 } RoomContext; // size = 0x74
 
 typedef struct {
-    /* 0x000 */ s16 colAtCount;
+    /* 0x000 */ s16 colATCount;
     /* 0x002 */ u16 sacFlags;
-    /* 0x004 */ Collider* colAt[COLLISION_CHECK_AT_MAX];
-    /* 0x0CC */ s32 colAcCount;
-    /* 0x0D0 */ Collider* colAc[COLLISION_CHECK_AC_MAX];
-    /* 0x1C0 */ s32 colOcCount;
-    /* 0x1C4 */ Collider* colOc[COLLISION_CHECK_OC_MAX];
-    /* 0x28C */ s32 colOcLineCount;
-    /* 0x290 */ OcLine* colOcLine[COLLISION_CHECK_OC_LINE_MAX];
+    /* 0x004 */ Collider* colAT[COLLISION_CHECK_AT_MAX];
+    /* 0x0CC */ s32 colACCount;
+    /* 0x0D0 */ Collider* colAC[COLLISION_CHECK_AC_MAX];
+    /* 0x1C0 */ s32 colOCCount;
+    /* 0x1C4 */ Collider* colOC[COLLISION_CHECK_OC_MAX];
+    /* 0x28C */ s32 colLineCount;
+    /* 0x290 */ OcLine* colLine[COLLISION_CHECK_OC_LINE_MAX];
 } CollisionCheckContext; // size = 0x29C
 
 typedef struct ListAlloc {
@@ -745,7 +737,7 @@ typedef struct {
         TransitionWipe wipe;
         char data[0x228];
     };
-    /* 0x228 */ s32    transitionType;
+    /* 0x228 */ s32   transitionType;
     /* 0x22C */ void* (*init)(void* transition);
     /* 0x230 */ void  (*destroy)(void* transition);
     /* 0x234 */ void  (*update)(void* transition, s32 updateRate);
@@ -889,13 +881,13 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x001E0 */ Camera subCameras[3];
+    /* 0x0034C */ Camera subCameras[3];
     /* 0x00790 */ Camera* cameraPtrs[4];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;
     /* 0x007A8 */ LightContext lightCtx;
-    /* 0x007B8 */ SubGlobalContext7B8 sub_7B8;
+    /* 0x007B8 */ FrameAdvanceContext frameAdvCtx;
     /* 0x007C0 */ CollisionContext colCtx;
     /* 0x01C24 */ ActorContext actorCtx;
     /* 0x01D64 */ CutsceneContext csCtx; // "demo_play"
@@ -906,7 +898,7 @@ typedef struct GlobalContext {
     /* 0x020D8 */ MessageContext msgCtx; // "message"
     /* 0x104F0 */ InterfaceContext interfaceCtx; // "parameter"
     /* 0x10760 */ PauseContext pauseCtx;
-    /* 0x10A20 */ u16 unk_10A20;
+    /* 0x10A20 */ GameOverContext gameOverCtx;
     /* 0x10A24 */ EnvironmentContext envCtx;
     /* 0x10B20 */ AnimationContext animationCtx;
     /* 0x117A4 */ ObjectContext objectCtx;
@@ -914,7 +906,7 @@ typedef struct GlobalContext {
     /* 0x11D30 */ s16 unk_11D30[2];
     /* 0x11D34 */ u8 nbTransitionActors;
     /* 0x11D38 */ TransitionActorEntry* transitionActorList;
-    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, SkeletonHeader* skelHeader);
+    /* 0x11D3C */ void (*playerInit)(Player* player, struct GlobalContext* globalCtx, FlexSkeletonHeader* skelHeader);
     /* 0x11D40 */ void (*playerUpdate)(Player* player, struct GlobalContext* globalCtx, Input* input);
     /* 0x11D44 */ s32 (*isPlayerDroppingFish)(struct GlobalContext* globalCtx);
     /* 0x11D48 */ s32 (*startPlayerFishing)(struct GlobalContext* globalCtx);
@@ -940,7 +932,7 @@ typedef struct GlobalContext {
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
-    /* 0x11E10 */ char unk_11E10[0x4];
+    /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;
@@ -1070,9 +1062,9 @@ typedef enum {
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              playbackSpeed;
-    /* 0x08 */ f32              unk_08;
+    /* 0x08 */ f32              startFrame;
     /* 0x0C */ f32              frameCount;
-    /* 0x10 */ u8               unk_10;
+    /* 0x10 */ u8               mode;
     /* 0x14 */ f32              transitionRate;
 } struct_80034EC0_Entry; // size = 0x18
 
@@ -1080,7 +1072,7 @@ typedef struct {
 typedef struct {
     /* 0x00 */ AnimationHeader* animation;
     /* 0x04 */ f32              frameCount;
-    /* 0x08 */ u8               unk_08;
+    /* 0x08 */ u8               mode;
     /* 0x0C */ f32              transitionRate;
 } struct_D_80AA1678; // size = 0x10
 
@@ -1093,7 +1085,7 @@ typedef struct {
     /* 0x0E */ Vec3s unk_0E;
     /* 0x14 */ f32 unk_14;
     /* 0x18 */ Vec3f unk_18;
-    /* 0x24 */ char unk_24[0x4];
+    /* 0x24 */ s16 unk_24;
 } struct_80034A14_arg1; // size = 0x28
 
 typedef struct {
@@ -1176,19 +1168,6 @@ typedef struct {
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
 
-typedef struct {
-    /* 0x00 */ s8 chestFlag; // chest icon is only displayed if this flag is not set for the current room
-    /* 0x01 */ u8 x, y; // coordinates to place the icon (top-left corner), relative to the minimap texture
-} MapMarkPoint; // size = 0x3
-
-typedef struct {
-    /* 0x00 */ s8 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x01 */ u8 count; // number of icons to display
-    /* 0x02 */ MapMarkPoint points[12];
-} MapMarkData; // size = 0x26
-
-typedef MapMarkData MapMarksData[3]; // size = 0x72
-
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
     /* 0x0C */ Vec3s rot;
@@ -1259,7 +1238,7 @@ typedef struct {
     /* 0x14 */ u16 backColor;
     /* 0x14 */ u16 cursorX;
     /* 0x16 */ u16 cursorY;
-    /* 0x18 */ u32* fontData;
+    /* 0x18 */ const u32* fontData;
     /* 0x1C */ u8 charW;
     /* 0x1D */ u8 charH;
     /* 0x1E */ s8 charWPad;
@@ -1271,7 +1250,7 @@ typedef struct {
 } FaultDrawer; // size = 0x3C
 
 typedef struct GfxPrint {
-    /* 0x00 */ struct GfxPrint*(*callback)(struct GfxPrint*, const char*, size_t);
+    /* 0x00 */ struct GfxPrint *(*callback)(struct GfxPrint*, const char*, size_t);
     /* 0x04 */ Gfx* dlist;
     /* 0x08 */ u16 posX;
     /* 0x0A */ u16 posY;
@@ -1361,7 +1340,7 @@ typedef struct {
     /* 0x278 */ OSTime retraceTime;
 } IrqMgr; // size = 0x280
 
-typedef struct {
+typedef struct PadMgr {
     /* 0x0000 */ OSContStatus padStatus[4];
     /* 0x0010 */ OSMesg serialMsgBuf[1];
     /* 0x0014 */ OSMesg lockMsgBuf[1];
@@ -1375,7 +1354,7 @@ typedef struct {
     /* 0x0230 */ Input inputs[4];
     /* 0x0290 */ OSContPad pads[4];
     /* 0x02A8 */ vu8 validCtrlrsMask;
-    /* 0x02A9 */ u8 ncontrollers;
+    /* 0x02A9 */ u8 nControllers;
     /* 0x02AA */ u8 ctrlrIsConnected[4]; // "Key_switch" originally
     /* 0x02AE */ u8 pakType[4]; // 1 if rumble pack, 2 if mempak?
     /* 0x02B2 */ vu8 rumbleEnable[4];
@@ -1384,7 +1363,7 @@ typedef struct {
     /* 0x045C */ vu8 rumbleOffFrames;
     /* 0x045D */ vu8 rumbleOnFrames;
     /* 0x045E */ u8 preNMIShutdown;
-    /* 0x0460 */ void (*retraceCallback)(void* padmgr, u32 unk464);
+    /* 0x0460 */ void (*retraceCallback)(struct PadMgr* padmgr, s32 unk464);
     /* 0x0464 */ u32 retraceCallbackValue;
 } PadMgr; // size = 0x468
 
@@ -1671,6 +1650,13 @@ typedef struct {
     /* 0x10 */ s16 unk_10;
 } JpegDecoderState; // size = 0x14
 
+typedef struct {
+    /* 0x0000 */ OSViMode viMode;
+    /* 0x0050 */ char unk_50[0x30];
+    /* 0x0080 */ u32 viFeatures;
+    /* 0x0084 */ char unk_84[4];
+} unk_80166528;
+
 // Vis...
 typedef struct {
     /* 0x00 */ u32 type;
@@ -1713,12 +1699,6 @@ typedef struct {
 } UnkRumbleStruct; // size = 0x10E
 
 typedef struct {
-    char unk_00[0x48];
-    void* avbTbl;
-    SkelAnime skelAnime;
-} PSkinAwb; // size = 0x90
-
-typedef struct {
     /* 0x00 */ char unk_00[0x18];
     /* 0x18 */ s32 unk_18;
     /* 0x1C */ s32 y;
@@ -1736,7 +1716,7 @@ typedef struct {
 } SpeedMeterAllocEntry; // size = 0x1C
 
 typedef struct {
-    /* 0x00 */ OSTime* time;
+    /* 0x00 */ volatile OSTime* time;
     /* 0x04 */ u8 x;
     /* 0x05 */ u8 y;
     /* 0x06 */ u16 color;

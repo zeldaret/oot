@@ -43,7 +43,7 @@ glabel func_808D6E54
 /* 00688 808D6EF8 AC4C0024 */  sw      $t4, 0x0024($v0)           ## 00000024
 /* 0068C 808D6EFC C7A60034 */  lwc1    $f6, 0x0034($sp)           
 /* 00690 808D6F00 E4460038 */  swc1    $f6, 0x0038($v0)           ## 00000038
-/* 00694 808D6F04 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00694 808D6F04 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00698 808D6F08 AFA2001C */  sw      $v0, 0x001C($sp)           
 /* 0069C 808D6F0C 8FA2001C */  lw      $v0, 0x001C($sp)           

@@ -13,7 +13,7 @@ glabel func_8007C7A8
 /* AF3974 8007C7D4 AFA80024 */  sw    $t0, 0x24($sp)
 /* AF3978 8007C7D8 AFAE0010 */  sw    $t6, 0x10($sp)
 /* AF397C 8007C7DC 27A7003C */  addiu $a3, $sp, 0x3c
-/* AF3980 8007C7E0 0C00F75B */  jal   func_8003DD6C
+/* AF3980 8007C7E0 0C00F75B */  jal   BgCheck_CameraLineTest1
 /* AF3984 8007C7E4 AFA00020 */   sw    $zero, 0x20($sp)
 /* AF3988 8007C7E8 8FBF002C */  lw    $ra, 0x2c($sp)
 /* AF398C 8007C7EC 27BD0048 */  addiu $sp, $sp, 0x48

@@ -50,8 +50,8 @@ glabel BgHidanSekizou_Draw
 /* 010B0 8088DF70 17000009 */  bne     $t8, $zero, .L8088DF98     
 /* 010B4 8088DF74 24050014 */  addiu   $a1, $zero, 0x0014         ## $a1 = 00000014
 /* 010B8 8088DF78 8E6202C0 */  lw      $v0, 0x02C0($s3)           ## 000002C0
-/* 010BC 8088DF7C 3C090601 */  lui     $t1, %hi(D_0600B0F8)                ## $t1 = 06010000
-/* 010C0 8088DF80 2529B0F8 */  addiu   $t1, $t1, %lo(D_0600B0F8)           ## $t1 = 0600B0F8
+/* 010BC 8088DF7C 3C090601 */  lui     $t1, %hi(gFireTempleStationaryFlamethrowerShortDL)                ## $t1 = 06010000
+/* 010C0 8088DF80 2529B0F8 */  addiu   $t1, $t1, %lo(gFireTempleStationaryFlamethrowerShortDL)           ## $t1 = 0600B0F8
 /* 010C4 8088DF84 24590008 */  addiu   $t9, $v0, 0x0008           ## $t9 = 00000008
 /* 010C8 8088DF88 AE7902C0 */  sw      $t9, 0x02C0($s3)           ## 000002C0
 /* 010CC 8088DF8C AC490004 */  sw      $t1, 0x0004($v0)           ## 00000004
@@ -59,8 +59,8 @@ glabel BgHidanSekizou_Draw
 /* 010D4 8088DF94 AC480000 */  sw      $t0, 0x0000($v0)           ## 00000000
 .L8088DF98:
 /* 010D8 8088DF98 8E6202C0 */  lw      $v0, 0x02C0($s3)           ## 000002C0
-/* 010DC 8088DF9C 3C0C0601 */  lui     $t4, %hi(D_0600ABC8)                ## $t4 = 06010000
-/* 010E0 8088DFA0 258CABC8 */  addiu   $t4, $t4, %lo(D_0600ABC8)           ## $t4 = 0600ABC8
+/* 010DC 8088DF9C 3C0C0601 */  lui     $t4, %hi(gFireTempleStationaryFlamethrowerTallDL)                ## $t4 = 06010000
+/* 010E0 8088DFA0 258CABC8 */  addiu   $t4, $t4, %lo(gFireTempleStationaryFlamethrowerTallDL)           ## $t4 = 0600ABC8
 /* 010E4 8088DFA4 244A0008 */  addiu   $t2, $v0, 0x0008           ## $t2 = 00000008
 /* 010E8 8088DFA8 AE6A02C0 */  sw      $t2, 0x02C0($s3)           ## 000002C0
 /* 010EC 8088DFAC AC4C0004 */  sw      $t4, 0x0004($v0)           ## 00000004

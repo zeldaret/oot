@@ -60,7 +60,7 @@ glabel func_80B69ED0
 /* 00614 80B69FB4 A4B8002A */  sh      $t8, 0x002A($a1)           ## 0000002A
 /* 00618 80B69FB8 ACAF0020 */  sw      $t7, 0x0020($a1)           ## 00000020
 /* 0061C 80B69FBC E7AE003C */  swc1    $f14, 0x003C($sp)          
-/* 00620 80B69FC0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 00620 80B69FC0 0C00CFBE */  jal     Rand_ZeroFloat
               
 /* 00624 80B69FC4 AFA50034 */  sw      $a1, 0x0034($sp)           
 /* 00628 80B69FC8 4600020D */  trunc.w.s $f8, $f0                   

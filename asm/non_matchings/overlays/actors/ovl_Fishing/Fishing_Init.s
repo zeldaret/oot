@@ -102,7 +102,7 @@ glabel Fishing_Init
 /* 00CB8 80B6A658 3C050600 */  lui     $a1, %hi(D_0600453C)                ## $a1 = 06000000
 /* 00CBC 80B6A65C 24A5453C */  addiu   $a1, $a1, %lo(D_0600453C)           ## $a1 = 0600453C
 /* 00CC0 80B6A660 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
-/* 00CC4 80B6A664 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 00CC4 80B6A664 0C0294D3 */  jal     Animation_MorphToLoop
 /* 00CC8 80B6A668 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 00CCC 80B6A66C 3C014320 */  lui     $at, 0x4320                ## $at = 43200000
 /* 00CD0 80B6A670 44812000 */  mtc1    $at, $f4                   ## $f4 = 160.00
@@ -384,7 +384,7 @@ glabel Fishing_Init
 /* 010B8 80B6AA58 3C0142C8 */  lui     $at, 0x42C8                ## $at = 42C80000
 /* 010BC 80B6AA5C 44816000 */  mtc1    $at, $f12                  ## $f12 = 100.00
 /* 010C0 80B6AA60 E6000008 */  swc1    $f0, 0x0008($s0)           ## 80B830C0
-/* 010C4 80B6AA64 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 010C4 80B6AA64 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 010C8 80B6AA68 E6000014 */  swc1    $f0, 0x0014($s0)           ## 80B830CC
 /* 010CC 80B6AA6C 4600028D */  trunc.w.s $f10, $f0
@@ -493,7 +493,7 @@ glabel Fishing_Init
 /* 01240 80B6ABE0 4481A000 */  mtc1    $at, $f20                  ## $f20 = 65536.00
 /* 01244 80B6ABE4 00000000 */  nop
 .L80B6ABE8:
-/* 01248 80B6ABE8 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01248 80B6ABE8 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 0124C 80B6ABEC 4600A306 */  mov.s   $f12, $f20
 /* 01250 80B6ABF0 3C0980B8 */  lui     $t1, %hi(D_80B7AD40)       ## $t1 = 80B80000
@@ -553,7 +553,7 @@ glabel Fishing_Init
 /* 0131C 80B6ACBC AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01320 80B6ACC0 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01324 80B6ACC4 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600007C
-/* 01328 80B6ACC8 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 01328 80B6ACC8 0C0294D3 */  jal     Animation_MorphToLoop
 /* 0132C 80B6ACCC 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 /* 01330 80B6ACD0 10000010 */  beq     $zero, $zero, .L80B6AD14
 /* 01334 80B6ACD4 00000000 */  nop
@@ -571,10 +571,10 @@ glabel Fishing_Init
 /* 01360 80B6AD00 AFA00018 */  sw      $zero, 0x0018($sp)
 /* 01364 80B6AD04 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 01368 80B6AD08 02202825 */  or      $a1, $s1, $zero            ## $a1 = 0600CFE0
-/* 0136C 80B6AD0C 0C0294D3 */  jal     SkelAnime_ChangeAnimTransitionRepeat
+/* 0136C 80B6AD0C 0C0294D3 */  jal     Animation_MorphToLoop
 /* 01370 80B6AD10 24060000 */  addiu   $a2, $zero, 0x0000         ## $a2 = 00000000
 .L80B6AD14:
-/* 01374 80B6AD14 0C02927F */  jal     SkelAnime_FrameUpdateMatrix
+/* 01374 80B6AD14 0C02927F */  jal     SkelAnime_Update
 
 /* 01378 80B6AD18 02002025 */  or      $a0, $s0, $zero            ## $a0 = 000001D8
 /* 0137C 80B6AD1C 8658001C */  lh      $t8, 0x001C($s2)           ## 0000001C
@@ -587,7 +587,7 @@ glabel Fishing_Init
 /* 01398 80B6AD38 02602025 */  or      $a0, $s3, $zero            ## $a0 = 00000000
 /* 0139C 80B6AD3C 26651C24 */  addiu   $a1, $s3, 0x1C24           ## $a1 = 00001C24
 /* 013A0 80B6AD40 02403025 */  or      $a2, $s2, $zero            ## $a2 = 00000000
-/* 013A4 80B6AD44 0C00CDD2 */  jal     Actor_ChangeType
+/* 013A4 80B6AD44 0C00CDD2 */  jal     Actor_ChangeCategory
 
 /* 013A8 80B6AD48 24070006 */  addiu   $a3, $zero, 0x0006         ## $a3 = 00000006
 /* 013AC 80B6AD4C 8E480004 */  lw      $t0, 0x0004($s2)           ## 00000004
@@ -630,7 +630,7 @@ glabel Fishing_Init
 .L80B6ADD8:
 /* 01438 80B6ADD8 E64A01AC */  swc1    $f10, 0x01AC($s2)          ## 000001AC
 /* 0143C 80B6ADDC 3C0180B8 */  lui     $at, %hi(D_80B7B384)       ## $at = 80B80000
-/* 01440 80B6ADE0 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01440 80B6ADE0 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 01444 80B6ADE4 C42CB384 */  lwc1    $f12, %lo(D_80B7B384)($at)
 /* 01448 80B6ADE8 C65201AC */  lwc1    $f18, 0x01AC($s2)          ## 000001AC
@@ -643,7 +643,7 @@ glabel Fishing_Init
 /* 01464 80B6AE04 00000000 */  nop
 /* 01468 80B6AE08 4500000F */  bc1f    .L80B6AE48
 /* 0146C 80B6AE0C 00000000 */  nop
-/* 01470 80B6AE10 0C03F66B */  jal     Math_Rand_ZeroOne
+/* 01470 80B6AE10 0C03F66B */  jal     Rand_ZeroOne
               ## Rand.Next() float
 /* 01474 80B6AE14 00000000 */  nop
 /* 01478 80B6AE18 3C0180B8 */  lui     $at, %hi(D_80B7B388)       ## $at = 80B80000
@@ -653,7 +653,7 @@ glabel Fishing_Init
 /* 01488 80B6AE28 00000000 */  nop
 /* 0148C 80B6AE2C 45000006 */  bc1f    .L80B6AE48
 /* 01490 80B6AE30 00000000 */  nop
-/* 01494 80B6AE34 0C00CFBE */  jal     Math_Rand_ZeroFloat
+/* 01494 80B6AE34 0C00CFBE */  jal     Rand_ZeroFloat
 
 /* 01498 80B6AE38 C42CB38C */  lwc1    $f12, %lo(D_80B7B38C)($at)
 /* 0149C 80B6AE3C C64A01AC */  lwc1    $f10, 0x01AC($s2)          ## 000001AC

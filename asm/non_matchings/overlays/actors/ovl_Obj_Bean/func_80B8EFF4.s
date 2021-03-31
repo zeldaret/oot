@@ -11,7 +11,7 @@ glabel func_80B8EFF4
 /* 00598 80B8F018 01F81021 */  addu    $v0, $t7, $t8
 /* 0059C 80B8F01C 8C450000 */  lw      $a1, 0x0000($v0)           ## 00000000
 /* 005A0 80B8F020 8C460004 */  lw      $a2, 0x0004($v0)           ## 00000004
-/* 005A4 80B8F024 0C01DE80 */  jal     Math_ApproxF
+/* 005A4 80B8F024 0C01DE80 */  jal     Math_StepToF
 
 /* 005A8 80B8F028 24840068 */  addiu   $a0, $a0, 0x0068           ## $a0 = 00000068
 /* 005AC 80B8F02C 8FB9007C */  lw      $t9, 0x007C($sp)
@@ -44,7 +44,7 @@ glabel func_80B8EFF4
 /* 00618 80B8F098 AFA50054 */  sw      $a1, 0x0054($sp)
 /* 0061C 80B8F09C AFA60074 */  sw      $a2, 0x0074($sp)
 /* 00620 80B8F0A0 0C01DF97 */  jal     Math_Vec3s_ToVec3f
-              ## Vec3f_CopyVec3s
+              ## Vec3f_CopyFrameTable
 /* 00624 80B8F0A4 27A4005C */  addiu   $a0, $sp, 0x005C           ## $a0 = FFFFFFE4
 /* 00628 80B8F0A8 260501D8 */  addiu   $a1, $s0, 0x01D8           ## $a1 = 000001D8
 /* 0062C 80B8F0AC AFA50028 */  sw      $a1, 0x0028($sp)

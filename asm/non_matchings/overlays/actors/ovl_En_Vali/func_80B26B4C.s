@@ -6,14 +6,14 @@ glabel func_80B26B4C
 /* 004AC 80B26B5C 3C050600 */  lui     $a1, %hi(D_06000854)                ## $a1 = 06000000
 /* 004B0 80B26B60 24A50854 */  addiu   $a1, $a1, %lo(D_06000854)           ## $a1 = 06000854
 /* 004B4 80B26B64 2484014C */  addiu   $a0, $a0, 0x014C           ## $a0 = 0000014C
-/* 004B8 80B26B68 0C029490 */  jal     SkelAnime_ChangeAnimTransitionStop
+/* 004B8 80B26B68 0C029490 */  jal     Animation_MorphToPlayOnce
 /* 004BC 80B26B6C 3C06C0A0 */  lui     $a2, 0xC0A0                ## $a2 = C0A00000
 /* 004C0 80B26B70 240E001E */  addiu   $t6, $zero, 0x001E         ## $t6 = 0000001E
 /* 004C4 80B26B74 AFAE0010 */  sw      $t6, 0x0010($sp)
 /* 004C8 80B26B78 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 004CC 80B26B7C 24054000 */  addiu   $a1, $zero, 0x4000         ## $a1 = 00004000
 /* 004D0 80B26B80 24060096 */  addiu   $a2, $zero, 0x0096         ## $a2 = 00000096
-/* 004D4 80B26B84 0C00D09B */  jal     func_8003426C
+/* 004D4 80B26B84 0C00D09B */  jal     Actor_SetColorFilter
 /* 004D8 80B26B88 24072000 */  addiu   $a3, $zero, 0x2000         ## $a3 = 00002000
 /* 004DC 80B26B8C 920F040D */  lbu     $t7, 0x040D($s0)           ## 0000040D
 /* 004E0 80B26B90 3C1980B2 */  lui     $t9, %hi(func_80B273D0)    ## $t9 = 80B20000
