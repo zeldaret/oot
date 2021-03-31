@@ -73,7 +73,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
     s16 quakeIndex;
 
     if (this->chuGirl->minigamePlayStatus != 0) {
-        if (globalCtx->cameraPtrs[0]->setting == 0x15) {
+        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
             chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
             while (chu != NULL) {

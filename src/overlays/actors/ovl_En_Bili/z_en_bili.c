@@ -318,7 +318,7 @@ void EnBili_UpdateFloating(EnBili* this) {
     f32 baseHeight = CLAMP_MIN(this->actor.floorHeight, playerHeight);
 
     Math_StepToF(&this->actor.home.pos.y, baseHeight + heightOffset, 1.0f);
-    this->actor.world.pos.y = this->actor.home.pos.y + (sinf(this->timer * (M_PI * 0.0625f)) * 3.0f);
+    this->actor.world.pos.y = this->actor.home.pos.y + (sinf(this->timer * (M_PI / 16)) * 3.0f);
 
     // Turn around if touching wall
     if (this->actor.bgCheckFlags & 8) {

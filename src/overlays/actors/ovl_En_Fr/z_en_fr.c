@@ -606,7 +606,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3EE = 0;
         }
 
-        func_800800F8(globalCtx, 0x100E, ~0x62, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, MAIN_CAM);
         globalCtx->msgCtx.msgMode = 0x37;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f

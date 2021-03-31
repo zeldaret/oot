@@ -115,7 +115,7 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     }
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &player->actor.world.pos, &collisionPos,
-                                &poly, 1, 0, 0, 1, &bgId)) {
+                                &poly, true, false, false, true, &bgId)) {
         return false;
     }
 
