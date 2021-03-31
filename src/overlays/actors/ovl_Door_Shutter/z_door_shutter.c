@@ -343,8 +343,8 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, this->dyna.actor.room) || Flags_GetTempClear(globalCtx, this->dyna.actor.room)) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
         DoorShutter_SetupAction(this, func_80997150);
-        OnePointCs_Attention(globalCtx, &this->dyna.actor);
-        OnePointCs_Attention(globalCtx, &PLAYER->actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &PLAYER->actor);
         this->unk_16F = -100;
     } else if (func_809968D4(this, globalCtx) != 0) {
         Player* player = PLAYER;
@@ -459,7 +459,7 @@ void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx) {
     if (func_80996E08(this, globalCtx, 1.0f)) {
         if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             DoorShutter_SetupAction(this, func_80997150);
-            OnePointCs_Attention(globalCtx, &this->dyna.actor);
+            OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
             this->unk_16F = -100;
         } else if (func_809968D4(this, globalCtx)) {
             Player* player = PLAYER;

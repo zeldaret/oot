@@ -144,7 +144,7 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
             if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
                 (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
                 this->actionFunc = ShotSun_TriggerFairy;
-                OnePointCs_Attention(globalCtx, &this->actor);
+                OnePointCutscene_Attention(globalCtx, &this->actor);
                 this->timer = 0;
             } else {
                 this->unk_1A4 = 0;

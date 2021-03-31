@@ -4991,7 +4991,7 @@ s32 Camera_Unique8(Camera* camera) {
 s32 Camera_Unique9(Camera* camera) {
     Vec3f atTarget;
     Vec3f eyeTarget;
-    Unique9* uniq9 = &ONEPOINTCS_INFO(camera)->uniq9;
+    Unique9* uniq9 = &ONEPOINT_CS_INFO(camera)->uniq9;
     Unique9Anim* anim = &uniq9->anim;
     f32 invKeyFrameTimer;
     VecSph eyeNextAtOffset;
@@ -5047,8 +5047,8 @@ s32 Camera_Unique9(Camera* camera) {
     if (anim->keyFrameTimer == 0) {
         anim->isNewKeyFrame = true;
         anim->curKeyFrameIdx++;
-        if (anim->curKeyFrameIdx < ONEPOINTCS_INFO(camera)->keyFrameCnt) {
-            anim->curKeyFrame = &ONEPOINTCS_INFO(camera)->keyFrames[anim->curKeyFrameIdx];
+        if (anim->curKeyFrameIdx < ONEPOINT_CS_INFO(camera)->keyFrameCnt) {
+            anim->curKeyFrame = &ONEPOINT_CS_INFO(camera)->keyFrames[anim->curKeyFrameIdx];
             anim->keyFrameTimer = anim->curKeyFrame->timerInit;
 
             if (anim->curKeyFrame->unk_01 != 0xFF) {
@@ -5836,28 +5836,28 @@ s32 Camera_Demo5(Camera* camera) {
             D_8011D6AC[1].timerInit = camera->timer - 1;
             D_8011D6AC[1].atTargetInit.z = Rand_ZeroOne() * 10.0f;
             D_8011D6AC[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
-            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D6AC;
-            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
+            ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D6AC;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D6AC);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTCS_INFO(camera)->keyFrameCnt--;
+                ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D6AC[2].timerInit;
             }
         } else {
             D_8011D724[1].eyeTargetInit.x = Rand_ZeroOne() * 10.0f;
             D_8011D724[1].timerInit = camera->timer - 1;
-            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D724;
-            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D724);
+            ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D724;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D724);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTCS_INFO(camera)->keyFrameCnt--;
+                ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D724[2].timerInit;
             }
         }
     } else if (playerTargetGeo.r < 30.0f) {
         // distance between player and target is less than 30 units.
-        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D79C;
-        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
+        ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D79C;
+        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D79C);
         if ((sp78.yaw < 0x15) || (sp78.yaw >= 0x12C) || (sp78.pitch < 0x29) || (sp78.pitch >= 0xC8)) {
             D_8011D79C[0].actionFlags = 0x41;
             D_8011D79C[0].atTargetInit.y = -30.0f;
@@ -5871,7 +5871,7 @@ s32 Camera_Demo5(Camera* camera) {
         D_8011D79C[1].timerInit = camera->timer - 1;
 
         if (camera->parentCamIdx != MAIN_CAM) {
-            ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D79C[2].timerInit + D_8011D79C[3].timerInit;
         }
@@ -5879,10 +5879,10 @@ s32 Camera_Demo5(Camera* camera) {
         // distance from the camera's current positon and the target is less than 300 units
         // and the distance fromthe camera's current position to the player is less than 30 units
         D_8011D83C[0].timerInit = camera->timer;
-        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D83C;
-        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
+        ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D83C;
+        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D83C);
         if (camera->parentCamIdx != MAIN_CAM) {
-            ONEPOINTCS_INFO(camera)->keyFrameCnt--;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
         } else {
             camera->timer += D_8011D83C[1].timerInit;
         }
@@ -5892,10 +5892,10 @@ s32 Camera_Demo5(Camera* camera) {
         // is less than ~76.9 degrees
         if (sp78.yaw >= 0x15 && sp78.yaw < 0x12C && sp78.pitch >= 0x29 && sp78.pitch < 0xC8 && eyePlayerGeo.r > 30.0f) {
             D_8011D88C[0].timerInit = camera->timer;
-            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D88C;
-            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
+            ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D88C;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D88C);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTCS_INFO(camera)->keyFrameCnt--;
+                ONEPOINT_CS_INFO(camera)->keyFrameCnt--;
             } else {
                 camera->timer += D_8011D88C[1].timerInit;
             }
@@ -5910,10 +5910,10 @@ s32 Camera_Demo5(Camera* camera) {
             }
             D_8011D8DC[0].timerInit = camera->timer;
             D_8011D8DC[1].timerInit = (s16)(eyeTargetDist * 0.005f) + 8;
-            ONEPOINTCS_INFO(camera)->keyFrames = D_8011D8DC;
-            ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
+            ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D8DC;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D8DC);
             if (camera->parentCamIdx != MAIN_CAM) {
-                ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
+                ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
             } else {
                 camera->timer += D_8011D8DC[1].timerInit + D_8011D8DC[2].timerInit;
             }
@@ -5947,10 +5947,10 @@ s32 Camera_Demo5(Camera* camera) {
         } else {
             D_8011D954[2].timerInit = (s16)(eyeTargetDist * 0.004f) + 6;
         }
-        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D954;
-        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D954);
+        ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D954;
+        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D954);
         if (camera->parentCamIdx != MAIN_CAM) {
-            ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D954[2].timerInit + D_8011D954[3].timerInit;
         }
@@ -5972,14 +5972,14 @@ s32 Camera_Demo5(Camera* camera) {
             t = eyeTargetDist * 0.005f;
             D_8011D9F4[1].timerInit = t + 8;
         }
-        ONEPOINTCS_INFO(camera)->keyFrames = D_8011D9F4;
-        ONEPOINTCS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
+        ONEPOINT_CS_INFO(camera)->keyFrames = D_8011D9F4;
+        ONEPOINT_CS_INFO(camera)->keyFrameCnt = ARRAY_COUNT(D_8011D9F4);
         if (camera->parentCamIdx != MAIN_CAM) {
             if (camera->globalCtx->state.frames & 1) {
                 D_8011D9F4[0].rollTargetInit = -D_8011D9F4[0].rollTargetInit;
                 D_8011D9F4[1].rollTargetInit = -D_8011D9F4[1].rollTargetInit;
             }
-            ONEPOINTCS_INFO(camera)->keyFrameCnt -= 2;
+            ONEPOINT_CS_INFO(camera)->keyFrameCnt -= 2;
         } else {
             camera->timer += D_8011D9F4[1].timerInit + D_8011D9F4[2].timerInit;
             D_8011D9F4[0].rollTargetInit = D_8011D9F4[1].rollTargetInit = 0;
@@ -6232,7 +6232,7 @@ s32 Camera_Demo9(Camera* camera) {
                         // finish action = 0x2000, run OnePointCs 0x3FC (Dramatic Return to Link)
                         onePointTimer =
                             demo9OnePoint->onePointCs.initTimer < 50 ? 5 : demo9OnePoint->onePointCs.initTimer / 5;
-                        OnePointCs_Init(camera->globalCtx, 1020, onePointTimer, NULL, camera->parentCamIdx);
+                        OnePointCutscene_Init(camera->globalCtx, 1020, onePointTimer, NULL, camera->parentCamIdx);
                     }
                 } else {
                     // finish action = 0x1000, copy the current camera's values to the

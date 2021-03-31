@@ -641,13 +641,13 @@ s32 func_80AF383C(EnRu2* this, GlobalContext* globalCtx) {
 void func_80AF3878(EnRu2* this, GlobalContext* globalCtx) {
     if (func_80AF383C(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
         this->action = 16;
-        OnePointCs_Init(globalCtx, 3130, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3130, -99, &this->actor, MAIN_CAM);
     }
 }
 
 void func_80AF38D0(EnRu2* this, GlobalContext* globalCtx) {
     this->action = 16;
-    OnePointCs_Init(globalCtx, 3130, -99, &this->actor, MAIN_CAM);
+    OnePointCutscene_Init(globalCtx, 3130, -99, &this->actor, MAIN_CAM);
 }
 
 void func_80AF390C(EnRu2* this, GlobalContext* globalCtx) {

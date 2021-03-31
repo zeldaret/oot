@@ -341,7 +341,7 @@ void func_809FE638(EnDu* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x20000000)) {
-        OnePointCs_Init(globalCtx, 3330, -99, &this->actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3330, -99, &this->actor, MAIN_CAM);
         player->actor.shape.rot.y = player->actor.world.rot.y = this->actor.world.rot.y + 0x7FFF;
         func_800F5C64(0x51);
         EnDu_SetupAction(this, func_809FE6CC);

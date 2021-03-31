@@ -8,7 +8,7 @@ static s32 sPrevFrameCs1100 = -4096;
 
 #include "z_onepointdemo_data.c"
 
-void OnePointCs_AddVecSphToVec3f(Vec3f* dst, Vec3f* src, VecSph* vecSph) {
+void OnePointCutscene_AddVecSphToVec3f(Vec3f* dst, Vec3f* src, VecSph* vecSph) {
     Vec3f out;
     Vec3f vec;
 
@@ -21,17 +21,17 @@ void OnePointCs_AddVecSphToVec3f(Vec3f* dst, Vec3f* src, VecSph* vecSph) {
     *dst = out;
 }
 
-s16 OnePointCs_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
+s16 OnePointCutscene_Vec3fYaw(Vec3f* vec1, Vec3f* vec2) {
     return DEGF_TO_BINANG(RADF_TO_DEGF(Math_FAtan2F(vec2->x - vec1->x, vec2->z - vec1->z)));
 }
 
-void OnePointCs_Vec3sToVec3f(Vec3f* src, Vec3s* dst) {
+void OnePointCutscene_Vec3sToVec3f(Vec3f* src, Vec3s* dst) {
     dst->x = src->x;
     dst->y = src->y;
     dst->z = src->z;
 }
 
-s32 OnePointCs_BgCheckLineTest(CollisionContext* colCtx, Vec3f* vec1, Vec3f* vec2) {
+s32 OnePointCutscene_BgCheckLineTest(CollisionContext* colCtx, Vec3f* vec1, Vec3f* vec2) {
     Vec3f posResult;
     s32 bgId;
     CollisionPoly* outPoly = NULL;
@@ -39,14 +39,14 @@ s32 OnePointCs_BgCheckLineTest(CollisionContext* colCtx, Vec3f* vec1, Vec3f* vec
     return BgCheck_CameraLineTest1(colCtx, vec1, vec2, &posResult, &outPoly, true, true, true, false, &bgId);
 }
 
-f32 OnePointCs_RaycastFloor(CollisionContext* colCtx, Vec3f* pos) {
+f32 OnePointCutscene_RaycastFloor(CollisionContext* colCtx, Vec3f* pos) {
     CollisionPoly* outPoly;
     s32 bgId;
 
     return BgCheck_EntityRaycastFloor3(colCtx, &outPoly, &bgId, pos);
 }
 
-void OnePointCs_SetCsCamPoints(Camera* camera, s16 actionParameters, s16 initTimer, CutsceneCameraPoint* atPoints,
+void OnePointCutscene_SetCsCamPoints(Camera* camera, s16 actionParameters, s16 initTimer, CutsceneCameraPoint* atPoints,
                                  CutsceneCameraPoint* eyePoints) {
     OnePointCsCamera* onePointCamData = (OnePointCsCamera*)&camera->paramData;
 
@@ -56,7 +56,7 @@ void OnePointCs_SetCsCamPoints(Camera* camera, s16 actionParameters, s16 initTim
     onePointCamData->initTimer = initTimer;
 }
 
-s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* actor, s16 timer) {
+s32 OnePointCutscene_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* actor, s16 timer) {
     Camera* csCam = globalCtx->cameraPtrs[camIdx];
     Camera* childCam = globalCtx->cameraPtrs[csCam->childCamIdx];
     Camera* mainCam = globalCtx->cameraPtrs[MAIN_CAM];
@@ -68,7 +68,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
     PosRot spA0;
     PosRot sp8C;
     f32 tempRand;
-    Unique9OnePointCs* csInfo = ONEPOINTCS_INFO(csCam);
+    Unique9OnePointCs* csInfo = ONEPOINT_CS_INFO(csCam);
 
     switch (csId) {
         case 1020:
@@ -109,7 +109,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             D_801209B4[0].fovTargetInit = D_801209B4[2].fovTargetInit = globalCtx->view.fovy;
             OLib_Vec3fDiffToVecSphGeo(&spD0, &actor->focus.pos, &mainCam->at);
             spD0.r = mainCam->dist;
-            OnePointCs_AddVecSphToVec3f(&D_801209B4[1].eyeTargetInit, &D_801209B4[1].atTargetInit, &spD0);
+            OnePointCutscene_AddVecSphToVec3f(&D_801209B4[1].eyeTargetInit, &D_801209B4[1].atTargetInit, &spD0);
             D_801209B4[1].atTargetInit.y += 20.0f;
 
             csInfo->keyFrames = D_801209B4;
@@ -231,7 +231,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             func_8002F374(globalCtx, actor, &sp80, &sp7C);
             if ((sp82 > 0) && (sp82 < 320) && (sp7E > 0) && (sp7E < 240) && (sp80 > 0) && (sp80 < 320) && (sp7C > 0) &&
                 (sp7C < 240) &&
-                !OnePointCs_BgCheckLineTest(&globalCtx->colCtx, &actor->focus.pos, &player->actor.focus.pos)) {
+                !OnePointCutscene_BgCheckLineTest(&globalCtx->colCtx, &actor->focus.pos, &player->actor.focus.pos)) {
                 D_80121184[0].atTargetInit.x = (globalCtx->view.lookAt.x + actor->focus.pos.x) * 0.5f;
                 D_80121184[0].atTargetInit.y = (globalCtx->view.lookAt.y + actor->focus.pos.y) * 0.5f;
                 D_80121184[0].atTargetInit.z = (globalCtx->view.lookAt.z + actor->focus.pos.z) * 0.5f;
@@ -292,19 +292,19 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
         case 4500:
             Actor_GetFocus(&spA0, actor);
             spC0 = spA0.pos;
-            spC0.y = OnePointCs_RaycastFloor(&globalCtx->colCtx, &spC0) + 40.0f;
+            spC0.y = OnePointCutscene_RaycastFloor(&globalCtx->colCtx, &spC0) + 40.0f;
             spD0.r = 150.0f;
             spD0.yaw = spA0.rot.y;
             spD0.pitch = 0x3E8;
 
-            OnePointCs_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FREE2);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             func_8002DF54(globalCtx, NULL, 8);
             csCam->roll = 0;
             csCam->fov = 50.0f;
             if (csCam->childCamIdx != SUBCAM_FREE) {
-                OnePointCs_EndCutscene(globalCtx, csCam->childCamIdx);
+                OnePointCutscene_EndCutscene(globalCtx, csCam->childCamIdx);
             }
             break;
         case 2210:
@@ -330,12 +330,12 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
         case 9601:
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
             Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
-            OnePointCs_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
+            OnePointCutscene_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120398);
             break;
         case 9602:
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
             Gameplay_CameraChangeSetting(globalCtx, MAIN_CAM, mainCam->prevSetting);
-            OnePointCs_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
+            OnePointCutscene_SetCsCamPoints(csCam, D_80120430 | 0x1000, D_8012042C, D_80120308, D_80120434);
             break;
         case 4175:
             csInfo->keyFrames = D_8012147C;
@@ -450,10 +450,10 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
         case 3050:
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
             func_8002DF54(globalCtx, &player->actor, 5);
-            OnePointCs_SetCsCamPoints(csCam, D_80120304 | 0x2000, D_80120300, D_8012013C, D_8012021C);
+            OnePointCutscene_SetCsCamPoints(csCam, D_80120304 | 0x2000, D_80120300, D_8012013C, D_8012021C);
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-            OnePointCs_Vec3sToVec3f(&mainCam->at, &D_8012013C[D_801202FC - 2].pos);
-            OnePointCs_Vec3sToVec3f(&mainCam->eye, &D_8012021C[D_801202FC - 2].pos);
+            OnePointCutscene_Vec3sToVec3f(&mainCam->at, &D_8012013C[D_801202FC - 2].pos);
+            OnePointCutscene_Vec3sToVec3f(&mainCam->eye, &D_8012021C[D_801202FC - 2].pos);
             D_8012013C[D_801202FC - 3].pos.x +=
                 (D_8012013C[D_801202FC - 2].pos.x - D_8012013C[D_801202FC - 3].pos.x) / 2;
             D_8012013C[D_801202FC - 3].pos.y +=
@@ -519,8 +519,8 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             spC0.y += 50.0f;
             spD0.r = 250.0f;
             Actor_GetWorld(&spA0, &player->actor);
-            spD0.yaw = OnePointCs_Vec3fYaw(&spC0, &spA0.pos) - 0x7D0;
-            OnePointCs_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            spD0.yaw = OnePointCutscene_Vec3fYaw(&spC0, &spA0.pos) - 0x7D0;
+            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FREE2);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             Gameplay_CopyCamera(globalCtx, MAIN_CAM, camIdx);
@@ -534,7 +534,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             spD0.pitch = 0;
             spD0.yaw = spA0.rot.y;
             spD0.r = 150.0f;
-            OnePointCs_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FREE2);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             csCam->roll = 0;
@@ -548,7 +548,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             spD0.r = 300.0f;
             spD0.yaw = spA0.rot.y;
             spD0.pitch = -0xAF0;
-            OnePointCs_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FREE2);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             csCam->roll = 0;
@@ -580,7 +580,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             OLib_Vec3fDiffToVecSphGeo(&spD0, &spA0.pos, &sp8C.pos);
             spD0.pitch = 0x5DC;
             spD0.r = 120.0f;
-            OnePointCs_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             Gameplay_CameraSetAtEye(globalCtx, MAIN_CAM, &spC0, &spB4);
 
             i = Quake_Add(csCam, 3);
@@ -595,7 +595,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             spC0.y += 70.0f;
             spD0.yaw = spA0.rot.y + 0x7FFF;
             spD0.r = 300.0f;
-            OnePointCs_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_FREE2);
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             csCam->roll = 0;
@@ -610,7 +610,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             OLib_Vec3fDiffToVecSphGeo(&spD0, &spC0, &spA0.pos);
             spD0.yaw += 0x3E8;
             spD0.r = 400.0f;
-            OnePointCs_AddVecSphToVec3f(&spB4, &spC0, &spD0);
+            OnePointCutscene_AddVecSphToVec3f(&spB4, &spC0, &spD0);
             spB4.y = spA0.pos.y + 60.0f;
             Gameplay_CameraSetAtEye(globalCtx, camIdx, &spC0, &spB4);
             csCam->roll = 0;
@@ -632,9 +632,9 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
             func_8002DF54(globalCtx, NULL, 8);
             Actor_GetWorld(&spA0, actor);
             if (spA0.pos.z > -750.0f) {
-                OnePointCs_SetCsCamPoints(csCam, D_801208E8, D_801208E4, D_801206A0, D_80120820);
+                OnePointCutscene_SetCsCamPoints(csCam, D_801208E8, D_801208E4, D_801206A0, D_80120820);
             } else {
-                OnePointCs_SetCsCamPoints(csCam, D_801208E8, D_801208E4, D_801206A0, D_80120760);
+                OnePointCutscene_SetCsCamPoints(csCam, D_801208E8, D_801208E4, D_801206A0, D_80120760);
             }
 
             i = Quake_Add(csCam, 1);
@@ -645,9 +645,9 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
         case 3400:
             Gameplay_CameraChangeSetting(globalCtx, camIdx, CAM_SET_DEMO3);
             func_8002DF38(globalCtx, &player->actor, 8);
-            OnePointCs_SetCsCamPoints(csCam, D_8012069C | 0x2000, D_80120698, D_801204D4, D_801205B4);
-            OnePointCs_Vec3sToVec3f(&mainCam->eye, &D_801205B4[D_80120694 - 2].pos);
-            OnePointCs_Vec3sToVec3f(&mainCam->at, &D_801204D4[D_80120694 - 2].pos);
+            OnePointCutscene_SetCsCamPoints(csCam, D_8012069C | 0x2000, D_80120698, D_801204D4, D_801205B4);
+            OnePointCutscene_Vec3sToVec3f(&mainCam->eye, &D_801205B4[D_80120694 - 2].pos);
+            OnePointCutscene_Vec3sToVec3f(&mainCam->at, &D_801204D4[D_80120694 - 2].pos);
 
             i = Quake_Add(csCam, 1);
             Quake_SetSpeed(i, 0x4E20);
@@ -1105,7 +1105,7 @@ s32 OnePointCs_SetInfo(GlobalContext* globalCtx, s16 camIdx, s16 csId, Actor* ac
     return 0;
 }
 
-s16 OnePointCs_SetAsChild(GlobalContext* globalCtx, s16 newCamIdx, s16 parentCamIdx) {
+s16 OnePointCutscene_SetAsChild(GlobalContext* globalCtx, s16 newCamIdx, s16 parentCamIdx) {
     s16 prevCamIdx = globalCtx->cameraPtrs[parentCamIdx]->childCamIdx;
 
     globalCtx->cameraPtrs[newCamIdx]->parentCamIdx = parentCamIdx;
@@ -1118,7 +1118,7 @@ s16 OnePointCs_SetAsChild(GlobalContext* globalCtx, s16 newCamIdx, s16 parentCam
  * Removes a cutscene camera from the list. Returns the parent cam if the removed camera is active, otherwise returns
  * SUBCAM_NONE
  */
-s32 OnePointCs_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
+s32 OnePointCutscene_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
     Camera* camera = globalCtx->cameraPtrs[camIdx];
     s32 nextCamIdx;
 
@@ -1146,7 +1146,7 @@ s32 OnePointCs_RemoveCamera(GlobalContext* globalCtx, s16 camIdx) {
  * cutscene queue in front of the specified camera, then all lower priority demos in front of it are removed from the
  * queue.
  */
-s16 OnePointCs_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor, s16 parentCamIdx) {
+s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor, s16 parentCamIdx) {
     s16 temp1;
     s16 temp2;
     s16 csCamIdx;
@@ -1166,12 +1166,12 @@ s16 OnePointCs_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor,
     vChildCamIdx = globalCtx->cameraPtrs[parentCamIdx]->childCamIdx;
     vCsStatus = CAM_STAT_ACTIVE;
     if (vChildCamIdx >= SUBCAM_FIRST) {
-        OnePointCs_SetAsChild(globalCtx, vChildCamIdx, csCamIdx);
+        OnePointCutscene_SetAsChild(globalCtx, vChildCamIdx, csCamIdx);
         vCsStatus = CAM_STAT_WAIT;
     } else {
         Interface_ChangeAlpha(2);
     }
-    OnePointCs_SetAsChild(globalCtx, csCamIdx, parentCamIdx);
+    OnePointCutscene_SetAsChild(globalCtx, csCamIdx, parentCamIdx);
 
     csCam = globalCtx->cameraPtrs[csCamIdx];
 
@@ -1189,7 +1189,7 @@ s16 OnePointCs_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor,
     } else {
         Gameplay_ChangeCameraStatus(globalCtx, parentCamIdx, CAM_STAT_WAIT);
     }
-    OnePointCs_SetInfo(globalCtx, csCamIdx, csId, actor, timer);
+    OnePointCutscene_SetInfo(globalCtx, csCamIdx, csId, actor, timer);
     Gameplay_ChangeCameraStatus(globalCtx, csCamIdx, vCsStatus);
 
     // Removes all lower priority cutscenes in front of this cutscene from the queue.
@@ -1204,12 +1204,12 @@ s16 OnePointCs_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor,
             osSyncPrintf(VT_COL(YELLOW, BLACK) "onepointdemo camera[%d]: killed 'coz low priority (%d < %d)\n" VT_RST,
                          vNextCamIdx, nextCsId, thisCsId);
             if (globalCtx->cameraPtrs[vNextCamIdx]->csId != 5010) {
-                if ((vNextCamIdx = OnePointCs_RemoveCamera(globalCtx, vNextCamIdx)) != SUBCAM_NONE) {
+                if ((vNextCamIdx = OnePointCutscene_RemoveCamera(globalCtx, vNextCamIdx)) != SUBCAM_NONE) {
                     Gameplay_ChangeCameraStatus(globalCtx, vNextCamIdx, CAM_STAT_ACTIVE);
                 }
             } else {
                 vCurCamIdx = vNextCamIdx;
-                OnePointCs_EndCutscene(globalCtx, vNextCamIdx);
+                OnePointCutscene_EndCutscene(globalCtx, vNextCamIdx);
             }
         } else {
             vCurCamIdx = vNextCamIdx;
@@ -1222,7 +1222,7 @@ s16 OnePointCs_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor,
 /**
  *  Ends the cutscene in camIdx by setting its timer to 0. For attention cutscenes, it is set to 5 instead.
  */
-s16 OnePointCs_EndCutscene(GlobalContext* globalCtx, s16 camIdx) {
+s16 OnePointCutscene_EndCutscene(GlobalContext* globalCtx, s16 camIdx) {
     if (camIdx == SUBCAM_ACTIVE) {
         camIdx = globalCtx->activeCamera;
     }
@@ -1246,7 +1246,7 @@ s16 OnePointCs_EndCutscene(GlobalContext* globalCtx, s16 camIdx) {
 /**
  *  Adds an attention cutscene to the cutscene queue.
  */
-s32 OnePointCs_Attention(GlobalContext* globalCtx, Actor* actor) {
+s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor) {
     Camera* parentCam;
     s32 temp1;
     s32 temp2;
@@ -1322,7 +1322,7 @@ s32 OnePointCs_Attention(GlobalContext* globalCtx, Actor* actor) {
         return SUBCAM_NONE;
     }
     osSyncPrintf("→ " VT_FGCOL(BLUE) "○" VT_RST " (%d)\n", actor->id);
-    vCsCamIdx = OnePointCs_Init(globalCtx, 5010, timer, actor, vParentCamIdx);
+    vCsCamIdx = OnePointCutscene_Init(globalCtx, 5010, timer, actor, vParentCamIdx);
     if (vCsCamIdx == SUBCAM_NONE) {
         osSyncPrintf(VT_COL(RED, WHITE) "actor attention demo: give up! \n" VT_RST, actor->id);
         return SUBCAM_NONE;
@@ -1337,8 +1337,8 @@ s32 OnePointCs_Attention(GlobalContext* globalCtx, Actor* actor) {
 /**
  *  Adds an attention cutscene to the cutscene queue with the specified sound effect
  */
-s32 OnePointCs_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfxId) {
-    s32 csCamIdx = OnePointCs_Attention(globalCtx, actor);
+s32 OnePointCutscene_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfxId) {
+    s32 csCamIdx = OnePointCutscene_Attention(globalCtx, actor);
 
     if (csCamIdx != SUBCAM_NONE) {
         s32* data = (s32*)&globalCtx->cameraPtrs[csCamIdx]->data1;
@@ -1349,16 +1349,16 @@ s32 OnePointCs_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfxId
 }
 
 // unused
-void OnePointCs_EnableAttention() {
+void OnePointCutscene_EnableAttention() {
     sDisableAttention = false;
 }
 
 // unused
-void OnePointCs_DisableAttention() {
+void OnePointCutscene_DisableAttention() {
     sDisableAttention = true;
 }
 
-s32 OnePointCs_CheckForCategory(GlobalContext* globalCtx, s32 category) {
+s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 category) {
     Camera* parentCam = globalCtx->cameraPtrs[MAIN_CAM];
 
     while (parentCam->childCamIdx != SUBCAM_FREE) {
@@ -1373,5 +1373,5 @@ s32 OnePointCs_CheckForCategory(GlobalContext* globalCtx, s32 category) {
 }
 
 // unused, also empty.
-void OnePointCs_Noop(GlobalContext* globalCtx, s32 arg1) {
+void OnePointCutscene_Noop(GlobalContext* globalCtx, s32 arg1) {
 }

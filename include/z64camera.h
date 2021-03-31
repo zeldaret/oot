@@ -17,7 +17,7 @@
 #define SUBCAM_NONE -1
 #define SUBCAM_ACTIVE -1
 
-#define ONEPOINTCS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
+#define ONEPOINT_CS_INFO(camera) ((Unique9OnePointCs*)camera->paramData)
 #define PARENT_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->parentCamIdx])
 #define CHILD_CAM(cam) ((cam)->globalCtx->cameraPtrs[(cam)->childCamIdx])
 

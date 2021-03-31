@@ -191,10 +191,10 @@ void func_808A3D58(BgMoriHineri* this, GlobalContext* globalCtx) {
 
         mainCamChildIdx = globalCtx->cameraPtrs[MAIN_CAM]->childCamIdx;
         if ((mainCamChildIdx != SUBCAM_FREE) && (globalCtx->cameraPtrs[mainCamChildIdx]->setting == CAM_SET_DEMO1)) {
-            OnePointCs_EndCutscene(globalCtx, mainCamChildIdx);
+            OnePointCutscene_EndCutscene(globalCtx, mainCamChildIdx);
         }
-        OnePointCs_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
-        sNextCamIdx = OnePointCs_Init(globalCtx, 3261, 40, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3260, 40, &this->dyna.actor, MAIN_CAM);
+        sNextCamIdx = OnePointCutscene_Init(globalCtx, 3261, 40, &this->dyna.actor, MAIN_CAM);
     }
 }
 

@@ -184,7 +184,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
             BgBdanObjects_SetContactRu1(this, 1);
             this->timer = 20;
-            OnePointCs_Init(globalCtx, 3070, -99, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3070, -99, &this->dyna.actor, MAIN_CAM);
             player->actor.world.pos.x = -1130.0f;
             player->actor.world.pos.y = -1025.0f;
             player->actor.world.pos.z = -3300.0f;
@@ -261,7 +261,7 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
         this->actionFunc = func_8086C5BC;
-        OnePointCs_Init(globalCtx, 3080, -99, this->dyna.actor.child, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3080, -99, this->dyna.actor.child, MAIN_CAM);
         player->actor.world.pos.x = -1130.0f;
         player->actor.world.pos.y = -1025.0f;
         player->actor.world.pos.z = -3500.0f;
@@ -334,7 +334,7 @@ void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) {
         if (this->dyna.actor.xzDistToPlayer < 120.0f) {
             this->actionFunc = func_8086C7D0;
-            OnePointCs_Init(globalCtx, 3090, -99, &this->dyna.actor, MAIN_CAM);
+            OnePointCutscene_Init(globalCtx, 3090, -99, &this->dyna.actor, MAIN_CAM);
         }
     }
 }
@@ -423,7 +423,7 @@ void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->timer = 50;
         this->actionFunc = func_8086CB8C;
         this->dyna.actor.home.pos.y -= 200.0f;
-        OnePointCs_Init(globalCtx, 3100, 51, &this->dyna.actor, MAIN_CAM);
+        OnePointCutscene_Init(globalCtx, 3100, 51, &this->dyna.actor, MAIN_CAM);
     }
 }
 
