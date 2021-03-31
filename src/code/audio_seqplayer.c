@@ -1658,7 +1658,6 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                         }
                     } break;
                     case 0xCD: {
-                        // s2 test;
                         temp = Audio_M64ReadS16(seqScript);
 
                         if ((seqScript->value != -1) && (seqScript->depth != 3)) {
@@ -1683,7 +1682,7 @@ void Audio_SequencePlayerProcessSequence(SequencePlayer* seqPlayer) {
                     case 0xC7:
                         command = Audio_M64ReadU8(seqScript);
                         offset = Audio_M64ReadS16(seqScript);
-                        data = &seqPlayer->seqData[offset]; // a1
+                        data = &seqPlayer->seqData[offset];
                         data[0] = (u8)seqScript->value + command;
                         break;
                     case 0xC6:
