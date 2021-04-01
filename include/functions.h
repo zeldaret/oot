@@ -1582,7 +1582,7 @@ s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status)
 void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId);
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx);
 Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId);
-s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3);
+s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye);
 s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up);
 s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov);
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll);

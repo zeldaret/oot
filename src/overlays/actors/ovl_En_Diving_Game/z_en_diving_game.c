@@ -19,12 +19,10 @@ void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx);
+void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx);
@@ -78,8 +76,8 @@ static u64* sEyeTextures[] = {
 };
 
 extern FlexSkeletonHeader D_0600BFA8;
-extern AnimationHeader D_06002FE8;
-extern AnimationHeader D_0600219C;
+extern AnimationHeader D_06002FE8; // Stand/static.
+extern AnimationHeader D_0600219C; // Throw rupees animation.
 
 void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnDivingGame* this = THIS;
@@ -179,8 +177,10 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
     return false;
 }
 
+// EnDivingGame_FinishMinigame ?
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06002FE8);
+
     Animation_Change(&this->skelAnime, &D_06002FE8, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->notPlayingMinigame = true;
     this->actionFunc = func_809EDD4C;
@@ -195,7 +195,7 @@ void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx) {
                 switch (this->unk_2A8) {
                     case 0:
                         func_8002DF54(globalCtx, NULL, 8);
-                        this->actionFunc = func_809EDEDC;
+                        this->actionFunc = EnDivingGame_HandlePlayChoice;
                         break;
                     case 1:
                         this->actionFunc = func_809EEA00;
@@ -238,13 +238,12 @@ void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
-// EnDivingGame_HandlePlayerAnswer
-void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
+void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx)) {
+        if (func_80106BC8(globalCtx)) { // Did player selected an answer?
             switch (globalCtx->msgCtx.choiceIndex) {
-                case 0:
+                case 0: // Yes
                     if (gSaveContext.rupees >= 20) {
                         Rupees_ChangeBy(-20);
                         this->actor.textId = 0x4054;
@@ -253,7 +252,7 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
                         this->allRupeesThrowed = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRupeesCounter = 0;
                     }
                     break;
-                case 1:
+                case 1: // No
                     this->actor.textId = 0x2D;
                     this->allRupeesThrowed = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRupeesCounter = 0;
                     break;
@@ -271,6 +270,7 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
+// Waits for the message to close
 void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
@@ -286,7 +286,7 @@ void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
-// Init? Reset?
+// another "start minigame" step
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_0600219C);
 
@@ -295,6 +295,7 @@ void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
     this->actionFunc = func_809EE194;
 }
 
+// Wait a bit before start throwing the rupees.
 void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 currentFrame = this->skelAnime.curFrame;
 
@@ -304,12 +305,12 @@ void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
-// Starts throwing the rupees
+// Setup the rupee throw
 void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    this->camId = Gameplay_CreateSubCamera(globalCtx);
+    this->subCamId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
+    Gameplay_ChangeCameraStatus(globalCtx, this->subCamId, CAM_STAT_ACTIVE);
     this->spawnRuppyTimer = 10;
     this->unk_2F4.x = -210.0f;
     this->unk_2F4.y = -80.0f;
@@ -323,39 +324,40 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
         this->rupeesLeftToThrow = 10;
     }
     this->unk_2DC.x = this->unk_2DC.y = this->unk_2DC.z = this->unk_300.x = this->unk_300.y = this->unk_300.z = 0.1f;
-    this->vec_2B8.x = globalCtx->view.lookAt.x;
-    this->vec_2B8.y = globalCtx->view.lookAt.y;
-    this->vec_2B8.z = globalCtx->view.lookAt.z;
-    this->vec_2C4.x = globalCtx->view.eye.x;
-    this->vec_2C4.y = globalCtx->view.eye.y + 80.0f;
-    this->vec_2C4.z = globalCtx->view.eye.z + 250.0f;
-    this->unk_2E8.x = fabsf(this->vec_2C4.x - this->unk_2D0.x) * 0.04f;
-    this->unk_2E8.y = fabsf(this->vec_2C4.y - this->unk_2D0.y) * 0.04f;
-    this->unk_2E8.z = fabsf(this->vec_2C4.z - this->unk_2D0.z) * 0.04f;
-    this->unk_30C.x = fabsf(this->vec_2B8.x - this->unk_2F4.x) * 0.04f;
-    this->unk_30C.y = fabsf(this->vec_2B8.y - this->unk_2F4.y) * 0.04f;
-    this->unk_30C.z = fabsf(this->vec_2B8.z - this->unk_2F4.z) * 0.04f;
-    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
-    Gameplay_CameraSetFov(globalCtx, this->camId, globalCtx->mainCamera.fov);
+    this->camLookAt.x = globalCtx->view.lookAt.x;
+    this->camLookAt.y = globalCtx->view.lookAt.y;
+    this->camLookAt.z = globalCtx->view.lookAt.z;
+    this->camEye.x = globalCtx->view.eye.x;
+    this->camEye.y = globalCtx->view.eye.y + 80.0f;
+    this->camEye.z = globalCtx->view.eye.z + 250.0f;
+    this->unk_2E8.x = fabsf(this->camEye.x - this->unk_2D0.x) * 0.04f;
+    this->unk_2E8.y = fabsf(this->camEye.y - this->unk_2D0.y) * 0.04f;
+    this->unk_2E8.z = fabsf(this->camEye.z - this->unk_2D0.z) * 0.04f;
+    this->unk_30C.x = fabsf(this->camLookAt.x - this->unk_2F4.x) * 0.04f;
+    this->unk_30C.y = fabsf(this->camLookAt.y - this->unk_2F4.y) * 0.04f;
+    this->unk_30C.z = fabsf(this->camLookAt.z - this->unk_2F4.z) * 0.04f;
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->camLookAt, &this->camEye);
+    Gameplay_CameraSetFov(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
     this->csCameraTimer = 60;
     this->actionFunc = func_809EE408;
     this->unk_318 = 0.0f;
 }
 
+// Throws rupee when this->spawnRuppyTimer == 0 
 void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos)) {
         func_800F6828(0);
     }
-    if (this->camId != 0) {
-        Math_ApproachF(&this->vec_2C4.x, this->unk_2D0.x, this->unk_2DC.x, this->unk_2E8.x * this->unk_318);
-        Math_ApproachF(&this->vec_2C4.z, this->unk_2D0.z, this->unk_2DC.z, this->unk_2E8.z * this->unk_318);
-        Math_ApproachF(&this->vec_2B8.x, this->unk_2F4.x, this->unk_300.x, this->unk_30C.x * this->unk_318);
-        Math_ApproachF(&this->vec_2B8.y, this->unk_2F4.y, this->unk_300.y, this->unk_30C.y * this->unk_318);
-        Math_ApproachF(&this->vec_2B8.z, this->unk_2F4.z, this->unk_300.z, this->unk_30C.z * this->unk_318);
+    if (this->subCamId != 0) {
+        Math_ApproachF(&this->camEye.x, this->unk_2D0.x, this->unk_2DC.x, this->unk_2E8.x * this->unk_318);
+        Math_ApproachF(&this->camEye.z, this->unk_2D0.z, this->unk_2DC.z, this->unk_2E8.z * this->unk_318);
+        Math_ApproachF(&this->camLookAt.x, this->unk_2F4.x, this->unk_300.x, this->unk_30C.x * this->unk_318);
+        Math_ApproachF(&this->camLookAt.y, this->unk_2F4.y, this->unk_300.y, this->unk_30C.y * this->unk_318);
+        Math_ApproachF(&this->camLookAt.z, this->unk_2F4.z, this->unk_300.z, this->unk_30C.z * this->unk_318);
         Math_ApproachF(&this->unk_318, 1.0f, 1.0f, 0.02f);
     }
-    Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
+    Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->camLookAt, &this->camEye);
     if (!this->allRupeesThrowed && this->spawnRuppyTimer == 0) {
         this->spawnRuppyTimer = 5;
         EnDivingGame_SpawnRuppy(this, globalCtx);
@@ -371,9 +373,9 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         }
     }
     if (this->csCameraTimer == 0 ||
-        ((fabsf(this->vec_2C4.x - this->unk_2D0.x) < 2.0f) && (fabsf(this->vec_2C4.y - this->unk_2D0.y) < 2.0f) &&
-         (fabsf(this->vec_2C4.z - this->unk_2D0.z) < 2.0f) && (fabsf(this->vec_2B8.x - this->unk_2F4.x) < 2.0f) &&
-         (fabsf(this->vec_2B8.y - this->unk_2F4.y) < 2.0f) && (fabsf(this->vec_2B8.z - this->unk_2F4.z) < 2.0f))) {
+        ((fabsf(this->camEye.x - this->unk_2D0.x) < 2.0f) && (fabsf(this->camEye.y - this->unk_2D0.y) < 2.0f) &&
+         (fabsf(this->camEye.z - this->unk_2D0.z) < 2.0f) && (fabsf(this->camLookAt.x - this->unk_2F4.x) < 2.0f) &&
+         (fabsf(this->camLookAt.y - this->unk_2F4.y) < 2.0f) && (fabsf(this->camLookAt.z - this->unk_2F4.z) < 2.0f))) {
         if (this->unk_2A2 != 0) {
             this->csCameraTimer = 70;
             this->unk_2A2 = 2;
@@ -384,7 +386,7 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
-// reset?
+// Called just before changing the camera to focus the underwater rupees.
 void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_296 == 0) {
@@ -392,17 +394,17 @@ void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
         this->csCameraTimer = 100;
         this->actionFunc = func_809EE408;
         this->unk_2F4.x = -210.0f;
-        this->vec_2B8.x = -210.0f;
+        this->camLookAt.x = -210.0f;
         this->unk_2F4.y = -80.0f;
-        this->vec_2B8.y = -80.0f;
+        this->camLookAt.y = -80.0f;
         this->unk_2F4.z = -1020.0f;
-        this->vec_2B8.z = -1020.0f;
+        this->camLookAt.z = -1020.0f;
         this->unk_2D0.x = -280.0f;
-        this->vec_2C4.x = -280.0f;
+        this->camEye.x = -280.0f;
         this->unk_2D0.y = -20.0f;
-        this->vec_2C4.y = -20.0f;
+        this->camEye.y = -20.0f;
         this->unk_2D0.z = -240.0f;
-        this->vec_2C4.z = -240.0f;
+        this->camEye.z = -240.0f;
     }
 }
 
@@ -410,7 +412,7 @@ void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->csCameraTimer == 0) {
-        Gameplay_ClearCamera(globalCtx, this->camId);
+        Gameplay_ClearCamera(globalCtx, this->subCamId);
         Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
         this->actor.textId = 0x405A;
         func_8010B720(globalCtx, this->actor.textId);
