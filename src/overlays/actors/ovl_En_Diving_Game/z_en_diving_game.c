@@ -18,7 +18,7 @@ void EnDivingGame_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnDivingGame_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx);
+void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx);
 void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx);
@@ -183,11 +183,10 @@ void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
 
     Animation_Change(&this->skelAnime, &D_06002FE8, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
     this->notPlayingMinigame = true;
-    this->actionFunc = func_809EDD4C;
+    this->actionFunc = EnDivingGame_Talk;
 }
 
-// EnDivingGame_Talk ?
-void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx) {
+void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_2A8 != 2 || !func_809EDB08(this, globalCtx)) {
         if (func_8002F194(&this->actor, globalCtx)) {
@@ -393,18 +392,12 @@ void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
         this->unk_2A2 = 1;
         this->csCameraTimer = 100;
         this->actionFunc = func_809EE408;
-        this->unk_2F4.x = -210.0f;
-        this->camLookAt.x = -210.0f;
-        this->unk_2F4.y = -80.0f;
-        this->camLookAt.y = -80.0f;
-        this->unk_2F4.z = -1020.0f;
-        this->camLookAt.z = -1020.0f;
-        this->unk_2D0.x = -280.0f;
-        this->camEye.x = -280.0f;
-        this->unk_2D0.y = -20.0f;
-        this->camEye.y = -20.0f;
-        this->unk_2D0.z = -240.0f;
-        this->camEye.z = -240.0f;
+        this->camLookAt.x = this->unk_2F4.x = -210.0f;
+        this->camLookAt.y = this->unk_2F4.y = -80.0f;
+        this->camLookAt.z = this->unk_2F4.z = -1020.0f;
+        this->camEye.x = this->unk_2D0.x = -280.0f;
+        this->camEye.y = this->unk_2D0.y = -20.0f;
+        this->camEye.z = this->unk_2D0.z = -240.0f;
     }
 }
 
@@ -421,6 +414,7 @@ void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
+// EnDivingGame_TalkDuringMinigame
 void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) {
@@ -435,7 +429,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x405B;
         this->unk_292 = 5;
         this->unk_2A8 = 2;
-        this->actionFunc = func_809EDD4C;
+        this->actionFunc = EnDivingGame_Talk;
     }
 }
 
@@ -443,7 +437,7 @@ void func_809EE8F0(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx))) {
         func_80106CCC(globalCtx);
-        this->actionFunc = func_809EDD4C;
+        this->actionFunc = EnDivingGame_Talk;
     } else {
         func_809EDB08(this, globalCtx);
     }
@@ -458,7 +452,7 @@ void func_809EE96C(EnDivingGame* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x4056;
         this->unk_292 = 5;
         this->unk_2A8 = 1;
-        this->actionFunc = func_809EDD4C;
+        this->actionFunc = EnDivingGame_Talk;
     }
 }
 
