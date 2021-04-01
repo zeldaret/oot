@@ -304,7 +304,7 @@ void func_8097E454(GlobalContext* globalCtx, Vec3f* spawnerPos, Vec3f* velocity,
 }
 
 u8 func_8097E69C(GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         return true;
     } else {
         return false;
@@ -512,7 +512,7 @@ void func_8097EF40(DemoGt* this, GlobalContext* globalCtx) {
     s32 pad1[3];
     Vec3f dustPos;
     Vec3f velocity = { 0.0f, -16.0f, 0.0f };
-    Vec3f accel = { 0.0f, 1.20000004768f, 0.0f };
+    Vec3f accel = { 0.0f, 1.2f, 0.0f };
     Vec3f* pos = &this->dyna.actor.world.pos;
     s32 pad;
 
@@ -1064,7 +1064,7 @@ void func_8098085C(DemoGt* this, GlobalContext* globalCtx) {
         sp28.x = pos->x + 810.0f;
         sp28.y = pos->y + 200.0f;
         sp28.z = pos->z - 37.0f;
-        DemoGt_SpawnExplosionWithSound(globalCtx, &sp28, 0.899999976158f);
+        DemoGt_SpawnExplosionWithSound(globalCtx, &sp28, 0.9f);
     } else if (frames == 90) {
         sp28.x = pos->x - 220.0f;
         sp28.y = pos->y + 1350.0f;

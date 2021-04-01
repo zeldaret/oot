@@ -358,7 +358,7 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         Actor_Kill(&this->actor);
         globalCtx->envCtx.unk_E1 = 0;
     }
-    
+
     if (this->lensFlareTimer != 0) {
         this->lensFlareTimer--;
         this->lensFlareOn = true;

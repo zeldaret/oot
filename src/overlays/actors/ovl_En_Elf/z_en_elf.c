@@ -784,7 +784,7 @@ void func_80A03990(EnElf* this, GlobalContext* globalCtx) {
     }
 
     func_80A02E30(this, &player->bodyPartsPos[0]);
-    Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * 0.012345679f)) * 0.008f);
+    Actor_SetScale(&this->actor, (1.0f - (SQ(this->unk_2B4) * SQ(1.0f / 9.0f))) * 0.008f);
     this->unk_2BC = Math_Atan2S(this->actor.velocity.z, this->actor.velocity.x);
     EnElf_SpawnSparkles(this, globalCtx, 32);
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
@@ -845,7 +845,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
     xScale = 0.0f;
 
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[8] != NULL)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[8] != NULL)) {
         EnElf_GetCutsceneNextPos(&nextPos, globalCtx, 8);
 
         if (globalCtx->csCtx.npcActions[8]->action == 5) {
@@ -887,7 +887,7 @@ void func_80A03CF8(EnElf* this, GlobalContext* globalCtx) {
 
         switch (this->unk_2A8) {
             case 7:
-                func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * 0.033333335f);
+                func_80A02C98(this, &player->bodyPartsPos[8], 1.0f - this->unk_2AE * (1.0f / 30.0f));
                 xScale = Math_Vec3f_DistXYZ(&player->bodyPartsPos[8], &this->actor.world.pos);
 
                 if (distFromLinksHead < 7.0f) {
@@ -1060,7 +1060,7 @@ void func_80A0461C(EnElf* this, GlobalContext* globalCtx) {
     Actor* arrowPointedActor;
     Player* player = PLAYER;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if (globalCtx->csCtx.npcActions[8] != NULL) {
             switch (globalCtx->csCtx.npcActions[8]->action) {
                 case 4:
@@ -1440,7 +1440,7 @@ void func_80A053F0(Actor* thisx, GlobalContext* globalCtx) {
         this->unk_2C7--;
     }
 
-    if ((this->unk_2C7 == 0) && (globalCtx->csCtx.state != 0)) {
+    if ((this->unk_2C7 == 0) && (globalCtx->csCtx.state != CS_STATE_IDLE)) {
         this->unk_2C7 = 1;
     }
 

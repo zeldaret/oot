@@ -281,8 +281,7 @@ s32 EnKz_FollowPath(EnKz* this, GlobalContext* globalCtx) {
 
     pathDiffX = pointPos->x - this->actor.world.pos.x;
     pathDiffZ = pointPos->z - this->actor.world.pos.z;
-    Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * 10430.3779296875f), 0xA, 0x3E8,
-                       1);
+    Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(pathDiffX, pathDiffZ) * (0x8000 / M_PI)), 0xA, 0x3E8, 1);
 
     if ((SQ(pathDiffX) + SQ(pathDiffZ)) < 10.0f) {
         this->waypoint++;
@@ -366,8 +365,8 @@ void EnKz_SetupMweep(EnKz* this, GlobalContext* globalCtx) {
 
     this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
     this->gameplayCamera = globalCtx->activeCamera;
-    Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, 1);
-    Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, CAM_STAT_ACTIVE);
     pos = this->actor.world.pos;
     initPos = this->actor.home.pos;
     pos.y += 60.0f;
@@ -404,7 +403,7 @@ void EnKz_Mweep(EnKz* this, GlobalContext* globalCtx) {
 }
 
 void EnKz_StopMweep(EnKz* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, this->gameplayCamera, CAM_STAT_ACTIVE);
     Gameplay_ClearCamera(globalCtx, this->cutsceneCamera);
     func_8002DF54(globalCtx, &this->actor, 7);
     this->actionFunc = EnKz_Wait;

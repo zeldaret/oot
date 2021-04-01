@@ -258,7 +258,7 @@ void EnBox_Fall(EnBox* this, GlobalContext* globalCtx) {
             this->dyna.actor.shape.rot.z = 0;
             this->dyna.actor.world.pos.y = this->dyna.actor.floorHeight;
             EnBox_SetupAction(this, EnBox_WaitOpen);
-            func_800803F0(globalCtx, this->unk_1AC);
+            OnePointCutscene_EndCutscene(globalCtx, this->unk_1AC);
         }
         Audio_PlaySoundGeneral(NA_SE_EV_COFFIN_CAP_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -281,7 +281,7 @@ void EnBox_FallOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
 
     if (this->unk_1A8 >= 0) {
         EnBox_SetupAction(this, EnBox_Fall);
-        this->unk_1AC = func_800800F8(globalCtx, 4500, 9999, &this->dyna.actor, 0);
+        this->unk_1AC = OnePointCutscene_Init(globalCtx, 4500, 9999, &this->dyna.actor, MAIN_CAM);
         func_8003EC50(globalCtx, &globalCtx->colCtx.dyna, this->dyna.bgId);
     } else if (this->unk_1A8 >= -11) {
         this->unk_1A8++;
@@ -318,7 +318,7 @@ void func_809C9700(EnBox* this, GlobalContext* globalCtx) {
                 (globalCtx->msgCtx.unk_E3EC == 9 && this->type == ENBOX_TYPE_10)) {
                 this->dyna.actor.flags &= ~0x2000000;
                 EnBox_SetupAction(this, EnBox_AppearInit);
-                func_80080480(globalCtx, &this->dyna.actor);
+                OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
                 this->unk_1A8 = 0;
                 this->unk_1FB = ENBOX_STATE_0;
             } else {
@@ -336,7 +336,7 @@ void EnBox_AppearOnSwitchFlag(EnBox* this, GlobalContext* globalCtx) {
     }
 
     if (Flags_GetSwitch(globalCtx, this->switchFlag)) {
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         EnBox_SetupAction(this, EnBox_AppearInit);
         this->unk_1A8 = -30;
     }
@@ -352,8 +352,8 @@ void EnBox_AppearOnRoomClear(EnBox* this, GlobalContext* globalCtx) {
     if (Flags_GetTempClear(globalCtx, this->dyna.actor.room) && !Player_InCsMode(globalCtx)) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
         EnBox_SetupAction(this, EnBox_AppearInit);
-        func_80080480(globalCtx, &this->dyna.actor);
-        if (func_80080728(globalCtx, this->dyna.actor.category)) {
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
+        if (OnePointCutscene_CheckForCategory(globalCtx, this->dyna.actor.category)) {
             this->unk_1A8 = 0;
         } else {
             this->unk_1A8 = -30;
