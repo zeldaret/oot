@@ -97,14 +97,13 @@ SPEC := spec
 
 SRC_DIRS := $(shell find src -type d)
 ASM_DIRS := $(shell find asm -type d -not -path "asm/non_matchings*") $(shell find data -type d)
-ASSET_DIRS := assets/objects assets/textures assets/scenes assets/overlays
 ASSET_BIN_DIRS := $(shell find assets/* -type d -not -path "assets/xml*")
 ASSET_FILES_XML := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.xml))
 ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f)
 
-TEXTURE_DIRS := assets/textures assets/scenes assets/objects assets/overlays
+TEXTURE_DIRS := assets/extracted/textures assets/extracted/scenes assets/extracted/objects assets/extracted/overlays
 
 # source files
 C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
@@ -170,6 +169,8 @@ build/src/overlays/actors/%.o: CC := python3 tools/asm_processor/build.py $(CC) 
 build/src/overlays/effects/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 build/src/overlays/gamestates/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
 
+build/assets/%.o: CC := python3 tools/asm_processor/build.py $(CC) -- $(AS) $(ASFLAGS) --
+
 #### Main Targets ###
 
 all: $(ROM)
@@ -230,7 +231,7 @@ build/src/overlays/%.o: src/overlays/%.c
 
 build/src/%.o: src/%.c
 	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(CC_CHECK) $^
+	#$(CC_CHECK) $^
 	@$(OBJDUMP) -d $@ > $(@:.o=.s)
 
 build/src/libultra_boot_O1/ll.o: src/libultra_boot_O1/ll.c

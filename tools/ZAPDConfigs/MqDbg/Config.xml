@@ -1,0 +1,20 @@
+<Root>
+    <SymbolMap File="SymbolMap_OoTMqDbg.txt"/>
+    <ActorList File="ActorList_OoTMqDbg.txt"/>
+    <ObjectList File="ObjectList_OoTMqDbg.txt"/>
+    
+    <!--
+    <Segment Number="1" File="nintendo_rogo_static.xml"/>
+    <Segment Number="1" File="title_static.xml"/>
+    <Segment Number="2" File="parameter_static.xml"/>
+    <Segment Number="4" File="gameplay_keep.xml"/>
+    <Segment Number="5" File="gameplay_field_keep.xml"/>
+    <Segment Number="5" File="gameplay_dangeon_keep.xml"/>
+    <Segment Number="7" File="link_animetion.xml"/>
+    <Segment Number="8" File="icon_item_static.xml"/>
+    <Segment Number="9" File="icon_item_24_static.xml"/>
+    <Segment Number="12" File="icon_item_field_static.xml"/>
+    <Segment Number="12" File="icon_item_dungeon_static.xml"/>
+    <Segment Number="13" File="icon_item_nes_static.xml"/>
+    -->
+</Root>

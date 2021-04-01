@@ -49,4 +49,5 @@ try:
 
     asm_processor.run(asmproc_flags + ['--post-process', out_file, '--assembler', assembler_sh, '--asm-prelude', prelude], functions=functions)
 finally:
-    os.remove(preprocessed_file.name)
+    print("")
+#    os.remove(preprocessed_file.name)

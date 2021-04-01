@@ -4,25 +4,26 @@ from shutil import copyfile
 from multiprocessing import Pool
 from multiprocessing import cpu_count
 
-def Extract(xmlPath, outputPath):
-	ExtractFile(xmlPath, outputPath, 1, 0)	
+def Extract(xmlPath, outputPath, outputSourcePath):
+	ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 0)	
 
-def ExtractScene(xmlPath, outputPath):
-	ExtractFile(xmlPath, outputPath, 1, 1)
+def ExtractScene(xmlPath, outputPath, outputSourcePath):
+	ExtractFile(xmlPath, outputPath, outputSourcePath, 1, 1)
 
-def ExtractFile(xmlPath, outputPath, genSrcFile, incFilePrefix):
-	execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -gsf %i -ifp %i -sm tools/ZAPD/SymbolMap_OoTMqDbg.txt" % (xmlPath, outputPath, genSrcFile, incFilePrefix)
+def ExtractFile(xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix):
+	execStr = "tools/ZAPD/ZAPD.out e -eh -i %s -b baserom/ -o %s -osf %s -gsf %i -ifp %i -rconf tools/ZAPDConfigs/MqDbg/Config.xml" % (xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix)
 
 	print(execStr)
 	os.system(execStr)
 
 def ExtractFunc(fullPath):
-	outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+	outPath = ("assets/extracted/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+	outSourcePath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 
 	if (fullPath.startswith("assets/xml/scenes/")):
-		ExtractScene(fullPath, outPath)
+		ExtractScene(fullPath, outPath, outSourcePath)
 	else:
-		Extract(fullPath, outPath)
+		Extract(fullPath, outPath, outSourcePath)
 
 def main():
     xmlFiles = []
@@ -38,9 +39,6 @@ def main():
     print("Extracting assets with " + str(numCores) + " CPU cores.")
     p = Pool(numCores)
     p.map(ExtractFunc, xmlFiles)
-
-
-    #os.system("make resources")
 
 if __name__ == "__main__":
     main()
