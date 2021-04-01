@@ -22,13 +22,13 @@ typedef struct EnDivingGame {
     /* 0x0296 */ s16 unk_296; // read by ExRuppy
     /* 0x0298 */ s16 eyeTimer;
     /* 0x029A */ s16 spawnRuppyTimer;
-    /* 0x029C */ s16 unk_29C; // ExRuppy asks if value == 0, then it kills itself
+    /* 0x029C */ s16 unk_29C; // ExRuppy asks if value == 0, then it kills itself // state?
     /* 0x029E */ s16 eyeTexIndex;
     /* 0x02A0 */ s16 camId;
     /* 0x02A2 */ s16 unk_2A2; // ExRuppy asks if value == 2
     /* 0x02A4 */ s16 grabbedRupeesCounter;
-    /* 0x02A6 */ s16 unk_2A6;
-    /* 0x02A8 */ s16 unk_2A8;
+    /* 0x02A6 */ s16 rupeesLeftToThrow;
+    /* 0x02A8 */ s16 unk_2A8; // state? 0: default, 1: waiting to give the scale, 2: minigame started
     /* 0x02AA */ s16 unk_2AA; // counts how many times you have beaten the minigame after you got the scale.
     /* 0x02AC */ char unk_2AC[0xC]; // probably another Vec3f, but unused.
     /* 0x02B8 */ Vec3f vec_2B8;

@@ -128,7 +128,7 @@ void EnDivingGame_SpawnRuppy(EnDivingGame* this, GlobalContext* globalCtx) {
     rupeePos.z = (Rand_ZeroOne() - 0.5f) * 20.0f + this->actor.world.pos.z;
     rupee = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY, rupeePos.x,
                                            rupeePos.y, rupeePos.z, 0, (s16)Rand_CenteredFloat(3500.0f) - 1000,
-                                           this->unk_2A6, 0);
+                                           this->rupeesLeftToThrow, 0);
     if (rupee != NULL) {
         rupee->actor.speedXZ = 12.0f;
         rupee->actor.velocity.y = 6.0f;
@@ -317,9 +317,9 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     this->unk_2D0.y = -20.0f;
     this->unk_2D0.z = -240.0f;
     if (!(gSaveContext.eventChkInf[3] & 0x100)) {
-        this->unk_2A6 = 5;
+        this->rupeesLeftToThrow = 5;
     } else {
-        this->unk_2A6 = 10;
+        this->rupeesLeftToThrow = 10;
     }
     this->unk_2DC.x = this->unk_2DC.y = this->unk_2DC.z = this->unk_300.x = this->unk_300.y = this->unk_300.z = 0.1f;
     this->vec_2B8.x = globalCtx->view.lookAt.x;
@@ -358,14 +358,14 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
     if (!this->allRupeesThrowed && this->spawnRuppyTimer == 0) {
         this->spawnRuppyTimer = 5;
         EnDivingGame_SpawnRuppy(this, globalCtx);
-        this->unk_2A6--;
+        this->rupeesLeftToThrow--;
         if (!(gSaveContext.eventChkInf[3] & 0x100)) {
             this->unk_296 = 30;
         } else {
             this->unk_296 = 5;
         }
-        if (this->unk_2A6 <= 0) {
-            this->unk_2A6 = 0;
+        if (this->rupeesLeftToThrow <= 0) {
+            this->rupeesLeftToThrow = 0;
             this->allRupeesThrowed = true;
         }
     }
