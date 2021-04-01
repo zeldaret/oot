@@ -42,7 +42,7 @@ typedef struct EnDivingGame {
     /* 0x0318 */ f32 unk_318;
     /* 0x031C */ char unk_31C; // unused
     /* 0x031D */ u8 notPlayingMinigame;
-    /* 0x031E */ u8 unk_31E;
+    /* 0x031E */ u8 allRupeesThrowed;
     /* 0x031F */ u8 unk_31F; // flag
     /* 0x0320 */ char unk_320[0x4]; // unused
     /* 0x0324 */ struct_80034A14_arg1 unk_324;
