@@ -120,24 +120,22 @@ void EnDivingGame_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnDivingGame_SpawnRuppy(EnDivingGame* this, GlobalContext* globalCtx) {
-    EnExRuppy* attached;
+    EnExRuppy* rupee;
     Vec3f rupeePos;
 
     rupeePos.x = (Rand_ZeroOne() - 0.5f) * 30.0f + this->actor.world.pos.x;
     rupeePos.y = (Rand_ZeroOne() - 0.5f) * 20.0f + (this->actor.world.pos.y + 30.0f);
     rupeePos.z = (Rand_ZeroOne() - 0.5f) * 20.0f + this->actor.world.pos.z;
-    attached = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY,
-                                              rupeePos.x, rupeePos.y, rupeePos.z, 0,
-                                              (s16)Rand_CenteredFloat(3500.0f) - 1000, this->unk_2A6, 0);
-    if (attached != NULL) {
-        attached->actor.speedXZ = 12.0f;
-        attached->actor.velocity.y = 6.0f;
+    rupee = (EnExRuppy*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_EX_RUPPY, rupeePos.x,
+                                           rupeePos.y, rupeePos.z, 0, (s16)Rand_CenteredFloat(3500.0f) - 1000,
+                                           this->unk_2A6, 0);
+    if (rupee != NULL) {
+        rupee->actor.speedXZ = 12.0f;
+        rupee->actor.velocity.y = 6.0f;
     }
 }
 
 s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
-    s32 var;
-
     if (gSaveContext.timer1State == 10 && !Gameplay_InCsMode(globalCtx)) {
         gSaveContext.timer1State = 0;
         func_800F5B58();
@@ -145,19 +143,19 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x71AD;
         func_8010B680(globalCtx, this->actor.textId, NULL);
         this->unk_292 = 5;
-        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
+        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRupeesCounter = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_809EE048;
         return 1;
     } else {
         s32 var = 5;
-        
+
         if (gSaveContext.eventChkInf[3] & 0x100) {
             var = 10;
         }
-        if (this->grabbedRuppiesCounter >= var) {
+        if (this->grabbedRupeesCounter >= var) {
             gSaveContext.timer1State = 0;
-            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
+            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRupeesCounter = 0;
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->actor.textId = 0x4055;
             } else {
@@ -251,12 +249,12 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
                         this->actor.textId = 0x4054;
                     } else {
                         this->actor.textId = 0x85;
-                        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
+                        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRupeesCounter = 0;
                     }
                     break;
                 case 1:
                     this->actor.textId = 0x2D;
-                    this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
+                    this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRupeesCounter = 0;
                     break;
             }
             if (!(gSaveContext.eventChkInf[3] & 0x100) || this->actor.textId == 0x85 || this->actor.textId == 0x2D) {
@@ -297,8 +295,8 @@ void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
 }
 
 void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
-    f32 currentFrame  = this->skelAnime.curFrame;
-    
+    f32 currentFrame = this->skelAnime.curFrame;
+
     SkelAnime_Update(&this->skelAnime);
     if (currentFrame >= 15.0f) {
         this->actionFunc = func_809EE1F4;
@@ -357,20 +355,18 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         Math_ApproachF(&this->unk_318, 1.0f, 1.0f, 0.02f);
     }
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
-    if (this->unk_31E == 0) {
-        if (this->spawnRuppyTimer == 0) {
-            this->spawnRuppyTimer = 5;
-            EnDivingGame_SpawnRuppy(this, globalCtx);
-            this->unk_2A6--;
-            if (!(gSaveContext.eventChkInf[3] & 0x100)) {
-                this->unk_296 = 30;
-            } else {
-                this->unk_296 = 5;
-            }
-            if (this->unk_2A6 <= 0) {
-                this->unk_2A6 = 0;
-                this->unk_31E = 1;
-            }
+    if (this->unk_31E == 0 && this->spawnRuppyTimer == 0) {
+        this->spawnRuppyTimer = 5;
+        EnDivingGame_SpawnRuppy(this, globalCtx);
+        this->unk_2A6--;
+        if (!(gSaveContext.eventChkInf[3] & 0x100)) {
+            this->unk_296 = 30;
+        } else {
+            this->unk_296 = 5;
+        }
+        if (this->unk_2A6 <= 0) {
+            this->unk_2A6 = 0;
+            this->unk_31E = 1;
         }
     }
     if (this->csCameraTimer == 0 ||
@@ -485,7 +481,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 6 && func_80106BC8(globalCtx)) {
         // "Successful completion"
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
+        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRupeesCounter = 0;
         gSaveContext.eventChkInf[3] |= 0x100;
         this->actionFunc = func_809EDCB0;
     }

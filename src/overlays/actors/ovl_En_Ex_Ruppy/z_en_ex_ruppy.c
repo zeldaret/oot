@@ -287,7 +287,7 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
             } else if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
                 Rupees_ChangeBy(this->rupeeValue);
                 func_80078884(NA_SE_SY_GET_RUPY);
-                divingGame->unk_2A4++;
+                divingGame->grabbedRupeesCounter++;
                 Actor_Kill(&this->actor);
             }
         } else {
