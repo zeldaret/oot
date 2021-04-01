@@ -5,7 +5,7 @@
  */
 
 #include "z_en_diving_game.h"
-#include <vt.h>
+#include "vt.h"
 #include "overlays/actors/ovl_En_Ex_Ruppy/z_en_ex_ruppy.h"
 
 #define FLAGS 0x00000019
@@ -52,7 +52,8 @@ const ActorInit En_Diving_Game_InitVars = {
     (ActorFunc)EnDivingGame_Draw,
 };
 
-static u8 D_809EF0B0 = 0;
+// used to ensure there's only one instance of this actor.
+static u8 D_809EF0B0 = false;
 
 static ColliderCylinderInit sCylinderInit = {
     {
@@ -97,12 +98,12 @@ void EnDivingGame_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.scale.x = 0.01f;
     this->actor.scale.y = 0.012999999f;
     this->actor.scale.z = 0.0139999995f;
-    if (D_809EF0B0 != 0) {
+    if (D_809EF0B0) {
         osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ もういてる原 ☆☆☆☆☆ \n" VT_RST);
         this->unk_31F = 1;
         Actor_Kill(&this->actor);
     } else {
-        D_809EF0B0 = 1;
+        D_809EF0B0 = true;
         this->actor.targetMode = 0;
         this->actor.colChkInfo.mass = MASS_IMMOVABLE;
         this->actionFunc = func_809EDCB0;
@@ -183,7 +184,7 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06002FE8.common);
     Animation_Change(&this->skelAnime, &D_06002FE8, 1.0f, 0.0f, (s16)frameCount, 0, -10.0f);
-    this->unk_31D = 1;
+    this->notPlayingMinigame = 1;
     this->actionFunc = func_809EDD4C;
 }
 
@@ -241,7 +242,7 @@ void func_809EDD4C(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (func_80106BC8(globalCtx)) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0:
                     if (gSaveContext.rupees >= 20) {
@@ -273,7 +274,7 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (func_80106BC8(globalCtx)) {
             if (this->unk_29C == 0) {
                 func_80106CCC(globalCtx);
                 func_8002DF54(globalCtx, NULL, 7);
@@ -290,7 +291,7 @@ void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_0600219C.common);
     Animation_Change(&this->skelAnime, &D_0600219C, 1.0f, 0.0f, (s16)frameCount, 2, -10.0f);
-    this->unk_31D = 0;
+    this->notPlayingMinigame = 0;
     this->actionFunc = func_809EE194;
 }
 
@@ -310,30 +311,30 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
     Gameplay_ChangeCameraStatus(globalCtx, this->camId, 7);
     this->spawnRuppyTimer = 10;
-    this->unk_2F4 = -210.0f;
-    this->unk_2F8 = -80.0f;
-    this->unk_2FC = -1020.0f;
-    this->unk_2D0 = -280.0f;
-    this->unk_2D4 = -20.0f;
-    this->unk_2D8 = -240.0f;
+    this->unk_2F4.x = -210.0f;
+    this->unk_2F4.y = -80.0f;
+    this->unk_2F4.z = -1020.0f;
+    this->unk_2D0.x = -280.0f;
+    this->unk_2D0.y = -20.0f;
+    this->unk_2D0.z = -240.0f;
     if (!(gSaveContext.eventChkInf[3] & 0x100)) {
         this->unk_2A6 = 5;
     } else {
         this->unk_2A6 = 10;
     }
-    this->unk_2DC = this->unk_2E0 = this->unk_2E4 = this->unk_300 = this->unk_304 = this->unk_308 = 0.1f;
+    this->unk_2DC.x = this->unk_2DC.y = this->unk_2DC.z = this->unk_300.x = this->unk_300.y = this->unk_300.z = 0.1f;
     this->vec_2B8.x = globalCtx->view.lookAt.x;
     this->vec_2B8.y = globalCtx->view.lookAt.y;
     this->vec_2B8.z = globalCtx->view.lookAt.z;
     this->vec_2C4.x = globalCtx->view.eye.x;
     this->vec_2C4.y = globalCtx->view.eye.y + 80.0f;
     this->vec_2C4.z = globalCtx->view.eye.z + 250.0f;
-    this->unk_2E8 = fabsf(this->vec_2C4.x - this->unk_2D0) * 0.04f;
-    this->unk_2EC = fabsf(this->vec_2C4.y - this->unk_2D4) * 0.04f;
-    this->unk_2F0 = fabsf(this->vec_2C4.z - this->unk_2D8) * 0.04f;
-    this->unk_30C = fabsf(this->vec_2B8.x - this->unk_2F4) * 0.04f;
-    this->unk_310 = fabsf(this->vec_2B8.y - this->unk_2F8) * 0.04f;
-    this->unk_314 = fabsf(this->vec_2B8.z - this->unk_2FC) * 0.04f;
+    this->unk_2E8.x = fabsf(this->vec_2C4.x - this->unk_2D0.x) * 0.04f;
+    this->unk_2E8.y = fabsf(this->vec_2C4.y - this->unk_2D0.y) * 0.04f;
+    this->unk_2E8.z = fabsf(this->vec_2C4.z - this->unk_2D0.z) * 0.04f;
+    this->unk_30C.x = fabsf(this->vec_2B8.x - this->unk_2F4.x) * 0.04f;
+    this->unk_30C.y = fabsf(this->vec_2B8.y - this->unk_2F4.y) * 0.04f;
+    this->unk_30C.z = fabsf(this->vec_2B8.z - this->unk_2F4.z) * 0.04f;
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
     Gameplay_CameraSetFov(globalCtx, this->camId, globalCtx->mainCamera.fov);
     this->csCameraTimer = 60;
@@ -347,11 +348,11 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         func_800F6828(0);
     }
     if (this->camId != 0) {
-        Math_ApproachF(&this->vec_2C4.x, this->unk_2D0, this->unk_2DC, this->unk_2E8 * this->unk_318);
-        Math_ApproachF(&this->vec_2C4.z, this->unk_2D8, this->unk_2E4, this->unk_2F0 * this->unk_318);
-        Math_ApproachF(&this->vec_2B8.x, this->unk_2F4, this->unk_300, this->unk_30C * this->unk_318);
-        Math_ApproachF(&this->vec_2B8.y, this->unk_2F8, this->unk_304, this->unk_310 * this->unk_318);
-        Math_ApproachF(&this->vec_2B8.z, this->unk_2FC, this->unk_308, this->unk_314 * this->unk_318);
+        Math_ApproachF(&this->vec_2C4.x, this->unk_2D0.x, this->unk_2DC.x, this->unk_2E8.x * this->unk_318);
+        Math_ApproachF(&this->vec_2C4.z, this->unk_2D0.z, this->unk_2DC.z, this->unk_2E8.z * this->unk_318);
+        Math_ApproachF(&this->vec_2B8.x, this->unk_2F4.x, this->unk_300.x, this->unk_30C.x * this->unk_318);
+        Math_ApproachF(&this->vec_2B8.y, this->unk_2F4.y, this->unk_300.y, this->unk_30C.y * this->unk_318);
+        Math_ApproachF(&this->vec_2B8.z, this->unk_2F4.z, this->unk_300.z, this->unk_30C.z * this->unk_318);
         Math_ApproachF(&this->unk_318, 1.0f, 1.0f, 0.02f);
     }
     Gameplay_CameraSetAtEye(globalCtx, this->camId, &this->vec_2B8, &this->vec_2C4);
@@ -359,7 +360,7 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         if (this->spawnRuppyTimer == 0) {
             this->spawnRuppyTimer = 5;
             EnDivingGame_SpawnRuppy(this, globalCtx);
-            this->unk_2A6 = this->unk_2A6 - 1;
+            this->unk_2A6--;
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->unk_296 = 30;
             } else {
@@ -372,9 +373,9 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
         }
     }
     if (this->csCameraTimer == 0 ||
-        ((fabsf(this->vec_2C4.x - this->unk_2D0) < 2.0f) && (fabsf(this->vec_2C4.y - this->unk_2D4) < 2.0f) &&
-         (fabsf(this->vec_2C4.z - this->unk_2D8) < 2.0f) && (fabsf(this->vec_2B8.x - this->unk_2F4) < 2.0f) &&
-         (fabsf(this->vec_2B8.y - this->unk_2F8) < 2.0f) && (fabsf(this->vec_2B8.z - this->unk_2FC) < 2.0f))) {
+        ((fabsf(this->vec_2C4.x - this->unk_2D0.x) < 2.0f) && (fabsf(this->vec_2C4.y - this->unk_2D0.y) < 2.0f) &&
+         (fabsf(this->vec_2C4.z - this->unk_2D0.z) < 2.0f) && (fabsf(this->vec_2B8.x - this->unk_2F4.x) < 2.0f) &&
+         (fabsf(this->vec_2B8.y - this->unk_2F4.y) < 2.0f) && (fabsf(this->vec_2B8.z - this->unk_2F4.z) < 2.0f))) {
         if (this->unk_2A2 != 0) {
             this->csCameraTimer = 70;
             this->unk_2A2 = 2;
@@ -391,17 +392,17 @@ void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
         this->unk_2A2 = 1;
         this->csCameraTimer = 100;
         this->actionFunc = func_809EE408;
-        this->unk_2F4 = -210.0f;
+        this->unk_2F4.x = -210.0f;
         this->vec_2B8.x = -210.0f;
-        this->unk_2F8 = -80.0f;
+        this->unk_2F4.y = -80.0f;
         this->vec_2B8.y = -80.0f;
-        this->unk_2FC = -1020.0f;
+        this->unk_2F4.z = -1020.0f;
         this->vec_2B8.z = -1020.0f;
-        this->unk_2D0 = -280.0f;
+        this->unk_2D0.x = -280.0f;
         this->vec_2C4.x = -280.0f;
-        this->unk_2D4 = -20.0f;
+        this->unk_2D0.y = -20.0f;
         this->vec_2C4.y = -20.0f;
-        this->unk_2D8 = -240.0f;
+        this->unk_2D0.z = -240.0f;
         this->vec_2C4.z = -240.0f;
     }
 }
@@ -422,7 +423,7 @@ void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx)) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (func_80106BC8(globalCtx)) {
             func_80106CCC(globalCtx);
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 func_80088B34(BREG(2) + 50);
@@ -441,7 +442,7 @@ void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EE8F0(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0))) {
+    if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx))) {
         func_80106CCC(globalCtx);
         this->actionFunc = func_809EDD4C;
     } else {
@@ -451,7 +452,7 @@ void func_809EE8F0(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EE96C(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0))) {
+    if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx))) {
         func_80106CCC(globalCtx);
         func_8002DF54(globalCtx, NULL, 7);
         this->actor.textId = 0x4056;
@@ -463,7 +464,7 @@ void func_809EE96C(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void func_809EEA00(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && (func_80106BC8(globalCtx) != 0))) {
+    if ((this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx))) {
         func_80106CCC(globalCtx);
         this->actor.parent = NULL;
         func_8002F434(&this->actor, globalCtx, GI_SCALE_SILVER, 90.0f, 10.0f);
@@ -483,7 +484,7 @@ void func_809EEA90(EnDivingGame* this, GlobalContext* globalCtx) {
 void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (func_8010BDBC(&globalCtx->msgCtx) == 6) {
-        if (func_80106BC8(globalCtx) != 0) {
+        if (func_80106BC8(globalCtx)) {
             // "Successful completion"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
             this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
@@ -564,7 +565,7 @@ s32 EnDivingGame_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx**
         rot->z += this->vec_284.z;
     }
 
-    if (this->unk_31D != 0 && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {
+    if (this->notPlayingMinigame && (limbIndex == 8 || limbIndex == 9 || limbIndex == 12)) {
         rot->y += Math_SinS((globalCtx->state.frames * (limbIndex * 50 + 0x814))) * 200.0f;
         rot->z += Math_CosS((globalCtx->state.frames * (limbIndex * 50 + 0x940))) * 200.0f;
     }
