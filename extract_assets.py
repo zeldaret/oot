@@ -17,7 +17,8 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix
 	os.system(execStr)
 
 def ExtractFunc(fullPath):
-	outPath = ("assets/extracted/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+	#outPath = ("assets/extracted/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
+	outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 	outSourcePath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 
 	if (fullPath.startswith("assets/xml/scenes/")):
