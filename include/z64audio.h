@@ -221,7 +221,7 @@ typedef struct {
     /* 0x004 */ u8 seqId;
     /* 0x005 */ u8 defaultBank;
     /*?0x006 */ u8 loadingBankId;
-    /*?0x007 */ s8 seqVariationEu[1];
+    /*?0x007 */ s8 seqVariationEu;
     /* 0x008 */ u16 tempo; // tatums per minute
     /* 0x00A */ u16 tempoAcc;
     /* 0x00C */ u16 unk_0C;
@@ -801,11 +801,11 @@ typedef struct {
  * 
  */
 
-#define SFX_BANK_SHIFT(sfxId)   ((sfxId >> 0xC) & 0xFF)
+#define SFX_BANK_SHIFT(sfxId)   (((sfxId) >> 0xC) & 0xFF)
 
-#define SFX_BANK_MASK(sfxId)    (sfxId & 0xF000)
+#define SFX_BANK_MASK(sfxId)    ((sfxId) & 0xF000)
 
-#define SFX_INDEX(sfxId)    (sfxId & 0x01FF)
+#define SFX_INDEX(sfxId)    ((sfxId) & 0x01FF)
 #define SFX_BANK(sfxId)     SFX_BANK_SHIFT(SFX_BANK_MASK(sfxId))
 
 #endif

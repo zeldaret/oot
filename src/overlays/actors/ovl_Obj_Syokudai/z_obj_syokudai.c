@@ -163,7 +163,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if (this->litTimer == 0) {
                     this->litTimer = -1;
                     if (torchType == 0) {
-                        func_80080480(globalCtx, &this->actor);
+                        OnePointCutscene_Attention(globalCtx, &this->actor);
                     }
                 } else if (this->litTimer > 0) {
                     this->litTimer = -1;
@@ -214,13 +214,13 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     this->litTimer = -1;
                     if (torchType != 2) {
                         Flags_SetSwitch(globalCtx, switchFlag);
-                        func_80080480(globalCtx, &this->actor);
+                        OnePointCutscene_Attention(globalCtx, &this->actor);
                     }
                 } else {
                     sLitTorchCount++;
                     if (sLitTorchCount >= torchCount) {
                         Flags_SetSwitch(globalCtx, switchFlag);
-                        func_80080480(globalCtx, &this->actor);
+                        OnePointCutscene_Attention(globalCtx, &this->actor);
                         this->litTimer = -1;
                     } else {
                         this->litTimer = (litTimeScale * 50) + 110;

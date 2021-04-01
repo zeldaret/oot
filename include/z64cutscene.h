@@ -156,8 +156,8 @@ typedef union CutsceneData {
     s8  b[4];
 } CutsceneData;
 
-#define CS_CMD_CONTINUE 0x00
-#define CS_CMD_STOP 0xFF
+#define CS_CMD_CONTINUE 0
+#define CS_CMD_STOP -1
 
 typedef enum {
     /* 0x00 */ OCARINA_ACTION_UNK_0,

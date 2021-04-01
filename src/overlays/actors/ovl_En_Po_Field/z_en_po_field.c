@@ -631,23 +631,20 @@ void EnPoField_SoulUpdateProperties(EnPoField* this, s32 arg1) {
 
     this->lightColor.a = CLAMP(this->lightColor.a + arg1, 0, 255);
     if (arg1 < 0) {
-        multiplier = this->lightColor.a * 0.003921569f;
-        this->actor.scale.z = 0.0056000003f * multiplier + 0.00140000007f;
-        this->actor.scale.x = 0.0056000003f * multiplier + 0.00140000007f;
+        multiplier = this->lightColor.a * (1.0f / 255);
+        this->actor.scale.x = this->actor.scale.z = 0.0056000003f * multiplier + 0.0014000001f;
         this->actor.scale.y = 0.007f - 0.007f * multiplier + 0.007f;
     } else {
         multiplier = 1.0f;
-        this->actor.scale.z = this->lightColor.a * 2.7450982e-05f;
-        this->actor.scale.y = this->lightColor.a * 2.7450982e-05f;
-        this->actor.scale.x = this->lightColor.a * 2.7450982e-05f;
-        this->actor.world.pos.y = this->actor.home.pos.y + (0.05882353f * this->lightColor.a);
+        this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = this->lightColor.a * (0.007f / 255);
+        this->actor.world.pos.y = this->actor.home.pos.y + ((1.0f / 17.0f) * this->lightColor.a);
     }
     this->lightColor.r = info->lightColor.r * multiplier;
     this->lightColor.g = info->lightColor.g * multiplier;
     this->lightColor.b = info->lightColor.b * multiplier;
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, info->lightColor.r, info->lightColor.g, info->lightColor.b,
-                              this->lightColor.a * 0.78431373f);
+                              this->lightColor.a * (200.0f / 255));
 }
 
 void func_80AD587C(EnPoField* this, GlobalContext* globalCtx) {
@@ -691,7 +688,7 @@ void func_80AD58D4(EnPoField* this, GlobalContext* globalCtx) {
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, this->lightInfo.params.point.color[0],
                               this->lightInfo.params.point.color[1], this->lightInfo.params.point.color[2],
-                              this->lightColor.a * 0.78431374f);
+                              this->lightColor.a * (200.0f / 255));
 }
 
 void EnPoField_SoulDisappear(EnPoField* this, GlobalContext* globalCtx) {
@@ -799,7 +796,7 @@ void EnPoField_DrawFlame(EnPoField* this, GlobalContext* globalCtx) {
         sp4C = this->flameScale * 85000.0f;
         gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 0, sp4C);
         Matrix_Translate(this->flamePosition.x, this->flamePosition.y, this->flamePosition.z, MTXMODE_NEW);
-        Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * 0.0000958738f, MTXMODE_APPLY);
+        Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) + 0x8000) * (M_PI / 0x8000), MTXMODE_APPLY);
         if (this->flameTimer >= 20) {
             gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
             Matrix_Scale(this->flameScale, this->flameScale, this->flameScale, MTXMODE_APPLY);
@@ -851,7 +848,7 @@ void func_80AD6330(EnPoField* this) {
 
     if (this->actionFunc == EnPoField_Appear && this->skelAnime.curFrame < 12.0f) {
         this->soulColor.r = this->soulColor.g = this->soulColor.b = (s16)(this->skelAnime.curFrame * 16.66f) + 55;
-        this->soulColor.a = this->skelAnime.curFrame * 16.666666f;
+        this->soulColor.a = this->skelAnime.curFrame * (100.0f / 6.0f);
     } else {
         rand = Rand_ZeroOne();
         this->soulColor.r = (s16)(rand * 30.0f) + 225;
@@ -901,7 +898,7 @@ s32 EnPoField_OverrideLimbDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** d
         }
     }
     if (this->actionFunc == EnPoField_Disappear && limbIndex == 7) {
-        Matrix_Scale(this->actionTimer * 0.0625f, this->actionTimer * 0.0625f, this->actionTimer * 0.0625f, 1);
+        Matrix_Scale(this->actionTimer / 16.0f, this->actionTimer / 16.0f, this->actionTimer / 16.0f, 1);
     }
     return false;
 }
@@ -928,7 +925,7 @@ void EnPoField_PostLimDraw2(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
             this->actor.world.pos.z = sLimb7Mtx.wz;
         }
         Lights_PointGlowSetInfo(&this->lightInfo, vec.x, vec.y, vec.z, this->soulColor.r, this->soulColor.g,
-                                this->soulColor.b, this->soulColor.a * 0.7843137383460999f);
+                                this->soulColor.b, this->soulColor.a * (200.0f / 255));
     }
 }
 
