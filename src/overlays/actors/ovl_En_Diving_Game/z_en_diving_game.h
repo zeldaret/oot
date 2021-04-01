@@ -26,7 +26,7 @@ typedef struct EnDivingGame {
     /* 0x029E */ s16 eyeTexIndex;
     /* 0x02A0 */ s16 camId;
     /* 0x02A2 */ s16 unk_2A2;
-    /* 0x02A4 */ s16 unk_2A4;
+    /* 0x02A4 */ s16 grabbedRuppiesCounter;
     /* 0x02A6 */ s16 unk_2A6;
     /* 0x02A8 */ s16 unk_2A8;
     /* 0x02AA */ s16 unk_2AA;

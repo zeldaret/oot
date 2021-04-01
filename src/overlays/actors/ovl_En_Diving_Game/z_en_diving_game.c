@@ -144,7 +144,7 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
         this->actor.textId = 0x71AD;
         func_8010B680(globalCtx, this->actor.textId, NULL);
         this->unk_292 = 5;
-        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
+        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
         func_8002DF54(globalCtx, NULL, 8);
         this->actionFunc = func_809EE048;
         return 1;
@@ -153,9 +153,9 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
         if (gSaveContext.eventChkInf[3] & 0x100) {
             var = 10;
         }
-        if (this->unk_2A4 >= var) {
+        if (this->grabbedRuppiesCounter >= var) {
             gSaveContext.timer1State = 0;
-            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
+            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
             if (!(gSaveContext.eventChkInf[3] & 0x100)) {
                 this->actor.textId = 0x4055;
             } else {
@@ -249,12 +249,12 @@ void func_809EDEDC(EnDivingGame* this, GlobalContext* globalCtx) {
                         this->actor.textId = 0x4054;
                     } else {
                         this->actor.textId = 0x85;
-                        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
+                        this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
                     }
                     break;
                 case 1:
                     this->actor.textId = 0x2D;
-                    this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
+                    this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
                     break;
             }
             if (!(gSaveContext.eventChkInf[3] & 0x100) || this->actor.textId == 0x85 || this->actor.textId == 0x2D) {
@@ -486,7 +486,7 @@ void func_809EEAF8(EnDivingGame* this, GlobalContext* globalCtx) {
         if (func_80106BC8(globalCtx) != 0) {
             // "Successful completion"
             osSyncPrintf(VT_FGCOL(GREEN) "☆☆☆☆☆ 正常終了 ☆☆☆☆☆ \n" VT_RST);
-            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->unk_2A4 = 0;
+            this->unk_31E = this->unk_2A8 = this->unk_29C = this->unk_2A2 = this->grabbedRuppiesCounter = 0;
             gSaveContext.eventChkInf[3] |= 0x100;
             this->actionFunc = func_809EDCB0;
         }
