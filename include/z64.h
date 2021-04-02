@@ -223,8 +223,8 @@ typedef struct {
 
 typedef struct {
     /* 0x00 */ u8*      texture;
-    /* 0x04 */ s16      screenX;
-    /* 0x06 */ s16      screenY;
+    /* 0x04 */ s16      x;
+    /* 0x06 */ s16      y;
     /* 0x08 */ u8       width;
     /* 0x09 */ u8       height;
     /* 0x0A */ u8       timer;

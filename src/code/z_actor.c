@@ -667,19 +667,19 @@ void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     titleCtx->timer = titleCtx->delay = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 screenX,
-                            s16 screenY, u8 width, u8 height) {
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
+                            s16 y, u8 width, u8 height) {
     titleCtx->texture = texture;
-    titleCtx->screenX = screenX;
-    titleCtx->screenY = screenY;
+    titleCtx->x = x;
+    titleCtx->y = y;
     titleCtx->width = width;
     titleCtx->height = height;
     titleCtx->timer = 80;
     titleCtx->delay = 0;
 }
 
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 screenX,
-                             s32 screenY, s32 width, s32 height, s32 delay) {
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
+                             s32 y, s32 width, s32 height, s32 delay) {
     Scene* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
@@ -688,8 +688,8 @@ void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCt
     }
 
     titleCtx->texture = texture;
-    titleCtx->screenX = screenX;
-    titleCtx->screenY = screenY;
+    titleCtx->x = x;
+    titleCtx->y = y;
     titleCtx->width = width;
     titleCtx->height = height;
     titleCtx->timer = 80;
@@ -721,8 +721,8 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if (titleCtx->alpha != 0) {
         spCC = titleCtx->width;
         spC8 = titleCtx->height;
-        spC0 = (titleCtx->screenX * 4) - (spCC * 2);
-        spB8 = (titleCtx->screenY * 4) - (spC8 * 2);
+        spC0 = (titleCtx->x * 4) - (spCC * 2);
+        spB8 = (titleCtx->y * 4) - (spC8 * 2);
         sp38 = spCC * 2;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2824);
