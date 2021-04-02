@@ -54,7 +54,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
+    s32 rate;
     BgSpot02Objects* this = THIS;
     CollisionHeader* colHeader = NULL;
 
@@ -218,8 +218,8 @@ void func_808ACC34(BgSpot02Objects* this, GlobalContext* globalCtx) {
 
 void func_808ACCB8(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot02Objects* this = THIS;
-    f32 pad;
-    f32 pad2;
+    f32 rate;
+    s32 pad;
     u8 redPrim;
     u8 greenPrim;
     u8 bluePrim;
@@ -232,19 +232,19 @@ void func_808ACCB8(Actor* thisx, GlobalContext* globalCtx) {
     if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
         globalCtx->csCtx.npcActions[0]->action == 2) {
         if (this->unk_16A < 5) {
-            pad = (this->unk_16A / 5.0f);
+            rate = (this->unk_16A / 5.0f);
             redPrim = greenPrim = bluePrim = 255;
-            redEnv = 100.0f + 155.0f * pad;
+            redEnv = 100.0f + 155.0f * rate;
             greenEnv = 255;
-            blueEnv = 255.0f - 155.0f * pad;
+            blueEnv = 255.0f - 155.0f * rate;
         } else {
-            pad = ((this->unk_16A - 5) / 7.0f);
-            redPrim = 255.0f - (255.0f * pad);
-            greenPrim = 255.0f - (55.0f * pad);
-            bluePrim = 255.0f - (255.0f * pad);
-            redEnv = 255.0f - (105.0f * pad);
-            greenEnv = 255.0f - (255.0f * pad);
-            blueEnv = 100.0f + (100.0f * pad);
+            rate = ((this->unk_16A - 5) / 7.0f);
+            redPrim = 255.0f - (255.0f * rate);
+            greenPrim = 255.0f - (55.0f * rate);
+            bluePrim = 255.0f - (255.0f * rate);
+            redEnv = 255.0f - (105.0f * rate);
+            greenEnv = 255.0f - (255.0f * rate);
+            blueEnv = 100.0f + (100.0f * rate);
         }
 
         Matrix_Translate(globalCtx->csCtx.npcActions[0]->startPos.x, globalCtx->csCtx.npcActions[0]->startPos.y,
@@ -286,7 +286,7 @@ void func_808AD3D4(BgSpot02Objects* this, GlobalContext* globalCtx) {
 
 void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot02Objects* this = THIS;
-    s32 pad3;
+    s32 rate3;
     f32 lerp;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot02_objects.c", 736);
