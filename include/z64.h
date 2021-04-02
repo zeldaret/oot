@@ -227,8 +227,8 @@ typedef struct {
     /* 0x06 */ s16      y;
     /* 0x08 */ u8       width;
     /* 0x09 */ u8       height;
-    /* 0x0A */ u8       timer;
-    /* 0x0B */ u8       delay;
+    /* 0x0A */ u8       duration; // how long the title card appears for before fading
+    /* 0x0B */ u8       delay; // how long the title card waits to appear
     /* 0x0C */ s16      alpha;
     /* 0x0E */ s16      intensity;
 } TitleCardContext; // size = 0x10
