@@ -431,7 +431,7 @@ void func_80A4CED8(EnGoroiwa* this, GlobalContext* globalCtx) {
     if (this->unk_1D3 & 8) {
         sp8C = this->unk_1BC;
     } else {
-        this->unk_1BC = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.prevPos) * 0.016806724f;
+        this->unk_1BC = Math3D_Vec3f_DistXYZ(&this->actor.world.pos, &this->actor.prevPos) * (1.0f / 59.5f);
         sp8C = this->unk_1BC;
     }
     sp8C *= this->unk_1C0;
