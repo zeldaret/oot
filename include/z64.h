@@ -439,6 +439,12 @@ typedef enum {
 } KaleidoOverlayType;
 
 typedef struct {
+    /* 0x00 */ u8 unk_00;
+    /* 0x01 */ u8 unk_01;
+    /* 0x02 */ u8 unk_02;
+} UnkAudioStruct;
+
+typedef struct {
     /* 0x0000 */ View   view;
     /* 0x0128 */ u8*    iconItemSegment;
     /* 0x012C */ u8*    iconItem24Segment;
@@ -459,7 +465,7 @@ typedef struct {
     /* 0x0168 */ Vtx*   cursorVtx;
     /* 0x016C */ Vtx*   saveVtx;
     /* 0x0170 */ char   unk_170[0x24];
-    /* 0x0194 */ u8*    unk_194;
+    /* 0x0194 */ UnkAudioStruct* unk_194;
     /* 0x0198 */ char   unk_198[0x20];
     /* 0x01B8 */ OSMesgQueue loadQueue;
     /* 0x01D0 */ OSMesg loadMsg;

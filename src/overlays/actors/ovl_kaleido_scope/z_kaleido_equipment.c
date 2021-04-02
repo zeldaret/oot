@@ -112,25 +112,24 @@ void KaleidoScope_DrawPlayerWork(GlobalContext* globalCtx) {
                   CUR_EQUIP_VALUE(EQUIP_BOOTS) - 1);
 }
 
-#ifdef NON_MATCHING
 void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
     Input* input = &globalCtx->state.input[0];
-    u16 temp_s7;
     u16 phi_s0_3;
     u16 phi_s1_3;
     u16 phi_s2_3;
     u16 phi_s3_3;
-    u16 spC2;
     u16 phi_s5;
     u16 phi_s4;
+    u16 spC2;
+    u16 pad;
     u16 phi_s0_2;
-    u16 spBA;
     s16 phi_s0;
+    u16 spBA;
     s16 phi_s1;
     s16 phi_s2;
     s16 phi_s3;
-    s16 spB2;
+    volatile s16 spB2;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_equipment.c", 219);
 
@@ -248,6 +247,8 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
 
             phi_s3 = pauseCtx->unk_218[3];
             phi_s2 = pauseCtx->unk_22C[3];
+
+            if (phi_s0) {}
 
             phi_s0 = 0;
             while (phi_s0 == 0) {
@@ -387,21 +388,23 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
 
             if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
                 if ((pauseCtx->unk_22C[3] == 0) && (CUR_UPG_VALUE(UPG_BULLET_BAG) != 0)) {
-                    phi_s0_2 = CUR_UPG_VALUE(UPG_BULLET_BAG) + 0x46;
+                    phi_s0_2 = CUR_UPG_VALUE(UPG_BULLET_BAG) - 1 + ITEM_BULLET_BAG_30;
                 } else {
-                    phi_s0_2 = CUR_UPG_VALUE(pauseCtx->unk_22C[3]) + D_8082A400[pauseCtx->unk_22C[3]] + 0x49;
+                    phi_s0_2 =
+                        D_8082A400[pauseCtx->unk_22C[3]] + CUR_UPG_VALUE(pauseCtx->unk_22C[3]) - 1 + ITEM_QUIVER_30;
                     osSyncPrintf("H_arrowcase_1 + non_equip_item_table = %d\n", phi_s0_2);
                 }
             } else {
-                if ((pauseCtx->unk_22C[3] == 0) && (CUR_UPG_VALUE(UPG_BULLET_BAG) == 0)) {
-                    phi_s0_2 = CUR_UPG_VALUE(UPG_BULLET_BAG) + 0x46;
+                if ((pauseCtx->unk_22C[3] == 0) && (CUR_UPG_VALUE(UPG_QUIVER) == 0)) {
+                    phi_s0_2 = CUR_UPG_VALUE(UPG_BULLET_BAG) - 1 + ITEM_BULLET_BAG_30;
                 } else {
-                    phi_s0_2 = CUR_UPG_VALUE(pauseCtx->unk_22C[3]) + D_8082A400[pauseCtx->unk_22C[3]] + 0x49;
+                    phi_s0_2 =
+                        D_8082A400[pauseCtx->unk_22C[3]] + CUR_UPG_VALUE(pauseCtx->unk_22C[3]) - 1 + ITEM_QUIVER_30;
                     osSyncPrintf("大人 H_arrowcase_1 + non_equip_item_table = %d\n", phi_s0_2);
                 }
             }
         } else {
-            phi_s0_2 = D_8082A404[pauseCtx->unk_218[3]] + 0x3B;
+            phi_s0_2 = D_8082A404[pauseCtx->unk_218[3]] + ITEM_SWORD_KOKIRI;
             osSyncPrintf("ccc=%d\n", phi_s0_2);
             if (pauseCtx->unk_238 == 0) {
                 pauseCtx->unk_260 = 8;
@@ -416,16 +419,15 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
             }
         }
 
-        temp_s7 = pauseCtx->unk_218[3];
+        spBA = pauseCtx->unk_218[3];
 
         pauseCtx->unk_23E[3] = phi_s0_2;
-        pauseCtx->unk_246[3] = temp_s7;
+        pauseCtx->unk_246[3] = spBA;
 
         osSyncPrintf("kscope->select_name[Display_Equipment] = %d\n", pauseCtx->unk_23E[3]);
 
-        if (!((D_8082ABFC[(pauseCtx->unk_22C[3] * 4) + pauseCtx->unk_222[3] + 0x18] == 9) ||
-              (D_8082ABFC[(pauseCtx->unk_22C[3] * 4) + pauseCtx->unk_222[3] + 0x18] ==
-               ((void)0, gSaveContext.linkAge)))) {
+        if (!((D_8082A014[pauseCtx->unk_22C[3]][pauseCtx->unk_222[3]] == 9) ||
+              (D_8082A014[pauseCtx->unk_22C[3]][pauseCtx->unk_222[3]] == ((void)0, gSaveContext.linkAge)))) {
             pauseCtx->unk_25E = 1;
         }
 
@@ -449,15 +451,14 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
             }
         }
 
-        func_80819E14(pauseCtx, temp_s7 * 4, pauseCtx->equipVtx);
+        func_80819E14(pauseCtx, spBA * 4, pauseCtx->equipVtx);
 
         if ((pauseCtx->unk_238 == 0) && (phi_s0_2 != 999) && (pauseCtx->state == 6) && (pauseCtx->unk_1E4 == 0) &&
             CHECK_BTN_ALL(input->press.button, BTN_A)) {
 
             if (pauseCtx->unk_222[3] != 0) {
-                if ((D_8082ABFC[(pauseCtx->unk_22C[3] * 4) + pauseCtx->unk_222[3] + 0x18] == 9) ||
-                    (D_8082ABFC[(pauseCtx->unk_22C[3] * 4) + pauseCtx->unk_222[3] + 0x18] ==
-                     ((void)0, gSaveContext.linkAge))) {
+                if ((D_8082A014[pauseCtx->unk_22C[3]][pauseCtx->unk_222[3]] == 9) ||
+                    (D_8082A014[pauseCtx->unk_22C[3]][pauseCtx->unk_222[3]] == ((void)0, gSaveContext.linkAge))) {
                     Inventory_ChangeEquipment(pauseCtx->unk_22C[3], pauseCtx->unk_222[3]);
 
                     if (pauseCtx->unk_22C[3] == 0) {
@@ -492,8 +493,6 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
         if (spB2 != pauseCtx->unk_218[3]) {
             Audio_PlaySoundGeneral(NA_SE_SY_CURSOR, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         }
-
-        spBA = temp_s7;
     } else if ((pauseCtx->unk_1E4 == 7) && (pauseCtx->kscpPos == 3)) {
         func_80819E14(pauseCtx, pauseCtx->unk_246[3] * 4, pauseCtx->equipVtx);
         pauseCtx->unk_260 = 8;
@@ -504,41 +503,27 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
         }
     }
 
-    spC2 = 0;
-    phi_s5 = 0;
-    phi_s2_3 = 4;
-    while (phi_s5 < 4) {
+    for (spC2 = 0, phi_s5 = 0, phi_s2_3 = 4; phi_s5 < 4; phi_s5++, spC2 += 4, phi_s2_3 += 16) {
 
-        phi_s1_3 = spC2;
-        phi_s0_3 = 0;
-        phi_s3_3 = spC2 + 1;
-        phi_s4 = phi_s2_3;
-        while (phi_s0_3 < 3) {
+        for (phi_s0_3 = 0, phi_s3_3 = spC2 + 1, phi_s1_3 = spC2, phi_s4 = phi_s2_3; phi_s0_3 < 3;
+             phi_s0_3++, phi_s1_3++, phi_s4 += 4, phi_s3_3++) {
+
             if ((gBitFlags[phi_s1_3] & gSaveContext.inventory.equipment) && (pauseCtx->unk_238 == 0)) {
-                if ((D_8082ABFC[(phi_s5 * 4) + phi_s0_3 + 0x18 + 1] == 9) ||
-                    (D_8082ABFC[(phi_s5 * 4) + phi_s0_3 + 0x18 + 1] == ((void)0, gSaveContext.linkAge))) {
-                    if (spBA == phi_s3_3) {
-                        pauseCtx->equipVtx[phi_s4 + 0].v.ob[0] = pauseCtx->equipVtx[phi_s4 + 2].v.ob[0] =
-                            pauseCtx->equipVtx[phi_s4 + 0].v.ob[0] - 2;
+                if ((D_8082A014[phi_s5][phi_s0_3 + 1] == 9) ||
+                    (D_8082A014[phi_s5][phi_s0_3 + 1] == ((void)0, gSaveContext.linkAge))) {
+                    if (phi_s3_3 == spBA) {
+                        pauseCtx->equipVtx[phi_s4].v.ob[0] = pauseCtx->equipVtx[phi_s4 + 2].v.ob[0] =
+                            pauseCtx->equipVtx[phi_s4].v.ob[0] - 2;
                         pauseCtx->equipVtx[phi_s4 + 1].v.ob[0] = pauseCtx->equipVtx[phi_s4 + 3].v.ob[0] =
                             pauseCtx->equipVtx[phi_s4 + 1].v.ob[0] + 4;
-                        pauseCtx->equipVtx[phi_s4 + 0].v.ob[1] = pauseCtx->equipVtx[phi_s4 + 1].v.ob[1] =
-                            pauseCtx->equipVtx[phi_s4 + 0].v.ob[1] + 2;
+                        pauseCtx->equipVtx[phi_s4].v.ob[1] = pauseCtx->equipVtx[phi_s4 + 1].v.ob[1] =
+                            pauseCtx->equipVtx[phi_s4].v.ob[1] + 2;
                         pauseCtx->equipVtx[phi_s4 + 2].v.ob[1] = pauseCtx->equipVtx[phi_s4 + 3].v.ob[1] =
                             pauseCtx->equipVtx[phi_s4 + 2].v.ob[1] - 4;
                     }
                 }
             }
-
-            phi_s0_3++;
-            phi_s1_3++;
-            phi_s4 += 4;
-            phi_s3_3++;
         }
-
-        phi_s5++;
-        spC2 += 4;
-        phi_s2_3 += 16;
     }
 
     func_800949A8(globalCtx->state.gfxCtx);
@@ -546,53 +531,42 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
     gDPSetCombineMode(POLY_OPA_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
     gDPSetPrimColor(POLY_OPA_DISP++, 0, 0, 255, 255, 255, pauseCtx->unk_208);
 
-    spC2 = 0;
-    phi_s4 = 0;
-    phi_s5 = 0;
-    phi_s3_3 = 0;
-    while (phi_s5 < 4) {
+    for (spC2 = 0, phi_s4 = 0, phi_s3_3 = 0, phi_s5 = 0; phi_s5 < 4; phi_s5++, spC2 += 4, phi_s4 += 16) {
         gSPVertex(POLY_OPA_DISP++, &pauseCtx->equipVtx[phi_s4], 16, 0);
 
         if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
             phi_s2_3 = CUR_UPG_VALUE(D_8082A3F0[phi_s5]);
+            if (1) {}
             if ((phi_s2_3 != 0) && (CUR_UPG_VALUE(D_8082A3F0[phi_s5]) != 0)) {
+                KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx,
+                                                   gItemIcons[D_8082A3F8[phi_s5] + phi_s2_3 - 1], 32, 32, 0);
+            }
+        } else {
+            if ((phi_s5 == 0) && (CUR_UPG_VALUE(D_8082A3F4[phi_s5]) == 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(
-                    globalCtx->state.gfxCtx, gItemIcons[CUR_UPG_VALUE(D_8082A3F0[phi_s5]) + D_8082A3F8[phi_s5] - 1], 32,
+                    globalCtx->state.gfxCtx, gItemIcons[D_8082A3F8[phi_s5] + CUR_UPG_VALUE(D_8082A3F0[phi_s5]) - 1], 32,
+                    32, 0);
+            } else if (CUR_UPG_VALUE(D_8082A3F4[phi_s5]) != 0) {
+                KaleidoScope_DrawQuadTextureRGBA32(
+                    globalCtx->state.gfxCtx, gItemIcons[D_8082A3FC[phi_s5] + CUR_UPG_VALUE(D_8082A3F4[phi_s5]) - 1], 32,
                     32, 0);
             }
-        } else if ((phi_s5 == 0) && (CUR_UPG_VALUE(D_8082A3F4[phi_s5]) == 0)) {
-            KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx,
-                                               gItemIcons[CUR_UPG_VALUE(D_8082A3F0[phi_s5]) + D_8082A3F8[phi_s5] - 1],
-                                               32, 32, 0);
-        } else if (CUR_UPG_VALUE(D_8082A3F4[phi_s5]) != 0) {
-            KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx,
-                                               gItemIcons[CUR_UPG_VALUE(D_8082A3F4[phi_s5]) + D_8082A3F8[phi_s5] - 1],
-                                               32, 32, 0);
         }
 
-        phi_s0_3 = 0;
-        phi_s2_3 = 4;
-        phi_s1_3 = spC2;
-        while (phi_s0_3 < 3) {
-            if ((phi_s5 == 0) && (phi_s0_3 == 2) && (gSaveContext.bgsFlag != 0)) {
+        for (phi_s0_3 = 0, phi_s1_3 = spC2, phi_s2_3 = 4; phi_s0_3 < 3;
+             phi_s0_3++, phi_s2_3 += 4, phi_s3_3++, phi_s1_3++) {
+
+            if (((u32)phi_s5 == 0) && (phi_s0_3 == 2) && (gSaveContext.bgsFlag != 0)) {
                 KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gBiggoronSwordIconTex, 32, 32, phi_s2_3);
             } else if ((phi_s5 == 0) && (phi_s0_3 == 2) &&
                        (gBitFlags[phi_s1_3 + 1] & gSaveContext.inventory.equipment)) {
                 KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gBrokenGiantsKnifeIconTex, 32, 32,
                                                    phi_s2_3);
             } else if (gBitFlags[phi_s1_3] & gSaveContext.inventory.equipment) {
-                KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gItemIcons[phi_s3_3 + 0x3B], 32, 32,
-                                                   phi_s2_3);
+                KaleidoScope_DrawQuadTextureRGBA32(globalCtx->state.gfxCtx, gItemIcons[phi_s3_3 + ITEM_SWORD_KOKIRI],
+                                                   32, 32, phi_s2_3);
             }
-            phi_s0_3++;
-            phi_s2_3 += 4;
-            phi_s3_3++;
-            phi_s1_3++;
         }
-
-        phi_s5++;
-        spC2 += 4;
-        phi_s4 += 16;
     }
 
     KaleidoScope_DrawPlayerWork(globalCtx);
@@ -602,7 +576,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
     }
 
     if ((pauseCtx->unk_1E4 == 7) && (D_8082A414 == 9)) {
-        // @bug This function doesn't have any arguments
+        //! @bug: This function shouldn't take any arguments
         KaleidoScope_ProcessPlayerPreRender(globalCtx);
     }
 
@@ -616,8 +590,7 @@ void KaleidoScope_DrawEquipment(GlobalContext* globalCtx) {
     func_800949A8(globalCtx->state.gfxCtx);
     KaleidoScope_DrawEquipmentImage(globalCtx, pauseCtx->playerSegment, 64, 112);
 
+    if (gUpgradeMasks[0]) {}
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_kaleido_equipment.c", 609);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_kaleido_scope/KaleidoScope_DrawEquipment.s")
-#endif

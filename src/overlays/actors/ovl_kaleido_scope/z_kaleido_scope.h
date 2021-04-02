@@ -8,6 +8,7 @@ extern u8 D_8082A420[];
 extern s16 D_8082AAEC[];
 extern s16 D_8082AB2C[];
 extern u8 D_8082ABFC[];
+extern u8 D_8082A014[][4];
 extern u8 D_8082AC7C[];
 
 void KaleidoScope_DrawQuestStatus(GlobalContext* globalCtx, GraphicsContext* gfxCtx);
