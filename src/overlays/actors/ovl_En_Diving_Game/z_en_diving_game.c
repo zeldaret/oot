@@ -23,9 +23,9 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx)
 void func_809EE048(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE0FC(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx);
-void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx);
+void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx);
+void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx);
+void EnDivingGame_SetupUnderwaterViewCs(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE780(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE800(EnDivingGame* this, GlobalContext* globalCtx);
 void func_809EE8F0(EnDivingGame* this, GlobalContext* globalCtx);
@@ -129,8 +129,7 @@ void EnDivingGame_SpawnRuppy(EnDivingGame* this, GlobalContext* globalCtx) {
     }
 }
 
-// EnDivingGame_HasMinigameFinished ?
-s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
+s32 EnDivingGame_HasMinigameFinished(EnDivingGame* this, GlobalContext* globalCtx) {
     if (gSaveContext.timer1State == 10 && !Gameplay_InCsMode(globalCtx)) {
         // Failed.
         gSaveContext.timer1State = 0;
@@ -177,7 +176,7 @@ s32 func_809EDB08(EnDivingGame* this, GlobalContext* globalCtx) {
     return false;
 }
 
-// EnDivingGame_FinishMinigame ?
+// EnDivingGame_FinishMinigame ? // Reset probably
 void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
     f32 frameCount = Animation_GetLastFrame(&D_06002FE8);
 
@@ -188,7 +187,7 @@ void func_809EDCB0(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_2A8 != 2 || !func_809EDB08(this, globalCtx)) {
+    if (this->unk_2A8 != 2 || !EnDivingGame_HasMinigameFinished(this, globalCtx)) {
         if (func_8002F194(&this->actor, globalCtx)) {
             if (this->unk_292 != 6) {
                 switch (this->unk_2A8) {
@@ -300,12 +299,11 @@ void func_809EE194(EnDivingGame* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     if (currentFrame >= 15.0f) {
-        this->actionFunc = func_809EE1F4;
+        this->actionFunc = EnDivingGame_SetupRupeeThrow;
     }
 }
 
-// Setup the rupee throw
-void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
+void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     this->subCamId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
@@ -338,12 +336,12 @@ void func_809EE1F4(EnDivingGame* this, GlobalContext* globalCtx) {
     Gameplay_CameraSetAtEye(globalCtx, this->subCamId, &this->camLookAt, &this->camEye);
     Gameplay_CameraSetFov(globalCtx, this->subCamId, globalCtx->mainCamera.fov);
     this->csCameraTimer = 60;
-    this->actionFunc = func_809EE408;
+    this->actionFunc = EnDivingGame_RupeeThrow;
     this->unk_318 = 0.0f;
 }
 
 // Throws rupee when this->spawnRuppyTimer == 0 
-void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
+void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos)) {
         func_800F6828(0);
@@ -380,18 +378,18 @@ void func_809EE408(EnDivingGame* this, GlobalContext* globalCtx) {
             this->unk_2A2 = 2;
             this->actionFunc = func_809EE780;
         } else {
-            this->actionFunc = func_809EE6C8;
+            this->actionFunc = EnDivingGame_SetupUnderwaterViewCs;
         }
     }
 }
 
 // Called just before changing the camera to focus the underwater rupees.
-void func_809EE6C8(EnDivingGame* this, GlobalContext* globalCtx) {
+void EnDivingGame_SetupUnderwaterViewCs(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (this->unk_296 == 0) {
         this->unk_2A2 = 1;
         this->csCameraTimer = 100;
-        this->actionFunc = func_809EE408;
+        this->actionFunc = EnDivingGame_RupeeThrow;
         this->camLookAt.x = this->unk_2F4.x = -210.0f;
         this->camLookAt.y = this->unk_2F4.y = -80.0f;
         this->camLookAt.z = this->unk_2F4.z = -1020.0f;
@@ -439,7 +437,7 @@ void func_809EE8F0(EnDivingGame* this, GlobalContext* globalCtx) {
         func_80106CCC(globalCtx);
         this->actionFunc = EnDivingGame_Talk;
     } else {
-        func_809EDB08(this, globalCtx);
+        EnDivingGame_HasMinigameFinished(this, globalCtx);
     }
 }
 
