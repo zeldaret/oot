@@ -6,7 +6,7 @@
 
 struct BossGoma;
 
-typedef void(*BossGomaActionFunc)(struct BossGoma*, GlobalContext*);
+typedef void (*BossGomaActionFunc)(struct BossGoma*, GlobalContext*);
 
 typedef struct BossGoma {
     /* 0x0000 */ Actor actor;
@@ -33,12 +33,12 @@ typedef struct BossGoma {
     /* 0x01C2 */ s16 noBackfaceCulling;
     /* 0x01C4 */ s16 blinkTimer;
     /* 0x01C6 */ s16 lookedAtFrames;
-    /* 0x01C8 */ char unused_1C8[0x8];
+    /* 0x01C8 */ char unk_1C8[0x8];
     /* 0x01D0 */ s16 actionState;
     /* 0x01D2 */ s16 framesUntilNextAction; // not always used as named
     /* 0x01D4 */ s16 timer;
     /* 0x01D6 */ s16 sfxFaintTimer;
-    /* 0x01D8 */ char unused_1D8[0x10];
+    /* 0x01D8 */ char unk_1D8[0x10];
     /* 0x01E8 */ f32 tailLimbsScale[4];
     /* 0x01F8 */ f32 eyeIrisScaleX;
     /* 0x01FC */ f32 unusedInitX;
@@ -50,7 +50,7 @@ typedef struct BossGoma {
     /* 0x0224 */ f32 eyeIrisScaleY;
     /* 0x0228 */ f32 defeatedCameraEyeDist;
     /* 0x022C */ f32 defeatedCameraEyeAngle;
-    /* 0x0230 */ char unused_230[0x30];
+    /* 0x0230 */ char unk_230[0x30];
     /* 0x0260 */ Vec3f lastTailLimbWorldPos;
     /* 0x026C */ Vec3f firstTailLimbWorldPos;
     /* 0x0278 */ Vec3f rightHandBackLimbWorldPos;

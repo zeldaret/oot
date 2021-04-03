@@ -1,5 +1,5 @@
 #include "z_boss_goma.h"
-#include "../ovl_En_Goma/z_en_goma.h"
+#include "overlays/actors/ovl_En_Goma/z_en_goma.h"
 
 #define FLAGS 0x00000035
 
@@ -12,7 +12,7 @@ typedef enum {
     EYESTATE_IRIS_FOLLOW_BONUS_IFRAMES, // default, allows not drawing lens and iris when eye is closed
     EYESTATE_IRIS_NO_FOLLOW_NO_IFRAMES,
     EYESTATE_IRIS_FOLLOW_NO_IFRAMES
-} BossGoma_EyeState;
+} GohmaEyeState;
 
 typedef enum {
     VISUALSTATE_RED,         // main/eye: red
@@ -20,7 +20,7 @@ typedef enum {
     VISUALSTATE_DEFEATED,    // main/eye: dark gray
     VISUALSTATE_STUNNED = 4, // main: greenish cyan, alternates with blue; eye: greenish cyan
     VISUALSTATE_HIT          // main: greenish cyan, alternates with red; eye: greenish cyan
-} BossGoma_VisualState;
+} GohmaVisualState;
 
 void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx);
 void BossGoma_Destroy(Actor* thisx, GlobalContext* globalCtx);
@@ -350,13 +350,13 @@ void BossGoma_ClearPixels32x32Rgba16(s16* rgba16image, u8* clearPixelTable, s16 
  * Clear pixels from Gohma's textures
  */
 void BossGoma_ClearPixels(u8* clearPixelTable, s16 i) {
-    BossGoma_ClearPixels16x16Rgba16((s16*)SEGMENTED_TO_VIRTUAL(D_060183A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16((s16*)SEGMENTED_TO_VIRTUAL(D_060185A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16((s16*)SEGMENTED_TO_VIRTUAL(D_060187A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16((s16*)SEGMENTED_TO_VIRTUAL(D_060191A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060183A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060185A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060187A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060191A8), clearPixelTable, i);
 
-    BossGoma_ClearPixels32x32Rgba16((s16*)SEGMENTED_TO_VIRTUAL(D_060189A8), clearPixelTable, i);
-    BossGoma_ClearPixels32x32Rgba16((s16*)SEGMENTED_TO_VIRTUAL(D_060193A8), clearPixelTable, i);
+    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(D_060189A8), clearPixelTable, i);
+    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(D_060193A8), clearPixelTable, i);
 }
 
 static InitChainEntry sInitChain[] = {
@@ -2096,30 +2096,28 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
 }
 
 Gfx* BossGoma_EmptyDlist(GraphicsContext* gfxCtx) {
-    Gfx* dList;
     Gfx* dListHead;
+    Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 1);
-    dListHead = dList;
+    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx) * 1);
 
-    gSPEndDisplayList(dList++);
+    gSPEndDisplayList(dListHead++);
 
-    return dListHead;
+    return dList;
 }
 
 Gfx* BossGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
-    Gfx* dList;
     Gfx* dListHead;
+    Gfx* dList;
 
-    dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
-    dListHead = dList;
+    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
 
-    gDPPipeSync(dList++);
-    gDPSetRenderMode(dList++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
-    gSPClearGeometryMode(dList++, G_CULL_BACK);
-    gSPEndDisplayList(dList++);
+    gDPPipeSync(dListHead++);
+    gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
+    gSPClearGeometryMode(dListHead++, G_CULL_BACK);
+    gSPEndDisplayList(dListHead++);
 
-    return dListHead;
+    return dList;
 }
 
 void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -2145,18 +2143,6 @@ void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
 void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, this->lastTailLimbWorldPos.x,
                        this->lastTailLimbWorldPos.y - 50.0f, this->lastTailLimbWorldPos.z, 0, i * 0x5555, 0, i);
-    // @bug (maybe) if child gohma fails to spawn this softlocks due to the lack of a != NULL check?
-    /*
-    Detailed explanation of the oversight:
-    BossGoma_UpdateEye sets eyeClosedTimer to 7 if any childrenGohmaState[i] is positive (i = 0,1,2)
-    Gohma only comes down from the ceiling when:
-     - shot by the player (BossGoma_UpdateHit), but eyeClosedTimer being positive acts as invincibility frames
-     - all children gohmas are dead (BossGoma_CeilingIdle), but the children gohma actors are responsible for setting
-       childrenGohmaState[i] to indicate they're dead
-    So basically if childrenGohmaState[i] is 1 and the corresponding child gohma actor fails to spawn, the fight will
-    softlock with Gohma being stuck on the ceiling.
-    Gohma also doesn't respawn children for indices (i) that already have been spawned, even if dead, until the next
-    time it climbs a wall.
-    */
+
     this->childrenGohmaState[i] = 1;
 }
