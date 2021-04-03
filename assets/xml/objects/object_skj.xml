@@ -2,7 +2,46 @@
     <File Name="object_skj" Segment="6">
         <DList Name="gSKJeedleDList" Offset="0x0EB0"/>
         <DList Name="gSKJskullMaskDList" Offset="0x14C8"/>
+
+        <Limb Name="gSkullKidUnkLimb_5E20" LimbType="Standard" Offset="0x5E20"/>
+        <Limb Name="gSkullKidUnkLimb_5E2C" LimbType="Standard" Offset="0x5E2C"/>
+        <Limb Name="gSkullKidUnkLimb_5E38" LimbType="Standard" Offset="0x5E38"/>
+        <Limb Name="gSkullKidLeftUpperLegLimb" LimbType="Standard" Offset="0x5E44"/>
+        <Limb Name="gSkullKidLeftLowerLegLimb" LimbType="Standard" Offset="0x5E50"/>
+        <Limb Name="gSkullKidLeftFootLimb" LimbType="Standard" Offset="0x5E5C"/>
+        <Limb Name="gSkullKidRightUpperLegLimb" LimbType="Standard" Offset="0x5E68"/>
+        <Limb Name="gSkullKidRightLowerLegLimb" LimbType="Standard" Offset="0x5E74"/>
+        <Limb Name="gSkullKidRightFootLimb" LimbType="Standard" Offset="0x5E80"/>
+        <Limb Name="gSkullKidChestAndClothesLimb" LimbType="Standard" Offset="0x5E8C"/>
+        <Limb Name="gSkullKidNeckLimb" LimbType="Standard" Offset="0x5E98"/>
+        <Limb Name="gSkullKidHeadAndFaceLimb" LimbType="Standard" Offset="0x5EA4"/>
+        <Limb Name="gSkullKidUpperHatLimb" LimbType="Standard" Offset="0x5EB0"/>
+        <Limb Name="gSkullKidLeftSholderLimb" LimbType="Standard" Offset="0x5EBC"/>
+        <Limb Name="gSkullKidLeftArmLimb" LimbType="Standard" Offset="0x5EC8"/>
+        <Limb Name="gSkullKidLeftHandAndFluteLimb" LimbType="Standard" Offset="0x5ED4"/>
+        <Limb Name="gSkullKidRightSholderLimb" LimbType="Standard" Offset="0x5EE0"/>
+        <Limb Name="gSkullKidRightArmLimb" LimbType="Standard" Offset="0x5EEC"/>
+        <!--<Limb Name="gSkullKidRightHandLimb" LimbType="Standard" Offset="0x5EF8"/> ZAPD doesnt extract this limb correctly for some reason-->
         <Skeleton Name="gSkullKidSkel" Type="Flex" LimbType="Standard" Offset="0x5F40"/>
+        
+        <!--Limb DLists-->
+        <DList Name="gSkullKidLeftUpperLegDlist" Offset="0x3B90"/>
+        <DList Name="gSkullKidLeftLowerLegDlist" Offset="0x3C88"/>
+        <DList Name="gSkullKidLeftFootDlist" Offset="0x3A28"/>
+        <DList Name="gSkullKidRightUpperLegDlist" Offset="0x3770"/>
+        <DList Name="gSkullKidRightLowerLegDlist" Offset="0x3868"/>
+        <DList Name="gSkullKidRightFootDlist" Offset="0x4630"/>
+        <DList Name="gSkullKidChestandClothesDlist" Offset="0x4008"/>
+        <DList Name="gSkullKidNeckDlist" Offset="0x40E8"/>
+        <DList Name="gSKullKidHeadAndFaceDlist" Offset="0x44C8"/>
+        <DList Name="gSkullKidUpperHatDlist" Offset="0x5130"/>
+        <DList Name="gSkullKidLeftSholderDlist" Offset="0x4FB8"/>
+        <DList Name="gSkullKidLeftArmDlist" Offset="0x4CF8"/>
+        <DList Name="gSkullKidLeftHandAndFluteDlist" Offset="0x4B28"/>
+        <DList Name="gSkullKidRightSholderDlist" Offset="0x49B0"/>
+        <DList Name="gSkullKidRightArmDlist" Offset="0x4810"/>
+        <!--<DList Name="gSkullKidRightHand" Offset="0x5E38"/>-->
+
         <Animation Name="gSkullKidBackflipAnim" Offset="0x051C"/>
         <Animation Name="gSkullKidShootNeedleAnim" Offset="0x07A4"/>
         <Animation Name="gSkullKidPlayFluteAnim" Offset="0x0E10"/>
@@ -17,8 +56,13 @@
         <Texture Name="gSkullKidSkullMaskTeethTex" OutName="skull_mask_teeth" Format="rgb5a1" Width="8" Height="8" Offset="0x1108"/>
         <Texture Name="gSkullKidSkullMaskNoseTex" OutName="skull_mask_nose" Format="rgb5a1" Width="8" Height="8" Offset="0x1188"/>
 
-
-        <!--Large unaccounted blocks-->
+        <!--Unaccounted blocks larger than the padding of a file-->
         <Blob Name="unaccounted_52C" Size="0x24" Offset="0x52C"/>
+        <Blob Name="unaccounted_E20" Size="0x30" Offset="0xE20"/>
+        <Blob Name="unaccounted_EAA8" Size="0x48" Offset="0x6AA8"/>
+        <Blob Name="unaccounted_ED94" Size="0x1C" Offset="0x6D94"/>
+        <Blob Name="unaccounted_7138" Size="0x18" Offset="0x7138"/>
+        <Blob Name="unaccounted_8184" Size="0x6C" Offset="0x8184"/>
+        <Blob Name="unaccounted_8BAC" Size="0x54" Offset="0x8BAC"/>
     </File>
 </Root>
