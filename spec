@@ -3614,7 +3614,8 @@ endseg
 beginseg
     name "object_goma"
     romalign 0x1000
-    include "build/baserom/object_goma.o"
+    include "build/assets/objects/object_goma/object_goma.o"
+    number 6
 endseg
 
 beginseg

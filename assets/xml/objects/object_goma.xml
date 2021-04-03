@@ -1,0 +1,31 @@
+<Root>
+    <File Name="object_goma" Segment="6">
+        <Animation Name="gGhomaAnim_000AE8" Offset="0xAE8"/>
+        <Animation Name="gGhomaAnim_00193C" Offset="0x193C"/>
+        <Animation Name="gGhomaAnim_002360" Offset="0x2360"/>
+        <Animation Name="gGhomaAnim_0029F0" Offset="0x29F0"/>
+        <Animation Name="gGhomaAnim_004318" Offset="0x4318"/>
+        <Animation Name="gGhomaAnim_004A20" Offset="0x4A20"/>
+        <Animation Name="gGhomaAnim_005330" Offset="0x5330"/>
+        <Animation Name="gGhomaAnim_0058C0" Offset="0x58C0"/>
+        <Animation Name="gGhomaAnim_005F28" Offset="0x5F28"/>
+        <Animation Name="gGhomaAnim_0066DC" Offset="0x66DC"/>
+        <Animation Name="gGhomaAnim_006E60" Offset="0x6E60"/>
+        <Animation Name="gGhomaAnim_00B2FC" Offset="0xB2FC"/>
+        <Animation Name="gGhomaAnim_00C468" Offset="0xC468"/>
+        <Animation Name="gGhomaAnim_00CCD8" Offset="0xCCD8"/>
+        <Animation Name="gGhomaAnim_00F70C" Offset="0xF70C"/>
+        <Animation Name="gGhomaAnim_010918" Offset="0x10918"/>
+        <Animation Name="gGhomaAnim_0113BC" Offset="0x113BC"/>
+        <Animation Name="gGhomaAnim_012678" Offset="0x12678"/>
+        <Animation Name="gGhomaAnim_01EB4C" Offset="0x1EB4C"/>
+        <Texture Name="gGhomaUnknown_0183A8" Outname="ghoma_unknown_0183A8" Format="rgb5a1" Width="16" Height="16" Offset="0x183A8"/>
+        <Texture Name="gGhomaUnknown_0185A8" Outname="ghoma_unknown_0185A8" Format="rgb5a1" Width="16" Height="16" Offset="0x185A8"/>
+        <Texture Name="gGhomaUnknown_0187A8" Outname="ghoma_unknown_0187A8" Format="rgb5a1" Width="16" Height="16" Offset="0x187A8"/>
+        <Texture Name="gGhomaUnknown_0189A8" Outname="ghoma_unknown_0189A8" Format="rgb5a1" Width="32" Height="32" Offset="0x189A8"/>
+        <Texture Name="gGhomaUnknown_0191A8" Outname="ghoma_unknown_0191A8" Format="rgb5a1" Width="16" Height="16" Offset="0x191A8"/>
+        <Texture Name="gGhomaUnknown_0193A8" Outname="ghoma_unknown_0193A8" Format="rgb5a1" Width="32" Height="32" Offset="0x193A8"/>
+        <Texture Name="gGhomaUnknown_019BA8" OutName="ghoma_title_card" Format="i8" Width="128" Height="120" Offset="0x19BA8"/>
+        <Skeleton Name="gGhomaSkel_01DCF8" Type="Normal" LimbType="Standard" Offset="0x1DCF8"/>
+    </File>
+</Root>
