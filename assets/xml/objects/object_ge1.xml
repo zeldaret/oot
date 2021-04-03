@@ -1,0 +1,24 @@
+<Root>
+    <File Name="object_ge1" Segment="6">
+
+        <!-- White-clothed Gerudo Eye Textures -->
+        <Texture Name="gGerudoWhiteEyeOpenTex" OutName="gerudo_white_eye_open" Format="rgb5a1" Width="32" Height="32" Offset="0x0708"/>
+        <Texture Name="gGerudoWhiteEyeHalfTex" OutName="gerudo_white_eye_half" Format="rgb5a1" Width="32" Height="32" Offset="0x0F08"/>
+        <Texture Name="gGerudoWhiteEyeClosedTex" OutName="gerudo_white_eye_closed" Format="rgb5a1" Width="32" Height="32" Offset="0x1708"/>
+        
+        <!-- White-clothed Gerudo Hairstyle Displaylists -->
+        <DList Name="gGerudoWhiteHairstyleBobDL" Offset="0x9198"/>
+        <DList Name="gGerudoWhiteHairstyleStraightFringeDL" Offset="0x9430"/>
+        <DList Name="gGerudoWhiteHairstyleSpikeyDL" Offset="0x9690"/>
+
+        <!-- White-clothed Gerudo Skeleton -->
+        <Skeleton Name="gGerudoWhiteSkel" Type="Flex" LimbType="Standard" Offset="0x0330"/>
+
+        <!-- White-clothed Gerudo Animations -->
+        <Animation Name="gGerudoWhiteUnusedFoldingArmsAnim" Offset="0x0168"/>
+        <Animation Name="gGerudoWhiteIdleAnim" Offset="0x0228"/>
+        <Animation Name="gGerudoWhiteClapAnim" Offset="0xA048"/>
+        <Animation Name="gGerudoWhiteDismissiveAnim" Offset="0xA498"/>
+
+    </File>
+</Root>
