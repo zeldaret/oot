@@ -90,7 +90,7 @@ static ShutterInfo D_80998134[] = {
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
     { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },
-    { gGhomaDoorDL, NULL, 130, 12, 50, 15 },
+    { gGohmaDoorDL, NULL, 130, 12, 50, 15 },
     { 0x06000100, 0x060001F0, 240, 14, 50, 15 },
     { 0x060010C0, NULL, 130, 12, 50, 15 },
     { gDungeonDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
@@ -284,7 +284,7 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             this->unk_16C = D_809980F0[this->unk_16B].index1;
-            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &gGhomaDoorCol : &gPhantomGanonBarsCol,
+            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &gGohmaDoorCol : &gPhantomGanonBarsCol,
                                        &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
