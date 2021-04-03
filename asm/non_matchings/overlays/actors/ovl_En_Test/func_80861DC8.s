@@ -57,8 +57,8 @@ glabel func_80861DC8
 /* 02844 80861E94 0C029468 */  jal     Animation_Change
 
 /* 02848 80861E98 8FA40034 */  lw      $a0, 0x0034($sp)
-/* 0284C 80861E9C 3C058086 */  lui     $a1, %hi(func_808603CC)    ## $a1 = 80860000
-/* 02850 80861EA0 24A503CC */  addiu   $a1, $a1, %lo(func_808603CC) ## $a1 = 808603CC
+/* 0284C 80861E9C 3C058086 */  lui     $a1, %hi(EnTest_Land)    ## $a1 = 80860000
+/* 02850 80861EA0 24A503CC */  addiu   $a1, $a1, %lo(EnTest_Land) ## $a1 = 808603CC
 /* 02854 80861EA4 0C217D94 */  jal     EnTest_SetupAction
 /* 02858 80861EA8 02002025 */  or      $a0, $s0, $zero            ## $a0 = 00000000
 /* 0285C 80861EAC 8FBF002C */  lw      $ra, 0x002C($sp)

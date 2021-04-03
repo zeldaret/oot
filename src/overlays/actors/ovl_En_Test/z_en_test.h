@@ -10,7 +10,7 @@ typedef void (*EnTestActionFunc)(struct EnTest*, struct GlobalContext*);
 
 typedef struct EnTest {
     /* 0x0000 */ Actor actor;
-    /* 0x014C */ char unk_14C[0x03C];
+    /* 0x014C */ Vec3s bodyPartsPos[10];
     /* 0x0188 */ SkelAnime skelAnime_188;
     /* 0x01CC */ Vec3s limbDrawTable_1CC[61];
     /* 0x033A */ Vec3s transitionTbl_16E[61];
@@ -22,7 +22,10 @@ typedef struct EnTest {
     /* 0x07CC */ EnTestActionFunc actionFunc;
     /* 0x07D0 */ char unk_7D0[0xE];
     /* 0x07DE */ u8 unk_7DE;
-    /* 0x07DF */ char unk_7DF[0x9];
+    /* 0x07DF */ char unk_7DF[0x1];
+    /* 0x07E4 */ s16 iceTimer;
+    // 7E2?
+    /* 0x07E4 */ s32 unk_7E4;
     /* 0x07E8 */ s32 timer;
     /* 0x07EC */ f32 unk_7EC;
     /* 0x07F0 */ char unk_7F0[0x18];

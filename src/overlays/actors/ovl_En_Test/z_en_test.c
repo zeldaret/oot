@@ -17,10 +17,10 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_8085F938(EnTest* this, GlobalContext* globalCtx);
 void func_8085FAB0(EnTest* this, GlobalContext* globalCtx);
-void func_8085FE48(EnTest* this, GlobalContext* globalCtx);
-void func_8085FF9C(EnTest* this, GlobalContext* globalCtx);
-void func_80860318(EnTest* this, GlobalContext* globalCtx);
-void func_808603CC(EnTest* this, GlobalContext* globalCtx);
+void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx);
+void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx);
+void EnTest_Fall(EnTest* this, GlobalContext* globalCtx);
+void EnTest_Land(EnTest* this, GlobalContext* globalCtx);
 void func_80863360(EnTest* this, GlobalContext* globalCtx);
 void func_808600EC(EnTest* this, GlobalContext* globalCtx);
 void func_808604FC(EnTest* this, GlobalContext* globalCtx);
@@ -43,8 +43,8 @@ void func_80863044(EnTest* this, GlobalContext* globalCtx);
 void func_8086318C(EnTest* this, GlobalContext* globalCtx);
 void func_80863294(EnTest* this, GlobalContext* globalCtx);
 
-void func_8085FDD0(EnTest* this);
-void func_8085FF28(EnTest* this);
+void EnTest_SetupWaitGround(EnTest* this);
+void EnTest_SetupWaitAbove(EnTest* this);
 void func_8086194C(EnTest* this);
 void func_808615A4(EnTest* this);
 void func_8086181C(EnTest* this);
@@ -134,7 +134,6 @@ static ColliderQuadInit D_808645C8 = {
     { { { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f }, { 0.0f, 0.0f, 0.0f } } },
 };
 
-
 // sDamageTable
 DamageTable D_80864618[] = {
     0x10, 0x02, 0xD1, 0x02, 0x10, 0x02, 0x02, 0x10, 0x01, 0x02, 0x04, 0x02, 0xF4, 0xE2, 0x02, 0x02,
@@ -180,7 +179,6 @@ extern UNK_TYPE D_06001420;
 extern UNK_TYPE D_06008604;
 extern UNK_TYPE D_06009A90;
 extern UNK_TYPE D_0600C438;
-
 
 void EnTest_SetupAction(EnTest* this, EnTestActionFunc* actionFunc) {
     this->actionFunc = actionFunc;
@@ -233,9 +231,9 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     Effect_Add(globalCtx, &this->effectIndex, EFFECT_BLURE1, 0, 0, &slashBlure);
 
     if (this->actor.params != 3) {
-        func_8085FDD0(this);
+        EnTest_SetupWaitGround(this);
     } else {
-        func_8085FF28(this);
+        EnTest_SetupWaitAbove(this);
     }
 
     if (this->actor.params == 0) {
@@ -243,25 +241,34 @@ void EnTest_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/EnTest_Destroy.s")
+void EnTest_Destroy(Actor* thisx, GlobalContext* globalCtx) {
+    EnTest* this = THIS;
+
+    if ((this->actor.params != 2) && !Actor_FindNearby(globalCtx, this, 2, 5, 8000.0f)) {
+        func_800F5B58();
+    }
+
+    Effect_Delete(globalCtx, this->effectIndex);
+    Collider_DestroyCylinder(globalCtx, &this->shieldCollider);
+    Collider_DestroyCylinder(globalCtx, &this->collider);
+    Collider_DestroyQuad(globalCtx, &this->swordCollider);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8085F938.s")
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8085FAB0.s")
 
-// wait in ground
-void func_8085FDD0(EnTest* this) {
+void EnTest_SetupWaitGround(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime_188, &D_0600316C);
     this->unk_7C8 = 0;
     this->timer = 15;
     this->actor.scale.y = 0.0f;
     this->actor.world.pos.y = this->actor.home.pos.y - 3.5f;
     this->actor.flags &= ~1;
-    EnTest_SetupAction(this, func_8085FE48);
+    EnTest_SetupAction(this, EnTest_WaitGround);
 }
 
-// wait to start battle
-void func_8085FE48(EnTest* this, GlobalContext* globalCtx) {
+void EnTest_WaitGround(EnTest* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime_188);
 
     if ((this->timer == 0) && (ABS(this->actor.yDistToPlayer) < 150.0f)) {
@@ -269,6 +276,7 @@ void func_8085FE48(EnTest* this, GlobalContext* globalCtx) {
         EnTest_SetupAction(this, func_80863360);
         this->actor.world.rot.y = this->actor.yawTowardsPlayer;
         this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
+
         if (this->actor.params != 2) {
             func_800F5ACC(0x38); // play miniboss music
         }
@@ -276,23 +284,33 @@ void func_8085FE48(EnTest* this, GlobalContext* globalCtx) {
         if (this->timer != 0) {
             this->timer--;
         }
+
         this->actor.world.pos.y = this->actor.home.pos.y - 3.5f;
     }
 }
 
-// wait above
-void func_8085FF28(EnTest* this) {
+void EnTest_SetupWaitAbove(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime_188, &D_0600316C);
     this->unk_7C8 = 0;
     this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
     Actor_SetScale(&this->actor, 0.0f);
     this->actor.flags &= ~1;
-    EnTest_SetupAction(this, func_8085FF9C);
+    EnTest_SetupAction(this, EnTest_WaitAbove);
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8085FF9C.s")
+void EnTest_WaitAbove(EnTest* this, GlobalContext* globalCtx) {
+    SkelAnime_Update(&this->skelAnime_188);
+    this->actor.world.pos.y = this->actor.home.pos.y + 150.0f;
 
-// setup wait after jump back (and after jumpslash apparently)
+    if ((this->actor.xzDistToPlayer < 200.0f) && (ABS(this->actor.yDistToPlayer) < 450.0f)) {
+        EnTest_SetupAction(this, EnTest_Fall);
+        this->actor.flags |= 1;
+        this->actor.shape.rot.y = this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        Actor_SetScale(this, 0.015f);
+    }
+}
+
+// setup wait after jump back/jump slash/fall
 void func_80860068(EnTest* this) {
     Animation_PlayLoop(&this->skelAnime_188, &D_0600316C);
     this->unk_7C8 = 0xA;
@@ -355,14 +373,29 @@ void func_808600EC(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860318.s")
+void EnTest_Fall(EnTest* this, GlobalContext* globalCtx) {
+    Animation_PlayOnceSetSpeed(&this->skelAnime_188, &D_0600C438, 0.0f);
+    SkelAnime_Update(&this->skelAnime_188);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808603CC.s")
+    if (this->actor.world.pos.y <= this->actor.floorHeight) {
+        this->skelAnime_188.playSpeed = 1.0f;
+        this->unk_7C8 = 0xC;
+        this->timer = this->unk_7E4 * 0.15f;
+        Audio_PlayActorSound2(this, NA_SE_EN_RIZA_DOWN);
+        EnTest_SetupAction(this, EnTest_Land);
+    }
+}
+
+void EnTest_Land(EnTest* this, GlobalContext* globalCtx) {
+    if (SkelAnime_Update(&this->skelAnime_188)) {
+        func_80860068(this);
+        this->timer = (Rand_ZeroOne() * 10.0f) + 5.0f;
+    }
+}
 
 // block and start walking?
 void func_80860438(EnTest* this) {
-    Animation_Change(&this->skelAnime_4A8, &D_06001C20, 2.0f, 0.0f,
-                         Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
+    Animation_Change(&this->skelAnime_4A8, &D_06001C20, 2.0f, 0.0f, Animation_GetLastFrame(&D_06001C20), 2, 2.0f);
     Animation_PlayLoop(&this->skelAnime_188, &D_060081B4);
     this->timer = (s16)(Rand_ZeroOne() * 5.0f);
     this->unk_7C8 = 0xD;
@@ -647,9 +680,12 @@ void func_808615F4(EnTest* this, GlobalContext* globalCtx) {
                 return;
             }
         }
+
         yawDiff = player->actor.shape.rot.y - this->actor.shape.rot.y;
+
         if (ABS(yawDiff) <= 0x2710) {
             yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
+
             if ((ABS(yawDiff) > 0x3E80) && (this->actor.params != 3)) {
                 this->actor.world.rot.y = this->actor.yawTowardsPlayer;
                 func_8086194C(this);
@@ -833,10 +869,9 @@ void func_80861C40(EnTest* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862650.s")
 
-//
 void func_808627C4(EnTest* this, GlobalContext* globalCtx) {
 
-    if (func_80033AB8(globalCtx, this) != 0) {
+    if (func_80033AB8(globalCtx, this)) {
         func_80860EC0(this);
         return;
     }
@@ -891,11 +926,35 @@ void func_80863360(EnTest* this, GlobalContext* globalCtx) {
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/EnTest_Update.s")
 
+s32 func_80863AB8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863AB8.s")
 
+void func_80863CC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863CC4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/EnTest_Draw.s")
+void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
+    EnTest* this = THIS;
+
+    func_80093D18(globalCtx->state.gfxCtx);
+    func_8002EBCC(this, globalCtx, 1);
+
+    if ((thisx->params < 4) || (thisx->child == NULL)) {
+        SkelAnime_DrawOpa(globalCtx, this->skelAnime_188.skeleton, this->skelAnime_188.jointTable, func_80863AB8,
+                          func_80863CC4, this);
+    }
+
+    if (this->iceTimer != 0) {
+        thisx->colorFilterTimer++;
+        this->iceTimer--;
+
+        if ((this->iceTimer % 4) == 0) {
+            s32 iceIndex = this->iceTimer >> 2;
+
+            EffectSsEnIce_SpawnFlyingVec3s(globalCtx, thisx, &this->bodyPartsPos[iceIndex], 150, 150, 150, 250, 235,
+                                           245, 255, 1.5f);
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80864158.s")
 
@@ -912,8 +971,8 @@ void func_808641E8(GlobalContext *globalCtx, EnTest *this) {
     EnTest *temp_a1_2;
     PosRot *temp_a0_3;
     s32 projectileYawDiff;
-    s32 temp_v1_2;
-    s32 temp_v1_3;
+    s32 index_2;
+    s32 index_3;
     s16 temp_a0_2;
     s32 phi_v0;
     s32 phi_v0_2;
@@ -988,7 +1047,7 @@ block_19:
 block_52:
                             return;
                         }
-                        temp_v1_2 = ((globalCtx->gameplayFrames & 1) << 0x10) >> 0x10;
+                        index_2 = ((globalCtx->gameplayFrames & 1) << 0x10) >> 0x10;
                         if (touchingWall) {
                             phi_v0_6 = 0 - wallYawDiff;
                             if (wallYawDiff >= 0) {
@@ -998,13 +1057,13 @@ block_52:
                                 phi_v1 = 0;
                             } else {
 block_44:
-                                phi_v1 = temp_v1_2;
+                                phi_v1 = index_2;
                                 if (touchingWall) {
                                     phi_v0_7 = 0 - wallYawDiff;
                                     if (wallYawDiff >= 0) {
                                         phi_v0_7 = wallYawDiff;
                                     }
-                                    phi_v1 = temp_v1_2;
+                                    phi_v1 = index_2;
                                     if (phi_v0_7 < 0x2000) {
                                         phi_v1 = 1;
                                     }
@@ -1021,18 +1080,18 @@ block_44:
                         return;
                     }
                 }
-                temp_v1_3 = ((globalCtx->gameplayFrames & 1) << 0x10) >> 0x10;
+                index_3 = ((globalCtx->gameplayFrames & 1) << 0x10) >> 0x10;
                 if (touchingWall) {
                     if (wallYawDiff >= 0x2001) {
                         if (wallYawDiff < 0x6000) {
                             phi_v1_2 = 0;
                         } else {
 block_29:
-                            phi_v1_2 = temp_v1_3;
+                            phi_v1_2 = index_3;
                             if (touchingWall) {
-                                phi_v1_2 = temp_v1_3;
+                                phi_v1_2 = index_3;
                                 if (wallYawDiff < -0x2000) {
-                                    phi_v1_2 = temp_v1_3;
+                                    phi_v1_2 = index_3;
                                     if (wallYawDiff >= -0x5FFF) {
                                         phi_v1_2 = 1;
                                     }
