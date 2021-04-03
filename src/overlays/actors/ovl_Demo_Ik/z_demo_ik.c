@@ -56,7 +56,7 @@ s32 DemoIk_UpdateSkelAnime(DemoIk* this) {
 }
 
 CsCmdActorAction* DemoIk_GetCue(GlobalContext* globalCtx, s32 index) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[index];
     }
     return NULL;

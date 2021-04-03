@@ -47,6 +47,7 @@ tools/*dSYM/
 *.ia16.png
 *.ci4.png
 *.ci8.png
+*.jpg
 *.mdli
 *.anmi
 *.obj
