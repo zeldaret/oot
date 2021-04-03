@@ -1048,8 +1048,9 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
                 new_local_syms.append(s)
             else:
                 new_global_syms.append(s)
-        
+
         # Add static symbols from .mdebug, so they can be referred to from GLOBAL_ASM
+        local_sym_replacements = {}
         if mdebug_section:
             strtab_index = len(objfile.symtab.strtab.data)
             new_strtab_data = []
@@ -1082,10 +1083,21 @@ def fixup_objfile(objfile_name, functions, asm_prelude, assembler, output_enc):
                             st_shndx=section.index,
                             strtab=objfile.symtab.strtab,
                             name=symbol_name_str)
+                        local_sym_replacements[symbol_name_str] = len(new_local_syms)
                         strtab_index += len(symbol_name)
                         new_strtab_data.append(symbol_name)
                         new_local_syms.append(sym)
             objfile.symtab.strtab.data += b''.join(new_strtab_data)
+
+        # To get the linker to use the local symbols, we have to get rid of UNDEF
+        # global ones.
+        newer_global_syms = []
+        for s in new_global_syms:
+            if s.st_shndx == SHN_UNDEF and s.name in local_sym_replacements:
+                s.new_index = local_sym_replacements[s.name]
+            else:
+                newer_global_syms.append(s)
+        new_global_syms = newer_global_syms
 
         new_syms = new_local_syms + new_global_syms
         for i, s in enumerate(new_syms):

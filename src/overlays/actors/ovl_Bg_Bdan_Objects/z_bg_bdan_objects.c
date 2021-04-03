@@ -184,7 +184,7 @@ void func_8086C054(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->dyna.actor.xzDistToPlayer < 250.0f) {
             BgBdanObjects_SetContactRu1(this, 1);
             this->timer = 20;
-            func_800800F8(globalCtx, 0xBFE, -0x63, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3070, -99, &this->dyna.actor, MAIN_CAM);
             player->actor.world.pos.x = -1130.0f;
             player->actor.world.pos.y = -1025.0f;
             player->actor.world.pos.z = -3300.0f;
@@ -261,7 +261,7 @@ void func_8086C3D8(BgBdanObjects* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->dyna.actor.child->world.pos.y = this->dyna.actor.world.pos.y + 140.0f;
         this->actionFunc = func_8086C5BC;
-        func_800800F8(globalCtx, 0xC08, -0x63, this->dyna.actor.child, 0);
+        OnePointCutscene_Init(globalCtx, 3080, -99, this->dyna.actor.child, MAIN_CAM);
         player->actor.world.pos.x = -1130.0f;
         player->actor.world.pos.y = -1025.0f;
         player->actor.world.pos.z = -3500.0f;
@@ -334,7 +334,7 @@ void func_8086C76C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (func_8004356C(&this->dyna)) {
         if (this->dyna.actor.xzDistToPlayer < 120.0f) {
             this->actionFunc = func_8086C7D0;
-            func_800800F8(globalCtx, 0xC12, -0x63, &this->dyna.actor, 0);
+            OnePointCutscene_Init(globalCtx, 3090, -99, &this->dyna.actor, MAIN_CAM);
         }
     }
 }
@@ -358,13 +358,13 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
     }
     if (this->unk_168 == 0) {
         if (func_8004356C(&this->dyna)) {
-            this->cameraSetting = globalCtx->cameraPtrs[0]->setting;
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_NORMAL2);
-            func_8005AD1C(globalCtx->cameraPtrs[0], 4);
-            this->unk_168 = 0xAU;
+            this->cameraSetting = globalCtx->cameraPtrs[MAIN_CAM]->setting;
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_NORMAL2);
+            func_8005AD1C(globalCtx->cameraPtrs[MAIN_CAM], 4);
+            this->unk_168 = 10;
         }
     } else {
-        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_NORMAL2);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_NORMAL2);
         if (!func_8004356C(&this->dyna)) {
             if (this->unk_168 != 0) {
                 this->unk_168--;
@@ -373,12 +373,12 @@ void func_8086C874(BgBdanObjects* this, GlobalContext* globalCtx) {
         if (this->unk_168 == 0) {
             do {
             } while (0);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], this->cameraSetting);
-            func_8005ACFC(globalCtx->cameraPtrs[0], 4);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], this->cameraSetting);
+            func_8005ACFC(globalCtx->cameraPtrs[MAIN_CAM], 4);
         }
     }
     this->dyna.actor.world.pos.y =
-        this->dyna.actor.home.pos.y - (sinf(this->timer * (M_PI / 256.0f)) * 471.239990234375f); // pi * 150
+        this->dyna.actor.home.pos.y - (sinf(this->timer * (M_PI / 256.0f)) * 471.24f); // pi * 150
     if (this->timer == 0) {
         this->timer = 512;
     }
@@ -423,7 +423,7 @@ void func_8086CB10(BgBdanObjects* this, GlobalContext* globalCtx) {
         this->timer = 50;
         this->actionFunc = func_8086CB8C;
         this->dyna.actor.home.pos.y -= 200.0f;
-        func_800800F8(globalCtx, 0xC1C, 0x33, &this->dyna.actor, 0);
+        OnePointCutscene_Init(globalCtx, 3100, 51, &this->dyna.actor, MAIN_CAM);
     }
 }
 
@@ -437,7 +437,7 @@ void func_8086CB8C(BgBdanObjects* this, GlobalContext* globalCtx) {
     if (this->timer == 0) {
         Audio_PlayActorSound2(&this->dyna.actor, NA_SE_EV_BUYOSTAND_STOP_U);
         this->actionFunc = BgBdanObjects_DoNothing;
-        Gameplay_CopyCamera(globalCtx, 0, -1);
+        Gameplay_CopyCamera(globalCtx, MAIN_CAM, SUBCAM_ACTIVE);
     } else {
         func_8002F974(&this->dyna.actor, NA_SE_EV_BUYOSTAND_FALL - SFX_FLAG);
     }

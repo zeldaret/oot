@@ -199,7 +199,7 @@ void EnBoom_Fly(EnBoom* this, GlobalContext* globalCtx) {
             Math_Vec3f_Copy(&this->actor.world.pos, &this->actor.prevPos);
         } else {
             collided = BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.prevPos, &this->actor.world.pos,
-                                               &hitPoint, &this->actor.wallPoly, 1, 1, 1, 1, &hitDynaID);
+                                               &hitPoint, &this->actor.wallPoly, true, true, true, true, &hitDynaID);
 
             if (collided) {
                 // If the boomerang collides with something and its is a Jabu Object actor with params equal to 0, then
@@ -258,9 +258,9 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_boom.c", 567);
 
-    Matrix_RotateY(this->actor.world.rot.y * 0.0000958738f, MTXMODE_APPLY);
-    Matrix_RotateZ(0.7669904f, MTXMODE_APPLY);
-    Matrix_RotateX(this->actor.world.rot.x * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY(this->actor.world.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateZ(0x1F40 * (M_PI / 0x8000), MTXMODE_APPLY);
+    Matrix_RotateX(this->actor.world.rot.x * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_MultVec3f(&sMultVec1, &vec1);
     Matrix_MultVec3f(&sMultVec2, &vec2);
 
@@ -269,7 +269,7 @@ void EnBoom_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     func_80093D18(globalCtx->state.gfxCtx);
-    Matrix_RotateY((this->activeTimer * 12000) * 0.0000958738f, MTXMODE_APPLY);
+    Matrix_RotateY((this->activeTimer * 12000) * (M_PI / 0x8000), MTXMODE_APPLY);
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_boom.c", 601),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
