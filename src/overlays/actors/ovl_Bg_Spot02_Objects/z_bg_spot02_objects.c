@@ -175,7 +175,7 @@ void func_808ACA08(BgSpot02Objects* this, GlobalContext* globalCtx) {
 void func_808ACAFC(BgSpot02Objects* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->unk_16B)) {
         Actor_SetFocus(&this->dyna.actor, 60.0f);
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->actionFunc = func_808ACB58;
     }
 }
