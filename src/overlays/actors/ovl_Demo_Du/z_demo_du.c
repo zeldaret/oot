@@ -81,7 +81,7 @@ void DemoDu_CsAfterGanon_Reset(DemoDu* this) {
 void DemoDu_CsAfterGanon_CheckIfShouldReset(DemoDu* this, GlobalContext* globalCtx) {
     static s32 D_8096CE94 = false;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         if (D_8096CE94) {
             if (this->actor.params == DEMO_DU_CS_CHAMBER_AFTER_GANON) {
                 DemoDu_CsAfterGanon_Reset(this);
@@ -103,7 +103,7 @@ void DemoDu_UpdateBgCheckInfo(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 CsCmdActorAction* DemoDu_GetNpcAction(GlobalContext* globalCtx, s32 idx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[idx];
     }
     return NULL;
@@ -207,7 +207,7 @@ void DemoDu_CsFireMedallion_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) 
 }
 
 void DemoDu_CsFireMedallion_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 1)) {
@@ -226,7 +226,7 @@ void DemoDu_CsFireMedallion_AdvanceTo03(DemoDu* this) {
 }
 
 void DemoDu_CsFireMedallion_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 2)) {
@@ -246,7 +246,7 @@ void DemoDu_CsFireMedallion_AdvanceTo05(DemoDu* this, s32 animFinished) {
 }
 
 void DemoDu_CsFireMedallion_AdvanceTo06(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[6];
 
         if ((npcAction != NULL) && (npcAction->action == 2)) {
@@ -437,7 +437,7 @@ void DemoDu_CsGoronsRuby_DaruniaFalling(DemoDu* this, GlobalContext* globalCtx) 
     s32 pad;
     CutsceneContext* csCtx = &globalCtx->csCtx;
 
-    if (csCtx->state != 0) {
+    if (csCtx->state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = csCtx->npcActions[2];
         Vec3f startPos;
         Vec3f endPos;
@@ -466,7 +466,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo01(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 void DemoDu_CsGoronsRuby_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 1)) {
@@ -482,7 +482,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo02(DemoDu* this, GlobalContext* globalCtx) {
 void DemoDu_CsGoronsRuby_AdvanceTo03(DemoDu* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
 
-    if (csCtx->state != 0) {
+    if (csCtx->state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = csCtx->npcActions[2];
 
         if ((npcAction != NULL) && (csCtx->frames >= npcAction->endFrame)) {
@@ -493,7 +493,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo03(DemoDu* this, GlobalContext* globalCtx) {
 }
 
 void DemoDu_CsGoronsRuby_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 2)) {
@@ -511,7 +511,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo05(DemoDu* this, s32 animFinished) {
 }
 
 void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 3)) {
@@ -531,7 +531,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo07(DemoDu* this, s32 animFinished) {
 }
 
 void DemoDu_CsGoronsRuby_AdvanceTo08(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 4)) {
@@ -559,7 +559,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo10(DemoDu* this, s32 animFinished) {
 }
 
 void DemoDu_CsGoronsRuby_AdvanceTo11(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 5)) {
@@ -579,7 +579,7 @@ void DemoDu_CsGoronsRuby_AdvanceTo12(DemoDu* this, s32 animFinished) {
 }
 
 void DemoDu_CsGoronsRuby_AdvanceTo13(DemoDu* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[2];
 
         if ((npcAction != NULL) && (npcAction->action != 6)) {

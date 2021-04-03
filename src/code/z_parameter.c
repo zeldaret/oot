@@ -2082,7 +2082,7 @@ void Interface_SetNaviCall(GlobalContext* globalCtx, u16 naviCallState) {
     InterfaceContext* interfaceCtx = &globalCtx->interfaceCtx;
 
     if (((naviCallState == 0x1D) || (naviCallState == 0x1E)) && !interfaceCtx->naviCalling &&
-        (globalCtx->csCtx.state == 0)) {
+        (globalCtx->csCtx.state == CS_STATE_IDLE)) {
         // clang-format off
         if (naviCallState == 0x1E) { Audio_PlaySoundGeneral(NA_SE_VO_NAVY_CALL, &D_801333D4, 4,
                                                             &D_801333E0, &D_801333E0, &D_801333E8); }
@@ -2722,7 +2722,7 @@ void Interface_DrawItemButtons(GlobalContext* globalCtx) {
     }
 
     if (interfaceCtx->naviCalling && (globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) &&
-        (globalCtx->csCtx.state == 0)) {
+        (globalCtx->csCtx.state == CS_STATE_IDLE)) {
         if (!sCUpInvisible) {
             // C-Up Button Texture, Color & Label (Navi Text)
             gDPPipeSync(OVERLAY_DISP++);
@@ -4058,7 +4058,8 @@ void Interface_Update(GlobalContext* globalCtx) {
 
     if ((globalCtx->pauseCtx.state == 0) && (globalCtx->pauseCtx.flag == 0) && (msgCtx->msgMode == 0) &&
         (globalCtx->sceneLoadFlag == 0) && (globalCtx->gameOverCtx.state == GAMEOVER_INACTIVE) &&
-        (globalCtx->transitionMode == 0) && ((globalCtx->csCtx.state == 0) || !Player_InCsMode(globalCtx))) {
+        (globalCtx->transitionMode == 0) &&
+        ((globalCtx->csCtx.state == CS_STATE_IDLE) || !Player_InCsMode(globalCtx))) {
         if ((gSaveContext.magicAcquired != 0) && (gSaveContext.magicLevel == 0)) {
             gSaveContext.magicLevel = gSaveContext.doubleMagic + 1;
             gSaveContext.unk_13F0 = 8;

@@ -262,7 +262,7 @@ void func_80AEAECC(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80AEAF38(GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         return 1;
     }
     return 0;
@@ -811,7 +811,7 @@ void func_80AEC40C(EnRu1* this) {
     f32 unk_26C = this->unk_26C;
 
     if (unk_26C < 8.0f) {
-        this->actor.speedXZ = (((kREG(3) * 0.01f) + 2.7f) * 0.125f) * unk_26C;
+        this->actor.speedXZ = (((kREG(3) * 0.01f) + 2.7f) / 8.0f) * unk_26C;
     } else {
         this->actor.speedXZ = (kREG(3) * 0.01f) + 2.7f;
     }
@@ -830,8 +830,8 @@ void func_80AEC4F4(EnRu1* this) {
 
     if (this->unk_26C < 8.0f) {
         *unk_26C += 1.0f;
-        *speedXZ *= (8.0f - *unk_26C) * 0.125f;
-        this->actor.velocity.y = -*unk_26C * (((kREG(4) * 0.01f) + 13.0f) * 0.125f);
+        *speedXZ *= (8.0f - *unk_26C) / 8.0f;
+        this->actor.velocity.y = -*unk_26C * (((kREG(4) * 0.01f) + 13.0f) / 8.0f);
     } else {
         *speedXZ = 0.0f;
         this->actor.velocity.y = -((kREG(4) * 0.01f) + 13.0f);
@@ -1000,7 +1000,7 @@ void func_80AECC1C(EnRu1* this, GlobalContext* globalCtx) {
 }
 
 void func_80AECC84(EnRu1* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         Actor_Kill(&this->actor);
     }
 }
@@ -1078,7 +1078,7 @@ s32 func_80AECF6C(EnRu1* this, GlobalContext* globalCtx) {
         shapeRotY = &player->actor.shape.rot.y;
         temp1 = this->actor.world.pos.x - player->actor.world.pos.x;
         temp2 = this->actor.world.pos.z - player->actor.world.pos.z;
-        temp_f16 = Math_FAtan2F(temp1, temp2) * 10430.3779296875f;
+        temp_f16 = Math_FAtan2F(temp1, temp2) * (0x8000 / M_PI);
         if (*shapeRotY != temp_f16) {
             Math_SmoothStepToS(shapeRotY, temp_f16, 0x14, 0x1838, 0x64);
             player->actor.world.rot.y = *shapeRotY;

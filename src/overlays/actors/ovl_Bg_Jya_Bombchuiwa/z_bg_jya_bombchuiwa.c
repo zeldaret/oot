@@ -151,7 +151,7 @@ void BgJyaBombchuiwa_SetupWaitForExplosion(BgJyaBombchuiwa* this, GlobalContext*
 void BgJyaBombchuiwa_WaitForExplosion(BgJyaBombchuiwa* this, GlobalContext* globalCtx) {
     if ((this->collider.base.acFlags & AC_HIT) || (this->timer > 0)) {
         if (this->timer == 0) {
-            func_800800F8(globalCtx, 3410, -99, &this->actor, 0);
+            OnePointCutscene_Init(globalCtx, 3410, -99, &this->actor, MAIN_CAM);
         }
         this->timer++;
         if (this->timer > 10) {

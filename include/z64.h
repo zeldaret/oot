@@ -19,6 +19,7 @@
 #include "z64animation.h"
 #include "z64dma.h"
 #include "z64math.h"
+#include "z64map_mark.h"
 #include "z64transition.h"
 #include "bgm.h"
 #include "sfx.h"
@@ -880,8 +881,8 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x0034C */ Camera subCameras[3];
-    /* 0x00790 */ Camera* cameraPtrs[4];
+    /* 0x0034C */ Camera subCameras[NUM_CAMS - SUBCAM_FIRST];
+    /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;
@@ -931,7 +932,7 @@ typedef struct GlobalContext {
     /* 0x11E04 */ s16* setupExitList;
     /* 0x11E08 */ Path* setupPathList;
     /* 0x11E0C */ ElfMessage* cUpElfMsgs;
-    /* 0x11E10 */ UNK_PTR unk_11E10;
+    /* 0x11E10 */ void* specialEffects;
     /* 0x11E14 */ u8 skyboxId;
     /* 0x11E15 */ s8 sceneLoadFlag; // "fade_direction"
     /* 0x11E16 */ s16 unk_11E16;
@@ -1166,19 +1167,6 @@ typedef struct {
     /* 0x68 */ u8  (*floorID)[8];
     /* 0x6C */ s16* skullFloorIconY; // dungeon big skull icon Y pos
 } MapData; // size = 0x70
-
-typedef struct {
-    /* 0x00 */ s8 chestFlag; // chest icon is only displayed if this flag is not set for the current room
-    /* 0x01 */ u8 x, y; // coordinates to place the icon (top-left corner), relative to the minimap texture
-} MapMarkPoint; // size = 0x3
-
-typedef struct {
-    /* 0x00 */ s8 markType; // 0 for the chest icon, 1 for the boss skull icon, -1 for none
-    /* 0x01 */ u8 count; // number of icons to display
-    /* 0x02 */ MapMarkPoint points[12];
-} MapMarkData; // size = 0x26
-
-typedef MapMarkData MapMarksData[3]; // size = 0x72
 
 typedef struct DebugDispObject {
     /* 0x00 */ Vec3f pos;
