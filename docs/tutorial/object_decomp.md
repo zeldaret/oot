@@ -83,9 +83,9 @@ The following is a list of the texture formats the Nintendo 64 supports, with th
 | 4-bit intensity (I)                             | `G_IM_FMT_I, G_IM_SIZ_4b`        | i4              |
 | 4-bit intensity with alpha (I/A) (3/1)          | `G_IM_FMT_IA, G_IM_SIZ_4b`       | ia4             |
 | 4-bit color index (CI)                          | `G_IM_FMT_CI, G_IM_SIZ_4b`       | ci4             |
-| 8-bit I                                         | `G_IM_FMT_I, G_IM_SIZ_4b`        | i8              |
-| 8-bit IA (4/4)                                  | `G_IM_FMT_IA, G_IM_SIZ_4b`       | ia8             |
-| 8-bit CI                                        | `G_IM_FMT_CI, G_IM_SIZ_4b`       | ci8             |
+| 8-bit I                                         | `G_IM_FMT_I, G_IM_SIZ_8b`        | i8              |
+| 8-bit IA (4/4)                                  | `G_IM_FMT_IA, G_IM_SIZ_8b`       | ia8             |
+| 8-bit CI                                        | `G_IM_FMT_CI, G_IM_SIZ_8b`       | ci8             |
 | 16-bit red, green, blue, alpha (RGBA) (5/5/5/1) | `G_IM_FMT_RGBA, G_IM_SIZ_16b`    | rgb5a1          |
 | 16-bit IA (8/8)                                 | `G_IM_FMT_IA, G_IM_SIZ_16b`      | ia16            |
 | 16-bit YUV (Luminance, Blue-Y, Red-Y)           | `G_IM_FMT_YUV, G_IM_SIZ_16b`     | (not used)      |

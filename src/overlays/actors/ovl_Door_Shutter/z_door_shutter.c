@@ -85,26 +85,31 @@ typedef struct {
 } ShutterInfo;
 
 static ShutterInfo D_80998134[] = {
+<<<<<<< HEAD
     { gDTDungeonDoor1DL, gDungeonDoorDL, 130, 12, 20, 15 },
     { gDTDungeonDoor2DL, gDungeonDoorDL, 130, 12, 20, 15 },
+=======
+    { 0x060067A0, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x06006910, gDoorMetalBarsDL, 130, 12, 20, 15 },
+>>>>>>> upstream/master
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
     { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },
     { 0x0601EC20, NULL, 130, 12, 50, 15 },
     { 0x06000100, 0x060001F0, 240, 14, 50, 15 },
     { 0x060010C0, NULL, 130, 12, 50, 15 },
-    { gDoorMetalBarsDL, gDungeonDoorDL, 130, 12, 20, 15 },
-    { gFireTempleDoorFrontDL, gDungeonDoorDL, 130, 12, 20, 15 },
-    { gFireTempleDoorBackDL, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x060000C0, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06005D90, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06007000, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06002620, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06003890, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x06001D10, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x060010D0, gDungeonDoorDL, 130, 12, 20, 15 },
-    { gGanonsCastleDoorDL, gDungeonDoorDL, 130, 12, 20, 15 },
-    { 0x060000C0, gDungeonDoorDL, 130, 12, 20, 15 },
+    { gDungeonDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { gFireTempleDoorFrontDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { gFireTempleDoorBackDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x060000C0, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x06005D90, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x06007000, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x06002620, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x06003890, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x06001D10, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x060010D0, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { gGanonsCastleDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
+    { 0x060000C0, gDoorMetalBarsDL, 130, 12, 20, 15 },
 };
 
 static s8 D_80998224[] = {
@@ -344,8 +349,8 @@ void func_80996A54(DoorShutter* this, GlobalContext* globalCtx) {
     if (Flags_GetClear(globalCtx, this->dyna.actor.room) || Flags_GetTempClear(globalCtx, this->dyna.actor.room)) {
         Flags_SetClear(globalCtx, this->dyna.actor.room);
         DoorShutter_SetupAction(this, func_80997150);
-        func_80080480(globalCtx, &this->dyna.actor);
-        func_80080480(globalCtx, &PLAYER->actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &PLAYER->actor);
         this->unk_16F = -100;
     } else if (func_809968D4(this, globalCtx) != 0) {
         Player* player = PLAYER;
@@ -407,7 +412,7 @@ void func_80996C60(DoorShutter* this, GlobalContext* globalCtx) {
         DoorShutter_SetupAction(this, func_80997004);
         this->unk_16C = sp38;
         this->unk_170 = 0.0f;
-        Camera_ChangeDoorCam(globalCtx->cameraPtrs[0], &this->dyna.actor, player->unk_46A, 0.0f, 12, sp34, 10);
+        Camera_ChangeDoorCam(globalCtx->cameraPtrs[MAIN_CAM], &this->dyna.actor, player->unk_46A, 0.0f, 12, sp34, 10);
     }
 }
 
@@ -460,7 +465,7 @@ void func_80996EE8(DoorShutter* this, GlobalContext* globalCtx) {
     if (func_80996E08(this, globalCtx, 1.0f)) {
         if (Flags_GetSwitch(globalCtx, this->dyna.actor.params & 0x3F)) {
             DoorShutter_SetupAction(this, func_80997150);
-            func_80080480(globalCtx, &this->dyna.actor);
+            OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
             this->unk_16F = -100;
         } else if (func_809968D4(this, globalCtx)) {
             Player* player = PLAYER;

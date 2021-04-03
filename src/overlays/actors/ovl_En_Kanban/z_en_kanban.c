@@ -737,7 +737,7 @@ void EnKanban_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 Actor_Kill(&this->actor);
             }
 
-            Matrix_RotateY((signpost->actor.shape.rot.y / 32768.0f) * 3.1415927f, MTXMODE_NEW);
+            Matrix_RotateY((signpost->actor.shape.rot.y / (f32)0x8000) * M_PI, MTXMODE_NEW);
             Matrix_MultVec3f(&sPieceOffsets[this->pieceType], &offset);
             distX =
                 Math_SmoothStepToF(&this->actor.world.pos.x, signpost->actor.world.pos.x + offset.x, 1.0f, 3.0f, 0.0f);
