@@ -236,7 +236,8 @@ void EnDivingGame_Talk(EnDivingGame* this, GlobalContext* globalCtx) {
 
 void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
-    if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) && func_80106BC8(globalCtx)) { // Did player selected an answer?
+    if (this->unk_292 == func_8010BDBC(&globalCtx->msgCtx) &&
+        func_80106BC8(globalCtx)) { // Did player selected an answer?
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0: // Yes
                 if (gSaveContext.rupees >= 20) {
@@ -336,7 +337,7 @@ void EnDivingGame_SetupRupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) 
     this->unk_318 = 0.0f;
 }
 
-// Throws rupee when this->spawnRuppyTimer == 0 
+// Throws rupee when this->spawnRuppyTimer == 0
 void EnDivingGame_RupeeThrow(EnDivingGame* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelAnime);
     if (func_800C0DB4(globalCtx, &this->actor.projectedPos)) {
