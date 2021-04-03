@@ -29,7 +29,7 @@ typedef struct EnDivingGame {
     /* 0x02A4 */ s16 grabbedRupeesCounter;
     /* 0x02A6 */ s16 rupeesLeftToThrow;
     /* 0x02A8 */ s16 state; // minigameState? 0: default, 1: waiting to give the scale, 2: minigame started
-    /* 0x02AA */ s16 extraWinCount; // counts how many times you have beaten the minigame **after** you got the scale.
+    /* 0x02AA */ s16 extraWinCount; // counts how many times you have beaten the minigame **after** you got the scale. ExRuppy will reset it to zero if a 500 rupee is spawned.
     /* 0x02AC */ char unk_2AC[0xC]; // probably another Vec3f, but unused.
     /* 0x02B8 */ Vec3f camLookAt;
     /* 0x02C4 */ Vec3f camEye;
@@ -55,12 +55,12 @@ typedef enum {
     /* 0 */ ENDIVINGGAME_PHASE_ENDED,
     /* 1 */ ENDIVINGGAME_PHASE_1, // Player has not received the scale.
     /* 2 */ ENDIVINGGAME_PHASE_2 // Player got the scale and there are 10 rupees thrown.
-} EnDivingGame_Phase;
+} EnDivingGamePhase;
 
 typedef enum {
     /* 0 */ ENDIVINGGAME_STATE_NOTPLAYING,
     /* 1 */ ENDIVINGGAME_STATE_AWARDPRIZE, // Waiting to give the scale to player.
     /* 2 */ ENDIVINGGAME_STATE_PLAYING
-} EnDivingGame_State;
+} EnDivingGameState;
 
 #endif
