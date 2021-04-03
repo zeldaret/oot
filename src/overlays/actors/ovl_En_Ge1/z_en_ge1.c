@@ -20,7 +20,7 @@
 typedef enum {
     /* 00 */ GE1_HAIR_BOB,
     /* 01 */ GE1_HAIR_STRAIGHT,
-    /* 02 */ GE1_HAIR_SPIKEY
+    /* 02 */ GE1_HAIR_SPIKY
 } EnGe1Hairstyle;
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -76,7 +76,7 @@ static ColliderCylinderInit sCylinderInit = {
 static Gfx* sHairstyleDLists[] = {
     gGerudoWhiteHairstyleBobDL,
     gGerudoWhiteHairstyleStraightFringeDL,
-    gGerudoWhiteHairstyleSpikeyDL,
+    gGerudoWhiteHairstyleSpikyDL,
 };
 
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
@@ -109,7 +109,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
 
         case GE1_TYPE_GATE_GUARD:
-            this->hairstyle = GE1_HAIR_SPIKEY;
+            this->hairstyle = GE1_HAIR_SPIKY;
             this->actionFunc = EnGe1_GetReaction_GateGuard;
             break;
 
