@@ -6,6 +6,7 @@
 
 #include "z_door_killer.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -89,10 +90,10 @@ static ColliderJntSphInit sJntSphInit = {
 };
 
 static DoorKillerTextureEntry sDoorTextures[4] = {
-    { OBJECT_HIDAN_OBJECTS, 0x0600E5A0 },
+    { OBJECT_HIDAN_OBJECTS, gFireTempleDoorKillerTex },
     { OBJECT_MIZU_OBJECTS, 0x060035C0 },
     { OBJECT_HAKA_DOOR, 0x06000000 },
-    { OBJECT_GAMEPLAY_KEEP, 0x0400EF38 },
+    { OBJECT_GAMEPLAY_KEEP, gWoodenDoorTex },
 };
 
 void DoorKiller_Init(Actor* thisx, GlobalContext* globalCtx) {

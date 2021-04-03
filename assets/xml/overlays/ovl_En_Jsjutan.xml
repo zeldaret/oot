@@ -17,7 +17,7 @@
         </Array>
 
         <!-- D_80A8E610. Variable declared in `.bss` of EnJsjutan. Used by gJsjutanShadowVisualDL -->
-        <Symbol Name="gJsjutanShadowTex" Type="u8" Size="1" Count="0x800" Offset="0x4E70"/>
+        <Symbol Name="gJsjutanShadowTex" Type="u8" TypeSize="1" Count="0x800" Offset="0x4E70"/>
 
         <!-- D_80A8D598. Draws the carpet's texture. -->
         <DList Name="gJsjutanCarpetVisualDL" Offset="0x3DF8"/>
