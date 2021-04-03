@@ -54,7 +54,7 @@ static InitChainEntry sInitChain[] = {
 };
 
 void BgSpot02Objects_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 rate;
+    s32 pad;
     BgSpot02Objects* this = THIS;
     CollisionHeader* colHeader = NULL;
 
@@ -286,7 +286,7 @@ void func_808AD3D4(BgSpot02Objects* this, GlobalContext* globalCtx) {
 
 void func_808AD450(Actor* thisx, GlobalContext* globalCtx) {
     BgSpot02Objects* this = THIS;
-    s32 rate3;
+    s32 pad;
     f32 lerp;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot02_objects.c", 736);

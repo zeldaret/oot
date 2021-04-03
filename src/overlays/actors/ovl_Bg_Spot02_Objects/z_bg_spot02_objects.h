@@ -5,6 +5,7 @@
 #include "global.h"
 
 struct BgSpot02Objects;
+
 typedef void (*BgSpot02ObjectsActionFunc)(struct BgSpot02Objects*, GlobalContext*);
 
 typedef struct BgSpot02Objects {
