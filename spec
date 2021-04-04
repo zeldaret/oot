@@ -5606,7 +5606,8 @@ endseg
 beginseg
     name "object_gla"
     romalign 0x1000
-    include "build/baserom/object_gla.o"
+    include "build/assets/objects/object_gla/object_gla.o"
+    number 6
 endseg
 
 beginseg
