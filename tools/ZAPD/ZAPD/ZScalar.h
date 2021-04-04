@@ -1,12 +1,13 @@
 #pragma once
 
-#include <vector>
-#include <string>
 #include <stdint.h>
+#include <string>
+#include <vector>
 #include "ZResource.h"
 #include "tinyxml2.h"
 
-typedef enum ZScalarType {
+typedef enum ZScalarType
+{
 	ZSCALAR_NONE,
 	ZSCALAR_S8,
 	ZSCALAR_U8,
@@ -20,7 +21,8 @@ typedef enum ZScalarType {
 	ZSCALAR_F64
 } ZScalarType;
 
-typedef union ZScalarData {
+typedef union ZScalarData
+{
 	uint8_t u8;
 	int8_t s8;
 	uint16_t u16;
@@ -35,7 +37,8 @@ typedef union ZScalarData {
 
 class ZScalar : public ZResource
 {
-friend class ZVector;
+	friend class ZVector;
+
 public:
 	ZScalarData scalarData;
 	ZScalarType scalarType;
@@ -52,7 +55,9 @@ public:
 	bool DoesSupportArray() override;
 	void ParseRawData() override;
 
-	static ZScalar* ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, const int rawDataIndex, const std::string& nRelPath);
+	static ZScalar* ExtractFromXML(tinyxml2::XMLElement* reader,
+	                               const std::vector<uint8_t>& nRawData, const int rawDataIndex,
+	                               const std::string& nRelPath);
 	static int MapTypeToSize(const ZScalarType scalarType);
 	static ZScalarType MapOutputTypeToScalarType(const std::string& type);
 	static std::string MapScalarTypeToOutputType(const ZScalarType scalarType);

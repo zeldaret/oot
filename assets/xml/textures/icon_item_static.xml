@@ -186,6 +186,5 @@
         <DList Name="gItemStaticDL_08089BA0" Offset="0x89BA0"/>
         <DList Name="gItemStaticDL_08089BF8" Offset="0x89BF8"/>
         <DList Name="gItemStaticDL_08089C48" Offset="0x89C48"/>
-        <DList Name="gItemStaticDL_08089C48" Offset="0x89C48"/>
     </File>
 </Root>

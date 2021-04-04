@@ -545,7 +545,7 @@ void EnGb_DrawCagedSouls(EnGb* this, GlobalContext* globalCtx) {
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_XLU_DISP++, D_0600C0B0);
 
-        Matrix_Pull();
+        Matrix_Pop();
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_gb.c", 962);

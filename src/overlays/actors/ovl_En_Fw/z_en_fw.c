@@ -115,7 +115,7 @@ s32 EnFw_PlayerInRange(EnFw* this, GlobalContext* globalCtx) {
     }
 
     if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &player->actor.world.pos, &collisionPos,
-                                &poly, 1, 0, 0, 1, &bgId)) {
+                                &poly, true, false, false, true, &bgId)) {
         return false;
     }
 
@@ -399,7 +399,7 @@ void EnFw_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnFw_UpdateDust(this);
     Matrix_Push();
     EnFw_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     func_80093D18(globalCtx->state.gfxCtx);
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnFw_OverrideLimbDraw, EnFw_PostLimbDraw, this);

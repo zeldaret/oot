@@ -6,6 +6,7 @@
 
 #include "z_en_door.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_hidan_objects/object_hidan_objects.h"
 
 #define FLAGS 0x00000010
 
@@ -67,8 +68,9 @@ static u8 sDoorAnimOpenFrames[] = { 25, 25, 25, 25 };
 static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
 
 static Gfx* D_809FCEE4[5][2] = {
-    { gDoorLeftDL, gDoorRightDL }, { 0x0600F998, 0x0600F938 }, { 0x06004958, 0x06004A10 },
-    { 0x060013B8, 0x06001420 },    { 0x050047A0, 0x05004978 },
+    { gDoorLeftDL, gDoorRightDL }, { gFireTempleDoorWithHandleFrontDL, gFireTempleDoorWithHandleBackDL },
+    { 0x06004958, 0x06004A10 },    { 0x060013B8, 0x06001420 },
+    { 0x050047A0, 0x05004978 },
 };
 
 void EnDoor_Init(Actor* thisx, GlobalContext* globalCtx2) {
@@ -179,14 +181,14 @@ void EnDoor_SetupType(EnDoor* this, GlobalContext* globalCtx) {
 void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     s32 doorType;
-    Vec3f sp2C;
+    Vec3f playerPosRelToDoor;
     s16 phi_v0;
 
     doorType = this->actor.params >> 7 & 7;
-    func_8002DBD0(&this->actor, &sp2C, &player->actor.world.pos);
-    if (this->unk_191 != 0) {
+    func_8002DBD0(&this->actor, &playerPosRelToDoor, &player->actor.world.pos);
+    if (this->playerIsOpening != 0) {
         this->actionFunc = EnDoor_Open;
-        Animation_PlayOnceSetSpeed(&this->skelAnime, D_809FCECC[this->unk_190],
+        Animation_PlayOnceSetSpeed(&this->skelAnime, D_809FCECC[this->animStyle],
                                    (player->stateFlags1 & 0x8000000) ? 0.75f : 1.5f);
         if (this->lockTimer != 0) {
             gSaveContext.inventory.dungeonKeys[gSaveContext.mapIndex]--;
@@ -194,9 +196,10 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHAIN_KEY_UNLOCK);
         }
     } else if (!Player_InCsMode(globalCtx)) {
-        if (fabsf(sp2C.y) < 20.0f && fabsf(sp2C.x) < 20.0f && fabsf(sp2C.z) < 50.0f) {
+        if (fabsf(playerPosRelToDoor.y) < 20.0f && fabsf(playerPosRelToDoor.x) < 20.0f &&
+            fabsf(playerPosRelToDoor.z) < 50.0f) {
             phi_v0 = player->actor.shape.rot.y - this->actor.shape.rot.y;
-            if (sp2C.z > 0.0f) {
+            if (playerPosRelToDoor.z > 0.0f) {
                 phi_v0 = 0x8000 - phi_v0;
             }
             if (ABS(phi_v0) < 0x3000) {
@@ -210,8 +213,8 @@ void EnDoor_Idle(EnDoor* this, GlobalContext* globalCtx) {
                         player->doorTimer = 10;
                     }
                 }
-                player->doorType = (doorType == DOOR_AJAR) ? -1 : 1;
-                player->doorDirection = (sp2C.z >= 0.0f) ? 1.0f : -1.0f;
+                player->doorType = (doorType == DOOR_AJAR) ? PLAYER_DOORTYPE_AJAR : PLAYER_DOORTYPE_HANDLE;
+                player->doorDirection = (playerPosRelToDoor.z >= 0.0f) ? 1.0f : -1.0f;
                 player->doorActor = &this->actor;
             }
         } else if (doorType == DOOR_AJAR && this->actor.xzDistToPlayer > DOOR_AJAR_OPEN_RANGE) {
@@ -261,8 +264,8 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
     if (DECR(this->lockTimer) == 0) {
         if (SkelAnime_Update(&this->skelAnime)) {
             this->actionFunc = EnDoor_Idle;
-            this->unk_191 = 0;
-        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->unk_190])) {
+            this->playerIsOpening = 0;
+        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimOpenFrames[this->animStyle])) {
             Audio_PlayActorSound2(&this->actor,
                                   (globalCtx->sceneNum == SCENE_HAKADAN || globalCtx->sceneNum == SCENE_HAKADANCH ||
                                    globalCtx->sceneNum == SCENE_HIDAN)
@@ -274,7 +277,7 @@ void EnDoor_Open(EnDoor* this, GlobalContext* globalCtx) {
                     EffectSsBubble_Spawn(globalCtx, &this->actor.world.pos, 60.0f, 100.0f, 50.0f, 0.15f);
                 }
             }
-        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->unk_190])) {
+        } else if (Animation_OnFrame(&this->skelAnime, sDoorAnimCloseFrames[this->animStyle])) {
             Audio_PlayActorSound2(&this->actor,
                                   (globalCtx->sceneNum == SCENE_HAKADAN || globalCtx->sceneNum == SCENE_HAKADANCH ||
                                    globalCtx->sceneNum == SCENE_HIDAN)

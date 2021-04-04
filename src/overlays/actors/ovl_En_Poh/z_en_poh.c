@@ -749,23 +749,20 @@ void func_80ADFA90(EnPoh* this, s32 arg1) {
 
     this->lightColor.a = CLAMP(this->lightColor.a + arg1, 0, 255);
     if (arg1 < 0) {
-        multiplier = this->lightColor.a * 0.003921569f;
-        this->actor.scale.z = 0.0056000002f * multiplier + 0.00140000006f;
-        this->actor.scale.x = 0.0056000002f * multiplier + 0.00140000006f;
+        multiplier = this->lightColor.a * (1.0f / 255);
+        this->actor.scale.x = this->actor.scale.z = 0.0056000002f * multiplier + 0.0014000001f;
         this->actor.scale.y = (0.007f - 0.007f * multiplier) + 0.007f;
     } else {
         multiplier = 1.0f;
-        this->actor.scale.z = this->lightColor.a * 2.7450982e-05f;
-        this->actor.scale.y = this->lightColor.a * 2.7450982e-05f;
-        this->actor.scale.x = this->lightColor.a * 2.7450982e-05f;
-        this->actor.world.pos.y = this->actor.home.pos.y + 0.05882353f * this->lightColor.a;
+        this->actor.scale.x = this->actor.scale.y = this->actor.scale.z = this->lightColor.a * (0.007f / 0xFF);
+        this->actor.world.pos.y = this->actor.home.pos.y + (1.0f / 17.0f) * this->lightColor.a;
     }
     this->lightColor.r = this->info->lightColor.r * multiplier;
     this->lightColor.g = this->info->lightColor.g * multiplier;
     this->lightColor.b = this->info->lightColor.b * multiplier;
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, this->info->lightColor.r, this->info->lightColor.g,
-                              this->info->lightColor.b, this->lightColor.a * 0.78431373f);
+                              this->info->lightColor.b, this->lightColor.a * (200.0f / 255));
 }
 
 void func_80ADFE28(EnPoh* this, GlobalContext* globalCtx) {
@@ -811,7 +808,7 @@ void func_80ADFE80(EnPoh* this, GlobalContext* globalCtx) {
     Actor_SetFocus(&this->actor, -10.0f);
     Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.world.pos.x, this->actor.world.pos.y,
                               this->actor.world.pos.z, this->info->lightColor.r, this->info->lightColor.g,
-                              this->info->lightColor.b, this->lightColor.a * 0.78431373f);
+                              this->info->lightColor.b, this->lightColor.a * (200.0f / 255));
 }
 
 void func_80AE009C(EnPoh* this, GlobalContext* globalCtx) {
@@ -989,7 +986,7 @@ void func_80AE089C(EnPoh* this) {
     if ((this->actionFunc == func_80ADEF38 || this->actionFunc == EnPoh_ComposerAppear) &&
         this->skelAnime.curFrame < 12.0f) {
         this->envColor.r = this->envColor.g = this->envColor.b = (s16)(this->skelAnime.curFrame * 16.66f) + 55;
-        this->envColor.a = this->skelAnime.curFrame * 16.666666f;
+        this->envColor.a = this->skelAnime.curFrame * (100.0f / 6.0f);
     } else {
         rand = Rand_ZeroOne();
         this->envColor.r = (s16)(rand * 30.0f) + 225;
@@ -1080,7 +1077,7 @@ void EnPoh_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Lights_PointGlowSetInfo(&this->lightInfo, this->colliderSph.elements[0].dim.worldSphere.center.x,
                                 this->colliderSph.elements[0].dim.worldSphere.center.y,
                                 this->colliderSph.elements[0].dim.worldSphere.center.z, this->envColor.r,
-                                this->envColor.g, this->envColor.b, this->envColor.a * 0.78431374f);
+                                this->envColor.g, this->envColor.b, this->envColor.a * (200.0f / 255));
     }
 }
 

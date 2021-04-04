@@ -431,7 +431,7 @@ void func_80A3F0E4(EnGo* this) {
 s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     f32 xyzDist;
     s16 yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;
-    Camera* camera = globalCtx->cameraPtrs[0];
+    Camera* camera = globalCtx->cameraPtrs[MAIN_CAM];
 
     if (fabsf(yawDiff) > 10920.0f) {
         return 0;
@@ -444,7 +444,7 @@ s32 EnGo_IsCameraModified(EnGo* this, GlobalContext* globalCtx) {
     }
 
     if (fabsf(this->actor.xyzDistToPlayerSq) > xyzDist) {
-        if (camera->setting == 0x3F) {
+        if (camera->setting == CAM_SET_TEPPEN) {
             Camera_ChangeSetting(camera, CAM_SET_NORMAL0);
         }
         return 0;
@@ -785,7 +785,7 @@ void EnGo_CurledUp(EnGo* this, GlobalContext* globalCtx) {
 
         EnGo_SetupAction(this, EnGo_WakeUp);
         if ((this->actor.params & 0xF0) == 0x90) {
-            func_800800F8(globalCtx, 0x1068, -0x63, &this->actor, 0);
+            OnePointCutscene_Init(globalCtx, 4200, -99, &this->actor, MAIN_CAM);
         }
     }
 }
@@ -877,7 +877,7 @@ void EnGo_BiggoronActionFunc(EnGo* this, GlobalContext* globalCtx) {
                 EnGo_SetupAction(this, EnGo_Eyedrops);
                 globalCtx->msgCtx.msgMode = 0x37;
                 gSaveContext.timer2State = 0;
-                func_800800F8(globalCtx, 0x105E, -0x63, &this->actor, 0);
+                OnePointCutscene_Init(globalCtx, 4190, -99, &this->actor, MAIN_CAM);
             } else {
                 this->unk_1E0.unk_00 = 0;
                 EnGo_SetupAction(this, EnGo_GetItem);
@@ -1066,7 +1066,7 @@ void EnGo_DrawCurledUp(EnGo* this, GlobalContext* globalCtx) {
     gSPDisplayList(POLY_OPA_DISP++, D_0600BD80);
 
     Matrix_MultVec3f(&D_80A41BB4, &this->actor.focus.pos);
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2341);
 }
@@ -1084,7 +1084,7 @@ void EnGo_DrawRolling(EnGo* this, GlobalContext* globalCtx) {
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
     gSPDisplayList(POLY_OPA_DISP++, D_0600C140);
     Matrix_MultVec3f(&D_80A41BC0, &this->actor.focus.pos);
-    Matrix_Pull();
+    Matrix_Pop();
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_go.c", 2383);
 }
@@ -1139,7 +1139,7 @@ void EnGo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGo_UpdateDust(this);
     Matrix_Push();
     EnGo_DrawDust(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
 
     if (this->actionFunc == EnGo_CurledUp) {
         EnGo_DrawCurledUp(this, globalCtx);

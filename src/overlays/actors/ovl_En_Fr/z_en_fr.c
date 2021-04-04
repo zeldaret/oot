@@ -233,7 +233,8 @@ void EnFr_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.destroy = NULL;
         this->actor.draw = NULL;
         this->actor.update = EnFr_UpdateIdle;
-        this->actor.flags = this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0x11;
+        this->actor.flags &= ~0;
         Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
         this->actor.textId = 0x40AC;
         this->actionFunc = EnFr_Idle;
@@ -605,7 +606,7 @@ void EnFr_Idle(EnFr* this, GlobalContext* globalCtx) {
             globalCtx->msgCtx.unk_E3EE = 0;
         }
 
-        func_800800F8(globalCtx, 0x100E, ~0x62, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4110, ~0x62, &this->actor, MAIN_CAM);
         globalCtx->msgCtx.msgMode = 0x37;
         player->actor.world.pos.x = this->actor.world.pos.x; // x = 990.0f
         player->actor.world.pos.y = this->actor.world.pos.y; // y = 205.0f
@@ -1053,7 +1054,7 @@ void EnFr_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_fr.c", 1738),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
         gSPDisplayList(POLY_OPA_DISP++, *dList);
-        Matrix_Pull();
+        Matrix_Pop();
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_fr.c", 1741);
     }
 }

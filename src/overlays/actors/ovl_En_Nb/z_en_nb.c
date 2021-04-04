@@ -137,8 +137,8 @@ void EnNb_UpdatePath(EnNb* this, GlobalContext* globalCtx) {
         this->finalPos.x = pointPos[1].x;
         this->finalPos.y = pointPos[1].y;
         this->finalPos.z = pointPos[1].z;
-        this->pathYaw =
-            (Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) * 10430.378f);
+        this->pathYaw = (Math_FAtan2F(this->finalPos.x - this->initialPos.x, this->finalPos.z - this->initialPos.z) *
+                         (0x8000 / M_PI));
         // "En_Nb_Get_path_info Rail Data Get! = %d!!!!!!!!!!!!!!"
         osSyncPrintf("En_Nb_Get_path_info レールデータをゲットだぜ = %d!!!!!!!!!!!!!!\n", path);
     } else {
@@ -224,7 +224,7 @@ void func_80AB11EC(EnNb* this) {
 void func_80AB1210(EnNb* this, GlobalContext* globalCtx) {
     s32 one; // required to match
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         if (D_80AB4318) {
             if (this->actor.params == NB_TYPE_DEMO02) {
                 func_80AB11EC(this);
@@ -249,7 +249,7 @@ s32 EnNb_FrameUpdateMatrix(EnNb* this) {
 }
 
 CsCmdActorAction* EnNb_GetNpcCsAction(GlobalContext* globalCtx, s32 npcActionIdx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[npcActionIdx];
     }
     return NULL;
@@ -271,7 +271,7 @@ void EnNb_SetupCsPosRot(EnNb* this, GlobalContext* globalCtx, s32 npcActionIdx) 
 s32 func_80AB1390(EnNb* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction;
 
-    if ((globalCtx->csCtx.state != 0) &&
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) &&
         (csCmdNPCAction = globalCtx->csCtx.npcActions[npcActionIdx], csCmdNPCAction != NULL) &&
         (csCmdNPCAction->action == arg2)) {
         return true;
@@ -282,7 +282,7 @@ s32 func_80AB1390(EnNb* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionI
 s32 func_80AB13D8(EnNb* this, GlobalContext* globalCtx, u16 arg2, s32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction;
 
-    if ((globalCtx->csCtx.state != 0) &&
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) &&
         (csCmdNPCAction = globalCtx->csCtx.npcActions[npcActionIdx], csCmdNPCAction != NULL) &&
         (csCmdNPCAction->action != arg2)) {
         return true;
@@ -346,7 +346,7 @@ void EnNb_GiveMedallion(EnNb* this, GlobalContext* globalCtx) {
 }
 
 void EnNb_ComeUpImpl(EnNb* this, GlobalContext* globalCtx) {
-    this->actor.shape.yOffset += 83.333336f;
+    this->actor.shape.yOffset += 250.0f / 3.0f;
 }
 
 void EnNb_SetupChamberCsImpl(EnNb* this, GlobalContext* globalCtx) {
@@ -367,7 +367,7 @@ void EnNb_SetupChamberWarpImpl(EnNb* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
     CsCmdActorAction* csCmdNPCAction;
 
-    if (csCtx->state != 0) {
+    if (csCtx->state != CS_STATE_IDLE) {
         csCmdNPCAction = csCtx->npcActions[1];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = NB_CHAMBER_APPEAR;
@@ -388,7 +388,7 @@ void EnNb_SetupArmRaise(EnNb* this, GlobalContext* globalCtx) {
     AnimationHeader* animation = &D_0600274C;
     CsCmdActorAction* csCmdNPCAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[1];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 3) {
             Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, Animation_GetLastFrame(animation), ANIMMODE_ONCE,
@@ -411,7 +411,7 @@ void EnNb_SetupRaisedArmTransition(EnNb* this, s32 animFinished) {
 void EnNb_SetupMedallion(EnNb* this, GlobalContext* globalCtx) {
     CsCmdActorAction* csCmdNPCAction;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         csCmdNPCAction = globalCtx->csCtx.npcActions[6];
         if (csCmdNPCAction != NULL && csCmdNPCAction->action == 2) {
             this->action = NB_GIVE_MEDALLION;

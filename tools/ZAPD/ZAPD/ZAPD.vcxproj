@@ -103,6 +103,10 @@
       <Profile>true</Profile>
       <AdditionalDependencies>assimp-vc142-mt.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PreBuildEvent>
+      <Command>cd ..
+python3 ZAPD/genbuildinfo.py</Command>
+    </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
