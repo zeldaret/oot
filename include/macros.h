@@ -132,7 +132,7 @@ extern GraphicsContext* __gfxCtx;
 #ifdef NDEBUG
 #define assert(cond, msg, file, line) ((void) 0)
 #elif defined(REAL_ASSERT_MACRO)
-#define assert(cond, msg, file, line) ((cond) ? (void) 0 : __assert(#cond, __FILE__, __LINE__)
+#define assert(cond, msg, file, line) ((cond) ? (void) 0 : __assert(#cond, __FILE__, __LINE__))
 #else
 #define assert(cond, msg, file, line) ((cond) ? (void) 0 : __assert(msg, file, line))
 #endif
