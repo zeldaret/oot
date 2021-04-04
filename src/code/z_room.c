@@ -121,9 +121,7 @@ void func_80095D04(GlobalContext* globalCtx, Room* room, u32 flags) {
     polygonDlist = SEGMENTED_TO_VIRTUAL(polygon2->start);
     spA4 = spB8;
 
-    if (polygon2->num > SHAPE_SORT_MAX) {
-        __assert("polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
-    }
+    assert(polygon2->num <= SHAPE_SORT_MAX, "polygon2->num <= SHAPE_SORT_MAX", "../z_room.c", 317);
     sp78 = polygonDlist;
 
     for (sp9C = 0; sp9C < polygon2->num; sp9C++, polygonDlist++) {
