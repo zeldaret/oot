@@ -8,10 +8,6 @@ struct BossSst;
 
 typedef void (*BossSstActionFunc)(struct BossSst*, GlobalContext*);
 
-#define BONGO_BOSSROOM_CENTER_X -50.0f
-#define BONGO_BOSSROOM_CENTER_Y 0.0f
-#define BONGO_BOSSROOM_CENTER_Z 0.0f
-#define BONGO_DRUM_RADIUS 550.0f;
 
 typedef struct {
     /* 0x0000 */ Vec3f pos;
