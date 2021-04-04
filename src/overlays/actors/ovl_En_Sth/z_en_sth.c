@@ -123,7 +123,7 @@ void EnSth_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     osSyncPrintf("bank_ID = %d\n", objectBankIdx);
     if (objectBankIdx < 0) {
-        __assert("0", "../z_en_sth.c", 1564);
+        assert(false, "0", "../z_en_sth.c", 1564);
     }
     this->objectBankIdx = objectBankIdx;
     this->drawFunc = EnSth_Draw;

@@ -69,7 +69,7 @@ void ItemEtcetera_Init(Actor* thisx, GlobalContext* globalCtx) {
     objBankIndex = Object_GetIndex(&globalCtx->objectCtx, sObjectIds[type]);
     osSyncPrintf("bank_ID = %d\n", objBankIndex);
     if (objBankIndex < 0) {
-        __assert("0", "../z_item_etcetera.c", 241);
+        assert(false, "0", "../z_item_etcetera.c", 241);
     } else {
         this->objBankIndex = objBankIndex;
     }
