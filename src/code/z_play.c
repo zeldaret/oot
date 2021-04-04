@@ -1029,7 +1029,7 @@ skip:
     }
 
     func_80070C24(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
-                  &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+                  &globalCtx->gameOverCtx.state, globalCtx->state.gfxCtx);
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {

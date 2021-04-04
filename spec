@@ -4235,7 +4235,9 @@ endseg
 beginseg
     name "object_hakach_objects"
     romalign 0x1000
-    include "build/baserom/object_hakach_objects.o"
+    //include "build/baserom/object_hakach_objects.o"
+    include "build/assets/objects/object_hakach_objects/object_hakach_objects.o"
+    number 6
 endseg
 
 beginseg
