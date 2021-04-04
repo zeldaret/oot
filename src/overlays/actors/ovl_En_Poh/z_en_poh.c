@@ -719,7 +719,8 @@ void EnPoh_Death(EnPoh* this, GlobalContext* globalCtx) {
     }
     if (this->actor.bgCheckFlags & 1) {
         objId = (this->infoIdx == EN_POH_INFO_COMPOSER) ? OBJECT_PO_COMPOSER : OBJECT_POH;
-        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, objId, 10, this->info->lanternDisplayList);
+        EffectSsHahen_SpawnBurst(globalCtx, &this->actor.world.pos, 6.0f, 0, 1, 1, 15, objId, 10,
+                                 this->info->lanternDisplayList);
         func_80ADE6D4(this);
     } else if (this->unk_198 == 0) {
         Actor_Kill(&this->actor);

@@ -593,7 +593,10 @@ void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { gPoSistersAmyBlockDL, gPoSistersAmyBethBlockDL, gPoSistersJoellePaintingDL, gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL };
+    static Gfx* displayLists[] = {
+        gPoSistersAmyBlockDL,     gPoSistersAmyBethBlockDL, gPoSistersJoellePaintingDL,
+        gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
+    };
     s32 pad;
     BgPoEvent* this = THIS;
     u8 alpha;

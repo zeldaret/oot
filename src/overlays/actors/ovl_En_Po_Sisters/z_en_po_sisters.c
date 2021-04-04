@@ -152,9 +152,19 @@ static Vec3s D_80ADD7A4[4] = {
 
 static Vec3f D_80ADD7BC = { 120.0f, 250.0f, -1420.0f };
 
-static Gfx* D_80ADD7C8[4] = { gPoeSistersMegBodyDL, gPoeSistersJoelleBodyDL, gPoeSistersBethBodyDL, gPoeSistersAmyBodyDL }; // body gfx
+static Gfx* D_80ADD7C8[4] = {
+    gPoeSistersMegBodyDL,
+    gPoeSistersJoelleBodyDL,
+    gPoeSistersBethBodyDL,
+    gPoeSistersAmyBodyDL,
+};
 
-static Gfx* D_80ADD7D8[4] = { gPoeSistersMegFaceDL, gPoeSistersJoelleFaceDL, gPoeSistersBethFaceDL, gPoSistersAmyFaceDL }; // face gfx
+static Gfx* D_80ADD7D8[4] = {
+    gPoeSistersMegFaceDL,
+    gPoeSistersJoelleFaceDL,
+    gPoeSistersBethFaceDL,
+    gPoSistersAmyFaceDL,
+};
 
 static Color_RGBA8 D_80ADD7E8[4] = {
     { 80, 0, 100, 0 },
@@ -171,7 +181,8 @@ void EnPoSisters_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gPoeSistersSkel, &gPoeSistersSwayAnim, this->jointTable, this->morphTable, 12);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gPoeSistersSkel, &gPoeSistersSwayAnim, this->jointTable,
+                   this->morphTable, 12);
     this->unk_22E.r = 255;
     this->unk_22E.g = 255;
     this->unk_22E.b = 210;
@@ -314,8 +325,8 @@ void func_80AD96A4(EnPoSisters* this) {
 }
 
 void func_80AD9718(EnPoSisters* this) {
-    Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f, Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE,
-                     -3.0f);
+    Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f,
+                     Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->unk_19C = 100;
     this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -345,8 +356,8 @@ void func_80AD97C8(EnPoSisters* this, GlobalContext* globalCtx) {
 }
 
 void func_80AD98F4(EnPoSisters* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f, Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE,
-                     -3.0f);
+    Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 1.5f, 0.0f,
+                     Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE, -3.0f);
     if (this->unk_194 == 0) {
         this->unk_294 = 110.0f;
         func_80AD97C8(this, globalCtx);
@@ -438,8 +449,8 @@ void func_80AD9D44(EnPoSisters* this) {
         Animation_PlayOnce(&this->skelAnime, &gPoeSistersAppearDisappearAnim);
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_PO_APPEAR);
     } else {
-        Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.5f, 0.0f, Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim),
-                         ANIMMODE_ONCE_INTERP, 0.0f);
+        Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.5f, 0.0f,
+                         Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
     }
     this->unk_22E.a = 0;
     this->unk_199 = 32;
@@ -524,8 +535,8 @@ void func_80ADA10C(EnPoSisters* this) {
 }
 
 void func_80ADA1B8(EnPoSisters* this) {
-    Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.833f, 0.0f, Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim),
-                     ANIMMODE_ONCE_INTERP, 0.0f);
+    Animation_Change(&this->skelAnime, &gPoeSistersAppearDisappearAnim, 0.833f, 0.0f,
+                     Animation_GetLastFrame(&gPoeSistersAppearDisappearAnim), ANIMMODE_ONCE_INTERP, 0.0f);
     if (this->unk_194 == 0 || this->unk_194 == 1) {
         this->unk_19A = 40;
     } else {
