@@ -42,6 +42,7 @@ void func_80862E6C(EnTest* this, GlobalContext* globalCtx);
 void func_80863044(EnTest* this, GlobalContext* globalCtx);
 void func_8086318C(EnTest* this, GlobalContext* globalCtx);
 void func_80863294(EnTest* this, GlobalContext* globalCtx);
+void func_808633E8(EnTest* this, GlobalContext* globalCtx);
 
 void EnTest_SetupWaitGround(EnTest* this);
 void EnTest_SetupWaitAbove(EnTest* this);
@@ -52,6 +53,11 @@ void func_80861B94(EnTest* this);
 void func_80860438(EnTest* this);
 void func_80860EC0(EnTest* this);
 void func_80861418(EnTest* this);
+void func_80860BDC(EnTest* this);
+void func_80862050(EnTest* this);
+void func_80863240(EnTest* this);
+void func_80862398(EnTest* this);
+void func_80862154(EnTest* this);
 void func_808627C4(EnTest* this, GlobalContext* globalCtx);
 
 // animation indexes?
@@ -584,7 +590,11 @@ void func_80860438(EnTest* this) {
 //     }
 // }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860BDC.s")
+void func_80860BDC(EnTest* this) {
+    Animation_PlayLoop(&this->skelAnime_188, &D_0600E2B0);
+    this->unk_7C8 = 0xE;
+    EnTest_SetupAction(this, func_80860C24);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80860C24.s")
 
@@ -845,27 +855,127 @@ void func_80861C40(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861D50.s")
+void func_80861D50(EnTest* this) {
+    Animation_PlayOnce(&this->skelAnime_188, &D_0600A324);
+    this->timer = 0;
+    this->unk_7C8 = 4;
+    this->actor.velocity.y = 14.0f;
+    this->actor.speedXZ = 6.0f;
+    Audio_PlayActorSound2(this, NA_SE_EN_STAL_JUMP);
+    this->actor.world.rot.y = this->actor.shape.rot.y;
+    EnTest_SetupAction(this, func_80861DC8);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861DC8.s")
+void func_80861DC8(EnTest* this, GlobalContext* globalCtx) {
+    Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 1, 0xFA0, 1);
+    SkelAnime_Update(&this->skelAnime_188);
+
+    if (this->actor.world.pos.y <= this->actor.floorHeight) {
+        Audio_PlayActorSound2(this, NA_SE_EN_DODO_M_GND);
+        this->actor.shape.rot.y = this->actor.yawTowardsPlayer;
+        this->actor.world.pos.y = this->actor.floorHeight;
+        this->unk_7E4 = -(s32)this->actor.velocity.y;
+
+        if (this->unk_7E4 == 0) {
+            this->unk_7E4 = 1;
+        }
+
+        this->actor.velocity.y = 0.0f;
+        this->actor.speedXZ = 0.0f;
+        this->unk_7C8 = 0xC;
+        this->timer = 4;
+        Animation_Change(&this->skelAnime_188, &D_0600C438, 0.0f, 0.0f, 0.0f, 2, 0.0f);
+        EnTest_SetupAction(this, EnTest_Land);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861EC0.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80861F80.s")
+void func_80861F80(EnTest* this, GlobalContext* globalCtx) {
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 0.5f, 0.0f);
+    SkelAnime_Update(&this->skelAnime_188);
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862050.s")
+    if ((ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) > 0x3E80) && (this->actor.params != 3) &&
+        ((globalCtx->gameplayFrames & 1) != 0)) {
+        this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+        func_8086194C(this);
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8086209C.s")
+    if (this->timer == 0) {
+        func_80862050(this);
+    } else {
+        this->timer--;
+    }
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862154.s")
+void func_80862050(EnTest* this) {
+    Animation_MorphToLoop(&this->skelAnime_188, &D_0600316C, -4.0f);
+    this->unk_7C8 = 0x16;
+    EnTest_SetupAction(this, func_8086209C);
+}
+
+void func_8086209C(EnTest* this, GlobalContext* globalCtx) {
+    Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 1.0f, 1.5f, 0.0f);
+    SkelAnime_Update(&this->skelAnime_188);
+
+    if (this->skelAnime_188.morphWeight == 0.0f) {
+        this->actor.speedXZ = 0.0f;
+        this->unk_7DE = 0;
+
+        if (func_808641E8(globalCtx, this) == 0) {
+            if (this->actor.xzDistToPlayer < 500.0f) {
+                func_8085FAB0(this, globalCtx);
+            } else {
+                func_808627C4(this, globalCtx);
+            }
+        }
+    }
+}
+
+void func_80862154(EnTest* this) {
+    Animation_PlayOnce(&this->skelAnime_188, &D_06008604);
+    Audio_PlayActorSound2(this, NA_SE_EN_STAL_DAMAGE);
+    this->unk_7C8 = 8;
+    this->actor.speedXZ = -2.0f;
+    Actor_SetColorFilter(this, 0x4000, 0xFF, 0, 8);
+    EnTest_SetupAction(this, func_808621D4);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808621D4.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862398.s")
+void func_80862398(EnTest* this) {
+    Animation_PlayOnce(&this->skelAnime_188, &D_06000444);
+    Audio_PlayActorSound2(this, NA_SE_EN_STAL_DAMAGE);
+    this->unk_7C8 = 9;
+    this->actor.speedXZ = -2.0f;
+    Actor_SetColorFilter(this, 0x4000, 0xFF, 0, 8);
+    EnTest_SetupAction(this, func_80862418);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862418.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862578.s")
+void func_80862578(EnTest* this) {
+    this->unk_7C8 = 0xB;
+    this->unk_7DE = 0;
+    this->atOn = 0;
+    this->skelAnime_188.playSpeed = 0.0f;
+    this->actor.speedXZ = -4.0f;
+
+    if (this->unk_7E2 == 0xE) {
+        Actor_SetColorFilter(this, -0x8000, 0x78, 0, 0x50);
+    } else {
+        Actor_SetColorFilter(this, 0, 0x78, 0, 0x50);
+
+        if (this->unk_7E2 == 0xF) {
+            this->iceTimer = 36;
+        } else {
+            Animation_PlayOnceSetSpeed(&this->skelAnime_188, &D_06008604, 0.0f);
+        }
+    }
+
+    Audio_PlayActorSound2(this, NA_SE_EN_GOMA_JR_FREEZE);
+    EnTest_SetupAction(this, func_80862650);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862650.s")
 
@@ -889,21 +999,140 @@ void func_808627C4(EnTest* this, GlobalContext* globalCtx) {
 // later
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808628C8.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862DBC.s")
+void func_80862DBC(EnTest* this, GlobalContext* globalCtx) {
+    Audio_PlayActorSound2(this, NA_SE_EN_STAL_DAMAGE);
+    this->unk_7C8 = 2;
+    func_80032E24(&this->unk_7F0, 0x3C, globalCtx);
+    this->actor.home.rot.x = 0;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862E6C.s")
+    if (this->atOn >= 0) {
+        EffectBlure_AddSpace(Effect_GetByIndex(this->effectIndex));
+        this->atOn = -1;
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80862FA8.s")
+    this->actor.flags &= ~1;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863044.s")
+    if (this->actor.params == 5) {
+        Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, &this->actor, ACTORCAT_PROP);
+    }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808630F0.s")
+    EnTest_SetupAction(this, func_80862E6C);
+}
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_8086318C.s")
+void func_80862E6C(EnTest* this, GlobalContext* globalCtx) {
+    if (this->actor.child == NULL) {
+        if (this->actor.home.rot.x == 0) {
+            this->actor.home.rot.x = this->unk_7F0.unk_08;
+        }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863240.s")
+        if (func_8003305C(this, &this->unk_7F0, globalCtx, this->actor.params + 8) != 0) {
+            this->actor.child = this;
+        }
+    } else {
+        if (this->actor.home.rot.x == 0) {
+            this->actor.colChkInfo.health = 10;
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863294.s")
+            if (this->actor.params == 4) {
+                this->actor.params = -1;
+            } else {
+                Actor_ChangeCategory(globalCtx, &globalCtx->actorCtx, this, ACTORCAT_ENEMY);
+            }
+
+            this->actor.child = NULL;
+            this->actor.flags |= 1;
+            func_8086194C(this);
+        } else if ((this->actor.params == 5) && (Actor_FindNearby(globalCtx, this, 2, 5, 8000.0f) == 0)) {
+            Item_DropCollectibleRandom(globalCtx, this, &this->actor.world, 0xD0);
+
+            if (this->actor.parent != NULL) {
+                this->actor.parent->home.rot.z--;
+            }
+
+            Actor_Kill(this);
+        }
+    }
+}
+
+void func_80862FA8(EnTest* this, GlobalContext* globalCtx) {
+    Animation_PlayOnce(&this->skelAnime_188, &D_06001420);
+    Audio_PlayActorSound2(this, NA_SE_EN_STAL_DEAD);
+    this->unk_7DE = 0;
+    this->actor.flags &= ~1;
+    this->actor.colorFilterTimer = 0;
+    this->actor.speedXZ = 0.0f;
+
+    if (this->actor.params < 4) {
+        this->unk_7C8 = 5;
+        EnTest_SetupAction(this, func_80863044);
+    } else {
+        func_80862DBC(this, globalCtx);
+    }
+}
+
+void func_80863044(EnTest* this, GlobalContext* globalCtx) {
+    if (SkelAnime_Update(&this->skelAnime_188)) {
+        this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
+        this->unk_7C8 = 7;
+        EnTest_SetupAction(this, func_808633E8);
+        func_80032E24(&this->unk_7F0, 0x3C, globalCtx);
+    }
+
+    if ((s32)this->skelAnime_188.curFrame == 15) {
+        Audio_PlayActorSound2(this, 0x387A);
+    }
+}
+
+void func_808630F0(EnTest* this, s32 arg1) {
+    Animation_PlayOnce(&this->skelAnime_188, &D_06009A90);
+    Audio_PlayActorSound2(this, NA_SE_EN_STAL_DEAD);
+    this->unk_7C8 = 6;
+    this->actor.colorFilterTimer = 0;
+    this->unk_7DE = 0;
+    this->actor.speedXZ = 0.0f;
+
+    if (this->actor.params < 4) {
+        this->actor.flags &= ~1;
+        EnTest_SetupAction(this, func_8086318C);
+    } else {
+        func_80862DBC(this, arg1);
+    }
+}
+
+void func_8086318C(EnTest* this, GlobalContext* globalCtx) {
+    if (SkelAnime_Update(&this->skelAnime_188)) {
+        this->timer = (Rand_ZeroOne() * 10.0f) + 10.0f;
+        this->unk_7C8 = 7;
+        EnTest_SetupAction(this, func_808633E8);
+        func_80032E24(&this->unk_7F0, 0x3C, globalCtx);
+    }
+
+    if (((s32)this->skelAnime_188.curFrame == 10) || ((s32)this->skelAnime_188.curFrame == 25)) {
+        Audio_PlayActorSound2(this, NA_SE_EN_RIZA_DOWN);
+    }
+}
+
+void func_80863240(EnTest* this) {
+    this->atOn = 0;
+    this->skelAnime_188.moveFlags = 2;
+    this->unk_7C8 = 0x13;
+    this->skelAnime_188.playSpeed = -1.0f;
+    this->skelAnime_188.startFrame = this->skelAnime_188.curFrame;
+    this->skelAnime_188.endFrame = 0.0f;
+    EnTest_SetupAction(this, func_80863294);
+}
+
+void func_80863294(EnTest* this, GlobalContext* globalCtx) {
+    if (SkelAnime_Update(&this->skelAnime_188)) {
+        if (Rand_ZeroOne() > 0.7f) {
+            func_80860068(this);
+            this->timer = (Rand_ZeroOne() * 5.0f) + 5.0f;
+        } else if (((globalCtx->gameplayFrames & 1) != 0) && (this->actor.params != 3)) {
+            func_8086194C(this);
+        } else {
+            func_808627C4(this, globalCtx);
+        }
+    }
+}
 
 // rise from the ground
 void func_80863360(EnTest* this, GlobalContext* globalCtx) {
@@ -918,16 +1147,104 @@ void func_80863360(EnTest* this, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808633E8.s")
+void func_808633E8(EnTest* this, GlobalContext* globalCtx) {
+    this->actor.params = 1;
+
+    if (func_8003305C(this, &this->unk_7F0, globalCtx, this->actor.params)) {
+        Item_DropCollectibleRandom(globalCtx, this, &this->actor.world, 0xD0);
+
+        if (this->actor.parent != NULL) {
+            this->actor.parent->home.rot.z--;
+        }
+
+        Actor_Kill(&this->actor);
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863460.s")
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808634F8.s")
+void func_808634F8(EnTest* this, GlobalContext* globalCtx) {
+    Player* player = PLAYER;
+
+    if (this->shieldCollider.base.acFlags & 0x80) {
+        this->shieldCollider.base.acFlags &= 0xFF7F;
+        this->collider.base.acFlags &= 0xFFFD;
+
+        if (this->unk_7C8 >= 0xA) {
+            this->actor.speedXZ = -4.0f;
+            return;
+        }
+    } else if (this->collider.base.acFlags & 2) {
+        this->collider.base.acFlags &= 0xFFFD;
+
+        if ((this->actor.colChkInfo.damageEffect != 0xD) && (this->actor.colChkInfo.damageEffect != 6)) {
+            this->unk_7E2 = this->actor.colChkInfo.damageEffect;
+            if (this->atOn > 0) {
+                this->atOn = 0;
+            }
+            this->unk_7DC = player->unk_845;
+            this->actor.world.rot.y = this->actor.yawTowardsPlayer;
+            func_80035650(this, &this->collider.info, 0);
+            func_800F8A44(&this->actor.projectedPos, 0x3838);
+
+            if ((this->actor.colChkInfo.damageEffect == 1) || (this->actor.colChkInfo.damageEffect == 0xF) ||
+                (this->actor.colChkInfo.damageEffect == 0xE)) {
+                if (this->unk_7C8 != 0xB) {
+                    Actor_ApplyDamage(this);
+                    func_80862578(this);
+                }
+            } else {
+                if (func_8002E084(this, 0x4000)) {
+                    if (Actor_ApplyDamage(this) == 0) {
+                        func_80032C7C(globalCtx, this);
+                        func_80862FA8(this, globalCtx);
+                    } else {
+                        func_80862154(this);
+                    }
+                } else if (Actor_ApplyDamage(this) == 0) {
+                    func_808630F0(this, globalCtx);
+                    func_80032C7C(globalCtx, this);
+                } else {
+                    func_80862398(this);
+                }
+            }
+        }
+    }
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/EnTest_Update.s")
 
 s32 func_80863AB8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863AB8.s")
+// s32 func_80863AB8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+//     EnTest* this = THIS;
+//     s32 red;
+
+//     if (limbIndex == 6) {
+//         rot->x += this->unk_7D2;
+//         rot->y -= this->unk_7D0;
+//         rot->z += this->unk_7D4;
+//     } else if (limbIndex == 11) {
+//         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_test.c", 3582);
+//         gDPPipeSync(POLY_OPA_DISP++);
+//         // use abs inline, need to figure out float issues
+//         if ((Math_SinS(globalCtx->gameplayFrames * 2000) * 175.0f) >= 0) {
+//             red = Math_SinS(globalCtx->gameplayFrames * 2000) * 175.0f;
+//         } else {
+//             red = -(Math_SinS(globalCtx->gameplayFrames * 2000) * 175.0f);
+//         }
+
+//         gDPSetEnvColor(POLY_OPA_DISP++, 80 + ABS(Math_SinS(globalCtx->gameplayFrames * 2000) * 175.0f), 0, 0, 255);
+
+//         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_test.c", 3587);
+//     }
+
+//     if ((this->actor.params == 0) && ((this->actor.flags & 0x80) != 0x80)) {
+//         *dList = NULL;
+//     }
+
+//     return 0;
+// }
 
 void func_80863CC4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80863CC4.s")
@@ -956,197 +1273,13 @@ void EnTest_Draw(Actor* thisx, GlobalContext* globalCtx) {
     }
 }
 
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_80864158.s")
+void func_80864158(EnTest* this, f32 xzSpeed) {
+    Animation_MorphToLoop(&this->skelAnime_188, &D_0600E2B0, -2.0f);
+    this->actor.speedXZ = xzSpeed;
+    this->actor.world.rot.y = this->actor.shape.rot.y + 0x3FFF;
+    this->timer = (Rand_ZeroOne() * 20.0f) + 15.0f;
+    this->unk_7C8 = 0x18;
+    EnTest_SetupAction(this, func_808628C8);
+}
 
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Test/func_808641E8.s")
-/*
-void func_808641E8(GlobalContext *globalCtx, EnTest *this) {
-    ProjectileActor* projectile;
-    s16 sp22;
-    s16 wallYawDiff;
-    s16 touchingWall;
-    Actor *yawDiff;
-    EnTest *temp_a0;
-    EnTest *temp_a1;
-    EnTest *temp_a1_2;
-    PosRot *temp_a0_3;
-    s32 projectileYawDiff;
-    s32 index_2;
-    s32 index_3;
-    s16 temp_a0_2;
-    s32 phi_v0;
-    s32 phi_v0_2;
-    s32 phi_v0_3;
-    s32 phi_v0_4;
-    s32 phi_v0_5;
-    s32 phi_v0_6;
-    s32 phi_v0_7;
-    s32 phi_v1;
-    s32 phi_v1_2;
-
-    projectile = func_80033780(globalCtx, &this->actor, 300.0f);
-
-    if (projectile != NULL) {
-        projectileYawDiff = Actor_WorldYawTowardActor(&this->actor, &projectile->actor) - this->actor.shape.rot.y;
-        touchingWall = false;
-        if (this->actor.bgCheckFlags & 8) {
-            wallYawDiff = this->actor.wallYaw - this->actor.shape.rot.y;
-            touchingWall = true;
-        }
-
-        if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &projectile->actor.world.pos) < 200.0f) {
-            if (!func_80033A84(globalCtx, &this->actor) || projectile->actor.id != ACTOR_ARMS_HOOK) {
-                if (ABS(projectileYawDiff) >= 0x2000) {
-                    if (ABS(projectileYawDiff) >= 0x6000) {
-                        func_80861D50(this);
-                    } else {
-                        func_8086194C(this);
-                    }
-                } else {
-                    func_80861EC0(this);
-                }
-            } else {
-                func_80861D50(this);
-            }
-        } else { // block 16
-            if (!func_80033A84(globalCtx, &this->actor) || projectile->actor.id != ACTOR_ARMS_HOOK) {
-
-            } else {
-                func_80861D50(this);
-            }
-        }
-
-
-
-
-
-        if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &projectile->actor.world.pos) < 200.0f)) {
-            wallYawDiff = wallYawDiff;
-            this = this;
-            // stalfos is not targeted and player is not targeting an enemy
-            if (!func_80033A84(globalCtx, &this->actor)) {
-                if ((ABS(projectileYawDiff) >= 0x2000) && ABS(projectileYawDiff) <= 0x6000) {
-
-                }
-block_19:
-                phi_v0_3 = 0 - projectileYawDiff;
-                if (projectileYawDiff >= 0) {
-                    phi_v0_3 = projectileYawDiff;
-                }
-                if (phi_v0_3 >= 0x2000) {
-                    phi_v0_4 = 0 - projectileYawDiff;
-                    if (projectileYawDiff >= 0) {
-                        phi_v0_4 = projectileYawDiff;
-                    }
-                    if (phi_v0_4 < 0x6001) {
-                        phi_v0_5 = 0 - projectileYawDiff;
-                        if (projectileYawDiff >= 0) {
-                            phi_v0_5 = projectileYawDiff;
-                        }
-                        if (phi_v0_5 >= 0x6000) {
-block_52:
-                            return;
-                        }
-                        index_2 = ((globalCtx->gameplayFrames & 1) << 0x10) >> 0x10;
-                        if (touchingWall) {
-                            phi_v0_6 = 0 - wallYawDiff;
-                            if (wallYawDiff >= 0) {
-                                phi_v0_6 = wallYawDiff;
-                            }
-                            if (phi_v0_6 >= 0x6001) {
-                                phi_v1 = 0;
-                            } else {
-block_44:
-                                phi_v1 = index_2;
-                                if (touchingWall) {
-                                    phi_v0_7 = 0 - wallYawDiff;
-                                    if (wallYawDiff >= 0) {
-                                        phi_v0_7 = wallYawDiff;
-                                    }
-                                    phi_v1 = index_2;
-                                    if (phi_v0_7 < 0x2000) {
-                                        phi_v1 = 1;
-                                    }
-                                }
-                            }
-                        } else {
-                            goto block_44;
-                        }
-                        if (phi_v1 == 0) {
-                            func_80861D50(this, wallYawDiff, this);
-                            goto block_52;
-                        }
-                        func_8086194C(this);
-                        return;
-                    }
-                }
-                index_3 = ((globalCtx->gameplayFrames & 1) << 0x10) >> 0x10;
-                if (touchingWall) {
-                    if (wallYawDiff >= 0x2001) {
-                        if (wallYawDiff < 0x6000) {
-                            phi_v1_2 = 0;
-                        } else {
-block_29:
-                            phi_v1_2 = index_3;
-                            if (touchingWall) {
-                                phi_v1_2 = index_3;
-                                if (wallYawDiff < -0x2000) {
-                                    phi_v1_2 = index_3;
-                                    if (wallYawDiff >= -0x5FFF) {
-                                        phi_v1_2 = 1;
-                                    }
-                                }
-                            }
-                        }
-                    } else {
-                        goto block_29;
-                    }
-                } else {
-                    goto block_29;
-                }
-                if (phi_v1_2 == 0) {
-                    func_80864158(this, 0xC0800000, wallYawDiff, this);
-                    return;
-                }
-                func_80864158(this, 0x40800000, wallYawDiff, this);
-                return;
-            }
-            if (projectile->actor.id != ACTOR_ARMS_HOOK) {
-                goto block_19;
-            }
-            func_80861D50(this, wallYawDiff, this);
-            return;
-        }
-        temp_a1_2 = this;
-        this = this;
-        if (func_80033A84(globalCtx, temp_a1_2) == 0) {
-block_7:
-            phi_v0 = 0 - projectileYawDiff;
-            if (projectileYawDiff >= 0) {
-                phi_v0 = projectileYawDiff;
-            }
-            if (phi_v0 >= 0x2000) {
-                phi_v0_2 = 0 - projectileYawDiff;
-                if (projectileYawDiff >= 0) {
-                    phi_v0_2 = projectileYawDiff;
-                }
-                if (phi_v0_2 >= 0x6000) {
-                    func_80861D50(this, this);
-                    return;
-                }
-                func_8086194C(this);
-                return;
-            }
-            func_80861EC0(this, this);
-            return;
-        }
-        if (projectile->actor.id != ACTOR_ARMS_HOOK) {
-            goto block_7;
-        }
-        func_80861D50(this, this);
-        return;
-
-    }
-
-}
-*/

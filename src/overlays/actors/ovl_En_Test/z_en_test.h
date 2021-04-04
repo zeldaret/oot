@@ -17,18 +17,23 @@ typedef struct EnTest {
     /* 0x04A8 */ SkelAnime skelAnime_4A8;
     /* 0x04EC */ Vec3s limbDrawTable_4EC[61];
     /* 0x065A */ Vec3s transitionTbl_65A[61];
-    /* 0x07C8 */ s8 unk_7C8;
+    /* 0x07C8 */ u8 unk_7C8;
     /* 0x07C9 */ char unk_7C9[0x3];
     /* 0x07CC */ EnTestActionFunc actionFunc;
-    /* 0x07D0 */ char unk_7D0[0xE];
+    /* 0x07D0 */ s16 unk_7D0;
+    /* 0x07D2 */ s16 unk_7D2;
+    /* 0x07D4 */ s16 unk_7D4;
+    /* 0x07D6 */ char unk_7D6[0x6];
+    /* 0x07DC */ u8 unk_7DC;
+    /* 0x07DD */ u8 unk_7DD; // unk?
     /* 0x07DE */ u8 unk_7DE;
     /* 0x07DF */ char unk_7DF[0x1];
-    /* 0x07E4 */ s16 iceTimer;
-    // 7E2?
+    /* 0x07E0 */ s16 iceTimer;
+    /* 0x07E2 */ u8 unk_7E2;
     /* 0x07E4 */ s32 unk_7E4;
     /* 0x07E8 */ s32 timer;
     /* 0x07EC */ f32 unk_7EC;
-    /* 0x07F0 */ char unk_7F0[0x18];
+    /* 0x07F0 */ struct_80032E24 unk_7F0;
     /* 0x0808 */ s8 atOn;
     /* 0x07EC */ char unk_809[0x3];
     /* 0x080C */ u32 effectIndex;
