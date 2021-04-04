@@ -130,11 +130,11 @@ extern GraphicsContext* __gfxCtx;
 #define VTX_T(x,y,z,s,t,cr,cg,cb,a) { { x, y, z }, 0, { s, t }, { cr, cg, cb, a } }
 
 #ifdef NDEBUG
-#define assert(cond, msg, file, line) ((void) 0)
+#define ASSERT(cond, msg, file, line) ((void) 0)
 #elif defined(REAL_ASSERT_MACRO)
-#define assert(cond, msg, file, line) ((cond) ? (void) 0 : __assert(#cond, __FILE__, __LINE__))
+#define ASSERT(cond, msg, file, line) ((cond) ? (void) 0 : __assert(#cond, __FILE__, __LINE__))
 #else
-#define assert(cond, msg, file, line) ((cond) ? (void) 0 : __assert(msg, file, line))
+#define ASSERT(cond, msg, file, line) ((cond) ? (void) 0 : __assert(msg, file, line))
 #endif
 
 #endif

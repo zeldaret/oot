@@ -55,7 +55,7 @@ void DemoTreLgt_Init(Actor* thisx, GlobalContext* globalCtx) {
         osSyncPrintf("Demo_Tre_Lgt_Actor_ct();コンストラクト失敗\n");
     }
 
-    assert(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);
+    ASSERT(true, "1", "../z_demo_tre_lgt.c", UNK_LINE);
 
     this->unk_170 = 255;
     this->unk_174 = 255;

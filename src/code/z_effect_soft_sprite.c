@@ -16,7 +16,7 @@ void EffectSs_InitInfo(GlobalContext* globalCtx, s32 tableSize) {
 
     sEffectSsInfo.table =
         GameState_Alloc(&globalCtx->state, tableSize * sizeof(EffectSs), "../z_effect_soft_sprite.c", 289);
-    assert(sEffectSsInfo.table != NULL, "EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
+    ASSERT(sEffectSsInfo.table != NULL, "EffectSS2Info.data_table != NULL", "../z_effect_soft_sprite.c", 290);
 
     sEffectSsInfo.searchStartIndex = 0;
     sEffectSsInfo.tableSize = tableSize;
@@ -173,7 +173,7 @@ void EffectSs_Spawn(GlobalContext* globalCtx, s32 type, s32 priority, void* init
 
     overlayEntry = &gEffectSsOverlayTable[type];
 
-    assert(type < EFFECT_SS_TYPE_MAX, "type < EFFECT_SS2_TYPE_LAST_LABEL", "../z_effect_soft_sprite.c", 556);
+    ASSERT(type < EFFECT_SS_TYPE_MAX, "type < EFFECT_SS2_TYPE_LAST_LABEL", "../z_effect_soft_sprite.c", 556);
 
     if (EffectSs_FindSlot(priority, &index) != 0) {
         // Abort because we couldn't find a suitable slot to add this effect in

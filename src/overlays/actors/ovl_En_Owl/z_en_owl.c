@@ -970,7 +970,7 @@ void func_80ACC00C(EnOwl* this, GlobalContext* globalCtx) {
                     this->actor.draw = NULL;
                     break;
                 default:
-                    assert(false, "0", "../z_en_owl.c", 1693);
+                    ASSERT(false, "0", "../z_en_owl.c", 1693);
                     break;
             }
 

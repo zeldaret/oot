@@ -41,7 +41,7 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
     limbCount = skin->skeletonHeader->limbCount;
     skin->avbTbl = ZeldaArena_MallocDebug(limbCount * sizeof(SkinAvb), "../z_skin_awb.c", 212);
 
-    assert(skin->avbTbl != NULL, "pskin_awb->avb_tbl != NULL", "../z_skin_awb.c", 214);
+    ASSERT(skin->avbTbl != NULL, "pskin_awb->avb_tbl != NULL", "../z_skin_awb.c", 214);
     for (i = 0; i < limbCount; i++) {
         SkinAvb* avbEntry = &skin->avbTbl[i];
         SkinLimb* limb = SEGMENTED_TO_VIRTUAL(skeleton[i]);
@@ -56,9 +56,9 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
 
             avbEntry->unk_0 = 0;
             avbEntry->buf[0] = ZeldaArena_MallocDebug(temp_s1->unk_0 * sizeof(Vtx), "../z_skin_awb.c", 235);
-            assert(avbEntry->buf[0] != NULL, "psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
+            ASSERT(avbEntry->buf[0] != NULL, "psavb->buf[0] != NULL", "../z_skin_awb.c", 237);
             avbEntry->buf[1] = ZeldaArena_MallocDebug(temp_s1->unk_0 * sizeof(Vtx), "../z_skin_awb.c", 240);
-            assert(avbEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
+            ASSERT(avbEntry->buf[1] != NULL, "psavb->buf[1] != NULL", "../z_skin_awb.c", 242);
             func_800A6460(globalCtx, skin, i);
         }
         if (1) {}

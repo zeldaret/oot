@@ -2008,8 +2008,8 @@ void Actor_UpdateAll(GlobalContext* globalCtx, ActorContext* actorCtx) {
     player = PLAYER;
 
     if (0) {
-        // This assert is optimized out but it exists due to its presence in rodata
-        assert(gMaxActorId == ACTOR_ID_MAX, "MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
+        // This ASSERT is optimized out but it exists due to its presence in rodata
+        ASSERT(gMaxActorId == ACTOR_ID_MAX, "MaxProfile == ACTOR_DLF_MAX", "../z_actor.c", UNK_LINE);
     }
 
     sp74 = NULL;
@@ -2399,7 +2399,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     if ((actor->flags & 0x80) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
-                        assert(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
+                        ASSERT(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
                                "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
                         invisibleActors[invisibleActorCounter] = actor;
                         invisibleActorCounter++;
@@ -2640,7 +2640,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
     u32 overlaySize;
 
     overlayEntry = &gActorOverlayTable[actorId];
-    assert(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
+    ASSERT(actorId < ACTOR_ID_MAX, "profile < ACTOR_DLF_MAX", "../z_actor.c", 6883);
 
     name = overlayEntry->name != NULL ? overlayEntry->name : "";
     overlaySize = (u32)overlayEntry->vramEnd - (u32)overlayEntry->vramStart;
@@ -2671,7 +2671,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
             }
         } else {
             if (overlayEntry->allocType & ALLOCTYPE_ABSOLUTE) {
-                assert(overlaySize <= AM_FIELD_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
+                ASSERT(overlaySize <= AM_FIELD_SIZE, "actor_segsize <= AM_FIELD_SIZE", "../z_actor.c", 6934);
 
                 if (actorCtx->absoluteSpace == NULL) {
                     // Translates to: "AMF: ABSOLUTE MAGIC FIELD"
@@ -2735,7 +2735,7 @@ Actor* Actor_Spawn(ActorContext* actorCtx, GlobalContext* globalCtx, s16 actorId
         return NULL;
     }
 
-    assert(overlayEntry->nbLoaded < 255, "actor_dlftbl->clients < 255", "../z_actor.c", 7031);
+    ASSERT(overlayEntry->nbLoaded < 255, "actor_dlftbl->clients < 255", "../z_actor.c", 7031);
 
     overlayEntry->nbLoaded++;
 
@@ -2874,8 +2874,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
             osSyncPrintf("オーバーレイではありません\n");
         }
     } else {
-        assert(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
-        assert(overlayEntry->nbLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
+        ASSERT(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
+        ASSERT(overlayEntry->nbLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
         overlayEntry->nbLoaded--;
         Actor_FreeOverlay(overlayEntry);
     }

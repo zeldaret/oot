@@ -122,7 +122,7 @@ void EnTr_Init(Actor* thisx, GlobalContext* globalCtx) {
             break;
 
         default:
-            assert(false, "0", "../z_en_tr.c", 277);
+            ASSERT(false, "0", "../z_en_tr.c", 277);
             break;
     }
 }

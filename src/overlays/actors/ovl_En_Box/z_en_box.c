@@ -578,7 +578,7 @@ Gfx* EnBox_EmptyDList(GraphicsContext* gfxCtx) {
     Gfx* dList;
 
     dList = Graph_Alloc(gfxCtx, sizeof(Gfx));
-    assert(dList != NULL, "gfxp != NULL", "../z_en_box.c", 1528);
+    ASSERT(dList != NULL, "gfxp != NULL", "../z_en_box.c", 1528);
 
     dListHead = dList;
     gSPEndDisplayList(dListHead++);
@@ -592,7 +592,7 @@ Gfx* func_809CA4A0(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
 
     dListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    assert(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1546);
+    ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1546);
 
     dList = dListHead;
     gDPSetRenderMode(dListHead++,
@@ -610,7 +610,7 @@ Gfx* func_809CA518(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
 
     dListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    assert(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1564);
+    ASSERT(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1564);
 
     dList = dListHead;
     gDPSetRenderMode(dListHead++,

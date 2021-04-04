@@ -1651,9 +1651,9 @@ DmaMgr_DMARomToRam_end:
 s32 DmaMgr_DmaCallback0(OSPiHandle* pihandle, OSIoMesg* mb, s32 direction) {
     s32 ret;
 
-    assert(pihandle == gCartHandle, "pihandle == carthandle", "../z_std_dma.c", 530);
-    assert(direction == OS_READ, "direction == OS_READ", "../z_std_dma.c", 531);
-    assert(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
+    ASSERT(pihandle == gCartHandle, "pihandle == carthandle", "../z_std_dma.c", 530);
+    ASSERT(direction == OS_READ, "direction == OS_READ", "../z_std_dma.c", 531);
+    ASSERT(mb != NULL, "mb != NULL", "../z_std_dma.c", 532);
 
     if (D_80009460 == 10) {
         osSyncPrintf("%10lld サウンドＤＭＡ %08x %08x %08x (%d)\n", OS_CYCLES_TO_USEC(osGetTime()), mb->dramAddr,

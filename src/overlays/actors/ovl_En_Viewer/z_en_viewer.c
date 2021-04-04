@@ -200,10 +200,10 @@ void func_80B2A570(EnViewer* this, GlobalContext* globalCtx) {
     struct_80B2CEE8* unkStruct = &D_80B2CEE8[this->actor.params >> 8];
     s32 objIndex = Object_GetIndex(&globalCtx->objectCtx, unkStruct->objId1);
 
-    assert(objIndex >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
+    ASSERT(objIndex >= 0, "bank_ID >= 0", "../z_en_viewer.c", 576);
 
     this->animObjBankIndex = Object_GetIndex(&globalCtx->objectCtx, unkStruct->objId2);
-    assert(this->animObjBankIndex >= 0, "this->anime_bank_ID >= 0", "../z_en_viewer.c", 579);
+    ASSERT(this->animObjBankIndex >= 0, "this->anime_bank_ID >= 0", "../z_en_viewer.c", 579);
 
     if (!Object_IsLoaded(&globalCtx->objectCtx, objIndex) ||
         !Object_IsLoaded(&globalCtx->objectCtx, this->animObjBankIndex)) {
