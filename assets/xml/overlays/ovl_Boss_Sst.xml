@@ -1,14 +1,8 @@
 <Root>
-    <File Name="ovl_Boss_Sst" BaseAddress="0x8092C5D0" RangeStart="0x26F0" RangeEnd="0x89F0" Segment="128">
-        <DList Name="gArwingDL" Offset="0x26F0"/>
-        <DList Name="gArwingLaserDL" Offset="0x6388"/>
-        <DList Name="gArwingBackfireDL" Offset="0x6688"/>
-        <DList Name="gArwingDebrisEffectMaterialDL" Offset="0x6A38"/>
-        <DList Name="gArwingDebrisEffectDL" Offset="0x6AB8"/>
-        <DList Name="gArwingFireEffectMaterialDL" Offset="0x7100"/>
-        <DList Name="gArwingFireEffectDL" Offset="0x71A8"/>
-        <DList Name="gArwingFlashEffectDL" Offset="0x8208"/>
-        <DList Name="gArwingFlashEffectGroundDL" Offset="0x84B8"/>
-        <DList Name="gArwingShadowDL" Offset="0x8970"/>
+    <File Name="ovl_Boss_Sst" BaseAddress="0x8092C5D0" RangeStart="0xA3C0" RangeEnd="0xAD40" Segment="128">
+        <DList Name="sBodyStaticDList" Offset="0xA3C0"/>
+        <DList Name="sHandTrailDList" Offset="0xA3D8"/>
+        <DList Name="sIntroVanishDList" Offset="0xA838"/>
+        <DList Name="sShadowDList" Offset="0xACF0"/>
     </File>
 </Root>

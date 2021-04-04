@@ -16,9 +16,6 @@ void BgSstFloor_Destroy(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Update(BgSstFloor* this, GlobalContext* globalCtx);
 void BgSstFloor_Draw(BgSstFloor* this, GlobalContext* globalCtx);
 
-extern CollisionHeader gBongoDrumCol;
-extern Gfx gBongoDrumDL[];
-
 static s32 sUnkValues[] = { 0, 0, 0 }; // Unused, probably a zero vector
 
 const ActorInit Bg_Sst_Floor_InitVars = {
