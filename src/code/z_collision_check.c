@@ -1189,7 +1189,7 @@ static ColChkResetFunc sATResetFuncs[] = {
 s32 CollisionCheck_SetAT(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     if (!(collider->shape <= COLSHAPE_QUAD)) {
@@ -1223,7 +1223,7 @@ s32 CollisionCheck_SetAT_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3037);
     }
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     sATResetFuncs[collider->shape](globalCtx, collider);
@@ -1263,7 +1263,7 @@ static ColChkResetFunc sACResetFuncs[] = {
 s32 CollisionCheck_SetAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     if (!(collider->shape <= COLSHAPE_QUAD)) {
@@ -1296,7 +1296,7 @@ s32 CollisionCheck_SetAC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
     if (!(collider->shape <= COLSHAPE_QUAD)) {
         __assert("pcl_obj->data_type <= CL_DATA_LBL_SWRD", "../z_collision_check.c", 3153);
     }
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     sACResetFuncs[collider->shape](globalCtx, collider);
@@ -1336,7 +1336,7 @@ static ColChkResetFunc sOCResetFuncs[] = {
 s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     if (!(collider->shape <= COLSHAPE_QUAD)) {
@@ -1366,7 +1366,7 @@ s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChk
  */
 s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider,
                              s32 index) {
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     if (!(collider->shape <= COLSHAPE_QUAD)) {
@@ -1403,7 +1403,7 @@ s32 CollisionCheck_SetOC_SAC(GlobalContext* globalCtx, CollisionCheckContext* co
 s32 CollisionCheck_SetOCLine(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, OcLine* collider) {
     s32 index;
 
-    if (func_800C0D28(globalCtx) == 1) {
+    if (FrameAdvance_IsEnabled(globalCtx) == true) {
         return -1;
     }
     Collider_ResetLineOC(globalCtx, collider);

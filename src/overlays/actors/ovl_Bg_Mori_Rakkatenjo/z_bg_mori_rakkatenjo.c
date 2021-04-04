@@ -208,15 +208,15 @@ void BgMoriRakkatenjo_Update(Actor* thisx, GlobalContext* globalCtx) {
     }
     this->actionFunc(this, globalCtx);
     if (BgMoriRakkatenjo_IsLinkUnder(this, globalCtx)) {
-        if (sCamSetting == 0) {
+        if (sCamSetting == CAM_SET_NONE) {
             osSyncPrintf("camera changed (mori rakka tenjyo) ... \n");
-            sCamSetting = globalCtx->cameraPtrs[0]->setting;
-            Camera_SetCameraData(globalCtx->cameraPtrs[0], 1, &this->dyna.actor, NULL, 0, 0, 0);
-            Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_MORI1);
+            sCamSetting = globalCtx->cameraPtrs[MAIN_CAM]->setting;
+            Camera_SetCameraData(globalCtx->cameraPtrs[MAIN_CAM], 1, &this->dyna.actor, NULL, 0, 0, 0);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_MORI1);
         }
-    } else if (sCamSetting != 0) {
+    } else if (sCamSetting != CAM_SET_NONE) {
         osSyncPrintf("camera changed (previous) ... \n");
-        Camera_ChangeSetting(globalCtx->cameraPtrs[0], CAM_SET_DUNGEON1);
+        Camera_ChangeSetting(globalCtx->cameraPtrs[MAIN_CAM], CAM_SET_DUNGEON1);
         sCamSetting = 0;
     }
 }

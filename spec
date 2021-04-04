@@ -326,12 +326,11 @@ beginseg
     include "build/src/code/z_msgevent.o"
     include "build/src/code/z_olib.o"
     include "build/src/code/z_onepointdemo.o"
-    include "build/data/z_onepointdemo.data.o"
     include "build/src/code/z_map_exp.o"
     include "build/src/code/z_map_data.o"
     include "build/src/code/z_parameter.o"
     include "build/src/code/z_path.o"
-    include "build/src/code/code_8008E6A0.o"
+    include "build/src/code/z_frame_advance.o"
     include "build/src/code/z_player_lib.o"
     include "build/src/code/z_prenmi.o"
     include "build/src/code/z_quake.o"
@@ -510,7 +509,7 @@ beginseg
     include "build/data/z_message_PAL.rodata.o"
     include "build/src/code/z_message_PAL.o"
     include "build/data/z_message_PAL.bss.o"
-    include "build/src/code/code_80110450.o"
+    include "build/src/code/z_game_over.o"
     include "build/src/code/z_construct.o"
     include "build/data/rsp.text.o"
     include "build/data/rsp.rodata.o"
@@ -583,7 +582,8 @@ endseg
 
 beginseg
     name "ovl_map_mark_data"
-    include "build/asm/overlays/data/ovl_map_mark_data/z_map_mark_data.o"
+    include "build/src/overlays/ovl_map_mark_data/z_map_mark_data.o"
+    include "build/src/overlays/ovl_map_mark_data/ovl_map_mark_data_reloc.o"
 endseg
 
 beginseg
@@ -892,8 +892,7 @@ endseg
 beginseg
     name "ovl_Bg_Ice_Shelter"
     include "build/src/overlays/actors/ovl_Bg_Ice_Shelter/z_bg_ice_shelter.o"
-    include "build/data/overlays/actors/z_bg_ice_shelter.data.o"
-    include "build/data/overlays/actors/z_bg_ice_shelter.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Ice_Shelter/ovl_Bg_Ice_Shelter_reloc.o"
 endseg
 
 beginseg
@@ -1175,8 +1174,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot02_Objects"
     include "build/src/overlays/actors/ovl_Bg_Spot02_Objects/z_bg_spot02_objects.o"
-    include "build/data/overlays/actors/z_bg_spot02_objects.data.o"
-    include "build/data/overlays/actors/z_bg_spot02_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot02_Objects/ovl_Bg_Spot02_Objects_reloc.o"
 endseg
 
 beginseg
@@ -1412,15 +1410,13 @@ endseg
 beginseg
     name "ovl_Boss_Ganondrof"
     include "build/src/overlays/actors/ovl_Boss_Ganondrof/z_boss_ganondrof.o"
-    include "build/data/overlays/actors/z_boss_ganondrof.data.o"
-    include "build/data/overlays/actors/z_boss_ganondrof.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Ganondrof/ovl_Boss_Ganondrof_reloc.o"
 endseg
 
 beginseg
     name "ovl_Boss_Goma"
     include "build/src/overlays/actors/ovl_Boss_Goma/z_boss_goma.o"
-    include "build/data/overlays/actors/z_boss_goma.data.o"
-    include "build/data/overlays/actors/z_boss_goma.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Goma/ovl_Boss_Goma_reloc.o"
 endseg
 
 beginseg
@@ -1458,8 +1454,11 @@ endseg
 beginseg
     name "ovl_Demo_6K"
     include "build/src/overlays/actors/ovl_Demo_6K/z_demo_6k.o"
-    include "build/data/overlays/actors/z_demo_6k.data.o"
+#if NON_MATCHING
+    include "build/src/overlays/actors/ovl_Demo_6K/ovl_Demo_6K_reloc.o"
+#else
     include "build/data/overlays/actors/z_demo_6k.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -2012,9 +2011,7 @@ endseg
 beginseg
     name "ovl_En_Clear_Tag"
     include "build/src/overlays/actors/ovl_En_Clear_Tag/z_en_clear_tag.o"
-    include "build/data/overlays/actors/z_en_clear_tag.data.o"
-    include "build/data/overlays/actors/z_en_clear_tag.bss.o"
-    include "build/data/overlays/actors/z_en_clear_tag.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Clear_Tag/ovl_En_Clear_Tag_reloc.o"
 endseg
 
 beginseg
@@ -2079,8 +2076,7 @@ endseg
 beginseg
     name "ovl_En_Diving_Game"
     include "build/src/overlays/actors/ovl_En_Diving_Game/z_en_diving_game.o"
-    include "build/data/overlays/actors/z_en_diving_game.data.o"
-    include "build/data/overlays/actors/z_en_diving_game.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Diving_Game/ovl_En_Diving_Game_reloc.o"
 endseg
 
 beginseg
@@ -2211,8 +2207,7 @@ endseg
 beginseg
     name "ovl_En_Fhg_Fire"
     include "build/src/overlays/actors/ovl_En_Fhg_Fire/z_en_fhg_fire.o"
-    include "build/data/overlays/actors/z_en_fhg_fire.data.o"
-    include "build/data/overlays/actors/z_en_fhg_fire.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Fhg_Fire/ovl_En_Fhg_Fire_reloc.o"
 endseg
 
 beginseg
@@ -2509,8 +2504,7 @@ endseg
 beginseg
     name "ovl_En_Jj"
     include "build/src/overlays/actors/ovl_En_Jj/z_en_jj.o"
-    include "build/data/overlays/actors/z_en_jj.data.o"
-    include "build/data/overlays/actors/z_en_jj.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Jj/ovl_En_Jj_reloc.o"
 endseg
 
 beginseg
@@ -2651,8 +2645,7 @@ endseg
 beginseg
     name "ovl_En_Mm"
     include "build/src/overlays/actors/ovl_En_Mm/z_en_mm.o"
-    include "build/data/overlays/actors/z_en_mm.data.o"
-    include "build/data/overlays/actors/z_en_mm.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Mm/ovl_En_Mm_reloc.o"
 endseg
 
 beginseg
@@ -3199,8 +3192,7 @@ endseg
 beginseg
     name "ovl_En_fHG"
     include "build/src/overlays/actors/ovl_En_fHG/z_en_fhg.o"
-    include "build/data/overlays/actors/z_en_fhg.data.o"
-    include "build/data/overlays/actors/z_en_fhg.reloc.o"
+    include "build/src/overlays/actors/ovl_En_fHG/ovl_En_fHG_reloc.o"
 endseg
 
 beginseg
@@ -3796,7 +3788,8 @@ endseg
 beginseg
     name "object_gnd"
     romalign 0x1000
-    include "build/baserom/object_gnd.o"
+    include "build/assets/objects/object_gnd/object_gnd.o"
+    number 6
 endseg
 
 beginseg
@@ -3845,7 +3838,8 @@ endseg
 beginseg
     name "object_jj"
     romalign 0x1000
-    include "build/baserom/object_jj.o"
+    include "build/assets/objects/object_jj/object_jj.o"
+    number 6
 endseg
 
 beginseg
@@ -4003,7 +3997,8 @@ endseg
 beginseg
     name "object_fhg"
     romalign 0x1000
-    include "build/baserom/object_fhg.o"
+    include "build/assets/objects/object_fhg/object_fhg.o"
+    number 6
 endseg
 
 beginseg
@@ -5331,7 +5326,8 @@ endseg
 beginseg
     name "object_mm"
     romalign 0x1000
-    include "build/baserom/object_mm.o"
+    include "build/assets/objects/object_mm/object_mm.o"
+    number 6
 endseg
 
 beginseg
