@@ -224,8 +224,8 @@ s32 EnSt_CheckCeilingPos(EnSt* this, GlobalContext* globalCtx) {
     checkPos.x = this->actor.world.pos.x;
     checkPos.y = this->actor.world.pos.y + 1000.0f;
     checkPos.z = this->actor.world.pos.z;
-    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &checkPos, &this->ceilingPos, &poly, 0, 0,
-                                 1, 1, &bgId)) {
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &checkPos, &this->ceilingPos, &poly, false,
+                                 false, true, true, &bgId)) {
         return false;
     }
     this->unusedPos = this->actor.world.pos;

@@ -129,7 +129,8 @@ void EnFloormas_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 50.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWallmasterSkel, &gWallmasterWaitAnim, this->jointTable, this->morphTable, 25);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gWallmasterSkel, &gWallmasterWaitAnim, this->jointTable,
+                       this->morphTable, 25);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo(&this->actor.colChkInfo, &sDamageTable, &sColChkInfoInit);
@@ -235,8 +236,8 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
     if (rotDelta > 0) {
         Animation_MorphToPlayOnce(&this->skelAnime, &gFloormasterTurnAnim, -3.0f);
     } else {
-        Animation_Change(&this->skelAnime, &gFloormasterTurnAnim, -1.0f, Animation_GetLastFrame(&gFloormasterTurnAnim), 0.0f, ANIMMODE_ONCE,
-                         -3.0f);
+        Animation_Change(&this->skelAnime, &gFloormasterTurnAnim, -1.0f, Animation_GetLastFrame(&gFloormasterTurnAnim),
+                         0.0f, ANIMMODE_ONCE, -3.0f);
     }
 
     if (this->actor.scale.x > 0.004f) {
@@ -249,7 +250,8 @@ void EnFloormas_SetupTurn(EnFloormas* this) {
 }
 
 void EnFloormas_SetupHover(EnFloormas* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelAnime, &gWallmasterHoverAnim, 3.0f, 0, Animation_GetLastFrame(&gWallmasterHoverAnim), ANIMMODE_ONCE, -3.0f);
+    Animation_Change(&this->skelAnime, &gWallmasterHoverAnim, 3.0f, 0, Animation_GetLastFrame(&gWallmasterHoverAnim),
+                     ANIMMODE_ONCE, -3.0f);
     this->actor.speedXZ = 0.0f;
     this->actor.gravity = 0.0f;
     EnFloormas_MakeInvulnerable(this);
@@ -288,8 +290,8 @@ void EnFloormas_SetupSplit(EnFloormas* this) {
     this->actor.shape.rot.y = this->actor.parent->shape.rot.y + 0x5555;
     this->actor.world.pos = this->actor.parent->world.pos;
     this->actor.params = 0x10;
-    Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.0f, 41.0f, Animation_GetLastFrame(&gWallmasterJumpAnim), ANIMMODE_ONCE,
-                     0.0f);
+    Animation_Change(&this->skelAnime, &gWallmasterJumpAnim, 1.0f, 41.0f, Animation_GetLastFrame(&gWallmasterJumpAnim),
+                     ANIMMODE_ONCE, 0.0f);
     this->collider.dim.radius = sCylinderInit.dim.radius * 0.6f;
     this->collider.dim.height = sCylinderInit.dim.height * 0.6f;
     this->collider.info.bumperFlags &= ~BUMP_HOOKABLE;

@@ -128,7 +128,7 @@ void func_808B0324(BgSpot08Bakudankabe* this, GlobalContext* globalCtx) {
         temp1 = (Rand_ZeroOne() - 0.5f) * 440.0f;
         temp2 = (Rand_ZeroOne() - 0.5f) * 20.0f;
         burstDepthY.x = this->dyna.actor.world.pos.x + temp2 * sinY + (temp1 * cosY);
-        burstDepthY.y = (this->dyna.actor.world.pos.y + 20.0f) + (i * 5.4166665f);
+        burstDepthY.y = (this->dyna.actor.world.pos.y + 20.0f) + (i * (65.0f / 12.0f));
         burstDepthY.z = this->dyna.actor.world.pos.z + temp2 * cosY - (temp1 * sinY);
 
         burstDepthX.y = (Rand_ZeroOne() - 0.2f) * 12.0f;

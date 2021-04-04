@@ -621,7 +621,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(362.0f, -133.0f, 0.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 0);
             func_80B54360(this, sp30.x, 1);
             func_80B53B64(this, sp30.z, 2);
@@ -631,7 +631,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[0], "../z_en_zl3.c", 1490);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 3);
         }
         Matrix_RotateRPY(unk_28C[3] + kREG(34), unk_28C[4] + kREG(35), unk_28C[5] + kREG(36), MTXMODE_APPLY);
@@ -639,7 +639,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[1], "../z_en_zl3.c", 1534);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B54360(this, sp30.x, 7);
         }
         Matrix_RotateRPY(unk_28C[6] + kREG(37), unk_28C[7] + kREG(38), unk_28C[8] + kREG(39), MTXMODE_APPLY);
@@ -650,7 +650,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, 389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 9);
             func_80B54360(this, sp30.x, 10);
             func_80B53B64(this, sp30.z, 11);
@@ -660,7 +660,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[3], "../z_en_zl3.c", 1579);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 12);
             func_80B54360(this, sp30.x, 13);
             func_80B53B64(this, sp30.z, 14);
@@ -673,7 +673,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_Translate(467.0f, 265.0f, -389.0f, MTXMODE_APPLY);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 15);
             func_80B54360(this, sp30.x, 16);
             func_80B53B64(this, sp30.z, 17);
@@ -683,7 +683,7 @@ s32 func_80B5458C(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         Matrix_ToMtx(&sp78[5], "../z_en_zl3.c", 1623);
         Matrix_Get(&sp38);
         func_800D20CC(&sp38, &sp30, 0);
-        if (!func_800C0D28(globalCtx)) {
+        if (!FrameAdvance_IsEnabled(globalCtx)) {
             func_80B53980(this, sp30.y, 18);
             func_80B54360(this, sp30.x, 19);
             func_80B53B64(this, sp30.z, 20);
@@ -1033,14 +1033,12 @@ void func_80B558A8(EnZl3* this) {
     s32 pad[4];
     s16 thisRotY = this->actor.world.rot.y;
     Vec3f* unk_338 = &this->unk_338;
-    Vec3f thisPos = this->actor.world.pos;
 
-    this->unk_32C = thisPos;
-    *unk_338 = thisPos;
+    *unk_338 = this->unk_32C = this->actor.world.pos;
 
-    unk_338->z += ((-1.6073999404907227f) * Math_CosS(thisRotY)) - (3.1620006561279297f * Math_SinS(thisRotY));
-    unk_338->x += ((-1.6073999404907227f) * Math_SinS(thisRotY)) + (3.1620006561279297f * Math_CosS(thisRotY));
-    unk_338->y += -0.01219940185546875f;
+    unk_338->z += (-1.6074f * Math_CosS(thisRotY)) - (3.1620007f * Math_SinS(thisRotY));
+    unk_338->x += (-1.6074f * Math_SinS(thisRotY)) + (3.1620007f * Math_CosS(thisRotY));
+    unk_338->y += -0.012199402f;
 }
 
 void func_80B559C4(EnZl3* this) {
@@ -1055,7 +1053,7 @@ void func_80B559C4(EnZl3* this) {
 }
 
 void func_80B55A58(EnZl3* this, GlobalContext* globalCtx) {
-    if (globalCtx->activeCamera == 0) {
+    if (globalCtx->activeCamera == MAIN_CAM) {
         func_80B537E8(this);
     }
 }
@@ -1181,7 +1179,7 @@ void func_80B55F6C(EnZl3* this, GlobalContext* globalCtx) {
     } else if (ABS((s16)(this->actor.yawTowardsPlayer - this->actor.shape.rot.y)) <= 0x4300) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
 
-        if ((bossGanon2 != NULL) && (bossGanon2->unk_324 <= 0.12345679104328156f)) {
+        if ((bossGanon2 != NULL) && (bossGanon2->unk_324 <= (10.0f / 81.0f))) {
             this->actor.flags |= 9;
             this->actor.flags |= 1;
             this->actor.textId = 0x7059;
@@ -1243,7 +1241,7 @@ void func_80B56214(EnZl3* this, GlobalContext* globalCtx) {
         BossGanon2* bossGanon2 = func_80B53488(this, globalCtx);
 
         if (bossGanon2 != NULL) {
-            if (bossGanon2->unk_324 <= 0.12345679104328156f) {
+            if (bossGanon2->unk_324 <= (10.0f / 81.0f)) {
                 this->actor.flags |= 9;
                 this->actor.flags |= 1;
                 this->actor.textId = 0x7059;
@@ -1616,7 +1614,7 @@ s32 func_80B57034(EnZl3* this, s32 arg1, s32 arg2) {
         f32 xDiff = vec2->x - vec1->x;
         f32 zDiff = vec2->z - vec1->z;
 
-        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(Math_FAtan2F(xDiff, zDiff) * 10430.3779296875f);
+        return ((xDiff == 0.0f) && (zDiff == 0.0f)) ? 0 : (s16)(Math_FAtan2F(xDiff, zDiff) * (0x8000 / M_PI));
     }
     return 0;
 }
@@ -1743,7 +1741,7 @@ s32 func_80B57458(EnZl3* this, GlobalContext* globalCtx) {
         return 1;
     }
 
-    temp_v0 = (s16)(temp_v1 - (s16)(Math_FAtan2F(temp_f12, temp_f13) * 10430.3779296875f));
+    temp_v0 = (s16)(temp_v1 - (s16)(Math_FAtan2F(temp_f12, temp_f13) * (0x8000 / M_PI)));
 
     if (temp_v0 < 0x1555) {
         return 1;
@@ -1774,6 +1772,7 @@ s32 func_80B575F0(EnZl3* this, GlobalContext* globalCtx) {
 
     if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
         s32 unk_314 = this->unk_314;
+
         if (unk_314 == 1) {
             return 1;
         }
@@ -1786,10 +1785,9 @@ void func_80B5764C(EnZl3* this, GlobalContext* globalCtx) {
 
     if ((sceneNum == SCENE_GANON_SONOGO) && (func_80B54DB4(this) == 0x26)) {
         s32 unk_314 = this->unk_314 + 1;
-        if (unk_314 == 1) {
-            if (!Gameplay_InCsMode(globalCtx)) {
-                func_800800F8(globalCtx, 0x3E8, 0x28, &this->actor, 0);
-            }
+
+        if ((unk_314 == 1) && !Gameplay_InCsMode(globalCtx)) {
+            OnePointCutscene_Init(globalCtx, 1000, 40, &this->actor, MAIN_CAM);
         }
     }
 }
@@ -1830,7 +1828,7 @@ void func_80B577BC(GlobalContext* globalCtx, Vec3f* vec) {
     f32 posZ = vec->z;
 
     Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TEST, posX, posY, posZ, 0,
-                (Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ) * 10430.3779296875f), 0, 5);
+                (Math_FAtan2F(playerPos->x - posX, playerPos->z - posZ) * (0x8000 / M_PI)), 0, 5);
 }
 
 void func_80B57858(GlobalContext* globalCtx) {
@@ -2041,14 +2039,14 @@ void func_80B58014(EnZl3* this, GlobalContext* globalCtx) {
         this->action = 29;
         func_80B538B0(this);
     } else if (func_80B57C8C(this) && func_80B57F84(this, globalCtx)) {
-        func_800800F8(globalCtx, 0xFA0, -0x63, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4000, -99, &this->actor, MAIN_CAM);
         this->unk_3D0 = 0;
     } else if (func_80B576C8(this, globalCtx) && func_80B575B0(this, globalCtx) && !Gameplay_InCsMode(globalCtx)) {
         this->action = 0x1F;
         this->unk_3CC = 0.0f;
         func_80B537E8(this);
         this->unk_3D8 = 1;
-        func_800800F8(globalCtx, 0xFAA, -0x63, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 4010, -99, &this->actor, MAIN_CAM);
     } else if (!func_80B57C8C(this) && !func_80B576C8(this, globalCtx) && func_80B57564(this, globalCtx)) {
         func_80B54E14(this, &gZelda2Anime2Anim_009BE4, 0, -8.0f, 0);
         func_80B5764C(this, globalCtx);
@@ -2120,7 +2118,7 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
     if (D_80B5A4BC == 0) {
         if ((nearbyEnTest == NULL) && (!Gameplay_InCsMode(globalCtx))) {
             this->action = 33;
-            func_800800F8(globalCtx, 0xFAB, -0x63, &this->actor, 0);
+            OnePointCutscene_Init(globalCtx, 4011, -99, &this->actor, MAIN_CAM);
         } else if (invincibilityTimer > 0) {
             func_80B54E14(this, &gZelda2Anime2Anim_003FF8, 0, -12.0f, 0);
             D_80B5A4BC = 1;
@@ -2131,7 +2129,7 @@ void func_80B584B4(EnZl3* this, GlobalContext* globalCtx) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -12.0f, 0);
             D_80B5A4BC = 0;
             this->action = 33;
-            func_800800F8(globalCtx, 0xFAB, -0x63, &this->actor, 0);
+            OnePointCutscene_Init(globalCtx, 4011, -99, &this->actor, MAIN_CAM);
         } else if (invincibilityTimer <= 0) {
             func_80B54E14(this, &gZelda2Anime2Anim_007664, 0, -12.0f, 0);
             D_80B5A4BC = 0;

@@ -509,7 +509,7 @@ void func_800C2FE4(PreRenderContext* this) {
                 // There's a redundant branch in the ASM that taken literally looks like this
                 // phi_v0 = ((HREG(80) == 0xF) ? 0 : 0);
                 // if (((HREG(80) == 0xF) ? HREG(81) : phi_v0) == 5) {
-                
+
                 if (((HREG(80) == 0xF) ? HREG(81) : 0) == 5) {
                     pxR = 31;
                     pxG = 0;

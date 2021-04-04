@@ -106,7 +106,7 @@ void func_800645A0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
     }
 
     if (CHECK_BTN_ALL(pad1->press.button, BTN_DUP) && (csCtx->state == CS_STATE_IDLE) &&
-        (gSaveContext.sceneSetupIndex >= 4) && (gDbgCamEnabled == 0)) {
+        (gSaveContext.sceneSetupIndex >= 4) && !gDbgCamEnabled) {
         D_8015FCC8 = 1;
         gSaveContext.cutsceneIndex = 0xFFFD;
         gSaveContext.cutsceneTrigger = 1;
@@ -428,8 +428,8 @@ void func_80065134(GlobalContext* globalCtx, CutsceneContext* csCtx, CsCmdDayTim
     s16 temp2;
 
     if (csCtx->frames == cmd->startFrame) {
-        temp1 = (cmd->hour * 60.0f) / 0.021972656f;
-        temp2 = (cmd->minute + 1) / 0.021972656f;
+        temp1 = (cmd->hour * 60.0f) / (360.0f / 0x4000);
+        temp2 = (cmd->minute + 1) / (360.0f / 0x4000);
 
         gSaveContext.dayTime = temp1 + temp2;
         gSaveContext.environmentTime = temp1 + temp2;
@@ -1301,7 +1301,7 @@ s32 Cutscene_Command_CameraPositions(GlobalContext* globalCtx, CutsceneContext* 
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)cmd)->continueFlag == -1) {
+        if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
         cmd += 0x10;
@@ -1338,7 +1338,7 @@ s32 Cutscene_Command_CameraFocus(GlobalContext* globalCtx, CutsceneContext* csCt
     }
 
     while (shouldContinue) {
-        if (((CutsceneCameraPoint*)cmd)->continueFlag == -1) {
+        if (((CutsceneCameraPoint*)cmd)->continueFlag == CS_CMD_STOP) {
             shouldContinue = 0;
         }
         cmd += 0x10;
@@ -1369,7 +1369,7 @@ s32 Cutscene_Command_07(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->unk_14);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_FREE0);
                 sp28 = csCtx->cameraFocus->cameraRoll * 1.40625f;
@@ -1412,7 +1412,7 @@ s32 Cutscene_Command_08(GlobalContext* globalCtx, CutsceneContext* csCtx, u8* cm
             if (D_8015FCC8 != 0) {
                 sp2C = Gameplay_GetCamera(globalCtx, csCtx->unk_14);
                 sp2C->player = NULL;
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
                 Gameplay_ChangeCameraStatus(globalCtx, csCtx->unk_14, CAM_STAT_ACTIVE);
                 Gameplay_CameraChangeSetting(globalCtx, csCtx->unk_14, CAM_SET_FREE0);
                 sp3C.x = csCtx->cameraFocus->pos.x;
@@ -1914,7 +1914,7 @@ void func_80068DC0(GlobalContext* globalCtx, CutsceneContext* csCtx) {
                     Gameplay_CopyCamera(globalCtx, D_8015FCC6, csCtx->unk_14);
             }
 
-            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, D_8015FCC6, CAM_STAT_ACTIVE);
             Gameplay_ClearCamera(globalCtx, csCtx->unk_14);
             func_8005B1A4(globalCtx->cameraPtrs[D_8015FCC6]);
         }
