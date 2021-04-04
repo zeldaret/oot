@@ -2873,14 +2873,8 @@ Actor* Actor_Delete(ActorContext* actorCtx, Actor* actor, GlobalContext* globalC
             osSyncPrintf("オーバーレイではありません\n");
         }
     } else {
-        if (overlayEntry->loadedRamAddr == NULL) {
-            __assert("actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
-        }
-
-        if (overlayEntry->nbLoaded <= 0) {
-            __assert("actor_dlftbl->clients > 0", "../z_actor.c", 7252);
-        }
-
+        assert(overlayEntry->loadedRamAddr != NULL, "actor_dlftbl->allocp != NULL", "../z_actor.c", 7251);
+        assert(overlayEntry->nbLoaded > 0, "actor_dlftbl->clients > 0", "../z_actor.c", 7252);
         overlayEntry->nbLoaded--;
         Actor_FreeOverlay(overlayEntry);
     }
