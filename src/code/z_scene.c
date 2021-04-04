@@ -14,11 +14,10 @@ s32 Object_Spawn(ObjectContext* objectCtx, s16 objectId) {
     osSyncPrintf("num=%d adrs=%x end=%x\n", objectCtx->num, (s32)objectCtx->status[objectCtx->num].segment + size,
                  objectCtx->spaceEnd);
 
-    
     assert(((objectCtx->num < OBJECT_EXCHANGE_BANK_MAX) &&
-          (((s32)objectCtx->status[objectCtx->num].segment + size) < (u32)objectCtx->spaceEnd)), "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
-                 "../z_scene.c", 142);
-    
+            (((s32)objectCtx->status[objectCtx->num].segment + size) < (u32)objectCtx->spaceEnd)),
+           "this->num < OBJECT_EXCHANGE_BANK_MAX && (this->status[this->num].Segment + size) < this->endSegment",
+           "../z_scene.c", 142);
 
     DmaMgr_SendRequest1(objectCtx->status[objectCtx->num].segment, gObjectTable[objectId].vromStart, size,
                         "../z_scene.c", 145);
@@ -292,7 +291,8 @@ void func_8009899C(GlobalContext* globalCtx, SceneCmd* cmd) {
         status++;
     }
 
-    assert(cmd->objectList.num <= OBJECT_EXCHANGE_BANK_MAX, "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX", "../z_scene.c", 705);
+    assert(cmd->objectList.num <= OBJECT_EXCHANGE_BANK_MAX, "scene_info->object_bank.num <= OBJECT_EXCHANGE_BANK_MAX",
+           "../z_scene.c", 705);
 
     if (1) {}
 

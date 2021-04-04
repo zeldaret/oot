@@ -2420,7 +2420,8 @@ SSNode* SSNodeList_GetNextNode(SSNodeList* this) {
     SSNode* result = &this->tbl[this->count];
 
     this->count++;
-    assert(this->count < this->max, "this->short_slist_node_last_index < this->short_slist_node_size", "../z_bgcheck.c", 5998);
+    assert(this->count < this->max, "this->short_slist_node_last_index < this->short_slist_node_size", "../z_bgcheck.c",
+           5998);
     if (!(this->count < this->max)) {
         return NULL;
     }
@@ -2771,8 +2772,10 @@ void DynaPoly_ExpandSRT(GlobalContext* globalCtx, DynaCollisionContext* dyna, s3
                      *vtxStartIndex + pbgdata->nbVertices, dyna->vtxListMax);
     }
 
-    assert(dyna->polyListMax >= *polyStartIndex + pbgdata->nbPolygons, "pdyna_poly_info->poly_num >= *pstart_poly_index + pbgdata->poly_num", "../z_bgcheck.c", 6687);
-    assert(dyna->vtxListMax >= *vtxStartIndex + pbgdata->nbVertices, "pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num", "../z_bgcheck.c", 6688);
+    assert(dyna->polyListMax >= *polyStartIndex + pbgdata->nbPolygons,
+           "pdyna_poly_info->poly_num >= *pstart_poly_index + pbgdata->poly_num", "../z_bgcheck.c", 6687);
+    assert(dyna->vtxListMax >= *vtxStartIndex + pbgdata->nbVertices,
+           "pdyna_poly_info->vert_num >= *pstart_vert_index + pbgdata->vtx_num", "../z_bgcheck.c", 6688);
 
     if (!(dyna->bitFlag & DYNAPOLY_INVALIDATE_LOOKUP) &&
         (BgActor_IsTransformUnchanged(&dyna->bgActors[bgId]) == true)) {

@@ -100,8 +100,9 @@ void Sched_HandleStart(SchedContext* sc) {
 void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
     s32 type = task->list.t.type;
 
-    assert((type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK), "(type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK)",
-                 "../sched.c", 463);
+    assert((type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK),
+           "(type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK)", "../sched.c",
+           463);
 
     if (type == M_AUDTASK) {
         if (sLogScheduler) {

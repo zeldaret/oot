@@ -10029,8 +10029,9 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
                     func_80837B9C(this, globalCtx);
                 } else if ((this->actor.bgCheckFlags & 1) || (this->stateFlags1 & 0x8000000)) {
                     func_80836448(globalCtx, this,
-                                  func_808332B8(this) ? &gPlayer515Anim
-                                                      : (this->shockTimer != 0) ? &gPlayer386Anim : &gPlayer176Anim);
+                                  func_808332B8(this)       ? &gPlayer515Anim
+                                  : (this->shockTimer != 0) ? &gPlayer386Anim
+                                                            : &gPlayer176Anim);
                 }
             } else {
                 if ((this->actor.parent == NULL) &&

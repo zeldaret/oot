@@ -40,7 +40,7 @@ void func_800A663C(GlobalContext* globalCtx, PSkinAwb* skin, SkeletonHeader* ske
     skeleton = SEGMENTED_TO_VIRTUAL(skin->skeletonHeader->segment);
     limbCount = skin->skeletonHeader->limbCount;
     skin->avbTbl = ZeldaArena_MallocDebug(limbCount * sizeof(SkinAvb), "../z_skin_awb.c", 212);
-    
+
     assert(skin->avbTbl != NULL, "pskin_awb->avb_tbl != NULL", "../z_skin_awb.c", 214);
     for (i = 0; i < limbCount; i++) {
         SkinAvb* avbEntry = &skin->avbTbl[i];

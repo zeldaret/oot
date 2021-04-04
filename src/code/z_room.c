@@ -604,7 +604,8 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
 void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags) {
     if (room->segment != NULL) {
         gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
-        assert(room->mesh->polygon.type < ARRAY_COUNTU(sRoomDrawHandlers), "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
+        assert(room->mesh->polygon.type < ARRAY_COUNTU(sRoomDrawHandlers),
+               "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
         sRoomDrawHandlers[room->mesh->polygon.type](globalCtx, room, flags);
     }
 }

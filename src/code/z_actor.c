@@ -2399,7 +2399,8 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
                     if ((actor->flags & 0x80) &&
                         ((globalCtx->roomCtx.curRoom.showInvisActors == 0) || (globalCtx->actorCtx.unk_03 != 0) ||
                          (actor->room != globalCtx->roomCtx.curRoom.num))) {
-                        assert(invisibleActorCounter < INVISIBLE_ACTOR_MAX, "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
+                        assert(invisibleActorCounter < INVISIBLE_ACTOR_MAX,
+                               "invisible_actor_counter < INVISIBLE_ACTOR_MAX", "../z_actor.c", 6464);
                         invisibleActors[invisibleActorCounter] = actor;
                         invisibleActorCounter++;
                     } else {
