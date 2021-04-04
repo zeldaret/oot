@@ -312,7 +312,6 @@ void EnFhgFire_LightningShock(EnFhgFire* this, GlobalContext* globalCtx) {
 
 void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    s32 pad;
 
     globalCtx->envCtx.unk_E1 = 0x01;
     this->actor.shape.rot.y += 0x1000;
@@ -326,11 +325,9 @@ void EnFhgFire_LightningBurst(EnFhgFire* this, GlobalContext* globalCtx) {
         globalCtx->envCtx.unk_D6 = 0x14;
     }
     if (this->work[FHGFIRE_FX_TIMER] >= 48) {
-        globalCtx->envCtx.unk_E2[2] = 0xFF;
-        globalCtx->envCtx.unk_E2[1] = 0xFF;
-        globalCtx->envCtx.unk_E2[0] = 0xFF;
+        globalCtx->envCtx.unk_E2[0] = globalCtx->envCtx.unk_E2[1] = globalCtx->envCtx.unk_E2[2] = 0xFF;
 
-        if (((this->work[FHGFIRE_TIMER] & 0xFF) % 2) != 0) {
+        if ((this->work[FHGFIRE_TIMER] % 2) != 0) {
             globalCtx->envCtx.unk_E2[3] = 0x46;
         } else {
             globalCtx->envCtx.unk_E2[3] = 0x00;
