@@ -1689,7 +1689,7 @@ void EnXc_TriforcePostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dL
     if (limbIndex == 15) {
         Vec3f vec = { 0.0f, 0.0f, 0.0f };
         EnXc_PlayTriforceSFX(&this->actor, globalCtx);
-        Matrix_MultVec3f(&vec, &this->vec_2B0);
+        Matrix_MultVec3f(&vec, &this->handPos);
         this->unk_2BC = 1;
     }
 }
