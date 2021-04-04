@@ -565,9 +565,7 @@ s32 func_8009728C(GlobalContext* globalCtx, RoomContext* roomCtx, s32 roomNum) {
         roomCtx->curRoom.segment = NULL;
         roomCtx->status = 1;
 
-        if (roomNum >= globalCtx->nbRooms) {
-            __assert("read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
-        }
+        assert(roomNum < globalCtx->nbRooms, "read_room_ID < game_play->room_rom_address.num", "../z_room.c", 1009);
 
         size = globalCtx->roomList[roomNum].vromEnd - globalCtx->roomList[roomNum].vromStart;
         roomCtx->unk_34 = (void*)ALIGN16((s32)roomCtx->bufPtrs[roomCtx->unk_30] - ((size + 8) * roomCtx->unk_30 + 7));
@@ -608,9 +606,7 @@ s32 func_800973FC(GlobalContext* globalCtx, RoomContext* roomCtx) {
 void Room_Draw(GlobalContext* globalCtx, Room* room, u32 flags) {
     if (room->segment != NULL) {
         gSegments[3] = VIRTUAL_TO_PHYSICAL(room->segment);
-        if (room->mesh->polygon.type >= ARRAY_COUNTU(sRoomDrawHandlers)) {
-            __assert("this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
-        }
+        assert(room->mesh->polygon.type < ARRAY_COUNTU(sRoomDrawHandlers), "this->ground_shape->polygon.type < number(Room_Draw_Proc)", "../z_room.c", 1125);
         sRoomDrawHandlers[room->mesh->polygon.type](globalCtx, room, flags);
     }
 }
