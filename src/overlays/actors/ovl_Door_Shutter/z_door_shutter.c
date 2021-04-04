@@ -8,6 +8,7 @@
 #include "objects/object_demo_kekkai/object_demo_kekkai.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
 #include "objects/object_gnd/object_gnd.h"
+#include "objects/object_goma/object_goma.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 #include "objects/object_hidan_objects/object_hidan_objects.h"
 
@@ -89,7 +90,7 @@ static ShutterInfo D_80998134[] = {
     { 0x060000C0, 0x060001F0, 240, 14, 70, 15 },
     { 0x06000590, 0x06006460, 0, 110, 50, 15 },
     { gPhantomGanonBarsDL, NULL, 130, 12, 50, 15 },
-    { 0x0601EC20, NULL, 130, 12, 50, 15 },
+    { gGohmaDoorDL, NULL, 130, 12, 50, 15 },
     { 0x06000100, 0x060001F0, 240, 14, 50, 15 },
     { 0x060010C0, NULL, 130, 12, 50, 15 },
     { gDungeonDoorDL, gDoorMetalBarsDL, 130, 12, 20, 15 },
@@ -155,8 +156,6 @@ static Gfx* D_809982B4[] = {
 static UNK_PTR D_809982D4[] = {
     0x060065C0, 0x060035C0, 0x060055C0, 0x060045C0, 0x06000000, 0x060025C0, 0x060015C0,
 };
-
-extern CollisionHeader D_0601EDD0; // gohma block collision header
 
 void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -283,7 +282,7 @@ void DoorShutter_SetupType(DoorShutter* this, GlobalContext* globalCtx) {
 
             Actor_SetObjectDependency(globalCtx, &this->dyna.actor);
             this->unk_16C = D_809980F0[this->unk_16B].index1;
-            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &D_0601EDD0 : &gPhantomGanonBarsCol,
+            CollisionHeader_GetVirtual((this->doorType == SHUTTER_GOHMA_BLOCK) ? &gGohmaDoorCol : &gPhantomGanonBarsCol,
                                        &colHeader);
             this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
             if (this->doorType == SHUTTER_GOHMA_BLOCK) {
