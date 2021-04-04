@@ -230,7 +230,7 @@ s32 EnXc_NoCutscenePlaying(GlobalContext* globalCtx) {
 }
 
 void func_80B3C820(EnXc* this) {
-    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), 0, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), ANIMMODE_LOOP, 0.0f);
     this->action = SHIEK_ACTION_53;
 }
 
@@ -266,7 +266,7 @@ void func_80B3C9DC(EnXc* this) {
 }
 
 void func_80B3C9EC(EnXc* this) {
-    EnXc_ChangeAnimation(this, &gShiekArmsCrossedIdleAnim, 0, 0.0f, false);
+    EnXc_ChangeAnimation(this, &gShiekArmsCrossedIdleAnim, ANIMMODE_LOOP, 0.0f, false);
     this->action = SHIEK_ACTION_BLOCK_PEDESTAL;
     this->drawMode = SHIEK_DRAW_DEFAULT;
     this->unk_30C = 1;
