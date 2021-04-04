@@ -610,9 +610,7 @@ Gfx* func_809CA518(GraphicsContext* gfxCtx) {
     Gfx* dListHead;
 
     dListHead = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
-    if (dListHead == NULL) {
-        __assert("gfxp != NULL", "../z_en_box.c", 1564);
-    }
+    assert(dListHead != NULL, "gfxp != NULL", "../z_en_box.c", 1564);
 
     dList = dListHead;
     gDPSetRenderMode(dListHead++,
