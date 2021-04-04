@@ -288,7 +288,7 @@ void EnJj_UpdateStaticCollision(Actor* thisx, GlobalContext* globalCtx) {
 void EnJj_Update(Actor* thisx, GlobalContext* globalCtx) {
     EnJj* this = THIS;
 
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[2] != NULL)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[2] != NULL)) {
         EnJj_CutsceneUpdate(this, globalCtx);
     } else {
         this->actionFunc(this, globalCtx);

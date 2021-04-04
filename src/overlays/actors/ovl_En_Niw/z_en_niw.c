@@ -764,7 +764,7 @@ void func_80AB6F04(EnNiw* this, GlobalContext* globalCtx) {
 }
 
 void func_80AB70A0(EnNiw* this, GlobalContext* globalCtx) {
-    func_800800F8(globalCtx, 0x8F2, -0x63, &this->actor, 0);
+    OnePointCutscene_Init(globalCtx, 2290, -99, &this->actor, MAIN_CAM);
     this->timer5 = 100;
     this->unk_2A2 = 1;
     this->actionFunc = func_80AB70F8;

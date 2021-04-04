@@ -91,23 +91,22 @@ void ShotSun_SpawnFairy(ShotSun* this, GlobalContext* globalCtx) {
 
     if (this->timer > 0) {
         this->timer--;
-        return;
+    } else {
+        switch (params) {
+            case 0x40:
+                fairyType = FAIRY_HEAL_BIG;
+                break;
+            case 0x41:
+                fairyType = FAIRY_HEAL_BIG;
+                break;
+        }
+
+        //! @bug fairyType may be uninitialized
+        Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.home.pos.x, this->actor.home.pos.y,
+                    this->actor.home.pos.z, 0, 0, 0, fairyType);
+
+        Actor_Kill(&this->actor);
     }
-
-    switch (params) {
-        case 0x40:
-            fairyType = FAIRY_HEAL_BIG;
-            break;
-        case 0x41:
-            fairyType = FAIRY_HEAL_BIG;
-            break;
-    }
-
-    //! @bug fairyType may be uninitialized
-    Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_ELF, this->actor.home.pos.x, this->actor.home.pos.y,
-                this->actor.home.pos.z, 0, 0, 0, fairyType);
-
-    Actor_Kill(&this->actor);
 }
 
 void ShotSun_TriggerFairy(ShotSun* this, GlobalContext* globalCtx) {
@@ -141,14 +140,11 @@ void func_80BADF0C(ShotSun* this, GlobalContext* globalCtx) {
         if (this->unk_1A4 == 1) {
             func_8010BD58(globalCtx, 1);
             this->unk_1A4 = 2;
-            return;
-        }
-
-        if (this->unk_1A4 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
+        } else if (this->unk_1A4 == 2 && globalCtx->msgCtx.unk_E3EE == 4) {
             if ((params == 0x40 && globalCtx->msgCtx.unk_E3EC == 9) ||
                 (params == 0x41 && globalCtx->msgCtx.unk_E3EC == 0xB)) {
                 this->actionFunc = ShotSun_TriggerFairy;
-                func_80080480(globalCtx, &this->actor);
+                OnePointCutscene_Attention(globalCtx, &this->actor);
                 this->timer = 0;
             } else {
                 this->unk_1A4 = 0;
@@ -186,10 +182,10 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
         }
         Actor_Kill(&this->actor);
     } else {
-        if (!(120.0f < this->actor.xzDistToPlayer) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
-            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.unk_04.x * 0.16666667f;
-            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.unk_04.y * 0.16666667f;
-            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.unk_04.z * 0.16666667f;
+        if (!(this->actor.xzDistToPlayer > 120.0f) && gSaveContext.dayTime >= 0x4555 && gSaveContext.dayTime < 0x5000) {
+            cylinderPos.x = player->bodyPartsPos[7].x + globalCtx->envCtx.unk_04.x * (1.0f / 6.0f);
+            cylinderPos.y = player->bodyPartsPos[7].y - 30.0f + globalCtx->envCtx.unk_04.y * (1.0f / 6.0f);
+            cylinderPos.z = player->bodyPartsPos[7].z + globalCtx->envCtx.unk_04.z * (1.0f / 6.0f);
 
             this->hitboxPos = cylinderPos;
 
@@ -201,5 +197,6 @@ void ShotSun_UpdateHyliaSun(ShotSun* this, GlobalContext* globalCtx) {
 
 void ShotSun_Update(Actor* thisx, GlobalContext* globalCtx) {
     ShotSun* this = THIS;
+
     this->actionFunc(this, globalCtx);
 }

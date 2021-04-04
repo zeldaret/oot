@@ -582,7 +582,7 @@ void func_80AF68E4(EnSa* this, GlobalContext* globalCtx) {
     f32 temp_f0;
     f32 gravity;
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = func_80AF6B20;
         return;
     }
