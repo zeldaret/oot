@@ -157,8 +157,6 @@ static UNK_PTR D_809982D4[] = {
     0x060065C0, 0x060035C0, 0x060055C0, 0x060045C0, 0x06000000, 0x060025C0, 0x060015C0,
 };
 
-// extern CollisionHeader D_0601EDD0; // gohma block collision header
-
 void DoorShutter_SetupAction(DoorShutter* this, DoorShutterActionFunc actionFunc) {
     this->actionFunc = actionFunc;
     this->unk_16F = 0;

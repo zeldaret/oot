@@ -48,7 +48,7 @@ void BossGoma_CeilingIdle(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_WallClimb(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_CeilingMoveToCenter(BossGoma* this, GlobalContext* globalCtx);
-void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 arg2);
+void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i);
 
 const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
@@ -323,13 +323,13 @@ void BossGoma_ClearPixels32x32Rgba16(s16* rgba16image, u8* clearPixelTable, s16 
  * Clear pixels from Gohma's textures
  */
 void BossGoma_ClearPixels(u8* clearPixelTable, s16 i) {
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaUnknown_0183A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaUnknown_0185A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaUnknown_0187A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaUnknown_0191A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0183A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0185A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0187A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0191A8), clearPixelTable, i);
 
-    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaUnknown_0189A8), clearPixelTable, i);
-    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaUnknown_0193A8), clearPixelTable, i);
+    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0189A8), clearPixelTable, i);
+    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0193A8), clearPixelTable, i);
 }
 
 static InitChainEntry sInitChain[] = {
