@@ -100,10 +100,8 @@ void Sched_HandleStart(SchedContext* sc) {
 void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
     s32 type = task->list.t.type;
 
-    if (!((type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK))) {
-        __assert("(type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK)",
+    assert((type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK), "(type == M_AUDTASK) || (type == M_GFXTASK) || (type == M_NJPEGTASK) || (type == M_NULTASK)",
                  "../sched.c", 463);
-    }
 
     if (type == M_AUDTASK) {
         if (sLogScheduler) {
@@ -136,9 +134,7 @@ void Sched_QueueTask(SchedContext* sc, OSScTask* task) {
 
 void Sched_Yield(SchedContext* sc) {
     if (!(sc->curRSPTask->state & OS_SC_YIELD)) {
-        if (sc->curRSPTask->list.t.type == M_AUDTASK) {
-            __assert("sc->curRSPTask->list.t.type != M_AUDTASK", "../sched.c", 496);
-        }
+        assert(sc->curRSPTask->list.t.type != M_AUDTASK, "sc->curRSPTask->list.t.type != M_AUDTASK", "../sched.c", 496);
 
         sc->curRSPTask->state |= OS_SC_YIELD;
 
@@ -157,14 +153,14 @@ OSScTask* func_800C89D4(SchedContext* sc, OSScTask* task) {
 
     if (sc->pendingSwapBuf1 != NULL) {
         if (0) {
-            __assert("sc->pending_swapbuffer1", "../sched.c", UNK_LINE);
+            assert(sc->pendingSwapBuf1 != NULL, "sc->pending_swapbuffer1", "../sched.c", UNK_LINE);
         }
         return NULL;
     }
 
     if (sc->pendingSwapBuf2 != NULL) {
         if (0) {
-            __assert("sc->pending_swapbuffer2", "../sched.c", UNK_LINE);
+            assert(sc->pendingSwapBuf2 != NULL, "sc->pending_swapbuffer2", "../sched.c", UNK_LINE);
         }
         return NULL;
     }
@@ -250,9 +246,7 @@ u32 Sched_IsComplete(SchedContext* sc, OSScTask* task) {
 }
 
 void Sched_RunTask(SchedContext* sc, OSScTask* spTask, OSScTask* dpTask) {
-    if (sc->curRSPTask != NULL) {
-        __assert("sc->curRSPTask == NULL", "../sched.c", 663);
-    }
+    assert(sc->curRSPTask == NULL, "sc->curRSPTask == NULL", "../sched.c", 663);
     if (spTask != NULL) {
         if (spTask->list.t.type == 0) {
             if (spTask->flags & OS_SC_NEEDS_RSP) {
@@ -362,9 +356,7 @@ void Sched_HandleRSPDone(SchedContext* sc) {
     OSScTask* nextRDP = NULL;
     s32 state;
 
-    if (sc->curRSPTask == NULL) {
-        __assert("sc->curRSPTask", "../sched.c", 819);
-    }
+    assert(sc->curRSPTask != NULL, "sc->curRSPTask", "../sched.c", 819);
 
     if (sc->curRSPTask->list.t.type == M_AUDTASK) {
         gRSPAudioTotalTime += osGetTime() - sRSPAudioStartTime;
@@ -413,12 +405,8 @@ void Sched_HandleRDPDone(SchedContext* sc) {
     s32 state;
 
     gRDPTotalTime = osGetTime() - sRDPStartTime;
-    if (sc->curRDPTask == NULL) {
-        __assert("sc->curRDPTask", "../sched.c", 878);
-    }
-    if (sc->curRDPTask->list.t.type != M_GFXTASK) {
-        __assert("sc->curRDPTask->list.t.type == M_GFXTASK", "../sched.c", 879);
-    }
+    assert(sc->curRDPTask != NULL, "sc->curRDPTask", "../sched.c", 878);
+    assert(sc->curRDPTask->list.t.type == M_GFXTASK, "sc->curRDPTask->list.t.type == M_GFXTASK", "../sched.c", 879);
     curTask = sc->curRDPTask;
     sc->curRDPTask = NULL;
     curTask->state &= ~OS_SC_DP;
