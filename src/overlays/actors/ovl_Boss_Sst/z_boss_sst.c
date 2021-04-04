@@ -1697,7 +1697,8 @@ void BossSst_HandClap(BossSst* this, GlobalContext* globalCtx) {
 
         if (this->timer == 0) {
             if (dropFlag) {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, (Rand_ZeroOne() < 0.5f) ? ITEM00_ARROWS_SMALL : ITEM00_MAGIC_SMALL);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos,
+                                     (Rand_ZeroOne() < 0.5f) ? ITEM00_ARROWS_SMALL : ITEM00_MAGIC_SMALL);
                 dropFlag = false;
             }
 
@@ -1809,7 +1810,8 @@ void BossSst_HandGrab(BossSst* this, GlobalContext* globalCtx) {
                     BossSst_HandSetupSwing(this);
                 }
             } else {
-                Item_DropCollectible(globalCtx, &this->actor.world.pos, (Rand_ZeroOne() < 0.5f) ? ITEM00_ARROWS_SMALL : ITEM00_MAGIC_SMALL);
+                Item_DropCollectible(globalCtx, &this->actor.world.pos,
+                                     (Rand_ZeroOne() < 0.5f) ? ITEM00_ARROWS_SMALL : ITEM00_MAGIC_SMALL);
                 BossSst_HandSetupRetreat(this);
             }
         }
@@ -3111,7 +3113,7 @@ void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
 
                 scale = effect2->move * 2;
                 effect2->scale += CLAMP_MAX(scale, 20) + i;
-                if(effect2->move != 0) {
+                if (effect2->move != 0) {
                     effect2->move--;
                 }
             }
