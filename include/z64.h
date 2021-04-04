@@ -222,7 +222,7 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ u8*      texture;
+    /* 0x00 */ void*    texture;
     /* 0x04 */ s16      unk_4;
     /* 0x06 */ s16      unk_6;
     /* 0x08 */ u8       unk_8;
@@ -553,7 +553,7 @@ typedef struct {
     /* 0xCF */ u8       unk_CF[3];
     /* 0xD2 */ s16      unk_D2;
     /* 0xD4 */ char     unk_D4[0x02];
-    /* 0xD6 */ s16      unk_D6;
+    /* 0xD6 */ u16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
