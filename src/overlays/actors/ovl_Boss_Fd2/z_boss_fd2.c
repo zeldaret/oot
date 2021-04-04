@@ -803,14 +803,13 @@ void BossFd2_Wait(BossFd2* this, GlobalContext* globalCtx) {
 
 void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
     s16 i;
-    u8 canKill;
-    u8 damage;
-    Player* player;
-    BossFd* bossFd = (BossFd*)this->actor.parent;
     ColliderInfo* hurtbox;
+    BossFd* bossFd = (BossFd*)this->actor.parent;
+    
 
     if (this->actionFunc == BossFd2_ClawSwipe) {
-        player = PLAYER;
+        Player* player = PLAYER;
+        
         for (i = 0; i < ARRAY_COUNT(this->elements); i++) {
             if (this->collider.elements[i].info.toucherFlags & TOUCH_HIT) {
                 this->collider.elements[i].info.toucherFlags &= ~TOUCH_HIT;
@@ -828,6 +827,7 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
 
     if (this->collider.elements[0].info.bumperFlags & BUMP_HIT) {
         this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
+        
         hurtbox = this->collider.elements[0].info.acHitInfo;
         if (!bossFd->faceExposed) {
             if (hurtbox->toucher.dmgFlags & 0x40000040) {
@@ -858,19 +858,17 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 }
             }
         } else {
-            u32 dealtDamage;
+            u8 canKill = false;
+            u8 damage;
 
-            canKill = false;
-            damage = dealtDamage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags);
-            if (!dealtDamage) {
-                damage = (hurtbox->toucher.dmgFlags & 0x1000) ? 4 : 2;
+            if ((damage = CollisionCheck_GetSwordDamage(hurtbox->toucher.dmgFlags)) == 0) {
+                damage = (hurtbox->toucher.dmgFlags & 0x00001000) ? 4 : 2;
             } else {
                 canKill = true;
             }
             if (hurtbox->toucher.dmgFlags & 0x80) {
                 damage = 0;
             }
-            dealtDamage = damage;
             if (((s8)bossFd->actor.colChkInfo.health > 2) || canKill) {
                 bossFd->actor.colChkInfo.health -= damage;
                 osSyncPrintf(VT_FGCOL(GREEN));
@@ -887,13 +885,13 @@ void BossFd2_CollisionCheck(BossFd2* this, GlobalContext* globalCtx) {
                 Audio_SetBGM(0x100100FF);
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DEAD);
                 func_80032C7C(globalCtx, &this->actor);
-            } else if (dealtDamage) {
+            } else if (damage) {
                 BossFd2_SetupDamaged(this, globalCtx);
                 this->work[FD2_DAMAGE_FLASH_TIMER] = 10;
                 this->work[FD2_INVINC_TIMER] = 100;
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_VALVAISA_DAMAGE1);
             }
-            if (dealtDamage) {
+            if (damage) {
                 for (i = 0; i < 30; i++) {
                     Vec3f pieceVel = { 0.0f, 0.0f, 0.0f };
                     Vec3f pieceAccel = { 0.0f, -1.0f, 0.0f };
