@@ -1,3 +1,8 @@
+/*
+ * File: z_en_ge2.c
+ * Overlay: ovl_En_Ge2
+ * Description: Purple-clothed Gerudo
+ */
 
 #include "z_en_ge2.h"
 #include "vt.h"

@@ -1,3 +1,9 @@
+/*
+ * File: z_en_nb.c
+ * Overlay: ovl_En_Nb
+ * Description: Nabooru
+ */
+
 #include "z_en_nb.h"
 #include "vt.h"
 #include "objects/object_nb/object_nb.h"
