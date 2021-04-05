@@ -21,12 +21,12 @@ glabel func_8099A508
 /* 01DD0 8099A550 0C03DCE3 */  jal     Audio_PlaySoundGeneral
 
 /* 01DD4 8099A554 24060004 */  addiu   $a2, $zero, 0x0004         ## $a2 = 00000004
-/* 01DD8 8099A558 3C040600 */  lui     $a0, %hi(D_06001374)                ## $a0 = 06000000
+/* 01DD8 8099A558 3C040600 */  lui     $a0, %hi(gBlueWarpAnim)                ## $a0 = 06000000
 /* 01DDC 8099A55C 0C028800 */  jal     Animation_GetLastFrame
 
-/* 01DE0 8099A560 24841374 */  addiu   $a0, $a0, %lo(D_06001374)           ## $a0 = 06001374
-/* 01DE4 8099A564 3C040600 */  lui     $a0, %hi(D_06001374)                ## $a0 = 06000000
-/* 01DE8 8099A568 24841374 */  addiu   $a0, $a0, %lo(D_06001374)           ## $a0 = 06001374
+/* 01DE0 8099A560 24841374 */  addiu   $a0, $a0, %lo(gBlueWarpAnim)           ## $a0 = 06001374
+/* 01DE4 8099A564 3C040600 */  lui     $a0, %hi(gBlueWarpAnim)                ## $a0 = 06000000
+/* 01DE8 8099A568 24841374 */  addiu   $a0, $a0, %lo(gBlueWarpAnim)           ## $a0 = 06001374
 /* 01DEC 8099A56C 0C028800 */  jal     Animation_GetLastFrame
 
 /* 01DF0 8099A570 A7A20030 */  sh      $v0, 0x0030($sp)
@@ -36,13 +36,13 @@ glabel func_8099A508
 /* 01E00 8099A580 44982000 */  mtc1    $t8, $f4                   ## $f4 = 0.00
 /* 01E04 8099A584 46803220 */  cvt.s.w $f8, $f6
 /* 01E08 8099A588 44815000 */  mtc1    $at, $f10                  ## $f10 = 40.00
-/* 01E0C 8099A58C 3C050600 */  lui     $a1, %hi(D_06001374)                ## $a1 = 06000000
+/* 01E0C 8099A58C 3C050600 */  lui     $a1, %hi(gBlueWarpAnim)                ## $a1 = 06000000
 /* 01E10 8099A590 24190002 */  addiu   $t9, $zero, 0x0002         ## $t9 = 00000002
 /* 01E14 8099A594 24080001 */  addiu   $t0, $zero, 0x0001         ## $t0 = 00000001
 /* 01E18 8099A598 46802120 */  cvt.s.w $f4, $f4
 /* 01E1C 8099A59C AFA8001C */  sw      $t0, 0x001C($sp)
 /* 01E20 8099A5A0 AFB90014 */  sw      $t9, 0x0014($sp)
-/* 01E24 8099A5A4 24A51374 */  addiu   $a1, $a1, %lo(D_06001374)           ## $a1 = 06001374
+/* 01E24 8099A5A4 24A51374 */  addiu   $a1, $a1, %lo(gBlueWarpAnim)           ## $a1 = 06001374
 /* 01E28 8099A5A8 E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 01E2C 8099A5AC 2604014C */  addiu   $a0, $s0, 0x014C           ## $a0 = 0000014C
 /* 01E30 8099A5B0 44072000 */  mfc1    $a3, $f4

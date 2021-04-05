@@ -3888,7 +3888,8 @@ endseg
 beginseg
     name "object_warp1"
     romalign 0x1000
-    include "build/baserom/object_warp1.o"
+    include "build/assets/objects/object_warp1/object_warp1.o"
+    number 6
 endseg
 
 beginseg
@@ -4235,7 +4236,6 @@ endseg
 beginseg
     name "object_hakach_objects"
     romalign 0x1000
-    //include "build/baserom/object_hakach_objects.o"
     include "build/assets/objects/object_hakach_objects/object_hakach_objects.o"
     number 6
 endseg

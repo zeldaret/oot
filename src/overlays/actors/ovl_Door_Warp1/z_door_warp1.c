@@ -1,4 +1,5 @@
 #include "z_door_warp1.h"
+#include "objects/object_warp1/object_warp1.h"
 
 #define FLAGS 0x00000000
 
@@ -8,10 +9,6 @@ void DoorWarp1_Init(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Update(Actor* thisx, GlobalContext* globalCtx);
 void DoorWarp1_Draw(Actor* thisx, GlobalContext* globalCtx);
-
-extern UNK_TYPE D_060001A0;
-extern UNK_TYPE D_06001374;
-extern UNK_TYPE D_06002CA8;
 
 /*
 const ActorInit Door_Warp1_InitVars = {
