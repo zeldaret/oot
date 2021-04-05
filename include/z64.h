@@ -222,7 +222,7 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ u8*      texture;
+    /* 0x00 */ void*      texture;
     /* 0x04 */ s16      x;
     /* 0x06 */ s16      y;
     /* 0x08 */ u8       width;
