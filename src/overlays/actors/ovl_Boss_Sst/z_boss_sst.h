@@ -29,7 +29,7 @@ typedef struct BossSst {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossSstActionFunc actionFunc;
-    /* 0x0194 */ union { s8 vanish; s8 parity;};
+    /* 0x0194 */ s8 actionVar; // head: flag for visible without lens; hand: 1 for right, -1 for left
     /* 0x0195 */ s8 ready;
     /* 0x0196 */ u8 effectMode;
     /* 0x0198 */ s16 timer;
