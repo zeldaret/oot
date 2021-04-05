@@ -70,7 +70,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                 if (this->actor.parent != NULL) {
                     divingGame = (EnDivingGame*)this->actor.parent;
                     if (divingGame->actor.update != NULL) {
-                        temp2 = divingGame->unk_2AA * 10.0f;
+                        temp2 = divingGame->extraWinCount * 10.0f;
                         temp1 += temp2;
                     }
                 }
@@ -96,7 +96,7 @@ void EnExRuppy_Init(Actor* thisx, GlobalContext* globalCtx) {
                     if (this->actor.parent != NULL) {
                         divingGame = (EnDivingGame*)this->actor.parent;
                         if (divingGame->actor.update != NULL) {
-                            divingGame->unk_2AA = 0;
+                            divingGame->extraWinCount = 0;
                         }
                     }
                 }
@@ -261,7 +261,7 @@ void EnExRuppy_Sink(EnExRuppy* this, GlobalContext* globalCtx) {
         this->actionFunc = EnExRuppy_WaitInGame;
     }
     divingGame = (EnDivingGame*)this->actor.parent;
-    if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->unk_29C == 0)) {
+    if ((divingGame != NULL) && (divingGame->actor.update != NULL) && (divingGame->phase == ENDIVINGGAME_PHASE_ENDED)) {
         this->timer = 20;
         this->actionFunc = EnExRuppy_Kill;
     }
@@ -280,14 +280,14 @@ void EnExRuppy_WaitInGame(EnExRuppy* this, GlobalContext* globalCtx) {
     if (this->actor.parent != NULL) {
         divingGame = (EnDivingGame*)this->actor.parent;
         if (divingGame->actor.update != NULL) {
-            if (divingGame->unk_29C == 0) {
+            if (divingGame->phase == ENDIVINGGAME_PHASE_ENDED) {
                 this->timer = 20;
                 this->actionFunc = EnExRuppy_Kill;
                 if (1) {}
             } else if (this->actor.xyzDistToPlayerSq < SQ(localConst)) {
                 Rupees_ChangeBy(this->rupeeValue);
                 func_80078884(NA_SE_SY_GET_RUPY);
-                divingGame->unk_2A4++;
+                divingGame->grabbedRupeesCounter++;
                 Actor_Kill(&this->actor);
             }
         } else {
