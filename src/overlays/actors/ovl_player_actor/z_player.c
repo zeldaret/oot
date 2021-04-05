@@ -417,7 +417,7 @@ PlayerAgeProperties sAgeProperties[] = {
     {
         40.0f,
         60.0f,
-        0.6470588446f,
+        11.0f / 17.0f,
         71.0f,
         50.0f,
         47.0f,
@@ -428,7 +428,7 @@ PlayerAgeProperties sAgeProperties[] = {
         29.6f,
         32.0f,
         48.0f,
-        45.29412079f,
+        70.0f * (11.0f / 17.0f),
         14.0f,
         12.0f,
         55.0f,
@@ -1137,11 +1137,11 @@ void func_80832318(Player* this) {
 void func_80832340(GlobalContext* globalCtx, Player* this) {
     Camera* camera;
 
-    if (this->unk_46C != -1) {
+    if (this->unk_46C != SUBCAM_NONE) {
         camera = globalCtx->cameraPtrs[this->unk_46C];
-        if ((camera != NULL) && (camera->unk_168 == 1100)) {
-            func_800803F0(globalCtx, this->unk_46C);
-            this->unk_46C = -1;
+        if ((camera != NULL) && (camera->csId == 1100)) {
+            OnePointCutscene_EndCutscene(globalCtx, this->unk_46C);
+            this->unk_46C = SUBCAM_NONE;
         }
     }
 
@@ -1925,8 +1925,8 @@ void func_808340DC(Player* this, GlobalContext* globalCtx) {
 void func_80834298(Player* this, GlobalContext* globalCtx) {
     if ((this->actor.category == ACTORCAT_PLAYER) && !(this->stateFlags1 & 0x100) &&
         ((this->heldItemActionParam == this->itemActionParam) || (this->stateFlags1 & 0x400000)) &&
-        (gSaveContext.health != 0) && (globalCtx->csCtx.state == 0) && (this->csMode == 0) &&
-        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == 0) &&
+        (gSaveContext.health != 0) && (globalCtx->csCtx.state == CS_STATE_IDLE) && (this->csMode == 0) &&
+        (globalCtx->shootingGalleryStatus == 0) && (globalCtx->activeCamera == MAIN_CAM) &&
         (globalCtx->sceneLoadFlag != 0x14) && (gSaveContext.timer1State != 10)) {
         func_80833DF8(this, globalCtx);
     }
@@ -2778,7 +2778,7 @@ void func_80836448(GlobalContext* globalCtx, Player* this, LinkAnimationHeader* 
             gSaveContext.nightSeqIndex = 0xFF;
         }
 
-        func_800800F8(globalCtx, 0x264E, cond ? 120 : 60, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 9806, cond ? 120 : 60, &this->actor, MAIN_CAM);
         ShrinkWindow_SetVal(0x20);
     }
 }
@@ -2917,7 +2917,7 @@ void func_80836BEC(Player* this, GlobalContext* globalCtx) {
         this->stateFlags1 &= ~0x40000000;
     }
 
-    if ((globalCtx->csCtx.state != 0) || (this->csMode != 0) || (this->stateFlags1 & 0x20000080) ||
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) || (this->csMode != 0) || (this->stateFlags1 & 0x20000080) ||
         (this->stateFlags3 & 0x80)) {
         this->unk_66C = 0;
     } else if (zTrigPressed || (this->stateFlags2 & 0x2000) || (this->unk_684 != NULL)) {
@@ -4035,7 +4035,7 @@ s32 func_80839768(GlobalContext* globalCtx, Player* this, Vec3f* arg2, Collision
 
     func_808395DC(this, &this->actor.world.pos, arg2, &sp38);
 
-    return BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp38, arg5, arg3, 1, 0, 0, 1, arg4);
+    return BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp38, arg5, arg3, true, false, false, true, arg4);
 }
 
 s32 func_80839800(Player* this, GlobalContext* globalCtx) {
@@ -4423,8 +4423,8 @@ s32 func_8083A6AC(Player* this, GlobalContext* globalCtx) {
         sp74.y = this->actor.world.pos.y;
         sp74.z = this->actor.prevPos.z + (sp74.z * temp1);
 
-        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &sp74, &sp68, &sp84, 1, 0, 0, 1,
-                                    &sp80) &&
+        if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &sp74, &sp68, &sp84, true, false, false,
+                                    true, &sp80) &&
             (ABS(sp84->normal.y) < 600)) {
             f32 nx = COLPOLY_GET_NORMAL(sp84->normal.x);
             f32 ny = COLPOLY_GET_NORMAL(sp84->normal.y);
@@ -4612,7 +4612,7 @@ void func_8083AF44(GlobalContext* globalCtx, Player* this, s32 magicSpell) {
     LinkAnimation_PlayOnceSetSpeed(globalCtx, &this->skelAnime, &gPlayer326Anim, 0.83f);
 
     if (magicSpell == 5) {
-        this->unk_46C = func_800800F8(globalCtx, 1100, -101, NULL, 0);
+        this->unk_46C = OnePointCutscene_Init(globalCtx, 1100, -101, NULL, MAIN_CAM);
     } else {
         func_80835EA4(globalCtx, 10);
     }
@@ -5700,8 +5700,8 @@ void func_8083DFE0(Player* this, f32* arg1, s16* arg2) {
 }
 
 struct_80854578 D_80854578[] = {
-    { &gPlayer532Anim, 35.16999817f, 6.609999657f },
-    { &gPlayer534Anim, -34.15999985f, 7.909999847f },
+    { &gPlayer532Anim, 35.17f, 6.6099997f },
+    { &gPlayer534Anim, -34.16f, 7.91f },
 };
 
 s32 func_8083E0FC(Player* this, GlobalContext* globalCtx) {
@@ -5877,9 +5877,9 @@ s32 func_8083E5A8(Player* this, GlobalContext* globalCtx) {
                 this->stateFlags1 |= 0x20000C00;
                 func_8083AE40(this, giEntry->objectId);
                 this->actor.world.pos.x =
-                    chest->dyna.actor.world.pos.x - (Math_SinS(chest->dyna.actor.shape.rot.y) * 29.434299469f);
+                    chest->dyna.actor.world.pos.x - (Math_SinS(chest->dyna.actor.shape.rot.y) * 29.4343f);
                 this->actor.world.pos.z =
-                    chest->dyna.actor.world.pos.z - (Math_CosS(chest->dyna.actor.shape.rot.y) * 29.434299469f);
+                    chest->dyna.actor.world.pos.z - (Math_CosS(chest->dyna.actor.shape.rot.y) * 29.4343f);
                 this->currentYaw = this->actor.shape.rot.y = chest->dyna.actor.shape.rot.y;
                 func_80832224(this);
 
@@ -6159,7 +6159,8 @@ s32 func_8083F360(GlobalContext* globalCtx, Player* this, f32 arg1, f32 arg2, f3
     sp60.z = this->actor.world.pos.z + (arg3 * yawCos);
     sp60.y = sp6C.y = this->actor.world.pos.y + arg1;
 
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, 1, 0, 0, 1, &sp78)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp6C, &sp60, &sp54, &this->actor.wallPoly, true, false, false,
+                                true, &sp78)) {
         wallPoly = this->actor.wallPoly;
 
         this->actor.bgCheckFlags |= 0x200;
@@ -6205,13 +6206,13 @@ s32 func_8083F570(Player* this, GlobalContext* globalCtx) {
                 this->actor.shape.rot.y = this->actor.wallYaw + 0x8000;
                 func_80832264(globalCtx, this, &gPlayer129Anim);
                 func_80832F54(globalCtx, this, 0x9D);
-                func_800800F8(globalCtx, 0x2581, 999, NULL, 0);
+                OnePointCutscene_Init(globalCtx, 9601, 999, NULL, MAIN_CAM);
             } else {
                 this->actor.shape.rot.y = this->actor.wallYaw;
                 LinkAnimation_Change(globalCtx, &this->skelAnime, &gPlayer130Anim, -1.0f,
                                      Animation_GetLastFrame(&gPlayer130Anim), 0.0f, ANIMMODE_ONCE, 0.0f);
                 func_80832F54(globalCtx, this, 0x9D);
-                func_800800F8(globalCtx, 0x2582, 999, NULL, 0);
+                OnePointCutscene_Init(globalCtx, 9602, 999, NULL, MAIN_CAM);
             }
 
             this->currentYaw = this->actor.shape.rot.y;
@@ -6867,7 +6868,7 @@ void func_80841138(Player* this, GlobalContext* globalCtx) {
                 func_8084029C(this, 1.2f + ((REG(38) / 1000.0f) * temp2));
             }
             LinkAnimation_LoadToMorph(globalCtx, &this->skelAnime, D_80853BFC[this->modelAnimType], this->unk_868);
-            LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, &gPlayer347Anim, this->unk_868 * 0.551724135876f);
+            LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, &gPlayer347Anim, this->unk_868 * (16.0f / 29.0f));
         }
     }
 
@@ -6980,18 +6981,15 @@ void func_808417FC(Player* this, GlobalContext* globalCtx) {
 }
 
 void func_80841860(GlobalContext* globalCtx, Player* this) {
-    s32 pad;
-    LinkAnimationHeader* sp38;
-    LinkAnimationHeader* sp34;
     f32 frame;
+    LinkAnimationHeader* sp38 = D_80853914[this->modelAnimType + 144];
+    LinkAnimationHeader* sp34 = D_80853914[this->modelAnimType + 150];
 
-    sp38 = D_80853914[this->modelAnimType + 144];
-    sp34 = D_80853914[this->modelAnimType + 150];
     this->skelAnime.animation = sp38;
 
     func_8084029C(this, (REG(30) / 1000.0f) + ((REG(32) / 1000.0f) * this->linearVelocity));
 
-    frame = this->unk_868 * 0.551724135876f;
+    frame = this->unk_868 * (16.0f / 29.0f);
     LinkAnimation_BlendToJoint(globalCtx, &this->skelAnime, sp34, frame, sp38, frame, this->unk_870, this->blendTable);
 }
 
@@ -7171,7 +7169,8 @@ void func_80841EE4(Player* this, GlobalContext* globalCtx) {
 
             func_80841CC4(this, 1, globalCtx);
 
-            LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, func_80833438(this), this->unk_868 * 0.689655185f);
+            LinkAnimation_LoadToJoint(globalCtx, &this->skelAnime, func_80833438(this),
+                                      this->unk_868 * (20.0f / 29.0f));
         }
     }
 
@@ -7467,9 +7466,9 @@ s32 func_80842DF4(GlobalContext* globalCtx, Player* this) {
                     sp68.y = this->swordInfo[0].tip.y + (sp50.y * phi_f2);
                     sp68.z = this->swordInfo[0].tip.z + (sp50.z * phi_f2);
 
-                    if ((BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp68, &this->swordInfo[0].tip, &sp5C, &sp78, 1, 0,
-                                                 0, 1, &sp74) != 0) &&
-                        (SurfaceType_IsIgnoredByEntities(&globalCtx->colCtx, sp78, sp74) == 0) &&
+                    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp68, &this->swordInfo[0].tip, &sp5C, &sp78, true,
+                                                false, false, true, &sp74) &&
+                        !SurfaceType_IsIgnoredByEntities(&globalCtx->colCtx, sp78, sp74) &&
                         (func_80041D4C(&globalCtx->colCtx, sp78, sp74) != 6) &&
                         (func_8002F9EC(globalCtx, &this->actor, sp78, sp74, &sp5C) == 0)) {
 
@@ -7787,7 +7786,7 @@ void func_80843AE8(GlobalContext* globalCtx, Player* this) {
         this->unk_850 = 60;
         Player_SpawnFairy(globalCtx, this, &this->actor.world.pos, &D_808545E4, FAIRY_REVIVE_DEATH);
         func_8002F7DC(&this->actor, NA_SE_EV_FIATY_HEAL - SFX_FLAG);
-        func_800800F8(globalCtx, 0x26B4, 125, &this->actor, 0);
+        OnePointCutscene_Init(globalCtx, 9908, 125, &this->actor, MAIN_CAM);
     } else if (globalCtx->gameOverCtx.state == GAMEOVER_DEATH_WAIT_GROUND) {
         globalCtx->gameOverCtx.state = GAMEOVER_DEATH_DELAY_MENU;
     }
@@ -8272,7 +8271,7 @@ void func_80845000(Player* this, GlobalContext* globalCtx) {
     sp58 = CLAMP(sp5C * 0.5f, 0.5f, 1.0f);
 
     LinkAnimation_BlendToJoint(globalCtx, &this->skelAnime, D_80854360[Player_HoldsTwoHandedWeapon(this)], 0.0f,
-                               D_80854370[Player_HoldsTwoHandedWeapon(this)], this->unk_868 * 0.7241379022598267f, sp58,
+                               D_80854370[Player_HoldsTwoHandedWeapon(this)], this->unk_868 * (21.0f / 29.0f), sp58,
                                this->blendTable);
 
     if (!func_80842964(this, globalCtx) && !func_80844BE4(this, globalCtx)) {
@@ -8340,7 +8339,7 @@ void func_80845308(Player* this, GlobalContext* globalCtx) {
     sp58 = CLAMP(sp5C * 0.5f, 0.5f, 1.0f);
 
     LinkAnimation_BlendToJoint(globalCtx, &this->skelAnime, D_80854360[Player_HoldsTwoHandedWeapon(this)], 0.0f,
-                               D_80854378[Player_HoldsTwoHandedWeapon(this)], this->unk_868 * 0.7241379022598267f, sp58,
+                               D_80854378[Player_HoldsTwoHandedWeapon(this)], this->unk_868 * (21.0f / 29.0f), sp58,
                                this->blendTable);
 
     if (!func_80842964(this, globalCtx) && !func_80844BE4(this, globalCtx)) {
@@ -8913,7 +8912,7 @@ void func_808468E8(GlobalContext* globalCtx, Player* this) {
     func_80835C58(globalCtx, this, func_8084F9C0, 0);
     this->stateFlags1 |= 0x20000000;
     this->fallStartHeight = this->actor.world.pos.y;
-    func_800800F8(globalCtx, 0x13F6, 40, &this->actor, 0);
+    OnePointCutscene_Init(globalCtx, 5110, 40, &this->actor, MAIN_CAM);
 }
 
 void func_80846978(GlobalContext* globalCtx, Player* this) {
@@ -8966,7 +8965,7 @@ void Player_InitCommon(Player* this, GlobalContext* globalCtx, FlexSkeletonHeade
 
     Effect_Add(globalCtx, &this->swordEffectIndex, EFFECT_BLURE2, 0, 0, &D_8085470C);
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawFeet, this->ageProperties->unk_04);
-    this->unk_46C = -1;
+    this->unk_46C = SUBCAM_NONE;
 
     Collider_InitCylinder(globalCtx, &this->cylinder);
     Collider_SetCylinder(globalCtx, &this->cylinder, &this->actor, &D_80854624);
@@ -10047,14 +10046,15 @@ void Player_UpdateCommon(Player* this, GlobalContext* globalCtx, Input* input) {
             }
         }
 
-        if ((globalCtx->csCtx.state != 0) && (this->csMode != 6) && !(this->stateFlags1 & 0x800000) &&
+        if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (this->csMode != 6) && !(this->stateFlags1 & 0x800000) &&
             !(this->stateFlags2 & 0x80) && (this->actor.category == ACTORCAT_PLAYER)) {
             CsCmdActorAction* linkActionCsCmd = globalCtx->csCtx.linkAction;
 
             if ((linkActionCsCmd != NULL) && (D_808547C4[linkActionCsCmd->action] != 0)) {
                 func_8002DF54(globalCtx, NULL, 6);
                 func_80832210(this);
-            } else if ((this->csMode == 0) && !(this->stateFlags2 & 0x400) && (globalCtx->csCtx.state != 3)) {
+            } else if ((this->csMode == 0) && !(this->stateFlags2 & 0x400) &&
+                       (globalCtx->csCtx.state != CS_STATE_UNSKIPPABLE_INIT)) {
                 func_8002DF54(globalCtx, NULL, 0x31);
                 func_80832210(this);
             }
@@ -10311,7 +10311,7 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
                 D_8085486C = (-sp5C * 4) + 36;
                 D_8085486C = D_8085486C * D_8085486C;
                 D_8085486C = (s32)((Math_CosS(D_8085486C) * 100.0f) + 100.0f) + 55.0f;
-                D_8085486C = D_8085486C * (sp5C * 0.11111111f);
+                D_8085486C = D_8085486C * (sp5C * (1.0f / 9.0f));
             }
 
             func_800D1694(this->actor.world.pos.x, this->actor.world.pos.y + 2.0f, this->actor.world.pos.z,
@@ -10813,7 +10813,8 @@ void func_8084B9E4(Player* this, GlobalContext* globalCtx) {
             sp44.x = this->actor.world.pos.x;
             sp44.z = this->actor.world.pos.z;
             sp44.y = sp5C.y;
-            if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp5C, &sp38, &sp54, 1, 0, 0, 1, &sp50) == 0) {
+            if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &sp44, &sp5C, &sp38, &sp54, true, false, false, true,
+                                         &sp50)) {
                 func_8084B840(globalCtx, this, -2.0f);
                 return;
             }
@@ -11185,7 +11186,7 @@ s32 func_8084C9BC(Player* this, GlobalContext* globalCtx) {
             }
         }
 
-        if ((globalCtx->csCtx.state == 0) && (globalCtx->transitionMode == 0) &&
+        if ((globalCtx->csCtx.state == CS_STATE_IDLE) && (globalCtx->transitionMode == 0) &&
             (EN_HORSE_CHECK_1(rideActor) || EN_HORSE_CHECK_4(rideActor))) {
             this->stateFlags2 |= 0x400000;
 
@@ -11339,7 +11340,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
     AnimationContext_SetCopyAll(globalCtx, this->skelAnime.limbCount, this->skelAnime.morphTable,
                                 this->skelAnime.jointTable);
 
-    if ((globalCtx->csCtx.state != 0) || (this->csMode != 0)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) || (this->csMode != 0)) {
         if (this->csMode == 7) {
             this->csMode = 0;
         }
@@ -12352,7 +12353,7 @@ void func_8084F710(Player* this, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.linkAction != NULL)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.linkAction != NULL)) {
         f32 sp28 = this->actor.world.pos.y;
         func_808529D0(globalCtx, this, globalCtx->csCtx.linkAction);
         this->actor.world.pos.y = sp28;
@@ -13346,7 +13347,7 @@ void func_808515A4(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
 
 void func_80851688(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg2) {
     if (func_8084B3CC(globalCtx, this) == 0) {
-        if ((this->csMode == 0x31) && (globalCtx->csCtx.state == 0)) {
+        if ((this->csMode == 0x31) && (globalCtx->csCtx.state == CS_STATE_IDLE)) {
             func_8002DF54(globalCtx, NULL, 7);
             return;
         }
@@ -13916,7 +13917,7 @@ void func_80852C50(GlobalContext* globalCtx, Player* this, CsCmdActorAction* arg
     s32 pad;
     s32 sp24;
 
-    if (globalCtx->csCtx.state == 3) {
+    if (globalCtx->csCtx.state == CS_STATE_UNSKIPPABLE_INIT) {
         func_8002DF54(globalCtx, NULL, 7);
         this->unk_446 = 0;
         func_80832210(this);

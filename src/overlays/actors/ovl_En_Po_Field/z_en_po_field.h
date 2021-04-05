@@ -18,7 +18,7 @@ typedef struct {
     /* 0x0003 */ Color_RGB8 lightColor;
     /* 0x0006 */ Color_RGB8 envColor;
     /* 0x0009 */ s8 unk_9;
-    /* 0x000C */ UNK_PTR unk_C;
+    /* 0x000C */ u64* soulTexture;
 } EnPoFieldInfo; // size = 0x10
 
 typedef struct EnPoField {

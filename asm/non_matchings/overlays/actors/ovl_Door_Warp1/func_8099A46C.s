@@ -17,7 +17,7 @@ glabel func_8099A46C
 /* 01D24 8099A4A4 240525E8 */  addiu   $a1, $zero, 0x25E8         ## $a1 = 000025E8
 /* 01D28 8099A4A8 240603E7 */  addiu   $a2, $zero, 0x03E7         ## $a2 = 000003E7
 /* 01D2C 8099A4AC 02003825 */  or      $a3, $s0, $zero            ## $a3 = 00000000
-/* 01D30 8099A4B0 0C02003E */  jal     func_800800F8              
+/* 01D30 8099A4B0 0C02003E */  jal     OnePointCutscene_Init              
 /* 01D34 8099A4B4 AFAE002C */  sw      $t6, 0x002C($sp)           
 /* 01D38 8099A4B8 8FA40034 */  lw      $a0, 0x0034($sp)           
 /* 01D3C 8099A4BC 02002825 */  or      $a1, $s0, $zero            ## $a1 = 00000000

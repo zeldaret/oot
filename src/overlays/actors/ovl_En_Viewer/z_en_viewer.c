@@ -309,7 +309,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
     Actor_MoveForward(&this->actor);
     animationEnded = SkelAnime_Update(&this->skin.skelAnime);
     if (params == 3 || params == 4) {
-        if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL) {
+        if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL) {
             if (globalCtx->csCtx.npcActions[1]->action == 2 && D_80B2CFCC == 0) {
                 if (params == 3) {
                     if (this->skin.skelAnime.animation != &D_06002928) {
@@ -395,14 +395,14 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
         }
         switch (this->unk_1E5) {
             case 0:
-                if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
+                if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL &&
                     globalCtx->csCtx.npcActions[0]->action == 6 && this->skin.skelAnime.animation != &D_06002574) {
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06002574, 1.5f);
                     this->unk_1E5++;
                 }
                 break;
             case 1:
-                if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
+                if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL &&
                     globalCtx->csCtx.npcActions[0]->action == 2 && this->skin.skelAnime.animation != &D_060029CC) {
                     Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_060029CC, 3.0f);
                     this->unk_1E5++;
@@ -413,7 +413,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
         if (globalCtx->sceneNum == SCENE_SPOT00) { // Hyrule Field
             switch (this->unk_1E5) {
                 case 0:
-                    if (globalCtx->csCtx.state != 0) {
+                    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
                         if (globalCtx->csCtx.npcActions[0] != NULL && globalCtx->csCtx.npcActions[0]->action == 6 &&
                             this->skin.skelAnime.animation != &D_06001410) {
                             Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06001410, 1.5f);
@@ -422,7 +422,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                     }
                     break;
                 case 1:
-                    if (globalCtx->csCtx.state != 0) {
+                    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
                         if (globalCtx->csCtx.npcActions[0] != NULL && globalCtx->csCtx.npcActions[0]->action == 2 &&
                             this->skin.skelAnime.animation != &D_06000450) {
                             Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_06000450, 3.0f);
@@ -457,7 +457,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
     } else if (params == 7) {
         switch (this->unk_1E5) {
             case 0:
-                if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL &&
+                if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL &&
                     globalCtx->csCtx.npcActions[1]->action == 7) {
                     Audio_PlaySoundGeneral(NA_SE_EN_GANON_LAUGH, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                     Animation_MorphToPlayOnce(&this->skin.skelAnime, &D_06004534, -5.0f);
@@ -477,7 +477,7 @@ void func_80B2A75C(EnViewer* this, GlobalContext* globalCtx) {
                 this->unk_1E5 = 0;
                 break;
             case 0:
-                if (globalCtx->csCtx.state != 0) {
+                if (globalCtx->csCtx.state != CS_STATE_IDLE) {
                     if (globalCtx->csCtx.npcActions[1] != NULL && globalCtx->csCtx.npcActions[1]->action == 9) {
                         Animation_PlayLoopSetSpeed(&this->skin.skelAnime, &D_060050A8, 1.0f);
                         this->unk_1E5++;
@@ -582,7 +582,7 @@ void func_80B2B4A8(EnViewer* this, GlobalContext* globalCtx) {
                               this->skin.skelAnime.dListCount, func_80B2B2F4, func_80B2B468, this);
         func_80B2CC1C(globalCtx, this);
     } else if ((params == 3) || (params == 5) || (params == 7) || (params == 8)) {
-        if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[1] != NULL)) {
+        if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[1] != NULL)) {
             SkelAnime_DrawFlexOpa(globalCtx, this->skin.skelAnime.skeleton, this->skin.skelAnime.jointTable,
                                   this->skin.skelAnime.dListCount, 0, func_80B2B468, this);
             func_80B2CC1C(globalCtx, this);
@@ -705,11 +705,12 @@ void EnViewer_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if (this->unk_1E6) {
         params = this->actor.params >> 8;
         if (params < 3) {
-            if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[0] != NULL)) {
+            if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[0] != NULL)) {
                 func_80093D18(globalCtx->state.gfxCtx);
                 sDrawFuncs[this->drawFuncIndex](this, globalCtx);
             }
-        } else if (((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[1] != NULL)) || params == 9) {
+        } else if (((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[1] != NULL)) ||
+                   params == 9) {
             func_80093D18(globalCtx->state.gfxCtx);
             sDrawFuncs[this->drawFuncIndex](this, globalCtx);
         }
@@ -725,7 +726,7 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
     s16 yaw;
 
     if (params < 3) {
-        if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[0] != NULL &&
+        if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[0] != NULL &&
             globalCtx->csCtx.frames < globalCtx->csCtx.npcActions[0]->endFrame) {
             if (params == 0) {
                 if (D_80B2CEC0 == false) {
@@ -748,7 +749,7 @@ void EnViewer_GetCutsceneNextPos(EnViewer* this, GlobalContext* globalCtx) {
             this->actor.world.pos.z = ((endPos.z - startPos.z) * interpolated) + startPos.z;
         }
     } else {
-        if (globalCtx->csCtx.state != 0 && globalCtx->csCtx.npcActions[1] != NULL &&
+        if (globalCtx->csCtx.state != CS_STATE_IDLE && globalCtx->csCtx.npcActions[1] != NULL &&
             globalCtx->csCtx.frames < globalCtx->csCtx.npcActions[1]->endFrame) {
             startPos.x = globalCtx->csCtx.npcActions[1]->startPos.x;
             startPos.y = globalCtx->csCtx.npcActions[1]->startPos.y;

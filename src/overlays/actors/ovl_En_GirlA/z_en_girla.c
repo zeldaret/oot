@@ -1012,7 +1012,7 @@ void func_80A3C498(Actor* thisx, GlobalContext* globalCtx, s32 flags) {
 void func_80A3C4D4(Actor* thisx, GlobalContext* globalCtx) {
     EnGirlA* this = THIS;
 
-    Matrix_RotateY(((this->unk_1B8 * 360.0f) / 65536.0f) * 0.017453292f, MTXMODE_APPLY);
+    Matrix_RotateY(((this->unk_1B8 * 360.0f) / 65536.0f) * (M_PI / 180.0f), MTXMODE_APPLY);
     if (this->unk_1D0 != NULL) {
         this->unk_1D0(thisx, globalCtx, 0);
     }
