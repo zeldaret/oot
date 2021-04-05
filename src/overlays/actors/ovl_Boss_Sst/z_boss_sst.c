@@ -2705,12 +2705,12 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
 
     func_80093D18(globalCtx->state.gfxCtx);
 
-    gDPSetPrimColor(POLY_OPA_DISP++, 0, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 0xFF);
+    gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
 
     if (!sBodyStatic) {
         gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
     } else {
-        gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0x00);
+        gDPSetEnvColor(POLY_OPA_DISP++, sStaticColor.r, sStaticColor.g, sStaticColor.b, 0);
         gSPSegment(POLY_OPA_DISP++, 0x08, sBodyStaticDList);
     }
 
@@ -2737,7 +2737,7 @@ void BossSst_DrawHand(Actor* thisx, GlobalContext* globalCtx) {
                 Matrix_Scale(0.02f, 0.02f, 0.02f, MTXMODE_APPLY);
 
                 gSPSegment(POLY_XLU_DISP++, 0x08, sHandTrailDList);
-                gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, ((3 - i) * 10) + 20, 0, ((3 - i) * 20) + 50,
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, ((3 - i) * 10) + 20, 0, ((3 - i) * 20) + 50,
                                 ((3 - i) * 30) + 70);
 
                 POLY_XLU_DISP = SkelAnime_DrawFlex(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
@@ -2856,7 +2856,7 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((this->actor.flags & 0x80) != 0x80) {
         func_80093D18(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(POLY_OPA_DISP++, 0, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
+        gDPSetPrimColor(POLY_OPA_DISP++, 0x00, 0x80, sBodyColor.r, sBodyColor.g, sBodyColor.b, 255);
         if (!sBodyStatic) {
             gSPSegment(POLY_OPA_DISP++, 0x08, &D_80116280[2]);
         } else {
@@ -2865,7 +2865,7 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
         }
     } else {
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0x80, 255, 255, 255, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x80, 255, 255, 255, 255);
         gSPSegment(POLY_XLU_DISP++, 0x08, &D_80116280[2]);
     }
 
@@ -2897,7 +2897,7 @@ void BossSst_DrawHead(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f vanishMaskOffset;
 
         func_80093D84(globalCtx->state.gfxCtx);
-        gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 0, 0, 18, 255);
+        gDPSetPrimColor(POLY_XLU_DISP++, 0x00, 0x00, 0, 0, 18, 255);
 
         yOffset = 113 * 8 - this->timer * 8;
         vanishMaskPos.x = ROOM_CENTER_X + 85.0f;
@@ -3083,8 +3083,6 @@ void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
     BossSst* this = THIS;
     BossSstEffect* effect;
     s32 i;
-    s32 scale;
-    // s32 pad;
 
     if (this->effectMode != BONGO_NULL) {
         if (this->effectMode == BONGO_ICE) {
@@ -3110,8 +3108,8 @@ void BossSst_UpdateEffect(Actor* thisx, GlobalContext* globalCtx) {
         } else if (this->effectMode == BONGO_SHOCKWAVE) {
             for (i = 0; i < 3; i++) {
                 BossSstEffect* effect2 = &this->effects[i];
+                s32 scale = effect2->move * 2;
 
-                scale = effect2->move * 2;
                 effect2->scale += CLAMP_MAX(scale, 20) + i;
                 if (effect2->move != 0) {
                     effect2->move--;
@@ -3191,7 +3189,7 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
                 effect = &this->effects[i];
 
                 if (effect->move != 0) {
-                    Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, 0);
+                    Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                     Matrix_Scale(effect->scale * 0.001f, scaleY, effect->scale * 0.001f, MTXMODE_APPLY);
 
                     gDPPipeSync(POLY_XLU_DISP++);
@@ -3208,7 +3206,7 @@ void BossSst_DrawEffect(Actor* thisx, GlobalContext* globalCtx) {
 
             effect = &this->effects[0];
             while (effect->status != -1) {
-                Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, 0);
+                Matrix_Translate(effect->pos.x, effect->pos.y, effect->pos.z, MTXMODE_NEW);
                 Matrix_Scale(effect->scale * 0.001f, 1.0f, effect->scale * 0.001f, MTXMODE_APPLY);
 
                 gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_boss_sst.c", 7423),
