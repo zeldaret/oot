@@ -60,7 +60,7 @@
         <Animation Name="gNabooruStandingHandsOnHipsAnim" Offset="0x04BB4"/>
         <Animation Name="gNabooruStandingToWalkingTransitionAnim" Offset="0x04E60"/>
         <Animation Name="gNabooruSittingCrossLeggedLookingUpRightAnim" Offset="0x05614"/>
-        <Animation Name="gNabooruSittingCrossLeggedTurningToLookUpRightTransitionAnim_005CA4" Offset="0x05CA4"/>
+        <Animation Name="gNabooruSittingCrossLeggedTurningToLookUpRightTransitionAnim" Offset="0x05CA4"/>
         <Animation Name="gNabooruKneeingToRunningToHitAnim" Offset="0x06320"/>
         <Animation Name="gNabooruUnusedKneelingAtCrawlspaceToStandingTransitionAnim" Offset="0x0676C"/>
         <Animation Name="gNabooruKneeingAtCrawlspaceAnim" Offset="0x06E78"/>

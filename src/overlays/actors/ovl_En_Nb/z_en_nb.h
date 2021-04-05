@@ -40,6 +40,29 @@ typedef enum {
     /* 0x06 */ NB_TYPE_CRAWLSPACE
 } EnNbType;
 
+typedef enum {
+    /* 0x00 */ NB_LIMB_NONE,
+    /* 0x01 */ NB_LIMB_ROOT,
+    /* 0x02 */ NB_LIMB_L_THIGH,
+    /* 0x03 */ NB_LIMB_L_SHIN,
+    /* 0x04 */ NB_LIMB_L_FOOT,
+    /* 0x05 */ NB_LIMB_R_THIGH,
+    /* 0x06 */ NB_LIMB_R_SHIN,
+    /* 0x07 */ NB_LIMB_R_FOOT,
+    /* 0x08 */ NB_LIMB_TORSO,
+    /* 0x09 */ NB_LIMB_L_UPPER_ARM,
+    /* 0x0A */ NB_LIMB_L_FOREARM,
+    /* 0x0B */ NB_LIMB_L_HAND,
+    /* 0x0C */ NB_LIMB_R_UPPER_ARM,
+    /* 0x0D */ NB_LIMB_R_FOREARM,
+    /* 0x0E */ NB_LIMB_R_HAND,
+    /* 0x0F */ NB_LIMB_HEAD,
+    /* 0x10 */ NB_LIMB_BLANK,
+    /* 0x11 */ NB_LIMB_PONYTAIL,
+    /* 0x12 */ NB_LIMB_WAIST,
+    /* 0x13 */ NB_LIMB_MAX
+} EnGeldBLimb;
+
 extern const ActorInit En_Nb_InitVars;
 
 #endif
