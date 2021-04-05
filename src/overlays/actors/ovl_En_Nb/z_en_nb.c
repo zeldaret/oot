@@ -76,7 +76,7 @@ extern AnimationHeader D_06000BC0; // crossed legs
 extern AnimationHeader D_06005CA4; // crossed legs, turns head and looks behind to the right
 extern AnimationHeader D_06005614; // crossed legs, looking behind to the right
 extern Gfx D_06013158[];
-extern UNK_TYPE D_0600D8E8;
+extern u64 D_0600D8E8;
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -97,7 +97,7 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 25, 80, 0, { 0, 0, 0 } },
 };
 
-static UNK_PTR sEyeTextures[] = {
+static u64* sEyeTextures[] = {
     0x0600B428,
     0x0600D0E8,
     0x0600D4E8,
