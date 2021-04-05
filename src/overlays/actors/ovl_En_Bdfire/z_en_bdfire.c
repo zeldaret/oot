@@ -95,7 +95,6 @@ void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx) {
         Math_SmoothStepToF(&this->actor.scale.x, 0.0f, 1.0f, 0.6f, 0.0f);
         if (Math_SmoothStepToF(&this->unk_18C, 0.0f, 1.0f, 20.0f, 0.0f) == 0.0f) {
             Actor_Kill(&this->actor);
-            return;
         }
     } else {
         if (this->unk_154 < 70) {
@@ -130,7 +129,7 @@ void func_809BC598(EnBdfire* this, GlobalContext* globalCtx) {
     s16 i;
     s16 phi_v1;
     s32 temp;
-    
+
     bossDodongo = ((BossDodongo*)this->actor.parent);
     this->unk_158 = bossDodongo->unk_1A2;
     phi_v1_2 = 0;
@@ -199,7 +198,7 @@ void EnBdfire_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx) {
-    static Gfx* D_809BCB10[] = {
+    static void* D_809BCB10[] = {
         0x060264E0, 0x060274E0, 0x060284E0, 0x060294E0, 0x0602A4E0, 0x0602B4E0, 0x0602C4E0, 0x0602D4E0,
     };
     s16 temp;
