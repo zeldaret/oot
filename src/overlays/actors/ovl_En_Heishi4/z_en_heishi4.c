@@ -68,11 +68,13 @@ void EnHeishi4_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (this->type == HEISHI4_AT_MARKET_DYING) {
         this->height = 30.0f;
         ActorShape_Init(&thisx->shape, 0.0f, NULL, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiDyingGuard_unk, this->jointTable, this->morphTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiDyingGuard_unk, this->jointTable,
+                       this->morphTable, 17);
     } else {
         this->height = 60.0f;
         ActorShape_Init(&thisx->shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable, this->morphTable, 17);
+        SkelAnime_Init(globalCtx, &this->skelAnime, &gEnHeishiSkel, &gEnHeishiIdleAnim, this->jointTable,
+                       this->morphTable, 17);
     }
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, thisx, &sCylinderInit);
@@ -220,7 +222,8 @@ void func_80A5673C(EnHeishi4* this, GlobalContext* globalCtx) {
     if (gSaveContext.eventChkInf[8] & 1) {
         if (!(gSaveContext.infTable[6] & 0x1000)) {
             f32 frames = Animation_GetLastFrame(&gEnHeishiDyingGuard_unk);
-            Animation_Change(&this->skelAnime, &gEnHeishiDyingGuard_unk, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP, -10.0f);
+            Animation_Change(&this->skelAnime, &gEnHeishiDyingGuard_unk, 1.0f, 0.0f, (s16)frames, ANIMMODE_LOOP,
+                             -10.0f);
             this->actor.textId = 0x7007;
             this->unk_282 = 5;
             this->unk_284 = 1;

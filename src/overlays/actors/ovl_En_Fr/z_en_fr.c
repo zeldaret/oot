@@ -282,8 +282,8 @@ void EnFr_Update(Actor* thisx, GlobalContext* globalCtx) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600B498, &D_06001534, this->jointTable, this->morphTable,
                            24);
         // butterfly
-        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim, this->jointTableButterfly,
-                       this->morphTableButterfly, 8);
+        SkelAnime_Init(globalCtx, &this->skelAnimeButterfly, &gButterflySkel, &gButterflyAnim,
+                       this->jointTableButterfly, this->morphTableButterfly, 8);
         // When playing the song for the HP, the frog with the next note and the butterfly turns on its lightsource
         this->lightNode = LightContext_InsertLight(globalCtx, &globalCtx->lightCtx, &this->lightInfo);
         Lights_PointNoGlowSetInfo(&this->lightInfo, this->actor.home.pos.x, this->actor.home.pos.y,

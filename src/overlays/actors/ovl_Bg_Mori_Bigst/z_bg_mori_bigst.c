@@ -29,7 +29,6 @@ void BgMoriBigst_SetupStalfosPairFight(BgMoriBigst* this, GlobalContext* globalC
 void BgMoriBigst_StalfosPairFight(BgMoriBigst* this, GlobalContext* globalCtx);
 void BgMoriBigst_SetupDone(BgMoriBigst* this, GlobalContext* globalCtx);
 
-
 const ActorInit Bg_Mori_Bigst_InitVars = {
     ACTOR_BG_MORI_BIGST,
     ACTORCAT_BG,

@@ -160,7 +160,8 @@ void EnButte_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->actor.uncullZoneScale = 200.0f;
     }
 
-    SkelAnime_Init(globalCtx, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable, 8);
+    SkelAnime_Init(globalCtx, &this->skelAnime, &gButterflySkel, &gButterflyAnim, this->jointTable, this->morphTable,
+                   8);
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &sColliderInit, this->colliderItems);
     this->actor.colChkInfo.mass = 0;

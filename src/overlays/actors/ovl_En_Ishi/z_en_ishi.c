@@ -8,7 +8,6 @@
 #include "overlays/effects/ovl_Effect_Ss_Kakera/z_eff_ss_kakera.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-
 #include "vt.h"
 
 #define FLAGS 0x00800000

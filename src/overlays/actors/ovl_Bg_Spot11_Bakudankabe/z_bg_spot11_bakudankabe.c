@@ -9,7 +9,6 @@
 #include "objects/object_spot11_obj/object_spot11_obj.h"
 #include "objects/gameplay_field_keep/gameplay_field_keep.h"
 
-
 #define FLAGS 0x00000030
 
 #define THIS ((BgSpot11Bakudankabe*)thisx)
@@ -53,7 +52,6 @@ static ColliderCylinderInit sCylinderInit = {
 
 static Vec3f D_808B272C = { 2259.0f, 108.0f, -1550.0f };
 static Vec3f D_808B2738 = { 2259.0f, 108.0f, -1550.0f };
-
 
 void func_808B2180(BgSpot11Bakudankabe* this, GlobalContext* globalCtx) {
     s32 pad;

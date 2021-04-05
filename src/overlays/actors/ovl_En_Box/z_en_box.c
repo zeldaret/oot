@@ -63,7 +63,8 @@ const ActorInit En_Box_InitVars = {
     (ActorFunc)EnBox_Draw,
 };
 
-static AnimationHeader* sAnimations[4] = { &gEnBoxAnim_00024C, &gEnBoxAnim_000128, &gEnBoxAnim_00043C, &gEnBoxAnim_00043C };
+static AnimationHeader* sAnimations[4] = { &gEnBoxAnim_00024C, &gEnBoxAnim_000128, &gEnBoxAnim_00043C,
+                                           &gEnBoxAnim_00043C };
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 0, ICHAIN_STOP),

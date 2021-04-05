@@ -51,28 +51,14 @@ void BgYdanHasi_Init(Actor* thisx, GlobalContext* globalCtx) {
     CollisionHeader* colHeader = NULL;
     WaterBox* waterBox;
 
-<<<<<<< HEAD
-    colHeader = NULL;
-    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
-    this->type = (this->dyna.actor.params >> 8) & 0x3F;
-    thisx->params = thisx->params & 0xFF; // thisx is required to match here
-    waterBox = globalCtx->colCtx.colHeader->waterBoxes + 0x1;
-    DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
-    if (this->dyna.actor.params == HASI_WATER) {
-        // This code never runs in Master Quest
-        this->dyna.actor.home.pos.y = this->dyna.actor.home.pos.y + -5.0f;
-        this->dyna.actor.world.pos.y = this->dyna.actor.home.pos.y;
-        waterBox->ySurface = this->dyna.actor.home.pos.y;
-=======
     Actor_ProcessInitChain(thisx, sInitChain);
-    this->unk_168 = ((thisx->params >> 8) & 0x3F);
+    this->type = ((thisx->params >> 8) & 0x3F);
     thisx->params = thisx->params & 0xFF;
     waterBox = &globalCtx->colCtx.colHeader->waterBoxes[1];
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     if (thisx->params == 1) {
         // Water the moving platform floats on in B1. Never runs in Master Quest
         waterBox->ySurface = thisx->world.pos.y = thisx->home.pos.y += -5.0f;
->>>>>>> upstream/master
         this->actionFunc = BgYdanHasi_InitWater;
     } else {
         if (thisx->params == 0) {
@@ -127,22 +113,13 @@ void BgYdanHasi_InitWater(BgYdanHasi* this, GlobalContext* globalCtx) {
     }
 }
 
-<<<<<<< HEAD
 //! @bug This is an actionFunc and should not return anything however it returns waterBox + 1 for an unknown reason
-WaterBox* BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx) {
+void BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx) {
     WaterBox* waterBox;
 
     if (this->timer == 0) {
         if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f) != 0) {
             Flags_UnsetSwitch(globalCtx, this->type);
-=======
-void BgYdanHasi_MoveWater(BgYdanHasi* this, GlobalContext* globalCtx) {
-    WaterBox* waterBox;
-
-    if (this->timer == 0) {
-        if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 1.0f)) {
-            Flags_UnsetSwitch(globalCtx, this->unk_168);
->>>>>>> upstream/master
             this->actionFunc = BgYdanHasi_InitWater;
         }
         func_8002F948(&this->dyna.actor, NA_SE_EV_WATER_LEVEL_DOWN - SFX_FLAG);
@@ -167,11 +144,7 @@ void BgYdanHasi_DecWaterTimer(BgYdanHasi* this, GlobalContext* globalCtx) {
 }
 
 void BgYdanHasi_SetupThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
-<<<<<<< HEAD
     if (Flags_GetSwitch(globalCtx, this->type) != 0) {
-=======
-    if (Flags_GetSwitch(globalCtx, this->unk_168)) {
->>>>>>> upstream/master
         this->timer = 260;
         this->dyna.actor.draw = BgYdanHasi_Draw;
         this->actionFunc = BgYdanHasi_UpdateThreeBlocks;
@@ -190,22 +163,12 @@ void BgYdanHasi_UpdateThreeBlocks(BgYdanHasi* this, GlobalContext* globalCtx) {
             this->actionFunc = BgYdanHasi_SetupThreeBlocks;
         } else {
             func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
-<<<<<<< HEAD
         }
-    } else if (Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 3.0f) == 0) {
+    } else if (!Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 3.0f)) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
 
     } else {
         func_8002F994(&this->dyna.actor, this->timer);
-=======
-        }
-    } else {
-        if (!Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y + 120.0f, 3.0f)) {
-            func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
-        } else {
-            func_8002F994(&this->dyna.actor, this->timer);
-        }
->>>>>>> upstream/master
     }
 }
 
