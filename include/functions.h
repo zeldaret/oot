@@ -372,10 +372,10 @@ void Flags_SetTempClear(GlobalContext* globalCtx, s32 flag);
 void Flags_UnsetTempClear(GlobalContext* globalCtx, s32 flag);
 s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag);
 void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag);
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 arg3, s16 arg4,
-                            u8 arg5, u8 arg6);
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 arg3, s32 arg4,
-                             s32 arg5, s32 arg6, s32 arg7);
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
+                            s16 y, u8 width, u8 height);
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
+                             s32 y, s32 width, s32 height, s32 delay);
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 offset);
@@ -526,7 +526,7 @@ void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
 void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
-                      GlobalContext* globalCtx, s16 params, s32 arg8);
+                     GlobalContext* globalCtx, s16 params, s32 arg8);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
 s32 Flags_GetEventChkInf(s32 flag);
 void Flags_SetEventChkInf(s32 flag);
