@@ -151,7 +151,7 @@ void EnTr_DoNothing(EnTr* this, GlobalContext* globalCtx) {
 }
 
 void EnTr_ChooseAction2(EnTr* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if (globalCtx->csCtx.npcActions[this->actionIndex] != NULL) {
             switch (globalCtx->csCtx.npcActions[this->actionIndex]->action) {
 
@@ -189,7 +189,7 @@ void EnTr_FlyKidnapCutscene(EnTr* this, GlobalContext* globalCtx) {
     s16 actionIndex;
 
     originalPos = this->actor.world.pos;
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         actionIndex = this->actionIndex;
 
         if (globalCtx->csCtx.npcActions[actionIndex] != NULL) {
@@ -313,7 +313,7 @@ void EnTr_Reappear(EnTr* this, GlobalContext* globalCtx) {
 }
 
 void EnTr_WaitToReappear(EnTr* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if ((globalCtx->csCtx.npcActions[this->actionIndex] != NULL) &&
             ((globalCtx->csCtx.npcActions[this->actionIndex]->action == 3) ||
              (globalCtx->csCtx.npcActions[this->actionIndex]->action == 5))) {
@@ -331,7 +331,7 @@ void EnTr_WaitToReappear(EnTr* this, GlobalContext* globalCtx) {
 void EnTr_TakeOff(EnTr* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24378[this->actor.params]);
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if ((globalCtx->csCtx.npcActions[this->actionIndex] != NULL) &&
             (globalCtx->csCtx.npcActions[this->actionIndex]->action == 3)) {
             Animation_Change(&this->skelAnime, D_80B24378[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP,
@@ -345,7 +345,7 @@ void EnTr_TakeOff(EnTr* this, GlobalContext* globalCtx) {
 void EnTr_TurnLookOverShoulder(EnTr* this, GlobalContext* globalCtx) {
     f32 lastFrame = Animation_GetLastFrame(D_80B24368[this->actor.params]);
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if ((globalCtx->csCtx.npcActions[this->actionIndex] != NULL) &&
             (globalCtx->csCtx.npcActions[this->actionIndex]->action == 2)) {
             Animation_Change(&this->skelAnime, D_80B24368[this->actor.params], 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE,
@@ -359,7 +359,7 @@ void EnTr_TurnLookOverShoulder(EnTr* this, GlobalContext* globalCtx) {
 void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
     u32 frames = globalCtx->gameplayFrames;
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if (globalCtx->csCtx.npcActions[this->actionIndex] != NULL) {
             switch (globalCtx->csCtx.npcActions[this->actionIndex]->action) {
                 case 1:
@@ -437,8 +437,8 @@ s32 EnTr_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if ((child != NULL) && (limbIndex == 19)) {
         Matrix_MultVec3f(&src, &dest);
-        dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera])));
-        dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera])));
+        dest.x -= (10.0f * Math_SinS(Camera_GetCamDirYaw(ACTIVE_CAM)));
+        dest.z -= (10.0f * Math_CosS(Camera_GetCamDirYaw(ACTIVE_CAM)));
         child->world.pos = dest;
     }
     return 0;
@@ -450,7 +450,7 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (1) {}
 
-    if ((globalCtx->csCtx.state == 0) || (globalCtx->csCtx.npcActions[this->actionIndex] == 0)) {
+    if ((globalCtx->csCtx.state == CS_STATE_IDLE) || (globalCtx->csCtx.npcActions[this->actionIndex] == 0)) {
         this->actor.shape.shadowDraw = NULL;
         return;
     }

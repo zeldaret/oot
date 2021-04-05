@@ -222,7 +222,7 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ u8*      texture;
+    /* 0x00 */ void*    texture;
     /* 0x04 */ s16      unk_4;
     /* 0x06 */ s16      unk_6;
     /* 0x08 */ u8       unk_8;
@@ -553,7 +553,7 @@ typedef struct {
     /* 0xCF */ u8       unk_CF[3];
     /* 0xD2 */ s16      unk_D2;
     /* 0xD4 */ char     unk_D4[0x02];
-    /* 0xD6 */ s16      unk_D6;
+    /* 0xD6 */ u16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -881,8 +881,8 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x0034C */ Camera subCameras[3];
-    /* 0x00790 */ Camera* cameraPtrs[4];
+    /* 0x0034C */ Camera subCameras[NUM_CAMS - SUBCAM_FIRST];
+    /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;

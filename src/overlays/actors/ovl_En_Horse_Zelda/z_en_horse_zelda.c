@@ -34,7 +34,7 @@ const ActorInit En_Horse_Zelda_InitVars = {
 
 static AnimationHeader* sAnimationHeaders[] = { &gHorseZeldaGallopingAnim };
 
-static f32 splaySpeeds[] = { 0.66666666f };
+static f32 splaySpeeds[] = { 2.0f / 3.0f };
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
