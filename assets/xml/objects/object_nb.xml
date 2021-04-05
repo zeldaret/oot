@@ -44,35 +44,6 @@
         <DList Name="gNabooruPonytailDL" Offset="0x125A8"/>
         <DList Name="gNabooruWaistDL" Offset="0x16490"/>
 
-        <!-- Nabooru Animations -->
-        <Animation Name="gNabooruPuttingHandsTogetherCastingMagicAnim" Offset="0x00410"/>
-        <Animation Name="gNabooruSittingCrossLeggedAnim" Offset="0x00BC0"/>
-        <Animation Name="gNabooruTrappedInVortexRaisingArmAnim" Offset="0x01104"/>
-        <Animation Name="gNabooruSuckedByVortexAnim" Offset="0x01350"/>
-        <Animation Name="gNabooruTrappedInVortexPushingGroundAnim" Offset="0x01E7C"/>
-        <Animation Name="gNabooruRaisingArmsGivingMedallionAnim" Offset="0x0274C"/>
-        <Animation Name="gNabooruArmsRaisedGivingMedallionAnim" Offset="0x02B4C"/>
-        <Animation Name="gNabooruOnOneKneeTurningHeadRightToLeftTransitionAnim" Offset="0x02DBC"/>
-        <Animation Name="gNabooruOnOneKneeLookingLeftAnim" Offset="0x035A8"/>
-        <Animation Name="gNabooruOnAllFoursToOnOneKneeLookingRightTransitionAnim" Offset="0x03954"/>
-        <Animation Name="gNabooruOnOneKneeLookingRightAnim" Offset="0x04030"/>
-        <Animation Name="gNabooruOnAllFoursAnim" Offset="0x046A8"/>
-        <Animation Name="gNabooruStandingHandsOnHipsAnim" Offset="0x04BB4"/>
-        <Animation Name="gNabooruStandingToWalkingTransitionAnim" Offset="0x04E60"/>
-        <Animation Name="gNabooruSittingCrossLeggedLookingUpRightAnim" Offset="0x05614"/>
-        <Animation Name="gNabooruSittingCrossLeggedTurningToLookUpRightTransitionAnim" Offset="0x05CA4"/>
-        <Animation Name="gNabooruKneeingToRunningToHitAnim" Offset="0x06320"/>
-        <Animation Name="gNabooruUnusedKneelingAtCrawlspaceToStandingTransitionAnim" Offset="0x0676C"/>
-        <Animation Name="gNabooruKneeingAtCrawlspaceAnim" Offset="0x06E78"/>
-        <Animation Name="gNabooruCollapseFromStandingToKneelingTransitionAnim" Offset="0x08BD0"/>
-        <Animation Name="gNabooruWalkingAnim" Offset="0x09238"/>
-        <Animation Name="gNabooruStandingHandsOnHipsChamberOfSagesAnim" Offset="0x09694"/>
-
-        <!-- Nabooru unused vertices -->
-        <Array Name="gNabooruUnusedVtx_00EFF8" Count="31" Offset="0x0EFF8">
-            <Vtx/>
-        </Array>
-
         <!-- Nabooru palettes -->
         <Texture Name="gNabooru1TLUT" OutName="nabooru_1_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x096B0"/>
         <Texture Name="gNabooru2TLUT" OutName="nabooru_2_tlut" Format="rgb5a1" Width="4" Height="59" Offset="0x0AE70"/>
@@ -115,5 +86,33 @@
         <Texture Name="gNabooruEyeClosedTex" OutName="nabooru_eye_closed" Format="ci8" Width="32" Height="32" Offset="0x0D4E8"/>
         <Texture Name="gNabooruEyeWideTex" OutName="nabooru_eye_wide" Format="ci8" Width="32" Height="32" Offset="0x0D8E8"/>
 
+                <!-- Nabooru Animations -->
+        <Animation Name="gNabooruPuttingHandsTogetherCastingMagicAnim" Offset="0x00410"/>
+        <Animation Name="gNabooruSittingCrossLeggedAnim" Offset="0x00BC0"/>
+        <Animation Name="gNabooruTrappedInVortexRaisingArmAnim" Offset="0x01104"/>
+        <Animation Name="gNabooruSuckedByVortexAnim" Offset="0x01350"/>
+        <Animation Name="gNabooruTrappedInVortexPushingGroundAnim" Offset="0x01E7C"/>
+        <Animation Name="gNabooruRaisingArmsGivingMedallionAnim" Offset="0x0274C"/>
+        <Animation Name="gNabooruArmsRaisedGivingMedallionAnim" Offset="0x02B4C"/>
+        <Animation Name="gNabooruOnOneKneeTurningHeadRightToLeftTransitionAnim" Offset="0x02DBC"/>
+        <Animation Name="gNabooruOnOneKneeLookingLeftAnim" Offset="0x035A8"/>
+        <Animation Name="gNabooruOnAllFoursToOnOneKneeLookingRightTransitionAnim" Offset="0x03954"/>
+        <Animation Name="gNabooruOnOneKneeLookingRightAnim" Offset="0x04030"/>
+        <Animation Name="gNabooruOnAllFoursAnim" Offset="0x046A8"/>
+        <Animation Name="gNabooruStandingHandsOnHipsAnim" Offset="0x04BB4"/>
+        <Animation Name="gNabooruStandingToWalkingTransitionAnim" Offset="0x04E60"/>
+        <Animation Name="gNabooruSittingCrossLeggedLookingUpRightAnim" Offset="0x05614"/>
+        <Animation Name="gNabooruSittingCrossLeggedTurningToLookUpRightTransitionAnim" Offset="0x05CA4"/>
+        <Animation Name="gNabooruKneeingToRunningToHitAnim" Offset="0x06320"/>
+        <Animation Name="gNabooruUnusedKneelingAtCrawlspaceToStandingTransitionAnim" Offset="0x0676C"/>
+        <Animation Name="gNabooruKneeingAtCrawlspaceAnim" Offset="0x06E78"/>
+        <Animation Name="gNabooruCollapseFromStandingToKneelingTransitionAnim" Offset="0x08BD0"/>
+        <Animation Name="gNabooruWalkingAnim" Offset="0x09238"/>
+        <Animation Name="gNabooruStandingHandsOnHipsChamberOfSagesAnim" Offset="0x09694"/>
+
+        <!-- Nabooru unused vertices -->
+        <Array Name="gNabooruUnusedVtx_00EFF8" Count="31" Offset="0x0EFF8">
+            <Vtx/>
+        </Array>
     </File>
 </Root>
