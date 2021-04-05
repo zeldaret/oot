@@ -1035,7 +1035,7 @@ void func_80ACC390(EnOwl* this) {
         this->unk_3FE--;
         this->actor.shape.rot.z = Math_SinS(this->unk_3FE * 0x333) * 1000.0f;
     } else {
-        this->unk_410 = &func_80ACC460;
+        this->unk_410 = func_80ACC460;
         this->unk_3FE = 6;
         Animation_Change(this->curSkelAnime, &D_060015CC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060015CC), 2, 5.0f);
     }
