@@ -1272,7 +1272,7 @@ void EnSkj_SetupPlayOcarinaGame(EnSkj* this) {
 void EnSkj_PlayOcarinaGame(EnSkj* this, GlobalContext* globalCtx) {
     EnSkj_Appear(this);
 
-    if ((EnSkj_IsLeavingGame(this) == 0) && (this->minigameState == 0)) {
+    if (!EnSkj_IsLeavingGame(this) && (this->minigameState == 0)) {
         EnSkj_SetupIdle(this);
     }
 }
@@ -1631,11 +1631,11 @@ void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2437);
 }
 
-//! @bug This only allocates space for 1 command but uses 3
 Gfx* EnSkj_TranslucentDList(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dList;
     Gfx* dListHead;
 
+//! @bug This only allocates space for 1 command but uses 3
     dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
     gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
@@ -1644,11 +1644,11 @@ Gfx* EnSkj_TranslucentDList(GraphicsContext* gfxCtx, u32 alpha) {
     return dList;
 }
 
-//! @bug This only allocates space for 1 command but uses 2
 Gfx* EnSkj_OpaqueDList(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dList;
     Gfx* dListHead;
 
+//! @bug This only allocates space for 1 command but uses 2
     dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
     gSPEndDisplayList(dListHead++);
