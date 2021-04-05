@@ -4674,7 +4674,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                         (((this->itemActionParam == PLAYER_AP_BOTTLE_POE) && (this->exchangeItemId == EXCH_ITEM_POE)) ||
                          (this->exchangeItemId == EXCH_ITEM_BLUE_FIRE))))))) {
 
-                    if ((globalCtx->actorCtx.titleCtx.delay == 0) && (globalCtx->actorCtx.titleCtx.alpha == 0)) {
+                    if ((globalCtx->actorCtx.titleCtx.delayTimer == 0) && (globalCtx->actorCtx.titleCtx.alpha == 0)) {
                         func_80835DE4(globalCtx, this, func_8084F104, 0);
 
                         if (sp2C >= 0) {

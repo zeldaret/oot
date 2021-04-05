@@ -664,7 +664,7 @@ void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag) {
 }
 
 void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    titleCtx->duration = titleCtx->delay = titleCtx->intensity = titleCtx->alpha = 0;
+    titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
 void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
@@ -674,8 +674,8 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
     titleCtx->y = y;
     titleCtx->width = width;
     titleCtx->height = height;
-    titleCtx->duration = 80;
-    titleCtx->delay = 0;
+    titleCtx->durationTimer = 80;
+    titleCtx->delayTimer = 0;
 }
 
 void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
@@ -692,13 +692,13 @@ void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCt
     titleCtx->y = y;
     titleCtx->width = width;
     titleCtx->height = height;
-    titleCtx->duration = 80;
-    titleCtx->delay = delay;
+    titleCtx->durationTimer = 80;
+    titleCtx->delayTimer = delay;
 }
 
 void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    if (DECR(titleCtx->delay) == 0) {
-        if (DECR(titleCtx->duration) == 0) {
+    if (DECR(titleCtx->delayTimer) == 0) {
+        if (DECR(titleCtx->durationTimer) == 0) {
             Math_StepToS(&titleCtx->alpha, 0, 30);
             Math_StepToS(&titleCtx->intensity, 0, 70);
         } else {
@@ -761,9 +761,9 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 }
 
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    if ((globalCtx->actorCtx.titleCtx.delay != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
-        titleCtx->duration = 0;
-        titleCtx->delay = 0;
+    if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
+        titleCtx->durationTimer = 0;
+        titleCtx->delayTimer = 0;
         return 0;
     }
 
