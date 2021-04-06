@@ -643,7 +643,7 @@ s32 EnHorse_PlayerCanMove(EnHorse* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 1) || func_8002DD78(PLAYER) == 1 || (player->stateFlags1 & 0x100000) ||
-        ((this->flags & ENHORSE_FLAG_19) && this->inRace == 0) || this->action == ENHORSE_ACT_HBA ||
+        ((this->flags & ENHORSE_FLAG_19) && !this->inRace) || this->action == ENHORSE_ACT_HBA ||
         player->actor.flags & 0x100 || globalCtx->csCtx.state != 0) {
         return 0;
     }
@@ -689,7 +689,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx) {
         }
 
         do {
-        } while (Object_IsLoaded(&globalCtx2->objectCtx, this->bankIndex) == 0);
+        } while (!Object_IsLoaded(&globalCtx2->objectCtx, this->bankIndex));
 
         this->actor.objBankIndex = this->bankIndex;
         Actor_SetObjectDependency(globalCtx2, &this->actor);
@@ -699,6 +699,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->boostSpeed = 14;
     }
 
+    // params was -1
     if (this->actor.params == 0x7FFF) {
         this->actor.params = 1;
     }
@@ -726,7 +727,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (globalCtx2->sceneNum == SCENE_SPOT20 && (gSaveContext.eventInf[0] & 0xF) == 6 &&
-        Flags_GetEventChkInf(0x18) == 0 && DREG(1) == 0) {
+        Flags_GetEventChkInf(0x18) == 0 && !DREG(1)) {
         this->flags |= ENHORSE_FLAG_25;
     }
 
@@ -760,7 +761,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx) {
                 Actor_Kill(&this->actor);
                 return;
             }
-        } else if (!Flags_GetEventChkInf(0x18) && DREG(1) == 0 && gSaveContext.nightFlag) {
+        } else if (!Flags_GetEventChkInf(0x18) && !DREG(1) && gSaveContext.nightFlag) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -802,7 +803,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx) {
     } else if (this->actor.params == 8) {
         EnHorse_InitHorsebackArchery(this);
         Interface_InitHorsebackArchery(globalCtx2);
-    } else if (globalCtx2->sceneNum == SCENE_SPOT20 && !Flags_GetEventChkInf(0x18) && DREG(1) == 0) {
+    } else if (globalCtx2->sceneNum == SCENE_SPOT20 && !Flags_GetEventChkInf(0x18) && !DREG(1)) {
         EnHorse_InitFleePlayer(this);
     } else {
         if (globalCtx2->sceneNum == SCENE_SOUKO) {
@@ -1027,7 +1028,7 @@ void EnHorse_MountedIdle(EnHorse* this, GlobalContext* globalCtx) {
             EnHorse_StartWalkingFromIdle(this);
         }
     }
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         EnHorse_MountedIdleAnim(this);
     }
 }
@@ -1066,7 +1067,7 @@ void EnHorse_MountedIdleWhinneying(EnHorse* this, GlobalContext* globalCtx) {
             EnHorse_StartWalkingFromIdle(this);
         }
     }
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         EnHorse_StartMountedIdleResetAnim(this);
     }
 }
@@ -1101,7 +1102,7 @@ void EnHorse_MountedTurn(EnHorse* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         if (Math_CosS(stickAngle) <= 0.7071) {
             EnHorse_StartTurning(this);
         } else {
@@ -1181,7 +1182,7 @@ void EnHorse_MountedWalk(EnHorse* this, GlobalContext* globalCtx) {
     if (this->waitTimer <= 0) {
         this->flags &= ~ENHORSE_FLAG_9;
         this->skin.skelAnime.playSpeed = this->actor.speedXZ * 0.75f;
-        if ((SkelAnime_Update(&this->skin.skelAnime) != 0) || (this->actor.speedXZ == 0.0f)) {
+        if (SkelAnime_Update(&this->skin.skelAnime) || this->actor.speedXZ == 0.0f) {
             if (this->noInputTimer <= 0.0f) {
                 if ((this->actor.speedXZ > 3.0f)) {
                     EnHorse_StartTrotting(this);
@@ -1345,7 +1346,7 @@ void EnHorse_MountedRearing(EnHorse* this, GlobalContext* globalCtx) {
     }
 
     EnHorse_StickDirection(&this->curStick, &stickMag, &stickAngle);
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         if (EnHorse_PlayerCanMove(this, globalCtx) == true) {
             if (this->flags & ENHORSE_FORCE_REVERSING) {
                 this->noInputTimer = 100;
@@ -1482,7 +1483,7 @@ void EnHorse_Reverse(EnHorse* this, GlobalContext* globalCtx) {
         }
     }
     this->skin.skelAnime.playSpeed = this->actor.speedXZ * 0.5f * 1.5f;
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0 && (f32)this->noInputTimer <= 0.0f &&
+    if (SkelAnime_Update(&this->skin.skelAnime) && (f32)this->noInputTimer <= 0.0f &&
         EnHorse_PlayerCanMove(this, globalCtx) == true) {
         if (stickMag > 10.0f && Math_CosS(stickAngle) <= -0.5f) {
             this->noInputTimerMax = 0;
@@ -1751,7 +1752,7 @@ void EnHorse_Idle(EnHorse* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         s32 idleAnimIdx = 0;
 
         if (this->animationIdx != ENHORSE_ANIM_IDLE) {
@@ -1992,7 +1993,7 @@ void EnHorse_UpdateIngoRace(EnHorse* this, GlobalContext* globalCtx) {
     }
 
     EnHorse_UpdateIngoRaceInfo(this, globalCtx, &sIngoRace);
-    if (this->inRace == 0) {
+    if (!this->inRace) {
         this->actor.speedXZ = 0.0f;
         this->rider->speedXZ = 0.0f;
         if (this->animationIdx != ENHORSE_ANIM_IDLE) {
@@ -2050,7 +2051,7 @@ void EnHorse_CsMoveToPoint(EnHorse* this, GlobalContext* globalCtx, CsCmdActorAc
         this->actor.speedXZ = 0.0f;
     }
 
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         EnHorse_PlayGallopingSound(this);
         func_800AA000(0.0f, 120, 8, 255);
         Animation_PlayOnceSetSpeed(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx],
@@ -2166,7 +2167,7 @@ void EnHorse_CsRearing(EnHorse* this, GlobalContext* globalCtx, CsCmdActorAction
                                    &D_801333E8);
         }
     }
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         this->animationIdx = ENHORSE_ANIM_IDLE;
         if (!(this->cutsceneFlags & 4)) {
             this->cutsceneFlags |= 4;
@@ -2209,7 +2210,7 @@ void EnHorse_CsWarpMoveToPoint(EnHorse* this, GlobalContext* globalCtx, CsCmdAct
         this->actor.speedXZ = 0.0f;
     }
 
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         EnHorse_PlayGallopingSound(this);
         func_800AA000(0.0f, 120, 8, 255);
         Animation_PlayOnceSetSpeed(&this->skin.skelAnime, sAnimationHeaders[this->type][this->animationIdx],
@@ -2245,7 +2246,7 @@ void EnHorse_CsWarpRearing(EnHorse* this, GlobalContext* globalCtx, CsCmdActorAc
                                    &D_801333E8);
         }
     }
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         this->animationIdx = ENHORSE_ANIM_IDLE;
         if (!(this->cutsceneFlags & 4)) {
             this->cutsceneFlags |= 4;
@@ -2436,7 +2437,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->interfaceCtx.hbaAmmo != 0) {
-        if ((this->hbaFlags & 2) == 0) {
+        if (!(this->hbaFlags & 2)) {
             if (gSaveContext.infTable[25] & 1) {
                 if ((s32)gSaveContext.minigameScore >= 1500) {
                     this->hbaFlags |= 4;
@@ -2456,7 +2457,7 @@ void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->hbaStarted == 0) {
+    if (!this->hbaStarted) {
         this->actor.speedXZ = 0.0f;
         if (this->animationIdx != ENHORSE_ANIM_IDLE) {
             EnHorse_UpdateHbaAnim(this);
@@ -2710,7 +2711,7 @@ void EnHorse_BridgeJumpMove(EnHorse* this, GlobalContext* globalCtx) {
 void EnHorse_CheckBridgeJumpLanding(EnHorse* this, GlobalContext* globalCtx) {
     this->actor.speedXZ = 8.0f;
     this->skin.skelAnime.playSpeed = 1.5f;
-    if (SkelAnime_Update(&this->skin.skelAnime) != 0) {
+    if (SkelAnime_Update(&this->skin.skelAnime)) {
         this->flags &= ~ENHORSE_JUMPING;
         this->actor.gravity = -3.5f;
         this->actor.world.pos.y = sBridgeJumps[this->bridgeJumpIdx].pos.y;
@@ -2781,7 +2782,7 @@ void EnHorse_ObstructMovement(EnHorse* this, GlobalContext* globalCtx, s32 obsta
     this->actor.world.rot.y = this->lastYaw;
     this->flags |= ENHORSE_OBSTACLE;
 
-    if (this->playerControlled == 0) {
+    if (!this->playerControlled) {
         if (this->animationIdx != ENHORSE_ANIM_REARING) {
             return;
         }
@@ -3050,7 +3051,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->flags & ENHORSE_JUMPING || this->playerControlled == 0) {
+    if (this->flags & ENHORSE_JUMPING || !this->playerControlled) {
         return;
     }
 
@@ -3100,8 +3101,8 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
         }
 
         // too close to jump
-        if ((movingFast == 0 && intersectDist < 80.0f) || (movingFast == true && intersectDist < 150.0f)) {
-            if (movingFast == 0) {
+        if ((movingFast == false && intersectDist < 80.0f) || (movingFast == true && intersectDist < 150.0f)) {
+            if (movingFast == false) {
                 this->flags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == true) {
                 this->flags |= ENHORSE_FORCE_REVERSING;
@@ -3112,7 +3113,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
 
         dynaPoly = DynaPoly_GetActor(&globalCtx->colCtx, bgId);
         if ((this->flags & ENHORSE_FLAG_26) && ((dynaPoly && dynaPoly->actor.id != 0x108) || dynaPoly == 0)) {
-            if (movingFast == 0) {
+            if (movingFast == false) {
                 this->flags |= ENHORSE_FORCE_REVERSING;
             } else if (movingFast == true) {
                 this->flags |= ENHORSE_FORCE_REVERSING;
@@ -3169,7 +3170,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
 
     obstaclePos = startPos;
     obstaclePos.y = this->actor.world.pos.y + 120.0f;
-    if (movingFast == 0) {
+    if (movingFast == false) {
         obstaclePos.x += (276.0f * Math_SinS(this->actor.world.rot.y));
         obstaclePos.z += (276.0f * Math_CosS(this->actor.world.rot.y));
     } else {
@@ -3185,7 +3186,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
 
     behindObstacleHeight = obstacleTop.y - this->actor.world.pos.y;
 
-    if (obstacleFloor == 0) {
+    if (obstacleFloor == NULL) {
         return;
     }
 
@@ -3201,7 +3202,7 @@ void EnHorse_UpdateBgCheckInfo(EnHorse* this, GlobalContext* globalCtx) {
             this->flags |= ENHORSE_FORCE_REVERSING;
             EnHorse_StartBraking(this, globalCtx);
         }
-    } else if (movingFast == 0 && obstacleHeight > 19.0f && obstacleHeight <= 40.0f) {
+    } else if (movingFast == false && obstacleHeight > 19.0f && obstacleHeight <= 40.0f) {
         EnHorse_Stub1(this);
         this->postDrawFunc = &EnHorse_LowJumpInit;
     } else if ((movingFast == true && this->actor.speedXZ < 13.8f && obstacleHeight > 19.0f &&
