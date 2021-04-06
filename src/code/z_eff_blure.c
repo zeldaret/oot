@@ -311,7 +311,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
     Vec3s sp30;
     f32 mode4Param;
     EffectBlureElement* elem = &this->elements[index];
-    
+
     switch (this->calcMode) {
         case 1:
             vec1->x = func_80027E34(elem->p1.x, elem->p2.x, ratio);
@@ -351,7 +351,7 @@ void EffectBlure_GetComputedValues(EffectBlure* this, s32 index, f32 ratio, Vec3
             vec1->x = (sp30.x * 0.5f * mode4Param * ratio) + elem->p1.x;
             vec1->y = (sp30.y * 0.5f * mode4Param * ratio) + elem->p1.y;
             vec1->z = (sp30.z * 0.5f * mode4Param * ratio) + elem->p1.z;
-            
+
             vec2->x = elem->p2.x - (sp30.x * 0.5f * mode4Param * ratio);
             vec2->y = elem->p2.y - (sp30.y * 0.5f * mode4Param * ratio);
             vec2->z = elem->p2.z - (sp30.z * 0.5f * mode4Param * ratio);
@@ -542,7 +542,7 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         Vec3f sp118;
         Vec3f sp10C;
 
-        (index - 1 >= 0) ? (void) 0 :  __assert("index - 1 >= 0", "../z_eff_blure.c", 1005);
+        (index - 1 >= 0) ? (void)0 : __assert("index - 1 >= 0", "../z_eff_blure.c", 1005);
 
         ratio = (f32)(elem - 1)->timer / (f32)this->elemDuration;
         EffectBlure_GetComputedValues(this, index - 1, ratio, &sp1EC, &sp1E4, &sp1DC, &sp1D8);
@@ -562,7 +562,8 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         Vec3f sp100;
         Vec3f spF4;
 
-        (index + 2 < this->numElements) ? (void) 0 : __assert("index + 2 < this2->now_edge_num", "../z_eff_blure.c", 1032);
+        (index + 2 < this->numElements) ? (void)0
+                                        : __assert("index + 2 < this2->now_edge_num", "../z_eff_blure.c", 1032);
 
         ratio = (f32)(elem + 2)->timer / (f32)this->elemDuration;
         EffectBlure_GetComputedValues(this, index + 2, ratio, &sp1EC, &sp1E4, &sp1DC, &sp1D8);
@@ -610,16 +611,16 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             s32 j1 = 2 * i;
             s32 j2 = 2 * i + 1;
             Vec3f spE0;
-            f32 temp_f28 = i / 7.0f;                                 // t
-            f32 temp_f0 = temp_f28 * temp_f28;                       // t^2
-            f32 temp_f2 = temp_f0 * temp_f28;                        // t^3
-            f32 temp_f20 = temp_f2 - temp_f0;                       // t^3 - t^2
-            f32 temp_f22 = temp_f2 - 2.0f * temp_f0 + temp_f28;      // t^3 - 2t^2 + t
-            f32 temp_f24 = 2.0f * temp_f2 - temp_f0 * 3.0f + 1.0f;   // 2t^3 - 3t^2 + 1
-            f32 temp_f26 = temp_f0 * 3.0f - 2.0f * temp_f2;          // 3t^2 - 2t^3
+            f32 temp_f28 = i / 7.0f;                               // t
+            f32 temp_f0 = temp_f28 * temp_f28;                     // t^2
+            f32 temp_f2 = temp_f0 * temp_f28;                      // t^3
+            f32 temp_f20 = temp_f2 - temp_f0;                      // t^3 - t^2
+            f32 temp_f22 = temp_f2 - 2.0f * temp_f0 + temp_f28;    // t^3 - 2t^2 + t
+            f32 temp_f24 = 2.0f * temp_f2 - temp_f0 * 3.0f + 1.0f; // 2t^3 - 3t^2 + 1
+            f32 temp_f26 = temp_f0 * 3.0f - 2.0f * temp_f2;        // 3t^2 - 2t^3
             s32 pad1;
             s32 pad2;
-            
+
             // p = (2t^3 - 3t^2 + 1)p0 + (3t^2 - 2t^3)p1 + (t^3 - 2t^2 + t)m0 + (t^3 - t^2)m1
             spE0.x = (temp_f24 * sp1CC.x) + (temp_f26 * sp18C.x) + (temp_f22 * sp1B4.x) + (temp_f20 * sp174.x);
             spE0.y = (temp_f24 * sp1CC.y) + (temp_f26 * sp18C.y) + (temp_f22 * sp1B4.y) + (temp_f20 * sp174.y);
@@ -652,7 +653,7 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
             vtx[j2].v.cn[2] = func_80027E84(sp1A0.b, sp198.b, temp_f28);
             vtx[j2].v.cn[3] = func_80027E84(sp1A0.a, sp198.a, temp_f28);
         }
-        
+
         gSPVertex(POLY_XLU_DISP++, vtx, 16, 0);
         gSP2Triangles(POLY_XLU_DISP++, 0, 1, 3, 0, 0, 3, 2, 0);
         gSP2Triangles(POLY_XLU_DISP++, 2, 3, 5, 0, 2, 5, 4, 0);
@@ -661,8 +662,6 @@ void EffectBlure_DrawElemHermiteInterpolation(EffectBlure* this, EffectBlureElem
         gSP2Triangles(POLY_XLU_DISP++, 8, 9, 11, 0, 8, 11, 10, 0);
         gSP2Triangles(POLY_XLU_DISP++, 10, 11, 13, 0, 10, 13, 12, 0);
         gSP2Triangles(POLY_XLU_DISP++, 12, 13, 15, 0, 12, 15, 14, 0);
-
-        
     }
 
     CLOSE_DISPS(gfxCtx, "../z_eff_blure.c", 1184);
@@ -708,7 +707,7 @@ void EffectBlure_DrawSmooth(EffectBlure* this2, GraphicsContext* gfxCtx) {
     for (i = 0, elem = &this->elements[0]; elem < this->elements + this->numElements - 1; i++, elem++) {
         if ((elem->state == 0) || ((elem + 1)->state == 0)) {
             continue;
-        } 
+        }
         if ((((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 0)) ||
             (((elem->flags & 3) == 2) && (((elem + 1)->flags & 3) == 0)) ||
             (((elem->flags & 3) == 0) && (((elem + 1)->flags & 3) == 2)) ||
@@ -858,8 +857,8 @@ Vtx_t D_801157CC[] = {
 #ifdef NON_MATCHING
 void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
     EffectBlure* this = this2;
-    Vtx *vtx;
-    Vtx *vtxIter;
+    Vtx* vtx;
+    Vtx* vtxIter;
     EffectBlureElement* elem;
     s32 vtxCount;
     s32 i;
@@ -890,16 +889,16 @@ void EffectBlure_DrawSimple(EffectBlure* this2, GraphicsContext* gfxCtx) {
         vtxIter += 4;
 
         if (this->numElements >= 2) {
-            for (elem = &this->elements[0]; elem < this->elements + this->numElements - 2; elem++, vtxIter+=4) {
+            for (elem = &this->elements[0]; elem < this->elements + this->numElements - 2; elem++, vtxIter += 4) {
                 vtxIter[0].v = D_801157CC[0];
                 vtxIter[1].v = D_801157CC[1];
                 vtxIter[2].v = D_801157CC[2];
                 vtxIter[3].v = D_801157CC[3];
             }
         }
-        
-        for ( j1 = -2, j2 = -1, i = 0; i < this->numElements; j1+=4, j2+=4, i++) {
-            
+
+        for (j1 = -2, j2 = -1, i = 0; i < this->numElements; j1 += 4, j2 += 4, i++) {
+
             elem = &this->elements[i];
 
             ratio = (f32)elem->timer / (f32)this->elemDuration;
