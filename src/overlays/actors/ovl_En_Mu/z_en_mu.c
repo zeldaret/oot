@@ -1,3 +1,9 @@
+/*
+ * File: z_en_mu.c
+ * Overlay: ovl_En_Mu
+ * Description: Haggling townspeople
+ */
+
 #include "z_en_mu.h"
 
 #define FLAGS 0x00000009
@@ -9,8 +15,8 @@ void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMu_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
-void EnMu_Pose(Actor* this, GlobalContext* globalCtx);
-s32 EnMu_CheckDialogState(GlobalContext* globalCtx, EnMu* this);
+void EnMu_Pose(EnMu* this, GlobalContext* globalCtx);
+s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx);
 
 extern AnimationHeader D_060003F4;
 extern FlexSkeletonHeader D_06004F70;
@@ -102,7 +108,8 @@ u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {
     return this->defFaceReaction;
 }
 
-s32 EnMu_CheckDialogState(GlobalContext* globalCtx, EnMu* this) {
+s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
+    EnMu* this = THIS;
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 0:
         case 1:
@@ -142,9 +149,8 @@ void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
-void EnMu_Pose(Actor* thisx, GlobalContext* globalCtx) {
-    EnMu* this = THIS;
-    func_80034F54(globalCtx, &this->unk_20A, &this->unk_22A, 16);
+void EnMu_Pose(EnMu* this, GlobalContext* globalCtx) {
+    func_80034F54(globalCtx, this->unk_20A, this->unk_22A, 16);
 }
 
 void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -159,12 +165,12 @@ void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->collider.dim.pos = pos;
 
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
     SkelAnime_Update(&this->skelAnime);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
     talkDist = this->collider.dim.radius + 30.0f;
-    func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+    func_800343CC(globalCtx, thisx, &this->dialogState.unk_00, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;
