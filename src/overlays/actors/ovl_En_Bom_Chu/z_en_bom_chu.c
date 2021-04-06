@@ -139,9 +139,9 @@ void func_809C5BA8(EnBomChu* this, CollisionPoly* floorPoly, GlobalContext* glob
 
     this->actor.floorPoly = floorPoly;
 
-    sp84.x = floorPoly->normal.x * 0.00003051851f;
-    sp84.y = floorPoly->normal.y * 0.00003051851f;
-    sp84.z = floorPoly->normal.z * 0.00003051851f;
+    sp84.x = COLPOLY_GET_NORMAL(floorPoly->normal.x);
+    sp84.y = COLPOLY_GET_NORMAL(floorPoly->normal.y);
+    sp84.z = COLPOLY_GET_NORMAL(floorPoly->normal.z);
 
     temp_f12 = (sp84.x * this->unk_160.x) + (sp84.y * this->unk_160.y) + (sp84.z * this->unk_160.z);
 

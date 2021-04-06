@@ -372,10 +372,10 @@ void Flags_SetTempClear(GlobalContext* globalCtx, s32 flag);
 void Flags_UnsetTempClear(GlobalContext* globalCtx, s32 flag);
 s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag);
 void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag);
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 arg3, s16 arg4,
-                            u8 arg5, u8 arg6);
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 arg3, s32 arg4,
-                             s32 arg5, s32 arg6, s32 arg7);
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
+                            s16 y, u8 width, u8 height);
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
+                             s32 y, s32 width, s32 height, s32 delay);
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 offset);
@@ -526,7 +526,7 @@ void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
 void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
-                      GlobalContext* globalCtx, s16 params, s32 arg8);
+                     GlobalContext* globalCtx, s16 params, s32 arg8);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
 s32 Flags_GetEventChkInf(s32 flag);
 void Flags_SetEventChkInf(s32 flag);
@@ -669,7 +669,7 @@ void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgI
 s32 DynaPoly_SetBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor, CollisionHeader* colHeader);
 DynaPolyActor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId);
 void DynaPoly_DeleteBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId);
-// ? DynaPoly_ExpandSRT(?);
+void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void func_8003F8EC(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(GlobalContext* globalCtx, DynaCollisionContext* dyna);
@@ -875,6 +875,7 @@ s32 CollisionCheck_CylSideVsLineSeg(f32 radius, f32 height, f32 offset, Vec3f* a
                                     Vec3f* itemProjPos, Vec3f* out1, Vec3f* out2);
 u8 CollisionCheck_GetSwordDamage(s32 dmgFlags);
 void SaveContext_Init(void);
+s32 func_800635D0(s32);
 void func_800636C0(void);
 void func_8006375C(s32 arg0, s32 arg1, const char* text);
 void func_8006376C(u8 x, u8 y, u8 colorId, const char* text);
@@ -1073,21 +1074,14 @@ VecSph* OLib_Vec3fToVecSph(VecSph* dest, Vec3f* vec);
 VecSph* OLib_Vec3fToVecSphGeo(VecSph* arg0, Vec3f* arg1);
 VecSph* OLib_Vec3fDiffToVecSphGeo(VecSph* arg0, Vec3f* a, Vec3f* b);
 Vec3f* OLib_Vec3fDiffRad(Vec3f* dest, Vec3f* a, Vec3f* b);
-// ? func_8007C680(?);
-// ? func_8007C704(?);
-// ? func_8007C76C(?);
-// ? func_8007C7A8(?);
-// ? func_8007C7F8(?);
-// ? func_8007C820(?);
-// ? func_8007C850(?);
-// ? func_8007FFE0(?);
-// ? func_80080024(?);
-s16 func_800800F8(GlobalContext* globalCtx, s16 csID, s16 timer, Actor* actor, s16 camIdx);
-void func_800803F0(GlobalContext* globalCtx, s16 camId);
-s16 func_80080480(GlobalContext* globalCtx, Actor* actor);
-void func_800806BC(GlobalContext* globalCtx, Actor* actor, u16 sfxId);
-UNK_TYPE func_80080728(GlobalContext* globalCtx, u8 actorCategory);
-void func_80080788(UNK_TYPE, UNK_TYPE);
+s16 OnePointCutscene_Init(GlobalContext* globalCtx, s16 csId, s16 timer, Actor* actor, s16 camIdx);
+s16 OnePointCutscene_EndCutscene(GlobalContext* globalCtx, s16 camIdx);
+s32 OnePointCutscene_Attention(GlobalContext* globalCtx, Actor* actor);
+s32 OnePointCutscene_AttentionSetSfx(GlobalContext* globalCtx, Actor* actor, s32 sfxId);
+void OnePointCutscene_EnableAttention(void);
+void OnePointCutscene_DisableAttention(void);
+s32 OnePointCutscene_CheckForCategory(GlobalContext* globalCtx, s32 actorCategory);
+void OnePointCutscene_Noop(GlobalContext* globalCtx, s32 arg1);
 void Map_SavePlayerInitialInfo(GlobalContext* globalCtx);
 void Map_SetFloorPalettesData(GlobalContext* globalCtx, s16 floor);
 void Map_InitData(GlobalContext* globalCtx, s16 room);
@@ -1242,8 +1236,8 @@ void func_80094D28(Gfx** gfxp);
 Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
-                      u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, 
+                        u32 x2, u32 y2, s32 width2, s32 height2);
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
@@ -1589,7 +1583,7 @@ s16 Gameplay_ChangeCameraStatus(GlobalContext* globalCtx, s16 camId, s16 status)
 void Gameplay_ClearCamera(GlobalContext* globalCtx, s16 camId);
 void Gameplay_ClearAllSubCameras(GlobalContext* globalCtx);
 Camera* Gameplay_GetCamera(GlobalContext* globalCtx, s16 camId);
-s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* arg2, Vec3f* arg3);
+s32 Gameplay_CameraSetAtEye(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye);
 s32 Gameplay_CameraSetAtEyeUp(GlobalContext* globalCtx, s16 camId, Vec3f* at, Vec3f* eye, Vec3f* up);
 s32 Gameplay_CameraSetFov(GlobalContext* globalCtx, s16 camId, f32 fov);
 s32 Gameplay_SetCameraRoll(GlobalContext* globalCtx, s16 camId, s16 roll);
@@ -1604,6 +1598,7 @@ void Gameplay_TriggerRespawn(GlobalContext* globalCtx);
 s32 func_800C0CB8(GlobalContext* globalCtx);
 s32 FrameAdvance_IsEnabled(GlobalContext* globalCtx);
 s32 func_800C0D34(GlobalContext* globalCtx, Actor* actor, s16* yaw);
+s32 func_800C0DB4(GlobalContext* globalCtx, Vec3f* pos);
 void PreRender_SetValuesSave(PreRenderContext* this, u32 width, u32 height, void* fbuf, void* zbuf, void* cvg);
 void PreRender_Init(PreRenderContext* this);
 void PreRender_SetValues(PreRenderContext* this, u32 width, u32 height, void* fbuf, void* zbuf);

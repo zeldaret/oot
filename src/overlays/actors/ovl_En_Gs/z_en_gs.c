@@ -207,8 +207,8 @@ f32 func_80A4E754(EnGs* this, GlobalContext* globalCtx, f32* arg2, f32* arg3, u1
 
     if (arg9 == 0) {
         sp2C = Math_SmoothStepToF(arg2, *arg3, arg5, arg6, arg7);
-        this->unk_1B4[0].x = 1.0f + (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
-        this->unk_1B4[0].y = 1.0f - (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * 0.017453292f) * *arg2);
+        this->unk_1B4[0].x = 1.0f + (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * (M_PI / 180.0f)) * *arg2);
+        this->unk_1B4[0].y = 1.0f - (sinf((((*arg4 % arg8) * (1.0f / arg8)) * 360.0f) * (M_PI / 180.0f)) * *arg2);
         *arg4 += 1;
     }
     return sp2C;
@@ -232,8 +232,6 @@ void func_80A4E910(EnGs* this, GlobalContext* globalCtx) {
 }
 
 void func_80A4EA08(EnGs* this, GlobalContext* globalCtx) {
-    s32 temp_t8;
-
     if (this->unk_19F == 0) {
         Audio_PlayActorSound2(&this->actor, NA_SE_EN_STALKID_ATTACK);
         this->unk_1E8 = 0.3f;
@@ -241,7 +239,7 @@ void func_80A4EA08(EnGs* this, GlobalContext* globalCtx) {
         this->unk_200 = 0;
         this->unk_19F = 1;
     } else if (this->unk_19F == 1) {
-        this->unk_1A0[0].z = (((this->unk_200 % 8) * 0.125f) * 360.0f) * 182.04445f;
+        this->unk_1A0[0].z = (((this->unk_200 % 8) / 8.0f) * 360.0f) * (0x10000 / 360.0f);
         this->unk_1A0[1].z = -this->unk_1A0[0].z;
         if (func_80A4E754(this, globalCtx, &this->unk_1E8, &this->unk_1EC, &this->unk_200, 0.8f, 0.005f, 0.001f, 7,
                           0) == 0.0f) {
@@ -306,13 +304,13 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     Vec3f bomb2Pos;
 
     if (this->unk_19F == 0) {
-        this->unk_200 = 0x28;
+        this->unk_200 = 40;
         this->unk_19F++;
     }
 
     if (this->unk_19F == 1) {
         if ((u32)this->unk_200-- <= 0) {
-            this->unk_200 = 0x50;
+            this->unk_200 = 80;
             this->unk_19E |= 4;
             this->unk_19F++;
         }
@@ -321,16 +319,16 @@ void func_80A4ED34(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_19F == 2) {
         this->unk_200--;
         Color_RGBA8_Copy(&this->flashColor, &baseWhite);
-        if ((this->unk_200 < 0x50) && ((this->unk_200 % 0x14) < 8)) {
-            if (this->unk_200 < 0x14) {
+        if ((this->unk_200 < 80) && ((this->unk_200 % 20) < 8)) {
+            if (this->unk_200 < 20) {
                 Color_RGBA8_Copy(&this->flashColor, &flashRed);
-                if ((this->unk_200 % 0x14) == 7) {
+                if ((this->unk_200 % 20) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_E, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 }
             } else {
                 Color_RGBA8_Copy(&this->flashColor, &flashBlue);
-                if ((this->unk_200 % 0x14) == 7) {
+                if ((this->unk_200 % 20) == 7) {
                     Audio_PlaySoundGeneral(NA_SE_SY_WARNING_COUNT_N, &D_801333D4, 4, &D_801333E0, &D_801333E0,
                                            &D_801333E8);
                 }
@@ -406,15 +404,15 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
     if (this->unk_19F == 1) {
         Math_SmoothStepToF(&this->unk_1F0, this->unk_1F4, 1.0f, 0.1f, 0.001f);
         tmpf1 = Math_SmoothStepToF(&this->unk_1E8, this->unk_1EC, 1.0f, this->unk_1F0, 0.001f);
-        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * (0x10000 / 360.0f));
         if (tmpf1 == 0.0f) {
             this->unk_200 = 0;
             this->unk_19F = 2;
         }
     }
     if (this->unk_19F == 2) {
-        this->unk_1A0[0].y += (s32)(this->unk_1E8 * 182.04445f);
-        if (this->unk_200++ > 0x28) {
+        this->unk_1A0[0].y += (s32)(this->unk_1E8 * (0x10000 / 360.0f));
+        if (this->unk_200++ > 40) {
             this->unk_1E8 = this->unk_1B4[0].y - 1.0f;
             this->unk_1EC = 1.5f;
             this->unk_1F0 = this->unk_1B4[1].y - 1.0f;
@@ -430,8 +428,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
         if (tmpf1 == 0.0f) {
-            this->unk_1E8 = 0.6981317f;
-            this->unk_1EC = 0.34906584f;
+            this->unk_1E8 = 0.34906584f * 2.0f;
+            this->unk_1EC = 0.34906584f; // M_PI / 9
             this->unk_19F = 4;
         }
     }
@@ -477,8 +475,8 @@ void func_80A4F13C(EnGs* this, GlobalContext* globalCtx) {
         tmpf3 = Math_SmoothStepToF(&this->unk_1F8, this->unk_1FC, 0.8f, 0.02f, 0.001f);
         this->unk_1B4[0].x = this->unk_1F0 + 1.0f;
         this->unk_1B4[0].y = this->unk_1E8 + 1.0f;
-        this->unk_1B4[0].x += sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8;
-        this->unk_1B4[0].y += (sinf((((this->unk_200 % 0xA) * 0.1f) * 360.0f) * 0.017453292f) * this->unk_1F8);
+        this->unk_1B4[0].x += sinf((((this->unk_200 % 10) * 0.1f) * 360.0f) * (M_PI / 180.0f)) * this->unk_1F8;
+        this->unk_1B4[0].y += sinf((((this->unk_200 % 10) * 0.1f) * 360.0f) * (M_PI / 180.0f)) * this->unk_1F8;
         this->unk_200++;
         if ((tmpf1 == 0.0f) && (tmpf2 == 0.0f) && (tmpf3 == 0.0f)) {
             this->unk_19C = 0;
@@ -578,13 +576,13 @@ void EnGs_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         Matrix_Push();
         if (this->unk_19E & 1) {
-            Matrix_RotateY(this->unk_1A0[0].y * 0.0000958738f, MTXMODE_APPLY);
-            Matrix_RotateX(this->unk_1A0[0].x * 0.0000958738f, MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_1A0[0].z * 0.0000958738f, MTXMODE_APPLY);
+            Matrix_RotateY(this->unk_1A0[0].y * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(this->unk_1A0[0].x * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateZ(this->unk_1A0[0].z * (M_PI / 0x8000), MTXMODE_APPLY);
             Matrix_Scale(this->unk_1B4[0].x, this->unk_1B4[0].y, this->unk_1B4[0].z, MTXMODE_APPLY);
-            Matrix_RotateY(this->unk_1A0[1].y * 0.0000958738f, MTXMODE_APPLY);
-            Matrix_RotateX(this->unk_1A0[1].x * 0.0000958738f, MTXMODE_APPLY);
-            Matrix_RotateZ(this->unk_1A0[1].z * 0.0000958738f, MTXMODE_APPLY);
+            Matrix_RotateY(this->unk_1A0[1].y * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateX(this->unk_1A0[1].x * (M_PI / 0x8000), MTXMODE_APPLY);
+            Matrix_RotateZ(this->unk_1A0[1].z * (M_PI / 0x8000), MTXMODE_APPLY);
         }
 
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_gs.c", 1064),

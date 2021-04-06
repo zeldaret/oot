@@ -70,7 +70,7 @@ static u8 sDoorAnimCloseFrames[] = { 60, 70, 60, 70 };
 
 static Gfx* D_809FCEE4[5][2] = {
     { gDoorLeftDL, gDoorRightDL },
-    { gFireTempleBombableDoorDL2, gFireTempleBombableDoorDL1 },
+    { gFireTempleDoorWithHandleFrontDL, gFireTempleDoorWithHandleBackDL },
     { gWaterTempleDoorLeftDL, gWaterTempleDoorRightDL },
     { 0x060013B8, 0x06001420 },
     { 0x050047A0, 0x05004978 },
