@@ -1,0 +1,11 @@
+<Root>
+    <File Name="object_spot16_obj" Segment="6">
+        <DList Name="gDodongosCavernRockDlist" Offset="0x0B00"/>
+        <DList Name="gDodongosCavernRockDlist1" Offset="0x0C00"/>
+        <DList Name="gDodongosCavernRockDlist2" Offset="0x0C20"/>
+        <DList Name="gSpot16RingDlist" Offset="0x1470"/>
+        <Texture Name="gDodongosCavernRockTex" OutName="rock_tex" Format="i4" Width="64" Height="64" Offset="0x0000"/>
+        <Texture Name="gSpot16RingTex" OutName="smoke_ring" Format="ia16" Width="32" Height="32" Offset="0x0C30"/>
+        
+    </File>
+</Root>
