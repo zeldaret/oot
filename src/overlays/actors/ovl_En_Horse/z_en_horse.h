@@ -115,11 +115,8 @@ typedef struct EnHorse {
     /* 0x023C */ s32 boostRegenTime;
     /* 0x0240 */ s32 boostTimer;
     /* 0x0244 */ EnHorsePostdrawFunc postDrawFunc;
-
-    // The y coordinate of the floor under the front and back feet
-    /* 0x0248 */ f32 yFront;
-    /* 0x024C */ f32 yBack;
-
+    /* 0x0248 */ f32 yFront; // The y coordinate of the floor under the front feet
+    /* 0x024C */ f32 yBack;  // The y coordinate of the floor under the back feet
     /* 0x0250 */ s16 followTimer;
     /* 0x0252 */ s16 unk_252;
     /* 0x0254 */ EnHorseAction prevAction;
@@ -159,7 +156,6 @@ typedef struct EnHorse {
     /* 0x03C4 */ s16 bridgeJumpRelAngle;
     /* 0x03C6 */ s16 unk_3C6; // pad
     // sub struct?
-
     /* 0x03C8 */ u16 dustFlags;
     /* 0x03CC */ Vec3f frontRightHoof;
     /* 0x03D8 */ Vec3f frontLeftHoof;
