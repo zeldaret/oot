@@ -40,7 +40,7 @@ typedef struct EnOssan {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ EnOssanActionFunc actionFunc;
-    /* 0x0194 */ EnOssanUnkFunc1 unk_194;
+    /* 0x0194 */ EnOssanUnkFunc1 unk_194; //ObjectIndex3 VirtualToPhysical
     /* 0x0198 */ ColliderCylinder unk_198;
     /* 0x01E4 */ s16 timer;
     /* 0x01E6 */ s16 unk_1E6;

@@ -1,6 +1,7 @@
 #include "z_en_ossan.h"
 #include "vt.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_ossan/object_ossan.h"
 #include "overlays/actors/ovl_En_Elf/z_en_elf.h"
 
 #define FLAGS 0x00000019
@@ -10,30 +11,25 @@
 void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnOssan_Update(Actor* thisx, GlobalContext* globalCtx);
-void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx);
-void func_80AC854C(Actor* thisx, GlobalContext* globalCtx);
-void func_80AC8784(Actor* thisx, GlobalContext* globalCtx);
-void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx);
-void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx);
-void func_80AC8244(Actor* thisx, GlobalContext* globalCtx);
-void func_80AC8668(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_DrawKokiriShopkeeper(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_DrawPotionShopkeeper(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_DrawBombchuShopkeeper(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_DrawBazaarShopkeeper(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_DrawZoraShopkeeper(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_DrawGoronShopkeeper(Actor* thisx, GlobalContext* globalCtx);
+void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, GlobalContext* globalCtx);
 
 extern FlexSkeletonHeader D_0600FEF0;
 extern FlexSkeletonHeader D_060000F0;
 extern FlexSkeletonHeader D_06004258;
 extern FlexSkeletonHeader D_06004658;
 extern FlexSkeletonHeader D_06004868;
-extern FlexSkeletonHeader D_06009B38;
 extern FlexSkeletonHeader D_0600BFA8;
 extern AnimationHeader D_060000FC;
 extern AnimationHeader D_060002E4;
-extern AnimationHeader D_06000338;
 extern AnimationHeader D_060004A8;
 extern AnimationHeader D_0600065C;
 extern AnimationHeader D_0600078C;
-extern UNK_TYPE D_0400CDC0;
-extern UNK_TYPE D_0400CE40;
-extern UNK_TYPE D_0400CF40;
 extern Gfx D_06002820[];
 extern Gfx D_0600DE80[];
 
@@ -58,17 +54,13 @@ s16 func_80AC2D48(s16 v);
 s16 func_80AC2D78(s16 v);
 s16 func_80AC2DA8(s16 v);
 
-void func_80AC6B3C(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6E0C(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6ECC(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6E0C(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6D30(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6C54(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx);
-void func_80AC6E6C(EnOssan* this, GlobalContext* globalCtx);
+void EnOssan_InitKokiriShopkeeper(EnOssan* this, GlobalContext* globalCtx);
+void EnOssan_InitPotionShopkeeper(EnOssan* this, GlobalContext* globalCtx);
+void EnOssan_InitBombchuShopkeeper(EnOssan* this, GlobalContext* globalCtx);
+void EnOssan_InitBazaarShopkeeper(EnOssan* this, GlobalContext* globalCtx);
+void EnOssan_InitZoraShopkeeper(EnOssan* this, GlobalContext* globalCtx);
+void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx);
+void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, GlobalContext* globalCtx);
 
 void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player);
 void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player);
@@ -107,11 +99,24 @@ void func_80AC69A4(EnOssan* this);
 
 u16 func_80AC6F2C(EnOssan* this);
 
-
-s32 func_80AC6490(EnOssan* this); 
+s32 func_80AC6490(EnOssan* this);
 s32 func_80AC652C(EnOssan* this);
 void func_80AC646C(EnOssan* this);
 void func_80AC62C4(GlobalContext* globalCtx, EnOssan* this);
+
+typedef enum {
+    /* 00 */ OSSAN_TYPE_KOKIRI,
+    /* 01 */ OSSAN_TYPE_KAKARIKO_POTION,
+    /* 02 */ OSSAN_TYPE_BOMBCHUS,
+    /* 03 */ OSSAN_TYPE_MARKET_POTION,
+    /* 04 */ OSSAN_TYPE_BAZAAR,
+    /* 05 */ OSSAN_TYPE_ADULT,
+    /* 06 */ OSSAN_TYPE_TALON,
+    /* 07 */ OSSAN_TYPE_ZORA,
+    /* 08 */ OSSAN_TYPE_GORON,
+    /* 09 */ OSSAN_TYPE_INGO,
+    /* 10 */ OSSAN_TYPE_MASK
+} OssanType;
 
 const ActorInit En_Ossan_InitVars = {
     ACTOR_EN_OSSAN,
@@ -125,7 +130,8 @@ const ActorInit En_Ossan_InitVars = {
     NULL,
 };
 
-s32 maybe_unused[] = { // 80AC88C0
+s32 maybe_unused[] = {
+    // 80AC88C0
     0x0A000039, 0x01000000, 0x00000000, 0x00000000, 0x00000000, 0x00000000,
     0x00000000, 0x00000100, 0x001E0050, 0x00000000, 0x00000000,
 };
@@ -133,9 +139,10 @@ s32 maybe_unused[] = { // 80AC88C0
 // Rupees to pay back to Happy Mask Shop
 s16 sMaskPaymentPrice[] = { 10, 30, 20, 50 };
 
-// item yaw offsets too much data in here, maybe unused values?
-s16 D_80AC88F4[] = { 0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0x1554, 0x1554,
-                     0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
+// item yaw offsets 
+s16 D_80AC88F4[] = { 0xEAAC, 0xEAAC, 0xEAAC, 0xEAAC, 0x1554, 0x1554, 0x1554, 0x1554 };
+// unused values?
+s16 D_80AC8904[] = { 0x001E, 0x001F, 0x0020, 0x0021, 0x0022, 0x0023, 0x0024, 0x0025 };
 
 char* D_80AC8914[] = {
     "コキリの店  ", // "Kokiri Shop"
@@ -172,8 +179,9 @@ s16 sShopkeeperObjectIds[][3] = {
 };
 
 EnOssanTalkOwnerFunc sShopkeeperTalkOwner[] = {
-    EnOssan_TalkOwner0, EnOssan_TalkOwner1, EnOssan_TalkOwner2, EnOssan_TalkOwner3, EnOssan_TalkOwner4, EnOssan_TalkOwnerDefault,
-    EnOssan_TalkOwnerDefault, EnOssan_TalkOwner7, EnOssan_TalkOwner8, EnOssan_TalkOwnerDefault, EnOssan_TalkOwner10,
+    EnOssan_TalkOwner0, EnOssan_TalkOwner1,       EnOssan_TalkOwner2,       EnOssan_TalkOwner3,
+    EnOssan_TalkOwner4, EnOssan_TalkOwnerDefault, EnOssan_TalkOwnerDefault, EnOssan_TalkOwner7,
+    EnOssan_TalkOwner8, EnOssan_TalkOwnerDefault, EnOssan_TalkOwner10,
 };
 
 // scales
@@ -305,19 +313,25 @@ InitChainEntry D_80AC8D64[] = {
     ICHAIN_F32(targetArrowOffset, 500, ICHAIN_STOP),
 };
 
-Vec3f D_80AC8D6C[] = { 
-    { 17, 58, 30 },
-    { -17, 58, 30 }
-};
+Vec3f D_80AC8D6C[] = { { 17, 58, 30 }, { -17, 58, 30 } };
 
 // npc init
 EnOssanUnkFunc1 D_80AC8D84[] = {
-    func_80AC6B3C, func_80AC6E0C, func_80AC6ECC, func_80AC6E0C, func_80AC6ADC, func_80AC6ADC,
-    func_80AC6ADC, func_80AC6D30, func_80AC6C54, func_80AC6ADC, func_80AC6E6C,
+    EnOssan_InitKokiriShopkeeper,
+    EnOssan_InitPotionShopkeeper, 
+    EnOssan_InitBombchuShopkeeper,
+    EnOssan_InitPotionShopkeeper, 
+    EnOssan_InitBazaarShopkeeper, 
+    EnOssan_InitBazaarShopkeeper,
+    EnOssan_InitBazaarShopkeeper,
+    EnOssan_InitZoraShopkeeper,
+    EnOssan_InitGoronShopkeeper,
+    EnOssan_InitBazaarShopkeeper,
+    EnOssan_InitHappyMaskShopkeeper,
 };
 
 // shop keeper position offsets
-Vec3f D_80AC8DB0[] = {
+Vec3f sShopkeeperPositionOffsets[] = {
     { 0.0f, 0.0f, 33.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f }, { 0.0f, 0.0f, 31.0f },
     { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 36.0f },
     { 0.0f, 0.0f, 15.0f }, { 0.0f, 0.0f, 0.0f },  { 0.0f, 0.0f, 26.0f },
@@ -330,13 +344,13 @@ EnOssanUnkFunc4 D_80AC8E34[] = {
     func_80AC6148, func_80AC61B8, func_80AC5C9C, func_80AC5A28, func_80AC6258, func_80AC62F4,
 };
 
-s32 D_80AC8EA0[] = { 0x06004878, 0x060052B8, 0x060056B8 };
-s32 D_80AC8EAC[] = { 0x06001570, 0x060001F0, 0x06000B30 };
-s32 D_80AC8EB8[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
-s32 D_80AC8EC4[] = { 0x06003E40, 0x06004640, 0x06004E40 };
-s32 D_80AC8ED0[] = { 0x060030D8, 0x060034D8, 0x060038D8 };
-s32 D_80AC8EDC[] = { 0x060035D8, 0x060039D8 };
-s32 D_80AC8EE4[] = { 0x06003968, 0x06003D68, 0x06004168 };
+u64* sBazaarShopkeeperEyeTextures[] = { gOssanEyeOpenTex, gOssanEyeHalfTex, gOssanEyeShutText };
+u64* sKokiriShopkeeperEyeTextures[] = { 0x06001570, 0x060001F0, 0x06000B30 };
+u64* D_80AC8EB8[] = { 0x0600CE80, 0x0600D280, 0x0600D680 };
+u64* D_80AC8EC4[] = { 0x06003E40, 0x06004640, 0x06004E40 };
+u64* D_80AC8ED0[] = { 0x060030D8, 0x060034D8, 0x060038D8 };
+u64* D_80AC8EDC[] = { 0x060035D8, 0x060039D8 };
+u64* D_80AC8EE4[] = { 0x06003968, 0x06003D68, 0x06004168 };
 
 void EnOssan_SetupAction(EnOssan* this, EnOssanActionFunc actionFunc) {
     this->actionFunc = actionFunc;
@@ -347,6 +361,7 @@ s16 func_80AC2CA8(s16 v) {
 }
 
 s16 func_80AC2CB8(s16 v) {
+    //Sold Skull Mask
     if (gSaveContext.itemGetInf[3] & 0x200) {
         return v;
     }
@@ -354,6 +369,7 @@ s16 func_80AC2CB8(s16 v) {
 }
 
 s16 func_80AC2CE8(s16 v) {
+    //Sold Keaton Mask
     if (gSaveContext.itemGetInf[3] & 0x100) {
         return v;
     }
@@ -361,6 +377,7 @@ s16 func_80AC2CE8(s16 v) {
 }
 
 s16 func_80AC2D18(s16 v) {
+    //Sold Spooky Mask
     if (gSaveContext.itemGetInf[3] & 0x400) {
         return v;
     }
@@ -368,6 +385,7 @@ s16 func_80AC2D18(s16 v) {
 }
 
 s16 func_80AC2D48(s16 v) {
+    //Obtained Mask of Truth
     if (gSaveContext.itemGetInf[3] & 0x8000) {
         return v;
     }
@@ -375,6 +393,7 @@ s16 func_80AC2D48(s16 v) {
 }
 
 s16 func_80AC2D78(s16 v) {
+    //Obtained Mask of Truth
     if (gSaveContext.itemGetInf[3] & 0x8000) {
         return v;
     }
@@ -382,6 +401,7 @@ s16 func_80AC2D78(s16 v) {
 }
 
 s16 func_80AC2DA8(s16 v) {
+    //Obtained Mask of Truth
     if ((gSaveContext.itemGetInf[3] & 0x8000)) {
         return v;
     }
@@ -389,59 +409,50 @@ s16 func_80AC2DA8(s16 v) {
 }
 
 // spawn items on the shelves
- void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, ShopItem* shopItems) {
-     EnTana* shelves;
-     s16 itemParams;
-     s32 i;
+void func_80AC2DD8(EnOssan* this, GlobalContext* globalCtx, ShopItem* shopItems) {
+    EnTana* shelves;
+    s16 itemParams;
+    s32 i;
 
-     for (i = 0; i < 8; i++, shopItems++) {
-         if (shopItems->unk_00 < 0) {
-             this->items[i] = NULL;
-         } else {
-             itemParams = D_80AC8C9C[shopItems->unk_00](shopItems->unk_00);
+    for (i = 0; i < 8; i++, shopItems++) {
+        if (shopItems->unk_00 < 0) {
+            this->items[i] = NULL;
+        } else {
+            itemParams = D_80AC8C9C[shopItems->unk_00](shopItems->unk_00);
 
-             if (itemParams < 0) {
-                 this->items[i] = NULL;
-             } else {
-                 shelves = this->shelves;
-                 this->items[i] = (EnGirlA*)Actor_Spawn(
-                     &globalCtx->actorCtx,
-                     globalCtx,
-                     ACTOR_EN_GIRLA,
-                     shelves->actor.world.pos.x + shopItems->xOffset,
-                     shelves->actor.world.pos.y + shopItems->yOffset,
-                     shelves->actor.world.pos.z + shopItems->zOffset,
-                     shelves->actor.shape.rot.x, shelves->actor.shape.rot.y + D_80AC88F4[i],
-                     shelves->actor.shape.rot.z, itemParams);
-             }
-         }
-     }
- }
+            if (itemParams < 0) {
+                this->items[i] = NULL;
+            } else {
+                shelves = this->shelves;
+                this->items[i] = (EnGirlA*)Actor_Spawn(
+                    &globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA, shelves->actor.world.pos.x + shopItems->xOffset,
+                    shelves->actor.world.pos.y + shopItems->yOffset, shelves->actor.world.pos.z + shopItems->zOffset,
+                    shelves->actor.shape.rot.x, shelves->actor.shape.rot.y + D_80AC88F4[i], shelves->actor.shape.rot.z,
+                    itemParams);
+            }
+        }
+    }
+}
 
 void func_80AC2F2C(EnOssan* this, GlobalContext* globalCtx) {
-    s32 i; 
+    s32 i;
     ShopItem* storeItems;
     ShopItem* shopItem;
 
-    if (this->actor.params == 0xA) {
+    if (this->actor.params == OSSAN_TYPE_MASK) {
         storeItems = sShopkeeperStores[this->actor.params];
-        if (1) { }
-        for (i = 0; i < 8; i++)
-        {
+        if (1) {}
+        for (i = 0; i < 8; i++) {
             shopItem = &storeItems[i];
             if (shopItem->unk_00 >= 0 && this->items[i] == NULL) {
                 s16 temp_v0_2 = D_80AC8C9C[shopItem->unk_00](shopItem->unk_00);
                 if (temp_v0_2 >= 0) {
                     this->items[i] = (EnGirlA*)Actor_Spawn(
-                        &globalCtx->actorCtx,
-                        globalCtx,
-                        ACTOR_EN_GIRLA,
+                        &globalCtx->actorCtx, globalCtx, ACTOR_EN_GIRLA,
                         this->shelves->actor.world.pos.x + shopItem->xOffset,
                         this->shelves->actor.world.pos.y + shopItem->yOffset,
-                        this->shelves->actor.world.pos.z + shopItem->zOffset,
-                        this->shelves->actor.shape.rot.x,
-                        this->shelves->actor.shape.rot.y + D_80AC88F4[i],
-                        this->shelves->actor.shape.rot.z, temp_v0_2);
+                        this->shelves->actor.world.pos.z + shopItem->zOffset, this->shelves->actor.shape.rot.x,
+                        this->shelves->actor.shape.rot.y + D_80AC88F4[i], this->shelves->actor.shape.rot.z, temp_v0_2);
                 }
             }
         }
@@ -455,8 +466,7 @@ void EnOssan_TalkOwnerDefault(GlobalContext* globalCtx) {
 void EnOssan_TalkOwner1(GlobalContext* globalCtx) {
     if (globalCtx->curSpawn == 0) {
         func_8010B720(globalCtx, 0x5046);
-    }
-    else {
+    } else {
         func_8010B720(globalCtx, 0x504E);
     }
 }
@@ -472,8 +482,7 @@ void EnOssan_TalkOwner0(GlobalContext* globalCtx) {
 void EnOssan_TalkOwner4(GlobalContext* globalCtx) {
     if (globalCtx->curSpawn == 0) {
         func_8010B720(globalCtx, 0x9D);
-    }
-    else {
+    } else {
         func_8010B720(globalCtx, 0x9C);
     }
 }
@@ -485,9 +494,7 @@ void EnOssan_TalkOwner2(GlobalContext* globalCtx) {
 void EnOssan_TalkOwner7(GlobalContext* globalCtx) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         func_8010B720(globalCtx, 0x403A);
-    }
-    else
-    {
+    } else {
         func_8010B720(globalCtx, 0x403B);
     }
 }
@@ -497,37 +504,34 @@ void EnOssan_TalkOwner8(GlobalContext* globalCtx) {
     if (LINK_AGE_IN_YEARS == YEARS_CHILD) {
         if ((gSaveContext.eventChkInf[2] & 0x20)) {
             func_8010B720(globalCtx, 0x3028);
-        }
-        else if (CUR_UPG_VALUE(UPG_STRENGTH)) {
+        } else if (CUR_UPG_VALUE(UPG_STRENGTH)) {
             func_8010B720(globalCtx, 0x302D);
-        }
-        else {
+        } else {
             func_8010B720(globalCtx, 0x300F);
         }
-    }
-    else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
+    } else if (!CHECK_QUEST_ITEM(QUEST_MEDALLION_FIRE)) {
         func_8010B720(globalCtx, 0x3057);
-    }
-    else
-    {
+    } else {
         func_8010B720(globalCtx, 0x305B);
     }
 }
 
 // Happy Mask Shop
 void EnOssan_TalkOwner10(GlobalContext* globalCtx) {
-    if ((gSaveContext.itemGetInf[3] & 0x100) &&
-        (gSaveContext.itemGetInf[3] & 0x200) &&
-        (gSaveContext.itemGetInf[3] & 0x400) && 
-        (gSaveContext.itemGetInf[3] & 0x800)) {
+    if ((gSaveContext.itemGetInf[3] & 0x100) // Sold Keaton Mask 
+        && (gSaveContext.itemGetInf[3] & 0x200) // Sold Skull Mask
+        && (gSaveContext.itemGetInf[3] & 0x400) // Sold Spooky Mask
+        && (gSaveContext.itemGetInf[3] & 0x800)) { // Sold Bunny Hood
         func_8010B720(globalCtx, 0x70AE);
-    }
-    else switch (globalCtx->msgCtx.choiceIndex)
-    {
-    case 1:
-        func_8010B720(globalCtx, 0x70A4); break;
-    case 0:
-        func_8010B720(globalCtx, 0x70A3); break;
+    } else {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 1:
+                func_8010B720(globalCtx, 0x70A4);
+                break;
+            case 0:
+                func_8010B720(globalCtx, 0x70A3);
+                break;
+        }
     }
 }
 
@@ -545,7 +549,6 @@ s32 func_80AC33B0(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
     } else {
         this->objectIndex2 = -1;
     }
-
     if (objectIds[2] != OBJECT_ID_MAX) {
         this->objectIndex3 = Object_GetIndex(&globalCtx->objectCtx, objectIds[2]);
         if (this->objectIndex3 < 0) {
@@ -554,7 +557,6 @@ s32 func_80AC33B0(EnOssan* this, GlobalContext* globalCtx, s16* objectIds) {
     } else {
         this->objectIndex3 = -1;
     }
-
     return 1;
 }
 
@@ -563,12 +565,12 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     s16* objectIds;
 
-    if ((this->actor.params == 6) && (LINK_AGE_IN_YEARS != YEARS_CHILD)) {
-        this->actor.params = 9;
+    if (this->actor.params == OSSAN_TYPE_TALON && (LINK_AGE_IN_YEARS != YEARS_CHILD)) {
+        this->actor.params = OSSAN_TYPE_INGO;
     }
 
     //! @bug This check will always evaluate to false, it should be || not &&
-    if ((this->actor.params >= 11) && (this->actor.params < 0)) {
+    if (this->actor.params > OSSAN_TYPE_MASK && this->actor.params < OSSAN_TYPE_KOKIRI) {
         Actor_Kill(&this->actor);
         osSyncPrintf(VT_COL(RED, WHITE));
         osSyncPrintf("引数がおかしいよ(arg_data=%d)！！\n", this->actor.params);
@@ -577,17 +579,19 @@ void EnOssan_Init(Actor* thisx, GlobalContext* globalCtx) {
         return;
     }
 
-    if ((this->actor.params == 0xA) && (!(gSaveContext.infTable[7] & 0x40))) {
+    // If you've given Zelda's Letter to the Kakariko Guard
+    if (this->actor.params == OSSAN_TYPE_MASK && !(gSaveContext.infTable[7] & 0x40)) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    if ((this->actor.params == 1) && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
+    if (this->actor.params == OSSAN_TYPE_KAKARIKO_POTION && (LINK_AGE_IN_YEARS == YEARS_CHILD)) {
         Actor_Kill(&this->actor);
         return;
     }
 
-    if ((this->actor.params == 2) && (!(gSaveContext.eventChkInf[2] & 0x20))) {
+    // Completed Dodongo's Cavern
+    if (this->actor.params == OSSAN_TYPE_BOMBCHUS && !(gSaveContext.eventChkInf[2] & 0x20)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -667,9 +671,7 @@ s32 func_80AC38C8(EnOssan* this, GlobalContext* globalCtx, Input* input) {
         this->unk_1FC = this->unk_1FE;
         func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
@@ -691,7 +693,7 @@ void func_80AC3928(GlobalContext* globalCtx, EnOssan* this, u8 arg2) {
 void func_80AC39AC(GlobalContext* globalCtx, EnOssan* this) {
     this->unk_1FC = 2;
 
-    if (this->actor.params == 0xA) {
+    if (this->actor.params == OSSAN_TYPE_MASK) {
         // if all masks have been sold, give the option to ask about the mask of truth
         if ((gSaveContext.itemGetInf[3] & 0x100) && (gSaveContext.itemGetInf[3] & 0x200) &&
             (gSaveContext.itemGetInf[3] & 0x400) && (gSaveContext.itemGetInf[3] & 0x800)) {
@@ -737,53 +739,53 @@ void func_80AC3B18(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     }
 }
 
- void func_80AC3BCC(GlobalContext* globalCtx, EnOssan* this) {
-     Input* controller1 = &globalCtx->state.input[0];
-     s8 stickX = controller1->rel.stick_x;
-     s8 stickY = controller1->rel.stick_y;
-     
-     this->moveHorizontal = this->moveVertical = false;
+void func_80AC3BCC(GlobalContext* globalCtx, EnOssan* this) {
+    Input* controller1 = &globalCtx->state.input[0];
+    s8 stickX = controller1->rel.stick_x;
+    s8 stickY = controller1->rel.stick_y;
 
-     if (this->stickX == 0) {
-         if (stickX > 30 || stickX < -30) {
-             this->stickX = stickX;
-             this->moveHorizontal = true;
-         }
-     } else if (stickX <= 30 && stickX >= -30) {
-         this->stickX = 0;
-     } else if (this->stickX * stickX < 0) {
-         this->stickX = stickX;
-         this->moveHorizontal = true;
-     } else {
-         this->stickX += stickX;
+    this->moveHorizontal = this->moveVertical = false;
 
-         if (this->stickX > 2000) {
-             this->stickX = 2000;
-         } else if (this->stickX < -2000) {
-             this->stickX = -2000;
-         }
-     }
+    if (this->stickX == 0) {
+        if (stickX > 30 || stickX < -30) {
+            this->stickX = stickX;
+            this->moveHorizontal = true;
+        }
+    } else if (stickX <= 30 && stickX >= -30) {
+        this->stickX = 0;
+    } else if (this->stickX * stickX < 0) {
+        this->stickX = stickX;
+        this->moveHorizontal = true;
+    } else {
+        this->stickX += stickX;
 
-     if (this->stickY == 0) {
-         if (stickY > 30 || stickY < -30) {
-             this->stickY = stickY;
-             this->moveVertical = true;
-         }
-     } else if (stickY <= 30 && stickY >= -30) {
-         this->stickY = 0;
-     } else if (this->stickY * stickY < 0) {
-         this->stickY = stickY;
-         this->moveVertical = true;
-     } else {
-         this->stickY += stickY;
+        if (this->stickX > 2000) {
+            this->stickX = 2000;
+        } else if (this->stickX < -2000) {
+            this->stickX = -2000;
+        }
+    }
 
-         if (this->stickY > 2000) {
-             this->stickY = 2000;
-         } else if (this->stickY < -2000) {
-             this->stickY = -2000;
-         }
-     }
- }
+    if (this->stickY == 0) {
+        if (stickY > 30 || stickY < -30) {
+            this->stickY = stickY;
+            this->moveVertical = true;
+        }
+    } else if (stickY <= 30 && stickY >= -30) {
+        this->stickY = 0;
+    } else if (this->stickY * stickY < 0) {
+        this->stickY = stickY;
+        this->moveVertical = true;
+    } else {
+        this->stickY += stickY;
+
+        if (this->stickY > 2000) {
+            this->stickY = 2000;
+        } else if (this->stickY < -2000) {
+            this->stickY = -2000;
+        }
+    }
+}
 
 u8 func_80AC3D18(EnOssan* this, u8 arg1) {
     u8 i;
@@ -793,21 +795,19 @@ u8 func_80AC3D18(EnOssan* this, u8 arg1) {
             if (this->items[i] != NULL) {
                 return i;
             }
-            
         }
         for (i = arg1; i < arg1 + 4; i += 2) {
             if (this->items[i] != NULL) {
                 return i;
             }
         }
-    }
-    else {
+    } else {
         for (i = arg1; i < arg1 + 4; i += 2) {
             if (this->items[i] != NULL) {
                 return i;
             }
         }
-        
+
         for (i = arg1 + 1; i < arg1 + 4; i += 2) {
             if (this->items[i] != NULL) {
                 return i;
@@ -820,13 +820,10 @@ u8 func_80AC3D18(EnOssan* this, u8 arg1) {
 u8 func_80AC3E50(EnOssan* this, u8 a, u8 b) {
     u8 c = b + 4;
 
-    while (a >= b && a < c)
-    {
+    while (a >= b && a < c) {
         a -= 2;
-        if (a >= b && a < c)
-        {
-            if (this->items[a] != NULL)
-            {
+        if (a >= b && a < c) {
+            if (this->items[a] != NULL) {
                 return a;
             }
         }
@@ -835,8 +832,7 @@ u8 func_80AC3E50(EnOssan* this, u8 a, u8 b) {
 }
 
 u8 func_80AC3ED8(EnOssan* this, u8 arg1, u8 arg2) {
-    while (arg1 < arg2)
-    {
+    while (arg1 < arg2) {
         arg1 += 2;
         if ((arg1 < arg2) && this->items[arg1] != NULL) {
             return arg1;
@@ -881,7 +877,7 @@ void func_80AC3F38(EnOssan* this, GlobalContext* globalCtx) {
 void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     u8 dialogState = func_8010BDBC(&globalCtx->msgCtx);
 
-    if (this->actor.params == 0xA && dialogState == 4) {
+    if (this->actor.params == OSSAN_TYPE_MASK && dialogState == 4) {
         if (!EnOssan_Exit(this, globalCtx, &globalCtx->state.input[0]) && func_80106BC8(globalCtx)) {
             switch (globalCtx->msgCtx.choiceIndex) {
                 case 0:
@@ -929,17 +925,16 @@ void func_80AC4074(EnOssan* this, GlobalContext* globalCtx, Player* player) {
 s32 func_80AC4220(EnOssan* this, GlobalContext* globalCtx) {
 
     switch (globalCtx->msgCtx.choiceIndex) {
-    case 0:
-        func_80AC3A80(globalCtx, this);
-        return true;
-    case 1:
-        EnOssan_EndInteraction(globalCtx, this);
-        return true;
-    default:
-        return false;
+        case 0:
+            func_80AC3A80(globalCtx, this);
+            return true;
+        case 1:
+            EnOssan_EndInteraction(globalCtx, this);
+            return true;
+        default:
+            return false;
     }
 }
-
 
 void func_80AC4288(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     u8 temp;
@@ -1044,8 +1039,7 @@ void func_80AC45C8(EnOssan* this) {
                     v1 = 0;
                 }
             }
-        }
-        else {
+        } else {
             v1 = v0 + 2;
             if (v1 >= 8) {
                 v1 = 4;
@@ -1061,8 +1055,7 @@ void func_80AC45C8(EnOssan* this) {
                 }
             }
         }
-    }
-    else if (this->stickY > 0) {
+    } else if (this->stickY > 0) {
         v0 |= 1;
         if (this->items[v0] != 0) {
             this->unk_252 = v0;
@@ -1083,8 +1076,7 @@ void func_80AC45C8(EnOssan* this) {
                     v1 = 1;
                 }
             }
-        }
-        else {
+        } else {
             v1 = v0 + 2;
             if (v1 >= 8) {
                 v1 = 5;
@@ -1103,7 +1095,6 @@ void func_80AC45C8(EnOssan* this) {
     }
 }
 
-
 s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* input) {
     EnGirlA* sp24 = this->items[this->unk_252];
 
@@ -1113,55 +1104,54 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* input) {
 
     if (func_80106BC8(globalCtx) != 0) {
 
-        if (sp24->actor.params != 38 && sp24->unk_1A8 == 0)
-        {
+        if (sp24->actor.params != 38 && sp24->unk_1A8 == 0) {
             this->unk_1FE = this->unk_1FC;
             func_8010B720(globalCtx, this->items[this->unk_252]->unk_1A0);
             this->unk_254.isEnabled = false;
             this->unk_28C.isEnabled = false;
             switch (sp24->actor.params) {
-            case 30:
-            case 31:
-            case 32:
-            case 33:
-            case 34:
-            case 35:
-            case 36:
-            case 37:
-                func_80078884(NA_SE_SY_DECIDE);
-                this->unk_251 = 0;
-                this->unk_1FC = 0x18;
-                return true;
-            case 17:
-                func_80078884(NA_SE_SY_DECIDE);
-                this->unk_251 = 0;
-                this->unk_1FC = 0xA;
-                return true;
-            case 18:
-                func_80078884(NA_SE_SY_DECIDE);
-                this->unk_251 = 0;
-                this->unk_1FC = 0xB;
-                return true;
-            case 19:
-            case 20:
-                func_80078884(NA_SE_SY_ERROR);
-                this->unk_251 = 0;
-                this->unk_1FC = 0xC;
-                return true;
-            case 3:
-            case 6:
-            case 45:
-            case 46:
-            case 47:
-                func_80078884(NA_SE_SY_DECIDE);
-                this->unk_251 = 0;
-                this->unk_1FC = 0xD;
-                return true;
-            default:
-                func_80078884(NA_SE_SY_DECIDE);
-                this->unk_251 = 0;
-                this->unk_1FC = 9;
-                return true;
+                case 30:
+                case 31:
+                case 32:
+                case 33:
+                case 34:
+                case 35:
+                case 36:
+                case 37:
+                    func_80078884(NA_SE_SY_DECIDE);
+                    this->unk_251 = 0;
+                    this->unk_1FC = 0x18;
+                    return true;
+                case 17:
+                    func_80078884(NA_SE_SY_DECIDE);
+                    this->unk_251 = 0;
+                    this->unk_1FC = 0xA;
+                    return true;
+                case 18:
+                    func_80078884(NA_SE_SY_DECIDE);
+                    this->unk_251 = 0;
+                    this->unk_1FC = 0xB;
+                    return true;
+                case 19:
+                case 20:
+                    func_80078884(NA_SE_SY_ERROR);
+                    this->unk_251 = 0;
+                    this->unk_1FC = 0xC;
+                    return true;
+                case 3:
+                case 6:
+                case 45:
+                case 46:
+                case 47:
+                    func_80078884(NA_SE_SY_DECIDE);
+                    this->unk_251 = 0;
+                    this->unk_1FC = 0xD;
+                    return true;
+                default:
+                    func_80078884(NA_SE_SY_DECIDE);
+                    this->unk_251 = 0;
+                    this->unk_1FC = 9;
+                    return true;
             }
         }
         func_80078884(NA_SE_SY_ERROR);
@@ -1195,32 +1185,26 @@ void func_80AC4978(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                 a = func_80AC3E50(this, this->unk_252, 4);
                 if (a != 0xFF) {
                     this->unk_252 = a;
-                }
-                else
-                {
+                } else {
                     func_80AC3AE0(globalCtx, this);
                     return;
                 }
-            }
-            else if (this->stickX < 0) {
+            } else if (this->stickX < 0) {
                 b = func_80AC3ED8(this, this->unk_252, 8);
                 if (b != 0xFF) {
                     this->unk_252 = b;
                 }
             }
-        }
-        else {
+        } else {
             if (this->stickX > 0 && this->stickX > 500) {
                 c = func_80AC3E50(this, this->unk_252, 4);
                 if (c != 0xFF) {
                     this->unk_252 = c;
-                }
-                else {
+                } else {
                     func_80AC3AE0(globalCtx, this);
                     return;
                 }
-            }
-            else if (this->stickX < 0 && this->stickX < -500) {
+            } else if (this->stickX < 0 && this->stickX < -500) {
                 d = func_80AC3ED8(this, this->unk_252, 8);
                 if (d != 0xFF) {
                     this->unk_252 = d;
@@ -1259,34 +1243,27 @@ void func_80AC4B4C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                 phi_v0 = func_80AC3E50(this, this->unk_252, 0);
                 if (phi_v0 != 0xFF) {
                     this->unk_252 = phi_v0;
-                }
-                else
-                {
+                } else {
                     func_80AC3AE0(globalCtx, this);
                     return;
                 }
-                
-            }
-            else if (this->stickX > 0) {
+
+            } else if (this->stickX > 0) {
                 phi_v0 = func_80AC3ED8(this, this->unk_252, 4);
                 if (phi_v0 != 0xFF) {
                     this->unk_252 = phi_v0;
                 }
             }
-        }
-        else {
+        } else {
             if (this->stickX < 0 && this->stickX < -500) {
                 phi_v0 = func_80AC3E50(this, this->unk_252, 0);
                 if (phi_v0 != 0xFF) {
                     this->unk_252 = phi_v0;
-                }
-                else
-                {
+                } else {
                     func_80AC3AE0(globalCtx, this);
                     return;
                 }
-            }
-            else if (this->stickX > 0 && this->stickX > 500) {
+            } else if (this->stickX > 0 && this->stickX > 500) {
                 phi_v0 = func_80AC3ED8(this, this->unk_252, 4);
                 if (phi_v0 != 0xFF) {
                     this->unk_252 = phi_v0;
@@ -1358,44 +1335,41 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* sp24;
 
     sp24 = this->items[this->unk_252];
-    switch (sp24->unk_1BC(globalCtx, sp24)) { 
-    case 0:
-        if (sp24->actor.params == 0xC && gSaveContext.infTable[7] & 0x40) {
-            func_80AC62C4(globalCtx, this);
-            break;
-        }
-        else
-        {
-            func_80AC4EC8(globalCtx, this);
+    switch (sp24->unk_1BC(globalCtx, sp24)) {
+        case 0:
+            if (sp24->actor.params == 0xC && gSaveContext.infTable[7] & 0x40) {
+                func_80AC62C4(globalCtx, this);
+                break;
+            } else {
+                func_80AC4EC8(globalCtx, this);
+                this->unk_251 = 0;
+                this->unk_2D0 = 0.0f;
+                sp24->unk_1AC(globalCtx, sp24);
+                return;
+            }
+        case 1:
+            sp24->unk_1C0(globalCtx, sp24);
+            func_80AC4FE0(globalCtx, this, 0x84);
             this->unk_251 = 0;
             this->unk_2D0 = 0.0f;
             sp24->unk_1AC(globalCtx, sp24);
             return;
-        }
-    case 1:
-        sp24->unk_1C0(globalCtx, sp24);
-        func_80AC4FE0(globalCtx, this, 0x84);
-        this->unk_251 = 0;
-        this->unk_2D0 = 0.0f;
-        sp24->unk_1AC(globalCtx, sp24);
-        return;
-    case 2:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x86);
-        return;
-    case 3:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x96);
-        return;
-    case 4:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x85);
-        return;
-    case 5:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x86);
-        return;
-        
+        case 2:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x86);
+            return;
+        case 3:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x96);
+            return;
+        case 4:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x85);
+            return;
+        case 5:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x86);
+            return;
     }
 }
 
@@ -1403,23 +1377,23 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
 void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
     switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
-    case 0:
-        func_8010B720(globalCtx, 0x9C);
-        this->unk_1FC = 0x12;
-        this->unk_251 = 0;
-        return;
-    case 1:
-        temp_s0->unk_1C0(globalCtx, temp_s0);
-        func_80AC4FE0(globalCtx, this, 0x98);
-        this->unk_251 = 0;
-        this->unk_2D0 = 0.0f;
-        temp_s0->unk_1AC(globalCtx, temp_s0);
-        return;
-    case 3:
-        func_80AC4FAC(globalCtx, this, 0x96);
-        return;
-    case 4:
-        func_80AC4FAC(globalCtx, this, 0x85);
+        case 0:
+            func_8010B720(globalCtx, 0x9C);
+            this->unk_1FC = 0x12;
+            this->unk_251 = 0;
+            return;
+        case 1:
+            temp_s0->unk_1C0(globalCtx, temp_s0);
+            func_80AC4FE0(globalCtx, this, 0x98);
+            this->unk_251 = 0;
+            this->unk_2D0 = 0.0f;
+            temp_s0->unk_1AC(globalCtx, temp_s0);
+            return;
+        case 3:
+            func_80AC4FAC(globalCtx, this, 0x96);
+            return;
+        case 4:
+            func_80AC4FAC(globalCtx, this, 0x85);
     }
 }
 
@@ -1428,49 +1402,48 @@ void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
 
     switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
-    case 0:
-        func_80AC4EC8(globalCtx, this);
-        this->unk_251 = 0;
-        this->unk_2D0 = 0.0f;
-        temp_s0->unk_1AC(globalCtx, temp_s0);
-        return;
-    case 1:
-        temp_s0->unk_1C0(globalCtx, temp_s0);
-        func_80AC4FE0(globalCtx, this, 0x9A);
-        this->unk_251 = 0;
-        this->unk_2D0 = 0.0f;
-        temp_s0->unk_1AC(globalCtx, temp_s0);
-        return;
-    case 2:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x9D);
-        return;
-    case 4:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x85);
+        case 0:
+            func_80AC4EC8(globalCtx, this);
+            this->unk_251 = 0;
+            this->unk_2D0 = 0.0f;
+            temp_s0->unk_1AC(globalCtx, temp_s0);
+            return;
+        case 1:
+            temp_s0->unk_1C0(globalCtx, temp_s0);
+            func_80AC4FE0(globalCtx, this, 0x9A);
+            this->unk_251 = 0;
+            this->unk_2D0 = 0.0f;
+            temp_s0->unk_1AC(globalCtx, temp_s0);
+            return;
+        case 2:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x9D);
+            return;
+        case 4:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x85);
     }
 }
-
 
 void func_80AC53F4(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
 
     switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
-    case 0:
-    case 1:
-        temp_s0->unk_1C0(globalCtx, temp_s0);
-        func_80AC4FE0(globalCtx, this, 0x84);
-        this->unk_251 = 0;
-        this->unk_2D0 = 0.0f;
-        temp_s0->unk_1AC(globalCtx, temp_s0);
-        return;
-    case 2:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x86);
-        return;
-    case 4:
-        func_80078884(NA_SE_SY_ERROR);
-        func_80AC4FAC(globalCtx, this, 0x85);
+        case 0:
+        case 1:
+            temp_s0->unk_1C0(globalCtx, temp_s0);
+            func_80AC4FE0(globalCtx, this, 0x84);
+            this->unk_251 = 0;
+            this->unk_2D0 = 0.0f;
+            temp_s0->unk_1AC(globalCtx, temp_s0);
+            return;
+        case 2:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x86);
+            return;
+        case 4:
+            func_80078884(NA_SE_SY_ERROR);
+            func_80AC4FAC(globalCtx, this, 0x85);
     }
 }
 
@@ -1479,43 +1452,36 @@ void func_80AC54F4(GlobalContext* globalCtx, EnOssan* this) {
         if (!(gSaveContext.eventChkInf[2] & 0x20)) {
             if (gSaveContext.infTable[15] & 0x1000) {
                 func_80AC4FAC(globalCtx, this, 0x302E);
-            }
-            else
-            {
+            } else {
                 this->unk_254.isEnabled = false;
                 this->unk_28C.isEnabled = false;
                 this->unk_251 = 0;
                 this->unk_1FC = 0x13;
             }
-        }
-        else
-        {
+        } else {
             func_80AC53F4(globalCtx, this);
         }
-    }
-    else
-    {
+    } else {
         func_80AC53F4(globalCtx, this);
     }
 }
 
-
 void func_80AC5594(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    GlobalContext* globalCtx2 = globalCtx; //Necessary for OKs
+    GlobalContext* globalCtx2 = globalCtx; // Necessary for OKs
 
     if (!func_80AC6490(this)) {
         osSyncPrintf("%s[%d]:\x1b[32mズーム中！！\x1b[m\n", "../z_en_oB1.c", 2654);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && !func_80AC38C8(this, globalCtx, globalCtx->state.input) && func_80106BC8(globalCtx) != 0) {
-        switch (globalCtx->msgCtx.choiceIndex)
-        {
-        case 0:
-            func_80AC5014(globalCtx, this);
-            break;
-        case 1:
-            this->unk_1FC = this->unk_1FE;
-            func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && !func_80AC38C8(this, globalCtx, globalCtx->state.input) &&
+        func_80106BC8(globalCtx) != 0) {
+        switch (globalCtx->msgCtx.choiceIndex) {
+            case 0:
+                func_80AC5014(globalCtx, this);
+                break;
+            case 1:
+                this->unk_1FC = this->unk_1FE;
+                func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
         }
     }
 }
@@ -1527,32 +1493,34 @@ void func_80AC5680(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         osSyncPrintf("%s[%d]:\x1b[32mズーム中！！\x1b[m\n", "../z_en_oB1.c", 2693);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && !func_80AC38C8(this, globalCtx, globalCtx->state.input) && func_80106BC8(globalCtx) != 0) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && !func_80AC38C8(this, globalCtx, globalCtx->state.input) &&
+        func_80106BC8(globalCtx) != 0) {
         switch (globalCtx->msgCtx.choiceIndex) {
-        case 0:
-            func_80AC51B8(globalCtx, this);
-            break;
-        case 1:
-            this->unk_1FC = this->unk_1FE;
-            func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
+            case 0:
+                func_80AC51B8(globalCtx, this);
+                break;
+            case 1:
+                this->unk_1FC = this->unk_1FE;
+                func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
         }
     }
 }
 
 void func_80AC576C(EnOssan* this, GlobalContext* globalCtx, Player* player) {
-    GlobalContext* globalCtx2 = globalCtx; //Needed for OK
+    GlobalContext* globalCtx2 = globalCtx; // Needed for OK
     if (!func_80AC6490(this)) {
         osSyncPrintf("%s[%d]:\x1b[32mズーム中！！\x1b[m\n", "../z_en_oB1.c", 2732);
         return;
     }
-    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && !func_80AC38C8(this, globalCtx, globalCtx->state.input) && (func_80106BC8(globalCtx) != 0)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && !func_80AC38C8(this, globalCtx, globalCtx->state.input) &&
+        (func_80106BC8(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
-        case 0:
-            func_80AC52C0(globalCtx, this);
-            break;
-        case 1:
-            this->unk_1FC = this->unk_1FE;
-            func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
+            case 0:
+                func_80AC52C0(globalCtx, this);
+                break;
+            case 1:
+                this->unk_1FC = this->unk_1FE;
+                func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
         }
     }
 }
@@ -1576,18 +1544,19 @@ void func_80AC5900(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         return;
     }
     osSyncPrintf("店主の依頼 ( %d )\n", gSaveContext.infTable[15] & 0x1000);
-    if (this->actor.params != 8) {
+    if (this->actor.params != OSSAN_TYPE_GORON) {
         func_80AC5594(this, globalCtx, player);
         return;
     }
-    if ((func_8010BDBC(&globalCtx->msgCtx) == 4) && (func_80AC38C8(this, globalCtx, globalCtx->state.input) == 0) && (func_80106BC8(globalCtx) != 0)) {
+    if (func_8010BDBC(&globalCtx->msgCtx) == 4 && func_80AC38C8(this, globalCtx, globalCtx->state.input) == 0 &&
+        func_80106BC8(globalCtx) != 0) {
         switch (globalCtx->msgCtx.choiceIndex) {
-        case 0:
-            func_80AC54F4(globalCtx, this);
-            break;
-        case 1:
-            this->unk_1FC = this->unk_1FE;
-            func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
+            case 0:
+                func_80AC54F4(globalCtx, this);
+                break;
+            case 1:
+                this->unk_1FC = this->unk_1FE;
+                func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
         }
     }
 }
@@ -1608,38 +1577,38 @@ void func_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
             return;
         }
-    }
-    else if ((sp27 == 4) && (func_80AC38C8(this, globalCtx, &globalCtx->state.input[0]) == 0) && (func_80106BC8(globalCtx) != 0)) {
+    } else if ((sp27 == 4) && (func_80AC38C8(this, globalCtx, &globalCtx->state.input[0]) == 0) &&
+               (func_80106BC8(globalCtx) != 0)) {
         switch (globalCtx->msgCtx.choiceIndex) {
-        case 0:
-            switch (sp20->actor.params) {
-            case 0x1E:
-                gSaveContext.itemGetInf[2] |= 0x08;
-                break;
-            case 0x1F:
-                gSaveContext.itemGetInf[2] |= 0x20;
-                break;
-            case 0x20:
-                gSaveContext.itemGetInf[2] |= 0x10;
-                break;
-            case 0x21:
-                gSaveContext.itemGetInf[2] |= 0x40;
-                break;
-            case 0x22:
-            case 0x23:
-            case 0x24:
-            case 0x25:
-                break;
-            }
-            func_80AC4EC8(globalCtx, this);
-            this->unk_251 = 0;
-            this->unk_2D0 = 0.0f;
-            sp20->unk_1AC(globalCtx, sp20);
-            return;
+            case 0:
+                switch (sp20->actor.params) {
+                    case 0x1E:
+                        gSaveContext.itemGetInf[2] |= 0x08;
+                        break;
+                    case 0x1F:
+                        gSaveContext.itemGetInf[2] |= 0x20;
+                        break;
+                    case 0x20:
+                        gSaveContext.itemGetInf[2] |= 0x10;
+                        break;
+                    case 0x21:
+                        gSaveContext.itemGetInf[2] |= 0x40;
+                        break;
+                    case 0x22:
+                    case 0x23:
+                    case 0x24:
+                    case 0x25:
+                        break;
+                }
+                func_80AC4EC8(globalCtx, this);
+                this->unk_251 = 0;
+                this->unk_2D0 = 0.0f;
+                sp20->unk_1AC(globalCtx, sp20);
+                return;
 
-        case 1:
-            this->unk_1FC = this->unk_1FE;
-            func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
+            case 1:
+                this->unk_1FC = this->unk_1FE;
+                func_8010B720(globalCtx, this->items[this->unk_252]->actor.textId);
         }
     }
 }
@@ -1680,7 +1649,7 @@ void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
     EnGirlA* sp20;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
-        if (this->actor.params == 0xA) {
+        if (this->actor.params == OSSAN_TYPE_MASK) {
             sp20 = this->items[this->unk_252];
             func_80AC646C(this);
             temp_a1 = this->items[this->unk_252];
@@ -1692,9 +1661,7 @@ void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
                 func_80AC2F2C(this, globalCtx);
                 this->unk_1FC = 1;
                 return;
-            }
-            else
-            {
+            } else {
                 EnOssan_EndInteraction(globalCtx, this);
                 return;
             }
@@ -1719,24 +1686,23 @@ void func_80AC5EF0(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             if (!EnOssan_Exit(this, globalCtx, globalCtx->state.input)) {
                 switch (globalCtx->msgCtx.choiceIndex) {
 
-                case 0:
-                    osSyncPrintf("\x1b[33m★★★ 続けるよ！！ ★★★\x1b[m\n");
-                    player->actor.shape.rot.y += 0x8000;
-                    player->stateFlags2 |= 0x20000000;
-                    func_800BC490(globalCtx, 2);
-                    func_8010B680(globalCtx, this->actor.textId, &this->actor);
-                    func_80AC3928(globalCtx, this, 1);
-                    func_8002F298(&this->actor, globalCtx, 100.0f, -1);
-                    break;
-                case 1:
-                default:
-                    osSyncPrintf("\x1b[33m★★★ やめるよ！！ ★★★\x1b[m\n");
-                    EnOssan_EndInteraction(globalCtx, this);
+                    case 0:
+                        osSyncPrintf("\x1b[33m★★★ 続けるよ！！ ★★★\x1b[m\n");
+                        player->actor.shape.rot.y += 0x8000;
+                        player->stateFlags2 |= 0x20000000;
+                        func_800BC490(globalCtx, 2);
+                        func_8010B680(globalCtx, this->actor.textId, &this->actor);
+                        func_80AC3928(globalCtx, this, 1);
+                        func_8002F298(&this->actor, globalCtx, 100.0f, -1);
+                        break;
+                    case 1:
+                    default:
+                        osSyncPrintf("\x1b[33m★★★ やめるよ！！ ★★★\x1b[m\n");
+                        EnOssan_EndInteraction(globalCtx, this);
                 }
             }
         }
-    }
-    else if (temp_v0 == 5 && func_80106BC8(globalCtx) != 0) {
+    } else if (temp_v0 == 5 && func_80106BC8(globalCtx) != 0) {
         func_80AC646C(this);
         temp_a1 = this->items[this->unk_252];
         temp_a1->unk_1B0(globalCtx, temp_a1);
@@ -1836,8 +1802,7 @@ s32 func_80AC6490(EnOssan* this) {
     func_80AC6384(this);
     if (this->unk_2D0 == 1.0f) {
         return true;
-    }
-    else {
+    } else {
         return false;
     }
 }
@@ -1850,9 +1815,7 @@ s32 func_80AC652C(EnOssan* this) {
     func_80AC6384(this);
     if (this->unk_2D0 == 0.0f) {
         return true;
-    }
-    else
-    {
+    } else {
         return false;
     }
 }
@@ -1863,24 +1826,13 @@ void func_80AC65B8(EnOssan* this) {
 
     for (i = 0; i < 8; i++) {
         if (temp_a1[0] != NULL) {
-            if (this->unk_1FC != 9
-                && this->unk_1FC != 0xA
-                && this->unk_1FC != 0xB
-                && this->unk_1FC != 0xC
-                && this->unk_1FC != 0xD
-                && this->unk_1FC != 0x18
-                && this->unk_1FC != 0xE
-                && this->unk_251 == 0) {
+            if (this->unk_1FC != 9 && this->unk_1FC != 0xA && this->unk_1FC != 0xB && this->unk_1FC != 0xC &&
+                this->unk_1FC != 0xD && this->unk_1FC != 0x18 && this->unk_1FC != 0xE && this->unk_251 == 0) {
                 temp_a1[0]->unk_1B4 = 0;
-            }
-            else
-            {
-                if (this->unk_252 == i)
-                {
+            } else {
+                if (this->unk_252 == i) {
                     temp_a1[0]->unk_1B4 = 1;
-                }
-                else
-                {
+                } else {
                     temp_a1[0]->unk_1B4 = 0;
                 }
             }
@@ -1899,8 +1851,7 @@ void func_80AC66F4(EnOssan* this) {
             t = 1.0f;
             this->unk_250 = 1;
         }
-    }
-    else {
+    } else {
         t -= 0.05f;
         if (t <= 0.0f) {
             t = 0.0f;
@@ -1927,8 +1878,7 @@ void func_80AC67C4(EnOssan* this) {
             phi_f2 = 1.0f;
             this->unk_2CC = 1;
         }
-    }
-    else {
+    } else {
         phi_f2 -= 0.05f;
         if (phi_f2 < 0.0f) {
             phi_f2 = 0.0f;
@@ -1942,8 +1892,7 @@ void func_80AC67C4(EnOssan* this) {
             phi_f0 = 1.0f;
             this->unk_2CD = 1;
         }
-    }
-    else {
+    } else {
         phi_f0 = 0.0f;
         this->unk_2CD = 0;
     }
@@ -1954,7 +1903,7 @@ void func_80AC67C4(EnOssan* this) {
         this->unk_254.colorB.b = (u8)(0 - (s32)(-100.0f * phi_f2));
         this->unk_254.colorB.a = (u8)(200 - (s32)(50.0f * phi_f2));
     } while (0);
-        this->unk_28C.xB = 290.0f; //x2
+    this->unk_28C.xB = 290.0f;
     do {
         this->unk_28C.colorB.r = (u8)(255 - (s32)(155.0f * phi_f2));
         this->unk_28C.colorB.g = (u8)(255 - (s32)(155.0f * phi_f2));
@@ -1962,13 +1911,13 @@ void func_80AC67C4(EnOssan* this) {
         this->unk_28C.colorB.a = (u8)(200 - (s32)(50.0f * phi_f2));
     } while (0);
 
-    this->unk_28C.yB = 91.0f; //y2
-    this->unk_254.yB = 91.0f; //y1
-    this->unk_28C.yA = 95.0f; //t2
-    this->unk_254.yA = 95.0f; //t1
-    this->unk_254.xB = 33.0f; //x1
-    this->unk_28C.xA = 274.0f + 8.0f * phi_f0; //s2
-    this->unk_254.xA = 49.0f - 8.0f * phi_f0; //s1
+    this->unk_28C.yB = 91.0f;                  
+    this->unk_254.yB = 91.0f;                  
+    this->unk_28C.yA = 95.0f;                  
+    this->unk_254.yA = 95.0f;                  
+    this->unk_254.xB = 33.0f;                  
+    this->unk_28C.xA = 274.0f + 8.0f * phi_f0; // s2
+    this->unk_254.xA = 49.0f - 8.0f * phi_f0;  // s1
 }
 #else
 void func_80AC67C4(EnOssan* this);
@@ -2009,75 +1958,72 @@ void func_80AC69A4(EnOssan* this) {
 
 s32 func_80AC6A44(EnOssan* this, GlobalContext* globalCtx) {
     if (Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex1)) {
-        if ((this->objectIndex2 >= 0) && !Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex2)) {
+        if (this->objectIndex2 >= 0 && !Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex2)) {
             return false;
         }
-
-        if ((this->objectIndex3 >= 0) && !Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex3)) {
+        if (this->objectIndex3 >= 0 && !Object_IsLoaded(&globalCtx->objectCtx, this->objectIndex3)) {
             return false;
         }
-
         return true;
     }
-
     return false;
 }
 
-void func_80AC6ADC(EnOssan* this, GlobalContext* globalCtx) {
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06009B38, &D_06000338, NULL, NULL, 0);
-    this->actor.draw = func_80AC7DAC;
+void EnOssan_InitBazaarShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gObjectOssanSkel_009B38, &gObjectOssanAnim_000338, NULL, NULL, 0);
+    this->actor.draw = EnOssan_DrawBazaarShopkeeper;
     this->unk_194 = NULL;
 }
 
 // init kokiri shopowner
-void func_80AC6B3C(EnOssan* this, GlobalContext* globalCtx) {
+void EnOssan_InitKokiriShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_060000F0, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex3].segment);
     Animation_Change(&this->skelAnime, &D_060004A8, 1.0f, 0.0f, Animation_GetLastFrame(&D_060004A8), 0, 0.0f);
-    this->actor.draw = func_80AC80B4;
+    this->actor.draw = EnOssan_DrawKokiriShopkeeper;
     this->unk_194 = func_80AC7380;
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_ELF, this->actor.world.pos.x,
                        this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, FAIRY_KOKIRI);
 }
 
-void func_80AC6C54(EnOssan* this, GlobalContext* globalCtx) {
+void EnOssan_InitGoronShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600FEF0, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex3].segment);
     Animation_Change(&this->skelAnime, &D_060000FC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060000FC), 0, 0.0f);
-    this->actor.draw = func_80AC8244;
+    this->actor.draw = EnOssan_DrawGoronShopkeeper;
     this->unk_194 = func_80AC7380;
 }
 
-void func_80AC6D30(EnOssan* this, GlobalContext* globalCtx) {
+void EnOssan_InitZoraShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600BFA8, NULL, NULL, NULL, 0);
     gSegments[6] = PHYSICAL_TO_VIRTUAL(globalCtx->objectCtx.status[this->objectIndex3].segment);
     Animation_Change(&this->skelAnime, &D_0600078C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600078C), 0, 0.0f);
-    this->actor.draw = func_80AC83DC;
+    this->actor.draw = EnOssan_DrawZoraShopkeeper;
     this->unk_194 = func_80AC7380;
 }
 
-void func_80AC6E0C(EnOssan* this, GlobalContext* globalCtx) {
+void EnOssan_InitPotionShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004258, &D_060002E4, 0, 0, 0);
-    this->actor.draw = func_80AC854C;
+    this->actor.draw = EnOssan_DrawPotionShopkeeper;
     this->unk_194 = NULL;
 }
 
-void func_80AC6E6C(EnOssan* this, GlobalContext* globalCtx) {
+void EnOssan_InitHappyMaskShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004658, &D_060002E4, NULL, NULL, 0);
-    this->actor.draw = func_80AC8668;
+    this->actor.draw = EnOssan_DrawHappyMaskShopkeeper;
     this->unk_194 = NULL;
 }
 
-void func_80AC6ECC(EnOssan* this, GlobalContext* globalCtx) {
+void EnOssan_InitBombchuShopkeeper(EnOssan* this, GlobalContext* globalCtx) {
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004868, &D_0600065C, 0, 0, 0);
-    this->actor.draw = func_80AC8784;
+    this->actor.draw = EnOssan_DrawBombchuShopkeeper;
     this->unk_194 = NULL;
 }
 
 u16 func_80AC6F2C(EnOssan* this) {
     this->unk_1EB = 8;
     // mask shop messages
-    if (this->actor.params == 0xA) {
+    if (this->actor.params == OSSAN_TYPE_MASK) {
         if (INV_CONTENT(ITEM_TRADE_CHILD) == ITEM_SOLD_OUT) {
             if (gSaveContext.itemGetInf[3] & 0x800) {
                 if (!(gSaveContext.eventChkInf[8] & 0x8000)) {
@@ -2152,9 +2098,9 @@ void func_80AC7094(EnOssan* this, GlobalContext* globalCtx) {
         // "Shopkeeper (params) init"
         osSyncPrintf(VT_FGCOL(YELLOW) "◇◇◇ 店のおやじ( %d ) 初期設定 ◇◇◇" VT_RST "\n", this->actor.params);
 
-        this->actor.world.pos.x += D_80AC8DB0[this->actor.params].x;
-        this->actor.world.pos.y += D_80AC8DB0[this->actor.params].y;
-        this->actor.world.pos.z += D_80AC8DB0[this->actor.params].z;
+        this->actor.world.pos.x += sShopkeeperPositionOffsets[this->actor.params].x;
+        this->actor.world.pos.y += sShopkeeperPositionOffsets[this->actor.params].y;
+        this->actor.world.pos.z += sShopkeeperPositionOffsets[this->actor.params].z;
 
         items = sShopkeeperStores[this->actor.params];
 
@@ -2263,7 +2209,8 @@ void EnOssan_Update(Actor* thisx, GlobalContext* globalCtx) {
     this->actionFunc(this, globalCtx);
 }
 
-s32 func_80AC74F4(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnOssan_OverrideLimbDrawDefaultShopkeeper(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos,
+                                              Vec3s* rot, void* thisx) {
     EnOssan* this = THIS;
 
     if (limbIndex == 8) {
@@ -2283,7 +2230,8 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 x, f32 y, f32 z,
         func_80094520(globalCtx->state.gfxCtx);
         gDPSetPrimColor(OVERLAY_DISP++, 0, 0, this->unk_23C.r, this->unk_23C.g, this->unk_23C.b, this->unk_23C.a);
         do {
-            gDPLoadTextureBlock_4b(OVERLAY_DISP++, &gSelectionCursorTex, G_IM_FMT_IA, 16, 16, 0, G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
+            gDPLoadTextureBlock_4b(OVERLAY_DISP++, &gSelectionCursorTex, G_IM_FMT_IA, 16, 16, 0,
+                                   G_TX_MIRROR | G_TX_WRAP, G_TX_MIRROR | G_TX_WRAP, 4, 4, G_TX_NOLOD, G_TX_NOLOD);
         } while (0);
         w = 16.0f * z;
         ulx = (x - w) * 4.0f;
@@ -2291,15 +2239,13 @@ void func_80AC7528(GlobalContext* globalCtx, EnOssan* this, f32 x, f32 y, f32 z,
         lrx = (x + w) * 4.0f;
         lry = (y + w) * 4.0f;
         dsdx = (1.0f / z) * 1024.0f;
-        gSPTextureRectangle(OVERLAY_DISP++,
-            ulx, uly,
-            lrx, lry, G_TX_RENDERTILE,
-            0, 0, dsdx, dsdx);
+        gSPTextureRectangle(OVERLAY_DISP++, ulx, uly, lrx, lry, G_TX_RENDERTILE, 0, 0, dsdx, dsdx);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4215);
 }
 
-void func_80AC77CC(GlobalContext* globalCtx, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 arg10, f32 arg11) {
+void func_80AC77CC(GlobalContext* globalCtx, s32 r, s32 g, s32 b, s32 a, f32 x, f32 y, f32 z, s32 s, s32 t, f32 arg10,
+                   f32 arg11) {
     f32 unk;
     s32 ulx, uly, lrx, lry;
     f32 w, h;
@@ -2319,11 +2265,7 @@ void func_80AC77CC(GlobalContext* globalCtx, s32 r, s32 g, s32 b, s32 a, f32 x, 
     uly = ((y - h) * 4.0f);
     lrx = ((x + w) * 4.0f);
     lry = ((y + h) * 4.0f);
-    gSPTextureRectangle(OVERLAY_DISP++,
-        ulx, uly,
-        lrx, lry,
-        G_TX_RENDERTILE, s, t, 
-        dsdx, dtdy);
+    gSPTextureRectangle(OVERLAY_DISP++, ulx, uly, lrx, lry, G_TX_RENDERTILE, s, t, dsdx, dtdy);
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4242);
 }
 
@@ -2336,53 +2278,64 @@ void func_80AC79C8(GlobalContext* globalCtx, EnOssan* this) {
         func_80094520(globalCtx->state.gfxCtx);
         gDPSetCombineMode(OVERLAY_DISP++, G_CC_MODULATEIA_PRIM, G_CC_MODULATEIA_PRIM);
         gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, &gArrowCursorTex);
-        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                   G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
         gDPLoadSync(OVERLAY_DISP++);
         gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 191, 1024);
         gDPPipeSync(OVERLAY_DISP++);
-        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                   G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
         gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 15 * 4, 23 * 4);
         if (sp9C) {
-            func_80AC77CC(globalCtx, this->unk_254.colorB.r, this->unk_254.colorB.g, this->unk_254.colorB.b, this->unk_254.colorB.a, this->unk_254.xB, this->unk_254.yB, this->unk_254.z, 0, 0, -1.0f, 1.0f);
+            func_80AC77CC(globalCtx, this->unk_254.colorB.r, this->unk_254.colorB.g, this->unk_254.colorB.b,
+                          this->unk_254.colorB.a, this->unk_254.xB, this->unk_254.yB, this->unk_254.z, 0, 0, -1.0f,
+                          1.0f);
         }
         if (sp98) {
-            func_80AC77CC(globalCtx, this->unk_28C.colorB.r, this->unk_28C.colorB.g, this->unk_28C.colorB.b, this->unk_28C.colorB.a, this->unk_28C.xB, this->unk_28C.yB, this->unk_28C.z, 0, 0, 1.0f, 1.0f);
+            func_80AC77CC(globalCtx, this->unk_28C.colorB.r, this->unk_28C.colorB.g, this->unk_28C.colorB.b,
+                          this->unk_28C.colorB.a, this->unk_28C.xB, this->unk_28C.yB, this->unk_28C.z, 0, 0, 1.0f,
+                          1.0f);
         }
         gDPSetTextureImage(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 1, &gControlStickTex);
-        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_16b, 0, 0x0000, G_TX_LOADTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                   G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
         gDPLoadSync(OVERLAY_DISP++);
         gDPLoadBlock(OVERLAY_DISP++, G_TX_LOADTILE, 0, 0, 127, 1024);
         gDPPipeSync(OVERLAY_DISP++);
-        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
+        gDPSetTile(OVERLAY_DISP++, G_IM_FMT_IA, G_IM_SIZ_8b, 2, 0x0000, G_TX_RENDERTILE, 0, G_TX_NOMIRROR | G_TX_WRAP,
+                   G_TX_NOMASK, G_TX_NOLOD, G_TX_NOMIRROR | G_TX_WRAP, 4, G_TX_NOLOD);
         gDPSetTileSize(OVERLAY_DISP++, G_TX_RENDERTILE, 0, 0, 15 * 4, 15 * 4);
         if (sp9C) {
-            func_80AC77CC(globalCtx, this->unk_254.colorA.r, this->unk_254.colorA.g, this->unk_254.colorA.b, this->unk_254.colorA.a, this->unk_254.xA, this->unk_254.yA, this->unk_254.z, 0, 0, -1.0f, 1.0f);
+            func_80AC77CC(globalCtx, this->unk_254.colorA.r, this->unk_254.colorA.g, this->unk_254.colorA.b,
+                          this->unk_254.colorA.a, this->unk_254.xA, this->unk_254.yA, this->unk_254.z, 0, 0, -1.0f,
+                          1.0f);
         }
         if (sp98) {
-            func_80AC77CC(globalCtx, this->unk_28C.colorA.r, this->unk_28C.colorA.g, this->unk_28C.colorA.b, this->unk_28C.colorA.a, this->unk_28C.xA, this->unk_28C.yA, this->unk_28C.z, 0, 0, 1.0f, 1.0f);
+            func_80AC77CC(globalCtx, this->unk_28C.colorA.r, this->unk_28C.colorA.g, this->unk_28C.colorA.b,
+                          this->unk_28C.colorA.a, this->unk_28C.xA, this->unk_28C.yA, this->unk_28C.z, 0, 0, 1.0f,
+                          1.0f);
         }
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4300);
 }
 
-
-void func_80AC7DAC(Actor* thisx, GlobalContext* globalCtx) {
+void EnOssan_DrawBazaarShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4320);
 
     func_80093D18(globalCtx->state.gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EA0[this->unk_1F2]));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sBazaarShopkeeperEyeTextures[this->unk_1F2]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80AC74F4, NULL, this);
+                          EnOssan_OverrideLimbDrawDefaultShopkeeper, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4340);
 }
 
-s32 func_80AC7ED0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnOssan_OverrideLimbDrawKokiriShopkeeper(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnOssan* this = THIS;
     s32 pad;
 
@@ -2392,7 +2345,7 @@ s32 func_80AC7ED0(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* p
         gSPSegment(POLY_OPA_DISP++, 0x06, globalCtx->objectCtx.status[this->objectIndex2].segment);
         gSegments[6] = VIRTUAL_TO_PHYSICAL(globalCtx->objectCtx.status[this->objectIndex2].segment);
         *dList = D_06002820;
-        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(D_80AC8EAC[this->unk_1F2]));
+        gSPSegment(POLY_OPA_DISP++, 0x0A, SEGMENTED_TO_VIRTUAL(sKokiriShopkeeperEyeTextures[this->unk_1F2]));
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4374);
@@ -2416,7 +2369,7 @@ Gfx* func_80AC8048(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     return disp;
 }
 
-void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx) {
+void EnOssan_DrawKokiriShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
 
@@ -2429,14 +2382,14 @@ void func_80AC80B4(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x0C, func_80AC801C(globalCtx->state.gfxCtx));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80AC7ED0, NULL, this);
+                          EnOssan_OverrideLimbDrawKokiriShopkeeper, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4434);
 }
 
-void func_80AC8244(Actor* thisx, GlobalContext* globalCtx) {
+void EnOssan_DrawGoronShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
 
@@ -2453,17 +2406,16 @@ void func_80AC8244(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4476);
 }
 
-s32 func_80AC83A8(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnOssan_OverrideLimbDrawZoraShopkeeper(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnOssan* this = THIS;
 
     if (limbIndex == 15) {
         rot->x += this->unk_1EE;
     }
-
     return 0;
 }
 
-void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx) {
+void EnOssan_DrawZoraShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
 
@@ -2475,14 +2427,14 @@ void func_80AC83DC(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80AC8EC4[this->unk_1F2]));
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                          func_80AC83A8, NULL, this);
+                          EnOssan_OverrideLimbDrawZoraShopkeeper, NULL, this);
     func_80AC7528(globalCtx, this, this->unk_230, this->unk_234, this->unk_238, this->unk_251);
     func_80AC79C8(globalCtx, this);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4531);
 }
 
-void func_80AC854C(Actor* thisx, GlobalContext* globalCtx) {
+void EnOssan_DrawPotionShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
 
@@ -2498,7 +2450,7 @@ void func_80AC854C(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4564);
 }
 
-void func_80AC8668(Actor* thisx, GlobalContext* globalCtx) {
+void EnOssan_DrawHappyMaskShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
 
@@ -2515,7 +2467,7 @@ void func_80AC8668(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_oB1.c", 4598);
 }
 
-void func_80AC8784(Actor* thisx, GlobalContext* globalCtx) {
+void EnOssan_DrawBombchuShopkeeper(Actor* thisx, GlobalContext* globalCtx) {
     EnOssan* this = THIS;
     s32 pad;
 
