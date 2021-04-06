@@ -664,22 +664,22 @@ void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag) {
 }
 
 void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    titleCtx->delayA = titleCtx->delayB = titleCtx->unk_E = titleCtx->unk_C = 0;
+    titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 arg3, s16 arg4,
-                            u8 arg5, u8 arg6) {
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
+                            s16 y, u8 width, u8 height) {
     titleCtx->texture = texture;
-    titleCtx->unk_4 = arg3;
-    titleCtx->unk_6 = arg4;
-    titleCtx->unk_8 = arg5;
-    titleCtx->unk_9 = arg6;
-    titleCtx->delayA = 80;
-    titleCtx->delayB = 0;
+    titleCtx->x = x;
+    titleCtx->y = y;
+    titleCtx->width = width;
+    titleCtx->height = height;
+    titleCtx->durationTimer = 80;
+    titleCtx->delayTimer = 0;
 }
 
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 arg3, s32 arg4,
-                             s32 arg5, s32 arg6, s32 arg7) {
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
+                             s32 y, s32 width, s32 height, s32 delay) {
     Scene* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
@@ -688,22 +688,22 @@ void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCt
     }
 
     titleCtx->texture = texture;
-    titleCtx->unk_4 = arg3;
-    titleCtx->unk_6 = arg4;
-    titleCtx->unk_8 = arg5;
-    titleCtx->unk_9 = arg6;
-    titleCtx->delayA = 80;
-    titleCtx->delayB = arg7;
+    titleCtx->x = x;
+    titleCtx->y = y;
+    titleCtx->width = width;
+    titleCtx->height = height;
+    titleCtx->durationTimer = 80;
+    titleCtx->delayTimer = delay;
 }
 
 void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    if (DECR(titleCtx->delayB) == 0) {
-        if (DECR(titleCtx->delayA) == 0) {
-            Math_StepToS(&titleCtx->unk_C, 0, 30);
-            Math_StepToS(&titleCtx->unk_E, 0, 70);
+    if (DECR(titleCtx->delayTimer) == 0) {
+        if (DECR(titleCtx->durationTimer) == 0) {
+            Math_StepToS(&titleCtx->alpha, 0, 30);
+            Math_StepToS(&titleCtx->intensity, 0, 70);
         } else {
-            Math_StepToS(&titleCtx->unk_C, 255, 10);
-            Math_StepToS(&titleCtx->unk_E, 255, 20);
+            Math_StepToS(&titleCtx->alpha, 255, 10);
+            Math_StepToS(&titleCtx->intensity, 255, 20);
         }
     }
 }
@@ -718,11 +718,11 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     s32 spB4;
     s32 spB0;
 
-    if (titleCtx->unk_C != 0) {
-        spCC = titleCtx->unk_8;
-        spC8 = titleCtx->unk_9;
-        spC0 = (titleCtx->unk_4 * 4) - (spCC * 2);
-        spB8 = (titleCtx->unk_6 * 4) - (spC8 * 2);
+    if (titleCtx->alpha != 0) {
+        spCC = titleCtx->width;
+        spC8 = titleCtx->height;
+        spC0 = (titleCtx->x * 4) - (spCC * 2);
+        spB8 = (titleCtx->y * 4) - (spC8 * 2);
         sp38 = spCC * 2;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2824);
@@ -735,8 +735,8 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 
         OVERLAY_DISP = func_80093808(OVERLAY_DISP);
 
-        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->unk_E, (u8)titleCtx->unk_E, (u8)titleCtx->unk_E,
-                        (u8)titleCtx->unk_C);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
+                        (u8)titleCtx->alpha);
 
         gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
@@ -745,7 +745,7 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
         gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
                             0, 0, 1024, 1024);
 
-        spC8 = titleCtx->unk_9 - spC8;
+        spC8 = titleCtx->height - spC8;
 
         if (spC8 > 0) {
             gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
@@ -761,9 +761,9 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 }
 
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    if ((globalCtx->actorCtx.titleCtx.delayB != 0) || (globalCtx->actorCtx.titleCtx.unk_C != 0)) {
-        titleCtx->delayA = 0;
-        titleCtx->delayB = 0;
+    if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
+        titleCtx->durationTimer = 0;
+        titleCtx->delayTimer = 0;
         return 0;
     }
 
