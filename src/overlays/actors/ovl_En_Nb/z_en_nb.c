@@ -748,10 +748,10 @@ void func_80AB26C8(EnNb* this) {
 void func_80AB26DC(EnNb* this, GlobalContext* globalCtx) {
     s32 pad;
     AnimationHeader* animation = &gNabooruCollapseFromStandingToKneelingTransitionAnim;
-    f32 frames = Animation_GetLastFrame(animation);
+    f32 lastFrame = Animation_GetLastFrame(animation);
 
     EnNb_SetupCsPosRot(this, globalCtx, 1);
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->action = NB_ACTION_14;
     this->drawMode = NB_DRAW_KNEEL;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -759,9 +759,9 @@ void func_80AB26DC(EnNb* this, GlobalContext* globalCtx) {
 
 void EnNb_SetupKneel(EnNb* this) {
     AnimationHeader* animation = &gNabooruCollapseFromStandingToKneelingTransitionAnim;
-    f32 frames = Animation_GetLastFrame(animation);
+    f32 lastFrame = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, 0.0f);
     this->action = NB_KNEEL;
     this->drawMode = NB_DRAW_KNEEL;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -779,9 +779,9 @@ void EnNb_CheckIfKneeling(EnNb* this, s32 animFinished) {
 
 void EnNb_SetupLookRight(EnNb* this) {
     AnimationHeader* animation = &gNabooruOnAllFoursToOnOneKneeLookingRightTransitionAnim;
-    f32 frames = Animation_GetLastFrame(animation);
+    f32 lastFrame = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -8.0f);
     this->action = NB_LOOK_RIGHT;
     this->drawMode = NB_DRAW_DEFAULT;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -799,9 +799,9 @@ void EnNb_CheckIfLookingRight(EnNb* this, s32 animFinished) {
 
 void EnNb_SetupLookLeft(EnNb* this) {
     AnimationHeader* animation = &gNabooruOnOneKneeTurningHeadRightToLeftTransitionAnim;
-    f32 frames = Animation_GetLastFrame(animation);
+    f32 lastFrame = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -8.0f);
     this->action = NB_LOOK_LEFT;
     this->drawMode = NB_DRAW_LOOK_DIRECTION;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -825,9 +825,9 @@ void EnNb_SetupDemo6KInConfrontation(EnNb* this, GlobalContext* globalCtx, s32 a
 
 void EnNb_SetupRun(EnNb* this) {
     AnimationHeader* animation = &gNabooruKneeingToRunningToHitAnim;
-    f32 frames = Animation_GetLastFrame(animation);
+    f32 lastFrame = Animation_GetLastFrame(animation);
 
-    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, frames, ANIMMODE_ONCE, -8.0f);
+    Animation_Change(&this->skelAnime, animation, 1.0f, 0.0f, lastFrame, ANIMMODE_ONCE, -8.0f);
     this->action = NB_RUN;
     this->drawMode = NB_DRAW_LOOK_DIRECTION;
     this->actor.shape.shadowAlpha = 0xFF;
@@ -1011,7 +1011,7 @@ void EnNb_SetAlphaInCredits(EnNb* this) {
 
     if ((kREG(17) + 10.0f) <= this->alphaTimer) {
         this->alpha = 255;
-        this->actor.shape.shadowAlpha = 0xFF;
+        this->actor.shape.shadowAlpha = 255;
     } else {
         alpha = (*alphaTimer / (kREG(17) + 10.0f)) * 255.0f;
         this->alpha = alpha;
@@ -1273,7 +1273,7 @@ void EnNb_SetTextIdAsChild(EnNb* this, GlobalContext* globalCtx) {
 void func_80AB3A7C(EnNb* this, GlobalContext* globalCtx, s32 animFinished) {
     u16 movementTimer = this->movementTimer;
 
-    if ((u16)(kREG(17) + 0x19) > movementTimer) {
+    if ((u16)(kREG(17) + 25) > movementTimer) {
         if (animFinished) {
             EnNb_SetCurrentAnim(this, &gNabooruWalkingAnim, 0, 0.0f, 0);
         }
