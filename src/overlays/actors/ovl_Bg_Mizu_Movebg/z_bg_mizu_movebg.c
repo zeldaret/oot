@@ -39,32 +39,36 @@ const ActorInit Bg_Mizu_Movebg_InitVars = {
     (ActorFunc)BgMizuMovebg_Draw,
 };
 
-f32 D_8089EB40[] = {
+static f32 D_8089EB40[] = {
     -115.200005,
     -115.200005,
     -115.200005,
     0.0f,
 };
-Gfx* D_8089EB50[] = { gObjectMizuObjectsMovebgDL_000190, gObjectMizuObjectsMovebgDL_000680,
-                      gObjectMizuObjectsMovebgDL_000C20, gObjectMizuObjectsMovebgDL_002E10,
-                      gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_002E10,
-                      gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_0011F0 };
 
-CollisionHeader* D_8089EB70[] = { &gObjectMizuObjectsMovebgCol_0003F0, &gObjectMizuObjectsMovebgCol_000998,
-                                  &gObjectMizuObjectsMovebgCol_000ED0, &gObjectMizuObjectsMovebgCol_003590,
-                                  &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_003590,
-                                  &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_0015F8 };
+static Gfx* D_8089EB50[] = {
+    gObjectMizuObjectsMovebgDL_000190, gObjectMizuObjectsMovebgDL_000680, gObjectMizuObjectsMovebgDL_000C20,
+    gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_002E10,
+    gObjectMizuObjectsMovebgDL_002E10, gObjectMizuObjectsMovebgDL_0011F0,
+};
 
-InitChainEntry D_8089EB90[] = {
+static CollisionHeader* D_8089EB70[] = {
+    &gObjectMizuObjectsMovebgCol_0003F0, &gObjectMizuObjectsMovebgCol_000998, &gObjectMizuObjectsMovebgCol_000ED0,
+    &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_003590,
+    &gObjectMizuObjectsMovebgCol_003590, &gObjectMizuObjectsMovebgCol_0015F8,
+};
+
+static InitChainEntry D_8089EB90[] = {
     ICHAIN_F32(uncullZoneScale, 1500, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneDownward, 1100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_STOP),
 };
-Vec3f D_8089EBA0 = { 0.0f, 80.0f, 23.0f };
-Vec3f D_8089EBAC = { 0.0f, 80.0f, 23.0f };
 
-u8 D_8089EE40;
+static Vec3f D_8089EBA0 = { 0.0f, 80.0f, 23.0f };
+static Vec3f D_8089EBAC = { 0.0f, 80.0f, 23.0f };
+
+static u8 D_8089EE40;
 
 s32 func_8089DC30(GlobalContext* globalCtx) {
     s32 result;
@@ -92,48 +96,48 @@ void BgMizuMovebg_Init(Actor* thisx, GlobalContext* globalCtx) {
     colHeader = NULL;
 
     Actor_ProcessInitChain(&this->dyna.actor, D_8089EB90);
-    this->unk_168 = this->dyna.actor.world.pos.y;
-    this->unk_180 = D_8089EB50[BgMizuMovebgGetType(this->dyna.actor.params)];
+    this->homeY = this->dyna.actor.world.pos.y;
+    this->dlist = D_8089EB50[BgMizuMovebgGetType(this->dyna.actor.params)];
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     CollisionHeader_GetVirtual(D_8089EB70[BgMizuMovebgGetType(this->dyna.actor.params)], &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
 
     switch (BgMizuMovebgGetType(this->dyna.actor.params)) {
         case 0:
-            if (waterBoxes[2].ySurface + 15.0f < this->unk_168 - 700.0f) {
-                this->dyna.actor.world.pos.y = this->unk_168 - 700.0f;
+            if (waterBoxes[2].ySurface + 15.0f < this->homeY - 700.0f) {
+                this->dyna.actor.world.pos.y = this->homeY - 700.0f;
             } else {
                 this->dyna.actor.world.pos.y = waterBoxes[2].ySurface + 15.0f;
             }
             this->actionFunc = func_8089E318;
             break;
         case 1:
-            if (waterBoxes[2].ySurface + 15.0f < this->unk_168 - 710.0f) {
-                this->dyna.actor.world.pos.y = this->unk_168 - 710.0f;
+            if (waterBoxes[2].ySurface + 15.0f < this->homeY - 710.0f) {
+                this->dyna.actor.world.pos.y = this->homeY - 710.0f;
             } else {
                 this->dyna.actor.world.pos.y = waterBoxes[2].ySurface + 15.0f;
             }
             this->actionFunc = func_8089E318;
             break;
         case 2:
-            if (waterBoxes[2].ySurface + 15.0f < this->unk_168 - 700.0f) {
-                this->dyna.actor.world.pos.y = this->unk_168 - 700.0f;
+            if (waterBoxes[2].ySurface + 15.0f < this->homeY - 700.0f) {
+                this->dyna.actor.world.pos.y = this->homeY - 700.0f;
             } else {
                 this->dyna.actor.world.pos.y = waterBoxes[2].ySurface + 15.0f;
             }
             this->actionFunc = func_8089E318;
             break;
         case 3:
-            this->dyna.actor.world.pos.y = this->unk_168 + D_8089EB40[func_8089DC30(globalCtx)];
+            this->dyna.actor.world.pos.y = this->homeY + D_8089EB40[func_8089DC30(globalCtx)];
             this->actionFunc = func_8089E318;
             break;
         case 4:
         case 5:
         case 6:
             if (Flags_GetSwitch(globalCtx, BgMizuMovebgGetFlags(this->dyna.actor.params))) {
-                this->dyna.actor.world.pos.y = this->unk_168 + 115.2;
+                this->dyna.actor.world.pos.y = this->homeY + 115.2;
             } else {
-                this->dyna.actor.world.pos.y = this->unk_168;
+                this->dyna.actor.world.pos.y = this->homeY;
             }
             this->actionFunc = func_8089E318;
             break;
@@ -180,12 +184,12 @@ void BgMizuMovebg_Destroy(Actor* thisx, GlobalContext* globalCtx) {
         case 4:
         case 5:
         case 6:
-            if (this->unk_17C & 2) {
+            if (this->sfxFlags & 2) {
                 D_8089EE40 &= ~2;
             }
             break;
         case 7:
-            if (this->unk_17C & 1) {
+            if (this->sfxFlags & 1) {
                 D_8089EE40 &= ~1;
             }
     }
@@ -236,7 +240,7 @@ void func_8089E198(BgMizuMovebg* this, GlobalContext* globalCtx) {
 
 #ifdef NON_MATCHING
 void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
-    WaterBox* waterBoxes; // sp3C
+    WaterBox* waterBoxes;
     f32 phi_f0;
     Vec3f sp28;
 
@@ -245,31 +249,31 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
     switch (BgMizuMovebgGetType(this->dyna.actor.params)) {
         case 0:
         case 2:
-            if (waterBoxes[2].ySurface + 15.0f < this->unk_168 - 700.0f) {
-                this->dyna.actor.world.pos.y = this->unk_168 - 700.0f;
+            if (waterBoxes[2].ySurface + 15.0f < this->homeY - 700.0f) {
+                this->dyna.actor.world.pos.y = this->homeY - 700.0f;
             } else {
                 this->dyna.actor.world.pos.y = waterBoxes[2].ySurface + 15.0f;
             }
             break;
         case 1:
-            if (waterBoxes[2].ySurface + 15.0f < this->unk_168 - 710.0f) {
-                this->dyna.actor.world.pos.y = this->unk_168 - 710.0f;
+            if (waterBoxes[2].ySurface + 15.0f < this->homeY - 710.0f) {
+                this->dyna.actor.world.pos.y = this->homeY - 710.0f;
             } else {
                 this->dyna.actor.world.pos.y = waterBoxes[2].ySurface + 15.0f;
             }
             break;
         case 3:
-            phi_f0 = this->unk_168 + D_8089EB40[func_8089DC30(globalCtx)];
+            phi_f0 = this->homeY + D_8089EB40[func_8089DC30(globalCtx)];
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
                 if (!(D_8089EE40 & 2) && BgMizuMovebgGetSpeed(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
-                    this->unk_17C |= 2;
+                    this->sfxFlags |= 2;
                 }
-                if (this->unk_17C & 2) {
+                if (this->sfxFlags & 2) {
                     if (this->dyna.actor.room == 0) {
-                        func_8002F974(&this->dyna.actor, (u16)0x2024U);
+                        func_8002F974(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                     } else {
-                        func_8002F948(&this->dyna.actor, (u16)0x2024U);
+                        func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                     }
                 }
             }
@@ -278,17 +282,17 @@ void func_8089E318(BgMizuMovebg* this, GlobalContext* globalCtx) {
         case 5:
         case 6:
             if (Flags_GetSwitch(globalCtx, BgMizuMovebgGetFlags(this->dyna.actor.params))) {
-                phi_f0 = this->unk_168 + 115.200005f;
+                phi_f0 = this->homeY + 115.200005f;
             } else {
-                phi_f0 = this->unk_168;
+                phi_f0 = this->homeY;
             }
             if (!Math_StepToF(&this->dyna.actor.world.pos.y, phi_f0, 1.0f)) {
                 if (!(D_8089EE40 & 2) && BgMizuMovebgGetSpeed(this->dyna.actor.params) != 0) {
                     D_8089EE40 |= 2;
-                    this->unk_17C |= 2;
+                    this->sfxFlags |= 2;
                 }
-                if (this->unk_17C & 2) {
-                    func_8002F948(&this->dyna.actor, (u16)0x2024U);
+                if (this->sfxFlags & 2) {
+                    func_8002F948(&this->dyna.actor, NA_SE_EV_ELEVATOR_MOVE - SFX_FLAG);
                 }
             }
             break;
@@ -341,9 +345,9 @@ void func_8089E650(BgMizuMovebg* this, GlobalContext* globalCtx) {
     }
     if (!(D_8089EE40 & 1) && BgMizuMovebgGetSpeed(this->dyna.actor.params) != 0) {
         D_8089EE40 |= 1;
-        this->unk_17C |= 1;
+        this->sfxFlags |= 1;
     }
-    if (this->unk_17C & 1) {
+    if (this->sfxFlags & 1) {
         func_8002F948(&this->dyna.actor, NA_SE_EV_ROLL_STAND_2 - SFX_FLAG);
     }
 }
@@ -365,26 +369,26 @@ void BgMizuMovebg_Draw(Actor* thisx, GlobalContext* globalCtx2) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     gSPSegment(POLY_OPA_DISP++, 0x08,
-               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
+               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
                                         this->scrollAlpha1));
 
     gSPSegment(POLY_OPA_DISP++, 0x09,
-               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
+               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
                                         this->scrollAlpha2));
 
     gSPSegment(POLY_OPA_DISP++, 0x0A,
-               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
+               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 1, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
                                         this->scrollAlpha3));
 
     gSPSegment(POLY_OPA_DISP++, 0x0B,
-               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 3, 0 * 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
+               Gfx_TwoTexScrollEnvColor(globalCtx->state.gfxCtx, 0, frames * 3, 0, 32, 32, 1, 0, 0, 32, 32, 0, 0, 0,
                                         this->scrollAlpha4));
 
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 788),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
 
-    if (this->unk_180 != NULL) {
-        gSPDisplayList(POLY_OPA_DISP++, this->unk_180);
+    if (this->dlist != NULL) {
+        gSPDisplayList(POLY_OPA_DISP++, this->dlist);
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_mizu_movebg.c", 795);
 }
