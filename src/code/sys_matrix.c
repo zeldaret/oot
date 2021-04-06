@@ -698,7 +698,6 @@ void Matrix_Reverse(MtxF* mf) {
     mf->zy = temp;
 }
 
-#ifdef NON_MATCHING
 void func_800D1FD4(MtxF* mf) {
     MtxF* cmf = sCurrentMatrix;
     f32 temp;
@@ -707,41 +706,46 @@ void func_800D1FD4(MtxF* mf) {
 
     temp = cmf->xx;
     temp *= temp;
-    temp += SQ(cmf->xy);
-    temp += SQ(cmf->xz);
+    temp2 = cmf->xy;
+    temp += SQ(temp2);
+    temp2 = cmf->xz;
+    temp += SQ(temp2);
+    temp3 = sqrtf(temp);
 
-    cmf->xx = mf->xx * sqrtf(temp);
-    cmf->xy = mf->xy * sqrtf(temp);
-    cmf->xz = mf->xz * sqrtf(temp);
+    cmf->xx = mf->xx * temp3;
+    cmf->xy = mf->xy * temp3;
+    cmf->xz = mf->xz * temp3;
 
     temp = cmf->yx;
     temp *= temp;
-    temp += SQ(cmf->yy);
-    temp += SQ(cmf->yz);
-    cmf->yx = mf->yx * sqrtf(temp);
-    cmf->yy = mf->yy * sqrtf(temp);
-    cmf->yz = mf->yz * sqrtf(temp);
+    temp2 = cmf->yy;
+    temp += SQ(temp2);
+    temp2 = cmf->yz;
+    temp += SQ(temp2);
+    temp3 = sqrtf(temp);
+
+    cmf->yx = mf->yx * temp3;
+    cmf->yy = mf->yy * temp3;
+    cmf->yz = mf->yz * temp3;
 
     temp = cmf->zx;
     temp *= temp;
-    temp += SQ(cmf->zy);
-    temp += SQ(cmf->zz);
-    cmf->zx = mf->zx * sqrtf(temp);
-    cmf->zy = mf->zy * sqrtf(temp);
-    cmf->zz = mf->zz * sqrtf(temp);
-}
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D1FD4.s")
-#endif
+    temp2 = cmf->zy;
+    temp += SQ(temp2);
+    temp2 = cmf->zz;
+    temp += SQ(temp2);
+    temp3 = sqrtf(temp);
 
-#ifdef NON_MATCHING
-// same differences as func_800D2264
+    cmf->zx = mf->zx * temp3;
+    cmf->zy = mf->zy * temp3;
+    cmf->zz = mf->zz * temp3;
+}
+
 void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
     f32 temp;
     f32 temp2;
     f32 temp3;
     f32 temp4;
-    f32 temp5;
 
     temp = mf->zx;
     temp *= temp;
@@ -759,11 +763,11 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
             vec->z = Math_FAtan2F(mf->xy, mf->yy) * (32768 / M_PI);
         } else {
             temp = mf->xx;
-            temp4 = mf->xz;
+            temp2 = mf->xz;
             temp3 = mf->yz;
 
             temp *= temp;
-            temp += SQ(temp4);
+            temp += SQ(temp2);
             temp2 = mf->xy;
             temp += SQ(temp2);
             temp = sqrtf(temp);
@@ -781,15 +785,12 @@ void func_800D20CC(MtxF* mf, Vec3s* vec, s32 flag) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D20CC.s")
-#endif
 
-#ifdef NON_MATCHING
-// same differences as func_800D20CC
 void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
     f32 temp;
     f32 temp2;
+    f32 temp3;
+    f32 temp4;
 
     temp = mf->xx;
     temp *= temp;
@@ -808,28 +809,28 @@ void func_800D2264(MtxF* mf, Vec3s* vec, s32 flag) {
         vec->x = Math_FAtan2F(mf->yz, mf->zz) * (32768 / M_PI);
     } else {
         temp = mf->yx;
+        temp2 = mf->yy;
+        temp3 = mf->zy;
+
         temp *= temp;
-        temp += SQ(mf->yy);
-        temp += SQ(mf->yz);
+        temp += SQ(temp2);
+        temp2 = mf->yz;
+        temp += SQ(temp2);
         temp = sqrtf(temp);
-        temp = mf->yz / temp;
+        temp = temp2 / temp;
 
         temp2 = mf->zx;
         temp2 *= temp2;
-        temp2 += SQ(mf->zy);
-        temp2 += SQ(mf->zz);
+        temp2 += SQ(temp3);
+        temp3 = mf->zz;
+        temp2 += SQ(temp3);
         temp2 = sqrtf(temp2);
-        temp2 = mf->zz / temp2;
+        temp2 = temp3 / temp2;
 
         vec->x = Math_FAtan2F(temp, temp2) * (32768 / M_PI);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D2264.s")
-#endif
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
     MtxF* cmf;
     f32 sin;
@@ -849,9 +850,9 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
             sin = sinf(f);
             cos = cosf(f);
 
-            temp1 = cmf->xx;
             temp2 = cmf->yx;
             temp3 = cmf->zx;
+            temp1 = cmf->xx;
             temp4 = (vec->x * temp1 + vec->y * temp2 + vec->z * temp3) * (1.0f - cos);
             cmf->xx = temp1 * cos + vec->x * temp4 + sin * (temp2 * vec->z - temp3 * vec->y);
             cmf->yx = temp2 * cos + vec->y * temp4 + sin * (temp3 * vec->x - temp1 * vec->z);
@@ -885,20 +886,22 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
             cmf->yy = vec->y * vec->y * rCos + cos;
             cmf->zz = vec->z * vec->z * rCos + cos;
 
-            temp1 = vec->x * rCos * vec->y;
-            temp2 = vec->z * sin;
-            cmf->xy = temp1 + temp2;
-            cmf->yx = temp1 - temp2;
+            if (0) {}
 
-            temp1 = vec->x * rCos * vec->z;
-            temp2 = vec->y * sin;
-            cmf->xz = temp1 - temp2;
-            cmf->zx = temp1 + temp2;
+            temp2 = vec->x * rCos * vec->y;
+            temp3 = vec->z * sin;
+            cmf->xy = temp2 + temp3;
+            cmf->yx = temp2 - temp3;
 
-            temp1 = vec->y * rCos * vec->z;
-            temp2 = vec->x * sin;
-            cmf->yz = temp1 + temp2;
-            cmf->zy = temp1 - temp2;
+            temp2 = vec->x * rCos * vec->z;
+            temp3 = vec->y * sin;
+            cmf->xz = temp2 - temp3;
+            cmf->zx = temp2 + temp3;
+
+            temp2 = vec->y * rCos * vec->z;
+            temp3 = vec->x * sin;
+            cmf->yz = temp2 + temp3;
+            cmf->zy = temp2 - temp3;
 
             cmf->xw = cmf->yw = cmf->zw = cmf->wx = cmf->wy = cmf->wz = 0.0f;
             cmf->ww = 1.0f;
@@ -922,9 +925,6 @@ void func_800D23FC(f32 f, Vec3f* vec, u8 mode) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/sys_matrix/func_800D23FC.s")
-#endif
 
 MtxF* Matrix_CheckFloats(MtxF* mf, char* file, s32 line) {
     s32 i, j;
