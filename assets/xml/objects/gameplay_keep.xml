@@ -26,579 +26,579 @@
             <Vector Type="s16" Dimensions="3" />
         </Array>
 
-<PlayerAnimation Name="gPlayerAnim_002310" Offset="0x2310"/>
-<PlayerAnimation Name="gPlayerAnim_002318" Offset="0x2318"/>
-<PlayerAnimation Name="gPlayerAnim_002320" Offset="0x2320"/>
-<PlayerAnimation Name="gPlayerAnim_002328" Offset="0x2328"/>
-<PlayerAnimation Name="gPlayerAnim_002330" Offset="0x2330"/>
-<PlayerAnimation Name="gPlayerAnim_002338" Offset="0x2338"/>
-<PlayerAnimation Name="gPlayerAnim_002340" Offset="0x2340"/>
-<PlayerAnimation Name="gPlayerAnim_002348" Offset="0x2348"/>
-<PlayerAnimation Name="gPlayerAnim_002350" Offset="0x2350"/>
-<PlayerAnimation Name="gPlayerAnim_002358" Offset="0x2358"/>
-<PlayerAnimation Name="gPlayerAnim_002360" Offset="0x2360"/>
-<PlayerAnimation Name="gPlayerAnim_002368" Offset="0x2368"/>
-<PlayerAnimation Name="gPlayerAnim_002370" Offset="0x2370"/>
-<PlayerAnimation Name="gPlayerAnim_002378" Offset="0x2378"/>
-<PlayerAnimation Name="gPlayerAnim_002380" Offset="0x2380"/>
-<PlayerAnimation Name="gPlayerAnim_002388" Offset="0x2388"/>
-<PlayerAnimation Name="gPlayerAnim_002390" Offset="0x2390"/>
-<PlayerAnimation Name="gPlayerAnim_002398" Offset="0x2398"/>
-<PlayerAnimation Name="gPlayerAnim_0023A0" Offset="0x23A0"/>
-<PlayerAnimation Name="gPlayerAnim_0023A8" Offset="0x23A8"/>
-<PlayerAnimation Name="gPlayerAnim_0023B0" Offset="0x23B0"/>
-<PlayerAnimation Name="gPlayerAnim_0023B8" Offset="0x23B8"/>
-<PlayerAnimation Name="gPlayerAnim_0023C0" Offset="0x23C0"/>
-<PlayerAnimation Name="gPlayerAnim_0023C8" Offset="0x23C8"/>
-<PlayerAnimation Name="gPlayerAnim_0023D0" Offset="0x23D0"/>
-<PlayerAnimation Name="gPlayerAnim_0023D8" Offset="0x23D8"/>
-<PlayerAnimation Name="gPlayerAnim_0023E0" Offset="0x23E0"/>
-<PlayerAnimation Name="gPlayerAnim_0023E8" Offset="0x23E8"/>
-<PlayerAnimation Name="gPlayerAnim_0023F0" Offset="0x23F0"/>
-<PlayerAnimation Name="gPlayerAnim_0023F8" Offset="0x23F8"/>
-<PlayerAnimation Name="gPlayerAnim_002400" Offset="0x2400"/>
-<PlayerAnimation Name="gPlayerAnim_002408" Offset="0x2408"/>
-<PlayerAnimation Name="gPlayerAnim_002410" Offset="0x2410"/>
-<PlayerAnimation Name="gPlayerAnim_002418" Offset="0x2418"/>
-<PlayerAnimation Name="gPlayerAnim_002420" Offset="0x2420"/>
-<PlayerAnimation Name="gPlayerAnim_002428" Offset="0x2428"/>
-<PlayerAnimation Name="gPlayerAnim_002430" Offset="0x2430"/>
-<PlayerAnimation Name="gPlayerAnim_002438" Offset="0x2438"/>
-<PlayerAnimation Name="gPlayerAnim_002440" Offset="0x2440"/>
-<PlayerAnimation Name="gPlayerAnim_002448" Offset="0x2448"/>
-<PlayerAnimation Name="gPlayerAnim_002450" Offset="0x2450"/>
-<PlayerAnimation Name="gPlayerAnim_002458" Offset="0x2458"/>
-<PlayerAnimation Name="gPlayerAnim_002460" Offset="0x2460"/>
-<PlayerAnimation Name="gPlayerAnim_002468" Offset="0x2468"/>
-<PlayerAnimation Name="gPlayerAnim_002470" Offset="0x2470"/>
-<PlayerAnimation Name="gPlayerAnim_002478" Offset="0x2478"/>
-<PlayerAnimation Name="gPlayerAnim_002480" Offset="0x2480"/>
-<PlayerAnimation Name="gPlayerAnim_002488" Offset="0x2488"/>
-<PlayerAnimation Name="gPlayerAnim_002490" Offset="0x2490"/>
-<PlayerAnimation Name="gPlayerAnim_002498" Offset="0x2498"/>
-<PlayerAnimation Name="gPlayerAnim_0024A0" Offset="0x24A0"/>
-<PlayerAnimation Name="gPlayerAnim_0024A8" Offset="0x24A8"/>
-<PlayerAnimation Name="gPlayerAnim_0024B0" Offset="0x24B0"/>
-<PlayerAnimation Name="gPlayerAnim_0024B8" Offset="0x24B8"/>
-<PlayerAnimation Name="gPlayerAnim_0024C0" Offset="0x24C0"/>
-<PlayerAnimation Name="gPlayerAnim_0024C8" Offset="0x24C8"/>
-<PlayerAnimation Name="gPlayerAnim_0024D0" Offset="0x24D0"/>
-<PlayerAnimation Name="gPlayerAnim_0024D8" Offset="0x24D8"/>
-<PlayerAnimation Name="gPlayerAnim_0024E0" Offset="0x24E0"/>
-<PlayerAnimation Name="gPlayerAnim_0024E8" Offset="0x24E8"/>
-<PlayerAnimation Name="gPlayerAnim_0024F0" Offset="0x24F0"/>
-<PlayerAnimation Name="gPlayerAnim_0024F8" Offset="0x24F8"/>
-<PlayerAnimation Name="gPlayerAnim_002500" Offset="0x2500"/>
-<PlayerAnimation Name="gPlayerAnim_002508" Offset="0x2508"/>
-<PlayerAnimation Name="gPlayerAnim_002510" Offset="0x2510"/>
-<PlayerAnimation Name="gPlayerAnim_002518" Offset="0x2518"/>
-<PlayerAnimation Name="gPlayerAnim_002520" Offset="0x2520"/>
-<PlayerAnimation Name="gPlayerAnim_002528" Offset="0x2528"/>
-<PlayerAnimation Name="gPlayerAnim_002530" Offset="0x2530"/>
-<PlayerAnimation Name="gPlayerAnim_002538" Offset="0x2538"/>
-<PlayerAnimation Name="gPlayerAnim_002540" Offset="0x2540"/>
-<PlayerAnimation Name="gPlayerAnim_002548" Offset="0x2548"/>
-<PlayerAnimation Name="gPlayerAnim_002550" Offset="0x2550"/>
-<PlayerAnimation Name="gPlayerAnim_002558" Offset="0x2558"/>
-<PlayerAnimation Name="gPlayerAnim_002560" Offset="0x2560"/>
-<PlayerAnimation Name="gPlayerAnim_002568" Offset="0x2568"/>
-<PlayerAnimation Name="gPlayerAnim_002570" Offset="0x2570"/>
-<PlayerAnimation Name="gPlayerAnim_002578" Offset="0x2578"/>
-<PlayerAnimation Name="gPlayerAnim_002580" Offset="0x2580"/>
-<PlayerAnimation Name="gPlayerAnim_002588" Offset="0x2588"/>
-<PlayerAnimation Name="gPlayerAnim_002590" Offset="0x2590"/>
-<PlayerAnimation Name="gPlayerAnim_002598" Offset="0x2598"/>
-<PlayerAnimation Name="gPlayerAnim_0025A0" Offset="0x25A0"/>
-<PlayerAnimation Name="gPlayerAnim_0025A8" Offset="0x25A8"/>
-<PlayerAnimation Name="gPlayerAnim_0025B0" Offset="0x25B0"/>
-<PlayerAnimation Name="gPlayerAnim_0025B8" Offset="0x25B8"/>
-<PlayerAnimation Name="gPlayerAnim_0025C0" Offset="0x25C0"/>
-<PlayerAnimation Name="gPlayerAnim_0025C8" Offset="0x25C8"/>
-<PlayerAnimation Name="gPlayerAnim_0025D0" Offset="0x25D0"/>
-<PlayerAnimation Name="gPlayerAnim_0025D8" Offset="0x25D8"/>
-<PlayerAnimation Name="gPlayerAnim_0025E0" Offset="0x25E0"/>
-<PlayerAnimation Name="gPlayerAnim_0025E8" Offset="0x25E8"/>
-<PlayerAnimation Name="gPlayerAnim_0025F0" Offset="0x25F0"/>
-<PlayerAnimation Name="gPlayerAnim_0025F8" Offset="0x25F8"/>
-<PlayerAnimation Name="gPlayerAnim_002600" Offset="0x2600"/>
-<PlayerAnimation Name="gPlayerAnim_002608" Offset="0x2608"/>
-<PlayerAnimation Name="gPlayerAnim_002610" Offset="0x2610"/>
-<PlayerAnimation Name="gPlayerAnim_002618" Offset="0x2618"/>
-<PlayerAnimation Name="gPlayerAnim_002620" Offset="0x2620"/>
-<PlayerAnimation Name="gPlayerAnim_002628" Offset="0x2628"/>
-<PlayerAnimation Name="gPlayerAnim_002630" Offset="0x2630"/>
-<PlayerAnimation Name="gPlayerAnim_002638" Offset="0x2638"/>
-<PlayerAnimation Name="gPlayerAnim_002640" Offset="0x2640"/>
-<PlayerAnimation Name="gPlayerAnim_002648" Offset="0x2648"/>
-<PlayerAnimation Name="gPlayerAnim_002650" Offset="0x2650"/>
-<PlayerAnimation Name="gPlayerAnim_002658" Offset="0x2658"/>
-<PlayerAnimation Name="gPlayerAnim_002660" Offset="0x2660"/>
-<PlayerAnimation Name="gPlayerAnim_002668" Offset="0x2668"/>
-<PlayerAnimation Name="gPlayerAnim_002670" Offset="0x2670"/>
-<PlayerAnimation Name="gPlayerAnim_002678" Offset="0x2678"/>
-<PlayerAnimation Name="gPlayerAnim_002680" Offset="0x2680"/>
-<PlayerAnimation Name="gPlayerAnim_002688" Offset="0x2688"/>
-<PlayerAnimation Name="gPlayerAnim_002690" Offset="0x2690"/>
-<PlayerAnimation Name="gPlayerAnim_002698" Offset="0x2698"/>
-<PlayerAnimation Name="gPlayerAnim_0026A0" Offset="0x26A0"/>
-<PlayerAnimation Name="gPlayerAnim_0026A8" Offset="0x26A8"/>
-<PlayerAnimation Name="gPlayerAnim_0026B0" Offset="0x26B0"/>
-<PlayerAnimation Name="gPlayerAnim_0026B8" Offset="0x26B8"/>
-<PlayerAnimation Name="gPlayerAnim_0026C0" Offset="0x26C0"/>
-<PlayerAnimation Name="gPlayerAnim_0026C8" Offset="0x26C8"/>
-<PlayerAnimation Name="gPlayerAnim_0026D0" Offset="0x26D0"/>
-<PlayerAnimation Name="gPlayerAnim_0026D8" Offset="0x26D8"/>
-<PlayerAnimation Name="gPlayerAnim_0026E0" Offset="0x26E0"/>
-<PlayerAnimation Name="gPlayerAnim_0026E8" Offset="0x26E8"/>
-<PlayerAnimation Name="gPlayerAnim_0026F0" Offset="0x26F0"/>
-<PlayerAnimation Name="gPlayerAnim_0026F8" Offset="0x26F8"/>
-<PlayerAnimation Name="gPlayerAnim_002700" Offset="0x2700"/>
-<PlayerAnimation Name="gPlayerAnim_002708" Offset="0x2708"/>
-<PlayerAnimation Name="gPlayerAnim_002710" Offset="0x2710"/>
-<PlayerAnimation Name="gPlayerAnim_002718" Offset="0x2718"/>
-<PlayerAnimation Name="gPlayerAnim_002720" Offset="0x2720"/>
-<PlayerAnimation Name="gPlayerAnim_002728" Offset="0x2728"/>
-<PlayerAnimation Name="gPlayerAnim_002730" Offset="0x2730"/>
-<PlayerAnimation Name="gPlayerAnim_002738" Offset="0x2738"/>
-<PlayerAnimation Name="gPlayerAnim_002740" Offset="0x2740"/>
-<PlayerAnimation Name="gPlayerAnim_002748" Offset="0x2748"/>
-<PlayerAnimation Name="gPlayerAnim_002750" Offset="0x2750"/>
-<PlayerAnimation Name="gPlayerAnim_002758" Offset="0x2758"/>
-<PlayerAnimation Name="gPlayerAnim_002760" Offset="0x2760"/>
-<PlayerAnimation Name="gPlayerAnim_002768" Offset="0x2768"/>
-<PlayerAnimation Name="gPlayerAnim_002770" Offset="0x2770"/>
-<PlayerAnimation Name="gPlayerAnim_002778" Offset="0x2778"/>
-<PlayerAnimation Name="gPlayerAnim_002780" Offset="0x2780"/>
-<PlayerAnimation Name="gPlayerAnim_002788" Offset="0x2788"/>
-<PlayerAnimation Name="gPlayerAnim_002790" Offset="0x2790"/>
-<PlayerAnimation Name="gPlayerAnim_002798" Offset="0x2798"/>
-<PlayerAnimation Name="gPlayerAnim_0027A0" Offset="0x27A0"/>
-<PlayerAnimation Name="gPlayerAnim_0027A8" Offset="0x27A8"/>
-<PlayerAnimation Name="gPlayerAnim_0027B0" Offset="0x27B0"/>
-<PlayerAnimation Name="gPlayerAnim_0027B8" Offset="0x27B8"/>
-<PlayerAnimation Name="gPlayerAnim_0027C0" Offset="0x27C0"/>
-<PlayerAnimation Name="gPlayerAnim_0027C8" Offset="0x27C8"/>
-<PlayerAnimation Name="gPlayerAnim_0027D0" Offset="0x27D0"/>
-<PlayerAnimation Name="gPlayerAnim_0027D8" Offset="0x27D8"/>
-<PlayerAnimation Name="gPlayerAnim_0027E0" Offset="0x27E0"/>
-<PlayerAnimation Name="gPlayerAnim_0027E8" Offset="0x27E8"/>
-<PlayerAnimation Name="gPlayerAnim_0027F0" Offset="0x27F0"/>
-<PlayerAnimation Name="gPlayerAnim_0027F8" Offset="0x27F8"/>
-<PlayerAnimation Name="gPlayerAnim_002800" Offset="0x2800"/>
-<PlayerAnimation Name="gPlayerAnim_002808" Offset="0x2808"/>
-<PlayerAnimation Name="gPlayerAnim_002810" Offset="0x2810"/>
-<PlayerAnimation Name="gPlayerAnim_002818" Offset="0x2818"/>
-<PlayerAnimation Name="gPlayerAnim_002820" Offset="0x2820"/>
-<PlayerAnimation Name="gPlayerAnim_002828" Offset="0x2828"/>
-<PlayerAnimation Name="gPlayerAnim_002830" Offset="0x2830"/>
-<PlayerAnimation Name="gPlayerAnim_002838" Offset="0x2838"/>
-<PlayerAnimation Name="gPlayerAnim_002840" Offset="0x2840"/>
-<PlayerAnimation Name="gPlayerAnim_002848" Offset="0x2848"/>
-<PlayerAnimation Name="gPlayerAnim_002850" Offset="0x2850"/>
-<PlayerAnimation Name="gPlayerAnim_002858" Offset="0x2858"/>
-<PlayerAnimation Name="gPlayerAnim_002860" Offset="0x2860"/>
-<PlayerAnimation Name="gPlayerAnim_002868" Offset="0x2868"/>
-<PlayerAnimation Name="gPlayerAnim_002870" Offset="0x2870"/>
-<PlayerAnimation Name="gPlayerAnim_002878" Offset="0x2878"/>
-<PlayerAnimation Name="gPlayerAnim_002880" Offset="0x2880"/>
-<PlayerAnimation Name="gPlayerAnim_002888" Offset="0x2888"/>
-<PlayerAnimation Name="gPlayerAnim_002890" Offset="0x2890"/>
-<PlayerAnimation Name="gPlayerAnim_002898" Offset="0x2898"/>
-<PlayerAnimation Name="gPlayerAnim_0028A0" Offset="0x28A0"/>
-<PlayerAnimation Name="gPlayerAnim_0028A8" Offset="0x28A8"/>
-<PlayerAnimation Name="gPlayerAnim_0028B0" Offset="0x28B0"/>
-<PlayerAnimation Name="gPlayerAnim_0028B8" Offset="0x28B8"/>
-<PlayerAnimation Name="gPlayerAnim_0028C0" Offset="0x28C0"/>
-<PlayerAnimation Name="gPlayerAnim_0028C8" Offset="0x28C8"/>
-<PlayerAnimation Name="gPlayerAnim_0028D0" Offset="0x28D0"/>
-<PlayerAnimation Name="gPlayerAnim_0028D8" Offset="0x28D8"/>
-<PlayerAnimation Name="gPlayerAnim_0028E0" Offset="0x28E0"/>
-<PlayerAnimation Name="gPlayerAnim_0028E8" Offset="0x28E8"/>
-<PlayerAnimation Name="gPlayerAnim_0028F0" Offset="0x28F0"/>
-<PlayerAnimation Name="gPlayerAnim_0028F8" Offset="0x28F8"/>
-<PlayerAnimation Name="gPlayerAnim_002900" Offset="0x2900"/>
-<PlayerAnimation Name="gPlayerAnim_002908" Offset="0x2908"/>
-<PlayerAnimation Name="gPlayerAnim_002910" Offset="0x2910"/>
-<PlayerAnimation Name="gPlayerAnim_002918" Offset="0x2918"/>
-<PlayerAnimation Name="gPlayerAnim_002920" Offset="0x2920"/>
-<PlayerAnimation Name="gPlayerAnim_002928" Offset="0x2928"/>
-<PlayerAnimation Name="gPlayerAnim_002930" Offset="0x2930"/>
-<PlayerAnimation Name="gPlayerAnim_002938" Offset="0x2938"/>
-<PlayerAnimation Name="gPlayerAnim_002940" Offset="0x2940"/>
-<PlayerAnimation Name="gPlayerAnim_002948" Offset="0x2948"/>
-<PlayerAnimation Name="gPlayerAnim_002950" Offset="0x2950"/>
-<PlayerAnimation Name="gPlayerAnim_002958" Offset="0x2958"/>
-<PlayerAnimation Name="gPlayerAnim_002960" Offset="0x2960"/>
-<PlayerAnimation Name="gPlayerAnim_002968" Offset="0x2968"/>
-<PlayerAnimation Name="gPlayerAnim_002970" Offset="0x2970"/>
-<PlayerAnimation Name="gPlayerAnim_002978" Offset="0x2978"/>
-<PlayerAnimation Name="gPlayerAnim_002980" Offset="0x2980"/>
-<PlayerAnimation Name="gPlayerAnim_002988" Offset="0x2988"/>
-<PlayerAnimation Name="gPlayerAnim_002990" Offset="0x2990"/>
-<PlayerAnimation Name="gPlayerAnim_002998" Offset="0x2998"/>
-<PlayerAnimation Name="gPlayerAnim_0029A0" Offset="0x29A0"/>
-<PlayerAnimation Name="gPlayerAnim_0029A8" Offset="0x29A8"/>
-<PlayerAnimation Name="gPlayerAnim_0029B0" Offset="0x29B0"/>
-<PlayerAnimation Name="gPlayerAnim_0029B8" Offset="0x29B8"/>
-<PlayerAnimation Name="gPlayerAnim_0029C0" Offset="0x29C0"/>
-<PlayerAnimation Name="gPlayerAnim_0029C8" Offset="0x29C8"/>
-<PlayerAnimation Name="gPlayerAnim_0029D0" Offset="0x29D0"/>
-<PlayerAnimation Name="gPlayerAnim_0029D8" Offset="0x29D8"/>
-<PlayerAnimation Name="gPlayerAnim_0029E0" Offset="0x29E0"/>
-<PlayerAnimation Name="gPlayerAnim_0029E8" Offset="0x29E8"/>
-<PlayerAnimation Name="gPlayerAnim_0029F0" Offset="0x29F0"/>
-<PlayerAnimation Name="gPlayerAnim_0029F8" Offset="0x29F8"/>
-<PlayerAnimation Name="gPlayerAnim_002A00" Offset="0x2A00"/>
-<PlayerAnimation Name="gPlayerAnim_002A08" Offset="0x2A08"/>
-<PlayerAnimation Name="gPlayerAnim_002A10" Offset="0x2A10"/>
-<PlayerAnimation Name="gPlayerAnim_002A18" Offset="0x2A18"/>
-<PlayerAnimation Name="gPlayerAnim_002A20" Offset="0x2A20"/>
-<PlayerAnimation Name="gPlayerAnim_002A28" Offset="0x2A28"/>
-<PlayerAnimation Name="gPlayerAnim_002A30" Offset="0x2A30"/>
-<PlayerAnimation Name="gPlayerAnim_002A38" Offset="0x2A38"/>
-<PlayerAnimation Name="gPlayerAnim_002A40" Offset="0x2A40"/>
-<PlayerAnimation Name="gPlayerAnim_002A48" Offset="0x2A48"/>
-<PlayerAnimation Name="gPlayerAnim_002A50" Offset="0x2A50"/>
-<PlayerAnimation Name="gPlayerAnim_002A58" Offset="0x2A58"/>
-<PlayerAnimation Name="gPlayerAnim_002A60" Offset="0x2A60"/>
-<PlayerAnimation Name="gPlayerAnim_002A68" Offset="0x2A68"/>
-<PlayerAnimation Name="gPlayerAnim_002A70" Offset="0x2A70"/>
-<PlayerAnimation Name="gPlayerAnim_002A78" Offset="0x2A78"/>
-<PlayerAnimation Name="gPlayerAnim_002A80" Offset="0x2A80"/>
-<PlayerAnimation Name="gPlayerAnim_002A88" Offset="0x2A88"/>
-<PlayerAnimation Name="gPlayerAnim_002A90" Offset="0x2A90"/>
-<PlayerAnimation Name="gPlayerAnim_002A98" Offset="0x2A98"/>
-<PlayerAnimation Name="gPlayerAnim_002AA0" Offset="0x2AA0"/>
-<PlayerAnimation Name="gPlayerAnim_002AA8" Offset="0x2AA8"/>
-<PlayerAnimation Name="gPlayerAnim_002AB0" Offset="0x2AB0"/>
-<PlayerAnimation Name="gPlayerAnim_002AB8" Offset="0x2AB8"/>
-<PlayerAnimation Name="gPlayerAnim_002AC0" Offset="0x2AC0"/>
-<PlayerAnimation Name="gPlayerAnim_002AC8" Offset="0x2AC8"/>
-<PlayerAnimation Name="gPlayerAnim_002AD0" Offset="0x2AD0"/>
-<PlayerAnimation Name="gPlayerAnim_002AD8" Offset="0x2AD8"/>
-<PlayerAnimation Name="gPlayerAnim_002AE0" Offset="0x2AE0"/>
-<PlayerAnimation Name="gPlayerAnim_002AE8" Offset="0x2AE8"/>
-<PlayerAnimation Name="gPlayerAnim_002AF0" Offset="0x2AF0"/>
-<PlayerAnimation Name="gPlayerAnim_002AF8" Offset="0x2AF8"/>
-<PlayerAnimation Name="gPlayerAnim_002B00" Offset="0x2B00"/>
-<PlayerAnimation Name="gPlayerAnim_002B08" Offset="0x2B08"/>
-<PlayerAnimation Name="gPlayerAnim_002B10" Offset="0x2B10"/>
-<PlayerAnimation Name="gPlayerAnim_002B18" Offset="0x2B18"/>
-<PlayerAnimation Name="gPlayerAnim_002B20" Offset="0x2B20"/>
-<PlayerAnimation Name="gPlayerAnim_002B28" Offset="0x2B28"/>
-<PlayerAnimation Name="gPlayerAnim_002B30" Offset="0x2B30"/>
-<PlayerAnimation Name="gPlayerAnim_002B38" Offset="0x2B38"/>
-<PlayerAnimation Name="gPlayerAnim_002B40" Offset="0x2B40"/>
-<PlayerAnimation Name="gPlayerAnim_002B48" Offset="0x2B48"/>
-<PlayerAnimation Name="gPlayerAnim_002B50" Offset="0x2B50"/>
-<PlayerAnimation Name="gPlayerAnim_002B58" Offset="0x2B58"/>
-<PlayerAnimation Name="gPlayerAnim_002B60" Offset="0x2B60"/>
-<PlayerAnimation Name="gPlayerAnim_002B68" Offset="0x2B68"/>
-<PlayerAnimation Name="gPlayerAnim_002B70" Offset="0x2B70"/>
-<PlayerAnimation Name="gPlayerAnim_002B78" Offset="0x2B78"/>
-<PlayerAnimation Name="gPlayerAnim_002B80" Offset="0x2B80"/>
-<PlayerAnimation Name="gPlayerAnim_002B88" Offset="0x2B88"/>
-<PlayerAnimation Name="gPlayerAnim_002B90" Offset="0x2B90"/>
-<PlayerAnimation Name="gPlayerAnim_002B98" Offset="0x2B98"/>
-<PlayerAnimation Name="gPlayerAnim_002BA0" Offset="0x2BA0"/>
-<PlayerAnimation Name="gPlayerAnim_002BA8" Offset="0x2BA8"/>
-<PlayerAnimation Name="gPlayerAnim_002BB0" Offset="0x2BB0"/>
-<PlayerAnimation Name="gPlayerAnim_002BB8" Offset="0x2BB8"/>
-<PlayerAnimation Name="gPlayerAnim_002BC0" Offset="0x2BC0"/>
-<PlayerAnimation Name="gPlayerAnim_002BC8" Offset="0x2BC8"/>
-<PlayerAnimation Name="gPlayerAnim_002BD0" Offset="0x2BD0"/>
-<PlayerAnimation Name="gPlayerAnim_002BD8" Offset="0x2BD8"/>
-<PlayerAnimation Name="gPlayerAnim_002BE0" Offset="0x2BE0"/>
-<PlayerAnimation Name="gPlayerAnim_002BE8" Offset="0x2BE8"/>
-<PlayerAnimation Name="gPlayerAnim_002BF0" Offset="0x2BF0"/>
-<PlayerAnimation Name="gPlayerAnim_002BF8" Offset="0x2BF8"/>
-<PlayerAnimation Name="gPlayerAnim_002C00" Offset="0x2C00"/>
-<PlayerAnimation Name="gPlayerAnim_002C08" Offset="0x2C08"/>
-<PlayerAnimation Name="gPlayerAnim_002C10" Offset="0x2C10"/>
-<PlayerAnimation Name="gPlayerAnim_002C18" Offset="0x2C18"/>
-<PlayerAnimation Name="gPlayerAnim_002C20" Offset="0x2C20"/>
-<PlayerAnimation Name="gPlayerAnim_002C28" Offset="0x2C28"/>
-<PlayerAnimation Name="gPlayerAnim_002C30" Offset="0x2C30"/>
-<PlayerAnimation Name="gPlayerAnim_002C38" Offset="0x2C38"/>
-<PlayerAnimation Name="gPlayerAnim_002C40" Offset="0x2C40"/>
-<PlayerAnimation Name="gPlayerAnim_002C48" Offset="0x2C48"/>
-<PlayerAnimation Name="gPlayerAnim_002C50" Offset="0x2C50"/>
-<PlayerAnimation Name="gPlayerAnim_002C58" Offset="0x2C58"/>
-<PlayerAnimation Name="gPlayerAnim_002C60" Offset="0x2C60"/>
-<PlayerAnimation Name="gPlayerAnim_002C68" Offset="0x2C68"/>
-<PlayerAnimation Name="gPlayerAnim_002C70" Offset="0x2C70"/>
-<PlayerAnimation Name="gPlayerAnim_002C78" Offset="0x2C78"/>
-<PlayerAnimation Name="gPlayerAnim_002C80" Offset="0x2C80"/>
-<PlayerAnimation Name="gPlayerAnim_002C88" Offset="0x2C88"/>
-<PlayerAnimation Name="gPlayerAnim_002C90" Offset="0x2C90"/>
-<PlayerAnimation Name="gPlayerAnim_002C98" Offset="0x2C98"/>
-<PlayerAnimation Name="gPlayerAnim_002CA0" Offset="0x2CA0"/>
-<PlayerAnimation Name="gPlayerAnim_002CA8" Offset="0x2CA8"/>
-<PlayerAnimation Name="gPlayerAnim_002CB0" Offset="0x2CB0"/>
-<PlayerAnimation Name="gPlayerAnim_002CB8" Offset="0x2CB8"/>
-<PlayerAnimation Name="gPlayerAnim_002CC0" Offset="0x2CC0"/>
-<PlayerAnimation Name="gPlayerAnim_002CC8" Offset="0x2CC8"/>
-<PlayerAnimation Name="gPlayerAnim_002CD0" Offset="0x2CD0"/>
-<PlayerAnimation Name="gPlayerAnim_002CD8" Offset="0x2CD8"/>
-<PlayerAnimation Name="gPlayerAnim_002CE0" Offset="0x2CE0"/>
-<PlayerAnimation Name="gPlayerAnim_002CE8" Offset="0x2CE8"/>
-<PlayerAnimation Name="gPlayerAnim_002CF0" Offset="0x2CF0"/>
-<PlayerAnimation Name="gPlayerAnim_002CF8" Offset="0x2CF8"/>
-<PlayerAnimation Name="gPlayerAnim_002D00" Offset="0x2D00"/>
-<PlayerAnimation Name="gPlayerAnim_002D08" Offset="0x2D08"/>
-<PlayerAnimation Name="gPlayerAnim_002D10" Offset="0x2D10"/>
-<PlayerAnimation Name="gPlayerAnim_002D18" Offset="0x2D18"/>
-<PlayerAnimation Name="gPlayerAnim_002D20" Offset="0x2D20"/>
-<PlayerAnimation Name="gPlayerAnim_002D28" Offset="0x2D28"/>
-<PlayerAnimation Name="gPlayerAnim_002D30" Offset="0x2D30"/>
-<PlayerAnimation Name="gPlayerAnim_002D38" Offset="0x2D38"/>
-<PlayerAnimation Name="gPlayerAnim_002D40" Offset="0x2D40"/>
-<PlayerAnimation Name="gPlayerAnim_002D48" Offset="0x2D48"/>
-<PlayerAnimation Name="gPlayerAnim_002D50" Offset="0x2D50"/>
-<PlayerAnimation Name="gPlayerAnim_002D58" Offset="0x2D58"/>
-<PlayerAnimation Name="gPlayerAnim_002D60" Offset="0x2D60"/>
-<PlayerAnimation Name="gPlayerAnim_002D68" Offset="0x2D68"/>
-<PlayerAnimation Name="gPlayerAnim_002D70" Offset="0x2D70"/>
-<PlayerAnimation Name="gPlayerAnim_002D78" Offset="0x2D78"/>
-<PlayerAnimation Name="gPlayerAnim_002D80" Offset="0x2D80"/>
-<PlayerAnimation Name="gPlayerAnim_002D88" Offset="0x2D88"/>
-<PlayerAnimation Name="gPlayerAnim_002D90" Offset="0x2D90"/>
-<PlayerAnimation Name="gPlayerAnim_002D98" Offset="0x2D98"/>
-<PlayerAnimation Name="gPlayerAnim_002DA0" Offset="0x2DA0"/>
-<PlayerAnimation Name="gPlayerAnim_002DA8" Offset="0x2DA8"/>
-<PlayerAnimation Name="gPlayerAnim_002DB0" Offset="0x2DB0"/>
-<PlayerAnimation Name="gPlayerAnim_002DB8" Offset="0x2DB8"/>
-<PlayerAnimation Name="gPlayerAnim_002DC0" Offset="0x2DC0"/>
-<PlayerAnimation Name="gPlayerAnim_002DC8" Offset="0x2DC8"/>
-<PlayerAnimation Name="gPlayerAnim_002DD0" Offset="0x2DD0"/>
-<PlayerAnimation Name="gPlayerAnim_002DD8" Offset="0x2DD8"/>
-<PlayerAnimation Name="gPlayerAnim_002DE0" Offset="0x2DE0"/>
-<PlayerAnimation Name="gPlayerAnim_002DE8" Offset="0x2DE8"/>
-<PlayerAnimation Name="gPlayerAnim_002DF0" Offset="0x2DF0"/>
-<PlayerAnimation Name="gPlayerAnim_002DF8" Offset="0x2DF8"/>
-<PlayerAnimation Name="gPlayerAnim_002E00" Offset="0x2E00"/>
-<PlayerAnimation Name="gPlayerAnim_002E08" Offset="0x2E08"/>
-<PlayerAnimation Name="gPlayerAnim_002E10" Offset="0x2E10"/>
-<PlayerAnimation Name="gPlayerAnim_002E18" Offset="0x2E18"/>
-<PlayerAnimation Name="gPlayerAnim_002E20" Offset="0x2E20"/>
-<PlayerAnimation Name="gPlayerAnim_002E28" Offset="0x2E28"/>
-<PlayerAnimation Name="gPlayerAnim_002E30" Offset="0x2E30"/>
-<PlayerAnimation Name="gPlayerAnim_002E38" Offset="0x2E38"/>
-<PlayerAnimation Name="gPlayerAnim_002E40" Offset="0x2E40"/>
-<PlayerAnimation Name="gPlayerAnim_002E48" Offset="0x2E48"/>
-<PlayerAnimation Name="gPlayerAnim_002E50" Offset="0x2E50"/>
-<PlayerAnimation Name="gPlayerAnim_002E58" Offset="0x2E58"/>
-<PlayerAnimation Name="gPlayerAnim_002E60" Offset="0x2E60"/>
-<PlayerAnimation Name="gPlayerAnim_002E68" Offset="0x2E68"/>
-<PlayerAnimation Name="gPlayerAnim_002E70" Offset="0x2E70"/>
-<PlayerAnimation Name="gPlayerAnim_002E78" Offset="0x2E78"/>
-<PlayerAnimation Name="gPlayerAnim_002E80" Offset="0x2E80"/>
-<PlayerAnimation Name="gPlayerAnim_002E88" Offset="0x2E88"/>
-<PlayerAnimation Name="gPlayerAnim_002E90" Offset="0x2E90"/>
-<PlayerAnimation Name="gPlayerAnim_002E98" Offset="0x2E98"/>
-<PlayerAnimation Name="gPlayerAnim_002EA0" Offset="0x2EA0"/>
-<PlayerAnimation Name="gPlayerAnim_002EA8" Offset="0x2EA8"/>
-<PlayerAnimation Name="gPlayerAnim_002EB0" Offset="0x2EB0"/>
-<PlayerAnimation Name="gPlayerAnim_002EB8" Offset="0x2EB8"/>
-<PlayerAnimation Name="gPlayerAnim_002EC0" Offset="0x2EC0"/>
-<PlayerAnimation Name="gPlayerAnim_002EC8" Offset="0x2EC8"/>
-<PlayerAnimation Name="gPlayerAnim_002ED0" Offset="0x2ED0"/>
-<PlayerAnimation Name="gPlayerAnim_002ED8" Offset="0x2ED8"/>
-<PlayerAnimation Name="gPlayerAnim_002EE0" Offset="0x2EE0"/>
-<PlayerAnimation Name="gPlayerAnim_002EE8" Offset="0x2EE8"/>
-<PlayerAnimation Name="gPlayerAnim_002EF0" Offset="0x2EF0"/>
-<PlayerAnimation Name="gPlayerAnim_002EF8" Offset="0x2EF8"/>
-<PlayerAnimation Name="gPlayerAnim_002F00" Offset="0x2F00"/>
-<PlayerAnimation Name="gPlayerAnim_002F08" Offset="0x2F08"/>
-<PlayerAnimation Name="gPlayerAnim_002F10" Offset="0x2F10"/>
-<PlayerAnimation Name="gPlayerAnim_002F18" Offset="0x2F18"/>
-<PlayerAnimation Name="gPlayerAnim_002F20" Offset="0x2F20"/>
-<PlayerAnimation Name="gPlayerAnim_002F28" Offset="0x2F28"/>
-<PlayerAnimation Name="gPlayerAnim_002F30" Offset="0x2F30"/>
-<PlayerAnimation Name="gPlayerAnim_002F38" Offset="0x2F38"/>
-<PlayerAnimation Name="gPlayerAnim_002F40" Offset="0x2F40"/>
-<PlayerAnimation Name="gPlayerAnim_002F48" Offset="0x2F48"/>
-<PlayerAnimation Name="gPlayerAnim_002F50" Offset="0x2F50"/>
-<PlayerAnimation Name="gPlayerAnim_002F58" Offset="0x2F58"/>
-<PlayerAnimation Name="gPlayerAnim_002F60" Offset="0x2F60"/>
-<PlayerAnimation Name="gPlayerAnim_002F68" Offset="0x2F68"/>
-<PlayerAnimation Name="gPlayerAnim_002F70" Offset="0x2F70"/>
-<PlayerAnimation Name="gPlayerAnim_002F78" Offset="0x2F78"/>
-<PlayerAnimation Name="gPlayerAnim_002F80" Offset="0x2F80"/>
-<PlayerAnimation Name="gPlayerAnim_002F88" Offset="0x2F88"/>
-<PlayerAnimation Name="gPlayerAnim_002F90" Offset="0x2F90"/>
-<PlayerAnimation Name="gPlayerAnim_002F98" Offset="0x2F98"/>
-<PlayerAnimation Name="gPlayerAnim_002FA0" Offset="0x2FA0"/>
-<PlayerAnimation Name="gPlayerAnim_002FA8" Offset="0x2FA8"/>
-<PlayerAnimation Name="gPlayerAnim_002FB0" Offset="0x2FB0"/>
-<PlayerAnimation Name="gPlayerAnim_002FB8" Offset="0x2FB8"/>
-<PlayerAnimation Name="gPlayerAnim_002FC0" Offset="0x2FC0"/>
-<PlayerAnimation Name="gPlayerAnim_002FC8" Offset="0x2FC8"/>
-<PlayerAnimation Name="gPlayerAnim_002FD0" Offset="0x2FD0"/>
-<PlayerAnimation Name="gPlayerAnim_002FD8" Offset="0x2FD8"/>
-<PlayerAnimation Name="gPlayerAnim_002FE0" Offset="0x2FE0"/>
-<PlayerAnimation Name="gPlayerAnim_002FE8" Offset="0x2FE8"/>
-<PlayerAnimation Name="gPlayerAnim_002FF0" Offset="0x2FF0"/>
-<PlayerAnimation Name="gPlayerAnim_002FF8" Offset="0x2FF8"/>
-<PlayerAnimation Name="gPlayerAnim_003000" Offset="0x3000"/>
-<PlayerAnimation Name="gPlayerAnim_003008" Offset="0x3008"/>
-<PlayerAnimation Name="gPlayerAnim_003010" Offset="0x3010"/>
-<PlayerAnimation Name="gPlayerAnim_003018" Offset="0x3018"/>
-<PlayerAnimation Name="gPlayerAnim_003020" Offset="0x3020"/>
-<PlayerAnimation Name="gPlayerAnim_003028" Offset="0x3028"/>
-<PlayerAnimation Name="gPlayerAnim_003030" Offset="0x3030"/>
-<PlayerAnimation Name="gPlayerAnim_003038" Offset="0x3038"/>
-<PlayerAnimation Name="gPlayerAnim_003040" Offset="0x3040"/>
-<PlayerAnimation Name="gPlayerAnim_003048" Offset="0x3048"/>
-<PlayerAnimation Name="gPlayerAnim_003050" Offset="0x3050"/>
-<PlayerAnimation Name="gPlayerAnim_003058" Offset="0x3058"/>
-<PlayerAnimation Name="gPlayerAnim_003060" Offset="0x3060"/>
-<PlayerAnimation Name="gPlayerAnim_003068" Offset="0x3068"/>
-<PlayerAnimation Name="gPlayerAnim_003070" Offset="0x3070"/>
-<PlayerAnimation Name="gPlayerAnim_003078" Offset="0x3078"/>
-<PlayerAnimation Name="gPlayerAnim_003080" Offset="0x3080"/>
-<PlayerAnimation Name="gPlayerAnim_003088" Offset="0x3088"/>
-<PlayerAnimation Name="gPlayerAnim_003090" Offset="0x3090"/>
-<PlayerAnimation Name="gPlayerAnim_003098" Offset="0x3098"/>
-<PlayerAnimation Name="gPlayerAnim_0030A0" Offset="0x30A0"/>
-<PlayerAnimation Name="gPlayerAnim_0030A8" Offset="0x30A8"/>
-<PlayerAnimation Name="gPlayerAnim_0030B0" Offset="0x30B0"/>
-<PlayerAnimation Name="gPlayerAnim_0030B8" Offset="0x30B8"/>
-<PlayerAnimation Name="gPlayerAnim_0030C0" Offset="0x30C0"/>
-<PlayerAnimation Name="gPlayerAnim_0030C8" Offset="0x30C8"/>
-<PlayerAnimation Name="gPlayerAnim_0030D0" Offset="0x30D0"/>
-<PlayerAnimation Name="gPlayerAnim_0030D8" Offset="0x30D8"/>
-<PlayerAnimation Name="gPlayerAnim_0030E0" Offset="0x30E0"/>
-<PlayerAnimation Name="gPlayerAnim_0030E8" Offset="0x30E8"/>
-<PlayerAnimation Name="gPlayerAnim_0030F0" Offset="0x30F0"/>
-<PlayerAnimation Name="gPlayerAnim_0030F8" Offset="0x30F8"/>
-<PlayerAnimation Name="gPlayerAnim_003100" Offset="0x3100"/>
-<PlayerAnimation Name="gPlayerAnim_003108" Offset="0x3108"/>
-<PlayerAnimation Name="gPlayerAnim_003110" Offset="0x3110"/>
-<PlayerAnimation Name="gPlayerAnim_003118" Offset="0x3118"/>
-<PlayerAnimation Name="gPlayerAnim_003120" Offset="0x3120"/>
-<PlayerAnimation Name="gPlayerAnim_003128" Offset="0x3128"/>
-<PlayerAnimation Name="gPlayerAnim_003130" Offset="0x3130"/>
-<PlayerAnimation Name="gPlayerAnim_003138" Offset="0x3138"/>
-<PlayerAnimation Name="gPlayerAnim_003140" Offset="0x3140"/>
-<PlayerAnimation Name="gPlayerAnim_003148" Offset="0x3148"/>
-<PlayerAnimation Name="gPlayerAnim_003150" Offset="0x3150"/>
-<PlayerAnimation Name="gPlayerAnim_003158" Offset="0x3158"/>
-<PlayerAnimation Name="gPlayerAnim_003160" Offset="0x3160"/>
-<PlayerAnimation Name="gPlayerAnim_003168" Offset="0x3168"/>
-<PlayerAnimation Name="gPlayerAnim_003170" Offset="0x3170"/>
-<PlayerAnimation Name="gPlayerAnim_003178" Offset="0x3178"/>
-<PlayerAnimation Name="gPlayerAnim_003180" Offset="0x3180"/>
-<PlayerAnimation Name="gPlayerAnim_003188" Offset="0x3188"/>
-<PlayerAnimation Name="gPlayerAnim_003190" Offset="0x3190"/>
-<PlayerAnimation Name="gPlayerAnim_003198" Offset="0x3198"/>
-<PlayerAnimation Name="gPlayerAnim_0031A0" Offset="0x31A0"/>
-<PlayerAnimation Name="gPlayerAnim_0031A8" Offset="0x31A8"/>
-<PlayerAnimation Name="gPlayerAnim_0031B0" Offset="0x31B0"/>
-<PlayerAnimation Name="gPlayerAnim_0031B8" Offset="0x31B8"/>
-<PlayerAnimation Name="gPlayerAnim_0031C0" Offset="0x31C0"/>
-<PlayerAnimation Name="gPlayerAnim_0031C8" Offset="0x31C8"/>
-<PlayerAnimation Name="gPlayerAnim_0031D0" Offset="0x31D0"/>
-<PlayerAnimation Name="gPlayerAnim_0031D8" Offset="0x31D8"/>
-<PlayerAnimation Name="gPlayerAnim_0031E0" Offset="0x31E0"/>
-<PlayerAnimation Name="gPlayerAnim_0031E8" Offset="0x31E8"/>
-<PlayerAnimation Name="gPlayerAnim_0031F0" Offset="0x31F0"/>
-<PlayerAnimation Name="gPlayerAnim_0031F8" Offset="0x31F8"/>
-<PlayerAnimation Name="gPlayerAnim_003200" Offset="0x3200"/>
-<PlayerAnimation Name="gPlayerAnim_003208" Offset="0x3208"/>
-<PlayerAnimation Name="gPlayerAnim_003210" Offset="0x3210"/>
-<PlayerAnimation Name="gPlayerAnim_003218" Offset="0x3218"/>
-<PlayerAnimation Name="gPlayerAnim_003220" Offset="0x3220"/>
-<PlayerAnimation Name="gPlayerAnim_003228" Offset="0x3228"/>
-<PlayerAnimation Name="gPlayerAnim_003230" Offset="0x3230"/>
-<PlayerAnimation Name="gPlayerAnim_003238" Offset="0x3238"/>
-<PlayerAnimation Name="gPlayerAnim_003240" Offset="0x3240"/>
-<PlayerAnimation Name="gPlayerAnim_003248" Offset="0x3248"/>
-<PlayerAnimation Name="gPlayerAnim_003250" Offset="0x3250"/>
-<PlayerAnimation Name="gPlayerAnim_003258" Offset="0x3258"/>
-<PlayerAnimation Name="gPlayerAnim_003260" Offset="0x3260"/>
-<PlayerAnimation Name="gPlayerAnim_003268" Offset="0x3268"/>
-<PlayerAnimation Name="gPlayerAnim_003270" Offset="0x3270"/>
-<PlayerAnimation Name="gPlayerAnim_003278" Offset="0x3278"/>
-<PlayerAnimation Name="gPlayerAnim_003280" Offset="0x3280"/>
-<PlayerAnimation Name="gPlayerAnim_003288" Offset="0x3288"/>
-<PlayerAnimation Name="gPlayerAnim_003290" Offset="0x3290"/>
-<PlayerAnimation Name="gPlayerAnim_003298" Offset="0x3298"/>
-<PlayerAnimation Name="gPlayerAnim_0032A0" Offset="0x32A0"/>
-<PlayerAnimation Name="gPlayerAnim_0032A8" Offset="0x32A8"/>
-<PlayerAnimation Name="gPlayerAnim_0032B0" Offset="0x32B0"/>
-<PlayerAnimation Name="gPlayerAnim_0032B8" Offset="0x32B8"/>
-<PlayerAnimation Name="gPlayerAnim_0032C0" Offset="0x32C0"/>
-<PlayerAnimation Name="gPlayerAnim_0032C8" Offset="0x32C8"/>
-<PlayerAnimation Name="gPlayerAnim_0032D0" Offset="0x32D0"/>
-<PlayerAnimation Name="gPlayerAnim_0032D8" Offset="0x32D8"/>
-<PlayerAnimation Name="gPlayerAnim_0032E0" Offset="0x32E0"/>
-<PlayerAnimation Name="gPlayerAnim_0032E8" Offset="0x32E8"/>
-<PlayerAnimation Name="gPlayerAnim_0032F0" Offset="0x32F0"/>
-<PlayerAnimation Name="gPlayerAnim_0032F8" Offset="0x32F8"/>
-<PlayerAnimation Name="gPlayerAnim_003300" Offset="0x3300"/>
-<PlayerAnimation Name="gPlayerAnim_003308" Offset="0x3308"/>
-<PlayerAnimation Name="gPlayerAnim_003310" Offset="0x3310"/>
-<PlayerAnimation Name="gPlayerAnim_003318" Offset="0x3318"/>
-<PlayerAnimation Name="gPlayerAnim_003320" Offset="0x3320"/>
-<PlayerAnimation Name="gPlayerAnim_003328" Offset="0x3328"/>
-<PlayerAnimation Name="gPlayerAnim_003330" Offset="0x3330"/>
-<PlayerAnimation Name="gPlayerAnim_003338" Offset="0x3338"/>
-<PlayerAnimation Name="gPlayerAnim_003340" Offset="0x3340"/>
-<PlayerAnimation Name="gPlayerAnim_003348" Offset="0x3348"/>
-<PlayerAnimation Name="gPlayerAnim_003350" Offset="0x3350"/>
-<PlayerAnimation Name="gPlayerAnim_003358" Offset="0x3358"/>
-<PlayerAnimation Name="gPlayerAnim_003360" Offset="0x3360"/>
-<PlayerAnimation Name="gPlayerAnim_003368" Offset="0x3368"/>
-<PlayerAnimation Name="gPlayerAnim_003370" Offset="0x3370"/>
-<PlayerAnimation Name="gPlayerAnim_003378" Offset="0x3378"/>
-<PlayerAnimation Name="gPlayerAnim_003380" Offset="0x3380"/>
-<PlayerAnimation Name="gPlayerAnim_003388" Offset="0x3388"/>
-<PlayerAnimation Name="gPlayerAnim_003390" Offset="0x3390"/>
-<PlayerAnimation Name="gPlayerAnim_003398" Offset="0x3398"/>
-<PlayerAnimation Name="gPlayerAnim_0033A0" Offset="0x33A0"/>
-<PlayerAnimation Name="gPlayerAnim_0033A8" Offset="0x33A8"/>
-<PlayerAnimation Name="gPlayerAnim_0033B0" Offset="0x33B0"/>
-<PlayerAnimation Name="gPlayerAnim_0033B8" Offset="0x33B8"/>
-<PlayerAnimation Name="gPlayerAnim_0033C0" Offset="0x33C0"/>
-<PlayerAnimation Name="gPlayerAnim_0033C8" Offset="0x33C8"/>
-<PlayerAnimation Name="gPlayerAnim_0033D0" Offset="0x33D0"/>
-<PlayerAnimation Name="gPlayerAnim_0033D8" Offset="0x33D8"/>
-<PlayerAnimation Name="gPlayerAnim_0033E0" Offset="0x33E0"/>
-<PlayerAnimation Name="gPlayerAnim_0033E8" Offset="0x33E8"/>
-<PlayerAnimation Name="gPlayerAnim_0033F0" Offset="0x33F0"/>
-<PlayerAnimation Name="gPlayerAnim_0033F8" Offset="0x33F8"/>
-<PlayerAnimation Name="gPlayerAnim_003400" Offset="0x3400"/>
-<PlayerAnimation Name="gPlayerAnim_003408" Offset="0x3408"/>
-<PlayerAnimation Name="gPlayerAnim_003410" Offset="0x3410"/>
-<PlayerAnimation Name="gPlayerAnim_003418" Offset="0x3418"/>
-<PlayerAnimation Name="gPlayerAnim_003420" Offset="0x3420"/>
-<PlayerAnimation Name="gPlayerAnim_003428" Offset="0x3428"/>
-<PlayerAnimation Name="gPlayerAnim_003430" Offset="0x3430"/>
-<PlayerAnimation Name="gPlayerAnim_003438" Offset="0x3438"/>
-<PlayerAnimation Name="gPlayerAnim_003440" Offset="0x3440"/>
-<PlayerAnimation Name="gPlayerAnim_003448" Offset="0x3448"/>
-<PlayerAnimation Name="gPlayerAnim_003450" Offset="0x3450"/>
-<PlayerAnimation Name="gPlayerAnim_003458" Offset="0x3458"/>
-<PlayerAnimation Name="gPlayerAnim_003460" Offset="0x3460"/>
-<PlayerAnimation Name="gPlayerAnim_003468" Offset="0x3468"/>
-<PlayerAnimation Name="gPlayerAnim_003470" Offset="0x3470"/>
-<PlayerAnimation Name="gPlayerAnim_003478" Offset="0x3478"/>
-<PlayerAnimation Name="gPlayerAnim_003480" Offset="0x3480"/>
-<PlayerAnimation Name="gPlayerAnim_003488" Offset="0x3488"/>
-<PlayerAnimation Name="gPlayerAnim_003490" Offset="0x3490"/>
-<PlayerAnimation Name="gPlayerAnim_003498" Offset="0x3498"/>
-<PlayerAnimation Name="gPlayerAnim_0034A0" Offset="0x34A0"/>
-<PlayerAnimation Name="gPlayerAnim_0034A8" Offset="0x34A8"/>
-<PlayerAnimation Name="gPlayerAnim_0034B0" Offset="0x34B0"/>
-<PlayerAnimation Name="gPlayerAnim_0034B8" Offset="0x34B8"/>
-<PlayerAnimation Name="gPlayerAnim_0034C0" Offset="0x34C0"/>
-<PlayerAnimation Name="gPlayerAnim_0034C8" Offset="0x34C8"/>
-<PlayerAnimation Name="gPlayerAnim_0034D0" Offset="0x34D0"/>
-<PlayerAnimation Name="gPlayerAnim_0034D8" Offset="0x34D8"/>
-<PlayerAnimation Name="gPlayerAnim_0034E0" Offset="0x34E0"/>
-<PlayerAnimation Name="gPlayerAnim_0034E8" Offset="0x34E8"/>
-<PlayerAnimation Name="gPlayerAnim_0034F0" Offset="0x34F0"/>
+        <PlayerAnimation Name="gPlayerAnim_002310" Offset="0x2310"/>
+        <PlayerAnimation Name="gPlayerAnim_002318" Offset="0x2318"/>
+        <PlayerAnimation Name="gPlayerAnim_002320" Offset="0x2320"/>
+        <PlayerAnimation Name="gPlayerAnim_002328" Offset="0x2328"/>
+        <PlayerAnimation Name="gPlayerAnim_002330" Offset="0x2330"/>
+        <PlayerAnimation Name="gPlayerAnim_002338" Offset="0x2338"/>
+        <PlayerAnimation Name="gPlayerAnim_002340" Offset="0x2340"/>
+        <PlayerAnimation Name="gPlayerAnim_002348" Offset="0x2348"/>
+        <PlayerAnimation Name="gPlayerAnim_002350" Offset="0x2350"/>
+        <PlayerAnimation Name="gPlayerAnim_002358" Offset="0x2358"/>
+        <PlayerAnimation Name="gPlayerAnim_002360" Offset="0x2360"/>
+        <PlayerAnimation Name="gPlayerAnim_002368" Offset="0x2368"/>
+        <PlayerAnimation Name="gPlayerAnim_002370" Offset="0x2370"/>
+        <PlayerAnimation Name="gPlayerAnim_002378" Offset="0x2378"/>
+        <PlayerAnimation Name="gPlayerAnim_002380" Offset="0x2380"/>
+        <PlayerAnimation Name="gPlayerAnim_002388" Offset="0x2388"/>
+        <PlayerAnimation Name="gPlayerAnim_002390" Offset="0x2390"/>
+        <PlayerAnimation Name="gPlayerAnim_002398" Offset="0x2398"/>
+        <PlayerAnimation Name="gPlayerAnim_0023A0" Offset="0x23A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0023A8" Offset="0x23A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0023B0" Offset="0x23B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0023B8" Offset="0x23B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0023C0" Offset="0x23C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0023C8" Offset="0x23C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0023D0" Offset="0x23D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0023D8" Offset="0x23D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0023E0" Offset="0x23E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0023E8" Offset="0x23E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0023F0" Offset="0x23F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0023F8" Offset="0x23F8"/>
+        <PlayerAnimation Name="gPlayerAnim_002400" Offset="0x2400"/>
+        <PlayerAnimation Name="gPlayerAnim_002408" Offset="0x2408"/>
+        <PlayerAnimation Name="gPlayerAnim_002410" Offset="0x2410"/>
+        <PlayerAnimation Name="gPlayerAnim_002418" Offset="0x2418"/>
+        <PlayerAnimation Name="gPlayerAnim_002420" Offset="0x2420"/>
+        <PlayerAnimation Name="gPlayerAnim_002428" Offset="0x2428"/>
+        <PlayerAnimation Name="gPlayerAnim_002430" Offset="0x2430"/>
+        <PlayerAnimation Name="gPlayerAnim_002438" Offset="0x2438"/>
+        <PlayerAnimation Name="gPlayerAnim_002440" Offset="0x2440"/>
+        <PlayerAnimation Name="gPlayerAnim_002448" Offset="0x2448"/>
+        <PlayerAnimation Name="gPlayerAnim_002450" Offset="0x2450"/>
+        <PlayerAnimation Name="gPlayerAnim_002458" Offset="0x2458"/>
+        <PlayerAnimation Name="gPlayerAnim_002460" Offset="0x2460"/>
+        <PlayerAnimation Name="gPlayerAnim_002468" Offset="0x2468"/>
+        <PlayerAnimation Name="gPlayerAnim_002470" Offset="0x2470"/>
+        <PlayerAnimation Name="gPlayerAnim_002478" Offset="0x2478"/>
+        <PlayerAnimation Name="gPlayerAnim_002480" Offset="0x2480"/>
+        <PlayerAnimation Name="gPlayerAnim_002488" Offset="0x2488"/>
+        <PlayerAnimation Name="gPlayerAnim_002490" Offset="0x2490"/>
+        <PlayerAnimation Name="gPlayerAnim_002498" Offset="0x2498"/>
+        <PlayerAnimation Name="gPlayerAnim_0024A0" Offset="0x24A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0024A8" Offset="0x24A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0024B0" Offset="0x24B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0024B8" Offset="0x24B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0024C0" Offset="0x24C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0024C8" Offset="0x24C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0024D0" Offset="0x24D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0024D8" Offset="0x24D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0024E0" Offset="0x24E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0024E8" Offset="0x24E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0024F0" Offset="0x24F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0024F8" Offset="0x24F8"/>
+        <PlayerAnimation Name="gPlayerAnim_002500" Offset="0x2500"/>
+        <PlayerAnimation Name="gPlayerAnim_002508" Offset="0x2508"/>
+        <PlayerAnimation Name="gPlayerAnim_002510" Offset="0x2510"/>
+        <PlayerAnimation Name="gPlayerAnim_002518" Offset="0x2518"/>
+        <PlayerAnimation Name="gPlayerAnim_002520" Offset="0x2520"/>
+        <PlayerAnimation Name="gPlayerAnim_002528" Offset="0x2528"/>
+        <PlayerAnimation Name="gPlayerAnim_002530" Offset="0x2530"/>
+        <PlayerAnimation Name="gPlayerAnim_002538" Offset="0x2538"/>
+        <PlayerAnimation Name="gPlayerAnim_002540" Offset="0x2540"/>
+        <PlayerAnimation Name="gPlayerAnim_002548" Offset="0x2548"/>
+        <PlayerAnimation Name="gPlayerAnim_002550" Offset="0x2550"/>
+        <PlayerAnimation Name="gPlayerAnim_002558" Offset="0x2558"/>
+        <PlayerAnimation Name="gPlayerAnim_002560" Offset="0x2560"/>
+        <PlayerAnimation Name="gPlayerAnim_002568" Offset="0x2568"/>
+        <PlayerAnimation Name="gPlayerAnim_002570" Offset="0x2570"/>
+        <PlayerAnimation Name="gPlayerAnim_002578" Offset="0x2578"/>
+        <PlayerAnimation Name="gPlayerAnim_002580" Offset="0x2580"/>
+        <PlayerAnimation Name="gPlayerAnim_002588" Offset="0x2588"/>
+        <PlayerAnimation Name="gPlayerAnim_002590" Offset="0x2590"/>
+        <PlayerAnimation Name="gPlayerAnim_002598" Offset="0x2598"/>
+        <PlayerAnimation Name="gPlayerAnim_0025A0" Offset="0x25A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0025A8" Offset="0x25A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0025B0" Offset="0x25B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0025B8" Offset="0x25B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0025C0" Offset="0x25C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0025C8" Offset="0x25C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0025D0" Offset="0x25D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0025D8" Offset="0x25D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0025E0" Offset="0x25E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0025E8" Offset="0x25E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0025F0" Offset="0x25F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0025F8" Offset="0x25F8"/>
+        <PlayerAnimation Name="gPlayerAnim_002600" Offset="0x2600"/>
+        <PlayerAnimation Name="gPlayerAnim_002608" Offset="0x2608"/>
+        <PlayerAnimation Name="gPlayerAnim_002610" Offset="0x2610"/>
+        <PlayerAnimation Name="gPlayerAnim_002618" Offset="0x2618"/>
+        <PlayerAnimation Name="gPlayerAnim_002620" Offset="0x2620"/>
+        <PlayerAnimation Name="gPlayerAnim_002628" Offset="0x2628"/>
+        <PlayerAnimation Name="gPlayerAnim_002630" Offset="0x2630"/>
+        <PlayerAnimation Name="gPlayerAnim_002638" Offset="0x2638"/>
+        <PlayerAnimation Name="gPlayerAnim_002640" Offset="0x2640"/>
+        <PlayerAnimation Name="gPlayerAnim_002648" Offset="0x2648"/>
+        <PlayerAnimation Name="gPlayerAnim_002650" Offset="0x2650"/>
+        <PlayerAnimation Name="gPlayerAnim_002658" Offset="0x2658"/>
+        <PlayerAnimation Name="gPlayerAnim_002660" Offset="0x2660"/>
+        <PlayerAnimation Name="gPlayerAnim_002668" Offset="0x2668"/>
+        <PlayerAnimation Name="gPlayerAnim_002670" Offset="0x2670"/>
+        <PlayerAnimation Name="gPlayerAnim_002678" Offset="0x2678"/>
+        <PlayerAnimation Name="gPlayerAnim_002680" Offset="0x2680"/>
+        <PlayerAnimation Name="gPlayerAnim_002688" Offset="0x2688"/>
+        <PlayerAnimation Name="gPlayerAnim_002690" Offset="0x2690"/>
+        <PlayerAnimation Name="gPlayerAnim_002698" Offset="0x2698"/>
+        <PlayerAnimation Name="gPlayerAnim_0026A0" Offset="0x26A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0026A8" Offset="0x26A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0026B0" Offset="0x26B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0026B8" Offset="0x26B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0026C0" Offset="0x26C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0026C8" Offset="0x26C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0026D0" Offset="0x26D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0026D8" Offset="0x26D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0026E0" Offset="0x26E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0026E8" Offset="0x26E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0026F0" Offset="0x26F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0026F8" Offset="0x26F8"/>
+        <PlayerAnimation Name="gPlayerAnim_002700" Offset="0x2700"/>
+        <PlayerAnimation Name="gPlayerAnim_002708" Offset="0x2708"/>
+        <PlayerAnimation Name="gPlayerAnim_002710" Offset="0x2710"/>
+        <PlayerAnimation Name="gPlayerAnim_002718" Offset="0x2718"/>
+        <PlayerAnimation Name="gPlayerAnim_002720" Offset="0x2720"/>
+        <PlayerAnimation Name="gPlayerAnim_002728" Offset="0x2728"/>
+        <PlayerAnimation Name="gPlayerAnim_002730" Offset="0x2730"/>
+        <PlayerAnimation Name="gPlayerAnim_002738" Offset="0x2738"/>
+        <PlayerAnimation Name="gPlayerAnim_002740" Offset="0x2740"/>
+        <PlayerAnimation Name="gPlayerAnim_002748" Offset="0x2748"/>
+        <PlayerAnimation Name="gPlayerAnim_002750" Offset="0x2750"/>
+        <PlayerAnimation Name="gPlayerAnim_002758" Offset="0x2758"/>
+        <PlayerAnimation Name="gPlayerAnim_002760" Offset="0x2760"/>
+        <PlayerAnimation Name="gPlayerAnim_002768" Offset="0x2768"/>
+        <PlayerAnimation Name="gPlayerAnim_002770" Offset="0x2770"/>
+        <PlayerAnimation Name="gPlayerAnim_002778" Offset="0x2778"/>
+        <PlayerAnimation Name="gPlayerAnim_002780" Offset="0x2780"/>
+        <PlayerAnimation Name="gPlayerAnim_002788" Offset="0x2788"/>
+        <PlayerAnimation Name="gPlayerAnim_002790" Offset="0x2790"/>
+        <PlayerAnimation Name="gPlayerAnim_002798" Offset="0x2798"/>
+        <PlayerAnimation Name="gPlayerAnim_0027A0" Offset="0x27A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0027A8" Offset="0x27A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0027B0" Offset="0x27B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0027B8" Offset="0x27B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0027C0" Offset="0x27C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0027C8" Offset="0x27C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0027D0" Offset="0x27D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0027D8" Offset="0x27D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0027E0" Offset="0x27E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0027E8" Offset="0x27E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0027F0" Offset="0x27F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0027F8" Offset="0x27F8"/>
+        <PlayerAnimation Name="gPlayerAnim_002800" Offset="0x2800"/>
+        <PlayerAnimation Name="gPlayerAnim_002808" Offset="0x2808"/>
+        <PlayerAnimation Name="gPlayerAnim_002810" Offset="0x2810"/>
+        <PlayerAnimation Name="gPlayerAnim_002818" Offset="0x2818"/>
+        <PlayerAnimation Name="gPlayerAnim_002820" Offset="0x2820"/>
+        <PlayerAnimation Name="gPlayerAnim_002828" Offset="0x2828"/>
+        <PlayerAnimation Name="gPlayerAnim_002830" Offset="0x2830"/>
+        <PlayerAnimation Name="gPlayerAnim_002838" Offset="0x2838"/>
+        <PlayerAnimation Name="gPlayerAnim_002840" Offset="0x2840"/>
+        <PlayerAnimation Name="gPlayerAnim_002848" Offset="0x2848"/>
+        <PlayerAnimation Name="gPlayerAnim_002850" Offset="0x2850"/>
+        <PlayerAnimation Name="gPlayerAnim_002858" Offset="0x2858"/>
+        <PlayerAnimation Name="gPlayerAnim_002860" Offset="0x2860"/>
+        <PlayerAnimation Name="gPlayerAnim_002868" Offset="0x2868"/>
+        <PlayerAnimation Name="gPlayerAnim_002870" Offset="0x2870"/>
+        <PlayerAnimation Name="gPlayerAnim_002878" Offset="0x2878"/>
+        <PlayerAnimation Name="gPlayerAnim_002880" Offset="0x2880"/>
+        <PlayerAnimation Name="gPlayerAnim_002888" Offset="0x2888"/>
+        <PlayerAnimation Name="gPlayerAnim_002890" Offset="0x2890"/>
+        <PlayerAnimation Name="gPlayerAnim_002898" Offset="0x2898"/>
+        <PlayerAnimation Name="gPlayerAnim_0028A0" Offset="0x28A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0028A8" Offset="0x28A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0028B0" Offset="0x28B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0028B8" Offset="0x28B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0028C0" Offset="0x28C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0028C8" Offset="0x28C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0028D0" Offset="0x28D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0028D8" Offset="0x28D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0028E0" Offset="0x28E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0028E8" Offset="0x28E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0028F0" Offset="0x28F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0028F8" Offset="0x28F8"/>
+        <PlayerAnimation Name="gPlayerAnim_002900" Offset="0x2900"/>
+        <PlayerAnimation Name="gPlayerAnim_002908" Offset="0x2908"/>
+        <PlayerAnimation Name="gPlayerAnim_002910" Offset="0x2910"/>
+        <PlayerAnimation Name="gPlayerAnim_002918" Offset="0x2918"/>
+        <PlayerAnimation Name="gPlayerAnim_002920" Offset="0x2920"/>
+        <PlayerAnimation Name="gPlayerAnim_002928" Offset="0x2928"/>
+        <PlayerAnimation Name="gPlayerAnim_002930" Offset="0x2930"/>
+        <PlayerAnimation Name="gPlayerAnim_002938" Offset="0x2938"/>
+        <PlayerAnimation Name="gPlayerAnim_002940" Offset="0x2940"/>
+        <PlayerAnimation Name="gPlayerAnim_002948" Offset="0x2948"/>
+        <PlayerAnimation Name="gPlayerAnim_002950" Offset="0x2950"/>
+        <PlayerAnimation Name="gPlayerAnim_002958" Offset="0x2958"/>
+        <PlayerAnimation Name="gPlayerAnim_002960" Offset="0x2960"/>
+        <PlayerAnimation Name="gPlayerAnim_002968" Offset="0x2968"/>
+        <PlayerAnimation Name="gPlayerAnim_002970" Offset="0x2970"/>
+        <PlayerAnimation Name="gPlayerAnim_002978" Offset="0x2978"/>
+        <PlayerAnimation Name="gPlayerAnim_002980" Offset="0x2980"/>
+        <PlayerAnimation Name="gPlayerAnim_002988" Offset="0x2988"/>
+        <PlayerAnimation Name="gPlayerAnim_002990" Offset="0x2990"/>
+        <PlayerAnimation Name="gPlayerAnim_002998" Offset="0x2998"/>
+        <PlayerAnimation Name="gPlayerAnim_0029A0" Offset="0x29A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0029A8" Offset="0x29A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0029B0" Offset="0x29B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0029B8" Offset="0x29B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0029C0" Offset="0x29C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0029C8" Offset="0x29C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0029D0" Offset="0x29D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0029D8" Offset="0x29D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0029E0" Offset="0x29E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0029E8" Offset="0x29E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0029F0" Offset="0x29F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0029F8" Offset="0x29F8"/>
+        <PlayerAnimation Name="gPlayerAnim_002A00" Offset="0x2A00"/>
+        <PlayerAnimation Name="gPlayerAnim_002A08" Offset="0x2A08"/>
+        <PlayerAnimation Name="gPlayerAnim_002A10" Offset="0x2A10"/>
+        <PlayerAnimation Name="gPlayerAnim_002A18" Offset="0x2A18"/>
+        <PlayerAnimation Name="gPlayerAnim_002A20" Offset="0x2A20"/>
+        <PlayerAnimation Name="gPlayerAnim_002A28" Offset="0x2A28"/>
+        <PlayerAnimation Name="gPlayerAnim_002A30" Offset="0x2A30"/>
+        <PlayerAnimation Name="gPlayerAnim_002A38" Offset="0x2A38"/>
+        <PlayerAnimation Name="gPlayerAnim_002A40" Offset="0x2A40"/>
+        <PlayerAnimation Name="gPlayerAnim_002A48" Offset="0x2A48"/>
+        <PlayerAnimation Name="gPlayerAnim_002A50" Offset="0x2A50"/>
+        <PlayerAnimation Name="gPlayerAnim_002A58" Offset="0x2A58"/>
+        <PlayerAnimation Name="gPlayerAnim_002A60" Offset="0x2A60"/>
+        <PlayerAnimation Name="gPlayerAnim_002A68" Offset="0x2A68"/>
+        <PlayerAnimation Name="gPlayerAnim_002A70" Offset="0x2A70"/>
+        <PlayerAnimation Name="gPlayerAnim_002A78" Offset="0x2A78"/>
+        <PlayerAnimation Name="gPlayerAnim_002A80" Offset="0x2A80"/>
+        <PlayerAnimation Name="gPlayerAnim_002A88" Offset="0x2A88"/>
+        <PlayerAnimation Name="gPlayerAnim_002A90" Offset="0x2A90"/>
+        <PlayerAnimation Name="gPlayerAnim_002A98" Offset="0x2A98"/>
+        <PlayerAnimation Name="gPlayerAnim_002AA0" Offset="0x2AA0"/>
+        <PlayerAnimation Name="gPlayerAnim_002AA8" Offset="0x2AA8"/>
+        <PlayerAnimation Name="gPlayerAnim_002AB0" Offset="0x2AB0"/>
+        <PlayerAnimation Name="gPlayerAnim_002AB8" Offset="0x2AB8"/>
+        <PlayerAnimation Name="gPlayerAnim_002AC0" Offset="0x2AC0"/>
+        <PlayerAnimation Name="gPlayerAnim_002AC8" Offset="0x2AC8"/>
+        <PlayerAnimation Name="gPlayerAnim_002AD0" Offset="0x2AD0"/>
+        <PlayerAnimation Name="gPlayerAnim_002AD8" Offset="0x2AD8"/>
+        <PlayerAnimation Name="gPlayerAnim_002AE0" Offset="0x2AE0"/>
+        <PlayerAnimation Name="gPlayerAnim_002AE8" Offset="0x2AE8"/>
+        <PlayerAnimation Name="gPlayerAnim_002AF0" Offset="0x2AF0"/>
+        <PlayerAnimation Name="gPlayerAnim_002AF8" Offset="0x2AF8"/>
+        <PlayerAnimation Name="gPlayerAnim_002B00" Offset="0x2B00"/>
+        <PlayerAnimation Name="gPlayerAnim_002B08" Offset="0x2B08"/>
+        <PlayerAnimation Name="gPlayerAnim_002B10" Offset="0x2B10"/>
+        <PlayerAnimation Name="gPlayerAnim_002B18" Offset="0x2B18"/>
+        <PlayerAnimation Name="gPlayerAnim_002B20" Offset="0x2B20"/>
+        <PlayerAnimation Name="gPlayerAnim_002B28" Offset="0x2B28"/>
+        <PlayerAnimation Name="gPlayerAnim_002B30" Offset="0x2B30"/>
+        <PlayerAnimation Name="gPlayerAnim_002B38" Offset="0x2B38"/>
+        <PlayerAnimation Name="gPlayerAnim_002B40" Offset="0x2B40"/>
+        <PlayerAnimation Name="gPlayerAnim_002B48" Offset="0x2B48"/>
+        <PlayerAnimation Name="gPlayerAnim_002B50" Offset="0x2B50"/>
+        <PlayerAnimation Name="gPlayerAnim_002B58" Offset="0x2B58"/>
+        <PlayerAnimation Name="gPlayerAnim_002B60" Offset="0x2B60"/>
+        <PlayerAnimation Name="gPlayerAnim_002B68" Offset="0x2B68"/>
+        <PlayerAnimation Name="gPlayerAnim_002B70" Offset="0x2B70"/>
+        <PlayerAnimation Name="gPlayerAnim_002B78" Offset="0x2B78"/>
+        <PlayerAnimation Name="gPlayerAnim_002B80" Offset="0x2B80"/>
+        <PlayerAnimation Name="gPlayerAnim_002B88" Offset="0x2B88"/>
+        <PlayerAnimation Name="gPlayerAnim_002B90" Offset="0x2B90"/>
+        <PlayerAnimation Name="gPlayerAnim_002B98" Offset="0x2B98"/>
+        <PlayerAnimation Name="gPlayerAnim_002BA0" Offset="0x2BA0"/>
+        <PlayerAnimation Name="gPlayerAnim_002BA8" Offset="0x2BA8"/>
+        <PlayerAnimation Name="gPlayerAnim_002BB0" Offset="0x2BB0"/>
+        <PlayerAnimation Name="gPlayerAnim_002BB8" Offset="0x2BB8"/>
+        <PlayerAnimation Name="gPlayerAnim_002BC0" Offset="0x2BC0"/>
+        <PlayerAnimation Name="gPlayerAnim_002BC8" Offset="0x2BC8"/>
+        <PlayerAnimation Name="gPlayerAnim_002BD0" Offset="0x2BD0"/>
+        <PlayerAnimation Name="gPlayerAnim_002BD8" Offset="0x2BD8"/>
+        <PlayerAnimation Name="gPlayerAnim_002BE0" Offset="0x2BE0"/>
+        <PlayerAnimation Name="gPlayerAnim_002BE8" Offset="0x2BE8"/>
+        <PlayerAnimation Name="gPlayerAnim_002BF0" Offset="0x2BF0"/>
+        <PlayerAnimation Name="gPlayerAnim_002BF8" Offset="0x2BF8"/>
+        <PlayerAnimation Name="gPlayerAnim_002C00" Offset="0x2C00"/>
+        <PlayerAnimation Name="gPlayerAnim_002C08" Offset="0x2C08"/>
+        <PlayerAnimation Name="gPlayerAnim_002C10" Offset="0x2C10"/>
+        <PlayerAnimation Name="gPlayerAnim_002C18" Offset="0x2C18"/>
+        <PlayerAnimation Name="gPlayerAnim_002C20" Offset="0x2C20"/>
+        <PlayerAnimation Name="gPlayerAnim_002C28" Offset="0x2C28"/>
+        <PlayerAnimation Name="gPlayerAnim_002C30" Offset="0x2C30"/>
+        <PlayerAnimation Name="gPlayerAnim_002C38" Offset="0x2C38"/>
+        <PlayerAnimation Name="gPlayerAnim_002C40" Offset="0x2C40"/>
+        <PlayerAnimation Name="gPlayerAnim_002C48" Offset="0x2C48"/>
+        <PlayerAnimation Name="gPlayerAnim_002C50" Offset="0x2C50"/>
+        <PlayerAnimation Name="gPlayerAnim_002C58" Offset="0x2C58"/>
+        <PlayerAnimation Name="gPlayerAnim_002C60" Offset="0x2C60"/>
+        <PlayerAnimation Name="gPlayerAnim_002C68" Offset="0x2C68"/>
+        <PlayerAnimation Name="gPlayerAnim_002C70" Offset="0x2C70"/>
+        <PlayerAnimation Name="gPlayerAnim_002C78" Offset="0x2C78"/>
+        <PlayerAnimation Name="gPlayerAnim_002C80" Offset="0x2C80"/>
+        <PlayerAnimation Name="gPlayerAnim_002C88" Offset="0x2C88"/>
+        <PlayerAnimation Name="gPlayerAnim_002C90" Offset="0x2C90"/>
+        <PlayerAnimation Name="gPlayerAnim_002C98" Offset="0x2C98"/>
+        <PlayerAnimation Name="gPlayerAnim_002CA0" Offset="0x2CA0"/>
+        <PlayerAnimation Name="gPlayerAnim_002CA8" Offset="0x2CA8"/>
+        <PlayerAnimation Name="gPlayerAnim_002CB0" Offset="0x2CB0"/>
+        <PlayerAnimation Name="gPlayerAnim_002CB8" Offset="0x2CB8"/>
+        <PlayerAnimation Name="gPlayerAnim_002CC0" Offset="0x2CC0"/>
+        <PlayerAnimation Name="gPlayerAnim_002CC8" Offset="0x2CC8"/>
+        <PlayerAnimation Name="gPlayerAnim_002CD0" Offset="0x2CD0"/>
+        <PlayerAnimation Name="gPlayerAnim_002CD8" Offset="0x2CD8"/>
+        <PlayerAnimation Name="gPlayerAnim_002CE0" Offset="0x2CE0"/>
+        <PlayerAnimation Name="gPlayerAnim_002CE8" Offset="0x2CE8"/>
+        <PlayerAnimation Name="gPlayerAnim_002CF0" Offset="0x2CF0"/>
+        <PlayerAnimation Name="gPlayerAnim_002CF8" Offset="0x2CF8"/>
+        <PlayerAnimation Name="gPlayerAnim_002D00" Offset="0x2D00"/>
+        <PlayerAnimation Name="gPlayerAnim_002D08" Offset="0x2D08"/>
+        <PlayerAnimation Name="gPlayerAnim_002D10" Offset="0x2D10"/>
+        <PlayerAnimation Name="gPlayerAnim_002D18" Offset="0x2D18"/>
+        <PlayerAnimation Name="gPlayerAnim_002D20" Offset="0x2D20"/>
+        <PlayerAnimation Name="gPlayerAnim_002D28" Offset="0x2D28"/>
+        <PlayerAnimation Name="gPlayerAnim_002D30" Offset="0x2D30"/>
+        <PlayerAnimation Name="gPlayerAnim_002D38" Offset="0x2D38"/>
+        <PlayerAnimation Name="gPlayerAnim_002D40" Offset="0x2D40"/>
+        <PlayerAnimation Name="gPlayerAnim_002D48" Offset="0x2D48"/>
+        <PlayerAnimation Name="gPlayerAnim_002D50" Offset="0x2D50"/>
+        <PlayerAnimation Name="gPlayerAnim_002D58" Offset="0x2D58"/>
+        <PlayerAnimation Name="gPlayerAnim_002D60" Offset="0x2D60"/>
+        <PlayerAnimation Name="gPlayerAnim_002D68" Offset="0x2D68"/>
+        <PlayerAnimation Name="gPlayerAnim_002D70" Offset="0x2D70"/>
+        <PlayerAnimation Name="gPlayerAnim_002D78" Offset="0x2D78"/>
+        <PlayerAnimation Name="gPlayerAnim_002D80" Offset="0x2D80"/>
+        <PlayerAnimation Name="gPlayerAnim_002D88" Offset="0x2D88"/>
+        <PlayerAnimation Name="gPlayerAnim_002D90" Offset="0x2D90"/>
+        <PlayerAnimation Name="gPlayerAnim_002D98" Offset="0x2D98"/>
+        <PlayerAnimation Name="gPlayerAnim_002DA0" Offset="0x2DA0"/>
+        <PlayerAnimation Name="gPlayerAnim_002DA8" Offset="0x2DA8"/>
+        <PlayerAnimation Name="gPlayerAnim_002DB0" Offset="0x2DB0"/>
+        <PlayerAnimation Name="gPlayerAnim_002DB8" Offset="0x2DB8"/>
+        <PlayerAnimation Name="gPlayerAnim_002DC0" Offset="0x2DC0"/>
+        <PlayerAnimation Name="gPlayerAnim_002DC8" Offset="0x2DC8"/>
+        <PlayerAnimation Name="gPlayerAnim_002DD0" Offset="0x2DD0"/>
+        <PlayerAnimation Name="gPlayerAnim_002DD8" Offset="0x2DD8"/>
+        <PlayerAnimation Name="gPlayerAnim_002DE0" Offset="0x2DE0"/>
+        <PlayerAnimation Name="gPlayerAnim_002DE8" Offset="0x2DE8"/>
+        <PlayerAnimation Name="gPlayerAnim_002DF0" Offset="0x2DF0"/>
+        <PlayerAnimation Name="gPlayerAnim_002DF8" Offset="0x2DF8"/>
+        <PlayerAnimation Name="gPlayerAnim_002E00" Offset="0x2E00"/>
+        <PlayerAnimation Name="gPlayerAnim_002E08" Offset="0x2E08"/>
+        <PlayerAnimation Name="gPlayerAnim_002E10" Offset="0x2E10"/>
+        <PlayerAnimation Name="gPlayerAnim_002E18" Offset="0x2E18"/>
+        <PlayerAnimation Name="gPlayerAnim_002E20" Offset="0x2E20"/>
+        <PlayerAnimation Name="gPlayerAnim_002E28" Offset="0x2E28"/>
+        <PlayerAnimation Name="gPlayerAnim_002E30" Offset="0x2E30"/>
+        <PlayerAnimation Name="gPlayerAnim_002E38" Offset="0x2E38"/>
+        <PlayerAnimation Name="gPlayerAnim_002E40" Offset="0x2E40"/>
+        <PlayerAnimation Name="gPlayerAnim_002E48" Offset="0x2E48"/>
+        <PlayerAnimation Name="gPlayerAnim_002E50" Offset="0x2E50"/>
+        <PlayerAnimation Name="gPlayerAnim_002E58" Offset="0x2E58"/>
+        <PlayerAnimation Name="gPlayerAnim_002E60" Offset="0x2E60"/>
+        <PlayerAnimation Name="gPlayerAnim_002E68" Offset="0x2E68"/>
+        <PlayerAnimation Name="gPlayerAnim_002E70" Offset="0x2E70"/>
+        <PlayerAnimation Name="gPlayerAnim_002E78" Offset="0x2E78"/>
+        <PlayerAnimation Name="gPlayerAnim_002E80" Offset="0x2E80"/>
+        <PlayerAnimation Name="gPlayerAnim_002E88" Offset="0x2E88"/>
+        <PlayerAnimation Name="gPlayerAnim_002E90" Offset="0x2E90"/>
+        <PlayerAnimation Name="gPlayerAnim_002E98" Offset="0x2E98"/>
+        <PlayerAnimation Name="gPlayerAnim_002EA0" Offset="0x2EA0"/>
+        <PlayerAnimation Name="gPlayerAnim_002EA8" Offset="0x2EA8"/>
+        <PlayerAnimation Name="gPlayerAnim_002EB0" Offset="0x2EB0"/>
+        <PlayerAnimation Name="gPlayerAnim_002EB8" Offset="0x2EB8"/>
+        <PlayerAnimation Name="gPlayerAnim_002EC0" Offset="0x2EC0"/>
+        <PlayerAnimation Name="gPlayerAnim_002EC8" Offset="0x2EC8"/>
+        <PlayerAnimation Name="gPlayerAnim_002ED0" Offset="0x2ED0"/>
+        <PlayerAnimation Name="gPlayerAnim_002ED8" Offset="0x2ED8"/>
+        <PlayerAnimation Name="gPlayerAnim_002EE0" Offset="0x2EE0"/>
+        <PlayerAnimation Name="gPlayerAnim_002EE8" Offset="0x2EE8"/>
+        <PlayerAnimation Name="gPlayerAnim_002EF0" Offset="0x2EF0"/>
+        <PlayerAnimation Name="gPlayerAnim_002EF8" Offset="0x2EF8"/>
+        <PlayerAnimation Name="gPlayerAnim_002F00" Offset="0x2F00"/>
+        <PlayerAnimation Name="gPlayerAnim_002F08" Offset="0x2F08"/>
+        <PlayerAnimation Name="gPlayerAnim_002F10" Offset="0x2F10"/>
+        <PlayerAnimation Name="gPlayerAnim_002F18" Offset="0x2F18"/>
+        <PlayerAnimation Name="gPlayerAnim_002F20" Offset="0x2F20"/>
+        <PlayerAnimation Name="gPlayerAnim_002F28" Offset="0x2F28"/>
+        <PlayerAnimation Name="gPlayerAnim_002F30" Offset="0x2F30"/>
+        <PlayerAnimation Name="gPlayerAnim_002F38" Offset="0x2F38"/>
+        <PlayerAnimation Name="gPlayerAnim_002F40" Offset="0x2F40"/>
+        <PlayerAnimation Name="gPlayerAnim_002F48" Offset="0x2F48"/>
+        <PlayerAnimation Name="gPlayerAnim_002F50" Offset="0x2F50"/>
+        <PlayerAnimation Name="gPlayerAnim_002F58" Offset="0x2F58"/>
+        <PlayerAnimation Name="gPlayerAnim_002F60" Offset="0x2F60"/>
+        <PlayerAnimation Name="gPlayerAnim_002F68" Offset="0x2F68"/>
+        <PlayerAnimation Name="gPlayerAnim_002F70" Offset="0x2F70"/>
+        <PlayerAnimation Name="gPlayerAnim_002F78" Offset="0x2F78"/>
+        <PlayerAnimation Name="gPlayerAnim_002F80" Offset="0x2F80"/>
+        <PlayerAnimation Name="gPlayerAnim_002F88" Offset="0x2F88"/>
+        <PlayerAnimation Name="gPlayerAnim_002F90" Offset="0x2F90"/>
+        <PlayerAnimation Name="gPlayerAnim_002F98" Offset="0x2F98"/>
+        <PlayerAnimation Name="gPlayerAnim_002FA0" Offset="0x2FA0"/>
+        <PlayerAnimation Name="gPlayerAnim_002FA8" Offset="0x2FA8"/>
+        <PlayerAnimation Name="gPlayerAnim_002FB0" Offset="0x2FB0"/>
+        <PlayerAnimation Name="gPlayerAnim_002FB8" Offset="0x2FB8"/>
+        <PlayerAnimation Name="gPlayerAnim_002FC0" Offset="0x2FC0"/>
+        <PlayerAnimation Name="gPlayerAnim_002FC8" Offset="0x2FC8"/>
+        <PlayerAnimation Name="gPlayerAnim_002FD0" Offset="0x2FD0"/>
+        <PlayerAnimation Name="gPlayerAnim_002FD8" Offset="0x2FD8"/>
+        <PlayerAnimation Name="gPlayerAnim_002FE0" Offset="0x2FE0"/>
+        <PlayerAnimation Name="gPlayerAnim_002FE8" Offset="0x2FE8"/>
+        <PlayerAnimation Name="gPlayerAnim_002FF0" Offset="0x2FF0"/>
+        <PlayerAnimation Name="gPlayerAnim_002FF8" Offset="0x2FF8"/>
+        <PlayerAnimation Name="gPlayerAnim_003000" Offset="0x3000"/>
+        <PlayerAnimation Name="gPlayerAnim_003008" Offset="0x3008"/>
+        <PlayerAnimation Name="gPlayerAnim_003010" Offset="0x3010"/>
+        <PlayerAnimation Name="gPlayerAnim_003018" Offset="0x3018"/>
+        <PlayerAnimation Name="gPlayerAnim_003020" Offset="0x3020"/>
+        <PlayerAnimation Name="gPlayerAnim_003028" Offset="0x3028"/>
+        <PlayerAnimation Name="gPlayerAnim_003030" Offset="0x3030"/>
+        <PlayerAnimation Name="gPlayerAnim_003038" Offset="0x3038"/>
+        <PlayerAnimation Name="gPlayerAnim_003040" Offset="0x3040"/>
+        <PlayerAnimation Name="gPlayerAnim_003048" Offset="0x3048"/>
+        <PlayerAnimation Name="gPlayerAnim_003050" Offset="0x3050"/>
+        <PlayerAnimation Name="gPlayerAnim_003058" Offset="0x3058"/>
+        <PlayerAnimation Name="gPlayerAnim_003060" Offset="0x3060"/>
+        <PlayerAnimation Name="gPlayerAnim_003068" Offset="0x3068"/>
+        <PlayerAnimation Name="gPlayerAnim_003070" Offset="0x3070"/>
+        <PlayerAnimation Name="gPlayerAnim_003078" Offset="0x3078"/>
+        <PlayerAnimation Name="gPlayerAnim_003080" Offset="0x3080"/>
+        <PlayerAnimation Name="gPlayerAnim_003088" Offset="0x3088"/>
+        <PlayerAnimation Name="gPlayerAnim_003090" Offset="0x3090"/>
+        <PlayerAnimation Name="gPlayerAnim_003098" Offset="0x3098"/>
+        <PlayerAnimation Name="gPlayerAnim_0030A0" Offset="0x30A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0030A8" Offset="0x30A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0030B0" Offset="0x30B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0030B8" Offset="0x30B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0030C0" Offset="0x30C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0030C8" Offset="0x30C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0030D0" Offset="0x30D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0030D8" Offset="0x30D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0030E0" Offset="0x30E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0030E8" Offset="0x30E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0030F0" Offset="0x30F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0030F8" Offset="0x30F8"/>
+        <PlayerAnimation Name="gPlayerAnim_003100" Offset="0x3100"/>
+        <PlayerAnimation Name="gPlayerAnim_003108" Offset="0x3108"/>
+        <PlayerAnimation Name="gPlayerAnim_003110" Offset="0x3110"/>
+        <PlayerAnimation Name="gPlayerAnim_003118" Offset="0x3118"/>
+        <PlayerAnimation Name="gPlayerAnim_003120" Offset="0x3120"/>
+        <PlayerAnimation Name="gPlayerAnim_003128" Offset="0x3128"/>
+        <PlayerAnimation Name="gPlayerAnim_003130" Offset="0x3130"/>
+        <PlayerAnimation Name="gPlayerAnim_003138" Offset="0x3138"/>
+        <PlayerAnimation Name="gPlayerAnim_003140" Offset="0x3140"/>
+        <PlayerAnimation Name="gPlayerAnim_003148" Offset="0x3148"/>
+        <PlayerAnimation Name="gPlayerAnim_003150" Offset="0x3150"/>
+        <PlayerAnimation Name="gPlayerAnim_003158" Offset="0x3158"/>
+        <PlayerAnimation Name="gPlayerAnim_003160" Offset="0x3160"/>
+        <PlayerAnimation Name="gPlayerAnim_003168" Offset="0x3168"/>
+        <PlayerAnimation Name="gPlayerAnim_003170" Offset="0x3170"/>
+        <PlayerAnimation Name="gPlayerAnim_003178" Offset="0x3178"/>
+        <PlayerAnimation Name="gPlayerAnim_003180" Offset="0x3180"/>
+        <PlayerAnimation Name="gPlayerAnim_003188" Offset="0x3188"/>
+        <PlayerAnimation Name="gPlayerAnim_003190" Offset="0x3190"/>
+        <PlayerAnimation Name="gPlayerAnim_003198" Offset="0x3198"/>
+        <PlayerAnimation Name="gPlayerAnim_0031A0" Offset="0x31A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0031A8" Offset="0x31A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0031B0" Offset="0x31B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0031B8" Offset="0x31B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0031C0" Offset="0x31C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0031C8" Offset="0x31C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0031D0" Offset="0x31D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0031D8" Offset="0x31D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0031E0" Offset="0x31E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0031E8" Offset="0x31E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0031F0" Offset="0x31F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0031F8" Offset="0x31F8"/>
+        <PlayerAnimation Name="gPlayerAnim_003200" Offset="0x3200"/>
+        <PlayerAnimation Name="gPlayerAnim_003208" Offset="0x3208"/>
+        <PlayerAnimation Name="gPlayerAnim_003210" Offset="0x3210"/>
+        <PlayerAnimation Name="gPlayerAnim_003218" Offset="0x3218"/>
+        <PlayerAnimation Name="gPlayerAnim_003220" Offset="0x3220"/>
+        <PlayerAnimation Name="gPlayerAnim_003228" Offset="0x3228"/>
+        <PlayerAnimation Name="gPlayerAnim_003230" Offset="0x3230"/>
+        <PlayerAnimation Name="gPlayerAnim_003238" Offset="0x3238"/>
+        <PlayerAnimation Name="gPlayerAnim_003240" Offset="0x3240"/>
+        <PlayerAnimation Name="gPlayerAnim_003248" Offset="0x3248"/>
+        <PlayerAnimation Name="gPlayerAnim_003250" Offset="0x3250"/>
+        <PlayerAnimation Name="gPlayerAnim_003258" Offset="0x3258"/>
+        <PlayerAnimation Name="gPlayerAnim_003260" Offset="0x3260"/>
+        <PlayerAnimation Name="gPlayerAnim_003268" Offset="0x3268"/>
+        <PlayerAnimation Name="gPlayerAnim_003270" Offset="0x3270"/>
+        <PlayerAnimation Name="gPlayerAnim_003278" Offset="0x3278"/>
+        <PlayerAnimation Name="gPlayerAnim_003280" Offset="0x3280"/>
+        <PlayerAnimation Name="gPlayerAnim_003288" Offset="0x3288"/>
+        <PlayerAnimation Name="gPlayerAnim_003290" Offset="0x3290"/>
+        <PlayerAnimation Name="gPlayerAnim_003298" Offset="0x3298"/>
+        <PlayerAnimation Name="gPlayerAnim_0032A0" Offset="0x32A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0032A8" Offset="0x32A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0032B0" Offset="0x32B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0032B8" Offset="0x32B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0032C0" Offset="0x32C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0032C8" Offset="0x32C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0032D0" Offset="0x32D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0032D8" Offset="0x32D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0032E0" Offset="0x32E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0032E8" Offset="0x32E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0032F0" Offset="0x32F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0032F8" Offset="0x32F8"/>
+        <PlayerAnimation Name="gPlayerAnim_003300" Offset="0x3300"/>
+        <PlayerAnimation Name="gPlayerAnim_003308" Offset="0x3308"/>
+        <PlayerAnimation Name="gPlayerAnim_003310" Offset="0x3310"/>
+        <PlayerAnimation Name="gPlayerAnim_003318" Offset="0x3318"/>
+        <PlayerAnimation Name="gPlayerAnim_003320" Offset="0x3320"/>
+        <PlayerAnimation Name="gPlayerAnim_003328" Offset="0x3328"/>
+        <PlayerAnimation Name="gPlayerAnim_003330" Offset="0x3330"/>
+        <PlayerAnimation Name="gPlayerAnim_003338" Offset="0x3338"/>
+        <PlayerAnimation Name="gPlayerAnim_003340" Offset="0x3340"/>
+        <PlayerAnimation Name="gPlayerAnim_003348" Offset="0x3348"/>
+        <PlayerAnimation Name="gPlayerAnim_003350" Offset="0x3350"/>
+        <PlayerAnimation Name="gPlayerAnim_003358" Offset="0x3358"/>
+        <PlayerAnimation Name="gPlayerAnim_003360" Offset="0x3360"/>
+        <PlayerAnimation Name="gPlayerAnim_003368" Offset="0x3368"/>
+        <PlayerAnimation Name="gPlayerAnim_003370" Offset="0x3370"/>
+        <PlayerAnimation Name="gPlayerAnim_003378" Offset="0x3378"/>
+        <PlayerAnimation Name="gPlayerAnim_003380" Offset="0x3380"/>
+        <PlayerAnimation Name="gPlayerAnim_003388" Offset="0x3388"/>
+        <PlayerAnimation Name="gPlayerAnim_003390" Offset="0x3390"/>
+        <PlayerAnimation Name="gPlayerAnim_003398" Offset="0x3398"/>
+        <PlayerAnimation Name="gPlayerAnim_0033A0" Offset="0x33A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0033A8" Offset="0x33A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0033B0" Offset="0x33B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0033B8" Offset="0x33B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0033C0" Offset="0x33C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0033C8" Offset="0x33C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0033D0" Offset="0x33D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0033D8" Offset="0x33D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0033E0" Offset="0x33E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0033E8" Offset="0x33E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0033F0" Offset="0x33F0"/>
+        <PlayerAnimation Name="gPlayerAnim_0033F8" Offset="0x33F8"/>
+        <PlayerAnimation Name="gPlayerAnim_003400" Offset="0x3400"/>
+        <PlayerAnimation Name="gPlayerAnim_003408" Offset="0x3408"/>
+        <PlayerAnimation Name="gPlayerAnim_003410" Offset="0x3410"/>
+        <PlayerAnimation Name="gPlayerAnim_003418" Offset="0x3418"/>
+        <PlayerAnimation Name="gPlayerAnim_003420" Offset="0x3420"/>
+        <PlayerAnimation Name="gPlayerAnim_003428" Offset="0x3428"/>
+        <PlayerAnimation Name="gPlayerAnim_003430" Offset="0x3430"/>
+        <PlayerAnimation Name="gPlayerAnim_003438" Offset="0x3438"/>
+        <PlayerAnimation Name="gPlayerAnim_003440" Offset="0x3440"/>
+        <PlayerAnimation Name="gPlayerAnim_003448" Offset="0x3448"/>
+        <PlayerAnimation Name="gPlayerAnim_003450" Offset="0x3450"/>
+        <PlayerAnimation Name="gPlayerAnim_003458" Offset="0x3458"/>
+        <PlayerAnimation Name="gPlayerAnim_003460" Offset="0x3460"/>
+        <PlayerAnimation Name="gPlayerAnim_003468" Offset="0x3468"/>
+        <PlayerAnimation Name="gPlayerAnim_003470" Offset="0x3470"/>
+        <PlayerAnimation Name="gPlayerAnim_003478" Offset="0x3478"/>
+        <PlayerAnimation Name="gPlayerAnim_003480" Offset="0x3480"/>
+        <PlayerAnimation Name="gPlayerAnim_003488" Offset="0x3488"/>
+        <PlayerAnimation Name="gPlayerAnim_003490" Offset="0x3490"/>
+        <PlayerAnimation Name="gPlayerAnim_003498" Offset="0x3498"/>
+        <PlayerAnimation Name="gPlayerAnim_0034A0" Offset="0x34A0"/>
+        <PlayerAnimation Name="gPlayerAnim_0034A8" Offset="0x34A8"/>
+        <PlayerAnimation Name="gPlayerAnim_0034B0" Offset="0x34B0"/>
+        <PlayerAnimation Name="gPlayerAnim_0034B8" Offset="0x34B8"/>
+        <PlayerAnimation Name="gPlayerAnim_0034C0" Offset="0x34C0"/>
+        <PlayerAnimation Name="gPlayerAnim_0034C8" Offset="0x34C8"/>
+        <PlayerAnimation Name="gPlayerAnim_0034D0" Offset="0x34D0"/>
+        <PlayerAnimation Name="gPlayerAnim_0034D8" Offset="0x34D8"/>
+        <PlayerAnimation Name="gPlayerAnim_0034E0" Offset="0x34E0"/>
+        <PlayerAnimation Name="gPlayerAnim_0034E8" Offset="0x34E8"/>
+        <PlayerAnimation Name="gPlayerAnim_0034F0" Offset="0x34F0"/>
 
         <!-- Probably a file boundary here. -->
 

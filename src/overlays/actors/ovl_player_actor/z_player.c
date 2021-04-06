@@ -2800,7 +2800,7 @@ s32 func_80836670(Player* this, GlobalContext* globalCtx) {
         func_80832224(this);
         this->currentYaw = this->actor.shape.rot.y;
         this->actor.bgCheckFlags &= ~1;
-        this->unk_893 = 0;
+        this->hoverBootsTimer = 0;
         this->unk_6AE |= 0x43;
         func_80832698(this, NA_SE_VO_LI_LASH);
         return 1;
@@ -3451,7 +3451,7 @@ void func_80837C0C(GlobalContext* globalCtx, Player* this, s32 arg2, f32 arg3, f
                 }
             }
 
-            this->unk_893 = 0;
+            this->hoverBootsTimer = 0;
             this->actor.bgCheckFlags &= ~1;
         } else {
             if ((this->linearVelocity > 4.0f) && !func_8008E9C4(this)) {
@@ -3716,7 +3716,7 @@ void func_80838940(Player* this, LinkAnimationHeader* anim, f32 arg2, GlobalCont
     }
 
     this->actor.velocity.y = arg2 * D_808535E8;
-    this->unk_893 = 0;
+    this->hoverBootsTimer = 0;
     this->actor.bgCheckFlags &= ~1;
 
     func_80832854(this);
@@ -4501,7 +4501,7 @@ void func_8083AA10(Player* this, GlobalContext* globalCtx) {
                     return;
                 }
 
-                if (this->unk_893 != 0) {
+                if (this->hoverBootsTimer != 0) {
                     this->actor.velocity.y = 1.0f;
                     D_80853604 = 9;
                     return;
@@ -4898,7 +4898,7 @@ void func_8083BA90(GlobalContext* globalCtx, Player* this, s32 arg2, f32 xzVeloc
     this->actor.velocity.y = yVelocity;
 
     this->actor.bgCheckFlags &= ~1;
-    this->unk_893 = 0;
+    this->hoverBootsTimer = 0;
 
     func_80832854(this);
     func_80832698(this, NA_SE_VO_LI_SWORD_L);
@@ -6476,7 +6476,7 @@ void func_8084029C(Player* this, f32 arg1) {
 
     if (1) {}
 
-    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) && (this->unk_893 != 0)) {
+    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) && (this->hoverBootsTimer != 0)) {
         func_8002F8F0(&this->actor, NA_SE_PL_HOBBERBOOTS_LV - SFX_FLAG);
     } else if (func_8084021C(this->unk_868, arg1, 29.0f, 10.0f) || func_8084021C(this->unk_868, arg1, 29.0f, 24.0f)) {
         func_808327F8(this, this->linearVelocity);
@@ -9279,22 +9279,22 @@ void func_808473D4(GlobalContext* globalCtx, Player* this) {
 s32 func_80847A78(Player* this) {
     s32 cond;
 
-    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && (this->unk_893 != 0)) {
-        this->unk_893--;
+    if ((this->currentBoots == PLAYER_BOOTS_HOVER) && (this->hoverBootsTimer != 0)) {
+        this->hoverBootsTimer--;
     } else {
-        this->unk_893 = 0;
+        this->hoverBootsTimer = 0;
     }
 
     cond = (this->currentBoots == PLAYER_BOOTS_HOVER) &&
            ((this->actor.yDistToWater >= 0.0f) || (func_80838144(D_808535E4) >= 0) || func_8083816C(D_808535E4));
 
-    if (cond && (this->actor.bgCheckFlags & 1) && (this->unk_893 != 0)) {
+    if (cond && (this->actor.bgCheckFlags & 1) && (this->hoverBootsTimer != 0)) {
         this->actor.bgCheckFlags &= ~1;
     }
 
     if (this->actor.bgCheckFlags & 1) {
         if (!cond) {
-            this->unk_893 = 0x13;
+            this->hoverBootsTimer = 19;
         }
         return 0;
     }
@@ -10294,15 +10294,15 @@ void func_8084A0E8(GlobalContext* globalCtx, Player* this, s32 lod, Gfx* cullDLi
     }
 
     if ((this->currentBoots == PLAYER_BOOTS_HOVER) && !(this->actor.bgCheckFlags & 1) &&
-        !(this->stateFlags1 & 0x800000) && (this->unk_893 != 0)) {
+        !(this->stateFlags1 & 0x800000) && (this->hoverBootsTimer != 0)) {
         s32 sp5C;
-        s32 unk_893 = this->unk_893;
+        s32 hoverBootsTimer = this->hoverBootsTimer;
 
-        if (this->unk_893 < 19) {
-            if (unk_893 >= 0xF) {
-                D_8085486C = (19 - unk_893) * 51.0f;
-            } else if (unk_893 < 19) {
-                sp5C = unk_893;
+        if (this->hoverBootsTimer < 19) {
+            if (hoverBootsTimer >= 15) {
+                D_8085486C = (19 - hoverBootsTimer) * 51.0f;
+            } else if (hoverBootsTimer < 19) {
+                sp5C = hoverBootsTimer;
 
                 if (sp5C > 9) {
                     sp5C = 9;
