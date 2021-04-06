@@ -599,8 +599,9 @@
         <PlayerAnimation Name="gPlayer573Anim"/>
         <PlayerAnimation Name="gPlayer574Anim"/>
         <PlayerAnimation Name="gPlayer575Anim"/>
-        <!-- TODO: this padding should be static -->
-        <Scalar Type="u64" Name="pad34F8"/>
+
+        <!-- Probably a file boundary here. -->
+
         <DList Name="gDebugPyramidDL" Offset="0x35C0"/>
         <Texture Name="gDebugCircleTex" OutName="debug_circle" Format="i8" Width="16" Height="16" Offset="0x35F0"/>
         <Texture Name="gDebugBallTex" OutName="debug_ball" Format="i8" Width="16" Height="16" Offset="0x36F0"/>
@@ -720,7 +721,7 @@
         <Texture Name="gEffUnusedBubbles7Tex" OutName="eff_unused_bubbles_7" Format="ia8" Width="32" Height="32" Offset="0x1DAC0"/>
         <Texture Name="gEffUnusedBubbles8Tex" OutName="eff_unused_bubbles_8" Format="ia8" Width="32" Height="32" Offset="0x1DEC0"/>
         <DList Name="gEffUnusedBubblesDL" Offset="0x1E2C0"/>
-        <Texture Name="gUnknownCircle5Tex" OutName="unknown_circle_5" Format="i8" Width="64" Height="64" Offset="0x1E370"/>
+        <Texture Name="gLensOfTruthMaskTex" OutName="lens_of_truth_mask" Format="i8" Width="64" Height="64" Offset="0x1E370"/>
         <Texture Name="gEffHitMark1Tex" OutName="eff_hit_mark_1" Format="i4" Width="32" Height="24" Offset="0x1F370"/>
         <Texture Name="gEffHitMark2Tex" OutName="eff_hit_mark_2" Format="i4" Width="32" Height="24" Offset="0x1F4F0"/>
         <Texture Name="gEffHitMark3Tex" OutName="eff_hit_mark_3" Format="i4" Width="32" Height="24" Offset="0x1F670"/>
@@ -912,9 +913,9 @@
         <Texture Name="gCircleShadowTex" OutName="circular_shadow" Format="ia16" Width="32" Height="32" Offset="0x49290"/>
         <DList Name="gHorseShadowDL" Offset="0x49AD0"/>
         <Texture Name="gHorseShadowTex" OutName="horse_shadow" Format="i8" Width="16" Height="64" Offset="0x49B20"/>
-        <DList Name="gDoorMetalBarsDL" Offset="0x49FE0"/>
+        <DList Name="gDungeonDoorDL" Offset="0x49FE0"/>
         <Texture Name="gDoorMetalBarsTex" OutName="door_metal_bars" Format="ia8" Width="32" Height="128" Offset="0x4A090"/>
-        <DList Name="gDungeonDoorDL" Offset="0x4B0D0"/>
+        <DList Name="gDoorMetalBarsDL" Offset="0x4B0D0"/>
         <Texture Name="gGenericDungeonDoorTex" OutName="generic_dungeon_door" Format="rgb5a1" Width="32" Height="64" Offset="0x4B160"/>
         <Texture Name="gSun1Tex" OutName="sun_1" Format="i4" Width="64" Height="31" Offset="0x4C160"/>
         <Texture Name="gSun2Tex" OutName="sun_2" Format="i4" Width="64" Height="16" Offset="0x4C540"/>
@@ -922,7 +923,7 @@
         <Texture Name="gSunEvening1Tex" OutName="sun_evening_1" Format="i4" Width="64" Height="31" Offset="0x4C960"/>
         <Texture Name="gSunEvening2Tex" OutName="sun_evening_2" Format="i4" Width="64" Height="16" Offset="0x4CD40"/>
         <Texture Name="gSunEvening3Tex" OutName="sun_evening_3" Format="i4" Width="64" Height="16" Offset="0x4CF40"/>
-        <DList Name="gKokiriDustMoteTextureLoadDL " Offset="0x4D160"/>
+        <DList Name="gKokiriDustMoteTextureLoadDL" Offset="0x4D160"/>
         <DList Name="gKokiriDustMoteDL" Offset="0x4D1A8"/>
         <DList Name="gSunDL" Offset="0x4D1C0"/>
         <DList Name="gZTargetLockOnTriangleDL" Offset="0x4D450"/>

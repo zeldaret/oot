@@ -140,7 +140,8 @@ void func_809CAEF4(EnBrob* this) {
 }
 
 void func_809CAF88(EnBrob* this) {
-    Animation_Change(&this->skelAnime, &D_06001750, -1.0f, Animation_GetLastFrame(&D_06001750), 0.0f, ANIMMODE_ONCE, -5.0f);
+    Animation_Change(&this->skelAnime, &D_06001750, -1.0f, Animation_GetLastFrame(&D_06001750), 0.0f, ANIMMODE_ONCE,
+                     -5.0f);
     this->unk_1AE = 8250;
     this->actionFunc = func_809CB354;
 }
@@ -251,8 +252,8 @@ void func_809CB458(EnBrob* this, GlobalContext* globalCtx) {
             dist2 = -dist2;
         }
         pos.y = (((Rand_ZeroOne() * 15000.0f) + 1000.0f) * this->dyna.actor.scale.y) + this->dyna.actor.world.pos.y;
-        EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor,
-                                this->dyna.actor.scale.y * 8000.0f, Rand_ZeroOne() * 65536.0f, 4, 1);
+        EffectSsLightning_Spawn(globalCtx, &pos, &primColor, &envColor, this->dyna.actor.scale.y * 8000.0f,
+                                Rand_ZeroOne() * 65536.0f, 4, 1);
     }
 
     if (this->timer == 0) {
@@ -278,10 +279,11 @@ void EnBrob_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
         func_809CAEF4(this);
     } else if ((this->colliders[0].base.atFlags & AT_HIT) || (this->colliders[1].base.atFlags & AT_HIT) ||
-        (acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & 0x100)) ||
-        (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & 0x100))) {
+               (acHits[0] && (this->colliders[0].info.acHitInfo->toucher.dmgFlags & 0x100)) ||
+               (acHits[1] && (this->colliders[1].info.acHitInfo->toucher.dmgFlags & 0x100))) {
 
-        if (this->actionFunc == func_809CB114 && !(this->colliders[0].base.atFlags & AT_BOUNCED) && !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
+        if (this->actionFunc == func_809CB114 && !(this->colliders[0].base.atFlags & AT_BOUNCED) &&
+            !(this->colliders[1].base.atFlags & AT_BOUNCED)) {
             func_8002F71C(globalCtx, &this->dyna.actor, 5.0f, this->dyna.actor.yawTowardsPlayer, 1.0f);
         } else if (this->actionFunc != func_809CB114) {
             func_809CB008(this);

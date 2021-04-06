@@ -26,15 +26,17 @@ void EnButte_TransformIntoFairy(EnButte* this, GlobalContext* globalCtx);
 void EnButte_SetupWaitToDie(EnButte* this);
 void EnButte_WaitToDie(EnButte* this, GlobalContext* globalCtx);
 
-static ColliderJntSphElementInit sJntSphElementsInit[] = { { {
-                                                                 ELEMTYPE_UNK0,
-                                                                 { 0x00000000, 0x00, 0x00 },
-                                                                 { 0xFFCFFFFF, 0x000, 0x00 },
-                                                                 TOUCH_NONE,
-                                                                 BUMP_NONE,
-                                                                 OCELEM_ON,
-                                                             },
-                                                             { 0, { { 0, 0, 0 }, 5 }, 100 } } };
+static ColliderJntSphElementInit sJntSphElementsInit[] = {
+    { {
+          ELEMTYPE_UNK0,
+          { 0x00000000, 0x00, 0x00 },
+          { 0xFFCFFFFF, 0x000, 0x00 },
+          TOUCH_NONE,
+          BUMP_NONE,
+          OCELEM_ON,
+      },
+      { 0, { { 0, 0, 0 }, 5 }, 100 } },
+};
 static ColliderJntSphInit sColliderInit = {
     {
         COLTYPE_NONE,

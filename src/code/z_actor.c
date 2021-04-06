@@ -42,7 +42,7 @@ void ActorShadow_Draw(Actor* actor, Lights* lights, GlobalContext* globalCtx, Gf
             Matrix_Put(&sp60);
 
             if (dlist != gCircleShadowDL) {
-                Matrix_RotateY(actor->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
+                Matrix_RotateY(actor->shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
             }
 
             temp2 = (1.0f - (temp1 * (1.0f / 350))) * actor->shape.shadowScale;
@@ -407,7 +407,7 @@ void func_8002C124(TargetContext* targetCtx, GlobalContext* globalCtx) {
 
         Matrix_Translate(actor->focus.pos.x, actor->focus.pos.y + (actor->targetArrowOffset * actor->scale.y) + 17.0f,
                          actor->focus.pos.z, MTXMODE_NEW);
-        Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_RotateY((f32)((u16)(globalCtx->gameplayFrames * 3000)) * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale((iREG(27) + 35) / 1000.0f, (iREG(28) + 60) / 1000.0f, (iREG(29) + 50) / 1000.0f, MTXMODE_APPLY);
 
         gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, naviColor->inner.r, naviColor->inner.g, naviColor->inner.b, 255);
@@ -664,22 +664,22 @@ void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag) {
 }
 
 void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    titleCtx->delayA = titleCtx->delayB = titleCtx->unk_E = titleCtx->unk_C = 0;
+    titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 arg3, s16 arg4,
-                            u8 arg5, u8 arg6) {
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
+                            s16 y, u8 width, u8 height) {
     titleCtx->texture = texture;
-    titleCtx->unk_4 = arg3;
-    titleCtx->unk_6 = arg4;
-    titleCtx->unk_8 = arg5;
-    titleCtx->unk_9 = arg6;
-    titleCtx->delayA = 80;
-    titleCtx->delayB = 0;
+    titleCtx->x = x;
+    titleCtx->y = y;
+    titleCtx->width = width;
+    titleCtx->height = height;
+    titleCtx->durationTimer = 80;
+    titleCtx->delayTimer = 0;
 }
 
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 arg3, s32 arg4,
-                             s32 arg5, s32 arg6, s32 arg7) {
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
+                             s32 y, s32 width, s32 height, s32 delay) {
     Scene* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
@@ -688,22 +688,22 @@ void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCt
     }
 
     titleCtx->texture = texture;
-    titleCtx->unk_4 = arg3;
-    titleCtx->unk_6 = arg4;
-    titleCtx->unk_8 = arg5;
-    titleCtx->unk_9 = arg6;
-    titleCtx->delayA = 80;
-    titleCtx->delayB = arg7;
+    titleCtx->x = x;
+    titleCtx->y = y;
+    titleCtx->width = width;
+    titleCtx->height = height;
+    titleCtx->durationTimer = 80;
+    titleCtx->delayTimer = delay;
 }
 
 void TitleCard_Update(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    if (DECR(titleCtx->delayB) == 0) {
-        if (DECR(titleCtx->delayA) == 0) {
-            Math_StepToS(&titleCtx->unk_C, 0, 30);
-            Math_StepToS(&titleCtx->unk_E, 0, 70);
+    if (DECR(titleCtx->delayTimer) == 0) {
+        if (DECR(titleCtx->durationTimer) == 0) {
+            Math_StepToS(&titleCtx->alpha, 0, 30);
+            Math_StepToS(&titleCtx->intensity, 0, 70);
         } else {
-            Math_StepToS(&titleCtx->unk_C, 255, 10);
-            Math_StepToS(&titleCtx->unk_E, 255, 20);
+            Math_StepToS(&titleCtx->alpha, 255, 10);
+            Math_StepToS(&titleCtx->intensity, 255, 20);
         }
     }
 }
@@ -718,11 +718,11 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     s32 spB4;
     s32 spB0;
 
-    if (titleCtx->unk_C != 0) {
-        spCC = titleCtx->unk_8;
-        spC8 = titleCtx->unk_9;
-        spC0 = (titleCtx->unk_4 * 4) - (spCC * 2);
-        spB8 = (titleCtx->unk_6 * 4) - (spC8 * 2);
+    if (titleCtx->alpha != 0) {
+        spCC = titleCtx->width;
+        spC8 = titleCtx->height;
+        spC0 = (titleCtx->x * 4) - (spCC * 2);
+        spB8 = (titleCtx->y * 4) - (spC8 * 2);
         sp38 = spCC * 2;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 2824);
@@ -735,21 +735,21 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 
         OVERLAY_DISP = func_80093808(OVERLAY_DISP);
 
-        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->unk_E, (u8)titleCtx->unk_E, (u8)titleCtx->unk_E,
-                        (u8)titleCtx->unk_C);
+        gDPSetPrimColor(OVERLAY_DISP++, 0, 0, (u8)titleCtx->intensity, (u8)titleCtx->intensity, (u8)titleCtx->intensity,
+                        (u8)titleCtx->alpha);
 
-        gDPLoadTextureBlock(OVERLAY_DISP++, titleCtx->texture + spB0, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
+        gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8, 0,
                             G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                             G_TX_NOLOD);
 
         gSPTextureRectangle(OVERLAY_DISP++, spC0, spB8, ((sp38 * 2) + spC0) - 4, spB8 + (spC8 * 4) - 1, G_TX_RENDERTILE,
                             0, 0, 1024, 1024);
 
-        spC8 = titleCtx->unk_9 - spC8;
+        spC8 = titleCtx->height - spC8;
 
         if (spC8 > 0) {
-            gDPLoadTextureBlock(OVERLAY_DISP++, titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC, spC8,
-                                0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
+            gDPLoadTextureBlock(OVERLAY_DISP++, (s32)titleCtx->texture + spB0 + 0x1000, G_IM_FMT_IA, G_IM_SIZ_8b, spCC,
+                                spC8, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK,
                                 G_TX_NOLOD, G_TX_NOLOD);
 
             gSPTextureRectangle(OVERLAY_DISP++, spC0, spB4, ((sp38 * 2) + spC0) - 4, spB4 + (spC8 * 4) - 1,
@@ -761,9 +761,9 @@ void TitleCard_Draw(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
 }
 
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
-    if ((globalCtx->actorCtx.titleCtx.delayB != 0) || (globalCtx->actorCtx.titleCtx.unk_C != 0)) {
-        titleCtx->delayA = 0;
-        titleCtx->delayB = 0;
+    if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
+        titleCtx->durationTimer = 0;
+        titleCtx->delayTimer = 0;
         return 0;
     }
 
@@ -1898,7 +1898,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             spD4 = spCC * 0.200000000000000011102230246252 + 1.0f;
         }
 
-        if ((globalCtx->csCtx.state == 0) &&
+        if ((globalCtx->csCtx.state == CS_STATE_IDLE) &&
             (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.entranceIndex) &&
             (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
             POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
@@ -2245,7 +2245,7 @@ void func_80030ED8(Actor* actor) {
 void func_80030FA8(GraphicsContext* gfxCtx) {
     OPEN_DISPS(gfxCtx, "../z_actor.c", 6161);
 
-    gDPLoadTextureBlock(POLY_XLU_DISP++, gUnknownCircle5Tex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
+    gDPLoadTextureBlock(POLY_XLU_DISP++, gLensOfTruthMaskTex, G_IM_FMT_I, G_IM_SIZ_8b, 64, 64, 0,
                         G_TX_MIRROR | G_TX_CLAMP, G_TX_MIRROR | G_TX_CLAMP, 6, 6, G_TX_NOLOD, G_TX_NOLOD);
 
     gDPSetTileSize(POLY_XLU_DISP++, G_TX_RENDERTILE, 384, 224, 892, 732);
@@ -2430,7 +2430,7 @@ void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
     if ((HREG(64) != 1) || (HREG(72) != 0)) {
         if (globalCtx->actorCtx.unk_03 != 0) {
             func_8003115C(globalCtx, invisibleActorCounter, invisibleActors);
-            if ((globalCtx->csCtx.state != 0) || Player_InCsMode(globalCtx)) {
+            if ((globalCtx->csCtx.state != CS_STATE_IDLE) || Player_InCsMode(globalCtx)) {
                 func_800304B0(globalCtx);
             }
         }
@@ -3842,7 +3842,7 @@ s16 func_80034DD4(Actor* actor, GlobalContext* globalCtx, s16 arg2, f32 arg3) {
     Player* player = PLAYER;
     f32 var;
 
-    if ((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) {
         var = Math_Vec3f_DistXYZ(&actor->world.pos, &globalCtx->view.eye) * 0.25f;
     } else {
         var = Math_Vec3f_DistXYZ(&actor->world.pos, &player->actor.world.pos);
@@ -5488,7 +5488,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
     actor->focus.pos = actor->world.pos;
     actor->focus.pos.y += arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsPlayer - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5497,7 +5497,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp2C = globalCtx->view.eye;
     } else {
         sp2C = player->actor.focus.pos;
@@ -5517,7 +5517,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     actor->focus.pos = arg4;
 
-    if (!(((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE))) {
+    if (!(((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE))) {
         var = actor->yawTowardsPlayer - actor->shape.rot.y;
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
@@ -5526,7 +5526,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         }
     }
 
-    if (((globalCtx->csCtx.state != 0) || (gDbgCamEnabled != 0)) && (gSaveContext.entranceIndex == 0x00EE)) {
+    if (((globalCtx->csCtx.state != CS_STATE_IDLE) || (gDbgCamEnabled)) && (gSaveContext.entranceIndex == 0x00EE)) {
         sp24 = globalCtx->view.eye;
     } else {
         sp24 = player->actor.focus.pos;

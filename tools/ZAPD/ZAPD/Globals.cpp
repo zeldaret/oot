@@ -1,7 +1,7 @@
 #include "Globals.h"
+#include <algorithm>
 #include "File.h"
 #include "tinyxml2.h"
-#include <algorithm>
 
 using namespace tinyxml2;
 using namespace std;
@@ -14,7 +14,7 @@ Globals::Globals()
 
 	files = std::vector<ZFile*>();
 	segments = std::vector<int>();
-	symbolMap = std::map <uint32_t, std::string>();
+	symbolMap = std::map<uint32_t, std::string>();
 	segmentRefs = map<int, string>();
 	segmentRefFiles = map<int, ZFile*>();
 	game = ZGame::OOT_RETAIL;
@@ -45,9 +45,10 @@ string Globals::FindSymbolSegRef(int segNumber, uint32_t symbolAddress)
 			if (root == nullptr)
 				return "ERROR";
 
-			//vector<ZFile*> files = vector<ZFile*>();
+			// vector<ZFile*> files = vector<ZFile*>();
 
-			for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+			for (XMLElement* child = root->FirstChildElement(); child != NULL;
+			     child = child->NextSiblingElement())
 			{
 				if (string(child->Name()) == "File")
 				{
@@ -78,7 +79,8 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 	if (root == nullptr)
 		return;
 
-	for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	for (XMLElement* child = root->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
 	{
 		if (string(child->Name()) == "SymbolMap")
 		{

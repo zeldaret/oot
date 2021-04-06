@@ -211,7 +211,7 @@ void EffectSpark_Draw(void* thisx, GraphicsContext* gfxCtx) {
             f32 temp;
 
             SkinMatrix_SetTranslate(&spEC, elem->position.x, elem->position.y, elem->position.z);
-            temp = ((Rand_ZeroOne() * 2.5f) + 1.5f) * 0.015625f;
+            temp = ((Rand_ZeroOne() * 2.5f) + 1.5f) / 64.0f;
             SkinMatrix_SetScale(&spAC, temp, temp, 1.0f);
             SkinMatrix_MtxFMtxFMult(&spEC, &globalCtx->mf_11DA0, &sp6C);
             SkinMatrix_MtxFMtxFMult(&sp6C, &spAC, &sp12C);

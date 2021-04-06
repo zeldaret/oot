@@ -310,7 +310,7 @@ void EnIshi_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = this->actor.params & 1;
 
     Actor_ProcessInitChain(&this->actor, sInitChains[type]);
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         this->actor.uncullZoneForward += 1000.0f;
     }
     if (this->actor.shape.rot.y == 0) {
