@@ -1307,8 +1307,7 @@ endseg
 beginseg
     name "ovl_Bg_Sst_Floor"
     include "build/src/overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.data.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Sst_Floor/ovl_Bg_Sst_Floor_reloc.o"
 endseg
 
 beginseg
@@ -1430,9 +1429,7 @@ endseg
 beginseg
     name "ovl_Boss_Sst"
     include "build/src/overlays/actors/ovl_Boss_Sst/z_boss_sst.o"
-    include "build/data/overlays/actors/z_boss_sst.data.o"
-    include "build/data/overlays/actors/z_boss_sst.bss.o"
-    include "build/data/overlays/actors/z_boss_sst.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Sst/ovl_Boss_Sst_reloc.o"
 endseg
 
 beginseg
@@ -4785,7 +4782,8 @@ endseg
 beginseg
     name "object_sst"
     romalign 0x1000
-    include "build/baserom/object_sst.o"
+    include "build/assets/objects/object_sst/object_sst.o"
+    number 6
 endseg
 
 beginseg
