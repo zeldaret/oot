@@ -1,7 +1,7 @@
 #pragma once
 
-#include "ZResource.h"
 #include "ZFile.h"
+#include "ZResource.h"
 #include "ZRoom/ZRoom.h"
 
 class PolygonEntry
@@ -58,7 +58,8 @@ public:
 	std::vector<CameraDataEntry*> entries;
 	std::vector<CameraPositionData*> cameraPositionData;
 
-	CameraDataList(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData, int rawDataIndex, int polyTypeDefSegmentOffset, int polygonTypesCnt);
+	CameraDataList(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData,
+	               int rawDataIndex, int polyTypeDefSegmentOffset, int polygonTypesCnt);
 };
 
 class ZCollisionHeader : public ZResource
@@ -66,9 +67,9 @@ class ZCollisionHeader : public ZResource
 public:
 	int16_t absMinX, absMinY, absMinZ;
 	int16_t absMaxX, absMaxY, absMaxZ;
-	int16_t numVerts;
+	uint16_t numVerts;
 	segptr_t vtxAddress;
-	int16_t numPolygons;
+	uint16_t numPolygons;
 	segptr_t polyAddress;
 	segptr_t polyTypeDefAddress;
 	segptr_t camDataAddress;
@@ -83,11 +84,13 @@ public:
 	CameraDataList* camData;
 
 	ZCollisionHeader();
-	//ZCollisionHeader(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-	ZCollisionHeader(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData, int rawDataIndex);
+	// ZCollisionHeader(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
+	ZCollisionHeader(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData,
+	                 int rawDataIndex);
 	~ZCollisionHeader();
 
 	ZResourceType GetResourceType() override;
 
-	static ZCollisionHeader* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData, int rawDataIndex);
+	static ZCollisionHeader* ExtractFromXML(tinyxml2::XMLElement* reader,
+	                                        std::vector<uint8_t> nRawData, int rawDataIndex);
 };

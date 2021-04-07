@@ -519,7 +519,7 @@ void EnItem00_Update(Actor* thisx, GlobalContext* globalCtx) {
         }
     }
 
-    if (globalCtx->unk_10A20 != 0) {
+    if (globalCtx->gameOverCtx.state != GAMEOVER_INACTIVE) {
         return;
     }
 

@@ -15,8 +15,13 @@ void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx);
 void EnMu_Update(Actor* thisx, GlobalContext* globalCtx);
 void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx);
 
+<<<<<<< HEAD
 void EnMu_Pose(EnMu* this, GlobalContext* globalCtx);
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx);
+=======
+void EnMu_Pose(Actor* this, GlobalContext* globalCtx);
+s32 EnMu_CheckDialogState(GlobalContext* globalCtx, EnMu* this);
+>>>>>>> master
 
 extern AnimationHeader D_060003F4;
 extern FlexSkeletonHeader D_06004F70;
@@ -40,9 +45,15 @@ static ColliderCylinderInit D_80AB0BD0 = {
     },
     { 100, 70, 0, { 0, 0, 0 } },
 };
+<<<<<<< HEAD
 
 CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
 
+=======
+
+CollisionCheckInfoInit2 D_80AB0BFC = { 0, 0, 0, 0, MASS_IMMOVABLE };
+
+>>>>>>> master
 const ActorInit En_Mu_InitVars = {
     ACTOR_EN_MU,
     ACTORCAT_NPC,
@@ -108,8 +119,12 @@ u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {
     return this->defFaceReaction;
 }
 
+<<<<<<< HEAD
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
     EnMu* this = THIS;
+=======
+s32 EnMu_CheckDialogState(GlobalContext* globalCtx, EnMu* this) {
+>>>>>>> master
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 0:
         case 1:
@@ -149,8 +164,14 @@ void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
+<<<<<<< HEAD
 void EnMu_Pose(EnMu* this, GlobalContext* globalCtx) {
     func_80034F54(globalCtx, this->unk_20A, this->unk_22A, 16);
+=======
+void EnMu_Pose(Actor* thisx, GlobalContext* globalCtx) {
+    EnMu* this = THIS;
+    func_80034F54(globalCtx, &this->unk_20A, &this->unk_22A, 16);
+>>>>>>> master
 }
 
 void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
@@ -165,12 +186,20 @@ void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
     this->collider.dim.pos = pos;
 
+<<<<<<< HEAD
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+=======
+    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+>>>>>>> master
     SkelAnime_Update(&this->skelAnime);
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
     talkDist = this->collider.dim.radius + 30.0f;
+<<<<<<< HEAD
     func_800343CC(globalCtx, thisx, &this->dialogState.unk_00, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+=======
+    func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+>>>>>>> master
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;

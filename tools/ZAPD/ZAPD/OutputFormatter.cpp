@@ -1,6 +1,6 @@
 #include "OutputFormatter.h"
 
-int OutputFormatter::write(const char *buf, int count)
+int OutputFormatter::write(const char* buf, int count)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -65,29 +65,20 @@ int OutputFormatter::write(const char *buf, int count)
 
 OutputFormatter* OutputFormatter::static_instance;
 
-int OutputFormatter::write_static(const char *buf, int count)
+int OutputFormatter::write_static(const char* buf, int count)
 {
 	return static_instance->write(buf, count);
 }
 
-int (*OutputFormatter::static_writer())(const char *buf, int count)
+int (*OutputFormatter::static_writer())(const char* buf, int count)
 {
 	static_instance = this;
 	return &write_static;
 }
 
-OutputFormatter::OutputFormatter(int tab_size , int default_indent,
-		int line_limit)
-	:
-	tab_size{tab_size},
-	default_indent{default_indent},
-	line_limit{line_limit},
-	col{0},
-	nest{0},
-	nest_indent{default_indent},
-	current_indent{default_indent},
-	word_p{word},
-	space_p{space}
+OutputFormatter::OutputFormatter(int tab_size, int default_indent, int line_limit)
+	: tab_size{tab_size}, default_indent{default_indent}, line_limit{line_limit}, col{0}, nest{0},
+	  nest_indent{default_indent}, current_indent{default_indent}, word_p{word}, space_p{space}
 {
 }
 
