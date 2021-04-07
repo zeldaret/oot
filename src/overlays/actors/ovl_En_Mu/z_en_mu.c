@@ -110,7 +110,7 @@ u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
     EnMu* this = THIS;
-    
+
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 0:
         case 1:
@@ -131,8 +131,8 @@ s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
 }
 
 void EnMu_Init(Actor* thisx, GlobalContext* globalCtx) {
-    s32 pad;
     EnMu* this = THIS;
+    s32 pad;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 160.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06004F70, &D_060003F4, NULL, NULL, 0);
@@ -147,6 +147,7 @@ void EnMu_Init(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnMu_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     EnMu* this = THIS;
+
     SkelAnime_Free(&this->skelAnime, globalCtx);
 }
 
@@ -171,7 +172,8 @@ void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
     talkDist = this->collider.dim.radius + 30.0f;
-    func_800343CC(globalCtx, &this->actor, &this->dialogState.unk_00, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+    func_800343CC(globalCtx, &this->actor, &this->npcInfo.unk_00, talkDist, EnMu_GetFaceReaction,
+                  EnMu_CheckDialogState);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;
@@ -179,6 +181,7 @@ void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
 
 s32 EnMu_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnMu* this = THIS;
+
     if ((limbIndex == 5) || (limbIndex == 6) || (limbIndex == 7) || (limbIndex == 11) || (limbIndex == 12) ||
         (limbIndex == 13) || (limbIndex == 14)) {
         rot->y += Math_SinS(this->unk_20A[limbIndex]) * 200.0f;
@@ -192,6 +195,7 @@ void EnMu_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
 
 Gfx* EnMu_DisplayListSetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
     Gfx* dlist;
+
     dlist = Graph_Alloc(gfxCtx, 2 * sizeof(Gfx));
     gDPSetEnvColor(dlist, r, g, b, a);
     gSPEndDisplayList(dlist + 1);
@@ -200,8 +204,6 @@ Gfx* EnMu_DisplayListSetColor(GraphicsContext* gfxCtx, u8 r, u8 g, u8 b, u8 a) {
 
 void EnMu_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnMu* this = THIS;
-
-    // 2 sets of 5 colors for each actor in town with different colors
     Color_RGBA8 colors[2][5] = {
         { { 100, 130, 235, 0 }, { 160, 250, 60, 0 }, { 90, 60, 20, 0 }, { 30, 240, 200, 0 }, { 140, 70, 20, 0 } },
         { { 140, 70, 20, 0 }, { 30, 240, 200, 0 }, { 90, 60, 20, 0 }, { 160, 250, 60, 0 }, { 100, 130, 235, 0 } }
