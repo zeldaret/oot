@@ -110,6 +110,7 @@ u16 EnMu_GetFaceReaction(GlobalContext* globalCtx, Actor* thisx) {
 
 s16 EnMu_CheckDialogState(GlobalContext* globalCtx, Actor* thisx) {
     EnMu* this = THIS;
+    
     switch (func_8010BDBC(&globalCtx->msgCtx)) {
         case 0:
         case 1:
@@ -170,7 +171,7 @@ void EnMu_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 0.0f, 0.0f, 0.0f, 4);
     this->actionFunc(this, globalCtx);
     talkDist = this->collider.dim.radius + 30.0f;
-    func_800343CC(globalCtx, thisx, &this->dialogState.unk_00, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+    func_800343CC(globalCtx, &this->actor, &this->dialogState.unk_00, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
 
     this->actor.focus.pos = this->actor.world.pos;
     this->actor.focus.pos.y += 60.0f;
