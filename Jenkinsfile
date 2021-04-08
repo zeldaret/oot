@@ -17,7 +17,7 @@ pipeline {
         }
         stage('Check setup warnings') {
             steps {
-                sh 'python tools/warnings_count/compare_warnings.py tools/warnings_count/warnings_setup_current.txt tools/warnings_count/warnings_setup_new.txt'
+                sh 'python3 tools/warnings_count/compare_warnings.py tools/warnings_count/warnings_setup_current.txt tools/warnings_count/warnings_setup_new.txt'
             }
         }
         stage('Build (qemu-irix)') {
@@ -45,7 +45,7 @@ pipeline {
                 }
             }
             steps {
-                sh 'python tools/warnings_count/compare_warnings.py tools/warnings_count/warnings_build_current.txt tools/warnings_count/warnings_build_new.txt'
+                sh 'python3 tools/warnings_count/compare_warnings.py tools/warnings_count/warnings_build_current.txt tools/warnings_count/warnings_build_new.txt'
             }
         }
         stage('Report Progress') {
