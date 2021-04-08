@@ -3010,11 +3010,7 @@ endseg
 beginseg
     name "ovl_En_Tr"
     include "build/src/overlays/actors/ovl_En_Tr/z_en_tr.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tr/ovl_En_Tr_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tr.reloc.o"
-#endif
 endseg
 
 beginseg
