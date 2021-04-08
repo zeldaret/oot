@@ -278,7 +278,7 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifndef NON_MATCHING
+#ifdef NON_MATCHING
 // Repeatedly calculates temp_z * 0x40 for temp_s2[temp_z] rather than calculating it once when temp_z is assigned.
 // Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) fix the above issue but are
 // obviously wrong.
