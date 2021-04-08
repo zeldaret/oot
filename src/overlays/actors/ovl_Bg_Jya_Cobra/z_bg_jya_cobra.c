@@ -278,7 +278,7 @@ void func_80895C74(BgJyaCobra* this, GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 // Repeatedly calculates temp_z * 0x40 for temp_s2[temp_z] rather than calculating it once when temp_z is assigned.
 // Making temp_z volatile or accessing through a pointer variable in if (!(temp_z & ~0x3F)) fix the above issue but are
 // obviously wrong.
@@ -298,15 +298,15 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
     s32 j;
     s32 k;
     s32 l;
+    s16 rotY;
 
     temp_s2 = (u8(*)[0x40])ALIGN16((s32)(&this->shadowTexture));
     Lib_MemSet((u8*)temp_s2, 0x1000, 0);
 
     Matrix_RotateX((M_PI / 4), MTXMODE_NEW);
-    Matrix_RotateY((!(this->dyna.actor.params & 3) ? (s16)(this->dyna.actor.shape.rot.y + 0x4000)
-                                                   : (s16)(this->dyna.actor.shape.rot.y - 0x4000)) *
-                       (M_PI / 0x8000),
-                   MTXMODE_APPLY);
+    rotY = !(this->dyna.actor.params & 3) ? (this->dyna.actor.shape.rot.y + 0x4000)
+                                                   : (this->dyna.actor.shape.rot.y - 0x4000);
+    Matrix_RotateY(rotY * (M_PI / 0x8000), MTXMODE_APPLY);
     Matrix_Scale(0.9f, 0.9f, 0.9f, MTXMODE_APPLY);
 
     for (i = 0; i < 25; i++) {
