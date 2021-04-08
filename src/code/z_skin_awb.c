@@ -123,12 +123,9 @@ s32 func_800A698C(PSkinAwb* skin, SkinLimb** skeleton, MtxF* mf, u8 parentIndex,
     return false;
 }
 
-#ifdef NON_MATCHING
-// Matches except for an `addiu s0, s0, 0`, which obviously does nothing.
-// Likely some indexing optimization I can't figure out.
 s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
     s32 i;
-    u32 zero = 0;
+    s32 pad;
     f32 yRot;
     f32 xRot;
     f32 zRot;
@@ -146,11 +143,11 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
 
     if (arg3 != 0) {
 
-        xTransl = jointRot[-1].x;
-        yTransl = jointRot[-1].y;
-        zTransl = jointRot[-1].z;
-
-        jointRot += zero;
+        jointRot--;
+        xTransl = jointRot[0].x;
+        yTransl = jointRot[0].y;
+        zTransl = jointRot[0].z;
+        jointRot++;
 
         if (arg3 == 0x23) {
             EnfHG* horse = (EnfHG*)actor;
@@ -186,6 +183,3 @@ s32 func_800A6AC4(PSkinAwb* skin, MtxF* arg1, Actor* actor, s32 arg3) {
     }
     return 0;
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_skin_awb/func_800A6AC4.s")
-#endif

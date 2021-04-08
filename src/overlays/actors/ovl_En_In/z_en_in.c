@@ -434,8 +434,8 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     Vec3s zeroVec = { 0, 0, 0 };
 
     this->camId = Gameplay_CreateSubCamera(globalCtx);
-    Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camId, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
     sp48.x = this->actor.world.pos.x;
     sp48.y = this->actor.world.pos.y + 60.0f;
     sp48.z = this->actor.world.pos.z;
@@ -746,8 +746,8 @@ void func_80A7AA40(EnIn* this, GlobalContext* globalCtx) {
 
     this->camId = Gameplay_CreateSubCamera(globalCtx);
     this->activeCamId = globalCtx->activeCamera;
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, 1);
-    Gameplay_ChangeCameraStatus(globalCtx, this->camId, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_WAIT);
+    Gameplay_ChangeCameraStatus(globalCtx, this->camId, CAM_STAT_ACTIVE);
 
     this->unk_2F0 = 0.0f;
     this->unk_2F4 = 50.0f;
@@ -836,7 +836,7 @@ void func_80A7ABD4(EnIn* this, GlobalContext* globalCtx) {
 }
 
 void func_80A7AE84(EnIn* this, GlobalContext* globalCtx) {
-    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, 7);
+    Gameplay_ChangeCameraStatus(globalCtx, this->activeCamId, CAM_STAT_ACTIVE);
     Gameplay_ClearCamera(globalCtx, this->camId);
     func_8002DF54(globalCtx, &this->actor, 7);
     Interface_ChangeAlpha(0x32);

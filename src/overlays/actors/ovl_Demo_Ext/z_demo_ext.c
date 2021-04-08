@@ -54,7 +54,7 @@ void DemoExt_PlayVortexSFX(DemoExt* this) {
 }
 
 CsCmdActorAction* DemoExt_GetNpcAction(GlobalContext* globalCtx, s32 npcActionIndex) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         return globalCtx->csCtx.npcActions[npcActionIndex];
     }
     return NULL;

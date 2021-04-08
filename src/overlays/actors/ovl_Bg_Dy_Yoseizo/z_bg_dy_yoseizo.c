@@ -191,7 +191,7 @@ void BgDyYoseizo_Bob(BgDyYoseizo* this, GlobalContext* globalCtx) {
     Math_ApproachF(&this->actor.world.pos.y, this->targetHeight, 0.1f, 10.0f);
     Math_ApproachF(&this->bobOffset, 10.0f, 0.1f, 0.5f);
 
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actor.velocity.y = Math_SinS(this->bobTimer);
     } else {
         this->actor.velocity.y = Math_SinS(this->bobTimer) * 0.4f;
@@ -313,9 +313,9 @@ void BgDyYoseizo_ChooseType(BgDyYoseizo* this, GlobalContext* globalCtx) {
     globalCtx->envCtx.unk_BF = 2;
 
     if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
-        func_800800F8(globalCtx, 0x219B, -99, NULL, 0);
+        OnePointCutscene_Init(globalCtx, 8603, -99, NULL, MAIN_CAM);
     } else {
-        func_800800F8(globalCtx, 0x219C, -99, NULL, 0);
+        OnePointCutscene_Init(globalCtx, 8604, -99, NULL, MAIN_CAM);
     };
 
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_GREAT_FAIRY_APPEAR);
@@ -578,7 +578,7 @@ void BgDyYoseizo_Vanish(BgDyYoseizo* this, GlobalContext* globalCtx) {
 }
 
 void BgDyYoseizo_SetupSpinGrow_Reward(BgDyYoseizo* this, GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         if ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 2)) {
             this->actor.draw = BgDyYoseizo_Draw;
             func_8002DF54(globalCtx, &this->actor, 1);
@@ -635,7 +635,7 @@ void BgDyYoseizo_SpinGrowSetupGive_Reward(BgDyYoseizo* this, GlobalContext* glob
             this->animationChanged = true;
         }
 
-        if ((globalCtx->csCtx.state != 0) &&
+        if ((globalCtx->csCtx.state != CS_STATE_IDLE) &&
             ((globalCtx->csCtx.npcActions[0] != NULL) && (globalCtx->csCtx.npcActions[0]->action == 3))) {
             this->finishedSpinGrow = this->animationChanged = false;
             if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
@@ -821,7 +821,7 @@ void BgDyYoseizo_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     this->actionFunc(this, globalCtx);
 
-    if (globalCtx->csCtx.state != 0) {
+    if (globalCtx->csCtx.state != CS_STATE_IDLE) {
         phi_v1 = 0;
         if (globalCtx->sceneNum == SCENE_DAIYOUSEI_IZUMI) {
             if ((globalCtx->csCtx.frames == 32) || (globalCtx->csCtx.frames == 291) ||

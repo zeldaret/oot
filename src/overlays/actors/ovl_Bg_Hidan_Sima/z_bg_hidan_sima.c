@@ -121,7 +121,7 @@ void func_8088E518(BgHidanSima* this, GlobalContext* globalCtx) {
     Math_StepToF(&this->dyna.actor.world.pos.y, this->dyna.actor.home.pos.y, 3.4f);
     if (func_8004356C(&this->dyna) && !(player->stateFlags1 & 0x6000)) {
         this->timer = 20;
-        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(globalCtx->cameraPtrs[globalCtx->activeCamera]) + 0x4000;
+        this->dyna.actor.world.rot.y = Camera_GetCamDirYaw(ACTIVE_CAM) + 0x4000;
         if (this->dyna.actor.home.pos.y <= this->dyna.actor.world.pos.y) {
             this->actionFunc = func_8088E5D0;
         } else {
