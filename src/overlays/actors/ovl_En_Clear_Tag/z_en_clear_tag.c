@@ -548,7 +548,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
                 // Check if the laser has hit a target.
                 if (this->collider.base.atFlags & AT_HIT) {
-                    hasAtHit = 1;
+                    hasAtHit = true;
                 }
 
                 // Set laser collider properties.
@@ -655,9 +655,9 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
             crashEffectVelocity.z += Rand_CenteredFloat(0.5f);
 
             debrisEffectAcceleration.x = 0.0f;
-            debrisEffectAcceleration.z = 0.0f;
             debrisEffectAcceleration.y = -1.0f;
-
+            debrisEffectAcceleration.z = 0.0f;
+            
             EnClearTag_CreateDebrisEffect(globalCtx, &crashEffectLocation, &crashEffectVelocity,
                                           &debrisEffectAcceleration, Rand_ZeroFloat(0.15f) + 0.075f,
                                           this->actor.floorHeight);
@@ -723,7 +723,7 @@ void EnClearTag_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_Translate(0.0f, 0.0f, -60.0f, MTXMODE_APPLY);
             func_800D1FD4(&globalCtx->mf_11DA0);
             Matrix_Scale(2.5f, 1.3f, 0.0f, MTXMODE_APPLY);
-            if ((this->frameCounter & 1) != 0) {
+            if ((this->frameCounter % 2) != 0) {
                 Matrix_Scale(1.15f, 1.15f, 1.15f, MTXMODE_APPLY);
             }
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, 255, 255, 200, 155);
