@@ -271,7 +271,7 @@ void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
     s32 pad;
     Player* player = PLAYER;
     MtxF* shieldMtx = &player->shieldMf;
-    
+
     this->reflectIntensity = 0.0f;
 
     if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, shieldMtx->wx, shieldMtx->wy, shieldMtx->wz,
@@ -289,8 +289,6 @@ void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
         if (sMirRayData[this->actor.params].params & 1) {
             this->reflectIntensity = 1.0f;
         } else {
-            // new_var = &sp4C.z; // permuter suggested this, does not match without
-
             sp4C[0] = this->poolPt.x - this->sourcePt.x;
             sp4C[1] = this->poolPt.y - this->sourcePt.y;
             sp4C[2] = this->poolPt.z - this->sourcePt.z;

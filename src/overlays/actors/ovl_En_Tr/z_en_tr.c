@@ -372,7 +372,8 @@ void EnTr_ChooseAction1(EnTr* this, GlobalContext* globalCtx) {
                     EnTr_SetupAction(this, EnTr_FlyKidnapCutscene);
                     Animation_PlayLoop(&this->skelAnime, &D_060049C8);
                     this->animation = NULL;
-                    this->timer = ((this->actor.params != TR_KOUME) ? ((u8)frames * 0x400) + 0x8000 : (u8)frames * 0x400);
+                    this->timer =
+                        ((this->actor.params != TR_KOUME) ? ((u8)frames * 0x400) + 0x8000 : (u8)frames * 0x400);
                     break;
             }
         }
@@ -448,15 +449,15 @@ void EnTr_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_800943C8(globalCtx->state.gfxCtx);
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
         func_8002EBCC(&this->actor, globalCtx, 0);
-        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
-                            EnTr_OverrideLimbDraw, NULL, this);
+        SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable,
+                              this->skelAnime.dListCount, EnTr_OverrideLimbDraw, NULL, this);
         CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_tr.c", 854);
     }
 }
 
 f32 func_80B23FDC(GlobalContext* globalCtx, s32 actionIndex) {
     f32 phi_f2 = func_8006F93C(globalCtx->csCtx.npcActions[actionIndex]->endFrame,
-                           globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
+                               globalCtx->csCtx.npcActions[actionIndex]->startFrame, globalCtx->csCtx.frames);
     phi_f2 = CLAMP_MAX(phi_f2, 1.0f);
     return phi_f2;
 }
@@ -530,7 +531,7 @@ void EnTr_SetStartPosRot(EnTr* this, GlobalContext* globalCtx, s32 actionIndex) 
     startPos.x = globalCtx->csCtx.npcActions[actionIndex]->startPos.x;
     startPos.y = globalCtx->csCtx.npcActions[actionIndex]->startPos.y;
     startPos.z = globalCtx->csCtx.npcActions[actionIndex]->startPos.z;
-    
+
     this->actor.world.pos = startPos;
     this->actor.world.rot.y = this->actor.shape.rot.y = globalCtx->csCtx.npcActions[actionIndex]->rot.y;
 }

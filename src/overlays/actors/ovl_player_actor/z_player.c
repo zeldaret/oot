@@ -9052,8 +9052,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
                  0x4000) &&
                 ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
                 ((globalCtx->sceneNum != SCENE_NIGHT_SHOP) || (gSaveContext.eventChkInf[2] & 0x20))) {
-                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 160, 120,
-                                        144, 24, 20);
+                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 160, 120, 144,
+                                        24, 20);
             }
         }
         gSaveContext.showTitleCard = true;

@@ -132,7 +132,6 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
     f32 scoreDistance100;
     f32 scoreDistance60;
     f32 scoreDistance30;
-    
 
     if (this->collider.base.acFlags & AC_HIT) {
         this->collider.base.acFlags &= ~AC_HIT;
@@ -144,7 +143,7 @@ void func_80B42F74(EnYabusameMark* this, GlobalContext* globalCtx) {
         effectVelocity.y = 15.0f;
 
         EffectSsHitMark_SpawnCustomScale(globalCtx, 0, 700, &arrowHitPos);
-        
+
         scoreIndex = 2;
 
         scoreDistance100 = D_80B4362C[this->typeIndex].unk_0;
