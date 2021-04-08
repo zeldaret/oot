@@ -657,7 +657,7 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
             debrisEffectAcceleration.x = 0.0f;
             debrisEffectAcceleration.y = -1.0f;
             debrisEffectAcceleration.z = 0.0f;
-            
+
             EnClearTag_CreateDebrisEffect(globalCtx, &crashEffectLocation, &crashEffectVelocity,
                                           &debrisEffectAcceleration, Rand_ZeroFloat(0.15f) + 0.075f,
                                           this->actor.floorHeight);
@@ -813,7 +813,8 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
                             effect->timer = ((s16)Rand_ZeroFloat(20)) + 25;
                         } else {
                             // The Debris effect is done bounding. Set it's velocity and acceleration to 0.
-                            effect->velocity.x = effect->velocity.z = effect->acceleration.y =  effect->velocity.y = 0.0f;
+                            effect->velocity.x = effect->velocity.z = effect->acceleration.y = effect->velocity.y =
+                                0.0f;
                         }
                     }
                 }
