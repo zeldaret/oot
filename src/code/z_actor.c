@@ -890,7 +890,7 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
 
 void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
     Vec3f sp1C;
-    
+
     SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
     actor->world.pos.x += sp1C.x * actor->scale.x;
     actor->world.pos.y += sp1C.y * actor->scale.y;
@@ -1419,8 +1419,8 @@ f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
         if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            f32 ret = actor->xyzDistToPlayerSq -
-                  actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
+            f32 ret =
+                actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
             return ret;
         }
     }
@@ -1589,7 +1589,7 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
 
     if (parent->id == ACTOR_PLAYER) {
         Player* player = (Player*)parent;
-        
+
         player->heldActor = actorB;
         player->interactRangeActor = actorB;
     }

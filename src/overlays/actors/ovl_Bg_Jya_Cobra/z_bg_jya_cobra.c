@@ -27,7 +27,7 @@ static Vtx sShadowVtx[4] = {
     VTX(800, 0, -800, 2048, 2048, 255, 255, 255, 255),
     VTX(800, 0, 800, 2048, 0, 255, 255, 255, 255),
     VTX(-800, 0, 800, 0, 0, 255, 255, 255, 255),
-}; 
+};
 
 static Gfx sShadowDL[] = {
     gsDPPipeSync(),
@@ -37,7 +37,7 @@ static Gfx sShadowDL[] = {
     gsSPVertex(sShadowVtx, 4, 0),
     gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
     gsSPEndDisplayList(),
-}; 
+};
 
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
@@ -113,7 +113,7 @@ static Vec3f D_808974DC[] = {
 
 static s32 D_80897518[] = { 0x80, 0xA0, 0xA0, 0x80 };
 
-static InitChainEntry D_80897528[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1000, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 800, ICHAIN_CONTINUE),
@@ -428,7 +428,7 @@ void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
 
     BgJyaCobra_InitDynapoly(this, globalCtx, &D_0601167C, DPM_UNK);
-    Actor_ProcessInitChain(&this->dyna.actor, D_80897528);
+    Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (!(this->dyna.actor.params & 3) && Flags_GetSwitch(globalCtx, ((s32)this->dyna.actor.params >> 8) & 0x3F)) {
         this->dyna.actor.world.rot.y = this->dyna.actor.home.rot.y = this->dyna.actor.shape.rot.y = 0;
     }
