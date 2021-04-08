@@ -1,5 +1,7 @@
 #include "z_boss_goma.h"
+#include "objects/object_goma/object_goma.h"
 #include "overlays/actors/ovl_En_Goma/z_en_goma.h"
+#include "overlays/actors/ovl_Door_Shutter/z_door_shutter.h"
 
 #define FLAGS 0x00000035
 
@@ -46,36 +48,7 @@ void BossGoma_CeilingIdle(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_FloorMain(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_WallClimb(BossGoma* this, GlobalContext* globalCtx);
 void BossGoma_CeilingMoveToCenter(BossGoma* this, GlobalContext* globalCtx);
-void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 arg2);
-
-extern AnimationHeader D_06000AE8; // standing up, wiggle (first encounter?)
-extern AnimationHeader D_0600193C; // stretched, looking up (would make more sense with 0x8000 x rot?)
-extern AnimationHeader D_06002360; // running
-extern AnimationHeader D_060029F0; // standing up, shaking
-// unused attack animation at 0x39D0
-extern AnimationHeader D_06004318; // attack (or land?)
-extern AnimationHeader D_06004A20; // briefly look up (rotX 0x8000?)
-extern AnimationHeader D_06005330; // get up and close eye
-extern AnimationHeader D_060058C0; // lying on ground, shook (when hit?)
-extern AnimationHeader D_06005F28; // briefly crouch, eye halfclosed
-extern AnimationHeader D_060066DC; // running, head facing down
-extern AnimationHeader D_06006E60; // lying on ground, shook, rolling eye (when hit?)
-extern AnimationHeader D_0600B2FC; // get up, shake, fall, get up, fall (death animation?)
-extern AnimationHeader D_0600C468; // open eye, stretch/get up, blink, "attack posture" (first encounter?)
-extern AnimationHeader D_0600CCD8; // on ground, eye and limbs shaking a bit
-extern AnimationHeader D_0600F70C; // blink, get up, take "attack posture"
-extern AnimationHeader D_06010918; // standing up, roll eye
-extern AnimationHeader D_060113BC; // eye half closed, standing up, kind of briefly crouch and agitate limbs
-extern AnimationHeader D_06012678; // eye half closed, one step ahead, one step back (menacing)
-extern AnimationHeader D_0601EB4C; // eye half closed, walk (cautiously?)
-extern s16 D_060183A8[];
-extern s16 D_060185A8[];
-extern s16 D_060187A8[];
-extern s16 D_060189A8[];
-extern s16 D_060191A8[];
-extern s16 D_060193A8[];
-extern UNK_TYPE D_06019BA8[];
-extern SkeletonHeader D_0601DCF8;
+void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i);
 
 const ActorInit Boss_Goma_InitVars = {
     ACTOR_BOSS_GOMA,
@@ -350,13 +323,13 @@ void BossGoma_ClearPixels32x32Rgba16(s16* rgba16image, u8* clearPixelTable, s16 
  * Clear pixels from Gohma's textures
  */
 void BossGoma_ClearPixels(u8* clearPixelTable, s16 i) {
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060183A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060185A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060187A8), clearPixelTable, i);
-    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(D_060191A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0183A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0185A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0187A8), clearPixelTable, i);
+    BossGoma_ClearPixels16x16Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0191A8), clearPixelTable, i);
 
-    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(D_060189A8), clearPixelTable, i);
-    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(D_060193A8), clearPixelTable, i);
+    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0189A8), clearPixelTable, i);
+    BossGoma_ClearPixels32x32Rgba16(SEGMENTED_TO_VIRTUAL(gGohmaTex_0193A8), clearPixelTable, i);
 }
 
 static InitChainEntry sInitChain[] = {
@@ -371,8 +344,8 @@ void BossGoma_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 4000.0f, ActorShadow_DrawCircle, 150.0f);
-    SkelAnime_Init(globalCtx, &this->skelanime, &D_0601DCF8, &D_06012678, NULL, NULL, 0);
-    Animation_PlayLoop(&this->skelanime, &D_06012678);
+    SkelAnime_Init(globalCtx, &this->skelanime, &gGohmaSkel, &gGohmaAnim_012678, NULL, NULL, 0);
+    Animation_PlayLoop(&this->skelanime, &gGohmaAnim_012678);
     this->actor.shape.rot.x = -0x8000; // upside-down
     this->eyeIrisScaleX = 1.0f;
     this->eyeIrisScaleY = 1.0f;
@@ -421,7 +394,8 @@ void BossGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
  * When Gohma is hit and its health drops to 0
  */
 void BossGoma_SetupDefeated(BossGoma* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelanime, &D_0600B2FC, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600B2FC), 2, -2.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_00B2FC, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_00B2FC),
+                     ANIMMODE_ONCE, -2.0f);
     this->actionFunc = BossGoma_Defeated;
     this->disableGameplayLogic = true;
     this->decayingProgress = 0;
@@ -439,9 +413,9 @@ void BossGoma_SetupDefeated(BossGoma* this, GlobalContext* globalCtx) {
  * Initial action setup, with Gohma waiting on the ceiling for the fight to start.
  */
 void BossGoma_SetupEncounter(BossGoma* this, GlobalContext* globalCtx) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06002360);
+    f32 lastFrame = Animation_GetLastFrame(&gGohmaAnim_002360);
 
-    Animation_Change(&this->skelanime, &D_06002360, 1.0f, 0.0f, lastFrame, 0, -15.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_002360, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -15.0f);
     this->actionFunc = BossGoma_Encounter;
     this->actionState = 0;
     this->disableGameplayLogic = true;
@@ -453,10 +427,10 @@ void BossGoma_SetupEncounter(BossGoma* this, GlobalContext* globalCtx) {
  * On the floor and not doing anything for 20-30 frames, before going back to BossGoma_FloorMain
  */
 void BossGoma_SetupFloorIdle(BossGoma* this) {
-    f32 lastFrame = Animation_GetLastFrame(&D_06012678);
+    f32 lastFrame = Animation_GetLastFrame(&gGohmaAnim_012678);
 
     this->framesUntilNextAction = Rand_S16Offset(20, 30);
-    Animation_Change(&this->skelanime, &D_06012678, 1.0f, 0.0f, lastFrame, 0, -5.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_012678, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -5.0f);
     this->actionFunc = BossGoma_FloorIdle;
 }
 
@@ -465,7 +439,8 @@ void BossGoma_SetupFloorIdle(BossGoma* this) {
  */
 void BossGoma_SetupCeilingIdle(BossGoma* this) {
     this->framesUntilNextAction = Rand_S16Offset(20, 30);
-    Animation_Change(&this->skelanime, &D_0600193C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600193C), 0, -5.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_00193C, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_00193C),
+                     ANIMMODE_LOOP, -5.0f);
     this->actionFunc = BossGoma_CeilingIdle;
 }
 
@@ -473,7 +448,7 @@ void BossGoma_SetupCeilingIdle(BossGoma* this) {
  * When the player killed all children gohmas
  */
 void BossGoma_SetupFallJump(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_06005F28, 1.0f, 0.0f, 0.0f, 2, -5.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_005F28, 1.0f, 0.0f, 0.0f, ANIMMODE_ONCE, -5.0f);
     this->actionFunc = BossGoma_FallJump;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -484,7 +459,7 @@ void BossGoma_SetupFallJump(BossGoma* this) {
  * When the player successfully hits Gohma on the ceiling
  */
 void BossGoma_SetupFallStruckDown(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_060058C0, 1.0f, 0.0f, 0.0f, 2, -5.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_0058C0, 1.0f, 0.0f, 0.0f, ANIMMODE_ONCE, -5.0f);
     this->actionFunc = BossGoma_FallStruckDown;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -492,19 +467,22 @@ void BossGoma_SetupFallStruckDown(BossGoma* this) {
 }
 
 void BossGoma_SetupCeilingSpawnGohmas(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_060113BC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060113BC), 0, -15.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_0113BC, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_0113BC),
+                     ANIMMODE_LOOP, -15.0f);
     this->actionFunc = BossGoma_CeilingSpawnGohmas;
     this->spawnGohmasActionTimer = 0;
 }
 
 void BossGoma_SetupCeilingPrepareSpawnGohmas(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_060029F0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060029F0), 0, -10.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_0029F0, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_0029F0),
+                     ANIMMODE_LOOP, -10.0f);
     this->actionFunc = BossGoma_CeilingPrepareSpawnGohmas;
     this->framesUntilNextAction = 70;
 }
 
 void BossGoma_SetupWallClimb(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_060066DC, 1.0f, 0.0f, Animation_GetLastFrame(&D_060066DC), 0, -10.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_0066DC, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_0066DC),
+                     ANIMMODE_LOOP, -10.0f);
     this->actionFunc = BossGoma_WallClimb;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -515,7 +493,8 @@ void BossGoma_SetupWallClimb(BossGoma* this) {
  * Gohma either reached the ceiling after climbing a wall, or is waiting for the player to kill the (children) Gohmas.
  */
 void BossGoma_SetupCeilingMoveToCenter(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_06002360, 1.0f, 0.0f, Animation_GetLastFrame(&D_06002360), 0, -5.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_002360, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_002360),
+                     ANIMMODE_LOOP, -5.0f);
     this->actionFunc = BossGoma_CeilingMoveToCenter;
     this->actor.speedXZ = 0.0f;
     this->actor.velocity.y = 0.0f;
@@ -527,7 +506,8 @@ void BossGoma_SetupCeilingMoveToCenter(BossGoma* this) {
  * Root action when on the floor, leads to attacking or climbing.
  */
 void BossGoma_SetupFloorMain(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_0601EB4C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0601EB4C), 0, -5.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_01EB4C, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_01EB4C),
+                     ANIMMODE_LOOP, -5.0f);
     this->actionFunc = BossGoma_FloorMain;
     this->framesUntilNextAction = Rand_S16Offset(70, 110);
 }
@@ -536,26 +516,29 @@ void BossGoma_SetupFloorMain(BossGoma* this) {
  * Gohma jumped to the floor on its own, after the player has killed its children Gohmas.
  */
 void BossGoma_SetupFloorLand(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_06005F28, 1.0f, 0.0f, Animation_GetLastFrame(&D_06005F28), 2, -2.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_005F28, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_005F28),
+                     ANIMMODE_ONCE, -2.0f);
     this->actionFunc = BossGoma_FloorLand;
-    this->currentAnimFrameCount = Animation_GetLastFrame(&D_06005F28);
+    this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaAnim_005F28);
 }
 
 /**
  * Gohma was shot by the player down from the ceiling.
  */
 void BossGoma_SetupFloorLandStruckDown(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_060058C0, 1.0f, 0.0f, Animation_GetLastFrame(&D_060058C0), 2, -2.0f);
-    this->currentAnimFrameCount = Animation_GetLastFrame(&D_060058C0);
+    Animation_Change(&this->skelanime, &gGohmaAnim_0058C0, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_0058C0),
+                     ANIMMODE_ONCE, -2.0f);
+    this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaAnim_0058C0);
     this->actionFunc = BossGoma_FloorLandStruckDown;
-    this->currentAnimFrameCount = Animation_GetLastFrame(&D_060058C0);
+    this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaAnim_0058C0);
 }
 
 /**
  * Gohma is vulnerable, from being struck down from the ceiling or on the ground.
  */
 void BossGoma_SetupFloorStunned(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_0600CCD8, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600CCD8), 0, -2.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_00CCD8, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_00CCD8),
+                     ANIMMODE_LOOP, -2.0f);
     this->actionFunc = BossGoma_FloorStunned;
 }
 
@@ -563,7 +546,8 @@ void BossGoma_SetupFloorStunned(BossGoma* this) {
  * Take an attack posture, when the player is close enough.
  */
 void BossGoma_SetupFloorAttackPosture(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_0600C468, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600C468), 2, -10.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_00C468, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_00C468),
+                     ANIMMODE_ONCE, -10.0f);
     this->actionFunc = BossGoma_FloorAttackPosture;
 }
 
@@ -571,13 +555,15 @@ void BossGoma_SetupFloorAttackPosture(BossGoma* this) {
  * Leads to BossGoma_FloorAttack after 1 frame
  */
 void BossGoma_SetupFloorPrepareAttack(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000AE8, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000AE8), 0, -10.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_000AE8, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_000AE8),
+                     ANIMMODE_LOOP, -10.0f);
     this->actionFunc = BossGoma_FloorPrepareAttack;
     this->framesUntilNextAction = 0;
 }
 
 void BossGoma_SetupFloorAttack(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_06004318, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004318), 2, -10.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_004318, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_004318),
+                     ANIMMODE_ONCE, -10.0f);
     this->actionFunc = BossGoma_FloorAttack;
     this->actionState = 0;
     this->framesUntilNextAction = 0;
@@ -589,7 +575,8 @@ void BossGoma_SetupFloorAttack(BossGoma* this) {
  * as the stun duration
  */
 void BossGoma_SetupFloorDamaged(BossGoma* this) {
-    Animation_Change(&this->skelanime, &D_06006E60, 1.0f, 0.0f, Animation_GetLastFrame(&D_06006E60), 2, -2.0f);
+    Animation_Change(&this->skelanime, &gGohmaAnim_006E60, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_006E60),
+                     ANIMMODE_ONCE, -2.0f);
     this->actionFunc = BossGoma_FloorDamaged;
 }
 
@@ -645,8 +632,9 @@ void BossGoma_SetupEncounterState4(BossGoma* this, GlobalContext* globalCtx) {
     this->subCameraId = Gameplay_CreateSubCamera(globalCtx);
     Gameplay_ChangeCameraStatus(globalCtx, 0, 3);
     Gameplay_ChangeCameraStatus(globalCtx, this->subCameraId, 7);
-    Animation_Change(&this->skelanime, &D_06010918, 1.0f, 0.0f, Animation_GetLastFrame(&D_06010918), 2, 0.0f);
-    this->currentAnimFrameCount = Animation_GetLastFrame(&D_06010918);
+    Animation_Change(&this->skelanime, &gGohmaAnim_010918, 1.0f, 0.0f, Animation_GetLastFrame(&gGohmaAnim_010918),
+                     ANIMMODE_ONCE, 0.0f);
+    this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaAnim_010918);
 
     // room center (todo: defines for hardcoded positions relative to room center)
     this->actor.world.pos.x = -150.0f;
@@ -759,7 +747,7 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 
             if (this->frameCount == 176) {
                 Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_SHUTTER, 164.72f, -480.0f,
-                                   397.68002f, 0, -0x705C, 0, 0x180);
+                                   397.68002f, 0, -0x705C, 0, SHUTTER_GOHMA_BLOCK << 6);
             }
 
             if (this->frameCount == 176) {
@@ -832,8 +820,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 
                     if (Animation_OnFrame(&this->skelanime, this->currentAnimFrameCount)) {
                         this->actionState = 5;
-                        Animation_Change(&this->skelanime, &D_06002360, 2.0f, 0.0f, Animation_GetLastFrame(&D_06002360),
-                                         0, -5.0f);
+                        Animation_Change(&this->skelanime, &gGohmaAnim_002360, 2.0f, 0.0f,
+                                         Animation_GetLastFrame(&gGohmaAnim_002360), ANIMMODE_LOOP, -5.0f);
                         this->framesUntilNextAction = 30;
                         this->subCameraFollowSpeed = 0.0f;
                     }
@@ -862,8 +850,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             }
 
             if (this->framesUntilNextAction == 0) {
-                Animation_Change(&this->skelanime, &D_0600193C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600193C), 0,
-                                 -5.0f);
+                Animation_Change(&this->skelanime, &gGohmaAnim_00193C, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gGohmaAnim_00193C), ANIMMODE_LOOP, -5.0f);
             }
 
             if (this->framesUntilNextAction == 0) {
@@ -871,8 +859,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 this->actor.speedXZ = 0.0f;
                 this->actor.velocity.y = 0.0f;
                 this->actor.gravity = -2.0f;
-                Animation_Change(&this->skelanime, &D_0600F70C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600F70C), 2,
-                                 -5.0f);
+                Animation_Change(&this->skelanime, &gGohmaAnim_00F70C, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gGohmaAnim_00F70C), ANIMMODE_ONCE, -5.0f);
                 player->actor.world.pos.x = 0.0f;
                 player->actor.world.pos.z = -30.0f;
             }
@@ -895,9 +883,9 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
             if (this->actor.bgCheckFlags & 1) {
                 this->actionState = 130;
                 this->actor.velocity.y = 0.0f;
-                Animation_Change(&this->skelanime, &D_0600F70C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600F70C), 2,
-                                 -2.0f);
-                this->currentAnimFrameCount = Animation_GetLastFrame(&D_0600F70C);
+                Animation_Change(&this->skelanime, &gGohmaAnim_00F70C, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gGohmaAnim_00F70C), ANIMMODE_ONCE, -2.0f);
+                this->currentAnimFrameCount = Animation_GetLastFrame(&gGohmaAnim_00F70C);
                 BossGoma_PlayEffectsAndSfx(this, globalCtx, 0, 5);
                 this->framesUntilNextAction = 15;
                 func_800A9F6C(0.0f, 0xC8, 0x14, 0x14);
@@ -928,8 +916,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_CRY1);
 
                 if (!(gSaveContext.eventChkInf[7] & 1)) {
-                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx, SEGMENTED_TO_VIRTUAL(D_06019BA8),
-                                           0xA0, 0xB4, 0x80, 0x28);
+                    TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
+                                           SEGMENTED_TO_VIRTUAL(gGohmaTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
                 }
 
                 Audio_SetBGM(0x1B);
@@ -938,8 +926,8 @@ void BossGoma_Encounter(BossGoma* this, GlobalContext* globalCtx) {
 
             if (Animation_OnFrame(&this->skelanime, this->currentAnimFrameCount)) {
                 this->actionState = 140;
-                Animation_Change(&this->skelanime, &D_06000AE8, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000AE8), 0,
-                                 -10.0f);
+                Animation_Change(&this->skelanime, &gGohmaAnim_000AE8, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gGohmaAnim_000AE8), ANIMMODE_LOOP, -10.0f);
                 this->framesUntilNextAction = 20;
             }
             break;
@@ -1270,7 +1258,7 @@ void BossGoma_FloorAttackPosture(BossGoma* this, GlobalContext* globalCtx) {
         Math_ApproachS(&this->actor.world.rot.y, Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor), 3, 0xBB8);
     }
 
-    if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&D_0600C468))) {
+    if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaAnim_00C468))) {
         if (this->actor.xzDistToPlayer < 250.0f) {
             BossGoma_SetupFloorPrepareAttack(this);
         } else {
@@ -1320,10 +1308,10 @@ void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
                 func_80033E88(&this->actor, globalCtx, 5, 15);
             }
 
-            if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&D_06004318))) {
+            if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaAnim_004318))) {
                 this->actionState = 1;
-                Animation_Change(&this->skelanime, &D_06004A20, 1.0f, 0.0f, Animation_GetLastFrame(&D_06004A20), 0,
-                                 -1.0f);
+                Animation_Change(&this->skelanime, &gGohmaAnim_004A20, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gGohmaAnim_004A20), ANIMMODE_LOOP, -1.0f);
 
                 if (this->framesUntilNextAction == 0) {
                     this->timer = (s16)(Rand_ZeroOne() * 30.0f) + 30;
@@ -1338,13 +1326,13 @@ void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
 
             if (this->timer == 0) {
                 this->actionState = 2;
-                Animation_Change(&this->skelanime, &D_06005330, 1.0f, 0.0f, Animation_GetLastFrame(&D_06005330), 2,
-                                 -5.0f);
+                Animation_Change(&this->skelanime, &gGohmaAnim_005330, 1.0f, 0.0f,
+                                 Animation_GetLastFrame(&gGohmaAnim_005330), ANIMMODE_ONCE, -5.0f);
             }
             break;
 
         case 2:
-            if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&D_06005330))) {
+            if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaAnim_005330))) {
                 BossGoma_SetupFloorIdle(this);
             }
             break;
@@ -1360,7 +1348,7 @@ void BossGoma_FloorAttack(BossGoma* this, GlobalContext* globalCtx) {
 void BossGoma_FloorDamaged(BossGoma* this, GlobalContext* globalCtx) {
     SkelAnime_Update(&this->skelanime);
 
-    if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&D_06006E60))) {
+    if (Animation_OnFrame(&this->skelanime, Animation_GetLastFrame(&gGohmaAnim_006E60))) {
         BossGoma_SetupFloorStunned(this);
         this->patienceTimer = 0;
     }
@@ -1808,16 +1796,15 @@ void BossGoma_UpdateTailLimbsScale(BossGoma* this) {
 }
 
 void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
-    ColliderInfo* acHitInfo;
-    s32 damage;
-
     if (this->invincibilityFrames != 0) {
         this->invincibilityFrames--;
     } else {
-        acHitInfo = this->collider.elements[0].info.acHitInfo;
+        ColliderInfo* acHitInfo = this->collider.elements[0].info.acHitInfo;
+        s32 damage;
+
         if (this->eyeClosedTimer == 0 && this->actionFunc != BossGoma_CeilingSpawnGohmas &&
-            (this->collider.elements[0].info.bumperFlags & 2)) {
-            this->collider.elements[0].info.bumperFlags &= ~2;
+            (this->collider.elements[0].info.bumperFlags & BUMP_HIT)) {
+            this->collider.elements[0].info.bumperFlags &= ~BUMP_HIT;
 
             if (this->actionFunc == BossGoma_CeilingMoveToCenter || this->actionFunc == BossGoma_CeilingIdle ||
                 this->actionFunc == BossGoma_CeilingPrepareSpawnGohmas) {
@@ -1838,7 +1825,7 @@ void BossGoma_UpdateHit(BossGoma* this, GlobalContext* globalCtx) {
 
                 this->invincibilityFrames = 10;
             } else if (this->actionFunc != BossGoma_FloorStunned && this->patienceTimer != 0 &&
-                       (acHitInfo->toucher.dmgFlags & 5) != 0) {
+                       (acHitInfo->toucher.dmgFlags & 0x00000005)) {
                 Audio_PlayActorSound2(&this->actor, NA_SE_EN_GOMA_DAM2);
                 func_800F8D04(NA_SE_EN_GOMA_CRY1);
                 this->invincibilityFrames = 10;
@@ -2083,9 +2070,10 @@ void BossGoma_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList,
         Matrix_MultVec3f(&zero, &childPos);
         Matrix_Get(&mtx);
         func_800D20CC(&mtx, &childRot, 0);
+        // These are the pieces of Gohma as it falls apart. It appears to use the same actor as the baby gohmas.
         babyGohma = (EnGoma*)Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA,
                                                 childPos.x, childPos.y, childPos.z, childRot.x, childRot.y, childRot.z,
-                                                D_8091B244[limbIndex] + 0x64);
+                                                D_8091B244[limbIndex] + 100);
         if (babyGohma != NULL) {
             babyGohma->unk_308 = *dList;
             babyGohma->actor.objBankIndex = this->actor.objBankIndex;
@@ -2142,7 +2130,7 @@ void BossGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
 void BossGoma_SpawnChildGohma(BossGoma* this, GlobalContext* globalCtx, s16 i) {
     Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, this->lastTailLimbWorldPos.x,
-                       this->lastTailLimbWorldPos.y - 50.0f, this->lastTailLimbWorldPos.z, 0, i * 0x5555, 0, i);
+                       this->lastTailLimbWorldPos.y - 50.0f, this->lastTailLimbWorldPos.z, 0, i * (0x10000 / 3), 0, i);
 
     this->childrenGohmaState[i] = 1;
 }
