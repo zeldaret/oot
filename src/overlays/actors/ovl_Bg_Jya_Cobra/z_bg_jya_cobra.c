@@ -385,7 +385,7 @@ void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
     s32 i_copy;
     s32 counter;
     u8* temp_s0;
-    u8* sp40; // sp40
+    u8* sp40;
 
     for (i = 0; i < 0x40; i++) {
         sp58[i] = SQ(i - 31.5f);
