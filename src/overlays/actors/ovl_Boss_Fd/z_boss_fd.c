@@ -1042,9 +1042,9 @@ static Vec3f D_808D1A1C = { 0.0f, 0.03f, 0.0f };
 #endif
 
 void BossFd_Wait(BossFd* this, GlobalContext* globalCtx) {
-    u8 temp_rand;
-
     if (this->handoffSignal == FD2_SIGNAL_FLY) { // Set by BossFd2
+        u8 temp_rand;
+
         this->handoffSignal = FD2_SIGNAL_NONE;
         BossFd_SetupFly(this, globalCtx);
         do {
@@ -1166,7 +1166,7 @@ void BossFd_Effects(BossFd* this, GlobalContext* globalCtx) {
         Vec3f spawnVel1;
         Vec3f spawnAccel1;
         Vec3f spawnPos1;
-        f32 pad;
+        s32 pad;
 
         Audio_PlaySoundGeneral(NA_SE_EN_VALVAISA_APPEAR - SFX_FLAG, &this->actor.projectedPos, 4, &D_801333E0,
                                &D_801333E0, &D_801333E8);
@@ -1419,6 +1419,7 @@ void BossFd_Update(Actor* thisx, GlobalContext* globalCtx) {
             for (i = 0; i < (s16)this->fwork[BFD_MANE_EMBER_RATE]; i++) {
                 temp_rand = Rand_ZeroFloat(29.9f);
                 emberPos.y = this->centerMane.pos[temp_rand].y + Rand_CenteredFloat(20.0f);
+
                 if (emberPos.y >= 90.0f) {
                     emberPos.x = this->centerMane.pos[temp_rand].x + Rand_CenteredFloat(20.0f);
                     emberPos.z = this->centerMane.pos[temp_rand].z + Rand_CenteredFloat(20.0f);
@@ -1446,7 +1447,6 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Color_RGB8 colors[4] = { { 255, 128, 0 }, { 255, 0, 0 }, { 255, 255, 0 }, { 255, 0, 0 } };
     Vec3f diff;
-    s16 cInd;
     s16 i1;
     s16 i2;
 
@@ -1462,7 +1462,8 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
             effect->velocity.y += effect->accel.y;
             effect->velocity.z += effect->accel.z;
             if (effect->type == BFD_FX_EMBER) {
-                cInd = effect->timer1 % 4;
+                s16 cInd = effect->timer1 % 4;
+
                 effect->color.r = colors[cInd].r;
                 effect->color.g = colors[cInd].g;
                 effect->color.b = colors[cInd].b;
@@ -1481,21 +1482,21 @@ void BossFd_UpdateEffects(BossFd* this, GlobalContext* globalCtx) {
                 if (effect->timer2 >= 8) {
                     effect->timer2 = 8;
                     effect->type = 0;
-                } else if ((effect->timer1 & 1) || (Rand_ZeroOne() < 0.3f)) {
+                } else if (((effect->timer1 % 2) != 0) || (Rand_ZeroOne() < 0.3f)) {
                     effect->timer2++;
                 }
             } else if (effect->type == BFD_FX_FIRE_BREATH) {
                 diff.x = player->actor.world.pos.x - effect->pos.x;
-                diff.y = (player->actor.world.pos.y + 30.0f) - effect->pos.y;
+                diff.y = player->actor.world.pos.y + 30.0f - effect->pos.y;
                 diff.z = player->actor.world.pos.z - effect->pos.z;
                 if ((this->timers[3] == 0) && (sqrtf(SQ(diff.x) + SQ(diff.y) + SQ(diff.z)) < 20.0f)) {
                     this->timers[3] = 50;
                     func_8002F6D4(globalCtx, NULL, 5.0f, effect->kbAngle, 0.0f, 0x30);
-                    if (player->isBurning == 0) {
+                    if (player->isBurning == false) {
                         for (i2 = 0; i2 < ARRAY_COUNT(player->flameTimers); i2++) {
                             player->flameTimers[i2] = Rand_S16Offset(0, 200);
                         }
-                        player->isBurning = 1;
+                        player->isBurning = true;
                     }
                 }
                 if (effect->timer2 == 0) {
@@ -1529,9 +1530,8 @@ void BossFd_DrawEffects(BossFdEffect* effect, GlobalContext* globalCtx) {
         gDust1Tex, gDust1Tex, gDust2Tex, gDust3Tex, gDust4Tex, gDust5Tex, gDust6Tex, gDust7Tex, gDust8Tex,
     };
     u8 flag = false;
-    s16 i;
-    s32 pad;
     GraphicsContext* gfxCtx = globalCtx->state.gfxCtx;
+    s16 i;
     BossFdEffect* firstEffect = effect;
 
     OPEN_DISPS(gfxCtx, "../z_boss_fd.c", 4023);
@@ -1985,8 +1985,9 @@ void BossFd_DrawBody(GlobalContext* globalCtx, BossFd* this) {
         Matrix_MultVec3f(&spA4, &this->leftMane.head);
         BossFd_DrawMane(globalCtx, this, this->leftMane.pos, this->fireManeRot, this->leftMane.scale, MANE_LEFT);
         Matrix_Pop();
-        Matrix_Pop();
-        osSyncPrintf("END\n");
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4987);
     }
+
+    Matrix_Pop();
+    osSyncPrintf("END\n");
+    CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_boss_fd.c", 4987);
 }
