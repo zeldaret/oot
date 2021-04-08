@@ -22,7 +22,22 @@ extern Gfx D_06010C20[];
 extern UNK_TYPE D_0601167C;
 extern Gfx D_060117D0[];
 
-#include "overlays/ovl_Bg_Jya_Cobra/ovl_Bg_Jya_Cobra.c"
+static Vtx sShadowVtx[4] = {
+    VTX(-800, 0, -800, 0, 2048, 255, 255, 255, 255),
+    VTX(800, 0, -800, 2048, 2048, 255, 255, 255, 255),
+    VTX(800, 0, 800, 2048, 0, 255, 255, 255, 255),
+    VTX(-800, 0, 800, 0, 0, 255, 255, 255, 255),
+}; 
+
+static Gfx sShadowDL[] = {
+    gsDPPipeSync(),
+    gsDPSetCombineLERP(PRIMITIVE, 0, TEXEL0, 0, TEXEL0, 0, PRIMITIVE, 0, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsDPSetRenderMode(G_RM_PASS, G_RM_AA_ZB_XLU_DECAL2),
+    gsSPClearGeometryMode(G_CULL_BACK | G_FOG | G_LIGHTING | G_TEXTURE_GEN | G_TEXTURE_GEN_LINEAR),
+    gsSPVertex(sShadowVtx, 4, 0),
+    gsSP2Triangles(0, 1, 2, 0, 0, 2, 3, 0),
+    gsSPEndDisplayList(),
+}; 
 
 const ActorInit Bg_Jya_Cobra_InitVars = {
     ACTOR_BG_JYA_COBRA,
@@ -611,7 +626,7 @@ void BgJyaCobra_DrawShadow(BgJyaCobra* this, GlobalContext* globalCtx) {
                         G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMIRROR | G_TX_CLAMP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                         G_TX_NOLOD);
 
-    gSPDisplayList(POLY_XLU_DISP++, D_808972B0);
+    gSPDisplayList(POLY_XLU_DISP++, sShadowDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_bg_jya_cobra.c", 1006);
 }

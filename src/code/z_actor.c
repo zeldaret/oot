@@ -849,6 +849,7 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
 
 void func_8002D7EC(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
+
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
     actor->world.pos.y += (actor->velocity.y * speedRate) + actor->colChkInfo.displacement.y;
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
@@ -871,6 +872,7 @@ void Actor_MoveForward(Actor* actor) {
 
 void func_8002D908(Actor* actor) {
     f32 sp24 = Math_CosS(actor->world.rot.x) * actor->speedXZ;
+
     actor->velocity.x = Math_SinS(actor->world.rot.y) * sp24;
     actor->velocity.y = Math_SinS(actor->world.rot.x) * actor->speedXZ;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * sp24;
@@ -888,6 +890,7 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
 
 void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
     Vec3f sp1C;
+    
     SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
     actor->world.pos.x += sp1C.x * actor->scale.x;
     actor->world.pos.y += sp1C.y * actor->scale.y;
@@ -1001,9 +1004,8 @@ s32 func_8002DDF4(GlobalContext* globalCtx) {
 }
 
 void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
-    ArmsHook* hookshot;
+    ArmsHook* hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORCAT_ITEMACTION);
 
-    hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORCAT_ITEMACTION);
     hookshot->grabbed = actorB;
     hookshot->grabbedDistDiff.x = 0.0f;
     hookshot->grabbedDistDiff.y = 0.0f;
@@ -1014,7 +1016,7 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     if ((globalCtx->roomCtx.curRoom.unk_03 != 4) && func_800C0CB8(globalCtx)) {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_HORSE0);
+        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, MAIN_CAM), CAM_SET_HORSE0);
     }
 }
 
@@ -1410,19 +1412,15 @@ PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor) {
 }
 
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
-    s16 yawTemp;
-    s16 yawTempAbs;
-    f32 ret;
-
-    yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
-    yawTempAbs = ABS(yawTemp);
+    s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
+    s16 yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
         if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            ret = actor->xyzDistToPlayerSq -
-                  actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
+            f32 ret = actor->xyzDistToPlayerSq -
+                  actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
             return ret;
         }
     }
@@ -1453,17 +1451,14 @@ u32 func_8002F090(Actor* actor, f32 arg1) {
 }
 
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
-    s16 var;
-    s16 abs_var;
-    f32 dist;
-
     if ((actor->update == NULL) || !(actor->flags & 1)) {
         return true;
     }
 
     if (!flag) {
-        var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
-        abs_var = ABS(var);
+        s16 var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
+        s16 abs_var = ABS(var);
+        f32 dist;
 
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
             dist = FLT_MAX;
@@ -1514,6 +1509,7 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
 
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
     f32 var1 = 50.0f + actor->colChkInfo.cylRadius;
+
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
@@ -1550,16 +1546,15 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
-    s16 yawDiff;
-    s32 absYawDiff;
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
             (!(player->stateFlags1 & 0x20000800))) {
             if ((actor->xzDistToPlayer < xzRange) && (fabsf(actor->yDistToPlayer) < yRange)) {
-                yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
-                absYawDiff = ABS(yawDiff);
+                s16 yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
+                s32 absYawDiff = ABS(yawDiff);
+
                 if ((getItemId != GI_NONE) || (player->getItemDirection < absYawDiff)) {
                     player->getItemId = getItemId;
                     player->interactRangeActor = actor;
@@ -1594,6 +1589,7 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
 
     if (parent->id == ACTOR_PLAYER) {
         Player* player = (Player*)parent;
+        
         player->heldActor = actorB;
         player->interactRangeActor = actorB;
     }
