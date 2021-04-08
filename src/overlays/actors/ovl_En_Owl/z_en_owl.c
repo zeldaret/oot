@@ -106,7 +106,7 @@ static ColliderCylinderInit sOwlCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-static InitChainEntry sOwlInitChain[] = {
+static InitChainEntry sInitChain[] = {
     ICHAIN_VEC3F_DIV1000(scale, 25, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneForward, 1400, ICHAIN_CONTINUE),
     ICHAIN_F32(uncullZoneScale, 2000, ICHAIN_CONTINUE),
@@ -119,7 +119,7 @@ void EnOwl_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 owlType;
     s32 switchFlag;
 
-    Actor_ProcessInitChain(&this->actor, sOwlInitChain);
+    Actor_ProcessInitChain(&this->actor, sInitChain);
     ActorShape_Init(&this->actor.shape, 0, ActorShadow_DrawCircle, 36.0f);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600C0E8, &D_060015CC, this->jointTable, this->morphTable, 21);
     SkelAnime_InitFlex(globalCtx, &this->skelAnime2, &D_060100B0, &D_0600C8A0, this->jointTable2, this->morphTable2,
