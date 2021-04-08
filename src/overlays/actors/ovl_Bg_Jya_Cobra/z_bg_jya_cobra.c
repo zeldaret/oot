@@ -375,54 +375,48 @@ void BgJyaCobra_UpdateShadowFromSide(BgJyaCobra* this) {
 #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadowFromSide.s")
 #endif
 
-#ifdef NON_MATCHING
-// minor register and stack diffs
 /*
  * Updates the shadow with light coming from above the mirror
  */
 void BgJyaCobra_UpdateShadowFromTop(BgJyaCobra* this) {
     f32 sp58[0x40];
-    f32 temp_f12;
-    f32 temp_f2;
-    u8* temp_s0;
-    s32 i_copy;
-    u8* phi_a3;
-    s32 counter;
     s32 i;
     s32 j;
+    s32 i_copy;
+    s32 counter;
+    u8* temp_s0;
+    u8* sp40; // sp40
 
     for (i = 0; i < 0x40; i++) {
         sp58[i] = SQ(i - 31.5f);
     }
 
-    temp_s0 = (u8*)ALIGN16((u32)(&this->shadowTexture));
-    phi_a3 = temp_s0;
+    sp40 = temp_s0 = (u8*)ALIGN16((u32)(&this->shadowTexture));
     Lib_MemSet(temp_s0, 0x1000, 0);
 
     for (i = 0; i != 0x40; i++) {
-        temp_f12 = sp58[i];
-        for (j = 0; j < 0x40; j++, phi_a3++) {
-            temp_f2 = (sp58[j] * 0.5f) + temp_f12;
+        f32 temp_f12 = sp58[i];
+
+        for (j = 0; j < 0x40; j++, sp40++) {
+            f32 temp_f2 = (sp58[j] * 0.5f) + temp_f12;
+
             if (temp_f2 < 300.0f) {
-                *phi_a3 |= CLAMP_MAX(640 - (s32)(temp_f2 * 2.0f), 166);
+                *sp40 |= CLAMP_MAX(640 - (s32)(temp_f2 * 2.0f), 166);
             }
         }
     }
 
-    for (counter = 0, i = 0x780; counter < 4; counter++, i += 0x40) {
-        i_copy = i;
+    for (i_copy = 0x780, counter = 0; counter < 4; counter++, i_copy += 0x40) {
+        i = i_copy;
         for (j = 4; j < 0x3C; j++) {
-            if (temp_s0[i + j] < D_80897518[counter]) {
-                temp_s0[i + j] = D_80897518[counter];
+            if (temp_s0[i_copy + j] < D_80897518[counter]) {
+                temp_s0[i_copy + j] = D_80897518[counter];
             }
         }
-        temp_s0[i_copy + 0x3C] = 0x20;
-        temp_s0[i_copy + 0x3] = 0x20;
+        temp_s0[i + 0x3C] = 0x20;
+        temp_s0[i + 0x3] = 0x20;
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Bg_Jya_Cobra/BgJyaCobra_UpdateShadowFromTop.s")
-#endif
 
 void BgJyaCobra_Init(Actor* thisx, GlobalContext* globalCtx) {
     BgJyaCobra* this = THIS;
