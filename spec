@@ -1174,8 +1174,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot02_Objects"
     include "build/src/overlays/actors/ovl_Bg_Spot02_Objects/z_bg_spot02_objects.o"
-    include "build/data/overlays/actors/z_bg_spot02_objects.data.o"
-    include "build/data/overlays/actors/z_bg_spot02_objects.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot02_Objects/ovl_Bg_Spot02_Objects_reloc.o"
 endseg
 
 beginseg
@@ -1308,8 +1307,7 @@ endseg
 beginseg
     name "ovl_Bg_Sst_Floor"
     include "build/src/overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.data.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Sst_Floor/ovl_Bg_Sst_Floor_reloc.o"
 endseg
 
 beginseg
@@ -1417,8 +1415,7 @@ endseg
 beginseg
     name "ovl_Boss_Goma"
     include "build/src/overlays/actors/ovl_Boss_Goma/z_boss_goma.o"
-    include "build/data/overlays/actors/z_boss_goma.data.o"
-    include "build/data/overlays/actors/z_boss_goma.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Goma/ovl_Boss_Goma_reloc.o"
 endseg
 
 beginseg
@@ -1432,9 +1429,7 @@ endseg
 beginseg
     name "ovl_Boss_Sst"
     include "build/src/overlays/actors/ovl_Boss_Sst/z_boss_sst.o"
-    include "build/data/overlays/actors/z_boss_sst.data.o"
-    include "build/data/overlays/actors/z_boss_sst.bss.o"
-    include "build/data/overlays/actors/z_boss_sst.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Sst/ovl_Boss_Sst_reloc.o"
 endseg
 
 beginseg
@@ -1456,11 +1451,7 @@ endseg
 beginseg
     name "ovl_Demo_6K"
     include "build/src/overlays/actors/ovl_Demo_6K/z_demo_6k.o"
-#if NON_MATCHING
     include "build/src/overlays/actors/ovl_Demo_6K/ovl_Demo_6K_reloc.o"
-#else
-    include "build/data/overlays/actors/z_demo_6k.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2078,8 +2069,7 @@ endseg
 beginseg
     name "ovl_En_Diving_Game"
     include "build/src/overlays/actors/ovl_En_Diving_Game/z_en_diving_game.o"
-    include "build/data/overlays/actors/z_en_diving_game.data.o"
-    include "build/data/overlays/actors/z_en_diving_game.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Diving_Game/ovl_En_Diving_Game_reloc.o"
 endseg
 
 beginseg
@@ -3534,7 +3524,8 @@ endseg
 beginseg
     name "object_poh"
     romalign 0x1000
-    include "build/baserom/object_poh.o"
+    include "build/assets/objects/object_poh/object_poh.o"
+    number 6
 endseg
 
 beginseg
@@ -3616,7 +3607,8 @@ endseg
 beginseg
     name "object_goma"
     romalign 0x1000
-    include "build/baserom/object_goma.o"
+    include "build/assets/objects/object_goma/object_goma.o"
+    number 6
 endseg
 
 beginseg
@@ -4214,7 +4206,8 @@ endseg
 beginseg
     name "object_tk"
     romalign 0x1000
-    include "build/baserom/object_tk.o"
+    include "build/assets/objects/object_tk/object_tk.o"
+    number 6
 endseg
 
 beginseg
@@ -4322,7 +4315,8 @@ endseg
 beginseg
     name "object_po_sisters"
     romalign 0x1000
-    include "build/baserom/object_po_sisters.o"
+    include "build/assets/objects/object_po_sisters/object_po_sisters.o"
+    number 6
 endseg
 
 beginseg
@@ -4789,7 +4783,8 @@ endseg
 beginseg
     name "object_sst"
     romalign 0x1000
-    include "build/baserom/object_sst.o"
+    include "build/assets/objects/object_sst/object_sst.o"
+    number 6
 endseg
 
 beginseg
@@ -5724,7 +5719,8 @@ endseg
 beginseg
     name "object_po_field"
     romalign 0x1000
-    include "build/baserom/object_po_field.o"
+    include "build/assets/objects/object_po_field/object_po_field.o"
+    number 6
 endseg
 
 beginseg
@@ -5787,7 +5783,8 @@ endseg
 beginseg
     name "object_po_composer"
     romalign 0x1000
-    include "build/baserom/object_po_composer.o"
+    include "build/assets/objects/object_po_composer/object_po_composer.o"
+    number 6
 endseg
 
 beginseg
@@ -5836,7 +5833,8 @@ endseg
 beginseg
     name "object_ps"
     romalign 0x1000
-    include "build/baserom/object_ps.o"
+    include "build/assets/objects/object_ps/object_ps.o"
+    number 6
 endseg
 
 beginseg
