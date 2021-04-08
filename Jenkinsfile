@@ -12,7 +12,12 @@ pipeline {
         stage('Setup') {
             steps {
                 sh 'cp /usr/local/etc/roms/baserom_oot.z64 baserom_original.z64'
-                sh 'make -j setup'
+                sh 'make -j setup 2> tools/warnings_count/warnings_setup_new.txt'
+            }
+        }
+        stage('Check setup warnings') {
+            steps {
+                sh 'python tools/warnings_count/compare_warnings.py tools/warnings_count/warnings_setup_current.txt tools/warnings_count/warnings_setup_new.txt'
             }
         }
         stage('Build (qemu-irix)') {
@@ -30,7 +35,17 @@ pipeline {
                 }
             }
             steps {
-                sh 'make -j'
+                sh 'make -j 2> tools/warnings_count/warnings_build_new.txt'
+            }
+        }
+        stage('Check build warnings') {
+            when {
+                not {
+                    branch 'master'
+                }
+            }
+            steps {
+                sh 'python tools/warnings_count/compare_warnings.py tools/warnings_count/warnings_build_current.txt tools/warnings_count/warnings_build_new.txt'
             }
         }
         stage('Report Progress') {

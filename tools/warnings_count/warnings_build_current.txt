@@ -1,0 +1,255 @@
+cfe: Warning 709: /tmp/preprocessed6tsvcxsc.c, line 172: Incompatible pointer type assignment
+     { "title", Select_LoadTitle, 0x0000 },
+ ---------------^
+cfe: Warning 709: /tmp/preprocessedw8xut19r.c, line 28: Incompatible pointer type assignment
+     this->actor = initParams->linkDetected;  
+ ----------------^
+cfe: Warning 709: /tmp/preprocessedw8xut19r.c, line 40: Incompatible pointer type assignment
+     linkDetected = this->actor;
+ -----------------^
+src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.c: In function ‘EffectSsSolderSrchBall_Init’:
+src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.c:28:17: warning: assignment to ‘Actor *’ {aka ‘struct Actor *’} from incompatible pointer type ‘s16 *’ {aka ‘short int *’} [-Wincompatible-pointer-types]
+   28 |     this->actor = initParams->linkDetected; // actor field was incorrectly used as a pointer to something else
+      |                 ^
+src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.c: In function ‘EffectSsSolderSrchBall_Update’:
+src/overlays/effects/ovl_Effect_Ss_Solder_Srch_Ball/z_eff_ss_solder_srch_ball.c:40:18: warning: assignment to ‘s16 *’ {aka ‘short int *’} from incompatible pointer type ‘Actor *’ {aka ‘struct Actor *’} [-Wincompatible-pointer-types]
+   40 |     linkDetected = this->actor;
+      |                  ^
+src/overlays/gamestates/ovl_select/z_select.c:172:16: warning: initialization of ‘void (*)(struct SelectContext *, s32)’ {aka ‘void (*)(struct SelectContext *, int)’} from incompatible pointer type ‘void (*)(SelectContext *)’ {aka ‘void (*)(struct SelectContext *)’} [-Wincompatible-pointer-types]
+  172 |     { "title", Select_LoadTitle, 0x0000 },
+      |                ^~~~~~~~~~~~~~~~
+src/overlays/gamestates/ovl_select/z_select.c:172:16: note: (near initialization for ‘sScenes[125].loadFunc’)
+src/overlays/gamestates/ovl_select/z_select.c:421:5: warning: unknown escape sequence: '\B'
+  421 |     "\x8C\Bﾒﾝｦｾｯﾄｼﾃｸﾀﾞｻｲ",                 // "Please set B side"
+      |     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_Demo_Sa/z_demo_sa.c:57:38: warning: extra tokens at end of #include directive
+   57 | #include "z_demo_sa_cutscene_data.c" EARLY
+      |                                      ^~~~~
+src/overlays/actors/ovl_Demo_Im/z_demo_im.c:74:38: warning: extra tokens at end of #include directive
+   74 | #include "z_demo_im_cutscene_data.c" EARLY
+      |                                      ^~~~~
+cfe: Warning 709: /tmp/preprocessed83w7wauc.c, line 137: Incompatible pointer type assignment
+     EnMu_SetupAction(this, EnMu_Pose);
+ ---------------------------^
+cfe: Warning 709: /tmp/preprocessed83w7wauc.c, line 147: Incompatible pointer type assignment
+     func_80034F54(globalCtx, &this->unk_20A, &this->unk_22A, 16);
+ -----------------------------^
+cfe: Warning 709: /tmp/preprocessed83w7wauc.c, line 147: Incompatible pointer type assignment
+     func_80034F54(globalCtx, &this->unk_20A, &this->unk_22A, 16);
+ ---------------------------------------------^
+cfe: Warning 709: /tmp/preprocessed83w7wauc.c, line 162: Incompatible pointer type assignment
+     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+ -----------------------------------------------------------^
+cfe: Warning 709: /tmp/preprocessed83w7wauc.c, line 167: Incompatible pointer type assignment
+     func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+ -----------------------------^
+cfe: Warning 709: /tmp/preprocessed83w7wauc.c, line 167: Incompatible pointer type assignment
+     func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+ -----------------------------------^
+cfe: Warning 709: /tmp/preprocessed83w7wauc.c, line 167: Incompatible pointer type assignment
+     func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+ ---------------------------------------------------------------------------------------^
+src/overlays/actors/ovl_Bg_Treemouth/z_bg_treemouth.c:28:43: warning: extra tokens at end of #include directive
+   28 | #include "z_bg_treemouth_cutscene_data.c" EARLY
+      |                                           ^~~~~
+src/overlays/actors/ovl_En_Mu/z_en_mu.c: In function ‘EnMu_Init’:
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:137:28: warning: passing argument 2 of ‘EnMu_SetupAction’ from incompatible pointer type [-Wincompatible-pointer-types]
+  137 |     EnMu_SetupAction(this, EnMu_Pose);
+      |                            ^~~~~~~~~
+      |                            |
+      |                            void (*)(Actor *, GlobalContext *) {aka void (*)(struct Actor *, struct GlobalContext *)}
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:52:50: note: expected ‘EnMuActionFunc’ {aka ‘void (*)(struct EnMu *, struct GlobalContext *)’} but argument is of type ‘void (*)(Actor *, GlobalContext *)’ {aka ‘void (*)(struct Actor *, struct GlobalContext *)’}
+   52 | void EnMu_SetupAction(EnMu* this, EnMuActionFunc actionFunc) {
+      |                                   ~~~~~~~~~~~~~~~^~~~~~~~~~
+src/overlays/actors/ovl_En_Mu/z_en_mu.c: In function ‘EnMu_Pose’:
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:147:30: warning: passing argument 2 of ‘func_80034F54’ from incompatible pointer type [-Wincompatible-pointer-types]
+  147 |     func_80034F54(globalCtx, &this->unk_20A, &this->unk_22A, 16);
+      |                              ^~~~~~~~~~~~~~
+      |                              |
+      |                              s16 (*)[16] {aka short int (*)[16]}
+In file included from include/global.h:4,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.h:5,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.c:1:
+include/functions.h:515:51: note: expected ‘s16 *’ {aka ‘short int *’} but argument is of type ‘s16 (*)[16]’ {aka ‘short int (*)[16]’}
+  515 | void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
+      |                                              ~~~~~^~~~
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:147:46: warning: passing argument 3 of ‘func_80034F54’ from incompatible pointer type [-Wincompatible-pointer-types]
+  147 |     func_80034F54(globalCtx, &this->unk_20A, &this->unk_22A, 16);
+      |                                              ^~~~~~~~~~~~~~
+      |                                              |
+      |                                              s16 (*)[17] {aka short int (*)[17]}
+In file included from include/global.h:4,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.h:5,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.c:1:
+include/functions.h:515:62: note: expected ‘s16 *’ {aka ‘short int *’} but argument is of type ‘s16 (*)[17]’ {aka ‘short int (*)[17]’}
+  515 | void func_80034F54(GlobalContext* globalCtx, s16* arg1, s16* arg2, s32 arg3);
+      |                                                         ~~~~~^~~~
+src/overlays/actors/ovl_En_Mu/z_en_mu.c: In function ‘EnMu_Update’:
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:162:60: warning: passing argument 3 of ‘CollisionCheck_SetOC’ from incompatible pointer type [-Wincompatible-pointer-types]
+  162 |     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider);
+      |                                                            ^~~~~~~~~~~~~~~
+      |                                                            |
+      |                                                            ColliderCylinder * {aka struct <anonymous> *}
+In file included from include/global.h:4,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.h:5,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.c:1:
+include/functions.h:845:96: note: expected ‘Collider *’ {aka ‘struct <anonymous> *’} but argument is of type ‘ColliderCylinder *’ {aka ‘struct <anonymous> *’}
+  845 | s32 CollisionCheck_SetOC(GlobalContext* globalCtx, CollisionCheckContext* colChkCtx, Collider* collider);
+      |                                                                                      ~~~~~~~~~~^~~~~~~~
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:167:30: warning: passing argument 2 of ‘func_800343CC’ from incompatible pointer type [-Wincompatible-pointer-types]
+  167 |     func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+      |                              ^~~~
+      |                              |
+      |                              EnMu * {aka struct EnMu *}
+In file included from include/global.h:4,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.h:5,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.c:1:
+include/functions.h:505:52: note: expected ‘Actor *’ {aka ‘struct Actor *’} but argument is of type ‘EnMu *’ {aka ‘struct EnMu *’}
+  505 | s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
+      |                                             ~~~~~~~^~~~~
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:167:36: warning: passing argument 3 of ‘func_800343CC’ from incompatible pointer type [-Wincompatible-pointer-types]
+  167 |     func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+      |                                    ^~~~~~~~~~~~~~~~~~
+      |                                    |
+      |                                    struct_80034A14_arg1 * {aka struct <anonymous> *}
+In file included from include/global.h:4,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.h:5,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.c:1:
+include/functions.h:505:64: note: expected ‘s16 *’ {aka ‘short int *’} but argument is of type ‘struct_80034A14_arg1 *’ {aka ‘struct <anonymous> *’}
+  505 | s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, u16 (*unkFunc1)(GlobalContext*, Actor*),
+      |                                                           ~~~~~^~~~
+src/overlays/actors/ovl_En_Mu/z_en_mu.c:167:88: warning: passing argument 6 of ‘func_800343CC’ from incompatible pointer type [-Wincompatible-pointer-types]
+  167 |     func_800343CC(globalCtx, this, &this->dialogState, talkDist, EnMu_GetFaceReaction, EnMu_CheckDialogState);
+      |                                                                                        ^~~~~~~~~~~~~~~~~~~~~
+      |                                                                                        |
+      |                                                                                        s32 (*)(GlobalContext *, EnMu *) {aka int (*)(struct GlobalContext *, struct EnMu *)}
+In file included from include/global.h:4,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.h:5,
+                 from src/overlays/actors/ovl_En_Mu/z_en_mu.c:1:
+include/functions.h:506:25: note: expected ‘s16 (*)(GlobalContext *, Actor *)’ {aka ‘short int (*)(struct GlobalContext *, struct Actor *)’} but argument is of type ‘s32 (*)(GlobalContext *, EnMu *)’ {aka ‘int (*)(struct GlobalContext *, struct EnMu *)’}
+  506 |                   s16 (*unkFunc2)(GlobalContext*, Actor*));
+      |                   ~~~~~~^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_En_Nb/z_en_nb.c:108:36: warning: extra tokens at end of #include directive
+  108 | #include "z_en_nb_cutscene_data.c" EARLY
+      |                                    ^~~~~
+make: [Makefile:229: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data4.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data5.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data2.o] Error 1 (ignored)
+src/overlays/actors/ovl_En_Zl1/z_en_zl1.c:27:37: warning: extra tokens at end of #include directive
+   27 | #include "z_en_zl1_cutscene_data.c" EARLY
+      |                                     ^~~~~
+make: [Makefile:229: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data3.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_Demo_Kankyo/z_demo_kankyo_cutscene_data1.o] Error 1 (ignored)
+src/overlays/actors/ovl_En_Fr/z_en_fr.c: In function ‘EnFr_SetReward’:
+src/overlays/actors/ovl_En_Fr/z_en_fr.c:942:20: warning: comparison is always true due to limited range of data type [-Wtype-limits]
+  942 |     if ((songIndex >= FROG_ZL) && (songIndex <= FROG_SOT)) {
+      |                    ^~
+src/overlays/actors/ovl_Demo_Du/z_demo_du.c:20:38: warning: extra tokens at end of #include directive
+   20 | #include "z_demo_du_cutscene_data.c" EARLY
+      |                                      ^~~~~
+make: [Makefile:229: build/src/overlays/actors/ovl_Demo_Du/z_demo_du_cutscene_data.o] Error 1 (ignored)
+src/overlays/actors/ovl_En_Jj/z_en_jj.c:47:36: warning: extra tokens at end of #include directive
+   47 | #include "z_en_jj_cutscene_data.c" EARLY
+      |                                    ^~~~~
+src/overlays/actors/ovl_En_Ru1/z_en_ru1.c:108:37: warning: extra tokens at end of #include directive
+  108 | #include "z_en_ru1_cutscene_data.c" EARLY
+      |                                     ^~~~~
+make: [Makefile:231: build/src/overlays/actors/ovl_kaleido_scope/z_lmap_mark.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_debug.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_item.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_equipment.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_collect.o] Error 1 (ignored)
+make: [Makefile:231: build/src/overlays/actors/ovl_kaleido_scope/z_kaleido_map_PAL.o] Error 1 (ignored)
+cfe: Warning 709: /tmp/preprocessedx9dwc07u.c, line 236: Incompatible pointer type assignment
+     gWaterTrialSageCs,
+ ----^
+cfe: Warning 709: /tmp/preprocessedx9dwc07u.c, line 237: Incompatible pointer type assignment
+     gLightTrialSageCs,
+ ----^
+cfe: Warning 709: /tmp/preprocessedx9dwc07u.c, line 238: Incompatible pointer type assignment
+     gFireTrialSageCs,
+ ----^
+cfe: Warning 709: /tmp/preprocessedx9dwc07u.c, line 239: Incompatible pointer type assignment
+     gShadowTrialSageCs,
+ ----^
+cfe: Warning 709: /tmp/preprocessedx9dwc07u.c, line 240: Incompatible pointer type assignment
+     gSpiritTrialSageCs,
+ ----^
+cfe: Warning 709: /tmp/preprocessedx9dwc07u.c, line 241: Incompatible pointer type assignment
+     gForestTrialSageCs,
+ ----^
+src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/z_bg_mori_rakkatenjo.c: In function ‘BgMoriRakkatenjo_Init’:
+src/overlays/actors/ovl_Bg_Mori_Rakkatenjo/z_bg_mori_rakkatenjo.c:66:37: warning: comparison is always true due to limited range of data type [-Wtype-limits]
+   66 |     if (this->dyna.actor.home.rot.y != 0x8000) {
+      |                                     ^~
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:236:5: warning: initialization of ‘CutsceneData *’ {aka ‘union CutsceneData *’} from incompatible pointer type ‘s32 *’ {aka ‘int *’} [-Wincompatible-pointer-types]
+  236 |     gWaterTrialSageCs,
+      |     ^~~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:236:5: note: (near initialization for ‘sSageCutscenes[1]’)
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:237:5: warning: initialization of ‘CutsceneData *’ {aka ‘union CutsceneData *’} from incompatible pointer type ‘s32 *’ {aka ‘int *’} [-Wincompatible-pointer-types]
+  237 |     gLightTrialSageCs,
+      |     ^~~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:237:5: note: (near initialization for ‘sSageCutscenes[2]’)
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:238:5: warning: initialization of ‘CutsceneData *’ {aka ‘union CutsceneData *’} from incompatible pointer type ‘s32 *’ {aka ‘int *’} [-Wincompatible-pointer-types]
+  238 |     gFireTrialSageCs,
+      |     ^~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:238:5: note: (near initialization for ‘sSageCutscenes[3]’)
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:239:5: warning: initialization of ‘CutsceneData *’ {aka ‘union CutsceneData *’} from incompatible pointer type ‘s32 *’ {aka ‘int *’} [-Wincompatible-pointer-types]
+  239 |     gShadowTrialSageCs,
+      |     ^~~~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:239:5: note: (near initialization for ‘sSageCutscenes[4]’)
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:240:5: warning: initialization of ‘CutsceneData *’ {aka ‘union CutsceneData *’} from incompatible pointer type ‘s32 *’ {aka ‘int *’} [-Wincompatible-pointer-types]
+  240 |     gSpiritTrialSageCs,
+      |     ^~~~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:240:5: note: (near initialization for ‘sSageCutscenes[5]’)
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:241:5: warning: initialization of ‘CutsceneData *’ {aka ‘union CutsceneData *’} from incompatible pointer type ‘s32 *’ {aka ‘int *’} [-Wincompatible-pointer-types]
+  241 |     gForestTrialSageCs,
+      |     ^~~~~~~~~~~~~~~~~~
+src/overlays/actors/ovl_Demo_Kekkai/z_demo_kekkai.c:241:5: note: (near initialization for ‘sSageCutscenes[6]’)
+cc: Warning: -mips3 should not be used for ucode 32-bit compiles
+cc: Warning: -mips3 should not be used for ucode 32-bit compiles
+src/overlays/actors/ovl_En_Ru2/z_en_ru2.c:66:37: warning: extra tokens at end of #include directive
+   66 | #include "z_en_ru2_cutscene_data.c" EARLY
+      |                                     ^~~~~
+src/code/fault.c: In function ‘Fault_PadCallback’:
+src/code/fault.c:274:5: warning: implicit declaration of function ‘PadMgr_RequestPadData’; did you mean ‘PadMgr_UnlockPadData’? [-Wimplicit-function-declaration]
+  274 |     PadMgr_RequestPadData(input, 0);
+      |     ^~~~~~~~~~~~~~~~~~~~~
+      |     PadMgr_UnlockPadData
+cfe: Warning 709: /tmp/preprocesseds14rvtaj.c, line 1032: Incompatible pointer type assignment
+                   &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+ ------------------^
+src/code/z_play.c: In function ‘Gameplay_Update’:
+src/code/z_play.c:1032:19: warning: passing argument 6 of ‘func_80070C24’ from incompatible pointer type [-Wincompatible-pointer-types]
+ 1032 |                   &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+      |                   ^~~~~~~~~~~~~~~~~~~~~~~
+      |                   |
+      |                   GameOverContext * {aka struct <anonymous> *}
+In file included from include/global.h:4,
+                 from src/code/z_play.c:1:
+include/functions.h:953:44: note: expected ‘u16 *’ {aka ‘short unsigned int *’} but argument is of type ‘GameOverContext *’ {aka ‘struct <anonymous> *’}
+  953 |                    MessageContext* msgCtx, u16*, GraphicsContext* gfxCtx);
+      |                                            ^~~~
+src/code/code_800F7260.c: In function ‘func_800F74E0’:
+src/code/code_800F7260.c:168:5: warning: statement with no effect [-Wunused-value]
+  168 |     for (i; i != D_801333A0; i++) {
+      |     ^~~
+src/code/code_800F7260.c: In function ‘func_800F7CEC’:
+src/code/code_800F7260.c:354:8: warning: variable ‘temp1’ set but not used [-Wunused-but-set-variable]
+  354 |     u8 temp1;
+      |        ^~~~~
+src/code/z_actor.c: In function ‘Actor_Spawn’:
+src/code/z_actor.c:2746:32: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+ 2746 |     if (overlayEntry->nbLoaded >= 255) {
+      |                                ^~
+src/code/z_actor.c: In function ‘Actor_SetColorFilter’:
+src/code/z_actor.c:3570:20: warning: comparison is always false due to limited range of data type [-Wtype-limits]
+ 3570 |     if ((colorFlag == 0x8000) && !(colorIntensityMax & 0x8000)) {
+      |                    ^~
+src/code/z_camera.c: In function ‘Camera_PrintSettings’:
+src/code/z_camera.c:7039:24: warning: operation on ‘phi_a1’ may be undefined [-Wsequence-point]
+ 7039 |             sp50[phi_a1++] = phi_a1 / 0xA + '0';
+      |                  ~~~~~~^~
+src/code/z_camera.c:7041:20: warning: operation on ‘phi_a1’ may be undefined [-Wsequence-point]
+ 7041 |         sp50[phi_a1++] = phi_a1 % 10 + '0';
+      |              ~~~~~~^~

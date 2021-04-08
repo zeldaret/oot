@@ -57,3 +57,7 @@ tools/*dSYM/
 
 # Per-user configuration
 .python-version
+
+# Generated warnings counters
+warnings_setup_new.txt
+warnings_build_new.txt
