@@ -777,8 +777,6 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
     s16 i;
     f32 originalYPosition;
     Vec3f sphereCenter;
-    s32 pad1;
-    s32 pad2;
 
     for (i = 0; i < CLEAR_TAG_EFFECT_MAX_COUNT; i++, effect++) {
         if (effect->type != CLEAR_TAG_EFFECT_AVAILABLE) {
@@ -815,10 +813,7 @@ void EnClearTag_UpdateEffects(GlobalContext* globalCtx) {
                             effect->timer = ((s16)Rand_ZeroFloat(20)) + 25;
                         } else {
                             // The Debris effect is done bounding. Set it's velocity and acceleration to 0.
-                            effect->velocity.y = 0.0f;
-                            effect->acceleration.y = 0.0f;
-                            effect->velocity.z = 0.0f;
-                            effect->velocity.x = 0.0f;
+                            effect->velocity.x = effect->velocity.z = effect->acceleration.y =  effect->velocity.y = 0.0f;
                         }
                     }
                 }
