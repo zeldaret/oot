@@ -343,8 +343,8 @@ void EnClearTag_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 f32 vectorToTargetZ;
                 s16 worldRotationTargetX;
                 s16 worldRotationTargetY;
-                s16 worldRotationTargetZ;
                 f32 loseTargetLockDistance;
+                s16 worldRotationTargetZ;
                 s32 pad;
 
                 // Check if the Arwing should crash.
