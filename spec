@@ -2509,11 +2509,7 @@ endseg
 beginseg
     name "ovl_En_Jsjutan"
     include "build/src/overlays/actors/ovl_En_Jsjutan/z_en_jsjutan.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Jsjutan/ovl_En_Jsjutan_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_jsjutan.reloc.o"
-#endif
 endseg
 
 beginseg
