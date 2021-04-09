@@ -667,8 +667,8 @@ void func_8002CDE4(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     titleCtx->durationTimer = titleCtx->delayTimer = titleCtx->intensity = titleCtx->alpha = 0;
 }
 
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
-                            s16 y, u8 width, u8 height) {
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x, s16 y, u8 width,
+                            u8 height) {
     titleCtx->texture = texture;
     titleCtx->x = x;
     titleCtx->y = y;
@@ -678,8 +678,8 @@ void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx
     titleCtx->delayTimer = 0;
 }
 
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
-                             s32 y, s32 width, s32 height, s32 delay) {
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x, s32 y,
+                             s32 width, s32 height, s32 delay) {
     Scene* loadedScene = globalCtx->loadedScene;
     u32 size = loadedScene->titleFile.vromEnd - loadedScene->titleFile.vromStart;
 
@@ -764,10 +764,10 @@ s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx) {
     if ((globalCtx->actorCtx.titleCtx.delayTimer != 0) || (globalCtx->actorCtx.titleCtx.alpha != 0)) {
         titleCtx->durationTimer = 0;
         titleCtx->delayTimer = 0;
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 void Actor_Kill(Actor* actor) {
@@ -849,6 +849,7 @@ void Actor_Destroy(Actor* actor, GlobalContext* globalCtx) {
 
 void func_8002D7EC(Actor* actor) {
     f32 speedRate = R_UPDATE_RATE * 0.5f;
+
     actor->world.pos.x += (actor->velocity.x * speedRate) + actor->colChkInfo.displacement.x;
     actor->world.pos.y += (actor->velocity.y * speedRate) + actor->colChkInfo.displacement.y;
     actor->world.pos.z += (actor->velocity.z * speedRate) + actor->colChkInfo.displacement.z;
@@ -871,6 +872,7 @@ void Actor_MoveForward(Actor* actor) {
 
 void func_8002D908(Actor* actor) {
     f32 sp24 = Math_CosS(actor->world.rot.x) * actor->speedXZ;
+
     actor->velocity.x = Math_SinS(actor->world.rot.y) * sp24;
     actor->velocity.y = Math_SinS(actor->world.rot.x) * actor->speedXZ;
     actor->velocity.z = Math_CosS(actor->world.rot.y) * sp24;
@@ -888,6 +890,7 @@ void func_8002D9A4(Actor* actor, f32 arg1) {
 
 void func_8002D9F8(Actor* actor, SkelAnime* skelAnime) {
     Vec3f sp1C;
+
     SkelAnime_UpdateTranslation(skelAnime, &sp1C, actor->shape.rot.y);
     actor->world.pos.x += sp1C.x * actor->scale.x;
     actor->world.pos.y += sp1C.y * actor->scale.y;
@@ -1001,9 +1004,8 @@ s32 func_8002DDF4(GlobalContext* globalCtx) {
 }
 
 void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
-    ArmsHook* hookshot;
+    ArmsHook* hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORCAT_ITEMACTION);
 
-    hookshot = (ArmsHook*)Actor_Find(&globalCtx->actorCtx, ACTOR_ARMS_HOOK, ACTORCAT_ITEMACTION);
     hookshot->grabbed = actorB;
     hookshot->grabbedDistDiff.x = 0.0f;
     hookshot->grabbedDistDiff.y = 0.0f;
@@ -1014,7 +1016,7 @@ void func_8002DE04(GlobalContext* globalCtx, Actor* actorA, Actor* actorB) {
 
 void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     if ((globalCtx->roomCtx.curRoom.unk_03 != 4) && func_800C0CB8(globalCtx)) {
-        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, 0), CAM_SET_HORSE0);
+        Camera_ChangeSetting(Gameplay_GetCamera(globalCtx, MAIN_CAM), CAM_SET_HORSE0);
     }
 }
 
@@ -1039,7 +1041,7 @@ s32 func_8002DF38(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
     player->unk_448 = actor;
     player->unk_46A = 0;
 
-    return 1;
+    return true;
 }
 
 s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
@@ -1048,7 +1050,7 @@ s32 func_8002DF54(GlobalContext* globalCtx, Actor* actor, u8 csMode) {
     func_8002DF38(globalCtx, actor, csMode);
     player->unk_46A = 1;
 
-    return 1;
+    return true;
 }
 
 void func_8002DF90(DynaPolyActor* dynaActor) {
@@ -1066,40 +1068,40 @@ s32 func_8002DFC8(Actor* actor, s16 arg1, GlobalContext* globalCtx) {
     s16 var = (s16)(actor->yawTowardsPlayer + 0x8000) - player->actor.shape.rot.y;
 
     if (ABS(var) < arg1) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E020(Actor* actorA, Actor* actorB, s16 arg2) {
     s16 var = (s16)(Actor_WorldYawTowardActor(actorA, actorB) + 0x8000) - actorB->shape.rot.y;
 
     if (ABS(var) < arg2) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E084(Actor* actor, s16 arg1) {
     s16 var = actor->yawTowardsPlayer - actor->shape.rot.y;
 
     if (ABS(var) < arg1) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E0D0(Actor* actorA, Actor* actorB, s16 arg2) {
     s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
     if (ABS(var) < arg2) {
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
@@ -1109,11 +1111,11 @@ s32 func_8002E12C(Actor* actor, f32 arg1, s16 arg2) {
         f32 xyzDistanceFromLink = sqrtf(SQ(actor->xzDistToPlayer) + SQ(actor->yDistToPlayer));
 
         if (xyzDistanceFromLink < arg1) {
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
@@ -1121,11 +1123,11 @@ s32 func_8002E1A8(Actor* actorA, Actor* actorB, f32 arg2, s16 arg3) {
         s16 var = Actor_WorldYawTowardActor(actorA, actorB) - actorA->shape.rot.y;
 
         if (ABS(var) < arg3) {
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
@@ -1137,10 +1139,10 @@ s32 func_8002E234(Actor* actor, f32 arg1, s32 arg2) {
             actor->velocity.y = 0.0f;
         }
 
-        return 0;
+        return false;
     }
 
-    return 1;
+    return true;
 }
 
 CollisionPoly* sCurCeilingPoly;
@@ -1199,7 +1201,7 @@ s32 func_8002E2AC(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, s32 arg3)
         return func_8002E234(actor, floorHeightDiff, arg3);
     }
 
-    return 1;
+    return true;
 }
 
 void Actor_UpdateBgCheckInfo(GlobalContext* globalCtx, Actor* actor, f32 arg2, f32 arg3, f32 arg4, s32 arg5) {
@@ -1410,19 +1412,15 @@ PosRot* Actor_GetWorldPosShapeRot(PosRot* arg0, Actor* actor) {
 }
 
 f32 func_8002EFC0(Actor* actor, Player* player, s16 arg2) {
-    s16 yawTemp;
-    s16 yawTempAbs;
-    f32 ret;
-
-    yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
-    yawTempAbs = ABS(yawTemp);
+    s16 yawTemp = (s16)(actor->yawTowardsPlayer - 0x8000) - arg2;
+    s16 yawTempAbs = ABS(yawTemp);
 
     if (player->unk_664 != NULL) {
         if ((yawTempAbs > 0x4000) || (actor->flags & 0x8000000)) {
             return FLT_MAX;
         } else {
-            ret = actor->xyzDistToPlayerSq -
-                  actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * 3.0517578125e-05f);
+            f32 ret =
+                actor->xyzDistToPlayerSq - actor->xyzDistToPlayerSq * 0.8f * ((0x4000 - yawTempAbs) * (1.0f / 0x8000));
             return ret;
         }
     }
@@ -1453,17 +1451,14 @@ u32 func_8002F090(Actor* actor, f32 arg1) {
 }
 
 s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
-    s16 var;
-    s16 abs_var;
-    f32 dist;
-
     if ((actor->update == NULL) || !(actor->flags & 1)) {
-        return 1;
+        return true;
     }
 
     if (!flag) {
-        var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
-        abs_var = ABS(var);
+        s16 var = (s16)(actor->yawTowardsPlayer - 0x8000) - player->actor.shape.rot.y;
+        s16 abs_var = ABS(var);
+        f32 dist;
 
         if ((player->unk_664 == NULL) && (abs_var > 0x2AAA)) {
             dist = FLT_MAX;
@@ -1474,16 +1469,16 @@ s32 func_8002F0C8(Actor* actor, Player* player, s32 flag) {
         return !func_8002F090(actor, D_80115FF8[actor->targetMode].leashScale * dist);
     }
 
-    return 0;
+    return false;
 }
 
 u32 func_8002F194(Actor* actor, GlobalContext* globalCtx) {
     if (actor->flags & 0x100) {
         actor->flags &= ~0x100;
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u32 exchangeItemId) {
@@ -1494,14 +1489,14 @@ s32 func_8002F1C4(Actor* actor, GlobalContext* globalCtx, f32 arg2, f32 arg3, u3
         (!actor->isTargeted &&
          ((arg3 < fabsf(actor->yDistToPlayer)) || (player->targetActorDistance < actor->xzDistToPlayer) ||
           (arg2 < actor->xzDistToPlayer)))) {
-        return 0;
+        return false;
     }
 
     player->targetActor = actor;
     player->targetActorDistance = actor->xzDistToPlayer;
     player->exchangeItemId = exchangeItemId;
 
-    return 1;
+    return true;
 }
 
 s32 func_8002F298(Actor* actor, GlobalContext* globalCtx, f32 arg2, u32 exchangeItemId) {
@@ -1514,14 +1509,15 @@ s32 func_8002F2CC(Actor* actor, GlobalContext* globalCtx, f32 arg2) {
 
 s32 func_8002F2F4(Actor* actor, GlobalContext* globalCtx) {
     f32 var1 = 50.0f + actor->colChkInfo.cylRadius;
+
     return func_8002F2CC(actor, globalCtx, var1);
 }
 
 u32 func_8002F334(Actor* actor, GlobalContext* globalCtx) {
     if (func_8010BDBC(&globalCtx->msgCtx) == 2) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -1550,27 +1546,26 @@ u32 Actor_HasParent(Actor* actor, GlobalContext* globalCtx) {
 
 s32 func_8002F434(Actor* actor, GlobalContext* globalCtx, s32 getItemId, f32 xzRange, f32 yRange) {
     Player* player = PLAYER;
-    s16 yawDiff;
-    s32 absYawDiff;
 
     if (!(player->stateFlags1 & 0x3C7080) && Player_GetExplosiveHeld(player) < 0) {
         if ((((player->heldActor != NULL) || (actor == player->targetActor)) && (getItemId > GI_NONE) &&
              (getItemId < GI_MAX)) ||
             (!(player->stateFlags1 & 0x20000800))) {
             if ((actor->xzDistToPlayer < xzRange) && (fabsf(actor->yDistToPlayer) < yRange)) {
-                yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
-                absYawDiff = ABS(yawDiff);
+                s16 yawDiff = actor->yawTowardsPlayer - player->actor.shape.rot.y;
+                s32 absYawDiff = ABS(yawDiff);
+
                 if ((getItemId != GI_NONE) || (player->getItemDirection < absYawDiff)) {
                     player->getItemId = getItemId;
                     player->interactRangeActor = actor;
                     player->getItemDirection = absYawDiff;
-                    return 1;
+                    return true;
                 }
             }
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_8002F554(Actor* actor, GlobalContext* globalCtx, s32 getItemId) {
@@ -1594,6 +1589,7 @@ void func_8002F5C4(Actor* actorA, Actor* actorB, GlobalContext* globalCtx) {
 
     if (parent->id == ACTOR_PLAYER) {
         Player* player = (Player*)parent;
+
         player->heldActor = actorB;
         player->interactRangeActor = actorB;
     }
@@ -1625,10 +1621,10 @@ u32 func_8002F63C(GlobalContext* globalCtx, Actor* horse, s32 arg2) {
     if (!(player->stateFlags1 & 0x003C7880)) {
         player->rideActor = horse;
         player->unk_43C = arg2;
-        return 1;
+        return true;
     }
 
-    return 0;
+    return false;
 }
 
 u32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor) {
@@ -2343,11 +2339,11 @@ s32 func_800314D4(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3)
         if ((((fabsf(arg2->x) - actor->uncullZoneScale) * var) < 1.0f) &&
             (((arg2->y + actor->uncullZoneDownward) * var) > -1.0f) &&
             (((arg2->y - actor->uncullZoneScale) * var) < 1.0f)) {
-            return 1;
+            return true;
         }
     }
 
-    return 0;
+    return false;
 }
 
 void func_800315AC(GlobalContext* globalCtx, ActorContext* actorCtx) {
@@ -3114,7 +3110,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
     s16 objBankIndex;
 
     if (arg1->unk_10 != -1) {
-        return 0;
+        return false;
     }
 
     while (arg1->unk_08 > 0) {
@@ -3147,7 +3143,7 @@ s32 func_8003305C(Actor* actor, struct_80032E24* arg1, GlobalContext* globalCtx,
     ZeldaArena_FreeDebug(arg1->unk_0C, "../z_actor.c", 7679);
     ZeldaArena_FreeDebug(arg1->unk_04, "../z_actor.c", 7680);
 
-    return 1;
+    return true;
 }
 
 void func_80033260(GlobalContext* globalCtx, Actor* actor, Vec3f* arg2, f32 arg3, s32 arg4, f32 arg5, s16 scale,
@@ -3394,9 +3390,9 @@ s32 func_80033A84(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && actor->isTargeted) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -3404,9 +3400,9 @@ s32 func_80033AB8(GlobalContext* globalCtx, Actor* actor) {
     Player* player = PLAYER;
 
     if ((player->stateFlags1 & 0x10) && !actor->isTargeted) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -3602,27 +3598,27 @@ s32 func_800343CC(GlobalContext* globalCtx, Actor* actor, s16* arg2, f32 arg3, c
 
     if (func_8002F194(actor, globalCtx)) {
         *arg2 = 1;
-        return 1;
+        return true;
     }
 
     if (*arg2 != 0) {
         *arg2 = unkFunc2(globalCtx, actor);
-        return 0;
+        return false;
     }
 
     func_8002F374(globalCtx, actor, &sp26, &sp24);
 
     if ((sp26 < 0) || (sp26 > SCREEN_WIDTH) || (sp24 < 0) || (sp24 > SCREEN_HEIGHT)) {
-        return 0;
+        return false;
     }
 
     if (!func_8002F2CC(actor, globalCtx, arg3)) {
-        return 0;
+        return false;
     }
 
     actor->textId = unkFunc1(globalCtx, actor);
 
-    return 0;
+    return false;
 }
 
 typedef struct {
@@ -3957,9 +3953,9 @@ s32 func_800354B4(GlobalContext* globalCtx, Actor* actor, f32 range, s16 arg3, s
     var2 = actor->yawTowardsPlayer - arg5;
 
     if ((actor->xzDistToPlayer <= range) && (player->swordState != 0) && (arg4 >= ABS(var1)) && (arg3 >= ABS(var2))) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -3997,9 +3993,9 @@ u8 func_800355E4(GlobalContext* globalCtx, Collider* collider) {
     Player* player = PLAYER;
 
     if ((collider->acFlags & AC_TYPE_PLAYER) && (player->swordState != 0) && (player->swordAnimation == 0x16)) {
-        return 1;
+        return true;
     } else {
-        return 0;
+        return false;
     }
 }
 
@@ -5367,7 +5363,7 @@ u16 func_80037C30(GlobalContext* globalCtx, s16 arg1) {
 
 s32 func_80037C5C(GlobalContext* globalCtx, s16 arg1, u16 textId) {
     func_80036E50(textId, arg1);
-    return 0;
+    return false;
 }
 
 s32 func_80037C94(GlobalContext* globalCtx, Actor* actor, s32 arg2) {
@@ -5376,19 +5372,19 @@ s32 func_80037C94(GlobalContext* globalCtx, Actor* actor, s32 arg2) {
 
 s32 func_80037CB8(GlobalContext* globalCtx, Actor* actor, s16 arg2) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
-    s32 ret = 0;
+    s32 ret = false;
 
     switch (func_8010BDBC(msgCtx)) {
         case 2:
             func_80037C5C(globalCtx, arg2, actor->textId);
-            ret = 1;
+            ret = true;
             break;
         case 4:
         case 5:
             if (func_80106BC8(globalCtx) && func_80037C94(globalCtx, actor, arg2)) {
                 Audio_PlaySoundGeneral(NA_SE_SY_CANCEL, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
                 msgCtx->msgMode = 0x36;
-                ret = 1;
+                ret = true;
             }
             break;
     }
@@ -5404,14 +5400,14 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
 
     if (func_8002F194(actor, globalCtx)) {
         *arg3 = 1;
-        return 1;
+        return true;
     }
 
     if (*arg3 == 1) {
         if (func_80037CB8(globalCtx, actor, arg2)) {
             *arg3 = 0;
         }
-        return 0;
+        return false;
     }
 
     func_8002F374(globalCtx, actor, &sp2C, &sp2A);
@@ -5419,21 +5415,21 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
     if (0) {} // Necessary to match
 
     if ((sp2C < 0) || (sp2C > SCREEN_WIDTH) || (sp2A < 0) || (sp2A > SCREEN_HEIGHT)) {
-        return 0;
+        return false;
     }
 
     var = actor->yawTowardsPlayer - actor->shape.rot.y;
     abs_var = ABS(var);
 
     if (abs_var >= 0x4300) {
-        return 0;
+        return false;
     }
 
-    if ((actor->xyzDistToPlayerSq > 25600.0f) && !actor->isTargeted) {
-        return 0;
+    if ((actor->xyzDistToPlayerSq > SQ(160.0f)) && !actor->isTargeted) {
+        return false;
     }
 
-    if (actor->xyzDistToPlayerSq <= 6400.0f) {
+    if (actor->xyzDistToPlayerSq <= SQ(80.0f)) {
         if (func_8002F2CC(actor, globalCtx, 80.0f)) {
             actor->textId = func_80037C30(globalCtx, arg2);
         }
@@ -5443,7 +5439,7 @@ s32 func_80037D98(GlobalContext* globalCtx, Actor* actor, s16 arg2, s32* arg3) {
         }
     }
 
-    return 0;
+    return false;
 }
 
 s32 func_80037F30(Vec3s* arg0, Vec3s* arg1) {
@@ -5451,7 +5447,7 @@ s32 func_80037F30(Vec3s* arg0, Vec3s* arg1) {
     Math_SmoothStepToS(&arg0->x, 0, 6, 6200, 100);
     Math_SmoothStepToS(&arg1->y, 0, 6, 6200, 100);
     Math_SmoothStepToS(&arg1->x, 0, 6, 6200, 100);
-    return 1;
+    return true;
 }
 
 s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
@@ -5469,13 +5465,13 @@ s32 func_80037FC8(Actor* actor, Vec3f* arg1, Vec3s* arg2, Vec3s* arg3) {
     arg2->y = (arg2->y < -8000) ? -8000 : ((arg2->y > 8000) ? 8000 : arg2->y);
 
     if (var && (ABS(arg2->y) < 8000)) {
-        return 0;
+        return false;
     }
 
     Math_SmoothStepToS(&arg3->y, sp34 - arg2->y, 4, 2000, 1);
     arg3->y = (arg3->y < -12000) ? -12000 : ((arg3->y > 12000) ? 12000 : arg3->y);
 
-    return 1;
+    return true;
 }
 
 s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, f32 arg4) {
@@ -5493,7 +5489,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
             func_80037F30(arg2, arg3);
-            return 0;
+            return false;
         }
     }
 
@@ -5505,7 +5501,7 @@ s32 func_80038154(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     func_80037FC8(actor, &sp2C, arg2, arg3);
 
-    return 1;
+    return true;
 }
 
 s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* arg3, Vec3f arg4) {
@@ -5522,7 +5518,7 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
         abs_var = ABS(var);
         if (abs_var >= 0x4300) {
             func_80037F30(arg2, arg3);
-            return 0;
+            return false;
         }
     }
 
@@ -5534,5 +5530,5 @@ s32 func_80038290(GlobalContext* globalCtx, Actor* actor, Vec3s* arg2, Vec3s* ar
 
     func_80037FC8(actor, &sp24, arg2, arg3);
 
-    return 1;
+    return true;
 }
