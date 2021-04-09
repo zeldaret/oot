@@ -116,19 +116,16 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-// #ifdef NON_MATCHING
+#ifdef NON_MATCHING
+// Regalloc, some stack, and compiler refuses to put zero in temp_s4; all seems to be related
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
-    // s32 pad;
     GlobalContext* globalCtx = globalCtx2;
     EnTp* this = THIS;
 
-    // EnTp* new_var;
-    EnTp* phi_s5;
-    EnTp* temp_v0_2;
-    s32 phi_s1;
+    EnTp* now;
+    EnTp* next;
+    s32 i;
     s32 temp_s4;
-    // s16 temp_s2;
-
 
     Actor_ProcessInitChain(&this->actor, D_80B22AE4);
     this->actor.targetMode = 3;
@@ -136,7 +133,7 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 0.14f);
     this->unk_150 = 0;
     this->actor.colChkInfo.health = 1;
-     phi_s5 = this;
+    now = this;
     this->unk_15E = 255;
     Collider_InitJntSph(globalCtx, &this->collider);
     Collider_SetJntSph(globalCtx, &this->collider, &this->actor, &D_80B22AB4, this->colliderItems);
@@ -144,53 +141,46 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.params < 0) {
         this->actor.naviEnemyId = 6;
         this->unk_15A = 0;
+        temp_s4 = 0;
         this->collider.base.acFlags |= 4;
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
-        // temp_v0 = this->collider.elements;
         func_80B21B90(this);
         this->actor.focus.pos = this->actor.world.pos;
         this->actor.flags |= 0x15;
         Actor_SetScale(&this->actor, 1.5f);
 
-        // phi_s5 = &this->actor;
-        //  phi_s5 = this;
-        // phi_s1 = 0;
-        for (phi_s1 = 0, temp_s4 = 0; phi_s1 <= 6; phi_s1++) {
-        
-
-            temp_v0_2 =
-            temp_s4 =
+        for (i = 0; i <= 6; i++) {
+            next =
             (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
 
-            if (temp_v0_2 != NULL) {
-                phi_s5->actor.child = &temp_v0_2->actor;
-                temp_v0_2->actor.parent = &phi_s5->actor;
-                temp_v0_2->unk_162 = phi_s1 + 1;
-                temp_v0_2->unk_1D4 = this;
-                Actor_SetScale(&temp_v0_2->actor, 0.3f);
+            if (next != NULL) {
+                now->actor.child = &next->actor;
+                next->actor.parent = &now->actor;
+                next->unk_162 = i + 1;
+                next->unk_1D4 = this;
+                Actor_SetScale(&next->actor, 0.3f);
 
-                if (phi_s1 == 2) {
-                    temp_v0_2->actor.flags |= 0x15;
-                    temp_v0_2->unk_150 = 1;
+                if (i == 2) {
+                    next->actor.flags |= 0x15;
+                    next->unk_150 = 1;
                 }
 
 
-                temp_v0_2->unk_15A = temp_v0_2->unk_15C  = phi_s1 * -5;
-                temp_v0_2->unk_16C = 6.0f - (phi_s1 * 0.75f);
-                phi_s5 = temp_s4;
+                next->unk_15A = next->unk_15C  = i * -5;
+                next->unk_16C = 6.0f - (i * 0.75f);
+                now = next;
             }
         }
     } else if (this->actor.params == 0) {
         func_80B21084(this);
-        // return;
     } else {
         func_80B217FC(this);
     }
 }
-// #else
-// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-// #endif
+#else
+#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+#endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Destroy.s")
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -316,6 +306,7 @@ void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
             effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
             EffectSsDeadDb_Spawn(globalCtx, &effectPos, &effectVelAccel, &effectVelAccel, 100, 0, 255, 255, 255, 255, 0,
                                  0, 255, 1, 9, 1);
+
             effectPos.x = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.x;
             effectPos.z = ((Rand_ZeroOne() - 0.5f) * 15.0f) + this->actor.world.pos.z;
             effectPos.y = ((Rand_ZeroOne() - 0.5f) * 5.0f) + this->actor.world.pos.y;
@@ -323,7 +314,7 @@ void func_80B214CC(EnTp* this, GlobalContext* globalCtx) {
                                  0, 255, 1, 9, 1);
             Item_DropCollectibleRandom(globalCtx, &this->actor, &this->actor.world.pos, 0x50);
         } else {
-            for (phi_s1 = 0; phi_s1 <= 0; phi_s1++) {
+            for (phi_s1 = 0; phi_s1 < 1; phi_s1++) {
                 temp_v0 = (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                              this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, 0xA);
 
