@@ -173,7 +173,7 @@ void func_80A58DD4(EnHoll* this, GlobalContext* globalCtx) {
 #ifdef NON_MATCHING
 // a/v regalloc near the end. Also ugly float thing in the conditional that seems needed to match.
 void func_80A59014(EnHoll* this, GlobalContext* globalCtx) {
-    GlobalContext* pad;
+    s32 pad;
     s32 pad1;
     Vec3f vec;
     TransitionActorEntry* transitionEntry;
