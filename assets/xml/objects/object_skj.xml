@@ -1,6 +1,6 @@
 <Root>
     <File Name="object_skj" Segment="6">
-        <DList Name="gSKJeedleDList" Offset="0x0EB0"/>
+        <DList Name="gSKJNeedleDL" Offset="0x0EB0"/>
         <DList Name="gSKJskullMaskDL" Offset="0x14C8"/>
 
         <Limb Name="gSkullKidUnkLimb_5E20" LimbType="Standard" Offset="0x5E20"/>

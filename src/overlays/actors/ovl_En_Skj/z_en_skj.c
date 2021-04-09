@@ -941,7 +941,6 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         if (gSaveContext.itemGetInf[1] & 0x40) {
             if (gSaveContext.itemGetInf[3] & 0x200) {
                 this->textId = Text_GetFaceReaction(globalCtx, 0x15);
-                ;
                 if (this->textId == 0) {
                     this->textId = 0x1020;
                 }
@@ -1614,11 +1613,11 @@ void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCt
     this->actor.xzDistToPlayer = 50.0;
 }
 
-s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** DL, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     return 0;
 }
 
-void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** DL, Vec3s* rot, void* thisx) {
+void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2417);
 
     if ((limbIndex == 11) && (gSaveContext.itemGetInf[3] & 0x200)) {

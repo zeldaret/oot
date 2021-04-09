@@ -107,7 +107,7 @@ void EnSkjneedle_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 205),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, gSKJeedleDList);
+    gSPDisplayList(POLY_OPA_DISP++, gSKJNeedleDL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj_needle.c", 210);
 }
