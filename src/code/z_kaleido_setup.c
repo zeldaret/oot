@@ -61,10 +61,9 @@ void KaleidoSetup_Update(GlobalContext* globalCtx) {
     }
 }
 
-#ifdef NON_MATCHING
-// regalloc differences
 void KaleidoSetup_Init(GlobalContext* globalCtx) {
     PauseContext* pauseCtx = &globalCtx->pauseCtx;
+    u64 temp = 0; // Necessary to match
 
     pauseCtx->state = 0;
     pauseCtx->flag = 0;
@@ -90,8 +89,8 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
     pauseCtx->unk_22C[0] = 0;
     pauseCtx->unk_222[1] = 0;
     pauseCtx->unk_22C[1] = 0;
-    pauseCtx->unk_222[2] = 0;
-    pauseCtx->unk_22C[2] = 0;
+    pauseCtx->unk_222[2] = temp;
+    pauseCtx->unk_22C[2] = temp;
     pauseCtx->unk_222[3] = 1;
     pauseCtx->unk_22C[3] = 0;
     pauseCtx->unk_23E[0] = 999;
@@ -111,9 +110,6 @@ void KaleidoSetup_Init(GlobalContext* globalCtx) {
 
     View_Init(&pauseCtx->view, globalCtx->state.gfxCtx);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_kaleido_setup/KaleidoSetup_Init.s")
-#endif
 
 void KaleidoSetup_Destroy(GlobalContext* globalCtx) {
 }
