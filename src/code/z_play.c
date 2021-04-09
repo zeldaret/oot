@@ -228,7 +228,7 @@ void Gameplay_Init(GameState* thisx) {
     func_8005AC48(&globalCtx->mainCamera, 0xFF);
     Sram_Init(globalCtx, &globalCtx->sramCtx);
     func_80112098(globalCtx);
-    func_80110F68(globalCtx);
+    Message_Init(globalCtx);
     GameOver_Init(globalCtx);
     func_8006BA00(globalCtx);
     Effect_InitContext(globalCtx);

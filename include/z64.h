@@ -309,12 +309,76 @@ typedef struct {
     /* 0x02 */ u8 pos;      // "locate"
 } OcarinaStaff;
 
+typedef struct {
+    u8 len;
+    u8 notesIdx[8];
+} OcarinaSongInfo;
+
 #define LANGUAGE_ENG 0
 #define LANGUAGE_GER 1
 #define LANGUAGE_FRA 2
 #define LANGUAGE_MAX LANGUAGE_FRA
 
 #define FONT_CHAR_TEX_SIZE 128 // 16x16 I4 texture
+
+typedef enum {
+    /* 0x00 */ MSGMODE_UNK_00,
+    /* 0x01 */ MSGMODE_UNK_01,
+    /* 0x02 */ MSGMODE_UNK_02,
+    /* 0x03 */ MSGMODE_UNK_03,
+    /* 0x04 */ MSGMODE_UNK_04,
+    /* 0x05 */ MSGMODE_UNK_05,
+    /* 0x06 */ MSGMODE_UNK_06,
+    /* 0x07 */ MSGMODE_UNK_07,
+    /* 0x08 */ MSGMODE_UNK_08,
+    /* 0x09 */ MSGMODE_UNK_09,
+    /* 0x0A */ MSGMODE_UNK_0A,
+    /* 0x0B */ MSGMODE_UNK_0B,
+    /* 0x0C */ MSGMODE_UNK_0C,
+    /* 0x0D */ MSGMODE_UNK_0D,
+    /* 0x0E */ MSGMODE_UNK_0E,
+    /* 0x0F */ MSGMODE_UNK_0F,
+    /* 0x10 */ MSGMODE_UNK_10,
+    /* 0x11 */ MSGMODE_UNK_11,
+    /* 0x12 */ MSGMODE_UNK_12,
+    /* 0x13 */ MSGMODE_UNK_13,
+    /* 0x14 */ MSGMODE_UNK_14,
+    /* 0x15 */ MSGMODE_UNK_15,
+    /* 0x16 */ MSGMODE_UNK_16,
+    /* 0x17 */ MSGMODE_UNK_17,
+    /* 0x18 */ MSGMODE_UNK_18,
+    /* 0x19 */ MSGMODE_UNK_19,
+    /* 0x1A */ MSGMODE_UNK_1A,
+    /* 0x1B */ MSGMODE_UNK_1B,
+    /* 0x1C */ MSGMODE_UNK_1C,
+    /* 0x1D */ MSGMODE_UNK_1D,
+    /* 0x1E */ MSGMODE_UNK_1E,
+    /* 0x1F */ MSGMODE_UNK_1F,
+    /* 0x20 */ MSGMODE_UNK_20,
+    /* 0x21 */ MSGMODE_UNK_21,
+    /* 0x22 */ MSGMODE_UNK_22,
+    /* 0x23 */ MSGMODE_UNK_23,
+    /* 0x24 */ MSGMODE_UNK_24,
+    /* 0x25 */ MSGMODE_UNK_25,
+    /* 0x26 */ MSGMODE_UNK_26,
+    /* 0x27 */ MSGMODE_UNK_27,
+    /* 0x28 */ MSGMODE_UNK_28,
+    /* 0x29 */ MSGMODE_UNK_29,
+    /* 0x2A */ MSGMODE_UNK_2A,
+    /* 0x2B */ MSGMODE_UNK_2B,
+    /* 0x2C */ MSGMODE_UNK_2C,
+    /* 0x2D */ MSGMODE_UNK_2D,
+    /* 0x2E */ MSGMODE_UNK_2E,
+    /* 0x2F */ MSGMODE_UNK_2F,
+    /* 0x30 */ MSGMODE_UNK_30,
+    /* 0x31 */ MSGMODE_UNK_31,
+    /* 0x32 */ MSGMODE_UNK_32,
+    /* 0x33 */ MSGMODE_UNK_33,
+    /* 0x34 */ MSGMODE_UNK_34,
+    /* 0x35 */ MSGMODE_UNK_35,
+    /* 0x36 */ MSGMODE_UNK_36,
+    /* 0x37 */ MSGMODE_UNK_37
+} MessageMode;
 
 typedef struct {
     /* 0x0000 */ u32    msgOffset;
@@ -365,8 +429,8 @@ typedef struct {
     /* 0xE306 */ u8     unk_E306[200]; // decoded message buffer, TODO size
     /* 0xE3CE */ u16    unk_E3CE; // original name : rdp
     /* 0xE3D0 */ u16    unk_E3D0;
-    /* 0xE3D2 */ u16    unk_E3D2;
-    /* 0xE3D4 */ u16    unk_E3D4;
+    /* 0xE3D2 */ u16    unk_E3D2; // decoded buffer length?
+    /* 0xE3D4 */ u16    unk_E3D4; // or is this one the decoded buffer length?
     /* 0xE3D6 */ u16    unk_E3D6;
     /* 0xE3D8 */ s16    unk_E3D8;
     /* 0xE3DA */ s16    unk_E3DA;

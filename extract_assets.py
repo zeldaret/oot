@@ -37,6 +37,13 @@ def main():
             asset_path = asset_path[0:-1]
         Extract(f"assets/xml/{asset_path}.xml", f"assets/{asset_path}/")
     else:
+        print("Extracting text")
+        ### TODO have ZAPD extract
+        from tools import msgdis
+
+        msgdis.extract_all_text("assets/text/declare_messages.h", "assets/text/declare_messages_staff.h")
+        ###
+
         xmlFiles = []
         for currentPath, folders, files in os.walk("assets"):
                 for file in files:

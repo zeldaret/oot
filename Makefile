@@ -103,11 +103,8 @@ ASSET_FILES_BIN := $(foreach dir,$(ASSET_BIN_DIRS),$(wildcard $(dir)/*.bin))
 ASSET_FILES_OUT := $(foreach f,$(ASSET_FILES_XML:.xml=.c),$f) \
 				   $(foreach f,$(ASSET_FILES_BIN:.bin=.bin.inc.c),build/$f)
 
-TEXTURE_DIRS := assets/textures assets/scenes assets/objects assets/overlays
-TEXT_DIRS := text
-
 # source files
-C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS) $(TEXT_DIRS),$(wildcard $(dir)/*.c))
+C_FILES       := $(foreach dir,$(SRC_DIRS) $(ASSET_BIN_DIRS),$(wildcard $(dir)/*.c))
 S_FILES       := $(foreach dir,$(ASM_DIRS),$(wildcard $(dir)/*.s))
 O_FILES       := $(foreach f,$(S_FILES:.s=.o),build/$f) \
                  $(foreach f,$(C_FILES:.c=.o),build/$f) \
@@ -135,11 +132,7 @@ TEXTURE_FILES_OUT := $(foreach f,$(TEXTURE_FILES_RGBA32:.rgba32.png=.rgba32.inc.
 					 $(foreach f,$(TEXTURE_FILES_JPG:.jpg=.jpg.inc.c),build/$f) \
 
 # create build directories
-$(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS) $(TEXT_DIRS),build/$(dir)))
-
-# encode text headers at the start of the build
-$(shell	python3 tools/msgenc.py text/declare_messages.h text/declare_messages.enc.h)
-$(shell python3 tools/msgenc.py text/declare_messages_staff.h text/declare_messages_staff.enc.h)
+$(shell mkdir -p build/baserom $(foreach dir,$(SRC_DIRS) $(ASM_DIRS) $(ASSET_BIN_DIRS),build/$(dir)))
 
 build/src/libultra_boot_O1/%.o: OPTFLAGS := -O1
 build/src/libultra_boot_O2/%.o: OPTFLAGS := -O2
@@ -226,12 +219,13 @@ build/asm/%.o: asm/%.s
 build/data/%.o: data/%.s
 	iconv --from UTF-8 --to EUC-JP $^ | $(AS) $(ASFLAGS) -o $@
 
-build/text/%.o: text/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
-	$(OBJCOPY) -O binary $@ $@.bin
+# TODO have ZAPD encode these
+# Note: The Makefile considers the encoded text headers secondary and automatically removes them after the build, do we want this?
+build/assets/text/%.enc.h: assets/text/%.h
+	python3 tools/msgenc.py assets/text/charmap.txt $^ $@
 
-build/assets/%.o: assets/%.c
-	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $^
+build/assets/%.o: assets/%.c build/assets/text/declare_messages.enc.h build/assets/text/declare_messages_staff.enc.h
+	$(CC) -c $(CFLAGS) $(MIPS_VERSION) $(OPTFLAGS) -o $@ $<
 	$(OBJCOPY) -O binary $@ $@.bin
 
 build/src/overlays/%.o: src/overlays/%.c

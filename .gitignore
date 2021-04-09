@@ -13,8 +13,6 @@ venv/
 
 # Project-specific ignores
 build/
-text/declare_messages.enc.h
-text/declare_messages_staff.enc.h
 expected/
 notes/
 baserom/

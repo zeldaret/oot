@@ -5,4 +5,4 @@
 #define DECLARE_MESSAGE(textId, type, yPos, nesMessage, gerMessage, fraMessage) \
     const char _message_##textId##_fra[sizeof(fraMessage)] = { fraMessage END };
 
-#include "declare_messages.enc.h"
+#include "assets/text/declare_messages.enc.h"

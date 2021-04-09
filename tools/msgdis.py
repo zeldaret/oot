@@ -372,7 +372,6 @@ def dump_all_text():
     return messages
 
 def dump_staff_text():
-    #message_data_static_size = 0x00973F44 - 0x00973000 # TODO remove
     staff_message_data_static_size = path.getsize("baserom/staff_message_data_static")
     # text id, ypos, type, staff
     messages = []
@@ -380,6 +379,7 @@ def dump_staff_text():
         if entry[0] != 0xFFFF:
             next_entry = staff_message_entry_table[i+1]
             staff_offset = segmented_to_physical(entry[3])
+            # hacky way to ensure the staff message entry table is read all the way to the end
             staff_length = (staff_message_data_static_size if entry[0] == 0x052F else segmented_to_physical(next_entry[3])) - segmented_to_physical(entry[3])
             with open("baserom/staff_message_data_static","rb") as infile:
                 infile.seek(staff_offset)
@@ -388,33 +388,36 @@ def dump_staff_text():
             messages.append((entry[0], entry[1], entry[2], "///END///"))
     return messages
 
-    # hacky way to ensure the staff message entry table is read all the way to the end
+def extract_all_text(text_out, staff_text_out):
+    read_tables()
 
-read_tables()
-#print(combined_message_entry_table)
-#print(staff_message_entry_table)
+    out = ""
+    for message in dump_all_text():
+        if message[0] == 0xFFFF:
+            continue
 
-for message in dump_all_text():
-    if message[3] == "///END///":
-        print(f"DECLARE_MESSAGE_END()")
-    else:
-        out = ""
         if message[0] == 0xFFFC:
-            out = "#ifdef DECLARE_MESSAGE_FFFC\n"
-        out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\
-\n{message[3]}\n,\
-\n{message[4]}\n,\
-\n{message[5]}\n\
-)"
+            out += "#ifdef DECLARE_MESSAGE_FFFC\n"
+        out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},"
+        out += "\n"
+        out += f"{message[3]}" + ("\n" if message[3] != "" else "") + ","
+        out += "\n" if message[3] != "" else ""
+        out += f"{message[4]}" + ("\n" if message[4] != "" else "") + ","
+        out += "\n" if message[4] != "" else ""
+        out += f"{message[5]}\n)"
         if message[0] == 0xFFFC:
             out += "\n#endif"
-        out += "\n"
-        print(out)
+        out += "\n\n"
 
-"""
-for message in dump_staff_text():
-    if message[3] == "///END///":
-        print(f"DECLARE_MESSAGE_END()\n")
-    else:
-        print(f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\n{message[3]})\n\n")
-"""
+    with open(text_out, "w") as outfile:
+        outfile.write(out.strip() + "\n")
+
+    out = ""
+    for message in dump_staff_text():
+        if message[0] == 0xFFFF:
+            continue
+
+        out += f"DECLARE_MESSAGE(0x{message[0]:04X}, {textbox_type[message[1]]}, {textbox_ypos[message[2]]},\n{message[3]}\n)\n\n"
+
+    with open(staff_text_out, "w") as outfile:
+        outfile.write(out.strip() + "\n")

@@ -499,7 +499,7 @@ extern u8* gScarecrowCustomSongPtr;
 extern u8* gScarecrowSpawnSongPtr;
 //extern ? D_80131BEC;
 //extern ? D_80131BF0;
-//extern ? D_80131C00;
+extern OcarinaSongInfo D_80131C00[];
 //extern ? D_80131C80;
 //extern ? D_80131C84;
 //extern ? D_80131C88;

@@ -173,11 +173,11 @@ void func_801109B0(GlobalContext* globalCtx) {
     R_A_BTN_COLOR(2) = 50;
 }
 
-void func_80110F68(GlobalContext* globalCtx) {
+void Message_Init(GlobalContext* globalCtx) {
     MessageContext* msgCtx = &globalCtx->msgCtx;
     s32 pad;
 
-    func_8011040C();
+    Message_SetTables();
 
     globalCtx->msgCtx.unk_E3EE = 0;
 

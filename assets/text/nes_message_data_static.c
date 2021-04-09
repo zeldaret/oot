@@ -7,6 +7,6 @@
 
 #define DECLARE_MESSAGE_FFFC
 
-#include "declare_messages.enc.h"
+#include "assets/text/declare_messages.enc.h"
 
 #undef DECLARE_MESSAGE_FFFC
