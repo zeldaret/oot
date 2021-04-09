@@ -1104,45 +1104,45 @@ s32 func_80AC47DC(GlobalContext* globalCtx, EnOssan* this, Input* input) {
 
     if (func_80106BC8(globalCtx) != 0) {
 
-        if (sp24->actor.params != 38 && sp24->unk_1A8 == 0) {
+        if (sp24->actor.params != SI_SOLD_OUT && sp24->isInvisible == 0) {
             this->unk_1FE = this->unk_1FC;
-            func_8010B720(globalCtx, this->items[this->unk_252]->unk_1A0);
+            func_8010B720(globalCtx, this->items[this->unk_252]->itemBuyPromptTextId);
             this->unk_254.isEnabled = false;
             this->unk_28C.isEnabled = false;
             switch (sp24->actor.params) {
-                case 30:
-                case 31:
-                case 32:
-                case 33:
-                case 34:
-                case 35:
-                case 36:
-                case 37:
+                case SI_KEATON_MASK:
+                case SI_SPOOKY_MASK:
+                case SI_SKULL_MASK:
+                case SI_BUNNY_HOOD:
+                case SI_MASK_OF_TRUTH:
+                case SI_ZORA_MASK:
+                case SI_GORON_MASK:
+                case SI_GERUDO_MASK:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0x18;
                     return true;
-                case 17:
+                case SI_MILK_BOTTLE:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xA;
                     return true;
-                case 18:
+                case SI_WEIRD_EGG:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xB;
                     return true;
-                case 19:
-                case 20:
+                case SI_19:
+                case SI_20:
                     func_80078884(NA_SE_SY_ERROR);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xC;
                     return true;
-                case 3:
-                case 6:
-                case 45:
-                case 46:
-                case 47:
+                case SI_BOMBS_5_R25:
+                case SI_BOMBS_10:
+                case SI_BOMBS_20:
+                case SI_BOMBS_30:
+                case SI_BOMBS_5_R35:
                     func_80078884(NA_SE_SY_DECIDE);
                     this->unk_251 = 0;
                     this->unk_1FC = 0xD;
@@ -1309,7 +1309,7 @@ void func_80AC4EC8(GlobalContext* globalCtx, EnOssan* this) {
     Player* player = PLAYER;
 
     osSyncPrintf("\n\x1b[33m初めて手にいれた！！\x1b[m\n\n");
-    func_8002F434(&this->actor, globalCtx, this->items[this->unk_252]->unk_1A4, 120.0f, 120.0f);
+    func_8002F434(&this->actor, globalCtx, this->items[this->unk_252]->getItemId, 120.0f, 120.0f);
     globalCtx->msgCtx.msgMode = 0x36;
     globalCtx->msgCtx.unk_E3E7 = 4;
     player->stateFlags2 &= ~0x20000000;
@@ -1335,9 +1335,9 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* sp24;
 
     sp24 = this->items[this->unk_252];
-    switch (sp24->unk_1BC(globalCtx, sp24)) {
+    switch (sp24->canBuyFunc(globalCtx, sp24)) {
         case 0:
-            if (sp24->actor.params == 0xC && gSaveContext.infTable[7] & 0x40) {
+            if (sp24->actor.params == SI_HYLIAN_SHIELD && gSaveContext.infTable[7] & 0x40) {
                 func_80AC62C4(globalCtx, this);
                 break;
             } else {
@@ -1348,7 +1348,7 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
                 return;
             }
         case 1:
-            sp24->unk_1C0(globalCtx, sp24);
+            sp24->itemGiveFunc(globalCtx, sp24);
             func_80AC4FE0(globalCtx, this, 0x84);
             this->unk_251 = 0;
             this->unk_2D0 = 0.0f;
@@ -1376,14 +1376,14 @@ void func_80AC5014(GlobalContext* globalCtx, EnOssan* this) {
 // Lon Lon Milk
 void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
-    switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
+    switch (temp_s0->canBuyFunc(globalCtx, temp_s0)) {
         case 0:
             func_8010B720(globalCtx, 0x9C);
             this->unk_1FC = 0x12;
             this->unk_251 = 0;
             return;
         case 1:
-            temp_s0->unk_1C0(globalCtx, temp_s0);
+            temp_s0->itemGiveFunc(globalCtx, temp_s0);
             func_80AC4FE0(globalCtx, this, 0x98);
             this->unk_251 = 0;
             this->unk_2D0 = 0.0f;
@@ -1401,7 +1401,7 @@ void func_80AC51B8(GlobalContext* globalCtx, EnOssan* this) {
 void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
 
-    switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
+    switch (temp_s0->canBuyFunc(globalCtx, temp_s0)) {
         case 0:
             func_80AC4EC8(globalCtx, this);
             this->unk_251 = 0;
@@ -1409,7 +1409,7 @@ void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
             temp_s0->unk_1AC(globalCtx, temp_s0);
             return;
         case 1:
-            temp_s0->unk_1C0(globalCtx, temp_s0);
+            temp_s0->itemGiveFunc(globalCtx, temp_s0);
             func_80AC4FE0(globalCtx, this, 0x9A);
             this->unk_251 = 0;
             this->unk_2D0 = 0.0f;
@@ -1428,10 +1428,10 @@ void func_80AC52C0(GlobalContext* globalCtx, EnOssan* this) {
 void func_80AC53F4(GlobalContext* globalCtx, EnOssan* this) {
     EnGirlA* temp_s0 = this->items[this->unk_252];
 
-    switch (temp_s0->unk_1BC(globalCtx, temp_s0)) {
+    switch (temp_s0->canBuyFunc(globalCtx, temp_s0)) {
         case 0:
         case 1:
-            temp_s0->unk_1C0(globalCtx, temp_s0);
+            temp_s0->itemGiveFunc(globalCtx, temp_s0);
             func_80AC4FE0(globalCtx, this, 0x84);
             this->unk_251 = 0;
             this->unk_2D0 = 0.0f;
@@ -1582,22 +1582,22 @@ void func_80AC5A28(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         switch (globalCtx->msgCtx.choiceIndex) {
             case 0:
                 switch (sp20->actor.params) {
-                    case 0x1E:
+                    case SI_KEATON_MASK:
                         gSaveContext.itemGetInf[2] |= 0x08;
                         break;
-                    case 0x1F:
+                    case SI_SPOOKY_MASK:
                         gSaveContext.itemGetInf[2] |= 0x20;
                         break;
-                    case 0x20:
+                    case SI_SKULL_MASK:
                         gSaveContext.itemGetInf[2] |= 0x10;
                         break;
-                    case 0x21:
+                    case SI_BUNNY_HOOD:
                         gSaveContext.itemGetInf[2] |= 0x40;
                         break;
-                    case 0x22:
-                    case 0x23:
-                    case 0x24:
-                    case 0x25:
+                    case SI_MASK_OF_TRUTH:
+                    case SI_ZORA_MASK:
+                    case SI_GORON_MASK:
+                    case SI_GERUDO_MASK:
                         break;
                 }
                 func_80AC4EC8(globalCtx, this);
@@ -1641,7 +1641,7 @@ void func_80AC5D40(EnOssan* this, GlobalContext* globalCtx, Player* player) {
         this->unk_1FC = 0x10;
         return;
     }
-    func_8002F434(&this->actor, globalCtx, this->items[this->unk_252]->unk_1A4, 120.0f, 120.0f);
+    func_8002F434(&this->actor, globalCtx, this->items[this->unk_252]->getItemId, 120.0f, 120.0f);
 }
 
 void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
@@ -1654,7 +1654,7 @@ void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             func_80AC646C(this);
             temp_a1 = this->items[this->unk_252];
             temp_a1->unk_1B0(globalCtx, temp_a1);
-            if (sp20->actor.params == 0x22 && !(gSaveContext.itemGetInf[3] & 0x8000)) {
+            if (sp20->actor.params == SI_MASK_OF_TRUTH && !(gSaveContext.itemGetInf[3] & 0x8000)) {
                 gSaveContext.itemGetInf[3] |= 0x8000;
                 func_8010B720(globalCtx, 0x70AB);
                 this->unk_1EB = 4;
@@ -1667,7 +1667,7 @@ void func_80AC5DAC(EnOssan* this, GlobalContext* globalCtx, Player* player) {
             }
         }
         temp_a1 = this->items[this->unk_252];
-        temp_a1->unk_1C4(globalCtx, temp_a1);
+        temp_a1->buyEventFunc(globalCtx, temp_a1);
         this->unk_1FC = 0x11;
         func_8010B720(globalCtx, 0x6B);
     }
@@ -1828,12 +1828,12 @@ void func_80AC65B8(EnOssan* this) {
         if (temp_a1[0] != NULL) {
             if (this->unk_1FC != 9 && this->unk_1FC != 0xA && this->unk_1FC != 0xB && this->unk_1FC != 0xC &&
                 this->unk_1FC != 0xD && this->unk_1FC != 0x18 && this->unk_1FC != 0xE && this->unk_251 == 0) {
-                temp_a1[0]->unk_1B4 = 0;
+                temp_a1[0]->isSelected = false;
             } else {
                 if (this->unk_252 == i) {
-                    temp_a1[0]->unk_1B4 = 1;
+                    temp_a1[0]->isSelected = true;
                 } else {
-                    temp_a1[0]->unk_1B4 = 0;
+                    temp_a1[0]->isSelected = false;
                 }
             }
         }
