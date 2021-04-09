@@ -18,11 +18,6 @@ typedef struct EnSkj {
     /* 0x02C4 */ u16 textId;
     /* 0x02C6 */ s16 timer;
     /* 0x02C8 */ s16 unk_2C8;
-    /*
-     * Sarias song skull kid as child always incriments
-     * Hostile skull kid as adult leaves the fight when it reaches zero
-     * Ocarina game fails the game when reaching zero
-     */
     /* 0x02CA */ s16 multiuseTimer;
     /* 0x02CC */ s16 needleShootTimer;
     /* 0x02CE */ s16 dodgeResetTimer;
@@ -33,7 +28,7 @@ typedef struct EnSkj {
     /* 0x02D4 */ u8 needlesToShoot;
     /* 0x02D5 */ u8 hitsUntilDodge; // Upon reaching zero will always backflip to avoid stun lock
     /* 0x02D6 */ u8 unk_2D6;
-    /* 0x02D0 */ u8 playerInRange;
+    /* 0x02D7 */ u8 playerInRange;
     /* 0x02D8 */ u8 minigameState; // Upon reaching zero stops and does another action
     /* 0x02DC */ u32 alpha;
     /* 0x02E0 */ Vec3f center;

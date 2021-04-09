@@ -95,6 +95,9 @@ void EnSkj_SpawnBlood(GlobalContext* globalCtx, Vec3f* pos);
 
 void EnSkj_SetupWaitInRange(EnSkj* this);
 
+#define songFailTimer multiuseTimer
+#define battleExitTimer multiuseTimer
+
 typedef enum {
     /* 0 */ SKJ_ANIM_BACKFLIP,
     /* 1 */ SKJ_ANIM_SHOOT_NEEDLE,
@@ -106,7 +109,7 @@ typedef enum {
     /* 7 */ SKJ_ANIM_FIGHTING_STANCE,
     /* 8 */ SKJ_ANIM_WALK_TO_PLAYER,
     /* 9 */ SKJ_ANIM_WAIT
-} SkullKidAnims;
+} SkullKidAnim;
 
 typedef enum {
     /* 0 */ SKULL_KID_LEFT,
@@ -117,24 +120,25 @@ typedef enum {
     /* 0 */ SKULL_KID_OCRAINA_WAIT,
     /* 1 */ SKULL_KID_OCARINA_PLAY_NOTES,
     /* 2 */ SKULL_KID_OCARINA_LEAVE_GAME
-} SkullKidOcarinaGameStates;
+} SkullKidOcarinaGameState;
 
 typedef enum {
-    /* 0 */ SKJ_ACTION_FADE,
-    /* 1 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
-    /* 2 */ SKJ_ACTION_SARIA_SONG_IDLE,
-    /* 3 */ SKJ_ACTON_WAIT_FOR_DEATH_ANIM,
-    /* 4 */ SKJ_ACTION_PICK_NEXT_FIHGT_ACTION,
-    /* 5 */ SKJ_ACTON_WAIT_FOR_LAND_ANIM,
-    /* 6 */ SKJ_ACTON_RESET_FIGHT,
-    /* 7 */ SKJ_ACTON_FIGHT,
-    /* 8 */ SKJ_ACTON_NEEDLE_RECOVER,
-    /* 9 */ SKJ_ACTON_SPAWN_DEATH_EFFECT,
+    /* 00 */ SKJ_ACTION_FADE,
+    /* 01 */ SKJ_ACTION_WAIT_TO_SHOOT_NEEDLE,
+    /* 02 */ SKJ_ACTION_SARIA_SONG_IDLE,
+    /* 03 */ SKJ_ACTON_WAIT_FOR_DEATH_ANIM,
+    /* 04 */ SKJ_ACTION_PICK_NEXT_FIHGT_ACTION,
+    /* 05 */ SKJ_ACTON_WAIT_FOR_LAND_ANIM,
+    /* 06 */ SKJ_ACTON_RESET_FIGHT,
+    /* 07 */ SKJ_ACTON_FIGHT,
+    /* 08 */ SKJ_ACTON_NEEDLE_RECOVER,
+    /* 09 */ SKJ_ACTON_SPAWN_DEATH_EFFECT,
     /* 10 */ SKJ_ACTION_SARIA_SONG_WAIT_IN_RANGE,
     /* 11 */ SKJ_ACTION_SARIA_SONG_WAIT_FOR_SONG,
     /* 12 */ SKJ_ACTION_SARIA_SONG_AFTER_SONG,
     /* 13 */ SKJ_ACTION_SARIA_TALK,
-    /* 15 */ SKJ_ACTION_SARIA_SONG_CHANGE_MODE = 15,
+    /* 14 */ SKJ_ACTION_UNK14,
+    /* 15 */ SKJ_ACTION_SARIA_SONG_CHANGE_MODE,
     /* 16 */ SKJ_ACTION_SARIA_SONG_START_TRADE,
     /* 17 */ SKJ_ACTION_SARIA_SONG_WAIT_FOR_LANDING,
     /* 18 */ SKJ_ACTION_SARIA_SONG_WAIT_FOR_LANDING_ANIM,
@@ -148,7 +152,7 @@ typedef enum {
     /* 26 */ SKJ_ACTION_OCARINA_GAME_IDLE,
     /* 27 */ SKJ_ACTION_OCARINA_GAME_PLAY,
     /* 28 */ SKJ_ACTION_OCARINA_GAME_LEAVE
-} SkullKidActions;
+} SkullKidAction;
 
 typedef struct {
     u8 unk0;
@@ -243,8 +247,8 @@ static SkullkidAnimationEntry sSkullKidAnimations[] = {
     { &gSkullKidPlayFluteAnim, ANIMMODE_LOOP, 0.0f },
     { &gSkullKidDieAnim, ANIMMODE_ONCE, 0.0f },
     { &gSkullKidHitAnim, ANIMMODE_ONCE, 0.0f },
-    { &gSkullKidAnimLand, ANIMMODE_ONCE, 0.0f },
-    { &gSkullKidLookLeftAndRightAnim, ANIMMODE_LOOP, 0.0f }, // Unused
+    { &gSkullKidLandAnim, ANIMMODE_ONCE, 0.0f },
+    { &gSkullKidLookLeftAndRightAnim, ANIMMODE_LOOP, 0.0f },
     { &gSkullKidFightingStanceAnim, ANIMMODE_LOOP, 0.0f },
     { &gSkullKidWalkToPlayerAnim, ANIMMODE_LOOP, 0.0f },
     { &gSkullKidWaitAnim, ANIMMODE_LOOP, 0.0f },
@@ -305,7 +309,7 @@ void EnSkj_SetupAction(EnSkj* this, u8 action) {
         case SKJ_ACTION_FADE:
         case SKJ_ACTON_WAIT_FOR_DEATH_ANIM:
         case SKJ_ACTION_PICK_NEXT_FIHGT_ACTION:
-        case 9:
+        case SKJ_ACTON_SPAWN_DEATH_EFFECT:
         case SKJ_ACTION_SARIA_SONG_START_TRADE:
         case SKJ_ACTION_SARIA_SONG_WAIT_FOR_LANDING:
         case SKJ_ACTION_SARIA_SONG_WAIT_FOR_LANDING_ANIM:
@@ -315,10 +319,10 @@ void EnSkj_SetupAction(EnSkj* this, u8 action) {
         case SKJ_ACTION_SARIA_SONG_WAIT_MASK_TEXT:
         case SKJ_ACTION_SARIA_SONG_WRONG_SONG:
         case SKJ_ACTION_SARIA_SONG_WAIT_FOR_TEXT:
-        case 25:
-        case 26:
-        case 27:
-        case 28:
+        case SKJ_ACTION_OCARINA_GAME_WAIT_FOR_PLAYER:
+        case SKJ_ACTION_OCARINA_GAME_IDLE:
+        case SKJ_ACTION_OCARINA_GAME_PLAY:
+        case SKJ_ACTION_OCARINA_GAME_LEAVE:
             this->unk_2D3 = 0;
             break;
         default:
@@ -369,7 +373,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
     s16 type = (thisx->params >> 0xA) & 0x3F;
     EnSkj* this = (EnSkj*)thisx;
     GlobalContext* globalCtx2 = globalCtx;
-    s32 pad[1];
+    s32 pad;
     Player* player;
 
     Actor_ProcessInitChain(thisx, sInitChain);
@@ -403,7 +407,7 @@ void EnSkj_Init(Actor* thisx, GlobalContext* globalCtx) {
         default:
             this->actor.params = type;
             if (((this->actor.params != 0) && (this->actor.params != 1)) && (this->actor.params != 2)) {
-                if (gSaveContext.inventory.items[gItemSlots[ITEM_POCKET_EGG]] < ITEM_SAW) {
+                if (INV_CONTENT(ITEM_TRADE_ADULT) < ITEM_SAW) {
                     Actor_Kill(&this->actor);
                     return;
                 }
@@ -587,7 +591,7 @@ s32 EnSkj_CollisionCheck(EnSkj* this, GlobalContext* globalCtx) {
     s16 yawDiff;
     Vec3f effectPos;
 
-    if (!((this->unk_2D3 == 0) || (D_80B01EA0 != 0) || (!(this->collider.base.acFlags & AC_HIT)))) {
+    if (!((this->unk_2D3 == 0) || (D_80B01EA0 != 0) || !(this->collider.base.acFlags & AC_HIT))) {
         this->collider.base.acFlags &= ~AC_HIT;
         if (this->actor.colChkInfo.damageEffect != 0) {
             if (this->actor.colChkInfo.damageEffect == 0xF) {
@@ -600,7 +604,7 @@ s32 EnSkj_CollisionCheck(EnSkj* this, GlobalContext* globalCtx) {
 
                 yawDiff = this->actor.yawTowardsPlayer - this->actor.world.rot.y;
                 if ((this->action == 2) || (this->action == 6)) {
-                    if ((yawDiff >= 0x6001) || (yawDiff < -0x6000)) {
+                    if ((yawDiff > 0x6000) || (yawDiff < -0x6000)) {
                         Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 8);
                         EnSkj_SetupDie(this);
                         return 1;
@@ -720,7 +724,7 @@ void EnSkj_SetupResetFight(EnSkj* this) {
 
 void EnSkj_SariasSongKidIdle(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.params == 0) {
-        if ((!(gSaveContext.itemGetInf[1] & 0x40)) && (this->actor.xzDistToPlayer < 200.0f)) {
+        if (!(gSaveContext.itemGetInf[1] & 0x40) && (this->actor.xzDistToPlayer < 200.0f)) {
             this->backfilpFlag = 1;
             EnSkj_Backflip(this);
         } else if (sSmallStumpSkullKid.unk0 != 0) {
@@ -777,7 +781,7 @@ void func_80AFF2A0(EnSkj* this) {
 }
 
 void EnSkj_WaitForLandAnim(EnSkj* this, GlobalContext* globalCtx) {
-    s16 lastFrame = Animation_GetLastFrame(&gSkullKidAnimLand);
+    s16 lastFrame = Animation_GetLastFrame(&gSkullKidLandAnim);
 
     if (this->skelAnime.curFrame == lastFrame) {
         EnSkj_SetupStand(this);
@@ -786,17 +790,17 @@ void EnSkj_WaitForLandAnim(EnSkj* this, GlobalContext* globalCtx) {
 
 void func_80AFF334(EnSkj* this) {
     this->unk_2C8 = 0x2000;
-    this->multiuseTimer = 400;
+    this->battleExitTimer = 400;
     this->unk_2EC = 600.0f;
     EnSkj_ChangeAnim(this, SKJ_ANIM_LOOK_LEFT_RIGHT);
     EnSkj_SetupAction(this, SKJ_ACTON_RESET_FIGHT);
 }
 
 void EnSkj_ResetFight(EnSkj* this, GlobalContext* globalCtx) {
-    if (this->multiuseTimer == 0) {
+    if (this->battleExitTimer == 0) {
         EnSkj_SetupResetFight(this);
     } else if (func_80AFEDF8(this, globalCtx) != 0) {
-        this->multiuseTimer = 600;
+        this->battleExitTimer = 600;
         EnSkj_SetupStand(this);
     }
 }
@@ -821,7 +825,7 @@ void EnSkj_Fight(EnSkj* this, GlobalContext* globalCtx) {
 
     if (this->needleShootTimer == 0) {
         EnSkj_SetupWaitToShootNeedle(this);
-    } else if (this->multiuseTimer != 0) {
+    } else if (this->battleExitTimer != 0) {
         yawDistToPlayer =
             Math_SmoothStepToS(&this->actor.shape.rot.y, this->actor.yawTowardsPlayer, 5, this->unk_2F0, 0);
         this->actor.world.rot.y = this->actor.shape.rot.y;
@@ -908,7 +912,6 @@ void EnSkj_SetupWaitInRange(EnSkj* this) {
 
 void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-    u16 reactionId;
 
     // When link pulls out the Ocarina center him on the stump
     // Link was probably supposed to be pointed towards skull kid as well
@@ -937,9 +940,9 @@ void EnSkj_WaitInRange(EnSkj* this, GlobalContext* globalCtx) {
         player->stateFlags2 |= 0x800000;
         if (gSaveContext.itemGetInf[1] & 0x40) {
             if (gSaveContext.itemGetInf[3] & 0x200) {
-                reactionId = Text_GetFaceReaction(globalCtx, 0x15);
-                this->textId = reactionId;
-                if ((reactionId & 0xFFFF) == 0) {
+                this->textId = Text_GetFaceReaction(globalCtx, 0x15);
+                ;
+                if (this->textId == 0) {
                     this->textId = 0x1020;
                 }
             } else if (Player_GetMask(globalCtx) == PLAYER_MASK_NONE) {
@@ -963,7 +966,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
     // Played a song thats not Saria's song
-    if ((!(gSaveContext.itemGetInf[1] & 0x40)) &&
+    if (!(gSaveContext.itemGetInf[1] & 0x40) &&
         ((globalCtx->msgCtx.msgMode == 0xE) || (globalCtx->msgCtx.msgMode == 0xF))) {
         globalCtx->msgCtx.unk_E3EE = 4;
         func_80106CCC(globalCtx);
@@ -1003,7 +1006,7 @@ void EnSkj_WaitForSong(EnSkj* this, GlobalContext* globalCtx) {
         } else {
             if (globalCtx->msgCtx.unk_E3EE >= 5) {
                 gSaveContext.unk_1422 = 0;
-                if ((gSaveContext.itemGetInf[1] & 0x40) != 0) {
+                if (gSaveContext.itemGetInf[1] & 0x40) {
                     globalCtx->msgCtx.unk_E3EE = 4;
                     player->unk_6A8 = &this->actor;
                     func_8002F2CC(&this->actor, globalCtx, EnSkj_GetItemXzRange(this));
@@ -1042,7 +1045,7 @@ void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
     s32 pad;
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 6) && (func_80106BC8(globalCtx) != 0)) {
-        if ((gSaveContext.itemGetInf[1] & 0x40)) {
+        if (gSaveContext.itemGetInf[1] & 0x40) {
             EnSkj_SetupWaitInRange(this);
         } else {
             func_80AFFE24(this);
@@ -1053,7 +1056,7 @@ void EnSkj_SariaSongTalk(EnSkj* this, GlobalContext* globalCtx) {
 }
 
 void func_80AFFE24(EnSkj* this) {
-    EnSkj_SetupAction(this, 14);
+    EnSkj_SetupAction(this, SKJ_ACTION_UNK14);
 }
 
 void func_80AFFE44(EnSkj* this, GlobalContext* globalCtx) {
@@ -1101,7 +1104,7 @@ void EnSkj_JumpFromStump(EnSkj* this) {
 
 void EnSkj_WaitForLanding(EnSkj* this, GlobalContext* globalCtx) {
     if (this->actor.velocity.y <= 0.0f) {
-        if ((this->actor.bgCheckFlags & 2)) {
+        if (this->actor.bgCheckFlags & 2) {
             this->actor.bgCheckFlags &= ~2;
             this->actor.speedXZ = 0.0f;
             EnSkj_SetupWaitForLandAnimFinish(this);
@@ -1115,7 +1118,7 @@ void EnSkj_SetupWaitForLandAnimFinish(EnSkj* this) {
 }
 
 void EnSkj_WaitForLandAnimFinish(EnSkj* this, GlobalContext* globalCtx) {
-    s16 lastFrame = Animation_GetLastFrame(&gSkullKidAnimLand);
+    s16 lastFrame = Animation_GetLastFrame(&gSkullKidLandAnim);
     if (this->skelAnime.curFrame == lastFrame) {
         EnSkj_SetupWalkToPlayer(this);
     }
@@ -1208,10 +1211,10 @@ void EnSkj_SetupWaitForTextClear(EnSkj* this) {
 }
 
 void EnSkj_SariasSongWaitForTextClear(EnSkj* this, GlobalContext* globalCtx) {
-    u8 state;
-    Player* player;
+    u8 state = func_8010BDBC(&globalCtx->msgCtx);
+    Player* player = PLAYER;
 
-    if (((state = func_8010BDBC(&globalCtx->msgCtx)), player = PLAYER, state == 6) && func_80106BC8(globalCtx)) {
+    if (state == 6 && func_80106BC8(globalCtx)) {
         EnSkj_SetupWaitInRange(this);
         player->stateFlags2 |= 0x800000;
         player->unk_6A8 = (Actor*)sSmallStumpSkullKid.skullkid;
@@ -1415,7 +1418,7 @@ void EnSkj_StartOcarinaMinigame(EnSkj* this, GlobalContext* globalCtx) {
         if (sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid != NULL) {
             sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState = SKULL_KID_OCARINA_PLAY_NOTES;
         }
-        this->multiuseTimer = 160;
+        this->songFailTimer = 160;
         this->actionFunc = EnSkj_WaitForPlayback;
     }
 }
@@ -1461,13 +1464,13 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                 }
                 if (func_800F8FF4(NA_SE_SY_METRONOME) == 0) {
                     func_80106AA8(globalCtx);
-                    this->multiuseTimer = 160;
+                    this->songFailTimer = 160;
                 }
                 break;
 
             case 0x2E:
-                if (this->multiuseTimer != 0) {
-                    this->multiuseTimer--;
+                if (this->songFailTimer != 0) {
+                    this->songFailTimer--;
                 } else { // took too long, game failed
                     func_80078884(NA_SE_SY_OCARINA_ERROR);
                     func_80106CCC(globalCtx);
@@ -1485,7 +1488,7 @@ void EnSkj_WaitForPlayback(EnSkj* this, GlobalContext* globalCtx) {
                         sOcarinaMinigameSkullKids[SKULL_KID_LEFT].skullkid->minigameState =
                             SKULL_KID_OCARINA_PLAY_NOTES;
                     }
-                    this->multiuseTimer = 160;
+                    this->songFailTimer = 160;
                     func_800ED858(6); // related instrument sound (flute?)
                     func_800ED93C(0xE, 1);
                     globalCtx->msgCtx.msgMode = 0x2A;
@@ -1611,11 +1614,11 @@ void EnSkj_OcarinaMinigameShortStumpUpdate(Actor* thisx, GlobalContext* globalCt
     this->actor.xzDistToPlayer = 50.0;
 }
 
-s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
+s32 EnSkj_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** DL, Vec3f* pos, Vec3s* rot, void* thisx) {
     return 0;
 }
 
-void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx) {
+void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** DL, Vec3s* rot, void* thisx) {
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2417);
 
     if ((limbIndex == 11) && (gSaveContext.itemGetInf[3] & 0x200)) {
@@ -1624,18 +1627,18 @@ void EnSkj_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
         Matrix_RotateRPY(-0x4000, 0, 0, MTXMODE_APPLY);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_skj.c", 2430),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        gSPDisplayList(POLY_OPA_DISP++, gSKJskullMaskDList);
+        gSPDisplayList(POLY_OPA_DISP++, gSKJskullMaskDL);
         Matrix_Pop();
     }
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_skj.c", 2437);
 }
 
-Gfx* EnSkj_TranslucentDList(GraphicsContext* gfxCtx, u32 alpha) {
+Gfx* EnSkj_TranslucentDL(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dList;
     Gfx* dListHead;
 
-//! @bug This only allocates space for 1 command but uses 3
+    //! @bug This only allocates space for 1 command but uses 3
     dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
     gDPSetRenderMode(dListHead++, G_RM_FOG_SHADE_A, G_RM_AA_ZB_XLU_SURF2);
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
@@ -1644,11 +1647,11 @@ Gfx* EnSkj_TranslucentDList(GraphicsContext* gfxCtx, u32 alpha) {
     return dList;
 }
 
-Gfx* EnSkj_OpaqueDList(GraphicsContext* gfxCtx, u32 alpha) {
+Gfx* EnSkj_OpaqueDL(GraphicsContext* gfxCtx, u32 alpha) {
     Gfx* dList;
     Gfx* dListHead;
 
-//! @bug This only allocates space for 1 command but uses 2
+    //! @bug This only allocates space for 1 command but uses 2
     dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx));
     gDPSetEnvColor(dListHead++, 0, 0, 0, alpha);
     gSPEndDisplayList(dListHead++);
@@ -1665,9 +1668,9 @@ void EnSkj_Draw(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(globalCtx->state.gfxCtx);
 
     if (this->alpha < 255) {
-        gSPSegment(POLY_OPA_DISP++, 0x0C, EnSkj_TranslucentDList(globalCtx->state.gfxCtx, this->alpha));
+        gSPSegment(POLY_OPA_DISP++, 0x0C, EnSkj_TranslucentDL(globalCtx->state.gfxCtx, this->alpha));
     } else {
-        gSPSegment(POLY_OPA_DISP++, 0x0C, EnSkj_OpaqueDList(globalCtx->state.gfxCtx, this->alpha));
+        gSPSegment(POLY_OPA_DISP++, 0x0C, EnSkj_OpaqueDL(globalCtx->state.gfxCtx, this->alpha));
     }
 
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
