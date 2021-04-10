@@ -101,6 +101,7 @@ def main():
     global func_names
     parser = argparse.ArgumentParser(description="Creates a graph of action functions (black and green arrows) and function calls (blue arrows) for a given overlay file")
     parser.add_argument("filename", help="Filename without the z_ or ovl_ prefix, e.x. Door_Ana")
+    parser.add_argument("--loners", help="Include functions that are not called or call any other overlay function", action="store_true")
     args = parser.parse_args()
 
     fname = args.filename
@@ -128,8 +129,8 @@ def main():
         Create all edges for SetupAction-based actors
         """
         for index, func_name in enumerate(func_names):
-            # Uncomment the line below to include functions that are not called or call any other overlay function
-            # dot.node(str(index), func_name)
+            if args.loners:
+                dot.node(str(index), func_name)
             if "_SetupAction" in func_name:
                 continue
             code_body = get_code_body(contents, func_name)
@@ -156,8 +157,8 @@ def main():
             action_functions = [x.replace("\n","").strip() for x in action_func_array.split("{\n")[1].split(",\n}")[0].split(",")]
             action_var = re.search(r'(' + action_func_array_name + r'\[(.)*\]\()', contents).group().split("[")[1].split("]")[0].strip()
             for index, func_name in enumerate(func_names):
-                # Uncomment the line below to include functions that are not called or call any other overlay function
-                # dot.node(str(index), func_name)
+                if args.loners:
+                    dot.node(str(index), func_name)
                 code_body = get_code_body(contents, func_name)
                 seen = {}
                 overlay_func_calls = [seen.setdefault(x,x) for x in capture_call_names(code_body) if x in func_names and x not in seen]
@@ -179,8 +180,8 @@ def main():
                 Create all edges for raw ActorFunc-based actors
                 """
                 for index, func_name in enumerate(func_names):
-                    # Uncomment the line below to include functions that are not called or call any other overlay function
-                    # dot.node(str(index), func_name)
+                    if args.loners:
+                        dot.node(str(index), func_name)
                     print(func_name)
                     code_body = get_code_body(contents, func_name)
                     seen = {}
