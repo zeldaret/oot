@@ -348,7 +348,7 @@ typedef struct Player {
     /* 0x0890 */ u8         unk_890;
     /* 0x0891 */ u8         shockTimer;
     /* 0x0892 */ u8         unk_892;
-    /* 0x0893 */ u8         unk_893;
+    /* 0x0893 */ u8         hoverBootsTimer;
     /* 0x0894 */ s16        fallStartHeight; // last truncated Y position before falling
     /* 0x0896 */ s16        fallDistance; // truncated Y distance the player has fallen so far (positive is down)
     /* 0x0898 */ s16        unk_898;
