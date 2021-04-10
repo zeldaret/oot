@@ -294,7 +294,6 @@ void EnGoma_Egg(EnGoma* this, GlobalContext* globalCtx) {
             Vec3f acc = { 0.0f, -0.5f, 0.0f };
             Vec3f pos;
 
-            // lol poop
             pos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
             pos.y = Rand_ZeroFloat(30.0f) + this->actor.world.pos.y;
             pos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
