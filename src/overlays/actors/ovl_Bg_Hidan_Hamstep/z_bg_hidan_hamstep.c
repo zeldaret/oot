@@ -263,7 +263,7 @@ void func_80888694(BgHidanHamstep* this, BgHidanHamstep* parent) {
 
 void func_80888734(BgHidanHamstep* this) {
     BgHidanHamstep* parent = (BgHidanHamstep*)this->dyna.actor.parent;
-    f32 factor = SREG(30) * 0.5f;
+    f32 frameDivisor = R_UPDATE_RATE * 0.5f;
 
     if (parent != NULL) {
         this->dyna.actor.velocity.y = parent->dyna.actor.velocity.y;
@@ -271,7 +271,7 @@ void func_80888734(BgHidanHamstep* this) {
         if ((this->dyna.actor.params & 0xFF) == 1) {
             this->dyna.actor.world.pos.y = parent->dyna.actor.world.pos.y - 100.0f;
         } else {
-            this->dyna.actor.world.pos.y += (this->dyna.actor.velocity.y * factor);
+            this->dyna.actor.world.pos.y += (this->dyna.actor.velocity.y * frameDivisor);
         }
 
         func_80888694(this, parent);
