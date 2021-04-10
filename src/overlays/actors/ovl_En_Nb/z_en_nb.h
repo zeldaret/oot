@@ -6,14 +6,37 @@
 
 struct EnNb;
 
+typedef enum {
+    /* 0x00 */ NB_LIMB_NONE,
+    /* 0x01 */ NB_LIMB_ROOT,
+    /* 0x02 */ NB_LIMB_L_THIGH,
+    /* 0x03 */ NB_LIMB_L_SHIN,
+    /* 0x04 */ NB_LIMB_L_FOOT,
+    /* 0x05 */ NB_LIMB_R_THIGH,
+    /* 0x06 */ NB_LIMB_R_SHIN,
+    /* 0x07 */ NB_LIMB_R_FOOT,
+    /* 0x08 */ NB_LIMB_TORSO,
+    /* 0x09 */ NB_LIMB_L_UPPER_ARM,
+    /* 0x0A */ NB_LIMB_L_FOREARM,
+    /* 0x0B */ NB_LIMB_L_HAND,
+    /* 0x0C */ NB_LIMB_R_UPPER_ARM,
+    /* 0x0D */ NB_LIMB_R_FOREARM,
+    /* 0x0E */ NB_LIMB_R_HAND,
+    /* 0x0F */ NB_LIMB_HEAD,
+    /* 0x10 */ NB_LIMB_BLANK,
+    /* 0x11 */ NB_LIMB_PONYTAIL,
+    /* 0x12 */ NB_LIMB_WAIST,
+    /* 0x13 */ NB_LIMB_MAX
+} EnNbLimb;
+
 typedef void (*EnNbActionFunc)(struct EnNb*, GlobalContext*);
 typedef void (*EnNbDrawFunc)(struct EnNb*, GlobalContext*);
 
 typedef struct EnNb {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
-    /* 0x0190 */ Vec3s jointTable[19];
-    /* 0x0202 */ Vec3s morphTable[19];
+    /* 0x0190 */ Vec3s jointTable[NB_LIMB_MAX];
+    /* 0x0202 */ Vec3s morphTable[NB_LIMB_MAX];
     /* 0x0274 */ s16 eyeIdx;
     /* 0x0276 */ s16 blinkTimer;
     /* 0x0278 */ s32 action;
