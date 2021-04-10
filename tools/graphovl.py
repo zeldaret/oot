@@ -16,6 +16,7 @@ def actor_src_path(name):
 
 func_call_regexpr = re.compile(r'[a-zA-Z_\d]+\([^\)]*\)(\.[^\)]*\))?')
 func_defs_regexpr = re.compile(r'[a-zA-Z_\d]+\([^\)]*\)(\.[^\)]*\))? {[^}]')
+macrosRegexpr = re.compile(r'#define\s+([a-zA-Z_\d]+)(\([a-zA-Z_\d]+\))?\s+(.+?)(\n|//|/\*)')
 
 # Capture all function calls in the block, including arguments
 def capture_calls(content):
@@ -68,6 +69,39 @@ def get_code_body(content, funcname):
         else:
             code += raw_line
 
+def getMacrosDefinitions(contents):
+    macrosDefs = dict()
+    for x in re.finditer(macrosRegexpr, contents):
+        macroName = x.group(1).strip()
+        macroParamsAux = x.group(2)
+        macroBody = x.group(3).strip()
+
+        macroParams = []
+        if macroParamsAux is not None:
+            for x in macroParamsAux.strip("(").strip(")").split(","):
+                macroParams.append(x.strip())
+        macrosDefs[macroName] = (macroParams, macroBody)
+    return macrosDefs
+
+def parseMacro(macros, macroExpr):
+    macroCall = func_call_regexpr.match(macroExpr)
+    if macroCall is not None:
+        macroName, macroArgs = macroCall.group().split(")")[0].split("(")
+        if macroName not in macros:
+            print("Unknown macro: " + macroName)
+            return None
+        macroParams, macroBody = macros[macroName]
+        argsList = [x.strip() for x in macroArgs.split(",")]
+
+        macroBody = str(macroBody)
+        for i, x in enumerate(macroParams):
+            macroBody = macroBody.replace(x, argsList[i])
+        return str(eval(macroBody))
+    elif macroExpr in macros:
+        macroParams, macroBody = macros[macroExpr]
+        return str(eval(macroBody))
+    return None
+
 def index_of_func(func_name):
     for index, name in enumerate(func_names):
         if name == func_name:
@@ -79,10 +113,20 @@ def action_var_setups_in_func(content, func_name, action_var):
         return None
     return [x.group() for x in re.finditer(r'(' + action_var + r' = (.)*)', code_body)]
 
-def action_var_values_in_func(code_body, action_var):
+def action_var_values_in_func(code_body, action_var, macros):
     if action_var not in code_body:
         return None
-    return [x.group().split(" = ")[1].split(";")[0].strip() for x in re.finditer(re.compile(r'(' + action_var + r' = (.)*)'), code_body)]
+
+    regex = re.compile(r'(' + action_var + r' = (.)*)')
+    transition = []
+    for x in re.finditer(regex, code_body):
+        index = x.group().split(" = ")[1].split(";")[0].strip()
+
+        macroValue = parseMacro(macros, index)
+        if macroValue is not None:
+            index = macroValue
+        transition.append(index)
+    return transition
 
 def setup_line_numbers(content, func_names):
     global line_numbers_of_functions
@@ -114,6 +158,7 @@ def main():
     func_names = capture_definition_names(contents)
     setup_func_definitions(contents, func_names)
     setup_line_numbers(contents, func_names)
+    macros = getMacrosDefinitions(contents)
     func_prefix = ""
     for index, func_name in enumerate(func_names):
         # Init is chosen because all actors are guaranteed to have an Init function.
@@ -162,9 +207,11 @@ def main():
                 code_body = get_code_body(contents, func_name)
                 seen = {}
                 overlay_func_calls = [seen.setdefault(x,x) for x in capture_call_names(code_body) if x in func_names and x not in seen]
-                transition_indices = action_var_values_in_func(code_body, action_var)
+                transition_indices = action_var_values_in_func(code_body, action_var, macros)
                 if transition_indices is not None:
-                    transitions_to = [action_functions[int(i,16) if ("0x" in i) else int(i)] for i in transition_indices]
+                    transitions_to = []
+                    for i in transition_indices:
+                        transitions_to.append(action_functions[int(i, 0)])
                     if transitions_to is not None:
                         for action_transition in transitions_to:
                             dot.node(str(index), func_name)
@@ -186,7 +233,7 @@ def main():
                     code_body = get_code_body(contents, func_name)
                     seen = {}
                     overlay_func_calls = [seen.setdefault(x,x) for x in capture_call_names(code_body) if x in func_names and x not in seen]
-                    transition_func_calls = action_var_values_in_func(code_body, actionIdentifier)
+                    transition_func_calls = action_var_values_in_func(code_body, actionIdentifier, macros)
                     if transition_func_calls is not None:
                         for action_transition in transition_func_calls:
                             dot.node(str(index), func_name)
