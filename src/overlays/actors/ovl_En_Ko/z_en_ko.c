@@ -365,7 +365,6 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                     return 0;
                 case 0x105D:
                     gSaveContext.infTable[4] |= 0x80;
-                    return 0;
                 case 0x10BA:
                     return 0;
                 case 0x10D7:
@@ -389,20 +388,17 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                         func_8010B720(globalCtx, thisx->textId);
                         break;
                     case 0x1038:
-                        //thisx->textId = (globalCtx->msgCtx.choiceIndex != 0)
-                        //                    ? ((globalCtx->msgCtx.choiceIndex == 1) ? 0x0103A : 0x103B)
-                        //                    : 0x1039;
-                        switch(globalCtx->msgCtx.choiceIndex){
+                        phi_v1 = globalCtx->msgCtx.choiceIndex;
+                        switch (phi_v1) {
                             case 0:
-                                thisx->textId = 0x103A;
+                                thisx->textId = 0x1039;
                                 break;
                             case 1:
+                                thisx->textId = 0x103A;
+                                break;
+                            default:
                                 thisx->textId = 0x0103B;
-                                break; 
-                            case 2:
-                                thisx->textId = 0x1039;
-                                return 1;
-                            
+                                break;
                         }
                         func_8010B720(globalCtx, thisx->textId);
                         break;
@@ -412,13 +408,10 @@ s16 func_80A97738(GlobalContext* globalCtx, Actor* thisx) {
                         break;
                     case 0x10B7:
                         gSaveContext.infTable[11] |= 0x1000;
+
                     case 0x10B8:
                         thisx->textId = (globalCtx->msgCtx.choiceIndex == 0) ? 0x10BA : 0x10B9;
-                        // if (globalCtx->msgCtx.choiceIndex != 0) {
-                        //    return 1;
-                        //}
-                        // return 2;
-                        return (globalCtx->msgCtx.choiceIndex != 0) ? 2 : 1;
+                        return (globalCtx->msgCtx.choiceIndex == 0) ? 2 : 1;
                 }
                 break;
             }
@@ -466,7 +459,6 @@ f32 func_80A97BC0(EnKo* this) {
     if ((gSaveContext.linkAge == 0) && ((this->actor.params & 0xFF) == 0xC)) {
         return -20.0f;
     }
-    // return D_80A9A62C[(this->actor.params & 0xFF) + func_80A97B38(this)] ;
     iVar3 = func_80A97B38(this);
 
     return D_80A9A62C[this->actor.params & 0xFF][iVar3];
