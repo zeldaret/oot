@@ -361,7 +361,7 @@ typedef struct SequenceChannel {
     /* 0x1C */ u16 vibratoDelay;
     /* 0x1E */ u16 delay;
     /* 0x20 */ u16 unk_20;
-    /* 0x22 */ u16 pad_22;
+    /* 0x22 */ u16 unk_22;
     /* 0x24 */ s16 instOrWave; // either 0 (none), instrument index + 1, or
                              // 0x80..0x83 for sawtooth/triangle/sine/square waves.
     /* 0x26 */ s16 transposition;

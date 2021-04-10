@@ -1200,13 +1200,13 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xCE:
                         offset = (u16)parameters[0];
-                        channel->pad_22 = offset;
+                        channel->unk_22 = offset;
                         break;
                     case 0xCF:
                         offset = (u16)parameters[0];
                         test = &player->seqData[offset];
-                        test[0] = (channel->pad_22 >> 8) & 0xFF;
-                        test[1] = channel->pad_22 & 0xFF;
+                        test[0] = (channel->unk_22 >> 8) & 0xFF;
+                        test[1] = channel->unk_22 & 0xFF;
                         break;
                     case 0xD0:
                         command = (u8)parameters[0];
@@ -1314,20 +1314,20 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xB2:
                         offset = (u16) parameters[0];
-                        channel->pad_22 = *(u16*)(offset + scriptState->value * 2 + player->seqData);
+                        channel->unk_22 = *(u16*)(offset + scriptState->value * 2 + player->seqData);
                         break;
                     case 0xB4:
-                        channel->dynTable = (void*)&player->seqData[channel->pad_22];
+                        channel->dynTable = (void*)&player->seqData[channel->unk_22];
                         break;
                     case 0xB5:
-                        channel->pad_22 = ((u16*)(channel->dynTable))[scriptState->value];
+                        channel->unk_22 = ((u16*)(channel->dynTable))[scriptState->value];
                         break;
                     case 0xB6:
                         data = (*channel->dynTable)[0];
                         scriptState->value = (*channel->dynTable)[0][scriptState->value];
                         break;
                     case 0xB7:
-                        channel->pad_22 = (parameters[0] == 0) ? gAudioContext.gAudioRandom // odd load here
+                        channel->unk_22 = (parameters[0] == 0) ? gAudioContext.gAudioRandom // odd load here
                                                                 : gAudioContext.gAudioRandom % parameters[0];
                         break;
                     case 0xB8:
@@ -1336,11 +1336,11 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         break;
                     case 0xBD: {
                         result = Audio_NextRandom();
-                        channel->pad_22 = (parameters[0] == 0) ? (u32) result : (u32)result % parameters[0];
-                        channel->pad_22 += parameters[1];
-                        pad2 = (channel->pad_22 / 0x100) + 0x80; // i is wrong here
-                        param = channel->pad_22 % 0x100;
-                        channel->pad_22 = (pad2 << 8) | param;  
+                        channel->unk_22 = (parameters[0] == 0) ? (u32) result : (u32)result % parameters[0];
+                        channel->unk_22 += parameters[1];
+                        pad2 = (channel->unk_22 / 0x100) + 0x80; // i is wrong here
+                        param = channel->unk_22 % 0x100;
+                        channel->unk_22 = (pad2 << 8) | param;  
                     } break;
                     case 0xB9:
                         channel->velocityRandomVariance = parameters[0];
@@ -1353,7 +1353,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                         channel->unk_20 = parameters[1];
                         break;
                     case 0xBC:
-                        channel->pad_22 += parameters[0];
+                        channel->unk_22 += parameters[0];
                         break;
                 }
             }
@@ -1418,7 +1418,7 @@ void Audio_SequenceChannelProcessScript(SequenceChannel* channel) {
                     } else {
                         lowBits -= 8;
                         channel->soundScriptIO[lowBits] = -1;
-                        if (func_800E3414(channel->bankId, channel->pad_22 + 0x100,
+                        if (func_800E3414(channel->bankId, channel->unk_22 + 0x100,
                                             &channel->soundScriptIO[lowBits]) == -1) {
                             break;
                         }
