@@ -929,8 +929,8 @@
         <DList Name="gZTargetLockOnTriangleDL" Offset="0x4D450"/>
         <DList Name="gEffFire1DL" Offset="0x4D4E0"/>
         <DList Name="gEffFire2DL" Offset="0x4D5A0"/>
-        <Texture Name="gEffFire1Tex" OutName="eff_fire_1" Format="i8" Width="32" Height="64" Offset="0x4D660"/>
-        <Texture Name="gEffFire2Tex" OutName="eff_fire_2" Format="i8" Width="32" Height="64" Offset="0x4DE60"/>
+        <Texture Name="gDecorativeFlameMaskTex" OutName="eff_fire_mask" Format="i4" Width="32" Height="128" Offset="0x4D660"/>
+        <Texture Name="gDecorativeFlameTex" OutName="eff_fire" Format="i8" Width="32" Height="64" Offset="0x4DE60"/>
         <DList Name="gUnusedUnknownShape1DL" Offset="0x4F2B0"/>
         <DList Name="gUnusedUnknownShape1RefDL" Offset="0x4F630"/>
         <DList Name="gUnusedUnknownShape2DL" Offset="0x502E0"/>
