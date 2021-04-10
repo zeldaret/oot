@@ -222,9 +222,9 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->unk_1F8 = 1.0f;
     BossDodongo_SetupIntroCutscene(this, globalCtx);
     this->health = 12;
-    this->fogMin = 995.0f;
+    this->colorFilterMin = 995.0f;
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->fogMax = 1000.0f;
+    this->colorFilterMax = 1000.0f;
     this->unk_224 = 2.0f;
     this->unk_228 = 9200.0f;
     Collider_InitJntSph(globalCtx, &this->collider);
@@ -928,23 +928,23 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
 
     if (this->unk_1BE != 0) {
         if (this->unk_1BE >= 1000) {
-            Math_SmoothStepToF(&this->fogR, 30.0f, 1, 20.0f, 0.0);
-            Math_SmoothStepToF(&this->fogG, 10.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colorFilterR, 30.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colorFilterG, 10.0f, 1, 20.0f, 0.0);
         } else {
             this->unk_1BE--;
-            Math_SmoothStepToF(&this->fogR, 255.0f, 1, 20.0f, 0.0);
-            Math_SmoothStepToF(&this->fogG, 0.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colorFilterR, 255.0f, 1, 20.0f, 0.0);
+            Math_SmoothStepToF(&this->colorFilterG, 0.0f, 1, 20.0f, 0.0);
         }
 
-        Math_SmoothStepToF(&this->fogB, 0.0f, 1, 20.0f, 0.0);
-        Math_SmoothStepToF(&this->fogMin, 900.0f, 1, 10.0f, 0.0);
-        Math_SmoothStepToF(&this->fogMax, 1099.0f, 1, 10.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterB, 0.0f, 1, 20.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterMin, 900.0f, 1, 10.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterMax, 1099.0f, 1, 10.0f, 0.0);
     } else {
-        Math_SmoothStepToF(&this->fogR, globalCtx->lightCtx.unk_07, 1, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->fogG, globalCtx->lightCtx.unk_08, 1.0f, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->fogB, globalCtx->lightCtx.unk_09, 1.0f, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->fogMin, globalCtx->lightCtx.unk_0A, 1.0, 5.0f, 0.0);
-        Math_SmoothStepToF(&this->fogMax, 1000.0f, 1, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterR, globalCtx->lightCtx.unk_07, 1, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterG, globalCtx->lightCtx.unk_08, 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterB, globalCtx->lightCtx.unk_09, 1.0f, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterMin, globalCtx->lightCtx.unk_0A, 1.0, 5.0f, 0.0);
+        Math_SmoothStepToF(&this->colorFilterMax, 1000.0f, 1, 5.0f, 0.0);
     }
 
     if (player->actor.world.pos.y < -1000.0f) {
@@ -1152,7 +1152,7 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
     } else {
         POLY_OPA_DISP =
-            Gfx_SetFog(POLY_OPA_DISP, (u32)this->fogR, (u32)this->fogG, (u32)this->fogB, 0, this->fogMin, this->fogMax);
+            Gfx_SetFog(POLY_OPA_DISP, (u32)this->colorFilterR, (u32)this->colorFilterG, (u32)this->colorFilterB, 0, this->colorFilterMin, this->colorFilterMax);
     }
 
     Matrix_RotateZ(this->unk_23C, MTXMODE_APPLY);

@@ -4674,7 +4674,7 @@ s32 func_8083B040(Player* this, GlobalContext* globalCtx) {
                         (((this->itemActionParam == PLAYER_AP_BOTTLE_POE) && (this->exchangeItemId == EXCH_ITEM_POE)) ||
                          (this->exchangeItemId == EXCH_ITEM_BLUE_FIRE))))))) {
 
-                    if ((globalCtx->actorCtx.titleCtx.delayB == 0) && (globalCtx->actorCtx.titleCtx.unk_C == 0)) {
+                    if ((globalCtx->actorCtx.titleCtx.delayTimer == 0) && (globalCtx->actorCtx.titleCtx.alpha == 0)) {
                         func_80835DE4(globalCtx, this, func_8084F104, 0);
 
                         if (sp2C >= 0) {
@@ -9052,8 +9052,8 @@ void Player_Init(Actor* thisx, GlobalContext* globalCtx2) {
                  0x4000) &&
                 ((globalCtx->sceneNum != SCENE_DDAN) || (gSaveContext.eventChkInf[11] & 1)) &&
                 ((globalCtx->sceneNum != SCENE_NIGHT_SHOP) || (gSaveContext.eventChkInf[2] & 0x20))) {
-                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 0xA0, 0x78,
-                                        0x90, 0x18, 0x14);
+                TitleCard_InitPlaceName(globalCtx, &globalCtx->actorCtx.titleCtx, this->giObjectSegment, 160, 120,
+                                        144, 24, 20);
             }
         }
         gSaveContext.showTitleCard = true;

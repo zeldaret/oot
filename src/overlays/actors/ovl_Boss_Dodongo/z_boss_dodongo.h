@@ -69,11 +69,11 @@ typedef struct BossDodongo {
     /* 0x0204 */ f32 unk_204;
     /* 0x0208 */ f32 unk_208;
     /* 0x020C */ f32 unk_20C;
-    /* 0x0210 */ f32 fogR;
-    /* 0x0214 */ f32 fogG;
-    /* 0x0214 */ f32 fogB;
-    /* 0x021C */ f32 fogMin;
-    /* 0x0220 */ f32 fogMax;
+    /* 0x0210 */ f32 colorFilterR;
+    /* 0x0214 */ f32 colorFilterG;
+    /* 0x0214 */ f32 colorFilterB;
+    /* 0x021C */ f32 colorFilterMin;
+    /* 0x0220 */ f32 colorFilterMax;
     /* 0x0224 */ f32 unk_224;
     /* 0x0228 */ f32 unk_228;
     /* 0x022C */ f32 unk_22C;
