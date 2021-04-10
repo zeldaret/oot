@@ -7,7 +7,7 @@
 typedef enum {
     /* 0 */ ENGOMA_NORMAL,
     /* 1 */ ENGOMA_EGG,
-    /* 2 */ ENGOMA_DEBRIS,
+    /* 2 */ ENGOMA_HATCH_DEBRIS,
     /* 3 */ ENGOMA_BOSSLIMB,
 } GomaType;
 
@@ -31,7 +31,7 @@ typedef struct EnGoma {
     /* 0x2C2 */ s16 hurtTimer;
     /* 0x2C4 */ s16 visualState;
     /* 0x2C6 */ s16 playerDetectionTimer;
-    /* 0x2C8 */ s16 unk_2C8; // some debug spawn ID
+    /* 0x2C8 */ s16 spawnNum; // some debug spawn ID
     /* 0x2CA */ s16 invincibilityTimer;
     /* 0x2CC */ s16 actionTimer;
     /* 0x2D0 */ f32 eggScale;
