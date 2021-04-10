@@ -1,0 +1,60 @@
+extern RomFile _entra_n_scene_roomList_000000A8[];
+extern TransitionActorEntry _entra_n_scene_transitionActorList_00000098[];
+extern CollisionHeader _entra_n_scene_collisionHeader_000003F8;
+extern EntranceEntry _entra_n_scene_entranceList_000000B0[];
+extern Vec3s _entra_n_scene_pathwayList_00000104[];
+extern ActorEntry _entra_n_scene_startPositionList_00000068[];
+extern u16 _entra_n_scene_exitList_000000B8[];
+extern LightSettings _entra_n_scene_lightSettings_000000C0[];
+
+extern SCmdSoundSettings _entra_n_scene_set0000_cmd00;
+extern SCmdRoomList _entra_n_scene_set0000_cmd01;
+extern SCmdTransiActorList _entra_n_scene_set0000_cmd02;
+extern SCmdMiscSettings _entra_n_scene_set0000_cmd03;
+extern SCmdColHeader _entra_n_scene_set0000_cmd04;
+extern SCmdEntranceList _entra_n_scene_set0000_cmd05;
+extern SCmdSpecialFiles _entra_n_scene_set0000_cmd06;
+extern SCmdPathList _entra_n_scene_set0038_cmd07;
+extern SCmdSpawnList _entra_n_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _entra_n_scene_set0000_cmd09;
+extern SCmdExitList _entra_n_scene_set0000_cmd0A;
+extern SCmdLightSettingList _entra_n_scene_set0000_cmd0B;
+extern SCmdEndMarker _entra_n_scene_set0000_cmd0C;
+extern Vec3s _entra_n_scene_pathwayList_000000D8[];
+extern Path _entra_n_scene_pathway_00000104;
+
+
+
+
+
+extern SCmdSoundSettings _entra_n_scene_set0000_cmd00;
+
+extern SCmdRoomList _entra_n_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _entra_n_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _entra_n_scene_set0000_cmd03;
+
+extern SCmdColHeader _entra_n_scene_set0000_cmd04;
+
+extern SCmdEntranceList _entra_n_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _entra_n_scene_set0000_cmd06;
+
+extern SCmdPathList _entra_n_scene_set0038_cmd07;
+
+extern SCmdSpawnList _entra_n_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _entra_n_scene_set0000_cmd09;
+
+extern SCmdExitList _entra_n_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _entra_n_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _entra_n_scene_set0000_cmd0C;
+
+extern Vec3s _entra_n_scene_pathwayList_000000D8[];
+
+extern Path _entra_n_scene_pathway_00000104;
+
+

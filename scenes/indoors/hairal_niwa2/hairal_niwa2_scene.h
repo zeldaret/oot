@@ -1,0 +1,36 @@
+extern RomFile _hairal_niwa2_scene_roomList_00000050[];
+extern CollisionHeader _hairal_niwa2_scene_collisionHeader_00002CD8;
+extern EntranceEntry _hairal_niwa2_scene_entranceList_00000058[];
+extern ActorEntry _hairal_niwa2_scene_startPositionList_00000040[];
+extern LightSettings _hairal_niwa2_scene_lightSettings_0000005C[];
+
+extern SCmdSoundSettings _hairal_niwa2_scene_set0000_cmd00;
+extern SCmdRoomList _hairal_niwa2_scene_set0000_cmd01;
+extern SCmdColHeader _hairal_niwa2_scene_set0000_cmd02;
+extern SCmdEntranceList _hairal_niwa2_scene_set0000_cmd03;
+extern SCmdSpawnList _hairal_niwa2_scene_set0000_cmd04;
+extern SCmdSkyboxSettings _hairal_niwa2_scene_set0000_cmd05;
+extern SCmdLightSettingList _hairal_niwa2_scene_set0000_cmd06;
+extern SCmdEndMarker _hairal_niwa2_scene_set0000_cmd07;
+
+
+
+
+
+extern SCmdSoundSettings _hairal_niwa2_scene_set0000_cmd00;
+
+extern SCmdRoomList _hairal_niwa2_scene_set0000_cmd01;
+
+extern SCmdColHeader _hairal_niwa2_scene_set0000_cmd02;
+
+extern SCmdEntranceList _hairal_niwa2_scene_set0000_cmd03;
+
+extern SCmdSpawnList _hairal_niwa2_scene_set0000_cmd04;
+
+extern SCmdSkyboxSettings _hairal_niwa2_scene_set0000_cmd05;
+
+extern SCmdLightSettingList _hairal_niwa2_scene_set0000_cmd06;
+
+extern SCmdEndMarker _hairal_niwa2_scene_set0000_cmd07;
+
+

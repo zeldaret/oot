@@ -1,0 +1,42 @@
+extern RomFile _sutaru_scene_roomList_00000060[];
+extern CollisionHeader _sutaru_scene_collisionHeader_00000B78;
+extern EntranceEntry _sutaru_scene_entranceList_00000068[];
+extern ActorEntry _sutaru_scene_startPositionList_00000050[];
+extern LightSettings _sutaru_scene_lightSettings_0000006C[];
+
+extern SCmdSoundSettings _sutaru_scene_set0000_cmd00;
+extern SCmdRoomList _sutaru_scene_set0000_cmd01;
+extern SCmdMiscSettings _sutaru_scene_set0000_cmd02;
+extern SCmdColHeader _sutaru_scene_set0000_cmd03;
+extern SCmdEntranceList _sutaru_scene_set0000_cmd04;
+extern SCmdSpecialFiles _sutaru_scene_set0000_cmd05;
+extern SCmdSpawnList _sutaru_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _sutaru_scene_set0000_cmd07;
+extern SCmdLightSettingList _sutaru_scene_set0000_cmd08;
+extern SCmdEndMarker _sutaru_scene_set0000_cmd09;
+
+
+
+
+
+extern SCmdSoundSettings _sutaru_scene_set0000_cmd00;
+
+extern SCmdRoomList _sutaru_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _sutaru_scene_set0000_cmd02;
+
+extern SCmdColHeader _sutaru_scene_set0000_cmd03;
+
+extern SCmdEntranceList _sutaru_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _sutaru_scene_set0000_cmd05;
+
+extern SCmdSpawnList _sutaru_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _sutaru_scene_set0000_cmd07;
+
+extern SCmdLightSettingList _sutaru_scene_set0000_cmd08;
+
+extern SCmdEndMarker _sutaru_scene_set0000_cmd09;
+
+

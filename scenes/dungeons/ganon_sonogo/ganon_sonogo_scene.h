@@ -1,0 +1,83 @@
+extern RomFile _ganon_sonogo_scene_roomList_000000F8[];
+extern TransitionActorEntry _ganon_sonogo_scene_transitionActorList_000000E8[];
+extern CollisionHeader _ganon_sonogo_scene_collisionHeader_000062CC;
+extern EntranceEntry _ganon_sonogo_scene_entranceList_00000120[];
+extern Vec3s _ganon_sonogo_scene_pathwayList_00000254[];
+extern ActorEntry _ganon_sonogo_scene_startPositionList_00000068[];
+extern u16 _ganon_sonogo_scene_exitList_00000130[];
+extern LightSettings _ganon_sonogo_scene_lightSettings_00000140[];
+
+extern SCmdSoundSettings _ganon_sonogo_scene_set0000_cmd00;
+extern SCmdRoomList _ganon_sonogo_scene_set0000_cmd01;
+extern SCmdTransiActorList _ganon_sonogo_scene_set0000_cmd02;
+extern SCmdMiscSettings _ganon_sonogo_scene_set0000_cmd03;
+extern SCmdColHeader _ganon_sonogo_scene_set0000_cmd04;
+extern SCmdEntranceList _ganon_sonogo_scene_set0000_cmd05;
+extern SCmdSpecialFiles _ganon_sonogo_scene_set0000_cmd06;
+extern SCmdPathList _ganon_sonogo_scene_set0038_cmd07;
+extern SCmdSpawnList _ganon_sonogo_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _ganon_sonogo_scene_set0000_cmd09;
+extern SCmdExitList _ganon_sonogo_scene_set0000_cmd0A;
+extern SCmdLightSettingList _ganon_sonogo_scene_set0000_cmd0B;
+extern SCmdEndMarker _ganon_sonogo_scene_set0000_cmd0C;
+extern Vec3s _ganon_sonogo_scene_pathwayList_000001B0[];
+extern Path _ganon_sonogo_scene_pathway_00000254;
+extern u64 _ganon_sonogo_scene_tex_00006300[];
+extern u64 _ganon_sonogo_scene_tex_00006508[];
+extern u64 _ganon_sonogo_scene_tex_00006710[];
+extern u64 _ganon_sonogo_scene_tex_00006F10[];
+extern u64 _ganon_sonogo_scene_tex_00007310[];
+extern u64 _ganon_sonogo_scene_tex_00007710[];
+
+#define _ganon_sonogo_room_0_vertices_00002F80 ((u32)_ganon_sonogo_room_0_vertices_00002DA0 + 0x000001E0)
+#define _ganon_sonogo_room_3_vertices_000005E0 ((u32)_ganon_sonogo_room_3_vertices_00000400 + 0x000001E0)
+#define _ganon_sonogo_room_3_vertices_000009C0 ((u32)_ganon_sonogo_room_3_vertices_000007E0 + 0x000001E0)
+#define _ganon_sonogo_room_4_vertices_000007B0 ((u32)_ganon_sonogo_room_4_vertices_000005D0 + 0x000001E0)
+#define _ganon_sonogo_room_4_vertices_00002450 ((u32)_ganon_sonogo_room_4_vertices_00002260 + 0x000001F0)
+
+
+
+
+extern SCmdSoundSettings _ganon_sonogo_scene_set0000_cmd00;
+
+extern SCmdRoomList _ganon_sonogo_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _ganon_sonogo_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _ganon_sonogo_scene_set0000_cmd03;
+
+extern SCmdColHeader _ganon_sonogo_scene_set0000_cmd04;
+
+extern SCmdEntranceList _ganon_sonogo_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _ganon_sonogo_scene_set0000_cmd06;
+
+extern SCmdPathList _ganon_sonogo_scene_set0038_cmd07;
+
+extern SCmdSpawnList _ganon_sonogo_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _ganon_sonogo_scene_set0000_cmd09;
+
+extern SCmdExitList _ganon_sonogo_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _ganon_sonogo_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _ganon_sonogo_scene_set0000_cmd0C;
+
+extern Vec3s _ganon_sonogo_scene_pathwayList_000001B0[];
+
+extern Path _ganon_sonogo_scene_pathway_00000254;
+
+extern u64 _ganon_sonogo_scene_tex_00006300[];
+
+extern u64 _ganon_sonogo_scene_tex_00006508[];
+
+extern u64 _ganon_sonogo_scene_tex_00006710[];
+
+extern u64 _ganon_sonogo_scene_tex_00006F10[];
+
+extern u64 _ganon_sonogo_scene_tex_00007310[];
+
+extern u64 _ganon_sonogo_scene_tex_00007710[];
+
+

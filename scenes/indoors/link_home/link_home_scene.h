@@ -1,0 +1,138 @@
+extern RomFile _link_home_scene_roomList_00000094[];
+extern CollisionHeader _link_home_scene_collisionHeader_00000E4C;
+extern EntranceEntry _link_home_scene_entranceList_0000009C[];
+extern ActorEntry _link_home_scene_startPositionList_00000074[];
+extern u16 _link_home_scene_exitList_000000A0[];
+extern LightSettings _link_home_scene_lightSettings_000000A4[];
+extern RomFile _link_home_scene_roomList_00000EF0[];
+extern CollisionHeader _link_home_scene_collisionHeader_00000E4C;
+extern EntranceEntry _link_home_scene_entranceList_00000EF8[];
+extern ActorEntry _link_home_scene_startPositionList_00000EE0[];
+extern u16 _link_home_scene_exitList_00000EFC[];
+extern LightSettings _link_home_scene_lightSettings_00000F00[];
+extern s32 _link_home_scene_cutsceneData_00001040[];
+extern RomFile _link_home_scene_roomList_00000FD0[];
+extern CollisionHeader _link_home_scene_collisionHeader_00000E4C;
+extern EntranceEntry _link_home_scene_entranceList_00000FD8[];
+extern ActorEntry _link_home_scene_startPositionList_00000FC0[];
+extern u16 _link_home_scene_exitList_00000FDC[];
+extern LightSettings _link_home_scene_lightSettings_00000FE0[];
+extern s32 _link_home_scene_cutsceneData_000015D0[];
+
+extern SCmdAltHeaders _link_home_scene_set0000_cmd00;
+extern SCmdSoundSettings _link_home_scene_set0000_cmd01;
+extern SCmdRoomList _link_home_scene_set0000_cmd02;
+extern SCmdMiscSettings _link_home_scene_set0000_cmd03;
+extern SCmdColHeader _link_home_scene_set0000_cmd04;
+extern SCmdEntranceList _link_home_scene_set0000_cmd05;
+extern SCmdSpecialFiles _link_home_scene_set0000_cmd06;
+extern SCmdSpawnList _link_home_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _link_home_scene_set0000_cmd08;
+extern SCmdExitList _link_home_scene_set0000_cmd09;
+extern SCmdLightSettingList _link_home_scene_set0000_cmd0A;
+extern SCmdEndMarker _link_home_scene_set0000_cmd0B;
+extern u32 _link_home_scene_alternateHeaders_00000060[];
+extern SCmdSoundSettings _link_home_scene_set0E80_cmd00;
+extern SCmdRoomList _link_home_scene_set0E80_cmd01;
+extern SCmdMiscSettings _link_home_scene_set0E80_cmd02;
+extern SCmdColHeader _link_home_scene_set0E80_cmd03;
+extern SCmdEntranceList _link_home_scene_set0E80_cmd04;
+extern SCmdSpecialFiles _link_home_scene_set0E80_cmd05;
+extern SCmdSpawnList _link_home_scene_set0E80_cmd06;
+extern SCmdSkyboxSettings _link_home_scene_set0E80_cmd07;
+extern SCmdExitList _link_home_scene_set0E80_cmd08;
+extern SCmdLightSettingList _link_home_scene_set0E80_cmd09;
+extern SCmdCutsceneData _link_home_scene_set0E80_cmd0A;
+extern SCmdEndMarker _link_home_scene_set0E80_cmd0B;
+extern SCmdSoundSettings _link_home_scene_set0F60_cmd00;
+extern SCmdRoomList _link_home_scene_set0F60_cmd01;
+extern SCmdMiscSettings _link_home_scene_set0F60_cmd02;
+extern SCmdColHeader _link_home_scene_set0F60_cmd03;
+extern SCmdEntranceList _link_home_scene_set0F60_cmd04;
+extern SCmdSpecialFiles _link_home_scene_set0F60_cmd05;
+extern SCmdSpawnList _link_home_scene_set0F60_cmd06;
+extern SCmdSkyboxSettings _link_home_scene_set0F60_cmd07;
+extern SCmdExitList _link_home_scene_set0F60_cmd08;
+extern SCmdLightSettingList _link_home_scene_set0F60_cmd09;
+extern SCmdCutsceneData _link_home_scene_set0F60_cmd0A;
+extern SCmdEndMarker _link_home_scene_set0F60_cmd0B;
+
+
+
+
+
+extern SCmdAltHeaders _link_home_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _link_home_scene_set0000_cmd01;
+
+extern SCmdRoomList _link_home_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _link_home_scene_set0000_cmd03;
+
+extern SCmdColHeader _link_home_scene_set0000_cmd04;
+
+extern SCmdEntranceList _link_home_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _link_home_scene_set0000_cmd06;
+
+extern SCmdSpawnList _link_home_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _link_home_scene_set0000_cmd08;
+
+extern SCmdExitList _link_home_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _link_home_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _link_home_scene_set0000_cmd0B;
+
+extern u32 _link_home_scene_alternateHeaders_00000060[];
+
+extern SCmdSoundSettings _link_home_scene_set0E80_cmd00;
+
+extern SCmdRoomList _link_home_scene_set0E80_cmd01;
+
+extern SCmdMiscSettings _link_home_scene_set0E80_cmd02;
+
+extern SCmdColHeader _link_home_scene_set0E80_cmd03;
+
+extern SCmdEntranceList _link_home_scene_set0E80_cmd04;
+
+extern SCmdSpecialFiles _link_home_scene_set0E80_cmd05;
+
+extern SCmdSpawnList _link_home_scene_set0E80_cmd06;
+
+extern SCmdSkyboxSettings _link_home_scene_set0E80_cmd07;
+
+extern SCmdExitList _link_home_scene_set0E80_cmd08;
+
+extern SCmdLightSettingList _link_home_scene_set0E80_cmd09;
+
+extern SCmdCutsceneData _link_home_scene_set0E80_cmd0A;
+
+extern SCmdEndMarker _link_home_scene_set0E80_cmd0B;
+
+extern SCmdSoundSettings _link_home_scene_set0F60_cmd00;
+
+extern SCmdRoomList _link_home_scene_set0F60_cmd01;
+
+extern SCmdMiscSettings _link_home_scene_set0F60_cmd02;
+
+extern SCmdColHeader _link_home_scene_set0F60_cmd03;
+
+extern SCmdEntranceList _link_home_scene_set0F60_cmd04;
+
+extern SCmdSpecialFiles _link_home_scene_set0F60_cmd05;
+
+extern SCmdSpawnList _link_home_scene_set0F60_cmd06;
+
+extern SCmdSkyboxSettings _link_home_scene_set0F60_cmd07;
+
+extern SCmdExitList _link_home_scene_set0F60_cmd08;
+
+extern SCmdLightSettingList _link_home_scene_set0F60_cmd09;
+
+extern SCmdCutsceneData _link_home_scene_set0F60_cmd0A;
+
+extern SCmdEndMarker _link_home_scene_set0F60_cmd0B;
+
+

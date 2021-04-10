@@ -1,0 +1,239 @@
+extern RomFile _spot18_scene_roomList_000000F4[];
+extern TransitionActorEntry _spot18_scene_transitionActorList_000000C4[];
+extern CollisionHeader _spot18_scene_collisionHeader_000059AC;
+extern EntranceEntry _spot18_scene_entranceList_00000114[];
+extern Vec3s _spot18_scene_pathwayList_00000190[];
+extern ActorEntry _spot18_scene_startPositionList_00000084[];
+extern u16 _spot18_scene_exitList_0000011C[];
+extern LightSettings _spot18_scene_lightSettings_00000124[];
+extern RomFile _spot18_scene_roomList_00007B08[];
+extern TransitionActorEntry _spot18_scene_transitionActorList_00007AD8[];
+extern CollisionHeader _spot18_scene_collisionHeader_000059AC;
+extern EntranceEntry _spot18_scene_entranceList_00007B28[];
+extern Vec3s _spot18_scene_pathwayList_00007B94[];
+extern ActorEntry _spot18_scene_startPositionList_00007A98[];
+extern u16 _spot18_scene_exitList_00007B30[];
+extern LightSettings _spot18_scene_lightSettings_00007B38[];
+extern RomFile _spot18_scene_roomList_00007C60[];
+extern TransitionActorEntry _spot18_scene_transitionActorList_00007C30[];
+extern CollisionHeader _spot18_scene_collisionHeader_000059AC;
+extern EntranceEntry _spot18_scene_entranceList_00007C80[];
+extern ActorEntry _spot18_scene_startPositionList_00007C10[];
+extern ActorEntry _spot18_scene_actorList_00007C20[1];
+extern u16 _spot18_scene_exitList_00007C84[];
+extern LightSettings _spot18_scene_lightSettings_00007C8C[];
+extern s32 _spot18_scene_cutsceneData_00006930[];
+extern RomFile _spot18_scene_roomList_00007D98[];
+extern TransitionActorEntry _spot18_scene_transitionActorList_00007D68[];
+extern CollisionHeader _spot18_scene_collisionHeader_000059AC;
+extern EntranceEntry _spot18_scene_entranceList_00007DB8[];
+extern ActorEntry _spot18_scene_startPositionList_00007D58[];
+extern u16 _spot18_scene_exitList_00007DBC[];
+extern LightSettings _spot18_scene_lightSettings_00007DC4[];
+extern s32 _spot18_scene_cutsceneData_00007840[];
+
+extern SCmdAltHeaders _spot18_scene_set0000_cmd00;
+extern SCmdSoundSettings _spot18_scene_set0000_cmd01;
+extern SCmdRoomList _spot18_scene_set0000_cmd02;
+extern SCmdTransiActorList _spot18_scene_set0000_cmd03;
+extern SCmdMiscSettings _spot18_scene_set0000_cmd04;
+extern SCmdColHeader _spot18_scene_set0000_cmd05;
+extern SCmdEntranceList _spot18_scene_set0000_cmd06;
+extern SCmdSpecialFiles _spot18_scene_set0000_cmd07;
+extern SCmdPathList _spot18_scene_set0040_cmd08;
+extern SCmdSpawnList _spot18_scene_set0000_cmd09;
+extern SCmdSkyboxSettings _spot18_scene_set0000_cmd0A;
+extern SCmdExitList _spot18_scene_set0000_cmd0B;
+extern SCmdLightSettingList _spot18_scene_set0000_cmd0C;
+extern SCmdEndMarker _spot18_scene_set0000_cmd0D;
+extern u32 _spot18_scene_alternateHeaders_00000070[];
+extern Vec3s _spot18_scene_pathwayList_0000013C[];
+extern Path _spot18_scene_pathway_00000190;
+extern SCmdSoundSettings _spot18_scene_set7A30_cmd00;
+extern SCmdRoomList _spot18_scene_set7A30_cmd01;
+extern SCmdTransiActorList _spot18_scene_set7A30_cmd02;
+extern SCmdMiscSettings _spot18_scene_set7A30_cmd03;
+extern SCmdColHeader _spot18_scene_set7A30_cmd04;
+extern SCmdEntranceList _spot18_scene_set7A30_cmd05;
+extern SCmdSpecialFiles _spot18_scene_set7A30_cmd06;
+extern SCmdPathList _spot18_scene_set7A68_cmd07;
+extern SCmdSpawnList _spot18_scene_set7A30_cmd08;
+extern SCmdSkyboxSettings _spot18_scene_set7A30_cmd09;
+extern SCmdExitList _spot18_scene_set7A30_cmd0A;
+extern SCmdLightSettingList _spot18_scene_set7A30_cmd0B;
+extern SCmdEndMarker _spot18_scene_set7A30_cmd0C;
+extern Vec3s _spot18_scene_pathwayList_00007B50[];
+extern Path _spot18_scene_pathway_00007B94;
+extern SCmdSoundSettings _spot18_scene_set7BA0_cmd00;
+extern SCmdRoomList _spot18_scene_set7BA0_cmd01;
+extern SCmdTransiActorList _spot18_scene_set7BA0_cmd02;
+extern SCmdMiscSettings _spot18_scene_set7BA0_cmd03;
+extern SCmdColHeader _spot18_scene_set7BA0_cmd04;
+extern SCmdEntranceList _spot18_scene_set7BA0_cmd05;
+extern SCmdSpecialFiles _spot18_scene_set7BA0_cmd06;
+extern SCmdSpawnList _spot18_scene_set7BA0_cmd07;
+extern SCmdActorList _spot18_scene_set7BE0_cmd08;
+extern SCmdSkyboxSettings _spot18_scene_set7BA0_cmd09;
+extern SCmdExitList _spot18_scene_set7BA0_cmd0A;
+extern SCmdLightSettingList _spot18_scene_set7BA0_cmd0B;
+extern SCmdCutsceneData _spot18_scene_set7BA0_cmd0C;
+extern SCmdEndMarker _spot18_scene_set7BA0_cmd0D;
+extern SCmdSoundSettings _spot18_scene_set7CF0_cmd00;
+extern SCmdRoomList _spot18_scene_set7CF0_cmd01;
+extern SCmdTransiActorList _spot18_scene_set7CF0_cmd02;
+extern SCmdMiscSettings _spot18_scene_set7CF0_cmd03;
+extern SCmdColHeader _spot18_scene_set7CF0_cmd04;
+extern SCmdEntranceList _spot18_scene_set7CF0_cmd05;
+extern SCmdSpecialFiles _spot18_scene_set7CF0_cmd06;
+extern SCmdSpawnList _spot18_scene_set7CF0_cmd07;
+extern SCmdSkyboxSettings _spot18_scene_set7CF0_cmd08;
+extern SCmdExitList _spot18_scene_set7CF0_cmd09;
+extern SCmdLightSettingList _spot18_scene_set7CF0_cmd0A;
+extern SCmdCutsceneData _spot18_scene_set7CF0_cmd0B;
+extern SCmdEndMarker _spot18_scene_set7CF0_cmd0C;
+extern u64 _spot18_scene_tex_000085C0[];
+extern u64 _spot18_scene_tex_000087C8[];
+extern u64 _spot18_scene_tex_00008FC8[];
+extern u64 _spot18_scene_tex_00009008[];
+extern u64 _spot18_scene_tex_00009848[];
+extern u64 _spot18_scene_tex_00009C48[];
+
+#define _spot18_room_1_vertices_00000C78 ((u32)_spot18_room_1_vertices_00000A98 + 0x000001E0)
+#define _spot18_room_1_vertices_00000C78 ((u32)_spot18_room_1_vertices_00000A98 + 0x000001E0)
+#define _spot18_room_1_vertices_00000C78 ((u32)_spot18_room_1_vertices_00000A98 + 0x000001E0)
+#define _spot18_room_1_vertices_00000C78 ((u32)_spot18_room_1_vertices_00000A98 + 0x000001E0)
+
+
+
+
+extern SCmdAltHeaders _spot18_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _spot18_scene_set0000_cmd01;
+
+extern SCmdRoomList _spot18_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _spot18_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _spot18_scene_set0000_cmd04;
+
+extern SCmdColHeader _spot18_scene_set0000_cmd05;
+
+extern SCmdEntranceList _spot18_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _spot18_scene_set0000_cmd07;
+
+extern SCmdPathList _spot18_scene_set0040_cmd08;
+
+extern SCmdSpawnList _spot18_scene_set0000_cmd09;
+
+extern SCmdSkyboxSettings _spot18_scene_set0000_cmd0A;
+
+extern SCmdExitList _spot18_scene_set0000_cmd0B;
+
+extern SCmdLightSettingList _spot18_scene_set0000_cmd0C;
+
+extern SCmdEndMarker _spot18_scene_set0000_cmd0D;
+
+extern u32 _spot18_scene_alternateHeaders_00000070[];
+
+extern Vec3s _spot18_scene_pathwayList_0000013C[];
+
+extern Path _spot18_scene_pathway_00000190;
+
+extern SCmdSoundSettings _spot18_scene_set7A30_cmd00;
+
+extern SCmdRoomList _spot18_scene_set7A30_cmd01;
+
+extern SCmdTransiActorList _spot18_scene_set7A30_cmd02;
+
+extern SCmdMiscSettings _spot18_scene_set7A30_cmd03;
+
+extern SCmdColHeader _spot18_scene_set7A30_cmd04;
+
+extern SCmdEntranceList _spot18_scene_set7A30_cmd05;
+
+extern SCmdSpecialFiles _spot18_scene_set7A30_cmd06;
+
+extern SCmdPathList _spot18_scene_set7A68_cmd07;
+
+extern SCmdSpawnList _spot18_scene_set7A30_cmd08;
+
+extern SCmdSkyboxSettings _spot18_scene_set7A30_cmd09;
+
+extern SCmdExitList _spot18_scene_set7A30_cmd0A;
+
+extern SCmdLightSettingList _spot18_scene_set7A30_cmd0B;
+
+extern SCmdEndMarker _spot18_scene_set7A30_cmd0C;
+
+extern Vec3s _spot18_scene_pathwayList_00007B50[];
+
+extern Path _spot18_scene_pathway_00007B94;
+
+extern SCmdSoundSettings _spot18_scene_set7BA0_cmd00;
+
+extern SCmdRoomList _spot18_scene_set7BA0_cmd01;
+
+extern SCmdTransiActorList _spot18_scene_set7BA0_cmd02;
+
+extern SCmdMiscSettings _spot18_scene_set7BA0_cmd03;
+
+extern SCmdColHeader _spot18_scene_set7BA0_cmd04;
+
+extern SCmdEntranceList _spot18_scene_set7BA0_cmd05;
+
+extern SCmdSpecialFiles _spot18_scene_set7BA0_cmd06;
+
+extern SCmdSpawnList _spot18_scene_set7BA0_cmd07;
+
+extern SCmdActorList _spot18_scene_set7BE0_cmd08;
+
+extern SCmdSkyboxSettings _spot18_scene_set7BA0_cmd09;
+
+extern SCmdExitList _spot18_scene_set7BA0_cmd0A;
+
+extern SCmdLightSettingList _spot18_scene_set7BA0_cmd0B;
+
+extern SCmdCutsceneData _spot18_scene_set7BA0_cmd0C;
+
+extern SCmdEndMarker _spot18_scene_set7BA0_cmd0D;
+
+extern SCmdSoundSettings _spot18_scene_set7CF0_cmd00;
+
+extern SCmdRoomList _spot18_scene_set7CF0_cmd01;
+
+extern SCmdTransiActorList _spot18_scene_set7CF0_cmd02;
+
+extern SCmdMiscSettings _spot18_scene_set7CF0_cmd03;
+
+extern SCmdColHeader _spot18_scene_set7CF0_cmd04;
+
+extern SCmdEntranceList _spot18_scene_set7CF0_cmd05;
+
+extern SCmdSpecialFiles _spot18_scene_set7CF0_cmd06;
+
+extern SCmdSpawnList _spot18_scene_set7CF0_cmd07;
+
+extern SCmdSkyboxSettings _spot18_scene_set7CF0_cmd08;
+
+extern SCmdExitList _spot18_scene_set7CF0_cmd09;
+
+extern SCmdLightSettingList _spot18_scene_set7CF0_cmd0A;
+
+extern SCmdCutsceneData _spot18_scene_set7CF0_cmd0B;
+
+extern SCmdEndMarker _spot18_scene_set7CF0_cmd0C;
+
+extern u64 _spot18_scene_tex_000085C0[];
+
+extern u64 _spot18_scene_tex_000087C8[];
+
+extern u64 _spot18_scene_tex_00008FC8[];
+
+extern u64 _spot18_scene_tex_00009008[];
+
+extern u64 _spot18_scene_tex_00009848[];
+
+extern u64 _spot18_scene_tex_00009C48[];
+
+

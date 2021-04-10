@@ -1,0 +1,50 @@
+extern RomFile _market_alley_scene_roomList_000000E0[];
+extern TransitionActorEntry _market_alley_scene_transitionActorList_000000B0[];
+extern CollisionHeader _market_alley_scene_collisionHeader_00001218;
+extern EntranceEntry _market_alley_scene_entranceList_000000E8[];
+extern ActorEntry _market_alley_scene_startPositionList_00000060[];
+extern u16 _market_alley_scene_exitList_000000F4[];
+extern LightSettings _market_alley_scene_lightSettings_00000100[];
+
+extern SCmdSoundSettings _market_alley_scene_set0000_cmd00;
+extern SCmdRoomList _market_alley_scene_set0000_cmd01;
+extern SCmdTransiActorList _market_alley_scene_set0000_cmd02;
+extern SCmdMiscSettings _market_alley_scene_set0000_cmd03;
+extern SCmdColHeader _market_alley_scene_set0000_cmd04;
+extern SCmdEntranceList _market_alley_scene_set0000_cmd05;
+extern SCmdSpecialFiles _market_alley_scene_set0000_cmd06;
+extern SCmdSpawnList _market_alley_scene_set0000_cmd07;
+extern SCmdSkyboxSettings _market_alley_scene_set0000_cmd08;
+extern SCmdExitList _market_alley_scene_set0000_cmd09;
+extern SCmdLightSettingList _market_alley_scene_set0000_cmd0A;
+extern SCmdEndMarker _market_alley_scene_set0000_cmd0B;
+
+
+
+
+
+extern SCmdSoundSettings _market_alley_scene_set0000_cmd00;
+
+extern SCmdRoomList _market_alley_scene_set0000_cmd01;
+
+extern SCmdTransiActorList _market_alley_scene_set0000_cmd02;
+
+extern SCmdMiscSettings _market_alley_scene_set0000_cmd03;
+
+extern SCmdColHeader _market_alley_scene_set0000_cmd04;
+
+extern SCmdEntranceList _market_alley_scene_set0000_cmd05;
+
+extern SCmdSpecialFiles _market_alley_scene_set0000_cmd06;
+
+extern SCmdSpawnList _market_alley_scene_set0000_cmd07;
+
+extern SCmdSkyboxSettings _market_alley_scene_set0000_cmd08;
+
+extern SCmdExitList _market_alley_scene_set0000_cmd09;
+
+extern SCmdLightSettingList _market_alley_scene_set0000_cmd0A;
+
+extern SCmdEndMarker _market_alley_scene_set0000_cmd0B;
+
+

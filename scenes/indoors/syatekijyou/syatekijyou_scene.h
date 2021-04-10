@@ -1,0 +1,264 @@
+extern RomFile _syatekijyou_scene_roomList_000000B0[];
+extern TransitionActorEntry _syatekijyou_scene_transitionActorList_000000A0[];
+extern CollisionHeader _syatekijyou_scene_collisionHeader_00001420;
+extern EntranceEntry _syatekijyou_scene_entranceList_000000B8[];
+extern ActorEntry _syatekijyou_scene_startPositionList_00000080[];
+extern u16 _syatekijyou_scene_exitList_000000BC[];
+extern LightSettings _syatekijyou_scene_lightSettings_000000C0[];
+extern RomFile _syatekijyou_scene_roomList_00001A98[];
+extern TransitionActorEntry _syatekijyou_scene_transitionActorList_00001A88[];
+extern CollisionHeader _syatekijyou_scene_collisionHeader_00001420;
+extern EntranceEntry _syatekijyou_scene_entranceList_00001AA0[];
+extern ActorEntry _syatekijyou_scene_startPositionList_00001A78[];
+extern LightSettings _syatekijyou_scene_lightSettings_00001AA4[];
+extern s32 _syatekijyou_scene_cutsceneData_00001450[];
+extern RomFile _syatekijyou_scene_roomList_00001B48[];
+extern TransitionActorEntry _syatekijyou_scene_transitionActorList_00001B38[];
+extern CollisionHeader _syatekijyou_scene_collisionHeader_00001420;
+extern EntranceEntry _syatekijyou_scene_entranceList_00001B50[];
+extern ActorEntry _syatekijyou_scene_startPositionList_00001B28[];
+extern u16 _syatekijyou_scene_exitList_00001B54[];
+extern LightSettings _syatekijyou_scene_lightSettings_00001B58[];
+extern s32 _syatekijyou_scene_cutsceneData_00001640[];
+extern RomFile _syatekijyou_scene_roomList_00001BF8[];
+extern TransitionActorEntry _syatekijyou_scene_transitionActorList_00001BE8[];
+extern CollisionHeader _syatekijyou_scene_collisionHeader_00001420;
+extern EntranceEntry _syatekijyou_scene_entranceList_00001C00[];
+extern ActorEntry _syatekijyou_scene_startPositionList_00001BD8[];
+extern u16 _syatekijyou_scene_exitList_00001C04[];
+extern LightSettings _syatekijyou_scene_lightSettings_00001C08[];
+extern s32 _syatekijyou_scene_cutsceneData_00001830[];
+
+extern SCmdAltHeaders _syatekijyou_scene_set0000_cmd00;
+extern SCmdSoundSettings _syatekijyou_scene_set0000_cmd01;
+extern SCmdRoomList _syatekijyou_scene_set0000_cmd02;
+extern SCmdTransiActorList _syatekijyou_scene_set0000_cmd03;
+extern SCmdMiscSettings _syatekijyou_scene_set0000_cmd04;
+extern SCmdColHeader _syatekijyou_scene_set0000_cmd05;
+extern SCmdEntranceList _syatekijyou_scene_set0000_cmd06;
+extern SCmdSpecialFiles _syatekijyou_scene_set0000_cmd07;
+extern SCmdSpawnList _syatekijyou_scene_set0000_cmd08;
+extern SCmdSkyboxSettings _syatekijyou_scene_set0000_cmd09;
+extern SCmdExitList _syatekijyou_scene_set0000_cmd0A;
+extern SCmdLightSettingList _syatekijyou_scene_set0000_cmd0B;
+extern SCmdEndMarker _syatekijyou_scene_set0000_cmd0C;
+extern u32 _syatekijyou_scene_alternateHeaders_00000068[];
+extern SCmdSoundSettings _syatekijyou_scene_set1A20_cmd00;
+extern SCmdRoomList _syatekijyou_scene_set1A20_cmd01;
+extern SCmdTransiActorList _syatekijyou_scene_set1A20_cmd02;
+extern SCmdMiscSettings _syatekijyou_scene_set1A20_cmd03;
+extern SCmdColHeader _syatekijyou_scene_set1A20_cmd04;
+extern SCmdEntranceList _syatekijyou_scene_set1A20_cmd05;
+extern SCmdSpawnList _syatekijyou_scene_set1A20_cmd06;
+extern SCmdSkyboxSettings _syatekijyou_scene_set1A20_cmd07;
+extern SCmdLightSettingList _syatekijyou_scene_set1A20_cmd08;
+extern SCmdCutsceneData _syatekijyou_scene_set1A20_cmd09;
+extern SCmdEndMarker _syatekijyou_scene_set1A20_cmd0A;
+extern SCmdSoundSettings _syatekijyou_scene_set1AC0_cmd00;
+extern SCmdRoomList _syatekijyou_scene_set1AC0_cmd01;
+extern SCmdTransiActorList _syatekijyou_scene_set1AC0_cmd02;
+extern SCmdMiscSettings _syatekijyou_scene_set1AC0_cmd03;
+extern SCmdColHeader _syatekijyou_scene_set1AC0_cmd04;
+extern SCmdEntranceList _syatekijyou_scene_set1AC0_cmd05;
+extern SCmdSpecialFiles _syatekijyou_scene_set1AC0_cmd06;
+extern SCmdSpawnList _syatekijyou_scene_set1AC0_cmd07;
+extern SCmdSkyboxSettings _syatekijyou_scene_set1AC0_cmd08;
+extern SCmdExitList _syatekijyou_scene_set1AC0_cmd09;
+extern SCmdLightSettingList _syatekijyou_scene_set1AC0_cmd0A;
+extern SCmdCutsceneData _syatekijyou_scene_set1AC0_cmd0B;
+extern SCmdEndMarker _syatekijyou_scene_set1AC0_cmd0C;
+extern SCmdSoundSettings _syatekijyou_scene_set1B70_cmd00;
+extern SCmdRoomList _syatekijyou_scene_set1B70_cmd01;
+extern SCmdTransiActorList _syatekijyou_scene_set1B70_cmd02;
+extern SCmdMiscSettings _syatekijyou_scene_set1B70_cmd03;
+extern SCmdColHeader _syatekijyou_scene_set1B70_cmd04;
+extern SCmdEntranceList _syatekijyou_scene_set1B70_cmd05;
+extern SCmdSpecialFiles _syatekijyou_scene_set1B70_cmd06;
+extern SCmdSpawnList _syatekijyou_scene_set1B70_cmd07;
+extern SCmdSkyboxSettings _syatekijyou_scene_set1B70_cmd08;
+extern SCmdExitList _syatekijyou_scene_set1B70_cmd09;
+extern SCmdLightSettingList _syatekijyou_scene_set1B70_cmd0A;
+extern SCmdCutsceneData _syatekijyou_scene_set1B70_cmd0B;
+extern SCmdEndMarker _syatekijyou_scene_set1B70_cmd0C;
+extern u64 _syatekijyou_scene_tex_00001C40[];
+extern u64 _syatekijyou_scene_tex_00001D40[];
+extern u64 _syatekijyou_scene_tex_00002140[];
+extern u64 _syatekijyou_scene_tex_00002540[];
+extern u64 _syatekijyou_scene_tex_00002740[];
+extern u64 _syatekijyou_scene_tex_00003740[];
+extern u64 _syatekijyou_scene_tex_00003940[];
+extern u64 _syatekijyou_scene_tex_000039C0[];
+extern u64 _syatekijyou_scene_tex_00003DC0[];
+extern u64 _syatekijyou_scene_tex_000041C0[];
+extern u64 _syatekijyou_scene_tex_000051C0[];
+extern u64 _syatekijyou_scene_tex_000052C0[];
+extern u64 _syatekijyou_scene_tex_000054C0[];
+extern u64 _syatekijyou_scene_tex_00005CC0[];
+extern u64 _syatekijyou_scene_tex_00006CC0[];
+extern u64 _syatekijyou_scene_tex_00007CC0[];
+extern u64 _syatekijyou_scene_tex_00008CC0[];
+extern u64 _syatekijyou_scene_tex_00009CC0[];
+extern u64 _syatekijyou_scene_tex_0000A4C0[];
+extern u64 _syatekijyou_scene_tex_0000ACC0[];
+extern u64 _syatekijyou_scene_tex_0000B0C0[];
+extern u64 _syatekijyou_scene_tex_0000B2C0[];
+
+#define _syatekijyou_room_0_vertices_00000630 ((u32)_syatekijyou_room_0_vertices_00000450 + 0x000001E0)
+#define _syatekijyou_room_0_vertices_00002610 ((u32)_syatekijyou_room_0_vertices_00002430 + 0x000001E0)
+#define _syatekijyou_room_0_vertices_00000630 ((u32)_syatekijyou_room_0_vertices_00000450 + 0x000001E0)
+#define _syatekijyou_room_0_vertices_00002610 ((u32)_syatekijyou_room_0_vertices_00002430 + 0x000001E0)
+#define _syatekijyou_room_0_vertices_00000630 ((u32)_syatekijyou_room_0_vertices_00000450 + 0x000001E0)
+#define _syatekijyou_room_0_vertices_00002610 ((u32)_syatekijyou_room_0_vertices_00002430 + 0x000001E0)
+#define _syatekijyou_room_0_vertices_00000630 ((u32)_syatekijyou_room_0_vertices_00000450 + 0x000001E0)
+#define _syatekijyou_room_0_vertices_00002610 ((u32)_syatekijyou_room_0_vertices_00002430 + 0x000001E0)
+
+
+
+
+extern SCmdAltHeaders _syatekijyou_scene_set0000_cmd00;
+
+extern SCmdSoundSettings _syatekijyou_scene_set0000_cmd01;
+
+extern SCmdRoomList _syatekijyou_scene_set0000_cmd02;
+
+extern SCmdTransiActorList _syatekijyou_scene_set0000_cmd03;
+
+extern SCmdMiscSettings _syatekijyou_scene_set0000_cmd04;
+
+extern SCmdColHeader _syatekijyou_scene_set0000_cmd05;
+
+extern SCmdEntranceList _syatekijyou_scene_set0000_cmd06;
+
+extern SCmdSpecialFiles _syatekijyou_scene_set0000_cmd07;
+
+extern SCmdSpawnList _syatekijyou_scene_set0000_cmd08;
+
+extern SCmdSkyboxSettings _syatekijyou_scene_set0000_cmd09;
+
+extern SCmdExitList _syatekijyou_scene_set0000_cmd0A;
+
+extern SCmdLightSettingList _syatekijyou_scene_set0000_cmd0B;
+
+extern SCmdEndMarker _syatekijyou_scene_set0000_cmd0C;
+
+extern u32 _syatekijyou_scene_alternateHeaders_00000068[];
+
+extern SCmdSoundSettings _syatekijyou_scene_set1A20_cmd00;
+
+extern SCmdRoomList _syatekijyou_scene_set1A20_cmd01;
+
+extern SCmdTransiActorList _syatekijyou_scene_set1A20_cmd02;
+
+extern SCmdMiscSettings _syatekijyou_scene_set1A20_cmd03;
+
+extern SCmdColHeader _syatekijyou_scene_set1A20_cmd04;
+
+extern SCmdEntranceList _syatekijyou_scene_set1A20_cmd05;
+
+extern SCmdSpawnList _syatekijyou_scene_set1A20_cmd06;
+
+extern SCmdSkyboxSettings _syatekijyou_scene_set1A20_cmd07;
+
+extern SCmdLightSettingList _syatekijyou_scene_set1A20_cmd08;
+
+extern SCmdCutsceneData _syatekijyou_scene_set1A20_cmd09;
+
+extern SCmdEndMarker _syatekijyou_scene_set1A20_cmd0A;
+
+extern SCmdSoundSettings _syatekijyou_scene_set1AC0_cmd00;
+
+extern SCmdRoomList _syatekijyou_scene_set1AC0_cmd01;
+
+extern SCmdTransiActorList _syatekijyou_scene_set1AC0_cmd02;
+
+extern SCmdMiscSettings _syatekijyou_scene_set1AC0_cmd03;
+
+extern SCmdColHeader _syatekijyou_scene_set1AC0_cmd04;
+
+extern SCmdEntranceList _syatekijyou_scene_set1AC0_cmd05;
+
+extern SCmdSpecialFiles _syatekijyou_scene_set1AC0_cmd06;
+
+extern SCmdSpawnList _syatekijyou_scene_set1AC0_cmd07;
+
+extern SCmdSkyboxSettings _syatekijyou_scene_set1AC0_cmd08;
+
+extern SCmdExitList _syatekijyou_scene_set1AC0_cmd09;
+
+extern SCmdLightSettingList _syatekijyou_scene_set1AC0_cmd0A;
+
+extern SCmdCutsceneData _syatekijyou_scene_set1AC0_cmd0B;
+
+extern SCmdEndMarker _syatekijyou_scene_set1AC0_cmd0C;
+
+extern SCmdSoundSettings _syatekijyou_scene_set1B70_cmd00;
+
+extern SCmdRoomList _syatekijyou_scene_set1B70_cmd01;
+
+extern SCmdTransiActorList _syatekijyou_scene_set1B70_cmd02;
+
+extern SCmdMiscSettings _syatekijyou_scene_set1B70_cmd03;
+
+extern SCmdColHeader _syatekijyou_scene_set1B70_cmd04;
+
+extern SCmdEntranceList _syatekijyou_scene_set1B70_cmd05;
+
+extern SCmdSpecialFiles _syatekijyou_scene_set1B70_cmd06;
+
+extern SCmdSpawnList _syatekijyou_scene_set1B70_cmd07;
+
+extern SCmdSkyboxSettings _syatekijyou_scene_set1B70_cmd08;
+
+extern SCmdExitList _syatekijyou_scene_set1B70_cmd09;
+
+extern SCmdLightSettingList _syatekijyou_scene_set1B70_cmd0A;
+
+extern SCmdCutsceneData _syatekijyou_scene_set1B70_cmd0B;
+
+extern SCmdEndMarker _syatekijyou_scene_set1B70_cmd0C;
+
+extern u64 _syatekijyou_scene_tex_00001C40[];
+
+extern u64 _syatekijyou_scene_tex_00001D40[];
+
+extern u64 _syatekijyou_scene_tex_00002140[];
+
+extern u64 _syatekijyou_scene_tex_00002540[];
+
+extern u64 _syatekijyou_scene_tex_00002740[];
+
+extern u64 _syatekijyou_scene_tex_00003740[];
+
+extern u64 _syatekijyou_scene_tex_00003940[];
+
+extern u64 _syatekijyou_scene_tex_000039C0[];
+
+extern u64 _syatekijyou_scene_tex_00003DC0[];
+
+extern u64 _syatekijyou_scene_tex_000041C0[];
+
+extern u64 _syatekijyou_scene_tex_000051C0[];
+
+extern u64 _syatekijyou_scene_tex_000052C0[];
+
+extern u64 _syatekijyou_scene_tex_000054C0[];
+
+extern u64 _syatekijyou_scene_tex_00005CC0[];
+
+extern u64 _syatekijyou_scene_tex_00006CC0[];
+
+extern u64 _syatekijyou_scene_tex_00007CC0[];
+
+extern u64 _syatekijyou_scene_tex_00008CC0[];
+
+extern u64 _syatekijyou_scene_tex_00009CC0[];
+
+extern u64 _syatekijyou_scene_tex_0000A4C0[];
+
+extern u64 _syatekijyou_scene_tex_0000ACC0[];
+
+extern u64 _syatekijyou_scene_tex_0000B0C0[];
+
+extern u64 _syatekijyou_scene_tex_0000B2C0[];
+
+

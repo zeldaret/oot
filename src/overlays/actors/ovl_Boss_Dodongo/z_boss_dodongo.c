@@ -57,7 +57,7 @@ extern SkeletonHeader D_0601B310;
 extern AnimationHeader D_0600F0D8;
 extern u64 D_030021D8[];
 extern AnimationHeader D_06008EEC;
-extern u64* D_06017410; // Title card
+extern u64 D_06017410[]; // Title card
 extern AnimationHeader D_0601CAE0;
 extern AnimationHeader D_06008EEC;
 extern AnimationHeader D_060061D4;
@@ -76,13 +76,13 @@ extern s16 D_06017210[];
 extern s16 D_06015D90[];
 extern s16 D_06016390[];
 extern s16 D_06016590[];
-extern s16 D_06016790[];
+extern s16 D_06016790[]; 
 extern s16 D_06015990[];
 extern s16 D_06015F90[];
 extern s16 D_06016990[];
 extern s16 D_06016E10[];
-extern Gfx* D_06009D50[];
-extern Gfx* D_06009DD0[];
+extern Gfx D_06009D50[];
+extern Gfx D_06009DD0[];
 
 void func_808C1190(s16* arg0, u8* arg1, s16 arg2) {
     if (arg2[arg1] != 0) {
@@ -122,7 +122,7 @@ void func_808C1278(s16* arg0, u8* arg1, s16 arg2) {
     }
 }
 
-void func_808C12C4(void* arg1, s16 arg2) {
+void func_808C12C4(u8* arg1, s16 arg2) {
     func_808C1190(SEGMENTED_TO_VIRTUAL(D_06015890), arg1, arg2);
     func_808C1200(SEGMENTED_TO_VIRTUAL(D_06017210), arg1, arg2);
     func_808C11D0(SEGMENTED_TO_VIRTUAL(D_06015D90), arg1, arg2);
@@ -135,8 +135,8 @@ void func_808C12C4(void* arg1, s16 arg2) {
     func_808C1278(SEGMENTED_TO_VIRTUAL(D_06016E10), arg1, arg2);
 }
 
-void func_808C1554(u64* D_030021D8, u64* floorTex, s32 arg2, f32 arg3) {
-    u16* temp_s3 = SEGMENTED_TO_VIRTUAL(D_030021D8);
+void func_808C1554(void* arg0, void* floorTex, s32 arg2, f32 arg3) {
+    u16* temp_s3 = SEGMENTED_TO_VIRTUAL(arg0);
     u16* temp_s1 = SEGMENTED_TO_VIRTUAL(floorTex);
     s16 i;
     s16 i2;
@@ -232,7 +232,7 @@ void BossDodongo_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     if (Flags_GetClear(globalCtx, globalCtx->roomCtx.curRoom.num)) { // KD is dead
         temp_s1_3 = SEGMENTED_TO_VIRTUAL(&D_030021D8);
-        temp_s2 = SEGMENTED_TO_VIRTUAL(gBossDodongoLavaFloorRockTex);
+        temp_s2 = SEGMENTED_TO_VIRTUAL(sLavaFloorRockTex);
 
         Actor_Kill(&this->actor);
         Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_DOOR_WARP1, -890.0f, -1523.76f,
@@ -1021,12 +1021,12 @@ void BossDodongo_Update(Actor* thisx, GlobalContext* globalCtx2) {
             }
         }
 
-        func_808C1554(D_030021D8, gBossDodongoLavaFloorLavaTex, this->unk_19E, this->unk_224);
+        func_808C1554(D_030021D8, sLavaFloorLavaTex, this->unk_19E, this->unk_224);
     }
 
     if (this->unk_1C6 != 0) {
-        u16* ptr1 = SEGMENTED_TO_VIRTUAL(gBossDodongoLavaFloorLavaTex);
-        u16* ptr2 = SEGMENTED_TO_VIRTUAL(gBossDodongoLavaFloorRockTex);
+        u16* ptr1 = SEGMENTED_TO_VIRTUAL(sLavaFloorLavaTex);
+        u16* ptr2 = SEGMENTED_TO_VIRTUAL(sLavaFloorRockTex);
         s16 i2;
 
         for (i2 = 0; i2 < 20; i2++) {
@@ -1203,10 +1203,10 @@ f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx) {
     xDiff = player->actor.world.pos.x - this->actor.world.pos.x;
     zDiff = player->actor.world.pos.z - this->actor.world.pos.z;
 
-    rotation = Math_CosS((-0x8000 - this->actor.world.rot.y));
-    sp2C = (Math_SinS((-0x8000 - this->actor.world.rot.y)) * zDiff) + (rotation * xDiff);
-    rotation = Math_SinS((-0x8000 - this->actor.world.rot.y));
-    temp_f2 = (Math_CosS((-0x8000 - this->actor.world.rot.y)) * zDiff) + (-rotation * xDiff);
+    rotation = Math_CosS(-0x8000 - this->actor.world.rot.y);
+    sp2C = (Math_SinS(-0x8000 - this->actor.world.rot.y) * zDiff) + (rotation * xDiff);
+    rotation = Math_SinS(-0x8000 - this->actor.world.rot.y);
+    temp_f2 = (Math_CosS(-0x8000 - this->actor.world.rot.y) * zDiff) + (-rotation * xDiff);
 
     if ((fabsf(sp2C) < 150.0f) && (100.0f <= temp_f2) && (temp_f2 <= 2000.0f)) {
         return temp_f2;
@@ -1216,7 +1216,7 @@ f32 func_808C50A8(BossDodongo* this, GlobalContext* globalCtx) {
 }
 
 void BossDodongo_PlayerYawCheck(BossDodongo* this, GlobalContext* globalCtx) {
-    s16 yawDiff = Actor_WorldYawTowardActor(&this->actor, (Actor*)PLAYER) - this->actor.world.rot.y;
+    s16 yawDiff = Actor_WorldYawTowardActor(&this->actor, &PLAYER->actor) - this->actor.world.rot.y;
 
     if ((yawDiff < 0x38E3) && (-0x38E3 < yawDiff)) {
         this->playerYawInRange = true;
@@ -1305,7 +1305,7 @@ void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_DEAD);
     this->unk_1DA = 0;
     this->csState = 0;
-    this->actor.flags = this->actor.flags & ~5;
+    this->actor.flags &= ~5;
     this->unk_1BC = 1;
     Audio_SetBGM(0x100100FF);
 }

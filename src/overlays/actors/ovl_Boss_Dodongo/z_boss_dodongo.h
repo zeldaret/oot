@@ -8,7 +8,7 @@ struct BossDodongo;
 
 typedef void (*BossDodongoActionFunc)(struct BossDodongo*, GlobalContext*);
 
-typedef struct BossDodongoEffect {
+typedef struct {
     /* 0x00 */ Vec3f unk_0;
     /* 0x0C */ Vec3f unk_C;
     /* 0x18 */ Vec3f unk_18;
@@ -23,7 +23,7 @@ typedef struct BossDodongo {
     /* 0x0000 */ Actor actor;
     /* 0x014C */ SkelAnime skelAnime;
     /* 0x0190 */ BossDodongoActionFunc actionFunc;
-    /* 0x0194 */ s16 health; // u16
+    /* 0x0194 */ s16 health;
     /* 0x0196 */ s16 unk_196;
     /* 0x0198 */ s16 unk_198;
     /* 0x019A */ s16 unk_19A;
@@ -60,7 +60,7 @@ typedef struct BossDodongo {
     /* 0x01E2 */ u8 unk_1E2;
     /* 0x01E3 */ s8 unk_1E3;
     /* 0x01E4 */ f32 unk_1E4;
-    /* 0x01E8 */ f32 unk_1E8; // Vec3f?
+    /* 0x01E8 */ f32 unk_1E8;
     /* 0x01EC */ f32 unk_1EC;
     /* 0x01F0 */ char unk_1F0[0x8];
     /* 0x01F8 */ f32 unk_1F8;

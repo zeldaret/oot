@@ -1,0 +1,46 @@
+extern RomFile _tent_scene_roomList_00000068[];
+extern CollisionHeader _tent_scene_collisionHeader_0000064C;
+extern EntranceEntry _tent_scene_entranceList_00000070[];
+extern ActorEntry _tent_scene_startPositionList_00000058[];
+extern u16 _tent_scene_exitList_00000074[];
+extern LightSettings _tent_scene_lightSettings_00000078[];
+
+extern SCmdSoundSettings _tent_scene_set0000_cmd00;
+extern SCmdRoomList _tent_scene_set0000_cmd01;
+extern SCmdMiscSettings _tent_scene_set0000_cmd02;
+extern SCmdColHeader _tent_scene_set0000_cmd03;
+extern SCmdEntranceList _tent_scene_set0000_cmd04;
+extern SCmdSpecialFiles _tent_scene_set0000_cmd05;
+extern SCmdSpawnList _tent_scene_set0000_cmd06;
+extern SCmdSkyboxSettings _tent_scene_set0000_cmd07;
+extern SCmdExitList _tent_scene_set0000_cmd08;
+extern SCmdLightSettingList _tent_scene_set0000_cmd09;
+extern SCmdEndMarker _tent_scene_set0000_cmd0A;
+
+
+
+
+
+extern SCmdSoundSettings _tent_scene_set0000_cmd00;
+
+extern SCmdRoomList _tent_scene_set0000_cmd01;
+
+extern SCmdMiscSettings _tent_scene_set0000_cmd02;
+
+extern SCmdColHeader _tent_scene_set0000_cmd03;
+
+extern SCmdEntranceList _tent_scene_set0000_cmd04;
+
+extern SCmdSpecialFiles _tent_scene_set0000_cmd05;
+
+extern SCmdSpawnList _tent_scene_set0000_cmd06;
+
+extern SCmdSkyboxSettings _tent_scene_set0000_cmd07;
+
+extern SCmdExitList _tent_scene_set0000_cmd08;
+
+extern SCmdLightSettingList _tent_scene_set0000_cmd09;
+
+extern SCmdEndMarker _tent_scene_set0000_cmd0A;
+
+
