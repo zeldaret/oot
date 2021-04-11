@@ -1799,7 +1799,8 @@ void BossSst_HandGrab(BossSst* this, GlobalContext* globalCtx) {
         this->timer--;
     }
 
-    this->actor.world.rot.y = ((1.0f - sinf(this->timer * (M_PI / 60.0f))) * (this->vParity * 0x2000)) + this->targetYaw;
+    this->actor.world.rot.y =
+        ((1.0f - sinf(this->timer * (M_PI / 60.0f))) * (this->vParity * 0x2000)) + this->targetYaw;
     this->actor.shape.rot.y = this->actor.world.rot.y - (this->vParity * 0x4000);
     if (this->timer < 5) {
         Math_SmoothStepToF(&this->actor.speedXZ, 0.0f, 0.5f, 25.0f, 5.0f);

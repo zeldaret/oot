@@ -1,5 +1,12 @@
+/*
+ * File: z_en_ge1.c
+ * Overlay: ovl_En_Ge1
+ * Description: White-clothed Gerudo
+ */
+
 #include "z_en_ge1.h"
 #include "vt.h"
+#include "objects/object_ge1/object_ge1.h"
 
 #define FLAGS 0x00000009
 
@@ -13,7 +20,7 @@
 typedef enum {
     /* 00 */ GE1_HAIR_BOB,
     /* 01 */ GE1_HAIR_STRAIGHT,
-    /* 02 */ GE1_HAIR_SPIKEY
+    /* 02 */ GE1_HAIR_SPIKY
 } EnGe1Hairstyle;
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx);
@@ -67,36 +74,31 @@ static ColliderCylinderInit sCylinderInit = {
 };
 
 static Gfx* sHairstyleDLists[] = {
-    0x06009198, // Bob
-    0x06009430, // Straight with fringe
-    0x06009690, // Spikey
+    gGerudoWhiteHairstyleBobDL,
+    gGerudoWhiteHairstyleStraightFringeDL,
+    gGerudoWhiteHairstyleSpikyDL,
 };
 
 static Vec3f D_80A327A8 = { 600.0f, 700.0f, 0.0f };
 
 static u64* sEyeTextures[] = {
-    0x06000708, // Mostly Open
-    0x06000F08, // Half
-    0x06001708, // Closed
+    gGerudoWhiteEyeOpenTex,
+    gGerudoWhiteEyeHalfTex,
+    gGerudoWhiteEyeClosedTex,
 };
-
-extern AnimationHeader D_06000228; // Idle, arms crossed
-extern FlexSkeletonHeader D_06000330;
-extern AnimationHeader D_0600A048; // Clap
-extern AnimationHeader D_0600A498; // Dismissive gesture
 
 void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     s32 pad;
     EnGe1* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 30.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06000330, &D_06000228, this->jointTable, this->morphTable,
-                       GE1_LIMB_MAX);
-    Animation_PlayOnce(&this->skelAnime, &D_06000228);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoWhiteSkel, &gGerudoWhiteIdleAnim, this->jointTable,
+                       this->morphTable, GE1_LIMB_MAX);
+    Animation_PlayOnce(&this->skelAnime, &gGerudoWhiteIdleAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
-    this->animation = &D_06000228;
+    this->animation = &gGerudoWhiteIdleAnim;
     this->animFunc = EnGe1_CueUpAnimation;
     this->actor.targetMode = 6;
     Actor_SetScale(&this->actor, 0.01f);
@@ -107,12 +109,13 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
     switch (this->actor.params & 0xFF) {
 
         case GE1_TYPE_GATE_GUARD:
-            this->hairstyle = GE1_HAIR_SPIKEY;
+            this->hairstyle = GE1_HAIR_SPIKY;
             this->actionFunc = EnGe1_GetReaction_GateGuard;
             break;
 
         case GE1_TYPE_GATE_OPERATOR:
             this->hairstyle = GE1_HAIR_STRAIGHT;
+
             if (EnGe1_CheckCarpentersFreed()) {
                 this->actionFunc = EnGe1_CheckGate_GateOp;
             } else {
@@ -122,6 +125,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         case GE1_TYPE_NORMAL:
             this->hairstyle = GE1_HAIR_STRAIGHT;
+
             if (EnGe1_CheckCarpentersFreed()) {
                 this->actionFunc = EnGe1_SetNormalText;
             } else {
@@ -169,6 +173,7 @@ void EnGe1_Init(Actor* thisx, GlobalContext* globalCtx) {
             }
             break;
     }
+
     this->stateFlags = 0;
 }
 
@@ -183,23 +188,25 @@ s32 EnGe1_SetTalkAction(EnGe1* this, GlobalContext* globalCtx, u16 textId, f32 a
         this->actionFunc = actionFunc;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
-        this->animation = &D_06000228;
-        Animation_Change(&this->skelAnime, &D_06000228, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000228), ANIMMODE_ONCE,
-                         -8.0f);
+        this->animation = &gGerudoWhiteIdleAnim;
+        Animation_Change(&this->skelAnime, &gGerudoWhiteIdleAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gGerudoWhiteIdleAnim), ANIMMODE_ONCE, -8.0f);
         return true;
     }
+
     this->actor.textId = textId;
 
     if (this->actor.xzDistToPlayer < arg3) {
         func_8002F2CC(&this->actor, globalCtx, arg3);
     }
+
     return false;
 }
 
 void EnGe1_SetAnimationIdle(EnGe1* this) {
-    Animation_Change(&this->skelAnime, &D_06000228, -1.0f, Animation_GetLastFrame(&D_06000228), 0.0f, ANIMMODE_ONCE,
-                     8.0f);
-    this->animation = &D_06000228;
+    Animation_Change(&this->skelAnime, &gGerudoWhiteIdleAnim, -1.0f, Animation_GetLastFrame(&gGerudoWhiteIdleAnim),
+                     0.0f, ANIMMODE_ONCE, 8.0f);
+    this->animation = &gGerudoWhiteIdleAnim;
     this->animFunc = EnGe1_CueUpAnimation;
 }
 
@@ -225,7 +232,7 @@ void EnGe1_KickPlayer(EnGe1* this, GlobalContext* globalCtx) {
 
         if ((INV_CONTENT(ITEM_HOOKSHOT) == ITEM_NONE) || (INV_CONTENT(ITEM_LONGSHOT) == ITEM_NONE)) {
             globalCtx->nextEntranceIndex = 0x1A5;
-        } else if (gSaveContext.eventChkInf[12] & 0x80) {
+        } else if (gSaveContext.eventChkInf[12] & 0x80) { // Caught previously
             globalCtx->nextEntranceIndex = 0x5F8;
         } else {
             globalCtx->nextEntranceIndex = 0x3B4;
@@ -254,6 +261,7 @@ void EnGe1_WatchForPlayerFrontOnly(EnGe1* this, GlobalContext* globalCtx) {
     if (this->collider.base.acFlags & AC_HIT) {
         EnGe1_SpotPlayer(this, globalCtx);
     }
+
     CollisionCheck_SetAC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
 }
 
@@ -265,13 +273,16 @@ void EnGe1_ChooseActionFromTextId(EnGe1* this, GlobalContext* globalCtx) {
             case 0x6001:
                 this->actionFunc = EnGe1_SetNormalText;
                 break;
+
             case 0x601A:
             case 0x6019:
                 this->actionFunc = EnGe1_GetReaction_ValleyFloor;
                 break;
+
             case 0x6018:
                 this->actionFunc = EnGe1_CheckGate_GateOp;
                 break;
+
             default:
                 this->actionFunc = EnGe1_GetReaction_ValleyFloor;
                 break;
@@ -333,9 +344,9 @@ void EnGe1_Open_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_SetupOpen_GTGGuard(EnGe1* this, GlobalContext* globalCtx) {
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         this->actionFunc = EnGe1_Open_GTGGuard;
-        Animation_Change(&this->skelAnime, &D_0600A048, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A048), ANIMMODE_ONCE,
-                         -3.0f);
-        this->animation = &D_0600A048;
+        Animation_Change(&this->skelAnime, &gGerudoWhiteClapAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gGerudoWhiteClapAnim), ANIMMODE_ONCE, -3.0f);
+        this->animation = &gGerudoWhiteClapAnim;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
     }
@@ -428,9 +439,9 @@ void EnGe1_SetupOpenGate_GateOp(EnGe1* this, GlobalContext* globalCtx) {
 
     if ((func_8010BDBC(&globalCtx->msgCtx) == 5) && func_80106BC8(globalCtx)) {
         this->actionFunc = EnGe1_OpenGate_GateOp;
-        Animation_Change(&this->skelAnime, &D_0600A048, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A048), ANIMMODE_ONCE,
-                         -3.0f);
-        this->animation = &D_0600A048;
+        Animation_Change(&this->skelAnime, &gGerudoWhiteClapAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gGerudoWhiteClapAnim), ANIMMODE_ONCE, -3.0f);
+        this->animation = &gGerudoWhiteClapAnim;
         this->animFunc = EnGe1_StopFidget;
         this->stateFlags &= ~GE1_STATE_IDLE_ANIM;
     }
@@ -466,9 +477,9 @@ void EnGe1_GetReaction_GateGuard(EnGe1* this, GlobalContext* globalCtx) {
 
     if (EnGe1_SetTalkAction(this, globalCtx, reactionText, 100.0f, EnGe1_Talk_GateGuard)) {
         this->animFunc = EnGe1_CueUpAnimation;
-        this->animation = &D_0600A498;
-        Animation_Change(&this->skelAnime, &D_0600A498, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600A498), ANIMMODE_ONCE,
-                         -8.0f);
+        this->animation = &gGerudoWhiteDismissiveAnim;
+        Animation_Change(&this->skelAnime, &gGerudoWhiteDismissiveAnim, 1.0f, 0.0f,
+                         Animation_GetLastFrame(&gGerudoWhiteDismissiveAnim), ANIMMODE_ONCE, -8.0f);
     }
 }
 
@@ -516,6 +527,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
         this->actor.flags &= ~0x10000;
         this->actionFunc = EnGe1_WaitTillItemGiven_Archery;
     }
+
     if (this->stateFlags & GE1_STATE_GIVE_QUIVER) {
         switch (CUR_UPG_VALUE(UPG_QUIVER)) {
             //! @bug Asschest: the compiler inserts a default assigning *(sp+0x24) to getItemId, which is junk data left
@@ -532,6 +544,7 @@ void EnGe1_BeginGiveItem_Archery(EnGe1* this, GlobalContext* globalCtx) {
     } else {
         getItemId = GI_HEART_PIECE;
     }
+
     func_8002F434(&this->actor, globalCtx, getItemId, 10000.0f, 50.0f);
 }
 
@@ -586,9 +599,11 @@ void EnGe1_BeginGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
                             horse->freezeTimer = 1200;
                         }
                     }
+
                     this->actionFunc = EnGe1_WaitDoNothing;
                 }
                 break;
+
             case 1:
                 this->actionFunc = EnGe1_Wait_Archery;
                 func_80106CCC(globalCtx);
@@ -615,11 +630,11 @@ void EnGe1_TalkNoPrize_Archery(EnGe1* this, GlobalContext* globalCtx) {
 void EnGe1_TalkAfterGame_Archery(EnGe1* this, GlobalContext* globalCtx) {
     gSaveContext.eventInf[0] &= ~0x100;
     LOG_NUM("z_common_data.yabusame_total", gSaveContext.minigameScore, "../z_en_ge1.c", 1110);
-    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.highScores[0], "../z_en_ge1.c", 1111);
+    LOG_NUM("z_common_data.memory.information.room_inf[127][ 0 ]", gSaveContext.highScores[HS_HBA], "../z_en_ge1.c", 1111);
     this->actor.flags |= 0x10000;
 
-    if (gSaveContext.highScores[0] < gSaveContext.minigameScore) {
-        gSaveContext.highScores[0] = gSaveContext.minigameScore;
+    if (gSaveContext.highScores[HS_HBA] < gSaveContext.minigameScore) {
+        gSaveContext.highScores[HS_HBA] = gSaveContext.minigameScore;
     }
 
     if (gSaveContext.minigameScore < 1000) {
@@ -776,10 +791,12 @@ void EnGe1_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
     EnGe1* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1419);
+
     if (limbIndex == GE1_LIMB_HEAD) {
         gSPDisplayList(POLY_OPA_DISP++, sHairstyleDLists[this->hairstyle]);
         Matrix_MultVec3f(&D_80A327A8, &this->actor.focus.pos);
     }
+
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1427);
 }
 
@@ -788,9 +805,11 @@ void EnGe1_Draw(Actor* thisx, GlobalContext* globalCtx) {
     EnGe1* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1442);
+
     func_800943C8(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[this->eyeIndex]));
     SkelAnime_DrawFlexOpa(globalCtx, this->skelAnime.skeleton, this->skelAnime.jointTable, this->skelAnime.dListCount,
                           EnGe1_OverrideLimbDraw, EnGe1_PostLimbDraw, this);
+                          
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_ge1.c", 1459);
 }
