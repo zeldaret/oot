@@ -1372,8 +1372,11 @@ endseg
 beginseg
     name "ovl_Boss_Dodongo"
     include "build/src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.o"
-    include "build/data/overlays/actors/z_boss_dodongo.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Dodongo/ovl_Boss_Dodongo_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_dodongo.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1894,8 +1897,7 @@ endseg
 beginseg
     name "ovl_En_Bdfire"
     include "build/src/overlays/actors/ovl_En_Bdfire/z_en_bdfire.o"
-    include "build/data/overlays/actors/z_en_bdfire.data.o"
-    include "build/data/overlays/actors/z_en_bdfire.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bdfire/ovl_En_Bdfire_reloc.o"
 endseg
 
 beginseg

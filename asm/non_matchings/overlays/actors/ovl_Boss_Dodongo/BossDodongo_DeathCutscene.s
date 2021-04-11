@@ -10,6 +10,7 @@ glabel jtbl_808CA744
 .word L808C5A4C
 .word L808C5FE4
 .word L808C5FE4
+
 glabel D_808CA76C
     .float 0.1
 
@@ -84,7 +85,7 @@ glabel D_808CA7D4
  .word 0xC4BB5852, 0x00000000, 0x00000000
 
 .text
-glabel func_808C5578
+glabel BossDodongo_DeathCutscene
 /* 043E8 808C5578 27BDFE60 */  addiu   $sp, $sp, 0xFE60           ## $sp = FFFFFE60
 /* 043EC 808C557C AFB00038 */  sw      $s0, 0x0038($sp)
 /* 043F0 808C5580 AFBF003C */  sw      $ra, 0x003C($sp)
@@ -503,9 +504,9 @@ glabel L808C5A4C
 /* 049DC 808C5B6C E7A80010 */  swc1    $f8, 0x0010($sp)
 /* 049E0 808C5B70 861801DA */  lh      $t8, 0x01DA($s0)           ## 000001DA
 /* 049E4 808C5B74 24010001 */  addiu   $at, $zero, 0x0001         ## $at = 00000001
-/* 049E8 808C5B78 3C0C808D */  lui     $t4, %hi(D_808CA3F8)       ## $t4 = 808D0000
+/* 049E8 808C5B78 3C0C808D */  lui     $t4, %hi(sCornerPositions)       ## $t4 = 808D0000
 /* 049EC 808C5B7C 17010018 */  bne     $t8, $at, .L808C5BE0
-/* 049F0 808C5B80 258CA3F8 */  addiu   $t4, $t4, %lo(D_808CA3F8)  ## $t4 = 808CA3F8
+/* 049F0 808C5B80 258CA3F8 */  addiu   $t4, $t4, %lo(sCornerPositions)  ## $t4 = 808CA3F8
 /* 049F4 808C5B84 3C013FC0 */  lui     $at, 0x3FC0                ## $at = 3FC00000
 /* 049F8 808C5B88 44819000 */  mtc1    $at, $f18                  ## $f18 = 1.50
 /* 049FC 808C5B8C C60A01E4 */  lwc1    $f10, 0x01E4($s0)          ## 000001E4
