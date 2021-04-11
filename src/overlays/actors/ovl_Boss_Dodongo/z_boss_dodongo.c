@@ -76,7 +76,7 @@ extern s16 D_06017210[];
 extern s16 D_06015D90[];
 extern s16 D_06016390[];
 extern s16 D_06016590[];
-extern s16 D_06016790[]; 
+extern s16 D_06016790[];
 extern s16 D_06015990[];
 extern s16 D_06015F90[];
 extern s16 D_06016990[];
@@ -167,8 +167,8 @@ void func_808C17C8(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2, Vec3f* ar
     for (i = 0; i < arg5; i++, eff++) {
         if (eff->unk_24 == 0) {
             eff->unk_24 = 1;
-            eff->unk_0 = *arg1;
-            eff->unk_C = *arg2;
+            eff->unk_00 = *arg1;
+            eff->unk_0C = *arg2;
             eff->unk_18 = *arg3;
             eff->unk_2C = arg4 / 1000.0f;
             eff->alpha = 255;
@@ -1151,8 +1151,8 @@ void BossDodongo_Draw(Actor* thisx, GlobalContext* globalCtx) {
     if ((this->unk_1C0 >= 2) && (this->unk_1C0 & 1)) {
         POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, 255, 255, 255, 0, 900, 1099);
     } else {
-        POLY_OPA_DISP =
-            Gfx_SetFog(POLY_OPA_DISP, (u32)this->colorFilterR, (u32)this->colorFilterG, (u32)this->colorFilterB, 0, this->colorFilterMin, this->colorFilterMax);
+        POLY_OPA_DISP = Gfx_SetFog(POLY_OPA_DISP, (u32)this->colorFilterR, (u32)this->colorFilterG,
+                                   (u32)this->colorFilterB, 0, this->colorFilterMin, this->colorFilterMax);
     }
 
     Matrix_RotateZ(this->unk_23C, MTXMODE_APPLY);
@@ -1701,13 +1701,13 @@ void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
 
     for (i = 0; i < 80; i++, eff++) {
         if (eff->unk_24 != 0) {
-            eff->unk_0.x += eff->unk_C.x;
-            eff->unk_0.y += eff->unk_C.y;
-            eff->unk_0.z += eff->unk_C.z;
+            eff->unk_00.x += eff->unk_0C.x;
+            eff->unk_00.y += eff->unk_0C.y;
+            eff->unk_00.z += eff->unk_0C.z;
             eff->unk_25++;
-            eff->unk_C.x += eff->unk_18.x;
-            eff->unk_C.y += eff->unk_18.y;
-            eff->unk_C.z += eff->unk_18.z;
+            eff->unk_0C.x += eff->unk_18.x;
+            eff->unk_0C.y += eff->unk_18.y;
+            eff->unk_0C.z += eff->unk_18.z;
             if (eff->unk_24 == 1) {
                 colorIndex = eff->unk_25 % 4;
                 eff->color.r = effectColors[colorIndex].r;
@@ -1747,7 +1747,7 @@ void BossDodongo_DrawEffects(GlobalContext* globalCtx) {
             }
 
             gDPSetPrimColor(POLY_XLU_DISP++, 0, 0, eff->color.r, eff->color.g, eff->color.b, eff->alpha);
-            Matrix_Translate(eff->unk_0.x, eff->unk_0.y, eff->unk_0.z, MTXMODE_NEW);
+            Matrix_Translate(eff->unk_00.x, eff->unk_00.y, eff->unk_00.z, MTXMODE_NEW);
             func_800D1FD4(unkMtx);
             Matrix_Scale(eff->unk_2C, eff->unk_2C, 1.0f, MTXMODE_APPLY);
             gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(gfxCtx, "../z_boss_dodongo.c", 5253),

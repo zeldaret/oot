@@ -19,7 +19,7 @@ void EnBdfire_DrawFire(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC2A4(EnBdfire* this, GlobalContext* globalCtx);
 void func_809BC598(EnBdfire* this, GlobalContext* globalCtx);
 
-extern Gfx* D_0601D950[];
+extern Gfx D_0601D950[];
 
 const ActorInit En_Bdfire_InitVars = {
     0,

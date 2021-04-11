@@ -9,8 +9,8 @@ struct BossDodongo;
 typedef void (*BossDodongoActionFunc)(struct BossDodongo*, GlobalContext*);
 
 typedef struct {
-    /* 0x00 */ Vec3f unk_0;
-    /* 0x0C */ Vec3f unk_C;
+    /* 0x00 */ Vec3f unk_00;
+    /* 0x0C */ Vec3f unk_0C;
     /* 0x18 */ Vec3f unk_18;
     /* 0x24 */ u8 unk_24;
     /* 0x25 */ u8 unk_25;
