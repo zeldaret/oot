@@ -1,4 +1,5 @@
 #include "z_en_cs.h"
+#include "objects/object_cs/object_cs.h"
 
 #define FLAGS 0x00000009
 
@@ -15,8 +16,26 @@ void EnCs_Wait(EnCs* this, GlobalContext* globalCtx);
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-extern FlexSkeletonHeader D_06008540; // Graveyard boy skeleton
-extern Gfx D_0602AF70[];              // Spooky Mask in Child Link's object
+typedef enum {
+    /* 0X00 */ GRAVEYARD_KID_UNK_0,
+    /* 0X01 */ GRAVEYARD_KID_TORSOLIMB,
+    /* 0X02 */ GRAVEYARD_KID_UPPERLEFTLEG,
+    /* 0X03 */ GRAVEYARD_KID_LOWERLEFTLEG,
+    /* 0X04 */ GRAVEYARD_KID_LEFTFOOT,
+    /* 0X05 */ GRAVEYARD_KID_UPPERRIGHTLEG,
+    /* 0X06 */ GRAVEYARD_KID_LOWERRIGHTLEG,
+    /* 0X07 */ GRAVEYARD_KID_RIGHTFOOT,
+    /* 0X08 */ GRAVEYARD_KID_CHEST,
+    /* 0X09 */ GRAVEYARD_KID_LEFTUPPERARM,
+    /* 0X0A */ GRAVEYARD_KID_LEFTLOWERARM,
+    /* 0X0B */ GRAVEYARD_KID_LEFTHAND,
+    /* 0X0C */ GRAVEYARD_KID_RIGHTUPPERARM,
+    /* 0X0D */ GRAVEYARD_KID_RIGHTLOWERARM,
+    /* 0X0E */ GRAVEYARD_KID_RIGHTHANDANDSTICK,
+    /* 0X0F */ GRAVEYARD_KID_HEAD
+} GRAVEYARD_KID_LIMB;
+
+extern Gfx D_0602AF70[]; // Spooky Mask in Child Link's object
 
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
@@ -94,7 +113,7 @@ void EnCs_Init(Actor* thisx, GlobalContext* globalCtx) {
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 19.0f);
 
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008540, NULL, this->jointTable, this->morphTable, 16);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGraveYardKidSkel, NULL, this->jointTable, this->morphTable, 16);
 
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
@@ -289,47 +308,46 @@ void EnCs_Walk(EnCs* this, GlobalContext* globalCtx) {
 
     if (this->talkState != 0) {
         this->actionFunc = EnCs_Talk;
-        return;
-    }
+    } else {
+        if (SkelAnime_Update(&this->skelAnime)) {
+            animIndex = this->currentAnimIndex;
 
-    if (SkelAnime_Update(&this->skelAnime)) {
-        animIndex = this->currentAnimIndex;
-
-        if (this->talkState == 0) {
-            if (gSaveContext.itemGetInf[3] & 0x400) {
-                rnd = Rand_ZeroOne() * 10.0f;
-            } else {
-                rnd = Rand_ZeroOne() * 5.0f;
-            }
-
-            if (rnd == 0) {
+            if (this->talkState == 0) {
                 if (gSaveContext.itemGetInf[3] & 0x400) {
-                    animIndex = 2.0f * Rand_ZeroOne();
-                    animIndex = (animIndex == 0) ? 2 : 1;
+                    rnd = Rand_ZeroOne() * 10.0f;
                 } else {
-                    animIndex = 2;
+                    rnd = Rand_ZeroOne() * 5.0f;
                 }
 
-                this->actionFunc = EnCs_Wait;
-            } else {
-                animIndex = 0;
+                if (rnd == 0) {
+                    if (gSaveContext.itemGetInf[3] & 0x400) {
+                        animIndex = 2.0f * Rand_ZeroOne();
+                        animIndex = (animIndex == 0) ? 2 : 1;
+                    } else {
+                        animIndex = 2;
+                    }
+
+                    this->actionFunc = EnCs_Wait;
+                } else {
+                    animIndex = 0;
+                }
             }
+
+            EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
         }
 
-        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
-    }
+        if (this->talkState == 0) {
+            curAnimFrame = this->skelAnime.curFrame;
 
-    if (this->talkState == 0) {
-        curAnimFrame = this->skelAnime.curFrame;
+            if (((curAnimFrame >= 8) && (curAnimFrame < 16)) || ((curAnimFrame >= 23) && (curAnimFrame < 30)) ||
+                (curAnimFrame == 0)) {
+                this->walkSpeed = 0.0f;
+            } else {
+                this->walkSpeed = 1.0f;
+            }
 
-        if (((curAnimFrame >= 8) && (curAnimFrame < 16)) || ((curAnimFrame >= 23) && (curAnimFrame < 30)) ||
-            (curAnimFrame == 0)) {
-            this->walkSpeed = 0.0f;
-        } else {
-            this->walkSpeed = 1.0f;
+            EnCs_HandleWalking(this, globalCtx);
         }
-
-        EnCs_HandleWalking(this, globalCtx);
     }
 }
 
@@ -338,23 +356,23 @@ void EnCs_Wait(EnCs* this, GlobalContext* globalCtx) {
 
     if (this->talkState != 0) {
         this->actionFunc = EnCs_Talk;
-        return;
-    }
+    } else {
 
-    if (SkelAnime_Update(&this->skelAnime)) {
-        animIndex = this->currentAnimIndex;
+        if (SkelAnime_Update(&this->skelAnime)) {
+            animIndex = this->currentAnimIndex;
 
-        if (this->talkState == 0) {
-            if (this->animLoopCount > 0) {
-                this->animLoopCount--;
-                animIndex = this->currentAnimIndex;
-            } else {
-                animIndex = 0;
-                this->actionFunc = EnCs_Walk;
+            if (this->talkState == 0) {
+                if (this->animLoopCount > 0) {
+                    this->animLoopCount--;
+                    animIndex = this->currentAnimIndex;
+                } else {
+                    animIndex = 0;
+                    this->actionFunc = EnCs_Walk;
+                }
             }
-        }
 
-        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
+            EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
+        }
     }
 }
 
@@ -452,11 +470,11 @@ s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, 
 
     if (this->flag & 1) {
         switch (limbIndex) {
-            case 8:
+            case GRAVEYARD_KID_CHEST:
                 rot->x += this->npcInfo.unk_0E.y;
                 rot->y -= this->npcInfo.unk_0E.x;
                 break;
-            case 15:
+            case GRAVEYARD_KID_HEAD:
                 rot->x += this->npcInfo.unk_08.y;
                 rot->z += this->npcInfo.unk_08.x;
                 break;
@@ -470,7 +488,7 @@ void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     static Vec3f D_809E2970 = { 500.0f, 800.0f, 0.0f };
     EnCs* this = THIS;
 
-    if (limbIndex == 15) {
+    if (limbIndex == GRAVEYARD_KID_HEAD) {
         Matrix_MultVec3f(&D_809E2970, &this->actor.focus.pos);
         Matrix_Translate(0.0f, -200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);

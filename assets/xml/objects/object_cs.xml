@@ -1,0 +1,26 @@
+<Root>
+    <File Name="object_cs" Segment="6">
+        <Skeleton Name="gGraveYardKidSkel" Type="Flex" LimbType="Standard" Offset="0x8540"/>
+        <Limb Name="gGraveYardKidUNK_8540Limb" LimbType="Standard" Offset="0x8450"/>
+        <Limb Name="gGraveYardKidTorsoLimb" LimbType="Standard" Offset="0x845C"/>
+
+        <Limb Name="gGraveYardKidUpperLeftLegLimb" LimbType="Standard" Offset="0x8468"/>
+        <Limb Name="gGraveYardKidLowerLeftLegLimb" LimbType="Standard" Offset="0x8474"/>
+        <Limb Name="gGraveYardKidLeftFootLimb" LimbType="Standard" Offset="0x8480"/>
+
+        <Limb Name="gGraveYardKidUpperRightLegLimb" LimbType="Standard" Offset="0x848C"/>
+        <Limb Name="gGraveYardKidLowerRightLegLimb" LimbType="Standard" Offset="0x8498"/>
+        <Limb Name="gGraveYardKidRightFootLimb" LimbType="Standard" Offset="0x84A4"/>
+
+        <Limb Name="gGraveYardKidChestLimb" LimbType="Standard" Offset="0x84B0"/>
+        <Limb Name="gGraveYardKidLeftUpperArmLimb" LimbType="Standard" Offset="0x84BC"/>
+        <Limb Name="gGraveYardKidLeftLowerArmLimb" LimbType="Standard" Offset="0x84C8"/>
+        <Limb Name="gGraveYardKidLeftHandLimb" LimbType="Standard" Offset="0x84D4"/>
+
+        <Limb Name="gGraveYardKidRightUpperArmLimb" LimbType="Standard" Offset="0x84E0"/>
+        <Limb Name="gGraveYardKidRightLowerArmLimb" LimbType="Standard" Offset="0x84EC"/>
+        <Limb Name="gGraveYardKidRightHandAndStickLimb" LimbType="Standard" Offset="0x84F8"/>
+
+        <!--<Limb Name="gGraveYardKidHeadLimb" LimbType="Standard" Offset="0x8504"/>-->
+    </File>
+</Root>
