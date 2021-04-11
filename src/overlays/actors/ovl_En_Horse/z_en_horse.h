@@ -24,7 +24,7 @@ typedef enum {
     /* 16 */ ENHORSE_ACT_BRIDGE_JUMP,
     /* 17 */ ENHORSE_ACT_CS_UPDATE,
     /* 18 */ ENHORSE_ACT_HBA,
-    /* 19 */ ENHORSE_ACT_FLEE_PLAYER,
+    /* 19 */ ENHORSE_ACT_FLEE_PLAYER
 } EnHorseAction;
 
 
@@ -69,7 +69,7 @@ typedef enum {
     /* 2 */ PLAYER_DIR_BACK_R,
     /* 3 */ PLAYER_DIR_BACK_L,
     /* 4 */ PLAYER_DIR_SIDE_R,
-    /* 5 */ PLAYER_DIR_SIDE_L,
+    /* 5 */ PLAYER_DIR_SIDE_L
 } EnHorsePlayerDir;
 
 typedef enum {
@@ -81,12 +81,12 @@ typedef enum {
     /* 5 */ ENHORSE_ANIM_TROT,
     /* 6 */ ENHORSE_ANIM_GALLOP,
     /* 7 */ ENHORSE_ANIM_LOW_JUMP,
-    /* 8 */ ENHORSE_ANIM_HIGH_JUMP,
+    /* 8 */ ENHORSE_ANIM_HIGH_JUMP
 } EnHorseAnimationIndex;
 
 typedef enum {
     /* 0 */ HORSE_EPONA,
-    /* 1 */ HORSE_HNI,
+    /* 1 */ HORSE_HNI
 } HorseType;
 
 typedef void (*EnHorsePostdrawFunc)(struct EnHorse*, GlobalContext*);
@@ -137,7 +137,6 @@ typedef struct EnHorse {
     /* 0x037E */ s16 unk_37E;
     /* 0x0380 */ s32 cutsceneAction;
     /* 0x0384 */ u16 cutsceneFlags;
-    /* 0x0386 */ s16 unk_386; // pad
     // struct {
     /* 0x0388 */ s32 inRace;
     /* 0x038C */ Actor* rider;

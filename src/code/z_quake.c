@@ -337,7 +337,7 @@ s16 Quake_Calc(Camera* camera, QuakeCamCalc* camData) {
     for (idx = 0; idx < ARRAY_COUNT(sQuakeRequest); idx++) {
         req = &sQuakeRequest[idx];
         if (req->callbackIdx != 0) {
-            if (globalCtx->cameraPtrs[req->camPtrIdx] == 0) {
+            if (globalCtx->cameraPtrs[req->camPtrIdx] == NULL) {
                 osSyncPrintf(VT_COL(YELLOW, BLACK) "quake: stopped! 'coz camera [%d] killed!!\n" VT_RST,
                              req->camPtrIdx);
                 Quake_Remove(req);
