@@ -1,6 +1,7 @@
 #include "z_en_goma.h"
 #include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 #include "overlays/actors/ovl_Boss_Goma/z_boss_goma.h"
+#include "overlays/effects/ovl_Effect_Ss_Hahen/z_eff_ss_hahen.h"
 
 #define FLAGS 0x00000035
 
@@ -190,7 +191,7 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void EnGoma_SetupFlee(EnGoma* this) {
     Animation_Change(&this->skelanime, &D_06003D78, 2.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP, -2.0f);
-    this->actionFunc = &EnGoma_Flee;
+    this->actionFunc = EnGoma_Flee;
     this->actionTimer = 20;
 
     if (this->actor.params < 6) {
@@ -297,14 +298,14 @@ void EnGoma_Egg(EnGoma* this, GlobalContext* globalCtx) {
             pos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
             pos.y = Rand_ZeroFloat(30.0f) + this->actor.world.pos.y;
             pos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
-            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, -1, 10, 0);
+            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
         }
     }
 }
 
 void EnGoma_SetupHatch(EnGoma* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE, 0.0f);
-    this->actionFunc = &EnGoma_Hatch;
+    this->actionFunc = EnGoma_Hatch;
     Actor_SetScale(&this->actor, 0.005f);
     this->gomaType = ENGOMA_NORMAL;
     this->actionTimer = 5;
@@ -324,7 +325,7 @@ void EnGoma_Hatch(EnGoma* this, GlobalContext* globalCtx) {
 
 void EnGoma_SetupHurt(EnGoma* this, GlobalContext* globalCtx) {
     Animation_Change(&this->skelanime, &D_06000838, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000838), ANIMMODE_ONCE, -2.0f);
-    this->actionFunc = &EnGoma_Hurt;
+    this->actionFunc = EnGoma_Hurt;
 
     if ((s8)this->actor.colChkInfo.health <= 0) {
         this->actionTimer = 5;
@@ -360,7 +361,7 @@ void EnGoma_Hurt(EnGoma* this, GlobalContext* globalCtx) {
 
 void EnGoma_SetupDie(EnGoma* this) {
     Animation_Change(&this->skelanime, &D_06000B78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B78), ANIMMODE_ONCE, -2.0f);
-    this->actionFunc = &EnGoma_Die;
+    this->actionFunc = EnGoma_Die;
     this->actionTimer = 30;
 
     if (this->actor.params < 6) {
@@ -395,7 +396,7 @@ void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
 
 void EnGoma_SetupDead(EnGoma* this) {
     Animation_Change(&this->skelanime, &D_06000334, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000334), ANIMMODE_LOOP, -2.0f);
-    this->actionFunc = &EnGoma_Dead;
+    this->actionFunc = EnGoma_Dead;
     this->actionTimer = 3;
 }
 
@@ -422,7 +423,7 @@ void EnGoma_Dead(EnGoma* this, GlobalContext* globalCtx) {
         }
         Audio_PlaySoundGeneral(NA_SE_EN_EXTINCT, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
         Actor_Kill(&this->actor);
-        Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 48);
+        Item_DropCollectibleRandom(globalCtx, NULL, &this->actor.world.pos, 0x30);
     }
     this->visualState = 2;
 }
@@ -433,19 +434,19 @@ void EnGoma_SetupStand(EnGoma* this) {
     lastFrame = Animation_GetLastFrame(&D_06001548);
     this->actionTimer = Rand_S16Offset(10, 30);
     Animation_Change(&this->skelanime, &D_06001548, 1.0f, 0.0f, lastFrame, ANIMMODE_LOOP, -5.0f);
-    this->actionFunc = &EnGoma_Stand;
+    this->actionFunc = EnGoma_Stand;
     this->gomaType = ENGOMA_NORMAL;
 }
 
 void EnGoma_SetupChasePlayer(EnGoma* this) {
     Animation_Change(&this->skelanime, &D_06003D78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP, -5.0f);
-    this->actionFunc = &EnGoma_ChasePlayer;
+    this->actionFunc = EnGoma_ChasePlayer;
     this->actionTimer = Rand_S16Offset(70, 110);
 }
 
 void EnGoma_SetupPrepareJump(EnGoma* this) {
     Animation_Change(&this->skelanime, &D_06000E4C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000E4C), ANIMMODE_ONCE, -5.0f);
-    this->actionFunc = &EnGoma_PrepareJump;
+    this->actionFunc = EnGoma_PrepareJump;
     this->actionTimer = 30;
 }
 
@@ -467,7 +468,7 @@ void EnGoma_PrepareJump(EnGoma* this, GlobalContext* globalCtx) {
 
 void EnGoma_SetupLand(EnGoma* this) {
     Animation_Change(&this->skelanime, &D_0600017C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600017C), ANIMMODE_ONCE, 0.0f);
-    this->actionFunc = &EnGoma_Land;
+    this->actionFunc = EnGoma_Land;
     this->actionTimer = 10;
 }
 
@@ -484,7 +485,7 @@ void EnGoma_Land(EnGoma* this, GlobalContext* globalCtx) {
 
 void EnGoma_SetupJump(EnGoma* this) {
     Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE, 0.0f);
-    this->actionFunc = &EnGoma_Jump;
+    this->actionFunc = EnGoma_Jump;
     this->actor.velocity.y = 8.0f;
 
     if (this->actor.params < 6) {
@@ -651,7 +652,8 @@ void EnGoma_UpdateHit(EnGoma* this, GlobalContext* globalCtx) {
                     Actor_SetColorFilter(&this->actor, 0x4000, 255, 0, 5);
                     this->hurtTimer = 13;
                 }
-            } else {                           // die if still an egg
+            } else {
+                // die if still an egg
                 if (this->actor.params <= 5) { //! BossGoma only has 3 children
                     BossGoma* parent = (BossGoma*)this->actor.parent;
                     parent->childrenGohmaState[this->actor.params] = -1;
@@ -792,8 +794,8 @@ void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
             Matrix_RotateX(this->actor.shape.rot.x / 32768.0f * 3.1415927f, MTXMODE_APPLY);
             Matrix_RotateZ(this->actor.shape.rot.z / 32768.0f * 3.1415927f, MTXMODE_APPLY);
             Matrix_Scale(this->actor.scale.x, this->actor.scale.y, this->actor.scale.z, MTXMODE_APPLY);
-            SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, &EnGoma_OverrideLimbDraw,
-                              0, this);
+            SkelAnime_DrawOpa(globalCtx, this->skelanime.skeleton, this->skelanime.jointTable, EnGoma_OverrideLimbDraw,
+                              NULL, this);
             break;
 
         case ENGOMA_EGG:

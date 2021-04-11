@@ -8,7 +8,7 @@ typedef enum {
     /* 0 */ ENGOMA_NORMAL,
     /* 1 */ ENGOMA_EGG,
     /* 2 */ ENGOMA_HATCH_DEBRIS,
-    /* 3 */ ENGOMA_BOSSLIMB,
+    /* 3 */ ENGOMA_BOSSLIMB
 } GomaType;
 
 struct EnGoma;
