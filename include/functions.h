@@ -2208,7 +2208,7 @@ void Audio_InitSequencePlayers(void);
 // ? func_800ED200(?);
 // ? func_800ED458(?);
 void func_800ED858(u8);
-// ? func_800ED93C(?);
+void func_800ED93C(s8 songIdx, s8 arg1);
 // ? func_800EDA3C(?);
 // ? func_800EDD68(?);
 // ? func_800EE170(?);
@@ -2279,7 +2279,9 @@ void func_800F595C(u16);
 void func_800F59E8(u16);
 void func_800F5ACC(u32 bgmID);
 void func_800F5B58(void);
+void func_800F5BF0(u8 arg0);
 void func_800F5C64(u16);
+void func_800F5C2C(void);
 // ? func_800F5CF8(?);
 // ? func_800F5E18(?);
 void func_800F5E90(u8);
@@ -2596,6 +2598,7 @@ f32 absf(f32);
 void* func_80106860(void* ptr, s32 val, size_t size);
 void* func_801068B0(void* dst, void* src, size_t size);
 // ? func_801069B0(?);
+void func_80106AA8(GlobalContext* globalCtx);
 u8 func_80106BC8(GlobalContext* globalCtx);
 // ? func_80106C88(?);
 void func_80106CCC(GlobalContext*);
@@ -2645,6 +2648,7 @@ void func_80811A20(GameState* thisx); // FileChoose_Init
 void func_80811A18(GameState* thisx); // FileChoose_Destroy
 
 void func_80823994(PauseContext*, f32, f32, f32);
+Gfx* func_80094968(Gfx* gfx);
 void func_800949A8(GraphicsContext*);
 void func_8082409C(GlobalContext*, GraphicsContext*);
 void func_80820434(GlobalContext*, GraphicsContext*);
