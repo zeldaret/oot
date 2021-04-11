@@ -50,12 +50,12 @@ void BgSpot07Taki_Init(Actor* thisx, GlobalContext* globalCtx) {
     DynaPolyActor_Init(&this->dyna, DPM_PLAYER);
     Actor_ProcessInitChain(&this->dyna.actor, sInitChain);
     if (LINK_IS_ADULT) {
-        if (thisx->params == 0) {
+        if (this->dyna.actor.params == 0) {
             CollisionHeader_GetVirtual(&D_06002590, &colHeader);
         } else {
             CollisionHeader_GetVirtual(&D_060038FC, &colHeader);
         }
-        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, thisx, colHeader);
+        this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     }
     this->actionFunc = BgSpot07Taki_DoNothing;
 }
@@ -76,7 +76,7 @@ void BgSpot07Taki_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    u32 pad;
+    BgSpot07Taki* this = THIS;
     u32 frames;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_bg_spot07_taki.c", 169);
@@ -85,7 +85,7 @@ void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
         func_80093D18(globalCtx->state.gfxCtx);
         gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_bg_spot07_taki.c", 177),
                   G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-        if (thisx->params == 0) {
+        if (this->dyna.actor.params == 0) {
             gSPDisplayList(POLY_OPA_DISP++, D_06001CF0);
         } else {
             gSPDisplayList(POLY_OPA_DISP++, D_06003210);
@@ -102,7 +102,7 @@ void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if (LINK_IS_CHILD) {
         gDPSetEnvColor(POLY_XLU_DISP++, 255, 255, 255, 128);
-        if (thisx->params == 0) {
+        if (this->dyna.actor.params == 0) {
             gSPSegment(POLY_XLU_DISP++, 0x09,
                        Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, ((frames * -1) & 0x7F), ((frames * -3) & 0xFF), 64,
                                         64, 1, ((frames * 1) & 0x7F), ((frames * -3) & 0xFF), 64, 64));
@@ -119,7 +119,7 @@ void BgSpot07Taki_Draw(Actor* thisx, GlobalContext* globalCtx) {
                                         frames * 0, ((frames * 3) & 0x1FF), 32, 128));
             gSPDisplayList(POLY_XLU_DISP++, &D_06000BE0);
         }
-    } else if (thisx->params == 0) {
+    } else if (this->dyna.actor.params == 0) {
         gSPDisplayList(POLY_XLU_DISP++, D_06001F68);
     } else {
         gSPDisplayList(POLY_XLU_DISP++, D_060032D8);
