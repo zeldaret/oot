@@ -115,7 +115,7 @@ def action_var_setups_in_func(content, func_name, action_var):
 
 def action_var_values_in_func(code_body, action_var, macros):
     if action_var not in code_body:
-        return None
+        return list()
 
     regex = re.compile(r'(' + action_var + r' = (.)*)')
     transition = []
@@ -125,6 +125,7 @@ def action_var_values_in_func(code_body, action_var, macros):
         macroValue = parseMacro(macros, index)
         if macroValue is not None:
             index = macroValue
+
         transition.append(index)
     return transition
 
@@ -174,22 +175,32 @@ def main():
         Create all edges for SetupAction-based actors
         """
         for index, func_name in enumerate(func_names):
+            index = str(index)
             if args.loners:
-                dot.node(str(index), func_name)
+                dot.node(index, func_name)
             if "_SetupAction" in func_name:
                 continue
             code_body = get_code_body(contents, func_name)
-            setupaction_calls = capture_setupaction_call_arg(code_body)
-            seen = {}
-            overlay_func_calls = [seen.setdefault(x,x) for x in capture_call_names(code_body) if x in func_names and "_SetupAction" not in x and x not in seen]
-            if len(setupaction_calls) > 0:
-                for action_transition in setupaction_calls:
-                    dot.node(str(index), func_name)
-                    dot.node(str(index_of_func(action_transition)), action_transition)
-                    dot.edge(str(index),str(index_of_func(action_transition)), color=("green" if func_name.endswith("_Init") else "Black"))
-            for call in overlay_func_calls:
+
+            for action_transition in capture_setupaction_call_arg(code_body):
+                funcIndex = str(index_of_func(action_transition))
+
+                dot.node(index, func_name)
+                dot.node(funcIndex, action_transition)
+                dot.edge(index, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
+
+            seen = set()
+            for call in capture_call_names(code_body):
+                if call not in func_names:
+                    continue
+                if "_SetupAction" in call:
+                    continue
+                if call in seen:
+                    continue
+                seen.add(call)
+
                 dot.node(str(index_of_func(call)), call)
-                dot.edge(str(index), str(index_of_func(call)), color="blue")
+                dot.edge(index, str(index_of_func(call)), color="blue")
     else:
         action_func_type = func_prefix + "ActionFunc"
         match_obj = re.search(re.compile(r'(' + action_func_type + r' (.)*\[\] = {)'), contents)
@@ -202,24 +213,29 @@ def main():
             action_functions = [x.replace("\n","").strip() for x in action_func_array.split("{\n")[1].split(",\n}")[0].split(",")]
             action_var = re.search(r'(' + action_func_array_name + r'\[(.)*\]\()', contents).group().split("[")[1].split("]")[0].strip()
             for index, func_name in enumerate(func_names):
+                index = str(index)
                 if args.loners:
-                    dot.node(str(index), func_name)
+                    dot.node(index, func_name)
                 code_body = get_code_body(contents, func_name)
-                seen = {}
-                overlay_func_calls = [seen.setdefault(x,x) for x in capture_call_names(code_body) if x in func_names and x not in seen]
-                transition_indices = action_var_values_in_func(code_body, action_var, macros)
-                if transition_indices is not None:
-                    transitions_to = []
-                    for i in transition_indices:
-                        transitions_to.append(action_functions[int(i, 0)])
-                    if transitions_to is not None:
-                        for action_transition in transitions_to:
-                            dot.node(str(index), func_name)
-                            dot.node(str(index_of_func(action_transition)), action_transition)
-                            dot.edge(str(index),str(index_of_func(action_transition)), color=("green" if func_name.endswith("_Init") else "Black"))
-                for call in overlay_func_calls:
+
+                for transition_to in action_var_values_in_func(code_body, action_var, macros):
+                    action_transition = action_functions[int(transition_to, 0)]
+                    funcIndex = str(index_of_func(action_transition))
+
+                    dot.node(index, func_name)
+                    dot.node(funcIndex, action_transition)
+                    dot.edge(index, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
+
+                seen = set()
+                for call in capture_call_names(code_body):
+                    if call not in func_names:
+                        continue
+                    if call in seen:
+                        continue
+                    seen.add(call)
+
                     dot.node(str(index_of_func(call)), call)
-                    dot.edge(str(index), str(index_of_func(call)), color="blue")
+                    dot.edge(index, str(index_of_func(call)), color="blue")
         else:
             actionIdentifier = "this->actionFunc"
             if actionIdentifier in contents:
@@ -227,23 +243,31 @@ def main():
                 Create all edges for raw ActorFunc-based actors
                 """
                 for index, func_name in enumerate(func_names):
+                    index = str(index)
                     if args.loners:
-                        dot.node(str(index), func_name)
+                        dot.node(index, func_name)
                     print(func_name)
                     code_body = get_code_body(contents, func_name)
-                    seen = {}
-                    overlay_func_calls = [seen.setdefault(x,x) for x in capture_call_names(code_body) if x in func_names and x not in seen]
-                    transition_func_calls = action_var_values_in_func(code_body, actionIdentifier, macros)
-                    if transition_func_calls is not None:
-                        for action_transition in transition_func_calls:
-                            dot.node(str(index), func_name)
-                            dot.node(str(index_of_func(action_transition)), action_transition)
-                            dot.edge(str(index),str(index_of_func(action_transition)), color=("green" if func_name.endswith("_Init") else "Black"))
-                    for call in overlay_func_calls:
+
+                    for action_transition in action_var_values_in_func(code_body, actionIdentifier, macros):
+                        funcIndex = str(index_of_func(action_transition))
+
+                        dot.node(index, func_name)
+                        dot.node(funcIndex, action_transition)
+                        dot.edge(index, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
+
+                    seen = set()
+                    for call in capture_call_names(code_body):
+                        if call not in func_names:
+                            continue
+                        if call in seen:
+                            continue
+                        seen.add(call)
+
                         print("    " + call)
-                        dot.node(str(index), func_name)
+                        dot.node(index, func_name)
                         dot.node(str(index_of_func(call)), call)
-                        dot.edge(str(index), str(index_of_func(call)), color="blue")
+                        dot.edge(index, str(index_of_func(call)), color="blue")
             else:
                 print("No actor action-based structure found")
                 os._exit(1)
@@ -253,4 +277,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
