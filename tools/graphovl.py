@@ -17,6 +17,7 @@ def actor_src_path(name):
 func_call_regexpr = re.compile(r'[a-zA-Z_\d]+\([^\)]*\)(\.[^\)]*\))?')
 func_defs_regexpr = re.compile(r'[a-zA-Z_\d]+\([^\)]*\)(\.[^\)]*\))? {[^}]')
 macrosRegexpr = re.compile(r'#define\s+([a-zA-Z_\d]+)(\([a-zA-Z_\d]+\))?\s+(.+?)(\n|//|/\*)')
+enumsRegexpr = re.compile(r'enum\s+\{([^\}]+?)\}')
 
 # Capture all function calls in the block, including arguments
 def capture_calls(content):
@@ -102,6 +103,32 @@ def parseMacro(macros, macroExpr):
         return str(eval(macroBody))
     return None
 
+def getEnums(contents):
+    enums = dict()
+    for x in re.finditer(enumsRegexpr, contents):
+        enumValue = 0
+        for var in x.group(1).split(","):
+            if "/*" in var and "*/" in var:
+                start = var.index("/*")
+                end = var.index("*/") + len("*/")
+                var = var[:start] + var[end:]
+            if "//" in var:
+                var = var[:var.index("//")]
+            var = var.strip()
+            if len(var) == 0:
+                continue
+
+            enumName = var
+            exprList = var.split("=")
+            if len(exprList) > 1:
+                enumName = exprList[0].strip()
+                enumValue = int(exprList[1], 0)
+
+            enums[enumName] = enumValue
+            enumValue +=1
+
+    return enums
+
 def index_of_func(func_name):
     for index, name in enumerate(func_names):
         if name == func_name:
@@ -113,7 +140,7 @@ def action_var_setups_in_func(content, func_name, action_var):
         return None
     return [x.group() for x in re.finditer(r'(' + action_var + r' = (.)*)', code_body)]
 
-def action_var_values_in_func(code_body, action_var, macros):
+def action_var_values_in_func(code_body, action_var, macros, enums):
     if action_var not in code_body:
         return list()
 
@@ -125,6 +152,8 @@ def action_var_values_in_func(code_body, action_var, macros):
         macroValue = parseMacro(macros, index)
         if macroValue is not None:
             index = macroValue
+        elif index in enums:
+            index = str(enums[index])
 
         transition.append(index)
     return transition
@@ -160,6 +189,7 @@ def main():
     setup_func_definitions(contents, func_names)
     setup_line_numbers(contents, func_names)
     macros = getMacrosDefinitions(contents)
+    enums = getEnums(contents)
     func_prefix = ""
     for index, func_name in enumerate(func_names):
         # Init is chosen because all actors are guaranteed to have an Init function.
@@ -210,7 +240,7 @@ def main():
             """
             action_func_array_name = match_obj.group().split(" ")[1].split("[]")[0]
             action_func_array = re.search(r'(' + action_func_type + r' (.)*\[\] = \{[^;]*)', contents).group()
-            action_functions = [x.replace("\n","").strip() for x in action_func_array.split("{\n")[1].split(",\n}")[0].split(",")]
+            action_functions = [x.replace("\n","").strip() for x in action_func_array.split("{")[1].split(",}")[0].split(",")]
             action_var = re.search(r'(' + action_func_array_name + r'\[(.)*\]\()', contents).group().split("[")[1].split("]")[0].strip()
             for index, func_name in enumerate(func_names):
                 index = str(index)
@@ -218,7 +248,7 @@ def main():
                     dot.node(index, func_name)
                 code_body = get_code_body(contents, func_name)
 
-                for transition_to in action_var_values_in_func(code_body, action_var, macros):
+                for transition_to in action_var_values_in_func(code_body, action_var, macros, enums):
                     action_transition = action_functions[int(transition_to, 0)]
                     funcIndex = str(index_of_func(action_transition))
 
@@ -249,7 +279,7 @@ def main():
                     print(func_name)
                     code_body = get_code_body(contents, func_name)
 
-                    for action_transition in action_var_values_in_func(code_body, actionIdentifier, macros):
+                    for action_transition in action_var_values_in_func(code_body, actionIdentifier, macros, enums):
                         funcIndex = str(index_of_func(action_transition))
 
                         dot.node(index, func_name)
