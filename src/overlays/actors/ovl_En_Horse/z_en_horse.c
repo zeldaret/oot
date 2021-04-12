@@ -2,6 +2,7 @@
 #include "overlays/actors/ovl_En_In/z_en_in.h"
 #include "objects/object_horse/object_horse.h"
 #include "objects/object_hni/object_hni.h"
+#include "scenes/overworld/spot09/spot09_scene.h"
 
 #define FLAGS 0x00000010
 
@@ -43,9 +44,6 @@ void EnHorse_BridgeJump(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_CutsceneUpdate(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_UpdateHorsebackArchery(EnHorse* this, GlobalContext* globalCtx);
 void EnHorse_FleePlayer(EnHorse* this, GlobalContext* globalCtx);
-
-extern CutsceneData D_02000230[];
-extern CutsceneData D_02002AC0[];
 
 static AnimationHeader* sEponaAnimHeaders[] = {
     &gEponaIdleAnim, &gEponaWhinnyAnim, &gEponaRefuseAnim, &gEponaRearingAnim, &gEponaWalkingAnim, &gEponaTrottingAnim, &gEponaGallopingAnim, &gEponaJumpingAnim, &gEponaJumpingHighAnim,
@@ -2675,10 +2673,10 @@ void EnHorse_BridgeJumpInit(EnHorse* this, GlobalContext* globalCtx) {
 void EnHorse_StartBridgeJump(EnHorse* this, GlobalContext* globalCtx) {
     this->postDrawFunc = EnHorse_BridgeJumpInit;
     if (this->bridgeJumpIdx == 0) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02002AC0);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot09_sceneCutsceneData0x002AC0);
         gSaveContext.cutsceneTrigger = 1;
     } else {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(D_02000230);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot09_sceneCutsceneData0x000230);
         gSaveContext.cutsceneTrigger = 1;
     }
 }
