@@ -2,29 +2,20 @@
     <File Name="object_hni" Segment="6">
         <Skeleton Name="gHorseIngoSkel" Type="Normal" LimbType="Skin" Offset="0x4A24"/>
 
-        <!-- Idle. -->
         <Animation Name="gHorseIngoIdleAnim" Offset="0x9FC4"/>
-        <!-- Whinny. -->
         <Animation Name="gHorseIngoWhinnyAnim" Offset="0xA6B4"/>
-        <!-- Refusing to jump / Slowing down. -->
         <Animation Name="gHorseIngoRefuseAnim" Offset="0x901C"/>
-        <!-- Stand in two legs for a moment. -->
         <Animation Name="gHorseIngoRearingAnim" Offset="0x85E0"/>
-        <!-- Walking slow. -->
         <Animation Name="gHorseIngoWalkingAnim" Offset="0xAF60"/>
-        <!-- Walking fast. -->
         <Animation Name="gHorseIngoTrottingAnim" Offset="0x7B54"/>
-        <!-- Running. -->
         <Animation Name="gHorseIngoGallopingAnim" Offset="0x506C"/>
-        <!-- Jumping. -->
         <Animation Name="gHorseIngoJumpingAnim" Offset="0x5684"/>
-        <!-- Jumping High. -->
         <Animation Name="gHorseIngoJumpingHighAnim" Offset="0x5E20"/>
 
-        <!-- Eye texture. -->
+        <!-- Eye texture -->
         <Texture Name="gHorseIngoEyeTex" OutName="horse_ingo_eye" Format="rgb5a1" Width="32" Height="16" Offset="0x0" />
 
-        <!-- Saddle. -->
+        <!-- Saddle -->
         <DList Name="gHorseIngoSaddleDL" Offset="0x6530"/>
         <Texture Name="gHorseIngoSaddle1Tex" OutName="horse_ingo_saddle_1" Format="rgb5a1" Width="16" Height="16" Offset="0x6030" />
         <Texture Name="gHorseIngoSaddle2Tex" OutName="horse_ingo_saddle_2" Format="rgb5a1" Width="16" Height="16" Offset="0x5E30" />
