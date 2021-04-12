@@ -222,15 +222,15 @@ typedef struct {
 } TargetContext; // size = 0x98
 
 typedef struct {
-    /* 0x00 */ u8*      texture;
-    /* 0x04 */ s16      unk_4;
-    /* 0x06 */ s16      unk_6;
-    /* 0x08 */ u8       unk_8;
-    /* 0x09 */ u8       unk_9;
-    /* 0x0A */ u8       delayA;
-    /* 0x0B */ u8       delayB;
-    /* 0x0C */ s16      unk_C;
-    /* 0x0E */ s16      unk_E;
+    /* 0x00 */ void*      texture;
+    /* 0x04 */ s16      x;
+    /* 0x06 */ s16      y;
+    /* 0x08 */ u8       width;
+    /* 0x09 */ u8       height;
+    /* 0x0A */ u8       durationTimer; // how long the title card appears for before fading
+    /* 0x0B */ u8       delayTimer; // how long the title card waits to appear
+    /* 0x0C */ s16      alpha;
+    /* 0x0E */ s16      intensity;
 } TitleCardContext; // size = 0x10
 
 typedef struct {
@@ -385,7 +385,7 @@ typedef struct {
     /* 0x022E */ s16    unk_22E;
     /* 0x0230 */ s16    unk_230;
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
-    /* 0x023A */ u8     unk_23A;
+    /* 0x023A */ u8     numHorseBoosts;
     /* 0x023C */ u16    unk_23C;
     /* 0x023E */ u16    hbaAmmo; // ammo while playing the horseback archery minigame
     /* 0x0240 */ u16    unk_240;
@@ -555,7 +555,7 @@ typedef struct {
     /* 0xCF */ u8       unk_CF[3];
     /* 0xD2 */ s16      unk_D2;
     /* 0xD4 */ char     unk_D4[0x02];
-    /* 0xD6 */ s16      unk_D6;
+    /* 0xD6 */ u16      unk_D6;
     /* 0xD8 */ f32      unk_D8;
     /* 0xDC */ u8       unk_DC;
     /* 0xDD */ u8       gloomySkyEvent;
@@ -883,8 +883,8 @@ typedef struct GlobalContext {
     /* 0x000B0 */ void* sceneSegment;
     /* 0x000B8 */ View view;
     /* 0x001E0 */ Camera mainCamera;
-    /* 0x0034C */ Camera subCameras[3];
-    /* 0x00790 */ Camera* cameraPtrs[4];
+    /* 0x0034C */ Camera subCameras[NUM_CAMS - SUBCAM_FIRST];
+    /* 0x00790 */ Camera* cameraPtrs[NUM_CAMS];
     /* 0x007A0 */ s16 activeCamera;
     /* 0x007A2 */ s16 nextCamera;
     /* 0x007A4 */ SoundContext soundCtx;
