@@ -11365,7 +11365,7 @@ void func_8084CC98(Player* this, GlobalContext* globalCtx) {
         if (D_808535E0 == 0) {
             if (this->unk_84F != 0) {
                 if (LinkAnimation_Update(globalCtx, &this->skelAnime2)) {
-                    rideActor->flags &= ~ENHORSE_FLAG_8;
+                    rideActor->stateFlags &= ~ENHORSE_FLAG_8;
                     this->unk_84F = 0;
                 }
 

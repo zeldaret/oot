@@ -197,7 +197,7 @@ s32 EnHorseGameCheck_UpdateIngoRace(EnHorseGameCheckBase* base, GlobalContext* g
 
                 this->result = INGORACE_INGO_WIN;
                 this->finishTimer = 70;
-                ingoHorse->flags |= ENHORSE_INGO_WON;
+                ingoHorse->stateFlags |= ENHORSE_INGO_WON;
                 Audio_SetBGM(0x41);
                 Audio_PlaySoundGeneral(NA_SE_SY_START_SHOT, &D_801333D4, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             }
@@ -351,7 +351,7 @@ s32 EnHorseGameCheck_UpdateMalonRace(EnHorseGameCheckBase* base, GlobalContext* 
             if ((player->rideActor != NULL) && (dist < 250.0f)) {
                 horse = (EnHorse*)player2->rideActor;
 
-                if (horse->flags & ENHORSE_JUMPING) {
+                if (horse->stateFlags & ENHORSE_JUMPING) {
                     if ((i > 0) && (this->fenceCheck[i - 1] == 1)) {
                         this->fenceCheck[i] = 1;
                     } else if (i == 0) {

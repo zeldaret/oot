@@ -99,7 +99,7 @@ typedef struct EnHorse {
     /* 0x0158 */ s32 type;
     /* 0x015C */ s8 bankIndex;
     /* 0x0160 */ PSkinAwb skin;
-    /* 0x01F0 */ u32 flags;
+    /* 0x01F0 */ u32 stateFlags;
     /* 0x01F4 */ Vec3f lastPos;
     /* 0x0200 */ s16 lastYaw;
     /* 0x0204 */ s32 curRaceWaypoint;
@@ -163,28 +163,28 @@ typedef struct EnHorse {
 } EnHorse; // size = 0x03FC
 
 #define EN_HORSE_CHECK_1(horseActor) \
-    (((horseActor)->flags & ENHORSE_FLAG_6)  \
+    (((horseActor)->stateFlags & ENHORSE_FLAG_6)  \
         ? true                       \
         : false)
 
 #define EN_HORSE_CHECK_2(horseActor) \
-    (((horseActor)->flags & ENHORSE_FLAG_8) \
+    (((horseActor)->stateFlags & ENHORSE_FLAG_8) \
         ? true                       \
         : false)
 
 #define EN_HORSE_CHECK_3(horseActor) \
-    (((horseActor)->flags & ENHORSE_FLAG_9) \
+    (((horseActor)->stateFlags & ENHORSE_FLAG_9) \
         ? true                       \
         : false)
 
 #define EN_HORSE_CHECK_4(horseActor)                                                                 \
     (((((horseActor)->action == ENHORSE_ACT_MOUNTED_IDLE) || ((horseActor)->action == ENHORSE_ACT_FROZEN) || ((horseActor)->action == ENHORSE_ACT_MOUNTED_IDLE_WHINNEYING)) && \
-      !((horseActor)->flags & ENHORSE_FLAG_19) && !((horseActor)->flags & ENHORSE_FLAG_25))          \
+      !((horseActor)->stateFlags & ENHORSE_FLAG_19) && !((horseActor)->stateFlags & ENHORSE_FLAG_25))          \
          ? true                                                                                      \
          : false)
 
 #define EN_HORSE_CHECK_JUMPING(horseActor) \
-    (((horseActor)->flags & ENHORSE_JUMPING) \
+    (((horseActor)->stateFlags & ENHORSE_JUMPING) \
         ? true                       \
         : false)
 
