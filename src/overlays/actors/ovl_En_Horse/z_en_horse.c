@@ -149,102 +149,183 @@ typedef struct {
 
 static EnHorseSpawnpoint sHorseSpawns[] = {
     // Hyrule Field
-    { SCENE_SPOT00,    16,     0,  1341, 0 }, { SCENE_SPOT00, -1297,     0,  1459, 0 },
-    { SCENE_SPOT00, -5416,  -300,  1296, 0 }, { SCENE_SPOT00, -4667,  -300,  3620, 0 },
-    { SCENE_SPOT00, -3837,    81,  5537, 0 }, { SCENE_SPOT00, -5093,  -226,  6661, 0 },
-    { SCENE_SPOT00, -6588,   -79,  5053, 0 }, { SCENE_SPOT00, -7072,  -500,  7538, 0 },
-    { SCENE_SPOT00, -6139,  -500,  8910, 0 }, { SCENE_SPOT00, -8497,  -300,  7802, 0 },
-    { SCENE_SPOT00, -5481,  -499, 12127, 0 }, { SCENE_SPOT00, -4808,  -700, 13583, 0 },
-    { SCENE_SPOT00, -3416,  -490, 12092, 0 }, { SCENE_SPOT00, -2915,   100,  8339, 0 },
-    { SCENE_SPOT00, -2277,  -500, 13247, 0 }, { SCENE_SPOT00, -1026,  -500, 12101, 0 },
-    { SCENE_SPOT00,  1427,  -500, 13341, 0 }, { SCENE_SPOT00,  -200,  -486, 10205, 0 },
-    { SCENE_SPOT00, -1469,   100,  7496, 0 }, { SCENE_SPOT00,  -995,   168,  5652, 0 },
-    { SCENE_SPOT00,  1938,    89,  6232, 0 }, { SCENE_SPOT00,  1387,  -105,  9206, 0 },
-    { SCENE_SPOT00,  1571,  -223,  7701, 0 }, { SCENE_SPOT00,  3893,  -121,  7068, 0 },
-    { SCENE_SPOT00,  3179,   373,  5221, 0 }, { SCENE_SPOT00,  4678,   -20,  3869, 0 },
-    { SCENE_SPOT00,  3460,   246,  4207, 0 }, { SCENE_SPOT00,  3686,   128,  2366, 0 },
-    { SCENE_SPOT00,  1791,    18,   152, 0 }, { SCENE_SPOT00,  3667,   -16,  1399, 0 },
-    { SCENE_SPOT00,  1827,   -15,   983, 0 }, { SCENE_SPOT00,  1574,   399,  4318, 0 },
-    { SCENE_SPOT00,   716,    95,  3391, 0 }, { SCENE_SPOT00, -1189,   -41,  4739, 0 },
-    { SCENE_SPOT00, -1976,  -171,  4172, 0 }, { SCENE_SPOT00,  1314,   391,  5665, 0 },
-    { SCENE_SPOT00,   112,     0,  1959, 0 }, { SCENE_SPOT00, -3011,  -111,  9397, 0 },
-    { SCENE_SPOT00, -5674,  -270,  8585, 0 }, { SCENE_SPOT00, -8861,  -300,  7836, 0 },
-    { SCENE_SPOT00, -6056,  -500,  7810, 0 }, { SCENE_SPOT00, -7306,  -500,  5994, 0 },
-    { SCENE_SPOT00, -7305,  -500,  7605, 0 }, { SCENE_SPOT00, -7439,  -300,  7600, 0 },
-    { SCENE_SPOT00, -7464,  -300,  6268, 0 }, { SCENE_SPOT00, -8080,  -300,  7553, 0 },
-    { SCENE_SPOT00, -8091,  -300,  7349, 0 }, { SCENE_SPOT00, -8785,  -300,  7383, 0 },
-    { SCENE_SPOT00, -8745,  -300,  7508, 0 }, { SCENE_SPOT00, -8777,  -300,  7788, 0 },
-    { SCENE_SPOT00, -8048,  -299,  7738, 0 }, { SCENE_SPOT00, -7341,  -184,  7730, 0 },
-    { SCENE_SPOT00, -6410,  -288,  7824, 0 }, { SCENE_SPOT00, -6326,  -290,  8205, 0 },
-    { SCENE_SPOT00, -6546,  -292,  8400, 0 }, { SCENE_SPOT00, -7533,  -180,  8459, 0 },
-    { SCENE_SPOT00, -8024,  -295,  7903, 0 }, { SCENE_SPOT00, -8078,  -308,  7994, 0 },
-    { SCENE_SPOT00, -9425,  -287,  7696, 0 }, { SCENE_SPOT00, -9322,  -292,  7577, 0 },
-    { SCENE_SPOT00, -9602,  -199,  7160, 0 }, { SCENE_SPOT00, -9307,  -300,  7758, 0 },
-    { SCENE_SPOT00, -9230,  -300,  7642, 0 }, { SCENE_SPOT00, -7556,  -499,  8695, 0 },
-    { SCENE_SPOT00, -6438,  -500,  8606, 0 }, { SCENE_SPOT00, -6078,  -500,  8258, 0 },
-    { SCENE_SPOT00, -6233,  -500,  7613, 0 }, { SCENE_SPOT00, -5035,  -205,  7814, 0 },
-    { SCENE_SPOT00, -5971,  -500,  8501, 0 }, { SCENE_SPOT00, -5724,  -498, 10123, 0 },
-    { SCENE_SPOT00, -5094,  -392, 11106, 0 }, { SCENE_SPOT00, -5105,  -393, 11312, 0 },
-    { SCENE_SPOT00, -4477,  -314, 11132, 0 }, { SCENE_SPOT00, -3867,  -380, 11419, 0 },
-    { SCENE_SPOT00, -2952,  -500, 11944, 0 }, { SCENE_SPOT00, -2871,  -488, 11743, 0 },
-    { SCENE_SPOT00, -3829,  -372, 11327, 0 }, { SCENE_SPOT00, -4439,  -293, 10989, 0 },
-    { SCENE_SPOT00, -5014,  -381, 11086, 0 }, { SCENE_SPOT00, -5113,  -188, 10968, 0 },
-    { SCENE_SPOT00, -5269,  -188, 11156, 0 }, { SCENE_SPOT00, -5596,  -178,  9972, 0 },
-    { SCENE_SPOT00, -5801,  -288,  8518, 0 }, { SCENE_SPOT00, -4910,  -178,  7931, 0 },
-    { SCENE_SPOT00, -3586,    73,  8140, 0 }, { SCENE_SPOT00, -4487,  -106,  9362, 0 },
-    { SCENE_SPOT00, -4339,  -112,  6412, 0 }, { SCENE_SPOT00, -3417,   105,  8194, 0 },
-    { SCENE_SPOT00, -4505,   -20,  6608, 0 }, { SCENE_SPOT00, -5038,  -199,  6603, 0 },
-    { SCENE_SPOT00, -4481,     1,  6448, 0 }, { SCENE_SPOT00, -5032,  -168,  6418, 0 },
-    { SCENE_SPOT00, -5256,  -700, 14329, 0 }, { SCENE_SPOT00, -5749,  -820, 15380, 0 },
-    { SCENE_SPOT00, -3122,  -700, 13608, 0 }, { SCENE_SPOT00, -3758,  -525, 13228, 0 },
-    { SCENE_SPOT00, -3670,  -500, 13123, 0 }, { SCENE_SPOT00, -2924,  -500, 13526, 0 },
-    { SCENE_SPOT00,  1389,  -115,  9370, 0 }, { SCENE_SPOT00,   548,  -116,  8889, 0 },
-    { SCENE_SPOT00,  -106,  -107,  8530, 0 }, { SCENE_SPOT00, -1608,    85,  7646, 0 },
-    { SCENE_SPOT00, -5300,  -700, 13772, 0 }, { SCENE_SPOT00, -5114,  -700, 13400, 0 },
-    { SCENE_SPOT00, -4561,  -700, 13700, 0 }, { SCENE_SPOT00, -4762,  -700, 14084, 0 },
-    { SCENE_SPOT00, -2954,   100,  8216, 0 }, { SCENE_SPOT00,  1460,  -104,  9246, 0 },
-    { SCENE_SPOT00,   629,  -105,  8791, 0 }, { SCENE_SPOT00,   -10,   -90,  8419, 0 },
-    { SCENE_SPOT00, -1462,   100,  7504, 0 }, { SCENE_SPOT00, -3018,  -500, 12493, 0 },
-    { SCENE_SPOT00, -2994,  -311, 10331, 0 }, { SCENE_SPOT00, -4006,  -700, 14152, 0 },
-    { SCENE_SPOT00, -4341,  -500, 12743, 0 }, { SCENE_SPOT00, -5879,  -497,  6799, 0 },
-    { SCENE_SPOT00,    22,  -473, 10103, 0 }, { SCENE_SPOT00, -1389,  -192,  8874, 0 },
-    { SCENE_SPOT00,    -4,    92,  6866, 0 }, { SCENE_SPOT00,   483,   104,  6637, 0 },
-    { SCENE_SPOT00,  1580,   183,  5987, 0 }, { SCENE_SPOT00,  1548,   308,  5077, 0 },
-    { SCENE_SPOT00,  1511,   399,  4267, 0 }, { SCENE_SPOT00,  1358,   385,  4271, 0 },
-    { SCENE_SPOT00,  1379,   395,  5063, 0 }, { SCENE_SPOT00,  1360,   394,  5870, 0 },
-    { SCENE_SPOT00,   813,   283,  6194, 0 }, { SCENE_SPOT00,   -57,   101,  6743, 0 },
-    { SCENE_SPOT00,    91,   325,  5143, 0 }, { SCENE_SPOT00,  1425,  -214,  7659, 0 },
-    { SCENE_SPOT00,  3487,   -19,   880, 0 }, { SCENE_SPOT00,  2933,   152,  2094, 0 },
-    { SCENE_SPOT00,  2888,  -145,  6862, 0 }, { SCENE_SPOT00,  1511,    67,  6471, 0 },
-    { SCENE_SPOT00,  4051,   -47,  1722, 0 }, { SCENE_SPOT00, -7335,  -500,  8627, 0 },
-    { SCENE_SPOT00, -7728,  -462,  8498, 0 }, { SCENE_SPOT00, -7791,  -446,  8832, 0 },
-    { SCENE_SPOT00, -2915,  -435, 11334, 0 }, { SCENE_SPOT00,   165,  -278,  3352, 0 },
+    { SCENE_SPOT00, 16, 0, 1341, 0 },
+    { SCENE_SPOT00, -1297, 0, 1459, 0 },
+    { SCENE_SPOT00, -5416, -300, 1296, 0 },
+    { SCENE_SPOT00, -4667, -300, 3620, 0 },
+    { SCENE_SPOT00, -3837, 81, 5537, 0 },
+    { SCENE_SPOT00, -5093, -226, 6661, 0 },
+    { SCENE_SPOT00, -6588, -79, 5053, 0 },
+    { SCENE_SPOT00, -7072, -500, 7538, 0 },
+    { SCENE_SPOT00, -6139, -500, 8910, 0 },
+    { SCENE_SPOT00, -8497, -300, 7802, 0 },
+    { SCENE_SPOT00, -5481, -499, 12127, 0 },
+    { SCENE_SPOT00, -4808, -700, 13583, 0 },
+    { SCENE_SPOT00, -3416, -490, 12092, 0 },
+    { SCENE_SPOT00, -2915, 100, 8339, 0 },
+    { SCENE_SPOT00, -2277, -500, 13247, 0 },
+    { SCENE_SPOT00, -1026, -500, 12101, 0 },
+    { SCENE_SPOT00, 1427, -500, 13341, 0 },
+    { SCENE_SPOT00, -200, -486, 10205, 0 },
+    { SCENE_SPOT00, -1469, 100, 7496, 0 },
+    { SCENE_SPOT00, -995, 168, 5652, 0 },
+    { SCENE_SPOT00, 1938, 89, 6232, 0 },
+    { SCENE_SPOT00, 1387, -105, 9206, 0 },
+    { SCENE_SPOT00, 1571, -223, 7701, 0 },
+    { SCENE_SPOT00, 3893, -121, 7068, 0 },
+    { SCENE_SPOT00, 3179, 373, 5221, 0 },
+    { SCENE_SPOT00, 4678, -20, 3869, 0 },
+    { SCENE_SPOT00, 3460, 246, 4207, 0 },
+    { SCENE_SPOT00, 3686, 128, 2366, 0 },
+    { SCENE_SPOT00, 1791, 18, 152, 0 },
+    { SCENE_SPOT00, 3667, -16, 1399, 0 },
+    { SCENE_SPOT00, 1827, -15, 983, 0 },
+    { SCENE_SPOT00, 1574, 399, 4318, 0 },
+    { SCENE_SPOT00, 716, 95, 3391, 0 },
+    { SCENE_SPOT00, -1189, -41, 4739, 0 },
+    { SCENE_SPOT00, -1976, -171, 4172, 0 },
+    { SCENE_SPOT00, 1314, 391, 5665, 0 },
+    { SCENE_SPOT00, 112, 0, 1959, 0 },
+    { SCENE_SPOT00, -3011, -111, 9397, 0 },
+    { SCENE_SPOT00, -5674, -270, 8585, 0 },
+    { SCENE_SPOT00, -8861, -300, 7836, 0 },
+    { SCENE_SPOT00, -6056, -500, 7810, 0 },
+    { SCENE_SPOT00, -7306, -500, 5994, 0 },
+    { SCENE_SPOT00, -7305, -500, 7605, 0 },
+    { SCENE_SPOT00, -7439, -300, 7600, 0 },
+    { SCENE_SPOT00, -7464, -300, 6268, 0 },
+    { SCENE_SPOT00, -8080, -300, 7553, 0 },
+    { SCENE_SPOT00, -8091, -300, 7349, 0 },
+    { SCENE_SPOT00, -8785, -300, 7383, 0 },
+    { SCENE_SPOT00, -8745, -300, 7508, 0 },
+    { SCENE_SPOT00, -8777, -300, 7788, 0 },
+    { SCENE_SPOT00, -8048, -299, 7738, 0 },
+    { SCENE_SPOT00, -7341, -184, 7730, 0 },
+    { SCENE_SPOT00, -6410, -288, 7824, 0 },
+    { SCENE_SPOT00, -6326, -290, 8205, 0 },
+    { SCENE_SPOT00, -6546, -292, 8400, 0 },
+    { SCENE_SPOT00, -7533, -180, 8459, 0 },
+    { SCENE_SPOT00, -8024, -295, 7903, 0 },
+    { SCENE_SPOT00, -8078, -308, 7994, 0 },
+    { SCENE_SPOT00, -9425, -287, 7696, 0 },
+    { SCENE_SPOT00, -9322, -292, 7577, 0 },
+    { SCENE_SPOT00, -9602, -199, 7160, 0 },
+    { SCENE_SPOT00, -9307, -300, 7758, 0 },
+    { SCENE_SPOT00, -9230, -300, 7642, 0 },
+    { SCENE_SPOT00, -7556, -499, 8695, 0 },
+    { SCENE_SPOT00, -6438, -500, 8606, 0 },
+    { SCENE_SPOT00, -6078, -500, 8258, 0 },
+    { SCENE_SPOT00, -6233, -500, 7613, 0 },
+    { SCENE_SPOT00, -5035, -205, 7814, 0 },
+    { SCENE_SPOT00, -5971, -500, 8501, 0 },
+    { SCENE_SPOT00, -5724, -498, 10123, 0 },
+    { SCENE_SPOT00, -5094, -392, 11106, 0 },
+    { SCENE_SPOT00, -5105, -393, 11312, 0 },
+    { SCENE_SPOT00, -4477, -314, 11132, 0 },
+    { SCENE_SPOT00, -3867, -380, 11419, 0 },
+    { SCENE_SPOT00, -2952, -500, 11944, 0 },
+    { SCENE_SPOT00, -2871, -488, 11743, 0 },
+    { SCENE_SPOT00, -3829, -372, 11327, 0 },
+    { SCENE_SPOT00, -4439, -293, 10989, 0 },
+    { SCENE_SPOT00, -5014, -381, 11086, 0 },
+    { SCENE_SPOT00, -5113, -188, 10968, 0 },
+    { SCENE_SPOT00, -5269, -188, 11156, 0 },
+    { SCENE_SPOT00, -5596, -178, 9972, 0 },
+    { SCENE_SPOT00, -5801, -288, 8518, 0 },
+    { SCENE_SPOT00, -4910, -178, 7931, 0 },
+    { SCENE_SPOT00, -3586, 73, 8140, 0 },
+    { SCENE_SPOT00, -4487, -106, 9362, 0 },
+    { SCENE_SPOT00, -4339, -112, 6412, 0 },
+    { SCENE_SPOT00, -3417, 105, 8194, 0 },
+    { SCENE_SPOT00, -4505, -20, 6608, 0 },
+    { SCENE_SPOT00, -5038, -199, 6603, 0 },
+    { SCENE_SPOT00, -4481, 1, 6448, 0 },
+    { SCENE_SPOT00, -5032, -168, 6418, 0 },
+    { SCENE_SPOT00, -5256, -700, 14329, 0 },
+    { SCENE_SPOT00, -5749, -820, 15380, 0 },
+    { SCENE_SPOT00, -3122, -700, 13608, 0 },
+    { SCENE_SPOT00, -3758, -525, 13228, 0 },
+    { SCENE_SPOT00, -3670, -500, 13123, 0 },
+    { SCENE_SPOT00, -2924, -500, 13526, 0 },
+    { SCENE_SPOT00, 1389, -115, 9370, 0 },
+    { SCENE_SPOT00, 548, -116, 8889, 0 },
+    { SCENE_SPOT00, -106, -107, 8530, 0 },
+    { SCENE_SPOT00, -1608, 85, 7646, 0 },
+    { SCENE_SPOT00, -5300, -700, 13772, 0 },
+    { SCENE_SPOT00, -5114, -700, 13400, 0 },
+    { SCENE_SPOT00, -4561, -700, 13700, 0 },
+    { SCENE_SPOT00, -4762, -700, 14084, 0 },
+    { SCENE_SPOT00, -2954, 100, 8216, 0 },
+    { SCENE_SPOT00, 1460, -104, 9246, 0 },
+    { SCENE_SPOT00, 629, -105, 8791, 0 },
+    { SCENE_SPOT00, -10, -90, 8419, 0 },
+    { SCENE_SPOT00, -1462, 100, 7504, 0 },
+    { SCENE_SPOT00, -3018, -500, 12493, 0 },
+    { SCENE_SPOT00, -2994, -311, 10331, 0 },
+    { SCENE_SPOT00, -4006, -700, 14152, 0 },
+    { SCENE_SPOT00, -4341, -500, 12743, 0 },
+    { SCENE_SPOT00, -5879, -497, 6799, 0 },
+    { SCENE_SPOT00, 22, -473, 10103, 0 },
+    { SCENE_SPOT00, -1389, -192, 8874, 0 },
+    { SCENE_SPOT00, -4, 92, 6866, 0 },
+    { SCENE_SPOT00, 483, 104, 6637, 0 },
+    { SCENE_SPOT00, 1580, 183, 5987, 0 },
+    { SCENE_SPOT00, 1548, 308, 5077, 0 },
+    { SCENE_SPOT00, 1511, 399, 4267, 0 },
+    { SCENE_SPOT00, 1358, 385, 4271, 0 },
+    { SCENE_SPOT00, 1379, 395, 5063, 0 },
+    { SCENE_SPOT00, 1360, 394, 5870, 0 },
+    { SCENE_SPOT00, 813, 283, 6194, 0 },
+    { SCENE_SPOT00, -57, 101, 6743, 0 },
+    { SCENE_SPOT00, 91, 325, 5143, 0 },
+    { SCENE_SPOT00, 1425, -214, 7659, 0 },
+    { SCENE_SPOT00, 3487, -19, 880, 0 },
+    { SCENE_SPOT00, 2933, 152, 2094, 0 },
+    { SCENE_SPOT00, 2888, -145, 6862, 0 },
+    { SCENE_SPOT00, 1511, 67, 6471, 0 },
+    { SCENE_SPOT00, 4051, -47, 1722, 0 },
+    { SCENE_SPOT00, -7335, -500, 8627, 0 },
+    { SCENE_SPOT00, -7728, -462, 8498, 0 },
+    { SCENE_SPOT00, -7791, -446, 8832, 0 },
+    { SCENE_SPOT00, -2915, -435, 11334, 0 },
+    { SCENE_SPOT00, 165, -278, 3352, 0 },
 
     // Lake Hylia
-    { SCENE_SPOT06, -2109,  -882,  1724, 0 }, { SCENE_SPOT06,  -328, -1238,  2705, 0 },
-    { SCENE_SPOT06, -3092, -1033,  3527, 0 },
+    { SCENE_SPOT06, -2109, -882, 1724, 0 },
+    { SCENE_SPOT06, -328, -1238, 2705, 0 },
+    { SCENE_SPOT06, -3092, -1033, 3527, 0 },
 
     // Gerudo Valley
-    { SCENE_SPOT09,  2687,  -269,   753, 0 }, { SCENE_SPOT09,  2066,  -132,   317, 0 },
-    { SCENE_SPOT09,   523,    -8,   635, 0 }, { SCENE_SPOT09,   558,    36,  -323, 0 },
-    { SCENE_SPOT09,   615,    51,  -839, 0 }, { SCENE_SPOT09,  -614,    32,    29, 0 },
-    { SCENE_SPOT09,  -639,    -3,   553, 0 }, { SCENE_SPOT09,  -540,    10,  -889, 0 },
-    { SCENE_SPOT09, -1666,    58,   378, 0 }, { SCENE_SPOT09, -3044,   210,  -648, 0 },
+    { SCENE_SPOT09, 2687, -269, 753, 0 },
+    { SCENE_SPOT09, 2066, -132, 317, 0 },
+    { SCENE_SPOT09, 523, -8, 635, 0 },
+    { SCENE_SPOT09, 558, 36, -323, 0 },
+    { SCENE_SPOT09, 615, 51, -839, 0 },
+    { SCENE_SPOT09, -614, 32, 29, 0 },
+    { SCENE_SPOT09, -639, -3, 553, 0 },
+    { SCENE_SPOT09, -540, 10, -889, 0 },
+    { SCENE_SPOT09, -1666, 58, 378, 0 },
+    { SCENE_SPOT09, -3044, 210, -648, 0 },
 
     // Gerudo's Fortress
-    { SCENE_SPOT12,  -678,    21,  -623, 0 }, { SCENE_SPOT12,   149,   333, -2499, 0 },
-    { SCENE_SPOT12,   499,   581,  -547, 0 }, { SCENE_SPOT12,  3187,  1413, -3775, 0 },
-    { SCENE_SPOT12,  3198,  1413,   307, 0 }, { SCENE_SPOT12,  3380,  1413, -1200, 0 },
-    { SCENE_SPOT12,  -966,     1,   -56, 0 }, { SCENE_SPOT12,  -966,    24,  -761, 0 },
-    { SCENE_SPOT12,  -694,   174, -2820, 0 },
+    { SCENE_SPOT12, -678, 21, -623, 0 },
+    { SCENE_SPOT12, 149, 333, -2499, 0 },
+    { SCENE_SPOT12, 499, 581, -547, 0 },
+    { SCENE_SPOT12, 3187, 1413, -3775, 0 },
+    { SCENE_SPOT12, 3198, 1413, 307, 0 },
+    { SCENE_SPOT12, 3380, 1413, -1200, 0 },
+    { SCENE_SPOT12, -966, 1, -56, 0 },
+    { SCENE_SPOT12, -966, 24, -761, 0 },
+    { SCENE_SPOT12, -694, 174, -2820, 0 },
 
     /* Lon Lon Ranch */
-    { SCENE_SPOT20,  1039,     0,  2051, 0 }, { SCENE_SPOT20, -1443,     0,  1429, 0 },
-    { SCENE_SPOT20,   856,     0,  -918, 0 }, // Hardcoded to always load in lon lon
-    { SCENE_SPOT20,   882,     0, -2256, 0 },
-    { SCENE_SPOT20, -1003,     0,  -755, 0 }, // Hardcoded to always load in lon lon
-    { SCENE_SPOT20, -2254,     0,  -629, 0 },
-    { SCENE_SPOT20,   907,     0, -2336, 0 },
+    { SCENE_SPOT20, 1039, 0, 2051, 0 },
+    { SCENE_SPOT20, -1443, 0, 1429, 0 },
+    { SCENE_SPOT20, 856, 0, -918, 0 }, // Hardcoded to always load in lon lon
+    { SCENE_SPOT20, 882, 0, -2256, 0 },
+    { SCENE_SPOT20, -1003, 0, -755, 0 }, // Hardcoded to always load in lon lon
+    { SCENE_SPOT20, -2254, 0, -629, 0 },
+    { SCENE_SPOT20, 907, 0, -2336, 0 },
 };
 
 typedef struct {
@@ -280,14 +361,62 @@ typedef struct {
 } RaceInfo;
 
 static RaceWaypoint sIngoRaceWaypoints[] = {
-    {  1056, 1, -1540, 11, 0x2A8D, },
-    {  1593, 1,  -985, 10, 0xFC27, },
-    {  1645, 1,  -221, 11, 0xE891, },
-    {   985, 1,   403, 10, 0xBB9C, },
-    { -1023, 1,   354, 11, 0xA37D, },
-    { -1679, 1,  -213, 10, 0x889C, },
-    { -1552, 1, -1008, 11, 0x638D, },
-    { -947, -1, -1604, 10, 0x4002, },
+    {
+        1056,
+        1,
+        -1540,
+        11,
+        0x2A8D,
+    },
+    {
+        1593,
+        1,
+        -985,
+        10,
+        0xFC27,
+    },
+    {
+        1645,
+        1,
+        -221,
+        11,
+        0xE891,
+    },
+    {
+        985,
+        1,
+        403,
+        10,
+        0xBB9C,
+    },
+    {
+        -1023,
+        1,
+        354,
+        11,
+        0xA37D,
+    },
+    {
+        -1679,
+        1,
+        -213,
+        10,
+        0x889C,
+    },
+    {
+        -1552,
+        1,
+        -1008,
+        11,
+        0x638D,
+    },
+    {
+        -947,
+        -1,
+        -1604,
+        10,
+        0x4002,
+    },
 };
 
 static RaceInfo sIngoRace = { 8, sIngoRaceWaypoints };
@@ -335,17 +464,64 @@ typedef struct {
 } CsActionEntry;
 
 static CsActionEntry sCsActionTable[] = {
-    { 36, 1, }, { 37, 2, },
-    { 38, 3, }, { 64, 4, },
-    { 65, 5, },
+    {
+        36,
+        1,
+    },
+    {
+        37,
+        2,
+    },
+    {
+        38,
+        3,
+    },
+    {
+        64,
+        4,
+    },
+    {
+        65,
+        5,
+    },
 };
 
 static RaceWaypoint sHbaWaypoints[] = {
-    { 3600, 1413, -5055, 11, 0x8001, },
-    { 3360, 1413, -5220,  5, 0xC000, },
-    { 3100, 1413, -4900,  5, 0x0000, },
-    { 3600, 1413, -4100, 11, 0x0000, },
-    { 3600, 1413,   360, 11, 0x0000, },
+    {
+        3600,
+        1413,
+        -5055,
+        11,
+        0x8001,
+    },
+    {
+        3360,
+        1413,
+        -5220,
+        5,
+        0xC000,
+    },
+    {
+        3100,
+        1413,
+        -4900,
+        5,
+        0x0000,
+    },
+    {
+        3600,
+        1413,
+        -4100,
+        11,
+        0x0000,
+    },
+    {
+        3600,
+        1413,
+        360,
+        11,
+        0x0000,
+    },
 };
 
 static RaceInfo sHbaInfo = { 5, sHbaWaypoints };
@@ -786,9 +962,9 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
         EnHorse_InitInactive(this);
     } else if (this->actor.params == 3) {
         EnHorse_InitIngoHorse(this);
-        this->rider = Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_IN, this->actor.world.pos.x,
-                                  this->actor.world.pos.y, this->actor.world.pos.z, this->actor.shape.rot.x,
-                                  this->actor.shape.rot.y, 1, 1);
+        this->rider =
+            Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_IN, this->actor.world.pos.x, this->actor.world.pos.y,
+                        this->actor.world.pos.z, this->actor.shape.rot.x, this->actor.shape.rot.y, 1, 1);
         if (this->rider == NULL) {
             __assert("this->race.rider != NULL", "../z_en_horse.c", 3077);
         }
@@ -2532,17 +2708,17 @@ void EnHorse_FleePlayer(EnHorse* this, GlobalContext* globalCtx) {
         }
     }
 
-    if (this->actor.speedXZ >= 6.0f) {          // hoof it
+    if (this->actor.speedXZ >= 6.0f) { // hoof it
         this->skin.skelAnime.playSpeed = this->actor.speedXZ * 0.3f;
         nextAnim = ENHORSE_ANIM_GALLOP;
-    } else if (this->actor.speedXZ >= 3.0f) {   // trot
+    } else if (this->actor.speedXZ >= 3.0f) { // trot
         this->skin.skelAnime.playSpeed = this->actor.speedXZ * 0.375f;
         nextAnim = ENHORSE_ANIM_TROT;
-    } else if (this->actor.speedXZ > 0.1f) {    // walk
+    } else if (this->actor.speedXZ > 0.1f) { // walk
         this->skin.skelAnime.playSpeed = this->actor.speedXZ * 0.75f;
         nextAnim = ENHORSE_ANIM_WALK;
         EnHorse_PlayWalkingSound(this);
-    } else {                                    // idle
+    } else { // idle
         nextAnim = Rand_ZeroOne() > 0.5f ? 1 : 0;
         EnHorse_IdleAnimSounds(this, globalCtx);
         this->skin.skelAnime.playSpeed = 1.0f;
@@ -3221,7 +3397,8 @@ void EnHorse_CheckBoost(EnHorse* thisx, GlobalContext* globalCtx) {
     if (this->action == ENHORSE_ACT_MOUNTED_WALK || this->action == ENHORSE_ACT_MOUNTED_TROT ||
         this->action == ENHORSE_ACT_MOUNTED_GALLOP) {
         if (CHECK_BTN_ALL(globalCtx2->state.input[0].press.button, BTN_A) && (globalCtx2->interfaceCtx.unk_1EE == 8)) {
-            if (!(this->stateFlags & ENHORSE_BOOST) && !(this->stateFlags & ENHORSE_FLAG_8) && !(this->stateFlags & ENHORSE_FLAG_9)) {
+            if (!(this->stateFlags & ENHORSE_BOOST) && !(this->stateFlags & ENHORSE_FLAG_8) &&
+                !(this->stateFlags & ENHORSE_FLAG_9)) {
                 if (this->numBoosts > 0) {
                     func_800AA000(0.0f, 180, 20, 100);
                     this->stateFlags |= ENHORSE_BOOST;
@@ -3485,7 +3662,7 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
                 this->blinkTimer = 0;
             }
         }
-        
+
         if (thisx->speedXZ == 0.0f && !(this->stateFlags & ENHORSE_FLAG_19)) {
             thisx->colChkInfo.mass = 0xFF;
         } else {

@@ -190,7 +190,8 @@ void EnGoma_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupFlee(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06003D78, 2.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP, -2.0f);
+    Animation_Change(&this->skelanime, &D_06003D78, 2.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP,
+                     -2.0f);
     this->actionFunc = EnGoma_Flee;
     this->actionTimer = 20;
 
@@ -298,13 +299,15 @@ void EnGoma_Egg(EnGoma* this, GlobalContext* globalCtx) {
             pos.x = Rand_CenteredFloat(30.0f) + this->actor.world.pos.x;
             pos.y = Rand_ZeroFloat(30.0f) + this->actor.world.pos.y;
             pos.z = Rand_CenteredFloat(30.0f) + this->actor.world.pos.z;
-            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, HAHEN_OBJECT_DEFAULT, 10, NULL);
+            EffectSsHahen_Spawn(globalCtx, &pos, &vel, &acc, 0, (s16)(Rand_ZeroOne() * 5.0f) + 10, HAHEN_OBJECT_DEFAULT,
+                                10, NULL);
         }
     }
 }
 
 void EnGoma_SetupHatch(EnGoma* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE,
+                     0.0f);
     this->actionFunc = EnGoma_Hatch;
     Actor_SetScale(&this->actor, 0.005f);
     this->gomaType = ENGOMA_NORMAL;
@@ -324,7 +327,8 @@ void EnGoma_Hatch(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupHurt(EnGoma* this, GlobalContext* globalCtx) {
-    Animation_Change(&this->skelanime, &D_06000838, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000838), ANIMMODE_ONCE, -2.0f);
+    Animation_Change(&this->skelanime, &D_06000838, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000838), ANIMMODE_ONCE,
+                     -2.0f);
     this->actionFunc = EnGoma_Hurt;
 
     if ((s8)this->actor.colChkInfo.health <= 0) {
@@ -360,7 +364,8 @@ void EnGoma_Hurt(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupDie(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000B78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B78), ANIMMODE_ONCE, -2.0f);
+    Animation_Change(&this->skelanime, &D_06000B78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000B78), ANIMMODE_ONCE,
+                     -2.0f);
     this->actionFunc = EnGoma_Die;
     this->actionTimer = 30;
 
@@ -395,7 +400,8 @@ void EnGoma_Die(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupDead(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000334, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000334), ANIMMODE_LOOP, -2.0f);
+    Animation_Change(&this->skelanime, &D_06000334, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000334), ANIMMODE_LOOP,
+                     -2.0f);
     this->actionFunc = EnGoma_Dead;
     this->actionTimer = 3;
 }
@@ -439,13 +445,15 @@ void EnGoma_SetupStand(EnGoma* this) {
 }
 
 void EnGoma_SetupChasePlayer(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06003D78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP, -5.0f);
+    Animation_Change(&this->skelanime, &D_06003D78, 1.0f, 0.0f, Animation_GetLastFrame(&D_06003D78), ANIMMODE_LOOP,
+                     -5.0f);
     this->actionFunc = EnGoma_ChasePlayer;
     this->actionTimer = Rand_S16Offset(70, 110);
 }
 
 void EnGoma_SetupPrepareJump(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000E4C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000E4C), ANIMMODE_ONCE, -5.0f);
+    Animation_Change(&this->skelanime, &D_06000E4C, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000E4C), ANIMMODE_ONCE,
+                     -5.0f);
     this->actionFunc = EnGoma_PrepareJump;
     this->actionTimer = 30;
 }
@@ -467,7 +475,8 @@ void EnGoma_PrepareJump(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupLand(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_0600017C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600017C), ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelanime, &D_0600017C, 1.0f, 0.0f, Animation_GetLastFrame(&D_0600017C), ANIMMODE_ONCE,
+                     0.0f);
     this->actionFunc = EnGoma_Land;
     this->actionTimer = 10;
 }
@@ -484,7 +493,8 @@ void EnGoma_Land(EnGoma* this, GlobalContext* globalCtx) {
 }
 
 void EnGoma_SetupJump(EnGoma* this) {
-    Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE, 0.0f);
+    Animation_Change(&this->skelanime, &D_06000544, 1.0f, 0.0f, Animation_GetLastFrame(&D_06000544), ANIMMODE_ONCE,
+                     0.0f);
     this->actionFunc = EnGoma_Jump;
     this->actor.velocity.y = 8.0f;
 
@@ -762,15 +772,15 @@ s32 EnGoma_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
 }
 
 Gfx* EnGoma_NoBackfaceCullingDlist(GraphicsContext* gfxCtx) {
-    Gfx* dList;
     Gfx* dListHead;
+    Gfx* dList;
 
-    dList = dListHead = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
-    gDPPipeSync(dList++);
-    gDPSetRenderMode(dList++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
-    gSPClearGeometryMode(dList++, G_CULL_BACK);
-    gSPEndDisplayList(dList++);
-    return dListHead;
+    dListHead = dList = Graph_Alloc(gfxCtx, sizeof(Gfx) * 4);
+    gDPPipeSync(dListHead++);
+    gDPSetRenderMode(dListHead++, G_RM_PASS, G_RM_AA_ZB_TEX_EDGE2);
+    gSPClearGeometryMode(dListHead++, G_CULL_BACK);
+    gSPEndDisplayList(dListHead++);
+    return dList;
 }
 
 void EnGoma_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -856,10 +866,11 @@ void EnGoma_SpawnHatchDebris(EnGoma* this, GlobalContext* globalCtx2) {
     }
 
     for (i = 0; i < 15; i++) {
-        Actor_SpawnAsChild(
-            &globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA, Rand_CenteredFloat(10.0f) + this->actor.world.pos.x,
-            Rand_CenteredFloat(10.0f) + this->actor.world.pos.y + 15.0f,
-            Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(65535.99f), 0, i + 10);
+        Actor_SpawnAsChild(&globalCtx->actorCtx, &this->actor, globalCtx, ACTOR_EN_GOMA,
+                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.x,
+                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.y + 15.0f,
+                           Rand_CenteredFloat(10.0f) + this->actor.world.pos.z, 0, Rand_CenteredFloat(65535.99f), 0,
+                           i + 10);
     }
 }
 

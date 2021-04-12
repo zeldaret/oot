@@ -257,37 +257,36 @@ static u8 sClearPixelTableSecondPass[16 * 16] = {
 
 // indexed by limb (where the root limb is 1)
 static u8 sDeadLimbLifetime[] = {
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     30, // tail end/last part
     40, // tail 2nd to last part
-    0, 0, 0, 0, 0, 0, 0, 0,
+    0,  0, 0, 0, 0, 0, 0, 0,
     10, // back of right claw/hand
     15, // front of right claw/hand
     21, // part of right arm (inner)
-    0, 0,
+    0,  0,
     25, // part of right arm (shell)
-    0, 0,
+    0,  0,
     31, // part of right arm (shell on shoulder)
     35, // part of right arm (shoulder)
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
-    0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
     43, // end of left antenna
     48, // middle of left antenna
     53, // start of left antenna
-    0, 0, 0, 0,
+    0,  0, 0, 0,
     42, // end of right antenna
     45, // middle of right antenna
     53, // start of right antenna
-    0, 0, 0, 0, 0, 0,
+    0,  0, 0, 0, 0, 0,
     11, // back of left claw/hand
     15, // front of left claw/hand
     21, // part of left arm (inner)
-    0, 0,
+    0,  0,
     25, // part of left arm (shell)
-    0, 0,
+    0,  0,
     30, // part of left arm (shell on shoulder)
     35, // part of left arm (shoulder)
-    0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+    0,  0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 };
 
 /**

@@ -42,9 +42,9 @@ typedef struct {
 void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
     s32 i;
     HorseSpawn horseSpawns[] = {
-        { SCENE_SPOT00, -460,  100,  6640, 0, 2 }, { SCENE_SPOT06, -1929, -1025, 768, 0, 2 },
-        { SCENE_SPOT09, 2566, -259,   767, 0, 2 }, { SCENE_SPOT12,  -328,    10, 953, 0, 2 },
-        { SCENE_SPOT20,  928,    0, -2280, 0, 2 },
+        { SCENE_SPOT00, -460, 100, 6640, 0, 2 }, { SCENE_SPOT06, -1929, -1025, 768, 0, 2 },
+        { SCENE_SPOT09, 2566, -259, 767, 0, 2 }, { SCENE_SPOT12, -328, 10, 953, 0, 2 },
+        { SCENE_SPOT20, 928, 0, -2280, 0, 2 },
     };
 
     if ((AREG(6) != 0) && (Flags_GetEventChkInf(0x18) || (DREG(1) != 0))) {
