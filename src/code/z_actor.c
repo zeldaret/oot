@@ -1020,7 +1020,7 @@ void func_8002DE74(GlobalContext* globalCtx, Player* player) {
     }
 }
 
-void func_8002DECC(GlobalContext* globalCtx, Player* player, Actor* horse) {
+void Actor_MountHorse(GlobalContext* globalCtx, Player* player, Actor* horse) {
     player->rideActor = horse;
     player->stateFlags1 |= 0x800000;
     horse->child = &player->actor;
@@ -1607,28 +1607,28 @@ void func_8002F5F0(Actor* actor, GlobalContext* globalCtx) {
     }
 }
 
-u32 Actor_HasChild(GlobalContext* globalCtx, Actor* actor) {
-    if (actor->child != NULL) {
+s32 Actor_IsMounted(GlobalContext* globalCtx, Actor* horse) {
+    if (horse->child != NULL) {
         return true;
     } else {
         return false;
     }
 }
 
-u32 func_8002F63C(GlobalContext* globalCtx, Actor* horse, s32 arg2) {
+u32 Actor_SetRideActor(GlobalContext* globalCtx, Actor* horse, s32 mountSide) {
     Player* player = PLAYER;
 
     if (!(player->stateFlags1 & 0x003C7880)) {
         player->rideActor = horse;
-        player->unk_43C = arg2;
+        player->mountSide = mountSide;
         return true;
     }
 
     return false;
 }
 
-u32 Actor_HasNoChild(GlobalContext* globalCtx, Actor* actor) {
-    if (actor->child == NULL) {
+s32 Actor_NotMounted(GlobalContext* globalCtx, Actor* horse) {
+    if (horse->child == NULL) {
         return true;
     } else {
         return false;

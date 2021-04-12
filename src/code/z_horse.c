@@ -42,9 +42,9 @@ typedef struct {
 void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
     s32 i;
     HorseSpawn horseSpawns[] = {
-        { 81, 0xFE34, 0x0064, 0x19F0, 0, 2 }, { 87, 0xF877, 0xFBFF, 0x0300, 0, 2 },
-        { 90, 0x0A06, 0xFEFD, 0x02FF, 0, 2 }, { 93, 0xFEB8, 0x000A, 0x03B9, 0, 2 },
-        { 99, 0x03A0, 0x0000, 0xF718, 0, 2 },
+        { SCENE_SPOT00, -460,  100,  6640, 0, 2 }, { SCENE_SPOT06, -1929, -1025, 768, 0, 2 },
+        { SCENE_SPOT09, 2566, -259,   767, 0, 2 }, { SCENE_SPOT12,  -328,    10, 953, 0, 2 },
+        { SCENE_SPOT20,  928,    0, -2280, 0, 2 },
     };
 
     if ((AREG(6) != 0) && (Flags_GetEventChkInf(0x18) || (DREG(1) != 0))) {
@@ -55,7 +55,7 @@ void func_8006D0EC(GlobalContext* globalCtx, Player* player) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 343);
         }
 
-        func_8002DECC(globalCtx, player, player->rideActor);
+        Actor_MountHorse(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
         gSaveContext.horseData.scene = globalCtx->sceneNum;
 
@@ -168,7 +168,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 561);
         }
 
-        func_8002DECC(globalCtx, player, player->rideActor);
+        Actor_MountHorse(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
         gSaveContext.horseData.scene = globalCtx->sceneNum;
     } else if ((globalCtx->sceneNum == SCENE_SPOT20) && ((gSaveContext.eventInf[0] & 0xF) == 6) &&
@@ -179,7 +179,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
             __assert("player->ride.actor != NULL", "../z_horse.c", 582);
         }
 
-        func_8002DECC(globalCtx, player, player->rideActor);
+        Actor_MountHorse(globalCtx, player, player->rideActor);
         func_8002DE74(globalCtx, player);
         gSaveContext.horseData.scene = globalCtx->sceneNum;
 
@@ -211,7 +211,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                         __assert("player->ride.actor != NULL", "../z_horse.c", 628);
                     }
 
-                    func_8002DECC(globalCtx, player, player->rideActor);
+                    Actor_MountHorse(globalCtx, player, player->rideActor);
                     func_8002DE74(globalCtx, player);
                 } else if ((D_8011F9B8[i].type == 5) || (D_8011F9B8[i].type == 6) || (D_8011F9B8[i].type == 8)) {
                     Vec3f sp54;
@@ -234,7 +234,7 @@ void func_8006D684(GlobalContext* globalCtx, Player* player) {
                     player->actor.shape.rot.x = player->actor.shape.rot.z = 0;
                     player->actor.shape.rot.y = D_8011F9B8[i].angle;
 
-                    func_8002DECC(globalCtx, player, player->rideActor);
+                    Actor_MountHorse(globalCtx, player, player->rideActor);
                     func_8002DE74(globalCtx, player);
 
                     sp54.x = player->actor.world.pos.x - 200.0f;
