@@ -1,3 +1,9 @@
+/**
+ * File: z_en_horse.c
+ * Overlay: ovl_En_Horse
+ * Description: Rideable horses
+ */
+
 #include "z_en_horse.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
 #include "objects/object_horse/object_horse.h"
@@ -3894,16 +3900,17 @@ static u64* sEyeTextures[] = {
 };
 static u8 sBlinkTextures[] = { 0, 1, 2, 1 };
 
-s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* arg3) {
+s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex, PSkinAwb* arg3) {
     EnHorse* this = THIS;
     s32 sp48 = 1;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
-    if (arg2 == 13 && this->type == HORSE_EPONA) {
+    if (limbIndex == 13 && this->type == HORSE_EPONA) {
         u8 index = sBlinkTextures[this->blinkTimer];
+
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[index]));
-    } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && arg2 == 30) {
-        func_800A5F60(globalCtx->state.gfxCtx, &this->skin, arg2, gHorseIngoSaddleDL, 0);
+    } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {
+        func_800A5F60(globalCtx->state.gfxCtx, &this->skin, limbIndex, gHorseIngoGerudoSaddleDL, 0);
         sp48 = 0;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8601);
