@@ -372,10 +372,10 @@ void Flags_SetTempClear(GlobalContext* globalCtx, s32 flag);
 void Flags_UnsetTempClear(GlobalContext* globalCtx, s32 flag);
 s32 Flags_GetCollectible(GlobalContext* globalCtx, s32 flag);
 void Flags_SetCollectible(GlobalContext* globalCtx, s32 flag);
-void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 arg3, s16 arg4,
-                            u8 arg5, u8 arg6);
-void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 arg3, s32 arg4,
-                             s32 arg5, s32 arg6, s32 arg7);
+void TitleCard_InitBossName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s16 x,
+                            s16 y, u8 width, u8 height);
+void TitleCard_InitPlaceName(GlobalContext* globalCtx, TitleCardContext* titleCtx, void* texture, s32 x,
+                             s32 y, s32 width, s32 height, s32 delay);
 s32 func_8002D53C(GlobalContext* globalCtx, TitleCardContext* titleCtx);
 void Actor_Kill(Actor* actor);
 void Actor_SetFocus(Actor* actor, f32 offset);
@@ -526,7 +526,7 @@ void func_80035650(Actor* actor, ColliderInfo* colBody, s32 freezeFlag);
 void func_8003573C(Actor* actor, ColliderJntSph* colBody, s32 freezeFlag);
 void func_80035844(Vec3f* arg0, Vec3f* arg1, Vec3s* arg2, s32 arg3);
 Actor* func_800358DC(Actor* actor, Vec3f* spawnPos, Vec3s* spawnRot, f32* arg3, s32 timer, s16* unused,
-                      GlobalContext* globalCtx, s16 params, s32 arg8);
+                     GlobalContext* globalCtx, s16 params, s32 arg8);
 void func_800359B8(Actor* actor, s16 arg1, Vec3s* arg2);
 s32 Flags_GetEventChkInf(s32 flag);
 void Flags_SetEventChkInf(s32 flag);
@@ -669,7 +669,7 @@ void func_8003ECA8(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgI
 s32 DynaPoly_SetBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor, CollisionHeader* colHeader);
 DynaPolyActor* DynaPoly_GetActor(CollisionContext* colCtx, s32 bgId);
 void DynaPoly_DeleteBgActor(GlobalContext* globalCtx, DynaCollisionContext* dyna, s32 bgId);
-// ? DynaPoly_ExpandSRT(?);
+void func_8003EE6C(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void func_8003F8EC(GlobalContext* globalCtx, DynaCollisionContext* dyna, Actor* actor);
 void DynaPoly_Setup(GlobalContext* globalCtx, DynaCollisionContext* dyna);
 void DynaPoly_UpdateBgActorTransforms(GlobalContext* globalCtx, DynaCollisionContext* dyna);
@@ -1236,8 +1236,8 @@ void func_80094D28(Gfx** gfxp);
 Gfx* Gfx_BranchTexScroll(Gfx** gfxp, u32 x, u32 y, s32 width, s32 height);
 Gfx* func_80094E78(GraphicsContext* gfxCtx, u32 x, u32 y);
 Gfx* Gfx_TexScroll(GraphicsContext* gfxCtx, u32 x, u32 y, s32 width, s32 height);
-Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, u32 x2,
-                      u32 y2, s32 width2, s32 height2);
+Gfx* Gfx_TwoTexScroll(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2, 
+                        u32 x2, u32 y2, s32 width2, s32 height2);
 Gfx* Gfx_TwoTexScrollEnvColor(GraphicsContext* gfxCtx, s32 tile1, u32 x1, u32 y1, s32 width1, s32 height1, s32 tile2,
                               u32 x2, u32 y2, s32 width2, s32 height2, s32 r, s32 g, s32 b, s32 a);
 Gfx* Gfx_EnvColor(GraphicsContext* gfxCtx, s32 r, s32 g, s32 b, s32 a);
@@ -2208,7 +2208,7 @@ void Audio_InitSequencePlayers(void);
 // ? func_800ED200(?);
 // ? func_800ED458(?);
 void func_800ED858(u8);
-// ? func_800ED93C(?);
+void func_800ED93C(s8 songIdx, s8 arg1);
 // ? func_800EDA3C(?);
 // ? func_800EDD68(?);
 // ? func_800EE170(?);
@@ -2279,7 +2279,9 @@ void func_800F595C(u16);
 void func_800F59E8(u16);
 void func_800F5ACC(u32 bgmID);
 void func_800F5B58(void);
+void func_800F5BF0(u8 arg0);
 void func_800F5C64(u16);
+void func_800F5C2C(void);
 // ? func_800F5CF8(?);
 // ? func_800F5E18(?);
 void func_800F5E90(u8);
@@ -2596,6 +2598,7 @@ f32 absf(f32);
 void* func_80106860(void* ptr, s32 val, size_t size);
 void* func_801068B0(void* dst, void* src, size_t size);
 // ? func_801069B0(?);
+void func_80106AA8(GlobalContext* globalCtx);
 u8 func_80106BC8(GlobalContext* globalCtx);
 // ? func_80106C88(?);
 void func_80106CCC(GlobalContext*);
@@ -2645,6 +2648,7 @@ void func_80811A20(GameState* thisx); // FileChoose_Init
 void func_80811A18(GameState* thisx); // FileChoose_Destroy
 
 void func_80823994(PauseContext*, f32, f32, f32);
+Gfx* func_80094968(Gfx* gfx);
 void func_800949A8(GraphicsContext*);
 void func_8082409C(GlobalContext*, GraphicsContext*);
 void func_80820434(GlobalContext*, GraphicsContext*);

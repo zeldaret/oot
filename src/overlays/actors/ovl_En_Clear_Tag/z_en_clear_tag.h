@@ -53,11 +53,11 @@ typedef struct EnClearTag {
     /* 0x014C */ u8 shouldExplode;
     /* 0x014D */ u8 drawMode;
     /* 0x014E */ u8 state;
-    /* 0x0150 */ s16 work[CLEAR_TAG_TIMER_COUNT];
+    /* 0x0150 */ s16 timers[CLEAR_TAG_TIMER_COUNT];
     /* 0x0158 */ Vec3f targetPosition;
     /* 0x0164 */ Vec3f targetDirection;
     /* 0x0170 */ Vec3f acceleration;
-    /* 0x017C */ u8 timer;
+    /* 0x017C */ u8 frameCounter;
     /* 0x017D */ u8 shouldShootLaser;
     /* 0x0180 */ f32 roll;
     /* 0x0184 */ s16 crashingTimer;
