@@ -1,5 +1,5 @@
-#ifndef _Z_EN_SHIEK_H_
-#define _Z_EN_SHIEK_H_
+#ifndef _Z_EN_XC_H_
+#define _Z_EN_XC_H_
 
 #include "ultra64.h"
 #include "global.h"
@@ -131,10 +131,10 @@ typedef struct EnXc {
     /* 0x0278 */ s32 triforcePrimColor[4];
     /* 0x0288 */ s32 triforceEnvColor[4];
     /* 0x0298 */ f32 triforceScale[3];
-    /* 0x02A4 */ s16 triforceAngle; // some sort of angle
+    /* 0x02A4 */ s16 triforceAngle;
     /* 0x02A8 */ s32 unk_2A8; // sound related
     /* 0x02AC */ s32 unk_2AC; // sound related
-    /* 0x02B0 */ Vec3f handPos; // hand pos?
+    /* 0x02B0 */ Vec3f handPos;
     /* 0x02BC */ s32 unk_2BC; // hand pos related
     /* 0x02C0 */ ColliderCylinder collider;
     /* 0x030C */ s32 unk_30C;

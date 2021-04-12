@@ -150,7 +150,7 @@ void func_80B3C588(EnXc* this, GlobalContext* globalCtx, u32 npcActionIdx) {
     CsCmdActorAction* csCmdNPCAction = EnXc_GetCsCmd(globalCtx, npcActionIdx);
     Actor* thisx = &this->actor;
 
-    if (csCmdNPCAction) {
+    if (csCmdNPCAction != NULL) {
         thisx->world.pos.x = csCmdNPCAction->startPos.x;
         thisx->world.pos.y = csCmdNPCAction->startPos.y;
         thisx->world.pos.z = csCmdNPCAction->startPos.z;
@@ -171,7 +171,7 @@ void func_80B3C620(EnXc* this, GlobalContext* globalCtx, s32 npcActionIdx) {
     f32 endZ;
     f32 unk;
 
-    if (npcAction) {
+    if (npcAction != NULL) {
         unk = func_8006F9BC(npcAction->endFrame, npcAction->startFrame, globalCtx->csCtx.frames, 0, 0);
         startX = npcAction->startPos.x;
         startY = npcAction->startPos.y;
@@ -230,7 +230,8 @@ s32 EnXc_NoCutscenePlaying(GlobalContext* globalCtx) {
 }
 
 void func_80B3C820(EnXc* this) {
-    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim), ANIMMODE_LOOP, 0.0f);
+    Animation_Change(&this->skelAnime, &gShiekIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gShiekIdleAnim),
+                     ANIMMODE_LOOP, 0.0f);
     this->action = SHIEK_ACTION_53;
 }
 
@@ -523,7 +524,7 @@ void EnXc_InitFlame(EnXc* this, GlobalContext* globalCtx) {
 
     if (sceneNum == SCENE_SPOT17) {
         CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 0);
-        if (npcAction) {
+        if (npcAction != NULL) {
             s32 action = npcAction->action;
             if (D_80B41DA8 != action) {
                 if (action != 1) {
@@ -547,7 +548,7 @@ void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
     CsCmdActorAction* linkAction = csCtx->linkAction;
     s16 yaw;
 
-    if (linkAction) {
+    if (linkAction != NULL) {
         yaw = (u16)linkAction->rot.y + 0x8000;
     } else {
         Player* player = PLAYER;
@@ -562,7 +563,7 @@ AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
     AnimationHeader* animation = &gShiekPlayingHarp5Anim;
     CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, index);
 
-    if (npcAction) {
+    if (npcAction != NULL) {
         u16 action = npcAction->action;
         if (action == 11) {
             animation = &gShiekPlayingHarp3Anim;
@@ -857,10 +858,7 @@ void EnXc_SetupDisappear(EnXc* this, GlobalContext* globalCtx) {
         (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 9)) {
         sceneNum = globalCtx->sceneNum;
 
-        /**
-         * Shiek fades away if end of Bolero CS
-         * Kill actor otherwise
-         */
+        // Shiek fades away if end of Bolero CS, kill actor otherwise
         if (sceneNum == SCENE_SPOT17) {
             this->action = SHIEK_ACTION_FADE;
             this->drawMode = SHIEK_DRAW_NOTHING;
@@ -1081,7 +1079,7 @@ void EnXc_DrawPullingOutHarp(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
-                          EnXc_PullingOutHarpOverrideLimbDraw, NULL, thisx);
+                          EnXc_PullingOutHarpOverrideLimbDraw, NULL, this);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inSpot05.c", 1497);
 }
 
@@ -1104,7 +1102,7 @@ void EnXc_DrawHarp(Actor* thisx, GlobalContext* globalCtx) {
     func_80093D18(gfxCtx);
     func_8002EBCC(&this->actor, globalCtx, 0);
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
-                          EnXc_HarpOverrideLimbDraw, NULL, thisx);
+                          EnXc_HarpOverrideLimbDraw, NULL, this);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inSpot05.c", 1564);
 }
 
@@ -1365,7 +1363,7 @@ void EnXc_PlayDiveSFX(Vec3f* src, GlobalContext* globalCtx) {
 void EnXc_LakeHyliaDive(GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = npcAction = EnXc_GetCsCmd(globalCtx, 0);
 
-    if (npcAction) {
+    if (npcAction != NULL) {
         Vec3f startPos;
 
         startPos.x = npcAction->startPos.x;
@@ -1393,7 +1391,7 @@ void func_80B3F59C(EnXc* this, GlobalContext* globalCtx) {
     CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 0);
     static s32 D_80B41DAC = 1;
 
-    if (npcAction) {
+    if (npcAction != NULL) {
         s32 action = npcAction->action;
 
         if (action != D_80B41DAC) {
@@ -1596,7 +1594,7 @@ void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx) {
         CutsceneContext* csCtx = &globalCtx->csCtx;
         if (csCtx->state) {
             CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
-            if (npcAction) {
+            if (npcAction != NULL) {
                 PosRot* posRot = &this->actor.world;
                 ActorShape* shape = &this->actor.shape;
                 Vec3i* startPos = &npcAction->startPos;
@@ -1721,7 +1719,7 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTexture));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeTexture));
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
-                          EnXc_TriforceOverrideLimbDraw, EnXc_TriforcePostLimbDraw, &this->actor);
+                          EnXc_TriforceOverrideLimbDraw, EnXc_TriforcePostLimbDraw, this);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 668);
 }
 
@@ -2142,7 +2140,6 @@ void EnXc_PreludeCS(EnXc* this, GlobalContext* globalCtx) {
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(tokinoma_sceneCutsceneData0x006D20);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHIEK_ACTION_30;
-            // If Sheik is in front of Master Sword Pedestal but has NOT obtained Forest Medallion
         } else if (!(gSaveContext.eventChkInf[5] & 0x20)) {
             func_80B3C9EC(this);
         } else {
@@ -2159,11 +2156,9 @@ void EnXc_SetupDialogueAction(EnXc* this, GlobalContext* globalCtx) {
     } else {
         this->actor.flags |= 9;
         if (INV_CONTENT(ITEM_HOOKSHOT) != ITEM_NONE) {
-            this->actor.textId =
-                0x7010; // "It looks like you have the skills you need...the forest girl is waiting for your help..."
+            this->actor.textId = 0x7010;
         } else {
-            this->actor.textId =
-                0x700F; // "To save the forest girl, you need another skill...head to Kakariko Village!"
+            this->actor.textId = 0x700F;
         }
         func_8002F2F4(&this->actor, globalCtx);
     }
@@ -2383,25 +2378,13 @@ void EnXc_DrawDefault(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeSegment));
     gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(eyeSegment));
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount,
-                          EnXc_OverrideLimbDraw, EnXc_PostLimbDraw, &this->actor);
+                          EnXc_OverrideLimbDraw, EnXc_PostLimbDraw, this);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2.c", 1207);
 }
 
 static EnXcDrawFunc sDrawFuncs[] = {
     EnXc_DrawNothing, EnXc_DrawDefault,  EnXc_DrawPullingOutHarp,
     EnXc_DrawHarp,    EnXc_DrawTriforce, EnXc_DrawSquintingEyes,
-};
-
-const ActorInit En_Xc_InitVars = {
-    ACTOR_EN_XC,
-    ACTORCAT_NPC,
-    FLAGS,
-    OBJECT_XC,
-    sizeof(EnXc),
-    (ActorFunc)EnXc_Init,
-    (ActorFunc)EnXc_Destroy,
-    (ActorFunc)EnXc_Update,
-    (ActorFunc)EnXc_Draw,
 };
 
 void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
@@ -2414,3 +2397,15 @@ void EnXc_Draw(Actor* thisx, GlobalContext* globalCtx) {
         sDrawFuncs[this->drawMode](thisx, globalCtx);
     }
 }
+
+const ActorInit En_Xc_InitVars = {
+    ACTOR_EN_XC,
+    ACTORCAT_NPC,
+    FLAGS,
+    OBJECT_XC,
+    sizeof(EnXc),
+    (ActorFunc)EnXc_Init,
+    (ActorFunc)EnXc_Destroy,
+    (ActorFunc)EnXc_Update,
+    (ActorFunc)EnXc_Draw,
+};
