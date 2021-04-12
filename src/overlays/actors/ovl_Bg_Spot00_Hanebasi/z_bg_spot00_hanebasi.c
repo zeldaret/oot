@@ -220,7 +220,7 @@ void BgSpot00Hanebasi_Update(Actor* thisx, GlobalContext* globalCtx) {
         if (globalCtx->sceneNum == SCENE_SPOT00) {
             if ((CHECK_QUEST_ITEM(QUEST_KOKIRI_EMERALD)) && (CHECK_QUEST_ITEM(QUEST_GORON_RUBY)) &&
                 (CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE)) && (!(gSaveContext.eventChkInf[8] & 1)) &&
-                (gSaveContext.linkAge == 1)) {
+                (LINK_IS_CHILD2)) {
                 Player* player = PLAYER;
 
                 if ((player->actor.world.pos.x > -450.0f) && (player->actor.world.pos.x < 450.0f) &&

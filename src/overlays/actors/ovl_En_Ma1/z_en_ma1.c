@@ -180,7 +180,7 @@ s32 func_80AA08C4(EnMa1* this, GlobalContext* globalCtx) {
     if ((this->actor.shape.rot.z == 3) && (gSaveContext.sceneSetupIndex == 5)) {
         return 1;
     }
-    if (gSaveContext.linkAge != 1) {
+    if (LINK_IS_ADULT2) {
         return 0;
     }
     if (((globalCtx->sceneNum == SCENE_MARKET_NIGHT) || (globalCtx->sceneNum == SCENE_MARKET_DAY)) &&

@@ -27,7 +27,9 @@
 #define YEARS_CHILD 5
 #define YEARS_ADULT 17
 #define LINK_IS_CHILD (gSaveContext.linkAge != 0)
+#define LINK_IS_CHILD2 (gSaveContext.linkAge == 1)
 #define LINK_IS_ADULT (gSaveContext.linkAge == 0)
+#define LINK_IS_ADULT2 (gSaveContext.linkAge != 1)
 #define LINK_AGE_IN_YEARS (LINK_IS_CHILD ? YEARS_CHILD : YEARS_ADULT)
 
 #define SLOT(item) gItemSlots[item]

@@ -149,7 +149,7 @@ void func_80AA1AE4(EnMa2* this, GlobalContext* globalCtx) {
 }
 
 u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
-    if (gSaveContext.linkAge == 1) {
+    if (LINK_IS_CHILD2) {
         return 0;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&

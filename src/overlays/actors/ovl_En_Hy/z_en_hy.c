@@ -668,7 +668,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_LABO:
             if ((this->actor.params & 0x7F) != 10) {
                 return true;
-            } else if (gSaveContext.linkAge == 1) {
+            } else if (LINK_IS_CHILD2) {
                 return false;
             } else if (((this->actor.params & 0x7F) == 10) && !gSaveContext.nightFlag) {
                 return false;
@@ -691,7 +691,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             } else if (!gSaveContext.nightFlag) {
                 return false;
-            } else if (gSaveContext.linkAge == 1) {
+            } else if (LINK_IS_CHILD2) {
                 return false;
             } else {
                 return true;
