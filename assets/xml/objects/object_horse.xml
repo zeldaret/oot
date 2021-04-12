@@ -22,7 +22,7 @@
         <Animation Name="gEponaJumpingHighAnim" Offset="0x2C38"/>
 
         <!-- Eyes textures. -->
-        <Texture Name="gEponaEyePal" OutName="epona_eye_pal" Format="rgb5a1" Width="16" Height="16" Offset="0x9D80" />
+        <Texture Name="gEponaEyeTLUT" OutName="epona_eye_tlut" Format="rgb5a1" Width="16" Height="16" Offset="0x9D80" />
         <Texture Name="gEponaEyeOpenTex" OutName="epona_eye_open" Format="ci8" Width="32" Height="16" Offset="0x9F80" />
         <Texture Name="gEponaEyeHalfTex" OutName="epona_eye_half" Format="ci8" Width="32" Height="16" Offset="0xA180" />
         <Texture Name="gEponaEyeCloseTex" OutName="epona_eye_close" Format="ci8" Width="32" Height="16" Offset="0xA380" />

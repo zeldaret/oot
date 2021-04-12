@@ -320,7 +320,7 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_SPOT12, -966, 24, -761, 0 },
     { SCENE_SPOT12, -694, 174, -2820, 0 },
 
-    /* Lon Lon Ranch */
+    // Lon Lon Ranch
     { SCENE_SPOT20, 1039, 0, 2051, 0 },
     { SCENE_SPOT20, -1443, 0, 1429, 0 },
     { SCENE_SPOT20, 856, 0, -918, 0 }, // Hardcoded to always load in lon lon
