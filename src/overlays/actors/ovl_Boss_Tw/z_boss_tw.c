@@ -624,7 +624,7 @@ void BossTw_Destroy(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (thisx->params == TW_TWINROVA) {
-        twInitalized = 0;
+        twInitalized = false;
     }
 }
 
@@ -642,7 +642,7 @@ void BossTw_SetupTurnToLink(BossTw* this, GlobalContext* globalCtx) {
 }
 
 void BossTw_TurnToLink(BossTw* this, GlobalContext* globalCtx) {
-    BossTw* parent = (BossTw*)this->actor.parent;
+    BossTw* otherTw = (BossTw*)this->actor.parent;
 
     SkelAnime_Update(&this->skelAnime);
     Math_ApproachF(&this->actor.speedXZ, 0.0f, 1.0f, 1.0f);
@@ -652,7 +652,7 @@ void BossTw_TurnToLink(BossTw* this, GlobalContext* globalCtx) {
     func_8002D908(&this->actor);
     func_8002D7EC(&this->actor);
     if (this->timers[0] == 0) {
-        if (parent->actionFunc != BossTw_ShootBeam && this->work[CAN_SHOOT]) {
+        if (otherTw->actionFunc != BossTw_ShootBeam && this->work[CAN_SHOOT]) {
             this->work[CAN_SHOOT] = false;
             BossTw_SetupShootBeam(this, globalCtx);
             this->actor.speedXZ = 0.0f;
@@ -670,18 +670,18 @@ Vec3f sPillarPositions[] = {
 };
 
 void BossTw_SetupFlyTo(BossTw* this, GlobalContext* globalCtx) {
-    BossTw* parent = (BossTw*)this->actor.parent;
+    BossTw* otherTw = (BossTw*)this->actor.parent;
 
     this->unk_5F8 = 1;
     this->actor.flags |= 1;
     this->actionFunc = BossTw_FlyTo;
     this->rotateSpeed = 0.0f;
     Animation_MorphToLoop(&this->skelAnime, &D_06006F28, -10.0f);
-    if ((Rand_ZeroOne() < 0.5f) && (parent != NULL && parent->actionFunc == BossTw_ShootBeam)) {
+    if ((Rand_ZeroOne() < 0.5f) && (otherTw != NULL && otherTw->actionFunc == BossTw_ShootBeam)) {
         // Other Sister is shooting a beam, go near them.
-        this->targetPos.x = parent->actor.world.pos.x + Rand_CenteredFloat(200.0f);
+        this->targetPos.x = otherTw->actor.world.pos.x + Rand_CenteredFloat(200.0f);
         this->targetPos.y = Rand_ZeroFloat(200.0f) + 340.0f;
-        this->targetPos.z = parent->actor.world.pos.z + Rand_CenteredFloat(200.0f);
+        this->targetPos.z = otherTw->actor.world.pos.z + Rand_CenteredFloat(200.0f);
         this->timers[0] = (s16)Rand_ZeroFloat(50.0f) + 50;
     } else if (Rand_ZeroOne() < 0.5f) {
         // Fly to a random spot.
@@ -808,9 +808,9 @@ void BossTw_SpawnGroundBlast(BossTw* this, GlobalContext* globalCtx, s16 blastTy
     }
 }
 
-s32 func_8093A940(BossTw* this, GlobalContext* globalCtx) {
+s32 BossTw_BeamHitPlayerCheck(BossTw* this, GlobalContext* globalCtx) {
     Vec3f offset;
-    Vec3f msgId1;
+    Vec3f beamDistFromPlayer;
     Player* player = PLAYER;
     s16 i;
 
@@ -819,8 +819,8 @@ s32 func_8093A940(BossTw* this, GlobalContext* globalCtx) {
     offset.z = player->actor.world.pos.z - this->beamOrigin.z;
     Matrix_RotateX(-this->beamPitch, MTXMODE_NEW);
     Matrix_RotateY(-this->beamYaw, MTXMODE_APPLY);
-    Matrix_MultVec3f(&offset, &msgId1);
-    if (fabsf(msgId1.x) < 20.0f && fabsf(msgId1.y) < 50.0f && msgId1.z > 100.0f && msgId1.z <= this->beamDist) {
+    Matrix_MultVec3f(&offset, &beamDistFromPlayer);
+    if (fabsf(beamDistFromPlayer.x) < 20.0f && fabsf(beamDistFromPlayer.y) < 50.0f && beamDistFromPlayer.z > 100.0f && beamDistFromPlayer.z <= this->beamDist) {
         if (twinrovaPtr->timers[2] == 0) {
             twinrovaPtr->timers[2] = 150;
             this->beamDist = sqrtf(SQ(offset.x) + SQ(offset.y) + SQ(offset.z));
@@ -905,65 +905,65 @@ s32 BossTw_CheckBeamReflection(BossTw* this, GlobalContext* globalCtx) {
     return 0;
 }
 
-s32 func_8093ADB4(BossTw* this, Vec3f* arg1) {
-    Vec3f sp2C;
-    Vec3f sp20;
+s32 BossTw_BeamReflHitCheck(BossTw* this, Vec3f* pos) {
+    Vec3f offset;
+    Vec3f beamDistFromTarget;
 
-    sp2C.x = arg1->x - this->beamReflectionOrigin.x;
-    sp2C.y = arg1->y - this->beamReflectionOrigin.y;
-    sp2C.z = arg1->z - this->beamReflectionOrigin.z;
+    offset.x = pos->x - this->beamReflectionOrigin.x;
+    offset.y = pos->y - this->beamReflectionOrigin.y;
+    offset.z = pos->z - this->beamReflectionOrigin.z;
     Matrix_RotateX(-this->beamReflectionPitch, MTXMODE_NEW);
     Matrix_RotateY(-this->beamReflectionYaw, MTXMODE_APPLY);
-    Matrix_MultVec3f(&sp2C, &sp20);
-    if (fabsf(sp20.x) < 50.0f && fabsf(sp20.y) < 50.0f && sp20.z > 100.0f && sp20.z <= this->beamReflectionDist) {
-        this->beamReflectionDist = sqrtf(SQ(sp2C.x) + SQ(sp2C.y) + SQ(sp2C.z)) * 1.1f;
+    Matrix_MultVec3f(&offset, &beamDistFromTarget);
+    if (fabsf(beamDistFromTarget.x) < 50.0f && fabsf(beamDistFromTarget.y) < 50.0f && beamDistFromTarget.z > 100.0f && beamDistFromTarget.z <= this->beamReflectionDist) {
+        this->beamReflectionDist = sqrtf(SQ(offset.x) + SQ(offset.y) + SQ(offset.z)) * 1.1f;
         return true;
     } else {
         return false;
     }
 }
 
-f32 func_8093AED8(Vec3f* arg0) {
-    Vec3f sp2C;
+f32 BossTw_GetFloorY(Vec3f* pos) {
+    Vec3f posRotated;
 
-    if (fabsf(arg0->x) < 350.0f && fabsf(arg0->z) < 350.0f && arg0->y < 240.0f) {
-        if (arg0->y > 200.0f) {
+    if (fabsf(pos->x) < 350.0f && fabsf(pos->z) < 350.0f && pos->y < 240.0f) {
+        if (pos->y > 200.0f) {
             return 240.0f;
         }
         return 35.0f;
     }
 
-    if (fabsf(arg0->x) < 110.0f && ((fabsf(arg0->z - 600.0f) < 110.0f) || (fabsf(arg0->z + 600.0f) < 110.0f)) &&
-        (arg0->y < 230.0f)) {
-        if (arg0->y > 190.0f) {
+    if (fabsf(pos->x) < 110.0f && ((fabsf(pos->z - 600.0f) < 110.0f) || (fabsf(pos->z + 600.0f) < 110.0f)) &&
+        (pos->y < 230.0f)) {
+        if (pos->y > 190.0f) {
             return 230.0f;
         }
         return 35.0f;
     }
 
-    if (fabsf(arg0->z) < 110.0f && ((fabsf(arg0->x - 600.0f) < 110.0f) || (fabsf(arg0->x + 600.0f) < 110.0f)) &&
-        (arg0->y < 230.0f)) {
-        if (arg0->y > 190.0f) {
+    if (fabsf(pos->z) < 110.0f && ((fabsf(pos->x - 600.0f) < 110.0f) || (fabsf(pos->x + 600.0f) < 110.0f)) &&
+        (pos->y < 230.0f)) {
+        if (pos->y > 190.0f) {
             return 230.0f;
         }
         return 35.0f;
     }
 
-    if (arg0->y < -20.0f) {
+    if (pos->y < -20.0f) {
         return 0.0f;
     }
 
-    if (fabsf(arg0->x) > 1140.0f || fabsf(arg0->z) > 1140.0f) {
+    if (fabsf(pos->x) > 1140.0f || fabsf(pos->z) > 1140.0f) {
         return 35.0f;
     }
 
     Matrix_Push();
     // 45 Degrees to radians
     Matrix_RotateY((45.0f * (M_PI / 180.0f)), MTXMODE_NEW);
-    Matrix_MultVec3f(arg0, &sp2C);
+    Matrix_MultVec3f(pos, &posRotated);
     Matrix_Pop();
 
-    if (fabsf(sp2C.x) > 920.0f || fabsf(sp2C.z) > 920.0f) {
+    if (fabsf(posRotated.x) > 920.0f || fabsf(posRotated.z) > 920.0f) {
         return 35.0f;
     }
 
@@ -1126,7 +1126,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
                         func_800AA000(0.0f, 0x64, 5, 4);
 
                     } else if (beamReflection == 0) {
-                        func_8093A940(this, globalCtx);
+                        BossTw_BeamHitPlayerCheck(this, globalCtx);
                         if (this->csState1 == 0) {
                             Math_ApproachF(&this->beamDist, 2.0f * sqrtf(SQ(xDiff) + SQ(yDiff) + SQ(zDiff)),
                                            1.0f, 40.0f);
@@ -1202,7 +1202,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
     sp130.z = this->beamDist + -5.0f;
     Matrix_MultVec3f(&sp130, &this->beamReflectionOrigin);
     if ((this->csState1 == 0) && (this->beamShootState == 0) && (this->timers[0] != 0)) {
-        this->groundBlastPos.y = func_8093AED8(&this->beamReflectionOrigin);
+        this->groundBlastPos.y = BossTw_GetFloorY(&this->beamReflectionOrigin);
         if (this->groundBlastPos.y >= 0.0f) {
             this->csState1 = 1;
             this->groundBlastPos.x = this->beamReflectionOrigin.x;
@@ -1237,7 +1237,7 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             for(i = 0; i < 200; i++) { 
                 Vec3f spBC;
                 Matrix_MultVec3f(&sp130, &spBC);
-                pad = func_8093AED8(&spBC);
+                pad = BossTw_GetFloorY(&spBC);
                 this->groundBlastPos.y = pad;
                 if (pad >= 0.0f) {
                     if ((this->groundBlastPos.y != 35.0f) && (0.0f < this->beamReflectionPitch) && (this->timers[0] != 0)) {
@@ -1274,11 +1274,11 @@ void BossTw_ShootBeam(BossTw* this, GlobalContext* globalCtx) {
             }
         }
 
-        if (func_8093ADB4(this, &this->actor.world.pos) && (this->work[CS_TIMER_1] % 4) == 0) {
+        if (BossTw_BeamReflHitCheck(this, &this->actor.world.pos) && (this->work[CS_TIMER_1] % 4) == 0) {
             BossTw_AddRingEffect(globalCtx, &this->unk_530, 0.5f, 3.0f, 255, this->actor.params, 1, 150);
         }
 
-        if (func_8093ADB4(this, &parent->actor.world.pos) && parent->actionFunc != BossTw_HitByBeam) {
+        if (BossTw_BeamReflHitCheck(this, &parent->actor.world.pos) && parent->actionFunc != BossTw_HitByBeam) {
             for (i = 0; i < 50; i++) {
                 Vec3f pos;
                 Vec3f velocity;
@@ -3750,7 +3750,7 @@ void BossTw_BlastFire(BossTw* this, GlobalContext* globalCtx) {
                         return;
                     }
 
-                    this->groundBlastPos.y = func_8093AED8(&this->actor.world.pos);;
+                    this->groundBlastPos.y = BossTw_GetFloorY(&this->actor.world.pos);;
                     if (this->groundBlastPos.y >= 0.0f) {
                         if (this->groundBlastPos.y != 35.0f) {
                             this->groundBlastPos.x = this->actor.world.pos.x;
@@ -3930,7 +3930,7 @@ void BossTw_BlastIce(BossTw* this, GlobalContext* globalCtx) {
                         return;
                     }
 
-                    this->groundBlastPos.y = func_8093AED8(&this->actor.world.pos);
+                    this->groundBlastPos.y = BossTw_GetFloorY(&this->actor.world.pos);
                     if (this->groundBlastPos.y >= 0.0f) {
                         if (this->groundBlastPos.y != 35.0f) {
                             this->groundBlastPos.x = this->actor.world.pos.x;
@@ -4442,7 +4442,7 @@ void BossTw_EffUpdate(GlobalContext* globalCtx) {
                             } else {
                                 spD0.y = -50.0f;
                             }
-                            twinrovaPtr->groundBlastPos.y = phi_f0 = func_8093AED8(&spD0);
+                            twinrovaPtr->groundBlastPos.y = phi_f0 = BossTw_GetFloorY(&spD0);
                             if (phi_f0 >= 0.0f) {
                                 if (twinrovaPtr->groundBlastPos.y != 35.0f) {
                                     twinrovaPtr->groundBlastPos.x = eff->pos.x;
