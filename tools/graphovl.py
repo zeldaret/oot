@@ -232,7 +232,6 @@ def main():
         elif (func_name.endswith("_Destroy") or func_name.endswith("_Update") or func_name.endswith("_Draw")):
             dot.node(str(index), func_name)
 
-
     action_func_type = func_prefix + "ActionFunc"
     match_obj = re.search(re.compile(action_func_type + r' (.+)\[\] = {'), contents)
     actionIdentifier = "this->actionFunc"
@@ -241,64 +240,56 @@ def main():
     arrayActorFunc = match_obj is not None
     rawActorFunc = actionIdentifier in contents
 
-    if setupAction:
-        """
-        Create all edges for SetupAction-based actors
-        """
-        for index, func_name in enumerate(func_names):
-            indexStr = str(index)
-            if args.loners:
-                dot.node(indexStr, func_name)
-            if "_SetupAction" in func_name:
-                continue
-            code_body = get_code_body(contents, func_name)
+    if not setupAction and not arrayActorFunc and not rawActorFunc:
+        print("No actor action-based structure found")
+        os._exit(1)
 
-            for action_transition in capture_setupaction_call_arg(code_body):
-                addFunctionTransitionToGraph(dot, index, func_name, action_transition)
+    if arrayActorFunc:
+        action_func_array = re.search(action_func_type + r' (.+)\[\] = \{([^}]*?)\};', contents)
+        if action_func_array is None:
+            print("Invalid array-based actor.")
+            print("Call action func array not found.")
+            os._exit(1)
+        actionFuncArrayElements = action_func_array.group(2).split(",")
+        action_functions = [x.strip() for x in actionFuncArrayElements]
 
-            addCallNamesToGraph(dot, func_names, index, code_body, setupAction=True)
-    elif arrayActorFunc:
-        """
-        Create all edges for ActorFunc array-based actors
-        """
         action_func_array_name = match_obj.group(1).strip()
-        action_func_array = re.search(r'(' + action_func_type + r' (.)*\[\] = \{[^;]*)', contents).group()
-        action_functions = [x.replace("\n","").strip() for x in action_func_array.split("{")[1].split(",}")[0].split(",")]
         actionVarMatch = re.search(action_func_array_name + r'\[(.*)\]\(', contents)
         if actionVarMatch is None:
             print("Invalid ActorFunc array-based actor.")
             print("Call to array function not found.")
             os._exit(1)
-
         action_var = actionVarMatch.group(1).strip()
-        for index, func_name in enumerate(func_names):
-            indexStr = str(index)
-            if args.loners:
-                dot.node(indexStr, func_name)
-            code_body = get_code_body(contents, func_name)
 
-            for transition_to in action_var_values_in_func(code_body, action_var, macros, enums):
-                action_transition = action_functions[int(transition_to, 0)]
-                addFunctionTransitionToGraph(dot, index, func_name, action_transition)
+    for index, func_name in enumerate(func_names):
+        indexStr = str(index)
+        if args.loners:
+            dot.node(indexStr, func_name)
+        code_body = get_code_body(contents, func_name)
 
-            addCallNamesToGraph(dot, func_names, index, code_body)
-    elif rawActorFunc:
-        """
-        Create all edges for raw ActorFunc-based actors
-        """
-        for index, func_name in enumerate(func_names):
-            indexStr = str(index)
-            if args.loners:
-                dot.node(indexStr, func_name)
-            code_body = get_code_body(contents, func_name)
+        transitionList = []
+        if setupAction:
+            """
+            Create all edges for SetupAction-based actors
+            """
+            transitionList = capture_setupaction_call_arg(code_body)
+        elif arrayActorFunc:
+            """
+            Create all edges for ActorFunc array-based actors
+            """
+            transitionIndexes = action_var_values_in_func(code_body, action_var, macros, enums)
+            transitionList = [action_functions[int(index, 0)] for index in transitionIndexes]
+            pass
+        elif rawActorFunc:
+            """
+            Create all edges for raw ActorFunc-based actors
+            """
+            transitionList = action_var_values_in_func(code_body, actionIdentifier, macros, enums)
 
-            for action_transition in action_var_values_in_func(code_body, actionIdentifier, macros, enums):
-                addFunctionTransitionToGraph(dot, index, func_name, action_transition)
+        for action_transition in transitionList:
+            addFunctionTransitionToGraph(dot, index, func_name, action_transition)
 
-            addCallNamesToGraph(dot, func_names, index, code_body, rawActorFunc=True)
-    else:
-        print("No actor action-based structure found")
-        os._exit(1)
+        addCallNamesToGraph(dot, func_names, index, code_body, setupAction, rawActorFunc)
 
     print(dot.source)
     dot.render("graphs/" + fname + ".gv")
