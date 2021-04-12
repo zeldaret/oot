@@ -32,9 +32,5 @@
         <DList Name="gEponaUnusedWhiteRectangle2DL" Offset="0x620"/>
         <DList Name="gEponaUnusedWhiteRectangle3DL" Offset="0x6C0"/>
         <DList Name="gEponaUnusedWhiteRectangle4DL" Offset="0x760"/>
-
-        <!-- TODO. Waiting for EnHorse to be merged. -->
-        <Blob Name="gEponaBlob_000000" Offset="0x0" Size="0x380" />
-        <Blob Name="gEponaBlob_0007C0" Offset="0x7C0" Size="0xB0" />
     </File>
 </Root>

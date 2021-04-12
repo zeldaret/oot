@@ -1,5 +1,7 @@
 #include "z_en_horse.h"
 #include "overlays/actors/ovl_En_In/z_en_in.h"
+#include "objects/object_horse/object_horse.h"
+#include "objects/object_hni/object_hni.h"
 
 #define FLAGS 0x00000010
 
@@ -44,21 +46,20 @@ void EnHorse_FleePlayer(EnHorse* this, GlobalContext* globalCtx);
 
 extern CutsceneData D_02000230[];
 extern CutsceneData D_02002AC0[];
-extern Gfx D_06006530[];
 
 static AnimationHeader* sEponaAnimHeaders[] = {
-    0x06006D50, 0x06005584, 0x06004DEC, 0x06003CEC, 0x060075F0, 0x060032B0, 0x06001E2C, 0x06002470, 0x06002C38,
+    &gEponaIdleAnim, &gEponaWhinnyAnim, &gEponaRefuseAnim, &gEponaRearingAnim, &gEponaWalkingAnim, &gEponaTrottingAnim, &gEponaGallopingAnim, &gEponaJumpingAnim, &gEponaJumpingHighAnim,
 };
 
 static AnimationHeader* sHniAnimHeaders[] = {
-    0x06009FC4, 0x0600A6B4, 0x0600901C, 0x060085E0, 0x0600AF60, 0x06007B54, 0x0600506C, 0x06005684, 0x06005E20,
+    &gHorseIngoIdleAnim, &gHorseIngoWhinnyAnim, &gHorseIngoRefuseAnim, &gHorseIngoRearingAnim, &gHorseIngoWalkingAnim, &gHorseIngoTrottingAnim, &gHorseIngoGallopingAnim, &gHorseIngoJumpingAnim, &gHorseIngoJumpingHighAnim,
 };
 
 static AnimationHeader** sAnimationHeaders[] = { sEponaAnimHeaders, sHniAnimHeaders };
 
 static f32 sPlaybackSpeeds[] = { 0.6666667f, 0.6666667f, 1.0f, 1.0f, 1.0f, 1.0f, 1.0f, 0.6666667f, 0.6666667f };
 
-static SkeletonHeader* sSkeletonHeaders[] = { 0x06009D74, 0x06004A24 };
+static SkeletonHeader* sSkeletonHeaders[] = { &gEponaSkel, &gHorseIngoSkel };
 
 const ActorInit En_Horse_InitVars = {
     ACTOR_EN_HORSE,
@@ -3708,7 +3709,7 @@ void EnHorse_SkinCallback1(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* ski
 }
 
 static s32 unk_80A667DC[] = { 0, 3, 7, 14 };
-static UNK_PTR D_80A667EC[] = { 0x06009F80, 0x0600A180, 0x0600A380 };
+static u64* D_80A667EC[] = { gEponaEyeOpenTex, gEponaEyeHalfTex, gEponaEyeCloseTex, };
 static u8 sBlinkTextures[] = { 0, 1, 2, 1 };
 
 s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSkinAwb* arg3) {
@@ -3721,7 +3722,7 @@ s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 arg2, PSki
         u8 index = sBlinkTextures[this->blinkTimer];
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(D_80A667EC[index]));
     } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && arg2 == 30) {
-        func_800A5F60(globalCtx->state.gfxCtx, &this->skin, arg2, D_06006530, 0);
+        func_800A5F60(globalCtx->state.gfxCtx, &this->skin, arg2, gHorseIngoSaddleDL, 0);
         sp48 = 0;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8601);
