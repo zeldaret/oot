@@ -31,7 +31,7 @@
         <Limb Name="gHorseIngoHoof4Limb" LimbType="Skin" Offset="0x47B8" />
 
         <!-- Gerudo saddle -->
-        <DList Name="gHorseIngoGerudoSaddleGerDL" Offset="0x6530"/>
+        <DList Name="gHorseIngoGerudoSaddleDL" Offset="0x6530"/>
         <Texture Name="gHorseIngoGerudoSaddleTex" OutName="horse_ingo_gerudo_saddle" Format="rgb5a1" Width="16" Height="16" Offset="0x5E30" />
         <Texture Name="gHorseIngoGerudoSaddleFlapTex" OutName="horse_ingo_gerudo_saddle_flap" Format="rgb5a1" Width="16" Height="16" Offset="0x6030" />
 
