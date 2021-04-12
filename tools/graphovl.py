@@ -55,7 +55,7 @@ def definition_by_name(content, name):
 def get_code_body(content, funcname):
     line_num = line_numbers_of_functions[index_of_func(funcname)]
     if line_num <= 0:
-        return None
+        return ""
     code = ""
     bracket_count = 1
 
@@ -66,9 +66,10 @@ def get_code_body(content, funcname):
         if raw_line.count("}") > 0:
             bracket_count -= raw_line.count("}")
         if bracket_count == 0:
-            return code
+            break
         else:
             code += raw_line
+    return code
 
 def getMacrosDefinitions(contents):
     macrosDefs = dict()
@@ -171,6 +172,37 @@ def setup_func_definitions(content, func_names):
     for func_name in func_names:
         func_definitions.append(definition_by_name(content, func_name)+" {")
 
+
+def addFunctionTransitionToGraph(dot, index: int, func_name: str, action_transition: str):
+    indexStr = str(index)
+    funcIndex = str(index_of_func(action_transition))
+
+    dot.node(indexStr, func_name)
+    dot.node(funcIndex, action_transition)
+    dot.edge(indexStr, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
+
+def addCallNamesToGraph(dot, func_names: list, index: int, code_body: str, setupAction=False, rawActorFunc=False):
+    indexStr = str(index)
+    seen = set()
+    for call in capture_call_names(code_body):
+        if call not in func_names:
+            continue
+        if call in seen:
+            continue
+
+        if setupAction and "_SetupAction" in call:
+            continue
+        seen.add(call)
+
+        if rawActorFunc:
+            dot.node(indexStr, func_names[index])
+
+        calledFuncIndex = str(index_of_func(call))
+
+        dot.node(calledFuncIndex, call)
+        dot.edge(indexStr, calledFuncIndex, color="blue")
+
+
 def main():
     global func_names
     parser = argparse.ArgumentParser(description="Creates a graph of action functions (black and green arrows) and function calls (blue arrows) for a given overlay file")
@@ -200,107 +232,73 @@ def main():
         elif (func_name.endswith("_Destroy") or func_name.endswith("_Update") or func_name.endswith("_Draw")):
             dot.node(str(index), func_name)
 
-    if func_prefix+"_SetupAction" in func_names:
+
+    action_func_type = func_prefix + "ActionFunc"
+    match_obj = re.search(re.compile(action_func_type + r' (.+)\[\] = {'), contents)
+    actionIdentifier = "this->actionFunc"
+
+    setupAction = func_prefix + "_SetupAction" in func_names
+    arrayActorFunc = match_obj is not None
+    rawActorFunc = actionIdentifier in contents
+
+    if setupAction:
         """
         Create all edges for SetupAction-based actors
         """
         for index, func_name in enumerate(func_names):
-            index = str(index)
+            indexStr = str(index)
             if args.loners:
-                dot.node(index, func_name)
+                dot.node(indexStr, func_name)
             if "_SetupAction" in func_name:
                 continue
             code_body = get_code_body(contents, func_name)
 
             for action_transition in capture_setupaction_call_arg(code_body):
-                funcIndex = str(index_of_func(action_transition))
+                addFunctionTransitionToGraph(dot, index, func_name, action_transition)
 
-                dot.node(index, func_name)
-                dot.node(funcIndex, action_transition)
-                dot.edge(index, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
+            addCallNamesToGraph(dot, func_names, index, code_body, setupAction=True)
+    elif arrayActorFunc:
+        """
+        Create all edges for ActorFunc array-based actors
+        """
+        action_func_array_name = match_obj.group(1).strip()
+        action_func_array = re.search(r'(' + action_func_type + r' (.)*\[\] = \{[^;]*)', contents).group()
+        action_functions = [x.replace("\n","").strip() for x in action_func_array.split("{")[1].split(",}")[0].split(",")]
+        actionVarMatch = re.search(action_func_array_name + r'\[(.*)\]\(', contents)
+        if actionVarMatch is None:
+            print("Invalid ActorFunc array-based actor.")
+            print("Call to array function not found.")
+            os._exit(1)
 
-            seen = set()
-            for call in capture_call_names(code_body):
-                if call not in func_names:
-                    continue
-                if "_SetupAction" in call:
-                    continue
-                if call in seen:
-                    continue
-                seen.add(call)
+        action_var = actionVarMatch.group(1).strip()
+        for index, func_name in enumerate(func_names):
+            indexStr = str(index)
+            if args.loners:
+                dot.node(indexStr, func_name)
+            code_body = get_code_body(contents, func_name)
 
-                dot.node(str(index_of_func(call)), call)
-                dot.edge(index, str(index_of_func(call)), color="blue")
+            for transition_to in action_var_values_in_func(code_body, action_var, macros, enums):
+                action_transition = action_functions[int(transition_to, 0)]
+                addFunctionTransitionToGraph(dot, index, func_name, action_transition)
+
+            addCallNamesToGraph(dot, func_names, index, code_body)
+    elif rawActorFunc:
+        """
+        Create all edges for raw ActorFunc-based actors
+        """
+        for index, func_name in enumerate(func_names):
+            indexStr = str(index)
+            if args.loners:
+                dot.node(indexStr, func_name)
+            code_body = get_code_body(contents, func_name)
+
+            for action_transition in action_var_values_in_func(code_body, actionIdentifier, macros, enums):
+                addFunctionTransitionToGraph(dot, index, func_name, action_transition)
+
+            addCallNamesToGraph(dot, func_names, index, code_body, rawActorFunc=True)
     else:
-        action_func_type = func_prefix + "ActionFunc"
-        match_obj = re.search(re.compile(r'(' + action_func_type + r' (.)*\[\] = {)'), contents)
-        if match_obj is not None:
-            """
-            Create all edges for ActorFunc array-based actors
-            """
-            action_func_array_name = match_obj.group().split(" ")[1].split("[]")[0]
-            action_func_array = re.search(r'(' + action_func_type + r' (.)*\[\] = \{[^;]*)', contents).group()
-            action_functions = [x.replace("\n","").strip() for x in action_func_array.split("{")[1].split(",}")[0].split(",")]
-            action_var = re.search(r'(' + action_func_array_name + r'\[(.)*\]\()', contents).group().split("[")[1].split("]")[0].strip()
-            for index, func_name in enumerate(func_names):
-                index = str(index)
-                if args.loners:
-                    dot.node(index, func_name)
-                code_body = get_code_body(contents, func_name)
-
-                for transition_to in action_var_values_in_func(code_body, action_var, macros, enums):
-                    action_transition = action_functions[int(transition_to, 0)]
-                    funcIndex = str(index_of_func(action_transition))
-
-                    dot.node(index, func_name)
-                    dot.node(funcIndex, action_transition)
-                    dot.edge(index, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
-
-                seen = set()
-                for call in capture_call_names(code_body):
-                    if call not in func_names:
-                        continue
-                    if call in seen:
-                        continue
-                    seen.add(call)
-
-                    dot.node(str(index_of_func(call)), call)
-                    dot.edge(index, str(index_of_func(call)), color="blue")
-        else:
-            actionIdentifier = "this->actionFunc"
-            if actionIdentifier in contents:
-                """
-                Create all edges for raw ActorFunc-based actors
-                """
-                for index, func_name in enumerate(func_names):
-                    index = str(index)
-                    if args.loners:
-                        dot.node(index, func_name)
-                    print(func_name)
-                    code_body = get_code_body(contents, func_name)
-
-                    for action_transition in action_var_values_in_func(code_body, actionIdentifier, macros, enums):
-                        funcIndex = str(index_of_func(action_transition))
-
-                        dot.node(index, func_name)
-                        dot.node(funcIndex, action_transition)
-                        dot.edge(index, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
-
-                    seen = set()
-                    for call in capture_call_names(code_body):
-                        if call not in func_names:
-                            continue
-                        if call in seen:
-                            continue
-                        seen.add(call)
-
-                        print("    " + call)
-                        dot.node(index, func_name)
-                        dot.node(str(index_of_func(call)), call)
-                        dot.edge(index, str(index_of_func(call)), color="blue")
-            else:
-                print("No actor action-based structure found")
-                os._exit(1)
+        print("No actor action-based structure found")
+        os._exit(1)
 
     print(dot.source)
     dot.render("graphs/" + fname + ".gv")
