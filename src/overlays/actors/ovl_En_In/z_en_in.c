@@ -334,10 +334,10 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
     if (this->actor.params != 1 || this->actor.shape.rot.z != 1 || LINK_IS_CHILD) {
         return 0;
     }
-    this->unk_1E6 = 1;
+    this->animationIdx = 1;
     this->collider.base.ocFlags1 &= ~OC1_ON;
-    Animation_Change(&this->skelAnime, D_80A7B918[this->unk_1E6], 1.0f, 0.0f,
-                     Animation_GetLastFrame(D_80A7B918[this->unk_1E6]), 2, 0.0f);
+    Animation_Change(&this->skelAnime, D_80A7B918[this->animationIdx], 1.0f, 0.0f,
+                     Animation_GetLastFrame(D_80A7B918[this->animationIdx]), 2, 0.0f);
     this->actionFunc = func_80A7A304;
     return 1;
 }
@@ -604,17 +604,17 @@ void func_80A7A304(EnIn* this, GlobalContext* globalCtx) {
         Audio_PlayActorSound2(&this->actor, NA_SE_VO_IN_CRY_0);
     }
     if (SkelAnime_Update(&this->skelAnime) != 0) {
-        this->unk_1E6 %= 8;
-        this->unk_1E8 = this->unk_1E6;
-        if (this->unk_1E6 == 3 || this->unk_1E6 == 4) {
+        this->animationIdx %= 8;
+        this->unk_1E8 = this->animationIdx;
+        if (this->animationIdx == 3 || this->animationIdx == 4) {
             Audio_PlaySoundGeneral(NA_SE_IT_LASH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0, &D_801333E8);
             if (Rand_ZeroOne() < 0.3f) {
                 Audio_PlaySoundGeneral(NA_SE_IT_INGO_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0,
                                        &D_801333E0, &D_801333E8);
             }
         }
-        Animation_Change(&this->skelAnime, D_80A7B918[this->unk_1E6], 1.0f, 0.0f,
-                         Animation_GetLastFrame(D_80A7B918[this->unk_1E6]), 2, -10.0f);
+        Animation_Change(&this->skelAnime, D_80A7B918[this->animationIdx], 1.0f, 0.0f,
+                         Animation_GetLastFrame(D_80A7B918[this->animationIdx]), 2, -10.0f);
     }
 }
 
@@ -656,7 +656,7 @@ void func_80A7A568(EnIn* this, GlobalContext* globalCtx) {
                 return;
             }
             gSaveContext.eventInf[0] =
-                (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)PLAYER->rideActor)->unk_158 << 4);
+                (gSaveContext.eventInf[0] & ~0x10) | (((EnHorse*)PLAYER->rideActor)->type << 4);
             gSaveContext.eventInf[0] = (gSaveContext.eventInf[0] & ~0xF) | 2;
             phi_a2 = 2;
             phi_a3 = 2;
