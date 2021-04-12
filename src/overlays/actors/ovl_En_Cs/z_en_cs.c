@@ -1,6 +1,5 @@
 #include "z_en_cs.h"
 #include "objects/object_cs/object_cs.h"
-
 #define FLAGS 0x00000009
 
 #define THIS ((EnCs*)thisx)
@@ -16,26 +15,8 @@ void EnCs_Wait(EnCs* this, GlobalContext* globalCtx);
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx);
 void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3s* rot, void* thisx);
 
-typedef enum {
-    /* 0X00 */ GRAVEYARD_KID_UNK_0,
-    /* 0X01 */ GRAVEYARD_KID_TORSOLIMB,
-    /* 0X02 */ GRAVEYARD_KID_UPPERLEFTLEG,
-    /* 0X03 */ GRAVEYARD_KID_LOWERLEFTLEG,
-    /* 0X04 */ GRAVEYARD_KID_LEFTFOOT,
-    /* 0X05 */ GRAVEYARD_KID_UPPERRIGHTLEG,
-    /* 0X06 */ GRAVEYARD_KID_LOWERRIGHTLEG,
-    /* 0X07 */ GRAVEYARD_KID_RIGHTFOOT,
-    /* 0X08 */ GRAVEYARD_KID_CHEST,
-    /* 0X09 */ GRAVEYARD_KID_LEFTUPPERARM,
-    /* 0X0A */ GRAVEYARD_KID_LEFTLOWERARM,
-    /* 0X0B */ GRAVEYARD_KID_LEFTHAND,
-    /* 0X0C */ GRAVEYARD_KID_RIGHTUPPERARM,
-    /* 0X0D */ GRAVEYARD_KID_RIGHTLOWERARM,
-    /* 0X0E */ GRAVEYARD_KID_RIGHTHANDANDSTICK,
-    /* 0X0F */ GRAVEYARD_KID_HEAD
-} GRAVEYARD_KID_LIMB;
-
-extern Gfx D_0602AF70[]; // Spooky Mask in Child Link's object
+extern FlexSkeletonHeader D_06008540; // Graveyard boy skeleton
+extern Gfx D_0602AF70[];              // Spooky Mask in Child Link's object
 
 const ActorInit En_Cs_InitVars = {
     ACTOR_EN_CS,
@@ -308,46 +289,47 @@ void EnCs_Walk(EnCs* this, GlobalContext* globalCtx) {
 
     if (this->talkState != 0) {
         this->actionFunc = EnCs_Talk;
-    } else {
-        if (SkelAnime_Update(&this->skelAnime)) {
-            animIndex = this->currentAnimIndex;
+        return;
+    }
 
-            if (this->talkState == 0) {
-                if (gSaveContext.itemGetInf[3] & 0x400) {
-                    rnd = Rand_ZeroOne() * 10.0f;
-                } else {
-                    rnd = Rand_ZeroOne() * 5.0f;
-                }
-
-                if (rnd == 0) {
-                    if (gSaveContext.itemGetInf[3] & 0x400) {
-                        animIndex = 2.0f * Rand_ZeroOne();
-                        animIndex = (animIndex == 0) ? 2 : 1;
-                    } else {
-                        animIndex = 2;
-                    }
-
-                    this->actionFunc = EnCs_Wait;
-                } else {
-                    animIndex = 0;
-                }
-            }
-
-            EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
-        }
+    if (SkelAnime_Update(&this->skelAnime)) {
+        animIndex = this->currentAnimIndex;
 
         if (this->talkState == 0) {
-            curAnimFrame = this->skelAnime.curFrame;
-
-            if (((curAnimFrame >= 8) && (curAnimFrame < 16)) || ((curAnimFrame >= 23) && (curAnimFrame < 30)) ||
-                (curAnimFrame == 0)) {
-                this->walkSpeed = 0.0f;
+            if (gSaveContext.itemGetInf[3] & 0x400) {
+                rnd = Rand_ZeroOne() * 10.0f;
             } else {
-                this->walkSpeed = 1.0f;
+                rnd = Rand_ZeroOne() * 5.0f;
             }
 
-            EnCs_HandleWalking(this, globalCtx);
+            if (rnd == 0) {
+                if (gSaveContext.itemGetInf[3] & 0x400) {
+                    animIndex = 2.0f * Rand_ZeroOne();
+                    animIndex = (animIndex == 0) ? 2 : 1;
+                } else {
+                    animIndex = 2;
+                }
+
+                this->actionFunc = EnCs_Wait;
+            } else {
+                animIndex = 0;
+            }
         }
+
+        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
+    }
+
+    if (this->talkState == 0) {
+        curAnimFrame = this->skelAnime.curFrame;
+
+        if (((curAnimFrame >= 8) && (curAnimFrame < 16)) || ((curAnimFrame >= 23) && (curAnimFrame < 30)) ||
+            (curAnimFrame == 0)) {
+            this->walkSpeed = 0.0f;
+        } else {
+            this->walkSpeed = 1.0f;
+        }
+
+        EnCs_HandleWalking(this, globalCtx);
     }
 }
 
@@ -356,23 +338,23 @@ void EnCs_Wait(EnCs* this, GlobalContext* globalCtx) {
 
     if (this->talkState != 0) {
         this->actionFunc = EnCs_Talk;
-    } else {
+        return;
+    }
 
-        if (SkelAnime_Update(&this->skelAnime)) {
-            animIndex = this->currentAnimIndex;
+    if (SkelAnime_Update(&this->skelAnime)) {
+        animIndex = this->currentAnimIndex;
 
-            if (this->talkState == 0) {
-                if (this->animLoopCount > 0) {
-                    this->animLoopCount--;
-                    animIndex = this->currentAnimIndex;
-                } else {
-                    animIndex = 0;
-                    this->actionFunc = EnCs_Walk;
-                }
+        if (this->talkState == 0) {
+            if (this->animLoopCount > 0) {
+                this->animLoopCount--;
+                animIndex = this->currentAnimIndex;
+            } else {
+                animIndex = 0;
+                this->actionFunc = EnCs_Walk;
             }
-
-            EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
         }
+
+        EnCs_SetAnimFromIndex(this, animIndex, &this->currentAnimIndex);
     }
 }
 
@@ -395,50 +377,77 @@ void EnCs_Talk(EnCs* this, GlobalContext* globalCtx) {
         this->flag &= ~1;
     }
 }
-
+u8 sUpdateEnable;
 void EnCs_Update(Actor* thisx, GlobalContext* globalCtx) {
     static s32 eyeBlinkFrames[] = { 70, 1, 1 };
     EnCs* this = THIS;
     s32 pad;
-
-    if (this->currentAnimIndex == 0) {
-        if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
+    if (sUpdateEnable) {
+        if (this->currentAnimIndex == 0) {
+            if (((s32)this->skelAnime.curFrame == 9) || ((s32)this->skelAnime.curFrame == 23)) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            }
+        } else if (this->currentAnimIndex == 1) {
+            if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
+                Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+            }
+        } else if ((this->currentAnimIndex == 2) && ((s32)this->skelAnime.curFrame == 20)) {
             Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
         }
-    } else if (this->currentAnimIndex == 1) {
-        if (((s32)this->skelAnime.curFrame == 10) || ((s32)this->skelAnime.curFrame == 25)) {
-            Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
+
+        Collider_UpdateCylinder(&this->actor, &this->collider);
+        CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
+
+        this->actionFunc(this, globalCtx);
+
+        EnCs_HandleTalking(this, globalCtx);
+
+        this->eyeBlinkTimer--;
+
+        if (this->eyeBlinkTimer < 0) {
+            this->eyeIndex++;
+
+            if (this->eyeIndex >= 3) {
+                this->eyeIndex = 0;
+            }
+
+            this->eyeBlinkTimer = eyeBlinkFrames[this->eyeIndex];
         }
-    } else if ((this->currentAnimIndex == 2) && ((s32)this->skelAnime.curFrame == 20)) {
-        Audio_PlayActorSound2(&this->actor, NA_SE_EV_CHIBI_WALK);
-    }
-
-    Collider_UpdateCylinder(&this->actor, &this->collider);
-    CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->collider.base);
-
-    this->actionFunc(this, globalCtx);
-
-    EnCs_HandleTalking(this, globalCtx);
-
-    this->eyeBlinkTimer--;
-
-    if (this->eyeBlinkTimer < 0) {
-        this->eyeIndex++;
-
-        if (this->eyeIndex >= 3) {
-            this->eyeIndex = 0;
-        }
-
-        this->eyeBlinkTimer = eyeBlinkFrames[this->eyeIndex];
     }
 }
+
+s8 sLimbIndex;
 
 void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     static u64* eyeTextures[] = { 0x06002130, 0x06002930, 0x06003130 };
     EnCs* this = THIS;
     s32 pad;
-
+    GfxPrint printer;
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_cs.c", 968);
+    GfxPrint_Init(&printer);
+    GfxPrint_Open(&printer, OVERLAY_DISP);
+    GfxPrint_SetColor(&printer, 255, 255, 255, 255);
+    GfxPrint_SetPos(&printer, 0, 7);
+    GfxPrint_Printf(&printer, "Limb: %d\nLimb: %x\n", sLimbIndex, this->skelAnime.skeleton[sLimbIndex]);
+    OVERLAY_DISP = GfxPrint_Close(&printer);
+    GfxPrint_Destroy(&printer);
+    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DUP)) {
+        sLimbIndex++;
+        if (sLimbIndex > this->skelAnime.limbCount) {
+            sLimbIndex = 0;
+        }
+    }
+    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_DDOWN)) {
+        sLimbIndex--;
+        if (sLimbIndex < 0) {
+            sLimbIndex = this->skelAnime.limbCount;
+        }
+    }
+
+    if (CHECK_BTN_ALL(globalCtx->state.input[0].press.button, BTN_L)) {
+        sUpdateEnable ^= 1;
+        this->actor.world.pos.y += 30;
+    }
 
     func_80093D18(globalCtx->state.gfxCtx);
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeIndex]));
@@ -465,16 +474,51 @@ void EnCs_Draw(Actor* thisx, GlobalContext* globalCtx) {
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_cs.c", 1015);
 }
 
+static Vtx cubeVtx[24] = {
+    VTX(-100, 100, -100, 28, 16, 0, 127, 0, 255), VTX(100, 100, 100, 20, 8, 0, 127, 0, 255),
+    VTX(100, 100, -100, 20, 16, 0, 127, 0, 255),  VTX(100, 100, 100, 20, 8, 0, 0, 127, 255),
+    VTX(-100, -100, 100, 12, 0, 0, 0, 127, 255),  VTX(100, -100, 100, 12, 8, 0, 0, 127, 255),
+    VTX(-100, 100, 100, 20, 32, 129, 0, 0, 255),  VTX(-100, -100, -100, 12, 24, 129, 0, 0, 255),
+    VTX(-100, -100, 100, 12, 32, 129, 0, 0, 255), VTX(100, -100, -100, 12, 16, 0, 129, 0, 255),
+    VTX(-100, -100, 100, 4, 8, 0, 129, 0, 255),   VTX(-100, -100, -100, 4, 16, 0, 129, 0, 255),
+    VTX(100, 100, -100, 20, 16, 127, 0, 0, 255),  VTX(100, -100, 100, 12, 8, 127, 0, 0, 255),
+    VTX(100, -100, -100, 12, 16, 127, 0, 0, 255), VTX(-100, 100, -100, 20, 24, 0, 0, 129, 255),
+    VTX(100, -100, -100, 12, 16, 0, 0, 129, 255), VTX(-100, -100, -100, 12, 24, 0, 0, 129, 255),
+    VTX(-100, 100, 100, 28, 8, 0, 127, 0, 255),   VTX(-100, 100, 100, 20, 0, 0, 0, 127, 255),
+    VTX(-100, 100, -100, 20, 24, 129, 0, 0, 255), VTX(100, -100, 100, 12, 8, 0, 129, 0, 255),
+    VTX(100, 100, 100, 20, 8, 127, 0, 0, 255),    VTX(100, 100, -100, 20, 16, 0, 0, 129, 255),
+};
+
+Gfx cubeDList[] = {
+    gsSPTexture(0xFFFF, 0xFFFF, 0, G_TX_RENDERTILE, G_OFF),
+    gsDPSetCombineLERP(0, 0, 0, PRIMITIVE, 0, 0, 0, PRIMITIVE, 0, 0, 0, COMBINED, 0, 0, 0, COMBINED),
+    gsSPVertex(cubeVtx, 24, 0),
+    gsSP2Triangles(0, 1, 2, 0, 3, 4, 5, 0),
+    gsSP2Triangles(6, 7, 8, 0, 9, 10, 11, 0),
+    gsSP2Triangles(12, 13, 14, 0, 15, 16, 17, 0),
+    gsSP2Triangles(0, 18, 1, 0, 3, 19, 4, 0),
+    gsSP2Triangles(6, 20, 7, 0, 9, 21, 10, 0),
+    gsSP2Triangles(12, 22, 13, 0, 15, 23, 16, 0),
+    gsSPEndDisplayList(),
+};
+
 s32 EnCs_OverrideLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec3f* pos, Vec3s* rot, void* thisx) {
     EnCs* this = THIS;
 
+    OPEN_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
+
+    if (limbIndex == sLimbIndex) {
+        gDPSetPrimColor(POLY_OPA_DISP, 0, 0, 0, 255, 0, 255);
+        *dList = cubeDList;
+    }
+    CLOSE_DISPS(globalCtx->state.gfxCtx, __FILE__, __LINE__);
     if (this->flag & 1) {
         switch (limbIndex) {
-            case GRAVEYARD_KID_CHEST:
+            case 8:
                 rot->x += this->npcInfo.unk_0E.y;
                 rot->y -= this->npcInfo.unk_0E.x;
                 break;
-            case GRAVEYARD_KID_HEAD:
+            case 15:
                 rot->x += this->npcInfo.unk_08.y;
                 rot->z += this->npcInfo.unk_08.x;
                 break;
@@ -488,7 +532,7 @@ void EnCs_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Vec
     static Vec3f D_809E2970 = { 500.0f, 800.0f, 0.0f };
     EnCs* this = THIS;
 
-    if (limbIndex == GRAVEYARD_KID_HEAD) {
+    if (limbIndex == 15) {
         Matrix_MultVec3f(&D_809E2970, &this->actor.focus.pos);
         Matrix_Translate(0.0f, -200.0f, 0.0f, MTXMODE_APPLY);
         Matrix_RotateY(0.0f, MTXMODE_APPLY);
