@@ -576,7 +576,7 @@ void EnHorse_IdleAnimSounds(EnHorse* this, GlobalContext* globalCtx) {
     if (this->animationIdx == ENHORSE_ANIM_IDLE &&
         ((this->curFrame > 35.0f && this->type == HORSE_EPONA) ||
          (this->curFrame > 28.0f && this->type == HORSE_HNI)) &&
-        (!(this->stateFlags & ENHORSE_SANDDUST_SOUND))) {
+        !(this->stateFlags & ENHORSE_SANDDUST_SOUND)) {
         this->stateFlags |= ENHORSE_SANDDUST_SOUND;
         Audio_PlaySoundGeneral(NA_SE_EV_HORSE_SANDDUST, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
@@ -679,12 +679,10 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
     }
 
     if (this->actor.params & 0x8000) {
-        s8 index;
         this->actor.params &= ~0x8000;
         this->type = HORSE_HNI;
-        index = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HNI);
-        this->bankIndex = index;
-        if (index < 0) {
+
+        if ((this->bankIndex = Object_GetIndex(&globalCtx->objectCtx, OBJECT_HNI)) < 0) {
             Actor_Kill(&this->actor);
             return;
         }
@@ -1655,25 +1653,26 @@ void EnHorse_InitInactive(EnHorse* this) {
 
 void EnHorse_SetFollowAnimation(EnHorse* this, GlobalContext* globalCtx);
 
-void EnHorse_Inactive(EnHorse* this, GlobalContext* globalCtx) {
-    GlobalContext* globalCtx2 = globalCtx;
+void EnHorse_Inactive(EnHorse* this, GlobalContext* globalCtx2) {
+    GlobalContext* globalCtx = globalCtx2;
+
     if (DREG(53) != 0 && this->type == HORSE_EPONA) {
         DREG(53) = 0;
-        if (EnHorse_Spawn(this, globalCtx2) != 0) {
+        if (EnHorse_Spawn(this, globalCtx) != 0) {
             Audio_PlaySoundGeneral(NA_SE_EV_HORSE_NEIGH, &this->actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                    &D_801333E8);
             this->stateFlags &= ~ENHORSE_INACTIVE;
-            gSaveContext.horseData.scene = globalCtx2->sceneNum;
+            gSaveContext.horseData.scene = globalCtx->sceneNum;
 
             // Focus the camera on Epona
-            Camera_SetParam(globalCtx2->cameraPtrs[0], 8, this);
-            Camera_ChangeSetting(globalCtx2->cameraPtrs[0], 0x38);
-            Camera_SetCameraData(globalCtx2->cameraPtrs[0], 4, NULL, NULL, 0x51, 0, 0);
+            Camera_SetParam(globalCtx->cameraPtrs[0], 8, this);
+            Camera_ChangeSetting(globalCtx->cameraPtrs[0], 0x38);
+            Camera_SetCameraData(globalCtx->cameraPtrs[0], 4, NULL, NULL, 0x51, 0, 0);
         }
     }
     if (!(this->stateFlags & ENHORSE_INACTIVE)) {
         this->followTimer = 0;
-        EnHorse_SetFollowAnimation(this, globalCtx2);
+        EnHorse_SetFollowAnimation(this, globalCtx);
         this->actor.params = 0;
         this->cyl1.base.ocFlags1 |= OC1_ON;
         this->cyl2.base.ocFlags1 |= OC1_ON;
@@ -2350,6 +2349,7 @@ s32 EnHorse_UpdateHbaRaceInfo(EnHorse* this, GlobalContext* globalCtx, RaceInfo*
 }
 
 void EnHorse_UpdateHbaAnim(EnHorse* this);
+
 void EnHorse_InitHorsebackArchery(EnHorse* this) {
     this->hbaStarted = 0;
     this->soundTimer = 0;
@@ -3470,26 +3470,28 @@ void EnHorse_Update(Actor* thisx, GlobalContext* globalCtx) {
         } else {
             this->stateFlags &= ~ENHORSE_FLAG_24;
         }
+
         if (globalCtx2->sceneNum == SCENE_SPOT09 && (gSaveContext.eventChkInf[9] & 0xF) != 0xF) {
             EnHorse_CheckBridgeJumps(this, globalCtx2);
         }
+
         thisx->focus.pos = thisx->world.pos;
         thisx->focus.pos.y += 70.0f;
         if ((Rand_ZeroOne() < 0.025f) && this->blinkTimer == 0) {
             this->blinkTimer++;
-        } else {
-            if (this->blinkTimer > 0) {
-                this->blinkTimer++;
-                if ((this->blinkTimer) >= 4) {
-                    this->blinkTimer = 0;
-                }
+        } else if (this->blinkTimer > 0) {
+            this->blinkTimer++;
+            if (this->blinkTimer >= 4) {
+                this->blinkTimer = 0;
             }
         }
+        
         if (thisx->speedXZ == 0.0f && !(this->stateFlags & ENHORSE_FLAG_19)) {
             thisx->colChkInfo.mass = 0xFF;
         } else {
             thisx->colChkInfo.mass = 0xFE;
         }
+
         if (thisx->speedXZ >= 5.0f) {
             this->cyl1.base.atFlags |= 1;
         } else {
@@ -3536,7 +3538,7 @@ s32 EnHorse_MountSideCheck(EnHorse* this, GlobalContext* globalCtx, Player* play
         return 0;
     } else if (fabsf(this->actor.world.pos.y - player->actor.world.pos.y) > 30.0f) {
         return 0;
-    } else if (Math_CosS(Actor_WorldYawTowardActor((Actor*)player, &this->actor) - player->actor.world.rot.y) <
+    } else if (Math_CosS(Actor_WorldYawTowardActor(&player->actor, &this->actor) - player->actor.world.rot.y) <
                0.17364818f) {
         return 0;
     } else {
