@@ -1776,7 +1776,7 @@ Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
 Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
 Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
 
-#ifdef NON_MATCHING
+#ifdef NON_EQUIVALENT
 // saved register, stack usage and minor ordering differences
 // this also doesn't generate a few useless struct copies
 void func_8002FBAC(GlobalContext* globalCtx) {
