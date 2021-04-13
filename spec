@@ -1198,8 +1198,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot07_Taki"
     include "build/src/overlays/actors/ovl_Bg_Spot07_Taki/z_bg_spot07_taki.o"
-    include "build/data/overlays/actors/z_bg_spot07_taki.data.o"
-    include "build/data/overlays/actors/z_bg_spot07_taki.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot07_Taki/ovl_Bg_Spot07_Taki_reloc.o"
 endseg
 
 beginseg
@@ -1307,8 +1306,7 @@ endseg
 beginseg
     name "ovl_Bg_Sst_Floor"
     include "build/src/overlays/actors/ovl_Bg_Sst_Floor/z_bg_sst_floor.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.data.o"
-    include "build/data/overlays/actors/z_bg_sst_floor.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Sst_Floor/ovl_Bg_Sst_Floor_reloc.o"
 endseg
 
 beginseg
@@ -1373,8 +1371,11 @@ endseg
 beginseg
     name "ovl_Boss_Dodongo"
     include "build/src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.o"
-    include "build/data/overlays/actors/z_boss_dodongo.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Dodongo/ovl_Boss_Dodongo_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_dodongo.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1430,9 +1431,7 @@ endseg
 beginseg
     name "ovl_Boss_Sst"
     include "build/src/overlays/actors/ovl_Boss_Sst/z_boss_sst.o"
-    include "build/data/overlays/actors/z_boss_sst.data.o"
-    include "build/data/overlays/actors/z_boss_sst.bss.o"
-    include "build/data/overlays/actors/z_boss_sst.reloc.o"
+    include "build/src/overlays/actors/ovl_Boss_Sst/ovl_Boss_Sst_reloc.o"
 endseg
 
 beginseg
@@ -1454,11 +1453,7 @@ endseg
 beginseg
     name "ovl_Demo_6K"
     include "build/src/overlays/actors/ovl_Demo_6K/z_demo_6k.o"
-#if NON_MATCHING
     include "build/src/overlays/actors/ovl_Demo_6K/ovl_Demo_6K_reloc.o"
-#else
-    include "build/data/overlays/actors/z_demo_6k.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -1901,8 +1896,7 @@ endseg
 beginseg
     name "ovl_En_Bdfire"
     include "build/src/overlays/actors/ovl_En_Bdfire/z_en_bdfire.o"
-    include "build/data/overlays/actors/z_en_bdfire.data.o"
-    include "build/data/overlays/actors/z_en_bdfire.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bdfire/ovl_En_Bdfire_reloc.o"
 endseg
 
 beginseg
@@ -2336,8 +2330,7 @@ endseg
 beginseg
     name "ovl_En_Goma"
     include "build/src/overlays/actors/ovl_En_Goma/z_en_goma.o"
-    include "build/data/overlays/actors/z_en_goma.data.o"
-    include "build/data/overlays/actors/z_en_goma.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Goma/ovl_En_Goma_reloc.o"
 endseg
 
 beginseg
@@ -2413,8 +2406,7 @@ endseg
 beginseg
     name "ovl_En_Horse"
     include "build/src/overlays/actors/ovl_En_Horse/z_en_horse.o"
-    include "build/data/overlays/actors/z_en_horse.data.o"
-    include "build/data/overlays/actors/z_en_horse.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse/ovl_En_Horse_reloc.o"
 endseg
 
 beginseg
@@ -2516,11 +2508,7 @@ endseg
 beginseg
     name "ovl_En_Jsjutan"
     include "build/src/overlays/actors/ovl_En_Jsjutan/z_en_jsjutan.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Jsjutan/ovl_En_Jsjutan_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_jsjutan.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2892,10 +2880,11 @@ endseg
 beginseg
     name "ovl_En_Skj"
     include "build/src/overlays/actors/ovl_En_Skj/z_en_skj.o"
-    include "build/data/overlays/actors/z_en_skj.data.o"
-    include "build/data/overlays/actors/z_en_skj.rodata.o"
-    include "build/data/overlays/actors/z_en_skj.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Skj/ovl_En_Skj_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_skj.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3021,11 +3010,7 @@ endseg
 beginseg
     name "ovl_En_Tr"
     include "build/src/overlays/actors/ovl_En_Tr/z_en_tr.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tr/ovl_En_Tr_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tr.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -3614,7 +3599,8 @@ endseg
 beginseg
     name "object_goma"
     romalign 0x1000
-    include "build/baserom/object_goma.o"
+    include "build/assets/objects/object_goma/object_goma.o"
+    number 6
 endseg
 
 beginseg
@@ -4480,7 +4466,8 @@ endseg
 beginseg
     name "object_nb"
     romalign 0x1000
-    include "build/baserom/object_nb.o"
+    include "build/assets/objects/object_nb/object_nb.o"
+    number 6
 endseg
 
 beginseg
@@ -4788,7 +4775,8 @@ endseg
 beginseg
     name "object_sst"
     romalign 0x1000
-    include "build/baserom/object_sst.o"
+    include "build/assets/objects/object_sst/object_sst.o"
+    number 6
 endseg
 
 beginseg
@@ -5026,7 +5014,8 @@ endseg
 beginseg
     name "object_skj"
     romalign 0x1000
-    include "build/baserom/object_skj.o"
+    include "build/assets/objects/object_skj/object_skj.o"
+    number 6
 endseg
 
 beginseg
@@ -5100,7 +5089,8 @@ endseg
 beginseg
     name "object_ge1"
     romalign 0x1000
-    include "build/baserom/object_ge1.o"
+    include "build/assets/objects/object_ge1/object_ge1.o"
+    number 6
 endseg
 
 beginseg
@@ -5605,7 +5595,8 @@ endseg
 beginseg
     name "object_gla"
     romalign 0x1000
-    include "build/baserom/object_gla.o"
+    include "build/assets/objects/object_gla/object_gla.o"
+    number 6
 endseg
 
 beginseg

@@ -1184,7 +1184,7 @@ s32 Camera_CalcAtForHorse(Camera* camera, VecSph* eyeAtDir, f32 yOffset, f32* yP
     player = camera->player;
     Actor_GetWorldPosShapeRot(&horsePosRot, player->rideActor);
 
-    if (EN_HORSE_CHECK_5((EnHorse*)player->rideActor)) {
+    if (EN_HORSE_CHECK_JUMPING((EnHorse*)player->rideActor)) {
         horsePosRot.pos.y -= 49.f;
         *yPosOffset = Camera_LERPCeilF(horsePosRot.pos.y, *yPosOffset, 0.1f, 0.2f);
         camera->atLERPStepScale = Camera_LERPCeilF(0.4f, camera->atLERPStepScale, 0.2f, 0.02f);
