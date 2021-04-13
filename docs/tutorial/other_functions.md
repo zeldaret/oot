@@ -497,7 +497,7 @@ Again we have run out of action functions. The rules suggest that we now look at
 Update runs every frame and updates the properties of the actor, and usually runs the action functions once per frame. As before we change the first argument to `EnJj* this` to get it to use our actor's struct. mips2c gives
 ```C
 void EnJj_Update(EnJj *this, GlobalContext *globalCtx) {
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->unk1D94 != 0)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->unk1D94 != 0)) {
         func_80A87D94();
     } else {
         this->actionFunc(this);
@@ -521,7 +521,7 @@ Lastly, what is `globalCtx->unk1D94`? It is at `globalCtx->csCtx + 0x30`, or `gl
 void EnJj_Update(Actor *thisx, GlobalContext *globalCtx) {
     EnJj* this = THIS;
 
-    if ((globalCtx->csCtx.state != 0) && (globalCtx->csCtx.npcActions[2] != NULL)) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) && (globalCtx->csCtx.npcActions[2] != NULL)) {
         func_80A87D94(this, globalCtx);
     } else {
         this->actionFunc(this, globalCtx);

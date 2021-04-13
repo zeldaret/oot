@@ -583,7 +583,7 @@ void func_80A7D460(EnInsect* this, GlobalContext* globalCtx) {
 
     if (!this->soilActor->actor.params) {}
 
-    D_80A7DEB0 += 0.0033333332f;
+    D_80A7DEB0 += 0.99999994f / 300.0f;
     if (D_80A7DEB0 > 1.0f) {
         D_80A7DEB0 = 1.0f;
     }

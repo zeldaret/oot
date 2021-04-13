@@ -296,8 +296,6 @@ void Sram_InitDebugSave(void) {
  *  - Give and equip master sword if player is adult and doesnt have kokiri sword (bug?)
  *  - Revert any trade items that spoil
  */
-#ifdef NON_MATCHING
-// regalloc differences at the end
 void Sram_OpenSave(SramContext* sramCtx) {
     static s16 dungeonEntrances[] = {
         0x0000, 0x0004, 0x0028, 0x0169, 0x0165, 0x0010, 0x0082, 0x0037,
@@ -414,12 +412,14 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     // if zelda cutscene has been watched but lullaby was not obtained, restore cutscene and take away letter
     if ((gSaveContext.eventChkInf[4] & 1) && !CHECK_QUEST_ITEM(QUEST_SONG_LULLABY)) {
-        gSaveContext.eventChkInf[4] &= ~1;
+        i = gSaveContext.eventChkInf[4] & ~1;
+        gSaveContext.eventChkInf[4] = i;
+
         INV_CONTENT(ITEM_LETTER_ZELDA) = ITEM_CHICKEN;
 
-        for (i = 1; i < 4; i++) {
-            if (gSaveContext.equips.buttonItems[i] == ITEM_LETTER_ZELDA) {
-                gSaveContext.equips.buttonItems[i] = ITEM_CHICKEN;
+        for (j = 1; j < 4; j++) {
+            if (gSaveContext.equips.buttonItems[j] == ITEM_LETTER_ZELDA) {
+                gSaveContext.equips.buttonItems[j] = ITEM_CHICKEN;
             }
         }
     }
@@ -446,13 +446,6 @@ void Sram_OpenSave(SramContext* sramCtx) {
 
     gSaveContext.magicLevel = 0;
 }
-#else
-s16 dungeonEntrances[] = {
-    0x0000, 0x0004, 0x0028, 0x0169, 0x0165, 0x0010, 0x0082, 0x0037,
-    0x0098, 0x0088, 0x041B, 0x0008, 0x0486, 0x0467, 0x0179, 0x056C,
-};
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_sram/Sram_OpenSave.s")
-#endif
 
 /**
  *  Write the contents of the Save Context to a main and backup slot in SRAM.

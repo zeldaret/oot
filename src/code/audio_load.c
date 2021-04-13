@@ -447,7 +447,7 @@ s32 func_800E217C(s32 playerIdx, s32 seqId, s32 arg2) {
     seqPlayer->scriptState.depth = 0;
     seqPlayer->delay = 0;
     seqPlayer->finished = 0;
-    seqPlayer->seqVariationEu[0] = playerIdx;
+    seqPlayer->seqVariationEu = playerIdx;
     Audio_ProcessSequence(seqPlayer);
 }
 

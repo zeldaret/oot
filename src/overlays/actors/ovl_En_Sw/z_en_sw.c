@@ -125,7 +125,7 @@ CollisionPoly* func_80B0C020(GlobalContext* globalCtx, Vec3f* arg1, Vec3f* arg2,
     CollisionPoly* sp3C;
     s32 pad;
 
-    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, arg1, arg2, arg3, &sp3C, 1, 1, 1, 0, arg4)) {
+    if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, arg1, arg2, arg3, &sp3C, true, true, true, false, arg4)) {
         return NULL;
     }
 
@@ -711,7 +711,7 @@ s32 func_80B0DEA8(EnSw* this, GlobalContext* globalCtx, s32 arg2) {
     } else if (Math_Vec3f_DistXYZ(&this->actor.world.pos, &player->actor.world.pos) >= 130.0f) {
         return false;
     } else if (!BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &player->actor.world.pos, &sp48,
-                                        &sp58, 1, 0, 0, 1, &sp54)) {
+                                        &sp58, true, false, false, true, &sp54)) {
         return true;
     } else {
         return false;
@@ -723,36 +723,36 @@ s32 func_80B0DFFC(EnSw* this, GlobalContext* globalCtx) {
     CollisionPoly* sp60;
     s32 sp5C;
     Vec3f sp50;
-    s32 sp4C = 1;
+    s32 sp4C = true;
 
-    if (this->collider.base.ocFlags1 & 2) {
-        this->collider.base.acFlags &= ~2;
-        sp4C = 0;
+    if (this->collider.base.ocFlags1 & OC1_HIT) {
+        this->collider.base.acFlags &= ~AC_HIT;
+        sp4C = false;
     } else if (((globalCtx->state.frames % 4) == 0) &&
-               (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_454, &sp50, &sp60, 1, 0,
-                                        0, 1, &sp5C) == 0)) {
-        sp4C = 0;
+               !BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_454, &sp50, &sp60, true,
+                                        false, false, true, &sp5C)) {
+        sp4C = false;
     } else if (((globalCtx->state.frames % 4) == 1) &&
-               (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, 1, 0,
-                                        0, 1, &sp5C) != 0)) {
-        sp4C = 0;
+               BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_460, &sp50, &sp60, true,
+                                       false, false, true, &sp5C)) {
+        sp4C = false;
     } else if (((globalCtx->state.frames % 4) == 2) &&
-               (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_46C, &sp50, &sp60, 1, 0,
-                                        0, 1, &sp5C) == 0)) {
+               !BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_46C, &sp50, &sp60, true,
+                                        false, false, true, &sp5C)) {
         if (0) {}
-        sp4C = 0;
+        sp4C = false;
     } else if (((globalCtx->state.frames % 4) == 3) &&
-               (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, 1, 0,
-                                        0, 1, &sp5C) != 0)) {
-        sp4C = 0;
+               BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_478, &sp50, &sp60, true,
+                                       false, false, true, &sp5C)) {
+        sp4C = false;
     }
 
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, 1, 0,
-                                0, 1, &sp5C) != 0) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &this->unk_484, &sp50, &this->unk_430, true,
+                                false, false, true, &sp5C)) {
         this->actor.wallYaw = Math_FAtan2F(this->unk_430->normal.x, this->unk_430->normal.z) * (0x8000 / M_PI);
         this->actor.world.pos = sp50;
-        this->actor.world.pos.x += (6.0f * Math_SinS(this->actor.world.rot.y));
-        this->actor.world.pos.z += (6.0f * Math_CosS(this->actor.world.rot.y));
+        this->actor.world.pos.x += 6.0f * Math_SinS(this->actor.world.rot.y);
+        this->actor.world.pos.z += 6.0f * Math_CosS(this->actor.world.rot.y);
         this->unk_434 = sp50;
         this->unk_434.x += Math_SinS(this->actor.world.rot.y);
         this->unk_434.z += Math_CosS(this->actor.world.rot.y);
@@ -855,7 +855,7 @@ void func_80B0E728(EnSw* this, GlobalContext* globalCtx) {
             this->actionFunc = func_80B0E5E0;
         }
     } else {
-        if (func_80B0DFFC(this, globalCtx) == 0) {
+        if (!func_80B0DFFC(this, globalCtx)) {
             this->unk_442 = Rand_S16Offset(20, 10);
             this->unk_444 = func_80B0DE34(this, &this->actor.home.pos);
             this->unk_448 = this->actor.home.pos;
@@ -868,8 +868,7 @@ void func_80B0E728(EnSw* this, GlobalContext* globalCtx) {
                 this->unk_440 = 4;
             }
 
-            if (!(13.0f < Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->unk_448)) ||
-                (func_8002DDF4(globalCtx) != 0)) {
+            if (!(Math_Vec3f_DistXYZ(&this->actor.world.pos, &this->unk_448) > 13.0f) || func_8002DDF4(globalCtx)) {
                 this->actionFunc = func_80B0E90C;
             }
         }

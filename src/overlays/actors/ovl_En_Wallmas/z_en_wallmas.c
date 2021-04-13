@@ -13,8 +13,8 @@
 #define THIS ((EnWallmas*)thisx)
 
 #define TIMER_SCALE ((f32)OS_CLOCK_RATE / 10000000000)
-#define DEGREE_60_RAD 1.0471975803375244140625f
-#define DEGREE_15_RAD 0.261799395084381103515625f
+#define DEGREE_60_RAD (60.0f * M_PI / 180.0f)
+#define DEGREE_15_RAD (15.0f * M_PI / 180.0f)
 
 #define DAMAGE_EFFECT_BURN 2
 #define DAMAGE_EFFECT_STUN_WHITE 4
@@ -264,7 +264,7 @@ void EnWallmas_SetupTakePlayer(EnWallmas* this, GlobalContext* globalCtx) {
 
     this->yTarget = this->actor.yDistToPlayer;
     func_8002DF38(globalCtx, &this->actor, 0x25);
-    func_800800F8(globalCtx, 0x251C, 0x270F, &this->actor, 0);
+    OnePointCutscene_Init(globalCtx, 9500, 9999, &this->actor, MAIN_CAM);
 }
 
 void EnWallmas_ProximityOrSwitchInit(EnWallmas* this) {

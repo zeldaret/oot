@@ -158,8 +158,8 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             func_80064520(globalCtx, &globalCtx->csCtx);
             func_8002DF54(globalCtx, &this->actor, 8);
             this->cutsceneCamera = Gameplay_CreateSubCamera(globalCtx);
-            Gameplay_ChangeCameraStatus(globalCtx, 0, 1);
-            Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, 7);
+            Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
+            Gameplay_ChangeCameraStatus(globalCtx, this->cutsceneCamera, CAM_STAT_ACTIVE);
             this->cutsceneState = INTRO_FENCE;
             this->timers[0] = 60;
             this->actor.world.pos.y = GND_BOSSROOM_CENTER_Y - 7.0f;
@@ -336,7 +336,7 @@ void EnfHG_Intro(EnfHG* this, GlobalContext* globalCtx) {
             Math_ApproachF(&this->cameraSpeedMod, 1.0f, 1.0f, 0.05f);
             if (this->timers[0] == 75) {
                 TitleCard_InitBossName(globalCtx, &globalCtx->actorCtx.titleCtx,
-                                       SEGMENTED_TO_VIRTUAL(&gPhantomGanonTitleCardTex), 0xA0, 0xB4, 0x80, 0x28);
+                                       SEGMENTED_TO_VIRTUAL(&gPhantomGanonTitleCardTex), 160, 180, 128, 40);
             }
             if (this->timers[0] == 0) {
                 this->cutsceneState = INTRO_RETREAT;
