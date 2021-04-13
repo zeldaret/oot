@@ -22,6 +22,13 @@
         <Texture Name="gEponaForeheadTex" OutName="epona_forehead" Format="rgb5a1" Width="8" Height="32" Offset="0xC210" />
         <Limb Name="gEponaHeadLimb" LimbType="Skin" Offset="0x9A98" />
 
+        <!-- Body -->
+        <Texture Name="gEponaNeckTex" OutName="epona_neck" Format="i8" Width="16" Height="16" Offset="0xDC10" />
+        <Texture Name="gEponaChestTex" OutName="epona_chest" Format="i8" Width="16" Height="16" Offset="0xDB10" />
+        <Texture Name="gEponaShoulderTex" OutName="epona_shoulder" Format="i8" Width="16" Height="16" Offset="0xDE10" />
+        <Texture Name="gEponaThighTex" OutName="epona_thigh" Format="i8" Width="16" Height="16" Offset="0xDD10" />
+        <Limb Name="gEponaBodyLimb" LimbType="Skin" Offset="0x9A18" />
+
         <!-- Saddle -->
         <Texture Name="gEponaSaddleTex" OutName="epona_saddle" Format="rgb5a1" Width="32" Height="32" Offset="0xCB10" />
         <Texture Name="gEponaSaddleFlapTex" OutName="epona_saddle_flap" Format="rgb5a1" Width="16" Height="16" Offset="0xD510" />
