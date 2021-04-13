@@ -6,6 +6,7 @@
 
 #include "z_en_honotrap.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/gameplay_dangeon_keep/gameplay_dangeon_keep.h"
 
 #define FLAGS 0x00000010
 
@@ -47,8 +48,6 @@ void EnHonotrap_SetupFlameChase(EnHonotrap* this);
 void EnHonotrap_FlameChase(EnHonotrap* this, GlobalContext* globalCtx);
 void EnHonotrap_SetupFlameVanish(EnHonotrap* this);
 void EnHonotrap_FlameVanish(EnHonotrap* this, GlobalContext* globalCtx);
-
-extern Gfx D_05006810[];
 
 const ActorInit En_Honotrap_InitVars = {
     ACTOR_EN_HONOTRAP,
@@ -249,7 +248,7 @@ void EnHonotrap_EyeIdle(EnHonotrap* this, GlobalContext* globalCtx) {
 
 void EnHonotrap_SetupEyeOpen(EnHonotrap* this) {
     this->actionFunc = EnHonotrap_EyeOpen;
-    func_8003426C(&this->actor, 0x4000, 0xFF, 0, 0x28);
+    Actor_SetColorFilter(&this->actor, 0x4000, 0xFF, 0, 0x28);
     this->timer = 30;
     Audio_PlayActorSound2(&this->actor, NA_SE_EV_RED_EYE);
 }
@@ -488,7 +487,12 @@ void EnHonotrap_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
-    static void* eyeTextures[] = { 0x0500B0A0, 0x0500B8A0, 0x0500C0A0, 0x0500C0A0 };
+    static void* eyeTextures[] = {
+        gEyeSwitchSilverOpenTex,
+        gEyeSwitchSilverHalfTex,
+        gEyeSwitchSilverClosedTex,
+        gEyeSwitchSilverClosedTex,
+    };
     EnHonotrap* this = THIS;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 982);
@@ -497,7 +501,7 @@ void EnHonotrap_DrawEye(Actor* thisx, GlobalContext* globalCtx) {
     gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(eyeTextures[this->eyeState]));
     gSPMatrix(POLY_OPA_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 987),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);
-    gSPDisplayList(POLY_OPA_DISP++, D_05006810);
+    gSPDisplayList(POLY_OPA_DISP++, gEyeSwitch2DL);
 
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 991);
 }
@@ -515,7 +519,7 @@ void EnHonotrap_DrawFlame(Actor* thisx, GlobalContext* globalCtx) {
                Gfx_TwoTexScroll(globalCtx->state.gfxCtx, 0, 0, 0, 0x20, 0x40, 1, 0, this->flameScroll, 0x20, 0x80));
     gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 200, 0, 255);
     gDPSetEnvColor(POLY_XLU_DISP++, 255, 0, 0, 0);
-    Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * 0.0000958738f,
+    Matrix_RotateY((s16)(Camera_GetCamDirYaw(ACTIVE_CAM) - this->actor.shape.rot.y + 0x8000) * (M_PI / 0x8000),
                    MTXMODE_APPLY);
     gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_en_honotrap.c", 1024),
               G_MTX_NOPUSH | G_MTX_LOAD | G_MTX_MODELVIEW);

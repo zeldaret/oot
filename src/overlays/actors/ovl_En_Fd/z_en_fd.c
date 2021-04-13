@@ -1,3 +1,9 @@
+/*
+ * File: z_en_fd.c
+ * Overlay: ovl_En_Fd
+ * Description: Flare Dancer (enflamed form)
+ */
+
 #include "z_en_fd.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
 
@@ -312,7 +318,7 @@ s32 EnFd_ColliderCheck(EnFd* this, GlobalContext* globalCtx) {
  */
 s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     CollisionPoly* colPoly;
-    u32 bgId;
+    s32 bgId;
     Vec3f colPoint;
     s16 angle;
     s32 pad;
@@ -329,8 +335,8 @@ s32 EnFd_CanSeeActor(EnFd* this, Actor* actor, GlobalContext* globalCtx) {
     }
 
     // check to see if the line between `this` and `actor` does not intersect a collision poly
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly, 1,
-                                0, 0, 1, &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &actor->world.pos, &colPoint, &colPoly,
+                                true, false, false, true, &bgId)) {
         return false;
     }
 
@@ -400,7 +406,7 @@ Vec3f* EnFd_GetPosAdjAroundCircle(Vec3f* dst, EnFd* this, f32 radius, s16 dir) {
 
 s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16* runDir) {
     CollisionPoly* poly;
-    u32 bgId;
+    s32 bgId;
     Vec3f colPoint;
     Vec3f pos;
 
@@ -412,8 +418,8 @@ s32 EnFd_ShouldStopRunning(EnFd* this, GlobalContext* globalCtx, f32 radius, s16
     pos.y = this->actor.world.pos.y;
     pos.z += this->actor.world.pos.z;
 
-    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, 1, 0, 0, 1,
-                                &bgId)) {
+    if (BgCheck_EntityLineTest1(&globalCtx->colCtx, &this->actor.world.pos, &pos, &colPoint, &poly, true, false, false,
+                                true, &bgId)) {
         *runDir = -*runDir;
         return true;
     }
@@ -763,7 +769,7 @@ void EnFd_Draw(Actor* thisx, GlobalContext* globalCtx) {
     Matrix_Push();
     EnFd_DrawDots(this, globalCtx);
     EnFd_DrawFlames(this, globalCtx);
-    Matrix_Pull();
+    Matrix_Pop();
     if (this->actionFunc != EnFd_Reappear && !(this->fadeAlpha < 0.9f)) {
         if (1) {}
         func_80093D84(globalCtx->state.gfxCtx);

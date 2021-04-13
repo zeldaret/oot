@@ -74,7 +74,7 @@ typedef enum {
     /* 0x03 */ DOG_SIT,
     /* 0x04 */ DOG_SIT_2,
     /* 0x05 */ DOG_BOW,
-    /* 0x06 */ DOG_BOW_2,
+    /* 0x06 */ DOG_BOW_2
 } DogBehavior;
 
 extern FlexSkeletonHeader D_06007290;

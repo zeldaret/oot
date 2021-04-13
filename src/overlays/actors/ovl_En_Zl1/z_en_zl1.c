@@ -58,12 +58,12 @@ static ColliderCylinderInit sCylinderInit = {
     { 20, 46, 0, { 0, 0, 0 } },
 };
 
-static UNK_PTR D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
-static UNK_PTR D_80B4E62C[] = { 0x06007608 };
+static u64* D_80B4E61C[] = { 0x06007208, 0x06009848, 0x06009C48, 0x06009848 };
+static u64* D_80B4E62C[] = { 0x06007608 };
 
 extern AnimationHeader D_06000438;
-extern UNK_TYPE D_06008848;
-extern UNK_TYPE D_06008C48;
+extern u64 D_06008848[];
+extern u64 D_06008C48[];
 extern FlexSkeletonHeader D_0600F5D8;
 extern AnimationHeader D_06010B38;
 extern AnimationHeader D_06011348;
@@ -100,10 +100,10 @@ void EnZl1_Init(Actor* thisx, GlobalContext* globalCtx) {
         Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->unk_1E6 = 0;
         this->actionFunc = func_80B4BC78;
-    } else if ((Flags_GetEventChkInf(9)) && (Flags_GetEventChkInf(0x25)) && (Flags_GetEventChkInf(0x37))) {
+    } else if (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25) && Flags_GetEventChkInf(0x37)) {
         Actor_Kill(&this->actor);
-    } else if (((Flags_GetEventChkInf(9)) && (Flags_GetEventChkInf(0x25))) ||
-               ((Flags_GetEventChkInf(9)) && (Flags_GetEventChkInf(0x37)))) {
+    } else if ((Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x25)) ||
+               (Flags_GetEventChkInf(9) && Flags_GetEventChkInf(0x37))) {
         frameCount = Animation_GetLastFrame(&D_06000438);
         Animation_Change(&this->skelAnime, &D_06000438, 1.0f, 0.0f, frameCount, ANIMMODE_LOOP, 0.0f);
         this->actor.textId = 0x703D;
@@ -177,7 +177,7 @@ void func_80B4B010(EnZl1* this, GlobalContext* globalCtx) {
         Animation_Change(&this->skelAnime, &D_06010B38, 1.0f, 0.0f, Animation_GetLastFrame(&D_06010B38),
                          ANIMMODE_ONCE_INTERP, -10.0f);
         this->unk_1E8 = Gameplay_CreateSubCamera(globalCtx);
-        Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_WAIT);
+        Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_WAIT);
         Gameplay_ChangeCameraStatus(globalCtx, this->unk_1E8, CAM_STAT_ACTIVE);
         func_800C0808(globalCtx, this->unk_1E8, player, CAM_SET_FREE0);
         globalCtx->envCtx.unk_E2[0] = 0xFF;
@@ -378,7 +378,7 @@ void func_80B4B8B4(EnZl1* this, GlobalContext* globalCtx) {
 
     SkelAnime_Update(&this->skelAnime);
     func_80B4B874(this, globalCtx);
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         this->actionFunc = func_80B4BBC4;
         return;
     }
@@ -510,9 +510,9 @@ void func_80B4BF2C(EnZl1* this, GlobalContext* globalCtx) {
                 break;
             }
         case 2:
-            if (Actor_HasParent(this, globalCtx)) {
-                Gameplay_CopyCamera(globalCtx, 0, this->unk_1E8);
-                Gameplay_ChangeCameraStatus(globalCtx, 0, CAM_STAT_ACTIVE);
+            if (Actor_HasParent(&this->actor, globalCtx)) {
+                Gameplay_CopyCamera(globalCtx, MAIN_CAM, this->unk_1E8);
+                Gameplay_ChangeCameraStatus(globalCtx, MAIN_CAM, CAM_STAT_ACTIVE);
                 Gameplay_ClearCamera(globalCtx, this->unk_1E8);
                 this->actor.parent = NULL;
                 this->unk_1E2++;

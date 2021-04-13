@@ -5,6 +5,7 @@
  */
 
 #include "z_en_horse_zelda.h"
+#include "objects/object_horse_zelda/object_horse_zelda.h"
 
 #define FLAGS 0x00000010
 
@@ -31,9 +32,9 @@ const ActorInit En_Horse_Zelda_InitVars = {
     (ActorFunc)EnHorseZelda_Draw,
 };
 
-static AnimationHeader* sAnimationHeaders[] = { 0x06007148 };
+static AnimationHeader* sAnimationHeaders[] = { &gHorseZeldaGallopingAnim };
 
-static f32 splaySpeeds[] = { 0.66666666f };
+static f32 splaySpeeds[] = { 2.0f / 3.0f };
 
 static ColliderCylinderInitType1 sCylinderInit = {
     {
@@ -105,9 +106,6 @@ static EnHorseZeldaActionFunc sActionFuncs[] = {
     func_80A6DDFC,
 };
 
-extern SkeletonHeader D_06006B2C;
-extern AnimationHeader D_06007148;
-
 void func_80A6D8D0(unknownStruct* data, s32 index, Vec3f* vec) {
     vec->x = data[index].unk_0.x;
     vec->y = data[index].unk_0.y;
@@ -161,7 +159,7 @@ void EnHorseZelda_Init(Actor* thisx, GlobalContext* globalCtx) {
     this->actor.focus.pos = this->actor.world.pos;
     this->action = 0;
     this->actor.focus.pos.y += 70.0f;
-    func_800A663C(globalCtx, &this->skin, &D_06006B2C, &D_06007148);
+    func_800A663C(globalCtx, &this->skin, &gHorseZeldaSkel, &gHorseZeldaGallopingAnim);
     this->animationIndex = 0;
     Animation_PlayOnce(&this->skin.skelAnime, sAnimationHeaders[0]);
     Collider_InitCylinder(globalCtx, &this->colliderCylinder);
@@ -244,10 +242,10 @@ void EnHorseZelda_Update(Actor* thisx, GlobalContext* globalCtx) {
     CollisionCheck_SetOC(globalCtx, &globalCtx->colChkCtx, &this->colliderCylinder.base);
 }
 
-void func_80A6DFD4(EnHorseZelda* this, GlobalContext* globalCtx, PSkinAwb* skin) {
+void func_80A6DFD4(Actor* thisx, GlobalContext* globalCtx, PSkinAwb* skin) {
     Vec3f sp4C;
     Vec3f sp40;
-    s32 pad;
+    EnHorseZelda* this = THIS;
     s32 i;
 
     for (i = 0; i < this->colliderSphere.count; i++) {

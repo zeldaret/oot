@@ -73,7 +73,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
     s16 quakeIndex;
 
     if (this->chuGirl->minigamePlayStatus != 0) {
-        if (globalCtx->cameraPtrs[0]->setting == 0x15) {
+        if (globalCtx->cameraPtrs[MAIN_CAM]->setting == CAM_SET_FIXED1) {
             chu = (EnBomChu*)globalCtx->actorCtx.actorLists[ACTORCAT_EXPLOSIVE].head;
 
             while (chu != NULL) {
@@ -89,7 +89,7 @@ void EnWallTubo_DetectChu(EnWallTubo* this, GlobalContext* globalCtx) {
                 if (((fabsf(chuPosDiff.x) < 40.0f) || (BREG(2))) && ((fabsf(chuPosDiff.y) < 40.0f) || (BREG(2))) &&
                     (fabsf(chuPosDiff.z) < 40.0f || (BREG(2)))) {
                     this->chuGirl->wallStatus[this->actor.params] = 1;
-                    chu->unk_150 = 2;
+                    chu->timer = 2;
                     func_80078884(NA_SE_SY_TRE_BOX_APPEAR);
                     this->timer = 60;
                     EffectSsBomb2_SpawnLayered(globalCtx, &this->explosionCenter, &effVelocity, &effAccel, 200, 40);

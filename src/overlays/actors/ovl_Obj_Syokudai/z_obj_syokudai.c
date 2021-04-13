@@ -7,6 +7,7 @@
 #include "z_obj_syokudai.h"
 #include "overlays/actors/ovl_En_Arrow/z_en_arrow.h"
 #include "objects/gameplay_keep/gameplay_keep.h"
+#include "objects/object_syokudai/object_syokudai.h"
 
 #define FLAGS 0x00000410
 
@@ -162,7 +163,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                 if (this->litTimer == 0) {
                     this->litTimer = -1;
                     if (torchType == 0) {
-                        func_80080480(globalCtx, &this->actor);
+                        OnePointCutscene_Attention(globalCtx, &this->actor);
                     }
                 } else if (this->litTimer > 0) {
                     this->litTimer = -1;
@@ -197,7 +198,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     arrow = (EnArrow*)this->colliderFlame.base.ac;
                     if ((arrow->actor.update != NULL) && (arrow->actor.id == ACTOR_EN_ARROW)) {
                         arrow->actor.params = 0;
-                        arrow->unk_1A8 = 0x800;
+                        arrow->collider.info.toucher.dmgFlags = 0x800;
                     }
                 }
                 if ((0 <= this->litTimer) && (this->litTimer < (50 * litTimeScale + 100)) && (torchType != 0)) {
@@ -213,13 +214,13 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
                     this->litTimer = -1;
                     if (torchType != 2) {
                         Flags_SetSwitch(globalCtx, switchFlag);
-                        func_80080480(globalCtx, &this->actor);
+                        OnePointCutscene_Attention(globalCtx, &this->actor);
                     }
                 } else {
                     sLitTorchCount++;
                     if (sLitTorchCount >= torchCount) {
                         Flags_SetSwitch(globalCtx, switchFlag);
-                        func_80080480(globalCtx, &this->actor);
+                        OnePointCutscene_Attention(globalCtx, &this->actor);
                         this->litTimer = -1;
                     } else {
                         this->litTimer = (litTimeScale * 50) + 110;
@@ -258,7 +259,7 @@ void ObjSyokudai_Update(Actor* thisx, GlobalContext* globalCtx2) {
 }
 
 void ObjSyokudai_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { 0x060003A0, 0x06000B90, 0x06000870 };
+    static Gfx* displayLists[] = { gGoldenTorchDL, gTimedTorchDL, gWoodenTorchDL };
     s32 pad;
     ObjSyokudai* this = THIS;
     s32 timerMax;

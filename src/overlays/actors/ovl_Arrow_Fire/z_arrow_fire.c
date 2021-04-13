@@ -48,7 +48,7 @@ void ArrowFire_Init(Actor* thisx, GlobalContext* globalCtx) {
     Actor_ProcessInitChain(&this->actor, sInitChain);
     this->radius = 0;
     this->unk_158 = 1.0f;
-    ArrowFire_SetupAction(&this->actor, ArrowFire_Charge);
+    ArrowFire_SetupAction(this, ArrowFire_Charge);
     Actor_SetScale(&this->actor, 0.01f);
     this->alpha = 160;
     this->timer = 0;
@@ -166,7 +166,7 @@ void ArrowFire_Fly(ArrowFire* this, GlobalContext* globalCtx) {
     }
     func_80865ECC(&this->unkPos, &this->actor.world.pos, 0.05f);
 
-    if (arrow->hitWall & 1) {
+    if (arrow->hitFlags & 1) {
         Audio_PlayActorSound2(&this->actor, NA_SE_IT_EXPLOSION_FRAME);
         ArrowFire_SetupAction(this, ArrowFire_Hit);
         this->timer = 32;
@@ -203,14 +203,14 @@ void ArrowFire_Draw(Actor* thisx, GlobalContext* globalCtx) {
 
     if ((arrow != NULL) && (arrow->actor.update != NULL) && (this->timer < 255)) {
         if (1) {}
-        tranform = (arrow->hitWall & 2) ? &this->actor : &arrow->actor;
+        tranform = (arrow->hitFlags & 2) ? &this->actor : &arrow->actor;
 
         OPEN_DISPS(globalCtx->state.gfxCtx, "../z_arrow_fire.c", 618);
 
         Matrix_Translate(tranform->world.pos.x, tranform->world.pos.y, tranform->world.pos.z, MTXMODE_NEW);
-        Matrix_RotateY(tranform->shape.rot.y * (M_PI / 32768), MTXMODE_APPLY);
-        Matrix_RotateX(tranform->shape.rot.x * (M_PI / 32768), MTXMODE_APPLY);
-        Matrix_RotateZ(tranform->shape.rot.z * (M_PI / 32768), MTXMODE_APPLY);
+        Matrix_RotateY(tranform->shape.rot.y * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateX(tranform->shape.rot.x * (M_PI / 0x8000), MTXMODE_APPLY);
+        Matrix_RotateZ(tranform->shape.rot.z * (M_PI / 0x8000), MTXMODE_APPLY);
         Matrix_Scale(0.01f, 0.01f, 0.01f, MTXMODE_APPLY);
 
         // Draw red effect over the screen when arrow hits

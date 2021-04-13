@@ -14,7 +14,6 @@ HLAnimationIntermediette::HLAnimationIntermediette()
 
 HLAnimationIntermediette::~HLAnimationIntermediette()
 {
-
 }
 
 HLAnimationIntermediette* HLAnimationIntermediette::FromXML(std::string xmlPath)
@@ -30,11 +29,13 @@ HLAnimationIntermediette* HLAnimationIntermediette::FromXML(std::string xmlPath)
 	anim->limbCount = root->IntAttribute("LimbCount");
 	anim->frameCount = root->IntAttribute("FrameCount");
 
-	for (XMLElement* child = root->FirstChildElement(); child != NULL; child = child->NextSiblingElement())
+	for (XMLElement* child = root->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
 	{
 		if (string(child->Name()) == "RotationValues")
 		{
-			for (XMLElement* child2 = child->FirstChildElement(); child2 != NULL; child2 = child2->NextSiblingElement())
+			for (XMLElement* child2 = child->FirstChildElement(); child2 != NULL;
+			     child2 = child2->NextSiblingElement())
 			{
 				string value = child2->GetText();
 				anim->rotationValues.push_back(atoi(value.c_str()));
@@ -42,8 +43,11 @@ HLAnimationIntermediette* HLAnimationIntermediette::FromXML(std::string xmlPath)
 		}
 		else if (string(child->Name()) == "RotationIndices")
 		{
-			for (XMLElement* child2 = child->FirstChildElement(); child2 != NULL; child2 = child2->NextSiblingElement())
-				anim->rotationIndices.push_back(RotationIndex(child2->IntAttribute("X"), child2->IntAttribute("Y"), child2->IntAttribute("Z")));
+			for (XMLElement* child2 = child->FirstChildElement(); child2 != NULL;
+			     child2 = child2->NextSiblingElement())
+				anim->rotationIndices.push_back(RotationIndex(child2->IntAttribute("X"),
+				                                              child2->IntAttribute("Y"),
+				                                              child2->IntAttribute("Z")));
 		}
 	}
 
@@ -56,12 +60,12 @@ HLAnimationIntermediette* HLAnimationIntermediette::FromZAnimation(ZAnimation* z
 
 	/*anim->limit = zAnim->limit;
 	anim->frameCount = zAnim->frameCount;
-	
+
 	for (uint16_t item : zAnim->rotationValues)
-		anim->rotationValues.push_back(item);
+	    anim->rotationValues.push_back(item);
 
 	for (RotationIndex item : zAnim->rotationIndices)
-		anim->rotationIndices.push_back(item);*/
+	    anim->rotationIndices.push_back(item);*/
 
 	return anim;
 }
@@ -74,10 +78,10 @@ ZAnimation* HLAnimationIntermediette::ToZAnimation()
 	zAnim->frameCount = frameCount;
 
 	for (uint16_t item : rotationValues)
-		zAnim->rotationValues.push_back(item);
+	    zAnim->rotationValues.push_back(item);
 
 	for (RotationIndex item : rotationIndices)
-		zAnim->rotationIndices.push_back(item);*/
+	    zAnim->rotationIndices.push_back(item);*/
 
 	return zAnim;
 }
@@ -95,19 +99,19 @@ string HLAnimationIntermediette::OutputXML()
 	doc.InsertFirstChild(root);
 
 	XMLElement* rotValues = doc.NewElement("RotationValues");
-	
-	for (int i = 0; i < rotationValues.size(); i++)
+
+	for (size_t i = 0; i < rotationValues.size(); i++)
 	{
 		XMLElement* rotValue = doc.NewElement("Value");
 		rotValue->SetText(rotationValues[i]);
 		rotValues->InsertEndChild(rotValue);
 	}
-	
+
 	root->InsertEndChild(rotValues);
 
 	XMLElement* rotIndices = doc.NewElement("RotationIndices");
 
-	for (int i = 0; i < rotationIndices.size(); i++)
+	for (size_t i = 0; i < rotationIndices.size(); i++)
 	{
 		XMLElement* rotIndex = doc.NewElement("Value");
 		rotIndex->SetAttribute("X", rotationIndices[i].x);

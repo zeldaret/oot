@@ -402,7 +402,9 @@ u16 EnMd_GetTextLostWoods(GlobalContext* globalCtx, EnMd* this) {
     return 0x1060;
 }
 
-u16 EnMd_GetText(GlobalContext* globalCtx, EnMd* this) {
+u16 EnMd_GetText(GlobalContext* globalCtx, Actor* thisx) {
+    EnMd* this = THIS;
+
     switch (globalCtx->sceneNum) {
         case SCENE_SPOT04:
             return EnMd_GetTextKokiriForest(globalCtx, this);
@@ -415,7 +417,8 @@ u16 EnMd_GetText(GlobalContext* globalCtx, EnMd* this) {
     }
 }
 
-s16 func_80AAAF04(GlobalContext* globalCtx, EnMd* this) {
+s16 func_80AAAF04(GlobalContext* globalCtx, Actor* thisx) {
+    EnMd* this = THIS;
     switch (func_80AAAC78(this, globalCtx)) {
         case 0:
         case 1:
@@ -518,7 +521,7 @@ void func_80AAB158(EnMd* this, GlobalContext* globalCtx) {
         temp2 = 1;
     }
 
-    if ((globalCtx->csCtx.state != 0) || gDbgCamEnabled) {
+    if ((globalCtx->csCtx.state != CS_STATE_IDLE) || gDbgCamEnabled) {
         this->unk_1E0.unk_18 = globalCtx->view.eye;
         this->unk_1E0.unk_14 = 40.0f;
         temp = 2;
@@ -592,7 +595,7 @@ void func_80AAB5A4(EnMd* this, GlobalContext* globalCtx) {
                 (globalCtx->sceneNum == SCENE_SPOT04))
                    ? 100.0f
                    : 400.0f;
-        this->alpha = func_80034DD4(this, globalCtx, this->alpha, temp);
+        this->alpha = func_80034DD4(&this->actor, globalCtx, this->alpha, temp);
         this->actor.shape.shadowAlpha = this->alpha;
     } else {
         this->alpha = 255;
@@ -610,7 +613,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     CollisionCheck_SetInfo2(&this->actor.colChkInfo, NULL, &sColChkInfoInit);
-    if (!EnMd_ShouldSpawn(&this->actor, globalCtx)) {
+    if (!EnMd_ShouldSpawn(this, globalCtx)) {
         Actor_Kill(&this->actor);
         return;
     }
@@ -632,7 +635,7 @@ void EnMd_Init(Actor* thisx, GlobalContext* globalCtx) {
     }
 
     if (globalCtx->sceneNum != SCENE_KOKIRI_HOME4) {
-        EnMd_SetMovedPos(&this->actor, globalCtx);
+        EnMd_SetMovedPos(this, globalCtx);
     }
 
     this->actionFunc = func_80AAB874;
@@ -645,7 +648,7 @@ void EnMd_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 
 void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &D_060002C8) {
-        func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+        func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     } else if ((this->unk_1E0.unk_00 == 0) && (this->unk_20B != 7)) {
         func_80AAA92C(this, 7);
     }
@@ -655,7 +658,7 @@ void func_80AAB874(EnMd* this, GlobalContext* globalCtx) {
 
 void func_80AAB8F8(EnMd* this, GlobalContext* globalCtx) {
     if (this->skelAnime.animation == &D_060002C8) {
-        func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+        func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
     func_80AAA93C(this);
 }
@@ -707,7 +710,7 @@ void func_80AAB948(EnMd* this, GlobalContext* globalCtx) {
     }
 
     if (this->skelAnime.animation == &D_060002C8) {
-        func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+        func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     }
 
     if ((this->unk_1E0.unk_00 == 0) && (globalCtx->sceneNum == SCENE_SPOT10)) {
@@ -744,7 +747,7 @@ void func_80AABC10(EnMd* this, GlobalContext* globalCtx) {
 }
 
 void func_80AABD0C(EnMd* this, GlobalContext* globalCtx) {
-    func_80034F54(globalCtx, &this->unk_214, &this->unk_236, 17);
+    func_80034F54(globalCtx, this->unk_214, this->unk_236, 17);
     func_80AAA93C(this);
 
     if (!(EnMd_FollowPath(this, globalCtx)) || (this->waypoint != 0)) {

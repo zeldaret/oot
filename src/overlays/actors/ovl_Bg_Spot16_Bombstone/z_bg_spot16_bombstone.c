@@ -301,7 +301,7 @@ void func_808B5240(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
     // for(;this->unk_158 < ARRAY_COUNTU(D_808B5EB0); this->unk_158++)
 
     while (true) {
-        if (this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158][0]) {
+        if ((u32)this->unk_158 >= ARRAY_COUNTU(D_808B5EB0) || this->unk_154 < D_808B5EB0[this->unk_158][0]) {
             break;
         }
 
@@ -415,7 +415,7 @@ void func_808B57E0(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
             currentBomb = sPlayerBomb;
             if (currentBomb->timer > 0) {
                 sTimer = currentBomb->timer + 20;
-                func_800800F8(globalCtx, 0x1054, sTimer, NULL, 0);
+                OnePointCutscene_Init(globalCtx, 4180, sTimer, NULL, MAIN_CAM);
             }
         }
     } else if (player->stateFlags1 & 0x800) {
@@ -445,7 +445,7 @@ void func_808B5950(BgSpot16Bombstone* this, GlobalContext* globalCtx) {
 
         func_808B561C(this, globalCtx);
 
-        func_800800F8(globalCtx, 0x1054, 0x32, NULL, 0);
+        OnePointCutscene_Init(globalCtx, 4180, 50, NULL, MAIN_CAM);
 
         Flags_SetSwitch(globalCtx, this->switchFlag);
         gSaveContext.eventChkInf[2] |= 8;

@@ -49,8 +49,18 @@ static ColliderCylinderInit D_80AA0420 = {
 static u32 D_80AA044C[] = { 0x01000000, 0x00400000, 0x00800000 };
 static u32 D_80AA0458[] = { 0x08000000, 0x02000000, 0x04000000 };
 
-static u16 sSfxIds[] = { NA_SE_IT_ROLLING_CUT_LV2, NA_SE_IT_ROLLING_CUT_LV1, NA_SE_IT_ROLLING_CUT_LV2,
-                         NA_SE_IT_ROLLING_CUT_LV1 };
+static u16 sSfxIds[] = {
+    NA_SE_IT_ROLLING_CUT_LV2,
+    NA_SE_IT_ROLLING_CUT_LV1,
+    NA_SE_IT_ROLLING_CUT_LV2,
+    NA_SE_IT_ROLLING_CUT_LV1,
+};
+
+extern Gfx D_04012570[];
+extern Gfx D_04012690[];
+extern Gfx D_04012AF0[];
+extern Gfx D_04012C10[];
+extern Gfx D_04013610[];
 
 // Setup action
 void func_80A9EFE0(EnMThunder* this, EnMThunderActionFunc actionFunc) {
@@ -269,7 +279,7 @@ void func_80A9F938(EnMThunder* this, GlobalContext* globalCtx) {
 void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
 
-    if (Math_StepToF(&this->unk_1AC, 0.0f, 0.0625f)) {
+    if (Math_StepToF(&this->unk_1AC, 0.0f, 1 / 16.0f)) {
         Actor_Kill(&this->actor);
     } else {
         Math_SmoothStepToF(&this->actor.scale.x, (s32)this->unk_1C9, 0.6f, 0.8f, 0.0f);
@@ -288,7 +298,7 @@ void func_80A9F9B4(EnMThunder* this, GlobalContext* globalCtx) {
     if (this->unk_1AC > 0.6f) {
         this->unk_1B0 = 1.0f;
     } else {
-        this->unk_1B0 = this->unk_1AC * 1.6666666f;
+        this->unk_1B0 = this->unk_1AC * (5.0f / 3.0f);
     }
 
     func_80A9F938(this, globalCtx);

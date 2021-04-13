@@ -1288,16 +1288,16 @@ glabel func_8081BB10
 /* 095F8 8081CE18 0019C080 */  sll     $t8, $t9,  2               
 /* 095FC 8081CE1C 30440003 */  andi    $a0, $v0, 0x0003           ## $a0 = 00000001
 /* 09600 8081CE20 00042080 */  sll     $a0, $a0,  2               
-/* 09604 8081CE24 3C198012 */  lui     $t9, %hi(D_8012723C)
+/* 09604 8081CE24 3C198012 */  lui     $t9, %hi(gGoldSkullFlgMask)
 /* 09608 8081CE28 0324C821 */  addu    $t9, $t9, $a0              
 /* 0960C 8081CE2C 02587021 */  addu    $t6, $s2, $t8              
 /* 09610 8081CE30 8DCF0E9C */  lw      $t7, 0x0E9C($t6)           ## 00000EAA
-/* 09614 8081CE34 8F39723C */  lw      $t9, %lo(D_8012723C)($t9)
-/* 09618 8081CE38 3C0E8012 */  lui     $t6, %hi(D_8012724C)
+/* 09614 8081CE34 8F39723C */  lw      $t9, %lo(gGoldSkullFlgMask)($t9)
+/* 09618 8081CE38 3C0E8012 */  lui     $t6, %hi(gGoldSkullFlgShift)
 /* 0961C 8081CE3C 01C47021 */  addu    $t6, $t6, $a0              
 /* 09620 8081CE40 01F9C024 */  and     $t8, $t7, $t9              
 /* 09624 8081CE44 3C198083 */  lui     $t9, %hi(D_8082AC7C)       ## $t9 = 80830000
-/* 09628 8081CE48 8DCE724C */  lw      $t6, %lo(D_8012724C)($t6)
+/* 09628 8081CE48 8DCE724C */  lw      $t6, %lo(gGoldSkullFlgShift)($t6)
 /* 0962C 8081CE4C 0322C821 */  addu    $t9, $t9, $v0              
 /* 09630 8081CE50 9339AC7C */  lbu     $t9, %lo(D_8082AC7C)($t9)  
 /* 09634 8081CE54 01D87806 */  srlv    $t7, $t8, $t6              

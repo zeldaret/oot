@@ -3,7 +3,6 @@
 #include "../ZRoomCommand.h"
 #include "SetActorList.h"
 
-
 class SetStartPositionList : public ZRoomCommand
 {
 public:
@@ -17,7 +16,7 @@ public:
 	virtual std::string GetCommandCName();
 	virtual std::string GenerateExterns();
 	virtual RoomCommand GetRoomCommand();
+
 private:
-	
 	uint32_t segmentOffset;
 };

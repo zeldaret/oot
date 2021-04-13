@@ -190,7 +190,7 @@ glabel EnGanonMant_Draw
 /* 00F18 80A24C78 252A0158 */  addiu   $t2, $t1, 0x0158           ## $t2 = 00000158
 /* 00F1C 80A24C7C 0C288FF8 */  jal     func_80A23FE0              
 /* 00F20 80A24C80 AFAA0010 */  sw      $t2, 0x0010($sp)           
-/* 00F24 80A24C84 0C034221 */  jal     Matrix_Pull              
+/* 00F24 80A24C84 0C034221 */  jal     Matrix_Pop              
 /* 00F28 80A24C88 00000000 */  nop
 /* 00F2C 80A24C8C 00118400 */  sll     $s0, $s1, 16               
 /* 00F30 80A24C90 00108403 */  sra     $s0, $s0, 16               

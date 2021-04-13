@@ -10,10 +10,9 @@ void func_8006BA00(GlobalContext* globalCtx) {
 }
 
 void func_8006BA30(GlobalContext* globalCtx) {
-    SoundSource* source;
+    SoundSource* source = &globalCtx->soundSources[0];
     s32 i;
 
-    source = &globalCtx->soundSources[0];
     for (i = 0; i < ARRAY_COUNT(globalCtx->soundSources); i++) {
         if (source->countdown != 0) {
             if (DECR(source->countdown) == 0) {
@@ -30,11 +29,9 @@ void func_8006BA30(GlobalContext* globalCtx) {
 void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duration, u16 sfxId) {
     s32 countdown;
     SoundSource* source;
-    s32 smallestCountdown;
+    s32 smallestCountdown = 0xFFFF;
     SoundSource* backupSource;
     s32 i;
-
-    smallestCountdown = 0xFFFF;
 
     source = &globalCtx->soundSources[0];
     for (i = 0; i < ARRAY_COUNT(globalCtx->soundSources); i++) {
@@ -47,7 +44,6 @@ void Audio_PlaySoundAtPosition(GlobalContext* globalCtx, Vec3f* pos, s32 duratio
             smallestCountdown = countdown;
             backupSource = source;
         }
-
         source++;
     }
 

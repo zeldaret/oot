@@ -1,10 +1,10 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include <numeric>
 #include <stdarg.h>
 #include <string.h>
+#include <string>
+#include <vector>
 
 class StringHelper
 {
@@ -62,7 +62,7 @@ public:
 	static std::string Sprintf(const char* format, ...)
 	{
 		char buffer[32768];
-		//char buffer[2048];
+		// char buffer[2048];
 		std::string output = "";
 		va_list va;
 
@@ -77,9 +77,8 @@ public:
 	static std::string Implode(std::vector<std::string>& elements, const char* const separator)
 	{
 		return std::accumulate(std::begin(elements), std::end(elements), std::string(),
-			[separator](std::string& ss, std::string& s)
-			{
-				return ss.empty() ? s : ss + separator + s;
-			});
+		                       [separator](std::string& ss, std::string& s) {
+								   return ss.empty() ? s : ss + separator + s;
+							   });
 	}
 };
