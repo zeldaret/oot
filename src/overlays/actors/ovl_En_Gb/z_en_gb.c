@@ -377,7 +377,7 @@ void func_80A2FC0C(EnGb* this, GlobalContext* globalCtx) {
 void func_80A2FC70(EnGb* this, GlobalContext* globalCtx) {
     if (this->skelAnime.curFrame == Animation_GetLastFrame(&gPoeSellerSwingStickAnim)) {
         Animation_Change(&this->skelAnime, &gPoeSellerIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gPoeSellerIdleAnim),
-                         0, 0.0f);
+                         ANIMMODE_LOOP, 0.0f);
         this->actionFunc = func_80A2F83C;
     } else if (this->skelAnime.curFrame == 18.0f) {
         this->cagedSouls[1].unk_1 = 3;

@@ -263,11 +263,11 @@ void Gameplay_Init(GameState* thisx) {
         gSaveContext.nayrusLoveTimer = 0;
         func_800876C8(globalCtx);
         gSaveContext.sceneSetupIndex = (gSaveContext.cutsceneIndex & 0xF) + 4;
-    } else if (LINK_IS_CHILD && gSaveContext.nightFlag == 0) {
+    } else if (LINK_IS_CHILD && IS_DAY) {
         gSaveContext.sceneSetupIndex = 0;
-    } else if (LINK_IS_CHILD && gSaveContext.nightFlag != 0) {
+    } else if (LINK_IS_CHILD && IS_NIGHT) {
         gSaveContext.sceneSetupIndex = 1;
-    } else if (LINK_IS_ADULT && gSaveContext.nightFlag == 0) {
+    } else if (LINK_IS_ADULT && IS_DAY) {
         gSaveContext.sceneSetupIndex = 2;
     } else {
         gSaveContext.sceneSetupIndex = 3;
@@ -1029,7 +1029,7 @@ skip:
     }
 
     func_80070C24(globalCtx, &globalCtx->envCtx, &globalCtx->lightCtx, &globalCtx->pauseCtx, &globalCtx->msgCtx,
-                  &globalCtx->gameOverCtx, globalCtx->state.gfxCtx);
+                  &globalCtx->gameOverCtx.state, globalCtx->state.gfxCtx);
 }
 
 void Gameplay_DrawOverlayElements(GlobalContext* globalCtx) {

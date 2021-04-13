@@ -201,7 +201,7 @@ static u64* sMouthTex_ci8_16x16[] = { gPhantomGanonMouthTex, gPhantomGanonSmileT
 
 static InitChainEntry sInitChain[] = {
     ICHAIN_U8(targetMode, 5, ICHAIN_CONTINUE),
-    ICHAIN_S8(naviEnemyId, 43, ICHAIN_CONTINUE),
+    ICHAIN_S8(naviEnemyId, 0x2B, ICHAIN_CONTINUE),
     ICHAIN_F32_DIV1000(gravity, 0, ICHAIN_CONTINUE),
     ICHAIN_F32(targetArrowOffset, 0, ICHAIN_STOP),
 };

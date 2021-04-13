@@ -152,7 +152,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
     if (!textId) {}
 
     if (textId2 == 0) {
-        textId = gSaveContext.nightFlag ? 0x5051 : 0x5050; // "...all I can do is look at the stars."
+        textId = IS_NIGHT ? 0x5051 : 0x5050; // "...all I can do is look at the stars."
                                                            // "...all I can do is look at Death Mountain."
     }
 

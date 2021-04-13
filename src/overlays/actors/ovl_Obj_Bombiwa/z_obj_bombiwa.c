@@ -54,10 +54,10 @@ static ColliderCylinderInit sCylinderInit = {
 static CollisionCheckInfoInit sColChkInfoInit = { 0, 12, 60, MASS_IMMOVABLE };
 
 static InitChainEntry sInitChain[] = {
-    ICHAIN_VEC3F_DIV1000(scale, 0x64, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneForward, 0x7D0, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneScale, 0x15E, ICHAIN_CONTINUE),
-    ICHAIN_F32(uncullZoneDownward, 0x3E8, ICHAIN_STOP),
+    ICHAIN_VEC3F_DIV1000(scale, 100, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneForward, 2000, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneScale, 350, ICHAIN_CONTINUE),
+    ICHAIN_F32(uncullZoneDownward, 1000, ICHAIN_STOP),
 };
 
 static s16 sEffectScales[] = {

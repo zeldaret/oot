@@ -129,8 +129,8 @@ void EnHeishi2_Init(Actor* thisx, GlobalContext* globalCtx) {
         Collider_InitCylinder(globalCtx, collider);
         Collider_SetCylinder(globalCtx, collider, &this->actor, &sCylinderInit);
         this->collider.dim.yShift = 0;
-        this->collider.dim.radius = 0xF;
-        this->collider.dim.height = 0x46;
+        this->collider.dim.radius = 15;
+        this->collider.dim.height = 70;
         this->actor.targetMode = 6;
 
         switch (this->initParams) {
@@ -200,7 +200,7 @@ void func_80A53278(EnHeishi2* this, GlobalContext* globalCtx) {
         this->unk_300 = 6;
         this->actor.textId = 0x7006; // "There's a lot going on in the castle right now. I can't allow even..."
         this->actionFunc = func_80A5475C;
-    } else if (gSaveContext.nightFlag != 0) {
+    } else if (IS_NIGHT) {
         // "Sleep early for children!"
         osSyncPrintf(VT_FGCOL(YELLOW) " ☆☆☆☆☆ 子供ははやくネロ！ ☆☆☆☆☆ \n" VT_RST);
         this->unk_300 = 6;

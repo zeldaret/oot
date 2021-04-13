@@ -108,9 +108,9 @@ s32 ArmsHook_AttachToPlayer(ArmsHook* this, Player* player) {
     if (this->actor.child != NULL) {
         player->actor.parent = NULL;
         this->actor.child = NULL;
-        return 1;
+        return true;
     }
-    return 0;
+    return false;
 }
 
 void ArmsHook_DetachHookFromActor(ArmsHook* this) {

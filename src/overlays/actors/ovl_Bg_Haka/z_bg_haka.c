@@ -109,7 +109,7 @@ void func_8087B938(BgHaka* this, GlobalContext* globalCtx) {
         player->stateFlags2 &= ~0x10;
         if (this->dyna.actor.params == 1) {
             func_80078884(NA_SE_SY_CORRECT_CHIME);
-        } else if (gSaveContext.nightFlag && globalCtx->sceneNum == SCENE_SPOT02) {
+        } else if (IS_NIGHT && globalCtx->sceneNum == SCENE_SPOT02) {
             Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_POH, this->dyna.actor.home.pos.x,
                         this->dyna.actor.home.pos.y, this->dyna.actor.home.pos.z, 0, this->dyna.actor.shape.rot.y, 0,
                         1);

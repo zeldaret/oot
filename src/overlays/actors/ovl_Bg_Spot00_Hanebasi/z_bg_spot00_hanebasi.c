@@ -77,7 +77,7 @@ void BgSpot00Hanebasi_Init(Actor* thisx, GlobalContext* globalCtx) {
 
         if ((gSaveContext.sceneSetupIndex != 6) &&
             ((gSaveContext.sceneSetupIndex == 4) || (gSaveContext.sceneSetupIndex == 5) ||
-             ((LINK_IS_CHILD) && (gSaveContext.nightFlag != 0)))) {
+             ((LINK_IS_CHILD) && (IS_NIGHT)))) {
             this->dyna.actor.shape.rot.x = -0x4000;
         } else {
             this->dyna.actor.shape.rot.x = 0;
@@ -148,7 +148,7 @@ void BgSpot00Hanebasi_DrawBridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
         (!(CHECK_QUEST_ITEM(QUEST_GORON_RUBY))) || (!(CHECK_QUEST_ITEM(QUEST_ZORA_SAPPHIRE))) ||
         (gSaveContext.eventChkInf[8] & 1)) {
         if (this->dyna.actor.shape.rot.x != 0) {
-            if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && (gSaveContext.nightFlag == 0))) {
+            if (Flags_GetEnv(globalCtx, 0) || ((gSaveContext.sceneSetupIndex < 4) && (IS_DAY))) {
                 this->actionFunc = BgSpot00Hanebasi_DrawBridgeRiseAndFall;
                 this->destAngle = 0;
                 child->destAngle = 0;
@@ -159,7 +159,7 @@ void BgSpot00Hanebasi_DrawBridgeWait(BgSpot00Hanebasi* this, GlobalContext* glob
         }
 
         if ((this->dyna.actor.shape.rot.x == 0) && (gSaveContext.sceneSetupIndex < 4) && (LINK_IS_CHILD) &&
-            (gSaveContext.nightFlag != 0)) {
+            (IS_NIGHT)) {
             this->actionFunc = BgSpot00Hanebasi_DrawBridgeRiseAndFall;
             this->destAngle = -0x4000;
             child->destAngle = -0xFE0;

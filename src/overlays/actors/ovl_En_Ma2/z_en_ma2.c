@@ -88,7 +88,7 @@ u16 func_80AA19A0(GlobalContext* globalCtx, Actor* thisx) {
     if (gSaveContext.eventChkInf[1] & 0x100) {
         return 0x2056;
     }
-    if (gSaveContext.nightFlag == 1) {
+    if (IS_NIGHT2) {
         if (gSaveContext.infTable[8] & 0x1000) {
             return 0x2052;
         } else if (gSaveContext.infTable[8] & 0x4000) {
@@ -153,20 +153,20 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
         return 0;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&
-        (gSaveContext.nightFlag == 0) && (this->actor.shape.rot.z == 5)) {
+        (IS_DAY) && (this->actor.shape.rot.z == 5)) {
         return 1;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) &&
-        (gSaveContext.nightFlag == 1) && (this->actor.shape.rot.z == 6)) {
+        (IS_NIGHT2) && (this->actor.shape.rot.z == 6)) {
         return 2;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {
         return 0;
     }
-    if ((this->actor.shape.rot.z == 7) && (gSaveContext.nightFlag == 0)) {
+    if ((this->actor.shape.rot.z == 7) && (IS_DAY)) {
         return 3;
     }
-    if ((this->actor.shape.rot.z == 8) && (gSaveContext.nightFlag == 1)) {
+    if ((this->actor.shape.rot.z == 8) && (IS_NIGHT2)) {
         return 3;
     }
     return 0;

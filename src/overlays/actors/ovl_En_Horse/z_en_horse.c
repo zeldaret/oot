@@ -941,7 +941,7 @@ void EnHorse_Init(Actor* thisx, GlobalContext* globalCtx2) {
             return;
         }
     } else if (globalCtx->sceneNum == SCENE_MALON_STABLE) {
-        if (!gSaveContext.nightFlag || Flags_GetEventChkInf(0x18) || DREG(1) != 0 || LINK_IS_CHILD) {
+        if (IS_DAY || Flags_GetEventChkInf(0x18) || DREG(1) != 0 || LINK_IS_CHILD) {
             Actor_Kill(&this->actor);
             return;
         }

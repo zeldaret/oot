@@ -363,7 +363,7 @@ u16 func_80A6F810(GlobalContext* globalCtx, Actor* thisx) {
                                                       : 0x7014;
         case 12:
             if (globalCtx->sceneNum == SCENE_SPOT01) {
-                return gSaveContext.nightFlag ? 0x5084 : 0x5083;
+                return IS_NIGHT ? 0x5084 : 0x5083;
             } else {
                 return (gSaveContext.eventChkInf[8] & 1) ? 0x7044 : 0x7015;
             }
@@ -660,7 +660,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
                 return true;
             } else if (LINK_IS_CHILD) {
                 return true;
-            } else if (((this->actor.params & 0x7F) != 12) && (gSaveContext.nightFlag == 1)) {
+            } else if (((this->actor.params & 0x7F) != 12) && (IS_NIGHT2)) {
                 return false;
             } else {
                 return true;
@@ -700,7 +700,7 @@ s32 func_80A70AE4(EnHy* this, GlobalContext* globalCtx) {
         case SCENE_MARKET_ALLEY_N:
             if ((this->actor.params & 0x7F) != 14) {
                 return true;
-            } else if (gSaveContext.nightFlag == 1) {
+            } else if (IS_NIGHT2) {
                 return false;
             } else if ((gSaveContext.eventChkInf[8] & 1) && !(gSaveContext.eventChkInf[4] & 0x20)) {
                 return false;

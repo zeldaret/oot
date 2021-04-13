@@ -18,7 +18,7 @@ void BgDodoago_Draw(Actor* thisx, GlobalContext* globalCtx);
 
 void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx);
 void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx);
-void func_8087227C(BgDodoago* this, GlobalContext* globalCtx);
+void BgDodoago_DoNothing(BgDodoago* this, GlobalContext* globalCtx);
 void func_80872288(BgDodoago* this, GlobalContext* globalCtx);
 
 const ActorInit Bg_Dodoago_InitVars = {
@@ -121,12 +121,10 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     ActorShape_Init(&this->dyna.actor.shape, 0.0f, NULL, 0.0f);
 
     if (Flags_GetSwitch(globalCtx, (this->dyna.actor.params & 0x3F))) {
-        BgDodoago_SetupAction(this, func_8087227C);
+        BgDodoago_SetupAction(this, BgDodoago_DoNothing);
         this->dyna.actor.shape.rot.x = 0x1333;
         globalCtx->unk_11D30[0] = globalCtx->unk_11D30[1] = 0xFF;
-        return;
-    }
-
+    } else {
     Collider_InitCylinder(globalCtx, &this->colliders[0]);
     Collider_InitCylinder(globalCtx, &this->colliders[1]);
     Collider_InitCylinder(globalCtx, &this->colliders[2]);
@@ -135,6 +133,7 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
     Collider_SetCylinder(globalCtx, &this->colliders[2], &this->dyna.actor, &sColCylinderInit1);
     BgDodoago_SetupAction(this, func_80871CF4);
     D_808727C0[0] = 0;
+    }
 }
 
 void BgDodoago_Destroy(Actor* thisx, GlobalContext* globalCtx) {
@@ -178,7 +177,6 @@ void func_80871CF4(BgDodoago* this, GlobalContext* globalCtx) {
             D_80872824 = 0x32;
         }
     } else {
-
         if (Flags_GetEventChkInf(0xB0)) {
             Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[0]);
             Collider_UpdateCylinder(&this->dyna.actor, &this->colliders[1]);
@@ -242,7 +240,7 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
     func_800AA000(500.0f, 0x78, 0x14, 0xA);
 
     if (Math_SmoothStepToS(&this->dyna.actor.shape.rot.x, 0x1333, 0x6E - this->unk_164, 0x3E8, 0x32) == 0) {
-        BgDodoago_SetupAction(this, func_8087227C);
+        BgDodoago_SetupAction(this, BgDodoago_DoNothing);
         Audio_PlaySoundGeneral(NA_SE_EV_STONE_BOUND, &this->dyna.actor.projectedPos, 4, &D_801333E0, &D_801333E0,
                                &D_801333E8);
     } else {
@@ -251,7 +249,7 @@ void func_80871FB8(BgDodoago* this, GlobalContext* globalCtx) {
     }
 }
 
-void func_8087227C(BgDodoago* this, GlobalContext* globalCtx) {
+void BgDodoago_DoNothing(BgDodoago* this, GlobalContext* globalCtx) {
 }
 
 void func_80872288(BgDodoago* this, GlobalContext* globalCtx) {

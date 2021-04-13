@@ -179,7 +179,7 @@ void EnDekunuts_SetupBurrow(EnDekunuts* this) {
 
 void EnDekunuts_SetupBeginRun(EnDekunuts* this) {
     Animation_MorphToPlayOnce(&this->skelAnime, &gDekuNutsUnburrowAnim, -3.0f);
-    this->collider.dim.height = 0x25;
+    this->collider.dim.height = 37;
     this->actor.colChkInfo.mass = 0x32;
     Audio_PlayActorSound2(&this->actor, NA_SE_EN_NUTS_DAMAGE);
     this->collider.base.acFlags &= ~AC_ON;

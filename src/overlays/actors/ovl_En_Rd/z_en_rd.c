@@ -159,11 +159,11 @@ void EnRd_Init(Actor* thisx, GlobalContext* globalCtx) {
     if (thisx->params >= -1) {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_0600E778, &D_060087D0, this->jointTable, this->morphTable,
                            26);
-        thisx->naviEnemyId = 42;
+        thisx->naviEnemyId = 0x2A;
     } else {
         SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06003DD8, &D_060087D0, this->jointTable, this->morphTable,
                            26);
-        thisx->naviEnemyId = 45;
+        thisx->naviEnemyId = 0x2D;
     }
 
     Collider_InitCylinder(globalCtx, &this->collider);

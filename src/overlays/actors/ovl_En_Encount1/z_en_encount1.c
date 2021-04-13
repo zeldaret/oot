@@ -233,7 +233,7 @@ void EnEncount1_SpawnStalchildOrWolfos(EnEncount1* this, GlobalContext* globalCt
             this->outOfRangeTimer++;
             return;
         }
-    } else if (!gSaveContext.nightFlag || (Player_GetMask(globalCtx) == PLAYER_MASK_BUNNY)) {
+    } else if (IS_DAY || (Player_GetMask(globalCtx) == PLAYER_MASK_BUNNY)) {
         this->killCount = 0;
         return;
     }

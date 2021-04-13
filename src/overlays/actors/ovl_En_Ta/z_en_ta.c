@@ -202,7 +202,7 @@ void EnTa_Init(Actor* thisx, GlobalContext* globalCtx) {
                 } else if (LINK_IS_ADULT) {
                     Actor_Kill(&this->actor);
                 } else {
-                    if (gSaveContext.nightFlag == 0) {
+                    if (IS_DAY) {
                         this->actor.flags |= 0x10;
                         this->unk_2C4[0] = this->unk_2C4[1] = this->unk_2C4[2] = 7;
                         this->unk_2B8[0] = (EnNiw*)Actor_Spawn(

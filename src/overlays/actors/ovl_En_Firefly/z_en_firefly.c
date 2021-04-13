@@ -454,7 +454,6 @@ void EnFirefly_Die(EnFirefly* this, GlobalContext* globalCtx) {
 
 void EnFirefly_DiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
-
     Vec3f preyPos;
 
     SkelAnime_Update(&this->skelAnime);
@@ -586,6 +585,7 @@ void EnFirefly_Perch(EnFirefly* this, GlobalContext* globalCtx) {
 void EnFirefly_DisturbDiveAttack(EnFirefly* this, GlobalContext* globalCtx) {
     Player* player = PLAYER;
     Vec3f preyPos;
+
     SkelAnime_Update(&this->skelAnime);
 
     if (this->timer != 0) {
@@ -742,8 +742,8 @@ void EnFirefly_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList
     static Vec3f limbSrc = { 0.0f, 0.0f, 0.0f };
     Vec3f effPos;
     Vec3f* limbDest;
-    void* effPrimColor;
-    void* effEnvColor;
+    Color_RGBA8* effPrimColor;
+    Color_RGBA8* effEnvColor;
     MtxF mtx;
     s16 effScaleStep;
     s16 effLife;

@@ -114,13 +114,13 @@ u16 func_80A79010(GlobalContext* globalCtx) {
         return temp_v0;
     }
     if (gSaveContext.eventChkInf[1] & 0x100) {
-        if (gSaveContext.nightFlag == 0) {
+        if (IS_DAY) {
             return 0x205F;
         } else {
             return 0x2057;
         }
     }
-    if (gSaveContext.nightFlag == 1) {
+    if (IS_NIGHT2) {
         return 0x204E;
     }
     switch (gSaveContext.eventInf[0] & 0xF) {
@@ -343,15 +343,15 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD2 && (gSaveContext.nightFlag == 0) &&
+    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD2 && (IS_DAY) &&
         this->actor.shape.rot.z == 1 && !(gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
-    if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD2 && (gSaveContext.nightFlag == 0) &&
+    if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD2 && (IS_DAY) &&
         this->actor.shape.rot.z == 3 && (gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
-    if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD2 && gSaveContext.nightFlag == 1) {
+    if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD2 && IS_NIGHT2) {
         if ((this->actor.shape.rot.z == 2) && !(gSaveContext.eventChkInf[1] & 0x10)) {
             return 1;
         }
@@ -359,7 +359,7 @@ s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
             return 1;
         }
     }
-    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && (gSaveContext.nightFlag == 0)) {
+    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_ADULT && (IS_DAY)) {
         if ((this->actor.shape.rot.z == 5) && !(gSaveContext.eventChkInf[1] & 0x100)) {
             return 2;
         }
@@ -367,7 +367,7 @@ s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
             return 4;
         }
     }
-    if (globalCtx->sceneNum == SCENE_SOUKO && LINK_IS_ADULT && gSaveContext.nightFlag == 1) {
+    if (globalCtx->sceneNum == SCENE_SOUKO && LINK_IS_ADULT && IS_NIGHT2) {
         if (this->actor.shape.rot.z == 6 && !(gSaveContext.eventChkInf[1] & 0x100)) {
             return 3;
         }
