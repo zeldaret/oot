@@ -153,7 +153,7 @@ void func_809B064C(EnAni* this, GlobalContext* globalCtx) {
 
     if (textId2 == 0) {
         textId = IS_NIGHT ? 0x5051 : 0x5050; // "...all I can do is look at the stars."
-                                                           // "...all I can do is look at Death Mountain."
+                                             // "...all I can do is look at Death Mountain."
     }
 
     yawDiff = this->actor.yawTowardsPlayer - this->actor.shape.rot.y;

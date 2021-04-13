@@ -125,14 +125,14 @@ void BgDodoago_Init(Actor* thisx, GlobalContext* globalCtx) {
         this->dyna.actor.shape.rot.x = 0x1333;
         globalCtx->unk_11D30[0] = globalCtx->unk_11D30[1] = 0xFF;
     } else {
-    Collider_InitCylinder(globalCtx, &this->colliders[0]);
-    Collider_InitCylinder(globalCtx, &this->colliders[1]);
-    Collider_InitCylinder(globalCtx, &this->colliders[2]);
-    Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &sColCylinderInit0);
-    Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &sColCylinderInit1);
-    Collider_SetCylinder(globalCtx, &this->colliders[2], &this->dyna.actor, &sColCylinderInit1);
-    BgDodoago_SetupAction(this, func_80871CF4);
-    D_808727C0[0] = 0;
+        Collider_InitCylinder(globalCtx, &this->colliders[0]);
+        Collider_InitCylinder(globalCtx, &this->colliders[1]);
+        Collider_InitCylinder(globalCtx, &this->colliders[2]);
+        Collider_SetCylinder(globalCtx, &this->colliders[0], &this->dyna.actor, &sColCylinderInit0);
+        Collider_SetCylinder(globalCtx, &this->colliders[1], &this->dyna.actor, &sColCylinderInit1);
+        Collider_SetCylinder(globalCtx, &this->colliders[2], &this->dyna.actor, &sColCylinderInit1);
+        BgDodoago_SetupAction(this, func_80871CF4);
+        D_808727C0[0] = 0;
     }
 }
 

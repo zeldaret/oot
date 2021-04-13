@@ -528,7 +528,8 @@ void BossDodongo_SetupBlowFire(BossDodongo* this) {
 
 void BossDodongo_SetupInhale(BossDodongo* this) {
     this->actor.speedXZ = 0.0f;
-    Animation_Change(&this->skelAnime, &D_06008EEC, 1.0f, 0.0f, Animation_GetLastFrame(&D_06008EEC), ANIMMODE_ONCE, -5.0f);
+    Animation_Change(&this->skelAnime, &D_06008EEC, 1.0f, 0.0f, Animation_GetLastFrame(&D_06008EEC), ANIMMODE_ONCE,
+                     -5.0f);
     this->actionFunc = BossDodongo_Inhale;
     this->unk_1DA = 100;
     this->unk_1AC = 0;

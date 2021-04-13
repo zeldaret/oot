@@ -245,7 +245,8 @@ void EnDivingGame_HandlePlayChoice(EnDivingGame* this, GlobalContext* globalCtx)
                     this->actor.textId = 0x4054;
                 } else {
                     this->actor.textId = 0x85;
-                    this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter = false;
+                    this->allRupeesThrown = this->state = this->phase = this->unk_2A2 = this->grabbedRupeesCounter =
+                        false;
                 }
                 break;
             case 1: // No

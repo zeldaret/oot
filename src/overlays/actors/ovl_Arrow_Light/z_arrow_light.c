@@ -63,7 +63,8 @@ void ArrowLight_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void ArrowLight_Charge(ArrowLight* this, GlobalContext* globalCtx) {
-    EnArrow* arrow = (EnArrow*)this->actor.parent;;
+    EnArrow* arrow = (EnArrow*)this->actor.parent;
+    ;
 
     if ((arrow == NULL) || (arrow->actor.update == NULL)) {
         Actor_Kill(&this->actor);

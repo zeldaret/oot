@@ -152,12 +152,12 @@ u16 func_80AA1B58(EnMa2* this, GlobalContext* globalCtx) {
     if (LINK_IS_CHILD2) {
         return 0;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) &&
-        (IS_DAY) && (this->actor.shape.rot.z == 5)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_MALON_STABLE) && (IS_DAY) &&
+        (this->actor.shape.rot.z == 5)) {
         return 1;
     }
-    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) &&
-        (IS_NIGHT2) && (this->actor.shape.rot.z == 6)) {
+    if ((!(gSaveContext.eventChkInf[1] & 0x100)) && (globalCtx->sceneNum == SCENE_SPOT20) && (IS_NIGHT2) &&
+        (this->actor.shape.rot.z == 6)) {
         return 2;
     }
     if ((!(gSaveContext.eventChkInf[1] & 0x100)) || (globalCtx->sceneNum != SCENE_SPOT20)) {

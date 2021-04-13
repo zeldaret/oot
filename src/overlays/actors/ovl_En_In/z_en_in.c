@@ -343,12 +343,12 @@ s32 func_80A7975C(EnIn* this, GlobalContext* globalCtx) {
 }
 
 s32 func_80A79830(EnIn* this, GlobalContext* globalCtx) {
-    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD2 && (IS_DAY) &&
-        this->actor.shape.rot.z == 1 && !(gSaveContext.eventChkInf[1] & 0x10)) {
+    if (globalCtx->sceneNum == SCENE_SPOT20 && LINK_IS_CHILD2 && (IS_DAY) && this->actor.shape.rot.z == 1 &&
+        !(gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
-    if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD2 && (IS_DAY) &&
-        this->actor.shape.rot.z == 3 && (gSaveContext.eventChkInf[1] & 0x10)) {
+    if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD2 && (IS_DAY) && this->actor.shape.rot.z == 3 &&
+        (gSaveContext.eventChkInf[1] & 0x10)) {
         return 1;
     }
     if (globalCtx->sceneNum == SCENE_MALON_STABLE && LINK_IS_CHILD2 && IS_NIGHT2) {

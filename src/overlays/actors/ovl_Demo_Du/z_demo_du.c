@@ -504,8 +504,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo04(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo05(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(5);
     }
 }
@@ -524,8 +524,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo06(DemoDu* this, GlobalContext* globalCtx) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo07(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(7);
     }
 }
@@ -552,8 +552,8 @@ void DemoDu_CsGoronsRuby_AdvanceTo09(DemoDu* this, s32 animFinished) {
 
 void DemoDu_CsGoronsRuby_AdvanceTo10(DemoDu* this, s32 animFinished) {
     if (animFinished) {
-        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim), ANIMMODE_LOOP,
-                         0.0f);
+        Animation_Change(&this->skelAnime, &gDaruniaIdleAnim, 1.0f, 0.0f, Animation_GetLastFrame(&gDaruniaIdleAnim),
+                         ANIMMODE_LOOP, 0.0f);
         this->updateIndex = CS_GORONSRUBY_SUBSCENE(10);
     }
 }
