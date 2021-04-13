@@ -3797,7 +3797,7 @@ static u8 sBlinkTextures[] = { 0, 1, 2, 1 };
 
 s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex, PSkinAwb* arg3) {
     EnHorse* this = THIS;
-    s32 sp48 = 1;
+    s32 drawOriginalLimb = true;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8582);
     if (limbIndex == 13 && this->type == HORSE_EPONA) {
@@ -3806,10 +3806,10 @@ s32 EnHorse_SkinCallback2(Actor* thisx, GlobalContext* globalCtx, s32 limbIndex,
         gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(sEyeTextures[index]));
     } else if (this->type == HORSE_HNI && this->stateFlags & ENHORSE_FLAG_18 && limbIndex == 30) {
         func_800A5F60(globalCtx->state.gfxCtx, &this->skin, limbIndex, gHorseIngoGerudoSaddleDL, 0);
-        sp48 = 0;
+        drawOriginalLimb = false;
     }
     CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_en_horse.c", 8601);
-    return sp48;
+    return drawOriginalLimb;
 }
 
 void EnHorse_Draw(Actor* thisx, GlobalContext* globalCtx) {

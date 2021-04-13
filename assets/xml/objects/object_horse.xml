@@ -35,7 +35,7 @@
         <Limb Name="gEponaCannon3Limb" LimbType="Skin" Offset="0x9C28" />
         <Limb Name="gEponaCannon4Limb" LimbType="Skin" Offset="0x9CA8" />
 
-        <!-- Hoofs -->
+        <!-- Hooves -->
         <Texture Name="gEponaHorseshoeTex" OutName="epona_horseshoe" Format="rgb5a1" Width="8" Height="8" Offset="0xC110" />
         <Limb Name="gEponaHoof1Limb" LimbType="Skin" Offset="0x9B08" />
         <Limb Name="gEponaHoof2Limb" LimbType="Skin" Offset="0x9B88" />
