@@ -377,7 +377,7 @@ void EnExRuppy_Update(Actor* thisx, GlobalContext* globalCtx) {
     Actor_UpdateBgCheckInfo(globalCtx, &this->actor, 20.0f, 20.0f, 50.0f, 0x1C);
 }
 
-UNK_PTR D_80A0B3B8[] = {
+static void* D_80A0B3B8[] = {
     gRupeeGreenTex, gRupeeBlueTex, gRupeeRedTex, gRupeePinkTex, gRupeeOrangeTex,
 };
 

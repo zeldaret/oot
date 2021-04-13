@@ -73,7 +73,7 @@ extern AnimationHeader D_06011348;
 extern FlexSkeletonHeader D_060114E8;
 extern FlexSkeletonHeader D_060119E8;
 
-u8 D_80B2CEC0 = false;
+static u8 D_80B2CEC0 = false;
 
 const ActorInit En_Viewer_InitVars = {
     ACTOR_EN_VIEWER,
@@ -104,7 +104,7 @@ struct_80B2CEE8 D_80B2CEE8[] = {
     { OBJECT_GANON, OBJECT_GANON, 1, -6, 0, 10, 0, &D_060114E8, &D_06011348 },
 };
 
-EnViewerAnimFunc sAnimFuncs[] = {
+static EnViewerAnimFunc sAnimFuncs[] = {
     func_80B2A300,
     func_80B2A4D8,
     func_80B2A300,
@@ -118,9 +118,9 @@ static void* sActorShadowDrawFunc[] = {
 };
 
 // timer
-s16 D_80B2CFCC = 0;
+static s16 D_80B2CFCC = 0;
 
-Vec3f D_80B2CFD0 = { 0.0f, 0.0f, 0.0f };
+static Vec3f D_80B2CFD0 = { 0.0f, 0.0f, 0.0f };
 
 static EnViewerDrawFunc sDrawFuncs[] = {
     func_80B2B4A8,
@@ -131,9 +131,9 @@ static EnViewerDrawFunc sDrawFuncs[] = {
 
 // angl
 
-EnGanonMant* sGanonCape;
+static EnGanonMant* sGanonCape;
 
-Vec3f D_80B2D448;
+static Vec3f D_80B2D448;
 
 void EnViewer_SetupAction(EnViewer* this, EnViewerActionFunc actionFunc) {
     this->actionFunc = actionFunc;

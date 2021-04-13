@@ -111,7 +111,7 @@ static s16 sEffectTypeObjects[] = {
 
 static u8 sTimewarpVertexSizeIndices[] = { 1, 1, 2, 0, 1, 1, 2, 0, 1, 2, 0, 2, 1, 0, 1, 0, 2, 0, 2, 2, 0 };
 
-Color_RGB8 sJewelSparkleColors[5][2] = {
+static Color_RGB8 sJewelSparkleColors[5][2] = {
     { { 255, 255, 255 }, { 100, 255, 0 } }, { { 255, 255, 255 }, { 200, 0, 150 } },
     { { 255, 255, 255 }, { 0, 100, 255 } }, { { 0, 0, 0 }, { 0, 0, 0 } },
     { { 223, 0, 0 }, { 0, 0, 0 } },

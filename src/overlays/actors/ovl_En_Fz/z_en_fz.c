@@ -119,7 +119,7 @@ static ColliderCylinderInitType1 sCylinderInit3 = {
     { 20, 30, -15, { 0, 0, 0 } },
 };
 
-DamageTable sDamageTable = {
+static DamageTable sDamageTable = {
     /* Deku nut      */ DMG_ENTRY(0, 0x0),
     /* Deku stick    */ DMG_ENTRY(0, 0xF),
     /* Slingshot     */ DMG_ENTRY(0, 0xF),

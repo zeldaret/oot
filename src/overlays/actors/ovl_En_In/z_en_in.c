@@ -461,7 +461,7 @@ void func_80A79C78(EnIn* this, GlobalContext* globalCtx) {
     Interface_ChangeAlpha(2);
 }
 
-s32 D_80A7B998 = 0;
+static s32 D_80A7B998 = 0;
 
 void EnIn_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnIn* this = THIS;

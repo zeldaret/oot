@@ -1,6 +1,6 @@
 #include "global.h"
 
-MapMarkData sMapMarkDekuTree[] = {
+static MapMarkData sMapMarkDekuTree[] = {
     // Deku Tree minimap 0
     {
         { MAP_MARK_ICON_CHEST,
@@ -171,7 +171,7 @@ MapMarkData sMapMarkDekuTree[] = {
     },
 };
 
-MapMarkData sMapMarkDodongosCavern[] = {
+static MapMarkData sMapMarkDodongosCavern[] = {
     // Dodongo's Cavern minimap 0
     {
         { MAP_MARK_ICON_CHEST,
@@ -378,7 +378,7 @@ MapMarkData sMapMarkDodongosCavern[] = {
     },
 };
 
-MapMarkData sMapMarkJabuJabuBelly[] = {
+static MapMarkData sMapMarkJabuJabuBelly[] = {
     // Jabu-Jabu's Belly minimap 0
     {
         { MAP_MARK_ICON_CHEST,
@@ -597,7 +597,7 @@ MapMarkData sMapMarkJabuJabuBelly[] = {
     },
 };
 
-MapMarkData sMapMarkForestTemple[] = {
+static MapMarkData sMapMarkForestTemple[] = {
     // Forest Temple minimap 0
     {
         { MAP_MARK_ICON_NONE, 0, { 0 } },
@@ -957,7 +957,7 @@ MapMarkData sMapMarkForestTemple[] = {
     },
 };
 
-MapMarkData sMapMarkFireTemple[] = {
+static MapMarkData sMapMarkFireTemple[] = {
     // Fire Temple minimap 0
     {
         { MAP_MARK_ICON_NONE, 0, { 0 } },
@@ -1323,7 +1323,7 @@ MapMarkData sMapMarkFireTemple[] = {
     },
 };
 
-MapMarkData sMapMarkWaterTemple[] = {
+static MapMarkData sMapMarkWaterTemple[] = {
     // Water Temple minimap 0
     {
         { MAP_MARK_ICON_NONE, 0, { 0 } },
@@ -1680,7 +1680,7 @@ MapMarkData sMapMarkWaterTemple[] = {
     },
 };
 
-MapMarkData sMapMarkSpiritTemple[] = {
+static MapMarkData sMapMarkSpiritTemple[] = {
     // Spirit Temple minimap 0
     {
         { MAP_MARK_ICON_CHEST,
@@ -2106,7 +2106,7 @@ MapMarkData sMapMarkSpiritTemple[] = {
     },
 };
 
-MapMarkData sMapMarkShadowTemple[] = {
+static MapMarkData sMapMarkShadowTemple[] = {
     // Shadow Temple minimap 0
     {
         { MAP_MARK_ICON_NONE, 0, { 0 } },
@@ -2526,7 +2526,7 @@ MapMarkData sMapMarkShadowTemple[] = {
     },
 };
 
-MapMarkData sMapMarkBottomWell[] = {
+static MapMarkData sMapMarkBottomWell[] = {
     // Bottom of the Well minimap 0
     {
         { MAP_MARK_ICON_CHEST,
@@ -2634,7 +2634,7 @@ MapMarkData sMapMarkBottomWell[] = {
     },
 };
 
-MapMarkData sMapMarkIceCavern[] = {
+static MapMarkData sMapMarkIceCavern[] = {
     // Ice Cavern minimap 0
     {
         { MAP_MARK_ICON_NONE, 0, { 0 } },

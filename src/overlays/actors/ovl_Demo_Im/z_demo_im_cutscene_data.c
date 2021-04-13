@@ -2,7 +2,7 @@
 #include "z64cutscene_commands.h"
 
 // clang-format off
-CutsceneData D_8098786C[] = {
+static CutsceneData D_8098786C[] = {
     CS_BEGIN_CUTSCENE(32, 3000),
     CS_UNK_DATA_LIST(0x00000020, 1),
         CS_UNK_DATA(0x00010000, 0x0BB80000, 0x00000000, 0x00000000, 0xFFFFFFFC, 0x00000002, 0x00000000, 0xFFFFFFFC, 0x00000002, 0x00000000, 0x00000000, 0x00000000),

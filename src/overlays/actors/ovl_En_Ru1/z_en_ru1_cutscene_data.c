@@ -2,7 +2,7 @@
 #include "z64cutscene_commands.h"
 
 // clang-format off
-CutsceneData D_80AF0880[] = {
+static CutsceneData D_80AF0880[] = {
     CS_BEGIN_CUTSCENE(15, 1306),
     CS_PLAYER_ACTION_LIST(10),
         CS_PLAYER_ACTION(0x0027, 0, 50, 0x0000, 0x6C16, 0x0000, 12, -340, -2810, 12, -340, -2810, 1.1393037E-29f, 0.0f, 1.4E-45f),
@@ -110,9 +110,9 @@ CutsceneData D_80AF0880[] = {
     CS_END(),
 };
 
-u32 D_80AF10A0 = 0;
+static u32 D_80AF10A0 = 0;
 
-CutsceneData D_80AF10A4[] = {
+static CutsceneData D_80AF10A4[] = {
     CS_BEGIN_CUTSCENE(14, 1299),
     CS_PLAYER_ACTION_LIST(3),
         CS_PLAYER_ACTION(0x0005, 0, 272, 0x0000, 0xC000, 0x0000, -1085, -1025, -3347, -1085, -1025, -3347, 1.1393037E-29f, 0.0f, 1.4E-45f),
@@ -199,9 +199,9 @@ CutsceneData D_80AF10A4[] = {
     CS_END(),
 };
 
-u32 D_80AF1724 = 0;
+static u32 D_80AF1724 = 0;
 
-CutsceneData D_80AF1728[] = {
+static CutsceneData D_80AF1728[] = {
     CS_BEGIN_CUTSCENE(7, 1160),
     CS_MISC_LIST(1),
         CS_MISC(0x000C, 75, 627, 0x0000, 0x00000000, 0x00000000, 0xFFFFFFC0, 0x00000032, 0x00000000, 0xFFFFFFC0, 0x00000032, 0x00000000, 0x00000000, 0x00000000),

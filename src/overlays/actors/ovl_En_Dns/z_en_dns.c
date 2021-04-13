@@ -75,42 +75,42 @@ static ColliderCylinderInitType1 sCylinderInit = {
     { 18, 32, 0, { 0, 0, 0 } },
 };
 
-u16 D_809F040C[] = {
+static u16 D_809F040C[] = {
     0x10A0, 0x10A1, 0x10A2, 0x10CA, 0x10CB, 0x10CC, 0x10CD, 0x10CE, 0x10CF, 0x10DC, 0x10DD,
 };
 
 // Debug text: sells  { Deku Nuts, Deku Sticks, Piece of Heart, Deku Seeds,
 //                      Deku Shield, Bombs, Arrows, Red Potion,
 //                      Green Potion, Deku Stick Upgrade, Deku Nut Upgrade }
-char* D_809F0424[] = {
+static char* D_809F0424[] = {
     "デクの実売り            ", "デクの棒売り            ", "ハートの欠片売り        ", "デクの種売り            ",
     "デクの盾売り            ", "バクダン売り            ", "矢売り                  ", "赤のくすり売り          ",
     "緑のくすり売り          ", "デクの棒持てる数を増やす", "デクの実持てる数を増やす",
 };
 
-DnsItemEntry D_809F0450 = { 20, 5, GI_NUTS_5_2, func_809EF5A4, func_809EFA28 };
+static DnsItemEntry D_809F0450 = { 20, 5, GI_NUTS_5_2, func_809EF5A4, func_809EFA28 };
 
-DnsItemEntry D_809F0460 = { 15, 1, GI_STICKS_1, func_809EF658, func_809EF9F8 };
+static DnsItemEntry D_809F0460 = { 15, 1, GI_STICKS_1, func_809EF658, func_809EF9F8 };
 
-DnsItemEntry D_809F0470 = { 10, 1, GI_HEART_PIECE, func_809EF70C, func_809EFA58 };
+static DnsItemEntry D_809F0470 = { 10, 1, GI_HEART_PIECE, func_809EF70C, func_809EFA58 };
 
-DnsItemEntry D_809F0480 = { 40, 30, GI_SEEDS_30, func_809EF73C, func_809EF9F8 };
+static DnsItemEntry D_809F0480 = { 40, 30, GI_SEEDS_30, func_809EF73C, func_809EF9F8 };
 
-DnsItemEntry D_809F0490 = { 50, 1, GI_SHIELD_DEKU, func_809EF800, func_809EF9F8 };
+static DnsItemEntry D_809F0490 = { 50, 1, GI_SHIELD_DEKU, func_809EF800, func_809EF9F8 };
 
-DnsItemEntry D_809F04A0 = { 40, 5, GI_BOMBS_5, func_809EF854, func_809EFA9C };
+static DnsItemEntry D_809F04A0 = { 40, 5, GI_BOMBS_5, func_809EF854, func_809EFA9C };
 
-DnsItemEntry D_809F04B0 = { 70, 20, GI_ARROWS_LARGE, func_809EF8F4, func_809EFACC };
+static DnsItemEntry D_809F04B0 = { 70, 20, GI_ARROWS_LARGE, func_809EF8F4, func_809EFACC };
 
-DnsItemEntry D_809F04C0 = { 40, 1, GI_POTION_RED, func_809EF9A4, func_809EF9F8 };
+static DnsItemEntry D_809F04C0 = { 40, 1, GI_POTION_RED, func_809EF9A4, func_809EF9F8 };
 
-DnsItemEntry D_809F04D0 = { 40, 1, GI_POTION_GREEN, func_809EF9A4, func_809EF9F8 };
+static DnsItemEntry D_809F04D0 = { 40, 1, GI_POTION_GREEN, func_809EF9A4, func_809EF9F8 };
 
-DnsItemEntry D_809F04E0 = { 40, 1, GI_STICK_UPGRADE_20, func_809EF70C, func_809EFAFC };
+static DnsItemEntry D_809F04E0 = { 40, 1, GI_STICK_UPGRADE_20, func_809EF70C, func_809EFAFC };
 
-DnsItemEntry D_809F04F0 = { 40, 1, GI_NUT_UPGRADE_30, func_809EF70C, func_809EFB40 };
+static DnsItemEntry D_809F04F0 = { 40, 1, GI_NUT_UPGRADE_30, func_809EF70C, func_809EFB40 };
 
-DnsItemEntry* D_809F0500[] = {
+static DnsItemEntry* D_809F0500[] = {
     &D_809F0450, &D_809F0460, &D_809F0470, &D_809F0480, &D_809F0490, &D_809F04A0,
     &D_809F04B0, &D_809F04C0, &D_809F04D0, &D_809F04E0, &D_809F04F0,
 };
@@ -127,7 +127,7 @@ typedef struct {
     /* 0x08 */ f32 transitionRate;
 } DnsAnimInfo; // size = 0xC
 
-DnsAnimInfo D_809F0538[] = {
+static DnsAnimInfo D_809F0538[] = {
     { 0x06001108, 0x00, 0.0f },
     { 0x06004404, 0x02, 0.0f },
     { 0x060009A0, 0x02, 0.0f },

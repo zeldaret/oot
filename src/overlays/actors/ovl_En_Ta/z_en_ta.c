@@ -64,13 +64,13 @@ static ColliderCylinderInit sCylinderInit = {
     { 30, 40, 0, { 0, 0, 0 } },
 };
 
-Vec3f D_80B16E7C = {
+static Vec3f D_80B16E7C = {
     1100.0f,
     1000.0f,
     0.0f,
 };
 
-UNK_TYPE D_80B16E88[] = {
+static void* D_80B16E88[] = {
     0x06007F80,
     0x06006EC0,
     0x060072C0,

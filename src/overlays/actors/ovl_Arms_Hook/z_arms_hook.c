@@ -24,7 +24,7 @@ const ActorInit Arms_Hook_InitVars = {
     (ActorFunc)ArmsHook_Draw,
 };
 
-ColliderQuadInit sQuadInit = {
+static ColliderQuadInit sQuadInit = {
     {
         COLTYPE_NONE,
         AT_ON | AT_TYPE_PLAYER,

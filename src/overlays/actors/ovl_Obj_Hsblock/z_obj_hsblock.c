@@ -43,7 +43,7 @@ static InitChainEntry sInitChain[] = {
     ICHAIN_F32(uncullZoneDownward, 2000, ICHAIN_STOP),
 };
 
-CollisionHeader* D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
+static CollisionHeader* D_80B940DC[] = { 0x06000730, 0x06000730, 0x06000578 };
 
 static Color_RGB8 sFireTempleColor = { 165, 125, 55 };
 

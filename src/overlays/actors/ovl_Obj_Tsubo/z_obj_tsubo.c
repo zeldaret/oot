@@ -32,10 +32,10 @@ void ObjTsubo_LiftedUp(ObjTsubo* this, GlobalContext* globalCtx);
 void ObjTsubo_SetupThrown(ObjTsubo* this);
 void ObjTsubo_Thrown(ObjTsubo* this, GlobalContext* globalCtx);
 
-s16 D_80BA1B50 = 0;
-s16 D_80BA1B54 = 0;
-s16 D_80BA1B58 = 0;
-s16 D_80BA1B5C = 0;
+static s16 D_80BA1B50 = 0;
+static s16 D_80BA1B54 = 0;
+static s16 D_80BA1B58 = 0;
+static s16 D_80BA1B5C = 0;
 
 const ActorInit Obj_Tsubo_InitVars = {
     ACTOR_OBJ_TSUBO,

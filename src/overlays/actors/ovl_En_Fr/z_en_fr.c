@@ -101,7 +101,7 @@ typedef struct {
     f32 yDist;
 } LogSpotToFromWater;
 
-EnFrPointers sEnFrPointers = {
+static EnFrPointers sEnFrPointers = {
     0x00,
     {
         NULL,
@@ -113,12 +113,12 @@ EnFrPointers sEnFrPointers = {
 };
 
 // Flags for gSaveContext.eventChkInf[13]
-u16 sSongIndex[] = {
+static u16 sSongIndex[] = {
     0x0002, 0x0004, 0x0010, 0x0008, 0x0020, 0x0040, 0x0001, 0x0000,
 };
 
 // Frog to Index for Song Flag (sSongIndex) Mapping
-u8 sFrogToSongIndex[] = {
+static u8 sFrogToSongIndex[] = {
     FROG_SARIA, FROG_SUNS, FROG_SOT, FROG_ZL, FROG_EPONA,
 };
 
