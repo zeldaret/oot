@@ -5,6 +5,7 @@
  */
 
 #include "z_bg_po_event.h"
+#include "objects/object_po_sisters/object_po_sisters.h"
 
 #define FLAGS 0x00000000
 
@@ -28,13 +29,6 @@ void BgPoEvent_PaintingEmpty(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingAppear(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingPresent(BgPoEvent* this, GlobalContext* globalCtx);
 void BgPoEvent_PaintingBurn(BgPoEvent* this, GlobalContext* globalCtx);
-
-extern Gfx D_060075A0[];
-extern Gfx D_060079E0[];
-extern Gfx D_06006830[];
-extern Gfx D_06006D60[];
-extern Gfx D_06007230[];
-extern CollisionHeader D_06007860;
 
 const ActorInit Bg_Po_Event_InitVars = {
     ACTOR_BG_PO_EVENT,
@@ -164,7 +158,7 @@ void BgPoEvent_InitBlocks(BgPoEvent* this, GlobalContext* globalCtx) {
     s32 bgId;
 
     this->dyna.actor.flags |= 0x30;
-    CollisionHeader_GetVirtual(&D_06007860, &colHeader);
+    CollisionHeader_GetVirtual(&gPoSistersAmyBlockCol, &colHeader);
     this->dyna.bgId = DynaPoly_SetBgActor(globalCtx, &globalCtx->colCtx.dyna, &this->dyna.actor, colHeader);
     if ((this->type == 0) && (this->index != 3)) {
         newBlock = Actor_SpawnAsChild(&globalCtx->actorCtx, &this->dyna.actor, globalCtx, ACTOR_BG_PO_EVENT,
@@ -599,7 +593,10 @@ void BgPoEvent_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void BgPoEvent_Draw(Actor* thisx, GlobalContext* globalCtx) {
-    static Gfx* displayLists[] = { D_060075A0, D_060079E0, D_06006830, D_06006D60, D_06007230 };
+    static Gfx* displayLists[] = {
+        gPoSistersAmyBlockDL,     gPoSistersAmyBethBlockDL, gPoSistersJoellePaintingDL,
+        gPoSistersBethPaintingDL, gPoSistersAmyPaintingDL,
+    };
     s32 pad;
     BgPoEvent* this = THIS;
     u8 alpha;

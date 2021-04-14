@@ -1,6 +1,12 @@
+/*
+ * File: z_en_ge2.c
+ * Overlay: ovl_En_Ge2
+ * Description: Purple-clothed Gerudo
+ */
 
 #include "z_en_ge2.h"
 #include "vt.h"
+#include "objects/object_gla/object_gla.h"
 
 #define FLAGS 0x00000019
 
@@ -90,22 +96,15 @@ static EnGe2ActionFunc sActionFuncs[] = {
 };
 
 static AnimationHeader* sAnimations[] = {
-    0x06009ED4, // Walking, spear on shoulder
-    0x060098AC, // Standing, looking left and right
-    0x060098AC,
-    0x060011F4, // Falling to ground
-    0x060098AC,
-    0x06008D60, // Runnng, spear in attack position
-    0x060098AC, 0x060098AC, 0x060098AC,
+    &gGerudoPurpleWalkingAnim,         &gGerudoPurpleLookingAboutAnim, &gGerudoPurpleLookingAboutAnim,
+    &gGerudoPurpleFallingToGroundAnim, &gGerudoPurpleLookingAboutAnim, &gGerudoPurpleChargingAnim,
+    &gGerudoPurpleLookingAboutAnim,    &gGerudoPurpleLookingAboutAnim, &gGerudoPurpleLookingAboutAnim,
 };
 
 static u8 sAnimModes[] = {
     ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP, ANIMMODE_ONCE, ANIMMODE_LOOP,
     ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_LOOP, ANIMMODE_ONCE,
 };
-
-extern FlexSkeletonHeader D_06008968;
-extern AnimationHeader D_06009ED4;
 
 void EnGe2_ChangeAction(EnGe2* this, s32 i) {
     this->actionFunc = sActionFuncs[i];
@@ -119,8 +118,8 @@ void EnGe2_Init(Actor* thisx, GlobalContext* globalCtx) {
     EnGe2* this = THIS;
 
     ActorShape_Init(&this->actor.shape, 0.0f, ActorShadow_DrawCircle, 36.0f);
-    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &D_06008968, NULL, this->jointTable, this->morphTable, 22);
-    Animation_PlayLoop(&this->skelAnime, &D_06009ED4);
+    SkelAnime_InitFlex(globalCtx, &this->skelAnime, &gGerudoPurpleSkel, NULL, this->jointTable, this->morphTable, 22);
+    Animation_PlayLoop(&this->skelAnime, &gGerudoPurpleWalkingAnim);
     Collider_InitCylinder(globalCtx, &this->collider);
     Collider_SetCylinder(globalCtx, &this->collider, &this->actor, &sCylinderInit);
     this->actor.colChkInfo.mass = MASS_IMMOVABLE;
@@ -644,9 +643,9 @@ void EnGe2_PostLimbDraw(GlobalContext* globalCtx, s32 limbIndex, Gfx** dList, Ve
 }
 
 static u64* sEyeTextures[] = {
-    0x06004F78, // Half-open
-    0x06005578, // Quarter-open
-    0x06005BF8, // Closed
+    gGerudoPurpleEyeOpenTex,
+    gGerudoPurpleEyeHalfTex,
+    gGerudoPurpleEyeClosedTex,
 };
 
 void EnGe2_Draw(Actor* thisx, GlobalContext* globalCtx) {
