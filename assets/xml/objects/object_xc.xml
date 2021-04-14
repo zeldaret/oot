@@ -18,7 +18,7 @@
         <Animation Name="gShiekThrowingNutAnim" Offset="0x19598"/>
         <Animation Name="gShiekKneelingAnim" Offset="0x19C30"/>
         <Animation Name="gShiekHittingGroundAnim" Offset="0x19F78"/>
-        <Animation Name="gShiekAnim17" Offset="0x1A048"/>
+        <Animation Name="gShiekAnim_01A048" Offset="0x1A048"/>
         <Animation Name="gShiekPullingOutHarpAnim" Offset="0x1B19C"/>
         <Animation Name="gShiekFallingFromSkyAnim" Offset="0x1C0E8"/>
         <Texture Name="gShiekEyeOpenTex" OutName="shiek_eye_open" Format="ci8" Width="32" Height="32" Offset="0x4CC0"/>

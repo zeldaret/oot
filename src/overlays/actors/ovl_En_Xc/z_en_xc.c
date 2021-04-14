@@ -131,7 +131,7 @@ CsCmdActorAction* EnXc_GetCsCmd(GlobalContext* globalCtx, s32 npcActionIdx) {
 s32 EnXc_CompareCsAction(EnXc* this, GlobalContext* globalCtx, u16 action, s32 npcActionIdx) {
     CsCmdActorAction* csCmdActorAction = EnXc_GetCsCmd(globalCtx, npcActionIdx);
 
-    if (csCmdActorAction && csCmdActorAction->action == action) {
+    if (csCmdActorAction != NULL && csCmdActorAction->action == action) {
         return true;
     }
     return false;
@@ -256,8 +256,8 @@ void func_80B3C924(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void func_80B3C964(EnXc* this, GlobalContext* globalCtx) {
-    this->skelAnime.baseTransl = *this->skelAnime.jointTable;
-    this->skelAnime.prevTransl = *this->skelAnime.jointTable;
+    this->skelAnime.baseTransl = this->skelAnime.jointTable[0];
+    this->skelAnime.prevTransl = this->skelAnime.jointTable[0];
     this->skelAnime.moveFlags |= 3;
     AnimationContext_SetMoveActor(globalCtx, &this->actor, &this->skelAnime, 1.0f);
 }
@@ -288,7 +288,7 @@ s32 EnXc_MinuetCS(EnXc* this, GlobalContext* globalCtx) {
         f32 z = player->actor.world.pos.z;
         if (z < -2225.0f) {
             if (!Gameplay_InCsMode(globalCtx)) {
-                globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&spot05_sceneCutsceneData0x003F80);
+                globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gMinuetCs);
                 gSaveContext.cutsceneTrigger = 1;
                 gSaveContext.eventChkInf[5] |= 1;
                 Item_Give(globalCtx, ITEM_SONG_MINUET);
@@ -319,7 +319,7 @@ s32 EnXc_BoleroCS(EnXc* this, GlobalContext* globalCtx) {
         if ((posRot->pos.x > -784.0f) && (posRot->pos.x < -584.0f) && (posRot->pos.y > 447.0f) &&
             (posRot->pos.y < 647.0f) && (posRot->pos.z > -446.0f) && (posRot->pos.z < -246.0f) &&
             !Gameplay_InCsMode(globalCtx)) {
-            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&spot17_sceneCutsceneData0x0045D0);
+            globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(&gBoleroCs);
             gSaveContext.cutsceneTrigger = 1;
             gSaveContext.eventChkInf[5] |= 2;
             Item_Give(globalCtx, ITEM_SONG_BOLERO);
@@ -345,7 +345,7 @@ s32 EnXc_SerenadeCS(EnXc* this, GlobalContext* globalCtx) {
     if (this->actor.params == SHIEK_TYPE_SERENADE) {
         Player* player = PLAYER;
         s32 stateFlags = player->stateFlags1;
-        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && ((stateFlags << 2) >= 0) &&
+        if (CHECK_OWNED_EQUIP(EQUIP_BOOTS, 1) && !(gSaveContext.eventChkInf[5] & 4) && !(stateFlags & 0x20000000) &&
             !Gameplay_InCsMode(globalCtx)) {
             Cutscene_SetSegment(globalCtx, &ice_doukutu_sceneCutsceneData0x000330);
             gSaveContext.cutsceneTrigger = 1;
@@ -408,8 +408,8 @@ void EnXc_SetLandingSFX(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetColossusAppearSFX(EnXc* this, GlobalContext* globalCtx) {
-    s16 sceneNum;
     static Vec3f sXyzDist;
+    s16 sceneNum;
 
     if (gSaveContext.sceneSetupIndex == 4) {
         sceneNum = globalCtx->sceneNum;
@@ -446,38 +446,36 @@ static Vec3f D_80B42DA0;
 
 void EnXc_SetColossusWindSFX(GlobalContext* globalCtx) {
     if (gSaveContext.sceneSetupIndex == 4) {
-        s32 pad;
-        s16 sceneNum = globalCtx->sceneNum;
         static s32 D_80B41D90 = 0;
         static Vec3f sPos = { 0.0f, 0.0f, 0.0f };
         static f32 sMaxSpeed = 0.0f;
         static Vec3f D_80B42DB0;
+        s32 pad;
+        s16 sceneNum = globalCtx->sceneNum;
 
         if (sceneNum == SCENE_SPOT11) {
             CutsceneContext* csCtx = &globalCtx->csCtx;
             u16 frameCount = csCtx->frames;
 
-            if (frameCount >= 120) {
-                if (frameCount < 164) {
-                    s32 pad;
-                    Vec3f* eye = &globalCtx->view.eye;
+            if ((frameCount >= 120) && (frameCount < 164)) {
+                s32 pad;
+                Vec3f* eye = &globalCtx->view.eye;
 
-                    if (D_80B41D90 != 0) {
-                        f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
+                if (D_80B41D90 != 0) {
+                    f32 speed = Math3D_Vec3f_DistXYZ(&D_80B42DB0, eye) / 7.058922f;
 
-                        sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
+                    sMaxSpeed = CLAMP_MIN(sMaxSpeed, speed);
 
-                        osSyncPrintf("MAX speed = %f\n", sMaxSpeed);
+                    osSyncPrintf("MAX speed = %f\n", sMaxSpeed);
 
-                        speed = CLAMP_MAX(speed, 2.0f);
-                        func_800F436C(&sPos, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * speed));
-                    }
-
-                    D_80B42DB0.x = eye->x;
-                    D_80B42DB0.y = eye->y;
-                    D_80B42DB0.z = eye->z;
-                    D_80B41D90 = 1;
+                    speed = CLAMP_MAX(speed, 2.0f);
+                    func_800F436C(&sPos, NA_SE_EV_FLYING_AIR - SFX_FLAG, 0.6f + (0.4f * speed));
                 }
+
+                D_80B42DB0.x = eye->x;
+                D_80B42DB0.y = eye->y;
+                D_80B42DB0.z = eye->z;
+                D_80B41D90 = 1;
             }
         }
     }
@@ -518,9 +516,9 @@ void EnXc_DestroyFlame(EnXc* this) {
 }
 
 void EnXc_InitFlame(EnXc* this, GlobalContext* globalCtx) {
+    static s32 D_80B41DA8 = 1;
     s32 pad;
     s16 sceneNum = globalCtx->sceneNum;
-    static s32 D_80B41DA8 = 1;
 
     if (sceneNum == SCENE_SPOT17) {
         CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 0);
@@ -549,14 +547,13 @@ void func_80B3D48C(EnXc* this, GlobalContext* globalCtx) {
     s16 yaw;
 
     if (linkAction != NULL) {
-        yaw = (u16)linkAction->rot.y + 0x8000;
+        yaw = linkAction->urot.y + 0x8000;
     } else {
         Player* player = PLAYER;
         yaw = player->actor.world.rot.y + 0x8000;
     }
 
-    this->actor.world.rot.y = yaw;
-    this->actor.shape.rot.y = this->actor.world.rot.y;
+    this->actor.shape.rot.y = this->actor.world.rot.y = yaw;
 }
 
 AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
@@ -571,11 +568,10 @@ AnimationHeader* EnXc_GetCurrentHarpAnim(GlobalContext* globalCtx, s32 index) {
             animation = &gShiekPlayingHarp2Anim;
         } else if (action == 13) {
             animation = &gShiekPlayingHarp4Anim;
+        } else if (action == 23) {
+            animation = &gShiekPlayingHarpAnim;
         } else {
             animation = &gShiekPlayingHarp5Anim;
-            if (action == 23) {
-                animation = &gShiekPlayingHarpAnim;
-            }
         }
     }
     return animation;
@@ -587,13 +583,12 @@ void EnXc_CalcXZAccel(EnXc* this) {
 
     if (timer < 9.0f) {
         *speedXZ = 0.0f;
+    } else if (timer < 3.0f) {
+        *speedXZ = (((kREG(2) * 0.01f) + 1.2f) / 3.0f) * (timer - 9.0f);
     } else {
-        if (timer < 3.0f) {
-            *speedXZ = (((kREG(2) * 0.01f) + 1.2f) / 3.0f) * (timer - 9.0f);
-        } else {
-            *speedXZ = (kREG(2) * 0.01f) + 1.2f;
-        }
+        *speedXZ = (kREG(2) * 0.01f) + 1.2f;
     }
+
     Actor_MoveForward(&this->actor);
 }
 
@@ -634,25 +629,28 @@ void func_80B3D750(EnXc* this, GlobalContext* globalCtx) {
 void EnXc_SetupFallFromSkyAction(EnXc* this, GlobalContext* globalCtx) {
     s32 pad;
     CutsceneContext* csCtx = &globalCtx->csCtx;
-    CsCmdActorAction* npcAction;
 
-    if (csCtx->state && (npcAction = csCtx->npcActions[4], npcAction && npcAction->action == 2)) {
-        s32 pad;
-        Vec3f* pos = &this->actor.world.pos;
-        SkelAnime* skelAnime = &this->skelAnime;
-        f32 frameCount = Animation_GetLastFrame(&gShiekFallingFromSkyAnim);
+    if (csCtx->state != 0) {
+        CsCmdActorAction* npcAction = csCtx->npcActions[4];
 
-        this->action = SHIEK_ACTION_GRACEFUL_FALL;
-        this->drawMode = SHIEK_DRAW_DEFAULT;
+        if (npcAction && npcAction->action == 2) {
+            s32 pad;
+            Vec3f* pos = &this->actor.world.pos;
+            SkelAnime* skelAnime = &this->skelAnime;
+            f32 frameCount = Animation_GetLastFrame(&gShiekFallingFromSkyAnim);
 
-        pos->x = npcAction->startPos.x;
-        pos->y = npcAction->startPos.y;
-        pos->z = npcAction->startPos.z;
+            this->action = SHIEK_ACTION_GRACEFUL_FALL;
+            this->drawMode = SHIEK_DRAW_DEFAULT;
 
-        func_80B3D48C(this, globalCtx);
-        func_80B3C964(this, globalCtx);
-        Animation_Change(skelAnime, &gShiekFallingFromSkyAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
-        func_80B3D118(globalCtx);
+            pos->x = npcAction->startPos.x;
+            pos->y = npcAction->startPos.y;
+            pos->z = npcAction->startPos.z;
+
+            func_80B3D48C(this, globalCtx);
+            func_80B3C964(this, globalCtx);
+            Animation_Change(skelAnime, &gShiekFallingFromSkyAnim, 1.0f, 0.0f, frameCount, ANIMMODE_ONCE, 0.0f);
+            func_80B3D118(globalCtx);
+        }
     }
 }
 
@@ -753,13 +751,16 @@ void EnXc_SetupPlayingHarpAction(EnXc* this, GlobalContext* globalCtx, s32 animF
 
 void func_80B3DCA8(EnXc* this, GlobalContext* globalCtx) {
     f32 frameCount;
-    CsCmdActorAction* npcAction;
 
-    if (globalCtx->csCtx.state != 0 &&
-        (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 8)) {
-        frameCount = Animation_GetLastFrame(&gShiekInitialHarpAnim);
-        Animation_Change(&this->skelAnime, &gShiekInitialHarpAnim, 0.0f, frameCount, frameCount, ANIMMODE_LOOP, -8.0f);
-        this->action = SHIEK_ACTION_10;
+    if (globalCtx->csCtx.state != 0) {
+        CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
+
+        if (npcAction != NULL && npcAction->action == 8) {
+            frameCount = Animation_GetLastFrame(&gShiekInitialHarpAnim);
+            Animation_Change(&this->skelAnime, &gShiekInitialHarpAnim, 0.0f, frameCount, frameCount, ANIMMODE_LOOP,
+                             -8.0f);
+            this->action = SHIEK_ACTION_10;
+        }
     }
 }
 
@@ -800,15 +801,16 @@ void func_80B3DE78(EnXc* this, s32 animFinished) {
 }
 
 void EnXc_SetupReverseAccel(EnXc* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction;
+    if (globalCtx->csCtx.state != 0) {
+        CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
 
-    if (globalCtx->csCtx.state != 0 &&
-        (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 4)) {
-        Animation_Change(&this->skelAnime, &gShiekWalkingAnim, -1.0f, Animation_GetLastFrame(&gShiekWalkingAnim), 0.0f,
-                         ANIMMODE_LOOP, -12.0f);
-        this->action = SHIEK_ACTION_REVERSE_ACCEL;
-        this->actor.world.rot.y += 0x8000;
-        this->timer = 0.0f;
+        if (npcAction != NULL && npcAction->action == 4) {
+            Animation_Change(&this->skelAnime, &gShiekWalkingAnim, -1.0f, Animation_GetLastFrame(&gShiekWalkingAnim),
+                             0.0f, ANIMMODE_LOOP, -12.0f);
+            this->action = SHIEK_ACTION_REVERSE_ACCEL;
+            this->actor.world.rot.y += 0x8000;
+            this->timer = 0.0f;
+        }
     }
 }
 
@@ -851,20 +853,20 @@ void func_80B3E164(EnXc* this, GlobalContext* globalCtx) {
 }
 
 void EnXc_SetupDisappear(EnXc* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction;
-    s16 sceneNum;
+    if (globalCtx->csCtx.state != 0) {
+        CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
 
-    if (globalCtx->csCtx.state != 0 &&
-        (npcAction = globalCtx->csCtx.npcActions[4], npcAction && npcAction->action == 9)) {
-        sceneNum = globalCtx->sceneNum;
+        if (npcAction != NULL && npcAction->action == 9) {
+            s16 sceneNum = globalCtx->sceneNum;
 
-        // Shiek fades away if end of Bolero CS, kill actor otherwise
-        if (sceneNum == SCENE_SPOT17) {
-            this->action = SHIEK_ACTION_FADE;
-            this->drawMode = SHIEK_DRAW_NOTHING;
-            this->actor.shape.shadowAlpha = 0;
-        } else {
-            Actor_Kill(&this->actor);
+            // Shiek fades away if end of Bolero CS, kill actor otherwise
+            if (sceneNum == SCENE_SPOT17) {
+                this->action = SHIEK_ACTION_FADE;
+                this->drawMode = SHIEK_DRAW_NOTHING;
+                this->actor.shape.shadowAlpha = 0;
+            } else {
+                Actor_Kill(&this->actor);
+            }
         }
     }
 }
@@ -1116,30 +1118,36 @@ void func_80B3EC00(EnXc* this) {
 
 void func_80B3EC0C(EnXc* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
-    CsCmdActorAction* npcAction;
 
-    if (csCtx->state && (npcAction = csCtx->npcActions[4], npcAction != NULL && npcAction->action != 1)) {
-        PosRot* posRot = &this->actor.world;
-        Vec3i* startPos = &npcAction->startPos;
-        ActorShape* shape = &this->actor.shape;
+    if (csCtx->state != 0) {
+        CsCmdActorAction* npcAction = csCtx->npcActions[4];
 
-        posRot->pos.x = startPos->x;
-        posRot->pos.y = startPos->y;
-        posRot->pos.z = startPos->z;
+        if ((npcAction != NULL) && (npcAction->action != 1)) {
+            PosRot* posRot = &this->actor.world;
+            Vec3i* startPos = &npcAction->startPos;
+            ActorShape* shape = &this->actor.shape;
 
-        posRot->rot.y = shape->rot.y = npcAction->rot.y;
+            posRot->pos.x = startPos->x;
+            posRot->pos.y = startPos->y;
+            posRot->pos.z = startPos->z;
 
-        this->action = SHIEK_ACTION_22;
-        this->drawMode = SHIEK_DRAW_DEFAULT;
+            posRot->rot.y = shape->rot.y = npcAction->rot.y;
+
+            this->action = SHIEK_ACTION_22;
+            this->drawMode = SHIEK_DRAW_DEFAULT;
+        }
     }
 }
 
 void func_80B3EC90(EnXc* this, GlobalContext* globalCtx) {
     CutsceneContext* csCtx = &globalCtx->csCtx;
-    CsCmdActorAction* npcAction;
 
-    if (csCtx->state && (npcAction = csCtx->npcActions[4], npcAction != NULL && npcAction->action != 6)) {
-        func_80B3C9EC(this);
+    if (csCtx->state != 0) {
+        CsCmdActorAction* npcAction = csCtx->npcActions[4];
+
+        if (npcAction != NULL && npcAction->action != 6) {
+            func_80B3C9EC(this);
+        }
     }
 }
 
@@ -1388,8 +1396,8 @@ void func_80B3F534(GlobalContext* globalCtx) {
 }
 
 void func_80B3F59C(EnXc* this, GlobalContext* globalCtx) {
-    CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 0);
     static s32 D_80B41DAC = 1;
+    CsCmdActorAction* npcAction = EnXc_GetCsCmd(globalCtx, 0);
 
     if (npcAction != NULL) {
         s32 action = npcAction->action;
@@ -1440,7 +1448,7 @@ void EnXc_SetupKneelAction(EnXc* this, GlobalContext* globalCtx) {
 
 void func_80B3F754(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_CompareCsAction(this, globalCtx, 22, 4)) {
-        EnXc_ChangeAnimation(this, &gShiekAnim17, ANIMMODE_LOOP, 0.0f, false);
+        EnXc_ChangeAnimation(this, &gShiekAnim_01A048, ANIMMODE_LOOP, 0.0f, false);
         this->action = SHIEK_ACTION_51;
         func_80B3C588(this, globalCtx, 4);
     }
@@ -1522,10 +1530,10 @@ void EnXc_PlayTriforceSFX(Actor* thisx, GlobalContext* globalCtx) {
         Vec3f src;
         Vec3f pos;
         Vec3f sp1C = { 0.0f, 0.0f, 0.0f };
-        f32 wDest[1];
+        f32 wDest;
 
         Matrix_MultVec3f(&sp1C, &src);
-        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &src, &pos, wDest);
+        SkinMatrix_Vec3fMtxFMultXYZW(&globalCtx->mf_11D60, &src, &pos, &wDest);
         Audio_PlaySoundAtPosition(globalCtx, &pos, 80, NA_SE_EV_TRIFORCE_MARK);
         this->unk_2A8 = 0;
     }
@@ -1592,8 +1600,10 @@ void EnXc_CalcTriforce(Actor* thisx, GlobalContext* globalCtx) {
 void func_80B3FF0C(EnXc* this, GlobalContext* globalCtx) {
     if (EnXc_CsActionsAreNotEqual(this, globalCtx, 1, 4)) {
         CutsceneContext* csCtx = &globalCtx->csCtx;
-        if (csCtx->state) {
+
+        if (csCtx->state != 0) {
             CsCmdActorAction* npcAction = globalCtx->csCtx.npcActions[4];
+
             if (npcAction != NULL) {
                 PosRot* posRot = &this->actor.world;
                 ActorShape* shape = &this->actor.shape;
@@ -1696,7 +1706,7 @@ void EnXc_DrawTriforce(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_oA2_inMetamol.c", 565);
     if (this->unk_2BC != 0) {
-        Mtx* mtx = (Mtx*)Graph_Alloc(gfxCtx, sizeof(Mtx));
+        Mtx* mtx = Graph_Alloc(gfxCtx, sizeof(Mtx));
         s32* primColor = this->triforcePrimColor;
         s32* envColor = this->triforceEnvColor;
         f32* scale = this->triforceScale;
@@ -2118,25 +2128,25 @@ void EnXc_DrawSquintingEyes(Actor* thisx, GlobalContext* globalCtx) {
 
     OPEN_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 839);
     func_80093D18(gfxCtx);
-    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(&gShiekEyeSquintingTex));
-    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(&gShiekEyeSquintingTex));
+    gSPSegment(POLY_OPA_DISP++, 0x08, SEGMENTED_TO_VIRTUAL(gShiekEyeSquintingTex));
+    gSPSegment(POLY_OPA_DISP++, 0x09, SEGMENTED_TO_VIRTUAL(gShiekEyeSquintingTex));
     SkelAnime_DrawFlexOpa(globalCtx, skelAnime->skeleton, skelAnime->jointTable, skelAnime->dListCount, NULL, NULL,
                           NULL);
     CLOSE_DISPS(gfxCtx, "../z_en_oA2_inStalker.c", 854);
 }
 
-void EnXc_PreludeCS(EnXc* this, GlobalContext* globalCtx) {
+void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
-        // If Sheik is not in front of Master Sword Pedestal
         if (!(gSaveContext.eventChkInf[12] & 0x20)) {
-            gSaveContext.eventChkInf[12] |= 0x20; // Set flag for Sheik in front of Master Sword Pedestal
+            gSaveContext.eventChkInf[12] |= 0x20;
+            // replace cutscne with proper name 
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(tokinoma_sceneCutsceneData0x0046F0);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, globalCtx);
-            // If Sheik is in front of Master Sword Pedestal and Player has obtained Forest Medallion
         } else if (!(gSaveContext.eventChkInf[5] & 0x20) && (gSaveContext.eventChkInf[4] & 0x100)) {
-            gSaveContext.eventChkInf[5] |= 0x20; // Set Sheik moved away from Master Sword Pedestal flag
+            gSaveContext.eventChkInf[5] |= 0x20;
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
+            // replace cutscne with proper name 
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(tokinoma_sceneCutsceneData0x006D20);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHIEK_ACTION_30;
@@ -2318,7 +2328,7 @@ void EnXc_Init(Actor* thisx, GlobalContext* globalCtx) {
             EnXc_SetupSerenadeAction(this, globalCtx);
             break;
         case SHIEK_TYPE_9:
-            EnXc_PreludeCS(this, globalCtx);
+            EnXc_InitTempleOfTime(this, globalCtx);
             break;
         case SHIEK_TYPE_0:
             EnXc_DoNothing(this, globalCtx);
