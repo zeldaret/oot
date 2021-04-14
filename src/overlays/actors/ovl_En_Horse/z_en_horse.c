@@ -2753,10 +2753,10 @@ void EnHorse_BridgeJumpInit(EnHorse* this, GlobalContext* globalCtx) {
 void EnHorse_StartBridgeJump(EnHorse* this, GlobalContext* globalCtx) {
     this->postDrawFunc = EnHorse_BridgeJumpInit;
     if (this->bridgeJumpIdx == 0) {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot09_sceneCutsceneData0x002AC0);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFieldFortressCs);
         gSaveContext.cutsceneTrigger = 1;
     } else {
-        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(spot09_sceneCutsceneData0x000230);
+        globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gGerudoValleyBridgeJumpFortressToFieldCs);
         gSaveContext.cutsceneTrigger = 1;
     }
 }
