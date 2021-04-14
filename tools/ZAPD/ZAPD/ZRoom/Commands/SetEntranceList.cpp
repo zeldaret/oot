@@ -50,7 +50,7 @@ string SetEntranceList::GenerateSourceCodePass1(string roomName, int baseAddress
 	for (EntranceEntry* entry : entrances)
 	{
 		declaration +=
-			StringHelper::Sprintf("\t{ 0x%02X, 0x%02X }, //0x%06X \n", entry->startPositionIndex,
+			StringHelper::Sprintf("    { 0x%02X, 0x%02X }, //0x%06X \n", entry->startPositionIndex,
 		                          entry->roomToLoad, segmentOffset + (index * 2));
 		index++;
 	}

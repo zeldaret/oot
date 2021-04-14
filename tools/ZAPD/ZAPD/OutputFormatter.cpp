@@ -1,6 +1,6 @@
 #include "OutputFormatter.h"
 
-int OutputFormatter::write(const char* buf, int count)
+int OutputFormatter::Write(const char* buf, int count)
 {
 	for (int i = 0; i < count; i++)
 	{
@@ -9,13 +9,13 @@ int OutputFormatter::write(const char* buf, int count)
 		if (c == '\n')
 		{
 			col = 0;
-			current_indent = nest_indent[nest];
+			currentIndent = nestIndent[nest];
 		}
 		else if (c == '\t')
 		{
-			int n = tab_size - (col % tab_size);
+			int n = tabSize - (col % tabSize);
 			for (int j = 0; j < n - 1; j++)
-				*space_p++ = ' ';
+				*spaceP++ = ' ';
 			c = ' ';
 			col += n;
 		}
@@ -27,8 +27,8 @@ int OutputFormatter::write(const char* buf, int count)
 		if (c == '(')
 		{
 			nest++;
-			nest_indent[nest] = col;
-			current_indent = col;
+			nestIndent[nest] = col;
+			currentIndent = col;
 		}
 		else if (c == ')')
 		{
@@ -37,58 +37,58 @@ int OutputFormatter::write(const char* buf, int count)
 
 		if (c == ' ' || c == '\t' || c == '\n')
 		{
-			str.append(word, word_p - word);
-			word_p = word;
+			str.append(word, wordP - word);
+			wordP = word;
 
-			*space_p++ = c;
+			*spaceP++ = c;
 		}
 		else
 		{
-			if (col > line_limit)
+			if (col > lineLimit)
 			{
 				str.append(1, '\n');
-				str.append(current_indent, ' ');
-				col = current_indent + 1 + (word_p - word);
+				str.append(currentIndent, ' ');
+				col = currentIndent + 1 + (wordP - word);
 			}
 			else
 			{
-				str.append(space, space_p - space);
+				str.append(space, spaceP - space);
 			}
-			space_p = space;
+			spaceP = space;
 
-			*word_p++ = c;
+			*wordP++ = c;
 		}
 	}
 
 	return count;
 }
 
-OutputFormatter* OutputFormatter::static_instance;
+OutputFormatter* OutputFormatter::Instance;
 
-int OutputFormatter::write_static(const char* buf, int count)
+int OutputFormatter::WriteStatic(const char* buf, int count)
 {
-	return static_instance->write(buf, count);
+	return Instance->Write(buf, count);
 }
 
-int (*OutputFormatter::static_writer())(const char* buf, int count)
+int (*OutputFormatter::StaticWriter())(const char* buf, int count)
 {
-	static_instance = this;
-	return &write_static;
+	Instance = this;
+	return &WriteStatic;
 }
 
-OutputFormatter::OutputFormatter(int tab_size, int default_indent, int line_limit)
-	: tab_size{tab_size}, default_indent{default_indent}, line_limit{line_limit}, col{0}, nest{0},
-	  nest_indent{default_indent}, current_indent{default_indent}, word_p{word}, space_p{space}
+OutputFormatter::OutputFormatter(int tabSize, int defaultIndent, int lineLimit)
+	: tabSize{tabSize}, defaultIndent{defaultIndent}, lineLimit{lineLimit}, col{0}, nest{0},
+	  nestIndent{defaultIndent}, currentIndent{defaultIndent}, wordP{word}, spaceP{space}
 {
 }
 
-std::string OutputFormatter::get_output()
+std::string OutputFormatter::GetOutput()
 {
-	str.append(space, space_p - space);
-	space_p = space;
+	str.append(space, spaceP - space);
+	spaceP = space;
 
-	str.append(word, word_p - word);
-	word_p = word;
+	str.append(word, wordP - word);
+	wordP = word;
 
 	return std::move(str);
 }

@@ -11,10 +11,16 @@ SetCollisionHeader::SetCollisionHeader(ZRoom* nZRoom, std::vector<uint8_t> rawDa
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	segmentOffset = GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4));
-	collisionHeader = ZCollisionHeader(
-		nZRoom->parent,
-		StringHelper::Sprintf("%sCollisionHeader0x%06X", nZRoom->GetName().c_str(), segmentOffset),
-		rawData, segmentOffset);
+	collisionHeader = new ZCollisionHeader(nZRoom->parent);
+	collisionHeader->SetRawData(rawData);
+	collisionHeader->SetRawDataIndex(segmentOffset);
+	collisionHeader->SetName(
+		StringHelper::Sprintf("%sCollisionHeader0x%06X", nZRoom->GetName().c_str(), segmentOffset));
+	collisionHeader->ParseRawData();
+
+	// collisionHeader->ExtractFromXML(nZRoom->parent,
+	// StringHelper::Sprintf("%sCollisionHeader0x%06X", nZRoom->GetName().c_str(), segmentOffset),
+	// rawData, segmentOffset);
 }
 
 string SetCollisionHeader::GenerateSourceCodePass1(string roomName, int baseAddress)

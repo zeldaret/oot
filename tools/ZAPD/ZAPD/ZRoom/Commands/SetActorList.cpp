@@ -3,7 +3,7 @@
 #include "../../Globals.h"
 #include "../../StringHelper.h"
 #include "../../ZFile.h"
-#include "../ActorList.h"
+#include "../ZNames.h"
 #include "../ZRoom.h"
 
 using namespace std;
@@ -56,12 +56,12 @@ string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
 
 	sourceOutput +=
 		StringHelper::Sprintf("%s 0x%02X, (u32)%sActorList0x%06X };",
-	                          ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-	                          numActors, roomName.c_str(), segmentOffset);
+							  ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
+							  numActors, roomName.c_str(), segmentOffset);
 
 	// zRoom->parent->AddDeclaration(segmentOffset, DeclarationAlignment::None,
 	// DeclarationPadding::None, GetRawDataSize(), "SCmdActorList",
-	//ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress), sourceOutput);
+	// ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress), sourceOutput);
 
 	string declaration = "";
 
@@ -70,41 +70,40 @@ string SetActorList::GenerateSourceCodePass2(string roomName, int baseAddress)
 	{
 		uint16_t actorNum = entry->actorNum;
 
-		// SW97 Actor 0x22 was removed, so we want to not output a working actor.
-		if (actorNum == 0x22 && Globals::Instance->game == ZGame::OOT_SW97)
+		if (Globals::Instance->game == ZGame::MM_RETAIL)
+		{
 			declaration += StringHelper::Sprintf(
-				"\t//{ %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X",
-				/*StringHelper::Sprintf("SW_REMOVED_0x%04X", actorNum).c_str()*/
-				"ACTOR_DUNGEON_KEEP", entry->posX, entry->posY, entry->posZ, entry->rotX,
-				entry->rotY, entry->rotZ, (uint16_t)entry->initVar, segmentOffset + (index * 16));
+				"    { %s, %i, %i, %i, SPAWN_ROT_FLAGS(%i, 0x%04X), SPAWN_ROT_FLAGS(%i, 0x%04X), SPAWN_ROT_FLAGS(%i, 0x%04X), 0x%04X }, //0x%06X",
+				ZNames::GetActorName(actorNum).c_str(), entry->posX, entry->posY, entry->posZ,
+				(entry->rotX >> 7) & 0b111111111, entry->rotX & 0b1111111,
+				(entry->rotY >> 7) & 0b111111111, entry->rotY & 0b1111111,
+				(entry->rotZ >> 7) & 0b111111111, entry->rotZ & 0b1111111,
+				(uint16_t)entry->initVar, segmentOffset + (index * 16));
+		}
 		else
 		{
-			// SW97 Actor 0x23 and above are shifted up by one because 0x22 was removed between SW97
-			// and retail. We need to shift down by one
-			if (Globals::Instance->game == ZGame::OOT_SW97 && actorNum >= 0x23)
-				actorNum--;
-
-			if (actorNum < sizeof(ActorList) / sizeof(ActorList[0]))
-				declaration +=
-					StringHelper::Sprintf("\t{ %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X",
-				                          ActorList[actorNum].c_str(), entry->posX, entry->posY,
-				                          entry->posZ, entry->rotX, entry->rotY, entry->rotZ,
-				                          (uint16_t)entry->initVar, segmentOffset + (index * 16));
-			else
-				declaration += StringHelper::Sprintf(
-					"\t{ 0x%04X, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X", actorNum, entry->posX,
-					entry->posY, entry->posZ, entry->rotX, entry->rotY, entry->rotZ,
+			declaration +=
+				StringHelper::Sprintf("    { %s, %i, %i, %i, %i, %i, %i, 0x%04X }, //0x%06X",
+					ZNames::GetActorName(actorNum).c_str(), entry->posX, entry->posY,
+					entry->posZ, entry->rotX, entry->rotY, entry->rotZ,
 					(uint16_t)entry->initVar, segmentOffset + (index * 16));
 
 			if (index < actors.size() - 1)
 				declaration += "\n";
 		}
 
+		if (index < actors.size() - 1)
+			declaration += "\n";
+
 		index++;
 	}
 
+	DeclarationPadding padding = DeclarationPadding::Pad16;
+	if (Globals::Instance->game == ZGame::MM_RETAIL)
+		padding = DeclarationPadding::None;
+
 	zRoom->parent->AddDeclarationArray(
-		segmentOffset, DeclarationAlignment::None, DeclarationPadding::Pad16, actors.size() * 16,
+		segmentOffset, DeclarationAlignment::None, padding, actors.size() * 16,
 		"ActorEntry", StringHelper::Sprintf("%sActorList0x%06X", roomName.c_str(), segmentOffset),
 		GetActorListArraySize(), declaration);
 
@@ -142,7 +141,7 @@ size_t SetActorList::GetActorListArraySize()
 string SetActorList::GenerateExterns()
 {
 	return StringHelper::Sprintf("extern ActorEntry %sActorList0x%06X[%i];\n",
-	                             zRoom->GetName().c_str(), segmentOffset, GetActorListArraySize());
+								 zRoom->GetName().c_str(), segmentOffset, GetActorListArraySize());
 }
 
 string SetActorList::GetCommandCName()

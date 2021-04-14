@@ -5,27 +5,23 @@
 #include "StringHelper.h"
 #include "ZFile.h"
 
-ZScalar* ZScalar::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                                 const int rawDataIndex, const std::string& nRelPath)
-{
-	ZScalar* scalar = new ZScalar();
-	scalar->rawData = nRawData;
-	scalar->rawDataIndex = rawDataIndex;
-	scalar->ParseXML(reader);
-	scalar->ParseRawData();
+REGISTER_ZFILENODE(Scalar, ZScalar);
 
-	return scalar;
-}
-
-ZScalar::ZScalar() : ZResource()
+ZScalar::ZScalar(ZFile* nParent) : ZResource(nParent)
 {
 	memset(&scalarData, 0, sizeof(ZScalarData));
 	scalarType = ZSCALAR_NONE;
 }
 
-ZScalar::ZScalar(const ZScalarType scalarType) : ZScalar()
+ZScalar::ZScalar(const ZScalarType scalarType, ZFile* nParent) : ZScalar(nParent)
 {
 	this->scalarType = scalarType;
+}
+
+void ZScalar::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+                             const int nRawDataIndex, const std::string& nRelPath)
+{
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }
 
 void ZScalar::ParseXML(tinyxml2::XMLElement* reader)

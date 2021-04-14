@@ -31,6 +31,10 @@ protected:
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	void FixRawData();
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const int nRawDataIndex,
+	                    const std::string& nRelPath) override;  // Extract Mode
+
 	void PrepareBitmap();
 	void PrepareBitmapRGBA16();
 	void PrepareBitmapRGBA32();
@@ -54,20 +58,21 @@ protected:
 	float GetPixelMultiplyer();
 	bool IsExternalResource() override;
 	ZResourceType GetResourceType() override;
+	std::string GetSourceTypeName() override;
 	void CalcHash() override;
 
 public:
-	ZTexture();
+	ZTexture(ZFile* nParent);
 	~ZTexture();
 
 	bool isPalette;
 
 	static ZTexture* BuildFromXML(tinyxml2::XMLElement* reader, std::string inFolder,
 	                              bool readFile);
-	static ZTexture* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData,
-	                                int rawDataIndex, std::string nRelPath);
+	// static ZTexture* ExtractFromXML(tinyxml2::XMLElement* reader, std::vector<uint8_t> nRawData,
+	// int rawDataIndex, std::string nRelPath, ZFile* nParent);
 	static ZTexture* FromBinary(TextureType nType, std::vector<uint8_t> nRawData, int rawDataIndex,
-	                            std::string nName, int nWidth, int nHeight);
+	                            std::string nName, int nWidth, int nHeight, ZFile* nParent);
 	static ZTexture* FromPNG(std::string pngFilePath, TextureType texType);
 	static ZTexture* FromHLTexture(HLTexture* hlTex);
 	static TextureType GetTextureTypeFromString(std::string str);

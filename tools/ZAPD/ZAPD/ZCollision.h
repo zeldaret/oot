@@ -77,20 +77,21 @@ public:
 	int32_t numWaterBoxes;
 	segptr_t waterBoxAddress;
 
-	std::vector<VertexEntry*> vertices;
-	std::vector<PolygonEntry*> polygons;
+	uint32_t vtxSegmentOffset, polySegmentOffset, polyTypeDefSegmentOffset, camDataSegmentOffset,
+		waterBoxSegmentOffset;
+
+	std::vector<VertexEntry> vertices;
+	std::vector<PolygonEntry> polygons;
 	std::vector<uint64_t> polygonTypes;
 	std::vector<WaterBoxHeader*> waterBoxes;
 	CameraDataList* camData;
 
-	ZCollisionHeader();
-	// ZCollisionHeader(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex);
-	ZCollisionHeader(ZFile* parent, const std::string& prefix, const std::vector<uint8_t>& rawData,
-	                 int rawDataIndex);
+	ZCollisionHeader(ZFile* nParent);
 	~ZCollisionHeader();
 
 	ZResourceType GetResourceType() override;
 
-	static ZCollisionHeader* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                                        std::vector<uint8_t> nRawData, int rawDataIndex);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const int nRawDataIndex, const std::string& nRelPath) override;
+	void ParseRawData();
 };

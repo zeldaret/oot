@@ -11,7 +11,7 @@ enum class RoomCommand : uint8_t
 {
 	SetStartPositionList = 0x00,
 	SetActorList = 0x01,
-	SetCameraSomething = 0x02,
+	SetCsCamera = 0x02,
 	SetCollisionHeader = 0x03,
 	SetRoomList = 0x04,
 	SetWind = 0x05,
@@ -35,6 +35,14 @@ enum class RoomCommand : uint8_t
 	SetCutscenes = 0x17,
 	SetAlternateHeaders = 0x18,
 	SetCameraSettings = 0x19,
+
+	// MM Commands
+	SetWorldMapVisited = 0x19,
+	SetAnimatedTextureList = 0x1A,
+	SetActorCutsceneList = 0x1B,
+	SetMinimapList = 0x1C,
+	Unused1D = 0x1D,
+	SetMinimapChests = 0x1E,
 
 	Error = 0xFF
 };

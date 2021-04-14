@@ -3,7 +3,9 @@
 #include "StringHelper.h"
 #include "ZFile.h"
 
-ZArray::ZArray()
+REGISTER_ZFILENODE(Array, ZArray);
+
+ZArray::ZArray(ZFile* nParent) : ZResource(nParent)
 {
 }
 
@@ -22,9 +24,8 @@ std::string ZArray::GetSourceOutputCode(const std::string& prefix)
 	std::string output = "";
 
 	if (testFile->resources.size() <= 0)
-	{
-		throw StringHelper::Sprintf("Error! Array needs at least one sub-element.\n");
-	}
+		throw std::runtime_error(
+			StringHelper::Sprintf("Error! Array needs at least one sub-element.\n"));
 
 	ZResource* res = testFile->resources[0];
 	int resSize = res->GetRawDataSize();
@@ -61,15 +62,11 @@ int ZArray::GetRawDataSize()
 	return arrayCnt * testFile->resources[0]->GetRawDataSize();
 }
 
-ZArray* ZArray::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                               const int rawDataIndex, const std::string& nRelPath, ZFile* nParent)
+void ZArray::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+                            const int nRawDataIndex, const std::string& nRelPath)
 {
-	ZArray* arr = new ZArray();
-	arr->rawData = nRawData;
-	arr->rawDataIndex = rawDataIndex;
-	arr->parent = nParent;
-	arr->ParseXML(reader);
+	rawData = nRawData;
+	rawDataIndex = nRawDataIndex;
+	ParseXML(reader);
 	// arr->ParseRawData();
-
-	return arr;
 }

@@ -3,6 +3,7 @@
 #include <stdint.h>
 #include <string>
 #include <vector>
+#include "ZFile.h"
 #include "ZResource.h"
 #include "tinyxml2.h"
 
@@ -397,23 +398,28 @@ public:
 	size_t GetCommandSize();
 };
 
-class ZCutscene : public ZResource
+class ZCutsceneBase : public ZResource
 {
 public:
-	uint32_t segmentOffset;
+	ZCutsceneBase(ZFile* nParent);
+	virtual uint32_t getSegmentOffset() = 0;
+};
 
-	ZCutscene(std::vector<uint8_t> nRawData, int rawDataIndex, int rawDataSize);
+class ZCutscene : public ZCutsceneBase
+{
+public:
+	ZCutscene(ZFile* nParent);
 	~ZCutscene();
 
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	int GetRawDataSize() override;
 	CutsceneCommands GetCommandFromID(int id);
+	uint32_t getSegmentOffset() override { return rawDataIndex; }
 
 	ZResourceType GetResourceType() override;
 
-	static ZCutscene* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                                 const std::vector<uint8_t>& nRawData, const int rawDataIndex,
-	                                 const std::string& nRelPath);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const int nRawDataIndex, const std::string& nRelPath) override;
 
 protected:
 	int numCommands;

@@ -1,7 +1,19 @@
 #pragma once
 
 #include "../../ZCutscene.h"
+#include "../../ZCutsceneMM.h"
 #include "../ZRoomCommand.h"
+
+class CutsceneEntry
+{
+public:
+	CutsceneEntry(std::vector<uint8_t> rawData, int rawDataIndex);
+
+	uint32_t segmentOffset;
+	uint16_t exit;
+	uint8_t entrance;
+	uint8_t flag;
+};
 
 class SetCutscenes : public ZRoomCommand
 {
@@ -17,8 +29,10 @@ public:
 	virtual std::string GenerateExterns();
 
 private:
-	ZCutscene* cutscene;
+	std::vector<ZCutsceneBase*> cutscenes;
+	std::vector<CutsceneEntry*> cutsceneEntries; // (MM Only)
 	uint32_t segmentOffset;
+	uint8_t numCutscenes; // (MM Only)
 	std::vector<uint8_t> _rawData;
 	int _rawDataIndex;
 };

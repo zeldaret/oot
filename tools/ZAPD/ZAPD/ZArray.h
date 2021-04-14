@@ -9,15 +9,14 @@
 class ZArray : public ZResource
 {
 public:
-	ZArray();
+	ZArray(ZFile* nParent);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	std::string GetSourceOutputCode(const std::string& prefix) override;
 	int GetRawDataSize() override;
 
-	static ZArray* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                              const std::vector<uint8_t>& nRawData, const int rawDataIndex,
-	                              const std::string& nRelPath, ZFile* nParent);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const int nRawDataIndex, const std::string& nRelPath) override;
 
 protected:
 	int arrayCnt;

@@ -15,6 +15,6 @@ public:
 	virtual RoomCommand GetRoomCommand();
 
 private:
-	ZCollisionHeader collisionHeader;
+	ZCollisionHeader* collisionHeader;
 	uint32_t segmentOffset;
 };

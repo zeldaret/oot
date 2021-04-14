@@ -42,7 +42,7 @@ string SetExitList::GenerateSourceCodePass1(string roomName, int baseAddress)
 	string declaration = "";
 
 	for (uint16_t exit : exits)
-		declaration += StringHelper::Sprintf("\t0x%04X,\n", exit);
+		declaration += StringHelper::Sprintf("    0x%04X,\n", exit);
 	;
 
 	zRoom->parent->AddDeclarationArray(

@@ -41,12 +41,12 @@ string SetAlternateHeaders::GenerateSourceCodePass1(string roomName, int baseAdd
 
 	for (int i = 0; i < numHeaders; i++)
 	{
-		// sprintf(line, "\t0x%06X,\n", headers[i]);
+		// sprintf(line, "    0x%06X,\n", headers[i]);
 
 		if (headers[i] == 0)
-			declaration += StringHelper::Sprintf("\t0,\n");
+			declaration += StringHelper::Sprintf("    0,\n");
 		else
-			declaration += StringHelper::Sprintf("\t(u32)&%sSet%04XCmd00,\n", roomName.c_str(),
+			declaration += StringHelper::Sprintf("    (u32)&%sSet%04XCmd00,\n", roomName.c_str(),
 			                                     headers[i] & 0x00FFFFFF);
 	}
 

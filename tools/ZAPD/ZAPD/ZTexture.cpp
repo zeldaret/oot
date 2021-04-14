@@ -4,17 +4,21 @@
 
 #include "ZTexture.h"
 #include "BitConverter.h"
+#include "CRC32.h"
 #include "File.h"
+#include "Globals.h"
 #include "Path.h"
-#include "StringHelper.h"
 
+#include <Directory.h>
 #include "stb_image.h"
 #include "stb_image_write.h"
 
 using namespace std;
 using namespace tinyxml2;
 
-ZTexture::ZTexture() : ZResource()
+REGISTER_ZFILENODE(Texture, ZTexture);
+
+ZTexture::ZTexture(ZFile* nParent) : ZResource(nParent)
 {
 	bmpRgb = nullptr;
 	bmpRgba = nullptr;
@@ -43,29 +47,24 @@ ZTexture::~ZTexture()
 	type = TextureType::Error;
 }
 
-// EXTRACT MODE
-ZTexture* ZTexture::ExtractFromXML(XMLElement* reader, vector<uint8_t> nRawData, int nRawDataIndex,
-                                   string nRelPath)
+void ZTexture::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+                              const int nRawDataIndex, const std::string& nRelPath)
 {
-	ZTexture* tex = new ZTexture();
+	ParseXML(reader);
+	rawDataIndex = nRawDataIndex;
+	rawData = vector<uint8_t>(nRawData.data() + rawDataIndex,
+	                          nRawData.data() + rawDataIndex + GetRawDataSize());
 
-	tex->ParseXML(reader);
-	tex->rawDataIndex = nRawDataIndex;
-	tex->rawData = vector<uint8_t>(nRawData.data() + tex->rawDataIndex,
-	                               nRawData.data() + tex->rawDataIndex + tex->GetRawDataSize());
+	relativePath = nRelPath;
 
-	tex->relativePath = nRelPath;
-
-	tex->FixRawData();
-	tex->PrepareBitmap();
-
-	return tex;
+	FixRawData();
+	PrepareBitmap();
 }
 
 ZTexture* ZTexture::FromBinary(TextureType nType, std::vector<uint8_t> nRawData, int nRawDataIndex,
-                               std::string nName, int nWidth, int nHeight)
+                               std::string nName, int nWidth, int nHeight, ZFile* nParent)
 {
-	ZTexture* tex = new ZTexture();
+	ZTexture* tex = new ZTexture(nParent);
 
 	tex->width = nWidth;
 	tex->height = nHeight;
@@ -83,10 +82,10 @@ ZTexture* ZTexture::FromBinary(TextureType nType, std::vector<uint8_t> nRawData,
 	return tex;
 }
 
-// BUILD MODE
+// Build Source File Mode
 ZTexture* ZTexture::BuildFromXML(XMLElement* reader, string inFolder, bool readFile)
 {
-	ZTexture* tex = new ZTexture();
+	ZTexture* tex = new ZTexture(nullptr);
 
 	tex->ParseXML(reader);
 
@@ -99,7 +98,7 @@ ZTexture* ZTexture::BuildFromXML(XMLElement* reader, string inFolder, bool readF
 ZTexture* ZTexture::FromPNG(string pngFilePath, TextureType texType)
 {
 	int comp;
-	ZTexture* tex = new ZTexture();
+	ZTexture* tex = new ZTexture(nullptr);
 	tex->type = texType;
 	tex->name = StringHelper::Split(Path::GetFileNameWithoutExtension(pngFilePath), ".")[0];
 
@@ -149,7 +148,7 @@ ZTexture* ZTexture::FromPNG(string pngFilePath, TextureType texType)
 
 ZTexture* ZTexture::FromHLTexture(HLTexture* hlTex)
 {
-	ZTexture* tex = new ZTexture();
+	ZTexture* tex = new ZTexture(nullptr);
 
 	tex->width = hlTex->width;
 	tex->height = hlTex->height;
@@ -163,10 +162,23 @@ void ZTexture::ParseXML(XMLElement* reader)
 	ZResource::ParseXML(reader);
 
 	if (reader->Attribute("Width") != nullptr)
+	{
 		width = atoi(reader->Attribute("Width"));
+	}
+	else
+	{
+		throw std::runtime_error("Width == nullptr for asset " + (string)reader->Attribute("Name"));
+	}
 
 	if (reader->Attribute("Height") != nullptr)
+	{
 		height = atoi(reader->Attribute("Height"));
+	}
+	else
+	{
+		throw std::runtime_error("Height == nullptr for asset " +
+		                         (string)reader->Attribute("Name"));
+	}
 
 	string formatStr = reader->Attribute("Format");
 
@@ -763,58 +775,65 @@ TextureType ZTexture::GetTextureType()
 
 void ZTexture::Save(const std::string& outFolder)
 {
+	CalcHash();
+
+	std::string outPath = outFolder;
+
+	// POOL CHECK
+	if (Globals::Instance->cfg->texturePool.find(hash) != Globals::Instance->cfg->texturePool.end())
+	{
+		outPath = Path::GetDirectoryName(Globals::Instance->cfg->texturePool[hash]);
+		outName = Path::GetFileNameWithoutExtension(Globals::Instance->cfg->texturePool[hash]);
+	}
+
+	if (!Directory::Exists(outPath))
+		Directory::CreateDirectory(outPath);
+
 	if (type == TextureType::RGBA32bpp)
-		stbi_write_png((outFolder + "/" + outName + ".rgba32.png").c_str(), width, height, 4,
-		               bmpRgba, width * 4);
+		stbi_write_png((outPath + "/" + outName + ".rgba32.png").c_str(), width, height, 4, bmpRgba,
+		               width * 4);
 	else if (type == TextureType::RGBA16bpp)
-		stbi_write_png((outFolder + "/" + outName + ".rgb5a1.png").c_str(), width, height, 4,
-		               bmpRgba, width * 4);
+		stbi_write_png((outPath + "/" + outName + ".rgb5a1.png").c_str(), width, height, 4, bmpRgba,
+		               width * 4);
 	else if (type == TextureType::Grayscale8bpp)
-		stbi_write_png((outFolder + "/" + outName + ".i8.png").c_str(), width, height, 3, bmpRgb,
+		stbi_write_png((outPath + "/" + outName + ".i8.png").c_str(), width, height, 3, bmpRgb,
 		               width * 3);
 	else if (type == TextureType::Grayscale4bpp)
-		stbi_write_png((outFolder + "/" + outName + ".i4.png").c_str(), width, height, 3, bmpRgb,
+		stbi_write_png((outPath + "/" + outName + ".i4.png").c_str(), width, height, 3, bmpRgb,
 		               width * 3);
 	else if (type == TextureType::GrayscaleAlpha16bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ia16.png").c_str(), width, height, 4, bmpRgba,
+		stbi_write_png((outPath + "/" + outName + ".ia16.png").c_str(), width, height, 4, bmpRgba,
 		               width * 4);
 	else if (type == TextureType::GrayscaleAlpha8bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ia8.png").c_str(), width, height, 4, bmpRgba,
+		stbi_write_png((outPath + "/" + outName + ".ia8.png").c_str(), width, height, 4, bmpRgba,
 		               width * 4);
 	else if (type == TextureType::GrayscaleAlpha4bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ia4.png").c_str(), width, height, 4, bmpRgba,
+		stbi_write_png((outPath + "/" + outName + ".ia4.png").c_str(), width, height, 4, bmpRgba,
 		               width * 4);
 	else if (type == TextureType::Palette4bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ci4.png").c_str(), width, height, 3, bmpRgb,
+		stbi_write_png((outPath + "/" + outName + ".ci4.png").c_str(), width, height, 3, bmpRgb,
 		               width * 3);
 	else if (type == TextureType::Palette8bpp)
-		stbi_write_png((outFolder + "/" + outName + ".ci8.png").c_str(), width, height, 3, bmpRgb,
+		stbi_write_png((outPath + "/" + outName + ".ci8.png").c_str(), width, height, 3, bmpRgb,
 		               width * 3);
 
 	// if (outName != name && outName != "")
 	// File::WriteAllText(outFolder + "/" + outName + ".cfg", name.c_str());
 }
 
-// HOTSPOT
 string ZTexture::GetSourceOutputCode(const std::string& prefix)
 {
 	sourceOutput = "";
 
-	// sprintf(line, "%s:\n", name.c_str());
-	// sourceOutput += line;
-
-	// TODO: TEMP
 	relativePath = "build/assets/" + relativePath;
 	FixRawData();
-
-	// sourceOutput += StringHelper::Sprintf("u64 %s[] = \n{\n", name.c_str());
 
 	uint8_t* rawDataArr = rawData.data();
 
 	for (size_t i = 0; i < rawData.size(); i += 8)
 	{
 		if (i % 32 == 0)
-			sourceOutput += "\t";
+			sourceOutput += "    ";
 
 		sourceOutput +=
 			StringHelper::Sprintf("0x%016llX, ", BitConverter::ToUInt64BE(rawDataArr, i));
@@ -822,11 +841,6 @@ string ZTexture::GetSourceOutputCode(const std::string& prefix)
 		if (i % 32 == 24)
 			sourceOutput += StringHelper::Sprintf(" // 0x%06X \n", rawDataIndex + ((i / 32) * 32));
 	}
-
-	// Ensure there's always a trailing line feed to prevent dumb warnings.
-	sourceOutput += "\n";
-
-	// sourceOutput += "};\n";
 
 	return sourceOutput;
 }
@@ -841,9 +855,16 @@ ZResourceType ZTexture::GetResourceType()
 	return ZResourceType::Texture;
 }
 
+std::string ZTexture::GetSourceTypeName()
+{
+	return "u64";
+}
+
 void ZTexture::CalcHash()
 {
-	hash = 0;
+	hash = CRC32B(rawData.data(), GetRawDataSize());
+	// File::WriteAllText(StringHelper::Sprintf("%s/%s.txt", Globals::Instance->outputPath.c_str(),
+	// outName.c_str()), StringHelper::Sprintf("%08lX", hash)); hash = 0;
 }
 
 std::string ZTexture::GetExternalExtension()

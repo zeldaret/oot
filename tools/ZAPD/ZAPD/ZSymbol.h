@@ -12,15 +12,13 @@ protected:
 	uint32_t count = 0;
 
 public:
-	ZSymbol() = default;
-	ZSymbol(const std::string& nName, int nRawDataIndex, const std::string& nType,
-	        uint32_t nTypeSize, bool nIsArray, uint32_t nCount);
-	ZSymbol(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData, int nRawDataIndex,
-	        ZFile* nParent);
+	ZSymbol(ZFile* nParent);
+	// ZSymbol(const std::string& nName, int nRawDataIndex, const std::string& nType, uint32_t
+	// nTypeSize, bool nIsArray, uint32_t nCount); ZSymbol(tinyxml2::XMLElement* reader, const
+	// std::vector<uint8_t>& nRawData, int nRawDataIndex, ZFile* nParent);
 
-	static ZSymbol* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                               const std::vector<uint8_t>& nRawData, int nRawDataIndex,
-	                               ZFile* parent);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const int nRawDataIndex, const std::string& nRelPath) override;
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 

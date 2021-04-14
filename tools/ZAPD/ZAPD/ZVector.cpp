@@ -6,23 +6,19 @@
 #include "StringHelper.h"
 #include "ZFile.h"
 
-ZVector::ZVector() : ZResource()
+REGISTER_ZFILENODE(Vector, ZVector);
+
+ZVector::ZVector(ZFile* nParent) : ZResource(nParent)
 {
 	scalars = std::vector<ZScalar*>();
 	this->scalarType = ZSCALAR_NONE;
 	this->dimensions = 0;
 }
 
-ZVector* ZVector::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
-                                 const int rawDataIndex, const std::string& nRelPath)
+void ZVector::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+                             const int nRawDataIndex, const std::string& nRelPath)
 {
-	ZVector* vector = new ZVector();
-	vector->rawData = nRawData;
-	vector->rawDataIndex = rawDataIndex;
-	vector->ParseXML(reader);
-	vector->ParseRawData();
-
-	return vector;
+	ZResource::ExtractFromXML(reader, nRawData, nRawDataIndex, nRelPath);
 }
 
 void ZVector::ParseXML(tinyxml2::XMLElement* reader)
@@ -44,7 +40,7 @@ void ZVector::ParseRawData()
 
 	for (uint32_t i = 0; i < this->dimensions; i++)
 	{
-		ZScalar* scalar = new ZScalar(this->scalarType);
+		ZScalar* scalar = new ZScalar(this->scalarType, this->parent);
 		scalar->rawDataIndex = currentRawDataIndex;
 		scalar->rawData = this->rawData;
 		scalar->ParseRawData();
@@ -60,8 +56,10 @@ void ZVector::ParseRawData()
 int ZVector::GetRawDataSize()
 {
 	int size = 0;
-	for (size_t i = 0; i < this->scalars.size(); i++)
+
+	for (int i = 0; i < this->scalars.size(); i++)
 		size += this->scalars[i]->GetRawDataSize();
+
 	return size;
 }
 
@@ -73,17 +71,11 @@ bool ZVector::DoesSupportArray()
 std::string ZVector::GetSourceTypeName()
 {
 	if (dimensions == 3 && scalarType == ZSCALAR_F32)
-	{
 		return "Vec3f";
-	}
 	else if (dimensions == 3 && scalarType == ZSCALAR_S16)
-	{
 		return "Vec3s";
-	}
 	else if (dimensions == 3 && scalarType == ZSCALAR_S32)
-	{
 		return "Vec3i";
-	}
 	else
 	{
 		std::string output = StringHelper::Sprintf(
@@ -93,15 +85,17 @@ std::string ZVector::GetSourceTypeName()
 		if (Globals::Instance->verbosity >= VERBOSITY_DEBUG)
 			printf("%s\n", output.c_str());
 
-		throw output;
+		throw std::runtime_error(output);
 	}
 }
 
 std::string ZVector::GetSourceValue()
 {
 	std::vector<std::string> strings = std::vector<std::string>();
-	for (size_t i = 0; i < this->scalars.size(); i++)
+
+	for (int i = 0; i < this->scalars.size(); i++)
 		strings.push_back(scalars[i]->GetSourceValue());
+
 	return "{ " + StringHelper::Implode(strings, ", ") + " }";
 }
 

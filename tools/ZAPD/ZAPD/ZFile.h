@@ -7,13 +7,13 @@
 
 enum class ZFileMode
 {
-	Build,
 	BuildTexture,
 	BuildOverlay,
 	BuildModelIntermediette,
 	BuildAnimationIntermediette,
 	BuildBlob,
 	BuildSourceFile,
+	BuildPrerender,
 	Extract,
 	Invalid
 };
@@ -41,9 +41,10 @@ public:
 	std::string GetVarName(int address);
 	std::string GetName();
 	void ExtractResources(std::string outputDir);
-	void BuildResources();
 	void BuildSourceFile(std::string outputDir);
 	void AddResource(ZResource* res);
+	ZResource* FindResource(uint32_t rawDataIndex);
+	std::vector<ZResource*> GetResourcesOfType(ZResourceType resType);
 
 	Declaration* AddDeclaration(uint32_t address, DeclarationAlignment alignment, uint32_t size,
 	                            std::string varType, std::string varName, std::string body);
@@ -53,6 +54,9 @@ public:
 	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment,
 	                                 uint32_t size, std::string varType, std::string varName,
 	                                 int arrayItemCnt, std::string body);
+	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment,
+	                                 uint32_t size, std::string varType, std::string varName,
+	                                 int arrayItemCnt, std::string body, bool isExternal);
 	Declaration* AddDeclarationArray(uint32_t address, DeclarationAlignment alignment,
 	                                 DeclarationPadding padding, uint32_t size, std::string varType,
 	                                 std::string varName, int arrayItemCnt, std::string body);
@@ -71,6 +75,9 @@ public:
 	bool HasDeclaration(uint32_t address);
 	std::string GetHeaderInclude();
 	void GeneratePlaceholderDeclarations();
+
+	static std::map<std::string, ZResourceFactoryFunc*>* GetNodeMap();
+	static void RegisterNode(std::string nodeName, ZResourceFactoryFunc* nodeFunc);
 
 protected:
 	std::vector<uint8_t> rawData;

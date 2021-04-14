@@ -43,8 +43,8 @@ public:
 	ZScalarData scalarData;
 	ZScalarType scalarType;
 
-	ZScalar();
-	ZScalar(const ZScalarType scalarType);
+	ZScalar(ZFile* nParent);
+	ZScalar(const ZScalarType scalarType, ZFile* nParent);
 
 	void ParseXML(tinyxml2::XMLElement* reader) override;
 	std::string GetSourceTypeName() override;
@@ -55,9 +55,8 @@ public:
 	bool DoesSupportArray() override;
 	void ParseRawData() override;
 
-	static ZScalar* ExtractFromXML(tinyxml2::XMLElement* reader,
-	                               const std::vector<uint8_t>& nRawData, const int rawDataIndex,
-	                               const std::string& nRelPath);
+	void ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8_t>& nRawData,
+	                    const int nRawDataIndex, const std::string& nRelPath) override;
 	static int MapTypeToSize(const ZScalarType scalarType);
 	static ZScalarType MapOutputTypeToScalarType(const std::string& type);
 	static std::string MapScalarTypeToOutputType(const ZScalarType scalarType);

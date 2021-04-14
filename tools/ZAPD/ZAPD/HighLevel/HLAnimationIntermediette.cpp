@@ -72,7 +72,7 @@ HLAnimationIntermediette* HLAnimationIntermediette::FromZAnimation(ZAnimation* z
 
 ZAnimation* HLAnimationIntermediette::ToZAnimation()
 {
-	ZAnimation* zAnim = new ZAnimation();
+	ZAnimation* zAnim = new ZAnimation(nullptr);
 
 	/*zAnim->limit = limit;
 	zAnim->frameCount = frameCount;

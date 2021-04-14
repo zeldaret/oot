@@ -1,6 +1,7 @@
 #include "Globals.h"
 #include <algorithm>
 #include "File.h"
+#include "Path.h"
 #include "tinyxml2.h"
 
 using namespace tinyxml2;
@@ -22,6 +23,7 @@ Globals::Globals()
 	testMode = false;
 	profile = false;
 	includeFilePrefix = false;
+	useLegacyZDList = false;
 	useExternalResources = true;
 	lastScene = nullptr;
 	verbosity = VERBOSITY_SILENT;
@@ -72,7 +74,72 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 	XMLError eResult = doc.LoadFile(configFilePath.c_str());
 
 	if (eResult != tinyxml2::XML_SUCCESS)
+	{
+		throw std::runtime_error("Error: Unable to read config file.");
 		return;
+	}
+
+	XMLNode* root = doc.FirstChild();
+
+	if (root == nullptr)
+		return;
+
+	cfg = new GameConfig();
+
+	for (XMLElement* child = root->FirstChildElement(); child != NULL;
+	     child = child->NextSiblingElement())
+	{
+		if (string(child->Name()) == "SymbolMap")
+		{
+			string fileName = string(child->Attribute("File"));
+			GenSymbolMap(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+		}
+		else if (string(child->Name()) == "Segment")
+		{
+			string fileName = string(child->Attribute("File"));
+			int segNumber = child->IntAttribute("Number");
+			segmentRefs[segNumber] = fileName;
+		}
+		else if (string(child->Name()) == "ActorList")
+		{
+			string fileName = string(child->Attribute("File"));
+			std::vector<std::string> lines =
+				File::ReadAllLines(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+
+			for (std::string line : lines)
+			{
+				cfg->actorList.push_back(StringHelper::Strip(line, "\r"));
+			}
+		}
+		else if (string(child->Name()) == "ObjectList")
+		{
+			string fileName = string(child->Attribute("File"));
+			std::vector<std::string> lines =
+				File::ReadAllLines(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+
+			for (std::string line : lines)
+			{
+				cfg->objectList.push_back(StringHelper::Strip(line, "\r"));
+			}
+		}
+		else if (string(child->Name()) == "TexturePool")
+		{
+			string fileName = string(child->Attribute("File"));
+			ReadTexturePool(Path::GetDirectoryName(configFilePath) + "/" + fileName);
+		}
+	}
+}
+
+void Globals::ReadTexturePool(const std::string& texturePoolXmlPath)
+{
+	XMLDocument doc;
+	XMLError eResult = doc.LoadFile(texturePoolXmlPath.c_str());
+
+	if (eResult != tinyxml2::XML_SUCCESS)
+	{
+		fprintf(stderr, "Warning: Unable to read texture pool XML with error code %i\n", eResult);
+		return;
+	}
 
 	XMLNode* root = doc.FirstChild();
 
@@ -82,16 +149,12 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 	for (XMLElement* child = root->FirstChildElement(); child != NULL;
 	     child = child->NextSiblingElement())
 	{
-		if (string(child->Name()) == "SymbolMap")
+		if (string(child->Name()) == "Texture")
 		{
-			string fileName = string(child->Attribute("File"));
-			GenSymbolMap(fileName);
-		}
-		else if (string(child->Name()) == "Segment")
-		{
-			string fileName = string(child->Attribute("File"));
-			int segNumber = child->IntAttribute("Number");
-			segmentRefs[segNumber] = fileName;
+			string crcStr = string(child->Attribute("CRC"));
+			string texPath = string(child->Attribute("Path"));
+
+			cfg->texturePool[strtol(crcStr.c_str(), NULL, 16)] = texPath;
 		}
 	}
 }
@@ -128,4 +191,5 @@ GameConfig::GameConfig()
 	symbolMap = std::map<uint32_t, std::string>();
 	actorList = std::vector<std::string>();
 	objectList = std::vector<std::string>();
+	texturePool = std::map<uint32_t, std::string>();
 }
