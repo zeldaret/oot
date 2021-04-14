@@ -3111,9 +3111,7 @@ endseg
 beginseg
     name "ovl_En_Xc"
     include "build/src/overlays/actors/ovl_En_Xc/z_en_xc.o"
-    include "build/data/overlays/actors/z_en_xc.data.o"
-    include "build/data/overlays/actors/z_en_xc.bss.o"
-    include "build/data/overlays/actors/z_en_xc.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Xc/ovl_En_Xc_reloc.o"
 endseg
 
 beginseg
@@ -4201,7 +4199,8 @@ endseg
 beginseg
     name "object_xc"
     romalign 0x1000
-    include "build/baserom/object_xc.o"
+    include "build/assets/objects/object_xc/object_xc.o"
+    number 6
 endseg
 
 beginseg
