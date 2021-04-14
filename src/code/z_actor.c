@@ -1771,86 +1771,65 @@ void func_8002FA60(GlobalContext* globalCtx) {
     D_8015BC18 = 0.0f;
 }
 
-Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
-Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
-Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
-Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
-
-#ifndef NON_MATCHING
-// saved register, stack usage and minor ordering differences
-// this also doesn't generate a few useless struct copies
+#ifdef NON_MATCHING
+// some regalloc and odd loading of gSaveContext
 void func_8002FBAC(GlobalContext* globalCtx) {
-    Vec3f lightPos;
-    f32 spD8;
-    f32 spD4;
-    s32 spD0;
-    s32 spCC;
-    f32 spC0;
-    Vec3f spB4;
-    Vec3f spA4;
-    f32 sp9C;
-    Vec3f sp7C;
-    Vec3f sp70;
-    f32 temp_f12;
-    f32 temp_f14;
-    f32 temp_f2;
-    f32 temp_ret;
-    s32 temp_a3;
-    f32 phi_f14;
-    f32 phi_f10;
-    f32 phi_f6;
+    static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
+    static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
+    static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+    static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
     Vec3f* temp = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+    s32 spF0;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5308);
 
-    if (gSaveContext.respawn[RESPAWN_MODE_TOP].data != 0) {
-        if (LINK_IS_ADULT) {
-            spD8 = 80.0f;
-        } else {
-            spD8 = 60.0f;
-        }
+    spF0 = gSaveContext.respawn[RESPAWN_MODE_TOP].data;
 
-        spD0 = 0xFF;
-        spD4 = 1.0f;
-
-        spCC = gSaveContext.respawn[RESPAWN_MODE_TOP].data - 0x28;
-        // spCC = spCC;
+    if (spF0 != 0) {
+        f32 spD8 = (LINK_IS_ADULT) ? 80.0f : 60.0f;
+        f32 spD4 = 1.0f;
+        s32 spD0 = 0xFF;
+        s32 spCC = spF0 - 40;
+        s32 temp2;
+        s32 pad;
 
         if (spCC < 0) {
-            gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
-            spD4 = ABS(gSaveContext.respawn[RESPAWN_MODE_TOP].data) * 0.025f;
+            gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
+            spD4 = ABS(spF0) * 0.025f;
             D_8015BC14 = 60;
             D_8015BC18 = 1.0f;
         } else if (D_8015BC14 != 0) {
             D_8015BC14--;
         } else if (D_8015BC18 > 0.0f) {
-            spC0 = D_8015BC18;
-            temp_ret = Math_Vec3f_DistXYZAndStoreDiff(&gSaveContext.respawn[RESPAWN_MODE_DOWN].pos,
-                                                      &gSaveContext.respawn[RESPAWN_MODE_TOP].pos, &spB4);
+            f32 spC0 = D_8015BC18;
+            Vec3f spB4;
+            f32 spB0 = Math_Vec3f_DistXYZAndStoreDiff(&gSaveContext.respawn[RESPAWN_MODE_DOWN].pos, temp, &spB4);
+            Vec3f spA4;
 
-            if (temp_ret < 20.0f) {
+            if (spB0 < 20.0f) {
                 D_8015BC18 = 0.0f;
-                Math_Vec3f_Copy(&gSaveContext.respawn[RESPAWN_MODE_TOP].pos,
-                                &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos);
+                Math_Vec3f_Copy(temp, &gSaveContext.respawn[RESPAWN_MODE_DOWN].pos);
             } else {
-                sp9C = (1.0f / D_8015BC18) * temp_ret;
-                phi_f14 = 20.0f / sp9C;
+                f32 temp_f2;
+                f32 sp9C = spB0 * (1.0f / D_8015BC18);
+                f32 phi_f14 = 20.0f / sp9C;
+
                 phi_f14 = CLAMP_MIN(phi_f14, 0.05f);
                 Math_StepToF(&D_8015BC18, 0.0f, phi_f14);
-                temp_f2 = ((D_8015BC18 / spC0) * temp_ret) / temp_ret;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z =
-                    gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
-                spD8 += sqrtf(SQ(sp9C / 2.0f) - SQ(temp_ret - sp9C / 2.0f)) * 0.2f;
+
+                temp_f2 = ((D_8015BC18 / spC0) * spB0) / spB0;
+
+                temp->x = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.x + (spB4.x * temp_f2);
+                temp->y = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
+                temp->z = gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
+                spD8 += sqrtf(SQ(sp9C / 2.0f) - SQ(spB0 - sp9C / 2.0f)) * 0.2f;
+
                 osSyncPrintf("-------- DISPLAY Y=%f\n", spD8);
             }
 
-            spA4.x = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-            spA4.y = Rand_ZeroOne() * 6.0f + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + 80.0f;
-            spA4.z = Rand_CenteredFloat(6.0f) + gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+            spA4.x = temp->x + Rand_CenteredFloat(6.0f);
+            spA4.y = temp->y + 80.0f + Rand_ZeroOne() * 6.0f;
+            spA4.z = temp->z + Rand_CenteredFloat(6.0f);
 
             EffectSsKiraKira_SpawnDispersed(globalCtx, &spA4, &D_80116048, &D_80116054, &D_80116060, &D_80116064, 1000,
                                             16);
@@ -1858,27 +1837,30 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             if (D_8015BC18 == 0.0f) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP] = gSaveContext.respawn[RESPAWN_MODE_DOWN];
                 gSaveContext.respawn[RESPAWN_MODE_TOP].playerParams = 0x06FF;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0x28;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].data = 40;
             }
 
-            // somehow this shouldn't be optimized out
-            *temp = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
         } else if (spCC > 0) {
-            temp_f12 = spCC * 0.1f;
+            if (spCC * 0.1f < 1.0f) {
+                s32 pad2;
+                s32 pad3;
+                f32 temp3;
+                f32 temp4;
+                Vec3f sp7C;
+                Vec3f sp70;
 
-            if (temp_f12 < 1.0f) {
                 sp7C.x = globalCtx->view.eye.x;
                 sp7C.y = globalCtx->view.eye.y - spD8;
                 sp7C.z = globalCtx->view.eye.z;
-                temp_ret = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, &gSaveContext.respawn[RESPAWN_MODE_TOP].pos, &sp70);
-                temp_f2 = (((1.0f - temp_f12) / (1.0f - ((f32)(spCC - 1) * 0.1f))) * temp_ret) / temp_ret;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = sp70.x * temp_f2 + sp7C.x;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = sp70.y * temp_f2 + sp7C.y;
-                gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = sp70.z * temp_f2 + sp7C.z;
-            }
+                temp4 = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, temp, &sp70);
+                temp3 = (((1.0f - spCC * 0.1f) / (1.0f - ((f32)(spCC - 1) * 0.1f))) * temp4) / temp4;
+                temp->x = sp70.x * temp3 + sp7C.x;
+                temp->y = sp70.y * temp3 + sp7C.y;
+                temp->z = sp70.z * temp3 + sp7C.z;
 
-            // somehow this shouldn't be optimized out
-            *temp = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].pos = *temp;
+            }
 
             spD0 = 0xFF - 30 * spCC;
 
@@ -1887,54 +1869,66 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = 0;
                 spD0 = 0;
             } else {
-                gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
+                gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
             }
 
             spD4 = (f32)spCC * 0.200000000000000011102230246252 + 1.0f;
         }
 
-        if ((globalCtx->csCtx.state == CS_STATE_IDLE) &&
-            (gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex == gSaveContext.entranceIndex) &&
-            (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
-            POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
+        if (globalCtx->csCtx.state == CS_STATE_IDLE) {
+            temp2 = gSaveContext.respawn[RESPAWN_MODE_TOP].entranceIndex;
+            if ((temp2 == gSaveContext.entranceIndex) &&
+                (globalCtx->roomCtx.curRoom.num == gSaveContext.respawn[RESPAWN_MODE_TOP].roomIndex)) {
+                f32 phi_f10;
+                f32 phi_f6;
 
-            Matrix_Translate(gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x,
-                             gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8,
-                             gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z, MTXMODE_NEW);
-            Matrix_Scale(0.025f * spD4, 0.025f * spD4, 0.025f * spD4, MTXMODE_APPLY);
-            Matrix_Mult(&globalCtx->mf_11D60, MTXMODE_APPLY);
-            Matrix_Push();
+                POLY_XLU_DISP = Gfx_CallSetupDL(POLY_XLU_DISP, 0x19);
+                // bad gSaveContext load here
+                Matrix_Translate(temp->x, temp->y + spD8, temp->z, MTXMODE_NEW);
+                Matrix_Scale(0.025f * spD4, 0.025f * spD4, 0.025f * spD4, MTXMODE_APPLY);
+                Matrix_Mult(&globalCtx->mf_11DA0, MTXMODE_APPLY);
+                Matrix_Push();
 
-            gDPPipeSync(POLY_XLU_DISP++);
-            gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, spD0);
-            gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
+                gDPPipeSync(POLY_XLU_DISP++);
+                gDPSetPrimColor(POLY_XLU_DISP++, 0x80, 0x80, 255, 255, 200, spD0);
+                gDPSetEnvColor(POLY_XLU_DISP++, 100, 200, 0, 255);
 
-            phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
-            Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
+                phi_f10 = (globalCtx->gameplayFrames * 1500) & 0xFFFF;
+                Matrix_RotateZ((phi_f10 * M_PI) / 32768.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5458),
+                          G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
 
-            Matrix_Pop();
-            phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
-            Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
+                Matrix_Pop();
+                phi_f6 = ~((globalCtx->gameplayFrames * 1200) & 0xFFFF);
+                Matrix_RotateZ((phi_f6 * M_PI) / 32768.0f, MTXMODE_APPLY);
 
-            gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
-                      G_MTX_MODELVIEW | G_MTX_LOAD);
-            gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+                gSPMatrix(POLY_XLU_DISP++, Matrix_NewMtx(globalCtx->state.gfxCtx, "../z_actor.c", 5463),
+                          G_MTX_MODELVIEW | G_MTX_LOAD);
+                gSPDisplayList(POLY_XLU_DISP++, &gEffFlash1DL);
+            }
+            {
+                Vec3f lightPos;
+
+                lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
+                lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
+                lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
+
+                Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF,
+                                          500.0f * spD4);
+            }
+            CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
         }
-
-        lightPos.x = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x;
-        lightPos.y = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y + spD8;
-        lightPos.z = gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z;
-
-        Lights_PointNoGlowSetInfo(&D_8015BC00, lightPos.x, lightPos.y, lightPos.z, 0xFF, 0xFF, 0xFF, 500.0f * spD4);
-
-        CLOSE_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5474);
     }
 }
 #else
+
+static Vec3f D_80116048 = { 0.0f, -0.05f, 0.0f };
+static Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
+static Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
+static Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
+
 #pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_8002FBAC.s")
 #endif
 
