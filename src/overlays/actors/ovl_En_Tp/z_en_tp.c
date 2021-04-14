@@ -116,7 +116,7 @@ void EnTp_SetupAction(EnTp* this, EnTpActionFunc actionFunc) {
 }
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-#ifdef NON_MATCHING
+// #ifdef NON_MATCHING
 // Regalloc, some stack, and compiler refuses to put zero in temp_s4; all seems to be related
 void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     GlobalContext* globalCtx = globalCtx2;
@@ -125,7 +125,8 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     EnTp* now;
     EnTp* next;
     s32 i;
-    s32 temp_s4;
+    // s64 new_var;
+    s64 temp_s4;
 
     Actor_ProcessInitChain(&this->actor, D_80B22AE4);
     this->actor.targetMode = 3;
@@ -141,7 +142,6 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
     if (this->actor.params < 0) {
         this->actor.naviEnemyId = 6;
         this->unk_15A = 0;
-        temp_s4 = 0;
         this->collider.base.acFlags |= 4;
         this->collider.elements->dim.modelSphere.radius = this->collider.elements->dim.worldSphere.radius = 8;
         func_80B21B90(this);
@@ -150,6 +150,8 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         Actor_SetScale(&this->actor, 1.5f);
 
         for (i = 0; i <= 6; i++) {
+        temp_s4 = 0;
+        // new_var = 0;
             next =
             (EnTp*)Actor_Spawn(&globalCtx->actorCtx, globalCtx, ACTOR_EN_TP, this->actor.world.pos.x,
                                     this->actor.world.pos.y, this->actor.world.pos.z, 0, 0, 0, temp_s4);
@@ -178,9 +180,10 @@ void EnTp_Init(Actor* thisx, GlobalContext* globalCtx2) {
         func_80B217FC(this);
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
-#endif
+
+// #else
+// #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Init.s")
+// #endif
 
 // #pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_En_Tp/EnTp_Destroy.s")
 void EnTp_Destroy(Actor* thisx, GlobalContext* globalCtx) {
