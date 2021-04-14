@@ -264,16 +264,15 @@ void MirRay_Update(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
-    Vec3f sp4C;
+    f32 sp4C[3];
     f32 temp_f0;
     f32 temp_f0_2;
     f32 temp_f2_2;
-    MtxF* shieldMtx;
+    s32 pad;
     Player* player = PLAYER;
-    f32* new_var;
+    MtxF* shieldMtx = &player->shieldMf;
 
     this->reflectIntensity = 0.0f;
-    shieldMtx = &player->shieldMf;
 
     if (MirRay_CheckInFrustum(&this->sourcePt, &this->poolPt, shieldMtx->wx, shieldMtx->wy, shieldMtx->wz,
                               this->sourceEndRad, this->poolEndRad)) {
@@ -290,16 +289,14 @@ void MirRay_SetIntensity(MirRay* this, GlobalContext* globalCtx) {
         if (sMirRayData[this->actor.params].params & 1) {
             this->reflectIntensity = 1.0f;
         } else {
-            new_var = &sp4C.z; // permuter suggested this, does not match without
+            sp4C[0] = this->poolPt.x - this->sourcePt.x;
+            sp4C[1] = this->poolPt.y - this->sourcePt.y;
+            sp4C[2] = this->poolPt.z - this->sourcePt.z;
 
-            sp4C.x = this->poolPt.x - this->sourcePt.x;
-            sp4C.y = this->poolPt.y - this->sourcePt.y;
-            sp4C.z = this->poolPt.z - this->sourcePt.z;
-
-            temp_f2_2 = ((-shieldMtx->zx * sp4C.x) - (shieldMtx->zy * sp4C.y)) - (shieldMtx->zz * (*new_var));
+            temp_f2_2 = -shieldMtx->zx * sp4C[0] - shieldMtx->zy * sp4C[1] - shieldMtx->zz * sp4C[2];
 
             if (temp_f2_2 < 0.0f) {
-                temp_f0_2 = sqrtf(SQ(sp4C.x) + SQ(sp4C.y) + SQ(*new_var));
+                temp_f0_2 = sqrtf(SQ(sp4C[0]) + SQ(sp4C[1]) + SQ(sp4C[2]));
                 if ((temp_f0 != 0.0f) && (temp_f0_2 != 0.0f)) {
                     this->reflectIntensity = -temp_f2_2 / (temp_f0 * temp_f0_2);
                 }

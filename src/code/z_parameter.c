@@ -3332,7 +3332,7 @@ void Interface_Draw(GlobalContext* globalCtx) {
                     phi_s1 = ZREG(14);
                     for (phi_s3 = 1; phi_s3 < 7; phi_s3++) {
                         // Carrot Color (based on availability)
-                        if ((interfaceCtx->unk_23A == 0) || (interfaceCtx->unk_23A < phi_s3)) {
+                        if ((interfaceCtx->numHorseBoosts == 0) || (interfaceCtx->numHorseBoosts < phi_s3)) {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 0, 150, 255, interfaceCtx->aAlpha);
                         } else {
                             gDPSetPrimColor(OVERLAY_DISP++, 0, 0, 255, 255, 255, interfaceCtx->aAlpha);

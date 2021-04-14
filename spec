@@ -1198,8 +1198,7 @@ endseg
 beginseg
     name "ovl_Bg_Spot07_Taki"
     include "build/src/overlays/actors/ovl_Bg_Spot07_Taki/z_bg_spot07_taki.o"
-    include "build/data/overlays/actors/z_bg_spot07_taki.data.o"
-    include "build/data/overlays/actors/z_bg_spot07_taki.reloc.o"
+    include "build/src/overlays/actors/ovl_Bg_Spot07_Taki/ovl_Bg_Spot07_Taki_reloc.o"
 endseg
 
 beginseg
@@ -1372,8 +1371,11 @@ endseg
 beginseg
     name "ovl_Boss_Dodongo"
     include "build/src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.o"
-    include "build/data/overlays/actors/z_boss_dodongo.data.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_Boss_Dodongo/ovl_Boss_Dodongo_reloc.o"
+#else
     include "build/data/overlays/actors/z_boss_dodongo.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -1894,8 +1896,7 @@ endseg
 beginseg
     name "ovl_En_Bdfire"
     include "build/src/overlays/actors/ovl_En_Bdfire/z_en_bdfire.o"
-    include "build/data/overlays/actors/z_en_bdfire.data.o"
-    include "build/data/overlays/actors/z_en_bdfire.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Bdfire/ovl_En_Bdfire_reloc.o"
 endseg
 
 beginseg
@@ -2154,11 +2155,7 @@ endseg
 beginseg
     name "ovl_En_Elf"
     include "build/src/overlays/actors/ovl_En_Elf/z_en_elf.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Elf/ovl_En_Elf_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_elf.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2329,8 +2326,7 @@ endseg
 beginseg
     name "ovl_En_Goma"
     include "build/src/overlays/actors/ovl_En_Goma/z_en_goma.o"
-    include "build/data/overlays/actors/z_en_goma.data.o"
-    include "build/data/overlays/actors/z_en_goma.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Goma/ovl_En_Goma_reloc.o"
 endseg
 
 beginseg
@@ -2406,8 +2402,7 @@ endseg
 beginseg
     name "ovl_En_Horse"
     include "build/src/overlays/actors/ovl_En_Horse/z_en_horse.o"
-    include "build/data/overlays/actors/z_en_horse.data.o"
-    include "build/data/overlays/actors/z_en_horse.reloc.o"
+    include "build/src/overlays/actors/ovl_En_Horse/ovl_En_Horse_reloc.o"
 endseg
 
 beginseg
@@ -2509,11 +2504,7 @@ endseg
 beginseg
     name "ovl_En_Jsjutan"
     include "build/src/overlays/actors/ovl_En_Jsjutan/z_en_jsjutan.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Jsjutan/ovl_En_Jsjutan_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_jsjutan.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -2885,10 +2876,11 @@ endseg
 beginseg
     name "ovl_En_Skj"
     include "build/src/overlays/actors/ovl_En_Skj/z_en_skj.o"
-    include "build/data/overlays/actors/z_en_skj.data.o"
-    include "build/data/overlays/actors/z_en_skj.rodata.o"
-    include "build/data/overlays/actors/z_en_skj.bss.o"
+#ifdef NON_MATCHING
+    include "build/src/overlays/actors/ovl_En_Skj/ovl_En_Skj_reloc.o"
+#else
     include "build/data/overlays/actors/z_en_skj.reloc.o"
+#endif
 endseg
 
 beginseg
@@ -3014,11 +3006,7 @@ endseg
 beginseg
     name "ovl_En_Tr"
     include "build/src/overlays/actors/ovl_En_Tr/z_en_tr.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_En_Tr/ovl_En_Tr_reloc.o"
-#else
-    include "build/data/overlays/actors/z_en_tr.reloc.o"
-#endif
 endseg
 
 beginseg
@@ -4475,7 +4463,8 @@ endseg
 beginseg
     name "object_nb"
     romalign 0x1000
-    include "build/baserom/object_nb.o"
+    include "build/assets/objects/object_nb/object_nb.o"
+    number 6
 endseg
 
 beginseg
@@ -5022,7 +5011,8 @@ endseg
 beginseg
     name "object_skj"
     romalign 0x1000
-    include "build/baserom/object_skj.o"
+    include "build/assets/objects/object_skj/object_skj.o"
+    number 6
 endseg
 
 beginseg
@@ -5096,7 +5086,8 @@ endseg
 beginseg
     name "object_ge1"
     romalign 0x1000
-    include "build/baserom/object_ge1.o"
+    include "build/assets/objects/object_ge1/object_ge1.o"
+    number 6
 endseg
 
 beginseg
@@ -5601,7 +5592,8 @@ endseg
 beginseg
     name "object_gla"
     romalign 0x1000
-    include "build/baserom/object_gla.o"
+    include "build/assets/objects/object_gla/object_gla.o"
+    number 6
 endseg
 
 beginseg
