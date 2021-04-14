@@ -2139,14 +2139,12 @@ void EnXc_InitTempleOfTime(EnXc* this, GlobalContext* globalCtx) {
     if (LINK_IS_ADULT) {
         if (!(gSaveContext.eventChkInf[12] & 0x20)) {
             gSaveContext.eventChkInf[12] |= 0x20;
-            // replace cutscne with proper name 
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gFirstAdultCs);
             gSaveContext.cutsceneTrigger = 1;
             func_80B3EBF0(this, globalCtx);
         } else if (!(gSaveContext.eventChkInf[5] & 0x20) && (gSaveContext.eventChkInf[4] & 0x100)) {
             gSaveContext.eventChkInf[5] |= 0x20;
             Item_Give(globalCtx, ITEM_SONG_PRELUDE);
-            // replace cutscne with proper name 
             globalCtx->csCtx.segment = SEGMENTED_TO_VIRTUAL(gPreludeCs);
             gSaveContext.cutsceneTrigger = 1;
             this->action = SHIEK_ACTION_30;
