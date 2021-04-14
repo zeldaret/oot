@@ -6,10 +6,8 @@ import copy
 import sys
 import re
 import os
-import glob
 from collections import namedtuple
 from io import StringIO
-from os import path
 
 MAX_FN_SIZE = 100
 SLOW_CHECKS = False
@@ -805,34 +803,6 @@ def parse_source(f, opt, framepointer, input_enc, output_enc, print_source=None)
                 output_lines[-1] = include_src.getvalue()
                 include_src.write('#line ' + str(line_no) + '\n')
                 include_src.close()
-            elif line.startswith('#pragma INC_ASSET_U8') or line.startswith('#pragma INC_ASSET_U64'):
-                if (line.startswith('#pragma INC_ASSET_U8')):
-                    startLine = "#pragma INC_ASSET_U8("
-                    dataType = "u8"
-                else:
-                    startLine = "#pragma INC_ASSET_U64("
-                    dataType = "u64"
-
-                symbolName = line.split(startLine)[1].split(")")[0].split(",")[0].split('"')[1]
-                incPath = line.split(startLine)[1].split(")")[0].split(",")[1].split('"')[1]
-                extractedPath = "assets/extracted/" + incPath.split("assets/")[1]
-                customPath = "assets/custom/" + incPath.split("assets/")[1]
-                usedPath = extractedPath
-
-                if (len(glob.glob(customPath.split('.')[0] + "*")) > 0):
-                    usedPath = customPath
-                
-                output_lines[-1] = dataType + " " + symbolName + "[] = {\n#include \"" + usedPath + "\"\n};"
-            elif line.startswith('#pragma INC_ASSET'):
-                incPath = line.split('#pragma INC_ASSET')[1].split(")")[0].split(",")[0].split('"')[1]
-                extractedPath = "assets/extracted/" + incPath.split("assets/")[1]
-                customPath = "assets/custom/" + incPath.split("assets/")[1]
-                usedPath = extractedPath
-
-                if (len(glob.glob(customPath.split('.')[0] + "*")) > 0):
-                    usedPath = customPath
-                
-                output_lines[-1] = "#include \"" + usedPath + "\""
             else:
                 # This is a hack to replace all floating-point numbers in an array of a particular type
                 # (in this case CutsceneData) with their corresponding IEEE-754 hexadecimal representation
