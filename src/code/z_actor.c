@@ -3493,7 +3493,7 @@ typedef struct {
     /* 0x18 */ u32 unk_18;
 } struct_801160DC; // size = 0x1C
 
-struct_801160DC D_801160DC[] = {
+static struct_801160DC D_801160DC[] = {
     { 0.54f, 6000.0f, 5000.0f, 1.0f, 0.0f, 0x050011F0, 0x05001100 },
     { 0.644f, 12000.0f, 8000.0f, 1.0f, 0.0f, 0x06001530, 0x06001400 },
     { 0.64000005f, 8500.0f, 8000.0f, 1.75f, 0.1f, 0x050011F0, 0x05001100 },
@@ -3630,7 +3630,7 @@ typedef struct {
     /* 0x14 */ s16 unk_14;
 } struct_80116130; // size = 0x18
 
-struct_80116130 D_80116130[] = {
+static struct_80116130 D_80116130[] = {
     { { 0x2AA8, 0xF1C8, 0x18E2, 0x1554, 0x0000, 0x0000, 1 }, 170.0f, 0x3FFC },
     { { 0x2AA8, 0xEAAC, 0x1554, 0x1554, 0xF8E4, 0x0E38, 1 }, 170.0f, 0x3FFC },
     { { 0x31C4, 0xE390, 0x0E38, 0x0E38, 0xF1C8, 0x071C, 1 }, 170.0f, 0x3FFC },
@@ -3646,8 +3646,6 @@ struct_80116130 D_80116130[] = {
     { { 0x18E2, 0xF1C8, 0x0E38, 0x0E38, 0x0000, 0x0000, 1 }, 0.0f, 0x0000 },
 };
 
-#ifdef NON_MATCHING
-// regalloc differences
 void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3, s16 arg4, s16 arg5, s16 arg6, s16 arg7,
                    u8 arg8) {
     s16 sp46;
@@ -3668,23 +3666,24 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     temp1 = CLAMP(sp40, -arg2, arg2);
     Math_SmoothStepToS(&arg1->unk_08.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -sp40, sp40);
+    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    // sp40 = temp1;
+    arg1->unk_08.y = CLAMP(arg1->unk_08.y, -temp1, temp1);
 
-    sp40 = sp40 - arg1->unk_08.y;
+    sp40 -= arg1->unk_08.y;
 
     temp1 = CLAMP(sp40, -arg5, arg5);
     Math_SmoothStepToS(&arg1->unk_0E.y, temp1, 6, 2000, 1);
 
-    sp40 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -sp40, sp40);
+    temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
+    arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -temp1, temp1);
 
-    if (arg8 != 0) {
-        if (arg3) {} // Seems necessary to match
+    if (arg8) {
+        // if (arg3) {} // Seems necessary to match
         Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
     }
 
-    temp1 = CLAMP(sp46, arg4, arg3);
+    temp1 = CLAMP(sp46, arg4, (s16)(u16)arg3);
     Math_SmoothStepToS(&arg1->unk_08.x, temp1, 6, 2000, 1);
 
     temp2 = sp46 - arg1->unk_08.x;
@@ -3692,9 +3691,6 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     temp1 = CLAMP(temp2, arg7, arg6);
     Math_SmoothStepToS(&arg1->unk_0E.x, temp1, 6, 2000, 1);
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/z_actor/func_800344BC.s")
-#endif
 
 s16 func_800347E8(s16 arg0) {
     return D_80116130[arg0].unk_14;
