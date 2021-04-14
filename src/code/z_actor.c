@@ -1872,7 +1872,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data = ++spF0;
             }
 
-            spD4 = (f32)spCC * 0.200000000000000011102230246252 + 1.0f;
+            spD4 = (f32)spCC * 0.2 + 1.0f;
         }
 
         if (globalCtx->csCtx.state == CS_STATE_IDLE) {
@@ -3667,7 +3667,6 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     Math_SmoothStepToS(&arg1->unk_08.y, temp1, 6, 2000, 1);
 
     temp1 = (ABS(sp40) >= 0x8000) ? 0 : ABS(sp40);
-    // sp40 = temp1;
     arg1->unk_08.y = CLAMP(arg1->unk_08.y, -temp1, temp1);
 
     sp40 -= arg1->unk_08.y;
@@ -3679,7 +3678,6 @@ void func_800344BC(Actor* actor, struct_80034A14_arg1* arg1, s16 arg2, s16 arg3,
     arg1->unk_0E.y = CLAMP(arg1->unk_0E.y, -temp1, temp1);
 
     if (arg8) {
-        // if (arg3) {} // Seems necessary to match
         Math_SmoothStepToS(&actor->shape.rot.y, sp44, 6, 2000, 1);
     }
 
