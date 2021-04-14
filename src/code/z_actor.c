@@ -1776,7 +1776,7 @@ Vec3f D_80116054 = { 0.0f, -0.025f, 0.0f };
 Color_RGBA8 D_80116060 = { 255, 255, 255, 0 };
 Color_RGBA8 D_80116064 = { 100, 200, 0, 0 };
 
-#ifdef NON_MATCHING
+#ifndef NON_MATCHING
 // saved register, stack usage and minor ordering differences
 // this also doesn't generate a few useless struct copies
 void func_8002FBAC(GlobalContext* globalCtx) {
@@ -1799,6 +1799,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
     f32 phi_f14;
     f32 phi_f10;
     f32 phi_f6;
+    Vec3f* temp = &gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
 
     OPEN_DISPS(globalCtx->state.gfxCtx, "../z_actor.c", 5308);
 
@@ -1812,10 +1813,10 @@ void func_8002FBAC(GlobalContext* globalCtx) {
         spD0 = 0xFF;
         spD4 = 1.0f;
 
-        temp_a3 = gSaveContext.respawn[RESPAWN_MODE_TOP].data - 0x28;
-        spCC = temp_a3;
+        spCC = gSaveContext.respawn[RESPAWN_MODE_TOP].data - 0x28;
+        // spCC = spCC;
 
-        if (temp_a3 < 0) {
+        if (spCC < 0) {
             gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
             spD4 = ABS(gSaveContext.respawn[RESPAWN_MODE_TOP].data) * 0.025f;
             D_8015BC14 = 60;
@@ -1834,7 +1835,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             } else {
                 sp9C = (1.0f / D_8015BC18) * temp_ret;
                 phi_f14 = 20.0f / sp9C;
-                phi_f14 = (phi_f14 < 0.05f) ? 0.05f : phi_f14;
+                phi_f14 = CLAMP_MIN(phi_f14, 0.05f);
                 Math_StepToF(&D_8015BC18, 0.0f, phi_f14);
                 temp_f2 = ((D_8015BC18 / spC0) * temp_ret) / temp_ret;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x =
@@ -1843,9 +1844,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                     gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.y + (spB4.y * temp_f2);
                 gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z =
                     gSaveContext.respawn[RESPAWN_MODE_DOWN].pos.z + (spB4.z * temp_f2);
-                temp_f12 = sp9C * 0.5f;
-                temp_f14 = temp_ret - temp_f12;
-                spD8 += sqrtf((temp_f12 * temp_f12) - (temp_f14 * temp_f14)) * 0.2f;
+                spD8 += sqrtf(SQ(sp9C / 2.0f) - SQ(temp_ret - sp9C / 2.0f)) * 0.2f;
                 osSyncPrintf("-------- DISPLAY Y=%f\n", spD8);
             }
 
@@ -1863,25 +1862,25 @@ void func_8002FBAC(GlobalContext* globalCtx) {
             }
 
             // somehow this shouldn't be optimized out
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
-        } else if (temp_a3 > 0) {
-            temp_f12 = temp_a3 * 0.1f;
+            *temp = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+        } else if (spCC > 0) {
+            temp_f12 = spCC * 0.1f;
 
             if (temp_f12 < 1.0f) {
                 sp7C.x = globalCtx->view.eye.x;
                 sp7C.y = globalCtx->view.eye.y - spD8;
                 sp7C.z = globalCtx->view.eye.z;
                 temp_ret = Math_Vec3f_DistXYZAndStoreDiff(&sp7C, &gSaveContext.respawn[RESPAWN_MODE_TOP].pos, &sp70);
-                temp_f2 = (((1.0f - temp_f12) / (1.0f - ((f32)(temp_a3 - 1) * 0.1f))) * temp_ret) / temp_ret;
+                temp_f2 = (((1.0f - temp_f12) / (1.0f - ((f32)(spCC - 1) * 0.1f))) * temp_ret) / temp_ret;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].pos.x = sp70.x * temp_f2 + sp7C.x;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].pos.y = sp70.y * temp_f2 + sp7C.y;
                 gSaveContext.respawn[RESPAWN_MODE_TOP].pos.z = sp70.z * temp_f2 + sp7C.z;
             }
 
             // somehow this shouldn't be optimized out
-            gSaveContext.respawn[RESPAWN_MODE_TOP].pos = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
+            *temp = gSaveContext.respawn[RESPAWN_MODE_TOP].pos;
 
-            spD0 = 0xFF - (((temp_a3 * 0x10) - temp_a3) * 2);
+            spD0 = 0xFF - 30 * spCC;
 
             if (spD0 < 0) {
                 gSaveContext.fw.set = 0;
@@ -1891,7 +1890,7 @@ void func_8002FBAC(GlobalContext* globalCtx) {
                 gSaveContext.respawn[RESPAWN_MODE_TOP].data++;
             }
 
-            spD4 = spCC * 0.200000000000000011102230246252 + 1.0f;
+            spD4 = (f32)spCC * 0.200000000000000011102230246252 + 1.0f;
         }
 
         if ((globalCtx->csCtx.state == CS_STATE_IDLE) &&
