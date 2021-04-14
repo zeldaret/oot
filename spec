@@ -3583,7 +3583,8 @@ endseg
 beginseg
     name "object_horse"
     romalign 0x1000
-    include "build/baserom/object_horse.o"
+    include "build/assets/objects/object_horse/object_horse.o"
+    number 6
 endseg
 
 beginseg
@@ -4665,7 +4666,8 @@ endseg
 beginseg
     name "object_hni"
     romalign 0x1000
-    include "build/baserom/object_hni.o"
+    include "build/assets/objects/object_hni/object_hni.o"
+    number 6
 endseg
 
 beginseg
