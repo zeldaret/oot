@@ -333,7 +333,7 @@ static EnHorseSpawnpoint sHorseSpawns[] = {
     { SCENE_SPOT20, 882, 0, -2256, 0 },
     { SCENE_SPOT20, -1003, 0, -755, 0 }, // Hardcoded to always load in lon lon
     { SCENE_SPOT20, -2254, 0, -629, 0 },
-    { SCENE_SPOT20, 907, 0, -2336, 0 }
+    { SCENE_SPOT20, 907, 0, -2336, 0 },
 };
 
 typedef struct {
