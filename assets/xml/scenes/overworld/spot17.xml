@@ -1,6 +1,7 @@
 <Root>
     <File Name="spot17_scene">
         <Scene Name="spot17_scene">
+        <CutsceneHint Name="gBoleroCs" Offset="0x0045D0"/>
         </Scene>
     </File>
     <File Name="spot17_room_0">
