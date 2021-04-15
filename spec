@@ -1371,11 +1371,7 @@ endseg
 beginseg
     name "ovl_Boss_Dodongo"
     include "build/src/overlays/actors/ovl_Boss_Dodongo/z_boss_dodongo.o"
-#ifdef NON_MATCHING
     include "build/src/overlays/actors/ovl_Boss_Dodongo/ovl_Boss_Dodongo_reloc.o"
-#else
-    include "build/data/overlays/actors/z_boss_dodongo.reloc.o"
-#endif
 endseg
 
 beginseg
