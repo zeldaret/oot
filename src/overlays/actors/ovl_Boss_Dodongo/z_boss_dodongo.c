@@ -1310,35 +1310,17 @@ void BossDodongo_SetupDeathCutscene(BossDodongo* this) {
     Audio_SetBGM(0x100100FF);
 }
 
-#ifdef NON_MATCHING
 void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
-    static Color_RGBA8 magmaPrimColor2[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 100 } };
-    static Color_RGBA8 magmaEnvColor2[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
-    static Color_RGBA8 dustPrimColor = { 255, 255, 255, 255 };
-    static Color_RGBA8 dustEnvColor = { 255, 100, 0, 255 };
     Vec3f* cornerPos;
-    Player* player;
     Vec3f sp198;
     Vec3f sp184;
-    Vec3f effectPos;
-    Vec3f dustPos;
-    Vec3f sp70;
-    f32 sp50;
-    Camera* camera;
-    f32 distToCorner;
-    f32 xDistToCorner;
-    f32 xDistToCamera;
-    f32 zDistToCorner;
-    f32 zDistToCamera;
-    s16 colorIndex;
-    f32 phi_f2;
-    s16 i;
-    Vec3f* phi_v0_2;
-    Vec3f* phi_v0_3;
     f32 tempSin;
     f32 tempCos;
-    f32 temp;
-    player = PLAYER;
+    f32 sp178;
+    s16 i;
+    Vec3f effectPos;
+    Camera* camera;
+    Player* player = PLAYER;
 
     SkelAnime_Update(&this->skelAnime);
 
@@ -1363,7 +1345,6 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             tempCos = Math_CosS(this->actor.shape.rot.y - 0x1388) * 150.0f;
             Math_SmoothStepToF(&player->actor.world.pos.x, this->actor.world.pos.x + tempSin, 0.5f, 5.0f, 0.0f);
             Math_SmoothStepToF(&player->actor.world.pos.z, this->actor.world.pos.z + tempCos, 0.5f, 5.0f, 0.0f);
-
             Math_SmoothStepToF(&this->unk_208, 0.07f, 1.0f, 0.005f, 0.0f);
             tempSin = Math_SinS(this->actor.world.rot.y) * 230.0f;
             tempCos = Math_CosS(this->actor.world.rot.y) * 230.0f;
@@ -1392,8 +1373,8 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 this->unk_228 = 7700.0f;
                 this->unk_204 = 0.0f;
                 this->unk_1E4 = 0.0f;
-                this->unk_19E = 0;
                 this->numWallCollisions = 0;
+                this->unk_19E = 0;
             }
             break;
         case 7:
@@ -1418,19 +1399,17 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 cornerPos = &sCornerPositions[this->unk_1A0];
                 this->unk_1EC = 3.0f;
                 Math_SmoothStepToF(&this->unk_1E4, this->unk_1EC * 5.0f, 1.0f, this->unk_1EC * 0.25f, 0.0f);
-                xDistToCorner = cornerPos->x - this->actor.world.pos.x;
-                zDistToCorner = cornerPos->z - this->actor.world.pos.z;
-                distToCorner = sqrtf(SQ(xDistToCorner) + SQ(zDistToCorner));
-                phi_f2 = distToCorner - 200.0f;
-                if ((distToCorner < 200.0f) || (this->unk_1DA != 0)) {
-                    phi_f2 = 0.0f;
+                tempSin = cornerPos->x - this->actor.world.pos.x;
+                tempCos = cornerPos->z - this->actor.world.pos.z;
+                sp178 = sqrtf(SQ(tempSin) + SQ(tempCos)) - 200.0f;
+                if ((sqrtf(SQ(tempSin) + SQ(tempCos)) < 200.0f) || (this->unk_1DA != 0)) {
+                    sp178 = 0.0f;
                 }
-                phi_f2 = CLAMP_MAX(phi_f2, 70.0f);
+                sp178 = CLAMP_MAX(sp178, 70.0f);
                 this->unk_23C = (Math_SinS(this->unk_19E * 1000) * -50.0f) / 100.0f;
 
-                sp198.x = Math_SinS(this->unk_19E * 1000) * phi_f2;
-                sp198.y = 0.0f;
-                sp198.z = 0.0f;
+                sp198.x = Math_SinS(this->unk_19E * 1000) * sp178;
+                sp198.y = sp198.z = 0.0f;
 
                 Matrix_RotateY(this->actor.shape.rot.y * (M_PI / 0x8000), MTXMODE_NEW);
                 Matrix_MultVec3f(&sp198, &sp184);
@@ -1444,13 +1423,15 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 if (!(this->unk_19E & 1)) {
                     func_80033260(globalCtx, &this->actor, &this->actor.world.pos, 40.0f, 3, 8.0f, 0x1F4, 0xA, 0);
                 }
-                xDistToCorner = cornerPos->x - this->actor.world.pos.x;
-                zDistToCorner = cornerPos->z - this->actor.world.pos.z;
+                tempSin = cornerPos->x - this->actor.world.pos.x;
+                tempCos = cornerPos->z - this->actor.world.pos.z;
                 Math_SmoothStepToF(&this->unk_1E8, 1500.0f, 1.0f, this->unk_1EC * 100.0f, 0.0f);
-                Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(xDistToCorner, zDistToCorner) * 10430.378f),
-                                   5, (this->unk_1EC * this->unk_1E8), 0);
+                Math_SmoothStepToS(&this->actor.world.rot.y, (Math_FAtan2F(tempSin, tempCos) * 10430.378f), 5,
+                                   (this->unk_1EC * this->unk_1E8), 0);
 
-                if ((fabsf(xDistToCorner) <= 15.0f) && (fabsf(zDistToCorner) <= 15.0f)) {
+                if ((fabsf(tempSin) <= 15.0f) && (fabsf(tempCos) <= 15.0f)) {
+                    Vec3f dustPos;
+
                     this->actor.velocity.y = 15.0f;
                     Audio_PlayActorSound2(&this->actor, NA_SE_EN_DODO_K_COLI2);
                     if (this->unk_1A2 == 0) {
@@ -1477,10 +1458,10 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             if (this->unk_1DA == 884) {
                 Animation_Change(&this->skelAnime, &D_060042A8, 1.0f, 0.0f, (f32)Animation_GetLastFrame(&D_060042A8),
                                  ANIMMODE_LOOP, -20.0f);
-                xDistToCamera = this->cameraEye.x - this->actor.world.pos.x;
-                zDistToCamera = this->cameraEye.z - this->actor.world.pos.z;
-                this->unk_22C = sqrtf(SQ(xDistToCamera) + SQ(zDistToCamera));
-                this->unk_230 = Math_FAtan2F(xDistToCamera, zDistToCamera);
+                tempSin = this->cameraEye.x - this->actor.world.pos.x;
+                tempCos = this->cameraEye.z - this->actor.world.pos.z;
+                this->unk_22C = sqrtf(SQ(tempSin) + SQ(tempCos));
+                this->unk_230 = Math_FAtan2F(tempSin, tempCos);
                 this->unk_1DC = 350;
                 this->csState = 9;
             }
@@ -1509,23 +1490,25 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                 if (this->unk_1DA >= 710) {
 
                     if (this->unk_1DA == 710) {
-                        Vec3f D_808CA498[] = {
+                        Vec3f sp124[] = {
                             { -440.0f, 0.0f, -3304.0f },
-                            { -890.0f, 0.0f, -3574.0f },
+                            { -890.0f, 0.0f, -3754.0f },
                             { -1340.0f, 0.0f, -3304.0f },
                             { -890.0f, 0.0f, -2854.0f },
                         };
-                        Vec3f D_808CA4C8[] = {
+                        Vec3f spF4[] = {
                             { -890.0f, 0.0f, -2854.0f },
                             { -440.0f, 0.0f, -3304.0f },
                             { -890.0f, 0.0f, -3754.0f },
                             { -1340.0f, 0.0f, -3304.0f },
                         };
+                        Vec3f* phi_v0_2;
+
                         this->unk_1C6 = 1;
                         if (this->unk_1A2 == 0) {
-                            phi_v0_2 = &D_808CA4C8[this->unk_1A0];
+                            phi_v0_2 = &sp124[this->unk_1A0];
                         } else {
-                            phi_v0_2 = &D_808CA498[this->unk_1A0];
+                            phi_v0_2 = &spF4[this->unk_1A0];
                         }
                         player->actor.world.pos.x = phi_v0_2->x;
                         player->actor.world.pos.z = phi_v0_2->z;
@@ -1536,23 +1519,26 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
                     } else {
                         Math_SmoothStepToF(&this->unk_228, -6600.0f, 0.2f, 30.0f, 0.0f);
                     }
-                    { // Scope seems to be required because of how its loaded
-                        Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
-                        Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
-                        Color_RGBA8* lMagmaPrimColor = magmaPrimColor2;
-                        Color_RGBA8* lMagmaEnvColor = magmaEnvColor2;
+                    {
+                        static Vec3f dustVel = { 0.0f, 0.0f, 0.0f };
+                        static Vec3f dustAcell = { 0.0f, 1.0f, 0.0f };
+                        static Color_RGBA8 dustPrimColor = { 255, 255, 100, 255 };
+                        static Color_RGBA8 dustEnvColor = { 255, 100, 0, 255 };
+                        s16 colorIndex;
+                        Color_RGBA8 magmaPrimColor2[] = { { 255, 255, 0, 255 }, { 0, 0, 0, 100 } };
+                        Color_RGBA8 magmaEnvColor2[] = { { 255, 0, 0, 255 }, { 0, 0, 0, 0 } };
 
-                        effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.world.pos.x;
+                        effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.x;
                         effectPos.y = Rand_ZeroFloat(50.0f) + this->actor.world.pos.y;
-                        effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.world.pos.z;
+                        effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.z;
                         func_8002836C(globalCtx, &effectPos, &dustVel, &dustAcell, &dustPrimColor, &dustEnvColor, 0x1F4,
                                       0xA, 0xA);
-                        effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.world.pos.x;
+                        effectPos.x = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.x;
                         effectPos.y = -1498.76f;
-                        effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.world.pos.z;
+                        effectPos.z = Rand_CenteredFloat(120.0f) + this->actor.focus.pos.z;
                         colorIndex = (Rand_ZeroOne() * 1.9f);
-                        EffectSsGMagma2_Spawn(globalCtx, &effectPos, &lMagmaPrimColor[colorIndex],
-                                              &lMagmaEnvColor[colorIndex], 10 - (colorIndex * 5), colorIndex,
+                        EffectSsGMagma2_Spawn(globalCtx, &effectPos, &magmaPrimColor2[colorIndex],
+                                              &magmaEnvColor2[colorIndex], 10 - (colorIndex * 5), colorIndex,
                                               (s16)(Rand_ZeroOne() * 100.0f) + 100);
                     }
                 }
@@ -1582,38 +1568,38 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             Math_SmoothStepToF(&this->cameraAt.z, this->actor.world.pos.z, 0.2f, 30.0f, 0.0f);
             if (this->csState == 9) {
                 if (this->unk_1DA < 0x2C6) {
-                    Vec3f D_808CA508[] = { { -390.0f, 0.0f, -3304.0f },
-                                           { -890.0f, 0.0f, -3804.0f },
-                                           { -1390.0f, 0.0f, -3304.0f },
-                                           { -890.0f, 0.0f, -2804.0f } };
+                    Vec3f spAC[] = { { -390.0f, 0.0f, -3304.0f },
+                                     { -890.0f, 0.0f, -3804.0f },
+                                     { -1390.0f, 0.0f, -3304.0f },
+                                     { -890.0f, 0.0f, -2804.0f } };
 
-                    Vec3f D_808CA538[] = { { -890.0f, 0.0f, -2804.0f },
-                                           { -390.0f, 0.0f, -3304.0f },
-                                           { -890.0f, 0.0f, -3804.0f },
-                                           { -1390.0f, 0.0f, -3304.0f } };
+                    Vec3f sp7C[] = { { -890.0f, 0.0f, -2804.0f },
+                                     { -390.0f, 0.0f, -3304.0f },
+                                     { -890.0f, 0.0f, -3804.0f },
+                                     { -1390.0f, 0.0f, -3304.0f } };
+                    Vec3f* sp78;
+                    s32 pad74;
+
                     if (this->unk_1A2 == 0) {
-                        phi_v0_3 = &D_808CA538[this->unk_1A0];
+                        sp78 = &spAC[this->unk_1A0];
                     } else {
-                        phi_v0_3 = &D_808CA508[this->unk_1A0];
+                        sp78 = &sp7C[this->unk_1A0];
                     }
 
-                    Math_SmoothStepToF(&this->cameraEye.x, phi_v0_3->x, 0.2f, this->unk_204 * 20.0f, 0.0f);
+                    Math_SmoothStepToF(&this->cameraEye.x, sp78->x, 0.2f, this->unk_204 * 20.0f, 0.0f);
                     Math_SmoothStepToF(&this->cameraEye.y, player->actor.world.pos.y + 30.0f, 0.1f,
                                        this->unk_204 * 20.0f, 0.0f);
-                    Math_SmoothStepToF(&this->cameraEye.z, phi_v0_3->z, 0.1f, this->unk_204 * 20.0f, 0.0f);
+                    Math_SmoothStepToF(&this->cameraEye.z, sp78->z, 0.1f, this->unk_204 * 20.0f, 0.0f);
                     Math_SmoothStepToF(&this->unk_204, 1.0f, 1.0f, 0.02f, 0.0f);
                 } else {
-                    f32 temp;
                     if (this->unk_1A2 == 0) {
                         this->unk_230 += 0.01f;
                     } else {
                         this->unk_230 -= 0.01f;
                     }
                     Math_SmoothStepToF(&this->unk_22C, 220.0f, 0.1f, 5.0f, 0.1f);
-                    temp = sinf(this->unk_230);
-                    tempSin = temp * this->unk_22C;
-                    temp = cosf(this->unk_230);
-                    tempCos = temp * this->unk_22C;
+                    tempSin = sinf(this->unk_230) * (*this).unk_22C;
+                    tempCos = cosf(this->unk_230) * (*this).unk_22C;
                     Math_SmoothStepToF(&this->cameraEye.x, this->actor.world.pos.x + tempSin, 0.2f, 50.0f, 0.0f);
                     Math_SmoothStepToF(&this->cameraEye.y, this->actor.world.pos.y + 20.0f, 0.2f, 50.0f, 0.0f);
                     Math_SmoothStepToF(&this->cameraEye.z, this->actor.world.pos.z + tempCos, 0.2f, 50.0f, 0.0f);
@@ -1658,12 +1644,14 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
             }
         case 100:
             if ((this->unk_1DA < 0x2C6) && (Rand_ZeroOne() < 0.5f)) {
-                Color_RGBA8 D_808CA568 = { 0x00, 0x00, 0x00, 0x64 };
-                Color_RGBA8 D_808CA56C = { 0x00, 0x00, 0x00, 0x00 };
-                sp70.x = Rand_CenteredFloat(60.0f) + this->actor.focus.pos.x;
-                sp70.y = (Rand_ZeroOne() * 50.0f) + -1498.76f;
-                sp70.z = Rand_CenteredFloat(60.0f) + this->actor.focus.pos.z;
-                EffectSsGMagma2_Spawn(globalCtx, &sp70, &D_808CA568, &D_808CA56C, 5, 1,
+                Vec3f sp68;
+                Color_RGBA8 D_808CA568 = { 0, 0, 0, 100 };
+                Color_RGBA8 D_808CA56C = { 0, 0, 0, 0 };
+
+                sp68.x = Rand_CenteredFloat(60.0f) + this->actor.focus.pos.x;
+                sp68.y = (Rand_ZeroOne() * 50.0f) + -1498.76f;
+                sp68.z = Rand_CenteredFloat(60.0f) + this->actor.focus.pos.z;
+                EffectSsGMagma2_Spawn(globalCtx, &sp68, &D_808CA568, &D_808CA56C, 5, 1,
                                       (s16)(Rand_ZeroOne() * 50.0f) + 50);
             }
             break;
@@ -1672,26 +1660,6 @@ void BossDodongo_DeathCutscene(BossDodongo* this, GlobalContext* globalCtx) {
         Gameplay_CameraSetAtEye(globalCtx, this->cutsceneCamera, &this->cameraAt, &this->cameraEye);
     }
 }
-#else
-s32 D_808CA498[] = { 0xC3DC0000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56AA000,
-                     0xC4A78000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC5326000 };
-s32 D_808CA4C8[] = { 0xC45E8000, 0x00000000, 0xC5326000, 0xC3DC0000, 0x00000000, 0xC54E8000,
-                     0xC45E8000, 0x00000000, 0xC56AA000, 0xC4A78000, 0x00000000, 0xC54E8000 };
-s32 D_808CA4F8[] = { 0xFFFF00FF, 0x00000064 };
-s32 D_808CA500[] = { 0xFF0000FF, 0x00000000 };
-s32 D_808CA508[] = { 0xC3C30000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC56DC000,
-                     0xC4ADC000, 0x00000000, 0xC54E8000, 0xC45E8000, 0x00000000, 0xC52F4000 };
-s32 D_808CA538[] = { 0xC45E8000, 0x00000000, 0xC52F4000, 0xC3C30000, 0x00000000, 0xC54E8000,
-                     0xC45E8000, 0x00000000, 0xC56DC000, 0xC4ADC000, 0x00000000, 0xC54E8000 };
-s32 D_808CA568 = 0x00000064;
-s32 D_808CA56C = 0x00000000;
-s32 D_808CA570[] = { 0x00000000, 0x00000000, 0x00000000 };
-s32 D_808CA57C[] = { 0x00000000, 0x3F800000, 0x00000000 };
-s32 D_808CA588 = 0xFFFF64FF;
-s32 D_808CA58C = 0xFF6400FF;
-
-#pragma GLOBAL_ASM("asm/non_matchings/overlays/actors/ovl_Boss_Dodongo/BossDodongo_DeathCutscene.s")
-#endif
 
 void BossDodongo_UpdateEffects(GlobalContext* globalCtx) {
     BossDodongoEffect* eff = (BossDodongoEffect*)globalCtx->specialEffects;

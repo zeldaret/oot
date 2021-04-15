@@ -385,7 +385,7 @@ typedef struct {
     /* 0x022E */ s16    unk_22E;
     /* 0x0230 */ s16    unk_230;
     /* 0x0232 */ s16    counterDigits[4]; // used for key and rupee counters
-    /* 0x023A */ u8     unk_23A;
+    /* 0x023A */ u8     numHorseBoosts;
     /* 0x023C */ u16    unk_23C;
     /* 0x023E */ u16    hbaAmmo; // ammo while playing the horseback archery minigame
     /* 0x0240 */ u16    unk_240;

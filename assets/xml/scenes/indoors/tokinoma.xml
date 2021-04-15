@@ -1,6 +1,9 @@
 <Root>
     <File Name="tokinoma_scene">
-        <Scene Name="tokinoma_scene"/>
+        <Scene Name="tokinoma_scene">
+        <CutsceneHint Name="gFirstAdultCs" Offset="0x0046F0"/>
+        <CutsceneHint Name="gPreludeCs" Offset="0x006D20"/>
+        </Scene>
     </File>
     <File Name="tokinoma_room_0">
         <Room Name="tokinoma_room_0"/>
