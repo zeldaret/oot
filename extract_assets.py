@@ -19,7 +19,6 @@ def ExtractFile(xmlPath, outputPath, outputSourcePath, genSrcFile, incFilePrefix
 	os.system(execStr)
 
 def ExtractFunc(fullPath):
-	#outPath = ("assets/extracted/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 	outPath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 	outSourcePath = ("assets/" + fullPath.split("assets/xml/")[1]).split(".xml")[0]
 
@@ -37,7 +36,7 @@ def main():
     if asset_path is not None:
         if asset_path.endswith("/"):
             asset_path = asset_path[0:-1]
-        Extract(f"assets/xml/{asset_path}.xml", f"assets/{asset_path}/")
+        Extract(f"assets/xml/{asset_path}.xml", f"assets/{asset_path}/", f"assets/{asset_path}/")
     else:
         xmlFiles = []
         for currentPath, folders, files in os.walk("assets"):
