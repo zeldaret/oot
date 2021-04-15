@@ -190,7 +190,7 @@ void func_8087E258(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
 
 void func_8087E288(BgHakaMeganeBG* this, GlobalContext* globalCtx) {
     if (Flags_GetSwitch(globalCtx, this->unk_168)) {
-        func_80080480(globalCtx, &this->dyna.actor);
+        OnePointCutscene_Attention(globalCtx, &this->dyna.actor);
         this->actionFunc = func_8087E2D8;
     }
 }

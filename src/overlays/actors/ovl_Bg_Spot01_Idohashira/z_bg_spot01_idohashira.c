@@ -150,7 +150,7 @@ void BgSpot01Idohashira_Destroy(Actor* thisx, GlobalContext* globalCtx) {
 }
 
 s32 BgSpot01Idohashira_NotInCsMode(GlobalContext* globalCtx) {
-    if (globalCtx->csCtx.state == 0) {
+    if (globalCtx->csCtx.state == CS_STATE_IDLE) {
         return true;
     }
     return false;

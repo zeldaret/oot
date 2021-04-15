@@ -15,8 +15,8 @@ typedef struct EnIn {
     /* 0x0194 */ ColliderCylinder collider;
     /* 0x01E0 */ f32 unk_1E0;
     /* 0x01E4 */ s8 ingoObjBankIndex;
-    /* 0x01E6 */ s16 unk_1E6;
-    /* 0x01E6 */ s16 unk_1E8;
+    /* 0x01E6 */ s16 animationIdx;
+    /* 0x01E8 */ s16 unk_1E8;
     /* 0x01EA */ s16 unk_1EA;
     /* 0x01EC */ s16 unk_1EC;
     /* 0x01EE */ s16 unk_1EE;

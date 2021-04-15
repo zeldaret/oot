@@ -66,7 +66,6 @@ void func_800C0F28(PreRenderContext* this, Gfx** gfxp, void* buf, void* bufSave)
         ult = x2;
         lrt = (ult + dx) - 1;
 
-        if (1) {}
         gDPLoadTextureTile(gfx++, buf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
@@ -116,7 +115,6 @@ void func_800C1258(PreRenderContext* this, Gfx** gfxp) {
         lrt = (ult + dy) - 1;
         uly = this->uly + y2;
 
-        if (1) {}
         gDPLoadTextureTile(gfx++, this->fbufSave, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->widthSave, this->height - 1,
                            this->ulxSave, ult, this->lrxSave, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
@@ -172,7 +170,7 @@ void func_800C170C(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* fbufSav
         gDPLoadTextureTile(gfx++, fbuf, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
-        if (1) {}
+
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
 
@@ -226,7 +224,7 @@ void func_800C1B24(PreRenderContext* this, Gfx** gfxp, void* fbuf, void* cvgSave
         gDPLoadTextureTile(gfx++, fbuf, G_IM_FMT_IA, G_IM_SIZ_16b, this->width, this->height, uls, ult, lrs, lrt, 0,
                            G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD,
                            G_TX_NOLOD);
-        if (1) {}
+
         gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                             ult << 5, 1 << 10, 1 << 10);
         x -= dx;
@@ -326,11 +324,11 @@ void func_800C213C(PreRenderContext* this, Gfx** gfxp) {
             gDPLoadMultiTile(gfx++, this->fbufSave, 0x0000, G_TX_RENDERTILE, G_IM_FMT_RGBA, G_IM_SIZ_16b, this->width,
                              this->height, uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP,
                              G_TX_NOMASK, G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-            if (1) {}
+
             gDPLoadMultiTile(gfx++, this->cvgSave, 0x0160, rtile, G_IM_FMT_I, G_IM_SIZ_8b, this->width, this->height,
                              uls, ult, lrs, lrt, 0, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMIRROR | G_TX_WRAP, G_TX_NOMASK,
                              G_TX_NOMASK, G_TX_NOLOD, G_TX_NOLOD);
-            if (1) {}
+
             gSPTextureRectangle(gfx++, uls << 2, ult << 2, (lrs + 1) << 2, (lrt + 1) << 2, G_TX_RENDERTILE, uls << 5,
                                 ult << 5, 1 << 10, 1 << 10);
 
@@ -471,8 +469,6 @@ void func_800C2500(PreRenderContext* this, s32 x, s32 y) {
     this->fbufSave[x + y * this->width] = pxOut.rgba;
 }
 
-#ifdef NON_MATCHING
-// Redundant conditional is the only nonmatching.
 void func_800C2FE4(PreRenderContext* this) {
     s32 x;
     s32 y;
@@ -480,12 +476,10 @@ void func_800C2FE4(PreRenderContext* this) {
     u8* buffR = alloca(this->width);
     u8* buffG = alloca(this->width);
     u8* buffB = alloca(this->width);
+    s32 pad[3];
     s32 pxR;
     s32 pxG;
     s32 pxB;
-    s32 medR;
-    s32 medG;
-    s32 medB;
 
     for (y = 0; y < this->height; y++) {
         for (x = 0; x < this->width; x++) {
@@ -496,6 +490,7 @@ void func_800C2FE4(PreRenderContext* this) {
             buffG[x] = pxIn.g;
             buffB[x] = pxIn.b;
         }
+
         for (x = 1; x < this->width - 1; x++) {
             Color_RGB5A1 pxOut;
             s32 a = this->cvgSave[x + y * this->width];
@@ -506,10 +501,8 @@ void func_800C2FE4(PreRenderContext* this) {
             }
 
             if (((HREG(80) == 0xF) ? HREG(81) : 0) != 0) {
-                // There's a redundant branch in the ASM that taken literally looks like this
-                // phi_v0 = ((HREG(80) == 0xF) ? 0 : 0);
-                // if (((HREG(80) == 0xF) ? HREG(81) : phi_v0) == 5) {
-                
+                if (((HREG(80) == 0xF) ? HREG(81) : 0) != 0) {}
+
                 if (((HREG(80) == 0xF) ? HREG(81) : 0) == 5) {
                     pxR = 31;
                     pxG = 0;
@@ -520,13 +513,12 @@ void func_800C2FE4(PreRenderContext* this) {
                     u8* temp_s2 = &buffB[x - 1];
 
                     if (((HREG(80) == 0xF) ? HREG(81) : 0) == 3) {
-                        medR = MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]);
-                        medG = MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]);
-                        medB = MEDIAN3(temp_s2[0], temp_s2[1], temp_s2[2]);
                         osSyncPrintf("red=%3d %3d %3d %3d grn=%3d %3d %3d %3d blu=%3d %3d %3d %3d \n", temp_s0[0],
-                                     temp_s0[1], temp_s0[2], medR, temp_s1[0], temp_s1[1], temp_s1[2], medG, temp_s2[0],
-                                     temp_s2[1], temp_s2[2], medB);
+                                     temp_s0[1], temp_s0[2], MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]), temp_s1[0],
+                                     temp_s1[1], temp_s1[2], MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]), temp_s2[0],
+                                     temp_s2[1], temp_s2[2], MEDIAN3(temp_s2[0], temp_s2[1], temp_s2[2]));
                     }
+
                     if (((HREG(80) == 0xF) ? HREG(81) : 0) == 1) {
                         pxR = MEDIAN3(temp_s0[0], temp_s0[1], temp_s0[2]);
                         pxG = MEDIAN3(temp_s1[0], temp_s1[1], temp_s1[2]);
@@ -546,9 +538,6 @@ void func_800C2FE4(PreRenderContext* this) {
         }
     }
 }
-#else
-#pragma GLOBAL_ASM("asm/non_matchings/code/PreRender/func_800C2FE4.s")
-#endif
 
 void PreRender_Calc(PreRenderContext* this) {
     s32 x;
