@@ -48,14 +48,14 @@ void ZCutsceneMM::ParseRawData()
 	uint32_t currentPtr = rawDataIndex + 8;
 	uint32_t lastData = 0;
 
-	// TODO currently cutscenes aren't being parsed, so just consume words until we see an end marker.
+	// TODO currently cutscenes aren't being parsed, so just consume words until we see an end
+	// marker.
 	do
 	{
 		lastData = BitConverter::ToInt32BE(rawData, currentPtr);
 		data.push_back(lastData);
 		currentPtr += 4;
-	} 
-	while (lastData != 0xFFFFFFFF);
+	} while (lastData != 0xFFFFFFFF);
 }
 
 ZResourceType ZCutsceneMM::GetResourceType()

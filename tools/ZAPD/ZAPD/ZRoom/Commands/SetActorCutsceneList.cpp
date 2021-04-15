@@ -7,7 +7,8 @@
 
 using namespace std;
 
-SetActorCutsceneList::SetActorCutsceneList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDataIndex)
+SetActorCutsceneList::SetActorCutsceneList(ZRoom* nZRoom, std::vector<uint8_t> rawData,
+                                           int rawDataIndex)
 	: ZRoomCommand(nZRoom, rawData, rawDataIndex)
 {
 	int numCutscenes = rawData[rawDataIndex + 1];
@@ -24,22 +25,21 @@ SetActorCutsceneList::SetActorCutsceneList(ZRoom* nZRoom, std::vector<uint8_t> r
 
 		currentPtr += 16;
 	}
-	
+
 	string declaration = "";
 
 	for (ActorCutsceneEntry* entry : cutscenes)
 	{
-		declaration +=
-			StringHelper::Sprintf("    { %i, %i, %i, %i, %i, %i, %i, %i, %i, %i },\n", entry->priority,
-				entry->length, entry->unk4, entry->unk6, entry->additionalCutscene, entry->sound,
-				entry->unkB, entry->unkC, entry->unkE, entry->letterboxSize);
-
+		declaration += StringHelper::Sprintf(
+			"    { %i, %i, %i, %i, %i, %i, %i, %i, %i, %i },\n", entry->priority, entry->length,
+			entry->unk4, entry->unk6, entry->additionalCutscene, entry->sound, entry->unkB,
+			entry->unkC, entry->unkE, entry->letterboxSize);
 	}
 
 	zRoom->parent->AddDeclarationArray(
 		segmentOffset, DeclarationAlignment::None, cutscenes.size() * 16, "ActorCutscene",
-		StringHelper::Sprintf("%sActorCutsceneList0x%06X", zRoom->GetName().c_str(), segmentOffset), 0,
-		declaration);
+		StringHelper::Sprintf("%sActorCutsceneList0x%06X", zRoom->GetName().c_str(), segmentOffset),
+		0, declaration);
 }
 
 SetActorCutsceneList::~SetActorCutsceneList()
@@ -68,8 +68,8 @@ int32_t SetActorCutsceneList::GetRawDataSize()
 
 string SetActorCutsceneList::GenerateExterns()
 {
-	return StringHelper::Sprintf("extern ActorCutscene %sActorCutsceneList0x%06X[];\n", zRoom->GetName().c_str(),
-								 segmentOffset);
+	return StringHelper::Sprintf("extern ActorCutscene %sActorCutsceneList0x%06X[];\n",
+	                             zRoom->GetName().c_str(), segmentOffset);
 }
 
 string SetActorCutsceneList::GetCommandCName()
@@ -82,16 +82,14 @@ RoomCommand SetActorCutsceneList::GetRoomCommand()
 	return RoomCommand::SetActorCutsceneList;
 }
 
-ActorCutsceneEntry::ActorCutsceneEntry(std::vector<uint8_t> rawData, int rawDataIndex) :
-	priority(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
-	length(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
-	unk4(BitConverter::ToInt16BE(rawData, rawDataIndex + 4)),
-	unk6(BitConverter::ToInt16BE(rawData, rawDataIndex + 6)),
-	additionalCutscene(BitConverter::ToInt16BE(rawData, rawDataIndex + 8)),
-	sound(rawData[rawDataIndex + 0xA]),
-	unkB(rawData[rawDataIndex + 0xB]),
-	unkC(BitConverter::ToInt16BE(rawData, rawDataIndex + 0xC)),
-	unkE(rawData[rawDataIndex + 0xE]),
-	letterboxSize(rawData[rawDataIndex + 0xF])
+ActorCutsceneEntry::ActorCutsceneEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+	: priority(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
+	  length(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
+	  unk4(BitConverter::ToInt16BE(rawData, rawDataIndex + 4)),
+	  unk6(BitConverter::ToInt16BE(rawData, rawDataIndex + 6)),
+	  additionalCutscene(BitConverter::ToInt16BE(rawData, rawDataIndex + 8)),
+	  sound(rawData[rawDataIndex + 0xA]), unkB(rawData[rawDataIndex + 0xB]),
+	  unkC(BitConverter::ToInt16BE(rawData, rawDataIndex + 0xC)), unkE(rawData[rawDataIndex + 0xE]),
+	  letterboxSize(rawData[rawDataIndex + 0xF])
 {
 }

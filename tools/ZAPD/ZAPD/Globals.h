@@ -14,7 +14,18 @@ enum VerbosityLevel
 	VERBOSITY_DEBUG
 };
 
-class GameConfig;
+class GameConfig
+{
+public:
+	std::map<int, std::string> segmentRefs;
+	std::map<int, ZFile*> segmentRefFiles;
+	std::map<uint32_t, std::string> symbolMap;
+	std::vector<std::string> actorList;
+	std::vector<std::string> objectList;
+	std::map<uint32_t, std::string> texturePool;  // Key = CRC, Value = Path to Shared Texture
+
+	GameConfig() = default;
+};
 
 class Globals
 {
@@ -32,7 +43,7 @@ public:
 	std::string baseRomPath, inputPath, outputPath, sourceOutputPath, cfgPath;
 	TextureType texType;
 	ZGame game;
-	GameConfig* cfg;
+	GameConfig cfg;
 
 	std::vector<ZFile*> files;
 	std::vector<int> segments;
@@ -48,21 +59,6 @@ public:
 	void GenSymbolMap(const std::string& symbolMapPath);
 	void AddSegment(int segment);
 	bool HasSegment(int segment);
-};
-
-class GameConfig
-{
-public:
-	std::map<int, std::string> segmentRefs;
-	std::map<int, ZFile*> segmentRefFiles;
-	std::map<uint32_t, std::string> symbolMap;
-	std::vector<std::string> actorList;
-	std::vector<std::string> objectList;
-	std::map<uint32_t, std::string> texturePool;  // Key = CRC, Value = Path to Shared Texture
-
-	GameConfig();
-
-private:
 };
 
 /*

@@ -27,7 +27,7 @@ class FlashingTexturePrimColor
 {
 public:
 	FlashingTexturePrimColor(std::vector<uint8_t> rawData, int rawDataIndex);
-	
+
 	uint8_t r;
 	uint8_t g;
 	uint8_t b;
@@ -58,7 +58,7 @@ public:
 	uint32_t primColorSegmentOffset;
 	uint32_t envColorSegmentOffset;
 	uint32_t keyFrameSegmentOffset;
-	
+
 	std::vector<FlashingTexturePrimColor> primColors;
 	std::vector<FlashingTextureEnvColor> envColors;
 	std::vector<uint16_t> keyFrames;
@@ -74,7 +74,7 @@ public:
 	uint16_t cycleLength;
 	uint32_t textureSegmentOffsetsSegmentOffset;
 	uint32_t textureIndicesSegmentOffset;
-	
+
 	std::vector<uint32_t> textureSegmentOffsets;
 	std::vector<uint8_t> textureIndices;
 };

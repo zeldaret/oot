@@ -31,7 +31,8 @@ SetLightList::SetLightList(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawD
 		currentPtr += 14;
 
 		declarations += StringHelper::Sprintf(
-			"    { 0x%02X, { %i, %i, %i, { 0x%02X, 0x%02X, 0x%02X }, 0x%02X, 0x%04X } },", type, x, y, z, r, g, b, drawGlow, radius);
+			"    { 0x%02X, { %i, %i, %i, { 0x%02X, 0x%02X, 0x%02X }, 0x%02X, 0x%04X } },", type, x,
+			y, z, r, g, b, drawGlow, radius);
 
 		if (i < this->numLights - 1)
 			declarations += "\n";

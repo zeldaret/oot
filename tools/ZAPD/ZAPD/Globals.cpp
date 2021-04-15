@@ -84,8 +84,6 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 	if (root == nullptr)
 		return;
 
-	cfg = new GameConfig();
-
 	for (XMLElement* child = root->FirstChildElement(); child != NULL;
 	     child = child->NextSiblingElement())
 	{
@@ -108,7 +106,7 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 
 			for (std::string line : lines)
 			{
-				cfg->actorList.push_back(StringHelper::Strip(line, "\r"));
+				cfg.actorList.push_back(StringHelper::Strip(line, "\r"));
 			}
 		}
 		else if (string(child->Name()) == "ObjectList")
@@ -119,7 +117,7 @@ void Globals::ReadConfigFile(const std::string& configFilePath)
 
 			for (std::string line : lines)
 			{
-				cfg->objectList.push_back(StringHelper::Strip(line, "\r"));
+				cfg.objectList.push_back(StringHelper::Strip(line, "\r"));
 			}
 		}
 		else if (string(child->Name()) == "TexturePool")
@@ -154,7 +152,7 @@ void Globals::ReadTexturePool(const std::string& texturePoolXmlPath)
 			string crcStr = string(child->Attribute("CRC"));
 			string texPath = string(child->Attribute("Path"));
 
-			cfg->texturePool[strtol(crcStr.c_str(), NULL, 16)] = texPath;
+			cfg.texturePool[strtol(crcStr.c_str(), NULL, 16)] = texPath;
 		}
 	}
 }
@@ -182,14 +180,4 @@ void Globals::AddSegment(int segment)
 bool Globals::HasSegment(int segment)
 {
 	return std::find(segments.begin(), segments.end(), segment) != segments.end();
-}
-
-GameConfig::GameConfig()
-{
-	segmentRefs = map<int, string>();
-	segmentRefFiles = map<int, ZFile*>();
-	symbolMap = std::map<uint32_t, std::string>();
-	actorList = std::vector<std::string>();
-	objectList = std::vector<std::string>();
-	texturePool = std::map<uint32_t, std::string>();
 }

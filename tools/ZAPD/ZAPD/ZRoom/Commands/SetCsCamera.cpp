@@ -33,12 +33,13 @@ SetCsCamera::SetCsCamera(ZRoom* nZRoom, std::vector<uint8_t> rawData, int rawDat
 	if (numPoints > 0)
 	{
 		uint32_t currentPtr = cameras[0]->segmentOffset;
-		
-		for (int i = 0; i < numPoints; i++) {
+
+		for (int i = 0; i < numPoints; i++)
+		{
 			int16_t x = BitConverter::ToInt16BE(rawData, currentPtr + 0);
 			int16_t y = BitConverter::ToInt16BE(rawData, currentPtr + 2);
 			int16_t z = BitConverter::ToInt16BE(rawData, currentPtr + 4);
-			Vec3s p = { x, y, z };
+			Vec3s p = {x, y, z};
 			points.push_back(p);
 			currentPtr += 6;
 		}
@@ -70,8 +71,8 @@ string SetCsCamera::GenerateSourceCodePass2(string roomName, int baseAddress)
 
 	sourceOutput +=
 		StringHelper::Sprintf("%s %i, (u32)&%sCsCameraList0x%06X };",
-							  ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-							   cameras.size(), roomName.c_str(), segmentOffset);
+	                          ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
+	                          cameras.size(), roomName.c_str(), segmentOffset);
 
 	if (points.size() > 0)
 	{
@@ -80,7 +81,7 @@ string SetCsCamera::GenerateSourceCodePass2(string roomName, int baseAddress)
 		for (Vec3s point : points)
 		{
 			declaration += StringHelper::Sprintf("	{ %i, %i, %i }, //0x%06X", point.x, point.y,
-												point.z, cameras[0]->segmentOffset + (index * 6));
+			                                     point.z, cameras[0]->segmentOffset + (index * 6));
 
 			if (index < points.size() - 1)
 				declaration += "\n";
@@ -88,11 +89,12 @@ string SetCsCamera::GenerateSourceCodePass2(string roomName, int baseAddress)
 			index++;
 		}
 
-		zRoom->parent->AddDeclarationArray(
-			cameras[0]->segmentOffset, DeclarationAlignment::None, DeclarationPadding::None,
-			points.size() * 6, "Vec3s",
-			StringHelper::Sprintf("%sCsCameraPoints0x%06X", roomName.c_str(), cameras[0]->segmentOffset),
-			points.size(), declaration);
+		zRoom->parent->AddDeclarationArray(cameras[0]->segmentOffset, DeclarationAlignment::None,
+		                                   DeclarationPadding::None, points.size() * 6, "Vec3s",
+		                                   StringHelper::Sprintf("%sCsCameraPoints0x%06X",
+		                                                         roomName.c_str(),
+		                                                         cameras[0]->segmentOffset),
+		                                   points.size(), declaration);
 	}
 
 	{
@@ -102,8 +104,9 @@ string SetCsCamera::GenerateSourceCodePass2(string roomName, int baseAddress)
 		size_t pointsIndex = 0;
 		for (CsCameraEntry* entry : cameras)
 		{
-			declaration += StringHelper::Sprintf("    %i, %i, (u32)&%sCsCameraPoints0x%06X[%i],", entry->type,
-												   entry->numPoints, roomName.c_str(), cameras[0]->segmentOffset, pointsIndex);
+			declaration += StringHelper::Sprintf("    %i, %i, (u32)&%sCsCameraPoints0x%06X[%i],",
+			                                     entry->type, entry->numPoints, roomName.c_str(),
+			                                     cameras[0]->segmentOffset, pointsIndex);
 
 			if (index < cameras.size() - 1)
 				declaration += "\n";
@@ -142,10 +145,9 @@ RoomCommand SetCsCamera::GetRoomCommand()
 	return RoomCommand::SetCsCamera;
 }
 
-CsCameraEntry::CsCameraEntry(std::vector<uint8_t> rawData, int rawDataIndex) :
-	baseOffset(rawDataIndex),
-	type(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
-	numPoints(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
-	segmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4)))
+CsCameraEntry::CsCameraEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+	: baseOffset(rawDataIndex), type(BitConverter::ToInt16BE(rawData, rawDataIndex + 0)),
+	  numPoints(BitConverter::ToInt16BE(rawData, rawDataIndex + 2)),
+	  segmentOffset(GETSEGOFFSET(BitConverter::ToInt32BE(rawData, rawDataIndex + 4)))
 {
 }

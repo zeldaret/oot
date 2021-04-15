@@ -42,7 +42,7 @@ enum class ZResourceType
 	CollisionHeader,
 	Symbol,
 	Mtx,
-	Prerender,
+	Background,
 };
 
 class ZResource

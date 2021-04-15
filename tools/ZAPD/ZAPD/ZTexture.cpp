@@ -780,10 +780,10 @@ void ZTexture::Save(const std::string& outFolder)
 	std::string outPath = outFolder;
 
 	// POOL CHECK
-	if (Globals::Instance->cfg->texturePool.find(hash) != Globals::Instance->cfg->texturePool.end())
+	if (Globals::Instance->cfg.texturePool.find(hash) != Globals::Instance->cfg.texturePool.end())
 	{
-		outPath = Path::GetDirectoryName(Globals::Instance->cfg->texturePool[hash]);
-		outName = Path::GetFileNameWithoutExtension(Globals::Instance->cfg->texturePool[hash]);
+		outPath = Path::GetDirectoryName(Globals::Instance->cfg.texturePool[hash]);
+		outName = Path::GetFileNameWithoutExtension(Globals::Instance->cfg.texturePool[hash]);
 	}
 
 	if (!Directory::Exists(outPath))
@@ -841,6 +841,11 @@ string ZTexture::GetSourceOutputCode(const std::string& prefix)
 		if (i % 32 == 24)
 			sourceOutput += StringHelper::Sprintf(" // 0x%06X \n", rawDataIndex + ((i / 32) * 32));
 	}
+
+	// Ensure there's always a trailing line feed to prevent dumb warnings.
+	// Please don't remove this line, unless you somehow made a way to prevent
+	// that warning when building the OoT repo.
+	sourceOutput += "\n";
 
 	return sourceOutput;
 }

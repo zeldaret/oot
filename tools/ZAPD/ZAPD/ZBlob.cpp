@@ -74,6 +74,11 @@ string ZBlob::GetSourceOutputCode(const std::string& prefix)
 			sourceOutput += "\n";
 	}
 
+	// Ensure there's always a trailing line feed to prevent dumb warnings.
+	// Please don't remove this line, unless you somehow made a way to prevent
+	// that warning when building the OoT repo.
+	sourceOutput += "\n";
+
 	return sourceOutput;
 }
 

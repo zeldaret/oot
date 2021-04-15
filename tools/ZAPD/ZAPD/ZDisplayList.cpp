@@ -2006,10 +2006,10 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 					std::string texName =
 						StringHelper::Sprintf("%sTex_%06X", prefix.c_str(), item.first);
 
-					if (Globals::Instance->cfg->texturePool.find(item.second->hash) !=
-					    Globals::Instance->cfg->texturePool.end())
+					if (Globals::Instance->cfg.texturePool.find(item.second->hash) !=
+					    Globals::Instance->cfg.texturePool.end())
 					{
-						incStr = Globals::Instance->cfg->texturePool[item.second->hash];
+						incStr = Globals::Instance->cfg.texturePool[item.second->hash];
 						texName = Path::GetFileNameWithoutExtension(incStr);
 					}
 
@@ -2108,6 +2108,11 @@ string ZDisplayList::GetSourceOutputCode(const std::string& prefix)
 
 				curAddr += 16;
 			}
+
+			// Ensure there's always a trailing line feed to prevent dumb warnings.
+			// Please don't remove this line, unless you somehow made a way to prevent
+			// that warning when building the OoT repo.
+			declaration += "\n";
 
 			vtxDeclarations[vtxKeys[i]] = declaration;
 

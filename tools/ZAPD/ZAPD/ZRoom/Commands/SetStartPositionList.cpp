@@ -48,10 +48,10 @@ string SetStartPositionList::GenerateSourceCodePass1(string roomName, int baseAd
 
 	for (ActorSpawnEntry* entry : actors)
 	{
-		declaration += StringHelper::Sprintf(
-			"    { %s, %i, %i, %i, %i, %i, %i, 0x%04X },\n",
-			Globals::Instance->cfg->actorList[entry->actorNum].c_str(), entry->posX, entry->posY,
-			entry->posZ, entry->rotX, entry->rotY, entry->rotZ, entry->initVar);
+		declaration += StringHelper::Sprintf("    { %s, %i, %i, %i, %i, %i, %i, 0x%04X },\n",
+		                                     ZNames::GetActorName(entry->actorNum).c_str(),
+		                                     entry->posX, entry->posY, entry->posZ, entry->rotX,
+		                                     entry->rotY, entry->rotZ, entry->initVar);
 	}
 
 	zRoom->parent->AddDeclarationArray(

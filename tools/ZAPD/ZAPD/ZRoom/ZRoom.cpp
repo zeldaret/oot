@@ -7,8 +7,8 @@
 #include "../StringHelper.h"
 #include "../ZBlob.h"
 #include "Commands/EndMarker.h"
-#include "Commands/SetActorList.h"
 #include "Commands/SetActorCutsceneList.h"
+#include "Commands/SetActorList.h"
 #include "Commands/SetAlternateHeaders.h"
 #include "Commands/SetAnimatedTextureList.h"
 #include "Commands/SetCameraSettings.h"
@@ -20,9 +20,9 @@
 #include "Commands/SetExitList.h"
 #include "Commands/SetLightList.h"
 #include "Commands/SetLightingSettings.h"
+#include "Commands/SetMesh.h"
 #include "Commands/SetMinimapChests.h"
 #include "Commands/SetMinimapList.h"
-#include "Commands/SetMesh.h"
 #include "Commands/SetObjectList.h"
 #include "Commands/SetPathways.h"
 #include "Commands/SetRoomBehavior.h"
@@ -41,7 +41,6 @@
 #include "Commands/ZRoomCommandUnk.h"
 #include "ZCutscene.h"
 #include "ZFile.h"
-#include "ZPrerender.h"
 
 using namespace std;
 using namespace tinyxml2;
@@ -202,7 +201,7 @@ void ZRoom::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8
 			                            0, tex->GetSourceOutputCode(name));
 			delete tex;
 		}
-		else if (string(child->Name()) == "PrerenderHint")
+		else if (string(child->Name()) == "BackgroundHint")
 		{
 			string comment = "";
 
@@ -212,7 +211,7 @@ void ZRoom::ExtractFromXML(tinyxml2::XMLElement* reader, const std::vector<uint8
 			string addressStr = child->Attribute("Offset");
 			int address = strtol(StringHelper::Split(addressStr, "0x")[1].c_str(), NULL, 16);
 
-			ZPrerender* back = new ZPrerender(parent);
+			ZBackground* back = new ZBackground(parent);
 			back->ExtractFromXML(reader, rawData, address, "");
 			parent->resources.push_back(back);
 		}
@@ -322,7 +321,7 @@ void ZRoom::ParseCommands(std::vector<ZRoomCommand*>& commandList, CommandSet co
 		case RoomCommand::SetCameraSettings:
 			if (Globals::Instance->game == ZGame::MM_RETAIL)
 				cmd = new SetWorldMapVisited(this, rawData, rawDataIndex);
-			 else
+			else
 				cmd = new SetCameraSettings(this, rawData, rawDataIndex);
 			break;  // 0x19
 		case RoomCommand::SetAnimatedTextureList:
@@ -392,7 +391,7 @@ void ZRoom::ProcessCommandSets()
 				StringHelper::Sprintf("static %s", cmd->GetCommandCName().c_str()),
 				StringHelper::Sprintf("%sSet%04XCmd%02X", name.c_str(), commandSet & 0x00FFFFFF,
 			                          cmd->cmdIndex, cmd->cmdID),
-				StringHelper::Sprintf("%s", pass1.c_str()));
+				StringHelper::Sprintf("\n    %s\n", pass1.c_str()));
 
 			decl->rightText = StringHelper::Sprintf("// 0x%04X", cmd->cmdAddress);
 		}

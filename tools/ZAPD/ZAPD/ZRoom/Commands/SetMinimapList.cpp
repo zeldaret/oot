@@ -47,16 +47,17 @@ string SetMinimapList::GenerateSourceCodePass2(string roomName, int baseAddress)
 
 	sourceOutput +=
 		StringHelper::Sprintf("%s 0, (u32)&%sMinimapList0x%06X };",
-							  ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
-							  roomName.c_str(), segmentOffset, unk4);
+	                          ZRoomCommand::GenerateSourceCodePass1(roomName, baseAddress).c_str(),
+	                          roomName.c_str(), segmentOffset, unk4);
 
 	{
 		string declaration = StringHelper::Sprintf("(u32)%sMinimapEntryList0x%06X, 0x%08X",
-												   roomName.c_str(), listSegmentOffset, unk4);
+		                                           roomName.c_str(), listSegmentOffset, unk4);
 
 		zRoom->parent->AddDeclaration(
 			segmentOffset, DeclarationAlignment::Align4, DeclarationPadding::None, 8, "MinimapList",
-			StringHelper::Sprintf("%sMinimapList0x%06X", roomName.c_str(), segmentOffset), declaration);
+			StringHelper::Sprintf("%sMinimapList0x%06X", roomName.c_str(), segmentOffset),
+			declaration);
 	}
 
 	{
@@ -65,8 +66,9 @@ string SetMinimapList::GenerateSourceCodePass2(string roomName, int baseAddress)
 		size_t index = 0;
 		for (MinimapEntry* entry : minimaps)
 		{
-			declaration +=
-				StringHelper::Sprintf("    { 0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X },", entry->unk0, entry->unk2, entry->unk4, entry->unk6, entry->unk8);
+			declaration += StringHelper::Sprintf("    { 0x%04X, 0x%04X, 0x%04X, 0x%04X, 0x%04X },",
+			                                     entry->unk0, entry->unk2, entry->unk4, entry->unk6,
+			                                     entry->unk8);
 
 			if (index < minimaps.size() - 1)
 				declaration += "\n";
@@ -86,8 +88,8 @@ string SetMinimapList::GenerateSourceCodePass2(string roomName, int baseAddress)
 
 string SetMinimapList::GenerateExterns()
 {
-	return StringHelper::Sprintf("extern MinimapList %sMinimapList0x%06X;\n", zRoom->GetName().c_str(),
-								 listSegmentOffset);
+	return StringHelper::Sprintf("extern MinimapList %sMinimapList0x%06X;\n",
+	                             zRoom->GetName().c_str(), listSegmentOffset);
 }
 
 string SetMinimapList::GetCommandCName()
@@ -105,11 +107,11 @@ int32_t SetMinimapList::GetRawDataSize()
 	return ZRoomCommand::GetRawDataSize() + (minimaps.size() * 10);
 }
 
-MinimapEntry::MinimapEntry(std::vector<uint8_t> rawData, int rawDataIndex) :
-	unk0(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0)),
-	unk2(BitConverter::ToUInt16BE(rawData, rawDataIndex + 2)),
-	unk4(BitConverter::ToUInt16BE(rawData, rawDataIndex + 4)),
-	unk6(BitConverter::ToUInt16BE(rawData, rawDataIndex + 6)),
-	unk8(BitConverter::ToUInt16BE(rawData, rawDataIndex + 8))
+MinimapEntry::MinimapEntry(std::vector<uint8_t> rawData, int rawDataIndex)
+	: unk0(BitConverter::ToUInt16BE(rawData, rawDataIndex + 0)),
+	  unk2(BitConverter::ToUInt16BE(rawData, rawDataIndex + 2)),
+	  unk4(BitConverter::ToUInt16BE(rawData, rawDataIndex + 4)),
+	  unk6(BitConverter::ToUInt16BE(rawData, rawDataIndex + 6)),
+	  unk8(BitConverter::ToUInt16BE(rawData, rawDataIndex + 8))
 {
 }

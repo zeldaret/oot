@@ -11,8 +11,8 @@ public:
 	PathwayEntry(std::vector<uint8_t> rawData, int rawDataIndex);
 
 	int numPoints;
-	int8_t unk1; // (MM Only)
-	int16_t unk2; // (MM Only)
+	int8_t unk1;   // (MM Only)
+	int16_t unk2;  // (MM Only)
 	uint32_t listSegmentOffset;
 	std::vector<Vec3s> points;
 };

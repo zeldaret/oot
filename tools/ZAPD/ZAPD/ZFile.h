@@ -13,7 +13,7 @@ enum class ZFileMode
 	BuildAnimationIntermediette,
 	BuildBlob,
 	BuildSourceFile,
-	BuildPrerender,
+	BuildBackground,
 	Extract,
 	Invalid
 };
