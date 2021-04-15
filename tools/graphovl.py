@@ -5,6 +5,10 @@
 
 from graphviz import Digraph
 import argparse, os, re
+from configparser import ConfigParser
+
+script_dir = os.path.dirname(os.path.realpath(__file__))
+config = ConfigParser()
 
 func_names = None
 func_definitions = list()
@@ -12,7 +16,16 @@ line_numbers_of_functions = list()
 
 # Make actor source file path from actor name
 def actor_src_path(name):
-    return "src/overlays/actors/ovl_" + (name if name != "player" else name + "_actor") + "/z_" + name.lower() + ".c"
+    filename = "src/overlays/actors/ovl_"
+    if name != "player":
+        filename += name
+    else:
+        filename += name + "_actor"
+    filename += "/z_" + name.lower() + ".c"
+
+    filename = os.path.join(script_dir, "..", filename)
+
+    return filename
 
 func_call_regexpr = re.compile(r'[a-zA-Z_\d]+\([^\)]*\)(\.[^\)]*\))?')
 func_defs_regexpr = re.compile(r'[a-zA-Z_\d]+\([^\)]*\)(\.[^\)]*\))? {[^}]')
@@ -174,14 +187,23 @@ def setup_func_definitions(content, func_names):
 
 
 def addFunctionTransitionToGraph(dot, index: int, func_name: str, action_transition: str):
+    fontColor = config.get("colors", "fontcolor")
+    bubbleColor = config.get("colors", "bubbleColor")
     indexStr = str(index)
     funcIndex = str(index_of_func(action_transition))
 
-    dot.node(indexStr, func_name)
-    dot.node(funcIndex, action_transition)
-    dot.edge(indexStr, funcIndex, color=("green" if func_name.endswith("_Init") else "Black"))
+    dot.node(indexStr, func_name, fontcolor=fontColor, color=bubbleColor)
+    dot.node(funcIndex, action_transition, fontcolor=fontColor, color=bubbleColor)
+    edgeColor = config.get("colors", "actionFunc")
+    if func_name.endswith("_Init"):
+        edgeColor = config.get("colors", "actionFuncInit")
+    dot.edge(indexStr, funcIndex, color=edgeColor)
 
 def addCallNamesToGraph(dot, func_names: list, index: int, code_body: str, setupAction=False, rawActorFunc=False):
+    edgeColor = config.get("colors", "funcCall")
+    fontColor = config.get("colors", "fontcolor")
+    bubbleColor = config.get("colors", "bubbleColor")
+
     indexStr = str(index)
     seen = set()
     for call in capture_call_names(code_body):
@@ -195,12 +217,33 @@ def addCallNamesToGraph(dot, func_names: list, index: int, code_body: str, setup
         seen.add(call)
 
         if rawActorFunc:
-            dot.node(indexStr, func_names[index])
+            dot.node(indexStr, func_names[index], fontcolor=fontColor, color=bubbleColor)
 
         calledFuncIndex = str(index_of_func(call))
 
-        dot.node(calledFuncIndex, call)
-        dot.edge(indexStr, calledFuncIndex, color="blue")
+        dot.node(calledFuncIndex, call, fontcolor=fontColor, color=bubbleColor)
+        dot.edge(indexStr, calledFuncIndex, color=edgeColor)
+
+
+def loadConfigFile():
+    # For a list of colors, see https://www.graphviz.org/doc/info/colors.html
+    # Hex colors works too!
+    configFilename = os.path.join(script_dir, "graphovl.ini")
+
+    # Set defaults, just in case.
+    config.add_section('colors')
+    config.set('colors', 'background', 'white')
+    config.set('colors', 'funcCall', 'blue')
+    config.set('colors', 'actionFuncInit', 'green')
+    config.set('colors', 'actionFunc', 'Black')
+    config.set('colors', 'fontColor', 'Black')
+    config.set('colors', 'bubbleColor', 'Black')
+
+    if os.path.exists(configFilename):
+        config.read(configFilename)
+    else:
+        with open(configFilename, 'w') as f:
+            config.write(f)
 
 
 def main():
@@ -210,11 +253,16 @@ def main():
     parser.add_argument("--loners", help="Include functions that are not called or call any other overlay function", action="store_true")
     args = parser.parse_args()
 
+    loadConfigFile()
+    fontColor = config.get("colors", "fontcolor")
+    bubbleColor = config.get("colors", "bubbleColor")
+
     fname = args.filename
     dot = Digraph(comment = fname, format = 'png')
+    dot.attr(bgcolor=config.get("colors", "background"))
     contents = ""
 
-    with open(actor_src_path(fname),"r") as infile:
+    with open(actor_src_path(fname), "r") as infile:
         contents = infile.read()
 
     func_names = capture_definition_names(contents)
@@ -228,9 +276,9 @@ def main():
         # This check is however required as not all functions may have been renamed yet.
         if func_name.endswith("_Init"): 
             func_prefix = func_name.split("_")[0]
-            dot.node(str(index), func_name)
+            dot.node(str(index), func_name, fontcolor=fontColor, color=bubbleColor)
         elif (func_name.endswith("_Destroy") or func_name.endswith("_Update") or func_name.endswith("_Draw")):
-            dot.node(str(index), func_name)
+            dot.node(str(index), func_name, fontcolor=fontColor, color=bubbleColor)
 
     action_func_type = func_prefix + "ActionFunc"
     match_obj = re.search(re.compile(action_func_type + r' (.+)\[\] = {'), contents)
@@ -264,7 +312,7 @@ def main():
     for index, func_name in enumerate(func_names):
         indexStr = str(index)
         if args.loners:
-            dot.node(indexStr, func_name)
+            dot.node(indexStr, func_name, fontcolor=fontColor, color=bubbleColor)
         code_body = get_code_body(contents, func_name)
 
         transitionList = []
@@ -279,7 +327,6 @@ def main():
             """
             transitionIndexes = action_var_values_in_func(code_body, action_var, macros, enums)
             transitionList = [action_functions[int(index, 0)] for index in transitionIndexes]
-            pass
         elif rawActorFunc:
             """
             Create all edges for raw ActorFunc-based actors
