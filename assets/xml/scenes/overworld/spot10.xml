@@ -1,9 +1,9 @@
 <Root>
     <File Name="spot10_scene" Segment="2">
-        <Scene Name="spot10_scene" Offset="0x0">
-            <PathHint Offset="0xC088"/>
-            <PathHint Offset="0xC090"/>
-        </Scene>
+        <Path Name="gSpot10Path_00C088" Offset="0xC088"/>
+        <Path Name="gSpot10Path_00C090" Offset="0xC090"/>
+
+        <Scene Name="spot10_scene" Offset="0x0"/>
     </File>
     <File Name="spot10_room_0" Segment="3">
         <Room Name="spot10_room_0" Offset="0x0"/>
